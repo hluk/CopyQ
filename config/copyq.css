@@ -1,0 +1,50 @@
+/* http://doc.trolltech.com/stylesheet-examples.html */
+* {
+    color: white;
+    font-family: Envy Code R, Consolas;
+    font-size: 10pt;
+}
+
+/* matched text */
+.em {
+    color: yellow;
+}
+
+QScrollBar {
+    color: black;
+}
+
+QListView, QLineEdit, QMainWindow {
+    background-color: #222;
+}
+
+/*QListView {*/
+    /*show-decoration-selected: 1;*/
+    /*background-color: #222;*/
+    /*color: white;*/
+/*}*/
+
+QListView::item:alternate {
+    background-color: #303930;
+}
+
+QListView::item:selected {
+    border: 1px solid #464;
+    border-radius: 5px;
+}
+
+QListView::item:selected:!active {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 #5B5, stop: 1 #222);
+}
+
+QListView::item:selected:active {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 #262, stop: 1 #484);
+}
+
+QListView::item:hover {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+    stop: 0 #442, stop: 1 #773);
+}
+
