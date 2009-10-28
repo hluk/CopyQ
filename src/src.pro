@@ -18,7 +18,7 @@ SOURCES += main.cpp \
     qeditor.cpp \
     itemdelegate.cpp
 
-QT += webkit xml
+QT += xml
 LIBS += -lXi
 
 include(../qtsingleapplication/qtsingleapplication.pri)

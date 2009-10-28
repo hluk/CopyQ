@@ -110,6 +110,7 @@ void ClipboardBrowser::filterItems(const QString &str)
         m_search = QRegExp();
         for(int i = 0; i < count(); ++i)
             item(i)->setHidden(false);
+        emit hideSearch();
     }
     else {
         m_search = QRegExp(str);

@@ -62,7 +62,7 @@ class ClipboardBrowser : public QListWidget
         void closeAllEditors();
 
     public slots:
-        void keyEvent(QKeyEvent *event) { QListWidget::keyPressEvent(event); };
+        void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
         void clipboardChanged(QClipboard::Mode);
         void moveToClipboard(const QString &str);
         void moveToClipboard(QListWidgetItem *item);

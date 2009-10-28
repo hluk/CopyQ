@@ -66,6 +66,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
             ui->clipboardBrowser->keyEvent(event);
             break;
+        
+        case Qt::Key_Return:
+            ui->clipboardBrowser->keyEvent(event);
+            hide();
+            break;
 
         case Qt::Key_F3:
             // TODO: search (with shift -> backwards)
@@ -134,6 +139,8 @@ void MainWindow::enterSearchMode(QEvent *event)
 {
     enterBrowseMode(false);
     ui->searchBar->event(event);
+    if ( ui->searchBar->text().isEmpty() )
+        enterBrowseMode(true);
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)
