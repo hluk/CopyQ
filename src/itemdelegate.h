@@ -27,10 +27,12 @@ class ItemDelegate : public QStyledItemDelegate
 
     public:
         ItemDelegate(QWidget *parent = 0);
+
         void setSearch(const QRegExp &regexp) { m_search = regexp; }; 
 
     private:
         QRegExp m_search;
+        volatile QSize m_size;
 
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;

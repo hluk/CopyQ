@@ -5,6 +5,16 @@
     font-size: 10pt;
 }
 
+/* item text */
+.txt {
+}
+
+/* item number */
+.number{
+    font-size: small;
+    color: #aca;
+}
+
 /* matched text */
 .em {
     color: yellow;

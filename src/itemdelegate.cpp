@@ -34,9 +34,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     QTextDocument doc;
     QString txt = index.data().toString();
     QString css = (qobject_cast<QWidget *>(parent()))->styleSheet();
-    QString html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">"
+    // html template
+    const QString htmltmp = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">"
         "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">" +
         css + "QTextDocument {color: %1 !important;}</style></head><body>%2</body></html>";
+    QString html;
 
     // set color
     QString color;
@@ -50,7 +52,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     // 2. escape each text,
     // 3. replace '\n' -> <br />,
     // 4. concat matched (highlighted) and unmatched.
-    QString body;
+    QString body("<div class=\"txt\">");
     if ( !m_search.isEmpty() ) {
         doc.setPlainText(txt);
         QTextCursor c = doc.find(m_search);
@@ -65,22 +67,40 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
             body += Qt::escape( txt.mid(last) );
     }
     else
-        body = Qt::escape(txt);
-    html = html.arg(color).arg(body.replace('\n', "<br />"));
+        body += Qt::escape(txt);
+    body += "</div>";
+    html = htmltmp.arg(color).arg(body.replace('\n', "<br />"));
     doc.setHtml(html);
-    doc.setDefaultFont( option.font );
+    doc.setDefaultFont(option.font);
 
     painter->save();
 
     QStyleOptionViewItemV4 options = option;
+
+    // resize
+    //m_size = doc.size().toSize();
+    //options.rect.setSize( QSize(100,100) );
 
     // get focus rect and selection background
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
 
-    painter->translate( option.rect.left(), option.rect.top()-3 );
-    QRectF rect(0, 0, option.rect.width(), option.rect.height()+3);
+    painter->translate( options.rect.left(), options.rect.top()-3 );
+
+    QRectF rect;
+
+    // item number
+    QTextDocument numdoc;
+    QString number = QString("<div class=\"number\">%1.</div>").arg( index.row() );
+    html = htmltmp.arg("yellow").arg(number);
+    numdoc.setHtml(html);
+    numdoc.setDefaultFont(option.font);
+    rect = QRect( 0,0,numdoc.size().width(),numdoc.size().height() );
+    numdoc.drawContents(painter, rect);
+
+    painter->translate( numdoc.size().width()+5, 0 );
+    rect = QRect( 0, 0, options.rect.width(), options.rect.height()+3 );
     doc.drawContents(painter, rect);
 
     painter->restore();

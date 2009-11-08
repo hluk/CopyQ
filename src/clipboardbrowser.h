@@ -65,7 +65,7 @@ class ClipboardBrowser : public QListWidget
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
         void clipboardChanged(QClipboard::Mode);
         void moveToClipboard(const QString &str);
-        void moveToClipboard(QListWidgetItem *item);
+        void moveToClipboard(QListWidgetItem *item = NULL);
         void filterItems(const QString &str);
         void itemModified(uint hash, const QString &str);
 

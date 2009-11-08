@@ -68,7 +68,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
         
         case Qt::Key_Return:
-            ui->clipboardBrowser->keyEvent(event);
+            ui->clipboardBrowser->moveToClipboard();
             hide();
             break;
 

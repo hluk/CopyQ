@@ -105,7 +105,7 @@ void ClipboardBrowser::itemModified(uint hash, const QString &str)
 
 void ClipboardBrowser::filterItems(const QString &str)
 {
-    // if serch string empty: all items visible
+    // if search string empty: all items visible
     if ( str.isEmpty() ) {
         m_search = QRegExp();
         for(int i = 0; i < count(); ++i)
@@ -113,23 +113,33 @@ void ClipboardBrowser::filterItems(const QString &str)
         emit hideSearch();
     }
     else {
-        m_search = QRegExp(str);
-        m_search.setCaseSensitivity( Qt::CaseInsensitive );
-        QListWidgetItem *current = NULL;
-
-        for(int i = 0; i < count(); ++i) {
-            QListWidgetItem *it = item(i);
-            if ( m_search.indexIn(it->text()) == -1 )
-                it->setHidden(true);
-            else {
-                it->setHidden(false);
-                // select first visible
-                if ( current == NULL )
-                    current = it;
-            }
+        // if search string is a number N: highlight Nth item
+        bool ok;
+        int n = str.toInt(&ok);
+        if (ok) {
+            for(int i = 0; i < count(); ++i)
+                item(i)->setHidden(false);
+            setCurrentRow(n);
         }
+        else {
+            m_search = QRegExp(str);
+            m_search.setCaseSensitivity( Qt::CaseInsensitive );
+            QListWidgetItem *current = NULL;
 
-        setCurrentItem( current );
+            for(int i = 0; i < count(); ++i) {
+                QListWidgetItem *it = item(i);
+                if ( m_search.indexIn(it->text()) == -1 )
+                    it->setHidden(true);
+                else {
+                    it->setHidden(false);
+                    // select first visible
+                    if ( current == NULL )
+                        current = it;
+                }
+            }
+
+            setCurrentItem( current );
+        }
     }
 
     ((ItemDelegate *)itemDelegate())->setSearch(m_search);
@@ -149,15 +159,19 @@ void ClipboardBrowser::moveToClipboard(const QString &txt)
 
 void ClipboardBrowser::moveToClipboard(QListWidgetItem *x)
 {
-    insertItem( 0, takeItem(row(x)) );
+    if (x) {
+        insertItem( 0, takeItem(row(x)) );
 
-    m_clip->disconnect(this);
+        m_clip->disconnect(this);
 
-    // sync clipboards
-    if ( m_clip->text(QClipboard::Selection) != x->text() )
-        m_clip->setText(x->text(),QClipboard::Selection);
-    if ( m_clip->text() != x->text() )
-        m_clip->setText(x->text());
+        // sync clipboards
+        if ( m_clip->text(QClipboard::Selection) != x->text() )
+            m_clip->setText(x->text(),QClipboard::Selection);
+        if ( m_clip->text() != x->text() )
+            m_clip->setText(x->text());
+    }
+    else if ( currentItem() )
+        moveToClipboard( currentItem() );
 }
 
 void ClipboardBrowser::timerEvent(QTimerEvent *event)
@@ -219,9 +233,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             QListWidget::keyPressEvent(event);
             break;
         
-        case Qt::Key_Return:
-            moveToClipboard( currentItem() );
-            break;
+        //case Qt::Key_Return:
+            //moveToClipboard( currentItem() );
+            //break;
 
         default:
             if ( event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier )
