@@ -9,14 +9,16 @@ HEADERS += mainwindow.h \
     clipboardbrowser.h \
     searchbar.h \
     qeditor.h \
-    itemdelegate.h
+    itemdelegate.h \
+    clipboarditem.h
 
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
     searchbar.cpp \
     qeditor.cpp \
-    itemdelegate.cpp
+    itemdelegate.cpp \
+    clipboarditem.cpp
 
 QT += xml
 LIBS += -lXi

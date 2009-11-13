@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
 
-    This file is part of Copyq.
+    This file is part of CopyQ.
 
     CopyQ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -33,8 +33,6 @@ QEditor::QEditor(const QString &txt, const QString &editor, QObject *parent) : Q
 QEditor::~QEditor()
 {
     timer.stop();
-    timerEvent(NULL);
-
     if (m_editor && m_editor->isOpen())
         m_editor->close();
 }
@@ -43,7 +41,7 @@ bool QEditor::start()
 {
     // create temp file
     QString tmpPath = QDir( QDir::tempPath() ).absolutePath();
-    m_tmpfile.setFileTemplate(tmpPath + "/copyq.XXXXXX");
+    m_tmpfile.setFileTemplate(tmpPath + "/CopyQ.XXXXXX");
     m_tmpfile.setAutoRemove(true);
     if ( !m_tmpfile.open() ) {
         qDebug() << "ERROR: Temporary file" << m_tmpfile.fileName() << "open failed!";
@@ -68,7 +66,7 @@ bool QEditor::start()
     return true;
 }
 
-void QEditor::timerEvent(QTimerEvent *)
+bool QEditor::fileModified()
 {
     m_info.refresh();
     if (m_lastmodified != m_info.lastModified() ) {
@@ -81,10 +79,17 @@ void QEditor::timerEvent(QTimerEvent *)
         // new hash
         uint newhash = qHash(m_txt);
 
-        if( newhash != m_hash ) {
-            emit fileModified(m_hash, m_txt);
-            m_hash = newhash;
-        }
+        return newhash != m_hash;
+    }
+    else
+        return false;
+}
+
+void QEditor::timerEvent(QTimerEvent *)
+{
+    if ( fileModified() ) {
+        emit fileModified(m_hash, m_txt);
+        m_hash = qHash(m_txt);
     }
 }
 

@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
 
-    This file is part of Copyq.
+    This file is part of CopyQ.
 
     CopyQ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -22,86 +22,102 @@
 #include <QLabel>
 #include <QPainter>
 #include <QDebug>
-#include <QTextDocument>
 #include <QTextCursor>
+#include <QMetaProperty>
+#include <QPlainTextEdit>
+#include "clipboarditem.h"
 
-ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent)
+ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
+}
+
+QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
+{
+    ClipboardItem item = qVariantValue<ClipboardItem>( index.data() );
+    return item.size();
+}
+
+bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
+{
+    QWidget *editor = qobject_cast<QWidget*>(object);
+    if ( event->type() == QEvent::KeyPress ) {
+        QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
+        switch ( keyevent->key() ) {
+            //case Qt::Key_Tab:
+                //emit commitData(editor);
+                //emit closeEditor(editor, QAbstractItemDelegate::EditNextItem);
+                //return true;
+            //case Qt::Key_Backtab:
+                //emit commitData(editor);
+                //emit closeEditor(editor, QAbstractItemDelegate::EditPreviousItem);
+                //return true;
+            case Qt::Key_Enter:
+            case Qt::Key_Return:
+                if( keyevent->modifiers() == Qt::NoModifier )
+                    return false;
+            case Qt::Key_F2:
+                emit commitData(editor);
+                emit closeEditor(editor);
+                return true;
+            case Qt::Key_Escape:
+                // don't commit data
+                emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
+                return true;
+            default:
+                return false;
+        }
+    }
+    
+    return false;
+}
+
+QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &) const
+{
+    QPlainTextEdit *editor = new QPlainTextEdit(parent);
+    editor->setPalette( option.palette );
+    connect(editor, SIGNAL(editingFinished()),
+            this, SLOT(commitAndCloseEditor()));
+    return editor;
+}
+
+void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    ClipboardItem item = qVariantValue<ClipboardItem>( index.data(0) );
+    QVariant v = item.text();
+    QByteArray n = editor->metaObject()->userProperty().name();
+    if (!n.isEmpty()) {
+        if (!v.isValid())
+            v = QVariant(editor->property(n).userType(), (const void *)0);
+        editor->setProperty(n, v);
+    }
+}
+
+void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    QByteArray n = editor->metaObject()->userProperty().name();
+    if (!n.isEmpty()) {
+        ClipboardItem item = qVariantValue<ClipboardItem>( index.data(0) );
+        item.setData( editor->property(n).toString(), item.searchExp() );
+        model->setData(index, qVariantFromValue(item), 0);
+    }
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QTextDocument doc;
-    QString txt = index.data().toString();
-    QString css = (qobject_cast<QWidget *>(parent()))->styleSheet();
-    // html template
-    const QString htmltmp = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">"
-        "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">" +
-        css + "QTextDocument {color: %1 !important;}</style></head><body>%2</body></html>";
-    QString html;
-
-    // set color
-    QString color;
-    if( option.state & QStyle::State_Selected )
-        color = option.palette.color(QPalette::HighlightedText).name();
-    else
-        color = option.palette.color(QPalette::Text).name();
-
-    // Highlight matched text:
-    // 1. split matched and unmatched text,
-    // 2. escape each text,
-    // 3. replace '\n' -> <br />,
-    // 4. concat matched (highlighted) and unmatched.
-    QString body("<div class=\"txt\">");
-    if ( !m_search.isEmpty() ) {
-        doc.setPlainText(txt);
-        QTextCursor c = doc.find(m_search);
-        int last = 0;
-        while ( c.hasSelection() ) {
-            body += Qt::escape( txt.mid(last,c.selectionStart()) ) +
-                    "<span class=\"em\">" + Qt::escape( c.selectedText() ) + "</span>";
-            last = c.selectionEnd();
-            c = doc.find(m_search, c);
-        }
-        if ( last != txt.length() )
-            body += Qt::escape( txt.mid(last) );
-    }
-    else
-        body += Qt::escape(txt);
-    body += "</div>";
-    html = htmltmp.arg(color).arg(body.replace('\n', "<br />"));
-    doc.setHtml(html);
-    doc.setDefaultFont(option.font);
+    ClipboardItem item = qVariantValue<ClipboardItem>( index.data() );
 
     painter->save();
 
     QStyleOptionViewItemV4 options = option;
-
-    // resize
-    //m_size = doc.size().toSize();
-    //options.rect.setSize( QSize(100,100) );
 
     // get focus rect and selection background
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
 
-    painter->translate( options.rect.left(), options.rect.top()-3 );
-
-    QRectF rect;
-
-    // item number
-    QTextDocument numdoc;
-    QString number = QString("<div class=\"number\">%1.</div>").arg( index.row() );
-    html = htmltmp.arg("yellow").arg(number);
-    numdoc.setHtml(html);
-    numdoc.setDefaultFont(option.font);
-    rect = QRect( 0,0,numdoc.size().width(),numdoc.size().height() );
-    numdoc.drawContents(painter, rect);
-
-    painter->translate( numdoc.size().width()+5, 0 );
-    rect = QRect( 0, 0, options.rect.width(), options.rect.height()+3 );
-    doc.drawContents(painter, rect);
+    painter->translate( options.rect.left(), options.rect.top() );
+    item.paint(painter, option, index);
 
     painter->restore();
 }

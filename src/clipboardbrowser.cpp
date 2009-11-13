@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
 
-    This file is part of Copyq.
+    This file is part of CopyQ.
 
     CopyQ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -28,6 +28,7 @@
 #include <X11/extensions/XInput.h>
 #include <unistd.h> //usleep
 #include "itemdelegate.h"
+#include "clipboarditem.h"
 
 extern int error_handler(Display *dsp, XErrorEvent *err)
 {
@@ -52,9 +53,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListWidget(parent)
     connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
             SLOT(moveToClipboard(QListWidgetItem *)));
 
-    // settings
-    readSettings();
-
     // check clipboard in intervals
     timer.start(1000, this);
 }
@@ -67,6 +65,10 @@ ClipboardBrowser::~ClipboardBrowser()
 
 void ClipboardBrowser::closeEditor(QEditor *editor)
 {
+    // check if file was modified before closing
+    if ( editor->fileModified() )
+        itemModified( editor->getHash(), editor->getText() );
+
     editor->disconnect(this);
     disconnect(editor);
     delete editor;
@@ -74,7 +76,7 @@ void ClipboardBrowser::closeEditor(QEditor *editor)
 
 void ClipboardBrowser::openEditor()
 {
-    QEditor *editor = new QEditor(currentItem()->text(), m_editor);
+    QEditor *editor = new QEditor(itemText(), m_editor);
 
     connect( editor, SIGNAL(fileModified(uint, const QString &)),
             this, SLOT(itemModified(uint, const QString &)) );
@@ -93,7 +95,7 @@ void ClipboardBrowser::itemModified(uint hash, const QString &str)
     // find item with qHash == hash and remove it
     for(int i = 0; i < count(); ++i) {
         QListWidgetItem *it = item(i);
-        if ( qHash(it->text()) == hash ) {
+        if ( qHash(itemText(it)) == hash ) {
             delete takeItem(i);
             break;
         }
@@ -108,8 +110,13 @@ void ClipboardBrowser::filterItems(const QString &str)
     // if search string empty: all items visible
     if ( str.isEmpty() ) {
         m_search = QRegExp();
-        for(int i = 0; i < count(); ++i)
-            item(i)->setHidden(false);
+        for(int i = 0; i < count(); ++i) {
+            QListWidgetItem *it = item(i);
+            it->setHidden(false);
+            ClipboardItem x = qVariantValue<ClipboardItem>( it->data(0) );
+            x.setData(x.text(),m_search);
+            it->setData( 0, qVariantFromValue(x) );
+        }
         emit hideSearch();
     }
     else {
@@ -128,10 +135,13 @@ void ClipboardBrowser::filterItems(const QString &str)
 
             for(int i = 0; i < count(); ++i) {
                 QListWidgetItem *it = item(i);
-                if ( m_search.indexIn(it->text()) == -1 )
+                if ( m_search.indexIn(itemText(it)) == -1 )
                     it->setHidden(true);
                 else {
                     it->setHidden(false);
+                    ClipboardItem x = qVariantValue<ClipboardItem>( it->data(0) );
+                    x.setData(x.text(),m_search);
+                    it->setData( 0, qVariantFromValue(x) );
                     // select first visible
                     if ( current == NULL )
                         current = it;
@@ -165,10 +175,10 @@ void ClipboardBrowser::moveToClipboard(QListWidgetItem *x)
         m_clip->disconnect(this);
 
         // sync clipboards
-        if ( m_clip->text(QClipboard::Selection) != x->text() )
-            m_clip->setText(x->text(),QClipboard::Selection);
-        if ( m_clip->text() != x->text() )
-            m_clip->setText(x->text());
+        if ( m_clip->text(QClipboard::Selection) != itemText(x) )
+            m_clip->setText(itemText(x),QClipboard::Selection);
+        if ( m_clip->text() != itemText(x) )
+            m_clip->setText(itemText(x));
     }
     else if ( currentItem() )
         moveToClipboard( currentItem() );
@@ -287,10 +297,11 @@ bool ClipboardBrowser::add(const QString &txt)
         return false;
     }
     else if ( count() == 0 || !isCurrent(txt) ) {
-        QListWidgetItem *x = new QListWidgetItem(txt, this);
+        QListWidgetItem *x = new QListWidgetItem(this);
+        x->setData( 0, qVariantFromValue( ClipboardItem(txt, styleSheet(), m_search) ) );
         x->setFlags( x->flags() | Qt::ItemIsEditable );
         // filter item
-        if ( !m_search.isEmpty() && m_search.indexIn(x->text()) != -1 )
+        if ( !m_search.isEmpty() && m_search.indexIn(itemText(x)) != -1 )
             x->setHidden(true);
         moveToClipboard(x);
 
@@ -311,7 +322,8 @@ void ClipboardBrowser::readSettings()
     clear();
     QStringList::iterator it( m_lst.begin() );
     for(; it != m_lst.end(); ++it) {
-        QListWidgetItem *x = new QListWidgetItem(*it, this);
+        QListWidgetItem *x = new QListWidgetItem(this);
+        x->setData( 0, qVariantFromValue( ClipboardItem(*it, styleSheet(), m_search) ) );
         x->setFlags( x->flags() | Qt::ItemIsEditable );
         if ( count() > m_maxitems )
             break;
@@ -330,9 +342,15 @@ void ClipboardBrowser::writeSettings()
 
     QStringList m_lst;
     for(int i = 0; i < count(); ++i)
-        m_lst.append( item(i)->text() );
+        m_lst.append( itemText(i) );
 
     settings.setValue("items", m_lst);
+}
+
+QString ClipboardBrowser::itemText(const QListWidgetItem *item) const
+{
+    ClipboardItem x = qVariantValue<ClipboardItem>( item ? item->data(0) : currentItem()->data(0) );
+    return x.text();
 }
 
 void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
@@ -376,7 +394,6 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 bool ClipboardBrowser::isCurrent(const QString &txt)
 {
     QListWidgetItem *x = item(0);
-    return x && x->text() == txt;
+    return x && itemText(x) == txt;
 }
 
-// vim: tags +=~/.vim/tags/qt4

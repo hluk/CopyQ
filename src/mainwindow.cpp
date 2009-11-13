@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
 
-    This file is part of Copyq.
+    This file is part of CopyQ.
 
     CopyQ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -48,12 +48,13 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 
     // settings
     readSettings();
+    ui->clipboardBrowser->setStyleSheet(css);
+    ui->clipboardBrowser->readSettings();
 
     // browse mode by default
     m_browsemode = false;
     enterBrowseMode();
 
-    ui->clipboardBrowser->setStyleSheet(css);
     tray->show();
 }
 

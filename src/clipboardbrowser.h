@@ -1,20 +1,20 @@
 /*
     Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
 
-    This file is part of Copyq.
+    This file is part of CopyQ.
 
-    Copyq is free software: you can redistribute it and/or modify
+    CopyQ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
     the Free Software Foundation, either version 3 of the License, or
     (at your option) any later version.
 
-    Foobar is distributed in the hope that it will be useful,
+    CopyQ is distributed in the hope that it will be useful,
     but WITHOUT ANY WARRANTY; without even the implied warranty of
     MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
+    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #ifndef CLIPBOARDBROWSER_H
@@ -39,9 +39,10 @@ class ClipboardBrowser : public QListWidget
         bool add(const QString &txt);
         bool remove();
         bool isCurrent(const QString &txt);
+        QString itemText(const QListWidgetItem *item = NULL) const;
+        QString itemText(int i) const { return itemText(item(i)); };
 
     private:
-        QStringList m_newlst;
         QClipboard *m_clip;
         QRegExp m_search;
         bool m_ctrlmod;

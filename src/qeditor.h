@@ -1,7 +1,7 @@
 /*
     Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
 
-    This file is part of Copyq.
+    This file is part of CopyQ.
 
     CopyQ is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -36,6 +36,9 @@ class QEditor : public QObject
         QEditor(const QString &txt, const QString &editor, QObject *parent = 0);
         ~QEditor();
         bool start();
+        bool fileModified();
+        uint getHash() const { return m_hash; };
+        const QString &getText() const { return m_txt; };
 
     private:
         QString m_txt;
