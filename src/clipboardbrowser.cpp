@@ -42,8 +42,6 @@ extern int error_handler(Display *dsp, XErrorEvent *err)
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListWidget(parent)
 {
     setItemDelegate( new ItemDelegate(this) );
-
-    m_ctrlmod = m_shiftmod = false;
     m_clip = QApplication::clipboard();
 
     connect( m_clip, SIGNAL(changed(QClipboard::Mode)),
@@ -209,22 +207,21 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    if (m_ctrlmod) {
+    // CTRL
+    if ( event->modifiers() == Qt::ControlModifier ) {
+        // CTRL-E: open external editor
         if ( event->key() == Qt::Key_E )
             openEditor();
+        // CTRL-N: create new item
+        if ( event->key() == Qt::Key_N ) {
+            add("*NEW*");
+            setCurrentRow(0);
+        }
     }
-
-    switch (event->key()) {
+    else {
+        switch (event->key()) {
         case Qt::Key_Delete:
             remove();
-            break;
-
-        case Qt::Key_Control:
-            m_ctrlmod = true;
-            break;
-
-        case Qt::Key_Shift:
-            m_shiftmod = true;
             break;
 
         case Qt::Key_Left:
@@ -242,8 +239,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_F2:
             QListWidget::keyPressEvent(event);
             break;
-        
-        //case Qt::Key_Return:
+
+            //case Qt::Key_Return:
             //moveToClipboard( currentItem() );
             //break;
 
@@ -253,21 +250,17 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             else
                 QListWidget::keyPressEvent(event);
             break;
+        }
     }
-}
-
-void ClipboardBrowser::keyReleaseEvent(QKeyEvent *event)
-{
-    if (event->key() == Qt::Key_Control)
-        m_ctrlmod = false;
-    if (event->key() == Qt::Key_Shift)
-        m_shiftmod = false;
 }
 
 void ClipboardBrowser::on_itemChanged( QListWidgetItem *it )
 {
+    // remove empty item
+    if ( itemText(it).indexOf( QRegExp("^\\s*$") ) != -1 )
+        remove();
     // first item (clipboard contents) changed
-    if ( row(it) == 0 )
+    else if ( row(it) == 0 )
         moveToClipboard(it);
 }
 

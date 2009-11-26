@@ -39,7 +39,7 @@ class MainWindow : public QMainWindow
         void center();
         inline bool browseMode() const { return m_browsemode; };
         void writeSettings();
-        void readSettings();
+        void readSettings(const QString &css);
 
     private:
         Ui::MainWindow *ui;
@@ -47,7 +47,6 @@ class MainWindow : public QMainWindow
         bool m_browsemode;
 
     protected:
-        void closeEvent(QCloseEvent *event);
         void keyPressEvent(QKeyEvent *event);
 
     public slots:

@@ -1,0 +1,34 @@
+CopyQ is clipboard manager with searchable and editable items in history.
+
+For build and install CopyQ see INSTALL file.
+
+To start CopyQ run copyq (creates tray icon). Running this command again will
+show CopyQ clipboard history.
+
+To exit application close window or middle-click on tray icon.
+
+Keyboard navigation
+===================
+PgDown/PgUp,
+Home/End,
+Up/Down -- navigation in item list
+Escape  -- hide window
+F2      -- edit item
+Ctrl-E  -- edit item in external editor
+Delete  -- delete item
+Enter   -- put item into clipboard
+
+Type to search (case-insensitive regular expressions) item in history.
+
+
+Configuration
+=============
+All configuration files are in ~/.config/copyq directory.
+
+copyq.conf:
+    editor   -- external editor command
+    maxitems -- max items in history
+
+copyq.css:
+    Qt stylesheet defining appearance of CopyQ window and item list.
+

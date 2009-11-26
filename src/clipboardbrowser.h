@@ -45,15 +45,12 @@ class ClipboardBrowser : public QListWidget
     private:
         QClipboard *m_clip;
         QRegExp m_search;
-        bool m_ctrlmod;
-        bool m_shiftmod;
         int m_maxitems;
         QString m_editor;
         QBasicTimer timer;
 
     protected:
         void keyPressEvent(QKeyEvent *event);
-        void keyReleaseEvent(QKeyEvent *event);
         void timerEvent(QTimerEvent *event);
 
     signals:

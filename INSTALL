@@ -1,0 +1,5 @@
+Steps to build and install:
+qmake
+make
+sudo make install
+

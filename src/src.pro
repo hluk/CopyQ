@@ -1,5 +1,5 @@
 TEMPLATE = app
-TARGET = copyq
+TARGET = ../copyq
 DEPENDPATH += .
 INCLUDEPATH += . ../qtsingleapplication/
 RESOURCES = copyq.qrc

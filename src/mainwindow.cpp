@@ -47,9 +47,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
     // settings
-    readSettings();
-    ui->clipboardBrowser->setStyleSheet(css);
-    ui->clipboardBrowser->readSettings();
+    readSettings(css);
 
     // browse mode by default
     m_browsemode = false;
@@ -90,12 +88,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void MainWindow::closeEvent(QCloseEvent *event)
-{
-    writeSettings();
-    event->accept();
-}
-
 void MainWindow::writeSettings()
 {
     QSettings settings;
@@ -104,9 +96,11 @@ void MainWindow::writeSettings()
     settings.setValue("size", size());
     settings.setValue("pos", pos());
     settings.endGroup();
+
+    ui->clipboardBrowser->writeSettings();
 }
 
-void MainWindow::readSettings()
+void MainWindow::readSettings(const QString &css)
 {
     QSettings settings;
 
@@ -114,6 +108,9 @@ void MainWindow::readSettings()
     resize(settings.value("size", QSize(400, 400)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     settings.endGroup();
+
+    ui->clipboardBrowser->setStyleSheet(css);
+    ui->clipboardBrowser->readSettings();
 }
 
 void MainWindow::handleMessage(const QString& message)
@@ -186,7 +183,7 @@ void MainWindow::center() {
 
 MainWindow::~MainWindow()
 {
-    ui->clipboardBrowser->writeSettings();
+    writeSettings();
     delete ui;
 }
 

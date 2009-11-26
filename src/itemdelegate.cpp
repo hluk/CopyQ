@@ -75,8 +75,6 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
 {
     QPlainTextEdit *editor = new QPlainTextEdit(parent);
     editor->setPalette( option.palette );
-    connect(editor, SIGNAL(editingFinished()),
-            this, SLOT(commitAndCloseEditor()));
     return editor;
 }
 
