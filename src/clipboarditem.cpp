@@ -91,7 +91,7 @@ void ClipboardItem::paint(QPainter *painter, const QStyleOptionViewItem &option,
     if ( m_cache.isEmpty() )
         updateCache();
     doc.setHtml( m_cache.arg(color.name()).arg(index.row()) );
-    doc.setDefaultFont(option.font);
+    //doc.setDefaultFont(option.font);
 
     painter->save();
     QRectF rect( 0, 0, option.rect.width(), option.rect.height()+3 );

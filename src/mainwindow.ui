@@ -23,12 +23,6 @@
     </item>
     <item>
      <widget class="ClipboardBrowser" name="clipboardBrowser">
-      <property name="font">
-       <font>
-        <family>Envy Code R</family>
-        <pointsize>14</pointsize>
-       </font>
-      </property>
       <property name="verticalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>

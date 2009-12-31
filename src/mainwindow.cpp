@@ -34,6 +34,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 {
     ui->setupUi(this);
 
+    this->setWindowTitle("CopyQ");
     m_icon = QIcon(":images/icon.svg");
     setWindowIcon(m_icon);
 
