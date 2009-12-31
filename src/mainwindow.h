@@ -43,6 +43,7 @@ class MainWindow : public QMainWindow
 
     private:
         Ui::MainWindow *ui;
+        QIcon m_icon;
         QSystemTrayIcon *tray;
         bool m_browsemode;
 

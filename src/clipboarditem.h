@@ -36,16 +36,18 @@ class ClipboardItem
         void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
     private:
+        // create document and cache
+        void updateCache() const;
         // plain text
         QString m_txt;
         //highlighted expression
         QRegExp m_search;
         // document template
         QString m_doctmp;
-        // document html
-        QString m_html;
+        // document cache
+        mutable QString m_cache;
         // size
-        QSize m_size;
+        mutable QSize m_size;
 };
 
 Q_DECLARE_METATYPE(ClipboardItem)

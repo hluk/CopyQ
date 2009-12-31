@@ -101,6 +101,8 @@ void ClipboardBrowser::itemModified(uint hash, const QString &str)
 
     // add new item
     add(str);
+    // save after 30 secs
+    timer_save.start(30000, this);
 }
 
 void ClipboardBrowser::filterItems(const QString &str)
@@ -177,6 +179,9 @@ void ClipboardBrowser::moveToClipboard(QListWidgetItem *x)
             m_clip->setText(itemText(x),QClipboard::Selection);
         if ( m_clip->text() != itemText(x) )
             m_clip->setText(itemText(x));
+
+        // save after 30 secs
+        timer_save.start(30000, this);
     }
     else if ( currentItem() )
         moveToClipboard( currentItem() );
@@ -195,6 +200,10 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
             if( !isCurrent(text) )
                 add(text);
         }
+    }
+    else if ( event->timerId() == timer_save.timerId() ) {
+        writeSettings();
+        timer_save.stop();
     }
     else
         QListWidget::timerEvent(event);
@@ -222,6 +231,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         switch (event->key()) {
         case Qt::Key_Delete:
             remove();
+            // save after 30 secs
+            timer_save.start(30000, this);
             break;
 
         case Qt::Key_Left:
@@ -245,10 +256,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             //break;
 
         default:
-            if ( event->modifiers() == Qt::NoModifier || event->modifiers() == Qt::KeypadModifier )
                 emit requestSearch(event);
-            else
-                QListWidget::keyPressEvent(event);
+                //QListWidget::keyPressEvent(event);
             break;
         }
     }
@@ -380,8 +389,11 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 
     QString txt = m_clip->text(mode);
 
-    if ( !isCurrent(txt) )
+    if ( !isCurrent(txt) ) {
         add(txt);
+        // save after 30 secs
+        timer_save.start(30000, this);
+    }
 }
 
 bool ClipboardBrowser::isCurrent(const QString &txt)

@@ -48,6 +48,7 @@ class ClipboardBrowser : public QListWidget
         int m_maxitems;
         QString m_editor;
         QBasicTimer timer;
+        QBasicTimer timer_save;
 
     protected:
         void keyPressEvent(QKeyEvent *event);

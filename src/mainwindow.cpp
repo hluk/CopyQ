@@ -33,8 +33,12 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
+    m_icon = QIcon(":images/icon.svg");
+    setWindowIcon(m_icon);
+
     tray = new QSystemTrayIcon(this);
-    tray->setIcon(QIcon(":/images/icon.png"));
+    tray->setIcon(m_icon);
     tray->setToolTip(tr("left click to show or hide, middle click to quit"));
 
     connect( ui->clipboardBrowser, SIGNAL(requestSearch(QEvent*)),
@@ -67,6 +71,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
         
         case Qt::Key_Return:
+        case Qt::Key_Enter:
             ui->clipboardBrowser->moveToClipboard();
             hide();
             break;
@@ -130,7 +135,7 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     else if (this->isVisible())
         hide();
     else
-        show();
+        showNormal();
 }
 
 void MainWindow::enterSearchMode(QEvent *event)

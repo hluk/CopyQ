@@ -1,10 +1,6 @@
 <!DOCTYPE QtCreatorProject>
 <qtcreator>
  <data>
-  <variable>RunConfiguration0-BaseEnvironmentBase</variable>
-  <value type="int" >2</value>
- </data>
- <data>
   <variable>RunConfiguration0-CommandLineArguments</variable>
   <valuelist type="QVariantList" />
  </data>
@@ -31,14 +27,6 @@
  <data>
   <variable>RunConfiguration0-UserSetName</variable>
   <value type="bool" >true</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
-  <value type="bool" >true</value>
- </data>
- <data>
-  <variable>RunConfiguration0-UserWorkingDirectory</variable>
-  <value type="QString" >/home/lukas/dev/qt/copyq/build</value>
  </data>
  <data>
   <variable>RunConfiguration0-type</variable>
@@ -80,6 +68,7 @@
     <value type="QString" >DISTCC_LOG=</value>
     <value type="QString" >DISTCC_VERBOSE=0</value>
     <value type="QString" >EDITOR=/bin/nano</value>
+    <value type="QString" >FROM_WRAPPER=yes</value>
     <value type="QString" >GCC_SPECS=</value>
     <value type="QString" >GDK_USE_XFT=1</value>
     <value type="QString" >GENERATION=2</value>
@@ -93,6 +82,7 @@
     <value type="QString" >LDPATH=/usr/local/lib://usr/lib32/opengl/xorg-x11/lib://usr/lib64/opengl/xorg-x11/lib:/lib:/usr/lib:/lib64:/usr/lib64:/usr/local/lib64:/lib32:/usr/lib32:/usr/local/lib32:/usr/x86_64-pc-linux-gnu/lib:/usr/lib/gcc/ia64-unknown-linux-gnu/4.3.2:/usr/lib/gcc/i686-pc-linux-gnu/4.3.2:/usr/lib/gcc/i686-pc-linux-gnu/4.3.3:/usr/lib/gcc/i686-pc-linux-gnu/4.1.2:/usr/lib/gcc/x86_64-pc-linux-gnu/4.4.2:/usr/lib/gcc/x86_64-pc-linux-gnu/4.4.2/32:/usr/lib/gcc/x86_64-pc-linux-gnu/4.3.4:/usr/lib/gcc/x86_64-pc-linux-gnu/4.3.4/32:/usr/lib64/nspr:/usr/lib64/nss:/usr/lib64/xulrunner-1.9.1:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/native_threads/:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/classic/:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/server/:/usr/lib/qt4:/usr/lib64/qt4:/usr/lib32/qt4:/opt/firefox:/usr/games/lib:/usr/lib/libstdc++-v3/:/usr/lib32/libstdc++-v3/</value>
     <value type="QString" >LESS=-R -M --shift 5</value>
     <value type="QString" >LESSOPEN=|lesspipe.sh %s</value>
+    <value type="QString" >LIBGL_ALWAYS_INDIRECT=1</value>
     <value type="QString" >LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
     <value type="QString" >LOGNAME=lukas</value>
     <value type="QString" >MAIL=/var/mail/lukas</value>
@@ -108,7 +98,7 @@
     <value type="QString" >RUBYOPT=-rauto_gem</value>
     <value type="QString" >SGML_CATALOG_FILES=/etc/sgml/sgml-lite.cat:/etc/sgml/sgml-ent.cat:/etc/sgml/xml-docbook-4.1.2.cat:/etc/sgml/xml-docbook-4.4.cat:/etc/sgml/dsssl-docbook-stylesheets.cat:/etc/sgml/sgml-docbook.cat:/etc/sgml/sgml-docbook-3.1.cat</value>
     <value type="QString" >SHELL=/bin/zsh</value>
-    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SHLVL=2</value>
     <value type="QString" >TERM=linux</value>
     <value type="QString" >USER=lukas</value>
     <value type="QString" >VMHANDLE=blackdown-jdk-1.4.2</value>
@@ -119,6 +109,7 @@
    <valuelist key="abstractProcess.arguments" type="QVariantList" >
     <value type="QString" >/home/lukas/dev/qt/copyq/copyq.pro</value>
     <value type="QString" >-r</value>
+    <value type="QString" >CONFIG+=debug_and_release</value>
     <value type="QString" >-spec</value>
     <value type="QString" ></value>
    </valuelist>
@@ -148,6 +139,7 @@
     <value type="QString" >DISTCC_LOG=</value>
     <value type="QString" >DISTCC_VERBOSE=0</value>
     <value type="QString" >EDITOR=/bin/nano</value>
+    <value type="QString" >FROM_WRAPPER=yes</value>
     <value type="QString" >GCC_SPECS=</value>
     <value type="QString" >GDK_USE_XFT=1</value>
     <value type="QString" >GENERATION=2</value>
@@ -161,6 +153,7 @@
     <value type="QString" >LDPATH=/usr/local/lib://usr/lib32/opengl/xorg-x11/lib://usr/lib64/opengl/xorg-x11/lib:/lib:/usr/lib:/lib64:/usr/lib64:/usr/local/lib64:/lib32:/usr/lib32:/usr/local/lib32:/usr/x86_64-pc-linux-gnu/lib:/usr/lib/gcc/ia64-unknown-linux-gnu/4.3.2:/usr/lib/gcc/i686-pc-linux-gnu/4.3.2:/usr/lib/gcc/i686-pc-linux-gnu/4.3.3:/usr/lib/gcc/i686-pc-linux-gnu/4.1.2:/usr/lib/gcc/x86_64-pc-linux-gnu/4.4.2:/usr/lib/gcc/x86_64-pc-linux-gnu/4.4.2/32:/usr/lib/gcc/x86_64-pc-linux-gnu/4.3.4:/usr/lib/gcc/x86_64-pc-linux-gnu/4.3.4/32:/usr/lib64/nspr:/usr/lib64/nss:/usr/lib64/xulrunner-1.9.1:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/native_threads/:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/classic/:/opt/blackdown-jdk-1.4.2.03/jre/lib/i386/server/:/usr/lib/qt4:/usr/lib64/qt4:/usr/lib32/qt4:/opt/firefox:/usr/games/lib:/usr/lib/libstdc++-v3/:/usr/lib32/libstdc++-v3/</value>
     <value type="QString" >LESS=-R -M --shift 5</value>
     <value type="QString" >LESSOPEN=|lesspipe.sh %s</value>
+    <value type="QString" >LIBGL_ALWAYS_INDIRECT=1</value>
     <value type="QString" >LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
     <value type="QString" >LOGNAME=lukas</value>
     <value type="QString" >MAIL=/var/mail/lukas</value>
@@ -176,7 +169,7 @@
     <value type="QString" >RUBYOPT=-rauto_gem</value>
     <value type="QString" >SGML_CATALOG_FILES=/etc/sgml/sgml-lite.cat:/etc/sgml/sgml-ent.cat:/etc/sgml/xml-docbook-4.1.2.cat:/etc/sgml/xml-docbook-4.4.cat:/etc/sgml/dsssl-docbook-stylesheets.cat:/etc/sgml/sgml-docbook.cat:/etc/sgml/sgml-docbook-3.1.cat</value>
     <value type="QString" >SHELL=/bin/zsh</value>
-    <value type="QString" >SHLVL=1</value>
+    <value type="QString" >SHLVL=2</value>
     <value type="QString" >TERM=linux</value>
     <value type="QString" >USER=lukas</value>
     <value type="QString" >VMHANDLE=blackdown-jdk-1.4.2</value>

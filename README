@@ -18,7 +18,9 @@ Ctrl-E  -- edit item in external editor
 Delete  -- delete item
 Enter   -- put item into clipboard
 
-Type to search (case-insensitive regular expressions) item in history.
+Type a number to select item with given id.
+
+Type a regular expressions (case-insensitive) to search/filter items.
 
 
 Configuration

@@ -1,5 +1,5 @@
-<!DOCTYPE RCC><RCC version="1.0">
-<qresource>
-<file>../images/icon.png</file>
-</qresource>
+<RCC>
+    <qresource prefix="/" >
+        <file>images/icon.svg</file>
+    </qresource>
 </RCC>

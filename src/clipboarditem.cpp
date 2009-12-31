@@ -32,6 +32,12 @@ ClipboardItem::ClipboardItem (const QString &txt, const QString &css, const QReg
         "<div class=\"txt\">%2</div></body></html>").arg(css);
 
     setData(txt, search);
+
+    updateCache();
+
+    QTextDocument doc;
+    doc.setHtml( m_cache.arg("#000000").arg("99") );
+    m_size = doc.size().toSize();
 }
 
 void ClipboardItem::setData(const QString &txt, const QRegExp &search)
@@ -39,35 +45,36 @@ void ClipboardItem::setData(const QString &txt, const QRegExp &search)
     if ( m_txt != txt || m_search != search ) {
         m_txt = txt;
         m_search = search;
-
-        // Highlight matched text:
-        // 1. split matched and unmatched text,
-        // 2. escape each text,
-        // 3. replace '\n' -> <br />,
-        // 4. concat matched (highlighted) and unmatched.
-        QString body;
-        QTextDocument doc;
-        if ( !m_search.isEmpty() ) {
-            doc.setPlainText(txt);
-            QTextCursor c = doc.find(m_search);
-            int last = 0;
-            while ( c.hasSelection() ) {
-                body += Qt::escape( txt.mid(last,c.selectionStart()) ) +
-                    "<span class=\"em\">" + Qt::escape( c.selectedText() ) + "</span>";
-                last = c.selectionEnd();
-                c = doc.find(m_search, c);
-            }
-            if ( last != txt.length() )
-                body += Qt::escape( txt.mid(last) );
-        }
-        else
-            body += Qt::escape(txt).trimmed().replace('\n', "<br />");
-
-        m_html = m_doctmp.arg( body );
-
-        doc.setHtml(m_html);
-        m_size = doc.size().toSize();
+        m_cache.clear(); // invalidate cache
     }
+}
+
+void ClipboardItem::updateCache() const
+{
+    // Highlight matched text:
+    // 1. split matched and unmatched text,
+    // 2. escape each text,
+    // 3. replace '\n' -> <br />,
+    // 4. concat matched (highlighted) and unmatched.
+    QString body;
+    QTextDocument doc;
+    if ( !m_search.isEmpty() ) {
+        doc.setPlainText(m_txt);
+        QTextCursor c = doc.find(m_search);
+        int last = 0;
+        while ( c.hasSelection() ) {
+            body += Qt::escape( m_txt.mid(last,c.selectionStart()) ) +
+                "<span class=\"em\">" + Qt::escape( c.selectedText() ) + "</span>";
+            last = c.selectionEnd();
+            c = doc.find(m_search, c);
+        }
+        if ( last != m_txt.length() )
+            body += Qt::escape( m_txt.mid(last) );
+    }
+    else
+        body += Qt::escape(m_txt).trimmed().replace('\n', "<br />");
+
+    m_cache = m_doctmp.arg( body );
 }
 
 void ClipboardItem::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
@@ -80,14 +87,15 @@ void ClipboardItem::paint(QPainter *painter, const QStyleOptionViewItem &option,
         color = option.palette.color(QPalette::HighlightedText);
     else
         color = option.palette.color(QPalette::Text);
-    
-    doc.setHtml( m_html.arg(color.name()).arg(index.row()) );
+
+    if ( m_cache.isEmpty() )
+        updateCache();
+    doc.setHtml( m_cache.arg(color.name()).arg(index.row()) );
     doc.setDefaultFont(option.font);
 
     painter->save();
-
     QRectF rect( 0, 0, option.rect.width(), option.rect.height()+3 );
     doc.drawContents(painter, rect);
-
     painter->restore();
+    m_size = doc.size().toSize();
 }
