@@ -29,9 +29,10 @@ class ClipboardItem
     public:
         ClipboardItem () {};
         ClipboardItem (const QString &txt, const QString &css, const QRegExp &search);
-        void setData(const QString &txt, const QRegExp &search);
-        QString text() const { return m_txt; };
-        QRegExp searchExp() const { return m_search; };
+        void setText(const QString &txt);
+        void setSearch(const QRegExp &search);
+        const QString &text() const { return m_txt; };
+        const QRegExp &searchExp() const { return m_search; };
         QSize size() const { return m_size; };
         void paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
@@ -40,7 +41,7 @@ class ClipboardItem
         void updateCache() const;
         // plain text
         QString m_txt;
-        //highlighted expression
+        // highlighted expression
         QRegExp m_search;
         // document template
         QString m_doctmp;

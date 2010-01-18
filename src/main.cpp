@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
             "css", readCssFile, writeCssFile);
     QSettings cssSettings( cssFormat, QSettings::UserScope,
             QCoreApplication::organizationName(),
-            QApplication::applicationName() );
+            QCoreApplication::applicationName() );
     QString css = cssSettings.value("css", "").toString();
     app.setStyleSheet(css);
 

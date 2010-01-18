@@ -95,7 +95,7 @@ void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, cons
     QByteArray n = editor->metaObject()->userProperty().name();
     if (!n.isEmpty()) {
         ClipboardItem item = qVariantValue<ClipboardItem>( index.data(0) );
-        item.setData( editor->property(n).toString(), item.searchExp() );
+        item.setText( editor->property(n).toString() );
         model->setData(index, qVariantFromValue(item), 0);
     }
 }

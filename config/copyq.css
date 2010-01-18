@@ -24,7 +24,7 @@ QToolTip, QScrollBar {
     color: black;
 }
 
-QListView, QLineEdit, QMainWindow {
+QWidget {
     background-color: #222;
 }
 

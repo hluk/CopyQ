@@ -31,7 +31,8 @@ ClipboardItem::ClipboardItem (const QString &txt, const QString &css, const QReg
         "<div class=\"number\">%4</div>"
         "<div class=\"txt\">%2</div></body></html>").arg(css);
 
-    setData(txt, search);
+    setText(txt);
+    setSearch(search);
 
     updateCache();
 
@@ -40,10 +41,17 @@ ClipboardItem::ClipboardItem (const QString &txt, const QString &css, const QReg
     m_size = doc.size().toSize();
 }
 
-void ClipboardItem::setData(const QString &txt, const QRegExp &search)
+void ClipboardItem::setText(const QString &txt)
 {
-    if ( m_txt != txt || m_search != search ) {
+    if ( m_txt != txt) {
         m_txt = txt;
+        m_cache.clear(); // invalidate cache
+    }
+}
+
+void ClipboardItem::setSearch(const QRegExp &search)
+{
+    if (m_search != search ) {
         m_search = search;
         m_cache.clear(); // invalidate cache
     }
@@ -57,8 +65,8 @@ void ClipboardItem::updateCache() const
     // 3. replace '\n' -> <br />,
     // 4. concat matched (highlighted) and unmatched.
     QString body;
-    QTextDocument doc;
     if ( !m_search.isEmpty() ) {
+        QTextDocument doc;
         doc.setPlainText(m_txt);
         QTextCursor c = doc.find(m_search);
         int last = 0;
@@ -90,6 +98,7 @@ void ClipboardItem::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     if ( m_cache.isEmpty() )
         updateCache();
+
     doc.setHtml( m_cache.arg(color.name()).arg(index.row()) );
     //doc.setDefaultFont(option.font);
 

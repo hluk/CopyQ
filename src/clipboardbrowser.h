@@ -27,6 +27,8 @@
 #include <QSettings>
 #include "qeditor.h"
 
+class ActionDialog;
+
 class ClipboardBrowser : public QListWidget
 {
     Q_OBJECT
@@ -50,6 +52,11 @@ class ClipboardBrowser : public QListWidget
         QBasicTimer timer;
         QBasicTimer timer_save;
 
+        // items data file
+        QSettings::Format datFormat;
+        QSettings datSettings;
+        ActionDialog *actionDialog;
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void timerEvent(QTimerEvent *event);
@@ -67,6 +74,7 @@ class ClipboardBrowser : public QListWidget
         void moveToClipboard(QListWidgetItem *item = NULL);
         void filterItems(const QString &str);
         void itemModified(uint hash, const QString &str);
+        void addItems(const QStringList &items);
 
     private slots:
         void on_itemChanged(QListWidgetItem *item);

@@ -3,14 +3,15 @@ TARGET = ../copyq
 DEPENDPATH += .
 INCLUDEPATH += . ../qtsingleapplication/
 RESOURCES = copyq.qrc
-FORMS += mainwindow.ui
+FORMS += mainwindow.ui actiondialog.ui
 
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     searchbar.h \
     qeditor.h \
     itemdelegate.h \
-    clipboarditem.h
+    clipboarditem.h \
+    actiondialog.h
 
 SOURCES += main.cpp \
     mainwindow.cpp \
@@ -18,9 +19,10 @@ SOURCES += main.cpp \
     searchbar.cpp \
     qeditor.cpp \
     itemdelegate.cpp \
-    clipboarditem.cpp
+    clipboarditem.cpp \
+    actiondialog.cpp
 
 QT += xml
 LIBS += -lXi
 
-include(../qtsingleapplication/qtsingleapplication.pri)
+include(qtsingleapplication/qtsingleapplication.pri)

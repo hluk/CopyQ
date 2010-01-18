@@ -27,8 +27,23 @@
 #include <QScrollBar>
 #include <X11/extensions/XInput.h>
 #include <unistd.h> //usleep
+#include <actiondialog.h>
 #include "itemdelegate.h"
 #include "clipboarditem.h"
+
+inline bool readDatFile(QIODevice &device, QSettings::SettingsMap &map)
+{
+    QDataStream in(&device);
+    in >> map["items"];
+    return true;
+}
+
+inline bool writeDatFile(QIODevice &device, const QSettings::SettingsMap &map)
+{
+    QDataStream out(&device);
+    out << map["items"];
+    return true;
+}
 
 extern int error_handler(Display *dsp, XErrorEvent *err)
 {
@@ -39,10 +54,15 @@ extern int error_handler(Display *dsp, XErrorEvent *err)
     return 0;
 }
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListWidget(parent)
+ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListWidget(parent),
+    datFormat( QSettings::registerFormat( QString("dat"), readDatFile, writeDatFile) ),
+    datSettings( datFormat, QSettings::UserScope,
+            QCoreApplication::organizationName(),
+            QCoreApplication::applicationName() )
 {
     setItemDelegate( new ItemDelegate(this) );
     m_clip = QApplication::clipboard();
+    actionDialog = NULL;
 
     connect( m_clip, SIGNAL(changed(QClipboard::Mode)),
             this, SLOT(clipboardChanged(QClipboard::Mode)) );
@@ -114,7 +134,7 @@ void ClipboardBrowser::filterItems(const QString &str)
             QListWidgetItem *it = item(i);
             it->setHidden(false);
             ClipboardItem x = qVariantValue<ClipboardItem>( it->data(0) );
-            x.setData(x.text(),m_search);
+            x.setSearch(m_search);
             it->setData( 0, qVariantFromValue(x) );
         }
         emit hideSearch();
@@ -140,7 +160,7 @@ void ClipboardBrowser::filterItems(const QString &str)
                 else {
                     it->setHidden(false);
                     ClipboardItem x = qVariantValue<ClipboardItem>( it->data(0) );
-                    x.setData(x.text(),m_search);
+                    x.setSearch(m_search);
                     it->setData( 0, qVariantFromValue(x) );
                     // select first visible
                     if ( current == NULL )
@@ -151,18 +171,12 @@ void ClipboardBrowser::filterItems(const QString &str)
             setCurrentItem( current );
         }
     }
-
-    ((ItemDelegate *)itemDelegate())->setSearch(m_search);
 }
 
 void ClipboardBrowser::moveToClipboard(const QString &txt)
 {
-    // remove identical
-    QList<QListWidgetItem *> list( findItems(txt, Qt::MatchExactly) );
-    QList<QListWidgetItem *>::iterator it( list.begin() );
-    for(; it != list.end(); ++it)
-        delete takeItem( row(*it) );
-    
+    // TODO: remove identical; How to iterate through all items?
+    // insert new
     QListWidgetItem *x = new QListWidgetItem(txt, this);
     moveToClipboard(x);
 }
@@ -225,6 +239,15 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         if ( event->key() == Qt::Key_N ) {
             add("*NEW*");
             setCurrentRow(0);
+        }
+        // CTRL-A: action
+        if ( event->key() == Qt::Key_A ) {
+            if (!actionDialog) {
+                actionDialog = new ActionDialog(this);
+                connect(actionDialog, SIGNAL(addItems(const QStringList)), this, SLOT(addItems(const QStringList&)));
+            }
+            actionDialog->setInput( itemText(currentItem()) );
+            actionDialog->exec();
         }
     }
     else {
@@ -314,13 +337,22 @@ bool ClipboardBrowser::add(const QString &txt)
     return true;
 }
 
+void ClipboardBrowser::addItems(const QStringList &items) {
+    QStringList::const_iterator it( items.end()-1 );
+    for(; it != items.begin()-1; --it)
+        add(*it);
+}
+
 void ClipboardBrowser::readSettings()
 {
     QSettings settings;
+
+    // restore configuration
     m_maxitems = settings.value("maxitems", 400).toInt();
     m_editor = settings.value("editor", "gvim -f %1").toString();
-    QStringList m_lst = settings.value("items", QStringList()).toStringList();
 
+    // restore items
+    QStringList m_lst = datSettings.value("items", QStringList()).toStringList();
     clear();
     QStringList::iterator it( m_lst.begin() );
     for(; it != m_lst.end(); ++it) {
@@ -337,16 +369,11 @@ void ClipboardBrowser::readSettings()
 
 void ClipboardBrowser::writeSettings()
 {
-    QSettings settings;
-    
-    settings.setValue("maxitems", m_maxitems);
-    settings.setValue("editor", m_editor);
-
     QStringList m_lst;
     for(int i = 0; i < count(); ++i)
         m_lst.append( itemText(i) );
 
-    settings.setValue("items", m_lst);
+    datSettings.setValue("items", m_lst);
 }
 
 QString ClipboardBrowser::itemText(const QListWidgetItem *item) const

@@ -30,15 +30,11 @@ class ItemDelegate : public QStyledItemDelegate
     public:
         ItemDelegate(QObject *parent = 0);
 
-        void setSearch(const QRegExp &regexp) { m_search = regexp; }; 
         QSize sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const;
         QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
         void setEditorData(QWidget *editor, const QModelIndex &index) const;
         void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
         bool eventFilter(QObject *object, QEvent *event);
-
-    private:
-        QRegExp m_search;
 
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
