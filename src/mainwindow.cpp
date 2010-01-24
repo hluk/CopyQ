@@ -28,37 +28,65 @@
 #include <QDomAttr>
 #include <QSettings>
 #include <QCloseEvent>
+#include "clipboardmodel.h"
+
+inline bool readDatFile(QIODevice &device, QSettings::SettingsMap &map)
+{
+    QDataStream in(&device);
+    in >> map["items"];
+    return true;
+}
+
+inline bool writeDatFile(QIODevice &device, const QSettings::SettingsMap &map)
+{
+    QDataStream out(&device);
+    out << map["items"];
+    return true;
+}
 
 MainWindow::MainWindow(const QString &css, QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow)
 {
-    ui->setupUi(this);
+    // global stylesheet
+    setStyleSheet(css);
 
+    ui->setupUi(this);
+    ui->clipboardBrowser->readSettings(css);
+
+    // main window: icon & title
     this->setWindowTitle("CopyQ");
     m_icon = QIcon(":images/icon.svg");
     setWindowIcon(m_icon);
 
+    // tray
     tray = new QSystemTrayIcon(this);
     tray->setIcon(m_icon);
-    tray->setToolTip(tr("left click to show or hide, middle click to quit"));
+    tray->setToolTip(
+            tr("left click to show or hide, middle click to quit") );
 
+    // signals & slots
     connect( ui->clipboardBrowser, SIGNAL(requestSearch(QEvent*)),
             this, SLOT(enterSearchMode(QEvent*)) );
     connect( ui->clipboardBrowser, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
-    connect( ui->searchBar, SIGNAL(textEdited(const QString&)),
-            ui->clipboardBrowser, SLOT(filterItems(const QString&)) );
+    connect( ui->clipboardBrowser, SIGNAL(error(const QString)),
+            this, SLOT(showError(const QString)) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
     // settings
-    readSettings(css);
+    readSettings();
 
     // browse mode by default
     m_browsemode = false;
     enterBrowseMode();
 
     tray->show();
+}
+
+void MainWindow::showError(const QString msg)
+{
+    tray->showMessage(QString("Error"), msg);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -73,19 +101,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            ui->clipboardBrowser->moveToClipboard();
+            ui->clipboardBrowser->keyEvent(event);
+            lower();
             hide();
             break;
 
         case Qt::Key_F3:
-            // TODO: search (with shift -> backwards)
             break;
 
         case Qt::Key_Escape:
             if ( ui->searchBar->isVisible() )
                 enterBrowseMode();
-            else
+            else {
+                lower();
                 hide();
+            }
             break;
 
         default:
@@ -106,7 +136,7 @@ void MainWindow::writeSettings()
     ui->clipboardBrowser->writeSettings();
 }
 
-void MainWindow::readSettings(const QString &css)
+void MainWindow::readSettings()
 {
     QSettings settings;
 
@@ -114,16 +144,15 @@ void MainWindow::readSettings(const QString &css)
     resize(settings.value("size", QSize(400, 400)).toSize());
     move(settings.value("pos", QPoint(200, 200)).toPoint());
     settings.endGroup();
-
-    ui->clipboardBrowser->setStyleSheet(css);
-    ui->clipboardBrowser->readSettings();
 }
 
 void MainWindow::handleMessage(const QString& message)
 {
     if ( message == "toggle" ) {
-        if ( this->isVisible() )
+        if ( this->isVisible() ) {
+            lower();
             hide();
+        }
         else
             show();
     }
@@ -133,8 +162,10 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick )
         close();
-    else if (this->isVisible())
+    else if (this->isVisible()) {
+        lower();
         hide();
+    }
     else
         showNormal();
 }
@@ -157,7 +188,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
     if(m_browsemode){
         // browse mode
         l->hide();
-        ui->clipboardBrowser->setFocus(Qt::ShortcutFocusReason);
+//        ui->clipboardBrowser->setFocus(Qt::ShortcutFocusReason);
     }
     else {
         // search mode
@@ -193,4 +224,17 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-// vim: tags +=~/.vim/tags/qt4
+void MainWindow::on_searchBar_textEdited(const QString &)
+{
+    timer_search.start(100,this);
+}
+
+void MainWindow::timerEvent(QTimerEvent *event)
+{
+    if ( event->timerId() == timer_search.timerId() ) {
+        ui->clipboardBrowser->filterItems( ui->searchBar->text() );
+        timer_search.stop();
+    }
+//    else
+//        QMainWindow::timerEvent(event);
+}

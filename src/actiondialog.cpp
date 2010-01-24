@@ -1,4 +1,5 @@
 #include <QProcess>
+#include <QToolTip>
 #include "actiondialog.h"
 #include "ui_actiondialog.h"
 
@@ -74,6 +75,7 @@ void ActionDialog::accept()
         mode |= QIODevice::ReadOnly;
 
     // execute command (with input if needed)
+    proc.setProcessChannelMode(QProcess::SeparateChannels);
     proc.start(cmd, mode);
     // TODO: warn user
     if ( !proc.waitForStarted() )
@@ -81,23 +83,33 @@ void ActionDialog::accept()
 
     // write input
     if (mode & QIODevice::WriteOnly) {
-        // TODO: use toUtf8, toAscii or toLocal8Bit?
         proc.write( input.toLocal8Bit() );
     }
     proc.closeWriteChannel();
 
     // read output
     if (mode & QIODevice::ReadOnly) {
-        QString output;
+        QString stdout, stderr;
 
-        while (proc.waitForReadyRead())
-            // TODO: encoding
-            output += proc.readAll();
+        if ( !proc.waitForFinished() ) {
+            stderr = proc.errorString();
+            emit error(stderr);
+        }
+        else if ( proc.exitCode() != 0 ) {
+            stderr = QString("Exit code: %1\n").arg(proc.exitCode());
+            stderr += QString::fromLocal8Bit( proc.readAllStandardError() );
+            emit error(stderr);
+        }
+        else {
+            stdout += QString::fromUtf8( proc.readAll() );
 
-        // separate items
-        QRegExp sep( ui->separatorEdit->text() );
-        if ( !sep.isEmpty() ) {
-            items = output.split(sep);
+            if ( !stdout.isEmpty() ) {
+                // separate items
+                QRegExp sep( ui->separatorEdit->text() );
+                if ( !sep.isEmpty() ) {
+                    items = stdout.split(sep);
+                }
+            }
         }
     }
 

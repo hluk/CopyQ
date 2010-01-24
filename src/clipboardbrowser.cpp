@@ -25,11 +25,12 @@
 #include <QTextBlock>
 #include <QTextDocumentFragment>
 #include <QScrollBar>
+#include <QToolTip>
 #include <X11/extensions/XInput.h>
 #include <unistd.h> //usleep
 #include <actiondialog.h>
 #include "itemdelegate.h"
-#include "clipboarditem.h"
+#include "clipboardmodel.h"
 
 inline bool readDatFile(QIODevice &device, QSettings::SettingsMap &map)
 {
@@ -54,15 +55,24 @@ extern int error_handler(Display *dsp, XErrorEvent *err)
     return 0;
 }
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListWidget(parent),
+ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     datFormat( QSettings::registerFormat( QString("dat"), readDatFile, writeDatFile) ),
     datSettings( datFormat, QSettings::UserScope,
             QCoreApplication::organizationName(),
             QCoreApplication::applicationName() )
 {
-    setItemDelegate( new ItemDelegate(this) );
     m_clip = QApplication::clipboard();
     actionDialog = NULL;
+
+    // delegate for rendering and editing items
+    d = new ItemDelegate(this);
+    setItemDelegate(d);
+
+    // set new model
+    m = new ClipboardModel();
+    QItemSelectionModel *old_model = selectionModel();
+    setModel(m);
+    delete old_model;
 
     connect( m_clip, SIGNAL(changed(QClipboard::Mode)),
             this, SLOT(clipboardChanged(QClipboard::Mode)) );
@@ -111,32 +121,23 @@ void ClipboardBrowser::openEditor()
 void ClipboardBrowser::itemModified(uint hash, const QString &str)
 {
     // find item with qHash == hash and remove it
-    for(int i = 0; i < count(); ++i) {
-        QListWidgetItem *it = item(i);
-        if ( qHash(itemText(it)) == hash ) {
-            delete takeItem(i);
+    for(int i = 0; i < m->rowCount(); ++i) {
+        if ( qHash(itemText(i)) == hash ) {
+            m->removeRow(i);
             break;
         }
     }
 
     // add new item
     add(str);
-    // save after 30 secs
-    timer_save.start(30000, this);
+    sync();
 }
 
 void ClipboardBrowser::filterItems(const QString &str)
 {
     // if search string empty: all items visible
     if ( str.isEmpty() ) {
-        m_search = QRegExp();
-        for(int i = 0; i < count(); ++i) {
-            QListWidgetItem *it = item(i);
-            it->setHidden(false);
-            ClipboardItem x = qVariantValue<ClipboardItem>( it->data(0) );
-            x.setSearch(m_search);
-            it->setData( 0, qVariantFromValue(x) );
-        }
+        m->setSearch();
         emit hideSearch();
     }
     else {
@@ -144,32 +145,29 @@ void ClipboardBrowser::filterItems(const QString &str)
         bool ok;
         int n = str.toInt(&ok);
         if (ok) {
-            for(int i = 0; i < count(); ++i)
-                item(i)->setHidden(false);
+            m->setSearch();
+            for(int i = 0; i < m->rowCount(); ++i)
+                setRowHidden(i,false);
             setCurrentRow(n);
         }
         else {
-            m_search = QRegExp(str);
-            m_search.setCaseSensitivity( Qt::CaseInsensitive );
-            QListWidgetItem *current = NULL;
-
-            for(int i = 0; i < count(); ++i) {
-                QListWidgetItem *it = item(i);
-                if ( m_search.indexIn(itemText(it)) == -1 )
-                    it->setHidden(true);
-                else {
-                    it->setHidden(false);
-                    ClipboardItem x = qVariantValue<ClipboardItem>( it->data(0) );
-                    x.setSearch(m_search);
-                    it->setData( 0, qVariantFromValue(x) );
-                    // select first visible
-                    if ( current == NULL )
-                        current = it;
+            QRegExp re(str);
+            re.setCaseSensitivity(Qt::CaseInsensitive);
+            m->setSearch(&re);
+        }
+    }
+    // select first visible
+    bool noselected = false;
+    for(int i = 0; i < m->rowCount(); ++i) {
+            if (m->isFiltered(i))
+                setRowHidden(i,true);
+            else {
+                setRowHidden(i,false);
+                if (noselected) {
+                    noselected = true;
+                    setCurrentRow(i);
                 }
             }
-
-            setCurrentItem( current );
-        }
     }
 }
 
@@ -177,85 +175,83 @@ void ClipboardBrowser::moveToClipboard(const QString &txt)
 {
     // TODO: remove identical; How to iterate through all items?
     // insert new
-    QListWidgetItem *x = new QListWidgetItem(txt, this);
-    moveToClipboard(x);
+    if ( m->insertRow(0) ) {
+        m->setData( index(0), txt );
+        sync();
+    }
 }
 
-void ClipboardBrowser::moveToClipboard(QListWidgetItem *x)
+void ClipboardBrowser::moveToClipboard(int i)
 {
-    if (x) {
-        insertItem( 0, takeItem(row(x)) );
-
-        m_clip->disconnect(this);
-
-        // sync clipboards
-        if ( m_clip->text(QClipboard::Selection) != itemText(x) )
-            m_clip->setText(itemText(x),QClipboard::Selection);
-        if ( m_clip->text() != itemText(x) )
-            m_clip->setText(itemText(x));
-
-        // save after 30 secs
-        timer_save.start(30000, this);
+    if ( i > 0 ) {
+        m->move(i,0);
+        sync();
+        repaint();
     }
-    else if ( currentItem() )
-        moveToClipboard( currentItem() );
 }
 
 void ClipboardBrowser::timerEvent(QTimerEvent *event)
 {
     if ( event->timerId() == timer.timerId() ) {
-        QString text;
-
-        text = m_clip->text(QClipboard::Clipboard);
-        if( !isCurrent(text) )
-            add(text);
-        else {
-            text = m_clip->text(QClipboard::Selection);
-            if( !isCurrent(text) )
-                add(text);
-        }
+        if ( m_clip->text(QClipboard::Selection) != itemText(0) )
+            add(m_clip->text(QClipboard::Selection));
     }
     else if ( event->timerId() == timer_save.timerId() ) {
         writeSettings();
         timer_save.stop();
     }
-    else
-        QListWidget::timerEvent(event);
+//    else
+//        QListView::timerEvent(event);
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
     if ( state() == QAbstractItemView::EditingState ) {
-        QListWidget::keyPressEvent(event);
+        QListView::keyPressEvent(event);
         return;
     }
 
     // CTRL
     if ( event->modifiers() == Qt::ControlModifier ) {
+        switch ( event->key() ) {
         // CTRL-E: open external editor
-        if ( event->key() == Qt::Key_E )
+        case Qt::Key_E:
             openEditor();
+            break;
         // CTRL-N: create new item
-        if ( event->key() == Qt::Key_N ) {
-            add("*NEW*");
+        case Qt::Key_N:
+            add("", false);
             setCurrentRow(0);
-        }
+            edit( index(0) );
+            break;
         // CTRL-A: action
-        if ( event->key() == Qt::Key_A ) {
+        case Qt::Key_A:
             if (!actionDialog) {
                 actionDialog = new ActionDialog(this);
-                connect(actionDialog, SIGNAL(addItems(const QStringList)), this, SLOT(addItems(const QStringList&)));
+                connect( actionDialog, SIGNAL(addItems(const QStringList)),
+                         this, SLOT(addItems(const QStringList&)) );
+                connect( actionDialog, SIGNAL(error(const QString)),
+                         this, SIGNAL(error(const QString)) );
             }
-            actionDialog->setInput( itemText(currentItem()) );
+            actionDialog->setInput( itemText() );
             actionDialog->exec();
+            break;
+        // CTRL-Up/Down: move item
+        case Qt::Key_Up:
+        case Qt::Key_Down:
+            int from = currentIndex().row();
+            int to = (event->key() == Qt::Key_Up) ? (from-1) : (from+1);
+            m->move(from, to);
+            if (from == 0 || to == 0)
+                sync();
+            repaint();
+            break;
         }
     }
     else {
-        switch (event->key()) {
+        switch ( event->key() ) {
         case Qt::Key_Delete:
             remove();
-            // save after 30 secs
-            timer_save.start(30000, this);
             break;
 
         case Qt::Key_Left:
@@ -267,16 +263,17 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Escape:
         case Qt::Key_PageUp:
         case Qt::Key_PageDown:
-            QListWidget::keyPressEvent(event);
+            QListView::keyPressEvent(event);
             break;
 
         case Qt::Key_F2:
-            QListWidget::keyPressEvent(event);
+            QListView::keyPressEvent(event);
             break;
 
-            //case Qt::Key_Return:
-            //moveToClipboard( currentItem() );
-            //break;
+        case Qt::Key_Enter:
+        case Qt::Key_Return:
+            moveToClipboard( currentIndex().row() );
+            break;
 
         default:
                 emit requestSearch(event);
@@ -286,52 +283,68 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void ClipboardBrowser::on_itemChanged( QListWidgetItem *it )
+void ClipboardBrowser::on_itemChanged( int i )
 {
     // remove empty item
-    if ( itemText(it).indexOf( QRegExp("^\\s*$") ) != -1 )
+    if ( itemText(i).indexOf( QRegExp("^\\s*$") ) != -1 )
         remove();
     // first item (clipboard contents) changed
-    else if ( row(it) == 0 )
-        moveToClipboard(it);
+    else if ( i == 0 )
+        sync();
 }
 
-bool ClipboardBrowser::remove()
+void ClipboardBrowser::remove()
 {
-    QList<QListWidgetItem *> list = selectedItems();
-    QList<QListWidgetItem *>::iterator it( list.begin() );
+    QItemSelectionModel *sel = selectionModel();
+
+    QModelIndexList list = sel->selectedIndexes();
     int i = 0;
-    for(; it != list.end(); ++it) {
-        i = row(*it);
-        delete takeItem(i);
-        if ( i == 0 && count() > 0 )
-            moveToClipboard(item(0));
+    foreach(QModelIndex ind, list) {
+        i = ind.row();
+        m->removeRow(i);
+        if ( i == 0 )
+            sync();
+        if ( !timer_save.isActive() )
+            timer_save.start(30000, this);
     }
     // select next
     setCurrentRow(i);
-
-    return list.length() > 0;
 }
 
-bool ClipboardBrowser::add(const QString &txt)
+bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
 {
     // ignore empty
-    if ( txt.indexOf( QRegExp("^\\s*$") ) != -1 ) {
-        if ( count() > 0 )
-            moveToClipboard(item(0));
+    if ( ignore_empty && txt.indexOf( QRegExp("^\\s*$") ) != -1 )
         return false;
-    }
-    else if ( count() == 0 || !isCurrent(txt) ) {
-        QListWidgetItem *x = new QListWidgetItem(this);
-        x->setData( 0, qVariantFromValue( ClipboardItem(txt, styleSheet(), m_search) ) );
-        x->setFlags( x->flags() | Qt::ItemIsEditable );
-        // filter item
-        if ( !m_search.isEmpty() && m_search.indexIn(itemText(x)) != -1 )
-            x->setHidden(true);
-        moveToClipboard(x);
 
-        if ( count() > m_maxitems )
-            delete takeItem( count() - 1 );
+    // find same item
+    int i = 0;
+    for(; i < m->rowCount(); i++) {
+        if( txt == itemText(i) )
+           break;
+    }
+    // move found same item to top
+    if ( i < m->rowCount() ) {
+        moveToClipboard(i);
+    }
+    else {
+        // create new item
+        m->insertRow(0);
+        QModelIndex ind = index(0);
+        m->setData(ind, txt);
+
+        // filter item
+        const QRegExp *re = m->search();
+        if ( !re->isEmpty() && re->indexIn(txt) != -1 )
+            setRowHidden(0,true);
+
+        // list size limit
+        if ( m->rowCount() > m_maxitems )
+            m->removeRow( m->rowCount() - 1 );
+
+        // save
+        if ( !timer_save.isActive() )
+            timer_save.start(30000, this);
     }
     
     return true;
@@ -343,43 +356,59 @@ void ClipboardBrowser::addItems(const QStringList &items) {
         add(*it);
 }
 
-void ClipboardBrowser::readSettings()
+void ClipboardBrowser::readSettings(const QString &css)
 {
     QSettings settings;
+
+    setStyleSheet(css);
+    d->setStyleSheet(css);
 
     // restore configuration
     m_maxitems = settings.value("maxitems", 400).toInt();
     m_editor = settings.value("editor", "gvim -f %1").toString();
 
     // restore items
-    QStringList m_lst = datSettings.value("items", QStringList()).toStringList();
-    clear();
-    QStringList::iterator it( m_lst.begin() );
-    for(; it != m_lst.end(); ++it) {
-        QListWidgetItem *x = new QListWidgetItem(this);
-        x->setData( 0, qVariantFromValue( ClipboardItem(*it, styleSheet(), m_search) ) );
-        x->setFlags( x->flags() | Qt::ItemIsEditable );
-        if ( count() > m_maxitems )
-            break;
-    }
+    QSettings::Format datFormat(
+            QSettings::registerFormat( QString("dat"), readDatFile, writeDatFile) );
+    QSettings datSettings( datFormat, QSettings::UserScope,
+            QCoreApplication::organizationName(),
+            QCoreApplication::applicationName() );
+    QStringList items = datSettings.value("items", QStringList()).toStringList();
 
-    if (count() > 0)
-        moveToClipboard( item(0) );
+    // set new model
+    m = new ClipboardModel(items);
+    QItemSelectionModel *old_model = selectionModel();
+    setModel(m);
+    delete old_model;
+
+    m->setMaxItems( settings.value("maxitems", 400).toInt() );
+    // TODO: set external editor
+    //m->setEditor( settings.value("editor", "gvim -f %1").toString() );
+
+    timer_save.stop();
+
+    sync(false);
 }
 
 void ClipboardBrowser::writeSettings()
 {
     QStringList m_lst;
-    for(int i = 0; i < count(); ++i)
+    for(int i = 0; i < m->rowCount(); ++i)
         m_lst.append( itemText(i) );
 
     datSettings.setValue("items", m_lst);
 }
 
-QString ClipboardBrowser::itemText(const QListWidgetItem *item) const
+QString ClipboardBrowser::itemText(int i) const
 {
-    ClipboardItem x = qVariantValue<ClipboardItem>( item ? item->data(0) : currentItem()->data(0) );
-    return x.text();
+    if ( i >= m->rowCount() )
+        return QString();
+    return itemText( (i==-1) ? currentIndex() : index(i) );
+}
+
+QString ClipboardBrowser::itemText(QModelIndex ind) const
+{
+    return ind.isValid() ? ind.data(Qt::EditRole).toString() : QString();
 }
 
 void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
@@ -414,18 +443,36 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
         timer.start(1000, this);
     }
 
-    QString txt = m_clip->text(mode);
-
-    if ( !isCurrent(txt) ) {
-        add(txt);
-        // save after 30 secs
-        timer_save.start(30000, this);
-    }
+    sync(false);
 }
 
-bool ClipboardBrowser::isCurrent(const QString &txt)
+void ClipboardBrowser::sync(bool list_to_clipboard)
 {
-    QListWidgetItem *x = item(0);
-    return x && itemText(x) == txt;
-}
+    QString text;
 
+    // first item -> clipboard
+    if (list_to_clipboard) {
+        if ( m->rowCount() == 0 )
+            return;
+        text = itemText(0);
+    }
+    // clipboard -> first item
+    else {
+        text = m_clip->text();
+        if( text != itemText(0) )
+            add(text);
+        else {
+            text = m_clip->text(QClipboard::Selection);
+            if( text != itemText(0) )
+                add(text);
+            else
+                return;
+        }
+    }
+
+    // sync Clipboard == Selection
+    if ( m_clip->text(QClipboard::Selection) != text )
+        m_clip->setText(text,QClipboard::Selection);
+    if ( m_clip->text() != text )
+        m_clip->setText(text);
+}

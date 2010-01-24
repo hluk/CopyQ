@@ -20,6 +20,7 @@
 #include <qtsingleapplication.h> 
 #include "mainwindow.h"
 #include <QSettings>
+#include <QDebug>
 
 inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
 {
@@ -51,7 +52,6 @@ int main(int argc, char *argv[])
             QCoreApplication::organizationName(),
             QCoreApplication::applicationName() );
     QString css = cssSettings.value("css", "").toString();
-    app.setStyleSheet(css);
 
     MainWindow wnd(css);
 

@@ -22,6 +22,7 @@ private:
 
 signals:
     void addItems(const QStringList);
+    void error(const QString);
 
 public slots:
     void accept();

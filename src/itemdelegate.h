@@ -36,8 +36,17 @@ class ItemDelegate : public QStyledItemDelegate
         void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
         bool eventFilter(QObject *object, QEvent *event);
 
+        QString getHtml(QString &body, int row = 99) const;
+
+        void setStyleSheet(const QString &css) {
+            doc->setDefaultStyleSheet(css);
+        }
+
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+
+private:
+        QTextDocument* doc;
 };
 
 #endif

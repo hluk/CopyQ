@@ -25,16 +25,22 @@
 #include <QTextCursor>
 #include <QMetaProperty>
 #include <QPlainTextEdit>
-#include "clipboarditem.h"
+#include <QTextDocument>
 
 ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
+    doc = new QTextDocument(parent);
 }
 
-QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
+QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
-    ClipboardItem item = qVariantValue<ClipboardItem>( index.data() );
-    return item.size();
+    QTextDocument doc;
+    QString str = index.data(Qt::DisplayRole).toString();
+    doc.setTextWidth(options.rect.width());
+    doc.setHtml(
+            QString("<div class=\"number\">99</div><div class=\"txt\">")
+            + str + QString("</div>") );
+    return QSize(doc.idealWidth(), doc.size().height());
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -80,10 +86,9 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
 
 void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    ClipboardItem item = qVariantValue<ClipboardItem>( index.data(0) );
-    QVariant v = item.text();
+    QVariant v = index.data(Qt::EditRole);
     QByteArray n = editor->metaObject()->userProperty().name();
-    if (!n.isEmpty()) {
+    if ( !n.isEmpty() ) {
         if (!v.isValid())
             v = QVariant(editor->property(n).userType(), (const void *)0);
         editor->setProperty(n, v);
@@ -93,30 +98,47 @@ void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
 void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
     QByteArray n = editor->metaObject()->userProperty().name();
-    if (!n.isEmpty()) {
-        ClipboardItem item = qVariantValue<ClipboardItem>( index.data(0) );
-        item.setText( editor->property(n).toString() );
-        model->setData(index, qVariantFromValue(item), 0);
-    }
+    if (!n.isEmpty())
+        model->setData(index, editor->property(n));
+}
+
+QString ItemDelegate::getHtml(QString &body, int row) const
+{
+    QString html =
+            QString("<div class=\"number\">%1").arg(row) + "</div>"
+            "<div class=\"txt\">" + body + "</div>";
+
+    return html;
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    QTextDocument doc;
-    ClipboardItem item = qVariantValue<ClipboardItem>( index.data() );
+    QStyleOptionViewItemV4 options(option);
+    initStyleOption(&options, index);
 
-    painter->save();
+    // background color
+    QColor color;
+    if( option.state & QStyle::State_Selected )
+        color = option.palette.color(QPalette::HighlightedText);
+    else
+        color = option.palette.color(QPalette::Text);
 
-    QStyleOptionViewItemV4 options = option;
+    //QTextDocument doc;
+    //doc.setDefaultStyleSheet(m_css);
+    doc->setHtml( getHtml(options.text, index.row()) );
 
     // get focus rect and selection background
+    QString text = options.text;
+    options.text = "";
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
+
+    QRect clip(0, 0, options.rect.width(), options.rect.height());
+
+    painter->save();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
-
-    painter->translate( options.rect.left(), options.rect.top() );
-    item.paint(painter, option, index);
-
+    painter->translate(options.rect.left(), options.rect.top());
+//    painter->setClipRect(clip);
+    doc->drawContents(painter,clip);
     painter->restore();
 }
-

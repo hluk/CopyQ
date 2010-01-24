@@ -35,6 +35,9 @@
       <property name="tabKeyNavigation">
        <bool>true</bool>
       </property>
+      <property name="showDropIndicator" stdset="0">
+       <bool>false</bool>
+      </property>
       <property name="alternatingRowColors">
        <bool>true</bool>
       </property>
@@ -52,14 +55,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>ClipboardBrowser</class>
-   <extends>QListWidget</extends>
-   <header>clipboardbrowser.h</header>
-  </customwidget>
-  <customwidget>
    <class>SearchBar</class>
    <extends>QLineEdit</extends>
    <header>searchbar.h</header>
+  </customwidget>
+  <customwidget>
+   <class>ClipboardBrowser</class>
+   <extends>QListView</extends>
+   <header>clipboardbrowser.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

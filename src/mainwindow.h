@@ -23,6 +23,10 @@
 #include <QtGui/QMainWindow>
 #include <QTextDocument>
 #include <QSystemTrayIcon>
+#include <QBasicTimer>
+//#include "itemdelegate.h"
+
+class ClipboardModel;
 
 namespace Ui
 {
@@ -39,22 +43,27 @@ class MainWindow : public QMainWindow
         void center();
         inline bool browseMode() const { return m_browsemode; };
         void writeSettings();
-        void readSettings(const QString &css);
+        void readSettings();
 
     private:
         Ui::MainWindow *ui;
+        //ItemDelegate delegate;
         QIcon m_icon;
         QSystemTrayIcon *tray;
         bool m_browsemode;
+        QBasicTimer timer_search;
 
     protected:
         void keyPressEvent(QKeyEvent *event);
+        void timerEvent(QTimerEvent *event);
 
     public slots:
        void handleMessage(const QString& message);
        void enterBrowseMode(bool browsemode = true);
+       void showError(const QString);
 
     private slots:
+        void on_searchBar_textEdited(const QString &);
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void enterSearchMode(QEvent *event);
 };

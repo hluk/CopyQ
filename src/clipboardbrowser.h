@@ -20,7 +20,7 @@
 #ifndef CLIPBOARDBROWSER_H
 #define CLIPBOARDBROWSER_H
 
-#include <QListWidget>
+#include <QListView>
 #include <QRegExp>
 #include <QClipboard>
 #include <QBasicTimer>
@@ -28,29 +28,36 @@
 #include "qeditor.h"
 
 class ActionDialog;
+class ClipboardModel;
+class ItemDelegate;
 
-class ClipboardBrowser : public QListWidget
+class ClipboardBrowser : public QListView
 {
     Q_OBJECT
 
     public:
         ClipboardBrowser(QWidget *parent = 0);
         ~ClipboardBrowser();
-        void readSettings();
+        void readSettings(const QString &css);
         void writeSettings();
-        bool add(const QString &txt);
-        bool remove();
-        bool isCurrent(const QString &txt);
-        QString itemText(const QListWidgetItem *item = NULL) const;
-        QString itemText(int i) const { return itemText(item(i)); };
+        bool add(const QString &txt, bool ignore_empty = true);
+        void remove();
+        QString itemText(int i = -1) const;
+        QString itemText(QModelIndex ind) const;
+        void sync(bool list_to_clipboard = true);
+        QModelIndex index(int i) const {
+            return model()->index(i,0);
+        }
+        void setCurrentRow(int i) { setCurrentIndex( index(i) ); }
 
     private:
         QClipboard *m_clip;
-        QRegExp m_search;
         int m_maxitems;
         QString m_editor;
         QBasicTimer timer;
         QBasicTimer timer_save;
+        ClipboardModel *m;
+        ItemDelegate *d;
 
         // items data file
         QSettings::Format datFormat;
@@ -66,18 +73,19 @@ class ClipboardBrowser : public QListWidget
         void hideSearch();
         void escapePressed();
         void closeAllEditors();
+        void error(const QString);
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
         void clipboardChanged(QClipboard::Mode);
         void moveToClipboard(const QString &str);
-        void moveToClipboard(QListWidgetItem *item = NULL);
+        void moveToClipboard(int i);
         void filterItems(const QString &str);
         void itemModified(uint hash, const QString &str);
         void addItems(const QStringList &items);
 
     private slots:
-        void on_itemChanged(QListWidgetItem *item);
+        void on_itemChanged(int i);
         void closeEditor(QEditor *editor);
         void openEditor();
 };
