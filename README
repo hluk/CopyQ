@@ -11,12 +11,15 @@ Keyboard navigation
 ===================
 PgDown/PgUp,
 Home/End,
-Up/Down -- navigation in item list
-Escape  -- hide window
-F2      -- edit item
-Ctrl-E  -- edit item in external editor
-Delete  -- delete item
-Enter   -- put item into clipboard
+Up/Down   -- navigation in item list
+Ctrl-Up,
+Ctrl-Down -- move selected item
+Escape    -- hide window
+F2        -- edit item
+Ctrl-E    -- edit item in external editor
+Ctrl-A    -- open action dialog
+Delete    -- delete item
+Enter     -- put item into clipboard
 
 Type a number to select item with given id.
 

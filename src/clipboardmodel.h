@@ -79,6 +79,7 @@ public:
     void setSearch(const QRegExp *const re = NULL);
     bool isFiltered(int i) const; // is item filtered out
 
+    int getRowNumber(int row, bool cycle = false) const;
 private:
     QList<ClipboardItem> m_clipboardList;
     QRegExp m_re;

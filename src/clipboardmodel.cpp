@@ -74,13 +74,29 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
     return true;
 }
 
+int ClipboardModel::getRowNumber(int row, bool cycle) const
+{
+    int n = rowCount();
+    if (n == 0)
+        return -1;
+    if (row >= n)
+        return cycle ? 0 : n-1;
+    else if (row < 0)
+        return cycle ? n-1 : 0;
+    else
+        return row;
+}
+
 bool ClipboardModel::move(int pos, int newpos) {
-    if( pos < 0 || newpos < 0 || newpos >= rowCount() || newpos >= rowCount() )
+    int from = getRowNumber(pos,true);
+    int to   = getRowNumber(newpos,true);
+
+    if( from == -1 || to == -1 )
         return false;
-    if ( !beginMoveRows(QModelIndex(), pos, pos, QModelIndex(),
-                        pos < newpos ? newpos+1 : newpos) )
+    if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(),
+                        from < to ? to+1 : to) )
         return false;
-    m_clipboardList.move(pos,newpos);
+    m_clipboardList.move(from, to);
     endMoveRows();
     return true;
 }
@@ -114,28 +130,32 @@ void ClipboardModel::setSearch(const QRegExp *const re)
             int a(0), b, len;
             // test regexp
             if (m_re.indexIn(QString(), 0) != -1) {
-                // regexp was st. like ".*"
+                // regexp was st. like "x*" or "x?"
                 highlight = "<span class=\"em\">"
                             + ESCAPE(str) +
                             "</span>";
                 a = str.length();
             }
             else {
-                // highlight all
                 while ((b = m_re.indexIn(str, a)) != -1) {
                      len = m_re.matchedLength();
                      highlight += ESCAPE(str.mid(a, b-a)) +
                                     "<span class=\"em\">" +
                                     ESCAPE(str.mid(b, len)) +
                                     "</span>";
-                     a = b+len;
+                     a = b + len;
                 }
             }
-            if ( a != str.length() )
-                highlight += ESCAPE(str.mid(a));
-
-            m_clipboardList[i].highlight(highlight);
-            m_clipboardList[i].setFiltered(a==0);
+            // filter items
+            if ( highlight.isEmpty() )
+                m_clipboardList[i].setFiltered(true);
+            else {
+                if ( a != str.length() )
+                    highlight += ESCAPE(str.mid(a));
+                // highlight matched
+                m_clipboardList[i].highlight(highlight);
+                m_clipboardList[i].setFiltered(false);
+            }
         }
     }
     emit dataChanged( index(0,0), index(rowCount()-1,0) );

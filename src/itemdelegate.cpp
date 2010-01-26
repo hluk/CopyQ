@@ -92,6 +92,7 @@ void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
         if (!v.isValid())
             v = QVariant(editor->property(n).userType(), (const void *)0);
         editor->setProperty(n, v);
+        (qobject_cast<QPlainTextEdit*>(editor))->selectAll();
     }
 }
 

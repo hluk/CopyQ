@@ -52,6 +52,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 
     ui->setupUi(this);
     ui->clipboardBrowser->readSettings(css);
+    ui->clipboardBrowser->startMonitoring();
 
     // main window: icon & title
     this->setWindowTitle("CopyQ");

@@ -48,7 +48,9 @@ class ClipboardBrowser : public QListView
         QModelIndex index(int i) const {
             return model()->index(i,0);
         }
-        void setCurrentRow(int i) { setCurrentIndex( index(i) ); }
+        void setCurrent(int row, bool cycle = false);
+        void startMonitoring();
+        void stopMonitoring();
 
     private:
         QClipboard *m_clip;
@@ -67,6 +69,7 @@ class ClipboardBrowser : public QListView
     protected:
         void keyPressEvent(QKeyEvent *event);
         void timerEvent(QTimerEvent *event);
+        void dataChanged(const QModelIndex &first, const QModelIndex &last);
 
     signals:
         void requestSearch(QEvent *event);
