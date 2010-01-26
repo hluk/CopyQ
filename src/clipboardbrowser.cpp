@@ -503,12 +503,16 @@ void ClipboardBrowser::sync(bool list_to_clipboard)
     // clipboard -> first item
     else {
         text = m_clip->text();
-        if( text != itemText(0) )
-            add(text);
+        if( text != itemText(0) ) {
+            if ( !add(text) )
+                return;
+        }
         else {
             text = m_clip->text(QClipboard::Selection);
-            if( text != itemText(0) )
-                add(text);
+            if( text != itemText(0) ) {
+                if ( !add(text) )
+                    return;
+            }
             else
                 return;
         }
