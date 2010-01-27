@@ -211,8 +211,8 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
         saveItems();
         timer_save.stop();
     }
-//    else
-//        QListView::timerEvent(event);
+    else
+        QListView::timerEvent(event);
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
@@ -388,8 +388,7 @@ bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
         m->setData(ind, txt);
 
         // filter item
-        const QRegExp *re = m->search();
-        if ( !re->isEmpty() && re->indexIn(txt) != -1 )
+        if ( m->isFiltered(0) )
             setRowHidden(0,true);
 
         // list size limit

@@ -12,6 +12,8 @@
 static const QRegExp re_spaces("  | |\t|\n+$");
 #define ESCAPE(str) (Qt::escape(str).replace(re_spaces,"&nbsp;").replace('\n', "<br />"))
 
+const QModelIndex empty_index;
+
 class ClipboardItem : public QString
 {
 public:
@@ -30,11 +32,9 @@ public:
             m_highlight = new QString(str);
     }
 
-    QString highlighted() const
+    const QString &highlighted() const
     {
-        if (m_highlight)
-            return *m_highlight;
-        else
+        if ( !m_highlight )
             highlight( ESCAPE(*(dynamic_cast<const QString*>(this))) );
 
         return *m_highlight;
@@ -82,6 +82,7 @@ public:
     // search
     const QRegExp *search() const { return &m_re; }
     void setSearch(const QRegExp *const re = NULL);
+    void setSearch(int i);
     bool isFiltered(int i) const; // is item filtered out
 
     int getRowNumber(int row, bool cycle = false) const;

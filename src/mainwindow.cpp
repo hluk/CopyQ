@@ -237,6 +237,6 @@ void MainWindow::timerEvent(QTimerEvent *event)
         ui->clipboardBrowser->filterItems( ui->searchBar->text() );
         timer_search.stop();
     }
-//    else
-//        QMainWindow::timerEvent(event);
+    else
+        QMainWindow::timerEvent(event);
 }

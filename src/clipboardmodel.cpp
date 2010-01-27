@@ -43,7 +43,9 @@ Qt::ItemFlags ClipboardModel::flags(const QModelIndex &index) const
 bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
     if (index.isValid() && role == Qt::EditRole) {
-        m_clipboardList.replace(index.row(), value.toString());
+        int row = index.row();
+        m_clipboardList.replace(row, value.toString());
+        setSearch(row);
         emit dataChanged(index, index);
         return true;
     }
@@ -52,7 +54,7 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
 
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
-    beginInsertRows(QModelIndex(), position, position+rows-1);
+    beginInsertRows(empty_index, position, position+rows-1);
 
     for (int row = 0; row < rows; ++row) {
         m_clipboardList.insert( position, QString() );
@@ -64,7 +66,7 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 
 bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 {
-    beginRemoveRows(QModelIndex(), position, position+rows-1);
+    beginRemoveRows(empty_index, position, position+rows-1);
 
     for (int row = 0; row < rows; ++row) {
         m_clipboardList.removeAt(position);
@@ -93,7 +95,7 @@ bool ClipboardModel::move(int pos, int newpos) {
 
     if( from == -1 || to == -1 )
         return false;
-    if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(),
+    if ( !beginMoveRows(empty_index, from, from, empty_index,
                         from < to ? to+1 : to) )
         return false;
     m_clipboardList.move(from, to);
@@ -104,6 +106,35 @@ bool ClipboardModel::move(int pos, int newpos) {
 bool ClipboardModel::isFiltered(int i) const
 {
     return m_clipboardList[i].isFiltered();
+}
+
+void ClipboardModel::setSearch(int i)
+{
+    const QString &str = m_clipboardList[i];
+    QString highlight;
+
+    int a(0), b, len;
+
+    while ((b = m_re.indexIn(str, a)) != -1) {
+         len = m_re.matchedLength();
+         if ( len == 0 )
+             break;
+         highlight += ESCAPE(str.mid(a, b-a)) +
+                        "<span class=\"em\">" +
+                        ESCAPE(str.mid(b, len)) +
+                        "</span>";
+         a = b + len;
+    }
+    // filter items
+    if ( highlight.isEmpty() )
+        m_clipboardList[i].setFiltered(true);
+    else {
+        if ( a != str.length() )
+            highlight += ESCAPE(str.mid(a));
+        // highlight matched
+        m_clipboardList[i].setFiltered(false);
+        m_clipboardList[i].highlight(highlight);
+    }
 }
 
 void ClipboardModel::setSearch(const QRegExp *const re)
@@ -121,33 +152,8 @@ void ClipboardModel::setSearch(const QRegExp *const re)
             return; // search already set
 
         m_re = *re;
-        for( int i = 0; i<rowCount(); i++) {
-            const QString &str = m_clipboardList[i];
-            QString highlight;
-
-            int a(0), b, len;
-
-            while ((b = m_re.indexIn(str, a)) != -1) {
-                 len = m_re.matchedLength();
-                 if ( len == 0 )
-                     break;
-                 highlight += ESCAPE(str.mid(a, b-a)) +
-                                "<span class=\"em\">" +
-                                ESCAPE(str.mid(b, len)) +
-                                "</span>";
-                 a = b + len;
-            }
-            // filter items
-            if ( highlight.isEmpty() )
-                m_clipboardList[i].setFiltered(true);
-            else {
-                if ( a != str.length() )
-                    highlight += ESCAPE(str.mid(a));
-                // highlight matched
-                m_clipboardList[i].setFiltered(false);
-                m_clipboardList[i].highlight(highlight);
-            }
-        }
+        for( int i = 0; i<rowCount(); i++)
+            setSearch(i);
     }
     emit dataChanged( index(0,0), index(rowCount()-1,0) );
 }
