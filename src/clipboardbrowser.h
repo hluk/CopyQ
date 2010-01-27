@@ -49,6 +49,7 @@ class ClipboardBrowser : public QListView
             return model()->index(i,0);
         }
         void setCurrent(int row, bool cycle = false);
+
         void startMonitoring();
         void stopMonitoring();
 
@@ -81,6 +82,7 @@ class ClipboardBrowser : public QListView
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
         void clipboardChanged(QClipboard::Mode);
+        void moveToClipboard(const QModelIndex &ind);
         void moveToClipboard(const QString &str);
         void moveToClipboard(int i);
         void filterItems(const QString &str);

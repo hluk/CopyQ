@@ -1,35 +1,48 @@
 /* http://doc.trolltech.com/stylesheet-examples.html */
 * {
+}
+
+.item, QListView, QPlainTextEdit, QLineEdit#searchBar {
     color: white;
-    font-family: DejaVu Sans Mono, Envy Code R, Consolas, Bitstream Vera Sans Mono;
-    font-size: 10pt;
+    background-color: #222;
+    font-size: 12pt;
+    font-family: DejaVu Sans Mono, Envy Code R, Consolas, Bitstream Vera Sans Mono !important;
+}
+
+QMainWindow {
+    background-color: #222;
+}
+
+QLabel#inputText, QLineEdit {
+    font-family: DejaVu Sans Mono, Envy Code R, Consolas, Bitstream Vera Sans Mono !important;
 }
 
 /* item text */
-.txt {
+.text {
 }
 
 /* item number */
 .number {
-    font-size: 6pt;
+    font-size: 7pt;
     color: #aca;
+    background-color: transparent;
 }
 
 /* matched text */
 .em {
     color: yellow;
+    text-decoration: underline;
 }
 
 QToolTip, QScrollBar {
     color: black;
 }
 
-QWidget {
-    background-color: #222;
-}
-
 QListView::item:alternate {
-    background-color: #303930;
+    background-color: #304030;
+    border-width: 1px;
+    border-style: solid;
+    border-color: #405540
 }
 
 QListView::item:selected {

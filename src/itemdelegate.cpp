@@ -37,9 +37,7 @@ QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &options, const QModelI
     QTextDocument doc;
     QString str = index.data(Qt::DisplayRole).toString();
     doc.setTextWidth(options.rect.width());
-    doc.setHtml(
-            QString("<div class=\"number\">99</div><div class=\"txt\">")
-            + str + QString("</div>") );
+    doc.setHtml( str.arg(QString("999")) );
     return QSize(doc.idealWidth(), doc.size().height());
 }
 
@@ -103,15 +101,6 @@ void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, cons
         model->setData(index, editor->property(n));
 }
 
-QString ItemDelegate::getHtml(QString &body, int row) const
-{
-    QString html =
-            QString("<div class=\"number\">%1").arg(row) + "</div>"
-            "<div class=\"txt\">" + body + "</div>";
-
-    return html;
-}
-
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItemV4 options(option);
@@ -126,7 +115,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     //QTextDocument doc;
     //doc.setDefaultStyleSheet(m_css);
-    doc->setHtml( getHtml(options.text, index.row()) );
+    doc->setHtml( options.text.arg(index.row()) );
 
     // get focus rect and selection background
     QString text = options.text;

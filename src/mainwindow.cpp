@@ -181,7 +181,7 @@ void MainWindow::enterSearchMode(QEvent *event)
 
 void MainWindow::enterBrowseMode(bool browsemode)
 {
-    SearchBar *l = ui->searchBar;
+    QLineEdit *l = ui->searchBar;
 
     if (m_browsemode == browsemode) return;
     m_browsemode = browsemode;

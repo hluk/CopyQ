@@ -19,7 +19,7 @@
      <number>0</number>
     </property>
     <item>
-     <widget class="SearchBar" name="searchBar"/>
+     <widget class="QLineEdit" name="searchBar"/>
     </item>
     <item>
      <widget class="ClipboardBrowser" name="clipboardBrowser">
@@ -54,11 +54,6 @@
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
-  <customwidget>
-   <class>SearchBar</class>
-   <extends>QLineEdit</extends>
-   <header>searchbar.h</header>
-  </customwidget>
   <customwidget>
    <class>ClipboardBrowser</class>
    <extends>QListView</extends>

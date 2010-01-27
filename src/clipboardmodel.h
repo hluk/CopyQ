@@ -7,8 +7,10 @@
 #include <QList>
 // Qt::escape
 #include <QTextDocument>
+#include <QDebug>
 
-#define ESCAPE(str) (Qt::escape(str).replace('\n', "<br />"))
+static const QRegExp re_spaces("  | |\t|\n+$");
+#define ESCAPE(str) (Qt::escape(str).replace(re_spaces,"&nbsp;").replace('\n', "<br />"))
 
 class ClipboardItem : public QString
 {
@@ -22,10 +24,12 @@ public:
 
     void highlight(const QString &str) const
     {
+        QString newstr = QString("<div class=\"item\"><div class=\"number\">%1</div><div class=\"text\">")
+                 + str + QString("</div></div>");
         if (m_highlight)
-            *m_highlight = str;
+            *m_highlight = newstr;
         else
-            m_highlight = new QString(str);
+            m_highlight = new QString(newstr);
     }
 
     QString highlighted() const
@@ -47,7 +51,10 @@ public:
     }
 
     bool isFiltered() const { return m_filtered; }
-    void setFiltered(bool filtered) { m_filtered = filtered; }
+    void setFiltered(bool filtered) {
+        m_filtered = filtered;
+        removeHighlight();
+    }
 
 private:
     mutable QString *m_highlight;

@@ -20,12 +20,7 @@
 #include "clipboardbrowser.h"
 #include <QDebug>
 #include <QKeyEvent>
-#include <QFile>
 #include <QApplication>
-#include <QTextBlock>
-#include <QTextDocumentFragment>
-#include <QScrollBar>
-#include <QToolTip>
 #include <X11/extensions/XInput.h>
 #include <unistd.h> //usleep
 #include <actiondialog.h>
@@ -74,10 +69,11 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     setModel(m);
     delete old_model;
 
-    connect( this, SIGNAL(itemChanged(QListWidgetItem *)),
-            SLOT(on_itemChanged(QListWidgetItem *)));
-    connect( this, SIGNAL(itemDoubleClicked(QListWidgetItem *)),
-            SLOT(moveToClipboard(QListWidgetItem *)));
+    connect( this, SIGNAL(doubleClicked(QModelIndex)),
+            SLOT(moveToClipboard(QModelIndex)));
+
+    // ScrollPerItem doesn't work well with hidden items
+    setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 }
 
 void ClipboardBrowser::startMonitoring()
@@ -168,20 +164,22 @@ void ClipboardBrowser::filterItems(const QString &str)
     }
 
     // hide filtered items
-    bool noselected = true;
+    reset();
+    int first = -1;
     for(int i = 0; i < m->rowCount(); ++i) {
-            if (m->isFiltered(i))
-                setRowHidden(i,true);
-            else {
-                setRowHidden(i,false);
-                // select first visible
-                if (noselected) {
-                    noselected = false;
-                    setCurrent(i);
-                }
-            }
+        if ( m->isFiltered(i) )
+            setRowHidden(i,true);
+        else if (first == -1)
+                first = i;
     }
-    //scrollToTop();
+    // select first visible
+    setCurrentIndex( index(first) );
+}
+
+void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
+{
+    if ( ind.isValid() )
+        moveToClipboard(ind.row());
 }
 
 void ClipboardBrowser::moveToClipboard(const QString &txt)
@@ -257,9 +255,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             int from = currentIndex().row();
             int to = (event->key() == Qt::Key_Up) ? (from-1) : (from+1);
             if ( m->move(from, to) ) {
-                if (from == 0 || to == 0)
+                if (from == 0 || to == 0 || to == m->rowCount())
                     sync();
-                scrollTo( currentIndex(), QAbstractItemView::EnsureVisible );
+                scrollTo( currentIndex() );
                 repaint();
             }
             break;
@@ -273,7 +271,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         // navigation
         case Qt::Key_Up:
-            ind = currentIndex();
             if ( selectedIndexes().isEmpty() )
                 setCurrent(-1, true);
             else
@@ -316,6 +313,7 @@ void ClipboardBrowser::dataChanged(const QModelIndex &first, const QModelIndex &
 {
     for( int i = first.row(); i<=last.row(); ++i)
         on_itemChanged(i);
+    QListView::dataChanged(first, last);
 }
 
 void ClipboardBrowser::on_itemChanged( int i )
@@ -330,9 +328,21 @@ void ClipboardBrowser::on_itemChanged( int i )
 
 void ClipboardBrowser::setCurrent(int row, bool cycle)
 {
+    // direction
+    int cur = currentIndex().row();
+    int dir = cur < row ? 1 : -1;
+
+    // select first visible
     int i = m->getRowNumber(row, cycle);
-    setCurrentIndex( index(i) );
-    scrollTo( index(i), QAbstractItemView::EnsureVisible );
+    cur = i;
+    while ( isRowHidden(i) ) {
+        i = m->getRowNumber(i+dir, cycle);
+        if ( (!cycle && (i==0 || i==m->rowCount()-1)) || i == cur)
+            break;
+    }
+
+    QModelIndex ind = index(i);
+    setCurrentIndex(ind);
 }
 
 void ClipboardBrowser::remove()

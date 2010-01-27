@@ -8,7 +8,6 @@ FORMS += mainwindow.ui \
     actiondialog.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
-    searchbar.h \
     qeditor.h \
     actiondialog.h \
     clipboardmodel.h \
@@ -16,7 +15,6 @@ HEADERS += mainwindow.h \
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
-    searchbar.cpp \
     qeditor.cpp \
     actiondialog.cpp \
     clipboardmodel.cpp \

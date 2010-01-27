@@ -113,10 +113,8 @@ void ClipboardModel::setSearch(const QRegExp *const re)
             return; // search already empty
 
         m_re = QRegExp();
-        for( int i = 0; i<rowCount(); i++) {
-            m_clipboardList[i].removeHighlight();
+        for( int i = 0; i<rowCount(); i++)
             m_clipboardList[i].setFiltered(false);
-        }
     }
     else {
         if ( m_re == *re )
@@ -128,23 +126,16 @@ void ClipboardModel::setSearch(const QRegExp *const re)
             QString highlight;
 
             int a(0), b, len;
-            // test regexp
-            if (m_re.indexIn(QString(), 0) != -1) {
-                // regexp was st. like "x*" or "x?"
-                highlight = "<span class=\"em\">"
-                            + ESCAPE(str) +
-                            "</span>";
-                a = str.length();
-            }
-            else {
-                while ((b = m_re.indexIn(str, a)) != -1) {
-                     len = m_re.matchedLength();
-                     highlight += ESCAPE(str.mid(a, b-a)) +
-                                    "<span class=\"em\">" +
-                                    ESCAPE(str.mid(b, len)) +
-                                    "</span>";
-                     a = b + len;
-                }
+
+            while ((b = m_re.indexIn(str, a)) != -1) {
+                 len = m_re.matchedLength();
+                 if ( len == 0 )
+                     break;
+                 highlight += ESCAPE(str.mid(a, b-a)) +
+                                "<span class=\"em\">" +
+                                ESCAPE(str.mid(b, len)) +
+                                "</span>";
+                 a = b + len;
             }
             // filter items
             if ( highlight.isEmpty() )
@@ -153,8 +144,8 @@ void ClipboardModel::setSearch(const QRegExp *const re)
                 if ( a != str.length() )
                     highlight += ESCAPE(str.mid(a));
                 // highlight matched
-                m_clipboardList[i].highlight(highlight);
                 m_clipboardList[i].setFiltered(false);
+                m_clipboardList[i].highlight(highlight);
             }
         }
     }
