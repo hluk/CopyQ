@@ -62,6 +62,9 @@
    <value key="buildConfiguration" type="int">2</value>
    <value key="buildDirectory" type="QString">/home/lukas/dev/qt/copyq/debug</value>
    <value key="useShadowBuild" type="bool">true</value>
+   <valuelist key="userEnvironmentChanges" type="QVariantList">
+    <value type="QString">PWD=/home/lukas</value>
+   </valuelist>
   </valuemap>
  </data>
  <data>
@@ -132,7 +135,6 @@
     <value type="QString">-r</value>
     <value type="QString">CONFIG+=debug</value>
     <value type="QString">-spec</value>
-    <value type="QString"></value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/qmake</value>
    <value key="abstractProcess.enabled" type="bool">false</value>
@@ -140,7 +142,6 @@
    <value key="buildConfiguration" type=""></value>
    <valuelist key="qmakeArgs" type="QVariantList">
     <value type="QString">-spec</value>
-    <value type="QString"></value>
    </valuelist>
   </valuemap>
  </data>
@@ -197,14 +198,16 @@
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">CXXFLAGS=-O0 -g</value>
+    <value type="QString">CXXFLAGS=-O0 -g -pg</value>
+    <value type="QString">LFLAGS=-O0 -g -pg</value>
     <value type="QString">-w</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
    <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/debug</value>
    <valuelist key="makeargs" type="QVariantList">
-    <value type="QString">CXXFLAGS=-O0 -g</value>
+    <value type="QString">CXXFLAGS=-O0 -g -pg</value>
+    <value type="QString">LFLAGS=-O0 -g -pg</value>
    </valuelist>
   </valuemap>
  </data>
