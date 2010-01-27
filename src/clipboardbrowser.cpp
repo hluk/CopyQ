@@ -208,7 +208,7 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
             add(m_clip->text(QClipboard::Selection));
     }
     else if ( event->timerId() == timer_save.timerId() ) {
-        writeSettings();
+        saveItems();
         timer_save.stop();
     }
 //    else
@@ -420,6 +420,10 @@ void ClipboardBrowser::readSettings(const QString &css)
     // restore configuration
     m_maxitems = settings.value("maxitems", 400).toInt();
     m_editor = settings.value("editor", "gvim -f %1").toString();
+    d->setItemFormat( settings.value("format",
+        "<div class=\"item\"><div class=\"number\">%1</div><div class=\"text\">%2</div></div>"
+        ).toString()
+    );
 
     // restore items
     QSettings::Format datFormat(
@@ -445,6 +449,15 @@ void ClipboardBrowser::readSettings(const QString &css)
 }
 
 void ClipboardBrowser::writeSettings()
+{
+    QSettings settings;
+
+    settings.setValue( "maxitems", m_maxitems );
+    settings.setValue( "editor", m_editor );
+    settings.setValue( "format", d->itemFormat() );
+}
+
+void ClipboardBrowser::saveItems()
 {
     QStringList m_lst;
     for(int i = 0; i < m->rowCount(); ++i)

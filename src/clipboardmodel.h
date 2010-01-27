@@ -24,12 +24,10 @@ public:
 
     void highlight(const QString &str) const
     {
-        QString newstr = QString("<div class=\"item\"><div class=\"number\">%1</div><div class=\"text\">")
-                 + str + QString("</div></div>");
         if (m_highlight)
-            *m_highlight = newstr;
+            *m_highlight = str;
         else
-            m_highlight = new QString(newstr);
+            m_highlight = new QString(str);
     }
 
     QString highlighted() const

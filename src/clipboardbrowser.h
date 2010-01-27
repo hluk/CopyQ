@@ -40,6 +40,7 @@ class ClipboardBrowser : public QListView
         ~ClipboardBrowser();
         void readSettings(const QString &css);
         void writeSettings();
+        void saveItems();
         bool add(const QString &txt, bool ignore_empty = true);
         void remove();
         QString itemText(int i = -1) const;

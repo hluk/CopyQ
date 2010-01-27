@@ -29,16 +29,15 @@
 
 ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
-    doc = new QTextDocument(parent);
+    m_doc = new QTextDocument(this);
 }
 
 QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
-    QTextDocument doc;
     QString str = index.data(Qt::DisplayRole).toString();
-    doc.setTextWidth(options.rect.width());
-    doc.setHtml( str.arg(QString("999")) );
-    return QSize(doc.idealWidth(), doc.size().height());
+    m_doc->setTextWidth(options.rect.width());
+    m_doc->setHtml( m_format.arg(QString("999")).arg(str) );
+    return QSize(m_doc->idealWidth(), m_doc->size().height());
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -115,7 +114,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     //QTextDocument doc;
     //doc.setDefaultStyleSheet(m_css);
-    doc->setHtml( options.text.arg(index.row()) );
+    m_doc->setHtml( m_format.arg(index.row()).arg(options.text) );
 
     // get focus rect and selection background
     QString text = options.text;
@@ -129,6 +128,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
     painter->translate(options.rect.left(), options.rect.top());
 //    painter->setClipRect(clip);
-    doc->drawContents(painter,clip);
+    m_doc->drawContents(painter,clip);
     painter->restore();
 }

@@ -135,6 +135,7 @@ void MainWindow::writeSettings()
     settings.endGroup();
 
     ui->clipboardBrowser->writeSettings();
+    ui->clipboardBrowser->saveItems();
 }
 
 void MainWindow::readSettings()

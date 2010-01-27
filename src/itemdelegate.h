@@ -37,14 +37,23 @@ class ItemDelegate : public QStyledItemDelegate
         bool eventFilter(QObject *object, QEvent *event);
 
         void setStyleSheet(const QString &css) {
-            doc->setDefaultStyleSheet(css);
+            m_doc->setDefaultStyleSheet(css);
+        }
+
+        void setItemFormat(const QString &format) {
+            m_format = format;
+        }
+
+        const QString &itemFormat() const {
+            return m_format;
         }
 
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
 private:
-        QTextDocument* doc;
+        QTextDocument* m_doc;
+        QString m_format;
 };
 
 #endif
