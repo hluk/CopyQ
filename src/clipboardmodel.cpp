@@ -115,6 +115,11 @@ void ClipboardModel::setSearch(int i)
 
     int a(0), b, len;
 
+    if ( m_re.isEmpty() ) {
+        m_clipboardList[i].setFiltered(false);
+        return;
+    }
+
     while ((b = m_re.indexIn(str, a)) != -1) {
          len = m_re.matchedLength();
          if ( len == 0 )
@@ -144,16 +149,14 @@ void ClipboardModel::setSearch(const QRegExp *const re)
             return; // search already empty
 
         m_re = QRegExp();
-        for( int i = 0; i<rowCount(); i++)
-            m_clipboardList[i].setFiltered(false);
     }
-    else {
-        if ( m_re == *re )
-            return; // search already set
-
+    else if ( m_re == *re )
+        return; // search already set
+    else
         m_re = *re;
-        for( int i = 0; i<rowCount(); i++)
-            setSearch(i);
-    }
+
+    for( int i = 0; i<rowCount(); i++)
+        setSearch(i);
+
     emit dataChanged( index(0,0), index(rowCount()-1,0) );
 }
