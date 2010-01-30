@@ -233,7 +233,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             break;
         // CTRL-N: create new item
         case Qt::Key_N:
-            add("<NEW>", false);
+            // new text will allocate more space (lines) for editor
+            add( QString("---NEW---\n\n\n\n\n\n\n\n---NEW---"), false );
+            selectionModel()->clearSelection();
             setCurrent(0);
             edit( index(0) );
             break;
@@ -246,7 +248,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 connect( actionDialog, SIGNAL(error(const QString)),
                          this, SIGNAL(error(const QString)) );
             }
-            actionDialog->setInput( itemText() );
+            actionDialog->setInput( selectedText() );
             actionDialog->exec();
             break;
         // CTRL-Up/Down: move item
@@ -274,13 +276,15 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             if ( selectedIndexes().isEmpty() )
                 setCurrent(-1, true);
             else
-                setCurrent( currentIndex().row()-1, true );
+                setCurrent( currentIndex().row()-1, true,
+                            event->modifiers() == Qt::ShiftModifier );
             break;
         case Qt::Key_Down:
             if ( selectedIndexes().isEmpty() )
                 setCurrent(0);
             else
-                setCurrent( currentIndex().row()+1, true );
+                setCurrent( currentIndex().row()+1, true,
+                            event->modifiers() == Qt::ShiftModifier );
             break;
         case Qt::Key_Left:
         case Qt::Key_Right:
@@ -326,7 +330,7 @@ void ClipboardBrowser::on_itemChanged( int i )
         sync();
 }
 
-void ClipboardBrowser::setCurrent(int row, bool cycle)
+void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
 {
     // direction
     int cur = currentIndex().row();
@@ -342,7 +346,12 @@ void ClipboardBrowser::setCurrent(int row, bool cycle)
     }
 
     QModelIndex ind = index(i);
-    setCurrentIndex(ind);
+    if (selection) {
+        selectionModel()->setCurrentIndex(ind,
+            QItemSelectionModel::Select);
+    }
+    else
+        setCurrentIndex(ind);
 }
 
 void ClipboardBrowser::remove()
@@ -463,6 +472,24 @@ void ClipboardBrowser::saveItems()
         m_lst.append( itemText(i) );
 
     datSettings.setValue("items", m_lst);
+}
+
+const QString ClipboardBrowser::selectedText() const
+{
+    QString result;
+    QItemSelectionModel *sel = selectionModel();
+
+    QModelIndexList list = sel->selectedIndexes();
+    foreach(QModelIndex ind, list) {
+        if ( !result.isEmpty() )
+            result += QString('\n');
+        result += itemText(ind);
+    }
+
+    if ( result.isEmpty() )
+        result = itemText(0);
+
+    return result;
 }
 
 QString ClipboardBrowser::itemText(int i) const

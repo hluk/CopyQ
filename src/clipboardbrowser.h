@@ -49,10 +49,14 @@ class ClipboardBrowser : public QListView
         QModelIndex index(int i) const {
             return model()->index(i,0);
         }
-        void setCurrent(int row, bool cycle = false);
+        void setCurrent(int row, bool cycle = false, bool selection = false);
 
         void startMonitoring();
         void stopMonitoring();
+
+        // if items selected: return concatenation of selected items
+        // else: return text of first item
+        const QString selectedText() const;
 
     private:
         QClipboard *m_clip;

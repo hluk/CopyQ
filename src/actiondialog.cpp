@@ -77,9 +77,11 @@ void ActionDialog::accept()
     // execute command (with input if needed)
     proc.setProcessChannelMode(QProcess::SeparateChannels);
     proc.start(cmd, mode);
-    // TODO: warn user
-    if ( !proc.waitForStarted() )
+
+    if ( !proc.waitForStarted() ) {
+        emit error(proc.errorString());
         return;
+    }
 
     // write input
     if (mode & QIODevice::WriteOnly) {
@@ -109,6 +111,8 @@ void ActionDialog::accept()
                 if ( !sep.isEmpty() ) {
                     items = stdout.split(sep);
                 }
+                else
+                    items.append(stdout);
             }
         }
     }
