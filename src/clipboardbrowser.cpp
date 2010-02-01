@@ -343,21 +343,26 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
 void ClipboardBrowser::remove()
 {
     QItemSelectionModel *sel = selectionModel();
-
     QModelIndexList list = sel->selectedIndexes();
-    int i = 0;
-    int n = 0;
-    foreach(QModelIndex ind, list) {
-        i = ind.row();
-        m->removeRow(i-n);
-        ++n;
-        if ( i == 0 )
+
+    if ( !list.isEmpty() ) {
+        int i;
+        bool need_sync = false;
+
+        do {
+            i = list.first().row();
+            if ( i == 0 )
+                need_sync = true;
+            m->removeRow(i);
+            list = sel->selectedIndexes();
+        } while( !list.isEmpty() );
+
+        // select next
+        setCurrent(i);
+
+        if (need_sync)
             sync();
-        if ( !timer_save.isActive() )
-            timer_save.start(30000, this);
     }
-    // select next
-    setCurrent(i-n+1);
 }
 
 bool ClipboardBrowser::add(const QImage &image)
