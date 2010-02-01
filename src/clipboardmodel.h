@@ -8,6 +8,7 @@
 // Qt::escape
 #include <QTextDocument>
 #include <QDebug>
+#include <QImage>
 
 static const QRegExp re_spaces("  | |\t|\n+$");
 #define ESCAPE(str) (Qt::escape(str).replace(re_spaces,"&nbsp;").replace('\n', "<br />"))
@@ -18,13 +19,15 @@ class ClipboardItem : public QString
 {
 public:
     ClipboardItem(const QString &str) : QString(str),
-        m_highlight(NULL), m_filtered(false) {}
+        m_highlight(NULL), m_image(NULL), m_filtered(false) {}
+
     ~ClipboardItem()
     {
         removeHighlight();
+        removeImage();
     }
 
-    void highlight(const QString &str) const
+    void setHighlight(const QString &str) const
     {
         if (m_highlight)
             *m_highlight = str;
@@ -35,7 +38,7 @@ public:
     const QString &highlighted() const
     {
         if ( !m_highlight )
-            highlight( ESCAPE(*(dynamic_cast<const QString*>(this))) );
+            setHighlight( ESCAPE(*(dynamic_cast<const QString*>(this))) );
 
         return *m_highlight;
     }
@@ -48,14 +51,38 @@ public:
         }
     }
 
+    void removeImage()
+    {
+        if ( m_image ) {
+            delete m_image;
+            m_image =  NULL;
+        }
+    }
+
     bool isFiltered() const { return m_filtered; }
     void setFiltered(bool filtered) {
         m_filtered = filtered;
         removeHighlight();
     }
 
+    // image
+    void setImage(const QImage &image) {
+        removeHighlight();
+        clear();
+        append( QString("IMAGE") );
+        if (!m_image)
+            m_image = new QImage(image);
+        else
+            *m_image = image;
+    }
+
+    const QImage *image() const {
+        return m_image;
+    }
+
 private:
     mutable QString *m_highlight;
+    QImage *m_image;
     bool m_filtered;
 };
 
@@ -74,6 +101,9 @@ public:
                   int role = Qt::EditRole);
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
+    void clear() {
+        m_clipboardList.clear();
+    }
 
     void setMaxItems(int max) { m_max = max; }
 
@@ -86,6 +116,18 @@ public:
     bool isFiltered(int i) const; // is item filtered out
 
     int getRowNumber(int row, bool cycle = false) const;
+
+    bool isImage(int row) const {
+        return row < rowCount() &&
+                m_clipboardList[row].image() != NULL;
+    }
+    const QImage image(int row) const {
+        if ( isImage(row) )
+            return *(m_clipboardList[row].image());
+        else
+            return QImage();
+    }
+
 private:
     QList<ClipboardItem> m_clipboardList;
     QRegExp m_re;

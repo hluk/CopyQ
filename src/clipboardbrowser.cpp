@@ -27,20 +27,6 @@
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
 
-inline bool readDatFile(QIODevice &device, QSettings::SettingsMap &map)
-{
-    QDataStream in(&device);
-    in >> map["items"];
-    return true;
-}
-
-inline bool writeDatFile(QIODevice &device, const QSettings::SettingsMap &map)
-{
-    QDataStream out(&device);
-    out << map["items"];
-    return true;
-}
-
 extern int error_handler(Display *dsp, XErrorEvent *err)
 {
     char buff[256];
@@ -50,14 +36,14 @@ extern int error_handler(Display *dsp, XErrorEvent *err)
     return 0;
 }
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    datFormat( QSettings::registerFormat( QString("dat"), readDatFile, writeDatFile) ),
-    datSettings( datFormat, QSettings::UserScope,
-            QCoreApplication::organizationName(),
-            QCoreApplication::applicationName() )
+ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent)
 {
     m_clip = QApplication::clipboard();
     actionDialog = NULL;
+
+    // set new model
+    m = new ClipboardModel();
+    setModel(m);
 
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -323,10 +309,10 @@ void ClipboardBrowser::dataChanged(const QModelIndex &first, const QModelIndex &
 void ClipboardBrowser::on_itemChanged( int i )
 {
     // remove empty item
-    if ( itemText(i).indexOf( QRegExp("^\\s*$") ) != -1 )
+    if ( !m->isImage(i) && itemText(i).indexOf( QRegExp("^\\s*$") ) != -1 )
         m->removeRow(i);
     // first item (clipboard contents) changed
-    else if ( i == 0 )
+    if ( i == 0 )
         sync();
 }
 
@@ -374,6 +360,14 @@ void ClipboardBrowser::remove()
     setCurrent(i-n+1);
 }
 
+bool ClipboardBrowser::add(const QImage &image)
+{
+    m->insertRow(0);
+    QModelIndex ind = index(0);
+    m->setData(ind, image);
+    return true;
+}
+
 bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
 {
     // ignore empty
@@ -412,6 +406,14 @@ bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
     return true;
 }
 
+bool ClipboardBrowser::add(const QVariant &value)
+{
+    if( value.type() == QVariant::Image )
+        return add( value.value<QImage>() );
+    else
+        return add( value.toString() );
+}
+
 void ClipboardBrowser::addItems(const QStringList &items) {
     QStringList::const_iterator it( items.end()-1 );
     for(; it != items.begin()-1; --it)
@@ -434,22 +436,20 @@ void ClipboardBrowser::readSettings(const QString &css)
     );
 
     // restore items
-    QSettings::Format datFormat(
-            QSettings::registerFormat( QString("dat"), readDatFile, writeDatFile) );
-    QSettings datSettings( datFormat, QSettings::UserScope,
-            QCoreApplication::organizationName(),
-            QCoreApplication::applicationName() );
-    QStringList items = datSettings.value("items", QStringList()).toStringList();
-
-    // set new model
-    m = new ClipboardModel(items);
-    QItemSelectionModel *old_model = selectionModel();
-    setModel(m);
-    delete old_model;
-
+    m->clear();
     m->setMaxItems( settings.value("maxitems", 400).toInt() );
-    // TODO: set external editor
-    //m->setEditor( settings.value("editor", "gvim -f %1").toString() );
+
+    QFile file( dataFilename() );
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    while( !in.atEnd() ) {
+        QVariant v;
+        in >> v;
+        if ( v.type() == QVariant::Image )
+            add( v.value<QImage>() );
+        else
+            add( v.toString() );
+    }
 
     timer_save.stop();
 
@@ -465,13 +465,29 @@ void ClipboardBrowser::writeSettings()
     settings.setValue( "format", d->itemFormat() );
 }
 
+const QString ClipboardBrowser::dataFilename() const
+{
+    // do not use registry in windows
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                       QCoreApplication::organizationName(),
+                       QCoreApplication::applicationName());
+    // ini -> dat
+    QString datfilename = settings.fileName();
+    datfilename.replace( QRegExp("ini$"),QString("dat") );
+
+    return datfilename;
+}
+
 void ClipboardBrowser::saveItems()
 {
-    QStringList m_lst;
-    for(int i = 0; i < m->rowCount(); ++i)
-        m_lst.append( itemText(i) );
+    QFile file( dataFilename() );
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
 
-    datSettings.setValue("items", m_lst);
+    // save in reverse order so the items
+    // can be later restored in right order
+    for(int i = m->rowCount()-1; i >= 0; --i)
+        out << itemData(i);
 }
 
 const QString ClipboardBrowser::selectedText() const
@@ -541,37 +557,49 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 
 void ClipboardBrowser::sync(bool list_to_clipboard)
 {
+    // synchronize data/text
+    QVariant data;
     QString text;
 
     // first item -> clipboard
     if (list_to_clipboard) {
         if ( m->rowCount() == 0 )
             return;
-        text = itemText(0);
+        data = itemData(0);
+
+        // sync Clipboard == Selection
+        stopMonitoring();
+        if ( data.type() == QVariant::Image ) {
+            if ( m_clip->mimeData(QClipboard::Selection)->imageData() != data )
+                m_clip->setImage( data.value<QImage>(), QClipboard::Selection );
+            if ( m_clip->mimeData()->imageData() != data )
+                m_clip->setImage( data.value<QImage>() );
+        }
+        else {
+            text = data.toString();
+            if ( m_clip->text(QClipboard::Selection) != text )
+                m_clip->setText(text,QClipboard::Selection);
+            if ( m_clip->text() != text )
+                m_clip->setText(text);
+        }
+        startMonitoring();
     }
     // clipboard -> first item
     else {
-        text = m_clip->text();
-        if( text != itemText(0) ) {
-            if ( !add(text) )
-                return;
+        if ( m_clip->mimeData()->hasImage() ) {
+            data = m_clip->image();
+            if( data != itemData(0) )
+                add(data);
         }
         else {
-            text = m_clip->text(QClipboard::Selection);
-            if( text != itemText(0) ) {
-                if ( !add(text) )
-                    return;
+            text = m_clip->text();
+            if( text != itemText(0) )
+                add(text);
+            else {
+                text = m_clip->text(QClipboard::Selection);
+                if( text != itemData(0) )
+                    add(text);
             }
-            else
-                return;
         }
     }
-
-    // sync Clipboard == Selection
-    stopMonitoring();
-    if ( m_clip->text(QClipboard::Selection) != text )
-        m_clip->setText(text,QClipboard::Selection);
-    if ( m_clip->text() != text )
-        m_clip->setText(text);
-    startMonitoring();
 }

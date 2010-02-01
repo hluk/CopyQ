@@ -42,9 +42,14 @@ class ClipboardBrowser : public QListView
         void writeSettings();
         void saveItems();
         bool add(const QString &txt, bool ignore_empty = true);
+        bool add(const QImage &image);
+        bool add(const QVariant &value);
         void remove();
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
+        QVariant itemData(int row) const {
+            return model()->data( index(row), Qt::EditRole );
+        }
         void sync(bool list_to_clipboard = true);
         QModelIndex index(int i) const {
             return model()->index(i,0);
@@ -66,11 +71,9 @@ class ClipboardBrowser : public QListView
         QBasicTimer timer_save;
         ClipboardModel *m;
         ItemDelegate *d;
-
-        // items data file
-        QSettings::Format datFormat;
-        QSettings datSettings;
         ActionDialog *actionDialog;
+
+        const QString dataFilename() const;
 
     protected:
         void keyPressEvent(QKeyEvent *event);

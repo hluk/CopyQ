@@ -26,6 +26,8 @@
 #include <QMetaProperty>
 #include <QPlainTextEdit>
 #include <QTextDocument>
+#include <QUrl>
+#include "clipboardmodel.h"
 
 ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 {
@@ -34,9 +36,18 @@ ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
 
 QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &options, const QModelIndex &index) const
 {
-    QString str = index.data(Qt::DisplayRole).toString();
-    m_doc->setTextWidth(options.rect.width());
-    m_doc->setHtml( m_format.arg(QString("999")).arg(str) );
+    if ( index.data(Qt::DisplayRole).type() == QVariant::Image ) {
+        QImage image = index.data(Qt::DisplayRole).value<QImage>();
+        m_doc->addResource(QTextDocument::ImageResource,
+                            QUrl("clipboard://img.png"), QVariant(image));
+        m_doc->setHtml( m_format.arg(index.row()).arg(
+                            "<img src=\"clipboard://img.png\" />") );
+    }
+    else {
+        QString str = index.data(Qt::DisplayRole).toString();
+        m_doc->setTextWidth(options.rect.width());
+        m_doc->setHtml( m_format.arg(QString("999")).arg(str) );
+    }
     return QSize(m_doc->idealWidth(), m_doc->size().height());
 }
 
@@ -112,9 +123,14 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     else
         color = option.palette.color(QPalette::Text);
 
-    //QTextDocument doc;
-    //doc.setDefaultStyleSheet(m_css);
-    m_doc->setHtml( m_format.arg(index.row()).arg(options.text) );
+    if ( index.data(Qt::DisplayRole).type() == QVariant::Image ) {
+        QImage image = index.data(Qt::DisplayRole).value<QImage>();
+        m_doc->addResource(QTextDocument::ImageResource,
+                           QUrl("mydata://image.png"), QVariant(image));
+        m_doc->setHtml( m_format.arg(index.row()).arg("<img src=\"mydata://image.png\" />") );
+    }
+    else
+        m_doc->setHtml( m_format.arg(index.row()).arg(options.text) );
 
     // get focus rect and selection background
     QString text = options.text;

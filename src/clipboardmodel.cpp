@@ -18,13 +18,13 @@ int ClipboardModel::rowCount(const QModelIndex&) const
 
 QVariant ClipboardModel::data(const QModelIndex &index, int role) const
 {
-    if (!index.isValid())
+    if (!index.isValid() || index.row() >= m_clipboardList.size())
         return QVariant();
 
-    if (index.row() >= m_clipboardList.size())
-        return QVariant();
-
-    if (role == Qt::DisplayRole)
+    const QImage *image = m_clipboardList[index.row()].image();
+    if ( image && (role == Qt::DisplayRole || role == Qt::EditRole) )
+            return *image;
+    else if (role == Qt::DisplayRole)
         return m_clipboardList[index.row()].highlighted();
     else if (role == Qt::EditRole)
         return m_clipboardList.at(index.row());
@@ -44,7 +44,10 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
 {
     if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
-        m_clipboardList.replace(row, value.toString());
+        if ( value.type() == QVariant::Image )
+            m_clipboardList[row].setImage( value.value<QImage>() );
+        else
+            m_clipboardList.replace( row, value.toString() );
         setSearch(row);
         emit dataChanged(index, index);
         return true;
@@ -138,7 +141,7 @@ void ClipboardModel::setSearch(int i)
             highlight += ESCAPE(str.mid(a));
         // highlight matched
         m_clipboardList[i].setFiltered(false);
-        m_clipboardList[i].highlight(highlight);
+        m_clipboardList[i].setHighlight(highlight);
     }
 }
 
