@@ -1,5 +1,9 @@
 #include <QProcess>
 #include <QToolTip>
+#include <QSettings>
+#include <QFile>
+#include <QCompleter>
+#include <QDebug>
 #include "actiondialog.h"
 #include "ui_actiondialog.h"
 
@@ -7,14 +11,16 @@ static const QRegExp str("([^\\%])%s");
 
 ActionDialog::ActionDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ActionDialog)
+    ui(new Ui::ActionDialog), m_completer(NULL)
 {
     ui->setupUi(this);
     ui->inputText->clear();
+    restoreHistory();
 }
 
 ActionDialog::~ActionDialog()
 {
+    saveHistory();
     delete ui;
 }
 
@@ -45,6 +51,67 @@ void ActionDialog::setInput(QString input)
         ui->inputInfoLabel->show();
         ui->inputText->show();
     }
+}
+
+void ActionDialog::add(QString command)
+{
+    if ( m_history.contains(command) )
+        return;
+
+    m_history.prepend(command);
+    if ( m_history.size() > m_maxitems )
+        m_history.removeLast();
+
+    if ( m_completer )
+        delete m_completer;
+    m_completer = new QCompleter(m_history, this);
+    ui->cmdEdit->setCompleter(m_completer);
+}
+
+void ActionDialog::restoreHistory()
+{
+    QSettings settings;
+
+    m_maxitems = settings.value("command_history", 100).toInt();
+
+    QFile file( dataFilename() );
+    file.open(QIODevice::ReadOnly);
+    QDataStream in(&file);
+    QVariant v;
+    while( !in.atEnd() ) {
+        in >> v;
+        m_history.append( v.toString() );
+        qDebug() << v.toString();
+    }
+
+    if ( m_completer )
+        delete m_completer;
+    m_completer = new QCompleter(m_history, this);
+    ui->cmdEdit->setCompleter(m_completer);
+}
+
+const QString ActionDialog::dataFilename() const
+{
+    // do not use registry in windows
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                       QCoreApplication::organizationName(),
+                       QCoreApplication::applicationName());
+    // .ini -> _cmds.dat
+    QString datfilename = settings.fileName();
+    datfilename.replace( QRegExp("\\.ini$"),QString("_cmds.dat") );
+
+    return datfilename;
+}
+
+void ActionDialog::saveHistory()
+{
+    QFile file( dataFilename() );
+    file.open(QIODevice::WriteOnly);
+    QDataStream out(&file);
+
+    QStringList::const_iterator it;
+    for( it = m_history.begin(); it != m_history.end(); ++it)
+        out << QVariant(*it);
 }
 
 void ActionDialog::accept()
@@ -118,5 +185,7 @@ void ActionDialog::accept()
     }
 
     emit addItems(items);
+
+    add(cmd);
     close();
 }

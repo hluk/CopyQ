@@ -102,7 +102,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            ui->clipboardBrowser->keyEvent(event);
+            ui->clipboardBrowser->moveToClipboard( ui->clipboardBrowser->currentIndex() );
             lower();
             hide();
             break;

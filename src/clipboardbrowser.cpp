@@ -183,6 +183,7 @@ void ClipboardBrowser::moveToClipboard(int i)
     if ( i > 0 ) {
         m->move(i,0);
         sync();
+        scrollTo( currentIndex() );
         repaint();
     }
 }
@@ -284,11 +285,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_F2:
             QListView::keyPressEvent(event);
-            break;
-
-        case Qt::Key_Enter:
-        case Qt::Key_Return:
-            moveToClipboard( currentIndex().row() );
             break;
 
         default:
@@ -447,8 +443,8 @@ void ClipboardBrowser::readSettings(const QString &css)
     QFile file( dataFilename() );
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
+    QVariant v;
     while( !in.atEnd() ) {
-        QVariant v;
         in >> v;
         if ( v.type() == QVariant::Image )
             add( v.value<QImage>() );
