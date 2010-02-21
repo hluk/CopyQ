@@ -44,6 +44,7 @@ class MainWindow : public QMainWindow
         inline bool browseMode() const { return m_browsemode; };
         void writeSettings();
         void readSettings();
+        void closeEvent(QCloseEvent *event);
 
     private:
         Ui::MainWindow *ui;

@@ -213,6 +213,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
     // CTRL
     if ( event->modifiers() == Qt::ControlModifier ) {
+        int from, to;
         switch ( event->key() ) {
         // CTRL-E: open external editor
         case Qt::Key_E:
@@ -241,14 +242,17 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         // CTRL-Up/Down: move item
         case Qt::Key_Up:
         case Qt::Key_Down:
-            int from = currentIndex().row();
-            int to = (event->key() == Qt::Key_Up) ? (from-1) : (from+1);
+            from = currentIndex().row();
+            to = (event->key() == Qt::Key_Up) ? (from-1) : (from+1);
             if ( m->move(from, to) ) {
                 if (from == 0 || to == 0 || to == m->rowCount())
                     sync();
                 scrollTo( currentIndex() );
                 repaint();
             }
+            break;
+        default:
+            QListView::keyPressEvent(event);
             break;
         }
     }

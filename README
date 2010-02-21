@@ -15,6 +15,7 @@ Up/Down   -- navigation in item list
 Ctrl-Up,
 Ctrl-Down -- move selected item
 Escape    -- hide window
+Ctrl-Q    -- exit
 F2        -- edit item
 Ctrl-E    -- edit item in external editor
 Ctrl-A    -- open action dialog

@@ -123,6 +123,7 @@ void ActionDialog::accept()
     QString input = ui->inputText->text();
     QIODevice::OpenMode mode = QIODevice::NotOpen;
     QProcess proc;
+    QString errstr;
 
     // replace %s with input
     if ( cmd.indexOf(str) != -1 ) {
@@ -145,47 +146,44 @@ void ActionDialog::accept()
     proc.setProcessChannelMode(QProcess::SeparateChannels);
     proc.start(cmd, mode);
 
-    if ( !proc.waitForStarted() ) {
-        emit error(proc.errorString());
-        return;
-    }
-
-    // write input
-    if (mode & QIODevice::WriteOnly) {
-        proc.write( input.toLocal8Bit() );
-    }
-    proc.closeWriteChannel();
-
-    // read output
-    if (mode & QIODevice::ReadOnly) {
-        QString stdout, stderr;
-
-        if ( !proc.waitForFinished() ) {
-            stderr = proc.errorString();
-            emit error(stderr);
+    if ( proc.waitForStarted() ) {
+        // write input
+        if (mode & QIODevice::WriteOnly) {
+            proc.write( input.toLocal8Bit() );
         }
-        else if ( proc.exitCode() != 0 ) {
-            stderr = QString("Exit code: %1\n").arg(proc.exitCode());
-            stderr += QString::fromLocal8Bit( proc.readAllStandardError() );
-            emit error(stderr);
-        }
-        else {
-            stdout += QString::fromUtf8( proc.readAll() );
+        proc.closeWriteChannel();
 
-            if ( !stdout.isEmpty() ) {
-                // separate items
-                QRegExp sep( ui->separatorEdit->text() );
-                if ( !sep.isEmpty() ) {
-                    items = stdout.split(sep);
+        // read output
+        if (mode & QIODevice::ReadOnly) {
+            QString stdout;
+
+            if ( proc.waitForFinished() ) {
+                if ( proc.exitCode() != 0 )
+                    errstr = QString("Exit code: %1\n").arg(proc.exitCode());
+
+                errstr += QString::fromLocal8Bit( proc.readAllStandardError() );
+                stdout = QString::fromUtf8( proc.readAll() );
+
+                if ( !stdout.isEmpty() ) {
+                    // separate items
+                    QRegExp sep( ui->separatorEdit->text() );
+                    if ( !sep.isEmpty() ) {
+                        items = stdout.split(sep);
+                    }
+                    else
+                        items.append(stdout);
                 }
-                else
-                    items.append(stdout);
             }
+            else
+                errstr = proc.errorString();
         }
+        emit addItems(items);
+        add(cmd);
+        close();
     }
+    else
+        errstr = proc.errorString();
 
-    emit addItems(items);
-
-    add(cmd);
-    close();
+    if ( !errstr.isEmpty() )
+        emit error(errstr);
 }

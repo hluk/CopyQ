@@ -85,6 +85,13 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     tray->show();
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    //lower();
+    hide();
+    event->ignore();
+}
+
 void MainWindow::showError(const QString msg)
 {
     tray->showMessage(QString("Error"), msg);
@@ -92,7 +99,11 @@ void MainWindow::showError(const QString msg)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    switch(event->key()) {
+    if ( event->modifiers() == Qt::ControlModifier )
+        if ( event->key() == Qt::Key_Q )
+            QApplication::exit();
+
+    switch( event->key() ) {
         case Qt::Key_Down:
         case Qt::Key_Up:
         case Qt::Key_PageDown:
@@ -103,8 +114,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Return:
         case Qt::Key_Enter:
             ui->clipboardBrowser->moveToClipboard( ui->clipboardBrowser->currentIndex() );
-            lower();
-            hide();
+            close();
             break;
 
         case Qt::Key_F3:
@@ -114,8 +124,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             if ( ui->searchBar->isVisible() )
                 enterBrowseMode();
             else {
-                lower();
-                hide();
+                close();
             }
             break;
 
@@ -151,10 +160,8 @@ void MainWindow::readSettings()
 void MainWindow::handleMessage(const QString& message)
 {
     if ( message == "toggle" ) {
-        if ( this->isVisible() ) {
-            lower();
-            hide();
-        }
+        if ( this->isVisible() )
+            close();
         else
             show();
     }
@@ -164,10 +171,8 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick )
         close();
-    else if (this->isVisible()) {
-        lower();
-        hide();
-    }
+    else if (this->isVisible())
+        close();
     else
         showNormal();
 }
