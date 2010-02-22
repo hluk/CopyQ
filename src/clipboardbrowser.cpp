@@ -338,11 +338,17 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
 
     QModelIndex ind = index(i);
     if (selection) {
-        selectionModel()->setCurrentIndex(ind,
+        QItemSelectionModel *sel = selectionModel();
+        if ( sel->isSelected(ind) && sel->isSelected(currentIndex()) )
+            sel->setCurrentIndex(currentIndex(),
+                QItemSelectionModel::Deselect);
+        sel->setCurrentIndex(ind,
             QItemSelectionModel::Select);
     }
     else
         setCurrentIndex(ind);
+
+    scrollTo(ind); // ensure visible
 }
 
 void ClipboardBrowser::remove()

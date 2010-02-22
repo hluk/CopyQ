@@ -54,9 +54,9 @@ class ItemDelegate : public QStyledItemDelegate
     private:
         QString m_format;
 
-        // item drawn using QTextDocument
+        // items drawn using QTextDocument
         mutable QTextDocument *m_doc;
-        // buffered item sizes
+        // buffered items' sizes
         mutable QList<QSize> m_buff;
         // create QTextDocument for given item and save size to buffer
         void createDoc(const QString &text, const QModelIndex &index) const;

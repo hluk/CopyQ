@@ -230,17 +230,10 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">BROWSER=/home/lukas/chromium.sh</value>
-    <value type="QString">CCACHE_DIR=/home/lukas/.ccache</value>
-    <value type="QString">CCACHE_SIZE=4G</value>
-    <value type="QString">CFLAGS=-march=core2 -O2 -pipe</value>
-    <value type="QString">CHOST=x86_64-pc-linux-gnu</value>
-    <value type="QString">CXXFLAGS=-march=core2 -O2 -pipe</value>
     <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">EDITOR=gvim</value>
     <value type="QString">G_BROKEN_FILENAMES=1</value>
     <value type="QString">HISTCONTROL=erasedups</value>
-    <value type="QString">HISTSIZE=1000000</value>
+    <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/lukas</value>
     <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
@@ -248,51 +241,23 @@
     <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MAKEOPTS=-j7</value>
     <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
-    <value type="QString">PATH=/usr/bin:/usr/lib/ccache/bin/:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
     <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
     <value type="QString">PS3=> </value>
     <value type="QString">PS4=+ </value>
-    <value type="QString">PWD=/home/lukas/dev/qt/copyq</value>
+    <value type="QString">PWD=/home/lukas</value>
     <value type="QString">QTDIR=/usr/share/qt</value>
-    <value type="QString">SANDBOX_WRITE=:/home/lukas/.ccache</value>
     <value type="QString">SHELL=/bin/zsh</value>
-    <value type="QString">SHLVL=4</value>
-    <value type="QString">STY=2444.default</value>
-    <value type="QString">TERM=screen</value>
-    <value type="QString">TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
-	:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC:UP=\E[%dA:bs:bt=\E[Z:\
-	:cd=\E[J:ce=\E[K:cl=\E[H\E[J:cm=\E[%i%d;%dH:ct=\E[3g:\
-	:do=^J:nd=\E[C:pt:rc=\E8:rs=\Ec:sc=\E7:st=\EH:up=\EM:\
-	:le=^H:bl=^G:cr=^M:it#8:ho=\E[H:nw=\EE:ta=^I:is=\E)0:\
-	:li#38:co#150:am:xn:xv:LP:sr=\EM:al=\E[L:AL=\E[%dL:\
-	:cs=\E[%i%d;%dr:dl=\E[M:DL=\E[%dM:dc=\E[P:DC=\E[%dP:\
-	:im=\E[4h:ei=\E[4l:mi:IC=\E[%d@:ks=\E[?1h\E=:\
-	:ke=\E[?1l\E>:vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l:\
-	:ti=\E[?1049h:te=\E[?1049l:us=\E[4m:ue=\E[24m:so=\E[3m:\
-	:se=\E[23m:mb=\E[5m:md=\E[1m:mr=\E[7m:me=\E[m:ms:\
-	:Co#8:pa#64:AF=\E[3%dm:AB=\E[4%dm:op=\E[39;49m:AX:\
-	:vb=\Eg:G0:as=\E(0:ae=\E(B:\
-	:ac=\140\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++,,hhII00:\
-	:po=\E[5i:pf=\E[4i:k0=\E[10~:k1=\EOP:k2=\EOQ:k3=\EOR:\
-	:k4=\EOS:k5=\E[15~:k6=\E[17~:k7=\E[18~:k8=\E[19~:\
-	:k9=\E[20~:k;=\E[21~:F1=\E[23~:F2=\E[24~:F3=\E[1;2P:\
-	:F4=\E[1;2Q:F5=\E[1;2R:F6=\E[1;2S:F7=\E[15;2~:\
-	:F8=\E[17;2~:F9=\E[18;2~:FA=\E[19;2~:kb=^H:K2=\EOE:\
-	:kB=\E[Z:kF=\E[1;2B:kR=\E[1;2A:*4=\E[3;2~:*7=\E[1;2F:\
-	:#2=\E[1;2H:#3=\E[2;2~:#4=\E[1;2D:%c=\E[6;2~:%e=\E[5;2~:\
-	:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:@7=\E[4~:\
-	:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:kd=\EOB:\
-	:kr=\EOC:kl=\EOD:km:</value>
+    <value type="QString">SHLVL=2</value>
+    <value type="QString">TERM=linux</value>
     <value type="QString">USER=lukas</value>
-    <value type="QString">WINDOW=0</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
     <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_DATA_HOME=/home/lukas/.config</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/lukas/dev/qt/copyq/copyq.pro</value>
@@ -311,17 +276,10 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">BROWSER=/home/lukas/chromium.sh</value>
-    <value type="QString">CCACHE_DIR=/home/lukas/.ccache</value>
-    <value type="QString">CCACHE_SIZE=4G</value>
-    <value type="QString">CFLAGS=-march=core2 -O2 -pipe</value>
-    <value type="QString">CHOST=x86_64-pc-linux-gnu</value>
-    <value type="QString">CXXFLAGS=-march=core2 -O2 -pipe</value>
     <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">EDITOR=gvim</value>
     <value type="QString">G_BROKEN_FILENAMES=1</value>
     <value type="QString">HISTCONTROL=erasedups</value>
-    <value type="QString">HISTSIZE=1000000</value>
+    <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/lukas</value>
     <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
@@ -329,51 +287,23 @@
     <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MAKEOPTS=-j7</value>
     <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
-    <value type="QString">PATH=/usr/bin:/usr/lib/ccache/bin/:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
     <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
     <value type="QString">PS3=> </value>
     <value type="QString">PS4=+ </value>
-    <value type="QString">PWD=/home/lukas/dev/qt/copyq</value>
+    <value type="QString">PWD=/home/lukas</value>
     <value type="QString">QTDIR=/usr/share/qt</value>
-    <value type="QString">SANDBOX_WRITE=:/home/lukas/.ccache</value>
     <value type="QString">SHELL=/bin/zsh</value>
-    <value type="QString">SHLVL=4</value>
-    <value type="QString">STY=2444.default</value>
-    <value type="QString">TERM=screen</value>
-    <value type="QString">TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
-	:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC:UP=\E[%dA:bs:bt=\E[Z:\
-	:cd=\E[J:ce=\E[K:cl=\E[H\E[J:cm=\E[%i%d;%dH:ct=\E[3g:\
-	:do=^J:nd=\E[C:pt:rc=\E8:rs=\Ec:sc=\E7:st=\EH:up=\EM:\
-	:le=^H:bl=^G:cr=^M:it#8:ho=\E[H:nw=\EE:ta=^I:is=\E)0:\
-	:li#38:co#150:am:xn:xv:LP:sr=\EM:al=\E[L:AL=\E[%dL:\
-	:cs=\E[%i%d;%dr:dl=\E[M:DL=\E[%dM:dc=\E[P:DC=\E[%dP:\
-	:im=\E[4h:ei=\E[4l:mi:IC=\E[%d@:ks=\E[?1h\E=:\
-	:ke=\E[?1l\E>:vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l:\
-	:ti=\E[?1049h:te=\E[?1049l:us=\E[4m:ue=\E[24m:so=\E[3m:\
-	:se=\E[23m:mb=\E[5m:md=\E[1m:mr=\E[7m:me=\E[m:ms:\
-	:Co#8:pa#64:AF=\E[3%dm:AB=\E[4%dm:op=\E[39;49m:AX:\
-	:vb=\Eg:G0:as=\E(0:ae=\E(B:\
-	:ac=\140\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++,,hhII00:\
-	:po=\E[5i:pf=\E[4i:k0=\E[10~:k1=\EOP:k2=\EOQ:k3=\EOR:\
-	:k4=\EOS:k5=\E[15~:k6=\E[17~:k7=\E[18~:k8=\E[19~:\
-	:k9=\E[20~:k;=\E[21~:F1=\E[23~:F2=\E[24~:F3=\E[1;2P:\
-	:F4=\E[1;2Q:F5=\E[1;2R:F6=\E[1;2S:F7=\E[15;2~:\
-	:F8=\E[17;2~:F9=\E[18;2~:FA=\E[19;2~:kb=^H:K2=\EOE:\
-	:kB=\E[Z:kF=\E[1;2B:kR=\E[1;2A:*4=\E[3;2~:*7=\E[1;2F:\
-	:#2=\E[1;2H:#3=\E[2;2~:#4=\E[1;2D:%c=\E[6;2~:%e=\E[5;2~:\
-	:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:@7=\E[4~:\
-	:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:kd=\EOB:\
-	:kr=\EOC:kl=\EOD:km:</value>
+    <value type="QString">SHLVL=2</value>
+    <value type="QString">TERM=linux</value>
     <value type="QString">USER=lukas</value>
-    <value type="QString">WINDOW=0</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
     <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_DATA_HOME=/home/lukas/.config</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
