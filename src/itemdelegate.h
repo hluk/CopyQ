@@ -51,9 +51,23 @@ class ItemDelegate : public QStyledItemDelegate
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
-private:
-        QTextDocument* m_doc;
+    private:
         QString m_format;
+
+        // item drawn using QTextDocument
+        mutable QTextDocument *m_doc;
+        // buffered item sizes
+        mutable QList<QSize> m_buff;
+        // create QTextDocument for given item and save size to buffer
+        void createDoc(const QString &text, const QModelIndex &index) const;
+
+    public slots:
+        // change size buffer
+        void dataChanged(const QModelIndex &a, const QModelIndex &b);
+        void rowsRemoved(const QModelIndex&,int,int);
+        void rowsInserted(const QModelIndex & parent, int start, int end);
+        void rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd,
+                       const QModelIndex & destinationParent, int destinationRow);
 };
 
 #endif

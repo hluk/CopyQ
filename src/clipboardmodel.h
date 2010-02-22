@@ -39,7 +39,6 @@ public:
     {
         if ( !m_highlight )
             setHighlight( ESCAPE(*(dynamic_cast<const QString*>(this))) );
-
         return *m_highlight;
     }
 

@@ -41,10 +41,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent)
     m_clip = QApplication::clipboard();
     actionDialog = NULL;
 
-    // set new model
-    m = new ClipboardModel();
-    setModel(m);
-
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
     setItemDelegate(d);
@@ -54,6 +50,15 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent)
     QItemSelectionModel *old_model = selectionModel();
     setModel(m);
     delete old_model;
+
+    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             d, SLOT(rowsRemoved(QModelIndex,int,int)) );
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             d, SLOT(rowsInserted(QModelIndex, int, int)) );
+    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+             d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
 
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));

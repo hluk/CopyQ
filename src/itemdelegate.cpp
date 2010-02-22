@@ -25,7 +25,6 @@
 #include <QTextCursor>
 #include <QMetaProperty>
 #include <QPlainTextEdit>
-#include <QTextDocument>
 #include <QUrl>
 #include "clipboardmodel.h"
 
@@ -34,21 +33,16 @@ ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
     m_doc = new QTextDocument(this);
 }
 
-QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &options, const QModelIndex &index) const
+QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    if ( index.data(Qt::DisplayRole).type() == QVariant::Image ) {
-        QImage image = index.data(Qt::DisplayRole).value<QImage>();
-        m_doc->addResource(QTextDocument::ImageResource,
-                            QUrl("clipboard://img.png"), QVariant(image));
-        m_doc->setHtml( m_format.arg(index.row()).arg(
-                            "<img src=\"clipboard://img.png\" />") );
+    int n = index.row();
+
+    if ( !m_buff[n].isValid() ) {
+        QStyleOptionViewItemV4 options(option);
+        initStyleOption(&options, index);
+        createDoc(options.text, index);
     }
-    else {
-        QString str = index.data(Qt::DisplayRole).toString();
-        m_doc->setTextWidth(options.rect.width());
-        m_doc->setHtml( m_format.arg(QString("999")).arg(str) );
-    }
-    return QSize(m_doc->idealWidth(), m_doc->size().height());
+    return m_buff[n];
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -111,18 +105,42 @@ void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, cons
         model->setData(index, editor->property(n));
 }
 
-void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+
+void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    QStyleOptionViewItemV4 options(option);
-    initStyleOption(&options, index);
+    int start = a.row();
+    int end = b.row();
+    for( int i = start; i<=end; ++i )
+        m_buff[i] = QSize();
+}
 
-    // background color
-    QColor color;
-    if( option.state & QStyle::State_Selected )
-        color = option.palette.color(QPalette::HighlightedText);
-    else
-        color = option.palette.color(QPalette::Text);
+void ItemDelegate::rowsRemoved(const QModelIndex&,int start,int end)
+{
+    for( int i = start; i <= end; ++i )
+        m_buff.removeAt(i);
+}
 
+void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd,
+               const QModelIndex &, int destinationRow)
+{
+    int dest = sourceStart < destinationRow ? destinationRow-1 : destinationRow;
+    for( int i = sourceStart; i <= sourceEnd; ++i ) {
+        m_buff.move(i,dest);
+        ++dest;
+    }
+}
+
+void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
+{
+    for( int i = start; i <= end; ++i )
+        m_buff.insert(i,QSize());
+}
+
+void ItemDelegate::createDoc(const QString &text, const QModelIndex &index) const
+{
+    int n = index.row();
+
+    m_doc->clear();
     if ( index.data(Qt::DisplayRole).type() == QVariant::Image ) {
         QImage image = index.data(Qt::DisplayRole).value<QImage>();
         m_doc->addResource(QTextDocument::ImageResource,
@@ -130,11 +148,21 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
         m_doc->setHtml( m_format.arg(index.row()).arg("<img src=\"mydata://image.png\" />") );
     }
     else
-        m_doc->setHtml( m_format.arg(index.row()).arg(options.text) );
+        m_doc->setHtml( m_format.arg(index.row()).arg(text) );
 
-    // get focus rect and selection background
+    m_buff[n] = QSize( m_doc->idealWidth(), m_doc->size().height() );
+}
+
+void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+{
+    QStyleOptionViewItemV4 options(option);
+    initStyleOption(&options, index);
     QString text = options.text;
     options.text = "";
+
+    createDoc(text, index);
+
+    // get focus rect and selection background
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
 
@@ -142,8 +170,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
 
     painter->save();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
-    painter->translate(options.rect.left(), options.rect.top());
-//    painter->setClipRect(clip);
-    m_doc->drawContents(painter,clip);
+    painter->translate( options.rect.topLeft() );
+    m_doc->drawContents( painter, clip );
     painter->restore();
 }

@@ -84,52 +84,34 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">CLASSPATH=.</value>
-    <value type="QString">COLON_SEPARATED=XDG_DATA_DIRS XDG_CONFIG_DIRS</value>
-    <value type="QString">CONFIG_PROTECT=/usr/share/X11/xkb</value>
-    <value type="QString">CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/texmf/web2c /etc/texmf/language.dat.d /etc/texmf/language.def.d /etc/texmf/updmap.d /etc/revdep-rebuild</value>
-    <value type="QString">CVS_RSH=ssh</value>
-    <value type="QString">DCCC_PATH=/usr/lib/distcc/bin</value>
     <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">DISTCC_LOG=</value>
-    <value type="QString">DISTCC_VERBOSE=0</value>
-    <value type="QString">EDITOR=/bin/nano</value>
-    <value type="QString">FROM_WRAPPER=yes</value>
-    <value type="QString">GCC_SPECS=</value>
-    <value type="QString">GDK_USE_XFT=1</value>
-    <value type="QString">GENERATION=2</value>
+    <value type="QString">G_BROKEN_FILENAMES=1</value>
+    <value type="QString">HISTCONTROL=erasedups</value>
+    <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/lukas</value>
-    <value type="QString">INFOPATH=/usr/share/info:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.18/info:/usr/share/gcc-data/ia64-unknown-linux-gnu/4.3.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.2/info:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.4.2/info</value>
-    <value type="QString">JAVAC=/home/lukas/.gentoo/java-config-2/current-user-vm/bin/javac</value>
-    <value type="QString">JAVA_HOME=/home/lukas/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString">JDK_HOME=/home/lukas/.gentoo/java-config-2/current-user-vm</value>
+    <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
-    <value type="QString">LESS=-R -M --shift 5</value>
-    <value type="QString">LESSOPEN=|lesspipe.sh %s</value>
-    <value type="QString">LIBGL_ALWAYS_INDIRECT=1</value>
-    <value type="QString">LIBGL_ALWAYS_SOFTWARE=1</value>
-    <value type="QString">LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
+    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
+    <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MANPATH=/home/lukas/.gentoo/java-config-2/current-user-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.18/man:/usr/share/gcc-data/ia64-unknown-linux-gnu/4.3.2/man:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.2/man:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.4.2/man:/opt/blackdown-jdk-1.4.2.03/man:/etc/java-config/system-vm/man/:/usr/lib64/php5/man/:/opt/opera/share/man</value>
-    <value type="QString">OPENGL_PROFILE=xorg-x11</value>
-    <value type="QString">PAGER=/usr/bin/less</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/ia64-unknown-linux-gnu/gcc-bin/4.3.2:/usr/i686-pc-linux-gnu/gcc-bin/4.3.2:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.2:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin</value>
-    <value type="QString">PRELINK_PATH=</value>
-    <value type="QString">PRELINK_PATH_MASK=/lib/modules:/usr/lib/locale:/usr/lib/wine:/usr/lib/valgrind:*.la:*.png:*.py:*.pl:*.pm:*.sh:*.xml:*.xslt:*.a:*.js</value>
+    <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
+    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
+    <value type="QString">PS3=> </value>
+    <value type="QString">PS4=+ </value>
     <value type="QString">PWD=/home/lukas</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">RUBYOPT=-rauto_gem</value>
-    <value type="QString">SGML_CATALOG_FILES=/etc/sgml/sgml-lite.cat:/etc/sgml/sgml-ent.cat:/etc/sgml/xml-docbook-4.1.2.cat:/etc/sgml/xml-docbook-4.4.cat:/etc/sgml/dsssl-docbook-stylesheets.cat:/etc/sgml/sgml-docbook.cat:/etc/sgml/sgml-docbook-3.1.cat</value>
+    <value type="QString">QTDIR=/usr/share/qt</value>
     <value type="QString">SHELL=/bin/zsh</value>
     <value type="QString">SHLVL=2</value>
     <value type="QString">TERM=linux</value>
     <value type="QString">USER=lukas</value>
-    <value type="QString">VBOX_APP_HOME=/opt/VirtualBox</value>
-    <value type="QString">VMHANDLE=blackdown-jdk-1.4.2</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
+    <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/local/share:/usr/share</value>
+    <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
+    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/lukas/dev/qt/copyq/copyq.pro</value>
@@ -151,52 +133,34 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">CLASSPATH=.</value>
-    <value type="QString">COLON_SEPARATED=XDG_DATA_DIRS XDG_CONFIG_DIRS</value>
-    <value type="QString">CONFIG_PROTECT=/usr/share/X11/xkb</value>
-    <value type="QString">CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/texmf/web2c /etc/texmf/language.dat.d /etc/texmf/language.def.d /etc/texmf/updmap.d /etc/revdep-rebuild</value>
-    <value type="QString">CVS_RSH=ssh</value>
-    <value type="QString">DCCC_PATH=/usr/lib/distcc/bin</value>
     <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">DISTCC_LOG=</value>
-    <value type="QString">DISTCC_VERBOSE=0</value>
-    <value type="QString">EDITOR=/bin/nano</value>
-    <value type="QString">FROM_WRAPPER=yes</value>
-    <value type="QString">GCC_SPECS=</value>
-    <value type="QString">GDK_USE_XFT=1</value>
-    <value type="QString">GENERATION=2</value>
+    <value type="QString">G_BROKEN_FILENAMES=1</value>
+    <value type="QString">HISTCONTROL=erasedups</value>
+    <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/lukas</value>
-    <value type="QString">INFOPATH=/usr/share/info:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.18/info:/usr/share/gcc-data/ia64-unknown-linux-gnu/4.3.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.2/info:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.4.2/info</value>
-    <value type="QString">JAVAC=/home/lukas/.gentoo/java-config-2/current-user-vm/bin/javac</value>
-    <value type="QString">JAVA_HOME=/home/lukas/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString">JDK_HOME=/home/lukas/.gentoo/java-config-2/current-user-vm</value>
+    <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
-    <value type="QString">LESS=-R -M --shift 5</value>
-    <value type="QString">LESSOPEN=|lesspipe.sh %s</value>
-    <value type="QString">LIBGL_ALWAYS_INDIRECT=1</value>
-    <value type="QString">LIBGL_ALWAYS_SOFTWARE=1</value>
-    <value type="QString">LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
+    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
+    <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MANPATH=/home/lukas/.gentoo/java-config-2/current-user-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.18/man:/usr/share/gcc-data/ia64-unknown-linux-gnu/4.3.2/man:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.2/man:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.4.2/man:/opt/blackdown-jdk-1.4.2.03/man:/etc/java-config/system-vm/man/:/usr/lib64/php5/man/:/opt/opera/share/man</value>
-    <value type="QString">OPENGL_PROFILE=xorg-x11</value>
-    <value type="QString">PAGER=/usr/bin/less</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/ia64-unknown-linux-gnu/gcc-bin/4.3.2:/usr/i686-pc-linux-gnu/gcc-bin/4.3.2:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.2:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin</value>
-    <value type="QString">PRELINK_PATH=</value>
-    <value type="QString">PRELINK_PATH_MASK=/lib/modules:/usr/lib/locale:/usr/lib/wine:/usr/lib/valgrind:*.la:*.png:*.py:*.pl:*.pm:*.sh:*.xml:*.xslt:*.a:*.js</value>
+    <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
+    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
+    <value type="QString">PS3=> </value>
+    <value type="QString">PS4=+ </value>
     <value type="QString">PWD=/home/lukas</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">RUBYOPT=-rauto_gem</value>
-    <value type="QString">SGML_CATALOG_FILES=/etc/sgml/sgml-lite.cat:/etc/sgml/sgml-ent.cat:/etc/sgml/xml-docbook-4.1.2.cat:/etc/sgml/xml-docbook-4.4.cat:/etc/sgml/dsssl-docbook-stylesheets.cat:/etc/sgml/sgml-docbook.cat:/etc/sgml/sgml-docbook-3.1.cat</value>
+    <value type="QString">QTDIR=/usr/share/qt</value>
     <value type="QString">SHELL=/bin/zsh</value>
     <value type="QString">SHLVL=2</value>
     <value type="QString">TERM=linux</value>
     <value type="QString">USER=lukas</value>
-    <value type="QString">VBOX_APP_HOME=/opt/VirtualBox</value>
-    <value type="QString">VMHANDLE=blackdown-jdk-1.4.2</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
+    <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/local/share:/usr/share</value>
+    <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
+    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
@@ -218,51 +182,34 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">CLASSPATH=.</value>
-    <value type="QString">COLON_SEPARATED=XDG_DATA_DIRS XDG_CONFIG_DIRS</value>
-    <value type="QString">CONFIG_PROTECT=/usr/share/X11/xkb</value>
-    <value type="QString">CONFIG_PROTECT_MASK=/etc/gentoo-release /etc/sandbox.d /etc/env.d/java/ /etc/php/cli-php5/ext-active/ /etc/php/cgi-php5/ext-active/ /etc/php/apache2-php5/ext-active/ /etc/udev/rules.d /etc/fonts/fonts.conf /etc/gconf /etc/terminfo /etc/ca-certificates.conf /etc/texmf/web2c /etc/texmf/language.dat.d /etc/texmf/language.def.d /etc/texmf/updmap.d /etc/revdep-rebuild</value>
-    <value type="QString">CVS_RSH=ssh</value>
-    <value type="QString">DCCC_PATH=/usr/lib/distcc/bin</value>
     <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">DISTCC_LOG=</value>
-    <value type="QString">DISTCC_VERBOSE=0</value>
-    <value type="QString">EDITOR=/bin/nano</value>
-    <value type="QString">FROM_WRAPPER=yes</value>
-    <value type="QString">GCC_SPECS=</value>
-    <value type="QString">GDK_USE_XFT=1</value>
-    <value type="QString">GENERATION=2</value>
-    <value type="QString">HG=/usr/bin/hg</value>
+    <value type="QString">G_BROKEN_FILENAMES=1</value>
+    <value type="QString">HISTCONTROL=erasedups</value>
+    <value type="QString">HISTSIZE=1000</value>
     <value type="QString">HOME=/home/lukas</value>
-    <value type="QString">INFOPATH=/usr/share/info:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.18/info:/usr/share/gcc-data/ia64-unknown-linux-gnu/4.3.2/info:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.2/info:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.4.2/info</value>
-    <value type="QString">JAVAC=/home/lukas/.gentoo/java-config-2/current-user-vm/bin/javac</value>
-    <value type="QString">JAVA_HOME=/home/lukas/.gentoo/java-config-2/current-user-vm</value>
-    <value type="QString">JDK_HOME=/home/lukas/.gentoo/java-config-2/current-user-vm</value>
+    <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
-    <value type="QString">LESS=-R -M --shift 5</value>
-    <value type="QString">LESSOPEN=|lesspipe.sh %s</value>
-    <value type="QString">LIBGL_ALWAYS_INDIRECT=1</value>
-    <value type="QString">LIBGL_DRIVERS_PATH=/usr/lib/dri</value>
+    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
+    <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MANPATH=/home/lukas/.gentoo/java-config-2/current-user-vm/man:/usr/local/share/man:/usr/share/man:/usr/share/binutils-data/x86_64-pc-linux-gnu/2.18/man:/usr/share/gcc-data/ia64-unknown-linux-gnu/4.3.2/man:/usr/share/gcc-data/i686-pc-linux-gnu/4.3.2/man:/usr/share/gcc-data/x86_64-pc-linux-gnu/4.4.2/man:/opt/blackdown-jdk-1.4.2.03/man:/etc/java-config/system-vm/man/:/usr/lib64/php5/man/:/opt/opera/share/man</value>
-    <value type="QString">OPENGL_PROFILE=xorg-x11</value>
-    <value type="QString">PAGER=/usr/bin/less</value>
-    <value type="QString">PATH=/usr/bin:/usr/local/bin:/usr/bin:/bin:/opt/bin:/usr/ia64-unknown-linux-gnu/gcc-bin/4.3.2:/usr/i686-pc-linux-gnu/gcc-bin/4.3.2:/usr/x86_64-pc-linux-gnu/gcc-bin/4.4.2:/opt/blackdown-jdk-1.4.2.03/bin:/opt/blackdown-jdk-1.4.2.03/jre/bin:/usr/games/bin</value>
-    <value type="QString">PRELINK_PATH=</value>
-    <value type="QString">PRELINK_PATH_MASK=/lib/modules:/usr/lib/locale:/usr/lib/wine:/usr/lib/valgrind:*.la:*.png:*.py:*.pl:*.pm:*.sh:*.xml:*.xslt:*.a:*.js</value>
+    <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
+    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
+    <value type="QString">PS3=> </value>
+    <value type="QString">PS4=+ </value>
     <value type="QString">PWD=/home/lukas</value>
-    <value type="QString">QTDIR=/usr/share/qt4</value>
-    <value type="QString">RUBYOPT=-rauto_gem</value>
-    <value type="QString">SGML_CATALOG_FILES=/etc/sgml/sgml-lite.cat:/etc/sgml/sgml-ent.cat:/etc/sgml/xml-docbook-4.1.2.cat:/etc/sgml/xml-docbook-4.4.cat:/etc/sgml/dsssl-docbook-stylesheets.cat:/etc/sgml/sgml-docbook.cat:/etc/sgml/sgml-docbook-3.1.cat</value>
+    <value type="QString">QTDIR=/usr/share/qt</value>
     <value type="QString">SHELL=/bin/zsh</value>
     <value type="QString">SHLVL=2</value>
     <value type="QString">TERM=linux</value>
     <value type="QString">USER=lukas</value>
-    <value type="QString">VMHANDLE=blackdown-jdk-1.4.2</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
+    <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/local/share:/usr/share</value>
+    <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
+    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
@@ -283,10 +230,17 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">BROWSER=/home/lukas/chromium.sh</value>
+    <value type="QString">CCACHE_DIR=/home/lukas/.ccache</value>
+    <value type="QString">CCACHE_SIZE=4G</value>
+    <value type="QString">CFLAGS=-march=core2 -O2 -pipe</value>
+    <value type="QString">CHOST=x86_64-pc-linux-gnu</value>
+    <value type="QString">CXXFLAGS=-march=core2 -O2 -pipe</value>
     <value type="QString">DISPLAY=:0.0</value>
+    <value type="QString">EDITOR=gvim</value>
     <value type="QString">G_BROKEN_FILENAMES=1</value>
     <value type="QString">HISTCONTROL=erasedups</value>
-    <value type="QString">HISTSIZE=1000</value>
+    <value type="QString">HISTSIZE=1000000</value>
     <value type="QString">HOME=/home/lukas</value>
     <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
@@ -294,23 +248,51 @@
     <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MUSCA=musca</value>
-    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">MAKEOPTS=-j7</value>
+    <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
+    <value type="QString">PATH=/usr/bin:/usr/lib/ccache/bin/:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
     <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
     <value type="QString">PS3=> </value>
     <value type="QString">PS4=+ </value>
-    <value type="QString">PWD=/home/lukas</value>
+    <value type="QString">PWD=/home/lukas/dev/qt/copyq</value>
     <value type="QString">QTDIR=/usr/share/qt</value>
+    <value type="QString">SANDBOX_WRITE=:/home/lukas/.ccache</value>
     <value type="QString">SHELL=/bin/zsh</value>
-    <value type="QString">SHLVL=2</value>
-    <value type="QString">TERM=linux</value>
+    <value type="QString">SHLVL=4</value>
+    <value type="QString">STY=2444.default</value>
+    <value type="QString">TERM=screen</value>
+    <value type="QString">TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
+	:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC:UP=\E[%dA:bs:bt=\E[Z:\
+	:cd=\E[J:ce=\E[K:cl=\E[H\E[J:cm=\E[%i%d;%dH:ct=\E[3g:\
+	:do=^J:nd=\E[C:pt:rc=\E8:rs=\Ec:sc=\E7:st=\EH:up=\EM:\
+	:le=^H:bl=^G:cr=^M:it#8:ho=\E[H:nw=\EE:ta=^I:is=\E)0:\
+	:li#38:co#150:am:xn:xv:LP:sr=\EM:al=\E[L:AL=\E[%dL:\
+	:cs=\E[%i%d;%dr:dl=\E[M:DL=\E[%dM:dc=\E[P:DC=\E[%dP:\
+	:im=\E[4h:ei=\E[4l:mi:IC=\E[%d@:ks=\E[?1h\E=:\
+	:ke=\E[?1l\E>:vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l:\
+	:ti=\E[?1049h:te=\E[?1049l:us=\E[4m:ue=\E[24m:so=\E[3m:\
+	:se=\E[23m:mb=\E[5m:md=\E[1m:mr=\E[7m:me=\E[m:ms:\
+	:Co#8:pa#64:AF=\E[3%dm:AB=\E[4%dm:op=\E[39;49m:AX:\
+	:vb=\Eg:G0:as=\E(0:ae=\E(B:\
+	:ac=\140\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++,,hhII00:\
+	:po=\E[5i:pf=\E[4i:k0=\E[10~:k1=\EOP:k2=\EOQ:k3=\EOR:\
+	:k4=\EOS:k5=\E[15~:k6=\E[17~:k7=\E[18~:k8=\E[19~:\
+	:k9=\E[20~:k;=\E[21~:F1=\E[23~:F2=\E[24~:F3=\E[1;2P:\
+	:F4=\E[1;2Q:F5=\E[1;2R:F6=\E[1;2S:F7=\E[15;2~:\
+	:F8=\E[17;2~:F9=\E[18;2~:FA=\E[19;2~:kb=^H:K2=\EOE:\
+	:kB=\E[Z:kF=\E[1;2B:kR=\E[1;2A:*4=\E[3;2~:*7=\E[1;2F:\
+	:#2=\E[1;2H:#3=\E[2;2~:#4=\E[1;2D:%c=\E[6;2~:%e=\E[5;2~:\
+	:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:@7=\E[4~:\
+	:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:kd=\EOB:\
+	:kr=\EOC:kl=\EOD:km:</value>
     <value type="QString">USER=lukas</value>
+    <value type="QString">WINDOW=0</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
     <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.config</value>
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/lukas/dev/qt/copyq/copyq.pro</value>
@@ -329,10 +311,17 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">BROWSER=/home/lukas/chromium.sh</value>
+    <value type="QString">CCACHE_DIR=/home/lukas/.ccache</value>
+    <value type="QString">CCACHE_SIZE=4G</value>
+    <value type="QString">CFLAGS=-march=core2 -O2 -pipe</value>
+    <value type="QString">CHOST=x86_64-pc-linux-gnu</value>
+    <value type="QString">CXXFLAGS=-march=core2 -O2 -pipe</value>
     <value type="QString">DISPLAY=:0.0</value>
+    <value type="QString">EDITOR=gvim</value>
     <value type="QString">G_BROKEN_FILENAMES=1</value>
     <value type="QString">HISTCONTROL=erasedups</value>
-    <value type="QString">HISTSIZE=1000</value>
+    <value type="QString">HISTSIZE=1000000</value>
     <value type="QString">HOME=/home/lukas</value>
     <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
@@ -340,23 +329,51 @@
     <value type="QString">LESS=-R</value>
     <value type="QString">LOGNAME=lukas</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MUSCA=musca</value>
-    <value type="QString">PATH=/usr/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">MAKEOPTS=-j7</value>
+    <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
+    <value type="QString">PATH=/usr/bin:/usr/lib/ccache/bin/:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
     <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
     <value type="QString">PS3=> </value>
     <value type="QString">PS4=+ </value>
-    <value type="QString">PWD=/home/lukas</value>
+    <value type="QString">PWD=/home/lukas/dev/qt/copyq</value>
     <value type="QString">QTDIR=/usr/share/qt</value>
+    <value type="QString">SANDBOX_WRITE=:/home/lukas/.ccache</value>
     <value type="QString">SHELL=/bin/zsh</value>
-    <value type="QString">SHLVL=2</value>
-    <value type="QString">TERM=linux</value>
+    <value type="QString">SHLVL=4</value>
+    <value type="QString">STY=2444.default</value>
+    <value type="QString">TERM=screen</value>
+    <value type="QString">TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
+	:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC:UP=\E[%dA:bs:bt=\E[Z:\
+	:cd=\E[J:ce=\E[K:cl=\E[H\E[J:cm=\E[%i%d;%dH:ct=\E[3g:\
+	:do=^J:nd=\E[C:pt:rc=\E8:rs=\Ec:sc=\E7:st=\EH:up=\EM:\
+	:le=^H:bl=^G:cr=^M:it#8:ho=\E[H:nw=\EE:ta=^I:is=\E)0:\
+	:li#38:co#150:am:xn:xv:LP:sr=\EM:al=\E[L:AL=\E[%dL:\
+	:cs=\E[%i%d;%dr:dl=\E[M:DL=\E[%dM:dc=\E[P:DC=\E[%dP:\
+	:im=\E[4h:ei=\E[4l:mi:IC=\E[%d@:ks=\E[?1h\E=:\
+	:ke=\E[?1l\E>:vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l:\
+	:ti=\E[?1049h:te=\E[?1049l:us=\E[4m:ue=\E[24m:so=\E[3m:\
+	:se=\E[23m:mb=\E[5m:md=\E[1m:mr=\E[7m:me=\E[m:ms:\
+	:Co#8:pa#64:AF=\E[3%dm:AB=\E[4%dm:op=\E[39;49m:AX:\
+	:vb=\Eg:G0:as=\E(0:ae=\E(B:\
+	:ac=\140\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++,,hhII00:\
+	:po=\E[5i:pf=\E[4i:k0=\E[10~:k1=\EOP:k2=\EOQ:k3=\EOR:\
+	:k4=\EOS:k5=\E[15~:k6=\E[17~:k7=\E[18~:k8=\E[19~:\
+	:k9=\E[20~:k;=\E[21~:F1=\E[23~:F2=\E[24~:F3=\E[1;2P:\
+	:F4=\E[1;2Q:F5=\E[1;2R:F6=\E[1;2S:F7=\E[15;2~:\
+	:F8=\E[17;2~:F9=\E[18;2~:FA=\E[19;2~:kb=^H:K2=\EOE:\
+	:kB=\E[Z:kF=\E[1;2B:kR=\E[1;2A:*4=\E[3;2~:*7=\E[1;2F:\
+	:#2=\E[1;2H:#3=\E[2;2~:#4=\E[1;2D:%c=\E[6;2~:%e=\E[5;2~:\
+	:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:@7=\E[4~:\
+	:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:kd=\EOB:\
+	:kr=\EOC:kl=\EOD:km:</value>
     <value type="QString">USER=lukas</value>
+    <value type="QString">WINDOW=0</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
     <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.config</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
