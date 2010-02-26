@@ -467,6 +467,11 @@ void ClipboardBrowser::readSettings(const QString &css)
             add( v.toString() );
     }
 
+    // performance:
+    // force the delegate to calculate the size of each item
+    // -- this will save some time when drawing the list for the fist time
+    sizeHintForColumn(0);
+
     timer_save.stop();
 
     sync(false);
