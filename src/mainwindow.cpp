@@ -165,6 +165,9 @@ void MainWindow::handleMessage(const QString& message)
         else
             show();
     }
+    else if ( message == "action" ) {
+        ui->clipboardBrowser->openActionDialog(0);
+    }
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)

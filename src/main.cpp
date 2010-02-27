@@ -40,7 +40,9 @@ int main(int argc, char *argv[])
     QCoreApplication::setApplicationName("copyq");
 
     QtSingleApplication app(argc, argv);
-    if ( app.sendMessage("toggle") )
+
+    // try to send a message if application already running
+    if ( app.sendMessage(argc > 1 ? argv[1] : "toggle") )
         return 0;
 
     app.processEvents();

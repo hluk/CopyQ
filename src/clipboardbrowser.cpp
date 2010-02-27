@@ -304,6 +304,21 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void ClipboardBrowser::openActionDialog(int row)
+{
+    if (!actionDialog) {
+        actionDialog = new ActionDialog(this);
+        actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
+
+        connect( actionDialog, SIGNAL(addItems(const QStringList)),
+                 this, SLOT(addItems(const QStringList&)) );
+        connect( actionDialog, SIGNAL(error(const QString)),
+                 this, SIGNAL(error(const QString)) );
+    }
+    actionDialog->setInput( row == -1 ? selectedText() : itemText(row) );
+    actionDialog->exec();
+}
+
 void ClipboardBrowser::dataChanged(const QModelIndex &first, const QModelIndex &last)
 {
     for( int i = first.row(); i<=last.row(); ++i)

@@ -63,6 +63,9 @@ class ClipboardBrowser : public QListView
         // else: return text of first item
         const QString selectedText() const;
 
+        // do action on item on given row (default is selected item)
+        void openActionDialog(int row = -1);
+
     private:
         QClipboard *m_clip;
         int m_maxitems;

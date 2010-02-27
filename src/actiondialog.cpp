@@ -81,7 +81,6 @@ void ActionDialog::restoreHistory()
     while( !in.atEnd() ) {
         in >> v;
         m_history.append( v.toString() );
-        qDebug() << v.toString();
     }
 
     if ( m_completer )
