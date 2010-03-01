@@ -42,7 +42,8 @@ int main(int argc, char *argv[])
     QtSingleApplication app(argc, argv);
 
     // try to send a message if application already running
-    if ( app.sendMessage(argc > 1 ? argv[1] : "toggle") )
+    // -1 means wait forever for app to respond (if instance found)
+    if ( app.sendMessage(argc > 1 ? argv[1] : "toggle", -1) )
         return 0;
 
     app.processEvents();

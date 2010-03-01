@@ -70,7 +70,6 @@ class ClipboardBrowser : public QListView
         QClipboard *m_clip;
         int m_maxitems;
         QString m_editor;
-        QBasicTimer timer;
         QBasicTimer timer_save;
         ClipboardModel *m;
         ItemDelegate *d;

@@ -71,21 +71,16 @@ void ClipboardBrowser::startMonitoring()
 {
     connect( m_clip, SIGNAL(changed(QClipboard::Mode)),
             this, SLOT(clipboardChanged(QClipboard::Mode)) );
-
-    // check clipboard in intervals
-    timer.start(1000, this);
 }
 
 void ClipboardBrowser::stopMonitoring()
 {
     disconnect( m_clip, SIGNAL(changed(QClipboard::Mode)),
             this, SLOT(clipboardChanged(QClipboard::Mode)) );
-    timer.stop();
 }
 
 ClipboardBrowser::~ClipboardBrowser()
 {
-    timer.stop();
     emit closeAllEditors();
 }
 
@@ -195,11 +190,7 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::timerEvent(QTimerEvent *event)
 {
-    if ( event->timerId() == timer.timerId() ) {
-        if ( m_clip->text(QClipboard::Selection) != itemText(0) )
-            add(m_clip->text(QClipboard::Selection));
-    }
-    else if ( event->timerId() == timer_save.timerId() ) {
+    if ( event->timerId() == timer_save.timerId() ) {
         saveItems();
         timer_save.stop();
     }
@@ -560,11 +551,7 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 {
     if ( mode == QClipboard::Selection )
     {
-        timer.stop();
-
-        // don't handle selections
-        // already handled or
-        // made in this browser
+        // don't handle this app's selections
         if ( hasFocus() ) return;
 
         // handle selection only if mouse button not held
@@ -584,8 +571,6 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
         } while (event.xbutton.state & Button1Mask);
         
         XCloseDisplay(dsp);
-
-        timer.start(1000, this);
     }
 
     sync(false);
@@ -597,6 +582,7 @@ void ClipboardBrowser::sync(bool list_to_clipboard)
     QVariant data;
     QString text;
 
+    stopMonitoring();
     // first item -> clipboard
     if (list_to_clipboard) {
         if ( m->rowCount() == 0 )
@@ -604,7 +590,6 @@ void ClipboardBrowser::sync(bool list_to_clipboard)
         data = itemData(0);
 
         // sync Clipboard == Selection
-        stopMonitoring();
         if ( data.type() == QVariant::Image ) {
             if ( m_clip->mimeData(QClipboard::Selection)->imageData() != data )
                 m_clip->setImage( data.value<QImage>(), QClipboard::Selection );
@@ -618,7 +603,6 @@ void ClipboardBrowser::sync(bool list_to_clipboard)
             if ( m_clip->text() != text )
                 m_clip->setText(text);
         }
-        startMonitoring();
     }
     // clipboard -> first item
     else {
@@ -635,7 +619,14 @@ void ClipboardBrowser::sync(bool list_to_clipboard)
                 text = m_clip->text(QClipboard::Selection);
                 if( text != itemData(0) )
                     add(text);
+
+                // X11: only current and previous owner
+                //      of selecting gets notified
+                // this ensures that app will be notified
+                // next time the selection is changed
+                m_clip->setText(text, QClipboard::Selection);
             }
         }
     }
+    startMonitoring();
 }
