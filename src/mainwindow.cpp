@@ -159,15 +159,31 @@ void MainWindow::readSettings()
 
 void MainWindow::handleMessage(const QString& message)
 {
-    if ( message == "toggle" ) {
+    int x = message.indexOf( QRegExp("\\s") );
+    if (x == -1)
+        x = message.length();
+    QString cmd = message.mid(0,x);
+
+    // force check clipboard
+    ui->clipboardBrowser->clipboardChanged();
+    ui->clipboardBrowser->clipboardChanged(QClipboard::Selection);
+
+    // show/hide main window
+    if ( cmd == "toggle") {
         if ( this->isVisible() )
             close();
         else
             show();
     }
-    else if ( message == "action" ) {
+    // show action dialog
+    else if ( cmd == "action" )
         ui->clipboardBrowser->openActionDialog(0);
-    }
+    // add new item
+    else if ( cmd == "add" )
+        // TODO: local encoding
+        ui->clipboardBrowser->add( message.mid(x+1) );
+    else
+        showError("Unknown command");
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)

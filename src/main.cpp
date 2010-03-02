@@ -41,9 +41,15 @@ int main(int argc, char *argv[])
 
     QtSingleApplication app(argc, argv);
 
+    QString msg;
+
+    msg = argc > 1 ? QString(argv[1]) : QString("toggle");
+    for (int i = 2; i < argc; ++i)
+        msg += QString(' ') + argv[i];
+
     // try to send a message if application already running
     // -1 means wait forever for app to respond (if instance found)
-    if ( app.sendMessage(argc > 1 ? argv[1] : "toggle", -1) )
+    if ( app.sendMessage(msg, -1) )
         return 0;
 
     // style

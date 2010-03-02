@@ -617,7 +617,6 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
     QString text;
     QClipboard *clip = QApplication::clipboard();
 
-    qDebug() << "X";
     stopMonitoring();
     // first item -> clipboard
     if (list_to_clipboard) {

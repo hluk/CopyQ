@@ -161,7 +161,7 @@ void ActionDialog::accept()
                     errstr = QString("Exit code: %1\n").arg(proc.exitCode());
 
                 errstr += QString::fromLocal8Bit( proc.readAllStandardError() );
-                stdout = QString::fromUtf8( proc.readAll() );
+                stdout = QString::fromLocal8Bit( proc.readAll() );
 
                 if ( !stdout.isEmpty() ) {
                     // separate items

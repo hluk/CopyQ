@@ -5,8 +5,6 @@ For build and install CopyQ see INSTALL file.
 To start CopyQ run copyq (creates tray icon). Running this command again will
 show CopyQ clipboard history.
 
-Program argument "action" shows action dialog if CopyQ is already running.
-
 To exit application close window or middle-click on tray icon.
 
 Keyboard navigation
@@ -39,4 +37,12 @@ copyq.conf:
 
 copyq.css:
     Qt stylesheet defining appearance of CopyQ window and item list.
+
+
+Command Line Arguments
+======================
+toggle     -- show/hide main window
+action     -- show action dialog
+add <text> -- add text into clipboard 
+get        -- print clipboard contents
 
