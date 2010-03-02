@@ -46,8 +46,6 @@ int main(int argc, char *argv[])
     if ( app.sendMessage(argc > 1 ? argv[1] : "toggle", -1) )
         return 0;
 
-    app.processEvents();
-
     // style
     QSettings::Format cssFormat = QSettings::registerFormat(
             "css", readCssFile, writeCssFile);

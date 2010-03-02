@@ -25,6 +25,7 @@
 #include <QClipboard>
 #include <QBasicTimer>
 #include <QSettings>
+#include <QMimeData>
 #include "qeditor.h"
 
 class ActionDialog;
@@ -50,12 +51,13 @@ class ClipboardBrowser : public QListView
         QVariant itemData(int row) const {
             return model()->data( index(row), Qt::EditRole );
         }
-        void sync(bool list_to_clipboard = true);
+        void sync(bool list_to_clipboard = true, QClipboard::Mode mode = QClipboard::Clipboard);
         QModelIndex index(int i) const {
             return model()->index(i,0);
         }
         void setCurrent(int row, bool cycle = false, bool selection = false);
 
+        void setMonitoringInterval(int msec) { m_msec = msec; };
         void startMonitoring();
         void stopMonitoring();
 
@@ -67,13 +69,15 @@ class ClipboardBrowser : public QListView
         void openActionDialog(int row = -1);
 
     private:
-        QClipboard *m_clip;
         int m_maxitems;
+        int m_msec;
         QString m_editor;
+        QBasicTimer timer;
         QBasicTimer timer_save;
         ClipboardModel *m;
         ItemDelegate *d;
         ActionDialog *actionDialog;
+        QString m_lastSelection;
 
         const QString dataFilename() const;
 
@@ -91,7 +95,7 @@ class ClipboardBrowser : public QListView
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
-        void clipboardChanged(QClipboard::Mode);
+        void clipboardChanged(QClipboard::Mode mode = QClipboard::Clipboard);
         void moveToClipboard(const QModelIndex &ind);
         void moveToClipboard(const QString &str);
         void moveToClipboard(int i);

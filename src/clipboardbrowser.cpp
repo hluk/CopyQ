@@ -36,11 +36,9 @@ extern int error_handler(Display *dsp, XErrorEvent *err)
     return 0;
 }
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent)
+ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
+    m_msec(1000), actionDialog(NULL)
 {
-    m_clip = QApplication::clipboard();
-    actionDialog = NULL;
-
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
     setItemDelegate(d);
@@ -69,14 +67,18 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent)
 
 void ClipboardBrowser::startMonitoring()
 {
-    connect( m_clip, SIGNAL(changed(QClipboard::Mode)),
-            this, SLOT(clipboardChanged(QClipboard::Mode)) );
+    // slot/signals method to monitor
+    // X11 clipboard is unreliable:
+    // - X11 will notify app only if it is
+    //   current or previous owner of clipboard
+    // - getting clipboard contents from GTK apps
+    //   is slow in some cases
+    timer.start(m_msec, this);
 }
 
 void ClipboardBrowser::stopMonitoring()
 {
-    disconnect( m_clip, SIGNAL(changed(QClipboard::Mode)),
-            this, SLOT(clipboardChanged(QClipboard::Mode)) );
+    timer.stop();
 }
 
 ClipboardBrowser::~ClipboardBrowser()
@@ -190,7 +192,19 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::timerEvent(QTimerEvent *event)
 {
-    if ( event->timerId() == timer_save.timerId() ) {
+    if ( event->timerId() == timer.timerId() ) {
+        QString txt;
+
+        txt = QApplication::clipboard()->text();
+        if( txt != m_lastSelection )
+            clipboardChanged();
+        else {
+            txt = QApplication::clipboard()->text(QClipboard::Selection);
+            if( txt != m_lastSelection )
+                clipboardChanged(QClipboard::Selection);
+        }
+    }
+    else if ( event->timerId() == timer_save.timerId() ) {
         saveItems();
         timer_save.stop();
     }
@@ -402,28 +416,31 @@ bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
         if( txt == itemText(i) )
            break;
     }
-    // move found same item to top
+    // found identical item - remove
     if ( i < m->rowCount() ) {
-        moveToClipboard(i);
+        // nothing to do
+        if ( i == 0 )
+            return true;
+        else
+            m->removeRow(i);
     }
-    else {
-        // create new item
-        m->insertRow(0);
-        QModelIndex ind = index(0);
-        m->setData(ind, txt);
 
-        // filter item
-        if ( m->isFiltered(0) )
-            setRowHidden(0,true);
+    // create new item
+    m->insertRow(0);
+    QModelIndex ind = index(0);
+    m->setData(ind, txt);
 
-        // list size limit
-        if ( m->rowCount() > m_maxitems )
-            m->removeRow( m->rowCount() - 1 );
+    // filter item
+    if ( m->isFiltered(0) )
+        setRowHidden(0,true);
 
-        // save
-        if ( !timer_save.isActive() )
-            timer_save.start(30000, this);
-    }
+    // list size limit
+    if ( m->rowCount() > m_maxitems )
+        m->removeRow( m->rowCount() - 1 );
+
+    // save
+    if ( !timer_save.isActive() )
+        timer_save.start(30000, this);
     
     return true;
 }
@@ -450,6 +467,7 @@ void ClipboardBrowser::readSettings(const QString &css)
     d->setStyleSheet(css);
 
     // restore configuration
+    m_msec = settings.value("inteval", 1000).toInt();
     m_maxitems = settings.value("maxitems", 400).toInt();
     m_editor = settings.value("editor", "gvim -f %1").toString();
     d->setItemFormat( settings.value("format",
@@ -487,6 +505,7 @@ void ClipboardBrowser::writeSettings()
 {
     QSettings settings;
 
+    settings.setValue( "interval", m_msec );
     settings.setValue( "maxitems", m_maxitems );
     settings.setValue( "editor", m_editor );
     settings.setValue( "format", d->itemFormat() );
@@ -551,37 +570,54 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 {
     if ( mode == QClipboard::Selection )
     {
-        // don't handle this app's selections
+        // active wait while key or mouse button pressed
+        // (i.e. selection is incomplete)
+
+        // don't handle selections in own window
         if ( hasFocus() ) return;
 
-        // handle selection only if mouse button not held
         XSetErrorHandler(error_handler);
         Display *dsp = XOpenDisplay( NULL );
         Window root = DefaultRootWindow(dsp);
         XEvent event;
 
-        // active wait on mouse button release
-        do {
+        char keys_return[32];
+        bool key_pressed;
+        while(true) {
             XQueryPointer(dsp, root,
                     &event.xbutton.root, &event.xbutton.window,
                     &event.xbutton.x_root, &event.xbutton.y_root,
                     &event.xbutton.x, &event.xbutton.y,
                     &event.xbutton.state);
-            usleep(200);
-        } while (event.xbutton.state & Button1Mask);
+            if( !(event.xbutton.state & Button1Mask) ) {
+                key_pressed = false;
+                XQueryKeymap(dsp, keys_return);
+                for (int i=0; i<32; ++i) {
+                    if( keys_return[i] != 0 ) {
+                        key_pressed = true;
+                        break;
+                    }
+                }
+                if( !key_pressed )
+                    break;
+            }
+            usleep(500);
+        };
         
         XCloseDisplay(dsp);
     }
 
-    sync(false);
+    sync(false, mode);
 }
 
-void ClipboardBrowser::sync(bool list_to_clipboard)
+void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
 {
     // synchronize data/text
     QVariant data;
     QString text;
+    QClipboard *clip = QApplication::clipboard();
 
+    qDebug() << "X";
     stopMonitoring();
     // first item -> clipboard
     if (list_to_clipboard) {
@@ -589,44 +625,45 @@ void ClipboardBrowser::sync(bool list_to_clipboard)
             return;
         data = itemData(0);
 
-        // sync Clipboard == Selection
+        // sync clipboard
         if ( data.type() == QVariant::Image ) {
-            if ( m_clip->mimeData(QClipboard::Selection)->imageData() != data )
-                m_clip->setImage( data.value<QImage>(), QClipboard::Selection );
-            if ( m_clip->mimeData()->imageData() != data )
-                m_clip->setImage( data.value<QImage>() );
+            clip->setImage( data.value<QImage>() );
+            clip->setImage( data.value<QImage>(), QClipboard::Selection );
+            m_lastSelection.clear();
         }
         else {
             text = data.toString();
-            if ( m_clip->text(QClipboard::Selection) != text )
-                m_clip->setText(text,QClipboard::Selection);
-            if ( m_clip->text() != text )
-                m_clip->setText(text);
+            clip->setText(text);
+            clip->setText(text,QClipboard::Selection);
+            m_lastSelection = text;
         }
     }
     // clipboard -> first item
     else {
-        if ( m_clip->mimeData()->hasImage() ) {
-            data = m_clip->image();
+        const QMimeData *mime = clip->mimeData(mode);
+        if ( mime->hasImage() ) {
+            data = clip->image(mode);
             if( data != itemData(0) )
                 add(data);
         }
-        else {
-            text = m_clip->text();
-            if( text != itemText(0) )
+        else if ( mime->hasText() ) {
+            text = clip->text(mode);
+            QString current = itemText(0);
+            if( text.isEmpty() )
+                text = current;
+            else if( text != current )
                 add(text);
-            else {
-                text = m_clip->text(QClipboard::Selection);
-                if( text != itemData(0) )
-                    add(text);
 
-                // X11: only current and previous owner
-                //      of selecting gets notified
-                // this ensures that app will be notified
-                // next time the selection is changed
-                m_clip->setText(text, QClipboard::Selection);
-            }
+            clip->setText(text);
+            // set selection only if it's different
+            // - this avoids clearing selection in
+            //   e.g. terminal apps
+            if ( text != clip->text(QClipboard::Selection) )
+                clip->setText(text, QClipboard::Selection);
+            m_lastSelection = text;
         }
+        else if ( mime->formats().isEmpty() )
+            clip->setText(text, mode);
     }
     startMonitoring();
 }
