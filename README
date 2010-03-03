@@ -1,11 +1,13 @@
-CopyQ is clipboard manager with searchable and editable items in history.
+CopyQ is clipboard manager with searchable and editable history.
 
-For build and install CopyQ see INSTALL file.
+To build and install CopyQ on your system read INSTALL file.
 
-To start CopyQ run copyq (creates tray icon). Running this command again will
-show CopyQ clipboard history.
+To start CopyQ run copyq command. The application will be minimized in
+system tray. Running this command again will show CopyQ window (or hide
+if it is not minimized in tray).
 
-To exit application close window or middle-click on tray icon.
+To exit the application middle-click on the tray icon or press CTRL-Q keys
+in the application window.
 
 Keyboard navigation
 ===================
@@ -16,27 +18,33 @@ Ctrl-Up,
 Ctrl-Down -- move selected item
 Escape    -- hide window
 Ctrl-Q    -- exit
-F2        -- edit item
-Ctrl-E    -- edit item in external editor
+F2        -- edit item (in place)
+Ctrl-E    -- edit item (in external editor)
 Ctrl-A    -- open action dialog
 Delete    -- delete item
 Enter     -- put item into clipboard
 
-Type a number to select item with given id.
+Type any number to select item with given id.
 
 Type a regular expressions (case-insensitive) to search/filter items.
 
 
 Configuration
 =============
-All configuration files are in ~/.config/copyq directory.
+All configuration files are stored in ~/.config/copyq directory.
 
 copyq.conf:
     editor   -- external editor command
     maxitems -- max items in history
+    format   -- history item appearance
+             -- HTML formated string where:
+                 %1 is item id and
+                 %2 is item text
+    interval -- interval in milliseconds to check clipboard
 
 copyq.css:
-    Qt stylesheet defining appearance of CopyQ window and item list.
+    Qt style sheet defining appearance of CopyQ window and item list.
+    See documentation: http://qt.nokia.com/doc/stylesheet.html
 
 
 Command Line Arguments
@@ -45,7 +53,7 @@ toggle     -- show/hide main window
 action     -- show action dialog
 action [row=0] "command" [separator=\n]
            -- apply command on item text in the row
-add <text> -- add text into clipboard 
+add "text" -- add text into clipboard 
 get        -- print clipboard contents
 edit       -- edit clipboard item
 new        -- create and edit new item
