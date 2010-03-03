@@ -120,7 +120,6 @@ void ActionDialog::accept()
         return;
     QStringList items;
     QString input = ui->inputText->text();
-    QIODevice::OpenMode mode = QIODevice::NotOpen;
     QProcess proc;
     QString errstr;
 
@@ -135,28 +134,21 @@ void ActionDialog::accept()
     if ( !ui->inputCheckBox->isEnabled() )
         input.clear();
 
-    // IO mode
-    if ( !input.isEmpty() )
-        mode |= QIODevice::WriteOnly;
-    if ( ui->outputCheckBox->isChecked() )
-        mode |= QIODevice::ReadOnly;
-
     // execute command (with input if needed)
     proc.setProcessChannelMode(QProcess::SeparateChannels);
-    proc.start(cmd, mode);
+    proc.start(cmd, QIODevice::ReadWrite);
 
     if ( proc.waitForStarted() ) {
         // write input
-        if (mode & QIODevice::WriteOnly) {
+        if ( !input.isEmpty() )
             proc.write( input.toLocal8Bit() );
-        }
         proc.closeWriteChannel();
 
-        // read output
-        if (mode & QIODevice::ReadOnly) {
-            QString stdout;
+        if ( proc.waitForFinished() ) {
+            // read output
+            if ( ui->outputCheckBox->isChecked() ) {
+                QString stdout;
 
-            if ( proc.waitForFinished() ) {
                 if ( proc.exitCode() != 0 )
                     errstr = QString("Exit code: %1\n").arg(proc.exitCode());
 
@@ -173,11 +165,11 @@ void ActionDialog::accept()
                         items.append(stdout);
                 }
             }
-            else
-                errstr = proc.errorString();
         }
+        else
+            errstr = proc.errorString();
         emit addItems(items);
-        add(cmd);
+        add( ui->cmdEdit->text() );
         close();
     }
     else

@@ -182,6 +182,8 @@ void MainWindow::handleMessage(const QString& message)
     else if ( cmd == "add" )
         // TODO: local encoding
         ui->clipboardBrowser->add( message.mid(x+1) );
+    // TODO: get item text
+    // TODO: move item
     else
         showError("Unknown command");
 }
