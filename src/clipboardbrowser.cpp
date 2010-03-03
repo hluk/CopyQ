@@ -309,7 +309,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void ClipboardBrowser::openActionDialog(int row)
+void ClipboardBrowser::action(int row, const QString &cmd,
+                              const QString &sep, bool input, bool output)
 {
     if (!actionDialog) {
         actionDialog = new ActionDialog(this);
@@ -320,25 +321,38 @@ void ClipboardBrowser::openActionDialog(int row)
         connect( actionDialog, SIGNAL(error(const QString)),
                  this, SIGNAL(error(const QString)) );
     }
-    actionDialog->setInput( row == -1 ? selectedText() : itemText(row) );
-    actionDialog->exec();
+    if (input)
+        actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
+    actionDialog->setCommand(cmd);
+    actionDialog->setSeparator(sep);
+    actionDialog->setInput(input);
+    actionDialog->setOutput(output);
+    actionDialog->accept();
+}
+
+void ClipboardBrowser::openActionDialog(int row, bool modal)
+{
+    if (!actionDialog) {
+        actionDialog = new ActionDialog(this);
+        actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
+
+        connect( actionDialog, SIGNAL(addItems(const QStringList)),
+                 this, SLOT(addItems(const QStringList&)) );
+        connect( actionDialog, SIGNAL(error(const QString)),
+                 this, SIGNAL(error(const QString)) );
+    }
+    actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
+    if (modal)
+        actionDialog->exec();
+    else
+        actionDialog->show();
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &first, const QModelIndex &last)
 {
-    for( int i = first.row(); i<=last.row(); ++i)
-        on_itemChanged(i);
-    QListView::dataChanged(first, last);
-}
-
-void ClipboardBrowser::on_itemChanged( int i )
-{
-    // remove empty item
-    if ( !m->isImage(i) && itemText(i).indexOf( QRegExp("^\\s*$") ) != -1 )
-        m->removeRow(i);
-    // first item (clipboard contents) changed
-    if ( i == 0 )
+    if ( first.row() == 0 )
         sync();
+    QListView::dataChanged(first, last);
 }
 
 void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)

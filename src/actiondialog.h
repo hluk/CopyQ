@@ -14,11 +14,16 @@ class ActionDialog : public QDialog {
 public:
     ActionDialog(QWidget *parent = 0);
     ~ActionDialog();
-    void setInput(QString input);
+    void setInput(const QString &input);
     void restoreHistory();
     void saveHistory();
-    void add(QString command);
+    void add(const QString &command);
     const QString dataFilename() const;
+
+    void setCommand(const QString &cmd);
+    void setSeparator(const QString &sep);
+    void setInput(bool value);
+    void setOutput(bool value);
 
 protected:
     void changeEvent(QEvent *e);

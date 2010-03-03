@@ -66,7 +66,7 @@ class ClipboardBrowser : public QListView
         const QString selectedText() const;
 
         // do action on item on given row (default is selected item)
-        void openActionDialog(int row = -1);
+        void openActionDialog(int row = -1, bool modal = true);
 
     private:
         int m_maxitems;
@@ -102,11 +102,11 @@ class ClipboardBrowser : public QListView
         void filterItems(const QString &str);
         void itemModified(uint hash, const QString &str);
         void addItems(const QStringList &items);
-
-    private slots:
-        void on_itemChanged(int i);
         void closeEditor(QEditor *editor);
         void openEditor();
+        void action(int row, const QString &cmd,
+                    const QString &sep = QString('\n'),
+                    bool input = true, bool output = true);
 };
 
 #endif // CLIPBOARDBROWSER_H

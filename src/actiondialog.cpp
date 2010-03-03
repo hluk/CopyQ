@@ -36,7 +36,7 @@ void ActionDialog::changeEvent(QEvent *e)
     }
 }
 
-void ActionDialog::setInput(QString input)
+void ActionDialog::setInput(const QString &input)
 {
     if ( input.isEmpty() ) {
         // no input
@@ -53,12 +53,12 @@ void ActionDialog::setInput(QString input)
     }
 }
 
-void ActionDialog::add(QString command)
+void ActionDialog::add(const QString &cmd)
 {
-    if ( m_history.contains(command) )
+    if ( m_history.contains(cmd) )
         return;
 
-    m_history.prepend(command);
+    m_history.prepend(cmd);
     if ( m_history.size() > m_maxitems )
         m_history.removeLast();
 
@@ -177,4 +177,24 @@ void ActionDialog::accept()
 
     if ( !errstr.isEmpty() )
         emit error(errstr);
+}
+
+void ActionDialog::setCommand(const QString &cmd)
+{
+    ui->cmdEdit->setText(cmd);
+}
+
+void ActionDialog::setSeparator(const QString &sep)
+{
+    ui->separatorEdit->setText(sep);
+}
+
+void ActionDialog::setInput(bool value)
+{
+    ui->inputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
+}
+
+void ActionDialog::setOutput(bool value)
+{
+    ui->inputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
 }

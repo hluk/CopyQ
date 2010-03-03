@@ -43,6 +43,10 @@ Command Line Arguments
 ======================
 toggle     -- show/hide main window
 action     -- show action dialog
+action [row=0] "command" [separator=\n]
+           -- apply command on item text in the row
 add <text> -- add text into clipboard 
 get        -- print clipboard contents
+edit       -- edit clipboard item
+new        -- create and edit new item
 

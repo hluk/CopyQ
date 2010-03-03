@@ -159,14 +159,14 @@ void MainWindow::readSettings()
 
 void MainWindow::handleMessage(const QString& message)
 {
-    int x = message.indexOf( QRegExp("\\s") );
-    if (x == -1)
-        x = message.length();
-    QString cmd = message.mid(0,x);
+    // TODO: local encoding
+    QStringList args = message.split(QChar('\n'));
+    const QString &cmd = args.at(0);
+    ClipboardBrowser *c = ui->clipboardBrowser;
 
-    // force check clipboard
-    ui->clipboardBrowser->clipboardChanged();
-    ui->clipboardBrowser->clipboardChanged(QClipboard::Selection);
+    // force check clipboard (update clipboard browser)
+    c->clipboardChanged();
+    c->clipboardChanged(QClipboard::Selection);
 
     // show/hide main window
     if ( cmd == "toggle") {
@@ -175,15 +175,68 @@ void MainWindow::handleMessage(const QString& message)
         else
             show();
     }
-    // show action dialog
-    else if ( cmd == "action" )
-        ui->clipboardBrowser->openActionDialog(0);
+
+    else if ( cmd == "action" ) {
+        // show action dialog
+        if ( args.length() == 1 )
+            c->openActionDialog(0);
+        // action [row] "cmd" "[sep]"
+        else {
+            QString arg, cmd, sep;
+
+            args.pop_front();
+            arg = args.takeFirst();
+
+            // get row
+            bool ok;
+            int row = arg.toInt(&ok);
+            if (ok) {
+                if ( args.isEmpty() )
+                    goto actionError;
+                arg = args.takeFirst();
+            }
+            else
+                row = 0;
+
+            // get command
+            cmd = arg;
+
+            // get separator
+            sep = args.isEmpty() ?
+                  QString('\n') : args.takeFirst();
+
+            if ( !args.isEmpty() )
+                goto actionError;
+
+            c->action(row, cmd, sep);
+            return;
+
+            actionError:
+            showError("Bad \"action\" command syntax!\n"
+                  "action [row] cmd [sep]");
+        }
+    }
+
     // add new item
     else if ( cmd == "add" )
-        // TODO: local encoding
-        ui->clipboardBrowser->add( message.mid(x+1) );
+        c->add(args);
+
+    // edit clipboard item
+    else if ( cmd == "edit" ) {
+        c->setCurrent(0);
+        c->openEditor();
+    }
+
+    // create new item and edit it
+    else if ( cmd == "new" ) {
+        c->add(args[1], false);
+        c->setCurrent(0);
+        c->openEditor();
+    }
+
     // TODO: get item text
     // TODO: move item
+
     else
         showError("Unknown command");
 }

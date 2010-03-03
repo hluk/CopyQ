@@ -45,7 +45,7 @@ int main(int argc, char *argv[])
 
     msg = argc > 1 ? QString(argv[1]) : QString("toggle");
     for (int i = 2; i < argc; ++i)
-        msg += QString(' ') + argv[i];
+        msg.append( QString('\n') + argv[i] );
 
     // try to send a message if application already running
     // -1 means wait forever for app to respond (if instance found)
