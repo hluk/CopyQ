@@ -165,8 +165,7 @@ void MainWindow::handleMessage(const QString& message)
     ClipboardBrowser *c = ui->clipboardBrowser;
 
     // force check clipboard (update clipboard browser)
-    c->clipboardChanged();
-    c->clipboardChanged(QClipboard::Selection);
+    c->checkClipboard();
 
     // show/hide main window
     if ( cmd == "toggle") {

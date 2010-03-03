@@ -190,20 +190,22 @@ void ClipboardBrowser::moveToClipboard(int i)
     }
 }
 
+void ClipboardBrowser::checkClipboard()
+{
+    QString txt( QApplication::clipboard()->text() );
+    if( txt != m_lastSelection )
+        clipboardChanged();
+    else {
+        txt = QApplication::clipboard()->text(QClipboard::Selection);
+        if( txt != m_lastSelection )
+            clipboardChanged(QClipboard::Selection);
+    }
+}
+
 void ClipboardBrowser::timerEvent(QTimerEvent *event)
 {
-    if ( event->timerId() == timer.timerId() ) {
-        QString txt;
-
-        txt = QApplication::clipboard()->text();
-        if( txt != m_lastSelection )
-            clipboardChanged();
-        else {
-            txt = QApplication::clipboard()->text(QClipboard::Selection);
-            if( txt != m_lastSelection )
-                clipboardChanged(QClipboard::Selection);
-        }
-    }
+    if ( event->timerId() == timer.timerId() )
+        checkClipboard();
     else if ( event->timerId() == timer_save.timerId() ) {
         saveItems();
         timer_save.stop();

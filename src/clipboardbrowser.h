@@ -57,9 +57,11 @@ class ClipboardBrowser : public QListView
         }
         void setCurrent(int row, bool cycle = false, bool selection = false);
 
+        // clipboard monitoring functions
         void setMonitoringInterval(int msec) { m_msec = msec; };
         void startMonitoring();
         void stopMonitoring();
+        void checkClipboard();
 
         // if items selected: return concatenation of selected items
         // else: return text of first item
