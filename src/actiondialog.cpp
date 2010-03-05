@@ -148,22 +148,22 @@ void ActionDialog::accept()
         if ( proc.waitForFinished() ) {
             // read output
             if ( ui->outputCheckBox->isChecked() ) {
-                QString stdout;
+                QString outstr;
 
                 if ( proc.exitCode() != 0 )
                     errstr = QString("Exit code: %1\n").arg(proc.exitCode());
 
                 errstr += QString::fromLocal8Bit( proc.readAllStandardError() );
-                stdout = QString::fromLocal8Bit( proc.readAll() );
+                outstr = QString::fromLocal8Bit( proc.readAll() );
 
-                if ( !stdout.isEmpty() ) {
+                if ( !outstr.isEmpty() ) {
                     // separate items
                     QRegExp sep( ui->separatorEdit->text() );
                     if ( !sep.isEmpty() ) {
-                        items = stdout.split(sep);
+                        items = outstr.split(sep);
                     }
                     else
-                        items.append(stdout);
+                        items.append(outstr);
                 }
             }
         }

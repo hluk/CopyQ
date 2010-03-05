@@ -21,12 +21,15 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QApplication>
+#ifndef WIN32
 #include <X11/extensions/XInput.h>
+#endif
 #include <unistd.h> //usleep
 #include <actiondialog.h>
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
 
+#ifndef WIN32
 extern int error_handler(Display *dsp, XErrorEvent *err)
 {
     char buff[256];
@@ -35,6 +38,7 @@ extern int error_handler(Display *dsp, XErrorEvent *err)
 
     return 0;
 }
+#endif
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     m_msec(1000), actionDialog(NULL)
@@ -584,6 +588,7 @@ QString ClipboardBrowser::itemText(QModelIndex ind) const
 
 void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 {
+    #ifndef WIN32
     if ( mode == QClipboard::Selection )
     {
         // active wait while key or mouse button pressed
@@ -622,6 +627,7 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
         
         XCloseDisplay(dsp);
     }
+    #endif
 
     sync(false, mode);
 }

@@ -20,5 +20,10 @@ SOURCES += main.cpp \
     clipboardmodel.cpp \
     itemdelegate.cpp
 QT += xml
-LIBS += -lXi
+unix {
+    LIBS += -lXi
+}
+win32 {
+    CONFIG += static
+}
 include(qtsingleapplication/qtsingleapplication.pri)

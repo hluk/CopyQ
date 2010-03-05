@@ -87,7 +87,9 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+#ifndef WIN32
     showMinimized();
+#endif
     hide();
     event->ignore();
 }
@@ -170,12 +172,8 @@ void MainWindow::handleMessage(const QString& message)
     c->checkClipboard();
 
     // show/hide main window
-    if ( cmd == "toggle") {
-        if ( this->isVisible() )
-            close();
-        else
-            show();
-    }
+    if ( cmd == "toggle")
+        toggleVisible();
 
     else if ( cmd == "action" ) {
         // show action dialog
@@ -242,14 +240,22 @@ void MainWindow::handleMessage(const QString& message)
         showError("Unknown command");
 }
 
+void MainWindow::toggleVisible()
+{
+    if ( isVisible() )
+        close();
+    else {
+        show();
+        activateWindow();
+    }
+}
+
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick )
-        close();
-    else if (this->isVisible())
-        close();
+        QApplication::exit();
     else
-        showNormal();
+        toggleVisible();
 }
 
 void MainWindow::enterSearchMode(QEvent *event)

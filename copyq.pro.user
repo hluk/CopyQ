@@ -10,11 +10,11 @@
  </data>
  <data>
   <variable>RunConfiguration0-ProFile</variable>
-  <value type="QString">copyq.pro</value>
+  <value type="QString">src/src.pro</value>
  </data>
  <data>
   <variable>RunConfiguration0-RunConfiguration.name</variable>
-  <value type="QString">copyq</value>
+  <value type="QString">src</value>
  </data>
  <data>
   <variable>RunConfiguration0-UseDyldImageSuffix</variable>
@@ -30,7 +30,7 @@
  </data>
  <data>
   <variable>RunConfiguration0-UserSetName</variable>
-  <value type="bool">true</value>
+  <value type="bool">false</value>
  </data>
  <data>
   <variable>RunConfiguration0-UserSetWorkingDirectory</variable>
@@ -56,22 +56,17 @@
   <variable>buildConfiguration-Debug</variable>
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
-   <value key="QtVersionId" type="int">2</value>
+   <value key="QtVersionId" type="int">0</value>
    <value key="ToolChain" type="int">0</value>
    <value key="addQDumper" type=""></value>
    <value key="buildConfiguration" type="int">2</value>
-   <value key="buildDirectory" type="QString">/home/lukas/dev/qt/copyq/debug</value>
-   <value key="useShadowBuild" type="bool">true</value>
-   <valuelist key="userEnvironmentChanges" type="QVariantList">
-    <value type="QString">PWD=/home/lukas</value>
-   </valuelist>
   </valuemap>
  </data>
  <data>
   <variable>buildConfiguration-Release</variable>
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-   <value key="QtVersionId" type="int">0</value>
+   <value key="QtVersionId" type="int">2</value>
    <value key="ToolChain" type="int">0</value>
    <value key="addQDumper" type=""></value>
    <value key="buildConfiguration" type="int">0</value>
@@ -116,17 +111,14 @@
    </valuelist>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">/home/lukas/dev/qt/copyq/copyq.pro</value>
+    <value type="QString">-spec</value>
+    <value type="QString">linux-g++-64</value>
     <value type="QString">-r</value>
     <value type="QString">CONFIG+=debug</value>
-    <value type="QString">-spec</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/qmake</value>
-   <value key="abstractProcess.enabled" type="bool">false</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/debug</value>
-   <value key="buildConfiguration" type=""></value>
-   <valuelist key="qmakeArgs" type="QVariantList">
-    <value type="QString">-spec</value>
-   </valuelist>
+   <value key="abstractProcess.enabled" type="bool">true</value>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq</value>
   </valuemap>
  </data>
  <data>
@@ -166,17 +158,11 @@
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">false</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">CXXFLAGS=-O0 -g -pg</value>
-    <value type="QString">LFLAGS=-O0 -g -pg</value>
     <value type="QString">-w</value>
    </valuelist>
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/debug</value>
-   <valuelist key="makeargs" type="QVariantList">
-    <value type="QString">CXXFLAGS=-O0 -g -pg</value>
-    <value type="QString">LFLAGS=-O0 -g -pg</value>
-   </valuelist>
+   <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq</value>
   </valuemap>
  </data>
  <data>
@@ -184,44 +170,105 @@
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Debug</value>
    <valuelist key="abstractProcess.Environment" type="QVariantList">
+    <value type="QString">ALLUSERSPROFILE=C:\users\Public</value>
+    <value type="QString">APPDATA=C:\users\lukas\Application Data</value>
+    <value type="QString">BROWSER=/home/lukas/chromium.sh</value>
+    <value type="QString">CCACHE_DIR=/home/lukas/.ccache</value>
+    <value type="QString">CCACHE_SIZE=4G</value>
+    <value type="QString">CFLAGS=-march=core2 -O2 -pipe</value>
+    <value type="QString">CHOST=x86_64-pc-linux-gnu</value>
+    <value type="QString">CLIENTNAME=Console</value>
+    <value type="QString">COMMONPROGRAMFILES=C:\Program Files\Common Files</value>
+    <value type="QString">COMSPEC=C:\windows\system32\cmd.exe</value>
+    <value type="QString">CXXFLAGS=-march=core2 -O2 -pipe</value>
     <value type="QString">DISPLAY=:0.0</value>
+    <value type="QString">EDITOR=vim</value>
     <value type="QString">G_BROKEN_FILENAMES=1</value>
     <value type="QString">HISTCONTROL=erasedups</value>
-    <value type="QString">HISTSIZE=1000</value>
-    <value type="QString">HOME=/home/lukas</value>
+    <value type="QString">HISTSIZE=1000000</value>
+    <value type="QString">HOMEDRIVE=C:</value>
+    <value type="QString">HOMEPATH=\users\lukas</value>
     <value type="QString">INPUTRC=/etc/inputrc</value>
     <value type="QString">LANG=cs_CZ.UTF-8</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
+    <value type="QString">LD_LIBRARY_PATH=/opt/lib32/usr/lib/:/opt/lib32/lib/:</value>
     <value type="QString">LESS=-R</value>
+    <value type="QString">LOCALAPPDATA=C:\users\lukas\Local Settings\Application Data</value>
     <value type="QString">LOGNAME=lukas</value>
+    <value type="QString">LOGONSERVER=\\myhost</value>
     <value type="QString">MAIL=/var/mail/lukas</value>
+    <value type="QString">MAKEOPTS=-j7</value>
     <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
-    <value type="QString">PATH=/usr/bin:/opt/wine/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
+    <value type="QString">NUMBER_OF_PROCESSORS=2</value>
+    <value type="QString">OS=Windows_NT</value>
+    <value type="QString">PATH=C:\Qt\2010.02.1\mingw\bin;C:\Qt\2010.02.1\qt\bin;C:\windows\system32;C:\windows;C:\windows\system32\wbem</value>
+    <value type="QString">PATHEXT=.COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH</value>
     <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
+    <value type="QString">PROCESSOR_ARCHITECTURE=x86</value>
+    <value type="QString">PROCESSOR_IDENTIFIER=x86 Family 6 Model 23 Stepping 10, GenuineIntel</value>
+    <value type="QString">PROCESSOR_LEVEL=6</value>
+    <value type="QString">PROCESSOR_REVISION=170a</value>
+    <value type="QString">PROGRAMFILES=C:\Program Files</value>
     <value type="QString">PS3=> </value>
     <value type="QString">PS4=+ </value>
-    <value type="QString">PWD=/home/lukas</value>
-    <value type="QString">QTDIR=/usr/share/qt</value>
+    <value type="QString">QTDIR=C:/Qt/2010.02.1/qt</value>
+    <value type="QString">SANDBOX_WRITE=:/home/lukas/.ccache</value>
+    <value type="QString">SESSIONNAME=Console</value>
     <value type="QString">SHELL=/bin/zsh</value>
-    <value type="QString">SHLVL=2</value>
-    <value type="QString">TERM=linux</value>
+    <value type="QString">SHLVL=5</value>
+    <value type="QString">STY=9047.default</value>
+    <value type="QString">SYSTEMDRIVE=c:</value>
+    <value type="QString">SYSTEMROOT=C:\windows</value>
+    <value type="QString">TEMP=C:\users\lukas\Temp</value>
+    <value type="QString">TERM=screen</value>
+    <value type="QString">TERMCAP=SC|screen|VT 100/ANSI X3.64 virtual terminal:\
+	:DO=\E[%dB:LE=\E[%dD:RI=\E[%dC:UP=\E[%dA:bs:bt=\E[Z:\
+	:cd=\E[J:ce=\E[K:cl=\E[H\E[J:cm=\E[%i%d;%dH:ct=\E[3g:\
+	:do=^J:nd=\E[C:pt:rc=\E8:rs=\Ec:sc=\E7:st=\EH:up=\EM:\
+	:le=^H:bl=^G:cr=^M:it#8:ho=\E[H:nw=\EE:ta=^I:is=\E)0:\
+	:li#40:co#170:am:xn:xv:LP:sr=\EM:al=\E[L:AL=\E[%dL:\
+	:cs=\E[%i%d;%dr:dl=\E[M:DL=\E[%dM:dc=\E[P:DC=\E[%dP:\
+	:im=\E[4h:ei=\E[4l:mi:IC=\E[%d@:ks=\E[?1h\E=:\
+	:ke=\E[?1l\E>:vi=\E[?25l:ve=\E[34h\E[?25h:vs=\E[34l:\
+	:ti=\E[?1049h:te=\E[?1049l:us=\E[4m:ue=\E[24m:so=\E[3m:\
+	:se=\E[23m:mb=\E[5m:md=\E[1m:mr=\E[7m:me=\E[m:ms:\
+	:Co#8:pa#64:AF=\E[3%dm:AB=\E[4%dm:op=\E[39;49m:AX:\
+	:vb=\Eg:G0:as=\E(0:ae=\E(B:\
+	:ac=\140\140aaffggjjkkllmmnnooppqqrrssttuuvvwwxxyyzz{{||}}~~..--++,,hhII00:\
+	:po=\E[5i:pf=\E[4i:k0=\E[10~:k1=\EOP:k2=\EOQ:k3=\EOR:\
+	:k4=\EOS:k5=\E[15~:k6=\E[17~:k7=\E[18~:k8=\E[19~:\
+	:k9=\E[20~:k;=\E[21~:F1=\E[23~:F2=\E[24~:F3=\E[1;2P:\
+	:F4=\E[1;2Q:F5=\E[1;2R:F6=\E[1;2S:F7=\E[15;2~:\
+	:F8=\E[17;2~:F9=\E[18;2~:FA=\E[19;2~:kb=^H:K2=\EOE:\
+	:kB=\E[Z:kF=\E[1;2B:kR=\E[1;2A:*4=\E[3;2~:*7=\E[1;2F:\
+	:#2=\E[1;2H:#3=\E[2;2~:#4=\E[1;2D:%c=\E[6;2~:%e=\E[5;2~:\
+	:%i=\E[1;2C:kh=\E[1~:@1=\E[1~:kH=\E[4~:@7=\E[4~:\
+	:kN=\E[6~:kP=\E[5~:kI=\E[2~:kD=\E[3~:ku=\EOA:kd=\EOB:\
+	:kr=\EOC:kl=\EOD:km:</value>
+    <value type="QString">TMP=C:\users\lukas\Temp</value>
     <value type="QString">USER=lukas</value>
+    <value type="QString">USERNAME=lukas</value>
+    <value type="QString">USERPROFILE=C:\users\lukas</value>
+    <value type="QString">WINDIR=C:\windows</value>
+    <value type="QString">WINDOW=1</value>
     <value type="QString">WINELOADER=/opt/wine/bin/wine</value>
+    <value type="QString">WINELOADERNOEXEC=1</value>
+    <value type="QString">WINSYSDIR=C:\windows\system32</value>
     <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
     <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
     <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
     <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
     <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
+    <value type="QString">XDG_DATA_HOME=/home/lukas/.config</value>
+    <value type="QString">_=/usr/bin/linux32</value>
    </valuelist>
    <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
    <valuelist key="abstractProcess.arguments" type="QVariantList">
     <value type="QString">clean</value>
     <value type="QString">-w</value>
    </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
+   <value key="abstractProcess.command" type="QString">C:/Qt/2010.02.1/mingw/bin/mingw32-make.exe</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/debug</value>
+   <value key="abstractProcess.workingDirectory" type="QString">C:/users/lukas/My Documents/dev/qt/copyq</value>
    <value key="cleanConfig" type="bool">true</value>
    <valuelist key="makeargs" type="QVariantList">
     <value type="QString">clean</value>
@@ -272,7 +319,7 @@
    <value key="abstractProcess.command" type="QString">/usr/bin/qmake</value>
    <value key="abstractProcess.enabled" type="bool">false</value>
    <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/build</value>
-   <value key="buildConfiguration" type=""></value>
+   <valuelist key="qmakeArgs" type="QVariantList"/>
   </valuemap>
  </data>
  <data>
@@ -317,51 +364,13 @@
    <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
    <value key="abstractProcess.enabled" type="bool">true</value>
    <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/build</value>
+   <valuelist key="makeargs" type="QVariantList"/>
   </valuemap>
  </data>
  <data>
   <variable>buildconfiguration-Release-cleanstep0</variable>
   <valuemap type="QVariantMap">
    <value key="ProjectExplorer.BuildConfiguration.DisplayName" type="QString">Release</value>
-   <valuelist key="abstractProcess.Environment" type="QVariantList">
-    <value type="QString">DISPLAY=:0.0</value>
-    <value type="QString">G_BROKEN_FILENAMES=1</value>
-    <value type="QString">HISTCONTROL=erasedups</value>
-    <value type="QString">HISTSIZE=1000</value>
-    <value type="QString">HOME=/home/lukas</value>
-    <value type="QString">INPUTRC=/etc/inputrc</value>
-    <value type="QString">LANG=cs_CZ.UTF-8</value>
-    <value type="QString">LD_LIBRARY_PATH=/usr/lib/qtcreator:</value>
-    <value type="QString">LESS=-R</value>
-    <value type="QString">LOGNAME=lukas</value>
-    <value type="QString">MAIL=/var/mail/lukas</value>
-    <value type="QString">MOZ_PLUGIN_PATH=/usr/lib/mozilla/plugins</value>
-    <value type="QString">PATH=/usr/bin:/opt/wine/bin:/bin:/usr/bin:/sbin:/usr/sbin:/usr/bin/perlbin/site:/usr/bin/perlbin/vendor:/usr/bin/perlbin/core</value>
-    <value type="QString">PKG_CONFIG_PATH=/usr/lib/pkgconfig</value>
-    <value type="QString">PS3=> </value>
-    <value type="QString">PS4=+ </value>
-    <value type="QString">PWD=/home/lukas</value>
-    <value type="QString">QTDIR=/usr/share/qt</value>
-    <value type="QString">SHELL=/bin/zsh</value>
-    <value type="QString">SHLVL=2</value>
-    <value type="QString">TERM=linux</value>
-    <value type="QString">USER=lukas</value>
-    <value type="QString">WINELOADER=/opt/wine/bin/wine</value>
-    <value type="QString">XAUTHORITY=/home/lukas/.Xauthority</value>
-    <value type="QString">XDG_CACHE_HOME=/home/lukas/.cache</value>
-    <value type="QString">XDG_CONFIG_DIRS=/etc/xdg</value>
-    <value type="QString">XDG_CONFIG_HOME=/home/lukas/.config</value>
-    <value type="QString">XDG_DATA_DIRS=/usr/share:/usr/local/share</value>
-    <value type="QString">XDG_DATA_HOME=/home/lukas/.local/share</value>
-   </valuelist>
-   <value key="abstractProcess.IgnoreReturnValue" type="bool">true</value>
-   <valuelist key="abstractProcess.arguments" type="QVariantList">
-    <value type="QString">clean</value>
-    <value type="QString">-w</value>
-   </valuelist>
-   <value key="abstractProcess.command" type="QString">/usr/bin/make</value>
-   <value key="abstractProcess.enabled" type="bool">true</value>
-   <value key="abstractProcess.workingDirectory" type="QString">/home/lukas/dev/qt/copyq/build</value>
    <value key="cleanConfig" type="bool">true</value>
    <valuelist key="makeargs" type="QVariantList">
     <value type="QString">clean</value>

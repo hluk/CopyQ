@@ -62,6 +62,7 @@ class MainWindow : public QMainWindow
        void handleMessage(const QString& message);
        void enterBrowseMode(bool browsemode = true);
        void showError(const QString);
+       void toggleVisible();
 
     private slots:
         void on_searchBar_textEdited(const QString &);
