@@ -138,6 +138,7 @@ void ActionDialog::accept()
     proc.setProcessChannelMode(QProcess::SeparateChannels);
     proc.start(cmd, QIODevice::ReadWrite);
 
+    // TODO: enable user to kill the process
     if ( proc.waitForStarted() ) {
         // write input
         if ( !input.isEmpty() )

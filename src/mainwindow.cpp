@@ -87,7 +87,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    //lower();
+    showMinimized();
     hide();
     event->ignore();
 }
@@ -100,8 +100,10 @@ void MainWindow::showError(const QString msg)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if ( event->modifiers() == Qt::ControlModifier )
-        if ( event->key() == Qt::Key_Q )
+        if ( event->key() == Qt::Key_Q ) {
+            close();
             QApplication::exit();
+        }
 
     switch( event->key() ) {
         case Qt::Key_Down:

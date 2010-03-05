@@ -11,7 +11,10 @@
 #include <QImage>
 
 static const QRegExp re_spaces("  | |\t|\n+$");
-#define ESCAPE(str) (Qt::escape(str).replace(re_spaces,"&nbsp;").replace('\n', "<br />"))
+#define ESCAPE(str) (\
+    Qt::escape(str).replace\
+        (re_spaces,"&nbsp;").replace\
+        ('\n', "<br />"))
 
 const QModelIndex empty_index;
 

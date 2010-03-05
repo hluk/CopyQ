@@ -648,8 +648,10 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
         }
         else {
             text = data.toString();
-            clip->setText(text);
-            clip->setText(text,QClipboard::Selection);
+            if ( text != clip->text() )
+                clip->setText(text);
+            if ( text != clip->text(QClipboard::Selection) )
+                clip->setText(text,QClipboard::Selection);
             m_lastSelection = text;
         }
     }
