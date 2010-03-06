@@ -1,10 +1,10 @@
-#include <QProcess>
 #include <QToolTip>
 #include <QSettings>
 #include <QFile>
 #include <QCompleter>
 #include <QDebug>
 #include "actiondialog.h"
+#include "action.h"
 #include "ui_actiondialog.h"
 
 static const QRegExp str("([^\\%])%s");
@@ -113,6 +113,17 @@ void ActionDialog::saveHistory()
         out << QVariant(*it);
 }
 
+void ActionDialog::closeAction(Action *act)
+{
+    const QString &err = act->getError();
+
+    if ( !err.isEmpty() )
+        emit error(err);
+
+    disconnect(act);
+    delete act;
+}
+
 void ActionDialog::accept()
 {
     QString cmd = ui->cmdEdit->text();
@@ -120,7 +131,7 @@ void ActionDialog::accept()
         return;
     QStringList items;
     QString input = ui->inputText->text();
-    QProcess proc;
+    Action *act;
     QString errstr;
 
     // replace %s with input
@@ -134,50 +145,20 @@ void ActionDialog::accept()
     if ( !ui->inputCheckBox->isEnabled() )
         input.clear();
 
-    // execute command (with input if needed)
-    proc.setProcessChannelMode(QProcess::SeparateChannels);
-    proc.start(cmd, QIODevice::ReadWrite);
-
     // TODO: enable user to kill the process
-    if ( proc.waitForStarted() ) {
-        // write input
-        if ( !input.isEmpty() )
-            proc.write( input.toLocal8Bit() );
-        proc.closeWriteChannel();
+    act = new Action( cmd, input.toLocal8Bit(),
+                      ui->outputCheckBox->isChecked(),
+                      ui->separatorEdit->text() );
+    connect( act, SIGNAL(actionError(QString)),
+             SIGNAL(error(QString)) );
+    connect( act, SIGNAL(actionFinished(Action*)),
+             this, SLOT(closeAction(Action*)) );
+    connect( act, SIGNAL(newItems(QStringList)),
+             SIGNAL(addItems(QStringList)) );
 
-        if ( proc.waitForFinished() ) {
-            // read output
-            if ( ui->outputCheckBox->isChecked() ) {
-                QString outstr;
+    add( ui->cmdEdit->text() );
 
-                if ( proc.exitCode() != 0 )
-                    errstr = QString("Exit code: %1\n").arg(proc.exitCode());
-
-                errstr += QString::fromLocal8Bit( proc.readAllStandardError() );
-                outstr = QString::fromLocal8Bit( proc.readAll() );
-
-                if ( !outstr.isEmpty() ) {
-                    // separate items
-                    QRegExp sep( ui->separatorEdit->text() );
-                    if ( !sep.isEmpty() ) {
-                        items = outstr.split(sep);
-                    }
-                    else
-                        items.append(outstr);
-                }
-            }
-        }
-        else
-            errstr = proc.errorString();
-        emit addItems(items);
-        add( ui->cmdEdit->text() );
-        close();
-    }
-    else
-        errstr = proc.errorString();
-
-    if ( !errstr.isEmpty() )
-        emit error(errstr);
+    close();
 }
 
 void ActionDialog::setCommand(const QString &cmd)

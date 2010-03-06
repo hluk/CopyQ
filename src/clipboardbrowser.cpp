@@ -664,29 +664,31 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
     // clipboard -> first item
     else {
         const QMimeData *mime = clip->mimeData(mode);
-        if ( mime->hasImage() ) {
-            data = clip->image(mode);
-            if( data != itemData(0) )
-                add(data);
-        }
-        else if ( mime->hasText() ) {
-            text = clip->text(mode);
-            QString current = itemText(0);
-            if( text.isEmpty() )
-                text = current;
-            else if( text != current )
-                add(text);
+        if ( mime ) {
+            if ( mime->hasImage() ) {
+                data = clip->image(mode);
+                if( data != itemData(0) )
+                    add(data);
+            }
+            else if ( mime->hasText() ) {
+                text = clip->text(mode);
+                QString current = itemText(0);
+                if( text.isEmpty() )
+                    text = current;
+                else if( text != current )
+                    add(text);
 
-            clip->setText(text);
-            // set selection only if it's different
-            // - this avoids clearing selection in
-            //   e.g. terminal apps
-            if ( text != clip->text(QClipboard::Selection) )
-                clip->setText(text, QClipboard::Selection);
-            m_lastSelection = text;
+                clip->setText(text);
+                // set selection only if it's different
+                // - this avoids clearing selection in
+                //   e.g. terminal apps
+                if ( text != clip->text(QClipboard::Selection) )
+                    clip->setText(text, QClipboard::Selection);
+                m_lastSelection = text;
+            }
+            else if ( mime->formats().isEmpty() )
+                clip->setText(text, mode);
         }
-        else if ( mime->formats().isEmpty() )
-            clip->setText(text, mode);
     }
     startMonitoring();
 }

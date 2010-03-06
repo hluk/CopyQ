@@ -4,6 +4,7 @@
 #include <QDialog>
 
 class QCompleter;
+class Action;
 
 namespace Ui {
     class ActionDialog;
@@ -37,6 +38,9 @@ private:
 signals:
     void addItems(const QStringList);
     void error(const QString);
+
+private slots:
+    void closeAction(Action *act);
 
 public slots:
     void accept();

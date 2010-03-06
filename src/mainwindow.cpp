@@ -28,6 +28,7 @@
 #include <QDomAttr>
 #include <QSettings>
 #include <QCloseEvent>
+#include <QMenu>
 #include "clipboardmodel.h"
 
 inline bool readDatFile(QIODevice &device, QSettings::SettingsMap &map)
@@ -60,10 +61,12 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     setWindowIcon(m_icon);
 
     // tray
+    QMenu *menu = new QMenu(this);
     tray = new QSystemTrayIcon(this);
     tray->setIcon(m_icon);
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
+    tray->setContextMenu(menu);
 
     // signals & slots
     connect( ui->clipboardBrowser, SIGNAL(requestSearch(QEvent*)),
@@ -270,6 +273,8 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick )
         QApplication::exit();
+    else if ( reason == QSystemTrayIcon::Context )
+        tray->contextMenu()->show();
     else
         toggleVisible();
 }

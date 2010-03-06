@@ -11,14 +11,16 @@ HEADERS += mainwindow.h \
     qeditor.h \
     actiondialog.h \
     clipboardmodel.h \
-    itemdelegate.h
+    itemdelegate.h \
+    action.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
     qeditor.cpp \
     actiondialog.cpp \
     clipboardmodel.cpp \
-    itemdelegate.cpp
+    itemdelegate.cpp \
+    action.cpp
 QT += xml
 unix {
     LIBS += -lXi
