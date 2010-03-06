@@ -102,6 +102,7 @@ class ClipboardBrowser : public QListView
         void moveToClipboard(const QString &str);
         void moveToClipboard(int i);
         void filterItems(const QString &str);
+        void clearFilter() { filterItems( QString() ); };
         void itemModified(uint hash, const QString &str);
         void addItems(const QStringList &items);
         void closeEditor(QEditor *editor);

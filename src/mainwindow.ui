@@ -60,6 +60,10 @@
    <header>clipboardbrowser.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>clipboardBrowser</tabstop>
+  <tabstop>searchBar</tabstop>
+ </tabstops>
  <resources/>
  <connections/>
 </ui>

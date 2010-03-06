@@ -94,9 +94,15 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
-void MainWindow::showError(const QString msg)
+void MainWindow::showMessage(const QString &title, const QString &msg,
+                             QSystemTrayIcon::MessageIcon icon, int msec)
 {
-    tray->showMessage(QString("Error"), msg);
+    tray->showMessage(title, msg, icon, msec);
+}
+
+void MainWindow::showError(const QString &msg)
+{
+    tray->showMessage(QString("Error"), msg, QSystemTrayIcon::Critical);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -117,25 +123,35 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            ui->clipboardBrowser->moveToClipboard( ui->clipboardBrowser->currentIndex() );
             close();
+            // move current item to clipboard and hide window
+            ui->clipboardBrowser->moveToClipboard(
+                    ui->clipboardBrowser->currentIndex() );
+            resetStatus();
             break;
 
         case Qt::Key_F3:
+            // focus search bar
+            enterBrowseMode(false);
             break;
 
         case Qt::Key_Escape:
-            if ( ui->searchBar->isVisible() )
-                enterBrowseMode();
-            else {
-                close();
-            }
+            close();
+            resetStatus();
+            enterBrowseMode();
             break;
 
         default:
             QMainWindow::keyPressEvent(event);
             break;
     }
+}
+
+void MainWindow::resetStatus()
+{
+    ui->searchBar->clear();
+    ui->clipboardBrowser->clearFilter();
+    ui->clipboardBrowser->setCurrentIndex( QModelIndex() );
 }
 
 void MainWindow::writeSettings()
@@ -275,8 +291,9 @@ void MainWindow::enterBrowseMode(bool browsemode)
 
     if(m_browsemode){
         // browse mode
-        l->hide();
-//        ui->clipboardBrowser->setFocus(Qt::ShortcutFocusReason);
+        if ( l->text().isEmpty() )
+            l->hide();
+        ui->clipboardBrowser->setFocus();
     }
     else {
         // search mode

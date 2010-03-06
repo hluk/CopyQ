@@ -61,8 +61,15 @@ class MainWindow : public QMainWindow
     public slots:
        void handleMessage(const QString& message);
        void enterBrowseMode(bool browsemode = true);
-       void showError(const QString);
+       // show tray popup
+       void showMessage(const QString &title, const QString &msg,
+                        QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
+                        int msec = 8000);
+       void showError(const QString &msg);
+       // show/hide window
        void toggleVisible();
+       // clear search & unselect items
+       void resetStatus();
 
     private slots:
         void on_searchBar_textEdited(const QString &);
