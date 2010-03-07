@@ -191,9 +191,15 @@ void MainWindow::readSettings()
 
 void MainWindow::handleMessage(const QString& message)
 {
-    // TODO: local encoding
     QStringList args = message.split(QChar('\n'));
-    const QString &cmd = args.at(0);
+    const QString &cmd = args.takeFirst();
+
+    // unescape
+    for ( int i = 0; i<args.length(); ++i )
+        args[i].replace(
+                QString(" \\n"), QChar('\n') ).replace(
+                QString("\\\\"), QString('\\') );
+
     ClipboardBrowser *c = ui->clipboardBrowser;
 
     // force check clipboard (update clipboard browser)
@@ -209,13 +215,12 @@ void MainWindow::handleMessage(const QString& message)
 
     else if ( cmd == "action" ) {
         // show action dialog
-        if ( args.length() == 1 )
+        if ( args.isEmpty() )
             c->openActionDialog(0);
         // action [row] "cmd" "[sep]"
         else {
             QString arg, cmd, sep;
 
-            args.pop_front();
             arg = args.takeFirst();
 
             // get row
@@ -250,7 +255,7 @@ void MainWindow::handleMessage(const QString& message)
 
     // add new item
     else if ( cmd == "add" )
-        c->add(args);
+        c->add(args.join( QString(' ') ));
 
     // edit clipboard item
     else if ( cmd == "edit" ) {

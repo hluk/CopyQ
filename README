@@ -49,13 +49,27 @@ copyq.css:
 
 Command Line Arguments
 ======================
-toggle     -- show/hide main window
-action     -- show action dialog
+toggle       -- show/hide main window
+action       -- show action dialog
 action [row=0] "command" [separator=\n]
-           -- apply command on item text in the row
-add "text" -- add text into clipboard 
-get        -- print clipboard contents
-edit       -- edit clipboard item
-new        -- create and edit new item
-menu       -- open context menu
+             -- apply command on item text in the row
+add text     -- add text into clipboard 
+get          -- print clipboard contents
+edit         -- edit clipboard item
+new          -- create and edit new item
+menu         -- open context menu
+
+
+Usage Examples
+==============
+# First start CopyQ application:
+copyq
+# Add new clipboard item:
+copyq add "print([x**2 for x in range(10)])"
+# Send clipboard contents to python and
+# put output to items (and first line also to clipboard)
+copyq action python
+
+# directory (full path!) contents
+copyq action "ls /"
 

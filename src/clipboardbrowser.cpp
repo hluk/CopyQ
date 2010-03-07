@@ -596,8 +596,8 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
         Window root = DefaultRootWindow(dsp);
         XEvent event;
 
-        char keys_return[32];
-        bool key_pressed;
+//        char keys_return[32];
+//        bool key_pressed;
         while(true) {
             XQueryPointer(dsp, root,
                     &event.xbutton.root, &event.xbutton.window,
@@ -605,15 +605,15 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
                     &event.xbutton.x, &event.xbutton.y,
                     &event.xbutton.state);
             if( !(event.xbutton.state & Button1Mask) ) {
-                key_pressed = false;
-                XQueryKeymap(dsp, keys_return);
-                for (int i=0; i<32; ++i) {
-                    if( keys_return[i] != 0 ) {
-                        key_pressed = true;
-                        break;
-                    }
-                }
-                if( !key_pressed )
+//                key_pressed = false;
+//                XQueryKeymap(dsp, keys_return);
+//                for (int i=0; i<32; ++i) {
+//                    if( keys_return[i] != 0 ) {
+//                        key_pressed = true;
+//                        break;
+//                    }
+//                }
+//                if( !key_pressed )
                     break;
             }
             usleep(500);
