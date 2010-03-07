@@ -218,6 +218,23 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
         QListView::timerEvent(event);
 }
 
+void ClipboardBrowser::createActionDialog()
+{
+    if (!actionDialog) {
+        actionDialog = new ActionDialog(this);
+        actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
+
+        connect( actionDialog, SIGNAL(addItems(const QStringList)),
+                 this, SLOT(addItems(const QStringList&)) );
+        connect( actionDialog, SIGNAL(error(const QString)),
+                 this, SIGNAL(error(const QString)) );
+        connect( actionDialog, SIGNAL(addMenuItem(QAction*)),
+                 this, SIGNAL(addMenuItem(QAction*)) );
+        connect( actionDialog, SIGNAL(removeMenuItem(QAction*)),
+                 this, SIGNAL(removeMenuItem(QAction*)) );
+    }
+}
+
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
     QModelIndex ind;
@@ -245,15 +262,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             break;
         // CTRL-A: action
         case Qt::Key_A:
-            if (!actionDialog) {
-                actionDialog = new ActionDialog(this);
-                connect( actionDialog, SIGNAL(addItems(const QStringList)),
-                         this, SLOT(addItems(const QStringList&)) );
-                connect( actionDialog, SIGNAL(error(const QString)),
-                         this, SIGNAL(error(const QString)) );
-            }
-            actionDialog->setInput( selectedText() );
-            actionDialog->exec();
+            openActionDialog();
             break;
         // CTRL-Up/Down: move item
         case Qt::Key_Up:
@@ -318,15 +327,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 void ClipboardBrowser::action(int row, const QString &cmd,
                               const QString &sep, bool input, bool output)
 {
-    if (!actionDialog) {
-        actionDialog = new ActionDialog(this);
-        actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
+    createActionDialog();
 
-        connect( actionDialog, SIGNAL(addItems(const QStringList)),
-                 this, SLOT(addItems(const QStringList&)) );
-        connect( actionDialog, SIGNAL(error(const QString)),
-                 this, SIGNAL(error(const QString)) );
-    }
     if (input)
         actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
     actionDialog->setCommand(cmd);
@@ -338,15 +340,7 @@ void ClipboardBrowser::action(int row, const QString &cmd,
 
 void ClipboardBrowser::openActionDialog(int row, bool modal)
 {
-    if (!actionDialog) {
-        actionDialog = new ActionDialog(this);
-        actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
-
-        connect( actionDialog, SIGNAL(addItems(const QStringList)),
-                 this, SLOT(addItems(const QStringList&)) );
-        connect( actionDialog, SIGNAL(error(const QString)),
-                 this, SIGNAL(error(const QString)) );
-    }
+    createActionDialog();
     actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
     if (modal)
         actionDialog->exec();
@@ -663,31 +657,34 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
     }
     // clipboard -> first item
     else {
-        const QMimeData *mime = clip->mimeData(mode);
-        if ( mime ) {
-            if ( mime->hasImage() ) {
-                data = clip->image(mode);
-                if( data != itemData(0) )
-                    add(data);
-            }
-            else if ( mime->hasText() ) {
-                text = clip->text(mode);
-                QString current = itemText(0);
-                if( text.isEmpty() )
-                    text = current;
-                else if( text != current )
-                    add(text);
+        text = clip->text(mode);
+        if ( !text.isEmpty() ) {
+            text = clip->text(mode);
+            QString current = itemText(0);
+            if( text.isEmpty() )
+                text = current;
+            else if( text != current )
+                add(text);
 
-                clip->setText(text);
-                // set selection only if it's different
-                // - this avoids clearing selection in
-                //   e.g. terminal apps
-                if ( text != clip->text(QClipboard::Selection) )
-                    clip->setText(text, QClipboard::Selection);
-                m_lastSelection = text;
+            clip->setText(text);
+            // set selection only if it's different
+            // - this avoids clearing selection in
+            //   e.g. terminal apps
+            if ( text != clip->text(QClipboard::Selection) )
+                clip->setText(text, QClipboard::Selection);
+            m_lastSelection = text;
+        }
+        else {
+            const QMimeData *mime = clip->mimeData(mode);
+            if (mime) {
+                if ( mime->hasImage() ) {
+                    data = clip->image(mode);
+                    if( data != itemData(0) )
+                        add(data);
+                }
+                else if ( mime->formats().isEmpty() )
+                    clip->setText(text, mode);
             }
-            else if ( mime->formats().isEmpty() )
-                clip->setText(text, mode);
         }
     }
     startMonitoring();

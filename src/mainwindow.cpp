@@ -31,20 +31,6 @@
 #include <QMenu>
 #include "clipboardmodel.h"
 
-inline bool readDatFile(QIODevice &device, QSettings::SettingsMap &map)
-{
-    QDataStream in(&device);
-    in >> map["items"];
-    return true;
-}
-
-inline bool writeDatFile(QIODevice &device, const QSettings::SettingsMap &map)
-{
-    QDataStream out(&device);
-    out << map["items"];
-    return true;
-}
-
 MainWindow::MainWindow(const QString &css, QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow)
 {
@@ -52,8 +38,10 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     setStyleSheet(css);
 
     ui->setupUi(this);
-    ui->clipboardBrowser->readSettings(css);
-    ui->clipboardBrowser->startMonitoring();
+
+    ClipboardBrowser *c = ui->clipboardBrowser;
+    c->readSettings(css);
+    c->startMonitoring();
 
     // main window: icon & title
     this->setWindowTitle("CopyQ");
@@ -67,14 +55,21 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
     tray->setContextMenu(menu);
+    menu->addAction( tr("&Show/Hide"), this, SLOT(toggleVisible()) );
+    menu->addAction( tr("E&xit"), this, SLOT(exit()) );
+    menu->addAction( tr("&Action"), c, SLOT(openActionDialog()) );
 
     // signals & slots
-    connect( ui->clipboardBrowser, SIGNAL(requestSearch(QEvent*)),
+    connect( c, SIGNAL(requestSearch(QEvent*)),
             this, SLOT(enterSearchMode(QEvent*)) );
-    connect( ui->clipboardBrowser, SIGNAL(hideSearch()),
+    connect( c, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
-    connect( ui->clipboardBrowser, SIGNAL(error(const QString)),
+    connect( c, SIGNAL(error(const QString)),
             this, SLOT(showError(const QString)) );
+    connect( c, SIGNAL(addMenuItem(QAction*)),
+             this, SLOT(addMenuItem(QAction*)) );
+    connect( c, SIGNAL(removeMenuItem(QAction*)),
+                 this, SLOT(removeMenuItem(QAction*)) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
@@ -86,6 +81,12 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     enterBrowseMode();
 
     tray->show();
+}
+
+void MainWindow::exit()
+{
+    close();
+    QApplication::exit();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -108,13 +109,21 @@ void MainWindow::showError(const QString &msg)
     tray->showMessage(QString("Error"), msg, QSystemTrayIcon::Critical);
 }
 
+void MainWindow::addMenuItem(QAction *menuItem)
+{
+    tray->contextMenu()->addAction(menuItem);
+}
+
+void MainWindow::removeMenuItem(QAction *menuItem)
+{
+    tray->contextMenu()->removeAction(menuItem);
+}
+
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     if ( event->modifiers() == Qt::ControlModifier )
-        if ( event->key() == Qt::Key_Q ) {
-            close();
-            QApplication::exit();
-        }
+        if ( event->key() == Qt::Key_Q )
+            exit();
 
     switch( event->key() ) {
         case Qt::Key_Down:
@@ -194,6 +203,10 @@ void MainWindow::handleMessage(const QString& message)
     if ( cmd == "toggle")
         toggleVisible();
 
+    // show menu
+    else if ( cmd == "menu" )
+        tray->contextMenu()->show();
+
     else if ( cmd == "action" ) {
         // show action dialog
         if ( args.length() == 1 )
@@ -272,10 +285,8 @@ void MainWindow::toggleVisible()
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick )
-        QApplication::exit();
-    else if ( reason == QSystemTrayIcon::Context )
-        tray->contextMenu()->show();
-    else
+        exit();
+    else if ( reason == QSystemTrayIcon::Trigger )
         toggleVisible();
 }
 

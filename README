@@ -57,4 +57,5 @@ add "text" -- add text into clipboard
 get        -- print clipboard contents
 edit       -- edit clipboard item
 new        -- create and edit new item
+menu       -- open context menu
 

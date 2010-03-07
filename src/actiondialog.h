@@ -38,6 +38,9 @@ private:
 signals:
     void addItems(const QStringList);
     void error(const QString);
+    void actionFinished(Action *act);
+    void addMenuItem(QAction *menuItem);
+    void removeMenuItem(QAction *menuItem);
 
 private slots:
     void closeAction(Action *act);

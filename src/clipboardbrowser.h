@@ -67,9 +67,6 @@ class ClipboardBrowser : public QListView
         // else: return text of first item
         const QString selectedText() const;
 
-        // do action on item on given row (default is selected item)
-        void openActionDialog(int row = -1, bool modal = true);
-
     private:
         int m_maxitems;
         int m_msec;
@@ -83,6 +80,8 @@ class ClipboardBrowser : public QListView
 
         const QString dataFilename() const;
 
+        void createActionDialog();
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void timerEvent(QTimerEvent *event);
@@ -94,6 +93,8 @@ class ClipboardBrowser : public QListView
         void escapePressed();
         void closeAllEditors();
         void error(const QString);
+        void addMenuItem(QAction *menuItem);
+        void removeMenuItem(QAction *menuItem);
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
@@ -107,6 +108,9 @@ class ClipboardBrowser : public QListView
         void addItems(const QStringList &items);
         void closeEditor(QEditor *editor);
         void openEditor();
+
+        // do action on item on given row (default is selected item)
+        void openActionDialog(int row = -1, bool modal = true);
         void action(int row, const QString &cmd,
                     const QString &sep = QString('\n'),
                     bool input = true, bool output = true);

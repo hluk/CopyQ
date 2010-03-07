@@ -70,6 +70,9 @@ class MainWindow : public QMainWindow
        void toggleVisible();
        // clear search & unselect items
        void resetStatus();
+       void addMenuItem(QAction *menuItem);
+       void removeMenuItem(QAction *menuItem);
+       void exit();
 
     private slots:
         void on_searchBar_textEdited(const QString &);

@@ -115,7 +115,7 @@ void ActionDialog::saveHistory()
 
 void ActionDialog::closeAction(Action *act)
 {
-    const QString &err = act->getError();
+    const QString &err = act->errorOutput();
 
     if ( !err.isEmpty() )
         emit error(err);
@@ -145,7 +145,6 @@ void ActionDialog::accept()
     if ( !ui->inputCheckBox->isEnabled() )
         input.clear();
 
-    // TODO: enable user to kill the process
     act = new Action( cmd, input.toLocal8Bit(),
                       ui->outputCheckBox->isChecked(),
                       ui->separatorEdit->text() );
@@ -155,6 +154,12 @@ void ActionDialog::accept()
              this, SLOT(closeAction(Action*)) );
     connect( act, SIGNAL(newItems(QStringList)),
              SIGNAL(addItems(QStringList)) );
+    connect( act, SIGNAL(addMenuItem(QAction*)),
+             this, SIGNAL(addMenuItem(QAction*)) );
+    connect( act, SIGNAL(removeMenuItem(QAction*)),
+                 this, SIGNAL(removeMenuItem(QAction*)) );
+
+    act->start();
 
     add( ui->cmdEdit->text() );
 
