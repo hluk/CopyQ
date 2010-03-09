@@ -49,15 +49,30 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     setWindowIcon(m_icon);
 
     // tray
-    QMenu *menu = new QMenu(this);
     tray = new QSystemTrayIcon(this);
     tray->setIcon(m_icon);
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
+
+    // menu
+    QMenu *menu = new QMenu(this);
+    QAction *act;
+    // - show/hide
+    act = new QAction( tr("&Show/Hide"), this );
+    act->setWhatsThis( tr("Show or hide main window") );
+    connect( act, SIGNAL(triggered()), this, SLOT(toggleVisible()) );
+    menu->addAction(act);
+    // - action dialog
+    act = new QAction( tr("&Action..."), this );
+    act->setWhatsThis( tr("Open action dialog") );
+    connect( act, SIGNAL(triggered()), c, SLOT(openActionDialog()) );
+    menu->addAction(act);
+    // - exit
+    act = new QAction( tr("E&xit..."), this );
+    connect( act, SIGNAL(triggered()), this, SLOT(exit()) );
+    menu->addAction(act);
+
     tray->setContextMenu(menu);
-    menu->addAction( tr("&Show/Hide"), this, SLOT(toggleVisible()) );
-    menu->addAction( tr("E&xit"), this, SLOT(exit()) );
-    menu->addAction( tr("&Action"), c, SLOT(openActionDialog()) );
 
     // signals & slots
     connect( c, SIGNAL(requestSearch(QEvent*)),
@@ -67,9 +82,9 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     connect( c, SIGNAL(error(const QString)),
             this, SLOT(showError(const QString)) );
     connect( c, SIGNAL(addMenuItem(QAction*)),
-             this, SLOT(addMenuItem(QAction*)) );
+            this, SLOT(addMenuItem(QAction*)) );
     connect( c, SIGNAL(removeMenuItem(QAction*)),
-                 this, SLOT(removeMenuItem(QAction*)) );
+            this, SLOT(removeMenuItem(QAction*)) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 

@@ -196,14 +196,11 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::checkClipboard()
 {
-    QString txt( QApplication::clipboard()->text() );
-    if( txt != m_lastSelection )
+    const QClipboard *clipboard = QApplication::clipboard();
+    if ( clipboard->text() != m_lastSelection )
         clipboardChanged();
-    else {
-        txt = QApplication::clipboard()->text(QClipboard::Selection);
-        if( txt != m_lastSelection )
-            clipboardChanged(QClipboard::Selection);
-    }
+    else if ( clipboard->text(QClipboard::Selection) != m_lastSelection )
+        clipboardChanged(QClipboard::Selection);
 }
 
 void ClipboardBrowser::timerEvent(QTimerEvent *event)
@@ -585,9 +582,6 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
     #ifndef WIN32
     if ( mode == QClipboard::Selection )
     {
-        // active wait while key or mouse button pressed
-        // (i.e. selection is incomplete)
-
         // don't handle selections in own window
         if ( hasFocus() ) return;
 
@@ -596,27 +590,18 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
         Window root = DefaultRootWindow(dsp);
         XEvent event;
 
-//        char keys_return[32];
-//        bool key_pressed;
+        // wait while mouse button, shift or ctrl keys are pressed
+        // (i.e. selection is incomplete)
         while(true) {
             XQueryPointer(dsp, root,
                     &event.xbutton.root, &event.xbutton.window,
                     &event.xbutton.x_root, &event.xbutton.y_root,
                     &event.xbutton.x, &event.xbutton.y,
                     &event.xbutton.state);
-            if( !(event.xbutton.state & Button1Mask) ) {
-//                key_pressed = false;
-//                XQueryKeymap(dsp, keys_return);
-//                for (int i=0; i<32; ++i) {
-//                    if( keys_return[i] != 0 ) {
-//                        key_pressed = true;
-//                        break;
-//                    }
-//                }
-//                if( !key_pressed )
-                    break;
-            }
-            usleep(500);
+            if( !(event.xbutton.state &
+                  (Button1Mask | ShiftMask | ControlMask)) )
+                break;
+            usleep(m_msec/2);
         };
         
         XCloseDisplay(dsp);

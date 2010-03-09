@@ -19,10 +19,8 @@
 
 #include "itemdelegate.h"
 #include <QApplication>
-#include <QLabel>
 #include <QPainter>
 #include <QDebug>
-#include <QTextCursor>
 #include <QMetaProperty>
 #include <QPlainTextEdit>
 #include <QUrl>
@@ -114,10 +112,11 @@ void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, cons
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    int start = a.row();
-    int end = b.row();
-    for( int i = start; i<=end; ++i )
-        m_buff[i] = QSize();
+    // recalculating sizes of many items is expensive (when searching)
+    // - assume that highlighted (matched) text has same size
+    // - recalculate size only if item edited
+    if ( a.row() == b.row() )
+        m_buff[a.row()] = QSize();
 }
 
 void ItemDelegate::rowsRemoved(const QModelIndex&,int start,int end)
