@@ -179,6 +179,7 @@ void MainWindow::resetStatus()
     ui->searchBar->clear();
     ui->clipboardBrowser->clearFilter();
     ui->clipboardBrowser->setCurrentIndex( QModelIndex() );
+    ui->clipboardBrowser->scrollToTop();
 }
 
 void MainWindow::writeSettings()

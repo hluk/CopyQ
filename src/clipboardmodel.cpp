@@ -135,23 +135,29 @@ void ClipboardModel::setSearch(int i)
     const QString &str = m_clipboardList[i];
     QString highlight;
 
-    int a(0), b, len;
-
     if ( m_re.isEmpty() ) {
         m_clipboardList[i].setFiltered(false);
         return;
     }
 
-    while ((b = m_re.indexIn(str, a)) != -1) {
-         len = m_re.matchedLength();
-         if ( len == 0 )
-             break;
-         highlight += ESCAPE(str.mid(a, b-a)) +
-                        "<span class=\"em\">" +
-                        ESCAPE(str.mid(b, len)) +
-                        "</span>";
-         a = b + len;
+    int a = 0;
+    int b = m_re.indexIn(str, a);
+    int len;
+
+    while ( b != -1 ) {
+        len = m_re.matchedLength();
+        if ( len == 0 )
+            break;
+
+        highlight.append( ESCAPE(str.mid(a, b-a)) );
+        highlight.append( "<span class=\"em\">" );
+        highlight.append( ESCAPE(str.mid(b, len)) );
+        highlight.append( "</span>" );
+
+        a = b + len;
+        b = m_re.indexIn(str, a);
     }
+
     // filter items
     if ( highlight.isEmpty() )
         m_clipboardList[i].setFiltered(true);
