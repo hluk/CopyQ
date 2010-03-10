@@ -297,7 +297,7 @@ void MainWindow::toggleVisible()
     if ( isVisible() )
         close();
     else {
-        show();
+        showNormal();
         activateWindow();
     }
 }

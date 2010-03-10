@@ -29,7 +29,7 @@
 #include <QDebug>
 #include <QImage>
 
-static const QRegExp re_spaces("  | |\t|\n+$");
+static const QRegExp re_spaces(" |\t");
 #define ESCAPE(str) (\
     Qt::escape(str).replace\
         (re_spaces,"&nbsp;").replace\

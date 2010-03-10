@@ -1,4 +1,0 @@
-#ifndef CLIPBOARDMODEL_H
-#define CLIPBOARDMODEL_H
-
-#endif // CLIPBOARDMODEL_H

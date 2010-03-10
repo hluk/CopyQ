@@ -29,20 +29,24 @@
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
 
-#ifndef WIN32
-extern int error_handler(Display *dsp, XErrorEvent *err)
-{
-    char buff[256];
-    XGetErrorText(dsp, err->error_code, buff, 256);
-    qDebug() << buff;
-
-    return 0;
-}
-#endif
+//#ifndef WIN32
+//extern int error_handler(Display *dsp, XErrorEvent *err)
+//{
+//    char buff[256];
+//    XGetErrorText(dsp, err->error_code, buff, 256);
+//    qDebug() << buff;
+//
+//    return 0;
+//}
+//#endif
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     m_msec(1000), actionDialog(NULL)
 {
+//#ifndef WIN32
+//    XSetErrorHandler(error_handler);
+//#endif
+
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
     setItemDelegate(d);
@@ -585,7 +589,6 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
         // don't handle selections in own window
         if ( hasFocus() ) return;
 
-        XSetErrorHandler(error_handler);
         Display *dsp = XOpenDisplay( NULL );
         Window root = DefaultRootWindow(dsp);
         XEvent event;
