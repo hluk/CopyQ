@@ -62,14 +62,25 @@ menu         -- open context menu
 
 Usage Examples
 ==============
-# First start CopyQ application:
-copyq
-# Add new clipboard item:
-copyq add "print([x**2 for x in range(10)])"
-# Send clipboard contents to python and
-# put output to items (and first line also to clipboard)
-copyq action python
+CopyQ must be running to be able to issue commands using command line.
+To start CopyQ run:
+$ copyq
 
-# directory (full path!) contents
-copyq action "ls /"
+Insert text to the clipboard:
+$ copyq add "print([x**2 for x in range(10)])"
+and process it in python interpreter:
+$ copyq action python
+The result will be copied to the clipboard.
+
+For each file in given directory create new item:
+$ copyq action "ls /"
+
+File content into clipboard:
+$ copyq add "$(cat file.txt)"
+
+Process an item with the python interpreter and redirect the standard output
+to the standard error output using sh command (shell).
+Note: Standard error output will be show as tray icon tooltip.
+$ copyq add 'print "Hello world!"'
+$ copyq action 'sh -c "python 1>&2"'
 
