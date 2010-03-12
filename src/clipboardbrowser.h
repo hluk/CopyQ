@@ -92,7 +92,8 @@ class ClipboardBrowser : public QListView
         void hideSearch();
         void escapePressed();
         void closeAllEditors();
-        void error(const QString);
+        void error(const QString &msg);
+        void message(const QString &title, const QString &msg);
         void addMenuItem(QAction *menuItem);
         void removeMenuItem(QAction *menuItem);
 

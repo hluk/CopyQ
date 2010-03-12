@@ -79,8 +79,10 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
             this, SLOT(enterSearchMode(QEvent*)) );
     connect( c, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
-    connect( c, SIGNAL(error(const QString)),
-            this, SLOT(showError(const QString)) );
+    connect( c, SIGNAL(error(QString)),
+            this, SLOT(showError(QString)) );
+    connect( c, SIGNAL(message(QString,QString)),
+            this, SLOT(showMessage(QString,QString)) );
     connect( c, SIGNAL(addMenuItem(QAction*)),
             this, SLOT(addMenuItem(QAction*)) );
     connect( c, SIGNAL(removeMenuItem(QAction*)),

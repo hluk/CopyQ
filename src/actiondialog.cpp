@@ -118,7 +118,7 @@ void ActionDialog::closeAction(Action *act)
     const QString &err = act->errorOutput();
 
     if ( !err.isEmpty() )
-        emit error(err);
+        emit message( act->command(), err );
 
     disconnect(act);
     delete act;

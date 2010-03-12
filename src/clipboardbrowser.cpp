@@ -225,10 +225,12 @@ void ClipboardBrowser::createActionDialog()
         actionDialog = new ActionDialog(this);
         actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
 
-        connect( actionDialog, SIGNAL(addItems(const QStringList)),
-                 this, SLOT(addItems(const QStringList&)) );
-        connect( actionDialog, SIGNAL(error(const QString)),
-                 this, SIGNAL(error(const QString)) );
+        connect( actionDialog, SIGNAL(addItems(QStringList)),
+                 this, SLOT(addItems(QStringList)) );
+        connect( actionDialog, SIGNAL(error(QString)),
+                 this, SIGNAL(error(QString)) );
+        connect( actionDialog, SIGNAL(message(QString,QString)),
+                 this, SIGNAL(message(QString,QString)) );
         connect( actionDialog, SIGNAL(addMenuItem(QAction*)),
                  this, SIGNAL(addMenuItem(QAction*)) );
         connect( actionDialog, SIGNAL(removeMenuItem(QAction*)),

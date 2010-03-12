@@ -36,8 +36,9 @@ private:
     QStringList m_history;
 
 signals:
-    void addItems(const QStringList);
-    void error(const QString);
+    void addItems(const QStringList &lst);
+    void error(const QString &msg);
+    void message(const QString &title, const QString &msg);
     void actionFinished(Action *act);
     void addMenuItem(QAction *menuItem);
     void removeMenuItem(QAction *menuItem);
