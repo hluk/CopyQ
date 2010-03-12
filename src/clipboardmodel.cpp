@@ -149,9 +149,9 @@ void ClipboardModel::setSearch(int i)
         if ( len == 0 )
             break;
 
-        highlight.append( ESCAPE(str.mid(a, b-a)) );
+        highlight.append( escape(str.mid(a, b-a)) );
         highlight.append( "<span class=\"em\">" );
-        highlight.append( ESCAPE(str.mid(b, len)) );
+        highlight.append( escape(str.mid(b, len)) );
         highlight.append( "</span>" );
 
         a = b + len;
@@ -163,7 +163,7 @@ void ClipboardModel::setSearch(int i)
         m_clipboardList[i].setFiltered(true);
     else {
         if ( a != str.length() )
-            highlight += ESCAPE(str.mid(a));
+            highlight += escape(str.mid(a));
         // highlight matched
         m_clipboardList[i].setFiltered(false);
         m_clipboardList[i].setHighlight(highlight);

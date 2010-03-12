@@ -24,16 +24,42 @@
 #include <QStringList>
 #include <QRegExp>
 #include <QList>
-// Qt::escape
-#include <QTextDocument>
 #include <QDebug>
 #include <QImage>
+#include <QHash>
 
-static const QRegExp re_spaces(" |\t");
-#define ESCAPE(str) (\
-    Qt::escape(str).replace\
-        (re_spaces,"&nbsp;").replace\
-        ('\n', "<br />"))
+static QString escape(const QString &str)
+{
+    static const QChar ch_newline('\n');
+    static const QChar ch_space(' ');
+    static const QChar ch_tab('\t');
+    static const QChar ch_gt('>');
+    static const QChar ch_lt('<');
+    static const QChar ch_amp('&');
+    static const QString html_space("&nbsp;");
+    static const QString html_newline("<br />");
+    static const QString html_gt("&gt;");
+    static const QString html_lt("&lt;");
+    static const QString html_amp("&amp;");
+    QString res;
+
+    for ( QString::const_iterator it = str.begin(); it < str.end(); ++it ) {
+        if( *it == ch_newline )
+            res += html_newline;
+        else if( *it == ch_space || *it == ch_tab )
+            res += html_space;
+        else if( *it == ch_gt )
+            res += html_gt;
+        else if( *it == ch_lt )
+            res += html_lt;
+        else if( *it == ch_amp )
+            res += html_amp;
+        else
+            res += *it;
+    }
+
+    return res;
+}
 
 const QModelIndex empty_index;
 
@@ -60,7 +86,7 @@ public:
     const QString &highlighted() const
     {
         if ( !m_highlight )
-            setHighlight( ESCAPE(*(dynamic_cast<const QString*>(this))) );
+            setHighlight( escape(*(dynamic_cast<const QString*>(this))) );
         return *m_highlight;
     }
 
