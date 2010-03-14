@@ -6,7 +6,7 @@ To start CopyQ run copyq command. The application will be minimized in
 system tray. Running this command again will show CopyQ window (or hide
 if it is not minimized in tray).
 
-To exit the application middle-click on the tray icon or press CTRL-Q keys
+To exit the application middle-click on the tray icon or press Ctrl-Q keys
 in the application window.
 
 Keyboard navigation
@@ -20,7 +20,7 @@ Escape    -- hide window
 Ctrl-Q    -- exit
 F2        -- edit item (in place)
 Ctrl-E    -- edit item (in external editor)
-Ctrl-A    -- open action dialog
+F5        -- open action dialog
 Delete    -- delete item
 Enter     -- put item into clipboard
 

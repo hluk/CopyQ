@@ -255,6 +255,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_E:
             openEditor();
             break;
+
         // CTRL-N: create new item
         case Qt::Key_N:
             // new text will allocate more space (lines) for editor
@@ -263,10 +264,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             setCurrent(0);
             edit( index(0) );
             break;
-        // CTRL-A: action
-        case Qt::Key_A:
-            openActionDialog();
-            break;
+
         // CTRL-Up/Down: move item
         case Qt::Key_Up:
         case Qt::Key_Down:
@@ -315,13 +313,18 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             QListView::keyPressEvent(event);
             break;
 
+        // F2: edit
         case Qt::Key_F2:
             QListView::keyPressEvent(event);
             break;
 
+        // F5: action
+        case Qt::Key_F5:
+            openActionDialog();
+            break;
+
         default:
-                emit requestSearch(event);
-                //QListWidget::keyPressEvent(event);
+            emit requestSearch(event);
             break;
         }
     }
