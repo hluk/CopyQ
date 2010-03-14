@@ -5,7 +5,8 @@ INCLUDEPATH += . \
     ../qtsingleapplication/
 RESOURCES = copyq.qrc
 FORMS += mainwindow.ui \
-    actiondialog.ui
+    actiondialog.ui \
+    aboutdialog.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     qeditor.h \
@@ -22,10 +23,6 @@ SOURCES += main.cpp \
     itemdelegate.cpp \
     action.cpp
 QT += xml
-unix {
-    LIBS += -lXi
-}
-win32 {
-    CONFIG += static
-}
+unix:LIBS += -lXi
+win32:CONFIG += static
 include(qtsingleapplication/qtsingleapplication.pri)

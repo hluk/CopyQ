@@ -19,6 +19,7 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "ui_aboutdialog.h"
 #include <QtGui/QDesktopWidget>
 #include <QDebug>
 #include <QDataStream>
@@ -32,7 +33,7 @@
 #include "clipboardmodel.h"
 
 MainWindow::MainWindow(const QString &css, QWidget *parent)
-: QMainWindow(parent), ui(new Ui::MainWindow)
+: QMainWindow(parent), ui(new Ui::MainWindow), aboutDialog(NULL)
 {
     // global stylesheet
     setStyleSheet(css);
@@ -157,6 +158,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             ui->clipboardBrowser->moveToClipboard(
                     ui->clipboardBrowser->currentIndex() );
             resetStatus();
+            break;
+
+        // show about dialog
+        case Qt::Key_F1:
+            if ( !aboutDialog ) {
+                aboutDialog = new QDialog(this);
+                aboutDialog_ui = new Ui::AboutDialog;
+                aboutDialog_ui->setupUi(aboutDialog);
+            }
+            aboutDialog->show();
             break;
 
         case Qt::Key_F3:

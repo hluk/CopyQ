@@ -24,13 +24,13 @@
 #include <QTextDocument>
 #include <QSystemTrayIcon>
 #include <QBasicTimer>
-//#include "itemdelegate.h"
 
 class ClipboardModel;
 
 namespace Ui
 {
     class MainWindow;
+    class AboutDialog;
 }
 
 class MainWindow : public QMainWindow
@@ -48,6 +48,8 @@ class MainWindow : public QMainWindow
 
     private:
         Ui::MainWindow *ui;
+        QDialog *aboutDialog;
+        Ui::AboutDialog *aboutDialog_ui;
         //ItemDelegate delegate;
         QIcon m_icon;
         QSystemTrayIcon *tray;

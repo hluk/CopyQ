@@ -23,6 +23,7 @@ Ctrl-E    -- edit item (in external editor)
 F5        -- open action dialog
 Delete    -- delete item
 Enter     -- put item into clipboard
+F1        -- show about dialog
 
 Type any number to select item with given id.
 
@@ -63,7 +64,7 @@ menu         -- open context menu
 Usage Examples
 ==============
 CopyQ must be running to be able to issue commands using command line.
-To start CopyQ run:
+To start CopyQ run following command:
 $ copyq
 
 Insert text to the clipboard:
