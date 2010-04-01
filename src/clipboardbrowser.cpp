@@ -655,13 +655,13 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
         else {
             const QMimeData *mime = clip->mimeData(mode);
             if (mime) {
-                if ( mime->hasImage() ) {
+                if ( mime->formats().isEmpty() )
+                    clip->setText(text, mode);
+                else if ( mime->hasImage() ) {
                     data = clip->image(mode);
                     if( data != itemData(0) )
                         add(data);
                 }
-                else if ( mime->formats().isEmpty() )
-                    clip->setText(text, mode);
             }
         }
     }
