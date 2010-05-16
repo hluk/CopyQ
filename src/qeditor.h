@@ -42,6 +42,7 @@ class QEditor : public QObject
 
     private:
         QString m_txt;
+        // hash of original string (saves some memory)
         uint m_hash;
         QTemporaryFile m_tmpfile;
         QString m_editorcmd;

@@ -61,7 +61,7 @@ static QString escape(const QString &str)
     return res;
 }
 
-const QModelIndex empty_index;
+static const QModelIndex empty_index;
 
 class ClipboardItem : public QString
 {
