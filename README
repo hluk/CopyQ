@@ -23,7 +23,7 @@ Ctrl-E    -- edit item (in external editor)
 F5        -- open action dialog
 Delete    -- delete item
 Enter     -- put item into clipboard
-F1        -- show about dialog
+F1        -- show help
 
 Type any number to select item with given id.
 
@@ -48,17 +48,19 @@ copyq.css:
     See documentation: http://qt.nokia.com/doc/stylesheet.html
 
 
-Command Line Arguments
+Command Line Interface
 ======================
-toggle       -- show/hide main window
-action       -- show action dialog
-action [row=0] "command" [separator=\n]
-             -- apply command on item text in the row
-add text     -- add text into clipboard 
-get          -- print clipboard contents
-edit         -- edit clipboard item
-new          -- create and edit new item
-menu         -- open context menu
+syntax: copyq [COMMAND]
+COMMAND is one of following:
+    toggle       -- show/hide main window
+    action       -- show action dialog
+    action [row=0] "command" [separator=\n]
+                 -- apply command on item text in the row
+    add text     -- add text into clipboard
+    get          -- print clipboard contents
+    edit         -- edit clipboard item
+    new          -- create and edit new item
+    menu         -- open context menu
 
 
 Usage Examples
@@ -77,11 +79,16 @@ For each file in given directory create new item:
 $ copyq action "ls /"
 
 File content into clipboard:
-$ copyq add "$(cat file.txt)"
+$ copyq action "cat file.txt" ""
+(last argument is separator - empty means "create single item")
 
 Process an item with the python interpreter and redirect the standard output
 to the standard error output using sh command (shell).
 Note: Standard error output will be show as tray icon tooltip.
 $ copyq add 'print "Hello world!"'
 $ copyq action 'sh -c "python 1>&2"'
+
+To concatenate items select them items in CopyQ window and press F5.
+Type "cat" into command input field, check "Output into item(s)" check box,
+clear "Separator field" and press Ok button to submit.
 
