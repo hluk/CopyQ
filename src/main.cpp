@@ -39,7 +39,8 @@ int main(int argc, char *argv[])
     QCoreApplication::setOrganizationName("copyq");
     QCoreApplication::setApplicationName("copyq");
 
-    QtSingleApplication app(argc, argv);
+    // TODO: different session id for other users
+    QtSingleApplication app( QString("CopyQ"), argc, argv );
 
     QString msg;
 
