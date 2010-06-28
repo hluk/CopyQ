@@ -52,16 +52,18 @@ Command Line Interface
 ======================
 syntax: copyq [COMMAND]
 COMMAND is one of following:
-    toggle       -- show/hide main window
-    action       -- show action dialog
+    toggle         -- show/hide main window
+    select [row=0] -- move item in the row to the clipboard
+    action         -- show action dialog
     action [row=0] "command" [separator=\n]
-                 -- apply command on item text in the row
-    add text     -- add text into clipboard
-    get          -- print clipboard contents
-    edit         -- edit clipboard item
-    new          -- create and edit new item
-    menu         -- open context menu
-
+                   -- apply command on item text in the row
+    add text       -- add text into clipboard
+    get            -- print clipboard contents
+    edit           -- edit clipboard item
+    new            -- create and edit new item
+    menu           -- open context menu
+    show [title] [row=0]
+                   -- show popup message with text of item in the row
 
 Usage Examples
 ==============
@@ -91,4 +93,8 @@ $ copyq action 'sh -c "python 1>&2"'
 To concatenate items select them items in CopyQ window and press F5.
 Type "cat" into command input field, check "Output into item(s)" check box,
 clear "Separator field" and press Ok button to submit.
+
+Toggle between three first items in clipboard history and show the text
+of the first one in popup.
+$ copyq select 2; sleep 0.1; copyq show
 

@@ -299,6 +299,37 @@ void MainWindow::handleMessage(const QString& message)
         c->openEditor();
     }
 
+    // show clipboard content or custom message
+    // show [title] [row=0]
+    else if ( cmd == "show" ) {
+        QString title, msg;
+
+        if ( !args.isEmpty() )
+            title = args.takeFirst();
+
+        // get row
+        bool ok = false;
+        int row;
+        if ( !args.isEmpty() )
+            row = args.takeFirst().toInt(&ok);
+        if ( !ok )
+            row = 0;
+
+        showMessage( title, c->itemText(row) );
+    }
+
+    // set current item
+    // select [row=1]
+    else if ( cmd == "select" ) {
+        bool ok = false;
+        int row;
+        if ( !args.isEmpty() )
+            row = args.takeFirst().toInt(&ok);
+        if ( !ok )
+            row = 1;
+        c->moveToClipboard(row);
+    }
+
     // TODO: get item text
     // TODO: move item
 
