@@ -315,7 +315,7 @@ void MainWindow::handleMessage(const QString& message)
         if ( !ok )
             row = 0;
 
-        showMessage( title, c->itemText(row) );
+        showMessage( title, c->itemText(row), QSystemTrayIcon::Information, 2000 );
     }
 
     // set current item
@@ -326,8 +326,21 @@ void MainWindow::handleMessage(const QString& message)
         if ( !args.isEmpty() )
             row = args.takeFirst().toInt(&ok);
         if ( !ok )
-            row = 1;
+            row = 0;
         c->moveToClipboard(row);
+    }
+
+    // remove item from clipboard
+    // remove [row=0]
+    else if ( cmd == "remove" ) {
+        bool ok = false;
+        int row;
+        if ( !args.isEmpty() )
+            row = args.takeFirst().toInt(&ok);
+        if ( !ok )
+            row = 0;
+        c->setCurrent(row);
+        c->remove();
     }
 
     // TODO: get item text
