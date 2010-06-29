@@ -315,7 +315,10 @@ void MainWindow::handleMessage(const QString& message)
         if ( !ok )
             row = 0;
 
-        showMessage( title, c->itemText(row), QSystemTrayIcon::Information, 2000 );
+        msg = c->itemText(row);
+        if (msg.length()>500)
+            msg = msg.left(500);
+        showMessage( title, msg, QSystemTrayIcon::Information, 2000 );
     }
 
     // set current item
