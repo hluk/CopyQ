@@ -33,6 +33,13 @@ namespace Ui
     class AboutDialog;
 }
 
+class Client : public QObject
+{
+    Q_OBJECT
+    public slots:
+        void handleMessage(const QString& message);
+};
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

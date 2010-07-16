@@ -161,6 +161,7 @@ void ItemDelegate::createDoc(const QString &text, const QModelIndex &index) cons
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItemV4 options(option);
+    QStyleOptionViewItemV3 option3(option);
     initStyleOption(&options, index);
     QString text = options.text;
     options.text = "";

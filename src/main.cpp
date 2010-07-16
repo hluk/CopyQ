@@ -33,6 +33,13 @@ inline bool writeCssFile(QIODevice &, const QSettings::SettingsMap &)
     return true;
 }
 
+QtSingleApplication *newClient() {
+    int argc2 = 0;
+    QtSingleApplication *client =
+            new QtSingleApplication( QString("CopyQclient"), argc2, (char**)NULL );
+    return client;
+}
+
 int main(int argc, char *argv[])
 {
     Q_INIT_RESOURCE(copyq);
@@ -53,10 +60,32 @@ int main(int argc, char *argv[])
                             QChar('\n'), QString(" \\n")));
     }
 
-    // try to send a message if application already running
-    // -1 means wait forever for app to respond (if instance found)
-    if ( app.sendMessage(msg, -1) )
-        return 0;
+    if ( app.isRunning() ) {
+        QtSingleApplication *client = newClient();
+
+        // if another client running -- wait
+        while ( client->isRunning() ) {
+            delete client;
+#if defined(Q_OS_WIN)
+            Sleep(DWORD(1000));
+#else
+            const struct timespec ts = { 1, 0 };
+            nanosleep(&ts, NULL);
+#endif
+            client = newClient();
+        }
+
+        Client obj;
+        QObject::connect(
+                client, SIGNAL(messageReceived(const QString&)),
+                &obj, SLOT(handleMessage(const QString&)) );
+
+        // try to send a message if application already running
+        // -1 means wait forever for app to respond (if instance found)
+        app.sendMessage(client->id() + QString('\n') + msg, -1);
+
+        return client->exec();
+    }
 
     // style
     QSettings::Format cssFormat = QSettings::registerFormat(

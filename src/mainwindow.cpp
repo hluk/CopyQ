@@ -30,7 +30,19 @@
 #include <QSettings>
 #include <QCloseEvent>
 #include <QMenu>
+#include <qtlocalpeer.h>
 #include "clipboardmodel.h"
+
+
+void Client::handleMessage(const QString &message)
+{
+    // empty message tells client to quit
+    if (message.isEmpty())
+        QApplication::exit();
+    else {
+        qDebug(message.toLatin1());
+    }
+}
 
 MainWindow::MainWindow(const QString &css, QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow), aboutDialog(NULL)
@@ -109,9 +121,7 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-#ifndef WIN32
     showMinimized();
-#endif
     hide();
     event->ignore();
 }
@@ -221,7 +231,12 @@ void MainWindow::readSettings()
 void MainWindow::handleMessage(const QString& message)
 {
     QStringList args = message.split(QChar('\n'));
+    const QString &client_id = args.takeFirst();
     const QString &cmd = args.takeFirst();
+
+    // client
+    QtLocalPeer peer(NULL,client_id);
+    int t = 1000;
 
     // unescape
     for ( int i = 0; i<args.length(); ++i )
@@ -317,7 +332,7 @@ void MainWindow::handleMessage(const QString& message)
 
         msg = c->itemText(row);
         if (msg.length()>500)
-            msg = msg.left(500);
+            msg = msg.left(500) + QString("\n\n\n< --- CROPPED --- >");
         showMessage( title, msg, QSystemTrayIcon::Information, 2000 );
     }
 
@@ -346,11 +361,26 @@ void MainWindow::handleMessage(const QString& message)
         c->remove();
     }
 
-    // TODO: get item text
+    else if ( cmd == "list" ) {
+        if ( args.isEmpty() )
+            peer.sendMessage( c->itemText(0), t );
+        else {
+            bool ok = false;
+            do {
+                int row = args.takeFirst().toInt(&ok);
+                if (ok)
+                    peer.sendMessage( c->itemText(row), t );
+            } while( !args.isEmpty() );
+        }
+    }
+
     // TODO: move item
 
     else
         showError("Unknown command");
+
+    // empty message tells client to quit
+    peer.sendMessage(QString(),t);
 }
 
 void MainWindow::toggleVisible()

@@ -56,6 +56,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    setAttribute(Qt::WA_MacShowFocusRect, 0);
 }
 
 void ClipboardBrowser::startMonitoring()
@@ -234,8 +236,11 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
     // CTRL
     if ( event->modifiers() == Qt::ControlModifier ) {
-        int from, to;
-        switch ( event->key() ) {
+        int last, from, to;
+        QModelIndexList list;
+
+        int key = event->key();
+        switch ( key ) {
         // CTRL-E: open external editor
         case Qt::Key_E:
             openEditor();
@@ -250,16 +255,42 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             edit( index(0) );
             break;
 
-        // CTRL-Up/Down: move item
-        case Qt::Key_Up:
+        // CTRL-Up/Down: move items
         case Qt::Key_Down:
-            from = currentIndex().row();
-            to = (event->key() == Qt::Key_Up) ? (from-1) : (from+1);
-            if ( m->move(from, to) ) {
-                if (from == 0 || to == 0 || to == m->rowCount())
-                    sync();
-                scrollTo( currentIndex() );
-                repaint();
+        case Qt::Key_Up:
+        case Qt::Key_End:
+        case Qt::Key_Home:
+            list = selectedIndexes();
+            qSort(list.begin(),list.end());
+
+            for(int i = 0; i<list.length(); ++i) {
+                if (key == Qt::Key_Down || key == Qt::Key_End)
+                    from = list.at(list.length()-1-i).row();
+                else
+                    from = list.at(i).row();
+
+                switch (key) {
+                case Qt::Key_Down:
+                    to = from+1;
+                    break;
+                case Qt::Key_Up:
+                    to = from-1;
+                    break;
+                case Qt::Key_End:
+                    to = -1;
+                    break;
+                case Qt::Key_Home:
+                    to = 0;
+                    break;
+                }
+                last = from;
+                qDebug()<<from<<","<<to;
+                if ( m->move(from, to) ) {
+                    if (from == 0 || to == 0 || to == m->rowCount())
+                        sync();
+                    scrollTo( currentIndex() );
+                    repaint();
+                }
             }
             break;
         default:
