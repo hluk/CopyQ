@@ -46,6 +46,7 @@ class ClipboardBrowser : public QListView
         bool add(const QImage &image);
         bool add(const QVariant &value);
         void remove();
+        int length() const { return model()->rowCount(); };
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
         QVariant itemData(int row) const {

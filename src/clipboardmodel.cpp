@@ -19,6 +19,31 @@
 
 #include "clipboardmodel.h"
 #include <QDebug>
+#include <QMap>
+
+QString escape(const QString &str)
+{
+    static QMap<QChar,QString> repl;
+    if ( repl.isEmpty() ) {
+        repl[QChar(' ')] = QString("&nbsp;");
+        repl[QChar('\t')] = QString("&nbsp;&nbsp;");
+        repl[QChar(' ')] = QString("<br />");
+        repl[QChar('>')] = QString("&gt;");
+        repl[QChar('<')] = QString("&lt;");
+        repl[QChar('&')] = QString("&amp;");
+    }
+    QString res;
+
+    for ( QString::const_iterator it = str.begin(); it < str.end(); ++it ) {
+        QString str(repl[*it]);
+        if( str.isEmpty() )
+            res += *it;
+        else
+            res += str;
+    }
+
+    return res;
+}
 
 ClipboardModel::ClipboardModel(const QStringList &items)
     : QAbstractListModel()
@@ -123,6 +148,47 @@ bool ClipboardModel::move(int pos, int newpos) {
     m_clipboardList.move(from, to);
     endMoveRows();
     return true;
+}
+
+/**
+@fn  moveItems
+@arg list items to move
+@arg key move items in given direction (Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home)
+@return true if some item was moved to the top (item to clipboard), otherwise false
+*/
+bool ClipboardModel::moveItems(QModelIndexList list, int key) {
+    qSort(list.begin(),list.end());
+    int from, to, last;
+    bool res = false;
+
+    for(int i = 0; i<list.length(); ++i) {
+        if (key == Qt::Key_Down || key == Qt::Key_End)
+            from = list.at(list.length()-1-i).row();
+        else
+            from = list.at(i).row();
+
+        switch (key) {
+        case Qt::Key_Down:
+            to = from+1;
+            break;
+        case Qt::Key_Up:
+            to = from-1;
+            break;
+        case Qt::Key_End:
+            to = rowCount()-i-1;
+            break;
+        default:
+            to = 0+i;
+            break;
+        }
+        last = from;
+        if ( !move(from, to) )
+            return false;
+        if (!res)
+            res = to==0;
+    }
+
+    return res;
 }
 
 bool ClipboardModel::isFiltered(int i) const

@@ -119,8 +119,10 @@ void ClipboardBrowser::itemModified(uint hash, const QString &str)
     }
 
     // add new item
-    add(str);
-    sync();
+    if ( !str.isEmpty() ) {
+        add(str);
+        sync();
+    }
 }
 
 void ClipboardBrowser::filterItems(const QString &str)
@@ -236,7 +238,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
     // CTRL
     if ( event->modifiers() == Qt::ControlModifier ) {
-        int last, from, to;
         QModelIndexList list;
 
         int key = event->key();
@@ -260,38 +261,10 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Up:
         case Qt::Key_End:
         case Qt::Key_Home:
-            list = selectedIndexes();
-            qSort(list.begin(),list.end());
-
-            for(int i = 0; i<list.length(); ++i) {
-                if (key == Qt::Key_Down || key == Qt::Key_End)
-                    from = list.at(list.length()-1-i).row();
-                else
-                    from = list.at(i).row();
-
-                switch (key) {
-                case Qt::Key_Down:
-                    to = from+1;
-                    break;
-                case Qt::Key_Up:
-                    to = from-1;
-                    break;
-                case Qt::Key_End:
-                    to = -1;
-                    break;
-                case Qt::Key_Home:
-                    to = 0;
-                    break;
-                }
-                last = from;
-                qDebug()<<from<<","<<to;
-                if ( m->move(from, to) ) {
-                    if (from == 0 || to == 0 || to == m->rowCount())
-                        sync();
-                    scrollTo( currentIndex() );
-                    repaint();
-                }
-            }
+            if ( m->moveItems(selectedIndexes(), key) )
+                sync();
+            scrollTo( currentIndex() );
+            repaint();
             break;
         default:
             QListView::keyPressEvent(event);

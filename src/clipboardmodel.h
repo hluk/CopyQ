@@ -28,46 +28,19 @@
 #include <QImage>
 #include <QHash>
 
-static QString escape(const QString &str)
-{
-    static const QChar ch_newline('\n');
-    static const QChar ch_space(' ');
-    static const QChar ch_tab('\t');
-    static const QChar ch_gt('>');
-    static const QChar ch_lt('<');
-    static const QChar ch_amp('&');
-    static const QString html_space("&nbsp;");
-    static const QString html_newline("<br />");
-    static const QString html_gt("&gt;");
-    static const QString html_lt("&lt;");
-    static const QString html_amp("&amp;");
-    QString res;
-
-    for ( QString::const_iterator it = str.begin(); it < str.end(); ++it ) {
-        if( *it == ch_newline )
-            res += html_newline;
-        else if( *it == ch_space || *it == ch_tab )
-            res += html_space;
-        else if( *it == ch_gt )
-            res += html_gt;
-        else if( *it == ch_lt )
-            res += html_lt;
-        else if( *it == ch_amp )
-            res += html_amp;
-        else
-            res += *it;
-    }
-
-    return res;
-}
-
 static const QModelIndex empty_index;
+QString escape(const QString &str);
 
 class ClipboardItem : public QString
 {
 public:
     ClipboardItem(const QString &str) : QString(str),
         m_highlight(NULL), m_image(NULL), m_filtered(false) {}
+    ClipboardItem(const QImage &image) : QString("IMAGE"),
+            m_highlight(NULL), m_filtered(false)
+    {
+        setImage(image);
+    }
 
     ~ClipboardItem()
     {
@@ -155,6 +128,7 @@ public:
     void setMaxItems(int max) { m_max = max; }
 
     bool move(int pos, int newpos);
+    bool moveItems(QModelIndexList list, int key);
 
     // search
     const QRegExp *search() const { return &m_re; }
@@ -174,7 +148,6 @@ public:
         else
             return QImage();
     }
-
 private:
     QList<ClipboardItem> m_clipboardList;
     QRegExp m_re;

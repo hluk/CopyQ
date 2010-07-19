@@ -32,6 +32,7 @@
 #include <QMenu>
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
+#include <iostream>
 
 
 void Client::handleMessage(const QString &message)
@@ -40,7 +41,7 @@ void Client::handleMessage(const QString &message)
     if (message.isEmpty())
         QApplication::exit();
     else {
-        qDebug(message.toLatin1());
+        std::cout << message.toLocal8Bit().constData();
     }
 }
 
@@ -230,19 +231,19 @@ void MainWindow::readSettings()
 
 void MainWindow::handleMessage(const QString& message)
 {
-    QStringList args = message.split(QChar('\n'));
-    const QString &client_id = args.takeFirst();
-    const QString &cmd = args.takeFirst();
+    // deserialize list of arguments from QString
+    QStringList args;
+    QByteArray bytes(message.toAscii());
+    bytes = QByteArray::fromBase64(bytes);
+    QDataStream in(&bytes, QIODevice::ReadOnly);
+    in >> args;
+
+    const QString &client_id = "CopyQclient";
+    const QString &cmd = args.isEmpty() ? QString() : args.takeFirst();
 
     // client
     QtLocalPeer peer(NULL,client_id);
     int t = 1000;
-
-    // unescape
-    for ( int i = 0; i<args.length(); ++i )
-        args[i].replace(
-                QString(" \\n"), QChar('\n') ).replace(
-                QString("\\\\"), QString('\\') );
 
     ClipboardBrowser *c = ui->clipboardBrowser;
 
@@ -252,6 +253,13 @@ void MainWindow::handleMessage(const QString& message)
     // show/hide main window
     if ( cmd == "toggle")
         toggleVisible();
+
+    // exit server
+    else if ( cmd == "exit") {
+        // close client and exit
+        peer.sendMessage(QString(),t);
+        this->exit();
+    }
 
     // show menu
     else if ( cmd == "menu" )
@@ -361,15 +369,35 @@ void MainWindow::handleMessage(const QString& message)
         c->remove();
     }
 
+    else if ( cmd == "length" || cmd == "count" || cmd == "size" )
+        peer.sendMessage( QString("%1\n").arg(c->length()), t );
+
+    // print items in given rows, format can have two arguments %1:item %2:row
+    // list [format="%1\n"|row=0]
     else if ( cmd == "list" ) {
         if ( args.isEmpty() )
             peer.sendMessage( c->itemText(0), t );
         else {
+            int row;
             bool ok = false;
+            QString fmt("%1\n");
+            QString arg;
             do {
-                int row = args.takeFirst().toInt(&ok);
-                if (ok)
-                    peer.sendMessage( c->itemText(row), t );
+                arg = args.takeFirst();
+                row = arg.toInt(&ok);
+
+                if (ok) {
+                    // number
+                    arg = c->itemText(row);
+                    if (arg.isEmpty())
+                        arg = QString(' ');
+                    peer.sendMessage(fmt.arg(arg).arg(row), t);
+                }
+                else {
+                    // format
+                    fmt = arg;
+                    fmt.replace(QString("\\n"),QString('\n'));
+                }
             } while( !args.isEmpty() );
         }
     }
