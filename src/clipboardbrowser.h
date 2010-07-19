@@ -75,6 +75,7 @@ class ClipboardBrowser : public QListView
         int m_maxitems;
         int m_msec;
         QString m_callback;
+        QStringList m_callback_args;
         QString m_editor;
         QBasicTimer timer;
         QBasicTimer timer_save;

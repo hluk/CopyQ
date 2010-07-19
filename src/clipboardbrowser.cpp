@@ -507,7 +507,12 @@ void ClipboardBrowser::readSettings(const QString &css)
     }
 
     //callback program
-    m_callback = settings.value("callback", QString()).toString();
+    // TODO: arguments that contain spaces aren't parsed well
+    m_callback_args = settings.value("callback", QString()).toString().split(" ");
+    if( !m_callback_args.isEmpty() ) {
+        m_callback = m_callback_args[0];
+        m_callback_args.pop_front();
+    }
 
     // performance:
     // force the delegate to calculate the size of each item
@@ -526,7 +531,7 @@ void ClipboardBrowser::writeSettings()
 
     settings.setValue( "interval", m_msec );
     settings.setValue( "maxitems", m_maxitems );
-    settings.setValue( "callback", m_callback );
+    settings.setValue( "callback", m_callback+QString(" ")+(m_callback_args.join(QString(" "))) );
     settings.setValue( "editor", m_editor );
     settings.setValue( "format", d->itemFormat() );
 }
@@ -622,8 +627,9 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
 void ClipboardBrowser::runCallback() const
 {
     // run callback program on clipboard contents
-    if ( !m_callback.isEmpty() )
-        QProcess().execute( m_callback.arg(itemText(0)) );
+    if ( m_callback.isEmpty() )
+        return;
+    QProcess::startDetached( m_callback, m_callback_args + QStringList(itemText(0)) );
 }
 
 void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
@@ -635,6 +641,7 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
     QVariant data;
     QString text;
     QClipboard *clip = QApplication::clipboard();
+    bool run_callback = false;
 
     stopMonitoring();
     // first item -> clipboard
@@ -651,7 +658,6 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
         }
         else {
             text = data.toString();
-            bool run_callback = false;
             if ( text != clip->text() ) {
                 clip->setText(text);
                 run_callback = true;
@@ -660,29 +666,22 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
                 clip->setText(text,QClipboard::Selection);
                 run_callback = true;
             }
-            if (run_callback)
-                m_lastSelection = text;
-
-            runCallback();
         }
     }
     // clipboard -> first item
     else {
-        m_lastSelection = text = clip->text(mode);
+        text = clip->text(mode);
         if ( !text.isEmpty() ) {
-            text = clip->text(mode);
-            QString current = itemText(0);
-            if( text.isEmpty() )
-                text = current;
-            else if( text != current )
+            if( text != itemText(0) ) {
                 add(text);
-
-            clip->setText(text);
-            // set selection only if it's different
-            // - this avoids clearing selection in
-            //   e.g. terminal apps
-            if ( text != clip->text(QClipboard::Selection) )
-                clip->setText(text, QClipboard::Selection);
+                run_callback = true;
+                clip->setText(text);
+                // set selection only if it's different
+                // - this avoids clearing selection in
+                //   e.g. terminal apps
+                if ( text != clip->text(QClipboard::Selection) )
+                    clip->setText(text, QClipboard::Selection);
+            }
         }
         else {
             const QMimeData *mime = clip->mimeData(mode);
@@ -698,4 +697,9 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
         }
     }
     startMonitoring();
+
+    if (run_callback) {
+        runCallback();
+        m_lastSelection = text;
+    }
 }

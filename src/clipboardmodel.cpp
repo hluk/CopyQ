@@ -27,7 +27,7 @@ QString escape(const QString &str)
     if ( repl.isEmpty() ) {
         repl[QChar(' ')] = QString("&nbsp;");
         repl[QChar('\t')] = QString("&nbsp;&nbsp;");
-        repl[QChar(' ')] = QString("<br />");
+        repl[QChar('\n')] = QString("<br />");
         repl[QChar('>')] = QString("&gt;");
         repl[QChar('<')] = QString("&lt;");
         repl[QChar('&')] = QString("&amp;");

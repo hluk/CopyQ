@@ -36,6 +36,8 @@ All configuration files are stored in ~/.config/copyq directory.
 
 copyq.conf:
     editor   -- external editor command
+    callback -- program that is called when clipboard contents changes
+                (clipboard text is passed as last argument)
     maxitems -- max items in history
     format   -- history item appearance
              -- HTML formated string where:
@@ -81,7 +83,7 @@ The result will be copied to the clipboard.
 For each file in given directory create new item:
 $ copyq action "ls /"
 
-File content into clipboard:
+Load file content into clipboard:
 $ copyq action "cat file.txt" ""
 (last argument is separator - empty means "create single item")
 
