@@ -30,7 +30,7 @@
 #include "clipboardmodel.h"
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_msec(1000), actionDialog(NULL)
+    m_monitoring(false), m_msec(1000), actionDialog(NULL)
 {
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -62,6 +62,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
 
 void ClipboardBrowser::startMonitoring()
 {
+    m_monitoring = true;
     // slot/signals method to monitor
     // X11 clipboard is unreliable:
     // - X11 will notify app only if it is
@@ -73,6 +74,7 @@ void ClipboardBrowser::startMonitoring()
 
 void ClipboardBrowser::stopMonitoring()
 {
+    m_monitoring = false;
     timer.stop();
 }
 
@@ -470,6 +472,8 @@ void ClipboardBrowser::addItems(const QStringList &items) {
 
 void ClipboardBrowser::readSettings(const QString &css)
 {
+    stopMonitoring();
+
     QSettings settings;
 
     setStyleSheet(css);
@@ -488,6 +492,8 @@ void ClipboardBrowser::readSettings(const QString &css)
     m->clear();
     m->setMaxItems( settings.value("maxitems", 400).toInt() );
 
+    m_callback.clear();
+
     QFile file( dataFilename() );
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
@@ -500,6 +506,9 @@ void ClipboardBrowser::readSettings(const QString &css)
             add( v.toString() );
     }
 
+    //callback program
+    m_callback = settings.value("callback", QString()).toString();
+
     // performance:
     // force the delegate to calculate the size of each item
     // -- this will save some time when drawing the list for the fist time
@@ -507,6 +516,7 @@ void ClipboardBrowser::readSettings(const QString &css)
 
     timer_save.stop();
 
+    startMonitoring();
     sync(false);
 }
 
@@ -516,6 +526,7 @@ void ClipboardBrowser::writeSettings()
 
     settings.setValue( "interval", m_msec );
     settings.setValue( "maxitems", m_maxitems );
+    settings.setValue( "callback", m_callback );
     settings.setValue( "editor", m_editor );
     settings.setValue( "format", d->itemFormat() );
 }
@@ -608,8 +619,18 @@ void ClipboardBrowser::clipboardChanged(QClipboard::Mode mode)
     sync(false, mode);
 }
 
+void ClipboardBrowser::runCallback() const
+{
+    // run callback program on clipboard contents
+    if ( !m_callback.isEmpty() )
+        QProcess().execute( m_callback.arg(itemText(0)) );
+}
+
 void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
 {
+    if (!m_monitoring)
+        return;
+
     // synchronize data/text
     QVariant data;
     QString text;
@@ -630,16 +651,24 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
         }
         else {
             text = data.toString();
-            if ( text != clip->text() )
+            bool run_callback = false;
+            if ( text != clip->text() ) {
                 clip->setText(text);
-            if ( text != clip->text(QClipboard::Selection) )
+                run_callback = true;
+            }
+            if ( text != clip->text(QClipboard::Selection) ) {
                 clip->setText(text,QClipboard::Selection);
-            m_lastSelection = text;
+                run_callback = true;
+            }
+            if (run_callback)
+                m_lastSelection = text;
+
+            runCallback();
         }
     }
     // clipboard -> first item
     else {
-        text = clip->text(mode);
+        m_lastSelection = text = clip->text(mode);
         if ( !text.isEmpty() ) {
             text = clip->text(mode);
             QString current = itemText(0);
@@ -654,7 +683,6 @@ void ClipboardBrowser::sync(bool list_to_clipboard, QClipboard::Mode mode)
             //   e.g. terminal apps
             if ( text != clip->text(QClipboard::Selection) )
                 clip->setText(text, QClipboard::Selection);
-            m_lastSelection = text;
         }
         else {
             const QMimeData *mime = clip->mimeData(mode);

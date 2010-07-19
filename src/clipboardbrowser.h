@@ -68,9 +68,13 @@ class ClipboardBrowser : public QListView
         // else: return text of first item
         const QString selectedText() const;
 
+        void runCallback() const;
+
     private:
+        bool m_monitoring;
         int m_maxitems;
         int m_msec;
+        QString m_callback;
         QString m_editor;
         QBasicTimer timer;
         QBasicTimer timer_save;

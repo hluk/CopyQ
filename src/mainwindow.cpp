@@ -265,11 +265,11 @@ void MainWindow::handleMessage(const QString& message)
     else if ( cmd == "menu" )
         tray->contextMenu()->show();
 
+    // show action dialog or run action on item
+    // action [row] "cmd" "[sep]"
     else if ( cmd == "action" ) {
-        // show action dialog
         if ( args.isEmpty() )
             c->openActionDialog(0);
-        // action [row] "cmd" "[sep]"
         else {
             QString arg, cmd, sep;
 
@@ -297,7 +297,7 @@ void MainWindow::handleMessage(const QString& message)
                 goto actionError;
 
             c->action(row, cmd, sep);
-            return;
+            goto messageEnd;
 
             actionError:
             showError("Bad \"action\" command syntax!\n"
@@ -407,6 +407,7 @@ void MainWindow::handleMessage(const QString& message)
     else
         showError("Unknown command");
 
+    messageEnd:
     // empty message tells client to quit
     peer.sendMessage(QString(),t);
 }
