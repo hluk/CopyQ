@@ -2,9 +2,9 @@ CopyQ is clipboard manager with searchable and editable history.
 
 To build and install CopyQ on your system read INSTALL file.
 
-To start CopyQ run copyq command. The application will be minimized in
-system tray. Running this command again will show CopyQ window (or hide
-if it is not minimized in tray).
+To start CopyQ run copyq command without parameters. The application main
+window is accessible by clicking on system tray icon or running copyq with
+parameter "toggle".
 
 To exit the application middle-click on the tray icon or press Ctrl-Q keys
 in the application window.
@@ -54,19 +54,19 @@ Command Line Interface
 ======================
 syntax: copyq [COMMAND]
 COMMAND is one of following:
-    toggle         -- show/hide main window
-    select [row=0] -- move item in the row to the clipboard
-    remove [row=0] -- remove item in the row from clipboard history
-    action         -- show action dialog
-    action [row=0] "command" [separator=\n]
-                   -- apply command on item text in the row
-    add text       -- add text into clipboard
-    get            -- print clipboard contents
-    edit           -- edit clipboard item
-    new            -- create and edit new item
-    menu           -- open context menu
+    toggle           -- show/hide main window
+    select [row=0]   -- move item in the row to the clipboard
+    list [row=0] ... -- print clipboard contents
+    edit [row=0]     -- edit clipboard item
+    new [text]       -- create and edit new item
+    add text         -- add text into clipboard
+    remove [row=0]   -- remove item in the row from clipboard history
     show [title] [row=0]
-                   -- show popup message with text of item in the row
+                     -- show popup message with text of item in the row
+    action           -- show action dialog
+    action [row=0] "command" [separator=\n]
+                     -- apply command on item text in the row
+    menu             -- open context menu
 
 Usage Examples
 ==============
@@ -100,4 +100,7 @@ clear "Separator field" and press Ok button to submit.
 Toggle between three first items in clipboard history and show the text
 of the first one in popup.
 $ copyq select 2; sleep 0.1; copyq show
+
+Monitor file "$HOME/clipboard" and load each new line into clipboard:
+$ copyq action "tail -f $HOME/clipboard"
 

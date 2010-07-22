@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "ui_aboutdialog.h"
+#include "client_server.h"
 #include <QtGui/QDesktopWidget>
 #include <QDebug>
 #include <QDataStream>
@@ -33,7 +34,6 @@
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
 #include <iostream>
-
 
 void Client::handleMessage(const QString &message)
 {
@@ -233,10 +233,7 @@ void MainWindow::handleMessage(const QString& message)
 {
     // deserialize list of arguments from QString
     QStringList args;
-    QByteArray bytes(message.toAscii());
-    bytes = QByteArray::fromBase64(bytes);
-    QDataStream in(&bytes, QIODevice::ReadOnly);
-    in >> args;
+    deserialize_args(message,args);
 
     const QString &client_id = "CopyQclient";
     const QString &cmd = args.isEmpty() ? QString() : args.takeFirst();
@@ -276,12 +273,10 @@ void MainWindow::handleMessage(const QString& message)
             arg = args.takeFirst();
 
             // get row
-            bool ok;
-            int row = arg.toInt(&ok);
-            if (ok) {
-                if ( args.isEmpty() )
+            int row;
+            if ( parse(args,NULL,&row) ) {
+                if ( !parse(args,&arg) )
                     goto actionError;
-                arg = args.takeFirst();
             }
             else
                 row = 0;
@@ -290,8 +285,8 @@ void MainWindow::handleMessage(const QString& message)
             cmd = arg;
 
             // get separator
-            sep = args.isEmpty() ?
-                  QString('\n') : args.takeFirst();
+            if ( !parse(args,&sep) )
+                sep = QString('\n');
 
             if ( !args.isEmpty() )
                 goto actionError;
@@ -301,23 +296,28 @@ void MainWindow::handleMessage(const QString& message)
 
             actionError:
             showError("Bad \"action\" command syntax!\n"
-                  "action [row] cmd [sep]");
+                  "action [row=0] cmd [sep=\"\\n\"]");
         }
     }
 
     // add new item
     else if ( cmd == "add" )
-        c->add(args.join( QString(' ') ));
+        c->add( args.join(QString(' ')) );
 
     // edit clipboard item
     else if ( cmd == "edit" ) {
-        c->setCurrent(0);
+        int row;
+        parse(args,NULL,&row);
+        if ( !args.isEmpty() )
+            showError("Bad \"row\" command syntax!\n"
+                      "edit [row=0]");
+        c->setCurrent(row);
         c->openEditor();
     }
 
     // create new item and edit it
     else if ( cmd == "new" ) {
-        c->add(args[1], false);
+        c->add( args.join(QString(' ')), false );
         c->setCurrent(0);
         c->openEditor();
     }
@@ -327,16 +327,17 @@ void MainWindow::handleMessage(const QString& message)
     else if ( cmd == "show" ) {
         QString title, msg;
 
-        if ( !args.isEmpty() )
-            title = args.takeFirst();
+        // title
+        parse(args,&title);
 
         // get row
-        bool ok = false;
         int row;
-        if ( !args.isEmpty() )
-            row = args.takeFirst().toInt(&ok);
-        if ( !ok )
+        if( !parse(args,NULL,&row) )
             row = 0;
+
+        if ( args.isEmpty() )
+            showError("Bad \"show\" command syntax!\n"
+                      "edit [title] [row=0]");
 
         msg = c->itemText(row);
         if (msg.length()>500)

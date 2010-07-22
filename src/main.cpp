@@ -19,6 +19,7 @@
 
 #include <qtsingleapplication.h> 
 #include "mainwindow.h"
+#include "client_server.h"
 #include <QSettings>
 #include <QDebug>
 #include <iostream>
@@ -64,18 +65,6 @@ void usage()
 "    help,-h,--help         print this help\n";
 }
 
-void serialize_args(int argc, char *argv[], QString &msg) {
-    // serialize arguments to QString
-    QList<QString> args;
-    for (int i = 1; i < argc; ++i)
-        args.append( QString(argv[i]) );
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
-    out << args;
-    foreach( char byte, bytes.toBase64() )
-        msg.append(byte);
-}
-
 int main(int argc, char *argv[])
 {
     if (argc > 1) {
@@ -102,7 +91,11 @@ int main(int argc, char *argv[])
         }
         QtSingleApplication *client = newClient();
         QString msg;
-        serialize_args(argc,argv,msg);
+
+        QStringList args;
+        for (int i = 1; i < argc; ++i)
+            args.append( QString(argv[i]) );
+        serialize_args(args,msg);
 
         // if another client running -- wait
         while ( client->isRunning() ) {
