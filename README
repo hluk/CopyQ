@@ -60,7 +60,8 @@ COMMAND is one of following:
     edit [row=0]     -- edit clipboard item
     new [text]       -- create and edit new item
     add text         -- add text into clipboard
-    remove [row=0]   -- remove item in the row from clipboard history
+    remove [row=0] ...
+                     -- remove item in given rows from clipboard history
     show [title] [row=0]
                      -- show popup message with text of item in the row
     action           -- show action dialog
@@ -103,4 +104,6 @@ $ copyq select 2; sleep 0.1; copyq show
 
 Monitor file "$HOME/clipboard" and load each new line into clipboard:
 $ copyq action "tail -f $HOME/clipboard"
+This process can be killed by right clicking on tray icon and selecting
+the process from context menu.
 

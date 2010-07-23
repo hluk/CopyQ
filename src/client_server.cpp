@@ -1,12 +1,12 @@
 #include "client_server.h"
+#include <iostream>
+#include <QDebug>
 
 void serialize_args(const QStringList &args, QString &msg) {
-    // serialize arguments to QString
     QByteArray bytes;
     QDataStream out(&bytes, QIODevice::WriteOnly);
     out << args;
-    foreach( char byte, bytes.toBase64() )
-        msg.append(byte);
+    msg = bytes.toBase64().constData();
 }
 
 void deserialize_args(const QString &msg, QStringList &args) {
@@ -41,7 +41,7 @@ bool parse(QStringList &list, QString *str, int *num)
         bool ok = false;
         *num = tmp.toInt(&ok);
         if (!ok) {
-            ok = 0;
+            *num = 0;
             return false;
         }
     }
@@ -49,4 +49,56 @@ bool parse(QStringList &list, QString *str, int *num)
     // remove parsed argument from list
     list.pop_front();
     return true;
+}
+
+void Client::connect() {
+    int argc = 0;
+    while(1) {
+        if (client)
+            delete client;
+        client = new QtSingleApplication( QString("CopyQclient"), argc, (char**)NULL );
+
+        if ( !client->isRunning() )
+            break;
+
+        // wait for other client to be close
+#if defined(Q_OS_WIN)
+        Sleep(DWORD(1000));
+#else
+        const struct timespec ts = { 1, 0 };
+        nanosleep(&ts, NULL);
+#endif
+    }
+
+    // catch messages
+    QObject::connect(
+            client, SIGNAL(messageReceived(const QString&)),
+            this, SLOT(handleMessage(const QString&)) );
+}
+
+void Client::handleMessage(const QString &message)
+{
+    QStringList list;
+    deserialize_args(message,list);
+
+    if ( list.isEmpty() )
+        return;
+
+    // first item is client output
+    std::cout << list.takeFirst().toLocal8Bit().constData();
+
+    if ( list.isEmpty() )
+        return;
+
+    // second item (if defined) is exit code
+    client->exit( list.takeFirst().toInt() );
+}
+
+int Client::exec()
+{
+    if ( !client || client->isRunning() )
+        return -1;
+
+    // run client
+    return client->exec();
 }

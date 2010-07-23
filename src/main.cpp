@@ -17,7 +17,6 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <qtsingleapplication.h> 
 #include "mainwindow.h"
 #include "client_server.h"
 #include <QSettings>
@@ -35,13 +34,6 @@ inline bool writeCssFile(QIODevice &, const QSettings::SettingsMap &)
     return true;
 }
 
-QtSingleApplication *newClient() {
-    int argc2 = 0;
-    QtSingleApplication *client =
-            new QtSingleApplication( QString("CopyQclient"), argc2, (char**)NULL );
-    return client;
-}
-
 void usage()
 {
     std::cout <<
@@ -54,7 +46,7 @@ void usage()
 "    action [row=0] \"command\" [separator=\\n]\n"
 "                           apply command on item text in the row\n"
 "    add text               add text into clipboard\n"
-"    remove [row=0]         remove item in the row\n"
+"    remove [row=0] ...     remove item in given rows\n"
 "    get                    print clipboard contents\n"
 "    edit                   edit clipboard item\n"
 "    new                    create and edit new item\n"
@@ -89,36 +81,22 @@ int main(int argc, char *argv[])
             std::cout << "CopyQ server is already running\n";
             exit(0);
         }
-        QtSingleApplication *client = newClient();
-        QString msg;
 
+        // serialize arguments
+        QString msg;
         QStringList args;
         for (int i = 1; i < argc; ++i)
             args.append( QString(argv[i]) );
         serialize_args(args,msg);
 
-        // if another client running -- wait
-        while ( client->isRunning() ) {
-            delete client;
-#if defined(Q_OS_WIN)
-            Sleep(DWORD(1000));
-#else
-            const struct timespec ts = { 1, 0 };
-            nanosleep(&ts, NULL);
-#endif
-            client = newClient();
-        }
-
-        Client obj;
-        QObject::connect(
-                client, SIGNAL(messageReceived(const QString&)),
-                &obj, SLOT(handleMessage(const QString&)) );
+        Client client;
+        client.connect();
 
         // try to send a message if application already running
         // -1 means wait forever for app to respond (if instance found)
         app.sendMessage(msg, -1);
 
-        return client->exec();
+        return client.exec();
     }
     if (argc > 1) {
         std::cout << "ERROR: CopyQ server is not running. To run a server just execute this program without parameters.\n";

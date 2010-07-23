@@ -33,17 +33,6 @@
 #include <QMenu>
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
-#include <iostream>
-
-void Client::handleMessage(const QString &message)
-{
-    // empty message tells client to quit
-    if (message.isEmpty())
-        QApplication::exit();
-    else {
-        std::cout << message.toLocal8Bit().constData();
-    }
-}
 
 MainWindow::MainWindow(const QString &css, QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow), aboutDialog(NULL)
@@ -235,12 +224,13 @@ void MainWindow::handleMessage(const QString& message)
     QStringList args;
     deserialize_args(message,args);
 
-    const QString &client_id = "CopyQclient";
     const QString &cmd = args.isEmpty() ? QString() : args.takeFirst();
 
     // client
-    QtLocalPeer peer(NULL,client_id);
-    int t = 1000;
+    QStringList client_args;
+    QtLocalPeer peer( NULL, QString("CopyQclient") );
+    client_args.append( QString() ); // client output
+    #define SHOWERROR(x) do {client_args[0] = (x); client_args.append( QString("2") ); } while(0)
 
     ClipboardBrowser *c = ui->clipboardBrowser;
 
@@ -254,7 +244,7 @@ void MainWindow::handleMessage(const QString& message)
     // exit server
     else if ( cmd == "exit") {
         // close client and exit
-        peer.sendMessage(QString(),t);
+        client_args[0] = QString("Exiting server.");
         this->exit();
     }
 
@@ -268,35 +258,29 @@ void MainWindow::handleMessage(const QString& message)
         if ( args.isEmpty() )
             c->openActionDialog(0);
         else {
-            QString arg, cmd, sep;
-
-            arg = args.takeFirst();
+            QString cmd, sep;
 
             // get row
             int row;
-            if ( parse(args,NULL,&row) ) {
-                if ( !parse(args,&arg) )
-                    goto actionError;
-            }
-            else
-                row = 0;
+            parse(args,NULL,&row);
 
             // get command
-            cmd = arg;
+            if ( !parse(args,&cmd) )
+                goto actionError;
 
             // get separator
             if ( !parse(args,&sep) )
                 sep = QString('\n');
 
-            if ( !args.isEmpty() )
-                goto actionError;
-
-            c->action(row, cmd, sep);
-            goto messageEnd;
+            // no other arguments to parse
+            if ( args.isEmpty() ) {
+                c->action(row, cmd, sep);
+                goto messageEnd;
+            }
 
             actionError:
-            showError("Bad \"action\" command syntax!\n"
-                  "action [row=0] cmd [sep=\"\\n\"]");
+            SHOWERROR("Bad \"action\" command syntax!\n"
+                  "action [row=0] cmd [sep=\"\\n\"]\n");
         }
     }
 
@@ -309,8 +293,8 @@ void MainWindow::handleMessage(const QString& message)
         int row;
         parse(args,NULL,&row);
         if ( !args.isEmpty() )
-            showError("Bad \"row\" command syntax!\n"
-                      "edit [row=0]");
+            SHOWERROR("Bad \"edit\" command syntax!\n"
+                      "edit [row=0]\n");
         c->setCurrent(row);
         c->openEditor();
     }
@@ -332,85 +316,85 @@ void MainWindow::handleMessage(const QString& message)
 
         // get row
         int row;
-        if( !parse(args,NULL,&row) )
-            row = 0;
+        parse(args,NULL,&row);
 
-        if ( args.isEmpty() )
-            showError("Bad \"show\" command syntax!\n"
-                      "edit [title] [row=0]");
-
-        msg = c->itemText(row);
-        if (msg.length()>500)
-            msg = msg.left(500) + QString("\n\n\n< --- CROPPED --- >");
-        showMessage( title, msg, QSystemTrayIcon::Information, 2000 );
+        if ( !args.isEmpty() )
+            SHOWERROR("Bad \"show\" command syntax!\n"
+                      "show [title] [row=0]\n");
+        else {
+            msg = c->itemText(row);
+            if (msg.length()>500)
+                msg = msg.left(500) + QString("\n\n\n< --- CROPPED --- >");
+            showMessage( title, msg, QSystemTrayIcon::Information, 2000 );
+        }
     }
 
     // set current item
     // select [row=1]
     else if ( cmd == "select" ) {
-        bool ok = false;
         int row;
-        if ( !args.isEmpty() )
-            row = args.takeFirst().toInt(&ok);
-        if ( !ok )
-            row = 0;
+        parse(args,NULL,&row);
         c->moveToClipboard(row);
     }
 
     // remove item from clipboard
-    // remove [row=0]
+    // remove [row=0] ...
     else if ( cmd == "remove" ) {
-        bool ok = false;
-        int row;
-        if ( !args.isEmpty() )
-            row = args.takeFirst().toInt(&ok);
-        if ( !ok )
-            row = 0;
-        c->setCurrent(row);
-        c->remove();
+        if ( args.isEmpty() ) {
+            c->setCurrent(0);
+            c->remove();
+        }
+        else {
+            int row;
+            while( parse(args,NULL,&row) ) {
+                c->setCurrent(row);
+                c->remove();
+            }
+        }
     }
 
     else if ( cmd == "length" || cmd == "count" || cmd == "size" )
-        peer.sendMessage( QString("%1\n").arg(c->length()), t );
+        client_args[0] = QString("%1\n").arg(c->length());
 
     // print items in given rows, format can have two arguments %1:item %2:row
     // list [format="%1\n"|row=0]
     else if ( cmd == "list" ) {
+        QString fmt("%1\n");
         if ( args.isEmpty() )
-            peer.sendMessage( c->itemText(0), t );
+            client_args[0] = fmt.arg( c->itemText(0) );
         else {
             int row;
-            bool ok = false;
-            QString fmt("%1\n");
             QString arg;
-            do {
-                arg = args.takeFirst();
-                row = arg.toInt(&ok);
 
-                if (ok) {
-                    // number
-                    arg = c->itemText(row);
-                    if (arg.isEmpty())
-                        arg = QString(' ');
-                    peer.sendMessage(fmt.arg(arg).arg(row), t);
-                }
-                else {
-                    // format
-                    fmt = arg;
-                    fmt.replace(QString("\\n"),QString('\n'));
-                }
-            } while( !args.isEmpty() );
+            if ( args.isEmpty() )
+                client_args[0] = fmt.arg( c->itemText(0) );
+            else {
+                do {
+                    if ( parse(args,NULL,&row) )
+                        // number
+                        client_args[0] += fmt.arg( c->itemText(row) ).arg(row);
+                    else {
+                        // format
+                        parse(args,&fmt);
+                        fmt.replace(QString("\\n"),QString('\n'));
+                    }
+                } while( !args.isEmpty() );
+            }
         }
     }
 
     // TODO: move item
 
     else
-        showError("Unknown command");
+        SHOWERROR("Unknown command.\n");
 
     messageEnd:
+    QString client_msg;
+    if ( client_args.length() == 1 )
+        client_args.append("0"); // default exit code
+    serialize_args(client_args,client_msg);
     // empty message tells client to quit
-    peer.sendMessage(QString(),t);
+    peer.sendMessage(client_msg,1000);
 }
 
 void MainWindow::toggleVisible()
