@@ -527,13 +527,13 @@ void ClipboardBrowser::readSettings(const QString &css)
 
 void ClipboardBrowser::writeSettings()
 {
+    /*
     QSettings settings;
 
     settings.setValue( "interval", m_msec );
     settings.setValue( "maxitems", m_maxitems );
-    settings.setValue( "callback", m_callback+QString(" ")+(m_callback_args.join(QString(" "))) );
-    settings.setValue( "editor", m_editor );
     settings.setValue( "format", d->itemFormat() );
+    */
 }
 
 const QString ClipboardBrowser::dataFilename() const

@@ -1,3 +1,5 @@
+CopyQ
+=====
 CopyQ is clipboard manager with searchable and editable history.
 
 To build and install CopyQ on your system read INSTALL file.
@@ -11,19 +13,19 @@ in the application window.
 
 Keyboard navigation
 ===================
-PgDown/PgUp,
-Home/End,
-Up/Down   -- navigation in item list
-Ctrl-Up,
-Ctrl-Down -- move selected item
-Escape    -- hide window
-Ctrl-Q    -- exit
-F2        -- edit item (in place)
-Ctrl-E    -- edit item (in external editor)
-F5        -- open action dialog
-Delete    -- delete item
-Enter     -- put item into clipboard
-F1        -- show help
+    PgDown/PgUp,
+    Home/End,
+    Up/Down   -- navigation in item list
+    Ctrl-Up,
+    Ctrl-Down -- move selected item
+    Escape    -- hide window
+    Ctrl-Q    -- exit
+    F2        -- edit item (in place)
+    Ctrl-E    -- edit item (in external editor)
+    F5        -- open action dialog
+    Delete    -- delete item
+    Enter     -- put item into clipboard
+    F1        -- show help
 
 Type any number to select item with given id.
 
@@ -62,8 +64,6 @@ COMMAND is one of following:
     add text         -- add text into clipboard
     remove [row=0] ...
                      -- remove item in given rows from clipboard history
-    show [title] [row=0]
-                     -- show popup message with text of item in the row
     action           -- show action dialog
     action [row=0] "command" [separator=\n]
                      -- apply command on item text in the row
@@ -72,38 +72,47 @@ COMMAND is one of following:
 Usage Examples
 ==============
 CopyQ must be running to be able to issue commands using command line.
+
 To start CopyQ run following command:
-$ copyq
+
+    copyq
 
 Insert text to the clipboard:
-$ copyq add "print([x**2 for x in range(10)])"
+
+    copyq add "print([x**2 for x in range(10)])"
+
 and process it in python interpreter:
-$ copyq action python
+
+    copyq action python
+
 The result will be copied to the clipboard.
 
 For each file in given directory create new item:
-$ copyq action "ls /"
+
+    copyq action "ls /"
 
 Load file content into clipboard:
-$ copyq action "cat file.txt" ""
-(last argument is separator - empty means "create single item")
+
+    copyq action "cat file.txt" ""
+
+Note: Last argument is separator - empty means "create single item".
 
 Process an item with the python interpreter and redirect the standard output
-to the standard error output using sh command (shell).
+to the standard error output using sh command (shell):
+
+    copyq add 'print "Hello world!"'
+    copyq action 'sh -c "python 1>&2"'
+
 Note: Standard error output will be show as tray icon tooltip.
-$ copyq add 'print "Hello world!"'
-$ copyq action 'sh -c "python 1>&2"'
 
 To concatenate items select them items in CopyQ window and press F5.
 Type "cat" into command input field, check "Output into item(s)" check box,
 clear "Separator field" and press Ok button to submit.
 
-Toggle between three first items in clipboard history and show the text
-of the first one in popup.
-$ copyq select 2; sleep 0.1; copyq show
-
 Monitor file "$HOME/clipboard" and load each new line into clipboard:
-$ copyq action "tail -f $HOME/clipboard"
+
+    copyq action "tail -f $HOME/clipboard"
+
 This process can be killed by right clicking on tray icon and selecting
 the process from context menu.
 

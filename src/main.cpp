@@ -22,6 +22,7 @@
 #include <QSettings>
 #include <QDebug>
 #include <iostream>
+#include <qtlocalpeer.h>
 
 inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
 {
@@ -51,7 +52,6 @@ void usage()
 "    edit                   edit clipboard item\n"
 "    new                    create and edit new item\n"
 "    menu                   open context menu\n"
-"    show [title] [row=0]   show popup message with text of item in the row\n"
 "    list [format=\"%1\\n\"|row=0] ...\n"
 "                           print items in given rows\n"
 "    help,-h,--help         print this help\n";
@@ -59,6 +59,7 @@ void usage()
 
 int main(int argc, char *argv[])
 {
+    // arguments -h,--help,help: print help and exit
     if (argc > 1) {
         char *arg = argv[1];
         if (strcmp("-h",arg) == 0 ||
@@ -68,43 +69,22 @@ int main(int argc, char *argv[])
             return 0;
         }
     }
+
     Q_INIT_RESOURCE(copyq);
     QCoreApplication::setOrganizationName("copyq");
     QCoreApplication::setApplicationName("copyq");
 
-    // TODO: different session id for other users
-    QtSingleApplication app( QString("CopyQ"), argc, argv );
+    // if server hasn't been run yet and no argument were specified
+    // then run this as server
+    if (argc == 1) {
+        // TODO: different session id for other users
+        QtSingleApplication app( QString("CopyQ"), argc, argv );
 
-    // if server is running, run this as client
-    if ( app.isRunning() ) {
-        if (argc == 1) {
+        if ( app.isRunning() ) {
             std::cout << "CopyQ server is already running\n";
-            exit(0);
+            return 0;
         }
 
-        // serialize arguments
-        QString msg;
-        QStringList args;
-        for (int i = 1; i < argc; ++i)
-            args.append( QString(argv[i]) );
-        serialize_args(args,msg);
-
-        Client client;
-        client.connect();
-
-        // try to send a message if application already running
-        // -1 means wait forever for app to respond (if instance found)
-        app.sendMessage(msg, -1);
-
-        return client.exec();
-    }
-    if (argc > 1) {
-        std::cout << "ERROR: CopyQ server is not running. To run a server just execute this program without parameters.\n";
-        usage();
-        exit(1);
-    }
-    // if server hasn't been run yet, run this as server
-    else {
         // style
         QSettings::Format cssFormat = QSettings::registerFormat(
                 "css", readCssFile, writeCssFile);
@@ -120,4 +100,34 @@ int main(int argc, char *argv[])
 
         return app.exec();
     }
+    // if argument specified and server is running
+    // then run this as client
+    else {
+        QString msg;
+        QStringList args;
+
+        QtLocalPeer peer( NULL, QString("CopyQ") );
+
+        // serialize arguments
+        for (int i = 1; i < argc; ++i)
+            args.append( QString(argv[i]) );
+        serialize_args(args,msg);
+
+        // create client -- wait for others to close
+        Client client;
+        client.connect();
+
+        // error: when arguments specified and no server running
+        if ( !peer.sendMessage(msg, 3000) ) {
+            // TODO: tr()
+            std::cout << "ERROR: Sending command to server failed. Is CopyQ server running? To run a server just execute this program without parameters.\n";
+            usage();
+            return 1;
+        }
+
+        return client.exec();
+    }
+
+    // shouldn't get here
+    return -1;
 }

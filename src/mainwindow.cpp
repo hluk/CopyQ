@@ -41,6 +41,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     setStyleSheet(css);
 
     ui->setupUi(this);
+    setFocusPolicy(Qt::StrongFocus);
 
     ClipboardBrowser *c = ui->clipboardBrowser;
     c->readSettings(css);
@@ -238,7 +239,7 @@ void MainWindow::handleMessage(const QString& message)
     c->checkClipboard();
 
     // show/hide main window
-    if ( cmd == "toggle")
+    if ( cmd == "toggle" )
         toggleVisible();
 
     // exit server
@@ -304,29 +305,6 @@ void MainWindow::handleMessage(const QString& message)
         c->add( args.join(QString(' ')), false );
         c->setCurrent(0);
         c->openEditor();
-    }
-
-    // show clipboard content or custom message
-    // show [title] [row=0]
-    else if ( cmd == "show" ) {
-        QString title, msg;
-
-        // title
-        parse(args,&title);
-
-        // get row
-        int row;
-        parse(args,NULL,&row);
-
-        if ( !args.isEmpty() )
-            SHOWERROR("Bad \"show\" command syntax!\n"
-                      "show [title] [row=0]\n");
-        else {
-            msg = c->itemText(row);
-            if (msg.length()>500)
-                msg = msg.left(500) + QString("\n\n\n< --- CROPPED --- >");
-            showMessage( title, msg, QSystemTrayIcon::Information, 2000 );
-        }
     }
 
     // set current item
@@ -402,8 +380,11 @@ void MainWindow::toggleVisible()
     if ( isVisible() )
         close();
     else {
+        // TODO: bypass focus prevention
         showNormal();
+        raise();
         activateWindow();
+        QApplication::setActiveWindow(this);
     }
 }
 

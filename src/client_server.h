@@ -2,7 +2,7 @@
 #define CLIENT_SERVER_H
 #include <QString>
 #include <QStringList>
-#include <qtsingleapplication.h>
+#include <QtSingleApplication>
 
 void serialize_args(const QStringList &args, QString &msg);
 void deserialize_args(const QString &msg, QStringList &args);

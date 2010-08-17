@@ -1,8 +1,10 @@
 TEMPLATE = app
+include(../qtsingleapplication/src/qtsingleapplication.pri)
+
 TARGET = ../copyq
 DEPENDPATH += .
 INCLUDEPATH += . \
-    ../qtsingleapplication/
+    ../qtsingleapplication/src
 RESOURCES = copyq.qrc
 FORMS += mainwindow.ui \
     actiondialog.ui \
@@ -27,4 +29,3 @@ SOURCES += main.cpp \
 QT += xml
 unix:LIBS += -lXi
 win32:CONFIG += static
-include(qtsingleapplication/qtsingleapplication.pri)

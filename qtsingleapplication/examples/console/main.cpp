@@ -1,11 +1,11 @@
 /****************************************************************************
-**
-** This file is part of a Qt Solutions component.
 ** 
 ** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+** All rights reserved.
+** Contact: Nokia Corporation (qt-info@nokia.com)
 ** 
-** Contact:  Qt Software Information (qt-info@nokia.com)
-** 
+** This file is part of a Qt Solutions component.
+**
 ** Commercial Usage  
 ** Licensees holding valid Qt Commercial licenses may use this file in
 ** accordance with the Qt Solutions Commercial License Agreement provided
@@ -22,7 +22,7 @@
 ** 
 ** In addition, as a special exception, Nokia gives you certain
 ** additional rights. These rights are described in the Nokia Qt LGPL
-** Exception version 1.0, included in the file LGPL_EXCEPTION.txt in this
+** Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
 ** package.
 ** 
 ** GNU General Public License Usage 
@@ -40,62 +40,56 @@
 ** Party Software they are using.
 ** 
 ** If you are unsure which license is appropriate for your use, please
-** contact the sales department at qt-sales@nokia.com.
+** contact Nokia at qt-info@nokia.com.
 ** 
 ****************************************************************************/
 
-#ifndef QTLOCKEDFILE_H
-#define QTLOCKEDFILE_H
 
-#include <QtCore/QFile>
-#ifdef Q_OS_WIN
-#include <QtCore/QVector>
-#endif
+#include "qtsinglecoreapplication.h"
+#include <QtCore/QDebug>
 
-#if defined(Q_WS_WIN)
-#  if !defined(QT_QTLOCKEDFILE_EXPORT) && !defined(QT_QTLOCKEDFILE_IMPORT)
-#    define QT_QTLOCKEDFILE_EXPORT
-#  elif defined(QT_QTLOCKEDFILE_IMPORT)
-#    if defined(QT_QTLOCKEDFILE_EXPORT)
-#      undef QT_QTLOCKEDFILE_EXPORT
-#    endif
-#    define QT_QTLOCKEDFILE_EXPORT __declspec(dllimport)
-#  elif defined(QT_QTLOCKEDFILE_EXPORT)
-#    undef QT_QTLOCKEDFILE_EXPORT
-#    define QT_QTLOCKEDFILE_EXPORT __declspec(dllexport)
-#  endif
-#else
-#  define QT_QTLOCKEDFILE_EXPORT
-#endif
 
-class QT_QTLOCKEDFILE_EXPORT QtLockedFile : public QFile
+void report(const QString& msg)
 {
+    qDebug("[%i] %s", (int)QCoreApplication::applicationPid(), qPrintable(msg));
+}
+
+class MainClass : public QObject
+{
+    Q_OBJECT
 public:
-    enum LockMode { NoLock = 0, ReadLock, WriteLock };
+    MainClass()
+        : QObject()
+        {}
 
-    QtLockedFile();
-    QtLockedFile(const QString &name);
-    ~QtLockedFile();
-
-    bool open(OpenMode mode);
-
-    bool lock(LockMode mode, bool block = true);
-    bool unlock();
-    bool isLocked() const;
-    LockMode lockMode() const;
-
-private:
-#ifdef Q_OS_WIN
-    Qt::HANDLE wmutex;
-    Qt::HANDLE rmutex;
-    QVector<Qt::HANDLE> rmutexes;
-    QString mutexname;
-
-    Qt::HANDLE getMutexHandle(int idx, bool doCreate);
-    bool waitMutex(Qt::HANDLE mutex, bool doBlock);
-
-#endif
-    LockMode m_lock_mode;
+public slots:
+    void handleMessage(const QString& message)
+        {
+            report( "Message received: \"" + message + "\"");
+        }
 };
 
-#endif
+int main(int argc, char **argv)
+{
+    report("Starting up");
+
+    QtSingleCoreApplication app(argc, argv);
+
+    if (app.isRunning()) {
+        QString msg(QString("Hi master, I am %1.").arg(QCoreApplication::applicationPid()));
+        bool sentok = app.sendMessage(msg);
+        QString rep("Another instance is running, so I will exit.");
+        rep += sentok ? " Message sent ok." : " Message sending failed.";
+        report(rep);
+        return 0;
+    } else {
+        report("No other instance is running; so I will.");
+        MainClass mainObj;
+        QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
+                         &mainObj, SLOT(handleMessage(const QString&)));
+        return app.exec();
+    }
+}
+
+
+#include "main.moc"

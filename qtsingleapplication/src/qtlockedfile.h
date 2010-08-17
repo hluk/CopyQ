@@ -1,11 +1,11 @@
 /****************************************************************************
-**
-** This file is part of a Qt Solutions component.
 ** 
 ** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+** All rights reserved.
+** Contact: Nokia Corporation (qt-info@nokia.com)
 ** 
-** Contact:  Qt Software Information (qt-info@nokia.com)
-** 
+** This file is part of a Qt Solutions component.
+**
 ** Commercial Usage  
 ** Licensees holding valid Qt Commercial licenses may use this file in
 ** accordance with the Qt Solutions Commercial License Agreement provided
@@ -22,7 +22,7 @@
 ** 
 ** In addition, as a special exception, Nokia gives you certain
 ** additional rights. These rights are described in the Nokia Qt LGPL
-** Exception version 1.0, included in the file LGPL_EXCEPTION.txt in this
+** Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
 ** package.
 ** 
 ** GNU General Public License Usage 
@@ -40,66 +40,62 @@
 ** Party Software they are using.
 ** 
 ** If you are unsure which license is appropriate for your use, please
-** contact the sales department at qt-sales@nokia.com.
+** contact Nokia at qt-info@nokia.com.
 ** 
 ****************************************************************************/
 
+#ifndef QTLOCKEDFILE_H
+#define QTLOCKEDFILE_H
 
-#include <QtGui/QApplication>
-
-class QtLocalPeer;
+#include <QtCore/QFile>
+#ifdef Q_OS_WIN
+#include <QtCore/QVector>
+#endif
 
 #if defined(Q_WS_WIN)
-#  if !defined(QT_QTSINGLEAPPLICATION_EXPORT) && !defined(QT_QTSINGLEAPPLICATION_IMPORT)
-#    define QT_QTSINGLEAPPLICATION_EXPORT
-#  elif defined(QT_QTSINGLEAPPLICATION_IMPORT)
-#    if defined(QT_QTSINGLEAPPLICATION_EXPORT)
-#      undef QT_QTSINGLEAPPLICATION_EXPORT
+#  if !defined(QT_QTLOCKEDFILE_EXPORT) && !defined(QT_QTLOCKEDFILE_IMPORT)
+#    define QT_QTLOCKEDFILE_EXPORT
+#  elif defined(QT_QTLOCKEDFILE_IMPORT)
+#    if defined(QT_QTLOCKEDFILE_EXPORT)
+#      undef QT_QTLOCKEDFILE_EXPORT
 #    endif
-#    define QT_QTSINGLEAPPLICATION_EXPORT __declspec(dllimport)
-#  elif defined(QT_QTSINGLEAPPLICATION_EXPORT)
-#    undef QT_QTSINGLEAPPLICATION_EXPORT
-#    define QT_QTSINGLEAPPLICATION_EXPORT __declspec(dllexport)
+#    define QT_QTLOCKEDFILE_EXPORT __declspec(dllimport)
+#  elif defined(QT_QTLOCKEDFILE_EXPORT)
+#    undef QT_QTLOCKEDFILE_EXPORT
+#    define QT_QTLOCKEDFILE_EXPORT __declspec(dllexport)
 #  endif
 #else
-#  define QT_QTSINGLEAPPLICATION_EXPORT
+#  define QT_QTLOCKEDFILE_EXPORT
 #endif
 
-class QT_QTSINGLEAPPLICATION_EXPORT QtSingleApplication : public QApplication
+class QT_QTLOCKEDFILE_EXPORT QtLockedFile : public QFile
 {
-    Q_OBJECT
-
 public:
-    QtSingleApplication(int &argc, char **argv, bool GUIenabled = true);
-    QtSingleApplication(const QString &id, int &argc, char **argv);
-    QtSingleApplication(int &argc, char **argv, Type type);
-#if defined(Q_WS_X11)
-    QtSingleApplication(Display* dpy, Qt::HANDLE visual = 0, Qt::HANDLE colormap = 0);
-    QtSingleApplication(Display *dpy, int &argc, char **argv, Qt::HANDLE visual = 0, Qt::HANDLE cmap= 0);
-    QtSingleApplication(Display* dpy, const QString &appId, int argc, char **argv, Qt::HANDLE visual = 0, Qt::HANDLE colormap = 0);
-#endif
+    enum LockMode { NoLock = 0, ReadLock, WriteLock };
 
-    bool isRunning();
-    QString id() const;
+    QtLockedFile();
+    QtLockedFile(const QString &name);
+    ~QtLockedFile();
 
-    void setActivationWindow(QWidget* aw, bool activateOnMessage = true);
-    QWidget* activationWindow() const;
+    bool open(OpenMode mode);
 
-    // Obsolete:
-    void initialize(bool dummy = true)
-        { isRunning(); Q_UNUSED(dummy) }
-
-public Q_SLOTS:
-    bool sendMessage(const QString &message, int timeout = 5000);
-    void activateWindow();
-
-
-Q_SIGNALS:
-    void messageReceived(const QString &message);
-
+    bool lock(LockMode mode, bool block = true);
+    bool unlock();
+    bool isLocked() const;
+    LockMode lockMode() const;
 
 private:
-    void sysInit(const QString &appId = QString());
-    QtLocalPeer *peer;
-    QWidget *actWin;
+#ifdef Q_OS_WIN
+    Qt::HANDLE wmutex;
+    Qt::HANDLE rmutex;
+    QVector<Qt::HANDLE> rmutexes;
+    QString mutexname;
+
+    Qt::HANDLE getMutexHandle(int idx, bool doCreate);
+    bool waitMutex(Qt::HANDLE mutex, bool doBlock);
+
+#endif
+    LockMode m_lock_mode;
 };
+
+#endif

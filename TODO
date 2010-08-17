@@ -1,0 +1,10 @@
+[ ] Serialize/deserialize arguments for client as QString
+        format: message, close client+return code
+[ ] Dialog with table "on matched clipboard text do action": REGEX ACTION (same as command line options)
+[ ] Manage multiple clipboard item formats
+    - text, html, image, unknown (not implemented)
+    - view multiple types
+        - switch item view OR
+          different item for each type
+        - show type icon (if not plain text)
+            - current (highlighted) and other formats

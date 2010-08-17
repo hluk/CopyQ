@@ -1,0 +1,112 @@
+#!/bin/sh
+
+if [ "x$1" != "x" -a "x$1" != "x-library" ]; then
+    echo "Usage: $0 [-library]"
+    echo 
+    echo "-library: Build the component as a dynamic library (DLL). Default is to"
+    echo "          include the component source code directly in the application."
+    echo "          A DLL may be preferable for technical or licensing (LGPL) reasons."
+    echo 
+    exit 0
+fi
+
+
+# only ask to accept the license text once
+if [ ! -f .licenseAccepted ]; then
+# determine if opensource or commercial package
+    if [ -f LICENSE.LGPL ]; then
+    # opensource edition
+	while true; do
+	    echo 
+	    echo "You are licensed to use this software under the terms of"
+	    echo "the GNU General Public License (GPL) version 3, or"
+	    echo "the GNU Lesser General Public License (LGPL) version 2.1"
+	    echo "with certain additional extra rights as specified in the"
+	    echo "Nokia Qt LGPL Exception version 1.1."
+	    echo 
+	    echo "Type 'G' to view the GNU General Public License (GPL) version 3."
+	    echo "Type 'L' to view the GNU Lesser General Public License (LGPL) version 2.1."
+	    echo "Type 'E' to view the Nokia Qt LGPL Exception version 1.1."
+	    echo "Type 'yes' to accept this license offer."
+	    echo "Type 'no' to decline this license offer."
+	    echo 
+	    echo "Do you accept the terms of this license? "
+	    read answer
+	    echo
+
+	    if [ "x$answer" = "xno" ]; then
+		echo "You are not licensed to use this software."
+		echo
+		exit 1
+	    elif [ "x$answer" = "xyes" ]; then
+		echo license accepted > .licenseAccepted
+		break
+	    elif [ "x$answer" = "xe" -o "x$answer" = "xE" ]; then
+		more LGPL_EXCEPTION.txt
+	    elif [ "x$answer" = "xl" -o "x$answer" = "xL" ]; then
+		more LICENSE.LGPL
+	    elif [ "x$answer" = "xg" -o "x$answer" = "xG" ]; then
+		more LICENSE.GPL3
+	    fi
+	done
+    else
+	while true; do
+	    echo 
+	    echo "Please choose your region."
+	    echo 
+	    echo "Type 1 for North or South America."
+	    echo "Type 2 for anywhere outside North and South America."
+	    echo 
+	    echo "Select: "
+	    read region
+	    if [ "x$region" = "x1" ]; then
+		licenseFile=LICENSE.US
+		break;
+	    elif [ "x$region" = "x2" ]; then
+		licenseFile=LICENSE.NO
+		break;
+	    fi
+	done
+	while true; do
+	    echo 
+	    echo "License Agreement"
+	    echo 
+	    echo "Type '?' to view the Qt Solutions Commercial License."
+	    echo "Type 'yes' to accept this license offer."
+	    echo "Type 'no' to decline this license offer."
+	    echo 
+	    echo "Do you accept the terms of this license? "
+	    read answer
+	    echo
+
+	    if [ "x$answer" = "xno" ]; then
+		echo "You are not licensed to use this software."
+		echo
+		exit 1
+	    elif [ "x$answer" = "xyes" ]; then
+		echo license accepted > .licenseAccepted
+		cp "$licenseFile" LICENSE
+		rm LICENSE.US
+		rm LICENSE.NO
+		break
+	    elif [ "x$answer" = "x?" ]; then
+		more "$licenseFile"
+	    fi
+	done
+    fi
+fi
+
+rm -f config.pri
+if [ "x$1" = "x-library" ]; then
+    echo "Configuring to build this component as a dynamic library."
+    echo "SOLUTIONS_LIBRARY = yes" > config.pri
+fi
+
+echo
+echo "This component is now configured."
+echo
+echo "To build the component library (if requested) and example(s),"
+echo "run qmake and your make command."
+echo
+echo "To remove or reconfigure, run make distclean."
+echo

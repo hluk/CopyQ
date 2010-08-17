@@ -20,7 +20,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>Help</string>
+   <string>CopyQ Help</string>
   </property>
   <property name="modal">
    <bool>true</bool>

@@ -60,7 +60,6 @@ void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
     QString errstr;
 
-    // read output
     if ( exitStatus )
         actionError( errorString() );
     else if ( exitCode != 0 )

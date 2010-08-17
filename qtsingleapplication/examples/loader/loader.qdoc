@@ -1,11 +1,11 @@
 /****************************************************************************
-**
-** This file is part of a Qt Solutions component.
 ** 
 ** Copyright (c) 2009 Nokia Corporation and/or its subsidiary(-ies).
+** All rights reserved.
+** Contact: Nokia Corporation (qt-info@nokia.com)
 ** 
-** Contact:  Qt Software Information (qt-info@nokia.com)
-** 
+** This file is part of a Qt Solutions component.
+**
 ** Commercial Usage  
 ** Licensees holding valid Qt Commercial licenses may use this file in
 ** accordance with the Qt Solutions Commercial License Agreement provided
@@ -22,7 +22,7 @@
 ** 
 ** In addition, as a special exception, Nokia gives you certain
 ** additional rights. These rights are described in the Nokia Qt LGPL
-** Exception version 1.0, included in the file LGPL_EXCEPTION.txt in this
+** Exception version 1.1, included in the file LGPL_EXCEPTION.txt in this
 ** package.
 ** 
 ** GNU General Public License Usage 
@@ -40,42 +40,48 @@
 ** Party Software they are using.
 ** 
 ** If you are unsure which license is appropriate for your use, please
-** contact the sales department at qt-sales@nokia.com.
+** contact Nokia at qt-info@nokia.com.
 ** 
 ****************************************************************************/
 
+/*! \page qtsingleapplication-example-loader.html
+    \title Loading Documents
 
-#include <QtNetwork/QLocalServer>
-#include <QtNetwork/QLocalSocket>
-#include <QtCore/QDir>
+    The application in this example loads or prints the documents 
+    passed as commandline parameters to further instances of this
+    application.
 
-namespace QtLP_Private {
-#include "qtlockedfile.h"
-}
+    \quotefromfile loader/main.cpp
+    \printuntil };
+    The user interface in this application is a QMainWindow subclass
+    with a QMdiArea as the central widget. It implements a slot
+    \c handleMessage() that will be connected to the messageReceived()
+    signal of the QtSingleApplication class.
 
-class QtLocalPeer : public QObject
-{
-    Q_OBJECT
+    \printuntil }
+    The MainWindow constructor creates a minimal user interface.
 
-public:
-    QtLocalPeer(QObject *parent = 0, const QString &appId = QString());
-    bool isClient();
-    bool sendMessage(const QString &message, int timeout);
-    QString applicationId() const
-        { return id; }
+    \printto case Print:
+    The handleMessage() slot interprets the message passed in as a
+    filename that can be prepended with \e /print to indicate that
+    the file should just be printed rather than loaded.
 
-Q_SIGNALS:
-    void messageReceived(const QString &message);
+    \printto #include
+    Loading the file will also activate the window.
 
-protected Q_SLOTS:
-    void receiveConnection();
+    \printto mw
+    The \c main entry point function creates a QtSingleApplication
+    object, and creates a message to send to a running instance
+    of the application. If the message was sent successfully the
+    process exits immediately.
 
-protected:
-    QString id;
-    QString socketName;
-    QLocalServer* server;
-    QtLP_Private::QtLockedFile lockFile;
-
-private:
-    static const char* ack;
-};
+    \printuntil }
+    If the message could not be sent the application starts up.  Note
+    that \c false is passed to the call to setActivationWindow() to
+    prevent automatic activation for every message received, e.g. when
+    the application should just print a file. Instead, the message
+    handling function determines whether activation is requested, and
+    signals that by emitting the needToShow() signal. This is then
+    simply connected directly to QtSingleApplication's
+    activateWindow() slot.
+*/
