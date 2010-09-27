@@ -25,6 +25,7 @@
 #include <QDebug>
 #include <QDataStream>
 #include <QFile>
+#include <QUrl>
 #include <QDomDocument>
 #include <QDomElement>
 #include <QDomAttr>
@@ -140,6 +141,8 @@ void MainWindow::removeMenuItem(QAction *menuItem)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    QFile *f;
+
     if ( event->modifiers() == Qt::ControlModifier )
         if ( event->key() == Qt::Key_Q )
             exit();
@@ -167,6 +170,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 aboutDialog = new QDialog(this);
                 aboutDialog_ui = new Ui::AboutDialog;
                 aboutDialog_ui->setupUi(aboutDialog);
+
+                f = new QFile(":/aboutdialog.html");
+                if ( f->open(QIODevice::ReadOnly) ) {
+                    aboutDialog_ui->textEdit->setText( QString::fromUtf8(f->readAll()) );
+                }
+                delete f;
             }
             aboutDialog->show();
             break;

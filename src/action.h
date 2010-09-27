@@ -12,10 +12,10 @@ class Action : public QProcess
 public:
     Action(const QString &cmd, const QByteArray &processInput,
            bool outputItems, const QString &itemSeparator);
-    const QString &errorOutput() const { return m_errstr; };
+    const QString &errorOutput() const { return m_errstr; }
     const QString &command() const { return m_cmd; }
     QAction *menuItem() { return m_menuItem; }
-    void start() { QProcess::start(m_cmd, QIODevice::ReadWrite); };
+    void start() { QProcess::start(m_cmd, QIODevice::ReadWrite); }
 
 private:
     const QByteArray m_input;

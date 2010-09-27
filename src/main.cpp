@@ -77,7 +77,6 @@ int main(int argc, char *argv[])
     // if server hasn't been run yet and no argument were specified
     // then run this as server
     if (argc == 1) {
-        // TODO: different session id for other users
         QtSingleApplication app( QString("CopyQ"), argc, argv );
 
         if ( app.isRunning() ) {

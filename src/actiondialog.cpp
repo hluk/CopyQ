@@ -129,10 +129,8 @@ void ActionDialog::accept()
     QString cmd = ui->cmdEdit->text();
     if ( cmd.isEmpty() )
         return;
-    QStringList items;
     QString input = ui->inputText->text();
     Action *act;
-    QString errstr;
 
     // replace %s with input
     if ( cmd.indexOf(str) != -1 ) {

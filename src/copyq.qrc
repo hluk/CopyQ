@@ -1,5 +1,6 @@
 <RCC>
-    <qresource prefix="/" >
+    <qresource prefix="/">
         <file>images/icon.svg</file>
+        <file>aboutdialog.html</file>
     </qresource>
 </RCC>

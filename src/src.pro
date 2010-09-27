@@ -24,8 +24,8 @@ SOURCES += main.cpp \
     actiondialog.cpp \
     clipboardmodel.cpp \
     itemdelegate.cpp \
-    action.cpp \
-    client_server.cpp
+    client_server.cpp \
+    action.cpp
 QT += xml
 unix:LIBS += -lXi
 win32:CONFIG += static

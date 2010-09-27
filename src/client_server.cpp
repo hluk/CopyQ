@@ -56,7 +56,6 @@ void Client::connect() {
     while(1) {
         if (client)
             delete client;
-        // TODO: different session id for other users
         client = new QtSingleApplication( QString("CopyQclient"), argc, (char**)NULL );
 
         if ( !client->isRunning() )
