@@ -61,8 +61,8 @@
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>clipboardBrowser</tabstop>
   <tabstop>searchBar</tabstop>
+  <tabstop>clipboardBrowser</tabstop>
  </tabstops>
  <resources/>
  <connections/>

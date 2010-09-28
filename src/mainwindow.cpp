@@ -210,7 +210,8 @@ void MainWindow::resetStatus()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings;
+    QSettings settings(QApplication::organizationName(),
+                       QString("window"));
 
     settings.beginGroup("MainWindow");
     settings.setValue("size", size());
@@ -223,7 +224,8 @@ void MainWindow::writeSettings()
 
 void MainWindow::readSettings()
 {
-    QSettings settings;
+    QSettings settings(QApplication::organizationName(),
+                       QString("window"));
 
     settings.beginGroup("MainWindow");
     resize(settings.value("size", QSize(400, 400)).toSize());
