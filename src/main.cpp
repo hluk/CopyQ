@@ -48,7 +48,6 @@ void usage()
 "                           apply command on item text in the row\n"
 "    add text               add text into clipboard\n"
 "    remove [row=0] ...     remove item in given rows\n"
-"    get                    print clipboard contents\n"
 "    edit                   edit clipboard item\n"
 "    new                    create and edit new item\n"
 "    menu                   open context menu\n"

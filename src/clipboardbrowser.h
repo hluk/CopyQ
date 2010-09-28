@@ -26,6 +26,7 @@
 #include <QBasicTimer>
 #include <QSettings>
 #include <QMimeData>
+#include <QMap>
 #include "qeditor.h"
 
 class ActionDialog;
@@ -35,6 +36,15 @@ class ItemDelegate;
 class ClipboardBrowser : public QListView
 {
     Q_OBJECT
+
+    struct command_t {
+        QRegExp re;
+        QString cmd;
+        QString sep;
+        bool input;
+        bool output;
+        bool wait;
+    };
 
     public:
         ClipboardBrowser(QWidget *parent = 0);
@@ -46,7 +56,7 @@ class ClipboardBrowser : public QListView
         bool add(const QImage &image);
         bool add(const QVariant &value);
         void remove();
-        int length() const { return model()->rowCount(); };
+        int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
         QVariant itemData(int row) const {
@@ -59,7 +69,7 @@ class ClipboardBrowser : public QListView
         void setCurrent(int row, bool cycle = false, bool selection = false);
 
         // clipboard monitoring functions
-        void setMonitoringInterval(int msec) { m_msec = msec; };
+        void setMonitoringInterval(int msec) { m_msec = msec; }
         void startMonitoring();
         void stopMonitoring();
         void checkClipboard();
@@ -67,6 +77,13 @@ class ClipboardBrowser : public QListView
         // if items selected: return concatenation of selected items
         // else: return text of first item
         const QString selectedText() const;
+
+        void addPreferredCommand(const QString &name,
+                                 const QString &cmd,
+                                 const QString &re,
+                                 const QString &sep,
+                                 bool input, bool output,
+                                 bool wait);
 
         void runCallback() const;
 
@@ -84,6 +101,9 @@ class ClipboardBrowser : public QListView
         ActionDialog *actionDialog;
         QString m_lastSelection;
 
+        QMenu *menu;
+        QMap<QString, command_t> commands;
+
         const QString dataFilename() const;
 
         void createActionDialog();
@@ -92,6 +112,7 @@ class ClipboardBrowser : public QListView
         void keyPressEvent(QKeyEvent *event);
         void timerEvent(QTimerEvent *event);
         void dataChanged(const QModelIndex &first, const QModelIndex &last);
+        void contextMenuEvent(QContextMenuEvent *);
 
     signals:
         void requestSearch(QEvent *event);
@@ -104,13 +125,13 @@ class ClipboardBrowser : public QListView
         void removeMenuItem(QAction *menuItem);
 
     public slots:
-        void keyEvent(QKeyEvent *event) { keyPressEvent(event); };
+        void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
         void clipboardChanged(QClipboard::Mode mode = QClipboard::Clipboard);
         void moveToClipboard(const QModelIndex &ind);
         void moveToClipboard(const QString &str);
         void moveToClipboard(int i);
         void filterItems(const QString &str);
-        void clearFilter() { filterItems( QString() ); };
+        void clearFilter() { filterItems( QString() ); }
         void itemModified(uint hash, const QString &str);
         void addItems(const QStringList &items);
         void closeEditor(QEditor *editor);
@@ -118,9 +139,27 @@ class ClipboardBrowser : public QListView
 
         // do action on item on given row (default is selected item)
         void openActionDialog(int row = -1, bool modal = true);
+        /**
+          Execute command on an item.
+          \param row row number or -1 for selected items.
+          \param cmd command string (all occurrencies of '%s' will be replaced
+                 with text of item on given row or concatenated text of
+                 selected items).
+          \param input text of item on given row or concatenated text of
+                 selected items is send on standard input of the command.
+          \param output if true the command output will be saved into new
+                 items.
+          \param sep string using which the output is separated to new items
+                 (ignored if output parameter is false).
+          \param wait if true the action dialog with the command is shown,
+                 otherwise the command is executed immediately.
+          */
         void action(int row, const QString &cmd,
                     const QString &sep = QString('\n'),
-                    bool input = true, bool output = true);
+                    bool input = true, bool output = true,
+                    bool wait = false);
+
+        void contextMenuAction(QAction *act);
 };
 
 #endif // CLIPBOARDBROWSER_H

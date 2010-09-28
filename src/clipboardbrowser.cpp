@@ -21,6 +21,7 @@
 #include <QDebug>
 #include <QKeyEvent>
 #include <QApplication>
+#include <QMenu>
 #ifndef WIN32
 #include <X11/extensions/XInput.h>
 #endif
@@ -30,7 +31,7 @@
 #include "clipboardmodel.h"
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_monitoring(false), m_msec(1000), actionDialog(NULL)
+    m_monitoring(false), m_msec(1000), actionDialog(NULL), menu(NULL)
 {
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -92,6 +93,45 @@ void ClipboardBrowser::closeEditor(QEditor *editor)
     editor->disconnect(this);
     disconnect(editor);
     delete editor;
+}
+
+void ClipboardBrowser::contextMenuAction(QAction *act)
+{
+    const QString text = act->text();
+
+    if (text == tr("&Remove")) {
+        remove();
+    } else if (text == tr("&Edit")) {
+        openEditor();
+    } else {
+        command_t *c = &commands[text];
+        action(-1, c->cmd, c->sep, c->input, c->output, c->wait);
+    }
+}
+
+void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
+{
+    if ( this->selectedIndexes().isEmpty() )
+        return;
+
+    if (!menu) {
+        menu = new QMenu(this);
+        connect( menu, SIGNAL(triggered(QAction*)),
+                 this, SLOT(contextMenuAction(QAction*)) );
+    }
+    menu->clear();
+
+    menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
+    menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+
+    QString text = selectedText();
+    foreach( QString name, commands.keys() ) {
+        if (commands[name].re.indexIn(text) != -1) {
+            menu->addAction(name);
+        }
+    }
+
+    menu->exec( event->globalPos() );
 }
 
 void ClipboardBrowser::openEditor()
@@ -322,17 +362,20 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 }
 
 void ClipboardBrowser::action(int row, const QString &cmd,
-                              const QString &sep, bool input, bool output)
+                              const QString &sep, bool input, bool output,
+                              bool wait)
 {
     createActionDialog();
 
-    if (input)
-        actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
+    actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
     actionDialog->setCommand(cmd);
     actionDialog->setSeparator(sep);
     actionDialog->setInput(input);
     actionDialog->setOutput(output);
-    actionDialog->accept();
+    if (wait)
+        actionDialog->exec();
+    else
+        actionDialog->accept();
 }
 
 void ClipboardBrowser::openActionDialog(int row, bool modal)
@@ -470,6 +513,20 @@ void ClipboardBrowser::addItems(const QStringList &items) {
         add(*it);
 }
 
+void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &cmd,
+                                           const QString &re, const QString &sep,
+                                           bool input, bool output, bool wait)
+{
+    command_t c;
+    c.cmd    = cmd;
+    c.re     = QRegExp(re);
+    c.sep    = sep;
+    c.input  = input;
+    c.output = output;
+    c.wait    = wait;
+    commands[name] = c;
+}
+
 void ClipboardBrowser::readSettings(const QString &css)
 {
     stopMonitoring();
@@ -482,7 +539,7 @@ void ClipboardBrowser::readSettings(const QString &css)
     // restore configuration
     m_msec = settings.value("inteval", 1000).toInt();
     m_maxitems = settings.value("maxitems", 400).toInt();
-    m_editor = settings.value("editor", "gvim -f %1").toString();
+    m_editor = settings.value("editor", "gedit -f %1").toString();
     d->setItemFormat( settings.value("format",
         "<div class=\"item\"><div class=\"number\">%1</div><div class=\"text\">%2</div></div>"
         ).toString()
@@ -518,6 +575,27 @@ void ClipboardBrowser::readSettings(const QString &css)
     // force the delegate to calculate the size of each item
     // -- this will save some time when drawing the list for the fist time
     sizeHintForColumn(0);
+
+    // actions
+    int length = settings.beginReadArray("Commands");
+    for (int i = 0; i < length; ++i)
+    {
+        settings.setArrayIndex(i);
+        QString cmd = settings.value("command", QString()).toString();
+        if (cmd.isEmpty())
+            continue;
+        QString name = settings.value("name", QString()).toString();
+        if (name.isEmpty())
+            name = cmd;
+        QString re = settings.value("match", QString()).toString();
+        QString sep = settings.value("separator", QString('\n')).toString();
+        bool input = settings.value("input", false).toBool();
+        bool output = settings.value("output", false).toBool();
+        bool wait = settings.value("wait", false).toBool();
+
+        addPreferredCommand(name, cmd, re, sep, input, output, wait);
+    }
+    settings.endArray();
 
     timer_save.stop();
 

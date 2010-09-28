@@ -41,7 +41,7 @@ class MainWindow : public QMainWindow
         MainWindow(const QString &css = QString(), QWidget *parent = 0);
         ~MainWindow();
         void center();
-        inline bool browseMode() const { return m_browsemode; };
+        bool browseMode() const { return m_browsemode; }
         void writeSettings();
         void readSettings();
         void closeEvent(QCloseEvent *event);

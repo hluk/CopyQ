@@ -50,7 +50,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 
     // main window: icon & title
     this->setWindowTitle("CopyQ");
-    m_icon = QIcon(":images/icon.svg");
+    m_icon = QIcon(":/images/icon.svg");
     setWindowIcon(m_icon);
 
     // tray
@@ -63,17 +63,20 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     QMenu *menu = new QMenu(this);
     QAction *act;
     // - show/hide
-    act = new QAction( tr("&Show/Hide"), this );
+    act = new QAction( QIcon(":/images/icon.svg"),
+                       tr("&Show/Hide"), this );
     act->setWhatsThis( tr("Show or hide main window") );
     connect( act, SIGNAL(triggered()), this, SLOT(toggleVisible()) );
     menu->addAction(act);
     // - action dialog
-    act = new QAction( tr("&Action..."), this );
+    act = new QAction( QIcon(":/images/action.svg"),
+                       tr("&Action..."), this );
     act->setWhatsThis( tr("Open action dialog") );
     connect( act, SIGNAL(triggered()), c, SLOT(openActionDialog()) );
     menu->addAction(act);
     // - exit
-    act = new QAction( tr("E&xit..."), this );
+    act = new QAction( QIcon(":/images/exit.svg"),
+                       tr("E&xit..."), this );
     connect( act, SIGNAL(triggered()), this, SLOT(exit()) );
     menu->addAction(act);
 
@@ -351,7 +354,6 @@ void MainWindow::handleMessage(const QString& message)
             client_args[0] = fmt.arg( c->itemText(0) );
         else {
             int row;
-            QString arg;
 
             if ( args.isEmpty() )
                 client_args[0] = fmt.arg( c->itemText(0) );

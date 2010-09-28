@@ -2,5 +2,9 @@
     <qresource prefix="/">
         <file>images/icon.svg</file>
         <file>aboutdialog.html</file>
+        <file>images/edit.svg</file>
+        <file>images/exit.svg</file>
+        <file>images/remove.png</file>
+        <file>images/action.svg</file>
     </qresource>
 </RCC>

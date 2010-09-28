@@ -157,6 +157,7 @@ void ActionDialog::accept()
     connect( act, SIGNAL(removeMenuItem(QAction*)),
                  this, SIGNAL(removeMenuItem(QAction*)) );
 
+    qDebug() << "Executing:" << cmd;
     act->start();
 
     add( ui->cmdEdit->text() );
