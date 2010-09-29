@@ -1,31 +1,42 @@
-/* http://doc.trolltech.com/stylesheet-examples.html */
-* {
+/* http://doc.qt.nokia.com/stylesheet-examples.html */
+/* font */
+.text, .number, #clipboardBrowser, #searchBar, QPlainTextEdit {
+    font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace !important;
 }
 
-.item, QListView, QPlainTextEdit, QLineEdit#searchBar {
+#clipboardBrowser, #searchBar, QPlainTextEdit {
     color: white;
     background-color: #222;
-    font-size: 12pt;
-    font-family: DejaVu Sans Mono, Envy Code R, Consolas, Bitstream Vera Sans Mono !important;
+    font-size: 10pt;
+    border: 0px solid transparent;
 }
 
 QMainWindow {
     background-color: #222;
 }
 
-QLabel#inputText, QLineEdit {
-    font-family: DejaVu Sans Mono, Envy Code R, Consolas, Bitstream Vera Sans Mono !important;
+#clipboardBrowser {
+}
+
+#searchBar {
+    color: #afa;
+    text-decoration: underline;
+}
+
+#findLabel {
+    font-weight: bold;
+    color: white;
 }
 
 /* item text */
 .text {
+    color: white;
 }
 
 /* item number */
 .number {
-    font-size: 7pt;
-    color: #aca;
-    background-color: transparent;
+    font-size: 6pt;
+    color: #cfc;
 }
 
 /* matched text */
@@ -38,29 +49,33 @@ QToolTip, QScrollBar {
     color: black;
 }
 
+QListView::item {
+    border: 0px solid transparent;
+}
+
 QListView::item:alternate {
-    background-color: #304030;
-    border-width: 1px;
-    border-style: solid;
-    border-color: #405540
+    background-color: #343;
+    border: 1px solid #454
 }
 
 QListView::item:selected {
-    border: 1px solid #464;
+    border: 2px solid #0f0;
 }
 
 QListView::item:selected:!active {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-    stop: 0 #5B5, stop: 1 #222);
+    /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,*/
+    /*stop: 0 #5B5, stop: 1 #222);*/
 }
 
 QListView::item:selected:active {
+    background-color: #a55;
     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
     stop: 0 #262, stop: 1 #484);
 }
 
 QListView::item:hover {
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-    stop: 0 #442, stop: 1 #773);
+    border: 2px dashed #0f0;
+    /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,*/
+    /*stop: 0 #442, stop: 1 #773);*/
 }
 

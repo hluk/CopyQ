@@ -189,9 +189,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Escape:
-            close();
-            resetStatus();
-            enterBrowseMode();
+            if (m_browsemode) {
+                close();
+            } else {
+                resetStatus();
+                enterBrowseMode();
+            }
             break;
 
         default:
@@ -204,8 +207,7 @@ void MainWindow::resetStatus()
 {
     ui->searchBar->clear();
     ui->clipboardBrowser->clearFilter();
-    ui->clipboardBrowser->setCurrentIndex( QModelIndex() );
-    ui->clipboardBrowser->scrollToTop();
+    ui->clipboardBrowser->setCurrent(0);
 }
 
 void MainWindow::writeSettings()
@@ -398,6 +400,15 @@ void MainWindow::toggleVisible()
         raise();
         activateWindow();
         QApplication::setActiveWindow(this);
+
+        QModelIndex ind( ui->clipboardBrowser->currentIndex() );
+        ClipboardBrowser *c = ui->clipboardBrowser;
+
+        if ( ind.isValid() )
+            c->setCurrent( ind.row() );
+        else
+            c->setCurrent(0);
+        c->setFocus();
     }
 }
 
@@ -419,20 +430,24 @@ void MainWindow::enterSearchMode(QEvent *event)
 
 void MainWindow::enterBrowseMode(bool browsemode)
 {
-    QLineEdit *l = ui->searchBar;
-
     if (m_browsemode == browsemode) return;
     m_browsemode = browsemode;
 
+    QLineEdit *l = ui->searchBar;
+    QLabel *b = ui->findLabel;
+
     if(m_browsemode){
         // browse mode
-        if ( l->text().isEmpty() )
+        if ( l->text().isEmpty() ) {
             l->hide();
+            b->hide();
+        }
         ui->clipboardBrowser->setFocus();
     }
     else {
         // search mode
         l->show();
+        b->show();
         l->setFocus(Qt::ShortcutFocusReason);
         l->selectAll();
     }
