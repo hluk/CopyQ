@@ -15,6 +15,7 @@ ActionDialog::ActionDialog(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->inputText->clear();
+    ui->iconLabel->setPixmap( QPixmap(":/images/actiondialog.svg") );
     restoreHistory();
 }
 
@@ -22,6 +23,12 @@ ActionDialog::~ActionDialog()
 {
     saveHistory();
     delete ui;
+}
+
+void ActionDialog::showEvent(QShowEvent *e)
+{
+    QDialog::showEvent(e);
+    ui->cmdEdit->setFocus();
 }
 
 void ActionDialog::changeEvent(QEvent *e)
@@ -46,7 +53,7 @@ void ActionDialog::setInput(const QString &input)
         ui->inputText->hide();
     }
     else {
-        ui->inputText->setText(input);
+        ui->inputText->setPlainText(input);
         ui->inputCheckBox->show();
         ui->inputInfoLabel->show();
         ui->inputText->show();
@@ -129,7 +136,7 @@ void ActionDialog::accept()
     QString cmd = ui->cmdEdit->text();
     if ( cmd.isEmpty() )
         return;
-    QString input = ui->inputText->text();
+    QString input = ui->inputText->toPlainText();
     Action *act;
 
     // replace %s with input
@@ -182,5 +189,11 @@ void ActionDialog::setInput(bool value)
 
 void ActionDialog::setOutput(bool value)
 {
-    ui->inputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
+    ui->outputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
+}
+
+void ActionDialog::on_outputCheckBox_toggled(bool checked)
+{
+    ui->separatorEdit->setEnabled(checked);
+    ui->separatorLabel->setEnabled(checked);
 }

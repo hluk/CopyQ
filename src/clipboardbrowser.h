@@ -29,7 +29,6 @@
 #include <QMap>
 #include "qeditor.h"
 
-class ActionDialog;
 class ClipboardModel;
 class ItemDelegate;
 
@@ -98,15 +97,12 @@ class ClipboardBrowser : public QListView
         QBasicTimer timer_save;
         ClipboardModel *m;
         ItemDelegate *d;
-        ActionDialog *actionDialog;
         QString m_lastSelection;
 
         QMenu *menu;
         QMap<QString, command_t> commands;
 
         const QString dataFilename() const;
-
-        void createActionDialog();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -116,13 +112,13 @@ class ClipboardBrowser : public QListView
 
     signals:
         void requestSearch(QEvent *event);
+        void requestActionDialog(int row, const QString &cmd = QString(),
+                                 const QString &sep = QString("\\n"),
+                                 bool input = false, bool output = false,
+                                 bool wait = true);
         void hideSearch();
         void escapePressed();
         void closeAllEditors();
-        void error(const QString &msg);
-        void message(const QString &title, const QString &msg);
-        void addMenuItem(QAction *menuItem);
-        void removeMenuItem(QAction *menuItem);
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
@@ -136,28 +132,6 @@ class ClipboardBrowser : public QListView
         void addItems(const QStringList &items);
         void closeEditor(QEditor *editor);
         void openEditor();
-
-        // do action on item on given row (default is selected item)
-        void openActionDialog(int row = -1, bool modal = true);
-        /**
-          Execute command on an item.
-          \param row row number or -1 for selected items.
-          \param cmd command string (all occurrencies of '%s' will be replaced
-                 with text of item on given row or concatenated text of
-                 selected items).
-          \param input text of item on given row or concatenated text of
-                 selected items is send on standard input of the command.
-          \param output if true the command output will be saved into new
-                 items.
-          \param sep string using which the output is separated to new items
-                 (ignored if output parameter is false).
-          \param wait if true the action dialog with the command is shown,
-                 otherwise the command is executed immediately.
-          */
-        void action(int row, const QString &cmd,
-                    const QString &sep = QString('\n'),
-                    bool input = true, bool output = true,
-                    bool wait = false);
 
         void contextMenuAction(QAction *act);
 };

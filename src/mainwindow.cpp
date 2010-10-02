@@ -19,7 +19,8 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
-#include "ui_aboutdialog.h"
+#include "aboutdialog.h"
+#include "actiondialog.h"
 #include "client_server.h"
 #include <QtGui/QDesktopWidget>
 #include <QDebug>
@@ -72,7 +73,13 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     act = new QAction( QIcon(":/images/action.svg"),
                        tr("&Action..."), this );
     act->setWhatsThis( tr("Open action dialog") );
-    connect( act, SIGNAL(triggered()), c, SLOT(openActionDialog()) );
+    connect( act, SIGNAL(triggered()), this, SLOT(openActionDialog()) );
+    menu->addAction(act);
+    // - action dialog
+    act = new QAction( QIcon(":/images/help.svg"),
+                       tr("&Help..."), this );
+    act->setWhatsThis( tr("Open help dialog") );
+    connect( act, SIGNAL(triggered()), this, SLOT(openAboutDialog()) );
     menu->addAction(act);
     // - exit
     act = new QAction( QIcon(":/images/exit.svg"),
@@ -85,16 +92,10 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     // signals & slots
     connect( c, SIGNAL(requestSearch(QEvent*)),
             this, SLOT(enterSearchMode(QEvent*)) );
+    connect( c, SIGNAL(requestActionDialog(int, QString, QString, bool, bool, bool)),
+            this, SLOT(action(int, QString, QString, bool, bool, bool)) );
     connect( c, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
-    connect( c, SIGNAL(error(QString)),
-            this, SLOT(showError(QString)) );
-    connect( c, SIGNAL(message(QString,QString)),
-            this, SLOT(showMessage(QString,QString)) );
-    connect( c, SIGNAL(addMenuItem(QAction*)),
-            this, SLOT(addMenuItem(QAction*)) );
-    connect( c, SIGNAL(removeMenuItem(QAction*)),
-            this, SLOT(removeMenuItem(QAction*)) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
@@ -144,8 +145,6 @@ void MainWindow::removeMenuItem(QAction *menuItem)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    QFile *f;
-
     if ( event->modifiers() == Qt::ControlModifier )
         if ( event->key() == Qt::Key_Q )
             exit();
@@ -169,18 +168,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         // show about dialog
         case Qt::Key_F1:
-            if ( !aboutDialog ) {
-                aboutDialog = new QDialog(this);
-                aboutDialog_ui = new Ui::AboutDialog;
-                aboutDialog_ui->setupUi(aboutDialog);
-
-                f = new QFile(":/aboutdialog.html");
-                if ( f->open(QIODevice::ReadOnly) ) {
-                    aboutDialog_ui->textEdit->setText( QString::fromUtf8(f->readAll()) );
-                }
-                delete f;
-            }
-            aboutDialog->show();
+            openAboutDialog();
             break;
 
         case Qt::Key_F3:
@@ -188,11 +176,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             enterBrowseMode(false);
             break;
 
+
+        // F5: action
+        case Qt::Key_F5:
+            openActionDialog();
+            break;
+
         case Qt::Key_Escape:
             if (m_browsemode) {
                 close();
             } else {
-                resetStatus();
                 enterBrowseMode();
             }
             break;
@@ -205,9 +198,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::resetStatus()
 {
+    ClipboardBrowser *c = ui->clipboardBrowser;
+
     ui->searchBar->clear();
-    ui->clipboardBrowser->clearFilter();
-    ui->clipboardBrowser->setCurrent(0);
+    c->clearFilter();
+    c->setCurrent(0);
+    c->setFocus();
 }
 
 void MainWindow::writeSettings()
@@ -273,7 +269,7 @@ void MainWindow::handleMessage(const QString& message)
     // action [row] "cmd" "[sep]"
     else if ( cmd == "action" ) {
         if ( args.isEmpty() )
-            c->openActionDialog(0);
+            openActionDialog(0);
         else {
             QString cmd, sep;
 
@@ -291,7 +287,7 @@ void MainWindow::handleMessage(const QString& message)
 
             // no other arguments to parse
             if ( args.isEmpty() ) {
-                c->action(row, cmd, sep);
+                action(row, cmd, sep);
                 goto messageEnd;
             }
 
@@ -392,9 +388,15 @@ void MainWindow::handleMessage(const QString& message)
 
 void MainWindow::toggleVisible()
 {
-    if ( isVisible() )
+    if ( isVisible() ) {
+        if ( actionDialog && !actionDialog->isHidden() ) {
+            actionDialog->close();
+        }
+        if ( aboutDialog && !aboutDialog->isHidden() ) {
+            aboutDialog->close();
+        }
         close();
-    else {
+    } else {
         // TODO: bypass focus prevention
         showNormal();
         raise();
@@ -402,13 +404,8 @@ void MainWindow::toggleVisible()
         QApplication::setActiveWindow(this);
 
         QModelIndex ind( ui->clipboardBrowser->currentIndex() );
-        ClipboardBrowser *c = ui->clipboardBrowser;
 
-        if ( ind.isValid() )
-            c->setCurrent( ind.row() );
-        else
-            c->setCurrent(0);
-        c->setFocus();
+        resetStatus();
     }
 }
 
@@ -471,6 +468,63 @@ void MainWindow::center() {
     y = (screenHeight - height) / 2;
 
     move( x, y );
+}
+
+void MainWindow::openAboutDialog()
+{
+    if ( !aboutDialog ) {
+        aboutDialog = new AboutDialog(this);
+    }
+    aboutDialog->exec();
+}
+
+void MainWindow::createActionDialog()
+{
+    if (!actionDialog) {
+        actionDialog = new ActionDialog(this);
+
+        connect( actionDialog, SIGNAL(addItems(QStringList)),
+                 ui->clipboardBrowser, SLOT(addItems(QStringList)) );
+        connect( actionDialog, SIGNAL(error(QString)),
+                 this, SLOT(showError(QString)) );
+        connect( actionDialog, SIGNAL(message(QString,QString)),
+                 this, SLOT(showMessage(QString,QString)) );
+        connect( actionDialog, SIGNAL(addMenuItem(QAction*)),
+                 this, SLOT(addMenuItem(QAction*)) );
+        connect( actionDialog, SIGNAL(removeMenuItem(QAction*)),
+                 this, SLOT(removeMenuItem(QAction*)) );
+    }
+}
+
+void MainWindow::openActionDialog(int row, bool modal)
+{
+    ClipboardBrowser *c = ui->clipboardBrowser;
+
+    createActionDialog();
+    actionDialog->setInput( row >= 0 ? c->itemText(row) : c->selectedText() );
+    if (modal)
+        actionDialog->exec();
+    else
+        actionDialog->show();
+}
+
+void MainWindow::action(int row, const QString &cmd,
+                              const QString &sep, bool input, bool output,
+                              bool wait)
+{
+    ClipboardBrowser *c = ui->clipboardBrowser;
+
+    createActionDialog();
+
+    actionDialog->setInput( row >= 0 ? c->itemText(row) : c->selectedText() );
+    actionDialog->setCommand(cmd);
+    actionDialog->setSeparator(sep);
+    actionDialog->setInput(input);
+    actionDialog->setOutput(output);
+    if (wait)
+        actionDialog->exec();
+    else
+        actionDialog->accept();
 }
 
 MainWindow::~MainWindow()

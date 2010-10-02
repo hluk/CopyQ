@@ -6,5 +6,7 @@
         <file>images/exit.svg</file>
         <file>images/remove.png</file>
         <file>images/action.svg</file>
+        <file>images/help.svg</file>
+        <file>images/actiondialog.svg</file>
     </qresource>
 </RCC>

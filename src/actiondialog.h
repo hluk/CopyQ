@@ -28,6 +28,7 @@ public:
 
 protected:
     void changeEvent(QEvent *e);
+    void showEvent(QShowEvent *e);
 
 private:
     Ui::ActionDialog *ui;
@@ -44,6 +45,7 @@ signals:
     void removeMenuItem(QAction *menuItem);
 
 private slots:
+    void on_outputCheckBox_toggled(bool checked);
     void closeAction(Action *act);
 
 public slots:

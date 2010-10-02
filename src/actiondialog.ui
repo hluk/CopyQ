@@ -20,18 +20,44 @@
       <number>0</number>
      </property>
      <item>
-      <widget class="QLabel" name="inputInfoLabel">
-       <property name="text">
-        <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+      <layout class="QHBoxLayout" name="horizontalLayout_4">
+       <property name="spacing">
+        <number>10</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="iconLabel">
+         <property name="text">
+          <string>icon</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="inputInfoLabel">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Aller'; font-size:11pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Item text (if &lt;span style=&quot; font-weight:600;&quot;&gt;Input&lt;/span&gt; checked) will be sent to standard input of given command or all &lt;span style=&quot; font-weight:600;&quot;&gt;%s&lt;/span&gt; in command will be replaced with item text.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
-       </property>
-       <property name="wordWrap">
-        <bool>true</bool>
-       </property>
-      </widget>
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Sans Serif'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;table style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
+&lt;tr&gt;
+&lt;td style=&quot;border: none;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-family:'Aller'; font-size:11pt; font-style:italic;&quot;&gt;Item text (if &lt;/span&gt;&lt;span style=&quot; font-family:'Aller'; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;Input&lt;/span&gt;&lt;span style=&quot; font-family:'Aller'; font-size:11pt; font-style:italic;&quot;&gt; checked) will be sent to standard input of given command or all &lt;/span&gt;&lt;span style=&quot; font-family:'Aller'; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;%s&lt;/span&gt;&lt;span style=&quot; font-family:'Aller'; font-size:11pt; font-style:italic;&quot;&gt; in command will be replaced with item text.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
      </item>
      <item>
       <layout class="QVBoxLayout" name="inputLayout">
@@ -39,36 +65,29 @@ p, li { white-space: pre-wrap; }
         <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>20</number>
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
        </property>
        <property name="rightMargin">
         <number>0</number>
        </property>
+       <property name="bottomMargin">
+        <number>4</number>
+       </property>
        <item>
-        <widget class="QLabel" name="inputText">
-         <property name="maximumSize">
-          <size>
-           <width>600</width>
-           <height>320</height>
-          </size>
-         </property>
+        <widget class="QLabel" name="label">
          <property name="text">
-          <string>ItemText</string>
+          <string>Item &amp;text:</string>
+         </property>
+         <property name="buddy">
+          <cstring>inputText</cstring>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QCheckBox" name="inputCheckBox">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="text">
-          <string>&amp;Input</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
+        <widget class="QPlainTextEdit" name="inputText"/>
        </item>
       </layout>
      </item>
@@ -101,22 +120,41 @@ p, li { white-space: pre-wrap; }
      <item>
       <layout class="QHBoxLayout" name="horizontalLayout_2">
        <property name="spacing">
-        <number>40</number>
+        <number>16</number>
        </property>
+       <item>
+        <widget class="QCheckBox" name="inputCheckBox">
+         <property name="enabled">
+          <bool>true</bool>
+         </property>
+         <property name="toolTip">
+          <string/>
+         </property>
+         <property name="text">
+          <string>&amp;Input</string>
+         </property>
+         <property name="checked">
+          <bool>false</bool>
+         </property>
+        </widget>
+       </item>
        <item>
         <widget class="QCheckBox" name="outputCheckBox">
          <property name="text">
           <string>&amp;Output into item(s)</string>
          </property>
          <property name="checked">
-          <bool>true</bool>
+          <bool>false</bool>
          </property>
         </widget>
        </item>
        <item>
         <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
-          <widget class="QLabel" name="label_3">
+          <widget class="QLabel" name="separatorLabel">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>&amp;Separator:</string>
            </property>
@@ -127,6 +165,9 @@ p, li { white-space: pre-wrap; }
          </item>
          <item>
           <widget class="QLineEdit" name="separatorEdit">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
            <property name="text">
             <string>\n</string>
            </property>
@@ -152,10 +193,11 @@ p, li { white-space: pre-wrap; }
  </widget>
  <tabstops>
   <tabstop>cmdEdit</tabstop>
+  <tabstop>inputCheckBox</tabstop>
   <tabstop>outputCheckBox</tabstop>
   <tabstop>separatorEdit</tabstop>
   <tabstop>buttonBox</tabstop>
-  <tabstop>inputCheckBox</tabstop>
+  <tabstop>inputText</tabstop>
  </tabstops>
  <resources/>
  <connections>

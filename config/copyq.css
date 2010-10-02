@@ -4,10 +4,9 @@
     font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace !important;
 }
 
-#clipboardBrowser, #searchBar, QPlainTextEdit {
+#clipboardBrowser, #searchBar {
     color: white;
     background-color: #222;
-    font-size: 10pt;
     border: 0px solid transparent;
 }
 
@@ -35,14 +34,16 @@ QMainWindow {
 
 /* item number */
 .number {
-    font-size: 6pt;
+    font-size: 7pt;
     color: #cfc;
 }
 
 /* matched text */
 .em {
-    color: yellow;
-    text-decoration: underline;
+    /*color: yellow;*/
+    /*text-decoration: underline;*/
+    background-color: yellow;
+    color: black;
 }
 
 QToolTip, QScrollBar {

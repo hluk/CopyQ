@@ -31,7 +31,7 @@
 #include "clipboardmodel.h"
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_monitoring(false), m_msec(1000), actionDialog(NULL), menu(NULL)
+    m_monitoring(false), m_msec(1000), menu(NULL)
 {
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -103,9 +103,13 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
         remove();
     } else if (text == tr("&Edit")) {
         openEditor();
+    } else if (text == tr("&Action")) {
+        emit requestActionDialog(-1, QString(), QString("\\n"),
+                                 false, false, true);
     } else {
         command_t *c = &commands[text];
-        action(-1, c->cmd, c->sep, c->input, c->output, c->wait);
+        emit requestActionDialog(-1, c->cmd, c->sep,
+                                 c->input, c->output, c->wait);
     }
 }
 
@@ -123,6 +127,7 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 
     menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
     menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+    menu->addAction( QIcon(":/images/action.svg"), tr("&Action") );
 
     QString text = selectedText();
     foreach( QString name, commands.keys() ) {
@@ -136,7 +141,7 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 
 void ClipboardBrowser::openEditor()
 {
-    QEditor *editor = new QEditor(itemText(), m_editor);
+    QEditor *editor = new QEditor(selectedText(), m_editor);
 
     connect( editor, SIGNAL(fileModified(uint, const QString &)),
             this, SLOT(itemModified(uint, const QString &)) );
@@ -250,25 +255,6 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
         QListView::timerEvent(event);
 }
 
-void ClipboardBrowser::createActionDialog()
-{
-    if (!actionDialog) {
-        actionDialog = new ActionDialog(this);
-        actionDialog->setAttribute(Qt::WA_QuitOnClose, false);
-
-        connect( actionDialog, SIGNAL(addItems(QStringList)),
-                 this, SLOT(addItems(QStringList)) );
-        connect( actionDialog, SIGNAL(error(QString)),
-                 this, SIGNAL(error(QString)) );
-        connect( actionDialog, SIGNAL(message(QString,QString)),
-                 this, SIGNAL(message(QString,QString)) );
-        connect( actionDialog, SIGNAL(addMenuItem(QAction*)),
-                 this, SIGNAL(addMenuItem(QAction*)) );
-        connect( actionDialog, SIGNAL(removeMenuItem(QAction*)),
-                 this, SIGNAL(removeMenuItem(QAction*)) );
-    }
-}
-
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
     QModelIndex ind;
@@ -349,43 +335,11 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             QListView::keyPressEvent(event);
             break;
 
-        // F5: action
-        case Qt::Key_F5:
-            openActionDialog();
-            break;
-
         default:
             emit requestSearch(event);
             break;
         }
     }
-}
-
-void ClipboardBrowser::action(int row, const QString &cmd,
-                              const QString &sep, bool input, bool output,
-                              bool wait)
-{
-    createActionDialog();
-
-    actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
-    actionDialog->setCommand(cmd);
-    actionDialog->setSeparator(sep);
-    actionDialog->setInput(input);
-    actionDialog->setOutput(output);
-    if (wait)
-        actionDialog->exec();
-    else
-        actionDialog->accept();
-}
-
-void ClipboardBrowser::openActionDialog(int row, bool modal)
-{
-    createActionDialog();
-    actionDialog->setInput( row >= 0 ? itemText(row) : selectedText() );
-    if (modal)
-        actionDialog->exec();
-    else
-        actionDialog->show();
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &first, const QModelIndex &last)
@@ -588,7 +542,7 @@ void ClipboardBrowser::readSettings(const QString &css)
         if (name.isEmpty())
             name = cmd;
         QString re = settings.value("match", QString()).toString();
-        QString sep = settings.value("separator", QString('\n')).toString();
+        QString sep = settings.value("separator", QString("\\n")).toString();
         bool input = settings.value("input", false).toBool();
         bool output = settings.value("output", false).toBool();
         bool wait = settings.value("wait", false).toBool();

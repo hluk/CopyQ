@@ -96,6 +96,9 @@ int main(int argc, char *argv[])
         QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
                          &wnd, SLOT(handleMessage(const QString&)));
 
+        // don't exit when about or action dialog is closed
+        app.setQuitOnLastWindowClosed(false);
+
         return app.exec();
     }
     // if argument specified and server is running
