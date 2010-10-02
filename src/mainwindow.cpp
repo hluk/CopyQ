@@ -186,10 +186,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Escape:
-            if (m_browsemode) {
+            if (ui->clipboardBrowser->hasFocus()) {
                 close();
             } else {
-                enterBrowseMode();
+                resetStatus();
             }
             break;
 
@@ -206,7 +206,7 @@ void MainWindow::resetStatus()
     ui->searchBar->clear();
     c->clearFilter();
     c->setCurrent(0);
-    c->setFocus();
+    enterBrowseMode();
 }
 
 void MainWindow::writeSettings()
@@ -400,15 +400,11 @@ void MainWindow::toggleVisible()
         }
         close();
     } else {
-        // TODO: bypass focus prevention
+        // FIXME: bypass focus prevention
         showNormal();
         raise();
         activateWindow();
         QApplication::setActiveWindow(this);
-
-        QModelIndex ind( ui->clipboardBrowser->currentIndex() );
-
-        resetStatus();
     }
 }
 
@@ -430,7 +426,6 @@ void MainWindow::enterSearchMode(QEvent *event)
 
 void MainWindow::enterBrowseMode(bool browsemode)
 {
-    if (m_browsemode == browsemode) return;
     m_browsemode = browsemode;
 
     QLineEdit *l = ui->searchBar;
@@ -438,11 +433,11 @@ void MainWindow::enterBrowseMode(bool browsemode)
 
     if(m_browsemode){
         // browse mode
+        ui->clipboardBrowser->setFocus();
         if ( l->text().isEmpty() ) {
             l->hide();
             b->hide();
         }
-        ui->clipboardBrowser->setFocus();
     }
     else {
         // search mode
