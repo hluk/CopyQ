@@ -43,6 +43,7 @@ class ClipboardBrowser : public QListView
         bool input;
         bool output;
         bool wait;
+        QIcon icon;
     };
 
     public:
@@ -82,7 +83,7 @@ class ClipboardBrowser : public QListView
                                  const QString &re,
                                  const QString &sep,
                                  bool input, bool output,
-                                 bool wait);
+                                 bool wait, QIcon icon);
 
         void runCallback() const;
 

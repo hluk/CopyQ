@@ -99,11 +99,16 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
 {
     const QString text = act->text();
 
-    if (text == tr("&Remove")) {
+    if (text == tr("Move to &clipboard")) {
+        QString txt = selectedText();
+        remove();
+        moveToClipboard( txt );
+        setCurrent(0);
+    } else if (text == tr("&Remove")) {
         remove();
     } else if (text == tr("&Edit")) {
         openEditor();
-    } else if (text == tr("&Action")) {
+    } else if (text == tr("&Action...")) {
         emit requestActionDialog(-1, QString(), QString("\\n"),
                                  false, false, true);
     } else {
@@ -125,14 +130,20 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
     }
     menu->clear();
 
+    QAction *act = menu->addAction( QIcon(":/images/icon.svg"), tr("Move to &clipboard") );
+    QFont font( act->font() );
+    font.setBold(true);
+    act->setFont(font);
+
     menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
     menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
-    menu->addAction( QIcon(":/images/action.svg"), tr("&Action") );
+    menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
 
     QString text = selectedText();
     foreach( QString name, commands.keys() ) {
-        if (commands[name].re.indexIn(text) != -1) {
-            menu->addAction(name);
+        command_t *command = &commands[name];
+        if (command->re.indexIn(text) != -1) {
+            menu->addAction(command->icon, name);
         }
     }
 
@@ -469,7 +480,8 @@ void ClipboardBrowser::addItems(const QStringList &items) {
 
 void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &cmd,
                                            const QString &re, const QString &sep,
-                                           bool input, bool output, bool wait)
+                                           bool input, bool output, bool wait,
+                                           QIcon icon)
 {
     command_t c;
     c.cmd    = cmd;
@@ -477,7 +489,8 @@ void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &c
     c.sep    = sep;
     c.input  = input;
     c.output = output;
-    c.wait    = wait;
+    c.wait   = wait;
+    c.icon   = icon;
     commands[name] = c;
 }
 
@@ -531,23 +544,27 @@ void ClipboardBrowser::readSettings(const QString &css)
     sizeHintForColumn(0);
 
     // actions
-    int length = settings.beginReadArray("Commands");
-    for (int i = 0; i < length; ++i)
+    settings.beginReadArray("Commands");
+    int i = 0;
+    while(true)
     {
-        settings.setArrayIndex(i);
-        QString cmd = settings.value("command", QString()).toString();
-        if (cmd.isEmpty())
-            continue;
+        settings.setArrayIndex(i++);
+
+        // command name is compulsory
         QString name = settings.value("name", QString()).toString();
         if (name.isEmpty())
-            name = cmd;
+            break;
+
+        QString cmd = settings.value("command", QString()).toString();
         QString re = settings.value("match", QString()).toString();
         QString sep = settings.value("separator", QString("\\n")).toString();
         bool input = settings.value("input", false).toBool();
         bool output = settings.value("output", false).toBool();
         bool wait = settings.value("wait", false).toBool();
+        QString icon = settings.value("icon", QString()).toString();
 
-        addPreferredCommand(name, cmd, re, sep, input, output, wait);
+        addPreferredCommand(name, cmd, re, sep, input, output,
+                            wait, QIcon(icon));
     }
     settings.endArray();
 

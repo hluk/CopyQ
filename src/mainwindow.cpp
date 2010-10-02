@@ -66,6 +66,9 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     // - show/hide
     act = new QAction( QIcon(":/images/icon.svg"),
                        tr("&Show/Hide"), this );
+    QFont font(act->font());
+    font.setBold(true);
+    act->setFont(font);
     act->setWhatsThis( tr("Show or hide main window") );
     connect( act, SIGNAL(triggered()), this, SLOT(toggleVisible()) );
     menu->addAction(act);
@@ -77,13 +80,13 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     menu->addAction(act);
     // - action dialog
     act = new QAction( QIcon(":/images/help.svg"),
-                       tr("&Help..."), this );
+                       tr("&Help"), this );
     act->setWhatsThis( tr("Open help dialog") );
     connect( act, SIGNAL(triggered()), this, SLOT(openAboutDialog()) );
     menu->addAction(act);
     // - exit
     act = new QAction( QIcon(":/images/exit.svg"),
-                       tr("E&xit..."), this );
+                       tr("E&xit"), this );
     connect( act, SIGNAL(triggered()), this, SLOT(exit()) );
     menu->addAction(act);
 
