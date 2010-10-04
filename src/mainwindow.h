@@ -52,11 +52,15 @@ class MainWindow : public QMainWindow
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
         ActionDialog *actionDialog;
+        QMenu *cmdMenu;
+        QMenu *itemMenu;
         //ItemDelegate delegate;
         QIcon m_icon;
         QSystemTrayIcon *tray;
         bool m_browsemode;
         QBasicTimer timer_search;
+
+        void createMenu();
 
     protected:
         void keyPressEvent(QKeyEvent *event);

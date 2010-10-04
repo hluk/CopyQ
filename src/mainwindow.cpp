@@ -33,11 +33,13 @@
 #include <QSettings>
 #include <QCloseEvent>
 #include <QMenu>
+#include <QMenuBar>
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
 
 MainWindow::MainWindow(const QString &css, QWidget *parent)
-: QMainWindow(parent), ui(new Ui::MainWindow), aboutDialog(NULL)
+: QMainWindow(parent), ui(new Ui::MainWindow),
+    aboutDialog(NULL), actionDialog(NULL)
 {
     // global stylesheet
     setStyleSheet(css);
@@ -50,7 +52,7 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     c->startMonitoring();
 
     // main window: icon & title
-    this->setWindowTitle("CopyQ");
+    setWindowTitle("CopyQ");
     m_icon = QIcon(":/images/icon.svg");
     setWindowIcon(m_icon);
 
@@ -60,37 +62,8 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
 
-    // menu
-    QMenu *menu = new QMenu(this);
-    QAction *act;
-    // - show/hide
-    act = new QAction( QIcon(":/images/icon.svg"),
-                       tr("&Show/Hide"), this );
-    QFont font(act->font());
-    font.setBold(true);
-    act->setFont(font);
-    act->setWhatsThis( tr("Show or hide main window") );
-    connect( act, SIGNAL(triggered()), this, SLOT(toggleVisible()) );
-    menu->addAction(act);
-    // - action dialog
-    act = new QAction( QIcon(":/images/action.svg"),
-                       tr("&Action..."), this );
-    act->setWhatsThis( tr("Open action dialog") );
-    connect( act, SIGNAL(triggered()), this, SLOT(openActionDialog()) );
-    menu->addAction(act);
-    // - action dialog
-    act = new QAction( QIcon(":/images/help.svg"),
-                       tr("&Help"), this );
-    act->setWhatsThis( tr("Open help dialog") );
-    connect( act, SIGNAL(triggered()), this, SLOT(openAboutDialog()) );
-    menu->addAction(act);
-    // - exit
-    act = new QAction( QIcon(":/images/exit.svg"),
-                       tr("E&xit"), this );
-    connect( act, SIGNAL(triggered()), this, SLOT(exit()) );
-    menu->addAction(act);
-
-    tray->setContextMenu(menu);
+    // create menubar & context menu
+    createMenu();
 
     // signals & slots
     connect( c, SIGNAL(requestSearch(QEvent*)),
@@ -125,6 +98,76 @@ void MainWindow::closeEvent(QCloseEvent *event)
     event->ignore();
 }
 
+void MainWindow::createMenu()
+{
+    ClipboardBrowser *c = ui->clipboardBrowser;
+    QMenuBar *menubar = menuBar();
+    QMenu *m;
+    QMenu *menu = new QMenu(this);
+    QAction *act;
+
+    // &File
+    m = menubar->addMenu( tr("&File") );
+
+    // - show/hide
+    act = new QAction( QIcon(":/images/icon.svg"),
+                       tr("&Show/Hide"), this );
+    QFont font(act->font());
+    // bold
+    font.setBold(true);
+    act->setFont(font);
+    act->setWhatsThis( tr("Show or hide main window") );
+    connect( act, SIGNAL(triggered()), this, SLOT(toggleVisible()) );
+    menu->addAction(act);
+    m->addAction(act);
+
+    // - new
+    act = new QAction( QIcon(":/images/new.svg"),
+                       tr("&New Item"), this );
+    act->setShortcut( QString("Ctrl+N") );
+    connect( act, SIGNAL(triggered()), c, SLOT(newItem()) );
+    menu->addAction(act);
+    m->addAction(act);
+
+    // - exit
+    act = new QAction( QIcon(":/images/exit.svg"),
+                       tr("E&xit"), this );
+    act->setShortcut( QString("Ctrl+Q") );
+    connect( act, SIGNAL(triggered()), this, SLOT(exit()) );
+    menu->addAction(act);
+    m->addAction(act);
+
+    // &Items
+    itemMenu = new QMenu(tr("&Item"), this);
+    menubar->addMenu(itemMenu);
+    c->setMenu(itemMenu);
+
+    // - action dialog
+    act = new QAction( QIcon(":/images/action.svg"),
+                       tr("&Action..."), this );
+    act->setShortcut( QString("F5") );
+    act->setWhatsThis( tr("Open action dialog") );
+    connect( act, SIGNAL(triggered()), this, SLOT(openActionDialog()) );
+    menu->addAction(act);
+
+    // - custom commands
+    cmdMenu = menubar->addMenu(tr("&Commands"));
+    cmdMenu->setEnabled(false);
+    menu->addMenu(cmdMenu);
+
+    // - about dialog
+    m = menubar->addMenu( tr("&Help") );
+    act = new QAction( QIcon(":/images/help.svg"),
+                       tr("&Help"), this );
+    act->setShortcut( QString("F1") );
+    act->setWhatsThis( tr("Open help dialog") );
+    connect( act, SIGNAL(triggered()), this, SLOT(openAboutDialog()) );
+    menu->addAction(act);
+    m->addAction(act);
+
+    tray->setContextMenu(menu);
+}
+
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec)
 {
@@ -138,20 +181,19 @@ void MainWindow::showError(const QString &msg)
 
 void MainWindow::addMenuItem(QAction *menuItem)
 {
-    tray->contextMenu()->addAction(menuItem);
+    cmdMenu->addAction(menuItem);
+    cmdMenu->setEnabled(true);
 }
 
 void MainWindow::removeMenuItem(QAction *menuItem)
 {
-    tray->contextMenu()->removeAction(menuItem);
+    cmdMenu->removeAction(menuItem);
+    if ( cmdMenu->isEmpty() )
+        cmdMenu->setEnabled(false);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
-    if ( event->modifiers() == Qt::ControlModifier )
-        if ( event->key() == Qt::Key_Q )
-            exit();
-
     switch( event->key() ) {
         case Qt::Key_Down:
         case Qt::Key_Up:
@@ -169,20 +211,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             resetStatus();
             break;
 
-        // show about dialog
-        case Qt::Key_F1:
-            openAboutDialog();
-            break;
-
         case Qt::Key_F3:
             // focus search bar
             enterBrowseMode(false);
-            break;
-
-
-        // F5: action
-        case Qt::Key_F5:
-            openActionDialog();
             break;
 
         case Qt::Key_Escape:
@@ -410,7 +441,7 @@ void MainWindow::toggleVisible()
 
         // if no item is selected then select first
         ClipboardBrowser *c = ui->clipboardBrowser;
-        if( !c->currentIndex().isValid() ) {
+        if( !c->currentIndex().isValid() || c->currentIndex().row() == 0 ) {
             c->setCurrent(0);
         }
     }

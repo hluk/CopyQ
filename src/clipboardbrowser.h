@@ -44,6 +44,7 @@ class ClipboardBrowser : public QListView
         bool output;
         bool wait;
         QIcon icon;
+        QString shortcut;
     };
 
     public:
@@ -83,9 +84,12 @@ class ClipboardBrowser : public QListView
                                  const QString &re,
                                  const QString &sep,
                                  bool input, bool output,
-                                 bool wait, QIcon icon);
+                                 bool wait, QIcon icon,
+                                 QString shortcut);
 
         void runCallback() const;
+
+        void setMenu(QMenu *menu);
 
     private:
         bool m_monitoring;
@@ -110,6 +114,8 @@ class ClipboardBrowser : public QListView
         void timerEvent(QTimerEvent *event);
         void dataChanged(const QModelIndex &first, const QModelIndex &last);
         void contextMenuEvent(QContextMenuEvent *);
+        void selectionChanged ( const QItemSelection & selected,
+                                const QItemSelection & deselected );
 
     signals:
         void requestSearch(QEvent *event);
@@ -135,6 +141,8 @@ class ClipboardBrowser : public QListView
         void openEditor();
 
         void contextMenuAction(QAction *act);
+        void updateMenuItems();
+        void newItem();
 };
 
 #endif // CLIPBOARDBROWSER_H

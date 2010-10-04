@@ -10,5 +10,6 @@
         <file>images/actiondialog.svg</file>
         <file>images/clipboard.svg</file>
         <file>images/icon-running.svg</file>
+        <file>images/new.svg</file>
     </qresource>
 </RCC>

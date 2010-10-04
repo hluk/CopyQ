@@ -16,12 +16,12 @@ Keyboard navigation
     PgDown/PgUp,
     Home/End,
     Up/Down   -- navigation in item list
-    Ctrl-Up,
-    Ctrl-Down -- move selected item
+    Ctrl+Up,
+    Ctrl+Down -- move selected item
     Escape    -- hide window
-    Ctrl-Q    -- exit
+    Ctrl+Q    -- exit
     F2        -- edit item (in place)
-    Ctrl-E    -- edit item (in external editor)
+    Ctrl+E    -- edit item (in external editor)
     F5        -- open action dialog
     Delete    -- delete item
     Enter     -- put item into clipboard
@@ -70,6 +70,7 @@ All properties except name are optional:
                 default is false
     icon      - path to image that is displayed next to the command in the menu;
                 defaul is empty (no icon)
+    shortcut  - set command shortcut (e.g. "Ctrl+X")
 
 copyq.css:
     Qt style sheet defining appearance of CopyQ window and item list.

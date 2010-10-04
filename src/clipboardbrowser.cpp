@@ -118,16 +118,15 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
     }
 }
 
-void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
+void ClipboardBrowser::setMenu(QMenu *menu)
 {
-    if ( this->selectedIndexes().isEmpty() )
-        return;
+     this->menu = menu;
+     connect( menu, SIGNAL(triggered(QAction*)),
+              this, SLOT(contextMenuAction(QAction*)) );
+}
 
-    if (!menu) {
-        menu = new QMenu(this);
-        connect( menu, SIGNAL(triggered(QAction*)),
-                 this, SLOT(contextMenuAction(QAction*)) );
-    }
+void ClipboardBrowser::updateMenuItems()
+{
     menu->clear();
 
     QAction *act = menu->addAction( QIcon(":/images/clipboard.svg"), tr("Move to &clipboard") );
@@ -135,19 +134,43 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
     font.setBold(true);
     act->setFont(font);
 
-    menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
-    menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
-    menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
+    act = menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
+    act->setShortcut( QString("Delete") );
+    act = menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+    act->setShortcut( QString("Ctrl+E") );
+    act = menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
+    act->setShortcut( QString("F5") );
+
+    // add custom commands to menu
+    if ( !commands.isEmpty() )
+        menu->addSeparator();
 
     QString text = selectedText();
     foreach( QString name, commands.keys() ) {
         command_t *command = &commands[name];
         if (command->re.indexIn(text) != -1) {
-            menu->addAction(command->icon, name);
+            act = menu->addAction(command->icon, name);
+            if ( !command->shortcut.isEmpty() )
+                act->setShortcut( command->shortcut );
         }
     }
+}
 
-    menu->exec( event->globalPos() );
+void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
+{
+    if ( this->selectedIndexes().isEmpty() )
+        return;
+
+    if (menu) {
+        updateMenuItems();
+        menu->exec( event->globalPos() );
+    }
+}
+
+void ClipboardBrowser::selectionChanged(const QItemSelection &,
+                                        const QItemSelection &)
+{
+    updateMenuItems();
 }
 
 void ClipboardBrowser::openEditor()
@@ -265,6 +288,15 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
         QListView::timerEvent(event);
 }
 
+void ClipboardBrowser::newItem()
+{
+    // new text will allocate more space (lines) for editor
+    add( QString("---NEW---\n\n\n\n\n\n\n\n---NEW---"), false );
+    selectionModel()->clearSelection();
+    setCurrent(0);
+    edit( index(0) );
+}
+
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
     QModelIndex ind;
@@ -280,20 +312,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         int key = event->key();
         switch ( key ) {
-        // CTRL-E: open external editor
-        case Qt::Key_E:
-            openEditor();
-            break;
-
-        // CTRL-N: create new item
-        case Qt::Key_N:
-            // new text will allocate more space (lines) for editor
-            add( QString("---NEW---\n\n\n\n\n\n\n\n---NEW---"), false );
-            selectionModel()->clearSelection();
-            setCurrent(0);
-            edit( index(0) );
-            break;
-
         // CTRL-Up/Down: move items
         case Qt::Key_Down:
         case Qt::Key_Up:
@@ -311,9 +329,10 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
     else {
         switch ( event->key() ) {
+            /*
         case Qt::Key_Delete:
             remove();
-            break;
+            break;*/
 
         // navigation
         case Qt::Key_Up:
@@ -480,7 +499,7 @@ void ClipboardBrowser::addItems(const QStringList &items) {
 void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &cmd,
                                            const QString &re, const QString &sep,
                                            bool input, bool output, bool wait,
-                                           QIcon icon)
+                                           QIcon icon, QString shortcut)
 {
     command_t c;
     c.cmd    = cmd;
@@ -490,6 +509,7 @@ void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &c
     c.output = output;
     c.wait   = wait;
     c.icon   = icon;
+    c.shortcut = shortcut;
     commands[name] = c;
 }
 
@@ -561,9 +581,10 @@ void ClipboardBrowser::readSettings(const QString &css)
         bool output = settings.value("output", false).toBool();
         bool wait = settings.value("wait", false).toBool();
         QString icon = settings.value("icon", QString()).toString();
+        QString shortcut = settings.value("shortcut", QString()).toString();
 
         addPreferredCommand(name, cmd, re, sep, input, output,
-                            wait, QIcon(icon));
+                            wait, QIcon(icon), shortcut);
     }
     settings.endArray();
 
