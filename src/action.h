@@ -5,6 +5,7 @@
 
 class QStringList;
 class QAction;
+class QIcon;
 
 class Action : public QProcess
 {
@@ -38,7 +39,7 @@ public slots:
     void terminate();
 
 signals:
-    void actionError(const QString &msg);
+    void actionError(Action *act);
     void actionFinished(Action *act);
     void actionStarted(Action *act);
     void newItems(const QStringList &items);

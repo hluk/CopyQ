@@ -77,6 +77,7 @@ class MainWindow : public QMainWindow
        void addMenuItem(QAction *menuItem);
        void removeMenuItem(QAction *menuItem);
        void exit();
+       void changeTrayIcon(const QIcon &icon);
 
        void openAboutDialog();
 

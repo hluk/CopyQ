@@ -35,6 +35,7 @@ private:
     int m_maxitems;
     QCompleter *m_completer;
     QStringList m_history;
+    int m_actions;
 
 signals:
     void addItems(const QStringList &lst);
@@ -43,6 +44,7 @@ signals:
     void actionFinished(Action *act);
     void addMenuItem(QAction *menuItem);
     void removeMenuItem(QAction *menuItem);
+    void changeTrayIcon(const QIcon &icon);
 
 private slots:
     void on_outputCheckBox_toggled(bool checked);

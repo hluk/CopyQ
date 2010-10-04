@@ -1,6 +1,8 @@
 #include <QAction>
 #include "action.h"
 
+#include <QDebug>
+
 // free action IDs
 bool g_ids[10] = {true,true,true,true,true,
                   true,true,true,true,true};
@@ -35,7 +37,10 @@ Action::Action(const QString &cmd, const QByteArray &input,
 
 void Action::actionError(QProcess::ProcessError)
 {
-    emit actionError( errorString() );
+    if ( state() != Running ) {
+        m_errstr = QString("Error: %1\n").arg(errorString()) + m_errstr;
+        emit actionFinished(this);
+    }
 }
 
 void Action::actionStarted()
@@ -58,10 +63,8 @@ void Action::actionStarted()
 
 void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    QString errstr;
-
-    if ( exitStatus )
-        actionError( errorString() );
+    if ( exitStatus != NormalExit )
+        m_errstr = QString("Error: %1\n").arg(errorString()) + m_errstr;
     else if ( exitCode != 0 )
         m_errstr = QString("Exit code: %1\n").arg(exitCode) + m_errstr;
 

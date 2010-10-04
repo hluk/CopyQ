@@ -476,6 +476,11 @@ void MainWindow::center() {
     move( x, y );
 }
 
+void MainWindow::changeTrayIcon(const QIcon &icon)
+{
+    tray->setIcon(icon);
+}
+
 void MainWindow::openAboutDialog()
 {
     if ( !aboutDialog ) {
@@ -499,6 +504,8 @@ void MainWindow::createActionDialog()
                  this, SLOT(addMenuItem(QAction*)) );
         connect( actionDialog, SIGNAL(removeMenuItem(QAction*)),
                  this, SLOT(removeMenuItem(QAction*)) );
+        connect( actionDialog, SIGNAL(changeTrayIcon(QIcon)),
+                 this, SLOT(changeTrayIcon(QIcon)));
     }
 }
 

@@ -11,7 +11,7 @@ static const QRegExp str("([^\\%])%s");
 
 ActionDialog::ActionDialog(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ActionDialog), m_completer(NULL)
+    ui(new Ui::ActionDialog), m_completer(NULL), m_actions(0)
 {
     ui->setupUi(this);
     ui->inputText->clear();
@@ -122,13 +122,17 @@ void ActionDialog::saveHistory()
 
 void ActionDialog::closeAction(Action *act)
 {
-    const QString &err = act->errorOutput();
+    const QString &errout =  act->errorOutput();
+    if ( !errout.isEmpty() )
+        emit message( QString("Command failed: ")+act->command(), errout );
 
-    if ( !err.isEmpty() )
-        emit message( act->command(), err );
+    --m_actions;
+    if (!m_actions) {
+        changeTrayIcon( QIcon(":/images/icon.svg") );
+    }
 
     disconnect(act);
-    delete act;
+    act->deleteLater();
 }
 
 void ActionDialog::accept()
@@ -153,8 +157,8 @@ void ActionDialog::accept()
     act = new Action( cmd, input.toLocal8Bit(),
                       ui->outputCheckBox->isChecked(),
                       ui->separatorEdit->text() );
-    connect( act, SIGNAL(actionError(QString)),
-             SIGNAL(error(QString)) );
+    connect( act, SIGNAL(actionError(Action*)),
+             this, SLOT(closeAction(Action*)) );
     connect( act, SIGNAL(actionFinished(Action*)),
              this, SLOT(closeAction(Action*)) );
     connect( act, SIGNAL(newItems(QStringList)),
@@ -163,6 +167,11 @@ void ActionDialog::accept()
              this, SIGNAL(addMenuItem(QAction*)) );
     connect( act, SIGNAL(removeMenuItem(QAction*)),
                  this, SIGNAL(removeMenuItem(QAction*)) );
+
+    if (!m_actions) {
+        changeTrayIcon( QIcon(":/images/icon-running.svg") );
+    }
+    ++m_actions;
 
     qDebug() << "Executing:" << cmd;
     act->start();
