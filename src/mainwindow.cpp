@@ -188,8 +188,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Escape:
             if ( ui->searchBar->isHidden() ) {
                 close();
+                resetStatus();
             } else {
                 resetStatus();
+                ui->clipboardBrowser->setCurrent(0);
             }
             break;
 
@@ -205,7 +207,7 @@ void MainWindow::resetStatus()
 
     ui->searchBar->clear();
     c->clearFilter();
-    c->setCurrent(0);
+    c->setCurrentIndex( QModelIndex() );
     enterBrowseMode();
 }
 
@@ -405,6 +407,12 @@ void MainWindow::toggleVisible()
         raise();
         activateWindow();
         QApplication::setActiveWindow(this);
+
+        // if no item is selected then select first
+        ClipboardBrowser *c = ui->clipboardBrowser;
+        if( !c->currentIndex().isValid() ) {
+            c->setCurrent(0);
+        }
     }
 }
 

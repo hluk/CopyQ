@@ -8,5 +8,6 @@
         <file>images/action.svg</file>
         <file>images/help.svg</file>
         <file>images/actiondialog.svg</file>
+        <file>images/clipboard.svg</file>
     </qresource>
 </RCC>

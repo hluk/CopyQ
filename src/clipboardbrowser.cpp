@@ -130,7 +130,7 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
     }
     menu->clear();
 
-    QAction *act = menu->addAction( QIcon(":/images/icon.svg"), tr("Move to &clipboard") );
+    QAction *act = menu->addAction( QIcon(":/images/clipboard.svg"), tr("Move to &clipboard") );
     QFont font( act->font() );
     font.setBold(true);
     act->setFont(font);
@@ -191,18 +191,17 @@ void ClipboardBrowser::filterItems(const QString &str)
         emit hideSearch();
     }
     else {
+        QRegExp re(str);
+        re.setCaseSensitivity(Qt::CaseInsensitive);
+        m->setSearch(&re);
+
         // if search string is a number N: highlight Nth item
         bool ok;
         int n = str.toInt(&ok);
-        if (ok) {
-            m->setSearch();
+        if (ok && n >= 0 && n < m->rowCount()) {
+            m->setSearch(n);
             setCurrent(n);
             return;
-        }
-        else {
-            QRegExp re(str);
-            re.setCaseSensitivity(Qt::CaseInsensitive);
-            m->setSearch(&re);
         }
     }
 

@@ -133,7 +133,7 @@ public:
     // search
     const QRegExp *search() const { return &m_re; }
     void setSearch(const QRegExp *const re = NULL);
-    void setSearch(int i);
+    void setSearch(int i, const QRegExp *const re = NULL);
     bool isFiltered(int i) const; // is item filtered out
 
     int getRowNumber(int row, bool cycle = false) const;

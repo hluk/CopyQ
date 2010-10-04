@@ -51,8 +51,6 @@ ClipboardModel::ClipboardModel(const QStringList &items)
     foreach( QString str, items) {
         m_clipboardList.append(str);
     }
-
-    m_re.setCaseSensitivity(Qt::CaseInsensitive);
 }
 
 int ClipboardModel::rowCount(const QModelIndex&) const
@@ -196,22 +194,22 @@ bool ClipboardModel::isFiltered(int i) const
     return m_clipboardList[i].isFiltered();
 }
 
-void ClipboardModel::setSearch(int i)
+void ClipboardModel::setSearch(int i, const QRegExp *const re)
 {
     const QString &str = m_clipboardList[i];
     QString highlight;
 
-    if ( m_re.isEmpty() ) {
+    if ( !re || re->isEmpty() ) {
         m_clipboardList[i].setFiltered(false);
         return;
     }
 
     int a = 0;
-    int b = m_re.indexIn(str, a);
+    int b = re->indexIn(str, a);
     int len;
 
     while ( b != -1 ) {
-        len = m_re.matchedLength();
+        len = re->matchedLength();
         if ( len == 0 )
             break;
 
@@ -221,7 +219,7 @@ void ClipboardModel::setSearch(int i)
         highlight.append( "</span>" );
 
         a = b + len;
-        b = m_re.indexIn(str, a);
+        b = re->indexIn(str, a);
     }
 
     // filter items
@@ -250,7 +248,7 @@ void ClipboardModel::setSearch(const QRegExp *const re)
         m_re = *re;
 
     for( int i = 0; i<rowCount(); i++)
-        setSearch(i);
+        setSearch(i, &m_re);
 
     emit dataChanged( index(0,0), index(rowCount()-1,0) );
 }
