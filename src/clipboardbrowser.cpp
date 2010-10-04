@@ -263,7 +263,7 @@ void ClipboardBrowser::moveToClipboard(int i)
         m->move(i,0);
         sync();
         scrollTo( currentIndex() );
-        repaint();
+        update();
     }
 }
 
@@ -299,20 +299,15 @@ void ClipboardBrowser::newItem()
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
-    QModelIndex ind;
-
+    // if editing item, use default key action
     if ( state() == QAbstractItemView::EditingState ) {
         QListView::keyPressEvent(event);
-        return;
     }
-
     // CTRL
-    if ( event->modifiers() == Qt::ControlModifier ) {
-        QModelIndexList list;
-
+    else if ( event->modifiers() == Qt::ControlModifier ) {
         int key = event->key();
         switch ( key ) {
-        // CTRL-Up/Down: move items
+        // move items
         case Qt::Key_Down:
         case Qt::Key_Up:
         case Qt::Key_End:
@@ -320,8 +315,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             if ( m->moveItems(selectedIndexes(), key) )
                 sync();
             scrollTo( currentIndex() );
-            repaint();
+            update();
             break;
+
         default:
             QListView::keyPressEvent(event);
             break;
@@ -329,43 +325,18 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
     else {
         switch ( event->key() ) {
-            /*
-        case Qt::Key_Delete:
-            remove();
-            break;*/
-
         // navigation
         case Qt::Key_Up:
-            if ( selectedIndexes().isEmpty() )
-                setCurrent(-1, true);
-            else
-                setCurrent( currentIndex().row()-1, true,
-                            event->modifiers() == Qt::ShiftModifier );
-            break;
         case Qt::Key_Down:
-            if ( selectedIndexes().isEmpty() )
-                setCurrent(0);
-            else
-                setCurrent( currentIndex().row()+1, true,
-                            event->modifiers() == Qt::ShiftModifier );
-            break;
-        case Qt::Key_Left:
-        case Qt::Key_Right:
+        case Qt::Key_PageDown:
+        case Qt::Key_PageUp:
         case Qt::Key_Home:
         case Qt::Key_End:
-        case Qt::Key_Escape:
-        case Qt::Key_PageUp:
-        case Qt::Key_PageDown:
-            QListView::keyPressEvent(event);
-            break;
-
-        // F2: edit
-        case Qt::Key_F2:
             QListView::keyPressEvent(event);
             break;
 
         default:
-            emit requestSearch(event);
+            event->ignore();
             break;
         }
     }

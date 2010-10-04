@@ -117,7 +117,7 @@ class MainWindow : public QMainWindow
     private slots:
         void on_searchBar_textEdited(const QString &);
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
-        void enterSearchMode(QEvent *event);
+        void enterSearchMode(const QString &txt);
 };
 
 #endif // MAINWINDOW_H

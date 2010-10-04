@@ -45,7 +45,6 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     setStyleSheet(css);
 
     ui->setupUi(this);
-    setFocusPolicy(Qt::StrongFocus);
 
     ClipboardBrowser *c = ui->clipboardBrowser;
     c->readSettings(css);
@@ -66,8 +65,8 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     createMenu();
 
     // signals & slots
-    connect( c, SIGNAL(requestSearch(QEvent*)),
-            this, SLOT(enterSearchMode(QEvent*)) );
+    connect( c, SIGNAL(requestSearch(QString)),
+            this, SLOT(enterSearchMode(QString)) );
     connect( c, SIGNAL(requestActionDialog(int, QString, QString, bool, bool, bool)),
             this, SLOT(action(int, QString, QString, bool, bool, bool)) );
     connect( c, SIGNAL(hideSearch()),
@@ -194,7 +193,13 @@ void MainWindow::removeMenuItem(QAction *menuItem)
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
+    QString txt;
+
     switch( event->key() ) {
+        case Qt::Key_X:
+        qDebug() << focusWidget();
+        break;
+
         case Qt::Key_Down:
         case Qt::Key_Up:
         case Qt::Key_PageDown:
@@ -226,8 +231,21 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             }
             break;
 
-        default:
+        case Qt::Key_Tab:
             QMainWindow::keyPressEvent(event);
+            break;
+
+        case Qt::Key_Backspace:
+            resetStatus();
+            ui->clipboardBrowser->setCurrent(0);
+            break;
+
+        default:
+            txt = event->text();
+            if ( txt.isEmpty() )
+                QMainWindow::keyPressEvent(event);
+            else
+                enterSearchMode(txt);
             break;
     }
 }
@@ -455,12 +473,10 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
         toggleVisible();
 }
 
-void MainWindow::enterSearchMode(QEvent *event)
+void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode(false);
-    ui->searchBar->event(event);
-    if ( ui->searchBar->text().isEmpty() )
-        enterBrowseMode(true);
+    ui->searchBar->setText(txt);
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)
@@ -476,12 +492,14 @@ void MainWindow::enterBrowseMode(bool browsemode)
         if ( l->text().isEmpty() ) {
             l->hide();
             b->hide();
+            l->setEnabled(false);
         }
     }
     else {
         // search mode
         l->show();
         b->show();
+        l->setEnabled(true);
         l->setFocus(Qt::ShortcutFocusReason);
         l->selectAll();
     }

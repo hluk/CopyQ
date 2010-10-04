@@ -118,7 +118,7 @@ class ClipboardBrowser : public QListView
                                 const QItemSelection & deselected );
 
     signals:
-        void requestSearch(QEvent *event);
+        void requestSearch(const QString &txt);
         void requestActionDialog(int row, const QString &cmd = QString(),
                                  const QString &sep = QString("\\n"),
                                  bool input = false, bool output = false,

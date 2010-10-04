@@ -62,7 +62,7 @@
        <set>QAbstractItemView::EditKeyPressed</set>
       </property>
       <property name="tabKeyNavigation">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="showDropIndicator" stdset="0">
        <bool>false</bool>
