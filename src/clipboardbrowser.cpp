@@ -107,6 +107,8 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
     } else if (text == tr("&Remove")) {
         remove();
     } else if (text == tr("&Edit")) {
+        edit( currentIndex() );
+    } else if (text == tr("E&dit with editor")) {
         openEditor();
     } else if (text == tr("&Action...")) {
         emit requestActionDialog(-1, QString(), QString("\\n"),
@@ -137,6 +139,8 @@ void ClipboardBrowser::updateMenuItems()
     act = menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
     act->setShortcut( QString("Delete") );
     act = menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+    act->setShortcut( QString("F2") );
+    act = menu->addAction( QIcon(":/images/edit.svg"), tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
     act = menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
     act->setShortcut( QString("F5") );
