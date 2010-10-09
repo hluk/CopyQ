@@ -218,10 +218,6 @@ void ClipboardBrowser::filterItems(const QString &str)
         emit hideSearch();
     }
     else {
-        QRegExp re(str);
-        re.setCaseSensitivity(Qt::CaseInsensitive);
-        m->setSearch(&re);
-
         // if search string is a number N: highlight Nth item
         bool ok;
         int n = str.toInt(&ok);
@@ -229,6 +225,10 @@ void ClipboardBrowser::filterItems(const QString &str)
             m->setSearch(n);
             setCurrent(n);
             return;
+        } else {
+            QRegExp re(str);
+            re.setCaseSensitivity(Qt::CaseInsensitive);
+            m->setSearch(&re);
         }
     }
 

@@ -477,6 +477,7 @@ void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode(false);
     ui->searchBar->setText(txt);
+    ui->clipboardBrowser->filterItems(txt);
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)
@@ -595,11 +596,6 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-void MainWindow::on_searchBar_textEdited(const QString &)
-{
-    timer_search.start(100,this);
-}
-
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     if ( event->timerId() == timer_search.timerId() ) {
@@ -608,4 +604,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
     else
         QMainWindow::timerEvent(event);
+}
+
+void MainWindow::on_searchBar_textChanged(QString )
+{
+    timer_search.start(100,this);
 }

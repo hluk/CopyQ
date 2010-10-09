@@ -115,7 +115,7 @@ class MainWindow : public QMainWindow
                    bool wait = false);
 
     private slots:
-        void on_searchBar_textEdited(const QString &);
+        void on_searchBar_textChanged(QString );
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void enterSearchMode(const QString &txt);
 };
