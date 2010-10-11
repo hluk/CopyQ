@@ -222,13 +222,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Escape:
-            if ( ui->searchBar->isHidden() ) {
+            if ( ui->searchBar->isHidden() )
                 close();
-                resetStatus();
-            } else {
-                resetStatus();
-                ui->clipboardBrowser->setCurrent(0);
-            }
+            resetStatus();
             break;
 
         case Qt::Key_Tab:
@@ -442,6 +438,8 @@ void MainWindow::handleMessage(const QString& message)
 
 void MainWindow::toggleVisible()
 {
+    ClipboardBrowser *c = ui->clipboardBrowser;
+
     if ( isVisible() ) {
         if ( actionDialog && !actionDialog->isHidden() ) {
             actionDialog->close();
@@ -449,6 +447,10 @@ void MainWindow::toggleVisible()
         if ( aboutDialog && !aboutDialog->isHidden() ) {
             aboutDialog->close();
         }
+        // if the first item is selected then select none
+        // (next time the window is shown the first item will be selected)
+        if ( c->currentIndex().row() == 0 )
+            c->setCurrentIndex( QModelIndex() );
         close();
     } else {
         // FIXME: bypass focus prevention
@@ -458,7 +460,6 @@ void MainWindow::toggleVisible()
         QApplication::setActiveWindow(this);
 
         // if no item is selected then select first
-        ClipboardBrowser *c = ui->clipboardBrowser;
         if( !c->currentIndex().isValid() || c->currentIndex().row() == 0 ) {
             c->setCurrent(0);
         }
