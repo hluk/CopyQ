@@ -1,82 +1,56 @@
 /* http://doc.qt.nokia.com/stylesheet-examples.html */
 /* font */
 .text, .number, #clipboardBrowser, #searchBar, QPlainTextEdit {
-    font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace !important;
+    font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace;
 }
 
 #clipboardBrowser, #searchBar {
-    color: white;
-    background-color: #222;
     border: 0px solid transparent;
 }
 
 QMainWindow {
-    background-color: #222;
 }
 
 #clipboardBrowser {
 }
 
 #searchBar {
-    color: #afa;
-    text-decoration: underline;
 }
 
 #findLabel {
     font-weight: bold;
-    color: white;
 }
 
 /* item text */
 .text {
-    color: white;
 }
 
 /* item number */
 .number {
-    font-size: 7pt;
-    color: #cfc;
+    padding-right: 1ex;
 }
 
 /* matched text */
 .em {
-    /*color: yellow;*/
-    /*text-decoration: underline;*/
     background-color: yellow;
     color: black;
 }
 
 QToolTip, QScrollBar {
-    color: black;
 }
 
 QListView::item {
-    border: 0px solid transparent;
+    border: 2px solid transparent;
 }
 
 QListView::item:alternate {
-    background-color: #343;
-    border: 1px solid #454
 }
 
 QListView::item:selected {
-    border: 2px solid #0f0;
-}
-
-QListView::item:selected:!active {
-    /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,*/
-    /*stop: 0 #5B5, stop: 1 #222);*/
-}
-
-QListView::item:selected:active {
-    background-color: #a55;
-    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
-    stop: 0 #262, stop: 1 #484);
+    border: 2px solid #888;
 }
 
 QListView::item:hover {
-    border: 2px dashed #0f0;
-    /*background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,*/
-    /*stop: 0 #442, stop: 1 #773);*/
+    border: 2px dashed #888;
 }
 
