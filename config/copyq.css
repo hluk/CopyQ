@@ -28,6 +28,7 @@ QMainWindow {
 /* item number */
 .number {
     padding-right: 1ex;
+    color: #444;
 }
 
 /* matched text */
@@ -40,14 +41,15 @@ QToolTip, QScrollBar {
 }
 
 QListView::item {
-    border: 2px solid transparent;
+    border: 3px solid transparent;
 }
 
 QListView::item:alternate {
+    background-color: rgba(0,240,255,30);
 }
 
 QListView::item:selected {
-    border: 2px solid #888;
+    background-color: rgba(255,255,100,150);
 }
 
 QListView::item:hover {
