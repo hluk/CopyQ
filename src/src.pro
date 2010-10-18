@@ -17,7 +17,9 @@ HEADERS += mainwindow.h \
     itemdelegate.h \
     action.h \
     client_server.h \
-    aboutdialog.h
+    aboutdialog.h \
+    clipboarditem.h \
+    clipboardmonitor.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -27,7 +29,9 @@ SOURCES += main.cpp \
     itemdelegate.cpp \
     client_server.cpp \
     action.cpp \
-    aboutdialog.cpp
+    aboutdialog.cpp \
+    clipboarditem.cpp \
+    clipboardmonitor.cpp
 QT += xml
 unix:LIBS += -lXi
 win32:CONFIG += static

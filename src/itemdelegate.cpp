@@ -36,9 +36,7 @@ QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &option, const QModelIn
     int n = index.row();
 
     if ( !m_buff[n].isValid() ) {
-        QStyleOptionViewItemV4 options(option);
-        initStyleOption(&options, index);
-        createDoc(options.text, index);
+        createDoc(index);
     }
     return m_buff[n];
 }
@@ -49,14 +47,6 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
     if ( event->type() == QEvent::KeyPress ) {
         QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
         switch ( keyevent->key() ) {
-            //case Qt::Key_Tab:
-                //emit commitData(editor);
-                //emit closeEditor(editor, QAbstractItemDelegate::EditNextItem);
-                //return true;
-            //case Qt::Key_Backtab:
-                //emit commitData(editor);
-                //emit closeEditor(editor, QAbstractItemDelegate::EditPreviousItem);
-                //return true;
             case Qt::Key_Enter:
             case Qt::Key_Return:
                 if( keyevent->modifiers() == Qt::NoModifier )
@@ -141,19 +131,19 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
         m_buff.insert(i,QSize());
 }
 
-void ItemDelegate::createDoc(const QString &text, const QModelIndex &index) const
+void ItemDelegate::createDoc(const QModelIndex &index) const
 {
     int n = index.row();
 
     m_doc->clear();
-    if ( index.data(Qt::DisplayRole).type() == QVariant::Image ) {
-        QImage image = index.data(Qt::DisplayRole).value<QImage>();
+    // add images
+    QVariantList lst = index.data(Qt::DisplayRole).toList();
+    for(int i=1; i<lst.length(); ++i) {
         m_doc->addResource(QTextDocument::ImageResource,
-                           QUrl("mydata://image.png"), QVariant(image));
-        m_doc->setHtml( m_format.arg(index.row()).arg("<img src=\"mydata://image.png\" />") );
+                           QUrl(QString("data://%1").arg(i)), lst[i]);
     }
-    else
-        m_doc->setHtml( m_format.arg(index.row()).arg(text) );
+    // set html
+    m_doc->setHtml( m_format.arg(index.row()).arg(lst[0].toString()) );
 
     m_buff[n] = QSize( m_doc->idealWidth(), m_doc->size().height() );
 }
@@ -163,10 +153,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     QStyleOptionViewItemV4 options(option);
     QStyleOptionViewItemV3 option3(option);
     initStyleOption(&options, index);
-    QString text = options.text;
     options.text = "";
 
-    createDoc(text, index);
+    createDoc(index);
 
     // get focus rect and selection background
     const QWidget *widget = options.widget;

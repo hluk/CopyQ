@@ -88,7 +88,7 @@ bool QEditor::fileModified()
 void QEditor::timerEvent(QTimerEvent *)
 {
     if ( fileModified() ) {
-        emit fileModified(m_hash, m_txt);
+        emit fileModified(m_txt);
         m_hash = qHash(m_txt);
     }
 }

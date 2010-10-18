@@ -23,7 +23,7 @@
 #include <QListView>
 #include <QRegExp>
 #include <QClipboard>
-#include <QBasicTimer>
+#include <QTimer>
 #include <QSettings>
 #include <QMimeData>
 #include <QMap>
@@ -31,6 +31,7 @@
 
 class ClipboardModel;
 class ItemDelegate;
+class ClipboardMonitor;
 
 class ClipboardBrowser : public QListView
 {
@@ -52,28 +53,17 @@ class ClipboardBrowser : public QListView
         ~ClipboardBrowser();
         void readSettings(const QString &css);
         void writeSettings();
-        void saveItems();
         bool add(const QString &txt, bool ignore_empty = true);
-        bool add(const QImage &image);
-        bool add(const QVariant &value);
+        bool add(QMimeData *item, bool ignore_empty = true);
         void remove();
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
-        QVariant itemData(int row) const {
-            return model()->data( index(row), Qt::EditRole );
-        }
         void sync(bool list_to_clipboard = true, QClipboard::Mode mode = QClipboard::Clipboard);
         QModelIndex index(int i) const {
             return model()->index(i,0);
         }
         void setCurrent(int row, bool cycle = false, bool selection = false);
-
-        // clipboard monitoring functions
-        void setMonitoringInterval(int msec) { m_msec = msec; }
-        void startMonitoring();
-        void stopMonitoring();
-        void checkClipboard();
 
         // if items selected: return concatenation of selected items
         // else: return text of first item
@@ -91,28 +81,26 @@ class ClipboardBrowser : public QListView
 
         void setMenu(QMenu *menu);
 
+        void startMonitoring();
+
     private:
-        bool m_monitoring;
         int m_maxitems;
-        int m_msec;
         QString m_callback;
         QStringList m_callback_args;
         QString m_editor;
-        QBasicTimer timer;
-        QBasicTimer timer_save;
+        ClipboardMonitor *m_monitor;
+        QTimer timer_save;
         ClipboardModel *m;
         ItemDelegate *d;
-        QString m_lastSelection;
 
         QMenu *menu;
         QMap<QString, command_t> commands;
 
         const QString dataFilename() const;
+        void updateClipboard();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
-        void timerEvent(QTimerEvent *event);
-        void dataChanged(const QModelIndex &first, const QModelIndex &last);
         void contextMenuEvent(QContextMenuEvent *);
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
@@ -129,20 +117,20 @@ class ClipboardBrowser : public QListView
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
-        void clipboardChanged(QClipboard::Mode mode = QClipboard::Clipboard);
         void moveToClipboard(const QModelIndex &ind);
-        void moveToClipboard(const QString &str);
         void moveToClipboard(int i);
         void filterItems(const QString &str);
         void clearFilter() { filterItems( QString() ); }
-        void itemModified(uint hash, const QString &str);
-        void addItems(const QStringList &items);
+        void itemModified(const QString &str);
         void closeEditor(QEditor *editor);
         void openEditor();
+        void saveItems(int msec=0);
 
         void contextMenuAction(QAction *act);
         void updateMenuItems();
         void newItem();
+
+        void checkClipboard(QClipboard::Mode mode, QMimeData *data);
 };
 
 #endif // CLIPBOARDBROWSER_H

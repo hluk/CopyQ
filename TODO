@@ -1,10 +1,11 @@
+[ ] configuration dialog:
+    - save only matched formats: regular expression
+    - display priority of formats (mime types)
+    - show only plain text
+    - show html
+    - show images
+    - html size limit
+    - the rest from copyq.conf
 [ ] Serialize/deserialize arguments for client as QString
         format: message, close client+return code
 [ ] Dialog with table "on matched clipboard text do action": REGEX ACTION (same as command line options)
-[ ] Manage multiple clipboard item formats
-    - text, html, image, unknown (not implemented)
-    - view multiple types
-        - switch item view OR
-          different item for each type
-        - show type icon (if not plain text)
-            - current (highlighted) and other formats

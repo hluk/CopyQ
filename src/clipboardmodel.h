@@ -25,96 +25,28 @@
 #include <QRegExp>
 #include <QList>
 #include <QDebug>
-#include <QImage>
 #include <QHash>
+#include <QMimeData>
+
+class ClipboardItem;
 
 static const QModelIndex empty_index;
-QString escape(const QString &str);
-
-class ClipboardItem : public QString
-{
-public:
-    ClipboardItem(const QString &str) : QString(str),
-        m_highlight(NULL), m_image(NULL), m_filtered(false) {}
-    ClipboardItem(const QImage &image) : QString("IMAGE"),
-            m_highlight(NULL), m_filtered(false)
-    {
-        setImage(image);
-    }
-
-    ~ClipboardItem()
-    {
-        removeHighlight();
-        removeImage();
-    }
-
-    void setHighlight(const QString &str) const
-    {
-        if (m_highlight)
-            *m_highlight = str;
-        else
-            m_highlight = new QString(str);
-    }
-
-    const QString &highlighted() const
-    {
-        if ( !m_highlight )
-            setHighlight( escape(*(dynamic_cast<const QString*>(this))) );
-        return *m_highlight;
-    }
-
-    void removeHighlight()
-    {
-        if (m_highlight) {
-            delete m_highlight;
-            m_highlight = NULL;
-        }
-    }
-
-    void removeImage()
-    {
-        if ( m_image ) {
-            delete m_image;
-            m_image =  NULL;
-        }
-    }
-
-    bool isFiltered() const { return m_filtered; }
-    void setFiltered(bool filtered) {
-        m_filtered = filtered;
-        removeHighlight();
-    }
-
-    // image
-    void setImage(const QImage &image) {
-        removeHighlight();
-        clear();
-        append( QString("IMAGE") );
-        if (!m_image)
-            m_image = new QImage(image);
-        else
-            *m_image = image;
-    }
-
-    const QImage *image() const {
-        return m_image;
-    }
-
-private:
-    mutable QString *m_highlight;
-    QImage *m_image;
-    bool m_filtered;
-};
 
 class ClipboardModel : public QAbstractListModel
 {
 public:
-    ClipboardModel(const QStringList &items = QStringList());
+    explicit ClipboardModel(QObject *parent = 0);
 
-    // need to be implemented
+    // needs to be implemented
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
     QVariant data(const QModelIndex &index, int role) const;
+
+    // convinience
+    QVariant data(int row) const;
     
+    QMimeData *mimeData(int row) const;
+    ClipboardItem *at(int row) const;
+
     // editting
     Qt::ItemFlags flags(const QModelIndex &index) const;
     bool setData(const QModelIndex &index, const QVariant &value,
@@ -125,6 +57,9 @@ public:
         m_clipboardList.clear();
     }
 
+    bool setData(const QModelIndex &index, QMimeData *value);
+    bool append(ClipboardItem *item);
+
     void setMaxItems(int max) { m_max = max; }
 
     bool move(int pos, int newpos);
@@ -133,25 +68,28 @@ public:
     // search
     const QRegExp *search() const { return &m_re; }
     void setSearch(const QRegExp *const re = NULL);
-    void setSearch(int i, const QRegExp *const re = NULL);
+    void setSearch(int row);
     bool isFiltered(int i) const; // is item filtered out
 
     int getRowNumber(int row, bool cycle = false) const;
 
-    bool isImage(int row) const {
-        return row < rowCount() &&
-                m_clipboardList[row].image() != NULL;
+    ClipboardItem* get(int row) {
+        return (row < rowCount()) ? m_clipboardList[row] : NULL;
     }
-    const QImage image(int row) const {
-        if ( isImage(row) )
-            return *(m_clipboardList[row].image());
-        else
-            return QImage();
-    }
+
+    const QStringList &formats() const { return m_formats; }
+    void setFormat(int row, const QString &mimeType);
+    void nextFormat(int row);
+    void previousFormat(int row);
+
 private:
-    QList<ClipboardItem> m_clipboardList;
+    QList<ClipboardItem *> m_clipboardList;
     QRegExp m_re;
     int m_max;
+    QStringList m_formats;
 };
+
+QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model);
+QDataStream &operator>>(QDataStream &stream, ClipboardModel &model);
 
 #endif // CLIPBOARDMODEL_H

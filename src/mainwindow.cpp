@@ -48,7 +48,6 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
 
     ClipboardBrowser *c = ui->clipboardBrowser;
     c->readSettings(css);
-    c->startMonitoring();
 
     // main window: icon & title
     setWindowTitle("CopyQ");
@@ -165,6 +164,8 @@ void MainWindow::createMenu()
     m->addAction(act);
 
     tray->setContextMenu(menu);
+
+    c->startMonitoring();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -196,10 +197,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QString txt;
 
     switch( event->key() ) {
-        case Qt::Key_X:
-        qDebug() << focusWidget();
-        break;
-
         case Qt::Key_Down:
         case Qt::Key_Up:
         case Qt::Key_PageDown:
@@ -296,9 +293,6 @@ void MainWindow::handleMessage(const QString& message)
     #define SHOWERROR(x) do {client_args[0] = (x); client_args.append( QString("2") ); } while(0)
 
     ClipboardBrowser *c = ui->clipboardBrowser;
-
-    // force check clipboard (update clipboard browser)
-    c->checkClipboard();
 
     // show/hide main window
     if ( cmd == "toggle" )

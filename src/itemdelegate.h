@@ -59,7 +59,7 @@ class ItemDelegate : public QStyledItemDelegate
         // buffered items' sizes
         mutable QList<QSize> m_buff;
         // create QTextDocument for given item and save size to buffer
-        void createDoc(const QString &text, const QModelIndex &index) const;
+        void createDoc(const QModelIndex &index) const;
 
     public slots:
         // change size buffer

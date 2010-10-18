@@ -37,7 +37,6 @@ class QEditor : public QObject
         ~QEditor();
         bool start();
         bool fileModified();
-        uint getHash() const { return m_hash; };
         const QString &getText() const { return m_txt; };
 
     private:
@@ -58,7 +57,7 @@ class QEditor : public QObject
         void close() { emit closed(this); };
 
     signals:
-        void fileModified(uint oldhash, const QString &str);
+        void fileModified(const QString &str);
         void closed(QEditor *who);
 };
 
