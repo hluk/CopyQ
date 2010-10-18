@@ -26,25 +26,25 @@ void ClipboardMonitor::timeout()
 
 uint ClipboardMonitor::hash(const QMimeData &data)
 {
-    const QStringList formats = data.formats();
+    QByteArray bytes;
+    // use text as clipboard content identifier
+    bytes = data.data( QString("text/plain") );
+    if ( bytes.isEmpty() ) {
+        // second is image
+        bytes = data.data( QString("image/bmp") );
+        if ( bytes.isEmpty() ) {
+            // last choice is anything else
+            const QStringList formats = data.formats();
+            if (formats.isEmpty())
+                return 0;
 
-    if (formats.isEmpty())
-        return 0;
-
-    QByteArray bytes = data.data( formats.first() );
-
-    if (bytes.isEmpty())
-        return 0;
+            bytes = data.data( formats.first() );
+            if (bytes.isEmpty())
+                return 0;
+        }
+    }
 
     return qHash(bytes);
-/*
-    int l = bytes.length();
-    uint h = l;
-    h ^= (uint(bytes.at(0))<<16);
-    h ^= (uint(bytes.at(l))<<24);
-
-    return h;
-*/
 }
 
 bool ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
