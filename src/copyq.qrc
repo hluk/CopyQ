@@ -12,5 +12,6 @@
         <file>images/icon-running.svg</file>
         <file>images/new.svg</file>
         <file>images/logo.svg</file>
+        <file>images/preferences.svg</file>
     </qresource>
 </RCC>

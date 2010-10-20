@@ -8,117 +8,146 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
-    QObject(parent), m_interval(1000), m_re_format("^[a-z]"), m_lastSelection(0)
+    QObject(parent), m_interval(1000), m_lastSelection(0),
+    m_checkclip(true), m_checksel(true),
+    m_copyclip(true), m_copysel(true)
 {
     m_parent = parent;
     m_timer.setInterval(1000);
     m_timer.setSingleShot(true);
     connect(&m_timer, SIGNAL(timeout()),
             this, SLOT(timeout()));
+
+    m_formats << QString("text/plain")
+              << QString("image/bmp")
+              << QString("image/x-inkscape-svg-compressed")
+              << QString("text/html");
+}
+
+void ClipboardMonitor::setFormats(const QString &list)
+{
+    m_formats = list.split( QRegExp("[;, ]+") );
 }
 
 void ClipboardMonitor::timeout()
 {
-    checkClipboard(QClipboard::Clipboard) ||
-            checkClipboard(QClipboard::Selection);
+
+    if (m_checkclip || m_checksel) {
+        // wait on selection completed
+#ifndef WIN32
+        // wait while selection is incomplete, i.e. mouse button or
+        // shift key is pressed
+        // FIXME: in VIM to make a selection you only need to hold
+        //        direction key in visual mode
+        Display *dsp = XOpenDisplay( NULL );
+        Window root = DefaultRootWindow(dsp);
+        XEvent event;
+
+        XQueryPointer(dsp, root,
+                      &event.xbutton.root, &event.xbutton.window,
+                      &event.xbutton.x_root, &event.xbutton.y_root,
+                      &event.xbutton.x, &event.xbutton.y,
+                      &event.xbutton.state);
+        if( event.xbutton.state &
+            (Button1Mask | ShiftMask) ) {
+            m_timer.start();
+            return;
+        }
+
+        XCloseDisplay(dsp);
+#endif
+
+        checkClipboard();
+    }
     m_timer.start();
 }
 
 uint ClipboardMonitor::hash(const QMimeData &data)
 {
     QByteArray bytes;
-    // use text as clipboard content identifier
-    bytes = data.data( QString("text/plain") );
-    if ( bytes.isEmpty() ) {
-        // second is image
-        bytes = data.data( QString("image/bmp") );
-        if ( bytes.isEmpty() ) {
-            // last choice is anything else
-            const QStringList formats = data.formats();
-            if (formats.isEmpty())
-                return 0;
-
-            bytes = data.data( formats.first() );
-            if (bytes.isEmpty())
-                return 0;
-        }
+    foreach( QString mime, m_formats ) {
+        bytes = data.data(mime);
+        if ( !bytes.isEmpty() )
+            break;
     }
 
     return qHash(bytes);
 }
 
-bool ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
+void ClipboardMonitor::checkClipboard()
 {
-    // wait on selection completed
-#ifndef WIN32
-    if ( mode == QClipboard::Selection )
-    {
+    const QMimeData *d, *data, *data2;
+    d = data = data2 = NULL;
+    uint h, h2;
+    h = h2 = m_lastSelection;
 
-        // don't handle selections in own window
-        if (m_parent->hasFocus()) {
-            return false;
-        }
-        Display *dsp = XOpenDisplay( NULL );
-        Window root = DefaultRootWindow(dsp);
-        XEvent event;
+    if ( !clipboardLock.tryLock() )
+        return;
 
-        // wait while mouse button, shift or ctrl keys are pressed
-        // (i.e. selection is incomplete)
-        while(true) {
-            XQueryPointer(dsp, root,
-                          &event.xbutton.root, &event.xbutton.window,
-                          &event.xbutton.x_root, &event.xbutton.y_root,
-                          &event.xbutton.x, &event.xbutton.y,
-                          &event.xbutton.state);
-            if( !(event.xbutton.state &
-                  (Button1Mask | ShiftMask | ControlMask)) )
-                break;
-            usleep(500);
-        };
-
-        XCloseDisplay(dsp);
-    }
-#endif
-
-    clipboardLock.lock();
-
-    bool result = false;
+    // clipboard
     QClipboard *clipboard = QApplication::clipboard();
-    const QMimeData *data = clipboard->mimeData(mode);
 
-    if (data) {
-        // does clipboard data differ?
-        uint h = hash(*data);
-        if ( h && h != m_lastSelection ) {
-            m_lastSelection = h;
+    // clipboard data
+    if ( m_checkclip ) {
+        data = clipboard->mimeData(QClipboard::Clipboard);
+    }
+    if ( m_checksel && !m_parent->hasFocus() ) { // don't handle selections in own window
+        data2 = clipboard->mimeData(QClipboard::Selection);
+    }
 
-            //synchronize clipboard and selection
-            QClipboard::Mode mode2 = mode == QClipboard::Clipboard ?
-                                     QClipboard::Selection : QClipboard::Clipboard;
-            clipboard->setMimeData(cloneData(*data), mode2);
+    // hash
+    if (data)
+        h = hash(*data);
+    if (data2)
+        h2 = hash(*data2);
 
-            result = true;
+    // check hash value
+    //   - synchronize clipboards only when data are different
+    QClipboard::Mode mode;
+    if ( h != m_lastSelection ) {
+        d = data;
+        mode = QClipboard::Clipboard;
+        m_lastSelection = h;
+    } else if ( h2 != m_lastSelection && !d ) {
+        d = data2;
+        mode = QClipboard::Selection;
+        m_lastSelection = h2;
+    }
+
+    if ( d && h != h2 ) {
+        // clipboard content was changed -> synchronize
+        if( mode == QClipboard::Clipboard && m_copyclip ) {
+            clipboard->setMimeData( cloneData(*d, true),
+                                    QClipboard::Selection );
+        } else if ( mode == QClipboard::Selection && m_copysel ) {
+            clipboard->setMimeData( cloneData(*d, true),
+                                    QClipboard::Clipboard );
         }
+
     }
 
     clipboardLock.unlock();
 
-    if (result) {
+    if (d) {
         // create and emit new clipboard data
-        emit clipboardChanged(mode, cloneData(*data, true));
+        emit clipboardChanged(mode, cloneData(*d));
     }
-
-    return result;
 }
 
 void ClipboardMonitor::updateClipboard(QClipboard::Mode mode, const QMimeData &data)
 {
-    clipboardLock.lock();
+    if ( !clipboardLock.tryLock() )
+        return;
+
+    // clone mime data before calling processEvents and
+    // eventually changing the memory alocated for data variable
+    QMimeData *newdata = cloneData(data);
+    //qApp->processEvents();
 
     QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setMimeData(cloneData(data), mode);
 
-    m_lastSelection = hash(data);
+    m_lastSelection = hash(*newdata);
+    clipboard->setMimeData(newdata, mode);
 
     clipboardLock.unlock();
 }
@@ -126,10 +155,16 @@ void ClipboardMonitor::updateClipboard(QClipboard::Mode mode, const QMimeData &d
 QMimeData *ClipboardMonitor::cloneData(const QMimeData &data, bool filter)
 {
     QMimeData *newdata = new QMimeData;
-    foreach( QString mime, data.formats() ) {
-        if ( !filter || m_re_format.indexIn(mime) != -1 )
+    if (filter) {
+        foreach( QString mime, m_formats ) {
+            QByteArray bytes = data.data(mime);
+            if ( !bytes.isEmpty() )
+                newdata->setData(mime, bytes);
+        }
+    } else {
+        foreach( QString mime, data.formats() ) {
             newdata->setData(mime, data.data(mime));
+        }
     }
-
     return newdata;
 }

@@ -19,22 +19,32 @@ public:
     explicit ClipboardMonitor(QWidget *parent);
 
     QMimeData *clipboardData() const;
-    bool checkClipboard(QClipboard::Mode mode);
+    void checkClipboard();
 
     void start() { m_timer.start(); }
     void stop() { m_timer.stop(); }
     void setInterval(int msec) { m_timer.setInterval(msec); }
 
+    void setFormats(const QString &list);
+
     void updateClipboard(QClipboard::Mode mode, const QMimeData &data);
     uint hash(const QMimeData &data);
+
+    void setCheckClipboard(bool enable) {m_checkclip = enable;}
+    void setCheckSelection(bool enable) {m_checksel  = enable;}
+    void setCopyClipboard(bool enable)  {m_copyclip  = enable;}
+    void setCopySelection(bool enable)  {m_copysel   = enable;}
 
 private:
     QWidget *m_parent;
     unsigned long m_interval;
     QTimer m_timer;
     QMutex clipboardLock;
-    QRegExp m_re_format;
+    //QRegExp m_re_format;
+    QStringList m_formats;
     uint m_lastSelection;
+    bool m_copyclip, m_checkclip,
+         m_copysel, m_checksel;
 
     QMimeData *cloneData(const QMimeData &data, bool filter=false);
 

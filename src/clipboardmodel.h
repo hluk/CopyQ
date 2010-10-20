@@ -78,6 +78,7 @@ public:
     }
 
     const QStringList &formats() const { return m_formats; }
+    void setFormats(const QString &list);
     void setFormat(int row, const QString &mimeType);
     void nextFormat(int row);
     void previousFormat(int row);

@@ -55,6 +55,11 @@ ClipboardModel::ClipboardModel(QObject *parent) :
               << QString("text/plain");
 }
 
+void ClipboardModel::setFormats(const QString &list)
+{
+    m_formats = list.split( QRegExp("[;, ]+") );
+}
+
 int ClipboardModel::rowCount(const QModelIndex&) const
 {
     return m_clipboardList.count();

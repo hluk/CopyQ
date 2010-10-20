@@ -39,12 +39,10 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(const QString &css = QString(), QWidget *parent = 0);
+        MainWindow(QWidget *parent = 0);
         ~MainWindow();
-        void center();
         bool browseMode() const { return m_browsemode; }
         void writeSettings();
-        void readSettings();
         void closeEvent(QCloseEvent *event);
         void createActionDialog();
 
@@ -82,6 +80,7 @@ class MainWindow : public QMainWindow
        void removeMenuItem(QAction *menuItem);
        void exit();
        void changeTrayIcon(const QIcon &icon);
+       void loadSettings();
 
        void openAboutDialog();
 
@@ -93,6 +92,8 @@ class MainWindow : public QMainWindow
          \param modal action dialog modality
          */
        void openActionDialog(int row = -1, bool modal = true);
+
+       void openPreferences();
 
        /**
          Execute command on an item.

@@ -23,10 +23,10 @@
 #include <QListView>
 #include <QRegExp>
 #include <QClipboard>
-#include <QTimer>
 #include <QSettings>
 #include <QMimeData>
 #include <QMap>
+#include <QTimer>
 #include "qeditor.h"
 
 class ClipboardModel;
@@ -51,8 +51,7 @@ class ClipboardBrowser : public QListView
     public:
         ClipboardBrowser(QWidget *parent = 0);
         ~ClipboardBrowser();
-        void readSettings(const QString &css);
-        void writeSettings();
+        void loadSettings();
         bool add(const QString &txt, bool ignore_empty = true);
         bool add(QMimeData *item, bool ignore_empty = true);
         void remove();
@@ -89,14 +88,13 @@ class ClipboardBrowser : public QListView
         QStringList m_callback_args;
         QString m_editor;
         ClipboardMonitor *m_monitor;
-        QTimer timer_save;
         ClipboardModel *m;
         ItemDelegate *d;
+        QTimer timer_save;
 
         QMenu *menu;
         QMap<QString, command_t> commands;
 
-        const QString dataFilename() const;
         void updateClipboard();
 
     protected:
@@ -124,6 +122,8 @@ class ClipboardBrowser : public QListView
         void itemModified(const QString &str);
         void closeEditor(QEditor *editor);
         void openEditor();
+
+        void loadItems();
         void saveItems(int msec=0);
 
         void contextMenuAction(QAction *act);

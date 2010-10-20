@@ -22,32 +22,19 @@
 #include "aboutdialog.h"
 #include "actiondialog.h"
 #include "client_server.h"
-#include <QtGui/QDesktopWidget>
 #include <QDebug>
-#include <QDataStream>
-#include <QFile>
-#include <QUrl>
-#include <QDomDocument>
-#include <QDomElement>
-#include <QDomAttr>
-#include <QSettings>
 #include <QCloseEvent>
 #include <QMenu>
 #include <QMenuBar>
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
+#include "configurationmanager.h"
 
-MainWindow::MainWindow(const QString &css, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow),
     aboutDialog(NULL), actionDialog(NULL)
 {
-    // global stylesheet
-    setStyleSheet(css);
-
     ui->setupUi(this);
-
-    ClipboardBrowser *c = ui->clipboardBrowser;
-    c->readSettings(css);
 
     // main window: icon & title
     setWindowTitle("CopyQ");
@@ -63,6 +50,9 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
     // create menubar & context menu
     createMenu();
 
+    // clipboard browser widget
+    ClipboardBrowser *c = ui->clipboardBrowser;
+
     // signals & slots
     connect( c, SIGNAL(requestSearch(QString)),
             this, SLOT(enterSearchMode(QString)) );
@@ -74,13 +64,22 @@ MainWindow::MainWindow(const QString &css, QWidget *parent)
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
     // settings
-    readSettings();
+    loadSettings();
+
+    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    setGeometry( cm->windowRect() );
+
+    // notify window if configuration changes
+    connect( cm, SIGNAL(configurationChanged()),
+             this, SLOT(loadSettings()) );
 
     // browse mode by default
     m_browsemode = false;
     enterBrowseMode();
 
     tray->show();
+
+    c->loadItems();
 }
 
 void MainWindow::exit()
@@ -124,6 +123,14 @@ void MainWindow::createMenu()
                        tr("&New Item"), this );
     act->setShortcut( QString("Ctrl+N") );
     connect( act, SIGNAL(triggered()), c, SLOT(newItem()) );
+    menu->addAction(act);
+    m->addAction(act);
+
+    // - preferences
+    act = new QAction( QIcon(":/images/preferences.svg"),
+                       tr("&Preferences"), this );
+    act->setShortcut( QString("Ctrl+P") );
+    connect( act, SIGNAL(triggered()), this, SLOT(openPreferences()) );
     menu->addAction(act);
     m->addAction(act);
 
@@ -255,27 +262,16 @@ void MainWindow::resetStatus()
 
 void MainWindow::writeSettings()
 {
-    QSettings settings(QApplication::organizationName(),
-                       QString("window"));
-
-    settings.beginGroup("MainWindow");
-    settings.setValue("size", size());
-    settings.setValue("pos", pos());
-    settings.endGroup();
-
-    ui->clipboardBrowser->writeSettings();
+    ConfigurationManager::instance(this)->windowRect(
+            QString(), QRect(pos(), size()) );
     ui->clipboardBrowser->saveItems();
 }
 
-void MainWindow::readSettings()
+void MainWindow::loadSettings()
 {
-    QSettings settings(QApplication::organizationName(),
-                       QString("window"));
-
-    settings.beginGroup("MainWindow");
-    resize(settings.value("size", QSize(400, 400)).toSize());
-    move(settings.value("pos", QPoint(200, 200)).toPoint());
-    settings.endGroup();
+    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    setStyleSheet( cm->styleSheet() );
+    ui->clipboardBrowser->loadSettings();
 }
 
 void MainWindow::handleMessage(const QString& message)
@@ -501,26 +497,6 @@ void MainWindow::enterBrowseMode(bool browsemode)
     }
 }
 
-void MainWindow::center() {
-    int x, y;
-    int screenWidth, screenHeight;
-    int width, height;
-    QSize windowSize;
-
-    QDesktopWidget *desktop = QApplication::desktop();
-
-    width = frameGeometry().width();
-    height = frameGeometry().height();
-
-    screenWidth = desktop->width();
-    screenHeight = desktop->height();
-
-    x = (screenWidth - width) / 2;
-    y = (screenHeight - height) / 2;
-
-    move( x, y );
-}
-
 void MainWindow::changeTrayIcon(const QIcon &icon)
 {
     tray->setIcon(icon);
@@ -564,6 +540,11 @@ void MainWindow::openActionDialog(int row, bool modal)
         actionDialog->exec();
     else
         actionDialog->show();
+}
+
+void MainWindow::openPreferences()
+{
+    ConfigurationManager::instance(this)->exec();
 }
 
 void MainWindow::action(int row, const QString &cmd,

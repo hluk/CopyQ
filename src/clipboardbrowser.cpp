@@ -20,7 +20,6 @@
 #include "clipboardbrowser.h"
 #include <QDebug>
 #include <QKeyEvent>
-#include <QCoreApplication>
 #include <QMenu>
 #include <QMimeData>
 #include <unistd.h> //usleep
@@ -28,6 +27,7 @@
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
 #include "clipboardmonitor.h"
+#include "configurationmanager.h"
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     menu(NULL)
@@ -392,8 +392,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
         m->removeRow( m->rowCount() - 1 );
 
     // save
-    if ( !timer_save.isActive() )
-        saveItems(30000);
+    saveItems(30000);
     
     return true;
 }
@@ -415,53 +414,39 @@ void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &c
     commands[name] = c;
 }
 
-void ClipboardBrowser::readSettings(const QString &css)
+void ClipboardBrowser::loadSettings()
 {
-    QSettings settings;
-
-    timer_save.stop();
-
-    setStyleSheet(css);
-    d->setStyleSheet(css);
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    setStyleSheet( cm->styleSheet() );
+    d->setStyleSheet( cm->styleSheet() );
 
     // restore configuration
-    bool ok;
-    int msec = settings.value("interval", 1000).toInt(&ok);
-    if (ok) {
-        m_monitor->setInterval(msec);
-    }
-    m_maxitems = settings.value("maxitems", 400).toInt();
-    m_editor = settings.value("editor", "gedit -f %1").toString();
-    d->setItemFormat( settings.value("format",
-        "<div class=\"item\"><div class=\"number\">%1</div><div class=\"text\">%2</div></div>"
-        ).toString()
-    );
+    m_monitor->setInterval( cm->value(ConfigurationManager::Interval).toInt() );
+    m_editor = cm->value(ConfigurationManager::Editor).toString();
+    d->setItemFormat( cm->value(ConfigurationManager::ItemHTML).toString());
 
-    // restore items
-    m->clear();
-    m->setMaxItems( settings.value("maxitems", 400).toInt() );
+    m_maxitems = cm->value(ConfigurationManager::MaxItems).toInt();
+    m->setMaxItems( m_maxitems );
+    m->setFormats( cm->value(ConfigurationManager::Priority).toString() );
+
+    m_monitor->setFormats( cm->value(ConfigurationManager::Formats).toString() );
+    m_monitor->setCheckClipboard( cm->value(ConfigurationManager::CheckClipboard).toBool() );
+    m_monitor->setCopyClipboard( cm->value(ConfigurationManager::CopyClipboard).toBool() );
+    m_monitor->setCheckSelection( cm->value(ConfigurationManager::CheckSelection).toBool() );
+    m_monitor->setCopySelection( cm->value(ConfigurationManager::CopySelection).toBool() );
 
     m_callback.clear();
 
-    QFile file( dataFilename() );
-    file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    in >> *m;
-
     //callback program
     // FIXME: arguments that contain spaces aren't parsed well
-    m_callback_args = settings.value("callback", QString()).toString().split(" ");
+    m_callback_args = cm->value(ConfigurationManager::Callback).toString().split(" ");
     if( !m_callback_args.isEmpty() ) {
         m_callback = m_callback_args[0];
         m_callback_args.pop_front();
     }
 
-    // performance:
-    // force the delegate to calculate the size of each item
-    // -- this will save some time when drawing the list for the fist time
-    sizeHintForColumn(0);
-
-    // actions
+    // TODO: actions in configuration manager
+    /*
     settings.beginReadArray("Commands");
     int i = 0;
     while(true)
@@ -486,43 +471,34 @@ void ClipboardBrowser::readSettings(const QString &css)
                             wait, QIcon(icon), shortcut);
     }
     settings.endArray();
-}
-
-void ClipboardBrowser::writeSettings()
-{
-    /*
-    QSettings settings;
-
-    settings.setValue( "interval", m_msec );
-    settings.setValue( "maxitems", m_maxitems );
-    settings.setValue( "format", d->itemFormat() );
     */
 }
 
-const QString ClipboardBrowser::dataFilename() const
+void ClipboardBrowser::loadItems()
 {
-    // do not use registry in windows
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    // ini -> dat
-    QString datfilename = settings.fileName();
-    datfilename.replace( QRegExp("ini$"),QString("dat") );
+    timer_save.stop();
 
-    return datfilename;
+    // restore items
+    m->clear();
+
+    ConfigurationManager::instance()->loadItems(*m);
+    setCurrentIndex( QModelIndex() );
+
+    // performance:
+    // force the delegate to calculate the size of each item
+    // -- this will save some time when drawing the list for the fist time
+    sizeHintForColumn(0);
 }
 
 void ClipboardBrowser::saveItems(int msec)
 {
+    timer_save.stop();
     if (msec>0) {
-        timer_save.singleShot(msec, this, SLOT(saveItems()));
+        timer_save.singleShot( msec, this, SLOT(saveItems()) );
         return;
     }
-    QFile file( dataFilename() );
-    file.open(QIODevice::WriteOnly);
-    QDataStream out(&file);
 
-    out << *m;
+    ConfigurationManager::instance()->saveItems(*m);
 }
 
 const QString ClipboardBrowser::selectedText() const

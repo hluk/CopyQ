@@ -24,17 +24,6 @@
 #include <iostream>
 #include <qtlocalpeer.h>
 
-inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
-{
-    map.insert( "css", device.readAll() );
-    return true;
-}
-
-inline bool writeCssFile(QIODevice &, const QSettings::SettingsMap &)
-{
-    return true;
-}
-
 void usage()
 {
     std::cout <<
@@ -83,24 +72,33 @@ int main(int argc, char *argv[])
             return 0;
         }
 
-        // style
-        QSettings::Format cssFormat = QSettings::registerFormat(
-                "css", readCssFile, writeCssFile);
-        QSettings cssSettings( cssFormat, QSettings::UserScope,
-                               QCoreApplication::organizationName(),
-                               QCoreApplication::applicationName() );
-        QString css = cssSettings.value("css", "").toString();
+        MainWindow wnd;
 
-        MainWindow wnd(css);
-
-        QObject::connect(&app, SIGNAL(messageReceived(const QString&)),
-                         &wnd, SLOT(handleMessage(const QString&)));
+        wnd.connect(&app, SIGNAL(messageReceived(const QString&)),
+                          SLOT(handleMessage(const QString&)));
 
         // don't exit when about or action dialog is closed
         app.setQuitOnLastWindowClosed(false);
 
         return app.exec();
     }
+    // if "daemon" argument specified and no daemon has been running
+    // run daemon process
+    /*
+    else if ( argc == 2 && strcmp(argv[1], "daemon") == 0 ) {
+        QtSingleApplication daemon( QString("CopyQ daemon"), argc, argv );
+
+        if ( daemon.isRunning() ) {
+            std::cout << "CopyQ daemon is already running\n";
+            return 0;
+        }
+
+        // don't exit when about or action dialog is closed
+        daemon.setQuitOnLastWindowClosed(false);
+
+        return daemon.exec();
+    }
+    */
     // if argument specified and server is running
     // then run this as client
     else {

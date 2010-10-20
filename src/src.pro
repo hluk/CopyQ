@@ -8,7 +8,8 @@ INCLUDEPATH += . \
 RESOURCES = copyq.qrc
 FORMS += mainwindow.ui \
     actiondialog.ui \
-    aboutdialog.ui
+    aboutdialog.ui \
+    configurationmanager.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     qeditor.h \
@@ -19,7 +20,8 @@ HEADERS += mainwindow.h \
     client_server.h \
     aboutdialog.h \
     clipboarditem.h \
-    clipboardmonitor.h
+    clipboardmonitor.h \
+    configurationmanager.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -31,7 +33,8 @@ SOURCES += main.cpp \
     action.cpp \
     aboutdialog.cpp \
     clipboarditem.cpp \
-    clipboardmonitor.cpp
+    clipboardmonitor.cpp \
+    configurationmanager.cpp
 QT += xml
 unix:LIBS += -lXi
 win32:CONFIG += static

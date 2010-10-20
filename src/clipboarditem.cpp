@@ -147,7 +147,7 @@ const QVariant ClipboardItem::toHtml() const
     QVariantList lst;
     QString html;
 
-    if ( m_mimeType.startsWith(QString("image")) && m_data->hasImage() ) {
+    if ( m_mimeType.startsWith(QString("image")) ) {
         html = QString("<img src=\"data://1\" />");
         lst.append( m_data->data(m_mimeType) );
     } else {
