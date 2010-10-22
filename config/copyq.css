@@ -31,6 +31,15 @@ QMainWindow {
     color: #444;
 }
 
+.format {
+    font-size: 6pt;
+    font-style: italic;
+}
+
+.format.current {
+    text-decoration: underline;
+}
+
 /* matched text */
 .em {
     background-color: yellow;

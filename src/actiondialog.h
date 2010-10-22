@@ -49,6 +49,7 @@ signals:
 private slots:
     void on_outputCheckBox_toggled(bool checked);
     void closeAction(Action *act);
+    void onFinnished(int);
 
 public slots:
     void accept();

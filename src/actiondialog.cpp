@@ -5,9 +5,8 @@
 #include <QDebug>
 #include "actiondialog.h"
 #include "action.h"
+#include "configurationmanager.h"
 #include "ui_actiondialog.h"
-
-static const QRegExp str("([^\\%])%s");
 
 ActionDialog::ActionDialog(QWidget *parent) :
     QDialog(parent),
@@ -17,6 +16,7 @@ ActionDialog::ActionDialog(QWidget *parent) :
     ui->inputText->clear();
     ui->iconLabel->setPixmap( QPixmap(":/images/actiondialog.svg") );
     restoreHistory();
+    connect(this, SIGNAL(finished(int)), SLOT(onFinnished(int)));
 }
 
 ActionDialog::~ActionDialog()
@@ -28,6 +28,9 @@ ActionDialog::~ActionDialog()
 void ActionDialog::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
+
+    restoreGeometry( ConfigurationManager::instance(this)->windowGeometry(
+            objectName()) );
     ui->cmdEdit->setFocus();
 }
 
@@ -138,23 +141,68 @@ void ActionDialog::closeAction(Action *act)
 void ActionDialog::accept()
 {
     QString cmd = ui->cmdEdit->text();
+
     if ( cmd.isEmpty() )
         return;
     QString input = ui->inputText->toPlainText();
     Action *act;
 
-    // replace %s with input
-    if ( cmd.indexOf(str) != -1 ) {
-        // if %s present and no input specified
-        // TODO: warn user
-        if ( input.isEmpty() )
-            return;
-        cmd.replace( str, "\\1"+input );
+    // escape spaces in input
+    QStringList args;
+    QString arg;
+    bool quotes = false;
+    bool dquotes = false;
+    bool escape = false;
+    bool outside = true;
+    foreach(QChar c, cmd) {
+        if ( outside ) {
+            if ( c.isSpace() )
+                continue;
+            else
+                outside = false;
+        }
+
+        if ( c == '1' && arg.endsWith('%') ) {
+            arg.remove( arg.size()-1, 1 );
+            arg.append(input);
+            continue;
+        }
+
+        if (escape) {
+            if ( c == 'n' ) {
+                arg.append('\n');
+            } else if ( c == 't' ) {
+                arg.append('\t');
+            } else {
+                arg.append(c);
+            }
+        } else if (c == '\\') {
+            escape = true;
+        } else if (c == '\'') {
+            quotes = !quotes;
+        } else if (c == '"') {
+            dquotes = !dquotes;
+        } else if (quotes) {
+            arg.append(c);
+        } else if ( c.isSpace() ) {
+            outside = true;
+            args.append(arg);
+            arg.clear();
+        } else {
+            arg.append(c);
+        }
     }
+    if ( !outside ) {
+        args.append(arg);
+        arg.clear();
+    }
+    if ( !args.isEmpty() )
+        cmd = args.takeFirst();
+
     if ( !ui->inputCheckBox->isEnabled() )
         input.clear();
 
-    act = new Action( cmd, input.toLocal8Bit(),
+    act = new Action( cmd, args, input.toLocal8Bit(),
                       ui->outputCheckBox->isChecked(),
                       ui->separatorEdit->text() );
     connect( act, SIGNAL(actionError(Action*)),
@@ -174,6 +222,7 @@ void ActionDialog::accept()
     ++m_actions;
 
     qDebug() << "Executing:" << cmd;
+    qDebug() << "Arguments:" << args;
     act->start();
 
     add( ui->cmdEdit->text() );
@@ -205,4 +254,10 @@ void ActionDialog::on_outputCheckBox_toggled(bool checked)
 {
     ui->separatorEdit->setEnabled(checked);
     ui->separatorLabel->setEnabled(checked);
+}
+
+void ActionDialog::onFinnished(int)
+{
+    ConfigurationManager::instance()->windowGeometry(
+            objectName(), saveGeometry() );
 }

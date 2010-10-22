@@ -7,9 +7,10 @@
 bool g_ids[10] = {true,true,true,true,true,
                   true,true,true,true,true};
 
-Action::Action(const QString &cmd, const QByteArray &input,
+Action::Action(const QString &cmd, const QStringList &args,
+               const QByteArray &input,
                bool outputItems, const QString &itemSeparator) : QProcess(),
-    m_input(input), m_sep(itemSeparator), m_cmd(cmd)
+    m_input(input), m_sep(itemSeparator), m_cmd(cmd), m_args(args)
 {
     m_id = 10;
     for (int i = 0; i<10; ++i) {

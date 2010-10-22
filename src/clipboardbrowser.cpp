@@ -103,7 +103,7 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
         emit requestActionDialog(-1, QString(), QString("\\n"),
                                  false, false, true);
     } else {
-        command_t *c = &commands[text];
+        ConfigurationManager::Command *c = &commands[text];
         emit requestActionDialog(-1, c->cmd, c->sep,
                                  c->input, c->output, c->wait);
     }
@@ -140,8 +140,8 @@ void ClipboardBrowser::updateMenuItems()
 
     QString text = selectedText();
     foreach( QString name, commands.keys() ) {
-        command_t *command = &commands[name];
-        if (command->re.indexIn(text) != -1) {
+        ConfigurationManager::Command *command = &commands[name];
+        if ( command->re.indexIn(text) != -1 ) {
             act = menu->addAction(command->icon, name);
             if ( !command->shortcut.isEmpty() )
                 act->setShortcut( command->shortcut );
@@ -180,6 +180,13 @@ void ClipboardBrowser::openEditor()
 
     if ( !editor->start() )
         closeEditor(editor);
+}
+
+void ClipboardBrowser::addItems(const QStringList &items)
+{
+    for(int i=items.count()-1; i>=0; --i) {
+        add(items[i]);
+    }
 }
 
 void ClipboardBrowser::itemModified(const QString &str)
@@ -397,23 +404,6 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     return true;
 }
 
-void ClipboardBrowser::addPreferredCommand(const QString &name, const QString &cmd,
-                                           const QString &re, const QString &sep,
-                                           bool input, bool output, bool wait,
-                                           QIcon icon, QString shortcut)
-{
-    command_t c;
-    c.cmd    = cmd;
-    c.re     = QRegExp(re);
-    c.sep    = sep;
-    c.input  = input;
-    c.output = output;
-    c.wait   = wait;
-    c.icon   = icon;
-    c.shortcut = shortcut;
-    commands[name] = c;
-}
-
 void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -445,33 +435,10 @@ void ClipboardBrowser::loadSettings()
         m_callback_args.pop_front();
     }
 
-    // TODO: actions in configuration manager
-    /*
-    settings.beginReadArray("Commands");
-    int i = 0;
-    while(true)
-    {
-        settings.setArrayIndex(i++);
+    // commands
+    commands = cm->commands();
 
-        // command name is compulsory
-        QString name = settings.value("name", QString()).toString();
-        if (name.isEmpty())
-            break;
-
-        QString cmd = settings.value("command", QString()).toString();
-        QString re = settings.value("match", QString()).toString();
-        QString sep = settings.value("separator", QString("\\n")).toString();
-        bool input = settings.value("input", false).toBool();
-        bool output = settings.value("output", false).toBool();
-        bool wait = settings.value("wait", false).toBool();
-        QString icon = settings.value("icon", QString()).toString();
-        QString shortcut = settings.value("shortcut", QString()).toString();
-
-        addPreferredCommand(name, cmd, re, sep, input, output,
-                            wait, QIcon(icon), shortcut);
-    }
-    settings.endArray();
-    */
+    update();
 }
 
 void ClipboardBrowser::loadItems()

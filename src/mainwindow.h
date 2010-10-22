@@ -21,7 +21,6 @@
 #define MAINWINDOW_H
 
 #include <QtGui/QMainWindow>
-#include <QTextDocument>
 #include <QSystemTrayIcon>
 #include <QBasicTimer>
 
@@ -42,7 +41,7 @@ class MainWindow : public QMainWindow
         MainWindow(QWidget *parent = 0);
         ~MainWindow();
         bool browseMode() const { return m_browsemode; }
-        void writeSettings();
+        void saveSettings();
         void closeEvent(QCloseEvent *event);
         void createActionDialog();
 

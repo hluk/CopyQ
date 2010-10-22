@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>431</height>
+    <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>0</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="title">
@@ -264,69 +264,227 @@ p, li { white-space: pre-wrap; }
         <attribute name="title">
          <string>Co&amp;mmands</string>
         </attribute>
+        <layout class="QGridLayout" name="gridLayout_7">
+         <item row="0" column="0">
+          <layout class="QVBoxLayout" name="verticalLayout_10">
+           <item>
+            <widget class="QTableWidget" name="tableCommands">
+             <column>
+              <property name="text">
+               <string extracomment="Label in context menu (use ampersand before character you want to be quick access key)">Name</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Label in context menu (use ampersand before character you want to be quick access key)"/>
+              </property>
+              <property name="whatsThis">
+               <string/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Command</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Command (%1 is contents of selected items)"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Input</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Send content of selected items to standard input"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Output</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Save the output in items"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Separator</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Command output separator for splitting into multiple items"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Match</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Allow command only on matched items (regular expression)"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Wait</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Open action dialog instead of executing the command immediately"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Icon</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Icon filename"/>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Shortcut</string>
+              </property>
+              <property name="toolTip">
+               <string extracomment="Command shortcut (e.g. Ctrl-X)"/>
+              </property>
+             </column>
+            </widget>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QPushButton" name="pushButtoAdd">
+               <property name="text">
+                <string>A&amp;dd</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonRemove">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+               <property name="text">
+                <string>&amp;Remove</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </widget>
        <widget class="QWidget" name="tab_appearance">
         <attribute name="title">
          <string>&amp;Appearance</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>History &amp;item format (HTML):</string>
-               </property>
-               <property name="buddy">
-                <cstring>plainTextEdit_html</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPlainTextEdit" name="plainTextEdit_html">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="plainText">
-                <string>&lt;table class=\&quot;item\&quot;&gt;&lt;tr&gt;&lt;td class=\&quot;number\&quot;&gt;%1&lt;/td&gt;&lt;td class=\&quot;text\&quot;&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</string>
-               </property>
-              </widget>
+         <item row="0" column="1">
+          <widget class="QSplitter" name="verticalLayout_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="opaqueResize">
+            <bool>true</bool>
+           </property>
+           <property name="childrenCollapsible">
+            <bool>true</bool>
+           </property>
+           <widget class="QGroupBox" name="verticalLayout_6">
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_5">
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <property name="spacing">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <layout class="QVBoxLayout" name="verticalLayout_8">
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>History &amp;item format (HTML):</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>plainTextEdit_html</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="plainTextEdit_html">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="plainText">
+                  <string>&lt;table class=\&quot;item\&quot;&gt;&lt;tr&gt;&lt;td class=\&quot;number\&quot;&gt;%1&lt;/td&gt;&lt;td class=\&quot;text\&quot;&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
-           </item>
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_7" stretch="0,0">
-             <item>
-              <widget class="QLabel" name="label_8">
-               <property name="text">
-                <string>&amp;Style sheet (CSS):</string>
-               </property>
-               <property name="buddy">
-                <cstring>plainTextEdit_css</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QPlainTextEdit" name="plainTextEdit_css">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <property name="plainText">
-                <string>/* http://doc.qt.nokia.com/stylesheet-examples.html */
+           </widget>
+           <widget class="QGroupBox" name="verticalLayout_7">
+            <property name="flat">
+             <bool>true</bool>
+            </property>
+            <layout class="QGridLayout" name="gridLayout_6">
+             <property name="horizontalSpacing">
+              <number>0</number>
+             </property>
+             <property name="margin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>&amp;Style sheet (CSS):</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>plainTextEdit_css</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPlainTextEdit" name="plainTextEdit_css">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="plainText">
+                  <string>/* http://doc.qt.nokia.com/stylesheet-examples.html */
 /* font */
 .text, .number, #clipboardBrowser, #searchBar, QPlainTextEdit {
     font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace;
 }
 
-#clipboardBrowser, #searchBar, QPlainTextEdit {
+#clipboardBrowser, #searchBar {
     border: 0px solid transparent;
 }
 
@@ -387,12 +545,14 @@ QListView::item:hover {
     border: 2px dashed #888;
 }
 </string>
-               </property>
-              </widget>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
             </layout>
-           </item>
-          </layout>
+           </widget>
+          </widget>
          </item>
         </layout>
        </widget>

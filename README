@@ -55,7 +55,7 @@ All properties except name are optional:
     name      - label of the item in context menu (use ampersand to quickly
                 access the command in context menu by pressing key that equals
                 to the character after the ampersand)
-    command   - command associated with the item (%s is replaced by
+    command   - command associated with the item (%1 is replaced by
                 concatenated text of selected items)
     input     - concatenated text of selected items is send on standard input
                 of the command; default is false
@@ -69,7 +69,7 @@ All properties except name are optional:
     wait      - wait for user input (open action dialog with the command);
                 default is false
     icon      - path to image that is displayed next to the command in the menu;
-                defaul is empty (no icon)
+                default is empty (no icon)
     shortcut  - set command shortcut (e.g. "Ctrl+X")
 
 copyq.css:

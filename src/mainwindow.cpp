@@ -67,7 +67,7 @@ MainWindow::MainWindow(QWidget *parent)
     loadSettings();
 
     ConfigurationManager *cm = ConfigurationManager::instance(this);
-    setGeometry( cm->windowRect() );
+    restoreGeometry( cm->windowGeometry(objectName()) );
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -260,10 +260,9 @@ void MainWindow::resetStatus()
     enterBrowseMode();
 }
 
-void MainWindow::writeSettings()
+void MainWindow::saveSettings()
 {
-    ConfigurationManager::instance(this)->windowRect(
-            QString(), QRect(pos(), size()) );
+    ConfigurationManager::instance(this)->windowGeometry( objectName(), saveGeometry() );
     ui->clipboardBrowser->saveItems();
 }
 
@@ -568,7 +567,7 @@ void MainWindow::action(int row, const QString &cmd,
 
 MainWindow::~MainWindow()
 {
-    writeSettings();
+    saveSettings();
     delete ui;
 }
 

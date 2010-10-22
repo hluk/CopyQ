@@ -82,23 +82,6 @@ int main(int argc, char *argv[])
 
         return app.exec();
     }
-    // if "daemon" argument specified and no daemon has been running
-    // run daemon process
-    /*
-    else if ( argc == 2 && strcmp(argv[1], "daemon") == 0 ) {
-        QtSingleApplication daemon( QString("CopyQ daemon"), argc, argv );
-
-        if ( daemon.isRunning() ) {
-            std::cout << "CopyQ daemon is already running\n";
-            return 0;
-        }
-
-        // don't exit when about or action dialog is closed
-        daemon.setQuitOnLastWindowClosed(false);
-
-        return daemon.exec();
-    }
-    */
     // if argument specified and server is running
     // then run this as client
     else {

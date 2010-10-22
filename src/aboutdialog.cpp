@@ -13,6 +13,8 @@ AboutDialog::AboutDialog(QWidget *parent) :
     if ( f.open(QIODevice::ReadOnly) ) {
         ui->textEdit->setText( QString::fromUtf8(f.readAll()) );
     }
+
+    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
 
 AboutDialog::~AboutDialog()
@@ -20,10 +22,19 @@ AboutDialog::~AboutDialog()
     delete ui;
 }
 
-void AboutDialog::showEvent(QShowEvent *)
+void AboutDialog::showEvent(QShowEvent *e)
 {
+    QDialog::showEvent(e);
+
     /* try to resize the dialog so that vertical scrollbar in the about
      * document is hidden
      */
-    resize( width(), ui->textEdit->document()->size().height()+60 );
+    restoreGeometry( ConfigurationManager::instance(this)->windowGeometry(
+            objectName()) );
+}
+
+void AboutDialog::onFinished(int)
+{
+    ConfigurationManager::instance()->windowGeometry(
+            objectName(), saveGeometry() );
 }

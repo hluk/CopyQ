@@ -9,8 +9,8 @@
 
 ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
     QObject(parent), m_interval(1000), m_lastSelection(0),
-    m_checkclip(true), m_checksel(true),
-    m_copyclip(true), m_copysel(true)
+    m_checkclip(true), m_copyclip(true),
+    m_checksel(true), m_copysel(true)
 {
     m_parent = parent;
     m_timer.setInterval(1000);
@@ -91,7 +91,7 @@ void ClipboardMonitor::checkClipboard()
     if ( m_checkclip ) {
         data = clipboard->mimeData(QClipboard::Clipboard);
     }
-    if ( m_checksel && !m_parent->hasFocus() ) { // don't handle selections in own window
+    if ( m_checksel ) { // don't handle selections in own window
         data2 = clipboard->mimeData(QClipboard::Selection);
     }
 
@@ -130,7 +130,7 @@ void ClipboardMonitor::checkClipboard()
 
     if (d) {
         // create and emit new clipboard data
-        emit clipboardChanged(mode, cloneData(*d));
+        emit clipboardChanged(mode, cloneData(*d, true));
     }
 }
 

@@ -5,6 +5,7 @@
 #include <QMutex>
 #include <QMap>
 #include <QApplication>
+#include <QIcon>
 
 
 namespace Ui {
@@ -30,8 +31,20 @@ public:
         CheckClipboard = 8,
         CheckSelection = 9,
         CopyClipboard = 10,
-        CopySelection = 11,
+        CopySelection = 11
     };
+
+    struct Command {
+        QRegExp re;
+        QString cmd;
+        QString sep;
+        bool input;
+        bool output;
+        bool wait;
+        QIcon icon;
+        QString shortcut;
+    };
+    typedef QMap<QString, Command> Commands;
 
     ~ConfigurationManager();
 
@@ -69,13 +82,18 @@ public:
     void loadItems(ClipboardModel &model);
     void saveItems(const ClipboardModel &model);
 
-    QRect windowRect( const QString &window_name = QString(),
-                      const QRect &newrect = QRect() );
+    QByteArray windowGeometry( const QString &widget_name = QString(),
+                      const QByteArray &geometry = QByteArray() );
+
+    Commands commands() const;
 
     void readStyleSheet();
 
 signals:
     void configurationChanged();
+
+protected:
+    void showEvent(QShowEvent *);
 
 private:
     static ConfigurationManager *m_Instance;
@@ -89,8 +107,12 @@ private:
     ConfigurationManager& operator=(const ConfigurationManager &);
 
 private slots:
+    void on_tableCommands_itemSelectionChanged();
+    void on_pushButtonRemove_clicked();
+    void on_pushButtoAdd_clicked();
     void accept();
     void on_buttonBox_clicked(QAbstractButton* button);
+    void onFinished(int);
 };
 
 #endif // CONFIGURATIONMANAGER_H

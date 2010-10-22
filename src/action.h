@@ -11,17 +11,19 @@ class Action : public QProcess
 {
     Q_OBJECT
 public:
-    Action(const QString &cmd, const QByteArray &processInput,
+    Action(const QString &cmd, const QStringList &args,
+           const QByteArray &processInput,
            bool outputItems, const QString &itemSeparator);
     const QString &errorOutput() const { return m_errstr; }
     const QString &command() const { return m_cmd; }
     QAction *menuItem() { return m_menuItem; }
-    void start() { QProcess::start(m_cmd, QIODevice::ReadWrite); }
+    void start() { QProcess::start(m_cmd, m_args, QIODevice::ReadWrite); }
 
 private:
     const QByteArray m_input;
     const QRegExp m_sep;
     const QString m_cmd;
+    const QStringList m_args;
     QAction *m_menuItem;
     QString m_errstr;
 

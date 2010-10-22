@@ -24,6 +24,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     ui(new Ui::ConfigurationManager)
 {
     ui->setupUi(this);
+    ui->tableCommands->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
     /* datafile for items */
     // do not use registry in windows
@@ -48,6 +49,8 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     m_keys[CopySelection] = "copy_selection";
     m_keys[CheckClipboard] = "check_clipboard";
     m_keys[CheckSelection] = "check_selection";
+
+    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
     loadSettings();
 }
@@ -106,23 +109,18 @@ void ConfigurationManager::readStyleSheet()
     setStyleSheet(css);
 }
 
-QRect ConfigurationManager::windowRect( const QString &window_name, const QRect &newrect )
+QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, const QByteArray &geometry)
 {
-    QSettings settings(QApplication::organizationName(),
-                       QString("window"));
+    QSettings settings;
 
-    if ( newrect.isValid() ) {
-        settings.setValue(window_name+"_rect", newrect);
-        return newrect;
+    settings.beginGroup("Options");
+    if ( geometry.isEmpty() ) {
+        return settings.value(widget_name+"_geometry").toByteArray();
     } else {
-        QRect rect = settings.value(window_name+"_rect", QRect()).toRect();
-        if ( !rect.isValid() ) {
-            // default size (whole desktop)
-            QDesktopWidget *desktop = QApplication::desktop();
-            return desktop->rect();
-        }
-        return rect;
+        settings.setValue(widget_name+"_geometry", geometry);
+        return geometry;
     }
+    settings.endGroup();
 }
 
 
@@ -162,7 +160,8 @@ void ConfigurationManager::setValue(Option opt, const QVariant &value)
     case CopySelection:
         ui->checkBoxCopySel->setChecked( value.toBool() );
         break;
-    default: break;
+    default:
+        break;
     }
 }
 
@@ -170,19 +169,138 @@ void ConfigurationManager::loadSettings()
 {
     QSettings settings;
 
+    Option opt;
+    QVariant value;
+
+    settings.beginGroup("Options");
     foreach( QString key, settings.allKeys() ) {
-        QVariant value = settings.value(key);
-        setValue( m_keys.key(key), value );
+        opt = m_keys.key(key);
+        value = settings.value(key);
+        setValue(opt, value);
     }
+    settings.endGroup();
+
+    settings.beginReadArray("Commands");
+    QTableWidget *table = ui->tableCommands;
+    while( table->rowCount()>0 )
+        table->removeRow(0);
+    int i = 0;
+    while(true)
+    {
+        settings.setArrayIndex(i++);
+
+        // command name is compulsory
+        QString name = settings.value("name", QString()).toString();
+        if (name.isEmpty())
+            break;
+
+        int columns = table->horizontalHeader()->count();
+        int row = table->rowCount();
+
+        table->insertRow(row);
+
+        for (int col=0; col < columns; ++col) {
+            QTableWidgetItem *column = table->horizontalHeaderItem(col);
+
+            QTableWidgetItem *item = new QTableWidgetItem;
+            value = settings.value(column->text());
+            if( column->text() == tr("Input") ||
+                column->text() == tr("Output") ||
+                column->text() == tr("Wait") ) {
+                item->setCheckState(value.toBool() ? Qt::Checked : Qt::Unchecked);
+            } else {
+                if ( value.type() == QVariant::String )
+                    item->setText( value.toString() );
+                else if ( column->text() == tr("Separator") )
+                    item->setText("\\n");
+            }
+            item->setToolTip( column->toolTip() );
+            table->setItem(row, col, item);
+        }
+/*
+        addPreferredCommand(name, cmd, re, sep, input, output,
+                            wait, QIcon(icon), shortcut);
+                            */
+    }
+    settings.endArray();
+    ui->tableCommands->indexWidget( table->model()->index(0,0) );
+}
+
+ConfigurationManager::Commands ConfigurationManager::commands() const
+{
+    Commands cmds;
+
+    QTableWidget *table = ui->tableCommands;
+    int columns = table->horizontalHeader()->count();
+    int rows = table->rowCount();
+
+    for (int row=0; row < rows; ++row) {
+        Command cmd;
+        QString name;
+        for (int col=0; col < columns; ++col) {
+            QTableWidgetItem *column = table->horizontalHeaderItem(col);
+            QTableWidgetItem *item = table->item(row, col);
+
+            if ( column->text() == tr("Name") ) {
+                name = item->text();
+                if ( name.isEmpty() )
+                    break;
+            } else if ( column->text() == tr("Command") ) {
+                cmd.cmd = item->text();
+            } else if ( column->text() == tr("Input") ) {
+                cmd.input = item->checkState() == Qt::Checked;
+            } else if ( column->text() == tr("Output") ) {
+                cmd.output = item->checkState() == Qt::Checked;
+            } else if ( column->text() == tr("Separator") ) {
+                cmd.sep = item->text();
+            } else if ( column->text() == tr("Match") ) {
+                cmd.re = QRegExp( item->text() );
+            } else if ( column->text() == tr("Wait") ) {
+                cmd.wait = item->checkState() == Qt::Checked;
+            } else if ( column->text() == tr("Icon") ) {
+                cmd.icon = QIcon( item->text() );
+            } else if ( column->text() == tr("Shortcut") ) {
+                cmd.shortcut = item->text();
+            }
+        }
+        cmds[name] = cmd;
+    }
+
+    return cmds;
 }
 
 void ConfigurationManager::saveSettings()
 {
     QSettings settings;
 
+    settings.beginGroup("Options");
     foreach( Option opt, m_keys.keys() ) {
         settings.setValue(m_keys[opt], value(opt));
     }
+    settings.endGroup();
+
+    QTableWidget *table = ui->tableCommands;
+    int columns = table->horizontalHeader()->count();
+    int rows = table->rowCount();
+
+    settings.beginWriteArray("Commands");
+    settings.remove("");
+    for (int row=0; row < rows; ++row) {
+        settings.setArrayIndex(row);
+        for (int col=0; col < columns; ++col) {
+            QTableWidgetItem *column = table->horizontalHeaderItem(col);
+            QTableWidgetItem *item = table->item(row, col);
+
+            if( column->text() == tr("Input") ||
+                column->text() == tr("Output") ||
+                column->text() == tr("Wait") ) {
+                settings.setValue( column->text(), item->checkState() == Qt::Checked );
+            } else {
+                settings.setValue( column->text(), item->text() );
+            }
+        }
+    }
+    settings.endArray();
 }
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
@@ -195,6 +313,10 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
         accept();
         close();
         break;
+    case QDialogButtonBox::RejectRole:
+        case QDialogButtonBox::ResetRole:
+        loadSettings();
+        break;
     default:
         return;
     }
@@ -205,4 +327,65 @@ void ConfigurationManager::accept()
     setStyleSheet( ui->plainTextEdit_css->toPlainText() );
     emit configurationChanged();
     saveSettings();
+}
+
+void ConfigurationManager::on_pushButtoAdd_clicked()
+{
+    QTableWidget *table = ui->tableCommands;
+
+    int columns = table->horizontalHeader()->count();
+    int row = table->rowCount();
+
+    table->insertRow(row);
+
+    for (int col=0; col < columns; ++col) {
+        QTableWidgetItem *column = table->horizontalHeaderItem(col);
+
+        QTableWidgetItem *item = new QTableWidgetItem;
+        if( column->text() == tr("Input") ||
+            column->text() == tr("Output") ||
+            column->text() == tr("Wait") ) {
+            item->setCheckState(Qt::Unchecked);
+        } else if ( column->text() == tr("Separator") ){
+            item->setText("\\n");
+        }
+        item->setToolTip( column->toolTip() );
+        table->setItem(row, col, item);
+    }
+}
+
+
+void ConfigurationManager::on_pushButtonRemove_clicked()
+{
+    const QItemSelectionModel *sel = ui->tableCommands->selectionModel();
+
+    // remove selected rows
+    QModelIndexList rows = sel->selectedRows();
+    while ( !rows.isEmpty() ) {
+        ui->tableCommands->removeRow( rows.first().row() );
+        rows = sel->selectedRows();
+    }
+}
+
+void ConfigurationManager::on_tableCommands_itemSelectionChanged()
+{
+    // enable Remove button only if row is selected
+    QItemSelectionModel *sel = ui->tableCommands->selectionModel();
+    ui->pushButtonRemove->setEnabled(
+            sel->selectedRows().count() != 0 );
+}
+
+void ConfigurationManager::showEvent(QShowEvent *e)
+{
+    QDialog::showEvent(e);
+
+    /* try to resize the dialog so that vertical scrollbar in the about
+     * document is hidden
+     */
+    restoreGeometry( windowGeometry(objectName()) );
+}
+
+void ConfigurationManager::onFinished(int)
+{
+    windowGeometry( objectName(), saveGeometry() );
 }

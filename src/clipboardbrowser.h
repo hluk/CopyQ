@@ -21,32 +21,19 @@
 #define CLIPBOARDBROWSER_H
 
 #include <QListView>
-#include <QRegExp>
-#include <QClipboard>
-#include <QSettings>
-#include <QMimeData>
-#include <QMap>
 #include <QTimer>
+#include <QClipboard>
 #include "qeditor.h"
+#include "configurationmanager.h"
 
 class ClipboardModel;
 class ItemDelegate;
 class ClipboardMonitor;
+class QMimeData;
 
 class ClipboardBrowser : public QListView
 {
     Q_OBJECT
-
-    struct command_t {
-        QRegExp re;
-        QString cmd;
-        QString sep;
-        bool input;
-        bool output;
-        bool wait;
-        QIcon icon;
-        QString shortcut;
-    };
 
     public:
         ClipboardBrowser(QWidget *parent = 0);
@@ -68,14 +55,6 @@ class ClipboardBrowser : public QListView
         // else: return text of first item
         const QString selectedText() const;
 
-        void addPreferredCommand(const QString &name,
-                                 const QString &cmd,
-                                 const QString &re,
-                                 const QString &sep,
-                                 bool input, bool output,
-                                 bool wait, QIcon icon,
-                                 QString shortcut);
-
         void runCallback() const;
 
         void setMenu(QMenu *menu);
@@ -93,7 +72,7 @@ class ClipboardBrowser : public QListView
         QTimer timer_save;
 
         QMenu *menu;
-        QMap<QString, command_t> commands;
+        ConfigurationManager::Commands commands;
 
         void updateClipboard();
 
@@ -122,6 +101,7 @@ class ClipboardBrowser : public QListView
         void itemModified(const QString &str);
         void closeEditor(QEditor *editor);
         void openEditor();
+        void addItems(const QStringList &items);
 
         void loadItems();
         void saveItems(int msec=0);

@@ -43,8 +43,8 @@ private:
     //QRegExp m_re_format;
     QStringList m_formats;
     uint m_lastSelection;
-    bool m_copyclip, m_checkclip,
-         m_copysel, m_checksel;
+    bool m_checkclip, m_copyclip,
+         m_checksel, m_copysel;
 
     QMimeData *cloneData(const QMimeData &data, bool filter=false);
 
