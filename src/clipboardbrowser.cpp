@@ -100,12 +100,10 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
     } else if (text == tr("E&dit with editor")) {
         openEditor();
     } else if (text == tr("&Action...")) {
-        emit requestActionDialog(-1, QString(), QString("\\n"),
-                                 false, false, true);
+        emit requestActionDialog(-1);
     } else {
-        ConfigurationManager::Command *c = &commands[text];
-        emit requestActionDialog(-1, c->cmd, c->sep,
-                                 c->input, c->output, c->wait);
+        const ConfigurationManager::Command *c = &commands[text];
+        emit requestActionDialog(-1, c);
     }
 }
 
@@ -140,7 +138,7 @@ void ClipboardBrowser::updateMenuItems()
 
     QString text = selectedText();
     foreach( QString name, commands.keys() ) {
-        ConfigurationManager::Command *command = &commands[name];
+        const ConfigurationManager::Command *command = &commands[name];
         if ( command->re.indexIn(text) != -1 ) {
             act = menu->addAction(command->icon, name);
             if ( !command->shortcut.isEmpty() )

@@ -23,6 +23,7 @@
 #include <QtGui/QMainWindow>
 #include <QSystemTrayIcon>
 #include <QBasicTimer>
+#include "configurationmanager.h"
 
 class ClipboardModel;
 class AboutDialog;
@@ -109,10 +110,7 @@ class MainWindow : public QMainWindow
          \param wait If true the action dialog with the command is shown,
                 otherwise the command is executed immediately.
          */
-       void action(int row, const QString &cmd,
-                   const QString &sep = QString("\\n"),
-                   bool input = false, bool output = false,
-                   bool wait = false);
+       void action(int row, const ConfigurationManager::Command *cmd = NULL);
 
     private slots:
         void on_searchBar_textChanged(QString );

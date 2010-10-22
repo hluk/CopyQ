@@ -28,7 +28,6 @@
 #include <QMenuBar>
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
-#include "configurationmanager.h"
 
 MainWindow::MainWindow(QWidget *parent)
 : QMainWindow(parent), ui(new Ui::MainWindow),
@@ -56,8 +55,8 @@ MainWindow::MainWindow(QWidget *parent)
     // signals & slots
     connect( c, SIGNAL(requestSearch(QString)),
             this, SLOT(enterSearchMode(QString)) );
-    connect( c, SIGNAL(requestActionDialog(int, QString, QString, bool, bool, bool)),
-            this, SLOT(action(int, QString, QString, bool, bool, bool)) );
+    connect( c, SIGNAL(requestActionDialog(int,const ConfigurationManager::Command*)),
+            this, SLOT(action(int,const ConfigurationManager::Command*)) );
     connect( c, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -326,7 +325,10 @@ void MainWindow::handleMessage(const QString& message)
 
             // no other arguments to parse
             if ( args.isEmpty() ) {
-                action(row, cmd, sep);
+                ConfigurationManager::Command command;
+                command.cmd = cmd;
+                command.sep = sep;
+                action(row, &command);
                 goto messageEnd;
             }
 
@@ -546,20 +548,20 @@ void MainWindow::openPreferences()
     ConfigurationManager::instance(this)->exec();
 }
 
-void MainWindow::action(int row, const QString &cmd,
-                              const QString &sep, bool input, bool output,
-                              bool wait)
+void MainWindow::action(int row, const ConfigurationManager::Command *cmd)
 {
     ClipboardBrowser *c = ui->clipboardBrowser;
 
     createActionDialog();
 
     actionDialog->setInput( row >= 0 ? c->itemText(row) : c->selectedText() );
-    actionDialog->setCommand(cmd);
-    actionDialog->setSeparator(sep);
-    actionDialog->setInput(input);
-    actionDialog->setOutput(output);
-    if (wait)
+    if (cmd) {
+        actionDialog->setCommand(cmd->cmd);
+        actionDialog->setSeparator(cmd->sep);
+        actionDialog->setInput(cmd->input);
+        actionDialog->setOutput(cmd->output);
+    }
+    if (!cmd || cmd->wait)
         actionDialog->exec();
     else
         actionDialog->accept();
