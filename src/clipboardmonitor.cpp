@@ -148,14 +148,13 @@ void ClipboardMonitor::updateTimeout()
         m_newdata = NULL;
         clipboardLock.unlock();
 
-        updateClipboard(QClipboard::Clipboard, *data, true);
-        updateClipboard(QClipboard::Selection, *data, true);
+        updateClipboard(*data, true);
 
         delete data;
     }
 }
 
-void ClipboardMonitor::updateClipboard(QClipboard::Mode mode, const QMimeData &data, bool force)
+void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 {
     if ( !clipboardLock.tryLock() ) {
         return;
@@ -171,8 +170,11 @@ void ClipboardMonitor::updateClipboard(QClipboard::Mode mode, const QMimeData &d
         return;
     }
 
+    QMimeData* newdata2 = cloneData(data);
+
     QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setMimeData(m_newdata, mode);
+    clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
+    clipboard->setMimeData(newdata2, QClipboard::Selection);
     m_lastSelection = hash(*m_newdata);
 
     m_newdata = NULL;

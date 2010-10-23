@@ -27,7 +27,7 @@ public:
 
     void setFormats(const QString &list);
 
-    void updateClipboard(QClipboard::Mode mode, const QMimeData &data, bool force = false);
+    void updateClipboard(const QMimeData &data, bool force = false);
     uint hash(const QMimeData &data);
 
     void setCheckClipboard(bool enable) {m_checkclip = enable;}

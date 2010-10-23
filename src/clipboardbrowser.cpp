@@ -545,8 +545,7 @@ void ClipboardBrowser::updateClipboard()
 {
     // TODO: first item -> clipboard
     if ( m->rowCount() ) {
-        m_monitor->updateClipboard( QClipboard::Clipboard, *(m->mimeData(0)) );
-        m_monitor->updateClipboard( QClipboard::Selection, *(m->mimeData(0)) );
+        m_monitor->updateClipboard( *(m->mimeData(0)) );
         runCallback();
     }
 }
