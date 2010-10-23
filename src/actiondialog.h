@@ -5,6 +5,7 @@
 
 class QCompleter;
 class Action;
+class QAbstractButton;
 
 namespace Ui {
     class ActionDialog;
@@ -47,12 +48,14 @@ signals:
     void changeTrayIcon(const QIcon &icon);
 
 private slots:
+    void on_buttonBox_clicked(QAbstractButton* button);
     void on_outputCheckBox_toggled(bool checked);
     void closeAction(Action *act);
     void onFinnished(int);
 
 public slots:
-    void accept();
+    void runCommand();
+    void accept() {}
 };
 
 #endif // ACTIONDIALOG_H

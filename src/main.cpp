@@ -26,7 +26,7 @@
 
 void usage()
 {
-    std::cout <<
+    std::cout << QObject::tr(
 "usage: copyq [command]\n"
 "  command:\n"
 "    toggle                 show/hide main window\n"
@@ -35,14 +35,15 @@ void usage()
 "    action                 show action dialog\n"
 "    action [row=0] \"command\" [separator=\\n]\n"
 "                           apply command on item text in the row\n"
-"    add text               add text into clipboard\n"
+"    add <text> ...         add text into clipboard\n"
 "    remove [row=0] ...     remove item in given rows\n"
 "    edit                   edit clipboard item\n"
 "    new                    create and edit new item\n"
 "    menu                   open context menu\n"
 "    list [format=\"%1\\n\"|row=0] ...\n"
 "                           print items in given rows\n"
-"    help,-h,--help         print this help\n";
+"    help,-h,--help         print this help\n",
+"command line help").toLocal8Bit().constData();
 }
 
 int main(int argc, char *argv[])
@@ -68,7 +69,9 @@ int main(int argc, char *argv[])
         QtSingleApplication app( QString("CopyQ"), argc, argv );
 
         if ( app.isRunning() ) {
-            std::cout << "CopyQ server is already running\n";
+            std::cout << QObject::tr("CopyQ server is already running\n",
+                                     "warning: running"
+                                     ).toLocal8Bit().constData();
             return 0;
         }
 
@@ -102,7 +105,12 @@ int main(int argc, char *argv[])
         // error: when arguments specified and no server running
         if ( !peer.sendMessage(msg, 3000) ) {
             // TODO: tr()
-            std::cout << "ERROR: Sending command to server failed. Is CopyQ server running? To run a server just execute this program without parameters.\n";
+            std::cout << QObject::tr(
+                    "ERROR: Sending command to server failed. "
+                    "Is CopyQ server running? To run a server "
+                    "just execute this program without parameters.\n",
+                    "error: not running"
+                    ).toLocal8Bit().constData();
             usage();
             return 1;
         }

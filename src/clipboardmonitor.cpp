@@ -2,6 +2,7 @@
 #include <QMimeData>
 #include <QApplication>
 #include <QDebug>
+#include <QTime>
 
 #ifndef WIN32
 #include <X11/extensions/XInput.h>
@@ -10,7 +11,8 @@
 ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
     QObject(parent), m_interval(1000), m_lastSelection(0),
     m_checkclip(true), m_copyclip(true),
-    m_checksel(true), m_copysel(true)
+    m_checksel(true), m_copysel(true),
+    m_newdata(NULL)
 {
     m_parent = parent;
     m_timer.setInterval(1000);
@@ -22,6 +24,10 @@ ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
               << QString("image/bmp")
               << QString("image/x-inkscape-svg-compressed")
               << QString("text/html");
+
+    m_updatetimer.setSingleShot(true);
+    m_updatetimer.setInterval(500);
+    connect( &m_updatetimer, SIGNAL(timeout()), SLOT(updateTimeout()) );
 }
 
 void ClipboardMonitor::setFormats(const QString &list)
@@ -134,20 +140,44 @@ void ClipboardMonitor::checkClipboard()
     }
 }
 
-void ClipboardMonitor::updateClipboard(QClipboard::Mode mode, const QMimeData &data)
+void ClipboardMonitor::updateTimeout()
 {
-    if ( !clipboardLock.tryLock() )
-        return;
+    if (m_newdata) {
+        clipboardLock.lock();
+        QMimeData *data = m_newdata;
+        m_newdata = NULL;
+        clipboardLock.unlock();
 
-    // clone mime data before calling processEvents and
-    // eventually changing the memory alocated for data variable
-    QMimeData *newdata = cloneData(data);
-    //qApp->processEvents();
+        updateClipboard(QClipboard::Clipboard, *data, true);
+        updateClipboard(QClipboard::Selection, *data, true);
+
+        delete data;
+    }
+}
+
+void ClipboardMonitor::updateClipboard(QClipboard::Mode mode, const QMimeData &data, bool force)
+{
+    if ( !clipboardLock.tryLock() ) {
+        return;
+    }
+
+    if (m_newdata) {
+        delete m_newdata;
+    }
+    m_newdata = cloneData(data);
+
+    if ( !force && m_updatetimer.isActive() ) {
+        clipboardLock.unlock();
+        return;
+    }
 
     QClipboard *clipboard = QApplication::clipboard();
+    clipboard->setMimeData(m_newdata, mode);
+    m_lastSelection = hash(*m_newdata);
 
-    m_lastSelection = hash(*newdata);
-    clipboard->setMimeData(newdata, mode);
+    m_newdata = NULL;
+
+    m_updatetimer.start();
 
     clipboardLock.unlock();
 }

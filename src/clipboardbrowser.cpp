@@ -32,6 +32,9 @@
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     menu(NULL)
 {
+    setBatchSize(QListView::Batched);
+    setMovement(QListView::Snap);
+
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
     setItemDelegate(d);
@@ -185,6 +188,7 @@ void ClipboardBrowser::addItems(const QStringList &items)
     for(int i=items.count()-1; i>=0; --i) {
         add(items[i]);
     }
+    updateClipboard();
 }
 
 void ClipboardBrowser::itemModified(const QString &str)
@@ -258,6 +262,11 @@ void ClipboardBrowser::newItem()
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
+    int last, current;
+    QModelIndex newindex;
+    QItemSelectionModel::SelectionFlags selflags;
+    QModelIndexList selected;
+
     // if editing item, use default key action
     if ( state() == QAbstractItemView::EditingState ) {
         QListView::keyPressEvent(event);
@@ -290,7 +299,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         }
     }
     else {
-        switch ( event->key() ) {
+        int key = event->key();
+        switch ( key ) {
         // navigation
         case Qt::Key_Up:
         case Qt::Key_Down:
@@ -298,7 +308,28 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
         case Qt::Key_Home:
         case Qt::Key_End:
-            QListView::keyPressEvent(event);
+            last = m->rowCount()-1;
+            current = currentIndex().row();
+            if (key == Qt::Key_Up) {
+                newindex = m->index(current == 0 ? last : current-1);
+            } else if (key == Qt::Key_Down) {
+                newindex = m->index(current == last ? 0 : current+1);
+            }
+            if ( newindex.isValid() ) {
+                selflags = event->modifiers() == Qt::ShiftModifier ?
+                           QItemSelectionModel::Toggle :
+                           QItemSelectionModel::ClearAndSelect;
+
+                selected = selectedIndexes();
+
+                selectionModel()->setCurrentIndex(newindex, selflags);
+
+                foreach( QModelIndex ind, selected) {
+                    update(ind);
+                }
+            } else {
+                QListView::keyPressEvent(event);
+            }
             break;
 
         default:

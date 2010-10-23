@@ -138,7 +138,7 @@ void ActionDialog::closeAction(Action *act)
     act->deleteLater();
 }
 
-void ActionDialog::accept()
+void ActionDialog::runCommand()
 {
     QString cmd = ui->cmdEdit->text();
 
@@ -260,4 +260,31 @@ void ActionDialog::onFinnished(int)
 {
     ConfigurationManager::instance()->windowGeometry(
             objectName(), saveGeometry() );
+}
+
+void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
+{
+    QString name;
+    ConfigurationManager::Command cmd;
+
+    switch ( ui->buttonBox->standardButton(button) ) {
+    case QDialogButtonBox::Ok:
+        runCommand();
+        break;
+    case QDialogButtonBox::Save:
+        cmd.cmd = ui->cmdEdit->text();
+        cmd.input = ui->inputCheckBox->isChecked();
+        cmd.output = ui->outputCheckBox->isChecked();
+        cmd.sep = ui->separatorEdit->text();
+        cmd.wait = false;
+        name = cmd.cmd;
+
+        ConfigurationManager::instance()->addCommand(name, &cmd);
+        break;
+    case QDialogButtonBox::Cancel:
+        close();
+        break;
+    default:
+        break;
+    }
 }

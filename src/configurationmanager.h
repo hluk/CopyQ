@@ -86,6 +86,7 @@ public:
                       const QByteArray &geometry = QByteArray() );
 
     Commands commands() const;
+    void addCommand(const QString &name, const Command *cmd, bool enable=true);
 
     void readStyleSheet();
 
@@ -107,6 +108,8 @@ private:
     ConfigurationManager& operator=(const ConfigurationManager &);
 
 private slots:
+    void on_pushButtonDown_clicked();
+    void on_pushButtonUp_clicked();
     void on_tableCommands_itemSelectionChanged();
     void on_pushButtonRemove_clicked();
     void on_pushButtoAdd_clicked();

@@ -60,6 +60,7 @@ class ClipboardBrowser : public QListView
         void setMenu(QMenu *menu);
 
         void startMonitoring();
+        void updateClipboard();
 
     private:
         int m_maxitems;
@@ -73,8 +74,6 @@ class ClipboardBrowser : public QListView
 
         QMenu *menu;
         ConfigurationManager::Commands commands;
-
-        void updateClipboard();
 
     protected:
         void keyPressEvent(QKeyEvent *event);

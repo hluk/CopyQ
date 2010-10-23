@@ -338,9 +338,10 @@ void MainWindow::handleMessage(const QString& message)
         }
     }
 
-    // add new item
-    else if ( cmd == "add" )
-        c->add( args.join(QString(' ')) );
+    // add new items
+    else if ( cmd == "add" ) {
+        c->addItems(args);
+    }
 
     // edit clipboard item
     else if ( cmd == "edit" ) {
@@ -564,7 +565,7 @@ void MainWindow::action(int row, const ConfigurationManager::Command *cmd)
     if (!cmd || cmd->wait)
         actionDialog->exec();
     else
-        actionDialog->accept();
+        actionDialog->runCommand();
 }
 
 MainWindow::~MainWindow()

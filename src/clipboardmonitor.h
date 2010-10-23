@@ -27,7 +27,7 @@ public:
 
     void setFormats(const QString &list);
 
-    void updateClipboard(QClipboard::Mode mode, const QMimeData &data);
+    void updateClipboard(QClipboard::Mode mode, const QMimeData &data, bool force = false);
     uint hash(const QMimeData &data);
 
     void setCheckClipboard(bool enable) {m_checkclip = enable;}
@@ -45,11 +45,18 @@ private:
     uint m_lastSelection;
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;
+    QMimeData *m_newdata;
+
+    // don't allow rapid access to clipboard
+    QTimer m_updatetimer;
 
     QMimeData *cloneData(const QMimeData &data, bool filter=false);
 
 public slots:
     void timeout();
+
+private slots:
+    void updateTimeout();
 
 signals:
     void clipboardChanged(QClipboard::Mode mode, QMimeData *data);

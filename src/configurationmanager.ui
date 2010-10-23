@@ -43,7 +43,7 @@
              <item>
               <widget class="QSpinBox" name="spinInterval">
                <property name="minimum">
-                <number>0</number>
+                <number>50</number>
                </property>
                <property name="maximum">
                 <number>1000000</number>
@@ -271,10 +271,15 @@ p, li { white-space: pre-wrap; }
             <widget class="QTableWidget" name="tableCommands">
              <column>
               <property name="text">
-               <string extracomment="Label in context menu (use ampersand before character you want to be quick access key)">Name</string>
+               <string>Enable</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Name</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Label in context menu (use ampersand before character you want to be quick access key)"/>
+               <string>Label in context menu (use ampersand before character you want to be quick access key)</string>
               </property>
               <property name="whatsThis">
                <string/>
@@ -285,7 +290,7 @@ p, li { white-space: pre-wrap; }
                <string>Command</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Command (%1 is contents of selected items)"/>
+               <string>Command (%1 is contents of selected items)</string>
               </property>
              </column>
              <column>
@@ -293,7 +298,7 @@ p, li { white-space: pre-wrap; }
                <string>Input</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Send content of selected items to standard input"/>
+               <string>Send content of selected items to standard input</string>
               </property>
              </column>
              <column>
@@ -301,7 +306,7 @@ p, li { white-space: pre-wrap; }
                <string>Output</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Save the output in items"/>
+               <string>Save the output in items</string>
               </property>
              </column>
              <column>
@@ -309,7 +314,7 @@ p, li { white-space: pre-wrap; }
                <string>Separator</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Command output separator for splitting into multiple items"/>
+               <string>Command output separator for splitting into multiple items</string>
               </property>
              </column>
              <column>
@@ -317,7 +322,7 @@ p, li { white-space: pre-wrap; }
                <string>Match</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Allow command only on matched items (regular expression)"/>
+               <string>Allow command only on matched items (regular expression)</string>
               </property>
              </column>
              <column>
@@ -325,7 +330,7 @@ p, li { white-space: pre-wrap; }
                <string>Wait</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Open action dialog instead of executing the command immediately"/>
+               <string>Open action dialog instead of executing the command immediately</string>
               </property>
              </column>
              <column>
@@ -333,7 +338,7 @@ p, li { white-space: pre-wrap; }
                <string>Icon</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Icon filename"/>
+               <string>Icon filename</string>
               </property>
              </column>
              <column>
@@ -341,7 +346,7 @@ p, li { white-space: pre-wrap; }
                <string>Shortcut</string>
               </property>
               <property name="toolTip">
-               <string extracomment="Command shortcut (e.g. Ctrl-X)"/>
+               <string>Command shortcut (e.g. Ctrl-X)</string>
               </property>
              </column>
             </widget>
@@ -361,7 +366,24 @@ p, li { white-space: pre-wrap; }
                 <bool>false</bool>
                </property>
                <property name="text">
-                <string>&amp;Remove</string>
+                <string>Remove [Del]</string>
+               </property>
+               <property name="shortcut">
+                <string>Del</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonUp">
+               <property name="text">
+                <string>Move Command &amp;Up</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonDown">
+               <property name="text">
+                <string>Move Command D&amp;own</string>
                </property>
               </widget>
              </item>
