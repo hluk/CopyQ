@@ -39,8 +39,8 @@ class ClipboardBrowser : public QListView
         ClipboardBrowser(QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
-        bool add(const QString &txt, bool ignore_empty = true);
-        bool add(QMimeData *item, bool ignore_empty = true);
+        bool add(const QString &txt);
+        bool add(QMimeData *item);
         void remove();
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;

@@ -328,6 +328,7 @@ void MainWindow::handleMessage(const QString& message)
                 ConfigurationManager::Command command;
                 command.cmd = cmd;
                 command.sep = sep;
+                command.wait = false;
                 action(row, &command);
                 goto messageEnd;
             }
@@ -356,7 +357,7 @@ void MainWindow::handleMessage(const QString& message)
 
     // create new item and edit it
     else if ( cmd == "new" ) {
-        c->add( args.join(QString(' ')), false );
+        c->add( args.join(QString(' ')) );
         c->setCurrent(0);
         c->openEditor();
     }

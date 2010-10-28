@@ -254,7 +254,7 @@ void ClipboardBrowser::moveToClipboard(int i)
 void ClipboardBrowser::newItem()
 {
     // new text will allocate more space (lines) for editor
-    add( QString("---NEW---\n\n\n\n\n\n\n\n---NEW---"), false );
+    add( QString("---NEW---\n\n\n\n\n\n\n\n---NEW---") );
     selectionModel()->clearSelection();
     setCurrent(0);
     edit( index(0) );
@@ -394,25 +394,29 @@ void ClipboardBrowser::remove()
     }
 }
 
-bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
+bool ClipboardBrowser::add(const QString &txt)
 {
     QMimeData *data = new QMimeData;
     data->setText(txt);
-    add(data, ignore_empty);
+    add(data);
     return true;
 }
 
-bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
+bool ClipboardBrowser::add(QMimeData *data)
 {
+    QStringList formats = data->formats();
+
     // ignore empty
-    if(ignore_empty) {
-        QStringList formats = data->formats();
-        if ( formats.isEmpty() || (data->hasText() && data->text().isEmpty()) ) {
-            return false;
-        }
+    if ( formats.isEmpty() || (data->hasText() && data->text().isEmpty()) ) {
+        return false;
     }
 
-    // TODO: find same item
+    // don't add if new data is same as first item
+    QMimeData *olddata = m->mimeData(0);
+    QStringList oldformats = olddata->formats();
+    if ( oldformats == formats &&
+         olddata->data(oldformats.first()) == data->data(formats.first()) )
+        return false;
 
     // create new item
     m->insertRow(0);
@@ -427,8 +431,8 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     if ( m->rowCount() > m_maxitems )
         m->removeRow( m->rowCount() - 1 );
 
-    // save
-    saveItems(30000);
+    // save history after 2 minutes
+    saveItems(120000);
     
     return true;
 }
@@ -537,8 +541,8 @@ void ClipboardBrowser::runCallback() const
 
 void ClipboardBrowser::checkClipboard(QClipboard::Mode mode, QMimeData *data)
 {
-    add(data);
-    runCallback();
+    if ( add(data) )
+        runCallback();
 }
 
 void ClipboardBrowser::updateClipboard()

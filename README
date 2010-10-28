@@ -97,6 +97,8 @@ COMMAND is one of following:
 Usage Examples
 ==============
 CopyQ must be running to be able to issue commands using command line.
+Most of the examples should work on GNU/Linux with the correct applications
+installed.
 
 To start CopyQ run following command:
 
@@ -125,7 +127,7 @@ Note: Last argument is separator - empty means "create single item".
 Process an item with the python interpreter and redirect the standard output
 to the standard error output using sh command (shell):
 
-    copyq add 'print "Hello world!"'
+    copyq add 'print("Hello world!")'
     copyq action 'sh -c "python 1>&2"'
 
 Note: Standard error output will be show as tray icon tooltip.
@@ -134,10 +136,18 @@ To concatenate items select them items in CopyQ window and press F5.
 Type "cat" into command input field, check "Output into item(s)" check box,
 clear "Separator field" and press Ok button to submit.
 
-Monitor file "$HOME/clipboard" and load each new line into clipboard:
+Monitor file (or pipe) "$HOME/clipboard" and load each new line into clipboard:
 
     copyq action "tail -f $HOME/clipboard"
 
 This process can be killed by right clicking on tray icon and selecting
 the process from context menu.
+
+Find files in current directory:
+
+    copyq action "find \"$PWD\" -iname '*.cpp'"
+
+Open CopyQ window and select one of the found files from history. Open action
+dialog (press F5) and in the command field type your favorite text editor
+with %1 as an argument (e.g. "gedit %1").
 
