@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>2</number>
+        <number>3</number>
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="title">
@@ -565,8 +565,7 @@ QListView::item:selected {
 
 QListView::item:hover {
     border: 2px dashed #888;
-}
-</string>
+}</string>
                  </property>
                 </widget>
                </item>

@@ -412,11 +412,14 @@ bool ClipboardBrowser::add(QMimeData *data)
     }
 
     // don't add if new data is same as first item
-    QMimeData *olddata = m->mimeData(0);
-    QStringList oldformats = olddata->formats();
-    if ( oldformats == formats &&
-         olddata->data(oldformats.first()) == data->data(formats.first()) )
-        return false;
+    if ( m->rowCount() ) {
+        QMimeData *olddata = m->mimeData(0);
+        QStringList oldformats = olddata->formats();
+        if ( oldformats == formats &&
+             olddata->data(oldformats.first()) == data->data(formats.first()) ) {
+            return false;
+        }
+    }
 
     // create new item
     m->insertRow(0);

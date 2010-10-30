@@ -2,7 +2,6 @@
 #include "ui_configurationmanager.h"
 #include "clipboardmodel.h"
 #include <QFile>
-#include <QSettings>
 #include <QtGui/QDesktopWidget>
 
 inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
@@ -11,8 +10,9 @@ inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
     return true;
 }
 
-inline bool writeCssFile(QIODevice &, const QSettings::SettingsMap &)
+inline bool writeCssFile(QIODevice &device, const QSettings::SettingsMap &map)
 {
+    device.write( map["css"].toString().toLocal8Bit() );
     return true;
 }
 
@@ -36,6 +36,8 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     m_datfilename.replace( QRegExp("ini$"),QString("dat") );
 
     // read style sheet from configuration
+    cssFormat = QSettings::registerFormat(
+            "css", readCssFile, writeCssFile);
     readStyleSheet();
 
     m_keys[Interval] = "interval";
@@ -97,16 +99,26 @@ void ConfigurationManager::saveItems(const ClipboardModel &model)
 
 void ConfigurationManager::readStyleSheet()
 {
-    QSettings::Format cssFormat = QSettings::registerFormat(
-            "css", readCssFile, writeCssFile);
-
     QSettings cssSettings( cssFormat, QSettings::UserScope,
                            QCoreApplication::organizationName(),
                            QCoreApplication::applicationName() );
 
-    QString css = cssSettings.value("css", "").toString();
+    QString css = cssSettings.value("css").toString();
 
-    setStyleSheet(css);
+    if ( !css.isEmpty() ) {
+        setStyleSheet(css);
+    } else {
+        setStyleSheet( ui->plainTextEdit_css->toPlainText() );
+    }
+}
+
+void ConfigurationManager::writeStyleSheet()
+{
+    QSettings cssSettings( cssFormat, QSettings::UserScope,
+                           QCoreApplication::organizationName(),
+                           QCoreApplication::applicationName() );
+
+    cssSettings.setValue( "css", styleSheet() );
 }
 
 QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, const QByteArray &geometry)
@@ -301,6 +313,8 @@ void ConfigurationManager::saveSettings()
         }
     }
     settings.endArray();
+
+    writeStyleSheet();
 }
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)

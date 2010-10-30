@@ -6,6 +6,7 @@
 #include <QMap>
 #include <QApplication>
 #include <QIcon>
+#include <QSettings>
 
 
 namespace Ui {
@@ -89,6 +90,7 @@ public:
     void addCommand(const QString &name, const Command *cmd, bool enable=true);
 
     void readStyleSheet();
+    void writeStyleSheet();
 
 signals:
     void configurationChanged();
@@ -101,6 +103,7 @@ private:
     Ui::ConfigurationManager *ui;
     QString m_datfilename;
     QMap<Option, QString> m_keys;
+    QSettings::Format cssFormat;
 
     explicit ConfigurationManager(QWidget *parent = 0);
 
