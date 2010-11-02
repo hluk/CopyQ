@@ -51,6 +51,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     m_keys[CopySelection] = "copy_selection";
     m_keys[CheckClipboard] = "check_clipboard";
     m_keys[CheckSelection] = "check_selection";
+    m_keys[ConfirmExit] = "confirm_exit";
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
@@ -76,6 +77,7 @@ QVariant ConfigurationManager::value(Option opt) const
     case CheckSelection: return ui->checkBoxSel->isChecked();
     case CopyClipboard: return ui->checkBoxCopyClip->isChecked();
     case CopySelection: return ui->checkBoxCopySel->isChecked();
+    case ConfirmExit: return ui->checkBoxConfirmExit->isChecked();
     default: return QVariant();
     }
 }
@@ -172,6 +174,8 @@ void ConfigurationManager::setValue(Option opt, const QVariant &value)
     case CopySelection:
         ui->checkBoxCopySel->setChecked( value.toBool() );
         break;
+    case ConfirmExit:
+        ui->checkBoxConfirmExit->setChecked( value.toBool() );
     default:
         break;
     }

@@ -26,6 +26,7 @@
 #include <QCloseEvent>
 #include <QMenu>
 #include <QMenuBar>
+#include <QMessageBox>
 #include <qtlocalpeer.h>
 #include "clipboardmodel.h"
 
@@ -83,13 +84,24 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::exit()
 {
-    close();
-    QApplication::exit();
+    int answer;
+    if ( m_confirmExit ) {
+        answer = QMessageBox::question(
+                this,
+                tr("Exit?"),
+                tr("Do you want to <b>exit</b> CopyQ?"),
+                QMessageBox::Yes | QMessageBox::No);
+    }
+
+    if ( !m_confirmExit || answer == QMessageBox::Yes) {
+        close();
+        QApplication::exit();
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    showMinimized();
+    //showMinimized();
     hide();
     event->ignore();
 }
@@ -268,6 +280,7 @@ void MainWindow::saveSettings()
 void MainWindow::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance(this);
+    m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
     setStyleSheet( cm->styleSheet() );
     ui->clipboardBrowser->loadSettings();
 }
@@ -295,8 +308,8 @@ void MainWindow::handleMessage(const QString& message)
     // exit server
     else if ( cmd == "exit") {
         // close client and exit
-        client_args[0] = QString("Exiting server.");
-        this->exit();
+        client_args[0] = QString("Terminating server.\n");
+        QApplication::exit();
     }
 
     // show menu
@@ -342,6 +355,27 @@ void MainWindow::handleMessage(const QString& message)
     // add new items
     else if ( cmd == "add" ) {
         c->addItems(args);
+    }
+
+    // add new items
+    else if ( cmd == "write" ) {
+        QString mime;
+
+        // get mime type
+        if ( !parse(args, &mime) )
+            goto writeError;
+
+        // get data
+        if ( args.length() == 1 ) {
+            QMimeData *data = new QMimeData();
+            data->setData( mime, args.takeFirst().toLocal8Bit() );
+            c->add(data);
+            goto messageEnd;
+        }
+
+        writeError:
+        SHOWERROR("Bad \"write\" command syntax!\n"
+              "write mime_type data");
     }
 
     // edit clipboard item
@@ -418,7 +452,7 @@ void MainWindow::handleMessage(const QString& message)
     // TODO: move item
 
     else
-        SHOWERROR("Unknown command.\n");
+        SHOWERROR("Unknown command. Use --help to see command line options.\n");
 
     messageEnd:
     QString client_msg;

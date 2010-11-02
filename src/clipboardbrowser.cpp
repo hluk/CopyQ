@@ -436,7 +436,8 @@ bool ClipboardBrowser::add(QMimeData *data)
 
     // save history after 2 minutes
     saveItems(120000);
-    
+
+    runCallback();
     return true;
 }
 
@@ -544,8 +545,7 @@ void ClipboardBrowser::runCallback() const
 
 void ClipboardBrowser::checkClipboard(QClipboard::Mode mode, QMimeData *data)
 {
-    if ( add(data) )
-        runCallback();
+    add(data);
 }
 
 void ClipboardBrowser::updateClipboard()

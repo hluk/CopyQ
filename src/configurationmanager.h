@@ -23,16 +23,17 @@ class ConfigurationManager : public QDialog
 public:
     enum Option {
         Interval = 1,
-        Callback = 2,
-        Formats = 3,
-        MaxItems = 4,
-        Priority = 5,
-        Editor = 6,
-        ItemHTML = 7,
-        CheckClipboard = 8,
-        CheckSelection = 9,
-        CopyClipboard = 10,
-        CopySelection = 11
+        Callback,
+        Formats,
+        MaxItems,
+        Priority,
+        Editor,
+        ItemHTML,
+        CheckClipboard,
+        CheckSelection,
+        CopyClipboard,
+        CopySelection,
+        ConfirmExit
     };
 
     struct Command {

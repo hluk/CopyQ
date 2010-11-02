@@ -57,6 +57,7 @@ class MainWindow : public QMainWindow
         QSystemTrayIcon *tray;
         bool m_browsemode;
         QBasicTimer timer_search;
+        bool m_confirmExit;
 
         void createMenu();
 

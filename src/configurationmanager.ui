@@ -19,7 +19,7 @@
      <item>
       <widget class="QTabWidget" name="tabWidget">
        <property name="currentIndex">
-        <number>3</number>
+        <number>0</number>
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="title">
@@ -27,7 +27,7 @@
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="1" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0,0,0">
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_2">
              <item>
@@ -145,6 +145,16 @@
               </widget>
              </item>
             </layout>
+           </item>
+           <item>
+            <widget class="QCheckBox" name="checkBoxConfirmExit">
+             <property name="text">
+              <string>Confirm application e&amp;xit</string>
+             </property>
+             <property name="checked">
+              <bool>true</bool>
+             </property>
+            </widget>
            </item>
            <item>
             <spacer name="verticalSpacer">
