@@ -79,20 +79,42 @@ copyq.css:
 
 Command Line Interface
 ======================
-syntax: copyq [COMMAND]
-COMMAND is one of following:
-    toggle           -- show/hide main window
-    select [row=0]   -- move item in the row to the clipboard
-    list [row=0] ... -- print clipboard contents
-    edit [row=0]     -- edit clipboard item
-    new [text]       -- create and edit new item
-    add text         -- add text into clipboard
-    remove [row=0] ...
-                     -- remove item in given rows from clipboard history
-    action           -- show action dialog
-    action [row=0] "command" [separator=\n]
-                     -- apply command on item text in the row
-    menu             -- open context menu
+
+    usage: copyq [command]
+    Starts server if no command is specified.
+      commands:
+        toggle  show/hide main window
+        menu    open context menu
+        exit    exit server
+
+        length, count, size
+          print number of items in history
+        select [row=0]
+          move item in the row to clipboard
+        add <text> ...
+          add text into clipboard
+        remove [row=0] ...
+          remove item in given rows
+        edit
+          edit clipboard item
+        list [format="%1\n"|row=0] ...
+          print items in given rows
+
+        read [mime_type="text/plain"|row=0] ...
+          print raw data
+        write mime_type data
+          write raw data to clipboard
+        - [mime_type="text/plain"]
+          dd text from standard input into clipboard
+
+        action
+          show action dialog
+        action [row=0] "command" [separator=\n]
+          apply command on item text in the row
+
+        help, -h, --help
+          print this help
+
 
 Usage Examples
 ==============

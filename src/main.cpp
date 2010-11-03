@@ -21,7 +21,6 @@
 #include "client_server.h"
 #include <QSettings>
 #include <QDebug>
-#include <QTextStream>
 #include <iostream>
 #include <qtlocalpeer.h>
 
@@ -29,23 +28,39 @@ void usage()
 {
     std::cout << QObject::tr(
 "usage: copyq [command]\n"
-"  command:\n"
-"    toggle                 show/hide main window\n"
-"    exit                   exit server\n"
-"    select [row=0]         move item in the row to the clipboard\n"
-"    action                 show action dialog\n"
-"    action [row=0] \"command\" [separator=\\n]\n"
-"                           apply command on item text in the row\n"
-"    add <text> ...         add text into clipboard\n"
-"    - [mime_type=\"text/plain\"]\n"
-"                           add text from standard input into clipboard\n"
-"    remove [row=0] ...     remove item in given rows\n"
-"    edit                   edit clipboard item\n"
-"    new                    create and edit new item\n"
-"    menu                   open context menu\n"
+"Starts server if no command is specified.\n"
+"  commands:\n"
+"    toggle  show/hide main window\n"
+"    menu    open context menu\n"
+"    exit    exit server\n"
+"\n"
+"    length, count, size\n"
+"      print number of items in history\n"
+"    select [row=0]\n"
+"      move item in the row to clipboard\n"
+"    add <text> ...\n"
+"      add text into clipboard\n"
+"    remove [row=0] ...\n"
+"      remove item in given rows\n"
+"    edit\n"
+"      edit clipboard item\n"
 "    list [format=\"%1\\n\"|row=0] ...\n"
-"                           print items in given rows\n"
-"    help,-h,--help         print this help\n",
+"      print items in given rows\n"
+"\n"
+"    read [mime_type=\"text/plain\"|row=0] ...\n"
+"      print raw data\n"
+"    write mime_type data\n"
+"      write raw data to clipboard\n"
+"    - [mime_type=\"text/plain\"]\n"
+"      copy text from standard input into clipboard\n"
+"\n"
+"    action\n"
+"      show action dialog\n"
+"    action [row=0] \"command\" [separator=\\n]\n"
+"      apply command on item text in the row\n"
+"\n"
+"    help, -h, --help\n"
+"      print this help\n",
 "command line help").toLocal8Bit().constData();
 }
 
@@ -74,7 +89,7 @@ int runServer(int argc, char *argv[]) {
     return app.exec();
 }
 
-int runClient(const QStringList &args) {
+int runClient(const DataList &args) {
     Client client;
     bool ok = false;
 
@@ -87,17 +102,18 @@ int runClient(const QStringList &args) {
         // serialize arguments to create msg for server
         QString msg;
         if ( !args.isEmpty() && args.first() == QString("-") ) {
-            QString mime;
+            QByteArray mime;
             if ( args.length() == 2 ) {
                 mime = args.last();
             } else {
-                mime = QString("text/plain");
+                mime = QByteArray("text/plain");
             }
 
             // read text from stdin
-            QStringList args2;
-            QTextStream stream(stdin);
-            args2 << QString("write") << mime << stream.readAll();
+            DataList args2;
+            QFile in;
+            in.open(stdin, QIODevice::ReadOnly);
+            args2 << QByteArray("write") << mime << in.readAll();
             serialize_args(args2, msg);
         } else {
             serialize_args(args, msg);
@@ -143,9 +159,9 @@ int main(int argc, char *argv[])
     // if argument specified and server is running
     // then run this as client
     else {
-        QStringList args;
+        DataList args;
         for (int i = 1; i < argc; ++i)
-            args.append( QString(argv[i]) );
+            args.append( QByteArray(argv[i]) );
         return runClient(args);
     }
 

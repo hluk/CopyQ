@@ -1,17 +1,28 @@
 #include "client_server.h"
 #include <iostream>
 #include <QDebug>
+#include <QThread>
 
-void serialize_args(const QStringList &args, QString &msg) {
+// msleep function (portable)
+class Sleeper : public QThread
+{
+public:
+    static void msleep(unsigned long msecs)
+    {
+        QThread::msleep(msecs);
+    }
+};
+
+void serialize_args(const DataList &args, QString &msg) {
     QByteArray bytes;
     QDataStream out(&bytes, QIODevice::WriteOnly);
     out << args;
-    msg = bytes.toBase64().constData();
+    msg = qCompress(bytes).toBase64();
 }
 
-void deserialize_args(const QString &msg, QStringList &args) {
-    QByteArray bytes(msg.toAscii());
-    bytes = QByteArray::fromBase64(bytes);
+void deserialize_args(const QString &msg, DataList &args) {
+    QByteArray bytes;
+    bytes = qUncompress( QByteArray::fromBase64(msg.toAscii()) );
     QDataStream in(&bytes, QIODevice::ReadOnly);
     in >> args;
 }
@@ -29,7 +40,7 @@ void deserialize_args(const QString &msg, QStringList &args) {
        If successfully parsed the item is saved in appropriate argument
        (str or num) and remove from the list.
   */
-bool parse(QStringList &list, QString *str, int *num)
+bool parse(DataList &list, QString *str, int *num)
 {
     if ( list.isEmpty() )
         return false;
@@ -53,6 +64,7 @@ bool parse(QStringList &list, QString *str, int *num)
 
 void Client::connect() {
     int argc = 0;
+
     while(1) {
         if (client)
             delete client;
@@ -62,12 +74,7 @@ void Client::connect() {
             break;
 
         // wait for other client to be close
-#if defined(Q_OS_WIN)
-        Sleep(DWORD(1000));
-#else
-        const struct timespec ts = { 1, 0 };
-        nanosleep(&ts, NULL);
-#endif
+        Sleeper::msleep(200);
     }
 
     // catch messages
@@ -78,14 +85,15 @@ void Client::connect() {
 
 void Client::handleMessage(const QString &message)
 {
-    QStringList list;
+    DataList list;
     deserialize_args(message,list);
 
     if ( list.isEmpty() )
         return;
 
     // first item is client output
-    std::cout << list.takeFirst().toLocal8Bit().constData();
+    QByteArray bytes = list.takeFirst();
+    std::cout.write( bytes.constData(), bytes.length() );
 
     if ( list.isEmpty() )
         return;

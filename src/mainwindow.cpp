@@ -288,16 +288,16 @@ void MainWindow::loadSettings()
 void MainWindow::handleMessage(const QString& message)
 {
     // deserialize list of arguments from QString
-    QStringList args;
-    deserialize_args(message,args);
+    DataList args;
+    deserialize_args(message, args);
 
     const QString &cmd = args.isEmpty() ? QString() : args.takeFirst();
 
     // client
-    QStringList client_args;
+    DataList client_args;
     QtLocalPeer peer( NULL, QString("CopyQclient") );
-    client_args.append( QString() ); // client output
-    #define SHOWERROR(x) do {client_args[0] = (x); client_args.append( QString("2") ); } while(0)
+    client_args.append( QByteArray() ); // client output
+    #define SHOWERROR(x) do {client_args[0] = (x); client_args.append( QByteArray("2") ); } while(0)
 
     ClipboardBrowser *c = ui->clipboardBrowser;
 
@@ -308,7 +308,7 @@ void MainWindow::handleMessage(const QString& message)
     // exit server
     else if ( cmd == "exit") {
         // close client and exit
-        client_args[0] = QString("Terminating server.\n");
+        client_args[0] = QByteArray("Terminating server.\n");
         QApplication::exit();
     }
 
@@ -326,7 +326,7 @@ void MainWindow::handleMessage(const QString& message)
 
             // get row
             int row;
-            parse(args,NULL,&row);
+            parse(args, NULL, &row);
 
             // get command
             if ( !parse(args,&cmd) )
@@ -354,7 +354,9 @@ void MainWindow::handleMessage(const QString& message)
 
     // add new items
     else if ( cmd == "add" ) {
-        c->addItems(args);
+        for(int i=args.length()-1; i>=0; --i) {
+            c->add( QString(args[i]) );
+        }
     }
 
     // add new items
@@ -368,7 +370,7 @@ void MainWindow::handleMessage(const QString& message)
         // get data
         if ( args.length() == 1 ) {
             QMimeData *data = new QMimeData();
-            data->setData( mime, args.takeFirst().toLocal8Bit() );
+            data->setData( mime, args.takeFirst() );
             c->add(data);
             goto messageEnd;
         }
@@ -386,13 +388,6 @@ void MainWindow::handleMessage(const QString& message)
             SHOWERROR("Bad \"edit\" command syntax!\n"
                       "edit [row=0]\n");
         c->setCurrent(row);
-        c->openEditor();
-    }
-
-    // create new item and edit it
-    else if ( cmd == "new" ) {
-        c->add( args.join(QString(' ')) );
-        c->setCurrent(0);
         c->openEditor();
     }
 
@@ -420,32 +415,50 @@ void MainWindow::handleMessage(const QString& message)
         }
     }
 
-    else if ( cmd == "length" || cmd == "count" || cmd == "size" )
-        client_args[0] = QString("%1\n").arg(c->length());
+    else if ( cmd == "length" || cmd == "count" || cmd == "size" ) {
+        client_args[0] = QString("%1\n").arg(c->length()).toLocal8Bit();
+    }
 
     // print items in given rows, format can have two arguments %1:item %2:row
-    // list [format="%1\n"|row=0]
+    // list [format="%1\n"|row=0] ...
     else if ( cmd == "list" ) {
         QString fmt("%1\n");
-        if ( args.isEmpty() )
-            client_args[0] = fmt.arg( c->itemText(0) );
-        else {
-            int row;
+        int row;
 
-            if ( args.isEmpty() )
-                client_args[0] = fmt.arg( c->itemText(0) );
-            else {
-                do {
-                    if ( parse(args,NULL,&row) )
-                        // number
-                        client_args[0] += fmt.arg( c->itemText(row) ).arg(row);
-                    else {
-                        // format
-                        parse(args,&fmt);
-                        fmt.replace(QString("\\n"),QString('\n'));
-                    }
-                } while( !args.isEmpty() );
-            }
+        if ( args.isEmpty() ) {
+            client_args[0] = fmt.arg( c->itemText(0) ).toLocal8Bit();
+        } else {
+            do {
+                if ( parse(args, NULL, &row) )
+                    // number
+                    client_args[0] += fmt.arg( c->itemText(row) ).arg(row);
+                else {
+                    // format
+                    parse(args, &fmt);
+                    fmt.replace(QString("\\n"),QString('\n'));
+                }
+            } while( !args.isEmpty() );
+        }
+    }
+
+    // print items in given rows, format can have two arguments %1:item %2:row
+    // read [mime="text/plain"|row=0] ...
+    else if ( cmd == "read" ) {
+        QString mime("text/plain");
+        int row;
+
+        if ( args.isEmpty() ) {
+            client_args[0] = c->itemData(0)->data(mime);
+        } else {
+            do {
+                if ( parse(args, NULL, &row) )
+                    // number
+                    client_args[0] = c->itemData(row)->data(mime);
+                else {
+                    // format
+                    parse(args, &mime);
+                }
+            } while( !args.isEmpty() );
         }
     }
 
@@ -458,9 +471,9 @@ void MainWindow::handleMessage(const QString& message)
     QString client_msg;
     if ( client_args.length() == 1 )
         client_args.append("0"); // default exit code
-    serialize_args(client_args,client_msg);
+    serialize_args(client_args, client_msg);
     // empty message tells client to quit
-    peer.sendMessage(client_msg,1000);
+    peer.sendMessage(client_msg, 1000);
 }
 
 void MainWindow::toggleVisible()

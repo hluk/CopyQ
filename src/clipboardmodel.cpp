@@ -108,7 +108,11 @@ void ClipboardModel::previousFormat(int row)
 
 QMimeData *ClipboardModel::mimeData(int row) const
 {
-    return m_clipboardList[row]->data();
+    if (row < rowCount()) {
+        return m_clipboardList[row]->data();
+    } else {
+        return NULL;
+    }
 }
 
 ClipboardItem *ClipboardModel::at(int row) const

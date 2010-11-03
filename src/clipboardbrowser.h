@@ -45,6 +45,7 @@ class ClipboardBrowser : public QListView
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
+        const QMimeData *itemData(int i = -1) const;
         void sync(bool list_to_clipboard = true, QClipboard::Mode mode = QClipboard::Clipboard);
         QModelIndex index(int i) const {
             return model()->index(i,0);
@@ -80,6 +81,7 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
+        void dataChanged(const QModelIndex &a, const QModelIndex &b);
 
     signals:
         void requestSearch(const QString &txt);

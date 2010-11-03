@@ -188,7 +188,6 @@ void ClipboardBrowser::addItems(const QStringList &items)
     for(int i=items.count()-1; i>=0; --i) {
         add(items[i]);
     }
-    updateClipboard();
 }
 
 void ClipboardBrowser::itemModified(const QString &str)
@@ -196,7 +195,6 @@ void ClipboardBrowser::itemModified(const QString &str)
     // add new item
     if ( !str.isEmpty() ) {
         add(str);
-        updateClipboard();
     }
 }
 
@@ -437,7 +435,6 @@ bool ClipboardBrowser::add(QMimeData *data)
     // save history after 2 minutes
     saveItems(120000);
 
-    runCallback();
     return true;
 }
 
@@ -535,6 +532,11 @@ QString ClipboardBrowser::itemText(QModelIndex ind) const
     return ind.isValid() ? ind.data(Qt::EditRole).toString() : QString();
 }
 
+const QMimeData *ClipboardBrowser::itemData(int i) const
+{
+    return m->mimeData( i>=0 ? i : currentIndex().row() );
+}
+
 void ClipboardBrowser::runCallback() const
 {
     // run callback program on clipboard contents
@@ -554,5 +556,12 @@ void ClipboardBrowser::updateClipboard()
     if ( m->rowCount() ) {
         m_monitor->updateClipboard( *(m->mimeData(0)) );
         runCallback();
+    }
+}
+
+void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
+{
+    if ( a.row() == 0 ) {
+        updateClipboard();
     }
 }
