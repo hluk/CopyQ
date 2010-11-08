@@ -105,8 +105,10 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     // recalculating sizes of many items is expensive (when searching)
     // - assume that highlighted (matched) text has same size
     // - recalculate size only if item edited
-    if ( a.row() == b.row() )
+    if ( a.row() == b.row() ) {
         m_buff[a.row()] = QSize();
+        emit sizeHintChanged(a);
+    }
 }
 
 void ItemDelegate::rowsRemoved(const QModelIndex&,int start,int end)

@@ -16,7 +16,7 @@ class ClipboardMonitor : public QObject
     Q_OBJECT
 
 public:
-    explicit ClipboardMonitor(QWidget *parent);
+    explicit ClipboardMonitor(QWidget *parent=NULL);
 
     QMimeData *clipboardData() const;
     void checkClipboard();
@@ -36,8 +36,6 @@ public:
     void setCopySelection(bool enable)  {m_copysel   = enable;}
 
 private:
-    QWidget *m_parent;
-    unsigned long m_interval;
     QTimer m_timer;
     QMutex clipboardLock;
     //QRegExp m_re_format;
@@ -51,15 +49,14 @@ private:
     QTimer m_updatetimer;
 
     QMimeData *cloneData(const QMimeData &data, bool filter=false);
+    void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
 
 public slots:
     void timeout();
+    void handleMessage(const QString& message);
 
 private slots:
     void updateTimeout();
-
-signals:
-    void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
 };
 
 #endif // CLIPBOARDMONITOR_H

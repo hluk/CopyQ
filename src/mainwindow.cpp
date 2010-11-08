@@ -79,7 +79,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     tray->show();
 
+    // restore clipboard history items
     c->loadItems();
+
+    // run clipboard monitor
+    c->startMonitoring();
 }
 
 void MainWindow::exit()
@@ -182,8 +186,6 @@ void MainWindow::createMenu()
     m->addAction(act);
 
     tray->setContextMenu(menu);
-
-    c->startMonitoring();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -279,10 +281,12 @@ void MainWindow::saveSettings()
 
 void MainWindow::loadSettings()
 {
+    qDebug( tr("Loading configuration").toLocal8Bit() );
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
     setStyleSheet( cm->styleSheet() );
     ui->clipboardBrowser->loadSettings();
+    qDebug( tr("Configuration loaded").toLocal8Bit() );
 }
 
 void MainWindow::handleMessage(const QString& message)
@@ -291,7 +295,7 @@ void MainWindow::handleMessage(const QString& message)
     DataList args;
     deserialize_args(message, args);
 
-    const QString &cmd = args.isEmpty() ? QString() : args.takeFirst();
+    const QString cmd = args.isEmpty() ? QString() : args.takeFirst();
 
     // client
     DataList client_args;
@@ -354,28 +358,45 @@ void MainWindow::handleMessage(const QString& message)
 
     // add new items
     else if ( cmd == "add" ) {
+        c->setAutoUpdate(false);
         for(int i=args.length()-1; i>=0; --i) {
             c->add( QString(args[i]) );
         }
+        c->setAutoUpdate(true);
+        c->updateClipboard();
     }
 
     // add new items
-    else if ( cmd == "write" ) {
+    else if ( cmd == "write" || cmd == "_write" ) {
         QString mime;
 
-        // get mime type
-        if ( !parse(args, &mime) )
-            goto writeError;
+        QMimeData *data = new QMimeData;
+        while ( !args.isEmpty() ) {
+            // get mime type
+            if ( !parse(args, &mime) )
+                goto writeError;
 
-        // get data
-        if ( args.length() == 1 ) {
-            QMimeData *data = new QMimeData();
-            data->setData( mime, args.takeFirst() );
+            // get data
+            if ( args.isEmpty() ) {
+                goto writeError;
+            } else {
+                data->setData( mime, args.takeFirst() );
+            }
+        }
+        if (data) {
+            // don't update clipboard
+            bool noupdate = cmd.startsWith('_');
+            if (noupdate) c->setAutoUpdate(false);
+
             c->add(data);
+
+            if (noupdate) c->setAutoUpdate(true);
+
             goto messageEnd;
         }
 
         writeError:
+        delete data;
         SHOWERROR("Bad \"write\" command syntax!\n"
               "write mime_type data");
     }

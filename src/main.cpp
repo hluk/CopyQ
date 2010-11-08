@@ -19,6 +19,7 @@
 
 #include "mainwindow.h"
 #include "client_server.h"
+#include "clipboardmonitor.h"
 #include <QSettings>
 #include <QDebug>
 #include <iostream>
@@ -49,7 +50,7 @@ void usage()
 "\n"
 "    read [mime_type=\"text/plain\"|row=0] ...\n"
 "      print raw data\n"
-"    write mime_type data\n"
+"    write mime_type data ...\n"
 "      write raw data to clipboard\n"
 "    - [mime_type=\"text/plain\"]\n"
 "      copy text from standard input into clipboard\n"
@@ -85,6 +86,24 @@ int runServer(int argc, char *argv[]) {
 
     // don't exit when about or action dialog is closed
     app.setQuitOnLastWindowClosed(false);
+
+    return app.exec();
+}
+
+int runMonitor(int argc, char *argv[]) {
+    QCoreApplication::setOrganizationName("copyq");
+    QCoreApplication::setApplicationName("copyq");
+
+    QtSingleApplication app( QString("CopyQmonitor"), argc, argv );
+
+    if ( app.isRunning() ) {
+        return 0;
+    }
+
+    ClipboardMonitor *monitor = new ClipboardMonitor;
+
+    monitor->connect(&app, SIGNAL(messageReceived(const QString&)),
+                           SLOT(handleMessage(const QString&)));
 
     return app.exec();
 }
@@ -155,6 +174,9 @@ int main(int argc, char *argv[])
     // then run this as server
     if (argc == 1) {
         return runServer(argc, argv);
+    }
+    else if (argc == 2 && strcmp(argv[1], "monitor") == 0) {
+        return runMonitor(argc, argv);
     }
     // if argument specified and server is running
     // then run this as client

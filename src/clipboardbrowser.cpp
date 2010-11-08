@@ -26,14 +26,15 @@
 #include <actiondialog.h>
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
-#include "clipboardmonitor.h"
 #include "configurationmanager.h"
+#include "client_server.h"
+#include <qtlocalpeer.h>
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    menu(NULL)
+    m_monitor(NULL), m_update(false), menu(NULL)
 {
-    setBatchSize(QListView::Batched);
-    setMovement(QListView::Snap);
+    setLayoutMode(QListView::Batched);
+    setBatchSize(20);
 
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -57,11 +58,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));
 
-    // monitor clipboard
-    m_monitor = new ClipboardMonitor(this);
-    connect(m_monitor, SIGNAL(clipboardChanged(QClipboard::Mode,QMimeData*)),
-            this, SLOT(checkClipboard(QClipboard::Mode,QMimeData*)));
-
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
@@ -70,12 +66,47 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
 
 ClipboardBrowser::~ClipboardBrowser()
 {
+    stopMonitoring();
     emit closeAllEditors();
+}
+
+void ClipboardBrowser::monitorStateChanged(QProcess::ProcessState newState)
+{
+    if (newState == QProcess::NotRunning) {
+        qDebug( tr("ERROR: clipboard monitor crashed: %s").toLocal8Bit(),
+                m_monitor->errorString().toLocal8Bit().constData() );
+        startMonitoring();
+    } else if (newState == QProcess::Starting) {
+        qDebug( tr("Starting clipboard monitor").toLocal8Bit() );
+    } else if (newState == QProcess::Running) {
+        qDebug( tr("Clipboard monitor started").toLocal8Bit() );
+    }
+}
+
+void ClipboardBrowser::stopMonitoring()
+{
+    if (m_monitor) {
+        qDebug( tr("Terminating clipboard monitor").toLocal8Bit() );
+        m_monitor->disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
+        m_monitor->terminate();
+        m_monitor->waitForFinished(2000);
+        m_monitor->kill();
+    }
+    m_update = false;
 }
 
 void ClipboardBrowser::startMonitoring()
 {
-    m_monitor->start();
+    if ( !m_monitor ) {
+        m_monitor = new QProcess(this);
+    }
+
+    if ( m_monitor->state() == QProcess::NotRunning ) {
+        connect( m_monitor, SIGNAL(stateChanged(QProcess::ProcessState)),
+                 this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
+        m_monitor->start( QString("%1 monitor").arg(QApplication::argv()[0]) );
+    }
+    m_update = true;
 }
 
 void ClipboardBrowser::closeEditor(QEditor *editor)
@@ -445,19 +476,12 @@ void ClipboardBrowser::loadSettings()
     d->setStyleSheet( cm->styleSheet() );
 
     // restore configuration
-    m_monitor->setInterval( cm->value(ConfigurationManager::Interval).toInt() );
     m_editor = cm->value(ConfigurationManager::Editor).toString();
     d->setItemFormat( cm->value(ConfigurationManager::ItemHTML).toString());
 
     m_maxitems = cm->value(ConfigurationManager::MaxItems).toInt();
     m->setMaxItems( m_maxitems );
     m->setFormats( cm->value(ConfigurationManager::Priority).toString() );
-
-    m_monitor->setFormats( cm->value(ConfigurationManager::Formats).toString() );
-    m_monitor->setCheckClipboard( cm->value(ConfigurationManager::CheckClipboard).toBool() );
-    m_monitor->setCopyClipboard( cm->value(ConfigurationManager::CopyClipboard).toBool() );
-    m_monitor->setCheckSelection( cm->value(ConfigurationManager::CheckSelection).toBool() );
-    m_monitor->setCopySelection( cm->value(ConfigurationManager::CopySelection).toBool() );
 
     m_callback.clear();
 
@@ -473,6 +497,12 @@ void ClipboardBrowser::loadSettings()
     commands = cm->commands();
 
     update();
+
+    // restart clipboard monitor to load its configuration
+    if ( isMonitoring() ) {
+        stopMonitoring();
+        startMonitoring();
+    }
 }
 
 void ClipboardBrowser::loadItems()
@@ -552,11 +582,33 @@ void ClipboardBrowser::checkClipboard(QClipboard::Mode mode, QMimeData *data)
 
 void ClipboardBrowser::updateClipboard()
 {
+    if ( m->rowCount() == 0 )
+        return;
+
     // TODO: first item -> clipboard
-    if ( m->rowCount() ) {
-        m_monitor->updateClipboard( *(m->mimeData(0)) );
-        runCallback();
+    if ( m_update ) {
+        QString msg;
+        DataList args;
+        const QMimeData *data = m->mimeData(0);
+
+        args << QByteArray("write");
+        foreach ( QString mime, data->formats() ) {
+            args << mime.toLocal8Bit() << data->data(mime);
+        }
+        serialize_args(args, msg);
+
+        QtLocalPeer peer( NULL, QString("CopyQmonitor") );
+        // is monitor running?
+        if ( peer.isClient() ) {
+            if ( !peer.sendMessage(msg, 2000) ) {
+                // monitor is not responding -> restart it
+                m_monitor->kill();
+                // TODO: send the data again
+            }
+        }
     }
+
+    runCallback();
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
@@ -564,4 +616,5 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
     if ( a.row() == 0 ) {
         updateClipboard();
     }
+    update(a);
 }

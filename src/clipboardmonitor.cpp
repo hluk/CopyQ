@@ -1,4 +1,7 @@
 #include "clipboardmonitor.h"
+#include "client_server.h"
+#include "configurationmanager.h"
+#include <qtlocalpeer.h>
 #include <QMimeData>
 #include <QApplication>
 #include <QDebug>
@@ -9,21 +12,21 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
-    QObject(parent), m_interval(1000), m_lastSelection(0),
-    m_checkclip(true), m_copyclip(true),
-    m_checksel(true), m_copysel(true),
+    QObject(parent), m_lastSelection(0),
     m_newdata(NULL)
 {
-    m_parent = parent;
-    m_timer.setInterval(1000);
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    setInterval( cm->value(ConfigurationManager::Interval).toInt() );
+    setFormats( cm->value(ConfigurationManager::Formats).toString() );
+    setCheckClipboard( cm->value(ConfigurationManager::CheckClipboard).toBool() );
+    setCopyClipboard( cm->value(ConfigurationManager::CopyClipboard).toBool() );
+    setCheckSelection( cm->value(ConfigurationManager::CheckSelection).toBool() );
+    setCopySelection( cm->value(ConfigurationManager::CopySelection).toBool() );
+
     m_timer.setSingleShot(true);
     connect(&m_timer, SIGNAL(timeout()),
             this, SLOT(timeout()));
-
-    m_formats << QString("text/plain")
-              << QString("image/bmp")
-              << QString("image/x-inkscape-svg-compressed")
-              << QString("text/html");
+    m_timer.start();
 
     m_updatetimer.setSingleShot(true);
     m_updatetimer.setInterval(500);
@@ -37,7 +40,6 @@ void ClipboardMonitor::setFormats(const QString &list)
 
 void ClipboardMonitor::timeout()
 {
-
     if (m_checkclip || m_checksel) {
         // wait on selection completed
 #ifndef WIN32
@@ -132,11 +134,29 @@ void ClipboardMonitor::checkClipboard()
 
     }
 
-    clipboardLock.unlock();
-
     if (d) {
         // create and emit new clipboard data
-        emit clipboardChanged(mode, cloneData(*d, true));
+        clipboardChanged(mode, cloneData(*d, true));
+    }
+
+    clipboardLock.unlock();
+}
+
+void ClipboardMonitor::clipboardChanged(QClipboard::Mode mode, QMimeData *data)
+{
+    QString msg;
+    DataList args;
+
+    args << QByteArray("_write");
+    foreach ( QString mime, data->formats() ) {
+        args << mime.toLocal8Bit() << data->data(mime);
+    }
+    serialize_args(args, msg);
+
+    QtLocalPeer peer( NULL, QString("CopyQ") );
+    // is server running?
+    if ( peer.isClient() ) {
+        peer.sendMessage(msg, 2000);
     }
 }
 
@@ -154,9 +174,43 @@ void ClipboardMonitor::updateTimeout()
     }
 }
 
+void ClipboardMonitor::handleMessage(const QString &message)
+{
+    DataList args;
+    deserialize_args(message, args);
+
+    const QString cmd = args.isEmpty() ? QString() : args.takeFirst();
+
+    if ( cmd == "write" ) {
+        QString mime;
+
+        QMimeData data;
+        while ( !args.isEmpty() ) {
+            // get mime type
+            if ( !parse(args, &mime) )
+                break;
+
+            // get data
+            if ( args.isEmpty() ) {
+                break;
+            } else {
+                data.setData( mime, args.takeFirst() );
+            }
+        }
+        updateClipboard(data);
+    }
+}
+
 void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 {
     if ( !clipboardLock.tryLock() ) {
+        return;
+    }
+
+    uint h = hash(data);
+    if ( h == m_lastSelection ) {
+        // data already in clipboard
+        clipboardLock.unlock();
         return;
     }
 
@@ -175,7 +229,7 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     QClipboard *clipboard = QApplication::clipboard();
     clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
     clipboard->setMimeData(newdata2, QClipboard::Selection);
-    m_lastSelection = hash(*m_newdata);
+    m_lastSelection = h;
 
     m_newdata = NULL;
 

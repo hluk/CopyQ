@@ -328,8 +328,8 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
         accept();
         break;
     case QDialogButtonBox::AcceptRole:
-        accept();
         close();
+        // accept() will be called
         break;
     case QDialogButtonBox::RejectRole:
         case QDialogButtonBox::ResetRole:
