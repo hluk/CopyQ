@@ -127,14 +127,12 @@ QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, cons
 {
     QSettings settings;
 
-    settings.beginGroup("Options");
     if ( geometry.isEmpty() ) {
-        return settings.value(widget_name+"_geometry").toByteArray();
+        return settings.value("Options/"+widget_name+"_geometry").toByteArray();
     } else {
-        settings.setValue(widget_name+"_geometry", geometry);
+        settings.setValue("Options/"+widget_name+"_geometry", geometry);
         return geometry;
     }
-    settings.endGroup();
 }
 
 

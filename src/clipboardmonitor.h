@@ -40,6 +40,7 @@ private:
     QMutex clipboardLock;
     //QRegExp m_re_format;
     QStringList m_formats;
+    uint m_lastClipboard;
     uint m_lastSelection;
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;

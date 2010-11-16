@@ -80,7 +80,7 @@ void ClipboardModel::nextFormat(int row)
 
     int i = formats.indexOf(item->format());
     if (i==-1 || i == formats.length()-1)
-        item->setFormat( formats.first() );
+        item->setFormat( formats.at(0) );
     else
         item->setFormat( formats[i+1] );
 
@@ -213,7 +213,27 @@ int ClipboardModel::getRowNumber(int row, bool cycle) const
         return row;
 }
 
-bool ClipboardModel::move(int pos, int newpos) {
+void ClipboardModel::setMaxItems(int max)
+{
+    m_max = max>0 ? max : 0;
+    int rows = m_clipboardList.length();
+
+    if (max >= rows)
+        return;
+
+    // crop list
+    beginRemoveRows(empty_index, max, rows-1 );
+
+    while ( rows > max ) {
+        delete m_clipboardList.takeLast();
+        --rows;
+    }
+
+    endRemoveRows();
+}
+
+bool ClipboardModel::move(int pos, int newpos)
+{
     int from = getRowNumber(pos,true);
     int to   = getRowNumber(newpos,true);
 

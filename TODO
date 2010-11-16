@@ -1,5 +1,3 @@
-[ ] configuration dialog - commands
-
 [ ] Serialize/deserialize arguments for client as QString
         format: message, close client+return code
 

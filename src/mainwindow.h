@@ -23,6 +23,8 @@
 #include <QtGui/QMainWindow>
 #include <QSystemTrayIcon>
 #include <QBasicTimer>
+#include <QMap>
+#include "client_server.h"
 #include "configurationmanager.h"
 
 class ClipboardModel;
@@ -38,6 +40,23 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
+    enum Command {
+        Cmd_Unknown = 0,
+        Cmd_Toggle,
+        Cmd_Exit,
+        Cmd_Menu,
+        Cmd_Action,
+        Cmd_Add,
+        Cmd_Write,
+        Cmd_WriteNoUpdate,
+        Cmd_Edit,
+        Cmd_Select,
+        Cmd_Remove,
+        Cmd_Length,
+        Cmd_List,
+        Cmd_Read,
+    };
+
     public:
         MainWindow(QWidget *parent = 0);
         ~MainWindow();
@@ -45,6 +64,7 @@ class MainWindow : public QMainWindow
         void saveSettings();
         void closeEvent(QCloseEvent *event);
         void createActionDialog();
+        bool doCommand(const QString &cmd, DataList &args);
 
     private:
         Ui::MainWindow *ui;
@@ -58,6 +78,7 @@ class MainWindow : public QMainWindow
         bool m_browsemode;
         QBasicTimer timer_search;
         bool m_confirmExit;
+        QMap<QString, Command> m_commands;
 
         void createMenu();
 
@@ -66,7 +87,12 @@ class MainWindow : public QMainWindow
         void timerEvent(QTimerEvent *event);
 
     public slots:
-       void handleMessage(const QString& message);
+       void handleMessage(const QString &message);
+       void sendMessage(const QByteArray &message, int exit_code = 0);
+       void sendMessage(const QString &message, int exit_code = 0) {
+           sendMessage( message.toLocal8Bit(), exit_code );
+       }
+
        void enterBrowseMode(bool browsemode = true);
        // show tray popup
        void showMessage(const QString &title, const QString &msg,

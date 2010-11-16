@@ -12,7 +12,7 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
-    QObject(parent), m_lastSelection(0),
+    QObject(parent), m_lastClipboard(0), m_lastSelection(0),
     m_newdata(NULL)
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -86,8 +86,8 @@ void ClipboardMonitor::checkClipboard()
 {
     const QMimeData *d, *data, *data2;
     d = data = data2 = NULL;
-    uint h, h2;
-    h = h2 = m_lastSelection;
+    uint h = m_lastClipboard;
+    uint h2 = m_lastSelection;
 
     if ( !clipboardLock.tryLock() )
         return;
@@ -112,10 +112,10 @@ void ClipboardMonitor::checkClipboard()
     // check hash value
     //   - synchronize clipboards only when data are different
     QClipboard::Mode mode;
-    if ( h != m_lastSelection ) {
+    if ( h != m_lastClipboard ) {
         d = data;
         mode = QClipboard::Clipboard;
-        m_lastSelection = h;
+        m_lastClipboard = h;
     } else if ( h2 != m_lastSelection && !d ) {
         d = data2;
         mode = QClipboard::Selection;
@@ -124,10 +124,14 @@ void ClipboardMonitor::checkClipboard()
 
     if ( d && h != h2 ) {
         // clipboard content was changed -> synchronize
-        if( mode == QClipboard::Clipboard && m_copyclip ) {
+        if( mode == QClipboard::Clipboard &&
+            m_copyclip &&
+            h2 == m_lastSelection ) {
             clipboard->setMimeData( cloneData(*d, true),
                                     QClipboard::Selection );
-        } else if ( mode == QClipboard::Selection && m_copysel ) {
+        } else if ( mode == QClipboard::Selection &&
+                    m_copysel &&
+                    h == m_lastClipboard ) {
             clipboard->setMimeData( cloneData(*d, true),
                                     QClipboard::Clipboard );
         }
@@ -156,7 +160,9 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode mode, QMimeData *data)
     QtLocalPeer peer( NULL, QString("CopyQ") );
     // is server running?
     if ( peer.isClient() ) {
-        peer.sendMessage(msg, 2000);
+        if ( !peer.sendMessage(msg, 2000) ) {
+            qDebug( tr("Clipboard Monitor ERROR: Cannot connect to the server!").toLocal8Bit() );
+        }
     }
 }
 
@@ -198,6 +204,8 @@ void ClipboardMonitor::handleMessage(const QString &message)
             }
         }
         updateClipboard(data);
+    } else if ( cmd == "exit" ) {
+        QApplication::exit();
     }
 }
 
@@ -208,7 +216,7 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     }
 
     uint h = hash(data);
-    if ( h == m_lastSelection ) {
+    if ( h == m_lastClipboard && h == m_lastSelection ) {
         // data already in clipboard
         clipboardLock.unlock();
         return;
@@ -227,9 +235,14 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     QMimeData* newdata2 = cloneData(data);
 
     QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
-    clipboard->setMimeData(newdata2, QClipboard::Selection);
-    m_lastSelection = h;
+    if ( h != m_lastClipboard ) {
+        clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
+        m_lastClipboard = h;
+    }
+    if ( h != m_lastSelection ) {
+        clipboard->setMimeData(newdata2, QClipboard::Selection);
+        m_lastSelection = h;
+    }
 
     m_newdata = NULL;
 

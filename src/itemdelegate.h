@@ -19,26 +19,28 @@
 #define ITEMDELEGATE_H
 
 #include <QStyledItemDelegate>
-#include <QTextDocument>
+
 #include <QRegExp>
 #include <QDebug>
+
+class QTextDocument;
 
 class ItemDelegate : public QStyledItemDelegate
 {
     Q_OBJECT
 
     public:
-        ItemDelegate(QObject *parent = 0);
+        ItemDelegate(QWidget *parent = 0);
 
         QSize sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        void invalidateSizes();
+
         QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
         void setEditorData(QWidget *editor, const QModelIndex &index) const;
         void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
         bool eventFilter(QObject *object, QEvent *event);
 
-        void setStyleSheet(const QString &css) {
-            m_doc->setDefaultStyleSheet(css);
-        }
+        void setStyleSheet(const QString &css);
 
         void setItemFormat(const QString &format) {
             m_format = format;
@@ -52,7 +54,9 @@ class ItemDelegate : public QStyledItemDelegate
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
     private:
+        QWidget *m_parent;
         QString m_format;
+        int m_maxsize;
 
         // items drawn using QTextDocument
         mutable QTextDocument *m_doc;

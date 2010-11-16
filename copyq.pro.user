@@ -97,7 +97,7 @@
     <valuelist key="Qt4ProjectManager.Qt4RunConfiguration.UserEnvironmentChanges" type="QVariantList"/>
     <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetName" type="bool">true</value>
     <value key="Qt4ProjectManager.Qt4RunConfiguration.UserSetWorkingDirectory" type="bool">true</value>
-    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory" type="QString">$BUILDDIR</value>
+    <value key="Qt4ProjectManager.Qt4RunConfiguration.UserWorkingDirectory" type="QString">/home/lukas/dev/copyq-build/release/src</value>
    </valuemap>
    <valuemap key="ProjectExplorer.Target.RunConfiguration.1" type="QVariantMap">
     <valuelist key="ProjectExplorer.CustomExecutableRunConfiguration.Arguments" type="QVariantList">

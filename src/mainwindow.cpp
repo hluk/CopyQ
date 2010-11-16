@@ -21,7 +21,6 @@
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
 #include "actiondialog.h"
-#include "client_server.h"
 #include <QDebug>
 #include <QCloseEvent>
 #include <QMenu>
@@ -52,6 +51,23 @@ MainWindow::MainWindow(QWidget *parent)
 
     // clipboard browser widget
     ClipboardBrowser *c = ui->clipboardBrowser;
+
+    // commands send from client to server
+    m_commands["toggle"] = Cmd_Toggle;
+    m_commands["exit"]   = Cmd_Exit;
+    m_commands["menu"]   = Cmd_Menu;
+    m_commands["action"] = Cmd_Action;
+    m_commands["add"]    = Cmd_Add;
+    m_commands["write"]  = Cmd_Write;
+    m_commands["_write"] = Cmd_WriteNoUpdate;
+    m_commands["edit"]   = Cmd_Edit;
+    m_commands["select"] = Cmd_Select;
+    m_commands["remove"] = Cmd_Remove;
+    m_commands["length"] = Cmd_Length;
+    m_commands["size"]   = Cmd_Length;
+    m_commands["count"]  = Cmd_Length;
+    m_commands["list"]   = Cmd_List;
+    m_commands["read"]   = Cmd_Read;
 
     // signals & slots
     connect( c, SIGNAL(requestSearch(QString)),
@@ -289,6 +305,222 @@ void MainWindow::loadSettings()
     qDebug( tr("Configuration loaded").toLocal8Bit() );
 }
 
+bool MainWindow::doCommand(const QString &cmd, DataList &args)
+{
+    ClipboardBrowser *c = ui->clipboardBrowser;
+    bool noupdate = false;
+    QByteArray bytes;
+    QString mime;
+    QMimeData *data;
+    int row;
+
+    // default "list" format
+    QString fmt("%1\n");
+
+    switch( m_commands.value(cmd, Cmd_Unknown) ) {
+
+    // show/hide main window
+    case Cmd_Toggle:
+        toggleVisible();
+        break;
+
+    // exit server
+    case Cmd_Exit:
+        // close client and exit
+        sendMessage( tr("Terminating server.\n") );
+        QApplication::exit();
+        break;
+
+    // show menu
+    case Cmd_Menu:
+        tray->contextMenu()->show();
+        break;
+
+    // show action dialog or run action on item
+    // action [row] "cmd" "[sep]"
+    case Cmd_Action:
+        if ( args.isEmpty() ) {
+            openActionDialog(0);
+        } else {
+            QString cmd, sep;
+
+            // get row
+            int row;
+            parse(args, NULL, &row);
+
+            // get command
+            if ( !parse(args,&cmd) ) {
+                return false;
+            }
+
+            // get separator
+            if ( !parse(args, &sep) )
+                sep = QString('\n');
+
+            // no other arguments to parse
+            if ( args.isEmpty() ) {
+                ConfigurationManager::Command command;
+                command.cmd = cmd;
+                command.output = true;
+                command.input = true;
+                command.sep = sep;
+                command.wait = false;
+                action(row, &command);
+            } else {
+                return false;
+            }
+        }
+        break;
+
+    // add new items
+    case Cmd_Add:
+        if ( args.isEmpty() ) {
+            return false;
+        }
+
+        c->setAutoUpdate(false);
+        for(int i=args.length()-1; i>=0; --i) {
+            c->add( QString(args[i]) );
+        }
+        c->setAutoUpdate(true);
+
+        c->updateClipboard();
+        break;
+
+    // add new items
+    case Cmd_WriteNoUpdate:
+        // don't update clipboard if command is _write
+        noupdate = cmd.startsWith('_');
+    case Cmd_Write:
+        data = new QMimeData;
+        while ( !args.isEmpty() ) {
+            // get mime type
+            if ( !parse(args, &mime) ) {
+                return false;
+            }
+
+            // get data
+            if ( args.isEmpty() ) {
+                delete data;
+                data = NULL;
+            } else {
+                data->setData( mime, args.takeFirst() );
+            }
+        }
+        if (data) {
+            if (noupdate) c->setAutoUpdate(false);
+            c->add(data);
+            if (noupdate) c->setAutoUpdate(true);
+        } else {
+            return false;
+        }
+        break;
+
+    // edit clipboard item
+    case Cmd_Edit:
+        parse(args, NULL, &row);
+        if ( args.isEmpty() ) {
+            c->setCurrent(row);
+            c->openEditor();
+        } else {
+            return false;
+        }
+        break;
+
+    // set current item
+    // select [row=1]
+    case Cmd_Select:
+        parse(args, NULL, &row);
+        c->moveToClipboard(row);
+        break;
+
+    // remove item from clipboard
+    // remove [row=0] ...
+    case Cmd_Remove:
+        if ( args.isEmpty() ) {
+            c->setCurrent(0);
+            c->remove();
+        }
+        else {
+            int row;
+            while( parse(args, NULL, &row) ) {
+                c->setCurrent(row);
+                c->remove();
+            }
+        }
+        break;
+
+    case Cmd_Length:
+        if ( args.isEmpty() ) {
+            bytes = QString("%1\n").arg(c->length()).toLocal8Bit();
+        } else {
+            return false;
+        }
+        break;
+
+    // print items in given rows, format can have two arguments %1:item %2:row
+    // list [format="%1\n"|row=0] ...
+    case Cmd_List:
+        if ( args.isEmpty() ) {
+            bytes = fmt.arg( c->itemText(0) ).toLocal8Bit();
+        } else {
+            do {
+                if ( parse(args, NULL, &row) )
+                    // number
+                    bytes.append( fmt.arg( c->itemText(row) ).arg(row) );
+                else {
+                    // format
+                    parse(args, &fmt);
+                    fmt.replace(QString("\\n"),QString('\n'));
+                }
+            } while( !args.isEmpty() );
+        }
+        break;
+
+    // print items in given rows, format can have two arguments %1:item %2:row
+    // read [mime="text/plain"|row=0] ...
+    case Cmd_Read:
+        mime = QString("text/plain");
+
+        if ( args.isEmpty() ) {
+            bytes = c->itemData(0)->data(mime);
+        } else {
+            do {
+                if ( parse(args, NULL, &row) )
+                    // number
+                    bytes.append( c->itemData(row)->data(mime) );
+                else {
+                    // format
+                    parse(args, &mime);
+                }
+            } while( !args.isEmpty() );
+        }
+        break;
+
+    default:
+        return false;
+    }
+
+    sendMessage(bytes);
+
+    return true;
+}
+
+void MainWindow::sendMessage(const QByteArray &message, int exit_code)
+{
+    DataList client_args;
+    // client output
+    client_args.append( message );
+    // client exit code
+    client_args.append( QString("%1").arg(exit_code).toLocal8Bit() );
+
+    QString client_msg;
+    serialize_args(client_args, client_msg);
+
+    QtLocalPeer peer( NULL, QString("CopyQclient") );
+    peer.sendMessage(client_msg, 1000);
+}
+
 void MainWindow::handleMessage(const QString& message)
 {
     // deserialize list of arguments from QString
@@ -297,204 +529,10 @@ void MainWindow::handleMessage(const QString& message)
 
     const QString cmd = args.isEmpty() ? QString() : args.takeFirst();
 
-    // client
-    DataList client_args;
-    QtLocalPeer peer( NULL, QString("CopyQclient") );
-    client_args.append( QByteArray() ); // client output
-    #define SHOWERROR(x) do {client_args[0] = (x); client_args.append( QByteArray("2") ); } while(0)
-
-    ClipboardBrowser *c = ui->clipboardBrowser;
-
-    // show/hide main window
-    if ( cmd == "toggle" )
-        toggleVisible();
-
-    // exit server
-    else if ( cmd == "exit") {
-        // close client and exit
-        client_args[0] = QByteArray("Terminating server.\n");
-        QApplication::exit();
+    // try to handle command
+    if ( !doCommand(cmd, args) ) {
+        sendMessage( tr("Bad command syntax. Use -h for help.\n"), 2 );
     }
-
-    // show menu
-    else if ( cmd == "menu" )
-        tray->contextMenu()->show();
-
-    // show action dialog or run action on item
-    // action [row] "cmd" "[sep]"
-    else if ( cmd == "action" ) {
-        if ( args.isEmpty() )
-            openActionDialog(0);
-        else {
-            QString cmd, sep;
-
-            // get row
-            int row;
-            parse(args, NULL, &row);
-
-            // get command
-            if ( !parse(args,&cmd) )
-                goto actionError;
-
-            // get separator
-            if ( !parse(args,&sep) )
-                sep = QString('\n');
-
-            // no other arguments to parse
-            if ( args.isEmpty() ) {
-                ConfigurationManager::Command command;
-                command.cmd = cmd;
-                command.sep = sep;
-                command.wait = false;
-                action(row, &command);
-                goto messageEnd;
-            }
-
-            actionError:
-            SHOWERROR("Bad \"action\" command syntax!\n"
-                  "action [row=0] cmd [sep=\"\\n\"]\n");
-        }
-    }
-
-    // add new items
-    else if ( cmd == "add" ) {
-        c->setAutoUpdate(false);
-        for(int i=args.length()-1; i>=0; --i) {
-            c->add( QString(args[i]) );
-        }
-        c->setAutoUpdate(true);
-        c->updateClipboard();
-    }
-
-    // add new items
-    else if ( cmd == "write" || cmd == "_write" ) {
-        QString mime;
-
-        QMimeData *data = new QMimeData;
-        while ( !args.isEmpty() ) {
-            // get mime type
-            if ( !parse(args, &mime) )
-                goto writeError;
-
-            // get data
-            if ( args.isEmpty() ) {
-                goto writeError;
-            } else {
-                data->setData( mime, args.takeFirst() );
-            }
-        }
-        if (data) {
-            // don't update clipboard
-            bool noupdate = cmd.startsWith('_');
-            if (noupdate) c->setAutoUpdate(false);
-
-            c->add(data);
-
-            if (noupdate) c->setAutoUpdate(true);
-
-            goto messageEnd;
-        }
-
-        writeError:
-        delete data;
-        SHOWERROR("Bad \"write\" command syntax!\n"
-              "write mime_type data");
-    }
-
-    // edit clipboard item
-    else if ( cmd == "edit" ) {
-        int row;
-        parse(args,NULL,&row);
-        if ( !args.isEmpty() )
-            SHOWERROR("Bad \"edit\" command syntax!\n"
-                      "edit [row=0]\n");
-        c->setCurrent(row);
-        c->openEditor();
-    }
-
-    // set current item
-    // select [row=1]
-    else if ( cmd == "select" ) {
-        int row;
-        parse(args,NULL,&row);
-        c->moveToClipboard(row);
-    }
-
-    // remove item from clipboard
-    // remove [row=0] ...
-    else if ( cmd == "remove" ) {
-        if ( args.isEmpty() ) {
-            c->setCurrent(0);
-            c->remove();
-        }
-        else {
-            int row;
-            while( parse(args,NULL,&row) ) {
-                c->setCurrent(row);
-                c->remove();
-            }
-        }
-    }
-
-    else if ( cmd == "length" || cmd == "count" || cmd == "size" ) {
-        client_args[0] = QString("%1\n").arg(c->length()).toLocal8Bit();
-    }
-
-    // print items in given rows, format can have two arguments %1:item %2:row
-    // list [format="%1\n"|row=0] ...
-    else if ( cmd == "list" ) {
-        QString fmt("%1\n");
-        int row;
-
-        if ( args.isEmpty() ) {
-            client_args[0] = fmt.arg( c->itemText(0) ).toLocal8Bit();
-        } else {
-            do {
-                if ( parse(args, NULL, &row) )
-                    // number
-                    client_args[0] += fmt.arg( c->itemText(row) ).arg(row);
-                else {
-                    // format
-                    parse(args, &fmt);
-                    fmt.replace(QString("\\n"),QString('\n'));
-                }
-            } while( !args.isEmpty() );
-        }
-    }
-
-    // print items in given rows, format can have two arguments %1:item %2:row
-    // read [mime="text/plain"|row=0] ...
-    else if ( cmd == "read" ) {
-        QString mime("text/plain");
-        int row;
-
-        if ( args.isEmpty() ) {
-            client_args[0] = c->itemData(0)->data(mime);
-        } else {
-            do {
-                if ( parse(args, NULL, &row) )
-                    // number
-                    client_args[0] = c->itemData(row)->data(mime);
-                else {
-                    // format
-                    parse(args, &mime);
-                }
-            } while( !args.isEmpty() );
-        }
-    }
-
-    // TODO: move item
-
-    else
-        SHOWERROR("Unknown command. Use --help to see command line options.\n");
-
-    messageEnd:
-    QString client_msg;
-    if ( client_args.length() == 1 )
-        client_args.append("0"); // default exit code
-    serialize_args(client_args, client_msg);
-    // empty message tells client to quit
-    peer.sendMessage(client_msg, 1000);
 }
 
 void MainWindow::toggleVisible()

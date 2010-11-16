@@ -60,7 +60,7 @@ public:
     bool setData(const QModelIndex &index, QMimeData *value);
     bool append(ClipboardItem *item);
 
-    void setMaxItems(int max) { m_max = max; }
+    void setMaxItems(int max);
 
     bool move(int pos, int newpos);
     bool moveItems(QModelIndexList list, int key);

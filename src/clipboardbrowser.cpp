@@ -73,24 +73,60 @@ ClipboardBrowser::~ClipboardBrowser()
 void ClipboardBrowser::monitorStateChanged(QProcess::ProcessState newState)
 {
     if (newState == QProcess::NotRunning) {
-        qDebug( tr("ERROR: clipboard monitor crashed: %s").toLocal8Bit(),
+        qDebug( tr("Clipboard Monitor ERROR: Clipboard monitor crashed! (%s)").toLocal8Bit(),
                 m_monitor->errorString().toLocal8Bit().constData() );
         startMonitoring();
     } else if (newState == QProcess::Starting) {
-        qDebug( tr("Starting clipboard monitor").toLocal8Bit() );
+        qDebug( tr("Clipboard Monitor: Starting").toLocal8Bit() );
     } else if (newState == QProcess::Running) {
-        qDebug( tr("Clipboard monitor started").toLocal8Bit() );
+        qDebug( tr("Clipboard Monitor: Started").toLocal8Bit() );
     }
+}
+
+void ClipboardBrowser::monitorStandardError()
+{
+    qDebug( tr("Clipboard Monitor error output:").toLocal8Bit() );
+    qDebug( m_monitor->readAllStandardError() );
 }
 
 void ClipboardBrowser::stopMonitoring()
 {
     if (m_monitor) {
-        qDebug( tr("Terminating clipboard monitor").toLocal8Bit() );
+        qDebug( tr("Clipboard Monitor: Terminating").toLocal8Bit() );
         m_monitor->disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
-        m_monitor->terminate();
-        m_monitor->waitForFinished(2000);
-        m_monitor->kill();
+
+        // send "exit" command to clipboard monitor process
+        QString msg;
+        DataList args;
+        args << QByteArray("exit");
+        serialize_args(args, msg);
+
+        QtLocalPeer peer( NULL, QString("CopyQmonitor") );
+        if ( peer.isClient() ) {
+            if ( peer.sendMessage(msg, 1000) ) {
+                m_monitor->waitForFinished(1000);
+            }
+        }
+
+        if ( m_monitor->state() != QProcess::NotRunning ) {
+            qDebug( tr("Clipboard Monitor ERROR: Command 'exit' unsucessful!").toLocal8Bit() );
+            m_monitor->terminate();
+            m_monitor->waitForFinished(1000);
+        }
+
+        if ( m_monitor->state() != QProcess::NotRunning ) {
+            qDebug( tr("Clipboard Monitor ERROR: Cannot terminate process!").toLocal8Bit() );
+            m_monitor->kill();
+        }
+
+        if ( m_monitor->state() != QProcess::NotRunning ) {
+            qDebug( tr("Clipboard Monitor ERROR: Cannot kill process!!!").toLocal8Bit() );
+        } else {
+            qDebug( tr("Clipboard Monitor: Terminated").toLocal8Bit() );
+        }
+
+        delete m_monitor;
+        m_monitor = NULL;
     }
     m_update = false;
 }
@@ -98,13 +134,18 @@ void ClipboardBrowser::stopMonitoring()
 void ClipboardBrowser::startMonitoring()
 {
     if ( !m_monitor ) {
-        m_monitor = new QProcess(this);
+        m_monitor = new QProcess;
+        connect( m_monitor, SIGNAL(stateChanged(QProcess::ProcessState)),
+                 this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
+        connect( m_monitor, SIGNAL(readyReadStandardError()),
+                 this, SLOT(monitorStandardError()) );
     }
 
     if ( m_monitor->state() == QProcess::NotRunning ) {
-        connect( m_monitor, SIGNAL(stateChanged(QProcess::ProcessState)),
-                 this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
-        m_monitor->start( QString("%1 monitor").arg(QApplication::argv()[0]) );
+        m_monitor->start( QCoreApplication::arguments().at(0),
+                          QStringList() << "monitor",
+                          QProcess::NotOpen );
+        m_monitor->waitForStarted(2000);
     }
     m_update = true;
 }
@@ -130,7 +171,9 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
     } else if (text == tr("&Remove")) {
         remove();
     } else if (text == tr("&Edit")) {
-        edit( currentIndex() );
+        QModelIndex ind = currentIndex();
+        scrollTo(ind, PositionAtTop);
+        edit(ind);
     } else if (text == tr("E&dit with editor")) {
         openEditor();
     } else if (text == tr("&Action...")) {
@@ -283,7 +326,7 @@ void ClipboardBrowser::moveToClipboard(int i)
 void ClipboardBrowser::newItem()
 {
     // new text will allocate more space (lines) for editor
-    add( QString("---NEW---\n\n\n\n\n\n\n\n---NEW---") );
+    add( QString(), false );
     selectionModel()->clearSelection();
     setCurrent(0);
     edit( index(0) );
@@ -291,10 +334,12 @@ void ClipboardBrowser::newItem()
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
+    /*
     int last, current;
     QModelIndex newindex;
     QItemSelectionModel::SelectionFlags selflags;
     QModelIndexList selected;
+    */
 
     // if editing item, use default key action
     if ( state() == QAbstractItemView::EditingState ) {
@@ -337,6 +382,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
         case Qt::Key_Home:
         case Qt::Key_End:
+            /*
             last = m->rowCount()-1;
             current = currentIndex().row();
             if (key == Qt::Key_Up) {
@@ -359,6 +405,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             } else {
                 QListView::keyPressEvent(event);
             }
+            */
+            QListView::keyPressEvent(event);
             break;
 
         default:
@@ -408,7 +456,7 @@ void ClipboardBrowser::remove()
         bool need_sync = false;
 
         do {
-            i = list.first().row();
+            i = list.at(0).row();
             if ( i == 0 )
                 need_sync = true;
             m->removeRow(i);
@@ -423,20 +471,19 @@ void ClipboardBrowser::remove()
     }
 }
 
-bool ClipboardBrowser::add(const QString &txt)
+bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
 {
     QMimeData *data = new QMimeData;
     data->setText(txt);
-    add(data);
-    return true;
+    return add(data, ignore_empty);
 }
 
-bool ClipboardBrowser::add(QMimeData *data)
+bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
 {
     QStringList formats = data->formats();
 
     // ignore empty
-    if ( formats.isEmpty() || (data->hasText() && data->text().isEmpty()) ) {
+    if ( ignore_empty && (formats.isEmpty() || (data->hasText() && data->text().isEmpty())) ) {
         return false;
     }
 
@@ -445,7 +492,7 @@ bool ClipboardBrowser::add(QMimeData *data)
         QMimeData *olddata = m->mimeData(0);
         QStringList oldformats = olddata->formats();
         if ( oldformats == formats &&
-             olddata->data(oldformats.first()) == data->data(formats.first()) ) {
+             olddata->data(oldformats.at(0)) == data->data(formats.at(0)) ) {
             return false;
         }
     }
@@ -518,7 +565,7 @@ void ClipboardBrowser::loadItems()
     // performance:
     // force the delegate to calculate the size of each item
     // -- this will save some time when drawing the list for the fist time
-    sizeHintForColumn(0);
+    //sizeHintForColumn(0);
 }
 
 void ClipboardBrowser::saveItems(int msec)
@@ -575,7 +622,7 @@ void ClipboardBrowser::runCallback() const
     QProcess::startDetached( m_callback, m_callback_args + QStringList(itemText(0)) );
 }
 
-void ClipboardBrowser::checkClipboard(QClipboard::Mode mode, QMimeData *data)
+void ClipboardBrowser::checkClipboard(QClipboard::Mode, QMimeData *data)
 {
     add(data);
 }
@@ -613,8 +660,15 @@ void ClipboardBrowser::updateClipboard()
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
 {
-    if ( a.row() == 0 ) {
+    if ( a.row() == 0 && m->search()->isEmpty() ) {
         updateClipboard();
     }
     update(a);
+}
+
+void ClipboardBrowser::resizeEvent(QResizeEvent *e)
+{
+    QListView::resizeEvent(e);
+    d->invalidateSizes();
+    update();
 }

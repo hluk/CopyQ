@@ -97,6 +97,7 @@ int runMonitor(int argc, char *argv[]) {
     QtSingleApplication app( QString("CopyQmonitor"), argc, argv );
 
     if ( app.isRunning() ) {
+        qDebug() << QObject::tr("Clipboard Monitor: Clipboard monitor already started!");
         return 0;
     }
 

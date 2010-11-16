@@ -24,21 +24,34 @@
 #include <QMetaProperty>
 #include <QPlainTextEdit>
 #include <QUrl>
+#include <QTextDocument>
 #include "clipboardmodel.h"
 
-ItemDelegate::ItemDelegate(QObject *parent) : QStyledItemDelegate(parent)
+ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent),
+    m_parent(parent)
 {
     m_doc = new QTextDocument(this);
 }
 
+void ItemDelegate::setStyleSheet(const QString &css)
+{
+    m_doc->setDefaultStyleSheet(css);
+}
+
 QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
-    int n = index.row();
+    QSize &sz = m_buff[index.row()];
 
-    if ( !m_buff[n].isValid() ) {
+    if ( !sz.isValid() ) {
         createDoc(index);
     }
-    return m_buff[n];
+    return sz;
+}
+
+void ItemDelegate::invalidateSizes()
+{
+    for( int i = 0; i <= m_buff.length(); ++i )
+        m_buff[i] = QSize();
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -75,7 +88,10 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     // maximal editor size
     QRect w_rect = parent->rect();
     QRect o_rect = option.rect;
-    editor->setMaximumSize( w_rect.width() - 2*o_rect.left(), w_rect.height() - o_rect.top() );
+    QSize max_size( w_rect.width() - o_rect.left() - 10,
+                   w_rect.height() - o_rect.top() - 10 );
+    editor->setMaximumSize(max_size);
+    editor->setMinimumSize(max_size);
 
     return editor;
 }
@@ -98,7 +114,6 @@ void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, cons
     if (!n.isEmpty())
         model->setData(index, editor->property(n));
 }
-
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
@@ -147,13 +162,17 @@ void ItemDelegate::createDoc(const QModelIndex &index) const
     // set html
     m_doc->setHtml( m_format.arg(index.row()).arg(lst[0].toString()) );
 
-    m_buff[n] = QSize( m_doc->idealWidth(), m_doc->size().height() );
+    // maximum item size
+    int height = m_doc->size().height();
+    int max_height = m_parent->height()-10;
+    if (height > max_height)
+        height = max_height;
+    m_buff[n] = QSize( m_doc->idealWidth(), height );
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
     QStyleOptionViewItemV4 options(option);
-    QStyleOptionViewItemV3 option3(option);
     initStyleOption(&options, index);
     options.text = "";
 
@@ -163,11 +182,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
 
-    QRect clip(0, 0, options.rect.width(), options.rect.height());
+    QRect clip( 0, 0, options.rect.width(), options.rect.height() );
 
     painter->save();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
     painter->translate( options.rect.topLeft() );
-    m_doc->drawContents( painter, clip );
+    m_doc->drawContents(painter, clip);
     painter->restore();
 }
