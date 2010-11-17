@@ -102,10 +102,8 @@ void ClipboardBrowser::stopMonitoring()
         serialize_args(args, msg);
 
         QtLocalPeer peer( NULL, QString("CopyQmonitor") );
-        if ( peer.isClient() ) {
-            if ( peer.sendMessage(msg, 1000) ) {
-                m_monitor->waitForFinished(1000);
-            }
+        if ( peer.sendMessage(msg, 1000) ) {
+            m_monitor->waitForFinished(1000);
         }
 
         if ( m_monitor->state() != QProcess::NotRunning ) {

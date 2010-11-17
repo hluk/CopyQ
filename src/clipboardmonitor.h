@@ -10,6 +10,7 @@
 
 class QMimeData;
 class QByteArray;
+class QtLocalPeer;
 
 class ClipboardMonitor : public QObject
 {
@@ -45,6 +46,7 @@ private:
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;
     QMimeData *m_newdata;
+    QtLocalPeer *m_serverPeer;
 
     // don't allow rapid access to clipboard
     QTimer m_updatetimer;

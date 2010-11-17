@@ -15,6 +15,8 @@ ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
     QObject(parent), m_lastClipboard(0), m_lastSelection(0),
     m_newdata(NULL)
 {
+    m_serverPeer = new QtLocalPeer(this, QString("CopyQ"));
+
     ConfigurationManager *cm = ConfigurationManager::instance();
     setInterval( cm->value(ConfigurationManager::Interval).toInt() );
     setFormats( cm->value(ConfigurationManager::Formats).toString() );
@@ -157,12 +159,10 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode mode, QMimeData *data)
     }
     serialize_args(args, msg);
 
-    QtLocalPeer peer( NULL, QString("CopyQ") );
     // is server running?
-    if ( peer.isClient() ) {
-        if ( !peer.sendMessage(msg, 2000) ) {
-            qDebug( tr("Clipboard Monitor ERROR: Cannot connect to the server!").toLocal8Bit() );
-        }
+    if ( !m_serverPeer->sendMessage(msg, 2000) ) {
+        qDebug( tr("Clipboard Monitor ERROR: Cannot connect to the server!").toLocal8Bit() );
+        QApplication::exit();
     }
 }
 
