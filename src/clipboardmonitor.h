@@ -1,6 +1,8 @@
 #ifndef CLIPBOARDMONITOR_H
 #define CLIPBOARDMONITOR_H
 
+#include "app.h"
+#include <QLocalSocket>
 #include <QWidget>
 #include <QClipboard>
 #include <QThread>
@@ -8,16 +10,22 @@
 #include <QMutex>
 #include <QRegExp>
 
+#include "client_server.h"
+
 class QMimeData;
 class QByteArray;
-class QtLocalPeer;
 
-class ClipboardMonitor : public QObject
+class ClipboardMonitor : public App
 {
     Q_OBJECT
 
 public:
-    explicit ClipboardMonitor(QWidget *parent=NULL);
+    explicit ClipboardMonitor(int &argc, char **argv);
+
+    bool isConnected()
+    {
+        return m_socket->state() == QLocalSocket::ConnectedState;
+    }
 
     QMimeData *clipboardData() const;
     void checkClipboard();
@@ -46,20 +54,19 @@ private:
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;
     QMimeData *m_newdata;
-    QtLocalPeer *m_serverPeer;
+    QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
     QTimer m_updatetimer;
 
-    QMimeData *cloneData(const QMimeData &data, bool filter=false);
     void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
 
 public slots:
     void timeout();
-    void handleMessage(const QString& message);
 
 private slots:
     void updateTimeout();
+    void readyRead();
 };
 
 #endif // CLIPBOARDMONITOR_H

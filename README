@@ -173,3 +173,8 @@ Open CopyQ window and select one of the found files from history. Open action
 dialog (press F5) and in the command field type your favorite text editor
 with %1 as an argument (e.g. "gedit %1").
 
+To copy an image to clipboard use for example:
+
+    cat image.gif | copyq - image/gif
+    cat image.svg | copyq - image/svg
+

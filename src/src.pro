@@ -1,10 +1,8 @@
 TEMPLATE = app
-include(../qtsingleapplication/src/qtsingleapplication.pri)
 
 TARGET = ../copyq
 DEPENDPATH += .
-INCLUDEPATH += . \
-    ../qtsingleapplication/src
+INCLUDEPATH += .
 RESOURCES = copyq.qrc
 FORMS += mainwindow.ui \
     actiondialog.ui \
@@ -21,7 +19,10 @@ HEADERS += mainwindow.h \
     aboutdialog.h \
     clipboarditem.h \
     clipboardmonitor.h \
-    configurationmanager.h
+    configurationmanager.h \
+    clipboardserver.h \
+    clipboardclient.h \
+    app.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -34,7 +35,10 @@ SOURCES += main.cpp \
     aboutdialog.cpp \
     clipboarditem.cpp \
     clipboardmonitor.cpp \
-    configurationmanager.cpp
-QT += xml
+    configurationmanager.cpp \
+    clipboardserver.cpp \
+    clipboardclient.cpp \
+    app.cpp
+QT += xml network
 unix:LIBS += -lXi
 win32:CONFIG += static

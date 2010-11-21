@@ -26,7 +26,6 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
-#include <qtlocalpeer.h>
 #include "clipboardmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -50,24 +49,7 @@ MainWindow::MainWindow(QWidget *parent)
     createMenu();
 
     // clipboard browser widget
-    ClipboardBrowser *c = ui->clipboardBrowser;
-
-    // commands send from client to server
-    m_commands["toggle"] = Cmd_Toggle;
-    m_commands["exit"]   = Cmd_Exit;
-    m_commands["menu"]   = Cmd_Menu;
-    m_commands["action"] = Cmd_Action;
-    m_commands["add"]    = Cmd_Add;
-    m_commands["write"]  = Cmd_Write;
-    m_commands["_write"] = Cmd_WriteNoUpdate;
-    m_commands["edit"]   = Cmd_Edit;
-    m_commands["select"] = Cmd_Select;
-    m_commands["remove"] = Cmd_Remove;
-    m_commands["length"] = Cmd_Length;
-    m_commands["size"]   = Cmd_Length;
-    m_commands["count"]  = Cmd_Length;
-    m_commands["list"]   = Cmd_List;
-    m_commands["read"]   = Cmd_Read;
+    ClipboardBrowser *c = browser();
 
     // signals & slots
     connect( c, SIGNAL(requestSearch(QString)),
@@ -97,9 +79,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // restore clipboard history items
     c->loadItems();
-
-    // run clipboard monitor
-    c->startMonitoring();
 }
 
 void MainWindow::exit()
@@ -128,7 +107,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::createMenu()
 {
-    ClipboardBrowser *c = ui->clipboardBrowser;
+    ClipboardBrowser *c = browser();
     QMenuBar *menubar = menuBar();
     QMenu *m;
     QMenu *menu = new QMenu(this);
@@ -231,21 +210,22 @@ void MainWindow::removeMenuItem(QAction *menuItem)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     QString txt;
+    ClipboardBrowser *c = browser();
 
     switch( event->key() ) {
         case Qt::Key_Down:
         case Qt::Key_Up:
         case Qt::Key_PageDown:
         case Qt::Key_PageUp:
-            ui->clipboardBrowser->keyEvent(event);
+            c->keyEvent(event);
             break;
         
         case Qt::Key_Return:
         case Qt::Key_Enter:
             close();
             // move current item to clipboard and hide window
-            ui->clipboardBrowser->moveToClipboard(
-                    ui->clipboardBrowser->currentIndex() );
+            c->moveToClipboard(
+                    c->currentIndex() );
             resetStatus();
             break;
 
@@ -266,7 +246,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Backspace:
             resetStatus();
-            ui->clipboardBrowser->setCurrent(0);
+            c->setCurrent(0);
             break;
 
         default:
@@ -281,7 +261,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::resetStatus()
 {
-    ClipboardBrowser *c = ui->clipboardBrowser;
+    ClipboardBrowser *c = browser();
 
     ui->searchBar->clear();
     c->clearFilter();
@@ -292,7 +272,7 @@ void MainWindow::resetStatus()
 void MainWindow::saveSettings()
 {
     ConfigurationManager::instance(this)->windowGeometry( objectName(), saveGeometry() );
-    ui->clipboardBrowser->saveItems();
+    browser()->saveItems();
 }
 
 void MainWindow::loadSettings()
@@ -301,243 +281,13 @@ void MainWindow::loadSettings()
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
     setStyleSheet( cm->styleSheet() );
-    ui->clipboardBrowser->loadSettings();
+    browser()->loadSettings();
     qDebug( tr("Configuration loaded").toLocal8Bit() );
-}
-
-bool MainWindow::doCommand(const QString &cmd, DataList &args)
-{
-    ClipboardBrowser *c = ui->clipboardBrowser;
-    bool noupdate = false;
-    QByteArray bytes;
-    QString mime;
-    QMimeData *data;
-    int row;
-
-    // default "list" format
-    QString fmt("%1\n");
-
-    switch( m_commands.value(cmd, Cmd_Unknown) ) {
-
-    // show/hide main window
-    case Cmd_Toggle:
-        toggleVisible();
-        break;
-
-    // exit server
-    case Cmd_Exit:
-        // close client and exit
-        sendMessage( tr("Terminating server.\n") );
-        QApplication::exit();
-        break;
-
-    // show menu
-    case Cmd_Menu:
-        tray->contextMenu()->show();
-        break;
-
-    // show action dialog or run action on item
-    // action [row] "cmd" "[sep]"
-    case Cmd_Action:
-        if ( args.isEmpty() ) {
-            openActionDialog(0);
-        } else {
-            QString cmd, sep;
-
-            // get row
-            int row;
-            parse(args, NULL, &row);
-
-            // get command
-            if ( !parse(args,&cmd) ) {
-                return false;
-            }
-
-            // get separator
-            if ( !parse(args, &sep) )
-                sep = QString('\n');
-
-            // no other arguments to parse
-            if ( args.isEmpty() ) {
-                ConfigurationManager::Command command;
-                command.cmd = cmd;
-                command.output = true;
-                command.input = true;
-                command.sep = sep;
-                command.wait = false;
-                action(row, &command);
-            } else {
-                return false;
-            }
-        }
-        break;
-
-    // add new items
-    case Cmd_Add:
-        if ( args.isEmpty() ) {
-            return false;
-        }
-
-        c->setAutoUpdate(false);
-        for(int i=args.length()-1; i>=0; --i) {
-            c->add( QString(args[i]) );
-        }
-        c->setAutoUpdate(true);
-
-        c->updateClipboard();
-        break;
-
-    // add new items
-    case Cmd_WriteNoUpdate:
-        // don't update clipboard if command is _write
-        noupdate = cmd.startsWith('_');
-    case Cmd_Write:
-        data = new QMimeData;
-        while ( !args.isEmpty() ) {
-            // get mime type
-            if ( !parse(args, &mime) ) {
-                return false;
-            }
-
-            // get data
-            if ( args.isEmpty() ) {
-                delete data;
-                data = NULL;
-            } else {
-                data->setData( mime, args.takeFirst() );
-            }
-        }
-        if (data) {
-            if (noupdate) c->setAutoUpdate(false);
-            c->add(data);
-            if (noupdate) c->setAutoUpdate(true);
-        } else {
-            return false;
-        }
-        break;
-
-    // edit clipboard item
-    case Cmd_Edit:
-        parse(args, NULL, &row);
-        if ( args.isEmpty() ) {
-            c->setCurrent(row);
-            c->openEditor();
-        } else {
-            return false;
-        }
-        break;
-
-    // set current item
-    // select [row=1]
-    case Cmd_Select:
-        parse(args, NULL, &row);
-        c->moveToClipboard(row);
-        break;
-
-    // remove item from clipboard
-    // remove [row=0] ...
-    case Cmd_Remove:
-        if ( args.isEmpty() ) {
-            c->setCurrent(0);
-            c->remove();
-        }
-        else {
-            int row;
-            while( parse(args, NULL, &row) ) {
-                c->setCurrent(row);
-                c->remove();
-            }
-        }
-        break;
-
-    case Cmd_Length:
-        if ( args.isEmpty() ) {
-            bytes = QString("%1\n").arg(c->length()).toLocal8Bit();
-        } else {
-            return false;
-        }
-        break;
-
-    // print items in given rows, format can have two arguments %1:item %2:row
-    // list [format="%1\n"|row=0] ...
-    case Cmd_List:
-        if ( args.isEmpty() ) {
-            bytes = fmt.arg( c->itemText(0) ).toLocal8Bit();
-        } else {
-            do {
-                if ( parse(args, NULL, &row) )
-                    // number
-                    bytes.append( fmt.arg( c->itemText(row) ).arg(row) );
-                else {
-                    // format
-                    parse(args, &fmt);
-                    fmt.replace(QString("\\n"),QString('\n'));
-                }
-            } while( !args.isEmpty() );
-        }
-        break;
-
-    // print items in given rows, format can have two arguments %1:item %2:row
-    // read [mime="text/plain"|row=0] ...
-    case Cmd_Read:
-        mime = QString("text/plain");
-
-        if ( args.isEmpty() ) {
-            bytes = c->itemData(0)->data(mime);
-        } else {
-            do {
-                if ( parse(args, NULL, &row) )
-                    // number
-                    bytes.append( c->itemData(row)->data(mime) );
-                else {
-                    // format
-                    parse(args, &mime);
-                }
-            } while( !args.isEmpty() );
-        }
-        break;
-
-    default:
-        return false;
-    }
-
-    sendMessage(bytes);
-
-    return true;
-}
-
-void MainWindow::sendMessage(const QByteArray &message, int exit_code)
-{
-    DataList client_args;
-    // client output
-    client_args.append( message );
-    // client exit code
-    client_args.append( QString("%1").arg(exit_code).toLocal8Bit() );
-
-    QString client_msg;
-    serialize_args(client_args, client_msg);
-
-    QtLocalPeer peer( NULL, QString("CopyQclient") );
-    peer.sendMessage(client_msg, 1000);
-}
-
-void MainWindow::handleMessage(const QString& message)
-{
-    // deserialize list of arguments from QString
-    DataList args;
-    deserialize_args(message, args);
-
-    const QString cmd = args.isEmpty() ? QString() : args.takeFirst();
-
-    // try to handle command
-    if ( !doCommand(cmd, args) ) {
-        sendMessage( tr("Bad command syntax. Use -h for help.\n"), 2 );
-    }
 }
 
 void MainWindow::toggleVisible()
 {
-    ClipboardBrowser *c = ui->clipboardBrowser;
+    ClipboardBrowser *c = browser();
 
     if ( isVisible() ) {
         if ( actionDialog && !actionDialog->isHidden() ) {
@@ -573,11 +323,16 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
         toggleVisible();
 }
 
+void MainWindow::showMenu()
+{
+    tray->contextMenu()->show();
+}
+
 void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode(false);
     ui->searchBar->setText(txt);
-    ui->clipboardBrowser->filterItems(txt);
+    browser()->filterItems(txt);
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)
@@ -589,7 +344,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
 
     if(m_browsemode){
         // browse mode
-        ui->clipboardBrowser->setFocus();
+        browser()->setFocus();
         if ( l->text().isEmpty() ) {
             l->hide();
             b->hide();
@@ -625,7 +380,7 @@ void MainWindow::createActionDialog()
         actionDialog = new ActionDialog(this);
 
         connect( actionDialog, SIGNAL(addItems(QStringList)),
-                 ui->clipboardBrowser, SLOT(addItems(QStringList)) );
+                 browser(), SLOT(addItems(QStringList)) );
         connect( actionDialog, SIGNAL(error(QString)),
                  this, SLOT(showError(QString)) );
         connect( actionDialog, SIGNAL(message(QString,QString)),
@@ -641,7 +396,7 @@ void MainWindow::createActionDialog()
 
 void MainWindow::openActionDialog(int row, bool modal)
 {
-    ClipboardBrowser *c = ui->clipboardBrowser;
+    ClipboardBrowser *c = browser();
 
     createActionDialog();
     actionDialog->setInput( row >= 0 ? c->itemText(row) : c->selectedText() );
@@ -656,9 +411,14 @@ void MainWindow::openPreferences()
     ConfigurationManager::instance(this)->exec();
 }
 
+ClipboardBrowser *MainWindow::browser()
+{
+    return ui->clipboardBrowser;
+}
+
 void MainWindow::action(int row, const ConfigurationManager::Command *cmd)
 {
-    ClipboardBrowser *c = ui->clipboardBrowser;
+    ClipboardBrowser *c = browser();
 
     createActionDialog();
 
@@ -684,7 +444,7 @@ MainWindow::~MainWindow()
 void MainWindow::timerEvent(QTimerEvent *event)
 {
     if ( event->timerId() == timer_search.timerId() ) {
-        ui->clipboardBrowser->filterItems( ui->searchBar->text() );
+        browser()->filterItems( ui->searchBar->text() );
         timer_search.stop();
     }
     else

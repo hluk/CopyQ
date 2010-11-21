@@ -30,6 +30,7 @@
 class ClipboardModel;
 class AboutDialog;
 class ActionDialog;
+class ClipboardBrowser;
 
 namespace Ui
 {
@@ -40,23 +41,6 @@ class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
-    enum Command {
-        Cmd_Unknown = 0,
-        Cmd_Toggle,
-        Cmd_Exit,
-        Cmd_Menu,
-        Cmd_Action,
-        Cmd_Add,
-        Cmd_Write,
-        Cmd_WriteNoUpdate,
-        Cmd_Edit,
-        Cmd_Select,
-        Cmd_Remove,
-        Cmd_Length,
-        Cmd_List,
-        Cmd_Read,
-    };
-
     public:
         MainWindow(QWidget *parent = 0);
         ~MainWindow();
@@ -64,7 +48,7 @@ class MainWindow : public QMainWindow
         void saveSettings();
         void closeEvent(QCloseEvent *event);
         void createActionDialog();
-        bool doCommand(const QString &cmd, DataList &args);
+        ClipboardBrowser *browser();
 
     private:
         Ui::MainWindow *ui;
@@ -78,7 +62,6 @@ class MainWindow : public QMainWindow
         bool m_browsemode;
         QBasicTimer timer_search;
         bool m_confirmExit;
-        QMap<QString, Command> m_commands;
 
         void createMenu();
 
@@ -87,42 +70,38 @@ class MainWindow : public QMainWindow
         void timerEvent(QTimerEvent *event);
 
     public slots:
-       void handleMessage(const QString &message);
-       void sendMessage(const QByteArray &message, int exit_code = 0);
-       void sendMessage(const QString &message, int exit_code = 0) {
-           sendMessage( message.toLocal8Bit(), exit_code );
-       }
+        void showMenu();
 
-       void enterBrowseMode(bool browsemode = true);
-       // show tray popup
-       void showMessage(const QString &title, const QString &msg,
-                        QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
-                        int msec = 8000);
-       void showError(const QString &msg);
-       // show/hide window
-       void toggleVisible();
-       // clear search & unselect items
-       void resetStatus();
-       void addMenuItem(QAction *menuItem);
-       void removeMenuItem(QAction *menuItem);
-       void exit();
-       void changeTrayIcon(const QIcon &icon);
-       void loadSettings();
+        void enterBrowseMode(bool browsemode = true);
+        // show tray popup
+        void showMessage(const QString &title, const QString &msg,
+                         QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
+                         int msec = 8000);
+        void showError(const QString &msg);
+        // show/hide window
+        void toggleVisible();
+        // clear search & unselect items
+        void resetStatus();
+        void addMenuItem(QAction *menuItem);
+        void removeMenuItem(QAction *menuItem);
+        void exit();
+        void changeTrayIcon(const QIcon &icon);
+        void loadSettings();
 
-       void openAboutDialog();
+        void openAboutDialog();
 
-       /**
+        /**
          Open action dialog.
          \param row Row in clipboard browser. Text in the row can be used as
                 input in actiog dialog. Default is -1 which means all selected
                 row(s).
          \param modal action dialog modality
          */
-       void openActionDialog(int row = -1, bool modal = true);
+        void openActionDialog(int row = -1, bool modal = true);
 
-       void openPreferences();
+        void openPreferences();
 
-       /**
+        /**
          Execute command on an item.
          \param row Row number or -1 for selected items.
          \param cmd Command string (all occurrencies of '%s' will be replaced
@@ -137,12 +116,12 @@ class MainWindow : public QMainWindow
          \param wait If true the action dialog with the command is shown,
                 otherwise the command is executed immediately.
          */
-       void action(int row, const ConfigurationManager::Command *cmd = NULL);
+        void action(int row, const ConfigurationManager::Command *cmd = NULL);
 
     private slots:
         void on_searchBar_textChanged(QString );
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void enterSearchMode(const QString &txt);
-};
+    };
 
 #endif // MAINWINDOW_H

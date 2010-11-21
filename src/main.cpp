@@ -18,12 +18,15 @@
 */
 
 #include "mainwindow.h"
+
 #include "client_server.h"
+#include "clipboardserver.h"
+#include "clipboardclient.h"
 #include "clipboardmonitor.h"
+
 #include <QSettings>
 #include <QDebug>
 #include <iostream>
-#include <qtlocalpeer.h>
 
 void usage()
 {
@@ -65,99 +68,6 @@ void usage()
 "command line help").toLocal8Bit().constData();
 }
 
-int runServer(int argc, char *argv[]) {
-    Q_INIT_RESOURCE(copyq);
-    QCoreApplication::setOrganizationName("copyq");
-    QCoreApplication::setApplicationName("copyq");
-
-    QtSingleApplication app( QString("CopyQ"), argc, argv );
-
-    if ( app.isRunning() ) {
-        std::cout << QObject::tr("CopyQ server is already running.\n",
-                                 "warning: running"
-                                 ).toLocal8Bit().constData();
-        return 0;
-    }
-
-    MainWindow wnd;
-
-    wnd.connect(&app, SIGNAL(messageReceived(const QString&)),
-                      SLOT(handleMessage(const QString&)));
-
-    // don't exit when about or action dialog is closed
-    app.setQuitOnLastWindowClosed(false);
-
-    return app.exec();
-}
-
-int runMonitor(int argc, char *argv[]) {
-    QCoreApplication::setOrganizationName("copyq");
-    QCoreApplication::setApplicationName("copyq");
-
-    QtSingleApplication app( QString("CopyQmonitor"), argc, argv );
-
-    if ( app.isRunning() ) {
-        qDebug() << QObject::tr("Clipboard Monitor: Clipboard monitor already started!");
-        return 0;
-    }
-
-    ClipboardMonitor *monitor = new ClipboardMonitor;
-
-    monitor->connect(&app, SIGNAL(messageReceived(const QString&)),
-                           SLOT(handleMessage(const QString&)));
-
-    return app.exec();
-}
-
-int runClient(const DataList &args) {
-    Client client;
-    bool ok = false;
-
-    QCoreApplication::setOrganizationName("copyq");
-    QCoreApplication::setApplicationName("copyq");
-
-    QtLocalPeer peer( NULL, QString("CopyQ") );
-    // is server running?
-    if ( peer.isClient() ) {
-        // serialize arguments to create msg for server
-        QString msg;
-        if ( !args.isEmpty() && args.first() == QString("-") ) {
-            QByteArray mime;
-            if ( args.length() == 2 ) {
-                mime = args.last();
-            } else {
-                mime = QByteArray("text/plain");
-            }
-
-            // read text from stdin
-            DataList args2;
-            QFile in;
-            in.open(stdin, QIODevice::ReadOnly);
-            args2 << QByteArray("write") << mime << in.readAll();
-            serialize_args(args2, msg);
-        } else {
-            serialize_args(args, msg);
-        }
-
-        // create client -- wait for others to close
-        client.connect();
-
-        ok = peer.sendMessage(msg, 3000);
-    };
-
-    if ( ok ) {
-        return client.exec();
-    } else {
-        std::cout << QObject::tr(
-                "ERROR: Sending command to server failed. "
-                "Is CopyQ server running? To run a server "
-                "just execute this program without parameters.\n",
-                "error: not running"
-                ).toLocal8Bit().constData();
-        return 1;
-    }
-}
-
 int main(int argc, char *argv[])
 {
     // arguments -h,--help,help: print help and exit
@@ -174,18 +84,29 @@ int main(int argc, char *argv[])
     // if server hasn't been run yet and no argument were specified
     // then run this as server
     if (argc == 1) {
-        return runServer(argc, argv);
+        ClipboardServer app(argc, argv);
+        if ( app.isListening() ) {
+            return app.exec();
+        } else {
+            qDebug( QObject::tr("CopyQ server is already running.").toLocal8Bit() );
+            return 0;
+        }
     }
+    // if only argument is "monitor"
+    // then run clipboard monitor (used only by server)
     else if (argc == 2 && strcmp(argv[1], "monitor") == 0) {
-        return runMonitor(argc, argv);
+        ClipboardMonitor app(argc, argv);
+        if ( app.isConnected() ) {
+            return app.exec();
+        } else {
+            return 0;
+        }
     }
     // if argument specified and server is running
     // then run this as client
     else {
-        DataList args;
-        for (int i = 1; i < argc; ++i)
-            args.append( QByteArray(argv[i]) );
-        return runClient(args);
+        ClipboardClient app(argc, argv);
+        return app.exec();
     }
 
     // shouldn't get here

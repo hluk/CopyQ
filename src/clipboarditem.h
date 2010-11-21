@@ -33,7 +33,7 @@ QString escape(const QString &str);
 class ClipboardItem
 {
 public:
-    ClipboardItem(const ClipboardModel *parent);
+    ClipboardItem(const ClipboardModel *parent=NULL);
     ~ClipboardItem();
 
     // flags

@@ -84,9 +84,10 @@ QVariant ClipboardItem::data(int role) const
 
 QString ClipboardItem::highlightedHtml() const
 {
-    const QRegExp *re = m_parent->search();
+    const QRegExp *re;
     QString highlight;
 
+    re = m_parent ? m_parent->search() : NULL;
     if ( !re || re->isEmpty() ) {
         // show html if not searching or the text is not too large
         if ( m_mimeType.endsWith("html") )
@@ -128,6 +129,8 @@ QString ClipboardItem::highlightedHtml() const
 
 void ClipboardItem::setPreferredFormat()
 {
+    if ( !m_parent ) return;
+
     // get right mime type
     QStringList formats = m_data->formats();
     const QStringList &tryformats = m_parent->formats();

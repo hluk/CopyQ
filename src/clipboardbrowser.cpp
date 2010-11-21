@@ -26,15 +26,15 @@
 #include <actiondialog.h>
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
+#include "clipboarditem.h"
 #include "configurationmanager.h"
 #include "client_server.h"
-#include <qtlocalpeer.h>
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_monitor(NULL), m_update(false), menu(NULL)
+    m_update(false), menu(NULL)
 {
     setLayoutMode(QListView::Batched);
-    setBatchSize(20);
+    setBatchSize(15);
 
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -66,87 +66,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
 
 ClipboardBrowser::~ClipboardBrowser()
 {
-    stopMonitoring();
     emit closeAllEditors();
 }
 
-void ClipboardBrowser::monitorStateChanged(QProcess::ProcessState newState)
-{
-    if (newState == QProcess::NotRunning) {
-        qDebug( tr("Clipboard Monitor ERROR: Clipboard monitor crashed! (%s)").toLocal8Bit(),
-                m_monitor->errorString().toLocal8Bit().constData() );
-        startMonitoring();
-    } else if (newState == QProcess::Starting) {
-        qDebug( tr("Clipboard Monitor: Starting").toLocal8Bit() );
-    } else if (newState == QProcess::Running) {
-        qDebug( tr("Clipboard Monitor: Started").toLocal8Bit() );
-    }
-}
-
-void ClipboardBrowser::monitorStandardError()
-{
-    qDebug( tr("Clipboard Monitor error output:").toLocal8Bit() );
-    qDebug( m_monitor->readAllStandardError() );
-}
-
-void ClipboardBrowser::stopMonitoring()
-{
-    if (m_monitor) {
-        qDebug( tr("Clipboard Monitor: Terminating").toLocal8Bit() );
-        m_monitor->disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
-
-        // send "exit" command to clipboard monitor process
-        QString msg;
-        DataList args;
-        args << QByteArray("exit");
-        serialize_args(args, msg);
-
-        QtLocalPeer peer( NULL, QString("CopyQmonitor") );
-        if ( peer.sendMessage(msg, 1000) ) {
-            m_monitor->waitForFinished(1000);
-        }
-
-        if ( m_monitor->state() != QProcess::NotRunning ) {
-            qDebug( tr("Clipboard Monitor ERROR: Command 'exit' unsucessful!").toLocal8Bit() );
-            m_monitor->terminate();
-            m_monitor->waitForFinished(1000);
-        }
-
-        if ( m_monitor->state() != QProcess::NotRunning ) {
-            qDebug( tr("Clipboard Monitor ERROR: Cannot terminate process!").toLocal8Bit() );
-            m_monitor->kill();
-        }
-
-        if ( m_monitor->state() != QProcess::NotRunning ) {
-            qDebug( tr("Clipboard Monitor ERROR: Cannot kill process!!!").toLocal8Bit() );
-        } else {
-            qDebug( tr("Clipboard Monitor: Terminated").toLocal8Bit() );
-        }
-
-        delete m_monitor;
-        m_monitor = NULL;
-    }
-    m_update = false;
-}
-
-void ClipboardBrowser::startMonitoring()
-{
-    if ( !m_monitor ) {
-        m_monitor = new QProcess;
-        connect( m_monitor, SIGNAL(stateChanged(QProcess::ProcessState)),
-                 this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
-        connect( m_monitor, SIGNAL(readyReadStandardError()),
-                 this, SLOT(monitorStandardError()) );
-    }
-
-    if ( m_monitor->state() == QProcess::NotRunning ) {
-        m_monitor->start( QCoreApplication::arguments().at(0),
-                          QStringList() << "monitor",
-                          QProcess::NotOpen );
-        m_monitor->waitForStarted(2000);
-    }
-    m_update = true;
-}
 
 void ClipboardBrowser::closeEditor(QEditor *editor)
 {
@@ -542,12 +464,6 @@ void ClipboardBrowser::loadSettings()
     commands = cm->commands();
 
     update();
-
-    // restart clipboard monitor to load its configuration
-    if ( isMonitoring() ) {
-        stopMonitoring();
-        startMonitoring();
-    }
 }
 
 void ClipboardBrowser::loadItems()
@@ -632,25 +548,7 @@ void ClipboardBrowser::updateClipboard()
 
     // TODO: first item -> clipboard
     if ( m_update ) {
-        QString msg;
-        DataList args;
-        const QMimeData *data = m->mimeData(0);
-
-        args << QByteArray("write");
-        foreach ( QString mime, data->formats() ) {
-            args << mime.toLocal8Bit() << data->data(mime);
-        }
-        serialize_args(args, msg);
-
-        QtLocalPeer peer( NULL, QString("CopyQmonitor") );
-        // is monitor running?
-        if ( peer.isClient() ) {
-            if ( !peer.sendMessage(msg, 2000) ) {
-                // monitor is not responding -> restart it
-                m_monitor->kill();
-                // TODO: send the data again
-            }
-        }
+        emit changeClipboard(m->at(0));
     }
 
     runCallback();
@@ -661,7 +559,6 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
     if ( a.row() == 0 && m->search()->isEmpty() ) {
         updateClipboard();
     }
-    update(a);
 }
 
 void ClipboardBrowser::resizeEvent(QResizeEvent *e)

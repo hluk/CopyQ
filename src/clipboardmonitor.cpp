@@ -1,21 +1,28 @@
 #include "clipboardmonitor.h"
-#include "client_server.h"
+#include "clipboardserver.h"
 #include "configurationmanager.h"
-#include <qtlocalpeer.h>
+#include "clipboarditem.h"
 #include <QMimeData>
-#include <QApplication>
 #include <QDebug>
 #include <QTime>
+#include <QFile>
 
 #ifndef WIN32
 #include <X11/extensions/XInput.h>
 #endif
 
-ClipboardMonitor::ClipboardMonitor(QWidget *parent) :
-    QObject(parent), m_lastClipboard(0), m_lastSelection(0),
+ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
+    App(argc, argv) ,m_lastClipboard(0), m_lastSelection(0),
     m_newdata(NULL)
 {
-    m_serverPeer = new QtLocalPeer(this, QString("CopyQ"));
+    m_socket = new QLocalSocket(this);
+    connect( m_socket, SIGNAL(readyRead()),
+             this, SLOT(readyRead()) );
+    connect( m_socket, SIGNAL(disconnected()),
+             this, SLOT(quit()) );
+    m_socket->connectToServer( ClipboardServer::monitorServerName() );
+    if ( !m_socket->waitForConnected(2000) )
+        return;
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     setInterval( cm->value(ConfigurationManager::Interval).toInt() );
@@ -43,7 +50,6 @@ void ClipboardMonitor::setFormats(const QString &list)
 void ClipboardMonitor::timeout()
 {
     if (m_checkclip || m_checksel) {
-        // wait on selection completed
 #ifndef WIN32
         // wait while selection is incomplete, i.e. mouse button or
         // shift key is pressed
@@ -129,12 +135,12 @@ void ClipboardMonitor::checkClipboard()
         if( mode == QClipboard::Clipboard &&
             m_copyclip &&
             h2 == m_lastSelection ) {
-            clipboard->setMimeData( cloneData(*d, true),
+            clipboard->setMimeData( cloneData(*d, &m_formats),
                                     QClipboard::Selection );
         } else if ( mode == QClipboard::Selection &&
                     m_copysel &&
                     h == m_lastClipboard ) {
-            clipboard->setMimeData( cloneData(*d, true),
+            clipboard->setMimeData( cloneData(*d, &m_formats),
                                     QClipboard::Clipboard );
         }
 
@@ -142,28 +148,28 @@ void ClipboardMonitor::checkClipboard()
 
     if (d) {
         // create and emit new clipboard data
-        clipboardChanged(mode, cloneData(*d, true));
+        clipboardChanged(mode, cloneData(*d, &m_formats));
     }
 
     clipboardLock.unlock();
 }
 
-void ClipboardMonitor::clipboardChanged(QClipboard::Mode mode, QMimeData *data)
+void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
 {
-    QString msg;
-    DataList args;
+    ClipboardItem item;
 
-    args << QByteArray("_write");
     foreach ( QString mime, data->formats() ) {
-        args << mime.toLocal8Bit() << data->data(mime);
+        item.setData(mime, data->data(mime));
     }
-    serialize_args(args, msg);
 
-    // is server running?
-    if ( !m_serverPeer->sendMessage(msg, 2000) ) {
-        qDebug( tr("Clipboard Monitor ERROR: Cannot connect to the server!").toLocal8Bit() );
-        QApplication::exit();
-    }
+    // send clipboard item
+    QByteArray bytes;
+    QDataStream out(&bytes, QIODevice::WriteOnly);
+    out << item;
+    QByteArray zipped = qCompress(bytes);
+
+    QDataStream(m_socket) << (quint32)zipped.length() << zipped;
+    m_socket->flush();
 }
 
 void ClipboardMonitor::updateTimeout()
@@ -180,33 +186,22 @@ void ClipboardMonitor::updateTimeout()
     }
 }
 
-void ClipboardMonitor::handleMessage(const QString &message)
+void ClipboardMonitor::readyRead()
 {
-    DataList args;
-    deserialize_args(message, args);
-
-    const QString cmd = args.isEmpty() ? QString() : args.takeFirst();
-
-    if ( cmd == "write" ) {
-        QString mime;
-
-        QMimeData data;
-        while ( !args.isEmpty() ) {
-            // get mime type
-            if ( !parse(args, &mime) )
-                break;
-
-            // get data
-            if ( args.isEmpty() ) {
-                break;
-            } else {
-                data.setData( mime, args.takeFirst() );
-            }
-        }
-        updateClipboard(data);
-    } else if ( cmd == "exit" ) {
-        QApplication::exit();
+    QByteArray msg;
+    if( !readBytes(m_socket, msg) ) {
+        // something is wrong -> exit
+        qDebug( tr("ERROR: Incorrect message received!").toLocal8Bit() );
+        exit(3);
+        return;
     }
+
+    QDataStream in2(&msg, QIODevice::ReadOnly);
+
+    ClipboardItem item;
+    in2 >> item;
+
+    updateClipboard( *item.data() );
 }
 
 void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
@@ -249,21 +244,4 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     m_updatetimer.start();
 
     clipboardLock.unlock();
-}
-
-QMimeData *ClipboardMonitor::cloneData(const QMimeData &data, bool filter)
-{
-    QMimeData *newdata = new QMimeData;
-    if (filter) {
-        foreach( QString mime, m_formats ) {
-            QByteArray bytes = data.data(mime);
-            if ( !bytes.isEmpty() )
-                newdata->setData(mime, bytes);
-        }
-    } else {
-        foreach( QString mime, data.formats() ) {
-            newdata->setData(mime, data.data(mime));
-        }
-    }
-    return newdata;
 }

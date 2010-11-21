@@ -28,8 +28,8 @@
 
 class ClipboardModel;
 class ItemDelegate;
-class ClipboardMonitor;
 class QMimeData;
+class ClipboardItem;
 
 class ClipboardBrowser : public QListView
 {
@@ -60,12 +60,6 @@ class ClipboardBrowser : public QListView
 
         void setMenu(QMenu *menu);
 
-        void startMonitoring();
-        void stopMonitoring();
-        bool isMonitoring() {
-            return m_monitor && m_monitor->state() != QProcess::NotRunning;
-        }
-
         void updateClipboard();
 
         void setAutoUpdate(bool update) { m_update = update; }
@@ -75,7 +69,6 @@ class ClipboardBrowser : public QListView
         QString m_callback;
         QStringList m_callback_args;
         QString m_editor;
-        QProcess *m_monitor;
         ClipboardModel *m;
         ItemDelegate *d;
         QTimer timer_save;
@@ -98,6 +91,7 @@ class ClipboardBrowser : public QListView
         void hideSearch();
         void escapePressed();
         void closeAllEditors();
+        void changeClipboard(const ClipboardItem *item);
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
@@ -118,10 +112,6 @@ class ClipboardBrowser : public QListView
         void newItem();
 
         void checkClipboard(QClipboard::Mode mode, QMimeData *data);
-
-    private slots:
-        void monitorStateChanged( QProcess::ProcessState newState );
-        void monitorStandardError();
 };
 
 #endif // CLIPBOARDBROWSER_H

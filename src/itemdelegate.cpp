@@ -38,7 +38,7 @@ void ItemDelegate::setStyleSheet(const QString &css)
     m_doc->setDefaultStyleSheet(css);
 }
 
-QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const
+QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
 {
     QSize &sz = m_buff[index.row()];
 
@@ -50,7 +50,7 @@ QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &option, const QModelIn
 
 void ItemDelegate::invalidateSizes()
 {
-    for( int i = 0; i <= m_buff.length(); ++i )
+    for( int i = 0; i < m_buff.length(); ++i )
         m_buff[i] = QSize();
 }
 
@@ -164,9 +164,9 @@ void ItemDelegate::createDoc(const QModelIndex &index) const
 
     // maximum item size
     int height = m_doc->size().height();
-    int max_height = m_parent->height()-10;
-    if (height > max_height)
-        height = max_height;
+    //int max_height = m_parent->height()-10;
+    //if (height > max_height)
+    //    height = max_height;
     m_buff[n] = QSize( m_doc->idealWidth(), height );
 }
 
@@ -182,11 +182,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
 
-    QRect clip( 0, 0, options.rect.width(), options.rect.height() );
+    QRect clip( QPoint(0, 0), option.rect.size() );
 
     painter->save();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
-    painter->translate( options.rect.topLeft() );
+    painter->translate( option.rect.topLeft() );
     m_doc->drawContents(painter, clip);
     painter->restore();
 }

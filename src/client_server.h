@@ -2,27 +2,21 @@
 #define CLIENT_SERVER_H
 #include <QString>
 #include <QList>
+#include <QMimeData>
+#include <QStringList>
 #include <QByteArray>
-#include <QtSingleApplication>
+
+#include <QLocalServer>
+#include <QLocalSocket>
 
 typedef QList<QByteArray> DataList;
 
-void serialize_args(const DataList &args, QString &msg);
-void deserialize_args(const QString &msg, DataList &args);
+bool readBytes(QIODevice *socket, QByteArray &msg);
+QLocalServer *newServer(const QString &name, QObject *parent=NULL);
+QString serverName(const QString &name);
+QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
+void serialize_args(const DataList &args, QByteArray &msg);
+void deserialize_args(const QByteArray &msg, DataList &args);
 bool parse(DataList &list, QString *str = NULL, int *num = NULL);
 
-// NOTE: server part is MainWindow
-class Client : public QObject
-{
-    Q_OBJECT
-
-    public:
-        Client(): client(NULL) {};
-        void connect();
-        int exec();
-    public slots:
-        void handleMessage(const QString& message);
-    private:
-        QtSingleApplication *client;
-};
 #endif // CLIENT_SERVER_H
