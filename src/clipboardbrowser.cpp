@@ -404,6 +404,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
 
     // ignore empty
     if ( ignore_empty && (formats.isEmpty() || (data->hasText() && data->text().isEmpty())) ) {
+        delete data;
         return false;
     }
 
@@ -413,6 +414,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
         QStringList oldformats = olddata->formats();
         if ( oldformats == formats &&
              olddata->data(oldformats.at(0)) == data->data(formats.at(0)) ) {
+            delete data;
             return false;
         }
     }

@@ -48,7 +48,7 @@ void usage()
 "      remove item in given rows\n"
 "    edit\n"
 "      edit clipboard item\n"
-"    list [format=\"%1\\n\"|row=0] ...\n"
+"    list [format=\"%1\\n\"] [row=0] ...\n"
 "      print items in given rows\n"
 "\n"
 "    read [mime_type=\"text/plain\"|row=0] ...\n"

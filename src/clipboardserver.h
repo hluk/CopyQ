@@ -8,6 +8,7 @@
 
 class MainWindow;
 class ClipboardItem;
+class Arguments;
 
 class ClipboardServer : public App
 {
@@ -34,7 +35,7 @@ public:
     explicit ClipboardServer(int &argc, char **argv);
     ~ClipboardServer();
     bool isListening() { return m_server->isListening(); }
-    bool doCommand(DataList &args, QByteArray &bytes);
+    bool doCommand(Arguments &args, QByteArray &bytes);
     void sendMessage(QLocalSocket* client, const QByteArray &message, int exit_code = 0);
     void sendMessage(QLocalSocket* client, const QString &message, int exit_code = 0) {
         sendMessage( client, message.toLocal8Bit(), exit_code );

@@ -188,20 +188,22 @@ void ClipboardMonitor::updateTimeout()
 
 void ClipboardMonitor::readyRead()
 {
-    QByteArray msg;
-    if( !readBytes(m_socket, msg) ) {
-        // something is wrong -> exit
-        qDebug( tr("ERROR: Incorrect message received!").toLocal8Bit() );
-        exit(3);
-        return;
-    }
+    do {
+        QByteArray msg;
+        if( !readBytes(m_socket, msg) ) {
+            // something is wrong -> exit
+            qDebug( tr("ERROR: Incorrect message received!").toLocal8Bit() );
+            exit(3);
+            return;
+        }
 
-    QDataStream in2(&msg, QIODevice::ReadOnly);
+        QDataStream in2(&msg, QIODevice::ReadOnly);
 
-    ClipboardItem item;
-    in2 >> item;
+        ClipboardItem item;
+        in2 >> item;
 
-    updateClipboard( *item.data() );
+        updateClipboard( *item.data() );
+    } while ( m_socket->bytesAvailable() );
 }
 
 void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)

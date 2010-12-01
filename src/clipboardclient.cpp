@@ -1,6 +1,7 @@
 #include "clipboardclient.h"
 #include "clipboardserver.h"
 #include "client_server.h"
+#include "arguments.h"
 #include <QFile>
 #include <QDebug>
 #include <iostream>
@@ -8,31 +9,9 @@
 ClipboardClient::ClipboardClient(int &argc, char **argv) :
         App(argc, argv)
 {
-    Q_INIT_RESOURCE(copyq);
-
     // parse arguments
-    DataList args;
-    for (int i = 1; i < argc; ++i)
-        args.append( QByteArray(argv[i]) );
-
-    // create message for the server
-    if ( !args.isEmpty() && args.first() == QString("-") ) {
-        QByteArray mime;
-        if ( args.length() == 2 ) {
-            mime = args.last();
-        } else {
-            mime = QByteArray("text/plain");
-        }
-
-        // read text from stdin
-        DataList args2;
-        QFile in;
-        in.open(stdin, QIODevice::ReadOnly);
-        args2 << QByteArray("write") << mime << in.readAll();
-        serialize_args(args2, m_msg);
-    } else {
-        serialize_args(args, m_msg);
-    }
+    Arguments args(argc, argv);
+    m_msg = args.message();
 
     // client socket
     m_client = new QLocalSocket(this);

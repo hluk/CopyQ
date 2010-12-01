@@ -22,7 +22,8 @@ HEADERS += mainwindow.h \
     configurationmanager.h \
     clipboardserver.h \
     clipboardclient.h \
-    app.h
+    app.h \
+    arguments.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -38,7 +39,8 @@ SOURCES += main.cpp \
     configurationmanager.cpp \
     clipboardserver.cpp \
     clipboardclient.cpp \
-    app.cpp
+    app.cpp \
+    arguments.cpp
 QT += xml network
 unix:LIBS += -lXi
 win32:CONFIG += static

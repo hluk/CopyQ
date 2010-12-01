@@ -5,6 +5,7 @@
 #include "clipboarditem.h"
 #include <QLocalSocket>
 #include <QMimeData>
+#include "arguments.h"
 
 ClipboardServer::ClipboardServer(int &argc, char **argv) :
         App(argc, argv), m_socket(NULL), m_wnd(NULL), m_monitor(NULL)
@@ -168,9 +169,7 @@ void ClipboardServer::newConnection()
         return;
     }
 
-    DataList args;
-    deserialize_args(msg, args);
-
+    Arguments args(msg);
     QByteArray client_msg;
     // try to handle command
     if ( !doCommand(args, client_msg) ) {
@@ -200,8 +199,6 @@ void ClipboardServer::newMonitorConnection()
         m_socket->deleteLater();
     }
     m_socket = m_monitorserver->nextPendingConnection();
-    //connect(m_socket, SIGNAL(disconnected()),
-    //        m_socket, SLOT(deleteLater()));
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
 }
@@ -239,9 +236,12 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     m_socket->flush();
 }
 
-bool ClipboardServer::doCommand(DataList &args, QByteArray &bytes)
+bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 {
-    const QString cmd = args.isEmpty() ? QString() : args.takeFirst();
+    QString cmd;
+    args >> cmd;
+    if ( args.error() )
+        return false;
 
     ClipboardBrowser *c = m_wnd->browser();
     bool noupdate = false;
@@ -249,73 +249,63 @@ bool ClipboardServer::doCommand(DataList &args, QByteArray &bytes)
     QMimeData *data;
     int row;
 
-    // default "list" format
-    QString fmt("%1\n");
-
     switch( m_commands.value(cmd, Cmd_Unknown) ) {
 
     // show/hide main window
     case Cmd_Toggle:
+        if ( !args.atEnd() )
+            return false;
         m_wnd->toggleVisible();
         break;
 
     // exit server
     case Cmd_Exit:
+        if ( !args.atEnd() )
+            return false;
         // close client and exit
-        bytes = tr("Terminating server.\n").toLocal8Bit();
+        response = tr("Terminating server.\n").toLocal8Bit();
         exit();
         break;
 
     // show menu
     case Cmd_Menu:
+        if ( !args.atEnd() )
+            return false;
         m_wnd->showMenu();
         break;
 
     // show action dialog or run action on item
+    // action
     // action [row] "cmd" "[sep]"
     case Cmd_Action:
-        if ( args.isEmpty() ) {
+        if ( args.atEnd() ) {
             m_wnd->openActionDialog(0);
         } else {
             QString cmd, sep;
 
-            // get row
-            int row;
-            parse(args, NULL, &row);
+            args >> 0 >> row >> cmd >> QString('\n') >> sep;
 
-            // get command
-            if ( !parse(args,&cmd) ) {
+            if ( !args.finished() )
                 return false;
-            }
 
-            // get separator
-            if ( !parse(args, &sep) )
-                sep = QString('\n');
-
-            // no other arguments to parse
-            if ( args.isEmpty() ) {
-                ConfigurationManager::Command command;
-                command.cmd = cmd;
-                command.output = true;
-                command.input = true;
-                command.sep = sep;
-                command.wait = false;
-                m_wnd->action(row, &command);
-            } else {
-                return false;
-            }
+            ConfigurationManager::Command command;
+            command.cmd = cmd;
+            command.output = true;
+            command.input = true;
+            command.sep = sep;
+            command.wait = false;
+            m_wnd->action(row, &command);
         }
         break;
 
     // add new items
     case Cmd_Add:
-        if ( args.isEmpty() ) {
+        if ( args.atEnd() )
             return false;
-        }
 
         if ( isMonitoring() ) c->setAutoUpdate(false);
-        for(int i=args.length()-1; i>=0; --i) {
-            c->add( QString(args[i]) );
+        while( !args.atEnd() ) {
+            c->add( args.toString() );
         }
         if ( isMonitoring() ) c->setAutoUpdate(true);
 
@@ -328,33 +318,28 @@ bool ClipboardServer::doCommand(DataList &args, QByteArray &bytes)
         noupdate = cmd.startsWith('_');
     case Cmd_Write:
         data = new QMimeData;
-        while ( !args.isEmpty() ) {
-            // get mime type
-            if ( !parse(args, &mime) ) {
+        do {
+            QByteArray bytes;
+            args >> mime >> bytes;
+
+            if ( args.error() ) {
+                delete data;
+                data = NULL;
                 return false;
             }
 
-            // get data
-            if ( args.isEmpty() ) {
-                delete data;
-                data = NULL;
-            } else {
-                data->setData( mime, args.takeFirst() );
-            }
-        }
-        if (data) {
-            if ( noupdate && isMonitoring() ) c->setAutoUpdate(false);
-            c->add(data);
-            if ( noupdate && isMonitoring() ) c->setAutoUpdate(true);
-        } else {
-            return false;
-        }
+            data->setData( mime, bytes );
+        } while ( !args.atEnd() );
+
+        if ( noupdate && isMonitoring() ) c->setAutoUpdate(false);
+        c->add(data);
+        if ( noupdate && isMonitoring() ) c->setAutoUpdate(true);
         break;
 
     // edit clipboard item
     case Cmd_Edit:
-        parse(args, NULL, &row);
-        if ( args.isEmpty() ) {
+        args >> 0 >> row;
+        if ( args.finished() ) {
             c->setCurrent(row);
             c->openEditor();
         } else {
@@ -365,29 +350,32 @@ bool ClipboardServer::doCommand(DataList &args, QByteArray &bytes)
     // set current item
     // select [row=1]
     case Cmd_Select:
-        parse(args, NULL, &row);
+        args >> 0 >> row;
+        if ( !args.finished() )
+            return false;
         c->moveToClipboard(row);
         break;
 
     // remove item from clipboard
     // remove [row=0] ...
     case Cmd_Remove:
-        if ( args.isEmpty() ) {
+        if ( args.finished() ) {
             c->setCurrent(0);
             c->remove();
         }
         else {
             int row;
-            while( parse(args, NULL, &row) ) {
+            do {
+                args >> 0 >> row;
                 c->setCurrent(row);
                 c->remove();
-            }
+            } while ( !args.finished() );
         }
         break;
 
     case Cmd_Length:
-        if ( args.isEmpty() ) {
-            bytes = QString("%1\n").arg(c->length()).toLocal8Bit();
+        if ( args.finished() ) {
+            response = QString("%1\n").arg(c->length()).toLocal8Bit();
         } else {
             return false;
         }
@@ -396,19 +384,20 @@ bool ClipboardServer::doCommand(DataList &args, QByteArray &bytes)
     // print items in given rows, format can have two arguments %1:item %2:row
     // list [format="%1\n"|row=0] ...
     case Cmd_List:
-        if ( args.isEmpty() ) {
-            bytes = fmt.arg( c->itemText(0) ).toLocal8Bit();
+        if ( args.finished() ) {
+            response = c->itemText(0).toLocal8Bit()+'\n';
         } else {
+            QString fmt("%1\n");
             do {
-                if ( parse(args, NULL, &row) )
-                    // number
-                    bytes.append( fmt.arg( c->itemText(row) ).arg(row) );
-                else {
-                    // format
-                    parse(args, &fmt);
+                args >> 0 >> row;
+                if ( args.error() ) {
+                    args.back();
+                    args >> fmt;
                     fmt.replace(QString("\\n"),QString('\n'));
+                } else {
+                    response.append( fmt.arg( c->itemText(row) ).arg(row) );
                 }
-            } while( !args.isEmpty() );
+            } while( !args.atEnd() );
         }
         break;
 
@@ -417,18 +406,19 @@ bool ClipboardServer::doCommand(DataList &args, QByteArray &bytes)
     case Cmd_Read:
         mime = QString("text/plain");
 
-        if ( args.isEmpty() ) {
-            bytes = c->itemData(0)->data(mime);
+        if ( args.atEnd() ) {
+            response = c->itemData(0)->data(mime);
         } else {
+            QString mime("text/plain");
             do {
-                if ( parse(args, NULL, &row) )
-                    // number
-                    bytes.append( c->itemData(row)->data(mime) );
-                else {
-                    // format
-                    parse(args, &mime);
+                args >> 0 >> row;
+                if ( args.error() ) {
+                    args.back();
+                    args >> mime;
+                } else {
+                    response.append( c->itemData(row)->data(mime) );
                 }
-            } while( !args.isEmpty() );
+            } while( !args.atEnd() );
         }
         break;
 
