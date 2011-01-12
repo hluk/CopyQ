@@ -34,7 +34,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     m_update(false), menu(NULL)
 {
     setLayoutMode(QListView::Batched);
-    setBatchSize(15);
+    setBatchSize(10);
 
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
@@ -235,12 +235,10 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
 
 void ClipboardBrowser::moveToClipboard(int i)
 {
-    if ( i > 0 ) {
-        m->move(i,0);
-        updateClipboard();
-        scrollTo( currentIndex() );
-        update();
-    }
+    m->move(i,0);
+    updateClipboard();
+    scrollTo( currentIndex() );
+    update();
 }
 
 void ClipboardBrowser::newItem()
@@ -548,7 +546,6 @@ void ClipboardBrowser::updateClipboard()
     if ( m->rowCount() == 0 )
         return;
 
-    // TODO: first item -> clipboard
     if ( m_update ) {
         emit changeClipboard(m->at(0));
     }

@@ -220,7 +220,19 @@ void ClipboardServer::readyRead()
     ClipboardItem item;
     in2 >> item;
 
-    m_wnd->browser()->add( cloneData(*item.data()) );
+    QMimeData *data = item.data();
+    ClipboardBrowser *c = m_wnd->browser();
+
+    // don't allow clipboard to be empty
+    if ( data->formats().isEmpty() || (data->hasText() && data->text().isEmpty()) ) {
+        // reset clipboard content
+        if ( c->length() > 0 ) {
+            qDebug( tr("NOTE: Clipboard or selection is empty -> resetting previous content.").toLocal8Bit() );
+            c->moveToClipboard(0);
+        }
+    } else {
+        c->add( cloneData(*data) );
+    }
 }
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)
@@ -314,8 +326,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 
     // add new items
     case Cmd_WriteNoUpdate:
-        // don't update clipboard if command is _write
-        noupdate = cmd.startsWith('_');
+        noupdate = true;
     case Cmd_Write:
         data = new QMimeData;
         do {
@@ -331,9 +342,13 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
             data->setData( mime, bytes );
         } while ( !args.atEnd() );
 
-        if ( noupdate && isMonitoring() ) c->setAutoUpdate(false);
+        if ( noupdate && isMonitoring() )
+            c->setAutoUpdate(false);
+
         c->add(data);
-        if ( noupdate && isMonitoring() ) c->setAutoUpdate(true);
+
+        if ( noupdate && isMonitoring() )
+            c->setAutoUpdate(true);
         break;
 
     // edit clipboard item

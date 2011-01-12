@@ -87,7 +87,8 @@ uint ClipboardMonitor::hash(const QMimeData &data)
             break;
     }
 
-    return qHash(bytes);
+    // return 0 when data is empty
+    return bytes.isEmpty() ? 0 : qHash(bytes);
 }
 
 void ClipboardMonitor::checkClipboard()
@@ -137,13 +138,14 @@ void ClipboardMonitor::checkClipboard()
             h2 == m_lastSelection ) {
             clipboard->setMimeData( cloneData(*d, &m_formats),
                                     QClipboard::Selection );
+            m_lastSelection = h;
         } else if ( mode == QClipboard::Selection &&
                     m_copysel &&
                     h == m_lastClipboard ) {
             clipboard->setMimeData( cloneData(*d, &m_formats),
                                     QClipboard::Clipboard );
+            m_lastClipboard = h2;
         }
-
     }
 
     if (d) {
@@ -233,13 +235,16 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 
     QClipboard *clipboard = QApplication::clipboard();
     if ( h != m_lastClipboard ) {
+        qDebug() << "CLIPBOARD";
         clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
         m_lastClipboard = h;
     }
     if ( h != m_lastSelection ) {
+        qDebug() << "SELECTION";
         clipboard->setMimeData(newdata2, QClipboard::Selection);
         m_lastSelection = h;
     }
+    qDebug() << "DONE";
 
     m_newdata = NULL;
 
