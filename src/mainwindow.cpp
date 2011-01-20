@@ -102,6 +102,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     //showMinimized();
     hide();
+    resetStatus();
     event->ignore();
 }
 
@@ -226,7 +227,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             // move current item to clipboard and hide window
             c->moveToClipboard(
                     c->currentIndex() );
-            resetStatus();
             break;
 
         case Qt::Key_F3:
@@ -237,7 +237,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Escape:
             if ( ui->searchBar->isHidden() )
                 close();
-            resetStatus();
+            else
+                resetStatus();
             break;
 
         case Qt::Key_Tab:

@@ -235,16 +235,13 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 
     QClipboard *clipboard = QApplication::clipboard();
     if ( h != m_lastClipboard ) {
-        qDebug() << "CLIPBOARD";
         clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
         m_lastClipboard = h;
     }
     if ( h != m_lastSelection ) {
-        qDebug() << "SELECTION";
         clipboard->setMimeData(newdata2, QClipboard::Selection);
         m_lastSelection = h;
     }
-    qDebug() << "DONE";
 
     m_newdata = NULL;
 

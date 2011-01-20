@@ -23,9 +23,10 @@ Arguments::Arguments(int &argc, char **argv)
         m_args.append( QByteArray(argv[i]) );
 
     // dash character means 'read from stdin'
-    if ( m_args.length() == 1 && m_args.first() == QString("-") ) {
+    int len = m_args.length();
+    if ( (len == 1 || len == 2) && m_args.first() == QString("-") ) {
         QByteArray mime;
-        if ( m_args.length() == 2 ) {
+        if ( len == 2 ) {
             mime = m_args.last();
         } else {
             mime = QByteArray("text/plain");
