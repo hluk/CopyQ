@@ -103,9 +103,10 @@ void ClipboardServer::stopMonitoring()
         if ( m_monitor->state() != QProcess::NotRunning ) {
             qDebug( tr("Clipboard Monitor: Terminating").toLocal8Bit() );
 
-            if ( m_socket ) {
+            if (m_socket) {
                 m_socket->disconnectFromServer();
                 m_socket->deleteLater();
+                m_socket = NULL;
                 m_monitor->waitForFinished(1000);
             }
 

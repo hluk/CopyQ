@@ -36,6 +36,10 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     setLayoutMode(QListView::Batched);
     setBatchSize(10);
 
+    timer_save.setSingleShot(true);
+    connect( &timer_save, SIGNAL(timeout()),
+             this, SLOT(saveItems()) );
+
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
     setItemDelegate(d);
@@ -422,6 +426,10 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     QModelIndex ind = index(0);
     m->setData(ind, data);
 
+    // leave the first item selected
+    if ( currentIndex().row() <= 1 )
+        setCurrent(0);
+
     // filter item
     if ( m->isFiltered(0) )
         setRowHidden(0,true);
@@ -486,7 +494,7 @@ void ClipboardBrowser::saveItems(int msec)
 {
     timer_save.stop();
     if (msec>0) {
-        timer_save.singleShot( msec, this, SLOT(saveItems()) );
+        timer_save.start(msec);
         return;
     }
 
