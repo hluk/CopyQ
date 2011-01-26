@@ -223,10 +223,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            close();
             // move current item to clipboard and hide window
             c->moveToClipboard(
                     c->currentIndex() );
+            close();
             break;
 
         case Qt::Key_F3:
