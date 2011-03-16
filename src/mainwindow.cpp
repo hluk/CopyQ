@@ -29,7 +29,7 @@
 #include "clipboardmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
-: QMainWindow(parent), ui(new Ui::MainWindow),
+    : QMainWindow(parent), ui(new Ui::MainWindow),
     aboutDialog(NULL), actionDialog(NULL)
 {
     ui->setupUi(this);

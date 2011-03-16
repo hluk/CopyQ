@@ -79,6 +79,7 @@ void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
         qDebug() << m_monitor->readAllStandardError();
         qDebug( tr("Clipboard Monitor ERROR: Clipboard monitor crashed! (%s)").toLocal8Bit(),
                 m_monitor->errorString().toLocal8Bit().constData() );
+        m_wnd->showError( tr("Clipboard Monitor ERROR: Clipboard monitor crashed! (%1)").arg(m_monitor->errorString()) );
         // restart clipboard monitor
         stopMonitoring();
         startMonitoring();

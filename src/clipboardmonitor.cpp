@@ -56,21 +56,23 @@ void ClipboardMonitor::timeout()
         // FIXME: in VIM to make a selection you only need to hold
         //        direction key in visual mode
         Display *dsp = XOpenDisplay( NULL );
-        Window root = DefaultRootWindow(dsp);
-        XEvent event;
+        if (dsp) {
+            Window root = DefaultRootWindow(dsp);
+            XEvent event;
 
-        XQueryPointer(dsp, root,
-                      &event.xbutton.root, &event.xbutton.window,
-                      &event.xbutton.x_root, &event.xbutton.y_root,
-                      &event.xbutton.x, &event.xbutton.y,
-                      &event.xbutton.state);
-        if( event.xbutton.state &
-            (Button1Mask | ShiftMask) ) {
-            m_timer.start();
-            return;
+            XQueryPointer(dsp, root,
+                          &event.xbutton.root, &event.xbutton.window,
+                          &event.xbutton.x_root, &event.xbutton.y_root,
+                          &event.xbutton.x, &event.xbutton.y,
+                          &event.xbutton.state);
+            if( event.xbutton.state &
+                    (Button1Mask | ShiftMask) ) {
+                m_timer.start();
+                return;
+            }
+
+            XCloseDisplay(dsp);
         }
-
-        XCloseDisplay(dsp);
 #endif
 
         checkClipboard();
