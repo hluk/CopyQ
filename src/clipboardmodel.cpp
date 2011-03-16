@@ -19,7 +19,6 @@
 
 #include "clipboardmodel.h"
 #include "clipboarditem.h"
-#include <QDebug>
 #include <QMap>
 
 QString escape(const QString &str)

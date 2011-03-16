@@ -21,7 +21,6 @@
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
 #include "actiondialog.h"
-#include <QDebug>
 #include <QCloseEvent>
 #include <QMenu>
 #include <QMenuBar>
@@ -278,12 +277,12 @@ void MainWindow::saveSettings()
 
 void MainWindow::loadSettings()
 {
-    qDebug( tr("Loading configuration").toLocal8Bit() );
+    log( tr("Loading configuration") );
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
     setStyleSheet( cm->styleSheet() );
     browser()->loadSettings();
-    qDebug( tr("Configuration loaded").toLocal8Bit() );
+    log( tr("Configuration loaded") );
 }
 
 void MainWindow::toggleVisible()

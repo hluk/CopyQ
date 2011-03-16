@@ -1,8 +1,9 @@
 #include "client_server.h"
 #include <iostream>
-#include <QDebug>
+#include <QObject>
 #include <QThread>
 #include <unistd.h>
+#include <cstdio>
 
 // msleep function (portable)
 class Sleeper : public QThread
@@ -13,6 +14,22 @@ public:
         QThread::msleep(msecs);
     }
 };
+
+void log(const QString &text, const LogLevel level)
+{
+    const char *msg;
+    QString level_id;
+
+    if (level == LogNote)
+        level_id = QObject::tr("NOTE: %1\n");
+    else if (level == LogWarning)
+        level_id = QObject::tr("WARNING: %1\n");
+    else if (level == LogError)
+        level_id = QObject::tr("ERROR: %1\n");
+
+    msg = level_id.arg(text).toLocal8Bit().constData();
+    fprintf(stderr, msg);
+}
 
 bool readBytes(QIODevice *socket, QByteArray &msg)
 {

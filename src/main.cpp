@@ -25,7 +25,6 @@
 #include "clipboardmonitor.h"
 
 #include <QSettings>
-#include <QDebug>
 #include <iostream>
 
 void usage()
@@ -88,7 +87,7 @@ int main(int argc, char *argv[])
         if ( app.isListening() ) {
             return app.exec();
         } else {
-            qDebug( QObject::tr("CopyQ server is already running.").toLocal8Bit() );
+            log( QObject::tr("CopyQ server is already running."), LogWarning );
             return 0;
         }
     }

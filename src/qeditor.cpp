@@ -17,10 +17,10 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QDebug>
 #include <QDir>
 #include <QTextStream>
 #include "qeditor.h"
+#include "client_server.h"
 
 QEditor::QEditor(const QString &txt, const QString &editor, QObject *parent) : QObject(parent)
 {
@@ -44,7 +44,8 @@ bool QEditor::start()
     m_tmpfile.setFileTemplate(tmpPath + "/CopyQ.XXXXXX");
     m_tmpfile.setAutoRemove(true);
     if ( !m_tmpfile.open() ) {
-        qDebug() << "ERROR: Temporary file" << m_tmpfile.fileName() << "open failed!";
+        log( tr("Failed to open temporary file (%1) for editing item in external editor!")
+             .arg(m_tmpfile.fileName()), LogError );
         return false;
     }
 

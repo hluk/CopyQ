@@ -1,8 +1,6 @@
 #include <QAction>
 #include "action.h"
 
-#include <QDebug>
-
 // free action IDs
 bool g_ids[10] = {true,true,true,true,true,
                   true,true,true,true,true};

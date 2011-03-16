@@ -3,7 +3,6 @@
 #include "configurationmanager.h"
 #include "clipboarditem.h"
 #include <QMimeData>
-#include <QDebug>
 #include <QTime>
 #include <QFile>
 
@@ -196,7 +195,7 @@ void ClipboardMonitor::readyRead()
         QByteArray msg;
         if( !readBytes(m_socket, msg) ) {
             // something is wrong -> exit
-            qDebug( tr("ERROR: Incorrect message received!").toLocal8Bit() );
+            log( tr("Incorrect message received!"), LogError );
             exit(3);
             return;
         }

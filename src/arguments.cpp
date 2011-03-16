@@ -1,7 +1,6 @@
 #include "arguments.h"
 #include <QDataStream>
 #include <QFile>
-#include <QDebug>
 
 Arguments::Arguments()
 {

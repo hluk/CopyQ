@@ -18,7 +18,6 @@
 */
 
 #include "clipboardbrowser.h"
-#include <QDebug>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMimeData>

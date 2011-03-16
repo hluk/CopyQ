@@ -3,7 +3,6 @@
 #include "client_server.h"
 #include "arguments.h"
 #include <QFile>
-#include <QDebug>
 #include <iostream>
 
 ClipboardClient::ClipboardClient(int &argc, char **argv) :
@@ -68,16 +67,17 @@ void ClipboardClient::error(QLocalSocket::LocalSocketError socketError)
 {
     switch (socketError) {
     case QLocalSocket::ServerNotFoundError:
-        qDebug() << tr("ERROR: Cannot connect to server! Start CopyQ server first.");
+        log( tr("Cannot connect to server! Start CopyQ server first."),
+             LogError );
         break;
     case QLocalSocket::ConnectionRefusedError:
-        qDebug() << tr("ERROR: Connection refused by server!");
+        log( tr("Connection refused by server!"), LogError );
         break;
     case QLocalSocket::PeerClosedError:
-        qDebug() << tr("ERROR: Connection lost!");
+        log( tr("Connection lost!"), LogError );
         break;
     default:
-        qDebug() << tr("ERROR: %1.").arg(m_client->errorString());
+        log( m_client->errorString(), LogError );
     }
     exit(1);
 }

@@ -24,7 +24,6 @@
 #include <QStringList>
 #include <QRegExp>
 #include <QList>
-#include <QDebug>
 #include <QHash>
 #include <QMimeData>
 

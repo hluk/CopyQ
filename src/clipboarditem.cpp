@@ -19,8 +19,8 @@
 
 #include "clipboarditem.h"
 #include "clipboardmodel.h"
+#include "client_server.h"
 #include <QImage>
-#include <QDebug>
 
 ClipboardItem::ClipboardItem(const ClipboardModel *parent) :
         m_parent(parent)
@@ -198,7 +198,8 @@ QDataStream &operator>>(QDataStream &stream, ClipboardItem &item)
         if( !bytes.isEmpty() ) {
             bytes = qUncompress(bytes);
             if (bytes.isEmpty()) {
-                qDebug() << "ERROR: Clipboard history file copyq.dat is corrupted!";
+                log( QObject::tr("Clipboard history file copyq.dat is corrupted!"),
+                     LogError );
                 break;
             }
         }

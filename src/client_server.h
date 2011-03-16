@@ -9,7 +9,13 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 
+enum LogLevel {
+    LogNote,
+    LogWarning,
+    LogError
+};
 
+void log(const QString &text, const LogLevel level = LogNote);
 bool readBytes(QIODevice *socket, QByteArray &msg);
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);

@@ -20,7 +20,6 @@
 #include "itemdelegate.h"
 #include <QApplication>
 #include <QPainter>
-#include <QDebug>
 #include <QMetaProperty>
 #include <QPlainTextEdit>
 #include <QUrl>

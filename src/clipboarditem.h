@@ -22,7 +22,6 @@
 
 #include <QString>
 #include <QVariant>
-#include <QDebug>
 #include <QMimeData>
 #include <QStringList>
 

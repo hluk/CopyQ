@@ -2,7 +2,7 @@
 #include <QSettings>
 #include <QFile>
 #include <QCompleter>
-#include <QDebug>
+#include "client_server.h"
 #include "actiondialog.h"
 #include "action.h"
 #include "configurationmanager.h"
@@ -221,8 +221,8 @@ void ActionDialog::runCommand()
     }
     ++m_actions;
 
-    qDebug() << "Executing:" << cmd;
-    qDebug() << "Arguments:" << args;
+    log( tr("Executing: %1").arg(cmd) );
+    log( tr("Arguments: %1").arg(args.join(", ")) );
     act->start();
 
     add( ui->cmdEdit->text() );

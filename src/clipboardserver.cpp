@@ -76,24 +76,26 @@ ClipboardServer::~ClipboardServer()
 void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
 {
     if (newState == QProcess::NotRunning) {
-        qDebug() << m_monitor->readAllStandardError();
-        qDebug( tr("Clipboard Monitor ERROR: Clipboard monitor crashed! (%s)").toLocal8Bit(),
-                m_monitor->errorString().toLocal8Bit().constData() );
-        m_wnd->showError( tr("Clipboard Monitor ERROR: Clipboard monitor crashed! (%1)").arg(m_monitor->errorString()) );
+        monitorStandardError();
+
+        QString msg = tr("Clipboard monitor crashed!");
+        log(msg, LogError);
+        m_wnd->showError(msg);
+
         // restart clipboard monitor
         stopMonitoring();
         startMonitoring();
     } else if (newState == QProcess::Starting) {
-        qDebug( tr("Clipboard Monitor: Starting").toLocal8Bit() );
+        log( tr("Clipboard Monitor: Starting") );
     } else if (newState == QProcess::Running) {
-        qDebug( tr("Clipboard Monitor: Started").toLocal8Bit() );
+        log( tr("Clipboard Monitor: Started") );
     }
 }
 
 void ClipboardServer::monitorStandardError()
 {
-    qDebug( tr("Clipboard Monitor: ").toLocal8Bit() +
-            m_monitor->readAllStandardError() );
+    log( tr("Clipboard Monitor: ") +
+            m_monitor->readAllStandardError(), LogError );
 }
 
 void ClipboardServer::stopMonitoring()
@@ -102,7 +104,7 @@ void ClipboardServer::stopMonitoring()
         m_monitor->disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
 
         if ( m_monitor->state() != QProcess::NotRunning ) {
-            qDebug( tr("Clipboard Monitor: Terminating").toLocal8Bit() );
+            log( tr("Clipboard Monitor: Terminating") );
 
             if (m_socket) {
                 m_socket->disconnectFromServer();
@@ -112,23 +114,26 @@ void ClipboardServer::stopMonitoring()
             }
 
             if ( m_monitor->state() != QProcess::NotRunning ) {
-                qDebug( tr("Clipboard Monitor ERROR: Command 'exit' unsucessful!").toLocal8Bit() );
+                log( tr("Clipboard Monitor: Command 'exit' unsucessful!"),
+                     LogError );
                 m_monitor->terminate();
                 m_monitor->waitForFinished(1000);
 
                 if ( m_monitor->state() != QProcess::NotRunning ) {
-                    qDebug( tr("Clipboard Monitor ERROR: Cannot terminate process!").toLocal8Bit() );
+                    log( tr("Clipboard Monitor: Cannot terminate process!"),
+                         LogError );
                     m_monitor->kill();
 
                     if ( m_monitor->state() != QProcess::NotRunning ) {
-                        qDebug( tr("Clipboard Monitor ERROR: Cannot kill process!!!").toLocal8Bit() );
+                        log( tr("Clipboard Monitor: Cannot kill process!!!"),
+                             LogError );
                     }
                 }
             }
         }
 
         if ( m_monitor->state() == QProcess::NotRunning ) {
-            qDebug( tr("Clipboard Monitor: Terminated").toLocal8Bit() );
+            log( tr("Clipboard Monitor: Terminated") );
         }
 
         m_monitor->deleteLater();
@@ -149,7 +154,7 @@ void ClipboardServer::startMonitoring()
                           QStringList() << "monitor",
                           QProcess::ReadOnly );
         if ( !m_monitor->waitForStarted(2000) ) {
-            qDebug( tr("ERROR: Cannot start clipbord monitor!").toLocal8Bit() );
+            log( tr("Cannot start clipbord monitor!"), LogError );
             delete m_monitor;
             exit(10);
             return;
@@ -229,7 +234,7 @@ void ClipboardServer::readyRead()
     if ( data->formats().isEmpty() || (data->hasText() && data->text().isEmpty()) ) {
         // reset clipboard content
         if ( c->length() > 0 ) {
-            qDebug( tr("NOTE: Clipboard or selection is empty -> resetting previous content.").toLocal8Bit() );
+            log( tr("Clipboard or selection is empty -> resetting previous content.") );
             c->moveToClipboard(0);
         }
     } else {

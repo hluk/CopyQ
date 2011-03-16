@@ -21,7 +21,6 @@
 #include <QStyledItemDelegate>
 
 #include <QRegExp>
-#include <QDebug>
 
 class QTextDocument;
 

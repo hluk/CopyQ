@@ -1,4 +1,1 @@
-[ ] Serialize/deserialize arguments for client as QString
-        format: message, close client+return code
-
 [ ] Dialog with table "on matched clipboard text do action": REGEX ACTION (same as command line options)
