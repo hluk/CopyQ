@@ -83,7 +83,6 @@ class ClipboardBrowser : public QListView
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
-        void resizeEvent (QResizeEvent *e);
 
     signals:
         void requestSearch(const QString &txt);

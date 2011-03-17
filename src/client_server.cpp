@@ -21,11 +21,11 @@ void log(const QString &text, const LogLevel level)
     QString level_id;
 
     if (level == LogNote)
-        level_id = QObject::tr("NOTE: %1\n");
+        level_id = QObject::tr("CopyQ: %1\n");
     else if (level == LogWarning)
-        level_id = QObject::tr("WARNING: %1\n");
+        level_id = QObject::tr("CopyQ warning: %1\n");
     else if (level == LogError)
-        level_id = QObject::tr("ERROR: %1\n");
+        level_id = QObject::tr("CopyQ ERROR: %1\n");
 
     msg = level_id.arg(text).toLocal8Bit().constData();
     fprintf(stderr, msg);

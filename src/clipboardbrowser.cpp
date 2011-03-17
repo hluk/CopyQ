@@ -486,7 +486,9 @@ void ClipboardBrowser::loadItems()
     // performance:
     // force the delegate to calculate the size of each item
     // -- this will save some time when drawing the list for the fist time
-    //sizeHintForColumn(0);
+    log( tr("Caching items") );
+    sizeHintForColumn(0);
+    log( tr("Caching items done") );
 }
 
 void ClipboardBrowser::saveItems(int msec)
@@ -565,11 +567,4 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
     if ( a.row() == 0 && m->search()->isEmpty() ) {
         updateClipboard();
     }
-}
-
-void ClipboardBrowser::resizeEvent(QResizeEvent *e)
-{
-    QListView::resizeEvent(e);
-    d->invalidateSizes();
-    update();
 }

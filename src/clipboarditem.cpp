@@ -157,14 +157,19 @@ const QVariant ClipboardItem::toHtml() const
         html = highlightedHtml();
     };
 
-    html += QString("<div id=\"formats\">");
-    foreach(QString format, m_data->formats()) {
-        html += QString(" <span class=\"format") +
-                (format == m_mimeType ? QString(" current") : QString()) +
-                QString("\">");
-        html += format + QString("</span> ");
+    html.append("<div id=\"formats\">");
+    QStringList formats = m_data->formats();
+    int len = formats.size();
+    for( int i = 0; i<len; ++i ) {
+        const QString &it = formats[i];
+        if ( it == m_mimeType )
+            html.append(" <span class=\"format current\">");
+        else
+            html.append(" <span class=\"format\">");
+        html.append(it);
+        html.append("</span> ");
     }
-    html += QString("</div>");
+    html.append("</div>");
 
     lst.prepend(html);
 

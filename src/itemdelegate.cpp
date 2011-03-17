@@ -24,6 +24,7 @@
 #include <QPlainTextEdit>
 #include <QUrl>
 #include <QTextDocument>
+#include "client_server.h"
 #include "clipboardmodel.h"
 
 ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent),
@@ -39,7 +40,13 @@ void ItemDelegate::setStyleSheet(const QString &css)
 
 QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
 {
-    QSize &sz = m_buff[index.row()];
+    int row = index.row();
+    if ( row >= m_buff.size() ) {
+        for( int i = m_buff.size(); i <= row; ++i )
+            m_buff.insert( i, QSize() );
+    }
+
+    QSize &sz = m_buff[row];
 
     if ( !sz.isValid() ) {
         createDoc(index);
@@ -49,6 +56,7 @@ QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &i
 
 void ItemDelegate::invalidateSizes()
 {
+    log( QString("invalidating all item sizes") );
     for( int i = 0; i < m_buff.length(); ++i )
         m_buff[i] = QSize();
 }
@@ -144,7 +152,7 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     for( int i = start; i <= end; ++i )
-        m_buff.insert(i,QSize());
+        m_buff.insert( i, QSize() );
 }
 
 void ItemDelegate::createDoc(const QModelIndex &index) const
