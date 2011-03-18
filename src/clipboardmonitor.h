@@ -3,9 +3,7 @@
 
 #include "app.h"
 #include <QLocalSocket>
-#include <QWidget>
 #include <QClipboard>
-#include <QThread>
 #include <QTimer>
 #include <QMutex>
 #include <QRegExp>
@@ -21,6 +19,7 @@ class ClipboardMonitor : public App
 
 public:
     explicit ClipboardMonitor(int &argc, char **argv);
+    ~ClipboardMonitor();
 
     bool isConnected()
     {
@@ -55,6 +54,10 @@ private:
          m_checksel, m_copysel;
     QMimeData *m_newdata;
     QLocalSocket *m_socket;
+
+#ifndef WIN32
+    Display *m_dsp;
+#endif
 
     // don't allow rapid access to clipboard
     QTimer m_updatetimer;

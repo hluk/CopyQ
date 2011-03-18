@@ -27,7 +27,7 @@
 #include <QSettings>
 #include <iostream>
 
-void usage()
+static void usage()
 {
     std::cout << QObject::tr(
 "usage: copyq [command]\n"
@@ -67,6 +67,33 @@ void usage()
 "command line help").toLocal8Bit().constData();
 }
 
+static int startServer(int argc, char *argv[])
+{
+    ClipboardServer app(argc, argv);
+    if ( app.isListening() ) {
+        return app.exec();
+    } else {
+        log( QObject::tr("CopyQ server is already running."), LogWarning );
+        return 0;
+    }
+}
+
+static int startMonitor(int argc, char *argv[])
+{
+    ClipboardMonitor app(argc, argv);
+    if ( app.isConnected() ) {
+        return app.exec();
+    } else {
+        return 0;
+    }
+}
+
+static int startClient(int argc, char *argv[])
+{
+    ClipboardClient app(argc, argv);
+    return app.exec();
+}
+
 int main(int argc, char *argv[])
 {
     // arguments -h,--help,help: print help and exit
@@ -80,34 +107,17 @@ int main(int argc, char *argv[])
         }
     }
 
-    // if server hasn't been run yet and no argument were specified
-    // then run this as server
     if (argc == 1) {
-        ClipboardServer app(argc, argv);
-        if ( app.isListening() ) {
-            return app.exec();
-        } else {
-            log( QObject::tr("CopyQ server is already running."), LogWarning );
-            return 0;
-        }
+        // if server hasn't been run yet and no argument were specified
+        // then run this as server
+        return startServer(argc, argv);
+    } else if (argc == 2 && strcmp(argv[1], "monitor") == 0) {
+        // if argument specified and server is running
+        // then run this as client
+        return startMonitor(argc, argv);
+    } else {
+        // if argument specified and server is running
+        // then run this as client
+        return startClient(argc, argv);
     }
-    // if only argument is "monitor"
-    // then run clipboard monitor (used only by server)
-    else if (argc == 2 && strcmp(argv[1], "monitor") == 0) {
-        ClipboardMonitor app(argc, argv);
-        if ( app.isConnected() ) {
-            return app.exec();
-        } else {
-            return 0;
-        }
-    }
-    // if argument specified and server is running
-    // then run this as client
-    else {
-        ClipboardClient app(argc, argv);
-        return app.exec();
-    }
-
-    // shouldn't get here
-    return -1;
 }

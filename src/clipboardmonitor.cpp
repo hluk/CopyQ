@@ -3,8 +3,6 @@
 #include "configurationmanager.h"
 #include "clipboarditem.h"
 #include <QMimeData>
-#include <QTime>
-#include <QFile>
 
 #ifndef WIN32
 #include <X11/extensions/XInput.h>
@@ -13,6 +11,9 @@
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
     App(argc, argv) ,m_lastClipboard(0), m_lastSelection(0),
     m_newdata(NULL)
+#ifndef WIN32
+  , m_dsp(NULL)
+#endif
 {
     m_socket = new QLocalSocket(this);
     connect( m_socket, SIGNAL(readyRead()),
@@ -21,7 +22,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
              this, SLOT(quit()) );
     m_socket->connectToServer( ClipboardServer::monitorServerName() );
     if ( !m_socket->waitForConnected(2000) )
-        return;
+        exit(1);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     setInterval( cm->value(ConfigurationManager::Interval).toInt() );
@@ -38,7 +39,16 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
 
     m_updatetimer.setSingleShot(true);
     m_updatetimer.setInterval(500);
-    connect( &m_updatetimer, SIGNAL(timeout()), SLOT(updateTimeout()) );
+    connect( &m_updatetimer, SIGNAL(timeout()),
+             this, SLOT(updateTimeout()) );
+}
+
+ClipboardMonitor::~ClipboardMonitor()
+{
+#ifndef WIN32
+    if (m_dsp)
+        XCloseDisplay(m_dsp);
+#endif
 }
 
 void ClipboardMonitor::setFormats(const QString &list)
@@ -54,23 +64,23 @@ void ClipboardMonitor::timeout()
         // shift key is pressed
         // FIXME: in VIM to make a selection you only need to hold
         //        direction key in visual mode
-        Display *dsp = XOpenDisplay( NULL );
-        if (dsp) {
-            Window root = DefaultRootWindow(dsp);
+        if (!m_dsp)
+            m_dsp = XOpenDisplay(NULL);
+        if (m_dsp) {
+            Window root = DefaultRootWindow(m_dsp);
             XEvent event;
 
-            XQueryPointer(dsp, root,
+            XQueryPointer(m_dsp, root,
                           &event.xbutton.root, &event.xbutton.window,
                           &event.xbutton.x_root, &event.xbutton.y_root,
                           &event.xbutton.x, &event.xbutton.y,
                           &event.xbutton.state);
+
             if( event.xbutton.state &
                     (Button1Mask | ShiftMask) ) {
                 m_timer.start();
                 return;
             }
-
-            XCloseDisplay(dsp);
         }
 #endif
 
@@ -238,10 +248,14 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     if ( h != m_lastClipboard ) {
         clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
         m_lastClipboard = h;
+    } else {
+        delete m_newdata;
     }
     if ( h != m_lastSelection ) {
         clipboard->setMimeData(newdata2, QClipboard::Selection);
         m_lastSelection = h;
+    } else {
+        delete newdata2;
     }
 
     m_newdata = NULL;
