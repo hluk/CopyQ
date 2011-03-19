@@ -74,7 +74,7 @@ class ClipboardBrowser : public QListView
         QTimer timer_save;
         bool m_update;
 
-        QMenu *menu;
+        QMenu *m_menu;
         ConfigurationManager::Commands commands;
 
     protected:

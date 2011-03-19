@@ -23,24 +23,33 @@
 
 QString escape(const QString &str)
 {
-    static QMap<QChar,QString> repl;
-    if ( repl.isEmpty() ) {
-        repl[QChar(' ')] = QString("&nbsp;");
-        repl[QChar('\t')] = QString("&nbsp;&nbsp;");
-        repl[QChar('\n')] = QString("<br />");
-        repl[QChar('>')] = QString("&gt;");
-        repl[QChar('<')] = QString("&lt;");
-        repl[QChar('&')] = QString("&amp;");
-    }
+    /*
+    QString res(str);
+    res.replace('&', "&amp;")
+       .replace(' ', "&nbsp;")
+       .replace('\t', "&nbsp;&nbsp;")
+       .replace('>', "&gt;")
+       .replace('<', "&lt;")
+       .replace('\n', "<br />");
+       */
     QString res;
-
-    for ( QString::const_iterator it = str.begin(); it < str.end(); ++it ) {
-        QString str(repl[*it]);
-        if( str.isEmpty() )
-            res += *it;
-        else
-            res += str;
+    static QRegExp re("[<>& \t\n]");
+    int a = 0, b = 0, n = 0;
+    while( (b = str.indexOf(re, a)) != -1 ) {
+        n = b-a;
+        if (n)
+            res.append( str.mid(a, n) );
+        switch( str.at(b).toAscii() ) {
+        case '<': res.append("&lt;"); break;
+        case '>': res.append("&gt;"); break;
+        case '&': res.append("&amp;"); break;
+        case ' ': res.append("&nbsp;"); break;
+        case '\t': res.append("&nbsp;&nbsp;"); break;
+        case '\n': res.append("<br />"); break;
+        }
+        a = b+1;
     }
+    res.append( str.mid(a) );
 
     return res;
 }

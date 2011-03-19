@@ -30,7 +30,7 @@
 #include "client_server.h"
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_update(false), menu(NULL)
+    m_update(false), m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(10);
@@ -109,38 +109,52 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
 
 void ClipboardBrowser::setMenu(QMenu *menu)
 {
-     this->menu = menu;
-     connect( menu, SIGNAL(triggered(QAction*)),
-              this, SLOT(contextMenuAction(QAction*)) );
-}
+    m_menu = menu;
 
-void ClipboardBrowser::updateMenuItems()
-{
-    menu->clear();
-
-    QAction *act = menu->addAction( QIcon(":/images/clipboard.svg"), tr("Move to &clipboard") );
+    QAction *act = menu->addAction( QIcon(":/images/clipboard.svg"),
+                                    tr("Move to &clipboard") );
     QFont font( act->font() );
     font.setBold(true);
     act->setFont(font);
 
-    act = menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
+    act = menu->addAction( QIcon(":/images/remove.png"),
+                           tr("&Remove") );
     act->setShortcut( QString("Delete") );
-    act = menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+    act = menu->addAction( QIcon(":/images/edit.svg"),
+                           tr("&Edit") );
     act->setShortcut( QString("F2") );
-    act = menu->addAction( QIcon(":/images/edit.svg"), tr("E&dit with editor") );
+    act = menu->addAction( QIcon(":/images/edit.svg"),
+                           tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
-    act = menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
+    act = menu->addAction( QIcon(":/images/action.svg"),
+                           tr("&Action...") );
     act->setShortcut( QString("F5") );
+
+    connect( menu, SIGNAL(triggered(QAction*)),
+            this, SLOT(contextMenuAction(QAction*)) );
+}
+
+void ClipboardBrowser::updateMenuItems()
+{
+    QAction *act;
+    int i, len;
+
+    QList<QAction *> actions = m_menu->actions();
+    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i );
+    for( ; i<len; ++i )
+        m_menu->removeAction(actions[i]);
 
     // add custom commands to menu
     if ( !commands.isEmpty() )
-        menu->addSeparator();
+        m_menu->addSeparator();
 
     QString text = selectedText();
-    foreach( QString name, commands.keys() ) {
+    QStringList keys = commands.keys();
+    for( i=0, len=keys.size(); i<len; ++i ) {
+        const QString &name = keys[i];
         const ConfigurationManager::Command *command = &commands[name];
         if ( command->re.indexIn(text) != -1 ) {
-            act = menu->addAction(command->icon, name);
+            act = m_menu->addAction(command->icon, name);
             if ( !command->shortcut.isEmpty() )
                 act->setShortcut( command->shortcut );
         }
@@ -152,16 +166,17 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
     if ( this->selectedIndexes().isEmpty() )
         return;
 
-    if (menu) {
+    if (m_menu) {
         updateMenuItems();
-        menu->exec( event->globalPos() );
+        m_menu->exec( event->globalPos() );
     }
 }
 
-void ClipboardBrowser::selectionChanged(const QItemSelection &,
-                                        const QItemSelection &)
+void ClipboardBrowser::selectionChanged(const QItemSelection &a,
+                                        const QItemSelection &b)
 {
     updateMenuItems();
+    QListView::selectionChanged(a, b);
 }
 
 void ClipboardBrowser::openEditor()
@@ -255,13 +270,6 @@ void ClipboardBrowser::newItem()
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
-    /*
-    int last, current;
-    QModelIndex newindex;
-    QItemSelectionModel::SelectionFlags selflags;
-    QModelIndexList selected;
-    */
-
     // if editing item, use default key action
     if ( state() == QAbstractItemView::EditingState ) {
         QListView::keyPressEvent(event);
@@ -562,9 +570,10 @@ void ClipboardBrowser::updateClipboard()
     runCallback();
 }
 
-void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &)
+void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
     if ( a.row() == 0 && m->search()->isEmpty() ) {
         updateClipboard();
     }
+    QListView::dataChanged(a, b);
 }

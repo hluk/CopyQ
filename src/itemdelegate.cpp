@@ -25,12 +25,12 @@
 #include <QUrl>
 #include <QTextDocument>
 #include "client_server.h"
-#include "clipboardmodel.h"
 
 ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent),
     m_parent(parent)
 {
     m_doc = new QTextDocument(this);
+    m_doc->setUndoRedoEnabled(false);
 }
 
 void ItemDelegate::setStyleSheet(const QString &css)
@@ -164,8 +164,10 @@ void ItemDelegate::createDoc(const QModelIndex &index) const
     QVariantList lst = index.data(Qt::DisplayRole).toList();
     for(int i=1; i<lst.length(); ++i) {
         m_doc->addResource(QTextDocument::ImageResource,
-                           QUrl(QString("data://%1").arg(i)), lst[i]);
+                           QUrl("data://"+QString::number(i)), lst[i]);
     }
+
+    // TODO: QTextDocument::setHtml is slow
     // set html
     m_doc->setHtml( m_format.arg(index.row()).arg(lst[0].toString()) );
 

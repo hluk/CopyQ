@@ -78,6 +78,8 @@ QVariant ClipboardItem::data(int role) const
         return toHtml();
     else if (role == Qt::EditRole)
         return text();
+    else if (role == Qt::UserRole)
+        return m_mimeType;
     else
         return QVariant();
 }
@@ -155,6 +157,14 @@ const QVariant ClipboardItem::toHtml() const
         lst.append( m_data->data(m_mimeType) );
     } else {
         html = highlightedHtml();
+        int i;
+        i = html.indexOf("<!--EndFragment-->");
+        if (i >= 0)
+            html.resize(i);
+        i = html.indexOf("</body>", 0, Qt::CaseInsensitive);
+        if (i >= 0)
+            html.resize(i);
+        html.remove("<!--StartFragment-->");
     };
 
     html.append("<div id=\"formats\">");
