@@ -154,7 +154,7 @@ void ClipboardServer::startMonitoring()
                           QStringList() << "monitor",
                           QProcess::ReadOnly );
         if ( !m_monitor->waitForStarted(2000) ) {
-            log( tr("Cannot start clipbord monitor!"), LogError );
+            log( tr("Cannot start clipboard monitor!"), LogError );
             delete m_monitor;
             exit(10);
             return;
@@ -230,16 +230,7 @@ void ClipboardServer::readyRead()
     QMimeData *data = item.data();
     ClipboardBrowser *c = m_wnd->browser();
 
-    // don't allow clipboard to be empty
-    if ( data->formats().isEmpty() || (data->hasText() && data->text().isEmpty()) ) {
-        // reset clipboard content
-        if ( c->length() > 0 ) {
-            log( tr("Clipboard or selection is empty -> resetting previous content.") );
-            c->moveToClipboard(0);
-        }
-    } else {
-        c->add( cloneData(*data) );
-    }
+    c->add( cloneData(*data) );
 }
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)

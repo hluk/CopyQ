@@ -55,7 +55,7 @@ private:
     QMimeData *m_newdata;
     QLocalSocket *m_socket;
 
-#ifndef WIN32
+#ifdef Q_WS_X11
     Display *m_dsp;
 #endif
 

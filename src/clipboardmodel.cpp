@@ -263,7 +263,7 @@ bool ClipboardModel::move(int pos, int newpos)
 */
 bool ClipboardModel::moveItems(QModelIndexList list, int key) {
     qSort(list.begin(),list.end());
-    int from, to, last;
+    int from, to;
     bool res = false;
 
     for(int i = 0; i<list.length(); ++i) {
@@ -286,7 +286,6 @@ bool ClipboardModel::moveItems(QModelIndexList list, int key) {
             to = 0+i;
             break;
         }
-        last = from;
         if ( !move(from, to) )
             return false;
         if (!res)

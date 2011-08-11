@@ -25,6 +25,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QToolTip>
 #include "clipboardmodel.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -56,6 +57,8 @@ MainWindow::MainWindow(QWidget *parent)
     connect( c, SIGNAL(requestActionDialog(int,const ConfigurationManager::Command*)),
             this, SLOT(action(int,const ConfigurationManager::Command*)) );
     connect( c, SIGNAL(hideSearch()),
+            this, SLOT(enterBrowseMode()) );
+    connect( c, SIGNAL(),
             this, SLOT(enterBrowseMode()) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
@@ -156,6 +159,7 @@ void MainWindow::createMenu()
     itemMenu = new QMenu(tr("&Item"), this);
     menubar->addMenu(itemMenu);
     c->setMenu(itemMenu);
+    menu->addMenu(itemMenu);
 
     // - action dialog
     act = new QAction( QIcon(":/images/action.svg"),
@@ -163,7 +167,7 @@ void MainWindow::createMenu()
     act->setShortcut( QString("F5") );
     act->setWhatsThis( tr("Open action dialog") );
     connect( act, SIGNAL(triggered()), this, SLOT(openActionDialog()) );
-    menu->addAction(act);
+    //menu->addAction(act);
 
     // - custom commands
     cmdMenu = menubar->addMenu(tr("&Commands"));
@@ -250,11 +254,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         default:
-            txt = event->text();
-            if ( txt.isEmpty() )
-                QMainWindow::keyPressEvent(event);
-            else
-                enterSearchMode(txt);
+            // update action shortcuts
+            c->updateMenuItems();
+            QMainWindow::keyPressEvent(event);
+            if ( !event->isAccepted() ) {
+                txt = event->text();
+                if ( !txt.isEmpty() )
+                    enterSearchMode(txt);
+            }
             break;
     }
 }
@@ -317,10 +324,11 @@ void MainWindow::toggleVisible()
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    if ( reason == QSystemTrayIcon::MiddleClick )
+    if ( reason == QSystemTrayIcon::MiddleClick ) {
         exit();
-    else if ( reason == QSystemTrayIcon::Trigger )
+    } else if ( reason == QSystemTrayIcon::Trigger ) {
         toggleVisible();
+    }
 }
 
 void MainWindow::showMenu()

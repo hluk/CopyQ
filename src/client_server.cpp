@@ -31,21 +31,24 @@ void log(const QString &text, const LogLevel level)
     fprintf(stderr, msg);
 }
 
+bool waitForBytes(QIODevice *socket, qint64 size) {
+    bool res = true;
+    while( res && socket->bytesAvailable() < size )
+        res = socket->waitForReadyRead(1000);
+    return res;
+}
+
 bool readBytes(QIODevice *socket, QByteArray &msg)
 {
     QDataStream in(socket);
 
     quint32 sz;
-    while( socket->bytesAvailable() < (int)sizeof(quint32) ) {
-        if ( !socket->waitForReadyRead(4000) )
-            return false;
-    }
+    if( !waitForBytes(socket, (qint64)sizeof(quint32)) )
+        return false;
     in >> sz;
 
-    while( socket->bytesAvailable() < sz ) {
-        if ( !socket->waitForReadyRead(4000) )
-            return false;
-    }
+    if( !waitForBytes(socket, sz) )
+        return false;
     in >> msg;
 
     return true;
@@ -58,7 +61,7 @@ QLocalServer *newServer(const QString &name, QObject *parent)
     if ( !server->listen(name) ) {
         QLocalSocket socket;
         socket.connectToServer(name);
-        if ( socket.waitForConnected(6000) ) {
+        if ( socket.waitForConnected(2000) ) {
             QDataStream out(&socket);
             out << (quint32)0;
         } else {

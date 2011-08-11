@@ -4,14 +4,14 @@
 #include "clipboarditem.h"
 #include <QMimeData>
 
-#ifndef WIN32
+#ifdef Q_WS_X11
 #include <X11/extensions/XInput.h>
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
     App(argc, argv) ,m_lastClipboard(0), m_lastSelection(0),
     m_newdata(NULL)
-#ifndef WIN32
+#ifdef Q_WS_X11
   , m_dsp(NULL)
 #endif
 {
@@ -45,7 +45,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
 
 ClipboardMonitor::~ClipboardMonitor()
 {
-#ifndef WIN32
+#ifdef Q_WS_X11
     if (m_dsp)
         XCloseDisplay(m_dsp);
 #endif
@@ -59,14 +59,10 @@ void ClipboardMonitor::setFormats(const QString &list)
 void ClipboardMonitor::timeout()
 {
     if (m_checkclip || m_checksel) {
-#ifndef WIN32
+#ifdef Q_WS_X11
         // wait while selection is incomplete, i.e. mouse button or
         // shift key is pressed
-        // FIXME: in VIM to make a selection you only need to hold
-        //        direction key in visual mode
-        if (!m_dsp)
-            m_dsp = XOpenDisplay(NULL);
-        if (m_dsp) {
+        if ( m_dsp || (m_dsp = XOpenDisplay(NULL)) ) {
             Window root = DefaultRootWindow(m_dsp);
             XEvent event;
 
@@ -105,9 +101,10 @@ uint ClipboardMonitor::hash(const QMimeData &data)
 void ClipboardMonitor::checkClipboard()
 {
     const QMimeData *d, *data, *data2;
-    d = data = data2 = NULL;
     uint h = m_lastClipboard;
     uint h2 = m_lastSelection;
+
+    d = data = data2 = NULL;
 
     if ( !clipboardLock.tryLock() )
         return;
@@ -119,7 +116,7 @@ void ClipboardMonitor::checkClipboard()
     if ( m_checkclip ) {
         data = clipboard->mimeData(QClipboard::Clipboard);
     }
-    if ( m_checksel ) { // don't handle selections in own window
+    if ( m_checksel ) {
         data2 = clipboard->mimeData(QClipboard::Selection);
     }
 
@@ -132,11 +129,11 @@ void ClipboardMonitor::checkClipboard()
     // check hash value
     //   - synchronize clipboards only when data are different
     QClipboard::Mode mode;
-    if ( h != m_lastClipboard ) {
+    if ( h && h != m_lastClipboard ) {
         d = data;
         mode = QClipboard::Clipboard;
         m_lastClipboard = h;
-    } else if ( h2 != m_lastSelection && !d ) {
+    } else if ( h2 && h2 != m_lastSelection && !d ) {
         d = data2;
         mode = QClipboard::Selection;
         m_lastSelection = h2;

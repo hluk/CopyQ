@@ -109,11 +109,17 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
 
 void ClipboardBrowser::setMenu(QMenu *menu)
 {
+    QAction *act;
+    QFont font;
+
     m_menu = menu;
 
-    QAction *act = menu->addAction( QIcon(":/images/clipboard.svg"),
-                                    tr("Move to &clipboard") );
-    QFont font( act->font() );
+    connect( m_menu, SIGNAL(aboutToShow()),
+             this, SLOT(updateMenuItems()) );
+
+    act = menu->addAction( QIcon(":/images/clipboard.svg"),
+                           tr("Move to &Clipboard") );
+    font = act->font();
     font.setBold(true);
     act->setFont(font);
 
@@ -138,6 +144,7 @@ void ClipboardBrowser::updateMenuItems()
 {
     QAction *act;
     int i, len;
+    QString text = selectedText();
 
     QList<QAction *> actions = m_menu->actions();
     for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i );
@@ -148,7 +155,6 @@ void ClipboardBrowser::updateMenuItems()
     if ( !commands.isEmpty() )
         m_menu->addSeparator();
 
-    QString text = selectedText();
     QStringList keys = commands.keys();
     for( i=0, len=keys.size(); i<len; ++i ) {
         const QString &name = keys[i];
@@ -167,7 +173,6 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
         return;
 
     if (m_menu) {
-        updateMenuItems();
         m_menu->exec( event->globalPos() );
     }
 }
@@ -175,7 +180,6 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 void ClipboardBrowser::selectionChanged(const QItemSelection &a,
                                         const QItemSelection &b)
 {
-    updateMenuItems();
     QListView::selectionChanged(a, b);
 }
 

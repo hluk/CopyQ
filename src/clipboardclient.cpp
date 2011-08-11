@@ -36,21 +36,15 @@ void ClipboardClient::sendMessage()
 void ClipboardClient::readyRead()
 {
     QDataStream in(m_client);
-
     quint32 exit_code;
-    while( m_client->bytesAvailable() < (qint64)sizeof(quint32) )
-        m_client->waitForReadyRead();
+    QByteArray msg;
+
+    if( !waitForBytes(m_client, (qint64)sizeof(quint32)) )
+        exit(1);
     in >> exit_code;
 
-    quint32 sz;
-    while( m_client->bytesAvailable() < (qint64)sizeof(quint32) )
-        m_client->waitForReadyRead();
-    in >> sz;
-
-    QByteArray msg;
-    while( m_client->bytesAvailable() < sz )
-        m_client->waitForReadyRead();
-    in >> msg;
+    if( !readBytes(m_client, msg) )
+        exit(exit_code);
 
     QByteArray bytes = qUncompress(msg);
     std::cout.write( bytes.constData(), bytes.length() );

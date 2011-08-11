@@ -16,6 +16,7 @@ enum LogLevel {
 };
 
 void log(const QString &text, const LogLevel level = LogNote);
+bool waitForBytes(QIODevice *socket, qint64 size);
 bool readBytes(QIODevice *socket, QByteArray &msg);
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);
