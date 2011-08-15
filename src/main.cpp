@@ -45,7 +45,7 @@ static void usage()
 "      add text into clipboard\n"
 "    remove [row=0] ...\n"
 "      remove item in given rows\n"
-"    edit\n"
+"    edit [row=0] ...\n"
 "      edit clipboard item\n"
 "    list [format=\"%1\\n\"] [row=0] ...\n"
 "      print items in given rows\n"
@@ -57,9 +57,9 @@ static void usage()
 "    - [mime_type=\"text/plain\"]\n"
 "      copy text from standard input into clipboard\n"
 "\n"
-"    action\n"
+"    action [row=0] ...\n"
 "      show action dialog\n"
-"    action [row=0] \"command\" [separator=\\n]\n"
+"    action [row=0] ... \"command\" [separator=\\n]\n"
 "      apply command on item text in the row\n"
 "\n"
 "    help, -h, --help\n"
@@ -81,11 +81,7 @@ static int startServer(int argc, char *argv[])
 static int startMonitor(int argc, char *argv[])
 {
     ClipboardMonitor app(argc, argv);
-    if ( app.isConnected() ) {
-        return app.exec();
-    } else {
-        return 0;
-    }
+    return app.isConnected() ? app.exec() : 0;
 }
 
 static int startClient(int argc, char *argv[])

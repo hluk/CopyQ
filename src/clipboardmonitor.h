@@ -5,8 +5,6 @@
 #include <QLocalSocket>
 #include <QClipboard>
 #include <QTimer>
-#include <QMutex>
-#include <QRegExp>
 
 #include "client_server.h"
 
@@ -45,8 +43,6 @@ public:
 
 private:
     QTimer m_timer;
-    QMutex clipboardLock;
-    //QRegExp m_re_format;
     QStringList m_formats;
     uint m_lastClipboard;
     uint m_lastSelection;

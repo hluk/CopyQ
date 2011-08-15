@@ -286,14 +286,23 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 
     // show action dialog or run action on item
     // action
-    // action [row] "cmd" "[sep]"
+    // action [[row] ... ["cmd" "[sep]"]]
     case Cmd_Action:
-        if ( args.atEnd() ) {
-            m_wnd->openActionDialog(0);
+        args >> 0 >> row;
+        c->setCurrent(row);
+        while ( !args.finished() ) {
+            args >> row;
+            if (args.error())
+                break;
+            c->setCurrent(row, false, true);
+        }
+        if ( !args.error() ) {
+            m_wnd->openActionDialog(-1);
         } else {
             QString cmd, sep;
 
-            args >> 0 >> row >> cmd >> QString('\n') >> sep;
+            args.back();
+            args >> cmd >> QString('\n') >> sep;
 
             if ( !args.finished() )
                 return false;
@@ -304,7 +313,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
             command.input = true;
             command.sep = sep;
             command.wait = false;
-            m_wnd->action(row, &command);
+            m_wnd->action(-1, &command);
         }
         break;
 
@@ -350,18 +359,21 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
         break;
 
     // edit clipboard item
+    // edit [row=0] ...
     case Cmd_Edit:
         args >> 0 >> row;
-        if ( args.finished() ) {
-            c->setCurrent(row);
-            c->openEditor();
-        } else {
-            return false;
+        c->setCurrent(row);
+        while ( !args.finished() ) {
+            args >> row;
+            if ( args.error() )
+                return false;
+            c->setCurrent(row, false, true);
         }
+        c->openEditor();
         break;
 
     // set current item
-    // select [row=1]
+    // select [row=0]
     case Cmd_Select:
         args >> 0 >> row;
         if ( !args.finished() )
@@ -372,18 +384,15 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
     // remove item from clipboard
     // remove [row=0] ...
     case Cmd_Remove:
-        if ( args.finished() ) {
-            c->setCurrent(0);
-            c->remove();
+        args >> 0 >> row;
+        c->setCurrent(row);
+        while ( !args.finished() ) {
+            args >> row;
+            if ( args.error() )
+                return false;
+            c->setCurrent(row, false, true);
         }
-        else {
-            int row;
-            do {
-                args >> 0 >> row;
-                c->setCurrent(row);
-                c->remove();
-            } while ( !args.finished() );
-        }
+        c->remove();
         break;
 
     case Cmd_Length:
@@ -402,10 +411,11 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
         } else {
             QString fmt("%1\n");
             do {
-                args >> 0 >> row;
+                args >> row;
                 if ( args.error() ) {
                     args.back();
                     args >> fmt;
+                    args >> 0 >> row;
                     fmt.replace(QString("\\n"),QString('\n'));
                 } else {
                     response.append( fmt.arg( c->itemText(row) ).arg(row) );
@@ -422,15 +432,14 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
         if ( args.atEnd() ) {
             response = c->itemData(0)->data(mime);
         } else {
-            QString mime("text/plain");
             do {
-                args >> 0 >> row;
+                args >> row;
                 if ( args.error() ) {
                     args.back();
                     args >> mime;
-                } else {
-                    response.append( c->itemData(row)->data(mime) );
+                    args >> 0 >> row;
                 }
+                response.append( c->itemData(row)->data(mime) );
             } while( !args.atEnd() );
         }
         break;
