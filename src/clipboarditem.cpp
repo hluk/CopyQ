@@ -167,19 +167,22 @@ const QVariant ClipboardItem::toHtml() const
         html.remove("<!--StartFragment-->");
     };
 
-    html.append("<div id=\"formats\">");
     QStringList formats = m_data->formats();
     int len = formats.size();
-    for( int i = 0; i<len; ++i ) {
-        const QString &it = formats[i];
-        if ( it == m_mimeType )
-            html.append(" <span class=\"format current\">");
-        else
-            html.append(" <span class=\"format\">");
-        html.append(it);
-        html.append("</span> ");
+    /* show MIME type if it contains other type than text/plain */
+    if (len > 0 && (len != 1 || formats[0] != "text/plain")) {
+        html.append("<div id=\"formats\">");
+        for( int i = 0; i<len; ++i ) {
+            const QString &it = formats[i];
+            if ( it == m_mimeType )
+                html.append(" <span class=\"format current\">");
+            else
+                html.append(" <span class=\"format\">");
+            html.append(it);
+            html.append("</span> ");
+        }
+        html.append("</div>");
     }
-    html.append("</div>");
 
     lst.prepend(html);
 
