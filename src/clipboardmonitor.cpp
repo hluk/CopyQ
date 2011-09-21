@@ -5,7 +5,7 @@
 #include <QMimeData>
 
 #ifdef Q_WS_X11
-#include <X11/extensions/XInput.h>
+#include <X11/Xlib.h>
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :

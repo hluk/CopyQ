@@ -42,5 +42,5 @@ SOURCES += main.cpp \
     app.cpp \
     arguments.cpp
 QT += xml network
-unix:LIBS += -lXi
+unix:LIBS += -lX11
 win32:CONFIG += static
