@@ -62,6 +62,7 @@ class MainWindow : public QMainWindow
         bool m_browsemode;
         QBasicTimer timer_search;
         bool m_confirmExit;
+        int m_trayitems;
 
         void createMenu();
 
@@ -86,6 +87,7 @@ class MainWindow : public QMainWindow
         void removeMenuItem(QAction *menuItem);
         void exit();
         void changeTrayIcon(const QIcon &icon);
+        void updateTrayMenuItems();
         void loadSettings();
 
         void openAboutDialog();

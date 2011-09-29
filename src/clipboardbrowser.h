@@ -36,6 +36,15 @@ class ClipboardBrowser : public QListView
     Q_OBJECT
 
     public:
+        enum MenuAction {
+            ActionToClipboard,
+            ActionRemove,
+            ActionEdit,
+            ActionEditor,
+            ActionAct,
+            ActionCustom
+        };
+
         ClipboardBrowser(QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
@@ -58,7 +67,9 @@ class ClipboardBrowser : public QListView
 
         void runCallback() const;
 
-        void setMenu(QMenu *menu);
+        QMenu *itemMenu(int row, QMenu *menu);
+        void setMenu(QMenu *menu) { m_menu = menu; }
+        QMenu *menu() const { return m_menu; }
 
         void updateClipboard();
 
@@ -88,6 +99,7 @@ class ClipboardBrowser : public QListView
     signals:
         void requestSearch(const QString &txt);
         void requestActionDialog(int row, const ConfigurationManager::Command *cmd = NULL);
+        void requestShow();
         void hideSearch();
         void escapePressed();
         void closeAllEditors();

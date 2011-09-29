@@ -21,6 +21,7 @@
 #include <QStyledItemDelegate>
 
 #include <QRegExp>
+#include <QLabel>
 
 class QTextDocument;
 
@@ -62,6 +63,8 @@ class ItemDelegate : public QStyledItemDelegate
 
         // items drawn using QTextDocument
         mutable QList<QTextDocument*> m_cache;
+        // label for drawing item number
+        mutable QLabel m_lbl;
         // create QTextDocument for given item and save size to buffer
         QTextDocument *getCache(const QModelIndex &index, QSize *size = NULL) const;
         void removeCache(int row) const;

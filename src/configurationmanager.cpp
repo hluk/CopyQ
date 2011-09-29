@@ -44,6 +44,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     m_keys[Callback] = "callback";
     m_keys[Formats]  = "formats";
     m_keys[MaxItems] = "maxitems";
+    m_keys[TrayItems] = "tray_items";
     m_keys[Priority] = "priority";
     m_keys[Editor]   = "editor";
     m_keys[ItemHTML] = "format";
@@ -70,6 +71,7 @@ QVariant ConfigurationManager::value(Option opt) const
     case Callback: return ui->lineEditScript->text();
     case Formats: return ui->lineEditFormats->text();
     case MaxItems: return ui->spinBoxItems->value();
+    case TrayItems: return ui->spinBoxTrayItems->value();
     case Priority: return ui->lineEditPriority->text();
     case Editor: return ui->lineEditEditor->text();
     case ItemHTML: return ui->plainTextEdit_html->toPlainText();
@@ -109,6 +111,7 @@ void ConfigurationManager::readStyleSheet()
 
     if ( !css.isEmpty() ) {
         setStyleSheet(css);
+        ui->plainTextEdit_css->setPlainText(css);
     } else {
         setStyleSheet( ui->plainTextEdit_css->toPlainText() );
     }
@@ -150,6 +153,9 @@ void ConfigurationManager::setValue(Option opt, const QVariant &value)
         break;
     case MaxItems:
         ui->spinBoxItems->setValue( value.toInt() );
+        break;
+    case TrayItems:
+        ui->spinBoxTrayItems->setValue( value.toInt() );
         break;
     case Priority:
         ui->lineEditPriority->setText( value.toString() );

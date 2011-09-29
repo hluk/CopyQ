@@ -45,6 +45,9 @@ MainWindow::MainWindow(QWidget *parent)
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
 
+    // number of clipboard items accessible from tray menu
+    m_trayitems = 5;
+
     // create menubar & context menu
     createMenu();
 
@@ -58,6 +61,8 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(action(int,const ConfigurationManager::Command*)) );
     connect( c, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
+    connect( c, SIGNAL(requestShow()),
+             this, SLOT(show()) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
@@ -115,6 +120,9 @@ void MainWindow::createMenu()
     QMenu *menu = new QMenu(this);
     QAction *act;
 
+    // items before separator in tray
+    menu->addSeparator();
+
     // &File
     m = menubar->addMenu( tr("&File") );
 
@@ -158,7 +166,7 @@ void MainWindow::createMenu()
     itemMenu = new QMenu(tr("&Item"), this);
     menubar->addMenu(itemMenu);
     c->setMenu(itemMenu);
-    menu->addMenu(itemMenu);
+    //menu->addMenu(itemMenu);
 
     // - action dialog
     act = new QAction( QIcon(":/images/action.svg"),
@@ -182,6 +190,9 @@ void MainWindow::createMenu()
     connect( act, SIGNAL(triggered()), this, SLOT(openAboutDialog()) );
     menu->addAction(act);
     m->addAction(act);
+
+    connect( menu, SIGNAL(aboutToShow()),
+             this, SLOT(updateTrayMenuItems()) );
 
     tray->setContextMenu(menu);
 }
@@ -214,6 +225,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     QString txt;
     ClipboardBrowser *c = browser();
+
+    if ( event->modifiers() == Qt::ControlModifier &&
+         event->key() == Qt::Key_F ) {
+        enterBrowseMode(false);
+        return;
+    }
 
     switch( event->key() ) {
         case Qt::Key_Down:
@@ -287,6 +304,7 @@ void MainWindow::loadSettings()
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
     setStyleSheet( cm->styleSheet() );
+    m_trayitems = cm->value(ConfigurationManager::TrayItems).toInt();
     browser()->loadSettings();
     log( tr("Configuration loaded") );
 }
@@ -370,6 +388,39 @@ void MainWindow::enterBrowseMode(bool browsemode)
 void MainWindow::changeTrayIcon(const QIcon &icon)
 {
     tray->setIcon(icon);
+}
+
+void MainWindow::updateTrayMenuItems()
+{
+    QAction *act;
+    QAction *sep;
+    int i, len;
+    QMenu *menu = tray->contextMenu();
+    ClipboardBrowser *c = browser();
+
+    QList<QAction *> actions = menu->actions();
+    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i )
+        menu->removeAction(actions[i]);
+    sep  = actions[i];
+
+    len = m_trayitems;
+    if (len >= c->length())
+        len = c->length() - 1;
+    for( i = 0; i < len; ++i ) {
+        QMenu *item_menu = new QMenu(menu);
+        act = menu->addMenu( c->itemMenu(i, item_menu) );
+
+        QFont font = act->font();
+        font.setItalic(true);
+        act->setFont(font);
+
+        QFontMetrics fm(font);
+        QString text = fm.elidedText( c->itemText(i).simplified(),
+                                      Qt::ElideRight, menu->width() );
+        act->setText(text);
+
+        menu->insertAction(sep, act);
+    }
 }
 
 void MainWindow::openAboutDialog()

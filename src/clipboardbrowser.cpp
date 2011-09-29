@@ -86,85 +86,115 @@ void ClipboardBrowser::closeEditor(QEditor *editor)
 
 void ClipboardBrowser::contextMenuAction(QAction *act)
 {
-    const QString text = act->text();
+    QModelIndex ind;
+    QVariant data = act->data();
 
-    if (text == tr("Move to &clipboard")) {
-        moveToClipboard( this->currentIndex() );
-        setCurrent(0);
-    } else if (text == tr("&Remove")) {
-        remove();
-    } else if (text == tr("&Edit")) {
-        QModelIndex ind = currentIndex();
-        scrollTo(ind, PositionAtTop);
-        edit(ind);
-    } else if (text == tr("E&dit with editor")) {
-        openEditor();
-    } else if (text == tr("&Action...")) {
-        emit requestActionDialog(-1);
-    } else {
-        const ConfigurationManager::Command *c = &commands[text];
-        emit requestActionDialog(-1, c);
+    if ( data.isValid() ) {
+        QVariantList list = data.toList();
+        int action = list.at(0).toInt();
+        int row = list.at(1).toInt();
+        if ( row < length() ) {
+            if (row >= 0)
+                setCurrent(row);
+
+            switch(action) {
+            case ActionToClipboard:
+                moveToClipboard( currentIndex() );
+                setCurrent(0);
+                break;
+            case ActionRemove:
+                remove();
+                break;
+            case ActionEdit:
+                ind = currentIndex();
+                scrollTo(ind, PositionAtTop);
+                emit requestShow();
+                edit(ind);
+                break;
+            case ActionEditor:
+                openEditor();
+                break;
+            case ActionAct:
+                emit requestActionDialog(-1);
+                break;
+            case ActionCustom:
+                const ConfigurationManager::Command *c = &commands[act->text()];
+                emit requestActionDialog(-1, c);
+                break;
+            }
+        }
     }
 }
 
-void ClipboardBrowser::setMenu(QMenu *menu)
+QMenu *ClipboardBrowser::itemMenu(int row, QMenu *menu)
 {
     QAction *act;
     QFont font;
 
-    m_menu = menu;
-
-    connect( m_menu, SIGNAL(aboutToShow()),
-             this, SLOT(updateMenuItems()) );
+    menu->clear();
+    menu->disconnect();
 
     act = menu->addAction( QIcon(":/images/clipboard.svg"),
                            tr("Move to &Clipboard") );
     font = act->font();
     font.setBold(true);
     act->setFont(font);
+    act->setData( QVariantList() << QVariant(ActionToClipboard) << QVariant(row) );
 
     act = menu->addAction( QIcon(":/images/remove.png"),
                            tr("&Remove") );
     act->setShortcut( QString("Delete") );
+    act->setData( QVariantList() << QVariant(ActionRemove) << QVariant(row) );
+
     act = menu->addAction( QIcon(":/images/edit.svg"),
                            tr("&Edit") );
     act->setShortcut( QString("F2") );
+    act->setData( QVariantList() << QVariant(ActionEdit) << QVariant(row) );
+
     act = menu->addAction( QIcon(":/images/edit.svg"),
                            tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
+    act->setData( QVariantList() << QVariant(ActionEditor) << QVariant(row) );
+
     act = menu->addAction( QIcon(":/images/action.svg"),
                            tr("&Action...") );
     act->setShortcut( QString("F5") );
+    act->setData( QVariantList() << QVariant(ActionAct) << QVariant(row) );
 
     connect( menu, SIGNAL(triggered(QAction*)),
             this, SLOT(contextMenuAction(QAction*)) );
-}
 
-void ClipboardBrowser::updateMenuItems()
-{
-    QAction *act;
     int i, len;
-    QString text = selectedText();
+    QString text = row >= 0 ? itemText(row) : selectedText();
 
-    QList<QAction *> actions = m_menu->actions();
+    QList<QAction *> actions = menu->actions();
     for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i );
     for( ; i<len; ++i )
-        m_menu->removeAction(actions[i]);
+        menu->removeAction(actions[i]);
 
     // add custom commands to menu
     if ( !commands.isEmpty() )
-        m_menu->addSeparator();
+        menu->addSeparator();
 
     QStringList keys = commands.keys();
     for( i=0, len=keys.size(); i<len; ++i ) {
         const QString &name = keys[i];
         const ConfigurationManager::Command *command = &commands[name];
         if ( command->re.indexIn(text) != -1 ) {
-            act = m_menu->addAction(command->icon, name);
+            act = menu->addAction(command->icon, name);
+            act->setData( QVariantList() << QVariant(ActionCustom)
+                          << QVariant(row) );
             if ( !command->shortcut.isEmpty() )
                 act->setShortcut( command->shortcut );
         }
     }
+
+    return menu;
+}
+
+void ClipboardBrowser::updateMenuItems()
+{
+    itemMenu(-1, m_menu);
 }
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
@@ -181,6 +211,7 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &a,
                                         const QItemSelection &b)
 {
     QListView::selectionChanged(a, b);
+    updateMenuItems();
 }
 
 void ClipboardBrowser::openEditor()

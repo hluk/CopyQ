@@ -29,6 +29,7 @@
 ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent),
     m_parent(parent)
 {
+    m_lbl.setObjectName("itemNumber");
 }
 
 ItemDelegate::~ItemDelegate()
@@ -44,6 +45,8 @@ void ItemDelegate::setStyleSheet(const QString &css)
     foreach(QTextDocument *doc, m_cache) {
         doc->setDefaultStyleSheet(css);
     }
+    m_lbl.setStyleSheet(css);
+    invalidateCache();
 }
 
 QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
@@ -177,7 +180,7 @@ QTextDocument *ItemDelegate::getCache(const QModelIndex &index, QSize *size) con
         }
 
         // set html
-        doc->setHtml( m_format.arg(index.row()).arg(lst[0].toString()) );
+        doc->setHtml( m_format.arg(lst[0].toString()) );
     }
 
     // maximum item size
@@ -225,11 +228,20 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     const QWidget *widget = options.widget;
     QStyle *style = widget->style();
 
-    QRect clip( QPoint(0, 0), option.rect.size() );
+    QRectF clip( QPoint(0, 0), option.rect.size() );
+    //QRectF text_rect;
+    m_lbl.setText( QString::number(index.row()) );
 
     painter->save();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
     painter->translate( option.rect.topLeft() );
-    doc->drawContents(painter, clip);
+
+    // draw number
+    QSize size = m_lbl.minimumSizeHint();
+    m_lbl.resize(size);
+    m_lbl.render(painter);
+    painter->translate( size.width(), 0 );
+
+    doc->drawContents( painter, clip.adjusted(0, 0, -size.width(), 0) );
     painter->restore();
 }
