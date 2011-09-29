@@ -416,7 +416,7 @@ void MainWindow::updateTrayMenuItems()
 
         QFontMetrics fm(font);
         QString text = fm.elidedText( c->itemText(i).simplified(),
-                                      Qt::ElideRight, menu->width() );
+                                      Qt::ElideRight, 240 );
         act->setText(text);
 
         menu->insertAction(sep, act);
