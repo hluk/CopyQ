@@ -79,7 +79,7 @@ QVariant ClipboardItem::data(int role) const
     else if (role == Qt::EditRole)
         return text();
     else if (role == Qt::UserRole)
-        return m_mimeType;
+        return format();
     else
         return QVariant();
 }
@@ -169,7 +169,7 @@ const QVariant ClipboardItem::toHtml() const
 
     QStringList formats = m_data->formats();
     int len = formats.size();
-    /* show MIME type if it contains other type than text/plain */
+    /* list MIME types only if it contains type other than text/plain */
     if (len > 0 && (len != 1 || formats[0] != "text/plain")) {
         html.append("<div id=\"formats\">");
         for( int i = 0; i<len; ++i ) {

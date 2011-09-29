@@ -29,36 +29,36 @@
 ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent),
     m_parent(parent)
 {
-    m_doc = new QTextDocument(this);
-    m_doc->setUndoRedoEnabled(false);
+}
+
+ItemDelegate::~ItemDelegate()
+{
+    foreach(QTextDocument *doc, m_cache) {
+        delete doc;
+    }
 }
 
 void ItemDelegate::setStyleSheet(const QString &css)
 {
-    m_doc->setDefaultStyleSheet(css);
+    m_css = css;
+    foreach(QTextDocument *doc, m_cache) {
+        doc->setDefaultStyleSheet(css);
+    }
 }
 
 QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
 {
+    QSize size;
+
     int row = index.row();
-    if ( row >= m_buff.size() ) {
-        for( int i = m_buff.size(); i <= row; ++i )
-            m_buff.insert( i, QSize() );
+    if ( row >= m_cache.size() ) {
+        for( int i = m_cache.size(); i <= row; ++i )
+            m_cache.insert(i, NULL);
     }
 
-    QSize &sz = m_buff[row];
+    getCache(index, &size);
 
-    if ( !sz.isValid() ) {
-        createDoc(index);
-    }
-    return sz;
-}
-
-void ItemDelegate::invalidateSizes()
-{
-    log( QString("invalidating all item sizes") );
-    for( int i = 0; i < m_buff.length(); ++i )
-        m_buff[i] = QSize();
+    return size;
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -127,16 +127,19 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     // recalculating sizes of many items is expensive (when searching)
     // - assume that highlighted (matched) text has same size
     // - recalculate size only if item edited
-    if ( a.row() == b.row() ) {
-        m_buff[a.row()] = QSize();
+    int row = a.row();
+    if ( row == b.row() ) {
+        removeCache(row);
         emit sizeHintChanged(a);
     }
 }
 
 void ItemDelegate::rowsRemoved(const QModelIndex&,int start,int end)
 {
-    for( int i = start; i <= end; ++i )
-        m_buff.removeAt(i);
+    for( int i = start; i <= end; ++i ) {
+        removeCache(i);
+        m_cache.removeAt(i);
+    }
 }
 
 void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd,
@@ -144,7 +147,7 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
 {
     int dest = sourceStart < destinationRow ? destinationRow-1 : destinationRow;
     for( int i = sourceStart; i <= sourceEnd; ++i ) {
-        m_buff.move(i,dest);
+        m_cache.move(i,dest);
         ++dest;
     }
 }
@@ -152,40 +155,71 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     for( int i = start; i <= end; ++i )
-        m_buff.insert( i, QSize() );
+        m_cache.insert( i, NULL );
 }
 
-void ItemDelegate::createDoc(const QModelIndex &index) const
+QTextDocument *ItemDelegate::getCache(const QModelIndex &index, QSize *size) const
 {
+    QTextDocument *doc;
     int n = index.row();
 
-    m_doc->clear();
-    // add images
-    QVariantList lst = index.data(Qt::DisplayRole).toList();
-    for(int i=1; i<lst.length(); ++i) {
-        m_doc->addResource(QTextDocument::ImageResource,
-                           QUrl("data://"+QString::number(i)), lst[i]);
+    doc = m_cache[n];
+    if (!doc) {
+        m_cache[n] = doc = new QTextDocument();
+        doc->setDefaultStyleSheet(m_css);
+        doc->setUndoRedoEnabled(false);
+
+        // add images
+        QVariantList lst = index.data(Qt::DisplayRole).toList();
+        for(int i=1; i<lst.length(); ++i) {
+            doc->addResource(QTextDocument::ImageResource,
+                             QUrl("data://"+QString::number(i)), lst[i]);
+        }
+
+        // set html
+        doc->setHtml( m_format.arg(index.row()).arg(lst[0].toString()) );
     }
 
-    // TODO: QTextDocument::setHtml is slow
-    // set html
-    m_doc->setHtml( m_format.arg(index.row()).arg(lst[0].toString()) );
-
     // maximum item size
-    int height = m_doc->size().height();
-    //int max_height = m_parent->height()-10;
-    //if (height > max_height)
-    //    height = max_height;
-    m_buff[n] = QSize( m_doc->idealWidth(), height );
+    if (size) {
+        size->setWidth( doc->idealWidth() );
+        size->setHeight( doc->size().height() );
+    }
+
+    return doc;
+}
+
+void ItemDelegate::removeCache(const QModelIndex &index) const
+{
+    removeCache(index.row());
+}
+
+void ItemDelegate::removeCache(int row) const
+{
+    QTextDocument *doc = m_cache[row];
+    if (doc) {
+        delete doc;
+        m_cache[row] = NULL;
+    }
+}
+
+void ItemDelegate::invalidateCache() const
+{
+    log( QString("invalidating cache") );
+    for( int i = 0; i < m_cache.length(); ++i ) {
+        removeCache(i);
+    }
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
 {
+    QTextDocument *doc;
+
     QStyleOptionViewItemV4 options(option);
     initStyleOption(&options, index);
     options.text = "";
 
-    createDoc(index);
+    doc = getCache(index);
 
     // get focus rect and selection background
     const QWidget *widget = options.widget;
@@ -196,6 +230,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     painter->save();
     style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
     painter->translate( option.rect.topLeft() );
-    m_doc->drawContents(painter, clip);
+    doc->drawContents(painter, clip);
     painter->restore();
 }

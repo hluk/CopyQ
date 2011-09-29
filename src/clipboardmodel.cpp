@@ -76,6 +76,9 @@ int ClipboardModel::rowCount(const QModelIndex&) const
 void ClipboardModel::setFormat(int row, const QString &mimeType)
 {
     m_clipboardList[row]->setFormat(mimeType);
+
+    QModelIndex ind = index(row);
+    emit dataChanged(ind, ind);
 }
 
 void ClipboardModel::nextFormat(int row)
@@ -88,12 +91,9 @@ void ClipboardModel::nextFormat(int row)
 
     int i = formats.indexOf(item->format());
     if (i==-1 || i == formats.length()-1)
-        item->setFormat( formats.at(0) );
+        setFormat( row, formats.at(0) );
     else
-        item->setFormat( formats[i+1] );
-
-    QModelIndex ind = index(row);
-    emit dataChanged(ind, ind);
+        setFormat( row, formats[i+1] );
 }
 
 void ClipboardModel::previousFormat(int row)
@@ -106,12 +106,9 @@ void ClipboardModel::previousFormat(int row)
 
     int i = formats.indexOf(item->format());
     if (i <= 0)
-        item->setFormat( formats.last() );
+        setFormat( row, formats.last() );
     else
-        item->setFormat( formats[i-1] );
-
-    QModelIndex ind = index(row);
-    emit dataChanged(ind, ind);
+        setFormat( row, formats[i-1] );
 }
 
 QMimeData *ClipboardModel::mimeData(int row) const
@@ -305,6 +302,9 @@ void ClipboardModel::setSearch(int row)
     ClipboardItem *item = m_clipboardList[row];
     if ( m_re.isEmpty() || m_re.indexIn(item->text()) != -1 ) {
         item->setFiltered(false);
+        QModelIndex ind = index(row);
+        // TODO: emit dataChanged only if item was re-highlighted
+        emit dataChanged(ind, ind);
     } else {
         item->setFiltered(true);
     }
@@ -327,8 +327,6 @@ void ClipboardModel::setSearch(const QRegExp *const re)
     for( int i = 0; i<rowCount(); i++) {
         setSearch(i);
     }
-
-    emit dataChanged( index(0,0), index(rowCount()-1,0) );
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)

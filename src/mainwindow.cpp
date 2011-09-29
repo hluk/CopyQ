@@ -58,8 +58,6 @@ MainWindow::MainWindow(QWidget *parent)
             this, SLOT(action(int,const ConfigurationManager::Command*)) );
     connect( c, SIGNAL(hideSearch()),
             this, SLOT(enterBrowseMode()) );
-    connect( c, SIGNAL(),
-            this, SLOT(enterBrowseMode()) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
 
@@ -88,10 +86,11 @@ void MainWindow::exit()
     int answer;
     if ( m_confirmExit ) {
         answer = QMessageBox::question(
-                this,
-                tr("Exit?"),
-                tr("Do you want to <b>exit</b> CopyQ?"),
-                QMessageBox::Yes | QMessageBox::No);
+                    this,
+                    tr("Exit?"),
+                    tr("Do you want to <b>exit</b> CopyQ?"),
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
     }
 
     if ( !m_confirmExit || answer == QMessageBox::Yes) {
@@ -340,7 +339,6 @@ void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode(false);
     ui->searchBar->setText(txt);
-    browser()->filterItems(txt);
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)
@@ -461,5 +459,5 @@ void MainWindow::timerEvent(QTimerEvent *event)
 
 void MainWindow::on_searchBar_textChanged(QString )
 {
-    timer_search.start(100,this);
+    timer_search.start(300, this);
 }

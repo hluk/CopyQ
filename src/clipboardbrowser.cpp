@@ -216,12 +216,15 @@ void ClipboardBrowser::itemModified(const QString &str)
 
 void ClipboardBrowser::filterItems(const QString &str)
 {
+    if (m_last_filter == str)
+        return;
+    m_last_filter = str;
+
     // if search string empty: all items visible
     if ( str.isEmpty() ) {
         m->setSearch();
         emit hideSearch();
-    }
-    else {
+    } else {
         // if search string is a number N: highlight Nth item
         bool ok;
         int n = str.toInt(&ok);

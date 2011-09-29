@@ -30,9 +30,9 @@ class ItemDelegate : public QStyledItemDelegate
 
     public:
         ItemDelegate(QWidget *parent = 0);
+        ~ItemDelegate();
 
         QSize sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const;
-        void invalidateSizes();
 
         QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
         void setEditorData(QWidget *editor, const QModelIndex &index) const;
@@ -49,20 +49,23 @@ class ItemDelegate : public QStyledItemDelegate
             return m_format;
         }
 
+        void invalidateCache() const;
+
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
     private:
         QWidget *m_parent;
+        QString m_css;
         QString m_format;
         int m_maxsize;
 
         // items drawn using QTextDocument
-        mutable QTextDocument *m_doc;
-        // buffered items' sizes
-        mutable QList<QSize> m_buff;
+        mutable QList<QTextDocument*> m_cache;
         // create QTextDocument for given item and save size to buffer
-        void createDoc(const QModelIndex &index) const;
+        QTextDocument *getCache(const QModelIndex &index, QSize *size = NULL) const;
+        void removeCache(int row) const;
+        void removeCache(const QModelIndex &index) const;
 
     public slots:
         // change size buffer
