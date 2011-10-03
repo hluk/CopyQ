@@ -14,8 +14,8 @@ class ClipboardServer : public App
 {
     Q_OBJECT
 
-    enum Command {
-        Cmd_Unknown = 0,
+    typedef enum {
+        Cmd_Unknown,
         Cmd_Toggle,
         Cmd_Exit,
         Cmd_Menu,
@@ -28,13 +28,14 @@ class ClipboardServer : public App
         Cmd_Remove,
         Cmd_Length,
         Cmd_List,
-        Cmd_Read,
-    };
+        Cmd_Read
+    } Command;
 
 public:
     explicit ClipboardServer(int &argc, char **argv);
     ~ClipboardServer();
     bool isListening() { return m_server->isListening(); }
+    int nameToCommand(const QString &name) const;
     bool doCommand(Arguments &args, QByteArray &bytes);
     void sendMessage(QLocalSocket* client, const QByteArray &message, int exit_code = 0);
     void sendMessage(QLocalSocket* client, const QString &message, int exit_code = 0) {
@@ -55,7 +56,6 @@ private:
     QLocalServer *m_monitorserver;
     QLocalSocket *m_socket;
     MainWindow* m_wnd;
-    QMap<QString, Command> m_commands;
     QProcess *m_monitor;
 
 public slots:

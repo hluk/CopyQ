@@ -52,6 +52,9 @@ class ItemDelegate : public QStyledItemDelegate
 
         void invalidateCache() const;
 
+        // preload item to cache
+        void preload(const QModelIndex &index) const {cache(index);}
+
     protected:
         void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
 
@@ -65,8 +68,8 @@ class ItemDelegate : public QStyledItemDelegate
         mutable QList<QTextDocument*> m_cache;
         // label for drawing item number
         mutable QLabel m_lbl;
-        // create QTextDocument for given item and save size to buffer
-        QTextDocument *getCache(const QModelIndex &index, QSize *size = NULL) const;
+        // get QTextDocument of given item and set size (if not NULL)
+        QTextDocument *cache(const QModelIndex &index, QSize *size = NULL) const;
         void removeCache(int row) const;
         void removeCache(const QModelIndex &index) const;
 

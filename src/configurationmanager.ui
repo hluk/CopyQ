@@ -22,7 +22,7 @@
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>1</number>
+        <number>2</number>
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="title">
@@ -468,7 +468,7 @@
             </sizepolicy>
            </property>
            <property name="orientation">
-            <enum>Qt::Vertical</enum>
+            <enum>Qt::Horizontal</enum>
            </property>
            <property name="opaqueResize">
             <bool>true</bool>

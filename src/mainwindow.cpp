@@ -116,8 +116,8 @@ void MainWindow::createMenu()
 {
     ClipboardBrowser *c = browser();
     QMenuBar *menubar = menuBar();
-    QMenu *m;
     QMenu *menu = new QMenu(this);
+    QMenu *m;
     QAction *act;
 
     // items before separator in tray
@@ -166,7 +166,6 @@ void MainWindow::createMenu()
     itemMenu = new QMenu(tr("&Item"), this);
     menubar->addMenu(itemMenu);
     c->setMenu(itemMenu);
-    //menu->addMenu(itemMenu);
 
     // - action dialog
     act = new QAction( QIcon(":/images/action.svg"),
@@ -503,9 +502,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
     if ( event->timerId() == timer_search.timerId() ) {
         browser()->filterItems( ui->searchBar->text() );
         timer_search.stop();
-    }
-    else
+    } else {
         QMainWindow::timerEvent(event);
+    }
 }
 
 void MainWindow::on_searchBar_textChanged(QString )

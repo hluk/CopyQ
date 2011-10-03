@@ -30,7 +30,7 @@
 #include "client_server.h"
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_update(false), m_menu(NULL)
+    m_update(false), m_to_preload(0), m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(10);
@@ -483,6 +483,10 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     if ( m->rowCount() > m_maxitems )
         m->removeRow( m->rowCount() - 1 );
 
+    // preload item
+    ++m_to_preload;
+    preload();
+
     // save history after 2 minutes
     saveItems(120000);
 
@@ -529,12 +533,9 @@ void ClipboardBrowser::loadItems()
     ConfigurationManager::instance()->loadItems(*m);
     setCurrentIndex( QModelIndex() );
 
-    // performance:
-    // force the delegate to calculate the size of each item
-    // -- this will save some time when drawing the list for the fist time
-    log( tr("Caching items") );
-    sizeHintForColumn(0);
-    log( tr("Caching items done") );
+    // preload all items
+    m_to_preload = length();
+    preload(0);
 }
 
 void ClipboardBrowser::saveItems(int msec)
@@ -546,6 +547,34 @@ void ClipboardBrowser::saveItems(int msec)
     }
 
     ConfigurationManager::instance()->saveItems(*m);
+}
+
+void ClipboardBrowser::timerEvent(QTimerEvent *event)
+{
+    if ( event->timerId() == timer_preload.timerId() ) {
+        timer_preload.stop();
+        preload(0);
+    } else {
+        QListView::timerEvent(event);
+    }
+}
+
+void ClipboardBrowser::preload(int msec)
+{
+    if ( this->isVisible() ) return;
+
+    // performance:
+    // preload each item
+    // -- this will save some time when drawing the list for the fist time
+    if (msec > 0) {
+        timer_preload.start(msec, this);
+    } else {
+        int len = qMin(m_to_preload, length());
+        for(int i=0; i<len; ++i) {
+            d->preload( index(i) );
+        }
+        m_to_preload = -1;
+    }
 }
 
 const QString ClipboardBrowser::selectedText() const

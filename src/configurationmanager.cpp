@@ -33,26 +33,12 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                        QCoreApplication::applicationName());
     // ini -> dat
     m_datfilename = settings.fileName();
-    m_datfilename.replace( QRegExp("ini$"),QString("dat") );
+    m_datfilename.replace( QRegExp("ini$"), QString("dat") );
 
     // read style sheet from configuration
     cssFormat = QSettings::registerFormat(
             "css", readCssFile, writeCssFile);
     readStyleSheet();
-
-    m_keys[Interval] = "interval";
-    m_keys[Callback] = "callback";
-    m_keys[Formats]  = "formats";
-    m_keys[MaxItems] = "maxitems";
-    m_keys[TrayItems] = "tray_items";
-    m_keys[Priority] = "priority";
-    m_keys[Editor]   = "editor";
-    m_keys[ItemHTML] = "format";
-    m_keys[CopyClipboard] = "copy_clipboard";
-    m_keys[CopySelection] = "copy_selection";
-    m_keys[CheckClipboard] = "check_clipboard";
-    m_keys[CheckSelection] = "check_selection";
-    m_keys[ConfirmExit] = "confirm_exit";
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
@@ -64,7 +50,46 @@ ConfigurationManager::~ConfigurationManager()
     delete ui;
 }
 
-QVariant ConfigurationManager::value(Option opt) const
+QString ConfigurationManager::optionToName(int opt) const
+{
+    switch(opt) {
+    case Interval: return QString("interval");
+    case Callback: return QString("callback");
+    case Formats: return QString("formats");
+    case MaxItems: return QString("maxitems");
+    case TrayItems: return QString("tray_items");
+    case Priority: return QString("priority");
+    case Editor: return QString("editor");
+    case ItemHTML: return QString("format");
+    case CheckClipboard: return QString("check_clipboard");
+    case CheckSelection: return QString("check_selection");
+    case CopyClipboard: return QString("copy_clipboard");
+    case CopySelection: return QString("copy_selection");
+    case ConfirmExit: return QString("confirm_exit");
+    default: return QString();
+    }
+}
+
+ConfigurationManager::Option
+ConfigurationManager::nameToOption(const QString &name) const
+{
+    if (name == "interval") return Interval;
+    if (name == "callback") return Callback;
+    if (name == "formats") return Formats;
+    if (name == "maxitems") return MaxItems;
+    if (name == "tray_items") return TrayItems;
+    if (name == "priority") return Priority;
+    if (name == "editor") return Editor;
+    if (name == "format") return ItemHTML;
+    if (name == "check_selection") return CheckSelection;
+    if (name == "check_clipboard") return CheckClipboard;
+    if (name == "copy_clipboard") return CopyClipboard;
+    if (name == "copy_selection") return CopySelection;
+    if (name == "confirm_exit") return ConfirmExit;
+    return OptionInvalid;
+}
+
+QVariant ConfigurationManager::value(int opt) const
 {
     switch(opt) {
     case Interval: return ui->spinInterval->value();
@@ -139,7 +164,7 @@ QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, cons
 }
 
 
-void ConfigurationManager::setValue(Option opt, const QVariant &value)
+void ConfigurationManager::setValue(int opt, const QVariant &value)
 {
     switch(opt) {
     case Interval:
@@ -180,7 +205,6 @@ void ConfigurationManager::setValue(Option opt, const QVariant &value)
         break;
     case ConfirmExit:
         ui->checkBoxConfirmExit->setChecked( value.toBool() );
-    default:
         break;
     }
 }
@@ -194,7 +218,7 @@ void ConfigurationManager::loadSettings()
 
     settings.beginGroup("Options");
     foreach( QString key, settings.allKeys() ) {
-        opt = m_keys.key(key);
+        opt = nameToOption(key);
         value = settings.value(key);
         setValue(opt, value);
     }
@@ -275,7 +299,7 @@ ConfigurationManager::Commands ConfigurationManager::commands() const
             } else if ( column->text() == tr("Wait") ) {
                 cmd.wait = item->checkState() == Qt::Checked;
             } else if ( column->text() == tr("Icon") ) {
-                cmd.icon = QIcon( item->text() );
+                cmd.icon.addFile( item->text() );
             } else if ( column->text() == tr("Shortcut") ) {
                 cmd.shortcut = item->text();
             }
@@ -293,8 +317,8 @@ void ConfigurationManager::saveSettings()
     QSettings settings;
 
     settings.beginGroup("Options");
-    foreach( Option opt, m_keys.keys() ) {
-        settings.setValue(m_keys[opt], value(opt));
+    for( int opt=1; opt != OptionsCount; ++opt ) {
+        settings.setValue(optionToName(opt), value(opt));
     }
     settings.endGroup();
 

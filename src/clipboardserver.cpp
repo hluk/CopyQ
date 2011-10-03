@@ -26,23 +26,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
-    // commands send from client to server
-    m_commands["toggle"] = Cmd_Toggle;
-    m_commands["exit"]   = Cmd_Exit;
-    m_commands["menu"]   = Cmd_Menu;
-    m_commands["action"] = Cmd_Action;
-    m_commands["add"]    = Cmd_Add;
-    m_commands["write"]  = Cmd_Write;
-    m_commands["_write"] = Cmd_WriteNoUpdate;
-    m_commands["edit"]   = Cmd_Edit;
-    m_commands["select"] = Cmd_Select;
-    m_commands["remove"] = Cmd_Remove;
-    m_commands["length"] = Cmd_Length;
-    m_commands["size"]   = Cmd_Length;
-    m_commands["count"]  = Cmd_Length;
-    m_commands["list"]   = Cmd_List;
-    m_commands["read"]   = Cmd_Read;
-
     // listen
     m_monitorserver = newServer( monitorServerName(), this );
     connect( m_server, SIGNAL(newConnection()),
@@ -246,6 +229,27 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     m_socket->flush();
 }
 
+int ClipboardServer::nameToCommand(const QString &name) const
+{
+    // commands send from client to server
+    if (name == "toggle") return Cmd_Toggle;
+    if (name == "exit")   return Cmd_Exit;
+    if (name == "menu")   return Cmd_Menu;
+    if (name == "action") return Cmd_Action;
+    if (name == "add")    return Cmd_Add;
+    if (name == "write")  return Cmd_Write;
+    if (name == "_write") return Cmd_WriteNoUpdate;
+    if (name == "edit")   return Cmd_Edit;
+    if (name == "select") return Cmd_Select;
+    if (name == "remove") return Cmd_Remove;
+    if (name == "length") return Cmd_Length;
+    if (name == "size")   return Cmd_Length;
+    if (name == "count")  return Cmd_Length;
+    if (name == "list")   return Cmd_List;
+    if (name == "read")   return Cmd_Read;
+    return Cmd_Unknown;
+}
+
 bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 {
     QString cmd;
@@ -259,7 +263,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
     QMimeData *data;
     int row;
 
-    switch( m_commands.value(cmd, Cmd_Unknown) ) {
+    switch( nameToCommand(cmd) ) {
 
     // show/hide main window
     case Cmd_Toggle:

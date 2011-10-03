@@ -59,7 +59,7 @@ QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &i
             m_cache.insert(i, NULL);
     }
 
-    getCache(index, &size);
+    cache(index, &size);
 
     return size;
 }
@@ -161,7 +161,7 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
         m_cache.insert( i, NULL );
 }
 
-QTextDocument *ItemDelegate::getCache(const QModelIndex &index, QSize *size) const
+QTextDocument *ItemDelegate::cache(const QModelIndex &index, QSize *size) const
 {
     QTextDocument *doc;
     int n = index.row();
@@ -222,7 +222,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, 
     initStyleOption(&options, index);
     options.text = "";
 
-    doc = getCache(index);
+    doc = cache(index);
 
     // get focus rect and selection background
     const QWidget *widget = options.widget;

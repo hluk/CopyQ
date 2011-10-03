@@ -1,7 +1,18 @@
 /* http://doc.qt.nokia.com/stylesheet-examples.html */
 /* font */
-.text, .number, #clipboardBrowser, #searchBar, QPlainTextEdit {
+#item, #clipboardBrowser, #searchBar, QPlainTextEdit {
     font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace;
+}
+
+/* item text */
+#item {
+}
+
+/* item number */
+#itemNumber {
+    color: gray;
+    background-color: transparent;
+    padding: 4px 0 0 4px;
 }
 
 #clipboardBrowser, #searchBar {
@@ -19,16 +30,6 @@ QMainWindow {
 
 #findLabel {
     font-weight: bold;
-}
-
-/* item text */
-.text {
-}
-
-/* item number */
-.number {
-    padding-right: 1ex;
-    color: #444;
 }
 
 .format {

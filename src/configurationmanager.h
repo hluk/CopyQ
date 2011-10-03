@@ -21,8 +21,9 @@ class ConfigurationManager : public QDialog
     Q_OBJECT
 
 public:
-    enum Option {
-        Interval = 1,
+    typedef enum {
+        OptionInvalid,
+        Interval,
         Callback,
         Formats,
         MaxItems,
@@ -35,8 +36,9 @@ public:
         CheckSelection,
         CopyClipboard,
         CopySelection,
-        ConfirmExit
-    };
+        ConfirmExit,
+        OptionsCount
+    } Option;
 
     struct Command {
         QRegExp re;
@@ -77,11 +79,14 @@ public:
         mutex.unlock();
     }
 
+    QString optionToName(int opt) const;
+    Option nameToOption(const QString &name) const;
+
     void loadSettings();
     void saveSettings();
 
-    QVariant value(Option opt) const;
-    void setValue(Option opt, const QVariant &value);
+    QVariant value(int opt) const;
+    void setValue(int opt, const QVariant &value);
 
     void loadItems(ClipboardModel &model);
     void saveItems(const ClipboardModel &model);
@@ -105,7 +110,6 @@ private:
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QString m_datfilename;
-    QMap<Option, QString> m_keys;
     QSettings::Format cssFormat;
 
     explicit ConfigurationManager(QWidget *parent = 0);
