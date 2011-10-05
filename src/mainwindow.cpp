@@ -192,6 +192,8 @@ void MainWindow::createMenu()
 
     connect( menu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
+    connect( menu, SIGNAL(triggered(QAction*)),
+             this, SLOT(trayMenuAction(QAction*)) );
 
     tray->setContextMenu(menu);
 }
@@ -340,6 +342,19 @@ void MainWindow::toggleVisible()
     }
 }
 
+void MainWindow::trayMenuAction(QAction *act)
+{
+    QVariant data = act->data();
+
+    if ( data.isValid() ) {
+        int row = data.toInt();
+        ClipboardBrowser *c = browser();
+        if ( row < c->length() ) {
+            c->moveToClipboard(row);
+        }
+    }
+}
+
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick ) {
@@ -404,21 +419,18 @@ void MainWindow::updateTrayMenuItems()
         menu->removeAction(actions[i]);
     sep  = actions[i];
 
-    len = m_trayitems;
-    if (len >= c->length())
-        len = c->length() - 1;
+    len = qMin( m_trayitems, c->length() );
     for( i = 0; i < len; ++i ) {
-        QMenu *item_menu = new QMenu(menu);
-        act = menu->addMenu( c->itemMenu(i, item_menu) );
-
-        QFont font = act->font();
+        QFont font = menu->font();
         font.setItalic(true);
-        act->setFont(font);
 
         QFontMetrics fm(font);
         QString text = fm.elidedText( c->itemText(i).simplified(),
                                       Qt::ElideRight, 240 );
-        act->setText(text);
+
+        act = menu->addAction(text);
+        act->setFont(font);
+        act->setData( QVariant(i) );
 
         menu->insertAction(sep, act);
     }

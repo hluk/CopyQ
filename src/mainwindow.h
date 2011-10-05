@@ -123,6 +123,7 @@ class MainWindow : public QMainWindow
     private slots:
         void on_searchBar_textChanged(QString );
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
+        void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
     };
 
