@@ -25,11 +25,6 @@ public:
     }
 
     QMimeData *clipboardData() const;
-    void checkClipboard();
-
-    void start() { m_timer.start(); }
-    void stop() { m_timer.stop(); }
-    void setInterval(int msec) { m_timer.setInterval(msec); }
 
     void setFormats(const QString &list);
 
@@ -42,18 +37,17 @@ public:
     void setCopySelection(bool enable)  {m_copysel   = enable;}
 
 private:
-    QTimer m_timer;
     QStringList m_formats;
-    uint m_lastClipboard;
-    uint m_lastSelection;
-    bool m_checkclip, m_copyclip,
-         m_checksel, m_copysel;
     QMimeData *m_newdata;
-    QLocalSocket *m_socket;
-
+    bool m_checkclip, m_copyclip,
+         m_checksel, m_copysel, m_ignore;
+    uint m_lastClipboard;
 #ifdef Q_WS_X11
+    uint m_lastSelection;
     Display *m_dsp;
+    QTimer m_timer;
 #endif
+    QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
     QTimer m_updatetimer;
@@ -61,9 +55,12 @@ private:
     void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
 
 public slots:
-    void timeout();
+    void checkClipboard(QClipboard::Mode mode);
 
 private slots:
+#ifdef Q_WS_X11
+    bool updateSelection();
+#endif
     void updateTimeout();
     void readyRead();
 };

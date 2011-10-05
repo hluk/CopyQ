@@ -53,7 +53,6 @@ ConfigurationManager::~ConfigurationManager()
 QString ConfigurationManager::optionToName(int opt) const
 {
     switch(opt) {
-    case Interval: return QString("interval");
     case Callback: return QString("callback");
     case Formats: return QString("formats");
     case MaxItems: return QString("maxitems");
@@ -73,7 +72,6 @@ QString ConfigurationManager::optionToName(int opt) const
 ConfigurationManager::Option
 ConfigurationManager::nameToOption(const QString &name) const
 {
-    if (name == "interval") return Interval;
     if (name == "callback") return Callback;
     if (name == "formats") return Formats;
     if (name == "maxitems") return MaxItems;
@@ -92,7 +90,6 @@ ConfigurationManager::nameToOption(const QString &name) const
 QVariant ConfigurationManager::value(int opt) const
 {
     switch(opt) {
-    case Interval: return ui->spinInterval->value();
     case Callback: return ui->lineEditScript->text();
     case Formats: return ui->lineEditFormats->text();
     case MaxItems: return ui->spinBoxItems->value();
@@ -167,9 +164,6 @@ QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, cons
 void ConfigurationManager::setValue(int opt, const QVariant &value)
 {
     switch(opt) {
-    case Interval:
-        ui->spinInterval->setValue( value.toInt() );
-        break;
     case Callback:
         ui->lineEditScript->setText( value.toString() );
         break;

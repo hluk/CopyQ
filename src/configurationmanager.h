@@ -23,7 +23,6 @@ class ConfigurationManager : public QDialog
 public:
     typedef enum {
         OptionInvalid,
-        Interval,
         Callback,
         Formats,
         MaxItems,

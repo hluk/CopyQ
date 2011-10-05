@@ -9,10 +9,9 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
-    App(argc, argv) ,m_lastClipboard(0), m_lastSelection(0),
-    m_newdata(NULL)
+    App(argc, argv), m_newdata(NULL), m_ignore(false), m_lastClipboard(0)
 #ifdef Q_WS_X11
-  , m_dsp(NULL)
+  , m_lastSelection(0), m_dsp(NULL)
 #endif
 {
     m_socket = new QLocalSocket(this);
@@ -25,22 +24,26 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
         exit(1);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    setInterval( cm->value(ConfigurationManager::Interval).toInt() );
     setFormats( cm->value(ConfigurationManager::Formats).toString() );
     setCheckClipboard( cm->value(ConfigurationManager::CheckClipboard).toBool() );
+
+#ifdef Q_WS_X11
     setCopyClipboard( cm->value(ConfigurationManager::CopyClipboard).toBool() );
     setCheckSelection( cm->value(ConfigurationManager::CheckSelection).toBool() );
     setCopySelection( cm->value(ConfigurationManager::CopySelection).toBool() );
-
     m_timer.setSingleShot(true);
+    m_timer.setInterval(100);
     connect(&m_timer, SIGNAL(timeout()),
-            this, SLOT(timeout()));
-    m_timer.start();
+            this, SLOT(updateSelection()));
+#endif
 
     m_updatetimer.setSingleShot(true);
     m_updatetimer.setInterval(500);
     connect( &m_updatetimer, SIGNAL(timeout()),
              this, SLOT(updateTimeout()) );
+
+    connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
+             this, SLOT(checkClipboard(QClipboard::Mode)) );
 }
 
 ClipboardMonitor::~ClipboardMonitor()
@@ -56,35 +59,6 @@ void ClipboardMonitor::setFormats(const QString &list)
     m_formats = list.split( QRegExp("[;, ]+") );
 }
 
-void ClipboardMonitor::timeout()
-{
-    if (m_checkclip || m_checksel) {
-#ifdef Q_WS_X11
-        // wait while selection is incomplete, i.e. mouse button or
-        // shift key is pressed
-        if ( m_dsp || (m_dsp = XOpenDisplay(NULL)) ) {
-            Window root = DefaultRootWindow(m_dsp);
-            XEvent event;
-
-            XQueryPointer(m_dsp, root,
-                          &event.xbutton.root, &event.xbutton.window,
-                          &event.xbutton.x_root, &event.xbutton.y_root,
-                          &event.xbutton.x, &event.xbutton.y,
-                          &event.xbutton.state);
-
-            if( event.xbutton.state &
-                    (Button1Mask | ShiftMask) ) {
-                m_timer.start();
-                return;
-            }
-        }
-#endif
-
-        checkClipboard();
-    }
-    m_timer.start();
-}
-
 uint ClipboardMonitor::hash(const QMimeData &data)
 {
     QByteArray bytes;
@@ -95,69 +69,95 @@ uint ClipboardMonitor::hash(const QMimeData &data)
     }
 
     // return 0 when data is empty
-    return bytes.isEmpty() ? 0 : qHash(bytes);
+    return qHash(bytes);
 }
 
-void ClipboardMonitor::checkClipboard()
+#ifdef Q_WS_X11
+bool ClipboardMonitor::updateSelection()
 {
-    const QMimeData *d, *data, *data2;
-    uint h = m_lastClipboard;
-    uint h2 = m_lastSelection;
+    // wait while selection is incomplete, i.e. mouse button or
+    // shift key is pressed
+    if ( m_timer.isActive() )
+        return false;
+    if ( m_dsp || (m_dsp = XOpenDisplay(NULL)) ) {
+        Window root = DefaultRootWindow(m_dsp);
+        XEvent event;
 
-    d = data = data2 = NULL;
+        XQueryPointer(m_dsp, root,
+                      &event.xbutton.root, &event.xbutton.window,
+                      &event.xbutton.x_root, &event.xbutton.y_root,
+                      &event.xbutton.x, &event.xbutton.y,
+                      &event.xbutton.state);
 
-    // clipboard
-    QClipboard *clipboard = QApplication::clipboard();
-
-    // clipboard data
-    if ( m_checkclip ) {
-        data = clipboard->mimeData(QClipboard::Clipboard);
-    }
-    if ( m_checksel ) {
-        data2 = clipboard->mimeData(QClipboard::Selection);
-    }
-
-    // hash
-    if (data)
-        h = hash(*data);
-    if (data2)
-        h2 = hash(*data2);
-
-    // check hash value
-    //   - synchronize clipboards only when data are different
-    QClipboard::Mode mode;
-    if ( h && h != m_lastClipboard ) {
-        d = data;
-        mode = QClipboard::Clipboard;
-        m_lastClipboard = h;
-    } else if ( h2 && h2 != m_lastSelection && !d ) {
-        d = data2;
-        mode = QClipboard::Selection;
-        m_lastSelection = h2;
-    }
-
-    if ( d && h != h2 ) {
-        // clipboard content was changed -> synchronize
-        if( mode == QClipboard::Clipboard &&
-            m_copyclip &&
-            h2 == m_lastSelection ) {
-            clipboard->setMimeData( cloneData(*d, &m_formats),
-                                    QClipboard::Selection );
-            m_lastSelection = h;
-        } else if ( mode == QClipboard::Selection &&
-                    m_copysel &&
-                    h == m_lastClipboard ) {
-            clipboard->setMimeData( cloneData(*d, &m_formats),
-                                    QClipboard::Clipboard );
-            m_lastClipboard = h2;
+        if( event.xbutton.state &
+                (Button1Mask | ShiftMask) ) {
+            m_timer.start();
+            return false;
         }
     }
 
-    if (d) {
-        // create and emit new clipboard data
-        clipboardChanged(mode, cloneData(*d, &m_formats));
+    checkClipboard(QClipboard::Selection);
+    return true;
+}
+
+void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
+{
+    if (m_ignore) return;
+    m_ignore = true;
+
+    const QMimeData *data;
+    uint h;
+    QClipboard *clipboard = QApplication::clipboard();
+
+    if ( m_checkclip && mode == QClipboard::Clipboard ) {
+        data = clipboard->mimeData(QClipboard::Clipboard);
+        if (data) {
+            h = hash(*data);
+            // synchronize clipboard -> selection
+            if( m_copyclip && h != m_lastSelection ) {
+                clipboard->setMimeData( cloneData(*data, &m_formats),
+                                        QClipboard::Selection );
+                m_lastSelection = h;
+            }
+            // clipboard data changed?
+            if (h != m_lastClipboard) {
+                m_lastClipboard = h;
+                clipboardChanged(mode, cloneData(*data, &m_formats));
+            }
+        }
+    } else if ( m_checksel && mode == QClipboard::Selection &&
+                updateSelection() ) {
+        data = clipboard->mimeData(QClipboard::Selection);
+        if (data) {
+            h = hash(*data);
+            // synchronize selection -> clipboard
+            if ( m_copysel && h != m_lastClipboard ) {
+                clipboard->setMimeData( cloneData(*data, &m_formats),
+                                        QClipboard::Clipboard );
+                m_lastClipboard = h;
+            }
+            // selection data changed?
+            if (h != m_lastSelection) {
+                m_lastSelection = h;
+                clipboardChanged(mode, cloneData(*data, &m_formats));
+            }
+        }
+    }
+    m_ignore = false;
+}
+#else /* !Q_WS_X11 */
+void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
+{
+    if (m_ignore) return;
+
+    if ( m_checkclip && mode == QClipboard::Clipboard ) {
+        const QMimeData *data;
+        QClipboard *clipboard = QApplication::clipboard();
+        data = clipboard->mimeData(mode);
+        clipboardChanged(mode, cloneData(*data, &m_formats));
     }
 }
+#endif
 
 void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
 {
@@ -230,13 +230,17 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 
     QClipboard *clipboard = QApplication::clipboard();
     if ( h != m_lastClipboard ) {
+        m_ignore = true;
         clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
+        m_ignore = false;
         m_lastClipboard = h;
     } else {
         delete m_newdata;
     }
     if ( h != m_lastSelection ) {
+        m_ignore = true;
         clipboard->setMimeData(newdata2, QClipboard::Selection);
+        m_ignore = false;
         m_lastSelection = h;
     } else {
         delete newdata2;
