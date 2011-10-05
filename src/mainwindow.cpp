@@ -242,8 +242,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Return:
         case Qt::Key_Enter:
             // move current item to clipboard and hide window
-            c->moveToClipboard(
-                    c->currentIndex() );
+            if ( c->selectionModel()->selectedIndexes().count() > 1 )
+                c->add( c->selectedText() );
+            else
+                c->moveToClipboard( c->currentIndex() );
             close();
             break;
 
