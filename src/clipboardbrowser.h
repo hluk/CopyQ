@@ -67,13 +67,11 @@ class ClipboardBrowser : public QListView
 
         void runCallback() const;
 
-        QMenu *itemMenu(int row, QMenu *menu);
-        void setMenu(QMenu *menu) { m_menu = menu; }
-        QMenu *menu() const { return m_menu; }
-
         void updateClipboard();
 
         void setAutoUpdate(bool update) { m_update = update; }
+
+        QMenu *contextMenu() const {return m_menu;}
 
     private:
         int m_maxitems;
@@ -90,6 +88,8 @@ class ClipboardBrowser : public QListView
 
         QMenu *m_menu;
         ConfigurationManager::Commands commands;
+
+        void createContextMenu();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -125,7 +125,8 @@ class ClipboardBrowser : public QListView
         void preload(int msec=300);
 
         void contextMenuAction(QAction *act);
-        void updateMenuItems();
+        void updateContextMenu();
+
         void newItem();
 
         void checkClipboard(QClipboard::Mode mode, QMimeData *data);

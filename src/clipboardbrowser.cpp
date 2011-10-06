@@ -49,6 +49,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
     setModel(m);
     delete old_model;
 
+    // context menu
+    createContextMenu();
+
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              d, SLOT(rowsRemoved(QModelIndex,int,int)) );
     connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
@@ -90,128 +93,111 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
     QVariant data = act->data();
 
     if ( data.isValid() ) {
-        QVariantList list = data.toList();
-        int action = list.at(0).toInt();
-        int row = list.at(1).toInt();
-        if ( row < length() ) {
-            if (row >= 0)
-                setCurrent(row);
+        int action = data.toInt();
+        switch(action) {
+        case ActionToClipboard:
+            moveToClipboard( currentIndex() );
+            setCurrent(0);
+            break;
+        case ActionRemove:
+            remove();
+            break;
+        case ActionEdit:
+            ind = currentIndex();
+            scrollTo(ind, PositionAtTop);
+            emit requestShow();
+            edit(ind);
+            break;
+        case ActionEditor:
+            openEditor();
+            break;
+        case ActionAct:
+            emit requestActionDialog(-1);
+            break;
+        case ActionCustom:
+            emit requestActionDialog(-1, &commands[act->text()]);
+            break;
+        }
+    }
+}
 
-            switch(action) {
-            case ActionToClipboard:
-                moveToClipboard( currentIndex() );
-                setCurrent(0);
-                break;
-            case ActionRemove:
-                remove();
-                break;
-            case ActionEdit:
-                ind = currentIndex();
-                scrollTo(ind, PositionAtTop);
-                emit requestShow();
-                edit(ind);
-                break;
-            case ActionEditor:
-                openEditor();
-                break;
-            case ActionAct:
-                emit requestActionDialog(-1);
-                break;
-            case ActionCustom:
-                const ConfigurationManager::Command *c = &commands[act->text()];
-                emit requestActionDialog(-1, c);
-                break;
+void ClipboardBrowser::createContextMenu()
+{
+    QAction *act;
+    QFont font;
+
+    m_menu = new QMenu(this);
+
+    act = m_menu->addAction( QIcon(":/images/clipboard.svg"),
+                           tr("Move to &Clipboard") );
+    font = act->font();
+    font.setBold(true);
+    act->setFont(font);
+    act->setData( QVariant(ActionToClipboard) );
+
+    act = m_menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
+    act->setShortcut( QString("Delete") );
+    act->setData( QVariant(ActionRemove) );
+
+    act = m_menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+    act->setShortcut( QString("F2") );
+    act->setData( QVariant(ActionEdit) );
+
+    act = m_menu->addAction( QIcon(":/images/edit.svg"),
+                             tr("E&dit with editor") );
+    act->setShortcut( QString("Ctrl+E") );
+    act->setData( QVariant(ActionEditor) );
+
+    act = m_menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
+    act->setShortcut( QString("F5") );
+    act->setData( QVariant(ActionAct) );
+
+    connect( m_menu, SIGNAL(triggered(QAction*)),
+            this, SLOT(contextMenuAction(QAction*)) );
+    connect( m_menu, SIGNAL(aboutToShow()),
+             this, SLOT(updateContextMenu()) );
+}
+
+void ClipboardBrowser::updateContextMenu()
+{
+    int i, len;
+    QString text = selectedText();
+    QAction *act;
+    QList<QAction *> actions = m_menu->actions();
+
+    // remove old actions
+    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i );
+    for( ; i<len; ++i )
+        m_menu->removeAction(actions[i]);
+
+    // add custom commands to menu
+    if ( !commands.isEmpty() ) {
+        m_menu->addSeparator();
+        QStringList keys = commands.keys();
+        for( i=0, len=keys.size(); i<len; ++i ) {
+            const QString &name = keys[i];
+            const ConfigurationManager::Command *command = &commands[name];
+            if ( command->re.indexIn(text) != -1 ) {
+                act = m_menu->addAction(command->icon, name);
+                act->setData( QVariant(ActionCustom) );
+                if ( !command->shortcut.isEmpty() )
+                    act->setShortcut( command->shortcut );
             }
         }
     }
 }
 
-QMenu *ClipboardBrowser::itemMenu(int row, QMenu *menu)
-{
-    QAction *act;
-    QFont font;
-
-    menu->clear();
-    menu->disconnect();
-
-    act = menu->addAction( QIcon(":/images/clipboard.svg"),
-                           tr("Move to &Clipboard") );
-    font = act->font();
-    font.setBold(true);
-    act->setFont(font);
-    act->setData( QVariantList() << QVariant(ActionToClipboard) << QVariant(row) );
-
-    act = menu->addAction( QIcon(":/images/remove.png"),
-                           tr("&Remove") );
-    act->setShortcut( QString("Delete") );
-    act->setData( QVariantList() << QVariant(ActionRemove) << QVariant(row) );
-
-    act = menu->addAction( QIcon(":/images/edit.svg"),
-                           tr("&Edit") );
-    act->setShortcut( QString("F2") );
-    act->setData( QVariantList() << QVariant(ActionEdit) << QVariant(row) );
-
-    act = menu->addAction( QIcon(":/images/edit.svg"),
-                           tr("E&dit with editor") );
-    act->setShortcut( QString("Ctrl+E") );
-    act->setData( QVariantList() << QVariant(ActionEditor) << QVariant(row) );
-
-    act = menu->addAction( QIcon(":/images/action.svg"),
-                           tr("&Action...") );
-    act->setShortcut( QString("F5") );
-    act->setData( QVariantList() << QVariant(ActionAct) << QVariant(row) );
-
-    connect( menu, SIGNAL(triggered(QAction*)),
-            this, SLOT(contextMenuAction(QAction*)) );
-
-    int i, len;
-    QString text = row >= 0 ? itemText(row) : selectedText();
-
-    QList<QAction *> actions = menu->actions();
-    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i );
-    for( ; i<len; ++i )
-        menu->removeAction(actions[i]);
-
-    // add custom commands to menu
-    if ( !commands.isEmpty() )
-        menu->addSeparator();
-
-    QStringList keys = commands.keys();
-    for( i=0, len=keys.size(); i<len; ++i ) {
-        const QString &name = keys[i];
-        const ConfigurationManager::Command *command = &commands[name];
-        if ( command->re.indexIn(text) != -1 ) {
-            act = menu->addAction(command->icon, name);
-            act->setData( QVariantList() << QVariant(ActionCustom)
-                          << QVariant(row) );
-            if ( !command->shortcut.isEmpty() )
-                act->setShortcut( command->shortcut );
-        }
-    }
-
-    return menu;
-}
-
-void ClipboardBrowser::updateMenuItems()
-{
-    itemMenu(-1, m_menu);
-}
-
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( this->selectedIndexes().isEmpty() )
-        return;
-
-    if (m_menu) {
+    if ( !selectedIndexes().isEmpty() )
         m_menu->exec( event->globalPos() );
-    }
 }
 
 void ClipboardBrowser::selectionChanged(const QItemSelection &a,
                                         const QItemSelection &b)
 {
     QListView::selectionChanged(a, b);
-    updateMenuItems();
+    //updateContextMenu();
 }
 
 void ClipboardBrowser::openEditor()
@@ -349,30 +335,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
         case Qt::Key_Home:
         case Qt::Key_End:
-            /*
-            last = m->rowCount()-1;
-            current = currentIndex().row();
-            if (key == Qt::Key_Up) {
-                newindex = m->index(current == 0 ? last : current-1);
-            } else if (key == Qt::Key_Down) {
-                newindex = m->index(current == last ? 0 : current+1);
-            }
-            if ( newindex.isValid() ) {
-                selflags = event->modifiers() == Qt::ShiftModifier ?
-                           QItemSelectionModel::Toggle :
-                           QItemSelectionModel::ClearAndSelect;
-
-                selected = selectedIndexes();
-
-                selectionModel()->setCurrentIndex(newindex, selflags);
-
-                foreach( QModelIndex ind, selected) {
-                    update(ind);
-                }
-            } else {
-                QListView::keyPressEvent(event);
-            }
-            */
             QListView::keyPressEvent(event);
             break;
 
@@ -588,9 +550,6 @@ const QString ClipboardBrowser::selectedText() const
             result += QString('\n');
         result += itemText(ind);
     }
-
-    if ( result.isEmpty() )
-        result = itemText(0);
 
     return result;
 }

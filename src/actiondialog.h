@@ -16,7 +16,7 @@ class ActionDialog : public QDialog {
 public:
     ActionDialog(QWidget *parent = 0);
     ~ActionDialog();
-    void setInput(const QString &input);
+    void setInputText(const QString &input);
     void restoreHistory();
     void saveHistory();
     void add(const QString &command);

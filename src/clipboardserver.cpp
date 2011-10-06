@@ -231,27 +231,6 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     m_socket->flush();
 }
 
-int ClipboardServer::nameToCommand(const QString &name) const
-{
-    // commands send from client to server
-    if (name == "toggle") return Cmd_Toggle;
-    if (name == "exit")   return Cmd_Exit;
-    if (name == "menu")   return Cmd_Menu;
-    if (name == "action") return Cmd_Action;
-    if (name == "add")    return Cmd_Add;
-    if (name == "write")  return Cmd_Write;
-    if (name == "_write") return Cmd_WriteNoUpdate;
-    if (name == "edit")   return Cmd_Edit;
-    if (name == "select") return Cmd_Select;
-    if (name == "remove") return Cmd_Remove;
-    if (name == "length") return Cmd_Length;
-    if (name == "size")   return Cmd_Length;
-    if (name == "count")  return Cmd_Length;
-    if (name == "list")   return Cmd_List;
-    if (name == "read")   return Cmd_Read;
-    return Cmd_Unknown;
-}
-
 bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 {
     QString cmd;
@@ -265,35 +244,33 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
     QMimeData *data;
     int row;
 
-    switch( nameToCommand(cmd) ) {
-
     // show/hide main window
-    case Cmd_Toggle:
+    if (cmd == "toggle") {
         if ( !args.atEnd() )
             return false;
         m_wnd->toggleVisible();
-        break;
+    }
 
     // exit server
-    case Cmd_Exit:
+    else if (cmd == "exit") {
         if ( !args.atEnd() )
             return false;
         // close client and exit
         response = tr("Terminating server.\n").toLocal8Bit();
         exit();
-        break;
+    }
 
     // show menu
-    case Cmd_Menu:
+    else if (cmd == "menu") {
         if ( !args.atEnd() )
             return false;
         m_wnd->showMenu();
-        break;
+    }
 
     // show action dialog or run action on item
     // action
     // action [[row] ... ["cmd" "[sep]"]]
-    case Cmd_Action:
+    else if (cmd == "action") {
         args >> 0 >> row;
         c->setCurrent(row);
         while ( !args.finished() ) {
@@ -321,10 +298,10 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
             command.wait = false;
             m_wnd->action(-1, &command);
         }
-        break;
+    }
 
     // add new items
-    case Cmd_Add:
+    else if (cmd == "add") {
         if ( args.atEnd() )
             return false;
 
@@ -335,12 +312,11 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
         if ( isMonitoring() ) c->setAutoUpdate(true);
 
         c->updateClipboard();
-        break;
+    }
 
     // add new items
-    case Cmd_WriteNoUpdate:
-        noupdate = true;
-    case Cmd_Write:
+    else if (cmd == "write" || cmd == "_write") {
+        noupdate = cmd.startsWith('_');
         data = new QMimeData;
         do {
             QByteArray bytes;
@@ -362,11 +338,11 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 
         if ( noupdate && isMonitoring() )
             c->setAutoUpdate(true);
-        break;
+    }
 
     // edit clipboard item
     // edit [row=0] ...
-    case Cmd_Edit:
+    else if (cmd == "edit") {
         args >> 0 >> row;
         c->setCurrent(row);
         while ( !args.finished() ) {
@@ -376,20 +352,20 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
             c->setCurrent(row, false, true);
         }
         c->openEditor();
-        break;
+    }
 
     // set current item
     // select [row=0]
-    case Cmd_Select:
+    else if (cmd == "select") {
         args >> 0 >> row;
         if ( !args.finished() )
             return false;
         c->moveToClipboard(row);
-        break;
+    }
 
     // remove item from clipboard
     // remove [row=0] ...
-    case Cmd_Remove:
+    else if (cmd == "remove") {
         args >> 0 >> row;
         c->setCurrent(row);
         while ( !args.finished() ) {
@@ -399,19 +375,19 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
             c->setCurrent(row, false, true);
         }
         c->remove();
-        break;
+    }
 
-    case Cmd_Length:
+    else if (cmd == "length" || cmd == "size" || cmd == "count") {
         if ( args.finished() ) {
             response = QString("%1\n").arg(c->length()).toLocal8Bit();
         } else {
             return false;
         }
-        break;
+    }
 
     // print items in given rows, format can have two arguments %1:item %2:row
     // list [format="%1\n"|row=0] ...
-    case Cmd_List:
+    else if (cmd == "list") {
         if ( args.finished() ) {
             response = c->itemText(0).toLocal8Bit()+'\n';
         } else {
@@ -428,11 +404,11 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
                 }
             } while( !args.atEnd() );
         }
-        break;
+    }
 
     // print items in given rows, format can have two arguments %1:item %2:row
     // read [mime="text/plain"|row=0] ...
-    case Cmd_Read:
+    else if (cmd == "read") {
         mime = QString("text/plain");
 
         if ( args.atEnd() ) {
@@ -448,9 +424,10 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
                 response.append( c->itemData(row)->data(mime) );
             } while( !args.atEnd() );
         }
-        break;
+    }
 
-    default:
+    // unknown command
+    else {
         return false;
     }
 

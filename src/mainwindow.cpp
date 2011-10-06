@@ -163,9 +163,9 @@ void MainWindow::createMenu()
     m->addAction(act);
 
     // &Items
-    itemMenu = new QMenu(tr("&Item"), this);
+    itemMenu = c->contextMenu();
+    itemMenu->setTitle( tr("&Item") );
     menubar->addMenu(itemMenu);
-    c->setMenu(itemMenu);
 
     // - action dialog
     act = new QAction( QIcon(":/images/action.svg"),
@@ -273,8 +273,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         default:
-            // update action shortcuts
-            c->updateMenuItems();
             QMainWindow::keyPressEvent(event);
             if ( !event->isAccepted() ) {
                 txt = event->text();
@@ -469,7 +467,7 @@ void MainWindow::openActionDialog(int row, bool modal)
     ClipboardBrowser *c = browser();
 
     createActionDialog();
-    actionDialog->setInput( row >= 0 ? c->itemText(row) : c->selectedText() );
+    actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
     if (modal)
         actionDialog->exec();
     else
@@ -492,7 +490,7 @@ void MainWindow::action(int row, const ConfigurationManager::Command *cmd)
 
     createActionDialog();
 
-    actionDialog->setInput( row >= 0 ? c->itemText(row) : c->selectedText() );
+    actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
     if (cmd) {
         actionDialog->setCommand(cmd->cmd);
         actionDialog->setSeparator(cmd->sep);

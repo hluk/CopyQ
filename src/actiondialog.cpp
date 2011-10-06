@@ -46,21 +46,9 @@ void ActionDialog::changeEvent(QEvent *e)
     }
 }
 
-void ActionDialog::setInput(const QString &input)
+void ActionDialog::setInputText(const QString &input)
 {
-    if ( input.isEmpty() ) {
-        // no input
-        ui->inputText->clear();
-        ui->inputCheckBox->hide();
-        ui->inputInfoLabel->hide();
-        ui->inputText->hide();
-    }
-    else {
-        ui->inputText->setPlainText(input);
-        ui->inputCheckBox->show();
-        ui->inputInfoLabel->show();
-        ui->inputText->show();
-    }
+    ui->inputText->setPlainText(input);
 }
 
 void ActionDialog::add(const QString &cmd)

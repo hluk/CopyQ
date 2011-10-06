@@ -14,28 +14,10 @@ class ClipboardServer : public App
 {
     Q_OBJECT
 
-    typedef enum {
-        Cmd_Unknown,
-        Cmd_Toggle,
-        Cmd_Exit,
-        Cmd_Menu,
-        Cmd_Action,
-        Cmd_Add,
-        Cmd_Write,
-        Cmd_WriteNoUpdate,
-        Cmd_Edit,
-        Cmd_Select,
-        Cmd_Remove,
-        Cmd_Length,
-        Cmd_List,
-        Cmd_Read
-    } Command;
-
 public:
     explicit ClipboardServer(int &argc, char **argv);
     ~ClipboardServer();
     bool isListening() { return m_server->isListening(); }
-    int nameToCommand(const QString &name) const;
     bool doCommand(Arguments &args, QByteArray &bytes);
     void sendMessage(QLocalSocket* client, const QByteArray &message, int exit_code = 0);
     void sendMessage(QLocalSocket* client, const QString &message, int exit_code = 0) {
