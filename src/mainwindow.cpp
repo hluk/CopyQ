@@ -21,6 +21,7 @@
 #include "ui_mainwindow.h"
 #include "aboutdialog.h"
 #include "actiondialog.h"
+#include "clipboarddialog.h"
 #include <QCloseEvent>
 #include <QMenu>
 #include <QMenuBar>
@@ -116,86 +117,79 @@ void MainWindow::createMenu()
 {
     ClipboardBrowser *c = browser();
     QMenuBar *menubar = menuBar();
-    QMenu *menu = new QMenu(this);
-    QMenu *m;
+    QMenu *traymenu = new QMenu(this);
+    QMenu *menu;
     QAction *act;
 
     // items before separator in tray
-    menu->addSeparator();
+    traymenu->addSeparator();
 
     // &File
-    m = menubar->addMenu( tr("&File") );
+    menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = new QAction( QIcon(":/images/icon.svg"),
-                       tr("&Show/Hide"), this );
-    QFont font(act->font());
-    // bold
+    act = traymenu->addAction( QIcon(":/images/icon.svg"), tr("&Show/Hide"),
+                               this, SLOT(toggleVisible()) );
+    menu->addAction(act);
+    // set bold font
+    QFont font( act->font() );
     font.setBold(true);
     act->setFont(font);
-    act->setWhatsThis( tr("Show or hide main window") );
-    connect( act, SIGNAL(triggered()), this, SLOT(toggleVisible()) );
-    menu->addAction(act);
-    m->addAction(act);
 
     // - new
-    act = new QAction( QIcon(":/images/new.svg"),
-                       tr("&New Item"), this );
-    act->setShortcut( QString("Ctrl+N") );
-    connect( act, SIGNAL(triggered()), c, SLOT(newItem()) );
-    menu->addAction(act);
-    m->addAction(act);
+    act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
+                               c, SLOT(newItem()) );
+    menu->addAction( act->icon(), act->text(), c, SLOT(newItem()),
+                  QKeySequence("Ctrl+N") );
+
+    // - show clipboard content
+    act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
+                               tr("Show &Clipboard Content"),
+                               this, SLOT(showClipboardContent()) );
+    menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
+                  QKeySequence("Ctrl+S") );
+
+    // - action dialog
+    act = traymenu->addAction( QIcon(":/images/action.svg"), tr("&Action..."),
+                               this, SLOT(openActionDialog()) );
+    act->setWhatsThis( tr("Open action dialog") );
 
     // - preferences
-    act = new QAction( QIcon(":/images/preferences.svg"),
-                       tr("&Preferences"), this );
-    act->setShortcut( QString("Ctrl+P") );
-    connect( act, SIGNAL(triggered()), this, SLOT(openPreferences()) );
-    menu->addAction(act);
-    m->addAction(act);
+    act = traymenu->addAction( QIcon(":/images/preferences.svg"),
+                               tr("&Preferences"),
+                               this, SLOT(openPreferences()) );
+    menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
+                  QKeySequence("Ctrl+P") );
 
-    // - exit
-    act = new QAction( QIcon(":/images/exit.svg"),
-                       tr("E&xit"), this );
-    act->setShortcut( QString("Ctrl+Q") );
-    connect( act, SIGNAL(triggered()), this, SLOT(exit()) );
-    menu->addAction(act);
-    m->addAction(act);
-
-    // &Items
+    // - items
     itemMenu = c->contextMenu();
     itemMenu->setTitle( tr("&Item") );
     menubar->addMenu(itemMenu);
 
-    // - action dialog
-    act = new QAction( QIcon(":/images/action.svg"),
-                       tr("&Action..."), this );
-    act->setShortcut( QString("F5") );
-    act->setWhatsThis( tr("Open action dialog") );
-    connect( act, SIGNAL(triggered()), this, SLOT(openActionDialog()) );
-    //menu->addAction(act);
-
     // - custom commands
     cmdMenu = menubar->addMenu(tr("&Commands"));
     cmdMenu->setEnabled(false);
-    menu->addMenu(cmdMenu);
+    traymenu->addMenu(cmdMenu);
+
+    // - exit
+    act = traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
+                     this, SLOT(exit()) );
+    menu->addAction( act->icon(), act->text(), this, SLOT(exit()),
+                  QKeySequence("Ctrl+Q") );
 
     // - about dialog
-    m = menubar->addMenu( tr("&Help") );
-    act = new QAction( QIcon(":/images/help.svg"),
-                       tr("&Help"), this );
-    act->setShortcut( QString("F1") );
-    act->setWhatsThis( tr("Open help dialog") );
-    connect( act, SIGNAL(triggered()), this, SLOT(openAboutDialog()) );
+    menu = menubar->addMenu( tr("&Help") );
+    act = menu->addAction( QIcon(":/images/help.svg"), tr("&Help"),
+                           this, SLOT(openAboutDialog()),
+                           QKeySequence("F1") );
     menu->addAction(act);
-    m->addAction(act);
 
-    connect( menu, SIGNAL(aboutToShow()),
+    connect( traymenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
-    connect( menu, SIGNAL(triggered(QAction*)),
+    connect( traymenu, SIGNAL(triggered(QAction*)),
              this, SLOT(trayMenuAction(QAction*)) );
 
-    tray->setContextMenu(menu);
+    tray->setContextMenu(traymenu);
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -440,6 +434,13 @@ void MainWindow::openAboutDialog()
         aboutDialog = new AboutDialog(this);
     }
     aboutDialog->exec();
+}
+
+void MainWindow::showClipboardContent()
+{
+    ClipboardDialog *d = new ClipboardDialog;
+    connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
+    d->exec();
 }
 
 void MainWindow::createActionDialog()

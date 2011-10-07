@@ -7,7 +7,8 @@ RESOURCES = copyq.qrc
 FORMS += mainwindow.ui \
     actiondialog.ui \
     aboutdialog.ui \
-    configurationmanager.ui
+    configurationmanager.ui \
+    clipboarddialog.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     qeditor.h \
@@ -23,7 +24,8 @@ HEADERS += mainwindow.h \
     clipboardserver.h \
     clipboardclient.h \
     app.h \
-    arguments.h
+    arguments.h \
+    clipboarddialog.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -40,7 +42,11 @@ SOURCES += main.cpp \
     clipboardserver.cpp \
     clipboardclient.cpp \
     app.cpp \
-    arguments.cpp
+    arguments.cpp \
+    clipboarddialog.cpp
 QT += xml network
 unix:LIBS += -lX11
 win32:CONFIG += static
+
+
+

@@ -92,6 +92,8 @@ class MainWindow : public QMainWindow
 
         void openAboutDialog();
 
+        void showClipboardContent();
+
         /**
          Open action dialog.
          \param row Row in clipboard browser. Text in the row can be used as
