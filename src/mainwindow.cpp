@@ -128,10 +128,11 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = traymenu->addAction( QIcon(":/images/icon.svg"), tr("&Show/Hide"),
+    act = menu->addAction( QIcon(":/images/icon.svg"), tr("&Show/Hide"),
+                           this, SLOT(toggleVisible()) );
+    act = traymenu->addAction( act->icon(), act->text(),
                                this, SLOT(toggleVisible()) );
-    menu->addAction(act);
-    // set bold font
+    // bold font for default item in tray
     QFont font( act->font() );
     font.setBold(true);
     act->setFont(font);
@@ -140,14 +141,14 @@ void MainWindow::createMenu()
     act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
                                c, SLOT(newItem()) );
     menu->addAction( act->icon(), act->text(), c, SLOT(newItem()),
-                  QKeySequence("Ctrl+N") );
+                     QKeySequence("Ctrl+N") );
 
     // - show clipboard content
     act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
                                tr("Show &Clipboard Content"),
                                this, SLOT(showClipboardContent()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
-                  QKeySequence("Ctrl+S") );
+                     QKeySequence("Ctrl+S") );
 
     // - action dialog
     act = traymenu->addAction( QIcon(":/images/action.svg"), tr("&Action..."),
@@ -159,7 +160,7 @@ void MainWindow::createMenu()
                                tr("&Preferences"),
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
-                  QKeySequence("Ctrl+P") );
+                     QKeySequence("Ctrl+P") );
 
     // - items
     itemMenu = c->contextMenu();
@@ -173,9 +174,9 @@ void MainWindow::createMenu()
 
     // - exit
     act = traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
-                     this, SLOT(exit()) );
+                               this, SLOT(exit()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(exit()),
-                  QKeySequence("Ctrl+Q") );
+                     QKeySequence("Ctrl+Q") );
 
     // - about dialog
     menu = menubar->addMenu( tr("&Help") );
