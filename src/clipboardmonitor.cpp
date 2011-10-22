@@ -111,7 +111,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     if ( m_checkclip && mode == QClipboard::Clipboard ) {
         data = clipboard->mimeData(QClipboard::Clipboard);
-        if (data) {
+        if ( data && (!data->hasText() || data->text().size() > 1) ) {
             h = hash(*data);
             // synchronize clipboard -> selection
             if( m_copyclip && h != m_lastSelection ) {
@@ -128,7 +128,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     } else if ( m_checksel && mode == QClipboard::Selection &&
                 updateSelection() ) {
         data = clipboard->mimeData(QClipboard::Selection);
-        if (data) {
+        if ( data && (!data->hasText() || data->text().size() > 1) ) {
             h = hash(*data);
             // synchronize selection -> clipboard
             if ( m_copysel && h != m_lastClipboard ) {
