@@ -44,6 +44,11 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
 
     connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
              this, SLOT(checkClipboard(QClipboard::Mode)) );
+
+#ifdef Q_WS_X11
+    checkClipboard(QClipboard::Selection);
+#endif
+    checkClipboard(QClipboard::Clipboard);
 }
 
 ClipboardMonitor::~ClipboardMonitor()
@@ -102,43 +107,46 @@ bool ClipboardMonitor::updateSelection()
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
+    QClipboard *clipboard;
+    const QMimeData *data;
+    uint new_hash;
+    uint *hash1 = NULL, *hash2 = NULL;
+    bool synchronize;
+    QClipboard::Mode mode2;
+
     if (m_ignore) return;
     m_ignore = true;
 
-    const QMimeData *data;
-    uint h;
-    QClipboard *clipboard = QApplication::clipboard();
-
     if ( m_checkclip && mode == QClipboard::Clipboard ) {
-        data = clipboard->mimeData(QClipboard::Clipboard);
-        if ( data && (!data->hasText() || data->text().size() > 1) ) {
-            h = hash(*data);
-            // synchronize clipboard -> selection
-            if( m_copyclip && h != m_lastSelection ) {
-                clipboard->setMimeData( cloneData(*data, &m_formats),
-                                        QClipboard::Selection );
-                m_lastSelection = h;
-            }
-            // clipboard data changed?
-            if (h != m_lastClipboard) {
-                m_lastClipboard = h;
-                clipboardChanged(mode, cloneData(*data, &m_formats));
-            }
-        }
+        mode2 = QClipboard::Selection;
+        hash1 = &m_lastClipboard;
+        hash2 = &m_lastSelection;
+        synchronize = m_copyclip;
     } else if ( m_checksel && mode == QClipboard::Selection &&
                 updateSelection() ) {
-        data = clipboard->mimeData(QClipboard::Selection);
-        if ( data && (!data->hasText() || data->text().size() > 1) ) {
-            h = hash(*data);
-            // synchronize selection -> clipboard
-            if ( m_copysel && h != m_lastClipboard ) {
-                clipboard->setMimeData( cloneData(*data, &m_formats),
-                                        QClipboard::Clipboard );
-                m_lastClipboard = h;
+        mode2 = QClipboard::Clipboard;
+        hash1 = &m_lastSelection;
+        hash2 = &m_lastClipboard;
+        synchronize = m_copysel;
+    } else {
+        m_ignore = false;
+        return;
+    }
+
+    clipboard = QApplication::clipboard();
+    data = clipboard->mimeData(mode);
+    if (data) {
+        new_hash = hash(*data);
+        // is clipboard data different?
+        if ( new_hash != *hash1 ) {
+            // synchronize clipboard and selection
+            if( synchronize && new_hash != *hash2 ) {
+                clipboard->setMimeData( cloneData(*data, &m_formats), mode2 );
+                *hash2 = new_hash;
             }
-            // selection data changed?
-            if (h != m_lastSelection) {
-                m_lastSelection = h;
+            // notify clipboard server only if text size is more than 1 byte
+            if (!data->hasText() || data->text().size() > 1) {
+                *hash1 = new_hash;
                 clipboardChanged(mode, cloneData(*data, &m_formats));
             }
         }
