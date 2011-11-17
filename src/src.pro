@@ -45,8 +45,6 @@ SOURCES += main.cpp \
     arguments.cpp \
     clipboarddialog.cpp
 QT += xml network
-unix:LIBS += -lX11
+unix:LIBS += -lX11 -lXfixes
 win32:CONFIG += static
-
-
 

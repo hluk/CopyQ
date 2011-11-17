@@ -1,4 +1,15 @@
-Steps to build and install:
+Steps to build and install
+==========================
+1. Using CMake
+--------------
+mkdir build
+cd build
+cmake ..
+make
+sudo make install
+
+2. Using QMake
+--------------
 qmake
 make
 sudo make install
