@@ -51,39 +51,18 @@
      </layout>
     </item>
     <item>
-     <widget class="ClipboardBrowser" name="clipboardBrowser">
-      <property name="frameShadow">
-       <enum>QFrame::Sunken</enum>
+     <widget class="QTabWidget" name="tabWidget">
+      <property name="currentIndex">
+       <number>-1</number>
       </property>
-      <property name="verticalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="horizontalScrollBarPolicy">
-       <enum>Qt::ScrollBarAlwaysOff</enum>
-      </property>
-      <property name="editTriggers">
-       <set>QAbstractItemView::EditKeyPressed</set>
-      </property>
-      <property name="tabKeyNavigation">
-       <bool>false</bool>
-      </property>
-      <property name="showDropIndicator" stdset="0">
-       <bool>false</bool>
-      </property>
-      <property name="alternatingRowColors">
+      <property name="documentMode">
        <bool>true</bool>
       </property>
-      <property name="selectionMode">
-       <enum>QAbstractItemView::ExtendedSelection</enum>
-      </property>
-      <property name="isWrapping" stdset="0">
+      <property name="tabsClosable">
        <bool>false</bool>
       </property>
-      <property name="layoutMode">
-       <enum>QListView::SinglePass</enum>
-      </property>
-      <property name="spacing">
-       <number>5</number>
+      <property name="movable">
+       <bool>true</bool>
       </property>
      </widget>
     </item>
@@ -91,16 +70,6 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <customwidgets>
-  <customwidget>
-   <class>ClipboardBrowser</class>
-   <extends>QListView</extends>
-   <header>clipboardbrowser.h</header>
-  </customwidget>
- </customwidgets>
- <tabstops>
-  <tabstop>clipboardBrowser</tabstop>
- </tabstops>
  <resources/>
  <connections/>
 </ui>

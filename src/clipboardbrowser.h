@@ -45,11 +45,12 @@ class ClipboardBrowser : public QListView
             ActionCustom
         };
 
-        ClipboardBrowser(QWidget *parent = 0);
+        ClipboardBrowser(const QString &id, QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
         bool add(const QString &txt, bool ignore_empty = true);
         bool add(QMimeData *item, bool ignore_empty = true);
+        bool add(ClipboardItem *item);
         void remove();
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
@@ -60,6 +61,7 @@ class ClipboardBrowser : public QListView
             return model()->index(i,0);
         }
         void setCurrent(int row, bool cycle = false, bool selection = false);
+        ClipboardItem *at(int row) const;
 
         // if items selected: return concatenation of selected items
         // else: return text of first item
@@ -74,6 +76,7 @@ class ClipboardBrowser : public QListView
         QMenu *contextMenu() const {return m_menu;}
 
     private:
+        QString m_id;
         int m_maxitems;
         QString m_callback;
         QStringList m_callback_args;
@@ -101,7 +104,7 @@ class ClipboardBrowser : public QListView
 
     signals:
         void requestSearch(const QString &txt);
-        void requestActionDialog(int row, const ConfigurationManager::Command *cmd = NULL);
+        void requestActionDialog(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd = NULL);
         void requestShow();
         void hideSearch();
         void escapePressed();

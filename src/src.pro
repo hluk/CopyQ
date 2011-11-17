@@ -8,7 +8,8 @@ FORMS += mainwindow.ui \
     actiondialog.ui \
     aboutdialog.ui \
     configurationmanager.ui \
-    clipboarddialog.ui
+    clipboarddialog.ui \
+    tabdialog.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     qeditor.h \
@@ -25,7 +26,8 @@ HEADERS += mainwindow.h \
     clipboardclient.h \
     app.h \
     arguments.h \
-    clipboarddialog.h
+    clipboarddialog.h \
+    tabdialog.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -43,7 +45,8 @@ SOURCES += main.cpp \
     clipboardclient.cpp \
     app.cpp \
     arguments.cpp \
-    clipboarddialog.cpp
+    clipboarddialog.cpp \
+    tabdialog.cpp
 QT += xml network
 unix:LIBS += -lX11 -lXfixes
 win32:CONFIG += static

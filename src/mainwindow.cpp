@@ -27,18 +27,31 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QToolTip>
+#include "clipboardbrowser.h"
 #include "clipboardmodel.h"
+#include "tabdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
     aboutDialog(NULL), actionDialog(NULL)
 {
+    ClipboardBrowser *c;
+
     ui->setupUi(this);
 
     // main window: icon & title
     setWindowTitle("CopyQ");
     m_icon = QIcon(":/images/icon.svg");
     setWindowIcon(m_icon);
+
+    // settings
+    loadSettings();
+
+    // store clipboard in first tab
+    c = m_browser = ui->tabWidget->count() ?
+                browser(0) : addTab( tr("&clipboard") );
+
+    ui->tabWidget->setCurrentIndex(0);
 
     // tray
     tray = new QSystemTrayIcon(this);
@@ -52,23 +65,11 @@ MainWindow::MainWindow(QWidget *parent)
     // create menubar & context menu
     createMenu();
 
-    // clipboard browser widget
-    ClipboardBrowser *c = browser();
-
     // signals & slots
-    connect( c, SIGNAL(requestSearch(QString)),
-            this, SLOT(enterSearchMode(QString)) );
-    connect( c, SIGNAL(requestActionDialog(int,const ConfigurationManager::Command*)),
-            this, SLOT(action(int,const ConfigurationManager::Command*)) );
-    connect( c, SIGNAL(hideSearch()),
-            this, SLOT(enterBrowseMode()) );
-    connect( c, SIGNAL(requestShow()),
-             this, SLOT(show()) );
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
-            this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
-
-    // settings
-    loadSettings();
+             this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
+    connect( ui->tabWidget, SIGNAL(currentChanged(int)),
+             this, SLOT(tabChanged()) );
 
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     restoreGeometry( cm->windowGeometry(objectName()) );
@@ -94,7 +95,7 @@ void MainWindow::exit()
         answer = QMessageBox::question(
                     this,
                     tr("Exit?"),
-                    tr("Do you want to <b>exit</b> CopyQ?"),
+                    tr("Do you want to <strong>exit</strong> CopyQ?"),
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
     }
@@ -124,7 +125,7 @@ void MainWindow::createMenu()
     // items before separator in tray
     traymenu->addSeparator();
 
-    // &File
+    // File
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
@@ -140,7 +141,8 @@ void MainWindow::createMenu()
     // - new
     act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
                                c, SLOT(newItem()) );
-    menu->addAction( act->icon(), act->text(), c, SLOT(newItem()),
+    menu->addAction( act->icon(), act->text(),
+                     this, SLOT(newItem() ),
                      QKeySequence("Ctrl+N") );
 
     // - show clipboard content
@@ -162,31 +164,44 @@ void MainWindow::createMenu()
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
                      QKeySequence("Ctrl+P") );
 
-    // - items
+    // Items
     itemMenu = c->contextMenu();
     itemMenu->setTitle( tr("&Item") );
     menubar->addMenu(itemMenu);
 
-    // - custom commands
+    // Tabs
+    tabMenu = menubar->addMenu(tr("&Tabs"));
+
+    // add tab
+    tabMenu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
+                        this, SLOT(newTab()),
+                        QKeySequence("Ctrl+T") );
+    tabMenu->addAction( QIcon(":/images/tab_remove.svg"), tr("&Remove tab"),
+                        this, SLOT(removeTab()),
+                        QKeySequence("Ctrl+W") );
+
+    // Commands
     cmdMenu = menubar->addMenu(tr("&Commands"));
     cmdMenu->setEnabled(false);
     traymenu->addMenu(cmdMenu);
 
-    // - exit
+    // File/exit
     act = traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
                                this, SLOT(exit()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(exit()),
                      QKeySequence("Ctrl+Q") );
 
-    // - about dialog
+    // Help
     menu = menubar->addMenu( tr("&Help") );
     act = menu->addAction( QIcon(":/images/help.svg"), tr("&Help"),
                            this, SLOT(openAboutDialog()),
                            QKeySequence("F1") );
     menu->addAction(act);
 
+    // update tray menu before opening
     connect( traymenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
+
     connect( traymenu, SIGNAL(triggered(QAction*)),
              this, SLOT(trayMenuAction(QAction*)) );
 
@@ -221,10 +236,26 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     QString txt;
     ClipboardBrowser *c = browser();
+    QTabWidget *w = ui->tabWidget;
 
-    if ( event->modifiers() == Qt::ControlModifier &&
-         event->key() == Qt::Key_F ) {
-        enterBrowseMode(false);
+    if ( event->modifiers() == Qt::ControlModifier ) {
+        switch( event->key() ) {
+            case Qt::Key_F:
+                enterBrowseMode(false);
+                break;
+            case Qt::Key_V:
+                browser()->add( browser(0)->at(0) );
+                break;
+            case Qt::Key_Tab:
+                w->setCurrentIndex( (w->currentIndex() + 1) % w->count() );
+                break;
+            case Qt::Key_Backtab:
+                w->setCurrentIndex( (w->currentIndex() - 1) % w->count() );
+                break;
+            default:
+                QMainWindow::keyPressEvent(event);
+                break;
+        }
         return;
     }
 
@@ -273,6 +304,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 txt = event->text();
                 if ( !txt.isEmpty() )
                     enterSearchMode(txt);
+                qDebug() << txt.length();
             }
             break;
     }
@@ -290,18 +322,34 @@ void MainWindow::resetStatus()
 
 void MainWindow::saveSettings()
 {
-    ConfigurationManager::instance(this)->windowGeometry( objectName(), saveGeometry() );
-    browser()->saveItems();
+    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    QTabWidget *w = ui->tabWidget;
+    QStringList tabs;
+
+    cm->windowGeometry( objectName(), saveGeometry() );
+
+    for( int i = 0; i < w->count(); ++i ) {
+        browser(i)->saveItems();
+        tabs << w->tabText(i);
+    }
+    cm->setValue( ConfigurationManager::Tabs, QVariant(tabs) );
+
+    cm->saveSettings();
 }
 
 void MainWindow::loadSettings()
 {
     log( tr("Loading configuration") );
+
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
     setStyleSheet( cm->styleSheet() );
     m_trayitems = cm->value(ConfigurationManager::TrayItems).toInt();
-    browser()->loadSettings();
+
+    QStringList tabs = cm->value( ConfigurationManager::Tabs ).toStringList();
+    foreach(const QString &name, tabs)
+        addTab(name);
+
     log( tr("Configuration loaded") );
 }
 
@@ -360,6 +408,17 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 void MainWindow::showMenu()
 {
     tray->contextMenu()->show();
+}
+
+void MainWindow::tabChanged()
+{
+    // update item menu (necessary for keyboard shortcuts to work)
+    QMenu *m = itemMenu;
+    itemMenu = browser()->contextMenu();
+    itemMenu->setTitle( tr("&Item") );
+    menuBar()->insertMenu( m->menuAction(), itemMenu );
+    menuBar()->removeAction( m->menuAction() );
+    browser()->filterItems( ui->searchBar->text() );
 }
 
 void MainWindow::enterSearchMode(const QString &txt)
@@ -481,15 +540,66 @@ void MainWindow::openPreferences()
     ConfigurationManager::instance(this)->exec();
 }
 
-ClipboardBrowser *MainWindow::browser()
+ClipboardBrowser *MainWindow::browser(int index)
 {
-    return ui->clipboardBrowser;
+    QWidget *w = ui->tabWidget->widget(
+                index < 0 ? ui->tabWidget->currentIndex() : index );
+    return dynamic_cast<ClipboardBrowser*>(w);
 }
 
-void MainWindow::action(int row, const ConfigurationManager::Command *cmd)
+ClipboardBrowser *MainWindow::addTab(const QString name)
 {
-    ClipboardBrowser *c = browser();
+    QTabWidget *w = ui->tabWidget;
 
+    /* check name */
+    if ( name.isEmpty() )
+        return NULL;
+    for( int i = 0; i < w->count(); ++i )
+        if ( name == w->tabText(i) )
+            return NULL;
+
+    ClipboardBrowser *c = new ClipboardBrowser(name, this);
+
+    c->setFrameShadow(QFrame::Sunken);
+    c->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    c->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    c->setTabKeyNavigation(false);
+    c->setAlternatingRowColors(true);
+    c->setSelectionMode(QAbstractItemView::ExtendedSelection);
+    c->setWrapping(false);
+    c->setLayoutMode(QListView::SinglePass);
+    c->setEditTriggers(QAbstractItemView::EditKeyPressed);
+    c->setSpacing(5);
+    c->loadSettings();
+    c->loadItems();
+    c->setAutoUpdate(true);
+
+    connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
+             this, SIGNAL(changeClipboard(const ClipboardItem*)) );
+    connect( c, SIGNAL(requestSearch(QString)),
+             this, SLOT(enterSearchMode(QString)) );
+    connect( c, SIGNAL(requestActionDialog(ClipboardBrowser*, int, const ConfigurationManager::Command*)),
+             this, SLOT(action(ClipboardBrowser*, int, const ConfigurationManager::Command*)) );
+    connect( c, SIGNAL(hideSearch()),
+             this, SLOT(enterBrowseMode()) );
+    connect( c, SIGNAL(requestShow()),
+             this, SLOT(show()) );
+
+    w->addTab(c, name);
+    w->setCurrentIndex( w->count()-1 );
+
+    return c;
+}
+
+void MainWindow::newItem()
+{
+    ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
+    if (c)
+        c->newItem();
+}
+
+void MainWindow::action(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd)
+{
     createActionDialog();
 
     actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
@@ -503,6 +613,39 @@ void MainWindow::action(int row, const ConfigurationManager::Command *cmd)
         actionDialog->exec();
     else
         actionDialog->runCommand();
+}
+
+void MainWindow::newTab()
+{
+    TabDialog *d = new TabDialog(this);
+
+    connect( d, SIGNAL(addTab(QString)),
+            this, SLOT(addTab(QString)) );
+    connect( d, SIGNAL(finished(int)),
+            d, SLOT(deleteLater()) );
+
+    d->open();
+}
+
+void MainWindow::removeTab()
+{
+    QTabWidget *w = ui->tabWidget;
+    int i = w->currentIndex();
+
+    if ( w->count() > 0 ) {
+        int answer = QMessageBox::question(
+                    this,
+                    tr("Exit?"),
+                    tr("Do you want to remove tab <strong>%1</strong>?").arg( w->tabText(i) ),
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
+        if (answer == QMessageBox::Yes) {
+            ConfigurationManager::instance()->removeItems( w->tabText(i) );
+            w->removeTab(i);
+            if ( !w->count() )
+                addTab( tr("&clipboard") );
+        }
+    }
 }
 
 MainWindow::~MainWindow()

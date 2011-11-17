@@ -13,5 +13,7 @@
         <file>images/new.svg</file>
         <file>images/logo.svg</file>
         <file>images/preferences.svg</file>
+        <file>images/tab_new.svg</file>
+        <file>images/tab_remove.svg</file>
     </qresource>
 </RCC>

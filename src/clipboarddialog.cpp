@@ -53,7 +53,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     }
 
     ui->labelProperties->setText(
-                "<b> mime: </b>" + Qt::escape(mime) +
-                "<b> size: </b>" + QString::number(bytes.size()) + " bytes"
+                "<strong> mime: </strong>" + Qt::escape(mime) +
+                "<strong> size: </strong>" + QString::number(bytes.size()) + " bytes"
                 );
 }

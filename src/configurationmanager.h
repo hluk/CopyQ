@@ -36,6 +36,7 @@ public:
         CopyClipboard,
         CopySelection,
         ConfirmExit,
+        Tabs,
         OptionsCount
     } Option;
 
@@ -87,8 +88,9 @@ public:
     QVariant value(int opt) const;
     void setValue(int opt, const QVariant &value);
 
-    void loadItems(ClipboardModel &model);
-    void saveItems(const ClipboardModel &model);
+    void loadItems(ClipboardModel &model, const QString &id);
+    void saveItems(const ClipboardModel &model, const QString &id);
+    void removeItems(const QString &id);
 
     QByteArray windowGeometry( const QString &widget_name = QString(),
                       const QByteArray &geometry = QByteArray() );
@@ -108,6 +110,7 @@ protected:
 private:
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
+    QVariant m_tabs;
     QString m_datfilename;
     QSettings::Format cssFormat;
 

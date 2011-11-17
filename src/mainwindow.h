@@ -31,6 +31,7 @@ class ClipboardModel;
 class AboutDialog;
 class ActionDialog;
 class ClipboardBrowser;
+class ClipboardItem;
 
 namespace Ui
 {
@@ -48,7 +49,7 @@ class MainWindow : public QMainWindow
         void saveSettings();
         void closeEvent(QCloseEvent *event);
         void createActionDialog();
-        ClipboardBrowser *browser();
+        ClipboardBrowser *browser(int index = -1);
 
     private:
         Ui::MainWindow *ui;
@@ -56,6 +57,7 @@ class MainWindow : public QMainWindow
         ActionDialog *actionDialog;
         QMenu *cmdMenu;
         QMenu *itemMenu;
+        QMenu *tabMenu;
         //ItemDelegate delegate;
         QIcon m_icon;
         QSystemTrayIcon *tray;
@@ -63,6 +65,7 @@ class MainWindow : public QMainWindow
         QBasicTimer timer_search;
         bool m_confirmExit;
         int m_trayitems;
+        ClipboardBrowser *m_browser;
 
         void createMenu();
 
@@ -120,13 +123,22 @@ class MainWindow : public QMainWindow
          \param wait If true the action dialog with the command is shown,
                 otherwise the command is executed immediately.
          */
-        void action(int row, const ConfigurationManager::Command *cmd = NULL);
+        void action(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd = NULL);
+
+        void newTab();
+        void removeTab();
+        ClipboardBrowser *addTab(const QString name);
+        void newItem();
 
     private slots:
         void on_searchBar_textChanged(QString );
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
+        void tabChanged();
+
+    signals:
+        void changeClipboard(const ClipboardItem *item);
     };
 
 #endif // MAINWINDOW_H

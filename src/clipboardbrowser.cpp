@@ -29,8 +29,8 @@
 #include "configurationmanager.h"
 #include "client_server.h"
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent) : QListView(parent),
-    m_update(false), m_to_preload(0), m_menu(NULL)
+ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
+    QListView(parent), m_id(id), m_update(false), m_to_preload(0), m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(10);
@@ -112,10 +112,10 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
             openEditor();
             break;
         case ActionAct:
-            emit requestActionDialog(-1);
+            emit requestActionDialog(this, -1);
             break;
         case ActionCustom:
-            emit requestActionDialog(-1, &commands[act->text()]);
+            emit requestActionDialog(this, -1, &commands[act->text()]);
             break;
         }
     }
@@ -134,6 +134,7 @@ void ClipboardBrowser::createContextMenu()
     font.setBold(true);
     act->setFont(font);
     act->setData( QVariant(ActionToClipboard) );
+    act->setShortcut( QKeySequence("Ctrl+C") );
 
     act = m_menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
     act->setShortcut( QString("Delete") );
@@ -375,6 +376,11 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
     scrollTo(ind); // ensure visible
 }
 
+ClipboardItem *ClipboardBrowser::at(int row) const
+{
+    return m->at(row);
+}
+
 void ClipboardBrowser::remove()
 {
     QItemSelectionModel *sel = selectionModel();
@@ -455,6 +461,14 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     return true;
 }
 
+bool ClipboardBrowser::add(ClipboardItem *item)
+{
+    if ( !m->insertRow(0) )
+        return false;
+    m->at(0)->setData( cloneData(*item->data()) );
+    return true;
+}
+
 void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -492,7 +506,7 @@ void ClipboardBrowser::loadItems()
     // restore items
     m->clear();
 
-    ConfigurationManager::instance()->loadItems(*m);
+    ConfigurationManager::instance()->loadItems(*m, m_id);
     setCurrentIndex( QModelIndex() );
 
     // preload all items
@@ -508,7 +522,7 @@ void ClipboardBrowser::saveItems(int msec)
         return;
     }
 
-    ConfigurationManager::instance()->saveItems(*m);
+    ConfigurationManager::instance()->saveItems(*m, m_id);
 }
 
 void ClipboardBrowser::timerEvent(QTimerEvent *event)

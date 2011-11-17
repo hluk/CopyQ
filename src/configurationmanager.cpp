@@ -21,7 +21,8 @@ ConfigurationManager* ConfigurationManager::m_Instance = 0;
 
 ConfigurationManager::ConfigurationManager(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConfigurationManager)
+    ui(new Ui::ConfigurationManager),
+    m_tabs( QStringList() )
 {
     ui->setupUi(this);
     ui->tableCommands->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
@@ -31,9 +32,9 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
                        QCoreApplication::organizationName(),
                        QCoreApplication::applicationName());
-    // ini -> dat
+
     m_datfilename = settings.fileName();
-    m_datfilename.replace( QRegExp("ini$"), QString("dat") );
+    m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
 
     // read style sheet from configuration
     cssFormat = QSettings::registerFormat(
@@ -65,6 +66,7 @@ QString ConfigurationManager::optionToName(int opt) const
     case CopyClipboard: return QString("copy_clipboard");
     case CopySelection: return QString("copy_selection");
     case ConfirmExit: return QString("confirm_exit");
+    case Tabs: return QString("tabs");
     default: return QString();
     }
 }
@@ -84,6 +86,7 @@ ConfigurationManager::nameToOption(const QString &name) const
     if (name == "copy_clipboard") return CopyClipboard;
     if (name == "copy_selection") return CopySelection;
     if (name == "confirm_exit") return ConfirmExit;
+    if (name == "tabs") return Tabs;
     return OptionInvalid;
 }
 
@@ -102,25 +105,36 @@ QVariant ConfigurationManager::value(int opt) const
     case CopyClipboard: return ui->checkBoxCopyClip->isChecked();
     case CopySelection: return ui->checkBoxCopySel->isChecked();
     case ConfirmExit: return ui->checkBoxConfirmExit->isChecked();
+    case Tabs: return m_tabs;
     default: return QVariant();
     }
 }
 
-void ConfigurationManager::loadItems(ClipboardModel &model)
+void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 {
-    QFile file(m_datfilename);
+    QString part( id.toLocal8Bit().toBase64() );
+    part.replace( QChar('/'), QString('-') );
+    QFile file( m_datfilename + part + QString(".dat") );
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
-
     in >> model;
 }
 
-void ConfigurationManager::saveItems(const ClipboardModel &model)
+void ConfigurationManager::saveItems(const ClipboardModel &model, const QString &id)
 {
-    QFile file(m_datfilename);
+    QString part( id.toLocal8Bit().toBase64() );
+    part.replace( QChar('/'), QString('-') );
+    QFile file( m_datfilename + part + QString(".dat") );
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
     out << model;
+}
+
+void ConfigurationManager::removeItems(const QString &id)
+{
+    QString part( id.toLocal8Bit().toBase64() );
+    part.replace( QChar('/'), QString('-') );
+    QFile::remove( m_datfilename + part + QString(".dat") );
 }
 
 void ConfigurationManager::readStyleSheet()
@@ -199,6 +213,9 @@ void ConfigurationManager::setValue(int opt, const QVariant &value)
         break;
     case ConfirmExit:
         ui->checkBoxConfirmExit->setChecked( value.toBool() );
+        break;
+    case Tabs:
+        m_tabs = value;
         break;
     }
 }
@@ -312,7 +329,9 @@ void ConfigurationManager::saveSettings()
 
     settings.beginGroup("Options");
     for( int opt=1; opt != OptionsCount; ++opt ) {
-        settings.setValue(optionToName(opt), value(opt));
+        QString optname = optionToName(opt);
+        if ( !optname.isEmpty() )
+            settings.setValue( optname, value(opt) );
     }
     settings.endGroup();
 

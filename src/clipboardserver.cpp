@@ -33,7 +33,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     connect( m_monitorserver, SIGNAL(newConnection()),
              this, SLOT(newMonitorConnection()) );
 
-    connect( m_wnd->browser(), SIGNAL(changeClipboard(const ClipboardItem*)),
+    connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
     // run clipboard monitor
@@ -122,7 +122,7 @@ void ClipboardServer::stopMonitoring()
         m_monitor->deleteLater();
         m_monitor = NULL;
     }
-    m_wnd->browser()->setAutoUpdate(false);
+    m_wnd->browser(0)->setAutoUpdate(false);
 }
 
 void ClipboardServer::startMonitoring()
@@ -143,7 +143,7 @@ void ClipboardServer::startMonitoring()
             return;
         }
     }
-    m_wnd->browser()->setAutoUpdate(true);
+    m_wnd->browser(0)->setAutoUpdate(true);
 }
 
 void ClipboardServer::newConnection()
@@ -211,7 +211,7 @@ void ClipboardServer::readyRead()
     in2 >> item;
 
     QMimeData *data = item.data();
-    ClipboardBrowser *c = m_wnd->browser();
+    ClipboardBrowser *c = m_wnd->browser(0);
 
     c->setAutoUpdate(false);
     c->add( cloneData(*data) );
@@ -238,7 +238,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
     if ( args.error() )
         return false;
 
-    ClipboardBrowser *c = m_wnd->browser();
+    ClipboardBrowser *c = m_wnd->browser(0);
     bool noupdate = false;
     QString mime;
     QMimeData *data;
@@ -296,7 +296,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
             command.input = true;
             command.sep = sep;
             command.wait = false;
-            m_wnd->action(-1, &command);
+            m_wnd->action(c, -1, &command);
         }
     }
 
