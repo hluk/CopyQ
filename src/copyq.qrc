@@ -15,5 +15,6 @@
         <file>images/preferences.svg</file>
         <file>images/tab_new.svg</file>
         <file>images/tab_remove.svg</file>
+        <file>images/paste.svg</file>
     </qresource>
 </RCC>

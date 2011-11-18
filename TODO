@@ -1,2 +1,3 @@
+[ ] Move/copy item to another tab
 [ ] Lex and parse command line arguments
 [ ] Dialog with table "on matched clipboard text do action": REGEX ACTION (same as command line options)

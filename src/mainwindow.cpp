@@ -145,6 +145,13 @@ void MainWindow::createMenu()
                      this, SLOT(newItem() ),
                      QKeySequence("Ctrl+N") );
 
+    // - paste
+    act = traymenu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
+                               c, SLOT(pasteItem()) );
+    act = menu->addAction( act->icon(), act->text(),
+                           this, SLOT(pasteItem() ) );
+    act->setShortcuts(QKeySequence::Paste);
+
     // - show clipboard content
     act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
                                tr("Show &Clipboard Content"),
@@ -304,7 +311,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 txt = event->text();
                 if ( !txt.isEmpty() )
                     enterSearchMode(txt);
-                qDebug() << txt.length();
             }
             break;
     }
@@ -596,6 +602,17 @@ void MainWindow::newItem()
     ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
     if (c)
         c->newItem();
+}
+
+void MainWindow::pasteItem()
+{
+    QClipboard *clipboard = QApplication::clipboard();
+    ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
+    const QMimeData *data;
+
+    data = clipboard->mimeData();
+    if (data)
+        c->add( cloneData(*data) );
 }
 
 void MainWindow::action(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd)
