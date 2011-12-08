@@ -220,7 +220,11 @@ void ClipboardMonitor::readyRead()
 void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 {
     uint h = hash(data);
-    if ( h == m_lastClipboard && h == m_lastSelection ) {
+    if ( h == m_lastClipboard
+#ifdef Q_WS_X11
+            && h == m_lastSelection
+#endif
+            ) {
         // data already in clipboard
         return;
     }
@@ -234,7 +238,9 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
         return;
     }
 
+#ifdef Q_WS_X11
     QMimeData* newdata2 = cloneData(data);
+#endif
 
     QClipboard *clipboard = QApplication::clipboard();
     if ( h != m_lastClipboard ) {
@@ -245,6 +251,7 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     } else {
         delete m_newdata;
     }
+#ifdef Q_WS_X11
     if ( h != m_lastSelection ) {
         m_ignore = true;
         clipboard->setMimeData(newdata2, QClipboard::Selection);
@@ -253,6 +260,7 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
     } else {
         delete newdata2;
     }
+#endif
 
     m_newdata = NULL;
 
