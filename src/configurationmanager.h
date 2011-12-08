@@ -16,30 +16,14 @@ namespace Ui {
 class ClipboardModel;
 class QAbstractButton;
 
+struct _Option;
+typedef _Option Option;
+
 class ConfigurationManager : public QDialog
 {
     Q_OBJECT
 
 public:
-    typedef enum {
-        OptionInvalid,
-        Callback,
-        Formats,
-        MaxItems,
-        TrayItems,
-        Priority,
-        Editor,
-        ItemHTML,
-        ItemCSS,
-        CheckClipboard,
-        CheckSelection,
-        CopyClipboard,
-        CopySelection,
-        ConfirmExit,
-        Tabs,
-        OptionsCount
-    } Option;
-
     struct Command {
         QRegExp re;
         QString cmd;
@@ -79,14 +63,11 @@ public:
         mutex.unlock();
     }
 
-    QString optionToName(int opt) const;
-    Option nameToOption(const QString &name) const;
-
     void loadSettings();
     void saveSettings();
 
-    QVariant value(int opt) const;
-    void setValue(int opt, const QVariant &value);
+    QVariant value(const QString &name) const;
+    void setValue(const QString &name, const QVariant &value);
 
     void loadItems(ClipboardModel &model, const QString &id);
     void saveItems(const ClipboardModel &model, const QString &id);
@@ -110,8 +91,8 @@ protected:
 private:
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
-    QVariant m_tabs;
     QString m_datfilename;
+    QHash<QString, Option> m_options;
     QSettings::Format cssFormat;
 
     explicit ConfigurationManager(QWidget *parent = 0);
@@ -125,9 +106,9 @@ private slots:
     void on_tableCommands_itemSelectionChanged();
     void on_pushButtonRemove_clicked();
     void on_pushButtoAdd_clicked();
-    void accept();
+    void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
-    void onFinished(int);
+    void onFinished(int result);
 };
 
 #endif // CONFIGURATIONMANAGER_H

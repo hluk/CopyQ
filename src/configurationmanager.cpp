@@ -3,6 +3,39 @@
 #include "clipboardmodel.h"
 #include <QFile>
 #include <QtGui/QDesktopWidget>
+#include <QMessageBox>
+
+struct _Option {
+    _Option() : m_obj(NULL) {}
+    _Option(const QVariant &default_value, const char *property_name = NULL, QObject *obj = NULL) :
+        m_default_value(default_value), m_property_name(property_name), m_obj(obj)
+    {
+        reset();
+    }
+
+    QVariant value() const
+    {
+        return m_obj ? m_obj->property(m_property_name) : m_value;
+    }
+
+    void setValue(const QVariant &value)
+    {
+        if (m_obj)
+            m_obj->setProperty(m_property_name, value);
+        else
+            m_value = value;
+    }
+
+    void reset()
+    {
+        setValue(m_default_value);
+    }
+
+    /* default value and also type (int, float, boolean, QString) */
+    QVariant m_default_value, m_value;
+    const char *m_property_name;
+    QObject *m_obj;
+};
 
 inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
 {
@@ -21,8 +54,7 @@ ConfigurationManager* ConfigurationManager::m_Instance = 0;
 
 ConfigurationManager::ConfigurationManager(QWidget *parent) :
     QDialog(parent),
-    ui(new Ui::ConfigurationManager),
-    m_tabs( QStringList() )
+    ui(new Ui::ConfigurationManager)
 {
     ui->setupUi(this);
     ui->tableCommands->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
@@ -33,12 +65,43 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                        QCoreApplication::organizationName(),
                        QCoreApplication::applicationName());
 
+    /* options */
+    m_options.insert( "callback",
+                      Option("", "text", ui->lineEditScript) );
+    m_options.insert( "formats",
+                      Option("text/plain text/html image/bmp image/x-inkscape-svg-compressed",
+                             "text", ui->lineEditFormats) );
+    m_options.insert( "maxitems",
+                      Option(200, "value", ui->spinBoxItems) );
+    m_options.insert( "tray_items",
+                      Option(5, "value", ui->spinBoxTrayItems) );
+    m_options.insert( "priority",
+                      Option("image/bmp image/x-inkscape-svg-compressed text/plain text/html",
+                             "text", ui->lineEditPriority) );
+    // TODO: get default editor from environment variable EDITOR
+    m_options.insert( "editor",
+                      Option("gedit %1", "text", ui->lineEditEditor) );
+    m_options.insert( "format",
+                      Option("<span id=\"item\">%1</span>",
+                             "plainText", ui->plainTextEdit_html) );
+    m_options.insert( "check_selection",
+                      Option(true, "checked", ui->checkBoxClip) );
+    m_options.insert( "check_clipboard",
+                      Option(true, "checked", ui->checkBoxSel) );
+    m_options.insert( "copy_clipboard",
+                      Option(true, "checked", ui->checkBoxCopyClip) );
+    m_options.insert( "copy_selection",
+                      Option(true, "checked", ui->checkBoxCopySel) );
+    m_options.insert( "confirm_exit",
+                      Option(true, "checked", ui->checkBoxConfirmExit) );
+    m_options.insert( "tabs",
+                      Option(QStringList()) );
+
     m_datfilename = settings.fileName();
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
 
     // read style sheet from configuration
-    cssFormat = QSettings::registerFormat(
-            "css", readCssFile, writeCssFile);
+    cssFormat = QSettings::registerFormat("css", readCssFile, writeCssFile);
     readStyleSheet();
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
@@ -49,65 +112,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
 ConfigurationManager::~ConfigurationManager()
 {
     delete ui;
-}
-
-QString ConfigurationManager::optionToName(int opt) const
-{
-    switch(opt) {
-    case Callback: return QString("callback");
-    case Formats: return QString("formats");
-    case MaxItems: return QString("maxitems");
-    case TrayItems: return QString("tray_items");
-    case Priority: return QString("priority");
-    case Editor: return QString("editor");
-    case ItemHTML: return QString("format");
-    case CheckClipboard: return QString("check_clipboard");
-    case CheckSelection: return QString("check_selection");
-    case CopyClipboard: return QString("copy_clipboard");
-    case CopySelection: return QString("copy_selection");
-    case ConfirmExit: return QString("confirm_exit");
-    case Tabs: return QString("tabs");
-    default: return QString();
-    }
-}
-
-ConfigurationManager::Option
-ConfigurationManager::nameToOption(const QString &name) const
-{
-    if (name == "callback") return Callback;
-    if (name == "formats") return Formats;
-    if (name == "maxitems") return MaxItems;
-    if (name == "tray_items") return TrayItems;
-    if (name == "priority") return Priority;
-    if (name == "editor") return Editor;
-    if (name == "format") return ItemHTML;
-    if (name == "check_selection") return CheckSelection;
-    if (name == "check_clipboard") return CheckClipboard;
-    if (name == "copy_clipboard") return CopyClipboard;
-    if (name == "copy_selection") return CopySelection;
-    if (name == "confirm_exit") return ConfirmExit;
-    if (name == "tabs") return Tabs;
-    return OptionInvalid;
-}
-
-QVariant ConfigurationManager::value(int opt) const
-{
-    switch(opt) {
-    case Callback: return ui->lineEditScript->text();
-    case Formats: return ui->lineEditFormats->text();
-    case MaxItems: return ui->spinBoxItems->value();
-    case TrayItems: return ui->spinBoxTrayItems->value();
-    case Priority: return ui->lineEditPriority->text();
-    case Editor: return ui->lineEditEditor->text();
-    case ItemHTML: return ui->plainTextEdit_html->toPlainText();
-    case CheckClipboard: return ui->checkBoxClip->isChecked();
-    case CheckSelection: return ui->checkBoxSel->isChecked();
-    case CopyClipboard: return ui->checkBoxCopyClip->isChecked();
-    case CopySelection: return ui->checkBoxCopySel->isChecked();
-    case ConfirmExit: return ui->checkBoxConfirmExit->isChecked();
-    case Tabs: return m_tabs;
-    default: return QVariant();
-    }
 }
 
 void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
@@ -174,64 +178,25 @@ QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, cons
     }
 }
 
-
-void ConfigurationManager::setValue(int opt, const QVariant &value)
+QVariant ConfigurationManager::value(const QString &name) const
 {
-    switch(opt) {
-    case Callback:
-        ui->lineEditScript->setText( value.toString() );
-        break;
-    case Formats:
-        ui->lineEditFormats->setText( value.toString() );
-        break;
-    case MaxItems:
-        ui->spinBoxItems->setValue( value.toInt() );
-        break;
-    case TrayItems:
-        ui->spinBoxTrayItems->setValue( value.toInt() );
-        break;
-    case Priority:
-        ui->lineEditPriority->setText( value.toString() );
-        break;
-    case Editor:
-        ui->lineEditEditor->setText( value.toString() );
-        break;
-    case ItemHTML:
-        ui->plainTextEdit_html->setPlainText( value.toString() );
-        break;
-    case CheckClipboard:
-        ui->checkBoxClip->setChecked( value.toBool() );
-        break;
-    case CheckSelection:
-        ui->checkBoxSel->setChecked( value.toBool() );
-        break;
-    case CopyClipboard:
-        ui->checkBoxCopyClip->setChecked( value.toBool() );
-        break;
-    case CopySelection:
-        ui->checkBoxCopySel->setChecked( value.toBool() );
-        break;
-    case ConfirmExit:
-        ui->checkBoxConfirmExit->setChecked( value.toBool() );
-        break;
-    case Tabs:
-        m_tabs = value;
-        break;
-    }
+    return m_options[name].value();
+}
+
+void ConfigurationManager::setValue(const QString &name, const QVariant &value)
+{
+    m_options[name].setValue(value);
 }
 
 void ConfigurationManager::loadSettings()
 {
     QSettings settings;
 
-    Option opt;
     QVariant value;
 
     settings.beginGroup("Options");
-    foreach( QString key, settings.allKeys() ) {
-        opt = nameToOption(key);
-        value = settings.value(key);
-        setValue(opt, value);
+    foreach( const QString &key, m_options.keys() ) {
+        m_options[key].setValue( settings.value(key) );
     }
     settings.endGroup();
 
@@ -328,10 +293,8 @@ void ConfigurationManager::saveSettings()
     QSettings settings;
 
     settings.beginGroup("Options");
-    for( int opt=1; opt != OptionsCount; ++opt ) {
-        QString optname = optionToName(opt);
-        if ( !optname.isEmpty() )
-            settings.setValue( optname, value(opt) );
+    foreach( const QString &key, m_options.keys() ) {
+        settings.setValue( key, m_options[key].value() );
     }
     settings.endGroup();
 
@@ -364,17 +327,32 @@ void ConfigurationManager::saveSettings()
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
 {
+    int answer;
+
     switch( ui->buttonBox->buttonRole(button) ) {
     case QDialogButtonBox::ApplyRole:
-        accept();
+        apply();
         break;
     case QDialogButtonBox::AcceptRole:
-        close();
-        // accept() will be called
+        accept();
         break;
     case QDialogButtonBox::RejectRole:
-        case QDialogButtonBox::ResetRole:
-        loadSettings();
+        reject();
+        break;
+    case QDialogButtonBox::ResetRole:
+        // ask before resetting values
+        answer = QMessageBox::question(
+                    this,
+                    tr("Reset preferences?"),
+                    tr("This action will reset all your preferences (in all tabs) to default values.<br /><br />"
+                       "Do you really want to <strong>reset all preferences</strong>?"),
+                    QMessageBox::Yes | QMessageBox::No,
+                    QMessageBox::Yes);
+        if (answer == QMessageBox::Yes) {
+            foreach( const QString &key, m_options.keys() ) {
+                m_options[key].reset();
+            }
+        }
         break;
     default:
         return;
@@ -426,7 +404,7 @@ void ConfigurationManager::addCommand(const QString &name, const Command *cmd, b
     }
 }
 
-void ConfigurationManager::accept()
+void ConfigurationManager::apply()
 {
     setStyleSheet( ui->plainTextEdit_css->toPlainText() );
     emit configurationChanged();
@@ -477,9 +455,13 @@ void ConfigurationManager::showEvent(QShowEvent *e)
     restoreGeometry( windowGeometry(objectName()) );
 }
 
-void ConfigurationManager::onFinished(int)
+void ConfigurationManager::onFinished(int result)
 {
     windowGeometry( objectName(), saveGeometry() );
+    if (result == QDialog::Accepted)
+        apply();
+    else
+        loadSettings();
 }
 
 void ConfigurationManager::on_pushButtonUp_clicked()

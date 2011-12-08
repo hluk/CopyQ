@@ -147,7 +147,7 @@ void MainWindow::createMenu()
 
     // - paste
     act = traymenu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
-                               c, SLOT(pasteItem()) );
+                               this, SLOT(pasteItem()) );
     act = menu->addAction( act->icon(), act->text(),
                            this, SLOT(pasteItem() ) );
     act->setShortcuts(QKeySequence::Paste);
@@ -338,7 +338,7 @@ void MainWindow::saveSettings()
         browser(i)->saveItems();
         tabs << w->tabText(i);
     }
-    cm->setValue( ConfigurationManager::Tabs, QVariant(tabs) );
+    cm->setValue("tabs", tabs);
 
     cm->saveSettings();
 }
@@ -348,13 +348,19 @@ void MainWindow::loadSettings()
     log( tr("Loading configuration") );
 
     ConfigurationManager *cm = ConfigurationManager::instance(this);
-    m_confirmExit = cm->value( ConfigurationManager::ConfirmExit ).toBool();
+    m_confirmExit = cm->value("confirm_exit").toBool();
     setStyleSheet( cm->styleSheet() );
-    m_trayitems = cm->value(ConfigurationManager::TrayItems).toInt();
+    m_trayitems = cm->value("tray_items").toInt();
 
-    QStringList tabs = cm->value( ConfigurationManager::Tabs ).toStringList();
-    foreach(const QString &name, tabs)
-        addTab(name);
+    /* are tabs already loaded? */
+    bool loaded = ui->tabWidget->count() > 0;
+    QStringList tabs = cm->value("tabs").toStringList();
+    foreach(const QString &name, tabs) {
+        if (loaded)
+            addTab(name)->loadSettings();
+        else
+            addTab(name);
+    }
 
     log( tr("Configuration loaded") );
 }
@@ -529,20 +535,18 @@ void MainWindow::createActionDialog()
     }
 }
 
-void MainWindow::openActionDialog(int row, bool modal)
+void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
 
     createActionDialog();
     actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
-    if (modal)
-        actionDialog->exec();
-    else
-        actionDialog->show();
+    actionDialog->exec();
 }
 
 void MainWindow::openPreferences()
 {
+    saveSettings();
     ConfigurationManager::instance(this)->exec();
 }
 
@@ -558,11 +562,9 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
     QTabWidget *w = ui->tabWidget;
 
     /* check name */
-    if ( name.isEmpty() )
-        return NULL;
     for( int i = 0; i < w->count(); ++i )
         if ( name == w->tabText(i) )
-            return NULL;
+            return browser(i);
 
     ClipboardBrowser *c = new ClipboardBrowser(name, this);
 
@@ -658,6 +660,7 @@ void MainWindow::removeTab()
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {
             ConfigurationManager::instance()->removeItems( w->tabText(i) );
+            browser(i)->deleteLater();
             w->removeTab(i);
             if ( !w->count() )
                 addTab( tr("&clipboard") );

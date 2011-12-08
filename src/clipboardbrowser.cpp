@@ -476,18 +476,18 @@ void ClipboardBrowser::loadSettings()
     d->setStyleSheet( cm->styleSheet() );
 
     // restore configuration
-    m_editor = cm->value(ConfigurationManager::Editor).toString();
-    d->setItemFormat( cm->value(ConfigurationManager::ItemHTML).toString());
+    m_editor = cm->value("editor").toString();
+    d->setItemFormat( cm->value("format").toString());
 
-    m_maxitems = cm->value(ConfigurationManager::MaxItems).toInt();
-    m->setMaxItems( m_maxitems );
-    m->setFormats( cm->value(ConfigurationManager::Priority).toString() );
+    m_maxitems = cm->value("maxitems").toInt();
+    m->setMaxItems(m_maxitems);
+    m->setFormats( cm->value("priority").toString() );
 
     m_callback.clear();
 
     //callback program
     // FIXME: arguments that contain spaces aren't parsed well
-    m_callback_args = cm->value(ConfigurationManager::Callback).toString().split(" ");
+    m_callback_args = cm->value("callback").toString().split(" ");
     if( !m_callback_args.isEmpty() ) {
         m_callback = m_callback_args[0];
         m_callback_args.pop_front();

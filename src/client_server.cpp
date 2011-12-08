@@ -91,7 +91,9 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
         }
     } else {
         foreach( QString mime, data.formats() ) {
-            newdata->setData(mime, data.data(mime));
+            // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
+            if ( mime[0].isLower() )
+                newdata->setData(mime, data.data(mime));
         }
     }
     return newdata;

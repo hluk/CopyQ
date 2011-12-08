@@ -24,13 +24,13 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
         exit(1);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    setFormats( cm->value(ConfigurationManager::Formats).toString() );
-    setCheckClipboard( cm->value(ConfigurationManager::CheckClipboard).toBool() );
+    setFormats( cm->value("formats").toString() );
+    setCheckClipboard( cm->value("check_clipboard").toBool() );
 
 #ifdef Q_WS_X11
-    setCopyClipboard( cm->value(ConfigurationManager::CopyClipboard).toBool() );
-    setCheckSelection( cm->value(ConfigurationManager::CheckSelection).toBool() );
-    setCopySelection( cm->value(ConfigurationManager::CopySelection).toBool() );
+    setCopyClipboard( cm->value("copy_clipboard").toBool() );
+    setCheckSelection( cm->value("check_selection").toBool() );
+    setCopySelection( cm->value("copy_selection").toBool() );
     m_timer.setSingleShot(true);
     m_timer.setInterval(100);
     connect(&m_timer, SIGNAL(timeout()),

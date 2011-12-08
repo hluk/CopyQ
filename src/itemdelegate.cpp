@@ -43,13 +43,14 @@ void ItemDelegate::setStyleSheet(const QString &css)
 {
     m_css = css;
     foreach(QTextDocument *doc, m_cache) {
-        doc->setDefaultStyleSheet(css);
+        if (doc)
+            doc->setDefaultStyleSheet(css);
     }
     m_lbl.setStyleSheet(css);
     invalidateCache();
 }
 
-QSize ItemDelegate::sizeHint (const QStyleOptionViewItem &, const QModelIndex &index) const
+QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &index) const
 {
     QSize size;
 

@@ -104,7 +104,7 @@ class MainWindow : public QMainWindow
                 row(s).
          \param modal action dialog modality
          */
-        void openActionDialog(int row = -1, bool modal = true);
+        void openActionDialog(int row = -1);
 
         void openPreferences();
 
