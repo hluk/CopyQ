@@ -40,8 +40,8 @@ QEditor::~QEditor()
 bool QEditor::start()
 {
     // create temp file
-    QString tmpPath = QDir( QDir::tempPath() ).absolutePath();
-    m_tmpfile.setFileTemplate(tmpPath + "/CopyQ.XXXXXX");
+    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath("CopyQ.XXXXXX");
+    m_tmpfile.setFileTemplate(tmpPath);
     m_tmpfile.setAutoRemove(true);
     if ( !m_tmpfile.open() ) {
         log( tr("Failed to open temporary file (%1) for editing item in external editor!")

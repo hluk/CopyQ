@@ -153,7 +153,7 @@ void ClipboardServer::newConnection()
             client, SLOT(deleteLater()));
 
     QByteArray msg;
-    if( !readBytes(client, msg) ) {
+    if( !readMessage(client, &msg) ) {
         client->deleteLater();
         client->disconnectFromServer();
         return;
@@ -176,9 +176,9 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
 {
     QByteArray bytes;
     QDataStream out(&bytes, QIODevice::WriteOnly);
-    QByteArray zipped = qCompress(message);
-    out << (quint32)exit_code << (quint32)zipped.length() << zipped;
+    out << (quint32)exit_code;
     client->write(bytes);
+    writeMessage(client, message);
     client->flush();
 }
 
@@ -196,7 +196,7 @@ void ClipboardServer::newMonitorConnection()
 void ClipboardServer::readyRead()
 {
     QByteArray msg;
-    if( !readBytes(m_socket, msg) ) {
+    if( !readMessage(m_socket, &msg) ) {
         // something wrong sith connection
         // -> restart monitor
         stopMonitoring();
@@ -204,8 +204,7 @@ void ClipboardServer::readyRead()
         return;
     }
 
-    QByteArray bytes = qUncompress(msg);
-    QDataStream in2(&bytes, QIODevice::ReadOnly);
+    QDataStream in2(&msg, QIODevice::ReadOnly);
 
     ClipboardItem item;
     in2 >> item;
@@ -227,7 +226,7 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     QDataStream out(&bytes, QIODevice::WriteOnly);
     out << *item;
 
-    QDataStream(m_socket) << (quint32)bytes.length() << bytes;
+    writeMessage(m_socket, bytes);
     m_socket->flush();
 }
 

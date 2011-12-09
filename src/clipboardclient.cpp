@@ -29,25 +29,22 @@ ClipboardClient::ClipboardClient(int &argc, char **argv) :
 
 void ClipboardClient::sendMessage()
 {
-    QDataStream out(m_client);
-    out << (quint32)m_msg.length() << m_msg;
+    writeMessage(m_client, m_msg);
 }
 
 void ClipboardClient::readyRead()
 {
-    QDataStream in(m_client);
     quint32 exit_code;
     QByteArray msg;
 
-    if( !waitForBytes(m_client, (qint64)sizeof(quint32)) )
+    if( !readBytes(m_client, (qint64)sizeof(quint32), &msg) )
         exit(1);
-    in >> exit_code;
+    exit_code = *( reinterpret_cast<const quint32*>(msg.constData()) );
 
-    if( !readBytes(m_client, msg) )
+    if( !readMessage(m_client, &msg) )
         exit(exit_code);
 
-    QByteArray bytes = qUncompress(msg);
-    std::cout.write( bytes.constData(), bytes.length() );
+    std::cout.write( msg.constData(), msg.length() );
 
     exit(exit_code);
 }

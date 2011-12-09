@@ -71,7 +71,11 @@ static int startServer(int argc, char *argv[])
 {
     ClipboardServer app(argc, argv);
     if ( app.isListening() ) {
-        return app.exec();
+        try {
+             return app.exec();
+         } catch (const std::bad_alloc &e) {
+             return 0;
+         }
     } else {
         log( QObject::tr("CopyQ server is already running."), LogWarning );
         return 0;

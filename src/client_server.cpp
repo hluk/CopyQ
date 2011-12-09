@@ -17,8 +17,9 @@ public:
 
 void log(const QString &text, const LogLevel level)
 {
-    const char *msg;
+    QString msg;
     QString level_id;
+    QTextStream err(stderr);
 
     if (level == LogNote)
         level_id = QObject::tr("CopyQ: %1\n");
@@ -27,31 +28,36 @@ void log(const QString &text, const LogLevel level)
     else if (level == LogError)
         level_id = QObject::tr("CopyQ ERROR: %1\n");
 
-    msg = level_id.arg(text).toLocal8Bit().constData();
-    fprintf(stderr, msg);
+    msg = level_id.arg(text).toLocal8Bit();
+    err << msg;
 }
 
-bool waitForBytes(QIODevice *socket, qint64 size) {
-    bool res = true;
-    while( res && socket->bytesAvailable() < size )
-        res = socket->waitForReadyRead(1000);
-    return res;
-}
-
-bool readBytes(QIODevice *socket, QByteArray &msg)
+bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
 {
-    QDataStream in(socket);
-
-    quint32 sz;
-    if( !waitForBytes(socket, (qint64)sizeof(quint32)) )
-        return false;
-    in >> sz;
-
-    if( !waitForBytes(socket, sz) )
-        return false;
-    in >> msg;
+    qint64 avail, read = 0;
+    bytes->clear();
+    while (read < size) {
+        if ( !socket->waitForReadyRead(1000) )
+            return false;
+        avail = qMin( socket->bytesAvailable(), size-read );
+        bytes->append( socket->read(avail) );
+        read += avail;
+    }
 
     return true;
+}
+
+bool readMessage(QIODevice *socket, QByteArray *msg)
+{
+    if ( !socket->waitForReadyRead(1000) )
+        return false;
+    *msg = socket->readAll();
+    return true;
+}
+
+void writeMessage(QIODevice *socket, const QByteArray &msg)
+{
+    socket->write(msg);
 }
 
 QLocalServer *newServer(const QString &name, QObject *parent)
@@ -76,7 +82,12 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
-    return name + QString::number(getuid(), 16);
+#ifdef Q_WS_WIN
+    QString sessionID( getenv("USERNAME") );
+#else
+    QString sessionID( QString::number(getuid(), 16) );
+#endif
+    return name + sessionID;
 }
 
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats)

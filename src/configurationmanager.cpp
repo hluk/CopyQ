@@ -5,6 +5,12 @@
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
 
+#ifdef Q_WS_WIN
+#define DEFAULT_EDITOR "notepad %1"
+#else
+#define DEFAULT_EDITOR "gedit %1"
+#endif
+
 struct _Option {
     _Option() : m_obj(NULL) {}
     _Option(const QVariant &default_value, const char *property_name = NULL, QObject *obj = NULL) :
@@ -80,7 +86,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                              "text", ui->lineEditPriority) );
     // TODO: get default editor from environment variable EDITOR
     m_options.insert( "editor",
-                      Option("gedit %1", "text", ui->lineEditEditor) );
+                      Option(DEFAULT_EDITOR, "text", ui->lineEditEditor) );
     m_options.insert( "format",
                       Option("<span id=\"item\">%1</span>",
                              "plainText", ui->plainTextEdit_html) );

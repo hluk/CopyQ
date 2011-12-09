@@ -179,9 +179,9 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
     QByteArray bytes;
     QDataStream out(&bytes, QIODevice::WriteOnly);
     out << item;
-    QByteArray zipped = qCompress(bytes);
 
-    QDataStream(m_socket) << (quint32)zipped.length() << zipped;
+    m_socket->flush();
+    writeMessage(m_socket, bytes);
     m_socket->flush();
 }
 
@@ -201,7 +201,7 @@ void ClipboardMonitor::readyRead()
 {
     do {
         QByteArray msg;
-        if( !readBytes(m_socket, msg) ) {
+        if( !readMessage(m_socket, &msg) ) {
             // something is wrong -> exit
             log( tr("Incorrect message received!"), LogError );
             exit(3);
