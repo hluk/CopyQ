@@ -191,24 +191,26 @@ void ClipboardServer::newMonitorConnection()
 
 void ClipboardServer::readyRead()
 {
-    ClipboardItem item;
-    QByteArray msg;
-    if( !readMessage(m_socket, &msg) ) {
-        // something wrong sith connection
-        // -> restart monitor
-        stopMonitoring();
-        startMonitoring();
-        return;
+    while ( m_socket->bytesAvailable() ) {
+        ClipboardItem item;
+        QByteArray msg;
+        if( !readMessage(m_socket, &msg) ) {
+            // something wrong sith connection
+            // -> restart monitor
+            stopMonitoring();
+            startMonitoring();
+            return;
+        }
+        QDataStream in(&msg, QIODevice::ReadOnly);
+        in >> item;
+
+        QMimeData *data = item.data();
+        ClipboardBrowser *c = m_wnd->browser(0);
+
+        c->setAutoUpdate(false);
+        c->add( cloneData(*data) );
+        c->setAutoUpdate(true);
     }
-    QDataStream in(&msg, QIODevice::ReadOnly);
-    in >> item;
-
-    QMimeData *data = item.data();
-    ClipboardBrowser *c = m_wnd->browser(0);
-
-    c->setAutoUpdate(false);
-    c->add( cloneData(*data) );
-    c->setAutoUpdate(true);
 }
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)
