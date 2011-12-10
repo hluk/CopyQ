@@ -10,7 +10,6 @@ class Arguments
 public:
     Arguments();
     Arguments(int &argc, char **argv);
-    Arguments(const QByteArray &msg);
 
     QByteArray message() const;
 
@@ -29,12 +28,16 @@ public:
 
     void setDefault(const QVariant &default_value);
 
-    bool atEnd() { return m_current == m_args.length(); }
-    bool finished() { return !error() && atEnd(); }
+    int length() const { return m_args.length(); }
+    bool atEnd() const { return m_current == length(); }
+    bool finished() const { return !error() && atEnd(); }
 
     void setError() { m_error = true; }
     bool error() const { return m_error; }
     void reset();
+
+    friend QDataStream &operator <<(QDataStream &stream, const Arguments &args);
+    friend QDataStream &operator >>(QDataStream &stream, Arguments &args);
 
 private:
     QList<QByteArray> m_args;

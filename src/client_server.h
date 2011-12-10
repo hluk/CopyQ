@@ -7,7 +7,6 @@
 #include <QByteArray>
 
 #include <QLocalServer>
-#include <QLocalSocket>
 
 enum LogLevel {
     LogNote,

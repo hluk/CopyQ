@@ -4,6 +4,7 @@
 #include <QThread>
 #include <unistd.h>
 #include <cstdio>
+#include <QLocalSocket>
 
 // msleep function (portable)
 class Sleeper : public QThread
@@ -37,7 +38,7 @@ bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
     qint64 avail, read = 0;
     bytes->clear();
     while (read < size) {
-        if ( !socket->waitForReadyRead(1000) )
+        if ( socket->bytesAvailable() == 0 && !socket->waitForReadyRead(1000) )
             return false;
         avail = qMin( socket->bytesAvailable(), size-read );
         bytes->append( socket->read(avail) );
@@ -49,15 +50,24 @@ bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
 
 bool readMessage(QIODevice *socket, QByteArray *msg)
 {
-    if ( !socket->waitForReadyRead(1000) )
+    QByteArray bytes;
+    quint32 len;
+
+    if ( !readBytes(socket, (qint64)sizeof(len), &bytes) )
         return false;
-    *msg = socket->readAll();
+    QDataStream(bytes) >> len;
+
+    if ( !readBytes(socket, (qint64)len, msg) )
+        return false;
+
     return true;
 }
 
 void writeMessage(QIODevice *socket, const QByteArray &msg)
 {
-    socket->write(msg);
+    QDataStream out(socket);
+    // length is serialized as a quint32, followed by msg
+    out.writeBytes( msg.constData(), msg.length() );
 }
 
 QLocalServer *newServer(const QString &name, QObject *parent)

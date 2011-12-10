@@ -6,12 +6,8 @@
 #include <iostream>
 
 ClipboardClient::ClipboardClient(int &argc, char **argv) :
-        App(argc, argv)
+    App(argc, argv), m_args(argc, argv)
 {
-    // parse arguments
-    Arguments args(argc, argv);
-    m_msg = args.message();
-
     // client socket
     m_client = new QLocalSocket(this);
     connect( m_client, SIGNAL(readyRead()),
@@ -27,24 +23,28 @@ ClipboardClient::ClipboardClient(int &argc, char **argv) :
     m_client->connectToServer( ClipboardServer::serverName() );
 }
 
+#include <QDebug>
 void ClipboardClient::sendMessage()
 {
-    writeMessage(m_client, m_msg);
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
+    out << m_args;
+    writeMessage(m_client, msg);
 }
 
 void ClipboardClient::readyRead()
 {
-    quint32 exit_code;
+    int exit_code, i;
     QByteArray msg;
 
-    if( !readBytes(m_client, (qint64)sizeof(quint32), &msg) )
-        exit(1);
-    exit_code = *( reinterpret_cast<const quint32*>(msg.constData()) );
-
     if( !readMessage(m_client, &msg) )
-        exit(exit_code);
+        exit(1);
 
-    std::cout.write( msg.constData(), msg.length() );
+    QDataStream in(&msg, QIODevice::ReadOnly);
+    in >> exit_code;
+    i = sizeof(exit_code);
+
+    std::cout.write( msg.constData()+i, msg.length()-i );
 
     exit(exit_code);
 }

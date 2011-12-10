@@ -152,49 +152,46 @@ void ClipboardServer::newConnection()
     connect(client, SIGNAL(disconnected()),
             client, SLOT(deleteLater()));
 
+    Arguments args;
     QByteArray msg;
-    if( !readMessage(client, &msg) ) {
-        client->deleteLater();
-        client->disconnectFromServer();
-        return;
-    }
+    readMessage(client, &msg);
+    QDataStream in(msg);
+    in >> args;
 
-    Arguments args(msg);
     QByteArray client_msg;
     // try to handle command
-    if ( !doCommand(args, client_msg) ) {
+    if ( !doCommand(args, &client_msg) ) {
         sendMessage( client, tr("Bad command syntax. Use -h for help.\n"), 2 );
     } else {
         sendMessage(client, client_msg);
     }
 
-    client->deleteLater();
     client->disconnectFromServer();
 }
 
 void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exit_code)
 {
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
-    out << (quint32)exit_code;
-    client->write(bytes);
-    writeMessage(client, message);
-    client->flush();
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
+    out << exit_code;
+    out.writeRawData( message.constData(), message.length() );
+    writeMessage(client, msg);
 }
 
 void ClipboardServer::newMonitorConnection()
 {
-    if (m_socket) {
+    if (m_socket)
         m_socket->disconnectFromServer();
-        m_socket->deleteLater();
-    }
     m_socket = m_monitorserver->nextPendingConnection();
+    connect(m_socket, SIGNAL(disconnected()),
+            m_socket, SLOT(deleteLater()));
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
 }
 
 void ClipboardServer::readyRead()
 {
+    ClipboardItem item;
     QByteArray msg;
     if( !readMessage(m_socket, &msg) ) {
         // something wrong sith connection
@@ -203,11 +200,8 @@ void ClipboardServer::readyRead()
         startMonitoring();
         return;
     }
-
-    QDataStream in2(&msg, QIODevice::ReadOnly);
-
-    ClipboardItem item;
-    in2 >> item;
+    QDataStream in(&msg, QIODevice::ReadOnly);
+    in >> item;
 
     QMimeData *data = item.data();
     ClipboardBrowser *c = m_wnd->browser(0);
@@ -222,15 +216,13 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     if ( !m_socket || !m_socket->isWritable() )
         return;
 
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
     out << *item;
-
-    writeMessage(m_socket, bytes);
-    m_socket->flush();
+    writeMessage(m_socket, msg);
 }
 
-bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
+bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
 {
     QString cmd;
     args >> cmd;
@@ -255,7 +247,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
         if ( !args.atEnd() )
             return false;
         // close client and exit
-        response = tr("Terminating server.\n").toLocal8Bit();
+        *response = tr("Terminating server.\n").toLocal8Bit();
         exit();
     }
 
@@ -378,7 +370,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
 
     else if (cmd == "length" || cmd == "size" || cmd == "count") {
         if ( args.finished() ) {
-            response = QString("%1\n").arg(c->length()).toLocal8Bit();
+            *response = QString("%1\n").arg(c->length()).toLocal8Bit();
         } else {
             return false;
         }
@@ -388,7 +380,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
     // list [format="%1\n"|row=0] ...
     else if (cmd == "list") {
         if ( args.finished() ) {
-            response = c->itemText(0).toLocal8Bit()+'\n';
+            *response = c->itemText(0).toLocal8Bit()+'\n';
         } else {
             QString fmt("%1\n");
             do {
@@ -399,7 +391,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
                     args >> 0 >> row;
                     fmt.replace(QString("\\n"),QString('\n'));
                 } else {
-                    response.append( fmt.arg( c->itemText(row) ).arg(row) );
+                    response->append( fmt.arg( c->itemText(row) ).arg(row) );
                 }
             } while( !args.atEnd() );
         }
@@ -411,7 +403,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
         mime = QString("text/plain");
 
         if ( args.atEnd() ) {
-            response = c->itemData(0)->data(mime);
+            *response = c->itemData(0)->data(mime);
         } else {
             do {
                 args >> row;
@@ -420,7 +412,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray &response)
                     args >> mime;
                     args >> 0 >> row;
                 }
-                response.append( c->itemData(row)->data(mime) );
+                response->append( c->itemData(row)->data(mime) );
             } while( !args.atEnd() );
         }
     }

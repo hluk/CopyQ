@@ -7,15 +7,6 @@ Arguments::Arguments()
     reset();
 }
 
-Arguments::Arguments(const QByteArray &msg)
-{
-    QByteArray bytes = qUncompress(msg);
-    QDataStream in(&bytes, QIODevice::ReadOnly);
-    in >> m_args;
-
-    reset();
-}
-
 Arguments::Arguments(int &argc, char **argv)
 {
     for (int i = 1; i < argc; ++i)
@@ -108,14 +99,6 @@ void Arguments::reset()
     m_error = false;
 }
 
-QByteArray Arguments::message() const
-{
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
-    out << m_args;
-    return qCompress(bytes);
-}
-
 void Arguments::back()
 {
     m_error = false;
@@ -128,6 +111,38 @@ void Arguments::setDefault(const QVariant &default_value)
     m_default_value = default_value;
 }
 
+QDataStream &operator <<(QDataStream &stream, const Arguments &args)
+{
+    int len = args.length();
+
+    stream << len;
+    for( int i = 0; i<len; ++i ) {
+        const QByteArray &arg = args.m_args[i];
+        stream << (uint)(arg.length()) << arg.constData();
+    }
+
+    return stream;
+}
+
+QDataStream &operator>>(QDataStream &stream, Arguments &args)
+{
+    int len;
+    uint arg_len;
+
+    stream >> len;
+    for( int i = 0; i<len; ++i ) {
+        char *buffer;
+        stream >> arg_len;
+        stream.readBytes(buffer, arg_len);
+        if (buffer) {
+            QByteArray arg(buffer, arg_len);
+            delete buffer;
+            args.m_args.append(arg);
+        }
+    }
+
+    return stream;
+}
 
 Arguments &operator >>(Arguments &args, int &dest)
 {

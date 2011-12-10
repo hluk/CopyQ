@@ -2,6 +2,7 @@
 #define CLIPBOARDCLIENT_H
 
 #include "app.h"
+#include "arguments.h"
 #include <QLocalSocket>
 
 class ClipboardClient : public App
@@ -12,7 +13,7 @@ public:
 
 private:
     QLocalSocket *m_client;
-    QByteArray m_msg;
+    Arguments m_args;
 
 private slots:
     void sendMessage();

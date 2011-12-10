@@ -20,8 +20,10 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
     connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(quit()) );
     m_socket->connectToServer( ClipboardServer::monitorServerName() );
-    if ( !m_socket->waitForConnected(2000) )
+    if ( !m_socket->waitForConnected(2000) ) {
+        log( tr("Cannot connect to server!"), LogError );
         exit(1);
+    }
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     setFormats( cm->value("formats").toString() );
@@ -176,13 +178,10 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
     }
 
     // send clipboard item
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
     out << item;
-
-    m_socket->flush();
-    writeMessage(m_socket, bytes);
-    m_socket->flush();
+    writeMessage(m_socket, msg);
 }
 
 void ClipboardMonitor::updateTimeout()
@@ -199,22 +198,15 @@ void ClipboardMonitor::updateTimeout()
 
 void ClipboardMonitor::readyRead()
 {
-    do {
-        QByteArray msg;
-        if( !readMessage(m_socket, &msg) ) {
-            // something is wrong -> exit
-            log( tr("Incorrect message received!"), LogError );
-            exit(3);
-            return;
-        }
-
-        QDataStream in2(&msg, QIODevice::ReadOnly);
-
-        ClipboardItem item;
-        in2 >> item;
-
-        updateClipboard( *item.data() );
-    } while ( m_socket->bytesAvailable() );
+    QByteArray msg;
+    if( !readMessage(m_socket, &msg) ) {
+        log( tr("Cannot read message from server!"), LogError );
+        return;
+    }
+    ClipboardItem item;
+    QDataStream in(&msg, QIODevice::ReadOnly);
+    in >> item;
+    updateClipboard( *(item.data()) );
 }
 
 void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)

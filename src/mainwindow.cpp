@@ -489,7 +489,7 @@ void MainWindow::updateTrayMenuItems()
         font.setItalic(true);
 
         QFontMetrics fm(font);
-        QString text = fm.elidedText( c->itemText(i).simplified(),
+        QString text = fm.elidedText( c->itemText(i).left(512).simplified(),
                                       Qt::ElideRight, 240 );
 
         act = menu->addAction(text);
