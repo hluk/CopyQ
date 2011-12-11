@@ -378,28 +378,6 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         }
     }
 
-    // print items in given rows, format can have two arguments %1:item %2:row
-    // list [format="%1\n"|row=0] ...
-    else if (cmd == "list") {
-        if ( args.finished() ) {
-            *response = c->itemText(0).toLocal8Bit()+'\n';
-        } else {
-            QString fmt("%1\n");
-            do {
-                args >> row;
-                if ( args.error() ) {
-                    args.back();
-                    args >> fmt;
-                    args >> 0 >> row;
-                    fmt.replace(QString("\\n"),QString('\n'));
-                } else {
-                    response->append( fmt.arg( c->itemText(row) ).arg(row) );
-                }
-            } while( !args.atEnd() );
-        }
-    }
-
-    // print items in given rows, format can have two arguments %1:item %2:row
     // read [mime="text/plain"|row=0] ...
     else if (cmd == "read") {
         mime = QString("text/plain");
@@ -414,10 +392,32 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
                     args >> mime;
                     args >> 0 >> row;
                 }
-                response->append( c->itemData(row)->data(mime) );
+                const QMimeData *data = c->itemData(row);
+                if (data) {
+                    if (mime == "?")
+                        response->append( data->formats().join(" ")+'\n' );
+                    else
+                        response->append( data->data(mime) );
+                }
             } while( !args.atEnd() );
         }
     }
+
+    // clipboard [mime="text/plain"]
+    else if (cmd == "clipboard") {
+        args >> QString("text/plain") >> mime;
+        QClipboard *clipboard = QApplication::clipboard();
+        response->append( clipboard->mimeData()->data(mime) );
+    }
+
+#ifdef Q_WS_X11
+    // selection [mime="text/plain"]
+    else if (cmd == "selection") {
+        args >> QString("text/plain") >> mime;
+        QClipboard *clipboard = QApplication::clipboard();
+        response->append( clipboard->mimeData(QClipboard::Selection)->data(mime) );
+    }
+#endif
 
     // unknown command
     else {
