@@ -60,6 +60,8 @@ ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
              d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              d, SLOT(dataChanged(QModelIndex,QModelIndex)));
+    connect( m, SIGNAL(realDataChanged(QModelIndex,QModelIndex)),
+             this, SLOT(realDataChanged(QModelIndex,QModelIndex)));
 
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));
@@ -610,10 +612,8 @@ void ClipboardBrowser::updateClipboard()
     runCallback();
 }
 
-void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
+void ClipboardBrowser::realDataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    if ( a.row() == 0 && m->search()->isEmpty() ) {
+    if ( a.row() == 0 )
         updateClipboard();
-    }
-    QListView::dataChanged(a, b);
 }

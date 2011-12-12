@@ -99,7 +99,6 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
-        void dataChanged(const QModelIndex &a, const QModelIndex &b);
         void timerEvent(QTimerEvent *event);
 
     signals:
@@ -110,6 +109,9 @@ class ClipboardBrowser : public QListView
         void escapePressed();
         void closeAllEditors();
         void changeClipboard(const ClipboardItem *item);
+
+    private slots:
+        void realDataChanged(const QModelIndex &a, const QModelIndex &b);
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }

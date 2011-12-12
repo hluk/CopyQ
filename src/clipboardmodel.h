@@ -33,6 +33,8 @@ static const QModelIndex empty_index;
 
 class ClipboardModel : public QAbstractListModel
 {
+    Q_OBJECT
+
 public:
     explicit ClipboardModel(QObject *parent = 0);
 
@@ -81,6 +83,12 @@ public:
     void setFormat(int row, const QString &mimeType);
     void nextFormat(int row);
     void previousFormat(int row);
+
+signals:
+    /* unlike dataChanged, realDataChanged is not emitted
+       if highlight or current format changes */
+    void realDataChanged(const QModelIndex &topLeft,
+                         const QModelIndex &bottomRight);
 
 private:
     QList<ClipboardItem *> m_clipboardList;

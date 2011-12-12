@@ -153,6 +153,7 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
         m_clipboardList[row]->setData(value);
         setSearch(row);
         emit dataChanged(index, index);
+        emit realDataChanged(index, index);
         return true;
     }
     return false;
@@ -165,6 +166,7 @@ bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
         m_clipboardList[row]->setData(value);
         setSearch(row);
         emit dataChanged(index, index);
+        emit realDataChanged(index, index);
         return true;
     }
     return false;

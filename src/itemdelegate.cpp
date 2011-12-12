@@ -209,9 +209,11 @@ void ItemDelegate::removeCache(int row) const
 
 void ItemDelegate::invalidateCache() const
 {
-    log( QString("invalidating cache") );
-    for( int i = 0; i < m_cache.length(); ++i ) {
-        removeCache(i);
+    if ( m_cache.length() > 0 ) {
+        log( QString("invalidating cache") );
+        for( int i = 0; i < m_cache.length(); ++i ) {
+            removeCache(i);
+        }
     }
 }
 
