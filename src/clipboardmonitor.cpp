@@ -9,7 +9,7 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
-    App(argc, argv), m_newdata(NULL), m_ignore(false), m_lastClipboard(0)
+    App(argc, argv), m_newdata(NULL), m_lastClipboard(0)
 #ifdef Q_WS_X11
   , m_lastSelection(0), m_dsp(NULL)
 #endif
@@ -80,7 +80,7 @@ uint ClipboardMonitor::hash(const QMimeData &data)
 }
 
 #ifdef Q_WS_X11
-bool ClipboardMonitor::updateSelection()
+bool ClipboardMonitor::updateSelection(bool check_clipboard)
 {
     // wait while selection is incomplete, i.e. mouse button or
     // shift key is pressed
@@ -103,7 +103,9 @@ bool ClipboardMonitor::updateSelection()
         }
     }
 
-    checkClipboard(QClipboard::Selection);
+    if (check_clipboard) {
+        checkClipboard(QClipboard::Selection);
+    }
     return true;
 }
 
@@ -116,22 +118,18 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     bool synchronize;
     QClipboard::Mode mode2;
 
-    if (m_ignore) return;
-    m_ignore = true;
-
     if ( m_checkclip && mode == QClipboard::Clipboard ) {
         mode2 = QClipboard::Selection;
         hash1 = &m_lastClipboard;
         hash2 = &m_lastSelection;
         synchronize = m_copyclip;
     } else if ( m_checksel && mode == QClipboard::Selection &&
-                updateSelection() ) {
+                updateSelection(false) ) {
         mode2 = QClipboard::Clipboard;
         hash1 = &m_lastSelection;
         hash2 = &m_lastClipboard;
         synchronize = m_copysel;
     } else {
-        m_ignore = false;
         return;
     }
 
@@ -153,13 +151,10 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
             }
         }
     }
-    m_ignore = false;
 }
 #else /* !Q_WS_X11 */
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
-    if (m_ignore) return;
-
     if ( m_checkclip && mode == QClipboard::Clipboard ) {
         const QMimeData *data;
         QClipboard *clipboard = QApplication::clipboard();
@@ -236,19 +231,15 @@ void ClipboardMonitor::updateClipboard(const QMimeData &data, bool force)
 
     QClipboard *clipboard = QApplication::clipboard();
     if ( h != m_lastClipboard ) {
-        m_ignore = true;
-        clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
-        m_ignore = false;
         m_lastClipboard = h;
+        clipboard->setMimeData(m_newdata, QClipboard::Clipboard);
     } else {
         delete m_newdata;
     }
 #ifdef Q_WS_X11
     if ( h != m_lastSelection ) {
-        m_ignore = true;
-        clipboard->setMimeData(newdata2, QClipboard::Selection);
-        m_ignore = false;
         m_lastSelection = h;
+        clipboard->setMimeData(newdata2, QClipboard::Selection);
     } else {
         delete newdata2;
     }

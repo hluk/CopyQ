@@ -40,7 +40,7 @@ private:
     QStringList m_formats;
     QMimeData *m_newdata;
     bool m_checkclip, m_copyclip,
-         m_checksel, m_copysel, m_ignore;
+         m_checksel, m_copysel;
     uint m_lastClipboard;
 #ifdef Q_WS_X11
     uint m_lastSelection;
@@ -59,7 +59,7 @@ public slots:
 
 private slots:
 #ifdef Q_WS_X11
-    bool updateSelection();
+    bool updateSelection(bool check_clipboard=true);
 #endif
     void updateTimeout();
     void readyRead();

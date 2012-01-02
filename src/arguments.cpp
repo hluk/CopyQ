@@ -99,6 +99,22 @@ void Arguments::reset()
     m_error = false;
 }
 
+void Arguments::append(const QByteArray &argument)
+{
+    m_args.append(argument);
+}
+
+const QByteArray &Arguments::at(int i) const
+{
+    return m_args.at(i);
+}
+
+void Arguments::removeFirst()
+{
+    if ( m_args.isEmpty() )
+        m_args.removeFirst();
+}
+
 void Arguments::back()
 {
     m_error = false;
@@ -117,7 +133,7 @@ QDataStream &operator <<(QDataStream &stream, const Arguments &args)
 
     stream << len;
     for( int i = 0; i<len; ++i ) {
-        const QByteArray &arg = args.m_args[i];
+        const QByteArray &arg = args.at(i);
         stream << (uint)(arg.length()) << arg.constData();
     }
 
@@ -137,7 +153,7 @@ QDataStream &operator>>(QDataStream &stream, Arguments &args)
         if (buffer) {
             QByteArray arg(buffer, arg_len);
             delete buffer;
-            args.m_args.append(arg);
+            args.append(arg);
         }
     }
 

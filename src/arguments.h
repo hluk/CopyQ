@@ -13,11 +13,11 @@ public:
 
     QByteArray message() const;
 
-    void removeFirst()
-    {
-        if ( m_args.isEmpty() )
-            m_args.removeFirst();
-    }
+    void append(const QByteArray &argument);
+
+    const QByteArray &at(int i) const;
+
+    void removeFirst();
 
     void back();
 
@@ -36,15 +36,15 @@ public:
     bool error() const { return m_error; }
     void reset();
 
-    friend QDataStream &operator <<(QDataStream &stream, const Arguments &args);
-    friend QDataStream &operator >>(QDataStream &stream, Arguments &args);
-
 private:
     QList<QByteArray> m_args;
     int m_current;
     bool m_error;
     QVariant m_default_value;
 };
+
+QDataStream &operator <<(QDataStream &stream, const Arguments &args);
+QDataStream &operator >>(QDataStream &stream, Arguments &args);
 
 // get argument (no arguments left OR argument cannot convert to type T -> error)
 // defaul value can be set when the rvalue is const
