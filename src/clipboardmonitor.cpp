@@ -75,7 +75,6 @@ uint ClipboardMonitor::hash(const QMimeData &data)
             break;
     }
 
-    // return 0 when data is empty
     return qHash(bytes);
 }
 
@@ -139,14 +138,16 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         new_hash = hash(*data);
         // is clipboard data different?
         if ( new_hash != *hash1 ) {
-            // synchronize clipboard and selection
-            if( synchronize && new_hash != *hash2 ) {
-                clipboard->setMimeData( cloneData(*data, &m_formats), mode2 );
-                *hash2 = new_hash;
-            }
-            // notify clipboard server only if text size is more than 1 byte
-            if (!data->hasText() || data->text().size() > 1) {
-                *hash1 = new_hash;
+            *hash1 = new_hash;
+            /* do something only if data are not empty and
+               if text is present it is not empty */
+            if ( !data->formats().isEmpty() &&
+                 (!data->hasText() || data->text().size() > 0) ) {
+                // synchronize clipboard and selection
+                if( synchronize && new_hash != *hash2 ) {
+                    *hash2 = new_hash;
+                    clipboard->setMimeData( cloneData(*data, &m_formats), mode2 );
+                }
                 clipboardChanged(mode, cloneData(*data, &m_formats));
             }
         }
@@ -159,7 +160,12 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         const QMimeData *data;
         QClipboard *clipboard = QApplication::clipboard();
         data = clipboard->mimeData(mode);
-        clipboardChanged(mode, cloneData(*data, &m_formats));
+        /* do something only if data are not empty and
+           if text is present it is not empty */
+        if ( data && !data->formats().isEmpty() &&
+             (!data->hasText() || data->text().size() > 0) ) {
+            clipboardChanged(mode, cloneData(*data, &m_formats));
+        }
     }
 }
 #endif
