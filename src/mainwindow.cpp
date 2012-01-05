@@ -59,9 +59,6 @@ MainWindow::MainWindow(QWidget *parent)
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
 
-    // number of clipboard items accessible from tray menu
-    m_trayitems = 5;
-
     // create menubar & context menu
     createMenu();
 
@@ -419,6 +416,7 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::showMenu()
 {
+    updateTrayMenuItems();
     tray->contextMenu()->show();
 }
 
@@ -484,6 +482,7 @@ void MainWindow::updateTrayMenuItems()
     sep  = actions[i];
 
     len = qMin( m_trayitems, c->length() );
+    unsigned char hint('0');
     for( i = 0; i < len; ++i ) {
         QFont font = menu->font();
         font.setItalic(true);
@@ -491,6 +490,13 @@ void MainWindow::updateTrayMenuItems()
         QFontMetrics fm(font);
         QString text = fm.elidedText( c->itemText(i).left(512).simplified(),
                                       Qt::ElideRight, 240 );
+
+        /* FIXME: keypad numbers don't work */
+        if (hint <= '9') {
+            QChar h(hint);
+            text.prepend( QString("&%1. ").arg(h) );
+            ++hint;
+        }
 
         act = menu->addAction(text);
         act->setFont(font);
