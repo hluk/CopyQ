@@ -31,6 +31,7 @@ public:
         bool input;
         bool output;
         bool wait;
+        bool automatic;
         QIcon icon;
         QString shortcut;
     };

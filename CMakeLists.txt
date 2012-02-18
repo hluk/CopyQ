@@ -76,11 +76,11 @@ IF(Q_WS_X11)
     endif(NOT X11_Xfixes_FOUND)
 
     SET(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
-ENDIF(Q_WS_X11) 
+ENDIF(Q_WS_X11)
 
-ADD_EXECUTABLE(copyq ${copyq_SOURCES} 
-    ${copyq_HEADERS_MOC} 
-    ${copyq_FORMS_HEADERS} 
+ADD_EXECUTABLE(copyq ${copyq_SOURCES}
+    ${copyq_HEADERS_MOC}
+    ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC})
 TARGET_LINK_LIBRARIES(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 

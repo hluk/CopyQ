@@ -229,7 +229,8 @@ void ConfigurationManager::loadSettings()
             if( column->text() == tr("Enable") ||
                 column->text() == tr("Input") ||
                 column->text() == tr("Output") ||
-                column->text() == tr("Wait") ) {
+                column->text() == tr("Wait") ||
+                column->text() == tr("Automatic") ) {
                 item->setCheckState(value.toBool() ? Qt::Checked : Qt::Unchecked);
             } else {
                 if ( value.type() == QVariant::String )
@@ -280,6 +281,8 @@ ConfigurationManager::Commands ConfigurationManager::commands() const
                 cmd.re = QRegExp( item->text() );
             } else if ( column->text() == tr("Wait") ) {
                 cmd.wait = item->checkState() == Qt::Checked;
+            } else if ( column->text() == tr("Automatic") ) {
+                cmd.automatic = item->checkState() == Qt::Checked;
             } else if ( column->text() == tr("Icon") ) {
                 cmd.icon.addFile( item->text() );
             } else if ( column->text() == tr("Shortcut") ) {
@@ -319,7 +322,8 @@ void ConfigurationManager::saveSettings()
             if ( column->text() == tr("Enable") ||
                  column->text() == tr("Input") ||
                  column->text() == tr("Output") ||
-                 column->text() == tr("Wait") ) {
+                 column->text() == tr("Wait") ||
+                 column->text() == tr("Automatic") ) {
                 settings.setValue( column->text(), item->checkState() == Qt::Checked );
             } else {
                 settings.setValue( column->text(), item->text() );
@@ -399,6 +403,8 @@ void ConfigurationManager::addCommand(const QString &name, const Command *cmd, b
             item->setText( cmd->icon.name() );
         } else if ( column->text() == tr("Shortcut") ) {
             item->setText(cmd->shortcut);
+        } else if ( column->text() == tr("Automatic") ) {
+            item->setCheckState(cmd->automatic ? Qt::Checked : Qt::Unchecked);
         }
         item->setToolTip( column->toolTip() );
         table->setItem(row, col, item);
@@ -420,7 +426,7 @@ void ConfigurationManager::apply()
 void ConfigurationManager::on_pushButtoAdd_clicked()
 {
     Command cmd;
-    cmd.input = cmd.output = cmd.wait = false;
+    cmd.input = cmd.output = cmd.wait = cmd.automatic = false;
     cmd.sep = QString('\n');
     addCommand(QString(), &cmd);
 

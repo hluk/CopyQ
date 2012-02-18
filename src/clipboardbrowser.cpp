@@ -460,6 +460,12 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     // save history after 2 minutes
     saveItems(120000);
 
+    // automatic action
+    foreach(const ConfigurationManager::Command *command, auto_commands) {
+        if (command->re.indexIn(data->text()) != -1)
+            emit requestActionDialog(this, 0, command);
+    }
+
     return true;
 }
 
@@ -468,6 +474,7 @@ bool ClipboardBrowser::add(ClipboardItem *item)
     if ( !m->insertRow(0) )
         return false;
     m->at(0)->setData( cloneData(*item->data()) );
+
     return true;
 }
 
@@ -497,6 +504,11 @@ void ClipboardBrowser::loadSettings()
 
     // commands
     commands = cm->commands();
+    auto_commands.clear();
+    foreach(const ConfigurationManager::Command &command, commands) {
+        if (command.automatic)
+            auto_commands.append(&command);
+    }
 
     update();
 }
@@ -612,7 +624,7 @@ void ClipboardBrowser::updateClipboard()
     runCallback();
 }
 
-void ClipboardBrowser::realDataChanged(const QModelIndex &a, const QModelIndex &b)
+void ClipboardBrowser::realDataChanged(const QModelIndex &a, const QModelIndex &)
 {
     if ( a.row() == 0 )
         updateClipboard();

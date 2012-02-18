@@ -58,7 +58,6 @@ class MainWindow : public QMainWindow
         QMenu *cmdMenu;
         QMenu *itemMenu;
         QMenu *tabMenu;
-        //ItemDelegate delegate;
         QIcon m_icon;
         QSystemTrayIcon *tray;
         bool m_browsemode;

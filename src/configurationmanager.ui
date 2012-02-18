@@ -370,6 +370,14 @@
                <string>Command shortcut (e.g. Ctrl-X)</string>
               </property>
              </column>
+             <column>
+              <property name="text">
+               <string>Automatic</string>
+              </property>
+              <property name="toolTip">
+               <string>Run command on new clipboard items</string>
+              </property>
+             </column>
             </widget>
            </item>
            <item>
