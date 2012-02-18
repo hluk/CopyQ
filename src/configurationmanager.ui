@@ -489,7 +489,7 @@
                   </sizepolicy>
                  </property>
                  <property name="plainText">
-                  <string>&lt;table class=\&quot;item\&quot;&gt;&lt;tr&gt;&lt;td class=\&quot;number\&quot;&gt;%1&lt;/td&gt;&lt;td class=\&quot;text\&quot;&gt;%2&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;</string>
+                  <string>&lt;span id=&quot;item&quot;&gt;%1&lt;/span&gt;</string>
                  </property>
                 </widget>
                </item>
@@ -531,8 +531,19 @@
                  <property name="plainText">
                   <string>/* http://doc.qt.nokia.com/stylesheet-examples.html */
 /* font */
-.text, .number, #clipboardBrowser, #searchBar, QPlainTextEdit {
-    font-family: Envy Code R, Consolas, Bitstream Vera Sans Mono, monospace;
+#item, #clipboardBrowser, #searchBar, QPlainTextEdit {
+    font-family: monospace;
+}
+
+/* item text */
+#item {
+}
+
+/* item number */
+#itemNumber {
+    color: gray;
+    background-color: transparent;
+    padding: 4px 0 0 4px;
 }
 
 #clipboardBrowser, #searchBar {
@@ -550,16 +561,6 @@ QMainWindow {
 
 #findLabel {
     font-weight: bold;
-}
-
-/* item text */
-.text {
-}
-
-/* item number */
-.number {
-    padding-right: 1ex;
-    color: #444;
 }
 
 .format {
