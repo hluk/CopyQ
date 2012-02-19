@@ -291,6 +291,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 close();
             else
                 resetStatus();
+            c->setCurrent(0);
             break;
 
         case Qt::Key_Tab:
@@ -315,11 +316,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::resetStatus()
 {
-    ClipboardBrowser *c = browser();
-
-    ui->searchBar->clear();
-    c->clearFilter();
-    c->setCurrentIndex( QModelIndex() );
+    if ( !ui->searchBar->text().isEmpty() ) {
+        ui->searchBar->clear();
+        browser()->clearFilter();
+    }
     enterBrowseMode();
 }
 
@@ -373,9 +373,10 @@ void MainWindow::toggleVisible()
         if ( aboutDialog && !aboutDialog->isHidden() ) {
             aboutDialog->close();
         }
-        // if the first item is selected then select none
+        // if only the first item is selected then select none
         // (next time the window is shown the first item will be selected)
-        if ( c->currentIndex().row() == 0 )
+        if ( c->selectionModel()->selectedIndexes().size() == 1 &&
+             c->currentIndex().row() == 0 )
             c->setCurrentIndex( QModelIndex() );
         close();
     } else {
@@ -386,7 +387,8 @@ void MainWindow::toggleVisible()
         QApplication::setActiveWindow(this);
 
         // if no item is selected then select first
-        if( !c->currentIndex().isValid() || c->currentIndex().row() == 0 ) {
+        if( c->selectionModel()->selectedIndexes().size() <= 1 &&
+                c->currentIndex().row() <= 0 ) {
             c->setCurrent(0);
         }
     }

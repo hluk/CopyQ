@@ -442,7 +442,8 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     m->setData(ind, data);
 
     // leave the first item selected
-    if ( currentIndex().row() <= 1 )
+    if ( selectionModel()->selectedIndexes().size() <= 1 &&
+         currentIndex().row() <= 1 )
         setCurrent(0);
 
     // filter item
