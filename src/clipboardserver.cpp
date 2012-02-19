@@ -393,7 +393,9 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         mime = QString("text/plain");
 
         if ( args.atEnd() ) {
-            *response = c->itemData(0)->data(mime);
+            const QMimeData *data = QApplication::clipboard()->mimeData();
+            if (data)
+                response->append( data->data(mime) );
         } else {
             do {
                 args >> row;

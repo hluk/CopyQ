@@ -153,6 +153,8 @@ QDataStream &operator>>(QDataStream &stream, Arguments &args)
             QByteArray arg(buffer, arg_len);
             delete[] buffer;
             args.append(arg);
+        } else {
+            args.append(QByteArray());
         }
     }
 
