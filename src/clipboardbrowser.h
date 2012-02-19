@@ -67,8 +67,6 @@ class ClipboardBrowser : public QListView
         // else: return text of first item
         const QString selectedText() const;
 
-        void runCallback() const;
-
         void updateClipboard();
 
         void setAutoUpdate(bool update) { m_update = update; }
@@ -78,8 +76,6 @@ class ClipboardBrowser : public QListView
     private:
         QString m_id;
         int m_maxitems;
-        QString m_callback;
-        QStringList m_callback_args;
         QString m_editor;
         QString m_last_filter;
         ClipboardModel *m;

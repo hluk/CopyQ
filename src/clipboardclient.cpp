@@ -34,7 +34,7 @@ void ClipboardClient::sendMessage()
 
 void ClipboardClient::readyRead()
 {
-    int exit_code, i;
+    int exit_code, i, len;
     QByteArray msg;
 
     if( !readMessage(m_client, &msg) )
@@ -44,7 +44,9 @@ void ClipboardClient::readyRead()
     in >> exit_code;
     i = sizeof(exit_code);
 
-    std::cout.write( msg.constData()+i, msg.length()-i );
+    len = msg.length();
+    if (len > i)
+        std::cout.write( msg.constData()+i, len-i );
 
     exit(exit_code);
 }

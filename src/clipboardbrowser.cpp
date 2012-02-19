@@ -493,16 +493,6 @@ void ClipboardBrowser::loadSettings()
     m->setMaxItems(m_maxitems);
     m->setFormats( cm->value("priority").toString() );
 
-    m_callback.clear();
-
-    //callback program
-    // FIXME: arguments that contain spaces aren't parsed well
-    m_callback_args = cm->value("callback").toString().split(" ");
-    if( !m_callback_args.isEmpty() ) {
-        m_callback = m_callback_args[0];
-        m_callback_args.pop_front();
-    }
-
     // commands
     commands = cm->commands();
     auto_commands.clear();
@@ -600,14 +590,6 @@ const QMimeData *ClipboardBrowser::itemData(int i) const
     return m->mimeData( i>=0 ? i : currentIndex().row() );
 }
 
-void ClipboardBrowser::runCallback() const
-{
-    // run callback program on clipboard contents
-    if ( m_callback.isEmpty() )
-        return;
-    QProcess::startDetached( m_callback, m_callback_args + QStringList(itemText(0)) );
-}
-
 void ClipboardBrowser::checkClipboard(QClipboard::Mode, QMimeData *data)
 {
     add(data);
@@ -615,14 +597,8 @@ void ClipboardBrowser::checkClipboard(QClipboard::Mode, QMimeData *data)
 
 void ClipboardBrowser::updateClipboard()
 {
-    if ( m->rowCount() == 0 )
-        return;
-
-    if ( m_update ) {
+    if ( m_update && m->rowCount() > 0 )
         emit changeClipboard(m->at(0));
-    }
-
-    runCallback();
 }
 
 void ClipboardBrowser::realDataChanged(const QModelIndex &a, const QModelIndex &)

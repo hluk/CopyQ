@@ -72,8 +72,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                        QCoreApplication::applicationName());
 
     /* options */
-    m_options.insert( "callback",
-                      Option("", "text", ui->lineEditScript) );
     m_options.insert( "formats",
                       Option("text/plain text/html image/bmp image/x-inkscape-svg-compressed",
                              "text", ui->lineEditFormats) );
