@@ -82,6 +82,8 @@ class MainWindow : public QMainWindow
                          int msec = 8000);
         void showError(const QString &msg);
         // show/hide window
+        void showWindow();
+        void hideWindow();
         void toggleVisible();
         // clear search & unselect items
         void resetStatus();

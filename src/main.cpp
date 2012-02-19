@@ -30,10 +30,12 @@
 static void usage()
 {
     std::cout << QObject::tr(
-"usage: copyq [command]\n"
+"usage: copyq [COMMAND]\n"
 "Starts server if no command is specified.\n"
-"  commands:\n"
-"    toggle  show/hide main window\n"
+"  COMMANDs:\n"
+"    show    show main window\n"
+"    hide    hide main window\n"
+"    toggle  show or hide main window\n"
 "    menu    open context menu\n"
 "    exit    exit server\n"
 "\n"
@@ -55,8 +57,8 @@ static void usage()
 "    edit [row=0] ...\n"
 "      edit clipboard item\n"
 "\n"
-"    read [mime_type=\"text/plain\"|row=0] ...\n"
-"      print raw data\n"
+"    read [mime_type=\"text/plain\"|row] ...\n"
+"      print raw data of clipboard or item in row\n"
 "      use ? for mime_type to print mime types\n"
 "    write mime_type data ...\n"
 "      write raw data to clipboard\n"

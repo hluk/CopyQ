@@ -362,35 +362,47 @@ void MainWindow::loadSettings()
     log( tr("Configuration loaded") );
 }
 
-void MainWindow::toggleVisible()
+void MainWindow::showWindow()
 {
     ClipboardBrowser *c = browser();
 
-    if ( isVisible() ) {
-        if ( actionDialog && !actionDialog->isHidden() ) {
-            actionDialog->close();
-        }
-        if ( aboutDialog && !aboutDialog->isHidden() ) {
-            aboutDialog->close();
-        }
-        // if only the first item is selected then select none
-        // (next time the window is shown the first item will be selected)
-        if ( c->selectionModel()->selectedIndexes().size() == 1 &&
-             c->currentIndex().row() == 0 )
-            c->setCurrentIndex( QModelIndex() );
-        close();
-    } else {
-        // FIXME: bypass focus prevention
-        showNormal();
-        raise();
-        activateWindow();
-        QApplication::setActiveWindow(this);
+    // FIXME: bypass focus prevention
+    showNormal();
+    raise();
+    activateWindow();
+    QApplication::setActiveWindow(this);
 
-        // if no item is selected then select first
-        if( c->selectionModel()->selectedIndexes().size() <= 1 &&
-                c->currentIndex().row() <= 0 ) {
-            c->setCurrent(0);
-        }
+    // if no item is selected then select first
+    if( c->selectionModel()->selectedIndexes().size() <= 1 &&
+            c->currentIndex().row() <= 0 ) {
+        c->setCurrent(0);
+    }
+}
+
+void MainWindow::hideWindow()
+{
+    ClipboardBrowser *c = browser();
+
+    if ( actionDialog && !actionDialog->isHidden() ) {
+        actionDialog->close();
+    }
+    if ( aboutDialog && !aboutDialog->isHidden() ) {
+        aboutDialog->close();
+    }
+    // if only the first item is selected then select none
+    // (next time the window is shown the first item will be selected)
+    if ( c->selectionModel()->selectedIndexes().size() == 1 &&
+         c->currentIndex().row() == 0 )
+        c->setCurrentIndex( QModelIndex() );
+    close();
+}
+
+void MainWindow::toggleVisible()
+{
+    if ( isVisible() && QApplication::focusWidget()  ) {
+        hideWindow();
+    } else {
+        showWindow();
     }
 }
 

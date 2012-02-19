@@ -238,7 +238,17 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     int row;
 
     // show/hide main window
-    if (cmd == "toggle") {
+    if (cmd == "show") {
+        if ( !args.atEnd() )
+            return false;
+        m_wnd->showWindow();
+    }
+    else if (cmd == "hide") {
+        if ( !args.atEnd() )
+            return false;
+        m_wnd->hideWindow();
+    }
+    else if (cmd == "toggle") {
         if ( !args.atEnd() )
             return false;
         m_wnd->toggleVisible();
@@ -378,7 +388,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         }
     }
 
-    // read [mime="text/plain"|row=0] ...
+    // read [mime="text/plain"|row] ...
     else if (cmd == "read") {
         mime = QString("text/plain");
 
@@ -390,9 +400,13 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
                 if ( args.error() ) {
                     args.back();
                     args >> mime;
-                    args >> 0 >> row;
+                    args >> -1 >> row;
                 }
-                const QMimeData *data = c->itemData(row);
+
+                const QMimeData *data = (row >= 0) ?
+                            c->itemData(row) :
+                            QApplication::clipboard()->mimeData();
+
                 if (data) {
                     if (mime == "?")
                         response->append( data->formats().join(" ")+'\n' );
