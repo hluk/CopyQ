@@ -6,6 +6,13 @@
 #include <cstdio>
 #include <QLocalSocket>
 
+#ifdef Q_WS_X11
+#include <X11/Xlib.h>
+#include <X11/keysym.h>
+#elif defined Q_WS_WIN
+#include <windows.h>
+#endif
+
 // msleep function (portable)
 class Sleeper : public QThread
 {
@@ -118,4 +125,33 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
         }
     }
     return newdata;
+}
+
+void raiseWindow(WId wid)
+{
+#ifdef Q_WS_X11
+    Display *dsp = XOpenDisplay(NULL);
+    if (dsp) {
+        XEvent e;
+        e.xclient.type = ClientMessage;
+        e.xclient.message_type = XInternAtom(dsp, "_NET_ACTIVE_WINDOW", False);
+        e.xclient.display = dsp;
+        e.xclient.window = wid;
+        e.xclient.format = 32;
+        e.xclient.data.l[0] = 1;
+        e.xclient.data.l[1] = CurrentTime;
+        e.xclient.data.l[2] = 0;
+        e.xclient.data.l[3] = 0;
+        e.xclient.data.l[4] = 0;
+        XSendEvent(dsp, DefaultRootWindow(dsp),
+                   false, SubstructureNotifyMask | SubstructureRedirectMask, &e);
+        XRaiseWindow(dsp, wid);
+        XSetInputFocus(dsp, wid, RevertToPointerRoot, CurrentTime);
+        XCloseDisplay(dsp);
+    }
+#elif defined Q_WS_WIN
+    SetForegroundWindow(wid);
+    SetWindowPos(wid, HWND_TOP, 0, 0, 0, 0,
+                 SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+#endif // TODO: focus window on Mac
 }

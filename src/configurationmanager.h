@@ -101,6 +101,8 @@ private:
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);
 
+    void getKey(QPushButton *button);
+
 private slots:
     void on_pushButtonDown_clicked();
     void on_pushButtonUp_clicked();
@@ -110,6 +112,8 @@ private slots:
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
     void onFinished(int result);
+    void on_pushButton_clicked();
+    void on_pushButton_2_clicked();
 };
 
 #endif // CONFIGURATIONMANAGER_H

@@ -45,8 +45,14 @@ void ClipboardClient::readyRead()
     i = sizeof(exit_code);
 
     len = msg.length();
-    if (len > i)
-        std::cout.write( msg.constData()+i, len-i );
+    if (len > i) {
+        if (m_args.length() > 0 && m_args.at(0) == "toggle") {
+            WId wid = (WId)(QString(msg.constData()+i).toLongLong());
+            raiseWindow(wid);
+        } else {
+            std::cout.write( msg.constData()+i, len-i );
+        }
+    }
 
     exit(exit_code);
 }

@@ -105,7 +105,6 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    //showMinimized();
     hide();
     resetStatus();
     event->ignore();
@@ -364,19 +363,30 @@ void MainWindow::loadSettings()
 
 void MainWindow::showWindow()
 {
-    ClipboardBrowser *c = browser();
+    if ( isVisible() ) {
+        if ( QApplication::focusWidget() )
+            return;
 
-    // FIXME: bypass focus prevention
+        /* close the main window first so it can popup on current workspace */
+        close();
+        /* process pending events to ensure that the window will be opened at
+           correct position */
+        QApplication::processEvents();
+    }
+
     showNormal();
     raise();
     activateWindow();
-    QApplication::setActiveWindow(this);
 
     // if no item is selected then select first
+    ClipboardBrowser *c = browser();
     if( c->selectionModel()->selectedIndexes().size() <= 1 &&
             c->currentIndex().row() <= 0 ) {
         c->setCurrent(0);
     }
+
+    QApplication::processEvents();
+    raiseWindow(winId());
 }
 
 void MainWindow::hideWindow()
@@ -399,7 +409,8 @@ void MainWindow::hideWindow()
 
 void MainWindow::toggleVisible()
 {
-    if ( isVisible() && QApplication::focusWidget()  ) {
+    // FIXME: focus window if not focused
+    if ( isVisible() ) {
         hideWindow();
     } else {
         showWindow();

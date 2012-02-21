@@ -36,6 +36,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
+    loadSettings();
+
     // run clipboard monitor
     startMonitoring();
 }
@@ -163,6 +165,7 @@ void ClipboardServer::newConnection()
     if ( !doCommand(args, &client_msg) ) {
         sendMessage( client, tr("Bad command syntax. Use -h for help.\n"), 2 );
     } else {
+        QApplication::processEvents();
         sendMessage(client, client_msg);
     }
 
@@ -242,6 +245,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         if ( !args.atEnd() )
             return false;
         m_wnd->showWindow();
+        response->append(QString::number((qlonglong)m_wnd->winId()));
     }
     else if (cmd == "hide") {
         if ( !args.atEnd() )
@@ -251,7 +255,12 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     else if (cmd == "toggle") {
         if ( !args.atEnd() )
             return false;
-        m_wnd->toggleVisible();
+        if ( m_wnd->isVisible() ) {
+            m_wnd->hideWindow();
+        } else {
+            m_wnd->showWindow();
+            response->append(QString::number((qlonglong)m_wnd->winId()));
+        }
     }
 
     // exit server
@@ -443,11 +452,53 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     return true;
 }
 
+Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
+{
+    if (shortcut == tr("(No Shortcut)") || shortcut.isEmpty())
+        return NULL;
+
+    QKeySequence keyseq(shortcut, QKeySequence::NativeText);
+    QxtGlobalShortcut *s = new QxtGlobalShortcut(keyseq, this);
+    connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
+             this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
+
+    return &m_shortcutActions[s];
+}
+
 void ClipboardServer::loadSettings()
 {
+    ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+
+    // set global shortcuts
+    QString key;
+    QKeySequence keyseq;
+    QxtGlobalShortcut *shortcut;
+    Arguments *args;
+
+    foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
+        s->deleteLater();
+    m_shortcutActions.clear();
+
+    key = cm->value("toggle_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("toggle");
+
+    key = cm->value("menu_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("menu");
+
     // restart clipboard monitor to reload its configuration
     if ( isMonitoring() ) {
         stopMonitoring();
         startMonitoring();
     }
+}
+
+void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
+{
+    Arguments args = m_shortcutActions[shortcut];
+    QByteArray response;
+    doCommand(args, &response);
 }

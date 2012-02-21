@@ -9,7 +9,8 @@ FORMS += mainwindow.ui \
     aboutdialog.ui \
     configurationmanager.ui \
     clipboarddialog.ui \
-    tabdialog.ui
+    tabdialog.ui \
+    shortcutdialog.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     qeditor.h \
@@ -27,7 +28,8 @@ HEADERS += mainwindow.h \
     app.h \
     arguments.h \
     clipboarddialog.h \
-    tabdialog.h
+    tabdialog.h \
+    shortcutdialog.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -46,8 +48,31 @@ SOURCES += main.cpp \
     app.cpp \
     arguments.cpp \
     clipboarddialog.cpp \
-    tabdialog.cpp
-QT += xml network
-unix:LIBS += -lX11 -lXfixes
-win32:CONFIG += static
+    tabdialog.cpp \
+    shortcutdialog.cpp
+
+QT += core gui xml network
+
+DEFINES += BUILD_QXT_GUI
+
+HEADERS  += ../qxt/qxtglobal.h
+SOURCES  += ../qxt/qxtglobal.cpp
+
+HEADERS  += ../qxt/qxtglobalshortcut.h
+HEADERS  += ../qxt/qxtglobalshortcut_p.h
+SOURCES  += ../qxt/qxtglobalshortcut.cpp
+
+unix:!macx {
+    SOURCES += ../qxt/qxtglobalshortcut_x11.cpp
+    LIBS    += -lX11 -lXfixes
+}
+macx {
+    SOURCES += ../qxt/qxtglobalshortcut_mac.cpp
+    LIBS    += -framework Carbon
+}
+win32 {
+    SOURCES += ../qxt/qxtglobalshortcut_win.cpp
+    CONFIG  += static
+    LIBS    += -luser32
+}
 

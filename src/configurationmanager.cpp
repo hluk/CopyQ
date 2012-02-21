@@ -1,6 +1,7 @@
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
 #include "clipboardmodel.h"
+#include "shortcutdialog.h"
 #include <QFile>
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
@@ -100,6 +101,10 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                       Option(true, "checked", ui->checkBoxConfirmExit) );
     m_options.insert( "tabs",
                       Option(QStringList()) );
+    m_options.insert( "toggle_shortcut",
+                      Option("(No Shortcut)", "text", ui->pushButton));
+    m_options.insert( "menu_shortcut",
+                      Option("(No Shortcut)", "text", ui->pushButton_2));
 
     m_datfilename = settings.fileName();
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
@@ -528,4 +533,28 @@ void ConfigurationManager::on_pushButtonDown_clicked()
                                              QItemSelectionModel::Select );
         }
     }
+}
+
+void ConfigurationManager::getKey(QPushButton *button)
+{
+    ShortcutDialog *dialog = new ShortcutDialog(this);
+    if (dialog->exec() == QDialog::Accepted) {
+        QKeySequence shortcut = dialog->shortcut();
+        QString text;
+        if (shortcut.isEmpty())
+            text = tr("(No Shortcut)");
+        else
+            text = shortcut.toString(QKeySequence::NativeText);
+        button->setText(text);
+    }
+}
+
+void ConfigurationManager::on_pushButton_clicked()
+{
+    getKey(ui->pushButton);
+}
+
+void ConfigurationManager::on_pushButton_2_clicked()
+{
+    getKey(ui->pushButton_2);
 }

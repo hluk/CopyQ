@@ -5,7 +5,7 @@
 #include <QMimeData>
 #include <QStringList>
 #include <QByteArray>
-
+#include <QWidget>
 #include <QLocalServer>
 
 enum LogLevel {
@@ -21,5 +21,6 @@ void writeMessage(QIODevice *socket, const QByteArray &msg);
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
+void raiseWindow(WId wid);
 
 #endif // CLIENT_SERVER_H

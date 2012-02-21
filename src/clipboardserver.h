@@ -5,6 +5,7 @@
 #include <QLocalServer>
 #include <QProcess>
 #include "client_server.h"
+#include "../qxt/qxtglobalshortcut.h"
 
 class MainWindow;
 class ClipboardItem;
@@ -33,12 +34,15 @@ public:
     static QString serverName() { return ::serverName("CopyQserver"); }
     static QString monitorServerName() { return ::serverName("CopyQmonitor_server"); }
 
+    Arguments *createGlobalShortcut(const QString &shortcut);
+
 private:
     QLocalServer *m_server;
     QLocalServer *m_monitorserver;
     QLocalSocket *m_socket;
     MainWindow* m_wnd;
     QProcess *m_monitor;
+    QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
 
 public slots:
     void changeClipboard(const ClipboardItem *item);
@@ -50,6 +54,7 @@ private slots:
     void readyRead();
     void monitorStateChanged( QProcess::ProcessState newState );
     void monitorStandardError();
+    void shortcutActivated(QxtGlobalShortcut *shortcut);
 
 };
 
