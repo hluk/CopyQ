@@ -58,9 +58,7 @@ public slots:
     void checkClipboard(QClipboard::Mode mode);
 
 private slots:
-#ifdef Q_WS_X11
     bool updateSelection(bool check_clipboard=true);
-#endif
     void updateTimeout();
     void readyRead();
 };

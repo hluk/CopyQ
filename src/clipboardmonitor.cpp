@@ -168,6 +168,11 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         }
     }
 }
+
+bool ClipboardMonitor::updateSelection(bool check_clipboard)
+{
+    return true;
+}
 #endif
 
 void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
