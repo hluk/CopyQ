@@ -471,8 +471,6 @@ void ClipboardServer::loadSettings()
 
     // set global shortcuts
     QString key;
-    QKeySequence keyseq;
-    QxtGlobalShortcut *shortcut;
     Arguments *args;
 
     foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())

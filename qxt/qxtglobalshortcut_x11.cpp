@@ -109,6 +109,8 @@ bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativ
     original_x_errhandler = XSetErrorHandler(qxt_x_errhandler);
     XGrabKey(display, nativeKey, nativeMods, window, owner, pointer, keyboard);
     XGrabKey(display, nativeKey, nativeMods | Mod2Mask, window, owner, pointer, keyboard); // allow numlock
+    XGrabKey(display, nativeKey, nativeMods | LockMask, window, owner, pointer, keyboard);
+    XGrabKey(display, nativeKey, nativeMods | Mod2Mask | LockMask, window, owner, pointer, keyboard);
     XSync(display, False);
     XSetErrorHandler(original_x_errhandler);
     return !error;
@@ -124,6 +126,8 @@ bool QxtGlobalShortcutPrivate::unregisterShortcut(quint32 nativeKey, quint32 nat
     original_x_errhandler = XSetErrorHandler(qxt_x_errhandler);
     XUngrabKey(display, nativeKey, nativeMods, window);
     XUngrabKey(display, nativeKey, nativeMods | Mod2Mask, window); // allow numlock
+    XUngrabKey(display, nativeKey, nativeMods | LockMask, window);
+    XUngrabKey(display, nativeKey, nativeMods | Mod2Mask | LockMask, window);
     XSync(display, False);
     XSetErrorHandler(original_x_errhandler);
     return !error;

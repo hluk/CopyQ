@@ -74,5 +74,6 @@ win32 {
     SOURCES += ../qxt/qxtglobalshortcut_win.cpp
     CONFIG  += static
     LIBS    += -luser32
+    RC_FILE  = copyq.rc
 }
 
