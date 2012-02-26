@@ -72,8 +72,7 @@ macx {
 }
 win32 {
     SOURCES += ../qxt/qxtglobalshortcut_win.cpp
-    CONFIG  += static
+    CONFIG  += static console
     LIBS    += -luser32
     RC_FILE  = copyq.rc
 }
-

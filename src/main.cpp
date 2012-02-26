@@ -27,6 +27,10 @@
 #include <QSettings>
 #include <iostream>
 
+#ifdef Q_WS_WIN
+#include <windows.h>
+#endif
+
 static void usage()
 {
     std::cout << QObject::tr(
@@ -77,6 +81,10 @@ static void usage()
 
 static int startServer(int argc, char *argv[])
 {
+#ifdef Q_WS_WIN
+    // FIXME: console window is still shown for a moment
+    FreeConsole();
+#endif
     ClipboardServer app(argc, argv);
     if ( app.isListening() ) {
         return app.exec();
