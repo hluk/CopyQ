@@ -34,6 +34,7 @@
 static void usage()
 {
     std::cout << QObject::tr(
+"CopyQ Clipboard Manager v1.0.2 (hluk@email.cz)\n\n"
 "usage: copyq [COMMAND]\n"
 "Starts server if no command is specified.\n"
 "  COMMANDs:\n"
@@ -75,7 +76,7 @@ static void usage()
 "      apply command on item text in the row\n"
 "\n"
 "    help, -h, --help\n"
-"      print this help\n",
+"      print this help\n\n",
 "command line help").toLocal8Bit().constData();
 }
 
