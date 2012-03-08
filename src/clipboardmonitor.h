@@ -17,7 +17,6 @@ class ClipboardMonitor : public App
 
 public:
     explicit ClipboardMonitor(int &argc, char **argv);
-    ~ClipboardMonitor();
 
     bool isConnected()
     {
@@ -28,7 +27,7 @@ public:
 
     void setFormats(const QString &list);
 
-    void updateClipboard(const QMimeData &data, bool force = false);
+    void updateClipboard(QMimeData *data, bool force = false);
     uint hash(const QMimeData &data);
 
     void setCheckClipboard(bool enable) {m_checkclip = enable;}
@@ -41,12 +40,8 @@ private:
     QMimeData *m_newdata;
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;
-    uint m_lastClipboard;
-#ifdef Q_WS_X11
-    uint m_lastSelection;
-    Display *m_dsp;
     QTimer m_timer;
-#endif
+    uint m_lastHash;
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
@@ -58,7 +53,7 @@ public slots:
     void checkClipboard(QClipboard::Mode mode);
 
 private slots:
-    bool updateSelection(bool check_clipboard=true);
+    bool updateSelection(bool check = true);
     void updateTimeout();
     void readyRead();
 };
