@@ -1,2 +1,5 @@
-[ ] Move/copy item to another tab
+[ ] Create/Move/copy item in/to another tab
+    * with command line and copyq commands
 [ ] Lex and parse command line arguments
+[ ] Commands (and automatic commands) can issue copyq commands
+

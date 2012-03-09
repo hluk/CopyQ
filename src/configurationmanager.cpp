@@ -73,16 +73,13 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                        QCoreApplication::applicationName());
 
     /* options */
-    m_options.insert( "formats",
-                      Option("text/plain text/html image/bmp image/x-inkscape-svg-compressed",
-                             "text", ui->lineEditFormats) );
     m_options.insert( "maxitems",
                       Option(200, "value", ui->spinBoxItems) );
     m_options.insert( "tray_items",
                       Option(5, "value", ui->spinBoxTrayItems) );
-    m_options.insert( "priority",
-                      Option("image/bmp image/x-inkscape-svg-compressed text/plain text/html",
-                             "text", ui->lineEditPriority) );
+    m_options.insert( "formats",
+                      Option("image/x-inkscape-svg-compressed\nimage/bmp\ntext/html\ntext/plain",
+                             "plainText", ui->plainTextEditFormats) );
     // TODO: get default editor from environment variable EDITOR
     m_options.insert( "editor",
                       Option(DEFAULT_EDITOR, "text", ui->lineEditEditor) );
@@ -233,7 +230,8 @@ void ConfigurationManager::loadSettings()
                 column->text() == tr("Input") ||
                 column->text() == tr("Output") ||
                 column->text() == tr("Wait") ||
-                column->text() == tr("Automatic") ) {
+                column->text() == tr("Automatic") ||
+                column->text() == tr("Ignore") ) {
                 item->setCheckState(value.toBool() ? Qt::Checked : Qt::Unchecked);
             } else {
                 if ( value.type() == QVariant::String )
@@ -286,6 +284,8 @@ ConfigurationManager::Commands ConfigurationManager::commands() const
                 cmd.wait = item->checkState() == Qt::Checked;
             } else if ( column->text() == tr("Automatic") ) {
                 cmd.automatic = item->checkState() == Qt::Checked;
+            } else if ( column->text() == tr("Ignore") ) {
+                cmd.ignore = item->checkState() == Qt::Checked;
             } else if ( column->text() == tr("Icon") ) {
                 cmd.icon.addFile( item->text() );
             } else if ( column->text() == tr("Shortcut") ) {
@@ -408,6 +408,8 @@ void ConfigurationManager::addCommand(const QString &name, const Command *cmd, b
             item->setText(cmd->shortcut);
         } else if ( column->text() == tr("Automatic") ) {
             item->setCheckState(cmd->automatic ? Qt::Checked : Qt::Unchecked);
+        } else if ( column->text() == tr("Ignore") ) {
+            item->setCheckState(cmd->ignore ? Qt::Checked : Qt::Unchecked);
         }
         item->setToolTip( column->toolTip() );
         table->setItem(row, col, item);
@@ -429,7 +431,7 @@ void ConfigurationManager::apply()
 void ConfigurationManager::on_pushButtoAdd_clicked()
 {
     Command cmd;
-    cmd.input = cmd.output = cmd.wait = cmd.automatic = false;
+    cmd.input = cmd.output = cmd.wait = cmd.automatic = cmd.ignore = false;
     cmd.sep = QString('\n');
     addCommand(QString(), &cmd);
 

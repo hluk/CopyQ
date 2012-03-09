@@ -24,7 +24,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
     }
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    setFormats( cm->value("priority").toString() );
+    setFormats( cm->value("formats").toString() );
     setCheckClipboard( cm->value("check_clipboard").toBool() );
 
 #ifdef Q_WS_X11
@@ -126,7 +126,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // are data valid?
     if ( data->formats().isEmpty() ||
-         (data->hasText() && data->text().isEmpty()) )
+         (data->hasText() && QRegExp("\\s*").exactMatch(data->text())) )
         return;
 
     // same data as last time?

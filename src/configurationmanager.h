@@ -32,6 +32,7 @@ public:
         bool output;
         bool wait;
         bool automatic;
+        bool ignore;
         QIcon icon;
         QString shortcut;
     };

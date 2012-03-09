@@ -87,7 +87,6 @@ class ClipboardBrowser : public QListView
 
         QMenu *m_menu;
         ConfigurationManager::Commands commands;
-        QVector<const ConfigurationManager::Command*> auto_commands;
 
         void createContextMenu();
 

@@ -436,6 +436,21 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
         }
     }
 
+    // commands
+    bool ignore;
+    foreach(const ConfigurationManager::Command &command, commands) {
+        if (command.automatic || command.ignore) {
+            if (command.re.indexIn(data->text()) != -1) {
+                if (command.automatic)
+                    emit requestActionDialog(this, 0, &command);
+                if (command.ignore)
+                    ignore = true;
+            }
+        }
+    }
+    if (ignore)
+        return false;
+
     // create new item
     m->insertRow(0);
     QModelIndex ind = index(0);
@@ -461,12 +476,6 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     // save history after 2 minutes
     saveItems(120000);
 
-    // automatic action
-    foreach(const ConfigurationManager::Command *command, auto_commands) {
-        if (command->re.indexIn(data->text()) != -1)
-            emit requestActionDialog(this, 0, command);
-    }
-
     return true;
 }
 
@@ -491,15 +500,10 @@ void ClipboardBrowser::loadSettings()
 
     m_maxitems = cm->value("maxitems").toInt();
     m->setMaxItems(m_maxitems);
-    m->setFormats( cm->value("priority").toString() );
+    m->setFormats( cm->value("formats").toString() );
 
     // commands
     commands = cm->commands();
-    auto_commands.clear();
-    foreach(const ConfigurationManager::Command &command, commands) {
-        if (command.automatic)
-            auto_commands.append(&command);
-    }
 
     update();
 }

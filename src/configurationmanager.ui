@@ -26,32 +26,11 @@
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="title">
-         <string>&amp;Clipboard</string>
+         <string>C&amp;lipboard</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="1" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Save &amp;formats:</string>
-               </property>
-               <property name="buddy">
-                <cstring>lineEditFormats</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEditFormats">
-               <property name="text">
-                <string>text/plain text/html image/bmp image/x-inkscape-svg-compressed</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
+          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="sizePolicy">
@@ -74,6 +53,9 @@
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
                  <widget class="QCheckBox" name="checkBoxClip">
+                  <property name="toolTip">
+                   <string>Save clipboard in history</string>
+                  </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; history (&amp;1)</string>
                   </property>
@@ -84,6 +66,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopyClip">
+                  <property name="toolTip">
+                   <string>If clipboard changes store its content in the primary selection</string>
+                  </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; selection (&amp;2)</string>
                   </property>
@@ -94,6 +79,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxSel">
+                  <property name="toolTip">
+                   <string>Save primary selection in history</string>
+                  </property>
                   <property name="text">
                    <string>selection &gt;&gt; history (&amp;3)</string>
                   </property>
@@ -104,6 +92,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopySel">
+                  <property name="toolTip">
+                   <string>If primary selection changes store its content in the clipboard</string>
+                  </property>
                   <property name="text">
                    <string>selection &gt;&gt; clipboard (&amp;4)</string>
                   </property>
@@ -197,27 +188,6 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
-             <item>
-              <widget class="QLabel" name="label_5">
-               <property name="text">
-                <string>&amp;Format display priority:</string>
-               </property>
-               <property name="buddy">
-                <cstring>lineEditPriority</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEditPriority">
-               <property name="text">
-                <string>image/bmp image/x-inkscape-svg-compressed text/plain text/html</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
               <widget class="QLabel" name="label_6">
@@ -239,17 +209,24 @@
             </layout>
            </item>
            <item>
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <property name="bottomMargin">
+              <number>0</number>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>&amp;Format display priority:</string>
+               </property>
+               <property name="buddy">
+                <cstring>plainTextEditFormats</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="plainTextEditFormats"/>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -350,6 +327,14 @@
               </property>
               <property name="toolTip">
                <string>Run command on new clipboard items</string>
+              </property>
+             </column>
+             <column>
+              <property name="text">
+               <string>Ignore</string>
+              </property>
+              <property name="toolTip">
+               <string>Don't store in history</string>
               </property>
              </column>
             </widget>
@@ -652,12 +637,10 @@ QListView::item:hover {
  <tabstops>
   <tabstop>buttonBox</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>lineEditFormats</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
-  <tabstop>lineEditPriority</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
