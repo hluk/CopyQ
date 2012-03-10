@@ -110,21 +110,10 @@ class MainWindow : public QMainWindow
         void openPreferences();
 
         /**
-         Execute command on an item.
-         \param row Row number or -1 for selected items.
-         \param cmd Command string (all occurrencies of '%s' will be replaced
-                with text of item on given row or concatenated text of
-                selected items).
-         \param input Text of item on given row or concatenated text of
-                selected items is send on standard input of the command.
-         \param output If true the command output will be saved into new
-                items.
-         \param sep String using which the output is separated to new items
-                (ignored if output parameter is false).
-         \param wait If true the action dialog with the command is shown,
-                otherwise the command is executed immediately.
+         Execute command on input text.
          */
-        void action(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd = NULL);
+        void action(const QString &text,
+                    const ConfigurationManager::Command *cmd = NULL);
 
         void newTab();
         void removeTab();

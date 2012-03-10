@@ -83,9 +83,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     // TODO: get default editor from environment variable EDITOR
     m_options.insert( "editor",
                       Option(DEFAULT_EDITOR, "text", ui->lineEditEditor) );
-    m_options.insert( "format",
-                      Option("<span id=\"item\">%1</span>",
-                             "plainText", ui->plainTextEdit_html) );
     m_options.insert( "check_selection",
                       Option(true, "checked", ui->checkBoxClip) );
     m_options.insert( "check_clipboard",
@@ -257,7 +254,6 @@ ConfigurationManager::Commands ConfigurationManager::commands() const
 
     for (int row=0; row < rows; ++row) {
         Command cmd;
-        QString name;
         bool enabled = true;
         for (int col=0; col < columns; ++col) {
             QTableWidgetItem *column = table->horizontalHeaderItem(col);
@@ -269,7 +265,7 @@ ConfigurationManager::Commands ConfigurationManager::commands() const
                     break;
                 }
             } else if ( column->text() == tr("Name") ) {
-                name = item->text();
+                cmd.name = item->text();
             } else if ( column->text() == tr("Command") ) {
                 cmd.cmd = item->text();
             } else if ( column->text() == tr("Input") ) {
@@ -287,13 +283,13 @@ ConfigurationManager::Commands ConfigurationManager::commands() const
             } else if ( column->text() == tr("Ignore") ) {
                 cmd.ignore = item->checkState() == Qt::Checked;
             } else if ( column->text() == tr("Icon") ) {
-                cmd.icon.addFile( item->text() );
+                cmd.icon = QIcon( item->text() );
             } else if ( column->text() == tr("Shortcut") ) {
                 cmd.shortcut = item->text();
             }
         }
         if (enabled) {
-            cmds[name] = cmd;
+            cmds.push_back(cmd);
         }
     }
 
@@ -326,7 +322,8 @@ void ConfigurationManager::saveSettings()
                  column->text() == tr("Input") ||
                  column->text() == tr("Output") ||
                  column->text() == tr("Wait") ||
-                 column->text() == tr("Automatic") ) {
+                 column->text() == tr("Automatic") ||
+                 column->text() == tr("Ignore") ) {
                 settings.setValue( column->text(), item->checkState() == Qt::Checked );
             } else {
                 settings.setValue( column->text(), item->text() );
@@ -403,7 +400,8 @@ void ConfigurationManager::addCommand(const QString &name, const Command *cmd, b
         } else if ( column->text() == tr("Wait") ) {
             item->setCheckState(cmd->wait ? Qt::Checked : Qt::Unchecked);
         } else if ( column->text() == tr("Icon") ) {
-            item->setText( cmd->icon.name() );
+            //item->setText( cmd->icon.name() );
+            item->setIcon(cmd->icon);
         } else if ( column->text() == tr("Shortcut") ) {
             item->setText(cmd->shortcut);
         } else if ( column->text() == tr("Automatic") ) {

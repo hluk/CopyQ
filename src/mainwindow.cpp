@@ -599,16 +599,6 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
 
     ClipboardBrowser *c = new ClipboardBrowser(name, this);
 
-    c->setFrameShadow(QFrame::Sunken);
-    c->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    c->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    c->setTabKeyNavigation(false);
-    c->setAlternatingRowColors(true);
-    c->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    c->setWrapping(false);
-    c->setLayoutMode(QListView::SinglePass);
-    c->setEditTriggers(QAbstractItemView::EditKeyPressed);
-    c->setSpacing(5);
     c->loadSettings();
     c->loadItems();
     c->setAutoUpdate(true);
@@ -617,8 +607,8 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
     connect( c, SIGNAL(requestSearch(QString)),
              this, SLOT(enterSearchMode(QString)) );
-    connect( c, SIGNAL(requestActionDialog(ClipboardBrowser*, int, const ConfigurationManager::Command*)),
-             this, SLOT(action(ClipboardBrowser*, int, const ConfigurationManager::Command*)) );
+    connect( c, SIGNAL(requestActionDialog(QString, const ConfigurationManager::Command*)),
+             this, SLOT(action(QString,const ConfigurationManager::Command*)) );
     connect( c, SIGNAL(hideSearch()),
              this, SLOT(enterBrowseMode()) );
     connect( c, SIGNAL(requestShow()),
@@ -648,11 +638,12 @@ void MainWindow::pasteItem()
         c->add( cloneData(*data) );
 }
 
-void MainWindow::action(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd)
+void MainWindow::action(const QString &text,
+                        const ConfigurationManager::Command *cmd)
 {
     createActionDialog();
 
-    actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
+    actionDialog->setInputText(text);
     if (cmd) {
         actionDialog->setCommand(cmd->cmd);
         actionDialog->setSeparator(cmd->sep);

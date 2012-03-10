@@ -35,22 +35,10 @@ public:
     ClipboardItem(const ClipboardModel *parent=NULL);
     ~ClipboardItem();
 
-    // flags
-    enum Option {
-        NoOptions = 0x0,
-        Filtered = 0x1
-    };
-    Q_DECLARE_FLAGS(Options, Option)
-
     QString text() const;
 
     // highlight matched text
     QString highlightedHtml() const;
-
-    /* return visual representation of the item (cached - can be recreated):
-     *   HTML code (QString), image 1 (QImage), image 2 (QImage) ...
-     */
-    const QVariant toHtml() const;
 
     void clear();
 
@@ -65,25 +53,17 @@ public:
     const QString &format() const { return m_mimeType; }
     void setPreferredFormat();
 
-    bool isFiltered() const { return options.testFlag(Filtered); }
-    void setFiltered(bool enable=true) {
-        if (enable)
-            options |= Filtered;
-        else
-            options &= ~Filtered;
-    }
+    bool isFiltered() const { return m_filtered; }
+    void setFiltered(bool filtered) { m_filtered = filtered; }
 
     void setDefault(const QString & mimeType) { m_mimeType = mimeType; }
 
 private:
     const ClipboardModel *m_parent;
-    Options options;
     QMimeData *m_data;
     QString m_mimeType;
+    bool m_filtered;
 };
-
-// ClipboardItem flags
-Q_DECLARE_OPERATORS_FOR_FLAGS(ClipboardItem::Options)
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item);
 QDataStream &operator>>(QDataStream &stream, ClipboardItem &item);

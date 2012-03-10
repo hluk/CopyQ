@@ -23,46 +23,46 @@
 #include <QMetaProperty>
 #include <QPlainTextEdit>
 #include <QUrl>
-#include <QTextDocument>
 #include "client_server.h"
+#include <assert.h>
 
-ItemDelegate::ItemDelegate(QWidget *parent) : QStyledItemDelegate(parent),
+static const int max_html_chars = 10000;
+
+ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
     m_parent(parent)
 {
-    m_lbl.setObjectName("itemNumber");
+    timer_changeSize.setInterval(0);
+    timer_changeSize.setSingleShot(true);
+    connect( &timer_changeSize, SIGNAL(timeout()),
+             this, SLOT(changeSize()) );
 }
 
 ItemDelegate::~ItemDelegate()
 {
-    foreach(QTextDocument *doc, m_cache) {
-        delete doc;
-    }
+    for( int i = 0; i < m_cache.size(); ++i )
+        removeCache(i);
 }
 
 void ItemDelegate::setStyleSheet(const QString &css)
 {
     m_css = css;
-    foreach(QTextDocument *doc, m_cache) {
-        if (doc)
-            doc->setDefaultStyleSheet(css);
-    }
-    m_lbl.setStyleSheet(css);
-    invalidateCache();
+    for( int i = 0; i < m_cache.size(); ++i )
+        removeCache(i);
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &index) const
 {
-    QSize size;
-
     int row = index.row();
     if ( row >= m_cache.size() ) {
         for( int i = m_cache.size(); i <= row; ++i )
             m_cache.insert(i, NULL);
     }
 
-    cache(index, &size);
-
-    return size;
+    QWidget *w = m_cache[row];
+    if (w)
+        return w->size();
+    else
+        return QSize(1,9999);
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -107,23 +107,20 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     return editor;
 }
 
-void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
+void ItemDelegate::setEditorData(QWidget *editor,
+                                 const QModelIndex &index) const
 {
-    QVariant v = index.data(Qt::EditRole);
-    QByteArray n = editor->metaObject()->userProperty().name();
-    if ( !n.isEmpty() ) {
-        if (!v.isValid())
-            v = QVariant(editor->property(n).userType(), (const void *)0);
-        editor->setProperty(n, v);
-        (qobject_cast<QPlainTextEdit*>(editor))->selectAll();
-    }
+    QString text = index.data(Qt::EditRole).toString();
+    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
+    textEdit->setPlainText(text);
+    textEdit->selectAll();
 }
 
-void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                const QModelIndex &index) const
 {
-    QByteArray n = editor->metaObject()->userProperty().name();
-    if (!n.isEmpty())
-        model->setData(index, editor->property(n));
+    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
+    model->setData(index, textEdit->toPlainText());
 }
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
@@ -162,35 +159,61 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
         m_cache.insert( i, NULL );
 }
 
-QTextDocument *ItemDelegate::cache(const QModelIndex &index, QSize *size) const
+QWidget *ItemDelegate::cache(const QModelIndex &index, QSize *size) const
 {
-    QTextDocument *doc;
     int n = index.row();
 
-    doc = m_cache[n];
-    if (!doc) {
-        m_cache[n] = doc = new QTextDocument();
-        doc->setDefaultStyleSheet(m_css);
-        doc->setUndoRedoEnabled(false);
+    QWidget *w = m_cache[n];
+    if (!w) {
+        QVariant displayData = index.data(Qt::DisplayRole);
+        QString html = displayData.toString();
+        if ( !html.isEmpty() ) {
+            // HTML
+            QTextEdit *textEdit = new QTextEdit();
+            QTextDocument *doc = new QTextDocument(textEdit);
+            doc->setDefaultStyleSheet(m_css);
+            w = textEdit;
 
-        // add images
-        QVariantList lst = index.data(Qt::DisplayRole).toList();
-        for(int i=1; i<lst.length(); ++i) {
-            doc->addResource(QTextDocument::ImageResource,
-                             QUrl("data://"+QString::number(i)), lst[i]);
+            // performance: limit number of characters in hmtl
+            if (html.size() > max_html_chars) {
+                QString text = index.data(Qt::EditRole).toString();
+                doc->setPlainText(text);
+            } else {
+                doc->setHtml(html);
+            }
+
+            textEdit->setFrameShape(QFrame::NoFrame);
+            textEdit->setWordWrapMode(QTextOption::NoWrap);
+            textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            textEdit->setDocument(doc);
+            w->resize( doc->idealWidth(), doc->size().height() );
+        } else {
+            QVariant editData = index.data(Qt::EditRole);
+            QLabel *label = new QLabel();
+            w = label;
+
+            label->setTextFormat(Qt::PlainText);
+            label->setMargin(4);
+            label->setWordWrap(false);
+
+            if ( editData.canConvert(QVariant::String) ) {
+                label->setText( editData.toString());
+            } else {
+                label->setPixmap( displayData.value<QPixmap>() );
+            }
+            w->adjustSize();
         }
-
-        // set html
-        doc->setHtml( m_format.arg(lst[0].toString()) );
+        m_cache[n] = w;
+        w->setObjectName("item");
+        w->setStyleSheet(m_css);
     }
 
     // maximum item size
-    if (size) {
-        size->setWidth( doc->idealWidth() );
-        size->setHeight( doc->size().height() );
-    }
+    if (size)
+        *size = w->size();
 
-    return doc;
+    return w;
 }
 
 void ItemDelegate::removeCache(const QModelIndex &index) const
@@ -200,9 +223,9 @@ void ItemDelegate::removeCache(const QModelIndex &index) const
 
 void ItemDelegate::removeCache(int row) const
 {
-    QTextDocument *doc = m_cache[row];
-    if (doc) {
-        delete doc;
+    QWidget *w = m_cache[row];
+    if (w) {
+        w->deleteLater();
         m_cache[row] = NULL;
     }
 }
@@ -217,34 +240,39 @@ void ItemDelegate::invalidateCache() const
     }
 }
 
-void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option, const QModelIndex &index) const
+void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
+                         const QModelIndex &index) const
 {
-    QTextDocument *doc;
+    QWidget *w;
+    const QRect &rect = option.rect;
 
-    QStyleOptionViewItemV4 options(option);
-    initStyleOption(&options, index);
-    options.text = "";
+    w = cache(index);
+    if ( rect.height() != w->height() ) {
+        m_changeSizes.push_back(index);
+        timer_changeSize.start();
+        return;
+    }
 
-    doc = cache(index);
+    QStyle *style = w->style();
+    style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
+    QPalette::ColorRole role = option.state & QStyle::State_Selected ?
+                QPalette::HighlightedText : QPalette::Text;
+    style->drawItemText(painter, rect.translated(4, 4), 0,
+                        option.palette, true, QString::number(index.row()),
+                        role);
 
-    // get focus rect and selection background
-    const QWidget *widget = options.widget;
-    QStyle *style = widget->style();
-
-    QRectF clip( QPoint(0, 0), option.rect.size() );
-    //QRectF text_rect;
-    m_lbl.setText( QString::number(index.row()) );
+    w->setMinimumSize(rect.size());
 
     painter->save();
-    style->drawControl(QStyle::CE_ItemViewItem, &options, painter, widget);
-    painter->translate( option.rect.topLeft() );
-
-    // draw number
-    QSize size = m_lbl.minimumSizeHint();
-    m_lbl.resize(size);
-    m_lbl.render(painter);
-    painter->translate( size.width(), 0 );
-
-    doc->drawContents( painter, clip.adjusted(0, 0, -size.width(), 0) );
+    painter->translate( rect.topLeft() );
+    w->render(painter);
     painter->restore();
+}
+
+void ItemDelegate::changeSize()
+{
+    foreach (const QModelIndex &index, m_changeSizes) {
+        emit sizeHintChanged(index);
+    }
+    m_changeSizes.clear();
 }

@@ -25,6 +25,7 @@ class ConfigurationManager : public QDialog
 
 public:
     struct Command {
+        QString name;
         QRegExp re;
         QString cmd;
         QString sep;
@@ -36,7 +37,7 @@ public:
         QIcon icon;
         QString shortcut;
     };
-    typedef QMap<QString, Command> Commands;
+    typedef QVector<Command> Commands;
 
     ~ConfigurationManager();
 

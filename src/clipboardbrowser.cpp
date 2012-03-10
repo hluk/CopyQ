@@ -29,11 +29,25 @@
 #include "configurationmanager.h"
 #include "client_server.h"
 
+static const int skip_preload = -10;
+static const int max_preload = 10;
+
 ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
-    QListView(parent), m_id(id), m_update(false), m_to_preload(0), m_menu(NULL)
+    QListView(parent), m_id(id), m_update(false), m_to_preload(skip_preload),
+    m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
-    setBatchSize(10);
+    setBatchSize(max_preload);
+    setFrameShadow(QFrame::Sunken);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setTabKeyNavigation(false);
+    setAlternatingRowColors(true);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setWrapping(false);
+    setLayoutMode(QListView::SinglePass);
+    setEditTriggers(QAbstractItemView::EditKeyPressed);
+    setSpacing(5);
 
     timer_save.setSingleShot(true);
     connect( &timer_save, SIGNAL(timeout()),
@@ -75,6 +89,8 @@ ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
 ClipboardBrowser::~ClipboardBrowser()
 {
     emit closeAllEditors();
+    if ( timer_save.isActive() )
+        saveItems();
 }
 
 
@@ -114,10 +130,11 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
             openEditor();
             break;
         case ActionAct:
-            emit requestActionDialog(this, -1);
+            emit requestActionDialog(selectedText());
             break;
         case ActionCustom:
-            emit requestActionDialog(this, -1, &commands[act->text()]);
+            emit requestActionDialog(selectedText(),
+                                     &commands[act->property("cmd").toInt()]);
             break;
         }
     }
@@ -176,16 +193,17 @@ void ClipboardBrowser::updateContextMenu()
     // add custom commands to menu
     if ( !commands.isEmpty() ) {
         m_menu->addSeparator();
-        QStringList keys = commands.keys();
-        for( i=0, len=keys.size(); i<len; ++i ) {
-            const QString &name = keys[i];
-            const ConfigurationManager::Command *command = &commands[name];
-            if ( command->re.indexIn(text) != -1 ) {
-                act = m_menu->addAction(command->icon, name);
+        i = 0;
+        foreach(const ConfigurationManager::Command &command, commands) {
+            if ( !command.cmd.isEmpty() && !command.name.isEmpty() &&
+                 command.re.indexIn(text) != -1 ) {
+                act = m_menu->addAction(command.icon, command.name);
                 act->setData( QVariant(ActionCustom) );
-                if ( !command->shortcut.isEmpty() )
-                    act->setShortcut( command->shortcut );
+                act->setProperty("cmd", i);
+                if ( !command.shortcut.isEmpty() )
+                    act->setShortcut( command.shortcut );
             }
+            ++i;
         }
     }
 }
@@ -200,7 +218,6 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &a,
                                         const QItemSelection &b)
 {
     QListView::selectionChanged(a, b);
-    //updateContextMenu();
 }
 
 void ClipboardBrowser::openEditor()
@@ -283,13 +300,12 @@ void ClipboardBrowser::moveToClipboard(int i)
     m->move(i,0);
     updateClipboard();
     scrollTo( currentIndex() );
-    update();
 }
 
 void ClipboardBrowser::newItem()
 {
     // new text will allocate more space (lines) for editor
-    add( QString(), false );
+    add( QString() );
     selectionModel()->clearSelection();
     setCurrent(0);
     edit( index(0) );
@@ -338,6 +354,14 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
         case Qt::Key_Home:
         case Qt::Key_End:
+            /* If item height is bigger than viewport height
+             * it's possible that wrong item is selected.
+             */
+            if (key == Qt::Key_PageDown)
+                setCurrent(currentIndex().row()+2);
+            else if (key == Qt::Key_PageUp)
+                setCurrent(currentIndex().row()-2);
+
             QListView::keyPressEvent(event);
             break;
 
@@ -362,6 +386,8 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
         if ( (!cycle && (i==0 || i==m->rowCount()-1)) || i == cur)
             break;
     }
+    if ( isRowHidden(i) )
+        return;
 
     QModelIndex ind = index(i);
     if (selection) {
@@ -408,25 +434,20 @@ void ClipboardBrowser::remove()
     }
 }
 
-bool ClipboardBrowser::add(const QString &txt, bool ignore_empty)
+bool ClipboardBrowser::add(const QString &txt)
 {
     QMimeData *data = new QMimeData;
     data->setText(txt);
-    return add(data, ignore_empty);
+    return add(data);
 }
 
-bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
+bool ClipboardBrowser::add(QMimeData *data)
 {
-    QStringList formats = data->formats();
-
-    // ignore empty
-    if ( ignore_empty && (formats.isEmpty() || (data->hasText() && data->text().isEmpty())) ) {
-        delete data;
-        return false;
-    }
+    QString text = data->text();
 
     // don't add if new data is same as first item
     if ( m->rowCount() ) {
+        QStringList formats = data->formats();
         QMimeData *olddata = m->mimeData(0);
         QStringList oldformats = olddata->formats();
         if ( oldformats == formats &&
@@ -437,12 +458,12 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     }
 
     // commands
-    bool ignore;
+    bool ignore = false;
     foreach(const ConfigurationManager::Command &command, commands) {
         if (command.automatic || command.ignore) {
-            if (command.re.indexIn(data->text()) != -1) {
+            if (command.re.indexIn(text) != -1) {
                 if (command.automatic)
-                    emit requestActionDialog(this, 0, &command);
+                    emit requestActionDialog(text, &command);
                 if (command.ignore)
                     ignore = true;
             }
@@ -456,22 +477,23 @@ bool ClipboardBrowser::add(QMimeData *data, bool ignore_empty)
     QModelIndex ind = index(0);
     m->setData(ind, data);
 
-    // leave the first item selected
-    if ( selectionModel()->selectedIndexes().size() <= 1 &&
-         currentIndex().row() <= 1 )
-        setCurrent(0);
-
     // filter item
-    if ( m->isFiltered(0) )
-        setRowHidden(0,true);
+    if ( m->isFiltered(0) ) {
+        setRowHidden(0, true);
+    } else {
+        // leave the first item selected
+        if ( selectionModel()->selectedIndexes().size() <= 1 &&
+             currentIndex().row() <= 1 )
+            setCurrent(0);
+
+        // preload item
+        ++m_to_preload;
+        preload();
+    }
 
     // list size limit
     if ( m->rowCount() > m_maxitems )
         m->removeRow( m->rowCount() - 1 );
-
-    // preload item
-    ++m_to_preload;
-    preload();
 
     // save history after 2 minutes
     saveItems(120000);
@@ -496,7 +518,6 @@ void ClipboardBrowser::loadSettings()
 
     // restore configuration
     m_editor = cm->value("editor").toString();
-    d->setItemFormat( cm->value("format").toString());
 
     m_maxitems = cm->value("maxitems").toInt();
     m->setMaxItems(m_maxitems);
@@ -504,8 +525,6 @@ void ClipboardBrowser::loadSettings()
 
     // commands
     commands = cm->commands();
-
-    update();
 }
 
 void ClipboardBrowser::loadItems()
@@ -518,7 +537,7 @@ void ClipboardBrowser::loadItems()
     ConfigurationManager::instance()->loadItems(*m, m_id);
     setCurrentIndex( QModelIndex() );
 
-    // preload all items
+    // preload
     m_to_preload = length();
     preload(0);
 }
@@ -546,7 +565,8 @@ void ClipboardBrowser::timerEvent(QTimerEvent *event)
 
 void ClipboardBrowser::preload(int msec)
 {
-    if ( this->isVisible() ) return;
+    if ( this->isVisible() || m_to_preload <= 0 || timer_preload.isActive() )
+        return;
 
     // performance:
     // preload each item
@@ -554,11 +574,11 @@ void ClipboardBrowser::preload(int msec)
     if (msec > 0) {
         timer_preload.start(msec, this);
     } else {
-        int len = qMin(m_to_preload, length());
+        int len = qMin(max_preload, qMin(m_to_preload, length()));
         for(int i=0; i<len; ++i) {
             d->preload( index(i) );
         }
-        m_to_preload = -1;
+        m_to_preload = skip_preload;
     }
 }
 

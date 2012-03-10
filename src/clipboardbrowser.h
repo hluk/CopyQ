@@ -48,8 +48,8 @@ class ClipboardBrowser : public QListView
         ClipboardBrowser(const QString &id, QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
-        bool add(const QString &txt, bool ignore_empty = true);
-        bool add(QMimeData *item, bool ignore_empty = true);
+        bool add(const QString &txt);
+        bool add(QMimeData *item);
         bool add(ClipboardItem *item);
         void remove();
         int length() const { return model()->rowCount(); }
@@ -99,7 +99,8 @@ class ClipboardBrowser : public QListView
 
     signals:
         void requestSearch(const QString &txt);
-        void requestActionDialog(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd = NULL);
+        void requestActionDialog(const QString &text,
+                                 const ConfigurationManager::Command *cmd = NULL);
         void requestShow();
         void hideSearch();
         void escapePressed();

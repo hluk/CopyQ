@@ -308,7 +308,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             command.input = true;
             command.sep = sep;
             command.wait = false;
-            m_wnd->action(c, -1, &command);
+            m_wnd->action(c->selectedText(), &command);
         }
     }
 
@@ -318,9 +318,13 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             return false;
 
         if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setUpdatesEnabled(false);
+
         while( !args.atEnd() ) {
             c->add( args.toString() );
         }
+
+        c->setUpdatesEnabled(true);
         if ( isMonitoring() ) c->setAutoUpdate(true);
 
         c->updateClipboard();

@@ -18,14 +18,13 @@
 #ifndef ITEMDELEGATE_H
 #define ITEMDELEGATE_H
 
-#include <QStyledItemDelegate>
+#include <QItemDelegate>
 
 #include <QRegExp>
 #include <QLabel>
+#include <QTimer>
 
-class QTextDocument;
-
-class ItemDelegate : public QStyledItemDelegate
+class ItemDelegate : public QItemDelegate
 {
     Q_OBJECT
 
@@ -42,34 +41,27 @@ class ItemDelegate : public QStyledItemDelegate
 
         void setStyleSheet(const QString &css);
 
-        void setItemFormat(const QString &format) {
-            m_format = format;
-        }
-
-        const QString &itemFormat() const {
-            return m_format;
-        }
-
         void invalidateCache() const;
 
         // preload item to cache
         void preload(const QModelIndex &index) const {cache(index);}
 
     protected:
-        void paint ( QPainter * painter, const QStyleOptionViewItem & option, const QModelIndex & index ) const;
+        void paint (QPainter *painter, const QStyleOptionViewItem &option,
+                    const QModelIndex &index) const;
 
     private:
         QWidget *m_parent;
         QString m_css;
-        QString m_format;
         int m_maxsize;
 
         // items drawn using QTextDocument
-        mutable QList<QTextDocument*> m_cache;
-        // label for drawing item number
-        mutable QLabel m_lbl;
-        // get QTextDocument of given item and set size (if not NULL)
-        QTextDocument *cache(const QModelIndex &index, QSize *size = NULL) const;
+        mutable QList<QWidget*> m_cache;
+        mutable QVector<QModelIndex> m_changeSizes;
+        mutable QTimer timer_changeSize;
+
+        // get size and/or pixmap from cache
+        QWidget *cache(const QModelIndex &index, QSize *size = NULL) const;
         void removeCache(int row) const;
         void removeCache(const QModelIndex &index) const;
 
@@ -80,6 +72,8 @@ class ItemDelegate : public QStyledItemDelegate
         void rowsInserted(const QModelIndex & parent, int start, int end);
         void rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd,
                        const QModelIndex & destinationParent, int destinationRow);
+    private slots:
+        void changeSize();
 };
 
 #endif

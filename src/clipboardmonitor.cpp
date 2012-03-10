@@ -153,17 +153,36 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #else /* !Q_WS_X11 */
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
-    if ( m_checkclip && mode == QClipboard::Clipboard ) {
-        const QMimeData *data;
-        QClipboard *clipboard = QApplication::clipboard();
-        data = clipboard->mimeData(mode);
-        /* do something only if data are not empty and
-           if text is present it is not empty */
-        if ( data && !data->formats().isEmpty() &&
-             (!data->hasText() || data->text().size() > 0) ) {
-            clipboardChanged(mode, cloneData(*data, &m_formats));
-        }
+    QClipboard *clipboard;
+    const QMimeData *data;
+    uint newHash;
+
+    // check if clipboard data are needed
+    if (mode != QClipboard::Clipboard || !m_checkclip)
+        return;
+
+    // get clipboard data
+    clipboard = QApplication::clipboard();
+    data = clipboard->mimeData(mode);
+
+    // data retrieved?
+    if (!data) {
+        log( tr("Cannot access clipboard data!"), LogError );
+        return;
     }
+
+    // are data valid?
+    if ( data->formats().isEmpty() ||
+         (data->hasText() && QRegExp("\\s*").exactMatch(data->text())) )
+        return;
+
+    // same data as last time?
+    newHash = hash(*data);
+    if (m_lastHash == newHash)
+        return;
+    m_lastHash = newHash;
+
+    clipboardChanged(mode, cloneData(*data, &m_formats));
 }
 
 bool ClipboardMonitor::updateSelection(bool)
@@ -203,7 +222,7 @@ void ClipboardMonitor::readyRead()
     ClipboardItem item;
     QDataStream in(&msg, QIODevice::ReadOnly);
     in >> item;
-    updateClipboard( cloneData(*item.data(), &m_formats) );
+    updateClipboard( cloneData(*item.data()) );
 }
 
 void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)

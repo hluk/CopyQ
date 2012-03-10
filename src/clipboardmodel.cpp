@@ -55,7 +55,7 @@ QString escape(const QString &str)
 }
 
 ClipboardModel::ClipboardModel(QObject *parent) :
-        QAbstractListModel(parent)
+    QAbstractListModel(parent)
 {
     m_formats << QString("image/x-inkscape-svg-compressed")
               << QString("image/bmp")
