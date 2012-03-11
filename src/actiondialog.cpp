@@ -260,12 +260,13 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         runCommand();
         break;
     case QDialogButtonBox::Save:
-        cmd.cmd = ui->cmdEdit->text();
+        cmd.name = cmd.cmd = ui->cmdEdit->text();
         cmd.input = ui->inputCheckBox->isChecked();
         cmd.output = ui->outputCheckBox->isChecked();
         cmd.sep = ui->separatorEdit->text();
         cmd.wait = false;
-        name = cmd.cmd;
+        cmd.automatic = false;
+        cmd.ignore = false;
 
         ConfigurationManager::instance()->addCommand(name, &cmd);
         break;

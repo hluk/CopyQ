@@ -112,7 +112,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::createMenu()
 {
-    ClipboardBrowser *c = browser();
     QMenuBar *menubar = menuBar();
     QMenu *traymenu = new QMenu(this);
     QMenu *menu;
@@ -136,16 +135,14 @@ void MainWindow::createMenu()
 
     // - new
     act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
-                               c, SLOT(newItem()) );
+                               this, SLOT(newItem()) );
     menu->addAction( act->icon(), act->text(),
-                     this, SLOT(newItem() ),
+                     this, SLOT(newItem()),
                      QKeySequence("Ctrl+N") );
 
     // - paste
-    act = traymenu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
-                               this, SLOT(pasteItem()) );
-    act = menu->addAction( act->icon(), act->text(),
-                           this, SLOT(pasteItem() ) );
+    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
+                           this, SLOT(pasteItem()) );
     act->setShortcuts(QKeySequence::Paste);
 
     // - show clipboard content
@@ -168,6 +165,7 @@ void MainWindow::createMenu()
                      QKeySequence("Ctrl+P") );
 
     // Items
+    ClipboardBrowser *c = browser();
     itemMenu = c->contextMenu();
     itemMenu->setTitle( tr("&Item") );
     menubar->addMenu(itemMenu);
@@ -571,7 +569,15 @@ void MainWindow::openActionDialog(int row)
     ClipboardBrowser *c = browser();
 
     createActionDialog();
-    actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
+    QString text;
+    if (row >= 0) {
+        text = c->itemText(row);
+    } else if ( isVisible() ) {
+        text = c->selectedText();
+    } else {
+        text = c->itemText(0);
+    }
+    actionDialog->setInputText(text);
     actionDialog->exec();
 }
 
@@ -623,8 +629,11 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
 void MainWindow::newItem()
 {
     ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
-    if (c)
+    if (c) {
+        showWindow();
+        c->setFocus();
         c->newItem();
+    }
 }
 
 void MainWindow::pasteItem()

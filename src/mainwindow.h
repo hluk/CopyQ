@@ -102,8 +102,7 @@ class MainWindow : public QMainWindow
          Open action dialog.
          \param row Row in clipboard browser. Text in the row can be used as
                 input in actiog dialog. Default is -1 which means all selected
-                row(s).
-         \param modal action dialog modality
+                rows if window is opened, otherwise only the first item.
          */
         void openActionDialog(int row = -1);
 
