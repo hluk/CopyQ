@@ -10,7 +10,8 @@ FORMS += mainwindow.ui \
     configurationmanager.ui \
     clipboarddialog.ui \
     tabdialog.ui \
-    shortcutdialog.ui
+    shortcutdialog.ui \
+    commandwidget.ui
 HEADERS += mainwindow.h \
     clipboardbrowser.h \
     qeditor.h \
@@ -29,7 +30,8 @@ HEADERS += mainwindow.h \
     arguments.h \
     clipboarddialog.h \
     tabdialog.h \
-    shortcutdialog.h
+    shortcutdialog.h \
+    commandwidget.h
 SOURCES += main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
@@ -49,7 +51,8 @@ SOURCES += main.cpp \
     arguments.cpp \
     clipboarddialog.cpp \
     tabdialog.cpp \
-    shortcutdialog.cpp
+    shortcutdialog.cpp \
+    commandwidget.cpp
 
 QT += core gui xml network
 

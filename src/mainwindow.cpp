@@ -613,8 +613,8 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
     connect( c, SIGNAL(requestSearch(QString)),
              this, SLOT(enterSearchMode(QString)) );
-    connect( c, SIGNAL(requestActionDialog(QString, const ConfigurationManager::Command*)),
-             this, SLOT(action(QString,const ConfigurationManager::Command*)) );
+    connect( c, SIGNAL(requestActionDialog(QString,const Command*)),
+             this, SLOT(action(QString,const Command*)) );
     connect( c, SIGNAL(hideSearch()),
              this, SLOT(enterBrowseMode()) );
     connect( c, SIGNAL(requestShow()),
@@ -647,8 +647,7 @@ void MainWindow::pasteItem()
         c->add( cloneData(*data) );
 }
 
-void MainWindow::action(const QString &text,
-                        const ConfigurationManager::Command *cmd)
+void MainWindow::action(const QString &text, const Command *cmd)
 {
     createActionDialog();
 
@@ -686,7 +685,8 @@ void MainWindow::removeTab()
         int answer = QMessageBox::question(
                     this,
                     tr("Exit?"),
-                    tr("Do you want to remove tab <strong>%1</strong>?").arg( w->tabText(i) ),
+                    tr("Do you want to remove tab <strong>%1</strong>?"
+                       ).arg( w->tabText(i).remove('&')),
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {

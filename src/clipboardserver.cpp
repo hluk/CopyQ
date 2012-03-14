@@ -302,7 +302,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             if ( !args.finished() )
                 return false;
 
-            ConfigurationManager::Command command;
+            Command command;
             command.cmd = cmd;
             command.output = true;
             command.input = true;

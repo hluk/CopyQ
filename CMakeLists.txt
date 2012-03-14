@@ -16,6 +16,7 @@ SET(copyq_SOURCES
     src/clipboardmodel.cpp
     src/clipboardmonitor.cpp
     src/clipboardserver.cpp
+    src/commandwidget.cpp
     src/configurationmanager.cpp
     src/tabdialog.cpp
     src/itemdelegate.cpp
@@ -39,6 +40,7 @@ SET(copyq_HEADERS
     src/clipboardmodel.h
     src/clipboardmonitor.h
     src/clipboardserver.h
+    src/commandwidget.h
     src/configurationmanager.h
     src/tabdialog.h
     src/itemdelegate.h
@@ -52,6 +54,7 @@ SET(copyq_FORMS
     src/aboutdialog.ui
     src/actiondialog.ui
     src/clipboarddialog.ui
+    src/commandwidget.ui
     src/configurationmanager.ui
     src/mainwindow.ui
     src/shortcutdialog.ui

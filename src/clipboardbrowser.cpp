@@ -84,6 +84,9 @@ ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+    // object name is used in CSS (i.e. #history)
+    setObjectName("history");
 }
 
 ClipboardBrowser::~ClipboardBrowser()
@@ -194,10 +197,10 @@ void ClipboardBrowser::updateContextMenu()
     if ( !commands.isEmpty() ) {
         m_menu->addSeparator();
         i = 0;
-        foreach(const ConfigurationManager::Command &command, commands) {
+        foreach(const Command &command, commands) {
             if ( !command.cmd.isEmpty() && !command.name.isEmpty() &&
                  command.re.indexIn(text) != -1 ) {
-                act = m_menu->addAction(command.icon, command.name);
+                act = m_menu->addAction( QIcon(command.icon), command.name );
                 act->setData( QVariant(ActionCustom) );
                 act->setProperty("cmd", i);
                 if ( !command.shortcut.isEmpty() )
@@ -443,8 +446,6 @@ bool ClipboardBrowser::add(const QString &txt)
 
 bool ClipboardBrowser::add(QMimeData *data)
 {
-    QString text = data->text();
-
     // don't add if new data is same as first item
     if ( m->rowCount() ) {
         QStringList formats = data->formats();
@@ -459,8 +460,9 @@ bool ClipboardBrowser::add(QMimeData *data)
 
     // commands
     bool ignore = false;
-    foreach(const ConfigurationManager::Command &command, commands) {
+    foreach(const Command &command, commands) {
         if (command.automatic || command.ignore) {
+            QString text = data->text();
             if (command.re.indexIn(text) != -1) {
                 if (command.automatic)
                     emit requestActionDialog(text, &command);

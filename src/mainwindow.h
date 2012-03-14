@@ -111,8 +111,7 @@ class MainWindow : public QMainWindow
         /**
          Execute command on input text.
          */
-        void action(const QString &text,
-                    const ConfigurationManager::Command *cmd = NULL);
+        void action(const QString &text, const Command *cmd = NULL);
 
         void newTab();
         void removeTab();

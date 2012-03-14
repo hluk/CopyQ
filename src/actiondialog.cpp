@@ -253,7 +253,8 @@ void ActionDialog::onFinnished(int)
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 {
     QString name;
-    ConfigurationManager::Command cmd;
+    Command cmd;
+    ConfigurationManager *cm;
 
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
@@ -268,7 +269,9 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         cmd.automatic = false;
         cmd.ignore = false;
 
-        ConfigurationManager::instance()->addCommand(name, &cmd);
+        cm = ConfigurationManager::instance();
+        cm->addCommand(cmd);
+        cm->saveSettings();
         break;
     case QDialogButtonBox::Cancel:
         close();

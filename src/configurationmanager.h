@@ -1,6 +1,8 @@
 #ifndef CONFIGURATIONMANAGER_H
 #define CONFIGURATIONMANAGER_H
 
+#include "commandwidget.h"
+
 #include <QDialog>
 #include <QMutex>
 #include <QMap>
@@ -15,6 +17,7 @@ namespace Ui {
 
 class ClipboardModel;
 class QAbstractButton;
+class QListWidgetItem;
 
 struct _Option;
 typedef _Option Option;
@@ -24,20 +27,7 @@ class ConfigurationManager : public QDialog
     Q_OBJECT
 
 public:
-    struct Command {
-        QString name;
-        QRegExp re;
-        QString cmd;
-        QString sep;
-        bool input;
-        bool output;
-        bool wait;
-        bool automatic;
-        bool ignore;
-        QIcon icon;
-        QString shortcut;
-    };
-    typedef QVector<Command> Commands;
+    typedef QList<Command> Commands;
 
     ~ConfigurationManager();
 
@@ -77,10 +67,10 @@ public:
     void removeItems(const QString &id);
 
     QByteArray windowGeometry( const QString &widget_name = QString(),
-                      const QByteArray &geometry = QByteArray() );
+                               const QByteArray &geometry = QByteArray() );
 
     Commands commands() const;
-    void addCommand(const QString &name, const Command *cmd, bool enable=true);
+    void addCommand(const Command &cmd);
 
     void readStyleSheet();
     void writeStyleSheet();
@@ -97,6 +87,7 @@ private:
     QString m_datfilename;
     QHash<QString, Option> m_options;
     QSettings::Format cssFormat;
+    Commands m_commands;
 
     explicit ConfigurationManager(QWidget *parent = 0);
 
@@ -104,11 +95,11 @@ private:
     ConfigurationManager& operator=(const ConfigurationManager &);
 
     void getKey(QPushButton *button);
+    void updateCommandItem(QListWidgetItem *item);
 
 private slots:
     void on_pushButtonDown_clicked();
     void on_pushButtonUp_clicked();
-    void on_tableCommands_itemSelectionChanged();
     void on_pushButtonRemove_clicked();
     void on_pushButtoAdd_clicked();
     void apply();
@@ -116,6 +107,9 @@ private slots:
     void onFinished(int result);
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
+                                                  QListWidgetItem *previous);
+    void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
 };
 
 #endif // CONFIGURATIONMANAGER_H

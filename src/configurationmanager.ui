@@ -239,112 +239,59 @@
         <layout class="QGridLayout" name="gridLayout_7">
          <item row="0" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_10">
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
-            <widget class="QTableWidget" name="tableCommands">
-             <column>
-              <property name="text">
-               <string>Enable</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Name</string>
-              </property>
-              <property name="toolTip">
-               <string>Label in context menu (use ampersand before character you want to be quick access key)</string>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Command</string>
-              </property>
-              <property name="toolTip">
-               <string>Command (%1 is contents of selected items)</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Input</string>
-              </property>
-              <property name="toolTip">
-               <string>Send content of selected items to standard input</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Output</string>
-              </property>
-              <property name="toolTip">
-               <string>Save the output in items</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Separator</string>
-              </property>
-              <property name="toolTip">
-               <string>Command output separator for splitting into multiple items</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Match</string>
-              </property>
-              <property name="toolTip">
-               <string>Allow command only on matched items (regular expression)</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Wait</string>
-              </property>
-              <property name="toolTip">
-               <string>Open action dialog instead of executing the command immediately</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Icon</string>
-              </property>
-              <property name="toolTip">
-               <string>Icon filename</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Shortcut</string>
-              </property>
-              <property name="toolTip">
-               <string>Command shortcut (e.g. Ctrl-X)</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Automatic</string>
-              </property>
-              <property name="toolTip">
-               <string>Run command on new clipboard items</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Ignore</string>
-              </property>
-              <property name="toolTip">
-               <string>Don't store in history</string>
-              </property>
-             </column>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QListWidget" name="listWidgetCommands">
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ExtendedSelection</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="rightMargin">
+                <number>20</number>
+               </property>
+               <item>
+                <widget class="CommandWidget" name="widgetCommand" native="true">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::WheelFocus</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
               <widget class="QPushButton" name="pushButtoAdd">
                <property name="text">
-                <string>A&amp;dd</string>
+                <string>Add [+]</string>
+               </property>
+               <property name="shortcut">
+                <string>+</string>
                </property>
               </widget>
              </item>
@@ -364,14 +311,20 @@
              <item>
               <widget class="QPushButton" name="pushButtonUp">
                <property name="text">
-                <string>Move Command &amp;Up</string>
+                <string>Move Up [Ctrl+Up]</string>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+Up</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButtonDown">
                <property name="text">
-                <string>Move Command D&amp;own</string>
+                <string>Move Down [Ctrl+Down]</string>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+Down</string>
                </property>
               </widget>
              </item>
@@ -579,23 +532,35 @@ QToolTip, QScrollBar {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CommandWidget</class>
+   <extends>QWidget</extends>
+   <header>commandwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
-  <tabstop>buttonBox</tabstop>
   <tabstop>tabWidget</tabstop>
+  <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
+  <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
+  <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
   <tabstop>lineEditEditor</tabstop>
-  <tabstop>checkBoxClip</tabstop>
-  <tabstop>checkBoxSel</tabstop>
-  <tabstop>checkBoxConfirmExit</tabstop>
-  <tabstop>tableCommands</tabstop>
+  <tabstop>plainTextEditFormats</tabstop>
+  <tabstop>listWidgetCommands</tabstop>
+  <tabstop>widgetCommand</tabstop>
   <tabstop>pushButtoAdd</tabstop>
   <tabstop>pushButtonRemove</tabstop>
   <tabstop>pushButtonUp</tabstop>
   <tabstop>pushButtonDown</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>plainTextEdit_css</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>

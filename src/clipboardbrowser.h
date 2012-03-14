@@ -100,7 +100,7 @@ class ClipboardBrowser : public QListView
     signals:
         void requestSearch(const QString &txt);
         void requestActionDialog(const QString &text,
-                                 const ConfigurationManager::Command *cmd = NULL);
+                                 const Command *cmd = NULL);
         void requestShow();
         void hideSearch();
         void escapePressed();

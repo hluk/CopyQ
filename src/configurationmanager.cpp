@@ -64,7 +64,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     ui(new Ui::ConfigurationManager)
 {
     ui->setupUi(this);
-    ui->tableCommands->horizontalHeader()->setResizeMode(QHeaderView::ResizeToContents);
 
     /* datafile for items */
     // do not use registry in windows
@@ -203,97 +202,43 @@ void ConfigurationManager::loadSettings()
     }
     settings.endGroup();
 
-    QTableWidget *table = ui->tableCommands;
-    // clear table
-    while( table->rowCount()>0 )
-        table->removeRow(0);
+
+    ui->listWidgetCommands->clear();
+    m_commands.clear();
 
     int size = settings.beginReadArray("Commands");
+    m_commands.reserve(size);
     for(int i=0; i<size; ++i)
     {
         settings.setArrayIndex(i);
 
-        int columns = table->columnCount();
-        int row = table->rowCount();
+        Command c;
+        c.name = settings.value( tr("Name") ).toString();
+        c.re   = QRegExp( settings.value( tr("Match") ).toString() );
+        c.cmd = settings.value( tr("Command") ).toString();
+        c.sep = settings.value( tr("Separator") ).toString();
+        c.input = settings.value( tr("Input") ).toBool();
+        c.output = settings.value( tr("Output") ).toBool();
+        c.wait = settings.value( tr("Wait") ).toBool();
+        c.automatic = settings.value( tr("Automatic") ).toBool();
+        c.ignore = settings.value( tr("Ignore") ).toBool();
+        c.enable = settings.value( tr("Enable") ).toBool();
+        c.icon = settings.value( tr("Icon") ).toString();
+        c.shortcut = settings.value( tr("Shortcut") ).toString();
 
-        table->insertRow(row);
-
-        for (int col=0; col < columns; ++col) {
-            QTableWidgetItem *column = table->horizontalHeaderItem(col);
-
-            QTableWidgetItem *item = new QTableWidgetItem;
-            value = settings.value(column->text());
-            if( column->text() == tr("Enable") ||
-                column->text() == tr("Input") ||
-                column->text() == tr("Output") ||
-                column->text() == tr("Wait") ||
-                column->text() == tr("Automatic") ||
-                column->text() == tr("Ignore") ) {
-                item->setCheckState(value.toBool() ? Qt::Checked : Qt::Unchecked);
-            } else {
-                if ( value.type() == QVariant::String )
-                    item->setText( value.toString() );
-                else if ( column->text() == tr("Separator") )
-                    item->setText("\\n");
-            }
-            item->setToolTip( column->toolTip() );
-            table->setItem(row, col, item);
-        }
+        addCommand(c);
     }
     settings.endArray();
-    ui->tableCommands->indexWidget( table->model()->index(0,0) );
 }
 
 ConfigurationManager::Commands ConfigurationManager::commands() const
 {
-    Commands cmds;
-
-    QTableWidget *table = ui->tableCommands;
-    int columns = table->columnCount();
-    int rows = table->rowCount();
-
-    for (int row=0; row < rows; ++row) {
-        Command cmd;
-        bool enabled = true;
-        for (int col=0; col < columns; ++col) {
-            QTableWidgetItem *column = table->horizontalHeaderItem(col);
-            QTableWidgetItem *item = table->item(row, col);
-
-            if ( column->text() == tr("Enable") ) {
-                if ( item->checkState() == Qt::Unchecked ) {
-                    enabled = false;
-                    break;
-                }
-            } else if ( column->text() == tr("Name") ) {
-                cmd.name = item->text();
-            } else if ( column->text() == tr("Command") ) {
-                cmd.cmd = item->text();
-            } else if ( column->text() == tr("Input") ) {
-                cmd.input = item->checkState() == Qt::Checked;
-            } else if ( column->text() == tr("Output") ) {
-                cmd.output = item->checkState() == Qt::Checked;
-            } else if ( column->text() == tr("Separator") ) {
-                cmd.sep = item->text();
-            } else if ( column->text() == tr("Match") ) {
-                cmd.re = QRegExp( item->text() );
-            } else if ( column->text() == tr("Wait") ) {
-                cmd.wait = item->checkState() == Qt::Checked;
-            } else if ( column->text() == tr("Automatic") ) {
-                cmd.automatic = item->checkState() == Qt::Checked;
-            } else if ( column->text() == tr("Ignore") ) {
-                cmd.ignore = item->checkState() == Qt::Checked;
-            } else if ( column->text() == tr("Icon") ) {
-                cmd.icon = QIcon( item->text() );
-            } else if ( column->text() == tr("Shortcut") ) {
-                cmd.shortcut = item->text();
-            }
-        }
-        if (enabled) {
-            cmds.push_back(cmd);
-        }
+    Commands commands;
+    foreach (const Command &c, m_commands) {
+        if (c.enable)
+            commands.append(c);
     }
-
-    return cmds;
+    return commands;
 }
 
 void ConfigurationManager::saveSettings()
@@ -306,29 +251,32 @@ void ConfigurationManager::saveSettings()
     }
     settings.endGroup();
 
-    QTableWidget *table = ui->tableCommands;
-    int columns = table->columnCount();
-    int rows = table->rowCount();
+    // commit changes on command
+    QListWidget *list = ui->listWidgetCommands;
+    QListWidgetItem *item = list->currentItem();
+    if (item != NULL) {
+        int row = ui->listWidgetCommands->row(item);
+        m_commands[row] = ui->widgetCommand->command();
+        updateCommandItem(item);
+    }
 
+    // save commands
     settings.beginWriteArray("Commands");
-    settings.remove("");
-    for (int row=0; row < rows; ++row) {
-        settings.setArrayIndex(row);
-        for (int col=0; col < columns; ++col) {
-            QTableWidgetItem *column = table->horizontalHeaderItem(col);
-            QTableWidgetItem *item = table->item(row, col);
-
-            if ( column->text() == tr("Enable") ||
-                 column->text() == tr("Input") ||
-                 column->text() == tr("Output") ||
-                 column->text() == tr("Wait") ||
-                 column->text() == tr("Automatic") ||
-                 column->text() == tr("Ignore") ) {
-                settings.setValue( column->text(), item->checkState() == Qt::Checked );
-            } else {
-                settings.setValue( column->text(), item->text() );
-            }
-        }
+    int i=0;
+    foreach (const Command &c, m_commands) {
+        settings.setArrayIndex(i++);
+        settings.setValue( tr("Name"), c.name );
+        settings.setValue( tr("Match"), c.re.pattern() );
+        settings.setValue( tr("Command"), c.cmd );
+        settings.setValue( tr("Separator"), c.sep );
+        settings.setValue( tr("Input"), c.input );
+        settings.setValue( tr("Output"), c.output );
+        settings.setValue( tr("Wait"), c.wait );
+        settings.setValue( tr("Automatic"), c.automatic );
+        settings.setValue( tr("Ignore"), c.ignore );
+        settings.setValue( tr("Enable"), c.enable );
+        settings.setValue( tr("Icon"), c.icon );
+        settings.setValue( tr("Shortcut"), c.shortcut );
     }
     settings.endArray();
 
@@ -369,54 +317,14 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-void ConfigurationManager::addCommand(const QString &name, const Command *cmd, bool enable)
+void ConfigurationManager::addCommand(const Command &c)
 {
-    QTableWidget *table = ui->tableCommands;
+    m_commands.append(c);
 
-    int columns = table->columnCount();
-    int row = table->rowCount();
-
-    table->insertRow(row);
-
-    for (int col=0; col < columns; ++col) {
-        QTableWidgetItem *column = table->horizontalHeaderItem(col);
-
-        QTableWidgetItem *item = new QTableWidgetItem;
-        if ( column->text() == tr("Enable") ) {
-            item->setCheckState(enable ? Qt::Checked : Qt::Unchecked);
-            item->setFlags( item->flags() & ~Qt::ItemIsEditable );
-        } else if ( column->text() == tr("Name") ) {
-            item->setText(name);
-        } else if ( column->text() == tr("Command") ) {
-            item->setText(cmd->cmd);
-        } else if ( column->text() == tr("Input") ) {
-            item->setCheckState(cmd->input ? Qt::Checked : Qt::Unchecked);
-        } else if ( column->text() == tr("Output") ) {
-            item->setCheckState(cmd->output ? Qt::Checked : Qt::Unchecked);
-        } else if ( column->text() == tr("Separator") ) {
-            item->setText(cmd->sep);
-        } else if ( column->text() == tr("Match") ) {
-            item->setText(cmd->re.pattern());
-        } else if ( column->text() == tr("Wait") ) {
-            item->setCheckState(cmd->wait ? Qt::Checked : Qt::Unchecked);
-        } else if ( column->text() == tr("Icon") ) {
-            //item->setText( cmd->icon.name() );
-            item->setIcon(cmd->icon);
-        } else if ( column->text() == tr("Shortcut") ) {
-            item->setText(cmd->shortcut);
-        } else if ( column->text() == tr("Automatic") ) {
-            item->setCheckState(cmd->automatic ? Qt::Checked : Qt::Unchecked);
-        } else if ( column->text() == tr("Ignore") ) {
-            item->setCheckState(cmd->ignore ? Qt::Checked : Qt::Unchecked);
-        }
-        item->setToolTip( column->toolTip() );
-        table->setItem(row, col, item);
-    }
-
-    saveSettings();
-    if (enable) {
-        emit configurationChanged();
-    }
+    QListWidget *list = ui->listWidgetCommands;
+    QListWidgetItem *item = new QListWidgetItem(list);
+    item->setCheckState(c.enable ? Qt::Checked : Qt::Unchecked);
+    updateCommandItem(item);
 }
 
 void ConfigurationManager::apply()
@@ -431,33 +339,26 @@ void ConfigurationManager::on_pushButtoAdd_clicked()
     Command cmd;
     cmd.input = cmd.output = cmd.wait = cmd.automatic = cmd.ignore = false;
     cmd.sep = QString('\n');
-    addCommand(QString(), &cmd);
+    addCommand(cmd);
 
-    QTableWidget *table = ui->tableCommands;
-    table->selectRow( table->rowCount()-1 );
+    QListWidget *list = ui->listWidgetCommands;
+    QListWidgetItem *item = list->item(list->count()-1);
+    list->setCurrentItem(item, QItemSelectionModel::ClearAndSelect);
+    ui->widgetCommand->setFocus();
 }
 
 
 void ConfigurationManager::on_pushButtonRemove_clicked()
 {
-    const QItemSelectionModel *sel = ui->tableCommands->selectionModel();
+    const QItemSelectionModel *sel = ui->listWidgetCommands->selectionModel();
 
     // remove selected rows
-    QModelIndexList rows = sel->selectedRows();
-    while ( !rows.isEmpty() ) {
-        ui->tableCommands->removeRow( rows.first().row() );
-        rows = sel->selectedRows();
+    QModelIndexList indexes = sel->selectedRows();
+    foreach (QModelIndex index, indexes) {
+        int row = index.row();
+        m_commands.removeAt(row);
+        delete ui->listWidgetCommands->takeItem(row);
     }
-}
-
-void ConfigurationManager::on_tableCommands_itemSelectionChanged()
-{
-    // enable Remove button only if row is selected
-    QItemSelectionModel *sel = ui->tableCommands->selectionModel();
-    bool enabled = sel->selectedRows().count() != 0;
-    ui->pushButtonRemove->setEnabled( enabled );
-    ui->pushButtonUp->setEnabled( enabled );
-    ui->pushButtonDown->setEnabled( enabled );
 }
 
 void ConfigurationManager::showEvent(QShowEvent *e)
@@ -481,58 +382,34 @@ void ConfigurationManager::onFinished(int result)
 
 void ConfigurationManager::on_pushButtonUp_clicked()
 {
-    QTableWidget *table = ui->tableCommands;
-    QItemSelectionModel *sel = table->selectionModel();
+    QListWidget *list = ui->listWidgetCommands;
+    int row = list->currentRow();
+    if (row < 1)
+        return;
 
-    int columns = table->columnCount();
+    list->blockSignals(true);
+    m_commands.swap(row, row-1);
+    list->setCurrentRow(row-1);
+    list->blockSignals(false);
 
-    QList<int> rows;
-    foreach ( QModelIndex ind, sel->selectedRows() ) {
-        rows << ind.row();
-    }
-    qSort( rows.begin(), rows.end() );
-
-    foreach ( int row, rows ) {
-        if (row == 0) break;
-        for ( int col=0; col<columns; ++col ) {
-            QTableWidgetItem *item1 = table->takeItem(row, col);
-            QTableWidgetItem *item2 = table->takeItem(row-1, col);
-            table->setItem(row, col, item2);
-            table->setItem(row-1, col, item1);
-            table->selectionModel()->select( table->model()->index(row, col),
-                                             QItemSelectionModel::Deselect );
-            table->selectionModel()->select( table->model()->index(row-1, col),
-                                             QItemSelectionModel::Select );
-        }
-    }
+    updateCommandItem( list->item(row) );
+    updateCommandItem( list->item(row-1) );
 }
 
 void ConfigurationManager::on_pushButtonDown_clicked()
 {
-    QTableWidget *table = ui->tableCommands;
-    QItemSelectionModel *sel = table->selectionModel();
+    QListWidget *list = ui->listWidgetCommands;
+    int row = list->currentRow();
+    if (row < 0 || row == list->count()-1)
+        return;
 
-    int columns = table->columnCount();
+    list->blockSignals(true);
+    m_commands.swap(row, row+1);
+    list->setCurrentRow(row+1);
+    list->blockSignals(false);
 
-    QList<int> rows;
-    foreach ( QModelIndex ind, sel->selectedRows() ) {
-        rows << ind.row();
-    }
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
-
-    foreach ( int row, rows ) {
-        if ( row == table->rowCount()-1 ) break;
-        for ( int col=0; col<columns; ++col ) {
-            QTableWidgetItem *item1 = table->takeItem(row, col);
-            QTableWidgetItem *item2 = table->takeItem(row+1, col);
-            table->setItem(row, col, item2);
-            table->setItem(row+1, col, item1);
-            table->selectionModel()->select( table->model()->index(row, col),
-                                             QItemSelectionModel::Deselect );
-            table->selectionModel()->select( table->model()->index(row+1, col),
-                                             QItemSelectionModel::Select );
-        }
-    }
+    updateCommandItem( list->item(row) );
+    updateCommandItem( list->item(row+1) );
 }
 
 void ConfigurationManager::getKey(QPushButton *button)
@@ -549,6 +426,40 @@ void ConfigurationManager::getKey(QPushButton *button)
     }
 }
 
+void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
+{
+    QListWidget *list = ui->listWidgetCommands;
+
+    list->blockSignals(true);
+
+    int row = list->row(item);
+    const Command &c = m_commands[row];
+
+    // text
+    QString text;
+    if ( !c.name.isEmpty() ) {
+        text = c.name;
+        text.remove('&');
+    } else if ( !c.cmd.isEmpty() ) {
+        text = c.cmd;
+    } else {
+        text = "(command)";
+    }
+    item->setText(text);
+
+    // icon
+    QPixmap pix(c.icon);
+    QIcon icon;
+    if (!pix.isNull())
+        icon = pix.scaledToHeight(16);
+    item->setIcon(icon);
+
+    // check state
+    item->setCheckState(c.enable ? Qt::Checked : Qt::Unchecked);
+
+    list->blockSignals(false);
+}
+
 void ConfigurationManager::on_pushButton_clicked()
 {
     getKey(ui->pushButton);
@@ -557,4 +468,33 @@ void ConfigurationManager::on_pushButton_clicked()
 void ConfigurationManager::on_pushButton_2_clicked()
 {
     getKey(ui->pushButton_2);
+}
+
+void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
+        QListWidgetItem *current, QListWidgetItem *previous)
+{
+    int row;
+    if (previous != NULL) {
+        row = ui->listWidgetCommands->row(previous);
+        if ( row < m_commands.size() ) {
+            m_commands[row] = ui->widgetCommand->command();
+            updateCommandItem(previous);
+        }
+    }
+
+    bool ok = current != NULL;
+    if (ok)
+        row = ui->listWidgetCommands->row(current);
+    ui->widgetCommand->setCommand(ok ? m_commands[row] : Command());
+    ui->widgetCommand->setEnabled(ok);
+    ui->pushButtonRemove->setEnabled(ok);
+}
+
+void ConfigurationManager::on_listWidgetCommands_itemChanged(
+        QListWidgetItem *item)
+{
+    int row = ui->listWidgetCommands->row(item);
+    Command c = ui->widgetCommand->command();
+    c.enable = m_commands[row].enable = (item->checkState() == Qt::Checked);
+    ui->widgetCommand->setCommand(c);
 }
