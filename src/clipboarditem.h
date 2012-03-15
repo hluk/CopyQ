@@ -40,6 +40,9 @@ public:
     // highlight matched text
     QString highlightedHtml() const;
 
+    // image
+    void pixmap(QPixmap *pixmap) const;
+
     void clear();
 
     void setData(QMimeData *data);

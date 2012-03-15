@@ -82,8 +82,6 @@ class ClipboardBrowser : public QListView
         ItemDelegate *d;
         QTimer timer_save;
         bool m_update;
-        QBasicTimer timer_preload;
-        int m_to_preload;
 
         QMenu *m_menu;
         ConfigurationManager::Commands commands;
@@ -95,7 +93,6 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
-        void timerEvent(QTimerEvent *event);
 
     signals:
         void requestSearch(const QString &txt);
@@ -123,8 +120,6 @@ class ClipboardBrowser : public QListView
 
         void loadItems();
         void saveItems(int msec=0);
-
-        void preload(int msec=300);
 
         void contextMenuAction(QAction *act);
         void updateContextMenu();

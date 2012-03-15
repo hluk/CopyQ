@@ -76,8 +76,12 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                       Option(200, "value", ui->spinBoxItems) );
     m_options.insert( "tray_items",
                       Option(5, "value", ui->spinBoxTrayItems) );
+    m_options.insert( "max_image_width",
+                      Option(320, "value", ui->spinBoxImageWidth) );
+    m_options.insert( "max_image_height",
+                      Option(240, "value", ui->spinBoxImageHeight) );
     m_options.insert( "formats",
-                      Option("image/x-inkscape-svg-compressed\nimage/bmp\ntext/html\ntext/plain",
+                      Option("image/svg+xml\nimage/x-inkscape-svg-compressed\nimage/bmp\ntext/html\ntext/plain",
                              "plainText", ui->plainTextEditFormats) );
     // TODO: get default editor from environment variable EDITOR
     m_options.insert( "editor",
@@ -329,6 +333,13 @@ void ConfigurationManager::addCommand(const Command &c)
 
 void ConfigurationManager::apply()
 {
+    // update current command
+    int row = ui->listWidgetCommands->currentRow();
+    if (row >= 0) {
+        m_commands[row] = ui->widgetCommand->command();
+        updateCommandItem( ui->listWidgetCommands->item(row) );
+    }
+
     setStyleSheet( ui->plainTextEdit_css->toPlainText() );
     emit configurationChanged();
     saveSettings();

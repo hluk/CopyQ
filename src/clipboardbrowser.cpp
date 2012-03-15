@@ -29,12 +29,10 @@
 #include "configurationmanager.h"
 #include "client_server.h"
 
-static const int skip_preload = -10;
 static const int max_preload = 10;
 
 ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
-    QListView(parent), m_id(id), m_update(false), m_to_preload(skip_preload),
-    m_menu(NULL)
+    QListView(parent), m_id(id), m_update(false), m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
@@ -343,6 +341,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             break;
 
         default:
+            updateContextMenu();
             QListView::keyPressEvent(event);
             break;
         }
@@ -369,6 +368,10 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             break;
 
         default:
+            // allow user defined shortcuts
+            updateContextMenu();
+            QListView::keyPressEvent(event);
+            // search
             event->ignore();
             break;
         }
@@ -485,12 +488,9 @@ bool ClipboardBrowser::add(QMimeData *data)
     } else {
         // leave the first item selected
         if ( selectionModel()->selectedIndexes().size() <= 1 &&
-             currentIndex().row() <= 1 )
+             currentIndex().row() <= 1 ) {
             setCurrent(0);
-
-        // preload item
-        ++m_to_preload;
-        preload();
+        }
     }
 
     // list size limit
@@ -524,9 +524,14 @@ void ClipboardBrowser::loadSettings()
     m_maxitems = cm->value("maxitems").toInt();
     m->setMaxItems(m_maxitems);
     m->setFormats( cm->value("formats").toString() );
+    m->setMaxImageSize( cm->value("max_image_width").toInt(),
+                        cm->value("max_image_height").toInt() );
 
     // commands
     commands = cm->commands();
+
+    // update menu
+    updateContextMenu();
 }
 
 void ClipboardBrowser::loadItems()
@@ -538,10 +543,6 @@ void ClipboardBrowser::loadItems()
 
     ConfigurationManager::instance()->loadItems(*m, m_id);
     setCurrentIndex( QModelIndex() );
-
-    // preload
-    m_to_preload = length();
-    preload(0);
 }
 
 void ClipboardBrowser::saveItems(int msec)
@@ -553,35 +554,6 @@ void ClipboardBrowser::saveItems(int msec)
     }
 
     ConfigurationManager::instance()->saveItems(*m, m_id);
-}
-
-void ClipboardBrowser::timerEvent(QTimerEvent *event)
-{
-    if ( event->timerId() == timer_preload.timerId() ) {
-        timer_preload.stop();
-        preload(0);
-    } else {
-        QListView::timerEvent(event);
-    }
-}
-
-void ClipboardBrowser::preload(int msec)
-{
-    if ( this->isVisible() || m_to_preload <= 0 || timer_preload.isActive() )
-        return;
-
-    // performance:
-    // preload each item
-    // -- this will save some time when drawing the list for the fist time
-    if (msec > 0) {
-        timer_preload.start(msec, this);
-    } else {
-        int len = qMin(max_preload, qMin(m_to_preload, length()));
-        for(int i=0; i<len; ++i) {
-            d->preload( index(i) );
-        }
-        m_to_preload = skip_preload;
-    }
 }
 
 const QString ClipboardBrowser::selectedText() const

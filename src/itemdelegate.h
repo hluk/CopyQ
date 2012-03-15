@@ -43,9 +43,6 @@ class ItemDelegate : public QItemDelegate
 
         void invalidateCache() const;
 
-        // preload item to cache
-        void preload(const QModelIndex &index) const {cache(index);}
-
     protected:
         void paint (QPainter *painter, const QStyleOptionViewItem &option,
                     const QModelIndex &index) const;

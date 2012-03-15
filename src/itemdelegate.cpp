@@ -26,8 +26,6 @@
 #include "client_server.h"
 #include <assert.h>
 
-static const int max_html_chars = 10000;
-
 ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
     m_parent(parent)
 {
@@ -62,7 +60,7 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &in
     if (w)
         return w->size();
     else
-        return QSize(1,9999);
+        return QSize(1,100);
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -167,46 +165,53 @@ QWidget *ItemDelegate::cache(const QModelIndex &index, QSize *size) const
     if (!w) {
         QVariant displayData = index.data(Qt::DisplayRole);
         QString html = displayData.toString();
-        if ( !html.isEmpty() ) {
-            // HTML
+        QString text;
+        QPixmap pix;
+
+        bool hasHtml = !html.isEmpty();
+        bool hasText = false;
+        if (!hasHtml) {
+            QVariant editData = index.data(Qt::EditRole);
+            hasText = editData.canConvert(QVariant::String);
+            if (hasText)
+                text = editData.toString();
+            else
+                pix = displayData.value<QPixmap>();
+        }
+
+        if (hasText || hasHtml) {
             QTextEdit *textEdit = new QTextEdit();
             QTextDocument *doc = new QTextDocument(textEdit);
             doc->setDefaultStyleSheet(m_css);
-            w = textEdit;
-
-            // performance: limit number of characters in hmtl
-            if (html.size() > max_html_chars) {
-                QString text = index.data(Qt::EditRole).toString();
-                doc->setPlainText(text);
-            } else {
-                doc->setHtml(html);
-            }
 
             textEdit->setFrameShape(QFrame::NoFrame);
             textEdit->setWordWrapMode(QTextOption::NoWrap);
             textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
             textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+            w = textEdit;
+            w->setObjectName("item");
+            w->setStyleSheet(m_css);
+
+            // text or HTML
+            if (hasText)
+                doc->setPlainText(text);
+            else
+                doc->setHtml(html);
             textEdit->setDocument(doc);
+
             w->resize( doc->idealWidth(), doc->size().height() );
         } else {
-            QVariant editData = index.data(Qt::EditRole);
+            // Image
             QLabel *label = new QLabel();
             w = label;
-
-            label->setTextFormat(Qt::PlainText);
+            w->setObjectName("item");
+            w->setStyleSheet(m_css);
             label->setMargin(4);
-            label->setWordWrap(false);
-
-            if ( editData.canConvert(QVariant::String) ) {
-                label->setText( editData.toString());
-            } else {
-                label->setPixmap( displayData.value<QPixmap>() );
-            }
+            label->setPixmap(pix);
             w->adjustSize();
         }
         m_cache[n] = w;
-        w->setObjectName("item");
-        w->setStyleSheet(m_css);
     }
 
     // maximum item size

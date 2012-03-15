@@ -26,14 +26,14 @@ class CommandWidget;
 class CommandWidget : public QWidget
 {
     Q_OBJECT
-    
+
 public:
     explicit CommandWidget(QWidget *parent = 0);
     ~CommandWidget();
 
     Command command() const;
     void setCommand(const Command &command) const;
-    
+
 private slots:
     void on_pushButtonBrowse_clicked();
 

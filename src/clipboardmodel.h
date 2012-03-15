@@ -84,6 +84,9 @@ public:
     void nextFormat(int row);
     void previousFormat(int row);
 
+    void setMaxImageSize(int width, int height);
+    QSize maxImageSize() const;
+
 signals:
     /* unlike dataChanged, realDataChanged is not emitted
        if highlight or current format changes */
@@ -94,6 +97,8 @@ private:
     QList<ClipboardItem *> m_clipboardList;
     QRegExp m_re;
     int m_max;
+    int m_imageWidth;
+    int m_imageHeight;
     QStringList m_formats;
 };
 

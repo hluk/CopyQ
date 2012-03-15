@@ -583,7 +583,6 @@ void MainWindow::openActionDialog(int row)
 
 void MainWindow::openPreferences()
 {
-    saveSettings();
     ConfigurationManager::instance(this)->exec();
 }
 

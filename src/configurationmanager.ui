@@ -188,6 +188,60 @@
             </layout>
            </item>
            <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Maximum image size (set to 0 for original size):</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>&amp;Width:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="buddy">
+                <cstring>spinBoxImageWidth</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBoxImageWidth">
+               <property name="maximum">
+                <number>4096</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>&amp;Height:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="buddy">
+                <cstring>spinBoxImageHeight</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBoxImageHeight">
+               <property name="maximum">
+                <number>4096</number>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
             <layout class="QHBoxLayout" name="horizontalLayout_8">
              <item>
               <widget class="QLabel" name="label_6">
@@ -549,6 +603,8 @@ QToolTip, QScrollBar {
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
+  <tabstop>spinBoxImageWidth</tabstop>
+  <tabstop>spinBoxImageHeight</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>plainTextEditFormats</tabstop>
   <tabstop>listWidgetCommands</tabstop>

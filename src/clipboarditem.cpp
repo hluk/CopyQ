@@ -76,20 +76,8 @@ QVariant ClipboardItem::data(int role) const
 {
     if (role == Qt::DisplayRole) {
         if ( m_mimeType.startsWith(QString("image")) ) {
-            QByteArray data = m_data->data("image/x-copyq-thumbnail");
             QPixmap pix;
-            if (data.isEmpty()) {
-                pix.loadFromData(m_data->data(m_mimeType), m_mimeType.toAscii());
-                if (pix.width() > 320)
-                    pix = pix.scaledToWidth(320);
-                data.clear();
-                QDataStream out(&data, QIODevice::WriteOnly);
-                out << pix;
-                m_data->setData("image/x-copyq-thumbnail", data);
-            } else {
-                QDataStream in(&data, QIODevice::ReadOnly);
-                in >> pix;
-            }
+            pixmap(&pix);
             return pix;
         } else if ( m_mimeType.endsWith("html") ||
                     (m_parent && !m_parent->search()->isEmpty()) ) {
@@ -146,6 +134,35 @@ QString ClipboardItem::highlightedHtml() const
             highlight += escape(str.mid(a));
         // highlight matched
         return highlight;
+    }
+}
+
+void ClipboardItem::pixmap(QPixmap *pix) const
+{
+    QByteArray data = m_data->data("image/x-copyq-thumbnail");
+
+    if (!data.isEmpty()) {
+        QDataStream in(&data, QIODevice::ReadOnly);
+        in >> *pix;
+    }
+
+    QSize size = m_parent ? m_parent->maxImageSize() : QSize(320, 240);
+    int w = size.width();
+    int h = size.height();
+
+    if (data.isEmpty() || pix->width() < w || pix->height() < h) {
+        pix->loadFromData(m_data->data(m_mimeType), m_mimeType.toAscii());
+
+        if (w > 0 && pix->width() > w && pix->width()/w > pix->height()/h) {
+            *pix = pix->scaledToWidth(w);
+        } else if ( h > 0 && pix->height() > size.height() ) {
+            *pix = pix->scaledToHeight(h);
+        }
+
+        data.clear();
+        QDataStream out(&data, QIODevice::WriteOnly);
+        out << *pix;
+        m_data->setData("image/x-copyq-thumbnail", data);
     }
 }
 
