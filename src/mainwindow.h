@@ -83,7 +83,6 @@ class MainWindow : public QMainWindow
         void showError(const QString &msg);
         // show/hide window
         void showWindow();
-        void hideWindow();
         void toggleVisible();
         // clear search & unselect items
         void resetStatus();

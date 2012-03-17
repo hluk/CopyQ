@@ -255,13 +255,13 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     else if (cmd == "hide") {
         if ( !args.atEnd() )
             return false;
-        m_wnd->hideWindow();
+        m_wnd->close();
     }
     else if (cmd == "toggle") {
         if ( !args.atEnd() )
             return false;
         if ( m_wnd->isVisible() ) {
-            m_wnd->hideWindow();
+            m_wnd->close();
         } else {
             m_wnd->showWindow();
             response->append(QString::number((qlonglong)m_wnd->winId()));

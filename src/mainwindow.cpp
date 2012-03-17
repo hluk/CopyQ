@@ -105,8 +105,21 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    ClipboardBrowser *c = browser();
+
     hide();
-    resetStatus();
+
+    if ( actionDialog && !actionDialog->isHidden() ) {
+        actionDialog->close();
+    }
+    if ( aboutDialog && !aboutDialog->isHidden() ) {
+        aboutDialog->close();
+    }
+
+    // deselect all
+    c->clearSelection();
+    c->setCurrentIndex( QModelIndex() );
+
     event->ignore();
 }
 
@@ -288,7 +301,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 close();
             else
                 resetStatus();
-            c->setCurrent(0);
             break;
 
         case Qt::Key_Tab:
@@ -388,31 +400,11 @@ void MainWindow::showWindow()
     raiseWindow(winId());
 }
 
-void MainWindow::hideWindow()
-{
-    ClipboardBrowser *c = browser();
-
-    if ( actionDialog && !actionDialog->isHidden() ) {
-        actionDialog->close();
-    }
-    if ( aboutDialog && !aboutDialog->isHidden() ) {
-        aboutDialog->close();
-    }
-    // if only the first item is selected then select none
-    // (next time the window is shown the first item will be selected)
-    if ( c->selectionModel()->selectedIndexes().size() <= 1 &&
-         c->currentIndex().row() == 0 ) {
-        c->selectionModel()->clearSelection();
-        c->setCurrentIndex( QModelIndex() );
-    }
-    close();
-}
-
 void MainWindow::toggleVisible()
 {
     // FIXME: focus window if not focused
     if ( isVisible() ) {
-        hideWindow();
+        close();
     } else {
         showWindow();
     }
