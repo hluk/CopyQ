@@ -39,6 +39,11 @@ struct _Option {
         setValue(m_default_value);
     }
 
+    QString tooltip() const
+    {
+        return m_obj ? m_obj->property("toolTip").toString() : QString();
+    }
+
     /* default value and also type (int, float, boolean, QString) */
     QVariant m_default_value, m_value;
     const char *m_property_name;
@@ -198,6 +203,16 @@ QVariant ConfigurationManager::value(const QString &name) const
 void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 {
     m_options[name].setValue(value);
+}
+
+QStringList ConfigurationManager::options() const
+{
+    return m_options.keys();
+}
+
+QString ConfigurationManager::optionToolTip(const QString &name) const
+{
+    return m_options[name].tooltip();
 }
 
 void ConfigurationManager::loadSettings()

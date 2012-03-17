@@ -74,8 +74,10 @@ Command Line Interface
 
         clipboard [mime_type="text/plain"]
           print clipboard content
+          use ? for mime_type to print mime types
         selection [mime_type="text/plain"]
           print X11 selection content
+          use ? for mime_type to print mime types
 
         length, count, size
           print number of items in history
@@ -100,6 +102,13 @@ Command Line Interface
           show action dialog
         action [row=0] ... "command" [separator=\n]
           apply command on item text in the row
+
+        config
+          list all options
+        config option
+          get option value
+        config option value
+          set option value
 
         help, -h, --help
           print this help

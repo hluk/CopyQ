@@ -61,6 +61,8 @@ public:
 
     QVariant value(const QString &name) const;
     void setValue(const QString &name, const QVariant &value);
+    QStringList options() const;
+    QString optionToolTip(const QString &name) const;
 
     void loadItems(ClipboardModel &model, const QString &id);
     void saveItems(const ClipboardModel &model, const QString &id);

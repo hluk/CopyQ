@@ -54,7 +54,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxClip">
                   <property name="toolTip">
-                   <string>Save clipboard in history</string>
+                   <string>Save clipboard in history.</string>
                   </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; history (&amp;1)</string>
@@ -67,7 +67,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopyClip">
                   <property name="toolTip">
-                   <string>If clipboard changes store its content in the primary selection</string>
+                   <string>If clipboard changes store its content in the primary selection.</string>
                   </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; selection (&amp;2)</string>
@@ -80,7 +80,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxSel">
                   <property name="toolTip">
-                   <string>Save primary selection in history</string>
+                   <string>Save primary selection in history.</string>
                   </property>
                   <property name="text">
                    <string>selection &gt;&gt; history (&amp;3)</string>
@@ -93,7 +93,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopySel">
                   <property name="toolTip">
-                   <string>If primary selection changes store its content in the clipboard</string>
+                   <string>If primary selection changes store its content in the clipboard.</string>
                   </property>
                   <property name="text">
                    <string>selection &gt;&gt; clipboard (&amp;4)</string>
@@ -110,6 +110,9 @@
            </item>
            <item>
             <widget class="QCheckBox" name="checkBoxConfirmExit">
+             <property name="toolTip">
+              <string>Confirm application exit.</string>
+             </property>
              <property name="text">
               <string>Confirm application e&amp;xit</string>
              </property>
@@ -147,7 +150,7 @@
              <item>
               <widget class="QLabel" name="label_4">
                <property name="text">
-                <string>Maximum &amp;number of items in history list:</string>
+                <string>Maximum &amp;number of items in history:</string>
                </property>
                <property name="buddy">
                 <cstring>spinBoxItems</cstring>
@@ -156,6 +159,9 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxItems">
+               <property name="toolTip">
+                <string>Maximum number of items in history.</string>
+               </property>
                <property name="maximum">
                 <number>10000</number>
                </property>
@@ -180,6 +186,9 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxTrayItems">
+               <property name="toolTip">
+                <string>Number of items in tray menu.</string>
+               </property>
                <property name="value">
                 <number>5</number>
                </property>
@@ -214,6 +223,9 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxImageWidth">
+               <property name="toolTip">
+                <string>Maximum width of image displayed in history.</string>
+               </property>
                <property name="maximum">
                 <number>4096</number>
                </property>
@@ -234,6 +246,9 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxImageHeight">
+               <property name="toolTip">
+                <string>Maximum height of image displayed in history.</string>
+               </property>
                <property name="maximum">
                 <number>4096</number>
                </property>
@@ -255,6 +270,9 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEditEditor">
+               <property name="toolTip">
+                <string>External editor command (%1 is file to edit).</string>
+               </property>
                <property name="text">
                 <string>gedit %1</string>
                </property>
@@ -278,7 +296,11 @@
               </widget>
              </item>
              <item>
-              <widget class="QPlainTextEdit" name="plainTextEditFormats"/>
+              <widget class="QPlainTextEdit" name="plainTextEditFormats">
+               <property name="toolTip">
+                <string>List of clipboard mime types that will be stored in history (in given display order).</string>
+               </property>
+              </widget>
              </item>
             </layout>
            </item>
@@ -425,6 +447,9 @@
              </item>
              <item row="0" column="1">
               <widget class="QPushButton" name="pushButton">
+               <property name="toolTip">
+                <string>Shortcut to show or hide clipboard history.</string>
+               </property>
                <property name="text">
                 <string>(No Shortcut)</string>
                </property>
@@ -442,6 +467,9 @@
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="pushButton_2">
+               <property name="toolTip">
+                <string>Shortcut to show tray menu.</string>
+               </property>
                <property name="text">
                 <string>(No Shortcut)</string>
                </property>

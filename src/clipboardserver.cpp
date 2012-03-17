@@ -292,7 +292,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             args >> row;
             if (args.error())
                 break;
-            text.append( "\n"+c->itemText(row) );
+            text.append( '\n'+c->itemText(row) );
         }
 
         if ( !args.error() ) {
@@ -369,7 +369,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             args >> row;
             if (args.error())
                return false;
-            text.append( "\n"+c->itemText(row) );
+            text.append( '\n'+c->itemText(row) );
         }
         c->openEditor(text);
     }
@@ -441,7 +441,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
 
                 if (data) {
                     if (mime == "?")
-                        response->append( data->formats().join(" ")+'\n' );
+                        response->append( data->formats().join("\n")+'\n' );
                     else
                         response->append( data->data(mime) );
                 }
@@ -452,18 +452,62 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // clipboard [mime="text/plain"]
     else if (cmd == "clipboard") {
         args >> QString("text/plain") >> mime;
-        QClipboard *clipboard = QApplication::clipboard();
-        response->append( clipboard->mimeData()->data(mime) );
+        const QMimeData *data = QApplication::clipboard()->mimeData();
+        if (data) {
+            if (mime == "?")
+                response->append( data->formats().join("\n")+'\n' );
+            else
+                response->append( data->data(mime) );
+        }
     }
 
 #ifdef Q_WS_X11
     // selection [mime="text/plain"]
     else if (cmd == "selection") {
         args >> QString("text/plain") >> mime;
-        QClipboard *clipboard = QApplication::clipboard();
-        response->append( clipboard->mimeData(QClipboard::Selection)->data(mime) );
+        const QMimeData *data =
+                QApplication::clipboard()->mimeData(QClipboard::Selection);
+        if (data) {
+            if (mime == "?")
+                response->append( data->formats().join("\n")+'\n' );
+            else
+                response->append( data->data(mime) );
+        }
     }
 #endif
+
+    // config [option [value]]
+    else if (cmd == "config") {
+        ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+
+        if ( args.atEnd() ) {
+            QStringList options = cm->options();
+            options.sort();
+            foreach (const QString &option, options) {
+                if ( cm->value(option).canConvert(QVariant::String) ) {
+                    response->append( option + "\n  " +
+                                      cm->optionToolTip(option) + '\n' );
+                }
+            }
+        } else {
+            QString option;
+            args >> option;
+            if ( cm->options().contains(option) &&
+                 cm->value(option).canConvert(QVariant::String) ) {
+                if ( args.atEnd() ) {
+                    response->append( cm->value(option).toString()+'\n' );
+                } else {
+                    QString value;
+                    args >> value;
+                    if ( !args.atEnd() )
+                        return false;
+                    cm->setValue(option, value);
+                }
+            } else {
+                response->append("Invalid option!\n");
+            }
+        }
+    }
 
     // unknown command
     else {
