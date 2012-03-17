@@ -105,6 +105,7 @@ class MainWindow : public QMainWindow
                 rows if window is opened, otherwise only the first item.
          */
         void openActionDialog(int row = -1);
+        void openActionDialog(const QString &text);
 
         void openPreferences();
 

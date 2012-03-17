@@ -48,10 +48,19 @@ class ClipboardBrowser : public QListView
         ClipboardBrowser(const QString &id, QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
-        bool add(const QString &txt);
-        bool add(QMimeData *item);
-        bool add(ClipboardItem *item);
+
+        /**
+         * Add new item to the browser.
+         *
+         * @param force if true ignore commands and add item even if it already
+         *        is on top
+         */
+        bool add(const QString &txt, bool force = false);
+        bool add(QMimeData *item, bool force = false);
+        bool add(ClipboardItem *item, bool force = false);
+
         void remove();
+
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
@@ -115,7 +124,7 @@ class ClipboardBrowser : public QListView
         void clearFilter() { filterItems( QString() ); }
         void itemModified(const QString &str);
         void closeEditor(QEditor *editor);
-        void openEditor();
+        void openEditor(const QString &text);
         void addItems(const QStringList &items);
 
         void loadItems();

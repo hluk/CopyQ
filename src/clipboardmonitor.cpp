@@ -124,31 +124,34 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-    // are data valid?
-    if ( data->formats().isEmpty() ||
-         (data->hasText() && QRegExp("\\s*").exactMatch(data->text())) )
-        return;
-
     // same data as last time?
     newHash = hash(*data);
     if (m_lastHash == newHash)
         return;
-    m_lastHash = newHash;
+
+    // clone only mime types defined by user
+    data = cloneData(*data, &m_formats);
+    // any data found?
+    if ( data->formats().isEmpty() ) {
+        delete data;
+        return;
+    }
 
     // send data to serve and synchronize if needed
+    m_lastHash = newHash;
     if (mode == QClipboard::Clipboard) {
         if (m_checkclip)
-            clipboardChanged(mode, cloneData(*data, &m_formats));
+            clipboardChanged(mode, cloneData(*data));
         if (m_copyclip)
-            clipboard->setMimeData( cloneData(*data, &m_formats),
-                                    QClipboard::Selection );
+            clipboard->setMimeData( cloneData(*data), QClipboard::Selection );
     } else {
         if (m_checksel)
-            clipboardChanged(mode, cloneData(*data, &m_formats));
+            clipboardChanged(mode, cloneData(*data));
         if (m_copysel)
-            clipboard->setMimeData( cloneData(*data, &m_formats),
-                                    QClipboard::Clipboard );
+            clipboard->setMimeData( cloneData(*data), QClipboard::Clipboard );
     }
+
+    delete data;
 }
 #else /* !Q_WS_X11 */
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)

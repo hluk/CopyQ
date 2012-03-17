@@ -382,6 +382,7 @@ void MainWindow::showWindow()
             c->currentIndex().row() <= 0 ) {
         c->setCurrent(0);
     }
+    c->scrollTo( c->currentIndex() );
 
     QApplication::processEvents();
     raiseWindow(winId());
@@ -399,9 +400,11 @@ void MainWindow::hideWindow()
     }
     // if only the first item is selected then select none
     // (next time the window is shown the first item will be selected)
-    if ( c->selectionModel()->selectedIndexes().size() == 1 &&
-         c->currentIndex().row() == 0 )
+    if ( c->selectionModel()->selectedIndexes().size() <= 1 &&
+         c->currentIndex().row() == 0 ) {
+        c->selectionModel()->clearSelection();
         c->setCurrentIndex( QModelIndex() );
+    }
     close();
 }
 
@@ -567,8 +570,6 @@ void MainWindow::createActionDialog()
 void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
-
-    createActionDialog();
     QString text;
     if (row >= 0) {
         text = c->itemText(row);
@@ -577,6 +578,12 @@ void MainWindow::openActionDialog(int row)
     } else {
         text = c->itemText(0);
     }
+    openActionDialog(text);
+}
+
+void MainWindow::openActionDialog(const QString &text)
+{
+    createActionDialog();
     actionDialog->setInputText(text);
     actionDialog->exec();
 }

@@ -128,7 +128,7 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
             edit(ind);
             break;
         case ActionEditor:
-            openEditor();
+            openEditor( selectedText() );
             break;
         case ActionAct:
             emit requestActionDialog(selectedText());
@@ -221,9 +221,9 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &a,
     QListView::selectionChanged(a, b);
 }
 
-void ClipboardBrowser::openEditor()
+void ClipboardBrowser::openEditor(const QString &text)
 {
-    QEditor *editor = new QEditor(selectedText(), m_editor);
+    QEditor *editor = new QEditor(text, m_editor);
 
     connect( editor, SIGNAL(fileModified(const QString &)),
             this, SLOT(itemModified(const QString &)) );
@@ -306,7 +306,7 @@ void ClipboardBrowser::moveToClipboard(int i)
 void ClipboardBrowser::newItem()
 {
     // new text will allocate more space (lines) for editor
-    add( QString() );
+    add( QString(), true );
     selectionModel()->clearSelection();
     setCurrent(0);
     edit( index(0) );
@@ -440,42 +440,44 @@ void ClipboardBrowser::remove()
     }
 }
 
-bool ClipboardBrowser::add(const QString &txt)
+bool ClipboardBrowser::add(const QString &txt, bool force)
 {
     QMimeData *data = new QMimeData;
     data->setText(txt);
-    return add(data);
+    return add(data, force);
 }
 
-bool ClipboardBrowser::add(QMimeData *data)
+bool ClipboardBrowser::add(QMimeData *data, bool force)
 {
-    // don't add if new data is same as first item
-    if ( m->rowCount() ) {
-        QStringList formats = data->formats();
-        QMimeData *olddata = m->mimeData(0);
-        QStringList oldformats = olddata->formats();
-        if ( oldformats == formats &&
-             olddata->data(oldformats.at(0)) == data->data(formats.at(0)) ) {
-            delete data;
-            return false;
-        }
-    }
-
-    // commands
-    bool ignore = false;
-    foreach(const Command &command, commands) {
-        if (command.automatic || command.ignore) {
-            QString text = data->text();
-            if (command.re.indexIn(text) != -1) {
-                if (command.automatic)
-                    emit requestActionDialog(text, &command);
-                if (command.ignore)
-                    ignore = true;
+    if (!force) {
+        // don't add if new data is same as first item
+        if ( m->rowCount() ) {
+            QStringList formats = data->formats();
+            QMimeData *olddata = m->mimeData(0);
+            QStringList oldformats = olddata->formats();
+            if ( oldformats == formats &&
+                 olddata->data(oldformats.at(0)) == data->data(formats.at(0)) ) {
+                delete data;
+                return false;
             }
         }
+
+        // commands
+        bool ignore = false;
+        foreach(const Command &command, commands) {
+            if (command.automatic || command.ignore) {
+                QString text = data->text();
+                if (command.re.indexIn(text) != -1) {
+                    if (command.automatic)
+                        emit requestActionDialog(text, &command);
+                    if (command.ignore)
+                        ignore = true;
+                }
+            }
+        }
+        if (ignore)
+            return false;
     }
-    if (ignore)
-        return false;
 
     // create new item
     m->insertRow(0);
@@ -483,15 +485,8 @@ bool ClipboardBrowser::add(QMimeData *data)
     m->setData(ind, data);
 
     // filter item
-    if ( m->isFiltered(0) ) {
+    if ( m->isFiltered(0) )
         setRowHidden(0, true);
-    } else {
-        // leave the first item selected
-        if ( selectionModel()->selectedIndexes().size() <= 1 &&
-             currentIndex().row() <= 1 ) {
-            setCurrent(0);
-        }
-    }
 
     // list size limit
     if ( m->rowCount() > m_maxitems )
@@ -503,13 +498,9 @@ bool ClipboardBrowser::add(QMimeData *data)
     return true;
 }
 
-bool ClipboardBrowser::add(ClipboardItem *item)
+bool ClipboardBrowser::add(ClipboardItem *item, bool force)
 {
-    if ( !m->insertRow(0) )
-        return false;
-    m->at(0)->setData( cloneData(*item->data()) );
-
-    return true;
+    return add( cloneData(*item->data()), force );
 }
 
 void ClipboardBrowser::loadSettings()

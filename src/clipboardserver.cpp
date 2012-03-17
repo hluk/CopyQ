@@ -21,9 +21,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     if ( !m_server->isListening() )
         return;
 
-    // don't exit when all windows closed
-    QApplication::setQuitOnLastWindowClosed(false);
-
     // main window
     m_wnd = new MainWindow;
 
@@ -39,6 +36,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     connect( m_monitorserver, SIGNAL(newConnection()),
              this, SLOT(newMonitorConnection()) );
 
+    connect( m_wnd, SIGNAL(destroyed()),
+             this, SLOT(quit()) );
     connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
@@ -54,9 +53,7 @@ ClipboardServer::~ClipboardServer()
         stopMonitoring();
     }
 
-    if(m_wnd) {
-        delete m_wnd;
-    }
+    delete m_wnd;
 
     if (m_socket) {
         m_socket->disconnectFromServer();
@@ -130,7 +127,6 @@ void ClipboardServer::stopMonitoring()
         m_monitor->deleteLater();
         m_monitor = NULL;
     }
-    m_wnd->browser(0)->setAutoUpdate(false);
 }
 
 void ClipboardServer::startMonitoring()
@@ -275,7 +271,8 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             return false;
         // close client and exit
         *response = tr("Terminating server.\n").toLocal8Bit();
-        exit();
+        m_wnd->deleteLater();
+        m_wnd = NULL;
     }
 
     // show menu
@@ -290,15 +287,16 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // action [[row] ... ["cmd" "[sep]"]]
     else if (cmd == "action") {
         args >> 0 >> row;
-        c->setCurrent(row);
+        QString text = c->itemText(row);
         while ( !args.finished() ) {
             args >> row;
             if (args.error())
                 break;
-            c->setCurrent(row, false, true);
+            text.append( "\n"+c->itemText(row) );
         }
+
         if ( !args.error() ) {
-            m_wnd->openActionDialog(-1);
+            m_wnd->openActionDialog(text);
         } else {
             QString cmd, sep;
 
@@ -314,7 +312,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             command.input = true;
             command.sep = sep;
             command.wait = false;
-            m_wnd->action(c->selectedText(), &command);
+            m_wnd->action(text, &command);
         }
     }
 
@@ -327,7 +325,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         c->setUpdatesEnabled(false);
 
         while( !args.atEnd() ) {
-            c->add( args.toString() );
+            c->add( args.toString(), true );
         }
 
         c->setUpdatesEnabled(true);
@@ -356,7 +354,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         if ( noupdate && isMonitoring() )
             c->setAutoUpdate(false);
 
-        c->add(data);
+        c->add(data, true);
 
         if ( noupdate && isMonitoring() )
             c->setAutoUpdate(true);
@@ -366,14 +364,14 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // edit [row=0] ...
     else if (cmd == "edit") {
         args >> 0 >> row;
-        c->setCurrent(row);
+        QString text = c->itemText(row);
         while ( !args.finished() ) {
             args >> row;
-            if ( args.error() )
-                return false;
-            c->setCurrent(row, false, true);
+            if (args.error())
+               return false;
+            text.append( "\n"+c->itemText(row) );
         }
-        c->openEditor();
+        c->openEditor(text);
     }
 
     // set current item
@@ -388,15 +386,28 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // remove item from clipboard
     // remove [row=0] ...
     else if (cmd == "remove") {
+        QList<int> rows;
         args >> 0 >> row;
-        c->setCurrent(row);
+        rows << row;
         while ( !args.finished() ) {
             args >> row;
             if ( args.error() )
                 return false;
-            c->setCurrent(row, false, true);
+            rows << row;
         }
-        c->remove();
+
+        if ( noupdate && isMonitoring() )
+            c->setAutoUpdate(false);
+
+        qSort(rows.begin(), rows.end(), qGreater<int>());
+        foreach (int row, rows)
+            c->model()->removeRow(row);
+
+        if ( noupdate && isMonitoring() )
+            c->setAutoUpdate(true);
+
+        if (rows.last() == 0)
+            c->updateClipboard();
     }
 
     else if (cmd == "length" || cmd == "size" || cmd == "count") {
