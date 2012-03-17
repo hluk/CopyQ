@@ -16,5 +16,6 @@
         <file>images/tab_new.svg</file>
         <file>images/tab_remove.svg</file>
         <file>images/paste.svg</file>
+        <file>styles/default.css</file>
     </qresource>
 </RCC>

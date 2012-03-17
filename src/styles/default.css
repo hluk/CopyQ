@@ -1,0 +1,47 @@
+/* http://doc.qt.nokia.com/stylesheet-examples.html */
+
+/* font */
+#item, #history, #searchBar, QPlainTextEdit {
+    font-family: monospace;
+}
+
+/* item text */
+#item {
+    background: transparent;
+    margin-left: 4ex;
+}
+
+/* matched text */
+.em {
+    background-color: yellow;
+    color: black;
+}
+
+#history {
+    /* alternate item color */
+    alternate-background-color: rgba(200,200,200,100);
+
+    /* selection color */
+    selection-background-color: rgba(150,220,255,200);
+
+    /* number text color */
+    color: gray;
+    selection-color: white;
+}
+
+#searchBar {
+}
+
+#findLabel {
+    font-weight: bold;
+}
+
+QPlainTextEdit {
+    color: black;
+}
+
+QMainWindow {
+}
+
+QToolTip, QScrollBar {
+}

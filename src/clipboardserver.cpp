@@ -21,6 +21,9 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     if ( !m_server->isListening() )
         return;
 
+    // don't exit when all windows closed
+    QApplication::setQuitOnLastWindowClosed(false);
+
     // main window
     m_wnd = new MainWindow;
 
@@ -502,6 +505,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
                     if ( !args.atEnd() )
                         return false;
                     cm->setValue(option, value);
+                    cm->saveSettings();
                 }
             } else {
                 response->append("Invalid option!\n");

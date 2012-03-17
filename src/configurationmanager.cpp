@@ -95,14 +95,8 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     // TODO: get default editor from environment variable EDITOR
     m_options.insert( "editor",
                       Option(DEFAULT_EDITOR, "text", ui->lineEditEditor) );
-    m_options.insert( "check_selection",
-                      Option(true, "checked", ui->checkBoxClip) );
     m_options.insert( "check_clipboard",
                       Option(true, "checked", ui->checkBoxSel) );
-    m_options.insert( "copy_clipboard",
-                      Option(true, "checked", ui->checkBoxCopyClip) );
-    m_options.insert( "copy_selection",
-                      Option(true, "checked", ui->checkBoxCopySel) );
     m_options.insert( "confirm_exit",
                       Option(true, "checked", ui->checkBoxConfirmExit) );
     m_options.insert( "tabs",
@@ -112,6 +106,18 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                       Option("(No Shortcut)", "text", ui->pushButton));
     m_options.insert( "menu_shortcut",
                       Option("(No Shortcut)", "text", ui->pushButton_2));
+#endif
+#ifdef Q_WS_X11
+    m_options.insert( "check_selection",
+                      Option(true, "checked", ui->checkBoxClip) );
+    m_options.insert( "copy_clipboard",
+                      Option(true, "checked", ui->checkBoxCopyClip) );
+    m_options.insert( "copy_selection",
+                      Option(true, "checked", ui->checkBoxCopySel) );
+#else
+    ui->checkBoxCopySel->hide();
+    ui->checkBoxSel->hide();
+    ui->checkBoxCopyClip->hide();
 #endif
 
     m_datfilename = settings.fileName();
@@ -170,7 +176,8 @@ void ConfigurationManager::readStyleSheet()
         setStyleSheet(css);
         ui->plainTextEdit_css->setPlainText(css);
     } else {
-        setStyleSheet( ui->plainTextEdit_css->toPlainText() );
+        QFile default_css(":/styles/default.css");
+        setStyleSheet( default_css.readAll() );
     }
 }
 
@@ -306,6 +313,8 @@ void ConfigurationManager::saveSettings()
     settings.endArray();
 
     writeStyleSheet();
+
+    emit configurationChanged();
 }
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
@@ -335,6 +344,12 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
             foreach( const QString &key, m_options.keys() ) {
                 m_options[key].reset();
             }
+            QFile default_css(":/styles/default.css");
+            if ( default_css.open(QIODevice::ReadOnly) ) {
+                QString css = default_css.readAll();
+                setStyleSheet(css);
+                ui->plainTextEdit_css->setPlainText(css);
+            }
         }
         break;
     default:
@@ -362,7 +377,6 @@ void ConfigurationManager::apply()
     }
 
     setStyleSheet( ui->plainTextEdit_css->toPlainText() );
-    emit configurationChanged();
     saveSettings();
 }
 

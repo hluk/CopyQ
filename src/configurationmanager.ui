@@ -485,116 +485,33 @@
         <attribute name="title">
          <string>&amp;Appearance</string>
         </attribute>
-        <layout class="QGridLayout" name="gridLayout_4">
-         <item row="0" column="1">
-          <widget class="QSplitter" name="verticalLayout_5">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="opaqueResize">
-            <bool>true</bool>
-           </property>
-           <property name="childrenCollapsible">
-            <bool>true</bool>
-           </property>
-           <widget class="QGroupBox" name="verticalLayout_7">
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_6">
-             <property name="horizontalSpacing">
-              <number>0</number>
+        <layout class="QVBoxLayout" name="verticalLayout_5">
+         <item>
+          <layout class="QVBoxLayout" name="verticalLayout_9">
+           <item>
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>&amp;Style sheet (CSS):</string>
              </property>
-             <property name="margin">
-              <number>0</number>
+             <property name="buddy">
+              <cstring>plainTextEdit_css</cstring>
              </property>
-             <item row="0" column="0">
-              <layout class="QVBoxLayout" name="verticalLayout_9">
-               <item>
-                <widget class="QLabel" name="label_8">
-                 <property name="text">
-                  <string>&amp;Style sheet (CSS):</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>plainTextEdit_css</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPlainTextEdit" name="plainTextEdit_css">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="plainText">
-                  <string>/* http://doc.qt.nokia.com/stylesheet-examples.html */
-
-/* font */
-#item, #clipboardBrowser, #searchBar, QPlainTextEdit {
-    font-family: monospace;
-}
-
-/* item text */
-#item {
-    background: transparent;
-    margin-left: 4ex;
-}
-
-/* matched text */
-.em {
-    background-color: yellow;
-    color: black;
-}
-
-
-QListView {
-    /* alternate item color */
-    alternate-background-color: rgba(200,200,200,100);
-
-    /* selection color */
-    selection-background-color: rgba(150,220,255,200);
-
-    /* number text color */
-    color: gray;
-    selection-color: white;
-}
-
-#clipboardBrowser {
-}
-
-#searchBar {
-}
-
-#findLabel {
-    font-weight: bold;
-}
-
-QPlainTextEdit {
-    color: black;
-}
-
-QMainWindow {
-}
-
-QToolTip, QScrollBar {
-}
-</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
-          </widget>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPlainTextEdit" name="plainTextEdit_css">
+             <property name="sizePolicy">
+              <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
+               <horstretch>0</horstretch>
+               <verstretch>0</verstretch>
+              </sizepolicy>
+             </property>
+             <property name="plainText">
+              <string/>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
         </layout>
        </widget>
@@ -643,7 +560,6 @@ QToolTip, QScrollBar {
   <tabstop>pushButtonDown</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
-  <tabstop>plainTextEdit_css</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>

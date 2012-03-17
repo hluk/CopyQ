@@ -79,3 +79,6 @@ win32 {
     LIBS    += -luser32
     RC_FILE  = copyq.rc
 }
+
+OTHER_FILES += \
+    styles/default.css

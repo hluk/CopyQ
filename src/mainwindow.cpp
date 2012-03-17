@@ -708,6 +708,7 @@ void MainWindow::removeTab()
 MainWindow::~MainWindow()
 {
     saveSettings();
+    tray->hide();
     delete ui;
 }
 
