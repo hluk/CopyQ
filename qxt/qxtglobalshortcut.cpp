@@ -51,11 +51,8 @@ QxtGlobalShortcutPrivate::QxtGlobalShortcutPrivate() : enabled(true), key(Qt::Ke
 QxtGlobalShortcutPrivate::~QxtGlobalShortcutPrivate()
 {
 #ifndef Q_WS_MAC
-    if (!--ref) {
-        QAbstractEventDispatcher *ed = QAbstractEventDispatcher::instance();
-        if (ed)
-            ed->setEventFilter(prevEventFilter);
-    }
+    if (!--ref)
+        QAbstractEventDispatcher::instance()->setEventFilter(prevEventFilter);
 #endif // Q_WS_MAC
 }
 

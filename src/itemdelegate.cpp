@@ -60,7 +60,7 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &in
     if (w)
         return w->size();
     else
-        return QSize(1,100);
+        return QSize(1, 256);
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -85,7 +85,7 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
                 return false;
         }
     }
-    
+
     return false;
 }
 

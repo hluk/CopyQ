@@ -118,7 +118,7 @@ void ActionDialog::closeAction(Action *act)
         emit message( QString("Command failed: ")+act->command(), errout );
 
     --m_actions;
-    if (!m_actions) {
+    if (m_actions == 0) {
         changeTrayIcon( QIcon(":/images/icon.svg") );
     }
 
@@ -204,10 +204,10 @@ void ActionDialog::runCommand()
     connect( act, SIGNAL(removeMenuItem(QAction*)),
                  this, SIGNAL(removeMenuItem(QAction*)) );
 
-    if (!m_actions) {
+    ++m_actions;
+    if (m_actions == 1) {
         changeTrayIcon( QIcon(":/images/icon-running.svg") );
     }
-    ++m_actions;
 
     log( tr("Executing: %1").arg(cmd) );
     log( tr("Arguments: %1").arg(args.join(", ")) );

@@ -1,6 +1,7 @@
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
 #include "clipboardmodel.h"
+#include "client_server.h"
 #include "shortcutdialog.h"
 #include <QFile>
 #include <QtGui/QDesktopWidget>
@@ -64,6 +65,9 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     ui(new Ui::ConfigurationManager)
 {
     ui->setupUi(this);
+#ifdef NO_GLOBAL_SHORTCUTS
+    ui->tab_shortcuts->deleteLater();
+#endif
 
     /* datafile for items */
     // do not use registry in windows
@@ -98,10 +102,12 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                       Option(true, "checked", ui->checkBoxConfirmExit) );
     m_options.insert( "tabs",
                       Option(QStringList()) );
+#ifndef NO_GLOBAL_SHORTCUTS
     m_options.insert( "toggle_shortcut",
                       Option("(No Shortcut)", "text", ui->pushButton));
     m_options.insert( "menu_shortcut",
                       Option("(No Shortcut)", "text", ui->pushButton_2));
+#endif
 
     m_datfilename = settings.fileName();
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );

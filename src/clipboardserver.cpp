@@ -7,6 +7,12 @@
 #include <QMimeData>
 #include "arguments.h"
 
+#ifdef NO_GLOBAL_SHORTCUTS
+struct QxtGlobalShortcut {};
+#else
+#include "../qxt/qxtglobalshortcut.h"
+#endif
+
 ClipboardServer::ClipboardServer(int &argc, char **argv) :
         App(argc, argv), m_socket(NULL), m_wnd(NULL), m_monitor(NULL)
 {
@@ -198,7 +204,7 @@ void ClipboardServer::readyRead()
         ClipboardItem item;
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
-            // something wrong sith connection
+            // something wrong with connection
             // -> restart monitor
             stopMonitoring();
             startMonitoring();
@@ -458,6 +464,9 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
 
 Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 {
+#ifdef NO_GLOBAL_SHORTCUTS
+    return NULL;
+#else
     if (shortcut == tr("(No Shortcut)") || shortcut.isEmpty())
         return NULL;
 
@@ -467,12 +476,14 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
              this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
 
     return &m_shortcutActions[s];
+#endif
 }
 
 void ClipboardServer::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
 
+#ifndef NO_GLOBAL_SHORTCUTS
     // set global shortcuts
     QString key;
     Arguments *args;
@@ -490,6 +501,7 @@ void ClipboardServer::loadSettings()
     args = createGlobalShortcut(key);
     if (args)
         args->append("menu");
+#endif
 
     // restart clipboard monitor to reload its configuration
     if ( isMonitoring() ) {

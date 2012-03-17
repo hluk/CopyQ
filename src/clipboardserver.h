@@ -5,11 +5,11 @@
 #include <QLocalServer>
 #include <QProcess>
 #include "client_server.h"
-#include "../qxt/qxtglobalshortcut.h"
 
 class MainWindow;
 class ClipboardItem;
 class Arguments;
+class QxtGlobalShortcut;
 
 class ClipboardServer : public App
 {
