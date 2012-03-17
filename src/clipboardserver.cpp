@@ -7,6 +7,12 @@
 #include <QMimeData>
 #include "arguments.h"
 
+#ifdef NO_GLOBAL_SHORTCUTS
+struct QxtGlobalShortcut {};
+#else
+#include "../qxt/qxtglobalshortcut.h"
+#endif
+
 ClipboardServer::ClipboardServer(int &argc, char **argv) :
         App(argc, argv), m_socket(NULL), m_wnd(NULL), m_monitor(NULL)
 {
@@ -14,9 +20,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     m_server = newServer( serverName(), this );
     if ( !m_server->isListening() )
         return;
-
-    // don't exit when all windows closed
-    QApplication::setQuitOnLastWindowClosed(false);
 
     // main window
     m_wnd = new MainWindow;
@@ -33,6 +36,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
     connect( m_monitorserver, SIGNAL(newConnection()),
              this, SLOT(newMonitorConnection()) );
 
+    connect( m_wnd, SIGNAL(destroyed()),
+             this, SLOT(quit()) );
     connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
@@ -48,9 +53,7 @@ ClipboardServer::~ClipboardServer()
         stopMonitoring();
     }
 
-    if(m_wnd) {
-        delete m_wnd;
-    }
+    delete m_wnd;
 
     if (m_socket) {
         m_socket->disconnectFromServer();
@@ -124,7 +127,6 @@ void ClipboardServer::stopMonitoring()
         m_monitor->deleteLater();
         m_monitor = NULL;
     }
-    m_wnd->browser(0)->setAutoUpdate(false);
 }
 
 void ClipboardServer::startMonitoring()
@@ -198,7 +200,7 @@ void ClipboardServer::readyRead()
         ClipboardItem item;
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
-            // something wrong sith connection
+            // something wrong with connection
             // -> restart monitor
             stopMonitoring();
             startMonitoring();
@@ -269,7 +271,8 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             return false;
         // close client and exit
         *response = tr("Terminating server.\n").toLocal8Bit();
-        exit();
+        m_wnd->deleteLater();
+        m_wnd = NULL;
     }
 
     // show menu
@@ -284,15 +287,16 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // action [[row] ... ["cmd" "[sep]"]]
     else if (cmd == "action") {
         args >> 0 >> row;
-        c->setCurrent(row);
+        QString text = c->itemText(row);
         while ( !args.finished() ) {
             args >> row;
             if (args.error())
                 break;
-            c->setCurrent(row, false, true);
+            text.append( '\n'+c->itemText(row) );
         }
+
         if ( !args.error() ) {
-            m_wnd->openActionDialog(-1);
+            m_wnd->openActionDialog(text);
         } else {
             QString cmd, sep;
 
@@ -302,13 +306,13 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             if ( !args.finished() )
                 return false;
 
-            ConfigurationManager::Command command;
+            Command command;
             command.cmd = cmd;
             command.output = true;
             command.input = true;
             command.sep = sep;
             command.wait = false;
-            m_wnd->action(c, -1, &command);
+            m_wnd->action(text, &command);
         }
     }
 
@@ -318,9 +322,13 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             return false;
 
         if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setUpdatesEnabled(false);
+
         while( !args.atEnd() ) {
-            c->add( args.toString() );
+            c->add( args.toString(), true );
         }
+
+        c->setUpdatesEnabled(true);
         if ( isMonitoring() ) c->setAutoUpdate(true);
 
         c->updateClipboard();
@@ -346,7 +354,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         if ( noupdate && isMonitoring() )
             c->setAutoUpdate(false);
 
-        c->add(data);
+        c->add(data, true);
 
         if ( noupdate && isMonitoring() )
             c->setAutoUpdate(true);
@@ -356,14 +364,14 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // edit [row=0] ...
     else if (cmd == "edit") {
         args >> 0 >> row;
-        c->setCurrent(row);
+        QString text = c->itemText(row);
         while ( !args.finished() ) {
             args >> row;
-            if ( args.error() )
-                return false;
-            c->setCurrent(row, false, true);
+            if (args.error())
+               return false;
+            text.append( '\n'+c->itemText(row) );
         }
-        c->openEditor();
+        c->openEditor(text);
     }
 
     // set current item
@@ -378,15 +386,28 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // remove item from clipboard
     // remove [row=0] ...
     else if (cmd == "remove") {
+        QList<int> rows;
         args >> 0 >> row;
-        c->setCurrent(row);
+        rows << row;
         while ( !args.finished() ) {
             args >> row;
             if ( args.error() )
                 return false;
-            c->setCurrent(row, false, true);
+            rows << row;
         }
-        c->remove();
+
+        if ( noupdate && isMonitoring() )
+            c->setAutoUpdate(false);
+
+        qSort(rows.begin(), rows.end(), qGreater<int>());
+        foreach (int row, rows)
+            c->model()->removeRow(row);
+
+        if ( noupdate && isMonitoring() )
+            c->setAutoUpdate(true);
+
+        if (rows.last() == 0)
+            c->updateClipboard();
     }
 
     else if (cmd == "length" || cmd == "size" || cmd == "count") {
@@ -420,7 +441,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
 
                 if (data) {
                     if (mime == "?")
-                        response->append( data->formats().join(" ")+'\n' );
+                        response->append( data->formats().join("\n")+'\n' );
                     else
                         response->append( data->data(mime) );
                 }
@@ -431,18 +452,62 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // clipboard [mime="text/plain"]
     else if (cmd == "clipboard") {
         args >> QString("text/plain") >> mime;
-        QClipboard *clipboard = QApplication::clipboard();
-        response->append( clipboard->mimeData()->data(mime) );
+        const QMimeData *data = QApplication::clipboard()->mimeData();
+        if (data) {
+            if (mime == "?")
+                response->append( data->formats().join("\n")+'\n' );
+            else
+                response->append( data->data(mime) );
+        }
     }
 
 #ifdef Q_WS_X11
     // selection [mime="text/plain"]
     else if (cmd == "selection") {
         args >> QString("text/plain") >> mime;
-        QClipboard *clipboard = QApplication::clipboard();
-        response->append( clipboard->mimeData(QClipboard::Selection)->data(mime) );
+        const QMimeData *data =
+                QApplication::clipboard()->mimeData(QClipboard::Selection);
+        if (data) {
+            if (mime == "?")
+                response->append( data->formats().join("\n")+'\n' );
+            else
+                response->append( data->data(mime) );
+        }
     }
 #endif
+
+    // config [option [value]]
+    else if (cmd == "config") {
+        ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+
+        if ( args.atEnd() ) {
+            QStringList options = cm->options();
+            options.sort();
+            foreach (const QString &option, options) {
+                if ( cm->value(option).canConvert(QVariant::String) ) {
+                    response->append( option + "\n  " +
+                                      cm->optionToolTip(option) + '\n' );
+                }
+            }
+        } else {
+            QString option;
+            args >> option;
+            if ( cm->options().contains(option) &&
+                 cm->value(option).canConvert(QVariant::String) ) {
+                if ( args.atEnd() ) {
+                    response->append( cm->value(option).toString()+'\n' );
+                } else {
+                    QString value;
+                    args >> value;
+                    if ( !args.atEnd() )
+                        return false;
+                    cm->setValue(option, value);
+                }
+            } else {
+                response->append("Invalid option!\n");
+            }
+        }
+    }
 
     // unknown command
     else {
@@ -454,6 +519,9 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
 
 Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 {
+#ifdef NO_GLOBAL_SHORTCUTS
+    return NULL;
+#else
     if (shortcut == tr("(No Shortcut)") || shortcut.isEmpty())
         return NULL;
 
@@ -463,12 +531,14 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
              this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
 
     return &m_shortcutActions[s];
+#endif
 }
 
 void ClipboardServer::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
 
+#ifndef NO_GLOBAL_SHORTCUTS
     // set global shortcuts
     QString key;
     Arguments *args;
@@ -486,6 +556,7 @@ void ClipboardServer::loadSettings()
     args = createGlobalShortcut(key);
     if (args)
         args->append("menu");
+#endif
 
     // restart clipboard monitor to reload its configuration
     if ( isMonitoring() ) {

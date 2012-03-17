@@ -20,6 +20,10 @@ Keyboard navigation
 
     move selected items
 
+* `Ctrl+Left`, `Ctrl+Right`
+
+    cycle through item formats
+
 * `Escape`
 
     hide window
@@ -59,12 +63,21 @@ Type a regular expressions (case-insensitive) to search/filter items.
 Command Line Interface
 ----------------------
 
-    usage: copyq [command]
+    usage: copyq [COMMAND]
     Starts server if no command is specified.
-      commands:
-        toggle  show/hide main window
+      COMMANDs:
+        show    show main window
+        hide    hide main window
+        toggle  show or hide main window
         menu    open context menu
         exit    exit server
+
+        clipboard [mime_type="text/plain"]
+          print clipboard content
+          use ? for mime_type to print mime types
+        selection [mime_type="text/plain"]
+          print X11 selection content
+          use ? for mime_type to print mime types
 
         length, count, size
           print number of items in history
@@ -76,11 +89,10 @@ Command Line Interface
           remove item in given rows
         edit [row=0] ...
           edit clipboard item
-        list [format="%1\n"] [row=0] ...
-          print items in given rows
 
-        read [mime_type="text/plain"|row=0] ...
-          print raw data
+        read [mime_type="text/plain"|row] ...
+          print raw data of clipboard or item in row
+          use ? for mime_type to print mime types
         write mime_type data ...
           write raw data to clipboard
         - [mime_type="text/plain"]
@@ -90,6 +102,13 @@ Command Line Interface
           show action dialog
         action [row=0] ... "command" [separator=\n]
           apply command on item text in the row
+
+        config
+          list all options
+        config option
+          get option value
+        config option value
+          set option value
 
         help, -h, --help
           print this help

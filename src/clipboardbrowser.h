@@ -48,10 +48,19 @@ class ClipboardBrowser : public QListView
         ClipboardBrowser(const QString &id, QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
-        bool add(const QString &txt, bool ignore_empty = true);
-        bool add(QMimeData *item, bool ignore_empty = true);
-        bool add(ClipboardItem *item);
+
+        /**
+         * Add new item to the browser.
+         *
+         * @param force if true ignore commands and add item even if it already
+         *        is on top
+         */
+        bool add(const QString &txt, bool force = false);
+        bool add(QMimeData *item, bool force = false);
+        bool add(ClipboardItem *item, bool force = false);
+
         void remove();
+
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;
@@ -82,12 +91,9 @@ class ClipboardBrowser : public QListView
         ItemDelegate *d;
         QTimer timer_save;
         bool m_update;
-        QBasicTimer timer_preload;
-        int m_to_preload;
 
         QMenu *m_menu;
         ConfigurationManager::Commands commands;
-        QVector<const ConfigurationManager::Command*> auto_commands;
 
         void createContextMenu();
 
@@ -96,11 +102,11 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
-        void timerEvent(QTimerEvent *event);
 
     signals:
         void requestSearch(const QString &txt);
-        void requestActionDialog(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd = NULL);
+        void requestActionDialog(const QString &text,
+                                 const Command *cmd = NULL);
         void requestShow();
         void hideSearch();
         void escapePressed();
@@ -118,13 +124,11 @@ class ClipboardBrowser : public QListView
         void clearFilter() { filterItems( QString() ); }
         void itemModified(const QString &str);
         void closeEditor(QEditor *editor);
-        void openEditor();
+        void openEditor(const QString &text);
         void addItems(const QStringList &items);
 
         void loadItems();
         void saveItems(int msec=0);
-
-        void preload(int msec=300);
 
         void contextMenuAction(QAction *act);
         void updateContextMenu();

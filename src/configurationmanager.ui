@@ -26,32 +26,11 @@
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="title">
-         <string>&amp;Clipboard</string>
+         <string>C&amp;lipboard</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="1" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0,0">
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>Save &amp;formats:</string>
-               </property>
-               <property name="buddy">
-                <cstring>lineEditFormats</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLineEdit" name="lineEditFormats">
-               <property name="text">
-                <string>text/plain text/html image/bmp image/x-inkscape-svg-compressed</string>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
+          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="sizePolicy">
@@ -74,6 +53,9 @@
                <layout class="QVBoxLayout" name="verticalLayout_3">
                 <item>
                  <widget class="QCheckBox" name="checkBoxClip">
+                  <property name="toolTip">
+                   <string>Save clipboard in history.</string>
+                  </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; history (&amp;1)</string>
                   </property>
@@ -84,6 +66,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopyClip">
+                  <property name="toolTip">
+                   <string>If clipboard changes store its content in the primary selection.</string>
+                  </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; selection (&amp;2)</string>
                   </property>
@@ -94,6 +79,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxSel">
+                  <property name="toolTip">
+                   <string>Save primary selection in history.</string>
+                  </property>
                   <property name="text">
                    <string>selection &gt;&gt; history (&amp;3)</string>
                   </property>
@@ -104,6 +92,9 @@
                 </item>
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopySel">
+                  <property name="toolTip">
+                   <string>If primary selection changes store its content in the clipboard.</string>
+                  </property>
                   <property name="text">
                    <string>selection &gt;&gt; clipboard (&amp;4)</string>
                   </property>
@@ -119,6 +110,9 @@
            </item>
            <item>
             <widget class="QCheckBox" name="checkBoxConfirmExit">
+             <property name="toolTip">
+              <string>Confirm application exit.</string>
+             </property>
              <property name="text">
               <string>Confirm application e&amp;xit</string>
              </property>
@@ -156,7 +150,7 @@
              <item>
               <widget class="QLabel" name="label_4">
                <property name="text">
-                <string>Maximum &amp;number of items in history list:</string>
+                <string>Maximum &amp;number of items in history:</string>
                </property>
                <property name="buddy">
                 <cstring>spinBoxItems</cstring>
@@ -165,6 +159,9 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxItems">
+               <property name="toolTip">
+                <string>Maximum number of items in history.</string>
+               </property>
                <property name="maximum">
                 <number>10000</number>
                </property>
@@ -189,6 +186,9 @@
              </item>
              <item>
               <widget class="QSpinBox" name="spinBoxTrayItems">
+               <property name="toolTip">
+                <string>Number of items in tray menu.</string>
+               </property>
                <property name="value">
                 <number>5</number>
                </property>
@@ -197,21 +197,60 @@
             </layout>
            </item>
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
              <item>
-              <widget class="QLabel" name="label_5">
+              <widget class="QLabel" name="label_10">
                <property name="text">
-                <string>&amp;Format display priority:</string>
-               </property>
-               <property name="buddy">
-                <cstring>lineEditPriority</cstring>
+                <string>Maximum image size (set to 0 for original size):</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QLineEdit" name="lineEditPriority">
+              <widget class="QLabel" name="label_7">
                <property name="text">
-                <string>image/bmp image/x-inkscape-svg-compressed text/plain text/html</string>
+                <string>&amp;Width:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="buddy">
+                <cstring>spinBoxImageWidth</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBoxImageWidth">
+               <property name="toolTip">
+                <string>Maximum width of image displayed in history.</string>
+               </property>
+               <property name="maximum">
+                <number>4096</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLabel" name="label_3">
+               <property name="text">
+                <string>&amp;Height:</string>
+               </property>
+               <property name="alignment">
+                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+               </property>
+               <property name="buddy">
+                <cstring>spinBoxImageHeight</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QSpinBox" name="spinBoxImageHeight">
+               <property name="toolTip">
+                <string>Maximum height of image displayed in history.</string>
+               </property>
+               <property name="maximum">
+                <number>4096</number>
                </property>
               </widget>
              </item>
@@ -231,6 +270,9 @@
              </item>
              <item>
               <widget class="QLineEdit" name="lineEditEditor">
+               <property name="toolTip">
+                <string>External editor command (%1 is file to edit).</string>
+               </property>
                <property name="text">
                 <string>gedit %1</string>
                </property>
@@ -239,17 +281,28 @@
             </layout>
            </item>
            <item>
-            <spacer name="verticalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
+            <layout class="QVBoxLayout" name="verticalLayout_13">
+             <property name="bottomMargin">
+              <number>0</number>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
+             <item>
+              <widget class="QLabel" name="label_5">
+               <property name="text">
+                <string>&amp;Format display priority:</string>
+               </property>
+               <property name="buddy">
+                <cstring>plainTextEditFormats</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPlainTextEdit" name="plainTextEditFormats">
+               <property name="toolTip">
+                <string>List of clipboard mime types that will be stored in history (in given display order).</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </item>
@@ -262,104 +315,59 @@
         <layout class="QGridLayout" name="gridLayout_7">
          <item row="0" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_10">
+           <property name="bottomMargin">
+            <number>0</number>
+           </property>
            <item>
-            <widget class="QTableWidget" name="tableCommands">
-             <column>
-              <property name="text">
-               <string>Enable</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Name</string>
-              </property>
-              <property name="toolTip">
-               <string>Label in context menu (use ampersand before character you want to be quick access key)</string>
-              </property>
-              <property name="whatsThis">
-               <string/>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Command</string>
-              </property>
-              <property name="toolTip">
-               <string>Command (%1 is contents of selected items)</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Input</string>
-              </property>
-              <property name="toolTip">
-               <string>Send content of selected items to standard input</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Output</string>
-              </property>
-              <property name="toolTip">
-               <string>Save the output in items</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Separator</string>
-              </property>
-              <property name="toolTip">
-               <string>Command output separator for splitting into multiple items</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Match</string>
-              </property>
-              <property name="toolTip">
-               <string>Allow command only on matched items (regular expression)</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Wait</string>
-              </property>
-              <property name="toolTip">
-               <string>Open action dialog instead of executing the command immediately</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Icon</string>
-              </property>
-              <property name="toolTip">
-               <string>Icon filename</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Shortcut</string>
-              </property>
-              <property name="toolTip">
-               <string>Command shortcut (e.g. Ctrl-X)</string>
-              </property>
-             </column>
-             <column>
-              <property name="text">
-               <string>Automatic</string>
-              </property>
-              <property name="toolTip">
-               <string>Run command on new clipboard items</string>
-              </property>
-             </column>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QListWidget" name="listWidgetCommands">
+               <property name="selectionMode">
+                <enum>QAbstractItemView::ExtendedSelection</enum>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_6">
+               <property name="rightMargin">
+                <number>20</number>
+               </property>
+               <item>
+                <widget class="CommandWidget" name="widgetCommand" native="true">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::WheelFocus</enum>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_2">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+            </layout>
            </item>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout_5">
              <item>
               <widget class="QPushButton" name="pushButtoAdd">
                <property name="text">
-                <string>A&amp;dd</string>
+                <string>Add [+]</string>
+               </property>
+               <property name="shortcut">
+                <string>+</string>
                </property>
               </widget>
              </item>
@@ -379,14 +387,20 @@
              <item>
               <widget class="QPushButton" name="pushButtonUp">
                <property name="text">
-                <string>Move Command &amp;Up</string>
+                <string>Move Up [Ctrl+Up]</string>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+Up</string>
                </property>
               </widget>
              </item>
              <item>
               <widget class="QPushButton" name="pushButtonDown">
                <property name="text">
-                <string>Move Command D&amp;own</string>
+                <string>Move Down [Ctrl+Down]</string>
+               </property>
+               <property name="shortcut">
+                <string>Ctrl+Down</string>
                </property>
               </widget>
              </item>
@@ -433,6 +447,9 @@
              </item>
              <item row="0" column="1">
               <widget class="QPushButton" name="pushButton">
+               <property name="toolTip">
+                <string>Shortcut to show or hide clipboard history.</string>
+               </property>
                <property name="text">
                 <string>(No Shortcut)</string>
                </property>
@@ -450,6 +467,9 @@
              </item>
              <item row="1" column="1">
               <widget class="QPushButton" name="pushButton_2">
+               <property name="toolTip">
+                <string>Shortcut to show tray menu.</string>
+               </property>
                <property name="text">
                 <string>(No Shortcut)</string>
                </property>
@@ -483,46 +503,6 @@
            <property name="childrenCollapsible">
             <bool>true</bool>
            </property>
-           <widget class="QGroupBox" name="verticalLayout_6">
-            <property name="flat">
-             <bool>true</bool>
-            </property>
-            <layout class="QGridLayout" name="gridLayout_5">
-             <property name="margin">
-              <number>0</number>
-             </property>
-             <property name="spacing">
-              <number>0</number>
-             </property>
-             <item row="0" column="0">
-              <layout class="QVBoxLayout" name="verticalLayout_8">
-               <item>
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>History &amp;item format (HTML):</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>plainTextEdit_html</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPlainTextEdit" name="plainTextEdit_html">
-                 <property name="sizePolicy">
-                  <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-                   <horstretch>0</horstretch>
-                   <verstretch>0</verstretch>
-                  </sizepolicy>
-                 </property>
-                 <property name="plainText">
-                  <string>&lt;span id=&quot;item&quot;&gt;%1&lt;/span&gt;</string>
-                 </property>
-                </widget>
-               </item>
-              </layout>
-             </item>
-            </layout>
-           </widget>
            <widget class="QGroupBox" name="verticalLayout_7">
             <property name="flat">
              <bool>true</bool>
@@ -556,6 +536,7 @@
                  </property>
                  <property name="plainText">
                   <string>/* http://doc.qt.nokia.com/stylesheet-examples.html */
+
 /* font */
 #item, #clipboardBrowser, #searchBar, QPlainTextEdit {
     font-family: monospace;
@@ -563,20 +544,27 @@
 
 /* item text */
 #item {
+    background: transparent;
+    margin-left: 4ex;
 }
 
-/* item number */
-#itemNumber {
+/* matched text */
+.em {
+    background-color: yellow;
+    color: black;
+}
+
+
+QListView {
+    /* alternate item color */
+    alternate-background-color: rgba(200,200,200,100);
+
+    /* selection color */
+    selection-background-color: rgba(150,220,255,200);
+
+    /* number text color */
     color: gray;
-    background-color: transparent;
-    padding: 4px 0 0 4px;
-}
-
-#clipboardBrowser, #searchBar {
-    border: 0px solid transparent;
-}
-
-QMainWindow {
+    selection-color: white;
 }
 
 #clipboardBrowser {
@@ -589,39 +577,16 @@ QMainWindow {
     font-weight: bold;
 }
 
-.format {
-    font-size: 6pt;
-    font-style: italic;
-}
-
-.format.current {
-    text-decoration: underline;
-}
-
-/* matched text */
-.em {
-    background-color: yellow;
+QPlainTextEdit {
     color: black;
+}
+
+QMainWindow {
 }
 
 QToolTip, QScrollBar {
 }
-
-QListView::item {
-    border: 3px solid transparent;
-}
-
-QListView::item:alternate {
-    background-color: rgba(0,240,255,30);
-}
-
-QListView::item:selected {
-    background-color: rgba(255,255,100,150);
-}
-
-QListView::item:hover {
-    border: 2px dashed #888;
-}</string>
+</string>
                  </property>
                 </widget>
                </item>
@@ -649,26 +614,37 @@ QListView::item:hover {
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CommandWidget</class>
+   <extends>QWidget</extends>
+   <header>commandwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <tabstops>
-  <tabstop>buttonBox</tabstop>
   <tabstop>tabWidget</tabstop>
-  <tabstop>lineEditFormats</tabstop>
+  <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
+  <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
+  <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
-  <tabstop>lineEditPriority</tabstop>
+  <tabstop>spinBoxImageWidth</tabstop>
+  <tabstop>spinBoxImageHeight</tabstop>
   <tabstop>lineEditEditor</tabstop>
-  <tabstop>checkBoxClip</tabstop>
-  <tabstop>checkBoxSel</tabstop>
-  <tabstop>checkBoxConfirmExit</tabstop>
-  <tabstop>tableCommands</tabstop>
+  <tabstop>plainTextEditFormats</tabstop>
+  <tabstop>listWidgetCommands</tabstop>
+  <tabstop>widgetCommand</tabstop>
   <tabstop>pushButtoAdd</tabstop>
   <tabstop>pushButtonRemove</tabstop>
   <tabstop>pushButtonUp</tabstop>
   <tabstop>pushButtonDown</tabstop>
-  <tabstop>plainTextEdit_html</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
   <tabstop>plainTextEdit_css</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources/>
  <connections/>

@@ -8,6 +8,10 @@
 #include <QWidget>
 #include <QLocalServer>
 
+#if !defined(Q_WS_X11) && !defined(Q_WS_WIN) && !defined(Q_WS_MAC)
+#define NO_GLOBAL_SHORTCUTS
+#endif
+
 enum LogLevel {
     LogNote,
     LogWarning,

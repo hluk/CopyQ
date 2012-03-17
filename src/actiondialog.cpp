@@ -118,7 +118,7 @@ void ActionDialog::closeAction(Action *act)
         emit message( QString("Command failed: ")+act->command(), errout );
 
     --m_actions;
-    if (!m_actions) {
+    if (m_actions == 0) {
         changeTrayIcon( QIcon(":/images/icon.svg") );
     }
 
@@ -204,10 +204,10 @@ void ActionDialog::runCommand()
     connect( act, SIGNAL(removeMenuItem(QAction*)),
                  this, SIGNAL(removeMenuItem(QAction*)) );
 
-    if (!m_actions) {
+    ++m_actions;
+    if (m_actions == 1) {
         changeTrayIcon( QIcon(":/images/icon-running.svg") );
     }
-    ++m_actions;
 
     log( tr("Executing: %1").arg(cmd) );
     log( tr("Arguments: %1").arg(args.join(", ")) );
@@ -253,21 +253,25 @@ void ActionDialog::onFinnished(int)
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 {
     QString name;
-    ConfigurationManager::Command cmd;
+    Command cmd;
+    ConfigurationManager *cm;
 
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
         runCommand();
         break;
     case QDialogButtonBox::Save:
-        cmd.cmd = ui->cmdEdit->text();
+        cmd.name = cmd.cmd = ui->cmdEdit->text();
         cmd.input = ui->inputCheckBox->isChecked();
         cmd.output = ui->outputCheckBox->isChecked();
         cmd.sep = ui->separatorEdit->text();
         cmd.wait = false;
-        name = cmd.cmd;
+        cmd.automatic = false;
+        cmd.ignore = false;
 
-        ConfigurationManager::instance()->addCommand(name, &cmd);
+        cm = ConfigurationManager::instance();
+        cm->addCommand(cmd);
+        cm->saveSettings();
         break;
     case QDialogButtonBox::Cancel:
         close();

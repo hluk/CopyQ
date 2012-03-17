@@ -1,7 +1,7 @@
 #ifndef ARGUMENTS_H
 #define ARGUMENTS_H
 
-#include <QList>
+#include <QVector>
 #include <QByteArray>
 #include <QVariant>
 
@@ -17,8 +17,6 @@ public:
 
     const QByteArray &at(int i) const;
 
-    void removeFirst();
-
     void back();
 
     int toInt();
@@ -28,7 +26,7 @@ public:
 
     void setDefault(const QVariant &default_value);
 
-    int length() const { return m_args.length(); }
+    int length() const { return m_args.size(); }
     bool atEnd() const { return m_current == length(); }
     bool finished() const { return !error() && atEnd(); }
 
@@ -37,7 +35,7 @@ public:
     void reset();
 
 private:
-    QList<QByteArray> m_args;
+    QVector<QByteArray> m_args;
     int m_current;
     bool m_error;
     QVariant m_default_value;

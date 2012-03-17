@@ -23,7 +23,7 @@
 #include <QImage>
 
 ClipboardItem::ClipboardItem(const ClipboardModel *parent) :
-        m_parent(parent)
+    m_parent(parent), m_filtered(false)
 {
     m_data = new QMimeData;
 }
@@ -74,14 +74,22 @@ QString ClipboardItem::text() const
 
 QVariant ClipboardItem::data(int role) const
 {
-    if (role == Qt::DisplayRole)
-        return toHtml();
-    else if (role == Qt::EditRole)
-        return text();
-    else if (role == Qt::UserRole)
+    if (role == Qt::DisplayRole) {
+        if ( m_mimeType.startsWith(QString("image")) ) {
+            QPixmap pix;
+            pixmap(&pix);
+            return pix;
+        } else if ( m_mimeType.endsWith("html") ||
+                    (m_parent && !m_parent->search()->isEmpty()) ) {
+            return highlightedHtml();
+        }
+    } else if (role == Qt::EditRole) {
+        return m_data->hasText() ? text() : QVariant();
+    } else if (role == Qt::UserRole) {
         return format();
-    else
-        return QVariant();
+    }
+
+    return QVariant();
 }
 
 QString ClipboardItem::highlightedHtml() const
@@ -129,6 +137,35 @@ QString ClipboardItem::highlightedHtml() const
     }
 }
 
+void ClipboardItem::pixmap(QPixmap *pix) const
+{
+    QByteArray data = m_data->data("image/x-copyq-thumbnail");
+
+    if (!data.isEmpty()) {
+        QDataStream in(&data, QIODevice::ReadOnly);
+        in >> *pix;
+    }
+
+    QSize size = m_parent ? m_parent->maxImageSize() : QSize(320, 240);
+    int w = size.width();
+    int h = size.height();
+
+    if (data.isEmpty() || pix->width() < w || pix->height() < h) {
+        pix->loadFromData(m_data->data(m_mimeType), m_mimeType.toAscii());
+
+        if (w > 0 && pix->width() > w && pix->width()/w > pix->height()/h) {
+            *pix = pix->scaledToWidth(w);
+        } else if ( h > 0 && pix->height() > size.height() ) {
+            *pix = pix->scaledToHeight(h);
+        }
+
+        data.clear();
+        QDataStream out(&data, QIODevice::WriteOnly);
+        out << *pix;
+        m_data->setData("image/x-copyq-thumbnail", data);
+    }
+}
+
 void ClipboardItem::setPreferredFormat()
 {
     if ( !m_parent ) return;
@@ -137,7 +174,7 @@ void ClipboardItem::setPreferredFormat()
     QStringList formats = m_data->formats();
     const QStringList &tryformats = m_parent->formats();
     // default mime type is the first in the list
-    m_mimeType = formats.first();
+    m_mimeType = formats.isEmpty() ? "text/plain" : formats.first();
     // try formats
     foreach(QString format, tryformats) {
         if( formats.contains(format) ) {
@@ -145,48 +182,6 @@ void ClipboardItem::setPreferredFormat()
             break;
         }
     }
-}
-
-const QVariant ClipboardItem::toHtml() const
-{
-    QVariantList lst;
-    QString html;
-
-    if ( m_mimeType.startsWith(QString("image")) ) {
-        html = QString("<img src=\"data://1\" />");
-        lst.append( m_data->data(m_mimeType) );
-    } else {
-        html = highlightedHtml();
-        int i;
-        i = html.indexOf("<!--EndFragment-->");
-        if (i >= 0)
-            html.resize(i);
-        i = html.indexOf("</body>", 0, Qt::CaseInsensitive);
-        if (i >= 0)
-            html.resize(i);
-        html.remove("<!--StartFragment-->");
-    };
-
-    QStringList formats = m_data->formats();
-    int len = formats.size();
-    /* list MIME types only if it contains type other than text/plain */
-    if (len > 0 && (len != 1 || formats[0] != "text/plain")) {
-        html.append("<div id=\"formats\">");
-        for( int i = 0; i<len; ++i ) {
-            const QString &it = formats[i];
-            if ( it == m_mimeType )
-                html.append(" <span class=\"format current\">");
-            else
-                html.append(" <span class=\"format\">");
-            html.append(it);
-            html.append("</span> ");
-        }
-        html.append("</div>");
-    }
-
-    lst.prepend(html);
-
-    return QVariant(lst);
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)

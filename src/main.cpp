@@ -46,9 +46,11 @@ static void usage()
 "\n"
 "    clipboard [mime_type=\"text/plain\"]\n"
 "      print clipboard content\n"
+"      use ? for mime_type to print mime types\n"
 #ifdef Q_WS_X11
 "    selection [mime_type=\"text/plain\"]\n"
 "      print X11 selection content\n"
+"      use ? for mime_type to print mime types\n"
 #endif
 "\n"
 "    length, count, size\n"
@@ -74,6 +76,13 @@ static void usage()
 "      show action dialog\n"
 "    action [row=0] ... \"command\" [separator=\\n]\n"
 "      apply command on item text in the row\n"
+"\n"
+"    config\n"
+"      list all options\n"
+"    config option\n"
+"      get option value\n"
+"    config option value\n"
+"      set option value\n"
 "\n"
 "    help, -h, --help\n"
 "      print this help\n\n",

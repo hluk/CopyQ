@@ -112,7 +112,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::createMenu()
 {
-    ClipboardBrowser *c = browser();
     QMenuBar *menubar = menuBar();
     QMenu *traymenu = new QMenu(this);
     QMenu *menu;
@@ -136,16 +135,14 @@ void MainWindow::createMenu()
 
     // - new
     act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
-                               c, SLOT(newItem()) );
+                               this, SLOT(newItem()) );
     menu->addAction( act->icon(), act->text(),
-                     this, SLOT(newItem() ),
+                     this, SLOT(newItem()),
                      QKeySequence("Ctrl+N") );
 
     // - paste
-    act = traymenu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
-                               this, SLOT(pasteItem()) );
-    act = menu->addAction( act->icon(), act->text(),
-                           this, SLOT(pasteItem() ) );
+    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
+                           this, SLOT(pasteItem()) );
     act->setShortcuts(QKeySequence::Paste);
 
     // - show clipboard content
@@ -168,6 +165,7 @@ void MainWindow::createMenu()
                      QKeySequence("Ctrl+P") );
 
     // Items
+    ClipboardBrowser *c = browser();
     itemMenu = c->contextMenu();
     itemMenu->setTitle( tr("&Item") );
     menubar->addMenu(itemMenu);
@@ -384,6 +382,7 @@ void MainWindow::showWindow()
             c->currentIndex().row() <= 0 ) {
         c->setCurrent(0);
     }
+    c->scrollTo( c->currentIndex() );
 
     QApplication::processEvents();
     raiseWindow(winId());
@@ -401,9 +400,11 @@ void MainWindow::hideWindow()
     }
     // if only the first item is selected then select none
     // (next time the window is shown the first item will be selected)
-    if ( c->selectionModel()->selectedIndexes().size() == 1 &&
-         c->currentIndex().row() == 0 )
+    if ( c->selectionModel()->selectedIndexes().size() <= 1 &&
+         c->currentIndex().row() == 0 ) {
+        c->selectionModel()->clearSelection();
         c->setCurrentIndex( QModelIndex() );
+    }
     close();
 }
 
@@ -569,15 +570,26 @@ void MainWindow::createActionDialog()
 void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
+    QString text;
+    if (row >= 0) {
+        text = c->itemText(row);
+    } else if ( isVisible() ) {
+        text = c->selectedText();
+    } else {
+        text = c->itemText(0);
+    }
+    openActionDialog(text);
+}
 
+void MainWindow::openActionDialog(const QString &text)
+{
     createActionDialog();
-    actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
+    actionDialog->setInputText(text);
     actionDialog->exec();
 }
 
 void MainWindow::openPreferences()
 {
-    saveSettings();
     ConfigurationManager::instance(this)->exec();
 }
 
@@ -599,16 +611,6 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
 
     ClipboardBrowser *c = new ClipboardBrowser(name, this);
 
-    c->setFrameShadow(QFrame::Sunken);
-    c->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    c->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    c->setTabKeyNavigation(false);
-    c->setAlternatingRowColors(true);
-    c->setSelectionMode(QAbstractItemView::ExtendedSelection);
-    c->setWrapping(false);
-    c->setLayoutMode(QListView::SinglePass);
-    c->setEditTriggers(QAbstractItemView::EditKeyPressed);
-    c->setSpacing(5);
     c->loadSettings();
     c->loadItems();
     c->setAutoUpdate(true);
@@ -617,8 +619,8 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
     connect( c, SIGNAL(requestSearch(QString)),
              this, SLOT(enterSearchMode(QString)) );
-    connect( c, SIGNAL(requestActionDialog(ClipboardBrowser*, int, const ConfigurationManager::Command*)),
-             this, SLOT(action(ClipboardBrowser*, int, const ConfigurationManager::Command*)) );
+    connect( c, SIGNAL(requestActionDialog(QString,const Command*)),
+             this, SLOT(action(QString,const Command*)) );
     connect( c, SIGNAL(hideSearch()),
              this, SLOT(enterBrowseMode()) );
     connect( c, SIGNAL(requestShow()),
@@ -633,8 +635,11 @@ ClipboardBrowser *MainWindow::addTab(const QString name)
 void MainWindow::newItem()
 {
     ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
-    if (c)
+    if (c) {
+        showWindow();
+        c->setFocus();
         c->newItem();
+    }
 }
 
 void MainWindow::pasteItem()
@@ -648,11 +653,11 @@ void MainWindow::pasteItem()
         c->add( cloneData(*data) );
 }
 
-void MainWindow::action(ClipboardBrowser *c, int row, const ConfigurationManager::Command *cmd)
+void MainWindow::action(const QString &text, const Command *cmd)
 {
     createActionDialog();
 
-    actionDialog->setInputText(row >= 0 ? c->itemText(row) : c->selectedText());
+    actionDialog->setInputText(text);
     if (cmd) {
         actionDialog->setCommand(cmd->cmd);
         actionDialog->setSeparator(cmd->sep);
@@ -686,7 +691,8 @@ void MainWindow::removeTab()
         int answer = QMessageBox::question(
                     this,
                     tr("Exit?"),
-                    tr("Do you want to remove tab <strong>%1</strong>?").arg( w->tabText(i) ),
+                    tr("Do you want to remove tab <strong>%1</strong>?"
+                       ).arg( w->tabText(i).remove('&')),
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {

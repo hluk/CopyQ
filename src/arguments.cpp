@@ -13,7 +13,7 @@ Arguments::Arguments(int &argc, char **argv)
         m_args.append( QByteArray(argv[i]) );
 
     // dash character means 'read from stdin'
-    int len = m_args.length();
+    int len = length();
     if ( (len == 1 || len == 2) && m_args.first() == QString("-") ) {
         QByteArray mime;
         if ( len == 2 ) {
@@ -40,7 +40,7 @@ QVariant Arguments::toVariant()
     if (m_error)
         return QVariant();
 
-    if ( m_current >= m_args.length() ) {
+    if ( m_current >= length() ) {
         if ( default_value.isValid() ) {
             return default_value;
         }
@@ -71,7 +71,7 @@ int Arguments::toInt()
     if (m_error)
         return 0;
 
-    if ( m_current >= m_args.length() ) {
+    if ( m_current >= length() ) {
         if ( default_value.isValid() ) {
             return default_value.toInt();
         }
@@ -107,12 +107,6 @@ void Arguments::append(const QByteArray &argument)
 const QByteArray &Arguments::at(int i) const
 {
     return m_args.at(i);
-}
-
-void Arguments::removeFirst()
-{
-    if ( m_args.isEmpty() )
-        m_args.removeFirst();
 }
 
 void Arguments::back()

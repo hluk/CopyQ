@@ -20,6 +20,7 @@
 #include "clipboardmodel.h"
 #include "clipboarditem.h"
 #include <QMap>
+#include <QSize>
 
 QString escape(const QString &str)
 {
@@ -55,7 +56,8 @@ QString escape(const QString &str)
 }
 
 ClipboardModel::ClipboardModel(QObject *parent) :
-        QAbstractListModel(parent)
+    QAbstractListModel(parent), m_max(100),
+    m_imageWidth(320), m_imageHeight(240)
 {
     m_formats << QString("image/x-inkscape-svg-compressed")
               << QString("image/bmp")
@@ -65,7 +67,7 @@ ClipboardModel::ClipboardModel(QObject *parent) :
 
 void ClipboardModel::setFormats(const QString &list)
 {
-    m_formats = list.split( QRegExp("[;, ]+") );
+    m_formats = list.split( QRegExp("[;,\\s]+") );
 }
 
 int ClipboardModel::rowCount(const QModelIndex&) const
@@ -109,6 +111,17 @@ void ClipboardModel::previousFormat(int row)
         setFormat( row, formats.last() );
     else
         setFormat( row, formats[i-1] );
+}
+
+void ClipboardModel::setMaxImageSize(int width, int height)
+{
+    m_imageWidth = width;
+    m_imageHeight = height;
+}
+
+QSize ClipboardModel::maxImageSize() const
+{
+    return QSize(m_imageWidth, m_imageHeight);
 }
 
 QMimeData *ClipboardModel::mimeData(int row) const
