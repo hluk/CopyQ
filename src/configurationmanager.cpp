@@ -172,12 +172,11 @@ void ConfigurationManager::readStyleSheet()
 
     QString css = cssSettings.value("css").toString();
 
-    if ( !css.isEmpty() ) {
+    if ( css.isEmpty() ) {
+        resetStyleSheet();
+    } else {
         setStyleSheet(css);
         ui->plainTextEdit_css->setPlainText(css);
-    } else {
-        QFile default_css(":/styles/default.css");
-        setStyleSheet( default_css.readAll() );
     }
 }
 
@@ -188,6 +187,16 @@ void ConfigurationManager::writeStyleSheet()
                            QCoreApplication::applicationName() );
 
     cssSettings.setValue( "css", styleSheet() );
+}
+
+void ConfigurationManager::resetStyleSheet()
+{
+    QFile default_css(":/styles/default.css");
+    if ( default_css.open(QIODevice::ReadOnly) ) {
+        QString css = default_css.readAll();
+        setStyleSheet(css);
+        ui->plainTextEdit_css->setPlainText(css);
+    }
 }
 
 QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, const QByteArray &geometry)
@@ -344,12 +353,7 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
             foreach( const QString &key, m_options.keys() ) {
                 m_options[key].reset();
             }
-            QFile default_css(":/styles/default.css");
-            if ( default_css.open(QIODevice::ReadOnly) ) {
-                QString css = default_css.readAll();
-                setStyleSheet(css);
-                ui->plainTextEdit_css->setPlainText(css);
-            }
+            resetStyleSheet();
         }
         break;
     default:
@@ -376,7 +380,13 @@ void ConfigurationManager::apply()
         updateCommandItem( ui->listWidgetCommands->item(row) );
     }
 
-    setStyleSheet( ui->plainTextEdit_css->toPlainText() );
+    // style sheet
+    QString css = ui->plainTextEdit_css->toPlainText();
+    if ( css.isEmpty() )
+        resetStyleSheet();
+    else
+        setStyleSheet(css);
+
     saveSettings();
 }
 

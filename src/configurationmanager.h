@@ -76,6 +76,7 @@ public:
 
     void readStyleSheet();
     void writeStyleSheet();
+    void resetStyleSheet();
 
 signals:
     void configurationChanged();

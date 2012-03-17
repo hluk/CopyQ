@@ -491,7 +491,7 @@
            <item>
             <widget class="QLabel" name="label_8">
              <property name="text">
-              <string>&amp;Style sheet (CSS):</string>
+              <string>&amp;Style sheet (leave empty to reset):</string>
              </property>
              <property name="buddy">
               <cstring>plainTextEdit_css</cstring>
