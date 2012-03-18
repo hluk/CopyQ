@@ -1,7 +1,7 @@
 /* http://doc.qt.nokia.com/stylesheet-examples.html */
 
 /* font */
-#item, #history, #searchBar, QPlainTextEdit {
+#item, #history, #searchBar, #editor {
     font-family: monospace;
 }
 
@@ -36,12 +36,6 @@
     font-weight: bold;
 }
 
-QPlainTextEdit {
+#editor {
     color: black;
-}
-
-QMainWindow {
-}
-
-QToolTip, QScrollBar {
 }

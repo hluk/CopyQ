@@ -93,6 +93,7 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
 {
     QPlainTextEdit *editor = new QPlainTextEdit(parent);
     editor->setPalette( option.palette );
+    editor->setObjectName("editor");
 
     // maximal editor size
     QRect w_rect = parent->rect();

@@ -195,7 +195,8 @@ void ConfigurationManager::resetStyleSheet(const QString &css = QString())
     default_css.open(QIODevice::ReadOnly);
     QString css1 = default_css.readAll();
     setStyleSheet(css1+'\n'+css);
-    ui->plainTextEdit_css->setPlainText(css);
+    if (ui->plainTextEdit_css->toPlainText() != css)
+        ui->plainTextEdit_css->setPlainText(css);
 }
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)
@@ -457,10 +458,12 @@ void ConfigurationManager::showEvent(QShowEvent *e)
 void ConfigurationManager::onFinished(int result)
 {
     windowGeometry( objectName(), saveGeometry() );
-    if (result == QDialog::Accepted)
+    if (result == QDialog::Accepted) {
         apply();
-    else
+    } else {
         loadSettings();
+        readStyleSheet();
+    }
 }
 
 void ConfigurationManager::on_pushButtonUp_clicked()
