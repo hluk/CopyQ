@@ -24,6 +24,15 @@
 #include <QLabel>
 #include <QTimer>
 
+/**
+ * Delegate for items in ClipboardBrowser.
+ *
+ * Creates editor on demand and draws contents of all items.
+ * To achieve better performance the first call to get sizeHint value for
+ * an item returns some default value (so it doesn't have to render the item
+ * needlessly). Trying to paint the item will not succeed instead it notifies
+ * all listeners that the size has changed (signal sizeHintChanged).
+ */
 class ItemDelegate : public QItemDelegate
 {
     Q_OBJECT

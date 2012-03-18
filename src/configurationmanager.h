@@ -76,7 +76,7 @@ public:
 
     void readStyleSheet();
     void writeStyleSheet();
-    void resetStyleSheet();
+    void resetStyleSheet(const QString &css);
 
 signals:
     void configurationChanged();

@@ -60,7 +60,7 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &in
     if (w)
         return w->size();
     else
-        return QSize(1, 256);
+        return QSize(512, 256);
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -248,15 +248,15 @@ void ItemDelegate::invalidateCache() const
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
-    QWidget *w;
-    const QRect &rect = option.rect;
-
-    w = cache(index);
-    if ( rect.height() != w->height() ) {
+    QWidget *w = m_cache[index.row()];
+    if (w == NULL) {
+        w = cache(index);
         m_changeSizes.push_back(index);
         timer_changeSize.start();
         return;
     }
+
+    const QRect &rect = option.rect;
 
     QStyle *style = w->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter);

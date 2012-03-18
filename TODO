@@ -1,3 +1,7 @@
+[ ] CSS configuration
+    * more interactive elements
+    * verbose help
+    * colors, highlighting?
 [ ] Create/Move/copy item in/to another tab
     * with command line and copyq commands
 [ ] Lex and parse command line arguments
