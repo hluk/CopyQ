@@ -17,11 +17,11 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>New Tab</string>
+   <string>CopyQ New Tab</string>
   </property>
   <property name="windowIcon">
    <iconset resource="copyq.qrc">
-    <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
+    <normaloff>:/images/new_tab.svg</normaloff>:/images/new_tab.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

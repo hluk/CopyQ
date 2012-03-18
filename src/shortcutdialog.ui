@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>CopyQ New Shortcut</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="copyq.qrc">
+    <normaloff>:/images/tab_shortcuts.svg</normaloff>:/images/tab_shortcuts.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
@@ -55,7 +59,9 @@
    </item>
   </layout>
  </widget>
- <resources/>
+ <resources>
+  <include location="copyq.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

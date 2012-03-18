@@ -78,6 +78,7 @@ public:
     void writeStyleSheet();
     void resetStyleSheet(const QString &css);
 
+    static bool defaultCommand(int index, Command *c);
 signals:
     void configurationChanged();
 
@@ -113,6 +114,7 @@ private slots:
     void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
                                                   QListWidgetItem *previous);
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
+    void on_comboBoxCommands_currentIndexChanged(int index);
 };
 
 #endif // CONFIGURATIONMANAGER_H

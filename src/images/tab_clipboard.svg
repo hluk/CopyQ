@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg xmlns:cc='http://creativecommons.org/ns#' xmlns:svg='http://www.w3.org/2000/svg' xmlns:inkscape='http://www.inkscape.org/namespaces/inkscape' id='svg7384' xmlns:sodipodi='http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd' version='1.1' inkscape:version='0.47 r22583' height='16.00297' sodipodi:docname='edit-paste-symbolic.svg' xmlns:dc='http://purl.org/dc/elements/1.1/' xmlns:rdf='http://www.w3.org/1999/02/22-rdf-syntax-ns#' xmlns='http://www.w3.org/2000/svg' width='16'>
+  <metadata id='metadata90'>
+    <rdf:RDF>
+      <cc:Work rdf:about=''>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type rdf:resource='http://purl.org/dc/dcmitype/StillImage'/>
+        <dc:title>Gnome Symbolic Icon Theme</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview inkscape:cy='204.17377' inkscape:current-layer='layer12' inkscape:window-width='1310' pagecolor='#555753' showborder='false' showguides='true' inkscape:snap-nodes='true' objecttolerance='10' showgrid='false' inkscape:object-nodes='true' inkscape:pageshadow='2' inkscape:guide-bbox='true' inkscape:window-x='54' inkscape:snap-bbox='true' bordercolor='#666666' id='namedview88' inkscape:window-maximized='0' inkscape:snap-global='true' inkscape:window-y='25' gridtolerance='10' inkscape:zoom='1' inkscape:window-height='690' borderopacity='1' guidetolerance='10' inkscape:cx='296.82494' inkscape:bbox-paths='false' inkscape:snap-grids='true' inkscape:pageopacity='1' inkscape:snap-to-guides='true'>
+    <inkscape:grid visible='true' spacingx='1px' type='xygrid' spacingy='1px' id='grid4866' empspacing='2' enabled='true' snapvisiblegridlinesonly='true'/>
+  </sodipodi:namedview>
+  <title id='title9167'>Gnome Symbolic Icon Theme</title>
+  <defs id='defs7386'/>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer9' inkscape:label='status' style='display:inline'/>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer10' inkscape:label='devices'/>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer11' inkscape:label='apps'/>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer12' inkscape:label='actions'>
+
+    <path inkscape:connector-curvature='0' d='m 64.031245,673.03127 0,6.96874 5.000005,0 1.990842,-1.98705 -0.0221,-4.98168 -6.96875,0 3e-6,-1e-5 z' id='rect4897' sodipodi:nodetypes='ccccccc' style='fill:#666666;fill-opacity:1;stroke:none'/>
+    <rect x='64.999992' y='668' id='rect4899' rx='0.53033006' ry='0.53033006' height='4' width='5.0625052' style='fill:#666666;fill-opacity:1;stroke:none'/>
+    <path d='m 62.5,669 c -0.293087,0 -0.646731,0.036 -1,0.3125 -0.353269,0.27647 -0.53125,0.76875 -0.53125,1.125 l 0,12.03125 c 0,0.384 0.127689,0.81517 0.4375,1.125 0.285418,0.28544 0.709136,0.38602 1.09375,0.375 l 0,0.0313 0.09375,0 9.875,0 c 0.362847,0 0.759922,-0.12788 1.0625,-0.40625 C 73.833828,683.31538 74,682.88305 74,682.46875 L 74,670.375 c 0,-0.33333 -0.118934,-0.72959 -0.40625,-1 C 73.306434,669.10459 72.924851,669 72.625,669 l -1.65625,0 0,2 1.03125,0 0,11 -9.03125,0 0,-11 0.96875,0 0,-2 -1.4375,0 z' id='path41043' style='font-size:medium;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-indent:0;text-align:start;text-decoration:none;line-height:normal;letter-spacing:normal;word-spacing:normal;text-transform:none;direction:ltr;block-progression:tb;writing-mode:lr-tb;text-anchor:start;color:#000000;fill:#666666;fill-opacity:1;stroke:none;stroke-width:2;marker:none;visibility:visible;display:inline;overflow:visible;enable-background:accumulate;font-family:Bitstream Vera Sans;-inkscape-font-specification:Bitstream Vera Sans'/>
+  </g>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer13' inkscape:label='places'/>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer14' inkscape:label='mimetypes'/>
+  <g transform='translate(-60,-668)' inkscape:groupmode='layer' id='layer15' inkscape:label='emblems' style='display:inline'/>
+</svg>

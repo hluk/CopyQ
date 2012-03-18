@@ -17,7 +17,7 @@
    </sizepolicy>
   </property>
   <property name="windowTitle">
-   <string>CopyQ - Clipboard Content</string>
+   <string>CopyQ Clipboard Content</string>
   </property>
   <property name="windowIcon">
    <iconset resource="copyq.qrc">

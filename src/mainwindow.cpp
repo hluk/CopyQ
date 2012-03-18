@@ -39,11 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->setupUi(this);
 
-    // main window: icon & title
-    setWindowTitle("CopyQ");
-    m_icon = QIcon(":/images/icon.svg");
-    setWindowIcon(m_icon);
-
     // settings
     loadSettings();
 
@@ -55,7 +50,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // tray
     tray = new QSystemTrayIcon(this);
-    tray->setIcon(m_icon);
+    tray->setIcon( windowIcon() );
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
 

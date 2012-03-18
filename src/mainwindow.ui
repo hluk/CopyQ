@@ -11,7 +11,11 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>CopyQ</string>
+  </property>
+  <property name="windowIcon">
+   <iconset resource="copyq.qrc">
+    <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -70,6 +74,8 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
- <resources/>
+ <resources>
+  <include location="copyq.qrc"/>
+ </resources>
  <connections/>
 </ui>

@@ -74,6 +74,12 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     ui->tab_shortcuts->deleteLater();
 #endif
 
+    Command c;
+    int i = 0;
+    while ( defaultCommand(++i, &c) ) {
+        ui->comboBoxCommands->addItem( QIcon(c.icon), c.name.remove('&') );
+    }
+
     /* datafile for items */
     // do not use registry in windows
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
@@ -180,7 +186,7 @@ void ConfigurationManager::writeStyleSheet()
                            QCoreApplication::organizationName(),
                            QCoreApplication::applicationName() );
 
-    cssSettings.setValue( "css", styleSheet() );
+    cssSettings.setValue( "css", ui->plainTextEdit_css->toPlainText() );
 }
 
 void ConfigurationManager::resetStyleSheet(const QString &css = QString())
@@ -190,6 +196,37 @@ void ConfigurationManager::resetStyleSheet(const QString &css = QString())
     QString css1 = default_css.readAll();
     setStyleSheet(css1+'\n'+css);
     ui->plainTextEdit_css->setPlainText(css);
+}
+
+bool ConfigurationManager::defaultCommand(int index, Command *c)
+{
+    switch(index) {
+    case 1:
+        c->name = tr("Ignore single character or empty item");
+        c->re   = QRegExp("^\\s*.?\\s*$");
+        c->icon = ":/images/command_ignore.svg";
+        c->ignore = true;
+        break;
+    case 2:
+        c->name = tr("Open in &Browser");
+        c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
+        c->icon = ":/images/command_web.svg";
+        c->cmd  = "firefox %1";
+        break;
+    case 3:
+        c->name = tr("Autoplay videos");
+        c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
+        c->icon = ":/images/command_autoplay.svg";
+        c->cmd  = "vlc %1";
+        c->automatic = true;
+        break;
+    default:
+        return false;
+    }
+
+    c->enable = true;
+
+    return true;
 }
 
 QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, const QByteArray &geometry)
@@ -543,4 +580,16 @@ void ConfigurationManager::on_listWidgetCommands_itemChanged(
     Command c = ui->widgetCommand->command();
     c.enable = m_commands[row].enable = (item->checkState() == Qt::Checked);
     ui->widgetCommand->setCommand(c);
+}
+
+void ConfigurationManager::on_comboBoxCommands_currentIndexChanged(int index)
+{
+    Command c;
+    if ( defaultCommand(index, &c) ) {
+        addCommand(c);
+        QListWidget *list = ui->listWidgetCommands;
+        list->clearSelection();
+        list->setCurrentRow( list->count()-1 );
+        ui->comboBoxCommands->setCurrentIndex(0);
+    }
 }

@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>CopyQ Action Dialog</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="copyq.qrc">
+    <normaloff>:/images/tab_commands.svg</normaloff>:/images/tab_commands.svg</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
@@ -199,7 +203,9 @@ p, li { white-space: pre-wrap; }
   <tabstop>buttonBox</tabstop>
   <tabstop>inputText</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="copyq.qrc"/>
+ </resources>
  <connections>
   <connection>
    <sender>buttonBox</sender>

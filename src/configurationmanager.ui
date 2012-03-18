@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
+    <width>661</width>
     <height>434</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Dialog</string>
+   <string>CopyQ Configuration</string>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -25,6 +25,10 @@
         <number>0</number>
        </property>
        <widget class="QWidget" name="tab_clipboard">
+        <attribute name="icon">
+         <iconset resource="copyq.qrc">
+          <normaloff>:/images/tab_clipboard.svg</normaloff>:/images/tab_clipboard.svg</iconset>
+        </attribute>
         <attribute name="title">
          <string>C&amp;lipboard</string>
         </attribute>
@@ -40,7 +44,7 @@
               </sizepolicy>
              </property>
              <property name="title">
-              <string>&amp;Synchronize</string>
+              <string>S&amp;ynchronize</string>
              </property>
              <property name="flat">
               <bool>false</bool>
@@ -139,6 +143,10 @@
         </layout>
        </widget>
        <widget class="QWidget" name="tab_general">
+        <attribute name="icon">
+         <iconset resource="copyq.qrc">
+          <normaloff>:/images/tab_history.svg</normaloff>:/images/tab_history.svg</iconset>
+        </attribute>
         <attribute name="title">
          <string>Clipboard &amp;History</string>
         </attribute>
@@ -309,11 +317,15 @@
         </layout>
        </widget>
        <widget class="QWidget" name="tab_commands">
+        <attribute name="icon">
+         <iconset resource="copyq.qrc">
+          <normaloff>:/images/tab_commands.svg</normaloff>:/images/tab_commands.svg</iconset>
+        </attribute>
         <attribute name="title">
          <string>Co&amp;mmands</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_7">
-         <item row="0" column="0">
+         <item row="1" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_10">
            <property name="bottomMargin">
             <number>0</number>
@@ -405,6 +417,15 @@
               </widget>
              </item>
              <item>
+              <widget class="QComboBox" name="comboBoxCommands">
+               <item>
+                <property name="text">
+                 <string>Insert Default Command</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
               <spacer name="horizontalSpacer">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -421,9 +442,23 @@
            </item>
           </layout>
          </item>
+         <item row="0" column="0">
+          <widget class="QLabel" name="label_11">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Commands can be used to run an &lt;span style=&quot; font-weight:600;&quot;&gt;application&lt;/span&gt; on new clipboard content or &lt;span style=&quot; font-weight:600;&quot;&gt;banning the item from history list&lt;/span&gt;. If clipboard text is matched by regular expression in &lt;span style=&quot; font-style:italic;&quot;&gt;Match&lt;/span&gt; text field the appropriate action is taken.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tab_shortcuts">
+        <attribute name="icon">
+         <iconset resource="copyq.qrc">
+          <normaloff>:/images/tab_shortcuts.svg</normaloff>:/images/tab_shortcuts.svg</iconset>
+        </attribute>
         <attribute name="title">
          <string>&amp;Shortcuts</string>
         </attribute>
@@ -482,6 +517,10 @@
         </layout>
        </widget>
        <widget class="QWidget" name="tab_appearance">
+        <attribute name="icon">
+         <iconset resource="copyq.qrc">
+          <normaloff>:/images/tab_appearance.svg</normaloff>:/images/tab_appearance.svg</iconset>
+        </attribute>
         <attribute name="title">
          <string>&amp;Appearance</string>
         </attribute>
@@ -558,10 +597,13 @@
   <tabstop>pushButtonRemove</tabstop>
   <tabstop>pushButtonUp</tabstop>
   <tabstop>pushButtonDown</tabstop>
+  <tabstop>comboBoxCommands</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources/>
+ <resources>
+  <include location="copyq.qrc"/>
+ </resources>
  <connections/>
 </ui>
