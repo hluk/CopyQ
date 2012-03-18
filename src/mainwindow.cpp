@@ -674,7 +674,7 @@ void MainWindow::removeTab()
     QTabWidget *w = ui->tabWidget;
     int i = w->currentIndex();
 
-    if ( w->count() > 0 ) {
+    if ( w->count() > 1 ) {
         int answer = QMessageBox::question(
                     this,
                     tr("Exit?"),
@@ -686,8 +686,6 @@ void MainWindow::removeTab()
             ConfigurationManager::instance()->removeItems( w->tabText(i) );
             browser(i)->deleteLater();
             w->removeTab(i);
-            if ( !w->count() )
-                addTab( tr("&clipboard") );
         }
     }
 }

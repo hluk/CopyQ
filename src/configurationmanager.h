@@ -115,6 +115,7 @@ private slots:
                                                   QListWidgetItem *previous);
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
     void on_comboBoxCommands_currentIndexChanged(int index);
+    void on_listWidgetCommands_itemSelectionChanged();
 };
 
 #endif // CONFIGURATIONMANAGER_H

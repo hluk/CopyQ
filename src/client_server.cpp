@@ -111,14 +111,13 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 {
     QMimeData *newdata = new QMimeData;
     if (formats) {
-        for(int i=0; i<formats->length(); ++i) {
-            const QString &mime = formats->at(i);
+        foreach (const QString &mime, *formats) {
             QByteArray bytes = data.data(mime);
             if ( !bytes.isEmpty() )
                 newdata->setData(mime, bytes);
         }
     } else {
-        foreach( QString mime, data.formats() ) {
+        foreach ( const QString &mime, data.formats() ) {
             // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
             if ( mime[0].isLower() )
                 newdata->setData(mime, data.data(mime));

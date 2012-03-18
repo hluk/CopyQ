@@ -102,7 +102,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     m_options.insert( "editor",
                       Option(DEFAULT_EDITOR, "text", ui->lineEditEditor) );
     m_options.insert( "check_clipboard",
-                      Option(true, "checked", ui->checkBoxSel) );
+                      Option(true, "checked", ui->checkBoxClip) );
     m_options.insert( "confirm_exit",
                       Option(true, "checked", ui->checkBoxConfirmExit) );
     m_options.insert( "tabs",
@@ -115,7 +115,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
 #endif
 #ifdef Q_WS_X11
     m_options.insert( "check_selection",
-                      Option(true, "checked", ui->checkBoxClip) );
+                      Option(true, "checked", ui->checkBoxSel) );
     m_options.insert( "copy_clipboard",
                       Option(true, "checked", ui->checkBoxCopyClip) );
     m_options.insert( "copy_selection",
@@ -201,6 +201,7 @@ void ConfigurationManager::resetStyleSheet(const QString &css = QString())
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)
 {
+    *c = Command();
     switch(index) {
     case 1:
         c->name = tr("Ignore single character or empty item");
@@ -434,15 +435,29 @@ void ConfigurationManager::on_pushButtoAdd_clicked()
 
 void ConfigurationManager::on_pushButtonRemove_clicked()
 {
-    const QItemSelectionModel *sel = ui->listWidgetCommands->selectionModel();
+    QListWidget *list = ui->listWidgetCommands;
+    const QItemSelectionModel *sel = list->selectionModel();
+    QListWidgetItem *current = list->currentItem();
+    bool deleteCurrent = current != NULL && current->isSelected();
+
+    list->blockSignals(true);
 
     // remove selected rows
     QModelIndexList indexes = sel->selectedRows();
-    foreach (QModelIndex index, indexes) {
-        int row = index.row();
+    while ( !indexes.isEmpty() ) {
+        int row = indexes.first().row();
         m_commands.removeAt(row);
         delete ui->listWidgetCommands->takeItem(row);
+        indexes = sel->selectedRows();
     }
+
+    if (deleteCurrent) {
+        int row = list->currentRow();
+        ui->widgetCommand->setCommand(row >= 0 ? m_commands[row] : Command());
+        ui->widgetCommand->setEnabled(row >= 0);
+    }
+
+    list->blockSignals(false);
 }
 
 void ConfigurationManager::showEvent(QShowEvent *e)
@@ -573,7 +588,6 @@ void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
         row = ui->listWidgetCommands->row(current);
     ui->widgetCommand->setCommand(ok ? m_commands[row] : Command());
     ui->widgetCommand->setEnabled(ok);
-    ui->pushButtonRemove->setEnabled(ok);
 }
 
 void ConfigurationManager::on_listWidgetCommands_itemChanged(
@@ -595,4 +609,10 @@ void ConfigurationManager::on_comboBoxCommands_currentIndexChanged(int index)
         list->setCurrentRow( list->count()-1 );
         ui->comboBoxCommands->setCurrentIndex(0);
     }
+}
+
+void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
+{
+    const QItemSelectionModel *sel = ui->listWidgetCommands->selectionModel();
+    ui->pushButtonRemove->setEnabled( sel->hasSelection() );
 }

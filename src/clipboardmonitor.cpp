@@ -14,7 +14,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
 {
     m_socket = new QLocalSocket(this);
     connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(readyRead()) );
+             this, SLOT(readyRead()), Qt::DirectConnection );
     connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(quit()) );
     m_socket->connectToServer( ClipboardServer::monitorServerName() );
@@ -42,7 +42,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
     m_updatetimer.setSingleShot(true);
     m_updatetimer.setInterval(500);
     connect( &m_updatetimer, SIGNAL(timeout()),
-             this, SLOT(updateTimeout()) );
+             this, SLOT(updateTimeout()), Qt::DirectConnection);
 
     connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
              this, SLOT(checkClipboard(QClipboard::Mode)) );
@@ -158,6 +158,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
     QClipboard *clipboard;
     const QMimeData *data;
+    QMimeData *data2;
     uint newHash;
 
     // check if clipboard data are needed
@@ -174,18 +175,23 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-    // are data valid?
-    if ( data->formats().isEmpty() ||
-         (data->hasText() && QRegExp("\\s*").exactMatch(data->text())) )
-        return;
-
     // same data as last time?
     newHash = hash(*data);
     if (m_lastHash == newHash)
         return;
+
+    // clone only mime types defined by user
+    data2 = cloneData(*data, &m_formats);
+    // any data found?
+    if ( data2->formats().isEmpty() ) {
+        delete data2;
+        return;
+    }
+
+    // send data to serve and synchronize if needed
     m_lastHash = newHash;
 
-    clipboardChanged(mode, cloneData(*data, &m_formats));
+    clipboardChanged(mode, data2);
 }
 
 bool ClipboardMonitor::updateSelection(bool)
@@ -198,9 +204,7 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
 {
     ClipboardItem item;
 
-    foreach ( QString mime, data->formats() ) {
-        item.setData(mime, data->data(mime));
-    }
+    item.setData(data);
 
     // send clipboard item
     QByteArray msg;

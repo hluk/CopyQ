@@ -203,8 +203,8 @@ void ClipboardServer::readyRead()
         ClipboardItem item;
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
-            // something wrong with connection
-            // -> restart monitor
+            // something is wrong with the connection -> restart monitor
+            log( tr("Incorrect message from Clipboard Monitor."), LogError );
             stopMonitoring();
             startMonitoring();
             return;
