@@ -2,6 +2,7 @@
 #include "clipboardserver.h"
 #include "configurationmanager.h"
 #include "clipboarditem.h"
+#include "client_server.h"
 #include <QMimeData>
 
 #ifdef Q_WS_X11
@@ -99,7 +100,6 @@ bool ClipboardMonitor::updateSelection(bool check)
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
-    QClipboard *clipboard;
     const QMimeData *data;
     uint newHash;
 
@@ -115,8 +115,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 
     // get clipboard data
-    clipboard = QApplication::clipboard();
-    data = clipboard->mimeData(mode);
+    data = clipboardData(mode);
 
     // data retrieved?
     if (!data) {
@@ -143,12 +142,12 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         if (m_checkclip)
             clipboardChanged(mode, cloneData(*data));
         if (m_copyclip)
-            clipboard->setMimeData( cloneData(*data), QClipboard::Selection );
+            setClipboardData( cloneData(*data), QClipboard::Selection );
     } else {
         if (m_checksel)
             clipboardChanged(mode, cloneData(*data));
         if (m_copysel)
-            clipboard->setMimeData( cloneData(*data), QClipboard::Clipboard );
+            setClipboardData( cloneData(*data), QClipboard::Clipboard );
     }
 
     delete data;
@@ -156,7 +155,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #else /* !Q_WS_X11 */
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
-    QClipboard *clipboard;
     const QMimeData *data;
     QMimeData *data2;
     uint newHash;
@@ -166,8 +164,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
 
     // get clipboard data
-    clipboard = QApplication::clipboard();
-    data = clipboard->mimeData(mode);
+    data = clipboardData(mode);
 
     // data retrieved?
     if (!data) {
@@ -242,10 +239,9 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
         return;
 
     m_lastHash = hash(*data);
-    QClipboard *clipboard = QApplication::clipboard();
-    clipboard->setMimeData(data, QClipboard::Clipboard);
+    setClipboardData(data, QClipboard::Clipboard);
 #ifdef Q_WS_X11
-    clipboard->setMimeData(cloneData(*data), QClipboard::Selection);
+    setClipboardData(cloneData(*data), QClipboard::Selection);
 #endif
 
     m_newdata = NULL;

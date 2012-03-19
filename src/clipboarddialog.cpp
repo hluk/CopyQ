@@ -1,5 +1,6 @@
 #include "clipboarddialog.h"
 #include "ui_clipboarddialog.h"
+#include "client_server.h"
 #include <QClipboard>
 #include <QMimeData>
 #include <QUrl>
@@ -10,8 +11,7 @@ ClipboardDialog::ClipboardDialog(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    QClipboard *c = QApplication::clipboard();
-    const QMimeData *data = c->mimeData();
+    const QMimeData *data = clipboardData();
     if (data) {
         foreach( const QString &mime, data->formats() ) {
             if ( mime.contains("/") )
@@ -35,8 +35,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     QString mime = current->text();
 
     if ( !m_data.contains(mime) ) {
-        QClipboard *c = QApplication::clipboard();
-        const QMimeData *data = c->mimeData();
+        const QMimeData *data = clipboardData();
         if (data) {
             m_data[mime] = data->data(mime);
         }

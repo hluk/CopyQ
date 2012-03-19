@@ -26,13 +26,13 @@
 #include "client_server.h"
 #include <assert.h>
 
+static const QSize defaultSize(256, 256);
+
 ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
-    m_parent(parent)
+    m_parent(parent), m_dryPaint(false)
 {
-    timer_changeSize.setInterval(0);
-    timer_changeSize.setSingleShot(true);
-    connect( &timer_changeSize, SIGNAL(timeout()),
-             this, SLOT(changeSize()) );
+    connect( this, SIGNAL(sizeUpdated(QModelIndex)),
+             SIGNAL(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
 }
 
 ItemDelegate::~ItemDelegate()
@@ -51,16 +51,14 @@ void ItemDelegate::setStyleSheet(const QString &css)
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &index) const
 {
     int row = index.row();
-    if ( row >= m_cache.size() ) {
-        for( int i = m_cache.size(); i <= row; ++i )
-            m_cache.insert(i, NULL);
-    }
+    if( row >= m_cache.size() )
+        return defaultSize;
 
     QWidget *w = m_cache[row];
     if (w)
         return w->size();
     else
-        return QSize(512, 256);
+        return defaultSize;
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -249,36 +247,34 @@ void ItemDelegate::invalidateCache() const
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
-    QWidget *w = m_cache[index.row()];
+    int row = index.row();
+    QWidget *w = m_cache[row];
     if (w == NULL) {
+        /* Size of currently painted item has changed. */
         w = cache(index);
-        m_changeSizes.push_back(index);
-        timer_changeSize.start();
+        emit sizeUpdated(index);
         return;
     }
 
+    if ( dryPaint() )
+        return;
+
     const QRect &rect = option.rect;
 
+    /* Render background (selected, alternate, ...). */
     QStyle *style = w->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
     QPalette::ColorRole role = option.state & QStyle::State_Selected ?
                 QPalette::HighlightedText : QPalette::Text;
     style->drawItemText(painter, rect.translated(4, 4), 0,
-                        option.palette, true, QString::number(index.row()),
+                        option.palette, true, QString::number(row),
                         role);
 
     w->setMinimumSize(rect.size());
 
+    /* Render text/image. */
     painter->save();
     painter->translate( rect.topLeft() );
     w->render(painter);
     painter->restore();
-}
-
-void ItemDelegate::changeSize()
-{
-    foreach (const QModelIndex &index, m_changeSizes) {
-        emit sizeHintChanged(index);
-    }
-    m_changeSizes.clear();
 }

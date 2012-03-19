@@ -4,6 +4,12 @@
     * colors, highlighting?
 [ ] Create/Move/copy item in/to another tab
     * with command line and copyq commands
+[ ] better cache for item delegate
+    * similar to QCache
+    * items can be inserted on given index
+      (items after the new one are moved one index up)
+    * items can be moved
+    * combination of QList and QCache?
 [ ] Lex and parse command line arguments
 [ ] Commands (and automatic commands) can issue copyq commands
 

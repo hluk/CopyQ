@@ -631,11 +631,8 @@ void MainWindow::newItem()
 
 void MainWindow::pasteItem()
 {
-    QClipboard *clipboard = QApplication::clipboard();
     ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
-    const QMimeData *data;
-
-    data = clipboard->mimeData();
+    const QMimeData *data = clipboardData();
     if (data)
         c->add( cloneData(*data) );
 }

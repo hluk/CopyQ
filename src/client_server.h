@@ -7,6 +7,7 @@
 #include <QByteArray>
 #include <QWidget>
 #include <QLocalServer>
+#include <QClipboard>
 
 #if !defined(Q_WS_X11) && !defined(Q_WS_WIN) && !defined(Q_WS_MAC)
 #define NO_GLOBAL_SHORTCUTS
@@ -19,6 +20,8 @@ enum LogLevel {
 };
 
 void log(const QString &text, const LogLevel level = LogNote);
+const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
+void setClipboardData(QMimeData *data, QClipboard::Mode mode);
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes);
 bool readMessage(QIODevice *socket, QByteArray *msg);
 void writeMessage(QIODevice *socket, const QByteArray &msg);

@@ -52,24 +52,29 @@ class ItemDelegate : public QItemDelegate
 
         void invalidateCache() const;
 
+        void setDryPaint(bool dryPaint) { m_dryPaint = dryPaint; }
+        bool dryPaint() const { return m_dryPaint; }
+
     protected:
-        void paint (QPainter *painter, const QStyleOptionViewItem &option,
-                    const QModelIndex &index) const;
+        void paint(QPainter *painter, const QStyleOptionViewItem &option,
+                   const QModelIndex &index) const;
 
     private:
         QWidget *m_parent;
         QString m_css;
         int m_maxsize;
+        bool m_dryPaint;
 
         // items drawn using QTextDocument
         mutable QList<QWidget*> m_cache;
-        mutable QVector<QModelIndex> m_changeSizes;
-        mutable QTimer timer_changeSize;
 
         // get size and/or pixmap from cache
         QWidget *cache(const QModelIndex &index, QSize *size = NULL) const;
         void removeCache(int row) const;
         void removeCache(const QModelIndex &index) const;
+
+    signals:
+        void sizeUpdated(const QModelIndex &index) const;
 
     public slots:
         // change size buffer
@@ -78,8 +83,6 @@ class ItemDelegate : public QItemDelegate
         void rowsInserted(const QModelIndex & parent, int start, int end);
         void rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd,
                        const QModelIndex & destinationParent, int destinationRow);
-    private slots:
-        void changeSize();
 };
 
 #endif

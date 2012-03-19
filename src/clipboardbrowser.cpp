@@ -32,7 +32,8 @@
 static const int max_preload = 10;
 
 ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
-    QListView(parent), m_id(id), m_update(false), m_menu(NULL)
+    QListView(parent), m_id(id), m_update(false), m_sizeHintChanged(false),
+    m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
@@ -54,6 +55,8 @@ ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
     // delegate for rendering and editing items
     d = new ItemDelegate(this);
     setItemDelegate(d);
+    connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
+             this, SLOT(sizeHintChanged()), Qt::DirectConnection );
 
     // set new model
     m = new ClipboardModel();
@@ -219,6 +222,17 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &a,
                                         const QItemSelection &b)
 {
     QListView::selectionChanged(a, b);
+}
+
+void ClipboardBrowser::paintEvent(QPaintEvent *event)
+{
+    d->setDryPaint(true);
+    m_sizeHintChanged = false;
+    QListView::paintEvent(event);
+    d->setDryPaint(false);
+
+    if (!m_sizeHintChanged)
+        QListView::paintEvent(event);
 }
 
 void ClipboardBrowser::openEditor(const QString &text)
@@ -594,4 +608,9 @@ void ClipboardBrowser::realDataChanged(const QModelIndex &a, const QModelIndex &
 {
     if ( a.row() == 0 )
         updateClipboard();
+}
+
+void ClipboardBrowser::sizeHintChanged()
+{
+    m_sizeHintChanged = true;
 }

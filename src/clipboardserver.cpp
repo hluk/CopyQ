@@ -426,7 +426,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         mime = QString("text/plain");
 
         if ( args.atEnd() ) {
-            const QMimeData *data = QApplication::clipboard()->mimeData();
+            const QMimeData *data = clipboardData();
             if (data)
                 response->append( data->data(mime) );
         } else {
@@ -439,8 +439,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
                 }
 
                 const QMimeData *data = (row >= 0) ?
-                            c->itemData(row) :
-                            QApplication::clipboard()->mimeData();
+                            c->itemData(row) : clipboardData();
 
                 if (data) {
                     if (mime == "?")
@@ -455,7 +454,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // clipboard [mime="text/plain"]
     else if (cmd == "clipboard") {
         args >> QString("text/plain") >> mime;
-        const QMimeData *data = QApplication::clipboard()->mimeData();
+        const QMimeData *data = clipboardData();
         if (data) {
             if (mime == "?")
                 response->append( data->formats().join("\n")+'\n' );
@@ -468,8 +467,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // selection [mime="text/plain"]
     else if (cmd == "selection") {
         args >> QString("text/plain") >> mime;
-        const QMimeData *data =
-                QApplication::clipboard()->mimeData(QClipboard::Selection);
+        const QMimeData *data = clipboardData(QClipboard::Selection);
         if (data) {
             if (mime == "?")
                 response->append( data->formats().join("\n")+'\n' );

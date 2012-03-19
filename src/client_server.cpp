@@ -1,10 +1,14 @@
 #include "client_server.h"
+
 #include <iostream>
-#include <QObject>
-#include <QThread>
 #include <unistd.h>
 #include <cstdio>
+#include <assert.h>
+
+#include <QObject>
+#include <QThread>
 #include <QLocalSocket>
+#include <QApplication>
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -38,6 +42,23 @@ void log(const QString &text, const LogLevel level)
 
     msg = level_id.arg(text).toLocal8Bit();
     err << msg;
+}
+
+bool isMainThread()
+{
+    return QThread::currentThread() == QApplication::instance()->thread();
+}
+
+const QMimeData *clipboardData(QClipboard::Mode mode)
+{
+    assert( isMainThread() );
+    return QApplication::clipboard()->mimeData(mode);
+}
+
+void setClipboardData(QMimeData *data, QClipboard::Mode mode)
+{
+    assert( isMainThread() );
+    QApplication::clipboard()->setMimeData(data, mode);
 }
 
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)

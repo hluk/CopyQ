@@ -23,8 +23,6 @@ public:
         return m_socket->state() == QLocalSocket::ConnectedState;
     }
 
-    QMimeData *clipboardData() const;
-
     void setFormats(const QString &list);
 
     void updateClipboard(QMimeData *data, bool force = false);

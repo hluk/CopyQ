@@ -91,6 +91,7 @@ class ClipboardBrowser : public QListView
         ItemDelegate *d;
         QTimer timer_save;
         bool m_update;
+        bool m_sizeHintChanged;
 
         QMenu *m_menu;
         ConfigurationManager::Commands commands;
@@ -102,6 +103,7 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void selectionChanged ( const QItemSelection & selected,
                                 const QItemSelection & deselected );
+        void paintEvent(QPaintEvent *event);
 
     signals:
         void requestSearch(const QString &txt);
@@ -115,6 +117,7 @@ class ClipboardBrowser : public QListView
 
     private slots:
         void realDataChanged(const QModelIndex &a, const QModelIndex &b);
+        void sizeHintChanged();
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
