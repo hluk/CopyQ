@@ -469,8 +469,9 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
             QStringList formats = data->formats();
             QMimeData *olddata = m->mimeData(0);
             QStringList oldformats = olddata->formats();
-            if ( oldformats == formats &&
-                 olddata->data(oldformats.at(0)) == data->data(formats.at(0)) ) {
+            if ( formats.isEmpty() || (oldformats == formats &&
+                 olddata->data(oldformats.at(0)) == data->data(formats.at(0)))
+                 ) {
                 delete data;
                 return false;
             }

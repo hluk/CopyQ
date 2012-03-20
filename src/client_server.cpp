@@ -81,11 +81,11 @@ bool readMessage(QIODevice *socket, QByteArray *msg)
     QByteArray bytes;
     quint32 len;
 
-    if ( !readBytes(socket, (qint64)sizeof(len), &bytes) )
+    if ( !readBytes(socket, sizeof(len), &bytes) )
         return false;
     QDataStream(bytes) >> len;
 
-    if ( !readBytes(socket, (qint64)len, msg) )
+    if ( !readBytes(socket, len, msg) )
         return false;
 
     return true;
@@ -102,17 +102,16 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 {
     QLocalServer *server = new QLocalServer(parent);
 
-    if ( !server->listen(name) ) {
-        QLocalSocket socket;
-        socket.connectToServer(name);
-        if ( socket.waitForConnected(2000) ) {
-            QDataStream out(&socket);
-            out << (quint32)0;
-        } else {
-            // server is not running but socket is open -> remove socket
-            QLocalServer::removeServer(name);
-            server->listen(name);
-        }
+    // check if other server is running
+    QLocalSocket socket;
+    socket.connectToServer(name);
+    if ( socket.waitForConnected(2000) ) {
+        // server is running
+        QDataStream out(&socket);
+        out << (quint32)0;
+    } else {
+        QLocalServer::removeServer(name);
+        server->listen(name);
     }
 
     return server;
@@ -140,7 +139,7 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
     } else {
         foreach ( const QString &mime, data.formats() ) {
             // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
-            if ( mime[0].isLower() )
+            if ( !mime.isEmpty() && mime[0].isLower() )
                 newdata->setData(mime, data.data(mime));
         }
     }

@@ -199,6 +199,7 @@ void ClipboardServer::newMonitorConnection()
 
 void ClipboardServer::readyRead()
 {
+    m_socket->blockSignals(true);
     while ( m_socket->bytesAvailable() ) {
         ClipboardItem item;
         QByteArray msg;
@@ -219,6 +220,7 @@ void ClipboardServer::readyRead()
         c->add( cloneData(*data) );
         c->setAutoUpdate(true);
     }
+    m_socket->blockSignals(false);
 }
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)

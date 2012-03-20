@@ -91,12 +91,12 @@ static void usage()
 
 static int startServer(int argc, char *argv[])
 {
+    ClipboardServer app(argc, argv);
+    if ( app.isListening() ) {
 #ifdef Q_WS_WIN
     // FIXME: console window is still shown for a moment
     FreeConsole();
 #endif
-    ClipboardServer app(argc, argv);
-    if ( app.isListening() ) {
         return app.exec();
     } else {
         log( QObject::tr("CopyQ server is already running."), LogWarning );

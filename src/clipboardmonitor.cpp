@@ -218,15 +218,19 @@ void ClipboardMonitor::updateTimeout()
 
 void ClipboardMonitor::readyRead()
 {
-    QByteArray msg;
-    if( !readMessage(m_socket, &msg) ) {
-        log( tr("Cannot read message from server!"), LogError );
-        return;
+    m_socket->blockSignals(true);
+    while ( m_socket->bytesAvailable() ) {
+        QByteArray msg;
+        if( !readMessage(m_socket, &msg) ) {
+            log( tr("Cannot read message from server!"), LogError );
+            return;
+        }
+        ClipboardItem item;
+        QDataStream in(&msg, QIODevice::ReadOnly);
+        in >> item;
+        updateClipboard( cloneData(*item.data()) );
     }
-    ClipboardItem item;
-    QDataStream in(&msg, QIODevice::ReadOnly);
-    in >> item;
-    updateClipboard( cloneData(*item.data()) );
+    m_socket->blockSignals(false);
 }
 
 void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
