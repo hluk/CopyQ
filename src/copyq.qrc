@@ -26,5 +26,6 @@
         <file>images/tab_history.svg</file>
         <file>images/tab_shortcuts.svg</file>
         <file>images/new_tab.svg</file>
+        <file>styles/help.css.html</file>
     </qresource>
 </RCC>

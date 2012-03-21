@@ -20,9 +20,8 @@
 #include "itemdelegate.h"
 #include <QApplication>
 #include <QPainter>
-#include <QMetaProperty>
 #include <QPlainTextEdit>
-#include <QUrl>
+#include <QScrollBar>
 #include "client_server.h"
 #include <assert.h>
 
@@ -35,12 +34,6 @@ ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
              SIGNAL(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
 }
 
-ItemDelegate::~ItemDelegate()
-{
-    for( int i = 0; i < m_cache.size(); ++i )
-        removeCache(i);
-}
-
 void ItemDelegate::setStyleSheet(const QString &css)
 {
     m_css = css;
@@ -48,7 +41,8 @@ void ItemDelegate::setStyleSheet(const QString &css)
         removeCache(i);
 }
 
-QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &, const QModelIndex &index) const
+QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
+                             const QModelIndex &index) const
 {
     int row = index.row();
     if( row >= m_cache.size() )
@@ -156,7 +150,7 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
         m_cache.insert( i, NULL );
 }
 
-QWidget *ItemDelegate::cache(const QModelIndex &index, QSize *size) const
+QWidget *ItemDelegate::cache(const QModelIndex &index) const
 {
     int n = index.row();
 
@@ -164,58 +158,38 @@ QWidget *ItemDelegate::cache(const QModelIndex &index, QSize *size) const
     if (!w) {
         QVariant displayData = index.data(Qt::DisplayRole);
         QString html = displayData.toString();
-        QString text;
         QPixmap pix;
 
-        bool hasHtml = !html.isEmpty();
-        bool hasText = false;
-        if (!hasHtml) {
-            QVariant editData = index.data(Qt::EditRole);
-            hasText = editData.canConvert(QVariant::String);
-            if (hasText)
-                text = editData.toString();
-            else
-                pix = displayData.value<QPixmap>();
-        }
-
-        if (hasText || hasHtml) {
-            QTextEdit *textEdit = new QTextEdit();
-            QTextDocument *doc = new QTextDocument(textEdit);
-            doc->setDefaultStyleSheet(m_css);
+        if (!html.isEmpty()) {
+            QTextEdit *textEdit = new QTextEdit(m_parent);
 
             textEdit->setFrameShape(QFrame::NoFrame);
             textEdit->setWordWrapMode(QTextOption::NoWrap);
-            textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
             w = textEdit;
             w->setObjectName("item");
-            w->setStyleSheet(m_css);
 
             // text or HTML
-            if (hasText)
-                doc->setPlainText(text);
-            else
-                doc->setHtml(html);
-            textEdit->setDocument(doc);
+            QTextDocument *doc = new QTextDocument(textEdit);
+            doc->setDefaultStyleSheet(m_css);
+            doc->setHtml(html);
 
-            w->resize( doc->idealWidth(), doc->size().height() );
+            textEdit->setDocument(doc);
+            textEdit->resize( 9999,
+                              doc->documentLayout()->documentSize().height() );
         } else {
             // Image
-            QLabel *label = new QLabel();
+            QLabel *label = new QLabel(m_parent);
+            pix = displayData.value<QPixmap>();
             w = label;
             w->setObjectName("item");
-            w->setStyleSheet(m_css);
             label->setMargin(4);
             label->setPixmap(pix);
             w->adjustSize();
         }
+        w->hide();
         m_cache[n] = w;
     }
-
-    // maximum item size
-    if (size)
-        *size = w->size();
 
     return w;
 }
@@ -251,7 +225,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     QWidget *w = m_cache[row];
     if (w == NULL) {
         /* Size of currently painted item has changed. */
-        w = cache(index);
+        cache(index);
         emit sizeUpdated(index);
         return;
     }
@@ -269,8 +243,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     style->drawItemText(painter, rect.translated(4, 4), 0,
                         option.palette, true, QString::number(row),
                         role);
-
-    w->setMinimumSize(rect.size());
 
     /* Render text/image. */
     painter->save();

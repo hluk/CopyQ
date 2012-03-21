@@ -39,7 +39,6 @@ class ItemDelegate : public QItemDelegate
 
     public:
         ItemDelegate(QWidget *parent = 0);
-        ~ItemDelegate();
 
         QSize sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const;
 
@@ -69,7 +68,7 @@ class ItemDelegate : public QItemDelegate
         mutable QList<QWidget*> m_cache;
 
         // get size and/or pixmap from cache
-        QWidget *cache(const QModelIndex &index, QSize *size = NULL) const;
+        QWidget *cache(const QModelIndex &index) const;
         void removeCache(int row) const;
         void removeCache(const QModelIndex &index) const;
 

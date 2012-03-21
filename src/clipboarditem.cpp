@@ -79,8 +79,7 @@ QVariant ClipboardItem::data(int role) const
             QPixmap pix;
             pixmap(&pix);
             return pix;
-        } else if ( m_mimeType.endsWith("html") ||
-                    (m_parent && !m_parent->search()->isEmpty()) ) {
+        } else {
             return highlightedHtml();
         }
     } else if (role == Qt::EditRole) {
@@ -101,9 +100,12 @@ QString ClipboardItem::highlightedHtml() const
     if ( !re || re->isEmpty() ) {
         // show html if not searching or the text is not too large
         if ( m_mimeType.endsWith("html") )
-            return m_data->html();
+            return m_data->html()
+                    .replace("<body>", "<body><span id=\"item\">")
+                    .replace("<!--StartFragment-->",
+                             "<!--StartFragment--><span id=\"item\">");
         else
-            return escape( text() );
+            return "<div id=\"item\">" + escape( text() );
     }
 
     const QString str = text();

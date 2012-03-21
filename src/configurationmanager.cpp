@@ -70,6 +70,13 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     ui(new Ui::ConfigurationManager)
 {
     ui->setupUi(this);
+
+    /* translated CSS help */
+    if ( tr("", "CSS Help").isEmpty() )
+        ui->textBrowserStyleHelp->setSource( QUrl("qrc:/styles/help.css.html") );
+    else
+        ui->textBrowserStyleHelp->setHtml( tr("CSS Help") );
+
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->tab_shortcuts->deleteLater();
 #endif

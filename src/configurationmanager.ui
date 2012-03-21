@@ -524,7 +524,7 @@
         <attribute name="title">
          <string>&amp;Appearance</string>
         </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_5">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_9">
            <item>
@@ -551,6 +551,13 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QTextBrowser" name="textBrowserStyleHelp">
+           <property name="openLinks">
+            <bool>false</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
