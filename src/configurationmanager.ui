@@ -554,6 +554,9 @@
          </item>
          <item>
           <widget class="QTextBrowser" name="textBrowserStyleHelp">
+           <property name="lineWrapMode">
+            <enum>QTextEdit::NoWrap</enum>
+           </property>
            <property name="openLinks">
             <bool>false</bool>
            </property>

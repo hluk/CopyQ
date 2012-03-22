@@ -548,7 +548,7 @@ void ClipboardServer::loadSettings()
     Arguments *args;
 
     foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
-        s->deleteLater();
+        delete s;
     m_shortcutActions.clear();
 
     key = cm->value("toggle_shortcut").toString();
