@@ -118,9 +118,9 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                       Option(0) );
 #ifndef NO_GLOBAL_SHORTCUTS
     m_options.insert( "toggle_shortcut",
-                      Option("(No Shortcut)", "text", ui->pushButton));
+                      Option("", "text", ui->pushButton));
     m_options.insert( "menu_shortcut",
-                      Option("(No Shortcut)", "text", ui->pushButton_2));
+                      Option("", "text", ui->pushButton_2));
 #endif
 #ifdef Q_WS_X11
     m_options.insert( "check_selection",
@@ -213,7 +213,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     *c = Command();
     switch(index) {
     case 1:
-        c->name = tr("Ignore items with no text or only single character");
+        c->name = tr("Ignore items with no text and single character items");
         c->re   = QRegExp("^\\s+$|^\\s*\\S\\s*$");
         c->icon = ":/images/command_ignore.svg";
         c->ignore = true;
@@ -277,7 +277,15 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 
 QStringList ConfigurationManager::options() const
 {
-    return m_options.keys();
+    QStringList options;
+    foreach ( const QString &option, m_options.keys() ) {
+        if ( value(option).canConvert(QVariant::String) &&
+             !optionToolTip(option).isEmpty() ) {
+            options.append(option);
+        }
+    }
+
+    return options;
 }
 
 QString ConfigurationManager::optionToolTip(const QString &name) const
@@ -549,9 +557,7 @@ void ConfigurationManager::getKey(QPushButton *button)
     if (dialog->exec() == QDialog::Accepted) {
         QKeySequence shortcut = dialog->shortcut();
         QString text;
-        if (shortcut.isEmpty())
-            text = tr("(No Shortcut)");
-        else
+        if ( !shortcut.isEmpty() )
             text = shortcut.toString(QKeySequence::NativeText);
         button->setText(text);
     }

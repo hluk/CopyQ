@@ -177,12 +177,11 @@ void ClipboardServer::newConnection()
 
     QByteArray client_msg;
     // try to handle command
-    if ( !doCommand(args, &client_msg) ) {
-        sendMessage( client, tr("Bad command syntax. Use -h for help.\n"), 2 );
-    } else {
-        QApplication::processEvents();
-        sendMessage(client, client_msg);
+    int exit_code = doCommand(args, &client_msg);
+    if ( exit_code == CommandBadSyntax ) {
+        client_msg = tr("Bad command syntax. Use -h for help.\n").toLocal8Bit();
     }
+    sendMessage(client, client_msg, exit_code);
 
     client->disconnectFromServer();
 }
@@ -251,12 +250,13 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     writeMessage(m_socket, msg);
 }
 
-bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
+ClipboardServer::CommandStatus ClipboardServer::doCommand(Arguments &args,
+                                                          QByteArray *response)
 {
     QString cmd;
     args >> cmd;
     if ( args.error() )
-        return false;
+        return CommandBadSyntax;
 
     ClipboardBrowser *c = m_wnd->browser(0);
     bool noupdate = false;
@@ -267,18 +267,18 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // show/hide main window
     if (cmd == "show") {
         if ( !args.atEnd() )
-            return false;
+            return CommandBadSyntax;
         m_wnd->showWindow();
         response->append(QString::number((qlonglong)m_wnd->winId()));
     }
     else if (cmd == "hide") {
         if ( !args.atEnd() )
-            return false;
+            return CommandBadSyntax;
         m_wnd->close();
     }
     else if (cmd == "toggle") {
         if ( !args.atEnd() )
-            return false;
+            return CommandBadSyntax;
         if ( m_wnd->isVisible() ) {
             m_wnd->close();
         } else {
@@ -290,7 +290,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // exit server
     else if (cmd == "exit") {
         if ( !args.atEnd() )
-            return false;
+            return CommandBadSyntax;
         // close client and exit
         *response = tr("Terminating server.\n").toLocal8Bit();
         m_wnd->deleteLater();
@@ -300,7 +300,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // show menu
     else if (cmd == "menu") {
         if ( !args.atEnd() )
-            return false;
+            return CommandBadSyntax;
         m_wnd->showMenu();
     }
 
@@ -326,7 +326,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             args >> cmd >> QString('\n') >> sep;
 
             if ( !args.finished() )
-                return false;
+                return CommandBadSyntax;
 
             Command command;
             command.cmd = cmd;
@@ -341,7 +341,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     // add new items
     else if (cmd == "add") {
         if ( args.atEnd() )
-            return false;
+            return CommandBadSyntax;
 
         if ( isMonitoring() ) c->setAutoUpdate(false);
         c->setUpdatesEnabled(false);
@@ -367,7 +367,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             if ( args.error() ) {
                 delete data;
                 data = NULL;
-                return false;
+                return CommandBadSyntax;
             }
 
             data->setData( mime, bytes );
@@ -390,7 +390,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         while ( !args.finished() ) {
             args >> row;
             if (args.error())
-               return false;
+               return CommandBadSyntax;
             text.append( '\n'+c->itemText(row) );
         }
         c->openEditor(text);
@@ -401,7 +401,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
     else if (cmd == "select") {
         args >> 0 >> row;
         if ( !args.finished() )
-            return false;
+            return CommandBadSyntax;
         c->moveToClipboard(row);
     }
 
@@ -414,7 +414,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         while ( !args.finished() ) {
             args >> row;
             if ( args.error() )
-                return false;
+                return CommandBadSyntax;
             rows << row;
         }
 
@@ -436,7 +436,7 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
         if ( args.finished() ) {
             *response = QString("%1\n").arg(c->length()).toLocal8Bit();
         } else {
-            return false;
+            return CommandBadSyntax;
         }
     }
 
@@ -504,38 +504,42 @@ bool ClipboardServer::doCommand(Arguments &args, QByteArray *response)
             QStringList options = cm->options();
             options.sort();
             foreach (const QString &option, options) {
-                if ( cm->value(option).canConvert(QVariant::String) ) {
-                    response->append( option + "\n  " +
-                                      cm->optionToolTip(option) + '\n' );
-                }
+                response->append( option + "\n  " +
+                                  cm->optionToolTip(option) + '\n' );
             }
         } else {
             QString option;
             args >> option;
-            if ( cm->options().contains(option) &&
-                 cm->value(option).canConvert(QVariant::String) ) {
+            if ( cm->options().contains(option) ) {
                 if ( args.atEnd() ) {
                     response->append( cm->value(option).toString()+'\n' );
+
+                } else if ( cm->isVisible() ) {
+                    response->append( tr("To modify options from command line "
+                                         "you must first close the CopyQ "
+                                         "Configuration dialog!\n") );
+                    return CommandError;
                 } else {
                     QString value;
                     args >> value;
                     if ( !args.atEnd() )
-                        return false;
+                        return CommandBadSyntax;
                     cm->setValue(option, value);
                     cm->saveSettings();
                 }
             } else {
-                response->append("Invalid option!\n");
+                response->append( tr("Invalid option!\n") );
+                return CommandError;
             }
         }
     }
 
     // unknown command
     else {
-        return false;
+        return CommandBadSyntax;
     }
 
-    return true;
+    return CommandSuccess;
 }
 
 Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
@@ -543,7 +547,7 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 #ifdef NO_GLOBAL_SHORTCUTS
     return NULL;
 #else
-    if (shortcut == tr("(No Shortcut)") || shortcut.isEmpty())
+    if ( shortcut.isEmpty() )
         return NULL;
 
     QKeySequence keyseq(shortcut, QKeySequence::NativeText);
