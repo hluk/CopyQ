@@ -114,6 +114,8 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
                       Option(true, "checked", ui->checkBoxConfirmExit) );
     m_options.insert( "tabs",
                       Option(QStringList()) );
+    m_options.insert( "_last_hash",
+                      Option(0) );
 #ifndef NO_GLOBAL_SHORTCUTS
     m_options.insert( "toggle_shortcut",
                       Option("(No Shortcut)", "text", ui->pushButton));
@@ -211,8 +213,8 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     *c = Command();
     switch(index) {
     case 1:
-        c->name = tr("Ignore single character or empty item");
-        c->re   = QRegExp("^\\s*.?\\s*$");
+        c->name = tr("Ignore items with no text or only single character");
+        c->re   = QRegExp("^\\s+$|^\\s*\\S\\s*$");
         c->icon = ":/images/command_ignore.svg";
         c->ignore = true;
         break;
@@ -228,6 +230,19 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->icon = ":/images/command_autoplay.svg";
         c->cmd  = "vlc %1";
         c->automatic = true;
+        break;
+    case 4:
+        c->name = tr("Move non-textual items to other tab");
+        c->re   = QRegExp("^$");
+        c->icon = ":/images/command_move.svg";
+        c->tab  = "i&mages";
+        c->ignore = true;
+        break;
+    case 5:
+        c->name = tr("Copy URL (web address) to other tab");
+        c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
+        c->icon = ":/images/command_tab.svg";
+        c->tab  = "&web";
         break;
     default:
         return false;
@@ -305,6 +320,7 @@ void ConfigurationManager::loadSettings()
         c.enable = settings.value( tr("Enable") ).toBool();
         c.icon = settings.value( tr("Icon") ).toString();
         c.shortcut = settings.value( tr("Shortcut") ).toString();
+        c.tab = settings.value( tr("Tab") ).toString();
 
         addCommand(c);
     }
@@ -331,15 +347,6 @@ void ConfigurationManager::saveSettings()
     }
     settings.endGroup();
 
-    // commit changes on command
-    QListWidget *list = ui->listWidgetCommands;
-    QListWidgetItem *item = list->currentItem();
-    if (item != NULL) {
-        int row = ui->listWidgetCommands->row(item);
-        m_commands[row] = ui->widgetCommand->command();
-        updateCommandItem(item);
-    }
-
     // save commands
     settings.beginWriteArray("Commands");
     int i=0;
@@ -357,6 +364,7 @@ void ConfigurationManager::saveSettings()
         settings.setValue( tr("Enable"), c.enable );
         settings.setValue( tr("Icon"), c.icon );
         settings.setValue( tr("Shortcut"), c.shortcut );
+        settings.setValue( tr("Tab"), c.tab );
     }
     settings.endArray();
 
@@ -410,6 +418,12 @@ void ConfigurationManager::addCommand(const Command &c)
     updateCommandItem(item);
 }
 
+void ConfigurationManager::setTabs(const QStringList &tabs)
+{
+    setValue("tabs", tabs);
+    ui->widgetCommand->setTabs(tabs);
+}
+
 void ConfigurationManager::apply()
 {
     // update current command
@@ -422,6 +436,15 @@ void ConfigurationManager::apply()
     // style sheet
     QString css = ui->plainTextEdit_css->toPlainText();
     resetStyleSheet(css);
+
+    // commit changes on command
+    QListWidget *list = ui->listWidgetCommands;
+    QListWidgetItem *item = list->currentItem();
+    if (item != NULL) {
+        int row = ui->listWidgetCommands->row(item);
+        m_commands[row] = ui->widgetCommand->command();
+        updateCommandItem(item);
+    }
 
     saveSettings();
 }
@@ -600,6 +623,9 @@ void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
 void ConfigurationManager::on_listWidgetCommands_itemChanged(
         QListWidgetItem *item)
 {
+    if ( ui->listWidgetCommands->currentItem() != item )
+        return;
+
     int row = ui->listWidgetCommands->row(item);
     Command c = ui->widgetCommand->command();
     c.enable = m_commands[row].enable = (item->checkState() == Qt::Checked);

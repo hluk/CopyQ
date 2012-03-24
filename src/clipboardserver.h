@@ -42,6 +42,7 @@ private:
     QLocalSocket *m_socket;
     MainWindow* m_wnd;
     QProcess *m_monitor;
+    uint m_lastHash;
     QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
 
 public slots:

@@ -75,9 +75,6 @@ MainWindow::MainWindow(QWidget *parent)
     enterBrowseMode();
 
     tray->show();
-
-    // restore clipboard history items
-    c->loadItems();
 }
 
 void MainWindow::exit()
@@ -217,6 +214,40 @@ void MainWindow::createMenu()
     tray->setContextMenu(traymenu);
 }
 
+ClipboardBrowser *MainWindow::createTab(const QString &name)
+{
+    QTabWidget *w = ui->tabWidget;
+
+    /* check name */
+    for( int i = 0; i < w->count(); ++i )
+        if ( name == w->tabText(i) )
+            return browser(i);
+
+    ClipboardBrowser *c = new ClipboardBrowser(name, this);
+
+    c->loadSettings();
+    c->loadItems();
+    c->setAutoUpdate(true);
+
+    connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
+             this, SIGNAL(changeClipboard(const ClipboardItem*)) );
+    connect( c, SIGNAL(requestSearch(QString)),
+             this, SLOT(enterSearchMode(QString)) );
+    connect( c, SIGNAL(requestActionDialog(QString,const Command*)),
+             this, SLOT(action(QString,const Command*)) );
+    connect( c, SIGNAL(hideSearch()),
+             this, SLOT(enterBrowseMode()) );
+    connect( c, SIGNAL(requestShow()),
+             this, SLOT(show()) );
+    connect( c, SIGNAL(addToTab(QMimeData*,QString)),
+             this, SLOT(addToTab(QMimeData*,QString)),
+             Qt::DirectConnection );
+
+    w->addTab(c, name);
+
+    return c;
+}
+
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec)
 {
@@ -253,7 +284,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 enterBrowseMode(false);
                 break;
             case Qt::Key_V:
-                browser()->add( browser(0)->at(0) );
+                browser()->add( *browser(0)->at(0) );
                 break;
             case Qt::Key_Tab:
                 w->setCurrentIndex( (w->currentIndex() + 1) % w->count() );
@@ -339,7 +370,7 @@ void MainWindow::saveSettings()
         browser(i)->saveItems();
         tabs << w->tabText(i);
     }
-    cm->setValue("tabs", tabs);
+    cm->setTabs(tabs);
 
     cm->saveSettings();
 }
@@ -357,11 +388,12 @@ void MainWindow::loadSettings()
     bool loaded = ui->tabWidget->count() > 0;
     QStringList tabs = cm->value("tabs").toStringList();
     foreach(const QString &name, tabs) {
+        ClipboardBrowser *c;
+        c = createTab(name);
         if (loaded)
-            addTab(name)->loadSettings();
-        else
-            addTab(name);
+            c->loadSettings();
     }
+    cm->setTabs(tabs);
 
     log( tr("Configuration loaded") );
 }
@@ -442,6 +474,24 @@ void MainWindow::tabChanged()
     menuBar()->insertMenu( m->menuAction(), itemMenu );
     menuBar()->removeAction( m->menuAction() );
     browser()->filterItems( ui->searchBar->text() );
+}
+
+void MainWindow::addToTab(QMimeData *data, const QString &tabName)
+{
+    ClipboardBrowser *c;
+    QTabWidget *tabs = ui->tabWidget;
+    int i = 0;
+
+    for ( ; i < tabs->count() && tabs->tabText(i) != tabName; ++i );
+
+    if ( i < tabs->count() ) {
+        c = browser(i);
+    } else {
+        c = createTab(tabName);
+        saveSettings();
+    }
+
+    c->add( cloneData(*data), true );
 }
 
 void MainWindow::enterSearchMode(const QString &txt)
@@ -587,34 +637,12 @@ ClipboardBrowser *MainWindow::browser(int index)
     return dynamic_cast<ClipboardBrowser*>(w);
 }
 
-ClipboardBrowser *MainWindow::addTab(const QString name)
+ClipboardBrowser *MainWindow::addTab(const QString &name)
 {
     QTabWidget *w = ui->tabWidget;
-
-    /* check name */
-    for( int i = 0; i < w->count(); ++i )
-        if ( name == w->tabText(i) )
-            return browser(i);
-
-    ClipboardBrowser *c = new ClipboardBrowser(name, this);
-
-    c->loadSettings();
-    c->loadItems();
-    c->setAutoUpdate(true);
-
-    connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
-             this, SIGNAL(changeClipboard(const ClipboardItem*)) );
-    connect( c, SIGNAL(requestSearch(QString)),
-             this, SLOT(enterSearchMode(QString)) );
-    connect( c, SIGNAL(requestActionDialog(QString,const Command*)),
-             this, SLOT(action(QString,const Command*)) );
-    connect( c, SIGNAL(hideSearch()),
-             this, SLOT(enterBrowseMode()) );
-    connect( c, SIGNAL(requestShow()),
-             this, SLOT(show()) );
-
-    w->addTab(c, name);
+    ClipboardBrowser *c = createTab(name);
     w->setCurrentIndex( w->count()-1 );
+    saveSettings();
 
     return c;
 }
@@ -659,9 +687,9 @@ void MainWindow::newTab()
     TabDialog *d = new TabDialog(this);
 
     connect( d, SIGNAL(addTab(QString)),
-            this, SLOT(addTab(QString)) );
+             this, SLOT(addTab(QString)) );
     connect( d, SIGNAL(finished(int)),
-            d, SLOT(deleteLater()) );
+             d, SLOT(deleteLater()) );
 
     d->open();
 }
@@ -681,8 +709,11 @@ void MainWindow::removeTab()
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {
             ConfigurationManager::instance()->removeItems( w->tabText(i) );
-            browser(i)->deleteLater();
+            ClipboardBrowser *c = browser(i);
+            c->purgeItems();
+            c->deleteLater();
             w->removeTab(i);
+            saveSettings();
         }
     }
 }

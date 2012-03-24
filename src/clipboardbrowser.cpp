@@ -218,12 +218,6 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
         m_menu->exec( event->globalPos() );
 }
 
-void ClipboardBrowser::selectionChanged(const QItemSelection &a,
-                                        const QItemSelection &b)
-{
-    QListView::selectionChanged(a, b);
-}
-
 void ClipboardBrowser::paintEvent(QPaintEvent *event)
 {
     d->setDryPaint(true);
@@ -465,33 +459,30 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
 {
     if (!force) {
         // don't add if new data is same as first item
-        if ( m->rowCount() ) {
-            QStringList formats = data->formats();
-            QMimeData *olddata = m->mimeData(0);
-            QStringList oldformats = olddata->formats();
-            if ( formats.isEmpty() || (oldformats == formats &&
-                 olddata->data(oldformats.at(0)) == data->data(formats.at(0)))
-                 ) {
-                delete data;
-                return false;
-            }
+        if ( *m->at(0) == *data ) {
+            delete data;
+            return false;
         }
 
         // commands
         bool ignore = false;
-        foreach(const Command &command, commands) {
-            if (command.automatic || command.ignore) {
+        foreach(const Command &c, commands) {
+            if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                 QString text = data->text();
-                if (command.re.indexIn(text) != -1) {
-                    if (command.automatic)
-                        emit requestActionDialog(text, &command);
-                    if (command.ignore)
+                if (c.re.indexIn(text) != -1) {
+                    if (c.automatic)
+                        emit requestActionDialog(text, &c);
+                    if (c.ignore)
                         ignore = true;
+                    if (!c.tab.isEmpty())
+                        emit addToTab(data, c.tab);
                 }
             }
         }
-        if (ignore)
+        if (ignore) {
+            delete data;
             return false;
+        }
     }
 
     // create new item
@@ -513,9 +504,9 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
     return true;
 }
 
-bool ClipboardBrowser::add(ClipboardItem *item, bool force)
+bool ClipboardBrowser::add(const ClipboardItem &item, bool force)
 {
-    return add( cloneData(*item->data()), force );
+    return add( cloneData(*item.data()), force );
 }
 
 void ClipboardBrowser::loadSettings()
@@ -543,10 +534,6 @@ void ClipboardBrowser::loadSettings()
 void ClipboardBrowser::loadItems()
 {
     timer_save.stop();
-
-    // restore items
-    m->clear();
-
     ConfigurationManager::instance()->loadItems(*m, m_id);
     setCurrentIndex( QModelIndex() );
 }
@@ -560,6 +547,12 @@ void ClipboardBrowser::saveItems(int msec)
     }
 
     ConfigurationManager::instance()->saveItems(*m, m_id);
+}
+
+void ClipboardBrowser::purgeItems()
+{
+    ConfigurationManager::instance()->removeItems(m_id);
+    timer_save.stop();
 }
 
 const QString ClipboardBrowser::selectedText() const

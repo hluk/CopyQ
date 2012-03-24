@@ -23,7 +23,7 @@
 #include <QImage>
 
 ClipboardItem::ClipboardItem(const ClipboardModel *parent) :
-    m_parent(parent), m_filtered(false)
+    m_parent(parent), m_filtered(false), m_hash(0)
 {
     m_data = new QMimeData;
 }
@@ -33,17 +33,29 @@ ClipboardItem::~ClipboardItem()
     delete m_data;
 }
 
+bool ClipboardItem::operator ==(const ClipboardItem &item) const
+{
+    return m_hash == item.m_hash;
+}
+
+bool ClipboardItem::operator ==(const QMimeData &data) const
+{
+    return m_hash == hash(data, data.formats());
+}
+
 void ClipboardItem::clear()
 {
     //m_data->clear();
     delete m_data;
     m_data = new QMimeData;
+    m_hash = hash(*m_data, m_data->formats());
 }
 
 void ClipboardItem::setData(QMimeData *data)
 {
     delete m_data;
     m_data = data;
+    m_hash = hash(*m_data, m_data->formats());
 
     setPreferredFormat();
 }
@@ -59,11 +71,13 @@ void ClipboardItem::setData(const QVariant &value)
     m_data->clear();
     m_data->setText( value.toString() );
     m_mimeType = QString("text/plain");
+    m_hash = hash(*m_data, m_data->formats());
 }
 
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
     m_data->setData(mimeType, data);
+    m_hash = hash(*m_data, m_data->formats());
     setPreferredFormat();
 }
 
@@ -79,7 +93,9 @@ QVariant ClipboardItem::data(int role) const
             QPixmap pix;
             pixmap(&pix);
             return pix;
-        } else {
+        } else if ( m_mimeType.endsWith("html") ||
+                    (m_parent && !m_parent->search()->isEmpty()) )
+        {
             return highlightedHtml();
         }
     } else if (role == Qt::EditRole) {
@@ -99,13 +115,14 @@ QString ClipboardItem::highlightedHtml() const
     re = m_parent ? m_parent->search() : NULL;
     if ( !re || re->isEmpty() ) {
         // show html if not searching or the text is not too large
-        if ( m_mimeType.endsWith("html") )
+        if ( m_mimeType.endsWith("html") ) {
             return m_data->html()
                     .replace("<body>", "<body><span id=\"item\">")
                     .replace("<!--StartFragment-->",
                              "<!--StartFragment--><span id=\"item\">");
-        else
-            return "<div id=\"item\">" + escape( text() );
+        } else {
+            return escape( text() );
+        }
     }
 
     const QString str = text();

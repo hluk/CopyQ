@@ -27,6 +27,7 @@ bool readMessage(QIODevice *socket, QByteArray *msg);
 void writeMessage(QIODevice *socket, const QByteArray &msg);
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);
+uint hash(const QMimeData &data, const QStringList &formats);
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 void raiseWindow(WId wid);
 

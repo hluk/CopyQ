@@ -11,7 +11,7 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
-    App(argc, argv), m_newdata(NULL), m_lastHash(0)
+    App(argc, argv), m_newdata(NULL)
 {
     m_socket = new QLocalSocket(this);
     connect( m_socket, SIGNAL(readyRead()),
@@ -27,6 +27,11 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
     ConfigurationManager *cm = ConfigurationManager::instance();
     setFormats( cm->value("formats").toString() );
     setCheckClipboard( cm->value("check_clipboard").toBool() );
+
+    bool ok;
+    m_lastHash = cm->value("_last_hash").toUInt(&ok);
+    if (!ok)
+        m_lastHash = 0;
 
 #ifdef Q_WS_X11
     setCopyClipboard( cm->value("copy_clipboard").toBool() );
@@ -57,18 +62,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
 void ClipboardMonitor::setFormats(const QString &list)
 {
     m_formats = list.split( QRegExp("[;,\\s]+") );
-}
-
-uint ClipboardMonitor::hash(const QMimeData &data)
-{
-    QByteArray bytes;
-    foreach( QString mime, m_formats ) {
-        bytes = data.data(mime);
-        if ( !bytes.isEmpty() )
-            return qHash(bytes);
-    }
-
-    return 0;
 }
 
 #ifdef Q_WS_X11
@@ -124,7 +117,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 
     // same data as last time?
-    newHash = hash(*data);
+    newHash = hash(*data, m_formats);
     if (m_lastHash == newHash)
         return;
 
@@ -242,7 +235,7 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
     if ( !force && m_updatetimer.isActive() )
         return;
 
-    m_lastHash = hash(*data);
+    m_lastHash = hash(*data, data->formats());
     setClipboardData(data, QClipboard::Clipboard);
 #ifdef Q_WS_X11
     setClipboardData(cloneData(*data), QClipboard::Selection);

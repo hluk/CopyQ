@@ -27,5 +27,7 @@
         <file>images/tab_shortcuts.svg</file>
         <file>images/new_tab.svg</file>
         <file>styles/help.css.html</file>
+        <file>images/command_move.svg</file>
+        <file>images/command_tab.svg</file>
     </qresource>
 </RCC>

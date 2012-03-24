@@ -67,6 +67,7 @@ class MainWindow : public QMainWindow
         ClipboardBrowser *m_browser;
 
         void createMenu();
+        ClipboardBrowser *createTab(const QString &name);
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -115,7 +116,7 @@ class MainWindow : public QMainWindow
 
         void newTab();
         void removeTab();
-        ClipboardBrowser *addTab(const QString name);
+        ClipboardBrowser *addTab(const QString &name);
         void newItem();
         void pasteItem();
 
@@ -125,6 +126,7 @@ class MainWindow : public QMainWindow
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
         void tabChanged();
+        void addToTab(QMimeData *data, const QString &tabName);
 
     signals:
         void changeClipboard(const ClipboardItem *item);

@@ -17,6 +17,7 @@ struct Command {
     bool enable;
     QString icon;
     QString shortcut;
+    QString tab;
 };
 
 namespace Ui {
@@ -34,12 +35,16 @@ public:
     Command command() const;
     void setCommand(const Command &command) const;
 
+    void setTabs(const QStringList &tabs);
+
 private slots:
     void on_pushButtonBrowse_clicked();
 
     void on_lineEditIcon_textChanged(const QString &arg1);
 
     void on_pushButtonShortcut_clicked();
+
+    void on_lineEditCommand_textChanged(const QString &arg1);
 
 private:
     Ui::CommandWidget *ui;

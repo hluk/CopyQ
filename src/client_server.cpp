@@ -127,6 +127,18 @@ QString serverName(const QString &name)
     return name + sessionID;
 }
 
+uint hash(const QMimeData &data, const QStringList &formats)
+{
+    QByteArray bytes;
+    foreach( QString mime, formats ) {
+        bytes = data.data(mime);
+        if ( !bytes.isEmpty() )
+            return qHash(bytes);
+    }
+
+    return 0;
+}
+
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 {
     QMimeData *newdata = new QMimeData;

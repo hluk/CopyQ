@@ -5,6 +5,7 @@
 
 #include <QFileDialog>
 #include <QPicture>
+#include <QDebug>
 
 CommandWidget::CommandWidget(QWidget *parent) :
     QWidget(parent),
@@ -34,6 +35,7 @@ Command CommandWidget::command() const
     c.enable = ui->checkBoxEnable->isChecked();
     c.icon = ui->lineEditIcon->text();
     c.shortcut = ui->pushButtonShortcut->text();
+    c.tab = ui->comboBoxCopyToTab->currentText();
 
     return c;
 }
@@ -52,6 +54,17 @@ void CommandWidget::setCommand(const Command &c) const
     ui->checkBoxEnable->setChecked(c.enable);
     ui->lineEditIcon->setText(c.icon);
     ui->pushButtonShortcut->setText(c.shortcut);
+    ui->comboBoxCopyToTab->setEditText(c.tab);
+}
+
+void CommandWidget::setTabs(const QStringList &tabs)
+{
+    QComboBox *w = ui->comboBoxCopyToTab;
+    QString text = w->currentText();
+    w->clear();
+    w->addItem("");
+    w->addItems(tabs);
+    w->setEditText(text);
 }
 
 void CommandWidget::on_pushButtonBrowse_clicked()
@@ -83,4 +96,9 @@ void CommandWidget::on_pushButtonShortcut_clicked()
             text = shortcut.toString(QKeySequence::NativeText);
         ui->pushButtonShortcut->setText(text);
     }
+}
+
+void CommandWidget::on_lineEditCommand_textChanged(const QString &arg1)
+{
+    ui->groupBoxCommandOptions->setDisabled( arg1.isEmpty() );
 }

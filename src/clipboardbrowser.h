@@ -57,7 +57,7 @@ class ClipboardBrowser : public QListView
          */
         bool add(const QString &txt, bool force = false);
         bool add(QMimeData *item, bool force = false);
-        bool add(ClipboardItem *item, bool force = false);
+        bool add(const ClipboardItem &item, bool force = false);
 
         void remove();
 
@@ -101,8 +101,6 @@ class ClipboardBrowser : public QListView
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
-        void selectionChanged ( const QItemSelection & selected,
-                                const QItemSelection & deselected );
         void paintEvent(QPaintEvent *event);
 
     signals:
@@ -114,6 +112,8 @@ class ClipboardBrowser : public QListView
         void escapePressed();
         void closeAllEditors();
         void changeClipboard(const ClipboardItem *item);
+
+        void addToTab(QMimeData *data, const QString &tabName);
 
     private slots:
         void realDataChanged(const QModelIndex &a, const QModelIndex &b);
@@ -132,6 +132,7 @@ class ClipboardBrowser : public QListView
 
         void loadItems();
         void saveItems(int msec=0);
+        void purgeItems();
 
         void contextMenuAction(QAction *act);
         void updateContextMenu();

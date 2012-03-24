@@ -35,6 +35,9 @@ public:
     ClipboardItem(const ClipboardModel *parent=NULL);
     ~ClipboardItem();
 
+    bool operator ==(const ClipboardItem &item) const;
+    bool operator ==(const QMimeData &data) const;
+
     QString text() const;
 
     // highlight matched text
@@ -56,6 +59,8 @@ public:
     const QString &format() const { return m_mimeType; }
     void setPreferredFormat();
 
+    uint dataHash() const { return m_hash; }
+
     bool isFiltered() const { return m_filtered; }
     void setFiltered(bool filtered) { m_filtered = filtered; }
 
@@ -66,6 +71,7 @@ private:
     QMimeData *m_data;
     QString m_mimeType;
     bool m_filtered;
+    uint m_hash;
 };
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item);

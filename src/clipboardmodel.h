@@ -54,14 +54,12 @@ public:
                   int role = Qt::EditRole);
     bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
     bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
-    void clear() {
-        m_clipboardList.clear();
-    }
 
     bool setData(const QModelIndex &index, QMimeData *value);
     bool append(ClipboardItem *item);
 
     void setMaxItems(int max);
+    int maxItems() const { return m_max; }
 
     bool move(int pos, int newpos);
     bool moveItems(QModelIndexList list, int key);

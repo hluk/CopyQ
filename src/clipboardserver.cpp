@@ -14,7 +14,7 @@ struct QxtGlobalShortcut {};
 #endif
 
 ClipboardServer::ClipboardServer(int &argc, char **argv) :
-        App(argc, argv), m_socket(NULL), m_wnd(NULL), m_monitor(NULL)
+    App(argc, argv), m_socket(NULL), m_wnd(NULL), m_monitor(NULL), m_lastHash(0)
 {
     // listen
     m_server = newServer( serverName(), this );
@@ -26,11 +26,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
 
     // main window
     m_wnd = new MainWindow;
-
-    // notify window if configuration changes
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    connect( cm, SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
 
     // listen
     m_monitorserver = newServer( monitorServerName(), this );
@@ -45,6 +40,17 @@ ClipboardServer::ClipboardServer(int &argc, char **argv) :
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
     loadSettings();
+
+    // notify window if configuration changes
+    ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+    connect( cm, SIGNAL(configurationChanged()),
+             this, SLOT(loadSettings()) );
+
+    // hash of the last clipboard data
+    bool ok;
+    m_lastHash = cm->value("_last_hash").toUInt(&ok);
+    if (!ok)
+        m_lastHash = 0;
 
     // run clipboard monitor
     startMonitoring();
@@ -61,6 +67,7 @@ ClipboardServer::~ClipboardServer()
     if (m_socket) {
         m_socket->disconnectFromServer();
         m_socket->deleteLater();
+        m_socket = NULL;
     }
 }
 
@@ -99,8 +106,6 @@ void ClipboardServer::stopMonitoring()
 
             if (m_socket) {
                 m_socket->disconnectFromServer();
-                m_socket->deleteLater();
-                m_socket = NULL;
                 m_monitor->waitForFinished(1000);
             }
 
@@ -127,8 +132,13 @@ void ClipboardServer::stopMonitoring()
             log( tr("Clipboard Monitor: Terminated") );
         }
 
+        m_socket->deleteLater();
+        m_socket = NULL;
         m_monitor->deleteLater();
         m_monitor = NULL;
+
+        ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+        cm->setValue("_last_hash", m_lastHash);
     }
 }
 
@@ -188,8 +198,11 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
 
 void ClipboardServer::newMonitorConnection()
 {
-    if (m_socket)
+    if (m_socket) {
         m_socket->disconnectFromServer();
+        m_socket->deleteLater();
+        m_socket = NULL;
+    }
     m_socket = m_monitorserver->nextPendingConnection();
     connect(m_socket, SIGNAL(disconnected()),
             m_socket, SLOT(deleteLater()));
@@ -200,7 +213,7 @@ void ClipboardServer::newMonitorConnection()
 void ClipboardServer::readyRead()
 {
     m_socket->blockSignals(true);
-    while ( m_socket->bytesAvailable() ) {
+    while ( m_socket && m_socket->bytesAvailable() ) {
         ClipboardItem item;
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
@@ -212,6 +225,9 @@ void ClipboardServer::readyRead()
         }
         QDataStream in(&msg, QIODevice::ReadOnly);
         in >> item;
+        if ( m_lastHash == item.dataHash() )
+            continue;
+        m_lastHash = item.dataHash();
 
         QMimeData *data = item.data();
         ClipboardBrowser *c = m_wnd->browser(0);
@@ -220,7 +236,8 @@ void ClipboardServer::readyRead()
         c->add( cloneData(*data) );
         c->setAutoUpdate(true);
     }
-    m_socket->blockSignals(false);
+    if (m_socket)
+        m_socket->blockSignals(false);
 }
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)

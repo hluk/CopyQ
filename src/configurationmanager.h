@@ -74,6 +74,8 @@ public:
     Commands commands() const;
     void addCommand(const Command &cmd);
 
+    void setTabs(const QStringList &tabs);
+
     void readStyleSheet();
     void writeStyleSheet();
     void resetStyleSheet(const QString &css);

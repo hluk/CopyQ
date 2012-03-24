@@ -157,10 +157,16 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
     QWidget *w = m_cache[n];
     if (!w) {
         QVariant displayData = index.data(Qt::DisplayRole);
-        QString html = displayData.toString();
+        QString text = displayData.toString();
         QPixmap pix;
 
-        if (!html.isEmpty()) {
+        bool hasHtml = !text.isEmpty();
+        if ( !hasHtml ) {
+            QVariant editData = index.data(Qt::EditRole);
+            text = editData.toString();
+        }
+
+        if ( !text.isEmpty() ) {
             QTextEdit *textEdit = new QTextEdit(m_parent);
 
             textEdit->setFrameShape(QFrame::NoFrame);
@@ -172,7 +178,10 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
             // text or HTML
             QTextDocument *doc = new QTextDocument(textEdit);
             doc->setDefaultStyleSheet(m_css);
-            doc->setHtml(html);
+            if (hasHtml)
+                doc->setHtml(text);
+            else
+                doc->setPlainText(text);
 
             textEdit->setDocument(doc);
             textEdit->resize( 9999,

@@ -361,6 +361,7 @@ QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
 {
     int length;
     stream >> length;
+    length = qMin( length, model.maxItems() ) - model.rowCount();
 
     ClipboardItem *item;
     for(int i = 0; i < length; ++i) {

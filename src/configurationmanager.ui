@@ -71,7 +71,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopyClip">
                   <property name="toolTip">
-                   <string>If clipboard changes store its content in the primary selection.</string>
+                   <string>Whether to copy clipboard content to the primary selection.</string>
                   </property>
                   <property name="text">
                    <string>clipboard &gt;&gt; selection (&amp;2)</string>
@@ -97,7 +97,7 @@
                 <item>
                  <widget class="QCheckBox" name="checkBoxCopySel">
                   <property name="toolTip">
-                   <string>If primary selection changes store its content in the clipboard.</string>
+                   <string>Whether to copy primary selection content to the clipboard.</string>
                   </property>
                   <property name="text">
                    <string>selection &gt;&gt; clipboard (&amp;4)</string>

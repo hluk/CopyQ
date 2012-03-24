@@ -30,7 +30,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&amp;Name:</string>
+          <string>&amp;Name</string>
          </property>
          <property name="buddy">
           <cstring>lineEditName</cstring>
@@ -147,6 +147,30 @@
       </layout>
      </item>
      <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="0,1">
+       <item>
+        <widget class="QLabel" name="label_6">
+         <property name="text">
+          <string>Copy to &amp;tab</string>
+         </property>
+         <property name="buddy">
+          <cstring>comboBoxCopyToTab</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxCopyToTab">
+         <property name="toolTip">
+          <string>Name of tab to copy new items into (leave empty not to copy)</string>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
       <widget class="QGroupBox" name="groupBox">
        <property name="title">
         <string>&amp;Run command</string>
@@ -166,7 +190,7 @@
              </sizepolicy>
             </property>
             <property name="text">
-             <string>Comma&amp;nd:</string>
+             <string>Comma&amp;nd</string>
             </property>
             <property name="buddy">
              <cstring>lineEditCommand</cstring>
@@ -183,121 +207,130 @@
          </layout>
         </item>
         <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_2">
-          <property name="spacing">
-           <number>16</number>
+         <widget class="QGroupBox" name="groupBoxCommandOptions">
+          <property name="title">
+           <string>Command options</string>
           </property>
-          <item>
-           <widget class="QCheckBox" name="checkBoxInput">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
-            <property name="toolTip">
-             <string>Send item text to standard input of the command.</string>
-            </property>
-            <property name="text">
-             <string>In&amp;put</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBoxOutput">
-            <property name="toolTip">
-             <string>Save standard output to items.</string>
-            </property>
-            <property name="text">
-             <string>Ou&amp;tput into item(s)</string>
-            </property>
-            <property name="checked">
-             <bool>false</bool>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="separatorLabel">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="text">
-               <string>&amp;Separator:</string>
-              </property>
-              <property name="buddy">
-               <cstring>lineEditSeparator</cstring>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QLineEdit" name="lineEditSeparator">
-              <property name="enabled">
-               <bool>false</bool>
-              </property>
-              <property name="toolTip">
-               <string>Separator to match for splitting the output to multiple items.</string>
-              </property>
-              <property name="text">
-               <string>\n</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </item>
-         </layout>
-        </item>
-        <item>
-         <layout class="QHBoxLayout" name="horizontalLayout_5">
-          <item>
-           <widget class="QCheckBox" name="checkBoxWait">
-            <property name="toolTip">
-             <string>Before executing the command show action dialog.</string>
-            </property>
-            <property name="text">
-             <string>&amp;Wait</string>
-            </property>
-           </widget>
-          </item>
-          <item>
-           <widget class="QCheckBox" name="checkBoxAutomatic">
-            <property name="toolTip">
-             <string>Run the command automatically</string>
-            </property>
-            <property name="text">
-             <string>Au&amp;tomatic</string>
-            </property>
-           </widget>
-          </item>
-         </layout>
+          <layout class="QVBoxLayout" name="verticalLayout_3">
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_2">
+             <property name="spacing">
+              <number>16</number>
+             </property>
+             <item>
+              <widget class="QCheckBox" name="checkBoxInput">
+               <property name="enabled">
+                <bool>true</bool>
+               </property>
+               <property name="toolTip">
+                <string>Send item text to standard input of the command.</string>
+               </property>
+               <property name="text">
+                <string>In&amp;put</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxOutput">
+               <property name="toolTip">
+                <string>Save standard output to items.</string>
+               </property>
+               <property name="text">
+                <string>Ou&amp;tput into item(s)</string>
+               </property>
+               <property name="checked">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QLabel" name="separatorLabel">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="text">
+                  <string>&amp;Separator:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>lineEditSeparator</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLineEdit" name="lineEditSeparator">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="toolTip">
+                  <string>Separator to match for splitting the output to multiple items.</string>
+                 </property>
+                 <property name="text">
+                  <string>\n</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_5">
+             <item>
+              <widget class="QCheckBox" name="checkBoxWait">
+               <property name="toolTip">
+                <string>Before executing the command show action dialog.</string>
+               </property>
+               <property name="text">
+                <string>&amp;Wait</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxAutomatic">
+               <property name="toolTip">
+                <string>Run the command automatically</string>
+               </property>
+               <property name="text">
+                <string>Au&amp;tomatic</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item>
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>&amp;Shortcut:</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButtonShortcut</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QPushButton" name="pushButtonShortcut">
+               <property name="text">
+                <string>(No Shortcut)</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+          </layout>
+         </widget>
         </item>
        </layout>
       </widget>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>&amp;Shortcut:</string>
-         </property>
-         <property name="buddy">
-          <cstring>pushButtonShortcut</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButtonShortcut">
-         <property name="text">
-          <string>(No Shortcut)</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
      </item>
     </layout>
    </item>
