@@ -90,9 +90,7 @@ void CommandWidget::on_pushButtonShortcut_clicked()
     if (dialog->exec() == QDialog::Accepted) {
         QKeySequence shortcut = dialog->shortcut();
         QString text;
-        if (shortcut.isEmpty())
-            text = tr("(No Shortcut)");
-        else
+        if ( !shortcut.isEmpty() )
             text = shortcut.toString(QKeySequence::NativeText);
         ui->pushButtonShortcut->setText(text);
     }

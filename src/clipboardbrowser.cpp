@@ -182,6 +182,12 @@ void ClipboardBrowser::createContextMenu()
              this, SLOT(updateContextMenu()) );
 }
 
+bool ClipboardBrowser::isFiltered(int row) const
+{
+    QString text = m->data(m->index(row), Qt::EditRole).toString();
+    return m_last_filter.indexIn(text) == -1;
+}
+
 void ClipboardBrowser::updateContextMenu()
 {
     int i, len;
@@ -248,7 +254,7 @@ void ClipboardBrowser::openEditor(const QString &text)
 void ClipboardBrowser::addItems(const QStringList &items)
 {
     for(int i=items.count()-1; i>=0; --i) {
-        add(items[i]);
+        add(items[i], true);
     }
 }
 
@@ -262,37 +268,24 @@ void ClipboardBrowser::itemModified(const QString &str)
 
 void ClipboardBrowser::filterItems(const QString &str)
 {
-    if (m_last_filter == str)
+    if (m_last_filter.pattern() == str)
         return;
-    m_last_filter = str;
+    m_last_filter = QRegExp(str, Qt::CaseInsensitive);
 
     // if search string empty: all items visible
+    d->setSearch(m_last_filter);
     if ( str.isEmpty() ) {
-        m->setSearch();
         emit hideSearch();
-    } else {
-        // if search string is a number N: highlight Nth item
-        bool ok;
-        int n = str.toInt(&ok);
-        if (ok && n >= 0 && n < m->rowCount()) {
-            m->setSearch(n);
-            setCurrent(n);
-            return;
-        } else {
-            QRegExp re(str);
-            re.setCaseSensitivity(Qt::CaseInsensitive);
-            m->setSearch(&re);
-        }
     }
 
     // hide filtered items
     reset();
     int first = -1;
     for(int i = 0; i < m->rowCount(); ++i) {
-        if ( m->isFiltered(i) )
-            setRowHidden(i,true);
+        if ( isFiltered(i) )
+            setRowHidden(i, true);
         else if (first == -1)
-                first = i;
+            first = i;
     }
     // select first visible
     setCurrentIndex( index(first) );
@@ -491,7 +484,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
     m->setData(ind, data);
 
     // filter item
-    if ( m->isFiltered(0) )
+    if ( isFiltered(0) )
         setRowHidden(0, true);
 
     // list size limit

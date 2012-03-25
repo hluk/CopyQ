@@ -174,6 +174,7 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
 
             w = textEdit;
             w->setObjectName("item");
+            w->setProperty("textEdit", true);
 
             // text or HTML
             QTextDocument *doc = new QTextDocument(textEdit);
@@ -227,6 +228,11 @@ void ItemDelegate::invalidateCache() const
     }
 }
 
+void ItemDelegate::setSearch(const QRegExp &re)
+{
+    m_re = re;
+}
+
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
@@ -253,9 +259,38 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                         option.palette, true, QString::number(row),
                         role);
 
+    /* highlight search string */
+    QTextDocument *doc1 = NULL;
+    QTextDocument *doc2 = NULL;
+    QTextEdit *textEdit;
+    if ( !m_re.isEmpty() ) {
+        if ( w->property("textEdit").toBool() ) {
+            textEdit = static_cast<QTextEdit *>(w);
+            doc1 = textEdit->document();
+            doc2 = doc1->clone(textEdit);
+            textEdit->setDocument(doc2);
+
+            QTextCursor cur = doc2->find(m_re);
+            while ( !cur.isNull() ) {
+                QTextCharFormat fmt = cur.charFormat();
+                fmt.setBackground(Qt::yellow);
+                fmt.setForeground(Qt::black);
+                fmt.setUnderlineStyle(QTextCharFormat::DotLine);
+                cur.setCharFormat(fmt);
+                cur = doc2->find(m_re, cur);
+            }
+        }
+    }
+
     /* Render text/image. */
     painter->save();
     painter->translate( rect.topLeft() );
     w->render(painter);
     painter->restore();
+
+    /* restore highlight */
+    if (doc2) {
+        textEdit->setDocument(doc1);
+        delete doc2;
+    }
 }

@@ -164,9 +164,7 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     if (index.isValid() && role == Qt::EditRole) {
         int row = index.row();
         m_clipboardList[row]->setData(value);
-        setSearch(row);
         emit dataChanged(index, index);
-        emit realDataChanged(index, index);
         return true;
     }
     return false;
@@ -177,9 +175,7 @@ bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
     if (index.isValid()) {
         int row = index.row();
         m_clipboardList[row]->setData(value);
-        setSearch(row);
         emit dataChanged(index, index);
-        emit realDataChanged(index, index);
         return true;
     }
     return false;
@@ -305,43 +301,6 @@ bool ClipboardModel::moveItems(QModelIndexList list, int key) {
     }
 
     return res;
-}
-
-bool ClipboardModel::isFiltered(int i) const
-{
-    return m_clipboardList[i]->isFiltered();
-}
-
-void ClipboardModel::setSearch(int row)
-{
-    ClipboardItem *item = m_clipboardList[row];
-    if ( m_re.isEmpty() || m_re.indexIn(item->text()) != -1 ) {
-        item->setFiltered(false);
-        QModelIndex ind = index(row);
-        // TODO: emit dataChanged only if item was re-highlighted
-        emit dataChanged(ind, ind);
-    } else {
-        item->setFiltered(true);
-    }
-}
-
-void ClipboardModel::setSearch(const QRegExp *const re)
-{
-    if (!re) {
-        if ( m_re.isEmpty() )
-            return; // search already empty
-
-        m_re = QRegExp();
-    } else if ( m_re == *re ) {
-        return; // search already set
-    } else {
-        m_re = *re;
-    }
-
-    // filter items
-    for( int i = 0; i<rowCount(); i++) {
-        setSearch(i);
-    }
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)

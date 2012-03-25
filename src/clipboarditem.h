@@ -39,9 +39,7 @@ public:
     bool operator ==(const QMimeData &data) const;
 
     QString text() const;
-
-    // highlight matched text
-    QString highlightedHtml() const;
+    QString html() const;
 
     // image
     void pixmap(QPixmap *pixmap) const;
@@ -61,16 +59,12 @@ public:
 
     uint dataHash() const { return m_hash; }
 
-    bool isFiltered() const { return m_filtered; }
-    void setFiltered(bool filtered) { m_filtered = filtered; }
-
     void setDefault(const QString & mimeType) { m_mimeType = mimeType; }
 
 private:
     const ClipboardModel *m_parent;
     QMimeData *m_data;
     QString m_mimeType;
-    bool m_filtered;
     uint m_hash;
 };
 

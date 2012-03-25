@@ -35,15 +35,14 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), ui(new Ui::MainWindow),
     aboutDialog(NULL), actionDialog(NULL)
 {
-    ClipboardBrowser *c;
-
     ui->setupUi(this);
 
     // settings
     loadSettings();
 
     // store clipboard in first tab
-    c = m_browser = ui->tabWidget->count() ?
+
+    ClipboardBrowser *c = m_browser = ui->tabWidget->count() ?
                 browser(0) : addTab( tr("&clipboard") );
 
     ui->tabWidget->setCurrentIndex(0);
@@ -314,6 +313,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 c->add( c->selectedText() );
             else
                 c->moveToClipboard( c->currentIndex() );
+            resetStatus();
             close();
             break;
 
@@ -735,7 +735,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     }
 }
 
-void MainWindow::on_searchBar_textChanged(QString )
+void MainWindow::on_searchBar_textChanged(const QString &)
 {
     timer_search.start(300, this);
 }

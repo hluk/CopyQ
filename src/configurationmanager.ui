@@ -486,7 +486,7 @@
                 <string>Shortcut to show or hide clipboard history.</string>
                </property>
                <property name="text">
-                <string>(No Shortcut)</string>
+                <string></string>
                </property>
               </widget>
              </item>
@@ -506,7 +506,7 @@
                 <string>Shortcut to show tray menu.</string>
                </property>
                <property name="text">
-                <string>(No Shortcut)</string>
+                <string></string>
                </property>
               </widget>
              </item>

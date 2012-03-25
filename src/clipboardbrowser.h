@@ -86,7 +86,7 @@ class ClipboardBrowser : public QListView
         QString m_id;
         int m_maxitems;
         QString m_editor;
-        QString m_last_filter;
+        QRegExp m_last_filter;
         ClipboardModel *m;
         ItemDelegate *d;
         QTimer timer_save;
@@ -97,6 +97,7 @@ class ClipboardBrowser : public QListView
         ConfigurationManager::Commands commands;
 
         void createContextMenu();
+        bool isFiltered(int row) const;
 
     protected:
         void keyPressEvent(QKeyEvent *event);

@@ -11,12 +11,6 @@
     margin-left: 2em;
 }
 
-/* matched text */
-.em {
-    background-color: yellow;
-    color: black;
-}
-
 #history {
     /* alternate item color */
     alternate-background-color: rgba(200,200,200,100);

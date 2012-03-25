@@ -320,7 +320,7 @@
              <item>
               <widget class="QPushButton" name="pushButtonShortcut">
                <property name="text">
-                <string>(No Shortcut)</string>
+                <string></string>
                </property>
               </widget>
              </item>

@@ -23,7 +23,7 @@
 #include <QImage>
 
 ClipboardItem::ClipboardItem(const ClipboardModel *parent) :
-    m_parent(parent), m_filtered(false), m_hash(0)
+    m_parent(parent), m_hash(0)
 {
     m_data = new QMimeData;
 }
@@ -93,10 +93,8 @@ QVariant ClipboardItem::data(int role) const
             QPixmap pix;
             pixmap(&pix);
             return pix;
-        } else if ( m_mimeType.endsWith("html") ||
-                    (m_parent && !m_parent->search()->isEmpty()) )
-        {
-            return highlightedHtml();
+        } else if ( m_mimeType.endsWith("html") ) {
+            return html();
         }
     } else if (role == Qt::EditRole) {
         return m_data->hasText() ? text() : QVariant();
@@ -107,52 +105,15 @@ QVariant ClipboardItem::data(int role) const
     return QVariant();
 }
 
-QString ClipboardItem::highlightedHtml() const
+QString ClipboardItem::html() const
 {
-    const QRegExp *re;
-    QString highlight;
-
-    re = m_parent ? m_parent->search() : NULL;
-    if ( !re || re->isEmpty() ) {
-        // show html if not searching or the text is not too large
-        if ( m_mimeType.endsWith("html") ) {
-            return m_data->html()
-                    .replace("<body>", "<body><span id=\"item\">")
-                    .replace("<!--StartFragment-->",
-                             "<!--StartFragment--><span id=\"item\">");
-        } else {
-            return escape( text() );
-        }
-    }
-
-    const QString str = text();
-
-    int a = 0;
-    int b = re->indexIn(str, a);
-    int len;
-
-    while ( b != -1 ) {
-        len = re->matchedLength();
-        if ( len == 0 )
-            break;
-
-        highlight.append( escape(str.mid(a, b-a)) );
-        highlight.append( "<span class=\"em\">" );
-        highlight.append( escape(str.mid(b, len)) );
-        highlight.append( "</span>" );
-
-        a = b + len;
-        b = re->indexIn(str, a);
-    }
-
-    // filter items
-    if ( highlight.isEmpty() ) {
-        return QString();
+    if ( m_mimeType.endsWith("html") ) {
+        return m_data->html()
+                .replace("<body>", "<body><span id=\"item\">")
+                .replace("<!--StartFragment-->",
+                         "<!--StartFragment--><span id=\"item\">");
     } else {
-        if ( a != str.length() )
-            highlight += escape(str.mid(a));
-        // highlight matched
-        return highlight;
+        return escape( text() );
     }
 }
 

@@ -54,6 +54,8 @@ class ItemDelegate : public QItemDelegate
         void setDryPaint(bool dryPaint) { m_dryPaint = dryPaint; }
         bool dryPaint() const { return m_dryPaint; }
 
+        void setSearch(const QRegExp &re);
+
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
                    const QModelIndex &index) const;
@@ -63,6 +65,7 @@ class ItemDelegate : public QItemDelegate
         QString m_css;
         int m_maxsize;
         bool m_dryPaint;
+        QRegExp m_re;
 
         // items drawn using QTextDocument
         mutable QList<QWidget*> m_cache;

@@ -64,12 +64,6 @@ public:
     bool move(int pos, int newpos);
     bool moveItems(QModelIndexList list, int key);
 
-    // search
-    const QRegExp *search() const { return &m_re; }
-    void setSearch(const QRegExp *const re = NULL);
-    void setSearch(int row);
-    bool isFiltered(int i) const; // is item filtered out
-
     int getRowNumber(int row, bool cycle = false) const;
 
     ClipboardItem* get(int row) {
@@ -85,15 +79,8 @@ public:
     void setMaxImageSize(int width, int height);
     QSize maxImageSize() const;
 
-signals:
-    /* unlike dataChanged, realDataChanged is not emitted
-       if highlight or current format changes */
-    void realDataChanged(const QModelIndex &topLeft,
-                         const QModelIndex &bottomRight);
-
 private:
     QList<ClipboardItem *> m_clipboardList;
-    QRegExp m_re;
     int m_max;
     int m_imageWidth;
     int m_imageHeight;

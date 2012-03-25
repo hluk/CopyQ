@@ -121,7 +121,7 @@ class MainWindow : public QMainWindow
         void pasteItem();
 
     private slots:
-        void on_searchBar_textChanged(QString );
+        void on_searchBar_textChanged(const QString &text);
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
