@@ -28,17 +28,10 @@
 static const QSize defaultSize(256, 256);
 
 ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
-    m_parent(parent), m_dryPaint(false)
+    m_parent(parent), m_dryPaint(false), m_showNumber(false)
 {
     connect( this, SIGNAL(sizeUpdated(QModelIndex)),
              SIGNAL(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
-}
-
-void ItemDelegate::setStyleSheet(const QString &css)
-{
-    m_css = css;
-    for( int i = 0; i < m_cache.size(); ++i )
-        removeCache(i);
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
@@ -84,7 +77,8 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
 QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QPlainTextEdit *editor = new QPlainTextEdit(parent);
-    editor->setPalette( option.palette );
+    editor->setPalette(m_editorPalette);
+    editor->setFont(m_editorFont);
     editor->setObjectName("editor");
 
     // maximal editor size
@@ -126,9 +120,9 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     }
 }
 
-void ItemDelegate::rowsRemoved(const QModelIndex&,int start,int end)
+void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
 {
-    for( int i = start; i <= end; ++i ) {
+    for( int i = end; i >= start; --i ) {
         removeCache(i);
         m_cache.removeAt(i);
     }
@@ -173,18 +167,19 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
             textEdit->setWordWrapMode(QTextOption::NoWrap);
 
             w = textEdit;
-            w->setObjectName("item");
             w->setProperty("textEdit", true);
 
             // text or HTML
             QTextDocument *doc = new QTextDocument(textEdit);
-            doc->setDefaultStyleSheet(m_css);
-            if (hasHtml)
+            if (hasHtml) {
                 doc->setHtml(text);
-            else
+            } else {
                 doc->setPlainText(text);
+                w->setPalette( m_parent->palette() );
+            }
 
             textEdit->setDocument(doc);
+            textEdit->setFont( m_parent->font() );
             textEdit->resize( 9999,
                               doc->documentLayout()->documentSize().height() );
         } else {
@@ -192,11 +187,11 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
             QLabel *label = new QLabel(m_parent);
             pix = displayData.value<QPixmap>();
             w = label;
-            w->setObjectName("item");
             label->setMargin(4);
             label->setPixmap(pix);
             w->adjustSize();
         }
+        w->setStyleSheet("*{background:transparent}");
         w->hide();
         m_cache[n] = w;
     }
@@ -221,7 +216,6 @@ void ItemDelegate::removeCache(int row) const
 void ItemDelegate::invalidateCache() const
 {
     if ( m_cache.length() > 0 ) {
-        log( QString("invalidating cache") );
         for( int i = 0; i < m_cache.length(); ++i ) {
             removeCache(i);
         }
@@ -231,6 +225,24 @@ void ItemDelegate::invalidateCache() const
 void ItemDelegate::setSearch(const QRegExp &re)
 {
     m_re = re;
+}
+
+void ItemDelegate::setSearchStyle(const QFont &font, const QPalette &palette)
+{
+    m_foundFont = font;
+    m_foundPalette = palette;
+}
+
+void ItemDelegate::setEditorStyle(const QFont &font, const QPalette &palette)
+{
+    m_editorFont = font;
+    m_editorPalette = palette;
+}
+
+void ItemDelegate::setNumberStyle(const QFont &font, const QPalette &palette)
+{
+    m_numberFont = font;
+    m_numberPalette = palette;
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -250,14 +262,25 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     const QRect &rect = option.rect;
 
-    /* Render background (selected, alternate, ...). */
+    /* render background (selected, alternate, ...) */
     QStyle *style = w->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
-    QPalette::ColorRole role = option.state & QStyle::State_Selected ?
-                QPalette::HighlightedText : QPalette::Text;
-    style->drawItemText(painter, rect.translated(4, 4), 0,
-                        option.palette, true, QString::number(row),
-                        role);
+
+    /* render number */
+    QRect numRect(0, 0, 0, 0);
+    if (m_showNumber) {
+        QPalette::ColorRole role = option.state & QStyle::State_Selected ?
+                    QPalette::HighlightedText : QPalette::Text;
+        QString num = QString::number(row);
+        painter->save();
+        painter->setFont(m_numberFont);
+        style->drawItemText(painter, rect.translated(4, 4), 0,
+                            m_numberPalette, true, num,
+                            role);
+        painter->restore();
+        numRect = style->itemTextRect( QFontMetrics(m_numberFont), rect, 0,
+                                       true, num );
+    }
 
     /* highlight search string */
     QTextDocument *doc1 = NULL;
@@ -271,20 +294,25 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
             textEdit->setDocument(doc2);
 
             QTextCursor cur = doc2->find(m_re);
-            while ( !cur.isNull() ) {
+            while ( !cur.isNull() && !cur.atEnd() ) {
                 QTextCharFormat fmt = cur.charFormat();
-                fmt.setBackground(Qt::yellow);
-                fmt.setForeground(Qt::black);
-                fmt.setUnderlineStyle(QTextCharFormat::DotLine);
-                cur.setCharFormat(fmt);
+                // TODO: set highlight color from configuration
+                if ( cur.hasSelection() ) {
+                    fmt.setBackground( m_foundPalette.base() );
+                    fmt.setForeground( m_foundPalette.text() );
+                    fmt.setFont(m_foundFont);
+                    cur.setCharFormat(fmt);
+                } else {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                }
                 cur = doc2->find(m_re, cur);
             }
         }
     }
 
-    /* Render text/image. */
+    /* render widget */
     painter->save();
-    painter->translate( rect.topLeft() );
+    painter->translate( rect.topLeft() + QPoint(numRect.width()+10, 0) );
     w->render(painter);
     painter->restore();
 

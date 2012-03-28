@@ -45,7 +45,7 @@ class ClipboardBrowser : public QListView
             ActionCustom
         };
 
-        ClipboardBrowser(const QString &id, QWidget *parent = 0);
+        explicit ClipboardBrowser(QWidget *parent = 0);
         ~ClipboardBrowser();
         void loadSettings();
 
@@ -60,6 +60,7 @@ class ClipboardBrowser : public QListView
         bool add(const ClipboardItem &item, bool force = false);
 
         void remove();
+        void clear();
 
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
@@ -78,9 +79,16 @@ class ClipboardBrowser : public QListView
 
         void updateClipboard();
 
+        void redraw();
+
         void setAutoUpdate(bool update) { m_update = update; }
 
         QMenu *contextMenu() const {return m_menu;}
+
+        /**
+         * Set ID. Used to save items. If ID is empty saving is disabled.
+         */
+        void setID(const QString &id) { m_id = id; }
 
     private:
         QString m_id;
@@ -103,6 +111,7 @@ class ClipboardBrowser : public QListView
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
         void paintEvent(QPaintEvent *event);
+        void dataChanged(const QModelIndex &a, const QModelIndex &b);
 
     signals:
         void requestSearch(const QString &txt);
@@ -117,7 +126,6 @@ class ClipboardBrowser : public QListView
         void addToTab(QMimeData *data, const QString &tabName);
 
     private slots:
-        void realDataChanged(const QModelIndex &a, const QModelIndex &b);
         void sizeHintChanged();
 
     public slots:

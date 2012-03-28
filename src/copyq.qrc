@@ -16,7 +16,6 @@
         <file>images/tab_new.svg</file>
         <file>images/tab_remove.svg</file>
         <file>images/paste.svg</file>
-        <file>styles/default.css</file>
         <file>images/command_autoplay.svg</file>
         <file>images/command_web.svg</file>
         <file>images/command_ignore.svg</file>
@@ -26,7 +25,6 @@
         <file>images/tab_history.svg</file>
         <file>images/tab_shortcuts.svg</file>
         <file>images/new_tab.svg</file>
-        <file>styles/help.css.html</file>
         <file>images/command_move.svg</file>
         <file>images/command_tab.svg</file>
     </qresource>

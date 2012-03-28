@@ -108,10 +108,7 @@ QVariant ClipboardItem::data(int role) const
 QString ClipboardItem::html() const
 {
     if ( m_mimeType.endsWith("html") ) {
-        return m_data->html()
-                .replace("<body>", "<body><span id=\"item\">")
-                .replace("<!--StartFragment-->",
-                         "<!--StartFragment--><span id=\"item\">");
+        return m_data->html();
     } else {
         return escape( text() );
     }

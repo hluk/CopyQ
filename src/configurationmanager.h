@@ -16,6 +16,7 @@ namespace Ui {
 }
 
 class ClipboardModel;
+class ClipboardBrowser;
 class QAbstractButton;
 class QListWidgetItem;
 
@@ -58,6 +59,8 @@ public:
 
     void loadSettings();
     void saveSettings();
+    void loadTheme(QSettings &settings);
+    void saveTheme(QSettings &settings) const;
 
     QVariant value(const QString &name) const;
     void setValue(const QString &name, const QVariant &value);
@@ -76,11 +79,9 @@ public:
 
     void setTabs(const QStringList &tabs);
 
-    void readStyleSheet();
-    void writeStyleSheet();
-    void resetStyleSheet(const QString &css);
-
     static bool defaultCommand(int index, Command *c);
+
+    void decorateBrowser(ClipboardBrowser *c) const;
 signals:
     void configurationChanged();
 
@@ -92,7 +93,7 @@ private:
     Ui::ConfigurationManager *ui;
     QString m_datfilename;
     QHash<QString, Option> m_options;
-    QSettings::Format cssFormat;
+    QHash<QString, Option> m_theme;
     Commands m_commands;
 
     explicit ConfigurationManager(QWidget *parent = 0);
@@ -102,6 +103,8 @@ private:
 
     void getKey(QPushButton *button);
     void updateCommandItem(QListWidgetItem *item);
+    void fontButtonClicked(QPushButton *button);
+    void colorButtonClicked(QPushButton *button);
 
 private slots:
     void on_pushButtonDown_clicked();
@@ -118,6 +121,26 @@ private slots:
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
     void on_comboBoxCommands_currentIndexChanged(int index);
     void on_listWidgetCommands_itemSelectionChanged();
+
+    void on_pushButtonFont_clicked();
+    void on_pushButtonEditorFont_clicked();
+    void on_pushButtonFoundFont_clicked();
+    void on_pushButtonNumberFont_clicked();
+
+    void on_pushButtonColorBg_clicked();
+    void on_pushButtonColorFg_clicked();
+    void on_pushButtonColorAltBg_clicked();
+    void on_pushButtonColorSelBg_clicked();
+    void on_pushButtonColorSelFg_clicked();
+    void on_pushButtonColorFindBg_clicked();
+    void on_pushButtonColorFindFg_clicked();
+    void on_pushButtonColorEditorBg_clicked();
+    void on_pushButtonColorEditorFg_clicked();
+
+    void on_pushButtonLoadTheme_clicked();
+    void on_pushButtonSaveTheme_clicked();
+
+    void on_checkBoxShowNumber_stateChanged(int arg1);
 };
 
 #endif // CONFIGURATIONMANAGER_H

@@ -42,8 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     // store clipboard in first tab
 
-    ClipboardBrowser *c = m_browser = ui->tabWidget->count() ?
-                browser(0) : addTab( tr("&clipboard") );
+    m_browser = ui->tabWidget->count() ? browser(0) :
+                                         addTab( tr("&clipboard") );
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -222,8 +222,9 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
         if ( name == w->tabText(i) )
             return browser(i);
 
-    ClipboardBrowser *c = new ClipboardBrowser(name, this);
+    ClipboardBrowser *c = new ClipboardBrowser(this);
 
+    c->setID(name);
     c->loadSettings();
     c->loadItems();
     c->setAutoUpdate(true);
@@ -381,7 +382,6 @@ void MainWindow::loadSettings()
 
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     m_confirmExit = cm->value("confirm_exit").toBool();
-    setStyleSheet( cm->styleSheet() );
     m_trayitems = cm->value("tray_items").toInt();
 
     /* are tabs already loaded? */

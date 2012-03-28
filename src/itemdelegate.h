@@ -47,8 +47,6 @@ class ItemDelegate : public QItemDelegate
         void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
         bool eventFilter(QObject *object, QEvent *event);
 
-        void setStyleSheet(const QString &css);
-
         void invalidateCache() const;
 
         void setDryPaint(bool dryPaint) { m_dryPaint = dryPaint; }
@@ -56,16 +54,28 @@ class ItemDelegate : public QItemDelegate
 
         void setSearch(const QRegExp &re);
 
+        void setSearchStyle(const QFont &font, const QPalette &palette);
+        void setEditorStyle(const QFont &font, const QPalette &palette);
+        void setNumberStyle(const QFont &font, const QPalette &palette);
+        void setShowNumber(bool show) { m_showNumber = show; }
+
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
                    const QModelIndex &index) const;
 
     private:
         QWidget *m_parent;
-        QString m_css;
         int m_maxsize;
         bool m_dryPaint;
+        bool m_showNumber;
         QRegExp m_re;
+
+        QFont m_foundFont;
+        QPalette m_foundPalette;
+        QFont m_editorFont;
+        QPalette m_editorPalette;
+        QFont m_numberFont;
+        QPalette m_numberPalette;
 
         // items drawn using QTextDocument
         mutable QList<QWidget*> m_cache;
@@ -81,10 +91,10 @@ class ItemDelegate : public QItemDelegate
     public slots:
         // change size buffer
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
-        void rowsRemoved(const QModelIndex&,int,int);
-        void rowsInserted(const QModelIndex & parent, int start, int end);
-        void rowsMoved(const QModelIndex & sourceParent, int sourceStart, int sourceEnd,
-                       const QModelIndex & destinationParent, int destinationRow);
+        void rowsRemoved(const QModelIndex &parent, int start, int end);
+        void rowsInserted(const QModelIndex &parent, int start, int end);
+        void rowsMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd,
+                       const QModelIndex &destinationParent, int destinationRow);
 };
 
 #endif

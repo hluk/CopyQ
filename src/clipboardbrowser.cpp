@@ -31,9 +31,9 @@
 
 static const int max_preload = 10;
 
-ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
-    QListView(parent), m_id(id), m_update(false), m_sizeHintChanged(false),
-    m_menu(NULL)
+ClipboardBrowser::ClipboardBrowser(QWidget *parent) :
+    QListView(parent), m_maxitems(100), m_update(false),
+    m_sizeHintChanged(false), m_menu(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
@@ -73,10 +73,6 @@ ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
              d, SLOT(rowsInserted(QModelIndex, int, int)) );
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
-    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             d, SLOT(dataChanged(QModelIndex,QModelIndex)));
-    connect( m, SIGNAL(realDataChanged(QModelIndex,QModelIndex)),
-             this, SLOT(realDataChanged(QModelIndex,QModelIndex)));
 
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));
@@ -85,9 +81,6 @@ ClipboardBrowser::ClipboardBrowser(const QString &id, QWidget *parent) :
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     setAttribute(Qt::WA_MacShowFocusRect, 0);
-
-    // object name is used in CSS (i.e. #history)
-    setObjectName("history");
 }
 
 ClipboardBrowser::~ClipboardBrowser()
@@ -233,6 +226,14 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
 
     if (!m_sizeHintChanged)
         QListView::paintEvent(event);
+}
+
+void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
+{
+    if ( a.row() == 0 )
+        updateClipboard();
+    d->dataChanged(a, b);
+    QListView::dataChanged(a, b);
 }
 
 void ClipboardBrowser::openEditor(const QString &text)
@@ -441,6 +442,11 @@ void ClipboardBrowser::remove()
     }
 }
 
+void ClipboardBrowser::clear()
+{
+    m->removeRows(0, m->rowCount());
+}
+
 bool ClipboardBrowser::add(const QString &txt, bool force)
 {
     QMimeData *data = new QMimeData;
@@ -505,8 +511,8 @@ bool ClipboardBrowser::add(const ClipboardItem &item, bool force)
 void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
-    setStyleSheet( cm->styleSheet() );
-    d->setStyleSheet( cm->styleSheet() );
+
+    cm->decorateBrowser(this);
 
     // restore configuration
     m_editor = cm->value("editor").toString();
@@ -533,6 +539,9 @@ void ClipboardBrowser::loadItems()
 
 void ClipboardBrowser::saveItems(int msec)
 {
+    if ( m_id.isEmpty() )
+        return;
+
     timer_save.stop();
     if (msec>0) {
         timer_save.start(msec);
@@ -591,10 +600,10 @@ void ClipboardBrowser::updateClipboard()
         emit changeClipboard(m->at(0));
 }
 
-void ClipboardBrowser::realDataChanged(const QModelIndex &a, const QModelIndex &)
+void ClipboardBrowser::redraw()
 {
-    if ( a.row() == 0 )
-        updateClipboard();
+    d->invalidateCache();
+    update();
 }
 
 void ClipboardBrowser::sizeHintChanged()

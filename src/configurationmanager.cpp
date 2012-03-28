@@ -3,9 +3,13 @@
 #include "clipboardmodel.h"
 #include "client_server.h"
 #include "shortcutdialog.h"
+#include "itemdelegate.h"
 #include <QFile>
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
+#include <QFontDialog>
+#include <QColorDialog>
+#include <QFileDialog>
 
 #ifdef Q_WS_WIN
 #define DEFAULT_EDITOR "notepad %1"
@@ -50,18 +54,6 @@ struct _Option {
     QObject *m_obj;
 };
 
-inline bool readCssFile(QIODevice &device, QSettings::SettingsMap &map)
-{
-    map.insert( "css", device.readAll() );
-    return true;
-}
-
-inline bool writeCssFile(QIODevice &device, const QSettings::SettingsMap &map)
-{
-    device.write( map["css"].toString().toLocal8Bit() );
-    return true;
-}
-
 // singleton
 ConfigurationManager* ConfigurationManager::m_Instance = 0;
 
@@ -71,76 +63,94 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
 {
     ui->setupUi(this);
 
-    /* translated CSS help */
-    if ( tr("", "CSS Help").isEmpty() )
-        ui->textBrowserStyleHelp->setSource( QUrl("qrc:/styles/help.css.html") );
-    else
-        ui->textBrowserStyleHelp->setHtml( tr("CSS Help") );
+    ClipboardBrowser *c = ui->clipboardBrowserPreview;
+    c->addItems( QStringList()
+                 << tr("Search string is \"item\".")
+                 << tr("Select an item and\n"
+                       "press F2 to edit.")
+                 << tr("Select items and move them with\n"
+                       "CTRL and up or down key.")
+                 << tr("Remove item with Delete key.")
+                 << tr("Example item 1")
+                 << tr("Example item 2")
+                 << tr("Example item 3") );
+    c->filterItems("item");
 
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->tab_shortcuts->deleteLater();
 #endif
 
-    Command c;
+    Command cmd;
     int i = 0;
-    while ( defaultCommand(++i, &c) ) {
-        ui->comboBoxCommands->addItem( QIcon(c.icon), c.name.remove('&') );
+    while ( defaultCommand(++i, &cmd) ) {
+        ui->comboBoxCommands->addItem( QIcon(cmd.icon), cmd.name.remove('&') );
     }
 
-    /* datafile for items */
-    // do not use registry in windows
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
+    /* general options */
+    m_options["maxitems"] = Option(200, "value", ui->spinBoxItems);
+    m_options["tray_items"] = Option(5, "value", ui->spinBoxTrayItems);
+    m_options["max_image_width"] = Option(320, "value", ui->spinBoxImageWidth);
+    m_options["max_image_height"] = Option(240, "value", ui->spinBoxImageHeight);
+    m_options["formats"] = Option("image/svg+xml\n"
+                                  "image/x-inkscape-svg-compressed\n"
+                                  "image/bmp\n"
+                                  "text/html\n"
+                                  "text/plain",
+                                  "plainText", ui->plainTextEditFormats);
+    m_options["editor"] = Option(DEFAULT_EDITOR, "text", ui->lineEditEditor);
+    m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);
+    m_options["confirm_exit"] = Option(true, "checked", ui->checkBoxConfirmExit);
 
-    /* options */
-    m_options.insert( "maxitems",
-                      Option(200, "value", ui->spinBoxItems) );
-    m_options.insert( "tray_items",
-                      Option(5, "value", ui->spinBoxTrayItems) );
-    m_options.insert( "max_image_width",
-                      Option(320, "value", ui->spinBoxImageWidth) );
-    m_options.insert( "max_image_height",
-                      Option(240, "value", ui->spinBoxImageHeight) );
-    m_options.insert( "formats",
-                      Option("image/svg+xml\nimage/x-inkscape-svg-compressed\nimage/bmp\ntext/html\ntext/plain",
-                             "plainText", ui->plainTextEditFormats) );
-    // TODO: get default editor from environment variable EDITOR
-    m_options.insert( "editor",
-                      Option(DEFAULT_EDITOR, "text", ui->lineEditEditor) );
-    m_options.insert( "check_clipboard",
-                      Option(true, "checked", ui->checkBoxClip) );
-    m_options.insert( "confirm_exit",
-                      Option(true, "checked", ui->checkBoxConfirmExit) );
-    m_options.insert( "tabs",
-                      Option(QStringList()) );
-    m_options.insert( "_last_hash",
-                      Option(0) );
+    /* other options */
+    m_options["tabs"] = Option(QStringList());
+    m_options["_last_hash"] = Option(0);
 #ifndef NO_GLOBAL_SHORTCUTS
-    m_options.insert( "toggle_shortcut",
-                      Option("", "text", ui->pushButton));
-    m_options.insert( "menu_shortcut",
-                      Option("", "text", ui->pushButton_2));
+    /* shortcuts */
+    m_options["toggle_shortcut"] = Option("", "text", ui->pushButton);
+    m_options["menu_shortcut"] = Option("", "text", ui->pushButton_2);
 #endif
 #ifdef Q_WS_X11
-    m_options.insert( "check_selection",
-                      Option(true, "checked", ui->checkBoxSel) );
-    m_options.insert( "copy_clipboard",
-                      Option(true, "checked", ui->checkBoxCopyClip) );
-    m_options.insert( "copy_selection",
-                      Option(true, "checked", ui->checkBoxCopySel) );
+    /* X11 clipboard selection monitoring and synchronization */
+    m_options["check_selection"] = Option(true, "checked", ui->checkBoxSel);
+    m_options["copy_clipboard"] = Option(true, "checked", ui->checkBoxCopyClip);
+    m_options["copy_selection"] = Option(true, "checked", ui->checkBoxCopySel);
 #else
     ui->checkBoxCopySel->hide();
     ui->checkBoxSel->hide();
     ui->checkBoxCopyClip->hide();
 #endif
 
+    /* appearance options */
+    QString name;
+    QPalette p;
+    name = p.color(QPalette::Base).name();
+    m_theme["bg"]          = Option(name, "VALUE", ui->pushButtonColorBg);
+    m_theme["edit_bg"]     = Option(name, "VALUE", ui->pushButtonColorEditorBg);
+    name = p.color(QPalette::Text).name();
+    m_theme["fg"]          = Option(name, "VALUE", ui->pushButtonColorFg);
+    m_theme["edit_fg"]     = Option(name, "VALUE", ui->pushButtonColorEditorFg);
+    name = p.color(QPalette::Text).lighter(400).name();
+    m_theme["num_fg"]      = Option(name, "VALUE", ui->pushButtonColorNumberFg);
+    name = p.color(QPalette::AlternateBase).name();
+    m_theme["alt_bg"]      = Option(name, "VALUE", ui->pushButtonColorAltBg);
+    name = p.color(QPalette::Highlight).name();
+    m_theme["sel_bg"]      = Option(name, "VALUE", ui->pushButtonColorSelBg);
+    name = p.color(QPalette::HighlightedText).name();
+    m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
+    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFindBg);
+    m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFindFg);
+    m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
+    m_theme["edit_font"]   = Option("", "VALUE", ui->pushButtonEditorFont);
+    m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
+    m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
+    m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
+
+    /* datafile for items */
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                       QCoreApplication::organizationName(),
+                       QCoreApplication::applicationName());
     m_datfilename = settings.fileName();
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
-
-    // read style sheet from configuration
-    cssFormat = QSettings::registerFormat("css", readCssFile, writeCssFile);
-    readStyleSheet();
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
@@ -177,35 +187,6 @@ void ConfigurationManager::removeItems(const QString &id)
     QString part( id.toLocal8Bit().toBase64() );
     part.replace( QChar('/'), QString('-') );
     QFile::remove( m_datfilename + part + QString(".dat") );
-}
-
-void ConfigurationManager::readStyleSheet()
-{
-    QSettings cssSettings( cssFormat, QSettings::UserScope,
-                           QCoreApplication::organizationName(),
-                           QCoreApplication::applicationName() );
-
-    QString css = cssSettings.value("css").toString();
-    resetStyleSheet(css);
-}
-
-void ConfigurationManager::writeStyleSheet()
-{
-    QSettings cssSettings( cssFormat, QSettings::UserScope,
-                           QCoreApplication::organizationName(),
-                           QCoreApplication::applicationName() );
-
-    cssSettings.setValue( "css", ui->plainTextEdit_css->toPlainText() );
-}
-
-void ConfigurationManager::resetStyleSheet(const QString &css = QString())
-{
-    QFile default_css(":/styles/default.css");
-    default_css.open(QIODevice::ReadOnly);
-    QString css1 = default_css.readAll();
-    setStyleSheet(css1+'\n'+css);
-    if (ui->plainTextEdit_css->toPlainText() != css)
-        ui->plainTextEdit_css->setPlainText(css);
 }
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)
@@ -253,6 +234,58 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     return true;
 }
 
+void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
+{
+    QFont font;
+    QPalette p;
+    QColor color;
+
+    /* fonts */
+    font.fromString( ui->pushButtonFont->property("VALUE").toString() );
+    c->setFont(font);
+
+    /* colors */
+    p = c->palette();
+    color.setNamedColor( m_theme["bg"].value().toString() );
+    p.setBrush(QPalette::Base, color);
+    color.setNamedColor( m_theme["fg"].value().toString() );
+    p.setBrush(QPalette::Text, color);
+    color.setNamedColor( m_theme["alt_bg"].value().toString() );
+    p.setBrush(QPalette::AlternateBase, color);
+    color.setNamedColor( m_theme["sel_bg"].value().toString() );
+    p.setBrush(QPalette::Highlight, color);
+    color.setNamedColor( m_theme["sel_fg"].value().toString() );
+    p.setBrush(QPalette::HighlightedText, color);
+    c->setPalette(p);
+
+    /* search style */
+    ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
+    font.fromString( m_theme["find_font"].value().toString() );
+    color.setNamedColor( m_theme["find_bg"].value().toString() );
+    p.setColor(QPalette::Base, color);
+    color.setNamedColor( m_theme["find_fg"].value().toString() );
+    p.setColor(QPalette::Text, color);
+    d->setSearchStyle(font, p);
+
+    /* editor style */
+    d->setSearchStyle(font, p);
+    font.fromString( m_theme["edit_font"].value().toString() );
+    color.setNamedColor( m_theme["edit_bg"].value().toString() );
+    p.setColor(QPalette::Base, color);
+    color.setNamedColor( m_theme["edit_fg"].value().toString() );
+    p.setColor(QPalette::Text, color);
+    d->setEditorStyle(font, p);
+
+    /* number style */
+    d->setShowNumber(m_theme["show_number"].value().toBool());
+    font.fromString( m_theme["num_font"].value().toString() );
+    color.setNamedColor( m_theme["num_fg"].value().toString() );
+    p.setColor(QPalette::Text, color);
+    d->setNumberStyle(font, p);
+
+    c->redraw();
+}
+
 QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, const QByteArray &geometry)
 {
     QSettings settings;
@@ -297,14 +330,15 @@ void ConfigurationManager::loadSettings()
 {
     QSettings settings;
 
-    QVariant value;
-
     settings.beginGroup("Options");
     foreach( const QString &key, m_options.keys() ) {
-        m_options[key].setValue( settings.value(key) );
+        if ( settings.contains(key) ) {
+            QVariant value = settings.value(key);
+            if ( value.isValid() )
+                m_options[key].setValue(value);
+        }
     }
     settings.endGroup();
-
 
     ui->listWidgetCommands->clear();
     m_commands.clear();
@@ -333,16 +367,10 @@ void ConfigurationManager::loadSettings()
         addCommand(c);
     }
     settings.endArray();
-}
 
-ConfigurationManager::Commands ConfigurationManager::commands() const
-{
-    Commands commands;
-    foreach (const Command &c, m_commands) {
-        if (c.enable)
-            commands.append(c);
-    }
-    return commands;
+    settings.beginGroup("Theme");
+    loadTheme(settings);
+    settings.endGroup();
 }
 
 void ConfigurationManager::saveSettings()
@@ -360,25 +388,71 @@ void ConfigurationManager::saveSettings()
     int i=0;
     foreach (const Command &c, m_commands) {
         settings.setArrayIndex(i++);
-        settings.setValue( tr("Name"), c.name );
-        settings.setValue( tr("Match"), c.re.pattern() );
-        settings.setValue( tr("Command"), c.cmd );
-        settings.setValue( tr("Separator"), c.sep );
-        settings.setValue( tr("Input"), c.input );
-        settings.setValue( tr("Output"), c.output );
-        settings.setValue( tr("Wait"), c.wait );
-        settings.setValue( tr("Automatic"), c.automatic );
-        settings.setValue( tr("Ignore"), c.ignore );
-        settings.setValue( tr("Enable"), c.enable );
-        settings.setValue( tr("Icon"), c.icon );
-        settings.setValue( tr("Shortcut"), c.shortcut );
-        settings.setValue( tr("Tab"), c.tab );
+        settings.setValue("Name", c.name);
+        settings.setValue("Match", c.re.pattern());
+        settings.setValue("Command", c.cmd);
+        settings.setValue("Separator", c.sep);
+        settings.setValue("Input", c.input);
+        settings.setValue("Output", c.output);
+        settings.setValue("Wait", c.wait);
+        settings.setValue("Automatic", c.automatic);
+        settings.setValue("Ignore", c.ignore);
+        settings.setValue("Enable", c.enable);
+        settings.setValue("Icon", c.icon);
+        settings.setValue("Shortcut", c.shortcut);
+        settings.setValue("Tab", c.tab);
     }
     settings.endArray();
 
-    writeStyleSheet();
+    settings.beginGroup("Theme");
+    saveTheme(settings);
+    settings.endGroup();
 
     emit configurationChanged();
+}
+
+void ConfigurationManager::loadTheme(QSettings &settings)
+{
+    foreach( const QString &key, m_theme.keys() ) {
+        if ( settings.contains(key) ) {
+            QVariant value = settings.value(key);
+            if ( value.isValid() )
+                m_theme[key].setValue(value);
+        }
+    }
+
+    /* color indicating icons for color buttons */
+    QPixmap pix(16, 16);
+    QList<QPushButton *> buttons;
+    buttons << ui->pushButtonColorBg << ui->pushButtonColorFg
+            << ui->pushButtonColorAltBg
+            << ui->pushButtonColorSelBg << ui->pushButtonColorSelFg
+            << ui->pushButtonColorFindBg << ui->pushButtonColorFindFg
+            << ui->pushButtonColorEditorBg << ui->pushButtonColorEditorFg
+            << ui->pushButtonColorNumberFg;
+    foreach (QPushButton *button, buttons) {
+        QColor color = button->property("VALUE").toString();
+        pix.fill(color);
+        button->setIcon(pix);
+    }
+
+    decorateBrowser(ui->clipboardBrowserPreview);
+}
+
+void ConfigurationManager::saveTheme(QSettings &settings) const
+{
+    foreach( const QString &key, m_theme.keys() )
+        settings.setValue( key, m_theme[key].value() );
+}
+
+ConfigurationManager::Commands ConfigurationManager::commands() const
+{
+    Commands commands;
+    foreach (const Command &c, m_commands) {
+        if (c.enable)
+            commands.append(c);
+    }
+    return commands;
 }
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
@@ -408,7 +482,6 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
             foreach( const QString &key, m_options.keys() ) {
                 m_options[key].reset();
             }
-            resetStyleSheet();
         }
         break;
     default:
@@ -440,10 +513,6 @@ void ConfigurationManager::apply()
         m_commands[row] = ui->widgetCommand->command();
         updateCommandItem( ui->listWidgetCommands->item(row) );
     }
-
-    // style sheet
-    QString css = ui->plainTextEdit_css->toPlainText();
-    resetStyleSheet(css);
 
     // commit changes on command
     QListWidget *list = ui->listWidgetCommands;
@@ -515,7 +584,6 @@ void ConfigurationManager::onFinished(int result)
         apply();
     } else {
         loadSettings();
-        readStyleSheet();
     }
 }
 
@@ -597,6 +665,33 @@ void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
     list->blockSignals(false);
 }
 
+void ConfigurationManager::fontButtonClicked(QPushButton *button)
+{
+    QFont font;
+    font.fromString( button->property("VALUE").toString() );
+    QFontDialog dialog(font, this);
+    if ( dialog.exec() == QDialog::Accepted ) {
+        font = dialog.selectedFont();
+        button->setProperty( "VALUE", font.toString() );
+        decorateBrowser(ui->clipboardBrowserPreview);
+    }
+}
+
+void ConfigurationManager::colorButtonClicked(QPushButton *button)
+{
+    QColor color = button->property("VALUE").toString();
+    QColorDialog dialog(color, this);
+    if ( dialog.exec() == QDialog::Accepted ) {
+        color = dialog.selectedColor();
+        button->setProperty( "VALUE", color.name() );
+        decorateBrowser(ui->clipboardBrowserPreview);
+
+        QPixmap pix(16, 16);
+        pix.fill(color);
+        button->setIcon(pix);
+    }
+}
+
 void ConfigurationManager::on_pushButton_clicked()
 {
     getKey(ui->pushButton);
@@ -654,4 +749,100 @@ void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
 {
     const QItemSelectionModel *sel = ui->listWidgetCommands->selectionModel();
     ui->pushButtonRemove->setEnabled( sel->hasSelection() );
+}
+
+void ConfigurationManager::on_pushButtonFont_clicked()
+{
+    fontButtonClicked(ui->pushButtonFont);
+}
+
+void ConfigurationManager::on_pushButtonEditorFont_clicked()
+{
+    fontButtonClicked(ui->pushButtonEditorFont);
+}
+
+void ConfigurationManager::on_pushButtonFoundFont_clicked()
+{
+    fontButtonClicked(ui->pushButtonFoundFont);
+}
+
+void ConfigurationManager::on_pushButtonNumberFont_clicked()
+{
+    fontButtonClicked(ui->pushButtonNumberFont);
+}
+
+void ConfigurationManager::on_pushButtonColorBg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorBg);
+}
+
+void ConfigurationManager::on_pushButtonColorFg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorFg);
+}
+
+void ConfigurationManager::on_pushButtonColorAltBg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorAltBg);
+}
+
+void ConfigurationManager::on_pushButtonColorSelBg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorSelBg);
+}
+
+void ConfigurationManager::on_pushButtonColorSelFg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorSelFg);
+}
+
+void ConfigurationManager::on_pushButtonColorFindBg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorFindBg);
+}
+
+void ConfigurationManager::on_pushButtonColorFindFg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorFindFg);
+}
+
+void ConfigurationManager::on_pushButtonColorEditorBg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorEditorBg);
+}
+
+void ConfigurationManager::on_pushButtonColorEditorFg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorEditorFg);
+}
+
+void ConfigurationManager::on_pushButtonLoadTheme_clicked()
+{
+    QFileDialog dialog( this, tr("Open Theme File") );
+    dialog.setNameFilter("*.ini");
+    dialog.setFileMode(QFileDialog::ExistingFile);
+    if ( dialog.exec() == QDialog::Accepted ) {
+        QString filename = dialog.selectedFiles().first();
+        QSettings settings(filename, QSettings::IniFormat);
+        loadTheme(settings);
+    }
+}
+
+void ConfigurationManager::on_pushButtonSaveTheme_clicked()
+{
+    QFileDialog dialog( this, tr("Save Theme File As") );
+    dialog.setNameFilter("*.ini");
+    dialog.setFileMode(QFileDialog::AnyFile);
+    if ( dialog.exec() == QDialog::Accepted ) {
+        QString filename = dialog.selectedFiles().first();
+        if ( !filename.endsWith(".ini") )
+            filename.append(".ini");
+        QSettings settings(filename, QSettings::IniFormat);
+        saveTheme(settings);
+    }
+}
+
+void ConfigurationManager::on_checkBoxShowNumber_stateChanged(int)
+{
+    decorateBrowser(ui->clipboardBrowserPreview);
 }
