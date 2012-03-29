@@ -29,6 +29,7 @@
 #include <QToolTip>
 #include "clipboardbrowser.h"
 #include "clipboardmodel.h"
+#include "clipboarditem.h"
 #include "tabdialog.h"
 
 MainWindow::MainWindow(QWidget *parent)
@@ -144,10 +145,16 @@ void MainWindow::createMenu()
                      this, SLOT(newItem()),
                      QKeySequence("Ctrl+N") );
 
-    // - paste
-    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Item"),
-                           this, SLOT(pasteItem()) );
+    // - paste items
+    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
+                           this, SLOT(pasteItems()) );
     act->setShortcuts(QKeySequence::Paste);
+
+    // - copy items
+    act = menu->addAction( QIcon(":/images/copy.svg"),
+                           tr("&Copy Selected Items"),
+                           this, SLOT(copyItems()) );
+    act->setShortcuts(QKeySequence::Copy);
 
     // - show clipboard content
     act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
@@ -282,9 +289,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         switch( event->key() ) {
             case Qt::Key_F:
                 enterBrowseMode(false);
-                break;
-            case Qt::Key_V:
-                browser()->add( *browser(0)->at(0) );
                 break;
             case Qt::Key_Tab:
                 w->setCurrentIndex( (w->currentIndex() + 1) % w->count() );
@@ -574,14 +578,15 @@ void MainWindow::openAboutDialog()
     if ( !aboutDialog ) {
         aboutDialog = new AboutDialog(this);
     }
-    aboutDialog->exec();
+    aboutDialog->show();
+    aboutDialog->activateWindow();
 }
 
 void MainWindow::showClipboardContent()
 {
     ClipboardDialog *d = new ClipboardDialog;
     connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
-    d->exec();
+    d->show();
 }
 
 void MainWindow::createActionDialog()
@@ -657,12 +662,48 @@ void MainWindow::newItem()
     }
 }
 
-void MainWindow::pasteItem()
+void MainWindow::pasteItems()
 {
-    ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
     const QMimeData *data = clipboardData();
-    if (data)
-        c->add( cloneData(*data) );
+    if (data) {
+        const QByteArray bytes = data->data("application/x-copyq-item");
+        QDataStream in(bytes);
+        ClipboardBrowser *c = browser();
+        ClipboardItem item;
+
+        c->setAutoUpdate(false);
+        c->setUpdatesEnabled(false);
+        while( !in.atEnd() ) {
+            in >> item;
+            c->add(item, true);
+        }
+        c->setUpdatesEnabled(true);
+        c->setAutoUpdate(true);
+        c->updateClipboard();
+    }
+}
+
+void MainWindow::copyItems()
+{
+    QByteArray bytes;
+    QDataStream out(&bytes, QIODevice::WriteOnly);
+
+    ClipboardBrowser *c = browser();
+    QModelIndexList indexes = c->selectionModel()->selectedRows();
+
+    if ( indexes.isEmpty() )
+        return;
+
+    ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
+
+    /* Copy items in reverse (items will be pasted correctly). */
+    for ( int i = indexes.size()-1; i >= 0; --i ) {
+        out << *model->get( indexes.at(i).row() );
+    }
+
+    QMimeData data;
+    data.setData("application/x-copyq-item", bytes);
+    setClipboardData( cloneData(data), QClipboard::Clipboard );
 }
 
 void MainWindow::action(const QString &text, const Command *cmd)

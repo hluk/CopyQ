@@ -150,7 +150,6 @@ void ClipboardBrowser::createContextMenu()
     font.setBold(true);
     act->setFont(font);
     act->setData( QVariant(ActionToClipboard) );
-    act->setShortcuts(QKeySequence::Copy);
 
     act = m_menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
     act->setShortcut( QString("Delete") );

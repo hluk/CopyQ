@@ -154,8 +154,14 @@
          <item row="0" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_4">
            <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_4">
-             <item>
+            <layout class="QFormLayout" name="formLayout_2">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
+             <property name="bottomMargin">
+              <number>0</number>
+             </property>
+             <item row="0" column="0">
               <widget class="QLabel" name="label_4">
                <property name="text">
                 <string>Maximum &amp;number of items in history:</string>
@@ -165,7 +171,7 @@
                </property>
               </widget>
              </item>
-             <item>
+             <item row="0" column="1">
               <widget class="QSpinBox" name="spinBoxItems">
                <property name="toolTip">
                 <string>Maximum number of items in history.</string>
@@ -178,11 +184,7 @@
                </property>
               </widget>
              </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
-             <item>
+             <item row="1" column="0">
               <widget class="QLabel" name="label_9">
                <property name="text">
                 <string>N&amp;umber of items in tray menu:</string>
@@ -192,7 +194,7 @@
                </property>
               </widget>
              </item>
-             <item>
+             <item row="1" column="1">
               <widget class="QSpinBox" name="spinBoxTrayItems">
                <property name="toolTip">
                 <string>Number of items in tray menu.</string>
@@ -202,71 +204,67 @@
                </property>
               </widget>
              </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
+             <item row="2" column="0">
               <widget class="QLabel" name="label_10">
                <property name="text">
                 <string>Maximum image size (set to 0 for original size):</string>
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>&amp;Width:</string>
+             <item row="2" column="1">
+              <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1,0,1">
+               <property name="bottomMargin">
+                <number>0</number>
                </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buddy">
-                <cstring>spinBoxImageWidth</cstring>
-               </property>
-              </widget>
+               <item>
+                <widget class="QLabel" name="label_7">
+                 <property name="text">
+                  <string>&amp;Width:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxImageWidth</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxImageWidth">
+                 <property name="toolTip">
+                  <string>Maximum width of image displayed in history.</string>
+                 </property>
+                 <property name="maximum">
+                  <number>4096</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>&amp;Height:</string>
+                 </property>
+                 <property name="alignment">
+                  <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxImageHeight</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxImageHeight">
+                 <property name="toolTip">
+                  <string>Maximum height of image displayed in history.</string>
+                 </property>
+                 <property name="maximum">
+                  <number>4096</number>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
-             <item>
-              <widget class="QSpinBox" name="spinBoxImageWidth">
-               <property name="toolTip">
-                <string>Maximum width of image displayed in history.</string>
-               </property>
-               <property name="maximum">
-                <number>4096</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>&amp;Height:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buddy">
-                <cstring>spinBoxImageHeight</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBoxImageHeight">
-               <property name="toolTip">
-                <string>Maximum height of image displayed in history.</string>
-               </property>
-               <property name="maximum">
-                <number>4096</number>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <layout class="QHBoxLayout" name="horizontalLayout_8">
-             <item>
+             <item row="3" column="0">
               <widget class="QLabel" name="label_6">
                <property name="text">
                 <string>External &amp;editor command (%1 is file to edit):</string>
@@ -276,7 +274,7 @@
                </property>
               </widget>
              </item>
-             <item>
+             <item row="3" column="1">
               <widget class="QLineEdit" name="lineEditEditor">
                <property name="toolTip">
                 <string>External editor command (%1 is file to edit).</string>
@@ -779,6 +777,7 @@
   <tabstop>comboBoxCommands</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
+  <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorFg</tabstop>
   <tabstop>pushButtonColorSelBg</tabstop>

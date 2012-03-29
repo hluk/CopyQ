@@ -27,5 +27,6 @@
         <file>images/new_tab.svg</file>
         <file>images/command_move.svg</file>
         <file>images/command_tab.svg</file>
+        <file>images/copy.svg</file>
     </qresource>
 </RCC>

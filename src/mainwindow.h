@@ -118,7 +118,8 @@ class MainWindow : public QMainWindow
         void removeTab();
         ClipboardBrowser *addTab(const QString &name);
         void newItem();
-        void pasteItem();
+        void pasteItems();
+        void copyItems();
 
     private slots:
         void on_searchBar_textChanged(const QString &text);
