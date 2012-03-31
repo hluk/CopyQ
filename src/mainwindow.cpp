@@ -143,7 +143,7 @@ void MainWindow::createMenu()
                                this, SLOT(newItem()) );
     menu->addAction( act->icon(), act->text(),
                      this, SLOT(newItem()),
-                     QKeySequence("Ctrl+N") );
+                     QKeySequence::New );
 
     // - paste items
     act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
@@ -187,10 +187,10 @@ void MainWindow::createMenu()
     // add tab
     tabMenu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
                         this, SLOT(newTab()),
-                        QKeySequence("Ctrl+T") );
+                        QKeySequence::AddTab );
     tabMenu->addAction( QIcon(":/images/tab_remove.svg"), tr("&Remove tab"),
                         this, SLOT(removeTab()),
-                        QKeySequence("Ctrl+W") );
+                        QKeySequence::Close );
 
     // Commands
     cmdMenu = menubar->addMenu(tr("&Commands"));
@@ -201,13 +201,13 @@ void MainWindow::createMenu()
     act = traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
                                this, SLOT(exit()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(exit()),
-                     QKeySequence("Ctrl+Q") );
+                     QKeySequence::Quit );
 
     // Help
     menu = menubar->addMenu( tr("&Help") );
     act = menu->addAction( QIcon(":/images/help.svg"), tr("&Help"),
                            this, SLOT(openAboutDialog()),
-                           QKeySequence("F1") );
+                           QKeySequence::HelpContents );
     menu->addAction(act);
 
     // update tray menu before opening
@@ -702,8 +702,12 @@ void MainWindow::copyItems()
     }
 
     QMimeData data;
+    data.setText( c->selectedText() );
     data.setData("application/x-copyq-item", bytes);
-    setClipboardData( cloneData(data), QClipboard::Clipboard );
+
+    ClipboardItem item;
+    item.setData( cloneData(data) );
+    emit changeClipboard(&item);
 }
 
 void MainWindow::action(const QString &text, const Command *cmd)

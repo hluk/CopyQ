@@ -165,6 +165,7 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
 
             textEdit->setFrameShape(QFrame::NoFrame);
             textEdit->setWordWrapMode(QTextOption::NoWrap);
+            textEdit->setUndoRedoEnabled(false);
 
             w = textEdit;
             w->setProperty("textEdit", true);
@@ -271,7 +272,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     if (m_showNumber) {
         QPalette::ColorRole role = option.state & QStyle::State_Selected ?
                     QPalette::HighlightedText : QPalette::Text;
-        QString num = QString::number(row);
+        QString num = QString::number(row)+"  ";
         painter->save();
         painter->setFont(m_numberFont);
         style->drawItemText(painter, rect.translated(4, 4), 0,
@@ -311,9 +312,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     /* render widget */
+    QRegion region(0, 0, rect.width()-numRect.width()-4, rect.height());
     painter->save();
-    painter->translate( rect.topLeft() + QPoint(numRect.width()+10, 0) );
-    w->render(painter);
+    painter->translate( rect.topLeft() + QPoint(numRect.width(), 0) );
+    w->render(painter, QPoint(), region);
     painter->restore();
 
     /* restore highlight */

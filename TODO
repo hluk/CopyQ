@@ -1,3 +1,4 @@
+[ ] Load/save items from/to a file (load and save actions)
 [ ] Plugins for viewing different item mime types
     * create widget function
     * search regexp widget function

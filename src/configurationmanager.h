@@ -101,8 +101,8 @@ private:
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);
 
-    void getKey(QPushButton *button);
     void updateCommandItem(QListWidgetItem *item);
+    void shortcutButtonClicked(QPushButton *button);
     void fontButtonClicked(QPushButton *button);
     void colorButtonClicked(QPushButton *button);
 
@@ -116,6 +116,8 @@ private slots:
     void onFinished(int result);
     void on_pushButton_clicked();
     void on_pushButton_2_clicked();
+    void on_pushButton_3_clicked();
+    void on_pushButton_4_clicked();
     void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
                                                   QListWidgetItem *previous);
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);

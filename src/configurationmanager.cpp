@@ -108,6 +108,8 @@ ConfigurationManager::ConfigurationManager(QWidget *parent) :
     /* shortcuts */
     m_options["toggle_shortcut"] = Option("", "text", ui->pushButton);
     m_options["menu_shortcut"] = Option("", "text", ui->pushButton_2);
+    m_options["edit_shortcut"] = Option("", "text", ui->pushButton_3);
+    m_options["second_shortcut"] = Option("", "text", ui->pushButton_4);
 #endif
 #ifdef Q_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
@@ -619,18 +621,6 @@ void ConfigurationManager::on_pushButtonDown_clicked()
     updateCommandItem( list->item(row+1) );
 }
 
-void ConfigurationManager::getKey(QPushButton *button)
-{
-    ShortcutDialog *dialog = new ShortcutDialog(this);
-    if (dialog->exec() == QDialog::Accepted) {
-        QKeySequence shortcut = dialog->shortcut();
-        QString text;
-        if ( !shortcut.isEmpty() )
-            text = shortcut.toString(QKeySequence::NativeText);
-        button->setText(text);
-    }
-}
-
 void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
 {
     QListWidget *list = ui->listWidgetCommands;
@@ -665,6 +655,18 @@ void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
     list->blockSignals(false);
 }
 
+void ConfigurationManager::shortcutButtonClicked(QPushButton *button)
+{
+    ShortcutDialog *dialog = new ShortcutDialog(this);
+    if (dialog->exec() == QDialog::Accepted) {
+        QKeySequence shortcut = dialog->shortcut();
+        QString text;
+        if ( !shortcut.isEmpty() )
+            text = shortcut.toString(QKeySequence::NativeText);
+        button->setText(text);
+    }
+}
+
 void ConfigurationManager::fontButtonClicked(QPushButton *button)
 {
     QFont font;
@@ -694,12 +696,22 @@ void ConfigurationManager::colorButtonClicked(QPushButton *button)
 
 void ConfigurationManager::on_pushButton_clicked()
 {
-    getKey(ui->pushButton);
+    shortcutButtonClicked(ui->pushButton);
 }
 
 void ConfigurationManager::on_pushButton_2_clicked()
 {
-    getKey(ui->pushButton_2);
+    shortcutButtonClicked(ui->pushButton_2);
+}
+
+void ConfigurationManager::on_pushButton_3_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_3);
+}
+
+void ConfigurationManager::on_pushButton_4_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_4);
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
