@@ -46,7 +46,8 @@ void ClipboardClient::readyRead()
 
     len = msg.length();
     if (len > i) {
-        if (m_args.length() > 0 && m_args.at(0) == "toggle") {
+        if ( m_args.length() > 0 &&
+             (m_args.at(0) == "toggle" || m_args.at(0) == "show") ) {
             WId wid = (WId)(QString(msg.constData()+i).toLongLong());
             raiseWindow(wid);
         } else {

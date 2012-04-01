@@ -260,7 +260,6 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
     ClipboardBrowser *c = (target_browser == NULL) ? m_wnd->browser(0) :
                                                      target_browser;
-    bool noupdate = false;
     QString mime;
     QMimeData *data;
     int row;
@@ -358,8 +357,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     }
 
     // add new items
-    else if (cmd == "write" || cmd == "_write") {
-        noupdate = cmd.startsWith('_');
+    else if (cmd == "write") {
         data = new QMimeData;
         do {
             QByteArray bytes;
@@ -374,13 +372,15 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             data->setData( mime, bytes );
         } while ( !args.atEnd() );
 
-        if ( noupdate && isMonitoring() )
-            c->setAutoUpdate(false);
+        if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setUpdatesEnabled(false);
 
         c->add(data, true);
 
-        if ( noupdate && isMonitoring() )
-            c->setAutoUpdate(true);
+        c->setUpdatesEnabled(true);
+        if ( isMonitoring() ) c->setAutoUpdate(true);
+
+        c->updateClipboard();
     }
 
     // edit clipboard item
@@ -410,6 +410,8 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     // remove [row=0] ...
     else if (cmd == "remove") {
         QList<int> rows;
+        rows.reserve( args.length() );
+
         args >> 0 >> row;
         rows << row;
         while ( !args.finished() ) {
@@ -419,15 +421,16 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             rows << row;
         }
 
-        if ( noupdate && isMonitoring() )
-            c->setAutoUpdate(false);
+        qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-        qSort(rows.begin(), rows.end(), qGreater<int>());
+        if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setUpdatesEnabled(false);
+
         foreach (int row, rows)
             c->model()->removeRow(row);
 
-        if ( noupdate && isMonitoring() )
-            c->setAutoUpdate(true);
+        c->setUpdatesEnabled(true);
+        if ( isMonitoring() ) c->setAutoUpdate(true);
 
         if (rows.last() == 0)
             c->updateClipboard();
@@ -564,6 +567,10 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
         QString name;
         args >> name;
+
+        if ( !args.atEnd() )
+            return CommandBadSyntax;
+
         int i = 0;
         for( c = m_wnd->browser(0); c != NULL && name != c->getID();
              c = m_wnd->browser(++i) );

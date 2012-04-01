@@ -422,21 +422,23 @@ void ClipboardBrowser::remove()
     QModelIndexList list = sel->selectedIndexes();
 
     if ( !list.isEmpty() ) {
-        int i;
-        bool need_sync = false;
+        QList<int> rows;
+        rows.reserve( list.size() );
 
-        do {
-            i = list.at(0).row();
-            if ( i == 0 )
-                need_sync = true;
-            m->removeRow(i);
-            list = sel->selectedIndexes();
-        } while( !list.isEmpty() );
+        foreach (const QModelIndex &index, list)
+            rows.append( index.row() );
+
+        qSort( rows.begin(), rows.end(), qGreater<int>() );
+
+        foreach (int row, rows)
+            m->removeRow(row);
+
+        int current = rows.last();
 
         // select next
-        setCurrent(i);
+        setCurrent(current);
 
-        if (need_sync)
+        if (current == 0)
             updateClipboard();
     }
 }
@@ -538,10 +540,9 @@ void ClipboardBrowser::loadItems()
 
 void ClipboardBrowser::saveItems(int msec)
 {
-    if ( m_id.isEmpty() )
+    if ( m_id.isEmpty() || timer_save.isActive() )
         return;
 
-    timer_save.stop();
     if (msec>0) {
         timer_save.start(msec);
         return;

@@ -471,7 +471,7 @@
              <item row="0" column="0">
               <widget class="QLabel" name="label">
                <property name="text">
-                <string>Sh&amp;ow/hide clipboard history</string>
+                <string>Sh&amp;ow/hide the clipboard history</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton</cstring>
@@ -491,7 +491,7 @@
              <item row="1" column="0">
               <widget class="QLabel" name="label_2">
                <property name="text">
-                <string>Show tray &amp;menu</string>
+                <string>Show the tray &amp;menu</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton_2</cstring>
@@ -511,7 +511,7 @@
              <item row="2" column="0">
               <widget class="QLabel" name="label_16">
                <property name="text">
-                <string>Open &amp;first item in external editor:</string>
+                <string>Open the &amp;first item in external editor</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton_3</cstring>
@@ -531,7 +531,7 @@
              <item row="3" column="0">
               <widget class="QLabel" name="label_17">
                <property name="text">
-                <string>&amp;Put second item to clipboard:</string>
+                <string>&amp;Put second item to the clipboard</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton_4</cstring>

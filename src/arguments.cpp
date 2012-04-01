@@ -14,19 +14,25 @@ Arguments::Arguments(int &argc, char **argv)
 
     // dash character means 'read from stdin'
     int len = length();
+    int i = -1;
     if ( (len == 1 || len == 2) && m_args.first() == QString("-") ) {
-        QByteArray mime;
-        if ( len == 2 ) {
-            mime = m_args.last();
-        } else {
-            mime = QByteArray("text/plain");
-        }
+        i = 0;
+    } else if ( (len == 3 || len == 4) && m_args.first() == QString("tab") &&
+                m_args.at(2) == QString("-") )
+    {
+        i = 2;
+    }
+
+    if ( i >= 0 ) {
+        m_args[i] = "write";
+
+        if ( i == m_args.size()-1 )
+            m_args.append( QByteArray("text/plain") );
 
         // read text from stdin
         QFile in;
         in.open(stdin, QIODevice::ReadOnly);
-        m_args.clear();
-        m_args << QByteArray("write") << mime << in.readAll();
+        m_args.append( in.readAll() );
     }
 
     reset();

@@ -206,9 +206,14 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 
 bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 {
-    beginRemoveRows(empty_index, position, position+rows-1);
+    int count = rowCount();
+    if (position >= count)
+        return false;
 
-    for (int row = 0; row < rows; ++row) {
+    int last = qMin(position+rows-1, count-1);
+    beginRemoveRows(empty_index, position, last);
+
+    for (int row = position; row <= last; ++row) {
         delete m_clipboardList.takeAt(position);
     }
 
