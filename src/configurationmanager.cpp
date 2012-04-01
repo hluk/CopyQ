@@ -828,6 +828,11 @@ void ConfigurationManager::on_pushButtonColorEditorFg_clicked()
     colorButtonClicked(ui->pushButtonColorEditorFg);
 }
 
+void ConfigurationManager::on_pushButtonColorNumberFg_clicked()
+{
+    colorButtonClicked(ui->pushButtonColorNumberFg);
+}
+
 void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 {
     QFileDialog dialog( this, tr("Open Theme File") );

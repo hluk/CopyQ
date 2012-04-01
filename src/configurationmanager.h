@@ -138,6 +138,7 @@ private slots:
     void on_pushButtonColorFindFg_clicked();
     void on_pushButtonColorEditorBg_clicked();
     void on_pushButtonColorEditorFg_clicked();
+    void on_pushButtonColorNumberFg_clicked();
 
     void on_pushButtonLoadTheme_clicked();
     void on_pushButtonSaveTheme_clicked();

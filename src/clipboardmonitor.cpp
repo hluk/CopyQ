@@ -166,7 +166,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 
     // same data as last time?
-    newHash = hash(*data);
+    newHash = hash(*data, m_formats);
     if (m_lastHash == newHash)
         return;
 

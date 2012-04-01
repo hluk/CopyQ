@@ -266,12 +266,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* render background (selected, alternate, ...) */
     QStyle *style = w->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
+    QPalette::ColorRole role = option.state & QStyle::State_Selected ?
+                QPalette::HighlightedText : QPalette::Text;
 
     /* render number */
     QRect numRect(0, 0, 0, 0);
     if (m_showNumber) {
-        QPalette::ColorRole role = option.state & QStyle::State_Selected ?
-                    QPalette::HighlightedText : QPalette::Text;
         QString num = QString::number(row)+"  ";
         painter->save();
         painter->setFont(m_numberFont);
@@ -286,7 +286,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* highlight search string */
     QTextDocument *doc1 = NULL;
     QTextDocument *doc2 = NULL;
-    QTextEdit *textEdit;
+    QTextEdit *textEdit = NULL;
     if ( !m_re.isEmpty() ) {
         if ( w->property("textEdit").toBool() ) {
             textEdit = static_cast<QTextEdit *>(w);
@@ -312,6 +312,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     /* render widget */
+    QPalette p1 = w->palette();
+    QPalette p2 = m_parent->palette();
+    if ( p1.color(QPalette::Text) != p2.color(role) ) {
+        p1.setColor( QPalette::Text, p2.color(role) );
+        w->setPalette(p1);
+    }
     QRegion region(0, 0, rect.width()-numRect.width()-4, rect.height());
     painter->save();
     painter->translate( rect.topLeft() + QPoint(numRect.width(), 0) );

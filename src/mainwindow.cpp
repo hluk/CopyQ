@@ -208,7 +208,7 @@ void MainWindow::createMenu()
     act = traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
                                this, SLOT(exit()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(exit()),
-                     QKeySequence::Quit );
+                     QKeySequence("Ctrl+Q") );
 
     // Help
     menu = menubar->addMenu( tr("&Help") );
@@ -775,6 +775,7 @@ void MainWindow::removeTab(bool ask, int tab_index)
 
 MainWindow::~MainWindow()
 {
+    ConfigurationManager::instance(this)->disconnect();
     saveSettings();
     tray->hide();
     delete ui;
