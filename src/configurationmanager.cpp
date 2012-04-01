@@ -831,6 +831,7 @@ void ConfigurationManager::on_pushButtonColorEditorFg_clicked()
 void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 {
     QFileDialog dialog( this, tr("Open Theme File") );
+    dialog.setAcceptMode(QFileDialog::AcceptOpen);
     dialog.setNameFilter("*.ini");
     dialog.setFileMode(QFileDialog::ExistingFile);
     if ( dialog.exec() == QDialog::Accepted ) {
@@ -843,6 +844,7 @@ void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 void ConfigurationManager::on_pushButtonSaveTheme_clicked()
 {
     QFileDialog dialog( this, tr("Save Theme File As") );
+    dialog.setAcceptMode(QFileDialog::AcceptSave);
     dialog.setNameFilter("*.ini");
     dialog.setFileMode(QFileDialog::AnyFile);
     if ( dialog.exec() == QDialog::Accepted ) {

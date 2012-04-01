@@ -250,15 +250,16 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     writeMessage(m_socket, msg);
 }
 
-ClipboardServer::CommandStatus ClipboardServer::doCommand(Arguments &args,
-                                                          QByteArray *response)
+ClipboardServer::CommandStatus ClipboardServer::doCommand(
+        Arguments &args, QByteArray *response, ClipboardBrowser *target_browser)
 {
     QString cmd;
     args >> cmd;
     if ( args.error() )
         return CommandBadSyntax;
 
-    ClipboardBrowser *c = m_wnd->browser(0);
+    ClipboardBrowser *c = (target_browser == NULL) ? m_wnd->browser(0) :
+                                                     target_browser;
     bool noupdate = false;
     QString mime;
     QMimeData *data;
@@ -532,6 +533,46 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(Arguments &args,
                 return CommandError;
             }
         }
+    }
+
+    // tab [tab_name [COMMANDs]]
+    else if(cmd == "tab") {
+        if ( args.atEnd() ) {
+            c = m_wnd->browser(0);
+            for ( int i = 0; c != NULL; c = m_wnd->browser(++i) ) {
+                response->append( c->getID() + '\n' );
+            }
+        } else {
+            QString name;
+            args >> name;
+
+            if (name.isEmpty()) {
+                response->append( tr("Tab name cannot be empty!\n") );
+                return CommandError;
+            }
+
+            c = m_wnd->createTab(name);
+            if ( !args.atEnd() )
+                return doCommand(args, response, c);
+        }
+    }
+
+    // removetab tab_name
+    else if(cmd == "removetab!") {
+        if ( args.atEnd() )
+            return CommandBadSyntax;
+
+        QString name;
+        args >> name;
+        int i = 0;
+        for( c = m_wnd->browser(0); c != NULL && name != c->getID();
+             c = m_wnd->browser(++i) );
+        if (c == NULL) {
+            response->append( tr("Tab with given name doesn't exist!\n") );
+            return CommandError;
+        }
+
+        m_wnd->removeTab(false, i);
     }
 
     // unknown command

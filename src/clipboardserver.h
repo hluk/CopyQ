@@ -7,6 +7,7 @@
 #include "client_server.h"
 
 class MainWindow;
+class ClipboardBrowser;
 class ClipboardItem;
 class Arguments;
 class QxtGlobalShortcut;
@@ -25,7 +26,8 @@ public:
     explicit ClipboardServer(int &argc, char **argv);
     ~ClipboardServer();
     bool isListening() { return m_server->isListening(); }
-    CommandStatus doCommand(Arguments &args, QByteArray *bytes);
+    CommandStatus doCommand(Arguments &args, QByteArray *response,
+                            ClipboardBrowser *target_browser = NULL);
     void sendMessage(QLocalSocket* client, const QByteArray &message, int exit_code = 0);
     void sendMessage(QLocalSocket* client, const QString &message, int exit_code = 0) {
         sendMessage( client, message.toLocal8Bit(), exit_code );

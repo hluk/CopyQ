@@ -50,6 +50,7 @@ class MainWindow : public QMainWindow
         void closeEvent(QCloseEvent *event);
         void createActionDialog();
         ClipboardBrowser *browser(int index = -1);
+        ClipboardBrowser *createTab(const QString &name);
 
     private:
         Ui::MainWindow *ui;
@@ -67,7 +68,6 @@ class MainWindow : public QMainWindow
         ClipboardBrowser *m_browser;
 
         void createMenu();
-        ClipboardBrowser *createTab(const QString &name);
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -115,7 +115,7 @@ class MainWindow : public QMainWindow
         void action(const QString &text, const Command *cmd = NULL);
 
         void newTab();
-        void removeTab();
+        void removeTab(bool ask = true, int tab_index = -1);
         ClipboardBrowser *addTab(const QString &name);
         void newItem();
         void pasteItems();

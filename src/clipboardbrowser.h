@@ -89,6 +89,7 @@ class ClipboardBrowser : public QListView
          * Set ID. Used to save items. If ID is empty saving is disabled.
          */
         void setID(const QString &id) { m_id = id; }
+        const QString &getID() const { return m_id; }
 
     private:
         QString m_id;

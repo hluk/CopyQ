@@ -129,14 +129,15 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = menu->addAction( QIcon(":/images/icon.svg"), tr("&Show/Hide"),
+    act = traymenu->addAction( QIcon(":/images/icon.svg"), tr("&Show/Hide"),
                            this, SLOT(toggleVisible()) );
-    act = traymenu->addAction( act->icon(), act->text(),
-                               this, SLOT(toggleVisible()) );
     // bold font for default item in tray
     QFont font( act->font() );
     font.setBold(true);
     act->setFont(font);
+
+    // - separator
+    menu->addSeparator();
 
     // - new
     act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
@@ -168,12 +169,18 @@ void MainWindow::createMenu()
                                this, SLOT(openActionDialog()) );
     act->setWhatsThis( tr("Open action dialog") );
 
+    // - separator
+    menu->addSeparator();
+
     // - preferences
     act = traymenu->addAction( QIcon(":/images/preferences.svg"),
                                tr("&Preferences"),
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
                      QKeySequence("Ctrl+P") );
+
+    // - separator
+    menu->addSeparator();
 
     // Items
     ClipboardBrowser *c = browser();
@@ -558,14 +565,14 @@ void MainWindow::updateTrayMenuItems()
         QString text = fm.elidedText( c->itemText(i).left(512).simplified(),
                                       Qt::ElideRight, 240 );
 
-        /* FIXME: keypad numbers don't work */
         if (hint <= '9') {
-            QChar h(hint);
-            text.prepend( QString("&%1. ").arg(h) );
+            /* FIXME: keypad numbers don't work */
+            act = menu->addAction(QString('&') + hint + ". " + text);
             ++hint;
+        } else {
+            act = menu->addAction(text);
         }
 
-        act = menu->addAction(text);
         act->setFont(font);
         act->setData( QVariant(i) );
 
@@ -739,22 +746,25 @@ void MainWindow::newTab()
     d->open();
 }
 
-void MainWindow::removeTab()
+void MainWindow::removeTab(bool ask, int tab_index)
 {
     QTabWidget *w = ui->tabWidget;
-    int i = w->currentIndex();
+    int i = tab_index >= 0 ? tab_index : w->currentIndex();
+    ClipboardBrowser *c = browser(i);
 
-    if ( w->count() > 1 ) {
-        int answer = QMessageBox::question(
-                    this,
-                    tr("Exit?"),
-                    tr("Do you want to remove tab <strong>%1</strong>?"
-                       ).arg( w->tabText(i).remove('&')),
-                    QMessageBox::Yes | QMessageBox::No,
-                    QMessageBox::Yes);
+    if ( c != NULL && w->count() > 1 ) {
+        int answer = QMessageBox::Yes;
+        if (ask) {
+            answer = QMessageBox::question(
+                        this,
+                        tr("Exit?"),
+                        tr("Do you want to remove tab <strong>%1</strong>?"
+                           ).arg( w->tabText(i).remove('&')),
+                        QMessageBox::Yes | QMessageBox::No,
+                        QMessageBox::Yes);
+        }
         if (answer == QMessageBox::Yes) {
             ConfigurationManager::instance()->removeItems( w->tabText(i) );
-            ClipboardBrowser *c = browser(i);
             c->purgeItems();
             c->deleteLater();
             w->removeTab(i);

@@ -127,7 +127,10 @@ void ClipboardItem::pixmap(QPixmap *pix) const
     int w = size.width();
     int h = size.height();
 
-    if (data.isEmpty() || pix->width() < w || pix->height() < h) {
+    if ( data.isEmpty() ||
+         (w > 0 && pix->width() != w) ||
+         (h > 0 && pix->height() != h) )
+    {
         pix->loadFromData(m_data->data(m_mimeType), m_mimeType.toAscii());
 
         if (w > 0 && pix->width() > w && pix->width()/w > pix->height()/h) {

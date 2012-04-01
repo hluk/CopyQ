@@ -66,52 +66,61 @@ Command Line Interface
     usage: copyq [COMMAND]
     Starts server if no command is specified.
       COMMANDs:
-        show    show main window
-        hide    hide main window
-        toggle  show or hide main window
-        menu    open context menu
-        exit    exit server
+        show    Show main window.
+        hide    Hide main window.
+        toggle  Show or hide main window.
+        menu    Open context menu.
+        exit    Exit server.
 
-        clipboard [mime_type="text/plain"]
-          print clipboard content
-          use ? for mime_type to print mime types
-        selection [mime_type="text/plain"]
-          print X11 selection content
-          use ? for mime_type to print mime types
+        clipboard [MIME_TYPE="text/plain"]
+          Print clipboard content.
+          Use ? for mime_type to print mime types.
+        selection [MIME_TYPE="text/plain"]
+          Print X11 selection content.
+          Use ? for mime_type to print mime types.
+
+        tab
+          List available tab names.
+        tab <TAB_NAME> [COMMAND]
+          Run command on tab with given name.
+          Tab is created if it doesn't exist.
+        removetab! <TAB_NAME>
+          Remove tab with given name.
 
         length, count, size
-          print number of items in history
-        select [row=0]
-          move item in the row to clipboard
-        add <text> ...
-          add text into clipboard
-        remove [row=0] ...
-          remove item in given rows
-        edit [row=0] ...
-          edit clipboard item
+          Print number of items in history.
+        select [ROW=0]
+          Move item in the row to clipboard.
+        add <TEXT> ...
+          Add text into clipboard.
+        remove [ROW=0] ...
+          Remove item in given rows.
+        edit [ROW=0] ...
+          Edit clipboard item.
 
-        read [mime_type="text/plain"|row] ...
-          print raw data of clipboard or item in row
-          use ? for mime_type to print mime types
-        write mime_type data ...
-          write raw data to clipboard
-        - [mime_type="text/plain"]
-          copy text from standard input into clipboard
+        read [MIME_TYPE="text/plain"|ROW] ...
+          Print raw data of clipboard or item in row.
+          Use ? for mime_type to print mime types.
+        write <MIME_TYPE> <DATA> ...
+          Write raw data to clipboard.
+        - [MIME_TYPE="text/plain"]
+          Copy text from standard input into clipboard.
 
-        action [row=0] ...
-          show action dialog
-        action [row=0] ... "command" [separator=\n]
-          apply command on item text in the row
+        action [ROW=0] ...
+          Show action dialog.
+        action [ROW=0] ... "command" [separator=\n]
+          Apply command on item text in the row.
 
         config
-          list all options
-        config option
-          get option value
-        config option value
-          set option value
+          List all options.
+        config <OPTION>
+          Get option value.
+        config <OPTION> <VALUE>
+          Set option value.
 
         help, -h, --help
-          print this help
+          Print this help.
+
 
 Usage Examples
 --------------
