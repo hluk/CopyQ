@@ -123,29 +123,6 @@
          </property>
         </widget>
        </item>
-       <item row="5" column="1">
-        <widget class="QLineEdit" name="lineEditCommand">
-         <property name="toolTip">
-          <string>Command to run. Use %1 for item text passed as argument.</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QLabel" name="label_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Comma&amp;nd</string>
-         </property>
-         <property name="buddy">
-          <cstring>lineEditCommand</cstring>
-         </property>
-        </widget>
-       </item>
        <item row="1" column="1">
         <layout class="QHBoxLayout" name="horizontalLayout">
          <item>
@@ -194,6 +171,29 @@
          </item>
         </layout>
        </item>
+       <item row="4" column="0">
+        <widget class="QLabel" name="label_2">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Comma&amp;nd</string>
+         </property>
+         <property name="buddy">
+          <cstring>lineEditCommand</cstring>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QLineEdit" name="lineEditCommand">
+         <property name="toolTip">
+          <string>Command to run. Use %1 for item text passed as argument.</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </item>
      <item>
@@ -212,9 +212,6 @@
           </property>
           <item>
            <widget class="QCheckBox" name="checkBoxInput">
-            <property name="enabled">
-             <bool>true</bool>
-            </property>
             <property name="toolTip">
              <string>Send item text to standard input of the command.</string>
             </property>
@@ -353,10 +350,13 @@
   </layout>
  </widget>
  <tabstops>
+  <tabstop>lineEditName</tabstop>
+  <tabstop>checkBoxEnable</tabstop>
+  <tabstop>lineEditMatch</tabstop>
+  <tabstop>checkBoxIgnore</tabstop>
   <tabstop>lineEditIcon</tabstop>
   <tabstop>pushButtonBrowse</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
-  <tabstop>checkBoxEnable</tabstop>
   <tabstop>lineEditCommand</tabstop>
   <tabstop>checkBoxInput</tabstop>
   <tabstop>checkBoxOutput</tabstop>
