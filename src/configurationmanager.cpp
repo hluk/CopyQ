@@ -227,6 +227,16 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->icon = ":/images/command_tab.svg";
         c->tab  = "&web";
         break;
+    case 6:
+        c->name = tr("Run shell script");
+        c->re   = QRegExp("^#!/bin/bash");
+        c->cmd  = "/bin/bash";
+        c->input = true;
+        c->output = true;
+        c->outputTab = "&BASH";
+        c->sep = "\\n";
+        c->shortcut = tr("Ctrl+R");
+        break;
     default:
         return false;
     }
@@ -365,6 +375,7 @@ void ConfigurationManager::loadSettings()
         c.icon = settings.value( tr("Icon") ).toString();
         c.shortcut = settings.value( tr("Shortcut") ).toString();
         c.tab = settings.value( tr("Tab") ).toString();
+        c.outputTab = settings.value( tr("OutputTab") ).toString();
 
         addCommand(c);
     }
@@ -403,6 +414,7 @@ void ConfigurationManager::saveSettings()
         settings.setValue("Icon", c.icon);
         settings.setValue("Shortcut", c.shortcut);
         settings.setValue("Tab", c.tab);
+        settings.setValue("OutputTab", c.outputTab);
     }
     settings.endArray();
 
@@ -532,7 +544,7 @@ void ConfigurationManager::on_pushButtoAdd_clicked()
 {
     Command cmd;
     cmd.input = cmd.output = cmd.wait = cmd.automatic = cmd.ignore = false;
-    cmd.sep = QString('\n');
+    cmd.sep = QString("\\n");
     addCommand(cmd);
 
     QListWidget *list = ui->listWidgetCommands;

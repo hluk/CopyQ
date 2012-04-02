@@ -338,10 +338,7 @@
               </widget>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_6">
-               <property name="rightMargin">
-                <number>20</number>
-               </property>
+              <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0">
                <item>
                 <widget class="CommandWidget" name="widgetCommand" native="true">
                  <property name="enabled">

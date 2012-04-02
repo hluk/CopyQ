@@ -505,6 +505,12 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
     c->add( cloneData(*data), true );
 }
 
+void MainWindow::addItems(const QStringList &items, const QString &tabName)
+{
+    ClipboardBrowser *c = tabName.isEmpty() ? browser(0) : addTab(tabName);
+    c->addItems(items);
+}
+
 void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode(false);
@@ -601,8 +607,8 @@ void MainWindow::createActionDialog()
     if (!actionDialog) {
         actionDialog = new ActionDialog(this);
 
-        connect( actionDialog, SIGNAL(addItems(QStringList)),
-                 browser(), SLOT(addItems(QStringList)) );
+        connect( actionDialog, SIGNAL(addItems(QStringList, QString)),
+                 this, SLOT(addItems(QStringList, QString)) );
         connect( actionDialog, SIGNAL(error(QString)),
                  this, SLOT(showError(QString)) );
         connect( actionDialog, SIGNAL(message(QString,QString)),
@@ -727,6 +733,12 @@ void MainWindow::action(const QString &text, const Command *cmd)
         actionDialog->setSeparator(cmd->sep);
         actionDialog->setInput(cmd->input);
         actionDialog->setOutput(cmd->output);
+
+        QStringList tabs;
+        QTabWidget *w = ui->tabWidget;
+        for( int i = 0; i < w->count(); ++i )
+            tabs << w->tabText(i);
+        actionDialog->setOutputTabs(tabs, cmd->outputTab);
     }
     if (!cmd || cmd->wait)
         actionDialog->exec();

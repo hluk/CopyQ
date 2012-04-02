@@ -2,6 +2,7 @@
 #include <QSettings>
 #include <QFile>
 #include <QCompleter>
+#include <QMessageBox>
 #include "client_server.h"
 #include "actiondialog.h"
 #include "action.h"
@@ -13,8 +14,6 @@ ActionDialog::ActionDialog(QWidget *parent) :
     ui(new Ui::ActionDialog), m_completer(NULL), m_actions(0)
 {
     ui->setupUi(this);
-    ui->inputText->clear();
-    ui->iconLabel->setPixmap( QPixmap(":/images/actiondialog.svg") );
     restoreHistory();
     connect(this, SIGNAL(finished(int)), SLOT(onFinnished(int)));
 }
@@ -192,13 +191,14 @@ void ActionDialog::runCommand()
 
     act = new Action( cmd, args, input.toLocal8Bit(),
                       ui->outputCheckBox->isChecked(),
-                      ui->separatorEdit->text() );
+                      ui->separatorEdit->text(),
+                      ui->comboBoxOutputTab->currentText() );
     connect( act, SIGNAL(actionError(Action*)),
              this, SLOT(closeAction(Action*)) );
     connect( act, SIGNAL(actionFinished(Action*)),
              this, SLOT(closeAction(Action*)) );
-    connect( act, SIGNAL(newItems(QStringList)),
-             SIGNAL(addItems(QStringList)) );
+    connect( act, SIGNAL(newItems(QStringList, QString)),
+             SIGNAL(addItems(QStringList, QString)) );
     connect( act, SIGNAL(addMenuItem(QAction*)),
              this, SIGNAL(addMenuItem(QAction*)) );
     connect( act, SIGNAL(removeMenuItem(QAction*)),
@@ -238,10 +238,23 @@ void ActionDialog::setOutput(bool value)
     ui->outputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
 }
 
+void ActionDialog::setOutputTabs(const QStringList &tabs,
+                                 const QString &currentTabName)
+{
+    QComboBox *w = ui->comboBoxOutputTab;
+    QString text = w->currentText();
+    w->clear();
+    w->addItem("");
+    w->addItems(tabs);
+    w->setEditText(currentTabName);
+}
+
 void ActionDialog::on_outputCheckBox_toggled(bool checked)
 {
     ui->separatorEdit->setEnabled(checked);
     ui->separatorLabel->setEnabled(checked);
+    ui->labelOutputTab->setEnabled(checked);
+    ui->comboBoxOutputTab->setEnabled(checked);
 }
 
 void ActionDialog::onFinnished(int)
@@ -268,10 +281,16 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         cmd.wait = false;
         cmd.automatic = false;
         cmd.ignore = false;
+        cmd.enable = true;
+        cmd.outputTab = ui->comboBoxOutputTab->currentText();
 
         cm = ConfigurationManager::instance();
         cm->addCommand(cmd);
         cm->saveSettings();
+        QMessageBox::information(
+                    this, tr("Command saved"),
+                    tr("Command was saved and can be accessed from item menu.\n"
+                       "You can set up the command in preferences.") );
         break;
     case QDialogButtonBox::Cancel:
         close();

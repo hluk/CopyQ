@@ -18,11 +18,14 @@ struct Command {
     QString icon;
     QString shortcut;
     QString tab;
+    QString outputTab;
 };
 
 namespace Ui {
 class CommandWidget;
 }
+
+class QComboBox;
 
 class CommandWidget : public QWidget
 {
@@ -46,8 +49,12 @@ private slots:
 
     void on_lineEditCommand_textChanged(const QString &arg1);
 
+    void on_checkBoxOutput_toggled(bool checked);
+
 private:
     Ui::CommandWidget *ui;
+
+    void setTabs(const QStringList &tabs, QComboBox *w);
 };
 
 #endif // COMMANDWIDGET_H

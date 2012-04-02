@@ -34,7 +34,10 @@
        <item>
         <widget class="QLabel" name="iconLabel">
          <property name="text">
-          <string>icon</string>
+          <string/>
+         </property>
+         <property name="pixmap">
+          <pixmap resource="copyq.qrc">:/images/actiondialog.svg</pixmap>
          </property>
         </widget>
        </item>
@@ -153,31 +156,63 @@ p, li { white-space: pre-wrap; }
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="separatorLabel">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>&amp;Separator:</string>
-           </property>
-           <property name="buddy">
-            <cstring>separatorEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="separatorEdit">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>\n</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,4">
+       <property name="bottomMargin">
+        <number>0</number>
+       </property>
+       <item>
+        <widget class="QLabel" name="separatorLabel">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>&amp;Separator:</string>
+         </property>
+         <property name="buddy">
+          <cstring>separatorEdit</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLineEdit" name="separatorEdit">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>\n</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="labelOutputTab">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="text">
+          <string>Output &amp;tab:</string>
+         </property>
+         <property name="buddy">
+          <cstring>comboBoxOutputTab</cstring>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="comboBoxOutputTab">
+         <property name="enabled">
+          <bool>false</bool>
+         </property>
+         <property name="toolTip">
+          <string>Save items in tab with given name (leave empty to save in first tab)</string>
+         </property>
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -200,6 +235,7 @@ p, li { white-space: pre-wrap; }
   <tabstop>inputCheckBox</tabstop>
   <tabstop>outputCheckBox</tabstop>
   <tabstop>separatorEdit</tabstop>
+  <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>buttonBox</tabstop>
   <tabstop>inputText</tabstop>
  </tabstops>

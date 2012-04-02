@@ -13,7 +13,8 @@ class Action : public QProcess
 public:
     Action(const QString &cmd, const QStringList &args,
            const QByteArray &processInput,
-           bool outputItems, const QString &itemSeparator);
+           bool outputItems, const QString &itemSeparator,
+           const QString &outputTabName);
     const QString &errorOutput() const { return m_errstr; }
     const QString &command() const { return m_cmd; }
     QAction *menuItem() { return m_menuItem; }
@@ -24,6 +25,7 @@ private:
     const QRegExp m_sep;
     const QString m_cmd;
     const QStringList m_args;
+    const QString m_tab;
     QAction *m_menuItem;
     QString m_errstr;
 
@@ -44,7 +46,7 @@ signals:
     void actionError(Action *act);
     void actionFinished(Action *act);
     void actionStarted(Action *act);
-    void newItems(const QStringList &items);
+    void newItems(const QStringList &items, const QString &outputTabName);
     void addMenuItem(QAction *menuItem);
     void removeMenuItem(QAction *menuItem);
 };

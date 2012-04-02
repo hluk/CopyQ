@@ -36,6 +36,7 @@ Command CommandWidget::command() const
     c.icon = ui->lineEditIcon->text();
     c.shortcut = ui->pushButtonShortcut->text();
     c.tab = ui->comboBoxCopyToTab->currentText();
+    c.outputTab = ui->comboBoxOutputTab->currentText();
 
     return c;
 }
@@ -55,16 +56,13 @@ void CommandWidget::setCommand(const Command &c) const
     ui->lineEditIcon->setText(c.icon);
     ui->pushButtonShortcut->setText(c.shortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
+    ui->comboBoxOutputTab->setEditText(c.outputTab);
 }
 
 void CommandWidget::setTabs(const QStringList &tabs)
 {
-    QComboBox *w = ui->comboBoxCopyToTab;
-    QString text = w->currentText();
-    w->clear();
-    w->addItem("");
-    w->addItems(tabs);
-    w->setEditText(text);
+    setTabs(tabs, ui->comboBoxCopyToTab);
+    setTabs(tabs, ui->comboBoxOutputTab);
 }
 
 void CommandWidget::on_pushButtonBrowse_clicked()
@@ -99,4 +97,21 @@ void CommandWidget::on_pushButtonShortcut_clicked()
 void CommandWidget::on_lineEditCommand_textChanged(const QString &arg1)
 {
     ui->groupBoxCommandOptions->setDisabled( arg1.isEmpty() );
+}
+
+void CommandWidget::on_checkBoxOutput_toggled(bool checked)
+{
+    ui->lineEditSeparator->setEnabled(checked);
+    ui->separatorLabel->setEnabled(checked);
+    ui->labelOutputTab->setEnabled(checked);
+    ui->comboBoxOutputTab->setEnabled(checked);
+}
+
+void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)
+{
+    QString text = w->currentText();
+    w->clear();
+    w->addItem("");
+    w->addItems(tabs);
+    w->setEditText(text);
 }

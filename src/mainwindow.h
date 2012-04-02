@@ -128,6 +128,7 @@ class MainWindow : public QMainWindow
         void enterSearchMode(const QString &txt);
         void tabChanged();
         void addToTab(QMimeData *data, const QString &tabName);
+        void addItems(const QStringList &items, const QString &tabName);
 
     signals:
         void changeClipboard(const ClipboardItem *item);

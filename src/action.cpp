@@ -6,9 +6,11 @@ bool g_ids[10] = {true,true,true,true,true,
                   true,true,true,true,true};
 
 Action::Action(const QString &cmd, const QStringList &args,
-               const QByteArray &input,
-               bool outputItems, const QString &itemSeparator) : QProcess(),
-    m_input(input), m_sep(itemSeparator), m_cmd(cmd), m_args(args)
+               const QByteArray &input, bool outputItems,
+               const QString &itemSeparator,
+               const QString &outputTabName) : QProcess(),
+    m_input(input), m_sep(itemSeparator), m_cmd(cmd), m_args(args),
+    m_tab(outputTabName)
 {
     m_id = 10;
     for (int i = 0; i<10; ++i) {
@@ -88,7 +90,7 @@ void Action::actionOutput()
         }
         else
             items.append(outstr);
-        emit newItems(items);
+        emit newItems(items, m_tab);
     }
 }
 

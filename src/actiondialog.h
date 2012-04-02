@@ -26,6 +26,7 @@ public:
     void setSeparator(const QString &sep);
     void setInput(bool value);
     void setOutput(bool value);
+    void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
 
 protected:
     void changeEvent(QEvent *e);
@@ -39,7 +40,7 @@ private:
     int m_actions;
 
 signals:
-    void addItems(const QStringList &lst);
+    void addItems(const QStringList &lst, const QString &tabName);
     void error(const QString &msg);
     void message(const QString &title, const QString &msg);
     void actionFinished(Action *act);
