@@ -315,7 +315,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Up:
         case Qt::Key_PageDown:
         case Qt::Key_PageUp:
-            c->keyEvent(event);
+            if ( !c->hasFocus() )
+                c->setFocus();
+            else
+                c->keyEvent(event);
             break;
         
         case Qt::Key_Return:
@@ -502,7 +505,10 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
         saveSettings();
     }
 
-    c->add( cloneData(*data), true );
+    c->setAutoUpdate(false);
+    if ( !c->select(hash(*data, data->formats())) )
+        c->add( cloneData(*data), true );
+    c->setAutoUpdate(true);
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)

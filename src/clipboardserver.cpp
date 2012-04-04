@@ -232,7 +232,8 @@ void ClipboardServer::readyRead()
         ClipboardBrowser *c = m_wnd->browser(0);
 
         c->setAutoUpdate(false);
-        c->add( cloneData(*data) );
+        if ( !c->select(item.dataHash()) )
+            c->add( cloneData(*data) );
         c->setAutoUpdate(true);
     }
     if (m_socket)
@@ -557,6 +558,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             c = m_wnd->createTab(name);
             if ( !args.atEnd() )
                 return doCommand(args, response, c);
+            m_wnd->saveSettings();
         }
     }
 

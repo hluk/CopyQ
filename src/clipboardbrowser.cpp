@@ -448,6 +448,15 @@ void ClipboardBrowser::clear()
     m->removeRows(0, m->rowCount());
 }
 
+bool ClipboardBrowser::select(uint item_hash)
+{
+    int row = m->findItem(item_hash);
+    if (row < 0)
+        return false;
+
+    return m->move(row, 0);
+}
+
 bool ClipboardBrowser::add(const QString &txt, bool force)
 {
     QMimeData *data = new QMimeData;
@@ -459,7 +468,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
 {
     if (!force) {
         // don't add if new data is same as first item
-        if ( *m->at(0) == *data ) {
+        if ( m->rowCount() > 0 && *m->at(0) == *data ) {
             delete data;
             return false;
         }

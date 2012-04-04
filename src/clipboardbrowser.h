@@ -62,6 +62,8 @@ class ClipboardBrowser : public QListView
         void remove();
         void clear();
 
+        bool select(uint item_hash);
+
         int length() const { return model()->rowCount(); }
         QString itemText(int i = -1) const;
         QString itemText(QModelIndex ind) const;

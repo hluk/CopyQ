@@ -45,7 +45,6 @@ bool ClipboardItem::operator ==(const QMimeData &data) const
 
 void ClipboardItem::clear()
 {
-    //m_data->clear();
     delete m_data;
     m_data = new QMimeData;
     m_hash = hash(*m_data, m_data->formats());

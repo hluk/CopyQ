@@ -64,6 +64,8 @@ public:
     bool move(int pos, int newpos);
     bool moveItems(QModelIndexList list, int key);
 
+    int findItem(uint item_hash) const;
+
     int getRowNumber(int row, bool cycle = false) const;
 
     ClipboardItem* get(int row) {

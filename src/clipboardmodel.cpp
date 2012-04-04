@@ -308,6 +308,15 @@ bool ClipboardModel::moveItems(QModelIndexList list, int key) {
     return res;
 }
 
+int ClipboardModel::findItem(uint item_hash) const
+{
+    for (int i =0; i < m_clipboardList.length(); ++i) {
+        if ( m_clipboardList[i]->dataHash() == item_hash )
+            return i;
+    }
+    return -1;
+}
+
 QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
 {
     int length = model.rowCount();

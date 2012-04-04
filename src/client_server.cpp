@@ -129,6 +129,10 @@ QString serverName(const QString &name)
 
 uint hash(const QMimeData &data, const QStringList &formats)
 {
+    // return hash of plain text if available
+    if ( data.hasText() )
+        return qHash( data.text() );
+
     QByteArray bytes;
     foreach( QString mime, formats ) {
         bytes = data.data(mime);
