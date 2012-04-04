@@ -166,6 +166,8 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
             textEdit->setFrameShape(QFrame::NoFrame);
             textEdit->setWordWrapMode(QTextOption::NoWrap);
             textEdit->setUndoRedoEnabled(false);
+            textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+            textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
             w = textEdit;
             w->setProperty("textEdit", true);
@@ -294,10 +296,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
             doc2 = doc1->clone(textEdit);
             textEdit->setDocument(doc2);
 
+            int a, b;
             QTextCursor cur = doc2->find(m_re);
-            while ( !cur.isNull() && !cur.atEnd() ) {
+            a = cur.position();
+            while ( !cur.isNull() ) {
                 QTextCharFormat fmt = cur.charFormat();
-                // TODO: set highlight color from configuration
                 if ( cur.hasSelection() ) {
                     fmt.setBackground( m_foundPalette.base() );
                     fmt.setForeground( m_foundPalette.text() );
@@ -307,6 +310,14 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                     cur.movePosition(QTextCursor::NextCharacter);
                 }
                 cur = doc2->find(m_re, cur);
+                b = cur.position();
+                if (a == b) {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                    cur = doc2->find(m_re, cur);
+                    b = cur.position();
+                    if (a == b) break;
+                }
+                a = b;
             }
         }
     }

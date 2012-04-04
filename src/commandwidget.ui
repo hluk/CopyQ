@@ -30,7 +30,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&amp;Name</string>
+          <string>&amp;Name:</string>
          </property>
          <property name="buddy">
           <cstring>lineEditName</cstring>
@@ -46,7 +46,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&amp;Match</string>
+          <string>&amp;Match:</string>
          </property>
          <property name="buddy">
           <cstring>lineEditMatch</cstring>
@@ -106,7 +106,7 @@
        <item row="3" column="0">
         <widget class="QLabel" name="label_6">
          <property name="text">
-          <string>Copy to &amp;tab</string>
+          <string>Copy to &amp;tab:</string>
          </property>
          <property name="buddy">
           <cstring>comboBoxCopyToTab</cstring>
@@ -180,7 +180,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Comma&amp;nd</string>
+          <string>Comma&amp;nd:</string>
          </property>
          <property name="buddy">
           <cstring>lineEditCommand</cstring>

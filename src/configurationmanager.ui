@@ -528,7 +528,7 @@
              <item row="3" column="0">
               <widget class="QLabel" name="label_17">
                <property name="text">
-                <string>&amp;Put second item to the clipboard</string>
+                <string>&amp;Put second item into the clipboard</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton_4</cstring>
