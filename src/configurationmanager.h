@@ -36,13 +36,10 @@ public:
     {
         static QMutex mutex;
 
-        if (!m_Instance)
-        {
-            mutex.lock();
-            if (!m_Instance) {
+        if (!m_Instance) {
+            QMutexLocker lock(&mutex);
+            if (!m_Instance)
                 m_Instance = new ConfigurationManager(parent);
-            }
-            mutex.unlock();
         }
 
         return m_Instance;
@@ -51,10 +48,9 @@ public:
     static void drop()
     {
         static QMutex mutex;
-        mutex.lock();
+        QMutexLocker lock(&mutex);
         delete m_Instance;
-        m_Instance = 0;
-        mutex.unlock();
+        m_Instance = NULL;
     }
 
     void loadSettings();

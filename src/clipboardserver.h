@@ -33,8 +33,9 @@ public:
         sendMessage( client, message.toLocal8Bit(), exit_code );
     }
 
-    void startMonitoring();
     void stopMonitoring();
+    void startMonitoring();
+    void loadMonitorSettings();
     bool isMonitoring() {
         return m_monitor && m_monitor->state() != QProcess::NotRunning;
     }

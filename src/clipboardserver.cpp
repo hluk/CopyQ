@@ -163,6 +163,36 @@ void ClipboardServer::startMonitoring()
     m_wnd->browser(0)->setAutoUpdate(true);
 }
 
+void ClipboardServer::loadMonitorSettings()
+{
+    if ( !m_socket || !m_socket->isWritable() )
+        return;
+
+    ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+
+    QVariantMap settings;
+    settings["_last_hash"] = cm->value("_last_hash");
+    settings["formats"] = cm->value("formats");
+    settings["check_clipboard"] = cm->value("check_clipboard");
+#ifdef Q_WS_X11
+    settings["copy_clipboard"] = cm->value("copy_clipboard");
+    settings["copy_selection"] = cm->value("copy_selection");
+    settings["check_selection"] = cm->value("check_selection");
+#endif
+
+    QByteArray settings_data;
+    QDataStream settings_out(&settings_data, QIODevice::WriteOnly);
+    settings_out << settings;
+
+    ClipboardItem item;
+    item.setData("application/x-copyq-settings", settings_data);
+
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
+    out << item;
+    writeMessage(m_socket, msg);
+}
+
 void ClipboardServer::newConnection()
 {
     QLocalSocket* client = m_server->nextPendingConnection();
@@ -207,6 +237,8 @@ void ClipboardServer::newMonitorConnection()
             m_socket, SLOT(deleteLater()));
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
+
+    loadMonitorSettings();
 }
 
 void ClipboardServer::readyRead()
@@ -645,11 +677,9 @@ void ClipboardServer::loadSettings()
     }
 #endif
 
-    // restart clipboard monitor to reload its configuration
-    if ( isMonitoring() ) {
-        stopMonitoring();
-        startMonitoring();
-    }
+    // reload clipboard monitor configuration
+    if ( isMonitoring() )
+        loadMonitorSettings();
 }
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)

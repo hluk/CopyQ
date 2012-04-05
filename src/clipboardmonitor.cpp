@@ -1,6 +1,5 @@
 #include "clipboardmonitor.h"
 #include "clipboardserver.h"
-#include "configurationmanager.h"
 #include "clipboarditem.h"
 #include "client_server.h"
 #include <QMimeData>
@@ -11,7 +10,7 @@
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
-    App(argc, argv), m_newdata(NULL)
+    App(argc, argv), m_newdata(NULL), m_lastHash(0)
 {
     m_socket = new QLocalSocket(this);
     connect( m_socket, SIGNAL(readyRead()),
@@ -24,26 +23,12 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
         exit(1);
     }
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    setFormats( cm->value("formats").toString() );
-    setCheckClipboard( cm->value("check_clipboard").toBool() );
-
-    bool ok;
-    m_lastHash = cm->value("_last_hash").toUInt(&ok);
-    if (!ok)
-        m_lastHash = 0;
-
+    setCheckClipboard(false);
 #ifdef Q_WS_X11
-    setCopyClipboard( cm->value("copy_clipboard").toBool() );
-    setCheckSelection( cm->value("check_selection").toBool() );
-    setCopySelection( cm->value("copy_selection").toBool() );
-    m_timer.setSingleShot(true);
-    m_timer.setInterval(100);
-    connect( &m_timer, SIGNAL(timeout()),
-             this, SLOT(updateSelection()) );
+    setCopyClipboard(false);
+    setCheckSelection(false);
+    setCopySelection(false);
 #endif
-
-    delete cm;
 
     m_updatetimer.setSingleShot(true);
     m_updatetimer.setInterval(500);
@@ -54,9 +39,11 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
              this, SLOT(checkClipboard(QClipboard::Mode)) );
 
 #ifdef Q_WS_X11
-    checkClipboard(QClipboard::Selection);
+    m_timer.setSingleShot(true);
+    m_timer.setInterval(100);
+    connect( &m_timer, SIGNAL(timeout()),
+             this, SLOT(updateSelection()) );
 #endif
-    checkClipboard(QClipboard::Clipboard);
 }
 
 void ClipboardMonitor::setFormats(const QString &list)
@@ -98,11 +85,20 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // check if clipboard data are needed
     if (mode == QClipboard::Clipboard) {
-        if (!m_checkclip && !m_copyclip)
+        if ( (!m_checkclip && !m_copyclip) ||
+             QApplication::clipboard()->ownsClipboard() )
+        {
             return;
+        }
     } else if (mode == QClipboard::Selection) {
-        if ((!m_checksel && !m_copysel) || !updateSelection(false))
+        if ( (!m_checksel && !m_copysel) ||
+             QApplication::clipboard()->ownsSelection() ||
+             !updateSelection(false) )
+        {
             return;
+        }
+        // clipboard has priority
+        QApplication::processEvents();
     } else {
         return;
     }
@@ -153,8 +149,11 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     uint newHash;
 
     // check if clipboard data are needed
-    if (mode != QClipboard::Clipboard || !m_checkclip)
+    if (mode != QClipboard::Clipboard || !m_checkclip ||
+            QApplication::clipboard()->ownsClipboard())
+    {
         return;
+    }
 
     // get clipboard data
     data = clipboardData(mode);
@@ -218,10 +217,38 @@ void ClipboardMonitor::readyRead()
             log( tr("Cannot read message from server!"), LogError );
             return;
         }
+
         ClipboardItem item;
         QDataStream in(&msg, QIODevice::ReadOnly);
         in >> item;
-        updateClipboard( cloneData(*item.data()) );
+
+        /* Does server send settings for monitor? */
+        QByteArray settings_data = item.data()->data("application/x-copyq-settings");
+        if ( !settings_data.isEmpty() ) {
+            QDataStream settings_in(settings_data);
+            QVariantMap settings;
+            settings_in >> settings;
+
+            if ( m_lastHash == 0 && settings.contains("_last_hash") )
+                m_lastHash = settings["_last_hash"].toUInt();
+            if ( settings.contains("formats") )
+                setFormats( settings["formats"].toString() );
+            if ( settings.contains("check_clipboard") )
+                setCheckClipboard( settings["check_clipboard"].toBool() );
+#ifdef Q_WS_X11
+            if ( settings.contains("copy_clipboard") )
+                setCopyClipboard( settings["copy_clipboard"].toBool() );
+            if ( settings.contains("copy_selection") )
+                setCopySelection( settings["copy_selection"].toBool() );
+            if ( settings.contains("check_selection") )
+                setCheckSelection( settings["check_selection"].toBool() );
+
+            checkClipboard(QClipboard::Selection);
+#endif
+            checkClipboard(QClipboard::Clipboard);
+        } else {
+            updateClipboard( cloneData(*item.data()) );
+        }
     }
     m_socket->blockSignals(false);
 }
@@ -245,3 +272,4 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
 
     m_updatetimer.start();
 }
+
