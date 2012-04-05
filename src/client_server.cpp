@@ -129,18 +129,15 @@ QString serverName(const QString &name)
 
 uint hash(const QMimeData &data, const QStringList &formats)
 {
-    // return hash of plain text if available
-    if ( data.hasText() )
-        return qHash( data.text() );
+    uint hash = 0;
 
     QByteArray bytes;
     foreach( QString mime, formats ) {
         bytes = data.data(mime);
-        if ( !bytes.isEmpty() )
-            return qHash(bytes);
+        hash ^= qHash(bytes) + qHash(mime);
     }
 
-    return 0;
+    return hash;
 }
 
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats)

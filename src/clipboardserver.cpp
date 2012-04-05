@@ -260,13 +260,7 @@ void ClipboardServer::readyRead()
             continue;
         m_lastHash = item.dataHash();
 
-        QMimeData *data = item.data();
-        ClipboardBrowser *c = m_wnd->browser(0);
-
-        c->setAutoUpdate(false);
-        if ( !c->select(item.dataHash()) )
-            c->add( cloneData(*data) );
-        c->setAutoUpdate(true);
+        m_wnd->addToTab( item.data() );
     }
     if (m_socket)
         m_socket->blockSignals(false);

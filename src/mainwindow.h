@@ -121,13 +121,14 @@ class MainWindow : public QMainWindow
         void pasteItems();
         void copyItems();
 
+        void addToTab(QMimeData *data, const QString &tabName = QString());
+
     private slots:
         void on_searchBar_textChanged(const QString &text);
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
         void tabChanged();
-        void addToTab(QMimeData *data, const QString &tabName);
         void addItems(const QStringList &items, const QString &tabName);
 
     signals:

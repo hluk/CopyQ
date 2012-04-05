@@ -496,18 +496,37 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
     QTabWidget *tabs = ui->tabWidget;
     int i = 0;
 
-    for ( ; i < tabs->count() && tabs->tabText(i) != tabName; ++i );
+    if ( !tabName.isEmpty() )
+        for ( ; i < tabs->count() && tabs->tabText(i) != tabName; ++i );
 
     if ( i < tabs->count() ) {
         c = browser(i);
-    } else {
+    } else if ( !tabName.isEmpty() ) {
         c = createTab(tabName);
         saveSettings();
+    } else {
+        return;
     }
 
     c->setAutoUpdate(false);
-    if ( !c->select(hash(*data, data->formats())) )
-        c->add( cloneData(*data), true );
+    if ( !c->select(hash(*data, data->formats())) ) {
+        if ( c->length() > 0 ) {
+            /* merge data with first item if it is same */
+            ClipboardItem *first = c->at(0);
+            if ( data->hasText() && data->text() == first->text() ) {
+                QStringList formats = data->formats();
+                QStringList first_formats = first->formats();
+                foreach (const QString &format, first_formats) {
+                    if ( !formats.contains(format) )
+                        data->setData( format, first->data()->data(format) );
+                }
+                c->model()->removeRow(0);
+            }
+        }
+        /* force adding item if tab name is specified */
+        bool force = !tabName.isEmpty();
+        c->add( cloneData(*data), force );
+    }
     c->setAutoUpdate(true);
 }
 
