@@ -18,9 +18,18 @@
 #endif
 
 struct _Option {
-    _Option() : m_obj(NULL) {}
-    _Option(const QVariant &default_value, const char *property_name = NULL, QObject *obj = NULL) :
-        m_default_value(default_value), m_property_name(property_name), m_obj(obj)
+    _Option()
+        : m_default_value()
+        , m_value()
+        , m_property_name(NULL)
+        , m_obj(NULL)
+    {}
+
+    _Option(const QVariant &default_value, const char *property_name = NULL, QObject *obj = NULL)
+        : m_default_value(default_value)
+        , m_value()
+        , m_property_name(property_name)
+        , m_obj(obj)
     {
         reset();
     }
@@ -57,9 +66,13 @@ struct _Option {
 // singleton
 ConfigurationManager* ConfigurationManager::m_Instance = 0;
 
-ConfigurationManager::ConfigurationManager(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ConfigurationManager)
+ConfigurationManager::ConfigurationManager(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::ConfigurationManager)
+    , m_datfilename()
+    , m_options()
+    , m_theme()
+    , m_commands()
 {
     ui->setupUi(this);
 
@@ -240,8 +253,6 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     default:
         return false;
     }
-
-    c->enable = true;
 
     return true;
 }

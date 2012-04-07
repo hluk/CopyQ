@@ -18,21 +18,35 @@
 */
 
 #include "clipboardbrowser.h"
-#include <QKeyEvent>
-#include <QMenu>
-#include <QMimeData>
-#include <actiondialog.h>
+#include "actiondialog.h"
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
 #include "clipboarditem.h"
 #include "configurationmanager.h"
 #include "client_server.h"
 
+#include <QKeyEvent>
+#include <QMenu>
+#include <QMimeData>
+#include <QTimer>
+
 static const int max_preload = 10;
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent) :
-    QListView(parent), m_maxitems(100), m_update(false),
-    m_sizeHintChanged(false), m_menu(NULL)
+ClipboardBrowser::ClipboardBrowser(QWidget *parent)
+    : QListView(parent)
+    , m_id()
+    , m_maxitems(100)
+    , m_editor()
+    , m_lastFilter()
+    , m_update(false)
+    , m_sizeHintChanged(false)
+    , m( new ClipboardModel(this) )
+    , d( new ItemDelegate(this) )
+    , m_timerSave( new QTimer(this) )
+    , m_menu( new QMenu(this) )
+    , m_commands()
+    , m_scrollIndex()
+    , m_scrollHint()
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
@@ -47,18 +61,16 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) :
     setEditTriggers(QAbstractItemView::EditKeyPressed);
     setSpacing(5);
 
-    timer_save.setSingleShot(true);
-    connect( &timer_save, SIGNAL(timeout()),
+    m_timerSave->setSingleShot(true);
+    connect( m_timerSave, SIGNAL(timeout()),
              this, SLOT(saveItems()) );
 
     // delegate for rendering and editing items
-    d = new ItemDelegate(this);
     setItemDelegate(d);
     connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
              this, SLOT(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
 
     // set new model
-    m = new ClipboardModel();
     QItemSelectionModel *old_model = selectionModel();
     setModel(m);
     delete old_model;
@@ -85,7 +97,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) :
 ClipboardBrowser::~ClipboardBrowser()
 {
     emit closeAllEditors();
-    if ( timer_save.isActive() )
+    if ( m_timerSave->isActive() )
         saveItems();
 }
 
@@ -130,7 +142,7 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
             break;
         case ActionCustom:
             emit requestActionDialog(selectedText(),
-                                     &commands[act->property("cmd").toInt()]);
+                                     &m_commands[act->property("cmd").toInt()]);
             break;
         }
     }
@@ -141,8 +153,7 @@ void ClipboardBrowser::createContextMenu()
     QAction *act;
     QFont font;
 
-    m_menu = new QMenu(this);
-
+    m_menu->clear();
     act = m_menu->addAction( QIcon(":/images/clipboard.svg"),
                            tr("Move to &Clipboard") );
     font = act->font();
@@ -176,7 +187,7 @@ void ClipboardBrowser::createContextMenu()
 bool ClipboardBrowser::isFiltered(int row) const
 {
     QString text = m->data(m->index(row), Qt::EditRole).toString();
-    return m_last_filter.indexIn(text) == -1;
+    return m_lastFilter.indexIn(text) == -1;
 }
 
 void ClipboardBrowser::updateContextMenu()
@@ -192,10 +203,10 @@ void ClipboardBrowser::updateContextMenu()
         m_menu->removeAction(actions[i]);
 
     // add custom commands to menu
-    if ( !commands.isEmpty() ) {
+    if ( !m_commands.isEmpty() ) {
         m_menu->addSeparator();
         i = 0;
-        foreach(const Command &command, commands) {
+        foreach(const Command &command, m_commands) {
             if ( !command.cmd.isEmpty() && !command.name.isEmpty() &&
                  command.re.indexIn(text) != -1 ) {
                 act = m_menu->addAction( QIcon(command.icon), command.name );
@@ -278,12 +289,12 @@ void ClipboardBrowser::itemModified(const QString &str)
 
 void ClipboardBrowser::filterItems(const QString &str)
 {
-    if (m_last_filter.pattern() == str)
+    if (m_lastFilter.pattern() == str)
         return;
-    m_last_filter = QRegExp(str, Qt::CaseInsensitive);
+    m_lastFilter = QRegExp(str, Qt::CaseInsensitive);
 
     // if search string empty: all items visible
-    d->setSearch(m_last_filter);
+    d->setSearch(m_lastFilter);
     if ( str.isEmpty() ) {
         emit hideSearch();
     }
@@ -485,7 +496,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
 
         // commands
         bool ignore = false;
-        foreach(const Command &c, commands) {
+        foreach(const Command &c, m_commands) {
             if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                 QString text = data->text();
                 if (c.re.indexIn(text) != -1) {
@@ -544,7 +555,7 @@ void ClipboardBrowser::loadSettings()
                         cm->value("max_image_height").toInt() );
 
     // commands
-    commands = cm->commands();
+    m_commands = cm->commands();
 
     // update menu
     updateContextMenu();
@@ -552,18 +563,18 @@ void ClipboardBrowser::loadSettings()
 
 void ClipboardBrowser::loadItems()
 {
-    timer_save.stop();
+    m_timerSave->stop();
     ConfigurationManager::instance()->loadItems(*m, m_id);
     setCurrentIndex( QModelIndex() );
 }
 
 void ClipboardBrowser::saveItems(int msec)
 {
-    if ( m_id.isEmpty() || timer_save.isActive() )
+    if ( m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
     if (msec>0) {
-        timer_save.start(msec);
+        m_timerSave->start(msec);
         return;
     }
 
@@ -573,7 +584,7 @@ void ClipboardBrowser::saveItems(int msec)
 void ClipboardBrowser::purgeItems()
 {
     ConfigurationManager::instance()->removeItems(m_id);
-    timer_save.stop();
+    m_timerSave->stop();
 }
 
 const QString ClipboardBrowser::selectedText() const

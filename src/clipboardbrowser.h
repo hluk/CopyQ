@@ -20,16 +20,17 @@
 #ifndef CLIPBOARDBROWSER_H
 #define CLIPBOARDBROWSER_H
 
-#include <QListView>
-#include <QTimer>
-#include <QClipboard>
 #include "qeditor.h"
 #include "configurationmanager.h"
+
+#include <QListView>
+#include <QClipboard>
 
 class ClipboardModel;
 class ItemDelegate;
 class QMimeData;
 class ClipboardItem;
+class QTimer;
 
 class ClipboardBrowser : public QListView
 {
@@ -100,18 +101,18 @@ class ClipboardBrowser : public QListView
         QString m_id;
         int m_maxitems;
         QString m_editor;
-        QRegExp m_last_filter;
-        ClipboardModel *m;
-        ItemDelegate *d;
-        QTimer timer_save;
+        QRegExp m_lastFilter;
         bool m_update;
         bool m_sizeHintChanged;
+        ClipboardModel *m;
+        ItemDelegate *d;
+        QTimer *m_timerSave;
+
+        QMenu *m_menu;
+        ConfigurationManager::Commands m_commands;
 
         QModelIndex m_scrollIndex;
         QAbstractItemView::ScrollHint m_scrollHint;
-
-        QMenu *m_menu;
-        ConfigurationManager::Commands commands;
 
         void createContextMenu();
         bool isFiltered(int row) const;

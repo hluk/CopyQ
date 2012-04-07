@@ -5,9 +5,9 @@
 #include <QMimeData>
 #include <QUrl>
 
-ClipboardDialog::ClipboardDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ClipboardDialog)
+ClipboardDialog::ClipboardDialog(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::ClipboardDialog)
 {
     ui->setupUi(this);
 

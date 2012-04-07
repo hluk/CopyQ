@@ -7,9 +7,9 @@
 #include <QPicture>
 #include <QDebug>
 
-CommandWidget::CommandWidget(QWidget *parent) :
-    QWidget(parent),
-    ui(new Ui::CommandWidget)
+CommandWidget::CommandWidget(QWidget *parent)
+    : QWidget(parent)
+    , ui(new Ui::CommandWidget)
 {
     ui->setupUi(this);
     setFocusProxy(ui->lineEditName);

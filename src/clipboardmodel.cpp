@@ -55,9 +55,13 @@ QString escape(const QString &str)
     return res;
 }
 
-ClipboardModel::ClipboardModel(QObject *parent) :
-    QAbstractListModel(parent), m_max(100),
-    m_imageWidth(320), m_imageHeight(240)
+ClipboardModel::ClipboardModel(QObject *parent)
+    : QAbstractListModel(parent)
+    , m_clipboardList()
+    , m_max(100)
+    , m_imageWidth(320)
+    , m_imageHeight(240)
+    , m_formats()
 {
     m_formats << QString("image/x-inkscape-svg-compressed")
               << QString("image/bmp")

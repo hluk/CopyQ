@@ -1,9 +1,9 @@
 #include "tabdialog.h"
 #include "ui_tabdialog.h"
 
-TabDialog::TabDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::TabDialog)
+TabDialog::TabDialog(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::TabDialog)
 {
     ui->setupUi(this);
 

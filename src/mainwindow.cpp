@@ -22,29 +22,39 @@
 #include "aboutdialog.h"
 #include "actiondialog.h"
 #include "clipboarddialog.h"
-#include <QCloseEvent>
-#include <QMenu>
-#include <QMenuBar>
-#include <QMessageBox>
-#include <QToolTip>
 #include "clipboardbrowser.h"
 #include "clipboardmodel.h"
 #include "clipboarditem.h"
 #include "tabdialog.h"
+#include "client_server.h"
+
+#include <QCloseEvent>
+#include <QMenu>
+#include <QMenuBar>
+#include <QMessageBox>
+#include <QTimer>
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), ui(new Ui::MainWindow),
-    aboutDialog(NULL), actionDialog(NULL)
+    : QMainWindow(parent)
+    , ui(new Ui::MainWindow)
+    , aboutDialog(NULL)
+    , actionDialog(NULL)
+    , cmdMenu(NULL)
+    , itemMenu(NULL)
+    , tabMenu(NULL)
+    , tray(NULL)
+    , m_browsemode(false)
+    , m_confirmExit(true)
+    , m_trayitems(5)
+    , m_timerSearch( new QTimer(this) )
 {
     ui->setupUi(this);
 
     // settings
     loadSettings();
 
-    // store clipboard in first tab
-
-    m_browser = ui->tabWidget->count() ? browser(0) :
-                                         addTab( tr("&clipboard") );
+    if ( ui->tabWidget->count() == 0 )
+        addTab( tr("&clipboard") );
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -54,6 +64,10 @@ MainWindow::MainWindow(QWidget *parent)
     tray->setToolTip(
             tr("left click to show or hide, middle click to quit") );
 
+    // search timer
+    m_timerSearch->setSingleShot(true);
+    m_timerSearch->setInterval(200);
+
     // create menubar & context menu
     createMenu();
 
@@ -62,6 +76,10 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int)),
              this, SLOT(tabChanged()) );
+    connect( m_timerSearch, SIGNAL(timeout()),
+             this, SLOT(onTimerSearch()) );
+    connect( ui->searchBar, SIGNAL(textChanged(QString)),
+             m_timerSearch, SLOT(start()) );
 
     ConfigurationManager *cm = ConfigurationManager::instance(this);
     restoreGeometry( cm->windowGeometry(objectName()) );
@@ -71,7 +89,6 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(loadSettings()) );
 
     // browse mode by default
-    m_browsemode = false;
     enterBrowseMode();
 
     tray->show();
@@ -536,6 +553,11 @@ void MainWindow::addItems(const QStringList &items, const QString &tabName)
     c->addItems(items);
 }
 
+void MainWindow::onTimerSearch()
+{
+    browser()->filterItems( ui->searchBar->text() );
+}
+
 void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode(false);
@@ -816,19 +838,4 @@ MainWindow::~MainWindow()
     saveSettings();
     tray->hide();
     delete ui;
-}
-
-void MainWindow::timerEvent(QTimerEvent *event)
-{
-    if ( event->timerId() == timer_search.timerId() ) {
-        browser()->filterItems( ui->searchBar->text() );
-        timer_search.stop();
-    } else {
-        QMainWindow::timerEvent(event);
-    }
-}
-
-void MainWindow::on_searchBar_textChanged(const QString &)
-{
-    timer_search.start(300, this);
 }

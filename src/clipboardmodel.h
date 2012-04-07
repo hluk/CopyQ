@@ -44,7 +44,7 @@ public:
 
     // convinience
     QVariant data(int row) const;
-    
+
     QMimeData *mimeData(int row) const;
     ClipboardItem *at(int row) const;
 

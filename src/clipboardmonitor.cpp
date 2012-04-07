@@ -2,17 +2,28 @@
 #include "clipboardserver.h"
 #include "clipboarditem.h"
 #include "client_server.h"
+
 #include <QMimeData>
+#include <QTimer>
 
 #ifdef Q_WS_X11
 #include <QX11Info>
 #include <X11/Xlib.h>
 #endif
 
-ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
-    App(argc, argv), m_newdata(NULL), m_lastHash(0)
+ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
+    : App(argc, argv)
+    , m_formats()
+    , m_newdata(NULL)
+    , m_checkclip(false)
+    , m_checksel(false)
+    , m_copyclip(false)
+    , m_copysel(false)
+    , m_timer( new QTimer(this) )
+    , m_lastHash(0)
+    , m_socket( new QLocalSocket(this) )
+    , m_updateTimer( new QTimer(this) )
 {
-    m_socket = new QLocalSocket(this);
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()), Qt::DirectConnection );
     connect( m_socket, SIGNAL(disconnected()),
@@ -23,25 +34,18 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv) :
         exit(1);
     }
 
-    setCheckClipboard(false);
-#ifdef Q_WS_X11
-    setCopyClipboard(false);
-    setCheckSelection(false);
-    setCopySelection(false);
-#endif
-
-    m_updatetimer.setSingleShot(true);
-    m_updatetimer.setInterval(500);
-    connect( &m_updatetimer, SIGNAL(timeout()),
+    m_updateTimer->setSingleShot(true);
+    m_updateTimer->setInterval(500);
+    connect( m_updateTimer, SIGNAL(timeout()),
              this, SLOT(updateTimeout()), Qt::DirectConnection);
 
     connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
              this, SLOT(checkClipboard(QClipboard::Mode)) );
 
 #ifdef Q_WS_X11
-    m_timer.setSingleShot(true);
-    m_timer.setInterval(100);
-    connect( &m_timer, SIGNAL(timeout()),
+    m_timer->setSingleShot(true);
+    m_timer->setInterval(100);
+    connect( m_timer, SIGNAL(timeout()),
              this, SLOT(updateSelection()) );
 #endif
 }
@@ -56,7 +60,7 @@ bool ClipboardMonitor::updateSelection(bool check)
 {
     // wait while selection is incomplete, i.e. mouse button or
     // shift key is pressed
-    if ( m_timer.isActive() )
+    if ( m_timer->isActive() )
         return false;
 
     XEvent event;
@@ -68,7 +72,7 @@ bool ClipboardMonitor::updateSelection(bool check)
                   &event.xbutton.state);
 
     if( event.xbutton.state & (Button1Mask | ShiftMask) ) {
-        m_timer.start();
+        m_timer->start();
         return false;
     }
 
@@ -259,7 +263,7 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
         delete m_newdata;
 
     m_newdata = data;
-    if ( !force && m_updatetimer.isActive() )
+    if ( !force && m_updateTimer->isActive() )
         return;
 
     m_lastHash = hash(*data, data->formats());
@@ -270,6 +274,6 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
 
     m_newdata = NULL;
 
-    m_updatetimer.start();
+    m_updateTimer->start();
 }
 

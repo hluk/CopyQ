@@ -65,7 +65,6 @@ class ItemDelegate : public QItemDelegate
 
     private:
         QWidget *m_parent;
-        int m_maxsize;
         bool m_dryPaint;
         bool m_showNumber;
         QRegExp m_re;

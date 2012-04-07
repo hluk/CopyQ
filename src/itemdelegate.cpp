@@ -27,8 +27,19 @@
 
 static const QSize defaultSize(9999, 1024);
 
-ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
-    m_parent(parent), m_dryPaint(false), m_showNumber(false)
+ItemDelegate::ItemDelegate(QWidget *parent)
+    : QItemDelegate(parent)
+    , m_parent(parent)
+    , m_dryPaint(false)
+    , m_showNumber(false)
+    , m_re()
+    , m_foundFont()
+    , m_foundPalette()
+    , m_editorFont()
+    , m_editorPalette()
+    , m_numberFont()
+    , m_numberPalette()
+    , m_cache()
 {
     connect( this, SIGNAL(sizeUpdated(QModelIndex)),
              SIGNAL(sizeHintChanged(QModelIndex)), Qt::DirectConnection );

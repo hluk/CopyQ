@@ -22,8 +22,9 @@
 #include "client_server.h"
 #include <QImage>
 
-ClipboardItem::ClipboardItem(const ClipboardModel *parent) :
-    m_parent(parent), m_hash(0)
+ClipboardItem::ClipboardItem(const ClipboardModel *parent)
+    : m_parent(parent)
+    , m_hash(0)
 {
     m_data = new QMimeData;
 }

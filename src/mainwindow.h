@@ -22,9 +22,6 @@
 
 #include <QtGui/QMainWindow>
 #include <QSystemTrayIcon>
-#include <QBasicTimer>
-#include <QMap>
-#include "client_server.h"
 #include "configurationmanager.h"
 
 class ClipboardModel;
@@ -32,6 +29,7 @@ class AboutDialog;
 class ActionDialog;
 class ClipboardBrowser;
 class ClipboardItem;
+class QMimeData;
 
 namespace Ui
 {
@@ -59,19 +57,16 @@ class MainWindow : public QMainWindow
         QMenu *cmdMenu;
         QMenu *itemMenu;
         QMenu *tabMenu;
-        QIcon m_icon;
         QSystemTrayIcon *tray;
         bool m_browsemode;
-        QBasicTimer timer_search;
         bool m_confirmExit;
         int m_trayitems;
-        ClipboardBrowser *m_browser;
+        QTimer *m_timerSearch;
 
         void createMenu();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
-        void timerEvent(QTimerEvent *event);
 
     public slots:
         void showMenu();
@@ -124,12 +119,12 @@ class MainWindow : public QMainWindow
         void addToTab(QMimeData *data, const QString &tabName = QString());
 
     private slots:
-        void on_searchBar_textChanged(const QString &text);
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
         void tabChanged();
         void addItems(const QStringList &items, const QString &tabName);
+        void onTimerSearch();
 
     signals:
         void changeClipboard(const ClipboardItem *item);

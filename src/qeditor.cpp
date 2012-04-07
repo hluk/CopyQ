@@ -17,22 +17,29 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QDir>
-#include <QTextStream>
 #include "qeditor.h"
 #include "client_server.h"
 
-QEditor::QEditor(const QString &txt, const QString &editor, QObject *parent) : QObject(parent)
+#include <QDir>
+#include <QTextStream>
+#include <QProcess>
+#include <QTimer>
+
+QEditor::QEditor(const QString &txt, const QString &editor, QObject *parent)
+    : QObject(parent)
+    , m_txt(txt)
+    , m_hash( qHash(m_txt) )
+    , m_editorcmd(editor)
+    , m_editor(NULL)
+    , m_timer( new QTimer(this) )
+    , m_tmpfile()
+    , m_info()
+    , m_lastmodified()
 {
-    m_txt = txt;
-    m_hash = qHash(m_txt);
-    m_editorcmd = editor;
-    m_editor = NULL;
 }
 
 QEditor::~QEditor()
 {
-    timer.stop();
     if (m_editor && m_editor->isOpen())
         m_editor->close();
 }
@@ -56,7 +63,9 @@ bool QEditor::start()
     // monitor file
     m_info.setFile( m_tmpfile.fileName() );
     m_lastmodified = m_info.lastModified();
-    timer.start(500, this);
+    m_timer->start(500);
+    connect( m_timer, SIGNAL(timeout),
+             this, SLOT(onTimer()) );
 
     // exec editor
     m_editor = new QProcess(this);
@@ -86,7 +95,7 @@ bool QEditor::fileModified()
         return false;
 }
 
-void QEditor::timerEvent(QTimerEvent *)
+void QEditor::onTimer()
 {
     if ( fileModified() ) {
         emit fileModified(m_txt);

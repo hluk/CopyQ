@@ -5,6 +5,23 @@
 #include <QIcon>
 
 struct Command {
+    Command()
+        : name()
+        , re()
+        , cmd()
+        , sep()
+        , input(false)
+        , output(false)
+        , wait(false)
+        , automatic(false)
+        , ignore(false)
+        , enable(true)
+        , icon()
+        , shortcut()
+        , tab()
+        , outputTab()
+        {}
+
     QString name;
     QRegExp re;
     QString cmd;

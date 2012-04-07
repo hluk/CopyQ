@@ -4,12 +4,12 @@
 #include "app.h"
 #include <QLocalSocket>
 #include <QClipboard>
-#include <QTimer>
 
 #include "client_server.h"
 
 class QMimeData;
 class QByteArray;
+class QTimer;
 
 class ClipboardMonitor : public App
 {
@@ -37,12 +37,12 @@ private:
     QMimeData *m_newdata;
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;
-    QTimer m_timer;
+    QTimer *m_timer;
     uint m_lastHash;
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
-    QTimer m_updatetimer;
+    QTimer *m_updateTimer;
 
     void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
 

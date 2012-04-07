@@ -13,8 +13,15 @@ struct QxtGlobalShortcut {};
 #include "../qxt/qxtglobalshortcut.h"
 #endif
 
-ClipboardServer::ClipboardServer(int &argc, char **argv) :
-    App(argc, argv), m_socket(NULL), m_wnd(NULL), m_monitor(NULL), m_lastHash(0)
+ClipboardServer::ClipboardServer(int &argc, char **argv)
+    : App(argc, argv)
+    , m_server(NULL)
+    , m_monitorserver(NULL)
+    , m_socket(NULL)
+    , m_wnd(NULL)
+    , m_monitor(NULL)
+    , m_lastHash(0)
+    , m_shortcutActions()
 {
     // listen
     m_server = newServer( serverName(), this );
@@ -651,9 +658,9 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 
 void ClipboardServer::loadSettings()
 {
+#ifndef NO_GLOBAL_SHORTCUTS
     ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
 
-#ifndef NO_GLOBAL_SHORTCUTS
     // set global shortcuts
     QString key;
     Arguments *args;

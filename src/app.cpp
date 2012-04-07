@@ -1,6 +1,8 @@
 #include "app.h"
 
-App::App(int &argc, char **argv) : m_app(argc, argv), m_closed(false)
+App::App(int &argc, char **argv)
+    : m_app(argc, argv)
+    , m_closed(false)
 {
     QCoreApplication::setOrganizationName("copyq");
     QCoreApplication::setApplicationName("copyq");

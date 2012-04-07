@@ -22,11 +22,12 @@
 
 #include <QObject>
 #include <QString>
-#include <QProcess>
 #include <QTemporaryFile>
 #include <QFileInfo>
-#include <QBasicTimer>
 #include <QDateTime>
+
+class QProcess;
+class QTimer;
 
 class QEditor : public QObject
 {
@@ -43,18 +44,20 @@ class QEditor : public QObject
         QString m_txt;
         // hash of original string (saves some memory)
         uint m_hash;
-        QTemporaryFile m_tmpfile;
+
         QString m_editorcmd;
         QProcess *m_editor;
-        QBasicTimer timer;
+        QTimer *m_timer;
+
+        QTemporaryFile m_tmpfile;
         QFileInfo m_info;
         QDateTime m_lastmodified;
 
-    protected:
-        void timerEvent(QTimerEvent *event);
-
     public slots:
         void close() { emit closed(this); };
+
+    private slots:
+        void onTimer();
 
     signals:
         void fileModified(const QString &str);

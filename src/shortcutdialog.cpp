@@ -2,9 +2,9 @@
 #include "ui_shortcutdialog.h"
 #include <QKeyEvent>
 
-ShortcutDialog::ShortcutDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ShortcutDialog)
+ShortcutDialog::ShortcutDialog(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::ShortcutDialog)
 {
     ui->setupUi(this);
 }

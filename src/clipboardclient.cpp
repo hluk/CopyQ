@@ -5,8 +5,9 @@
 #include <QFile>
 #include <iostream>
 
-ClipboardClient::ClipboardClient(int &argc, char **argv) :
-    App(argc, argv), m_args(argc, argv)
+ClipboardClient::ClipboardClient(int &argc, char **argv)
+    : App(argc, argv)
+    , m_args(argc, argv)
 {
     // client socket
     m_client = new QLocalSocket(this);

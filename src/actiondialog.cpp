@@ -1,17 +1,22 @@
+#include "actiondialog.h"
+#include "ui_actiondialog.h"
+#include "client_server.h"
+#include "action.h"
+#include "configurationmanager.h"
+
 #include <QToolTip>
 #include <QSettings>
 #include <QFile>
 #include <QCompleter>
 #include <QMessageBox>
-#include "client_server.h"
-#include "actiondialog.h"
-#include "action.h"
-#include "configurationmanager.h"
-#include "ui_actiondialog.h"
 
-ActionDialog::ActionDialog(QWidget *parent) :
-    QDialog(parent),
-    ui(new Ui::ActionDialog), m_completer(NULL), m_actions(0)
+ActionDialog::ActionDialog(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::ActionDialog)
+    , m_maxitems(100)
+    , m_completer(NULL)
+    , m_history()
+    , m_actions(0)
 {
     ui->setupUi(this);
     restoreHistory();
@@ -69,7 +74,7 @@ void ActionDialog::restoreHistory()
 {
     QSettings settings;
 
-    m_maxitems = settings.value("command_history", 100).toInt();
+    m_maxitems = settings.value("command_history", m_maxitems).toInt();
 
     QFile file( dataFilename() );
     file.open(QIODevice::ReadOnly);
@@ -278,10 +283,6 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         cmd.input = ui->inputCheckBox->isChecked();
         cmd.output = ui->outputCheckBox->isChecked();
         cmd.sep = ui->separatorEdit->text();
-        cmd.wait = false;
-        cmd.automatic = false;
-        cmd.ignore = false;
-        cmd.enable = true;
         cmd.outputTab = ui->comboBoxOutputTab->currentText();
 
         cm = ConfigurationManager::instance();
