@@ -415,13 +415,27 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     else if (cmd == "edit") {
         args >> 0 >> row;
         QString text = c->itemText(row);
+        bool multiple_edit = !args.finished();
         while ( !args.finished() ) {
             args >> row;
             if (args.error())
                return CommandBadSyntax;
             text.append( '\n'+c->itemText(row) );
         }
-        c->openEditor(text);
+
+        if ( !c->openEditor(text) ) {
+            c->setFocus();
+            m_wnd->showWindow();
+            if ( multiple_edit || row >= c->length() ) {
+                c->newItem(text);
+                c->edit( c->index(0) );
+            } else {
+                QModelIndex index = c->index(row);
+                c->setCurrent(row);
+                c->scrollTo(index, QAbstractItemView::PositionAtTop);
+                c->edit(index);
+            }
+        }
     }
 
     // set current item

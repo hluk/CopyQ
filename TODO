@@ -1,3 +1,4 @@
+[ ] Incorrect scrolling from bottom up while updating sizes of items
 [ ] Don't save settings while copyq client (from CLI) is connected
 [ ] Load/save items from/to a file (load and save actions)
 [ ] Plugins for viewing different item mime types

@@ -277,7 +277,12 @@
              <item row="3" column="1">
               <widget class="QLineEdit" name="lineEditEditor">
                <property name="toolTip">
-                <string>External editor command (%1 is file to edit).</string>
+                <string>External editor command (%1 is file to edit).
+Examples:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</string>
                </property>
                <property name="text">
                 <string>gedit %1</string>
@@ -305,6 +310,9 @@
               <widget class="QPlainTextEdit" name="plainTextEditFormats">
                <property name="toolTip">
                 <string>List of clipboard mime types that will be stored in history (in given display order).</string>
+               </property>
+               <property name="tabChangesFocus">
+                <bool>true</bool>
                </property>
               </widget>
              </item>

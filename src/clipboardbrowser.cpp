@@ -21,7 +21,6 @@
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMimeData>
-#include <unistd.h> //usleep
 #include <actiondialog.h>
 #include "itemdelegate.h"
 #include "clipboardmodel.h"
@@ -56,7 +55,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent) :
     d = new ItemDelegate(this);
     setItemDelegate(d);
     connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
-             this, SLOT(sizeHintChanged()), Qt::DirectConnection );
+             this, SLOT(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
 
     // set new model
     m = new ClipboardModel();
@@ -223,8 +222,12 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
     QListView::paintEvent(event);
     d->setDryPaint(false);
 
-    if (!m_sizeHintChanged)
+    if ( m_scrollIndex.isValid() )
+        scrollTo(m_scrollIndex, m_scrollHint);
+    if (!m_sizeHintChanged) {
+        m_scrollIndex = QModelIndex();
         QListView::paintEvent(event);
+    }
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
@@ -235,8 +238,11 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
     QListView::dataChanged(a, b);
 }
 
-void ClipboardBrowser::openEditor(const QString &text)
+bool ClipboardBrowser::openEditor(const QString &text)
 {
+    if ( m_editor.isEmpty() )
+        return false;
+
     QEditor *editor = new QEditor(text, m_editor);
 
     connect( editor, SIGNAL(fileModified(const QString &)),
@@ -247,8 +253,12 @@ void ClipboardBrowser::openEditor(const QString &text)
 
     connect( this, SIGNAL(closeAllEditors()), editor, SLOT(close()) );
 
-    if ( !editor->start() )
+    if ( !editor->start() ) {
         closeEditor(editor);
+        return false;
+    }
+
+    return true;
 }
 
 void ClipboardBrowser::addItems(const QStringList &items)
@@ -304,10 +314,10 @@ void ClipboardBrowser::moveToClipboard(int i)
     scrollTo( currentIndex() );
 }
 
-void ClipboardBrowser::newItem()
+void ClipboardBrowser::newItem(const QString &text)
 {
     // new text will allocate more space (lines) for editor
-    add( QString(), true );
+    add(text, true);
     selectionModel()->clearSelection();
     setCurrent(0);
     edit( index(0) );
@@ -615,7 +625,24 @@ void ClipboardBrowser::redraw()
     update();
 }
 
-void ClipboardBrowser::sizeHintChanged()
+void ClipboardBrowser::scrollTo(const QModelIndex &index,
+                                QAbstractItemView::ScrollHint hint)
+{
+    m_scrollIndex = index;
+    m_scrollHint = hint;
+
+    if (hint == QAbstractItemView::EnsureVisible) {
+        QRect rect = visualRect(index);
+        if ( rect.y() <= 0 )
+            m_scrollHint = QAbstractItemView::PositionAtTop;
+        if ( rect.y() + rect.height() >= viewport()->height() )
+            m_scrollHint = QAbstractItemView::PositionAtBottom;
+    }
+
+    QListView::scrollTo(index, hint);
+}
+
+void ClipboardBrowser::sizeHintChanged(const QModelIndex &)
 {
     m_sizeHintChanged = true;
 }

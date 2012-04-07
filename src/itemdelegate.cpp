@@ -25,7 +25,7 @@
 #include "client_server.h"
 #include <assert.h>
 
-static const QSize defaultSize(256, 256);
+static const QSize defaultSize(9999, 1024);
 
 ItemDelegate::ItemDelegate(QWidget *parent) : QItemDelegate(parent),
     m_parent(parent), m_dryPaint(false), m_showNumber(false)
@@ -183,7 +183,7 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
 
             textEdit->setDocument(doc);
             textEdit->setFont( m_parent->font() );
-            textEdit->resize( 9999,
+            textEdit->resize( defaultSize.width(),
                               doc->documentLayout()->documentSize().height() );
         } else {
             // Image

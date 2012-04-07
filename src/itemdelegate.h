@@ -31,7 +31,7 @@
  * To achieve better performance the first call to get sizeHint value for
  * an item returns some default value (so it doesn't have to render the item
  * needlessly). Trying to paint the item will not succeed instead it notifies
- * all listeners that the size has changed (signal sizeHintChanged).
+ * all listeners that the size has changed (signal sizeUpdated).
  */
 class ItemDelegate : public QItemDelegate
 {

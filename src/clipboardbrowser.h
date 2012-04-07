@@ -83,6 +83,9 @@ class ClipboardBrowser : public QListView
 
         void redraw();
 
+        void scrollTo(const QModelIndex &index,
+                      QAbstractItemView::ScrollHint hint = EnsureVisible);
+
         void setAutoUpdate(bool update) { m_update = update; }
 
         QMenu *contextMenu() const {return m_menu;}
@@ -103,6 +106,9 @@ class ClipboardBrowser : public QListView
         QTimer timer_save;
         bool m_update;
         bool m_sizeHintChanged;
+
+        QModelIndex m_scrollIndex;
+        QAbstractItemView::ScrollHint m_scrollHint;
 
         QMenu *m_menu;
         ConfigurationManager::Commands commands;
@@ -129,7 +135,7 @@ class ClipboardBrowser : public QListView
         void addToTab(QMimeData *data, const QString &tabName);
 
     private slots:
-        void sizeHintChanged();
+        void sizeHintChanged(const QModelIndex &index);
 
     public slots:
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
@@ -139,7 +145,7 @@ class ClipboardBrowser : public QListView
         void clearFilter() { filterItems( QString() ); }
         void itemModified(const QString &str);
         void closeEditor(QEditor *editor);
-        void openEditor(const QString &text);
+        bool openEditor(const QString &text);
         void addItems(const QStringList &items);
 
         void loadItems();
@@ -149,7 +155,7 @@ class ClipboardBrowser : public QListView
         void contextMenuAction(QAction *act);
         void updateContextMenu();
 
-        void newItem();
+        void newItem(const QString &text = QString());
 
         void checkClipboard(QClipboard::Mode mode, QMimeData *data);
 };
