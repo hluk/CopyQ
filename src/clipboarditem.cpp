@@ -99,14 +99,12 @@ QVariant ClipboardItem::data(int role) const
             return pix;
         } else if ( m_mimeType.endsWith("html") ) {
             return html();
-        } else {
-            return m_data->data(m_mimeType);
         }
     } else if (role == Qt::EditRole) {
-        if ( m_data->hasText() )
-            return text();
-        else if ( m_mimeType.startsWith("text") )
+        if ( m_mimeType.startsWith("text") )
             return m_data->data(m_mimeType);
+        else if ( m_data->hasText() )
+            return text();
     } else if (role == Qt::UserRole) {
         return format();
     }
