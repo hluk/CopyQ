@@ -42,7 +42,7 @@ public:
     QString html() const;
 
     // image
-    void pixmap(QPixmap *pixmap) const;
+    void pixmap(QPixmap *pixmap, const QString &mimeType = QString()) const;
 
     void clear();
 

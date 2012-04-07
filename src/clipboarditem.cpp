@@ -91,13 +91,22 @@ QVariant ClipboardItem::data(int role) const
     if (role == Qt::DisplayRole) {
         if ( m_mimeType.startsWith(QString("image")) ) {
             QPixmap pix;
+            pixmap(&pix, m_mimeType);
+            return pix;
+        } else if ( m_data->hasImage() ) {
+            QPixmap pix;
             pixmap(&pix);
             return pix;
         } else if ( m_mimeType.endsWith("html") ) {
             return html();
+        } else {
+            return m_data->data(m_mimeType);
         }
     } else if (role == Qt::EditRole) {
-        return m_data->hasText() ? text() : QVariant();
+        if ( m_data->hasText() )
+            return text();
+        else if ( m_mimeType.startsWith("text") )
+            return m_data->data(m_mimeType);
     } else if (role == Qt::UserRole) {
         return format();
     }
@@ -114,7 +123,7 @@ QString ClipboardItem::html() const
     }
 }
 
-void ClipboardItem::pixmap(QPixmap *pix) const
+void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
 {
     QByteArray data = m_data->data("image/x-copyq-thumbnail");
 
@@ -131,7 +140,10 @@ void ClipboardItem::pixmap(QPixmap *pix) const
          (w > 0 && pix->width() != w) ||
          (h > 0 && pix->height() != h) )
     {
-        pix->loadFromData(m_data->data(m_mimeType), m_mimeType.toAscii());
+        if ( mimeType.isEmpty() )
+            pix->fromImage( m_data->imageData().value<QImage>() );
+        else
+            pix->loadFromData( m_data->data(mimeType), mimeType.toAscii() );
 
         if (w > 0 && pix->width() > w && pix->width()/w > pix->height()/h) {
             *pix = pix->scaledToWidth(w);
