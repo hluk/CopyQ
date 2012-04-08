@@ -2,6 +2,7 @@
 
 App::App(int &argc, char **argv)
     : m_app(argc, argv)
+    , m_exit_code(0)
     , m_closed(false)
 {
     QCoreApplication::setOrganizationName("copyq");

@@ -3,11 +3,18 @@
 #include <QFile>
 
 Arguments::Arguments()
+    : m_args()
+    , m_current(0)
+    , m_error(false)
+    , m_default_value()
 {
-    reset();
 }
 
 Arguments::Arguments(int &argc, char **argv)
+    : m_args()
+    , m_current(0)
+    , m_error(false)
+    , m_default_value()
 {
     for (int i = 1; i < argc; ++i)
         m_args.append( QByteArray(argv[i]) );
@@ -34,8 +41,6 @@ Arguments::Arguments(int &argc, char **argv)
         in.open(stdin, QIODevice::ReadOnly);
         m_args.append( in.readAll() );
     }
-
-    reset();
 }
 
 QVariant Arguments::toVariant()

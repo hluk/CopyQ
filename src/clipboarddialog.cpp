@@ -8,6 +8,7 @@
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ClipboardDialog)
+    , m_data()
 {
     ui->setupUi(this);
 

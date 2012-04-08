@@ -5,6 +5,7 @@
 ShortcutDialog::ShortcutDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShortcutDialog)
+    , m_shortcut()
 {
     ui->setupUi(this);
 }

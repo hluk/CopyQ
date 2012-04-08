@@ -10,7 +10,7 @@ class ShortcutDialog;
 class ShortcutDialog : public QDialog
 {
     Q_OBJECT
-    
+
 public:
     explicit ShortcutDialog(QWidget *parent = 0);
     ~ShortcutDialog();
@@ -20,7 +20,7 @@ public:
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
-    
+
 private:
     Ui::ShortcutDialog *ui;
     QKeySequence m_shortcut;

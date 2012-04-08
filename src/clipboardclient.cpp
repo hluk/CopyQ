@@ -7,10 +7,10 @@
 
 ClipboardClient::ClipboardClient(int &argc, char **argv)
     : App(argc, argv)
+    , m_client( new QLocalSocket(this) )
     , m_args(argc, argv)
 {
     // client socket
-    m_client = new QLocalSocket(this);
     connect( m_client, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
     connect( m_client, SIGNAL(readChannelFinished()),
@@ -24,7 +24,6 @@ ClipboardClient::ClipboardClient(int &argc, char **argv)
     m_client->connectToServer( ClipboardServer::serverName() );
 }
 
-#include <QDebug>
 void ClipboardClient::sendMessage()
 {
     QByteArray msg;
@@ -52,7 +51,8 @@ void ClipboardClient::readyRead()
             WId wid = (WId)(QString(msg.constData()+i).toLongLong());
             raiseWindow(wid);
         } else {
-            std::cout.write( msg.constData()+i, len-i );
+            std::ostream &out = (exit_code == 0) ? std::cout : std::cerr;
+            out.write( msg.constData()+i, len-i );
         }
     }
 

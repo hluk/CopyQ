@@ -24,9 +24,10 @@
 
 ClipboardItem::ClipboardItem(const ClipboardModel *parent)
     : m_parent(parent)
+    , m_data(new QMimeData)
+    , m_mimeType()
     , m_hash(0)
 {
-    m_data = new QMimeData;
 }
 
 ClipboardItem::~ClipboardItem()
