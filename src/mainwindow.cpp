@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -262,14 +262,10 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
-    connect( c, SIGNAL(requestSearch(QString)),
-             this, SLOT(enterSearchMode(QString)) );
     connect( c, SIGNAL(requestActionDialog(QString,const Command*)),
              this, SLOT(action(QString,const Command*)) );
-    connect( c, SIGNAL(hideSearch()),
-             this, SLOT(enterBrowseMode()) );
-    connect( c, SIGNAL(requestShow()),
-             this, SLOT(show()) );
+    connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
+             this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(addToTab(QMimeData*,QString)),
              this, SLOT(addToTab(QMimeData*,QString)),
              Qt::DirectConnection );
@@ -337,7 +333,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             else
                 c->keyEvent(event);
             break;
-        
+
         case Qt::Key_Return:
         case Qt::Key_Enter:
             // move current item to clipboard and hide window
@@ -468,6 +464,17 @@ void MainWindow::toggleVisible()
     }
 }
 
+void MainWindow::showBrowser(const ClipboardBrowser *browser)
+{
+    QTabWidget *tabs = ui->tabWidget;
+    int i = 0;
+    for( ; i < tabs->count() && this->browser(i) != browser; ++i );
+    if ( i < tabs->count() ) {
+        showWindow();
+        tabs->setCurrentIndex(i);
+    }
+}
+
 void MainWindow::trayMenuAction(QAction *act)
 {
     QVariant data = act->data();
@@ -555,13 +562,15 @@ void MainWindow::addItems(const QStringList &items, const QString &tabName)
 
 void MainWindow::onTimerSearch()
 {
-    browser()->filterItems( ui->searchBar->text() );
+    QString txt = ui->searchBar->text();
+    enterBrowseMode( txt.isEmpty() );
+    browser()->filterItems(txt);
 }
 
 void MainWindow::enterSearchMode(const QString &txt)
 {
-    enterBrowseMode(false);
-    ui->searchBar->setText(txt);
+    enterBrowseMode( txt.isEmpty() );
+    ui->searchBar->setText( ui->searchBar->text()+txt );
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)
@@ -579,14 +588,12 @@ void MainWindow::enterBrowseMode(bool browsemode)
             b->hide();
             l->setEnabled(false);
         }
-    }
-    else {
+    } else {
         // search mode
         l->show();
         b->show();
         l->setEnabled(true);
         l->setFocus(Qt::ShortcutFocusReason);
-        l->selectAll();
     }
 }
 

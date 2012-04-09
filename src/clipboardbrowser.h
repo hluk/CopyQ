@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -32,63 +32,102 @@ class QMimeData;
 class ClipboardItem;
 class QTimer;
 
+/** List view of clipboard items. */
 class ClipboardBrowser : public QListView
 {
     Q_OBJECT
 
     public:
+        /** Actions in item menu and item context menu. */
         enum MenuAction {
+            /** Move item to clipboard and to top of list. */
             ActionToClipboard,
+            /** Remove items. */
             ActionRemove,
+            /** Edit items. */
             ActionEdit,
+            /** Edit items in external editor if defined. */
             ActionEditor,
+            /** Open action dialog. */
             ActionAct,
+            /** Custom actions. */
             ActionCustom
         };
 
         explicit ClipboardBrowser(QWidget *parent = 0);
+        /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
+        /** Load settings. */
         void loadSettings();
 
-        /**
-         * Add new item to the browser.
-         *
-         * @param force if true ignore commands and add item even if it already
-         *        is on top
-         */
-        bool add(const QString &txt, bool force = false);
-        bool add(QMimeData *item, bool force = false);
-        bool add(const ClipboardItem &item, bool force = false);
+        /** Add new item to the browser. */
+        bool add(
+                const QString &txt, //!< Text of new item.
+                bool force = false //!< If true ignore commands and duplicates.
+                );
+        /** Add new item to the browser. */
+        bool add(
+                QMimeData *item, //!< Data for new item.
+                bool force = false //!< If true ignore commands and duplicates.
+                );
+        /** Add new item to the browser. */
+        bool add(
+                const ClipboardItem &item, //!< Item to copy.
+                bool force = false //!< If true ignore commands and duplicates.
+                );
 
+        /** Edit selected items. */
+        void editSelected();
+        /** Remove selected items. */
         void remove();
+        /** Remove all items. */
         void clear();
 
-        bool select(uint item_hash);
+        /**
+         * Moves an item to the top if exists.
+         *
+         * @return true only if item exists
+         */
+        bool select(
+                uint item_hash //!< Hash of the item.
+                );
 
+        /** Number of items in list. */
         int length() const { return model()->rowCount(); }
+        /** Text of item in given row or current row. */
         QString itemText(int i = -1) const;
+        /** Text of item. */
         QString itemText(QModelIndex ind) const;
+        /** Data of item in given row or current row. */
         const QMimeData *itemData(int i = -1) const;
-        void sync(bool list_to_clipboard = true, QClipboard::Mode mode = QClipboard::Clipboard);
-        QModelIndex index(int i) const {
-            return model()->index(i,0);
-        }
-        void setCurrent(int row, bool cycle = false, bool selection = false);
+        /** Index of item in given row. */
+        QModelIndex index(int i) const { return model()->index(i,0); }
+        /** Set current item. */
+        void setCurrent(
+                int row, //!< Row of the item.
+                bool cycle = false, //!< If true @a row is relative number of rows from top.
+                bool selection = false //!< Makes selection.
+                );
+        /** Return clipboard item at given row. */
         ClipboardItem *at(int row) const;
 
-        // if items selected: return concatenation of selected items
-        // else: return text of first item
+        /** Returns concatenation of selected items. */
         const QString selectedText() const;
 
+        /** Update clipboard content according to first item in list. */
         void updateClipboard();
 
+        /** Force redrawing the list. */
         void redraw();
 
+        /** Scroll to given index. */
         void scrollTo(const QModelIndex &index,
                       QAbstractItemView::ScrollHint hint = EnsureVisible);
 
+        /** Toggle automatic clipboard update. */
         void setAutoUpdate(bool update) { m_update = update; }
 
+        /** Return context menu. */
         QMenu *contextMenu() const {return m_menu;}
 
         /**
@@ -124,41 +163,66 @@ class ClipboardBrowser : public QListView
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
 
     signals:
-        void requestSearch(const QString &txt);
+        /** Action dialog requested. */
         void requestActionDialog(const QString &text,
                                  const Command *cmd = NULL);
-        void requestShow();
-        void hideSearch();
-        void escapePressed();
+        /** Show list request. */
+        void requestShow(const ClipboardBrowser *self);
+        /** Close all external editors. */
         void closeAllEditors();
+        /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
 
+        /** Add item to another tab (invoked by an automatic command). */
         void addToTab(QMimeData *data, const QString &tabName);
 
     private slots:
         void sizeHintChanged(const QModelIndex &index);
-
-    public slots:
-        void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
-        void moveToClipboard(const QModelIndex &ind);
-        void moveToClipboard(int i);
-        void filterItems(const QString &str);
-        void clearFilter() { filterItems( QString() ); }
-        void itemModified(const QString &str);
-        void closeEditor(QEditor *editor);
-        bool openEditor(const QString &text);
-        void addItems(const QStringList &items);
-
-        void loadItems();
-        void saveItems(int msec=0);
-        void purgeItems();
-
         void contextMenuAction(QAction *act);
         void updateContextMenu();
 
-        void newItem(const QString &text = QString());
+    public slots:
+        /** Receive key event. */
+        void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
+        /** Move item to clipboard. */
+        void moveToClipboard(const QModelIndex &ind);
+        /** Move item to clipboard. */
+        void moveToClipboard(int i);
+        /** Show only items matching the pattern. */
+        void filterItems(const QString &str);
+        /** Show all items. */
+        void clearFilter() { filterItems( QString() ); }
+        /** Item modified in external editor. */
+        void itemModified(const QString &str);
+        /** Called if editor was closed. */
+        void closeEditor(QEditor *editor);
+        /** Called if editor was opened. */
+        bool openEditor(const QString &text);
+        /** Add items. */
+        void addItems(const QStringList &items);
 
-        void checkClipboard(QClipboard::Mode mode, QMimeData *data);
+        /**
+         * Load items from configuration
+         * @see setID, saveItems, purgeItems
+         */
+        void loadItems();
+        /**
+         * Save items to configuration
+         * @see setID, loadItems, purgeItems
+         */
+        void saveItems(int msec=0);
+        /**
+         * Clear all items from configuration.
+         * @see setID, loadItems, saveItems
+         */
+        void purgeItems();
+
+        /**
+         * Create and edit new item.
+         */
+        void newItem(
+                const QString &text = QString() //!< Text of new item.
+                );
 };
 
 #endif // CLIPBOARDBROWSER_H

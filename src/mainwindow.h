@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -36,6 +36,20 @@ namespace Ui
     class MainWindow;
 }
 
+/**
+ * Application's main window.
+ *
+ * Contains search bar and tab widget.
+ * Each tab contains one clipboard browser widget.
+ *
+ * It operates in two modes:
+ *  * browse mode with search bar hidden and empty (default) and
+ *  * search mode with search bar shown and not empty.
+ *
+ * If user starts typing text the search mode will become active and
+ * the search bar focused.
+ * If the text is deleted or escape pressed the browse mode will become active.
+ */
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
@@ -43,11 +57,26 @@ class MainWindow : public QMainWindow
     public:
         MainWindow(QWidget *parent = 0);
         ~MainWindow();
+
+        /** Return true if in browse mode. */
         bool browseMode() const { return m_browsemode; }
+
+        /** Save settings, items in browsers and window geometry. */
         void saveSettings();
+
+        /** Hide (minimize to tray) window on close. */
         void closeEvent(QCloseEvent *event);
+
+        /** Show action dialog for current item in current tab. */
         void createActionDialog();
+
+        /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *browser(int index = -1);
+
+        /**
+         * Create tab with given @a name if it doesn't exist.
+         * @return Existing or new tab with given @a name.
+         */
         ClipboardBrowser *createTab(const QString &name);
 
     private:
@@ -63,62 +92,98 @@ class MainWindow : public QMainWindow
         int m_trayitems;
         QTimer *m_timerSearch;
 
+        /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
 
     public slots:
+        /** Show tray menu. */
         void showMenu();
 
+        /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);
-        // show tray popup
-        void showMessage(const QString &title, const QString &msg,
-                         QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
-                         int msec = 8000);
+
+        /** Show tray popup message. */
+        void showMessage(
+                const QString &title, //!< Message title.
+                const QString &msg, //!< Message text.
+                QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
+                //!< Type of popup.
+                int msec = 8000 //!< Show interval.
+                );
+
+        /** Show error in tray popup message. */
         void showError(const QString &msg);
-        // show/hide window
+
+        /** Show and focus main window. */
         void showWindow();
+        /** Show/hide main window. */
         void toggleVisible();
-        // clear search & unselect items
+        /** Show window and given tab and give focus to the tab. */
+        void showBrowser(const ClipboardBrowser *browser);
+        /** Enter browse mode and reset search. */
         void resetStatus();
+
+        /** Add menu item to the command menu. */
         void addMenuItem(QAction *menuItem);
+        /** Remove menu item from the command menu. */
         void removeMenuItem(QAction *menuItem);
+        /** Close main window and exit the application. */
         void exit();
+        /** Change tray icon. */
         void changeTrayIcon(const QIcon &icon);
-        void updateTrayMenuItems();
+        /** Load settings. */
         void loadSettings();
 
+        /** Open about dialog. */
         void openAboutDialog();
 
+        /** Open dialog with clipboard content. */
         void showClipboardContent();
 
-        /**
-         Open action dialog.
-         \param row Row in clipboard browser. Text in the row can be used as
-                input in actiog dialog. Default is -1 which means all selected
-                rows if window is opened, otherwise only the first item.
-         */
+        /** Open action dialog for given @a row (or current) in current tab. */
         void openActionDialog(int row = -1);
+        /** Open action dialog with given input @a text. */
         void openActionDialog(const QString &text);
 
+        /** Open preferences dialog. */
         void openPreferences();
 
-        /**
-         Execute command on input text.
-         */
+        /** Execute command on given input text. */
         void action(const QString &text, const Command *cmd = NULL);
 
+        /** Open tab dialog. */
         void newTab();
-        void removeTab(bool ask = true, int tab_index = -1);
+        /** Remove tab. */
+        void removeTab(
+                bool ask = true, //!< Ask before removing.
+                int tab_index = -1 //!< Tab index or current tab.
+                );
+        /**
+         * Add tab with given name if doesn't exist and focus the tab.
+         * @return New or existing tab with given name.
+         */
         ClipboardBrowser *addTab(const QString &name);
+
+        /** Create new item in current tab. */
         void newItem();
+        /** Paste items to current tab. */
         void pasteItems();
+        /** Copy selected items in current tab. */
         void copyItems();
 
-        void addToTab(QMimeData *data, const QString &tabName = QString());
+        /** Add @a data to tab with given name (create if tab doesn't exist). */
+        void addToTab(
+                QMimeData *data,
+                //!< Item data (it may be updated if item with same text exists).
+                const QString &tabName = QString()
+                //!< Tab name of target tab (first tab if empty).
+                );
 
     private slots:
+        void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
@@ -127,6 +192,7 @@ class MainWindow : public QMainWindow
         void onTimerSearch();
 
     signals:
+        /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
     };
 

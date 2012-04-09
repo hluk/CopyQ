@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2009, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -129,10 +129,7 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
             remove();
             break;
         case ActionEdit:
-            ind = currentIndex();
-            scrollTo(ind, PositionAtTop);
-            emit requestShow();
-            edit(ind);
+            editSelected();
             break;
         case ActionEditor:
             openEditor( selectedText() );
@@ -295,9 +292,6 @@ void ClipboardBrowser::filterItems(const QString &str)
 
     // if search string empty: all items visible
     d->setSearch(m_lastFilter);
-    if ( str.isEmpty() ) {
-        emit hideSearch();
-    }
 
     // hide filtered items
     reset();
@@ -437,10 +431,23 @@ ClipboardItem *ClipboardBrowser::at(int row) const
     return m->at(row);
 }
 
+void ClipboardBrowser::editSelected()
+{
+    if ( selectedIndexes().size() > 1 ) {
+        newItem( selectedText() );
+    } else {
+        QModelIndex ind = currentIndex();
+        if ( ind.isValid() ) {
+            scrollTo(ind, PositionAtTop);
+            emit requestShow(this);
+            edit(ind);
+        }
+    }
+}
+
 void ClipboardBrowser::remove()
 {
-    QItemSelectionModel *sel = selectionModel();
-    QModelIndexList list = sel->selectedIndexes();
+    QModelIndexList list = selectedIndexes();
 
     if ( !list.isEmpty() ) {
         QList<int> rows;
@@ -563,6 +570,7 @@ void ClipboardBrowser::loadSettings()
 
 void ClipboardBrowser::loadItems()
 {
+    if ( m_id.isEmpty() ) return;
     m_timerSave->stop();
     ConfigurationManager::instance()->loadItems(*m, m_id);
     setCurrentIndex( QModelIndex() );
@@ -583,6 +591,7 @@ void ClipboardBrowser::saveItems(int msec)
 
 void ClipboardBrowser::purgeItems()
 {
+    if ( m_id.isEmpty() ) return;
     ConfigurationManager::instance()->removeItems(m_id);
     m_timerSave->stop();
 }
@@ -617,11 +626,6 @@ QString ClipboardBrowser::itemText(QModelIndex ind) const
 const QMimeData *ClipboardBrowser::itemData(int i) const
 {
     return m->mimeData( i>=0 ? i : currentIndex().row() );
-}
-
-void ClipboardBrowser::checkClipboard(QClipboard::Mode, QMimeData *data)
-{
-    add(data);
 }
 
 void ClipboardBrowser::updateClipboard()

@@ -1,3 +1,22 @@
+/*
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+
+    This file is part of CopyQ.
+
+    CopyQ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CopyQ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "clipboardserver.h"
 #include "clipboardmonitor.h"
 #include "mainwindow.h"
@@ -214,20 +233,20 @@ void ClipboardServer::newConnection()
 
     QByteArray client_msg;
     // try to handle command
-    int exit_code = doCommand(args, &client_msg);
-    if ( exit_code == CommandBadSyntax ) {
+    int exitCode = doCommand(args, &client_msg);
+    if ( exitCode == CommandBadSyntax ) {
         client_msg = tr("Bad command syntax. Use -h for help.\n").toLocal8Bit();
     }
-    sendMessage(client, client_msg, exit_code);
+    sendMessage(client, client_msg, exitCode);
 
     client->disconnectFromServer();
 }
 
-void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exit_code)
+void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exitCode)
 {
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
-    out << exit_code;
+    out << exitCode;
     out.writeRawData( message.constData(), message.length() );
     writeMessage(client, msg);
 }
@@ -377,7 +396,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         if ( args.atEnd() )
             return CommandBadSyntax;
 
-        if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setAutoUpdate(false);
         c->setUpdatesEnabled(false);
 
         while( !args.atEnd() ) {
@@ -385,7 +404,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         }
 
         c->setUpdatesEnabled(true);
-        if ( isMonitoring() ) c->setAutoUpdate(true);
+        c->setAutoUpdate(true);
 
         c->updateClipboard();
     }
@@ -406,13 +425,13 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             data->setData( mime, bytes );
         } while ( !args.atEnd() );
 
-        if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setAutoUpdate(false);
         c->setUpdatesEnabled(false);
 
         c->add(data, true);
 
         c->setUpdatesEnabled(true);
-        if ( isMonitoring() ) c->setAutoUpdate(true);
+        c->setAutoUpdate(true);
 
         c->updateClipboard();
     }
@@ -431,8 +450,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         }
 
         if ( !c->openEditor(text) ) {
-            c->setFocus();
-            m_wnd->showWindow();
+            m_wnd->showBrowser(c);
             if ( multiple_edit || row >= c->length() ) {
                 c->newItem(text);
                 c->edit( c->index(0) );
@@ -471,14 +489,14 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
         qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-        if ( isMonitoring() ) c->setAutoUpdate(false);
+        c->setAutoUpdate(false);
         c->setUpdatesEnabled(false);
 
         foreach (int row, rows)
             c->model()->removeRow(row);
 
         c->setUpdatesEnabled(true);
-        if ( isMonitoring() ) c->setAutoUpdate(true);
+        c->setAutoUpdate(true);
 
         if (rows.last() == 0)
             c->updateClipboard();

@@ -278,7 +278,7 @@
               <widget class="QLineEdit" name="lineEditEditor">
                <property name="toolTip">
                 <string>External editor command (%1 is file to edit).
-Examples:
+  Examples:
     gedit %1
     notepad %1
     gvim -f %1

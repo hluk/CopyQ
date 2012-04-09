@@ -1,3 +1,22 @@
+/*
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+
+    This file is part of CopyQ.
+
+    CopyQ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CopyQ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "client_server.h"
 
 #include <iostream>
@@ -6,9 +25,10 @@
 #include <assert.h>
 
 #include <QObject>
-#include <QThread>
 #include <QLocalSocket>
 #include <QApplication>
+#include <QLocalServer>
+#include <QThread>
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
@@ -16,16 +36,6 @@
 #elif defined Q_WS_WIN
 #include <windows.h>
 #endif
-
-// msleep function (portable)
-class Sleeper : public QThread
-{
-public:
-    static void msleep(unsigned long msecs)
-    {
-        QThread::msleep(msecs);
-    }
-};
 
 void log(const QString &text, const LogLevel level)
 {

@@ -1,13 +1,34 @@
+/*
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+
+    This file is part of CopyQ.
+
+    CopyQ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CopyQ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #ifndef CLIENT_SERVER_H
 #define CLIENT_SERVER_H
-#include <QString>
-#include <QList>
+
+#include <QWidget> // WId
 #include <QMimeData>
-#include <QStringList>
-#include <QByteArray>
-#include <QWidget>
-#include <QLocalServer>
 #include <QClipboard>
+
+class QString;
+class QIODevice;
+class QStringList;
+class QByteArray;
+class QLocalServer;
 
 #if !defined(Q_WS_X11) && !defined(Q_WS_WIN) && !defined(Q_WS_MAC)
 #define NO_GLOBAL_SHORTCUTS

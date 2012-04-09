@@ -1,4 +1,6 @@
 /*
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+
     This file is part of CopyQ.
 
     CopyQ is free software: you can redistribute it and/or modify
