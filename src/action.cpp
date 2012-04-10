@@ -20,10 +20,6 @@
 #include <QAction>
 #include "action.h"
 
-// free action IDs
-bool g_ids[10] = {true,true,true,true,true,
-                  true,true,true,true,true};
-
 Action::Action(const QString &cmd, const QStringList &args,
                const QByteArray &input, bool outputItems,
                const QString &itemSeparator,
@@ -34,19 +30,9 @@ Action::Action(const QString &cmd, const QStringList &args,
     , m_cmd(cmd)
     , m_args(args)
     , m_tab(outputTabName)
-    , m_menuItem(NULL)
     , m_errstr()
     , m_lastOutput()
-    , m_id(10)
 {
-    for (int i = 0; i<10; ++i) {
-        if( g_ids[i] ) {
-            g_ids[i] = false;
-            m_id = i;
-            break;
-        }
-    }
-
     setProcessChannelMode(QProcess::SeparateChannels);
     connect( this, SIGNAL(error(QProcess::ProcessError)),
              SLOT(actionError(QProcess::ProcessError)) );
@@ -72,31 +58,23 @@ void Action::actionError(QProcess::ProcessError)
 
 void Action::actionStarted()
 {
-    // menu item
-    QString txt;
-    if (m_id < 10)
-        txt = QString("&%1. ").arg(m_id);
-    txt += QString("kill ") + m_cmd;
-    m_menuItem = new QAction(txt, this);
-    connect( m_menuItem, SIGNAL(triggered()),
-             this, SLOT(terminate()) );
-    emit addMenuItem(m_menuItem);
-
     // write input
     if ( !m_input.isEmpty() )
         write( m_input );
     closeWriteChannel();
+
+    emit actionStarted(this);
 }
 
 void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
-    if ( !m_lastOutput.isEmpty() ) {
+    if ( !m_lastOutput.isNull() ) {
         actionOutput();
-        if ( !m_lastOutput.isEmpty() ) {
+        if ( !m_lastOutput.isNull() ) {
             QStringList items;
             items.append(m_lastOutput);
             emit newItems(items, m_tab);
-            m_lastOutput.clear();
+            m_lastOutput = QString();
         }
     }
 
@@ -105,30 +83,20 @@ void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
     else if ( exitCode != 0 )
         m_errstr = QString("Exit code: %1\n").arg(exitCode) + m_errstr;
 
-    emit removeMenuItem(m_menuItem);
-
-    if (m_id < 10)
-        g_ids[m_id] = true;
-
     emit actionFinished(this);
 }
 
 void Action::actionOutput()
 {
-    QString outstr = m_lastOutput + QString::fromLocal8Bit( readAll() );
+    m_lastOutput.append( QString::fromLocal8Bit(readAll()) );
+    if ( m_lastOutput.isEmpty() || m_sep.isEmpty() )
+        return;
 
-    if ( !outstr.isEmpty() ) {
-        QStringList items;
-
-        // separate items
-        if ( !m_sep.isEmpty() ) {
-            items = outstr.split(m_sep);
-            m_lastOutput = items.takeLast();
-            emit newItems(items, m_tab);
-        } else {
-            m_lastOutput = outstr;
-        }
-    }
+    // Split to items.
+    QStringList items;
+    items = m_lastOutput.split(m_sep);
+    m_lastOutput = items.takeLast();
+    emit newItems(items, m_tab);
 }
 
 void Action::actionErrorOutput()

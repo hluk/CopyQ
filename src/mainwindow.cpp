@@ -27,6 +27,7 @@
 #include "clipboarditem.h"
 #include "tabdialog.h"
 #include "client_server.h"
+#include "action.h"
 
 #include <QCloseEvent>
 #include <QMenu>
@@ -38,7 +39,6 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , aboutDialog(NULL)
-    , actionDialog(NULL)
     , cmdMenu(NULL)
     , itemMenu(NULL)
     , tabMenu(NULL)
@@ -47,6 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_confirmExit(true)
     , m_trayitems(5)
     , m_timerSearch( new QTimer(this) )
+    , m_actions()
 {
     ui->setupUi(this);
 
@@ -118,9 +119,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
     hide();
 
-    if ( actionDialog && !actionDialog->isHidden() ) {
-        actionDialog->close();
-    }
     if ( aboutDialog && !aboutDialog->isHidden() ) {
         aboutDialog->close();
     }
@@ -244,7 +242,34 @@ void MainWindow::createMenu()
     tray->setContextMenu(traymenu);
 }
 
-ClipboardBrowser *MainWindow::createTab(const QString &name)
+void MainWindow::elideText(QAction *act)
+{
+    QFont font = act->font();
+    font.setItalic(true);
+    act->setFont(font);
+
+    QFontMetrics fm(font);
+    QString text = act->text();
+    text = fm.elidedText( text.left(512).simplified(), Qt::ElideRight, 240 );
+    act->setText(text);
+}
+
+void MainWindow::closeAction(Action *action)
+{
+    const QString &errout = action->errorOutput();
+    if ( !errout.isEmpty() )
+        showMessage( QString("Command failed: ") + action->command(), errout );
+
+    delete m_actions.take(action);
+    delete action;
+
+    if ( m_actions.isEmpty() ) {
+        cmdMenu->setEnabled(false);
+        changeTrayIcon( QIcon(":/images/icon.svg") );
+    }
+}
+
+ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
 {
     QTabWidget *w = ui->tabWidget;
 
@@ -272,6 +297,9 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
 
     w->addTab(c, name);
 
+    if (save)
+        saveSettings();
+
     return c;
 }
 
@@ -284,19 +312,6 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 void MainWindow::showError(const QString &msg)
 {
     tray->showMessage(QString("Error"), msg, QSystemTrayIcon::Critical);
-}
-
-void MainWindow::addMenuItem(QAction *menuItem)
-{
-    cmdMenu->addAction(menuItem);
-    cmdMenu->setEnabled(true);
-}
-
-void MainWindow::removeMenuItem(QAction *menuItem)
-{
-    cmdMenu->removeAction(menuItem);
-    if ( cmdMenu->isEmpty() )
-        cmdMenu->setEnabled(false);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -416,7 +431,7 @@ void MainWindow::loadSettings()
     QStringList tabs = cm->value("tabs").toStringList();
     foreach(const QString &name, tabs) {
         ClipboardBrowser *c;
-        c = createTab(name);
+        c = createTab(name, false);
         if (loaded)
             c->loadSettings();
     }
@@ -526,8 +541,7 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
     if ( i < tabs->count() ) {
         c = browser(i);
     } else if ( !tabName.isEmpty() ) {
-        c = createTab(tabName);
-        saveSettings();
+        c = createTab(tabName, true);
     } else {
         return;
     }
@@ -556,8 +570,10 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
-    ClipboardBrowser *c = tabName.isEmpty() ? browser(0) : addTab(tabName);
-    c->addItems(items);
+    ClipboardBrowser *c = tabName.isEmpty() ? browser(0) :
+                                              createTab(tabName, true);
+    foreach (const QString &item, items)
+        c->add(item, true);
 }
 
 void MainWindow::onTimerSearch()
@@ -565,6 +581,39 @@ void MainWindow::onTimerSearch()
     QString txt = ui->searchBar->text();
     enterBrowseMode( txt.isEmpty() );
     browser()->filterItems(txt);
+}
+
+void MainWindow::actionStarted(Action *action)
+{
+    // menu item
+    QString text = tr("KILL") + " " + action->command() + " " +
+                   action->commandArguments().join(" ");
+    QString tooltip = tr("<b>COMMAND:</b>") + '\n' + escape(text) + '\n' +
+                      tr("<b>INPUT:</b>") + '\n' +
+                      escape( QString::fromLocal8Bit(action->input()) );
+
+    QAction *act = m_actions[action] = new QAction(text, this);
+    act->setToolTip(tooltip);
+
+    connect( act, SIGNAL(triggered()),
+             action, SLOT(terminate()) );
+
+    cmdMenu->addAction(act);
+    cmdMenu->setEnabled(true);
+
+    changeTrayIcon( QIcon(":/images/icon-running.svg") );
+
+    elideText(act);
+}
+
+void MainWindow::actionFinished(Action *action)
+{
+    closeAction(action);
+}
+
+void MainWindow::actionError(Action *action)
+{
+    closeAction(action);
 }
 
 void MainWindow::enterSearchMode(const QString &txt)
@@ -618,12 +667,7 @@ void MainWindow::updateTrayMenuItems()
     len = qMin( m_trayitems, c->length() );
     unsigned char hint('0');
     for( i = 0; i < len; ++i ) {
-        QFont font = menu->font();
-        font.setItalic(true);
-
-        QFontMetrics fm(font);
-        QString text = fm.elidedText( c->itemText(i).left(512).simplified(),
-                                      Qt::ElideRight, 240 );
+        QString text = c->itemText(i);
 
         if (hint <= '9') {
             /* FIXME: keypad numbers don't work */
@@ -633,10 +677,11 @@ void MainWindow::updateTrayMenuItems()
             act = menu->addAction(text);
         }
 
-        act->setFont(font);
         act->setData( QVariant(i) );
 
         menu->insertAction(sep, act);
+
+        elideText(act);
     }
 }
 
@@ -656,24 +701,16 @@ void MainWindow::showClipboardContent()
     d->show();
 }
 
-void MainWindow::createActionDialog()
+ActionDialog *MainWindow::createActionDialog()
 {
-    if (!actionDialog) {
-        actionDialog = new ActionDialog(this);
+    ActionDialog *actionDialog = new ActionDialog(this);
 
-        connect( actionDialog, SIGNAL(addItems(QStringList, QString)),
-                 this, SLOT(addItems(QStringList, QString)) );
-        connect( actionDialog, SIGNAL(error(QString)),
-                 this, SLOT(showError(QString)) );
-        connect( actionDialog, SIGNAL(message(QString,QString)),
-                 this, SLOT(showMessage(QString,QString)) );
-        connect( actionDialog, SIGNAL(addMenuItem(QAction*)),
-                 this, SLOT(addMenuItem(QAction*)) );
-        connect( actionDialog, SIGNAL(removeMenuItem(QAction*)),
-                 this, SLOT(removeMenuItem(QAction*)) );
-        connect( actionDialog, SIGNAL(changeTrayIcon(QIcon)),
-                 this, SLOT(changeTrayIcon(QIcon)));
-    }
+    connect( actionDialog, SIGNAL(accepted(Action*)),
+             this, SLOT(action(Action*)) );
+    connect( actionDialog, SIGNAL(finished(int)),
+             actionDialog, SLOT(deleteLater()) );
+
+    return actionDialog;
 }
 
 void MainWindow::openActionDialog(int row)
@@ -692,7 +729,7 @@ void MainWindow::openActionDialog(int row)
 
 void MainWindow::openActionDialog(const QString &text)
 {
-    createActionDialog();
+    ActionDialog *actionDialog = createActionDialog();
     actionDialog->setInputText(text);
     actionDialog->exec();
 }
@@ -712,9 +749,8 @@ ClipboardBrowser *MainWindow::browser(int index)
 ClipboardBrowser *MainWindow::addTab(const QString &name)
 {
     QTabWidget *w = ui->tabWidget;
-    ClipboardBrowser *c = createTab(name);
+    ClipboardBrowser *c = createTab(name, true);
     w->setCurrentIndex( w->count()-1 );
-    saveSettings();
 
     return c;
 }
@@ -777,9 +813,25 @@ void MainWindow::copyItems()
     emit changeClipboard(&item);
 }
 
+void MainWindow::action(Action *action)
+{
+    connect( action, SIGNAL(newItems(QStringList, QString)),
+             this, SLOT(addItems(QStringList, QString)) );
+    connect( action, SIGNAL(actionStarted(Action*)),
+             this, SLOT(actionStarted(Action*)) );
+    connect( action, SIGNAL(actionFinished(Action*)),
+             this, SLOT(actionFinished(Action*)) );
+    connect( action, SIGNAL(actionError(Action*)),
+             this, SLOT(actionError(Action*)) );
+
+    log( tr("Executing: %1").arg(action->command()) );
+    log( tr("Arguments: %1").arg(action->commandArguments().join(", ")) );
+    action->start();
+}
+
 void MainWindow::action(const QString &text, const Command *cmd)
 {
-    createActionDialog();
+    ActionDialog *actionDialog = createActionDialog();
 
     actionDialog->setInputText(text);
     if (cmd) {
@@ -797,7 +849,7 @@ void MainWindow::action(const QString &text, const Command *cmd)
     if (!cmd || cmd->wait)
         actionDialog->exec();
     else
-        actionDialog->runCommand();
+        actionDialog->createAction();
 }
 
 void MainWindow::newTab()

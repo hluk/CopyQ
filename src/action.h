@@ -49,8 +49,11 @@ public:
     /** Return command. */
     const QString &command() const { return m_cmd; }
 
-    /** Menu item to kill the process. */
-    QAction *menuItem() { return m_menuItem; }
+    /** Return command arguments. */
+    const QStringList &commandArguments() const { return m_args; }
+
+    /** Return input. */
+    const QByteArray &input() const { return m_input; }
 
     /** Execute command. */
     void start() { QProcess::start(m_cmd, m_args, QIODevice::ReadWrite); }
@@ -61,12 +64,8 @@ private:
     const QString m_cmd;
     const QStringList m_args;
     const QString m_tab;
-    QAction *m_menuItem;
     QString m_errstr;
     QString m_lastOutput;
-
-    // ID used in menu item
-    int m_id;
 
 private slots:
     void actionError(QProcess::ProcessError error);
@@ -88,8 +87,6 @@ signals:
     void actionStarted(Action *act);
     /** Emitted if standard output has some items available. */
     void newItems(const QStringList &items, const QString &outputTabName);
-    void addMenuItem(QAction *menuItem);
-    void removeMenuItem(QAction *menuItem);
 };
 
 #endif // ACTION_H

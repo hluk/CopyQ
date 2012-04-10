@@ -620,10 +620,9 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
                 return CommandError;
             }
 
-            c = m_wnd->createTab(name);
+            c = m_wnd->createTab(name, true);
             if ( !args.atEnd() )
                 return doCommand(args, response, c);
-            m_wnd->saveSettings();
         }
     }
 

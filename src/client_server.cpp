@@ -37,6 +37,30 @@
 #include <windows.h>
 #endif
 
+QString escape(const QString &str)
+{
+    QString res;
+    static QRegExp re("[<>& \t\n]");
+    int a = 0, b = 0, n = 0;
+    while( (b = str.indexOf(re, a)) != -1 ) {
+        n = b-a;
+        if (n)
+            res.append( str.mid(a, n) );
+        switch( str.at(b).toAscii() ) {
+        case '<': res.append("&lt;"); break;
+        case '>': res.append("&gt;"); break;
+        case '&': res.append("&amp;"); break;
+        case ' ': res.append("&nbsp;"); break;
+        case '\t': res.append("&nbsp;&nbsp;"); break;
+        case '\n': res.append("<br />"); break;
+        }
+        a = b+1;
+    }
+    res.append( str.mid(a) );
+
+    return res;
+}
+
 void log(const QString &text, const LogLevel level)
 {
     QString msg;

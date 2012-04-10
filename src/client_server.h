@@ -40,16 +40,24 @@ enum LogLevel {
     LogError
 };
 
+QString escape(const QString &str);
+
 void log(const QString &text, const LogLevel level = LogNote);
+
 const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 void setClipboardData(QMimeData *data, QClipboard::Mode mode);
+
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes);
 bool readMessage(QIODevice *socket, QByteArray *msg);
 void writeMessage(QIODevice *socket, const QByteArray &msg);
+
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);
+
 uint hash(const QMimeData &data, const QStringList &formats);
+
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
+
 void raiseWindow(WId wid);
 
 #endif // CLIENT_SERVER_H

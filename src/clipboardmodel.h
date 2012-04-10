@@ -22,12 +22,10 @@
 
 #include <QAbstractListModel>
 #include <QStringList>
-#include <QRegExp>
 #include <QList>
-#include <QHash>
-#include <QMimeData>
 
 class ClipboardItem;
+class QMimeData;
 
 static const QModelIndex empty_index;
 

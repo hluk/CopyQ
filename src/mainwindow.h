@@ -26,9 +26,10 @@
 
 class ClipboardModel;
 class AboutDialog;
-class ActionDialog;
 class ClipboardBrowser;
 class ClipboardItem;
+class Action;
+class ActionDialog;
 class QMimeData;
 
 namespace Ui
@@ -67,8 +68,8 @@ class MainWindow : public QMainWindow
         /** Hide (minimize to tray) window on close. */
         void closeEvent(QCloseEvent *event);
 
-        /** Show action dialog for current item in current tab. */
-        void createActionDialog();
+        /** Create new action dialog. */
+        ActionDialog *createActionDialog();
 
         /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *browser(int index = -1);
@@ -77,12 +78,17 @@ class MainWindow : public QMainWindow
          * Create tab with given @a name if it doesn't exist.
          * @return Existing or new tab with given @a name.
          */
-        ClipboardBrowser *createTab(const QString &name);
+        ClipboardBrowser *createTab(
+                const QString &name, //!< Name of the new tab.
+                bool save
+                //!< If true saveSettings() is called if tab is created.
+                );
+
+        static void elideText(QAction *act);
 
     private:
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
-        ActionDialog *actionDialog;
         QMenu *cmdMenu;
         QMenu *itemMenu;
         QMenu *tabMenu;
@@ -92,8 +98,13 @@ class MainWindow : public QMainWindow
         int m_trayitems;
         QTimer *m_timerSearch;
 
+        QMap<Action*,QAction*> m_actions;
+
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
+
+        /** Delete finished action and its menu item. */
+        void closeAction(Action *action);
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -126,10 +137,6 @@ class MainWindow : public QMainWindow
         /** Enter browse mode and reset search. */
         void resetStatus();
 
-        /** Add menu item to the command menu. */
-        void addMenuItem(QAction *menuItem);
-        /** Remove menu item from the command menu. */
-        void removeMenuItem(QAction *menuItem);
         /** Close main window and exit the application. */
         void exit();
         /** Change tray icon. */
@@ -150,6 +157,9 @@ class MainWindow : public QMainWindow
 
         /** Open preferences dialog. */
         void openPreferences();
+
+        /** Execute action. */
+        void action(Action *action);
 
         /** Execute command on given input text. */
         void action(const QString &text, const Command *cmd = NULL);
@@ -190,6 +200,10 @@ class MainWindow : public QMainWindow
         void tabChanged();
         void addItems(const QStringList &items, const QString &tabName);
         void onTimerSearch();
+
+        void actionStarted(Action *action);
+        void actionFinished(Action *action);
+        void actionError(Action *action);
 
     signals:
         /** Request clipboard change. */

@@ -35,7 +35,6 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_maxitems(100)
     , m_completer(NULL)
     , m_history()
-    , m_actions(0)
 {
     ui->setupUi(this);
     restoreHistory();
@@ -134,29 +133,13 @@ void ActionDialog::saveHistory()
         out << QVariant(*it);
 }
 
-void ActionDialog::closeAction(Action *act)
-{
-    const QString &errout =  act->errorOutput();
-    if ( !errout.isEmpty() )
-        emit message( QString("Command failed: ")+act->command(), errout );
-
-    --m_actions;
-    if (m_actions == 0) {
-        changeTrayIcon( QIcon(":/images/icon.svg") );
-    }
-
-    disconnect(act);
-    act->deleteLater();
-}
-
-void ActionDialog::runCommand()
+void ActionDialog::createAction()
 {
     QString cmd = ui->cmdEdit->text();
 
     if ( cmd.isEmpty() )
         return;
     QString input = ui->inputText->toPlainText();
-    Action *act;
 
     // escape spaces in input
     QStringList args;
@@ -213,29 +196,11 @@ void ActionDialog::runCommand()
     if ( !ui->inputCheckBox->isEnabled() )
         input.clear();
 
-    act = new Action( cmd, args, input.toLocal8Bit(),
-                      ui->outputCheckBox->isChecked(),
-                      ui->separatorEdit->text(),
-                      ui->comboBoxOutputTab->currentText() );
-    connect( act, SIGNAL(actionError(Action*)),
-             this, SLOT(closeAction(Action*)) );
-    connect( act, SIGNAL(actionFinished(Action*)),
-             this, SLOT(closeAction(Action*)) );
-    connect( act, SIGNAL(newItems(QStringList, QString)),
-             SIGNAL(addItems(QStringList, QString)) );
-    connect( act, SIGNAL(addMenuItem(QAction*)),
-             this, SIGNAL(addMenuItem(QAction*)) );
-    connect( act, SIGNAL(removeMenuItem(QAction*)),
-                 this, SIGNAL(removeMenuItem(QAction*)) );
-
-    ++m_actions;
-    if (m_actions == 1) {
-        changeTrayIcon( QIcon(":/images/icon-running.svg") );
-    }
-
-    log( tr("Executing: %1").arg(cmd) );
-    log( tr("Arguments: %1").arg(args.join(", ")) );
-    act->start();
+    Action *act = new Action( cmd, args, input.toLocal8Bit(),
+                              ui->outputCheckBox->isChecked(),
+                              ui->separatorEdit->text(),
+                              ui->comboBoxOutputTab->currentText() );
+    emit accepted(act);
 
     add( ui->cmdEdit->text() );
 
@@ -295,7 +260,7 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
-        runCommand();
+        createAction();
         break;
     case QDialogButtonBox::Save:
         cmd.name = cmd.cmd = ui->cmdEdit->text();

@@ -56,26 +56,17 @@ private:
     int m_maxitems;
     QCompleter *m_completer;
     QStringList m_history;
-    int m_actions;
 
 signals:
-    void addItems(const QStringList &lst, const QString &tabName);
-    void error(const QString &msg);
-    void message(const QString &title, const QString &msg);
-    void actionFinished(Action *act);
-    void addMenuItem(QAction *menuItem);
-    void removeMenuItem(QAction *menuItem);
-    void changeTrayIcon(const QIcon &icon);
+    void accepted(Action *action);
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_outputCheckBox_toggled(bool checked);
-    void closeAction(Action *act);
     void onFinnished(int);
 
 public slots:
-    void runCommand();
-    void accept() {}
+    void createAction();
 };
 
 #endif // ACTIONDIALOG_H

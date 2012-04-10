@@ -27,8 +27,6 @@
 
 class ClipboardModel;
 
-QString escape(const QString &str);
-
 class ClipboardItem
 {
 public:
