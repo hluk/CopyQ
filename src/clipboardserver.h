@@ -78,7 +78,9 @@ public:
             );
 
     /** Helper function for sending a message to a client. */
-    void sendMessage(QLocalSocket* client, const QString &message, int exitCode = 0) {
+    void sendMessage(QLocalSocket* client, const QString &message,
+                     int exitCode = 0)
+    {
         sendMessage( client, message.toLocal8Bit(), exitCode );
     }
 

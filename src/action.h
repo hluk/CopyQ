@@ -21,22 +21,38 @@
 #define ACTION_H
 
 #include <QProcess>
+#include <QStringList>
 
-class QStringList;
 class QAction;
-class QIcon;
 
+/**
+ * Execute external program.
+ */
 class Action : public QProcess
 {
     Q_OBJECT
 public:
-    Action(const QString &cmd, const QStringList &args,
-           const QByteArray &processInput,
-           bool outputItems, const QString &itemSeparator,
-           const QString &outputTabName);
+    /** Create action with command line parameters. */
+    Action(
+            const QString &cmd, //!< Program to run.
+            const QStringList &args, //!< Program parameters.
+            const QByteArray &input, //!< Standard input contents.
+            bool outputItems, //!< If true signals newItems() will be emitted.
+            const QString &itemSeparator,
+            //!< Separator for items on standard output.
+            const QString &outputTabName //!< Tab name for output items.
+            );
+
+    /** Return standard error output string. */
     const QString &errorOutput() const { return m_errstr; }
+
+    /** Return command. */
     const QString &command() const { return m_cmd; }
+
+    /** Menu item to kill the process. */
     QAction *menuItem() { return m_menuItem; }
+
+    /** Execute command. */
     void start() { QProcess::start(m_cmd, m_args, QIODevice::ReadWrite); }
 
 private:
@@ -47,6 +63,7 @@ private:
     const QString m_tab;
     QAction *m_menuItem;
     QString m_errstr;
+    QString m_lastOutput;
 
     // ID used in menu item
     int m_id;
@@ -59,12 +76,17 @@ private slots:
     void actionErrorOutput();
 
 public slots:
+    /** Terminate (kill) process. */
     void terminate();
 
 signals:
+    /** Emitted on error. */
     void actionError(Action *act);
+    /** Emitted when finished. */
     void actionFinished(Action *act);
+    /** Emitter when started. */
     void actionStarted(Action *act);
+    /** Emitted if standard output has some items available. */
     void newItems(const QStringList &items, const QString &outputTabName);
     void addMenuItem(QAction *menuItem);
     void removeMenuItem(QAction *menuItem);

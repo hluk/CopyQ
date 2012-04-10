@@ -95,28 +95,15 @@ QString Arguments::toString()
 
 int Arguments::toInt()
 {
-    QVariant default_value = m_default_value;
-    m_default_value.clear();
+    QVariant res = toVariant();
 
     if (m_error)
         return 0;
 
-    if ( m_current >= length() ) {
-        if ( default_value.isValid() ) {
-            return default_value.toInt();
-        }
-        m_error = true;
-        return 0;
-    }
-
-    QVariant res( m_args.at(m_current++) );
     bool ok;
     int n = res.toInt(&ok);
     if (ok) {
         return n;
-    } else if ( default_value.isValid() ) {
-        back();
-        return default_value.toInt();
     } else {
         m_error = true;
         return 0;
@@ -134,9 +121,9 @@ void Arguments::append(const QByteArray &argument)
     m_args.append(argument);
 }
 
-const QByteArray &Arguments::at(int i) const
+const QByteArray &Arguments::at(int index) const
 {
-    return m_args.at(i);
+    return m_args.at(index);
 }
 
 void Arguments::back()

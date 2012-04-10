@@ -36,6 +36,7 @@ Action::Action(const QString &cmd, const QStringList &args,
     , m_tab(outputTabName)
     , m_menuItem(NULL)
     , m_errstr()
+    , m_lastOutput()
     , m_id(10)
 {
     for (int i = 0; i<10; ++i) {
@@ -89,6 +90,16 @@ void Action::actionStarted()
 
 void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    if ( !m_lastOutput.isEmpty() ) {
+        actionOutput();
+        if ( !m_lastOutput.isEmpty() ) {
+            QStringList items;
+            items.append(m_lastOutput);
+            emit newItems(items, m_tab);
+            m_lastOutput.clear();
+        }
+    }
+
     if ( exitStatus != NormalExit )
         m_errstr = QString("Error: %1\n").arg(errorString()) + m_errstr;
     else if ( exitCode != 0 )
@@ -104,7 +115,7 @@ void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
 
 void Action::actionOutput()
 {
-    QString outstr = QString::fromLocal8Bit( readAll() );
+    QString outstr = m_lastOutput + QString::fromLocal8Bit( readAll() );
 
     if ( !outstr.isEmpty() ) {
         QStringList items;
@@ -112,10 +123,11 @@ void Action::actionOutput()
         // separate items
         if ( !m_sep.isEmpty() ) {
             items = outstr.split(m_sep);
+            m_lastOutput = items.takeLast();
+            emit newItems(items, m_tab);
+        } else {
+            m_lastOutput = outstr;
         }
-        else
-            items.append(outstr);
-        emit newItems(items, m_tab);
     }
 }
 
