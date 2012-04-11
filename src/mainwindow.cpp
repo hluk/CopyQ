@@ -731,7 +731,7 @@ void MainWindow::openActionDialog(const QString &text)
 {
     ActionDialog *actionDialog = createActionDialog();
     actionDialog->setInputText(text);
-    actionDialog->exec();
+    actionDialog->show();
 }
 
 void MainWindow::openPreferences()
@@ -832,6 +832,7 @@ void MainWindow::action(Action *action)
 void MainWindow::action(const QString &text, const Command *cmd)
 {
     ActionDialog *actionDialog = createActionDialog();
+    QString outputTab;
 
     actionDialog->setInputText(text);
     if (cmd) {
@@ -839,17 +840,25 @@ void MainWindow::action(const QString &text, const Command *cmd)
         actionDialog->setSeparator(cmd->sep);
         actionDialog->setInput(cmd->input);
         actionDialog->setOutput(cmd->output);
+        outputTab = cmd->outputTab;
+    }
 
+    if (!cmd || cmd->wait) {
+        // Insert tab labels to action dialog's combo box.
         QStringList tabs;
         QTabWidget *w = ui->tabWidget;
         for( int i = 0; i < w->count(); ++i )
             tabs << w->tabText(i);
-        actionDialog->setOutputTabs(tabs, cmd->outputTab);
-    }
-    if (!cmd || cmd->wait)
-        actionDialog->exec();
-    else
+        actionDialog->setOutputTabs(tabs, outputTab);
+
+        // Show action dialog.
+        actionDialog->show();
+    } else {
+        // Create action without showing action dialog.
+        actionDialog->setOutputTabs(QStringList(), outputTab);
         actionDialog->createAction();
+        actionDialog->deleteLater();
+    }
 }
 
 void MainWindow::newTab()

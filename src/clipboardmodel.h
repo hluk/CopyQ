@@ -29,6 +29,14 @@ class QMimeData;
 
 static const QModelIndex empty_index;
 
+/**
+ * Model containing ClipboardItem objects.
+ *
+ * Class implements QAbstractListModel interface.
+ *
+ * Clipboard item in model can be serialized and deserialized using
+ * operators << and >> (see @ref clipboard_model_serialization_operators).
+ */
 class ClipboardModel : public QAbstractListModel
 {
     Q_OBJECT
@@ -36,47 +44,109 @@ class ClipboardModel : public QAbstractListModel
 public:
     explicit ClipboardModel(QObject *parent = 0);
 
-    // needs to be implemented
+    /** Return number of items in model. */
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
+
+    /** Return data for given @a index. */
     QVariant data(const QModelIndex &index, int role) const;
 
-    // convinience
+    /** Return item data for editing. */
     QVariant data(int row) const;
 
+    /** Return data in given @a row.  */
     QMimeData *mimeData(int row) const;
+
+    /** Return item in given @a row.  */
     ClipboardItem *at(int row) const;
 
-    // editting
+    /** Return flags for given @a index. */
     Qt::ItemFlags flags(const QModelIndex &index) const;
-    bool setData(const QModelIndex &index, const QVariant &value,
-                  int role = Qt::EditRole);
-    bool insertRows(int position, int rows, const QModelIndex &index = QModelIndex());
-    bool removeRows(int position, int rows, const QModelIndex &index = QModelIndex());
 
+    bool setData(const QModelIndex &index, const QVariant &value,
+                 int role = Qt::EditRole);
+    bool insertRows(int position, int rows,
+                    const QModelIndex &index = QModelIndex());
+    bool removeRows(int position, int rows,
+                    const QModelIndex &index = QModelIndex());
+
+    /** Set data for given @a index. */
     bool setData(const QModelIndex &index, QMimeData *value);
+
+    /** Append new item to model. */
     bool append(ClipboardItem *item);
 
+    /**
+     * Set maximum number of items in model.
+     *
+     * If there are too many items last item is removed until @a max is less or
+     * equal to number of items in model.
+     */
     void setMaxItems(int max);
+
+    /** Return maximum number of items in model. */
     int maxItems() const { return m_max; }
 
-    bool move(int pos, int newpos);
-    bool moveItems(QModelIndexList list, int key);
+    /**
+     * Move an item.
+     * @return True only if item was successfully moved.
+     */
+    bool move(
+            int pos, //!< Source row number.
+            int newpos //!< Destination row number.
+            );
+    /**
+     * Move items.
+     * @return True only if all items was successfully moved.
+     */
+    bool moveItems(
+            QModelIndexList list, //!< Indexed of items to move.
+            int key
+            /*!< Key representing direction for movement (can be one of
+             *   Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home).
+             */
+            );
 
-    int findItem(uint item_hash) const;
+    /**
+     * Find item with given @a hash.
+     * @return Row number with found item or -1 if no item was found.
+     */
+    int findItem(uint hash) const;
 
+    /**
+     * Return row index for given @a row.
+     * @return Value of @a row if such index is in model.
+     * @return -1 if model is empty.
+     * @return 0 if @a cycle is true and @a row is bigger than last row index.
+     * @return 0 if @a cycle is false and @a row is negative.
+     * @return Last row index if @a cycle is false and @a row is bigger than last row index.
+     * @return Last row index if @a cycle is true and @a row is negative.
+     */
     int getRowNumber(int row, bool cycle = false) const;
 
+    /** Return clipboard item on given @a row or NULL if row doesn't exist. */
     ClipboardItem* get(int row) {
         return (row < rowCount()) ? m_clipboardList[row] : NULL;
     }
 
+    /** Return list of preferred MIME types for items (priority order). */
     const QStringList &formats() const { return m_formats; }
+
+    /** Set preferred MIME types for items (priority order). */
     void setFormats(const QString &list);
+
+    /** Set default MIME type for displaying item in given @a row. */
     void setFormat(int row, const QString &mimeType);
+
+    /** Set next available MIME type for item in given @a row. */
     void nextFormat(int row);
+
+    /** Set previous available MIME type for item in given @a row. */
     void previousFormat(int row);
 
+    /** Set maximum size of pixmap displayed in items. */
     void setMaxImageSize(int width, int height);
+
+    /** Return maximum size of pixmap displayed in items. */
     QSize maxImageSize() const;
 
 private:
@@ -87,7 +157,12 @@ private:
     QStringList m_formats;
 };
 
+/**
+ * @defgroup clipboard_model_serialization_operators ClipboardModel Serialization Operators
+ * @{
+ */
 QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model);
 QDataStream &operator>>(QDataStream &stream, ClipboardModel &model);
+///@}
 
 #endif // CLIPBOARDMODEL_H

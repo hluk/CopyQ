@@ -135,6 +135,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
 
     /* other options */
     m_options["tabs"] = Option(QStringList());
+    m_options["command_history_size"] = Option(100);
     m_options["_last_hash"] = Option(0);
 #ifndef NO_GLOBAL_SHORTCUTS
     /* shortcuts */

@@ -27,37 +27,79 @@
 
 class ClipboardModel;
 
+/**
+ * Class for clipboard items in ClipboardModel.
+ *
+ * Clipboard item stores data of different MIME types and has single default
+ * MIME type for displaying the contents.
+ *
+ * Clipboard item can be serialized and deserialized using operators << and >>
+ * (see @ref clipboard_item_serialization_operators).
+ */
 class ClipboardItem
 {
 public:
     ClipboardItem(const ClipboardModel *parent=NULL);
     ~ClipboardItem();
 
+    /** Compare with other item (using hash). */
     bool operator ==(const ClipboardItem &item) const;
+    /** Compare with other data (using hash). */
     bool operator ==(const QMimeData &data) const;
 
+    /** Return item's plain text. */
     QString text() const;
+    /** Return item's HTML text. */
     QString html() const;
 
-    // image
-    void pixmap(QPixmap *pixmap, const QString &mimeType = QString()) const;
+    /**
+     * Get item's pixmap.
+     *
+     * Pixmap is scaled to fit in parent's ClipboardModel::maxImageSize().
+     */
+    void pixmap(
+            QPixmap *pixmap, //!< Pointer to store the pixmap.
+            const QString &mimeType = QString() //!< Image MIME type.
+            ) const;
 
+    /** Clear item's data */
     void clear();
 
+    /**
+     * Set item's data.
+     * Item takes ownership of the @a data.
+     */
     void setData(QMimeData *data);
+
+    /** Set item's MIME type data. */
     void setData(const QString &mimeType, const QByteArray &data);
+
+    /**
+     * Set item's data.
+     * Clears all data and saves @a value as text/plain MIME type.
+     */
     void setData(const QVariant &value);
+
+    /** Return data for given @a role. */
     QVariant data(int role) const;
+
+    /** Return item's data. */
     QMimeData *data () const { return m_data; }
 
+    /** Set default MIME type for rendering the item. */
     void setFormat(const QString &mimeType);
+
+    /** Return MIME types. */
     QStringList formats() const { return m_data->formats(); }
+
+    /** Return default MIME type for rendering the item. */
     const QString &format() const { return m_mimeType; }
+
+    /** Set default MIME type from parent model. */
     void setPreferredFormat();
 
+    /** Return hash for item's data. */
     uint dataHash() const { return m_hash; }
-
-    void setDefault(const QString & mimeType) { m_mimeType = mimeType; }
 
 private:
     const ClipboardModel *m_parent;
@@ -66,7 +108,12 @@ private:
     uint m_hash;
 };
 
+/**
+ * @defgroup clipboard_item_serialization_operators ClipboardItem Serialization Operators
+ * @{
+ */
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item);
 QDataStream &operator>>(QDataStream &stream, ClipboardItem &item);
+///@}
 
 #endif // CLIPBOARDITEM_H

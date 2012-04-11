@@ -56,18 +56,6 @@ void ActionDialog::showEvent(QShowEvent *e)
     ui->cmdEdit->setFocus();
 }
 
-void ActionDialog::changeEvent(QEvent *e)
-{
-    QDialog::changeEvent(e);
-    switch (e->type()) {
-    case QEvent::LanguageChange:
-        ui->retranslateUi(this);
-        break;
-    default:
-        break;
-    }
-}
-
 void ActionDialog::setInputText(const QString &input)
 {
     ui->inputText->setPlainText(input);
@@ -90,9 +78,9 @@ void ActionDialog::add(const QString &cmd)
 
 void ActionDialog::restoreHistory()
 {
-    QSettings settings;
+    ConfigurationManager *cm = ConfigurationManager::instance(this);
 
-    m_maxitems = settings.value("command_history", m_maxitems).toInt();
+    m_maxitems = cm->value("command_history").toInt();
 
     QFile file( dataFilename() );
     file.open(QIODevice::ReadOnly);

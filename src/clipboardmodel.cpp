@@ -239,12 +239,6 @@ bool ClipboardModel::move(int pos, int newpos)
     return true;
 }
 
-/**
-@fn  moveItems
-@arg list items to move
-@arg key move items in given direction (Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home)
-@return true if some item was moved to the top (item to clipboard), otherwise false
-*/
 bool ClipboardModel::moveItems(QModelIndexList list, int key) {
     qSort(list.begin(),list.end());
     int from, to;

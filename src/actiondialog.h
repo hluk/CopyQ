@@ -30,25 +30,39 @@ namespace Ui {
     class ActionDialog;
 }
 
+/** Dialog class for creating Action objects. */
 class ActionDialog : public QDialog {
     Q_OBJECT
 public:
     ActionDialog(QWidget *parent = 0);
     ~ActionDialog();
-    void setInputText(const QString &input);
+
+    /** Restore command history from configuration. */
     void restoreHistory();
+
+    /** Save command history. */
     void saveHistory();
+
+    /** Add @a command to history. */
     void add(const QString &command);
+
+    /** Return filename for storing command history. */
     const QString dataFilename() const;
 
+    /** Set action input text. */
+    void setInputText(const QString &input);
+    /** Set command with arguments. */
     void setCommand(const QString &cmd);
+    /** Item separator for command output. */
     void setSeparator(const QString &sep);
+    /** If set to true input text will be sent to command's standard input. */
     void setInput(bool value);
+    /** If set to true command's standard output will be split to items. */
     void setOutput(bool value);
+    /** Set texts for tabs in combo box. */
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
 
 protected:
-    void changeEvent(QEvent *e);
     void showEvent(QShowEvent *e);
 
 private:
@@ -58,7 +72,10 @@ private:
     QStringList m_history;
 
 signals:
-    void accepted(Action *action);
+    /** Emitted if dialog was accepted. */
+    void accepted(
+            Action *action //!< The accepted action.
+            );
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
@@ -66,6 +83,7 @@ private slots:
     void onFinnished(int);
 
 public slots:
+    /** Create action from dialog's content. */
     void createAction();
 };
 
