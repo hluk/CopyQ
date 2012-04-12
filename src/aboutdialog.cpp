@@ -44,16 +44,10 @@ AboutDialog::~AboutDialog()
 void AboutDialog::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
-
-    /* try to resize the dialog so that vertical scrollbar in the about
-     * document is hidden
-     */
-    restoreGeometry( ConfigurationManager::instance(this)->windowGeometry(
-            objectName()) );
+    ConfigurationManager::instance(this)->loadGeometry(this);
 }
 
 void AboutDialog::onFinished(int)
 {
-    ConfigurationManager::instance()->windowGeometry(
-            objectName(), saveGeometry() );
+    ConfigurationManager::instance()->saveGeometry(this);
 }

@@ -329,16 +329,20 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     c->redraw();
 }
 
-QByteArray ConfigurationManager::windowGeometry(const QString &widget_name, const QByteArray &geometry)
+bool ConfigurationManager::loadGeometry(QWidget *widget) const
 {
     QSettings settings;
+    QString widgetName = widget->objectName();
+    QVariant option = settings.value("Options/" + widgetName + "_geometry");
+    return widget->restoreGeometry(option.toByteArray());
+}
 
-    if ( geometry.isEmpty() ) {
-        return settings.value("Options/"+widget_name+"_geometry").toByteArray();
-    } else {
-        settings.setValue("Options/"+widget_name+"_geometry", geometry);
-        return geometry;
-    }
+void ConfigurationManager::saveGeometry(const QWidget *widget)
+{
+    QSettings settings;
+    QString widgetName = widget->objectName();
+    settings.setValue( "Options/" + widgetName + "_geometry",
+                       widget->saveGeometry() );
 }
 
 QVariant ConfigurationManager::value(const QString &name) const
@@ -356,7 +360,8 @@ QStringList ConfigurationManager::options() const
     QStringList options;
     foreach ( const QString &option, m_options.keys() ) {
         if ( value(option).canConvert(QVariant::String) &&
-             !optionToolTip(option).isEmpty() ) {
+             !optionToolTip(option).isEmpty() )
+        {
             options.append(option);
         }
     }
@@ -615,16 +620,12 @@ void ConfigurationManager::on_pushButtonRemove_clicked()
 void ConfigurationManager::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
-
-    /* try to resize the dialog so that vertical scrollbar in the about
-     * document is hidden
-     */
-    restoreGeometry( windowGeometry(objectName()) );
+    loadGeometry(this);
 }
 
 void ConfigurationManager::onFinished(int result)
 {
-    windowGeometry( objectName(), saveGeometry() );
+    saveGeometry(this);
     if (result == QDialog::Accepted) {
         apply();
     } else {

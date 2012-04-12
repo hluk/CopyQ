@@ -42,6 +42,10 @@ class QListWidgetItem;
 struct _Option;
 typedef _Option Option;
 
+/**
+ * Configuration management.
+ * Singleton.
+ */
 class ConfigurationManager : public QDialog
 {
     Q_OBJECT
@@ -51,6 +55,7 @@ public:
 
     ~ConfigurationManager();
 
+    /** Return singleton instance. */
     static ConfigurationManager *instance(QWidget *parent = 0)
     {
         static QMutex mutex;
@@ -64,6 +69,7 @@ public:
         return m_Instance;
     }
 
+    /** Destroy singleton instance. */
     static void drop()
     {
         static QMutex mutex;
@@ -72,32 +78,59 @@ public:
         m_Instance = NULL;
     }
 
+    /** Load settings from default file. */
     void loadSettings();
+    /** Load settings to default file. Emits configurationChanged() signal. */
     void saveSettings();
+    /** Load theme from settings file. */
     void loadTheme(QSettings &settings);
+    /** Load theme to settings file. */
     void saveTheme(QSettings &settings) const;
 
+    /** Return value for option with given @a name. */
     QVariant value(const QString &name) const;
+    /** Set @a value for option with given @a name. */
     void setValue(const QString &name, const QVariant &value);
+    /** Return list of options that can be set or view using command line. */
     QStringList options() const;
+    /** Return tooltip text for option with given @a name. */
     QString optionToolTip(const QString &name) const;
 
-    void loadItems(ClipboardModel &model, const QString &id);
-    void saveItems(const ClipboardModel &model, const QString &id);
-    void removeItems(const QString &id);
+    /** Load items from configuration file. */
+    void loadItems(
+            ClipboardModel &model, //!< Model for items.
+            const QString &id //!< See ClipboardBrowser::getID().
+            );
+    /** Save items to configuration file. */
+    void saveItems(
+            const ClipboardModel &model, //!< Model containing items to save.
+            const QString &id //!< See ClipboardBrowser::getID().
+            );
+    /** Remove configuration file for items. */
+    void removeItems(
+            const QString &id //!< See ClipboardBrowser::getID().
+            );
 
-    QByteArray windowGeometry( const QString &widget_name = QString(),
-                               const QByteArray &geometry = QByteArray() );
+    /**
+     * Restore widget's geometry (usually size and position of a window).
+     * @return True only if geometry is available.
+     */
+    bool loadGeometry(QWidget *widget) const;
+    /** Save widget's geometry (usually size and position of a window). */
+    void saveGeometry(const QWidget *widget);
 
+    /** Return enabled commands. */
     Commands commands() const;
+    /** Create new command. */
     void addCommand(const Command &cmd);
 
+    /** Set available tab names (for combo box). */
     void setTabs(const QStringList &tabs);
 
-    static bool defaultCommand(int index, Command *c);
-
+    /** Set fonts and color for ClipboardBrowser object. */
     void decorateBrowser(ClipboardBrowser *c) const;
 signals:
+    /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
 
 protected:
@@ -120,6 +153,12 @@ private:
     void shortcutButtonClicked(QPushButton *button);
     void fontButtonClicked(QPushButton *button);
     void colorButtonClicked(QPushButton *button);
+
+    /**
+     * Some example commands.
+     * @return True if command with given index available.
+     */
+    static bool defaultCommand(int index, Command *c);
 
 private slots:
     void on_pushButtonDown_clicked();

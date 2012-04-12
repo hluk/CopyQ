@@ -51,8 +51,7 @@ void ActionDialog::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
 
-    restoreGeometry( ConfigurationManager::instance(this)->windowGeometry(
-            objectName()) );
+    ConfigurationManager::instance(this)->loadGeometry(this);
     ui->cmdEdit->setFocus();
 }
 
@@ -236,8 +235,7 @@ void ActionDialog::on_outputCheckBox_toggled(bool checked)
 
 void ActionDialog::onFinnished(int)
 {
-    ConfigurationManager::instance()->windowGeometry(
-            objectName(), saveGeometry() );
+    ConfigurationManager::instance()->saveGeometry(this);
 }
 
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)

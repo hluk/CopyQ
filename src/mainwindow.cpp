@@ -83,7 +83,7 @@ MainWindow::MainWindow(QWidget *parent)
              m_timerSearch, SLOT(start()) );
 
     ConfigurationManager *cm = ConfigurationManager::instance(this);
-    restoreGeometry( cm->windowGeometry(objectName()) );
+    cm->loadGeometry(this);
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -407,7 +407,7 @@ void MainWindow::saveSettings()
     QTabWidget *w = ui->tabWidget;
     QStringList tabs;
 
-    cm->windowGeometry( objectName(), saveGeometry() );
+    cm->saveGeometry(this);
 
     for( int i = 0; i < w->count(); ++i ) {
         browser(i)->saveItems();
