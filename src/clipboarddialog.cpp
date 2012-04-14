@@ -33,7 +33,7 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
 
     const QMimeData *data = clipboardData();
     if (data) {
-        foreach( const QString &mime, data->formats() ) {
+        foreach ( const QString &mime, data->formats() ) {
             if ( mime.contains("/") )
                 ui->listWidgetFormats->addItem(mime);
         }

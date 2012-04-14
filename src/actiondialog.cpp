@@ -135,7 +135,7 @@ void ActionDialog::createAction()
     bool dquotes = false;
     bool escape = false;
     bool outside = true;
-    foreach(QChar c, cmd) {
+    foreach (QChar c, cmd) {
         if ( outside ) {
             if ( c.isSpace() )
                 continue;

@@ -429,7 +429,7 @@ void MainWindow::loadSettings()
     /* are tabs already loaded? */
     bool loaded = ui->tabWidget->count() > 0;
     QStringList tabs = cm->value("tabs").toStringList();
-    foreach(const QString &name, tabs) {
+    foreach (const QString &name, tabs) {
         ClipboardBrowser *c;
         c = createTab(name, false);
         if (loaded)
@@ -696,7 +696,7 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::showClipboardContent()
 {
-    ClipboardDialog *d = new ClipboardDialog;
+    ClipboardDialog *d = new ClipboardDialog(this);
     connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
     d->show();
 }

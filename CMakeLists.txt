@@ -30,44 +30,46 @@ SET(copyq_SOURCES
 
 # headers that needs to be processed by moc
 SET(copyq_HEADERS
-    src/aboutdialog.h
-    src/actiondialog.h
-    src/action.h
-    src/app.h
-    src/clipboardbrowser.h
-    src/clipboardclient.h
-    src/clipboarddialog.h
-    src/clipboardmodel.h
-    src/clipboardmonitor.h
-    src/clipboardserver.h
-    src/commandwidget.h
-    src/configurationmanager.h
-    src/tabdialog.h
-    src/itemdelegate.h
-    src/mainwindow.h
-    src/qeditor.h
-    src/shortcutdialog.h
+    src/include/aboutdialog.h
+    src/include/actiondialog.h
+    src/include/action.h
+    src/include/app.h
+    src/include/clipboardbrowser.h
+    src/include/clipboardclient.h
+    src/include/clipboarddialog.h
+    src/include/clipboardmodel.h
+    src/include/clipboardmonitor.h
+    src/include/clipboardserver.h
+    src/include/commandwidget.h
+    src/include/configurationmanager.h
+    src/include/tabdialog.h
+    src/include/itemdelegate.h
+    src/include/mainwindow.h
+    src/include/qeditor.h
+    src/include/shortcutdialog.h
     qxt/qxtglobalshortcut.h
     )
 
 SET(copyq_FORMS
-    src/aboutdialog.ui
-    src/actiondialog.ui
-    src/clipboarddialog.ui
-    src/commandwidget.ui
-    src/configurationmanager.ui
-    src/mainwindow.ui
-    src/shortcutdialog.ui
-    src/tabdialog.ui
+    src/ui/aboutdialog.ui
+    src/ui/actiondialog.ui
+    src/ui/clipboarddialog.ui
+    src/ui/commandwidget.ui
+    src/ui/configurationmanager.ui
+    src/ui/mainwindow.ui
+    src/ui/shortcutdialog.ui
+    src/ui/tabdialog.ui
     )
 
 SET(copyq_RESOURCES src/copyq.qrc)
 
 # Qt modules
 SET(QT_USE_QTNETWORK TRUE)
+SET(QT_USE_QTSVG TRUE)
+SET(QT_USE_QTXML TRUE)
 
 INCLUDE(${QT_USE_FILE})
-INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR} src)
+INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR} src/include)
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
 QT4_WRAP_CPP(copyq_HEADERS_MOC ${copyq_HEADERS})

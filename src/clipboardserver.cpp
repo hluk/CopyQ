@@ -171,7 +171,7 @@ void ClipboardServer::stopMonitoring()
 void ClipboardServer::startMonitoring()
 {
     if ( !m_monitor ) {
-        m_monitor = new QProcess;
+        m_monitor = new QProcess(this);
         connect( m_monitor, SIGNAL(stateChanged(QProcess::ProcessState)),
                  this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
         connect( m_monitor, SIGNAL(readyReadStandardError()),

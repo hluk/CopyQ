@@ -166,7 +166,7 @@ uint hash(const QMimeData &data, const QStringList &formats)
     uint hash = 0;
 
     QByteArray bytes;
-    foreach( QString mime, formats ) {
+    foreach ( const QString &mime, formats ) {
         bytes = data.data(mime);
         hash ^= qHash(bytes) + qHash(mime);
     }

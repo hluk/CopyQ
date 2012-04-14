@@ -2,37 +2,40 @@ TEMPLATE = app
 
 TARGET = ../copyq
 DEPENDPATH += .
-INCLUDEPATH += .
+INCLUDEPATH += include
 RESOURCES = copyq.qrc
-FORMS += mainwindow.ui \
-    actiondialog.ui \
-    aboutdialog.ui \
-    configurationmanager.ui \
-    clipboarddialog.ui \
-    tabdialog.ui \
-    shortcutdialog.ui \
-    commandwidget.ui
-HEADERS += mainwindow.h \
-    clipboardbrowser.h \
-    qeditor.h \
-    actiondialog.h \
-    clipboardmodel.h \
-    itemdelegate.h \
-    action.h \
-    client_server.h \
-    aboutdialog.h \
-    clipboarditem.h \
-    clipboardmonitor.h \
-    configurationmanager.h \
-    clipboardserver.h \
-    clipboardclient.h \
-    app.h \
-    arguments.h \
-    clipboarddialog.h \
-    tabdialog.h \
-    shortcutdialog.h \
-    commandwidget.h
-SOURCES += main.cpp \
+FORMS += \
+    ui/mainwindow.ui \
+    ui/actiondialog.ui \
+    ui/aboutdialog.ui \
+    ui/configurationmanager.ui \
+    ui/clipboarddialog.ui \
+    ui/tabdialog.ui \
+    ui/shortcutdialog.ui \
+    ui/commandwidget.ui
+HEADERS += \
+    include/mainwindow.h \
+    include/clipboardbrowser.h \
+    include/qeditor.h \
+    include/actiondialog.h \
+    include/clipboardmodel.h \
+    include/itemdelegate.h \
+    include/action.h \
+    include/client_server.h \
+    include/aboutdialog.h \
+    include/clipboarditem.h \
+    include/clipboardmonitor.h \
+    include/configurationmanager.h \
+    include/clipboardserver.h \
+    include/clipboardclient.h \
+    include/app.h \
+    include/arguments.h \
+    include/clipboarddialog.h \
+    include/tabdialog.h \
+    include/shortcutdialog.h \
+    include/commandwidget.h
+SOURCES += \
+    main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
     qeditor.cpp \

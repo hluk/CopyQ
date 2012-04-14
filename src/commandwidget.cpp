@@ -24,7 +24,6 @@
 
 #include <QFileDialog>
 #include <QPicture>
-#include <QDebug>
 
 CommandWidget::CommandWidget(QWidget *parent)
     : QWidget(parent)

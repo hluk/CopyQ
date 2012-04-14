@@ -64,7 +64,7 @@ bool QEditor::start()
     m_info.setFile( m_tmpfile.fileName() );
     m_lastmodified = m_info.lastModified();
     m_timer->start(500);
-    connect( m_timer, SIGNAL(timeout),
+    connect( m_timer, SIGNAL(timeout()),
              this, SLOT(onTimer()) );
 
     // exec editor

@@ -203,7 +203,7 @@ void ClipboardBrowser::updateContextMenu()
     if ( !m_commands.isEmpty() ) {
         m_menu->addSeparator();
         i = 0;
-        foreach(const Command &command, m_commands) {
+        foreach (const Command &command, m_commands) {
             if ( !command.cmd.isEmpty() && !command.name.isEmpty() &&
                  command.re.indexIn(text) != -1 ) {
                 act = m_menu->addAction( QIcon(command.icon), command.name );
@@ -503,7 +503,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
 
         // commands
         bool ignore = false;
-        foreach(const Command &c, m_commands) {
+        foreach (const Command &c, m_commands) {
             if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                 QString text = data->text();
                 if (c.re.indexIn(text) != -1) {
@@ -602,7 +602,7 @@ const QString ClipboardBrowser::selectedText() const
     QItemSelectionModel *sel = selectionModel();
 
     QModelIndexList list = sel->selectedIndexes();
-    foreach(QModelIndex ind, list) {
+    foreach (const QModelIndex &ind, list) {
         if ( !result.isEmpty() )
             result += QString('\n');
         result += itemText(ind);

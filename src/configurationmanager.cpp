@@ -379,7 +379,7 @@ void ConfigurationManager::loadSettings()
     QSettings settings;
 
     settings.beginGroup("Options");
-    foreach( const QString &key, m_options.keys() ) {
+    foreach ( const QString &key, m_options.keys() ) {
         if ( settings.contains(key) ) {
             QVariant value = settings.value(key);
             if ( value.isValid() )
@@ -427,7 +427,7 @@ void ConfigurationManager::saveSettings()
     QSettings settings;
 
     settings.beginGroup("Options");
-    foreach( const QString &key, m_options.keys() ) {
+    foreach ( const QString &key, m_options.keys() ) {
         settings.setValue( key, m_options[key].value() );
     }
     settings.endGroup();
@@ -463,7 +463,7 @@ void ConfigurationManager::saveSettings()
 
 void ConfigurationManager::loadTheme(QSettings &settings)
 {
-    foreach( const QString &key, m_theme.keys() ) {
+    foreach ( const QString &key, m_theme.keys() ) {
         if ( settings.contains(key) ) {
             QVariant value = settings.value(key);
             if ( value.isValid() )
@@ -491,7 +491,7 @@ void ConfigurationManager::loadTheme(QSettings &settings)
 
 void ConfigurationManager::saveTheme(QSettings &settings) const
 {
-    foreach( const QString &key, m_theme.keys() )
+    foreach ( const QString &key, m_theme.keys() )
         settings.setValue( key, m_theme[key].value() );
 }
 
@@ -529,7 +529,7 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
                     QMessageBox::Yes | QMessageBox::No,
                     QMessageBox::Yes);
         if (answer == QMessageBox::Yes) {
-            foreach( const QString &key, m_options.keys() ) {
+            foreach ( const QString &key, m_options.keys() ) {
                 m_options[key].reset();
             }
         }

@@ -47,8 +47,7 @@ bool ClipboardItem::operator ==(const QMimeData &data) const
 
 void ClipboardItem::clear()
 {
-    delete m_data;
-    m_data = new QMimeData;
+    m_data->clear();
     m_hash = hash(*m_data, m_data->formats());
 }
 
@@ -167,7 +166,7 @@ void ClipboardItem::setPreferredFormat()
     // default mime type is the first in the list
     m_mimeType = formats.isEmpty() ? "text/plain" : formats.first();
     // try formats
-    foreach(QString format, tryformats) {
+    foreach (const QString &format, tryformats) {
         if( formats.contains(format) ) {
             m_mimeType = format;
             break;
@@ -179,8 +178,9 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
 {
     const QMimeData *data = item.data();
     QByteArray bytes;
-    stream << data->formats().length();
-    foreach( QString mime, data->formats() ) {
+    QStringList formats = data->formats();
+    stream << formats.length();
+    foreach (const QString &mime, formats) {
         bytes = data->data(mime);
         if ( !bytes.isEmpty() )
             bytes = qCompress(bytes);
