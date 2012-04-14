@@ -21,7 +21,6 @@
 #include "ui_clipboarddialog.h"
 #include "client_server.h"
 #include <QClipboard>
-#include <QMimeData>
 #include <QUrl>
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
@@ -34,11 +33,13 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
     const QMimeData *data = clipboardData();
     if (data) {
         foreach ( const QString &mime, data->formats() ) {
-            if ( mime.contains("/") )
+            if ( mime.contains("/") ) {
+                m_data.setData( mime, data->data(mime) );
                 ui->listWidgetFormats->addItem(mime);
+            }
         }
         ui->horizontalLayout->setStretchFactor(0,1);
-        ui->horizontalLayout->setStretchFactor(1,3);
+        ui->horizontalLayout->setStretchFactor(1,2);
         ui->listWidgetFormats->setCurrentRow(0);
     }
 }
@@ -54,25 +55,19 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     QTextEdit *edit = ui->textEditContent;
     QString mime = current->text();
 
-    if ( !m_data.contains(mime) ) {
-        const QMimeData *data = clipboardData();
-        if (data) {
-            m_data[mime] = data->data(mime);
-        }
-    }
-
     edit->clear();
-    QByteArray &bytes = m_data[mime];
+    QByteArray bytes = m_data.data(mime);
     if ( mime.startsWith(QString("image")) ) {
         edit->document()->addResource( QTextDocument::ImageResource,
                                        QUrl("data://1"), bytes );
         edit->setHtml( QString("<img src=\"data://1\" />") );
     } else {
-        edit->setPlainText(bytes);
+        edit->setPlainText( QString::fromLocal8Bit(bytes) );
     }
 
     ui->labelProperties->setText(
                 "<strong> mime: </strong>" + Qt::escape(mime) +
-                "<strong> size: </strong>" + QString::number(bytes.size()) + " bytes"
+                "<strong> size: </strong>" + QString::number(bytes.size()) +
+                " bytes"
                 );
 }

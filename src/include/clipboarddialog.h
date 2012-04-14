@@ -22,6 +22,7 @@
 
 #include <QDialog>
 #include <QListWidgetItem>
+#include <QMimeData>
 
 namespace Ui {
     class ClipboardDialog;
@@ -41,7 +42,7 @@ private slots:
 
 private:
     Ui::ClipboardDialog *ui;
-    QMap<QString, QByteArray> m_data;
+    QMimeData m_data;
 };
 
 #endif // CLIPBOARDDIALOG_H

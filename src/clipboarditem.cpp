@@ -102,7 +102,7 @@ QVariant ClipboardItem::data(int role) const
         }
     } else if (role == Qt::EditRole) {
         if ( m_mimeType.startsWith("text") )
-            return m_data->data(m_mimeType);
+            return QString::fromLocal8Bit( m_data->data(m_mimeType) );
         else if ( m_data->hasText() )
             return text();
     } else if (role == Qt::UserRole) {
