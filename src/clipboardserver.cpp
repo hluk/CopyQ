@@ -181,7 +181,7 @@ void ClipboardServer::startMonitoring()
                           QProcess::ReadOnly );
         if ( !m_monitor->waitForStarted(2000) ) {
             log( tr("Cannot start clipboard monitor!"), LogError );
-            delete m_monitor;
+            m_monitor->deleteLater();
             exit(10);
             return;
         }
@@ -259,8 +259,6 @@ void ClipboardServer::newMonitorConnection()
         m_socket = NULL;
     }
     m_socket = m_monitorserver->nextPendingConnection();
-    connect(m_socket, SIGNAL(disconnected()),
-            m_socket, SLOT(deleteLater()));
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
 

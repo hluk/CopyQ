@@ -239,16 +239,21 @@ bool ClipboardModel::move(int pos, int newpos)
     return true;
 }
 
-bool ClipboardModel::moveItems(QModelIndexList list, int key) {
-    qSort(list.begin(),list.end());
+bool ClipboardModel::moveItems(QModelIndexList indexList, int key) {
     int from, to;
     bool res = false;
 
-    for(int i = 0; i<list.length(); ++i) {
-        if (key == Qt::Key_Down || key == Qt::Key_End)
-            from = list.at(list.length()-1-i).row();
-        else
-            from = list.at(i).row();
+    QList<int> list;
+    for ( int i = 0; i < indexList.length(); ++i )
+        list.append( indexList.at(i).row() );
+
+    if ( key == Qt::Key_Down || key == Qt::Key_End )
+        qSort( list.begin(), list.end(), qGreater<int>() );
+    else
+        qSort( list.begin(), list.end(), qLess<int>() );
+
+    for ( int i = 0, d = 0; i<list.length(); ++i ) {
+        from = list.at(i) + d;
 
         switch (key) {
         case Qt::Key_Down:
@@ -264,6 +269,12 @@ bool ClipboardModel::moveItems(QModelIndexList list, int key) {
             to = 0+i;
             break;
         }
+
+        if ( to < 0 )
+            --d;
+        else if (to >= rowCount() )
+            ++d;
+
         if ( !move(from, to) )
             return false;
         if (!res)

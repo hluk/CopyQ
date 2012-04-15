@@ -849,6 +849,8 @@ void MainWindow::action(const QString &text, const Command *cmd)
         QTabWidget *w = ui->tabWidget;
         for( int i = 0; i < w->count(); ++i )
             tabs << w->tabText(i);
+        if ( outputTab.isEmpty() && w->currentIndex() > 0 )
+            outputTab = w->tabText( w->currentIndex() );
         actionDialog->setOutputTabs(tabs, outputTab);
 
         // Show action dialog.

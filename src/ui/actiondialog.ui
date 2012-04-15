@@ -112,7 +112,7 @@ p, li { white-space: pre-wrap; }
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&amp;Command:</string>
+          <string>Co&amp;mmand:</string>
          </property>
          <property name="buddy">
           <cstring>cmdEdit</cstring>
@@ -148,7 +148,7 @@ p, li { white-space: pre-wrap; }
        <item>
         <widget class="QCheckBox" name="outputCheckBox">
          <property name="text">
-          <string>&amp;Output into item(s)</string>
+          <string>O&amp;utput into item(s)</string>
          </property>
          <property name="checked">
           <bool>false</bool>

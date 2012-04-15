@@ -30,10 +30,14 @@
  * Delegate for items in ClipboardBrowser.
  *
  * Creates editor on demand and draws contents of all items.
- * To achieve better performance the first call to get sizeHint value for
- * an item returns some default value (so it doesn't have to render the item
- * needlessly). Trying to paint the item will not succeed instead it notifies
- * all listeners that the size has changed (signal sizeUpdated).
+ *
+ * To achieve better performance the first call to get sizeHint() value for
+ * an item returns some default value (so it doesn't have to render all items).
+ * First paint() call for some item will load that item into cache and notify
+ * all listeners
+ *
+ * If dryPaint() is set to true paint() invocation only loads given item to
+ * cache if necessary but nothing is rendered.
  */
 class ItemDelegate : public QItemDelegate
 {
@@ -42,23 +46,48 @@ class ItemDelegate : public QItemDelegate
     public:
         ItemDelegate(QWidget *parent = 0);
 
-        QSize sizeHint (const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        QSize sizeHint(const QStyleOptionViewItem &option,
+                       const QModelIndex &index) const;
 
-        QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &index) const;
+        QWidget *createEditor(QWidget *parent,
+                              const QStyleOptionViewItem &option,
+                              const QModelIndex &index) const;
+
         void setEditorData(QWidget *editor, const QModelIndex &index) const;
-        void setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const;
+
+        void setModelData(QWidget *editor, QAbstractItemModel *model,
+                          const QModelIndex &index) const;
+
         bool eventFilter(QObject *object, QEvent *event);
 
+        /** Remove all cached items (cache is refreshed using paint()). */
         void invalidateCache() const;
 
-        void setDryPaint(bool dryPaint) { m_dryPaint = dryPaint; }
+        /** Set dry paint. */
+        void setDryPaint(
+                bool dryPaint
+                //!< If true disable item rendering (only cache is updated).
+                )
+        {
+            m_dryPaint = dryPaint;
+        }
+
+        /** Return dry paint. */
         bool dryPaint() const { return m_dryPaint; }
 
+        /** Set regular expression for highlighting. */
         void setSearch(const QRegExp &re);
 
+        /** Search highlight style. */
         void setSearchStyle(const QFont &font, const QPalette &palette);
+
+        /** Editor widget style. */
         void setEditorStyle(const QFont &font, const QPalette &palette);
+
+        /** Item number style. */
         void setNumberStyle(const QFont &font, const QPalette &palette);
+
+        /** Show/hide item number. */
         void setShowNumber(bool show) { m_showNumber = show; }
 
     protected:
@@ -81,12 +110,17 @@ class ItemDelegate : public QItemDelegate
         // items drawn using QTextDocument
         mutable QList<QWidget*> m_cache;
 
-        // get size and/or pixmap from cache
+        /** Return cached item, create it if it doesn't exist. */
         QWidget *cache(const QModelIndex &index) const;
+
+        /** Remove cached item for given @a row. */
         void removeCache(int row) const;
+
+        /** Remove cached item for given @a index. */
         void removeCache(const QModelIndex &index) const;
 
     signals:
+        /** Emitted if item size is changed. */
         void sizeUpdated(const QModelIndex &index) const;
 
     public slots:
@@ -94,8 +128,10 @@ class ItemDelegate : public QItemDelegate
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
         void rowsRemoved(const QModelIndex &parent, int start, int end);
         void rowsInserted(const QModelIndex &parent, int start, int end);
-        void rowsMoved(const QModelIndex &sourceParent, int sourceStart, int sourceEnd,
-                       const QModelIndex &destinationParent, int destinationRow);
+        void rowsMoved(const QModelIndex &sourceParent,
+                       int sourceStart, int sourceEnd,
+                       const QModelIndex &destinationParent,
+                       int destinationRow);
 };
 
 #endif

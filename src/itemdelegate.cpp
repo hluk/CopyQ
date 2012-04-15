@@ -160,7 +160,7 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
     int n = index.row();
 
     QWidget *w = m_cache[n];
-    if (!w) {
+    if (w == NULL) {
         QVariant displayData = index.data(Qt::DisplayRole);
         QString text = displayData.toString();
         QPixmap pix;
@@ -268,10 +268,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         /* Size of currently painted item has changed. */
         cache(index);
         emit sizeUpdated(index);
-        return;
     }
 
-    if ( dryPaint() )
+    if ( w == NULL || dryPaint() )
         return;
 
     const QRect &rect = option.rect;
@@ -347,7 +346,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     painter->restore();
 
     /* restore highlight */
-    if (doc2) {
+    if (doc2 != NULL) {
         textEdit->setDocument(doc1);
         delete doc2;
     }
