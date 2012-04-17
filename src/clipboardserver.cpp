@@ -68,7 +68,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     loadSettings();
 
     // notify window if configuration changes
-    ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+    ConfigurationManager *cm = ConfigurationManager::instance();
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
@@ -124,6 +124,9 @@ void ClipboardServer::monitorStandardError()
 
 void ClipboardServer::stopMonitoring()
 {
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    cm->setValue("_last_hash", m_lastHash);
+
     if (m_monitor) {
         m_monitor->disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
 
@@ -162,9 +165,6 @@ void ClipboardServer::stopMonitoring()
         m_socket = NULL;
         m_monitor->deleteLater();
         m_monitor = NULL;
-
-        ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
-        cm->setValue("_last_hash", m_lastHash);
     }
 }
 
@@ -194,7 +194,7 @@ void ClipboardServer::loadMonitorSettings()
     if ( !m_socket || !m_socket->isWritable() )
         return;
 
-    ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+    ConfigurationManager *cm = ConfigurationManager::instance();
 
     QVariantMap settings;
     settings["_last_hash"] = cm->value("_last_hash");
@@ -566,7 +566,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
     // config [option [value]]
     else if (cmd == "config") {
-        ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+        ConfigurationManager *cm = ConfigurationManager::instance();
 
         if ( args.atEnd() ) {
             QStringList options = cm->options();
@@ -674,7 +674,7 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 void ClipboardServer::loadSettings()
 {
 #ifndef NO_GLOBAL_SHORTCUTS
-    ConfigurationManager *cm = ConfigurationManager::instance(m_wnd);
+    ConfigurationManager *cm = ConfigurationManager::instance();
 
     // set global shortcuts
     QString key;

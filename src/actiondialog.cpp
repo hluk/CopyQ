@@ -51,7 +51,7 @@ void ActionDialog::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
 
-    ConfigurationManager::instance(this)->loadGeometry(this);
+    ConfigurationManager::instance()->loadGeometry(this);
     ui->cmdEdit->setFocus();
 }
 
@@ -77,7 +77,7 @@ void ActionDialog::add(const QString &cmd)
 
 void ActionDialog::restoreHistory()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    ConfigurationManager *cm = ConfigurationManager::instance();
 
     m_maxitems = cm->value("command_history").toInt();
 

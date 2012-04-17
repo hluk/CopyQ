@@ -44,7 +44,7 @@ AboutDialog::~AboutDialog()
 void AboutDialog::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
-    ConfigurationManager::instance(this)->loadGeometry(this);
+    ConfigurationManager::instance()->loadGeometry(this);
 }
 
 void AboutDialog::onFinished(int)

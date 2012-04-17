@@ -33,7 +33,8 @@ HEADERS += \
     include/clipboarddialog.h \
     include/tabdialog.h \
     include/shortcutdialog.h \
-    include/commandwidget.h
+    include/commandwidget.h \
+    include/option.h
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
@@ -55,7 +56,8 @@ SOURCES += \
     clipboarddialog.cpp \
     tabdialog.cpp \
     shortcutdialog.cpp \
-    commandwidget.cpp
+    commandwidget.cpp \
+    option.cpp
 
 QT += core gui xml network
 

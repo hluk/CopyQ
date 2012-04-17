@@ -21,14 +21,10 @@
 #define CONFIGURATIONMANAGER_H
 
 #include "commandwidget.h"
+#include "option.h"
 
 #include <QDialog>
-#include <QMutex>
-#include <QMap>
-#include <QApplication>
-#include <QIcon>
-#include <QSettings>
-
+#include <QHash>
 
 namespace Ui {
     class ConfigurationManager;
@@ -38,9 +34,7 @@ class ClipboardModel;
 class ClipboardBrowser;
 class QAbstractButton;
 class QListWidgetItem;
-
-struct _Option;
-typedef _Option Option;
+class QSettings;
 
 /**
  * Configuration management.
@@ -53,30 +47,11 @@ class ConfigurationManager : public QDialog
 public:
     typedef QList<Command> Commands;
 
-    ~ConfigurationManager();
-
     /** Return singleton instance. */
-    static ConfigurationManager *instance(QWidget *parent = 0)
-    {
-        static QMutex mutex;
-
-        if (!m_Instance) {
-            QMutexLocker lock(&mutex);
-            if (!m_Instance)
-                m_Instance = new ConfigurationManager(parent);
-        }
-
-        return m_Instance;
-    }
+    static ConfigurationManager *instance();
 
     /** Destroy singleton instance. */
-    static void drop()
-    {
-        static QMutex mutex;
-        QMutexLocker lock(&mutex);
-        delete m_Instance;
-        m_Instance = NULL;
-    }
+    static void drop();
 
     /** Load settings from default file. */
     void loadSettings();
@@ -144,7 +119,7 @@ private:
     QHash<QString, Option> m_theme;
     Commands m_commands;
 
-    explicit ConfigurationManager(QWidget *parent = 0);
+    explicit ConfigurationManager();
 
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);

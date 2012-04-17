@@ -82,7 +82,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( ui->searchBar, SIGNAL(textChanged(QString)),
              m_timerSearch, SLOT(start()) );
 
-    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    ConfigurationManager *cm = ConfigurationManager::instance();
     cm->loadGeometry(this);
 
     // notify window if configuration changes
@@ -403,7 +403,7 @@ void MainWindow::resetStatus()
 
 void MainWindow::saveSettings()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    ConfigurationManager *cm = ConfigurationManager::instance();
     QTabWidget *w = ui->tabWidget;
     QStringList tabs;
 
@@ -422,7 +422,7 @@ void MainWindow::loadSettings()
 {
     log( tr("Loading configuration") );
 
-    ConfigurationManager *cm = ConfigurationManager::instance(this);
+    ConfigurationManager *cm = ConfigurationManager::instance();
     m_confirmExit = cm->value("confirm_exit").toBool();
     m_trayitems = cm->value("tray_items").toInt();
 
@@ -736,7 +736,7 @@ void MainWindow::openActionDialog(const QString &text)
 
 void MainWindow::openPreferences()
 {
-    ConfigurationManager::instance(this)->exec();
+    ConfigurationManager::instance()->exec();
 }
 
 ClipboardBrowser *MainWindow::browser(int index)
@@ -904,7 +904,7 @@ void MainWindow::removeTab(bool ask, int tab_index)
 
 MainWindow::~MainWindow()
 {
-    ConfigurationManager::instance(this)->disconnect();
+    ConfigurationManager::instance()->disconnect();
     saveSettings();
     tray->hide();
     delete ui;

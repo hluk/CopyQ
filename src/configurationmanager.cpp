@@ -23,6 +23,9 @@
 #include "client_server.h"
 #include "shortcutdialog.h"
 #include "itemdelegate.h"
+
+#include <QSettings>
+#include <QMutex>
 #include <QFile>
 #include <QtGui/QDesktopWidget>
 #include <QMessageBox>
@@ -36,57 +39,32 @@
 #define DEFAULT_EDITOR "gedit %1"
 #endif
 
-struct _Option {
-    _Option()
-        : m_default_value()
-        , m_value()
-        , m_property_name(NULL)
-        , m_obj(NULL)
-    {}
-
-    _Option(const QVariant &default_value, const char *property_name = NULL, QObject *obj = NULL)
-        : m_default_value(default_value)
-        , m_value()
-        , m_property_name(property_name)
-        , m_obj(obj)
-    {
-        reset();
-    }
-
-    QVariant value() const
-    {
-        return m_obj ? m_obj->property(m_property_name) : m_value;
-    }
-
-    void setValue(const QVariant &value)
-    {
-        if (m_obj)
-            m_obj->setProperty(m_property_name, value);
-        else
-            m_value = value;
-    }
-
-    void reset()
-    {
-        setValue(m_default_value);
-    }
-
-    QString tooltip() const
-    {
-        return m_obj ? m_obj->property("toolTip").toString() : QString();
-    }
-
-    /* default value and also type (int, float, boolean, QString) */
-    QVariant m_default_value, m_value;
-    const char *m_property_name;
-    QObject *m_obj;
-};
-
 // singleton
 ConfigurationManager* ConfigurationManager::m_Instance = 0;
 
-ConfigurationManager::ConfigurationManager(QWidget *parent)
-    : QDialog(parent)
+ConfigurationManager *ConfigurationManager::instance()
+{
+    static QMutex mutex;
+
+    if (!m_Instance) {
+        QMutexLocker lock(&mutex);
+        if (!m_Instance)
+            m_Instance = new ConfigurationManager();
+    }
+
+    return m_Instance;
+}
+
+void ConfigurationManager::drop()
+{
+    static QMutex mutex;
+    QMutexLocker lock(&mutex);
+    delete m_Instance;
+    m_Instance = NULL;
+}
+
+ConfigurationManager::ConfigurationManager()
+    : QDialog()
     , ui(new Ui::ConfigurationManager)
     , m_datfilename()
     , m_options()
@@ -190,11 +168,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
     loadSettings();
-}
-
-ConfigurationManager::~ConfigurationManager()
-{
-    delete ui;
 }
 
 void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)

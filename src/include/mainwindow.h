@@ -22,6 +22,7 @@
 
 #include <QtGui/QMainWindow>
 #include <QSystemTrayIcon>
+#include <QMap>
 #include "configurationmanager.h"
 
 class ClipboardModel;

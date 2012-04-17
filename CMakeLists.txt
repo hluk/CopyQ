@@ -22,6 +22,7 @@ SET(copyq_SOURCES
     src/itemdelegate.cpp
     src/main.cpp
     src/mainwindow.cpp
+    src/option.cpp
     src/qeditor.cpp
     src/shortcutdialog.cpp
     qxt/qxtglobal.cpp
