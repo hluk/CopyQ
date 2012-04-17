@@ -34,7 +34,7 @@
 static void usage()
 {
     std::cout << QObject::tr(
-"CopyQ Clipboard Manager v1.2.2 (hluk@email.cz)\n\n"
+"CopyQ Clipboard Manager v1.2.3 (hluk@email.cz)\n\n"
 "usage: copyq [COMMAND]\n"
 "Starts server if no command is specified.\n"
 "  COMMANDs:\n"
