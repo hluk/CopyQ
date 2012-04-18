@@ -190,7 +190,8 @@
        <item row="4" column="1">
         <widget class="QLineEdit" name="lineEditCommand">
          <property name="toolTip">
-          <string>Command to run. Use %1 for item text passed as argument.</string>
+           <string>Command to run. Use %1 for item text passed as argument and %2 to %9
+for arguments captured by regular expression (parts enclosed in parentheses).</string>
          </property>
         </widget>
        </item>

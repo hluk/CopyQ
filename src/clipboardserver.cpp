@@ -84,17 +84,11 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
 
 ClipboardServer::~ClipboardServer()
 {
-    if( isMonitoring() ) {
+    if( isMonitoring() )
         stopMonitoring();
-    }
 
-    delete m_wnd;
-
-    if (m_socket) {
+    if (m_socket)
         m_socket->disconnectFromServer();
-        m_socket->deleteLater();
-        m_socket = NULL;
-    }
 }
 
 void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
@@ -345,7 +339,6 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         // close client and exit
         *response = tr("Terminating server.\n").toLocal8Bit();
         m_wnd->deleteLater();
-        m_wnd = NULL;
     }
 
     // show menu
@@ -385,6 +378,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             command.input = true;
             command.sep = sep;
             command.wait = false;
+            command.outputTab = c->getID();
             m_wnd->action(text, &command);
         }
     }
@@ -624,7 +618,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         }
     }
 
-    // removetab tab_name
+    // removetab! tab_name
     else if(cmd == "removetab!") {
         if ( args.atEnd() )
             return CommandBadSyntax;

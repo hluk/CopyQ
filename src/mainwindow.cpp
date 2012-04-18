@@ -840,6 +840,7 @@ void MainWindow::action(const QString &text, const Command *cmd)
         actionDialog->setSeparator(cmd->sep);
         actionDialog->setInput(cmd->input);
         actionDialog->setOutput(cmd->output);
+        actionDialog->setRegExp(cmd->re);
         outputTab = cmd->outputTab;
     }
 

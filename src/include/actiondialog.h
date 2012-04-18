@@ -21,6 +21,7 @@
 #define ACTIONDIALOG_H
 
 #include <QDialog>
+#include <QRegExp>
 
 class QCompleter;
 class Action;
@@ -61,6 +62,8 @@ public:
     void setOutput(bool value);
     /** Set texts for tabs in combo box. */
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
+    /** Set regular expression. */
+    void setRegExp(const QRegExp &re);
 
 protected:
     void showEvent(QShowEvent *e);
@@ -70,6 +73,7 @@ private:
     int m_maxitems;
     QCompleter *m_completer;
     QStringList m_history;
+    QRegExp m_re;
 
 signals:
     /** Emitted if dialog was accepted. */

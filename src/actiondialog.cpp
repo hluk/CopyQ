@@ -143,9 +143,14 @@ void ActionDialog::createAction()
                 outside = false;
         }
 
-        if ( c == '1' && arg.endsWith('%') ) {
+        if ( c >= '1' && c <= '9' && arg.endsWith('%') ) {
             arg.remove( arg.size()-1, 1 );
-            arg.append(input);
+            int i = c.toAscii() - '1';
+            if ( i > 0 && input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {
+                arg.append( m_re.cap(i) );
+            } else {
+                arg.append(input);
+            }
             continue;
         }
 
@@ -223,6 +228,11 @@ void ActionDialog::setOutputTabs(const QStringList &tabs,
     w->addItem("");
     w->addItems(tabs);
     w->setEditText(currentTabName);
+}
+
+void ActionDialog::setRegExp(const QRegExp &re)
+{
+    m_re = re;
 }
 
 void ActionDialog::on_outputCheckBox_toggled(bool checked)
