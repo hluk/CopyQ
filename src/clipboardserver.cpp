@@ -22,9 +22,11 @@
 #include "mainwindow.h"
 #include "clipboardbrowser.h"
 #include "clipboarditem.h"
+#include "arguments.h"
+
 #include <QLocalSocket>
 #include <QMimeData>
-#include "arguments.h"
+#include <QTimer>
 
 #ifdef NO_GLOBAL_SHORTCUTS
 struct QxtGlobalShortcut {};
@@ -89,6 +91,8 @@ ClipboardServer::~ClipboardServer()
 
     if (m_socket)
         m_socket->disconnectFromServer();
+
+    delete m_wnd;
 }
 
 void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
@@ -336,9 +340,11 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     else if (cmd == "exit") {
         if ( !args.atEnd() )
             return CommandBadSyntax;
-        // close client and exit
+        // close client and exit (respond to client first)
         *response = tr("Terminating server.\n").toLocal8Bit();
-        m_wnd->deleteLater();
+        QTimer *timer = new QTimer(this);
+        timer->start(0);
+        connect( timer, SIGNAL(timeout()), SLOT(quit()) );
     }
 
     // show menu

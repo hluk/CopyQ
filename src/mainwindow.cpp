@@ -410,8 +410,9 @@ void MainWindow::saveSettings()
     cm->saveGeometry(this);
 
     for( int i = 0; i < w->count(); ++i ) {
-        browser(i)->saveItems();
-        tabs << w->tabText(i);
+        ClipboardBrowser *c = browser(i);
+        c->saveItems();
+        tabs << c->getID();
     }
     cm->setTabs(tabs);
 
