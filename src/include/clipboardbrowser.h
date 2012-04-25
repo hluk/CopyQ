@@ -120,10 +120,6 @@ class ClipboardBrowser : public QListView
         /** Force redrawing the list. */
         void redraw();
 
-        /** Scroll to given index. */
-        void scrollTo(const QModelIndex &index,
-                      QAbstractItemView::ScrollHint hint = EnsureVisible);
-
         /** Toggle automatic clipboard update. */
         void setAutoUpdate(bool update) { m_update = update; }
 
@@ -149,9 +145,6 @@ class ClipboardBrowser : public QListView
 
         QMenu *m_menu;
         ConfigurationManager::Commands m_commands;
-
-        QModelIndex m_scrollIndex;
-        QAbstractItemView::ScrollHint m_scrollHint;
 
         void createContextMenu();
         bool isFiltered(int row) const;

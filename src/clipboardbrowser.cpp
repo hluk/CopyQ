@@ -29,6 +29,7 @@
 #include <QMenu>
 #include <QMimeData>
 #include <QTimer>
+#include <QScrollBar>
 
 static const int max_preload = 10;
 
@@ -45,8 +46,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     , m_timerSave( new QTimer(this) )
     , m_menu( new QMenu(this) )
     , m_commands()
-    , m_scrollIndex()
-    , m_scrollHint()
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
@@ -68,7 +67,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     // delegate for rendering and editing items
     setItemDelegate(d);
     connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
-             this, SLOT(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
+             this, SLOT(sizeHintChanged(QModelIndex)),
+             Qt::DirectConnection );
 
     // set new model
     QItemSelectionModel *old_model = selectionModel();
@@ -227,17 +227,17 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 
 void ClipboardBrowser::paintEvent(QPaintEvent *event)
 {
+    /* Pre-load next and previous page. */
+    int h = viewport()->height();
+    QPaintEvent event2( event->rect().adjusted(0, -h, 0, h) );
+
     d->setDryPaint(true);
     m_sizeHintChanged = false;
-    QListView::paintEvent(event);
+    QListView::paintEvent(&event2);
     d->setDryPaint(false);
 
-    if ( m_scrollIndex.isValid() )
-        scrollTo(m_scrollIndex, m_scrollHint);
-    if (!m_sizeHintChanged) {
-        m_scrollIndex = QModelIndex();
-        QListView::paintEvent(event);
-    }
+    if (!m_sizeHintChanged)
+        QListView::paintEvent(&event2);
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
@@ -377,10 +377,23 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             /* If item height is bigger than viewport height
              * it's possible that wrong item is selected.
              */
-            if (key == Qt::Key_PageDown)
-                setCurrent(currentIndex().row()+2);
-            else if (key == Qt::Key_PageUp)
-                setCurrent(currentIndex().row()-2);
+            if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
+                int d = key == Qt::Key_PageDown ? 1 : -1;
+                int h = viewport()->height();
+                QModelIndex current = currentIndex();
+                QRect rect = visualRect(current);
+
+                if ( rect.height() > h ) {
+                    if ( d*(rect.y() + rect.height()) >= d*h ) {
+                        QScrollBar *v = verticalScrollBar();
+                        v->setValue( v->value() + d * v->pageStep() );
+                    } else {
+                        setCurrent( current.row() + d, false,
+                                    event->modifiers() == Qt::ShiftModifier );
+                    }
+                    return;
+                }
+            }
 
             QListView::keyPressEvent(event);
             break;
@@ -642,24 +655,14 @@ void ClipboardBrowser::redraw()
     update();
 }
 
-void ClipboardBrowser::scrollTo(const QModelIndex &index,
-                                QAbstractItemView::ScrollHint hint)
-{
-    m_scrollIndex = index;
-    m_scrollHint = hint;
-
-    if (hint == QAbstractItemView::EnsureVisible) {
-        QRect rect = visualRect(index);
-        if ( rect.y() <= 0 )
-            m_scrollHint = QAbstractItemView::PositionAtTop;
-        if ( rect.y() + rect.height() >= viewport()->height() )
-            m_scrollHint = QAbstractItemView::PositionAtBottom;
-    }
-
-    QListView::scrollTo(index, hint);
-}
-
-void ClipboardBrowser::sizeHintChanged(const QModelIndex &)
+void ClipboardBrowser::sizeHintChanged(const QModelIndex &index)
 {
     m_sizeHintChanged = true;
+
+    /* Compensate the size change. */
+    if ( index.row() < currentIndex().row() ) {
+        QScrollBar *v = verticalScrollBar();
+        v->setValue( v->value() - 1024 +
+                     d->sizeHint(QStyleOptionViewItem(), index).height() );
+    }
 }

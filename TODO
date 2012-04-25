@@ -1,6 +1,6 @@
 [ ] Configuration dialog should be separate class
     (not part of the ConfigurationManager)
-[ ] Incorrect scrolling from bottom up while updating sizes of items
+[ ] Selection lost if scrolling from bottom (Qt bug?)
 [ ] Don't save settings while copyq client (from CLI) is connected
 [ ] Load/save items from/to a file (load and save actions)
 [ ] Plugins for viewing different item mime types

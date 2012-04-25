@@ -42,7 +42,8 @@ ItemDelegate::ItemDelegate(QWidget *parent)
     , m_cache()
 {
     connect( this, SIGNAL(sizeUpdated(QModelIndex)),
-             SIGNAL(sizeHintChanged(QModelIndex)), Qt::DirectConnection );
+             SIGNAL(sizeHintChanged(QModelIndex)),
+             Qt::DirectConnection );
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
