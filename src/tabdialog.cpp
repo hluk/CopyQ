@@ -20,6 +20,8 @@
 #include "tabdialog.h"
 #include "ui_tabdialog.h"
 
+#include <QPushButton>
+
 TabDialog::TabDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TabDialog)
@@ -28,6 +30,11 @@ TabDialog::TabDialog(QWidget *parent)
 
     connect( this, SIGNAL(accepted()),
              this, SLOT(onAccepted()) );
+
+    connect( ui->lineEditTabName, SIGNAL(textChanged(QString)),
+             this, SLOT(validate()) );
+
+    validate();
 }
 
 TabDialog::~TabDialog()
@@ -35,9 +42,25 @@ TabDialog::~TabDialog()
     delete ui;
 }
 
+void TabDialog::setTabs(const QStringList &tabs)
+{
+    m_tabs = tabs;
+    validate();
+}
+
+void TabDialog::setTabName(const QString &tabName)
+{
+    ui->lineEditTabName->setText(tabName);
+}
+
+void TabDialog::validate()
+{
+    QString text = ui->lineEditTabName->text();
+    bool ok = !text.isEmpty() && !m_tabs.contains(text);
+    ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ok);
+}
+
 void TabDialog::onAccepted()
 {
-    QString name = ui->lineEditTabName->text();
-    if ( !name.isEmpty() )
-        emit addTab(name);
+    emit accepted(ui->lineEditTabName->text());
 }

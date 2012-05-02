@@ -390,7 +390,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             command.sep = sep;
             command.wait = false;
             command.outputTab = c->getID();
-            m_wnd->action(text, &command);
+            m_wnd->action(text, command);
         }
     }
 
@@ -611,9 +611,8 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     else if(cmd == "tab") {
         if ( args.atEnd() ) {
             c = m_wnd->browser(0);
-            for ( int i = 0; c != NULL; c = m_wnd->browser(++i) ) {
-                response->append( c->getID() + '\n' );
-            }
+            foreach ( const QString &tabName, m_wnd->tabs() )
+                response->append(tabName + '\n');
         } else {
             QString name;
             args >> name;

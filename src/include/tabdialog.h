@@ -21,6 +21,7 @@
 #define TAGDIALOG_H
 
 #include <QDialog>
+#include <QStringList>
 
 namespace Ui {
     class TabDialog;
@@ -34,14 +35,22 @@ public:
     explicit TabDialog(QWidget *parent = 0);
     ~TabDialog();
 
+    /** Set existing tabs for validation. */
+    void setTabs(const QStringList &tabs);
+
+    /** Set current tab name. */
+    void setTabName(const QString &tabName);
+
 private:
     Ui::TabDialog *ui;
+    QStringList m_tabs;
 
 signals:
-    void addTab(const QString name);
+    void accepted(const QString &name);
 
 private slots:
     void onAccepted();
+    void validate();
 };
 
 #endif // TAGDIALOG_H

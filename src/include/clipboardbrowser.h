@@ -157,8 +157,7 @@ class ClipboardBrowser : public QListView
 
     signals:
         /** Action dialog requested. */
-        void requestActionDialog(const QString &text,
-                                 const Command *cmd = NULL);
+        void requestActionDialog(const QString &text, const Command &cmd);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
         /** Close all external editors. */

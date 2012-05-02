@@ -73,7 +73,7 @@ class MainWindow : public QMainWindow
         ActionDialog *createActionDialog();
 
         /** Return browser widget in given tab @a index (or current tab). */
-        ClipboardBrowser *browser(int index = -1);
+        ClipboardBrowser *browser(int index = -1) const;
 
         /**
          * Create tab with given @a name if it doesn't exist.
@@ -84,6 +84,9 @@ class MainWindow : public QMainWindow
                 bool save
                 //!< If true saveSettings() is called if tab is created.
                 );
+
+        /** Return tab names. */
+        QStringList tabs() const;
 
         static void elideText(QAction *act);
 
@@ -163,10 +166,14 @@ class MainWindow : public QMainWindow
         void action(Action *action);
 
         /** Execute command on given input text. */
-        void action(const QString &text, const Command *cmd = NULL);
+        void action(const QString &text, const Command &cmd);
 
-        /** Open tab dialog. */
+        /** Open tab creation dialog. */
         void newTab();
+        /** Open tab renaming dialog. */
+        void renameTab();
+        /** Rename current tab to given name (if possible). */
+        void renameCurrentTab(const QString &name);
         /** Remove tab. */
         void removeTab(
                 bool ask = true, //!< Ask before removing.

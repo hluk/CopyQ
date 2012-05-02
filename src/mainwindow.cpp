@@ -34,6 +34,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QTimer>
+#include <QInputDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -210,6 +211,9 @@ void MainWindow::createMenu()
     tabMenu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
                         this, SLOT(newTab()),
                         QKeySequence::AddTab );
+    tabMenu->addAction( QIcon(":/images/tab_rename.svg"), tr("&Rename tab"),
+                        this, SLOT(renameTab()),
+                        QKeySequence("Ctrl+F2") );
     tabMenu->addAction( QIcon(":/images/tab_remove.svg"), tr("&Remove tab"),
                         this, SLOT(removeTab()),
                         QKeySequence::Close );
@@ -287,8 +291,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
-    connect( c, SIGNAL(requestActionDialog(QString,const Command*)),
-             this, SLOT(action(QString,const Command*)) );
+    connect( c, SIGNAL(requestActionDialog(QString,Command)),
+             this, SLOT(action(QString,Command)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(addToTab(QMimeData*,QString)),
@@ -301,6 +305,17 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
         saveSettings();
 
     return c;
+}
+
+QStringList MainWindow::tabs() const
+{
+    QStringList tabs;
+    QTabWidget *w = ui->tabWidget;
+
+    for( int i = 0; i < w->count(); ++i )
+        tabs << browser(i)->getID();
+
+    return tabs;
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -405,15 +420,10 @@ void MainWindow::saveSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
     QTabWidget *w = ui->tabWidget;
-    QStringList tabs;
 
     cm->saveGeometry(this);
 
-    for( int i = 0; i < w->count(); ++i ) {
-        ClipboardBrowser *c = browser(i);
-        tabs << c->getID();
-    }
-    cm->setTabs(tabs);
+    cm->setTabs(tabs());
 
     cm->saveSettings();
 }
@@ -739,7 +749,7 @@ void MainWindow::openPreferences()
     ConfigurationManager::instance()->exec();
 }
 
-ClipboardBrowser *MainWindow::browser(int index)
+ClipboardBrowser *MainWindow::browser(int index) const
 {
     QWidget *w = ui->tabWidget->widget(
                 index < 0 ? ui->tabWidget->currentIndex() : index );
@@ -829,22 +839,20 @@ void MainWindow::action(Action *action)
     action->start();
 }
 
-void MainWindow::action(const QString &text, const Command *cmd)
+void MainWindow::action(const QString &text, const Command &cmd)
 {
     ActionDialog *actionDialog = createActionDialog();
     QString outputTab;
 
     actionDialog->setInputText(text);
-    if (cmd) {
-        actionDialog->setCommand(cmd->cmd);
-        actionDialog->setSeparator(cmd->sep);
-        actionDialog->setInput(cmd->input);
-        actionDialog->setOutput(cmd->output);
-        actionDialog->setRegExp(cmd->re);
-        outputTab = cmd->outputTab;
-    }
+    actionDialog->setCommand(cmd.cmd);
+    actionDialog->setSeparator(cmd.sep);
+    actionDialog->setInput(cmd.input);
+    actionDialog->setOutput(cmd.output);
+    actionDialog->setRegExp(cmd.re);
+    outputTab = cmd.outputTab;
 
-    if (!cmd || cmd->wait) {
+    if (cmd.wait) {
         // Insert tab labels to action dialog's combo box.
         QStringList tabs;
         QTabWidget *w = ui->tabWidget;
@@ -867,13 +875,46 @@ void MainWindow::action(const QString &text, const Command *cmd)
 void MainWindow::newTab()
 {
     TabDialog *d = new TabDialog(this);
+    d->setTabs(tabs());
 
-    connect( d, SIGNAL(addTab(QString)),
+    connect( d, SIGNAL(accepted(QString)),
              this, SLOT(addTab(QString)) );
     connect( d, SIGNAL(finished(int)),
              d, SLOT(deleteLater()) );
 
     d->open();
+}
+
+void MainWindow::renameTab()
+{
+    TabDialog *d = new TabDialog(this);
+    d->setWindowTitle(tr("CopyQ Rename Tab"));
+    d->setTabs(tabs());
+    d->setTabName(browser()->getID());
+
+    connect( d, SIGNAL(accepted(QString)),
+             this, SLOT(renameCurrentTab(QString)) );
+    connect( d, SIGNAL(finished(int)),
+             d, SLOT(deleteLater()) );
+
+    d->open();
+}
+
+void MainWindow::renameCurrentTab(const QString &name)
+{
+    if ( name.isEmpty() || tabs().contains(name) )
+        return;
+
+    QTabWidget *w = ui->tabWidget;
+    int current = ui->tabWidget->currentIndex();
+    ClipboardBrowser *c = browser(current);
+    QString oldName = c->getID();
+
+    c->setID(name);
+    c->saveItems();
+    w->setTabText(current, name);
+
+    ConfigurationManager::instance()->removeItems(oldName);
 }
 
 void MainWindow::removeTab(bool ask, int tab_index)
