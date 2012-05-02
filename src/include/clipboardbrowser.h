@@ -195,15 +195,19 @@ class ClipboardBrowser : public QListView
         void addItems(const QStringList &items);
 
         /**
-         * Load items from configuration
+         * Load items from configuration.
          * @see setID, saveItems, purgeItems
          */
         void loadItems();
         /**
-         * Save items to configuration
+         * Save items to configuration.
          * @see setID, loadItems, purgeItems
          */
-        void saveItems(int msec=0);
+        void saveItems();
+        /**
+         * Save items to configuration after interval.
+         */
+        void delayedSaveItems();
         /**
          * Clear all items from configuration.
          * @see setID, loadItems, saveItems

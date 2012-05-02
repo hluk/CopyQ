@@ -411,7 +411,6 @@ void MainWindow::saveSettings()
 
     for( int i = 0; i < w->count(); ++i ) {
         ClipboardBrowser *c = browser(i);
-        c->saveItems();
         tabs << c->getID();
     }
     cm->setTabs(tabs);

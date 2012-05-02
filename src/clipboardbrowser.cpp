@@ -85,6 +85,16 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
 
+    // save if data in model changed
+    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             SLOT(delayedSaveItems()) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(delayedSaveItems()) );
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(delayedSaveItems()) );
+    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+             SLOT(delayedSaveItems()) );
+
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));
 
@@ -550,8 +560,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
     if ( m->rowCount() > m_maxitems )
         m->removeRow( m->rowCount() - 1 );
 
-    // save history after 2 minutes
-    saveItems(120000);
+    delayedSaveItems();
 
     return true;
 }
@@ -586,22 +595,28 @@ void ClipboardBrowser::loadSettings()
 void ClipboardBrowser::loadItems()
 {
     if ( m_id.isEmpty() ) return;
-    m_timerSave->stop();
     ConfigurationManager::instance()->loadItems(*m, m_id);
+    m_timerSave->stop();
     setCurrentIndex( QModelIndex() );
 }
 
-void ClipboardBrowser::saveItems(int msec)
+void ClipboardBrowser::saveItems()
+{
+    if ( m_id.isEmpty() )
+        return;
+
+    m_timerSave->stop();
+
+    ConfigurationManager::instance()->saveItems(*m, m_id);
+}
+
+void ClipboardBrowser::delayedSaveItems()
 {
     if ( m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
-    if (msec>0) {
-        m_timerSave->start(msec);
-        return;
-    }
-
-    ConfigurationManager::instance()->saveItems(*m, m_id);
+    // save after 2 minutes
+    m_timerSave->start(120000);
 }
 
 void ClipboardBrowser::purgeItems()

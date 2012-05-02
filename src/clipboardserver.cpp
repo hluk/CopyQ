@@ -93,6 +93,11 @@ ClipboardServer::~ClipboardServer()
         m_socket->disconnectFromServer();
 
     delete m_wnd;
+
+    // delete shortcuts manually
+    foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
+        delete s;
+    m_shortcutActions.clear();
 }
 
 void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
