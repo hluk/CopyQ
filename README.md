@@ -86,6 +86,8 @@ Command Line Interface
           Tab is created if it doesn't exist.
         removetab! <TAB_NAME>
           Remove tab with given name.
+        renametab  <TAB_NAME> <NEW_TAB_NAME>
+          Rename tab.
 
         length, count, size
           Print number of items in history.

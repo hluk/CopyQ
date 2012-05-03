@@ -60,6 +60,8 @@ static void usage()
 "      Tab is created if it doesn't exist.\n"
 "    removetab! <TAB_NAME>\n"
 "      Remove tab with given name.\n"
+"    renametab  <TAB_NAME> <NEW_TAB_NAME>\n"
+"      Rename tab.\n"
 "\n"
 "    length, count, size\n"
 "      Print number of items in history.\n"

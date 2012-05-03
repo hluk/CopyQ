@@ -25,6 +25,8 @@
 TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TabDialog)
+    , m_tabIndex(-1)
+    , m_tabs()
 {
     ui->setupUi(this);
 
@@ -50,6 +52,11 @@ TabDialog::~TabDialog()
     delete ui;
 }
 
+void TabDialog::setTabIndex(int tabIndex)
+{
+    m_tabIndex = tabIndex;
+}
+
 void TabDialog::setTabs(const QStringList &tabs)
 {
     m_tabs = tabs;
@@ -70,5 +77,5 @@ void TabDialog::validate()
 
 void TabDialog::onAccepted()
 {
-    emit accepted(ui->lineEditTabName->text());
+    emit accepted(ui->lineEditTabName->text(), m_tabIndex);
 }

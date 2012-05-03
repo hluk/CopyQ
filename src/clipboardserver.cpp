@@ -650,6 +650,32 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         m_wnd->removeTab(false, i);
     }
 
+    // renametab tab_name new_tab_name
+    else if(cmd == "renametab") {
+        if ( args.atEnd() )
+            return CommandBadSyntax;
+
+        QString name, new_name;
+        args >> name >> new_name;
+
+        if ( args.error() )
+            return CommandBadSyntax;
+
+        int i = m_wnd->tabs().indexOf(name);
+        if ( i < 0 ) {
+            response->append( tr("Tab with given name doesn't exist!\n") );
+            return CommandError;
+        } else if ( new_name.isEmpty() ) {
+            response->append( tr("Tab name cannot be empty!\n") );
+            return CommandError;
+        } else if ( m_wnd->tabs().indexOf(new_name) >= 0 ) {
+            response->append( tr("Tab with given name already exists!\n") );
+            return CommandError;
+        }
+
+        m_wnd->renameTab(new_name, i);
+    }
+
     // unknown command
     else {
         return CommandBadSyntax;

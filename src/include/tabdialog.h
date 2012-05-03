@@ -44,6 +44,9 @@ public:
     explicit TabDialog(TabDialogType type, QWidget *parent = 0);
     ~TabDialog();
 
+    /** Set tab index to rename (emitted parameter of accepted()). */
+    void setTabIndex(int tabIndex);
+
     /** Set existing tabs for validation. */
     void setTabs(const QStringList &tabs);
 
@@ -52,11 +55,12 @@ public:
 
 private:
     Ui::TabDialog *ui;
+    int m_tabIndex;
     QStringList m_tabs;
 
 signals:
-    /** Signal emitted if tab name is accepted. */
-    void accepted(const QString &name);
+    /** Signal emitted if tab @a name is accepted. */
+    void accepted(const QString &name, int tabIndex);
 
 private slots:
     void onAccepted();

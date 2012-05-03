@@ -57,7 +57,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        MainWindow(QWidget *parent = 0);
+        explicit MainWindow(QWidget *parent = 0);
         ~MainWindow();
 
         /** Return true if in browse mode. */
@@ -170,10 +170,10 @@ class MainWindow : public QMainWindow
 
         /** Open tab creation dialog. */
         void newTab();
-        /** Open tab renaming dialog. */
-        void renameTab();
+        /** Open tab renaming dialog (for given tab index or current tab). */
+        void renameTab(int tab = -1);
         /** Rename current tab to given name (if possible). */
-        void renameCurrentTab(const QString &name);
+        void renameTab(const QString &name, int tabIndex);
         /** Remove tab. */
         void removeTab(
                 bool ask = true, //!< Ask before removing.
@@ -206,6 +206,9 @@ class MainWindow : public QMainWindow
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
         void tabChanged();
+        void tabMoved(int from, int to);
+        void tabMenuRequested(const QPoint &pos, int tab);
+        void tabCloseRequested(int tab);
         void addItems(const QStringList &items, const QString &tabName);
         void onTimerSearch();
 

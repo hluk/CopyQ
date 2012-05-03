@@ -31,7 +31,9 @@ HEADERS += \
     include/app.h \
     include/arguments.h \
     include/clipboarddialog.h \
+    include/tabbar.h \
     include/tabdialog.h \
+    include/tabwidget.h \
     include/shortcutdialog.h \
     include/commandwidget.h \
     include/option.h
@@ -54,7 +56,9 @@ SOURCES += \
     app.cpp \
     arguments.cpp \
     clipboarddialog.cpp \
+    tabbar.cpp \
     tabdialog.cpp \
+    tabwidget.cpp \
     shortcutdialog.cpp \
     commandwidget.cpp \
     option.cpp

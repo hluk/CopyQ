@@ -18,7 +18,9 @@ SET(copyq_SOURCES
     src/clipboardserver.cpp
     src/commandwidget.cpp
     src/configurationmanager.cpp
+    src/tabbar.cpp
     src/tabdialog.cpp
+    src/tabwidget.cpp
     src/itemdelegate.cpp
     src/main.cpp
     src/mainwindow.cpp
@@ -43,7 +45,9 @@ SET(copyq_HEADERS
     src/include/clipboardserver.h
     src/include/commandwidget.h
     src/include/configurationmanager.h
+    src/include/tabbar.h
     src/include/tabdialog.h
+    src/include/tabwidget.h
     src/include/itemdelegate.h
     src/include/mainwindow.h
     src/include/qeditor.h

@@ -14,7 +14,7 @@
    <string>CopyQ</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="copyq.qrc">
+   <iconset resource="../copyq.qrc">
     <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
   </property>
   <widget class="QWidget" name="centralWidget">
@@ -55,7 +55,7 @@
      </layout>
     </item>
     <item>
-     <widget class="QTabWidget" name="tabWidget">
+     <widget class="TabWidget" name="tabWidget">
       <property name="currentIndex">
        <number>-1</number>
       </property>
@@ -74,8 +74,16 @@
   </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>TabWidget</class>
+   <extends>QTabWidget</extends>
+   <header>tabwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
  <resources>
-  <include location="copyq.qrc"/>
+  <include location="../copyq.qrc"/>
  </resources>
  <connections/>
 </ui>
