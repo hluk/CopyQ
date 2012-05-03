@@ -27,12 +27,21 @@ namespace Ui {
     class TabDialog;
 }
 
+/**
+ * Dialog for naming and renaming tabs.
+ */
 class TabDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit TabDialog(QWidget *parent = 0);
+    /** Tab dialog type (new tab or rename existing tab). */
+    typedef enum {
+        TabNew,
+        TabRename
+    } TabDialogType;
+
+    explicit TabDialog(TabDialogType type, QWidget *parent = 0);
     ~TabDialog();
 
     /** Set existing tabs for validation. */
@@ -46,10 +55,17 @@ private:
     QStringList m_tabs;
 
 signals:
+    /** Signal emitted if tab name is accepted. */
     void accepted(const QString &name);
 
 private slots:
     void onAccepted();
+
+    /**
+     * Validate tab name.
+     * Tab name should be non-empty and should not be in existing tab list
+     * (see setTabs()).
+     */
     void validate();
 };
 

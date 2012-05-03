@@ -16,13 +16,6 @@
     <verstretch>0</verstretch>
    </sizepolicy>
   </property>
-  <property name="windowTitle">
-   <string>CopyQ New Tab</string>
-  </property>
-  <property name="windowIcon">
-   <iconset resource="copyq.qrc">
-    <normaloff>:/images/new_tab.svg</normaloff>:/images/new_tab.svg</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <layout class="QVBoxLayout" name="verticalLayout">

@@ -874,7 +874,7 @@ void MainWindow::action(const QString &text, const Command &cmd)
 
 void MainWindow::newTab()
 {
-    TabDialog *d = new TabDialog(this);
+    TabDialog *d = new TabDialog(TabDialog::TabNew, this);
     d->setTabs(tabs());
 
     connect( d, SIGNAL(accepted(QString)),
@@ -887,8 +887,7 @@ void MainWindow::newTab()
 
 void MainWindow::renameTab()
 {
-    TabDialog *d = new TabDialog(this);
-    d->setWindowTitle(tr("CopyQ Rename Tab"));
+    TabDialog *d = new TabDialog(TabDialog::TabRename, this);
     d->setTabs(tabs());
     d->setTabName(browser()->getID());
 

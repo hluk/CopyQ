@@ -22,11 +22,19 @@
 
 #include <QPushButton>
 
-TabDialog::TabDialog(QWidget *parent)
+TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TabDialog)
 {
     ui->setupUi(this);
+
+    if (type == TabNew) {
+        setWindowTitle( tr("CopyQ New Tab") );
+        setWindowIcon( QIcon(":/images/tab_new.svg") );
+    } else {
+        setWindowTitle( tr("CopyQ Rename Tab") );
+        setWindowIcon( QIcon(":/images/tab_rename.svg") );
+    }
 
     connect( this, SIGNAL(accepted()),
              this, SLOT(onAccepted()) );
