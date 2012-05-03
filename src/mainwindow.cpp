@@ -426,10 +426,9 @@ void MainWindow::resetStatus()
 void MainWindow::saveSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
-    TabWidget *w = ui->tabWidget;
 
     cm->saveGeometry(this);
-
+    cm->setTabs(tabs());
     cm->saveSettings();
 }
 
