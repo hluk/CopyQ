@@ -526,10 +526,16 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-void MainWindow::showMenu()
+WId MainWindow::showMenu()
 {
+    QMenu *menu = tray->contextMenu();
     updateTrayMenuItems();
-    tray->contextMenu()->show();
+    menu->show();
+
+    // steal focus
+    WId wid = menu->winId();
+    raiseWindow(wid);
+    return wid;
 }
 
 void MainWindow::tabChanged()

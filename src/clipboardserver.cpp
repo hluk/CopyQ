@@ -356,7 +356,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     else if (cmd == "menu") {
         if ( !args.atEnd() )
             return CommandBadSyntax;
-        m_wnd->showMenu();
+        response->append(QString::number((qlonglong)m_wnd->showMenu()));
     }
 
     // show action dialog or run action on item

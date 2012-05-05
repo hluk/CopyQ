@@ -114,8 +114,11 @@ class MainWindow : public QMainWindow
         void keyPressEvent(QKeyEvent *event);
 
     public slots:
-        /** Show tray menu. */
-        void showMenu();
+        /**
+         * Show tray menu.
+         * @return Window ID for the tray menu.
+         */
+        WId showMenu();
 
         /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);
