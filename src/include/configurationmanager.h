@@ -47,6 +47,8 @@ class ConfigurationManager : public QDialog
 public:
     typedef QList<Command> Commands;
 
+    ~ConfigurationManager();
+
     /** Return singleton instance. */
     static ConfigurationManager *instance();
 

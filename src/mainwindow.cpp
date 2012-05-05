@@ -226,7 +226,7 @@ void MainWindow::createMenu()
                         QKeySequence::Close );
 
     // Commands
-    cmdMenu = menubar->addMenu(tr("&Commands"));
+    cmdMenu = menubar->addMenu(tr("Co&mmands"));
     cmdMenu->setEnabled(false);
     traymenu->addMenu(cmdMenu);
 

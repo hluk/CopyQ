@@ -44,6 +44,8 @@ class ClipboardModel : public QAbstractListModel
 public:
     explicit ClipboardModel(QObject *parent = 0);
 
+    ~ClipboardModel();
+
     /** Return number of items in model. */
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 

@@ -36,6 +36,12 @@ ClipboardModel::ClipboardModel(QObject *parent)
               << QString("text/plain");
 }
 
+ClipboardModel::~ClipboardModel()
+{
+    foreach (ClipboardItem *item, m_clipboardList)
+        delete item;
+}
+
 void ClipboardModel::setFormats(const QString &list)
 {
     m_formats = list.split( QRegExp("[;,\\s]+") );

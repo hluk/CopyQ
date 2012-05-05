@@ -170,6 +170,11 @@ ConfigurationManager::ConfigurationManager()
     loadSettings();
 }
 
+ConfigurationManager::~ConfigurationManager()
+{
+    delete ui;
+}
+
 void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 {
     QString part( id.toLocal8Bit().toBase64() );
