@@ -13,6 +13,10 @@
   <property name="windowTitle">
    <string>CopyQ Configuration</string>
   </property>
+  <property name="windowIcon">
+   <iconset resource="../copyq.qrc">
+    <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
+  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
     <layout class="QVBoxLayout" name="verticalLayout">
