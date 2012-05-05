@@ -93,7 +93,12 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
     Display* display = QX11Info::display();
     if (!display)
         return 0;
-    return XKeysymToKeycode(display, XStringToKeysym(QKeySequence(key).toString().toLatin1().data()));
+
+    KeySym keysym = XStringToKeysym(QKeySequence(key).toString().toLatin1().data());
+    if (keysym == NoSymbol)
+        keysym = static_cast<ushort>(key);
+
+    return XKeysymToKeycode(display, keysym);
 }
 
 bool QxtGlobalShortcutPrivate::registerShortcut(quint32 nativeKey, quint32 nativeMods)
