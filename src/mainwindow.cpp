@@ -175,17 +175,6 @@ void MainWindow::createMenu()
                      this, SLOT(newItem()),
                      QKeySequence::New );
 
-    // - paste items
-    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
-                           this, SLOT(pasteItems()) );
-    act->setShortcuts(QKeySequence::Paste);
-
-    // - copy items
-    act = menu->addAction( QIcon(":/images/copy.svg"),
-                           tr("&Copy Selected Items"),
-                           this, SLOT(copyItems()) );
-    act->setShortcuts(QKeySequence::Copy);
-
     // - show clipboard content
     act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
                                tr("Show &Clipboard Content"),
@@ -222,16 +211,31 @@ void MainWindow::createMenu()
     // - sort
     act = menu->addAction( QIcon(":/images/sort.svg"),
                            tr("&Sort Selected Items"),
-                           this, SLOT(sortSelectedItems()) );
+                           this, SLOT(sortSelectedItems()),
+                           QKeySequence("Ctrl+O") );
 
     // - reverse order
     act = menu->addAction( QIcon(":/images/reverse.svg"),
                            tr("&Reverse Selected Items"),
-                           this, SLOT(reverseSelectedItems()) );
+                           this, SLOT(reverseSelectedItems()),
+                           QKeySequence("Ctrl+R") );
+
+    // - separator
+    menu->addSeparator();
+
+    // - paste items
+    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
+                           this, SLOT(pasteItems()) );
+    act->setShortcuts(QKeySequence::Paste);
+
+    // - copy items
+    act = menu->addAction( QIcon(":/images/copy.svg"),
+                           tr("&Copy Selected Items"),
+                           this, SLOT(copyItems()) );
+    act->setShortcuts(QKeySequence::Copy);
 
     // Items
-    ClipboardBrowser *c = browser();
-    itemMenu = c->contextMenu();
+    itemMenu = browser()->contextMenu();
     itemMenu->setTitle( tr("&Item") );
     menubar->addMenu(itemMenu);
 
@@ -494,6 +498,7 @@ void MainWindow::showWindow()
         c->setCurrent(0);
     }
     c->scrollTo( c->currentIndex() );
+    c->setFocus();
 
     QApplication::processEvents();
     raiseWindow(winId());
