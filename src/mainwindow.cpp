@@ -99,6 +99,13 @@ MainWindow::MainWindow(QWidget *parent)
     // browse mode by default
     enterBrowseMode();
 
+    // escape
+    QAction *act = new QAction(this);
+    act->setShortcut(Qt::Key_Escape);
+    connect( act, SIGNAL(triggered()),
+             this, SLOT(escapePressed()) );
+    addAction(act);
+
     tray->show();
 }
 
@@ -403,13 +410,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             enterBrowseMode(false);
             break;
 
-        case Qt::Key_Escape:
-            if ( ui->searchBar->isHidden() )
-                close();
-            else
-                resetStatus();
-            break;
-
         case Qt::Key_Tab:
             QMainWindow::keyPressEvent(event);
             break;
@@ -657,6 +657,18 @@ void MainWindow::onTimerSearch()
     QString txt = ui->searchBar->text();
     enterBrowseMode( txt.isEmpty() );
     browser()->filterItems(txt);
+}
+
+void MainWindow::escapePressed()
+{
+    ClipboardBrowser *c = browser();
+
+    if ( c->editing() )
+        c->closePersistentEditor( c->currentIndex() );
+    else if ( ui->searchBar->isHidden() )
+        close();
+    else
+        resetStatus();
 }
 
 void MainWindow::actionStarted(Action *action)

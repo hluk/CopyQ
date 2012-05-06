@@ -218,6 +218,7 @@ class MainWindow : public QMainWindow
         void tabCloseRequested(int tab);
         void addItems(const QStringList &items, const QString &tabName);
         void onTimerSearch();
+        void escapePressed();
 
         void actionStarted(Action *action);
         void actionFinished(Action *action);

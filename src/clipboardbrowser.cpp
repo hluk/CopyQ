@@ -360,7 +360,7 @@ void ClipboardBrowser::newItem(const QString &text)
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
     // if editing item, use default key action
-    if ( state() == QAbstractItemView::EditingState ) {
+    if ( editing() ) {
         QListView::keyPressEvent(event);
     }
     // CTRL
@@ -699,6 +699,11 @@ void ClipboardBrowser::redraw()
 {
     d->invalidateCache();
     update();
+}
+
+bool ClipboardBrowser::editing()
+{
+    return state() == QAbstractItemView::EditingState;
 }
 
 void ClipboardBrowser::sizeHintChanged(const QModelIndex &index)

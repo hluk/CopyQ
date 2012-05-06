@@ -138,6 +138,11 @@ class ClipboardBrowser : public QListView
         void setID(const QString &id) { m_id = id; }
         const QString &getID() const { return m_id; }
 
+        /**
+         * Return true if editing is active.
+         */
+        bool editing();
+
     private:
         QString m_id;
         int m_maxitems;
