@@ -28,5 +28,7 @@
         <file>images/command_move.svg</file>
         <file>images/command_tab.svg</file>
         <file>images/copy.svg</file>
+        <file>images/sort.svg</file>
+        <file>images/reverse.svg</file>
     </qresource>
 </RCC>

@@ -42,6 +42,13 @@ class ClipboardModel : public QAbstractListModel
     Q_OBJECT
 
 public:
+    /** Argument type for comparison. First is row, second is item pointer. */
+    typedef QPair<int, ClipboardItem*> ComparisonItem;
+
+    /** Return true if lhs is greater than rhs. */
+    typedef bool CompareItems(const ComparisonItem &lhs,
+                              const ComparisonItem &rhs);
+
     explicit ClipboardModel(QObject *parent = 0);
 
     ~ClipboardModel();
@@ -107,6 +114,11 @@ public:
              *   Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home).
              */
             );
+
+    /**
+     * Sort items in ascending order.
+     */
+    void sortItems(const QModelIndexList &indexList, CompareItems *compare);
 
     /**
      * Find item with given @a hash.

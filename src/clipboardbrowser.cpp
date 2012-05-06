@@ -33,6 +33,18 @@
 
 static const int max_preload = 10;
 
+static bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
+                     const ClipboardModel::ComparisonItem &rhs)
+{
+    return lhs.second->text().localeAwareCompare( rhs.second->text() ) < 0;
+}
+
+static bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
+                        const ClipboardModel::ComparisonItem &rhs)
+{
+    return lhs.first > rhs.first;
+}
+
 ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     : QListView(parent)
     , m_id()
@@ -513,6 +525,16 @@ bool ClipboardBrowser::select(uint item_hash)
         return false;
 
     return m->move(row, 0);
+}
+
+void ClipboardBrowser::sortItems(const QModelIndexList &indexes)
+{
+    m->sortItems(indexes, &alphaSort);
+}
+
+void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
+{
+    m->sortItems(indexes, &reverseSort);
 }
 
 bool ClipboardBrowser::add(const QString &txt, bool force)

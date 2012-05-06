@@ -43,7 +43,6 @@ MainWindow::MainWindow(QWidget *parent)
     , aboutDialog(NULL)
     , cmdMenu(NULL)
     , itemMenu(NULL)
-    , tabMenu(NULL)
     , tray(NULL)
     , m_browsemode(false)
     , m_confirmExit(true)
@@ -205,6 +204,24 @@ void MainWindow::createMenu()
     // - separator
     menu->addSeparator();
 
+    // - exit
+    act = menu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
+                           this, SLOT(exit()),
+                           QKeySequence("Ctrl+Q") );
+
+    // Edit
+    menu = menubar->addMenu( tr("&Edit") );
+
+    // - sort
+    act = menu->addAction( QIcon(":/images/sort.svg"),
+                           tr("&Sort Selected Items"),
+                           this, SLOT(sortSelectedItems()) );
+
+    // - reverse order
+    act = menu->addAction( QIcon(":/images/reverse.svg"),
+                           tr("&Reverse Selected Items"),
+                           this, SLOT(reverseSelectedItems()) );
+
     // Items
     ClipboardBrowser *c = browser();
     itemMenu = c->contextMenu();
@@ -212,29 +229,28 @@ void MainWindow::createMenu()
     menubar->addMenu(itemMenu);
 
     // Tabs
-    tabMenu = menubar->addMenu(tr("&Tabs"));
+    menu = menubar->addMenu(tr("&Tabs"));
 
     // add tab
-    tabMenu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
-                        this, SLOT(newTab()),
-                        QKeySequence::AddTab );
-    tabMenu->addAction( QIcon(":/images/tab_rename.svg"), tr("&Rename tab"),
-                        this, SLOT(renameTab()),
-                        QKeySequence("Ctrl+F2") );
-    tabMenu->addAction( QIcon(":/images/tab_remove.svg"), tr("&Remove tab"),
-                        this, SLOT(removeTab()),
-                        QKeySequence::Close );
+    menu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
+                     this, SLOT(newTab()),
+                     QKeySequence::AddTab );
+    menu->addAction( QIcon(":/images/tab_rename.svg"), tr("&Rename tab"),
+                     this, SLOT(renameTab()),
+                     QKeySequence("Ctrl+F2") );
+    menu->addAction( QIcon(":/images/tab_remove.svg"), tr("&Remove tab"),
+                     this, SLOT(removeTab()),
+                     QKeySequence::Close );
 
     // Commands
     cmdMenu = menubar->addMenu(tr("Co&mmands"));
     cmdMenu->setEnabled(false);
     traymenu->addMenu(cmdMenu);
 
-    // File/exit
-    act = traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
-                               this, SLOT(exit()) );
-    menu->addAction( act->icon(), act->text(), this, SLOT(exit()),
-                     QKeySequence("Ctrl+Q") );
+    // Exit in tray menu
+    traymenu->addSeparator();
+    traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
+                         this, SLOT(exit()) );
 
     // Help
     menu = menubar->addMenu( tr("&Help") );
@@ -871,6 +887,18 @@ void MainWindow::copyItems()
     ClipboardItem item;
     item.setData( cloneData(data) );
     emit changeClipboard(&item);
+}
+
+void MainWindow::sortSelectedItems()
+{
+    ClipboardBrowser *c = browser();
+    c->sortItems( c->selectionModel()->selectedRows() );
+}
+
+void MainWindow::reverseSelectedItems()
+{
+    ClipboardBrowser *c = browser();
+    c->reverseItems( c->selectionModel()->selectedRows() );
 }
 
 void MainWindow::action(Action *action)

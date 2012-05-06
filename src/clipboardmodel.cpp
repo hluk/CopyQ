@@ -290,9 +290,35 @@ bool ClipboardModel::moveItems(QModelIndexList indexList, int key) {
     return res;
 }
 
+void ClipboardModel::sortItems(const QModelIndexList &indexList,
+                               CompareItems *compare)
+{
+    ComparisonItem a, b;
+    QList< QPair<int, ClipboardItem*> > list;
+
+    for (int i = 0; i < indexList.length(); ++i) {
+        int row = indexList[i].row();
+        if ( row >= m_clipboardList.length() )
+            return;
+        list.append( qMakePair(row, m_clipboardList[row]) );
+    }
+
+    qSort( list.begin(), list.end(), compare );
+
+    for (int i = 0; i < list.length(); ++i ) {
+        int row1 = list[i].first;
+        int row2 = indexList[i].row();
+        if (row1 != row2) {
+            m_clipboardList[row2] = list[i].second;
+            QModelIndex ind = index(row2);
+            emit dataChanged(ind, ind);
+        }
+    }
+}
+
 int ClipboardModel::findItem(uint item_hash) const
 {
-    for (int i =0; i < m_clipboardList.length(); ++i) {
+    for (int i = 0; i < m_clipboardList.length(); ++i) {
         if ( m_clipboardList[i]->dataHash() == item_hash )
             return i;
     }

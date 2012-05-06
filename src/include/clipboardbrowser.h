@@ -92,6 +92,12 @@ class ClipboardBrowser : public QListView
                 uint item_hash //!< Hash of the item.
                 );
 
+        /** Sort selected items. */
+        void sortItems(const QModelIndexList &indexes);
+
+        /** Reverse order of selected items. */
+        void reverseItems(const QModelIndexList &indexes);
+
         /** Number of items in list. */
         int length() const { return model()->rowCount(); }
         /** Text of item in given row or current row. */

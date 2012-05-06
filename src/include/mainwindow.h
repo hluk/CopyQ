@@ -95,7 +95,6 @@ class MainWindow : public QMainWindow
         AboutDialog *aboutDialog;
         QMenu *cmdMenu;
         QMenu *itemMenu;
-        QMenu *tabMenu;
         QSystemTrayIcon *tray;
         bool m_browsemode;
         bool m_confirmExit;
@@ -194,6 +193,11 @@ class MainWindow : public QMainWindow
         void pasteItems();
         /** Copy selected items in current tab. */
         void copyItems();
+
+        /** Sort selected items. */
+        void sortSelectedItems();
+        /** Reverse order of selected items. */
+        void reverseSelectedItems();
 
         /** Add @a data to tab with given name (create if tab doesn't exist). */
         void addToTab(
