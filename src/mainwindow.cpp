@@ -299,7 +299,7 @@ void MainWindow::closeAction(Action *action)
         showMessage( QString("Command failed: ") + action->command(), errout );
 
     delete m_actions.take(action);
-    delete action;
+    action->deleteLater();
 
     if ( m_actions.isEmpty() ) {
         cmdMenu->setEnabled(false);
