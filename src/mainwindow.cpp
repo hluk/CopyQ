@@ -212,13 +212,13 @@ void MainWindow::createMenu()
     act = menu->addAction( QIcon(":/images/sort.svg"),
                            tr("&Sort Selected Items"),
                            this, SLOT(sortSelectedItems()),
-                           QKeySequence("Ctrl+O") );
+                           QKeySequence("Ctrl+Shift+S") );
 
     // - reverse order
     act = menu->addAction( QIcon(":/images/reverse.svg"),
                            tr("&Reverse Selected Items"),
                            this, SLOT(reverseSelectedItems()),
-                           QKeySequence("Ctrl+R") );
+                           QKeySequence("Ctrl+Shift+R") );
 
     // - separator
     menu->addSeparator();
