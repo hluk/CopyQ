@@ -129,7 +129,7 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    ClipboardBrowser *c = browser();
+    ConfigurationManager::instance()->saveGeometry(this);
 
     hide();
 
@@ -138,6 +138,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
     // deselect all
+    ClipboardBrowser *c = browser();
     c->clearSelection();
     c->setCurrentIndex( QModelIndex() );
 
@@ -486,6 +487,8 @@ void MainWindow::showWindow()
            correct position */
         QApplication::processEvents();
     }
+
+    ConfigurationManager::instance()->loadGeometry(this);
 
     showNormal();
     raise();
