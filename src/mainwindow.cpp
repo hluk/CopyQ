@@ -46,7 +46,8 @@ MainWindow::MainWindow(QWidget *parent)
     , tray(NULL)
     , m_browsemode(false)
     , m_confirmExit(true)
-    , m_trayitems(5)
+    , m_trayItems(5)
+    , m_lastTab(-1)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
 {
@@ -77,7 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
              this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int)),
-             this, SLOT(tabChanged()) );
+             this, SLOT(tabChanged(int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
              this, SLOT(tabMoved(int, int)) );
     connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint, int)),
@@ -111,7 +112,7 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::exit()
 {
-    int answer;
+    int answer = QMessageBox::Yes;
     if ( m_confirmExit ) {
         answer = QMessageBox::question(
                     this,
@@ -121,7 +122,7 @@ void MainWindow::exit()
                     QMessageBox::Yes);
     }
 
-    if ( !m_confirmExit || answer == QMessageBox::Yes) {
+    if (answer == QMessageBox::Yes) {
         close();
         QApplication::exit();
     }
@@ -376,10 +377,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 enterBrowseMode(false);
                 break;
             case Qt::Key_Tab:
-                w->setCurrentIndex( (w->currentIndex() + 1) % w->count() );
+                nextTab();
                 break;
             case Qt::Key_Backtab:
-                w->setCurrentIndex( (w->currentIndex() - 1) % w->count() );
+                previousTab();
                 break;
             default:
                 QMainWindow::keyPressEvent(event);
@@ -401,11 +402,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Left:
             if ( browser()->hasFocus() )
-                ui->tabWidget->previousTab();
+                previousTab();
             break;
         case Qt::Key_Right:
             if ( browser()->hasFocus() )
-                ui->tabWidget->nextTab();
+                nextTab();
             break;
 
         case Qt::Key_Return:
@@ -468,7 +469,7 @@ void MainWindow::loadSettings()
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     m_confirmExit = cm->value("confirm_exit").toBool();
-    m_trayitems = cm->value("tray_items").toInt();
+    m_trayItems = cm->value("tray_items").toInt();
 
     /* are tabs already loaded? */
     bool loaded = ui->tabWidget->count() > 0;
@@ -570,7 +571,7 @@ WId MainWindow::showMenu()
     return wid;
 }
 
-void MainWindow::tabChanged()
+void MainWindow::tabChanged(int current)
 {
     // update item menu (necessary for keyboard shortcuts to work)
     QMenu *m = itemMenu;
@@ -579,6 +580,30 @@ void MainWindow::tabChanged()
     menuBar()->insertMenu( m->menuAction(), itemMenu );
     menuBar()->removeAction( m->menuAction() );
     browser()->filterItems( ui->searchBar->text() );
+
+    ClipboardBrowser *c;
+    TabWidget *tabs = ui->tabWidget;
+
+    if ( m_lastTab >= 0 && m_lastTab < tabs->count() ) {
+        c = browser(m_lastTab);
+        QModelIndex current = c->currentIndex();
+        if ( current.isValid() ) {
+            QModelIndexList indexes = c->selectionModel()->selectedIndexes();
+            if ( current.row() == 0 && (indexes.isEmpty() ||
+                        (indexes.size() == 1 && indexes.first() == current)) ) {
+                c->setCurrentIndex( QModelIndex() );
+            }
+        }
+    }
+
+    if ( current >= 0 ) {
+        c = browser();
+        if( !c->currentIndex().isValid() ) {
+            c->setCurrent(0);
+        }
+    }
+
+    m_lastTab = current;
 }
 
 void MainWindow::tabMoved(int, int)
@@ -658,6 +683,16 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
         c->add( cloneData(*data), force );
     }
     c->setAutoUpdate(true);
+}
+
+void MainWindow::nextTab()
+{
+    ui->tabWidget->nextTab();
+}
+
+void MainWindow::previousTab()
+{
+    ui->tabWidget->previousTab();
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
@@ -768,7 +803,7 @@ void MainWindow::updateTrayMenuItems()
         menu->removeAction(actions[i]);
     sep  = actions[i];
 
-    len = qMin( m_trayitems, c->length() );
+    len = qMin( m_trayItems, c->length() );
     unsigned char hint('0');
     for( i = 0; i < len; ++i ) {
         QString text = c->itemText(i);

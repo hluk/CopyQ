@@ -98,7 +98,8 @@ class MainWindow : public QMainWindow
         QSystemTrayIcon *tray;
         bool m_browsemode;
         bool m_confirmExit;
-        int m_trayitems;
+        int m_trayItems;
+        int m_lastTab;
         QTimer *m_timerSearch;
 
         QMap<Action*,QAction*> m_actions;
@@ -207,12 +208,17 @@ class MainWindow : public QMainWindow
                 //!< Tab name of target tab (first tab if empty).
                 );
 
+        /** Set next or first tab as current. */
+        void nextTab();
+        /** Set previous or last tab as current. */
+        void previousTab();
+
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void trayMenuAction(QAction *act);
         void enterSearchMode(const QString &txt);
-        void tabChanged();
+        void tabChanged(int current);
         void tabMoved(int from, int to);
         void tabMenuRequested(const QPoint &pos, int tab);
         void tabCloseRequested(int tab);
