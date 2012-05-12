@@ -47,7 +47,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_browsemode(false)
     , m_confirmExit(true)
     , m_trayItems(5)
-    , m_lastTab(-1)
+    , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
 {
@@ -581,23 +581,25 @@ void MainWindow::tabChanged(int current)
     menuBar()->removeAction( m->menuAction() );
     browser()->filterItems( ui->searchBar->text() );
 
-    ClipboardBrowser *c;
-    TabWidget *tabs = ui->tabWidget;
-
-    if ( m_lastTab >= 0 && m_lastTab < tabs->count() ) {
-        c = browser(m_lastTab);
+    /* Deselect first item in previously selected tab if it is current item and
+     * is the only one selected. Next time the tab is selected first item is
+     * selected as current.
+     */
+    if ( m_lastTab >= 0 && m_lastTab < ui->tabWidget->count() ) {
+        ClipboardBrowser *c = browser(m_lastTab);
         QModelIndex current = c->currentIndex();
-        if ( current.isValid() ) {
+        if ( current.row() == 0 ) {
             QModelIndexList indexes = c->selectionModel()->selectedIndexes();
-            if ( current.row() == 0 && (indexes.isEmpty() ||
-                        (indexes.size() == 1 && indexes.first() == current)) ) {
+            if ( indexes.isEmpty() ||
+                    (indexes.size() == 1 && indexes.first() == current) ) {
+                c->selectionModel()->clear();
                 c->setCurrentIndex( QModelIndex() );
             }
         }
     }
 
     if ( current >= 0 ) {
-        c = browser();
+        ClipboardBrowser *c = browser();
         if( !c->currentIndex().isValid() ) {
             c->setCurrent(0);
         }
