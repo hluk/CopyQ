@@ -34,3 +34,14 @@ TabWidget::TabWidget(QWidget *parent)
              this, SIGNAL(tabCloseRequested(int)) );
 }
 
+void TabWidget::nextTab()
+{
+    setCurrentIndex( (currentIndex() + 1) % count() );
+}
+
+void TabWidget::previousTab()
+{
+    int size = count();
+    setCurrentIndex( (size + currentIndex() - 1) % size );
+}
+

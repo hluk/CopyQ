@@ -184,6 +184,11 @@ class ClipboardBrowser : public QListView
         void contextMenuAction(QAction *act);
         void updateContextMenu();
 
+        /**
+         * Workaround for https://bugreports.qt-project.org/browse/QTBUG-18009.
+         */
+        void updateSelection();
+
     public slots:
         /** Receive key event. */
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }

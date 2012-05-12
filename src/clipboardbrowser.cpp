@@ -97,6 +97,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
 
+    connect( m, SIGNAL(layoutChanged()),
+             this, SLOT(updateSelection()) );
+
     // save if data in model changed
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(delayedSaveItems()) );
@@ -246,10 +249,19 @@ void ClipboardBrowser::updateContextMenu()
     }
 }
 
+void ClipboardBrowser::updateSelection()
+{
+    QItemSelection s = selectionModel()->selection();
+    setCurrentIndex( currentIndex() );
+    selectionModel()->select( s, QItemSelectionModel::SelectCurrent );
+}
+
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( !selectedIndexes().isEmpty() )
+    if ( !selectedIndexes().isEmpty() ) {
         m_menu->exec( event->globalPos() );
+        event->accept();
+    }
 }
 
 void ClipboardBrowser::paintEvent(QPaintEvent *event)
@@ -269,10 +281,10 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
+    QListView::dataChanged(a, b);
     if ( a.row() == 0 )
         updateClipboard();
     d->dataChanged(a, b);
-    QListView::dataChanged(a, b);
 }
 
 bool ClipboardBrowser::openEditor(const QString &text)
@@ -375,14 +387,17 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             if ( m->moveItems(selectedIndexes(), key) )
                 updateClipboard();
             scrollTo( currentIndex() );
+            event->accept();
             break;
 
         // cycle formats
         case Qt::Key_Left:
             m->previousFormat( currentIndex().row() );
+            event->accept();
             break;
         case Qt::Key_Right:
             m->nextFormat( currentIndex().row() );
+            event->accept();
             break;
 
         default:
@@ -393,6 +408,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
     else {
         int key = event->key();
+
         switch ( key ) {
         // navigation
         case Qt::Key_Up:
@@ -418,6 +434,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                         setCurrent( current.row() + d, false,
                                     event->modifiers() == Qt::ShiftModifier );
                     }
+                    event->accept();
                     return;
                 }
             }

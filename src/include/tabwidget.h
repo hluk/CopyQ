@@ -21,6 +21,7 @@
 #define TABWIDGET_H
 
 #include <QTabWidget>
+#include <QTabBar>
 
 class TabWidget : public QTabWidget
 {
@@ -28,6 +29,10 @@ class TabWidget : public QTabWidget
 
 public:
     explicit TabWidget(QWidget *parent = 0);
+
+public slots:
+    void nextTab();
+    void previousTab();
 
 signals:
     void tabMoved(int from, int to);

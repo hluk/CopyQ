@@ -333,12 +333,9 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     else if (cmd == "toggle") {
         if ( !args.atEnd() )
             return CommandBadSyntax;
-        if ( m_wnd->isVisible() ) {
-            m_wnd->close();
-        } else {
-            m_wnd->showWindow();
+        m_wnd->toggleVisible();
+        if ( m_wnd->isVisible() )
             response->append(QString::number((qlonglong)m_wnd->winId()));
-        }
     }
 
     // exit server

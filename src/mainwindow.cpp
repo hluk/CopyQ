@@ -399,6 +399,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 c->keyEvent(event);
             break;
 
+        case Qt::Key_Left:
+            if ( browser()->hasFocus() )
+                ui->tabWidget->previousTab();
+            break;
+        case Qt::Key_Right:
+            if ( browser()->hasFocus() )
+                ui->tabWidget->nextTab();
+            break;
+
         case Qt::Key_Return:
         case Qt::Key_Enter:
             // move current item to clipboard and hide window
@@ -503,7 +512,6 @@ void MainWindow::showWindow()
     c->scrollTo( c->currentIndex() );
     c->setFocus();
 
-    QApplication::processEvents();
     raiseWindow(winId());
 }
 
