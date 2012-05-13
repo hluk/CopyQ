@@ -36,6 +36,7 @@
 #include <QMessageBox>
 #include <QTimer>
 #include <QInputDialog>
+#include <QFileDialog>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -177,12 +178,15 @@ void MainWindow::createMenu()
                      this, SLOT(newItem()),
                      QKeySequence::New );
 
-    // - show clipboard content
-    act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
-                               tr("Show &Clipboard Content"),
-                               this, SLOT(showClipboardContent()) );
-    menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
-                     QKeySequence("Ctrl+S") );
+    // - load
+    menu->addAction( QIcon(":/images/open.svg"), tr("&Open Tab File..."),
+                     this, SLOT(loadTab()),
+                     QKeySequence::Open );
+
+    // - save
+    menu->addAction( QIcon(":/images/save.svg"), tr("&Save Tab File..."),
+            this, SLOT(saveTab()),
+            QKeySequence::Save );
 
     // - action dialog
     act = traymenu->addAction( QIcon(":/images/action.svg"), tr("&Action..."),
@@ -198,6 +202,13 @@ void MainWindow::createMenu()
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
                      QKeySequence("Ctrl+P") );
+
+    // - show clipboard content
+    act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
+                               tr("Show &Clipboard Content"),
+                               this, SLOT(showClipboardContent()) );
+    menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
+                     QKeySequence("Ctrl+Shift+C") );
 
     // - separator
     menu->addSeparator();
@@ -952,6 +963,66 @@ void MainWindow::copyItems()
     ClipboardItem item;
     item.setData( cloneData(data) );
     emit changeClipboard(&item);
+}
+
+void MainWindow::saveTab()
+{
+    QString fileName = QFileDialog::getSaveFileName( this, QString(), QString(),
+                                                     tr("CopyQ Items (*.cpq)") );
+    if ( fileName.isNull() )
+        return;
+
+    QFile file(fileName);
+    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) ) {
+        QMessageBox::critical( this, tr("CopyQ Error Saving File"),
+                               tr("Cannot save file \"%1\"!").arg(fileName) );
+        return;
+    }
+
+    QDataStream out(&file);
+
+    ClipboardBrowser *c = browser();
+    ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
+
+    out << c->getID() << *model;
+
+    file.close();
+}
+
+void MainWindow::loadTab()
+{
+    QString fileName = QFileDialog::getOpenFileName( this, QString(), QString(),
+                                                     tr("CopyQ Items (*.cpq)") );
+    if ( fileName.isNull() )
+        return;
+
+    QFile file(fileName);
+    if ( !file.open(QIODevice::ReadOnly) ) {
+        QMessageBox::critical( this, tr("CopyQ Error Opening File"),
+                               tr("Cannot open file \"%1\"!").arg(fileName) );
+        return;
+    }
+
+    QDataStream in(&file);
+
+    QString tabName;
+    in >> tabName;
+
+    // Find unique tab name.
+    QString baseTabName = tabName;
+    QStringList existingTabs = tabs();
+    int i = 0;
+    while ( existingTabs.contains(tabName) ) {
+        log(tabName);
+        tabName = baseTabName + " (" + QString::number(++i) + ')';
+    }
+
+    ClipboardBrowser *c = addTab(tabName);
+    ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
+
+    in >> *model;
+
+    file.close();
 }
 
 void MainWindow::sortSelectedItems()

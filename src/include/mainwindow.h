@@ -195,6 +195,11 @@ class MainWindow : public QMainWindow
         /** Copy selected items in current tab. */
         void copyItems();
 
+        /** Save all items in tab. */
+        void saveTab();
+        /** Load saved items to new tab. */
+        void loadTab();
+
         /** Sort selected items. */
         void sortSelectedItems();
         /** Reverse order of selected items. */
