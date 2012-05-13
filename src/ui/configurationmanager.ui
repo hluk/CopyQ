@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>661</width>
-    <height>434</height>
+    <width>633</width>
+    <height>415</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
        </property>
        <widget class="QWidget" name="tab_clipboard">
         <attribute name="icon">
-         <iconset resource="copyq.qrc">
+         <iconset resource="../copyq.qrc">
           <normaloff>:/images/tab_clipboard.svg</normaloff>:/images/tab_clipboard.svg</iconset>
         </attribute>
         <attribute name="title">
@@ -38,7 +38,7 @@
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="1" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0,0">
+          <layout class="QVBoxLayout" name="verticalLayout_2">
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="sizePolicy">
@@ -148,7 +148,7 @@
        </widget>
        <widget class="QWidget" name="tab_general">
         <attribute name="icon">
-         <iconset resource="copyq.qrc">
+         <iconset resource="../copyq.qrc">
           <normaloff>:/images/tab_history.svg</normaloff>:/images/tab_history.svg</iconset>
         </attribute>
         <attribute name="title">
@@ -216,7 +216,7 @@
               </widget>
              </item>
              <item row="2" column="1">
-              <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,1,0,1">
+              <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0">
                <property name="bottomMargin">
                 <number>0</number>
                </property>
@@ -328,7 +328,7 @@
        </widget>
        <widget class="QWidget" name="tab_commands">
         <attribute name="icon">
-         <iconset resource="copyq.qrc">
+         <iconset resource="../copyq.qrc">
           <normaloff>:/images/tab_commands.svg</normaloff>:/images/tab_commands.svg</iconset>
         </attribute>
         <attribute name="title">
@@ -337,17 +337,27 @@
         <layout class="QGridLayout" name="gridLayout_7">
          <item row="1" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_10">
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
            <item>
             <layout class="QHBoxLayout" name="horizontalLayout">
              <item>
-              <widget class="QListWidget" name="listWidgetCommands">
-               <property name="selectionMode">
-                <enum>QAbstractItemView::ExtendedSelection</enum>
-               </property>
-              </widget>
+              <layout class="QVBoxLayout" name="verticalLayout_16">
+               <item>
+                <widget class="QComboBox" name="comboBoxCommands">
+                 <item>
+                  <property name="text">
+                   <string>Insert Default Command</string>
+                  </property>
+                 </item>
+                </widget>
+               </item>
+               <item>
+                <widget class="QListWidget" name="listWidgetCommands">
+                 <property name="selectionMode">
+                  <enum>QAbstractItemView::ExtendedSelection</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </item>
              <item>
               <layout class="QVBoxLayout" name="verticalLayout_6" stretch="0,0">
@@ -424,15 +434,6 @@
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="comboBoxCommands">
-               <item>
-                <property name="text">
-                 <string>Insert Default Command</string>
-                </property>
-               </item>
-              </widget>
-             </item>
-             <item>
               <spacer name="horizontalSpacer">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
@@ -463,7 +464,7 @@
        </widget>
        <widget class="QWidget" name="tab_shortcuts">
         <attribute name="icon">
-         <iconset resource="copyq.qrc">
+         <iconset resource="../copyq.qrc">
           <normaloff>:/images/tab_shortcuts.svg</normaloff>:/images/tab_shortcuts.svg</iconset>
         </attribute>
         <attribute name="title">
@@ -471,101 +472,126 @@
         </attribute>
         <layout class="QGridLayout" name="gridLayout_9">
          <item row="0" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_11">
-           <item>
-            <layout class="QFormLayout" name="formLayout">
-             <property name="fieldGrowthPolicy">
-              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+          <widget class="QLabel" name="label_18">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Keyboard shortcuts that are set here work globally in system. Click on a button next and press shortcut to assign it.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Note:&lt;/span&gt; There are some keyboard combinations that won't work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <layout class="QFormLayout" name="formLayout">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label">
+             <property name="text">
+              <string>Sh&amp;ow/hide the clipboard history</string>
              </property>
-             <item row="0" column="0">
-              <widget class="QLabel" name="label">
-               <property name="text">
-                <string>Sh&amp;ow/hide the clipboard history</string>
-               </property>
-               <property name="buddy">
-                <cstring>pushButton</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="0" column="1">
-              <widget class="QPushButton" name="pushButton">
-               <property name="toolTip">
-                <string>Shortcut to show or hide clipboard history.</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="0">
-              <widget class="QLabel" name="label_2">
-               <property name="text">
-                <string>Show the tray &amp;menu</string>
-               </property>
-               <property name="buddy">
-                <cstring>pushButton_2</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="1" column="1">
-              <widget class="QPushButton" name="pushButton_2">
-               <property name="toolTip">
-                <string>Shortcut to show tray menu.</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="0">
-              <widget class="QLabel" name="label_16">
-               <property name="text">
-                <string>Open the &amp;first item in external editor</string>
-               </property>
-               <property name="buddy">
-                <cstring>pushButton_3</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="2" column="1">
-              <widget class="QPushButton" name="pushButton_3">
-               <property name="toolTip">
-                <string>Shortcut to open the first item in external editor.</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="0">
-              <widget class="QLabel" name="label_17">
-               <property name="text">
-                <string>&amp;Put second item into the clipboard</string>
-               </property>
-               <property name="buddy">
-                <cstring>pushButton_4</cstring>
-               </property>
-              </widget>
-             </item>
-             <item row="3" column="1">
-              <widget class="QPushButton" name="pushButton_4">
-               <property name="toolTip">
-                <string>Shortcut to put the second item to clipboard.</string>
-               </property>
-               <property name="text">
-                <string/>
-               </property>
-              </widget>
-             </item>
-            </layout>
+             <property name="buddy">
+              <cstring>pushButton</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QPushButton" name="pushButton">
+             <property name="toolTip">
+              <string>Shortcut to show or hide clipboard history.</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_2">
+             <property name="text">
+              <string>Show the tray &amp;menu</string>
+             </property>
+             <property name="buddy">
+              <cstring>pushButton_2</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QPushButton" name="pushButton_2">
+             <property name="toolTip">
+              <string>Shortcut to show tray menu.</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_16">
+             <property name="text">
+              <string>Open the &amp;first item in external editor</string>
+             </property>
+             <property name="buddy">
+              <cstring>pushButton_3</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <widget class="QPushButton" name="pushButton_3">
+             <property name="toolTip">
+              <string>Shortcut to open the first item in external editor.</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_17">
+             <property name="text">
+              <string>&amp;Put second item into the clipboard</string>
+             </property>
+             <property name="buddy">
+              <cstring>pushButton_4</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <widget class="QPushButton" name="pushButton_4">
+             <property name="toolTip">
+              <string>Shortcut to put the second item to clipboard.</string>
+             </property>
+             <property name="text">
+              <string/>
+             </property>
+            </widget>
            </item>
           </layout>
+         </item>
+         <item row="2" column="0">
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tab_appearance">
         <attribute name="icon">
-         <iconset resource="copyq.qrc">
+         <iconset resource="../copyq.qrc">
           <normaloff>:/images/tab_appearance.svg</normaloff>:/images/tab_appearance.svg</iconset>
         </attribute>
         <attribute name="title">
@@ -804,52 +830,8 @@
    <header>clipboardbrowser.h</header>
   </customwidget>
  </customwidgets>
- <tabstops>
-  <tabstop>tabWidget</tabstop>
-  <tabstop>checkBoxClip</tabstop>
-  <tabstop>checkBoxCopyClip</tabstop>
-  <tabstop>checkBoxSel</tabstop>
-  <tabstop>checkBoxCopySel</tabstop>
-  <tabstop>checkBoxConfirmExit</tabstop>
-  <tabstop>spinBoxItems</tabstop>
-  <tabstop>spinBoxTrayItems</tabstop>
-  <tabstop>spinBoxImageWidth</tabstop>
-  <tabstop>spinBoxImageHeight</tabstop>
-  <tabstop>lineEditEditor</tabstop>
-  <tabstop>plainTextEditFormats</tabstop>
-  <tabstop>listWidgetCommands</tabstop>
-  <tabstop>widgetCommand</tabstop>
-  <tabstop>pushButtoAdd</tabstop>
-  <tabstop>pushButtonRemove</tabstop>
-  <tabstop>pushButtonUp</tabstop>
-  <tabstop>pushButtonDown</tabstop>
-  <tabstop>comboBoxCommands</tabstop>
-  <tabstop>pushButton</tabstop>
-  <tabstop>pushButton_2</tabstop>
-  <tabstop>pushButton_3</tabstop>
-  <tabstop>pushButton_4</tabstop>
-  <tabstop>clipboardBrowserPreview</tabstop>
-  <tabstop>pushButtonColorBg</tabstop>
-  <tabstop>pushButtonColorFg</tabstop>
-  <tabstop>pushButtonColorSelBg</tabstop>
-  <tabstop>pushButtonColorSelFg</tabstop>
-  <tabstop>pushButtonColorFindBg</tabstop>
-  <tabstop>pushButtonColorFindFg</tabstop>
-  <tabstop>pushButtonColorEditorBg</tabstop>
-  <tabstop>pushButtonColorEditorFg</tabstop>
-  <tabstop>pushButtonColorAltBg</tabstop>
-  <tabstop>pushButtonColorNumberFg</tabstop>
-  <tabstop>checkBoxShowNumber</tabstop>
-  <tabstop>pushButtonFont</tabstop>
-  <tabstop>pushButtonFoundFont</tabstop>
-  <tabstop>pushButtonEditorFont</tabstop>
-  <tabstop>pushButtonNumberFont</tabstop>
-  <tabstop>pushButtonLoadTheme</tabstop>
-  <tabstop>pushButtonSaveTheme</tabstop>
-  <tabstop>buttonBox</tabstop>
- </tabstops>
  <resources>
-  <include location="copyq.qrc"/>
+  <include location="../copyq.qrc"/>
  </resources>
  <connections/>
 </ui>
