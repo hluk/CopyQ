@@ -1128,7 +1128,9 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     c->saveItems();
     w->setTabText(tabIndex, name);
 
-    ConfigurationManager::instance()->removeItems(oldName);
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    cm->removeItems(oldName);
+    cm->setTabs(tabs());
 }
 
 void MainWindow::removeTab(bool ask, int tab_index)
