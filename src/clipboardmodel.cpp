@@ -295,19 +295,22 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList,
 {
     ComparisonItem a, b;
     QList< QPair<int, ClipboardItem*> > list;
+    QList<int> rows;
 
     for (int i = 0; i < indexList.length(); ++i) {
         int row = indexList[i].row();
         if ( row >= m_clipboardList.length() )
             return;
         list.append( qMakePair(row, m_clipboardList[row]) );
+        rows.append(row);
     }
 
+    qSort(rows);
     qSort( list.begin(), list.end(), compare );
 
     for (int i = 0; i < list.length(); ++i ) {
         int row1 = list[i].first;
-        int row2 = indexList[i].row();
+        int row2 = rows[i];
         if (row1 != row2) {
             m_clipboardList[row2] = list[i].second;
             QModelIndex ind = index(row2);

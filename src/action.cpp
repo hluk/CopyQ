@@ -17,8 +17,9 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include <QAction>
 #include "action.h"
+
+#include <QAction>
 
 Action::Action(const QString &cmd, const QStringList &args,
                const QByteArray &input, bool outputItems,
