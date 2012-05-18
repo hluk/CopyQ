@@ -380,7 +380,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     QString txt;
     ClipboardBrowser *c = browser();
-    TabWidget *w = ui->tabWidget;
 
     if ( event->modifiers() == Qt::ControlModifier ) {
         switch( event->key() ) {
