@@ -26,6 +26,7 @@
 #include <assert.h>
 
 static const QSize defaultSize(9999, 1024);
+static const int maxChars = 100*1024;
 
 ItemDelegate::ItemDelegate(QWidget *parent)
     : QItemDelegate(parent)
@@ -173,6 +174,12 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
         }
 
         if ( !text.isEmpty() ) {
+            /* For performance reasons, limit number of shown characters
+             * (it's still possible to edit the whole text).
+             */
+            if ( text.size() > maxChars )
+                text = text.left(maxChars) + "\n\n...";
+
             QTextEdit *textEdit = new QTextEdit(m_parent);
 
             textEdit->setFrameShape(QFrame::NoFrame);
