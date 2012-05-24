@@ -295,11 +295,13 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
                 if (row < currentRow) {
                     offset -= 512 - wh;
                     v->setValue(offset);
+                } else if (row == currentRow) {
+                    /* Paint current item quickly. */
+                    QListView::paintEvent(event);
                 }
                 /* Caching can take some time so repaint and return
                  * control to event loop. This function will be called again
                  * soon because size hint for newly cached item changed. */
-                QListView::paintEvent(event);
                 return;
             }
 
