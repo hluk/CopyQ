@@ -52,7 +52,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     , m_editor()
     , m_lastFilter()
     , m_update(false)
-    , m_sizeHintChanged(false)
     , m( new ClipboardModel(this) )
     , d( new ItemDelegate(this) )
     , m_timerSave( new QTimer(this) )
@@ -78,9 +77,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
 
     // delegate for rendering and editing items
     setItemDelegate(d);
-    connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
-             this, SLOT(sizeHintChanged(QModelIndex)),
-             Qt::DirectConnection );
 
     // set new model
     QItemSelectionModel *old_model = selectionModel();
@@ -266,17 +262,56 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 
 void ClipboardBrowser::paintEvent(QPaintEvent *event)
 {
-    /* Pre-load next and previous page. */
     int h = viewport()->height();
-    QPaintEvent event2( event->rect().adjusted(0, -h, 0, h) );
+    int y = -h;
+    int x = viewport()->width()/2;
 
-    d->setDryPaint(true);
-    m_sizeHintChanged = false;
-    QListView::paintEvent(&event2);
-    d->setDryPaint(false);
+    // first item to pre-load
+    QModelIndex ind;
+    while ( !ind.isValid() && y < h ) {
+        ind = indexAt( QPoint(x, y) );
+        y += 8;
+    }
 
-    if (!m_sizeHintChanged)
-        QListView::paintEvent(&event2);
+    // pre-load items on previous, current and next page to cache
+    h = 2 * h - y;
+    bool canPaint = true;
+    int currentRow = currentIndex().row();
+    int row = ind.row();
+    QScrollBar *v = verticalScrollBar();
+    int offset = v->value();
+    while (ind.isValid() && h > 0) {
+        if ( !isRowHidden(row) ) {
+            bool hasCache = d->hasCache(ind);
+            if ( canPaint && !hasCache )
+                canPaint = false;
+
+            QWidget *w = d->cache(ind);
+            if (w == NULL)
+                break;
+            int wh = w->height() + 8;
+
+            if ( !hasCache ) {
+                if (row < currentRow) {
+                    offset -= 512 - wh;
+                    v->setValue(offset);
+                }
+                /* Caching can take some time so repaint and return
+                 * control to event loop. This function will be called again
+                 * soon because size hint for newly cached item changed. */
+                QListView::paintEvent(event);
+                return;
+            }
+
+            h -= wh;
+        }
+        ind = index(++row);
+    }
+
+    if (canPaint)
+        QListView::paintEvent(event);
+    else
+        update();
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
@@ -721,16 +756,4 @@ void ClipboardBrowser::redraw()
 bool ClipboardBrowser::editing()
 {
     return state() == QAbstractItemView::EditingState;
-}
-
-void ClipboardBrowser::sizeHintChanged(const QModelIndex &index)
-{
-    m_sizeHintChanged = true;
-
-    /* Compensate the size change. */
-    if ( index.row() < currentIndex().row() ) {
-        QScrollBar *v = verticalScrollBar();
-        v->setValue( v->value() - 1024 +
-                     d->sizeHint(QStyleOptionViewItem(), index).height() );
-    }
 }

@@ -296,7 +296,6 @@ void MainWindow::createMenu()
 void MainWindow::elideText(QAction *act)
 {
     QFont font = act->font();
-    font.setItalic(true);
     act->setFont(font);
 
     QFontMetrics fm(font);

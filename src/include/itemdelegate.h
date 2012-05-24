@@ -33,11 +33,9 @@
  *
  * To achieve better performance the first call to get sizeHint() value for
  * an item returns some default value (so it doesn't have to render all items).
- * First paint() call for some item will load that item into cache and notify
- * all listeners
  *
- * If dryPaint() is set to true paint() invocation only loads given item to
- * cache if necessary but nothing is rendered.
+ * Before calling paint ()for an index item on given index must be cached
+ * using cache().
  */
 class ItemDelegate : public QItemDelegate
 {
@@ -61,19 +59,7 @@ class ItemDelegate : public QItemDelegate
         bool eventFilter(QObject *object, QEvent *event);
 
         /** Remove all cached items (cache is refreshed using paint()). */
-        void invalidateCache() const;
-
-        /** Set dry paint. */
-        void setDryPaint(
-                bool dryPaint
-                //!< If true disable item rendering (only cache is updated).
-                )
-        {
-            m_dryPaint = dryPaint;
-        }
-
-        /** Return dry paint. */
-        bool dryPaint() const { return m_dryPaint; }
+        void invalidateCache();
 
         /** Set regular expression for highlighting. */
         void setSearch(const QRegExp &re);
@@ -90,13 +76,18 @@ class ItemDelegate : public QItemDelegate
         /** Show/hide item number. */
         void setShowNumber(bool show) { m_showNumber = show; }
 
+        /** Return cached item, create it if it doesn't exist. */
+        QWidget *cache(const QModelIndex &index);
+
+        /** Return true only if item at index is already in cache. */
+        bool hasCache(const QModelIndex &index) const;
+
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
                    const QModelIndex &index) const;
 
     private:
         QWidget *m_parent;
-        bool m_dryPaint;
         bool m_showNumber;
         QRegExp m_re;
 
@@ -108,20 +99,13 @@ class ItemDelegate : public QItemDelegate
         QPalette m_numberPalette;
 
         // items drawn using QTextDocument
-        mutable QList<QWidget*> m_cache;
-
-        /** Return cached item, create it if it doesn't exist. */
-        QWidget *cache(const QModelIndex &index) const;
+        QList<QWidget*> m_cache;
 
         /** Remove cached item for given @a row. */
-        void removeCache(int row) const;
+        void removeCache(int row);
 
         /** Remove cached item for given @a index. */
-        void removeCache(const QModelIndex &index) const;
-
-    signals:
-        /** Emitted if item size is changed. */
-        void sizeUpdated(const QModelIndex &index) const;
+        void removeCache(const QModelIndex &index);
 
     public slots:
         // change size buffer

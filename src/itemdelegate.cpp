@@ -23,15 +23,13 @@
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include "client_server.h"
-#include <assert.h>
 
-static const QSize defaultSize(9999, 1024);
+static const QSize defaultSize(9999, 512);
 static const int maxChars = 100*1024;
 
 ItemDelegate::ItemDelegate(QWidget *parent)
     : QItemDelegate(parent)
     , m_parent(parent)
-    , m_dryPaint(false)
     , m_showNumber(false)
     , m_re()
     , m_foundFont()
@@ -42,9 +40,6 @@ ItemDelegate::ItemDelegate(QWidget *parent)
     , m_numberPalette()
     , m_cache()
 {
-    connect( this, SIGNAL(sizeUpdated(QModelIndex)),
-             SIGNAL(sizeHintChanged(QModelIndex)),
-             Qt::DirectConnection );
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
@@ -157,7 +152,7 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
         m_cache.insert( i, NULL );
 }
 
-QWidget *ItemDelegate::cache(const QModelIndex &index) const
+QWidget *ItemDelegate::cache(const QModelIndex &index)
 {
     int n = index.row();
 
@@ -216,17 +211,23 @@ QWidget *ItemDelegate::cache(const QModelIndex &index) const
         w->setStyleSheet("*{background:transparent}");
         w->hide();
         m_cache[n] = w;
+        emit sizeHintChanged(index);
     }
 
     return w;
 }
 
-void ItemDelegate::removeCache(const QModelIndex &index) const
+bool ItemDelegate::hasCache(const QModelIndex &index) const
+{
+    return m_cache[index.row()] != NULL;
+}
+
+void ItemDelegate::removeCache(const QModelIndex &index)
 {
     removeCache(index.row());
 }
 
-void ItemDelegate::removeCache(int row) const
+void ItemDelegate::removeCache(int row)
 {
     QWidget *w = m_cache[row];
     if (w) {
@@ -235,7 +236,7 @@ void ItemDelegate::removeCache(int row) const
     }
 }
 
-void ItemDelegate::invalidateCache() const
+void ItemDelegate::invalidateCache()
 {
     if ( m_cache.length() > 0 ) {
         for( int i = 0; i < m_cache.length(); ++i ) {
@@ -272,13 +273,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 {
     int row = index.row();
     QWidget *w = m_cache[row];
-    if (w == NULL) {
-        /* Size of currently painted item has changed. */
-        cache(index);
-        emit sizeUpdated(index);
-    }
-
-    if ( w == NULL || dryPaint() )
+    if (w == NULL)
         return;
 
     const QRect &rect = option.rect;

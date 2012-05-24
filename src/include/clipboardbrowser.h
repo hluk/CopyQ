@@ -149,7 +149,6 @@ class ClipboardBrowser : public QListView
         QString m_editor;
         QRegExp m_lastFilter;
         bool m_update;
-        bool m_sizeHintChanged;
         ClipboardModel *m;
         ItemDelegate *d;
         QTimer *m_timerSave;
@@ -180,7 +179,6 @@ class ClipboardBrowser : public QListView
         void addToTab(QMimeData *data, const QString &tabName);
 
     private slots:
-        void sizeHintChanged(const QModelIndex &index);
         void contextMenuAction(QAction *act);
         void updateContextMenu();
 
