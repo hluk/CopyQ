@@ -75,6 +75,9 @@ class MainWindow : public QMainWindow
         /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *browser(int index = -1) const;
 
+        /** Return tab index for browser widget (-1 if not found). */
+        int tabIndex(const ClipboardBrowser *c) const;
+
         /**
          * Create tab with given @a name if it doesn't exist.
          * @return Existing or new tab with given @a name.
@@ -195,10 +198,28 @@ class MainWindow : public QMainWindow
         /** Copy selected items in current tab. */
         void copyItems();
 
-        /** Save all items in tab. */
-        void saveTab();
-        /** Load saved items to new tab. */
-        void loadTab();
+        /**
+         * Save all items in tab to file.
+         * @return True only if all items were successfully saved.
+         */
+        bool saveTab(
+                const QString &fileName,
+                int tab_index = -1 //!< Tab index or current tab.
+                );
+        /** Save all items in tab. Show file dialog. */
+        bool saveTab(
+                int tab_index = -1 //!< Tab index or current tab.
+                );
+        /**
+         * Load saved items to new tab.
+         * @return True only if all items were successfully loaded.
+         */
+        bool loadTab(const QString &fileName);
+        /**
+         * Load saved items to new tab.
+         * Show file dialog and focus the new tab.
+         */
+        bool loadTab();
 
         /** Sort selected items. */
         void sortSelectedItems();

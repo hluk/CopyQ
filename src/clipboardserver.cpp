@@ -407,6 +407,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         c->setAutoUpdate(true);
 
         c->updateClipboard();
+        c->delayedSaveItems(1000);
     }
 
     // add new items
@@ -434,6 +435,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         c->setAutoUpdate(true);
 
         c->updateClipboard();
+        c->delayedSaveItems(1000);
     }
 
     // edit clipboard item
@@ -470,6 +472,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         if ( !args.finished() )
             return CommandBadSyntax;
         c->moveToClipboard(row);
+        c->delayedSaveItems(1000);
     }
 
     // remove item from clipboard
@@ -500,6 +503,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
         if (rows.last() == 0)
             c->updateClipboard();
+        c->delayedSaveItems(1000);
     }
 
     else if (cmd == "length" || cmd == "size" || cmd == "count") {
@@ -671,6 +675,40 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         }
 
         m_wnd->renameTab(new_name, i);
+    }
+
+    // export filename
+    else if(cmd == "export") {
+        if ( args.atEnd() )
+            return CommandBadSyntax;
+
+        QString fileName;
+        args >> fileName;
+
+        if ( args.error() || !args.atEnd() )
+            return CommandBadSyntax;
+
+        if ( !m_wnd->saveTab( fileName, m_wnd->tabIndex(c) ) ) {
+            response->append( tr("Cannot save to file \"%1\"!\n").arg(fileName) );
+            return CommandError;
+        }
+    }
+
+    // import filename
+    else if(cmd == "import") {
+        if ( args.atEnd() )
+            return CommandBadSyntax;
+
+        QString fileName;
+        args >> fileName;
+
+        if ( args.error() || !args.atEnd() )
+            return CommandBadSyntax;
+
+        if ( !m_wnd->loadTab(fileName) ) {
+            response->append( tr("Cannot open file \"%1\"!\n").arg(fileName) );
+            return CommandError;
+        }
     }
 
     // unknown command

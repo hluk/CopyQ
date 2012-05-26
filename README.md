@@ -88,6 +88,10 @@ Command Line Interface
           Remove tab with given name.
         renametab  <TAB_NAME> <NEW_TAB_NAME>
           Rename tab.
+        export <FILE_NAME>
+          Export items to file.
+        import <FILE_NAME>
+          Import items from file.
 
         length, count, size
           Print number of items in history.

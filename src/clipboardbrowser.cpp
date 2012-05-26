@@ -324,6 +324,12 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
     d->dataChanged(a, b);
 }
 
+void ClipboardBrowser::commitData(QWidget *editor)
+{
+    QAbstractItemView::commitData(editor);
+    saveItems();
+}
+
 bool ClipboardBrowser::openEditor(const QString &text)
 {
     if ( m_editor.isEmpty() )
@@ -359,6 +365,7 @@ void ClipboardBrowser::itemModified(const QString &str)
     // add new item
     if ( !str.isEmpty() ) {
         add(str);
+        saveItems();
     }
 }
 
@@ -695,13 +702,12 @@ void ClipboardBrowser::saveItems()
     ConfigurationManager::instance()->saveItems(*m, m_id);
 }
 
-void ClipboardBrowser::delayedSaveItems()
+void ClipboardBrowser::delayedSaveItems(int msec)
 {
     if ( m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
-    // save after 2 minutes
-    m_timerSave->start(120000);
+    m_timerSave->start(msec);
 }
 
 void ClipboardBrowser::purgeItems()

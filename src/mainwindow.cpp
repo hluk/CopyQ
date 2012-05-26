@@ -178,15 +178,15 @@ void MainWindow::createMenu()
                      this, SLOT(newItem()),
                      QKeySequence::New );
 
-    // - load
-    menu->addAction( QIcon(":/images/open.svg"), tr("&Open Tab File..."),
+    // - import tab
+    menu->addAction( QIcon(":/images/open.svg"), tr("&Import Tab..."),
                      this, SLOT(loadTab()),
-                     QKeySequence::Open );
+                     QKeySequence("Ctrl+I") );
 
-    // - save
-    menu->addAction( QIcon(":/images/save.svg"), tr("&Save Tab File..."),
-            this, SLOT(saveTab()),
-            QKeySequence::Save );
+    // - export tab
+    menu->addAction( QIcon(":/images/save.svg"), tr("&Export Tab..."),
+                     this, SLOT(saveTab()),
+                     QKeySequence("Ctrl+E") );
 
     // - action dialog
     act = traymenu->addAction( QIcon(":/images/action.svg"), tr("&Action..."),
@@ -896,6 +896,16 @@ ClipboardBrowser *MainWindow::browser(int index) const
     return dynamic_cast<ClipboardBrowser*>(w);
 }
 
+int MainWindow::tabIndex(const ClipboardBrowser *c) const
+{
+    /* Iterate because QTabWidget::indexOf takes non-const argument. */
+    int i = 0;
+    const QWidget *w = dynamic_cast<const QWidget*>(c);
+    const QWidget *w2 = ui->tabWidget->widget(i);
+    for ( ; w2 != NULL && w != w2; w2 = ui->tabWidget->widget(++i) );
+    return w2 == NULL ? -1 : i;
+}
+
 ClipboardBrowser *MainWindow::addTab(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -963,43 +973,46 @@ void MainWindow::copyItems()
     emit changeClipboard(&item);
 }
 
-void MainWindow::saveTab()
+bool MainWindow::saveTab(const QString &fileName, int tab_index)
 {
-    QString fileName = QFileDialog::getSaveFileName( this, QString(), QString(),
-                                                     tr("CopyQ Items (*.cpq)") );
-    if ( fileName.isNull() )
-        return;
-
     QFile file(fileName);
-    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) ) {
-        QMessageBox::critical( this, tr("CopyQ Error Saving File"),
-                               tr("Cannot save file \"%1\"!").arg(fileName) );
-        return;
-    }
+    if ( !file.open(QIODevice::WriteOnly | QIODevice::Truncate) )
+        return false;
 
     QDataStream out(&file);
 
-    ClipboardBrowser *c = browser();
+    int i = tab_index >= 0 ? tab_index : ui->tabWidget->currentIndex();
+    ClipboardBrowser *c = browser(i);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
     out << c->getID() << *model;
 
     file.close();
+
+    return true;
 }
 
-void MainWindow::loadTab()
+bool MainWindow::saveTab(int tab_index)
 {
-    QString fileName = QFileDialog::getOpenFileName( this, QString(), QString(),
+    QString fileName = QFileDialog::getSaveFileName( this, QString(), QString(),
                                                      tr("CopyQ Items (*.cpq)") );
     if ( fileName.isNull() )
-        return;
+        return false;
 
-    QFile file(fileName);
-    if ( !file.open(QIODevice::ReadOnly) ) {
-        QMessageBox::critical( this, tr("CopyQ Error Opening File"),
-                               tr("Cannot open file \"%1\"!").arg(fileName) );
-        return;
+    if ( !saveTab(fileName, tab_index) ) {
+        QMessageBox::critical( this, tr("CopyQ Error Saving File"),
+                               tr("Cannot save file \"%1\"!").arg(fileName) );
+        return false;
     }
+
+    return true;
+}
+
+bool MainWindow::loadTab(const QString &fileName)
+{
+    QFile file(fileName);
+    if ( !file.open(QIODevice::ReadOnly) )
+        return false;
 
     QDataStream in(&file);
 
@@ -1015,12 +1028,33 @@ void MainWindow::loadTab()
         tabName = baseTabName + " (" + QString::number(++i) + ')';
     }
 
-    ClipboardBrowser *c = addTab(tabName);
+    ClipboardBrowser *c = createTab(tabName, true);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
     in >> *model;
 
     file.close();
+
+    return true;
+}
+
+bool MainWindow::loadTab()
+{
+    QString fileName = QFileDialog::getOpenFileName( this, QString(), QString(),
+                                                     tr("CopyQ Items (*.cpq)") );
+    if ( fileName.isNull() )
+        return false;
+
+    if ( !loadTab(fileName) ) {
+        QMessageBox::critical( this, tr("CopyQ Error Opening File"),
+                               tr("Cannot open file \"%1\"!").arg(fileName) );
+        return false;
+    }
+
+    QTabWidget *w = ui->tabWidget;
+    w->setCurrentIndex( w->count()-1 );
+
+    return true;
 }
 
 void MainWindow::sortSelectedItems()

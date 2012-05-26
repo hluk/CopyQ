@@ -178,6 +178,9 @@ class ClipboardBrowser : public QListView
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(QMimeData *data, const QString &tabName);
 
+    protected slots:
+        void commitData(QWidget *editor);
+
     private slots:
         void contextMenuAction(QAction *act);
         void updateContextMenu();
@@ -218,9 +221,10 @@ class ClipboardBrowser : public QListView
          */
         void saveItems();
         /**
-         * Save items to configuration after interval.
+         * Save items to configuration after an interval.
+         * Default interval is 30 seconds.
          */
-        void delayedSaveItems();
+        void delayedSaveItems(int msec = 30000);
         /**
          * Clear all items from configuration.
          * @see setID, loadItems, saveItems
