@@ -560,8 +560,10 @@ void ClipboardBrowser::remove()
 
         qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-        foreach (int row, rows)
-            m->removeRow(row);
+        foreach (int row, rows) {
+            if ( !isRowHidden(row) )
+                m->removeRow(row);
+        }
 
         int current = rows.last();
 
@@ -723,9 +725,11 @@ const QString ClipboardBrowser::selectedText() const
 
     QModelIndexList list = sel->selectedIndexes();
     foreach (const QModelIndex &ind, list) {
-        if ( !result.isEmpty() )
-            result += QString('\n');
-        result += itemText(ind);
+        if ( !isRowHidden(ind.row()) ) {
+            if ( !result.isEmpty() )
+                result += QString('\n');
+            result += itemText(ind);
+        }
     }
 
     return result;

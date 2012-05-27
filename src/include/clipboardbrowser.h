@@ -76,9 +76,9 @@ class ClipboardBrowser : public QListView
                 bool force = false //!< If true ignore commands and duplicates.
                 );
 
-        /** Edit selected items. */
+        /** Edit selected unhidden items. */
         void editSelected();
-        /** Remove selected items. */
+        /** Remove selected unhidden items. */
         void remove();
         /** Remove all items. */
         void clear();
