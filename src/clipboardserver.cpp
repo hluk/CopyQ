@@ -706,7 +706,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             return CommandBadSyntax;
 
         if ( !m_wnd->loadTab(fileName) ) {
-            response->append( tr("Cannot open file \"%1\"!\n").arg(fileName) );
+            response->append( tr("Cannot import file \"%1\"!\n").arg(fileName) );
             return CommandError;
         }
     }

@@ -985,7 +985,7 @@ bool MainWindow::saveTab(const QString &fileName, int tab_index)
     ClipboardBrowser *c = browser(i);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
-    out << c->getID() << *model;
+    out << QByteArray("CopyQ v1") << c->getID() << *model;
 
     file.close();
 
@@ -1016,8 +1016,13 @@ bool MainWindow::loadTab(const QString &fileName)
 
     QDataStream in(&file);
 
+    QByteArray header;
     QString tabName;
-    in >> tabName;
+    in >> header >> tabName;
+    if ( !header.startsWith("CopyQ v1") || tabName.isEmpty() ) {
+        file.close();
+        return false;
+    }
 
     // Find unique tab name.
     QString baseTabName = tabName;
