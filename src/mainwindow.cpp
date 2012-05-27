@@ -186,7 +186,7 @@ void MainWindow::createMenu()
     // - export tab
     menu->addAction( QIcon(":/images/save.svg"), tr("&Export Tab..."),
                      this, SLOT(saveTab()),
-                     QKeySequence("Ctrl+E") );
+                     QKeySequence::Save );
 
     // - action dialog
     act = traymenu->addAction( QIcon(":/images/action.svg"), tr("&Action..."),
