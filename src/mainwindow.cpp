@@ -507,11 +507,11 @@ void MainWindow::showWindow()
         QApplication::processEvents();
     }
 
-    ConfigurationManager::instance()->loadGeometry(this);
-
     showNormal();
     raise();
     activateWindow();
+
+    ConfigurationManager::instance()->loadGeometry(this);
 
     // if no item is selected then select first
     ClipboardBrowser *c = browser();
