@@ -332,7 +332,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
     QListView::dataChanged(a, b);
-    if ( a.row() == 0 )
+    if ( autoUpdate() && a.row() == 0 )
         updateClipboard();
     d->dataChanged(a, b);
 }
@@ -413,7 +413,8 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
 void ClipboardBrowser::moveToClipboard(int i)
 {
     m->move(i,0);
-    updateClipboard();
+    if ( autoUpdate() )
+        updateClipboard();
     scrollTo( currentIndex() );
 }
 
@@ -441,7 +442,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Up:
         case Qt::Key_End:
         case Qt::Key_Home:
-            if ( m->moveItems(selectedIndexes(), key) )
+            if ( autoUpdate() && m->moveItems(selectedIndexes(), key) )
                 updateClipboard();
             scrollTo( currentIndex() );
             event->accept();
@@ -584,7 +585,7 @@ void ClipboardBrowser::remove()
         // select next
         setCurrent(current);
 
-        if (current == 0)
+        if ( autoUpdate() && current == 0 )
             updateClipboard();
     }
 }
@@ -768,7 +769,7 @@ const QMimeData *ClipboardBrowser::itemData(int i) const
 
 void ClipboardBrowser::updateClipboard()
 {
-    if ( m_update && m->rowCount() > 0 )
+    if ( m->rowCount() > 0 )
         emit changeClipboard(m->at(0));
 }
 
