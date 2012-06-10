@@ -461,6 +461,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         if ( !args.finished() )
             return CommandBadSyntax;
         c->moveToClipboard(row);
+        c->updateClipboard();
         c->delayedSaveItems(1000);
     }
 
