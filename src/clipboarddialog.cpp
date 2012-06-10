@@ -20,6 +20,7 @@
 #include "clipboarddialog.h"
 #include "ui_clipboarddialog.h"
 #include "client_server.h"
+#include "configurationmanager.h"
 #include <QClipboard>
 #include <QUrl>
 
@@ -42,10 +43,14 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
         ui->horizontalLayout->setStretchFactor(1,2);
         ui->listWidgetFormats->setCurrentRow(0);
     }
+
+    ConfigurationManager::instance()->loadGeometry(this);
 }
 
 ClipboardDialog::~ClipboardDialog()
 {
+    ConfigurationManager::instance()->saveGeometry(this);
+
     delete ui;
 }
 
