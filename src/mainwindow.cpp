@@ -982,7 +982,8 @@ void MainWindow::copyItems()
     ClipboardItem item;
     QMimeData data;
     if ( indexes.size() == 1 ) {
-        item.setData( cloneData(*c->at(0)->data()) );
+        int row = indexes.at(0).row();
+        item.setData( cloneData(*c->at(row)->data()) );
     } else {
         data.setText( c->selectedText() );
         data.setData("application/x-copyq-item", bytes);
