@@ -314,6 +314,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
     ClipboardBrowser *c = (target_browser == NULL) ? m_wnd->browser(0) :
                                                      target_browser;
+    ClipboardBrowser::Lock lock(c);
     QString mime;
     QMimeData *data;
     int row;
@@ -396,15 +397,9 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         if ( args.atEnd() )
             return CommandBadSyntax;
 
-        c->setAutoUpdate(false);
-        c->setUpdatesEnabled(false);
-
         while( !args.atEnd() ) {
             c->add( args.toString(), true );
         }
-
-        c->setUpdatesEnabled(true);
-        c->setAutoUpdate(true);
 
         c->updateClipboard();
         c->delayedSaveItems(1000);
@@ -426,13 +421,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
             data->setData( mime, bytes );
         } while ( !args.atEnd() );
 
-        c->setAutoUpdate(false);
-        c->setUpdatesEnabled(false);
-
         c->add(data, true);
-
-        c->setUpdatesEnabled(true);
-        c->setAutoUpdate(true);
 
         c->updateClipboard();
         c->delayedSaveItems(1000);
@@ -492,14 +481,8 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
         qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-        c->setAutoUpdate(false);
-        c->setUpdatesEnabled(false);
-
         foreach (int row, rows)
             c->model()->removeRow(row);
-
-        c->setUpdatesEnabled(true);
-        c->setAutoUpdate(true);
 
         if (rows.last() == 0)
             c->updateClipboard();

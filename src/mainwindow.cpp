@@ -674,7 +674,7 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
         return;
     }
 
-    c->setAutoUpdate(false);
+    ClipboardBrowser::Lock lock(c);
     if ( !c->select(hash(*data, data->formats())) ) {
         if ( c->length() > 0 ) {
             /* merge data with first item if it is same */
@@ -693,7 +693,6 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
         bool force = !tabName.isEmpty();
         c->add( cloneData(*data), force );
     }
-    c->setAutoUpdate(true);
 }
 
 void MainWindow::nextTab()
@@ -928,21 +927,37 @@ void MainWindow::newItem()
 void MainWindow::pasteItems()
 {
     const QMimeData *data = clipboardData();
-    if (data) {
+    if (data == NULL)
+        return;
+
+    ClipboardBrowser *c = browser();
+    ClipboardBrowser::Lock lock(c);
+    int count = 0;
+
+    // Insert items from clipboard or just clipboard content.
+    if ( data->hasFormat("application/x-copyq-item") ) {
         const QByteArray bytes = data->data("application/x-copyq-item");
         QDataStream in(bytes);
-        ClipboardBrowser *c = browser();
         ClipboardItem item;
 
-        c->setAutoUpdate(false);
-        c->setUpdatesEnabled(false);
         while( !in.atEnd() ) {
             in >> item;
             c->add(item, true);
+            ++count;
         }
-        c->setUpdatesEnabled(true);
-        c->setAutoUpdate(true);
-        c->updateClipboard();
+    } else {
+        c->add( cloneData(*data), true );
+        count = 1;
+    }
+
+    // Select new items.
+    if (count > 0) {
+        QItemSelection sel;
+        QModelIndex first = c->index(0);
+        QModelIndex last = count > 1 ? c->index(count-1) : first;
+        sel.select(first, last);
+        c->setCurrentIndex(first);
+        c->selectionModel()->select(sel, QItemSelectionModel::ClearAndSelect);
     }
 }
 
@@ -961,15 +976,19 @@ void MainWindow::copyItems()
 
     /* Copy items in reverse (items will be pasted correctly). */
     for ( int i = indexes.size()-1; i >= 0; --i ) {
-        out << *model->get( indexes.at(i).row() );
+        out << *c->at( indexes.at(i).row() );
     }
 
-    QMimeData data;
-    data.setText( c->selectedText() );
-    data.setData("application/x-copyq-item", bytes);
-
     ClipboardItem item;
-    item.setData( cloneData(data) );
+    QMimeData data;
+    if ( indexes.size() == 1 ) {
+        item.setData( cloneData(*c->at(0)->data()) );
+    } else {
+        data.setText( c->selectedText() );
+        data.setData("application/x-copyq-item", bytes);
+        item.setData( cloneData(data) );
+    }
+
     emit changeClipboard(&item);
 }
 

@@ -45,6 +45,20 @@ static bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
     return lhs.first > rhs.first;
 }
 
+ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
+{
+    m_autoUpdate = c->autoUpdate();
+    m_updates = c->updatesEnabled();
+    c->setAutoUpdate(false);
+    c->setUpdatesEnabled(false);
+}
+
+ClipboardBrowser::Lock::~Lock()
+{
+    c->setAutoUpdate(m_autoUpdate);
+    c->setUpdatesEnabled(m_updates);
+}
+
 ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     : QListView(parent)
     , m_id()

@@ -38,6 +38,20 @@ class ClipboardBrowser : public QListView
     Q_OBJECT
 
     public:
+        /**
+         * Disable ClipboardBrowser's automatic visual and clipboard updates.
+         */
+        class Lock {
+            public:
+                Lock(ClipboardBrowser *self);
+                ~Lock();
+
+            private:
+                ClipboardBrowser *c;
+                bool m_autoUpdate;
+                bool m_updates;
+        };
+
         /** Actions in item menu and item context menu. */
         enum MenuAction {
             /** Move item to clipboard and to top of list. */
@@ -128,6 +142,9 @@ class ClipboardBrowser : public QListView
 
         /** Toggle automatic clipboard update. */
         void setAutoUpdate(bool update) { m_update = update; }
+
+        /** Return true if automatic clipboard update is on. */
+        bool autoUpdate() { return m_update; }
 
         /** Return context menu. */
         QMenu *contextMenu() const {return m_menu;}
