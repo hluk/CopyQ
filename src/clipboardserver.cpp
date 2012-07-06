@@ -23,16 +23,21 @@
 #include "clipboardbrowser.h"
 #include "clipboarditem.h"
 #include "arguments.h"
+#include "scriptable.h"
+#include "../qt/bytearrayclass.h"
 
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QTimer>
+#include <QScriptEngine>
 
 #ifdef NO_GLOBAL_SHORTCUTS
 struct QxtGlobalShortcut {};
 #else
 #include "../qxt/qxtglobalshortcut.h"
 #endif
+
+Q_DECLARE_METATYPE(QByteArray*)
 
 ClipboardServer::ClipboardServer(int &argc, char **argv)
     : App(argc, argv)
@@ -43,6 +48,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     , m_monitor(NULL)
     , m_lastHash(0)
     , m_shortcutActions()
+    , m_engine(NULL)
 {
     // listen
     m_server = newServer( serverName(), this );
@@ -82,6 +88,9 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
 
     // run clipboard monitor
     startMonitoring();
+
+    m_engine = new QScriptEngine(m_wnd);
+    m_baClass = new ByteArrayClass(m_engine);
 }
 
 ClipboardServer::~ClipboardServer()
@@ -305,400 +314,49 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
 }
 
 ClipboardServer::CommandStatus ClipboardServer::doCommand(
-        Arguments &args, QByteArray *response, ClipboardBrowser *target_browser)
+        Arguments &args, QByteArray *response)
 {
     QString cmd;
     args >> cmd;
     if ( args.error() )
         return CommandBadSyntax;
 
-    ClipboardBrowser *c = (target_browser == NULL) ? m_wnd->browser(0) :
-                                                     target_browser;
-    ClipboardBrowser::Lock lock(c);
-    QString mime;
-    QMimeData *data;
-    int row;
+    Scriptable scriptable(m_wnd, m_baClass);
+    QScriptValue obj = m_engine->newQObject(&scriptable);
+    m_engine->setGlobalObject(obj);
 
-    // show/hide main window
-    if (cmd == "show") {
-        if ( !args.atEnd() )
-            return CommandBadSyntax;
-        m_wnd->showWindow();
-        response->append(QString::number((qlonglong)m_wnd->winId()));
-    }
-    else if (cmd == "hide") {
-        if ( !args.atEnd() )
-            return CommandBadSyntax;
-        m_wnd->close();
-    }
-    else if (cmd == "toggle") {
-        if ( !args.atEnd() )
-            return CommandBadSyntax;
-        m_wnd->toggleVisible();
-        if ( m_wnd->isVisible() )
-            response->append(QString::number((qlonglong)m_wnd->winId()));
-    }
-
-    // exit server
-    else if (cmd == "exit") {
-        if ( !args.atEnd() )
-            return CommandBadSyntax;
-        // close client and exit (respond to client first)
-        *response = tr("Terminating server.\n").toLocal8Bit();
-        QTimer *timer = new QTimer(this);
-        timer->start(0);
-        connect( timer, SIGNAL(timeout()), SLOT(quit()) );
-    }
-
-    // show menu
-    else if (cmd == "menu") {
-        if ( !args.atEnd() )
-            return CommandBadSyntax;
-        response->append(QString::number((qlonglong)m_wnd->showMenu()));
-    }
-
-    // show action dialog or run action on item
-    // action
-    // action [[row] ... ["cmd" "[sep]"]]
-    else if (cmd == "action") {
-        args >> 0 >> row;
-        QString text = c->itemText(row);
-        while ( !args.finished() ) {
-            args >> row;
-            if (args.error())
-                break;
-            text.append( '\n'+c->itemText(row) );
-        }
-
-        if ( !args.error() ) {
-            m_wnd->openActionDialog(text);
-        } else {
-            QString cmd, sep;
-
-            args.back();
-            args >> cmd >> QString('\n') >> sep;
-
-            if ( !args.finished() )
-                return CommandBadSyntax;
-
-            Command command;
-            command.cmd = cmd;
-            command.output = true;
-            command.input = true;
-            command.sep = sep;
-            command.wait = false;
-            command.outputTab = c->getID();
-            m_wnd->action(text, command);
-        }
-    }
-
-    // add new items
-    else if (cmd == "add") {
-        if ( args.atEnd() )
-            return CommandBadSyntax;
-
-        while( !args.atEnd() ) {
-            c->add( args.toString(), true );
-        }
-
-        c->updateClipboard();
-        c->delayedSaveItems(1000);
-    }
-
-    // add new items
-    else if (cmd == "write") {
-        data = new QMimeData;
-        do {
-            QByteArray bytes;
-            args >> mime >> bytes;
-
-            if ( args.error() ) {
-                delete data;
-                data = NULL;
-                return CommandBadSyntax;
-            }
-
-            data->setData( mime, bytes );
-        } while ( !args.atEnd() );
-
-        c->add(data, true);
-
-        c->updateClipboard();
-        c->delayedSaveItems(1000);
-    }
-
-    // edit clipboard item
-    // edit [row=0] ...
-    else if (cmd == "edit") {
-        args >> 0 >> row;
-        QString text = c->itemText(row);
-        bool multiple_edit = !args.finished();
-        while ( !args.finished() ) {
-            args >> row;
-            if (args.error())
-               return CommandBadSyntax;
-            text.append( '\n'+c->itemText(row) );
-        }
-
-        if ( !c->openEditor(text) ) {
-            m_wnd->showBrowser(c);
-            if ( multiple_edit || row >= c->length() ) {
-                c->newItem(text);
-                c->edit( c->index(0) );
-            } else {
-                QModelIndex index = c->index(row);
-                c->setCurrent(row);
-                c->scrollTo(index, QAbstractItemView::PositionAtTop);
-                c->edit(index);
-            }
-        }
-    }
-
-    // set current item
-    // select [row=0]
-    else if (cmd == "select") {
-        args >> 0 >> row;
-        if ( !args.finished() )
-            return CommandBadSyntax;
-        c->moveToClipboard(row);
-        c->updateClipboard();
-        c->delayedSaveItems(1000);
-    }
-
-    // remove item from clipboard
-    // remove [row=0] ...
-    else if (cmd == "remove") {
-        QList<int> rows;
-        rows.reserve( args.length() );
-
-        args >> 0 >> row;
-        rows << row;
-        while ( !args.finished() ) {
-            args >> row;
-            if ( args.error() )
-                return CommandBadSyntax;
-            rows << row;
-        }
-
-        qSort( rows.begin(), rows.end(), qGreater<int>() );
-
-        foreach (int row, rows)
-            c->model()->removeRow(row);
-
-        if (rows.last() == 0)
-            c->updateClipboard();
-        c->delayedSaveItems(1000);
-    }
-
-    else if (cmd == "length" || cmd == "size" || cmd == "count") {
-        if ( args.finished() ) {
-            *response = QString("%1\n").arg(c->length()).toLocal8Bit();
-        } else {
-            return CommandBadSyntax;
-        }
-    }
-
-    // read [mime="text/plain"|row] ...
-    else if (cmd == "read") {
-        mime = QString("text/plain");
-
-        if ( args.atEnd() ) {
-            const QMimeData *data = clipboardData();
-            if (data)
-                response->append( data->data(mime) );
-        } else {
-            do {
-                args >> row;
-                if ( args.error() ) {
-                    args.back();
-                    args >> mime;
-                    args >> -1 >> row;
-                }
-
-                const QMimeData *data = (row >= 0) ?
-                            c->itemData(row) : clipboardData();
-
-                if (data) {
-                    if (mime == "?")
-                        response->append( data->formats().join("\n")+'\n' );
-                    else
-                        response->append( data->data(mime) );
-                }
-            } while( !args.atEnd() );
-        }
-    }
-
-    // clipboard [mime="text/plain"]
-    else if (cmd == "clipboard") {
-        args >> QString("text/plain") >> mime;
-        const QMimeData *data = clipboardData();
-        if (data) {
-            if (mime == "?")
-                response->append( data->formats().join("\n")+'\n' );
-            else
-                response->append( data->data(mime) );
-        }
-    }
-
-#ifdef Q_WS_X11
-    // selection [mime="text/plain"]
-    else if (cmd == "selection") {
-        args >> QString("text/plain") >> mime;
-        const QMimeData *data = clipboardData(QClipboard::Selection);
-        if (data) {
-            if (mime == "?")
-                response->append( data->formats().join("\n")+'\n' );
-            else
-                response->append( data->data(mime) );
-        }
-    }
-#endif
-
-    // config [option [value]]
-    else if (cmd == "config") {
-        ConfigurationManager *cm = ConfigurationManager::instance();
-
-        if ( args.atEnd() ) {
-            QStringList options = cm->options();
-            options.sort();
-            foreach (const QString &option, options) {
-                response->append( option + "\n  " +
-                                  cm->optionToolTip(option) + '\n' );
-            }
-        } else {
-            QString option;
-            args >> option;
-            if ( cm->options().contains(option) ) {
-                if ( args.atEnd() ) {
-                    response->append( cm->value(option).toString()+'\n' );
-
-                } else if ( cm->isVisible() ) {
-                    response->append( tr("To modify options from command line "
-                                         "you must first close the CopyQ "
-                                         "Configuration dialog!\n") );
-                    return CommandError;
-                } else {
-                    QString value;
-                    args >> value;
-                    if ( !args.atEnd() )
-                        return CommandBadSyntax;
-                    cm->setValue(option, value);
-                    cm->saveSettings();
-                }
-            } else {
-                response->append( tr("Invalid option!\n") );
-                return CommandError;
-            }
-        }
-    }
-
-    // tab [tab_name [COMMANDs]]
-    else if(cmd == "tab") {
-        if ( args.atEnd() ) {
-            c = m_wnd->browser(0);
-            foreach ( const QString &tabName, m_wnd->tabs() )
-                response->append(tabName + '\n');
-        } else {
-            QString name;
-            args >> name;
-
-            if (name.isEmpty()) {
-                response->append( tr("Tab name cannot be empty!\n") );
-                return CommandError;
-            }
-
-            c = m_wnd->createTab(name, true);
-            if ( !args.atEnd() )
-                return doCommand(args, response, c);
-        }
-    }
-
-    // removetab! tab_name
-    else if(cmd == "removetab!") {
-        if ( args.atEnd() )
-            return CommandBadSyntax;
-
-        QString name;
-        args >> name;
-
-        if ( !args.atEnd() )
-            return CommandBadSyntax;
-
-        int i = 0;
-        for( c = m_wnd->browser(0); c != NULL && name != c->getID();
-             c = m_wnd->browser(++i) );
-        if (c == NULL) {
-            response->append( tr("Tab with given name doesn't exist!\n") );
-            return CommandError;
-        }
-
-        m_wnd->removeTab(false, i);
-    }
-
-    // renametab tab_name new_tab_name
-    else if(cmd == "renametab") {
-        if ( args.atEnd() )
-            return CommandBadSyntax;
-
-        QString name, new_name;
-        args >> name >> new_name;
-
-        if ( args.error() )
-            return CommandBadSyntax;
-
-        int i = m_wnd->tabs().indexOf(name);
-        if ( i < 0 ) {
-            response->append( tr("Tab with given name doesn't exist!\n") );
-            return CommandError;
-        } else if ( new_name.isEmpty() ) {
-            response->append( tr("Tab name cannot be empty!\n") );
-            return CommandError;
-        } else if ( m_wnd->tabs().indexOf(new_name) >= 0 ) {
-            response->append( tr("Tab with given name already exists!\n") );
-            return CommandError;
-        }
-
-        m_wnd->renameTab(new_name, i);
-    }
-
-    // export filename
-    else if(cmd == "export") {
-        if ( args.atEnd() )
-            return CommandBadSyntax;
-
-        QString fileName;
-        args >> fileName;
-
+    QScriptValue result;
+    if (cmd == "-c") {
+        QString script;
+        script = args.toString();
         if ( args.error() || !args.atEnd() )
             return CommandBadSyntax;
 
-        if ( !m_wnd->saveTab( fileName, m_wnd->tabIndex(c) ) ) {
-            response->append( tr("Cannot save to file \"%1\"!\n").arg(fileName) );
-            return CommandError;
-        }
-    }
+        result = m_engine->evaluate(script);
+    } else {
+        QScriptValueList fnArgs;
 
-    // import filename
-    else if(cmd == "import") {
-        if ( args.atEnd() )
+        QScriptValue fn = m_engine->globalObject().property(cmd);
+        if ( !fn.isFunction() )
             return CommandBadSyntax;
 
-        QString fileName;
-        args >> fileName;
+        for ( int i = 1; i < args.length(); ++i )
+            fnArgs.append( scriptable.newByteArray(args.at(i)) );
 
-        if ( args.error() || !args.atEnd() )
-            return CommandBadSyntax;
-
-        if ( !m_wnd->loadTab(fileName) ) {
-            response->append( tr("Cannot import file \"%1\"!\n").arg(fileName) );
-            return CommandError;
-        }
+        result = fn.call(QScriptValue(), fnArgs);
     }
 
-    // unknown command
-    else {
-        return CommandBadSyntax;
+    if ( m_engine->hasUncaughtException() ) {
+        response->append(m_engine->uncaughtException().toString() + '\n');
+        m_engine->clearExceptions();
+        return CommandError;
     }
+
+    QByteArray *bytes = qscriptvalue_cast<QByteArray*>(result.data());
+    if (bytes != NULL)
+        response->append(*bytes);
+    else if (result.isString())
+        response->append(result.toString());
 
     return CommandSuccess;
 }

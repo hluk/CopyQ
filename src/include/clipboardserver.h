@@ -30,6 +30,8 @@ class ClipboardBrowser;
 class ClipboardItem;
 class Arguments;
 class QxtGlobalShortcut;
+class QScriptEngine;
+class ByteArrayClass;
 
 /**
  * The application main server.
@@ -66,8 +68,7 @@ public:
      */
     CommandStatus doCommand(
             Arguments &args, //!< Contains command and its arguments.
-            QByteArray *response, //!< For storing command response message.
-            ClipboardBrowser *target_browser = NULL //!< Target browser.
+            QByteArray *response //!< For storing command response message.
             );
 
     /** Send message to client. */
@@ -126,6 +127,8 @@ private:
     QProcess *m_monitor;
     uint m_lastHash;
     QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
+    QScriptEngine *m_engine;
+    ByteArrayClass *m_baClass;
 
 public slots:
     /** Load @a item data to clipboard. */

@@ -21,6 +21,41 @@
 #include <QDataStream>
 #include <QFile>
 
+namespace {
+
+// add command line argument - handle escape sequences
+void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg,
+                                int i)
+{
+    args.resize( args.size() + 1 );
+    QByteArray &bytes = args[i];
+    bool escape = false;
+    for (const char *ch = arg; *ch != '\0'; ++ch) {
+        if (escape) {
+            escape = false;
+            switch(*ch) {
+            case 'n':
+                bytes.append('\n');
+                break;
+            case 't':
+                bytes.append('\t');
+                break;
+            case '\\':
+                bytes.append('\\');
+                break;
+            default:
+                bytes.append(*ch);
+            }
+        } else if (*ch == '\\') {
+            escape = true;
+        } else {
+            bytes.append(*ch);
+        }
+    }
+}
+
+} // namespace
+
 Arguments::Arguments()
     : m_args()
     , m_current(0)
@@ -35,30 +70,29 @@ Arguments::Arguments(int &argc, char **argv)
     , m_error(false)
     , m_default_value()
 {
-    for (int i = 1; i < argc; ++i)
-        m_args.append( QByteArray(argv[i]) );
-
-    // dash character means 'read from stdin'
-    int len = length();
-    int i = -1;
-    if ( (len == 1 || len == 2) && m_args.first() == QString("-") ) {
-        i = 0;
-    } else if ( (len == 3 || len == 4) && m_args.first() == QString("tab") &&
-                m_args.at(2) == QString("-") )
-    {
-        i = 2;
-    }
-
-    if ( i >= 0 ) {
-        m_args[i] = "write";
-
-        if ( i == m_args.size()-1 )
-            m_args.append( QByteArray("text/plain") );
-
-        // read text from stdin
-        QFile in;
-        in.open(stdin, QIODevice::ReadOnly);
-        m_args.append( in.readAll() );
+    /* Special arguments:
+     * "-"  read this argument from stdin
+     * "--" read all following arguments without control sequences
+     */
+    bool readRaw = false;
+    for (int i = 1; i < argc; ++i) {
+        const char *arg = argv[i];
+        if (readRaw) {
+            m_args.append( QByteArray(arg) );
+        } else {
+            if ( arg[0] == '-' ) {
+                if ( arg[1] == '\0' ) {
+                    QFile in;
+                    in.open(stdin, QIODevice::ReadOnly);
+                    m_args.append( in.readAll() );
+                    continue;
+                } else if ( arg[1] == '-' ) {
+                    readRaw = true;
+                    continue;
+                }
+            }
+            addArgumentFromCommandLine(m_args, arg, i - 1);
+        }
     }
 }
 

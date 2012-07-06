@@ -972,8 +972,6 @@ void MainWindow::copyItems()
     if ( indexes.isEmpty() )
         return;
 
-    ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
-
     /* Copy items in reverse (items will be pasted correctly). */
     for ( int i = indexes.size()-1; i >= 0; --i ) {
         out << *c->at( indexes.at(i).row() );

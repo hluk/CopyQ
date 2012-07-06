@@ -377,7 +377,7 @@ void ClipboardBrowser::itemModified(const QString &str)
 {
     // add new item
     if ( !str.isEmpty() ) {
-        add(str);
+        add(str, true);
         saveItems();
     }
 }

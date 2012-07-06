@@ -2,31 +2,9 @@ cmake_minimum_required(VERSION 2.8)
 PROJECT(copyq)
 FIND_PACKAGE(Qt4 REQUIRED)
 
-SET(copyq_SOURCES
-    src/aboutdialog.cpp
-    src/action.cpp
-    src/actiondialog.cpp
-    src/app.cpp
-    src/arguments.cpp
-    src/client_server.cpp
-    src/clipboardbrowser.cpp
-    src/clipboardclient.cpp
-    src/clipboarddialog.cpp
-    src/clipboarditem.cpp
-    src/clipboardmodel.cpp
-    src/clipboardmonitor.cpp
-    src/clipboardserver.cpp
-    src/commandwidget.cpp
-    src/configurationmanager.cpp
-    src/tabbar.cpp
-    src/tabdialog.cpp
-    src/tabwidget.cpp
-    src/itemdelegate.cpp
-    src/main.cpp
-    src/mainwindow.cpp
-    src/option.cpp
-    src/qeditor.cpp
-    src/shortcutdialog.cpp
+FILE(GLOB copyq_SOURCES
+    src/*.cpp
+    qt/*.cpp
     qxt/qxtglobal.cpp
     qxt/qxtglobalshortcut.cpp
     )
@@ -51,8 +29,10 @@ SET(copyq_HEADERS
     src/include/itemdelegate.h
     src/include/mainwindow.h
     src/include/qeditor.h
+    src/include/scriptable.h
     src/include/shortcutdialog.h
     qxt/qxtglobalshortcut.h
+    qt/bytearrayprototype.h
     )
 
 SET(copyq_FORMS
@@ -72,6 +52,7 @@ SET(copyq_RESOURCES src/copyq.qrc)
 SET(QT_USE_QTNETWORK TRUE)
 SET(QT_USE_QTSVG TRUE)
 SET(QT_USE_QTXML TRUE)
+SET(QT_USE_QTSCRIPT TRUE)
 
 INCLUDE(${QT_USE_FILE})
 INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR} src/include)

@@ -1,3 +1,5 @@
+[ ] Process command line arguments using QtScript
+    (http://doc.qt.nokia.com/4.7-snapshot/scripting.html)
 [ ] Configuration dialog should be separate class
     (not part of the ConfigurationManager)
 [ ] Selection lost if scrolling from bottom (Qt bug?)
@@ -12,5 +14,4 @@
       (items after the new one are moved one index up)
     * items can be moved
     * combination of QList and QCache?
-[ ] Lex and parse command line arguments
 

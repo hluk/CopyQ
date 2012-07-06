@@ -36,7 +36,10 @@ HEADERS += \
     include/tabwidget.h \
     include/shortcutdialog.h \
     include/commandwidget.h \
-    include/option.h
+    include/option.h \
+    ../qt/bytearrayprototype.h \
+    ../qt/bytearrayclass.h \
+    include/scriptable.h
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
@@ -61,9 +64,12 @@ SOURCES += \
     tabwidget.cpp \
     shortcutdialog.cpp \
     commandwidget.cpp \
-    option.cpp
+    option.cpp \
+    ../qt/bytearrayprototype.cpp \
+    ../qt/bytearrayclass.cpp \
+    scriptable.cpp
 
-QT += core gui xml network
+QT += core gui xml network script
 
 DEFINES += BUILD_QXT_GUI
 
