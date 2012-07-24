@@ -326,25 +326,16 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     m_engine->setGlobalObject(obj);
 
     QScriptValue result;
-    if (cmd == "-c") {
-        QString script;
-        script = args.toString();
-        if ( args.error() || !args.atEnd() )
-            return CommandBadSyntax;
+    QScriptValueList fnArgs;
 
-        result = m_engine->evaluate(script);
-    } else {
-        QScriptValueList fnArgs;
+    QScriptValue fn = m_engine->globalObject().property(cmd);
+    if ( !fn.isFunction() )
+        return CommandBadSyntax;
 
-        QScriptValue fn = m_engine->globalObject().property(cmd);
-        if ( !fn.isFunction() )
-            return CommandBadSyntax;
+    for ( int i = 1; i < args.length(); ++i )
+        fnArgs.append( scriptable.newByteArray(args.at(i)) );
 
-        for ( int i = 1; i < args.length(); ++i )
-            fnArgs.append( scriptable.newByteArray(args.at(i)) );
-
-        result = fn.call(QScriptValue(), fnArgs);
-    }
+    result = fn.call(QScriptValue(), fnArgs);
 
     if ( m_engine->hasUncaughtException() ) {
         response->append(m_engine->uncaughtException().toString() + '\n');

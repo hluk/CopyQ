@@ -17,6 +17,7 @@ class Scriptable : public QObject, protected QScriptable
     Q_OBJECT
     Q_PROPERTY(QString currentTab READ getCurrentTab WRITE setCurrentTab)
     Q_PROPERTY(QString inputSeparator READ getInputSeparator WRITE setInputSeparator)
+    Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
 
 public:
     Scriptable(MainWindow *wnd, ByteArrayClass *baClass,
@@ -42,6 +43,11 @@ public:
     const QString &getInputSeparator() const;
     void setInputSeparator(const QString &separator);
 
+    const QString &getCurrentPath() const;
+    void setCurrentPath(const QString &path);
+
+    QString getFileName(const QString &fileName) const;
+
 public slots:
     QScriptValue version();
     QScriptValue help(const QString &commandName = QString());
@@ -55,13 +61,13 @@ public slots:
     QScriptValue clipboard(const QString &mime = defaultMime);
     QScriptValue selection(const QString &mime = defaultMime);
 
-    QScriptValue tab();
+    QScriptValue tab(const QString &name = QString());
     void removetab(const QString &name);
     void renametab(const QString &name, const QString &newName);
 
     QScriptValue length();
-    QScriptValue size();
-    QScriptValue count();
+    QScriptValue size() { return length(); }
+    QScriptValue count() { return length(); }
 
     void select();
     void add();
@@ -74,17 +80,20 @@ public slots:
 
     void action();
 
-    void exportfile(const QString &fileName);
-    void importfile(const QString &fileName);
+    void exporttab(const QString &fileName);
+    void importtab(const QString &fileName);
 
     QScriptValue config(const QString &name = QString(),
                         const QString &value = QString());
+
+    QScriptValue currentpath(const QString &path);
 
 private:
     MainWindow *m_wnd;
     ByteArrayClass *m_baClass;
     QString m_currentTab;
     QString m_inputSeparator;
+    QString m_currentPath;
 
     int getTabIndexOrError(const QString &name);
 };

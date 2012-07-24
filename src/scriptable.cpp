@@ -9,7 +9,7 @@
 #include <QScriptEngine>
 #include <QTimer>
 #include <QApplication>
-#include <QScopedPointer>
+#include <QDir>
 
 Q_DECLARE_METATYPE(QByteArray*)
 
@@ -57,8 +57,8 @@ const char *const helpString =
 "                              Run PROGRAM on item text in the rows.\n"
 "                              Use %1 in PROGRAM to pass text as argument.\n"
 "\n"
-"    exportfile FILE_NAME      Export items to file.\n"
-"    importfile FILE_NAME      Import items from file.\n"
+"    exporttab FILE_NAME       Export items to file.\n"
+"    importtab FILE_NAME       Import items from file.\n"
 "\n"
 "    config                    List all options.\n"
 "    config OPTION             Get option value.\n"
@@ -184,6 +184,22 @@ void Scriptable::setInputSeparator(const QString &separator)
     m_inputSeparator = separator;
 }
 
+const QString &Scriptable::getCurrentPath() const
+{
+    return m_currentPath;
+}
+
+void Scriptable::setCurrentPath(const QString &path)
+{
+    m_currentPath = path;
+}
+
+QString Scriptable::getFileName(const QString &fileName) const
+{
+    return QDir::isRelativePath(fileName) ? getCurrentPath() + '/' + fileName
+                                          : fileName;
+}
+
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" + versionString + " (hluk@email.cz)\n"
@@ -262,15 +278,15 @@ QScriptValue Scriptable::selection(const QString &mime)
     return QScriptValue();
 }
 
-QScriptValue Scriptable::tab()
+QScriptValue Scriptable::tab(const QString &name)
 {
-    if ( argumentCount() == 0 ) {
+    if ( name.isNull() ) {
         QString response;
         foreach ( const QString &tabName, m_wnd->tabs() )
             response.append(tabName + '\n');
         return response;
     } else {
-        setCurrentTab( toString(argument(0)) );
+        setCurrentTab(name);
         return applyRest(1);
     }
 }
@@ -298,16 +314,6 @@ void Scriptable::renametab(const QString &name, const QString &newName)
 QScriptValue Scriptable::length()
 {
     return currentTab()->length();
-}
-
-QScriptValue Scriptable::size()
-{
-    return length();
-}
-
-QScriptValue Scriptable::count()
-{
-    return length();
 }
 
 void Scriptable::select()
@@ -497,18 +503,18 @@ void Scriptable::action()
     }
 }
 
-void Scriptable::exportfile(const QString &fileName)
+void Scriptable::exporttab(const QString &fileName)
 {
     ClipboardBrowser *c = currentTab();
-    if ( !m_wnd->saveTab(fileName, m_wnd->tabIndex(c)) ) {
+    if ( !m_wnd->saveTab(getFileName(fileName), m_wnd->tabIndex(c)) ) {
         context()->throwError(
             tr("Cannot save to file \"%1\"!\n").arg(fileName) );
     }
 }
 
-void Scriptable::importfile(const QString &fileName)
+void Scriptable::importtab(const QString &fileName)
 {
-    if ( !m_wnd->loadTab(fileName) ) {
+    if ( !m_wnd->loadTab(getFileName(fileName)) ) {
         context()->throwError(
             tr("Cannot import file \"%1\"!\n").arg(fileName) );
     }
@@ -548,6 +554,12 @@ QScriptValue Scriptable::config(const QString &name, const QString &value)
     }
 
     return QScriptValue();
+}
+
+QScriptValue Scriptable::currentpath(const QString &path)
+{
+    setCurrentPath(path);
+    return applyRest(1);
 }
 
 int Scriptable::getTabIndexOrError(const QString &name)

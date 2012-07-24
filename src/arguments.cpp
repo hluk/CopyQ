@@ -20,6 +20,7 @@
 #include "arguments.h"
 #include <QDataStream>
 #include <QFile>
+#include <QDir>
 
 namespace {
 
@@ -27,7 +28,7 @@ namespace {
 void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg,
                                 int i)
 {
-    args.resize( args.size() + 1 );
+    args.resize(i + 1);
     QByteArray &bytes = args[i];
     bool escape = false;
     for (const char *ch = arg; *ch != '\0'; ++ch) {
@@ -70,6 +71,9 @@ Arguments::Arguments(int &argc, char **argv)
     , m_error(false)
     , m_default_value()
 {
+    /* Set current path. */
+    m_args << QByteArray("currentpath") << QDir::currentPath().toLatin1();
+
     /* Special arguments:
      * "-"  read this argument from stdin
      * "--" read all following arguments without control sequences
@@ -86,12 +90,17 @@ Arguments::Arguments(int &argc, char **argv)
                     in.open(stdin, QIODevice::ReadOnly);
                     m_args.append( in.readAll() );
                     continue;
-                } else if ( arg[1] == '-' ) {
-                    readRaw = true;
-                    continue;
+                } else if ( arg[2] == '\0' ) {
+                    // single-char option
+                    if ( arg[1] == '-' ) {
+                        readRaw = true;
+                        continue;
+                    } else if ( arg[1] == 'c' ) {
+                        m_args.append("eval");
+                    }
                 }
             }
-            addArgumentFromCommandLine(m_args, arg, i - 1);
+            addArgumentFromCommandLine(m_args, arg, m_args.size());
         }
     }
 }
