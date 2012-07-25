@@ -59,17 +59,11 @@ void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg,
 
 Arguments::Arguments()
     : m_args()
-    , m_current(0)
-    , m_error(false)
-    , m_default_value()
 {
 }
 
 Arguments::Arguments(int &argc, char **argv)
     : m_args()
-    , m_current(0)
-    , m_error(false)
-    , m_default_value()
 {
     /* Set current path. */
     m_args << QByteArray("currentpath") << QDir::currentPath().toLatin1();
@@ -95,7 +89,7 @@ Arguments::Arguments(int &argc, char **argv)
                     if ( arg[1] == '-' ) {
                         readRaw = true;
                         continue;
-                    } else if ( arg[1] == 'c' ) {
+                    } else if ( arg[1] == 'e' ) {
                         m_args.append("eval");
                     }
                 }
@@ -103,60 +97,6 @@ Arguments::Arguments(int &argc, char **argv)
             addArgumentFromCommandLine(m_args, arg, m_args.size());
         }
     }
-}
-
-QVariant Arguments::toVariant()
-{
-    QVariant default_value = m_default_value;
-    m_default_value.clear();
-
-    if (m_error)
-        return QVariant();
-
-    if ( m_current >= length() ) {
-        if ( default_value.isValid() ) {
-            return default_value;
-        }
-        m_error = true;
-        return QVariant();
-    }
-
-    return m_args.at(m_current++);
-}
-
-QByteArray Arguments::toByteArray()
-{
-    QVariant res = toVariant();
-    return res.toByteArray();
-}
-
-QString Arguments::toString()
-{
-    QVariant res = toVariant();
-    return res.toString();
-}
-
-int Arguments::toInt()
-{
-    QVariant res = toVariant();
-
-    if (m_error)
-        return 0;
-
-    bool ok;
-    int n = res.toInt(&ok);
-    if (ok) {
-        return n;
-    } else {
-        m_error = true;
-        return 0;
-    }
-}
-
-void Arguments::reset()
-{
-    m_current = 0;
-    m_error = false;
 }
 
 void Arguments::append(const QByteArray &argument)
@@ -167,18 +107,6 @@ void Arguments::append(const QByteArray &argument)
 const QByteArray &Arguments::at(int index) const
 {
     return m_args.at(index);
-}
-
-void Arguments::back()
-{
-    m_error = false;
-    if(m_current > 0)
-        --m_current;
-}
-
-void Arguments::setDefault(const QVariant &default_value)
-{
-    m_default_value = default_value;
 }
 
 QDataStream &operator <<(QDataStream &stream, const Arguments &args)
@@ -213,40 +141,4 @@ QDataStream &operator>>(QDataStream &stream, Arguments &args)
     }
 
     return stream;
-}
-
-Arguments &operator >>(Arguments &args, int &dest)
-{
-    dest = args.toInt();
-    return args;
-}
-
-Arguments &operator >>(Arguments &args, const int &dest)
-{
-    args.setDefault( QVariant(dest) );
-    return args;
-}
-
-Arguments &operator >>(Arguments &args, QString &dest)
-{
-    dest = args.toString();
-    return args;
-}
-
-Arguments &operator >>(Arguments &args, const QString &dest)
-{
-    args.setDefault( QVariant(dest) );
-    return args;
-}
-
-Arguments &operator >>(Arguments &args, QByteArray &dest)
-{
-    dest = args.toByteArray();
-    return args;
-}
-
-Arguments &operator >>(Arguments &args, const QByteArray &dest)
-{
-    args.setDefault( QVariant(dest) );
-    return args;
 }

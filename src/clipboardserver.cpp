@@ -317,9 +317,9 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         Arguments &args, QByteArray *response)
 {
     QString cmd;
-    args >> cmd;
-    if ( args.error() )
+    if ( args.isEmpty() )
         return CommandBadSyntax;
+    cmd = args.at(0);
 
     Scriptable scriptable(m_wnd, m_baClass);
     QScriptValue obj = m_engine->newQObject(&scriptable);

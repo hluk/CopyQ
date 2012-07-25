@@ -64,6 +64,8 @@ const char *const helpString =
 "    config OPTION             Get option value.\n"
 "    config OPTION VALUE       Set option value.\n"
 "\n"
+"    eval, -e [SCRIPT]         Evaluate script.\n"
+"\n"
 "    help, -h, --help [COMMAND]\n"
 "      Print help for COMMAND or all commands.\n"
 "    version, -v, --version\n"
@@ -554,6 +556,11 @@ QScriptValue Scriptable::config(const QString &name, const QString &value)
     }
 
     return QScriptValue();
+}
+
+QScriptValue Scriptable::eval(const QString &script)
+{
+    return engine()->evaluate(script);
 }
 
 QScriptValue Scriptable::currentpath(const QString &path)

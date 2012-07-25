@@ -86,6 +86,8 @@ public slots:
     QScriptValue config(const QString &name = QString(),
                         const QString &value = QString());
 
+    QScriptValue eval(const QString &script);
+
     QScriptValue currentpath(const QString &path);
 
 private:
