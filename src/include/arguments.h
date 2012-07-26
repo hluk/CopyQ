@@ -33,6 +33,11 @@
 class Arguments
 {
 public:
+    enum {
+        CurrentPath,
+        Rest
+    };
+
     Arguments();
     Arguments(int &argc, char **argv);
 

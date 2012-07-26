@@ -77,7 +77,7 @@ const char *const helpString =
 "  expanding escape sequences (i.e. \\n, \\t and others).\n"
 "  Use ? for MIME to print available MIME types (default is \"text/plain\").\n";
 
-const char *const argumentError = "Invalid numeber or arguments!";
+const QString argumentError = QObject::tr("Invalid number or arguments!");
 
 QScriptValue getValue(QScriptEngine *eng, const QString &variableName)
 {
@@ -106,12 +106,13 @@ Scriptable::Scriptable(MainWindow *wnd, QObject *parent)
 {
 }
 
-void Scriptable::initEngine(QScriptEngine *engine)
+void Scriptable::initEngine(QScriptEngine *engine, const QString &currentPath)
 {
     QScriptValue obj = engine->newQObject(this);
     engine->setGlobalObject(obj);
     m_baClass = new ByteArrayClass(engine);
     obj.setProperty( "ByteArray", m_baClass->constructor() );
+    setCurrentPath(currentPath);
 }
 
 QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
@@ -209,6 +210,11 @@ QString Scriptable::getFileName(const QString &fileName) const
                                           : fileName;
 }
 
+QString Scriptable::arg(int i, const QString &defaultValue)
+{
+    return i < argumentCount() ? toString(argument(i)) : defaultValue;
+}
+
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" + versionString + " (hluk@email.cz)\n"
@@ -218,7 +224,7 @@ QScriptValue Scriptable::version()
             + '\n';
 }
 
-QScriptValue Scriptable::help(const QString &/*functionName*/)
+QScriptValue Scriptable::help()
 {
     // TODO: print help only for functionName
     return tr(usageString, "usage") + '\n'
@@ -259,8 +265,9 @@ QScriptValue Scriptable::exit()
     return tr("Terminating server.") + '\n';
 }
 
-QScriptValue Scriptable::clipboard(const QString &mime)
+QScriptValue Scriptable::clipboard()
 {
+    const QString &mime = arg(0, defaultMime);
     const QMimeData *data = clipboardData();
     if (data) {
         if (mime == "?")
@@ -272,9 +279,10 @@ QScriptValue Scriptable::clipboard(const QString &mime)
     return QScriptValue();
 }
 
-QScriptValue Scriptable::selection(const QString &mime)
+QScriptValue Scriptable::selection()
 {
 #ifdef Q_WS_X11
+    const QString &mime = arg(0, defaultMime);
     const QMimeData *data = clipboardData(QClipboard::Selection);
     if (data) {
         if (mime == "?")
@@ -287,8 +295,9 @@ QScriptValue Scriptable::selection(const QString &mime)
     return QScriptValue();
 }
 
-QScriptValue Scriptable::tab(const QString &name)
+QScriptValue Scriptable::tab()
 {
+    const QString &name = arg(0);
     if ( name.isNull() ) {
         QString response;
         foreach ( const QString &tabName, m_wnd->tabs() )
@@ -300,15 +309,18 @@ QScriptValue Scriptable::tab(const QString &name)
     }
 }
 
-void Scriptable::removetab(const QString &name)
+void Scriptable::removetab()
 {
+    const QString &name = arg(0);
     int i = getTabIndexOrError(name);
     if (i != -1)
         m_wnd->removeTab(false, i);
 }
 
-void Scriptable::renametab(const QString &name, const QString &newName)
+void Scriptable::renametab()
 {
+    const QString &name = arg(0);
+    const QString &newName = arg(1);
     int i = getTabIndexOrError(name);
     if (i == -1)
         return;
@@ -343,8 +355,17 @@ void Scriptable::add()
     ClipboardBrowser *c = currentTab();
     ClipboardBrowser::Lock lock(c);
 
-    for (int i = 0; i < argumentCount(); ++i)
-        c->add( toString(argument(i)), true );
+    for (int i = 0; i < argumentCount(); ++i) {
+        QScriptValue value = argument(i);
+        QByteArray *bytes = toByteArray(value);
+        if (bytes != NULL) {
+            QMimeData *data = new QMimeData;
+            data->setData(defaultMime, *bytes);
+            c->add(data, true);
+        } else {
+            c->add( toString(value), true );
+        }
+    }
 
     c->updateClipboard();
     c->delayedSaveItems(1000);
@@ -363,7 +384,7 @@ void Scriptable::remove()
     }
 
     if ( rows.empty() )
-        return;
+        rows.append(0);
 
     ClipboardBrowser *c = currentTab();
     ClipboardBrowser::Lock lock(c);
@@ -438,7 +459,12 @@ QScriptValue Scriptable::read()
 
     if (!used) {
         const QMimeData *data = clipboardData();
-        return data ? newByteArray(data->data(mime)) : QScriptValue();
+        if (data == NULL)
+            return QScriptValue();
+        if (mime == "?")
+            result.append(data->formats().join("\n") + '\n');
+        else
+            result.append(data->data(mime) + sep);
     }
 
     return newByteArray(result);
@@ -447,7 +473,7 @@ QScriptValue Scriptable::read()
 void Scriptable::write()
 {
     if (argumentCount() != 2) {
-        context()->throwError( tr(argumentError) );
+        context()->throwError(argumentError);
         return;
     }
 
@@ -512,25 +538,33 @@ void Scriptable::action()
     }
 }
 
-void Scriptable::exporttab(const QString &fileName)
+void Scriptable::exporttab()
 {
+    const QString &fileName = arg(0);
     ClipboardBrowser *c = currentTab();
-    if ( !m_wnd->saveTab(getFileName(fileName), m_wnd->tabIndex(c)) ) {
+    if ( fileName.isNull() ) {
+        context()->throwError(argumentError);
+    } else if ( !m_wnd->saveTab(getFileName(fileName), m_wnd->tabIndex(c)) ) {
         context()->throwError(
             tr("Cannot save to file \"%1\"!\n").arg(fileName) );
     }
 }
 
-void Scriptable::importtab(const QString &fileName)
+void Scriptable::importtab()
 {
-    if ( !m_wnd->loadTab(getFileName(fileName)) ) {
+    const QString &fileName = arg(0);
+    if ( fileName.isNull() ) {
+        context()->throwError(argumentError);
+    } else if ( !m_wnd->loadTab(getFileName(fileName)) ) {
         context()->throwError(
             tr("Cannot import file \"%1\"!\n").arg(fileName) );
     }
 }
 
-QScriptValue Scriptable::config(const QString &name, const QString &value)
+QScriptValue Scriptable::config()
 {
+    const QString name = arg(0);
+    const QString value = arg(1);
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     if ( name.isNull() ) {
@@ -565,15 +599,16 @@ QScriptValue Scriptable::config(const QString &name, const QString &value)
     return QScriptValue();
 }
 
-QScriptValue Scriptable::eval(const QString &script)
+QScriptValue Scriptable::eval()
 {
+    const QString script = arg(0);
     return engine()->evaluate(script);
 }
 
-QScriptValue Scriptable::currentpath(const QString &path)
+void Scriptable::currentpath()
 {
+    const QString path = arg(0);
     setCurrentPath(path);
-    return applyRest(1);
 }
 
 QScriptValue Scriptable::str(const QScriptValue &value)

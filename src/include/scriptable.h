@@ -22,7 +22,7 @@ class Scriptable : public QObject, protected QScriptable
 public:
     Scriptable(MainWindow *wnd, QObject *parent = NULL);
 
-    void initEngine(QScriptEngine *engine);
+    void initEngine(QScriptEngine *engine, const QString &currentPath);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
@@ -49,9 +49,11 @@ public:
 
     QString getFileName(const QString &fileName) const;
 
+    QString arg(int i, const QString &defaultValue = QString());
+
 public slots:
     QScriptValue version();
-    QScriptValue help(const QString &commandName = QString());
+    QScriptValue help();
 
     QScriptValue show();
     void hide();
@@ -59,12 +61,12 @@ public slots:
     QScriptValue menu();
     QScriptValue exit();
 
-    QScriptValue clipboard(const QString &mime = defaultMime);
-    QScriptValue selection(const QString &mime = defaultMime);
+    QScriptValue clipboard();
+    QScriptValue selection();
 
-    QScriptValue tab(const QString &name = QString());
-    void removetab(const QString &name);
-    void renametab(const QString &name, const QString &newName);
+    QScriptValue tab();
+    void removetab();
+    void renametab();
 
     QScriptValue length();
     QScriptValue size() { return length(); }
@@ -81,15 +83,14 @@ public slots:
 
     void action();
 
-    void exporttab(const QString &fileName);
-    void importtab(const QString &fileName);
+    void exporttab();
+    void importtab();
 
-    QScriptValue config(const QString &name = QString(),
-                        const QString &value = QString());
+    QScriptValue config();
 
-    QScriptValue eval(const QString &script);
+    QScriptValue eval();
 
-    QScriptValue currentpath(const QString &path);
+    void currentpath();
 
     QScriptValue str(const QScriptValue &value);
 

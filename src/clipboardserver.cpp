@@ -312,14 +312,13 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
 ClipboardServer::CommandStatus ClipboardServer::doCommand(
         Arguments &args, QByteArray *response)
 {
-    QString cmd;
-    if ( args.isEmpty() )
+    if ( args.length() <= Arguments::Rest )
         return CommandBadSyntax;
-    cmd = args.at(0);
+    QString cmd = args.at(Arguments::Rest);
 
     QScriptEngine *engine = new QScriptEngine(m_wnd);
     Scriptable scriptable(m_wnd);
-    scriptable.initEngine(engine);
+    scriptable.initEngine(engine, args.at(Arguments::CurrentPath));
 
     QScriptValue result;
     QScriptValueList fnArgs;
@@ -328,7 +327,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     if ( !fn.isFunction() )
         return CommandBadSyntax;
 
-    for ( int i = 1; i < args.length(); ++i )
+    for ( int i = Arguments::Rest + 1; i < args.length(); ++i )
         fnArgs.append( scriptable.newByteArray(args.at(i)) );
 
     result = fn.call(QScriptValue(), fnArgs);
@@ -342,7 +341,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     QByteArray *bytes = qscriptvalue_cast<QByteArray*>(result.data());
     if (bytes != NULL)
         response->append(*bytes);
-    else if (result.isString())
+    else if (!result.isUndefined())
         response->append(result.toString());
 
     return CommandSuccess;

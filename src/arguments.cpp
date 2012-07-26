@@ -66,7 +66,7 @@ Arguments::Arguments(int &argc, char **argv)
     : m_args()
 {
     /* Set current path. */
-    m_args << QByteArray("currentpath") << QDir::currentPath().toLatin1();
+    m_args << QDir::currentPath().toLatin1();
 
     /* Special arguments:
      * "-"  read this argument from stdin
