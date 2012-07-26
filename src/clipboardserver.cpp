@@ -48,7 +48,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     , m_monitor(NULL)
     , m_lastHash(0)
     , m_shortcutActions()
-    , m_engine(NULL)
 {
     // listen
     m_server = newServer( serverName(), this );
@@ -88,9 +87,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
 
     // run clipboard monitor
     startMonitoring();
-
-    m_engine = new QScriptEngine(m_wnd);
-    m_baClass = new ByteArrayClass(m_engine);
 }
 
 ClipboardServer::~ClipboardServer()
@@ -321,14 +317,14 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
         return CommandBadSyntax;
     cmd = args.at(0);
 
-    Scriptable scriptable(m_wnd, m_baClass);
-    QScriptValue obj = m_engine->newQObject(&scriptable);
-    m_engine->setGlobalObject(obj);
+    QScriptEngine *engine = new QScriptEngine(m_wnd);
+    Scriptable scriptable(m_wnd);
+    scriptable.initEngine(engine);
 
     QScriptValue result;
     QScriptValueList fnArgs;
 
-    QScriptValue fn = m_engine->globalObject().property(cmd);
+    QScriptValue fn = engine->globalObject().property(cmd);
     if ( !fn.isFunction() )
         return CommandBadSyntax;
 
@@ -337,9 +333,9 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
 
     result = fn.call(QScriptValue(), fnArgs);
 
-    if ( m_engine->hasUncaughtException() ) {
-        response->append(m_engine->uncaughtException().toString() + '\n');
-        m_engine->clearExceptions();
+    if ( engine->hasUncaughtException() ) {
+        response->append(engine->uncaughtException().toString() + '\n');
+        engine->clearExceptions();
         return CommandError;
     }
 

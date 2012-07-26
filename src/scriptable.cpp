@@ -96,15 +96,22 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
 
 } // namespace
 
-Scriptable::Scriptable(MainWindow *wnd, ByteArrayClass *baClass,
-                       QObject *parent)
+Scriptable::Scriptable(MainWindow *wnd, QObject *parent)
     : QObject(parent)
     , QScriptable()
     , m_wnd(wnd)
-    , m_baClass(baClass)
+    , m_baClass(NULL)
     , m_currentTab()
     , m_inputSeparator("\n")
 {
+}
+
+void Scriptable::initEngine(QScriptEngine *engine)
+{
+    QScriptValue obj = engine->newQObject(this);
+    engine->setGlobalObject(obj);
+    m_baClass = new ByteArrayClass(engine);
+    obj.setProperty( "ByteArray", m_baClass->constructor() );
 }
 
 QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
@@ -567,6 +574,11 @@ QScriptValue Scriptable::currentpath(const QString &path)
 {
     setCurrentPath(path);
     return applyRest(1);
+}
+
+QScriptValue Scriptable::str(const QScriptValue &value)
+{
+    return toString(value);
 }
 
 int Scriptable::getTabIndexOrError(const QString &name)

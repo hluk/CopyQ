@@ -20,8 +20,9 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
 
 public:
-    Scriptable(MainWindow *wnd, ByteArrayClass *baClass,
-               QObject *parent = NULL);
+    Scriptable(MainWindow *wnd, QObject *parent = NULL);
+
+    void initEngine(QScriptEngine *engine);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
@@ -89,6 +90,8 @@ public slots:
     QScriptValue eval(const QString &script);
 
     QScriptValue currentpath(const QString &path);
+
+    QScriptValue str(const QScriptValue &value);
 
 private:
     MainWindow *m_wnd;

@@ -30,8 +30,6 @@ class ClipboardBrowser;
 class ClipboardItem;
 class Arguments;
 class QxtGlobalShortcut;
-class QScriptEngine;
-class ByteArrayClass;
 
 /**
  * The application main server.
@@ -127,8 +125,6 @@ private:
     QProcess *m_monitor;
     uint m_lastHash;
     QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
-    QScriptEngine *m_engine;
-    ByteArrayClass *m_baClass;
 
 public slots:
     /** Load @a item data to clipboard. */

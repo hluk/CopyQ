@@ -91,6 +91,7 @@ Arguments::Arguments(int &argc, char **argv)
                         continue;
                     } else if ( arg[1] == 'e' ) {
                         m_args.append("eval");
+                        continue;
                     }
                 }
             }
