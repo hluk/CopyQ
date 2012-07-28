@@ -16,6 +16,10 @@ Keyboard navigation
 
     item list navigation
 
+* `Left`, `Right`, `Tab`, `Shift+Tab`
+
+    tab navigation
+
 * `Ctrl+Up`, `Ctrl+Down`
 
     move selected items
@@ -63,7 +67,8 @@ Type a regular expressions (case-insensitive) to search/filter items.
 Command Line Interface
 ----------------------
 
-    usage: copyq [COMMAND]
+    Usage: copyq [COMMAND]
+
     Starts server if no command is specified.
       COMMANDs:
         show    Show main window.
@@ -72,61 +77,50 @@ Command Line Interface
         menu    Open context menu.
         exit    Exit server.
 
-        clipboard [MIME_TYPE="text/plain"]
-          Print clipboard content.
-          Use ? for mime_type to print mime types.
-        selection [MIME_TYPE="text/plain"]
-          Print X11 selection content.
-          Use ? for mime_type to print mime types.
+        clipboard [MIME]          Print clipboard content.
+        selection [MIME]          Print X11 selection content.
 
-        tab
-          List available tab names.
-        tab <TAB_NAME> [COMMAND]
-          Run command on tab with given name.
-          Tab is created if it doesn't exist.
-        removetab! <TAB_NAME>
-          Remove tab with given name.
-        renametab  <TAB_NAME> <NEW_TAB_NAME>
-          Rename tab.
-        export <FILE_NAME>
-          Export items to file.
-        import <FILE_NAME>
-          Import items from file.
+        tab                       List available tab names.
+        tab NAME [COMMAND]        Run command on tab with given name.
+                                  Tab is created if it doesn't exist.
+                                  Default is the first tab (NAME is empty).
+        removetab NAME            Remove tab.
+        renametab NAME NEW_NAME   Rename tab.
 
-        length, count, size
-          Print number of items in history.
-        select [ROW=0]
-          Move item in the row to clipboard.
-        add <TEXT> ...
-          Add text into clipboard.
-        remove [ROW=0] ...
-          Remove item in given rows.
-        edit [ROW=0] ...
-          Edit clipboard item.
+        length, count, size       Print number of items in history.
+        select [ROW=0]            Move item in the row to clipboard.
+        add TEXT...               Add text into clipboard.
+        remove [ROWS=0...]        Remove item in given rows.
+        edit [ROWS...]            Edit clipboard items or edit new one.
 
-        read [MIME_TYPE="text/plain"|ROW] ...
-          Print raw data of clipboard or item in row.
-          Use ? for mime_type to print mime types.
-        write <MIME_TYPE> <DATA> ...
-          Write raw data to clipboard.
-        - [MIME_TYPE="text/plain"]
-          Copy text from standard input into clipboard.
+        read [MIME|ROW]...        Print raw data of clipboard or item in row.
+        write MIME DATA           Write raw data to clipboard.
+        separator SEPARATOR       Set separator for input items.
 
-        action [ROW=0] ...
-          Show action dialog.
-        action [ROW=0] ... "command" [separator=\n]
-          Apply command on item text in the row.
+        action [ROWS=0...]        Show action dialog.
+        action [ROWS=0...] [PROGRAM [SEPARATOR=\n]]
+                                  Run PROGRAM on item text in the rows.
+                                  Use %1 in PROGRAM to pass text as argument.
 
-        config
-          List all options.
-        config <OPTION>
-          Get option value.
-        config <OPTION> <VALUE>
-          Set option value.
+        exporttab FILE_NAME       Export items to file.
+        importtab FILE_NAME       Import items from file.
 
-        help, -h, --help
-          Print this help.
+        config                    List all options.
+        config OPTION             Get option value.
+        config OPTION VALUE       Set option value.
 
+        eval, -e [SCRIPT]         Evaluate script.
+
+        help, -h, --help [COMMAND]
+          Print help for COMMAND or all commands.
+        version, -v, --version
+          Print version of program and libraries.
+
+    NOTES:
+      Use dash argument (-) to read data from stdandard input.
+      Use double-dash argument (--) to read all following arguments without
+      expanding escape sequences (i.e. \n, \t and others).
+      Use ? for MIME to print available MIME types (default is "text/plain").
 
 Usage Examples
 --------------
@@ -163,6 +157,7 @@ to the standard error output using sh command (shell):
 
     copyq add 'print("Hello world!")'
     copyq action 'sh -c "python 1>&2"'
+    copyq read 0
 
 Note: Standard error output will be show as tray icon tooltip.
 
@@ -188,6 +183,6 @@ selected text).
 
 To copy an image to clipboard use for example:
 
-    copyq - image/gif < image.gif
-    copyq - image/svg < image.svg
+    copyq write image/gif - < image.gif
+    copyq write image/svg - < image.svg
 
