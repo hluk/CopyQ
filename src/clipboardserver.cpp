@@ -342,7 +342,7 @@ ClipboardServer::CommandStatus ClipboardServer::doCommand(
     if (bytes != NULL)
         response->append(*bytes);
     else if (!result.isUndefined())
-        response->append(result.toString());
+        response->append(result.toString() + '\n');
 
     return CommandSuccess;
 }

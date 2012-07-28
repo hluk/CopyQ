@@ -106,11 +106,18 @@ Scriptable::Scriptable(MainWindow *wnd, QObject *parent)
 {
 }
 
-void Scriptable::initEngine(QScriptEngine *engine, const QString &currentPath)
+void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
 {
-    QScriptValue obj = engine->newQObject(this);
-    engine->setGlobalObject(obj);
-    m_baClass = new ByteArrayClass(engine);
+    QScriptEngine::QObjectWrapOptions opts =
+              QScriptEngine::ExcludeChildObjects
+            | QScriptEngine::SkipMethodsInEnumeration
+            | QScriptEngine::ExcludeSuperClassMethods
+            | QScriptEngine::ExcludeSuperClassProperties
+            | QScriptEngine::ExcludeSuperClassContents
+            | QScriptEngine::ExcludeDeleteLater;
+    QScriptValue obj = eng->newQObject(this, QScriptEngine::QtOwnership, opts);
+    eng->setGlobalObject(obj);
+    m_baClass = new ByteArrayClass(eng);
     obj.setProperty( "ByteArray", m_baClass->constructor() );
     setCurrentPath(currentPath);
 }
@@ -271,7 +278,7 @@ QScriptValue Scriptable::clipboard()
     const QMimeData *data = clipboardData();
     if (data) {
         if (mime == "?")
-            return data->formats().join("\n")+'\n';
+            return data->formats().join("\n") + '\n';
         else
             return newByteArray( data->data(mime) );
     }
@@ -286,7 +293,7 @@ QScriptValue Scriptable::selection()
     const QMimeData *data = clipboardData(QClipboard::Selection);
     if (data) {
         if (mime == "?")
-            return data->formats().join("\n")+'\n';
+            return data->formats().join("\n") + '\n';
         else
             return newByteArray( data->data(mime) );
     }
@@ -448,10 +455,12 @@ QScriptValue Scriptable::read()
             used = true;
             const QMimeData *data = (row >= 0) ?
                 currentTab()->itemData(row) : clipboardData();
-            if (mime == "?")
-                result.append( data->formats().join("\n") + '\n' );
-            else if (data != NULL)
-                result.append( data->data(mime) + sep );
+            if (data) {
+                if (mime == "?")
+                    result.append( data->formats().join("\n") + sep );
+                else
+                    result.append( data->data(mime) + sep );
+            }
         } else {
             mime = toString(value);
         }
@@ -461,7 +470,7 @@ QScriptValue Scriptable::read()
         const QMimeData *data = clipboardData();
         if (data == NULL)
             return QScriptValue();
-        if (mime == "?")
+        else if (mime == "?")
             result.append(data->formats().join("\n") + '\n');
         else
             result.append(data->data(mime) + sep);
@@ -530,8 +539,8 @@ void Scriptable::action()
         command.input = true;
         command.wait = false;
         command.outputTab = c->getID();
-        QString sep = toString( argument(++i) );
-        command.sep = sep.isNull() ? QString('\n') : sep;
+        command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
+                                                  : QString('\n');
         m_wnd->action(text, command);
     } else {
         m_wnd->openActionDialog(text);
