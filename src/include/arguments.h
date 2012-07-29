@@ -41,6 +41,9 @@ public:
     Arguments();
     Arguments(int &argc, char **argv);
 
+    /** Clear arguments and set current path. */
+    void reset(const QString &currentPath = QString());
+
     /** Append argument. */
     void append(const QByteArray &argument);
 

@@ -43,17 +43,6 @@ class ClipboardServer : public App
     Q_OBJECT
 
 public:
-    /** Command status. */
-    typedef enum {
-        /** Command successfully invoked. */
-        CommandSuccess,
-        /** Command invocation error. */
-        CommandError,
-        /** Bad command syntax. */
-        CommandBadSyntax
-    } CommandStatus;
-
-
     explicit ClipboardServer(int &argc, char **argv);
     ~ClipboardServer();
 
@@ -66,7 +55,8 @@ public:
      */
     CommandStatus doCommand(
             Arguments &args, //!< Contains command and its arguments.
-            QByteArray *response //!< For storing command response message.
+            QByteArray *response, //!< For storing command response message.
+            QLocalSocket *client = NULL //!< For sending responses.
             );
 
     /** Send message to client. */

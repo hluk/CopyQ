@@ -9,6 +9,7 @@
 class MainWindow;
 class ByteArrayClass;
 class ClipboardBrowser;
+class QLocalSocket;
 
 const QString defaultMime("text/plain");
 
@@ -20,7 +21,7 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
 
 public:
-    Scriptable(MainWindow *wnd, QObject *parent = NULL);
+    Scriptable(MainWindow *wnd, QLocalSocket* client, QObject *parent = NULL);
 
     void initEngine(QScriptEngine *engine, const QString &currentPath);
 
@@ -51,14 +52,16 @@ public:
 
     QString arg(int i, const QString &defaultValue = QString());
 
+    void sendMessage(const QByteArray &message, int exitCode);
+
 public slots:
     QScriptValue version();
     QScriptValue help();
 
-    QScriptValue show();
+    void show();
     void hide();
-    QScriptValue toggle();
-    QScriptValue menu();
+    void toggle();
+    void menu();
     QScriptValue exit();
 
     QScriptValue clipboard();
@@ -93,9 +96,11 @@ public slots:
     void currentpath();
 
     QScriptValue str(const QScriptValue &value);
+    void print(const QScriptValue &value);
 
 private:
     MainWindow *m_wnd;
+    QLocalSocket* m_client;
     ByteArrayClass *m_baClass;
     QString m_currentTab;
     QString m_inputSeparator;

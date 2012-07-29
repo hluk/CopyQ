@@ -5,6 +5,7 @@
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
 
+#include <QLocalSocket>
 #include <QScriptContext>
 #include <QScriptEngine>
 #include <QTimer>
@@ -17,7 +18,7 @@ namespace {
 
 const char *const programName = "CopyQ Clipboard Manager";
 
-const char *const versionString = "1.2.5";
+const char *const versionString = "1.3.0";
 
 const char *const usageString = "Usage: copyq [COMMAND]\n";
 
@@ -99,10 +100,11 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
 
 } // namespace
 
-Scriptable::Scriptable(MainWindow *wnd, QObject *parent)
+Scriptable::Scriptable(MainWindow *wnd, QLocalSocket *client, QObject *parent)
     : QObject(parent)
     , QScriptable()
     , m_wnd(wnd)
+    , m_client(client)
     , m_baClass(NULL)
     , m_currentTab()
     , m_inputSeparator("\n")
@@ -225,6 +227,17 @@ QString Scriptable::arg(int i, const QString &defaultValue)
     return i < argumentCount() ? toString(argument(i)) : defaultValue;
 }
 
+void Scriptable::sendMessage(const QByteArray &message, int exitCode)
+{
+    if (m_client == NULL)
+        return;
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
+    out << exitCode;
+    out.writeRawData( message.constData(), message.length() );
+    writeMessage(m_client, msg);
+}
+
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" + versionString + " (hluk@email.cz)\n"
@@ -242,10 +255,11 @@ QScriptValue Scriptable::help()
             + tr(programName) + " v" + versionString  + " (hluk@email.cz)\n";
 }
 
-QScriptValue Scriptable::show()
+void Scriptable::show()
 {
     m_wnd->showWindow();
-    return QString::number((qlonglong)m_wnd->winId());
+    QByteArray message = QByteArray::number((qlonglong)m_wnd->winId());
+    sendMessage(message, CommandActivateWindow);
 }
 
 void Scriptable::hide()
@@ -253,15 +267,19 @@ void Scriptable::hide()
     m_wnd->close();
 }
 
-QScriptValue Scriptable::toggle()
+void Scriptable::toggle()
 {
     m_wnd->toggleVisible();
-    return QString::number((qlonglong)m_wnd->winId());
+    if (m_wnd->isVisible()) {
+        QByteArray message = QByteArray::number((qlonglong)m_wnd->winId());
+        sendMessage(message, CommandActivateWindow);
+    }
 }
 
-QScriptValue Scriptable::menu()
+void Scriptable::menu()
 {
-    return QString::number((qlonglong)m_wnd->showMenu());
+    QByteArray message = QByteArray::number((qlonglong)m_wnd->showMenu());
+    sendMessage(message, CommandActivateWindow);
 }
 
 QScriptValue Scriptable::exit()
@@ -629,6 +647,17 @@ void Scriptable::currentpath()
 QScriptValue Scriptable::str(const QScriptValue &value)
 {
     return toString(value);
+}
+
+void Scriptable::print(const QScriptValue &value)
+{
+    QByteArray *message = toByteArray(value);
+    QByteArray bytes;
+    if (message == NULL) {
+        bytes = value.toString().toLocal8Bit();
+        message = &bytes;
+    }
+    sendMessage(*message, CommandPrint);
 }
 
 int Scriptable::getTabIndexOrError(const QString &name)

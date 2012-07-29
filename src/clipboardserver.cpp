@@ -241,7 +241,7 @@ void ClipboardServer::newConnection()
 
     QByteArray client_msg;
     // try to handle command
-    int exitCode = doCommand(args, &client_msg);
+    int exitCode = doCommand(args, &client_msg, client);
     if ( exitCode == CommandBadSyntax ) {
         client_msg = tr("Bad command syntax. Use -h for help.\n").toLocal8Bit();
     }
@@ -309,15 +309,15 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     writeMessage(m_socket, msg);
 }
 
-ClipboardServer::CommandStatus ClipboardServer::doCommand(
-        Arguments &args, QByteArray *response)
+CommandStatus ClipboardServer::doCommand(
+        Arguments &args, QByteArray *response, QLocalSocket *client)
 {
     if ( args.length() <= Arguments::Rest )
         return CommandBadSyntax;
     QString cmd = args.at(Arguments::Rest);
 
     QScriptEngine *engine = new QScriptEngine(m_wnd);
-    Scriptable scriptable(m_wnd);
+    Scriptable scriptable(m_wnd, client);
     scriptable.initEngine(engine, args.at(Arguments::CurrentPath));
 
     QScriptValue result;

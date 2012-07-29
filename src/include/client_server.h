@@ -30,6 +30,20 @@ class QStringList;
 class QByteArray;
 class QLocalServer;
 
+/** Command status. */
+typedef enum {
+    /** Command successfully invoked. */
+    CommandSuccess,
+    /** Command invocation error. */
+    CommandError,
+    /** Bad command syntax. */
+    CommandBadSyntax,
+    /** Print */
+    CommandPrint,
+    /** Activate window */
+    CommandActivateWindow
+} CommandStatus;
+
 #if !defined(Q_WS_X11) && !defined(Q_WS_WIN) && !defined(Q_WS_MAC)
 #define NO_GLOBAL_SHORTCUTS
 #endif

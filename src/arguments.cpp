@@ -60,13 +60,13 @@ void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg,
 Arguments::Arguments()
     : m_args()
 {
+    reset(QDir::currentPath());
 }
 
 Arguments::Arguments(int &argc, char **argv)
     : m_args()
 {
-    /* Set current path. */
-    m_args << QDir::currentPath().toLatin1();
+    reset(QDir::currentPath());
 
     /* Special arguments:
      * "-"  read this argument from stdin
@@ -100,6 +100,13 @@ Arguments::Arguments(int &argc, char **argv)
     }
 }
 
+void Arguments::reset(const QString &currentPath)
+{
+    m_args.clear();
+    if (!currentPath.isNull())
+        m_args << currentPath.toLatin1();
+}
+
 void Arguments::append(const QByteArray &argument)
 {
     m_args.append(argument);
@@ -129,6 +136,7 @@ QDataStream &operator>>(QDataStream &stream, Arguments &args)
     uint arg_len;
     char *buffer;
 
+    args.reset();
     stream >> len;
     for( int i = 0; i<len; ++i ) {
         stream.readBytes(buffer, arg_len);

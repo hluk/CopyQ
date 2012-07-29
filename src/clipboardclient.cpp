@@ -53,31 +53,30 @@ void ClipboardClient::sendMessage()
 
 void ClipboardClient::readyRead()
 {
-    int exit_code, i, len;
+    int exitCode, i, len;
     QByteArray msg;
+    while ( m_client && m_client->bytesAvailable() ) {
+        if( !readMessage(m_client, &msg) )
+            exit(1);
 
-    if( !readMessage(m_client, &msg) )
-        exit(1);
+        QDataStream in(&msg, QIODevice::ReadOnly);
+        in >> exitCode;
+        i = sizeof(exitCode);
 
-    QDataStream in(&msg, QIODevice::ReadOnly);
-    in >> exit_code;
-    i = sizeof(exit_code);
-
-    len = msg.length();
-    if (len > i) {
-        if ( m_args.length() > 0 &&
-             (m_args.at(0) == "toggle" ||
-              m_args.at(0) == "show" ||
-              m_args.at(0) == "menu") ) {
-            WId wid = (WId)(QString(msg.constData()+i).toLongLong());
-            raiseWindow(wid);
-        } else {
-            std::ostream &out = (exit_code == 0) ? std::cout : std::cerr;
-            out.write( msg.constData()+i, len-i );
+        len = msg.length();
+        if (len > i) {
+            if (exitCode == CommandActivateWindow) {
+                WId wid = (WId)(QByteArray(msg.constData()+i).toLongLong());
+                raiseWindow(wid);
+            } else {
+                std::ostream &out = (exitCode == 0) ? std::cout : std::cerr;
+                out.write( msg.constData()+i, len-i );
+            }
         }
-    }
 
-    exit(exit_code);
+        if (exitCode != CommandPrint && exitCode != CommandActivateWindow)
+            exit(exitCode);
+    }
 }
 
 void ClipboardClient::readFinnished()
