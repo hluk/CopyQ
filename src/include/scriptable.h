@@ -85,6 +85,7 @@ public slots:
     QScriptValue separator();
 
     void action();
+    void popup();
 
     void exporttab();
     void importtab();

@@ -57,6 +57,8 @@ const char *const helpString =
 "    action [ROWS=0...] [PROGRAM [SEPARATOR=\\n]]\n"
 "                              Run PROGRAM on item text in the rows.\n"
 "                              Use %1 in PROGRAM to pass text as argument.\n"
+"    popup TITLE MESSAGE [TIME=8000]\n"
+"                              Show tray popup message for TIME milliseconds.\n"
 "\n"
 "    exporttab FILE_NAME       Export items to file.\n"
 "    importtab FILE_NAME       Import items from file.\n"
@@ -567,6 +569,16 @@ void Scriptable::action()
     } else {
         m_wnd->openActionDialog(text);
     }
+}
+
+void Scriptable::popup()
+{
+    QString title = arg(0);
+    QString message = arg(1);
+    int msec;
+    if ( !toInt(argument(2), msec) )
+        msec = 8000;
+    m_wnd->showMessage(title, message, QSystemTrayIcon::Information, msec);
 }
 
 void Scriptable::exporttab()
