@@ -446,20 +446,23 @@ QScriptValue Scriptable::read()
     QString mime(defaultMime);
     QScriptValue value;
     QString sep = getInputSeparator();
+    const QMimeData *data;
 
     bool used = false;
     for ( int i = 0; i < argumentCount(); ++i ) {
         value = argument(i);
         int row;
         if ( toInt(value, row) ) {
+            if (used)
+                result.append(sep);
             used = true;
-            const QMimeData *data = (row >= 0) ?
+            data = (row >= 0) ?
                 currentTab()->itemData(row) : clipboardData();
             if (data) {
                 if (mime == "?")
-                    result.append( data->formats().join("\n") + sep );
+                    result.append( data->formats().join("\n") );
                 else
-                    result.append( data->data(mime) + sep );
+                    result.append( data->data(mime) );
             }
         } else {
             mime = toString(value);
@@ -467,13 +470,13 @@ QScriptValue Scriptable::read()
     }
 
     if (!used) {
-        const QMimeData *data = clipboardData();
+        data = clipboardData();
         if (data == NULL)
             return QScriptValue();
         else if (mime == "?")
             result.append(data->formats().join("\n") + '\n');
         else
-            result.append(data->data(mime) + sep);
+            result.append(data->data(mime));
     }
 
     return newByteArray(result);
