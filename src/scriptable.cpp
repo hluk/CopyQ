@@ -72,10 +72,13 @@ const char *const helpString =
 "      Print version of program and libraries.\n"
 "\n"
 "NOTES:\n"
-"  Use dash argument (-) to read data from stdandard input.\n"
-"  Use double-dash argument (--) to read all following arguments without\n"
-"  expanding escape sequences (i.e. \\n, \\t and others).\n"
-"  Use ? for MIME to print available MIME types (default is \"text/plain\").\n";
+"  - Use dash argument (-) to read data from stdandard input.\n"
+"  - Use double-dash argument (--) to read all following arguments without\n"
+"    expanding escape sequences (i.e. \\n, \\t and others).\n"
+"  - Use ? for MIME to print available MIME types (default is \"text/plain\").\n"
+"  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
+"      copyq -e \"x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x\"\n"
+"    prints concatenated text of all items in the first tab.\n";
 
 const QString argumentError = QObject::tr("Invalid number or arguments!");
 

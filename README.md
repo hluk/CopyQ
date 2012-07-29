@@ -117,10 +117,13 @@ Command Line Interface
           Print version of program and libraries.
 
     NOTES:
-      Use dash argument (-) to read data from stdandard input.
-      Use double-dash argument (--) to read all following arguments without
-      expanding escape sequences (i.e. \n, \t and others).
-      Use ? for MIME to print available MIME types (default is "text/plain").
+      - Use dash argument (-) to read data from stdandard input.
+      - Use double-dash argument (--) to read all following arguments without
+        expanding escape sequences (i.e. \n, \t and others).
+      - Use ? for MIME to print available MIME types (default is "text/plain").
+      - Parameter SCRIPT contains program in ECMAScript, for example:
+          copyq -e "x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x"
+        prints concatenated text of all items in the first tab.
 
 Usage Examples
 --------------
