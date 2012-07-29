@@ -282,15 +282,13 @@ void Scriptable::menu()
     sendMessage(message, CommandActivateWindow);
 }
 
-QScriptValue Scriptable::exit()
+void Scriptable::exit()
 {
     // Exit application - respond to client first.
-    QTimer *timer = new QTimer(this);
-    connect( timer, SIGNAL(timeout()),
-             QApplication::instance(), SLOT(quit()) );
-    timer->start(0);
-
-    return tr("Terminating server.") + '\n';
+    QByteArray message = QByteArray(tr("Terminating server.\n").toLatin1());
+    sendMessage(message, CommandSuccess);
+    m_client->flush();
+    QApplication::exit(0);
 }
 
 QScriptValue Scriptable::clipboard()

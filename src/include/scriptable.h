@@ -62,7 +62,7 @@ public slots:
     void hide();
     void toggle();
     void menu();
-    QScriptValue exit();
+    void exit();
 
     QScriptValue clipboard();
     QScriptValue selection();
