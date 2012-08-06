@@ -1,4 +1,24 @@
-#pragma once
+/*
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+
+    This file is part of CopyQ.
+
+    CopyQ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CopyQ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
+#ifndef SCRIPTABLE_H
+#define SCRIPTABLE_H
 
 #include <QObject>
 #include <QString>
@@ -10,6 +30,7 @@ class MainWindow;
 class ByteArrayClass;
 class ClipboardBrowser;
 class QLocalSocket;
+class QScriptEngine;
 
 const QString defaultMime("text/plain");
 
@@ -98,10 +119,12 @@ public slots:
 
     QScriptValue str(const QScriptValue &value);
     void print(const QScriptValue &value);
+    void abort();
 
 private:
     MainWindow *m_wnd;
-    QLocalSocket* m_client;
+    QLocalSocket *m_client;
+    QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
     QString m_currentTab;
     QString m_inputSeparator;
@@ -110,3 +133,4 @@ private:
     int getTabIndexOrError(const QString &name);
 };
 
+#endif // SCRIPTABLE_H

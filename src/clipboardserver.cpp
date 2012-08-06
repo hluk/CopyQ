@@ -316,14 +316,16 @@ CommandStatus ClipboardServer::doCommand(
         return CommandBadSyntax;
     QString cmd = args.at(Arguments::Rest);
 
-    QScriptEngine *engine = new QScriptEngine(m_wnd);
+    QScriptEngine engine;
     Scriptable scriptable(m_wnd, client);
-    scriptable.initEngine(engine, args.at(Arguments::CurrentPath));
+    scriptable.initEngine(&engine, args.at(Arguments::CurrentPath));
+    connect( client, SIGNAL(disconnected()),
+             &scriptable, SLOT(abort()) );
 
     QScriptValue result;
     QScriptValueList fnArgs;
 
-    QScriptValue fn = engine->globalObject().property(cmd);
+    QScriptValue fn = engine.globalObject().property(cmd);
     if ( !fn.isFunction() )
         return CommandBadSyntax;
 
@@ -332,9 +334,9 @@ CommandStatus ClipboardServer::doCommand(
 
     result = fn.call(QScriptValue(), fnArgs);
 
-    if ( engine->hasUncaughtException() ) {
-        response->append(engine->uncaughtException().toString() + '\n');
-        engine->clearExceptions();
+    if ( engine.hasUncaughtException() ) {
+        response->append(engine.uncaughtException().toString() + '\n');
+        engine.clearExceptions();
         return CommandError;
     }
 

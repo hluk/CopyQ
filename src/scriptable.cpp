@@ -1,3 +1,22 @@
+/*
+    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+
+    This file is part of CopyQ.
+
+    CopyQ is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    CopyQ is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
+*/
+
 #include "scriptable.h"
 #include "mainwindow.h"
 #include "client_server.h"
@@ -107,14 +126,17 @@ Scriptable::Scriptable(MainWindow *wnd, QLocalSocket *client, QObject *parent)
     , QScriptable()
     , m_wnd(wnd)
     , m_client(client)
+    , m_engine(NULL)
     , m_baClass(NULL)
     , m_currentTab()
     , m_inputSeparator("\n")
+    , m_currentPath()
 {
 }
 
 void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
 {
+    m_engine = eng;
     QScriptEngine::QObjectWrapOptions opts =
               QScriptEngine::ExcludeChildObjects
             | QScriptEngine::SkipMethodsInEnumeration
@@ -124,8 +146,11 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
             | QScriptEngine::ExcludeDeleteLater;
     QScriptValue obj = eng->newQObject(this, QScriptEngine::QtOwnership, opts);
     eng->setGlobalObject(obj);
+    eng->setProcessEventsInterval(100);
+
     m_baClass = new ByteArrayClass(eng);
     obj.setProperty( "ByteArray", m_baClass->constructor() );
+
     setCurrentPath(currentPath);
 }
 
@@ -668,6 +693,15 @@ void Scriptable::print(const QScriptValue &value)
         message = &bytes;
     }
     sendMessage(*message, CommandPrint);
+}
+
+void Scriptable::abort()
+{
+    QScriptEngine *eng = engine();
+    if (eng == NULL)
+        eng = m_engine;
+    if ( eng && eng->isEvaluating() )
+        eng->abortEvaluation();
 }
 
 int Scriptable::getTabIndexOrError(const QString &name)
