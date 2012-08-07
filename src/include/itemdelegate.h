@@ -56,8 +56,6 @@ class ItemDelegate : public QItemDelegate
         void setModelData(QWidget *editor, QAbstractItemModel *model,
                           const QModelIndex &index) const;
 
-        bool eventFilter(QObject *object, QEvent *event);
-
         /** Remove all cached items (cache is refreshed using paint()). */
         void invalidateCache();
 
@@ -81,6 +79,10 @@ class ItemDelegate : public QItemDelegate
 
         /** Return true only if item at index is already in cache. */
         bool hasCache(const QModelIndex &index) const;
+
+    signals:
+        /** User begins or stops to edit an item in a tab. */
+        void editingActive(bool active);
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -116,6 +118,10 @@ class ItemDelegate : public QItemDelegate
                        int sourceStart, int sourceEnd,
                        const QModelIndex &destinationParent,
                        int destinationRow);
+
+    private slots:
+        void editingStarts();
+        void editingStops();
 };
 
 #endif

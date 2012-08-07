@@ -259,6 +259,9 @@ class MainWindow : public QMainWindow
     signals:
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
+
+        /** User begins or stops to edit an item in a tab. */
+        void editingActive(bool active);
     };
 
 #endif // MAINWINDOW_H

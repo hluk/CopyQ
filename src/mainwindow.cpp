@@ -226,12 +226,14 @@ void MainWindow::createMenu()
                            tr("&Sort Selected Items"),
                            this, SLOT(sortSelectedItems()),
                            QKeySequence("Ctrl+Shift+S") );
+    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // - reverse order
     act = menu->addAction( QIcon(":/images/reverse.svg"),
                            tr("&Reverse Selected Items"),
                            this, SLOT(reverseSelectedItems()),
                            QKeySequence("Ctrl+Shift+R") );
+    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // - separator
     menu->addSeparator();
@@ -240,12 +242,14 @@ void MainWindow::createMenu()
     act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
                            this, SLOT(pasteItems()) );
     act->setShortcuts(QKeySequence::Paste);
+    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // - copy items
     act = menu->addAction( QIcon(":/images/copy.svg"),
                            tr("&Copy Selected Items"),
                            this, SLOT(copyItems()) );
     act->setShortcuts(QKeySequence::Copy);
+    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // Items
     itemMenu = browser()->contextMenu();
@@ -337,6 +341,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
+    connect( c, SIGNAL(editingActive(bool)),
+             this, SIGNAL(editingActive(bool)) );
     connect( c, SIGNAL(requestActionDialog(QString,Command)),
              this, SLOT(action(QString,Command)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),

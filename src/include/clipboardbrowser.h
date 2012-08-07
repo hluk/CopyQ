@@ -195,6 +195,9 @@ class ClipboardBrowser : public QListView
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(QMimeData *data, const QString &tabName);
 
+        /** User begins or stops to edit an item in a tab. */
+        void editingActive(bool active);
+
     protected slots:
         void commitData(QWidget *editor);
 

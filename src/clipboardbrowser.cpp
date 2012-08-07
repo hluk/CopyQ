@@ -100,6 +100,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     // context menu
     createContextMenu();
 
+    connect( d, SIGNAL(editingActive(bool)),
+             this, SIGNAL(editingActive(bool)) );
+
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              d, SLOT(rowsRemoved(QModelIndex,int,int)) );
     connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),

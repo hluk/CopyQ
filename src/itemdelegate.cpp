@@ -56,32 +56,6 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
         return defaultSize;
 }
 
-bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
-{
-    QWidget *editor = qobject_cast<QWidget*>(object);
-    if ( event->type() == QEvent::KeyPress ) {
-        QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
-        switch ( keyevent->key() ) {
-            case Qt::Key_Enter:
-            case Qt::Key_Return:
-                if( keyevent->modifiers() == Qt::NoModifier )
-                    return false;
-            case Qt::Key_F2:
-                emit commitData(editor);
-                emit closeEditor(editor);
-                return true;
-            case Qt::Key_Escape:
-                // don't commit data
-                emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    return false;
-}
-
 QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &) const
 {
     QPlainTextEdit *editor = new QPlainTextEdit(parent);
@@ -96,6 +70,11 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
                    w_rect.height() - o_rect.top() - 10 );
     editor->setMaximumSize(max_size);
     editor->setMinimumSize(max_size);
+
+    connect( editor, SIGNAL(destroyed()),
+             this, SLOT(editingStops()) );
+    connect( editor, SIGNAL(textChanged()),
+             this, SLOT(editingStarts()) );
 
     return editor;
 }
@@ -144,6 +123,16 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
         m_cache.move(i,dest);
         ++dest;
     }
+}
+
+void ItemDelegate::editingStarts()
+{
+    emit editingActive(true);
+}
+
+void ItemDelegate::editingStops()
+{
+    emit editingActive(false);
 }
 
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
