@@ -139,7 +139,7 @@ ClipboardBrowser::~ClipboardBrowser()
 }
 
 
-void ClipboardBrowser::closeEditor(QEditor *editor)
+void ClipboardBrowser::closeEditor(ItemEditor *editor)
 {
     // check if file was modified before closing
     if ( editor->fileModified() )
@@ -348,13 +348,13 @@ bool ClipboardBrowser::openEditor(const QString &text)
     if ( m_editor.isEmpty() )
         return false;
 
-    QEditor *editor = new QEditor(text, m_editor);
+    ItemEditor *editor = new ItemEditor(text, m_editor);
 
     connect( editor, SIGNAL(fileModified(const QString &)),
             this, SLOT(itemModified(const QString &)) );
 
-    connect( editor, SIGNAL(closed(QEditor *)),
-            this, SLOT(closeEditor(QEditor *)) );
+    connect( editor, SIGNAL(closed(ItemEditor *)),
+            this, SLOT(closeEditor(ItemEditor *)) );
 
     connect( this, SIGNAL(closeAllEditors()), editor, SLOT(close()) );
 

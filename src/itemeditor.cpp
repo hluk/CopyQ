@@ -17,7 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "qeditor.h"
+#include "itemeditor.h"
 #include "client_server.h"
 
 #include <QDir>
@@ -25,7 +25,7 @@
 #include <QProcess>
 #include <QTimer>
 
-QEditor::QEditor(const QString &txt, const QString &editor, QObject *parent)
+ItemEditor::ItemEditor(const QString &txt, const QString &editor, QObject *parent)
     : QObject(parent)
     , m_txt(txt)
     , m_hash( qHash(m_txt) )
@@ -38,13 +38,13 @@ QEditor::QEditor(const QString &txt, const QString &editor, QObject *parent)
 {
 }
 
-QEditor::~QEditor()
+ItemEditor::~ItemEditor()
 {
     if (m_editor && m_editor->isOpen())
         m_editor->close();
 }
 
-bool QEditor::start()
+bool ItemEditor::start()
 {
     // create temp file
     QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath("CopyQ.XXXXXX");
@@ -76,7 +76,7 @@ bool QEditor::start()
     return true;
 }
 
-bool QEditor::fileModified()
+bool ItemEditor::fileModified()
 {
     m_info.refresh();
     if (m_lastmodified != m_info.lastModified() ) {
@@ -95,7 +95,7 @@ bool QEditor::fileModified()
         return false;
 }
 
-void QEditor::onTimer()
+void ItemEditor::onTimer()
 {
     if ( fileModified() ) {
         emit fileModified(m_txt);

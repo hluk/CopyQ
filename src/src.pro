@@ -16,7 +16,7 @@ FORMS += \
 HEADERS += \
     include/mainwindow.h \
     include/clipboardbrowser.h \
-    include/qeditor.h \
+    include/itemeditor.h \
     include/actiondialog.h \
     include/clipboardmodel.h \
     include/itemdelegate.h \
@@ -44,7 +44,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     clipboardbrowser.cpp \
-    qeditor.cpp \
+    itemeditor.cpp \
     actiondialog.cpp \
     clipboardmodel.cpp \
     itemdelegate.cpp \

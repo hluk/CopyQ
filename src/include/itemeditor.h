@@ -17,8 +17,8 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef QEDITOR_H
-#define QEDITOR_H
+#ifndef ITEMEDITOR_H
+#define ITEMEDITOR_H
 
 #include <QObject>
 #include <QString>
@@ -29,13 +29,13 @@
 class QProcess;
 class QTimer;
 
-class QEditor : public QObject
+class ItemEditor : public QObject
 {
     Q_OBJECT
 
     public:
-        QEditor(const QString &txt, const QString &editor, QObject *parent = 0);
-        ~QEditor();
+        ItemEditor(const QString &txt, const QString &editor, QObject *parent = 0);
+        ~ItemEditor();
         bool start();
         bool fileModified();
         const QString &getText() const { return m_txt; };
@@ -61,7 +61,7 @@ class QEditor : public QObject
 
     signals:
         void fileModified(const QString &str);
-        void closed(QEditor *who);
+        void closed(ItemEditor *who);
 };
 
-#endif // QEDITOR_H
+#endif // ITEMEDITOR_H

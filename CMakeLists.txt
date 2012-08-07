@@ -28,7 +28,7 @@ SET(copyq_HEADERS
     src/include/tabwidget.h
     src/include/itemdelegate.h
     src/include/mainwindow.h
-    src/include/qeditor.h
+    src/include/itemeditor.h
     src/include/scriptable.h
     src/include/shortcutdialog.h
     qxt/qxtglobalshortcut.h
