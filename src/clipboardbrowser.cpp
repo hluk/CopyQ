@@ -673,6 +673,9 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
 
     delayedSaveItems();
 
+    scrollTo( currentIndex(), editing() ? QAbstractItemView::PositionAtTop
+                                        : QAbstractItemView::EnsureVisible );
+
     return true;
 }
 

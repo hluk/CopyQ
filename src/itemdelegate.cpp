@@ -19,6 +19,7 @@
 
 #include "itemdelegate.h"
 #include <QApplication>
+#include <QMenu>
 #include <QPainter>
 #include <QPlainTextEdit>
 #include <QScrollBar>
@@ -54,6 +55,54 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
         return w->size();
     else
         return defaultSize;
+}
+
+bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
+{
+    QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>(object);
+    if (object == NULL)
+        return false;
+
+    QEvent::Type type = event->type();
+    if ( type == QEvent::KeyPress ) {
+        QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
+        switch ( keyevent->key() ) {
+            case Qt::Key_Enter:
+            case Qt::Key_Return:
+                // commit data on any modifier + enter
+                if (keyevent->modifiers() == Qt::NoModifier)
+                    return false;
+                // Fall through.
+            case Qt::Key_F2:
+                emit commitData(editor);
+                emit closeEditor(editor);
+                return true;
+            case Qt::Key_Escape:
+                // don't commit data
+                emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
+                return true;
+            default:
+                return false;
+        }
+    } else if ( type == QEvent::ContextMenu ) {
+        QAction *act;
+        QMenu *menu = editor->createStandardContextMenu();
+        connect( menu, SIGNAL(aboutToHide()), menu, SLOT(deleteLater()) );
+        menu->setParent(editor);
+
+        act = menu->addAction( tr("&Save Item") );
+        act->setShortcut( QKeySequence("F2, Ctrl+Enter") );
+        connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
+
+        act = menu->addAction( tr("Cancel Editing") );
+        act->setShortcut( QKeySequence("Escape") );
+        connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
+
+        QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
+        menu->popup( menuEvent->globalPos() );
+    }
+
+    return false;
 }
 
 QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &) const
@@ -123,6 +172,31 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
         m_cache.move(i,dest);
         ++dest;
     }
+}
+
+void ItemDelegate::editorSave()
+{
+    QAction *action = qobject_cast<QAction*>( sender() );
+    Q_ASSERT(action != NULL);
+    QObject *parent = action->parent();
+    Q_ASSERT(parent != NULL);
+    QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>( parent->parent() );
+    Q_ASSERT(editor != NULL);
+
+    emit commitData(editor);
+    emit closeEditor(editor);
+}
+
+void ItemDelegate::editorCancel()
+{
+    QAction *action = qobject_cast<QAction*>( sender() );
+    Q_ASSERT(action != NULL);
+    QObject *parent = action->parent();
+    Q_ASSERT(parent != NULL);
+    QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>( parent->parent() );
+    Q_ASSERT(editor != NULL);
+
+    emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
 }
 
 void ItemDelegate::editingStarts()

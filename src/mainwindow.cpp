@@ -101,13 +101,6 @@ MainWindow::MainWindow(QWidget *parent)
     // browse mode by default
     enterBrowseMode();
 
-    // escape
-    QAction *act = new QAction(this);
-    act->setShortcut(Qt::Key_Escape);
-    connect( act, SIGNAL(triggered()),
-             this, SLOT(escapePressed()) );
-    addAction(act);
-
     tray->show();
 }
 
@@ -153,6 +146,9 @@ void MainWindow::createMenu()
     QMenu *traymenu = new QMenu(this);
     QMenu *menu;
     QAction *act;
+
+    connect( this, SIGNAL(editingActive(bool)),
+             menubar, SLOT(setDisabled(bool)) );
 
     // items before separator in tray
     traymenu->addSeparator();
@@ -226,14 +222,12 @@ void MainWindow::createMenu()
                            tr("&Sort Selected Items"),
                            this, SLOT(sortSelectedItems()),
                            QKeySequence("Ctrl+Shift+S") );
-    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // - reverse order
     act = menu->addAction( QIcon(":/images/reverse.svg"),
                            tr("&Reverse Selected Items"),
                            this, SLOT(reverseSelectedItems()),
                            QKeySequence("Ctrl+Shift+R") );
-    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // - separator
     menu->addSeparator();
@@ -242,14 +236,12 @@ void MainWindow::createMenu()
     act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
                            this, SLOT(pasteItems()) );
     act->setShortcuts(QKeySequence::Paste);
-    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // - copy items
     act = menu->addAction( QIcon(":/images/copy.svg"),
                            tr("&Copy Selected Items"),
                            this, SLOT(copyItems()) );
     act->setShortcuts(QKeySequence::Copy);
-    connect( this, SIGNAL(editingActive(bool)), act, SLOT(setDisabled(bool)) );
 
     // Items
     itemMenu = browser()->contextMenu();
@@ -447,6 +439,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Backspace:
             resetStatus();
             c->setCurrent(0);
+            break;
+
+        case Qt::Key_Escape:
+            if ( ui->searchBar->isHidden() )
+                close();
+            else
+                resetStatus();
             break;
 
         default:
@@ -724,18 +723,6 @@ void MainWindow::onTimerSearch()
     QString txt = ui->searchBar->text();
     enterBrowseMode( txt.isEmpty() );
     browser()->filterItems(txt);
-}
-
-void MainWindow::escapePressed()
-{
-    ClipboardBrowser *c = browser();
-
-    if ( c->editing() )
-        c->closePersistentEditor( c->currentIndex() );
-    else if ( ui->searchBar->isHidden() )
-        close();
-    else
-        resetStatus();
 }
 
 void MainWindow::actionStarted(Action *action)

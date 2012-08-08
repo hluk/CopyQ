@@ -56,6 +56,8 @@ class ItemDelegate : public QItemDelegate
         void setModelData(QWidget *editor, QAbstractItemModel *model,
                           const QModelIndex &index) const;
 
+        bool eventFilter(QObject *object, QEvent *event);
+
         /** Remove all cached items (cache is refreshed using paint()). */
         void invalidateCache();
 
@@ -118,6 +120,8 @@ class ItemDelegate : public QItemDelegate
                        int sourceStart, int sourceEnd,
                        const QModelIndex &destinationParent,
                        int destinationRow);
+        void editorSave();
+        void editorCancel();
 
     private slots:
         void editingStarts();
