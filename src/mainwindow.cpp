@@ -378,6 +378,25 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QString txt;
     ClipboardBrowser *c = browser();
 
+    if (m_browsemode && ConfigurationManager::instance()->value("vi").toBool()) {
+        if (c->handleViKey(event))
+            return;
+        switch( event->key() ) {
+        case Qt::Key_Slash:
+            enterBrowseMode(false);
+            event->accept();
+            return;
+        case Qt::Key_H:
+            previousTab();
+            event->accept();
+            return;
+        case Qt::Key_L:
+            nextTab();
+            event->accept();
+            return;
+        }
+    }
+
     if ( event->modifiers() == Qt::ControlModifier ) {
         switch( event->key() ) {
             case Qt::Key_F:

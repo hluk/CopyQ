@@ -435,10 +435,18 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     // if editing item, use default key action
     if ( editing() ) {
         QListView::keyPressEvent(event);
+        return;
     }
+
+    // translate keys for vi mode
+    if (ConfigurationManager::instance()->value("vi").toBool() && handleViKey(event))
+        return;
+
+    int key = event->key();
+    Qt::KeyboardModifiers mods = event->modifiers();
+
     // CTRL
-    else if ( event->modifiers() == Qt::ControlModifier ) {
-        int key = event->key();
+    if (mods == Qt::ControlModifier) {
         switch ( key ) {
         // move items
         case Qt::Key_Down:
@@ -468,8 +476,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         }
     }
     else {
-        int key = event->key();
-
         switch ( key ) {
         // navigation
         case Qt::Key_Up:
@@ -492,8 +498,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                         QScrollBar *v = verticalScrollBar();
                         v->setValue( v->value() + d * v->pageStep() );
                     } else {
-                        setCurrent( current.row() + d, false,
-                                    event->modifiers() == Qt::ShiftModifier );
+                        setCurrent( current.row() + d, false, mods == Qt::ShiftModifier );
                     }
                     event->accept();
                     return;
@@ -501,6 +506,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             }
 
             QListView::keyPressEvent(event);
+            event->accept();
             break;
 
         default:
@@ -788,4 +794,51 @@ void ClipboardBrowser::redraw()
 bool ClipboardBrowser::editing()
 {
     return state() == QAbstractItemView::EditingState;
+}
+
+bool ClipboardBrowser::handleViKey(QKeyEvent *event)
+{
+    bool handle = true;
+    int key = event->key();
+    Qt::KeyboardModifiers mods = event->modifiers();
+
+    switch ( key ) {
+    case Qt::Key_G:
+        key = mods & Qt::ShiftModifier ? Qt::Key_End : Qt::Key_Home;
+        mods = mods & ~Qt::ShiftModifier;
+        break;
+    case Qt::Key_J:
+        key = Qt::Key_Down;
+        break;
+    case Qt::Key_K:
+        key = Qt::Key_Up;
+        break;
+    default:
+        handle = false;
+    }
+
+    if (!handle && mods & Qt::ControlModifier) {
+        switch ( key ) {
+        case Qt::Key_F:
+        case Qt::Key_D:
+            key = Qt::Key_PageDown;
+            mods = mods & ~Qt::ControlModifier;
+            handle = true;
+            break;
+        case Qt::Key_B:
+        case Qt::Key_U:
+            key = Qt::Key_PageUp;
+            mods = mods & ~Qt::ControlModifier;
+            handle = true;
+            break;
+        }
+    }
+
+    if (handle) {
+        QKeyEvent event2(QEvent::KeyPress, key, mods, event->text());
+        keyPressEvent(&event2);
+        event->accept();
+    }
+
+    return handle;
 }

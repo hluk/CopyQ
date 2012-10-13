@@ -110,6 +110,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["editor"] = Option(DEFAULT_EDITOR, "text", ui->lineEditEditor);
     m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);
     m_options["confirm_exit"] = Option(true, "checked", ui->checkBoxConfirmExit);
+    m_options["vi"] = Option(false, "checked", ui->checkBoxViMode);
 
     /* other options */
     m_options["tabs"] = Option(QStringList());

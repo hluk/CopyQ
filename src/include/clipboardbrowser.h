@@ -160,6 +160,11 @@ class ClipboardBrowser : public QListView
          */
         bool editing();
 
+        /**
+         * Handle key for Vi mode.
+         */
+        bool handleViKey(QKeyEvent *event);
+
     private:
         QString m_id;
         int m_maxitems;

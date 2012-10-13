@@ -117,6 +117,16 @@
             </widget>
            </item>
            <item>
+            <widget class="QCheckBox" name="checkBoxViMode">
+             <property name="toolTip">
+              <string>Support for Vi navigation keys (H, J, K, L and more),  Slash (/) key to search</string>
+             </property>
+             <property name="text">
+              <string>Vi style navigation</string>
+             </property>
+            </widget>
+           </item>
+           <item>
             <widget class="QCheckBox" name="checkBoxConfirmExit">
              <property name="toolTip">
               <string>Confirm application exit.</string>
