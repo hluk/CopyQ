@@ -31,19 +31,30 @@
 #include <QTimer>
 #include <QScrollBar>
 
-static const int max_preload = 10;
+namespace {
 
-static bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
+// For Performance reasons create icons once (QApplication must be created first).
+#define ICON(iconName) static const QIcon icon(":/images/" iconName); return icon;
+const QIcon &iconAction() { ICON("action.svg"); }
+const QIcon &iconClipboard() { ICON("clipboard.svg"); }
+const QIcon &iconEdit() { ICON("edit.svg"); }
+const QIcon &iconRemove() { ICON("remove.png"); }
+
+const int max_preload = 10;
+
+bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
                      const ClipboardModel::ComparisonItem &rhs)
 {
     return lhs.second->text().localeAwareCompare( rhs.second->text() ) < 0;
 }
 
-static bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
+bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
                         const ClipboardModel::ComparisonItem &rhs)
 {
     return lhs.first > rhs.first;
 }
+
+} // namespace
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
 {
@@ -196,27 +207,25 @@ void ClipboardBrowser::createContextMenu()
     QFont font;
 
     m_menu->clear();
-    act = m_menu->addAction( QIcon(":/images/clipboard.svg"),
-                           tr("Move to &Clipboard") );
+    act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
     font = act->font();
     font.setBold(true);
     act->setFont(font);
     act->setData( QVariant(ActionToClipboard) );
 
-    act = m_menu->addAction( QIcon(":/images/remove.png"), tr("&Remove") );
+    act = m_menu->addAction( iconRemove(), tr("&Remove") );
     act->setShortcut( QString("Delete") );
     act->setData( QVariant(ActionRemove) );
 
-    act = m_menu->addAction( QIcon(":/images/edit.svg"), tr("&Edit") );
+    act = m_menu->addAction( iconEdit(), tr("&Edit") );
     act->setShortcut( QString("F2") );
     act->setData( QVariant(ActionEdit) );
 
-    act = m_menu->addAction( QIcon(":/images/edit.svg"),
-                             tr("E&dit with editor") );
+    act = m_menu->addAction( iconEdit(), tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
     act->setData( QVariant(ActionEditor) );
 
-    act = m_menu->addAction( QIcon(":/images/action.svg"), tr("&Action...") );
+    act = m_menu->addAction( iconAction(), tr("&Action...") );
     act->setShortcut( QString("F5") );
     act->setData( QVariant(ActionAct) );
 

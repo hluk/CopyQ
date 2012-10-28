@@ -49,7 +49,7 @@ void ClipboardModel::setFormats(const QString &list)
 
 int ClipboardModel::rowCount(const QModelIndex&) const
 {
-    return m_clipboardList.count();
+    return m_clipboardList.size();
 }
 
 void ClipboardModel::setFormat(int row, const QString &mimeType)

@@ -38,6 +38,30 @@
 #include <QInputDialog>
 #include <QFileDialog>
 
+namespace {
+
+// For Performance reasons create icons once (QApplication must be created first).
+#define ICON(iconName) static const QIcon icon(":/images/" iconName ".svg"); return icon;
+const QIcon &iconAction() { ICON("action"); }
+const QIcon &iconClipboard() { ICON("clipboard"); }
+const QIcon &iconCopy() { ICON("copy"); }
+const QIcon &iconExit() { ICON("exit"); }
+const QIcon &iconHelp() { ICON("help"); }
+const QIcon &iconNew() { ICON("new"); }
+const QIcon &iconOpen() { ICON("open"); }
+const QIcon &iconPaste() { ICON("paste"); }
+const QIcon &iconPreferences() { ICON("preferences"); }
+const QIcon &iconReverse() { ICON("reverse"); }
+const QIcon &iconSave() { ICON("save"); }
+const QIcon &iconSort() { ICON("sort"); }
+const QIcon &iconTabNew() { ICON("tab_new"); }
+const QIcon &iconTabRemove() { ICON("tab_remove"); }
+const QIcon &iconTabRename() { ICON("tab_rename"); }
+const QIcon &iconTray() { ICON("icon"); }
+const QIcon &iconTrayRunning() { ICON("icon-running"); }
+
+} // namespace
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -157,7 +181,7 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = traymenu->addAction( QIcon(":/images/icon.svg"), tr("&Show/Hide"),
+    act = traymenu->addAction( iconTray(), tr("&Show/Hide"),
                            this, SLOT(toggleVisible()) );
     // bold font for default item in tray
     QFont font( act->font() );
@@ -168,24 +192,24 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - new
-    act = traymenu->addAction( QIcon(":/images/new.svg"), tr("&New Item"),
+    act = traymenu->addAction( iconNew(), tr("&New Item"),
                                this, SLOT(newItem()) );
     menu->addAction( act->icon(), act->text(),
                      this, SLOT(newItem()),
                      QKeySequence::New );
 
     // - import tab
-    menu->addAction( QIcon(":/images/open.svg"), tr("&Import Tab..."),
+    menu->addAction( iconOpen(), tr("&Import Tab..."),
                      this, SLOT(loadTab()),
                      QKeySequence("Ctrl+I") );
 
     // - export tab
-    menu->addAction( QIcon(":/images/save.svg"), tr("&Export Tab..."),
+    menu->addAction( iconSave(), tr("&Export Tab..."),
                      this, SLOT(saveTab()),
                      QKeySequence::Save );
 
     // - action dialog
-    act = traymenu->addAction( QIcon(":/images/action.svg"), tr("&Action..."),
+    act = traymenu->addAction( iconAction(), tr("&Action..."),
                                this, SLOT(openActionDialog()) );
     act->setWhatsThis( tr("Open action dialog") );
 
@@ -193,14 +217,14 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - preferences
-    act = traymenu->addAction( QIcon(":/images/preferences.svg"),
+    act = traymenu->addAction( iconPreferences(),
                                tr("&Preferences"),
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
                      QKeySequence("Ctrl+P") );
 
     // - show clipboard content
-    act = traymenu->addAction( QIcon(":/images/clipboard.svg"),
+    act = traymenu->addAction( iconClipboard(),
                                tr("Show &Clipboard Content"),
                                this, SLOT(showClipboardContent()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
@@ -210,7 +234,7 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - exit
-    act = menu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
+    act = menu->addAction( iconExit(), tr("E&xit"),
                            this, SLOT(exit()),
                            QKeySequence("Ctrl+Q") );
 
@@ -218,13 +242,13 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&Edit") );
 
     // - sort
-    act = menu->addAction( QIcon(":/images/sort.svg"),
+    act = menu->addAction( iconSort(),
                            tr("&Sort Selected Items"),
                            this, SLOT(sortSelectedItems()),
                            QKeySequence("Ctrl+Shift+S") );
 
     // - reverse order
-    act = menu->addAction( QIcon(":/images/reverse.svg"),
+    act = menu->addAction( iconReverse(),
                            tr("&Reverse Selected Items"),
                            this, SLOT(reverseSelectedItems()),
                            QKeySequence("Ctrl+Shift+R") );
@@ -233,12 +257,12 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - paste items
-    act = menu->addAction( QIcon(":/images/paste.svg"), tr("&Paste Items"),
+    act = menu->addAction( iconPaste(), tr("&Paste Items"),
                            this, SLOT(pasteItems()) );
     act->setShortcuts(QKeySequence::Paste);
 
     // - copy items
-    act = menu->addAction( QIcon(":/images/copy.svg"),
+    act = menu->addAction( iconCopy(),
                            tr("&Copy Selected Items"),
                            this, SLOT(copyItems()) );
     act->setShortcuts(QKeySequence::Copy);
@@ -252,13 +276,13 @@ void MainWindow::createMenu()
     menu = menubar->addMenu(tr("&Tabs"));
 
     // add tab
-    menu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
+    menu->addAction( iconTabNew(), tr("&New tab"),
                      this, SLOT(newTab()),
                      QKeySequence::AddTab );
-    menu->addAction( QIcon(":/images/tab_rename.svg"), tr("&Rename tab"),
+    menu->addAction( iconTabRename(), tr("&Rename tab"),
                      this, SLOT(renameTab()),
                      QKeySequence("Ctrl+F2") );
-    menu->addAction( QIcon(":/images/tab_remove.svg"), tr("&Remove tab"),
+    menu->addAction( iconTabRemove(), tr("&Remove tab"),
                      this, SLOT(removeTab()),
                      QKeySequence::Close );
 
@@ -269,12 +293,12 @@ void MainWindow::createMenu()
 
     // Exit in tray menu
     traymenu->addSeparator();
-    traymenu->addAction( QIcon(":/images/exit.svg"), tr("E&xit"),
+    traymenu->addAction( iconExit(), tr("E&xit"),
                          this, SLOT(exit()) );
 
     // Help
     menu = menubar->addMenu( tr("&Help") );
-    act = menu->addAction( QIcon(":/images/help.svg"), tr("&Help"),
+    act = menu->addAction( iconHelp(), tr("&Help"),
                            this, SLOT(openAboutDialog()),
                            QKeySequence::HelpContents );
     menu->addAction(act);
@@ -311,7 +335,7 @@ void MainWindow::closeAction(Action *action)
 
     if ( m_actions.isEmpty() ) {
         cmdMenu->setEnabled(false);
-        changeTrayIcon( QIcon(":/images/icon.svg") );
+        changeTrayIcon( iconTray() );
     }
 }
 
@@ -652,7 +676,7 @@ void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
 {
     QMenu *menu = new QMenu(this);
 
-    menu->addAction( QIcon(":/images/tab_new.svg"), tr("&New tab"),
+    menu->addAction( iconTabNew(), tr("&New tab"),
                      this, SLOT(newTab()) );
 
     if (tab < 0) {
@@ -661,9 +685,9 @@ void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
     }
 
     QString name = ui->tabWidget->tabText(tab);
-    QAction *renameAct = menu->addAction( QIcon(":/images/tab_rename.svg"),
+    QAction *renameAct = menu->addAction( iconTabRename(),
                                           tr("&Rename tab \"%1\"").arg(name) );
-    QAction *removeAct = menu->addAction( QIcon(":/images/tab_remove.svg"),
+    QAction *removeAct = menu->addAction( iconTabRemove(),
                                           tr("&Remove tab \"%1\"").arg(name) );
 
     QAction *act = menu->exec(pos);
@@ -762,7 +786,7 @@ void MainWindow::actionStarted(Action *action)
     cmdMenu->addAction(act);
     cmdMenu->setEnabled(true);
 
-    changeTrayIcon( QIcon(":/images/icon-running.svg") );
+    changeTrayIcon( iconTrayRunning() );
 
     elideText(act);
 }

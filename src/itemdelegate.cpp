@@ -46,15 +46,8 @@ ItemDelegate::ItemDelegate(QWidget *parent)
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
                              const QModelIndex &index) const
 {
-    int row = index.row();
-    if( row >= m_cache.size() )
-        return defaultSize;
-
-    QWidget *w = m_cache[row];
-    if (w)
-        return w->size();
-    else
-        return defaultSize;
+    const QWidget *w = m_cache.value(index.row(), NULL);
+    return (w != NULL) ? w->size() : defaultSize;
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
@@ -220,62 +213,63 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
     int n = index.row();
 
     QWidget *w = m_cache[n];
-    if (w == NULL) {
-        QVariant displayData = index.data(Qt::DisplayRole);
-        QString text = displayData.toString();
-        QPixmap pix;
+    if (w != NULL)
+        return w;
 
-        bool hasHtml = !text.isEmpty();
-        if ( !hasHtml ) {
-            QVariant editData = index.data(Qt::EditRole);
-            text = editData.toString();
-        }
+    QVariant displayData = index.data(Qt::DisplayRole);
+    QString text = displayData.toString();
+    QPixmap pix;
 
-        if ( !text.isEmpty() ) {
-            /* For performance reasons, limit number of shown characters
-             * (it's still possible to edit the whole text).
-             */
-            if ( text.size() > maxChars )
-                text = text.left(maxChars) + "\n\n...";
-
-            QTextEdit *textEdit = new QTextEdit(m_parent);
-
-            textEdit->setFrameShape(QFrame::NoFrame);
-            textEdit->setWordWrapMode(QTextOption::NoWrap);
-            textEdit->setUndoRedoEnabled(false);
-            textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-            textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-            w = textEdit;
-            w->setProperty("textEdit", true);
-
-            // text or HTML
-            QTextDocument *doc = new QTextDocument(textEdit);
-            if (hasHtml) {
-                doc->setHtml(text);
-            } else {
-                doc->setPlainText(text);
-                w->setPalette( m_parent->palette() );
-            }
-
-            textEdit->setDocument(doc);
-            textEdit->setFont( m_parent->font() );
-            textEdit->resize( defaultSize.width(),
-                              doc->documentLayout()->documentSize().height() );
-        } else {
-            // Image
-            QLabel *label = new QLabel(m_parent);
-            pix = displayData.value<QPixmap>();
-            w = label;
-            label->setMargin(4);
-            label->setPixmap(pix);
-            w->adjustSize();
-        }
-        w->setStyleSheet("*{background:transparent}");
-        w->hide();
-        m_cache[n] = w;
-        emit sizeHintChanged(index);
+    bool hasHtml = !text.isEmpty();
+    if ( !hasHtml ) {
+        QVariant editData = index.data(Qt::EditRole);
+        text = editData.toString();
     }
+
+    if ( !text.isEmpty() ) {
+        /* For performance reasons, limit number of shown characters
+         * (it's still possible to edit the whole text).
+         */
+        if ( text.size() > maxChars )
+            text = text.left(maxChars) + "\n\n...";
+
+        QTextEdit *textEdit = new QTextEdit(m_parent);
+
+        textEdit->setFrameShape(QFrame::NoFrame);
+        textEdit->setWordWrapMode(QTextOption::NoWrap);
+        textEdit->setUndoRedoEnabled(false);
+        textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+        textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+
+        w = textEdit;
+        w->setProperty("textEdit", true);
+
+        // text or HTML
+        QTextDocument *doc = new QTextDocument(textEdit);
+        if (hasHtml) {
+            doc->setHtml(text);
+        } else {
+            doc->setPlainText(text);
+            w->setPalette( m_parent->palette() );
+        }
+
+        textEdit->setDocument(doc);
+        textEdit->setFont( m_parent->font() );
+        textEdit->resize( defaultSize.width(),
+                          doc->documentLayout()->documentSize().height() );
+    } else {
+        // Image
+        QLabel *label = new QLabel(m_parent);
+        pix = displayData.value<QPixmap>();
+        w = label;
+        label->setMargin(4);
+        label->setPixmap(pix);
+        w->adjustSize();
+    }
+    w->setStyleSheet("*{background:transparent}");
+    w->hide();
+    m_cache[n] = w;
+    emit sizeHintChanged(index);
 
     return w;
 }

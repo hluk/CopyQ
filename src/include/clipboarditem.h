@@ -90,7 +90,7 @@ public:
     void setFormat(const QString &mimeType);
 
     /** Return MIME types. */
-    QStringList formats() const { return m_data->formats(); }
+    const QStringList &formats() const { return m_formats; }
 
     /** Return default MIME type for rendering the item. */
     const QString &format() const { return m_mimeType; }
@@ -106,6 +106,7 @@ private:
     QMimeData *m_data;
     QString m_mimeType;
     uint m_hash;
+    QStringList m_formats;
 };
 
 /**
