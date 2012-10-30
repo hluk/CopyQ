@@ -33,6 +33,7 @@ Action::Action(const QString &cmd, const QStringList &args,
     , m_tab(outputTabName)
     , m_errstr()
     , m_lastOutput()
+    , m_failed(false)
 {
     setProcessChannelMode(QProcess::SeparateChannels);
     connect( this, SIGNAL(error(QProcess::ProcessError)),
@@ -40,7 +41,7 @@ Action::Action(const QString &cmd, const QStringList &args,
     connect( this, SIGNAL(started()),
              SLOT(actionStarted()) );
     connect( this, SIGNAL(finished(int,QProcess::ExitStatus)),
-             SLOT(actionFinished(int,QProcess::ExitStatus)) );
+             SLOT(actionFinished()) );
     connect( this, SIGNAL(readyReadStandardError()),
              SLOT(actionErrorOutput()) );
 
@@ -52,7 +53,7 @@ Action::Action(const QString &cmd, const QStringList &args,
 void Action::actionError(QProcess::ProcessError)
 {
     if ( state() != Running ) {
-        m_errstr = QString("Error: %1\n").arg(errorString()) + m_errstr;
+        m_failed = true;
         emit actionFinished(this);
     }
 }
@@ -67,7 +68,7 @@ void Action::actionStarted()
     emit actionStarted(this);
 }
 
-void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
+void Action::actionFinished()
 {
     if ( !m_lastOutput.isNull() ) {
         actionOutput();
@@ -78,11 +79,6 @@ void Action::actionFinished(int exitCode, QProcess::ExitStatus exitStatus)
             m_lastOutput = QString();
         }
     }
-
-    if ( exitStatus != NormalExit )
-        m_errstr = QString("Error: %1\n").arg(errorString()) + m_errstr;
-    else if ( exitCode != 0 )
-        m_errstr = QString("Exit code: %1\n").arg(exitCode) + m_errstr;
 
     emit actionFinished(this);
 }

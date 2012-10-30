@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>CommandWidget</class>
  <widget class="QWidget" name="CommandWidget">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>462</width>
-    <height>358</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -190,7 +182,7 @@
        <item row="4" column="1">
         <widget class="QLineEdit" name="lineEditCommand">
          <property name="toolTip">
-           <string>Command to run. Use %1 for item text passed as argument and %2 to %9
+          <string>Command to run. Use %1 for item text passed as argument and %2 to %9
 for arguments captured by regular expression (parts enclosed in parentheses).</string>
          </property>
         </widget>

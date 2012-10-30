@@ -43,6 +43,9 @@ public:
             const QString &outputTabName //!< Tab name for output items.
             );
 
+    /** Return true only if command execution failed. */
+    bool actionFailed() const { return m_failed; }
+
     /** Return standard error output string. */
     const QString &errorOutput() const { return m_errstr; }
 
@@ -66,11 +69,12 @@ private:
     const QString m_tab;
     QString m_errstr;
     QString m_lastOutput;
+    bool m_failed;
 
 private slots:
     void actionError(QProcess::ProcessError error);
     void actionStarted();
-    void actionFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    void actionFinished();
     void actionOutput();
     void actionErrorOutput();
 

@@ -6,15 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>406</width>
+    <height>280</height>
    </rect>
+  </property>
+  <property name="minimumSize">
+   <size>
+    <width>300</width>
+    <height>200</height>
+   </size>
   </property>
   <property name="windowTitle">
    <string>CopyQ Action Dialog</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="copyq.qrc">
+   <iconset resource="../copyq.qrc">
     <normaloff>:/images/tab_commands.svg</normaloff>:/images/tab_commands.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -37,7 +43,7 @@
           <string/>
          </property>
          <property name="pixmap">
-          <pixmap resource="copyq.qrc">:/images/actiondialog.svg</pixmap>
+          <pixmap resource="../copyq.qrc">:/images/actiondialog.svg</pixmap>
          </property>
         </widget>
        </item>
@@ -50,51 +56,12 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
-&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
-p, li { white-space: pre-wrap; }
-&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:'Aller'; font-size:9pt; font-weight:400; font-style:normal;&quot;&gt;
-&lt;table border=&quot;0&quot; style=&quot;-qt-table-type: root; margin-top:4px; margin-bottom:4px; margin-left:4px; margin-right:4px;&quot;&gt;
-&lt;tr&gt;
-&lt;td style=&quot;border: none;&quot;&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;All occurrences of &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;%1&lt;/span&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt; in the &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;command&lt;/span&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt; will be replaced with &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;item text&lt;/span&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;. If &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:600;&quot;&gt;Input&lt;/span&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt; is checked then &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;item text&lt;/span&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt; will be sent to the &lt;/span&gt;&lt;span style=&quot; font-size:11pt; font-weight:600; font-style:italic;&quot;&gt;command&lt;/span&gt;&lt;span style=&quot; font-size:11pt;&quot;&gt;'s standard input.&lt;/span&gt;&lt;/p&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/body&gt;&lt;/html&gt;</string>
+          <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; will be replaced with &lt;b&gt;text&lt;/b&gt; of selected items or custom text. It can be also passed to &lt;b&gt;standard input&lt;/b&gt; of command.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
          </property>
         </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="inputLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>4</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>4</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="label">
-         <property name="text">
-          <string>Item &amp;text:</string>
-         </property>
-         <property name="buddy">
-          <cstring>inputText</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="inputText"/>
        </item>
       </layout>
      </item>
@@ -125,9 +92,21 @@ p, li { white-space: pre-wrap; }
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_2">
+      <layout class="QVBoxLayout" name="inputLayout">
        <property name="spacing">
-        <number>16</number>
+        <number>0</number>
+       </property>
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>4</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
+        <number>4</number>
        </property>
        <item>
         <widget class="QCheckBox" name="inputCheckBox">
@@ -138,40 +117,44 @@ p, li { white-space: pre-wrap; }
           <string/>
          </property>
          <property name="text">
-          <string>&amp;Input</string>
+          <string>Pass text to standard &amp;input of command</string>
          </property>
          <property name="checked">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <widget class="QPlainTextEdit" name="inputText"/>
        </item>
        <item>
         <widget class="QCheckBox" name="outputCheckBox">
          <property name="text">
-          <string>O&amp;utput into item(s)</string>
+          <string>Store standard &amp;output in clipboard history</string>
          </property>
          <property name="checked">
-          <bool>false</bool>
+          <bool>true</bool>
          </property>
         </widget>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3"/>
+        <layout class="QFormLayout" name="formLayout">
+         <property name="fieldGrowthPolicy">
+          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+         </property>
+        </layout>
        </item>
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,4">
+      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,3">
        <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
         <widget class="QLabel" name="separatorLabel">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
          <property name="text">
-          <string>&amp;Separator:</string>
+          <string>&amp;Separator for new items:</string>
          </property>
          <property name="buddy">
           <cstring>separatorEdit</cstring>
@@ -180,9 +163,6 @@ p, li { white-space: pre-wrap; }
        </item>
        <item>
         <widget class="QLineEdit" name="separatorEdit">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
          <property name="text">
           <string>\n</string>
          </property>
@@ -190,9 +170,6 @@ p, li { white-space: pre-wrap; }
        </item>
        <item>
         <widget class="QLabel" name="labelOutputTab">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
          <property name="text">
           <string>Output &amp;tab:</string>
          </property>
@@ -233,14 +210,14 @@ p, li { white-space: pre-wrap; }
  <tabstops>
   <tabstop>cmdEdit</tabstop>
   <tabstop>inputCheckBox</tabstop>
+  <tabstop>inputText</tabstop>
   <tabstop>outputCheckBox</tabstop>
   <tabstop>separatorEdit</tabstop>
   <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>buttonBox</tabstop>
-  <tabstop>inputText</tabstop>
  </tabstops>
  <resources>
-  <include location="copyq.qrc"/>
+  <include location="../copyq.qrc"/>
  </resources>
  <connections>
   <connection>
@@ -250,8 +227,8 @@ p, li { white-space: pre-wrap; }
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>248</x>
-     <y>254</y>
+     <x>257</x>
+     <y>289</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -267,11 +244,91 @@ p, li { white-space: pre-wrap; }
    <hints>
     <hint type="sourcelabel">
      <x>316</x>
-     <y>260</y>
+     <y>266</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>inputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>inputText</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>120</x>
+     <y>112</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>120</x>
+     <y>146</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>separatorLabel</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>51</x>
+     <y>214</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>49</x>
+     <y>238</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>separatorEdit</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>97</x>
+     <y>216</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>99</x>
+     <y>248</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>labelOutputTab</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>185</x>
+     <y>221</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>185</x>
+     <y>245</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>comboBoxOutputTab</receiver>
+   <slot>setVisible(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>283</x>
+     <y>218</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>283</x>
+     <y>244</y>
     </hint>
    </hints>
   </connection>

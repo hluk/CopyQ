@@ -73,6 +73,8 @@ ConfigurationManager::ConfigurationManager()
 {
     ui->setupUi(this);
 
+    ui->widgetCommand->hide();
+
     ClipboardBrowser *c = ui->clipboardBrowserPreview;
     c->addItems( QStringList()
                  << tr("Search string is \"item\".")
@@ -752,6 +754,7 @@ void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
     bool ok = current != NULL;
     if (ok)
         row = ui->listWidgetCommands->row(current);
+    ui->widgetCommand->setVisible(ok);
     ui->widgetCommand->setCommand(ok ? m_commands[row] : Command());
     ui->widgetCommand->setEnabled(ok);
 }

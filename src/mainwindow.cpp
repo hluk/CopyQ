@@ -326,9 +326,15 @@ void MainWindow::elideText(QAction *act)
 
 void MainWindow::closeAction(Action *action)
 {
-    const QString &errout = action->errorOutput();
-    if ( !errout.isEmpty() )
-        showMessage( QString("Command failed: ") + action->command(), errout );
+    QString msg;
+
+    if ( action->actionFailed() || action->exitStatus() != QProcess::NormalExit )
+        msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
+    else if ( action->exitCode() != 0 )
+        msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
+
+    if ( !msg.isEmpty() )
+        showMessage( tr("Command \"%1\"").arg(action->command()), msg );
 
     delete m_actions.take(action);
     action->deleteLater();
