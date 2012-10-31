@@ -288,51 +288,51 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 
 void ClipboardBrowser::paintEvent(QPaintEvent *event)
 {
-    int h = viewport()->height();
-    int y = -h;
-    int x = viewport()->width()/2;
-
-    // first item to pre-load
-    QModelIndex ind;
-    while ( !ind.isValid() && y < h ) {
-        ind = indexAt( QPoint(x, y) );
-        y += 8;
-    }
+    QScrollBar *v = verticalScrollBar();
+    int offset = v->value();
 
     // pre-load items on previous, current and next page to cache
-    h = 2 * h - y;
+    const int yMin = offset - viewport()->height();
+    const int yMax = offset + 2 * viewport()->height();
+
+    // first item to pre-load
+    QModelIndex ind = index(0);
+    QRect rect = rectForIndex(ind);
+    int y = rect.top();
+    for ( int i = 0; ind.isValid() && rect.bottom() < yMin;
+          ind = index(++i), rect = rectForIndex(ind) ) {
+        y = rect.top();
+    }
+
     bool canPaint = true;
     int currentRow = currentIndex().row();
     int row = ind.row();
-    QScrollBar *v = verticalScrollBar();
-    int offset = v->value();
-    while (ind.isValid() && h > 0) {
+    while (ind.isValid() && y < yMax) {
         if ( !isRowHidden(row) ) {
             bool hasCache = d->hasCache(ind);
-            if ( canPaint && !hasCache )
-                canPaint = false;
+            canPaint = canPaint && hasCache;
 
             QWidget *w = d->cache(ind);
             if (w == NULL)
                 break;
-            int wh = w->height() + 8;
 
             if ( !hasCache ) {
-                if (row < currentRow) {
-                    offset -= 512 - wh;
-                    v->setValue(offset);
-                } else {
+                if (row > currentRow) {
                     /* Caching can take some time so repaint and return
                      * control to event loop. This function will be called again
                      * soon because size hint for newly cached item changed. */
                     QListView::paintEvent(event);
                     return;
                 }
+                if (row < currentRow) {
+                    // Fix current offset.
+                    offset -= 512 - w->height();
+                    v->setValue(offset);
+                }
             }
-
-            h -= wh;
         }
         ind = index(++row);
+        y = rectForIndex(ind).top();
     }
 
     if (canPaint)

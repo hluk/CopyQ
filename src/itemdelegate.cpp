@@ -242,7 +242,6 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
         textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 
         w = textEdit;
-        w->setProperty("textEdit", true);
 
         // text or HTML
         QTextDocument *doc = new QTextDocument(textEdit);
@@ -360,8 +359,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     QTextDocument *doc2 = NULL;
     QTextEdit *textEdit = NULL;
     if ( !m_re.isEmpty() ) {
-        if ( w->property("textEdit").toBool() ) {
-            textEdit = static_cast<QTextEdit *>(w);
+        textEdit = qobject_cast<QTextEdit *>(w);
+        if (textEdit != NULL) {
             doc1 = textEdit->document();
             doc2 = doc1->clone(textEdit);
             textEdit->setDocument(doc2);
@@ -399,7 +398,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         p1.setColor( QPalette::Text, p2.color(role) );
         w->setPalette(p1);
     }
-    QRegion region(0, 0, rect.width()-numRect.width()-4, rect.height());
+    QRegion region(0, 0, rect.width() - numRect.width() - 4, rect.height());
     painter->save();
     painter->translate( rect.topLeft() + QPoint(numRect.width(), 0) );
     w->render(painter, QPoint(), region);
