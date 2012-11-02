@@ -20,9 +20,14 @@
 #include "client_server.h"
 
 #include <iostream>
-#include <unistd.h>
 #include <cstdio>
 #include <assert.h>
+
+#ifdef Q_WS_WIN
+#  include <stdlib.h> // getenv()
+#else
+#  include <unistd.h> // getuid()
+#endif
 
 #include <QObject>
 #include <QLocalSocket>
