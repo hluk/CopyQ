@@ -43,7 +43,7 @@
          <string>C&amp;lipboard</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="2" column="0">
+         <item row="3" column="0">
           <widget class="QCheckBox" name="checkBoxConfirmExit">
            <property name="toolTip">
             <string>Confirm application exit.</string>
@@ -130,14 +130,14 @@
          <item row="1" column="0">
           <widget class="QCheckBox" name="checkBoxViMode">
            <property name="toolTip">
-            <string>Support for Vi navigation keys (H, J, K, L and more),  Slash (/) key to search</string>
+            <string>Support for Vi navigation keys (H, J, K, L and more),  slash (/) key to search.</string>
            </property>
            <property name="text">
-            <string>Vi style navigation</string>
+            <string>&amp;Vi style navigation</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -149,6 +149,16 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
+           <property name="toolTip">
+            <string>Keep main window above other windows.</string>
+           </property>
+           <property name="text">
+            <string>Always on &amp;Top</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -822,6 +832,52 @@
    <header>clipboardbrowser.h</header>
   </customwidget>
  </customwidgets>
+ <tabstops>
+  <tabstop>tabWidget</tabstop>
+  <tabstop>checkBoxClip</tabstop>
+  <tabstop>checkBoxCopyClip</tabstop>
+  <tabstop>checkBoxSel</tabstop>
+  <tabstop>checkBoxCopySel</tabstop>
+  <tabstop>checkBoxViMode</tabstop>
+  <tabstop>checkBoxAlwaysOnTop</tabstop>
+  <tabstop>checkBoxConfirmExit</tabstop>
+  <tabstop>spinBoxItems</tabstop>
+  <tabstop>spinBoxTrayItems</tabstop>
+  <tabstop>spinBoxImageWidth</tabstop>
+  <tabstop>spinBoxImageHeight</tabstop>
+  <tabstop>lineEditEditor</tabstop>
+  <tabstop>plainTextEditFormats</tabstop>
+  <tabstop>comboBoxCommands</tabstop>
+  <tabstop>widgetCommand</tabstop>
+  <tabstop>listWidgetCommands</tabstop>
+  <tabstop>pushButtoAdd</tabstop>
+  <tabstop>pushButtonRemove</tabstop>
+  <tabstop>pushButtonUp</tabstop>
+  <tabstop>pushButtonDown</tabstop>
+  <tabstop>pushButton</tabstop>
+  <tabstop>pushButton_2</tabstop>
+  <tabstop>pushButton_3</tabstop>
+  <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButtonColorBg</tabstop>
+  <tabstop>pushButtonColorSelBg</tabstop>
+  <tabstop>pushButtonColorFindBg</tabstop>
+  <tabstop>pushButtonColorEditorBg</tabstop>
+  <tabstop>pushButtonColorAltBg</tabstop>
+  <tabstop>pushButtonFont</tabstop>
+  <tabstop>pushButtonFoundFont</tabstop>
+  <tabstop>pushButtonEditorFont</tabstop>
+  <tabstop>pushButtonNumberFont</tabstop>
+  <tabstop>pushButtonColorFg</tabstop>
+  <tabstop>pushButtonColorSelFg</tabstop>
+  <tabstop>pushButtonColorFindFg</tabstop>
+  <tabstop>pushButtonColorEditorFg</tabstop>
+  <tabstop>pushButtonColorNumberFg</tabstop>
+  <tabstop>checkBoxShowNumber</tabstop>
+  <tabstop>pushButtonLoadTheme</tabstop>
+  <tabstop>pushButtonSaveTheme</tabstop>
+  <tabstop>buttonBox</tabstop>
+  <tabstop>clipboardBrowserPreview</tabstop>
+ </tabstops>
  <resources>
   <include location="../copyq.qrc"/>
  </resources>

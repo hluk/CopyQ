@@ -113,6 +113,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);
     m_options["confirm_exit"] = Option(true, "checked", ui->checkBoxConfirmExit);
     m_options["vi"] = Option(false, "checked", ui->checkBoxViMode);
+    m_options["always_on_top"] = Option(false, "checked", ui->checkBoxAlwaysOnTop);
 
     /* other options */
     m_options["tabs"] = Option(QStringList());

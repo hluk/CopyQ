@@ -534,6 +534,13 @@ void MainWindow::loadSettings()
     m_confirmExit = cm->value("confirm_exit").toBool();
     m_trayItems = cm->value("tray_items").toInt();
 
+    // always on top window hint
+    if (cm->value("always_on_top").toBool()) {
+        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
+    } else {
+        setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+    }
+
     /* are tabs already loaded? */
     bool loaded = ui->tabWidget->count() > 0;
     QStringList tabs = cm->value("tabs").toStringList();
