@@ -592,7 +592,8 @@ void Scriptable::action()
                                                   : QString('\n');
         m_wnd->action(text, command);
     } else {
-        m_wnd->openActionDialog(text);
+        QByteArray message = QByteArray::number((qlonglong)m_wnd->openActionDialog(text));
+        sendMessage(message, CommandActivateWindow);
     }
 }
 

@@ -401,6 +401,11 @@ void ClipboardServer::loadSettings()
         args->append("select");
         args->append("1");
     }
+
+    key = cm->value("show_action_dialog").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("action");
 #endif
 
     // reload clipboard monitor configuration

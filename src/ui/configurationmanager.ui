@@ -482,12 +482,25 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_18">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Keyboard shortcuts that are set here work globally in system. Click on a button next and press shortcut to assign it.&lt;/p&gt;&lt;p&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Keyboard shortcuts that are set here work globally in system. Click on a button next and press shortcut to assign it.&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
+         </item>
+         <item row="3" column="0">
+          <spacer name="verticalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item row="1" column="0">
           <layout class="QFormLayout" name="formLayout">
@@ -509,9 +522,6 @@
              <property name="toolTip">
               <string>Shortcut to show or hide clipboard history.</string>
              </property>
-             <property name="text">
-              <string/>
-             </property>
             </widget>
            </item>
            <item row="1" column="0">
@@ -529,15 +539,12 @@
              <property name="toolTip">
               <string>Shortcut to show tray menu.</string>
              </property>
-             <property name="text">
-              <string/>
-             </property>
             </widget>
            </item>
            <item row="2" column="0">
             <widget class="QLabel" name="label_16">
              <property name="text">
-              <string>Open the &amp;first item in external editor</string>
+              <string>&amp;Edit first item</string>
              </property>
              <property name="buddy">
               <cstring>pushButton_3</cstring>
@@ -549,15 +556,12 @@
              <property name="toolTip">
               <string>Shortcut to open the first item in external editor.</string>
              </property>
-             <property name="text">
-              <string/>
-             </property>
             </widget>
            </item>
            <item row="3" column="0">
             <widget class="QLabel" name="label_17">
              <property name="text">
-              <string>&amp;Put second item into the clipboard</string>
+              <string>Copy &amp;second item</string>
              </property>
              <property name="buddy">
               <cstring>pushButton_4</cstring>
@@ -569,25 +573,29 @@
              <property name="toolTip">
               <string>Shortcut to put the second item to clipboard.</string>
              </property>
+            </widget>
+           </item>
+           <item row="4" column="0">
+            <widget class="QLabel" name="label_20">
              <property name="text">
-              <string/>
+              <string>Show &amp;action dialog</string>
+             </property>
+             <property name="buddy">
+              <cstring>pushButton_5</cstring>
              </property>
             </widget>
+           </item>
+           <item row="4" column="1">
+            <widget class="QPushButton" name="pushButton_5"/>
            </item>
           </layout>
          </item>
          <item row="2" column="0">
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -858,6 +866,7 @@
   <tabstop>pushButton_2</tabstop>
   <tabstop>pushButton_3</tabstop>
   <tabstop>pushButton_4</tabstop>
+  <tabstop>pushButton_5</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorSelBg</tabstop>
   <tabstop>pushButtonColorFindBg</tabstop>

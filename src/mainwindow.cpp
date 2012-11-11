@@ -925,11 +925,16 @@ void MainWindow::openActionDialog(int row)
     openActionDialog(text);
 }
 
-void MainWindow::openActionDialog(const QString &text)
+WId MainWindow::openActionDialog(const QString &text)
 {
     ActionDialog *actionDialog = createActionDialog();
     actionDialog->setInputText(text);
     actionDialog->show();
+
+    // steal focus
+    WId wid = actionDialog->winId();
+    raiseWindow(wid);
+    return wid;
 }
 
 void MainWindow::openPreferences()

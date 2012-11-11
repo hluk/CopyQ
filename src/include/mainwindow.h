@@ -163,7 +163,7 @@ class MainWindow : public QMainWindow
         /** Open action dialog for given @a row (or current) in current tab. */
         void openActionDialog(int row = -1);
         /** Open action dialog with given input @a text. */
-        void openActionDialog(const QString &text);
+        WId openActionDialog(const QString &text);
 
         /** Open preferences dialog. */
         void openPreferences();
