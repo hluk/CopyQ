@@ -307,6 +307,7 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << *item;
     writeMessage(m_socket, msg);
+    m_lastHash = item->dataHash();
 }
 
 CommandStatus ClipboardServer::doCommand(

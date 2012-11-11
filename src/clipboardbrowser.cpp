@@ -649,27 +649,29 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
         }
 
         // commands
-        bool ignore = false;
-        foreach (const Command &c, m_commands) {
-            if (c.automatic || c.ignore || !c.tab.isEmpty()) {
-                QString text = data->text();
-                if (c.re.indexIn(text) != -1) {
-                    if (c.automatic) {
-                        Command cmd = c;
-                        if ( cmd.outputTab.isEmpty() )
-                            cmd.outputTab = m_id;
-                        emit requestActionDialog(text, cmd);
+        if (data->hasText()) {
+            const QString text = data->text();
+            bool ignore = false;
+            foreach (const Command &c, m_commands) {
+                if (c.automatic || c.ignore || !c.tab.isEmpty()) {
+                    if (c.re.indexIn(text) != -1) {
+                        if (c.automatic) {
+                            Command cmd = c;
+                            if ( cmd.outputTab.isEmpty() )
+                                cmd.outputTab = m_id;
+                            emit requestActionDialog(text, cmd);
+                        }
+                        if (c.ignore)
+                            ignore = true;
+                        if (!c.tab.isEmpty())
+                            emit addToTab(data, c.tab);
                     }
-                    if (c.ignore)
-                        ignore = true;
-                    if (!c.tab.isEmpty())
-                        emit addToTab(data, c.tab);
                 }
             }
-        }
-        if (ignore) {
-            delete data;
-            return false;
+            if (ignore) {
+                delete data;
+                return false;
+            }
         }
     }
 
