@@ -278,13 +278,13 @@ void MainWindow::createMenu()
     // add tab
     menu->addAction( iconTabNew(), tr("&New tab"),
                      this, SLOT(newTab()),
-                     QKeySequence::AddTab );
+                     QKeySequence("Ctrl+T") );
     menu->addAction( iconTabRename(), tr("&Rename tab"),
                      this, SLOT(renameTab()),
                      QKeySequence("Ctrl+F2") );
     menu->addAction( iconTabRemove(), tr("&Remove tab"),
                      this, SLOT(removeTab()),
-                     QKeySequence::Close );
+                     QKeySequence("Ctrl+W") );
 
     // Commands
     cmdMenu = menubar->addMenu(tr("Co&mmands"));
