@@ -1,5 +1,8 @@
 CopyQ
 =====
+
+[![Build Status](https://travis-ci.org/hluk/copyq.png)](https://travis-ci.org/hluk/copyq)
+
 CopyQ is clipboard manager with searchable and editable history.
 
 To build and install CopyQ on your system read `INSTALL` file.
