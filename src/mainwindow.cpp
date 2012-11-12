@@ -541,6 +541,14 @@ void MainWindow::loadSettings()
         setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
     }
 
+    // tab bar position
+    int tabPosition = cm->value("tab_position").toInt();
+    ui->tabWidget->setTabPosition(
+          tabPosition == 1 ? QTabWidget::South
+        : tabPosition == 2 ? QTabWidget::West
+        : tabPosition == 3 ? QTabWidget::East
+                           : QTabWidget::North);
+
     /* are tabs already loaded? */
     bool loaded = ui->tabWidget->count() > 0;
     QStringList tabs = cm->value("tabs").toStringList();

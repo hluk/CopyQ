@@ -114,6 +114,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["confirm_exit"] = Option(true, "checked", ui->checkBoxConfirmExit);
     m_options["vi"] = Option(false, "checked", ui->checkBoxViMode);
     m_options["always_on_top"] = Option(false, "checked", ui->checkBoxAlwaysOnTop);
+    m_options["tab_position"] = Option(0, "currentIndex", ui->comboBoxTabPosition);
 
     /* other options */
     m_options["tabs"] = Option(QStringList());
