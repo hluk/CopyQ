@@ -37,7 +37,7 @@ namespace {
 
 const char *const programName = "CopyQ Clipboard Manager";
 
-const char *const versionString = "1.3.1";
+const char *const versionString = "1.3.2";
 
 const char *const usageString = "Usage: copyq [COMMAND]\n";
 
