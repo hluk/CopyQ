@@ -126,6 +126,8 @@ MainWindow::MainWindow(QWidget *parent)
     enterBrowseMode();
 
     tray->show();
+
+    setAcceptDrops(true);
 }
 
 void MainWindow::exit()
@@ -508,6 +510,18 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MainWindow::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void MainWindow::dropEvent(QDropEvent *event)
+{
+    ClipboardBrowser *c = browser();
+    addToTab(event->mimeData(), c->getID());
+    c->updateClipboard();
+}
+
 void MainWindow::resetStatus()
 {
     if ( !ui->searchBar->text().isEmpty() ) {
@@ -726,7 +740,7 @@ void MainWindow::tabCloseRequested(int tab)
         newTab();
 }
 
-void MainWindow::addToTab(QMimeData *data, const QString &tabName)
+void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
 {
     ClipboardBrowser *c;
     TabWidget *tabs = ui->tabWidget;
@@ -745,22 +759,23 @@ void MainWindow::addToTab(QMimeData *data, const QString &tabName)
 
     ClipboardBrowser::Lock lock(c);
     if ( !c->select(hash(*data, data->formats())) ) {
+        QMimeData *data2 = cloneData(*data);
         if ( c->length() > 0 ) {
             /* merge data with first item if it is same */
             ClipboardItem *first = c->at(0);
-            if ( data->hasText() && data->text() == first->text() ) {
-                QStringList formats = data->formats();
+            if ( data2->hasText() && data2->text() == first->text() ) {
+                QStringList formats = data2->formats();
                 QStringList first_formats = first->formats();
                 foreach (const QString &format, first_formats) {
                     if ( !formats.contains(format) )
-                        data->setData( format, first->data()->data(format) );
+                        data2->setData( format, first->data()->data(format) );
                 }
                 c->model()->removeRow(0);
             }
         }
         /* force adding item if tab name is specified */
         bool force = !tabName.isEmpty();
-        c->add( cloneData(*data), force );
+        c->add(data2, force);
     }
 }
 

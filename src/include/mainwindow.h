@@ -115,6 +115,8 @@ class MainWindow : public QMainWindow
 
     protected:
         void keyPressEvent(QKeyEvent *event);
+        void dragEnterEvent(QDragEnterEvent *event);
+        void dropEvent(QDropEvent *event);
 
     public slots:
         /**
@@ -228,7 +230,7 @@ class MainWindow : public QMainWindow
 
         /** Add @a data to tab with given name (create if tab doesn't exist). */
         void addToTab(
-                QMimeData *data,
+                const QMimeData *data,
                 //!< Item data (it may be updated if item with same text exists).
                 const QString &tabName = QString()
                 //!< Tab name of target tab (first tab if empty).
