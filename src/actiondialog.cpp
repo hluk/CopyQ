@@ -128,60 +128,59 @@ void ActionDialog::createAction()
         return;
     QString input = ui->inputText->toPlainText();
 
-    // escape spaces in input
+    // parse arguments
     QStringList args;
     QString arg;
-    bool quotes = false;
-    bool dquotes = false;
+    QChar quote;
     bool escape = false;
-    bool outside = true;
+    bool percent = false;
     foreach (QChar c, cmd) {
-        if ( outside ) {
-            if ( c.isSpace() )
+        if (percent) {
+            if (c >= '1' && c <= '9') {
+                arg.resize( arg.size()-1 );
+                int i = c.toAscii() - '1';
+                if ( input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {
+                    arg.append( m_re.cap(i) );
+                } else {
+                    arg.append(input);
+                }
                 continue;
-            else
-                outside = false;
-        }
-
-        if ( c >= '1' && c <= '9' && arg.endsWith('%') ) {
-            arg.remove( arg.size()-1, 1 );
-            int i = c.toAscii() - '1';
-            if ( i > 0 && input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {
-                arg.append( m_re.cap(i) );
-            } else {
-                arg.append(input);
             }
-            continue;
         }
+        percent = !escape && c == '%';
 
         if (escape) {
-            if ( c == 'n' ) {
+            escape = false;
+            if (c == 'n') {
                 arg.append('\n');
-            } else if ( c == 't' ) {
+            } else if (c == 't') {
                 arg.append('\t');
             } else {
                 arg.append(c);
             }
         } else if (c == '\\') {
             escape = true;
-        } else if (c == '\'') {
-            quotes = !quotes;
-        } else if (c == '"') {
-            dquotes = !dquotes;
-        } else if (quotes) {
-            arg.append(c);
+        } else if (!quote.isNull()) {
+            if (quote == c) {
+                quote = QChar();
+                args.append(arg);
+                arg.clear();
+            } else {
+                arg.append(c);
+            }
+        } else if (c == '\'' || c == '"') {
+            quote = c;
         } else if ( c.isSpace() ) {
-            outside = true;
-            args.append(arg);
-            arg.clear();
+            if (!arg.isEmpty()) {
+                args.append(arg);
+                arg.clear();
+            }
         } else {
             arg.append(c);
         }
     }
-    if ( !outside ) {
+    if ( !arg.isEmpty() || !quote.isNull() )
         args.append(arg);
-        arg.clear();
-    }
     if ( !args.isEmpty() )
         cmd = args.takeFirst();
 
