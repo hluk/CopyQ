@@ -139,10 +139,10 @@ void ActionDialog::createAction()
             if (c >= '1' && c <= '9') {
                 arg.resize( arg.size()-1 );
                 int i = c.toAscii() - '1';
-                if ( input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {
-                    arg.append( m_re.cap(i) );
-                } else {
+                if (i == 0) {
                     arg.append(input);
+                } else if ( input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {
+                    arg.append( m_re.cap(i) );
                 }
                 continue;
             }
