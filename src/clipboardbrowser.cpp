@@ -33,12 +33,10 @@
 
 namespace {
 
-// For Performance reasons create icons once (QApplication must be created first).
-#define ICON(iconName) static const QIcon icon(":/images/" iconName); return icon;
-const QIcon &iconAction() { ICON("action.svg"); }
-const QIcon &iconClipboard() { ICON("clipboard.svg"); }
-const QIcon &iconEdit() { ICON("edit.svg"); }
-const QIcon &iconRemove() { ICON("remove.png"); }
+const QIcon &iconAction() { ICON("action"); }
+const QIcon &iconClipboard() { ICON("clipboard"); }
+const QIcon &iconEdit() { ICON2("accessories-text-editor", "edit"); }
+const QIcon &iconRemove() { ICON2("list-remove", "remove"); }
 
 const int max_preload = 10;
 

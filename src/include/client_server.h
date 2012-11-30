@@ -24,6 +24,12 @@
 #include <QMimeData>
 #include <QClipboard>
 
+// For Performance reasons create SVG icons once (QApplication must be created first).
+#define ICON(iconName) static const QIcon icon(":/images/" iconName ".svg"); return icon;
+#define ICON2(themeName, iconName) \
+    static const QIcon icon = QIcon::fromTheme(themeName, QIcon(":/images/" iconName)); \
+    return icon;
+
 class QString;
 class QIODevice;
 class QStringList;

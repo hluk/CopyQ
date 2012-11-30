@@ -32,10 +32,10 @@ TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
 
     if (type == TabNew) {
         setWindowTitle( tr("CopyQ New Tab") );
-        setWindowIcon( QIcon(":/images/tab_new.svg") );
+        setWindowIcon( QIcon(":/images/tab_new") );
     } else {
         setWindowTitle( tr("CopyQ Rename Tab") );
-        setWindowIcon( QIcon(":/images/tab_rename.svg") );
+        setWindowIcon( QIcon(":/images/tab_rename") );
     }
 
     connect( this, SIGNAL(accepted()),

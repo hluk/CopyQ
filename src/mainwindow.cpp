@@ -40,20 +40,18 @@
 
 namespace {
 
-// For Performance reasons create icons once (QApplication must be created first).
-#define ICON(iconName) static const QIcon icon(":/images/" iconName ".svg"); return icon;
 const QIcon &iconAction() { ICON("action"); }
 const QIcon &iconClipboard() { ICON("clipboard"); }
-const QIcon &iconCopy() { ICON("copy"); }
-const QIcon &iconExit() { ICON("exit"); }
-const QIcon &iconHelp() { ICON("help"); }
-const QIcon &iconNew() { ICON("new"); }
-const QIcon &iconOpen() { ICON("open"); }
-const QIcon &iconPaste() { ICON("paste"); }
-const QIcon &iconPreferences() { ICON("preferences"); }
+const QIcon &iconCopy() { ICON2("edit-copy", "copy"); }
+const QIcon &iconExit() { ICON2("application-exit", "exit"); }
+const QIcon &iconHelp() { ICON2("help-about", "help"); }
+const QIcon &iconNew() { ICON2("document-new", "new"); }
+const QIcon &iconOpen() { ICON2("document-open", "open"); }
+const QIcon &iconPaste() { ICON2("edit-paste", "paste"); }
+const QIcon &iconPreferences() { ICON2("preferences-other", "preferences"); }
 const QIcon &iconReverse() { ICON("reverse"); }
-const QIcon &iconSave() { ICON("save"); }
-const QIcon &iconSort() { ICON("sort"); }
+const QIcon &iconSave() { ICON2("document-save", "save"); }
+const QIcon &iconSort() { ICON2("view-sort-ascending", "sort"); }
 const QIcon &iconTabNew() { ICON("tab_new"); }
 const QIcon &iconTabRemove() { ICON("tab_remove"); }
 const QIcon &iconTabRename() { ICON("tab_rename"); }
@@ -77,6 +75,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actions()
 {
     ui->setupUi(this);
+
+    setWindowIcon(iconTray());
 
     // settings
     loadSettings();
