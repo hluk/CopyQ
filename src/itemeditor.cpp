@@ -50,6 +50,7 @@ bool ItemEditor::start()
     QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath("CopyQ.XXXXXX");
     m_tmpfile.setFileTemplate(tmpPath);
     m_tmpfile.setAutoRemove(true);
+    m_tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
     if ( !m_tmpfile.open() ) {
         log( tr("Failed to open temporary file (%1) for editing item in external editor!")
              .arg(m_tmpfile.fileName()), LogError );
