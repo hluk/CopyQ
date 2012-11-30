@@ -760,21 +760,23 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
     ClipboardBrowser::Lock lock(c);
     if ( !c->select(hash(*data, data->formats())) ) {
         QMimeData *data2 = cloneData(*data);
-        if ( c->length() > 0 ) {
-            /* merge data with first item if it is same */
+        // force adding item if tab name is specified
+        bool force = !tabName.isEmpty();
+        // merge data with first item if it is same
+        if ( !force && c->length() > 0 ) {
             ClipboardItem *first = c->at(0);
             if ( data2->hasText() && data2->text() == first->text() ) {
                 QStringList formats = data2->formats();
-                QStringList first_formats = first->formats();
-                foreach (const QString &format, first_formats) {
+                QStringList firstFormats = first->formats();
+                foreach (const QString &format, firstFormats) {
                     if ( !formats.contains(format) )
                         data2->setData( format, first->data()->data(format) );
                 }
-                c->model()->removeRow(0);
+                // remove merged item (if it's not edited)
+                if (!c->editing() || c->currentIndex().row() != 0)
+                    c->model()->removeRow(0);
             }
         }
-        /* force adding item if tab name is specified */
-        bool force = !tabName.isEmpty();
         c->add(data2, force);
     }
 }
