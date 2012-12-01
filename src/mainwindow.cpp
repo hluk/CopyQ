@@ -114,6 +114,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(onTimerSearch()) );
     connect( ui->searchBar, SIGNAL(textChanged(QString)),
              m_timerSearch, SLOT(start()) );
+    connect( this, SIGNAL(editingActive(bool)),
+             ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->loadGeometry(this);

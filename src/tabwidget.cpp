@@ -45,3 +45,8 @@ void TabWidget::previousTab()
     setCurrentIndex( (size + currentIndex() - 1) % size );
 }
 
+void TabWidget::setTabBarDisabled(bool disabled)
+{
+    tabBar()->setDisabled(disabled);
+}
+
