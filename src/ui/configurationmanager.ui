@@ -73,7 +73,7 @@
                  <string>Save clipboard in history.</string>
                 </property>
                 <property name="text">
-                 <string>clipboard &gt;&gt; history (&amp;1)</string>
+                 <string>clipboard to history (&amp;1)</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -83,10 +83,10 @@
               <item>
                <widget class="QCheckBox" name="checkBoxCopyClip">
                 <property name="toolTip">
-                 <string>Whether to copy clipboard content to the primary selection.</string>
+                 <string>Copy clipboard content to the primary selection.</string>
                 </property>
                 <property name="text">
-                 <string>clipboard &gt;&gt; selection (&amp;2)</string>
+                 <string>clipboard to selection (&amp;2)</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -99,7 +99,7 @@
                  <string>Save primary selection in history.</string>
                 </property>
                 <property name="text">
-                 <string>selection &gt;&gt; history (&amp;3)</string>
+                 <string>selection to history (&amp;3)</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -109,10 +109,10 @@
               <item>
                <widget class="QCheckBox" name="checkBoxCopySel">
                 <property name="toolTip">
-                 <string>Whether to copy primary selection content to the clipboard.</string>
+                 <string>Copy primary selection content to the clipboard.</string>
                 </property>
                 <property name="text">
-                 <string>selection &gt;&gt; clipboard (&amp;4)</string>
+                 <string>selection to clipboard (&amp;4)</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
@@ -523,7 +523,7 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_18">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Keyboard shortcuts that are set here work globally in system. Click on a button next and press shortcut to assign it.&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Set system-wide keyboard shortcuts. Click on a button and press shortcut to assign it.&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
