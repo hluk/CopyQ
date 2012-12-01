@@ -24,6 +24,7 @@
 #include <QPlainTextEdit>
 #include <QScrollBar>
 #include "client_server.h"
+#include "configurationmanager.h"
 
 static const QSize defaultSize(9999, 512);
 static const int maxChars = 100*1024;
@@ -62,16 +63,35 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
         switch ( keyevent->key() ) {
             case Qt::Key_Enter:
             case Qt::Key_Return:
-                // commit data on any modifier + enter
-                if (keyevent->modifiers() == Qt::NoModifier)
+                // Commit data on Ctrl+Return or Enter?
+                if (ConfigurationManager::instance()->value("edit_ctrl_return").toBool()) {
+                    if (keyevent->modifiers() != Qt::ControlModifier)
+                        return false;
+                } else {
+                    if (keyevent->modifiers() == Qt::ControlModifier) {
+                        editor->insertPlainText("\n");
+                        return true;
+                    } else if (keyevent->modifiers() != Qt::NoModifier) {
+                        return false;
+                    }
+                }
+                emit commitData(editor);
+                emit closeEditor(editor);
+                return true;
+            case Qt::Key_S:
+                // Commit data on Ctrl+S.
+                if (keyevent->modifiers() != Qt::ControlModifier)
                     return false;
-                // Fall through.
+                emit commitData(editor);
+                emit closeEditor(editor);
+                return true;
             case Qt::Key_F2:
+                // Commit data on F2.
                 emit commitData(editor);
                 emit closeEditor(editor);
                 return true;
             case Qt::Key_Escape:
-                // don't commit data
+                // Close editor without committing data.
                 emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
                 return true;
             default:

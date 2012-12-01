@@ -214,6 +214,9 @@
         <layout class="QGridLayout" name="gridLayout_3">
          <item row="0" column="0">
           <layout class="QFormLayout" name="formLayout_2">
+           <property name="fieldGrowthPolicy">
+            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+           </property>
            <item row="0" column="0">
             <widget class="QLabel" name="label_4">
              <property name="text">
@@ -344,7 +347,7 @@
            </item>
           </layout>
          </item>
-         <item row="1" column="0">
+         <item row="2" column="0">
           <layout class="QVBoxLayout" name="verticalLayout_13">
            <property name="bottomMargin">
             <number>0</number>
@@ -370,6 +373,18 @@
             </widget>
            </item>
           </layout>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
+           <property name="toolTip">
+            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
+           </property>
+           <property name="text">
+            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -896,6 +911,7 @@
   <tabstop>spinBoxImageWidth</tabstop>
   <tabstop>spinBoxImageHeight</tabstop>
   <tabstop>lineEditEditor</tabstop>
+  <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>plainTextEditFormats</tabstop>
   <tabstop>comboBoxCommands</tabstop>
   <tabstop>widgetCommand</tabstop>
