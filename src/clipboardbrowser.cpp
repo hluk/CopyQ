@@ -439,11 +439,9 @@ void ClipboardBrowser::newItem(const QString &text)
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 {
-    // if editing item, use default key action
-    if ( editing() ) {
-        QListView::keyPressEvent(event);
+    // ignore any input if editing an item
+    if ( editing() )
         return;
-    }
 
     // translate keys for vi mode
     if (ConfigurationManager::instance()->value("vi").toBool() && handleViKey(event))
