@@ -37,22 +37,16 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_history()
 {
     ui->setupUi(this);
-    restoreHistory();
     connect(this, SIGNAL(finished(int)), SLOT(onFinnished(int)));
+
+    ui->cmdEdit->setFocus();
+
+    loadSettings();
 }
 
 ActionDialog::~ActionDialog()
 {
-    saveHistory();
     delete ui;
-}
-
-void ActionDialog::showEvent(QShowEvent *e)
-{
-    QDialog::showEvent(e);
-
-    ConfigurationManager::instance()->loadGeometry(this);
-    ui->cmdEdit->setFocus();
 }
 
 void ActionDialog::setInputText(const QString &input)
@@ -85,6 +79,7 @@ void ActionDialog::restoreHistory()
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     QVariant v;
+    m_history.clear();
     while( !in.atEnd() ) {
         in >> v;
         m_history.append( v.toString() );
@@ -234,6 +229,40 @@ void ActionDialog::setRegExp(const QRegExp &re)
     m_re = re;
 }
 
+void ActionDialog::loadSettings()
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    ui->cmdEdit->setText(cm->value("action_command").toString());
+    ui->inputCheckBox->setChecked(cm->value("action_has_input").toBool());
+    ui->outputCheckBox->setChecked(cm->value("action_has_output").toBool());
+    ui->separatorEdit->setText(cm->value("action_separator").toString());
+    ui->comboBoxOutputTab->setEditText(cm->value("action_output_tab").toString());
+
+    restoreHistory();
+}
+
+void ActionDialog::saveSettings()
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    cm->saveGeometry(this);
+
+    cm->setValue("action_command",    ui->cmdEdit->text());
+    cm->setValue("action_has_input",  ui->inputCheckBox->isChecked());
+    cm->setValue("action_has_output", ui->outputCheckBox->isChecked());
+    cm->setValue("action_separator",  ui->separatorEdit->text());
+    cm->setValue("action_output_tab", ui->comboBoxOutputTab->currentText());
+
+    saveHistory();
+}
+
+void ActionDialog::showEvent(QShowEvent *e)
+{
+    QDialog::showEvent(e);
+    ConfigurationManager::instance()->loadGeometry(this);
+    updateMinimalGeometry();
+}
+
 void ActionDialog::on_outputCheckBox_toggled(bool checked)
 {
     ui->separatorEdit->setEnabled(checked);
@@ -242,9 +271,19 @@ void ActionDialog::on_outputCheckBox_toggled(bool checked)
     ui->comboBoxOutputTab->setEnabled(checked);
 }
 
-void ActionDialog::onFinnished(int)
+void ActionDialog::onFinnished(int result)
 {
-    ConfigurationManager::instance()->saveGeometry(this);
+    if (result == QDialog::Accepted)
+        saveSettings();
+}
+
+void ActionDialog::updateMinimalGeometry()
+{
+    int w = width();
+    resize(minimumSize());
+    adjustSize();
+    if (w > width())
+        resize(w, height());
 }
 
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)

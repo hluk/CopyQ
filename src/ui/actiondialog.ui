@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>406</width>
-    <height>280</height>
+    <width>378</width>
+    <height>359</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -56,7 +56,7 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; will be replaced with &lt;b&gt;text&lt;/b&gt; of selected items or custom text. It can be also passed to &lt;b&gt;standard input&lt;/b&gt; of command.</string>
+          <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>
@@ -117,7 +117,7 @@
           <string/>
          </property>
          <property name="text">
-          <string>Pass text to standard &amp;input of command</string>
+          <string>&amp;1. Pass text to standard input of command</string>
          </property>
          <property name="checked">
           <bool>true</bool>
@@ -126,16 +126,6 @@
        </item>
        <item>
         <widget class="QPlainTextEdit" name="inputText"/>
-       </item>
-       <item>
-        <widget class="QCheckBox" name="outputCheckBox">
-         <property name="text">
-          <string>Store standard &amp;output in clipboard history</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
        </item>
        <item>
         <layout class="QFormLayout" name="formLayout">
@@ -147,49 +137,63 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_6" stretch="0,1,0,3">
+      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
        <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
-        <widget class="QLabel" name="separatorLabel">
+        <widget class="QCheckBox" name="outputCheckBox">
          <property name="text">
-          <string>&amp;Separator for new items:</string>
+          <string>&amp;2. Store standard output in clipboard history</string>
          </property>
-         <property name="buddy">
-          <cstring>separatorEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="separatorEdit">
-         <property name="text">
-          <string>\n</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLabel" name="labelOutputTab">
-         <property name="text">
-          <string>Output &amp;tab:</string>
-         </property>
-         <property name="buddy">
-          <cstring>comboBoxOutputTab</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="comboBoxOutputTab">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
-         <property name="toolTip">
-          <string>Save items in tab with given name (leave empty to save in first tab)</string>
-         </property>
-         <property name="editable">
+         <property name="checked">
           <bool>true</bool>
          </property>
         </widget>
+       </item>
+       <item>
+        <layout class="QFormLayout" name="formLayout_2">
+         <item row="0" column="0">
+          <widget class="QLabel" name="separatorLabel">
+           <property name="text">
+            <string>&amp;Separator for new items:</string>
+           </property>
+           <property name="buddy">
+            <cstring>separatorEdit</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QLineEdit" name="separatorEdit">
+           <property name="text">
+            <string>\n</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="labelOutputTab">
+           <property name="text">
+            <string>Output &amp;tab:</string>
+           </property>
+           <property name="buddy">
+            <cstring>comboBoxOutputTab</cstring>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="1">
+          <widget class="QComboBox" name="comboBoxOutputTab">
+           <property name="enabled">
+            <bool>false</bool>
+           </property>
+           <property name="toolTip">
+            <string>Save items in tab with given name (leave empty to save in first tab)</string>
+           </property>
+           <property name="editable">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+        </layout>
        </item>
       </layout>
      </item>
@@ -211,9 +215,6 @@
   <tabstop>cmdEdit</tabstop>
   <tabstop>inputCheckBox</tabstop>
   <tabstop>inputText</tabstop>
-  <tabstop>outputCheckBox</tabstop>
-  <tabstop>separatorEdit</tabstop>
-  <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
@@ -227,8 +228,8 @@
    <slot>accept()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>257</x>
-     <y>289</y>
+     <x>275</x>
+     <y>349</y>
     </hint>
     <hint type="destinationlabel">
      <x>157</x>
@@ -243,8 +244,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>316</x>
-     <y>266</y>
+     <x>325</x>
+     <y>349</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>
@@ -275,12 +276,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>51</x>
-     <y>214</y>
+     <x>62</x>
+     <y>198</y>
     </hint>
     <hint type="destinationlabel">
-     <x>49</x>
-     <y>238</y>
+     <x>71</x>
+     <y>228</y>
     </hint>
    </hints>
   </connection>
@@ -291,12 +292,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>97</x>
-     <y>216</y>
+     <x>108</x>
+     <y>198</y>
     </hint>
     <hint type="destinationlabel">
-     <x>99</x>
-     <y>248</y>
+     <x>224</x>
+     <y>258</y>
     </hint>
    </hints>
   </connection>
@@ -307,12 +308,12 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>185</x>
-     <y>221</y>
+     <x>196</x>
+     <y>198</y>
     </hint>
     <hint type="destinationlabel">
-     <x>185</x>
-     <y>245</y>
+     <x>299</x>
+     <y>278</y>
     </hint>
    </hints>
   </connection>
@@ -323,14 +324,49 @@
    <slot>setVisible(bool)</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>283</x>
-     <y>218</y>
+     <x>294</x>
+     <y>198</y>
     </hint>
     <hint type="destinationlabel">
-     <x>283</x>
-     <y>244</y>
+     <x>366</x>
+     <y>308</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>inputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ActionDialog</receiver>
+   <slot>updateMinimalGeometry()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>237</x>
+     <y>121</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>72</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>outputCheckBox</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>ActionDialog</receiver>
+   <slot>updateMinimalGeometry()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>300</x>
+     <y>207</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>377</x>
+     <y>97</y>
     </hint>
    </hints>
   </connection>
  </connections>
+ <slots>
+  <slot>updateMinimalGeometry()</slot>
+ </slots>
 </ui>

@@ -185,9 +185,7 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
             openEditor( selectedText() );
             break;
         case ActionAct:
-            cmd.outputTab = m_id;
-            cmd.wait = true;
-            emit requestActionDialog(selectedText(), cmd);
+            emit requestActionDialog(selectedText());
             break;
         case ActionCustom:
             cmd = m_commands[act->property("cmd").toInt()];

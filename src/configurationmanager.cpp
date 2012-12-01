@@ -140,6 +140,13 @@ ConfigurationManager::ConfigurationManager()
     ui->checkBoxCopyClip->hide();
 #endif
 
+    // values of last submitted action
+    m_options["action_command"]    = Option("");
+    m_options["action_has_input"]  = Option(false);
+    m_options["action_has_output"] = Option(false);
+    m_options["action_separator"]  = Option("\\n");
+    m_options["action_output_tab"] = Option("");
+
     /* appearance options */
     QString name;
     QPalette p;

@@ -65,6 +65,12 @@ public:
     /** Set regular expression. */
     void setRegExp(const QRegExp &re);
 
+    /** Load settings. */
+    void loadSettings();
+
+    /** Save settings. */
+    void saveSettings();
+
 protected:
     void showEvent(QShowEvent *e);
 
@@ -84,7 +90,8 @@ signals:
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_outputCheckBox_toggled(bool checked);
-    void onFinnished(int);
+    void onFinnished(int result);
+    void updateMinimalGeometry();
 
 public slots:
     /** Create action from dialog's content. */

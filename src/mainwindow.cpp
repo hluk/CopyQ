@@ -369,8 +369,10 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
     connect( c, SIGNAL(editingActive(bool)),
              this, SIGNAL(editingActive(bool)) );
-    connect( c, SIGNAL(requestActionDialog(QString,Command)),
-             this, SLOT(action(QString,Command)) );
+    connect( c, SIGNAL(requestActionDialog(const QString&, const Command&)),
+             this, SLOT(action(const QString&, const Command&)) );
+    connect( c, SIGNAL(requestActionDialog(const QString&)),
+             this, SLOT(openActionDialog(const QString&)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(addToTab(const QMimeData*,const QString&)),
