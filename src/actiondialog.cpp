@@ -26,20 +26,13 @@
 #include <QToolTip>
 #include <QSettings>
 #include <QFile>
-#include <QCompleter>
 #include <QMessageBox>
 
 ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ActionDialog)
-    , m_maxitems(100)
-    , m_completer(NULL)
-    , m_history()
 {
     ui->setupUi(this);
-    connect(this, SIGNAL(finished(int)), SLOT(onFinnished(int)));
-
-    ui->cmdEdit->setFocus();
 
     loadSettings();
 }
@@ -54,41 +47,25 @@ void ActionDialog::setInputText(const QString &input)
     ui->inputText->setPlainText(input);
 }
 
-void ActionDialog::add(const QString &cmd)
-{
-    if ( m_history.contains(cmd) )
-        return;
-
-    m_history.prepend(cmd);
-    if ( m_history.size() > m_maxitems )
-        m_history.removeLast();
-
-    if ( m_completer )
-        delete m_completer;
-    m_completer = new QCompleter(m_history, this);
-    ui->cmdEdit->setCompleter(m_completer);
-}
-
 void ActionDialog::restoreHistory()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    m_maxitems = cm->value("command_history").toInt();
+    int maxCount = cm->value("command_history_size").toInt();
+    ui->cmdEdit->setMaxCount(maxCount);
 
     QFile file( dataFilename() );
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     QVariant v;
-    m_history.clear();
+
+    ui->cmdEdit->clear();
     while( !in.atEnd() ) {
         in >> v;
-        m_history.append( v.toString() );
+        ui->cmdEdit->addItem(v.toString());
     }
-
-    if ( m_completer )
-        delete m_completer;
-    m_completer = new QCompleter(m_history, this);
-    ui->cmdEdit->setCompleter(m_completer);
+    ui->cmdEdit->setCurrentIndex(0);
+    ui->cmdEdit->lineEdit()->selectAll();
 }
 
 const QString ActionDialog::dataFilename() const
@@ -110,14 +87,13 @@ void ActionDialog::saveHistory()
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
 
-    QStringList::const_iterator it;
-    for( it = m_history.begin(); it != m_history.end(); ++it)
-        out << QVariant(*it);
+    for (int i = 0; i < ui->cmdEdit->count(); ++i)
+        out << QVariant(ui->cmdEdit->itemText(i));
 }
 
 void ActionDialog::createAction()
 {
-    QString cmd = ui->cmdEdit->text();
+    QString cmd = ui->cmdEdit->currentText();
 
     if ( cmd.isEmpty() )
         return;
@@ -188,14 +164,12 @@ void ActionDialog::createAction()
                               ui->comboBoxOutputTab->currentText() );
     emit accepted(act);
 
-    add( ui->cmdEdit->text() );
-
     close();
 }
 
 void ActionDialog::setCommand(const QString &cmd)
 {
-    ui->cmdEdit->setText(cmd);
+    ui->cmdEdit->setEditText(cmd);
 }
 
 void ActionDialog::setSeparator(const QString &sep)
@@ -233,13 +207,12 @@ void ActionDialog::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    ui->cmdEdit->setText(cm->value("action_command").toString());
+    restoreHistory();
+
     ui->inputCheckBox->setChecked(cm->value("action_has_input").toBool());
     ui->outputCheckBox->setChecked(cm->value("action_has_output").toBool());
     ui->separatorEdit->setText(cm->value("action_separator").toString());
     ui->comboBoxOutputTab->setEditText(cm->value("action_output_tab").toString());
-
-    restoreHistory();
 }
 
 void ActionDialog::saveSettings()
@@ -247,7 +220,6 @@ void ActionDialog::saveSettings()
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->saveGeometry(this);
 
-    cm->setValue("action_command",    ui->cmdEdit->text());
     cm->setValue("action_has_input",  ui->inputCheckBox->isChecked());
     cm->setValue("action_has_output", ui->outputCheckBox->isChecked());
     cm->setValue("action_separator",  ui->separatorEdit->text());
@@ -263,18 +235,25 @@ void ActionDialog::showEvent(QShowEvent *e)
     updateMinimalGeometry();
 }
 
+void ActionDialog::accept()
+{
+    QDialog::accept();
+
+    QString text = ui->cmdEdit->currentText();
+    int i = ui->cmdEdit->findText(text);
+    if (i != -1)
+        ui->cmdEdit->removeItem(i);
+    ui->cmdEdit->insertItem(0, text);
+
+    saveSettings();
+}
+
 void ActionDialog::on_outputCheckBox_toggled(bool checked)
 {
     ui->separatorEdit->setEnabled(checked);
     ui->separatorLabel->setEnabled(checked);
     ui->labelOutputTab->setEnabled(checked);
     ui->comboBoxOutputTab->setEnabled(checked);
-}
-
-void ActionDialog::onFinnished(int result)
-{
-    if (result == QDialog::Accepted)
-        saveSettings();
 }
 
 void ActionDialog::updateMinimalGeometry()
@@ -297,7 +276,7 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         createAction();
         break;
     case QDialogButtonBox::Save:
-        cmd.name = cmd.cmd = ui->cmdEdit->text();
+        cmd.name = cmd.cmd = ui->cmdEdit->currentText();
         cmd.input = ui->inputCheckBox->isChecked();
         cmd.output = ui->outputCheckBox->isChecked();
         cmd.sep = ui->separatorEdit->text();

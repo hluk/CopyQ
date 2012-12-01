@@ -66,7 +66,7 @@
       </layout>
      </item>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout">
+      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
        <property name="spacing">
         <number>6</number>
        </property>
@@ -87,7 +87,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QLineEdit" name="cmdEdit"/>
+        <widget class="QComboBox" name="cmdEdit">
+         <property name="editable">
+          <bool>true</bool>
+         </property>
+         <property name="insertPolicy">
+          <enum>QComboBox::NoInsert</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -215,6 +222,9 @@
   <tabstop>cmdEdit</tabstop>
   <tabstop>inputCheckBox</tabstop>
   <tabstop>inputText</tabstop>
+  <tabstop>outputCheckBox</tabstop>
+  <tabstop>separatorEdit</tabstop>
+  <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

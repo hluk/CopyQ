@@ -23,7 +23,6 @@
 #include <QDialog>
 #include <QRegExp>
 
-class QCompleter;
 class Action;
 class QAbstractButton;
 
@@ -43,9 +42,6 @@ public:
 
     /** Save command history. */
     void saveHistory();
-
-    /** Add @a command to history. */
-    void add(const QString &command);
 
     /** Return filename for storing command history. */
     const QString dataFilename() const;
@@ -73,12 +69,10 @@ public:
 
 protected:
     void showEvent(QShowEvent *e);
+    void accept();
 
 private:
     Ui::ActionDialog *ui;
-    int m_maxitems;
-    QCompleter *m_completer;
-    QStringList m_history;
     QRegExp m_re;
 
 signals:
@@ -90,7 +84,6 @@ signals:
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
     void on_outputCheckBox_toggled(bool checked);
-    void onFinnished(int result);
     void updateMinimalGeometry();
 
 public slots:
