@@ -26,6 +26,7 @@
 #include "scriptable.h"
 #include "../qt/bytearrayclass.h"
 
+#include <QAction>
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QTimer>
@@ -362,6 +363,16 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
     QxtGlobalShortcut *s = new QxtGlobalShortcut(keyseq, this);
     connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
              this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
+
+    // Don't process global shortcuts any further.
+    // FIXME: This should be set for all modal windows.
+    QAction *act = new QAction(this);
+    act->setShortcut(keyseq);
+    act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    act->setPriority(QAction::HighPriority);
+    m_wnd->addAction(act);
+    ConfigurationManager::instance()->addAction(act);
+    connect( s, SIGNAL(destroyed()), act, SLOT(deleteLater()) );
 
     return &m_shortcutActions[s];
 #endif
