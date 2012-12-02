@@ -390,6 +390,15 @@ void ClipboardServer::loadSettings()
     if (args)
         args->append("menu");
 
+    key = cm->value("edit_clipboard_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args) {
+        args->append("edit");
+        args->append("-1");
+    }
+
+    key = cm->value("second_shortcut").toString();
+
     key = cm->value("edit_shortcut").toString();
     args = createGlobalShortcut(key);
     if (args) {

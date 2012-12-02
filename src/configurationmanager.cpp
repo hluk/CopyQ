@@ -125,10 +125,11 @@ ConfigurationManager::ConfigurationManager()
     /* shortcuts */
     m_options["toggle_shortcut"] = Option("", "text", ui->pushButton);
     m_options["menu_shortcut"] = Option("", "text", ui->pushButton_2);
-    m_options["edit_shortcut"] = Option("", "text", ui->pushButton_3);
-    m_options["second_shortcut"] = Option("", "text", ui->pushButton_4);
-    m_options["show_action_dialog"] = Option("", "text", ui->pushButton_5);
-    m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_6);
+    m_options["edit_clipboard_shortcut"] = Option("", "text", ui->pushButton_3);
+    m_options["edit_shortcut"] = Option("", "text", ui->pushButton_4);
+    m_options["second_shortcut"] = Option("", "text", ui->pushButton_5);
+    m_options["show_action_dialog"] = Option("", "text", ui->pushButton_6);
+    m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_7);
 #endif
 #ifdef Q_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
@@ -758,6 +759,11 @@ void ConfigurationManager::on_pushButton_5_clicked()
 void ConfigurationManager::on_pushButton_6_clicked()
 {
     shortcutButtonClicked(ui->pushButton_6);
+}
+
+void ConfigurationManager::on_pushButton_7_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_7);
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(

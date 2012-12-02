@@ -66,7 +66,8 @@ const char *const helpString =
 "    select [ROW=0]            Move item in the row to clipboard.\n"
 "    add TEXT...               Add text into clipboard.\n"
 "    remove [ROWS=0...]        Remove item in given rows.\n"
-"    edit [ROWS...]            Edit clipboard items or edit new one.\n"
+"    edit [ROWS...]            Edit items or edit new one.\n"
+"                              Value -1 is for current text in clipboard.\n"
 "\n"
 "    read [MIME|ROW]...        Print raw data of clipboard or item in row.\n"
 "    write MIME DATA           Write raw data to clipboard.\n"
@@ -459,16 +460,21 @@ void Scriptable::edit()
     QString text;
     int row;
 
-    if (argumentCount() > 1) {
-        for ( int i = 0; i < argumentCount(); ++i ) {
-            value = argument(i);
-            if ( toInt(value, row) )
-                text.append( c->itemText(row) + getInputSeparator() );
+    for ( int i = 0; i < argumentCount(); ++i ) {
+        value = argument(i);
+        if (i > 0)
+            text.append( getInputSeparator() );
+        if ( toInt(value, row) ) {
+            if (row >= 0) {
+                text.append( c->itemText(row) );
+            } else {
+                const QMimeData *data = clipboardData();
+                if (data != NULL)
+                    text.append(data->text());
+            }
+        } else {
+            text.append( toString(value) );
         }
-    } else {
-        value = argument(0);
-        if ( toInt(value, row) )
-            text = c->itemText(row);
     }
 
     if ( !c->openEditor(text) ) {
