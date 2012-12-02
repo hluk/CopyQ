@@ -94,7 +94,8 @@ Command Line Interface
         select [ROW=0]            Move item in the row to clipboard.
         add TEXT...               Add text into clipboard.
         remove [ROWS=0...]        Remove item in given rows.
-        edit [ROWS...]            Edit clipboard items or edit new one.
+        edit [ROWS...]            Edit items or edit new one.
+                                  Value -1 is for current text in clipboard.
 
         read [MIME|ROW]...        Print raw data of clipboard or item in row.
         write MIME DATA           Write raw data to clipboard.
@@ -104,6 +105,8 @@ Command Line Interface
         action [ROWS=0...] [PROGRAM [SEPARATOR=\n]]
                                   Run PROGRAM on item text in the rows.
                                   Use %1 in PROGRAM to pass text as argument.
+        popup TITLE MESSAGE [TIME=8000]
+                                  Show tray popup message for TIME milliseconds.
 
         exporttab FILE_NAME       Export items to file.
         importtab FILE_NAME       Import items from file.
