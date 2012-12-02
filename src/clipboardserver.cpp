@@ -392,8 +392,10 @@ void ClipboardServer::loadSettings()
 
     key = cm->value("edit_shortcut").toString();
     args = createGlobalShortcut(key);
-    if (args)
+    if (args) {
         args->append("edit");
+        args->append("0");
+    }
 
     key = cm->value("second_shortcut").toString();
     args = createGlobalShortcut(key);
@@ -406,6 +408,11 @@ void ClipboardServer::loadSettings()
     args = createGlobalShortcut(key);
     if (args)
         args->append("action");
+
+    key = cm->value("new_item_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("edit");
 #endif
 
     // reload clipboard monitor configuration

@@ -428,7 +428,6 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::newItem(const QString &text)
 {
-    // new text will allocate more space (lines) for editor
     add(text, true);
     selectionModel()->clearSelection();
     setCurrent(0);

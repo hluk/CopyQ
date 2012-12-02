@@ -459,8 +459,7 @@ void Scriptable::edit()
     QString text;
     int row;
 
-    bool multiple_edit = (argumentCount() > 1);
-    if (multiple_edit) {
+    if (argumentCount() > 1) {
         for ( int i = 0; i < argumentCount(); ++i ) {
             value = argument(i);
             if ( toInt(value, row) )
@@ -474,7 +473,7 @@ void Scriptable::edit()
 
     if ( !c->openEditor(text) ) {
         m_wnd->showBrowser(c);
-        if ( multiple_edit || row >= c->length() ) {
+        if ( argumentCount() == 0 || argumentCount() > 1 || row >= c->length() ) {
             c->newItem(text);
             c->edit( c->index(0) );
         } else {

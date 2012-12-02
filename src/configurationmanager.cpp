@@ -128,6 +128,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["edit_shortcut"] = Option("", "text", ui->pushButton_3);
     m_options["second_shortcut"] = Option("", "text", ui->pushButton_4);
     m_options["show_action_dialog"] = Option("", "text", ui->pushButton_5);
+    m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_6);
 #endif
 #ifdef Q_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
@@ -752,6 +753,11 @@ void ConfigurationManager::on_pushButton_4_clicked()
 void ConfigurationManager::on_pushButton_5_clicked()
 {
     shortcutButtonClicked(ui->pushButton_5);
+}
+
+void ConfigurationManager::on_pushButton_6_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_6);
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
