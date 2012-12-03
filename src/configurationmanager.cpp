@@ -888,12 +888,9 @@ void ConfigurationManager::on_pushButtonColorNumberFg_clicked()
 
 void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 {
-    QFileDialog dialog( this, tr("Open Theme File") );
-    dialog.setAcceptMode(QFileDialog::AcceptOpen);
-    dialog.setNameFilter("*.ini");
-    dialog.setFileMode(QFileDialog::ExistingFile);
-    if ( dialog.exec() == QDialog::Accepted ) {
-        QString filename = dialog.selectedFiles().first();
+    const QString filename =
+        QFileDialog::getOpenFileName(this, tr("Open Theme File"), QString(), QString("*.ini"));
+    if ( !filename.isNull() ) {
         QSettings settings(filename, QSettings::IniFormat);
         loadTheme(settings);
     }
@@ -901,12 +898,9 @@ void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 
 void ConfigurationManager::on_pushButtonSaveTheme_clicked()
 {
-    QFileDialog dialog( this, tr("Save Theme File As") );
-    dialog.setAcceptMode(QFileDialog::AcceptSave);
-    dialog.setNameFilter("*.ini");
-    dialog.setFileMode(QFileDialog::AnyFile);
-    if ( dialog.exec() == QDialog::Accepted ) {
-        QString filename = dialog.selectedFiles().first();
+    QString filename =
+        QFileDialog::getSaveFileName(this, tr("Save Theme File As"), QString(), QString("*.ini"));
+    if ( !filename.isNull() ) {
         if ( !filename.endsWith(".ini") )
             filename.append(".ini");
         QSettings settings(filename, QSettings::IniFormat);
