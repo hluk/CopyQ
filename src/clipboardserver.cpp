@@ -27,7 +27,9 @@
 #include "../qt/bytearrayclass.h"
 
 #include <QAction>
+#include <QKeyEvent>
 #include <QLocalSocket>
+#include <QMenu>
 #include <QMimeData>
 #include <QTimer>
 #include <QScriptEngine>
@@ -88,6 +90,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
 
     // run clipboard monitor
     startMonitoring();
+
+    QCoreApplication::instance()->installEventFilter(this);
 }
 
 ClipboardServer::~ClipboardServer()
@@ -376,6 +380,22 @@ Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 
     return &m_shortcutActions[s];
 #endif
+}
+
+bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
+{
+    // Close menu on Escape key and give focus back to search edit or browser.
+    if (ev->type() == QEvent::KeyPress) {
+        QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
+        if (keyevent->key() == Qt::Key_Escape) {
+            QMenu *menu = qobject_cast<QMenu*>(object);
+            if (menu != NULL) {
+                menu->close();
+                m_wnd->enterBrowseMode(m_wnd->browseMode());
+            }
+        }
+    }
+    return false;
 }
 
 void ClipboardServer::loadSettings()

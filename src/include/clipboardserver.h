@@ -107,6 +107,9 @@ public:
             const QString &shortcut //!< Shortcut string (e.g. "CTRL+ALT+X").
             );
 
+protected:
+    bool eventFilter(QObject *object, QEvent *ev);
+
 private:
     QLocalServer *m_server;
     QLocalServer *m_monitorserver;
