@@ -188,10 +188,7 @@ void MainWindow::createMenu()
     // - show/hide
     act = traymenu->addAction( iconTray(), tr("&Show/Hide"),
                            this, SLOT(toggleVisible()) );
-    // bold font for default item in tray
-    QFont font( act->font() );
-    font.setBold(true);
-    act->setFont(font);
+    traymenu->setDefaultAction(act);
 
     // - separator
     menu->addSeparator();

@@ -204,9 +204,7 @@ void ClipboardBrowser::createContextMenu()
 
     m_menu->clear();
     act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
-    font = act->font();
-    font.setBold(true);
-    act->setFont(font);
+    m_menu->setDefaultAction(act);
     act->setData( QVariant(ActionToClipboard) );
 
     act = m_menu->addAction( iconRemove(), tr("&Remove") );
