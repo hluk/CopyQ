@@ -37,6 +37,7 @@
 #include <QTimer>
 #include <QInputDialog>
 #include <QFileDialog>
+#include <QDesktopWidget>
 
 namespace {
 
@@ -659,7 +660,13 @@ WId MainWindow::showMenu()
 {
     QMenu *menu = tray->contextMenu();
     updateTrayMenuItems();
-    menu->show();
+
+    // open menu unser cursor
+    QPoint pos = QCursor::pos();
+    QRect screen = QApplication::desktop()->screenGeometry();
+    pos.setX(qMax(0, qMin(screen.width() - menu->width(), pos.x())));
+    pos.setY(qMax(0, qMin(screen.height() - menu->height(), pos.y())));
+    menu->popup(pos);
 
     // steal focus
     WId wid = menu->winId();
@@ -907,6 +914,10 @@ void MainWindow::updateTrayMenuItems()
         act->setData( QVariant(i) );
 
         menu->insertAction(sep, act);
+
+        // activate first clipboard item
+        if (i == 0)
+            menu->setActiveAction(act);
 
         elideText(act);
     }
