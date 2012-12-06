@@ -116,7 +116,7 @@ public:
     Command command() const;
 
     /** Set current command. */
-    void setCommand(const Command &command) const;
+    void setCommand(const Command &command);
 
     /** Set list of known tab names (for combo box). */
     void setTabs(const QStringList &tabs);

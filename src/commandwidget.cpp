@@ -30,6 +30,8 @@ CommandWidget::CommandWidget(QWidget *parent)
     , ui(new Ui::CommandWidget)
 {
     ui->setupUi(this);
+    ui->lineEditIcon->hide();
+    ui->checkBoxEnable->hide();
     setFocusProxy(ui->lineEditName);
 }
 
@@ -59,7 +61,7 @@ Command CommandWidget::command() const
     return c;
 }
 
-void CommandWidget::setCommand(const Command &c) const
+void CommandWidget::setCommand(const Command &c)
 {
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );

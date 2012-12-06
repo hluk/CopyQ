@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>406</height>
+    <width>544</width>
+    <height>426</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -398,21 +398,12 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
         </attribute>
         <layout class="QGridLayout" name="gridLayout_7">
          <item row="1" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout">
+          <layout class="QHBoxLayout" name="horizontalLayout" stretch="1,2">
            <property name="spacing">
             <number>0</number>
            </property>
            <item>
             <layout class="QVBoxLayout" name="verticalLayout_16">
-             <item>
-              <widget class="QComboBox" name="comboBoxCommands">
-               <item>
-                <property name="text">
-                 <string>Insert Default Command</string>
-                </property>
-               </item>
-              </widget>
-             </item>
              <item>
               <widget class="QListWidget" name="listWidgetCommands">
                <property name="selectionMode">
@@ -420,51 +411,68 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QComboBox" name="comboBoxCommands">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Insert Default Command</string>
+                </property>
+               </item>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_6">
-             <property name="spacing">
-              <number>0</number>
+            <widget class="QScrollArea" name="scrollAreaCommand">
+             <property name="widgetResizable">
+              <bool>true</bool>
              </property>
-             <item>
-              <widget class="CommandWidget" name="widgetCommand" native="true">
-               <property name="enabled">
-                <bool>false</bool>
+             <widget class="QWidget" name="scrollAreaWidgetContents">
+              <property name="geometry">
+               <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>329</width>
+                <height>234</height>
+               </rect>
+              </property>
+              <layout class="QGridLayout" name="gridLayout_4">
+               <property name="margin">
+                <number>0</number>
                </property>
-               <property name="focusPolicy">
-                <enum>Qt::WheelFocus</enum>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="verticalSpacer_2">
-               <property name="orientation">
-                <enum>Qt::Vertical</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>0</width>
-                 <height>0</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
+               <item row="0" column="0">
+                <widget class="CommandWidget" name="widgetCommand" native="true">
+                 <property name="enabled">
+                  <bool>false</bool>
+                 </property>
+                 <property name="focusPolicy">
+                  <enum>Qt::WheelFocus</enum>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </widget>
+            </widget>
            </item>
           </layout>
          </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_11">
            <property name="text">
-            <string>Commands can be used to run an &lt;b&gt;application&lt;/b&gt; on new clipboard content or &lt;b&gt;banning the item from history list&lt;/b&gt;. If clipboard text is matched by regular expression in &lt;em&gt;Match&lt;/em&gt; text field the appropriate action is taken.</string>
+            <string>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="3" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
             <widget class="QPushButton" name="pushButtoAdd">
@@ -492,7 +500,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            <item>
             <widget class="QPushButton" name="pushButtonUp">
              <property name="text">
-              <string>Move Up [Ctrl+Up]</string>
+              <string>Up [Ctrl+Up]</string>
              </property>
              <property name="shortcut">
               <string>Ctrl+Up</string>
@@ -502,7 +510,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            <item>
             <widget class="QPushButton" name="pushButtonDown">
              <property name="text">
-              <string>Move Down [Ctrl+Down]</string>
+              <string>Down [Ctrl+Down]</string>
              </property>
              <property name="shortcut">
               <string>Ctrl+Down</string>
@@ -947,9 +955,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>plainTextEditFormats</tabstop>
-  <tabstop>comboBoxCommands</tabstop>
-  <tabstop>widgetCommand</tabstop>
   <tabstop>listWidgetCommands</tabstop>
+  <tabstop>comboBoxCommands</tabstop>
   <tabstop>pushButtoAdd</tabstop>
   <tabstop>pushButtonRemove</tabstop>
   <tabstop>pushButtonUp</tabstop>
@@ -978,8 +985,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
-  <tabstop>buttonBox</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="../copyq.qrc"/>

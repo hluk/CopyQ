@@ -73,7 +73,7 @@ ConfigurationManager::ConfigurationManager()
 {
     ui->setupUi(this);
 
-    ui->widgetCommand->hide();
+    ui->scrollAreaCommand->hide();
 
     ClipboardBrowser *c = ui->clipboardBrowserPreview;
     c->addItems( QStringList()
@@ -781,7 +781,7 @@ void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
     bool ok = current != NULL;
     if (ok)
         row = ui->listWidgetCommands->row(current);
-    ui->widgetCommand->setVisible(ok);
+    ui->scrollAreaCommand->setVisible(ok);
     ui->widgetCommand->setCommand(ok ? m_commands[row] : Command());
     ui->widgetCommand->setEnabled(ok);
 }
