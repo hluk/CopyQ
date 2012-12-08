@@ -144,7 +144,7 @@ void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
         if ( mimeType.isEmpty() )
             pix->fromImage( m_data->imageData().value<QImage>() );
         else
-            pix->loadFromData( m_data->data(mimeType), mimeType.toAscii() );
+            pix->loadFromData( m_data->data(mimeType), mimeType.toLatin1() );
 
         if (w > 0 && pix->width() > w && pix->width()/w > pix->height()/h) {
             *pix = pix->scaledToWidth(w);

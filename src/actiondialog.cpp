@@ -109,7 +109,7 @@ void ActionDialog::createAction()
         if (percent) {
             if (c >= '1' && c <= '9') {
                 arg.resize( arg.size()-1 );
-                int i = c.toAscii() - '1';
+                int i = c.toLatin1() - '1';
                 if (i == 0) {
                     arg.append(input);
                 } else if ( input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {

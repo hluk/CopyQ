@@ -23,7 +23,7 @@
 #include <cstdio>
 #include <assert.h>
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #  include <stdlib.h> // getenv()
 #else
 #  include <unistd.h> // getuid()
@@ -38,7 +38,7 @@
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
-#elif defined Q_WS_WIN
+#elif defined Q_OS_WIN
 #include <windows.h>
 #endif
 
@@ -51,7 +51,7 @@ QString escape(const QString &str)
         n = b-a;
         if (n)
             res.append( str.mid(a, n) );
-        switch( str.at(b).toAscii() ) {
+        switch( str.at(b).toLatin1() ) {
         case '<': res.append("&lt;"); break;
         case '>': res.append("&gt;"); break;
         case '&': res.append("&amp;"); break;
@@ -158,7 +158,7 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     QString sessionID( getenv("USERNAME") );
 #else
     QString sessionID( QString::number(getuid(), 16) );
@@ -220,9 +220,11 @@ void raiseWindow(WId wid)
         XSetInputFocus(dsp, wid, RevertToPointerRoot, CurrentTime);
         XCloseDisplay(dsp);
     }
-#elif defined Q_WS_WIN
+#elif defined Q_OS_WIN
     SetForegroundWindow(wid);
     SetWindowPos(wid, HWND_TOP, 0, 0, 0, 0,
                  SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+#else
+    Q_UNUSED(wid);
 #endif // TODO: focus window on Mac
 }

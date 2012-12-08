@@ -23,6 +23,7 @@
 #include <QWidget> // WId
 #include <QMimeData>
 #include <QClipboard>
+#include <qglobal.h> // Q_WS_*
 
 // For Performance reasons create SVG icons once (QApplication must be created first).
 #define ICON(iconName) static const QIcon icon(":/images/" iconName ".svg"); return icon;
@@ -50,7 +51,20 @@ typedef enum {
     CommandActivateWindow
 } CommandStatus;
 
-#if !defined(Q_WS_X11) && !defined(Q_WS_WIN) && !defined(Q_WS_MAC)
+#if QT_VERSION < 0x050000
+#   ifdef Q_WS_WIN
+#       define Q_OS_WIN
+#   elif defined Q_WS_MAC
+#       define Q_OS_MAC
+#   endif
+#else
+#   if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
+#       define Q_WS_X11
+#   endif
+#endif
+
+// FIXME: Global shortcuts with Qt 5.
+#if QT_VERSION >= 0x050000 || (!defined(Q_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC))
 #define NO_GLOBAL_SHORTCUTS
 #endif
 

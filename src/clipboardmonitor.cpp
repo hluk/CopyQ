@@ -26,9 +26,63 @@
 #include <QTimer>
 
 #ifdef Q_WS_X11
-#include <QX11Info>
 #include <X11/Xlib.h>
 #endif
+
+class PrivateX11 {
+#ifdef Q_WS_X11
+public:
+    PrivateX11()
+        : m_dsp(NULL)
+        , m_timer()
+    {
+        m_timer.setSingleShot(true);
+        m_timer.setInterval(100);
+    }
+
+    ~PrivateX11()
+    {
+        if (m_dsp)
+            XCloseDisplay(m_dsp);
+    }
+
+    bool waitForKeyRelease()
+    {
+        if (m_timer.isActive())
+            return true;
+
+        if (m_dsp == NULL) {
+            m_dsp = XOpenDisplay(NULL);
+            if (m_dsp == NULL)
+                return false;
+        }
+
+        XEvent event;
+        Window root = DefaultRootWindow(m_dsp);
+        XQueryPointer(m_dsp, root,
+                      &event.xbutton.root, &event.xbutton.window,
+                      &event.xbutton.x_root, &event.xbutton.y_root,
+                      &event.xbutton.x, &event.xbutton.y,
+                      &event.xbutton.state);
+
+        if( event.xbutton.state & (Button1Mask | ShiftMask) ) {
+            m_timer.start();
+            return true;
+        }
+
+        return false;
+    }
+
+    const QTimer *timer() const
+    {
+        return &m_timer;
+    }
+
+private:
+    Display *m_dsp;
+    QTimer m_timer;
+#endif
+};
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     : App(argc, argv)
@@ -38,10 +92,14 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , m_copyclip(false)
     , m_checksel(false)
     , m_copysel(false)
-    , m_timer( new QTimer(this) )
     , m_lastHash(0)
     , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
+#ifdef Q_WS_X11
+    , m_x11(new PrivateX11)
+#else
+    , m_x11(NULL)
+#endif
 {
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()), Qt::DirectConnection );
@@ -62,11 +120,14 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
              this, SLOT(checkClipboard(QClipboard::Mode)) );
 
 #ifdef Q_WS_X11
-    m_timer->setSingleShot(true);
-    m_timer->setInterval(100);
-    connect( m_timer, SIGNAL(timeout()),
+    connect( m_x11->timer(), SIGNAL(timeout()),
              this, SLOT(updateSelection()) );
 #endif
+}
+
+ClipboardMonitor::~ClipboardMonitor()
+{
+    delete m_x11;
 }
 
 void ClipboardMonitor::setFormats(const QString &list)
@@ -79,21 +140,8 @@ bool ClipboardMonitor::updateSelection(bool check)
 {
     // wait while selection is incomplete, i.e. mouse button or
     // shift key is pressed
-    if ( m_timer->isActive() )
+    if ( m_x11->waitForKeyRelease() )
         return false;
-
-    XEvent event;
-
-    XQueryPointer(QX11Info::display(), QX11Info::appRootWindow(),
-                  &event.xbutton.root, &event.xbutton.window,
-                  &event.xbutton.x_root, &event.xbutton.y_root,
-                  &event.xbutton.x, &event.xbutton.y,
-                  &event.xbutton.state);
-
-    if( event.xbutton.state & (Button1Mask | ShiftMask) ) {
-        m_timer->start();
-        return false;
-    }
 
     if (check)
         checkClipboard(QClipboard::Selection);

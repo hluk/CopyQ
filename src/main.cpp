@@ -29,7 +29,7 @@
 #include <QScriptEngine>
 #include <iostream>
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #include <windows.h>
 #endif
 
@@ -54,7 +54,7 @@ static int startServer(int argc, char *argv[])
 {
     ClipboardServer app(argc, argv);
     if ( app.isListening() ) {
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
     // FIXME: console window is still shown for a moment
     FreeConsole();
 #endif

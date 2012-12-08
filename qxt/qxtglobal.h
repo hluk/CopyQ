@@ -41,6 +41,10 @@
 
 #ifndef QXT_NO_MACROS
 
+#ifndef _countof
+#define _countof(x) (sizeof(x)/sizeof(*x))
+#endif
+
 #endif // QXT_NO_MACROS
 
 //--------------------------export macros------------------------------

@@ -325,8 +325,10 @@ CommandStatus ClipboardServer::doCommand(
     QScriptEngine engine;
     Scriptable scriptable(m_wnd, client);
     scriptable.initEngine(&engine, args.at(Arguments::CurrentPath));
-    connect( client, SIGNAL(disconnected()),
-             &scriptable, SLOT(abort()) );
+    if (client != NULL) {
+        connect( client, SIGNAL(disconnected()),
+                 &scriptable, SLOT(abort()) );
+    }
 
     QScriptValue result;
     QScriptValueList fnArgs;
@@ -358,6 +360,7 @@ CommandStatus ClipboardServer::doCommand(
 Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
 {
 #ifdef NO_GLOBAL_SHORTCUTS
+    Q_UNUSED(shortcut);
     return NULL;
 #else
     if ( shortcut.isEmpty() )

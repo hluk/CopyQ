@@ -27,13 +27,13 @@
 #include <QSettings>
 #include <QMutex>
 #include <QFile>
-#include <QtGui/QDesktopWidget>
+#include <QDesktopWidget>
 #include <QMessageBox>
 #include <QFontDialog>
 #include <QColorDialog>
 #include <QFileDialog>
 
-#ifdef Q_WS_WIN
+#ifdef Q_OS_WIN
 #define DEFAULT_EDITOR "notepad %1"
 #else
 #define DEFAULT_EDITOR "gedit %1"

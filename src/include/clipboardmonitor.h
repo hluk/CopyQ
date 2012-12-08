@@ -29,6 +29,7 @@
 class QMimeData;
 class QByteArray;
 class QTimer;
+class PrivateX11;
 
 /**
  * Application monitor server.
@@ -47,6 +48,8 @@ class ClipboardMonitor : public App
 
 public:
     explicit ClipboardMonitor(int &argc, char **argv);
+
+    ~ClipboardMonitor();
 
     /** Return true only if monitor socket is connected. */
     bool isConnected()
@@ -74,12 +77,14 @@ private:
     QMimeData *m_newdata;
     bool m_checkclip, m_copyclip,
          m_checksel, m_copysel;
-    QTimer *m_timer;
     uint m_lastHash;
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
     QTimer *m_updateTimer;
+
+    // stuff for X11 window system
+    PrivateX11* m_x11;
 
     /** Send new clipboard or primary selection data to server. */
     void clipboardChanged(QClipboard::Mode mode, QMimeData *data);

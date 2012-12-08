@@ -33,6 +33,7 @@ SET(copyq_HEADERS
     src/include/shortcutdialog.h
     qxt/qxtglobalshortcut.h
     qt/bytearrayprototype.h
+    qt/bytearrayclass.h
     )
 
 SET(copyq_FORMS

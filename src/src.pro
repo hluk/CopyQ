@@ -70,26 +70,30 @@ SOURCES += \
     scriptable.cpp
 
 QT += core gui xml network script
+greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-DEFINES += BUILD_QXT_GUI
+lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
+    DEFINES += BUILD_QXT_GUI
 
-HEADERS  += ../qxt/qxtglobal.h
-SOURCES  += ../qxt/qxtglobal.cpp
+    HEADERS += ../qxt/qxtglobal.h
+    SOURCES += ../qxt/qxtglobal.cpp
 
-HEADERS  += ../qxt/qxtglobalshortcut.h
-HEADERS  += ../qxt/qxtglobalshortcut_p.h
-SOURCES  += ../qxt/qxtglobalshortcut.cpp
+    HEADERS += ../qxt/qxtglobalshortcut.h
+    HEADERS += ../qxt/qxtglobalshortcut_p.h
+    SOURCES += ../qxt/qxtglobalshortcut.cpp
+
+    unix:!macx: SOURCES += ../qxt/qxtglobalshortcut_x11.cpp
+    macx:       SOURCES += ../qxt/qxtglobalshortcut_mac.cpp
+    win32:      SOURCES += ../qxt/qxtglobalshortcut_win.cpp
+}
 
 unix:!macx {
-    SOURCES += ../qxt/qxtglobalshortcut_x11.cpp
     LIBS    += -lX11 -lXfixes
 }
 macx {
-    SOURCES += ../qxt/qxtglobalshortcut_mac.cpp
     LIBS    += -framework Carbon
 }
 win32 {
-    SOURCES += ../qxt/qxtglobalshortcut_win.cpp
     CONFIG  += static console
     LIBS    += -luser32
     RC_FILE  = copyq.rc

@@ -24,6 +24,15 @@
 #include <QClipboard>
 #include <QUrl>
 
+static QString escapeHtml(const QString &str)
+{
+#if QT_VERSION >= 0x050000
+    return str.toHtmlEscaped();
+#else
+    return Qt::escape(str);
+#endif
+}
+
 ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ClipboardDialog)
@@ -71,7 +80,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     }
 
     ui->labelProperties->setText(
-                "<strong> mime: </strong>" + Qt::escape(mime) +
+                "<strong> mime: </strong>" + escapeHtml(mime) +
                 "<strong> size: </strong>" + QString::number(bytes.size()) +
                 " bytes"
                 );
