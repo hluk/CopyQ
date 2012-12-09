@@ -152,10 +152,30 @@ restart_server || exit 1
 
 for tab in test test2 test3; do
     log "remove tab \"$tab\" if exists"
-        tabs=$(run tab) || fail
-        echo "$tabs" | grep -q '^'"$tab"'$' &&
-            { run removetab "$tab" && ok || fail; }
+        tabs=$(run tab) || { fail; continue; }
+        if echo "$tabs" | grep -q '^'"$tab"'$'; then
+            run removetab "$tab" && ok || fail
+        else
+            ok
+        fi
 done
+
+content="A B C D!"
+log "clipboard"
+    set_clipboard "$content" &&
+    assert "run clipboard" "$(clipboard)" &&
+    ok || fail
+
+log "set clipboard"
+    run add "$content" &&
+    assert "run clipboard" "$content" &&
+    assert "clipboard" "$content" &&
+    ok || fail
+
+log "set clipboard with MIME"
+    run write text/html "$content" &&
+    assert "run clipboard text/html" "$content" &&
+    ok || fail
 
 log "add items"
 run add 3 2 1 0 &&
