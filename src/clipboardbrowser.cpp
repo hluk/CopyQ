@@ -84,8 +84,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
     setFrameShadow(QFrame::Sunken);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setTabKeyNavigation(false);
     setAlternatingRowColors(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>544</width>
-    <height>426</height>
+    <width>600</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -438,8 +438,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>329</width>
-                <height>234</height>
+                <width>367</width>
+                <height>258</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -705,190 +705,221 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
         <attribute name="title">
          <string>&amp;Appearance</string>
         </attribute>
-        <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,0,1">
+        <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
-          <layout class="QVBoxLayout" name="verticalLayout_9">
-           <property name="leftMargin">
-            <number>0</number>
+          <widget class="QScrollArea" name="scrollArea">
+           <property name="widgetResizable">
+            <bool>true</bool>
            </property>
-           <item>
-            <widget class="QLabel" name="label_8">
-             <property name="text">
-              <string>Background:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorBg">
-             <property name="text">
-              <string>Normal (&amp;1)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorSelBg">
-             <property name="text">
-              <string>Selected (&amp;3)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorFindBg">
-             <property name="text">
-              <string>Found (&amp;5)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorEditorBg">
-             <property name="text">
-              <string>Editor (&amp;7)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorAltBg">
-             <property name="text">
-              <string>Alternate (&amp;9)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_13">
-             <property name="text">
-              <string>Font:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonFont">
-             <property name="text">
-              <string>&amp;Normal</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonFoundFont">
-             <property name="text">
-              <string>Fo&amp;und</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonEditorFont">
-             <property name="text">
-              <string>&amp;Editor</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonNumberFont">
-             <property name="text">
-              <string>Num&amp;ber</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <layout class="QVBoxLayout" name="verticalLayout_5">
-           <item>
-            <widget class="QLabel" name="label_12">
-             <property name="text">
-              <string>Foreground:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorFg">
-             <property name="text">
-              <string>Normal (&amp;2)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorSelFg">
-             <property name="text">
-              <string>Selected (&amp;4)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorFindFg">
-             <property name="text">
-              <string>Found (&amp;6)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorEditorFg">
-             <property name="text">
-              <string>Editor (&amp;8)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonColorNumberFg">
-             <property name="text">
-              <string>Number (1&amp;0)</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QCheckBox" name="checkBoxShowNumber">
-             <property name="text">
-              <string>Show &amp;Number</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="verticalSpacer_5">
-             <property name="orientation">
-              <enum>Qt::Vertical</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>20</width>
-               <height>40</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_14">
-             <property name="text">
-              <string>Theme:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonLoadTheme">
-             <property name="text">
-              <string>&amp;Load Theme</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonSaveTheme">
-             <property name="text">
-              <string>&amp;Save Theme</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
+           <widget class="QWidget" name="scrollAreaWidgetContents_2">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>272</width>
+              <height>343</height>
+             </rect>
+            </property>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_9">
+               <property name="leftMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>Background:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorBg">
+                 <property name="text">
+                  <string>Normal (&amp;1)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorSelBg">
+                 <property name="text">
+                  <string>Selected (&amp;3)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorFindBg">
+                 <property name="text">
+                  <string>Found (&amp;5)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorEditorBg">
+                 <property name="text">
+                  <string>Editor (&amp;7)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorAltBg">
+                 <property name="text">
+                  <string>Alternate (&amp;9)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_13">
+                 <property name="text">
+                  <string>Font:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonFont">
+                 <property name="text">
+                  <string>&amp;Normal</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonFoundFont">
+                 <property name="text">
+                  <string>Fo&amp;und</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonEditorFont">
+                 <property name="text">
+                  <string>&amp;Editor</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonNumberFont">
+                 <property name="text">
+                  <string>Num&amp;ber</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
+               <item>
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Foreground:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorFg">
+                 <property name="text">
+                  <string>Normal (&amp;2)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorSelFg">
+                 <property name="text">
+                  <string>Selected (&amp;4)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorFindFg">
+                 <property name="text">
+                  <string>Found (&amp;6)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorEditorFg">
+                 <property name="text">
+                  <string>Editor (&amp;8)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorNumberFg">
+                 <property name="text">
+                  <string>Number (1&amp;0)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBoxShowNumber">
+                 <property name="text">
+                  <string>Show &amp;Number</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QCheckBox" name="checkBoxScrollbars">
+                 <property name="toolTip">
+                  <string>Show scrollbars</string>
+                 </property>
+                 <property name="text">
+                  <string>Sc&amp;rollbars</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="verticalSpacer_5">
+                 <property name="orientation">
+                  <enum>Qt::Vertical</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>20</width>
+                   <height>40</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>Theme:</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonLoadTheme">
+                 <property name="text">
+                  <string>&amp;Load Theme</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonSaveTheme">
+                 <property name="text">
+                  <string>&amp;Save Theme</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
+            </layout>
+            <zorder></zorder>
+            <zorder></zorder>
+           </widget>
+          </widget>
          </item>
          <item>
           <layout class="QVBoxLayout" name="verticalLayout_7">
@@ -939,7 +970,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
@@ -983,9 +1013,12 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>pushButtonColorEditorFg</tabstop>
   <tabstop>pushButtonColorNumberFg</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
+  <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
+  <tabstop>scrollAreaCommand</tabstop>
+  <tabstop>widgetCommand</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

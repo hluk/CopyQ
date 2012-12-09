@@ -177,7 +177,8 @@ private slots:
     void on_pushButtonLoadTheme_clicked();
     void on_pushButtonSaveTheme_clicked();
 
-    void on_checkBoxShowNumber_stateChanged(int arg1);
+    void on_checkBoxShowNumber_stateChanged(int);
+    void on_checkBoxScrollbars_stateChanged(int);
 };
 
 #endif // CONFIGURATIONMANAGER_H

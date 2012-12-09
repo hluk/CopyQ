@@ -172,6 +172,7 @@ ConfigurationManager::ConfigurationManager()
     m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
     m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
     m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
+    m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
 
     /* datafile for items */
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
@@ -279,6 +280,12 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     /* fonts */
     font.fromString( ui->pushButtonFont->property("VALUE").toString() );
     c->setFont(font);
+
+    /* scrollbars */
+    Qt::ScrollBarPolicy scrollbarPolicy = m_theme["show_scrollbars"].value().toBool()
+            ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
+    c->setVerticalScrollBarPolicy(scrollbarPolicy);
+    c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     /* colors */
     p = c->palette();
@@ -909,6 +916,11 @@ void ConfigurationManager::on_pushButtonSaveTheme_clicked()
 }
 
 void ConfigurationManager::on_checkBoxShowNumber_stateChanged(int)
+{
+    decorateBrowser(ui->clipboardBrowserPreview);
+}
+
+void ConfigurationManager::on_checkBoxScrollbars_stateChanged(int)
 {
     decorateBrowser(ui->clipboardBrowserPreview);
 }

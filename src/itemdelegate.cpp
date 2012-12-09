@@ -26,7 +26,7 @@
 #include "client_server.h"
 #include "configurationmanager.h"
 
-static const QSize defaultSize(9999, 512);
+static const QSize defaultSize(0, 512);
 static const int maxChars = 100*1024;
 
 ItemDelegate::ItemDelegate(QWidget *parent)
@@ -274,8 +274,8 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
 
         textEdit->setDocument(doc);
         textEdit->setFont( m_parent->font() );
-        textEdit->resize( defaultSize.width(),
-                          doc->documentLayout()->documentSize().height() );
+        QSize size = doc->documentLayout()->documentSize().toSize();
+        textEdit->resize(size);
     } else {
         // Image
         QLabel *label = new QLabel(m_parent);
