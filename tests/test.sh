@@ -3,50 +3,85 @@
 COPYQ=${1:-copyq}
 # command to read clipboard
 READ=${2:-"xclip -o"}
+# command to write to clipboard
 WRITE=${3:-"xclip"}
 
-ERR=0
-ERRMSG=""
+# count failed tests
+FAILED=0
+# result of last perf() call
 T=0
+# result if last testpl() call
 LASTPL=0
-TMP="$0.log"
+# log filename
+LOG="$0.log"
+# last copyq exit code
 EXIT=0
-
+# testing tab name
 TAB=test
 
-> "$TMP"
+# redirect to log file
+> "$LOG"
+
+# colorize output if possible
+# usage: color {color_code} [format] {message}
+color () {
+    c=""
+    c_end=""
+    if [ -t 1 -a -z "$NOCOLOR" ]; then
+        case "$1" in
+            r) c="\e[0;31m" ;;
+            g) c="\e[0;32m" ;;
+            b) c="\e[0;36m" ;;
+            y) c="\e[0;33m" ;;
+        esac
+        if [ -n "$c" ]; then
+            c_end="\e[0m"
+        fi
+    fi
+    shift
+
+    if [ $# -gt 1 ]; then
+        fmt=$1
+        shift
+    else
+        fmt="%s\n"
+    fi
+    fmt="$c$fmt$c_end"
+
+    printf "$fmt" "$@"
+}
 
 log () {
-    echo -ne "\033[0;33m"
-    printf "%-50s" "* $@"
-    echo -ne "\033[0m"
-    echo -e "\n\n* $@" >> "$TMP"
+    color y "%-50s  " "* $@"
+    echo -e "\n\n* $@" >> "$LOG"
 }
 
 ok () {
     if [ $EXIT -eq 0 ]; then
-        echo -e "\033[0;32m OK $@\033[0m"
-        echo "** OK" >> "$TMP"
+        color g "OK $@"
+        echo "** OK" >> "$LOG"
     else
         fail
     fi
 }
 
 fail () {
-    ERR=$((ERR+1))
-    echo -ne "\033[0;31m FAILED! $ERRORMSG $@\033[0m"
-    [ $EXIT -eq 0 ] && echo || echo "(exit code $EXIT)"
+    FAILED=$((FAILED+1))
+    color r "FAILED! $@"
+    [ -z "$ASSERTMSG" ] || color w "  $ASSERTMSG"
+    [ $EXIT -eq 0 ] || color r "  exit code $EXIT"
+    echo "** FAILED: $ASSERTMSG $@ (exit code $EXIT)" >> "$LOG"
     EXIT=0
-    echo "** FAILED! $ERRORMSG $@" >> "$TMP"
+    ASSERTMSG=""
     return 1
 }
 
-c () {
+run () {
     args=${TAB:+tab $TAB}
-    echo "*** $COPYQ $args $@" >> "$TMP"
-    OUT=`"$COPYQ" $args "$@" 2>> "$TMP"`
+    echo "*** $COPYQ $args $@" >> "$LOG"
+    OUT=`"$COPYQ" $args "$@" 2>> "$LOG"`
     EXIT=$?
-    [ $EXIT -eq 0 ] || echo "** exit code $EXIT" >> "$TMP"
+    [ $EXIT -eq 0 ] || echo "** exit code $EXIT" >> "$LOG"
     [ $EXIT -eq 0 ] || return $EXIT
     printf "%s" "$OUT"
 }
@@ -65,31 +100,37 @@ lastpl () {
     return $LASTPL
 }
 
+# usage: assert {command} {value} [description]
 assert () {
-    if [ "$1" != "$2" ]; then
-        ERRORMSG="$3 (\"$1\" != \"$2\")"
+    result=$(eval "$1")
+    exit_code=$?
+    if [ $exit_code -ne 0 ]; then
+        ASSERTMSG="$3: \"$1\" exit code is $exit_code)"
+        return 1
+    elif [ "$result" != "$2" ]; then
+        ASSERTMSG="$3: \"$1\" returned \"$result\" != \"$2\")"
         return 1
     fi
 }
 
-go () {
-    "$COPYQ" 2>> "$TMP" &
+start_server () {
+    "$COPYQ" 2>> "$LOG" &
     sleep 0.5
     pidof -s copyq 2>&1 > /dev/null
 }
 
-terminate () {
-    "$COPYQ" exit 2>&1 > /dev/null
+terminate_server () {
+    "$COPYQ" exit &> /dev/null
     while pidof -s copyq 2>&1 > /dev/null; do
         sleep 1
     done
     return 0
 }
 
-restart ()
+restart_server ()
 {
     log "restarting copyq server"
-    { terminate && go; } 2>&1 > /dev/null &&
+    { terminate_server && start_server; } 2>&1 > /dev/null &&
         ok || fail
 }
 
@@ -99,44 +140,57 @@ clipboard ()
     $READ
 }
 
+set_clipboard ()
+{
+    sleep 0.5
+    echo "$x" | $WRITE
+}
+
 ulimit -c unlimited
 
-restart || exit 1
+restart_server || exit 1
+
+for tab in test test2 test3; do
+    log "remove tab \"$tab\" if exists"
+        tabs=$(run tab) || fail
+        echo "$tabs" | grep -q '^'"$tab"'$' &&
+            { run removetab "$tab" && ok || fail; }
+done
 
 log "add items"
-c add 3 2 1 0 &&
-    assert "0" "`c read 0`" "first item" &&
-    assert "0" "`clipboard`" "first item in clipboard" &&
-    assert "1" "`c read 1`" "second item" &&
-    assert "2" "`c read 2`" "third item" &&
-    assert "3" "`c read 3`" "fourth item" &&
+run add 3 2 1 0 &&
+    assert "run read 0" "0" "first item" &&
+    assert "clipboard" "0" "first item in clipboard" &&
+    assert "run read 1" "1" "second item" &&
+    assert "run read 2" "2" "third item" &&
+    assert "run read 3" "3" "fourth item" &&
     ok || fail
 
 log "remove items"
-c remove &&
-    assert "1" "`c read 0`" "first item after first removal" &&
-    assert "1" "`clipboard`" "clipboard after first removal" &&
-c remove &&
-    assert "2" "`c read 0`" "first item after second removal" &&
-    assert "2" "`clipboard`" "clipboard after second removal" &&
+run remove &&
+    assert "run read 0" "1" "first item after first removal" &&
+    assert "clipboard" "1" "clipboard after first removal" &&
+run remove &&
+    assert "run read 0" "2" "first item after second removal" &&
+    assert "clipboard" "2" "clipboard after second removal" &&
     ok || fail
 
 log "move second item to clipboard"
-i1=`c read 1`
-c "select" 1
-assert "$i1" "`c read 0`" && assert "$i1" "`clipboard`" &&
+i1=`run read 1`
+run "select" 1
+assert "run read 0" "$i1" && assert "clipboard" "$i1" &&
     ok || fail
 
 log "clipboard content"
-for x in 1 2 3; do echo "$x"|xclip; done && sleep 0.25 &&
-    assert "3" "`c read`" && c remove &&
-for x in 4 5 6; do echo "$x"|xclip; done && sleep 0.25 &&
-    assert "6" "`c read`" && c remove &&
+for x in 1 2 3; do set_clipboard "$x"; done && sleep 0.25 &&
+    assert "run read" "3" && run remove &&
+for x in 4 5 6; do set_clipboard "$x"; done && sleep 0.25 &&
+    assert "run read" "6" && run remove &&
     ok || fail
 
 log "read past end of list"
-SIZE=`c size` &&
-    X=`c read $SIZE` &&
+SIZE=`run size` &&
+    X=`run read $SIZE` &&
     assert "$X" "" &&
     ok || fail
 
@@ -158,10 +212,10 @@ log "adding 30 items (each in 0.1 seconds)"
 str=""
 { for x in {1..30}; do
     perf add "$x" &&
-    str="$x "$str
+    str=$x${str:+", $str"} &&
     testpl "$T <= 0.1" || break
 done } && lastpl &&
-    assert "`c separator ' ' read {0..29}` " "$str" &&
+    assert "run separator ', ' read $(echo {0..29})" "$str" &&
     ok || fail "($T seconds)"
 
 log "removing 30 items (each in 0.1 seconds)"
@@ -189,7 +243,7 @@ echo {0..99999}|perf write "$mime" - && testpl "$T <= 1.0" &&
     ok || fail "($T seconds)"
 
 log "reading huge amount of data"
-[ "`c read "$mime" 0`" = "`echo {0..99999}`" ] &&
+[ "`run read "$mime" 0`" = "`echo {0..99999}`" ] &&
     ok || fail
 
 mime="text/plain"
@@ -198,7 +252,7 @@ echo {0..99999}|perf write "$mime" - && testpl "$T <= 1.0" &&
     ok || fail "($T seconds)"
 
 log "reading huge amount of text"
-[ "`c read "$mime" 0`" = "`echo {0..99999}`" ] &&
+[ "`run read "$mime" 0`" = "`echo {0..99999}`" ] &&
     ok || fail
 
 log "reading huge amount of text from clipboard"
@@ -214,42 +268,42 @@ log "creating items in a new tab"
 perf add 1 2 3 && testpl "$T < 0.1" &&
     ok || fail "($T seconds)"
 
-restart || exit 1
+restart_server || exit 1
 
 log "checking items in the new tab"
-    assert "3" "`c read 0`" "first item" &&
-    assert "2" "`c read 1`" "second item" &&
-    assert "1" "`c read 2`" "third item" &&
+    assert "run read 0" "3" "first item" &&
+    assert "run read 1" "2" "second item" &&
+    assert "run read 2" "1" "third item" &&
     ok || fail
 
 log "exporting"
 tmp=`mktemp`
 trap "rm -f \"$tmp\"" INT TERM EXIT
-c exporttab "$tmp" &&
+run exporttab "$tmp" &&
     ok || fail
 
 TAB=""
-log "removing tab"
-c renametab test2 test3
+log "rename tab"
+run renametab test2 test3 &&
     ok || fail
 
-log "importing tab"
-c importtab "$tmp" &&
+log "import tab"
+run importtab "$tmp" &&
     ok || fail
 
 log "checking imported tab content"
-    assert "`c eval 'for (i = 0; i < 1000; ++i) {tab("test2");a=read(i);tab("test3");b=read(i);if(str(a)!=str(b))break;};i'`" 1000
+    assert "run eval 'for (i = 0; i < 1000; ++i) {tab(\"test2\");a=read(i);tab(\"test3\");b=read(i);if(str(a)!=str(b))break;};i'" 1000 &&
         ok || fail
 
 TAB=test2
 log "checking items in the imported tab"
-    assert "3" "`c read 0`" "first item" &&
-    assert "2" "`c read 1`" "second item" &&
-    assert "1" "`c read 2`" "third item" &&
+    assert "run read 0" "3" "first item" &&
+    assert "run read 1" "2" "second item" &&
+    assert "run read 2" "1" "third item" &&
     ok || fail
 
 log "summary"
-[ $ERR -eq 0 ] && ok "(0 errors)" || fail "($ERR failed)"
+[ $FAILED -eq 0 ] && ok "(0 failed)" || fail "($FAILED failed)"
 
-c exit
+terminate_server || fail
 
