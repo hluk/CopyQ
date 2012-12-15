@@ -916,8 +916,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
               </layout>
              </item>
             </layout>
-            <zorder></zorder>
-            <zorder></zorder>
            </widget>
           </widget>
          </item>
