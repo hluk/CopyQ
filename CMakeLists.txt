@@ -1,16 +1,15 @@
 cmake_minimum_required(VERSION 2.8)
-PROJECT(copyq)
-FIND_PACKAGE(Qt4 REQUIRED)
+project(copyq)
+find_package(Qt4 REQUIRED QtCore QtGui QtNetwork QtSvg QtXml QtScript)
 
-FILE(GLOB copyq_SOURCES
+file(GLOB copyq_SOURCES
     src/*.cpp
     qt/*.cpp
     qxt/qxtglobal.cpp
     qxt/qxtglobalshortcut.cpp
     )
 
-# headers that needs to be processed by moc
-SET(copyq_HEADERS
+set(copyq_MOCABLE
     src/include/aboutdialog.h
     src/include/actiondialog.h
     src/include/action.h
@@ -36,7 +35,7 @@ SET(copyq_HEADERS
     qt/bytearrayclass.h
     )
 
-SET(copyq_FORMS
+set(copyq_FORMS
     src/ui/aboutdialog.ui
     src/ui/actiondialog.ui
     src/ui/clipboarddialog.ui
@@ -47,25 +46,25 @@ SET(copyq_FORMS
     src/ui/tabdialog.ui
     )
 
-SET(copyq_RESOURCES src/copyq.qrc)
+set(copyq_RESOURCES src/copyq.qrc)
 
 # Qt modules
-SET(QT_USE_QTNETWORK TRUE)
-SET(QT_USE_QTSVG TRUE)
-SET(QT_USE_QTXML TRUE)
-SET(QT_USE_QTSCRIPT TRUE)
+set(QT_USE_QTNETWORK TRUE)
+set(QT_USE_QTSVG TRUE)
+set(QT_USE_QTXML TRUE)
+set(QT_USE_QTSCRIPT TRUE)
 
-INCLUDE(${QT_USE_FILE})
-INCLUDE_DIRECTORIES(${CMAKE_BINARY_DIR} src/include)
-ADD_DEFINITIONS(${QT_DEFINITIONS})
+include(${QT_USE_FILE})
+include_directories(${QT_INCLUDES} ${CMAKE_BINARY_DIR} src/include)
+add_definitions(${QT_DEFINITIONS})
 
-QT4_WRAP_CPP(copyq_HEADERS_MOC ${copyq_HEADERS})
-QT4_WRAP_UI(copyq_FORMS_HEADERS ${copyq_FORMS})
-QT4_ADD_RESOURCES(copyq_RESOURCES_RCC ${copyq_RESOURCES})
+qt4_wrap_cpp(copyq_MOC ${copyq_MOCABLE})
+qt4_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
+qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 
-IF(Q_WS_X11)
+if(Q_WS_X11)
     # window system is X11 and 'fixes' extension is required
-    FIND_PACKAGE(X11)
+    find_package(X11)
     if(NOT X11_FOUND)
         message(FATAL_ERROR "X11 is required")
     endif(NOT X11_FOUND)
@@ -74,19 +73,19 @@ IF(Q_WS_X11)
         message(FATAL_ERROR "X11 'fixes' extension library is required")
     endif(NOT X11_Xfixes_FOUND)
 
-    SET(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
-    LIST(APPEND copyq_SOURCES qxt/qxtglobalshortcut_x11.cpp)
-ELSEIF(Q_WS_WIN)
-    LIST(APPEND copyq_SOURCES qxt/qxtglobalshortcut_win.cpp)
-ELSEIF(Q_WS_MAC)
-    LIST(APPEND copyq_SOURCES qxt/qxtglobalshortcut_mac.cpp)
-ENDIF(Q_WS_X11)
+    set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
+    list(APPEND copyq_SOURCES qxt/qxtglobalshortcut_x11.cpp)
+elseif(Q_WS_WIN)
+    list(APPEND copyq_SOURCES qxt/qxtglobalshortcut_win.cpp)
+elseif(Q_WS_MAC)
+    list(APPEND copyq_SOURCES qxt/qxtglobalshortcut_mac.cpp)
+endif(Q_WS_X11)
 
-ADD_EXECUTABLE(copyq ${copyq_SOURCES}
-    ${copyq_HEADERS_MOC}
+add_executable(copyq ${copyq_SOURCES}
+    ${copyq_MOC}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC})
-TARGET_LINK_LIBRARIES(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
+target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 
 install(TARGETS copyq DESTINATION bin)
 
