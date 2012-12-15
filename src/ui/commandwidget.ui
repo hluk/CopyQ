@@ -89,10 +89,10 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
      <item row="3" column="0" colspan="2">
       <widget class="QCheckBox" name="checkBoxIgnore">
        <property name="toolTip">
-        <string>Don't save the matched clipboard content in history.</string>
+        <string>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</string>
        </property>
        <property name="text">
-        <string>&amp;Don't store matching items in first tab</string>
+        <string>&amp;Ignore Item</string>
        </property>
       </widget>
      </item>
