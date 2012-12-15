@@ -135,16 +135,19 @@ void ClipboardMonitor::setFormats(const QString &list)
     m_formats = list.split( QRegExp("[;,\\s]+") );
 }
 
-#ifdef Q_WS_X11
 bool ClipboardMonitor::updateSelection(bool check)
 {
-    // wait while selection is incomplete, i.e. mouse button or
-    // shift key is pressed
+#ifdef Q_WS_X11
+    // Wait while selection is incomplete, i.e. mouse button or
+    // shift key is pressed.
     if ( m_x11->waitForKeyRelease() )
         return false;
 
     if (check)
         checkClipboard(QClipboard::Selection);
+#else /* !Q_WS_X11 */
+    Q_UNUSED(check);
+#endif
 
     return true;
 }
@@ -154,7 +157,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     const QMimeData *data;
     uint newHash;
 
-    // check if clipboard data are needed
+#ifdef Q_WS_X11
     if (mode == QClipboard::Clipboard) {
         if ( (!m_checkclip && !m_copyclip) ||
              QApplication::clipboard()->ownsClipboard() )
@@ -173,6 +176,14 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     } else {
         return;
     }
+#else /* !Q_WS_X11 */
+    // check if clipboard data are needed
+    if (mode != QClipboard::Clipboard || !m_checkclip ||
+            QApplication::clipboard()->ownsClipboard())
+    {
+        return;
+    }
+#endif
 
     // get clipboard data
     data = clipboardData(mode);
@@ -198,6 +209,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // send data to serve and synchronize if needed
     m_lastHash = newHash;
+
+#ifdef Q_WS_X11
     if (mode == QClipboard::Clipboard) {
         if (m_checkclip)
             clipboardChanged(mode, cloneData(*data));
@@ -209,56 +222,12 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         if (m_copysel)
             setClipboardData( cloneData(*data), QClipboard::Clipboard );
     }
+#else /* !Q_WS_X11 */
+    clipboardChanged(mode, data);
+#endif
 
     delete data;
 }
-#else /* !Q_WS_X11 */
-void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
-{
-    const QMimeData *data;
-    QMimeData *data2;
-    uint newHash;
-
-    // check if clipboard data are needed
-    if (mode != QClipboard::Clipboard || !m_checkclip ||
-            QApplication::clipboard()->ownsClipboard())
-    {
-        return;
-    }
-
-    // get clipboard data
-    data = clipboardData(mode);
-
-    // data retrieved?
-    if (!data) {
-        log( tr("Cannot access clipboard data!"), LogError );
-        return;
-    }
-
-    // same data as last time?
-    newHash = hash(*data, m_formats);
-    if (m_lastHash == newHash)
-        return;
-
-    // clone only mime types defined by user
-    data2 = cloneData(*data, &m_formats);
-    // any data found?
-    if ( data2->formats().isEmpty() ) {
-        delete data2;
-        return;
-    }
-
-    // send data to serve and synchronize if needed
-    m_lastHash = newHash;
-
-    clipboardChanged(mode, data2);
-}
-
-bool ClipboardMonitor::updateSelection(bool)
-{
-    return true;
-}
-#endif
 
 void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
 {
