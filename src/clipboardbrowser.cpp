@@ -628,7 +628,7 @@ bool ClipboardBrowser::add(const QString &txt, bool force)
     return add(data, force);
 }
 
-bool ClipboardBrowser::add(QMimeData *data, bool force)
+bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTitle)
 {
     if (!force) {
         // don't add if new data is same as first item
@@ -643,7 +643,9 @@ bool ClipboardBrowser::add(QMimeData *data, bool force)
             bool ignore = false;
             foreach (const Command &c, m_commands) {
                 if (c.automatic || c.ignore || !c.tab.isEmpty()) {
-                    if (c.re.indexIn(text) != -1) {
+                    if ( c.re.indexIn(text) != -1
+                         && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
+                    {
                         if (c.automatic) {
                             Command cmd = c;
                             if ( cmd.outputTab.isEmpty() )

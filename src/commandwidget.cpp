@@ -43,19 +43,20 @@ CommandWidget::~CommandWidget()
 Command CommandWidget::command() const
 {
     Command c;
-    c.name = ui->lineEditName->text();
-    c.re   = QRegExp( ui->lineEditMatch->text() );
-    c.cmd  = ui->lineEditCommand->text();
-    c.sep  = ui->lineEditSeparator->text();
+    c.name   = ui->lineEditName->text();
+    c.re     = QRegExp( ui->lineEditMatch->text() );
+    c.wndre  = QRegExp( ui->lineEditWindow->text() );
+    c.cmd    = ui->lineEditCommand->text();
+    c.sep    = ui->lineEditSeparator->text();
     c.input  = ui->checkBoxInput->isChecked();
     c.output = ui->checkBoxOutput->isChecked();
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
     c.ignore = ui->checkBoxIgnore->isChecked();
     c.enable = ui->checkBoxEnable->isChecked();
-    c.icon = ui->lineEditIcon->text();
+    c.icon   = ui->lineEditIcon->text();
     c.shortcut = ui->pushButtonShortcut->text();
-    c.tab = ui->comboBoxCopyToTab->currentText();
+    c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
 
     return c;
@@ -65,6 +66,7 @@ void CommandWidget::setCommand(const Command &c)
 {
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );
+    ui->lineEditWindow->setText( c.wndre.pattern() );
     ui->lineEditCommand->setText(c.cmd);
     ui->lineEditSeparator->setText(c.sep);
     ui->checkBoxInput->setChecked(c.input);

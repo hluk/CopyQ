@@ -38,6 +38,14 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDesktopWidget>
+#include <QDebug> // TODO: REMOVE!
+
+#ifdef Q_WS_X11
+#   include <X11/Xlib.h>
+#   include <X11/Xatom.h>
+#elif defined Q_OS_WIN
+#   include "qt_windows.h"
+#endif
 
 namespace {
 
@@ -58,6 +66,56 @@ const QIcon &iconTabRemove() { ICON("tab_remove"); }
 const QIcon &iconTabRename() { ICON("tab_rename"); }
 const QIcon &iconTray() { ICON("icon"); }
 const QIcon &iconTrayRunning() { ICON("icon-running"); }
+
+QString currentWindowTitle()
+{
+#ifdef Q_WS_X11
+    struct X11Display {
+        X11Display() { d = XOpenDisplay(NULL); }
+        ~X11Display() { if (d != NULL) XCloseDisplay(d); }
+        operator Display*() { return d; }
+        bool isOk() { return d != NULL; }
+        Display *d;
+    } display;
+
+    if (display.isOk()) {
+        static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
+        static Atom atomName = XInternAtom(display, "_NET_WM_NAME", false);
+        static Atom atomUTF8 = XInternAtom(display, "UTF8_STRING", false);
+
+        Atom type;
+        int format;
+        unsigned long len;
+        unsigned long remain;
+        unsigned char *data;
+        Window focusedWindow = 0L;
+
+        // current window
+        if ( XGetWindowProperty(display, DefaultRootWindow(display.d), atomWindow, 0l, 1l, false,
+                                XA_WINDOW, &type, &format, &len, &remain, &data) == Success ) {
+            if (type == XA_WINDOW && format == 32 && len == 1)
+                focusedWindow = *reinterpret_cast<Window *>(data);
+            XFree(data);
+        }
+
+        // window title
+        if (focusedWindow != 0L) {
+            if ( XGetWindowProperty(display, focusedWindow, atomName, 0, (~0L), false, atomUTF8,
+                                    &type, &format, &len, &remain, &data) == Success ) {
+                QByteArray result(reinterpret_cast<const char *>(data), len);
+                XFree(data);
+                return QString::fromUtf8(result);
+            }
+        }
+    }
+#elif defined Q_OS_WIN
+    TCHAR buf[255];
+    GetWindowText(GetForegroundWindow(), buf, 255);
+    return QString::fromUtf16(buf);
+#endif // TODO: current window on Mac
+
+    return QString();
+}
 
 } // namespace
 

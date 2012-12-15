@@ -264,6 +264,12 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->sep = "\\n";
         c->shortcut = tr("Ctrl+R");
         break;
+    case 7:
+        c->name  = tr("Ignore items copied from *\"Password\"* window");
+        c->wndre = QRegExp("Password");
+        c->icon  = ":/images/command_ignore.svg";
+        c->ignore = true;
+        break;
     default:
         return false;
     }
