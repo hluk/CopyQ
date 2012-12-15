@@ -31,7 +31,9 @@ ClipboardModel::ClipboardModel(QObject *parent)
     , m_formats()
 {
     m_formats << QString("image/x-inkscape-svg-compressed")
+              << QString("image/png")
               << QString("image/bmp")
+              << QString("image/jpeg")
               << QString("text/html")
               << QString("text/plain");
 }

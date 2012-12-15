@@ -105,7 +105,9 @@ ConfigurationManager::ConfigurationManager()
     m_options["max_image_height"] = Option(240, "value", ui->spinBoxImageHeight);
     m_options["formats"] = Option("image/svg+xml\n"
                                   "image/x-inkscape-svg-compressed\n"
+                                  "image/png\n"
                                   "image/bmp\n"
+                                  "image/jpeg\n"
                                   "text/html\n"
                                   "text/plain",
                                   "plainText", ui->plainTextEditFormats);
