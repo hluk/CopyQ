@@ -38,6 +38,10 @@ CommandWidget::CommandWidget(QWidget *parent)
 CommandWidget::~CommandWidget()
 {
     delete ui;
+#if !defined(Q_WS_X11) && !defined(Q_OS_WIN)
+    ui->lineEditWindow->hide();
+    ui->labelWindow->hide();
+#endif
 }
 
 Command CommandWidget::command() const
