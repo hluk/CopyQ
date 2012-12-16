@@ -200,10 +200,10 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
 
     // clone only mime types defined by user
-    data = cloneData(*data, &m_formats);
+    QMimeData *data2 = cloneData(*data, &m_formats);
     // any data found?
-    if ( data->formats().isEmpty() ) {
-        delete data;
+    if ( data2->formats().isEmpty() ) {
+        delete data2;
         return;
     }
 
@@ -213,20 +213,20 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #ifdef Q_WS_X11
     if (mode == QClipboard::Clipboard) {
         if (m_checkclip)
-            clipboardChanged(mode, cloneData(*data));
+            clipboardChanged(mode, cloneData(*data2));
         if (m_copyclip)
-            setClipboardData( cloneData(*data), QClipboard::Selection );
+            setClipboardData( cloneData(*data2), QClipboard::Selection );
     } else {
         if (m_checksel)
-            clipboardChanged(mode, cloneData(*data));
+            clipboardChanged(mode, cloneData(*data2));
         if (m_copysel)
-            setClipboardData( cloneData(*data), QClipboard::Clipboard );
+            setClipboardData( cloneData(*data2), QClipboard::Clipboard );
     }
-#else /* !Q_WS_X11 */
-    clipboardChanged(mode, data);
-#endif
 
-    delete data;
+    delete data2;
+#else /* !Q_WS_X11 */
+    clipboardChanged(mode, data2);
+#endif
 }
 
 void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)

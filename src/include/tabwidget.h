@@ -38,7 +38,6 @@ public slots:
 signals:
     void tabMoved(int from, int to);
     void tabMenuRequested(const QPoint &pos, int tab);
-    void tabCloseRequested(int tab);
 };
 
 #endif // TABWIDGET_H

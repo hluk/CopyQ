@@ -109,9 +109,9 @@ QString currentWindowTitle()
         }
     }
 #elif defined Q_OS_WIN
-    TCHAR buf[255];
-    GetWindowText(GetForegroundWindow(), buf, 255);
-    return QString::fromUtf16(buf);
+    TCHAR buf[1024];
+    GetWindowText(GetForegroundWindow(), buf, 1024);
+    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
 #endif // TODO: current window on Mac
 
     return QString();
@@ -843,7 +843,7 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
                     c->model()->removeRow(0);
             }
         }
-        c->add(data2, force);
+        c->add(data2, force, force ? QString() : currentWindowTitle());
     }
 }
 

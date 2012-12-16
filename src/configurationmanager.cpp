@@ -225,8 +225,8 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     *c = Command();
     switch(index) {
     case 1:
-        c->name = tr("Ignore items with no text and single character items");
-        c->re   = QRegExp("^\\s+$|^\\s*\\S\\s*$");
+        c->name = tr("Ignore items with no or single character");
+        c->re   = QRegExp("^\\s*\\S?\\s*$");
         c->icon = ":/images/command_ignore.svg";
         c->ignore = true;
         break;
@@ -268,7 +268,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         break;
 #if defined(Q_WS_X11) || defined(Q_OS_WIN)
     case 7:
-        c->name  = tr("Ignore items copied from *\"Password\"* window");
+        c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp("Password");
         c->icon  = ":/images/command_ignore.svg";
         c->ignore = true;
@@ -410,6 +410,7 @@ void ConfigurationManager::loadSettings()
         Command c;
         c.name = settings.value( tr("Name") ).toString();
         c.re   = QRegExp( settings.value( tr("Match") ).toString() );
+        c.wndre = QRegExp( settings.value( tr("Window") ).toString() );
         c.cmd = settings.value( tr("Command") ).toString();
         c.sep = settings.value( tr("Separator") ).toString();
         c.input = settings.value( tr("Input") ).toBool();
@@ -449,6 +450,7 @@ void ConfigurationManager::saveSettings()
         settings.setArrayIndex(i++);
         settings.setValue("Name", c.name);
         settings.setValue("Match", c.re.pattern());
+        settings.setValue("Window", c.wndre.pattern());
         settings.setValue("Command", c.cmd);
         settings.setValue("Separator", c.sep);
         settings.setValue("Input", c.input);

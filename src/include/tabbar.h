@@ -34,7 +34,6 @@ protected:
 
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
-    void tabCloseRequested(int tab);
 };
 
 #endif // TABBAR_H
