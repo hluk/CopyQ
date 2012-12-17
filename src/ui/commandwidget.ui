@@ -22,7 +22,7 @@
         <string>Enable this command</string>
        </property>
        <property name="text">
-        <string>&amp;Enable this rule</string>
+        <string>&amp;Enable</string>
        </property>
        <property name="checked">
         <bool>true</bool>
@@ -39,8 +39,7 @@
      <item row="6" column="1">
       <widget class="QLineEdit" name="lineEditCommand">
        <property name="toolTip">
-        <string>Command to run. Use %1 for item text passed as argument and %2 to %9
-for arguments captured by regular expression (parts enclosed in parentheses).</string>
+        <string>&lt;p&gt;Command to run. Use %1 for item text passed as argument and %2 to %9 for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;</string>
        </property>
       </widget>
      </item>
@@ -99,7 +98,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
      <item row="0" column="1">
       <widget class="QLineEdit" name="lineEditName">
        <property name="toolTip">
-        <string>Command name (shown in menu)</string>
+        <string>Command name shown in menu</string>
        </property>
       </widget>
      </item>
@@ -164,7 +163,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
        <item>
         <widget class="QLineEdit" name="lineEditIcon">
          <property name="toolTip">
-          <string>Command name (shown in menu)</string>
+          <string>Icon shown in menu</string>
          </property>
         </widget>
        </item>
@@ -226,7 +225,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
         <item>
          <widget class="QCheckBox" name="checkBoxInput">
           <property name="toolTip">
-           <string>Send item text to standard input of the command.</string>
+           <string>Send item text to standard input of the command</string>
           </property>
           <property name="text">
            <string>In&amp;put</string>
@@ -239,7 +238,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
         <item>
          <widget class="QCheckBox" name="checkBoxWait">
           <property name="toolTip">
-           <string>Before executing the command show action dialog.</string>
+           <string>Show action dialog before executing the command</string>
           </property>
           <property name="text">
            <string>&amp;Wait</string>
@@ -249,7 +248,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
         <item>
          <widget class="QCheckBox" name="checkBoxAutomatic">
           <property name="toolTip">
-           <string>Run the command automatically</string>
+           <string>Run the command automatically if clipboard has new content</string>
           </property>
           <property name="text">
            <string>Auto&amp;matic</string>
@@ -261,7 +260,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
       <item>
        <widget class="QCheckBox" name="checkBoxOutput">
         <property name="toolTip">
-         <string>Save standard output to items.</string>
+         <string>Save standard output to history</string>
         </property>
         <property name="text">
          <string>O&amp;utput into item(s)</string>
@@ -295,7 +294,7 @@ for arguments captured by regular expression (parts enclosed in parentheses).</s
            <bool>false</bool>
           </property>
           <property name="toolTip">
-           <string>Separator to match for splitting the output to multiple items.</string>
+           <string>Separator to match for splitting the output to multiple items</string>
           </property>
           <property name="text">
            <string>\n</string>

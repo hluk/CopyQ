@@ -79,7 +79,7 @@ void log(const QString &text, const LogLevel level)
     else if (level == LogError)
         level_id = QObject::tr("CopyQ ERROR: %1\n");
 
-    msg = level_id.arg(text).toLocal8Bit();
+    msg = level_id.arg(text);
     err << msg;
 }
 

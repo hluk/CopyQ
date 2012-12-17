@@ -19,6 +19,10 @@
 
 #include "app.h"
 
+#include <QLibraryInfo>
+#include <QLocale>
+#include <QTranslator>
+
 App::App(int &argc, char **argv)
     : m_app(argc, argv)
     , m_exitCode(0)
@@ -26,6 +30,15 @@ App::App(int &argc, char **argv)
 {
     QCoreApplication::setOrganizationName("copyq");
     QCoreApplication::setApplicationName("copyq");
+
+    const QString locale = QLocale::system().name();
+    QTranslator *translator = new QTranslator(this);
+    translator->load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    QCoreApplication::installTranslator(translator);
+
+    translator = new QTranslator(this);
+    translator->load("copyq_" + locale, ":/translations");
+    QCoreApplication::installTranslator(translator);
 }
 
 int App::exec()

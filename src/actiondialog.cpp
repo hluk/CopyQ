@@ -267,7 +267,6 @@ void ActionDialog::updateMinimalGeometry()
 
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 {
-    QString name;
     Command cmd;
     ConfigurationManager *cm;
 

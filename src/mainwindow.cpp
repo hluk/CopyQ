@@ -261,7 +261,7 @@ void MainWindow::createMenu()
     // - import tab
     menu->addAction( iconOpen(), tr("&Import Tab..."),
                      this, SLOT(loadTab()),
-                     QKeySequence("Ctrl+I") );
+                     QKeySequence(tr("Ctrl+I")) );
 
     // - export tab
     menu->addAction( iconSave(), tr("&Export Tab..."),
@@ -281,14 +281,14 @@ void MainWindow::createMenu()
                                tr("&Preferences"),
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
-                     QKeySequence("Ctrl+P") );
+                     QKeySequence(tr("Ctrl+P")) );
 
     // - show clipboard content
     act = traymenu->addAction( iconClipboard(),
                                tr("Show &Clipboard Content"),
                                this, SLOT(showClipboardContent()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
-                     QKeySequence("Ctrl+Shift+C") );
+                     QKeySequence(tr("Ctrl+Shift+C")) );
 
     // - separator
     menu->addSeparator();
@@ -296,7 +296,7 @@ void MainWindow::createMenu()
     // - exit
     act = menu->addAction( iconExit(), tr("E&xit"),
                            this, SLOT(exit()),
-                           QKeySequence("Ctrl+Q") );
+                           QKeySequence(tr("Ctrl+Q")) );
 
     // Edit
     menu = menubar->addMenu( tr("&Edit") );
@@ -305,13 +305,13 @@ void MainWindow::createMenu()
     act = menu->addAction( iconSort(),
                            tr("&Sort Selected Items"),
                            this, SLOT(sortSelectedItems()),
-                           QKeySequence("Ctrl+Shift+S") );
+                           QKeySequence(tr("Ctrl+Shift+S")) );
 
     // - reverse order
     act = menu->addAction( iconReverse(),
                            tr("&Reverse Selected Items"),
                            this, SLOT(reverseSelectedItems()),
-                           QKeySequence("Ctrl+Shift+R") );
+                           QKeySequence(tr("Ctrl+Shift+R")) );
 
     // - separator
     menu->addSeparator();
@@ -338,13 +338,13 @@ void MainWindow::createMenu()
     // add tab
     menu->addAction( iconTabNew(), tr("&New tab"),
                      this, SLOT(newTab()),
-                     QKeySequence("Ctrl+T") );
+                     QKeySequence(tr("Ctrl+T")) );
     menu->addAction( iconTabRename(), tr("&Rename tab"),
                      this, SLOT(renameTab()),
-                     QKeySequence("Ctrl+F2") );
+                     QKeySequence(tr("Ctrl+F2")) );
     menu->addAction( iconTabRemove(), tr("&Remove tab"),
                      this, SLOT(removeTab()),
-                     QKeySequence("Ctrl+W") );
+                     QKeySequence(tr("Ctrl+W")) );
 
     // Commands
     cmdMenu = menubar->addMenu(tr("Co&mmands"));

@@ -46,7 +46,7 @@
          <item row="3" column="0">
           <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
            <property name="toolTip">
-            <string>Keep main window above other windows.</string>
+            <string>Keep main window above other windows</string>
            </property>
            <property name="text">
             <string>Always on &amp;Top</string>
@@ -70,7 +70,7 @@
               <item>
                <widget class="QCheckBox" name="checkBoxClip">
                 <property name="toolTip">
-                 <string>Save clipboard in history.</string>
+                 <string>Save clipboard in history</string>
                 </property>
                 <property name="text">
                  <string>clipboard to history (&amp;1)</string>
@@ -83,7 +83,7 @@
               <item>
                <widget class="QCheckBox" name="checkBoxCopyClip">
                 <property name="toolTip">
-                 <string>Copy clipboard content to the primary selection.</string>
+                 <string>Copy clipboard content to the primary selection</string>
                 </property>
                 <property name="text">
                  <string>clipboard to selection (&amp;2)</string>
@@ -96,7 +96,7 @@
               <item>
                <widget class="QCheckBox" name="checkBoxSel">
                 <property name="toolTip">
-                 <string>Save primary selection in history.</string>
+                 <string>Save primary selection in history</string>
                 </property>
                 <property name="text">
                  <string>selection to history (&amp;3)</string>
@@ -109,7 +109,7 @@
               <item>
                <widget class="QCheckBox" name="checkBoxCopySel">
                 <property name="toolTip">
-                 <string>Copy primary selection content to the clipboard.</string>
+                 <string>Copy primary selection content to the clipboard</string>
                 </property>
                 <property name="text">
                  <string>selection to clipboard (&amp;4)</string>
@@ -127,7 +127,7 @@
          <item row="4" column="0">
           <widget class="QCheckBox" name="checkBoxConfirmExit">
            <property name="toolTip">
-            <string>Confirm application exit.</string>
+            <string>Confirm application exit</string>
            </property>
            <property name="text">
             <string>Confirm application e&amp;xit</string>
@@ -140,7 +140,7 @@
          <item row="2" column="0">
           <widget class="QCheckBox" name="checkBoxViMode">
            <property name="toolTip">
-            <string>Support for Vi navigation keys (H, J, K, L and more),  slash (/) key to search.</string>
+            <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
            </property>
            <property name="text">
             <string>&amp;Vi style navigation</string>
@@ -230,7 +230,7 @@
            <item row="0" column="1">
             <widget class="QSpinBox" name="spinBoxItems">
              <property name="toolTip">
-              <string>Maximum number of items in history.</string>
+              <string>Maximum number of items in each tab</string>
              </property>
              <property name="maximum">
               <number>10000</number>
@@ -253,7 +253,7 @@
            <item row="1" column="1">
             <widget class="QSpinBox" name="spinBoxTrayItems">
              <property name="toolTip">
-              <string>Number of items in tray menu.</string>
+              <string>Number of items in tray menu</string>
              </property>
              <property name="value">
               <number>5</number>
@@ -288,7 +288,7 @@
              <item>
               <widget class="QSpinBox" name="spinBoxImageWidth">
                <property name="toolTip">
-                <string>Maximum width of image displayed in history.</string>
+                <string>Maximum width of image displayed in history</string>
                </property>
                <property name="maximum">
                 <number>4096</number>
@@ -311,7 +311,7 @@
              <item>
               <widget class="QSpinBox" name="spinBoxImageHeight">
                <property name="toolTip">
-                <string>Maximum height of image displayed in history.</string>
+                <string>Maximum height of image displayed in history</string>
                </property>
                <property name="maximum">
                 <number>4096</number>
@@ -365,7 +365,7 @@
            <item>
             <widget class="QPlainTextEdit" name="plainTextEditFormats">
              <property name="toolTip">
-              <string>List of clipboard mime types that will be stored in history (in given display order).</string>
+              <string>List of clipboard mime types that will be stored in history (in given display order)</string>
              </property>
              <property name="tabChangesFocus">
               <bool>true</bool>
@@ -553,7 +553,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
          <item row="0" column="0">
           <widget class="QLabel" name="label_18">
            <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Set system-wide keyboard shortcuts. Click on a button and press shortcut to assign it.&lt;/body&gt;&lt;/html&gt;</string>
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn't have focus.&lt;/body&gt;&lt;/html&gt;</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -568,7 +568,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            <item row="0" column="0">
             <widget class="QLabel" name="label">
              <property name="text">
-              <string>Sh&amp;ow/hide the clipboard history</string>
+              <string>Sh&amp;ow/hide main window</string>
              </property>
              <property name="buddy">
               <cstring>pushButton</cstring>
@@ -578,7 +578,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            <item row="0" column="1">
             <widget class="QPushButton" name="pushButton">
              <property name="toolTip">
-              <string>Shortcut to show or hide clipboard history.</string>
+              <string>Shortcut to show or hide main window</string>
              </property>
             </widget>
            </item>
@@ -595,7 +595,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            <item row="1" column="1">
             <widget class="QPushButton" name="pushButton_2">
              <property name="toolTip">
-              <string>Shortcut to show tray menu.</string>
+              <string>Shortcut to show tray menu</string>
              </property>
             </widget>
            </item>
@@ -652,22 +652,29 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            <item row="2" column="1">
             <widget class="QPushButton" name="pushButton_3">
              <property name="toolTip">
-              <string>Shortcut to open the first item in external editor.</string>
+              <string>Shortcut to edit clipboard content</string>
              </property>
             </widget>
            </item>
            <item row="3" column="1">
             <widget class="QPushButton" name="pushButton_4">
              <property name="toolTip">
-              <string>Shortcut to put the second item to clipboard.</string>
+              <string>Shortcut to edit first item</string>
              </property>
             </widget>
            </item>
            <item row="4" column="1">
-            <widget class="QPushButton" name="pushButton_5"/>
+            <widget class="QPushButton" name="pushButton_5">
+             <property name="toolTip">
+              <string>Shortcut to put the second item to clipboard</string>
+             </property>
+            </widget>
            </item>
            <item row="5" column="1">
             <widget class="QPushButton" name="pushButton_6">
+             <property name="toolTip">
+              <string>Shortcut to show action dialog</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -675,6 +682,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </item>
            <item row="6" column="1">
             <widget class="QPushButton" name="pushButton_7">
+             <property name="toolTip">
+              <string>Shortcut to create new item</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -716,8 +726,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>272</width>
-              <height>343</height>
+              <width>220</width>
+              <height>339</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

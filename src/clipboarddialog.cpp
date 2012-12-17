@@ -80,8 +80,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     }
 
     ui->labelProperties->setText(
-                "<strong> mime: </strong>" + escapeHtml(mime) +
-                "<strong> size: </strong>" + QString::number(bytes.size()) +
-                " bytes"
-                );
+        tr("<strong> mime:</strong> %1 <strong>size:</strong> %2 bytes")
+            .arg(escapeHtml(mime))
+            .arg(QString::number(bytes.size())));
 }

@@ -104,11 +104,11 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
         menu->setParent(editor);
 
         act = menu->addAction( tr("&Save Item") );
-        act->setShortcut( QKeySequence("F2, Ctrl+Enter") );
+        act->setShortcut( QKeySequence(tr("F2, Ctrl+Enter")) );
         connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
 
         act = menu->addAction( tr("Cancel Editing") );
-        act->setShortcut( QKeySequence("Escape") );
+        act->setShortcut( QKeySequence(tr("Escape")) );
         connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
 
         QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);

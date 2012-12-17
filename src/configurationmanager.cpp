@@ -83,10 +83,10 @@ ConfigurationManager::ConfigurationManager()
                  << tr("Select items and move them with\n"
                        "CTRL and up or down key.")
                  << tr("Remove item with Delete key.")
-                 << tr("Example item 1")
-                 << tr("Example item 2")
-                 << tr("Example item 3") );
-    c->filterItems("item");
+                 << tr("Example item %1").arg(1)
+                 << tr("Example item %1").arg(2)
+                 << tr("Example item %1").arg(3) );
+    c->filterItems( tr("item") );
 
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->tab_shortcuts->deleteLater();
@@ -269,7 +269,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
 #if defined(Q_WS_X11) || defined(Q_OS_WIN)
     case 7:
         c->name  = tr("Ignore *\"Password\"* window");
-        c->wndre = QRegExp("Password");
+        c->wndre = QRegExp(tr("Password"));
         c->icon  = ":/images/command_ignore.svg";
         c->ignore = true;
         break;
@@ -408,21 +408,21 @@ void ConfigurationManager::loadSettings()
         settings.setArrayIndex(i);
 
         Command c;
-        c.name = settings.value( tr("Name") ).toString();
-        c.re   = QRegExp( settings.value( tr("Match") ).toString() );
-        c.wndre = QRegExp( settings.value( tr("Window") ).toString() );
-        c.cmd = settings.value( tr("Command") ).toString();
-        c.sep = settings.value( tr("Separator") ).toString();
-        c.input = settings.value( tr("Input") ).toBool();
-        c.output = settings.value( tr("Output") ).toBool();
-        c.wait = settings.value( tr("Wait") ).toBool();
-        c.automatic = settings.value( tr("Automatic") ).toBool();
-        c.ignore = settings.value( tr("Ignore") ).toBool();
-        c.enable = settings.value( tr("Enable") ).toBool();
-        c.icon = settings.value( tr("Icon") ).toString();
-        c.shortcut = settings.value( tr("Shortcut") ).toString();
-        c.tab = settings.value( tr("Tab") ).toString();
-        c.outputTab = settings.value( tr("OutputTab") ).toString();
+        c.name = settings.value("Name").toString();
+        c.re   = QRegExp( settings.value("Match").toString() );
+        c.wndre = QRegExp( settings.value("Window").toString() );
+        c.cmd = settings.value("Command").toString();
+        c.sep = settings.value("Separator").toString();
+        c.input = settings.value("Input").toBool();
+        c.output = settings.value("Output").toBool();
+        c.wait = settings.value("Wait").toBool();
+        c.automatic = settings.value("Automatic").toBool();
+        c.ignore = settings.value("Ignore").toBool();
+        c.enable = settings.value("Enable").toBool();
+        c.icon = settings.value("Icon").toString();
+        c.shortcut = settings.value("Shortcut").toString();
+        c.tab = settings.value("Tab").toString();
+        c.outputTab = settings.value("OutputTab").toString();
 
         addCommand(c);
     }
@@ -694,7 +694,7 @@ void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
     } else if ( !c.cmd.isEmpty() ) {
         text = c.cmd;
     } else {
-        text = "(command)";
+        text = tr("<untitled command>");
     }
     item->setText(text);
 

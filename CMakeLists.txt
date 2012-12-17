@@ -35,18 +35,13 @@ set(copyq_MOCABLE
     qt/bytearrayclass.h
     )
 
-set(copyq_FORMS
-    src/ui/aboutdialog.ui
-    src/ui/actiondialog.ui
-    src/ui/clipboarddialog.ui
-    src/ui/commandwidget.ui
-    src/ui/configurationmanager.ui
-    src/ui/mainwindow.ui
-    src/ui/shortcutdialog.ui
-    src/ui/tabdialog.ui
+file(GLOB copyq_FORMS
+    src/ui/*.ui
     )
 
 set(copyq_RESOURCES src/copyq.qrc)
+
+file(GLOB copyq_TRANSLATIONS translations/*.ts)
 
 # Qt modules
 set(QT_USE_QTNETWORK TRUE)
@@ -61,6 +56,17 @@ add_definitions(${QT_DEFINITIONS})
 qt4_wrap_cpp(copyq_MOC ${copyq_MOCABLE})
 qt4_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
 qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
+qt4_add_translation(copyq_QM ${copyq_TRANSLATIONS})
+
+# Generate a qrc file for the translations
+set(copyq_QM_RCC ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
+file(WRITE ${copyq_QM_RCC} "<RCC><qresource prefix=\"/translations\">")
+foreach(QM_FILE ${copyq_QM})
+  file(RELATIVE_PATH copyq_RELATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR} ${QM_FILE})
+  file(APPEND ${copyq_QM_RCC} "<file>" ${copyq_RELATIVE_PATH} "</file>")
+endforeach(QM_FILE)
+file(APPEND ${copyq_QM_RCC} "</qresource></RCC>")
+qt4_add_resources(copyq_RESOURCES_RCC ${copyq_QM_RCC})
 
 if(Q_WS_X11)
     # window system is X11 and 'fixes' extension is required
@@ -84,7 +90,9 @@ endif(Q_WS_X11)
 add_executable(copyq ${copyq_SOURCES}
     ${copyq_MOC}
     ${copyq_FORMS_HEADERS}
-    ${copyq_RESOURCES_RCC})
+    ${copyq_RESOURCES_RCC}
+    ${copyq_QM}
+    )
 target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 
 install(TARGETS copyq DESTINATION bin)

@@ -647,7 +647,8 @@ QScriptValue Scriptable::config()
         options.sort();
         QString opts;
         foreach (const QString &option, options)
-            opts.append( option + "\n  " + cm->optionToolTip(option) + '\n' );
+            opts.append( option + "\n  " +
+                         cm->optionToolTip(option).replace('\n', "\n  ").toLocal8Bit() + '\n' );
         return opts;
     } else {
         if ( cm->options().contains(name) ) {
