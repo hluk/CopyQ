@@ -39,71 +39,178 @@ const char *const programName = "CopyQ Clipboard Manager";
 
 const char *const versionString = "1.4.0";
 
-const char *const usageString = "Usage: copyq [COMMAND]\n";
+const QString nl("\n");
 
-const char *const helpString =
-"Starts server if no command is specified.\n"
-"  COMMANDs:\n"
-"    show    Show main window.\n"
-"    hide    Hide main window.\n"
-"    toggle  Show or hide main window.\n"
-"    menu    Open context menu.\n"
-"    exit    Exit server.\n"
-"\n"
-"    clipboard [MIME]          Print clipboard content.\n"
-#ifdef Q_WS_X11
-"    selection [MIME]          Print X11 selection content.\n"
-#endif
-"\n"
-"    tab                       List available tab names.\n"
-"    tab NAME [COMMAND]        Run command on tab with given name.\n"
-"                              Tab is created if it doesn't exist.\n"
-"                              Default is the first tab (NAME is empty).\n"
-"    removetab NAME            Remove tab.\n"
-"    renametab NAME NEW_NAME   Rename tab.\n"
-"\n"
-"    length, count, size       Print number of items in history.\n"
-"    select [ROW=0]            Move item in the row to clipboard.\n"
-"    add TEXT...               Add text into clipboard.\n"
-"    remove [ROWS=0...]        Remove item in given rows.\n"
-"    edit [ROWS...]            Edit items or edit new one.\n"
-"                              Value -1 is for current text in clipboard.\n"
-"\n"
-"    read [MIME|ROW]...        Print raw data of clipboard or item in row.\n"
-"    write MIME DATA           Write raw data to clipboard.\n"
-"    separator SEPARATOR       Set separator for input items.\n"
-"\n"
-"    action [ROWS=0...]        Show action dialog.\n"
-"    action [ROWS=0...] [PROGRAM [SEPARATOR=\\n]]\n"
-"                              Run PROGRAM on item text in the rows.\n"
-"                              Use %1 in PROGRAM to pass text as argument.\n"
-"    popup TITLE MESSAGE [TIME=8000]\n"
-"                              Show tray popup message for TIME milliseconds.\n"
-"\n"
-"    exporttab FILE_NAME       Export items to file.\n"
-"    importtab FILE_NAME       Import items from file.\n"
-"\n"
-"    config                    List all options.\n"
-"    config OPTION             Get option value.\n"
-"    config OPTION VALUE       Set option value.\n"
-"\n"
-"    eval, -e [SCRIPT]         Evaluate script.\n"
-"\n"
-"    help, -h, --help [COMMAND]\n"
-"      Print help for COMMAND or all commands.\n"
-"    version, -v, --version\n"
-"      Print version of program and libraries.\n"
-"\n"
-"NOTES:\n"
-"  - Use dash argument (-) to read data from stdandard input.\n"
-"  - Use double-dash argument (--) to read all following arguments without\n"
-"    expanding escape sequences (i.e. \\n, \\t and others).\n"
-"  - Use ? for MIME to print available MIME types (default is \"text/plain\").\n"
-"  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
-"      copyq -e \"x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x\"\n"
-"    prints concatenated text of all items in the first tab.\n";
+struct CommandHelp {
+    CommandHelp()
+        : cmd()
+        , desc()
+        , args()
+    {
+    }
 
-const QString argumentError = QObject::tr("Invalid number or arguments!");
+    CommandHelp(const char *command, const QString &description)
+        : cmd(command)
+        , desc(description)
+        , args()
+    {
+    }
+
+    CommandHelp &addArg(const QString &arg)
+    {
+        args.append(' ');
+        args.append(arg);
+        return *this;
+    }
+
+    QString toString() const
+    {
+        if (cmd.isNull())
+            return nl;
+
+        const int indent = 23;
+        bool indentFirst = desc.startsWith('\n');
+        return QString("    %1").arg(cmd + args, indentFirst ? 0 : -indent)
+                + (indentFirst ? QString() : QString("  "))
+                + QString(desc).replace('\n', "\n" + QString(' ')
+                    .repeated(4 + 2 + (indentFirst ? 0 : indent))) + nl;
+    }
+
+    QString cmd;
+    QString desc;
+    QString args;
+};
+
+QList<CommandHelp> commandHelp()
+{
+    return QList<CommandHelp>()
+        << CommandHelp("show",
+                       QObject::tr("Show main window."))
+        << CommandHelp("hide",
+                       QObject::tr("Hide main window."))
+        << CommandHelp("toggle",
+                       QObject::tr("Show or hide main window."))
+        << CommandHelp("menu",
+                       QObject::tr("Open context menu."))
+        << CommandHelp("exit",
+                       QObject::tr("Exit server."))
+        << CommandHelp()
+        << CommandHelp("clipboard",
+                       QObject::tr("Print clipboard content."))
+           .addArg("[" + QObject::tr("MIME") + "]")
+    #ifdef Q_WS_X11
+        << CommandHelp("selection",
+                       QObject::tr("Print X11 selection content."))
+           .addArg("[" + QObject::tr("MIME") + "]")
+    #endif
+        << CommandHelp()
+        << CommandHelp("length, count, size",
+                       QObject::tr("Print number of items in history."))
+        << CommandHelp("select",
+                       QObject::tr("Move item in the row to clipboard."))
+           .addArg("[" + QObject::tr("ROW") + "=0]")
+        << CommandHelp("add",
+                       QObject::tr("Add text into clipboard."))
+           .addArg(QObject::tr("TEXT") + "...")
+        << CommandHelp("remove",
+                       QObject::tr("Remove items in given rows."))
+           .addArg("[" + QObject::tr("ROWS") + "=0...]")
+        << CommandHelp("edit",
+                       QObject::tr("Edit items or edit new one.\n"
+                                   "Value -1 is for current text in clipboard."))
+           .addArg("[" + QObject::tr("ROWS") + "...]")
+        << CommandHelp()
+        << CommandHelp("read",
+                       QObject::tr("Print raw data of clipboard or item in row."))
+           .addArg("[" + QObject::tr("MIME") + "|" + QObject::tr("ROW") + "]...")
+        << CommandHelp("write", QObject::tr("Write raw data to clipboard."))
+           .addArg(QObject::tr("MIME"))
+           .addArg(QObject::tr("DATA"))
+        << CommandHelp("separator",
+                       QObject::tr("Set separator for items on output."))
+           .addArg(QObject::tr("SEPARATOR"))
+        << CommandHelp()
+        << CommandHelp("action",
+                       QObject::tr("Show action dialog."))
+           .addArg("[" + QObject::tr("ROWS") + "=0...]")
+        << CommandHelp("action",
+                       QObject::tr("\nRun PROGRAM on item text in the rows.\n"
+                                   "Use %1 in PROGRAM to pass text as argument."))
+           .addArg("[" + QObject::tr("ROWS") + "=0...]")
+           .addArg("[" + QObject::tr("PROGRAM") + " [" + QObject::tr("SEPARATOR") + "=\\n]]")
+        << CommandHelp("popup",
+                       QObject::tr("\nShow tray popup message for TIME milliseconds."))
+           .addArg(QObject::tr("TITLE"))
+           .addArg(QObject::tr("MESSAGE"))
+           .addArg("[" + QObject::tr("TIME") + "=8000]")
+        << CommandHelp()
+        << CommandHelp("tab",
+                       QObject::tr("List available tab names."))
+        << CommandHelp("tab",
+                       QObject::tr("Run command on tab with given name.\n"
+                                   "Tab is created if it doesn't exist.\n"
+                                   "Default is the first tab."))
+           .addArg(QObject::tr("NAME"))
+           .addArg("[" + QObject::tr("COMMAND") + "]")
+        << CommandHelp("removetab",
+                       QObject::tr("Remove tab."))
+           .addArg(QObject::tr("NAME"))
+        << CommandHelp("renametab",
+                       QObject::tr("Rename tab."))
+           .addArg(QObject::tr("NAME"))
+           .addArg(QObject::tr("NEW_NAME"))
+        << CommandHelp()
+        << CommandHelp("exporttab",
+                       QObject::tr("Export items to file."))
+           .addArg(QObject::tr("FILE_NAME"))
+        << CommandHelp("importtab",
+                       QObject::tr("Import items from file."))
+           .addArg(QObject::tr("FILE_NAME"))
+        << CommandHelp()
+        << CommandHelp("config",
+                       QObject::tr("List all options."))
+        << CommandHelp("config",
+                       QObject::tr("Get option value."))
+           .addArg(QObject::tr("OPTION"))
+        << CommandHelp("config",
+                       QObject::tr("Set option value."))
+           .addArg(QObject::tr("OPTION"))
+           .addArg(QObject::tr("VALUE"))
+        << CommandHelp()
+        << CommandHelp("eval, -e",
+                       QObject::tr("Evaluate script."))
+           .addArg("[" + QObject::tr("SCRIPT") + "]")
+        << CommandHelp("help, -h, --help",
+                       QObject::tr("\nPrint help for COMMAND or all commands."))
+           .addArg("[" + QObject::tr("COMMAND") + "]")
+        << CommandHelp("version, -v, --version",
+                       QObject::tr("\nPrint version of program and libraries."));
+}
+
+QString helpHead()
+{
+    return QObject::tr("Usage: copyq [%1]").arg(QObject::tr("COMMAND")) + nl
+        + nl
+        + QObject::tr("Starts server if no command is specified.") + nl
+        + QObject::tr("  COMMANDs:");
+}
+
+QString helpTail()
+{
+    return QObject::tr("NOTES:") + nl
+        + QObject::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
+        + QObject::tr("  - Use double-dash argument (--) to read all following arguments without\n"
+                      "    expanding escape sequences (i.e. \\n, \\t and others).") + nl
+        + QObject::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").") + nl
+        + QObject::tr("  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
+                      "      copyq -e \"tab('music'); x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x\"\n"
+                      "    prints concatenated text of all items in the tab 'music'.\n");
+}
+
+QString argumentError()
+{
+    return QObject::tr("Invalid number or arguments!");
+}
 
 QScriptValue getValue(QScriptEngine *eng, const QString &variableName)
 {
@@ -194,8 +301,7 @@ QScriptValue Scriptable::applyRest(int first)
     QString name = toString(fn);
     fn = getValue(engine(), name);
     if ( !fn.isFunction() ) {
-        context()->throwError(
-            QObject::tr("Name \"%1\" doesn't refer to a function.").arg(name) );
+        throwError( QObject::tr("Name \"%1\" doesn't refer to a function.").arg(name) );
         return QScriptValue();
     }
 
@@ -266,6 +372,11 @@ void Scriptable::sendMessage(const QByteArray &message, int exitCode)
     writeMessage(m_client, msg);
 }
 
+void Scriptable::throwError(const QString &errorMessage)
+{
+    context()->throwError( errorMessage.toLocal8Bit() + QString("\n") );
+}
+
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" + versionString + " (hluk@email.cz)\n"
@@ -277,10 +388,33 @@ QScriptValue Scriptable::version()
 
 QScriptValue Scriptable::help()
 {
-    // TODO: print help only for functionName
-    return tr(usageString, "usage") + '\n'
-            + tr(helpString, "command line arguments") + '\n'
-            + tr(programName) + " v" + versionString  + " (hluk@email.cz)\n";
+    const QString &cmd = arg(0);
+    QString helpString;
+
+    if (cmd.isNull())
+        helpString.append(helpHead() + nl);
+
+    bool found = cmd.isNull();
+    foreach (CommandHelp hlp, commandHelp()) {
+        if (cmd.isNull()) {
+            helpString.append(hlp.toString());
+        } else if (hlp.cmd.contains(cmd)) {
+            found = true;
+            helpString.append(hlp.toString());
+        }
+    }
+
+    if (!found) {
+        throwError( tr("Command not found!") );
+        return QString();
+    }
+
+    if (cmd.isNull())
+        helpString.append(nl + helpTail());
+
+    return helpString.toLocal8Bit() +
+            (cmd.isNull() ? nl + nl + tr(programName) + " v" + versionString  + " (hluk@email.cz)\n"
+                          : QString());
 }
 
 void Scriptable::show()
@@ -379,9 +513,9 @@ void Scriptable::renametab()
     if (i == -1)
         return;
     else if ( newName.isEmpty() )
-        context()->throwError( tr("Tab name cannot be empty!") );
+        throwError( tr("Tab name cannot be empty!") );
     else if ( m_wnd->tabs().indexOf(newName) >= 0 )
-        context()->throwError( tr("Tab with given name already exists!") );
+        throwError( tr("Tab with given name already exists!") );
     else
         m_wnd->renameTab(newName, i);
 }
@@ -536,7 +670,7 @@ QScriptValue Scriptable::read()
 void Scriptable::write()
 {
     if (argumentCount() != 2) {
-        context()->throwError(argumentError);
+        throwError(argumentError());
         return;
     }
 
@@ -617,10 +751,10 @@ void Scriptable::exporttab()
     const QString &fileName = arg(0);
     ClipboardBrowser *c = currentTab();
     if ( fileName.isNull() ) {
-        context()->throwError(argumentError);
+        throwError(argumentError());
     } else if ( !m_wnd->saveTab(getFileName(fileName), m_wnd->tabIndex(c)) ) {
-        context()->throwError(
-            tr("Cannot save to file \"%1\"!\n").arg(fileName) );
+        throwError(
+            tr("Cannot save to file \"%1\"!").arg(fileName) );
     }
 }
 
@@ -628,10 +762,10 @@ void Scriptable::importtab()
 {
     const QString &fileName = arg(0);
     if ( fileName.isNull() ) {
-        context()->throwError(argumentError);
+        throwError(argumentError());
     } else if ( !m_wnd->loadTab(getFileName(fileName)) ) {
-        context()->throwError(
-            tr("Cannot import file \"%1\"!\n").arg(fileName) );
+        throwError(
+            tr("Cannot import file \"%1\"!").arg(fileName) );
     }
 }
 
@@ -658,7 +792,7 @@ QScriptValue Scriptable::config()
             } else {
                 // set option
                 if ( cm->isVisible() ) {
-                    context()->throwError(
+                    throwError(
                         tr("To modify options from command line you must first "
                            "close the CopyQ Configuration dialog!") );
                 } else {
@@ -667,7 +801,7 @@ QScriptValue Scriptable::config()
                 }
             }
         } else {
-            context()->throwError( tr("Invalid option!") );
+            throwError( tr("Invalid option!") );
         }
     }
 
@@ -715,6 +849,6 @@ int Scriptable::getTabIndexOrError(const QString &name)
 {
     int i = m_wnd->tabs().indexOf(name);
     if (i == -1)
-        context()->throwError( tr("Tab with given name doesn't exist!") );
+        throwError( tr("Tab with given name doesn't exist!") );
     return i;
 }

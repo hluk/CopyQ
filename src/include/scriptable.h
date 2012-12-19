@@ -75,6 +75,8 @@ public:
 
     void sendMessage(const QByteArray &message, int exitCode);
 
+    void throwError(const QString &errorMessage);
+
 public slots:
     QScriptValue version();
     QScriptValue help();

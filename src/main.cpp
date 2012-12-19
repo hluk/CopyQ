@@ -37,7 +37,7 @@ static void evaluate(const QString &functionName, const char *arg)
 {
     int argc = 0;
     char *argv[] = {NULL};
-    QApplication app(argc, argv);
+    App app(argc, argv);
 
     Scriptable scriptable(NULL, NULL);
     QScriptEngine engine;
