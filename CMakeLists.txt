@@ -58,6 +58,11 @@ qt4_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
 qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 qt4_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 
+# Be more strict while compiling debugging version
+if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic")
+endif()
+
 # Generate a qrc file for the translations
 set(copyq_QM_RCC ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
 file(WRITE ${copyq_QM_RCC} "<RCC><qresource prefix=\"/translations\">")

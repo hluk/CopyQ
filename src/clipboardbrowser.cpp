@@ -149,7 +149,7 @@ ClipboardBrowser::~ClipboardBrowser()
 }
 
 
-void ClipboardBrowser::closeEditor(ItemEditor *editor)
+void ClipboardBrowser::closeExternalEditor(ItemEditor *editor)
 {
     // check if file was modified before closing
     if ( editor->fileModified() )
@@ -358,12 +358,12 @@ bool ClipboardBrowser::openEditor(const QString &text)
             this, SLOT(itemModified(const QString &)) );
 
     connect( editor, SIGNAL(closed(ItemEditor *)),
-            this, SLOT(closeEditor(ItemEditor *)) );
+            this, SLOT(closeExternalEditor(ItemEditor *)) );
 
     connect( this, SIGNAL(closeAllEditors()), editor, SLOT(close()) );
 
     if ( !editor->start() ) {
-        closeEditor(editor);
+        closeExternalEditor(editor);
         return false;
     }
 
@@ -775,7 +775,7 @@ QString ClipboardBrowser::itemText(QModelIndex ind) const
 
 const QMimeData *ClipboardBrowser::itemData(int i) const
 {
-    return m->mimeData( i>=0 ? i : currentIndex().row() );
+    return m->mimeDataInRow( i>=0 ? i : currentIndex().row() );
 }
 
 void ClipboardBrowser::updateClipboard()

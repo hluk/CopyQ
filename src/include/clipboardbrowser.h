@@ -232,7 +232,7 @@ class ClipboardBrowser : public QListView
         /** Item modified in external editor. */
         void itemModified(const QString &str);
         /** Called if editor was closed. */
-        void closeEditor(ItemEditor *editor);
+        void closeExternalEditor(ItemEditor *editor);
         /** Called if editor was opened. */
         bool openEditor(const QString &text);
         /** Add items. */

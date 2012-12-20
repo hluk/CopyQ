@@ -103,7 +103,7 @@ QSize ClipboardModel::maxImageSize() const
     return QSize(m_imageWidth, m_imageHeight);
 }
 
-QMimeData *ClipboardModel::mimeData(int row) const
+QMimeData *ClipboardModel::mimeDataInRow(int row) const
 {
     if (row < rowCount()) {
         return m_clipboardList[row]->data();
