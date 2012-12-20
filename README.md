@@ -74,49 +74,48 @@ Command Line Interface
 
     Starts server if no command is specified.
       COMMANDs:
-        show    Show main window.
-        hide    Hide main window.
-        toggle  Show or hide main window.
-        menu    Open context menu.
-        exit    Exit server.
+        show                     Show main window.
+        hide                     Hide main window.
+        toggle                   Show or hide main window.
+        menu                     Open context menu.
+        exit                     Exit server.
 
-        clipboard [MIME]          Print clipboard content.
-        selection [MIME]          Print X11 selection content.
+        clipboard [MIME]         Print clipboard content.
+        selection [MIME]         Print X11 selection content.
 
-        tab                       List available tab names.
-        tab NAME [COMMAND]        Run command on tab with given name.
-                                  Tab is created if it doesn't exist.
-                                  Default is the first tab (NAME is empty).
-        removetab NAME            Remove tab.
-        renametab NAME NEW_NAME   Rename tab.
+        length, count, size      Print number of items in history.
+        select [ROW=0]           Move item in the row to clipboard.
+        add TEXT...              Add text into clipboard.
+        remove [ROWS=0...]       Remove items in given rows.
+        edit [ROWS...]           Edit items or edit new one.
+                                 Value -1 is for current text in clipboard.
 
-        length, count, size       Print number of items in history.
-        select [ROW=0]            Move item in the row to clipboard.
-        add TEXT...               Add text into clipboard.
-        remove [ROWS=0...]        Remove item in given rows.
-        edit [ROWS...]            Edit items or edit new one.
-                                  Value -1 is for current text in clipboard.
+        read [MIME|ROW]...       Print raw data of clipboard or item in row.
+        write MIME DATA          Write raw data to clipboard.
+        separator SEPARATOR      Set separator for items on output.
 
-        read [MIME|ROW]...        Print raw data of clipboard or item in row.
-        write MIME DATA           Write raw data to clipboard.
-        separator SEPARATOR       Set separator for input items.
-
-        action [ROWS=0...]        Show action dialog.
+        action [ROWS=0...]       Show action dialog.
         action [ROWS=0...] [PROGRAM [SEPARATOR=\n]]
-                                  Run PROGRAM on item text in the rows.
-                                  Use %1 in PROGRAM to pass text as argument.
+          Run PROGRAM on item text in the rows.
+          Use %1 in PROGRAM to pass text as argument.
         popup TITLE MESSAGE [TIME=8000]
-                                  Show tray popup message for TIME milliseconds.
+          Show tray popup message for TIME milliseconds.
 
-        exporttab FILE_NAME       Export items to file.
-        importtab FILE_NAME       Import items from file.
+        tab                      List available tab names.
+        tab NAME [COMMAND]       Run command on tab with given name.
+                                 Tab is created if it doesn't exist.
+                                 Default is the first tab.
+        removetab NAME           Remove tab.
+        renametab NAME NEW_NAME  Rename tab.
 
-        config                    List all options.
-        config OPTION             Get option value.
-        config OPTION VALUE       Set option value.
+        exporttab FILE_NAME      Export items to file.
+        importtab FILE_NAME      Import items from file.
 
-        eval, -e [SCRIPT]         Evaluate script.
+        config                   List all options.
+        config OPTION            Get option value.
+        config OPTION VALUE      Set option value.
 
+        eval, -e [SCRIPT]        Evaluate script.
         help, -h, --help [COMMAND]
           Print help for COMMAND or all commands.
         version, -v, --version
@@ -128,8 +127,8 @@ Command Line Interface
         expanding escape sequences (i.e. \n, \t and others).
       - Use ? for MIME to print available MIME types (default is "text/plain").
       - Parameter SCRIPT contains program in ECMAScript, for example:
-          copyq -e "x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x"
-        prints concatenated text of all items in the first tab.
+          copyq -e "tab('music'); x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x"
+        prints concatenated text of all items in the tab 'music'.
 
 Usage Examples
 --------------
