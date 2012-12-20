@@ -19,20 +19,104 @@
 
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
-#include <QFile>
+
+static QString aboutPage()
+{
+    return
+        "<html>"
+
+        // CSS
+        "<head><style type=\"text/css\">"
+        "body{font-size:10pt;background-color:white;color:black}"
+        "p, li{white-space:pre-wrap;margin-left:1ex}"
+        ".h1{font-size:20pt;color:#444}"
+        ".h1x{font-size:12pt;font-style:italic;color:#222;}"
+        ".h2{width:100%;font-size:16pt;color:#333;margin-left:1ex;margin-top:0.2em}"
+        ".h3{font-size:9pt;font-style:italic;color:#444}"
+        ".pp{margin-left:4ex}"
+        "table{border:0}"
+        ".odd {background-color:#def}"
+        "td{padding:0.1em}"
+        "#keys{margin-left:4ex}"
+        ".key{color:#333;font-family:monospace;font-size:9pt;padding-left:0.5em}"
+        "</style></head>"
+
+        "<body>"
+
+        "<p><table><tr>"
+
+        // logo
+        "<td><img src=\":/images/logo.svg\" /></td>"
+        // title
+        "<td><div class='h1'>CopyQ</div>"
+        // subtitle
+        "<div class=\"h1x\">" + Qt::escape(AboutDialog::tr("Clipboard Manager")) + " v1.4.0</div>"
+
+        "<p></p>"
+
+        "<p><table>"
+        // copyright
+        "<tr><td colspan=\"2\">Copyright (c) 2009 - 2012</td></tr>"
+        // author
+        "<tr><td colspan=\"2\">Luk&#xE1;&#x161; Hole&#x10D;ek</td></tr>"
+        // e-mail
+        "<tr><td class='h3'>" + Qt::escape(AboutDialog::tr("E-mail")) + "</td>"
+        "<td><a href=\"mailto:hluk@email.cz\">hluk@email.cz</a></td></tr>"
+        // web
+        "<tr><td class='h3'>" + Qt::escape(AboutDialog::tr("Web")) + "</td>"
+        "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td></tr></table>"
+        "<tr></table></p>"
+
+        // keyboard title
+        "<div class='h2'>" + Qt::escape(AboutDialog::tr("Keyboard")) + "</div>"
+        "<p class=\"pp\">" + Qt::escape(AboutDialog::tr("Type any text to search the clipboard history.")) + "</p>"
+
+        // keyboard table
+        "<p><table id=\"keys\">"
+        "<tr class=\"odd\">"
+        "<td>" + Qt::escape(AboutDialog::tr("Item list navigation")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Up/Down, Page Up/Down, Home/End")) + "</td>"
+        "</tr>"
+        "<tr><td>" + Qt::escape(AboutDialog::tr("Tab navigation")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Left, Right, Tab, Shift+Tab")) + "</td>"
+        "</tr>"
+        "<tr class=\"odd\">"
+        "<td>" + Qt::escape(AboutDialog::tr("Move selected items")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Ctrl+Up/Down, Ctrl+Home/End")) + "</td>"
+        "</tr>"
+        "<tr><td>" + Qt::escape(AboutDialog::tr("Reset search or hide window")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Escape")) + "</td>"
+        "</tr>"
+        "<tr class=\"odd\">"
+        "<td>" + Qt::escape(AboutDialog::tr("Delete item")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Delete")) + "</td>"
+        "</tr>"
+        "<tr><td>" + Qt::escape(AboutDialog::tr("Put selected items into clipboard")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Enter")) + "</td>"
+        "</tr>"
+        "<tr class=\"odd\">"
+        "<td>" + Qt::escape(AboutDialog::tr("Change item display format")) + "</td>"
+        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Ctrl+Left/Right")) + "</td>"
+        "</tr>"
+        "</table></p>"
+
+        "<p></p>"
+
+        // libraries
+        "<div class='h2'>LibQxt</div>"
+        "<p class=\"pp\">" + Qt::escape(AboutDialog::tr("Library used in the application")) + "</p>"
+        "<p class=\"pp\">Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).</p>"
+        "<p class=\"pp\">All rights reserved.</p>"
+
+        "</body></html>";
+}
 
 AboutDialog::AboutDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-
-    // load about document from resources
-    QFile f(":/aboutdialog.html");
-    if ( f.open(QIODevice::ReadOnly) ) {
-        ui->textEdit->setText( QString::fromUtf8(f.readAll()) );
-    }
-
+    ui->textEdit->setText( aboutPage() );
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
 
