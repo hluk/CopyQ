@@ -8,6 +8,106 @@
         <source>CopyQ About</source>
         <translation>CopyQ O Aplikaci</translation>
     </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="53"/>
+        <source>Clipboard Manager</source>
+        <translation>Správce schránky</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="63"/>
+        <source>E-mail</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="66"/>
+        <source>Web</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="71"/>
+        <source>Keyboard</source>
+        <translation>Klávesnice</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="72"/>
+        <source>Type any text to search the clipboard history.</source>
+        <translation>Napiš text k prohledání historie schránky.</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="77"/>
+        <source>Item list navigation</source>
+        <translation>Navigace v seznamu prvků</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="78"/>
+        <source>Up/Down, Page Up/Down, Home/End</source>
+        <translation>Šipka nahoru/dolu, Page Up/Down, Home/End</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="80"/>
+        <source>Tab navigation</source>
+        <translation>Záložky</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="81"/>
+        <source>Left, Right, Tab, Shift+Tab</source>
+        <translation>Šípka doprava, doleva, Tab, Shift+Tab</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="84"/>
+        <source>Move selected items</source>
+        <translation>Přesun vybraných prvků</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="85"/>
+        <source>Ctrl+Up/Down, Ctrl+Home/End</source>
+        <translation>Ctrl+Nahoru/Dolu, Ctrl+Home/End</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="87"/>
+        <source>Reset search or hide window</source>
+        <translation>Reset vyhledávání nebo skrytí hlavního okna</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="88"/>
+        <source>Escape</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="91"/>
+        <source>Delete item</source>
+        <translation>Smazání prvku</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="92"/>
+        <source>Delete</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="94"/>
+        <source>Put selected items into clipboard</source>
+        <translation>Vložení vybraných prvků do schránky</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="95"/>
+        <source>Enter</source>
+        <translation></translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="98"/>
+        <source>Change item display format</source>
+        <translation>Změna formátu zobrazení prvku</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="99"/>
+        <source>Ctrl+Left/Right</source>
+        <translation>Ctrl+Doleva/Doprava</translation>
+    </message>
+    <message>
+        <location filename="../src/aboutdialog.cpp" line="107"/>
+        <source>Library used in the application</source>
+        <translation>Knihovna použitá v aplikaci</translation>
+    </message>
 </context>
 <context>
     <name>ActionDialog</name>
