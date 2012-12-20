@@ -877,9 +877,9 @@ void MainWindow::actionStarted(Action *action)
     // menu item
     QString text = tr("KILL") + " " + action->command() + " " +
                    action->commandArguments().join(" ");
-    QString tooltip = tr("<b>COMMAND:</b>") + '\n' + escape(text) + '\n' +
+    QString tooltip = tr("<b>COMMAND:</b>") + '\n' + escapeHtml(text) + '\n' +
                       tr("<b>INPUT:</b>") + '\n' +
-                      escape( QString::fromLocal8Bit(action->input()) );
+                      escapeHtml( QString::fromLocal8Bit(action->input()) );
 
     QAction *act = m_actions[action] = new QAction(text, this);
     act->setToolTip(tooltip);

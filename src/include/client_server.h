@@ -74,7 +74,7 @@ enum LogLevel {
     LogError
 };
 
-QString escape(const QString &str);
+QString escapeHtml(const QString &str);
 
 void log(const QString &text, const LogLevel level = LogNote);
 

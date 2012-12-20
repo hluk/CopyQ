@@ -19,6 +19,7 @@
 
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
+#include "client_server.h"
 
 static QString aboutPage()
 {
@@ -50,7 +51,7 @@ static QString aboutPage()
         // title
         "<td><div class='h1'>CopyQ</div>"
         // subtitle
-        "<div class=\"h1x\">" + Qt::escape(AboutDialog::tr("Clipboard Manager")) + " v1.4.0</div>"
+        "<div class=\"h1x\">" + escapeHtml(AboutDialog::tr("Clipboard Manager")) + " v1.4.0</div>"
 
         "<p></p>"
 
@@ -60,43 +61,43 @@ static QString aboutPage()
         // author
         "<tr><td colspan=\"2\">Luk&#xE1;&#x161; Hole&#x10D;ek</td></tr>"
         // e-mail
-        "<tr><td class='h3'>" + Qt::escape(AboutDialog::tr("E-mail")) + "</td>"
+        "<tr><td class='h3'>" + escapeHtml(AboutDialog::tr("E-mail")) + "</td>"
         "<td><a href=\"mailto:hluk@email.cz\">hluk@email.cz</a></td></tr>"
         // web
-        "<tr><td class='h3'>" + Qt::escape(AboutDialog::tr("Web")) + "</td>"
+        "<tr><td class='h3'>" + escapeHtml(AboutDialog::tr("Web")) + "</td>"
         "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td></tr></table>"
         "<tr></table></p>"
 
         // keyboard title
-        "<div class='h2'>" + Qt::escape(AboutDialog::tr("Keyboard")) + "</div>"
-        "<p class=\"pp\">" + Qt::escape(AboutDialog::tr("Type any text to search the clipboard history.")) + "</p>"
+        "<div class='h2'>" + escapeHtml(AboutDialog::tr("Keyboard")) + "</div>"
+        "<p class=\"pp\">" + escapeHtml(AboutDialog::tr("Type any text to search the clipboard history.")) + "</p>"
 
         // keyboard table
         "<p><table id=\"keys\">"
         "<tr class=\"odd\">"
-        "<td>" + Qt::escape(AboutDialog::tr("Item list navigation")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Up/Down, Page Up/Down, Home/End")) + "</td>"
+        "<td>" + escapeHtml(AboutDialog::tr("Item list navigation")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Up/Down, Page Up/Down, Home/End")) + "</td>"
         "</tr>"
-        "<tr><td>" + Qt::escape(AboutDialog::tr("Tab navigation")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Left, Right, Tab, Shift+Tab")) + "</td>"
-        "</tr>"
-        "<tr class=\"odd\">"
-        "<td>" + Qt::escape(AboutDialog::tr("Move selected items")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Ctrl+Up/Down, Ctrl+Home/End")) + "</td>"
-        "</tr>"
-        "<tr><td>" + Qt::escape(AboutDialog::tr("Reset search or hide window")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Escape")) + "</td>"
+        "<tr><td>" + escapeHtml(AboutDialog::tr("Tab navigation")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Left, Right, Tab, Shift+Tab")) + "</td>"
         "</tr>"
         "<tr class=\"odd\">"
-        "<td>" + Qt::escape(AboutDialog::tr("Delete item")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Delete")) + "</td>"
+        "<td>" + escapeHtml(AboutDialog::tr("Move selected items")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Ctrl+Up/Down, Ctrl+Home/End")) + "</td>"
         "</tr>"
-        "<tr><td>" + Qt::escape(AboutDialog::tr("Put selected items into clipboard")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Enter")) + "</td>"
+        "<tr><td>" + escapeHtml(AboutDialog::tr("Reset search or hide window")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Escape")) + "</td>"
         "</tr>"
         "<tr class=\"odd\">"
-        "<td>" + Qt::escape(AboutDialog::tr("Change item display format")) + "</td>"
-        "<td class=\"key\">" + Qt::escape(AboutDialog::tr("Ctrl+Left/Right")) + "</td>"
+        "<td>" + escapeHtml(AboutDialog::tr("Delete item")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Delete")) + "</td>"
+        "</tr>"
+        "<tr><td>" + escapeHtml(AboutDialog::tr("Put selected items into clipboard")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Enter")) + "</td>"
+        "</tr>"
+        "<tr class=\"odd\">"
+        "<td>" + escapeHtml(AboutDialog::tr("Change item display format")) + "</td>"
+        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Ctrl+Left/Right")) + "</td>"
         "</tr>"
         "</table></p>"
 
@@ -104,7 +105,7 @@ static QString aboutPage()
 
         // libraries
         "<div class='h2'>LibQxt</div>"
-        "<p class=\"pp\">" + Qt::escape(AboutDialog::tr("Library used in the application")) + "</p>"
+        "<p class=\"pp\">" + escapeHtml(AboutDialog::tr("Library used in the application")) + "</p>"
         "<p class=\"pp\">Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).</p>"
         "<p class=\"pp\">All rights reserved.</p>"
 

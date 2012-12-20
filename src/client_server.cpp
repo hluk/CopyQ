@@ -34,36 +34,24 @@
 #include <QApplication>
 #include <QLocalServer>
 #include <QThread>
+#if QT_VERSION < 0x050000
+#   include <QTextDocument> // Qt::escape()
+#endif
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #elif defined Q_OS_WIN
-#include <windows.h>
+#   include <windows.h>
 #endif
 
-QString escape(const QString &str)
+QString escapeHtml(const QString &str)
 {
-    QString res;
-    static QRegExp re("[<>& \t\n]");
-    int a = 0, b = 0, n = 0;
-    while( (b = str.indexOf(re, a)) != -1 ) {
-        n = b-a;
-        if (n)
-            res.append( str.mid(a, n) );
-        switch( str.at(b).toLatin1() ) {
-        case '<': res.append("&lt;"); break;
-        case '>': res.append("&gt;"); break;
-        case '&': res.append("&amp;"); break;
-        case ' ': res.append("&nbsp;"); break;
-        case '\t': res.append("&nbsp;&nbsp;"); break;
-        case '\n': res.append("<br />"); break;
-        }
-        a = b+1;
-    }
-    res.append( str.mid(a) );
-
-    return res;
+#if QT_VERSION < 0x050000
+    return Qt::escape(str);
+#else
+    return str.toHtmlEscaped();
+#endif
 }
 
 void log(const QString &text, const LogLevel level)

@@ -120,7 +120,7 @@ QString ClipboardItem::html() const
     if ( m_mimeType.endsWith("html") ) {
         return m_data->html();
     } else {
-        return escape( text() );
+        return escapeHtml( text() );
     }
 }
 
