@@ -85,131 +85,131 @@ QList<CommandHelp> commandHelp()
 {
     return QList<CommandHelp>()
         << CommandHelp("show",
-                       QObject::tr("Show main window."))
+                       Scriptable::tr("Show main window."))
         << CommandHelp("hide",
-                       QObject::tr("Hide main window."))
+                       Scriptable::tr("Hide main window."))
         << CommandHelp("toggle",
-                       QObject::tr("Show or hide main window."))
+                       Scriptable::tr("Show or hide main window."))
         << CommandHelp("menu",
-                       QObject::tr("Open context menu."))
+                       Scriptable::tr("Open context menu."))
         << CommandHelp("exit",
-                       QObject::tr("Exit server."))
+                       Scriptable::tr("Exit server."))
         << CommandHelp()
         << CommandHelp("clipboard",
-                       QObject::tr("Print clipboard content."))
-           .addArg("[" + QObject::tr("MIME") + "]")
+                       Scriptable::tr("Print clipboard content."))
+           .addArg("[" + Scriptable::tr("MIME") + "]")
     #ifdef Q_WS_X11
         << CommandHelp("selection",
-                       QObject::tr("Print X11 selection content."))
-           .addArg("[" + QObject::tr("MIME") + "]")
+                       Scriptable::tr("Print X11 selection content."))
+           .addArg("[" + Scriptable::tr("MIME") + "]")
     #endif
         << CommandHelp()
         << CommandHelp("length, count, size",
-                       QObject::tr("Print number of items in history."))
+                       Scriptable::tr("Print number of items in history."))
         << CommandHelp("select",
-                       QObject::tr("Move item in the row to clipboard."))
-           .addArg("[" + QObject::tr("ROW") + "=0]")
+                       Scriptable::tr("Move item in the row to clipboard."))
+           .addArg("[" + Scriptable::tr("ROW") + "=0]")
         << CommandHelp("add",
-                       QObject::tr("Add text into clipboard."))
-           .addArg(QObject::tr("TEXT") + "...")
+                       Scriptable::tr("Add text into clipboard."))
+           .addArg(Scriptable::tr("TEXT") + "...")
         << CommandHelp("remove",
-                       QObject::tr("Remove items in given rows."))
-           .addArg("[" + QObject::tr("ROWS") + "=0...]")
+                       Scriptable::tr("Remove items in given rows."))
+           .addArg("[" + Scriptable::tr("ROWS") + "=0...]")
         << CommandHelp("edit",
-                       QObject::tr("Edit items or edit new one.\n"
+                       Scriptable::tr("Edit items or edit new one.\n"
                                    "Value -1 is for current text in clipboard."))
-           .addArg("[" + QObject::tr("ROWS") + "...]")
+           .addArg("[" + Scriptable::tr("ROWS") + "...]")
         << CommandHelp()
         << CommandHelp("read",
-                       QObject::tr("Print raw data of clipboard or item in row."))
-           .addArg("[" + QObject::tr("MIME") + "|" + QObject::tr("ROW") + "]...")
-        << CommandHelp("write", QObject::tr("Write raw data to clipboard."))
-           .addArg(QObject::tr("MIME"))
-           .addArg(QObject::tr("DATA"))
+                       Scriptable::tr("Print raw data of clipboard or item in row."))
+           .addArg("[" + Scriptable::tr("MIME") + "|" + Scriptable::tr("ROW") + "]...")
+        << CommandHelp("write", Scriptable::tr("Write raw data to clipboard."))
+           .addArg(Scriptable::tr("MIME"))
+           .addArg(Scriptable::tr("DATA"))
         << CommandHelp("separator",
-                       QObject::tr("Set separator for items on output."))
-           .addArg(QObject::tr("SEPARATOR"))
+                       Scriptable::tr("Set separator for items on output."))
+           .addArg(Scriptable::tr("SEPARATOR"))
         << CommandHelp()
         << CommandHelp("action",
-                       QObject::tr("Show action dialog."))
-           .addArg("[" + QObject::tr("ROWS") + "=0...]")
+                       Scriptable::tr("Show action dialog."))
+           .addArg("[" + Scriptable::tr("ROWS") + "=0...]")
         << CommandHelp("action",
-                       QObject::tr("\nRun PROGRAM on item text in the rows.\n"
+                       Scriptable::tr("\nRun PROGRAM on item text in the rows.\n"
                                    "Use %1 in PROGRAM to pass text as argument."))
-           .addArg("[" + QObject::tr("ROWS") + "=0...]")
-           .addArg("[" + QObject::tr("PROGRAM") + " [" + QObject::tr("SEPARATOR") + "=\\n]]")
+           .addArg("[" + Scriptable::tr("ROWS") + "=0...]")
+           .addArg("[" + Scriptable::tr("PROGRAM") + " [" + Scriptable::tr("SEPARATOR") + "=\\n]]")
         << CommandHelp("popup",
-                       QObject::tr("\nShow tray popup message for TIME milliseconds."))
-           .addArg(QObject::tr("TITLE"))
-           .addArg(QObject::tr("MESSAGE"))
-           .addArg("[" + QObject::tr("TIME") + "=8000]")
+                       Scriptable::tr("\nShow tray popup message for TIME milliseconds."))
+           .addArg(Scriptable::tr("TITLE"))
+           .addArg(Scriptable::tr("MESSAGE"))
+           .addArg("[" + Scriptable::tr("TIME") + "=8000]")
         << CommandHelp()
         << CommandHelp("tab",
-                       QObject::tr("List available tab names."))
+                       Scriptable::tr("List available tab names."))
         << CommandHelp("tab",
-                       QObject::tr("Run command on tab with given name.\n"
+                       Scriptable::tr("Run command on tab with given name.\n"
                                    "Tab is created if it doesn't exist.\n"
                                    "Default is the first tab."))
-           .addArg(QObject::tr("NAME"))
-           .addArg("[" + QObject::tr("COMMAND") + "]")
+           .addArg(Scriptable::tr("NAME"))
+           .addArg("[" + Scriptable::tr("COMMAND") + "]")
         << CommandHelp("removetab",
-                       QObject::tr("Remove tab."))
-           .addArg(QObject::tr("NAME"))
+                       Scriptable::tr("Remove tab."))
+           .addArg(Scriptable::tr("NAME"))
         << CommandHelp("renametab",
-                       QObject::tr("Rename tab."))
-           .addArg(QObject::tr("NAME"))
-           .addArg(QObject::tr("NEW_NAME"))
+                       Scriptable::tr("Rename tab."))
+           .addArg(Scriptable::tr("NAME"))
+           .addArg(Scriptable::tr("NEW_NAME"))
         << CommandHelp()
         << CommandHelp("exporttab",
-                       QObject::tr("Export items to file."))
-           .addArg(QObject::tr("FILE_NAME"))
+                       Scriptable::tr("Export items to file."))
+           .addArg(Scriptable::tr("FILE_NAME"))
         << CommandHelp("importtab",
-                       QObject::tr("Import items from file."))
-           .addArg(QObject::tr("FILE_NAME"))
+                       Scriptable::tr("Import items from file."))
+           .addArg(Scriptable::tr("FILE_NAME"))
         << CommandHelp()
         << CommandHelp("config",
-                       QObject::tr("List all options."))
+                       Scriptable::tr("List all options."))
         << CommandHelp("config",
-                       QObject::tr("Get option value."))
-           .addArg(QObject::tr("OPTION"))
+                       Scriptable::tr("Get option value."))
+           .addArg(Scriptable::tr("OPTION"))
         << CommandHelp("config",
-                       QObject::tr("Set option value."))
-           .addArg(QObject::tr("OPTION"))
-           .addArg(QObject::tr("VALUE"))
+                       Scriptable::tr("Set option value."))
+           .addArg(Scriptable::tr("OPTION"))
+           .addArg(Scriptable::tr("VALUE"))
         << CommandHelp()
         << CommandHelp("eval, -e",
-                       QObject::tr("Evaluate script."))
-           .addArg("[" + QObject::tr("SCRIPT") + "]")
+                       Scriptable::tr("Evaluate script."))
+           .addArg("[" + Scriptable::tr("SCRIPT") + "]")
         << CommandHelp("help, -h, --help",
-                       QObject::tr("\nPrint help for COMMAND or all commands."))
-           .addArg("[" + QObject::tr("COMMAND") + "]")
+                       Scriptable::tr("\nPrint help for COMMAND or all commands."))
+           .addArg("[" + Scriptable::tr("COMMAND") + "]")
         << CommandHelp("version, -v, --version",
-                       QObject::tr("\nPrint version of program and libraries."));
+                       Scriptable::tr("\nPrint version of program and libraries."));
 }
 
 QString helpHead()
 {
-    return QObject::tr("Usage: copyq [%1]").arg(QObject::tr("COMMAND")) + nl
+    return Scriptable::tr("Usage: copyq [%1]").arg(Scriptable::tr("COMMAND")) + nl
         + nl
-        + QObject::tr("Starts server if no command is specified.") + nl
-        + QObject::tr("  COMMANDs:");
+        + Scriptable::tr("Starts server if no command is specified.") + nl
+        + Scriptable::tr("  COMMANDs:");
 }
 
 QString helpTail()
 {
-    return QObject::tr("NOTES:") + nl
-        + QObject::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
-        + QObject::tr("  - Use double-dash argument (--) to read all following arguments without\n"
+    return Scriptable::tr("NOTES:") + nl
+        + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
+        + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + nl
-        + QObject::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").") + nl
-        + QObject::tr("  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
+        + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").") + nl
+        + Scriptable::tr("  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
                       "      copyq -e \"tab('music'); x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x\"\n"
                       "    prints concatenated text of all items in the tab 'music'.\n");
 }
 
 QString argumentError()
 {
-    return QObject::tr("Invalid number or arguments!");
+    return Scriptable::tr("Invalid number or arguments!");
 }
 
 QScriptValue getValue(QScriptEngine *eng, const QString &variableName)
@@ -301,7 +301,7 @@ QScriptValue Scriptable::applyRest(int first)
     QString name = toString(fn);
     fn = getValue(engine(), name);
     if ( !fn.isFunction() ) {
-        throwError( QObject::tr("Name \"%1\" doesn't refer to a function.").arg(name) );
+        throwError( tr("Name \"%1\" doesn't refer to a function.").arg(name) );
         return QScriptValue();
     }
 

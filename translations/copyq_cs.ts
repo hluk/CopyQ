@@ -9,102 +9,102 @@
         <translation>CopyQ O Aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="53"/>
+        <location filename="../src/aboutdialog.cpp" line="54"/>
         <source>Clipboard Manager</source>
         <translation>Správce schránky</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="63"/>
+        <location filename="../src/aboutdialog.cpp" line="64"/>
         <source>E-mail</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="66"/>
+        <location filename="../src/aboutdialog.cpp" line="67"/>
         <source>Web</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="71"/>
+        <location filename="../src/aboutdialog.cpp" line="72"/>
         <source>Keyboard</source>
         <translation>Klávesnice</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="72"/>
+        <location filename="../src/aboutdialog.cpp" line="73"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>Napiš text k prohledání historie schránky.</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="77"/>
+        <location filename="../src/aboutdialog.cpp" line="78"/>
         <source>Item list navigation</source>
         <translation>Navigace v seznamu prvků</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="78"/>
+        <location filename="../src/aboutdialog.cpp" line="79"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>Šipka nahoru/dolu, Page Up/Down, Home/End</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="80"/>
+        <location filename="../src/aboutdialog.cpp" line="81"/>
         <source>Tab navigation</source>
         <translation>Záložky</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="81"/>
+        <location filename="../src/aboutdialog.cpp" line="82"/>
         <source>Left, Right, Tab, Shift+Tab</source>
         <translation>Šípka doprava, doleva, Tab, Shift+Tab</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="84"/>
+        <location filename="../src/aboutdialog.cpp" line="85"/>
         <source>Move selected items</source>
         <translation>Přesun vybraných prvků</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="85"/>
+        <location filename="../src/aboutdialog.cpp" line="86"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Ctrl+Nahoru/Dolu, Ctrl+Home/End</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="87"/>
+        <location filename="../src/aboutdialog.cpp" line="88"/>
         <source>Reset search or hide window</source>
         <translation>Reset vyhledávání nebo skrytí hlavního okna</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="88"/>
+        <location filename="../src/aboutdialog.cpp" line="89"/>
         <source>Escape</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="91"/>
+        <location filename="../src/aboutdialog.cpp" line="92"/>
         <source>Delete item</source>
         <translation>Smazání prvku</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="92"/>
+        <location filename="../src/aboutdialog.cpp" line="93"/>
         <source>Delete</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="94"/>
+        <location filename="../src/aboutdialog.cpp" line="95"/>
         <source>Put selected items into clipboard</source>
         <translation>Vložení vybraných prvků do schránky</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="95"/>
+        <location filename="../src/aboutdialog.cpp" line="96"/>
         <source>Enter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="98"/>
+        <location filename="../src/aboutdialog.cpp" line="99"/>
         <source>Change item display format</source>
         <translation>Změna formátu zobrazení prvku</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="99"/>
+        <location filename="../src/aboutdialog.cpp" line="100"/>
         <source>Ctrl+Left/Right</source>
         <translation>Ctrl+Doleva/Doprava</translation>
     </message>
     <message>
-        <location filename="../src/aboutdialog.cpp" line="107"/>
+        <location filename="../src/aboutdialog.cpp" line="108"/>
         <source>Library used in the application</source>
         <translation>Knihovna použitá v aplikaci</translation>
     </message>
@@ -233,7 +233,7 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>&amp;Obsah:</translation>
     </message>
     <message>
-        <location filename="../src/clipboarddialog.cpp" line="83"/>
+        <location filename="../src/clipboarddialog.cpp" line="74"/>
         <source>&lt;strong&gt; mime:&lt;/strong&gt; %1 &lt;strong&gt;size:&lt;/strong&gt; %2 bytes</source>
         <translation>&lt;strong&gt; mime:&lt;/strong&gt; %1 &lt;strong&gt;velikost:&lt;/strong&gt; %2 bajtů</translation>
     </message>
@@ -1411,21 +1411,21 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/client_server.cpp" line="76"/>
+        <location filename="../src/client_server.cpp" line="64"/>
         <source>CopyQ: %1
 </source>
         <translation>CopyQ: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/client_server.cpp" line="78"/>
+        <location filename="../src/client_server.cpp" line="66"/>
         <source>CopyQ warning: %1
 </source>
         <translation>CopyQ varování: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/client_server.cpp" line="80"/>
+        <location filename="../src/client_server.cpp" line="68"/>
         <source>CopyQ ERROR: %1
 </source>
         <translation>CopyQ CHYBA: %1
@@ -1441,16 +1441,9 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ server již běží.</translation>
     </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="194"/>
-        <source>Starts server if no command is specified.</source>
-        <translation>Spustí server pokud není zadán žádný příkaz.</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="195"/>
-        <source>  COMMANDs:</source>
-        <translation>PŘÍKAZY:</translation>
-    </message>
+</context>
+<context>
+    <name>Scriptable</name>
     <message>
         <location filename="../src/scriptable.cpp" line="88"/>
         <source>Show main window.</source>
@@ -1493,49 +1486,6 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../src/scriptable.cpp" line="103"/>
         <source>Print X11 selection content.</source>
         <translation>Vytiskne obsah výběru kurzoru.</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="148"/>
-        <source>List available tab names.</source>
-        <translation>Vypíše názvy existujících záložek.</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="150"/>
-        <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
-Default is the first tab.</source>
-        <translation>Spustí příkaz na záložce s daným jménem.
-Záložka je vytvořena, pokud neexistuje.
-Implicitní volba je první záložka.</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="153"/>
-        <location filename="../src/scriptable.cpp" line="157"/>
-        <location filename="../src/scriptable.cpp" line="160"/>
-        <source>NAME</source>
-        <translation>NÁZEV</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="154"/>
-        <location filename="../src/scriptable.cpp" line="185"/>
-        <location filename="../src/scriptable.cpp" line="192"/>
-        <source>COMMAND</source>
-        <translation>PŘÍKAZ</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="156"/>
-        <source>Remove tab.</source>
-        <translation>Odstraní záložku.</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="159"/>
-        <source>Rename tab.</source>
-        <translation>Přejmenuje záložku.</translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable.cpp" line="161"/>
-        <source>NEW_NAME</source>
-        <translation>NOVÝ_NÁZEV</translation>
     </message>
     <message>
         <location filename="../src/scriptable.cpp" line="108"/>
@@ -1651,6 +1601,49 @@ Zobrazí zprávu v liště na daný ČAS (milisekundy).</translation>
         <translation>ČAS</translation>
     </message>
     <message>
+        <location filename="../src/scriptable.cpp" line="148"/>
+        <source>List available tab names.</source>
+        <translation>Vypíše názvy existujících záložek.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="150"/>
+        <source>Run command on tab with given name.
+Tab is created if it doesn&apos;t exist.
+Default is the first tab.</source>
+        <translation>Spustí příkaz na záložce s daným jménem.
+Záložka je vytvořena, pokud neexistuje.
+Implicitní volba je první záložka.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="153"/>
+        <location filename="../src/scriptable.cpp" line="157"/>
+        <location filename="../src/scriptable.cpp" line="160"/>
+        <source>NAME</source>
+        <translation>NÁZEV</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="154"/>
+        <location filename="../src/scriptable.cpp" line="185"/>
+        <location filename="../src/scriptable.cpp" line="192"/>
+        <source>COMMAND</source>
+        <translation>PŘÍKAZ</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="156"/>
+        <source>Remove tab.</source>
+        <translation>Odstraní záložku.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="159"/>
+        <source>Rename tab.</source>
+        <translation>Přejmenuje záložku.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="161"/>
+        <source>NEW_NAME</source>
+        <translation>NOVÝ_NÁZEV</translation>
+    </message>
+    <message>
         <location filename="../src/scriptable.cpp" line="164"/>
         <source>Export items to file.</source>
         <translation>Exportuje prvky do souboru.</translation>
@@ -1722,6 +1715,16 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation>Použití: copyq [%1]</translation>
     </message>
     <message>
+        <location filename="../src/scriptable.cpp" line="194"/>
+        <source>Starts server if no command is specified.</source>
+        <translation>Spustí server pokud není zadán žádný příkaz.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="195"/>
+        <source>  COMMANDs:</source>
+        <translation>  PŘÍKAZY:</translation>
+    </message>
+    <message>
         <location filename="../src/scriptable.cpp" line="200"/>
         <source>NOTES:</source>
         <translation>POZNÁMKY:</translation>
@@ -1763,9 +1766,6 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>Jméno &quot;%1&quot; neodkazuje na žádnou funkci.</translation>
     </message>
-</context>
-<context>
-    <name>Scriptable</name>
     <message>
         <location filename="../src/scriptable.cpp" line="383"/>
         <source>Build with: </source>
