@@ -207,7 +207,7 @@ QString helpTail()
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + nl
         + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").") + nl
         + Scriptable::tr("  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
-                      "      copyq -e \"tab('music'); x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x\"\n"
+                      "      copyq -e \"tab('music'); for(i=0; i<size(); ++i) print(read(i));\"\n"
                       "    prints concatenated text of all items in the tab 'music'.\n");
 }
 
@@ -837,10 +837,10 @@ QScriptValue Scriptable::config()
     return QScriptValue();
 }
 
-QScriptValue Scriptable::eval()
+void Scriptable::eval()
 {
     const QString script = arg(0);
-    return engine()->evaluate(script);
+    engine()->evaluate(script);
 }
 
 void Scriptable::currentpath()
