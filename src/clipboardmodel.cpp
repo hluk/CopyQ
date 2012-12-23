@@ -64,6 +64,9 @@ void ClipboardModel::setFormat(int row, const QString &mimeType)
 
 void ClipboardModel::nextFormat(int row)
 {
+    if (row < 0 || row > rowCount())
+        return;
+
     ClipboardItem *item = m_clipboardList[row];
     QStringList formats = item->formats();
 
@@ -79,6 +82,9 @@ void ClipboardModel::nextFormat(int row)
 
 void ClipboardModel::previousFormat(int row)
 {
+    if (row < 0 || row > rowCount())
+        return;
+
     ClipboardItem *item = m_clipboardList[row];
     QStringList formats = item->formats();
 
