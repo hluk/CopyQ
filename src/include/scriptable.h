@@ -100,6 +100,7 @@ public slots:
 
     void select();
     void add();
+    void insert();
     void remove();
     void edit();
 

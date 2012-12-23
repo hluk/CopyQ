@@ -112,6 +112,10 @@ QList<CommandHelp> commandHelp()
         << CommandHelp("add",
                        Scriptable::tr("Add text into clipboard."))
            .addArg(Scriptable::tr("TEXT") + "...")
+        << CommandHelp("insert",
+                       Scriptable::tr("Insert text into given row."))
+           .addArg(Scriptable::tr("ROW"))
+           .addArg(Scriptable::tr("TEXT"))
         << CommandHelp("remove",
                        Scriptable::tr("Remove items in given rows."))
            .addArg("[" + Scriptable::tr("ROWS") + "=0...]")
@@ -553,6 +557,31 @@ void Scriptable::add()
         } else {
             c->add( toString(value), true );
         }
+    }
+
+    c->updateClipboard();
+    c->delayedSaveItems(1000);
+}
+
+void Scriptable::insert()
+{
+    ClipboardBrowser *c = currentTab();
+    ClipboardBrowser::Lock lock(c);
+
+    int row;
+    if ( !toInt(argument(0), row) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    QScriptValue value = argument(1);
+    QByteArray *bytes = toByteArray(value);
+    if (bytes != NULL) {
+        QMimeData *data = new QMimeData;
+        data->setData(defaultMime, *bytes);
+        c->add(data, true, QString(), row);
+    } else {
+        c->add( toString(value), true );
     }
 
     c->updateClipboard();

@@ -628,7 +628,7 @@ bool ClipboardBrowser::add(const QString &txt, bool force)
     return add(data, force);
 }
 
-bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTitle)
+bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTitle, int row)
 {
     if (!force) {
         // don't add if new data is same as first item
@@ -664,13 +664,14 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTit
     }
 
     // create new item
-    m->insertRow(0);
-    QModelIndex ind = index(0);
+    int newRow = qMax(0, qMin(row, m->rowCount()));
+    m->insertRow(newRow);
+    QModelIndex ind = index(newRow);
     m->setData(ind, data);
 
     // filter item
-    if ( isFiltered(0) )
-        setRowHidden(0, true);
+    if ( isFiltered(newRow) )
+        setRowHidden(newRow, true);
 
     // list size limit
     if ( m->rowCount() > m_maxitems )

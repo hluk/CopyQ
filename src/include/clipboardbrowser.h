@@ -83,7 +83,8 @@ class ClipboardBrowser : public QListView
         bool add(
                 QMimeData *item, //!< Data for new item.
                 bool force = false, //!< If true ignore commands and duplicates.
-                const QString &windowTitle = QString() //!< Current window title or null.
+                const QString &windowTitle = QString(), //!< Current window title or null.
+                int row = 0 //!< Target row for the new item.
                 );
         /** Add new item to the browser. */
         bool add(

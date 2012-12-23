@@ -86,6 +86,7 @@ Command Line Interface
         length, count, size      Print number of items in history.
         select [ROW=0]           Move item in the row to clipboard.
         add TEXT...              Add text into clipboard.
+        insert ROW TEXT          Insert text into given row.
         remove [ROWS=0...]       Remove items in given rows.
         edit [ROWS...]           Edit items or edit new one.
                                  Value -1 is for current text in clipboard.
