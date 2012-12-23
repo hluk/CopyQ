@@ -1477,8 +1477,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/scriptable.cpp" line="100"/>
         <location filename="../src/scriptable.cpp" line="104"/>
-        <location filename="../src/scriptable.cpp" line="125"/>
-        <location filename="../src/scriptable.cpp" line="127"/>
+        <location filename="../src/scriptable.cpp" line="129"/>
+        <location filename="../src/scriptable.cpp" line="131"/>
         <source>MIME</source>
         <translation></translation>
     </message>
@@ -1499,7 +1499,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/scriptable.cpp" line="111"/>
-        <location filename="../src/scriptable.cpp" line="125"/>
+        <location filename="../src/scriptable.cpp" line="117"/>
+        <location filename="../src/scriptable.cpp" line="129"/>
         <source>ROW</source>
         <translation>ŘÁDEK</translation>
     </message>
@@ -1510,310 +1511,316 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/scriptable.cpp" line="114"/>
+        <location filename="../src/scriptable.cpp" line="118"/>
         <source>TEXT</source>
         <translation></translation>
     </message>
     <message>
         <location filename="../src/scriptable.cpp" line="116"/>
+        <source>Insert text into given row.</source>
+        <translation>Vloží text do daného řádku.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable.cpp" line="120"/>
         <source>Remove items in given rows.</source>
         <translation>Odstraní prvky v daných řádcích.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="117"/>
         <location filename="../src/scriptable.cpp" line="121"/>
-        <location filename="../src/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable.cpp" line="125"/>
         <location filename="../src/scriptable.cpp" line="139"/>
+        <location filename="../src/scriptable.cpp" line="143"/>
         <source>ROWS</source>
         <translation>ŘÁDKY</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="119"/>
+        <location filename="../src/scriptable.cpp" line="123"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
         <translation>Edituje existující prvky nebo nový.
 Hodnota -1 znamená text ve schránce.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="124"/>
+        <location filename="../src/scriptable.cpp" line="128"/>
         <source>Print raw data of clipboard or item in row.</source>
         <translation>Vytiskne data schránky nebo prvku v daném řádku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable.cpp" line="130"/>
         <source>Write raw data to clipboard.</source>
         <translation>Zapíše data do schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="128"/>
+        <location filename="../src/scriptable.cpp" line="132"/>
         <source>DATA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="130"/>
+        <location filename="../src/scriptable.cpp" line="134"/>
         <source>Set separator for items on output.</source>
         <translation>Nastaví oddělovač prvků na výstupu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="131"/>
-        <location filename="../src/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable.cpp" line="144"/>
         <source>SEPARATOR</source>
         <translation>ODDĚLOVAČ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="134"/>
+        <location filename="../src/scriptable.cpp" line="138"/>
         <source>Show action dialog.</source>
         <translation>Zobrazí dialog akcí.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="137"/>
+        <location filename="../src/scriptable.cpp" line="141"/>
         <source>
 Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
         <translation>
-Spusť PROGRAM pro vstupní text v daných řádcích.
-Požij %1 in PROGRAM k předání textu jako parametru.</translation>
+Spustí PROGRAM pro vstupní text v daných řádcích.
+Požij %1 v PROGRAMu k předání textu jako parametru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable.cpp" line="144"/>
         <source>PROGRAM</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="142"/>
+        <location filename="../src/scriptable.cpp" line="146"/>
         <source>
 Show tray popup message for TIME milliseconds.</source>
         <translation>
 Zobrazí zprávu v liště na daný ČAS (milisekundy).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="143"/>
+        <location filename="../src/scriptable.cpp" line="147"/>
         <source>TITLE</source>
         <translation>TITULEK</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="144"/>
+        <location filename="../src/scriptable.cpp" line="148"/>
         <source>MESSAGE</source>
         <translation>ZPRÁVA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="145"/>
+        <location filename="../src/scriptable.cpp" line="149"/>
         <source>TIME</source>
         <translation>ČAS</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="148"/>
+        <location filename="../src/scriptable.cpp" line="152"/>
         <source>List available tab names.</source>
         <translation>Vypíše názvy existujících záložek.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="150"/>
+        <location filename="../src/scriptable.cpp" line="154"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
         <translation>Spustí příkaz na záložce s daným jménem.
 Záložka je vytvořena, pokud neexistuje.
-Implicitní volba je první záložka.</translation>
+Původní volba je první záložka.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="153"/>
         <location filename="../src/scriptable.cpp" line="157"/>
-        <location filename="../src/scriptable.cpp" line="160"/>
+        <location filename="../src/scriptable.cpp" line="161"/>
+        <location filename="../src/scriptable.cpp" line="164"/>
         <source>NAME</source>
         <translation>NÁZEV</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="154"/>
-        <location filename="../src/scriptable.cpp" line="185"/>
-        <location filename="../src/scriptable.cpp" line="192"/>
+        <location filename="../src/scriptable.cpp" line="158"/>
+        <location filename="../src/scriptable.cpp" line="189"/>
+        <location filename="../src/scriptable.cpp" line="196"/>
         <source>COMMAND</source>
         <translation>PŘÍKAZ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="156"/>
+        <location filename="../src/scriptable.cpp" line="160"/>
         <source>Remove tab.</source>
         <translation>Odstraní záložku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="159"/>
+        <location filename="../src/scriptable.cpp" line="163"/>
         <source>Rename tab.</source>
         <translation>Přejmenuje záložku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="161"/>
+        <location filename="../src/scriptable.cpp" line="165"/>
         <source>NEW_NAME</source>
         <translation>NOVÝ_NÁZEV</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="164"/>
+        <location filename="../src/scriptable.cpp" line="168"/>
         <source>Export items to file.</source>
         <translation>Exportuje prvky do souboru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="165"/>
-        <location filename="../src/scriptable.cpp" line="168"/>
+        <location filename="../src/scriptable.cpp" line="169"/>
+        <location filename="../src/scriptable.cpp" line="172"/>
         <source>FILE_NAME</source>
         <translation>SOUBOR</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="167"/>
+        <location filename="../src/scriptable.cpp" line="171"/>
         <source>Import items from file.</source>
         <translation>Importuje prvky ze souboru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="171"/>
+        <location filename="../src/scriptable.cpp" line="175"/>
         <source>List all options.</source>
         <translation>Zobrazí všechna nastavení.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="173"/>
+        <location filename="../src/scriptable.cpp" line="177"/>
         <source>Get option value.</source>
         <translation>Vytiskne hodnotu volby.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="174"/>
-        <location filename="../src/scriptable.cpp" line="177"/>
+        <location filename="../src/scriptable.cpp" line="178"/>
+        <location filename="../src/scriptable.cpp" line="181"/>
         <source>OPTION</source>
         <translation>VOLBA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="176"/>
+        <location filename="../src/scriptable.cpp" line="180"/>
         <source>Set option value.</source>
         <translation>Nastaví hodnotu volbu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="178"/>
+        <location filename="../src/scriptable.cpp" line="182"/>
         <source>VALUE</source>
         <translation>HODNOTA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="181"/>
+        <location filename="../src/scriptable.cpp" line="185"/>
         <source>Evaluate script.</source>
         <translation>Vyhodnotí skript.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="182"/>
+        <location filename="../src/scriptable.cpp" line="186"/>
         <source>SCRIPT</source>
         <translation>SKRIPT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="184"/>
+        <location filename="../src/scriptable.cpp" line="188"/>
         <source>
 Print help for COMMAND or all commands.</source>
         <translation>
 Vytiskne nápovědu pro PŘÍKAZ nebo všechny příkazy.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="187"/>
+        <location filename="../src/scriptable.cpp" line="191"/>
         <source>
 Print version of program and libraries.</source>
         <translation>
 Vytiskne verzi programu a jeho knihoven.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="192"/>
+        <location filename="../src/scriptable.cpp" line="196"/>
         <source>Usage: copyq [%1]</source>
         <translation>Použití: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="194"/>
+        <location filename="../src/scriptable.cpp" line="198"/>
         <source>Starts server if no command is specified.</source>
         <translation>Spustí server pokud není zadán žádný příkaz.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="195"/>
+        <location filename="../src/scriptable.cpp" line="199"/>
         <source>  COMMANDs:</source>
         <translation>  PŘÍKAZY:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="200"/>
+        <location filename="../src/scriptable.cpp" line="204"/>
         <source>NOTES:</source>
         <translation>POZNÁMKY:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="201"/>
+        <location filename="../src/scriptable.cpp" line="205"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation>  - Použij pomlčku (-) jako argument pro načtení dat ze standardního vstupu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="202"/>
+        <location filename="../src/scriptable.cpp" line="206"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Použij dvojitou pomlčku (--) pro načtení všech následujících argumentů
     bez expandování sekvencí jako jsou \n, \t a další.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="204"/>
+        <location filename="../src/scriptable.cpp" line="208"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Použij ? pro MIME pro výpis dostupných MIME typů (implicitní hodnota MIME je &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="205"/>
+        <location filename="../src/scriptable.cpp" line="209"/>
         <source>  - Parameter SCRIPT contains program in ECMAScript, for example:
-      copyq -e &quot;tab(&apos;music&apos;); x=&apos;&apos;; for(i=0; i&lt;size(); ++i) x+=str(read(i)); x&quot;
+      copyq -e &quot;tab(&apos;music&apos;); for(i=0; i&lt;size(); ++i) print(read(i));&quot;
     prints concatenated text of all items in the tab &apos;music&apos;.
 </source>
         <translation>  - Parameter SKRIPT obsahuje program v ECMAScriptu, např.:
-      copyq -e &quot;tab(&apos;music&apos;); x=&apos;&apos;; for(i=0; i&lt;size(); ++i) x+=str(read(i)); x&quot;
-    vytiskne sloučených text všech prvků v záložce &apos;hudba&apos;.</translation>
+      copyq -e &quot;tab(&apos;hudba&apos;); for(i=0; i&lt;size(); ++i) print(read(i));&quot;
+    vytiskne sloučený text všech prvků v záložce &apos;hudba&apos;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="212"/>
+        <location filename="../src/scriptable.cpp" line="216"/>
         <source>Invalid number or arguments!</source>
         <translation>Špatný počet argumentů!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="304"/>
+        <location filename="../src/scriptable.cpp" line="308"/>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>Jméno &quot;%1&quot; neodkazuje na žádnou funkci.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="383"/>
+        <location filename="../src/scriptable.cpp" line="387"/>
         <source>Build with: </source>
         <translation>Sestaveno s:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="408"/>
+        <location filename="../src/scriptable.cpp" line="412"/>
         <source>Command not found!</source>
         <translation>Příkaz nenalezen!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="450"/>
+        <location filename="../src/scriptable.cpp" line="454"/>
         <source>Terminating server.
 </source>
         <translation>Ukončuji server.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="516"/>
+        <location filename="../src/scriptable.cpp" line="520"/>
         <source>Tab name cannot be empty!</source>
         <translation>Název záložky nemůže být prázdný!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="518"/>
+        <location filename="../src/scriptable.cpp" line="522"/>
         <source>Tab with given name already exists!</source>
         <translation>Záložka se stejným jménem již existuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="757"/>
+        <location filename="../src/scriptable.cpp" line="786"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Nelze uložit soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="768"/>
+        <location filename="../src/scriptable.cpp" line="797"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Nelze importovat soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="796"/>
+        <location filename="../src/scriptable.cpp" line="825"/>
         <source>To modify options from command line you must first close the CopyQ Configuration dialog!</source>
         <translation>Pro modifikaci nastavení musí být prvně uzavřen dialog nastavení CopyQ!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="804"/>
+        <location filename="../src/scriptable.cpp" line="833"/>
         <source>Invalid option!</source>
         <translation>Neplatné nastavení!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable.cpp" line="852"/>
+        <location filename="../src/scriptable.cpp" line="881"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Záložka s daným názvem neexistuje!</translation>
     </message>
