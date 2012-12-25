@@ -46,8 +46,6 @@ private:
     int m_exitCode;
     bool m_closed;
 
-signals:
-
 public slots:
     void quit() { m_app.quit(); }
 };

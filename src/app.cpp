@@ -18,10 +18,35 @@
 */
 
 #include "app.h"
+#include "client_server.h"
 
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTranslator>
+
+#ifdef Q_OS_UNIX
+#   include <QSocketNotifier>
+#   include <signal.h>
+#   include <sys/socket.h>
+#   include <unistd.h>
+
+namespace {
+
+int signalFd[2];
+
+/**
+ * Unix signal handler (TERM, HUP).
+ */
+void exitSignalHandler(int)
+{
+    char a = 1;
+    ::write(signalFd[0], &a, sizeof(a));
+}
+
+} // namespace
+
+#endif // Q_OS_UNIX
+
 
 App::App(int &argc, char **argv)
     : m_app(argc, argv)
@@ -39,6 +64,26 @@ App::App(int &argc, char **argv)
     translator = new QTranslator(this);
     translator->load("copyq_" + locale, ":/translations");
     QCoreApplication::installTranslator(translator);
+
+#ifdef Q_OS_UNIX
+    // Safely quit application on TERM and HUP signals.
+    if ( ::socketpair(AF_UNIX, SOCK_STREAM, 0, signalFd) != 0 ) {
+        log( tr("socketpair() failed!"), LogError );
+    } else {
+        QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, this);
+        connect( sn, SIGNAL(activated(int)), this, SLOT(quit()) );
+
+        struct sigaction sigact;
+
+        sigact.sa_handler = ::exitSignalHandler;
+        sigemptyset(&sigact.sa_mask);
+        sigact.sa_flags = 0;
+        sigact.sa_flags |= SA_RESTART;
+
+        if ( sigaction(SIGHUP, &sigact, 0) > 0 || sigaction(SIGTERM, &sigact, 0) > 0 )
+            log( tr("sigaction() failed!"), LogError );
+    }
+#endif
 }
 
 int App::exec()
