@@ -118,7 +118,11 @@ QVariant ClipboardItem::data(int role) const
 QString ClipboardItem::html() const
 {
     if ( m_mimeType.endsWith("html") ) {
-        return m_data->html();
+        QString text = m_data->html();
+        // Remove trailing null character.
+        if ( text.endsWith(QChar(0)) )
+            text.resize(text.size() - 1);
+        return text;
     } else {
         return escapeHtml( text() );
     }
