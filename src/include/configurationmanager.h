@@ -137,6 +137,11 @@ private:
      */
     static bool defaultCommand(int index, Command *c);
 
+    /**
+     * @return File name for data file with items.
+     */
+    QString itemFileName(const QString &id) const;
+
 private slots:
     void on_pushButtonDown_clicked();
     void on_pushButtonUp_clicked();

@@ -195,9 +195,17 @@ ConfigurationManager::~ConfigurationManager()
 
 void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 {
-    QString part( id.toLocal8Bit().toBase64() );
-    part.replace( QChar('/'), QString('-') );
-    QFile file( m_datfilename + part + QString(".dat") );
+    const QString fileName = itemFileName(id);
+
+    // Load file with items.
+    QFile file(fileName);
+    if ( !file.exists() ) {
+        // Try to open temp file if regular file doesn't exist.
+        file.setFileName(fileName + ".tmp");
+        if ( !file.exists() )
+            return;
+        file.rename(fileName);
+    }
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     in >> model;
@@ -205,19 +213,22 @@ void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 
 void ConfigurationManager::saveItems(const ClipboardModel &model, const QString &id)
 {
-    QString part( id.toLocal8Bit().toBase64() );
-    part.replace( QChar('/'), QString('-') );
-    QFile file( m_datfilename + part + QString(".dat") );
+    const QString fileName = itemFileName(id);
+
+    // Save to temp file.
+    QFile file( fileName + ".tmp" );
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
     out << model;
+
+    // Overwrite previous file.
+    QFile::remove(fileName);
+    file.rename(fileName);
 }
 
 void ConfigurationManager::removeItems(const QString &id)
 {
-    QString part( id.toLocal8Bit().toBase64() );
-    part.replace( QChar('/'), QString('-') );
-    QFile::remove( m_datfilename + part + QString(".dat") );
+    QFile::remove( itemFileName(id) );
 }
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)
@@ -279,6 +290,13 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     }
 
     return true;
+}
+
+QString ConfigurationManager::itemFileName(const QString &id) const
+{
+    QString part( id.toLocal8Bit().toBase64() );
+    part.replace( QChar('/'), QString('-') );
+    return m_datfilename + part + QString(".dat");
 }
 
 void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
