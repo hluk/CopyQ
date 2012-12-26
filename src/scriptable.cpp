@@ -862,7 +862,7 @@ void Scriptable::print(const QScriptValue &value)
         bytes = value.toString().toLocal8Bit();
         message = &bytes;
     }
-    sendMessage(*message, CommandPrint);
+    sendMessage(*message, CommandSuccess);
 }
 
 void Scriptable::abort()

@@ -74,7 +74,7 @@ void ClipboardClient::readyRead()
             }
         }
 
-        if (exitCode != CommandPrint && exitCode != CommandActivateWindow)
+        if (exitCode != CommandActivateWindow)
             exit(exitCode);
     }
 }

@@ -45,8 +45,6 @@ typedef enum {
     CommandError,
     /** Bad command syntax. */
     CommandBadSyntax,
-    /** Print */
-    CommandPrint,
     /** Activate window */
     CommandActivateWindow
 } CommandStatus;

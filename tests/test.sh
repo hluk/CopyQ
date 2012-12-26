@@ -312,7 +312,7 @@ run importtab "$tmp" &&
     ok || fail
 
 log "checking imported tab content"
-    assert "run eval 'for (i = 0; i < 1000; ++i) {tab(\"test2\");a=read(i);tab(\"test3\");b=read(i);if(str(a)!=str(b))break;};i'" 1000 &&
+    assert "run eval 'for (i = 0; i < 1000; ++i) {tab(\"test2\");a=read(i);tab(\"test3\");b=read(i);if(str(a)!=str(b))break;}; print(i)'" 1000 &&
         ok || fail
 
 TAB=test2
