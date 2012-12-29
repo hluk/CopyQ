@@ -1,16 +1,14 @@
 Steps to build and install
 ==========================
-1. Using CMake
---------------
-mkdir build
-cd build
-cmake ..
-make
-sudo make install
 
-2. Using QMake
---------------
-qmake
-make
-sudo make install
+To build and install the application CMake is required (http://www.cmake.org/).
+
+Build with following commands:
+
+    cmake .
+    make
+
+To install run (sudo is required for root privileges on Linux):
+
+    sudo make install
 
