@@ -170,6 +170,19 @@ Příkaz je možné zmenit v nastavení.</translation>
     </message>
 </context>
 <context>
+    <name>App</name>
+    <message>
+        <location filename="../src/app.cpp" line="71"/>
+        <source>socketpair() failed!</source>
+        <translation>socketpair() selhal!</translation>
+    </message>
+    <message>
+        <location filename="../src/app.cpp" line="84"/>
+        <source>sigaction() failed!</source>
+        <translation>sigaction() selhal!</translation>
+    </message>
+</context>
+<context>
     <name>ClipboardBrowser</name>
     <message>
         <location filename="../src/clipboardbrowser.cpp" line="204"/>
@@ -1015,72 +1028,72 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>prvek</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="228"/>
+        <location filename="../src/configurationmanager.cpp" line="239"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignoruj prvky s žádným nebo jedním znakem</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="234"/>
+        <location filename="../src/configurationmanager.cpp" line="245"/>
         <source>Open in &amp;Browser</source>
         <translation>&amp;Otevři v prohlížeči</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="240"/>
+        <location filename="../src/configurationmanager.cpp" line="251"/>
         <source>Autoplay videos</source>
         <translation>Automaticky přehrát</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="247"/>
+        <location filename="../src/configurationmanager.cpp" line="258"/>
         <source>Move non-textual items to other tab</source>
         <translation>Přesuň prvky bez textu do jiné záložky</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="254"/>
+        <location filename="../src/configurationmanager.cpp" line="265"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Zkopíruj URL (web. adresu) do jiné záložky</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="260"/>
+        <location filename="../src/configurationmanager.cpp" line="271"/>
         <source>Run shell script</source>
         <translation>Spusť skript</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="267"/>
+        <location filename="../src/configurationmanager.cpp" line="278"/>
         <source>Ctrl+R</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="271"/>
+        <location filename="../src/configurationmanager.cpp" line="282"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignoruj *&quot;Heslo&quot;* okna</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="272"/>
+        <location filename="../src/configurationmanager.cpp" line="283"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="538"/>
+        <location filename="../src/configurationmanager.cpp" line="556"/>
         <source>Reset preferences?</source>
         <translation>Resetovat volby?</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="539"/>
+        <location filename="../src/configurationmanager.cpp" line="557"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Tato akce resetuje všechna nastavení (ve všech záložkách) na implicitní hodnoty. &lt;br /&gt;&lt;br /&gt;Opravdu chcete &lt;strong&gt;resetovat všechna nastavení&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="697"/>
+        <location filename="../src/configurationmanager.cpp" line="715"/>
         <source>&lt;untitled command&gt;</source>
         <translation>&lt;nepojmenovaný příkaz&gt;</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="911"/>
+        <location filename="../src/configurationmanager.cpp" line="929"/>
         <source>Open Theme File</source>
         <translation>Otevřít soubor s tématem</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="921"/>
+        <location filename="../src/configurationmanager.cpp" line="939"/>
         <source>Save Theme File As</source>
         <translation>Uložit soubor s tématem</translation>
     </message>
@@ -1432,7 +1445,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/clipboarditem.cpp" line="206"/>
+        <location filename="../src/clipboarditem.cpp" line="210"/>
         <source>Clipboard history file copyq.dat is corrupted!</source>
         <translation>Soubor s historii schránky je poškozený!</translation>
     </message>
