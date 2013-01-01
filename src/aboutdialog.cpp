@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2013, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -57,7 +57,7 @@ static QString aboutPage()
 
         "<p><table>"
         // copyright
-        "<tr><td colspan=\"2\">Copyright (c) 2009 - 2012</td></tr>"
+        "<tr><td colspan=\"2\">Copyright (c) 2009 - 2013</td></tr>"
         // author
         "<tr><td colspan=\"2\">Luk&#xE1;&#x161; Hole&#x10D;ek</td></tr>"
         // e-mail
