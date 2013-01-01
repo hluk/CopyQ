@@ -68,13 +68,18 @@ else()
     add_definitions(${QT_DEFINITIONS})
 endif()
 
-# If window system is X11 then 'fixes' extension is required.
+# If window system is X11 then set X11_FOUND to TRUE.
 find_package(X11)
+
 if (X11_FOUND)
+    # X11 requires 'fixes' extension for clipboard to work correctly.
     message("Building for X11 window system.")
     if(NOT X11_Xfixes_FOUND)
         message(FATAL_ERROR "X11 'fixes' extension library is required")
     endif(NOT X11_Xfixes_FOUND)
+elseif (Q_WS_WIN)
+    # File icon on Windows
+    set(copyq_RC src/copyq.rc)
 endif(X11_FOUND)
 
 # Qxt - global shortcuts
@@ -86,6 +91,7 @@ if (USE_QXT)
     set(copyq_MOCABLE ${copyq_MOCABLE}
         qxt/qxtglobalshortcut.h
         )
+    add_definitions( -DQXT_STATIC )
 
     if (X11_FOUND)
         list(APPEND copyq_SOURCES qxt/qxtglobalshortcut_x11.cpp)
@@ -136,6 +142,7 @@ add_executable(copyq ${copyq_SOURCES}
     ${copyq_MOC}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC}
+    ${copyq_RC}
     ${copyq_QM}
     )
 
