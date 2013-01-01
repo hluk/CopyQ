@@ -25,6 +25,9 @@
 #include <QClipboard>
 #include <qglobal.h> // Q_WS_*
 
+// Application version
+#define COPYQ_VERSION "1.4.1"
+
 // For Performance reasons create SVG icons once (QApplication must be created first).
 #define ICON(iconName) static const QIcon icon(":/images/" iconName ".svg"); return icon;
 #define ICON2(themeName, iconName) \

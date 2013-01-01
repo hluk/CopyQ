@@ -37,8 +37,6 @@ namespace {
 
 const char *const programName = "CopyQ Clipboard Manager";
 
-const char *const versionString = "1.4.0";
-
 const QString nl("\n");
 
 struct CommandHelp {
@@ -383,7 +381,7 @@ void Scriptable::throwError(const QString &errorMessage)
 
 QScriptValue Scriptable::version()
 {
-    return tr(programName) + " v" + versionString + " (hluk@email.cz)\n"
+    return tr(programName) + " v" COPYQ_VERSION " (hluk@email.cz)\n"
             + tr("Build with: ")
             + "Qt " + QT_VERSION_STR +
             + ", LibQxt " + QXT_VERSION_STR
@@ -417,7 +415,7 @@ QScriptValue Scriptable::help()
         helpString.append(nl + helpTail());
 
     return helpString.toLocal8Bit() +
-            (cmd.isNull() ? nl + nl + tr(programName) + " v" + versionString  + " (hluk@email.cz)\n"
+            (cmd.isNull() ? nl + nl + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
                           : QString());
 }
 

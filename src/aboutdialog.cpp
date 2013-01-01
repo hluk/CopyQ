@@ -51,7 +51,8 @@ static QString aboutPage()
         // title
         "<td><div class='h1'>CopyQ</div>"
         // subtitle
-        "<div class=\"h1x\">" + escapeHtml(AboutDialog::tr("Clipboard Manager")) + " v1.4.0</div>"
+        "<div class=\"h1x\">" + escapeHtml(AboutDialog::tr("Clipboard Manager"))
+            + " v" COPYQ_VERSION "</div>"
 
         "<p></p>"
 
