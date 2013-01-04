@@ -44,6 +44,8 @@ class ItemDelegate : public QItemDelegate
     public:
         ItemDelegate(QWidget *parent = 0);
 
+        ~ItemDelegate();
+
         QSize sizeHint(const QStyleOptionViewItem &option,
                        const QModelIndex &index) const;
 

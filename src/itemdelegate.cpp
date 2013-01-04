@@ -44,6 +44,11 @@ ItemDelegate::ItemDelegate(QWidget *parent)
 {
 }
 
+ItemDelegate::~ItemDelegate()
+{
+    invalidateCache();
+}
+
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
                              const QModelIndex &index) const
 {
