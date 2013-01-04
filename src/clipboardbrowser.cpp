@@ -25,6 +25,7 @@
 #include "configurationmanager.h"
 #include "client_server.h"
 
+#include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMimeData>
@@ -280,57 +281,49 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 
 void ClipboardBrowser::paintEvent(QPaintEvent *event)
 {
-    QScrollBar *v = verticalScrollBar();
-    int offset = v->value();
+    // Stop caching after elapsed time and at least one newly cached item.
+    static const qint64 maxElapsedMs = 100;
+    QElapsedTimer timer;
+    timer.start();
 
-    // pre-load items on previous, current and next page to cache
-    const int yMin = offset - viewport()->height();
-    const int yMax = offset + 2 * viewport()->height();
+    QRect cacheRect = event->rect();
 
-    // first item to pre-load
-    QModelIndex ind = index(0);
-    QRect rect = rectForIndex(ind);
-    int y = rect.top();
-    for ( int i = 0; ind.isValid() && rect.bottom() < yMin;
-          ind = index(++i), rect = rectForIndex(ind) ) {
-        y = rect.top();
+    // Pre-cache items on current and following page.
+    cacheRect.setHeight( cacheRect.height() * 2 );
+
+    QModelIndex ind;
+    int i = 0;
+
+    // Find first index to render.
+    forever {
+        ind = index(i);
+        if ( !ind.isValid() )
+            return;
+
+        if ( visualRect(ind).intersects(cacheRect) )
+            break;
+
+        ++i;
     }
 
-    bool canPaint = true;
-    int currentRow = currentIndex().row();
-    int row = ind.row();
-    while (ind.isValid() && y < yMax) {
-        if ( !isRowHidden(row) ) {
-            bool hasCache = d->hasCache(ind);
-            canPaint = canPaint && hasCache;
-
-            QWidget *w = d->cache(ind);
-            if (w == NULL)
+    // Render visible items.
+    forever {
+        const int row = ind.row();
+        if ( !d->hasCache(ind) && !isRowHidden(row) ) {
+            d->cache(ind);
+            if ( timer.hasExpired(maxElapsedMs) )
                 break;
-
-            if ( !hasCache ) {
-                if (row > currentRow) {
-                    /* Caching can take some time so repaint and return
-                     * control to event loop. This function will be called again
-                     * soon because size hint for newly cached item changed. */
-                    QListView::paintEvent(event);
-                    return;
-                }
-                if (row < currentRow) {
-                    // Fix current offset.
-                    offset -= 512 - w->height();
-                    v->setValue(offset);
-                }
-            }
         }
-        ind = index(++row);
-        y = rectForIndex(ind).top();
+
+        ind = index(++i);
+        if ( !ind.isValid() )
+            break;
+
+        if ( !visualRect(ind).intersects(cacheRect) )
+            break;
     }
 
-    if (canPaint)
-        QListView::paintEvent(event);
-    else
-        update();
+    QListView::paintEvent(event);
 }
 
 void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)

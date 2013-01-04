@@ -26,8 +26,8 @@
 #include "client_server.h"
 #include "configurationmanager.h"
 
-static const QSize defaultSize(0, 512);
-static const int maxChars = 100*1024;
+const QSize defaultSize(0, 512);
+const int maxChars = 100*1024;
 
 ItemDelegate::ItemDelegate(QWidget *parent)
     : QItemDelegate(parent)
@@ -242,14 +242,8 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
         return w;
 
     QVariant displayData = index.data(Qt::DisplayRole);
-    QString text = displayData.toString();
-    QPixmap pix;
-
-    bool hasHtml = !text.isEmpty();
-    if ( !hasHtml ) {
-        QVariant editData = index.data(Qt::EditRole);
-        text = editData.toString();
-    }
+    bool hasHtml = displayData.type() == QVariant::String;
+    QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
 
     if ( !text.isEmpty() ) {
         /* For performance reasons, limit number of shown characters
@@ -279,19 +273,24 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
 
         textEdit->setDocument(doc);
         textEdit->setFont( m_parent->font() );
+        textEdit->viewport()->setAutoFillBackground(false);
         QSize size = doc->documentLayout()->documentSize().toSize();
         textEdit->resize(size);
     } else {
         // Image
         QLabel *label = new QLabel(m_parent);
-        pix = displayData.value<QPixmap>();
         w = label;
         label->setMargin(4);
-        label->setPixmap(pix);
+        label->setPixmap(displayData.value<QPixmap>());
         w->adjustSize();
     }
-    w->setStyleSheet("*{background:transparent}");
     w->hide();
+
+    // transparent background
+    QPalette palette(w->palette());
+    palette.setColor(QPalette::Background, Qt::transparent);
+    w->setPalette(palette);
+
     m_cache[n] = w;
     emit sizeHintChanged(index);
 
