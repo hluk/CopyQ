@@ -181,7 +181,7 @@ QList<CommandHelp> commandHelp()
            .addArg(Scriptable::tr("VALUE"))
         << CommandHelp()
         << CommandHelp("eval, -e",
-                       Scriptable::tr("Evaluate script."))
+                       Scriptable::tr("Evaluate ECMAScript program."))
            .addArg("[" + Scriptable::tr("SCRIPT") + "]")
         << CommandHelp("help, -h, --help",
                        Scriptable::tr("\nPrint help for COMMAND or all commands."))
@@ -201,14 +201,11 @@ QString helpHead()
 QString helpTail()
 {
     return Scriptable::tr("NOTES:") + nl
-        + Scriptable::tr("  - Inserting item to the first row (ROW is 0) will change clipboard.") + nl
+        + Scriptable::tr("  - Changing first item (ROW is 0) will also change clipboard.") + nl
         + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
         + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + nl
-        + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").") + nl
-        + Scriptable::tr("  - Parameter SCRIPT contains program in ECMAScript, for example:\n"
-                      "      copyq -e \"tab('music'); for(i=0; i<size(); ++i) print(read(i));\"\n"
-                      "    prints concatenated text of all items in the tab 'music'.\n");
+        + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").");
 }
 
 QString argumentError()
@@ -417,7 +414,7 @@ QScriptValue Scriptable::help()
         helpString.append(nl + helpTail());
 
     return helpString.toLocal8Bit() +
-            (cmd.isNull() ? nl + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
+            (cmd.isNull() ? nl + nl + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
                           : QString());
 }
 
@@ -451,6 +448,8 @@ void Scriptable::menu()
 void Scriptable::exit()
 {
     // Exit application - respond to client first.
+    if (m_client == NULL)
+        return;
     QByteArray message = QByteArray(tr("Terminating server.\n").toLatin1());
     sendMessage(message, CommandSuccess);
     m_client->flush();
@@ -638,7 +637,7 @@ void Scriptable::edit()
 
     if ( !c->openEditor(text) ) {
         m_wnd->showBrowser(c);
-        if ( argumentCount() == 0 || argumentCount() > 1 || row >= c->length() ) {
+        if ( argumentCount() == 0 || argumentCount() > 1 ) {
             c->newItem(text);
             c->edit( c->index(0) );
         } else {
