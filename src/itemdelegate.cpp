@@ -131,10 +131,10 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     editor->setObjectName("editor");
 
     // maximal editor size
-    QRect w_rect = parent->rect();
+    QRect w_rect = parent->contentsRect();
     QRect o_rect = option.rect;
-    QSize max_size( w_rect.width() - o_rect.left() - 10,
-                   w_rect.height() - o_rect.top() - 10 );
+    QSize max_size( w_rect.width() - o_rect.left() - 4,
+                    w_rect.height() - o_rect.top() - 4 );
     editor->setMaximumSize(max_size);
     editor->setMinimumSize(max_size);
 
