@@ -138,8 +138,8 @@ void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
     }
 
     QSize size = m_parent ? m_parent->maxImageSize() : QSize(320, 240);
-    int w = size.width();
-    int h = size.height();
+    const int w = size.width();
+    const int h = size.height();
 
     if ( data.isEmpty() ||
          (w > 0 && pix->width() != w) ||
@@ -150,9 +150,9 @@ void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
         else
             pix->loadFromData( m_data->data(mimeType), mimeType.toLatin1() );
 
-        if (w > 0 && pix->width() > w && pix->width()/w > pix->height()/h) {
+        if ( w > 0 && (h <= 0 || pix->width()/w > pix->height()/h) ) {
             *pix = pix->scaledToWidth(w);
-        } else if ( h > 0 && pix->height() > size.height() ) {
+        } else if (h > 0) {
             *pix = pix->scaledToHeight(h);
         }
 
