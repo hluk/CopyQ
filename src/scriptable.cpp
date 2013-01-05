@@ -125,7 +125,8 @@ QList<CommandHelp> commandHelp()
         << CommandHelp("read",
                        Scriptable::tr("Print raw data of clipboard or item in row."))
            .addArg("[" + Scriptable::tr("MIME") + "|" + Scriptable::tr("ROW") + "]...")
-        << CommandHelp("write", Scriptable::tr("Write raw data to clipboard."))
+        << CommandHelp("write", Scriptable::tr("Write raw data to given row."))
+           .addArg("[" + Scriptable::tr("ROW") + "=0]")
            .addArg(Scriptable::tr("MIME"))
            .addArg(Scriptable::tr("DATA"))
         << CommandHelp("separator",
@@ -200,6 +201,7 @@ QString helpHead()
 QString helpTail()
 {
     return Scriptable::tr("NOTES:") + nl
+        + Scriptable::tr("  - Inserting item to the first row (ROW is 0) will change clipboard.") + nl
         + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
         + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + nl
@@ -415,7 +417,7 @@ QScriptValue Scriptable::help()
         helpString.append(nl + helpTail());
 
     return helpString.toLocal8Bit() +
-            (cmd.isNull() ? nl + nl + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
+            (cmd.isNull() ? nl + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
                           : QString());
 }
 
@@ -574,13 +576,9 @@ void Scriptable::insert()
 
     QScriptValue value = argument(1);
     QByteArray *bytes = toByteArray(value);
-    if (bytes != NULL) {
-        QMimeData *data = new QMimeData;
-        data->setData(defaultMime, *bytes);
-        c->add(data, true, QString(), row);
-    } else {
-        c->add( toString(value), true );
-    }
+    QMimeData *data = new QMimeData;
+    data->setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+    c->add(data, true, QString(), row);
 
     c->updateClipboard();
     c->delayedSaveItems(1000);
@@ -696,22 +694,35 @@ QScriptValue Scriptable::read()
 
 void Scriptable::write()
 {
-    if (argumentCount() != 2) {
-        throwError(argumentError());
-        return;
+    int arg = 0;
+    QScriptValue value = argument(0);
+
+    // [ROW]
+    int row;
+    if ( toInt(value, row) ) {
+        if (argumentCount() != 3 ) {
+            throwError(argumentError());
+            return;
+        }
+        value = argument(++arg);
+    } else {
+        if (argumentCount() != 2 ) {
+            throwError(argumentError());
+            return;
+        }
+        row = 0;
     }
 
-    QString mime = toString( argument(0) );
+    // MIME
+    QString mime = toString(value);
     ClipboardBrowser *c = currentTab();
-    QScriptValue value = argument(1);
+
+    // DATA
+    value = argument(++arg);
     QByteArray *bytes = toByteArray(value);
-    if (bytes != NULL) {
-        QMimeData *data = new QMimeData();
-        data->setData(mime, *bytes);
-        c->add(data, true);
-    } else {
-        c->add( toString(value), true );
-    }
+    QMimeData *data = new QMimeData();
+    data->setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+    c->add(data, true, QString(), row);
 }
 
 QScriptValue Scriptable::separator()
