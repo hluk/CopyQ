@@ -191,7 +191,6 @@ void ActionDialog::setOutputTabs(const QStringList &tabs,
                                  const QString &currentTabName)
 {
     QComboBox *w = ui->comboBoxOutputTab;
-    QString text = w->currentText();
     w->clear();
     w->addItem("");
     w->addItems(tabs);

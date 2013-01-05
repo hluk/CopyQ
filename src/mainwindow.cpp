@@ -859,7 +859,7 @@ void MainWindow::previousTab()
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
-    ClipboardBrowser *c = tabName.isEmpty() ? browser(0) :
+    ClipboardBrowser *c = tabName.isEmpty() ? browser() :
                                               createTab(tabName, true);
     foreach (const QString &item, items)
         c->add(item, true);
@@ -997,6 +997,7 @@ void MainWindow::showClipboardContent()
 ActionDialog *MainWindow::createActionDialog()
 {
     ActionDialog *actionDialog = new ActionDialog(this);
+    actionDialog->setOutputTabs(tabs(), QString());
 
     connect( actionDialog, SIGNAL(accepted(Action*)),
              this, SLOT(action(Action*)) );

@@ -189,11 +189,8 @@
          </item>
          <item row="1" column="1">
           <widget class="QComboBox" name="comboBoxOutputTab">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
            <property name="toolTip">
-            <string>Save items in tab with given name (leave empty to save in first tab)</string>
+            <string>Save items in tab with given name (leave empty to save in the current tab)</string>
            </property>
            <property name="editable">
             <bool>true</bool>
