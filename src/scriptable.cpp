@@ -815,7 +815,7 @@ QScriptValue Scriptable::config()
         if ( cm->options().contains(name) ) {
             if ( value.isNull() ) {
                 // print option value
-                return cm->value(name).toString() + '\n';
+                return cm->value(name).toString();
             } else {
                 // set option
                 if ( cm->isVisible() ) {
