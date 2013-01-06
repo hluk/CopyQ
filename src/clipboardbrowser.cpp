@@ -300,7 +300,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
         if ( !ind.isValid() )
             return;
 
-        if ( visualRect(ind).intersects(cacheRect) )
+        if ( !isRowHidden(i) && visualRect(ind).intersects(cacheRect) )
             break;
 
         ++i;
@@ -308,14 +308,14 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
 
     // Render visible items.
     forever {
-        const int row = ind.row();
-        if ( !d->hasCache(ind) && !isRowHidden(row) ) {
+        if ( !d->hasCache(ind) ) {
             d->cache(ind);
             if ( timer.hasExpired(maxElapsedMs) )
                 break;
         }
 
-        ind = index(++i);
+        for ( ind = index(++i); ind.isValid() && isRowHidden(i); ind = index(++i) ) {}
+
         if ( !ind.isValid() )
             break;
 
