@@ -1,34 +1,11 @@
 <RCC>
     <qresource prefix="/">
         <file>images/icon.svg</file>
-        <file>images/edit.svg</file>
-        <file>images/exit.svg</file>
-        <file>images/remove.png</file>
-        <file>images/action.svg</file>
-        <file>images/help.svg</file>
-        <file>images/actiondialog.svg</file>
-        <file>images/clipboard.svg</file>
         <file>images/icon-running.svg</file>
-        <file>images/new.svg</file>
-        <file>images/open.svg</file>
-        <file>images/save.svg</file>
         <file>images/logo.svg</file>
-        <file>images/preferences.svg</file>
         <file>images/tab_new.svg</file>
         <file>images/tab_rename.svg</file>
         <file>images/tab_remove.svg</file>
-        <file>images/paste.svg</file>
-        <file>images/command_autoplay.svg</file>
-        <file>images/command_web.svg</file>
-        <file>images/command_ignore.svg</file>
-        <file>images/tab_clipboard.svg</file>
-        <file>images/tab_appearance.svg</file>
-        <file>images/tab_commands.svg</file>
-        <file>images/tab_history.svg</file>
-        <file>images/tab_shortcuts.svg</file>
-        <file>images/command_tab.svg</file>
-        <file>images/copy.svg</file>
-        <file>images/sort.svg</file>
-        <file>images/reverse.svg</file>
+        <file>images/FontAwesome.otf</file>
     </qresource>
 </RCC>

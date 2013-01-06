@@ -136,6 +136,8 @@ private slots:
 
     void on_checkBoxOutput_toggled(bool checked);
 
+    void onIconChanged(QAction *action);
+
 private:
     Ui::CommandWidget *ui;
 

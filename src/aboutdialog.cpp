@@ -35,6 +35,7 @@ static QString aboutPage()
         ".h2{width:100%;font-size:16pt;color:#333;margin-left:1ex;margin-top:0.2em}"
         ".h3{font-size:9pt;font-style:italic;color:#444}"
         ".pp{margin-left:4ex}"
+        ".ppp{margin-left:4ex;font-size:9pt}"
         "table{border:0}"
         ".odd {background-color:#def}"
         "td{padding:0.1em}"
@@ -67,7 +68,16 @@ static QString aboutPage()
         // web
         "<tr><td class='h3'>" + escapeHtml(AboutDialog::tr("Web")) + "</td>"
         "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td></tr></table>"
-        "<tr></table></p>"
+        "</table></p>"
+
+        // libraries
+        "<div class='h2'>LibQxt</div>"
+        "<p class=\"ppp\">" + escapeHtml(AboutDialog::tr("Library used in the application")) + "<br />"
+        "Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).<br />"
+        "All rights reserved.</p>"
+        "<div class='h2'>Font Awesome</div>"
+        "<p class=\"ppp\">" + escapeHtml(AboutDialog::tr("Iconic font used in the application")) + "<br />"
+        "Created & Maintained by Dave Gandy (<a href=\"http://fortawesome.github.com/Font-Awesome/\">http://fortawesome.github.com/Font-Awesome/</a>).</p>"
 
         // keyboard title
         "<div class='h2'>" + escapeHtml(AboutDialog::tr("Keyboard")) + "</div>"
@@ -103,12 +113,6 @@ static QString aboutPage()
         "</table></p>"
 
         "<p></p>"
-
-        // libraries
-        "<div class='h2'>LibQxt</div>"
-        "<p class=\"pp\">" + escapeHtml(AboutDialog::tr("Library used in the application")) + "</p>"
-        "<p class=\"pp\">Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).</p>"
-        "<p class=\"pp\">All rights reserved.</p>"
 
         "</body></html>";
 }

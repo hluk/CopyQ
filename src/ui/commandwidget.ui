@@ -43,13 +43,20 @@
        </property>
       </widget>
      </item>
-     <item row="5" column="1">
-      <widget class="QComboBox" name="comboBoxCopyToTab">
+     <item row="2" column="1">
+      <widget class="QLineEdit" name="lineEditWindow">
        <property name="toolTip">
-        <string>Name of tab to copy new items into (leave empty not to copy)</string>
+        <string>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window).&lt;/p&gt;</string>
        </property>
-       <property name="editable">
-        <bool>true</bool>
+      </widget>
+     </item>
+     <item row="3" column="0" colspan="2">
+      <widget class="QCheckBox" name="checkBoxIgnore">
+       <property name="toolTip">
+        <string>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</string>
+       </property>
+       <property name="text">
+        <string>&amp;Ignore Item</string>
        </property>
       </widget>
      </item>
@@ -66,46 +73,6 @@
        </property>
        <property name="buddy">
         <cstring>lineEditMatch</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_3">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>&amp;Name:</string>
-       </property>
-       <property name="buddy">
-        <cstring>lineEditName</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0" colspan="2">
-      <widget class="QCheckBox" name="checkBoxIgnore">
-       <property name="toolTip">
-        <string>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</string>
-       </property>
-       <property name="text">
-        <string>&amp;Ignore Item</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLineEdit" name="lineEditName">
-       <property name="toolTip">
-        <string>Command name shown in menu</string>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLineEdit" name="lineEditMatch">
-       <property name="toolTip">
-        <string>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</string>
        </property>
       </widget>
      </item>
@@ -128,15 +95,18 @@
         </widget>
        </item>
        <item>
-        <widget class="QLabel" name="labelIcon">
-         <property name="minimumSize">
+        <widget class="QToolButton" name="buttonIcon">
+         <property name="text">
+          <string/>
+         </property>
+         <property name="iconSize">
           <size>
-           <width>16</width>
+           <width>13</width>
            <height>16</height>
           </size>
          </property>
-         <property name="text">
-          <string/>
+         <property name="popupMode">
+          <enum>QToolButton::InstantPopup</enum>
          </property>
         </widget>
        </item>
@@ -155,6 +125,40 @@
        </property>
        <property name="buddy">
         <cstring>lineEditCommand</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="labelWindow">
+       <property name="text">
+        <string>&amp;Window:</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEditWindow</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
+      <widget class="QLineEdit" name="lineEditMatch">
+       <property name="toolTip">
+        <string>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1">
+      <widget class="QComboBox" name="comboBoxCopyToTab">
+       <property name="toolTip">
+        <string>Name of tab to copy new items into (leave empty not to copy)</string>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QLineEdit" name="lineEditName">
+       <property name="toolTip">
+        <string>Command name shown in menu</string>
        </property>
       </widget>
      </item>
@@ -186,20 +190,19 @@
        </property>
       </widget>
      </item>
-     <item row="2" column="0">
-      <widget class="QLabel" name="labelWindow">
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
        <property name="text">
-        <string>&amp;Window:</string>
+        <string>&amp;Name:</string>
        </property>
        <property name="buddy">
-        <cstring>lineEditWindow</cstring>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="1">
-      <widget class="QLineEdit" name="lineEditWindow">
-       <property name="toolTip">
-        <string>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window).&lt;/p&gt;</string>
+        <cstring>lineEditName</cstring>
        </property>
       </widget>
      </item>
@@ -370,6 +373,7 @@
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
+  <tabstop>buttonIcon</tabstop>
   <tabstop>lineEditIcon</tabstop>
   <tabstop>pushButtonBrowse</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>

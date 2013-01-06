@@ -20,10 +20,15 @@
 #include "commandwidget.h"
 #include "ui_commandwidget.h"
 
+#include "client_server.h"
 #include "shortcutdialog.h"
 
+#include <QAction>
 #include <QFileDialog>
-#include <QPicture>
+#include <QFontMetrics>
+#include <QMenu>
+#include <QPainter>
+#include <QPixmap>
 
 CommandWidget::CommandWidget(QWidget *parent)
     : QWidget(parent)
@@ -31,8 +36,28 @@ CommandWidget::CommandWidget(QWidget *parent)
 {
     ui->setupUi(this);
     ui->lineEditIcon->hide();
+    ui->buttonIcon->setFont( IconFactory::instance()->iconFont() );
     ui->checkBoxEnable->hide();
     setFocusProxy(ui->lineEditName);
+
+    // iconic font
+    const QFont &font = IconFactory::instance()->iconFont();
+    QFontMetrics fm(font);
+
+    // change icon
+    QMenu *menu = new QMenu(this);
+    menu->addAction( QString() );
+    for (ushort i = IconFirst; i <= IconLast; ++i) {
+        QChar c(i);
+        if ( fm.inFont(c) ) {
+            QAction *act = menu->addAction( QString(QChar(c)) );
+            act->setFont(font);
+        }
+    }
+    ui->buttonIcon->setMenu(menu);
+    connect( menu, SIGNAL(triggered(QAction*)),
+             this, SLOT(onIconChanged(QAction*)) );
+
 }
 
 CommandWidget::~CommandWidget()
@@ -102,10 +127,7 @@ void CommandWidget::on_pushButtonBrowse_clicked()
 
 void CommandWidget::on_lineEditIcon_textChanged(const QString &)
 {
-    QImage image;
-    image.load( ui->lineEditIcon->text() );
-    QPixmap pix = QPixmap::fromImage(image.scaledToHeight(16));
-    ui->labelIcon->setPixmap(pix);
+    ui->buttonIcon->setIcon( IconFactory::iconFromFile(ui->lineEditIcon->text()) );
 }
 
 void CommandWidget::on_pushButtonShortcut_clicked()
@@ -131,6 +153,11 @@ void CommandWidget::on_checkBoxOutput_toggled(bool checked)
     ui->separatorLabel->setEnabled(checked);
     ui->labelOutputTab->setEnabled(checked);
     ui->comboBoxOutputTab->setEnabled(checked);
+}
+
+void CommandWidget::onIconChanged(QAction *action)
+{
+    ui->lineEditIcon->setText( action->text() );
 }
 
 void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)

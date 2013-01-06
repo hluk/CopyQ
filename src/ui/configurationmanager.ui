@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>600</width>
-    <height>450</height>
+    <height>459</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -35,10 +35,6 @@
         <number>0</number>
        </property>
        <widget class="QWidget" name="tab_clipboard">
-        <attribute name="icon">
-         <iconset resource="../copyq.qrc">
-          <normaloff>:/images/tab_clipboard.svg</normaloff>:/images/tab_clipboard.svg</iconset>
-        </attribute>
         <attribute name="title">
          <string>C&amp;lipboard</string>
         </attribute>
@@ -214,10 +210,6 @@
         </layout>
        </widget>
        <widget class="QWidget" name="tab_general">
-        <attribute name="icon">
-         <iconset resource="../copyq.qrc">
-          <normaloff>:/images/tab_history.svg</normaloff>:/images/tab_history.svg</iconset>
-        </attribute>
         <attribute name="title">
          <string>Clipboard &amp;History</string>
         </attribute>
@@ -399,10 +391,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
         </layout>
        </widget>
        <widget class="QWidget" name="tab_commands">
-        <attribute name="icon">
-         <iconset resource="../copyq.qrc">
-          <normaloff>:/images/tab_commands.svg</normaloff>:/images/tab_commands.svg</iconset>
-        </attribute>
         <attribute name="title">
          <string>Co&amp;mmands</string>
         </attribute>
@@ -449,7 +437,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                 <x>0</x>
                 <y>0</y>
                 <width>367</width>
-                <height>258</height>
+                <height>267</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -545,10 +533,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
         </layout>
        </widget>
        <widget class="QWidget" name="tab_shortcuts">
-        <attribute name="icon">
-         <iconset resource="../copyq.qrc">
-          <normaloff>:/images/tab_shortcuts.svg</normaloff>:/images/tab_shortcuts.svg</iconset>
-        </attribute>
         <attribute name="title">
          <string>&amp;Shortcuts</string>
         </attribute>
@@ -718,10 +702,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
         </layout>
        </widget>
        <widget class="QWidget" name="tab_appearance">
-        <attribute name="icon">
-         <iconset resource="../copyq.qrc">
-          <normaloff>:/images/tab_appearance.svg</normaloff>:/images/tab_appearance.svg</iconset>
-        </attribute>
         <attribute name="title">
          <string>&amp;Appearance</string>
         </attribute>
@@ -736,8 +716,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>272</width>
-              <height>343</height>
+              <width>257</width>
+              <height>355</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -900,6 +880,16 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                 </widget>
                </item>
                <item>
+                <widget class="QCheckBox" name="checkBoxSystemIcons">
+                 <property name="toolTip">
+                  <string>Use icons from desktop environment whenever possible. Icons will be changed after restart.</string>
+                 </property>
+                 <property name="text">
+                  <string>S&amp;ystem Icons</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <spacer name="verticalSpacer_5">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -1033,6 +1023,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>pushButtonColorNumberFg</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
+  <tabstop>checkBoxSystemIcons</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>

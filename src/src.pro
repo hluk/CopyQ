@@ -29,6 +29,7 @@ HEADERS += \
     include/clipboardserver.h \
     include/commandwidget.h \
     include/configurationmanager.h \
+    include/iconfactory.h \
     include/itemdelegate.h \
     include/itemeditor.h \
     include/itemimage.h \
@@ -59,6 +60,7 @@ SOURCES += \
     clipboardserver.cpp \
     commandwidget.cpp \
     configurationmanager.cpp \
+    iconfactory.cpp \
     itemdelegate.cpp \
     itemeditor.cpp \
     itemimage.cpp \

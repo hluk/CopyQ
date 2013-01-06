@@ -21,7 +21,7 @@
   </property>
   <property name="windowIcon">
    <iconset resource="../copyq.qrc">
-    <normaloff>:/images/tab_commands.svg</normaloff>:/images/tab_commands.svg</iconset>
+    <normaloff>:/images/icon-running.svg</normaloff>:/images/icon-running.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="0" column="0">
@@ -37,16 +37,6 @@
        <property name="bottomMargin">
         <number>4</number>
        </property>
-       <item>
-        <widget class="QLabel" name="iconLabel">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="pixmap">
-          <pixmap resource="../copyq.qrc">:/images/actiondialog.svg</pixmap>
-         </property>
-        </widget>
-       </item>
        <item>
         <widget class="QLabel" name="inputInfoLabel">
          <property name="sizePolicy">

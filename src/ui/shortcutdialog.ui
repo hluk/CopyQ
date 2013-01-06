@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>CopyQ New Shortcut</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="copyq.qrc">
-    <normaloff>:/images/tab_shortcuts.svg</normaloff>:/images/tab_shortcuts.svg</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="labelHelp">
@@ -59,9 +55,7 @@
    </item>
   </layout>
  </widget>
- <resources>
-  <include location="copyq.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

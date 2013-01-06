@@ -29,6 +29,7 @@
 #include "tabwidget.h"
 #include "client_server.h"
 #include "action.h"
+#include "iconfactory.h"
 
 #include <QCloseEvent>
 #include <QMenu>
@@ -49,23 +50,23 @@
 
 namespace {
 
-const QIcon &iconAction() { ICON("action"); }
-const QIcon &iconClipboard() { ICON("clipboard"); }
-const QIcon &iconCopy() { ICON2("edit-copy", "copy"); }
-const QIcon &iconExit() { ICON2("application-exit", "exit"); }
-const QIcon &iconHelp() { ICON2("help-about", "help"); }
-const QIcon &iconNew() { ICON2("document-new", "new"); }
-const QIcon &iconOpen() { ICON2("document-open", "open"); }
-const QIcon &iconPaste() { ICON2("edit-paste", "paste"); }
-const QIcon &iconPreferences() { ICON2("preferences-other", "preferences"); }
-const QIcon &iconReverse() { ICON("reverse"); }
-const QIcon &iconSave() { ICON2("document-save", "save"); }
-const QIcon &iconSort() { ICON2("view-sort-ascending", "sort"); }
-const QIcon &iconTabNew() { ICON("tab_new"); }
-const QIcon &iconTabRemove() { ICON("tab_remove"); }
-const QIcon &iconTabRename() { ICON("tab_rename"); }
-const QIcon &iconTray() { ICON("icon"); }
-const QIcon &iconTrayRunning() { ICON("icon-running"); }
+const QIcon iconAction() { return getIcon("action", IconCog); }
+const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
+const QIcon iconCopy() { return getIcon("edit-copy", IconCopy); }
+const QIcon iconExit() { return getIcon("application-exit", IconOff); }
+const QIcon iconHelp() { return getIcon("help-about", IconQuestionSign); }
+const QIcon iconNew() { return getIcon("document-new", IconFile); }
+const QIcon iconOpen() { return getIcon("document-open", IconFolderOpen); }
+const QIcon iconPaste() { return getIcon("edit-paste", IconPaste); }
+const QIcon iconPreferences() { return getIcon("preferences-other", IconWrench); }
+const QIcon iconReverse() { return getIcon("view-sort-descending", IconSortUp); }
+const QIcon iconSave() { return getIcon("document-save", IconSave); }
+const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortDown); }
+const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
+const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
+const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
+const QIcon &iconTray() { return getIconFromResources("icon"); }
+const QIcon &iconTrayRunning() { return getIconFromResources("icon-running"); }
 
 QString currentWindowTitle()
 {
@@ -135,28 +136,12 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowIcon(iconTray());
-
-    // settings
-    loadSettings();
-
-    if ( ui->tabWidget->count() == 0 )
-        addTab( tr("&clipboard") );
-
-    ui->tabWidget->setCurrentIndex(0);
+    setWindowIcon( iconTray());
 
     // tray
     tray = new QSystemTrayIcon(this);
-    tray->setIcon( windowIcon() );
-    tray->setToolTip(
-            tr("left click to show or hide, middle click to quit") );
-
-    // search timer
-    m_timerSearch->setSingleShot(true);
-    m_timerSearch->setInterval(200);
-
-    // create menubar & context menu
-    createMenu();
+    tray->setIcon( iconTray() );
+    tray->setToolTip( tr("left click to show or hide, middle click to quit") );
 
     // signals & slots
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -175,6 +160,18 @@ MainWindow::MainWindow(QWidget *parent)
              m_timerSearch, SLOT(start()) );
     connect( this, SIGNAL(editingActive(bool)),
              ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
+
+    // settings
+    loadSettings(true);
+
+    if ( ui->tabWidget->count() == 0 )
+        addTab( tr("&clipboard") );
+
+    ui->tabWidget->setCurrentIndex(0);
+
+    // search timer
+    m_timerSearch->setSingleShot(true);
+    m_timerSearch->setInterval(200);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->loadGeometry(this);
@@ -234,8 +231,14 @@ void MainWindow::createMenu()
     QMenu *menu;
     QAction *act;
 
+    itemMenu = NULL;
+    menubar->clear();
+    delete tray->contextMenu();
+
+    tray->setContextMenu(traymenu);
+
     connect( this, SIGNAL(editingActive(bool)),
-             menubar, SLOT(setDisabled(bool)) );
+             menubar, SLOT(setDisabled(bool)), Qt::UniqueConnection );
 
     // items before separator in tray
     traymenu->addSeparator();
@@ -328,9 +331,14 @@ void MainWindow::createMenu()
     act->setShortcuts(QKeySequence::Copy);
 
     // Items
-    itemMenu = browser()->contextMenu();
+    ClipboardBrowser *c = browser();
+    if (c != NULL) {
+        itemMenu = c->contextMenu();
+        menubar->addMenu(itemMenu);
+    } else {
+        itemMenu = menubar->addMenu( QString() );
+    }
     itemMenu->setTitle( tr("&Item") );
-    menubar->addMenu(itemMenu);
 
     // Tabs
     menu = menubar->addMenu(tr("&Tabs"));
@@ -369,8 +377,6 @@ void MainWindow::createMenu()
 
     connect( traymenu, SIGNAL(triggered(QAction*)),
              this, SLOT(trayMenuAction(QAction*)) );
-
-    tray->setContextMenu(traymenu);
 }
 
 void MainWindow::elideText(QAction *act)
@@ -600,13 +606,24 @@ void MainWindow::saveSettings()
     cm->saveSettings();
 }
 
-void MainWindow::loadSettings()
+void MainWindow::loadSettings(bool forceCreateMenu)
 {
     log( tr("Loading configuration") );
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     m_confirmExit = cm->value("confirm_exit").toBool();
     m_trayItems = cm->value("tray_items").toInt();
+
+    IconFactory *factory = IconFactory::instance();
+    bool useSystemIcons = cm->value("use_system_icons").toBool();
+    bool rebuildMenu = useSystemIcons != factory->useSystemIcons();
+    if (rebuildMenu) {
+        factory->setUseSystemIcons(useSystemIcons);
+        factory->invalidateCache();
+        createMenu();
+    } else if (forceCreateMenu) {
+        createMenu();
+    }
 
     // always on top window hint
     if (cm->value("always_on_top").toBool()) {
@@ -630,7 +647,7 @@ void MainWindow::loadSettings()
         ClipboardBrowser *c;
         c = createTab(name, false);
         if (loaded)
-            c->loadSettings();
+            c->loadSettings(rebuildMenu);
     }
     cm->setTabs(tabs);
 
@@ -732,11 +749,12 @@ WId MainWindow::showMenu()
 void MainWindow::tabChanged(int current)
 {
     // update item menu (necessary for keyboard shortcuts to work)
-    QMenu *m = itemMenu;
-    itemMenu = browser()->contextMenu();
-    itemMenu->setTitle( tr("&Item") );
-    menuBar()->insertMenu( m->menuAction(), itemMenu );
-    menuBar()->removeAction( m->menuAction() );
+    QMenu *m = browser()->contextMenu();
+    m->setTitle( itemMenu->title() );
+    menuBar()->insertMenu( itemMenu->menuAction(), m );
+    menuBar()->removeAction( itemMenu->menuAction() );
+    itemMenu = m;
+
     browser()->filterItems( ui->searchBar->text() );
 
     /* Deselect first item in previously selected tab if it is current item and

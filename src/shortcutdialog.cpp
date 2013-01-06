@@ -19,6 +19,9 @@
 
 #include "shortcutdialog.h"
 #include "ui_shortcutdialog.h"
+
+#include "client_server.h"
+
 #include <QKeyEvent>
 
 ShortcutDialog::ShortcutDialog(QWidget *parent)
@@ -27,6 +30,7 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     , m_shortcut()
 {
     ui->setupUi(this);
+    setWindowIcon( getIcon("", IconHandUp) );
 }
 
 ShortcutDialog::~ShortcutDialog()

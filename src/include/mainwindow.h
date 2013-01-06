@@ -154,7 +154,7 @@ class MainWindow : public QMainWindow
         /** Change tray icon. */
         void changeTrayIcon(const QIcon &icon);
         /** Load settings. */
-        void loadSettings();
+        void loadSettings(bool forceCreateMenu = false);
 
         /** Open about dialog. */
         void openAboutDialog();

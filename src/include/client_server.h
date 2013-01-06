@@ -20,6 +20,8 @@
 #ifndef CLIENT_SERVER_H
 #define CLIENT_SERVER_H
 
+#include "iconfactory.h"
+
 #include <QWidget> // WId
 #include <QMimeData>
 #include <QClipboard>
@@ -27,12 +29,6 @@
 
 // Application version
 #define COPYQ_VERSION "1.4.1"
-
-// For Performance reasons create SVG icons once (QApplication must be created first).
-#define ICON(iconName) static const QIcon icon(":/images/" iconName ".svg"); return icon;
-#define ICON2(themeName, iconName) \
-    static const QIcon icon = QIcon::fromTheme(themeName, QIcon(":/images/" iconName)); \
-    return icon;
 
 class QString;
 class QIODevice;
@@ -94,5 +90,8 @@ uint hash(const QMimeData &data, const QStringList &formats);
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 
 void raiseWindow(WId wid);
+
+const QIcon &getIconFromResources(const QString &iconName);
+const QIcon getIcon(const QString &themeName, ushort iconId);
 
 #endif // CLIENT_SERVER_H

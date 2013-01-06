@@ -216,3 +216,13 @@ void raiseWindow(WId wid)
     Q_UNUSED(wid);
 #endif // TODO: focus window on Mac
 }
+
+const QIcon &getIconFromResources(const QString &iconName)
+{
+    return IconFactory::instance()->getIcon(iconName);
+}
+
+const QIcon getIcon(const QString &themeName, ushort iconId)
+{
+    return IconFactory::instance()->getIcon(themeName, iconId);
+}

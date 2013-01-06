@@ -95,7 +95,7 @@ ConfigurationManager::ConfigurationManager()
     Command cmd;
     int i = 0;
     while ( defaultCommand(++i, &cmd) ) {
-        ui->comboBoxCommands->addItem( QIcon(cmd.icon), cmd.name.remove('&') );
+        ui->comboBoxCommands->addItem( IconFactory::iconFromFile(cmd.icon), cmd.name.remove('&') );
     }
 
     /* general options */
@@ -181,6 +181,8 @@ ConfigurationManager::ConfigurationManager()
     m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
     m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
 
+    m_options["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
+
     /* datafile for items */
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
                        QCoreApplication::organizationName(),
@@ -189,6 +191,13 @@ ConfigurationManager::ConfigurationManager()
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
+
+    // Tab icons
+    ui->tabWidget->setTabIcon( 0, getIcon("", IconPaste) );
+    ui->tabWidget->setTabIcon( 1, getIcon("", IconListOl) );
+    ui->tabWidget->setTabIcon( 2, getIcon("", IconCogs) );
+    ui->tabWidget->setTabIcon( 3, getIcon("", IconHandUp) );
+    ui->tabWidget->setTabIcon( 4, getIcon("", IconPencil) );
 
     loadSettings();
 }
@@ -243,31 +252,32 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     case 1:
         c->name = tr("Ignore items with no or single character");
         c->re   = QRegExp("^\\s*\\S?\\s*$");
-        c->icon = ":/images/command_ignore.svg";
+        c->icon = QString(QChar(IconExclamationSign));
         c->ignore = true;
         break;
     case 2:
         c->name = tr("Open in &Browser");
         c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
-        c->icon = ":/images/command_web.svg";
+        c->icon = QString(QChar(IconGlobe));
         c->cmd  = "firefox %1";
         break;
     case 3:
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
-        c->icon = ":/images/command_autoplay.svg";
+        c->icon = QString(QChar(IconPlayCircle));
         c->cmd  = "vlc %1";
         c->automatic = true;
         break;
     case 4:
         c->name = tr("Copy URL (web address) to other tab");
         c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
-        c->icon = ":/images/command_tab.svg";
+        c->icon = QString(QChar(IconCopy));
         c->tab  = "&web";
         break;
     case 5:
         c->name = tr("Run shell script");
         c->re   = QRegExp("^#!/bin/bash");
+        c->icon = QString(QChar(IconEdit));
         c->cmd  = "/bin/bash";
         c->input = true;
         c->output = true;
@@ -279,7 +289,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     case 6:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
-        c->icon  = ":/images/command_ignore.svg";
+        c->icon = QString(QChar(IconAsterisk));
         c->ignore = true;
         break;
 #endif
@@ -719,11 +729,7 @@ void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
     item->setText(text);
 
     // icon
-    QPixmap pix(c.icon);
-    QIcon icon;
-    if (!pix.isNull())
-        icon = pix.scaledToHeight(16);
-    item->setIcon(icon);
+    item->setIcon( IconFactory::iconFromFile(c.icon) );
 
     // check state
     item->setCheckState(c.enable ? Qt::Checked : Qt::Unchecked);

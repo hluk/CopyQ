@@ -34,10 +34,10 @@
 
 namespace {
 
-const QIcon &iconAction() { ICON("action"); }
-const QIcon &iconClipboard() { ICON("clipboard"); }
-const QIcon &iconEdit() { ICON2("accessories-text-editor", "edit"); }
-const QIcon &iconRemove() { ICON2("list-remove", "remove"); }
+const QIcon iconAction() { return getIcon("action", IconCog); }
+const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
+const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
+const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
 
 const int max_preload = 10;
 
@@ -201,7 +201,6 @@ void ClipboardBrowser::contextMenuAction(QAction *act)
 void ClipboardBrowser::createContextMenu()
 {
     QAction *act;
-    QFont font;
 
     m_menu->clear();
     act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
@@ -255,7 +254,7 @@ void ClipboardBrowser::updateContextMenu()
         foreach (const Command &command, m_commands) {
             if ( !command.cmd.isEmpty() && !command.name.isEmpty() &&
                  command.re.indexIn(text) != -1 ) {
-                act = m_menu->addAction( QIcon(command.icon), command.name );
+                act = m_menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
                 act->setData( QVariant(ActionCustom) );
                 act->setProperty("cmd", i);
                 if ( !command.shortcut.isEmpty() )
@@ -690,7 +689,7 @@ bool ClipboardBrowser::add(const ClipboardItem &item, bool force)
     return add( cloneData(*item.data()), force );
 }
 
-void ClipboardBrowser::loadSettings()
+void ClipboardBrowser::loadSettings(bool forceCreateMenu)
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
@@ -709,7 +708,10 @@ void ClipboardBrowser::loadSettings()
     m_commands = cm->commands();
 
     // update menu
-    updateContextMenu();
+    if (forceCreateMenu)
+        createContextMenu();
+    else
+        updateContextMenu();
 }
 
 void ClipboardBrowser::loadItems()
