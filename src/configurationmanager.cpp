@@ -255,19 +255,12 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->automatic = true;
         break;
     case 4:
-        c->name = tr("Move non-textual items to other tab");
-        c->re   = QRegExp("^$");
-        c->icon = ":/images/command_move.svg";
-        c->tab  = "i&mages";
-        c->ignore = true;
-        break;
-    case 5:
         c->name = tr("Copy URL (web address) to other tab");
         c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
         c->icon = ":/images/command_tab.svg";
         c->tab  = "&web";
         break;
-    case 6:
+    case 5:
         c->name = tr("Run shell script");
         c->re   = QRegExp("^#!/bin/bash");
         c->cmd  = "/bin/bash";
@@ -278,7 +271,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->shortcut = tr("Ctrl+R");
         break;
 #if defined(Q_WS_X11) || defined(Q_OS_WIN)
-    case 7:
+    case 6:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon  = ":/images/command_ignore.svg";
