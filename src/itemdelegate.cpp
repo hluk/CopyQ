@@ -18,16 +18,21 @@
 */
 
 #include "itemdelegate.h"
+#include "itemimage.h"
+#include "itemrichtext.h"
+#include "itemtext.h"
+#ifdef HAS_WEBKIT
+#   include "itemweb.h"
+#endif
+#include "itemwidget.h"
+#include "client_server.h"
+#include "configurationmanager.h"
+
 #include <QApplication>
 #include <QMenu>
 #include <QPainter>
 #include <QPlainTextEdit>
 #include <QScrollBar>
-#include <QtWebKit/QWebView>
-#include <QtWebKit/QWebPage>
-#include <QtWebKit/QWebFrame>
-#include "client_server.h"
-#include "configurationmanager.h"
 
 const QSize defaultSize(0, 512);
 const int maxChars = 100*1024;
@@ -44,6 +49,9 @@ ItemDelegate::ItemDelegate(QWidget *parent)
     , m_numberFont()
     , m_numberPalette()
     , m_cache()
+#ifdef HAS_WEBKIT
+    , m_useWeb(true)
+#endif
 {
 }
 
@@ -55,7 +63,7 @@ ItemDelegate::~ItemDelegate()
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
                              const QModelIndex &index) const
 {
-    const QWidget *w = m_cache.value(index.row(), NULL);
+    const ItemWidget *w = m_cache.value(index.row(), NULL);
     return (w != NULL) ? w->size() : defaultSize;
 }
 
@@ -220,6 +228,18 @@ void ItemDelegate::editorCancel()
     emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
 }
 
+void ItemDelegate::onItemChanged(ItemWidget *item)
+{
+    for( int i = 0; i < m_cache.length(); ++i ) {
+        ItemWidget *w = m_cache[i];
+        if ( w != NULL && w == item ) {
+            w->updateItem();
+            emit rowChanged(i);
+            return;
+        }
+    }
+}
+
 void ItemDelegate::editingStarts()
 {
     emit editingActive(true);
@@ -236,11 +256,11 @@ void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
         m_cache.insert( i, NULL );
 }
 
-QWidget *ItemDelegate::cache(const QModelIndex &index)
+ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 {
     int n = index.row();
 
-    QWidget *w = m_cache[n];
+    ItemWidget *w = m_cache[n];
     if (w != NULL)
         return w;
 
@@ -248,45 +268,23 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
     bool hasHtml = displayData.type() == QVariant::String;
     QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
 
-    if ( !text.isEmpty() ) {
-        if (hasHtml) {
-            QWebView *view = new QWebView(m_parent);
-            w = view;
-
-            // FIXME: Set only maximal size for document.
-            const QRect rect = m_parent->contentsRect();
-            view->resize(rect.width() - 16, rect.height() - 16);
-
-            view->page()->mainFrame()->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
-            view->page()->mainFrame()->setScrollBarPolicy(Qt::Vertical,   Qt::ScrollBarAlwaysOff);
-            view->setFont( m_parent->font() );
-            view->setContent(text.toLocal8Bit(), QString("text/html"));
-        } else {
-            QLabel *label = new QLabel(m_parent);
-            w = label;
-
-            label->setTextFormat(Qt::PlainText);
-            label->setMargin(4);
-            label->setFont( m_parent->font() );
-            label->setAutoFillBackground(false);
-            label->setPalette( m_parent->palette() );
-            label->setText(text);
-            label->adjustSize();
+    if ( text.isEmpty() ) {
+        w = new ItemImage(displayData.value<QPixmap>(), m_parent);
+    } else if (hasHtml) {
+#ifdef HAS_WEBKIT
+        if (m_useWeb) {
+            w = new ItemWeb(text, m_parent);
+            connect( w->widget(), SIGNAL(itemChanged(ItemWidget*)),
+                     this, SLOT(onItemChanged(ItemWidget*)) );
+        }
+        else
+#endif
+        {
+            w = new ItemRichText(text, m_parent);
         }
     } else {
-        // Image
-        QLabel *label = new QLabel(m_parent);
-        w = label;
-        label->setMargin(4);
-        label->setPixmap(displayData.value<QPixmap>());
-        w->adjustSize();
+        w = new ItemText(text, m_parent);
     }
-    w->hide();
-
-    // transparent background
-    QPalette palette(w->palette());
-    palette.setColor(QPalette::Background, Qt::transparent);
-    w->setPalette(palette);
 
     m_cache[n] = w;
     emit sizeHintChanged(index);
@@ -306,20 +304,17 @@ void ItemDelegate::removeCache(const QModelIndex &index)
 
 void ItemDelegate::removeCache(int row)
 {
-    QWidget *w = m_cache[row];
-    if (w) {
-        w->deleteLater();
+    ItemWidget *w = m_cache[row];
+    if (w != NULL) {
         m_cache[row] = NULL;
+        delete w;
     }
 }
 
 void ItemDelegate::invalidateCache()
 {
-    if ( m_cache.length() > 0 ) {
-        for( int i = 0; i < m_cache.length(); ++i ) {
-            removeCache(i);
-        }
-    }
+    for( int i = 0; i < m_cache.length(); ++i )
+        removeCache(i);
 }
 
 void ItemDelegate::setSearch(const QRegExp &re)
@@ -349,14 +344,14 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
     int row = index.row();
-    QWidget *w = m_cache[row];
+    ItemWidget *w = m_cache[row];
     if (w == NULL)
         return;
 
     const QRect &rect = option.rect;
 
     /* render background (selected, alternate, ...) */
-    QStyle *style = w->style();
+    QStyle *style = m_parent->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
     QPalette::ColorRole role = option.state & QStyle::State_Selected ?
                 QPalette::HighlightedText : QPalette::Text;
@@ -376,69 +371,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     /* highlight search string */
-    QWebView *view = NULL;
-    QLabel *label = NULL;
-    QString labelText;
-    if ( !m_re.isEmpty() ) {
-        view = qobject_cast<QWebView *>(w);
-        // FIXME: Hightlight matching text!
-        if (view != NULL) {
-            view->findText(m_re.pattern(), QWebPage::HighlightAllOccurrences);
-        } else {
-            label = qobject_cast<QLabel *>(w);
-            if (label != NULL) {
-                labelText = label->text();
-
-                QTextDocument doc(labelText);
-                doc.setDefaultFont( m_parent->font() );
-
-                QTextCursor cur = doc.find(m_re);
-                int a = cur.position();
-                while ( !cur.isNull() ) {
-                    QTextCharFormat fmt = cur.charFormat();
-                    if ( cur.hasSelection() ) {
-                        fmt.setBackground( m_foundPalette.base() );
-                        fmt.setForeground( m_foundPalette.text() );
-                        fmt.setFont(m_foundFont);
-                        cur.setCharFormat(fmt);
-                    } else {
-                        cur.movePosition(QTextCursor::NextCharacter);
-                    }
-                    cur = doc.find(m_re, cur);
-                    int b = cur.position();
-                    if (a == b) {
-                        cur.movePosition(QTextCursor::NextCharacter);
-                        cur = doc.find(m_re, cur);
-                        b = cur.position();
-                        if (a == b) break;
-                    }
-                    a = b;
-                }
-
-                label->setTextFormat(Qt::RichText);
-                label->setText(doc.toHtml());
-            }
-        }
-    }
+    w->setHighlight(m_re, m_foundFont, m_foundPalette);
 
     /* render widget */
-    QPalette p1 = w->palette();
-    QPalette p2 = m_parent->palette();
-    if ( p1.color(QPalette::Text) != p2.color(role) ) {
-        p1.setColor( QPalette::Text, p2.color(role) );
-        w->setPalette(p1);
-    }
-    QRegion region(0, 0, rect.width() - numRect.width() - 4, rect.height());
-    painter->save();
-    painter->translate( rect.topLeft() + QPoint(numRect.width(), 0) );
-    w->render(painter, QPoint(), region);
-    painter->restore();
-
-    /* restore highlight */
-    if (view != NULL) {
-        view->findText(QString(), QWebPage::HighlightAllOccurrences);
-    } else if ( label != NULL ) {
-        label->setTextFormat(Qt::PlainText);
-        label->setText(labelText);
-    }
+    const QPoint position(rect.topLeft() + QPoint(numRect.width(), 0));
+    w->render(painter, role, position);
 }

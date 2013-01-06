@@ -14,63 +14,83 @@ FORMS += \
     ui/shortcutdialog.ui \
     ui/commandwidget.ui
 HEADERS += \
-    include/mainwindow.h \
-    include/clipboardbrowser.h \
-    include/itemeditor.h \
-    include/actiondialog.h \
-    include/clipboardmodel.h \
-    include/itemdelegate.h \
-    include/action.h \
-    include/client_server.h \
     include/aboutdialog.h \
-    include/clipboarditem.h \
-    include/clipboardmonitor.h \
-    include/configurationmanager.h \
-    include/clipboardserver.h \
-    include/clipboardclient.h \
+    include/actiondialog.h \
+    include/action.h \
     include/app.h \
     include/arguments.h \
+    include/client_server.h \
+    include/clipboardbrowser.h \
+    include/clipboardclient.h \
     include/clipboarddialog.h \
+    include/clipboarditem.h \
+    include/clipboardmodel.h \
+    include/clipboardmonitor.h \
+    include/clipboardserver.h \
+    include/commandwidget.h \
+    include/configurationmanager.h \
+    include/itemdelegate.h \
+    include/itemeditor.h \
+    include/itemimage.h \
+    include/itemrichtext.h \
+    include/itemtext.h \
+    include/mainwindow.h \
+    include/option.h \
+    include/scriptable.h \
+    include/shortcutdialog.h \
     include/tabbar.h \
     include/tabdialog.h \
     include/tabwidget.h \
-    include/shortcutdialog.h \
-    include/commandwidget.h \
-    include/option.h \
-    ../qt/bytearrayprototype.h \
     ../qt/bytearrayclass.h \
-    include/scriptable.h
+    ../qt/bytearrayprototype.h
 SOURCES += \
-    main.cpp \
-    mainwindow.cpp \
-    clipboardbrowser.cpp \
-    itemeditor.cpp \
-    actiondialog.cpp \
-    clipboardmodel.cpp \
-    itemdelegate.cpp \
-    client_server.cpp \
-    action.cpp \
     aboutdialog.cpp \
-    clipboarditem.cpp \
-    clipboardmonitor.cpp \
-    configurationmanager.cpp \
-    clipboardserver.cpp \
-    clipboardclient.cpp \
+    action.cpp \
+    actiondialog.cpp \
     app.cpp \
     arguments.cpp \
+    client_server.cpp \
+    clipboardbrowser.cpp \
+    clipboardclient.cpp \
     clipboarddialog.cpp \
+    clipboarditem.cpp \
+    clipboardmodel.cpp \
+    clipboardmonitor.cpp \
+    clipboardserver.cpp \
+    commandwidget.cpp \
+    configurationmanager.cpp \
+    itemdelegate.cpp \
+    itemeditor.cpp \
+    itemimage.cpp \
+    itemrichtext.cpp \
+    itemtext.cpp \
+    itemwidget.cpp \
+    main.cpp \
+    mainwindow.cpp \
+    option.cpp \
+    scriptable.cpp \
+    shortcutdialog.cpp \
     tabbar.cpp \
     tabdialog.cpp \
     tabwidget.cpp \
-    shortcutdialog.cpp \
-    commandwidget.cpp \
-    option.cpp \
-    ../qt/bytearrayprototype.cpp \
     ../qt/bytearrayclass.cpp \
-    scriptable.cpp
+    ../qt/bytearrayprototype.cpp
 
-QT += core gui xml network script webkit
+QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
+
+WITH_WEBKIT {
+    SOURCES += itemweb.cpp
+    HEADERS += include/itemweb.h
+    DEFINES += HAS_WEBKIT
+
+    lessThan(QT_MAJOR_VERSION, 5) {
+        QT += webkit
+    }
+    !lessThan(QT_MAJOR_VERSION, 5) {
+        QT += webkitwidgets
+    }
+}
 
 lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
     DEFINES += BUILD_QXT_GUI
@@ -99,5 +119,3 @@ win32 {
     RC_FILE  = copyq.rc
 }
 
-OTHER_FILES += \
-    styles/default.css

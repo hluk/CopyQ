@@ -99,6 +99,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
 
     // delegate for rendering and editing items
     setItemDelegate(d);
+    connect( d, SIGNAL(rowChanged(int)),
+             this, SLOT(onRowChanged(int)) );
 
     // set new model
     QItemSelectionModel *old_model = selectionModel();
@@ -269,6 +271,11 @@ void ClipboardBrowser::updateSelection()
     QItemSelection s = selectionModel()->selection();
     setCurrentIndex( currentIndex() );
     selectionModel()->select( s, QItemSelectionModel::SelectCurrent );
+}
+
+void ClipboardBrowser::onRowChanged(int)
+{
+    doItemsLayout();
 }
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)

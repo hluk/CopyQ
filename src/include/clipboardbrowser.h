@@ -219,6 +219,8 @@ class ClipboardBrowser : public QListView
          */
         void updateSelection();
 
+        void onRowChanged(int row);
+
     public slots:
         /** Receive key event. */
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }

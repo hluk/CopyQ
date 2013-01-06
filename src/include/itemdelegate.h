@@ -26,6 +26,9 @@
 #include <QLabel>
 #include <QTimer>
 
+class Item;
+class ItemWidget;
+
 /**
  * Delegate for items in ClipboardBrowser.
  *
@@ -69,6 +72,11 @@ class ItemDelegate : public QItemDelegate
         /** Search highlight style. */
         void setSearchStyle(const QFont &font, const QPalette &palette);
 
+#ifdef HAS_WEBKIT
+        /** Use WebKit to render HTML. */
+        void setUseWeb(bool useWeb) { m_useWeb = useWeb; }
+#endif
+
         /** Editor widget style. */
         void setEditorStyle(const QFont &font, const QPalette &palette);
 
@@ -79,7 +87,7 @@ class ItemDelegate : public QItemDelegate
         void setShowNumber(bool show) { m_showNumber = show; }
 
         /** Return cached item, create it if it doesn't exist. */
-        QWidget *cache(const QModelIndex &index);
+        ItemWidget *cache(const QModelIndex &index);
 
         /** Return true only if item at index is already in cache. */
         bool hasCache(const QModelIndex &index) const;
@@ -87,6 +95,8 @@ class ItemDelegate : public QItemDelegate
     signals:
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
+
+        void rowChanged(int row);
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -105,7 +115,11 @@ class ItemDelegate : public QItemDelegate
         QPalette m_numberPalette;
 
         // items drawn using QTextDocument
-        QList<QWidget*> m_cache;
+        QList<ItemWidget*> m_cache;
+
+#ifdef HAS_WEBKIT
+        bool m_useWeb;
+#endif
 
         /** Remove cached item for given @a row. */
         void removeCache(int row);
@@ -124,6 +138,8 @@ class ItemDelegate : public QItemDelegate
                        int destinationRow);
         void editorSave();
         void editorCancel();
+
+        void onItemChanged(ItemWidget *item);
 
     private slots:
         void editingStarts();
