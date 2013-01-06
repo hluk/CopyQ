@@ -23,6 +23,9 @@
 #include <QPainter>
 #include <QPlainTextEdit>
 #include <QScrollBar>
+#include <QtWebKit/QWebView>
+#include <QtWebKit/QWebPage>
+#include <QtWebKit/QWebFrame>
 #include "client_server.h"
 #include "configurationmanager.h"
 
@@ -246,36 +249,30 @@ QWidget *ItemDelegate::cache(const QModelIndex &index)
     QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
 
     if ( !text.isEmpty() ) {
-        /* For performance reasons, limit number of shown characters
-         * (it's still possible to edit the whole text).
-         */
-        if ( text.size() > maxChars )
-            text = text.left(maxChars) + "\n\n...";
-
-        QTextEdit *textEdit = new QTextEdit(m_parent);
-
-        textEdit->setFrameShape(QFrame::NoFrame);
-        textEdit->setWordWrapMode(QTextOption::NoWrap);
-        textEdit->setUndoRedoEnabled(false);
-        textEdit->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-        textEdit->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-
-        w = textEdit;
-
-        // text or HTML
-        QTextDocument *doc = new QTextDocument(textEdit);
         if (hasHtml) {
-            doc->setHtml(text);
-        } else {
-            doc->setPlainText(text);
-            w->setPalette( m_parent->palette() );
-        }
+            QWebView *view = new QWebView(m_parent);
+            w = view;
 
-        textEdit->setDocument(doc);
-        textEdit->setFont( m_parent->font() );
-        textEdit->viewport()->setAutoFillBackground(false);
-        QSize size = doc->documentLayout()->documentSize().toSize();
-        textEdit->resize(size);
+            // FIXME: Set only maximal size for document.
+            const QRect rect = m_parent->contentsRect();
+            view->resize(rect.width() - 16, rect.height() - 16);
+
+            view->page()->mainFrame()->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
+            view->page()->mainFrame()->setScrollBarPolicy(Qt::Vertical,   Qt::ScrollBarAlwaysOff);
+            view->setFont( m_parent->font() );
+            view->setContent(text.toLocal8Bit(), QString("text/html"));
+        } else {
+            QLabel *label = new QLabel(m_parent);
+            w = label;
+
+            label->setTextFormat(Qt::PlainText);
+            label->setMargin(4);
+            label->setFont( m_parent->font() );
+            label->setAutoFillBackground(false);
+            label->setPalette( m_parent->palette() );
+            label->setText(text);
+            label->adjustSize();
+        }
     } else {
         // Image
         QLabel *label = new QLabel(m_parent);
@@ -379,38 +376,47 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     }
 
     /* highlight search string */
-    QTextDocument *doc1 = NULL;
-    QTextDocument *doc2 = NULL;
-    QTextEdit *textEdit = NULL;
+    QWebView *view = NULL;
+    QLabel *label = NULL;
+    QString labelText;
     if ( !m_re.isEmpty() ) {
-        textEdit = qobject_cast<QTextEdit *>(w);
-        if (textEdit != NULL) {
-            doc1 = textEdit->document();
-            doc2 = doc1->clone(textEdit);
-            textEdit->setDocument(doc2);
+        view = qobject_cast<QWebView *>(w);
+        // FIXME: Hightlight matching text!
+        if (view != NULL) {
+            view->findText(m_re.pattern(), QWebPage::HighlightAllOccurrences);
+        } else {
+            label = qobject_cast<QLabel *>(w);
+            if (label != NULL) {
+                labelText = label->text();
 
-            int a, b;
-            QTextCursor cur = doc2->find(m_re);
-            a = cur.position();
-            while ( !cur.isNull() ) {
-                QTextCharFormat fmt = cur.charFormat();
-                if ( cur.hasSelection() ) {
-                    fmt.setBackground( m_foundPalette.base() );
-                    fmt.setForeground( m_foundPalette.text() );
-                    fmt.setFont(m_foundFont);
-                    cur.setCharFormat(fmt);
-                } else {
-                    cur.movePosition(QTextCursor::NextCharacter);
+                QTextDocument doc(labelText);
+                doc.setDefaultFont( m_parent->font() );
+
+                QTextCursor cur = doc.find(m_re);
+                int a = cur.position();
+                while ( !cur.isNull() ) {
+                    QTextCharFormat fmt = cur.charFormat();
+                    if ( cur.hasSelection() ) {
+                        fmt.setBackground( m_foundPalette.base() );
+                        fmt.setForeground( m_foundPalette.text() );
+                        fmt.setFont(m_foundFont);
+                        cur.setCharFormat(fmt);
+                    } else {
+                        cur.movePosition(QTextCursor::NextCharacter);
+                    }
+                    cur = doc.find(m_re, cur);
+                    int b = cur.position();
+                    if (a == b) {
+                        cur.movePosition(QTextCursor::NextCharacter);
+                        cur = doc.find(m_re, cur);
+                        b = cur.position();
+                        if (a == b) break;
+                    }
+                    a = b;
                 }
-                cur = doc2->find(m_re, cur);
-                b = cur.position();
-                if (a == b) {
-                    cur.movePosition(QTextCursor::NextCharacter);
-                    cur = doc2->find(m_re, cur);
-                    b = cur.position();
-                    if (a == b) break;
-                }
-                a = b;
+
+                label->setTextFormat(Qt::RichText);
+                label->setText(doc.toHtml());
             }
         }
     }
@@ -429,8 +435,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     painter->restore();
 
     /* restore highlight */
-    if (doc2 != NULL) {
-        textEdit->setDocument(doc1);
-        delete doc2;
+    if (view != NULL) {
+        view->findText(QString(), QWebPage::HighlightAllOccurrences);
+    } else if ( label != NULL ) {
+        label->setTextFormat(Qt::PlainText);
+        label->setText(labelText);
     }
 }

@@ -69,7 +69,7 @@ SOURCES += \
     ../qt/bytearrayclass.cpp \
     scriptable.cpp
 
-QT += core gui xml network script
+QT += core gui xml network script webkit
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
