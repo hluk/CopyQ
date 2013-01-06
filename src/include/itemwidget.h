@@ -57,7 +57,7 @@ protected:
      * Highlight matching text with given font and color.
      * Default implementation does nothing.
      */
-    void highlight(const QRegExp &, const QFont &, const QPalette &) {}
+    virtual void highlight(const QRegExp &, const QFont &, const QPalette &) {}
 
 private:
     QRegExp m_re;

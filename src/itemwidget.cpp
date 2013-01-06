@@ -64,7 +64,7 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
     if (m_re == re)
         return;
     m_re = re;
-    setHighlight(re, highlightFont, highlightPalette);
+    highlight(re, highlightFont, highlightPalette);
 }
 
 void ItemWidget::updateItem()
