@@ -183,6 +183,11 @@ class ClipboardBrowser : public QListView
         void createContextMenu();
         bool isFiltered(int row) const;
 
+        /**
+         * Update scroll offset if size of an item is changed or new item is added.
+         */
+        void updateScrollOffset(const QModelIndex &index, int oldSize);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -219,7 +224,7 @@ class ClipboardBrowser : public QListView
          */
         void updateSelection();
 
-        void onRowChanged(int row);
+        void onRowChanged(int row, const QSize &oldSize);
 
     public slots:
         /** Receive key event. */
@@ -240,6 +245,8 @@ class ClipboardBrowser : public QListView
         bool openEditor(const QString &text);
         /** Add items. */
         void addItems(const QStringList &items);
+
+        void removeRow(int row);
 
         /**
          * Load items from configuration.

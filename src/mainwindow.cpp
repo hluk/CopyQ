@@ -776,7 +776,7 @@ void MainWindow::tabChanged(int current)
 
     if ( current >= 0 ) {
         ClipboardBrowser *c = browser();
-        if( !c->currentIndex().isValid() ) {
+        if( !c->currentIndex().isValid() && isVisible() ) {
             c->setCurrent(0);
         }
     }

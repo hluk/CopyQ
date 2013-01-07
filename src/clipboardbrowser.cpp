@@ -99,8 +99,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
 
     // delegate for rendering and editing items
     setItemDelegate(d);
-    connect( d, SIGNAL(rowChanged(int)),
-             this, SLOT(onRowChanged(int)) );
+    connect( d, SIGNAL(rowChanged(int, const QSize &)),
+             this, SLOT(onRowChanged(int, const QSize &)) );
 
     // set new model
     QItemSelectionModel *old_model = selectionModel();
@@ -235,6 +235,28 @@ bool ClipboardBrowser::isFiltered(int row) const
     return m_lastFilter.indexIn(text) == -1;
 }
 
+void ClipboardBrowser::updateScrollOffset(const QModelIndex &index, int oldSize)
+{
+    int scrollOffset = verticalScrollBar()->value();
+    if (scrollOffset > 0 && isIndexHidden(index))
+        return;
+
+    const QRect itemRect = rectForIndex(index);
+    if ( scrollOffset > itemRect.y() ) {
+        int dy = itemRect.height();
+        if (oldSize <= 0)
+            dy += 2 * spacing();
+        else
+            dy -= oldSize;
+
+        // Negative oldSize means that item was removed.
+        if (oldSize < 0)
+            dy = -dy;
+
+        verticalScrollBar()->setValue(scrollOffset + dy);
+    }
+}
+
 void ClipboardBrowser::updateContextMenu()
 {
     int i, len;
@@ -272,9 +294,10 @@ void ClipboardBrowser::updateSelection()
     selectionModel()->select( s, QItemSelectionModel::SelectCurrent );
 }
 
-void ClipboardBrowser::onRowChanged(int)
+void ClipboardBrowser::onRowChanged(int row, const QSize &oldSize)
 {
     doItemsLayout();
+    updateScrollOffset( index(row), oldSize.height() );
 }
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
@@ -306,7 +329,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
         if ( !ind.isValid() )
             return;
 
-        if ( !isRowHidden(i) && visualRect(ind).intersects(cacheRect) )
+        if ( !isIndexHidden(ind) && visualRect(ind).intersects(cacheRect) )
             break;
 
         ++i;
@@ -315,12 +338,14 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
     // Render visible items.
     forever {
         if ( !d->hasCache(ind) ) {
+            const int oldSize = sizeHintForIndex(ind).height();
             d->cache(ind);
+            updateScrollOffset(ind, oldSize);
             if ( timer.hasExpired(maxElapsedMs) )
                 break;
         }
 
-        for ( ind = index(++i); ind.isValid() && isRowHidden(i); ind = index(++i) ) {}
+        for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
 
         if ( !ind.isValid() )
             break;
@@ -374,6 +399,14 @@ void ClipboardBrowser::addItems(const QStringList &items)
     for(int i=items.count()-1; i>=0; --i) {
         add(items[i], true);
     }
+}
+
+void ClipboardBrowser::removeRow(int row)
+{
+    if (row < 0 && row >= model()->rowCount())
+        return;
+    updateScrollOffset( index(row), -1 );
+    model()->removeRow(row);
 }
 
 void ClipboardBrowser::itemModified(const QString &str)
@@ -678,8 +711,8 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTit
 
     delayedSaveItems();
 
-    scrollTo( currentIndex(), editing() ? QAbstractItemView::PositionAtTop
-                                        : QAbstractItemView::EnsureVisible );
+    // Keep scroll offset.
+    updateScrollOffset(ind, 0);
 
     return true;
 }
@@ -754,7 +787,7 @@ const QString ClipboardBrowser::selectedText() const
 
     QModelIndexList list = sel->selectedIndexes();
     foreach (const QModelIndex &ind, list) {
-        if ( !isRowHidden(ind.row()) ) {
+        if ( !isIndexHidden(ind) ) {
             if ( !result.isEmpty() )
                 result += QString('\n');
             result += itemText(ind);

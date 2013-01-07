@@ -233,8 +233,9 @@ void ItemDelegate::onItemChanged(ItemWidget *item)
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
         if ( w != NULL && w == item ) {
+            QSize oldSize = w->size();
             w->updateItem();
-            emit rowChanged(i);
+            emit rowChanged(i, oldSize);
             return;
         }
     }

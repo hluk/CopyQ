@@ -604,7 +604,7 @@ void Scriptable::remove()
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
     foreach (int row, rows)
-        c->model()->removeRow(row);
+        c->removeRow(row);
 
     if (rows.last() == 0)
         c->updateClipboard();

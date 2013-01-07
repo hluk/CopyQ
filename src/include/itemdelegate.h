@@ -96,7 +96,7 @@ class ItemDelegate : public QItemDelegate
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
 
-        void rowChanged(int row);
+        void rowChanged(int row, const QSize &oldSize);
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,

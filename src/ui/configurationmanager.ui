@@ -882,7 +882,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <item>
                 <widget class="QCheckBox" name="checkBoxSystemIcons">
                  <property name="toolTip">
-                  <string>Use icons from desktop environment whenever possible. Icons will be changed after restart.</string>
+                  <string>Use icons from desktop environment whenever possible.</string>
                  </property>
                  <property name="text">
                   <string>S&amp;ystem Icons</string>
