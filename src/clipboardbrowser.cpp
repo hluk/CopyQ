@@ -120,9 +120,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
 
-    connect( m, SIGNAL(layoutChanged()),
-             this, SLOT(updateSelection()) );
-
     // save if data in model changed
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(delayedSaveItems()) );
@@ -257,6 +254,18 @@ void ClipboardBrowser::updateScrollOffset(const QModelIndex &index, int oldSize)
     }
 }
 
+bool ClipboardBrowser::fetchCacheForIndex(const QModelIndex &index)
+{
+    if ( d->hasCache(index) )
+        return false;
+
+    const int oldSize = sizeHintForIndex(index).height();
+    d->cache(index);
+    updateScrollOffset(index, oldSize);
+
+    return true;
+}
+
 void ClipboardBrowser::updateContextMenu()
 {
     int i, len;
@@ -285,13 +294,6 @@ void ClipboardBrowser::updateContextMenu()
             ++i;
         }
     }
-}
-
-void ClipboardBrowser::updateSelection()
-{
-    QItemSelection s = selectionModel()->selection();
-    setCurrentIndex( currentIndex() );
-    selectionModel()->select( s, QItemSelectionModel::SelectCurrent );
 }
 
 void ClipboardBrowser::onRowChanged(int row, const QSize &oldSize)
@@ -337,13 +339,8 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
 
     // Render visible items.
     forever {
-        if ( !d->hasCache(ind) ) {
-            const int oldSize = sizeHintForIndex(ind).height();
-            d->cache(ind);
-            updateScrollOffset(ind, oldSize);
-            if ( timer.hasExpired(maxElapsedMs) )
-                break;
-        }
+        if ( fetchCacheForIndex(ind) && timer.hasExpired(maxElapsedMs) )
+            break;
 
         for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
 
@@ -507,37 +504,67 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
     else {
         switch ( key ) {
-        // navigation
+        // This fixes few issues with default navigation and item selections.
         case Qt::Key_Up:
         case Qt::Key_Down:
         case Qt::Key_PageDown:
         case Qt::Key_PageUp:
         case Qt::Key_Home:
-        case Qt::Key_End:
-            /* If item height is bigger than viewport height
-             * it's possible that wrong item is selected.
-             */
+        case Qt::Key_End: {
+            event->accept();
+
+            QModelIndex current = currentIndex();
+            int row = current.row();
+            int d;
+
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
-                int d = key == Qt::Key_PageDown ? 1 : -1;
-                int h = viewport()->height();
-                QModelIndex current = currentIndex();
+                d = (key == Qt::Key_PageDown) ? 1 : -1;
+                const int h = viewport()->height();
                 QRect rect = visualRect(current);
 
-                if ( rect.height() > h ) {
-                    if ( d*(rect.y() + rect.height()) >= d*h ) {
-                        QScrollBar *v = verticalScrollBar();
-                        v->setValue( v->value() + d * v->pageStep() );
-                    } else {
-                        setCurrent( current.row() + d, false, mods == Qt::ShiftModifier );
+                if ( rect.height() > h && d * (rect.y() + rect.height()) >= d * h ) {
+                    QScrollBar *v = verticalScrollBar();
+                    v->setValue( v->value() + d * v->pageStep() );
+                    break;
+                }
+
+                int maxY = verticalOffset() + (d > 0 ? h : 0);
+                for ( int i = row + d; i >= 0 && row < model()->rowCount(); i += d ) {
+                    QModelIndex ind = index(i);
+                    if ( !isIndexHidden(ind) ) {
+                        const QRect rect = rectForIndex(ind);
+                        if ( d > 0 ? rect.y() >= maxY : rect.bottom() <= maxY ) {
+                            if ( row == current.row() )
+                                maxY += d * h - rect.height();
+                            else
+                                break;
+                        }
+                        row = i;
                     }
-                    event->accept();
-                    return;
+                }
+            } else {
+                if (key == Qt::Key_Up) {
+                    --row;
+                    d = -1;
+                } else if (key == Qt::Key_Down) {
+                    ++row;
+                    d = 1;
+                } else {
+                    if (key == Qt::Key_End) {
+                        row = model()->rowCount() - 1;
+                        d = 1;
+                    } else {
+                        row = 0;
+                        d = -1;
+                    }
+
+                    for ( ; row != current.row() && isRowHidden(row); row -= d ) {}
                 }
             }
 
-            QListView::keyPressEvent(event);
-            event->accept();
+            setCurrent(row, false, mods == Qt::ShiftModifier);
             break;
+        }
 
         default:
             // allow user defined shortcuts
@@ -552,8 +579,10 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
 void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
 {
+    QModelIndex prev = currentIndex();
+    int cur = prev.row();
+
     // direction
-    int cur = currentIndex().row();
     int dir = cur < row ? 1 : -1;
 
     // select first visible
@@ -569,15 +598,23 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
 
     QModelIndex ind = index(i);
     if (selection) {
+        ClipboardBrowser::Lock lock(this);
         QItemSelectionModel *sel = selectionModel();
-        if ( sel->isSelected(ind) && sel->isSelected(currentIndex()) )
-            sel->setCurrentIndex(currentIndex(),
-                QItemSelectionModel::Deselect);
-        sel->setCurrentIndex(ind,
-            QItemSelectionModel::Select);
-    }
-    else
+        for ( int j = prev.row(); j != i + dir; j += dir ) {
+            QModelIndex ind = index(j);
+            if ( !ind.isValid() )
+                break;
+            if ( isIndexHidden(ind) )
+                continue;
+
+            if ( sel->isSelected(ind) && sel->isSelected(prev) )
+                sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
+            sel->setCurrentIndex(ind, QItemSelectionModel::Select);
+            prev = ind;
+        }
+    } else {
         setCurrentIndex(ind);
+    }
 
     scrollTo(ind); // ensure visible
 }

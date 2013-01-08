@@ -60,11 +60,16 @@ ItemDelegate::~ItemDelegate()
     invalidateCache();
 }
 
-QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
-                             const QModelIndex &index) const
+QSize ItemDelegate::sizeHint(const QModelIndex &index) const
 {
     const ItemWidget *w = m_cache.value(index.row(), NULL);
     return (w != NULL) ? w->size() : defaultSize;
+}
+
+QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
+                             const QModelIndex &index) const
+{
+    return sizeHint(index);
 }
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)

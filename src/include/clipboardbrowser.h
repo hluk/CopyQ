@@ -188,6 +188,12 @@ class ClipboardBrowser : public QListView
          */
         void updateScrollOffset(const QModelIndex &index, int oldSize);
 
+        /**
+         * Cache given index.
+         * @return false only if index was already cached
+         */
+        bool fetchCacheForIndex(const QModelIndex &index);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -218,11 +224,6 @@ class ClipboardBrowser : public QListView
     private slots:
         void contextMenuAction(QAction *act);
         void updateContextMenu();
-
-        /**
-         * Workaround for https://bugreports.qt-project.org/browse/QTBUG-18009.
-         */
-        void updateSelection();
 
         void onRowChanged(int row, const QSize &oldSize);
 
