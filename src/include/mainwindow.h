@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2012, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2013, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
