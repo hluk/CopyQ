@@ -13,6 +13,8 @@ window is accessible by clicking on system tray icon or running `copyq toggle`.
 To exit the application middle-click on the tray icon or press Ctrl-Q keys
 in the application window.
 
+For more info go to <http://code.google.com/p/copyq/>.
+
 Keyboard navigation
 -------------------
 * `PgDown/PgUp`, `Home/End`, `Up/Down`
@@ -92,7 +94,7 @@ Command Line Interface
                                  Value -1 is for current text in clipboard.
 
         read [MIME|ROW]...       Print raw data of clipboard or item in row.
-        write MIME DATA          Write raw data to clipboard.
+        write [ROW=0] MIME DATA  Write raw data to given row.
         separator SEPARATOR      Set separator for items on output.
 
         action [ROWS=0...]       Show action dialog.
@@ -116,20 +118,18 @@ Command Line Interface
         config OPTION            Get option value.
         config OPTION VALUE      Set option value.
 
-        eval, -e [SCRIPT]        Evaluate script.
+        eval, -e [SCRIPT]        Evaluate ECMAScript program.
         help, -h, --help [COMMAND]
           Print help for COMMAND or all commands.
         version, -v, --version
           Print version of program and libraries.
 
     NOTES:
+      - Changing first item (ROW is 0) will also change clipboard.
       - Use dash argument (-) to read data from stdandard input.
       - Use double-dash argument (--) to read all following arguments without
         expanding escape sequences (i.e. \n, \t and others).
       - Use ? for MIME to print available MIME types (default is "text/plain").
-      - Parameter SCRIPT contains program in ECMAScript, for example:
-          copyq -e "tab('music'); x=''; for(i=0; i<size(); ++i) x+=str(read(i)); x"
-        prints concatenated text of all items in the tab 'music'.
 
 Usage Examples
 --------------
