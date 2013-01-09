@@ -36,6 +36,8 @@ protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                    const QPalette &highlightPalette);
 
+    virtual void updateSize();
+
 signals:
     void itemChanged(ItemWidget *self);
 

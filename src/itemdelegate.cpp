@@ -19,7 +19,6 @@
 
 #include "itemdelegate.h"
 #include "itemimage.h"
-#include "itemrichtext.h"
 #include "itemtext.h"
 #ifdef HAS_WEBKIT
 #   include "itemweb.h"
@@ -35,13 +34,13 @@
 #include <QScrollBar>
 
 const QSize defaultSize(0, 512);
-const int maxChars = 100*1024;
 
 ItemDelegate::ItemDelegate(QWidget *parent)
     : QItemDelegate(parent)
     , m_parent(parent)
     , m_showNumber(false)
     , m_re()
+    , m_maxSize(maximumItemSize)
     , m_foundFont()
     , m_foundPalette()
     , m_editorFont()
@@ -286,12 +285,13 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
         else
 #endif
         {
-            w = new ItemRichText(text, m_parent);
+            w = new ItemText(text, Qt::RichText, m_parent);
         }
     } else {
-        w = new ItemText(text, m_parent);
+        w = new ItemText(text, Qt::PlainText, m_parent);
     }
 
+    w->widget()->setMaximumSize(m_maxSize);
     m_cache[n] = w;
     emit sizeHintChanged(index);
 
@@ -301,6 +301,24 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 bool ItemDelegate::hasCache(const QModelIndex &index) const
 {
     return m_cache[index.row()] != NULL;
+}
+
+void ItemDelegate::setItemMaximumSize(const QSize &size)
+{
+    m_maxSize = QSize( size.width() - 8, m_maxSize.height() );
+    if (m_showNumber) {
+        int margin = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
+        m_maxSize -= QSize(margin, 0);
+    }
+
+    for( int i = 0; i < m_cache.length(); ++i ) {
+        ItemWidget *w = m_cache[i];
+        if (w != NULL) {
+            QSize oldSize = w->size();
+            w->setMaximumSize(m_maxSize);
+            emit rowChanged(i, oldSize);
+        }
+    }
 }
 
 void ItemDelegate::removeCache(const QModelIndex &index)
@@ -365,7 +383,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* render number */
     QRect numRect(0, 0, 0, 0);
     if (m_showNumber) {
-        QString num = QString::number(row)+"  ";
+        QString num = QString::number(row) + "  ";
         painter->save();
         painter->setFont(m_numberFont);
         style->drawItemText(painter, rect.translated(4, 4), 0,

@@ -29,6 +29,8 @@
 class Item;
 class ItemWidget;
 
+const QSize maximumItemSize(2048, 2048 * 8);
+
 /**
  * Delegate for items in ClipboardBrowser.
  *
@@ -94,6 +96,9 @@ class ItemDelegate : public QItemDelegate
         /** Return true only if item at index is already in cache. */
         bool hasCache(const QModelIndex &index) const;
 
+        /** Set maximum size for all items. */
+        void setItemMaximumSize(const QSize &size);
+
     signals:
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
@@ -108,6 +113,7 @@ class ItemDelegate : public QItemDelegate
         QWidget *m_parent;
         bool m_showNumber;
         QRegExp m_re;
+        QSize m_maxSize;
 
         QFont m_foundFont;
         QPalette m_foundPalette;

@@ -118,6 +118,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["vi"] = Option(false, "checked", ui->checkBoxViMode);
     m_options["always_on_top"] = Option(false, "checked", ui->checkBoxAlwaysOnTop);
     m_options["tab_position"] = Option(0, "currentIndex", ui->comboBoxTabPosition);
+    m_options["text_wrap"] = Option(true, "checked", ui->checkBoxTextWrap);
 
     /* other options */
     m_options["tabs"] = Option(QStringList());

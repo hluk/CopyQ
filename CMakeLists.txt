@@ -60,7 +60,6 @@ set(copyq_MOCABLE
     src/include/commandwidget.h
     src/include/configurationmanager.h
     src/include/itemimage.h
-    src/include/itemrichtext.h
     src/include/itemtext.h
     src/include/itemdelegate.h
     src/include/itemeditor.h

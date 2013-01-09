@@ -19,37 +19,56 @@
 
 #include "itemtext.h"
 
+#include <QPaintEvent>
+#include <QPainter>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QTextOption>
 
-ItemText::ItemText(const QString &text, QWidget *parent)
-    : QLabel(parent)
-    , ItemWidget(this)
-    , m_labelText()
+namespace {
+
+// Limit number of characters for performance reasons.
+const int maxChars = 100*1024;
+
+void init(QTextDocument &doc, const QFont &font)
 {
-    setMargin(4);
-    setAutoFillBackground(false);
-    setTextFormat(Qt::PlainText);
-    setText(text);
-    adjustSize();
+    doc.setDefaultFont(font);
+    doc.setUndoRedoEnabled(false);
+}
+
+} // namespace
+
+ItemText::ItemText(const QString &text, Qt::TextFormat format, QWidget *parent)
+    : QWidget(parent)
+    , ItemWidget(this)
+    , m_textDocument()
+    , m_searchTextDocument()
+    , m_textFormat(format)
+{
+    init(m_textDocument, font());
+    init(m_searchTextDocument, font());
+
+    if (m_textFormat == Qt::PlainText)
+        m_textDocument.setPlainText( text.left(maxChars) );
+    else
+        m_textDocument.setHtml( text.left(maxChars) );
+
+    updateSize();
     updateItem();
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    if ( re.isEmpty() ) {
-        if ( !m_labelText.isNull() ) {
-            setTextFormat(Qt::PlainText);
-            setText(m_labelText);
-            m_labelText = QString();
-        }
-    } else {
-        if ( m_labelText.isNull() )
-            m_labelText = text();
-        QTextDocument doc(m_labelText);
-        doc.setDefaultFont( font() );
+    m_searchTextDocument.clear();
+    if ( !re.isEmpty() ) {
+        bool plain = m_textFormat == Qt::PlainText;
+        const QString &text = plain ? m_textDocument.toPlainText() : m_textDocument.toHtml();
+        if (plain)
+            m_searchTextDocument.setPlainText(text);
+        else
+            m_searchTextDocument.setHtml(text);
 
-        QTextCursor cur = doc.find(re);
+        QTextCursor cur = m_searchTextDocument.find(re);
         int a = cur.position();
         while ( !cur.isNull() ) {
             QTextCharFormat fmt = cur.charFormat();
@@ -61,18 +80,32 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
             } else {
                 cur.movePosition(QTextCursor::NextCharacter);
             }
-            cur = doc.find(re, cur);
+            cur = m_searchTextDocument.find(re, cur);
             int b = cur.position();
             if (a == b) {
                 cur.movePosition(QTextCursor::NextCharacter);
-                cur = doc.find(re, cur);
+                cur = m_searchTextDocument.find(re, cur);
                 b = cur.position();
                 if (a == b) break;
             }
             a = b;
         }
-
-        setTextFormat(Qt::RichText);
-        setText(doc.toHtml());
     }
+
+    update();
+}
+
+void ItemText::paintEvent(QPaintEvent *event)
+{
+    QPainter painter(this);
+    QTextDocument &doc = !m_searchTextDocument.isEmpty() ? m_searchTextDocument : m_textDocument;
+    doc.drawContents(&painter, event->rect());
+}
+
+void ItemText::updateSize()
+{
+    const int w = maximumWidth();
+    m_searchTextDocument.setTextWidth(w);
+    m_textDocument.setTextWidth(w);
+    resize( m_textDocument.idealWidth(), m_textDocument.size().height() );
 }

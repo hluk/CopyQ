@@ -73,6 +73,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     : QListView(parent)
     , m_id()
     , m_maxitems(100)
+    , m_textWrap()
     , m_editor()
     , m_lastFilter()
     , m_update(false)
@@ -360,6 +361,13 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
     if ( autoUpdate() && a.row() == 0 )
         updateClipboard();
     d->dataChanged(a, b);
+}
+
+void ClipboardBrowser::resizeEvent(QResizeEvent *event)
+{
+    QListView::resizeEvent(event);
+    if (m_textWrap)
+        d->setItemMaximumSize( viewport()->contentsRect().size() );
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
@@ -774,6 +782,8 @@ void ClipboardBrowser::loadSettings(bool forceCreateMenu)
     m->setMaxImageSize( cm->value("max_image_width").toInt(),
                         cm->value("max_image_height").toInt() );
 
+    setTextWrap( cm->value("text_wrap").toBool() );
+
     // commands
     m_commands = cm->commands();
 
@@ -913,4 +923,16 @@ bool ClipboardBrowser::handleViKey(QKeyEvent *event)
     }
 
     return handle;
+}
+
+void ClipboardBrowser::setTextWrap(bool enabled)
+{
+    if (m_textWrap == enabled)
+        return;
+
+    m_textWrap = enabled;
+    if (enabled)
+        d->setItemMaximumSize( QSize(2048, 2048) );
+    else
+        d->setItemMaximumSize( viewport()->contentsRect().size() );
 }

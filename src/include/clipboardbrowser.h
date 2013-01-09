@@ -167,9 +167,12 @@ class ClipboardBrowser : public QListView
          */
         bool handleViKey(QKeyEvent *event);
 
+        void setTextWrap(bool enabled);
+
     private:
         QString m_id;
         int m_maxitems;
+        bool m_textWrap;
         QString m_editor;
         QRegExp m_lastFilter;
         bool m_update;
@@ -199,6 +202,7 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void paintEvent(QPaintEvent *event);
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
+        void resizeEvent(QResizeEvent *event);
 
     signals:
         /** Action dialog requested. */

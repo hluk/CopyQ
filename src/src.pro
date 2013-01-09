@@ -33,7 +33,6 @@ HEADERS += \
     include/itemdelegate.h \
     include/itemeditor.h \
     include/itemimage.h \
-    include/itemrichtext.h \
     include/itemtext.h \
     include/mainwindow.h \
     include/option.h \
@@ -64,7 +63,6 @@ SOURCES += \
     itemdelegate.cpp \
     itemeditor.cpp \
     itemimage.cpp \
-    itemrichtext.cpp \
     itemtext.cpp \
     itemwidget.cpp \
     main.cpp \

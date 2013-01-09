@@ -22,13 +22,16 @@
 
 #include "itemwidget.h"
 
-#include <QLabel>
+#include <QTextDocument>
+#include <QWidget>
 
-class ItemText : public QLabel, public ItemWidget
+class QPaintEvent;
+
+class ItemText : public QWidget, public ItemWidget
 {
     Q_OBJECT
 public:
-    ItemText(const QString &text, QWidget *parent);
+    ItemText(const QString &text, Qt::TextFormat format, QWidget *parent);
 
     QWidget *widget() { return this; }
 
@@ -36,8 +39,14 @@ protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                    const QPalette &highlightPalette);
 
+    virtual void updateSize();
+
+    void paintEvent(QPaintEvent *);
+
 private:
-    QString m_labelText;
+    QTextDocument m_textDocument;
+    QTextDocument m_searchTextDocument;
+    Qt::TextFormat m_textFormat;
 };
 
 #endif // ITEMTEXT_H

@@ -31,17 +31,13 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
     frame->setScrollBarPolicy(Qt::Vertical,   Qt::ScrollBarAlwaysOff);
 
-    if (parent != NULL) {
-        const QSize size( parent->contentsRect().width(), 512 );
-        resize( size.width(), size.height() );
-    }
-
     connect( frame, SIGNAL(loadFinished(bool)),
              this, SLOT(onItemChanged()) );
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
              this, SLOT(onItemChanged()) );
     setHtml(html);
 
+    updateSize();
     updateItem();
 }
 
@@ -57,10 +53,16 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
 
 void ItemWeb::onItemChanged()
 {
+    updateSize();
+    emit itemChanged(this);
+}
+
+void ItemWeb::updateSize()
+{
+    // FIXME: Set correct minimal size.
     QSize size = page()->mainFrame()->contentsSize();
     int w = parentWidget() != NULL ? parentWidget()->contentsRect().width() : 0;
     resize( qMax(w, size.width()), size.height() );
-    emit itemChanged(this);
 }
 
 #endif // HAS_WEBKIT

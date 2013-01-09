@@ -31,6 +31,9 @@ public:
     ItemImage(const QPixmap &pixmap, QWidget *parent);
 
     QWidget *widget() { return this; }
+
+protected:
+    virtual void updateSize();
 };
 
 #endif // ITEMIMAGE_H

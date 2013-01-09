@@ -26,5 +26,12 @@ ItemImage::ItemImage(const QPixmap &pixmap, QWidget *parent)
     setMargin(4);
     setPixmap(pixmap);
     adjustSize();
+
+    updateSize();
     updateItem();
+}
+
+void ItemImage::updateSize()
+{
+    adjustSize();
 }

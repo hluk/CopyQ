@@ -30,6 +30,9 @@ ItemWidget::ItemWidget(QWidget *widget)
 
     widget->hide();
 
+    // Limit size of items.
+    widget->setMaximumSize(2048, 2048);
+
     QWidget *parent = widget->parentWidget();
     if (parent != NULL) {
         QPalette palette( parent->palette() );
@@ -65,6 +68,13 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
         return;
     m_re = re;
     highlight(re, highlightFont, highlightPalette);
+}
+
+void ItemWidget::setMaximumSize(const QSize &size)
+{
+    widget()->setMaximumSize(size);
+    updateSize();
+    updateItem();
 }
 
 void ItemWidget::updateItem()

@@ -45,7 +45,9 @@ public:
 
     const QSize &size() const { return m_size; }
 
-    void updateItem();
+    void setMaximumSize(const QSize& size);
+
+    virtual void updateItem();
 
     /**
      * Return widget to render.
@@ -58,6 +60,11 @@ protected:
      * Default implementation does nothing.
      */
     virtual void highlight(const QRegExp &, const QFont &, const QPalette &) {}
+
+    /**
+     * Size of widget needs to be updated (because maximum size chaged).
+     */
+    virtual void updateSize() = 0;
 
 private:
     QRegExp m_re;
