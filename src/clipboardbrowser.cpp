@@ -530,7 +530,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 const int h = viewport()->height();
                 QRect rect = visualRect(current);
 
-                if ( rect.height() > h && d * (rect.y() + rect.height()) >= d * h ) {
+                if ( rect.height() > h && d < 0 ? rect.top() < 0 : rect.bottom() > h ) {
                     QScrollBar *v = verticalScrollBar();
                     v->setValue( v->value() + d * v->pageStep() );
                     break;
