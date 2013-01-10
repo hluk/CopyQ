@@ -1101,6 +1101,9 @@ void MainWindow::pasteItems()
     ClipboardBrowser *c = browser();
     ClipboardBrowser::Lock lock(c);
     int count = 0;
+    QModelIndexList list = c->selectionModel()->selectedIndexes();
+    qSort(list);
+    const int row = list.isEmpty() ? 0 : list.first().row();
 
     // Insert items from clipboard or just clipboard content.
     if ( data->hasFormat("application/x-copyq-item") ) {
@@ -1108,21 +1111,21 @@ void MainWindow::pasteItems()
         QDataStream in(bytes);
         ClipboardItem item;
 
-        while( !in.atEnd() ) {
+        while ( !in.atEnd() ) {
             in >> item;
-            c->add(item, true);
+            c->add(item, true, row);
             ++count;
         }
     } else {
-        c->add( cloneData(*data), true );
+        c->add( cloneData(*data), true, QString(), row );
         count = 1;
     }
 
     // Select new items.
     if (count > 0) {
         QItemSelection sel;
-        QModelIndex first = c->index(0);
-        QModelIndex last = count > 1 ? c->index(count-1) : first;
+        QModelIndex first = c->index(row);
+        QModelIndex last = c->index(row + count - 1);
         sel.select(first, last);
         c->setCurrentIndex(first);
         c->selectionModel()->select(sel, QItemSelectionModel::ClearAndSelect);

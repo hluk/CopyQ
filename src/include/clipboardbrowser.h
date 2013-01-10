@@ -89,7 +89,8 @@ class ClipboardBrowser : public QListView
         /** Add new item to the browser. */
         bool add(
                 const ClipboardItem &item, //!< Item to copy.
-                bool force = false //!< If true ignore commands and duplicates.
+                bool force = false, //!< If true ignore commands and duplicates.
+                int row = 0 //!< Target row for the new item.
                 );
 
         /** Edit selected unhidden items. */

@@ -762,9 +762,9 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTit
     return true;
 }
 
-bool ClipboardBrowser::add(const ClipboardItem &item, bool force)
+bool ClipboardBrowser::add(const ClipboardItem &item, bool force, int row)
 {
-    return add( cloneData(*item.data()), force );
+    return add( cloneData(*item.data()), force, QString(), row );
 }
 
 void ClipboardBrowser::loadSettings(bool forceCreateMenu)
