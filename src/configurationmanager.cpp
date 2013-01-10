@@ -515,7 +515,8 @@ void ConfigurationManager::loadTheme(QSettings &settings)
     }
 
     /* color indicating icons for color buttons */
-    QPixmap pix(16, 16);
+    QSize iconSize(16, 16);
+    QPixmap pix(iconSize);
     QList<QPushButton *> buttons;
     buttons << ui->pushButtonColorBg << ui->pushButtonColorFg
             << ui->pushButtonColorAltBg
@@ -527,6 +528,7 @@ void ConfigurationManager::loadTheme(QSettings &settings)
         QColor color = button->property("VALUE").toString();
         pix.fill(color);
         button->setIcon(pix);
+        button->setIconSize(iconSize);
     }
 
     decorateBrowser(ui->clipboardBrowserPreview);
