@@ -77,6 +77,9 @@ file(GLOB copyq_FORMS
 
 set(copyq_RESOURCES src/copyq.qrc)
 
+set(copyq_ICON src/images/logo.svg)
+set(copyq_DESKTOP shared/copyq.desktop)
+
 file(GLOB copyq_TRANSLATIONS translations/*.ts)
 
 # webkit
@@ -189,4 +192,9 @@ endif()
 target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 
 install(TARGETS copyq DESTINATION bin)
+
+if(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+    install(FILES ${copyq_ICON} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons" RENAME copyq.svg)
+    install(FILES ${copyq_DESKTOP} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
+endif(${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
