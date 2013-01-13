@@ -1109,9 +1109,9 @@ void MainWindow::pasteItems()
     if ( data->hasFormat("application/x-copyq-item") ) {
         const QByteArray bytes = data->data("application/x-copyq-item");
         QDataStream in(bytes);
-        ClipboardItem item;
 
         while ( !in.atEnd() ) {
+            ClipboardItem item;
             in >> item;
             c->add(item, true, row);
             ++count;
