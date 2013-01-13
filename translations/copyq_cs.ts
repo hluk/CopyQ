@@ -1782,7 +1782,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/scriptable.cpp" line="204"/>
         <source>  - Changing first item (ROW is 0) will also change clipboard.</source>
-        <translation>  - Změna prvního řádku (ROW je 0) také změní schránku.</translation>
+        <translation>  - Změna prvního řádku (ŘÁDEK je 0) také změní schránku.</translation>
     </message>
     <message>
         <location filename="../src/scriptable.cpp" line="205"/>
