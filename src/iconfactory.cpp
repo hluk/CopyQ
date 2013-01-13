@@ -47,13 +47,17 @@ IconFactory *IconFactory::instance()
 IconFactory::IconFactory()
     : m_iconFont()
     , m_useSystemIcons(true)
+    , m_loaded(false)
     , m_pixmapCache()
     , m_iconCache()
     , m_resourceIconCache()
 {
-    QFontDatabase::addApplicationFont(":/images/FontAwesome.otf");
-    m_iconFont = QFont("FontAwesome");
-    m_iconFont.setPixelSize(fontSize);
+    const int id = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf");
+    if (id != -1) {
+        m_loaded = true;
+        m_iconFont = QFont("FontAwesome");
+        m_iconFont.setPixelSize(fontSize);
+    }
 }
 
 const QPixmap &IconFactory::getPixmap(ushort id)
@@ -63,13 +67,16 @@ const QPixmap &IconFactory::getPixmap(ushort id)
         QPixmap pix(iconSize, iconSize);
         pix.fill(Qt::transparent);
 
-        QPainter painter(&pix);
+        if ( isLoaded() ) {
+            QPainter painter(&pix);
 
-        painter.setFont( iconFont() );
-        painter.setPen(iconColor);
+            painter.setFont( iconFont() );
+            painter.setPen(iconColor);
 
-        painter.drawText( 0, 0, iconSize, iconSize, Qt::AlignHCenter | Qt::AlignVCenter,
-                          QString(QChar(id)) );
+            painter.drawText( 0, 0, iconSize, iconSize, Qt::AlignHCenter | Qt::AlignVCenter,
+                              QString(QChar(id)) );
+        }
+
         it = m_pixmapCache.insert(id, pix);
     }
 
@@ -80,7 +87,7 @@ const QIcon IconFactory::getIcon(const QString &themeName, ushort id)
 {
     IconCache::iterator it = m_iconCache.find(id);
     if ( it == m_iconCache.end() ) {
-        if ( useSystemIcons() && !themeName.isEmpty() ) {
+        if ( (!isLoaded() || useSystemIcons()) && !themeName.isEmpty() ) {
             QIcon icon = QIcon::fromTheme(themeName);
             if ( !icon.isNull() )
                 return icon;

@@ -36,28 +36,31 @@ CommandWidget::CommandWidget(QWidget *parent)
 {
     ui->setupUi(this);
     ui->lineEditIcon->hide();
-    ui->buttonIcon->setFont( IconFactory::instance()->iconFont() );
     ui->checkBoxEnable->hide();
     setFocusProxy(ui->lineEditName);
 
-    // iconic font
-    const QFont &font = IconFactory::instance()->iconFont();
-    QFontMetrics fm(font);
+    IconFactory *factory = IconFactory::instance();
+    if ( factory->isLoaded() ) {
+        // iconic font
+        const QFont &font = factory->iconFont();
+        QFontMetrics fm(font);
 
-    // change icon
-    QMenu *menu = new QMenu(this);
-    menu->addAction( QString() );
-    for (ushort i = IconFirst; i <= IconLast; ++i) {
-        QChar c(i);
-        if ( fm.inFont(c) ) {
-            QAction *act = menu->addAction( QString(QChar(c)) );
-            act->setFont(font);
+        ui->buttonIcon->setFont( factory->iconFont() );
+
+        // change icon
+        QMenu *menu = new QMenu(this);
+        menu->addAction( QString() );
+        for (ushort i = IconFirst; i <= IconLast; ++i) {
+            QChar c(i);
+            if ( fm.inFont(c) ) {
+                QAction *act = menu->addAction( QString(c) );
+                act->setFont(font);
+            }
         }
+        ui->buttonIcon->setMenu(menu);
+        connect( menu, SIGNAL(triggered(QAction*)),
+                 this, SLOT(onIconChanged(QAction*)) );
     }
-    ui->buttonIcon->setMenu(menu);
-    connect( menu, SIGNAL(triggered(QAction*)),
-             this, SLOT(onIconChanged(QAction*)) );
-
 }
 
 CommandWidget::~CommandWidget()

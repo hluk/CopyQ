@@ -76,11 +76,17 @@ public:
 
     static QIcon iconFromFile(const QString &fileName);
 
+    /**
+     * Return true only if the icon resources were successfuly loaded.
+     */
+    bool isLoaded() const { return m_loaded; }
+
 private:
     static IconFactory* m_Instance;
 
     QFont m_iconFont;
     bool m_useSystemIcons;
+    bool m_loaded;
 
     typedef QHash<ushort, QPixmap> PixmapCache;
     PixmapCache m_pixmapCache;
