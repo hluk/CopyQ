@@ -28,7 +28,7 @@
 #include <qglobal.h> // Q_WS_*
 
 // Application version
-#define COPYQ_VERSION "1.4.1"
+#define COPYQ_VERSION "1.5.0"
 
 class QString;
 class QIODevice;
