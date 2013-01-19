@@ -198,7 +198,7 @@ ConfigurationManager::ConfigurationManager()
     ui->tabWidget->setTabIcon( 1, getIcon("", IconListOl) );
     ui->tabWidget->setTabIcon( 2, getIcon("", IconCogs) );
     ui->tabWidget->setTabIcon( 3, getIcon("", IconHandUp) );
-    ui->tabWidget->setTabIcon( 4, getIcon("", IconPencil) );
+    ui->tabWidget->setTabIcon( 4, getIcon("", IconPicture) );
 
     loadSettings();
 }

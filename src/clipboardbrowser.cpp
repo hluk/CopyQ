@@ -37,6 +37,7 @@ namespace {
 const QIcon iconAction() { return getIcon("action", IconCog); }
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
+const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
 const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
 
 const int max_preload = 10;
@@ -213,7 +214,7 @@ void ClipboardBrowser::createContextMenu()
     act->setShortcut( QString("F2") );
     act->setData( QVariant(ActionEdit) );
 
-    act = m_menu->addAction( iconEdit(), tr("E&dit with editor") );
+    act = m_menu->addAction( iconEditExternal(), tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
     act->setData( QVariant(ActionEditor) );
 

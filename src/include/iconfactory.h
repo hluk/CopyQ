@@ -33,6 +33,7 @@ enum IconId {
     IconCog = 0xf013,
     IconFile = 0xf016,
     IconPlayCircle = 0xf01d,
+    IconPicture = 0xf03e,
     IconPencil = 0xf040,
     IconEdit = 0xf044,
     IconRemoveSign = 0xf057,
