@@ -269,26 +269,30 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     if (w != NULL)
         return w;
 
-    QVariant displayData = index.data(Qt::DisplayRole);
-    bool hasHtml = displayData.type() == QVariant::String;
-    QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
+    const QVariant displayData = index.data(Qt::DisplayRole);
 
-    if ( text.isEmpty() ) {
+    // Create item from image, html or text data.
+    if ( displayData.canConvert<QPixmap>() ) {
         w = new ItemImage(displayData.value<QPixmap>(), m_parent);
-    } else if (hasHtml) {
-#ifdef HAS_WEBKIT
-        if (m_useWeb) {
-            w = new ItemWeb(text, m_parent);
-            connect( w->widget(), SIGNAL(itemChanged(ItemWidget*)),
-                     this, SLOT(onItemChanged(ItemWidget*)) );
-        }
-        else
-#endif
-        {
-            w = new ItemText(text, Qt::RichText, m_parent);
-        }
     } else {
-        w = new ItemText(text, Qt::PlainText, m_parent);
+        bool hasHtml = displayData.type() == QVariant::String;
+        const QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
+
+        if (hasHtml) {
+#ifdef HAS_WEBKIT
+            if (m_useWeb) {
+                w = new ItemWeb(text, m_parent);
+                connect( w->widget(), SIGNAL(itemChanged(ItemWidget*)),
+                         this, SLOT(onItemChanged(ItemWidget*)) );
+            }
+            else
+#endif
+            {
+                w = new ItemText(text, Qt::RichText, m_parent);
+            }
+        } else {
+            w = new ItemText(text, Qt::PlainText, m_parent);
+        }
     }
 
     w->widget()->setMaximumSize(m_maxSize);

@@ -150,9 +150,9 @@ void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
         else
             pix->loadFromData( m_data->data(mimeType), mimeType.toLatin1() );
 
-        if ( w > 0 && (h <= 0 || pix->width()/w > pix->height()/h) ) {
+        if ( w > 0 && pix->width() > w && (h <= 0 || pix->width()/w > pix->height()/h) ) {
             *pix = pix->scaledToWidth(w);
-        } else if (h > 0) {
+        } else if (h > 0 && pix->height() > h) {
             *pix = pix->scaledToHeight(h);
         }
 
