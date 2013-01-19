@@ -25,6 +25,7 @@
 
 class Action;
 class QAbstractButton;
+class QMimeData;
 
 namespace Ui {
     class ActionDialog;
@@ -46,16 +47,16 @@ public:
     /** Return filename for storing command history. */
     const QString dataFilename() const;
 
-    /** Set action input text. */
-    void setInputText(const QString &input);
+    /** Set action input data. */
+    void setInputData(const QMimeData &data);
     /** Set command with arguments. */
     void setCommand(const QString &cmd);
     /** Item separator for command output. */
     void setSeparator(const QString &sep);
-    /** If set to true input text will be sent to command's standard input. */
-    void setInput(bool value);
-    /** If set to true command's standard output will be split to items. */
-    void setOutput(bool value);
+    /** Send data of given MIME type to stdin of program. */
+    void setInput(const QString &format);
+    /** Create items from stdout of program. */
+    void setOutput(const QString &format);
     /** Set texts for tabs in combo box. */
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
     /** Set regular expression. */
@@ -74,6 +75,7 @@ protected:
 private:
     Ui::ActionDialog *ui;
     QRegExp m_re;
+    QMimeData *m_data;
 
 signals:
     /** Emitted if dialog was accepted. */
@@ -83,7 +85,8 @@ signals:
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
-    void on_outputCheckBox_toggled(bool checked);
+    void on_comboBoxInputFormat_currentIndexChanged(const QString &format);
+    void on_comboBoxOutputFormat_editTextChanged(const QString &text);
     void updateMinimalGeometry();
 
 public slots:

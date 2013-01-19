@@ -419,25 +419,13 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                </property>
               </widget>
              </item>
-             <item>
-              <widget class="QComboBox" name="comboBoxCommands">
-               <property name="sizePolicy">
-                <sizepolicy hsizetype="Ignored" vsizetype="Fixed">
-                 <horstretch>0</horstretch>
-                 <verstretch>0</verstretch>
-                </sizepolicy>
-               </property>
-               <item>
-                <property name="text">
-                 <string>Insert Default Command</string>
-                </property>
-               </item>
-              </widget>
-             </item>
             </layout>
            </item>
            <item>
             <widget class="QScrollArea" name="scrollAreaCommand">
+             <property name="focusPolicy">
+              <enum>Qt::NoFocus</enum>
+             </property>
              <property name="widgetResizable">
               <bool>true</bool>
              </property>
@@ -446,8 +434,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>96</width>
-                <height>26</height>
+                <width>367</width>
+                <height>269</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -483,12 +471,18 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
          <item row="3" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_5">
            <item>
-            <widget class="QPushButton" name="pushButtoAdd">
+            <widget class="QToolButton" name="toolButtonAddCommand">
+             <property name="toolTip">
+              <string>Create new command or a add an existing example command.</string>
+             </property>
              <property name="text">
-              <string>Add [+]</string>
+              <string>Add Command [+]</string>
              </property>
              <property name="shortcut">
               <string>+</string>
+             </property>
+             <property name="popupMode">
+              <enum>QToolButton::InstantPopup</enum>
              </property>
             </widget>
            </item>
@@ -1006,11 +1000,11 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>plainTextEditFormats</tabstop>
   <tabstop>listWidgetCommands</tabstop>
-  <tabstop>comboBoxCommands</tabstop>
-  <tabstop>pushButtoAdd</tabstop>
+  <tabstop>toolButtonAddCommand</tabstop>
   <tabstop>pushButtonRemove</tabstop>
   <tabstop>pushButtonUp</tabstop>
   <tabstop>pushButtonDown</tabstop>
+  <tabstop>widgetCommand</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
   <tabstop>pushButton_3</tabstop>
@@ -1039,7 +1033,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>scrollAreaCommand</tabstop>
-  <tabstop>widgetCommand</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

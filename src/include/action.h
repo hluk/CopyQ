@@ -37,7 +37,7 @@ public:
             const QString &cmd, //!< Program to run.
             const QStringList &args, //!< Program parameters.
             const QByteArray &input, //!< Standard input contents.
-            bool outputItems, //!< If true signals newItems() will be emitted.
+            const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
             const QString &itemSeparator,
             //!< Separator for items on standard output.
             const QString &outputTabName //!< Tab name for output items.
@@ -67,8 +67,10 @@ private:
     const QString m_cmd;
     const QStringList m_args;
     const QString m_tab;
+    const QString m_outputFormat;
     QString m_errstr;
     QString m_lastOutput;
+    QByteArray m_outputData;
     bool m_failed;
 
 private slots:
@@ -90,7 +92,10 @@ signals:
     /** Emitter when started. */
     void actionStarted(Action *act);
     /** Emitted if standard output has some items available. */
-    void newItems(const QStringList &items, const QString &outputTabName);
+    void newItems(const QStringList, const QString &outputTabName);
+    /** Emitted after all standard output is read. */
+    void newItem(const QByteArray &data, const QString &format,
+                 const QString &outputTabName);
 };
 
 #endif // ACTION_H

@@ -37,6 +37,7 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->setupUi(this);
     ui->lineEditIcon->hide();
     ui->checkBoxEnable->hide();
+    ui->groupBoxCommandOptions->setEnabled(true);
     setFocusProxy(ui->lineEditName);
 
     IconFactory *factory = IconFactory::instance();
@@ -80,8 +81,8 @@ Command CommandWidget::command() const
     c.wndre  = QRegExp( ui->lineEditWindow->text() );
     c.cmd    = ui->lineEditCommand->text();
     c.sep    = ui->lineEditSeparator->text();
-    c.input  = ui->checkBoxInput->isChecked();
-    c.output = ui->checkBoxOutput->isChecked();
+    c.input  = ui->comboBoxInputFormat->currentText();
+    c.output = ui->comboBoxOutputFormat->currentText();
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
     c.ignore = ui->checkBoxIgnore->isChecked();
@@ -101,8 +102,8 @@ void CommandWidget::setCommand(const Command &c)
     ui->lineEditWindow->setText( c.wndre.pattern() );
     ui->lineEditCommand->setText(c.cmd);
     ui->lineEditSeparator->setText(c.sep);
-    ui->checkBoxInput->setChecked(c.input);
-    ui->checkBoxOutput->setChecked(c.output);
+    ui->comboBoxInputFormat->setEditText(c.input);
+    ui->comboBoxOutputFormat->setEditText(c.output);
     ui->checkBoxWait->setChecked(c.wait);
     ui->checkBoxAutomatic->setChecked(c.automatic);
     ui->checkBoxIgnore->setChecked(c.ignore);
@@ -117,6 +118,19 @@ void CommandWidget::setTabs(const QStringList &tabs)
 {
     setTabs(tabs, ui->comboBoxCopyToTab);
     setTabs(tabs, ui->comboBoxOutputTab);
+}
+
+void CommandWidget::setFormats(const QStringList &formats)
+{
+    QString text = ui->comboBoxInputFormat->currentText();
+    ui->comboBoxInputFormat->clear();
+    ui->comboBoxInputFormat->addItems(formats);
+    ui->comboBoxInputFormat->setEditText(text);
+
+    text = ui->comboBoxOutputFormat->currentText();
+    ui->comboBoxOutputFormat->clear();
+    ui->comboBoxOutputFormat->addItems(formats);
+    ui->comboBoxOutputFormat->setEditText(text);
 }
 
 void CommandWidget::on_pushButtonBrowse_clicked()
@@ -150,12 +164,15 @@ void CommandWidget::on_lineEditCommand_textChanged(const QString &arg1)
     ui->groupBoxCommandOptions->setDisabled( arg1.isEmpty() );
 }
 
-void CommandWidget::on_checkBoxOutput_toggled(bool checked)
+void CommandWidget::on_comboBoxOutputFormat_textChanged(const QString &format)
 {
-    ui->lineEditSeparator->setEnabled(checked);
-    ui->separatorLabel->setEnabled(checked);
-    ui->labelOutputTab->setEnabled(checked);
-    ui->comboBoxOutputTab->setEnabled(checked);
+    bool showSeparator = (format == QString("text/plain") || format == QString("text"));
+    ui->separatorLabel->setEnabled(showSeparator);
+    ui->lineEditSeparator->setEnabled(showSeparator);
+
+    bool showOutputTab = !format.isEmpty();
+    ui->labelOutputTab->setEnabled(showOutputTab);
+    ui->comboBoxOutputTab->setEnabled(showOutputTab);
 }
 
 void CommandWidget::onIconChanged(QAction *action)

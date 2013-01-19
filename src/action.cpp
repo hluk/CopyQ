@@ -22,7 +22,7 @@
 #include <QAction>
 
 Action::Action(const QString &cmd, const QStringList &args,
-               const QByteArray &input, bool outputItems,
+               const QByteArray &input, const QString &outputItemFormat,
                const QString &itemSeparator,
                const QString &outputTabName)
     : QProcess()
@@ -31,6 +31,7 @@ Action::Action(const QString &cmd, const QStringList &args,
     , m_cmd(cmd)
     , m_args(args)
     , m_tab(outputTabName)
+    , m_outputFormat(outputItemFormat != "text/plain" ? outputItemFormat : QString())
     , m_errstr()
     , m_lastOutput()
     , m_failed(false)
@@ -45,9 +46,10 @@ Action::Action(const QString &cmd, const QStringList &args,
     connect( this, SIGNAL(readyReadStandardError()),
              SLOT(actionErrorOutput()) );
 
-    if ( outputItems )
+    if ( !outputItemFormat.isEmpty() ) {
         connect( this, SIGNAL(readyReadStandardOutput()),
                  SLOT(actionOutput()) );
+    }
 }
 
 void Action::actionError(QProcess::ProcessError)
@@ -70,7 +72,12 @@ void Action::actionStarted()
 
 void Action::actionFinished()
 {
-    if ( !m_lastOutput.isNull() ) {
+    if ( !m_outputFormat.isEmpty() ) {
+        if ( !m_outputData.isNull() ) {
+            emit newItem(m_outputData, m_outputFormat, m_tab);
+            m_outputData = QByteArray();
+        }
+    } else if ( !m_lastOutput.isNull() ) {
         actionOutput();
         if ( !m_lastOutput.isNull() ) {
             QStringList items;
@@ -85,6 +92,11 @@ void Action::actionFinished()
 
 void Action::actionOutput()
 {
+    if (!m_outputFormat.isEmpty()) {
+        m_outputData.append( readAll() );
+        return;
+    }
+
     m_lastOutput.append( QString::fromLocal8Bit(readAll()) );
     if ( m_lastOutput.isEmpty() || m_sep.isEmpty() )
         return;

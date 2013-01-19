@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>CommandWidget</class>
  <widget class="QWidget" name="CommandWidget">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>314</width>
-    <height>400</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -210,9 +202,6 @@
    </item>
    <item>
     <widget class="QGroupBox" name="groupBoxCommandOptions">
-     <property name="enabled">
-      <bool>false</bool>
-     </property>
      <property name="title">
       <string>Command options</string>
      </property>
@@ -225,19 +214,6 @@
         <property name="spacing">
          <number>16</number>
         </property>
-        <item>
-         <widget class="QCheckBox" name="checkBoxInput">
-          <property name="toolTip">
-           <string>Send item text to standard input of the command</string>
-          </property>
-          <property name="text">
-           <string>In&amp;put</string>
-          </property>
-          <property name="checked">
-           <bool>false</bool>
-          </property>
-         </widget>
-        </item>
         <item>
          <widget class="QCheckBox" name="checkBoxWait">
           <property name="toolTip">
@@ -261,24 +237,11 @@
        </layout>
       </item>
       <item>
-       <widget class="QCheckBox" name="checkBoxOutput">
-        <property name="toolTip">
-         <string>Save standard output to history</string>
-        </property>
-        <property name="text">
-         <string>O&amp;utput into item(s)</string>
-        </property>
-        <property name="checked">
-         <bool>false</bool>
-        </property>
-       </widget>
-      </item>
-      <item>
        <layout class="QFormLayout" name="formLayout">
         <property name="verticalSpacing">
          <number>2</number>
         </property>
-        <item row="0" column="0">
+        <item row="2" column="0">
          <widget class="QLabel" name="separatorLabel">
           <property name="enabled">
            <bool>false</bool>
@@ -291,7 +254,7 @@
           </property>
          </widget>
         </item>
-        <item row="0" column="1">
+        <item row="2" column="1">
          <widget class="QLineEdit" name="lineEditSeparator">
           <property name="enabled">
            <bool>false</bool>
@@ -304,7 +267,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="1">
+        <item row="3" column="1">
          <widget class="QComboBox" name="comboBoxOutputTab">
           <property name="enabled">
            <bool>false</bool>
@@ -317,7 +280,7 @@
           </property>
          </widget>
         </item>
-        <item row="1" column="0">
+        <item row="3" column="0">
          <widget class="QLabel" name="labelOutputTab">
           <property name="enabled">
            <bool>false</bool>
@@ -330,7 +293,7 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
+        <item row="4" column="0">
          <widget class="QLabel" name="label">
           <property name="text">
            <string>&amp;Shortcut:</string>
@@ -340,10 +303,50 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
+        <item row="4" column="1">
          <widget class="QPushButton" name="pushButtonShortcut">
           <property name="text">
            <string/>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_7">
+          <property name="text">
+           <string>In&amp;put:</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBoxInputFormat</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBoxInputFormat">
+          <property name="toolTip">
+           <string>Send data of given MIME type to standard input of command (leave empty to disable).</string>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="1">
+         <widget class="QComboBox" name="comboBoxOutputFormat">
+          <property name="toolTip">
+           <string>Create items from standard output of the program (leave empty to disable).</string>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QLabel" name="label_8">
+          <property name="text">
+           <string>O&amp;utput:</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBoxOutputFormat</cstring>
           </property>
          </widget>
         </item>
@@ -378,31 +381,14 @@
   <tabstop>pushButtonBrowse</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>lineEditCommand</tabstop>
-  <tabstop>checkBoxInput</tabstop>
   <tabstop>checkBoxWait</tabstop>
   <tabstop>checkBoxAutomatic</tabstop>
-  <tabstop>checkBoxOutput</tabstop>
+  <tabstop>comboBoxInputFormat</tabstop>
+  <tabstop>comboBoxOutputFormat</tabstop>
   <tabstop>lineEditSeparator</tabstop>
   <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>pushButtonShortcut</tabstop>
  </tabstops>
  <resources/>
- <connections>
-  <connection>
-   <sender>checkBoxOutput</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>lineEditSeparator</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>245</x>
-     <y>193</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>450</x>
-     <y>193</y>
-    </hint>
-   </hints>
-  </connection>
- </connections>
+ <connections/>
 </ui>

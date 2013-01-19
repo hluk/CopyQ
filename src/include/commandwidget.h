@@ -39,8 +39,8 @@ struct Command {
         , wndre()
         , cmd()
         , sep()
-        , input(false)
-        , output(false)
+        , input()
+        , output()
         , wait(false)
         , automatic(false)
         , ignore(false)
@@ -71,10 +71,10 @@ struct Command {
     QString sep;
 
     /** If true send item text to program's standard input. */
-    bool input;
+    QString input;
 
     /** If true items are created from program's standard output. */
-    bool output;
+    QString output;
 
     /** Open action dialog before executing program. */
     bool wait;
@@ -125,6 +125,9 @@ public:
     /** Set list of known tab names (for combo box). */
     void setTabs(const QStringList &tabs);
 
+    /** Set possible formats (for combo box). */
+    void setFormats(const QStringList &formats);
+
 private slots:
     void on_pushButtonBrowse_clicked();
 
@@ -134,7 +137,7 @@ private slots:
 
     void on_lineEditCommand_textChanged(const QString &arg1);
 
-    void on_checkBoxOutput_toggled(bool checked);
+    void on_comboBoxOutputFormat_textChanged(const QString &format);
 
     void onIconChanged(QAction *action);
 

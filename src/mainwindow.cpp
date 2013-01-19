@@ -162,7 +162,7 @@ MainWindow::MainWindow(QWidget *parent)
              ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
 
     // settings
-    loadSettings(true);
+    loadSettings();
 
     if ( ui->tabWidget->count() == 0 )
         addTab( tr("&clipboard") );
@@ -431,10 +431,10 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
              this, SIGNAL(changeClipboard(const ClipboardItem*)) );
     connect( c, SIGNAL(editingActive(bool)),
              this, SIGNAL(editingActive(bool)) );
-    connect( c, SIGNAL(requestActionDialog(const QString&, const Command&)),
-             this, SLOT(action(const QString&, const Command&)) );
-    connect( c, SIGNAL(requestActionDialog(const QString&)),
-             this, SLOT(openActionDialog(const QString&)) );
+    connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&)),
+             this, SLOT(action(const QMimeData&, const Command&)) );
+    connect( c, SIGNAL(requestActionDialog(const QMimeData&)),
+             this, SLOT(openActionDialog(const QMimeData&)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(addToTab(const QMimeData*,const QString&)),
@@ -606,7 +606,7 @@ void MainWindow::saveSettings()
     cm->saveSettings();
 }
 
-void MainWindow::loadSettings(bool forceCreateMenu)
+void MainWindow::loadSettings()
 {
     log( tr("Loading configuration") );
 
@@ -614,16 +614,8 @@ void MainWindow::loadSettings(bool forceCreateMenu)
     m_confirmExit = cm->value("confirm_exit").toBool();
     m_trayItems = cm->value("tray_items").toInt();
 
-    IconFactory *factory = IconFactory::instance();
-    bool useSystemIcons = cm->value("use_system_icons").toBool();
-    bool rebuildMenu = useSystemIcons != factory->useSystemIcons();
-    if (rebuildMenu) {
-        factory->setUseSystemIcons(useSystemIcons);
-        factory->invalidateCache();
-        createMenu();
-    } else if (forceCreateMenu) {
-        createMenu();
-    }
+    // update menu items and icons
+    createMenu();
 
     // always on top window hint
     if (cm->value("always_on_top").toBool()) {
@@ -647,7 +639,7 @@ void MainWindow::loadSettings(bool forceCreateMenu)
         ClipboardBrowser *c;
         c = createTab(name, false);
         if (loaded)
-            c->loadSettings(rebuildMenu);
+            c->loadSettings(true);
     }
     cm->setTabs(tabs);
 
@@ -877,10 +869,17 @@ void MainWindow::previousTab()
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
-    ClipboardBrowser *c = tabName.isEmpty() ? browser() :
-                                              createTab(tabName, true);
+    ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName, true);
     foreach (const QString &item, items)
         c->add(item, true);
+}
+
+void MainWindow::addItem(const QByteArray &data, const QString &format, const QString &tabName)
+{
+    ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName, true);
+    QMimeData *newData = new QMimeData();
+    newData->setData(format, data);
+    c->add(newData, true);
 }
 
 void MainWindow::onTimerSearch()
@@ -1028,21 +1027,28 @@ ActionDialog *MainWindow::createActionDialog()
 void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
-    QString text;
     if (row >= 0) {
-        text = c->itemText(row);
+        const QMimeData *data = c->itemData(row);
+        if (data != NULL)
+            openActionDialog(*data);
     } else if ( isVisible() ) {
-        text = c->selectedText();
-    } else {
-        text = c->itemText(0);
+        QModelIndexList selected = c->selectionModel()->selectedRows();
+        if (selected.size() == 1) {
+            const QMimeData *data = c->itemData(selected.first().row());
+            if (data != NULL)
+            openActionDialog(*data);
+        } else {
+            QMimeData data;
+            data.setText(c->selectedText());
+            openActionDialog(data);
+        }
     }
-    openActionDialog(text);
 }
 
-WId MainWindow::openActionDialog(const QString &text)
+WId MainWindow::openActionDialog(const QMimeData &data)
 {
     ActionDialog *actionDialog = createActionDialog();
-    actionDialog->setInputText(text);
+    actionDialog->setInputData(data);
     actionDialog->show();
 
     // steal focus
@@ -1267,6 +1273,8 @@ void MainWindow::action(Action *action)
 {
     connect( action, SIGNAL(newItems(QStringList, QString)),
              this, SLOT(addItems(QStringList, QString)) );
+    connect( action, SIGNAL(newItem(QByteArray, QString, QString)),
+             this, SLOT(addItem(QByteArray, QString, QString)) );
     connect( action, SIGNAL(actionStarted(Action*)),
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
@@ -1279,12 +1287,12 @@ void MainWindow::action(Action *action)
     action->start();
 }
 
-void MainWindow::action(const QString &text, const Command &cmd)
+void MainWindow::action(const QMimeData &data, const Command &cmd)
 {
     ActionDialog *actionDialog = createActionDialog();
     QString outputTab;
 
-    actionDialog->setInputText(text);
+    actionDialog->setInputData(data);
     actionDialog->setCommand(cmd.cmd);
     actionDialog->setSeparator(cmd.sep);
     actionDialog->setInput(cmd.input);

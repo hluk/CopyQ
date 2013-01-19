@@ -39,7 +39,7 @@ class ClipboardModel;
 class ClipboardItem
 {
 public:
-    ClipboardItem(const ClipboardModel *parent=NULL);
+    explicit ClipboardItem(const ClipboardModel *parent = NULL);
     ~ClipboardItem();
 
     /** Compare with other item (using hash). */

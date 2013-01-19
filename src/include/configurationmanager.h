@@ -142,11 +142,16 @@ private:
      */
     QString itemFileName(const QString &id) const;
 
+    /**
+     * Update icons in dialog.
+     */
+    void updateIcons();
+
 private slots:
     void on_pushButtonDown_clicked();
     void on_pushButtonUp_clicked();
     void on_pushButtonRemove_clicked();
-    void on_pushButtoAdd_clicked();
+    void on_toolButtonAddCommand_triggered(QAction *action);
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
     void onFinished(int result);
@@ -160,7 +165,6 @@ private slots:
     void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
                                                   QListWidgetItem *previous);
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
-    void on_comboBoxCommands_currentIndexChanged(int index);
     void on_listWidgetCommands_itemSelectionChanged();
 
     void on_pushButtonFont_clicked();
@@ -184,6 +188,8 @@ private slots:
 
     void on_checkBoxShowNumber_stateChanged(int);
     void on_checkBoxScrollbars_stateChanged(int);
+
+    void on_plainTextEditFormats_textChanged();
 };
 
 #endif // CONFIGURATIONMANAGER_H

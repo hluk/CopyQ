@@ -170,6 +170,11 @@ class ClipboardBrowser : public QListView
 
         void setTextWrap(bool enabled);
 
+        /**
+         * Get data of selected item, NULL if none or multiple items selected.
+         */
+        const QMimeData *getSelectedItemData() const;
+
     private:
         QString m_id;
         int m_maxitems;
@@ -207,9 +212,9 @@ class ClipboardBrowser : public QListView
 
     signals:
         /** Action dialog requested. */
-        void requestActionDialog(const QString &text);
+        void requestActionDialog(const QMimeData &data);
         /** Action dialog requested. */
-        void requestActionDialog(const QString &text, const Command &cmd);
+        void requestActionDialog(const QMimeData &data, const Command &cmd);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
         /** Close all external editors. */

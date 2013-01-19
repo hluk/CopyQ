@@ -154,7 +154,7 @@ class MainWindow : public QMainWindow
         /** Change tray icon. */
         void changeTrayIcon(const QIcon &icon);
         /** Load settings. */
-        void loadSettings(bool forceCreateMenu = false);
+        void loadSettings();
 
         /** Open about dialog. */
         void openAboutDialog();
@@ -165,7 +165,7 @@ class MainWindow : public QMainWindow
         /** Open action dialog for given @a row (or current) in current tab. */
         void openActionDialog(int row = -1);
         /** Open action dialog with given input @a text. */
-        WId openActionDialog(const QString &text);
+        WId openActionDialog(const QMimeData &data);
 
         /** Open preferences dialog. */
         void openPreferences();
@@ -173,8 +173,8 @@ class MainWindow : public QMainWindow
         /** Execute action. */
         void action(Action *action);
 
-        /** Execute command on given input text. */
-        void action(const QString &text, const Command &cmd);
+        /** Execute command on given input data. */
+        void action(const QMimeData &data, const Command &cmd);
 
         /** Open tab creation dialog. */
         void newTab();
@@ -251,6 +251,7 @@ class MainWindow : public QMainWindow
         void tabMenuRequested(const QPoint &pos, int tab);
         void tabCloseRequested(int tab);
         void addItems(const QStringList &items, const QString &tabName);
+        void addItem(const QByteArray &data, const QString &format, const QString &tabName);
         void onTimerSearch();
 
         void actionStarted(Action *action);

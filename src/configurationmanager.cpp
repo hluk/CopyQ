@@ -25,6 +25,7 @@
 #include "itemdelegate.h"
 
 #include <QSettings>
+#include <QMenu>
 #include <QMutex>
 #include <QFile>
 #include <QDesktopWidget>
@@ -38,6 +39,8 @@
 #else
 #define DEFAULT_EDITOR "gedit %1"
 #endif
+
+const QRegExp reURL("^(https?|ftps?|file)://");
 
 // singleton
 ConfigurationManager* ConfigurationManager::m_Instance = 0;
@@ -94,8 +97,11 @@ ConfigurationManager::ConfigurationManager()
 
     Command cmd;
     int i = 0;
+    QMenu *menu = new QMenu(ui->toolButtonAddCommand);
+    ui->toolButtonAddCommand->setMenu(menu);
     while ( defaultCommand(++i, &cmd) ) {
-        ui->comboBoxCommands->addItem( IconFactory::iconFromFile(cmd.icon), cmd.name.remove('&') );
+        menu->addAction( IconFactory::iconFromFile(cmd.icon), cmd.name.remove('&') )
+                ->setProperty("COMMAND", i);
     }
 
     /* general options */
@@ -251,43 +257,63 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     *c = Command();
     switch(index) {
     case 1:
+        c->name = tr("New command");
+        c->input = c->output = c->wait = c->automatic = c->ignore = false;
+        c->sep = QString("\\n");
+        break;
+    case 2:
         c->name = tr("Ignore items with no or single character");
         c->re   = QRegExp("^\\s*\\S?\\s*$");
         c->icon = QString(QChar(IconExclamationSign));
         c->ignore = true;
         break;
-    case 2:
+    case 3:
         c->name = tr("Open in &Browser");
-        c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
+        c->re   = reURL;
         c->icon = QString(QChar(IconGlobe));
         c->cmd  = "firefox %1";
         break;
-    case 3:
+    case 4:
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
         c->icon = QString(QChar(IconPlayCircle));
         c->cmd  = "vlc %1";
         c->automatic = true;
         break;
-    case 4:
+    case 5:
         c->name = tr("Copy URL (web address) to other tab");
-        c->re   = QRegExp("^(https?|ftps?|file|ftp)://");
+        c->re   = reURL;
         c->icon = QString(QChar(IconCopy));
         c->tab  = "&web";
         break;
-    case 5:
+    case 6:
         c->name = tr("Run shell script");
         c->re   = QRegExp("^#!/bin/bash");
         c->icon = QString(QChar(IconEdit));
         c->cmd  = "/bin/bash";
-        c->input = true;
-        c->output = true;
+        c->input = "text/plain";
+        c->output = "text/plain";
         c->outputTab = "&BASH";
         c->sep = "\\n";
         c->shortcut = tr("Ctrl+R");
         break;
+    case 7:
+        c->name = tr("Create thumbnail (needs ImageMagick)");
+        c->icon = QString(QChar(IconPicture));
+        c->cmd  = "convert - -resize 92x92 png:-";
+        c->input = "image/png";
+        c->output = "image/png";
+        break;
+    case 8:
+        c->name = tr("Create QR Code from URL (needs qrencode)");
+        c->re   = reURL;
+        c->icon = QString(QChar(IconQRCode));
+        c->cmd  = "qrencode -o - -t PNG -s 6";
+        c->input = "text/plain";
+        c->output = "image/png";
+        break;
 #if defined(Q_WS_X11) || defined(Q_OS_WIN)
-    case 6:
+    case 9:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon = QString(QChar(IconAsterisk));
@@ -306,6 +332,19 @@ QString ConfigurationManager::itemFileName(const QString &id) const
     QString part( id.toLocal8Bit().toBase64() );
     part.replace( QChar('/'), QString('-') );
     return m_datfilename + part + QString(".dat");
+}
+
+void ConfigurationManager::updateIcons()
+{
+    IconFactory *factory = IconFactory::instance();
+    factory->invalidateCache();
+    factory->setUseSystemIcons(value("use_system_icons").toBool());
+
+    // Command button icons.
+    ui->toolButtonAddCommand->setIcon( getIcon("list-add", IconPlus) );
+    ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus) );
+    ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
+    ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
 }
 
 void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
@@ -444,8 +483,15 @@ void ConfigurationManager::loadSettings()
         c.wndre = QRegExp( settings.value("Window").toString() );
         c.cmd = settings.value("Command").toString();
         c.sep = settings.value("Separator").toString();
-        c.input = settings.value("Input").toBool();
-        c.output = settings.value("Output").toBool();
+
+        c.input = settings.value("Input").toString();
+        if ( c.input == "false" || c.input == "true" )
+            c.input = c.input == "true" ? QString("text/plain") : QString();
+
+        c.output = settings.value("Output").toString();
+        if ( c.output == "false" || c.output == "true" )
+            c.output = c.output == "true" ? QString("text/plain") : QString();
+
         c.wait = settings.value("Wait").toBool();
         c.automatic = settings.value("Automatic").toBool();
         c.ignore = settings.value("Ignore").toBool();
@@ -462,6 +508,8 @@ void ConfigurationManager::loadSettings()
     settings.beginGroup("Theme");
     loadTheme(settings);
     settings.endGroup();
+
+    updateIcons();
 }
 
 void ConfigurationManager::saveSettings()
@@ -500,6 +548,8 @@ void ConfigurationManager::saveSettings()
     settings.beginGroup("Theme");
     saveTheme(settings);
     settings.endGroup();
+
+    updateIcons();
 
     emit configurationChanged();
 }
@@ -621,11 +671,11 @@ void ConfigurationManager::apply()
     saveSettings();
 }
 
-void ConfigurationManager::on_pushButtoAdd_clicked()
+void ConfigurationManager::on_toolButtonAddCommand_triggered(QAction *action)
 {
     Command cmd;
-    cmd.input = cmd.output = cmd.wait = cmd.automatic = cmd.ignore = false;
-    cmd.sep = QString("\\n");
+    if ( !defaultCommand(action->property("COMMAND").toInt(), &cmd) )
+        return;
     addCommand(cmd);
 
     QListWidget *list = ui->listWidgetCommands;
@@ -846,18 +896,6 @@ void ConfigurationManager::on_listWidgetCommands_itemChanged(
     ui->widgetCommand->setCommand(c);
 }
 
-void ConfigurationManager::on_comboBoxCommands_currentIndexChanged(int index)
-{
-    Command c;
-    if ( defaultCommand(index, &c) ) {
-        addCommand(c);
-        QListWidget *list = ui->listWidgetCommands;
-        list->clearSelection();
-        list->setCurrentRow( list->count()-1 );
-        ui->comboBoxCommands->setCurrentIndex(0);
-    }
-}
-
 void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
 {
     const QItemSelectionModel *sel = ui->listWidgetCommands->selectionModel();
@@ -964,4 +1002,13 @@ void ConfigurationManager::on_checkBoxShowNumber_stateChanged(int)
 void ConfigurationManager::on_checkBoxScrollbars_stateChanged(int)
 {
     decorateBrowser(ui->clipboardBrowserPreview);
+}
+
+void ConfigurationManager::on_plainTextEditFormats_textChanged()
+{
+    QStringList formats = ui->plainTextEditFormats->toPlainText().split(QChar('\n'));
+    formats.prepend(QString("text/plain"));
+    formats.prepend(QString());
+    formats.removeDuplicates();
+    ui->widgetCommand->setFormats(formats);
 }

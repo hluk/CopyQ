@@ -23,177 +23,154 @@
    <iconset resource="../copyq.qrc">
     <normaloff>:/images/icon-running.svg</normaloff>:/images/icon-running.svg</iconset>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_4">
      <property name="spacing">
-      <number>0</number>
+      <number>10</number>
+     </property>
+     <property name="bottomMargin">
+      <number>4</number>
      </property>
      <item>
-      <layout class="QHBoxLayout" name="horizontalLayout_4">
-       <property name="spacing">
-        <number>10</number>
+      <widget class="QLabel" name="inputInfoLabel">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
        </property>
-       <property name="bottomMargin">
-        <number>4</number>
+       <property name="text">
+        <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command.</string>
        </property>
-       <item>
-        <widget class="QLabel" name="inputInfoLabel">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
-       <property name="spacing">
-        <number>6</number>
+       <property name="wordWrap">
+        <bool>true</bool>
        </property>
-       <item>
-        <widget class="QLabel" name="label_2">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Co&amp;mmand:</string>
-         </property>
-         <property name="buddy">
-          <cstring>cmdEdit</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QComboBox" name="cmdEdit">
-         <property name="editable">
-          <bool>true</bool>
-         </property>
-         <property name="insertPolicy">
-          <enum>QComboBox::NoInsert</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="inputLayout">
-       <property name="spacing">
-        <number>0</number>
-       </property>
-       <property name="leftMargin">
-        <number>0</number>
-       </property>
-       <property name="topMargin">
-        <number>4</number>
-       </property>
-       <property name="rightMargin">
-        <number>0</number>
-       </property>
-       <property name="bottomMargin">
-        <number>4</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="inputCheckBox">
-         <property name="enabled">
-          <bool>true</bool>
-         </property>
-         <property name="toolTip">
-          <string/>
-         </property>
-         <property name="text">
-          <string>&amp;1. Pass text to standard input of command</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPlainTextEdit" name="inputText"/>
-       </item>
-       <item>
-        <layout class="QFormLayout" name="formLayout">
-         <property name="fieldGrowthPolicy">
-          <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-         </property>
-        </layout>
-       </item>
-      </layout>
-     </item>
-     <item>
-      <layout class="QVBoxLayout" name="verticalLayout_2" stretch="0,0">
-       <property name="bottomMargin">
-        <number>0</number>
-       </property>
-       <item>
-        <widget class="QCheckBox" name="outputCheckBox">
-         <property name="text">
-          <string>&amp;2. Store standard output in clipboard history</string>
-         </property>
-         <property name="checked">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QFormLayout" name="formLayout_2">
-         <item row="0" column="0">
-          <widget class="QLabel" name="separatorLabel">
-           <property name="text">
-            <string>&amp;Separator for new items:</string>
-           </property>
-           <property name="buddy">
-            <cstring>separatorEdit</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QLineEdit" name="separatorEdit">
-           <property name="text">
-            <string>\n</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="labelOutputTab">
-           <property name="text">
-            <string>Output &amp;tab:</string>
-           </property>
-           <property name="buddy">
-            <cstring>comboBoxOutputTab</cstring>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="1">
-          <widget class="QComboBox" name="comboBoxOutputTab">
-           <property name="toolTip">
-            <string>Save items in tab with given name (leave empty to save in the current tab)</string>
-           </property>
-           <property name="editable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
+      </widget>
      </item>
     </layout>
    </item>
-   <item row="1" column="0">
+   <item>
+    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
+     <property name="spacing">
+      <number>6</number>
+     </property>
+     <item>
+      <widget class="QLabel" name="label_2">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>Co&amp;mmand:</string>
+       </property>
+       <property name="buddy">
+        <cstring>cmdEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QComboBox" name="cmdEdit">
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+       <property name="insertPolicy">
+        <enum>QComboBox::NoInsert</enum>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
+    <layout class="QFormLayout" name="formLayout_3">
+     <property name="verticalSpacing">
+      <number>0</number>
+     </property>
+     <property name="bottomMargin">
+      <number>0</number>
+     </property>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label">
+       <property name="text">
+        <string>Standard &amp;input:</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBoxInputFormat</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="text">
+        <string>Store standard o&amp;utput:</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBoxOutputFormat</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboBoxInputFormat">
+       <property name="toolTip">
+        <string>Send data of given MIME type to standard input of command (leave empty to disable).</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QComboBox" name="comboBoxOutputFormat">
+       <property name="toolTip">
+        <string>Create items from standard output of the program (leave empty to disable).</string>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="0" colspan="2">
+      <widget class="QPlainTextEdit" name="inputText"/>
+     </item>
+     <item row="3" column="0">
+      <widget class="QLabel" name="separatorLabel">
+       <property name="text">
+        <string>&amp;Separator for new items:</string>
+       </property>
+       <property name="buddy">
+        <cstring>separatorEdit</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLineEdit" name="separatorEdit">
+       <property name="text">
+        <string>\n</string>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="0">
+      <widget class="QLabel" name="labelOutputTab">
+       <property name="text">
+        <string>Output &amp;tab:</string>
+       </property>
+       <property name="buddy">
+        <cstring>comboBoxOutputTab</cstring>
+       </property>
+      </widget>
+     </item>
+     <item row="4" column="1">
+      <widget class="QComboBox" name="comboBoxOutputTab">
+       <property name="toolTip">
+        <string>Save items in tab with given name (leave empty to save in the current tab)</string>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QDialogButtonBox" name="buttonBox">
      <property name="orientation">
       <enum>Qt::Horizontal</enum>
@@ -207,9 +184,9 @@
  </widget>
  <tabstops>
   <tabstop>cmdEdit</tabstop>
-  <tabstop>inputCheckBox</tabstop>
+  <tabstop>comboBoxInputFormat</tabstop>
   <tabstop>inputText</tabstop>
-  <tabstop>outputCheckBox</tabstop>
+  <tabstop>comboBoxOutputFormat</tabstop>
   <tabstop>separatorEdit</tabstop>
   <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>buttonBox</tabstop>
@@ -247,118 +224,6 @@
     <hint type="destinationlabel">
      <x>286</x>
      <y>274</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>inputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>inputText</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>120</x>
-     <y>112</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>120</x>
-     <y>146</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>outputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>separatorLabel</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>62</x>
-     <y>198</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>71</x>
-     <y>228</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>outputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>separatorEdit</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>108</x>
-     <y>198</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>224</x>
-     <y>258</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>outputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>labelOutputTab</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>196</x>
-     <y>198</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>299</x>
-     <y>278</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>outputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>comboBoxOutputTab</receiver>
-   <slot>setVisible(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>294</x>
-     <y>198</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>366</x>
-     <y>308</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>inputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>ActionDialog</receiver>
-   <slot>updateMinimalGeometry()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>237</x>
-     <y>121</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>377</x>
-     <y>72</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>outputCheckBox</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>ActionDialog</receiver>
-   <slot>updateMinimalGeometry()</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>300</x>
-     <y>207</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>377</x>
-     <y>97</y>
     </hint>
    </hints>
   </connection>

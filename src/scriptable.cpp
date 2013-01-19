@@ -766,9 +766,13 @@ void Scriptable::action()
         command.outputTab = c->getID();
         command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
                                                   : QString('\n');
-        m_wnd->action(text, command);
+        QMimeData data;
+        data.setText(text);
+        m_wnd->action(data, command);
     } else {
-        QByteArray message = QByteArray::number((qlonglong)m_wnd->openActionDialog(text));
+        QMimeData data;
+        data.setText(text);
+        QByteArray message = QByteArray::number((qlonglong)m_wnd->openActionDialog(data));
         sendMessage(message, CommandActivateWindow);
     }
 }

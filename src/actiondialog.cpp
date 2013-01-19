@@ -27,24 +27,42 @@
 #include <QSettings>
 #include <QFile>
 #include <QMessageBox>
+#include <QMimeData>
+
+const QStringList standardFormats = QStringList() << QString() << QString("text/plain");
 
 ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ActionDialog)
+    , m_re()
+    , m_data(NULL)
 {
     ui->setupUi(this);
 
+    on_comboBoxInputFormat_currentIndexChanged(QString());
+    on_comboBoxOutputFormat_editTextChanged(QString());
     loadSettings();
 }
 
 ActionDialog::~ActionDialog()
 {
+    delete m_data;
     delete ui;
 }
 
-void ActionDialog::setInputText(const QString &input)
+void ActionDialog::setInputData(const QMimeData &data)
 {
-    ui->inputText->setPlainText(input);
+    delete m_data;
+    m_data = cloneData(data);
+
+    QString defaultFormat = ui->comboBoxInputFormat->currentText();
+    ui->comboBoxInputFormat->clear();
+    QStringList formats = QStringList() << standardFormats << data.formats();
+    formats.removeDuplicates();
+    ui->comboBoxInputFormat->addItems(formats);
+    const int index = qMax(0, ui->comboBoxInputFormat->findText(defaultFormat));
+    ui->comboBoxInputFormat->setCurrentIndex(index);
+
 }
 
 void ActionDialog::restoreHistory()
@@ -97,7 +115,10 @@ void ActionDialog::createAction()
 
     if ( cmd.isEmpty() )
         return;
-    QString input = ui->inputText->toPlainText();
+
+    const QString format = ui->comboBoxInputFormat->currentText();
+    const QString input = ( format.isEmpty() || format.toLower().startsWith(QString("text")) )
+            ? ui->inputText->toPlainText() : QString();
 
     // parse arguments
     QStringList args;
@@ -155,11 +176,16 @@ void ActionDialog::createAction()
     if ( !args.isEmpty() )
         cmd = args.takeFirst();
 
-    if ( !ui->inputCheckBox->isEnabled() )
-        input.clear();
+    QByteArray data;
+    if ( !format.isEmpty() ) {
+        if ( !input.isEmpty() )
+            data = input.toLocal8Bit();
+        else if (m_data != NULL)
+            data = m_data->data(format);
+    }
 
-    Action *act = new Action( cmd, args, input.toLocal8Bit(),
-                              ui->outputCheckBox->isChecked(),
+    Action *act = new Action( cmd, args, data,
+                              ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
                               ui->comboBoxOutputTab->currentText() );
     emit accepted(act);
@@ -177,14 +203,19 @@ void ActionDialog::setSeparator(const QString &sep)
     ui->separatorEdit->setText(sep);
 }
 
-void ActionDialog::setInput(bool value)
+void ActionDialog::setInput(const QString &format)
 {
-    ui->inputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
+    int index = ui->comboBoxInputFormat->findText(format);
+    if (index == -1) {
+        ui->comboBoxInputFormat->insertItem(0, format);
+        index = 0;
+    }
+    ui->comboBoxInputFormat->setCurrentIndex(index);
 }
 
-void ActionDialog::setOutput(bool value)
+void ActionDialog::setOutput(const QString &format)
 {
-    ui->outputCheckBox->setCheckState(value ? Qt::Checked : Qt::Unchecked);
+    ui->comboBoxOutputFormat->setEditText(format);
 }
 
 void ActionDialog::setOutputTabs(const QStringList &tabs,
@@ -208,8 +239,14 @@ void ActionDialog::loadSettings()
 
     restoreHistory();
 
-    ui->inputCheckBox->setChecked(cm->value("action_has_input").toBool());
-    ui->outputCheckBox->setChecked(cm->value("action_has_output").toBool());
+    ui->comboBoxInputFormat->clear();
+    ui->comboBoxInputFormat->addItems(standardFormats);
+    ui->comboBoxInputFormat->setCurrentIndex(cm->value("action_has_input").toBool() ? 1 : 0);
+
+    ui->comboBoxOutputFormat->clear();
+    ui->comboBoxOutputFormat->addItems(standardFormats);
+    ui->comboBoxOutputFormat->setCurrentIndex(cm->value("action_has_output").toBool() ? 1 : 0);
+
     ui->separatorEdit->setText(cm->value("action_separator").toString());
     ui->comboBoxOutputTab->setEditText(cm->value("action_output_tab").toString());
 }
@@ -219,8 +256,10 @@ void ActionDialog::saveSettings()
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->saveGeometry(this);
 
-    cm->setValue("action_has_input",  ui->inputCheckBox->isChecked());
-    cm->setValue("action_has_output", ui->outputCheckBox->isChecked());
+    cm->setValue("action_has_input",
+                 ui->comboBoxInputFormat->currentText() == QString("text/plain"));
+    cm->setValue("action_has_output",
+                 ui->comboBoxOutputFormat->currentText() == QString("text/plain"));
     cm->setValue("action_separator",  ui->separatorEdit->text());
     cm->setValue("action_output_tab", ui->comboBoxOutputTab->currentText());
 
@@ -247,14 +286,6 @@ void ActionDialog::accept()
     saveSettings();
 }
 
-void ActionDialog::on_outputCheckBox_toggled(bool checked)
-{
-    ui->separatorEdit->setEnabled(checked);
-    ui->separatorLabel->setEnabled(checked);
-    ui->labelOutputTab->setEnabled(checked);
-    ui->comboBoxOutputTab->setEnabled(checked);
-}
-
 void ActionDialog::updateMinimalGeometry()
 {
     int w = width();
@@ -275,8 +306,8 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         break;
     case QDialogButtonBox::Save:
         cmd.name = cmd.cmd = ui->cmdEdit->currentText();
-        cmd.input = ui->inputCheckBox->isChecked();
-        cmd.output = ui->outputCheckBox->isChecked();
+        cmd.input = ui->comboBoxInputFormat->currentText();
+        cmd.output = ui->comboBoxOutputFormat->currentText();
         cmd.sep = ui->separatorEdit->text();
         cmd.outputTab = ui->comboBoxOutputTab->currentText();
 
@@ -294,4 +325,31 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
     default:
         break;
     }
+}
+
+void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &format)
+{
+    bool show = format.toLower().startsWith(QString("text"));
+    ui->inputText->setShown(show);
+
+    QString text;
+    if ((show || format.isEmpty()) && m_data != NULL) {
+        text = format.isEmpty() ? m_data->text() : QString::fromLocal8Bit(m_data->data(format));
+    }
+    ui->inputText->setPlainText(text);
+
+    updateMinimalGeometry();
+}
+
+void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
+{
+    bool showSeparator = text.toLower().startsWith(QString("text"));
+    ui->separatorLabel->setShown(showSeparator);
+    ui->separatorEdit->setShown(showSeparator);
+
+    bool showOutputTab = !text.isEmpty();
+    ui->labelOutputTab->setShown(showOutputTab);
+    ui->comboBoxOutputTab->setShown(showOutputTab);
+
+    updateMinimalGeometry();
 }
