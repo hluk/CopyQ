@@ -37,7 +37,7 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->setupUi(this);
     ui->lineEditIcon->hide();
     ui->checkBoxEnable->hide();
-    ui->groupBoxCommandOptions->setEnabled(true);
+    ui->groupBoxCommandOptions->hide();
     setFocusProxy(ui->lineEditName);
 
     IconFactory *factory = IconFactory::instance();
@@ -161,7 +161,7 @@ void CommandWidget::on_pushButtonShortcut_clicked()
 
 void CommandWidget::on_lineEditCommand_textChanged(const QString &arg1)
 {
-    ui->groupBoxCommandOptions->setDisabled( arg1.isEmpty() );
+    ui->groupBoxCommandOptions->setHidden( arg1.isEmpty() );
 }
 
 void CommandWidget::on_comboBoxOutputFormat_textChanged(const QString &format)
