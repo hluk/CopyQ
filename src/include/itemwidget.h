@@ -38,8 +38,9 @@ public:
 
     virtual ~ItemWidget() {}
 
-    void render(QPainter *painter, QPalette::ColorRole role, const QPoint &position);
-
+    /**
+     * Set search and selections highlight color and font.
+     */
     void setHighlight(const QRegExp &re, const QFont &highlightFont,
                       const QPalette &highlightPalette);
 

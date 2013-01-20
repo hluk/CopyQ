@@ -38,6 +38,13 @@ protected:
 
     virtual void updateSize();
 
+    virtual void mousePressEvent(QMouseEvent *e);
+
+    virtual void contextMenuEvent(QContextMenuEvent *e);
+
+private slots:
+    void copy();
+
 signals:
     void itemChanged(ItemWidget *self);
 

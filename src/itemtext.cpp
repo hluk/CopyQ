@@ -19,8 +19,9 @@
 
 #include "itemtext.h"
 
-#include <QPaintEvent>
-#include <QPainter>
+#include <QContextMenuEvent>
+#include <QMenu>
+#include <QMouseEvent>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QTextOption>
@@ -39,7 +40,7 @@ void init(QTextDocument &doc, const QFont &font)
 } // namespace
 
 ItemText::ItemText(const QString &text, Qt::TextFormat format, QWidget *parent)
-    : QWidget(parent)
+    : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_searchTextDocument()
@@ -48,6 +49,13 @@ ItemText::ItemText(const QString &text, Qt::TextFormat format, QWidget *parent)
     init(m_textDocument, font());
     init(m_searchTextDocument, font());
 
+    setDocument(&m_textDocument);
+    setUndoRedoEnabled(false);
+
+    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    setFrameStyle(QFrame::NoFrame);
+
     if (m_textFormat == Qt::PlainText)
         m_textDocument.setPlainText( text.left(maxChars) );
     else
@@ -55,12 +63,17 @@ ItemText::ItemText(const QString &text, Qt::TextFormat format, QWidget *parent)
 
     updateSize();
     updateItem();
+
+    // Selecting text copies it to clipboard.
+    connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
     m_searchTextDocument.clear();
-    if ( !re.isEmpty() ) {
+    if ( re.isEmpty() ) {
+        setDocument(&m_textDocument);
+    } else {
         bool plain = m_textFormat == Qt::PlainText;
         const QString &text = plain ? m_textDocument.toPlainText() : m_textDocument.toHtml();
         if (plain)
@@ -90,16 +103,10 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
             }
             a = b;
         }
+        setDocument(&m_searchTextDocument);
     }
 
     update();
-}
-
-void ItemText::paintEvent(QPaintEvent *event)
-{
-    QPainter painter(this);
-    QTextDocument &doc = !m_searchTextDocument.isEmpty() ? m_searchTextDocument : m_textDocument;
-    doc.drawContents(&painter, event->rect());
 }
 
 void ItemText::updateSize()
@@ -108,4 +115,15 @@ void ItemText::updateSize()
     m_searchTextDocument.setTextWidth(w);
     m_textDocument.setTextWidth(w);
     resize( m_textDocument.idealWidth(), m_textDocument.size().height() );
+}
+
+void ItemText::mousePressEvent(QMouseEvent *e)
+{
+    QTextEdit::mousePressEvent(e);
+    e->ignore();
+}
+
+void ItemText::contextMenuEvent(QContextMenuEvent *e)
+{
+    e->ignore();
 }

@@ -20,11 +20,13 @@
 #include "clipboardbrowser.h"
 #include "actiondialog.h"
 #include "itemdelegate.h"
+#include "itemwidget.h"
 #include "clipboardmodel.h"
 #include "clipboarditem.h"
 #include "configurationmanager.h"
 #include "client_server.h"
 
+#include <QApplication>
 #include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QMenu>
@@ -79,7 +81,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent)
     , m_lastFilter()
     , m_update(false)
     , m( new ClipboardModel(this) )
-    , d( new ItemDelegate(this) )
+    , d( new ItemDelegate(viewport()) )
     , m_timerSave( new QTimer(this) )
     , m_menu( new QMenu(this) )
     , m_commands()
@@ -361,6 +363,8 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
         if ( !isIndexHidden(ind) && visualRect(ind).intersects(cacheRect) )
             break;
 
+        d->hideRow(i);
+
         ++i;
     }
 
@@ -368,6 +372,8 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
     forever {
         if ( fetchCacheForIndex(ind) && timer.hasExpired(maxElapsedMs) )
             break;
+
+        d->updateRowPosition( i, visualRect(ind).topLeft() );
 
         for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
 
@@ -462,10 +468,12 @@ void ClipboardBrowser::filterItems(const QString &str)
     reset();
     int first = -1;
     for(int i = 0; i < m->rowCount(); ++i) {
-        if ( isFiltered(i) )
+        if ( isFiltered(i) ) {
             setRowHidden(i, true);
-        else if (first == -1)
+            d->hideRow(i);
+        } else if (first == -1) {
             first = i;
+        }
     }
     // select first visible
     setCurrentIndex( index(first) );
@@ -956,9 +964,9 @@ void ClipboardBrowser::setTextWrap(bool enabled)
 
     m_textWrap = enabled;
     if (enabled)
-        d->setItemMaximumSize( QSize(2048, 2048) );
-    else
         d->setItemMaximumSize( viewport()->contentsRect().size() );
+    else
+        d->setItemMaximumSize( QSize(2048, 2048) );
 }
 
 const QMimeData *ClipboardBrowser::getSelectedItemData() const

@@ -23,11 +23,11 @@
 #include "itemwidget.h"
 
 #include <QTextDocument>
-#include <QWidget>
+#include <QTextEdit>
 
 class QPaintEvent;
 
-class ItemText : public QWidget, public ItemWidget
+class ItemText : public QTextEdit, public ItemWidget
 {
     Q_OBJECT
 public:
@@ -41,7 +41,9 @@ protected:
 
     virtual void updateSize();
 
-    void paintEvent(QPaintEvent *);
+    virtual void mousePressEvent(QMouseEvent *e);
+
+    virtual void contextMenuEvent(QContextMenuEvent *e);
 
 private:
     QTextDocument m_textDocument;

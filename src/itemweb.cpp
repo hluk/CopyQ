@@ -22,8 +22,11 @@
 #include "itemweb.h"
 #include <QtWebKit/QWebPage>
 #include <QtWebKit/QWebFrame>
+#include <QtWebKit/QWebHistory>
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QPalette>
+#include <QMouseEvent>
 
 ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     : QWebView(parent)
@@ -35,16 +38,32 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
 
     const QFont &defaultFont = font();
     settings()->setFontFamily(QWebSettings::StandardFont, defaultFont.family());
-    //settings()->setFontSize(QWebSettings::DefaultFontSize, defaultFont.pointSize());
+    settings()->setFontSize(QWebSettings::DefaultFontSize, defaultFont.pointSize());
+
+    history()->setMaximumItemCount(0);
+
+    QPalette pal(palette());
+    pal.setBrush(QPalette::Base, Qt::transparent);
+    page()->setPalette(pal);
+    setAttribute(Qt::WA_OpaquePaintEvent, false);
 
     connect( frame, SIGNAL(loadFinished(bool)),
              this, SLOT(onItemChanged()) );
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
              this, SLOT(onItemChanged()) );
+
     setHtml(html);
 
     updateSize();
     updateItem();
+
+    connect( frame, SIGNAL(loadFinished(bool)),
+             this, SLOT(onItemChanged()) );
+    connect( frame, SIGNAL(contentsSizeChanged(QSize)),
+             this, SLOT(onItemChanged()) );
+
+    // Selecting text copies it to clipboard.
+    connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
 }
 
 void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
@@ -70,6 +89,22 @@ void ItemWeb::updateSize()
     QSize size( w, page()->mainFrame()->contentsSize().height() );
     page()->setViewportSize(size);
     resize(size);
+}
+
+void ItemWeb::copy()
+{
+    triggerPageAction(QWebPage::Copy);
+}
+
+void ItemWeb::mousePressEvent(QMouseEvent *e)
+{
+    QWebView::mousePressEvent(e);
+    e->ignore();
+}
+
+void ItemWeb::contextMenuEvent(QContextMenuEvent *e)
+{
+    e->ignore();
 }
 
 #endif // HAS_WEBKIT

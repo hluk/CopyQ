@@ -28,8 +28,6 @@ ItemWidget::ItemWidget(QWidget *widget)
 {
     Q_ASSERT(widget != NULL);
 
-    widget->hide();
-
     // Limit size of items.
     widget->setMaximumSize(2048, 2048);
 
@@ -40,30 +38,19 @@ ItemWidget::ItemWidget(QWidget *widget)
         palette.setColor(QPalette::Base, Qt::transparent);
         widget->setPalette(palette);
         widget->setFont( parent->font() );
+        widget->setAutoFillBackground(true);
+        widget->setFocusPolicy(Qt::NoFocus);
     }
-}
-
-void ItemWidget::render(QPainter *painter, QPalette::ColorRole role, const QPoint &position)
-{
-    Q_ASSERT(painter != NULL);
-
-    QWidget *w = widget();
-    QPalette p1 = w->palette();
-    QPalette p2 = w->palette();
-    if ( p1.color(QPalette::Text) != p2.color(role) ) {
-        p1.setColor( QPalette::Text, p2.color(role) );
-        w->setPalette(p1);
-    }
-
-    painter->save();
-    painter->translate(position);
-    w->render( painter, QPoint(), QRegion(0, 0, m_size.width(), m_size.height()) );
-    painter->restore();
 }
 
 void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
                               const QPalette &highlightPalette)
 {
+    QPalette palette( widget()->palette() );
+    palette.setColor(QPalette::Highlight, highlightPalette.base().color());
+    palette.setColor(QPalette::HighlightedText, highlightPalette.text().color());
+    widget()->setPalette(palette);
+
     if (m_re == re)
         return;
     m_re = re;

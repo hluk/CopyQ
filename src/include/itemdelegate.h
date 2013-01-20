@@ -99,6 +99,12 @@ class ItemDelegate : public QItemDelegate
         /** Set maximum size for all items. */
         void setItemMaximumSize(const QSize &size);
 
+        /** Update row position. */
+        void updateRowPosition(int row, const QPoint &position);
+
+        /** Hide row. */
+        void hideRow(int row);
+
     signals:
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);

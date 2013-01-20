@@ -295,7 +295,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
         }
     }
 
-    w->widget()->setMaximumSize(m_maxSize);
+    w->setMaximumSize(m_maxSize);
     m_cache[n] = w;
     emit sizeHintChanged(index);
 
@@ -309,11 +309,15 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
 
 void ItemDelegate::setItemMaximumSize(const QSize &size)
 {
-    m_maxSize = QSize( size.width() - 8, m_maxSize.height() );
+    int w = size.width() - 8;
     if (m_showNumber) {
-        int margin = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
-        m_maxSize -= QSize(margin, 0);
+        w -= QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
     }
+
+    if (m_maxSize.width() == w)
+        return;
+
+    m_maxSize.setWidth(w);
 
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
@@ -323,6 +327,38 @@ void ItemDelegate::setItemMaximumSize(const QSize &size)
             emit rowChanged(i, oldSize);
         }
     }
+}
+
+void ItemDelegate::updateRowPosition(int row, const QPoint &position)
+{
+    ItemWidget *w = m_cache[row];
+    if (w == NULL)
+        return;
+
+    int x = position.x();
+    int y = position.y();
+
+    if (m_showNumber)
+        x += QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
+
+    w->widget()->move(x, y);
+
+    y += w->widget()->height();
+    for (int i = row + 1; i < m_cache.size(); ++i ) {
+        w = m_cache[i];
+        if (w == NULL)
+            continue;
+
+        if (w->widget()->y() < y)
+            w->widget()->hide();
+    }
+}
+
+void ItemDelegate::hideRow(int row)
+{
+    ItemWidget *w = m_cache[row];
+    if (w != NULL)
+        w->widget()->hide();
 }
 
 void ItemDelegate::removeCache(const QModelIndex &index)
@@ -402,6 +438,5 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     w->setHighlight(m_re, m_foundFont, m_foundPalette);
 
     /* render widget */
-    const QPoint position(rect.topLeft() + QPoint(numRect.width(), 0));
-    w->render(painter, role, position);
+    w->widget()->show();
 }

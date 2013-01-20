@@ -39,7 +39,6 @@
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QDesktopWidget>
-#include <QDebug> // TODO: REMOVE!
 
 #ifdef Q_WS_X11
 #   include <X11/Xlib.h>
