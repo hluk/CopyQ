@@ -83,7 +83,9 @@ void Action::start()
     } else {
         m_firstProcess = this;
     }
-    QProcess::start(m_cmds.last().first(), m_cmds.last().mid(1), QIODevice::ReadWrite);
+
+    const QStringList &args = m_cmds.last();
+    QProcess::start(args.isEmpty() ? QString() : args.first(), args.mid(1), QIODevice::ReadWrite);
 }
 
 void Action::actionError(QProcess::ProcessError)
