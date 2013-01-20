@@ -72,7 +72,7 @@ class ClipboardBrowser : public QListView
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
         /** Load settings. */
-        void loadSettings(bool forceCreateMenu = false);
+        void loadSettings();
 
         /** Add new item to the browser. */
         bool add(

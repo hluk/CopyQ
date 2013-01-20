@@ -21,20 +21,20 @@
 
 #include <QAction>
 
-Action::Action(const QString &cmd, const QStringList &args,
+Action::Action(const Commands &cmd,
                const QByteArray &input, const QString &outputItemFormat,
                const QString &itemSeparator,
                const QString &outputTabName)
     : QProcess()
     , m_input(input)
     , m_sep(itemSeparator)
-    , m_cmd(cmd)
-    , m_args(args)
+    , m_cmds(cmd)
     , m_tab(outputTabName)
     , m_outputFormat(outputItemFormat != "text/plain" ? outputItemFormat : QString())
     , m_errstr()
     , m_lastOutput()
     , m_failed(false)
+    , m_firstProcess(NULL)
 {
     setProcessChannelMode(QProcess::SeparateChannels);
     connect( this, SIGNAL(error(QProcess::ProcessError)),
@@ -52,6 +52,40 @@ Action::Action(const QString &cmd, const QStringList &args,
     }
 }
 
+QString Action::command() const
+{
+    QString text;
+    foreach ( const QStringList &args, m_cmds ) {
+        if ( !text.isEmpty() )
+            text.append(QChar('|'));
+        text.append(args.join(" "));
+    }
+    return text;
+}
+
+void Action::start()
+{
+    if ( m_cmds.isEmpty() )
+        return;
+
+    if ( m_cmds.size() > 1 ) {
+        QProcess *lastProcess = new QProcess(this);
+        m_firstProcess = lastProcess;
+        for ( int i = 0; i + 1 < m_cmds.size(); ++i ) {
+            const QStringList &args = m_cmds[i];
+            if (args.isEmpty())
+                continue;
+            QProcess *process = (i + 2 == m_cmds.size()) ? this : new QProcess(this);
+            lastProcess->setStandardOutputProcess(process);
+            lastProcess->start(args.first(), args.mid(1), QIODevice::ReadWrite);
+            lastProcess = process;
+        }
+    } else {
+        m_firstProcess = this;
+    }
+    QProcess::start(m_cmds.last().first(), m_cmds.last().mid(1), QIODevice::ReadWrite);
+}
+
 void Action::actionError(QProcess::ProcessError)
 {
     if ( state() != Running ) {
@@ -62,10 +96,14 @@ void Action::actionError(QProcess::ProcessError)
 
 void Action::actionStarted()
 {
+    if (m_firstProcess == NULL)
+        return;
+
     // write input
     if ( !m_input.isEmpty() )
-        write( m_input );
-    closeWriteChannel();
+        m_firstProcess->write( m_input );
+    m_firstProcess->closeWriteChannel();
+    m_firstProcess = NULL;
 
     emit actionStarted(this);
 }

@@ -121,7 +121,9 @@ void ActionDialog::createAction()
             ? ui->inputText->toPlainText() : QString();
 
     // parse arguments
-    QStringList args;
+    Action::Commands commands;
+    commands.append(QStringList());
+    QStringList *command = &commands.last();
     QString arg;
     QChar quote;
     bool escape = false;
@@ -155,7 +157,7 @@ void ActionDialog::createAction()
         } else if (!quote.isNull()) {
             if (quote == c) {
                 quote = QChar();
-                args.append(arg);
+                command->append(arg);
                 arg.clear();
             } else {
                 arg.append(c);
@@ -164,17 +166,22 @@ void ActionDialog::createAction()
             quote = c;
         } else if ( c.isSpace() ) {
             if (!arg.isEmpty()) {
-                args.append(arg);
+                command->append(arg);
                 arg.clear();
             }
+        } else if (c == '|') {
+            if ( !arg.isEmpty() ) {
+                command->append(arg);
+                arg.clear();
+            }
+            commands.append(QStringList());
+            command = &commands.last();
         } else {
             arg.append(c);
         }
     }
     if ( !arg.isEmpty() || !quote.isNull() )
-        args.append(arg);
-    if ( !args.isEmpty() )
-        cmd = args.takeFirst();
+        command->append(arg);
 
     QByteArray data;
     if ( !format.isEmpty() ) {
@@ -184,7 +191,7 @@ void ActionDialog::createAction()
             data = m_data->data(format);
     }
 
-    Action *act = new Action( cmd, args, data,
+    Action *act = new Action( commands, data,
                               ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
                               ui->comboBoxOutputTab->currentText() );

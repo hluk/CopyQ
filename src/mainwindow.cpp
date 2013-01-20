@@ -633,13 +633,11 @@ void MainWindow::loadSettings()
                            : QTabWidget::North);
 
     /* are tabs already loaded? */
-    bool loaded = ui->tabWidget->count() > 0;
     QStringList tabs = cm->value("tabs").toStringList();
     foreach (const QString &name, tabs) {
         ClipboardBrowser *c;
         c = createTab(name, false);
-        if (loaded)
-            c->loadSettings(true);
+        c->loadSettings();
     }
     cm->setTabs(tabs);
 
@@ -892,8 +890,7 @@ void MainWindow::onTimerSearch()
 void MainWindow::actionStarted(Action *action)
 {
     // menu item
-    QString text = tr("KILL") + " " + action->command() + " " +
-                   action->commandArguments().join(" ");
+    QString text = tr("KILL") + " " + action->command();
     QString tooltip = tr("<b>COMMAND:</b>") + '\n' + escapeHtml(text) + '\n' +
                       tr("<b>INPUT:</b>") + '\n' +
                       escapeHtml( QString::fromLocal8Bit(action->input()) );
@@ -1283,7 +1280,6 @@ void MainWindow::action(Action *action)
              this, SLOT(actionError(Action*)) );
 
     log( tr("Executing: %1").arg(action->command()) );
-    log( tr("Arguments: %1").arg(action->commandArguments().join(", ")) );
     action->start();
 }
 

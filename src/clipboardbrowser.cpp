@@ -211,6 +211,7 @@ void ClipboardBrowser::createContextMenu()
     QAction *act;
 
     m_menu->clear();
+
     act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
     m_menu->setDefaultAction(act);
     act->setData( QVariant(ActionToClipboard) );
@@ -232,9 +233,11 @@ void ClipboardBrowser::createContextMenu()
     act->setData( QVariant(ActionAct) );
 
     connect( m_menu, SIGNAL(triggered(QAction*)),
-            this, SLOT(contextMenuAction(QAction*)) );
+             this, SLOT(contextMenuAction(QAction*)),
+             Qt::UniqueConnection );
     connect( m_menu, SIGNAL(aboutToShow()),
-             this, SLOT(updateContextMenu()) );
+             this, SLOT(updateContextMenu()),
+             Qt::UniqueConnection );
 }
 
 bool ClipboardBrowser::isFiltered(int row) const
@@ -301,10 +304,14 @@ void ClipboardBrowser::updateContextMenu()
                 continue;
 
             // Verify that data for given MIME is available.
-            if (!command.input.isEmpty()) {
+            if ( !command.input.isEmpty() ) {
                 const QMimeData *data = getSelectedItemData();
-                if (data != NULL && !data->hasFormat(command.input))
+                if (data != NULL) {
+                    if ( !data->hasFormat(command.input) )
+                        continue;
+                } else if ( command.input != QString("text/plain") ) {
                     continue;
+                }
             }
 
             act = m_menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
@@ -668,29 +675,29 @@ void ClipboardBrowser::editSelected()
 void ClipboardBrowser::remove()
 {
     QModelIndexList list = selectedIndexes();
+    if ( list.isEmpty() )
+        return;
 
-    if ( !list.isEmpty() ) {
-        QList<int> rows;
-        rows.reserve( list.size() );
+    QList<int> rows;
+    rows.reserve( list.size() );
 
-        foreach (const QModelIndex &index, list)
-            rows.append( index.row() );
+    foreach (const QModelIndex &index, list)
+        rows.append( index.row() );
 
-        qSort( rows.begin(), rows.end(), qGreater<int>() );
+    qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-        foreach (int row, rows) {
-            if ( !isRowHidden(row) )
-                m->removeRow(row);
-        }
-
-        int current = rows.last();
-
-        // select next
-        setCurrent(current);
-
-        if ( autoUpdate() && current == 0 )
-            updateClipboard();
+    foreach (int row, rows) {
+        if ( !isRowHidden(row) )
+            m->removeRow(row);
     }
+
+    int current = rows.last();
+
+    // select next
+    setCurrent(current);
+
+    if ( autoUpdate() && current == 0 )
+        updateClipboard();
 }
 
 void ClipboardBrowser::clear()
@@ -787,7 +794,7 @@ bool ClipboardBrowser::add(const ClipboardItem &item, bool force, int row)
     return add( cloneData(*item.data()), force, QString(), row );
 }
 
-void ClipboardBrowser::loadSettings(bool forceCreateMenu)
+void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
@@ -807,11 +814,8 @@ void ClipboardBrowser::loadSettings(bool forceCreateMenu)
     // commands
     m_commands = cm->commands();
 
-    // update menu
-    if (forceCreateMenu)
-        createContextMenu();
-    else
-        updateContextMenu();
+    // re-create menu
+    createContextMenu();
 }
 
 void ClipboardBrowser::loadItems()

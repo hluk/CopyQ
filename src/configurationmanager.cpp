@@ -312,8 +312,25 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->input = "text/plain";
         c->output = "image/png";
         break;
-#if defined(Q_WS_X11) || defined(Q_OS_WIN)
     case 9:
+        c->name = tr("Label image");
+        c->icon = QString(QChar(IconTag));
+        c->cmd  = "base64 | perl -p -i -e 'BEGIN {print \"<img src=\\\\\"data:image/bmp;base64,\"} "
+                  "END {print \"\\\\\" /><p>LABEL\"}'";
+        c->input = "image/bmp";
+        c->output = "text/html";
+        c->wait = true;
+        break;
+    case 10:
+        c->name = tr("Render web page");
+        c->re   = reURL;
+        c->icon = QString(QChar(IconEyeOpen));
+        c->cmd  = "curl %1";
+        c->input = "text/plain";
+        c->output = "text/html";
+        break;
+#if defined(Q_WS_X11) || defined(Q_OS_WIN)
+    case 11:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon = QString(QChar(IconAsterisk));

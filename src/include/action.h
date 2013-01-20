@@ -32,10 +32,11 @@ class Action : public QProcess
 {
     Q_OBJECT
 public:
+    typedef QList<QStringList> Commands;
+
     /** Create action with command line parameters. */
     Action(
-            const QString &cmd, //!< Program to run.
-            const QStringList &args, //!< Program parameters.
+            const Commands &cmd, //!< Program to run.
             const QByteArray &input, //!< Standard input contents.
             const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
             const QString &itemSeparator,
@@ -49,29 +50,29 @@ public:
     /** Return standard error output string. */
     const QString &errorOutput() const { return m_errstr; }
 
-    /** Return command. */
-    const QString &command() const { return m_cmd; }
+    /** Return command line. */
+    QString command() const;
 
     /** Return command arguments. */
-    const QStringList &commandArguments() const { return m_args; }
+    const Commands &commandArguments() const { return m_cmds; }
 
     /** Return input. */
     const QByteArray &input() const { return m_input; }
 
     /** Execute command. */
-    void start() { QProcess::start(m_cmd, m_args, QIODevice::ReadWrite); }
+    void start();
 
 private:
     const QByteArray m_input;
     const QRegExp m_sep;
-    const QString m_cmd;
-    const QStringList m_args;
+    const Commands m_cmds;
     const QString m_tab;
     const QString m_outputFormat;
     QString m_errstr;
     QString m_lastOutput;
     QByteArray m_outputData;
     bool m_failed;
+    QProcess *m_firstProcess; //!< First process in pipe.
 
 private slots:
     void actionError(QProcess::ProcessError error);
