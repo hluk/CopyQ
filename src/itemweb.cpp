@@ -22,6 +22,8 @@
 #include "itemweb.h"
 #include <QtWebKit/QWebPage>
 #include <QtWebKit/QWebFrame>
+#include <QApplication>
+#include <QDesktopWidget>
 
 ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     : QWebView(parent)
@@ -30,6 +32,10 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     QWebFrame *frame = page()->mainFrame();
     frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
     frame->setScrollBarPolicy(Qt::Vertical,   Qt::ScrollBarAlwaysOff);
+
+    const QFont &defaultFont = font();
+    settings()->setFontFamily(QWebSettings::StandardFont, defaultFont.family());
+    //settings()->setFontSize(QWebSettings::DefaultFontSize, defaultFont.pointSize());
 
     connect( frame, SIGNAL(loadFinished(bool)),
              this, SLOT(onItemChanged()) );
@@ -59,10 +65,11 @@ void ItemWeb::onItemChanged()
 
 void ItemWeb::updateSize()
 {
-    // FIXME: Set correct minimal size.
-    QSize size = page()->mainFrame()->contentsSize();
-    int w = parentWidget() != NULL ? parentWidget()->contentsRect().width() : 0;
-    resize( qMax(w, size.width()), size.height() );
+    const int w = maximumWidth();
+    page()->setPreferredContentsSize( QSize(w, 10) );
+    QSize size( w, page()->mainFrame()->contentsSize().height() );
+    page()->setViewportSize(size);
+    resize(size);
 }
 
 #endif // HAS_WEBKIT
