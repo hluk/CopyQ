@@ -38,7 +38,11 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
 
     const QFont &defaultFont = font();
     settings()->setFontFamily(QWebSettings::StandardFont, defaultFont.family());
-    settings()->setFontSize(QWebSettings::DefaultFontSize, defaultFont.pointSize());
+    // DPI resolution can be different than the one used by this widget.
+    QWidget* window = QApplication::desktop()->screen();
+    int dpi = window->logicalDpiX();
+    int pt = defaultFont.pointSize();
+    settings()->setFontSize(QWebSettings::DefaultFontSize, pt * dpi / 72);
 
     history()->setMaximumItemCount(0);
 
