@@ -322,7 +322,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->wait = true;
         break;
     case 10:
-        c->name = tr("Render web page");
+        c->name = tr("Open URL");
         c->re   = reURL;
         c->icon = QString(QChar(IconEyeOpen));
         c->cmd  = "curl %1";
