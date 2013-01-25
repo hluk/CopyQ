@@ -571,7 +571,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 }
 
                 int maxY = verticalOffset() + (d > 0 ? h : 0);
-                for ( int i = row + d; i >= 0 && row < model()->rowCount(); i += d ) {
+                for ( int i = row + d; i >= 0 && i < model()->rowCount(); i += d ) {
                     QModelIndex ind = index(i);
                     if ( !isIndexHidden(ind) ) {
                         const QRect rect = rectForIndex(ind);
