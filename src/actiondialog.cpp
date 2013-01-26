@@ -337,7 +337,7 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &format)
 {
     bool show = format.toLower().startsWith(QString("text"));
-    ui->inputText->setShown(show);
+    ui->inputText->setVisible(show);
 
     QString text;
     if ((show || format.isEmpty()) && m_data != NULL) {
@@ -351,12 +351,12 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
 void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
 {
     bool showSeparator = text.toLower().startsWith(QString("text"));
-    ui->separatorLabel->setShown(showSeparator);
-    ui->separatorEdit->setShown(showSeparator);
+    ui->separatorLabel->setVisible(showSeparator);
+    ui->separatorEdit->setVisible(showSeparator);
 
     bool showOutputTab = !text.isEmpty();
-    ui->labelOutputTab->setShown(showOutputTab);
-    ui->comboBoxOutputTab->setShown(showOutputTab);
+    ui->labelOutputTab->setVisible(showOutputTab);
+    ui->comboBoxOutputTab->setVisible(showOutputTab);
 
     updateMinimalGeometry();
 }
