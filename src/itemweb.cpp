@@ -111,4 +111,9 @@ void ItemWeb::contextMenuEvent(QContextMenuEvent *e)
     e->ignore();
 }
 
+void ItemWeb::wheelEvent(QWheelEvent *e)
+{
+    e->ignore();
+}
+
 #endif // HAS_WEBKIT

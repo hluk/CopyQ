@@ -42,6 +42,8 @@ protected:
 
     virtual void contextMenuEvent(QContextMenuEvent *e);
 
+    virtual void wheelEvent(QWheelEvent *e);
+
 private slots:
     void copy();
 
