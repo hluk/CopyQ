@@ -2,20 +2,6 @@
 <ui version="4.0">
  <class>ActionDialog</class>
  <widget class="QDialog" name="ActionDialog">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>300</width>
-    <height>379</height>
-   </rect>
-  </property>
-  <property name="minimumSize">
-   <size>
-    <width>300</width>
-    <height>200</height>
-   </size>
-  </property>
   <property name="windowTitle">
    <string>CopyQ Action Dialog</string>
   </property>
