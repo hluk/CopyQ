@@ -1027,7 +1027,7 @@ void MainWindow::openActionDialog(int row)
         const QMimeData *data = c->itemData(row);
         if (data != NULL)
             openActionDialog(*data);
-    } else if ( isVisible() ) {
+    } else if ( hasFocus() ) {
         QModelIndexList selected = c->selectionModel()->selectedRows();
         if (selected.size() == 1) {
             const QMimeData *data = c->itemData(selected.first().row());
@@ -1038,6 +1038,12 @@ void MainWindow::openActionDialog(int row)
             data.setText(c->selectedText());
             openActionDialog(data);
         }
+    } else {
+        const QMimeData *data = clipboardData();
+        if (data != NULL)
+            openActionDialog(*data);
+        else
+            openActionDialog(0);
     }
 }
 
