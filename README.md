@@ -15,6 +15,20 @@ in the application window.
 
 For more info go to <http://code.google.com/p/copyq/>.
 
+Dependencies
+------------
+
+To compile and run the application you'll need the latest stable version of
+[Qt](http://qt.digia.com/) library (there is also experimental support for
+[Qt 5](http://qt-project.org/wiki/Qt_5.0)).
+
+Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
+enables the application to use advanced HTML rendering and fetching remote
+images and other data.
+
+Additionally X11 requires XFixes extension to be installed (fixes some
+clipboard issues).
+
 Keyboard navigation
 -------------------
 * `PgDown/PgUp`, `Home/End`, `Up/Down`
