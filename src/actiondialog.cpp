@@ -298,8 +298,7 @@ void ActionDialog::updateMinimalGeometry()
     int w = width();
     resize(minimumSize());
     adjustSize();
-    if (w > width())
-        resize(w, height());
+    resize(w, height());
 }
 
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
