@@ -52,22 +52,6 @@ class ClipboardBrowser : public QListView
                 bool m_updates;
         };
 
-        /** Actions in item menu and item context menu. */
-        enum MenuAction {
-            /** Move item to clipboard and to top of list. */
-            ActionToClipboard,
-            /** Remove items. */
-            ActionRemove,
-            /** Edit items. */
-            ActionEdit,
-            /** Edit items in external editor if defined. */
-            ActionEditor,
-            /** Open action dialog. */
-            ActionAct,
-            /** Custom actions. */
-            ActionCustom
-        };
-
         explicit ClipboardBrowser(QWidget *parent = 0);
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
@@ -93,10 +77,6 @@ class ClipboardBrowser : public QListView
                 int row = 0 //!< Target row for the new item.
                 );
 
-        /** Edit selected unhidden items. */
-        void editSelected();
-        /** Remove selected unhidden items. */
-        void remove();
         /** Remove all items. */
         void clear();
 
@@ -175,6 +155,16 @@ class ClipboardBrowser : public QListView
          */
         const QMimeData *getSelectedItemData() const;
 
+        /**
+         * Add matching commands to menu.
+         */
+        void addCommandsToMenu(
+                QMenu *menu,           ///< Menu to update.
+                QAction *insertBefore, ///< Insert items before this action (if NULL append items).
+                const QString &text,   ///< Text to match.
+                const QMimeData *data  ///< MIME types to match.
+                );
+
     private:
         QString m_id;
         int m_maxitems;
@@ -232,7 +222,7 @@ class ClipboardBrowser : public QListView
         void commitData(QWidget *editor);
 
     private slots:
-        void contextMenuAction(QAction *act);
+        void contextMenuAction();
         void updateContextMenu();
 
         void onRowChanged(int row, const QSize &oldSize);
@@ -240,6 +230,8 @@ class ClipboardBrowser : public QListView
     public slots:
         /** Receive key event. */
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
+        /** Move current item to clipboard. */
+        void moveToClipboard();
         /** Move item to clipboard. */
         void moveToClipboard(const QModelIndex &ind);
         /** Move item to clipboard. */
@@ -252,12 +244,22 @@ class ClipboardBrowser : public QListView
         void itemModified(const QString &str);
         /** Called if editor was closed. */
         void closeExternalEditor(ItemEditor *editor);
-        /** Called if editor was opened. */
+        /** Open editor with text of all selected items. */
+        bool openEditor();
+        /** Open editor. */
         bool openEditor(const QString &text);
         /** Add items. */
         void addItems(const QStringList &items);
 
+        /** Edit selected unhidden items. */
+        void editSelected();
+        /** Remove selected unhidden items. */
+        void remove();
+
         void removeRow(int row);
+
+        /** Open action dialog on selected items. */
+        void action();
 
         /**
          * Load items from configuration.

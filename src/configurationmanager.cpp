@@ -126,6 +126,10 @@ ConfigurationManager::ConfigurationManager()
     m_options["tab_position"] = Option(0, "currentIndex", ui->comboBoxTabPosition);
     m_options["text_wrap"] = Option(true, "checked", ui->checkBoxTextWrap);
 
+    m_options["tray_commands"] = Option(true, "checked", ui->checkBoxTrayShowCommands);
+    m_options["tray_tab_is_current"] = Option(true, "checked", ui->checkBoxMenuTabIsCurrent);
+    m_options["tray_tab"] = Option("", "text", ui->comboBoxMenuTab->lineEdit());
+
     /* other options */
     m_options["tabs"] = Option(QStringList());
     m_options["command_history_size"] = Option(100);
@@ -200,11 +204,13 @@ ConfigurationManager::ConfigurationManager()
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
     // Tab icons
-    ui->tabWidget->setTabIcon( 0, getIcon("", IconPaste) );
-    ui->tabWidget->setTabIcon( 1, getIcon("", IconListOl) );
-    ui->tabWidget->setTabIcon( 2, getIcon("", IconCogs) );
-    ui->tabWidget->setTabIcon( 3, getIcon("", IconHandUp) );
-    ui->tabWidget->setTabIcon( 4, getIcon("", IconPicture) );
+    QTabWidget *tw = ui->tabWidget;
+    tw->setTabIcon( tw->indexOf(ui->tabClipboard), getIcon("", IconPaste) );
+    tw->setTabIcon( tw->indexOf(ui->tabGeneral), getIcon("", IconListOl) );
+    tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
+    tw->setTabIcon( tw->indexOf(ui->tabCommands), getIcon("", IconCogs) );
+    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconHandUp) );
+    tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 
     loadSettings();
 }
@@ -527,6 +533,8 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
 
     updateIcons();
+
+    on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 }
 
 void ConfigurationManager::saveSettings()
@@ -665,6 +673,12 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
 {
     setValue("tabs", tabs);
     ui->widgetCommand->setTabs(tabs);
+
+    QString text = ui->comboBoxMenuTab->currentText();
+    ui->comboBoxMenuTab->clear();
+    ui->comboBoxMenuTab->addItem(QString());
+    ui->comboBoxMenuTab->addItems(tabs);
+    ui->comboBoxMenuTab->setEditText(text);
 }
 
 void ConfigurationManager::apply()
@@ -1028,4 +1042,9 @@ void ConfigurationManager::on_plainTextEditFormats_textChanged()
     formats.prepend(QString());
     formats.removeDuplicates();
     ui->widgetCommand->setFormats(formats);
+}
+
+void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
+{
+    ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
 }

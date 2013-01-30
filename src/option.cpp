@@ -45,10 +45,12 @@ QVariant Option::value() const
 
 void Option::setValue(const QVariant &value)
 {
-    if (m_obj != NULL)
+    if (m_obj != NULL) {
         m_obj->setProperty(m_property_name, value);
-    else
+        Q_ASSERT(m_obj->property(m_property_name) == value);
+    } else {
         m_value = value;
+    }
 }
 
 void Option::reset()

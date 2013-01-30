@@ -79,6 +79,12 @@ class MainWindow : public QMainWindow
         int tabIndex(const ClipboardBrowser *c) const;
 
         /**
+         * Find tab with given @a name.
+         * @return found tab or NULL
+         */
+        ClipboardBrowser *findTab(const QString &name);
+
+        /**
          * Create tab with given @a name if it doesn't exist.
          * @return Existing or new tab with given @a name.
          */
@@ -96,11 +102,15 @@ class MainWindow : public QMainWindow
     private:
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
+        QMenu *itemCmdMenu;
         QMenu *cmdMenu;
         QMenu *itemMenu;
         QSystemTrayIcon *tray;
         bool m_browsemode;
         bool m_confirmExit;
+        bool m_trayCommands;
+        bool m_trayCurrentTab;
+        QString m_trayTabName;
         int m_trayItems;
         int m_lastTab;
         QTimer *m_timerSearch;
@@ -245,7 +255,7 @@ class MainWindow : public QMainWindow
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
-        void trayMenuAction(QAction *act);
+        void trayMenuAction();
         void enterSearchMode(const QString &txt);
         void tabChanged(int current);
         void tabMoved(int from, int to);

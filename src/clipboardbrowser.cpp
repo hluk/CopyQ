@@ -164,47 +164,29 @@ void ClipboardBrowser::closeExternalEditor(ItemEditor *editor)
     delete editor;
 }
 
-void ClipboardBrowser::contextMenuAction(QAction *act)
+void ClipboardBrowser::contextMenuAction()
 {
-    QVariant data = act->data();
-    Command cmd;
+    QAction *act = qobject_cast<QAction *>(sender());
+    Q_ASSERT(act != NULL);
 
-    if ( data.isValid() ) {
-        int action = data.toInt();
-        switch(action) {
-        case ActionToClipboard:
-            moveToClipboard( currentIndex() );
-            setCurrent(0);
-            break;
-        case ActionRemove:
-            remove();
-            break;
-        case ActionEdit:
-            editSelected();
-            break;
-        case ActionEditor:
-            openEditor( selectedText() );
-            break;
-        case ActionCustom:
-            cmd = m_commands[act->property("cmd").toInt()];
-            if ( cmd.outputTab.isEmpty() )
-                cmd.outputTab = m_id;
-            // fall through
-        case ActionAct: {
-            const QMimeData *data = getSelectedItemData();
-            if (data != NULL) {
-                if (action == ActionAct)
-                    emit requestActionDialog(*data);
-                else
-                    emit requestActionDialog(*data, cmd);
-            } else {
-                QMimeData textData;
-                textData.setText(selectedText());
-                emit requestActionDialog(textData, cmd);
-            }
-            break;
-        }
-        }
+    QVariant actionData = act->data();
+    Q_ASSERT( actionData.isValid() );
+
+    int i = actionData.toInt();
+    if (i < 0 || i >= m_commands.size())
+        return;
+
+    Command cmd = m_commands[i];
+    if ( cmd.outputTab.isEmpty() )
+        cmd.outputTab = m_id;
+
+    const QMimeData *data = (act->menu() == m_menu) ? getSelectedItemData() : clipboardData();
+    if (data != NULL) {
+        emit requestActionDialog(*data, cmd);
+    } else {
+        QMimeData textData;
+        textData.setText(selectedText());
+        emit requestActionDialog(textData, cmd);
     }
 }
 
@@ -216,27 +198,24 @@ void ClipboardBrowser::createContextMenu()
 
     act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
     m_menu->setDefaultAction(act);
-    act->setData( QVariant(ActionToClipboard) );
+    connect(act, SIGNAL(triggered()), this, SLOT(moveToClipboard()));
 
     act = m_menu->addAction( iconRemove(), tr("&Remove") );
     act->setShortcut( QString("Delete") );
-    act->setData( QVariant(ActionRemove) );
+    connect(act, SIGNAL(triggered()), this, SLOT(remove()));
 
     act = m_menu->addAction( iconEdit(), tr("&Edit") );
     act->setShortcut( QString("F2") );
-    act->setData( QVariant(ActionEdit) );
+    connect(act, SIGNAL(triggered()), this, SLOT(editSelected()));
 
     act = m_menu->addAction( iconEditExternal(), tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
-    act->setData( QVariant(ActionEditor) );
+    connect(act, SIGNAL(triggered()), this, SLOT(openEditor()));
 
     act = m_menu->addAction( iconAction(), tr("&Action...") );
     act->setShortcut( QString("F5") );
-    act->setData( QVariant(ActionAct) );
+    connect(act, SIGNAL(triggered()), this, SLOT(action()));
 
-    connect( m_menu, SIGNAL(triggered(QAction*)),
-             this, SLOT(contextMenuAction(QAction*)),
-             Qt::UniqueConnection );
     connect( m_menu, SIGNAL(aboutToShow()),
              this, SLOT(updateContextMenu()),
              Qt::UniqueConnection );
@@ -282,47 +261,56 @@ bool ClipboardBrowser::fetchCacheForIndex(const QModelIndex &index)
     return true;
 }
 
+void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, const QString &text,
+                                         const QMimeData *data)
+{
+    QAction *act;
+
+    if ( m_commands.isEmpty() )
+        return;
+
+    menu->addSeparator();
+    int i = -1;
+    foreach (const Command &command, m_commands) {
+        ++i;
+
+        // Verify that named command is provided and text is matched.
+        if ( command.cmd.isEmpty() || command.name.isEmpty() || command.re.indexIn(text) == -1)
+            continue;
+
+        // Verify that data for given MIME is available.
+        if ( !command.input.isEmpty() ) {
+            if (data != NULL) {
+                if ( !data->hasFormat(command.input) )
+                    continue;
+            } else if ( command.input != QString("text/plain") ) {
+                continue;
+            }
+        }
+
+        act = menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
+        act->setData( QVariant(i) );
+        if ( !command.shortcut.isEmpty() )
+            act->setShortcut( command.shortcut );
+
+        menu->insertAction( insertBefore, act );
+        insertBefore = act;
+
+        connect(act, SIGNAL(triggered()), this, SLOT(contextMenuAction()));
+    }
+}
+
 void ClipboardBrowser::updateContextMenu()
 {
-    int i, len;
-    QString text = selectedText();
-    QAction *act;
     QList<QAction *> actions = m_menu->actions();
 
     // remove old actions
-    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i );
+    int i, len;
+    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i ) {}
     for( ; i<len; ++i )
         m_menu->removeAction(actions[i]);
 
-    // add custom commands to menu
-    if ( !m_commands.isEmpty() ) {
-        m_menu->addSeparator();
-        i = -1;
-        foreach (const Command &command, m_commands) {
-            ++i;
-
-            // Verify that named command is provided and text is matched.
-            if ( command.cmd.isEmpty() || command.name.isEmpty() || command.re.indexIn(text) == -1)
-                continue;
-
-            // Verify that data for given MIME is available.
-            if ( !command.input.isEmpty() ) {
-                const QMimeData *data = getSelectedItemData();
-                if (data != NULL) {
-                    if ( !data->hasFormat(command.input) )
-                        continue;
-                } else if ( command.input != QString("text/plain") ) {
-                    continue;
-                }
-            }
-
-            act = m_menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
-            act->setData( QVariant(ActionCustom) );
-            act->setProperty("cmd", i);
-            if ( !command.shortcut.isEmpty() )
-                act->setShortcut( command.shortcut );
-        }
-    }
+    addCommandsToMenu(m_menu, NULL, selectedText(), getSelectedItemData());
 }
 
 void ClipboardBrowser::onRowChanged(int row, const QSize &oldSize)
@@ -408,6 +396,11 @@ void ClipboardBrowser::commitData(QWidget *editor)
     saveItems();
 }
 
+bool ClipboardBrowser::openEditor()
+{
+    return openEditor( selectedText() );
+}
+
 bool ClipboardBrowser::openEditor(const QString &text)
 {
     if ( m_editor.isEmpty() )
@@ -446,6 +439,18 @@ void ClipboardBrowser::removeRow(int row)
     model()->removeRow(row);
 }
 
+void ClipboardBrowser::action()
+{
+    const QMimeData *data = getSelectedItemData();
+    if (data != NULL) {
+        emit requestActionDialog(*data);
+    } else {
+        QMimeData textData;
+        textData.setText(selectedText());
+        emit requestActionDialog(textData);
+    }
+}
+
 void ClipboardBrowser::itemModified(const QString &str)
 {
     // add new item
@@ -477,6 +482,11 @@ void ClipboardBrowser::filterItems(const QString &str)
     }
     // select first visible
     setCurrentIndex( index(first) );
+}
+
+void ClipboardBrowser::moveToClipboard()
+{
+    moveToClipboard( currentIndex() );
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)

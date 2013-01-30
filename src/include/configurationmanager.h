@@ -190,6 +190,8 @@ private slots:
     void on_checkBoxScrollbars_stateChanged(int);
 
     void on_plainTextEditFormats_textChanged();
+
+    void on_checkBoxMenuTabIsCurrent_stateChanged(int);
 };
 
 #endif // CONFIGURATIONMANAGER_H

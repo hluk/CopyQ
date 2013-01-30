@@ -131,6 +131,8 @@ MainWindow::MainWindow(QWidget *parent)
     , tray(NULL)
     , m_browsemode(false)
     , m_confirmExit(true)
+    , m_trayCommands(false)
+    , m_trayCurrentTab(false)
     , m_trayItems(5)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
@@ -243,7 +245,10 @@ void MainWindow::createMenu()
     connect( this, SIGNAL(editingActive(bool)),
              menubar, SLOT(setDisabled(bool)), Qt::UniqueConnection );
 
-    // items before separator in tray
+    // items before the first separator in tray
+    traymenu->addSeparator();
+
+    // commands before the second separator in tray
     traymenu->addSeparator();
 
     // File
@@ -377,9 +382,6 @@ void MainWindow::createMenu()
     // update tray menu before opening
     connect( traymenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
-
-    connect( traymenu, SIGNAL(triggered(QAction*)),
-             this, SLOT(trayMenuAction(QAction*)) );
 }
 
 void MainWindow::elideText(QAction *act)
@@ -418,17 +420,25 @@ void MainWindow::closeAction(Action *action)
     }
 }
 
-ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
+ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
 
-    /* check name */
     for( int i = 0; i < w->count(); ++i )
         if ( name == w->tabText(i) )
             return browser(i);
 
-    ClipboardBrowser *c = new ClipboardBrowser(this);
+    return NULL;
+}
 
+ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
+{
+    /* check name */
+    ClipboardBrowser *c = findTab(name);
+    if (c != NULL)
+        return c;
+
+    c = new ClipboardBrowser(this);
     c->setID(name);
     c->loadSettings();
     c->loadItems();
@@ -448,7 +458,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
              this, SLOT(addToTab(const QMimeData*,const QString&)),
              Qt::DirectConnection );
 
-    w->addTab(c, name);
+    ui->tabWidget->addTab(c, name);
 
     if (save)
         saveSettings();
@@ -680,6 +690,10 @@ void MainWindow::loadSettings()
     }
     cm->setTabs(tabs);
 
+    m_trayCommands = cm->value("tray_commands").toBool();
+    m_trayCurrentTab = cm->value("tray_tab_is_current").toBool();
+    m_trayTabName = cm->value("tray_tab").toString();
+
     log( tr("Configuration loaded") );
 }
 
@@ -735,16 +749,18 @@ void MainWindow::showBrowser(const ClipboardBrowser *browser)
     }
 }
 
-void MainWindow::trayMenuAction(QAction *act)
+void MainWindow::trayMenuAction()
 {
-    QVariant data = act->data();
+    QAction *act = qobject_cast<QAction *>(sender());
+    Q_ASSERT(act != NULL);
 
-    if ( data.isValid() ) {
-        int row = data.toInt();
-        ClipboardBrowser *c = browser();
-        if ( row < c->length() ) {
-            c->moveToClipboard(row);
-        }
+    QVariant actionData = act->data();
+    Q_ASSERT( actionData.isValid() );
+
+    int row = actionData.toInt();
+    ClipboardBrowser *c = browser();
+    if ( row < c->length() ) {
+        c->moveToClipboard(row);
     }
 }
 
@@ -996,23 +1012,39 @@ void MainWindow::changeTrayIcon(const QIcon &icon)
 void MainWindow::updateTrayMenuItems()
 {
     QAction *act;
-    QAction *sep;
-    int i, len;
     QMenu *menu = tray->contextMenu();
-    ClipboardBrowser *c = browser();
+
+    ClipboardBrowser *c = NULL;
+    if (m_trayCurrentTab) {
+        c = browser();
+    } else {
+        c = m_trayTabName.isEmpty() ? browser(0) : findTab(m_trayTabName);
+    }
 
     QList<QAction *> actions = menu->actions();
-    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i )
-        menu->removeAction(actions[i]);
-    sep  = actions[i];
+    int i = 0;
+    int len = actions.size();
 
-    len = qMin( m_trayItems, c->length() );
+    // remove items
+    for( ; i < len && !actions[i]->isSeparator(); ++i )
+        menu->removeAction(actions[i]);
+
+    // remove separator
+    menu->removeAction(actions[i]);
+
+    // remove commands
+    for( ++i ; i < len && !actions[i]->isSeparator(); ++i )
+        menu->removeAction(actions[i]);
+
+    QAction *sep2 = actions[i];
+    QAction *sep = menu->insertSeparator(sep2);
+
+    len = c != NULL ? qMin( m_trayItems, c->length() ) : 0;
     unsigned char hint('0');
     for( i = 0; i < len; ++i ) {
         QString text = c->itemText(i);
 
         if (hint <= '9') {
-            /* FIXME: keypad numbers don't work */
             act = menu->addAction(QString('&') + hint + ". " + text);
             ++hint;
         } else {
@@ -1028,6 +1060,14 @@ void MainWindow::updateTrayMenuItems()
             menu->setActiveAction(act);
 
         elideText(act);
+
+        connect(act, SIGNAL(triggered()), this, SLOT(trayMenuAction()));
+    }
+
+    if (m_trayCommands) {
+        if (c == NULL)
+            c = browser(0);
+        c->addCommandsToMenu( menu, sep2, QString(), clipboardData() );
     }
 }
 
