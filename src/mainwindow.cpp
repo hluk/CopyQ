@@ -386,7 +386,11 @@ void MainWindow::elideText(QAction *act)
     QFontMetrics fm(font);
     QString text = act->text();
     text = fm.elidedText( text.left(512).simplified(), Qt::ElideRight, 240 );
-    act->setText(text);
+
+    // Escape all ampersands except first one (key hint).
+    text.replace( QChar('&'), QString("&&") );
+    int i = text.indexOf( QChar('&') );
+    act->setText( text.left(i) + text.mid(i + 1) );
 }
 
 void MainWindow::closeAction(Action *action)
