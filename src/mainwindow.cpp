@@ -43,6 +43,9 @@
 #ifdef Q_WS_X11
 #   include <X11/Xlib.h>
 #   include <X11/Xatom.h>
+#   ifdef KeyPress
+#       undef KeyPress
+#   endif
 #elif defined Q_OS_WIN
 #   include "qt_windows.h"
 #endif
@@ -235,6 +238,7 @@ void MainWindow::createMenu()
     delete tray->contextMenu();
 
     tray->setContextMenu(traymenu);
+    traymenu->installEventFilter(this);
 
     connect( this, SIGNAL(editingActive(bool)),
              menubar, SLOT(setDisabled(bool)), Qt::UniqueConnection );
@@ -589,6 +593,38 @@ void MainWindow::dropEvent(QDropEvent *event)
     ClipboardBrowser *c = browser();
     addToTab(event->mimeData(), c->getID());
     c->updateClipboard();
+}
+
+bool MainWindow::eventFilter(QObject *object, QEvent *event)
+{
+    // Allow keypad digit to activate appropriate item in context menu.
+    if ( event->type() != QEvent::KeyPress )
+        return false;
+
+    QMenu *menu = tray->contextMenu();
+    if (object != menu)
+        return false;
+
+    QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+    if (keyEvent->modifiers() != Qt::KeypadModifier)
+        return false;
+
+    int k = keyEvent->key() - Qt::Key_0;
+    if ( 0 > k || k > 9 )
+        return false;
+
+    QAction *act = menu->actions().value(k, NULL);
+    if (act == NULL)
+        return false;
+
+    QVariant data = act->data();
+    if ( !data.canConvert(QVariant::Int) || data.toInt() != k )
+        return false;
+
+    act->trigger();
+    menu->hide();
+
+    return true;
 }
 
 void MainWindow::resetStatus()
