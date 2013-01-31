@@ -97,8 +97,6 @@ class MainWindow : public QMainWindow
         /** Return tab names. */
         QStringList tabs() const;
 
-        static void elideText(QAction *act);
-
     private:
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
@@ -112,6 +110,7 @@ class MainWindow : public QMainWindow
         bool m_trayCurrentTab;
         QString m_trayTabName;
         int m_trayItems;
+        bool m_trayImages;
         int m_lastTab;
         QTimer *m_timerSearch;
 

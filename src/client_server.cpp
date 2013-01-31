@@ -32,6 +32,7 @@
 #include <QObject>
 #include <QLocalSocket>
 #include <QApplication>
+#include <QAction>
 #include <QLocalServer>
 #include <QThread>
 #if QT_VERSION < 0x050000
@@ -225,4 +226,19 @@ const QIcon &getIconFromResources(const QString &iconName)
 const QIcon getIcon(const QString &themeName, ushort iconId)
 {
     return IconFactory::instance()->getIcon(themeName, iconId);
+}
+
+void elideText(QAction *act)
+{
+    QFont font = act->font();
+    act->setFont(font);
+
+    QFontMetrics fm(font);
+    QString text = act->text();
+    text = fm.elidedText( text.left(512).simplified(), Qt::ElideRight, 240 );
+
+    // Escape all ampersands except first one (key hint).
+    text.replace( QChar('&'), QString("&&") );
+    int i = text.indexOf( QChar('&') );
+    act->setText( text.left(qMax(0, i)) + text.mid(i + 1) );
 }

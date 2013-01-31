@@ -129,6 +129,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["tray_commands"] = Option(true, "checked", ui->checkBoxTrayShowCommands);
     m_options["tray_tab_is_current"] = Option(true, "checked", ui->checkBoxMenuTabIsCurrent);
     m_options["tray_tab"] = Option("", "text", ui->comboBoxMenuTab->lineEdit());
+    m_options["tray_images"] = Option(true, "checked", ui->checkBoxTrayImages);
 
     /* other options */
     m_options["tabs"] = Option(QStringList());

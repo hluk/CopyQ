@@ -94,4 +94,6 @@ void raiseWindow(WId wid);
 const QIcon &getIconFromResources(const QString &iconName);
 const QIcon getIcon(const QString &themeName, ushort iconId);
 
+void elideText(QAction *act);
+
 #endif // CLIENT_SERVER_H

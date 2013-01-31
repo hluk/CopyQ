@@ -473,6 +473,13 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
           </widget>
          </item>
          <item>
+          <widget class="QCheckBox" name="checkBoxTrayImages">
+           <property name="text">
+            <string>Show &amp;image preview as menu item icon</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="verticalSpacer_2">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -521,8 +528,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>96</width>
-                <height>26</height>
+                <width>367</width>
+                <height>269</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -1090,6 +1097,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>
   <tabstop>checkBoxTrayShowCommands</tabstop>
+  <tabstop>checkBoxTrayImages</tabstop>
   <tabstop>listWidgetCommands</tabstop>
   <tabstop>widgetCommand</tabstop>
   <tabstop>toolButtonAddCommand</tabstop>

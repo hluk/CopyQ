@@ -134,6 +134,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayCommands(false)
     , m_trayCurrentTab(false)
     , m_trayItems(5)
+    , m_trayImages(true)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
@@ -382,21 +383,6 @@ void MainWindow::createMenu()
     // update tray menu before opening
     connect( traymenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
-}
-
-void MainWindow::elideText(QAction *act)
-{
-    QFont font = act->font();
-    act->setFont(font);
-
-    QFontMetrics fm(font);
-    QString text = act->text();
-    text = fm.elidedText( text.left(512).simplified(), Qt::ElideRight, 240 );
-
-    // Escape all ampersands except first one (key hint).
-    text.replace( QChar('&'), QString("&&") );
-    int i = text.indexOf( QChar('&') );
-    act->setText( text.left(i) + text.mid(i + 1) );
 }
 
 void MainWindow::closeAction(Action *action)
@@ -661,7 +647,6 @@ void MainWindow::loadSettings()
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     m_confirmExit = cm->value("confirm_exit").toBool();
-    m_trayItems = cm->value("tray_items").toInt();
 
     // update menu items and icons
     createMenu();
@@ -690,9 +675,11 @@ void MainWindow::loadSettings()
     }
     cm->setTabs(tabs);
 
+    m_trayItems = cm->value("tray_items").toInt();
     m_trayCommands = cm->value("tray_commands").toBool();
     m_trayCurrentTab = cm->value("tray_tab_is_current").toBool();
     m_trayTabName = cm->value("tray_tab").toString();
+    m_trayImages = cm->value("tray_images").toBool();
 
     log( tr("Configuration loaded") );
 }
@@ -1060,6 +1047,36 @@ void MainWindow::updateTrayMenuItems()
             menu->setActiveAction(act);
 
         elideText(act);
+
+        // Menu item icon from image.
+        if (m_trayImages) {
+            const QMimeData *data = c->itemData(i);
+            if (data != NULL) {
+                QStringList formats = data->formats();
+                int i = 0;
+                for ( ; i < formats.size(); ++i ) {
+                    if (formats[i].startsWith("image/"))
+                        break;
+                }
+                if (i < formats.size()) {
+                    QString &format = formats[i];
+                    QPixmap pix;
+                    pix.loadFromData( data->data(format), format.toAscii().data() );
+                    const int iconSize = 24;
+                    int x = 0;
+                    int y = 0;
+                    if (pix.width() > pix.height()) {
+                        pix = pix.scaledToHeight(iconSize);
+                        x = (pix.width() - iconSize) / 2;
+                    } else {
+                        pix = pix.scaledToWidth(iconSize);
+                        y = (pix.height() - iconSize) / 2;
+                    }
+                    pix = pix.copy(x, y, iconSize, iconSize);
+                    act->setIcon(pix);
+                }
+            }
+        }
 
         connect(act, SIGNAL(triggered()), this, SLOT(trayMenuAction()));
     }
