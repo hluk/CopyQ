@@ -92,7 +92,7 @@ ConfigurationManager::ConfigurationManager()
     c->filterItems( tr("item") );
 
 #ifdef NO_GLOBAL_SHORTCUTS
-    ui->tab_shortcuts->deleteLater();
+    ui->tabShortcuts->deleteLater();
 #endif
 
     Command cmd;
@@ -106,7 +106,6 @@ ConfigurationManager::ConfigurationManager()
 
     /* general options */
     m_options["maxitems"] = Option(200, "value", ui->spinBoxItems);
-    m_options["tray_items"] = Option(5, "value", ui->spinBoxTrayItems);
     m_options["max_image_width"] = Option(320, "value", ui->spinBoxImageWidth);
     m_options["max_image_height"] = Option(240, "value", ui->spinBoxImageHeight);
     m_options["formats"] = Option("image/svg+xml\n"
@@ -126,10 +125,14 @@ ConfigurationManager::ConfigurationManager()
     m_options["tab_position"] = Option(0, "currentIndex", ui->comboBoxTabPosition);
     m_options["text_wrap"] = Option(true, "checked", ui->checkBoxTextWrap);
 
+    m_options["tray_items"] = Option(5, "value", ui->spinBoxTrayItems);
     m_options["tray_commands"] = Option(true, "checked", ui->checkBoxTrayShowCommands);
     m_options["tray_tab_is_current"] = Option(true, "checked", ui->checkBoxMenuTabIsCurrent);
-    m_options["tray_tab"] = Option("", "text", ui->comboBoxMenuTab->lineEdit());
     m_options["tray_images"] = Option(true, "checked", ui->checkBoxTrayImages);
+    m_options["tray_tab"] = Option("", "text", ui->comboBoxMenuTab->lineEdit());
+
+    // Tooltip to show on command line.
+    ui->comboBoxMenuTab->lineEdit()->setToolTip( ui->comboBoxMenuTab->toolTip() );
 
     /* other options */
     m_options["tabs"] = Option(QStringList());

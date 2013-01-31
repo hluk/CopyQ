@@ -474,6 +474,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
          </item>
          <item>
           <widget class="QCheckBox" name="checkBoxTrayImages">
+           <property name="toolTip">
+            <string>Show image preview next to menu items</string>
+           </property>
            <property name="text">
             <string>Show &amp;image preview as menu item icon</string>
            </property>
@@ -528,8 +531,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>367</width>
-                <height>269</height>
+                <width>96</width>
+                <height>26</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -814,7 +817,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>257</width>
+              <width>220</width>
               <height>355</height>
              </rect>
             </property>

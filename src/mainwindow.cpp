@@ -1061,7 +1061,7 @@ void MainWindow::updateTrayMenuItems()
                 if (i < formats.size()) {
                     QString &format = formats[i];
                     QPixmap pix;
-                    pix.loadFromData( data->data(format), format.toAscii().data() );
+                    pix.loadFromData( data->data(format), format.toLatin1().data() );
                     const int iconSize = 24;
                     int x = 0;
                     int y = 0;
