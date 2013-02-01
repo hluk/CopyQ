@@ -269,7 +269,6 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
     if ( m_commands.isEmpty() )
         return;
 
-    menu->addSeparator();
     int i = -1;
     foreach (const Command &command, m_commands) {
         ++i;
@@ -311,6 +310,8 @@ void ClipboardBrowser::updateContextMenu()
     for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i ) {}
     for( ; i<len; ++i )
         m_menu->removeAction(actions[i]);
+
+    m_menu->addSeparator();
 
     addCommandsToMenu(m_menu, NULL, selectedText(), getSelectedItemData());
 }
