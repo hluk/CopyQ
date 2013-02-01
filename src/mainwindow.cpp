@@ -593,34 +593,53 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 bool MainWindow::eventFilter(QObject *object, QEvent *event)
 {
-    // Allow keypad digit to activate appropriate item in context menu.
-    if ( event->type() != QEvent::KeyPress )
-        return false;
+    if ( event->type() == QEvent::KeyPress ) {
+        QMenu *menu = tray->contextMenu();
+        if (object == menu) {
+            // tray menu key press event
+            QList<QAction *> actions = menu->actions();
+            if (actions.empty())
+                return false;
 
-    QMenu *menu = tray->contextMenu();
-    if (object != menu)
-        return false;
+            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
+            int k = keyEvent->key();
 
-    QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-    if (keyEvent->modifiers() != Qt::KeypadModifier)
-        return false;
+            if (keyEvent->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= k && k <= Qt::Key_9) {
+                // Allow keypad digit to activate appropriate item in context menu.
+                const int id = k - Qt::Key_0;
+                QAction *act = actions.value(id, NULL);
+                if (act == NULL)
+                    return false;
 
-    int k = keyEvent->key() - Qt::Key_0;
-    if ( 0 > k || k > 9 )
-        return false;
+                QVariant data = act->data();
+                if ( !data.canConvert(QVariant::Int) || data.toInt() != id )
+                    return false;
 
-    QAction *act = menu->actions().value(k, NULL);
-    if (act == NULL)
-        return false;
+                act->trigger();
+                menu->hide();
 
-    QVariant data = act->data();
-    if ( !data.canConvert(QVariant::Int) || data.toInt() != k )
-        return false;
+                return true;
+            } else {
+                // Movement in tray menu.
+                switch (k) {
+                case Qt::Key_PageDown:
+                case Qt::Key_End:
+                    menu->setActiveAction(actions.last());
+                    break;
+                case Qt::Key_PageUp:
+                case Qt::Key_Home:
+                    menu->setActiveAction(actions.first());
+                    break;
+                default:
+                    return false;
+                }
 
-    act->trigger();
-    menu->hide();
+                return true;
+            }
+        }
+    }
 
-    return true;
+    return false;
 }
 
 void MainWindow::resetStatus()
