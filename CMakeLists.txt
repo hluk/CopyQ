@@ -30,7 +30,7 @@ else()
 
     # webkit
     if (WITH_WEBKIT)
-        set(HAS_WEBKIT ${QT_QTWEBKITX_FOUND})
+        set(HAS_WEBKIT ${QT_QTWEBKIT_FOUND})
     endif(WITH_WEBKIT)
     set(QT_USE_QTWEBKIT ${HAS_WEBKIT})
 
