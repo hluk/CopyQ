@@ -114,7 +114,7 @@ void ItemText::updateSize()
     const int w = maximumWidth();
     m_searchTextDocument.setTextWidth(w);
     m_textDocument.setTextWidth(w);
-    resize( m_textDocument.idealWidth(), m_textDocument.size().height() );
+    resize( m_textDocument.idealWidth() + 16, m_textDocument.size().height() );
 }
 
 void ItemText::mousePressEvent(QMouseEvent *e)
