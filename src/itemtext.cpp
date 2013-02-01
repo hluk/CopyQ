@@ -123,6 +123,14 @@ void ItemText::mousePressEvent(QMouseEvent *e)
     e->ignore();
 }
 
+void ItemText::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
+        QTextEdit::mouseDoubleClickEvent(e);
+    else
+        e->ignore();
+}
+
 void ItemText::contextMenuEvent(QContextMenuEvent *e)
 {
     e->ignore();

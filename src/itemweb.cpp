@@ -106,6 +106,14 @@ void ItemWeb::mousePressEvent(QMouseEvent *e)
     e->ignore();
 }
 
+void ItemWeb::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
+        QWebView::mouseDoubleClickEvent(e);
+    else
+        e->ignore();
+}
+
 void ItemWeb::contextMenuEvent(QContextMenuEvent *e)
 {
     e->ignore();
