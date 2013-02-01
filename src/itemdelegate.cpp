@@ -437,6 +437,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* highlight search string */
     w->setHighlight(m_re, m_foundFont, m_foundPalette);
 
+    /* text color for selected/unselected item */
+    QPalette palette = w->widget()->palette();
+    palette.setColor( QPalette::Text, option.palette.color(role) );
+    w->widget()->setPalette(palette);
+
     /* render widget */
     w->widget()->show();
 }
