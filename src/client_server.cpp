@@ -80,12 +80,14 @@ bool isMainThread()
 const QMimeData *clipboardData(QClipboard::Mode mode)
 {
     assert( isMainThread() );
+    QApplication::processEvents();
     return QApplication::clipboard()->mimeData(mode);
 }
 
 void setClipboardData(QMimeData *data, QClipboard::Mode mode)
 {
     assert( isMainThread() );
+    QApplication::processEvents();
     QApplication::clipboard()->setMimeData(data, mode);
 }
 
