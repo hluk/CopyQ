@@ -1031,20 +1031,19 @@ void MainWindow::updateTrayMenuItems()
     int i = 0;
     int len = actions.size();
 
-    // remove items
+    // Remove items.
     for( ; i < len && !actions[i]->isSeparator(); ++i )
         menu->removeAction(actions[i]);
 
-    // remove separator
-    menu->removeAction(actions[i]);
+    QAction *sep = actions[i];
 
-    // remove commands
+    // Remove commands.
     for( ++i ; i < len && !actions[i]->isSeparator(); ++i )
         menu->removeAction(actions[i]);
 
     QAction *sep2 = actions[i];
-    QAction *sep = menu->insertSeparator(sep2);
 
+    // Add items.
     len = c != NULL ? qMin( m_trayItems, c->length() ) : 0;
     unsigned char hint('0');
     for( i = 0; i < len; ++i ) {
@@ -1060,10 +1059,6 @@ void MainWindow::updateTrayMenuItems()
         act->setData( QVariant(i) );
 
         menu->insertAction(sep, act);
-
-        // activate first clipboard item
-        if (i == 0)
-            menu->setActiveAction(act);
 
         elideText(act);
 
@@ -1100,12 +1095,28 @@ void MainWindow::updateTrayMenuItems()
         connect(act, SIGNAL(triggered()), this, SLOT(trayMenuAction()));
     }
 
+    // Add commands.
     if (m_trayCommands) {
         if (c == NULL)
             c = browser(0);
         const QMimeData *data = clipboardData();
-        c->addCommandsToMenu( menu, sep2, data != NULL ? data->text() : c->selectedText(), data );
+
+        // Show clipboard content as disabled item.
+        QString text = data != NULL ? data->text() : c->selectedText();
+        act = menu->addAction(text);
+        act->setDisabled(true);
+        menu->insertAction(sep2, act);
+        elideText(act);
+
+        c->addCommandsToMenu(menu, sep2, text, data);
     }
+
+    // First action is active when menu pops up.
+    actions = menu->actions();
+    len = actions.size();
+    for( i = 0; i < len && (actions[i]->isSeparator() || !actions[i]->isEnabled()); ++i ) {}
+    if (i < len)
+        menu->setActiveAction(actions[i]);
 }
 
 void MainWindow::openAboutDialog()

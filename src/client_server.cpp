@@ -234,7 +234,7 @@ void elideText(QAction *act)
     act->setFont(font);
 
     QFontMetrics fm(font);
-    QString text = act->text();
+    QString text = act->text().trimmed();
     text = fm.elidedText( text.left(512).simplified(), Qt::ElideRight, 240 );
 
     // Escape all ampersands except first one (key hint).
