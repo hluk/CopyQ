@@ -35,15 +35,21 @@ public:
     PrivateX11()
         : m_dsp(NULL)
         , m_timer()
+        , m_syncTimer()
+        , m_syncData(NULL)
+        , m_syncTo(QClipboard::Clipboard)
     {
         m_timer.setSingleShot(true);
         m_timer.setInterval(100);
+        m_syncTimer.setSingleShot(true);
+        m_syncTimer.setInterval(100);
     }
 
     ~PrivateX11()
     {
         if (m_dsp)
             XCloseDisplay(m_dsp);
+        delete m_syncData;
     }
 
     bool waitForKeyRelease()
@@ -73,14 +79,57 @@ public:
         return false;
     }
 
-    const QTimer *timer() const
+    const QTimer &timer() const
     {
-        return &m_timer;
+        return m_timer;
+    }
+
+    const QTimer &syncTimer() const
+    {
+        return m_syncTimer;
+    }
+
+    void synchronizeNone()
+    {
+        delete m_syncData;
+        m_syncData = NULL;
+        m_syncTimer.stop();
+    }
+
+    void synchronize(QMimeData *data, QClipboard::Mode modeSyncTo)
+    {
+        delete m_syncData;
+        m_syncData = cloneData(*data);
+        m_syncTo = modeSyncTo;
+        m_syncTimer.start();
+    }
+
+    void synchronize()
+    {
+        if (m_syncData == NULL || m_syncTimer.isActive())
+            return;
+
+        if (m_syncTo == QClipboard::Selection && waitForKeyRelease()) {
+            m_syncTimer.start();
+            return;
+        }
+
+        Q_ASSERT( isSynchronizing() );
+        setClipboardData(m_syncData, m_syncTo);
+        m_syncData = NULL;
+    }
+
+    bool isSynchronizing()
+    {
+        return !m_syncTimer.isActive() && m_syncData != NULL;
     }
 
 private:
     Display *m_dsp;
     QTimer m_timer;
+    QTimer m_syncTimer;
+    QMimeData *m_syncData;
+    QClipboard::Mode m_syncTo;
 #endif
 };
 
@@ -120,8 +169,10 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
              this, SLOT(checkClipboard(QClipboard::Mode)) );
 
 #ifdef Q_WS_X11
-    connect( m_x11->timer(), SIGNAL(timeout()),
+    connect( &m_x11->timer(), SIGNAL(timeout()),
              this, SLOT(updateSelection()) );
+    connect( &m_x11->syncTimer(), SIGNAL(timeout()),
+             this, SLOT(synchronize()) );
 #endif
 }
 
@@ -152,12 +203,22 @@ bool ClipboardMonitor::updateSelection(bool check)
     return true;
 }
 
+void ClipboardMonitor::synchronize()
+{
+#ifdef Q_WS_X11
+    m_x11->synchronize();
+#endif /* !Q_WS_X11 */
+}
+
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
     const QMimeData *data;
     uint newHash;
 
 #ifdef Q_WS_X11
+    if ( m_x11->isSynchronizing() )
+        return;
+    m_x11->synchronizeNone();
     if (mode == QClipboard::Clipboard) {
         if ( (!m_checkclip && !m_copyclip) ||
              QApplication::clipboard()->ownsClipboard() )
@@ -171,8 +232,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         {
             return;
         }
-        // clipboard has priority
-        QApplication::processEvents();
     } else {
         return;
     }
@@ -215,12 +274,12 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         if (m_checkclip)
             clipboardChanged(mode, cloneData(*data2));
         if (m_copyclip)
-            setClipboardData( cloneData(*data2), QClipboard::Selection );
+            m_x11->synchronize(data2, QClipboard::Selection);
     } else {
         if (m_checksel)
             clipboardChanged(mode, cloneData(*data2));
         if (m_copysel)
-            setClipboardData( cloneData(*data2), QClipboard::Clipboard );
+            m_x11->synchronize(data2, QClipboard::Clipboard);
     }
 
     delete data2;

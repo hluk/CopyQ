@@ -108,6 +108,11 @@ private slots:
             //!< Call checkClipboard(QClipboard::Selection) afterwards.
             );
 
+    /**
+     * Synchronize clipboard and X11 primary selection.
+     */
+    void synchronize();
+
     /** Update clipboard data in reasonably long intervals. */
     void updateTimeout();
 
