@@ -32,7 +32,7 @@
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabClipboard">
         <attribute name="title">
@@ -224,6 +224,61 @@
          <string>&amp;History</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
+         <item row="2" column="0">
+          <layout class="QGridLayout" name="gridLayout_5">
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_5">
+             <property name="text">
+              <string>&amp;Format display priority:</string>
+             </property>
+             <property name="buddy">
+              <cstring>plainTextEditFormats</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="1">
+            <widget class="QLabel" name="label_25">
+             <property name="text">
+              <string>Formats:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QPlainTextEdit" name="plainTextEditFormats">
+             <property name="toolTip">
+              <string>List of clipboard mime types that will be stored in history (in given display order)</string>
+             </property>
+             <property name="tabChangesFocus">
+              <bool>true</bool>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QTreeWidget" name="treeWidget">
+             <attribute name="headerVisible">
+              <bool>false</bool>
+             </attribute>
+             <column>
+              <property name="text">
+               <string notr="true">1</string>
+              </property>
+             </column>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
+           <property name="toolTip">
+            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
+           </property>
+           <property name="text">
+            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <layout class="QFormLayout" name="formLayout_2">
            <property name="fieldGrowthPolicy">
@@ -338,45 +393,6 @@
             </widget>
            </item>
           </layout>
-         </item>
-         <item row="2" column="0">
-          <layout class="QVBoxLayout" name="verticalLayout_13">
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label_5">
-             <property name="text">
-              <string>&amp;Format display priority:</string>
-             </property>
-             <property name="buddy">
-              <cstring>plainTextEditFormats</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPlainTextEdit" name="plainTextEditFormats">
-             <property name="toolTip">
-              <string>List of clipboard mime types that will be stored in history (in given display order)</string>
-             </property>
-             <property name="tabChangesFocus">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
-           <property name="toolTip">
-            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
-           </property>
-           <property name="text">
-            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>
@@ -531,8 +547,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>96</width>
-                <height>26</height>
+                <width>367</width>
+                <height>269</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -817,7 +833,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>220</width>
+              <width>257</width>
               <height>355</height>
              </rect>
             </property>
@@ -1095,7 +1111,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>spinBoxImageHeight</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
-  <tabstop>plainTextEditFormats</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>

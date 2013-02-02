@@ -1103,7 +1103,8 @@ void MainWindow::updateTrayMenuItems()
     if (m_trayCommands) {
         if (c == NULL)
             c = browser(0);
-        c->addCommandsToMenu( menu, sep2, QString(), clipboardData() );
+        const QMimeData *data = clipboardData();
+        c->addCommandsToMenu( menu, sep2, data != NULL ? data->text() : c->selectedText(), data );
     }
 }
 
