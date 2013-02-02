@@ -34,6 +34,7 @@ class ClipboardModel;
 class ClipboardBrowser;
 class QAbstractButton;
 class QListWidgetItem;
+class QTreeWidgetItem;
 class QSettings;
 
 /**
@@ -192,6 +193,8 @@ private slots:
     void on_plainTextEditFormats_textChanged();
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
+
+    void on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column);
 };
 
 #endif // CONFIGURATIONMANAGER_H

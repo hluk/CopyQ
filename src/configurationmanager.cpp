@@ -30,6 +30,7 @@
 #include <QFile>
 #include <QDesktopWidget>
 #include <QMessageBox>
+#include <QTreeWidgetItem>
 #include <QFontDialog>
 #include <QColorDialog>
 #include <QFileDialog>
@@ -77,6 +78,7 @@ ConfigurationManager::ConfigurationManager()
     ui->setupUi(this);
 
     ui->scrollAreaCommand->hide();
+    ui->treeWidgetFormats->expandAll();
 
     ClipboardBrowser *c = ui->clipboardBrowserPreview;
     c->addItems( QStringList()
@@ -1051,4 +1053,11 @@ void ConfigurationManager::on_plainTextEditFormats_textChanged()
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 {
     ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
+}
+
+void ConfigurationManager::on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column)
+{
+    QString mime = item->toolTip(column);
+    if ( !mime.isEmpty() )
+        ui->plainTextEditFormats->appendPlainText(mime);
 }
