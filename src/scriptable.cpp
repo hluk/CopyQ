@@ -210,7 +210,7 @@ QString helpTail()
 
 QString argumentError()
 {
-    return Scriptable::tr("Invalid number or arguments!");
+    return Scriptable::tr("Invalid number of arguments!");
 }
 
 QScriptValue getValue(QScriptEngine *eng, const QString &variableName)

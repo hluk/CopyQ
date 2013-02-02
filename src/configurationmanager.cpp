@@ -341,8 +341,14 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->input = "text/plain";
         c->output = "text/html";
         break;
-#if defined(Q_WS_X11) || defined(Q_OS_WIN)
     case 11:
+        c->name = tr("Add to &TODO tab");
+        c->icon = QString(QChar(IconShare));
+        c->cmd  = QApplication::arguments().value(0) + " tab TODO write text/plain -";
+        c->input = "text/plain";
+        break;
+#if defined(Q_WS_X11) || defined(Q_OS_WIN)
+    case 12:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon = QString(QChar(IconAsterisk));
