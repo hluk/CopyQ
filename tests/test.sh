@@ -22,10 +22,6 @@ TAB=test
 # redirect to log file
 > "$LOG"
 
-sleep() {
-    return 0
-}
-
 # colorize output if possible
 # usage: color {color_code} [format] {message}
 color () {
