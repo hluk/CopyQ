@@ -180,7 +180,7 @@ void ClipboardBrowser::contextMenuAction()
     if ( cmd.outputTab.isEmpty() )
         cmd.outputTab = m_id;
 
-    const QMimeData *data = (act->menu() == m_menu) ? getSelectedItemData() : clipboardData();
+    const QMimeData *data = (act->parent() == m_menu) ? getSelectedItemData() : clipboardData();
     if (data != NULL) {
         emit requestActionDialog(*data, cmd);
     } else {
