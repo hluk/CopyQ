@@ -250,6 +250,9 @@ class ClipboardBrowser : public QListView
         /** Add items. */
         void addItems(const QStringList &items);
 
+        /** Show content of current item. */
+        void showItemContent();
+
         /** Edit selected unhidden items. */
         void editSelected();
         /** Remove selected unhidden items. */

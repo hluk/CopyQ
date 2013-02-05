@@ -24,14 +24,14 @@
 #include <QClipboard>
 #include <QUrl>
 
-ClipboardDialog::ClipboardDialog(QWidget *parent)
+ClipboardDialog::ClipboardDialog(const QMimeData *itemData, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ClipboardDialog)
     , m_data()
 {
     ui->setupUi(this);
 
-    const QMimeData *data = clipboardData();
+    const QMimeData *data = itemData != NULL ? itemData : clipboardData();
     if (data) {
         foreach ( const QString &mime, data->formats() ) {
             if ( mime.contains("/") ) {
@@ -39,12 +39,14 @@ ClipboardDialog::ClipboardDialog(QWidget *parent)
                 ui->listWidgetFormats->addItem(mime);
             }
         }
-        ui->horizontalLayout->setStretchFactor(0,1);
-        ui->horizontalLayout->setStretchFactor(1,2);
+        ui->horizontalLayout->setStretchFactor(1, 1);
         ui->listWidgetFormats->setCurrentRow(0);
     }
 
     ConfigurationManager::instance()->loadGeometry(this);
+
+    if (itemData != NULL)
+        setWindowTitle( tr("CopyQ Item Content") );
 }
 
 ClipboardDialog::~ClipboardDialog()

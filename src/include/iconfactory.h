@@ -42,6 +42,7 @@ enum IconId {
     IconShare = 0xf045,
     IconRemoveSign = 0xf057,
     IconQuestionSign = 0xf059,
+    IconInfoSign = 0xf05a,
     IconArrowLeft = 0xf060,
     IconArrowRight = 0xf061,
     IconArrowUp = 0xf062,

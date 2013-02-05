@@ -20,7 +20,7 @@
    <string>CopyQ Clipboard Content</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="copyq.qrc">
+   <iconset resource="../copyq.qrc">
     <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
   </property>
   <layout class="QGridLayout" name="gridLayout">
@@ -130,7 +130,7 @@
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
-  <include location="copyq.qrc"/>
+  <include location="../copyq.qrc"/>
  </resources>
  <connections>
   <connection>

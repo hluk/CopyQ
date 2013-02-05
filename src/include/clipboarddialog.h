@@ -33,7 +33,10 @@ class ClipboardDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ClipboardDialog(QWidget *parent = 0);
+    /**
+     * Create dialog with item data or clipboard data content displayed.
+     */
+    explicit ClipboardDialog(const QMimeData *itemData = NULL, QWidget *parent = NULL);
     ~ClipboardDialog();
 
 private slots:

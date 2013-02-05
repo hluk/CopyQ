@@ -1070,7 +1070,7 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::showClipboardContent()
 {
-    ClipboardDialog *d = new ClipboardDialog(this);
+    ClipboardDialog *d = new ClipboardDialog(NULL, this);
     connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
     d->show();
 }

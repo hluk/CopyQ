@@ -25,6 +25,7 @@
 #include "clipboarditem.h"
 #include "configurationmanager.h"
 #include "client_server.h"
+#include "clipboarddialog.h"
 
 #include <QApplication>
 #include <QElapsedTimer>
@@ -41,6 +42,7 @@ const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
 const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
 const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
+const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSign); }
 
 const int max_preload = 10;
 
@@ -199,6 +201,10 @@ void ClipboardBrowser::createContextMenu()
     act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
     m_menu->setDefaultAction(act);
     connect(act, SIGNAL(triggered()), this, SLOT(moveToClipboard()));
+
+    act = m_menu->addAction( iconShowContent(), tr("&Show Content...") );
+    act->setShortcut( QString("F4") );
+    connect(act, SIGNAL(triggered()), this, SLOT(showItemContent()));
 
     act = m_menu->addAction( iconRemove(), tr("&Remove") );
     act->setShortcut( QString("Delete") );
@@ -441,6 +447,17 @@ void ClipboardBrowser::addItems(const QStringList &items)
     for(int i=items.count()-1; i>=0; --i) {
         add(items[i], true);
     }
+}
+
+void ClipboardBrowser::showItemContent()
+{
+    const QMimeData *data = itemData();
+    if (data == NULL)
+        return;
+
+    ClipboardDialog *d = new ClipboardDialog(data, this);
+    connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
+    d->show();
 }
 
 void ClipboardBrowser::removeRow(int row)
