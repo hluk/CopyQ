@@ -137,7 +137,11 @@ QString currentWindowTitle()
 #elif defined Q_OS_WIN
     TCHAR buf[1024];
     GetWindowText(GetForegroundWindow(), buf, 1024);
+#   ifdef UNICODE
     return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
+#   else
+    return QString::fromLocal8Bit(buf);
+#   endif
 #endif // TODO: current window on Mac
 
     return QString();

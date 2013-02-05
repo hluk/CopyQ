@@ -68,6 +68,8 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
         edit->document()->addResource( QTextDocument::ImageResource,
                                        QUrl("data://1"), bytes );
         edit->setHtml( QString("<img src=\"data://1\" />") );
+    } else if ( mime == QString("application/x-copyq-owner-window-title") ) {
+        edit->setPlainText( QString::fromUtf8(bytes) );
     } else {
         edit->setPlainText( QString::fromLocal8Bit(bytes) );
     }

@@ -275,8 +275,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
     if ( m_commands.isEmpty() )
         return;
 
-    const QString windowTitle =
-            QString::fromUtf8( data->data("application/x-copyq-owner-window-title").data() );
+    const QString windowTitle = QString::fromUtf8(
+                data->data("application/x-copyq-owner-window-title").data() );
 
     int i = -1;
     foreach (const Command &command, m_commands) {
@@ -790,8 +790,8 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         // commands
         if (data->hasText()) {
             const QString text = data->text();
-            const QString windowTitle =
-                QString::fromUtf8( data->data("application/x-copyq-owner-window-title").data() );
+            const QString windowTitle = QString::fromUtf8(
+                        data->data("application/x-copyq-owner-window-title").data() );
             foreach (const Command &c, m_commands) {
                 if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                     if ( c.re.indexIn(text) != -1
