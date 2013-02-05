@@ -577,7 +577,7 @@ void Scriptable::insert()
     QByteArray *bytes = toByteArray(value);
     QMimeData *data = new QMimeData;
     data->setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
-    c->add(data, true, QString(), row);
+    c->add(data, true, row);
 
     c->updateClipboard();
     c->delayedSaveItems(1000);
@@ -721,7 +721,7 @@ void Scriptable::write()
     QByteArray *bytes = toByteArray(value);
     QMimeData *data = new QMimeData();
     data->setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
-    c->add(data, true, QString(), row);
+    c->add(data, true, row);
 }
 
 QScriptValue Scriptable::separator()

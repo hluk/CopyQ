@@ -40,16 +40,6 @@
 #include <QFileDialog>
 #include <QDesktopWidget>
 
-#ifdef Q_WS_X11
-#   include <X11/Xlib.h>
-#   include <X11/Xatom.h>
-#   ifdef KeyPress
-#       undef KeyPress
-#   endif
-#elif defined Q_OS_WIN
-#   include "qt_windows.h"
-#endif
-
 namespace {
 
 const QIcon iconAction() { return getIcon("action", IconCog); }
@@ -69,56 +59,6 @@ const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
 const QIcon &iconTray() { return getIconFromResources("icon"); }
 const QIcon &iconTrayRunning() { return getIconFromResources("icon-running"); }
-
-QString currentWindowTitle()
-{
-#ifdef Q_WS_X11
-    struct X11Display {
-        X11Display() { d = XOpenDisplay(NULL); }
-        ~X11Display() { if (d != NULL) XCloseDisplay(d); }
-        operator Display*() { return d; }
-        bool isOk() { return d != NULL; }
-        Display *d;
-    } display;
-
-    if (display.isOk()) {
-        static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
-        static Atom atomName = XInternAtom(display, "_NET_WM_NAME", false);
-        static Atom atomUTF8 = XInternAtom(display, "UTF8_STRING", false);
-
-        Atom type;
-        int format;
-        unsigned long len;
-        unsigned long remain;
-        unsigned char *data;
-        Window focusedWindow = 0L;
-
-        // current window
-        if ( XGetWindowProperty(display, DefaultRootWindow(display.d), atomWindow, 0l, 1l, false,
-                                XA_WINDOW, &type, &format, &len, &remain, &data) == Success ) {
-            if (type == XA_WINDOW && format == 32 && len == 1)
-                focusedWindow = *reinterpret_cast<Window *>(data);
-            XFree(data);
-        }
-
-        // window title
-        if (focusedWindow != 0L) {
-            if ( XGetWindowProperty(display, focusedWindow, atomName, 0, (~0L), false, atomUTF8,
-                                    &type, &format, &len, &remain, &data) == Success ) {
-                QByteArray result(reinterpret_cast<const char *>(data), len);
-                XFree(data);
-                return QString::fromUtf8(result);
-            }
-        }
-    }
-#elif defined Q_OS_WIN
-    TCHAR buf[1024];
-    GetWindowText(GetForegroundWindow(), buf, 1024);
-    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
-#endif // TODO: current window on Mac
-
-    return QString();
-}
 
 } // namespace
 
@@ -912,7 +852,7 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
                     c->model()->removeRow(0);
             }
         }
-        c->add(data2, force, force ? QString() : currentWindowTitle());
+        c->add(data2, force);
     }
 }
 
@@ -1253,7 +1193,7 @@ void MainWindow::pasteItems()
             ++count;
         }
     } else {
-        c->add( cloneData(*data), true, QString(), row );
+        c->add( cloneData(*data), true, row );
         count = 1;
     }
 

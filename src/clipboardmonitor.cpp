@@ -266,6 +266,9 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
+    // add window title of clipboard owner
+    data2->setData( "application/x-copyq-owner-window-title", currentWindowTitle().toUtf8() );
+
     // send data to serve and synchronize if needed
     m_lastHash = newHash;
 

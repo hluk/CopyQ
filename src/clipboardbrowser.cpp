@@ -269,12 +269,21 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
     if ( m_commands.isEmpty() )
         return;
 
+    const QString windowTitle =
+            QString::fromUtf8( data->data("application/x-copyq-owner-window-title").data() );
+
     int i = -1;
     foreach (const Command &command, m_commands) {
         ++i;
 
         // Verify that named command is provided and text is matched.
-        if ( command.cmd.isEmpty() || command.name.isEmpty() || command.re.indexIn(text) == -1)
+        if ( command.cmd.isEmpty())
+            continue;
+        if (command.name.isEmpty())
+            continue;
+        if (command.re.indexIn(text) == -1)
+            continue;
+        if (command.wndre.indexIn(windowTitle) == -1)
             continue;
 
         // Verify that data for given MIME is available.
@@ -752,7 +761,7 @@ bool ClipboardBrowser::add(const QString &txt, bool force)
     return add(data, force);
 }
 
-bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTitle, int row)
+bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
     if (!force) {
         // don't add if new data is same as first item
@@ -764,6 +773,8 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTit
         // commands
         if (data->hasText()) {
             const QString text = data->text();
+            const QString windowTitle =
+                QString::fromUtf8( data->data("application/x-copyq-owner-window-title").data() );
             foreach (const Command &c, m_commands) {
                 if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                     if ( c.re.indexIn(text) != -1
@@ -812,7 +823,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, const QString &windowTit
 
 bool ClipboardBrowser::add(const ClipboardItem &item, bool force, int row)
 {
-    return add( cloneData(*item.data()), force, QString(), row );
+    return add( cloneData(*item.data()), force, row );
 }
 
 void ClipboardBrowser::loadSettings()
