@@ -270,7 +270,8 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     switch(index) {
     case 1:
         c->name = tr("New command");
-        c->input = c->output = c->wait = c->automatic = c->ignore = false;
+        c->input = c->output = "";
+        c->wait = c->automatic = c->ignore = false;
         c->sep = QString("\\n");
         break;
     case 2:
