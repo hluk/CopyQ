@@ -137,7 +137,7 @@ private slots:
 
     void on_lineEditCommand_textChanged(const QString &arg1);
 
-    void on_comboBoxOutputFormat_textChanged(const QString &format);
+    void on_comboBoxOutputFormat_editTextChanged(const QString &format);
 
     void onIconChanged(QAction *action);
 

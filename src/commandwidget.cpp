@@ -164,7 +164,7 @@ void CommandWidget::on_lineEditCommand_textChanged(const QString &arg1)
     ui->groupBoxCommandOptions->setHidden( arg1.isEmpty() );
 }
 
-void CommandWidget::on_comboBoxOutputFormat_textChanged(const QString &format)
+void CommandWidget::on_comboBoxOutputFormat_editTextChanged(const QString &format)
 {
     bool showSeparator = (format == QString("text/plain") || format == QString("text"));
     ui->separatorLabel->setEnabled(showSeparator);
