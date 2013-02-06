@@ -275,7 +275,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
     if ( m_commands.isEmpty() )
         return;
 
-    const QString windowTitle = QString::fromUtf8(
+    const QString windowTitle = data == NULL ? QString() : QString::fromUtf8(
                 data->data("application/x-copyq-owner-window-title").data() );
 
     int i = -1;
