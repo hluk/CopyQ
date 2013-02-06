@@ -73,8 +73,9 @@ QString escapeHtml(const QString &str);
 
 void log(const QString &text, const LogLevel level = LogNote);
 
+bool isMainThread();
+
 const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
-void setClipboardData(QMimeData *data, QClipboard::Mode mode);
 
 QString currentWindowTitle();
 

@@ -287,6 +287,7 @@ void ClipboardServer::newMonitorConnection()
         m_socket->deleteLater();
         m_socket = NULL;
     }
+
     m_socket = m_monitorserver->nextPendingConnection();
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
@@ -297,7 +298,8 @@ void ClipboardServer::newMonitorConnection()
 void ClipboardServer::readyRead()
 {
     m_socket->blockSignals(true);
-    while ( m_socket && m_socket->bytesAvailable() ) {
+
+    while ( m_socket && m_socket->bytesAvailable() > 0 ) {
         ClipboardItem item;
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
@@ -307,14 +309,15 @@ void ClipboardServer::readyRead()
             startMonitoring();
             return;
         }
+
         QDataStream in(&msg, QIODevice::ReadOnly);
         in >> item;
-        if ( m_lastHash == item.dataHash() )
-            continue;
-        m_lastHash = item.dataHash();
-
-        m_wnd->addToTab( item.data() );
+        if ( m_lastHash != item.dataHash() ) {
+            m_lastHash = item.dataHash();
+            m_wnd->addToTab( item.data() );
+        }
     }
+
     if (m_socket)
         m_socket->blockSignals(false);
 }

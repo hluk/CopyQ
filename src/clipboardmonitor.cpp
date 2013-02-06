@@ -27,8 +27,20 @@
 #include <QTimer>
 
 #ifdef Q_WS_X11
-#include <X11/Xlib.h>
+#  include <X11/Xlib.h>
+#endif
 
+namespace {
+
+void setClipboardData(QMimeData *data, QClipboard::Mode mode)
+{
+    Q_ASSERT( isMainThread() );
+    QApplication::clipboard()->setMimeData(data, mode);
+}
+
+} // namespace
+
+#ifdef Q_WS_X11
 class PrivateX11 {
 public:
     PrivateX11()
@@ -164,9 +176,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     connect( m_updateTimer, SIGNAL(timeout()),
              this, SLOT(updateTimeout()), Qt::DirectConnection);
 
-    connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-             this, SLOT(checkClipboard(QClipboard::Mode)) );
-
 #ifdef Q_WS_X11
     connect( &m_x11->timer(), SIGNAL(timeout()),
              this, SLOT(updateSelection()) );
@@ -211,7 +220,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #ifdef Q_WS_X11
     if ( m_x11->isSynchronizing() )
         return;
-    m_x11->synchronizeNone();
     if (mode == QClipboard::Clipboard) {
         if ( (!m_checkclip && !m_copyclip) ||
              QApplication::clipboard()->ownsClipboard() )
@@ -259,6 +267,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
+    m_x11->synchronizeNone();
+
     // add window title of clipboard owner
     data2->setData( QString("application/x-copyq-owner-window-title"),
                     currentWindowTitle().toUtf8() );
@@ -268,18 +278,20 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
 #ifdef Q_WS_X11
     if (mode == QClipboard::Clipboard) {
-        if (m_checkclip)
-            clipboardChanged(mode, cloneData(*data2));
         if (m_copyclip)
             m_x11->synchronize(data2, QClipboard::Selection);
+        if (m_checkclip)
+            clipboardChanged(mode, data2);
+        else
+            delete data2;
     } else {
-        if (m_checksel)
-            clipboardChanged(mode, cloneData(*data2));
         if (m_copysel)
             m_x11->synchronize(data2, QClipboard::Clipboard);
+        if (m_checksel)
+            clipboardChanged(mode, data2);
+        else
+            delete data2;
     }
-
-    delete data2;
 #else /* !Q_WS_X11 */
     clipboardChanged(mode, data2);
 #endif
@@ -307,7 +319,8 @@ void ClipboardMonitor::updateTimeout()
 void ClipboardMonitor::readyRead()
 {
     m_socket->blockSignals(true);
-    while ( m_socket->bytesAvailable() ) {
+
+    while ( m_socket->bytesAvailable() > 0 ) {
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
             log( tr("Cannot read message from server!"), LogError );
@@ -338,7 +351,12 @@ void ClipboardMonitor::readyRead()
                 m_copysel = settings["copy_selection"].toBool();
             if ( settings.contains("check_selection") )
                 m_checksel = settings["check_selection"].toBool();
+#endif
 
+            connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
+                     this, SLOT(checkClipboard(QClipboard::Mode)) );
+
+#ifdef Q_WS_X11
             checkClipboard(QClipboard::Selection);
 #endif
             checkClipboard(QClipboard::Clipboard);
@@ -346,6 +364,7 @@ void ClipboardMonitor::readyRead()
             updateClipboard( cloneData(*item.data()) );
         }
     }
+
     m_socket->blockSignals(false);
 }
 
@@ -358,7 +377,7 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
     if ( !force && m_updateTimer->isActive() )
         return;
 
-    m_lastHash = hash(*data, data->formats());
+    m_lastHash = hash(*data, m_formats);
     setClipboardData(data, QClipboard::Clipboard);
 #ifdef Q_WS_X11
     setClipboardData(cloneData(*data), QClipboard::Selection);

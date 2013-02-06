@@ -73,8 +73,7 @@ void ClipboardClient::readyRead()
             } else {
                 QFile f;
                 f.open((exitCode == 0) ? stdout : stderr, QIODevice::WriteOnly);
-                QDataStream out(&f);
-                out.writeBytes( msg.constData() + i, len - i );
+                f.write( msg.constData() + i, len - i );
             }
         }
 

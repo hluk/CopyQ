@@ -115,7 +115,6 @@ assert () {
 
 start_server () {
     "$COPYQ" 2>> "$LOG" &
-    sleep 0.5
     pidof -s copyq 2>&1 > /dev/null
 }
 
@@ -142,8 +141,7 @@ clipboard ()
 
 set_clipboard ()
 {
-    sleep 0.5
-    echo "$x" | $WRITE
+    printf "%s" "$1" | $WRITE
 }
 
 ulimit -c unlimited
@@ -167,13 +165,13 @@ log "clipboard"
     ok || fail
 
 log "set clipboard"
-    run add "$content" &&
+    run add "$content" && sleep 0.25 &&
     assert "run clipboard" "$content" &&
     assert "clipboard" "$content" &&
     ok || fail
 
 log "set clipboard with MIME"
-    run write text/html "$content" &&
+    run write text/html "$content" && sleep 0.25 &&
     assert "run clipboard text/html" "$content" &&
     ok || fail
 
@@ -199,13 +197,6 @@ log "move second item to clipboard"
 i1=`run read 1`
 run "select" 1
 assert "run read 0" "$i1" && assert "clipboard" "$i1" &&
-    ok || fail
-
-log "clipboard content"
-for x in 1 2 3; do set_clipboard "$x"; done && sleep 0.25 &&
-    assert "run read" "3" && run remove &&
-for x in 4 5 6; do set_clipboard "$x"; done && sleep 0.25 &&
-    assert "run read" "6" && run remove &&
     ok || fail
 
 log "read past end of list"
@@ -303,6 +294,13 @@ run exporttab "$tmp" &&
     ok || fail
 
 TAB=""
+log "clipboard content"
+for x in 1 2 3; do set_clipboard "... $x ..."; done && sleep 0.25 &&
+    assert "run read" "... 3 ..." && run remove &&
+for x in 4 5 6; do set_clipboard "... $x ..."; done && sleep 0.25 &&
+    assert "run read" "... 6 ..." && run remove &&
+    ok || fail
+
 log "rename tab"
 run renametab test2 test3 &&
     ok || fail

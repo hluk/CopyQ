@@ -20,7 +20,6 @@
 #include "client_server.h"
 
 #include <cstdio>
-#include <assert.h>
 
 #ifdef Q_OS_WIN
 #  include <stdlib.h> // getenv()
@@ -82,14 +81,8 @@ bool isMainThread()
 
 const QMimeData *clipboardData(QClipboard::Mode mode)
 {
-    assert( isMainThread() );
+    Q_ASSERT( isMainThread() );
     return QApplication::clipboard()->mimeData(mode);
-}
-
-void setClipboardData(QMimeData *data, QClipboard::Mode mode)
-{
-    assert( isMainThread() );
-    QApplication::clipboard()->setMimeData(data, mode);
 }
 
 QString currentWindowTitle()
