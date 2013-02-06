@@ -267,8 +267,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-    m_x11->synchronizeNone();
-
     // add window title of clipboard owner
     data2->setData( QString("application/x-copyq-owner-window-title"),
                     currentWindowTitle().toUtf8() );
@@ -277,6 +275,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     m_lastHash = newHash;
 
 #ifdef Q_WS_X11
+    m_x11->synchronizeNone();
+
     if (mode == QClipboard::Clipboard) {
         if (m_copyclip)
             m_x11->synchronize(data2, QClipboard::Selection);
