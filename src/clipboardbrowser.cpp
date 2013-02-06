@@ -60,6 +60,31 @@ bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
 
 } // namespace
 
+ClipboardBrowserShared::ClipboardBrowserShared()
+    : editor()
+    , maxItems(100)
+    , formats(QString("text/plain"))
+    , maxImageWidth(100)
+    , maxImageHeight(100)
+    , textWrap(false)
+    , commands()
+    , viMode(false)
+{
+}
+
+void ClipboardBrowserShared::loadFromConfiguration()
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    editor = cm->value("editor").toString();
+    maxItems = cm->value("maxitems").toInt();
+    formats = cm->value("formats").toString().split( QRegExp("[;,\\s]+") );
+    maxImageWidth = cm->value("max_image_width").toInt();
+    maxImageHeight = cm->value("max_image_height").toInt();
+    textWrap = cm->value("text_wrap").toBool();
+    commands = cm->commands();
+
+}
+
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
 {
     m_autoUpdate = c->autoUpdate();
@@ -74,19 +99,16 @@ ClipboardBrowser::Lock::~Lock()
     c->setUpdatesEnabled(m_updates);
 }
 
-ClipboardBrowser::ClipboardBrowser(QWidget *parent)
+ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)
     : QListView(parent)
     , m_id()
-    , m_maxitems(100)
-    , m_textWrap()
-    , m_editor()
     , m_lastFilter()
     , m_update(false)
     , m( new ClipboardModel(this) )
     , d( new ItemDelegate(viewport()) )
     , m_timerSave( new QTimer(this) )
     , m_menu( new QMenu(this) )
-    , m_commands()
+    , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(max_preload);
@@ -175,10 +197,10 @@ void ClipboardBrowser::contextMenuAction()
     Q_ASSERT( actionData.isValid() );
 
     int i = actionData.toInt();
-    if (i < 0 || i >= m_commands.size())
+    if (i < 0 || i >= m_sharedData->commands.size())
         return;
 
-    Command cmd = m_commands[i];
+    Command cmd = m_sharedData->commands[i];
     if ( cmd.outputTab.isEmpty() )
         cmd.outputTab = m_id;
 
@@ -272,14 +294,14 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
 {
     QAction *act;
 
-    if ( m_commands.isEmpty() )
+    if ( m_sharedData->commands.isEmpty() )
         return;
 
     const QString windowTitle = data == NULL ? QString() : QString::fromUtf8(
                 data->data("application/x-copyq-owner-window-title").data() );
 
     int i = -1;
-    foreach (const Command &command, m_commands) {
+    foreach (const Command &command, m_sharedData->commands) {
         ++i;
 
         // Verify that named command is provided and text is matched.
@@ -404,7 +426,7 @@ void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
-    if (m_textWrap)
+    if (m_sharedData->textWrap)
         d->setItemMaximumSize( viewport()->contentsRect().size() );
 }
 
@@ -421,10 +443,10 @@ bool ClipboardBrowser::openEditor()
 
 bool ClipboardBrowser::openEditor(const QString &text)
 {
-    if ( m_editor.isEmpty() )
+    if ( m_sharedData->editor.isEmpty() )
         return false;
 
-    ItemEditor *editor = new ItemEditor(text, m_editor);
+    ItemEditor *editor = new ItemEditor(text, m_sharedData->editor);
 
     connect( editor, SIGNAL(fileModified(const QString &)),
             this, SLOT(itemModified(const QString &)) );
@@ -792,7 +814,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
             const QString text = data->text();
             const QString windowTitle = QString::fromUtf8(
                         data->data("application/x-copyq-owner-window-title").data() );
-            foreach (const Command &c, m_commands) {
+            foreach (const Command &c, m_sharedData->commands) {
                 if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                     if ( c.re.indexIn(text) != -1
                          && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
@@ -827,7 +849,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         setRowHidden(newRow, true);
 
     // list size limit
-    if ( m->rowCount() > m_maxitems )
+    if ( m->rowCount() > m_sharedData->maxItems )
         m->removeRow( m->rowCount() - 1 );
 
     delayedSaveItems();
@@ -850,18 +872,11 @@ void ClipboardBrowser::loadSettings()
     cm->decorateBrowser(this);
 
     // restore configuration
-    m_editor = cm->value("editor").toString();
+    m->setMaxItems(m_sharedData->maxItems);
+    m->setFormats(m_sharedData->formats);
+    m->setMaxImageSize(m_sharedData->maxImageWidth, m_sharedData->maxImageHeight);
 
-    m_maxitems = cm->value("maxitems").toInt();
-    m->setMaxItems(m_maxitems);
-    m->setFormats( cm->value("formats").toString() );
-    m->setMaxImageSize( cm->value("max_image_width").toInt(),
-                        cm->value("max_image_height").toInt() );
-
-    setTextWrap( cm->value("text_wrap").toBool() );
-
-    // commands
-    m_commands = cm->commands();
+    setTextWrap(m_sharedData->textWrap);
 
     // re-create menu
     createContextMenu();
@@ -1000,14 +1015,7 @@ bool ClipboardBrowser::handleViKey(QKeyEvent *event)
 
 void ClipboardBrowser::setTextWrap(bool enabled)
 {
-    if (m_textWrap == enabled)
-        return;
-
-    m_textWrap = enabled;
-    if (enabled)
-        d->setItemMaximumSize( viewport()->contentsRect().size() );
-    else
-        d->setItemMaximumSize( QSize(2048, 2048) );
+    d->setItemMaximumSize( enabled ? viewport()->contentsRect().size() : QSize(2048, 2048) );
 }
 
 const QMimeData *ClipboardBrowser::getSelectedItemData() const

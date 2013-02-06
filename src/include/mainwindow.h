@@ -23,11 +23,13 @@
 #include <QMainWindow>
 #include <QSystemTrayIcon>
 #include <QMap>
+#include <QSharedPointer>
 #include "configurationmanager.h"
 
 class ClipboardModel;
 class AboutDialog;
 class ClipboardBrowser;
+class ClipboardBrowserShared;
 class ClipboardItem;
 class Action;
 class ActionDialog;
@@ -97,30 +99,12 @@ class MainWindow : public QMainWindow
         /** Return tab names. */
         QStringList tabs() const;
 
-    private:
-        Ui::MainWindow *ui;
-        AboutDialog *aboutDialog;
-        QMenu *itemCmdMenu;
-        QMenu *cmdMenu;
-        QMenu *itemMenu;
-        QSystemTrayIcon *tray;
-        bool m_browsemode;
-        bool m_confirmExit;
-        bool m_trayCommands;
-        bool m_trayCurrentTab;
-        QString m_trayTabName;
-        int m_trayItems;
-        bool m_trayImages;
-        int m_lastTab;
-        QTimer *m_timerSearch;
+    signals:
+        /** Request clipboard change. */
+        void changeClipboard(const ClipboardItem *item);
 
-        QMap<Action*,QAction*> m_actions;
-
-        /** Create menu bar and tray menu with items. Called once. */
-        void createMenu();
-
-        /** Delete finished action and its menu item. */
-        void closeAction(Action *action);
+        /** User begins or stops to edit an item in a tab. */
+        void editingActive(bool active);
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -268,12 +252,32 @@ class MainWindow : public QMainWindow
         void actionFinished(Action *action);
         void actionError(Action *action);
 
-    signals:
-        /** Request clipboard change. */
-        void changeClipboard(const ClipboardItem *item);
+    private:
+        /** Create menu bar and tray menu with items. Called once. */
+        void createMenu();
 
-        /** User begins or stops to edit an item in a tab. */
-        void editingActive(bool active);
+        /** Delete finished action and its menu item. */
+        void closeAction(Action *action);
+
+        Ui::MainWindow *ui;
+        AboutDialog *aboutDialog;
+        QMenu *itemCmdMenu;
+        QMenu *cmdMenu;
+        QMenu *itemMenu;
+        QSystemTrayIcon *tray;
+        bool m_browsemode;
+        bool m_confirmExit;
+        bool m_trayCommands;
+        bool m_trayCurrentTab;
+        QString m_trayTabName;
+        int m_trayItems;
+        bool m_trayImages;
+        int m_lastTab;
+        QTimer *m_timerSearch;
+
+        QMap<Action*,QAction*> m_actions;
+
+        QSharedPointer<ClipboardBrowserShared> m_sharedData;
     };
 
 #endif // MAINWINDOW_H

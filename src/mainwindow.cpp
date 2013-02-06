@@ -78,6 +78,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
+    , m_sharedData(new ClipboardBrowserShared)
 {
     ui->setupUi(this);
 
@@ -364,7 +365,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
     if (c != NULL)
         return c;
 
-    c = new ClipboardBrowser(this);
+    c = new ClipboardBrowser(this, m_sharedData);
     c->setID(name);
     c->loadSettings();
     c->loadItems();
@@ -624,6 +625,9 @@ void MainWindow::loadSettings()
         : tabPosition == 2 ? QTabWidget::West
         : tabPosition == 3 ? QTabWidget::East
                            : QTabWidget::North);
+
+    // shared data for browsers
+    m_sharedData->loadFromConfiguration();
 
     /* are tabs already loaded? */
     QStringList tabs = cm->value("tabs").toStringList();

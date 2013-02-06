@@ -146,7 +146,7 @@ public:
     const QStringList &formats() const { return m_formats; }
 
     /** Set preferred MIME types for items (priority order). */
-    void setFormats(const QString &list);
+    void setFormats(const QStringList &list);
 
     /** Set default MIME type for displaying item in given @a row. */
     void setFormat(int row, const QString &mimeType);

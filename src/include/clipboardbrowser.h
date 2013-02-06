@@ -25,12 +25,29 @@
 
 #include <QListView>
 #include <QClipboard>
+#include <QSharedPointer>
 
 class ClipboardModel;
 class ItemDelegate;
 class QMimeData;
 class ClipboardItem;
 class QTimer;
+
+struct ClipboardBrowserShared {
+    ClipboardBrowserShared();
+
+    void loadFromConfiguration();
+
+    QString editor;
+    int maxItems;
+    QStringList formats;
+    int maxImageWidth;
+    int maxImageHeight;
+    bool textWrap;
+    ConfigurationManager::Commands commands;
+    bool viMode;
+};
+typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
 /** List view of clipboard items. */
 class ClipboardBrowser : public QListView
@@ -52,7 +69,8 @@ class ClipboardBrowser : public QListView
                 bool m_updates;
         };
 
-        explicit ClipboardBrowser(QWidget *parent = 0);
+        explicit ClipboardBrowser(QWidget *parent = NULL,
+                                  const ClipboardBrowserSharedPtr &sharedData = ClipboardBrowserSharedPtr());
         /** Close all external editors and save items if needed. */
         ~ClipboardBrowser();
         /** Load settings. */
@@ -147,6 +165,9 @@ class ClipboardBrowser : public QListView
          */
         bool handleViKey(QKeyEvent *event);
 
+        /**
+         * Wrap long text.
+         */
         void setTextWrap(bool enabled);
 
         /**
@@ -166,9 +187,6 @@ class ClipboardBrowser : public QListView
 
     private:
         QString m_id;
-        int m_maxitems;
-        bool m_textWrap;
-        QString m_editor;
         QRegExp m_lastFilter;
         bool m_update;
         ClipboardModel *m;
@@ -176,7 +194,8 @@ class ClipboardBrowser : public QListView
         QTimer *m_timerSave;
 
         QMenu *m_menu;
-        ConfigurationManager::Commands m_commands;
+
+        ClipboardBrowserSharedPtr m_sharedData;
 
         void createContextMenu();
         bool isFiltered(int row) const;

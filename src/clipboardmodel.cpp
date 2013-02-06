@@ -44,9 +44,9 @@ ClipboardModel::~ClipboardModel()
         delete item;
 }
 
-void ClipboardModel::setFormats(const QString &list)
+void ClipboardModel::setFormats(const QStringList &list)
 {
-    m_formats = list.split( QRegExp("[;,\\s]+") );
+    m_formats = list;
 }
 
 int ClipboardModel::rowCount(const QModelIndex&) const
