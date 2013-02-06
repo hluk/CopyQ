@@ -18,19 +18,18 @@
 */
 
 #include "clipboardmonitor.h"
-#include "clipboardserver.h"
-#include "clipboarditem.h"
+
 #include "client_server.h"
+#include "clipboarditem.h"
+#include "clipboardserver.h"
 
 #include <QMimeData>
 #include <QTimer>
 
 #ifdef Q_WS_X11
 #include <X11/Xlib.h>
-#endif
 
 class PrivateX11 {
-#ifdef Q_WS_X11
 public:
     PrivateX11()
         : m_dsp(NULL)
@@ -130,24 +129,24 @@ private:
     QTimer m_syncTimer;
     QMimeData *m_syncData;
     QClipboard::Mode m_syncTo;
-#endif
 };
+#endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     : App(argc, argv)
     , m_formats()
     , m_newdata(NULL)
     , m_checkclip(false)
+#ifdef Q_WS_X11
     , m_copyclip(false)
     , m_checksel(false)
     , m_copysel(false)
+#endif
     , m_lastHash(0)
     , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
 #ifdef Q_WS_X11
     , m_x11(new PrivateX11)
-#else
-    , m_x11(NULL)
 #endif
 {
     connect( m_socket, SIGNAL(readyRead()),
@@ -178,17 +177,14 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 
 ClipboardMonitor::~ClipboardMonitor()
 {
+#ifdef Q_WS_X11
     delete m_x11;
+#endif
 }
 
-void ClipboardMonitor::setFormats(const QString &list)
-{
-    m_formats = list.split( QRegExp("[;,\\s]+") );
-}
-
+#ifdef Q_WS_X11
 bool ClipboardMonitor::updateSelection(bool check)
 {
-#ifdef Q_WS_X11
     // Wait while selection is incomplete, i.e. mouse button or
     // shift key is pressed.
     if ( m_x11->waitForKeyRelease() )
@@ -196,19 +192,16 @@ bool ClipboardMonitor::updateSelection(bool check)
 
     if (check)
         checkClipboard(QClipboard::Selection);
-#else /* !Q_WS_X11 */
-    Q_UNUSED(check);
-#endif
-
     return true;
 }
+#endif
 
+#ifdef Q_WS_X11
 void ClipboardMonitor::synchronize()
 {
-#ifdef Q_WS_X11
     m_x11->synchronize();
-#endif /* !Q_WS_X11 */
 }
+#endif /* !Q_WS_X11 */
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
@@ -335,16 +328,16 @@ void ClipboardMonitor::readyRead()
             if ( m_lastHash == 0 && settings.contains("_last_hash") )
                 m_lastHash = settings["_last_hash"].toUInt();
             if ( settings.contains("formats") )
-                setFormats( settings["formats"].toString() );
+                m_formats = settings["formats"].toString().split( QRegExp("[;,\\s]+") );
             if ( settings.contains("check_clipboard") )
-                setCheckClipboard( settings["check_clipboard"].toBool() );
+                m_checkclip = settings["check_clipboard"].toBool();
 #ifdef Q_WS_X11
             if ( settings.contains("copy_clipboard") )
-                setCopyClipboard( settings["copy_clipboard"].toBool() );
+                m_copyclip = settings["copy_clipboard"].toBool();
             if ( settings.contains("copy_selection") )
-                setCopySelection( settings["copy_selection"].toBool() );
+                m_copysel = settings["copy_selection"].toBool();
             if ( settings.contains("check_selection") )
-                setCheckSelection( settings["check_selection"].toBool() );
+                m_checksel = settings["check_selection"].toBool();
 
             checkClipboard(QClipboard::Selection);
 #endif

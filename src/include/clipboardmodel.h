@@ -21,13 +21,11 @@
 #define CLIPBOARDMODEL_H
 
 #include <QAbstractListModel>
-#include <QStringList>
 #include <QList>
+#include <QStringList>
 
 class ClipboardItem;
 class QMimeData;
-
-static const QModelIndex empty_index;
 
 /**
  * Model containing ClipboardItem objects.
@@ -49,7 +47,7 @@ public:
     typedef bool CompareItems(const ComparisonItem &lhs,
                               const ComparisonItem &rhs);
 
-    explicit ClipboardModel(QObject *parent = 0);
+    explicit ClipboardModel(QObject *parent = NULL);
 
     ~ClipboardModel();
 

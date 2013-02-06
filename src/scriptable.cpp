@@ -17,23 +17,26 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "scriptable.h"
-#include "mainwindow.h"
 #include "client_server.h"
 #include "clipboardbrowser.h"
+#include "configurationmanager.h"
+#include "mainwindow.h"
+#include "scriptable.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
 
-#include <QLocalSocket>
-#include <QScriptContext>
-#include <QScriptEngine>
-#include <QTimer>
 #include <QApplication>
 #include <QDir>
+#include <QLocalSocket>
+#include <QMimeData>
+#include <QScriptContext>
+#include <QScriptEngine>
 
 Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
+
+const QString defaultMime("text/plain");
 
 const char *const programName = "CopyQ Clipboard Manager";
 

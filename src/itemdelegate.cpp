@@ -18,29 +18,29 @@
 */
 
 #include "itemdelegate.h"
+
+#include "client_server.h"
 #include "itemimage.h"
 #include "itemtext.h"
 #ifdef HAS_WEBKIT
 #   include "itemweb.h"
 #endif
 #include "itemwidget.h"
-#include "client_server.h"
-#include "configurationmanager.h"
 
-#include <QApplication>
 #include <QMenu>
 #include <QPainter>
 #include <QPlainTextEdit>
-#include <QScrollBar>
 
 const QSize defaultSize(0, 512);
+const QSize defaultMaximumSize(2048, 2048 * 8);
 
 ItemDelegate::ItemDelegate(QWidget *parent)
     : QItemDelegate(parent)
     , m_parent(parent)
     , m_showNumber(false)
+    , m_saveOnReturnKey(true)
     , m_re()
-    , m_maxSize(maximumItemSize)
+    , m_maxSize(defaultMaximumSize)
     , m_foundFont()
     , m_foundPalette()
     , m_editorFont()
@@ -84,16 +84,16 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
             case Qt::Key_Enter:
             case Qt::Key_Return:
                 // Commit data on Ctrl+Return or Enter?
-                if (ConfigurationManager::instance()->value("edit_ctrl_return").toBool()) {
-                    if (keyevent->modifiers() != Qt::ControlModifier)
-                        return false;
-                } else {
+                if (m_saveOnReturnKey) {
                     if (keyevent->modifiers() == Qt::ControlModifier) {
                         editor->insertPlainText("\n");
                         return true;
                     } else if (keyevent->modifiers() != Qt::NoModifier) {
                         return false;
                     }
+                } else {
+                    if (keyevent->modifiers() != Qt::ControlModifier)
+                        return false;
                 }
                 emit commitData(editor);
                 emit closeEditor(editor);

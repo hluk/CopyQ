@@ -20,6 +20,8 @@
 #include "tabwidget.h"
 #include "tabbar.h"
 
+#include <QPoint>
+
 TabWidget::TabWidget(QWidget *parent)
     : QTabWidget(parent)
 {

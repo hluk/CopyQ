@@ -20,7 +20,6 @@
 #ifndef ABOUTDIALOG_H
 #define ABOUTDIALOG_H
 
-#include "configurationmanager.h"
 #include <QDialog>
 
 namespace Ui {

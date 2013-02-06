@@ -19,7 +19,9 @@
 
 #include "aboutdialog.h"
 #include "ui_aboutdialog.h"
+
 #include "client_server.h"
+#include "configurationmanager.h"
 
 static QString aboutPage()
 {

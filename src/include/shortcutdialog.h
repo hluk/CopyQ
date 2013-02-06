@@ -31,7 +31,7 @@ class ShortcutDialog : public QDialog
     Q_OBJECT
 
 public:
-    explicit ShortcutDialog(QWidget *parent = 0);
+    explicit ShortcutDialog(QWidget *parent = NULL);
     ~ShortcutDialog();
 
     QKeySequence shortcut() const;

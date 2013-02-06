@@ -21,15 +21,10 @@
 #define ITEMDELEGATE_H
 
 #include <QItemDelegate>
-
 #include <QRegExp>
-#include <QLabel>
-#include <QTimer>
 
 class Item;
 class ItemWidget;
-
-const QSize maximumItemSize(2048, 2048 * 8);
 
 /**
  * Delegate for items in ClipboardBrowser.
@@ -47,7 +42,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        ItemDelegate(QWidget *parent = 0);
+        ItemDelegate(QWidget *parent = NULL);
 
         ~ItemDelegate();
 
@@ -99,6 +94,9 @@ class ItemDelegate : public QItemDelegate
         /** Set maximum size for all items. */
         void setItemMaximumSize(const QSize &size);
 
+        /** Save edited item on return or ctrl+return. */
+        void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }
+
         /** Update row position. */
         void updateRowPosition(int row, const QPoint &position);
 
@@ -118,6 +116,7 @@ class ItemDelegate : public QItemDelegate
     private:
         QWidget *m_parent;
         bool m_showNumber;
+        bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
 

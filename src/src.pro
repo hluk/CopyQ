@@ -27,6 +27,7 @@ HEADERS += \
     include/clipboardmodel.h \
     include/clipboardmonitor.h \
     include/clipboardserver.h \
+    include/command.h \
     include/commandwidget.h \
     include/configurationmanager.h \
     include/iconfactory.h \
@@ -34,6 +35,7 @@ HEADERS += \
     include/itemeditor.h \
     include/itemimage.h \
     include/itemtext.h \
+    include/itemwidget.h \
     include/mainwindow.h \
     include/option.h \
     include/scriptable.h \

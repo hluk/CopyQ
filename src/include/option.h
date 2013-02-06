@@ -59,8 +59,8 @@ public:
     QString tooltip() const;
 
 private:
-    QVariant m_default_value,
-             m_value;
+    QVariant m_default_value;
+    QVariant m_value;
     const char *m_property_name;
     QObject *m_obj;
 };

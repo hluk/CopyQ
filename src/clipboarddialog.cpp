@@ -19,9 +19,11 @@
 
 #include "clipboarddialog.h"
 #include "ui_clipboarddialog.h"
+
 #include "client_server.h"
 #include "configurationmanager.h"
-#include <QClipboard>
+
+#include <QListWidgetItem>
 #include <QUrl>
 
 ClipboardDialog::ClipboardDialog(const QMimeData *itemData, QWidget *parent)

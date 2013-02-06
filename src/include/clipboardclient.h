@@ -22,6 +22,7 @@
 
 #include "app.h"
 #include "arguments.h"
+
 #include <QLocalSocket>
 
 /**

@@ -92,8 +92,8 @@ bool ItemEditor::fileModified()
 
         return newhash != m_hash;
     }
-    else
-        return false;
+
+    return false;
 }
 
 void ItemEditor::onTimer()

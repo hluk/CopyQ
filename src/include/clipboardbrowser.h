@@ -21,16 +21,15 @@
 #define CLIPBOARDBROWSER_H
 
 #include "itemeditor.h"
-#include "configurationmanager.h"
+#include "command.h"
 
 #include <QListView>
-#include <QClipboard>
 #include <QSharedPointer>
 
+class ClipboardItem;
 class ClipboardModel;
 class ItemDelegate;
 class QMimeData;
-class ClipboardItem;
 class QTimer;
 
 struct ClipboardBrowserShared {
@@ -44,8 +43,9 @@ struct ClipboardBrowserShared {
     int maxImageWidth;
     int maxImageHeight;
     bool textWrap;
-    ConfigurationManager::Commands commands;
+    QList<Command> commands;
     bool viMode;
+    bool saveOnReturnKey;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 

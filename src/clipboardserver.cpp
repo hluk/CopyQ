@@ -18,20 +18,21 @@
 */
 
 #include "clipboardserver.h"
-#include "clipboardmonitor.h"
-#include "mainwindow.h"
+
+#include "arguments.h"
 #include "clipboardbrowser.h"
 #include "clipboarditem.h"
-#include "arguments.h"
+#include "clipboardmonitor.h"
+#include "configurationmanager.h"
+#include "mainwindow.h"
 #include "scriptable.h"
 #include "../qt/bytearrayclass.h"
 
 #include <QAction>
 #include <QKeyEvent>
+#include <QLocalServer>
 #include <QLocalSocket>
 #include <QMenu>
-#include <QMimeData>
-#include <QTimer>
 #include <QScriptEngine>
 
 #ifdef NO_GLOBAL_SHORTCUTS
@@ -108,6 +109,11 @@ ClipboardServer::~ClipboardServer()
     foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
         delete s;
     m_shortcutActions.clear();
+}
+
+bool ClipboardServer::isListening() const
+{
+    return m_server->isListening();
 }
 
 void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
@@ -230,6 +236,16 @@ void ClipboardServer::loadMonitorSettings()
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << item;
     writeMessage(m_socket, msg);
+}
+
+QString ClipboardServer::serverName()
+{
+    return ::serverName("CopyQserver");
+}
+
+QString ClipboardServer::monitorServerName()
+{
+    return ::serverName("CopyQmonitor_server");
 }
 
 void ClipboardServer::newConnection()

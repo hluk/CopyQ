@@ -18,9 +18,14 @@
 */
 
 #include "clipboarditem.h"
-#include "clipboardmodel.h"
+
 #include "client_server.h"
+#include "clipboardmodel.h"
+
 #include <QImage>
+#include <QMimeData>
+#include <QPixmap>
+#include <QVariant>
 
 ClipboardItem::ClipboardItem(const ClipboardModel *parent)
     : m_parent(parent)

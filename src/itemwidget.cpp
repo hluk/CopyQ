@@ -19,8 +19,9 @@
 
 #include "itemwidget.h"
 
-#include <QLabel>
-#include <QPainter>
+#include <QFont>
+#include <QPalette>
+#include <QWidget>
 
 ItemWidget::ItemWidget(QWidget *widget)
     : m_re()

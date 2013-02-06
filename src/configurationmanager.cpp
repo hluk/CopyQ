@@ -19,21 +19,21 @@
 
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
-#include "clipboardmodel.h"
-#include "client_server.h"
-#include "shortcutdialog.h"
-#include "itemdelegate.h"
 
-#include <QSettings>
-#include <QMenu>
-#include <QMutex>
-#include <QFile>
-#include <QDesktopWidget>
-#include <QMessageBox>
-#include <QTreeWidgetItem>
-#include <QFontDialog>
+#include "clipboardmodel.h"
+#include "iconfactory.h"
+#include "itemdelegate.h"
+#include "shortcutdialog.h"
+
 #include <QColorDialog>
+#include <QFile>
 #include <QFileDialog>
+#include <QFontDialog>
+#include <QMenu>
+#include <QMessageBox>
+#include <QMutex>
+#include <QSettings>
+#include <QTreeWidgetItem>
 
 #ifdef Q_OS_WIN
 #define DEFAULT_EDITOR "notepad %1"

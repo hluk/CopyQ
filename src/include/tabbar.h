@@ -22,12 +22,15 @@
 
 #include <QTabBar>
 
+class QMouseEvent;
+class QPoint;
+
 class TabBar : public QTabBar
 {
     Q_OBJECT
 
 public:
-    explicit TabBar(QWidget *parent = 0);
+    explicit TabBar(QWidget *parent = NULL);
 
 protected:
     void mousePressEvent(QMouseEvent *event);

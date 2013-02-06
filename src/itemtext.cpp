@@ -20,11 +20,9 @@
 #include "itemtext.h"
 
 #include <QContextMenuEvent>
-#include <QMenu>
 #include <QMouseEvent>
 #include <QTextCursor>
 #include <QTextDocument>
-#include <QTextOption>
 
 namespace {
 

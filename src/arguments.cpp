@@ -18,6 +18,7 @@
 */
 
 #include "arguments.h"
+
 #include <QDataStream>
 #include <QFile>
 #include <QDir>
@@ -25,8 +26,7 @@
 namespace {
 
 // add command line argument - handle escape sequences
-void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg,
-                                int i)
+void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg, int i)
 {
     args.resize(i + 1);
     QByteArray &bytes = args[i];

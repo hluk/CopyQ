@@ -20,15 +20,14 @@
 #include "commandwidget.h"
 #include "ui_commandwidget.h"
 
-#include "client_server.h"
+#include "iconfactory.h"
+#include "command.h"
 #include "shortcutdialog.h"
 
 #include <QAction>
 #include <QFileDialog>
 #include <QFontMetrics>
 #include <QMenu>
-#include <QPainter>
-#include <QPixmap>
 
 CommandWidget::CommandWidget(QWidget *parent)
     : QWidget(parent)

@@ -19,11 +19,12 @@
 
 #include "actiondialog.h"
 #include "ui_actiondialog.h"
-#include "client_server.h"
+
 #include "action.h"
+#include "client_server.h"
+#include "command.h"
 #include "configurationmanager.h"
 
-#include <QToolTip>
 #include <QSettings>
 #include <QFile>
 #include <QMessageBox>

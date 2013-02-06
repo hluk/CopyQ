@@ -20,21 +20,19 @@
 #ifndef CLIENT_SERVER_H
 #define CLIENT_SERVER_H
 
-#include "iconfactory.h"
-
-#include <QWidget> // WId
-#include <QMimeData>
 #include <QClipboard>
-#include <qglobal.h> // Q_WS_*
+#include <QtGlobal> // Q_WS_*
+#include <QWidget> // WId
 
 // Application version
 #define COPYQ_VERSION "1.6.2"
 
-class QString;
-class QIODevice;
-class QStringList;
 class QByteArray;
+class QIODevice;
 class QLocalServer;
+class QMimeData;
+class QString;
+class QStringList;
 
 /** Command status. */
 typedef enum {
@@ -92,9 +90,6 @@ uint hash(const QMimeData &data, const QStringList &formats);
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 
 void raiseWindow(WId wid);
-
-const QIcon &getIconFromResources(const QString &iconName);
-const QIcon getIcon(const QString &themeName, ushort iconId);
 
 void elideText(QAction *act);
 

@@ -111,4 +111,7 @@ private:
     ResourceIconCache m_resourceIconCache;
 };
 
+const QIcon &getIconFromResources(const QString &iconName);
+const QIcon getIcon(const QString &themeName, ushort iconId);
+
 #endif // ICONFACTORY_H

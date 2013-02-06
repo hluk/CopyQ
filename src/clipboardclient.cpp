@@ -18,11 +18,13 @@
 */
 
 #include "clipboardclient.h"
-#include "clipboardserver.h"
-#include "client_server.h"
+
 #include "arguments.h"
+#include "client_server.h"
+#include "clipboardserver.h"
+
+#include <cstdio>
 #include <QFile>
-#include <iostream>
 
 ClipboardClient::ClipboardClient(int &argc, char **argv)
     : App(argc, argv)
@@ -69,8 +71,10 @@ void ClipboardClient::readyRead()
                 WId wid = (WId)(QByteArray(msg.constData()+i).toLongLong());
                 raiseWindow(wid);
             } else {
-                std::ostream &out = (exitCode == 0) ? std::cout : std::cerr;
-                out.write( msg.constData()+i, len-i );
+                QFile f;
+                f.open((exitCode == 0) ? stdout : stderr, QIODevice::WriteOnly);
+                QDataStream out(&f);
+                out.writeBytes( msg.constData() + i, len - i );
             }
         }
 

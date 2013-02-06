@@ -19,7 +19,6 @@
 
 #include "client_server.h"
 
-#include <iostream>
 #include <cstdio>
 #include <assert.h>
 
@@ -29,11 +28,13 @@
 #  include <unistd.h> // getuid()
 #endif
 
-#include <QObject>
-#include <QLocalSocket>
-#include <QApplication>
 #include <QAction>
+#include <QApplication>
+#include <QClipboard>
 #include <QLocalServer>
+#include <QLocalSocket>
+#include <QMimeData>
+#include <QObject>
 #include <QThread>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
@@ -82,14 +83,12 @@ bool isMainThread()
 const QMimeData *clipboardData(QClipboard::Mode mode)
 {
     assert( isMainThread() );
-    QApplication::processEvents();
     return QApplication::clipboard()->mimeData(mode);
 }
 
 void setClipboardData(QMimeData *data, QClipboard::Mode mode)
 {
     assert( isMainThread() );
-    QApplication::processEvents();
     QApplication::clipboard()->setMimeData(data, mode);
 }
 
@@ -274,16 +273,6 @@ void raiseWindow(WId wid)
 #else
     Q_UNUSED(wid);
 #endif // TODO: focus window on Mac
-}
-
-const QIcon &getIconFromResources(const QString &iconName)
-{
-    return IconFactory::instance()->getIcon(iconName);
-}
-
-const QIcon getIcon(const QString &themeName, ushort iconId)
-{
-    return IconFactory::instance()->getIcon(themeName, iconId);
 }
 
 void elideText(QAction *act)

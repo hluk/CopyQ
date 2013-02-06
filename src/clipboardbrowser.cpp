@@ -18,22 +18,21 @@
 */
 
 #include "clipboardbrowser.h"
-#include "actiondialog.h"
-#include "itemdelegate.h"
-#include "itemwidget.h"
-#include "clipboardmodel.h"
-#include "clipboarditem.h"
-#include "configurationmanager.h"
+
 #include "client_server.h"
 #include "clipboarddialog.h"
+#include "clipboarditem.h"
+#include "clipboardmodel.h"
+#include "configurationmanager.h"
+#include "iconfactory.h"
+#include "itemdelegate.h"
 
-#include <QApplication>
 #include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMimeData>
-#include <QTimer>
 #include <QScrollBar>
+#include <QTimer>
 
 namespace {
 
@@ -43,8 +42,6 @@ const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
 const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
 const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
 const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSign); }
-
-const int max_preload = 10;
 
 bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
                      const ClipboardModel::ComparisonItem &rhs)
@@ -82,7 +79,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     maxImageHeight = cm->value("max_image_height").toInt();
     textWrap = cm->value("text_wrap").toBool();
     commands = cm->commands();
-
+    saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
 }
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
@@ -111,7 +108,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
 {
     setLayoutMode(QListView::Batched);
-    setBatchSize(max_preload);
+    setBatchSize(1);
     setFrameShadow(QFrame::Sunken);
     setTabKeyNavigation(false);
     setAlternatingRowColors(true);
@@ -877,6 +874,8 @@ void ClipboardBrowser::loadSettings()
     m->setMaxImageSize(m_sharedData->maxImageWidth, m_sharedData->maxImageHeight);
 
     setTextWrap(m_sharedData->textWrap);
+
+    d->setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
 
     // re-create menu
     createContextMenu();

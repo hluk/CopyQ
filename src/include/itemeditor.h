@@ -20,11 +20,11 @@
 #ifndef ITEMEDITOR_H
 #define ITEMEDITOR_H
 
+#include <QDateTime>
+#include <QFileInfo>
 #include <QObject>
 #include <QString>
 #include <QTemporaryFile>
-#include <QFileInfo>
-#include <QDateTime>
 
 class QProcess;
 class QTimer;
@@ -34,11 +34,41 @@ class ItemEditor : public QObject
     Q_OBJECT
 
     public:
-        ItemEditor(const QString &txt, const QString &editor, QObject *parent = 0);
+        ItemEditor(const QString &txt, const QString &editor, QObject *parent = NULL);
         ~ItemEditor();
+
+        /**
+         * Execute editor process.
+         * @retval true   Editor successfully opened.
+         * @retval false  An error occured (failed to create temporary file), editor was not opened.
+         */
         bool start();
+
+        /** Return true only if file was modified and reset this status. */
         bool fileModified();
-        const QString &getText() const { return m_txt; };
+
+        /** Get current edited text. */
+        const QString &getText() const { return m_txt; }
+
+    signals:
+        /**
+         * File was modified.
+         */
+        void fileModified(const QString &str);
+
+        /**
+         * Editor was closed.
+         */
+        void closed(ItemEditor *who);
+
+    public slots:
+        /**
+         * Close editor (only emits closed() signal).
+         */
+        void close() { emit closed(this); }
+
+    private slots:
+        void onTimer();
 
     private:
         QString m_txt;
@@ -52,16 +82,6 @@ class ItemEditor : public QObject
         QTemporaryFile m_tmpfile;
         QFileInfo m_info;
         QDateTime m_lastmodified;
-
-    public slots:
-        void close() { emit closed(this); };
-
-    private slots:
-        void onTimer();
-
-    signals:
-        void fileModified(const QString &str);
-        void closed(ItemEditor *who);
 };
 
 #endif // ITEMEDITOR_H

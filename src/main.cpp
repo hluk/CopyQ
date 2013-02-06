@@ -25,15 +25,16 @@
 #include "clipboardmonitor.h"
 #include "scriptable.h"
 
-#include <QSettings>
 #include <QScriptEngine>
-#include <iostream>
+#include <QTextStream>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
 
-static void evaluate(const QString &functionName, const char *arg)
+namespace {
+
+void evaluate(const QString &functionName, const char *arg)
 {
     int argc = 0;
     char *argv[] = {NULL};
@@ -47,10 +48,11 @@ static void evaluate(const QString &functionName, const char *arg)
     QScriptValueList fnArgs;
     if (arg != NULL)
         fnArgs << QString(arg);
-    std::cout << fn.call(QScriptValue(), fnArgs).toString().toStdString();
+
+    QTextStream(stdout) << fn.call(QScriptValue(), fnArgs).toString();
 }
 
-static int startServer(int argc, char *argv[])
+int startServer(int argc, char *argv[])
 {
     ClipboardServer app(argc, argv);
     if ( app.isListening() ) {
@@ -65,31 +67,33 @@ static int startServer(int argc, char *argv[])
     }
 }
 
-static int startMonitor(int argc, char *argv[])
+int startMonitor(int argc, char *argv[])
 {
     ClipboardMonitor app(argc, argv);
     return app.isConnected() ? app.exec() : 0;
 }
 
-static int startClient(int argc, char *argv[])
+int startClient(int argc, char *argv[])
 {
     ClipboardClient app(argc, argv);
     return app.exec();
 }
 
-static bool needsHelp(const char *arg)
+bool needsHelp(const char *arg)
 {
     return strcmp("-h",arg) == 0 ||
            strcmp("--help",arg) == 0 ||
            strcmp("help",arg) == 0;
 }
 
-static bool needsVersion(const char *arg)
+bool needsVersion(const char *arg)
 {
     return strcmp("-v",arg) == 0 ||
            strcmp("--version",arg) == 0 ||
            strcmp("version",arg) == 0;
 }
+
+} // namespace
 
 int main(int argc, char *argv[])
 {

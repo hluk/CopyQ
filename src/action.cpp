@@ -19,8 +19,6 @@
 
 #include "action.h"
 
-#include <QAction>
-
 Action::Action(const Commands &cmd,
                const QByteArray &input, const QString &outputItemFormat,
                const QString &itemSeparator,

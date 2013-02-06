@@ -21,16 +21,15 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
-#include <QSystemTrayIcon>
 #include <QMap>
 #include <QSharedPointer>
-#include "configurationmanager.h"
+#include <QSystemTrayIcon>
 
-class ClipboardModel;
 class AboutDialog;
 class ClipboardBrowser;
 class ClipboardBrowserShared;
 class ClipboardItem;
+class Command;
 class Action;
 class ActionDialog;
 class QMimeData;
@@ -59,7 +58,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
     public:
-        explicit MainWindow(QWidget *parent = 0);
+        explicit MainWindow(QWidget *parent = NULL);
         ~MainWindow();
 
         /** Return true if in browse mode. */
@@ -275,7 +274,7 @@ class MainWindow : public QMainWindow
         int m_lastTab;
         QTimer *m_timerSearch;
 
-        QMap<Action*,QAction*> m_actions;
+        QMap<Action*, QAction*> m_actions;
 
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
     };

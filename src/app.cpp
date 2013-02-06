@@ -18,6 +18,7 @@
 */
 
 #include "app.h"
+
 #include "client_server.h"
 
 #include <QLibraryInfo>

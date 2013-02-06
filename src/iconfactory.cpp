@@ -134,3 +134,13 @@ QIcon IconFactory::iconFromFile(const QString &fileName)
     QPixmap pix = QPixmap::fromImage( image.scaledToHeight(iconSize) );
     return QIcon(pix);
 }
+
+const QIcon &getIconFromResources(const QString &iconName)
+{
+    return IconFactory::instance()->getIcon(iconName);
+}
+
+const QIcon getIcon(const QString &themeName, ushort iconId)
+{
+    return IconFactory::instance()->getIcon(themeName, iconId);
+}

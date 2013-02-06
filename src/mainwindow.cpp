@@ -19,26 +19,28 @@
 
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+
 #include "aboutdialog.h"
 #include "actiondialog.h"
-#include "clipboarddialog.h"
+#include "action.h"
+#include "client_server.h"
 #include "clipboardbrowser.h"
-#include "clipboardmodel.h"
+#include "clipboarddialog.h"
 #include "clipboarditem.h"
+#include "clipboardmodel.h"
+#include "command.h"
+#include "configurationmanager.h"
+#include "iconfactory.h"
 #include "tabdialog.h"
 #include "tabwidget.h"
-#include "client_server.h"
-#include "action.h"
-#include "iconfactory.h"
 
 #include <QCloseEvent>
+#include <QDesktopWidget>
+#include <QFileDialog>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QTimer>
-#include <QInputDialog>
-#include <QFileDialog>
-#include <QDesktopWidget>
 
 namespace {
 

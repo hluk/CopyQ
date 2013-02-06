@@ -20,9 +20,9 @@
 #ifndef ARGUMENTS_H
 #define ARGUMENTS_H
 
+#include <QString>
 #include <QVector>
 #include <QByteArray>
-#include <QVariant>
 
 /**
  * Class for processing program arguments.

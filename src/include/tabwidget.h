@@ -21,14 +21,15 @@
 #define TABWIDGET_H
 
 #include <QTabWidget>
-#include <QTabBar>
+
+class QPoint;
 
 class TabWidget : public QTabWidget
 {
     Q_OBJECT
 
 public:
-    explicit TabWidget(QWidget *parent = 0);
+    explicit TabWidget(QWidget *parent = NULL);
 
 public slots:
     void nextTab();

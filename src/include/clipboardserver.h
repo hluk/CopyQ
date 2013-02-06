@@ -21,14 +21,17 @@
 #define CLIPBOARDSERVER_H
 
 #include "app.h"
-#include <QLocalServer>
-#include <QProcess>
 #include "client_server.h"
 
-class MainWindow;
+#include <QProcess>
+#include <QMap>
+
+class Arguments;
 class ClipboardBrowser;
 class ClipboardItem;
-class Arguments;
+class MainWindow;
+class QLocalServer;
+class QLocalSocket;
 class QxtGlobalShortcut;
 
 /**
@@ -47,7 +50,7 @@ public:
     ~ClipboardServer();
 
     /** Returns true if server is listening to incoming client connections. */
-    bool isListening() { return m_server->isListening(); }
+    bool isListening() const;
 
     /**
      * Execute command.
@@ -88,10 +91,10 @@ public:
     }
 
     /** Socket name for server. */
-    static QString serverName() { return ::serverName("CopyQserver"); }
+    static QString serverName();
 
     /** Socket name for monitor. */
-    static QString monitorServerName() { return ::serverName("CopyQmonitor_server"); }
+    static QString monitorServerName();
 
     /**
      * Create global shortcut.
@@ -137,7 +140,7 @@ private slots:
     void readyRead();
 
     /** Monitor state changed. */
-    void monitorStateChanged( QProcess::ProcessState newState );
+    void monitorStateChanged(QProcess::ProcessState newState);
 
     /** Message can be read from monitor standard error output. */
     void monitorStandardError();

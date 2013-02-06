@@ -20,13 +20,14 @@
 #ifdef HAS_WEBKIT
 
 #include "itemweb.h"
-#include <QtWebKit/QWebPage>
-#include <QtWebKit/QWebFrame>
-#include <QtWebKit/QWebHistory>
+
 #include <QApplication>
 #include <QDesktopWidget>
-#include <QPalette>
 #include <QMouseEvent>
+#include <QPalette>
+#include <QtWebKit/QWebFrame>
+#include <QtWebKit/QWebHistory>
+#include <QtWebKit/QWebPage>
 
 ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     : QWebView(parent)

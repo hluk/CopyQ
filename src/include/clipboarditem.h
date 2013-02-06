@@ -21,11 +21,12 @@
 #define CLIPBOARDITEM_H
 
 #include <QString>
-#include <QVariant>
-#include <QMimeData>
 #include <QStringList>
 
 class ClipboardModel;
+class QMimeData;
+class QPixmap;
+class QVariant;
 
 /**
  * Class for clipboard items in ClipboardModel.

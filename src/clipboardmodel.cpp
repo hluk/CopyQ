@@ -17,10 +17,13 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "clipboardmodel.h"
 #include "clipboarditem.h"
-#include <QMap>
+
+#include "clipboardmodel.h"
+
 #include <QSize>
+
+const QModelIndex emptyIndex;
 
 ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -169,7 +172,7 @@ bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
 bool ClipboardModel::append(ClipboardItem *item)
 {
     int rows = rowCount();
-    beginInsertRows(empty_index, rows, rows);
+    beginInsertRows(emptyIndex, rows, rows);
     m_clipboardList.append(item);
     endInsertRows();
     return true;
@@ -178,7 +181,7 @@ bool ClipboardModel::append(ClipboardItem *item)
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
     ClipboardItem *item;
-    beginInsertRows(empty_index, position, position+rows-1);
+    beginInsertRows(emptyIndex, position, position+rows-1);
 
     for (int row = 0; row < rows; ++row) {
         item = new ClipboardItem(this);
@@ -196,7 +199,7 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
         return false;
 
     int last = qMin(position+rows-1, count-1);
-    beginRemoveRows(empty_index, position, last);
+    beginRemoveRows(emptyIndex, position, last);
 
     for (int row = position; row <= last; ++row) {
         delete m_clipboardList.takeAt(position);
@@ -228,7 +231,7 @@ void ClipboardModel::setMaxItems(int max)
         return;
 
     // crop list
-    beginRemoveRows(empty_index, max, rows-1 );
+    beginRemoveRows(emptyIndex, max, rows-1 );
 
     while ( rows > max ) {
         delete m_clipboardList.takeLast();
@@ -245,7 +248,7 @@ bool ClipboardModel::move(int pos, int newpos)
 
     if( from == -1 || to == -1 )
         return false;
-    if ( !beginMoveRows(empty_index, from, from, empty_index,
+    if ( !beginMoveRows(emptyIndex, from, from, emptyIndex,
                         from < to ? to+1 : to) )
         return false;
     m_clipboardList.move(from, to);

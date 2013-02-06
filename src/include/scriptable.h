@@ -24,15 +24,12 @@
 #include <QString>
 #include <QScriptable>
 #include <QScriptValue>
-#include <QVariantList>
 
 class MainWindow;
 class ByteArrayClass;
 class ClipboardBrowser;
 class QLocalSocket;
 class QScriptEngine;
-
-const QString defaultMime("text/plain");
 
 class Scriptable : public QObject, protected QScriptable
 {

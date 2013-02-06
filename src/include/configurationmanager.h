@@ -20,7 +20,7 @@
 #ifndef CONFIGURATIONMANAGER_H
 #define CONFIGURATIONMANAGER_H
 
-#include "commandwidget.h"
+#include "command.h"
 #include "option.h"
 
 #include <QDialog>

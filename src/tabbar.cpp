@@ -20,6 +20,7 @@
 #include "tabbar.h"
 
 #include <QMouseEvent>
+#include <QPoint>
 
 TabBar::TabBar(QWidget *parent)
     : QTabBar(parent)

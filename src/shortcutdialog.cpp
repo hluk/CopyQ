@@ -21,6 +21,7 @@
 #include "ui_shortcutdialog.h"
 
 #include "client_server.h"
+#include "iconfactory.h"
 
 #include <QKeyEvent>
 

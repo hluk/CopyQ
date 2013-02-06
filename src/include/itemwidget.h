@@ -20,13 +20,12 @@
 #ifndef ITEMWIDGET_H
 #define ITEMWIDGET_H
 
-#include <QPalette>
+#include <QRegExp>
+#include <QSize>
 
-class QPainter;
-class Item;
-class ItemImage;
-class ItemText;
-class ItemWeb;
+class QFont;
+class QPalette;
+class QWidget;
 
 /**
  * Handles item in list.

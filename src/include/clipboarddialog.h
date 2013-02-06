@@ -21,8 +21,9 @@
 #define CLIPBOARDDIALOG_H
 
 #include <QDialog>
-#include <QListWidgetItem>
 #include <QMimeData>
+
+class QListWidgetItem;
 
 namespace Ui {
     class ClipboardDialog;

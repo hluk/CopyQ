@@ -21,15 +21,17 @@
 #define CLIPBOARDMONITOR_H
 
 #include "app.h"
-#include <QLocalSocket>
-#include <QClipboard>
 
 #include "client_server.h"
 
+#include <QClipboard>
+#include <QLocalSocket>
+
 class QMimeData;
-class QByteArray;
 class QTimer;
+#ifdef Q_WS_X11
 class PrivateX11;
+#endif
 
 /**
  * Application monitor server.
@@ -52,22 +54,10 @@ public:
     ~ClipboardMonitor();
 
     /** Return true only if monitor socket is connected. */
-    bool isConnected()
+    bool isConnected() const
     {
         return m_socket->state() == QLocalSocket::ConnectedState;
     }
-
-    /** Set MIME clipboard formats that will be send to server. */
-    void setFormats(const QString &list);
-
-    /** Toggle clipboard monitoring. */
-    void setCheckClipboard(bool enable) {m_checkclip = enable;}
-    /** Toggle primary selection monitoring (only on X11). */
-    void setCheckSelection(bool enable) {m_checksel  = enable;}
-    /** Toggle copying clipboard contents to primary selection (only on X11). */
-    void setCopyClipboard(bool enable)  {m_copyclip  = enable;}
-    /** Toggle copying primary selection contents to clipboard (only on X11). */
-    void setCopySelection(bool enable)  {m_copysel   = enable;}
 
     /** Change clipboard and primary selection content. */
     void updateClipboard(QMimeData *data, bool force = false);
@@ -75,16 +65,22 @@ public:
 private:
     QStringList m_formats;
     QMimeData *m_newdata;
-    bool m_checkclip, m_copyclip,
-         m_checksel, m_copysel;
+    bool m_checkclip;
+#ifdef Q_WS_X11
+    bool m_copyclip;
+    bool m_checksel;
+    bool m_copysel;
+#endif
     uint m_lastHash;
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
     QTimer *m_updateTimer;
 
+#ifdef Q_WS_X11
     // stuff for X11 window system
     PrivateX11* m_x11;
+#endif
 
     /** Send new clipboard or primary selection data to server. */
     void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
@@ -97,6 +93,7 @@ public slots:
     void checkClipboard(QClipboard::Mode mode);
 
 private slots:
+#ifdef Q_WS_X11
     /**
      * Return true if primary selection data can be retrieved.
      *
@@ -112,6 +109,7 @@ private slots:
      * Synchronize clipboard and X11 primary selection.
      */
     void synchronize();
+#endif
 
     /** Update clipboard data in reasonably long intervals. */
     void updateTimeout();

@@ -21,91 +21,13 @@
 #define COMMANDWIDGET_H
 
 #include <QWidget>
-#include <QIcon>
-
-/**
- * Command for matched items.
- *
- * Executes an command for matched items.
- * Possible commands are (can be combined):
- * * execute program,
- * * copy item to other tab or
- * * don't add new item to list.
- */
-struct Command {
-    Command()
-        : name()
-        , re()
-        , wndre()
-        , cmd()
-        , sep()
-        , input()
-        , output()
-        , wait(false)
-        , automatic(false)
-        , ignore(false)
-        , enable(true)
-        , icon()
-        , shortcut()
-        , tab()
-        , outputTab()
-        {}
-
-    /** Name or short description. Used for menu item. */
-    QString name;
-
-    /** Regular expression to match items (empty matches all). */
-    QRegExp re;
-
-    /** Regular expression to match window titles (empty matches all). */
-    QRegExp wndre;
-
-    /**
-     * Program to execute on matched items.
-     * Contains space separated list of arguments.
-     * Argument %1 stands for item text.
-     */
-    QString cmd;
-
-    /** Separator for output items. */
-    QString sep;
-
-    /** If true send item text to program's standard input. */
-    QString input;
-
-    /** If true items are created from program's standard output. */
-    QString output;
-
-    /** Open action dialog before executing program. */
-    bool wait;
-
-    /** If true run command automatically on new matched items. */
-    bool automatic;
-
-    /** If true don't add matched item to list. */
-    bool ignore;
-
-    /** If false command is disabled and should not be used. */
-    bool enable;
-
-    /** Icon for menu item. */
-    QString icon;
-
-    /** Shortcut for menu item. */
-    QString shortcut;
-
-    /** Copy item to other tab (automatically on new matched item). */
-    QString tab;
-
-    /** Tab for output items. */
-    QString outputTab;
-};
 
 namespace Ui {
 class CommandWidget;
 }
 
 class QComboBox;
+class Command;
 
 /** Widget (set of widgets) for creating or modifying Command object. */
 class CommandWidget : public QWidget
@@ -113,7 +35,7 @@ class CommandWidget : public QWidget
     Q_OBJECT
 
 public:
-    explicit CommandWidget(QWidget *parent = 0);
+    explicit CommandWidget(QWidget *parent = NULL);
     ~CommandWidget();
 
     /** Return command for the widget. */
