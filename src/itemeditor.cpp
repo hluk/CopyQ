@@ -21,6 +21,7 @@
 #include "client_server.h"
 
 #include <QDir>
+#include <QHash>
 #include <QTextStream>
 #include <QProcess>
 #include <QTimer>
