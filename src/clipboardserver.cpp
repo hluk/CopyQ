@@ -339,11 +339,11 @@ CommandStatus ClipboardServer::doCommand(
 {
     if ( args.length() <= Arguments::Rest )
         return CommandBadSyntax;
-    QString cmd = args.at(Arguments::Rest);
+    QString cmd = QString::fromUtf8( args.at(Arguments::Rest) );
 
     QScriptEngine engine;
     Scriptable scriptable(m_wnd, client);
-    scriptable.initEngine(&engine, args.at(Arguments::CurrentPath));
+    scriptable.initEngine( &engine, QString::fromUtf8(args.at(Arguments::CurrentPath)) );
     if (client != NULL) {
         connect( client, SIGNAL(disconnected()),
                  &scriptable, SLOT(abort()) );
