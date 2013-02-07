@@ -763,8 +763,8 @@ void Scriptable::action()
     if (i < argumentCount()) {
         Command command;
         command.cmd = toString(value);
-        command.output = true;
-        command.input = true;
+        command.output = defaultMime;
+        command.input = defaultMime;
         command.wait = false;
         command.outputTab = c->getID();
         command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
