@@ -24,6 +24,9 @@
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTranslator>
+#ifdef HAS_TESTS
+#   include <QProcessEnvironment>
+#endif
 
 #ifdef Q_OS_UNIX
 #   include <QSocketNotifier>
@@ -54,8 +57,17 @@ App::App(int &argc, char **argv)
     , m_exitCode(0)
     , m_closed(false)
 {
-    QCoreApplication::setOrganizationName("copyq");
-    QCoreApplication::setApplicationName("copyq");
+#ifdef HAS_TESTS
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    if ( env.value("COPYQ_TESTING") == "1" ) {
+        QCoreApplication::setOrganizationName("copyq-test");
+        QCoreApplication::setApplicationName("copyq-test");
+    } else
+#endif
+    {
+        QCoreApplication::setOrganizationName("copyq");
+        QCoreApplication::setApplicationName("copyq");
+    }
 
     const QString locale = QLocale::system().name();
     QTranslator *translator = new QTranslator(this);

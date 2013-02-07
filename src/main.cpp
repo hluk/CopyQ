@@ -33,6 +33,17 @@
 #include <windows.h>
 #endif
 
+#ifdef HAS_TESTS
+#  include "tests/tests.h"
+#  include <QTest>
+
+namespace tests {
+
+QTEST_MAIN(Tests)
+
+}
+#endif // HAS_TESTS
+
 Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
@@ -86,6 +97,13 @@ int startClient(int argc, char *argv[])
     return app.exec();
 }
 
+#ifdef HAS_TESTS
+int startTests(int argc, char *argv[])
+{
+    return tests::main(argc, argv);
+}
+#endif
+
 bool needsHelp(const char *arg)
 {
     return strcmp("-h",arg) == 0 ||
@@ -100,11 +118,19 @@ bool needsVersion(const char *arg)
            strcmp("version",arg) == 0;
 }
 
+#ifdef HAS_TESTS
+bool needsTests(const char *arg)
+{
+    return strcmp("--tests", arg) == 0 ||
+           strcmp("tests", arg) == 0;
+}
+#endif
+
 } // namespace
 
 int main(int argc, char *argv[])
 {
-    // print version
+    // print version, help or run tests
     if (argc == 2 || argc == 3) {
         const char *arg = argv[1];
         if ( argc == 2 && needsVersion(arg) ) {
@@ -113,20 +139,25 @@ int main(int argc, char *argv[])
         } else if ( needsHelp(arg) ) {
             evaluate("help", argc == 3 ? argv[2] : NULL);
             return 0;
+#ifdef HAS_TESTS
+        } else if ( needsTests(arg) ) {
+            // Skip the "tests" argument and pass the rest to tests.
+            return startTests(argc - 1, argv + 1);
+#endif
         }
     }
 
     if (argc == 1) {
         // if server hasn't been run yet and no argument were specified
-        // then run this as server
+        // then run this process as server
         return startServer(argc, argv);
-    } else if (argc == 2 && strcmp(argv[1], "monitor") == 0) {
-        // if argument specified and server is running
-        // then run this as client
+    } else if (argc == 3 && strcmp(argv[1], "monitor") == 0) {
+        // if first argument is monitor (second is monitor server name/ID)
+        // then run this process as monitor
         return startMonitor(argc, argv);
     } else {
         // if argument specified and server is running
-        // then run this as client
+        // then run this process as client
         return startClient(argc, argv);
     }
 }

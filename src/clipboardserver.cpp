@@ -196,7 +196,7 @@ void ClipboardServer::startMonitoring()
         connect( m_monitor, SIGNAL(readyReadStandardError()),
                  this, SLOT(monitorStandardError()) );
         m_monitor->start( QApplication::arguments().at(0),
-                          QStringList() << "monitor",
+                          QStringList("monitor") << monitorServerName(),
                           QProcess::ReadOnly );
         if ( !m_monitor->waitForStarted(2000) ) {
             log( tr("Cannot start clipboard monitor!"), LogError );

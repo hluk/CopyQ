@@ -2,6 +2,7 @@ project(copyq)
 
 OPTION(WITH_WEBKIT "WebKit support" ON)
 OPTION(WITH_QT5 "Qt5 support" OFF)
+OPTION(WITH_TESTS "Run test cases from command line" OFF)
 
 if (WITH_QT5)
     cmake_minimum_required(VERSION 2.8.8)
@@ -34,7 +35,6 @@ else()
     endif(WITH_WEBKIT)
     set(QT_USE_QTWEBKIT ${HAS_WEBKIT})
 
-    include(${QT_USE_FILE})
     set(USE_QXT TRUE)
 endif()
 
@@ -144,6 +144,26 @@ endif(USE_QXT)
 # Be more strict while compiling debugging version
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic")
+    set(WITH_TESTS ON)
+endif()
+
+# Compile with tests?
+if (WITH_TESTS)
+    message(STATUS "Building with tests.")
+    add_definitions( -DHAS_TESTS )
+
+    file(GLOB copyq_SOURCES ${copyq_SOURCES}
+        src/tests/*.cpp
+        )
+    file(GLOB copyq_MOCABLE ${copyq_MOCABLE}
+        src/tests/*.h
+        )
+
+    if (WITH_QT5)
+        set(copyq_Qt5_Modules ${copyq_Qt5_Modules} Test)
+    else()
+        set(QT_USE_QTTEST TRUE)
+    endif()
 endif()
 
 set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
@@ -187,6 +207,8 @@ add_executable(copyq ${copyq_SOURCES}
 
 if (WITH_QT5)
     qt5_use_modules(copyq ${copyq_Qt5_Modules})
+else()
+    include(${QT_USE_FILE})
 endif()
 
 target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})

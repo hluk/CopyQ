@@ -21,7 +21,6 @@
 
 #include "client_server.h"
 #include "clipboarditem.h"
-#include "clipboardserver.h"
 
 #include <QMimeData>
 #include <QTimer>
@@ -165,7 +164,10 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
              this, SLOT(readyRead()), Qt::DirectConnection );
     connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(quit()) );
-    m_socket->connectToServer( ClipboardServer::monitorServerName() );
+
+    QStringList args = QCoreApplication::instance()->arguments();
+    Q_ASSERT(args.size() == 3);
+    m_socket->connectToServer(args.at(2));
     if ( !m_socket->waitForConnected(2000) ) {
         log( tr("Cannot connect to server!"), LogError );
         exit(1);

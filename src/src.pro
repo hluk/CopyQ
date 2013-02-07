@@ -81,6 +81,13 @@ SOURCES += \
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
+debug {
+    DEFINES += HAS_TESTS
+    QT += testlib
+    SOURCES += tests/tests.cpp
+    HEADERS += tests/tests.h
+}
+
 WITH_WEBKIT {
     SOURCES += itemweb.cpp
     HEADERS += include/itemweb.h

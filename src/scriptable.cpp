@@ -190,7 +190,12 @@ QList<CommandHelp> commandHelp()
                        Scriptable::tr("\nPrint help for COMMAND or all commands."))
            .addArg("[" + Scriptable::tr("COMMAND") + "]")
         << CommandHelp("version, -v, --version",
-                       Scriptable::tr("\nPrint version of program and libraries."));
+                       Scriptable::tr("\nPrint version of program and libraries."))
+#ifdef HAS_TESTS
+        << CommandHelp("tests, --tests",
+                       Scriptable::tr("Run tests."))
+#endif
+           ;
 }
 
 QString helpHead()
