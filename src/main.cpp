@@ -25,12 +25,15 @@
 #include "clipboardmonitor.h"
 #include "scriptable.h"
 
+#include <cstdio>
+#include <QFile>
 #include <QScriptEngine>
-#include <QTextStream>
 
 #ifdef Q_OS_WIN
 #include <windows.h>
 #endif
+
+Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
@@ -49,7 +52,11 @@ void evaluate(const QString &functionName, const char *arg)
     if (arg != NULL)
         fnArgs << QString(arg);
 
-    QTextStream(stdout) << fn.call(QScriptValue(), fnArgs).toString();
+    QScriptValue result = fn.call(QScriptValue(), fnArgs);
+
+    QFile f;
+    f.open(stdout, QIODevice::WriteOnly);
+    f.write( result.toString().toStdString().data() );
 }
 
 int startServer(int argc, char *argv[])
