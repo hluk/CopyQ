@@ -144,6 +144,10 @@ endif(USE_QXT)
 # Be more strict while compiling debugging version
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic")
+endif()
+
+# Tests always on with debug version
+if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(WITH_TESTS ON)
 endif()
 
