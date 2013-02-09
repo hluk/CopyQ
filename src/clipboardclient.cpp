@@ -24,25 +24,27 @@
 #include "clipboardserver.h"
 
 #include <cstdio>
+#include <QCoreApplication>
 #include <QFile>
 
 ClipboardClient::ClipboardClient(int &argc, char **argv)
-    : App(argc, argv)
-    , m_client( new QLocalSocket(this) )
+    : QObject()
+    , App(new QCoreApplication(argc, argv))
+    , m_client()
     , m_args(argc, argv)
 {
     // client socket
-    connect( m_client, SIGNAL(readyRead()),
+    connect( &m_client, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
-    connect( m_client, SIGNAL(readChannelFinished()),
+    connect( &m_client, SIGNAL(readChannelFinished()),
              this, SLOT(readFinnished()) );
-    connect( m_client, SIGNAL(error(QLocalSocket::LocalSocketError)),
+    connect( &m_client, SIGNAL(error(QLocalSocket::LocalSocketError)),
              this, SLOT(error(QLocalSocket::LocalSocketError)) );
-    connect( m_client, SIGNAL(connected()),
+    connect( &m_client, SIGNAL(connected()),
              this, SLOT(sendMessage()));
 
     // connect to server
-    m_client->connectToServer( ClipboardServer::serverName() );
+    m_client.connectToServer( ClipboardServer::serverName() );
 }
 
 void ClipboardClient::sendMessage()
@@ -50,15 +52,15 @@ void ClipboardClient::sendMessage()
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << m_args;
-    writeMessage(m_client, msg);
+    writeMessage(&m_client, msg);
 }
 
 void ClipboardClient::readyRead()
 {
     int exitCode, i, len;
     QByteArray msg;
-    while ( m_client && m_client->bytesAvailable() ) {
-        if( !readMessage(m_client, &msg) )
+    while ( m_client.bytesAvailable() ) {
+        if( !readMessage(&m_client, &msg) )
             exit(1);
 
         QDataStream in(&msg, QIODevice::ReadOnly);
@@ -101,7 +103,7 @@ void ClipboardClient::error(QLocalSocket::LocalSocketError socketError)
         log( tr("Connection lost!"), LogError );
         break;
     default:
-        log( m_client->errorString(), LogError );
+        log( m_client.errorString(), LogError );
     }
     exit(1);
 }

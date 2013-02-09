@@ -30,6 +30,7 @@
 #include "../qt/bytearrayclass.h"
 
 #include <QAction>
+#include <QApplication>
 #include <QKeyEvent>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -45,7 +46,8 @@ struct QxtGlobalShortcut {};
 Q_DECLARE_METATYPE(QByteArray*)
 
 ClipboardServer::ClipboardServer(int &argc, char **argv)
-    : App(argc, argv)
+    : QObject()
+    , App(new QApplication(argc, argv))
     , m_server(NULL)
     , m_wnd(NULL)
     , m_monitor(NULL)
@@ -68,7 +70,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
              this, SLOT(newConnection()) );
 
     connect( m_wnd, SIGNAL(destroyed()),
-             this, SLOT(quit()) );
+             QApplication::instance(), SLOT(quit()) );
     connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 

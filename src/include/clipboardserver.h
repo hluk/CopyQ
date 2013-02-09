@@ -42,12 +42,12 @@ class QxtGlobalShortcut;
  *
  * If user already run this server isListening() returns false.
  */
-class ClipboardServer : public App
+class ClipboardServer : public QObject, public App
 {
     Q_OBJECT
 
 public:
-    explicit ClipboardServer(int &argc, char **argv);
+    ClipboardServer(int &argc, char **argv);
     ~ClipboardServer();
 
     /** Returns true if server is listening to incoming client connections. */

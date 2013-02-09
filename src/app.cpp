@@ -21,6 +21,7 @@
 
 #include "client_server.h"
 
+#include <QCoreApplication>
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTranslator>
@@ -51,9 +52,8 @@ void exitSignalHandler(int)
 
 #endif // Q_OS_UNIX
 
-
-App::App(int &argc, char **argv)
-    : m_app(argc, argv)
+App::App(QCoreApplication *application)
+    : m_app(application)
     , m_exitCode(0)
     , m_closed(false)
 {
@@ -70,21 +70,21 @@ App::App(int &argc, char **argv)
     }
 
     const QString locale = QLocale::system().name();
-    QTranslator *translator = new QTranslator(this);
+    QTranslator *translator = new QTranslator(m_app);
     translator->load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QCoreApplication::installTranslator(translator);
 
-    translator = new QTranslator(this);
+    translator = new QTranslator(m_app);
     translator->load("copyq_" + locale, ":/translations");
     QCoreApplication::installTranslator(translator);
 
 #ifdef Q_OS_UNIX
     // Safely quit application on TERM and HUP signals.
     if ( ::socketpair(AF_UNIX, SOCK_STREAM, 0, signalFd) != 0 ) {
-        log( tr("socketpair() failed!"), LogError );
+        log( QObject::tr("socketpair() failed!"), LogError );
     } else {
-        QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, this);
-        connect( sn, SIGNAL(activated(int)), this, SLOT(quit()) );
+        QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, m_app);
+        sn->connect( sn, SIGNAL(activated(int)), m_app, SLOT(quit()) );
 
         struct sigaction sigact;
 
@@ -94,7 +94,7 @@ App::App(int &argc, char **argv)
         sigact.sa_flags |= SA_RESTART;
 
         if ( sigaction(SIGHUP, &sigact, 0) > 0 || sigaction(SIGTERM, &sigact, 0) > 0 )
-            log( tr("sigaction() failed!"), LogError );
+            log( QObject::tr("sigaction() failed!"), LogError );
     }
 #endif
 }
@@ -102,10 +102,10 @@ App::App(int &argc, char **argv)
 int App::exec()
 {
     if (m_closed) {
-        m_app.processEvents();
+        m_app->processEvents();
         return m_exitCode;
     } else {
-        return m_app.exec();
+        return m_app->exec();
     }
 }
 

@@ -50,7 +50,6 @@ set(copyq_MOCABLE
     src/include/aboutdialog.h
     src/include/actiondialog.h
     src/include/action.h
-    src/include/app.h
     src/include/clipboardbrowser.h
     src/include/clipboardclient.h
     src/include/clipboarddialog.h

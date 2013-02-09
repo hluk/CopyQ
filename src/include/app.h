@@ -20,15 +20,13 @@
 #ifndef APP_H
 #define APP_H
 
-#include <QApplication>
-#include <QObject>
+class QCoreApplication;
 
 /** Application class. */
-class App : public QObject
+class App
 {
-    Q_OBJECT
 public:
-    explicit App(int &argc, char **argv);
+    explicit App(QCoreApplication *application);
 
     virtual ~App() {}
 
@@ -38,16 +36,15 @@ public:
      */
     int exec();
 
-    /** Exit application with given exit code. */
+    /**
+     * Exit application with given exit code.
+     */
     void exit(int exitCode=0);
 
 private:
-    QApplication m_app;
+    QCoreApplication *m_app;
     int m_exitCode;
     bool m_closed;
-
-public slots:
-    void quit() { m_app.quit(); }
 };
 
 #endif // APP_H

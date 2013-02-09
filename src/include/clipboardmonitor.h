@@ -24,6 +24,7 @@
 
 #include "client_server.h"
 
+#include <QApplication>
 #include <QClipboard>
 #include <QLocalSocket>
 
@@ -44,12 +45,12 @@ class PrivateX11;
  * After monitor is executed it needs to be configured by sending special data
  * packet containing configuration.
  */
-class ClipboardMonitor : public App
+class ClipboardMonitor : public QObject, public App
 {
     Q_OBJECT
 
 public:
-    explicit ClipboardMonitor(int &argc, char **argv);
+    ClipboardMonitor(int &argc, char **argv);
 
     ~ClipboardMonitor();
 

@@ -33,14 +33,15 @@
  * Also the received message is printed on standard output (if exit code is
  * zero) or standard error output.
  */
-class ClipboardClient : public App
+class ClipboardClient : public QObject, public App
 {
     Q_OBJECT
+
 public:
     ClipboardClient(int &argc, char **argv);
 
 private:
-    QLocalSocket *m_client;
+    QLocalSocket m_client;
     Arguments m_args;
 
 private slots:

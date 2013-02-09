@@ -144,7 +144,8 @@ private:
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
-    : App(argc, argv)
+    : QObject()
+    , App(new QApplication(argc, argv))
     , m_formats()
     , m_newdata(NULL)
     , m_checkclip(false)
@@ -163,7 +164,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()), Qt::DirectConnection );
     connect( m_socket, SIGNAL(disconnected()),
-             this, SLOT(quit()) );
+             QApplication::instance(), SLOT(quit()) );
 
     QStringList args = QCoreApplication::instance()->arguments();
     Q_ASSERT(args.size() == 3);
