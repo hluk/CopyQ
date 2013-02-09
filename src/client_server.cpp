@@ -21,19 +21,15 @@
 
 #include <cstdio>
 
-#ifdef Q_OS_WIN
-#  include <stdlib.h> // getenv()
-#else
-#  include <unistd.h> // getuid()
-#endif
-
 #include <QAction>
 #include <QApplication>
 #include <QClipboard>
+#include <QFile>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QObject>
+#include <QProcessEnvironment>
 #include <QThread>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
@@ -61,7 +57,6 @@ void log(const QString &text, const LogLevel level)
 {
     QString msg;
     QString level_id;
-    QTextStream err(stderr);
 
     if (level == LogNote)
         level_id = QObject::tr("CopyQ: %1\n");
@@ -71,7 +66,10 @@ void log(const QString &text, const LogLevel level)
         level_id = QObject::tr("CopyQ ERROR: %1\n");
 
     msg = level_id.arg(text);
-    err << msg;
+
+    QFile f;
+    f.open(stderr, QIODevice::WriteOnly);
+    f.write( msg.toLocal8Bit() );
 }
 
 bool isMainThread()
@@ -197,12 +195,13 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
+    const QString envName =
 #ifdef Q_OS_WIN
-    QString sessionID( getenv("USERNAME") );
+            "USERNAME";
 #else
-    QString sessionID( QString::number(getuid(), 16) );
+            "USER";
 #endif
-    return name + sessionID;
+    return name + QString("_") + QProcessEnvironment::systemEnvironment().value(envName);
 }
 
 uint hash(const QMimeData &data, const QStringList &formats)

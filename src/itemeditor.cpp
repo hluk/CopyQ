@@ -22,7 +22,6 @@
 
 #include <QDir>
 #include <QHash>
-#include <QTextStream>
 #include <QProcess>
 #include <QTimer>
 
@@ -59,8 +58,8 @@ bool ItemEditor::start()
     }
 
     // write text to temp file
-    QTextStream out(&m_tmpfile);
-    out << m_txt;
+    m_tmpfile.write( m_txt.toLocal8Bit() );
+    m_tmpfile.flush();
 
     // monitor file
     m_info.setFile( m_tmpfile.fileName() );
