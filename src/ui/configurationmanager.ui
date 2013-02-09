@@ -1291,11 +1291,11 @@ image/xbm</string>
   <tabstop>checkBoxTrayShowCommands</tabstop>
   <tabstop>checkBoxTrayImages</tabstop>
   <tabstop>listWidgetCommands</tabstop>
+  <tabstop>widgetCommand</tabstop>
   <tabstop>toolButtonAddCommand</tabstop>
   <tabstop>pushButtonRemove</tabstop>
   <tabstop>pushButtonUp</tabstop>
   <tabstop>pushButtonDown</tabstop>
-  <tabstop>widgetCommand</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
   <tabstop>pushButton_3</tabstop>
