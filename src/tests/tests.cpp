@@ -366,6 +366,24 @@ void Tests::separator()
     RUN(Args(args) << "separator" << "---" << "read" << "0" << "1" << "2", "ghi---def---abc");
 }
 
+void Tests::eval()
+{
+    const QString tab1 = testTabs.arg(1);
+    const QString tab2 = testTabs.arg(2);
+
+    RUN(Args("eval") << "print('123')", "123");
+
+    QByteArray stderrData;
+    QCOMPARE( run(Args("eval") << "x", NULL, &stderrData), 1 );
+    QVERIFY( !stderrData.isEmpty() );
+
+    RUN(Args("eval") << QString("tab('%1');add('abc');tab('%2');add('def');").arg(tab1).arg(tab2), "");
+    RUN(Args("eval") << QString("tab('%1');if (size() === 1) print('ok')").arg(tab1), "ok");
+    RUN(Args("eval") << QString("tab('%1');if (size() === 1) print('ok')").arg(tab2), "ok");
+    RUN(Args("eval") << QString("tab('%1');if (str(read(0)) === 'abc') print('ok')").arg(tab1), "ok");
+    RUN(Args("eval") << QString("tab('%1');if (str(read(0)) === 'def') print('ok')").arg(tab2), "ok");
+}
+
 bool Tests::startServer()
 {
     if (m_server != NULL)

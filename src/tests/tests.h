@@ -51,6 +51,7 @@ private slots:
     void renameTab();
     void importExportTab();
     void separator();
+    void eval();
 
 private:
     bool startServer();
