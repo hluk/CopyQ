@@ -55,7 +55,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     , m_shortcutActions()
 {
     // listen
-    m_server = newServer( serverName(), this );
+    m_server = newServer( clipboardServerName(), this );
     if ( !m_server->isListening() )
         return;
 
@@ -170,7 +170,8 @@ void ClipboardServer::startMonitoring()
         connect( m_monitor, SIGNAL(connectionError()),
                  this, SLOT(monitorConnectionError()) );
 
-        m_monitor->start( monitorServerName(), QStringList("monitor") << monitorServerName() );
+        const QString name = clipboardMonitorServerName();
+        m_monitor->start( name, QStringList("monitor") << name );
         if ( !m_monitor->isConnected() ) {
             log( tr("Cannot start clipboard monitor!"), LogError );
             delete m_monitor;
@@ -216,16 +217,6 @@ void ClipboardServer::loadMonitorSettings()
 bool ClipboardServer::isMonitoring()
 {
     return m_monitor != NULL && m_monitor->isConnected();
-}
-
-QString ClipboardServer::serverName()
-{
-    return ::serverName("CopyQserver");
-}
-
-QString ClipboardServer::monitorServerName()
-{
-    return ::serverName("CopyQmonitor_server");
 }
 
 void ClipboardServer::newConnection()

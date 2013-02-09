@@ -85,6 +85,8 @@ void writeMessage(QIODevice *socket, const QByteArray &msg);
 
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);
+QString clipboardServerName();
+QString clipboardMonitorServerName();
 
 uint hash(const QMimeData &data, const QStringList &formats);
 

@@ -89,12 +89,6 @@ public:
     /** Return true if monitor is running. */
     bool isMonitoring();
 
-    /** Socket name for server. */
-    static QString serverName();
-
-    /** Socket name for monitor. */
-    static QString monitorServerName();
-
     /**
      * Create global shortcut.
      *

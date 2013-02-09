@@ -21,7 +21,6 @@
 
 #include "arguments.h"
 #include "client_server.h"
-#include "clipboardserver.h"
 
 #include <cstdio>
 #include <QCoreApplication>
@@ -44,7 +43,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv)
              this, SLOT(sendMessage()));
 
     // connect to server
-    m_client.connectToServer( ClipboardServer::serverName() );
+    m_client.connectToServer( clipboardServerName() );
 }
 
 void ClipboardClient::sendMessage()

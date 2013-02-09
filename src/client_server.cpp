@@ -204,6 +204,16 @@ QString serverName(const QString &name)
     return name + QString("_") + QProcessEnvironment::systemEnvironment().value(envName);
 }
 
+QString clipboardServerName()
+{
+    return serverName("CopyQ_server");
+}
+
+QString clipboardMonitorServerName()
+{
+    return serverName("CopyQ_monitor_server");
+}
+
 uint hash(const QMimeData &data, const QStringList &formats)
 {
     uint hash = 0;
