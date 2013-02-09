@@ -208,9 +208,9 @@ void MainWindow::createMenu()
 
     // - new
     act = traymenu->addAction( iconNew(), tr("&New Item"),
-                               this, SLOT(newItem()) );
+                               this, SLOT(editNewItem()) );
     menu->addAction( act->icon(), act->text(),
-                     this, SLOT(newItem()),
+                     this, SLOT(editNewItem()),
                      QKeySequence::New );
 
     // - import tab
@@ -1164,13 +1164,13 @@ ClipboardBrowser *MainWindow::addTab(const QString &name)
     return c;
 }
 
-void MainWindow::newItem()
+void MainWindow::editNewItem()
 {
     ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
     if (c) {
         showWindow();
         c->setFocus();
-        c->newItem();
+        c->editNew();
     }
 }
 

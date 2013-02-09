@@ -306,7 +306,7 @@ class ClipboardBrowser : public QListView
         /**
          * Create and edit new item.
          */
-        void newItem(
+        void editNew(
                 const QString &text = QString() //!< Text of new item.
                 );
 };

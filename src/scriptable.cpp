@@ -626,7 +626,8 @@ void Scriptable::edit()
     QString text;
     int row;
 
-    for ( int i = 0; i < argumentCount(); ++i ) {
+    const int len = argumentCount();
+    for ( int i = 0; i < len; ++i ) {
         value = argument(i);
         if (i > 0)
             text.append( getInputSeparator() );
@@ -645,14 +646,13 @@ void Scriptable::edit()
 
     if ( !c->openEditor(text) ) {
         m_wnd->showBrowser(c);
-        if ( argumentCount() == 0 || argumentCount() > 1 ) {
-            c->newItem(text);
-            c->edit( c->index(0) );
-        } else {
+        if (len == 1 && row >= 0) {
             QModelIndex index = c->index(row);
             c->setCurrent(row);
             c->scrollTo(index, QAbstractItemView::PositionAtTop);
             c->edit(index);
+        } else {
+            c->editNew(text);
         }
     }
 }

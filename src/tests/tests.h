@@ -23,10 +23,9 @@
 #include <QObject>
 #include <QStringList>
 
+class RemoteProcess;
 class QProcess;
 class QByteArray;
-class QLocalServer;
-class QLocalSocket;
 
 /**
  * Tests for the application.
@@ -58,16 +57,11 @@ private:
     bool stopServer();
     bool isServerRunning();
 
-    /** Create clipboard monitor process if it doesn't exist. */
-    void startMonitorServer();
-
     /** Set clipboard through monitor process. */
     void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain"));
 
     QProcess *m_server;
-    QProcess *m_monitor;
-    QLocalServer *m_monitorServer;
-    QLocalSocket *m_monitorSocket;
+    RemoteProcess *m_monitor;
 };
 
 #endif // TESTS_H

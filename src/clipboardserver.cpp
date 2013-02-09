@@ -25,6 +25,7 @@
 #include "clipboardmonitor.h"
 #include "configurationmanager.h"
 #include "mainwindow.h"
+#include "remoteprocess.h"
 #include "scriptable.h"
 #include "../qt/bytearrayclass.h"
 
@@ -46,8 +47,6 @@ Q_DECLARE_METATYPE(QByteArray*)
 ClipboardServer::ClipboardServer(int &argc, char **argv)
     : App(argc, argv)
     , m_server(NULL)
-    , m_monitorserver(NULL)
-    , m_socket(NULL)
     , m_wnd(NULL)
     , m_monitor(NULL)
     , m_lastHash(0)
@@ -65,11 +64,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     m_wnd = new MainWindow;
 
     // listen
-    m_monitorserver = newServer( monitorServerName(), this );
     connect( m_server, SIGNAL(newConnection()),
              this, SLOT(newConnection()) );
-    connect( m_monitorserver, SIGNAL(newConnection()),
-             this, SLOT(newMonitorConnection()) );
 
     connect( m_wnd, SIGNAL(destroyed()),
              this, SLOT(quit()) );
@@ -99,9 +95,6 @@ ClipboardServer::~ClipboardServer()
 {
     if( isMonitoring() )
         stopMonitoring();
-
-    if (m_socket)
-        m_socket->disconnectFromServer();
 
     delete m_wnd;
 
@@ -137,80 +130,60 @@ void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
 
 void ClipboardServer::monitorStandardError()
 {
+    if (m_monitor == NULL)
+        return;
+
     log( tr("Clipboard Monitor: ") +
-            m_monitor->readAllStandardError(), LogError );
+         m_monitor->process().readAllStandardError(), LogError );
 }
 
 void ClipboardServer::stopMonitoring()
 {
+    if (m_monitor == NULL)
+        return;
+
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setValue("_last_hash", m_lastHash);
 
-    if (m_monitor) {
-        m_monitor->disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
+    m_monitor->process().disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
 
-        if ( m_monitor->state() != QProcess::NotRunning ) {
-            log( tr("Clipboard Monitor: Terminating") );
+    log( tr("Clipboard Monitor: Terminating") );
 
-            if (m_socket) {
-                m_socket->disconnectFromServer();
-                m_monitor->waitForFinished(1000);
-            }
+    delete m_monitor;
+    m_monitor = NULL;
 
-            if ( m_monitor->state() != QProcess::NotRunning ) {
-                log( tr("Clipboard Monitor: Command 'exit' unsucessful!"),
-                     LogError );
-                m_monitor->terminate();
-                m_monitor->waitForFinished(1000);
-
-                if ( m_monitor->state() != QProcess::NotRunning ) {
-                    log( tr("Clipboard Monitor: Cannot terminate process!"),
-                         LogError );
-                    m_monitor->kill();
-
-                    if ( m_monitor->state() != QProcess::NotRunning ) {
-                        log( tr("Clipboard Monitor: Cannot kill process!!!"),
-                             LogError );
-                    }
-                }
-            }
-        }
-
-        if ( m_monitor->state() == QProcess::NotRunning ) {
-            log( tr("Clipboard Monitor: Terminated") );
-        }
-
-        m_socket->deleteLater();
-        m_socket = NULL;
-        m_monitor->deleteLater();
-        m_monitor = NULL;
-    }
+    log( tr("Clipboard Monitor: Terminated") );
 }
 
 void ClipboardServer::startMonitoring()
 {
-    if ( !m_monitor ) {
-        m_monitor = new QProcess(this);
-        connect( m_monitor, SIGNAL(stateChanged(QProcess::ProcessState)),
+    if ( m_monitor == NULL ) {
+        m_monitor = new RemoteProcess(this);
+        connect( &m_monitor->process(), SIGNAL(stateChanged(QProcess::ProcessState)),
                  this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
-        connect( m_monitor, SIGNAL(readyReadStandardError()),
+        connect( &m_monitor->process(), SIGNAL(readyReadStandardError()),
                  this, SLOT(monitorStandardError()) );
-        m_monitor->start( QApplication::arguments().at(0),
-                          QStringList("monitor") << monitorServerName(),
-                          QProcess::ReadOnly );
-        if ( !m_monitor->waitForStarted(2000) ) {
+        connect( m_monitor, SIGNAL(newMessage(QByteArray)),
+                 this, SLOT(newMonitorMessage(QByteArray)) );
+        connect( m_monitor, SIGNAL(connectionError()),
+                 this, SLOT(monitorConnectionError()) );
+
+        m_monitor->start( monitorServerName(), QStringList("monitor") << monitorServerName() );
+        if ( !m_monitor->isConnected() ) {
             log( tr("Cannot start clipboard monitor!"), LogError );
-            m_monitor->deleteLater();
+            delete m_monitor;
             exit(10);
             return;
         }
+
+        loadMonitorSettings();
     }
     m_wnd->browser(0)->setAutoUpdate(true);
 }
 
 void ClipboardServer::loadMonitorSettings()
 {
-    if ( !m_socket || !m_socket->isWritable() )
+    if ( !isMonitoring() )
         return;
 
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -235,7 +208,12 @@ void ClipboardServer::loadMonitorSettings()
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << item;
-    writeMessage(m_socket, msg);
+    m_monitor->writeMessage(msg);
+}
+
+bool ClipboardServer::isMonitoring()
+{
+    return m_monitor != NULL && m_monitor->isConnected();
 }
 
 QString ClipboardServer::serverName()
@@ -280,57 +258,32 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
     writeMessage(client, msg);
 }
 
-void ClipboardServer::newMonitorConnection()
+void ClipboardServer::newMonitorMessage(const QByteArray &message)
 {
-    if (m_socket) {
-        m_socket->disconnectFromServer();
-        m_socket->deleteLater();
-        m_socket = NULL;
+    ClipboardItem item;
+    QDataStream in(message);
+    in >> item;
+    if ( m_lastHash != item.dataHash() ) {
+        m_lastHash = item.dataHash();
+        m_wnd->addToTab( item.data() );
     }
-
-    m_socket = m_monitorserver->nextPendingConnection();
-    connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(readyRead()) );
-
-    loadMonitorSettings();
 }
 
-void ClipboardServer::readyRead()
+void ClipboardServer::monitorConnectionError()
 {
-    m_socket->blockSignals(true);
-
-    while ( m_socket && m_socket->bytesAvailable() > 0 ) {
-        ClipboardItem item;
-        QByteArray msg;
-        if( !readMessage(m_socket, &msg) ) {
-            // something is wrong with the connection -> restart monitor
-            log( tr("Incorrect message from Clipboard Monitor."), LogError );
-            stopMonitoring();
-            startMonitoring();
-            return;
-        }
-
-        QDataStream in(&msg, QIODevice::ReadOnly);
-        in >> item;
-        if ( m_lastHash != item.dataHash() ) {
-            m_lastHash = item.dataHash();
-            m_wnd->addToTab( item.data() );
-        }
-    }
-
-    if (m_socket)
-        m_socket->blockSignals(false);
+    stopMonitoring();
+    startMonitoring();
 }
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)
 {
-    if ( !m_socket || !m_socket->isWritable() )
+    if ( !isMonitoring() )
         return;
 
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << *item;
-    writeMessage(m_socket, msg);
+    m_monitor->writeMessage(msg);
     m_lastHash = item->dataHash();
 }
 

@@ -38,6 +38,7 @@ HEADERS += \
     include/itemwidget.h \
     include/mainwindow.h \
     include/option.h \
+    include/remoteprocess.h \
     include/scriptable.h \
     include/shortcutdialog.h \
     include/tabbar.h \
@@ -70,6 +71,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     option.cpp \
+    remoteprocess.cpp \
     scriptable.cpp \
     shortcutdialog.cpp \
     tabbar.cpp \

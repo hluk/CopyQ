@@ -187,7 +187,7 @@ class MainWindow : public QMainWindow
         ClipboardBrowser *addTab(const QString &name);
 
         /** Create new item in current tab. */
-        void newItem();
+        void editNewItem();
         /** Paste items to current tab. */
         void pasteItems();
         /** Copy selected items in current tab. */

@@ -551,7 +551,7 @@ void ClipboardBrowser::moveToClipboard(int i)
     scrollTo( currentIndex() );
 }
 
-void ClipboardBrowser::newItem(const QString &text)
+void ClipboardBrowser::editNew(const QString &text)
 {
     add(text, true);
     selectionModel()->clearSelection();
@@ -645,10 +645,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             } else {
                 if (key == Qt::Key_Up) {
                     --row;
-                    d = -1;
                 } else if (key == Qt::Key_Down) {
                     ++row;
-                    d = 1;
                 } else {
                     if (key == Qt::Key_End) {
                         row = model()->rowCount() - 1;
@@ -727,7 +725,7 @@ ClipboardItem *ClipboardBrowser::at(int row) const
 void ClipboardBrowser::editSelected()
 {
     if ( selectedIndexes().size() > 1 ) {
-        newItem( selectedText() );
+        editNew( selectedText() );
     } else {
         QModelIndex ind = currentIndex();
         if ( ind.isValid() ) {

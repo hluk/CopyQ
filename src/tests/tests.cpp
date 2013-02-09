@@ -18,8 +18,10 @@
 */
 
 #include "tests.h"
+
 #include "client_server.h"
 #include "clipboarditem.h"
+#include "remoteprocess.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -33,6 +35,7 @@ using QTest::qSleep;
 
 #define VERIFY_SERVER_OUTPUT() \
 do {\
+    QVERIFY( isServerRunning() ); \
     QByteArray stdout = m_server->readAllStandardError(); \
     QVERIFY2( !stdout.contains("warning") && !stdout.contains("ERROR"), stdout ); \
 } while (0)
@@ -46,7 +49,6 @@ do {\
     QCOMPARE( stdoutActual.data(), stdoutExpected ); \
     QCOMPARE( stderrActual.data(), "" ); \
     VERIFY_SERVER_OUTPUT(); \
-    QVERIFY( isServerRunning() ); \
 } while (0)
 
 namespace {
@@ -66,8 +68,7 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"))
 {
     QApplication::processEvents();
     const QMimeData *data = QApplication::clipboard()->mimeData();
-    Q_ASSERT(data != NULL);
-    return data->data(mime);
+    return (data != NULL) ? data->data(mime) : QByteArray();
 }
 
 int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArray *stderrData = NULL,
@@ -121,8 +122,6 @@ Tests::Tests(QObject *parent)
     : QObject(parent)
     , m_server(NULL)
     , m_monitor(NULL)
-    , m_monitorServer(NULL)
-    , m_monitorSocket(NULL)
 {
 }
 
@@ -155,14 +154,7 @@ void Tests::cleanupTestCase()
         }
     }
 
-    delete m_monitorServer;
-    if (m_monitor != NULL) {
-        if ( !m_monitor->waitForFinished(1000) ) {
-            m_monitor->terminate();
-            if ( !m_monitor->waitForFinished(1000) )
-                m_monitor->kill();
-        }
-    }
+    delete m_monitor;
 }
 
 void Tests::init()
@@ -414,27 +406,15 @@ bool Tests::isServerRunning()
     return m_server != NULL && m_server->state() == QProcess::Running && ::run(Args("size")) == 0;
 }
 
-void Tests::startMonitorServer()
-{
-    if (m_monitor != NULL)
-        return;
-
-    const QString monitorServerName = "CopyQmonitorTest";
-    m_monitorServer = newServer(monitorServerName, m_monitor);
-
-    m_monitor = new QProcess(this);
-    m_monitor->start( QApplication::applicationFilePath(),
-                      QStringList("monitor") << monitorServerName );
-    QVERIFY( m_monitor->waitForStarted(2000) );
-
-    QVERIFY( m_monitorServer->waitForNewConnection(2000) );
-    m_monitorSocket = m_monitorServer->nextPendingConnection();
-}
-
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 {
-    if (m_monitorServer == NULL)
-        startMonitorServer();
+    if (m_monitor == NULL) {
+        m_monitor = new RemoteProcess();
+        const QString &name = serverName("CopyQmonitorTest");
+        m_monitor->start( name, QStringList("monitor") << name );
+    }
+
+    QVERIFY( m_monitor->isConnected() );
 
     // Create item.
     ClipboardItem item;
@@ -445,16 +425,12 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << item;
 
-    QVERIFY(m_monitorSocket != NULL);
-    QVERIFY(m_monitorSocket->isWritable());
-    writeMessage(m_monitorSocket, msg);
-    while ( m_monitorSocket->bytesToWrite() > 0 )
-        QVERIFY( m_monitorSocket->waitForBytesWritten() );
+    QVERIFY( m_monitor->writeMessage(msg) );
 
     qSleep(waitMsClipboard);
-    QVERIFY(m_monitor->state() == QProcess::Running);
-    QByteArray stderrData = m_monitor->readAllStandardError();
+    QVERIFY( m_monitor->isConnected() );
+    QByteArray stderrData = m_monitor->process().readAllStandardError();
     QVERIFY2(stderrData.isEmpty(), stderrData);
-    QByteArray stdoutData = m_monitor->readAllStandardOutput();
+    QByteArray stdoutData = m_monitor->process().readAllStandardOutput();
     QVERIFY2(stdoutData.isEmpty(), stdoutData);
 }

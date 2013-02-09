@@ -30,6 +30,7 @@ class Arguments;
 class ClipboardBrowser;
 class ClipboardItem;
 class MainWindow;
+class RemoteProcess;
 class QLocalServer;
 class QLocalSocket;
 class QxtGlobalShortcut;
@@ -86,9 +87,7 @@ public:
     void loadMonitorSettings();
 
     /** Return true if monitor is running. */
-    bool isMonitoring() {
-        return m_monitor && m_monitor->state() != QProcess::NotRunning;
-    }
+    bool isMonitoring();
 
     /** Socket name for server. */
     static QString serverName();
@@ -115,10 +114,8 @@ protected:
 
 private:
     QLocalServer *m_server;
-    QLocalServer *m_monitorserver;
-    QLocalSocket *m_socket;
     MainWindow* m_wnd;
-    QProcess *m_monitor;
+    RemoteProcess *m_monitor;
     uint m_lastHash;
     QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
 
@@ -133,11 +130,11 @@ private slots:
     /** A new client connected. */
     void newConnection();
 
-    /** New monitor connected. */
-    void newMonitorConnection();
+    /** New message from monitor process. */
+    void newMonitorMessage(const QByteArray &message);
 
-    /** Data can be received from monitor. */
-    void readyRead();
+    /** An error occurred on monitor connection. */
+    void monitorConnectionError();
 
     /** Monitor state changed. */
     void monitorStateChanged(QProcess::ProcessState newState);

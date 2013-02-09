@@ -64,6 +64,7 @@ set(copyq_MOCABLE
     src/include/itemdelegate.h
     src/include/itemeditor.h
     src/include/mainwindow.h
+    src/include/remoteprocess.h
     src/include/scriptable.h
     src/include/shortcutdialog.h
     src/include/tabbar.h
