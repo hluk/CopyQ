@@ -29,16 +29,8 @@ ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_clipboardList()
     , m_max(100)
-    , m_imageWidth(320)
-    , m_imageHeight(240)
-    , m_formats()
+    , m_sharedData(new ClipboardItemShared)
 {
-    m_formats << QString("image/x-inkscape-svg-compressed")
-              << QString("image/png")
-              << QString("image/bmp")
-              << QString("image/jpeg")
-              << QString("text/html")
-              << QString("text/plain");
 }
 
 ClipboardModel::~ClipboardModel()
@@ -49,7 +41,7 @@ ClipboardModel::~ClipboardModel()
 
 void ClipboardModel::setFormats(const QStringList &list)
 {
-    m_formats = list;
+    m_sharedData->formats = list;
 }
 
 int ClipboardModel::rowCount(const QModelIndex&) const
@@ -103,13 +95,7 @@ void ClipboardModel::previousFormat(int row)
 
 void ClipboardModel::setMaxImageSize(int width, int height)
 {
-    m_imageWidth = width;
-    m_imageHeight = height;
-}
-
-QSize ClipboardModel::maxImageSize() const
-{
-    return QSize(m_imageWidth, m_imageHeight);
+    m_sharedData->maxImageSize = QSize(width, height);
 }
 
 QMimeData *ClipboardModel::mimeDataInRow(int row) const
@@ -169,13 +155,14 @@ bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
     return false;
 }
 
-bool ClipboardModel::append(ClipboardItem *item)
+ClipboardItem *ClipboardModel::append()
 {
     int rows = rowCount();
+    ClipboardItem *item = new ClipboardItem(m_sharedData);
     beginInsertRows(emptyIndex, rows, rows);
     m_clipboardList.append(item);
     endInsertRows();
-    return true;
+    return item;
 }
 
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
@@ -184,7 +171,7 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
     beginInsertRows(emptyIndex, position, position+rows-1);
 
     for (int row = 0; row < rows; ++row) {
-        item = new ClipboardItem(this);
+        item = new ClipboardItem(m_sharedData);
         m_clipboardList.insert(position, item);
     }
 
@@ -360,9 +347,8 @@ QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
 
     ClipboardItem *item;
     for(int i = 0; i < length; ++i) {
-        item = new ClipboardItem(&model);
+        item = model.append();
         stream >> *item;
-        model.append(item);
     }
 
     return stream;

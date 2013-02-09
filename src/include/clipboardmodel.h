@@ -20,11 +20,12 @@
 #ifndef CLIPBOARDMODEL_H
 #define CLIPBOARDMODEL_H
 
+#include "clipboarditem.h"
+
 #include <QAbstractListModel>
 #include <QList>
 #include <QStringList>
 
-class ClipboardItem;
 class QMimeData;
 
 /**
@@ -80,7 +81,7 @@ public:
     bool setData(const QModelIndex &index, QMimeData *value);
 
     /** Append new item to model. */
-    bool append(ClipboardItem *item);
+    ClipboardItem *append();
 
     /**
      * Set maximum number of items in model.
@@ -140,9 +141,6 @@ public:
         return (row < rowCount()) ? m_clipboardList[row] : NULL;
     }
 
-    /** Return list of preferred MIME types for items (priority order). */
-    const QStringList &formats() const { return m_formats; }
-
     /** Set preferred MIME types for items (priority order). */
     void setFormats(const QStringList &list);
 
@@ -158,15 +156,10 @@ public:
     /** Set maximum size of pixmap displayed in items. */
     void setMaxImageSize(int width, int height);
 
-    /** Return maximum size of pixmap displayed in items. */
-    QSize maxImageSize() const;
-
 private:
     QList<ClipboardItem *> m_clipboardList;
     int m_max;
-    int m_imageWidth;
-    int m_imageHeight;
-    QStringList m_formats;
+    const ClipboardItemSharedPtr m_sharedData;
 };
 
 /**

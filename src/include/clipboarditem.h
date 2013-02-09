@@ -20,6 +20,8 @@
 #ifndef CLIPBOARDITEM_H
 #define CLIPBOARDITEM_H
 
+#include <QSharedPointer>
+#include <QSize>
 #include <QString>
 #include <QStringList>
 
@@ -27,6 +29,14 @@ class ClipboardModel;
 class QMimeData;
 class QPixmap;
 class QVariant;
+
+struct ClipboardItemShared {
+    ClipboardItemShared();
+
+    QStringList formats;
+    QSize maxImageSize;
+};
+typedef QSharedPointer<ClipboardItemShared> ClipboardItemSharedPtr;
 
 /**
  * Class for clipboard items in ClipboardModel.
@@ -40,7 +50,7 @@ class QVariant;
 class ClipboardItem
 {
 public:
-    explicit ClipboardItem(const ClipboardModel *parent = NULL);
+    explicit ClipboardItem(const ClipboardItemSharedPtr &sharedData = ClipboardItemSharedPtr());
     ~ClipboardItem();
 
     /** Compare with other item (using hash). */
@@ -103,7 +113,7 @@ public:
     uint dataHash() const { return m_hash; }
 
 private:
-    const ClipboardModel *m_parent;
+    const ClipboardItemSharedPtr m_sharedData;
     QMimeData *m_data;
     QString m_mimeType;
     uint m_hash;

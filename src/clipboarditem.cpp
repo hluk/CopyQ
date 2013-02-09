@@ -27,8 +27,21 @@
 #include <QPixmap>
 #include <QVariant>
 
-ClipboardItem::ClipboardItem(const ClipboardModel *parent)
-    : m_parent(parent)
+ClipboardItemShared::ClipboardItemShared()
+    : formats()
+    , maxImageSize()
+{
+    formats << QString("image/x-inkscape-svg-compressed")
+            << QString("image/png")
+            << QString("image/bmp")
+            << QString("image/jpeg")
+            << QString("text/html")
+            << QString("text/plain");
+    maxImageSize = QSize(320, 240);
+}
+
+ClipboardItem::ClipboardItem(const ClipboardItemSharedPtr &sharedData)
+    : m_sharedData(sharedData)
     , m_data(new QMimeData)
     , m_mimeType()
     , m_hash(0)
@@ -142,7 +155,7 @@ void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
         in >> *pix;
     }
 
-    QSize size = m_parent ? m_parent->maxImageSize() : QSize(320, 240);
+    QSize size = m_sharedData ? m_sharedData->maxImageSize : QSize(320, 240);
     const int w = size.width();
     const int h = size.height();
 
@@ -170,13 +183,13 @@ void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
 
 void ClipboardItem::setPreferredFormat()
 {
-    if ( !m_parent ) return;
+    if ( !m_sharedData ) return;
 
     // get right mime type -- default mime type is the first in the list
     m_mimeType = m_formats.isEmpty() ? QString("text/plain") : m_formats.first();
 
     // try formats
-    foreach (const QString &format, m_parent->formats()) {
+    foreach (const QString &format, m_sharedData->formats) {
         if( m_formats.contains(format) ) {
             m_mimeType = format;
             break;
