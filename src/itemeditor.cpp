@@ -85,7 +85,7 @@ bool ItemEditor::fileModified()
 
         // read text
         m_txt = m_tmpfile.seek(0);
-        m_txt = m_tmpfile.readAll().data();
+        m_txt = QString::fromLocal8Bit( m_tmpfile.readAll().data() );
 
         // new hash
         uint newhash = qHash(m_txt);
