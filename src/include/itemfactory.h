@@ -17,23 +17,31 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMIMAGE_H
-#define ITEMIMAGE_H
+#ifndef ITEMFACTORY_H
+#define ITEMFACTORY_H
 
-#include "itemwidget.h"
+#include <QVector>
 
-#include <QLabel>
+class ItemWidget;
+class ItemLoaderInterface;
+class QModelIndex;
+class QWidget;
 
-class ItemImage : public QLabel, public ItemWidget
+class ItemFactory
 {
-    Q_OBJECT
 public:
-    ItemImage(const QPixmap &pixmap, QWidget *parent);
+    /** Return singleton instance. */
+    static ItemFactory *instance();
 
-    QWidget *widget() { return this; }
+    static bool hasInstance() { return m_Instance != NULL; }
 
-protected:
-    virtual void updateSize();
+    ItemFactory();
+
+    ItemWidget *createItem(const QModelIndex &index, QWidget *parent) const;
+
+private:
+    static ItemFactory *m_Instance;
+    QVector<ItemLoaderInterface *> m_loaders;
 };
 
-#endif // ITEMIMAGE_H
+#endif // ITEMFACTORY_H

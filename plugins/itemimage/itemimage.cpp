@@ -19,12 +19,21 @@
 
 #include "itemimage.h"
 
-ItemImage::ItemImage(const QPixmap &pixmap, QWidget *parent)
+#include <QModelIndex>
+#include <QtPlugin>
+#include <QVariant>
+
+ItemImage::ItemImage(QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
 {
     setMargin(4);
-    setPixmap(pixmap);
+}
+
+void ItemImage::setData(const QModelIndex &index)
+{
+    const QVariant displayData = index.data(Qt::DisplayRole);
+    setPixmap(displayData.value<QPixmap>());
     adjustSize();
 
     updateSize();
@@ -35,3 +44,16 @@ void ItemImage::updateSize()
 {
     adjustSize();
 }
+
+ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent)
+{
+    const QVariant displayData = index.data(Qt::DisplayRole);
+    if ( !displayData.canConvert<QPixmap>() )
+        return NULL;
+
+    ItemWidget *item = new ItemImage(parent);
+    item->setData(index);
+    return item;
+}
+
+Q_EXPORT_PLUGIN2(itemimage, ItemImageLoader)

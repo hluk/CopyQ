@@ -22,8 +22,10 @@
 
 #include <QRegExp>
 #include <QSize>
+#include <QtPlugin>
 
 class QFont;
+class QModelIndex;
 class QPalette;
 class QWidget;
 
@@ -54,6 +56,21 @@ public:
      */
     virtual QWidget *widget() = 0;
 
+    /**
+     * Set data to display.
+     */
+    virtual void setData(const QModelIndex &index) = 0;
+
+    /**
+     * Create editor widget with given @a parent.
+     */
+    virtual QWidget *createEditor(QWidget *parent) const;
+
+    /**
+     * Set data for editor widget.
+     */
+    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+
 protected:
     /**
      * Highlight matching text with given font and color.
@@ -70,5 +87,31 @@ private:
     QRegExp m_re;
     QSize m_size;
 };
+
+class ItemLoaderInterface
+{
+public:
+    ItemLoaderInterface() : m_enabled(true) {}
+    virtual ~ItemLoaderInterface() {}
+
+    /**
+     * Create ItemWidget instance from index data.
+     *
+     * @return NULL if index hasn't appropriate data
+     */
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) = 0;
+
+    virtual QString name() const = 0;
+    virtual QString author() const = 0;
+    virtual QString description() const = 0;
+
+    void setEnabled(bool enabled) { m_enabled = enabled; }
+
+    bool isEnabled() const { return m_enabled; }
+private:
+    bool m_enabled;
+};
+
+Q_DECLARE_INTERFACE(ItemLoaderInterface, "org.CopyQ.ItemPlugin.ItemLoader/1.0")
 
 #endif // ITEMWIDGET_H

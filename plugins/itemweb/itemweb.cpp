@@ -17,19 +17,20 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifdef HAS_WEBKIT
-
 #include "itemweb.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QModelIndex>
 #include <QMouseEvent>
 #include <QPalette>
+#include <QtPlugin>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebHistory>
 #include <QtWebKit/QWebPage>
+#include <QVariant>
 
-ItemWeb::ItemWeb(const QString &html, QWidget *parent)
+ItemWeb::ItemWeb(QWidget *parent)
     : QWebView(parent)
     , ItemWidget(this)
 {
@@ -57,11 +58,6 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
              this, SLOT(onItemChanged()) );
 
-    setHtml(html);
-
-    updateSize();
-    updateItem();
-
     connect( frame, SIGNAL(loadFinished(bool)),
              this, SLOT(onItemChanged()) );
     connect( frame, SIGNAL(contentsSizeChanged(QSize)),
@@ -81,10 +77,19 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
         findText( re.pattern(), QWebPage::HighlightAllOccurrences );
 }
 
+void ItemWeb::setData(const QModelIndex &index)
+{
+    const QVariant displayData = index.data(Qt::DisplayRole);
+    const QString html = displayData.toString();
+    setHtml(html);
+
+    updateSize();
+    updateItem();
+}
+
 void ItemWeb::onItemChanged()
 {
     updateSize();
-    emit itemChanged(this);
 }
 
 void ItemWeb::updateSize()
@@ -125,4 +130,16 @@ void ItemWeb::wheelEvent(QWheelEvent *e)
     e->ignore();
 }
 
-#endif // HAS_WEBKIT
+ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent)
+{
+    const QVariant displayData = index.data(Qt::DisplayRole);
+    if ( displayData.type() != QVariant::String )
+        return NULL;
+
+    ItemWidget *item = new ItemWeb(parent);
+    item->setData(index);
+    return item;
+}
+
+Q_EXPORT_PLUGIN2(itemweb, ItemWebLoader)
+

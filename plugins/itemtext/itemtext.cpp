@@ -20,9 +20,11 @@
 #include "itemtext.h"
 
 #include <QContextMenuEvent>
+#include <QModelIndex>
 #include <QMouseEvent>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QtPlugin>
 
 namespace {
 
@@ -37,33 +39,45 @@ void init(QTextDocument &doc, const QFont &font)
 
 } // namespace
 
-ItemText::ItemText(const QString &text, Qt::TextFormat format, QWidget *parent)
+ItemText::ItemText(QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_searchTextDocument()
-    , m_textFormat(format)
+    , m_textFormat(Qt::PlainText)
 {
     init(m_textDocument, font());
     init(m_searchTextDocument, font());
 
-    setDocument(&m_textDocument);
     setUndoRedoEnabled(false);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
 
-    if (m_textFormat == Qt::PlainText)
-        m_textDocument.setPlainText( text.left(maxChars) );
-    else
+    // Selecting text copies it to clipboard.
+    connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
+}
+
+void ItemText::setData(const QModelIndex &index)
+{
+    const QVariant displayData = index.data(Qt::DisplayRole);
+
+    bool hasHtml = displayData.type() == QVariant::String;
+    const QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
+
+    if (hasHtml) {
+        m_textFormat = Qt::RichText;
         m_textDocument.setHtml( text.left(maxChars) );
+    } else {
+        m_textFormat = Qt::PlainText;
+        m_textDocument.setPlainText( text.left(maxChars) );
+    }
+
+    setDocument(&m_textDocument);
 
     updateSize();
     updateItem();
-
-    // Selecting text copies it to clipboard.
-    connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
@@ -133,3 +147,12 @@ void ItemText::contextMenuEvent(QContextMenuEvent *e)
 {
     e->ignore();
 }
+
+ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent)
+{
+    ItemText *item = new ItemText(parent);
+    item->setData(index);
+    return item;
+}
+
+Q_EXPORT_PLUGIN2(itemtext, ItemTextLoader)

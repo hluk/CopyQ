@@ -33,8 +33,7 @@ HEADERS += \
     include/iconfactory.h \
     include/itemdelegate.h \
     include/itemeditor.h \
-    include/itemimage.h \
-    include/itemtext.h \
+    include/itemfactory.h \
     include/itemwidget.h \
     include/mainwindow.h \
     include/option.h \
@@ -65,8 +64,7 @@ SOURCES += \
     iconfactory.cpp \
     itemdelegate.cpp \
     itemeditor.cpp \
-    itemimage.cpp \
-    itemtext.cpp \
+    itemfactory.cpp \
     itemwidget.cpp \
     main.cpp \
     mainwindow.cpp \
@@ -88,19 +86,6 @@ debug {
     QT += testlib
     SOURCES += tests/tests.cpp
     HEADERS += tests/tests.h
-}
-
-WITH_WEBKIT {
-    SOURCES += itemweb.cpp
-    HEADERS += include/itemweb.h
-    DEFINES += HAS_WEBKIT
-
-    lessThan(QT_MAJOR_VERSION, 5) {
-        QT += webkit
-    }
-    !lessThan(QT_MAJOR_VERSION, 5) {
-        QT += webkitwidgets
-    }
 }
 
 lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
@@ -129,4 +114,3 @@ win32 {
     LIBS    += -luser32
     RC_FILE  = copyq.rc
 }
-

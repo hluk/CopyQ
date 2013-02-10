@@ -26,12 +26,12 @@
 #include <QSystemTrayIcon>
 
 class AboutDialog;
+class Action;
+class ActionDialog;
 class ClipboardBrowser;
 class ClipboardBrowserShared;
 class ClipboardItem;
 class Command;
-class Action;
-class ActionDialog;
 class QMimeData;
 
 namespace Ui

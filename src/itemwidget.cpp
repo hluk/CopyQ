@@ -20,7 +20,9 @@
 #include "itemwidget.h"
 
 #include <QFont>
+#include <QModelIndex>
 #include <QPalette>
+#include <QPlainTextEdit>
 #include <QWidget>
 
 ItemWidget::ItemWidget(QWidget *widget)
@@ -68,4 +70,19 @@ void ItemWidget::setMaximumSize(const QSize &size)
 void ItemWidget::updateItem()
 {
     m_size = widget()->size();
+}
+
+QWidget *ItemWidget::createEditor(QWidget *parent) const
+{
+    return new QPlainTextEdit(parent);
+}
+
+void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    QString text = index.data(Qt::EditRole).toString();
+    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
+    if (textEdit != NULL) {
+        textEdit->setPlainText(text);
+        textEdit->selectAll();
+    }
 }

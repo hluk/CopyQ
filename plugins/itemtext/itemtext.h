@@ -17,24 +17,30 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMWEB_H
-#define ITEMWEB_H
+#ifndef ITEMTEXT_H
+#define ITEMTEXT_H
 
 #include "itemwidget.h"
 
-#include <QtWebKit/QWebView>
+#include <QTextDocument>
+#include <QTextEdit>
 
-class ItemWeb : public QWebView, public ItemWidget
+class QPaintEvent;
+
+class ItemText : public QTextEdit, public ItemWidget
 {
     Q_OBJECT
+
 public:
-    ItemWeb(const QString &html, QWidget *parent);
+    ItemText(QWidget *parent);
 
     QWidget *widget() { return this; }
 
+    virtual void setData(const QModelIndex &index);
+
 protected:
-    void highlight(const QRegExp &re, const QFont &highlightFont,
-                   const QPalette &highlightPalette);
+    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette);
 
     virtual void updateSize();
 
@@ -44,16 +50,23 @@ protected:
 
     virtual void contextMenuEvent(QContextMenuEvent *e);
 
-    virtual void wheelEvent(QWheelEvent *e);
-
-private slots:
-    void copy();
-
-signals:
-    void itemChanged(ItemWidget *self);
-
-private slots:
-    void onItemChanged();
+private:
+    QTextDocument m_textDocument;
+    QTextDocument m_searchTextDocument;
+    Qt::TextFormat m_textFormat;
 };
 
-#endif // ITEMWEB_H
+class ItemTextLoader : public QObject, public ItemLoaderInterface
+{
+    Q_OBJECT
+    Q_INTERFACES(ItemLoaderInterface)
+
+public:
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent);
+
+    virtual QString name() const { return tr("Text Items"); }
+    virtual QString author() const { return tr("Lukas Holecek"); }
+    virtual QString description() const { return tr("Display plain text and simple HTML items."); }
+};
+
+#endif // ITEMTEXT_H

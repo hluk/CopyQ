@@ -1,3 +1,4 @@
 TEMPLATE=subdirs
-SUBDIRS+=src
+SUBDIRS += src \
+           plugins
 TRANSLATIONS=translations/copyq_cs.ts

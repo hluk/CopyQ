@@ -20,16 +20,13 @@
 #include "itemdelegate.h"
 
 #include "client_server.h"
-#include "itemimage.h"
-#include "itemtext.h"
-#ifdef HAS_WEBKIT
-#   include "itemweb.h"
-#endif
+#include "itemfactory.h"
 #include "itemwidget.h"
 
 #include <QMenu>
 #include <QPainter>
 #include <QPlainTextEdit>
+#include <QResizeEvent>
 
 const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
@@ -73,74 +70,95 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
 {
-    QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>(object);
-    if (object == NULL)
-        return false;
+    if (object->objectName() == "editor") {
+        QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>(object);
+        if (editor == NULL)
+            return false;
 
-    QEvent::Type type = event->type();
-    if ( type == QEvent::KeyPress ) {
-        QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
-        switch ( keyevent->key() ) {
-            case Qt::Key_Enter:
-            case Qt::Key_Return:
-                // Commit data on Ctrl+Return or Enter?
-                if (m_saveOnReturnKey) {
-                    if (keyevent->modifiers() == Qt::ControlModifier) {
-                        editor->insertPlainText("\n");
-                        return true;
-                    } else if (keyevent->modifiers() != Qt::NoModifier) {
-                        return false;
+        QEvent::Type type = event->type();
+        if ( type == QEvent::KeyPress ) {
+            QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
+            switch ( keyevent->key() ) {
+                case Qt::Key_Enter:
+                case Qt::Key_Return:
+                    // Commit data on Ctrl+Return or Enter?
+                    if (m_saveOnReturnKey) {
+                        if (keyevent->modifiers() == Qt::ControlModifier) {
+                            editor->insertPlainText("\n");
+                            return true;
+                        } else if (keyevent->modifiers() != Qt::NoModifier) {
+                            return false;
+                        }
+                    } else {
+                        if (keyevent->modifiers() != Qt::ControlModifier)
+                            return false;
                     }
-                } else {
+                    emit commitData(editor);
+                    emit closeEditor(editor);
+                    return true;
+                case Qt::Key_S:
+                    // Commit data on Ctrl+S.
                     if (keyevent->modifiers() != Qt::ControlModifier)
                         return false;
-                }
-                emit commitData(editor);
-                emit closeEditor(editor);
-                return true;
-            case Qt::Key_S:
-                // Commit data on Ctrl+S.
-                if (keyevent->modifiers() != Qt::ControlModifier)
+                    emit commitData(editor);
+                    emit closeEditor(editor);
+                    return true;
+                case Qt::Key_F2:
+                    // Commit data on F2.
+                    emit commitData(editor);
+                    emit closeEditor(editor);
+                    return true;
+                case Qt::Key_Escape:
+                    // Close editor without committing data.
+                    emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
+                    return true;
+                default:
                     return false;
-                emit commitData(editor);
-                emit closeEditor(editor);
-                return true;
-            case Qt::Key_F2:
-                // Commit data on F2.
-                emit commitData(editor);
-                emit closeEditor(editor);
-                return true;
-            case Qt::Key_Escape:
-                // Close editor without committing data.
-                emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
-                return true;
-            default:
-                return false;
+            }
+        } else if ( type == QEvent::ContextMenu ) {
+            QAction *act;
+            QMenu *menu = editor->createStandardContextMenu();
+            connect( menu, SIGNAL(aboutToHide()), menu, SLOT(deleteLater()) );
+            menu->setParent(editor);
+
+            act = menu->addAction( tr("&Save Item") );
+            act->setShortcut( QKeySequence(tr("F2, Ctrl+Enter")) );
+            connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
+
+            act = menu->addAction( tr("Cancel Editing") );
+            act->setShortcut( QKeySequence(tr("Escape")) );
+            connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
+
+            QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
+            menu->popup( menuEvent->globalPos() );
         }
-    } else if ( type == QEvent::ContextMenu ) {
-        QAction *act;
-        QMenu *menu = editor->createStandardContextMenu();
-        connect( menu, SIGNAL(aboutToHide()), menu, SLOT(deleteLater()) );
-        menu->setParent(editor);
-
-        act = menu->addAction( tr("&Save Item") );
-        act->setShortcut( QKeySequence(tr("F2, Ctrl+Enter")) );
-        connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
-
-        act = menu->addAction( tr("Cancel Editing") );
-        act->setShortcut( QKeySequence(tr("Escape")) );
-        connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
-
-        QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
-        menu->popup( menuEvent->globalPos() );
+    } else {
+        // resize event for items
+        if (event->type() == QEvent::Resize) {
+            QResizeEvent *resize = static_cast<QResizeEvent *>(event);
+            ItemWidget *item = dynamic_cast<ItemWidget *>(object);
+            if (item != NULL) {
+                item->widget()->resize(resize->size());
+                onItemChanged(item);
+                return true;
+            }
+        }
     }
 
     return false;
 }
 
-QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option, const QModelIndex &) const
+QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+                                    const QModelIndex &index) const
 {
-    QPlainTextEdit *editor = new QPlainTextEdit(parent);
+    ItemWidget *w = m_cache[index.row()];
+    if ( w == NULL)
+        return NULL;
+
+    QWidget *editor = w->createEditor(parent);
+    if (editor == NULL)
+        return NULL;
+
     editor->setPalette(m_editorPalette);
     editor->setFont(m_editorFont);
     editor->setObjectName("editor");
@@ -161,13 +179,11 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     return editor;
 }
 
-void ItemDelegate::setEditorData(QWidget *editor,
-                                 const QModelIndex &index) const
+void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString text = index.data(Qt::EditRole).toString();
-    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
-    textEdit->setPlainText(text);
-    textEdit->selectAll();
+    ItemWidget *w = m_cache[index.row()];
+    if ( w != NULL)
+        w->setEditorData(editor, index);
 }
 
 void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
@@ -269,35 +285,16 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     if (w != NULL)
         return w;
 
-    const QVariant displayData = index.data(Qt::DisplayRole);
-
-    // Create item from image, html or text data.
-    if ( displayData.canConvert<QPixmap>() ) {
-        w = new ItemImage(displayData.value<QPixmap>(), m_parent);
-    } else {
-        bool hasHtml = displayData.type() == QVariant::String;
-        const QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
-
-        if (hasHtml) {
-#ifdef HAS_WEBKIT
-            if (m_useWeb) {
-                w = new ItemWeb(text, m_parent);
-                connect( w->widget(), SIGNAL(itemChanged(ItemWidget*)),
-                         this, SLOT(onItemChanged(ItemWidget*)) );
-            }
-            else
-#endif
-            {
-                w = new ItemText(text, Qt::RichText, m_parent);
-            }
-        } else {
-            w = new ItemText(text, Qt::PlainText, m_parent);
-        }
-    }
+    w = ItemFactory::instance()->createItem(index, m_parent);
+    if (w == NULL)
+        return NULL;
 
     w->setMaximumSize(m_maxSize);
+    w->setData(index);
     m_cache[n] = w;
     emit sizeHintChanged(index);
+
+    w->widget()->installEventFilter(this);
 
     return w;
 }
@@ -408,9 +405,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
     int row = index.row();
-    ItemWidget *w = m_cache[row];
-    if (w == NULL)
-        return;
 
     const QRect &rect = option.rect;
 
@@ -434,14 +428,17 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                        true, num );
     }
 
-    /* highlight search string */
-    w->setHighlight(m_re, m_foundFont, m_foundPalette);
+    ItemWidget *w = m_cache[row];
+    if (w != NULL) {
+        /* highlight search string */
+        w->setHighlight(m_re, m_foundFont, m_foundPalette);
 
-    /* text color for selected/unselected item */
-    QPalette palette = w->widget()->palette();
-    palette.setColor( QPalette::Text, option.palette.color(role) );
-    w->widget()->setPalette(palette);
+        /* text color for selected/unselected item */
+        QPalette palette = w->widget()->palette();
+        palette.setColor( QPalette::Text, option.palette.color(role) );
+        w->widget()->setPalette(palette);
 
-    /* render widget */
-    w->widget()->show();
+        /* render widget */
+        w->widget()->show();
+    }
 }
