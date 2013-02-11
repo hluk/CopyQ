@@ -91,25 +91,49 @@ private:
 class ItemLoaderInterface
 {
 public:
-    ItemLoaderInterface() : m_enabled(true) {}
     virtual ~ItemLoaderInterface() {}
+
+    /**
+     * Return list of MIME types for given item.
+     */
+    static QStringList getFormats(const QModelIndex &index);
+
+    /**
+     * Return data for format on given index.
+     */
+    static QByteArray getData(int formatIndex, const QModelIndex &index);
+
+    /**
+     * Return priority.
+     *
+     * Use this loader before all others with lower priority.
+     */
+    virtual int priority() const { return 0; }
 
     /**
      * Create ItemWidget instance from index data.
      *
      * @return NULL if index hasn't appropriate data
      */
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) = 0;
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const = 0;
 
+    /**
+     * Return descriptive name.
+     */
     virtual QString name() const = 0;
+
+    /**
+     * Return author's name.
+     */
     virtual QString author() const = 0;
+
+    /**
+     * Return plugin description.
+     */
     virtual QString description() const = 0;
 
-    void setEnabled(bool enabled) { m_enabled = enabled; }
-
-    bool isEnabled() const { return m_enabled; }
-private:
-    bool m_enabled;
+    // TODO: Provide formats to save (possibly configurable).
+    // QStringList formatsToSave() const;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, "org.CopyQ.ItemPlugin.ItemLoader/1.0")

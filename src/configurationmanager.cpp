@@ -160,11 +160,6 @@ ConfigurationManager::ConfigurationManager()
     ui->checkBoxSel->hide();
     ui->checkBoxCopyClip->hide();
 #endif
-#ifdef HAS_WEBKIT
-    m_options["web"] = Option(true, "checked", ui->checkBoxWeb);
-#else
-    ui->checkBoxWeb->hide();
-#endif
 
     // values of last submitted action
     m_options["action_has_input"]  = Option(false);
@@ -437,10 +432,6 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     color.setNamedColor( m_theme["num_fg"].value().toString() );
     p.setColor(QPalette::Text, color);
     d->setNumberStyle(font, p);
-
-#ifdef HAS_WEBKIT
-    d->setUseWeb( ui->checkBoxWeb->isChecked() );
-#endif
 
     c->redraw();
 }

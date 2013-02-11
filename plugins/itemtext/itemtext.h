@@ -38,6 +38,10 @@ public:
 
     virtual void setData(const QModelIndex &index);
 
+    void setRichTextData(const QString &text);
+
+    void setTextData(const QString &text);
+
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette);
@@ -62,7 +66,7 @@ class ItemTextLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent);
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual QString name() const { return tr("Text Items"); }
     virtual QString author() const { return tr("Lukas Holecek"); }

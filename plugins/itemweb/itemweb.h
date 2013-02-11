@@ -35,6 +35,8 @@ public:
 
     virtual void setData(const QModelIndex &index);
 
+    void setHtmlData(const QString &html);
+
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                    const QPalette &highlightPalette);
@@ -62,7 +64,9 @@ class ItemWebLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent);
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
+
+    virtual int priority() const { return 10; }
 
     virtual QString name() const { return tr("Web Items"); }
     virtual QString author() const { return tr("Lukas Holecek"); }

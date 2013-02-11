@@ -35,6 +35,8 @@ public:
 
     virtual void setData(const QModelIndex &index);
 
+    void setLabelPixmap(const QPixmap &pix);
+
 protected:
     virtual void updateSize();
 };
@@ -45,7 +47,9 @@ class ItemImageLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent);
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
+
+    virtual int priority() const { return 10; }
 
     virtual QString name() const { return tr("Image Items"); }
     virtual QString author() const { return tr("Lukas Holecek"); }

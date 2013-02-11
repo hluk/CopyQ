@@ -22,22 +22,13 @@
 #include "client_server.h"
 #include "clipboardmodel.h"
 
-#include <QImage>
 #include <QMimeData>
-#include <QPixmap>
 #include <QVariant>
 
 ClipboardItemShared::ClipboardItemShared()
     : formats()
     , maxImageSize()
 {
-    formats << QString("image/x-inkscape-svg-compressed")
-            << QString("image/png")
-            << QString("image/bmp")
-            << QString("image/jpeg")
-            << QString("text/html")
-            << QString("text/plain");
-    maxImageSize = QSize(320, 240);
 }
 
 ClipboardItem::ClipboardItem(const ClipboardItemSharedPtr &sharedData)
@@ -109,76 +100,20 @@ QString ClipboardItem::text() const
 
 QVariant ClipboardItem::data(int role) const
 {
-    if (role == Qt::DisplayRole) {
-        if ( m_mimeType.startsWith(QString("image")) ) {
-            QPixmap pix;
-            pixmap(&pix, m_mimeType);
-            return pix;
-        } else if ( m_data->hasImage() ) {
-            QPixmap pix;
-            pixmap(&pix);
-            return pix;
-        } else if ( m_mimeType.endsWith("html") ) {
-            return html();
-        }
-    } else if (role == Qt::EditRole) {
+    if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if ( m_data->hasText() )
             return text();
         else if ( m_mimeType.startsWith("text") )
             return QString::fromLocal8Bit( m_data->data(m_mimeType) );
+    } else if (role == Qt::SizeHintRole) {
+        return m_sharedData->maxImageSize;
     } else if (role == Qt::UserRole) {
-        return format();
+        return formats();
+    } else if (role > Qt::UserRole) {
+        return m_data->data( formats().value(role - Qt::UserRole - 1) );
     }
 
     return QVariant();
-}
-
-QString ClipboardItem::html() const
-{
-    if ( m_mimeType.endsWith("html") ) {
-        QString text = m_data->html();
-        // Remove trailing null character.
-        if ( text.endsWith(QChar(0)) )
-            text.resize(text.size() - 1);
-        return text;
-    } else {
-        return escapeHtml( text() );
-    }
-}
-
-void ClipboardItem::pixmap(QPixmap *pix, const QString &mimeType) const
-{
-    QByteArray data = m_data->data("image/x-copyq-thumbnail");
-
-    if (!data.isEmpty()) {
-        QDataStream in(&data, QIODevice::ReadOnly);
-        in >> *pix;
-    }
-
-    QSize size = m_sharedData ? m_sharedData->maxImageSize : QSize(320, 240);
-    const int w = size.width();
-    const int h = size.height();
-
-    if ( data.isEmpty() ||
-         (w > 0 && pix->width() != w) ||
-         (h > 0 && pix->height() != h) )
-    {
-        if ( mimeType.isEmpty() )
-            pix->fromImage( m_data->imageData().value<QImage>() );
-        else
-            pix->loadFromData( m_data->data(mimeType), mimeType.toLatin1() );
-
-        if ( w > 0 && pix->width() > w && (h <= 0 || pix->width()/w > pix->height()/h) ) {
-            *pix = pix->scaledToWidth(w);
-        } else if (h > 0 && pix->height() > h) {
-            *pix = pix->scaledToHeight(h);
-        }
-
-        data.clear();
-        QDataStream out(&data, QIODevice::WriteOnly);
-        out << *pix;
-        m_data->setData("image/x-copyq-thumbnail", data);
-    }
 }
 
 void ClipboardItem::setPreferredFormat()

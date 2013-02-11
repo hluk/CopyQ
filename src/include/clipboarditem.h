@@ -27,7 +27,6 @@
 
 class ClipboardModel;
 class QMimeData;
-class QPixmap;
 class QVariant;
 
 struct ClipboardItemShared {
@@ -62,16 +61,6 @@ public:
     QString text() const;
     /** Return item's HTML text. */
     QString html() const;
-
-    /**
-     * Get item's pixmap.
-     *
-     * Pixmap is scaled to fit in parent's ClipboardModel::maxImageSize().
-     */
-    void pixmap(
-            QPixmap *pixmap, //!< Pointer to store the pixmap.
-            const QString &mimeType = QString() //!< Image MIME type.
-            ) const;
 
     /** Clear item's data */
     void clear();

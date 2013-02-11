@@ -29,6 +29,15 @@
 #include <QMutexLocker>
 #include <QPluginLoader>
 
+namespace {
+
+bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs)
+{
+    return lhs->priority() > rhs->priority();
+}
+
+} // namespace
+
 // singleton
 ItemFactory* ItemFactory::m_Instance = 0;
 
@@ -49,7 +58,7 @@ ItemFactory::ItemFactory()
 {
     QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
 #if defined(Q_WS_X11)
-    if ( pluginsDir.dirName().startsWith("bin") ) {
+    if ( pluginsDir.dirName() == QString("bin") ) {
         pluginsDir.cdUp();
         pluginsDir.cd("lib");
         pluginsDir.cd("copyq");
@@ -76,20 +85,20 @@ ItemFactory::ItemFactory()
                     m_loaders.append(loader);
             }
         }
+
+        qSort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
     }
 
     if ( m_loaders.isEmpty() )
-        log( QObject::tr("No plugins loaded! Items won't be visible."), LogWarning );
+        log( QObject::tr("No plugins loaded!"), LogWarning );
 }
 
 ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent) const
 {
     foreach (ItemLoaderInterface *loader, m_loaders) {
-        if ( loader->isEnabled() ) {
-            ItemWidget *item = loader->create(index, parent);
-            if (item != NULL)
-                return item;
-        }
+        ItemWidget *item = loader->create(index, parent);
+        if (item != NULL)
+            return item;
     }
 
     return NULL;

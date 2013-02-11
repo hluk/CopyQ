@@ -45,9 +45,6 @@ ItemDelegate::ItemDelegate(QWidget *parent)
     , m_numberFont()
     , m_numberPalette()
     , m_cache()
-#ifdef HAS_WEBKIT
-    , m_useWeb(true)
-#endif
 {
 }
 

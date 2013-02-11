@@ -1,6 +1,8 @@
 project(copyq)
 
+OPTION(WITH_QT5 "Qt5 support" OFF)
 OPTION(WITH_TESTS "Run test cases from command line" OFF)
+OPTION(WITH_PLUGINS "Compile plugins" ON)
 
 if (WITH_QT5)
     cmake_minimum_required(VERSION 2.8.8)
@@ -23,8 +25,6 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(WITH_TESTS ON)
 endif()
 
-add_subdirectory(src)
-
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     install(FILES ${copyq_ICON} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons" RENAME copyq.svg)
     install(FILES ${copyq_DESKTOP} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
@@ -33,5 +33,9 @@ else()
     set(COPYQ_PLUGIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/plugins")
 endif()
 
-add_subdirectory(plugins)
+add_subdirectory(src)
+
+if (WITH_PLUGINS)
+    add_subdirectory(plugins)
+endif()
 

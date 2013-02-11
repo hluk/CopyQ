@@ -22,6 +22,7 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QTextCodec>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QtPlugin>
@@ -35,6 +36,41 @@ void init(QTextDocument &doc, const QFont &font)
 {
     doc.setDefaultFont(font);
     doc.setUndoRedoEnabled(false);
+}
+
+void textFromBytes(const QByteArray &bytes, QString *text)
+{
+    QTextCodec *codec = QTextCodec::codecForHtml(bytes, QTextCodec::codecForLocale());
+    *text = codec->toUnicode(bytes);
+}
+
+bool getRichText(const QModelIndex &index, const QStringList &formats, QString *text)
+{
+    int i = formats.indexOf("text/html");
+    if (i == -1) {
+        i = formats.indexOf("text/richtext");
+        if (i == -1)
+            return false;
+    }
+
+    textFromBytes(ItemLoaderInterface::getData(i, index), text);
+
+    // Remove trailing null character.
+    if ( text->endsWith(QChar(0)) )
+        text->resize(text->size() - 1);
+
+    return true;
+}
+
+bool getText(const QModelIndex &index, const QStringList &formats, QString *text)
+{
+    int i = formats.indexOf("text/plain");
+    if (i == -1)
+        return false;
+
+    textFromBytes(ItemLoaderInterface::getData(i, index), text);
+
+    return true;
 }
 
 } // namespace
@@ -61,21 +97,30 @@ ItemText::ItemText(QWidget *parent)
 
 void ItemText::setData(const QModelIndex &index)
 {
-    const QVariant displayData = index.data(Qt::DisplayRole);
-
-    bool hasHtml = displayData.type() == QVariant::String;
-    const QString text = hasHtml ? displayData.toString() : index.data(Qt::EditRole).toString();
-
-    if (hasHtml) {
-        m_textFormat = Qt::RichText;
-        m_textDocument.setHtml( text.left(maxChars) );
+    const QStringList formats = ItemLoaderInterface::getFormats(index);
+    QString text;
+    if ( getRichText(index, formats, &text) ) {
+        setRichTextData(text);
     } else {
-        m_textFormat = Qt::PlainText;
-        m_textDocument.setPlainText( text.left(maxChars) );
+        getText(index, formats, &text);
+        setTextData(text);
     }
+}
 
+void ItemText::setRichTextData(const QString &text)
+{
+    m_textFormat = Qt::RichText;
+    m_textDocument.setHtml( text.left(maxChars) );
     setDocument(&m_textDocument);
+    updateSize();
+    updateItem();
+}
 
+void ItemText::setTextData(const QString &text)
+{
+    m_textFormat = Qt::PlainText;
+    m_textDocument.setPlainText( text.left(maxChars) );
+    setDocument(&m_textDocument);
     updateSize();
     updateItem();
 }
@@ -148,10 +193,20 @@ void ItemText::contextMenuEvent(QContextMenuEvent *e)
     e->ignore();
 }
 
-ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent)
+ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    ItemText *item = new ItemText(parent);
-    item->setData(index);
+    const QStringList formats = getFormats(index);
+
+    ItemText *item = NULL;
+    QString text;
+    if ( getRichText(index, formats, &text) ) {
+        item = new ItemText(parent);
+        item->setRichTextData(text);
+    } else if ( getText(index, formats, &text) ) {
+        item = new ItemText(parent);
+        item->setTextData(text);
+    }
+
     return item;
 }
 

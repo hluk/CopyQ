@@ -24,11 +24,33 @@
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QPalette>
+#include <QTextCodec>
 #include <QtPlugin>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebHistory>
 #include <QtWebKit/QWebPage>
 #include <QVariant>
+
+namespace {
+
+bool getHtml(const QModelIndex &index, const QStringList &formats, QString *text)
+{
+    int i = formats.indexOf("text/html");
+    if (i == -1)
+        return false;
+
+    QByteArray bytes = ItemLoaderInterface::getData(i, index);
+    QTextCodec *codec = QTextCodec::codecForHtml(bytes, QTextCodec::codecForLocale());
+    *text = codec->toUnicode(bytes);
+
+    // Remove trailing null character.
+    if ( text->endsWith(QChar(0)) )
+        text->resize(text->size() - 1);
+
+    return true;
+}
+
+} // namespace
 
 ItemWeb::ItemWeb(QWidget *parent)
     : QWebView(parent)
@@ -79,10 +101,16 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
 
 void ItemWeb::setData(const QModelIndex &index)
 {
-    const QVariant displayData = index.data(Qt::DisplayRole);
-    const QString html = displayData.toString();
-    setHtml(html);
+    const QStringList formats = ItemLoaderInterface::getFormats(index);
 
+    QString html;
+    getHtml(index, formats, &html);
+    setHtmlData(html);
+}
+
+void ItemWeb::setHtmlData(const QString &html)
+{
+    setHtml(html);
     updateSize();
     updateItem();
 }
@@ -130,16 +158,17 @@ void ItemWeb::wheelEvent(QWheelEvent *e)
     e->ignore();
 }
 
-ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent)
+ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QVariant displayData = index.data(Qt::DisplayRole);
-    if ( displayData.type() != QVariant::String )
+    const QStringList formats = getFormats(index);
+
+    QString html;
+    if ( !getHtml(index, formats, &html) )
         return NULL;
 
-    ItemWidget *item = new ItemWeb(parent);
-    item->setData(index);
+    ItemWeb *item = new ItemWeb(parent);
+    item->setHtmlData(html);
     return item;
 }
 
 Q_EXPORT_PLUGIN2(itemweb, ItemWebLoader)
-

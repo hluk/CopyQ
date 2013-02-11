@@ -71,11 +71,6 @@ class ItemDelegate : public QItemDelegate
         /** Search highlight style. */
         void setSearchStyle(const QFont &font, const QPalette &palette);
 
-#ifdef HAS_WEBKIT
-        /** Use WebKit to render HTML. */
-        void setUseWeb(bool useWeb) { m_useWeb = useWeb; }
-#endif
-
         /** Editor widget style. */
         void setEditorStyle(const QFont &font, const QPalette &palette);
 
@@ -129,10 +124,6 @@ class ItemDelegate : public QItemDelegate
 
         // items drawn using QTextDocument
         QList<ItemWidget*> m_cache;
-
-#ifdef HAS_WEBKIT
-        bool m_useWeb;
-#endif
 
         /** Remove cached item for given @a row. */
         void removeCache(int row);
