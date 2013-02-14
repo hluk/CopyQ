@@ -1,5 +1,6 @@
 TEMPLATE = subdirs
 SUBDIRS  = itemtext \
            itemimage \
-           itemweb
+           itemweb \
+           itemdata
 

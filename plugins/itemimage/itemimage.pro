@@ -8,3 +8,6 @@ SOURCES      = itemimage.cpp \
 TARGET       = $$qtLibraryTarget(itemimage)
 DESTDIR      = ../
 
+FORMS += \
+    itemimagesettings.ui
+

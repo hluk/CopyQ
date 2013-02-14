@@ -35,6 +35,7 @@ set(copyq_MOCABLE
     include/itemdelegate.h
     include/itemeditor.h
     include/mainwindow.h
+    include/pluginwidget.h
     include/remoteprocess.h
     include/scriptable.h
     include/shortcutdialog.h

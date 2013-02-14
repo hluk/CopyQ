@@ -10,6 +10,7 @@ FORMS += \
     ui/aboutdialog.ui \
     ui/configurationmanager.ui \
     ui/clipboarddialog.ui \
+    ui/pluginwidget.ui \
     ui/tabdialog.ui \
     ui/shortcutdialog.ui \
     ui/commandwidget.ui
@@ -37,6 +38,7 @@ HEADERS += \
     include/itemwidget.h \
     include/mainwindow.h \
     include/option.h \
+    include/pluginwidget.h \
     include/remoteprocess.h \
     include/scriptable.h \
     include/shortcutdialog.h \
@@ -69,6 +71,7 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     option.cpp \
+    pluginwidget.cpp \
     remoteprocess.cpp \
     scriptable.cpp \
     shortcutdialog.cpp \
@@ -114,3 +117,4 @@ win32 {
     LIBS    += -luser32
     RC_FILE  = copyq.rc
 }
+

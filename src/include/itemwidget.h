@@ -22,7 +22,10 @@
 
 #include <QRegExp>
 #include <QSize>
+#include <QSharedPointer>
+#include <QStringList>
 #include <QtPlugin>
+#include <QVariant>
 
 class QFont;
 class QModelIndex;
@@ -91,6 +94,8 @@ private:
 class ItemLoaderInterface
 {
 public:
+    ItemLoaderInterface() : m_enabled(true) {}
+
     virtual ~ItemLoaderInterface() {}
 
     /**
@@ -132,8 +137,26 @@ public:
      */
     virtual QString description() const = 0;
 
-    // TODO: Provide formats to save (possibly configurable).
-    // QStringList formatsToSave() const;
+    /**
+     * Provide formats to save (possibly configurable).
+     */
+    virtual QStringList formatsToSave() const { return QStringList(); }
+
+    virtual QVariantMap applySettings() { return QVariantMap(); }
+
+    virtual void loadSettings(const QVariantMap &) {}
+
+    /**
+     * Create settings widget.
+     */
+    virtual QWidget *createSettingsWidget(QWidget *) { return NULL; }
+
+    bool isEnabled() const { return m_enabled; }
+
+    void setEnabled(bool enabled) { m_enabled = enabled; }
+
+private:
+    bool m_enabled;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, "org.CopyQ.ItemPlugin.ItemLoader/1.0")

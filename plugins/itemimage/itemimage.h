@@ -24,12 +24,16 @@
 
 #include <QLabel>
 
+namespace Ui {
+class ItemImageSettings;
+}
+
 class ItemImage : public QLabel, public ItemWidget
 {
     Q_OBJECT
 
 public:
-    ItemImage(QWidget *parent);
+    ItemImage(int maximumWidth, int maximumHeight, QWidget *parent);
 
     QWidget *widget() { return this; }
 
@@ -39,6 +43,10 @@ public:
 
 protected:
     virtual void updateSize();
+
+private:
+    int m_maximumWidth;
+    int m_maximumHeight;
 };
 
 class ItemImageLoader : public QObject, public ItemLoaderInterface
@@ -47,13 +55,29 @@ class ItemImageLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemImageLoader();
+
+    ~ItemImageLoader();
+
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual int priority() const { return 10; }
 
     virtual QString name() const { return tr("Image Items"); }
-    virtual QString author() const { return tr("Lukas Holecek"); }
+    virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display images."); }
+
+    virtual QStringList formatsToSave() const;
+
+    virtual QVariantMap applySettings();
+
+    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+
+    virtual QWidget *createSettingsWidget(QWidget *parent);
+
+private:
+    QVariantMap m_settings;
+    Ui::ItemImageSettings *ui;
 };
 
 #endif // ITEMIMAGE_H

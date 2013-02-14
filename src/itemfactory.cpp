@@ -95,11 +95,29 @@ ItemFactory::ItemFactory()
 
 ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent) const
 {
-    foreach (ItemLoaderInterface *loader, m_loaders) {
-        ItemWidget *item = loader->create(index, parent);
-        if (item != NULL)
-            return item;
+    foreach (const ItemLoaderInterface *loader, m_loaders) {
+        if (loader->isEnabled()) {
+            ItemWidget *item = loader->create(index, parent);
+            if (item != NULL)
+                return item;
+        }
     }
 
     return NULL;
+}
+
+QStringList ItemFactory::formatsToSave() const
+{
+    QStringList formats;
+
+    foreach (const ItemLoaderInterface *loader, m_loaders) {
+        if (loader->isEnabled()) {
+            foreach ( const QString &format, loader->formatsToSave() ) {
+                if ( !formats.contains(format) )
+                    formats.append(format);
+            }
+        }
+    }
+
+    return formats;
 }

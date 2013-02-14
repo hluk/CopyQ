@@ -249,104 +249,6 @@
              </property>
             </widget>
            </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>Maximum image size (0 for original size):</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_2" stretch="0,0,0,0,0">
-             <property name="bottomMargin">
-              <number>0</number>
-             </property>
-             <item>
-              <widget class="QLabel" name="label_7">
-               <property name="text">
-                <string>&amp;Width:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buddy">
-                <cstring>spinBoxImageWidth</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBoxImageWidth">
-               <property name="toolTip">
-                <string>Maximum width of image displayed in history</string>
-               </property>
-               <property name="maximum">
-                <number>4096</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_3">
-               <property name="text">
-                <string>&amp;Height:</string>
-               </property>
-               <property name="alignment">
-                <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-               </property>
-               <property name="buddy">
-                <cstring>spinBoxImageHeight</cstring>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QSpinBox" name="spinBoxImageHeight">
-               <property name="toolTip">
-                <string>Maximum height of image displayed in history</string>
-               </property>
-               <property name="maximum">
-                <number>4096</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_3">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
-             </item>
-            </layout>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>External &amp;editor command (%1 is file to edit):</string>
-             </property>
-             <property name="buddy">
-              <cstring>lineEditEditor</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEditEditor">
-             <property name="toolTip">
-              <string>External editor command (%1 is file to edit).
-  Examples:
-    gedit %1
-    notepad %1
-    gvim -f %1
-    xterm -e vim %1</string>
-             </property>
-             <property name="text">
-              <string>gedit %1</string>
-             </property>
-            </widget>
-           </item>
            <item row="0" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_7">
              <item>
@@ -377,6 +279,31 @@
              </item>
             </layout>
            </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_6">
+             <property name="text">
+              <string>External &amp;editor command (%1 is file to edit):</string>
+             </property>
+             <property name="buddy">
+              <cstring>lineEditEditor</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="1">
+            <widget class="QLineEdit" name="lineEditEditor">
+             <property name="toolTip">
+              <string>External editor command (%1 is file to edit).
+  Examples:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</string>
+             </property>
+             <property name="text">
+              <string>gedit %1</string>
+             </property>
+            </widget>
+           </item>
           </layout>
          </item>
          <item row="1" column="0">
@@ -398,157 +325,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QLabel" name="label_26">
-              <property name="text">
-               <string>Select formats to save in history. You can add a format from examples below or type in other (one per line).</string>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QGridLayout" name="gridLayout_5">
-              <item row="0" column="0">
-               <widget class="QLabel" name="label_5">
-                <property name="text">
-                 <string>Active &amp;Formats:</string>
-                </property>
-                <property name="buddy">
-                 <cstring>plainTextEditFormats</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="1">
-               <widget class="QLabel" name="label_25">
-                <property name="text">
-                 <string>&amp;Examples (double click to add to active formats):</string>
-                </property>
-                <property name="buddy">
-                 <cstring>treeWidgetFormats</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="0">
-               <widget class="QPlainTextEdit" name="plainTextEditFormats">
-                <property name="toolTip">
-                 <string>List of clipboard mime types that will be stored in history</string>
-                </property>
-                <property name="tabChangesFocus">
-                 <bool>true</bool>
-                </property>
-                <property name="lineWrapMode">
-                 <enum>QPlainTextEdit::NoWrap</enum>
-                </property>
-               </widget>
-              </item>
-              <item row="1" column="1">
-               <widget class="QTreeWidget" name="treeWidgetFormats">
-                <property name="editTriggers">
-                 <set>QAbstractItemView::NoEditTriggers</set>
-                </property>
-                <attribute name="headerVisible">
-                 <bool>false</bool>
-                </attribute>
-                <column>
-                 <property name="text">
-                  <string notr="true">1</string>
-                 </property>
-                </column>
-                <item>
-                 <property name="text">
-                  <string>Text</string>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Unformatted simple text</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">text/plain</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Formatted text, web pages</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">text/html
-text/richtext</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>XML</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">text/xml</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>List of URI (e.g. copied files)</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">text/uri-list</string>
-                  </property>
-                 </item>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Images</string>
-                 </property>
-                 <item>
-                  <property name="text">
-                   <string>Bitmap image</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">text/bmp</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Vector graphics</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">image/svg+xml
-image/x-inkscape-svg-compressed</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Web image formats</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">image/png
-image/jpeg
-image/gif</string>
-                  </property>
-                 </item>
-                 <item>
-                  <property name="text">
-                   <string>Other</string>
-                  </property>
-                  <property name="toolTip">
-                   <string notr="true">image/epx
-image/ico
-image/jp2
-image/jpx
-image/tiff
-image/pcx
-image/ppm
-image/rgb
-image/rgba
-image/tga
-image/x-targa
-image/x-tga
-image/xpm
-image/xbm</string>
-                  </property>
-                 </item>
-                </item>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QTabWidget" name="tabWidgetPlugins"/>
             </item>
            </layout>
           </widget>
@@ -706,8 +483,8 @@ image/xbm</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>96</width>
-                <height>26</height>
+                <width>333</width>
+                <height>303</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -995,8 +772,8 @@ image/xbm</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>220</width>
-              <height>355</height>
+              <width>239</width>
+              <height>388</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1268,12 +1045,8 @@ image/xbm</string>
   <tabstop>checkBoxAlwaysOnTop</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>spinBoxItems</tabstop>
-  <tabstop>spinBoxImageWidth</tabstop>
-  <tabstop>spinBoxImageHeight</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
-  <tabstop>plainTextEditFormats</tabstop>
-  <tabstop>treeWidgetFormats</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>

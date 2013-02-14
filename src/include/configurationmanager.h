@@ -111,6 +111,9 @@ signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
 
+    void applyPluginConfiguration();
+    void loadPluginConfiguration();
+
 protected:
     void showEvent(QShowEvent *);
 
@@ -190,11 +193,7 @@ private slots:
     void on_checkBoxShowNumber_stateChanged(int);
     void on_checkBoxScrollbars_stateChanged(int);
 
-    void on_plainTextEditFormats_textChanged();
-
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
-
-    void on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column);
 };
 
 #endif // CONFIGURATIONMANAGER_H

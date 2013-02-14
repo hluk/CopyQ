@@ -26,6 +26,7 @@
 #include "configurationmanager.h"
 #include "iconfactory.h"
 #include "itemdelegate.h"
+#include "itemfactory.h"
 
 #include <QElapsedTimer>
 #include <QKeyEvent>
@@ -74,7 +75,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     ConfigurationManager *cm = ConfigurationManager::instance();
     editor = cm->value("editor").toString();
     maxItems = cm->value("maxitems").toInt();
-    formats = cm->value("formats").toString().split( QRegExp("[;,\\s]+") );
+    formats = ItemFactory::instance()->formatsToSave();
     maxImageWidth = cm->value("max_image_width").toInt();
     maxImageHeight = cm->value("max_image_height").toInt();
     textWrap = cm->value("text_wrap").toBool();

@@ -24,6 +24,7 @@
 #include "clipboarditem.h"
 #include "clipboardmonitor.h"
 #include "configurationmanager.h"
+#include "itemfactory.h"
 #include "mainwindow.h"
 #include "remoteprocess.h"
 #include "scriptable.h"
@@ -193,7 +194,7 @@ void ClipboardServer::loadMonitorSettings()
 
     QVariantMap settings;
     settings["_last_hash"] = cm->value("_last_hash");
-    settings["formats"] = cm->value("formats");
+    settings["formats"] = ItemFactory::instance()->formatsToSave();
     settings["check_clipboard"] = cm->value("check_clipboard");
 #ifdef Q_WS_X11
     settings["copy_clipboard"] = cm->value("copy_clipboard");

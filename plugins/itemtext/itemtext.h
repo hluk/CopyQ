@@ -25,8 +25,6 @@
 #include <QTextDocument>
 #include <QTextEdit>
 
-class QPaintEvent;
-
 class ItemText : public QTextEdit, public ItemWidget
 {
     Q_OBJECT
@@ -69,8 +67,10 @@ public:
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual QString name() const { return tr("Text Items"); }
-    virtual QString author() const { return tr("Lukas Holecek"); }
+    virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display plain text and simple HTML items."); }
+
+    virtual QStringList formatsToSave() const;
 };
 
 #endif // ITEMTEXT_H

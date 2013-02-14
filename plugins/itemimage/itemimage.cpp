@@ -18,7 +18,9 @@
 */
 
 #include "itemimage.h"
+#include "ui_itemimagesettings.h"
 
+#include <QHBoxLayout>
 #include <QModelIndex>
 #include <QPixmap>
 #include <QtPlugin>
@@ -26,55 +28,43 @@
 
 namespace {
 
+const QStringList imageFormats =
+        QStringList("image/svg+xml") << QString("image/bmp") << QString("image/png")
+                                     << QString("image/jpeg") << QString("image/gif");
+
 bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 {
     const QStringList formats = ItemLoaderInterface::getFormats(index);
 
-    // TODO: Size from plugin settings?
-    QSize size = index.data(Qt::SizeHintRole).toSize();
-    const int w = size.width();
-    const int h = size.height();
-
-    int i = formats.indexOf("image/svg+xml");
-    if (i == -1) {
-        i = formats.indexOf("image/bmp");
-        if (i == -1) {
-            i = formats.indexOf("image/png");
-            if (i == -1) {
-                i = formats.indexOf("image/jpeg");
-                if (i == -1) {
-                    i = formats.indexOf("image/gif");
-                    if (i == -1)
-                        return false;
-                }
-            }
-        }
+    int i = -1;
+    foreach (const QString &format, imageFormats) {
+        i = formats.indexOf(format);
+        if (i != -1)
+            break;
     }
+
+    if (i == -1)
+        return false;
 
     const QString &mimeType = formats[i];
     pix->loadFromData( ItemLoaderInterface::getData(i, index), mimeType.toLatin1() );
-
-    if ( w > 0 && pix->width() > w && (h <= 0 || pix->width()/w > pix->height()/h) ) {
-        *pix = pix->scaledToWidth(w);
-    } else if (h > 0 && pix->height() > h) {
-        *pix = pix->scaledToHeight(h);
-    }
 
     return true;
 }
 
 } // namespace
 
-ItemImage::ItemImage(QWidget *parent)
+ItemImage::ItemImage(int maximumWidth, int maximumHeight, QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
+    , m_maximumWidth(maximumWidth)
+    , m_maximumHeight(maximumHeight)
 {
     setMargin(4);
 }
 
 void ItemImage::setData(const QModelIndex &index)
 {
-    const QVariant displayData = index.data(Qt::DisplayRole);
     QPixmap pix;
     getPixmapFromData(index, &pix);
     setLabelPixmap(pix);
@@ -82,7 +72,15 @@ void ItemImage::setData(const QModelIndex &index)
 
 void ItemImage::setLabelPixmap(const QPixmap &pix)
 {
-    setPixmap(pix);
+    // scale pixmap
+    const int w = m_maximumWidth;
+    const int h = m_maximumHeight;
+    if ( w > 0 && pix.width() > w && (h <= 0 || pix.width()/w > pix.height()/h) ) {
+        setPixmap(pix.scaledToWidth(w));
+    } else if (h > 0 && pix.height() > h) {
+        setPixmap(pix.scaledToHeight(h));
+    }
+
     adjustSize();
     updateSize();
     updateItem();
@@ -93,6 +91,16 @@ void ItemImage::updateSize()
     adjustSize();
 }
 
+ItemImageLoader::ItemImageLoader()
+    : ui(NULL)
+{
+}
+
+ItemImageLoader::~ItemImageLoader()
+{
+    delete ui;
+}
+
 ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     // TODO: Just check if image provided and load it in different thread.
@@ -100,9 +108,37 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) c
     if ( !getPixmapFromData(index, &pix) )
         return NULL;
 
-    ItemImage *item = new ItemImage(parent);
+    const int w = m_settings.value("max_image_width", 320).toInt();
+    const int h = m_settings.value("max_image_height", 240).toInt();
+
+    ItemImage *item = new ItemImage(w, h, parent);
     item->setPixmap(pix);
     return item;
+}
+
+QStringList ItemImageLoader::formatsToSave() const
+{
+    return QStringList("image/svg+xml") << QString("image/bmp") << QString("image/png")
+                                        << QString("image/jpeg") << QString("image/gif");
+}
+
+QVariantMap ItemImageLoader::applySettings()
+{
+    Q_ASSERT(ui != NULL);
+    m_settings["max_image_width"] = ui->spinBoxImageWidth->value();
+    m_settings["max_image_height"] = ui->spinBoxImageHeight->value();
+    return  m_settings;
+}
+
+QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
+{
+    delete ui;
+    ui = new Ui::ItemImageSettings;
+    QWidget *w = new QWidget(parent);
+    ui->setupUi(w);
+    ui->spinBoxImageWidth->setValue( m_settings.value("max_image_width", 320).toInt() );
+    ui->spinBoxImageHeight->setValue( m_settings.value("max_image_height", 240).toInt() );
+    return w;
 }
 
 Q_EXPORT_PLUGIN2(itemimage, ItemImageLoader)

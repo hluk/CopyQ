@@ -171,4 +171,9 @@ ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) con
     return item;
 }
 
+QStringList ItemWebLoader::formatsToSave() const
+{
+    return QStringList("text/plain") << QString("text/html");
+}
+
 Q_EXPORT_PLUGIN2(itemweb, ItemWebLoader)

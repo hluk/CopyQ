@@ -69,8 +69,10 @@ public:
     virtual int priority() const { return 10; }
 
     virtual QString name() const { return tr("Web Items"); }
-    virtual QString author() const { return tr("Lukas Holecek"); }
+    virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display web pages."); }
+
+    virtual QStringList formatsToSave() const;
 };
 
 #endif // ITEMWEB_H

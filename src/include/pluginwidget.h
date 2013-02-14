@@ -17,36 +17,34 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMFACTORY_H
-#define ITEMFACTORY_H
 
-#include <QAbstractListModel>
-#include <QVector>
+#ifndef PLUGINWIDGET_H
+#define PLUGINWIDGET_H
 
-class ItemWidget;
+#include <QWidget>
+
+namespace Ui {
+class PluginWidget;
+}
+
 class ItemLoaderInterface;
-class QModelIndex;
-class QWidget;
 
-class ItemFactory
+class PluginWidget : public QWidget
 {
+    Q_OBJECT
+
 public:
-    /** Return singleton instance. */
-    static ItemFactory *instance();
+    explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = 0);
+    ~PluginWidget();
 
-    static bool hasInstance() { return m_Instance != NULL; }
-
-    ItemFactory();
-
-    ItemWidget *createItem(const QModelIndex &index, QWidget *parent) const;
-
-    QStringList formatsToSave() const;
-
-    const QVector<ItemLoaderInterface *> &loaders() const { return m_loaders; }
+public slots:
+    void applySettings();
+    void loadSettings();
 
 private:
-    static ItemFactory *m_Instance;
-    QVector<ItemLoaderInterface *> m_loaders;
+    Ui::PluginWidget *ui;
+    ItemLoaderInterface *m_loader;
+    QWidget *m_loaderSettings;
 };
 
-#endif // ITEMFACTORY_H
+#endif // PLUGINWIDGET_H

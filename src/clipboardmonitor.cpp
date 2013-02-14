@@ -344,7 +344,7 @@ void ClipboardMonitor::readyRead()
             if ( m_lastHash == 0 && settings.contains("_last_hash") )
                 m_lastHash = settings["_last_hash"].toUInt();
             if ( settings.contains("formats") )
-                m_formats = settings["formats"].toString().split( QRegExp("[;,\\s]+") );
+                m_formats = settings["formats"].toStringList();
             if ( settings.contains("check_clipboard") )
                 m_checkclip = settings["check_clipboard"].toBool();
 #ifdef Q_WS_X11

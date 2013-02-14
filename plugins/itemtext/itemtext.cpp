@@ -210,4 +210,9 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) co
     return item;
 }
 
+QStringList ItemTextLoader::formatsToSave() const
+{
+    return QStringList("text/plain") << QString("text/html") << QString("text/richtext");
+}
+
 Q_EXPORT_PLUGIN2(itemtext, ItemTextLoader)

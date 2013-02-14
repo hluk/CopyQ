@@ -20,9 +20,13 @@
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
 
+#include "client_server.h"
 #include "clipboardmodel.h"
 #include "iconfactory.h"
 #include "itemdelegate.h"
+#include "itemfactory.h"
+#include "itemwidget.h"
+#include "pluginwidget.h"
 #include "shortcutdialog.h"
 
 #include <QColorDialog>
@@ -78,7 +82,6 @@ ConfigurationManager::ConfigurationManager()
     ui->setupUi(this);
 
     ui->scrollAreaCommand->hide();
-    ui->treeWidgetFormats->expandAll();
 
     ClipboardBrowser *c = ui->clipboardBrowserPreview;
     c->addItems( QStringList()
@@ -108,16 +111,6 @@ ConfigurationManager::ConfigurationManager()
 
     /* general options */
     m_options["maxitems"] = Option(200, "value", ui->spinBoxItems);
-    m_options["max_image_width"] = Option(320, "value", ui->spinBoxImageWidth);
-    m_options["max_image_height"] = Option(240, "value", ui->spinBoxImageHeight);
-    m_options["formats"] = Option("image/svg+xml\n"
-                                  "image/x-inkscape-svg-compressed\n"
-                                  "image/png\n"
-                                  "image/bmp\n"
-                                  "image/jpeg\n"
-                                  "text/html\n"
-                                  "text/plain",
-                                  "plainText", ui->plainTextEditFormats);
     m_options["editor"] = Option(DEFAULT_EDITOR, "text", ui->lineEditEditor);
     m_options["edit_ctrl_return"] = Option(true, "checked", ui->checkBoxEditCtrlReturn);
     m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);
@@ -214,6 +207,15 @@ ConfigurationManager::ConfigurationManager()
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 
     loadSettings();
+
+    foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
+        PluginWidget *pluginWidget = new PluginWidget(loader, ui->tabWidgetPlugins);
+        ui->tabWidgetPlugins->addTab(pluginWidget, loader->name());
+        connect( this, SIGNAL(applyPluginConfiguration()),
+                 pluginWidget, SLOT(applySettings()) );
+        connect( this, SIGNAL(loadPluginConfiguration()),
+                 pluginWidget, SLOT(loadSettings()) );
+    }
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -538,6 +540,23 @@ void ConfigurationManager::loadSettings()
 
     updateIcons();
 
+    // load settings for each plugin
+    settings.beginGroup("Plugins");
+    foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
+        settings.beginGroup(loader->name());
+
+        QVariantMap s;
+        foreach (const QString &name, settings.allKeys()) {
+            s[name] = settings.value(name);
+        }
+        loader->loadSettings(s);
+        loader->setEnabled( settings.value("enabled", true).toBool() );
+
+        settings.endGroup();
+    }
+    settings.endGroup();
+    emit loadPluginConfiguration();
+
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 }
 
@@ -579,6 +598,29 @@ void ConfigurationManager::saveSettings()
     settings.endGroup();
 
     updateIcons();
+
+    QStringList formats = ItemFactory::instance()->formatsToSave();
+    formats.prepend(QString("text/plain"));
+    formats.prepend(QString());
+    formats.removeDuplicates();
+    ui->widgetCommand->setFormats(formats);
+
+    // save settings for each plugin
+    emit applyPluginConfiguration();
+    settings.beginGroup("Plugins");
+    foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
+        settings.beginGroup(loader->name());
+
+        QVariantMap s = loader->applySettings();
+        foreach (const QString &name, s.keys()) {
+            settings.setValue(name, s[name]);
+        }
+
+        settings.setValue("enabled", loader->isEnabled());
+
+        settings.endGroup();
+    }
+    settings.endGroup();
 
     emit configurationChanged();
 }
@@ -1039,23 +1081,7 @@ void ConfigurationManager::on_checkBoxScrollbars_stateChanged(int)
     decorateBrowser(ui->clipboardBrowserPreview);
 }
 
-void ConfigurationManager::on_plainTextEditFormats_textChanged()
-{
-    QStringList formats = ui->plainTextEditFormats->toPlainText().split(QChar('\n'));
-    formats.prepend(QString("text/plain"));
-    formats.prepend(QString());
-    formats.removeDuplicates();
-    ui->widgetCommand->setFormats(formats);
-}
-
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 {
     ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
-}
-
-void ConfigurationManager::on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column)
-{
-    QString mime = item->toolTip(column);
-    if ( !mime.isEmpty() )
-        ui->plainTextEditFormats->appendPlainText(mime);
 }
