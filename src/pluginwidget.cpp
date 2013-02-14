@@ -30,8 +30,19 @@ PluginWidget::PluginWidget(ItemLoaderInterface *loader, QWidget *parent)
     , m_loaderSettings(NULL)
 {
     ui->setupUi(this);
-    ui->labelAuthor->setText(loader->author());
-    ui->labelDescription->setText(loader->description());
+
+    const QString author = loader->author();
+    if (author.isEmpty())
+        ui->labelAuthor->hide();
+    else
+        ui->labelAuthor->setText(author);
+
+    const QString description = loader->description();
+    if (description.isEmpty())
+        ui->labelDescription->hide();
+    else
+        ui->labelDescription->setText(loader->description());
+
     loadSettings();
 }
 
@@ -52,6 +63,5 @@ void PluginWidget::loadSettings()
     ui->checkBoxPlugin->setChecked(m_loader->isEnabled());
     m_loaderSettings = m_loader->createSettingsWidget(this);
     if (m_loaderSettings != NULL)
-        ui->verticalLayout->addWidget(m_loaderSettings);
-    ui->verticalLayout->addSpacerItem(ui->verticalSpacer);
+        ui->verticalLayout->insertWidget(3, m_loaderSettings);
 }
