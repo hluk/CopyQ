@@ -44,6 +44,8 @@ public:
 
     const QVector<ItemLoaderInterface *> &loaders() const { return m_loaders; }
 
+    void setPluginPriority(const QStringList &pluginNames);
+
 private:
     static ItemFactory *m_Instance;
     QVector<ItemLoaderInterface *> m_loaders;

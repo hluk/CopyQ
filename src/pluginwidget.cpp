@@ -43,7 +43,10 @@ PluginWidget::PluginWidget(ItemLoaderInterface *loader, QWidget *parent)
     else
         ui->labelDescription->setText(loader->description());
 
-    loadSettings();
+    ui->checkBoxPlugin->setChecked(m_loader->isEnabled());
+    m_loaderSettings = m_loader->createSettingsWidget(this);
+    if (m_loaderSettings != NULL)
+        ui->verticalLayout->insertWidget(3, m_loaderSettings);
 }
 
 PluginWidget::~PluginWidget()
@@ -54,14 +57,4 @@ PluginWidget::~PluginWidget()
 void PluginWidget::applySettings()
 {
     m_loader->setEnabled(ui->checkBoxPlugin->isChecked());
-}
-
-void PluginWidget::loadSettings()
-{
-    delete m_loaderSettings;
-
-    ui->checkBoxPlugin->setChecked(m_loader->isEnabled());
-    m_loaderSettings = m_loader->createSettingsWidget(this);
-    if (m_loaderSettings != NULL)
-        ui->verticalLayout->insertWidget(3, m_loaderSettings);
 }

@@ -2,14 +2,6 @@
 <ui version="4.0">
  <class>ItemDataSettings</class>
  <widget class="QWidget" name="ItemDataSettings">
-  <property name="geometry">
-   <rect>
-    <x>0</x>
-    <y>0</y>
-    <width>722</width>
-    <height>503</height>
-   </rect>
-  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -17,7 +9,7 @@
    <item>
     <widget class="QLabel" name="label_26">
      <property name="text">
-      <string>Select formats to save in history. You can add a format from examples below or type in other (one per line). The first format in list that is available for an item in history will be displayed.</string>
+      <string>Select formats to save in history. You can add a format from examples below or type in other (one per line).</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

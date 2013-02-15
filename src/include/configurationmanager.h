@@ -194,6 +194,8 @@ private slots:
     void on_checkBoxScrollbars_stateChanged(int);
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
+    void on_pushButtonPluginPriorityUp_clicked();
+    void on_pushButtonPluginPriorityDown_clicked();
 };
 
 #endif // CONFIGURATIONMANAGER_H

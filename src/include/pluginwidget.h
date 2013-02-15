@@ -39,7 +39,6 @@ public:
 
 public slots:
     void applySettings();
-    void loadSettings();
 
 private:
     Ui::PluginWidget *ui;

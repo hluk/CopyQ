@@ -121,3 +121,24 @@ QStringList ItemFactory::formatsToSave() const
 
     return formats;
 }
+
+void ItemFactory::setPluginPriority(const QStringList &pluginNames)
+{
+    int a = -1;
+    int b = -1;
+    int j = -1;
+    for (int i = 0; i < m_loaders.size(); ++i) {
+        b = pluginNames.indexOf( m_loaders[i]->name() );
+        if (b != -1) {
+            if (a > b) {
+                // swap and restart
+                qSwap(m_loaders[j], m_loaders[i]);
+                i = 0;
+                a = b = -1;
+            } else {
+                a = b;
+                j = i;
+            }
+        }
+    }
+}

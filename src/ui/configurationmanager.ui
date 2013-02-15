@@ -325,6 +325,50 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_2">
+              <item>
+               <widget class="QLabel" name="label_3">
+                <property name="text">
+                 <string>Change display priority:</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonPluginPriorityUp">
+                <property name="text">
+                 <string>Higher [Ctrl+Left]</string>
+                </property>
+                <property name="shortcut">
+                 <string>Ctrl+Left</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="pushButtonPluginPriorityDown">
+                <property name="text">
+                 <string>Lower [Ctrl+Right]</string>
+                </property>
+                <property name="shortcut">
+                 <string>Ctrl+Right</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_3">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
+            </item>
+            <item>
              <widget class="QTabWidget" name="tabWidgetPlugins">
               <property name="movable">
                <bool>true</bool>
@@ -487,8 +531,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>333</width>
-                <height>303</height>
+                <width>96</width>
+                <height>26</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -776,8 +820,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>239</width>
-              <height>388</height>
+              <width>220</width>
+              <height>355</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

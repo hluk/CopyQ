@@ -207,15 +207,6 @@ ConfigurationManager::ConfigurationManager()
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 
     loadSettings();
-
-    foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
-        PluginWidget *pluginWidget = new PluginWidget(loader, ui->tabWidgetPlugins);
-        ui->tabWidgetPlugins->addTab(pluginWidget, loader->name());
-        connect( this, SIGNAL(applyPluginConfiguration()),
-                 pluginWidget, SLOT(applySettings()) );
-        connect( this, SIGNAL(loadPluginConfiguration()),
-                 pluginWidget, SLOT(loadSettings()) );
-    }
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -557,6 +548,22 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
     emit loadPluginConfiguration();
 
+    // load plugin priority
+    const QStringList pluginPriority =
+            settings.value("plugin_priority", QStringList()).toStringList();
+    ItemFactory::instance()->setPluginPriority(pluginPriority);
+
+    // reload plugin widgets
+    while ( ui->tabWidgetPlugins->count() > 0 )
+        delete ui->tabWidgetPlugins->widget(0);
+
+    foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
+        PluginWidget *pluginWidget = new PluginWidget(loader, ui->tabWidgetPlugins);
+        ui->tabWidgetPlugins->addTab(pluginWidget, loader->name());
+        connect( this, SIGNAL(applyPluginConfiguration()),
+                 pluginWidget, SLOT(applySettings()) );
+    }
+
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 }
 
@@ -621,6 +628,13 @@ void ConfigurationManager::saveSettings()
         settings.endGroup();
     }
     settings.endGroup();
+
+    // save plugin priority
+    QStringList pluginPriority;
+    for (int i = 0; i <  ui->tabWidgetPlugins->count(); ++i)
+        pluginPriority.append( ui->tabWidgetPlugins->tabText(i) );
+    settings.setValue("plugin_priority", pluginPriority);
+    ItemFactory::instance()->setPluginPriority(pluginPriority);
 
     emit configurationChanged();
 }
@@ -1084,4 +1098,24 @@ void ConfigurationManager::on_checkBoxScrollbars_stateChanged(int)
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 {
     ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
+}
+
+void ConfigurationManager::on_pushButtonPluginPriorityUp_clicked()
+{
+    QTabWidget *tabs = ui->tabWidgetPlugins;
+    const int i = tabs->currentIndex();
+    if (i > 0) {
+        tabs->insertTab(i - 1, tabs->widget(i), tabs->tabText(i));
+        tabs->setCurrentIndex(i - 1);
+    }
+}
+
+void ConfigurationManager::on_pushButtonPluginPriorityDown_clicked()
+{
+    QTabWidget *tabs = ui->tabWidgetPlugins;
+    const int i = tabs->currentIndex();
+    if (i >= 0 && i + 1 < tabs->count()) {
+        tabs->insertTab(i + 1, tabs->widget(i), tabs->tabText(i));
+        tabs->setCurrentIndex(i + 1);
+    }
 }

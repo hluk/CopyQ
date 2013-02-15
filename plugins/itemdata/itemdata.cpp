@@ -45,6 +45,16 @@ QString escapeHtml(const QString &str)
 #endif
 }
 
+bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
+{
+    for (int i = 0; i < lhs.size(); ++i) {
+        if ( rhs.contains(lhs[i]) )
+            return false;
+    }
+
+    return true;
+}
+
 } // namespace
 
 ItemData::ItemData(QWidget *parent)
@@ -111,6 +121,9 @@ ItemDataLoader::~ItemDataLoader()
 
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
 {
+    if ( emptyIntersection(getFormats(index), formatsToSave()) )
+        return NULL;
+
     ItemData *item = new ItemData(parent);
     item->setData(index);
 
