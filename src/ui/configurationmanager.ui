@@ -321,11 +321,15 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
          <item row="2" column="0">
           <widget class="QGroupBox" name="groupBox_2">
            <property name="title">
-            <string>Formats of clipboard content to save</string>
+            <string>Formats of clipboard content to save and display</string>
            </property>
            <layout class="QVBoxLayout" name="verticalLayout_2">
             <item>
-             <widget class="QTabWidget" name="tabWidgetPlugins"/>
+             <widget class="QTabWidget" name="tabWidgetPlugins">
+              <property name="movable">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>

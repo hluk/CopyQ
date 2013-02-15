@@ -16,6 +16,9 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QCheckBox" name="checkBoxPlugin">
+     <property name="toolTip">
+      <string>Enable this clipboard content to be saved and displayed</string>
+     </property>
      <property name="text">
       <string>&amp;Enable</string>
      </property>
