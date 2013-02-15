@@ -1095,6 +1095,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>spinBoxItems</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
+  <tabstop>pushButtonPluginPriorityUp</tabstop>
+  <tabstop>pushButtonPluginPriorityDown</tabstop>
+  <tabstop>tabWidgetPlugins</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>

@@ -45,8 +45,9 @@ PluginWidget::PluginWidget(ItemLoaderInterface *loader, QWidget *parent)
 
     ui->checkBoxPlugin->setChecked(m_loader->isEnabled());
     m_loaderSettings = m_loader->createSettingsWidget(this);
-    if (m_loaderSettings != NULL)
+    if (m_loaderSettings != NULL) {
         ui->verticalLayout->insertWidget(3, m_loaderSettings);
+    }
 }
 
 PluginWidget::~PluginWidget()

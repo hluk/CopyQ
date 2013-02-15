@@ -560,6 +560,16 @@ void ConfigurationManager::loadSettings()
     foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
         PluginWidget *pluginWidget = new PluginWidget(loader, ui->tabWidgetPlugins);
         ui->tabWidgetPlugins->addTab(pluginWidget, loader->name());
+
+        // fix tab order
+        QWidget *lastWidget = ui->tabWidgetPlugins;
+        foreach (QWidget *w, pluginWidget->findChildren<QWidget*>()) {
+            if (w->focusPolicy() != Qt::NoFocus) {
+                setTabOrder(lastWidget, w);
+                lastWidget = w;
+            }
+        }
+
         connect( this, SIGNAL(applyPluginConfiguration()),
                  pluginWidget, SLOT(applySettings()) );
     }
