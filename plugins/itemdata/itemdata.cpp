@@ -18,6 +18,7 @@
 */
 
 #include "itemdata.h"
+#include "ui_itemdatasettings.h"
 
 #include <QContextMenuEvent>
 #include <QModelIndex>
@@ -32,6 +33,8 @@ namespace {
 
 // Limit number of characters for performance reasons.
 const int maxChars = 256;
+
+const QStringList defaultFormats = QStringList("text/uri-list") << QString("text/xml");
 
 QString escapeHtml(const QString &str)
 {
@@ -96,6 +99,16 @@ void ItemData::contextMenuEvent(QContextMenuEvent *e)
     e->ignore();
 }
 
+ItemDataLoader::ItemDataLoader()
+    : ui(NULL)
+{
+}
+
+ItemDataLoader::~ItemDataLoader()
+{
+    delete ui;
+}
+
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     ItemData *item = new ItemData(parent);
@@ -106,7 +119,37 @@ ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) co
 
 QStringList ItemDataLoader::formatsToSave() const
 {
-    return QStringList("text/uri-list") << QString("text/xml");
+    return m_settings.value("formats", defaultFormats).toStringList();
+}
+
+QVariantMap ItemDataLoader::applySettings()
+{
+    Q_ASSERT(ui != NULL);
+    m_settings["formats"] = ui->plainTextEditFormats->toPlainText().split( QRegExp("[;,\\s]+") );
+    return  m_settings;
+}
+
+QWidget *ItemDataLoader::createSettingsWidget(QWidget *parent)
+{
+    delete ui;
+    ui = new Ui::ItemDataSettings;
+    QWidget *w = new QWidget(parent);
+    ui->setupUi(w);
+
+    QStringList formats = m_settings.value("formats", defaultFormats).toStringList();
+    ui->plainTextEditFormats->setPlainText( formats.join(QString("\n")) );
+
+    connect( ui->treeWidgetFormats, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
+             SLOT(on_treeWidgetFormats_itemActivated(QTreeWidgetItem*,int)) );
+
+    return w;
+}
+
+void ItemDataLoader::on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column)
+{
+    const QString mime = item->toolTip(column);
+    if ( !mime.isEmpty() )
+        ui->plainTextEditFormats->appendPlainText(mime);
 }
 
 Q_EXPORT_PLUGIN2(itemdata, ItemDataLoader)

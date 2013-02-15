@@ -8,3 +8,6 @@ SOURCES      = itemdata.cpp \
 TARGET       = $$qtLibraryTarget(itemdata)
 DESTDIR      = ../
 
+FORMS += \
+    itemdatasettings.ui
+

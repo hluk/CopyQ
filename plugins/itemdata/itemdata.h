@@ -24,6 +24,12 @@
 
 #include <QLabel>
 
+namespace Ui {
+class ItemDataSettings;
+}
+
+class QTreeWidgetItem;
+
 class ItemData : public QLabel, public ItemWidget
 {
     Q_OBJECT
@@ -54,6 +60,10 @@ class ItemDataLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemDataLoader();
+
+    ~ItemDataLoader();
+
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual QString name() const { return tr("Data Items"); }
@@ -61,6 +71,19 @@ public:
     virtual QString description() const { return tr("Various data to save."); }
 
     virtual QStringList formatsToSave() const;
+
+    virtual QVariantMap applySettings();
+
+    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+
+    virtual QWidget *createSettingsWidget(QWidget *parent);
+
+private slots:
+    void on_treeWidgetFormats_itemActivated(QTreeWidgetItem *item, int column);
+
+private:
+    QVariantMap m_settings;
+    Ui::ItemDataSettings *ui;
 };
 
 #endif // ITEMDATA_H
