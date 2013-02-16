@@ -346,14 +346,14 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
               <item>
                <widget class="QPushButton" name="pushButtonPluginPriorityUp">
                 <property name="text">
-                 <string>&amp;Higher</string>
+                 <string>Hi&amp;gher</string>
                 </property>
                </widget>
               </item>
               <item>
                <widget class="QPushButton" name="pushButtonPluginPriorityDown">
                 <property name="text">
-                 <string>&amp;Lower</string>
+                 <string>L&amp;ower</string>
                 </property>
                </widget>
               </item>
@@ -535,8 +535,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>333</width>
-                <height>303</height>
+                <width>96</width>
+                <height>26</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -824,8 +824,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>239</width>
-              <height>388</height>
+              <width>220</width>
+              <height>355</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
