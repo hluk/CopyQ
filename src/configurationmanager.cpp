@@ -616,12 +616,6 @@ void ConfigurationManager::saveSettings()
 
     updateIcons();
 
-    QStringList formats = ItemFactory::instance()->formatsToSave();
-    formats.prepend(QString("text/plain"));
-    formats.prepend(QString());
-    formats.removeDuplicates();
-    ui->widgetCommand->setFormats(formats);
-
     // save settings for each plugin
     emit applyPluginConfiguration();
     settings.beginGroup("Plugins");
@@ -645,6 +639,12 @@ void ConfigurationManager::saveSettings()
         pluginPriority.append( ui->tabWidgetPlugins->tabText(i) );
     settings.setValue("plugin_priority", pluginPriority);
     ItemFactory::instance()->setPluginPriority(pluginPriority);
+
+    QStringList formats = ItemFactory::instance()->formatsToSave();
+    formats.prepend(QString("text/plain"));
+    formats.prepend(QString());
+    formats.removeDuplicates();
+    ui->widgetCommand->setFormats(formats);
 
     emit configurationChanged();
 }
