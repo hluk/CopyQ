@@ -149,10 +149,7 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
                                     const QModelIndex &index) const
 {
     ItemWidget *w = m_cache[index.row()];
-    if ( w == NULL)
-        return NULL;
-
-    QWidget *editor = w->createEditor(parent);
+    QWidget *editor = ( w != NULL) ? w->createEditor(parent) : new QPlainTextEdit(parent);
     if (editor == NULL)
         return NULL;
 
@@ -181,6 +178,8 @@ void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
     ItemWidget *w = m_cache[index.row()];
     if ( w != NULL)
         w->setEditorData(editor, index);
+    else
+        editor->setProperty( "plainText", index.data(Qt::EditRole) );
 }
 
 void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
