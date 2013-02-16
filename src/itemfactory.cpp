@@ -73,16 +73,18 @@ ItemFactory::ItemFactory()
 
     if ( pluginsDir.cd("plugins") ) {
         foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-            const QString path = pluginsDir.absoluteFilePath(fileName);
-            QPluginLoader pluginLoader(path);
-            QObject *plugin = pluginLoader.instance();
-            if (plugin == NULL) {
-                log( pluginLoader.errorString(), LogError );
-            } else {
-                log( QObject::tr("Loading plugin: %1").arg(path), LogNote );
-                ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
-                if (loader != NULL)
-                    m_loaders.append(loader);
+            if ( QLibrary::isLibrary(fileName) ) {
+                const QString path = pluginsDir.absoluteFilePath(fileName);
+                QPluginLoader pluginLoader(path);
+                QObject *plugin = pluginLoader.instance();
+                if (plugin == NULL) {
+                    log( pluginLoader.errorString(), LogError );
+                } else {
+                    log( QObject::tr("Loading plugin: %1").arg(path), LogNote );
+                    ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
+                    if (loader != NULL)
+                        m_loaders.append(loader);
+                }
             }
         }
 
