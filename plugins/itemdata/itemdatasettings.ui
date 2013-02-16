@@ -172,7 +172,7 @@ image/xbm</string>
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&amp;Maximum number of characters per format to print:</string>
+        <string>&amp;Maximum number of characters per format to display:</string>
        </property>
        <property name="buddy">
         <cstring>spinBoxMaxChars</cstring>
