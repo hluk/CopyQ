@@ -55,6 +55,8 @@ ItemFactory *ItemFactory::instance()
 }
 
 ItemFactory::ItemFactory()
+    : m_loaders()
+    , m_loaderChildren()
 {
     QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
 #if defined(Q_WS_X11)
@@ -95,17 +97,41 @@ ItemFactory::ItemFactory()
         log( QObject::tr("No plugins loaded!"), LogWarning );
 }
 
-ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent) const
+ItemWidget *ItemFactory::createItem(ItemLoaderInterface *loader,
+                                    const QModelIndex &index, QWidget *parent)
 {
-    foreach (const ItemLoaderInterface *loader, m_loaders) {
-        if (loader->isEnabled()) {
-            ItemWidget *item = loader->create(index, parent);
-            if (item != NULL)
-                return item;
+    if (loader->isEnabled()) {
+        ItemWidget *item = loader->create(index, parent);
+        if (item != NULL) {
+            QObject *obj = item->widget();
+            m_loaderChildren[obj] = loader;
+            connect(obj, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
+            return item;
         }
     }
 
     return NULL;
+}
+
+ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
+{
+    foreach (ItemLoaderInterface *loader, m_loaders) {
+        ItemWidget *item = createItem(loader, index, parent);
+        if (item != NULL)
+            return item;
+    }
+
+    return NULL;
+}
+
+ItemWidget *ItemFactory::nextItemLoader(const QModelIndex &index, ItemWidget *current)
+{
+    return otherItemLoader(index, current, 1);
+}
+
+ItemWidget *ItemFactory::previousItemLoader(const QModelIndex &index, ItemWidget *current)
+{
+    return otherItemLoader(index, current, -1);
 }
 
 QStringList ItemFactory::formatsToSave() const
@@ -143,4 +169,36 @@ void ItemFactory::setPluginPriority(const QStringList &pluginNames)
             }
         }
     }
+}
+
+void ItemFactory::loaderChildDestroyed(QObject *obj)
+{
+    m_loaderChildren.remove(obj);
+}
+
+ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir)
+{
+    Q_ASSERT(dir == -1 || dir == 1);
+    Q_ASSERT(current->widget() != NULL);
+
+    QWidget *w = current->widget();
+    ItemLoaderInterface *currentLoader = m_loaderChildren.value(w, NULL);
+    Q_ASSERT(currentLoader != NULL);
+
+    const int currentIndex = m_loaders.indexOf(currentLoader);
+    Q_ASSERT(currentIndex != -1);
+
+    const int size = m_loaders.size();
+    for (int i = currentIndex + dir; i != currentIndex; i = i + dir) {
+        if (i >= size)
+            i = i % size;
+        else if (i < 0)
+            i = size - 1;
+
+        ItemWidget *item = createItem(m_loaders[i], index, w->parentWidget());
+        if (item != NULL)
+            return item;
+    }
+
+    return NULL;
 }

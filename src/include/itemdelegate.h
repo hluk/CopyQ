@@ -98,6 +98,12 @@ class ItemDelegate : public QItemDelegate
         /** Hide row. */
         void hideRow(int row);
 
+        /** Use next item loader available for item in @a row. */
+        void nextItemLoader(const QModelIndex &index);
+
+        /** Use previous item loader available for item in @a row. */
+        void previousItemLoader(const QModelIndex &index);
+
     signals:
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
@@ -130,6 +136,8 @@ class ItemDelegate : public QItemDelegate
 
         /** Remove cached item for given @a index. */
         void removeCache(const QModelIndex &index);
+
+        void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
     public slots:
         // change size buffer

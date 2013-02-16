@@ -25,16 +25,8 @@
 #include <QMimeData>
 #include <QVariant>
 
-ClipboardItemShared::ClipboardItemShared()
-    : formats()
-    , maxImageSize()
-{
-}
-
-ClipboardItem::ClipboardItem(const ClipboardItemSharedPtr &sharedData)
-    : m_sharedData(sharedData)
-    , m_data(new QMimeData)
-    , m_mimeType()
+ClipboardItem::ClipboardItem()
+    : m_data(new QMimeData)
     , m_hash(0)
     , m_formats()
 {
@@ -68,13 +60,6 @@ void ClipboardItem::setData(QMimeData *data)
     m_data = data;
     m_formats = m_data->formats();
     m_hash = hash(*m_data, m_formats);
-
-    setPreferredFormat();
-}
-
-void ClipboardItem::setFormat(const QString &mimeType)
-{
-    m_mimeType = mimeType;
 }
 
 void ClipboardItem::setData(const QVariant &value)
@@ -82,7 +67,6 @@ void ClipboardItem::setData(const QVariant &value)
     // rewrite all original data with edited text
     m_data->clear();
     m_data->setText( value.toString() );
-    m_mimeType = QString("text/plain");
     m_hash = hash(*m_data, m_formats);
 }
 
@@ -103,10 +87,6 @@ QVariant ClipboardItem::data(int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if ( m_data->hasText() )
             return text();
-        else if ( m_mimeType.startsWith("text") )
-            return QString::fromLocal8Bit( m_data->data(m_mimeType) );
-    } else if (role == Qt::SizeHintRole) {
-        return m_sharedData->maxImageSize;
     } else if (role == Qt::UserRole) {
         return formats();
     } else if (role > Qt::UserRole) {
@@ -114,22 +94,6 @@ QVariant ClipboardItem::data(int role) const
     }
 
     return QVariant();
-}
-
-void ClipboardItem::setPreferredFormat()
-{
-    if ( !m_sharedData ) return;
-
-    // get right mime type -- default mime type is the first in the list
-    m_mimeType = m_formats.isEmpty() ? QString("text/plain") : m_formats.first();
-
-    // try formats
-    foreach (const QString &format, m_sharedData->formats) {
-        if( m_formats.contains(format) ) {
-            m_mimeType = format;
-            break;
-        }
-    }
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
@@ -167,7 +131,6 @@ QDataStream &operator>>(QDataStream &stream, ClipboardItem &item)
         }
         item.setData(mime, bytes);
     }
-    item.setPreferredFormat();
 
     return stream;
 }

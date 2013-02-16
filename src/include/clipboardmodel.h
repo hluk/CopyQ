@@ -141,25 +141,9 @@ public:
         return (row < rowCount()) ? m_clipboardList[row] : NULL;
     }
 
-    /** Set preferred MIME types for items (priority order). */
-    void setFormats(const QStringList &list);
-
-    /** Set default MIME type for displaying item in given @a row. */
-    void setFormat(int row, const QString &mimeType);
-
-    /** Set next available MIME type for item in given @a row. */
-    void nextFormat(int row);
-
-    /** Set previous available MIME type for item in given @a row. */
-    void previousFormat(int row);
-
-    /** Set maximum size of pixmap displayed in items. */
-    void setMaxImageSize(int width, int height);
-
 private:
     QList<ClipboardItem *> m_clipboardList;
     int m_max;
-    const ClipboardItemSharedPtr m_sharedData;
 };
 
 /**

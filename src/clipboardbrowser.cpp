@@ -589,13 +589,17 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         // cycle formats
         case Qt::Key_Left:
-            m->previousFormat( currentIndex().row() );
+        case Qt::Key_Right: {
+            QModelIndex index = currentIndex();
+            if ( index.isValid() ) {
+                if (key == Qt::Key_Left)
+                    d->previousItemLoader(index);
+                else
+                    d->nextItemLoader(index);
+            }
             event->accept();
             break;
-        case Qt::Key_Right:
-            m->nextFormat( currentIndex().row() );
-            event->accept();
-            break;
+        }
 
         default:
             updateContextMenu();
@@ -869,8 +873,6 @@ void ClipboardBrowser::loadSettings()
 
     // restore configuration
     m->setMaxItems(m_sharedData->maxItems);
-    m->setFormats(m_sharedData->formats);
-    m->setMaxImageSize(m_sharedData->maxImageWidth, m_sharedData->maxImageHeight);
 
     setTextWrap(m_sharedData->textWrap);
 

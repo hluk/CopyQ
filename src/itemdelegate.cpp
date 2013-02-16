@@ -283,15 +283,8 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
         return w;
 
     w = ItemFactory::instance()->createItem(index, m_parent);
-    if (w == NULL)
-        return NULL;
-
-    w->setMaximumSize(m_maxSize);
-    w->setData(index);
-    m_cache[n] = w;
-    emit sizeHintChanged(index);
-
-    w->widget()->installEventFilter(this);
+    if (w != NULL)
+        setIndexWidget(index, w);
 
     return w;
 }
@@ -355,9 +348,48 @@ void ItemDelegate::hideRow(int row)
         w->widget()->hide();
 }
 
+void ItemDelegate::nextItemLoader(const QModelIndex &index)
+{
+    ItemWidget *w = m_cache[index.row()];
+    if (w != NULL) {
+        ItemWidget *w2 = ItemFactory::instance()->nextItemLoader(index, w);
+        if (w2 != NULL)
+            setIndexWidget(index, w2);
+    }
+}
+
+void ItemDelegate::previousItemLoader(const QModelIndex &index)
+{
+    ItemWidget *w = m_cache[index.row()];
+    if (w != NULL) {
+        ItemWidget *w2 = ItemFactory::instance()->previousItemLoader(index, w);
+        if (w2 != NULL)
+            setIndexWidget(index, w2);
+    }
+}
+
 void ItemDelegate::removeCache(const QModelIndex &index)
 {
     removeCache(index.row());
+}
+
+void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
+{
+    const int row = index.row();
+    delete m_cache[row];
+    if (w == NULL) {
+        m_cache[row];
+        return;
+    }
+
+    w->setMaximumSize(m_maxSize);
+    w->setData(index);
+
+    m_cache[row] = w;
+
+    emit sizeHintChanged(index);
+
+    w->widget()->installEventFilter(this);
 }
 
 void ItemDelegate::removeCache(int row)

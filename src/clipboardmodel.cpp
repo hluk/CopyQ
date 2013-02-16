@@ -29,7 +29,6 @@ ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_clipboardList()
     , m_max(100)
-    , m_sharedData(new ClipboardItemShared)
 {
 }
 
@@ -39,63 +38,9 @@ ClipboardModel::~ClipboardModel()
         delete item;
 }
 
-void ClipboardModel::setFormats(const QStringList &list)
-{
-    m_sharedData->formats = list;
-}
-
 int ClipboardModel::rowCount(const QModelIndex&) const
 {
     return m_clipboardList.size();
-}
-
-void ClipboardModel::setFormat(int row, const QString &mimeType)
-{
-    m_clipboardList[row]->setFormat(mimeType);
-
-    QModelIndex ind = index(row);
-    emit dataChanged(ind, ind);
-}
-
-void ClipboardModel::nextFormat(int row)
-{
-    if (row < 0 || row > rowCount())
-        return;
-
-    ClipboardItem *item = m_clipboardList[row];
-    QStringList formats = item->formats();
-
-    if (formats.isEmpty())
-        return;
-
-    int i = formats.indexOf(item->format());
-    if (i==-1 || i == formats.length()-1)
-        setFormat( row, formats.at(0) );
-    else
-        setFormat( row, formats[i+1] );
-}
-
-void ClipboardModel::previousFormat(int row)
-{
-    if (row < 0 || row > rowCount())
-        return;
-
-    ClipboardItem *item = m_clipboardList[row];
-    QStringList formats = item->formats();
-
-    if (formats.isEmpty())
-        return;
-
-    int i = formats.indexOf(item->format());
-    if (i <= 0)
-        setFormat( row, formats.last() );
-    else
-        setFormat( row, formats[i-1] );
-}
-
-void ClipboardModel::setMaxImageSize(int width, int height)
-{
-    m_sharedData->maxImageSize = QSize(width, height);
 }
 
 QMimeData *ClipboardModel::mimeDataInRow(int row) const
@@ -158,7 +103,7 @@ bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
 ClipboardItem *ClipboardModel::append()
 {
     int rows = rowCount();
-    ClipboardItem *item = new ClipboardItem(m_sharedData);
+    ClipboardItem *item = new ClipboardItem();
     beginInsertRows(emptyIndex, rows, rows);
     m_clipboardList.append(item);
     endInsertRows();
@@ -171,7 +116,7 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
     beginInsertRows(emptyIndex, position, position+rows-1);
 
     for (int row = 0; row < rows; ++row) {
-        item = new ClipboardItem(m_sharedData);
+        item = new ClipboardItem();
         m_clipboardList.insert(position, item);
     }
 

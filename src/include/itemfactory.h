@@ -21,6 +21,7 @@
 #define ITEMFACTORY_H
 
 #include <QAbstractListModel>
+#include <QObject>
 #include <QVector>
 
 class ItemWidget;
@@ -28,8 +29,10 @@ class ItemLoaderInterface;
 class QModelIndex;
 class QWidget;
 
-class ItemFactory
+class ItemFactory : public QObject
 {
+    Q_OBJECT
+
 public:
     /** Return singleton instance. */
     static ItemFactory *instance();
@@ -38,7 +41,14 @@ public:
 
     ItemFactory();
 
-    ItemWidget *createItem(const QModelIndex &index, QWidget *parent) const;
+    ItemWidget *createItem(ItemLoaderInterface *loader,
+                           const QModelIndex &index, QWidget *parent);
+
+    ItemWidget *createItem(const QModelIndex &index, QWidget *parent);
+
+    ItemWidget *nextItemLoader(const QModelIndex &index, ItemWidget *current);
+
+    ItemWidget *previousItemLoader(const QModelIndex &index, ItemWidget *current);
 
     QStringList formatsToSave() const;
 
@@ -46,9 +56,15 @@ public:
 
     void setPluginPriority(const QStringList &pluginNames);
 
+private slots:
+    void loaderChildDestroyed(QObject *obj);
+
 private:
+    ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir);
+
     static ItemFactory *m_Instance;
     QVector<ItemLoaderInterface *> m_loaders;
+    QMap<QObject *, ItemLoaderInterface *> m_loaderChildren;
 };
 
 #endif // ITEMFACTORY_H

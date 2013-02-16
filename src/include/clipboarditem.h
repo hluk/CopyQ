@@ -29,14 +29,6 @@ class ClipboardModel;
 class QMimeData;
 class QVariant;
 
-struct ClipboardItemShared {
-    ClipboardItemShared();
-
-    QStringList formats;
-    QSize maxImageSize;
-};
-typedef QSharedPointer<ClipboardItemShared> ClipboardItemSharedPtr;
-
 /**
  * Class for clipboard items in ClipboardModel.
  *
@@ -49,7 +41,7 @@ typedef QSharedPointer<ClipboardItemShared> ClipboardItemSharedPtr;
 class ClipboardItem
 {
 public:
-    explicit ClipboardItem(const ClipboardItemSharedPtr &sharedData = ClipboardItemSharedPtr());
+    ClipboardItem();
     ~ClipboardItem();
 
     /** Compare with other item (using hash). */
@@ -86,25 +78,14 @@ public:
     /** Return item's data. */
     QMimeData *data () const { return m_data; }
 
-    /** Set default MIME type for rendering the item. */
-    void setFormat(const QString &mimeType);
-
     /** Return MIME types. */
     const QStringList &formats() const { return m_formats; }
-
-    /** Return default MIME type for rendering the item. */
-    const QString &format() const { return m_mimeType; }
-
-    /** Set default MIME type from parent model. */
-    void setPreferredFormat();
 
     /** Return hash for item's data. */
     uint dataHash() const { return m_hash; }
 
 private:
-    const ClipboardItemSharedPtr m_sharedData;
     QMimeData *m_data;
-    QString m_mimeType;
     uint m_hash;
     QStringList m_formats;
 };
