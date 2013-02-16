@@ -37,8 +37,8 @@ using QTest::qSleep;
 #define VERIFY_SERVER_OUTPUT() \
 do {\
     QVERIFY( isServerRunning() ); \
-    QByteArray stdout = m_server->readAllStandardError(); \
-    QVERIFY2( !stdout.contains("warning") && !stdout.contains("ERROR"), stdout ); \
+    QByteArray output = m_server->readAllStandardError(); \
+    QVERIFY2( !output.contains("warning") && !output.contains("ERROR"), output ); \
 } while (0)
 
 #define RUN(arguments, stdoutExpected) \
