@@ -52,7 +52,7 @@ bool getHtml(const QModelIndex &index, const QStringList &formats, QString *text
 
 } // namespace
 
-ItemWeb::ItemWeb(QWidget *parent)
+ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     : QWebView(parent)
     , ItemWidget(this)
 {
@@ -87,6 +87,10 @@ ItemWeb::ItemWeb(QWidget *parent)
 
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
+
+    setHtml(html);
+    updateSize();
+    updateItem();
 }
 
 void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
@@ -97,22 +101,6 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
 
     if ( !re.isEmpty() )
         findText( re.pattern(), QWebPage::HighlightAllOccurrences );
-}
-
-void ItemWeb::setData(const QModelIndex &index)
-{
-    const QStringList formats = ItemLoaderInterface::getFormats(index);
-
-    QString html;
-    getHtml(index, formats, &html);
-    setHtmlData(html);
-}
-
-void ItemWeb::setHtmlData(const QString &html)
-{
-    setHtml(html);
-    updateSize();
-    updateItem();
 }
 
 void ItemWeb::onItemChanged()
@@ -163,12 +151,10 @@ ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) con
     const QStringList formats = getFormats(index);
 
     QString html;
-    if ( !getHtml(index, formats, &html) )
-        return NULL;
+    if ( getHtml(index, formats, &html) )
+        return new ItemWeb(html, parent);
 
-    ItemWeb *item = new ItemWeb(parent);
-    item->setHtmlData(html);
-    return item;
+    return NULL;
 }
 
 QStringList ItemWebLoader::formatsToSave() const

@@ -73,11 +73,6 @@ public:
     virtual QWidget *widget() = 0;
 
     /**
-     * Set data to display.
-     */
-    virtual void setData(const QModelIndex &index) = 0;
-
-    /**
      * Create editor widget with given @a parent.
      */
     virtual QWidget *createEditor(QWidget *parent) const;

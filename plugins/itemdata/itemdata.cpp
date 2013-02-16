@@ -99,7 +99,7 @@ bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
 
 } // namespace
 
-ItemData::ItemData(int maxBytes, QWidget *parent)
+ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
     , m_maxBytes(maxBytes)
@@ -107,10 +107,7 @@ ItemData::ItemData(int maxBytes, QWidget *parent)
     setTextInteractionFlags(Qt::TextSelectableByMouse);
     setContentsMargins(4, 4, 4, 4);
     setTextFormat(Qt::RichText);
-}
 
-void ItemData::setData(const QModelIndex &index)
-{
     QString text;
 
     const QStringList formats = ItemDataLoader::getFormats(index);
@@ -175,10 +172,7 @@ ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) co
     if ( emptyIntersection(getFormats(index), formatsToSave()) )
         return NULL;
 
-    ItemData *item = new ItemData( m_settings.value("max_bytes", defaultMaxBytes).toInt(), parent );
-    item->setData(index);
-
-    return item;
+    return new ItemData( index, m_settings.value("max_bytes", defaultMaxBytes).toInt(), parent );
 }
 
 QStringList ItemDataLoader::formatsToSave() const

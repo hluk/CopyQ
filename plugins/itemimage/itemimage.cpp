@@ -54,33 +54,12 @@ bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 
 } // namespace
 
-ItemImage::ItemImage(int maximumWidth, int maximumHeight, QWidget *parent)
+ItemImage::ItemImage(const QPixmap &pix, QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
-    , m_maximumWidth(maximumWidth)
-    , m_maximumHeight(maximumHeight)
 {
     setMargin(4);
-}
-
-void ItemImage::setData(const QModelIndex &index)
-{
-    QPixmap pix;
-    getPixmapFromData(index, &pix);
-    setLabelPixmap(pix);
-}
-
-void ItemImage::setLabelPixmap(const QPixmap &pix)
-{
-    // scale pixmap
-    const int w = m_maximumWidth;
-    const int h = m_maximumHeight;
-    if ( w > 0 && pix.width() > w && (h <= 0 || pix.width()/w > pix.height()/h) ) {
-        setPixmap(pix.scaledToWidth(w));
-    } else if (h > 0 && pix.height() > h) {
-        setPixmap(pix.scaledToHeight(h));
-    }
-
+    setPixmap(pix);
     adjustSize();
     updateSize();
     updateItem();
@@ -108,12 +87,16 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) c
     if ( !getPixmapFromData(index, &pix) )
         return NULL;
 
+    // scale pixmap
     const int w = m_settings.value("max_image_width", 320).toInt();
     const int h = m_settings.value("max_image_height", 240).toInt();
+    if ( w > 0 && pix.width() > w && (h <= 0 || pix.width()/w > pix.height()/h) ) {
+        pix = pix.scaledToWidth(w);
+    } else if (h > 0 && pix.height() > h) {
+        pix = pix.scaledToHeight(h);
+    }
 
-    ItemImage *item = new ItemImage(w, h, parent);
-    item->setPixmap(pix);
-    return item;
+    return new ItemImage(pix, parent);
 }
 
 QStringList ItemImageLoader::formatsToSave() const
@@ -127,7 +110,7 @@ QVariantMap ItemImageLoader::applySettings()
     Q_ASSERT(ui != NULL);
     m_settings["max_image_width"] = ui->spinBoxImageWidth->value();
     m_settings["max_image_height"] = ui->spinBoxImageHeight->value();
-    return  m_settings;
+    return m_settings;
 }
 
 QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)

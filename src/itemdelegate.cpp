@@ -383,8 +383,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     }
 
     w->setMaximumSize(m_maxSize);
-    w->setData(index);
-
     m_cache[row] = w;
 
     emit sizeHintChanged(index);

@@ -18,6 +18,7 @@
 */
 
 #include "itemtext.h"
+#include "ui_itemtextsettings.h"
 
 #include <QContextMenuEvent>
 #include <QModelIndex>
@@ -75,12 +76,12 @@ bool getText(const QModelIndex &index, const QStringList &formats, QString *text
 
 } // namespace
 
-ItemText::ItemText(QWidget *parent)
+ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_searchTextDocument()
-    , m_textFormat(Qt::PlainText)
+    , m_textFormat(isRichText ? Qt::RichText : Qt::PlainText)
 {
     init(m_textDocument, font());
     init(m_searchTextDocument, font());
@@ -93,33 +94,11 @@ ItemText::ItemText(QWidget *parent)
 
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
-}
 
-void ItemText::setData(const QModelIndex &index)
-{
-    const QStringList formats = ItemLoaderInterface::getFormats(index);
-    QString text;
-    if ( getRichText(index, formats, &text) ) {
-        setRichTextData(text);
-    } else {
-        getText(index, formats, &text);
-        setTextData(text);
-    }
-}
-
-void ItemText::setRichTextData(const QString &text)
-{
-    m_textFormat = Qt::RichText;
-    m_textDocument.setHtml( text.left(defaultMaxBytes) );
-    setDocument(&m_textDocument);
-    updateSize();
-    updateItem();
-}
-
-void ItemText::setTextData(const QString &text)
-{
-    m_textFormat = Qt::PlainText;
-    m_textDocument.setPlainText( text.left(defaultMaxBytes) );
+    if (isRichText)
+        m_textDocument.setHtml( text.left(defaultMaxBytes) );
+    else
+        m_textDocument.setPlainText( text.left(defaultMaxBytes) );
     setDocument(&m_textDocument);
     updateSize();
     updateItem();
@@ -193,26 +172,50 @@ void ItemText::contextMenuEvent(QContextMenuEvent *e)
     e->ignore();
 }
 
+ItemTextLoader::ItemTextLoader()
+    : ui(NULL)
+{
+}
+
+ItemTextLoader::~ItemTextLoader()
+{
+    delete ui;
+}
+
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     const QStringList formats = getFormats(index);
 
-    ItemText *item = NULL;
     QString text;
-    if ( getRichText(index, formats, &text) ) {
-        item = new ItemText(parent);
-        item->setRichTextData(text);
-    } else if ( getText(index, formats, &text) ) {
-        item = new ItemText(parent);
-        item->setTextData(text);
-    }
+    bool isRichText = m_settings.value("use_rich_text", true).toBool()
+            && getRichText(index, formats, &text);
 
-    return item;
+    if ( isRichText || getText(index, formats, &text) )
+        return new ItemText(text, isRichText, parent);
+
+    return NULL;
 }
 
 QStringList ItemTextLoader::formatsToSave() const
 {
     return QStringList("text/plain") << QString("text/html") << QString("text/richtext");
+}
+
+QVariantMap ItemTextLoader::applySettings()
+{
+    Q_ASSERT(ui != NULL);
+    m_settings["use_rich_text"] = ui->checkBoxUseRichText->isChecked();
+    return m_settings;
+}
+
+QWidget *ItemTextLoader::createSettingsWidget(QWidget *parent)
+{
+    delete ui;
+    ui = new Ui::ItemTextSettings;
+    QWidget *w = new QWidget(parent);
+    ui->setupUi(w);
+    ui->checkBoxUseRichText->setChecked( m_settings.value("use_rich_text", true).toBool() );
+    return w;
 }
 
 Q_EXPORT_PLUGIN2(itemtext, ItemTextLoader)

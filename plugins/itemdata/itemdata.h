@@ -35,11 +35,9 @@ class ItemData : public QLabel, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemData(int maxBytes, QWidget *parent);
+    ItemData(const QModelIndex &index, int maxBytes, QWidget *parent);
 
     QWidget *widget() { return this; }
-
-    virtual void setData(const QModelIndex &index);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,

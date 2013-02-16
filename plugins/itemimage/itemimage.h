@@ -33,20 +33,12 @@ class ItemImage : public QLabel, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemImage(int maximumWidth, int maximumHeight, QWidget *parent);
+    ItemImage(const QPixmap &pix, QWidget *parent);
 
     QWidget *widget() { return this; }
 
-    virtual void setData(const QModelIndex &index);
-
-    void setLabelPixmap(const QPixmap &pix);
-
 protected:
     virtual void updateSize();
-
-private:
-    int m_maximumWidth;
-    int m_maximumHeight;
 };
 
 class ItemImageLoader : public QObject, public ItemLoaderInterface

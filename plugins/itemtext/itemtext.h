@@ -25,16 +25,18 @@
 #include <QTextDocument>
 #include <QTextEdit>
 
+namespace Ui {
+class ItemTextSettings;
+}
+
 class ItemText : public QTextEdit, public ItemWidget
 {
     Q_OBJECT
 
 public:
-    ItemText(QWidget *parent);
+    ItemText(const QString &text, bool isRichText, QWidget *parent);
 
     QWidget *widget() { return this; }
-
-    virtual void setData(const QModelIndex &index);
 
     void setRichTextData(const QString &text);
 
@@ -65,6 +67,10 @@ class ItemTextLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemTextLoader();
+
+    ~ItemTextLoader();
+
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual QString name() const { return tr("Text Items"); }
@@ -72,6 +78,16 @@ public:
     virtual QString description() const { return tr("Display plain text and simple HTML items."); }
 
     virtual QStringList formatsToSave() const;
+
+    virtual QVariantMap applySettings();
+
+    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+
+    virtual QWidget *createSettingsWidget(QWidget *parent);
+
+private:
+    QVariantMap m_settings;
+    Ui::ItemTextSettings *ui;
 };
 
 #endif // ITEMTEXT_H

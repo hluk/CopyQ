@@ -29,13 +29,9 @@ class ItemWeb : public QWebView, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemWeb(QWidget *parent);
+    ItemWeb(const QString &html, QWidget *parent);
 
     QWidget *widget() { return this; }
-
-    virtual void setData(const QModelIndex &index);
-
-    void setHtmlData(const QString &html);
 
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
