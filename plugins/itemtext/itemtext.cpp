@@ -30,7 +30,7 @@
 namespace {
 
 // Limit number of characters for performance reasons.
-const int maxChars = 100*1024;
+const int defaultMaxBytes = 100*1024;
 
 void init(QTextDocument &doc, const QFont &font)
 {
@@ -110,7 +110,7 @@ void ItemText::setData(const QModelIndex &index)
 void ItemText::setRichTextData(const QString &text)
 {
     m_textFormat = Qt::RichText;
-    m_textDocument.setHtml( text.left(maxChars) );
+    m_textDocument.setHtml( text.left(defaultMaxBytes) );
     setDocument(&m_textDocument);
     updateSize();
     updateItem();
@@ -119,7 +119,7 @@ void ItemText::setRichTextData(const QString &text)
 void ItemText::setTextData(const QString &text)
 {
     m_textFormat = Qt::PlainText;
-    m_textDocument.setPlainText( text.left(maxChars) );
+    m_textDocument.setPlainText( text.left(defaultMaxBytes) );
     setDocument(&m_textDocument);
     updateSize();
     updateItem();

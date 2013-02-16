@@ -23,6 +23,7 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QTextCodec>
 #include <QtPlugin>
 
 #if QT_VERSION < 0x050000
@@ -32,17 +33,58 @@
 namespace {
 
 // Limit number of characters for performance reasons.
-const int maxChars = 256;
+const int defaultMaxBytes = 256;
 
 const QStringList defaultFormats = QStringList("text/uri-list") << QString("text/xml");
 
-QString escapeHtml(const QString &str)
+QString escapeHtml(const QByteArray &data)
 {
+    QTextCodec *codec = QTextCodec::codecForHtml(data, QTextCodec::codecForLocale());
+    QString str = codec->toUnicode(data);
 #if QT_VERSION < 0x050000
     return Qt::escape(str);
 #else
     return str.toHtmlEscaped();
 #endif
+}
+
+QString hexData(const QByteArray &data)
+{
+    if ( data.isEmpty() )
+        return QString();
+
+    QString result;
+    QString chars;
+
+    int i = 0;
+    forever {
+        if (i > 0) {
+            if ( (i % 2) == 0 )
+                result.append( QString(" ") );
+            if ( (i % 16) == 0 ) {
+                result.append(" ");
+                result.append(chars);
+                result.append( QString("\n") );
+                chars.clear();
+                if (i >= data.size() )
+                    break;
+            }
+        }
+        if ( (i % 16) == 0 ) {
+            result.append( QString("%1: ").arg(QString::number(i, 16), 4, QChar('0')) );
+        }
+        if (i < data.size() ) {
+            QChar c = data[i];
+            result.append( QString("%1").arg(QString::number(c.unicode(), 16), 2, QChar('0')) );
+            chars.append( c.isPrint() ? escapeHtml(QByteArray(1, c.toLatin1())) : QString(".") );
+        } else {
+            result.append( QString("  ") );
+        }
+
+        ++i;
+    }
+
+    return result;
 }
 
 bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
@@ -57,9 +99,10 @@ bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
 
 } // namespace
 
-ItemData::ItemData(QWidget *parent)
+ItemData::ItemData(int maxBytes, QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
+    , m_maxBytes(maxBytes)
 {
     setTextInteractionFlags(Qt::TextSelectableByMouse);
     setContentsMargins(4, 4, 4, 4);
@@ -72,10 +115,18 @@ void ItemData::setData(const QModelIndex &index)
 
     const QStringList formats = ItemDataLoader::getFormats(index);
     for (int i = 0; i < formats.size(); ++i ) {
-        QString data = ItemDataLoader::getData(i, index).left(maxChars);
-        text.append( QString("<p><b>%1</b>: %2</p>")
-                     .arg(formats[i])
-                     .arg( escapeHtml(data.left(maxChars)) ) );
+        QByteArray data = ItemDataLoader::getData(i, index);
+        const int size = data.size();
+        data = data.left(m_maxBytes);
+        const QString &format = formats[i];
+        bool hasText = format.startsWith("text/") ||
+                       format.startsWith("application/x-copyq-owner-window-title");
+        text.append( QString("<p>") );
+        text.append( QString("<b>%1</b> (%2 bytes)<pre>%3</pre>")
+                     .arg(format)
+                     .arg(size)
+                     .arg(hasText ? escapeHtml(data) : hexData(data)) );
+        text.append( QString("</p>") );
     }
 
     setText(text);
@@ -124,7 +175,7 @@ ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) co
     if ( emptyIntersection(getFormats(index), formatsToSave()) )
         return NULL;
 
-    ItemData *item = new ItemData(parent);
+    ItemData *item = new ItemData( m_settings.value("max_bytes", defaultMaxBytes).toInt(), parent );
     item->setData(index);
 
     return item;
@@ -139,6 +190,7 @@ QVariantMap ItemDataLoader::applySettings()
 {
     Q_ASSERT(ui != NULL);
     m_settings["formats"] = ui->plainTextEditFormats->toPlainText().split( QRegExp("[;,\\s]+") );
+    m_settings["max_bytes"] = ui->spinBoxMaxChars->value();
     return  m_settings;
 }
 
@@ -151,6 +203,7 @@ QWidget *ItemDataLoader::createSettingsWidget(QWidget *parent)
 
     QStringList formats = m_settings.value("formats", defaultFormats).toStringList();
     ui->plainTextEditFormats->setPlainText( formats.join(QString("\n")) );
+    ui->spinBoxMaxChars->setValue( m_settings.value("max_bytes", defaultMaxBytes).toInt() );
 
     connect( ui->treeWidgetFormats, SIGNAL(itemActivated(QTreeWidgetItem*,int)),
              SLOT(on_treeWidgetFormats_itemActivated(QTreeWidgetItem*,int)) );

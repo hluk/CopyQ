@@ -35,7 +35,7 @@ class ItemData : public QLabel, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemData(QWidget *parent);
+    ItemData(int maxBytes, QWidget *parent);
 
     QWidget *widget() { return this; }
 
@@ -52,6 +52,9 @@ protected:
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
     virtual void contextMenuEvent(QContextMenuEvent *e);
+
+private:
+    int m_maxBytes;
 };
 
 class ItemDataLoader : public QObject, public ItemLoaderInterface
