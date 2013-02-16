@@ -534,7 +534,7 @@ void ConfigurationManager::loadSettings()
     // load settings for each plugin
     settings.beginGroup("Plugins");
     foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
-        settings.beginGroup(loader->name());
+        settings.beginGroup(loader->id());
 
         QVariantMap s;
         foreach (const QString &name, settings.allKeys()) {
@@ -620,7 +620,7 @@ void ConfigurationManager::saveSettings()
     emit applyPluginConfiguration();
     settings.beginGroup("Plugins");
     foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
-        settings.beginGroup(loader->name());
+        settings.beginGroup(loader->id());
 
         QVariantMap s = loader->applySettings();
         foreach (const QString &name, s.keys()) {

@@ -56,6 +56,7 @@ public:
 
     virtual int priority() const { return 10; }
 
+    virtual QString id() const { return "itemimage"; }
     virtual QString name() const { return tr("Image Items"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display images."); }

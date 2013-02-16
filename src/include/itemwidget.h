@@ -131,6 +131,11 @@ public:
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const = 0;
 
     /**
+     * Simple ID of plugin (e.g. part of plugin file name).
+     */
+    virtual QString id() const = 0;
+
+    /**
      * Return descriptive name.
      */
     virtual QString name() const = 0;

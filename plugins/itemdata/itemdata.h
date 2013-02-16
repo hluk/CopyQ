@@ -68,6 +68,7 @@ public:
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
+    virtual QString id() const { return "itemdata"; }
     virtual QString name() const { return tr("Data Items"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Various data to save."); }
