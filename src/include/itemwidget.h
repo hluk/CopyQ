@@ -32,6 +32,19 @@ class QModelIndex;
 class QPalette;
 class QWidget;
 
+#define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
+
+#if QT_VERSION < 0x050000
+#   define Q_PLUGIN_METADATA(x)
+#else
+#   if defined(Q_EXPORT_PLUGIN)
+#       undef Q_EXPORT_PLUGIN
+#       undef Q_EXPORT_PLUGIN2
+#   endif
+#   define Q_EXPORT_PLUGIN(x)
+#   define Q_EXPORT_PLUGIN2(x,y)
+#endif
+
 /**
  * Handles item in list.
  */
@@ -159,6 +172,6 @@ private:
     bool m_enabled;
 };
 
-Q_DECLARE_INTERFACE(ItemLoaderInterface, "org.CopyQ.ItemPlugin.ItemLoader/1.0")
+Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)
 
 #endif // ITEMWIDGET_H

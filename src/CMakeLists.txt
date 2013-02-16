@@ -69,6 +69,8 @@ if (X11_FOUND)
     if(NOT X11_Xfixes_FOUND)
         message(FATAL_ERROR "X11 'fixes' extension library is required")
     endif(NOT X11_Xfixes_FOUND)
+
+    add_definitions( -DCOPYQ_WS_X11 )
 elseif (Q_WS_WIN)
     # File icon on Windows
     set(copyq_RC copyq.rc)

@@ -17,6 +17,7 @@ set(copyq_DESKTOP shared/copyq.desktop)
 
 # Be more strict while compiling debugging version
 if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wno-long-long")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic")
 endif()
 
@@ -28,9 +29,9 @@ endif()
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     install(FILES ${copyq_ICON} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/icons" RENAME copyq.svg)
     install(FILES ${copyq_DESKTOP} DESTINATION "${CMAKE_INSTALL_PREFIX}/share/applications")
-    set(COPYQ_PLUGIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/copyq/plugins")
+    set(copyq_plugin_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/copyq/plugins")
 else()
-    set(COPYQ_PLUGIN_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/plugins")
+    set(copyq_plugin_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/plugins")
 endif()
 
 add_subdirectory(src)

@@ -55,6 +55,9 @@ typedef enum {
 #else
 #   if defined(Q_OS_UNIX) && !defined(Q_OS_MAC)
 #       define Q_WS_X11
+#       ifndef COPYQ_WS_X11
+#           define COPYQ_WS_X11
+#       endif
 #   endif
 #endif
 

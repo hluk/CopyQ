@@ -61,6 +61,7 @@ private slots:
 class ItemWebLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
+    Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)
     Q_INTERFACES(ItemLoaderInterface)
 
 public:

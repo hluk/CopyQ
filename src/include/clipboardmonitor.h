@@ -94,7 +94,7 @@ public slots:
     void checkClipboard(QClipboard::Mode mode);
 
 private slots:
-#ifdef Q_WS_X11
+#if defined(Q_WS_X11) || defined(COPYQ_WS_X11)
     /**
      * Return true if primary selection data can be retrieved.
      *

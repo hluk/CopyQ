@@ -18,15 +18,14 @@ endif()
 if (HAS_WEBKIT)
     message(STATUS "Building with ItemWeb plugin.")
 
-    set(plugin_itemweb_MOCABLE ${plugin_itemweb_MOCABLE}
+    set(copyq_plugin_itemweb_MOCABLE ${copyq_plugin_itemweb_MOCABLE}
         src/include/itemweb.h
         )
 
     if (WITH_QT5)
-        qt5_use_modules(copyq WebKitWidgets)
+        set(copyq_plugin_itemweb_Qt5_Modules WebKitWidgets)
     else()
-        set(QT_USE_QTWEBKIT ${HAS_WEBKIT})
-        include(${QT_USE_FILE})
+        set(QT_USE_QTWEBKIT ON)
     endif()
 
     copyq_add_plugin(itemweb)

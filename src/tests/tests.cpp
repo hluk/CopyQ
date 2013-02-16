@@ -27,6 +27,7 @@
 #include <QClipboard>
 #include <QLocalServer>
 #include <QLocalSocket>
+#include <QMimeData>
 #include <QProcess>
 #include <QTemporaryFile>
 #include <QTest>

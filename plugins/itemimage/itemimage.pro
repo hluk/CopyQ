@@ -1,13 +1,7 @@
-TEMPLATE     = lib
-CONFIG      += plugin
-INCLUDEPATH += ../../src/include
-HEADERS      = itemimage.h \
-               ../../src/include/itemwidget.h
-SOURCES      = itemimage.cpp \
-               ../../src/itemwidget.cpp
-TARGET       = $$qtLibraryTarget(itemimage)
-DESTDIR      = ../
+include(../plugins_common.pri)
 
-FORMS += \
-    itemimagesettings.ui
+HEADERS += itemimage.h
+SOURCES += itemimage.cpp
+FORMS   += itemimagesettings.ui
+TARGET   = $$qtLibraryTarget(itemimage)
 
