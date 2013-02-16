@@ -1,7 +1,7 @@
 macro (copyq_add_plugin)
     set(copyq_pkg ${ARGV0})
 
-    file(GLOB copyq_plugin_${copyq_pkg}_SOURCES *.cpp)
+    file(GLOB copyq_plugin_${copyq_pkg}_SOURCES *.cpp ../../src/itemwidget.cpp)
     file(GLOB copyq_plugin_${copyq_pkg}_MOCABLE *.h)
     file(GLOB copyq_plugin_${copyq_pkg}_FORMS *.ui)
 
@@ -42,4 +42,3 @@ add_subdirectory("itemtext")
 add_subdirectory("itemimage")
 add_subdirectory("itemweb")
 add_subdirectory("itemdata")
-
