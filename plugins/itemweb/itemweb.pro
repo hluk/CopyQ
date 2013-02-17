@@ -1,9 +1,5 @@
-TEMPLATE = lib
-
-WITH_WEBKIT {
+equals(WITH_WEBKIT,1) {
     include(../plugins_common.pri)
-
-    DEFINES += HAS_WEBKIT
 
     HEADERS += itemweb.h
     SOURCES += itemweb.cpp
@@ -15,5 +11,8 @@ WITH_WEBKIT {
     !lessThan(QT_MAJOR_VERSION, 5) {
         QT += webkitwidgets
     }
+}
+!equals(WITH_WEBKIT,1) {
+    TEMPLATE = subdirs
 }
 
