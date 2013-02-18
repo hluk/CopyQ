@@ -25,6 +25,7 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QTextCodec>
 #include <QtPlugin>
 
 #if QT_VERSION < 0x050000
@@ -86,6 +87,14 @@ QString hexData(const QByteArray &data)
     return result;
 }
 
+QString stringFromBytes(const QByteArray &bytes, const QString &format)
+{
+    QTextCodec *codec = QTextCodec::codecForName("utf-8");
+    if (format == QLatin1String("text/html"))
+        codec = QTextCodec::codecForHtml(bytes, codec);
+    return codec->toUnicode(bytes);
+}
+
 bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
 {
     for (int i = 0; i < lhs.size(); ++i) {
@@ -121,7 +130,7 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
         text.append( QString("<b>%1</b> (%2 bytes)<pre>%3</pre>")
                      .arg(format)
                      .arg(size)
-                     .arg(hasText ? escapeHtml(QString::fromUtf8(data)) : hexData(data)) );
+                     .arg(hasText ? escapeHtml(stringFromBytes(data, format)) : hexData(data)) );
         text.append( QString("</p>") );
     }
 
