@@ -25,7 +25,6 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
-#include <QTextCodec>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QtPlugin>
@@ -41,23 +40,18 @@ void init(QTextDocument &doc, const QFont &font)
     doc.setUndoRedoEnabled(false);
 }
 
-void textFromBytes(const QByteArray &bytes, QString *text)
-{
-    QTextCodec *codec = QTextCodec::codecForHtml(bytes, QTextCodec::codecForLocale());
-    *text = codec->toUnicode(bytes);
-}
-
 bool getRichText(const QModelIndex &index, const QStringList &formats, QString *text)
 {
-    int i = formats.indexOf("text/html");
-    if (i == -1) {
-        i = formats.indexOf("text/richtext");
-        if (i == -1)
-            return false;
-    }
+    *text = index.data(contentType::html).toString();
+    if ( !text->isNull() )
+        return true;
+
+    int i = formats.indexOf("text/richtext");
+    if (i == -1)
+        return false;
 
     const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
-    textFromBytes(data, text);
+    *text = QString::fromUtf8(data);
 
     // Remove trailing null character.
     if ( text->endsWith(QChar(0)) )
@@ -66,16 +60,10 @@ bool getRichText(const QModelIndex &index, const QStringList &formats, QString *
     return true;
 }
 
-bool getText(const QModelIndex &index, const QStringList &formats, QString *text)
+bool getText(const QModelIndex &index, QString *text)
 {
-    int i = formats.indexOf("text/plain");
-    if (i == -1)
-        return false;
-
-    const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
-    textFromBytes(data, text);
-
-    return true;
+    *text = index.data(contentType::text).toString();
+    return !text->isNull();
 }
 
 } // namespace
@@ -194,7 +182,7 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) co
     bool isRichText = m_settings.value("use_rich_text", true).toBool()
             && getRichText(index, formats, &text);
 
-    if ( isRichText || getText(index, formats, &text) )
+    if ( isRichText || getText(index, &text) )
         return new ItemText(text, isRichText, parent);
 
     return NULL;

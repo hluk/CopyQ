@@ -26,7 +26,6 @@
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QPalette>
-#include <QTextCodec>
 #include <QtPlugin>
 #include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebHistory>
@@ -37,13 +36,9 @@ namespace {
 
 bool getHtml(const QModelIndex &index, const QStringList &formats, QString *text)
 {
-    int i = formats.indexOf("text/html");
-    if (i == -1)
+    *text = index.data(contentType::html).toString();
+    if ( text->isNull() )
         return false;
-
-    QByteArray bytes = index.data(contentType::firstFormat + i).toByteArray();
-    QTextCodec *codec = QTextCodec::codecForHtml(bytes, QTextCodec::codecForLocale());
-    *text = codec->toUnicode(bytes);
 
     // Remove trailing null character.
     if ( text->endsWith(QChar(0)) )

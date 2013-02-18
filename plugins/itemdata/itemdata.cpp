@@ -25,7 +25,6 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
-#include <QTextCodec>
 #include <QtPlugin>
 
 #if QT_VERSION < 0x050000
@@ -41,8 +40,7 @@ const QStringList defaultFormats = QStringList("text/uri-list") << QString("text
 
 QString escapeHtml(const QByteArray &data)
 {
-    QTextCodec *codec = QTextCodec::codecForHtml(data, QTextCodec::codecForLocale());
-    QString str = codec->toUnicode(data);
+    QString str = QString::fromLatin1(data);
 #if QT_VERSION < 0x050000
     return Qt::escape(str);
 #else

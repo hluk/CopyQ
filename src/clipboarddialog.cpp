@@ -25,7 +25,6 @@
 
 #include <QListWidgetItem>
 #include <QUrl>
-#include <QTextCodec>
 
 ClipboardDialog::ClipboardDialog(const QMimeData *itemData, QWidget *parent)
     : QDialog(parent)
@@ -71,11 +70,8 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
         edit->document()->addResource( QTextDocument::ImageResource,
                                        QUrl("data://1"), bytes );
         edit->setHtml( QString("<img src=\"data://1\" />") );
-    } else if ( mime == QString("application/x-copyq-owner-window-title") ) {
-        edit->setPlainText( QString::fromUtf8(bytes) );
     } else {
-        QTextCodec *codec = QTextCodec::codecForHtml(bytes, QTextCodec::codecForLocale());
-        edit->setPlainText( codec->toUnicode(bytes) );
+        edit->setPlainText( QString::fromUtf8(bytes) );
     }
 
     ui->labelProperties->setText(
