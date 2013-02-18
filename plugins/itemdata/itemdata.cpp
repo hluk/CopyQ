@@ -38,9 +38,8 @@ const int defaultMaxBytes = 256;
 
 const QStringList defaultFormats = QStringList("text/uri-list") << QString("text/xml");
 
-QString escapeHtml(const QByteArray &data)
+QString escapeHtml(const QString &str)
 {
-    QString str = QString::fromLatin1(data);
 #if QT_VERSION < 0x050000
     return Qt::escape(str);
 #else
@@ -76,7 +75,7 @@ QString hexData(const QByteArray &data)
         if (i < data.size() ) {
             QChar c = data[i];
             result.append( QString("%1").arg(QString::number(c.unicode(), 16), 2, QChar('0')) );
-            chars.append( c.isPrint() ? escapeHtml(QByteArray(1, c.toLatin1())) : QString(".") );
+            chars.append( c.isPrint() ? escapeHtml(QString(c)) : QString(".") );
         } else {
             result.append( QString("  ") );
         }
@@ -122,7 +121,7 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
         text.append( QString("<b>%1</b> (%2 bytes)<pre>%3</pre>")
                      .arg(format)
                      .arg(size)
-                     .arg(hasText ? escapeHtml(data) : hexData(data)) );
+                     .arg(hasText ? escapeHtml(QString::fromUtf8(data)) : hexData(data)) );
         text.append( QString("</p>") );
     }
 
