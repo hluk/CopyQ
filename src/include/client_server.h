@@ -25,7 +25,7 @@
 #include <QWidget> // WId
 
 // Application version
-#define COPYQ_VERSION "1.7.0"
+#define COPYQ_VERSION "1.7.1"
 
 class QByteArray;
 class QIODevice;
