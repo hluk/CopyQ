@@ -20,6 +20,8 @@
 #include "itemtext.h"
 #include "ui_itemtextsettings.h"
 
+#include "contenttype.h"
+
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
@@ -54,7 +56,8 @@ bool getRichText(const QModelIndex &index, const QStringList &formats, QString *
             return false;
     }
 
-    textFromBytes(ItemLoaderInterface::getData(i, index), text);
+    const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
+    textFromBytes(data, text);
 
     // Remove trailing null character.
     if ( text->endsWith(QChar(0)) )
@@ -69,7 +72,8 @@ bool getText(const QModelIndex &index, const QStringList &formats, QString *text
     if (i == -1)
         return false;
 
-    textFromBytes(ItemLoaderInterface::getData(i, index), text);
+    const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
+    textFromBytes(data, text);
 
     return true;
 }
@@ -184,7 +188,7 @@ ItemTextLoader::~ItemTextLoader()
 
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QStringList formats = getFormats(index);
+    const QStringList formats = index.data(contentType::formats).toStringList();
 
     QString text;
     bool isRichText = m_settings.value("use_rich_text", true).toBool()

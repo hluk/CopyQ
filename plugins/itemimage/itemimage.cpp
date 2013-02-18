@@ -20,6 +20,8 @@
 #include "itemimage.h"
 #include "ui_itemimagesettings.h"
 
+#include "contenttype.h"
+
 #include <QHBoxLayout>
 #include <QModelIndex>
 #include <QPixmap>
@@ -34,7 +36,7 @@ const QStringList imageFormats =
 
 bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 {
-    const QStringList formats = ItemLoaderInterface::getFormats(index);
+    const QStringList formats = index.data(contentType::formats).toStringList();
 
     int i = -1;
     foreach (const QString &format, imageFormats) {
@@ -47,7 +49,8 @@ bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
         return false;
 
     const QString &mimeType = formats[i];
-    pix->loadFromData( ItemLoaderInterface::getData(i, index), mimeType.toLatin1() );
+    const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
+    pix->loadFromData( data, mimeType.toLatin1() );
 
     return true;
 }

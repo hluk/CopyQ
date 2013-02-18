@@ -28,6 +28,7 @@ HEADERS += \
     include/clipboardmodel.h \
     include/clipboardmonitor.h \
     include/clipboardserver.h \
+    include/contenttype.h \
     include/command.h \
     include/commandwidget.h \
     include/configurationmanager.h \

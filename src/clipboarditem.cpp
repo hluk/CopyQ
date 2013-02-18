@@ -21,6 +21,7 @@
 
 #include "client_server.h"
 #include "clipboardmodel.h"
+#include "contenttype.h"
 
 #include <QMimeData>
 #include <QVariant>
@@ -87,10 +88,18 @@ QVariant ClipboardItem::data(int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if ( m_data->hasText() )
             return text();
-    } else if (role == Qt::UserRole) {
-        return formats();
-    } else if (role > Qt::UserRole) {
-        return m_data->data( formats().value(role - Qt::UserRole - 1) );
+    } else if (role >= Qt::UserRole) {
+        if (role == contentType::formats) {
+            return formats();
+        } else if (role == contentType::text) {
+            return m_data->text();
+        } else if (role == contentType::html) {
+            return m_data->html();
+        } else if (role == contentType::imageData) {
+            return m_data->imageData();
+        } else if (role >= contentType::firstFormat) {
+            return m_data->data( formats().value(role - contentType::firstFormat) );
+        }
     }
 
     return QVariant();

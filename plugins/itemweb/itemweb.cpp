@@ -19,6 +19,8 @@
 
 #include "itemweb.h"
 
+#include "contenttype.h"
+
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QModelIndex>
@@ -39,7 +41,7 @@ bool getHtml(const QModelIndex &index, const QStringList &formats, QString *text
     if (i == -1)
         return false;
 
-    QByteArray bytes = ItemLoaderInterface::getData(i, index);
+    QByteArray bytes = index.data(contentType::firstFormat + i).toByteArray();
     QTextCodec *codec = QTextCodec::codecForHtml(bytes, QTextCodec::codecForLocale());
     *text = codec->toUnicode(bytes);
 
@@ -148,7 +150,7 @@ void ItemWeb::wheelEvent(QWheelEvent *e)
 
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QStringList formats = getFormats(index);
+    const QStringList formats = index.data(contentType::formats).toStringList();
 
     QString html;
     if ( getHtml(index, formats, &html) )

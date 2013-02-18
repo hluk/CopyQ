@@ -86,13 +86,3 @@ void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
         textEdit->selectAll();
     }
 }
-
-QStringList ItemLoaderInterface::getFormats(const QModelIndex &index)
-{
-    return index.data(Qt::UserRole).toStringList();
-}
-
-QByteArray ItemLoaderInterface::getData(int formatIndex, const QModelIndex &index)
-{
-    return index.data(Qt::UserRole + formatIndex + 1).toByteArray();
-}

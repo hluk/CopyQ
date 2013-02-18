@@ -107,16 +107,6 @@ public:
     virtual ~ItemLoaderInterface() {}
 
     /**
-     * Return list of MIME types for given item.
-     */
-    static QStringList getFormats(const QModelIndex &index);
-
-    /**
-     * Return data for format on given index.
-     */
-    static QByteArray getData(int formatIndex, const QModelIndex &index);
-
-    /**
      * Return priority.
      *
      * Use this loader before all others with lower priority.

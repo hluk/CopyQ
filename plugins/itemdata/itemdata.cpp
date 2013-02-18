@@ -20,6 +20,8 @@
 #include "itemdata.h"
 #include "ui_itemdatasettings.h"
 
+#include "contenttype.h"
+
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
@@ -110,9 +112,9 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
 
     QString text;
 
-    const QStringList formats = ItemDataLoader::getFormats(index);
+    const QStringList formats = index.data(contentType::formats).toStringList();
     for (int i = 0; i < formats.size(); ++i ) {
-        QByteArray data = ItemDataLoader::getData(i, index);
+        QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
         const int size = data.size();
         data = data.left(m_maxBytes);
         const QString &format = formats[i];
@@ -169,7 +171,8 @@ ItemDataLoader::~ItemDataLoader()
 
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    if ( emptyIntersection(getFormats(index), formatsToSave()) )
+    const QStringList formats = index.data(contentType::formats).toStringList();
+    if ( emptyIntersection(formats, formatsToSave()) )
         return NULL;
 
     return new ItemData( index, m_settings.value("max_bytes", defaultMaxBytes).toInt(), parent );
