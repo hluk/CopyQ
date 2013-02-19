@@ -79,21 +79,25 @@ endif(X11_FOUND)
 
 # Qxt - global shortcuts
 if (USE_QXT)
-    set(copyq_SOURCES ${copyq_SOURCES}
-        ../qxt/qxtglobal.cpp
-        ../qxt/qxtglobalshortcut.cpp
-        )
-    set(copyq_MOCABLE ${copyq_MOCABLE}
-        ../qxt/qxtglobalshortcut.h
-        )
-    add_definitions( -DQXT_STATIC )
-
     if (X11_FOUND)
         list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_x11.cpp)
     elseif (Q_WS_WIN)
         list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_win.cpp)
     elseif (Q_WS_MAC)
         list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_mac.cpp)
+    else()
+        set(USE_QXT FALSE)
+    endif()
+
+    if (USE_QXT)
+        set(copyq_SOURCES ${copyq_SOURCES}
+            ../qxt/qxtglobal.cpp
+            ../qxt/qxtglobalshortcut.cpp
+            )
+        set(copyq_MOCABLE ${copyq_MOCABLE}
+            ../qxt/qxtglobalshortcut.h
+            )
+        add_definitions( -DQXT_STATIC )
     endif()
 endif(USE_QXT)
 
