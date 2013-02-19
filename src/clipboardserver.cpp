@@ -196,7 +196,7 @@ void ClipboardServer::loadMonitorSettings()
     settings["_last_hash"] = cm->value("_last_hash");
     settings["formats"] = ItemFactory::instance()->formatsToSave();
     settings["check_clipboard"] = cm->value("check_clipboard");
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     settings["copy_clipboard"] = cm->value("copy_clipboard");
     settings["copy_selection"] = cm->value("copy_selection");
     settings["check_selection"] = cm->value("check_selection");

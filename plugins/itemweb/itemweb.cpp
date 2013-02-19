@@ -34,7 +34,7 @@
 
 namespace {
 
-bool getHtml(const QModelIndex &index, const QStringList &formats, QString *text)
+bool getHtml(const QModelIndex &index, QString *text)
 {
     *text = index.data(contentType::html).toString();
     if ( text->isNull() )
@@ -145,10 +145,8 @@ void ItemWeb::wheelEvent(QWheelEvent *e)
 
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
-
     QString html;
-    if ( getHtml(index, formats, &html) )
+    if ( getHtml(index, &html) )
         return new ItemWeb(html, parent);
 
     return NULL;

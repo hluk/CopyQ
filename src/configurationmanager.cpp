@@ -143,7 +143,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["show_action_dialog"] = Option("", "text", ui->pushButton_6);
     m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_7);
 #endif
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
     m_options["check_selection"] = Option(true, "checked", ui->checkBoxSel);
     m_options["copy_clipboard"] = Option(true, "checked", ui->checkBoxCopyClip);
@@ -336,7 +336,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = QApplication::arguments().value(0) + " tab TODO write text/plain -";
         c->input = "text/plain";
         break;
-#if defined(Q_WS_X11) || defined(Q_OS_WIN)
+#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)
     case 12:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));

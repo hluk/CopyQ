@@ -108,6 +108,7 @@ lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
 }
 
 unix:!macx {
+    DEFINES += COPYQ_WS_X11
     LIBS    += -lX11 -lXfixes
 }
 macx {

@@ -59,7 +59,7 @@ ItemFactory::ItemFactory()
     , m_loaderChildren()
 {
     QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-#if defined(Q_WS_X11)
+#if defined(COPYQ_WS_X11)
     if ( pluginsDir.dirName() == QString("bin") ) {
         pluginsDir.cdUp();
         pluginsDir.cd("lib");

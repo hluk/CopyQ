@@ -30,7 +30,7 @@
 
 class QMimeData;
 class QTimer;
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
 class PrivateX11;
 #endif
 
@@ -67,7 +67,7 @@ private:
     QStringList m_formats;
     QMimeData *m_newdata;
     bool m_checkclip;
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     bool m_copyclip;
     bool m_checksel;
     bool m_copysel;
@@ -78,7 +78,7 @@ private:
     // don't allow rapid access to clipboard
     QTimer *m_updateTimer;
 
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     // stuff for X11 window system
     PrivateX11* m_x11;
 #endif
@@ -94,7 +94,7 @@ public slots:
     void checkClipboard(QClipboard::Mode mode);
 
 private slots:
-#if defined(Q_WS_X11) || defined(COPYQ_WS_X11)
+#ifdef COPYQ_WS_X11
     /**
      * Return true if primary selection data can be retrieved.
      *

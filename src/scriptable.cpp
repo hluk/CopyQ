@@ -99,7 +99,7 @@ QList<CommandHelp> commandHelp()
         << CommandHelp("clipboard",
                        Scriptable::tr("Print clipboard content."))
            .addArg("[" + Scriptable::tr("MIME") + "]")
-    #ifdef Q_WS_X11
+    #ifdef COPYQ_WS_X11
         << CommandHelp("selection",
                        Scriptable::tr("Print X11 selection content."))
            .addArg("[" + Scriptable::tr("MIME") + "]")
@@ -480,7 +480,7 @@ QScriptValue Scriptable::clipboard()
 
 QScriptValue Scriptable::selection()
 {
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     const QString &mime = arg(0, defaultMime);
     const QMimeData *data = clipboardData(QClipboard::Selection);
     if (data) {

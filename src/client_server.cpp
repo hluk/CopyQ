@@ -35,7 +35,7 @@
 #   include <QTextDocument> // Qt::escape()
 #endif
 
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
 #   include <X11/Xlib.h>
 #   include <X11/keysym.h>
 #   include <X11/Xatom.h>
@@ -85,7 +85,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
 
 QString currentWindowTitle()
 {
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     struct X11Display {
         X11Display() { d = XOpenDisplay(NULL); }
         ~X11Display() { if (d != NULL) XCloseDisplay(d); }
@@ -248,7 +248,7 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 
 void raiseWindow(WId wid)
 {
-#ifdef Q_WS_X11
+#ifdef COPYQ_WS_X11
     Display *dsp = XOpenDisplay(NULL);
     if (dsp) {
         XEvent e;
