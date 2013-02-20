@@ -37,27 +37,17 @@ RemoteProcess::RemoteProcess(QObject *parent)
 
 RemoteProcess::~RemoteProcess()
 {
-    if (m_server != NULL) {
-        if (m_socket != NULL)
-            m_socket->disconnectFromServer();
-
-        m_server->close();
-        if ( !m_process.waitForFinished(1000) ) {
-            log( "Remote process: Close connection unsucessful!", LogError );
-            m_process.terminate();
-            if ( !m_process.waitForFinished(1000) ) {
-                log( "Remote process: Cannot terminate process!", LogError );
-                m_process.kill();
-                if ( m_process.state() != QProcess::NotRunning ) {
-                    log( "Remote process: Cannot kill process!!!", LogError );
-                }
-            }
-        }
-    }
+    closeConnection();
 }
 
 void RemoteProcess::start(const QString &newServerName, const QStringList &arguments)
 {
+    Q_ASSERT(m_server == NULL);
+    Q_ASSERT(m_socket == NULL);
+    Q_ASSERT(!isConnected());
+    if ( isConnected() )
+        return;
+
     m_server = newServer(newServerName, &m_process);
 
     m_process.start( QCoreApplication::applicationFilePath(), arguments );
@@ -71,6 +61,9 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
 bool RemoteProcess::writeMessage(const QByteArray &msg)
 {
+    Q_ASSERT(m_server != NULL);
+    Q_ASSERT(m_socket != NULL);
+    Q_ASSERT(isConnected());
     if ( !isConnected() )
         return false;
 
@@ -88,8 +81,39 @@ bool RemoteProcess::isConnected() const
     return m_socket != NULL && m_socket->isWritable() && m_process.state() == QProcess::Running;
 }
 
+void RemoteProcess::closeConnection()
+{
+    if (m_server != NULL) {
+        if (m_socket != NULL) {
+            m_socket->disconnectFromServer();
+            m_socket->deleteLater();
+            m_socket = NULL;
+        }
+
+        m_server->close();
+        m_server->deleteLater();
+        m_server = NULL;
+
+        if ( m_process.state() != QProcess::NotRunning && !m_process.waitForFinished(1000) ) {
+            log( "Remote process: Close connection unsucessful!", LogError );
+            m_process.terminate();
+            if ( m_process.state() != QProcess::NotRunning && !m_process.waitForFinished(1002) ) {
+                log( "Remote process: Cannot terminate process!", LogError );
+                m_process.kill();
+                if ( m_process.state() != QProcess::NotRunning ) {
+                    log( "Remote process: Cannot kill process!!!", LogError );
+                }
+            }
+        }
+    }
+}
+
 void RemoteProcess::readyRead()
 {
+    Q_ASSERT(m_server != NULL);
+    Q_ASSERT(m_socket != NULL);
+    Q_ASSERT(isConnected());
+
     m_socket->blockSignals(true);
 
     while ( m_socket->bytesAvailable() > 0 ) {

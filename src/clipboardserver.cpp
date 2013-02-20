@@ -148,11 +148,12 @@ void ClipboardServer::stopMonitoring()
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setValue("_last_hash", m_lastHash);
 
-    m_monitor->process().disconnect( SIGNAL(stateChanged(QProcess::ProcessState)) );
-
     log( tr("Clipboard Monitor: Terminating") );
 
-    delete m_monitor;
+    m_monitor->disconnect();
+    m_monitor->process().disconnect();
+    m_monitor->closeConnection();
+    m_monitor->deleteLater();
     m_monitor = NULL;
 
     log( tr("Clipboard Monitor: Terminated") );
@@ -176,6 +177,7 @@ void ClipboardServer::startMonitoring()
         if ( !m_monitor->isConnected() ) {
             log( tr("Cannot start clipboard monitor!"), LogError );
             delete m_monitor;
+            m_monitor = NULL;
             exit(10);
             return;
         }

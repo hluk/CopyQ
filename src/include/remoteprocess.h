@@ -54,6 +54,8 @@ public:
      */
     bool isConnected() const;
 
+    void closeConnection();
+
     QProcess &process() { return m_process; }
 
 signals:
