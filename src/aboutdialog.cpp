@@ -63,7 +63,7 @@ static QString aboutPage()
         // copyright
         "<tr><td colspan=\"2\">Copyright (c) 2009 - 2013</td></tr>"
         // author
-        "<tr><td colspan=\"2\">Luk&#xE1;&#x161; Hole&#x10D;ek</td></tr>"
+        "<tr><td colspan=\"2\">Lukas Holecek</td></tr>"
         // e-mail
         "<tr><td class='h3'>" + escapeHtml(AboutDialog::tr("E-mail")) + "</td>"
         "<td><a href=\"mailto:hluk@email.cz\">hluk@email.cz</a></td></tr>"
