@@ -47,7 +47,7 @@ do {\
     QByteArray stdoutActual; \
     QByteArray stderrActual; \
     QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
-    stdoutActual.replace("\r\n", "\n").replace("\r", "\n"); \
+    stdoutActual.replace('\r', ""); \
     QCOMPARE( stdoutActual.data(), stdoutExpected ); \
     QCOMPARE( stderrActual.data(), "" ); \
     VERIFY_SERVER_OUTPUT(); \
@@ -247,13 +247,13 @@ void Tests::action()
     RUN(Args(argsAction) << action.arg("size") << "", "");
     qSleep(waitMsAction);
     RUN(Args(args) << "size", "1\n");
-    RUN(Args(args) << "read" << "0", "0\n\n");
+    RUN(Args(args) << "read" << "0", "0\n");
 
     // action with size
     RUN(Args(argsAction) << action.arg("size") << "", "");
     qSleep(waitMsAction);
     RUN(Args(args) << "size", "2\n");
-    RUN(Args(args) << "read" << "0", "1\n\n");
+    RUN(Args(args) << "read" << "0", "1\n");
 
     // action with eval print
     RUN(Args(argsAction) << action.arg("eval 'print(\"A,B,C\")'") << "", "");
