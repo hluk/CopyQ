@@ -27,7 +27,7 @@ class CommandWidget;
 }
 
 class QComboBox;
-class Command;
+struct Command;
 
 /** Widget (set of widgets) for creating or modifying Command object. */
 class CommandWidget : public QWidget

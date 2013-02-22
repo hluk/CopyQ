@@ -29,10 +29,10 @@ class AboutDialog;
 class Action;
 class ActionDialog;
 class ClipboardBrowser;
-class ClipboardBrowserShared;
 class ClipboardItem;
-class Command;
 class QMimeData;
+struct ClipboardBrowserShared;
+struct Command;
 
 namespace Ui
 {
