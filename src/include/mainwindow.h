@@ -234,6 +234,9 @@ class MainWindow : public QMainWindow
         /** Set previous or last tab as current. */
         void previousTab();
 
+        /** Set tooltip for tray icon. */
+        void setTrayToolTip(const ClipboardItem *item);
+
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);

@@ -89,7 +89,6 @@ MainWindow::MainWindow(QWidget *parent)
     // tray
     tray = new QSystemTrayIcon(this);
     tray->setIcon( iconTray() );
-    tray->setToolTip( tr("left click to show or hide, middle click to quit") );
 
     // signals & slots
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -108,6 +107,8 @@ MainWindow::MainWindow(QWidget *parent)
              m_timerSearch, SLOT(start()) );
     connect( this, SIGNAL(editingActive(bool)),
              ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
+    connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
+             this, SLOT(setTrayToolTip(const ClipboardItem*)) );
 
     // settings
     loadSettings();
@@ -719,8 +720,8 @@ void MainWindow::trayMenuAction()
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick ) {
-        exit();
-    } else if ( reason == QSystemTrayIcon::Trigger ) {
+        showMenu();
+    } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         toggleVisible();
     }
 }
@@ -870,6 +871,11 @@ void MainWindow::nextTab()
 void MainWindow::previousTab()
 {
     ui->tabWidget->previousTab();
+}
+
+void MainWindow::setTrayToolTip(const ClipboardItem *item)
+{
+    tray->setToolTip( tr("Clipboard:\n%1").arg(item->text().trimmed().left(256)) );
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)

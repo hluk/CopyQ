@@ -259,6 +259,9 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     ClipboardItem item;
     QDataStream in(message);
     in >> item;
+
+    m_wnd->setTrayToolTip(&item);
+
     if ( m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();
         m_wnd->addToTab( item.data() );
