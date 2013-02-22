@@ -1460,7 +1460,7 @@ void MainWindow::removeTab(bool ask, int tab_index)
                         QMessageBox::Yes);
         }
         if (answer == QMessageBox::Yes) {
-            ConfigurationManager::instance()->removeItems( w->tabText(i) );
+            ConfigurationManager::instance()->removeItems( c->getID() );
             c->purgeItems();
             c->deleteLater();
             w->removeTab(i);
