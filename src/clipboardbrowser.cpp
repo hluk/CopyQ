@@ -168,10 +168,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 ClipboardBrowser::~ClipboardBrowser()
 {
     emit closeAllEditors();
-    if ( m_timerSave->isActive() ) {
-        m_timerSave->stop();
+    if ( m_timerSave->isActive() )
         saveItems();
-    }
 }
 
 

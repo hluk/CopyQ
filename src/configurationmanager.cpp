@@ -37,7 +37,6 @@
 #include <QMessageBox>
 #include <QMutex>
 #include <QSettings>
-#include <QTreeWidgetItem>
 
 #ifdef Q_OS_WIN
 #define DEFAULT_EDITOR "notepad %1"
@@ -46,6 +45,8 @@
 #endif
 
 const QRegExp reURL("^(https?|ftps?|file)://");
+const QString fileErrorString =
+        ConfigurationManager::tr("Cannot save tab \"%1\" to \"%2\" (%3)!");
 
 // singleton
 ConfigurationManager* ConfigurationManager::m_Instance = 0;
@@ -192,8 +193,16 @@ ConfigurationManager::ConfigurationManager()
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
                        QCoreApplication::organizationName(),
                        QCoreApplication::applicationName());
-    m_datfilename = settings.fileName();
+    const QString settingsFileName = settings.fileName();
+    m_datfilename = settingsFileName;
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
+
+    // Create directory to save items (otherwise it may not exist at time of saving).
+    QDir settingsDir(settingsFileName + "/..");
+    if ( settingsDir.mkdir(".") ) {
+        log( tr("Cannot create directory for settings \"%1\"!").arg(settingsDir.path()),
+             LogError );
+    }
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
@@ -238,13 +247,15 @@ void ConfigurationManager::saveItems(const ClipboardModel &model, const QString 
 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
-    file.open(QIODevice::WriteOnly);
+    if ( !file.open(QIODevice::WriteOnly) )
+        log( fileErrorString.arg(id).arg(fileName).arg(file.errorString()), LogError );
     QDataStream out(&file);
     out << model;
 
     // Overwrite previous file.
     QFile::remove(fileName);
-    file.rename(fileName);
+    if ( !file.rename(fileName) )
+        log( fileErrorString.arg(id).arg(fileName).arg(file.errorString()), LogError );
 }
 
 void ConfigurationManager::removeItems(const QString &id)
