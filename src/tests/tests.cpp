@@ -47,6 +47,7 @@ do {\
     QByteArray stdoutActual; \
     QByteArray stderrActual; \
     QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
+    stdoutActual.replace("\r\n", "\n").replace("\r", "\n"); \
     QCOMPARE( stdoutActual.data(), stdoutExpected ); \
     QCOMPARE( stderrActual.data(), "" ); \
     VERIFY_SERVER_OUTPUT(); \
@@ -114,7 +115,7 @@ bool hasTab(const QString &tabName)
 {
     QByteArray out;
     run(Args("tab"), &out);
-    return out.split('\n').contains(tabName.toLatin1());
+    return QString::fromLocal8Bit(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
 }
 
 } // namespace
@@ -209,11 +210,15 @@ void Tests::itemToClipboard()
 
 void Tests::tabAddRemove()
 {
-    const Args args = Args("tab") << testTabs.arg(1);
+    const QString tab = testTabs.arg(1);
+    const Args args = Args("tab") << tab;
 
+    QVERIFY( !hasTab(tab) );
     RUN(args, "");
     RUN(Args(args) << "size", "0\n");
     RUN(Args(args) << "add" << "abc", "");
+    QVERIFY( hasTab(tab) );
+
     RUN(Args(args) << "add" << "def" << "ghi", "");
     RUN(Args(args) << "size", "3\n");
     RUN(Args(args) << "read" << "0", "ghi");
@@ -225,8 +230,10 @@ void Tests::tabAddRemove()
     QVERIFY( stopServer() );
     QVERIFY( startServer() );
 
-    RUN(Args(args) << "size", "3\n");
+    QVERIFY( hasTab(tab) );
+
     RUN(Args(args) << "read" << "0" << "2" << "1", "ghi\nabc\ndef");
+    RUN(Args(args) << "size", "3\n");
 }
 
 void Tests::action()
@@ -237,19 +244,19 @@ void Tests::action()
                                               .arg(args.join(" "));
 
     // action with size
-    RUN(Args(argsAction) << action.arg("size"), "");
+    RUN(Args(argsAction) << action.arg("size") << "", "");
     qSleep(waitMsAction);
     RUN(Args(args) << "size", "1\n");
-    RUN(Args(args) << "read" << "0", "0");
+    RUN(Args(args) << "read" << "0", "0\n\n");
 
     // action with size
-    RUN(Args(argsAction) << action.arg("size"), "");
+    RUN(Args(argsAction) << action.arg("size") << "", "");
     qSleep(waitMsAction);
     RUN(Args(args) << "size", "2\n");
-    RUN(Args(args) << "read" << "0", "1");
+    RUN(Args(args) << "read" << "0", "1\n\n");
 
     // action with eval print
-    RUN(Args(argsAction) << action.arg("eval 'print(\"A,B,C\")'"), "");
+    RUN(Args(argsAction) << action.arg("eval 'print(\"A,B,C\")'") << "", "");
     qSleep(waitMsAction);
     RUN(Args(args) << "size", "3\n");
     RUN(Args(args) << "read" << "0", "A,B,C");
