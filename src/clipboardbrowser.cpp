@@ -133,9 +133,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setModel(m);
     delete old_model;
 
-    // context menu
-    createContextMenu();
-
     connect( d, SIGNAL(editingActive(bool)),
              this, SIGNAL(editingActive(bool)) );
 
