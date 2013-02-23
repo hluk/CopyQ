@@ -36,8 +36,6 @@ class ItemText : public QTextEdit, public ItemWidget
 public:
     ItemText(const QString &text, bool isRichText, QWidget *parent);
 
-    QWidget *widget() { return this; }
-
     void setRichTextData(const QString &text);
 
     void setTextData(const QString &text);

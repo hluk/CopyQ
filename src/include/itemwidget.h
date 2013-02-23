@@ -70,7 +70,7 @@ public:
     /**
      * Return widget to render.
      */
-    virtual QWidget *widget() = 0;
+    QWidget *widget() { return m_widget; }
 
     /**
      * Create editor widget with given @a parent.
@@ -92,11 +92,12 @@ protected:
     /**
      * Size of widget needs to be updated (because maximum size chaged).
      */
-    virtual void updateSize() = 0;
+    virtual void updateSize() {}
 
 private:
     QRegExp m_re;
     QSize m_size;
+    QWidget *m_widget;
 };
 
 class ItemLoaderInterface

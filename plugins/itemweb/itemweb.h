@@ -31,8 +31,6 @@ class ItemWeb : public QWebView, public ItemWidget
 public:
     ItemWeb(const QString &html, QWidget *parent);
 
-    QWidget *widget() { return this; }
-
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                    const QPalette &highlightPalette);

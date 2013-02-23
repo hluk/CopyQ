@@ -28,6 +28,7 @@
 ItemWidget::ItemWidget(QWidget *widget)
     : m_re()
     , m_size()
+    , m_widget(widget)
 {
     Q_ASSERT(widget != NULL);
 

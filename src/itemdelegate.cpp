@@ -282,8 +282,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
         return w;
 
     w = ItemFactory::instance()->createItem(index, m_parent);
-    if (w != NULL)
-        setIndexWidget(index, w);
+    setIndexWidget(index, w);
 
     return w;
 }
@@ -432,6 +431,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 {
     int row = index.row();
 
+    ItemWidget *w = m_cache[row];
+    if (w == NULL)
+        return;
+
     const QRect &rect = option.rect;
 
     /* render background (selected, alternate, ...) */
@@ -454,17 +457,14 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                        true, num );
     }
 
-    ItemWidget *w = m_cache[row];
-    if (w != NULL) {
-        /* highlight search string */
-        w->setHighlight(m_re, m_foundFont, m_foundPalette);
+    /* highlight search string */
+    w->setHighlight(m_re, m_foundFont, m_foundPalette);
 
-        /* text color for selected/unselected item */
-        QPalette palette = w->widget()->palette();
-        palette.setColor( QPalette::Text, option.palette.color(role) );
-        w->widget()->setPalette(palette);
+    /* text color for selected/unselected item */
+    QPalette palette = w->widget()->palette();
+    palette.setColor( QPalette::Text, option.palette.color(role) );
+    w->widget()->setPalette(palette);
 
-        /* render widget */
-        w->widget()->show();
-    }
+    /* render widget */
+    w->widget()->show();
 }

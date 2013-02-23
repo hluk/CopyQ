@@ -19,11 +19,13 @@
 
 #include "itemfactory.h"
 
+#include "contenttype.h"
 #include "client_server.h"
 #include "itemwidget.h"
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QLabel>
 #include <QModelIndex>
 #include <QMutex>
 #include <QMutexLocker>
@@ -35,6 +37,21 @@ bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface 
 {
     return lhs->priority() > rhs->priority();
 }
+
+class DummyItem : public QLabel, public ItemWidget {
+public:
+    DummyItem(const QModelIndex &index, QWidget *parent)
+        : QLabel(parent)
+        , ItemWidget(this)
+    {
+        setText( tr("<p><i>No plugin available for this item formats (%1).</i></p>")
+                 .arg(index.data(contentType::formats).toStringList().join(", ")) );
+        setMargin(4);
+        resize(sizeHint());
+        updateSize();
+        updateItem();
+    }
+};
 
 } // namespace
 
@@ -121,7 +138,7 @@ ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
             return item;
     }
 
-    return NULL;
+    return new DummyItem(index, parent);
 }
 
 ItemWidget *ItemFactory::nextItemLoader(const QModelIndex &index, ItemWidget *current)
@@ -183,7 +200,8 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
 
     QWidget *w = current->widget();
     ItemLoaderInterface *currentLoader = m_loaderChildren.value(w, NULL);
-    Q_ASSERT(currentLoader != NULL);
+    if (currentLoader == NULL)
+        return NULL;
 
     const int currentIndex = m_loaders.indexOf(currentLoader);
     Q_ASSERT(currentIndex != -1);

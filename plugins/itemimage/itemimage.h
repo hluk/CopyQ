@@ -35,8 +35,6 @@ class ItemImage : public QLabel, public ItemWidget
 public:
     ItemImage(const QPixmap &pix, QWidget *parent);
 
-    QWidget *widget() { return this; }
-
 protected:
     virtual void updateSize();
 };
