@@ -52,6 +52,11 @@ protected:
 
     virtual void contextMenuEvent(QContextMenuEvent *e);
 
+    virtual void mouseReleaseEvent(QMouseEvent *e);
+
+private slots:
+    void onSelectionChanged();
+
 private:
     QTextDocument m_textDocument;
     QTextDocument m_searchTextDocument;

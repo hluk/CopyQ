@@ -83,7 +83,7 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
              this, SLOT(onItemChanged()) );
 
     // Selecting text copies it to clipboard.
-    connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
+    connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
     setHtml(html);
     updateSize();
@@ -114,9 +114,9 @@ void ItemWeb::updateSize()
     resize(size);
 }
 
-void ItemWeb::copy()
+void ItemWeb::onSelectionChanged()
 {
-    triggerPageAction(QWebPage::Copy);
+    setProperty("copyOnMouseUp", true);
 }
 
 void ItemWeb::mousePressEvent(QMouseEvent *e)
@@ -141,6 +141,17 @@ void ItemWeb::contextMenuEvent(QContextMenuEvent *e)
 void ItemWeb::wheelEvent(QWheelEvent *e)
 {
     e->ignore();
+}
+
+void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
+{
+    if ( property("copyOnMouseUp").toBool() ) {
+        setProperty("copyOnMouseUp", false);
+        if ( hasSelection() )
+            triggerPageAction(QWebPage::Copy);
+    } else {
+        QWebView::mouseReleaseEvent(e);
+    }
 }
 
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const

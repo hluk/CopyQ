@@ -45,8 +45,10 @@ protected:
 
     virtual void wheelEvent(QWheelEvent *e);
 
+    virtual void mouseReleaseEvent(QMouseEvent *e);
+
 private slots:
-    void copy();
+    void onSelectionChanged();
 
 private slots:
     void onItemChanged();

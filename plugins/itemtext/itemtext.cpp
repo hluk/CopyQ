@@ -89,7 +89,7 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     setFrameStyle(QFrame::NoFrame);
 
     // Selecting text copies it to clipboard.
-    connect( this, SIGNAL(selectionChanged()), SLOT(copy()) );
+    connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
     if (isRichText)
         m_textDocument.setHtml( text.left(defaultMaxBytes) );
@@ -166,6 +166,22 @@ void ItemText::mouseDoubleClickEvent(QMouseEvent *e)
 void ItemText::contextMenuEvent(QContextMenuEvent *e)
 {
     e->ignore();
+}
+
+void ItemText::mouseReleaseEvent(QMouseEvent *e)
+{
+    if ( property("copyOnMouseUp").toBool() ) {
+        setProperty("copyOnMouseUp", false);
+        if ( textCursor().hasSelection() )
+            copy();
+    } else {
+        QTextEdit::mouseReleaseEvent(e);
+    }
+}
+
+void ItemText::onSelectionChanged()
+{
+    setProperty("copyOnMouseUp", true);
 }
 
 ItemTextLoader::ItemTextLoader()
