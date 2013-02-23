@@ -125,16 +125,17 @@ QList<CommandHelp> commandHelp()
                                    "Value -1 is for current text in clipboard."))
            .addArg("[" + Scriptable::tr("ROWS") + "...]")
         << CommandHelp()
-        << CommandHelp("read",
-                       Scriptable::tr("Print raw data of clipboard or item in row."))
-           .addArg("[" + Scriptable::tr("MIME") + "|" + Scriptable::tr("ROW") + "]...")
-        << CommandHelp("write", Scriptable::tr("Write raw data to given row."))
-           .addArg("[" + Scriptable::tr("ROW") + "=0]")
-           .addArg(Scriptable::tr("MIME"))
-           .addArg(Scriptable::tr("DATA"))
         << CommandHelp("separator",
                        Scriptable::tr("Set separator for items on output."))
            .addArg(Scriptable::tr("SEPARATOR"))
+        << CommandHelp("read",
+                       Scriptable::tr("Print raw data of clipboard or item in row."))
+           .addArg("[" + Scriptable::tr("MIME") + "|" + Scriptable::tr("ROW") + "]...")
+        << CommandHelp("write", Scriptable::tr("\nWrite raw data to given row."))
+           .addArg("[" + Scriptable::tr("ROW") + "=0]")
+           .addArg(Scriptable::tr("MIME"))
+           .addArg(Scriptable::tr("DATA"))
+           .addArg("[" + Scriptable::tr("MIME") + " " + Scriptable::tr("DATA") + "]...")
         << CommandHelp()
         << CommandHelp("action",
                        Scriptable::tr("Show action dialog."))
@@ -706,29 +707,36 @@ void Scriptable::write()
 
     // [ROW]
     int row;
+    int args = argumentCount();
     if ( toInt(value, row) ) {
-        if (argumentCount() != 3 ) {
+        if (args < 3 || args % 2 != 1 ) {
             throwError(argumentError());
             return;
         }
         value = argument(++arg);
     } else {
-        if (argumentCount() != 2 ) {
+        if (args < 2 || args % 2 != 0 ) {
             throwError(argumentError());
             return;
         }
         row = 0;
     }
 
-    // MIME
-    QString mime = toString(value);
-    ClipboardBrowser *c = currentTab();
-
-    // DATA
-    value = argument(++arg);
-    QByteArray *bytes = toByteArray(value);
     QMimeData *data = new QMimeData();
-    data->setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+
+    while (arg < args) {
+        // MIME
+        QString mime = toString(value);
+
+        // DATA
+        value = argument(++arg);
+        QByteArray *bytes = toByteArray(value);
+        data->setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+
+        value = argument(++arg);
+    }
+
+    ClipboardBrowser *c = currentTab();
     c->add(data, true, row);
 }
 
