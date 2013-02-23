@@ -272,7 +272,7 @@ void ClipboardBrowser::updateScrollOffset(const QModelIndex &index, int oldSize)
 
 bool ClipboardBrowser::fetchCacheForIndex(const QModelIndex &index)
 {
-    if ( d->hasCache(index) )
+    if ( editing() || d->hasCache(index) )
         return false;
 
     const int oldSize = sizeHintForIndex(index).height();
