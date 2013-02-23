@@ -26,6 +26,8 @@ namespace contentType {
 
 enum {
     formats = Qt::UserRole,
+    hasText,
+    hasHtml,
     text,
     html,
     imageData,

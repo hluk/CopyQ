@@ -42,9 +42,10 @@ void init(QTextDocument &doc, const QFont &font)
 
 bool getRichText(const QModelIndex &index, const QStringList &formats, QString *text)
 {
-    *text = index.data(contentType::html).toString();
-    if ( !text->isNull() )
+    if ( index.data(contentType::hasHtml).toBool() ) {
+        *text = index.data(contentType::html).toString();
         return true;
+    }
 
     int i = formats.indexOf("text/richtext");
     if (i == -1)
@@ -62,8 +63,11 @@ bool getRichText(const QModelIndex &index, const QStringList &formats, QString *
 
 bool getText(const QModelIndex &index, QString *text)
 {
-    *text = index.data(contentType::text).toString();
-    return !text->isNull();
+    if ( index.data(contentType::hasText).toBool() ) {
+        *text = index.data(contentType::text).toString();
+        return true;
+    }
+    return false;
 }
 
 } // namespace

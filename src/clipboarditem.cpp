@@ -91,6 +91,10 @@ QVariant ClipboardItem::data(int role) const
     } else if (role >= Qt::UserRole) {
         if (role == contentType::formats) {
             return formats();
+        } else if (role == contentType::hasText) {
+            return m_data->hasText();
+        } else if (role == contentType::hasHtml) {
+            return m_data->hasHtml();
         } else if (role == contentType::text) {
             return m_data->text();
         } else if (role == contentType::html) {
