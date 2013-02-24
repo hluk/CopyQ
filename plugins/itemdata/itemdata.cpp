@@ -110,7 +110,6 @@ bool emptyIntersection(const QStringList &lhs, const QStringList &rhs)
 ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
-    , m_maxBytes(maxBytes)
 {
     setTextInteractionFlags(Qt::TextSelectableByMouse);
     setContentsMargins(4, 4, 4, 4);
@@ -122,16 +121,23 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
     for (int i = 0; i < formats.size(); ++i ) {
         QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
         const int size = data.size();
-        data = data.left(m_maxBytes);
+        bool trimmed = size > maxBytes;
+        if (trimmed)
+            data = data.left(maxBytes);
+
         const QString &format = formats[i];
         bool hasText = format.startsWith("text/") ||
                        format.startsWith("application/x-copyq-owner-window-title");
+        const QString content = hasText ? escapeHtml(stringFromBytes(data, format)) : hexData(data);
         text.append( QString("<p>") );
         text.append( QString("<b>%1</b> (%2 bytes)<pre>%3</pre>")
                      .arg(format)
                      .arg(size)
-                     .arg(hasText ? escapeHtml(stringFromBytes(data, format)) : hexData(data)) );
+                     .arg(content) );
         text.append( QString("</p>") );
+
+        if (trimmed)
+            text.append( QString("<p>...</p>") );
     }
 
     setText(text);

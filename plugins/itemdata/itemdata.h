@@ -48,9 +48,6 @@ protected:
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
     virtual void contextMenuEvent(QContextMenuEvent *e);
-
-private:
-    int m_maxBytes;
 };
 
 class ItemDataLoader : public QObject, public ItemLoaderInterface
