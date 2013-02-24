@@ -114,6 +114,8 @@ bool ClipboardServer::isListening() const
 
 void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
 {
+    COPYQ_LOG( QString("Monitor state changed: %1").arg(newState) );
+
     if (newState == QProcess::NotRunning) {
         monitorStandardError();
 
@@ -161,6 +163,8 @@ void ClipboardServer::stopMonitoring()
 
 void ClipboardServer::startMonitoring()
 {
+    COPYQ_LOG("Starting monitor.");
+
     if ( m_monitor == NULL ) {
         m_monitor = new RemoteProcess(this);
         connect( &m_monitor->process(), SIGNAL(stateChanged(QProcess::ProcessState)),
@@ -189,8 +193,12 @@ void ClipboardServer::startMonitoring()
 
 void ClipboardServer::loadMonitorSettings()
 {
-    if ( !isMonitoring() )
+    if ( !isMonitoring() ) {
+        COPYQ_LOG("Cannot configure monitor!");
         return;
+    }
+
+    COPYQ_LOG("Configuring monitor.");
 
     ConfigurationManager *cm = ConfigurationManager::instance();
 
@@ -228,11 +236,17 @@ void ClipboardServer::newConnection()
     connect(client, SIGNAL(disconnected()),
             client, SLOT(deleteLater()));
 
+    COPYQ_LOG( QString("New client connection %1").arg(client->socketDescriptor()) );
+
+    COPYQ_LOG( QString("%1: Receiving message from client.").arg(client->socketDescriptor()) );
+
     Arguments args;
     QByteArray msg;
     readMessage(client, &msg);
     QDataStream in(msg);
     in >> args;
+
+    COPYQ_LOG( QString("%1: Message received from client.").arg(client->socketDescriptor()) );
 
     QByteArray client_msg;
     // try to handle command
@@ -243,19 +257,29 @@ void ClipboardServer::newConnection()
     sendMessage(client, client_msg, exitCode);
 
     client->disconnectFromServer();
+
+    COPYQ_LOG( QString("%1: Disconnected from client.").arg(client->socketDescriptor()) );
 }
 
 void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exitCode)
 {
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << exitCode;
-    out.writeRawData( message.constData(), message.length() );
-    writeMessage(client, msg);
+    COPYQ_LOG( QString("%1: Sending message to client.").arg(client->socketDescriptor()) );
+
+    {
+        QByteArray msg;
+        QDataStream out(&msg, QIODevice::WriteOnly);
+        out << exitCode;
+        out.writeRawData( message.constData(), message.length() );
+        writeMessage(client, msg);
+    }
+
+    COPYQ_LOG( QString("%1: Message send to client.").arg(client->socketDescriptor()) );
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
 {
+    COPYQ_LOG("Receiving message from monitor.");
+
     ClipboardItem item;
     QDataStream in(message);
     in >> item;
@@ -266,6 +290,8 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
         m_lastHash = item.dataHash();
         m_wnd->addToTab( item.data() );
     }
+
+    COPYQ_LOG("Message received from monitor.");
 }
 
 void ClipboardServer::monitorConnectionError()
@@ -276,8 +302,12 @@ void ClipboardServer::monitorConnectionError()
 
 void ClipboardServer::changeClipboard(const ClipboardItem *item)
 {
-    if ( !isMonitoring() )
+    if ( !isMonitoring() ) {
+        COPYQ_LOG("Cannot send message to monitor!");
         return;
+    }
+
+    COPYQ_LOG("Sending message to monitor.");
 
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
@@ -289,9 +319,13 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
 CommandStatus ClipboardServer::doCommand(
         Arguments &args, QByteArray *response, QLocalSocket *client)
 {
-    if ( args.length() <= Arguments::Rest )
+    COPYQ_LOG("Starting scripting engine.");
+
+    if ( args.length() <= Arguments::Rest ) {
+        COPYQ_LOG("Scripting engine: bad command syntax");
         return CommandBadSyntax;
-    QString cmd = QString::fromUtf8( args.at(Arguments::Rest) );
+    }
+    const QString cmd = QString::fromUtf8( args.at(Arguments::Rest) );
 
     QScriptEngine engine;
     Scriptable scriptable(m_wnd, client);
@@ -305,8 +339,10 @@ CommandStatus ClipboardServer::doCommand(
     QScriptValueList fnArgs;
 
     QScriptValue fn = engine.globalObject().property(cmd);
-    if ( !fn.isFunction() )
+    if ( !fn.isFunction() ) {
+        COPYQ_LOG("Scripting engine: unknown command");
         return CommandBadSyntax;
+    }
 
     for ( int i = Arguments::Rest + 1; i < args.length(); ++i )
         fnArgs.append( scriptable.newByteArray(args.at(i)) );
@@ -314,6 +350,7 @@ CommandStatus ClipboardServer::doCommand(
     result = fn.call(QScriptValue(), fnArgs);
 
     if ( engine.hasUncaughtException() ) {
+        COPYQ_LOG( QString("Scripting engine: command error (\"%1\")").arg(cmd) );
         response->append(engine.uncaughtException().toString() + '\n');
         engine.clearExceptions();
         return CommandError;
@@ -324,6 +361,8 @@ CommandStatus ClipboardServer::doCommand(
         response->append(*bytes);
     else if (!result.isUndefined())
         response->append(result.toString() + '\n');
+
+    COPYQ_LOG("Scripting engine: finished");
 
     return CommandSuccess;
 }

@@ -64,6 +64,10 @@ void log(const QString &text, const LogLevel level)
         level_id = QObject::tr("CopyQ warning: %1\n");
     else if (level == LogError)
         level_id = QObject::tr("CopyQ ERROR: %1\n");
+#ifdef COPYQ_LOG_DEBUG
+    else if (level == LogDebug)
+        level_id = QObject::tr("CopyQ DEBUG: %1\n");
+#endif
 
     msg = level_id.arg(text);
 

@@ -56,10 +56,19 @@ typedef enum {
 
 // FIXME: Global shortcuts with Qt 5.
 #if QT_VERSION >= 0x050000 || (!defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC))
-#define NO_GLOBAL_SHORTCUTS
+#   define NO_GLOBAL_SHORTCUTS
+#endif
+
+#ifdef COPYQ_LOG_DEBUG
+#   define COPYQ_LOG(msg) log(msg, LogDebug)
+#else
+#   define COPYQ_LOG(msg)
 #endif
 
 enum LogLevel {
+#ifdef COPYQ_LOG_DEBUG
+    LogDebug,
+#endif
     LogNote,
     LogWarning,
     LogError

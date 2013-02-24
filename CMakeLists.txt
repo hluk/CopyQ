@@ -24,6 +24,7 @@ endif()
 # Tests always on with debug version
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(WITH_TESTS ON)
+    add_definitions( -DCOPYQ_LOG_DEBUG )
 endif()
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")

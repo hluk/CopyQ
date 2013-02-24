@@ -86,7 +86,7 @@ QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 Debug {
-    DEFINES += HAS_TESTS
+    DEFINES += HAS_TESTS COPYQ_LOG_DEBUG
     QT += testlib
     SOURCES += tests/tests.cpp
     HEADERS += tests/tests.h

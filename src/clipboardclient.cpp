@@ -48,14 +48,22 @@ ClipboardClient::ClipboardClient(int &argc, char **argv)
 
 void ClipboardClient::sendMessage()
 {
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << m_args;
-    writeMessage(&m_client, msg);
+    COPYQ_LOG("Sending message to server.");
+
+    {
+        QByteArray msg;
+        QDataStream out(&msg, QIODevice::WriteOnly);
+        out << m_args;
+        writeMessage(&m_client, msg);
+    }
+
+    COPYQ_LOG("Message send to server.");
 }
 
 void ClipboardClient::readyRead()
 {
+    COPYQ_LOG("Receiving message from server.");
+
     int exitCode, i, len;
     QByteArray msg;
     while ( m_client.bytesAvailable() ) {
@@ -69,6 +77,7 @@ void ClipboardClient::readyRead()
         len = msg.length();
         if (len > i) {
             if (exitCode == CommandActivateWindow) {
+                COPYQ_LOG("Activating window.");
                 WId wid = (WId)(QByteArray(msg.constData()+i).toLongLong());
                 raiseWindow(wid);
             } else {
