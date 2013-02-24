@@ -91,6 +91,8 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
+    setReadOnly(true);
+
     if (isRichText)
         m_textDocument.setHtml( text.left(defaultMaxBytes) );
     else
