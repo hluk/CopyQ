@@ -52,6 +52,7 @@ private slots:
     void importExportTab();
     void separator();
     void eval();
+    void rawData();
 
 private:
     bool startServer();

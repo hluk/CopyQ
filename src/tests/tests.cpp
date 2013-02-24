@@ -38,7 +38,7 @@ using QTest::qSleep;
 do {\
     QVERIFY( isServerRunning() ); \
     QByteArray output = m_server->readAllStandardError(); \
-    QVERIFY2( !output.contains("warning") && !output.contains("ERROR"), output ); \
+    QVERIFY2( testStderr(output), output ); \
 } while (0)
 
 #define RUN(arguments, stdoutExpected) \
@@ -48,8 +48,8 @@ do {\
     QByteArray stderrActual; \
     QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
     stdoutActual.replace('\r', ""); \
-    QCOMPARE( stdoutActual.data(), stdoutExpected ); \
-    QVERIFY2( !stderrActual.contains("warning") && !stderrActual.contains("ERROR"), stderrActual ); \
+    QCOMPARE( stdoutActual.data(), QByteArray(stdoutExpected).data() ); \
+    QVERIFY2( testStderr(stderrActual), stderrActual ); \
     VERIFY_SERVER_OUTPUT(); \
 } while (0)
 
@@ -65,6 +65,11 @@ const int waitMsAction = 200;
 const int waitMsClipboard = 200;
 
 typedef QStringList Args;
+
+bool testStderr(const QByteArray &stderrData)
+{
+    return !stderrData.contains("warning") && !stderrData.contains("ERROR");
+}
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
 {
@@ -392,6 +397,36 @@ void Tests::eval()
     RUN(Args("eval") << QString("tab('%1');if (str(read(0)) === 'def') print('ok')").arg(tab2), "ok");
 }
 
+void Tests::rawData()
+{
+    const QString tab = testTabs.arg(1);
+    const Args args = Args("tab") << tab;
+
+    {
+        QByteArray in("\x00\x01\x02\x03\x04", 5);
+        QByteArray stderrData;
+        QCOMPARE( run(Args(args) << "add" << "-", NULL, &stderrData, in), 0);
+        QVERIFY2(testStderr(stderrData), stderrData);
+        RUN(Args(args) << "read" << "0", in);
+    }
+
+    {
+        QByteArray in("\x00\x01\x02\x03\x04", 5);
+        QString arg1 = QString::fromLatin1("\x01\x02\x03\x04");
+        QString arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
+        QByteArray stderrData;
+        QCOMPARE( run(Args(args) << "write"
+                      << "application/x-copyq-test1" << arg1
+                      << "application/x-copyq-test2" << "-"
+                      << "application/x-copyq-test3" << arg2 ,
+                  NULL, &stderrData, in), 0);
+        QVERIFY2(testStderr(stderrData), stderrData);
+        RUN(Args(args) << "read" << "application/x-copyq-test1" << "0", arg1.toLatin1());
+        RUN(Args(args) << "read" << "application/x-copyq-test2" << "0", in);
+        RUN(Args(args) << "read" << "application/x-copyq-test3" << "0", arg2.toLatin1());
+    }
+}
+
 bool Tests::startServer()
 {
     if (m_server != NULL)
@@ -456,7 +491,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
     qSleep(waitMsClipboard);
     QVERIFY( m_monitor->isConnected() );
     QByteArray stderrData = m_monitor->process().readAllStandardError();
-    QVERIFY2(stderrData.isEmpty(), stderrData);
+    QVERIFY2(testStderr(stderrData), stderrData);
     QByteArray stdoutData = m_monitor->process().readAllStandardOutput();
     QVERIFY2(stdoutData.isEmpty(), stdoutData);
 }
