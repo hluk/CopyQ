@@ -232,13 +232,13 @@ bool ClipboardServer::isMonitoring()
 
 void ClipboardServer::newConnection()
 {
-    QLocalSocket* client = m_server->nextPendingConnection();
-    connect(client, SIGNAL(disconnected()),
-            client, SLOT(deleteLater()));
+    QLocalSocket* client( m_server->nextPendingConnection() );
 
-    COPYQ_LOG( QString("New client connection %1").arg(client->socketDescriptor()) );
-
-    COPYQ_LOG( QString("%1: Receiving message from client.").arg(client->socketDescriptor()) );
+#ifdef COPYQ_LOG_DEBUG
+    quintptr id = client->socketDescriptor();
+    COPYQ_LOG( QString("New client connection %1").arg(id) );
+    COPYQ_LOG( QString("%1: Receiving message from client.").arg(id) );
+#endif
 
     Arguments args;
     QByteArray msg;
@@ -246,7 +246,7 @@ void ClipboardServer::newConnection()
     QDataStream in(msg);
     in >> args;
 
-    COPYQ_LOG( QString("%1: Message received from client.").arg(client->socketDescriptor()) );
+    COPYQ_LOG( QString("%1: Message received from client.").arg(id) );
 
     QByteArray client_msg;
     // try to handle command
@@ -254,11 +254,17 @@ void ClipboardServer::newConnection()
     if ( exitCode == CommandBadSyntax ) {
         client_msg = tr("Bad command syntax. Use -h for help.\n").toLocal8Bit();
     }
-    sendMessage(client, client_msg, exitCode);
 
-    client->disconnectFromServer();
-
-    COPYQ_LOG( QString("%1: Disconnected from client.").arg(client->socketDescriptor()) );
+    if ( client->state() == QLocalSocket::ConnectedState ) {
+        connect(client, SIGNAL(disconnected()),
+                client, SLOT(deleteLater()));
+        sendMessage(client, client_msg, exitCode);
+        sendMessage(client, QByteArray(), CommandFinished);
+        COPYQ_LOG( QString("%1: Disconnected from client.").arg(id) );
+    } else {
+        COPYQ_LOG( QString("%1: Client disconnected!").arg(id) );
+        client->deleteLater();
+    }
 }
 
 void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exitCode)

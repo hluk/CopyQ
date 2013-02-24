@@ -78,7 +78,8 @@ bool RemoteProcess::writeMessage(const QByteArray &msg)
 
 bool RemoteProcess::isConnected() const
 {
-    return m_socket != NULL && m_socket->isWritable() && m_process.state() == QProcess::Running;
+    return m_socket != NULL && m_socket->state() == QLocalSocket::ConnectedState &&
+            m_process.state() == QProcess::Running;
 }
 
 void RemoteProcess::closeConnection()

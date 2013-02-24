@@ -82,13 +82,17 @@ void ClipboardClient::readyRead()
                 raiseWindow(wid);
             } else {
                 QFile f;
-                f.open((exitCode == 0) ? stdout : stderr, QIODevice::WriteOnly);
+                f.open((exitCode == CommandSuccess) ? stdout : stderr, QIODevice::WriteOnly);
                 f.write( msg.constData() + i, len - i );
             }
         }
 
-        if (exitCode != CommandActivateWindow)
+        COPYQ_LOG( QString("Message received with exit code %1.").arg(exitCode) );
+
+        if (exitCode == CommandFinished || exitCode == CommandBadSyntax || exitCode == CommandError) {
             exit(exitCode);
+            break;
+        }
     }
 }
 

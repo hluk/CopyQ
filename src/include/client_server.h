@@ -36,12 +36,14 @@ class QStringList;
 
 /** Command status. */
 typedef enum {
+    /** Script finished */
+    CommandFinished = 0,
+    /** Command invocation error. */
+    CommandError = 1,
+    /** Bad command syntax. */
+    CommandBadSyntax = 2,
     /** Command successfully invoked. */
     CommandSuccess,
-    /** Command invocation error. */
-    CommandError,
-    /** Bad command syntax. */
-    CommandBadSyntax,
     /** Activate window */
     CommandActivateWindow
 } CommandStatus;
