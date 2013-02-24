@@ -49,7 +49,7 @@ do {\
     QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
     stdoutActual.replace('\r', ""); \
     QCOMPARE( stdoutActual.data(), stdoutExpected ); \
-    QCOMPARE( stderrActual.data(), "" ); \
+    QVERIFY2( !stderrActual.contains("warning") && !stderrActual.contains("ERROR"), stderrActual ); \
     VERIFY_SERVER_OUTPUT(); \
 } while (0)
 
