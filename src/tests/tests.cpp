@@ -262,7 +262,7 @@ void Tests::action()
     RUN(Args(args) << "read" << "0", "A,B,C");
 
     // action with read and comma separator for new items
-    RUN(Args(argsAction) << action.arg("read") << ",", "");
+    RUN(Args(argsAction) << action.arg("read 0") << ",", "");
     qSleep(waitMsAction);
     RUN(Args(args) << "size", "6\n");
     RUN(Args(args) << "read" << "0", "C");
