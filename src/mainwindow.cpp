@@ -679,15 +679,6 @@ void MainWindow::showWindow()
     c->setFocus();
 
     raiseWindow(winId());
-
-#ifdef COPYQ_WS_X11
-    // Try to steal focus through tray menu (works with KWin window manager under KDE).
-    QMenu *menu = tray->contextMenu();
-    menu->popup( QPoint(0,0) );
-    WId wid = menu->winId();
-    raiseWindow(wid);
-    menu->hide();
-#endif
 }
 
 void MainWindow::toggleVisible()
