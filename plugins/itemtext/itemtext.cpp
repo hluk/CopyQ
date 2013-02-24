@@ -151,6 +151,7 @@ void ItemText::updateSize()
 
 void ItemText::mousePressEvent(QMouseEvent *e)
 {
+    setTextCursor( cursorForPosition(e->pos()) );
     QTextEdit::mousePressEvent(e);
     e->ignore();
 }

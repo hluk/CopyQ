@@ -121,6 +121,8 @@ void ItemWeb::onSelectionChanged()
 
 void ItemWeb::mousePressEvent(QMouseEvent *e)
 {
+    QMouseEvent e2(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
+    QCoreApplication::sendEvent( page(), &e2 );
     QWebView::mousePressEvent(e);
     e->ignore();
 }
