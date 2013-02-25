@@ -92,7 +92,7 @@ Debug {
     HEADERS += tests/tests.h
 }
 
-lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
+unix | win32 {
     DEFINES += BUILD_QXT_GUI
 
     HEADERS += ../qxt/qxtglobal.h
@@ -105,6 +105,10 @@ lessThan(QT_MAJOR_VERSION, 5): unix | win32 {
     unix:!macx: SOURCES += ../qxt/qxtglobalshortcut_x11.cpp
     macx:       SOURCES += ../qxt/qxtglobalshortcut_mac.cpp
     win32:      SOURCES += ../qxt/qxtglobalshortcut_win.cpp
+
+    greaterThan(QT_MAJOR_VERSION, 4): unix {
+        QT += gui-private
+    }
 }
 
 unix:!macx {

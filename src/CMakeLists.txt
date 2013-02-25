@@ -1,15 +1,11 @@
 # Qt modules
 if (WITH_QT5)
     set(copyq_Qt5_Modules Widgets Network Svg Xml Script)
-
-    set(USE_QXT FALSE)
 else()
     set(QT_USE_QTNETWORK TRUE)
     set(QT_USE_QTSVG TRUE)
     set(QT_USE_QTXML TRUE)
     set(QT_USE_QTSCRIPT TRUE)
-
-    set(USE_QXT TRUE)
 endif()
 
 # Project files
@@ -78,28 +74,31 @@ elseif (Q_WS_WIN)
 endif(X11_FOUND)
 
 # Qxt - global shortcuts
-if (USE_QXT)
-    if (X11_FOUND)
-        list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_x11.cpp)
-    elseif (Q_WS_WIN)
-        list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_win.cpp)
-    elseif (Q_WS_MAC)
-        list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_mac.cpp)
-    else()
-        set(USE_QXT FALSE)
-    endif()
+set(USE_QXT TRUE)
 
-    if (USE_QXT)
-        set(copyq_SOURCES ${copyq_SOURCES}
-            ../qxt/qxtglobal.cpp
-            ../qxt/qxtglobalshortcut.cpp
-            )
-        set(copyq_MOCABLE ${copyq_MOCABLE}
-            ../qxt/qxtglobalshortcut.h
-            )
-        add_definitions( -DQXT_STATIC )
+if (X11_FOUND)
+    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_x11.cpp)
+    if (WITH_QT5)
+        include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
     endif()
-endif(USE_QXT)
+elseif (Q_WS_WIN)
+    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_win.cpp)
+elseif (Q_WS_MAC)
+    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_mac.cpp)
+else()
+    set(USE_QXT FALSE)
+endif()
+
+if (USE_QXT)
+    set(copyq_SOURCES ${copyq_SOURCES}
+        ../qxt/qxtglobal.cpp
+        ../qxt/qxtglobalshortcut.cpp
+        )
+    set(copyq_MOCABLE ${copyq_MOCABLE}
+        ../qxt/qxtglobalshortcut.h
+        )
+    add_definitions( -DQXT_STATIC )
+endif()
 
 # Compile with tests?
 if (WITH_TESTS)

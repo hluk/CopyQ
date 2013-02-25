@@ -56,8 +56,7 @@ typedef enum {
 #   endif
 #endif
 
-// FIXME: Global shortcuts with Qt 5.
-#if QT_VERSION >= 0x050000 || (!defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC))
+#if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN) && !defined(Q_OS_MAC)
 #   define NO_GLOBAL_SHORTCUTS
 #endif
 
