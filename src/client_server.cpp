@@ -36,9 +36,8 @@
 #endif
 
 #ifdef COPYQ_WS_X11
-#   include <X11/Xlib.h>
-#   include <X11/keysym.h>
-#   include <X11/Xatom.h>
+#   include <unistd.h>
+#   include "x11/x11display.h"
 #elif defined Q_OS_WIN
 #   include <windows.h>
 #   include "qt_windows.h"
@@ -90,44 +89,10 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
 QString currentWindowTitle()
 {
 #ifdef COPYQ_WS_X11
-    struct X11Display {
-        X11Display() { d = XOpenDisplay(NULL); }
-        ~X11Display() { if (d != NULL) XCloseDisplay(d); }
-        operator Display*() { return d; }
-        bool isOk() { return d != NULL; }
-        Display *d;
-    } display;
+    X11Display display;
 
-    if (display.isOk()) {
-        static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
-        static Atom atomName = XInternAtom(display, "_NET_WM_NAME", false);
-        static Atom atomUTF8 = XInternAtom(display, "UTF8_STRING", false);
-
-        Atom type;
-        int format;
-        unsigned long len;
-        unsigned long remain;
-        unsigned char *data;
-        Window focusedWindow = 0L;
-
-        // current window
-        if ( XGetWindowProperty(display, DefaultRootWindow(display.d), atomWindow, 0l, 1l, false,
-                                XA_WINDOW, &type, &format, &len, &remain, &data) == Success ) {
-            if (type == XA_WINDOW && format == 32 && len == 1)
-                focusedWindow = *reinterpret_cast<Window *>(data);
-            XFree(data);
-        }
-
-        // window title
-        if (focusedWindow != 0L) {
-            if ( XGetWindowProperty(display, focusedWindow, atomName, 0, (~0L), false, atomUTF8,
-                                    &type, &format, &len, &remain, &data) == Success ) {
-                QByteArray result(reinterpret_cast<const char *>(data), len);
-                XFree(data);
-                return QString::fromUtf8(result);
-            }
-        }
-    }
+    if (display.isValid())
+        return display.getCurrentWindowTitle();
 #elif defined Q_OS_WIN
     TCHAR buf[1024];
     GetWindowText(GetForegroundWindow(), buf, 1024);
@@ -253,25 +218,8 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 void raiseWindow(WId wid)
 {
 #ifdef COPYQ_WS_X11
-    Display *dsp = XOpenDisplay(NULL);
-    if (dsp) {
-        XEvent e;
-        e.xclient.type = ClientMessage;
-        e.xclient.message_type = XInternAtom(dsp, "_NET_ACTIVE_WINDOW", False);
-        e.xclient.display = dsp;
-        e.xclient.window = wid;
-        e.xclient.format = 32;
-        e.xclient.data.l[0] = 1;
-        e.xclient.data.l[1] = CurrentTime;
-        e.xclient.data.l[2] = 0;
-        e.xclient.data.l[3] = 0;
-        e.xclient.data.l[4] = 0;
-        XSendEvent(dsp, DefaultRootWindow(dsp),
-                   false, SubstructureNotifyMask | SubstructureRedirectMask, &e);
-        XRaiseWindow(dsp, wid);
-        XSetInputFocus(dsp, wid, RevertToPointerRoot, CurrentTime);
-        XCloseDisplay(dsp);
-    }
+    X11Display display;
+    display.raiseWindow(wid);
 #elif defined Q_OS_WIN
     SetForegroundWindow(wid);
     SetWindowPos(wid, HWND_TOP, 0, 0, 0, 0,
@@ -279,6 +227,15 @@ void raiseWindow(WId wid)
 #else
     Q_UNUSED(wid);
 #endif // TODO: focus window on Mac
+}
+
+void pasteToCurrentWindow()
+{
+#ifdef COPYQ_WS_X11
+    usleep(1000);
+    X11Display display;
+    display.pasteToCurrentWindow();
+#endif
 }
 
 void elideText(QAction *act)

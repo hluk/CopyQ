@@ -47,7 +47,7 @@ HEADERS += \
     include/tabdialog.h \
     include/tabwidget.h \
     ../qt/bytearrayclass.h \
-    ../qt/bytearrayprototype.h
+    ../qt/bytearrayprototype.h \
 SOURCES += \
     aboutdialog.cpp \
     action.cpp \
@@ -114,6 +114,8 @@ unix | win32 {
 unix:!macx {
     DEFINES += COPYQ_WS_X11
     LIBS    += -lX11 -lXfixes
+    HEADERS += x11/x11display.h
+    SOURCES += x11/x11display.cpp
 }
 macx {
     LIBS    += -framework Carbon

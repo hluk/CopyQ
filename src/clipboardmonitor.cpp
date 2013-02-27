@@ -26,7 +26,7 @@
 #include <QTimer>
 
 #ifdef COPYQ_WS_X11
-#  include <X11/Xlib.h>
+#  include "x11/x11display.h"
 #endif
 
 namespace {
@@ -43,7 +43,7 @@ void setClipboardData(QMimeData *data, QClipboard::Mode mode)
 class PrivateX11 {
 public:
     PrivateX11()
-        : m_dsp(NULL)
+        : m_dsp()
         , m_timer()
         , m_syncTimer()
         , m_syncData(NULL)
@@ -57,8 +57,6 @@ public:
 
     ~PrivateX11()
     {
-        if (m_dsp)
-            XCloseDisplay(m_dsp);
         delete m_syncData;
     }
 
@@ -67,21 +65,7 @@ public:
         if (m_timer.isActive())
             return true;
 
-        if (m_dsp == NULL) {
-            m_dsp = XOpenDisplay(NULL);
-            if (m_dsp == NULL)
-                return false;
-        }
-
-        XEvent event;
-        Window root = DefaultRootWindow(m_dsp);
-        XQueryPointer(m_dsp, root,
-                      &event.xbutton.root, &event.xbutton.window,
-                      &event.xbutton.x_root, &event.xbutton.y_root,
-                      &event.xbutton.x, &event.xbutton.y,
-                      &event.xbutton.state);
-
-        if( event.xbutton.state & (Button1Mask | ShiftMask) ) {
+        if ( m_dsp.isButtonOrShiftPressed() ) {
             m_timer.start();
             return true;
         }
@@ -135,7 +119,7 @@ public:
     }
 
 private:
-    Display *m_dsp;
+    X11Display m_dsp;
     QTimer m_timer;
     QTimer m_syncTimer;
     QMimeData *m_syncData;

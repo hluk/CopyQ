@@ -99,6 +99,7 @@ uint hash(const QMimeData &data, const QStringList &formats);
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 
 void raiseWindow(WId wid);
+void pasteToCurrentWindow();
 
 void elideText(QAction *act);
 

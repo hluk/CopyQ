@@ -77,7 +77,10 @@ endif(X11_FOUND)
 set(USE_QXT TRUE)
 
 if (X11_FOUND)
-    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_x11.cpp)
+    file(GLOB copyq_SOURCES ${copyq_SOURCES}
+        x11/*.cpp
+        ../qxt/qxtglobalshortcut_x11.cpp
+        )
     if (WITH_QT5)
         include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
     endif()
