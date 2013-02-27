@@ -47,7 +47,7 @@ HEADERS += \
     include/tabdialog.h \
     include/tabwidget.h \
     ../qt/bytearrayclass.h \
-    ../qt/bytearrayprototype.h \
+    ../qt/bytearrayprototype.h
 SOURCES += \
     aboutdialog.cpp \
     action.cpp \
