@@ -36,11 +36,21 @@
 
 #include <QCloseEvent>
 #include <QDesktopWidget>
+#include <QFile>
 #include <QFileDialog>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QTimer>
+
+#ifdef COPYQ_ICON_PREFIX
+#   define RETURN_ICON_FROM_PREFIX(suffix, fallback) \
+        const QString fileName(COPYQ_ICON_PREFIX suffix); \
+        return QFile::exists(fileName) ? QIcon(fileName) : fallback;
+#else
+#   define RETURN_ICON_FROM_PREFIX(suffix, fallback) \
+        return fallback;
+#endif
 
 namespace {
 
@@ -59,8 +69,12 @@ const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortDown); }
 const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
-const QIcon &iconTray() { return getIconFromResources("icon"); }
-const QIcon &iconTrayRunning() { return getIconFromResources("icon-running"); }
+const QIcon iconTray() {
+    RETURN_ICON_FROM_PREFIX( "-normal.svg", getIconFromResources("icon") );
+}
+const QIcon iconTrayRunning() {
+    RETURN_ICON_FROM_PREFIX( "-busy.svg", getIconFromResources("icon-running") );
+}
 
 } // namespace
 
