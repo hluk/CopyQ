@@ -22,6 +22,24 @@
 #include <qt_windows.h>
 #include <windows.h>
 
+namespace {
+
+INPUT createInput(WORD key, DWORD flags = 0)
+{
+    INPUT input;
+
+    input.type = INPUT_KEYBOARD;
+    input.ki.wVk = key;
+    input.ki.wScan = 0;
+    input.ki.dwFlags = KEYEVENTF_UNICODE | flags;
+    input.ki.time = 0;
+    input.ki.dwExtraInfo = GetMessageExtraInfo();
+
+    return input;
+}
+
+} // namespace
+
 PlatformPtr createPlatformNativeInterface()
 {
     return PlatformPtr(new WinPlatform);
@@ -56,4 +74,14 @@ void WinPlatform::raiseWindow(WId wid)
 
 void WinPlatform::pasteToCurrentWindow()
 {
+    Sleep(100);
+
+    INPUT input[4];
+
+    input[0] = createInput(VK_LSHIFT);
+    input[1] = createInput(VK_INSERT);
+    input[2] = createInput(VK_INSERT, KEYEVENTF_KEYUP);
+    input[3] = createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
+
+    SendInput( 4, input, sizeof(INPUT) );
 }
