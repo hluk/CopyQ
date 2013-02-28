@@ -83,8 +83,6 @@ bool isMainThread();
 
 const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
-QString currentWindowTitle();
-
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes);
 bool readMessage(QIODevice *socket, QByteArray *msg);
 void writeMessage(QIODevice *socket, const QByteArray &msg);
@@ -97,9 +95,6 @@ QString clipboardMonitorServerName();
 uint hash(const QMimeData &data, const QStringList &formats);
 
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
-
-void raiseWindow(WId wid);
-void pasteToCurrentWindow();
 
 void elideText(QAction *act);
 

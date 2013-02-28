@@ -33,9 +33,14 @@ public:
     virtual ~PlatformNativeInterface() {}
 
     /**
+     * Get currently focused window.
+     */
+    virtual WId getCurrentWindow() = 0;
+
+    /**
      * Return window title text of current window.
      */
-    virtual QString getCurrentWindowTitle() = 0;
+    virtual QString getWindowTitle(WId wid) = 0;
 
     /**
      * Raise and focus a window to foreground.
@@ -43,9 +48,14 @@ public:
     virtual void raiseWindow(WId wid) = 0;
 
     /**
-     * Paste clipboard content to current window (e.g. send Ctrl+Insert to current window).
+     * Paste clipboard content to given window (e.g. send Ctrl+Insert to the window).
      */
-    virtual void pasteToCurrentWindow() = 0;
+    virtual void pasteToWindow(WId wid) = 0;
+
+    /**
+     * Get window for pasting (can be different from current window).
+     */
+    virtual WId getPasteWindow() = 0;
 };
 
 /**

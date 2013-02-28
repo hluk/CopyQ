@@ -31,6 +31,7 @@
 #include "command.h"
 #include "configurationmanager.h"
 #include "iconfactory.h"
+#include "platform/platformnativeinterface.h"
 #include "tabdialog.h"
 #include "tabwidget.h"
 
@@ -95,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
+    , m_pasteWindow()
 {
     ui->setupUi(this);
 
@@ -692,7 +694,7 @@ void MainWindow::showWindow()
     c->scrollTo( c->currentIndex() );
     c->setFocus();
 
-    raiseWindow(winId());
+    createPlatformNativeInterface()->raiseWindow(winId());
 }
 
 void MainWindow::toggleVisible()
@@ -729,7 +731,8 @@ void MainWindow::trayMenuAction()
     if ( row < c->length() ) {
         c->moveToClipboard(row);
         tray->contextMenu()->close();
-        pasteToCurrentWindow();
+        createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
+        //pasteToCurrentWindow();
     }
 }
 
@@ -744,6 +747,9 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 
 WId MainWindow::showMenu()
 {
+    PlatformPtr platform = createPlatformNativeInterface();
+    m_pasteWindow = platform->getPasteWindow();
+
     QMenu *menu = tray->contextMenu();
     updateTrayMenuItems();
 
@@ -756,7 +762,7 @@ WId MainWindow::showMenu()
 
     // steal focus
     WId wid = menu->winId();
-    raiseWindow(wid);
+    platform->raiseWindow(wid);
     return wid;
 }
 
@@ -1151,7 +1157,7 @@ WId MainWindow::openActionDialog(const QMimeData &data)
 
     // steal focus
     WId wid = actionDialog->winId();
-    raiseWindow(wid);
+    createPlatformNativeInterface()->raiseWindow(wid);
     return wid;
 }
 

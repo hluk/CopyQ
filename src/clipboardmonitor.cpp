@@ -21,6 +21,7 @@
 
 #include "client_server.h"
 #include "clipboarditem.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QMimeData>
 #include <QTimer>
@@ -255,8 +256,9 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 
     // add window title of clipboard owner
+    PlatformPtr platform = createPlatformNativeInterface();
     data2->setData( QString("application/x-copyq-owner-window-title"),
-                    currentWindowTitle().toUtf8() );
+                    platform->getWindowTitle(platform->getCurrentWindow()).toUtf8() );
 
     // send data to serve and synchronize if needed
     m_lastHash = newHash;

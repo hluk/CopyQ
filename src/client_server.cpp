@@ -19,8 +19,6 @@
 
 #include "client_server.h"
 
-#include "platform/platformnativeinterface.h"
-
 #include <cstdio>
 
 #include <QAction>
@@ -78,12 +76,6 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
 {
     Q_ASSERT( isMainThread() );
     return QApplication::clipboard()->mimeData(mode);
-}
-
-QString currentWindowTitle()
-{
-    PlatformPtr platform = createPlatformNativeInterface();
-    return platform->getCurrentWindowTitle();
 }
 
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
@@ -193,16 +185,6 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
         }
     }
     return newdata;
-}
-
-void raiseWindow(WId wid)
-{
-    createPlatformNativeInterface()->raiseWindow(wid);
-}
-
-void pasteToCurrentWindow()
-{
-    createPlatformNativeInterface()->pasteToCurrentWindow();
 }
 
 void elideText(QAction *act)

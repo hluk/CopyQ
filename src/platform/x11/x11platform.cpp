@@ -53,22 +53,6 @@ struct X11WindowProperty {
     unsigned char *data;
 };
 
-Window getCurrentWindow(Display *display)
-{
-    XSync(display, False);
-
-    static Atom atomWindow = XInternAtom(display, "_NET_ACTIVE_WINDOW", true);
-
-    X11WindowProperty property(display, DefaultRootWindow(display), atomWindow, 0l, 1l, XA_WINDOW);
-
-    if ( property.isValid() && property.type == XA_WINDOW && property.format == 32 &&
-         property.len == 1) {
-            return *reinterpret_cast<Window *>(property.data);
-    }
-
-    return 0L;
-}
-
 void simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
 {
     XKeyEvent event;
@@ -121,22 +105,38 @@ X11Platform::~X11Platform()
     delete d;
 }
 
-QString X11Platform::getCurrentWindowTitle()
+WId X11Platform::getCurrentWindow()
 {
     if (d->display == NULL)
+        return 0L;
+
+    XSync(d->display, False);
+
+    static Atom atomWindow = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", true);
+
+    X11WindowProperty property(d->display, DefaultRootWindow(d->display), atomWindow, 0l, 1l,
+                               XA_WINDOW);
+
+    if ( property.isValid() && property.type == XA_WINDOW && property.format == 32 &&
+         property.len == 1) {
+            return *reinterpret_cast<Window *>(property.data);
+    }
+
+    return 0L;
+}
+
+QString X11Platform::getWindowTitle(WId wid)
+{
+    if (d->display == NULL || wid == 0L)
         return QString();
 
-    Window focusedWindow = getCurrentWindow(d->display);
+    static Atom atomName = XInternAtom(d->display, "_NET_WM_NAME", false);
+    static Atom atomUTF8 = XInternAtom(d->display, "UTF8_STRING", false);
 
-    if (focusedWindow != 0L) {
-        static Atom atomName = XInternAtom(d->display, "_NET_WM_NAME", false);
-        static Atom atomUTF8 = XInternAtom(d->display, "UTF8_STRING", false);
-
-        X11WindowProperty property(d->display, focusedWindow, atomName, 0, (~0L), atomUTF8);
-        if ( property.isValid() ) {
-            QByteArray result(reinterpret_cast<const char *>(property.data), property.len);
-            return QString::fromUtf8(result);
-        }
+    X11WindowProperty property(d->display, wid, atomName, 0, (~0L), atomUTF8);
+    if ( property.isValid() ) {
+        QByteArray result(reinterpret_cast<const char *>(property.data), property.len);
+        return QString::fromUtf8(result);
     }
 
     return QString();
@@ -144,7 +144,7 @@ QString X11Platform::getCurrentWindowTitle()
 
 void X11Platform::raiseWindow(WId wid)
 {
-    if (d->display == NULL)
+    if (d->display == NULL || wid == 0L)
         return;
 
     XEvent e;
@@ -164,19 +164,25 @@ void X11Platform::raiseWindow(WId wid)
     XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);
 }
 
-void X11Platform::pasteToCurrentWindow()
+void X11Platform::pasteToWindow(WId wid)
+{
+    if (d->display == NULL || wid == 0L)
+        return;
+
+    raiseWindow(wid);
+    simulateKeyPress(d->display, wid, ShiftMask, XK_Insert);
+}
+
+WId X11Platform::getPasteWindow()
 {
     if (d->display == NULL)
-        return;
+        return 0L;
 
-    Window window = getCurrentWindow(d->display);
-    int tries = 100;
-    while (window == 0 && tries --> 0)
-        window = getCurrentWindow(d->display);
-    if (window == 0)
-        return;
+    Window win;
+    int revert;
+    XGetInputFocus(d->display, &win, &revert);
 
-    simulateKeyPress(d->display, window, ShiftMask, XK_Insert);
+    return win;
 }
 
 bool X11Platform::isSelecting()

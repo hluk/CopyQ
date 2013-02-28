@@ -31,11 +31,15 @@ public:
 
     ~X11Platform();
 
-    QString getCurrentWindowTitle();
+    WId getCurrentWindow();
+
+    QString getWindowTitle(WId wid);
 
     void raiseWindow(WId wid);
 
-    void pasteToCurrentWindow();
+    void pasteToWindow(WId wid);
+
+    WId getPasteWindow();
 
     bool isSelecting();
 

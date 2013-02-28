@@ -27,11 +27,15 @@ class WinPlatform : public PlatformNativeInterface
 public:
     WinPlatform();
 
-    QString getCurrentWindowTitle();
+    WId getCurrentWindow();
+
+    QString getWindowTitle(WId wid);
 
     void raiseWindow(WId wid);
 
-    void pasteToCurrentWindow();
+    void pasteToWindow(WId wid);
+
+    WId getPasteWindow();
 };
 
 #endif // WINPLATFORM_H

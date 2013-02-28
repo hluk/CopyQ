@@ -25,13 +25,15 @@
 class DummyPlatform : public PlatformNativeInterface
 {
 public:
-    DummyPlatform() {}
+    WId getCurrentWindow() { return WId(); }
 
-    QString getCurrentWindowTitle() { return QString(); }
+    QString getWindowTitle(WId) { return QString(); }
 
     void raiseWindow(WId) {}
 
-    void pasteToCurrentWindow() {}
+    void pasteToWindow(WId) {}
+
+    WId getPasteWindow() { return WId(); }
 };
 
 #endif // DUMMYPLATFORM_H

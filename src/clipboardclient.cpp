@@ -21,6 +21,7 @@
 
 #include "arguments.h"
 #include "client_server.h"
+#include "platform/platformnativeinterface.h"
 
 #include <cstdio>
 #include <QCoreApplication>
@@ -79,7 +80,7 @@ void ClipboardClient::readyRead()
             if (exitCode == CommandActivateWindow) {
                 COPYQ_LOG("Activating window.");
                 WId wid = (WId)(QByteArray(msg.constData()+i).toLongLong());
-                raiseWindow(wid);
+                createPlatformNativeInterface()->raiseWindow(wid);
             } else {
                 QFile f;
                 f.open((exitCode == CommandSuccess) ? stdout : stderr, QIODevice::WriteOnly);

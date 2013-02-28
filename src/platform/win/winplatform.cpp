@@ -49,10 +49,15 @@ WinPlatform::WinPlatform()
 {
 }
 
-QString WinPlatform::getCurrentWindowTitle()
+WId WinPlatform::getCurrentWindow()
+{
+    return GetForegroundWindow();
+}
+
+QString WinPlatform::getWindowTitle(WId wid)
 {
     TCHAR buf[1024];
-    GetWindowText(GetForegroundWindow(), buf, 1024);
+    GetWindowText(wid, buf, 1024);
 #   ifdef UNICODE
     return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
 #   else
@@ -67,10 +72,8 @@ void WinPlatform::raiseWindow(WId wid)
                  SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 
-void WinPlatform::pasteToCurrentWindow()
+void WinPlatform::pasteToWindow(WId wid)
 {
-    Sleep(100);
-
     INPUT input[4];
 
     input[0] = createInput(VK_LSHIFT);
@@ -78,5 +81,11 @@ void WinPlatform::pasteToCurrentWindow()
     input[2] = createInput(VK_INSERT, KEYEVENTF_KEYUP);
     input[3] = createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
 
+    raiseWindow(wid);
     SendInput( 4, input, sizeof(INPUT) );
+}
+
+WId WinPlatform::getPasteWindow()
+{
+    return getCurrentWindow();
 }

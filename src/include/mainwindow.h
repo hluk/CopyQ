@@ -280,6 +280,8 @@ class MainWindow : public QMainWindow
         QMap<Action*, QAction*> m_actions;
 
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
+
+        WId m_pasteWindow;
     };
 
 #endif // MAINWINDOW_H
