@@ -17,35 +17,9 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef X11DISPLAY_H
-#define X11DISPLAY_H
+#include "dummyplatform.h"
 
-#include <QString>
-#include <QWidget>
-
-struct X11DisplayPrivate;
-
-class X11Display
+PlatformPtr createPlatformNativeInterface()
 {
-public:
-    X11Display();
-
-    ~X11Display();
-
-    bool isValid() const;
-
-    QString getCurrentWindowTitle();
-
-    bool hasFocus(WId wid);
-
-    void raiseWindow(WId wid);
-
-    void pasteToCurrentWindow();
-
-    bool isButtonOrShiftPressed();
-
-private:
-    X11DisplayPrivate *d;
-};
-
-#endif // X11DISPLAY_H
+    return PlatformPtr(new DummyPlatform);
+}

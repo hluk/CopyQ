@@ -46,8 +46,10 @@ HEADERS += \
     include/tabbar.h \
     include/tabdialog.h \
     include/tabwidget.h \
+    platform/platformnativeinterface.h \
     ../qt/bytearrayclass.h \
-    ../qt/bytearrayprototype.h
+    ../qt/bytearrayprototype.h \
+    platform/dummy/dummyplatform.h
 SOURCES += \
     aboutdialog.cpp \
     action.cpp \
@@ -92,7 +94,9 @@ Debug {
     HEADERS += tests/tests.h
 }
 
-unix | win32 {
+include(platform/platform.pri)
+
+equals(USE_QXT,1) {
     DEFINES += BUILD_QXT_GUI
 
     HEADERS += ../qxt/qxtglobal.h
@@ -101,28 +105,5 @@ unix | win32 {
     HEADERS += ../qxt/qxtglobalshortcut.h
     HEADERS += ../qxt/qxtglobalshortcut_p.h
     SOURCES += ../qxt/qxtglobalshortcut.cpp
-
-    unix:!macx: SOURCES += ../qxt/qxtglobalshortcut_x11.cpp
-    macx:       SOURCES += ../qxt/qxtglobalshortcut_mac.cpp
-    win32:      SOURCES += ../qxt/qxtglobalshortcut_win.cpp
-
-    greaterThan(QT_MAJOR_VERSION, 4): unix {
-        QT += gui-private
-    }
-}
-
-unix:!macx {
-    DEFINES += COPYQ_WS_X11
-    LIBS    += -lX11 -lXfixes
-    HEADERS += x11/x11display.h
-    SOURCES += x11/x11display.cpp
-}
-macx {
-    LIBS    += -framework Carbon
-}
-win32 {
-    CONFIG  += static console
-    LIBS    += -luser32
-    RC_FILE  = copyq.rc
 }
 

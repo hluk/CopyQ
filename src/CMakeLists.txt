@@ -48,7 +48,7 @@ file(GLOB copyq_FORMS
 set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
-include_directories(${CMAKE_CURRENT_BINARY_DIR} include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} . include)
 if (WITH_QT5)
     include_directories(${Qt5Widgets_INCLUDES})
     add_definitions(${Qt5Widgets_DEFINITIONS})
@@ -60,38 +60,9 @@ endif()
 # If window system is X11 then set X11_FOUND to TRUE.
 find_package(X11)
 
-if (X11_FOUND)
-    # X11 requires 'fixes' extension for clipboard to work correctly.
-    message(STATUS "Building for X11 window system.")
-    if(NOT X11_Xfixes_FOUND)
-        message(FATAL_ERROR "X11 'fixes' extension library is required")
-    endif(NOT X11_Xfixes_FOUND)
-
-    add_definitions( -DCOPYQ_WS_X11 )
-elseif (Q_WS_WIN)
-    # File icon on Windows
-    set(copyq_RC copyq.rc)
-endif(X11_FOUND)
+include(platform/platform.cmake)
 
 # Qxt - global shortcuts
-set(USE_QXT TRUE)
-
-if (X11_FOUND)
-    file(GLOB copyq_SOURCES ${copyq_SOURCES}
-        x11/*.cpp
-        ../qxt/qxtglobalshortcut_x11.cpp
-        )
-    if (WITH_QT5)
-        include_directories(${Qt5Gui_PRIVATE_INCLUDE_DIRS})
-    endif()
-elseif (Q_WS_WIN)
-    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_win.cpp)
-elseif (Q_WS_MAC)
-    list(APPEND copyq_SOURCES ../qxt/qxtglobalshortcut_mac.cpp)
-else()
-    set(USE_QXT FALSE)
-endif()
-
 if (USE_QXT)
     set(copyq_SOURCES ${copyq_SOURCES}
         ../qxt/qxtglobal.cpp
@@ -121,8 +92,6 @@ if (WITH_TESTS)
         set(QT_USE_QTTEST TRUE)
     endif()
 endif()
-
-set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 
 # translations
 file(GLOB copyq_TRANSLATIONS ../translations/*.ts)

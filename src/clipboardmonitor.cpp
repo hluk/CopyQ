@@ -26,7 +26,7 @@
 #include <QTimer>
 
 #ifdef COPYQ_WS_X11
-#  include "x11/x11display.h"
+#  include "platform/x11/x11platform.h"
 #endif
 
 namespace {
@@ -65,7 +65,7 @@ public:
         if (m_timer.isActive())
             return true;
 
-        if ( m_dsp.isButtonOrShiftPressed() ) {
+        if ( m_dsp.isSelecting() ) {
             m_timer.start();
             return true;
         }
@@ -119,7 +119,7 @@ public:
     }
 
 private:
-    X11Display m_dsp;
+    X11Platform m_dsp;
     QTimer m_timer;
     QTimer m_syncTimer;
     QMimeData *m_syncData;

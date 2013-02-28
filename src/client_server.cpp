@@ -19,6 +19,8 @@
 
 #include "client_server.h"
 
+#include "platform/platformnativeinterface.h"
+
 #include <cstdio>
 
 #include <QAction>
@@ -33,14 +35,6 @@
 #include <QThread>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
-#endif
-
-#ifdef COPYQ_WS_X11
-#   include <unistd.h>
-#   include "x11/x11display.h"
-#elif defined Q_OS_WIN
-#   include <windows.h>
-#   include "qt_windows.h"
 #endif
 
 QString escapeHtml(const QString &str)
@@ -88,22 +82,8 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
 
 QString currentWindowTitle()
 {
-#ifdef COPYQ_WS_X11
-    X11Display display;
-
-    if (display.isValid())
-        return display.getCurrentWindowTitle();
-#elif defined Q_OS_WIN
-    TCHAR buf[1024];
-    GetWindowText(GetForegroundWindow(), buf, 1024);
-#   ifdef UNICODE
-    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
-#   else
-    return QString::fromLocal8Bit(buf);
-#   endif
-#endif // TODO: current window on Mac
-
-    return QString();
+    PlatformPtr platform = createPlatformNativeInterface();
+    return platform->isValid() ? platform->getCurrentWindowTitle() : QString();
 }
 
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
@@ -217,25 +197,16 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 
 void raiseWindow(WId wid)
 {
-#ifdef COPYQ_WS_X11
-    X11Display display;
-    display.raiseWindow(wid);
-#elif defined Q_OS_WIN
-    SetForegroundWindow(wid);
-    SetWindowPos(wid, HWND_TOP, 0, 0, 0, 0,
-                 SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-#else
-    Q_UNUSED(wid);
-#endif // TODO: focus window on Mac
+    PlatformPtr platform = createPlatformNativeInterface();
+    if (platform->isValid())
+        platform->raiseWindow(wid);
 }
 
 void pasteToCurrentWindow()
 {
-#ifdef COPYQ_WS_X11
-    usleep(1000);
-    X11Display display;
-    display.pasteToCurrentWindow();
-#endif
+    PlatformPtr platform = createPlatformNativeInterface();
+    if (platform->isValid())
+        platform->pasteToCurrentWindow();
 }
 
 void elideText(QAction *act)

@@ -17,9 +17,9 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "x11display.h"
+#include "x11platform.h"
 
-#include "client_server.h"
+//#include "client_server.h"
 
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -97,30 +97,36 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
 
 } // namespace
 
-struct X11DisplayPrivate
+PlatformPtr createPlatformNativeInterface()
 {
+    return PlatformPtr(new X11Platform);
+}
+
+class X11PlatformPrivate
+{
+public:
     Display *display;
 };
 
-X11Display::X11Display()
-    : d(new X11DisplayPrivate)
+X11Platform::X11Platform()
+    : d(new X11PlatformPrivate)
 {
     d->display = XOpenDisplay(NULL);
 }
 
-X11Display::~X11Display()
+X11Platform::~X11Platform()
 {
     if (d->display != NULL)
         XCloseDisplay(d->display);
     delete d;
 }
 
-bool X11Display::isValid() const
+bool X11Platform::isValid()
 {
     return d->display != NULL;
 }
 
-QString X11Display::getCurrentWindowTitle()
+QString X11Platform::getCurrentWindowTitle()
 {
     if ( !isValid() )
         return QString();
@@ -141,15 +147,7 @@ QString X11Display::getCurrentWindowTitle()
     return QString();
 }
 
-bool X11Display::hasFocus(WId wid)
-{
-    if ( !isValid() )
-        return false;
-
-    return getCurrentWindow(d->display) == wid;
-}
-
-void X11Display::raiseWindow(WId wid)
+void X11Platform::raiseWindow(WId wid)
 {
     if ( !isValid() )
         return;
@@ -171,7 +169,7 @@ void X11Display::raiseWindow(WId wid)
     XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);
 }
 
-void X11Display::pasteToCurrentWindow()
+void X11Platform::pasteToCurrentWindow()
 {
     if ( !isValid() )
         return;
@@ -186,8 +184,10 @@ void X11Display::pasteToCurrentWindow()
     simulateKeyPress(d->display, window, ShiftMask, XK_Insert);
 }
 
-bool X11Display::isButtonOrShiftPressed()
+bool X11Platform::isSelecting()
 {
+    // If mouse button or shift is pressed then assume that user is selecting text.
+    // FIXME: This doesn't work in GVim -- user is in visual mode and just presses a movement key.
     if ( !isValid() )
         return false;
 
@@ -200,4 +200,3 @@ bool X11Display::isButtonOrShiftPressed()
 
     return event.xbutton.state & (Button1Mask | ShiftMask);
 }
-
