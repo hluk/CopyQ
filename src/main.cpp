@@ -74,10 +74,6 @@ int startServer(int argc, char *argv[])
 {
     ClipboardServer app(argc, argv);
     if ( app.isListening() ) {
-#ifdef Q_OS_WIN
-    // FIXME: console window is still shown for a moment
-    FreeConsole();
-#endif
         return app.exec();
     } else {
         log( QObject::tr("CopyQ server is already running."), LogWarning );
@@ -128,8 +124,19 @@ bool needsTests(const char *arg)
 
 } // namespace
 
+#ifdef Q_OS_WIN
+#pragma comment(linker, "/SUBSYSTEM:windows")
+int APIENTRY WinMain(HINSTANCE /* hInstance */,
+                     HINSTANCE /* hPrevInstance */,
+                     LPTSTR /* lpCmdLine*/,
+                     int /* cmdShow */)
+{
+    int argc = __argc;
+    char **argv = __argv;
+#else
 int main(int argc, char *argv[])
 {
+#endif
     // print version, help or run tests
     if (argc == 2 || argc == 3) {
         const char *arg = argv[1];
