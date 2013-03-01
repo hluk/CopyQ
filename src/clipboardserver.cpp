@@ -138,8 +138,9 @@ void ClipboardServer::monitorStandardError()
     if (m_monitor == NULL)
         return;
 
-    log( tr("Clipboard Monitor: ") +
-         m_monitor->process().readAllStandardError(), LogError );
+    const QByteArray stderrOutput = m_monitor->process().readAllStandardError().trimmed();
+    foreach( const QByteArray &line, stderrOutput.split('\n') )
+        log( tr("Clipboard Monitor: ") + line, LogNote );
 }
 
 void ClipboardServer::stopMonitoring()
@@ -269,7 +270,9 @@ void ClipboardServer::newConnection()
 
 void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exitCode)
 {
-    COPYQ_LOG( QString("%1: Sending message to client.").arg(client->socketDescriptor()) );
+    COPYQ_LOG( QString("%1: Sending message to client (exit code: %2).")
+               .arg(client->socketDescriptor())
+               .arg(exitCode) );
 
     {
         QByteArray msg;

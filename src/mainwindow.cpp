@@ -730,9 +730,8 @@ void MainWindow::trayMenuAction()
     ClipboardBrowser *c = browser();
     if ( row < c->length() ) {
         c->moveToClipboard(row);
-        tray->contextMenu()->close();
         createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
-        //pasteToCurrentWindow();
+        tray->contextMenu()->close();
     }
 }
 

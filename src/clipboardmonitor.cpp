@@ -35,6 +35,9 @@ namespace {
 void setClipboardData(QMimeData *data, QClipboard::Mode mode)
 {
     Q_ASSERT( isMainThread() );
+    Q_ASSERT(data != NULL);
+    COPYQ_LOG( QString("Setting %1.").arg(mode == QClipboard::Clipboard ? "clipboard"
+                                                                        : "selection") );
     QApplication::clipboard()->setMimeData(data, mode);
 }
 
@@ -323,9 +326,22 @@ void ClipboardMonitor::readyRead()
         /* Does server send settings for monitor? */
         QByteArray settings_data = item.data()->data("application/x-copyq-settings");
         if ( !settings_data.isEmpty() ) {
+
             QDataStream settings_in(settings_data);
             QVariantMap settings;
             settings_in >> settings;
+
+#ifdef COPYQ_LOG_DEBUG
+            {
+                COPYQ_LOG("Loading configuration:");
+                foreach (const QString &key, settings.keys()) {
+                    QVariant val = settings[key];
+                    const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
+                                                                      : val.toString();
+                    COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
+                }
+            }
+#endif
 
             if ( m_lastHash == 0 && settings.contains("_last_hash") )
                 m_lastHash = settings["_last_hash"].toUInt();
@@ -349,7 +365,10 @@ void ClipboardMonitor::readyRead()
             checkClipboard(QClipboard::Selection);
 #endif
             checkClipboard(QClipboard::Clipboard);
+
+            COPYQ_LOG("Configured");
         } else {
+            COPYQ_LOG("Updating clipboard");
             updateClipboard( cloneData(*item.data()) );
         }
     }

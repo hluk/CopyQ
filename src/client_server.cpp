@@ -75,7 +75,11 @@ bool isMainThread()
 const QMimeData *clipboardData(QClipboard::Mode mode)
 {
     Q_ASSERT( isMainThread() );
-    return QApplication::clipboard()->mimeData(mode);
+    COPYQ_LOG( QString("Getting %1 data.").arg(mode == QClipboard::Clipboard ? "clipboard"
+                                                                             : "selection") );
+    const QMimeData *data = QApplication::clipboard()->mimeData(mode);
+    COPYQ_LOG(data != NULL ? "Got data." : "Data is NULL!");
+    return data;
 }
 
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
@@ -98,18 +102,24 @@ bool readMessage(QIODevice *socket, QByteArray *msg)
     QByteArray bytes;
     quint32 len;
 
-    if ( !readBytes(socket, sizeof(len), &bytes) )
-        return false;
-    QDataStream(bytes) >> len;
+    if ( readBytes(socket, sizeof(len), &bytes) ) {
+        QDataStream(bytes) >> len;
 
-    if ( !readBytes(socket, len, msg) )
-        return false;
+        if ( readBytes(socket, len, msg) ) {
+            COPYQ_LOG( QString("Message read (%1 bytes).").arg(msg->size()) );
+            return true;
+        }
+    }
 
-    return true;
+    COPYQ_LOG("ERROR: Incorrect message!");
+
+    return false;
 }
 
 void writeMessage(QIODevice *socket, const QByteArray &msg)
 {
+    COPYQ_LOG( QString("Write message (%1 bytes).").arg(msg.size()) );
+
     QDataStream out(socket);
     // length is serialized as a quint32, followed by msg
     out.writeBytes( msg.constData(), msg.length() );
@@ -117,6 +127,8 @@ void writeMessage(QIODevice *socket, const QByteArray &msg)
 
 QLocalServer *newServer(const QString &name, QObject *parent)
 {
+    COPYQ_LOG( QString("Starting server \"%1\".").arg(name) );
+
     QLocalServer *server = new QLocalServer(parent);
 
     // check if other server is running
@@ -126,9 +138,11 @@ QLocalServer *newServer(const QString &name, QObject *parent)
         // server is running
         QDataStream out(&socket);
         out << (quint32)0;
+        COPYQ_LOG( QString("Server \"%1\" already running!").arg(name) );
     } else {
         QLocalServer::removeServer(name);
         server->listen(name);
+        COPYQ_LOG( QString("Server \"%1\" started.").arg(name) );
     }
 
     return server;
@@ -136,13 +150,13 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
-    const QString envName =
+    return name + QString("_")
 #ifdef Q_OS_WIN
-            "USERNAME";
+            + qgetenv("USERNAME")
 #else
-            "USER";
+            + qgetenv("USER")
 #endif
-    return name + QString("_") + QProcessEnvironment::systemEnvironment().value(envName);
+            ;
 }
 
 QString clipboardServerName()

@@ -68,7 +68,7 @@ typedef QStringList Args;
 
 bool testStderr(const QByteArray &stderrData)
 {
-    return !stderrData.contains("warning") && !stderrData.contains("ERROR");
+    return !stderrData.contains("warning: ") && !stderrData.contains("ERROR: ");
 }
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
@@ -137,7 +137,7 @@ void Tests::initTestCase()
     if ( isAnyServerRunning() ) {
         run(Args("exit"));
 
-        // Wait for client/server communication is closed.
+        // Wait until client/server communication is closed.
         int tries = 0;
         while( !startServer() && ++tries <= 100 )
             qSleep(100);
@@ -464,7 +464,7 @@ bool Tests::stopServer()
 
 bool Tests::isServerRunning()
 {
-    return m_server != NULL && m_server->state() == QProcess::Running && ::run(Args("size")) == 0;
+    return m_server != NULL && m_server->state() == QProcess::Running;
 }
 
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)

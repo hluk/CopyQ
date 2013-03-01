@@ -17,9 +17,10 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "clipboarditem.h"
-
 #include "clipboardmodel.h"
+
+#include "client_server.h"
+#include "clipboarditem.h"
 
 #include <QSize>
 
@@ -276,10 +277,14 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
     int length = model.rowCount();
     stream << length;
 
+    COPYQ_LOG( QString("Saving %1 items.").arg(length) );
+
     // save in reverse order so the items
     // can be later restored in right order
     for(int i = 0; i < length; ++i)
         stream << *model.at(i);
+
+    COPYQ_LOG("Items saved.");
 
     return stream;
 }
@@ -290,11 +295,15 @@ QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
     stream >> length;
     length = qMin( length, model.maxItems() ) - model.rowCount();
 
+    COPYQ_LOG( QString("Loading %1 items.").arg(length) );
+
     ClipboardItem *item;
     for(int i = 0; i < length; ++i) {
         item = model.append();
         stream >> *item;
     }
+
+    COPYQ_LOG("Items loaded.");
 
     return stream;
 }
