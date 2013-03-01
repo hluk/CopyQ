@@ -33,11 +33,6 @@ public:
     virtual ~PlatformNativeInterface() {}
 
     /**
-     * Return true only if instance is valid and other methods can be safely used.
-     */
-    virtual bool isValid() = 0;
-
-    /**
      * Return window title text of current window.
      */
     virtual QString getCurrentWindowTitle() = 0;

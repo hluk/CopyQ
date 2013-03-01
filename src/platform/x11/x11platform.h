@@ -31,8 +31,6 @@ public:
 
     ~X11Platform();
 
-    bool isValid();
-
     QString getCurrentWindowTitle();
 
     void raiseWindow(WId wid);

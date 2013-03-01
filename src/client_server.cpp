@@ -83,7 +83,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
 QString currentWindowTitle()
 {
     PlatformPtr platform = createPlatformNativeInterface();
-    return platform->isValid() ? platform->getCurrentWindowTitle() : QString();
+    return platform->getCurrentWindowTitle();
 }
 
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
@@ -197,16 +197,12 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 
 void raiseWindow(WId wid)
 {
-    PlatformPtr platform = createPlatformNativeInterface();
-    if (platform->isValid())
-        platform->raiseWindow(wid);
+    createPlatformNativeInterface()->raiseWindow(wid);
 }
 
 void pasteToCurrentWindow()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
-    if (platform->isValid())
-        platform->pasteToCurrentWindow();
+    createPlatformNativeInterface()->pasteToCurrentWindow();
 }
 
 void elideText(QAction *act)

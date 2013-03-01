@@ -27,8 +27,6 @@ class WinPlatform : public PlatformNativeInterface
 public:
     WinPlatform();
 
-    bool isValid();
-
     QString getCurrentWindowTitle();
 
     void raiseWindow(WId wid);

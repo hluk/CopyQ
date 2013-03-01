@@ -49,11 +49,6 @@ WinPlatform::WinPlatform()
 {
 }
 
-bool WinPlatform::isValid()
-{
-    return true;
-}
-
 QString WinPlatform::getCurrentWindowTitle()
 {
     TCHAR buf[1024];

@@ -22,12 +22,10 @@
 
 #include "platform/platformnativeinterface.h"
 
-class DummyPlatform
+class DummyPlatform : public PlatformNativeInterface
 {
 public:
     DummyPlatform() {}
-
-    bool isValid() const { return false; }
 
     QString getCurrentWindowTitle() { return QString(); }
 

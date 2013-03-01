@@ -121,14 +121,9 @@ X11Platform::~X11Platform()
     delete d;
 }
 
-bool X11Platform::isValid()
-{
-    return d->display != NULL;
-}
-
 QString X11Platform::getCurrentWindowTitle()
 {
-    if ( !isValid() )
+    if (d->display == NULL)
         return QString();
 
     Window focusedWindow = getCurrentWindow(d->display);
@@ -149,7 +144,7 @@ QString X11Platform::getCurrentWindowTitle()
 
 void X11Platform::raiseWindow(WId wid)
 {
-    if ( !isValid() )
+    if (d->display == NULL)
         return;
 
     XEvent e;
@@ -171,7 +166,7 @@ void X11Platform::raiseWindow(WId wid)
 
 void X11Platform::pasteToCurrentWindow()
 {
-    if ( !isValid() )
+    if (d->display == NULL)
         return;
 
     Window window = getCurrentWindow(d->display);
@@ -188,7 +183,7 @@ bool X11Platform::isSelecting()
 {
     // If mouse button or shift is pressed then assume that user is selecting text.
     // FIXME: This doesn't work in GVim -- user is in visual mode and just presses a movement key.
-    if ( !isValid() )
+    if (d->display == NULL)
         return false;
 
     XEvent event;
