@@ -22,13 +22,41 @@
 
 #include <QDir>
 #include <QHash>
+#include <QMap>
 #include <QProcess>
 #include <QTimer>
 
-ItemEditor::ItemEditor(const QString &txt, const QString &editor, QObject *parent)
+namespace {
+
+QString getFileSuffixFromMime(const QString &mime)
+{
+    if (mime == "text/plain")
+        return QString(".txt");
+    if (mime == "text/html")
+        return QString(".html");
+    if (mime == "text/xml")
+        return QString(".xml");
+    if (mime == "image/bmp")
+        return QString(".bmp");
+    if (mime == "image/jpeg")
+        return QString(".jpg");
+    if (mime == "image/gif")
+        return QString(".png");
+    if (mime == "image/gif")
+        return QString(".gif");
+    if (mime == "image/svg+xml" || mime == "image/x-inkscape-svg-compressed")
+        return QString(".svg");
+    return QString();
+}
+
+} // namespace
+
+ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QString &editor,
+                       QObject *parent)
     : QObject(parent)
-    , m_txt(txt)
-    , m_hash( qHash(m_txt) )
+    , m_data(data)
+    , m_mime(mime)
+    , m_hash( qHash(m_data) )
     , m_editorcmd(editor)
     , m_editor(NULL)
     , m_timer( new QTimer(this) )
@@ -47,7 +75,8 @@ ItemEditor::~ItemEditor()
 bool ItemEditor::start()
 {
     // create temp file
-    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath("CopyQ.XXXXXX");
+    const QString tmpFileName = QString("CopyQ.XXXXXX") + getFileSuffixFromMime(m_mime);
+    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
     m_tmpfile.setFileTemplate(tmpPath);
     m_tmpfile.setAutoRemove(true);
     m_tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
@@ -58,7 +87,7 @@ bool ItemEditor::start()
     }
 
     // write text to temp file
-    m_tmpfile.write( m_txt.toLocal8Bit() );
+    m_tmpfile.write( m_data );
     m_tmpfile.flush();
 
     // monitor file
@@ -84,11 +113,11 @@ bool ItemEditor::fileModified()
         m_lastmodified = m_info.lastModified();
 
         // read text
-        m_txt = m_tmpfile.seek(0);
-        m_txt = QString::fromLocal8Bit( m_tmpfile.readAll().data() );
+        m_tmpfile.seek(0);
+        m_data = m_tmpfile.readAll();
 
         // new hash
-        uint newhash = qHash(m_txt);
+        uint newhash = qHash(m_data);
 
         return newhash != m_hash;
     }
@@ -99,8 +128,8 @@ bool ItemEditor::fileModified()
 void ItemEditor::onTimer()
 {
     if ( fileModified() ) {
-        emit fileModified(m_txt);
-        m_hash = qHash(m_txt);
+        emit fileModified(m_data, m_mime);
+        m_hash = qHash(m_data);
     }
 }
 

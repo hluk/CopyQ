@@ -89,6 +89,26 @@ public:
     virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const;
 
+    /**
+     * Return external editor command.
+     *
+     * @return editor command (%1 is file to edit),
+     *         null string to use the default text editor (this is the default behavior)
+     */
+    virtual QString getExternalEditorCommand(const QModelIndex &index, const QString &mime) const;
+
+    /**
+     * Return data for external editor.
+     */
+    virtual QByteArray getExternalEditorData(const QModelIndex &index, const QString &mime) const;
+
+    /**
+     * Get MIME format for external editor data.
+     *
+     * Default implementation returns "text/plain".
+     */
+    virtual QString getExternalEditorDataFormat(const QModelIndex &index) const;
+
 protected:
     /**
      * Highlight matching text with given font and color.

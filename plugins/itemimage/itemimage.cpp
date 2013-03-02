@@ -34,17 +34,22 @@ const QStringList imageFormats =
         QStringList("image/svg+xml") << QString("image/bmp") << QString("image/png")
                                      << QString("image/jpeg") << QString("image/gif");
 
+int findImageFormat(const QStringList &formats)
+{
+    foreach (const QString &format, imageFormats) {
+        int i = formats.indexOf(format);
+        if (i != -1)
+            return i;
+    }
+
+    return -1;
+}
+
 bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 {
     const QStringList formats = index.data(contentType::formats).toStringList();
 
-    int i = -1;
-    foreach (const QString &format, imageFormats) {
-        i = formats.indexOf(format);
-        if (i != -1)
-            break;
-    }
-
+    int i = findImageFormat(formats);
     if (i == -1)
         return false;
 
@@ -66,6 +71,18 @@ ItemImage::ItemImage(const QPixmap &pix, QWidget *parent)
     adjustSize();
     updateSize();
     updateItem();
+}
+
+QString ItemImage::getExternalEditorCommand(const QModelIndex &, const QString &) const
+{
+    return QString("gimp %1");
+}
+
+QString ItemImage::getExternalEditorDataFormat(const QModelIndex &index) const
+{
+    const QStringList formats = index.data(contentType::formats).toStringList();
+    int i = findImageFormat(formats);
+    return i != -1 ? formats[i] : QString();
 }
 
 void ItemImage::updateSize()

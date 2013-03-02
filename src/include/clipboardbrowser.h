@@ -259,13 +259,16 @@ class ClipboardBrowser : public QListView
         /** Show all items. */
         void clearFilter() { filterItems( QString() ); }
         /** Item modified in external editor. */
-        void itemModified(const QString &str);
+        void itemModified(const QByteArray &bytes, const QString &mime);
         /** Called if editor was closed. */
         void closeExternalEditor(ItemEditor *editor);
-        /** Open editor with text of all selected items. */
+        /** Open editor with text of all selected items or for single selected item. */
         bool openEditor();
         /** Open editor. */
-        bool openEditor(const QString &text);
+        bool openEditor(const QByteArray &data, const QString &mime = QString("text/plain"),
+                        const QString &editorCommand = QString());
+        /** Open editor for an item. */
+        bool openEditor(const QModelIndex &index);
         /** Add items. */
         void addItems(const QStringList &items);
 

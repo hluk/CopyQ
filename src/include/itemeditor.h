@@ -34,7 +34,8 @@ class ItemEditor : public QObject
     Q_OBJECT
 
     public:
-        ItemEditor(const QString &txt, const QString &editor, QObject *parent = NULL);
+        ItemEditor(const QByteArray &data, const QString &mime, const QString &editor,
+                   QObject *parent = NULL);
         ~ItemEditor();
 
         /**
@@ -47,14 +48,17 @@ class ItemEditor : public QObject
         /** Return true only if file was modified and reset this status. */
         bool fileModified();
 
-        /** Get current edited text. */
-        const QString &getText() const { return m_txt; }
+        /** Get current edited data. */
+        const QByteArray &getData() const { return m_data; }
+
+        /** Get MIME format of edited data. */
+        const QString &getDataFormat() const { return m_mime; }
 
     signals:
         /**
          * File was modified.
          */
-        void fileModified(const QString &str);
+        void fileModified(const QByteArray &data, const QString &mime);
 
         /**
          * Editor was closed.
@@ -71,7 +75,8 @@ class ItemEditor : public QObject
         void onTimer();
 
     private:
-        QString m_txt;
+        QByteArray m_data;
+        QString m_mime;
         // hash of original string (saves some memory)
         uint m_hash;
 

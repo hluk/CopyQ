@@ -27,6 +27,7 @@
 #include "iconfactory.h"
 #include "itemdelegate.h"
 #include "itemfactory.h"
+#include "itemwidget.h"
 
 #include <QElapsedTimer>
 #include <QKeyEvent>
@@ -174,7 +175,7 @@ void ClipboardBrowser::closeExternalEditor(ItemEditor *editor)
 {
     // check if file was modified before closing
     if ( editor->fileModified() )
-        itemModified( editor->getText() );
+        itemModified( editor->getData(), editor->getDataFormat() );
 
     editor->disconnect(this);
     disconnect(editor);
@@ -431,18 +432,19 @@ void ClipboardBrowser::commitData(QWidget *editor)
 
 bool ClipboardBrowser::openEditor()
 {
-    return openEditor( selectedText() );
+    const QModelIndexList selected = selectionModel()->selectedRows();
+    return (selected.size() == 1) ? openEditor( selected.first() )
+                                  : openEditor( selectedText().toLocal8Bit() );
 }
 
-bool ClipboardBrowser::openEditor(const QString &text)
+bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
+                                  const QString &editorCommand)
 {
-    if ( m_sharedData->editor.isEmpty() )
-        return false;
+    ItemEditor *editor = new ItemEditor(data, mime, editorCommand.isNull() ? m_sharedData->editor
+                                                                           : editorCommand);
 
-    ItemEditor *editor = new ItemEditor(text, m_sharedData->editor);
-
-    connect( editor, SIGNAL(fileModified(const QString &)),
-            this, SLOT(itemModified(const QString &)) );
+    connect( editor, SIGNAL(fileModified(QByteArray,QString)),
+            this, SLOT(itemModified(QByteArray,QString)) );
 
     connect( editor, SIGNAL(closed(ItemEditor *)),
             this, SLOT(closeExternalEditor(ItemEditor *)) );
@@ -455,6 +457,22 @@ bool ClipboardBrowser::openEditor(const QString &text)
     }
 
     return true;
+}
+
+bool ClipboardBrowser::openEditor(const QModelIndex &index)
+{
+    ItemWidget *item = d->cache(index);
+    const QString mime = item->getExternalEditorDataFormat(index);
+    if ( mime.isEmpty() )
+        return false;
+
+    const QString editorCommand = item->getExternalEditorCommand(index, mime);
+    const QByteArray data = item->getExternalEditorData(index, mime);
+
+    if ( !editorCommand.isNull() && editorCommand.isEmpty() )
+        return false;
+
+    return openEditor(data, mime, editorCommand);
 }
 
 void ClipboardBrowser::addItems(const QStringList &items)
@@ -495,11 +513,13 @@ void ClipboardBrowser::action()
     }
 }
 
-void ClipboardBrowser::itemModified(const QString &str)
+void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime)
 {
     // add new item
-    if ( !str.isEmpty() ) {
-        add(str, true);
+    if ( !bytes.isEmpty() ) {
+        QMimeData *data = new QMimeData;
+        data->setData(mime, bytes);
+        add(data, true);
         saveItems();
     }
 }

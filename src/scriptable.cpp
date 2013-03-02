@@ -645,7 +645,7 @@ void Scriptable::edit()
         }
     }
 
-    if ( !c->openEditor(text) ) {
+    if ( !c->openEditor(text.toLocal8Bit()) ) {
         m_wnd->showBrowser(c);
         if (len == 1 && row >= 0) {
             QModelIndex index = c->index(row);
