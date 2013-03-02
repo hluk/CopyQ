@@ -22,7 +22,11 @@
 
 #include "itemwidget.h"
 
-#include <QtWebKit/QWebView>
+#if QT_VERSION < 0x050000
+#   include <QtWebKit/QWebView>
+#else
+#   include <QtWebKitWidgets/QWebView>
+#endif
 
 class ItemWeb : public QWebView, public ItemWidget
 {

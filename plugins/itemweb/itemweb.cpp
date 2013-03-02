@@ -27,9 +27,14 @@
 #include <QMouseEvent>
 #include <QPalette>
 #include <QtPlugin>
-#include <QtWebKit/QWebFrame>
 #include <QtWebKit/QWebHistory>
-#include <QtWebKit/QWebPage>
+#if QT_VERSION < 0x050000
+#   include <QtWebKit/QWebFrame>
+#   include <QtWebKit/QWebPage>
+#else
+#   include <QtWebKitWidgets/QWebFrame>
+#   include <QtWebKitWidgets/QWebPage>
+#endif
 #include <QVariant>
 
 namespace {
