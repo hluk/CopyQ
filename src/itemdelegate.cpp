@@ -185,8 +185,13 @@ void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
 void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                                 const QModelIndex &index) const
 {
-    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
-    model->setData(index, textEdit->toPlainText());
+    ItemWidget *w = m_cache[index.row()];
+    if ( w != NULL) {
+        w->setModelData(editor, model, index);
+    } else {
+        QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
+        model->setData(index, textEdit->toPlainText());
+    }
 }
 
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)

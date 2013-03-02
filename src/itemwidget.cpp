@@ -19,6 +19,7 @@
 
 #include "itemwidget.h"
 
+#include <QAbstractItemModel>
 #include <QFont>
 #include <QModelIndex>
 #include <QPalette>
@@ -86,4 +87,11 @@ void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
         textEdit->setPlainText(text);
         textEdit->selectAll();
     }
+}
+
+void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const
+{
+    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
+    model->setData(index, textEdit->toPlainText());
 }

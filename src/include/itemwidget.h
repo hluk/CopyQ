@@ -27,6 +27,7 @@
 #include <QtPlugin>
 #include <QVariant>
 
+class QAbstractItemModel;
 class QFont;
 class QModelIndex;
 class QPalette;
@@ -81,6 +82,12 @@ public:
      * Set data for editor widget.
      */
     virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+
+    /**
+     * Set data from editor widget to model.
+     */
+    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const;
 
 protected:
     /**
