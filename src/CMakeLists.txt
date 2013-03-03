@@ -57,9 +57,6 @@ else()
     add_definitions(${QT_DEFINITIONS})
 endif()
 
-# If window system is X11 then set X11_FOUND to TRUE.
-find_package(X11)
-
 include(platform/platform.cmake)
 
 # Qxt - global shortcuts
