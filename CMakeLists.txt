@@ -1,15 +1,25 @@
+cmake_minimum_required(VERSION 2.8)
 project(copyq)
 
 OPTION(WITH_QT5 "Qt5 support" OFF)
 OPTION(WITH_TESTS "Run test cases from command line" OFF)
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 
+# If Qt4 unavailable use Qt5.
+if (NOT WITH_QT5)
+    find_package(Qt4)
+    if (NOT QT4_FOUND)
+        set(WITH_QT5 ON)
+        message(STATUS "Qt 4 is unavailable trying Qt 5.")
+    endif()
+endif()
+
 if (WITH_QT5)
     cmake_minimum_required(VERSION 2.8.8)
     find_package(Qt5Widgets REQUIRED)
+    message(STATUS "Building with Qt 5.")
 else()
-    cmake_minimum_required(VERSION 2.8)
-    find_package(Qt4 REQUIRED)
+    message(STATUS "Building with Qt 4.")
 endif()
 
 set(copyq_ICON        src/images/logo.svg)
