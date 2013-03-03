@@ -464,7 +464,7 @@ bool Tests::stopServer()
 
 bool Tests::isServerRunning()
 {
-    return m_server != NULL && m_server->state() == QProcess::Running;
+    return m_server != NULL && m_server->state() == QProcess::Running && isAnyServerRunning();
 }
 
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
@@ -487,6 +487,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
     out << item;
 
     QVERIFY( m_monitor->writeMessage(msg) );
+    QApplication::processEvents();
 
     qSleep(waitMsClipboard);
     QVERIFY( m_monitor->isConnected() );

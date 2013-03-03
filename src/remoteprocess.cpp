@@ -68,10 +68,6 @@ bool RemoteProcess::writeMessage(const QByteArray &msg)
         return false;
 
     ::writeMessage(m_socket, msg);
-    while ( m_socket->bytesToWrite() > 0 ) {
-        if ( !m_socket->waitForBytesWritten() )
-            return false;
-    }
 
     return true;
 }
