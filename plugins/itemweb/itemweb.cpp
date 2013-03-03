@@ -154,7 +154,9 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
 {
     if ( property("copyOnMouseUp").toBool() ) {
         setProperty("copyOnMouseUp", false);
+#if QT_VERSION >= 0x040800
         if ( hasSelection() )
+#endif
             triggerPageAction(QWebPage::Copy);
     } else {
         QWebView::mouseReleaseEvent(e);
