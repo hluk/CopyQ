@@ -96,6 +96,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
+    , m_trayItemPaste(true)
     , m_pasteWindow()
 {
     ui->setupUi(this);
@@ -658,6 +659,7 @@ void MainWindow::loadSettings()
     cm->setTabs(tabs);
 
     m_trayItems = cm->value("tray_items").toInt();
+    m_trayItemPaste = cm->value("tray_item_paste").toBool();
     m_trayCommands = cm->value("tray_commands").toBool();
     m_trayCurrentTab = cm->value("tray_tab_is_current").toBool();
     m_trayTabName = cm->value("tray_tab").toString();
@@ -726,12 +728,14 @@ void MainWindow::trayMenuAction()
     QVariant actionData = act->data();
     Q_ASSERT( actionData.isValid() );
 
-    int row = actionData.toInt();
-    ClipboardBrowser *c = browser();
-    if ( row < c->length() ) {
-        c->moveToClipboard(row);
-        createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
-        tray->contextMenu()->close();
+    if (m_trayItemPaste) {
+        int row = actionData.toInt();
+        ClipboardBrowser *c = browser();
+        if ( row < c->length() ) {
+            c->moveToClipboard(row);
+            createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
+            tray->contextMenu()->close();
+        }
     }
 }
 
@@ -747,7 +751,8 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 WId MainWindow::showMenu()
 {
     PlatformPtr platform = createPlatformNativeInterface();
-    m_pasteWindow = platform->getPasteWindow();
+    if (m_trayItemPaste)
+        m_pasteWindow = platform->getPasteWindow();
 
     QMenu *menu = tray->contextMenu();
     updateTrayMenuItems();

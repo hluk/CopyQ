@@ -412,17 +412,14 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
             </widget>
            </item>
            <item>
-            <spacer name="horizontalSpacer_2">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
+            <widget class="QCheckBox" name="checkBoxPasteMenuItem">
+             <property name="toolTip">
+              <string>Paste item to current window after selecting it in menu.</string>
              </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
+             <property name="text">
+              <string>&amp;Paste activated item to current window</string>
              </property>
-            </spacer>
+            </widget>
            </item>
           </layout>
          </item>
@@ -824,8 +821,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>220</width>
-              <height>355</height>
+              <width>214</width>
+              <height>343</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1103,6 +1100,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>pushButtonPluginPriorityDown</tabstop>
   <tabstop>tabWidgetPlugins</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
+  <tabstop>checkBoxPasteMenuItem</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>
   <tabstop>checkBoxTrayShowCommands</tabstop>

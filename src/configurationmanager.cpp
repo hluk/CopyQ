@@ -122,6 +122,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["text_wrap"] = Option(true, "checked", ui->checkBoxTextWrap);
 
     m_options["tray_items"] = Option(5, "value", ui->spinBoxTrayItems);
+    m_options["tray_item_paste"] = Option(true, "checked", ui->checkBoxPasteMenuItem);
     m_options["tray_commands"] = Option(true, "checked", ui->checkBoxTrayShowCommands);
     m_options["tray_tab_is_current"] = Option(true, "checked", ui->checkBoxMenuTabIsCurrent);
     m_options["tray_images"] = Option(true, "checked", ui->checkBoxTrayImages);
