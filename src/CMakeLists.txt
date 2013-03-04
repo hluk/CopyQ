@@ -126,13 +126,18 @@ endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
-add_executable(copyq ${copyq_SOURCES}
+add_executable(copyq WIN32
+    ${copyq_SOURCES}
     ${copyq_MOC}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC}
     ${copyq_RC}
     ${copyq_QM}
     )
+
+if (WIN32)
+    set_target_properties(copyq PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+endif()
 
 if (WITH_QT5)
     qt5_use_modules(copyq ${copyq_Qt5_Modules})
