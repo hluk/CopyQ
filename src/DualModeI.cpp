@@ -17,23 +17,24 @@ BOOL InitializeDualMode(BOOL initMode)
 
   // construct named pipe names
   //
-  sprintf( szOutputPipeName,
+  sprintf_s( szOutputPipeName,
     "\\\\.\\pipe\\%dcout",
     GetCurrentProcessId() );
 
-  sprintf( szInputPipeName,
+  sprintf_s( szInputPipeName,
     "\\\\.\\pipe\\%dcin",
     GetCurrentProcessId() );
 
-  sprintf( szErrorPipeName,
+  sprintf_s( szErrorPipeName,
     "\\\\.\\pipe\\%dcerr",
     GetCurrentProcessId() );
 
   // attach named pipes to stdin/stdout/stderr
   //
-  rc = freopen( szOutputPipeName, &achar[0], stdout ) != NULL &&
-    freopen( szInputPipeName, &rchar[0], stdin ) != NULL &&
-    freopen( szErrorPipeName, &achar[0], stderr ) != NULL;
+  FILE *dummy;
+  rc = freopen_s( &dummy, szOutputPipeName, &achar[0], stdout ) == 0 &&
+    freopen_s( &dummy, szInputPipeName, &rchar[0], stdin ) == 0 &&
+    freopen_s( &dummy, szErrorPipeName, &achar[0], stderr ) == 0;
 
 
   // if unsuccessfule, i.e. no console was available
@@ -45,9 +46,9 @@ BOOL InitializeDualMode(BOOL initMode)
   {
     rc = AllocConsole();
     if (rc)
-      rc = freopen( "CONOUT$", "a", stdout ) != NULL &&
-      freopen( "CONIN$", "r", stdin ) != NULL &&
-      freopen( "CONERR$", "a", stderr ) != NULL;
+      rc = freopen_s( &dummy, "CONOUT$", "a", stdout ) == 0 &&
+        freopen_s( &dummy, "CONIN$", "r", stdin ) == 0 &&
+        freopen_s( &dummy, "CONERR$", "a", stderr ) == 0;
 
   }
 
