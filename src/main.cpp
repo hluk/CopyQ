@@ -31,6 +31,7 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
+#include "DualModeI.h"
 #endif
 
 #ifdef HAS_TESTS
@@ -126,6 +127,10 @@ bool needsTests(const char *arg)
 
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_WIN
+    InitializeDualMode();
+#endif
+
     // print version, help or run tests
     if (argc == 2 || argc == 3) {
         const char *arg = argv[1];
