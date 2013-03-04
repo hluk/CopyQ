@@ -153,13 +153,15 @@ void X11Platform::raiseWindow(WId wid)
     e.xclient.display = d->display;
     e.xclient.window = wid;
     e.xclient.format = 32;
-    e.xclient.data.l[0] = 1;
+    e.xclient.data.l[0] = 2;
     e.xclient.data.l[1] = CurrentTime;
     e.xclient.data.l[2] = 0;
     e.xclient.data.l[3] = 0;
     e.xclient.data.l[4] = 0;
+
     XSendEvent(d->display, DefaultRootWindow(d->display),
-               false, SubstructureNotifyMask | SubstructureRedirectMask, &e);
+               False, SubstructureNotifyMask | SubstructureRedirectMask, &e);
+
     XRaiseWindow(d->display, wid);
     XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);
 }
