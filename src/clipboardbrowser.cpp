@@ -146,7 +146,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     // save if data in model changed
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             SLOT(delayedSaveItems()) );
+             SLOT(onDataChanged(QModelIndex,QModelIndex)) );
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(delayedSaveItems()) );
     connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
@@ -353,6 +353,15 @@ void ClipboardBrowser::onRowChanged(int row, const QSize &oldSize)
     updateScrollOffset( index(row), oldSize.height() );
 }
 
+void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
+{
+    QListView::dataChanged(a, b);
+    if ( autoUpdate() && a.row() == 0 )
+        updateClipboard();
+    d->dataChanged(a, b);
+    delayedSaveItems();
+}
+
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
     if ( !selectedIndexes().isEmpty() ) {
@@ -407,14 +416,6 @@ void ClipboardBrowser::paintEvent(QPaintEvent *event)
     }
 
     QListView::paintEvent(event);
-}
-
-void ClipboardBrowser::dataChanged(const QModelIndex &a, const QModelIndex &b)
-{
-    QListView::dataChanged(a, b);
-    if ( autoUpdate() && a.row() == 0 )
-        updateClipboard();
-    d->dataChanged(a, b);
 }
 
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)

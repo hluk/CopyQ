@@ -215,7 +215,6 @@ class ClipboardBrowser : public QListView
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
         void paintEvent(QPaintEvent *event);
-        void dataChanged(const QModelIndex &a, const QModelIndex &b);
         void resizeEvent(QResizeEvent *event);
 
     signals:
@@ -244,6 +243,8 @@ class ClipboardBrowser : public QListView
         void updateContextMenu();
 
         void onRowChanged(int row, const QSize &oldSize);
+
+        void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
     public slots:
         /** Receive key event. */
