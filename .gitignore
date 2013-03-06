@@ -6,7 +6,6 @@ CMakeCache.txt
 # Generated Visual Studio files
 Debug/
 Release/
-Win*/
 *.sln
 *.suo
 *.*sdf

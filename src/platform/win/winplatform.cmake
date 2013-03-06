@@ -2,7 +2,7 @@
 set(copyq_RC copyq.rc)
 
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
-    platform/win/*.cpp
+    platform/win/winplatform.cpp
     ../qxt/qxtglobalshortcut_win.cpp
     )
 
