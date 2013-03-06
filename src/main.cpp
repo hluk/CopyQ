@@ -29,10 +29,6 @@
 #include <QFile>
 #include <QScriptEngine>
 
-#ifdef Q_OS_WIN
-#include <windows.h>
-#endif
-
 #ifdef HAS_TESTS
 #  include "tests/tests.h"
 #  include <QTest>
