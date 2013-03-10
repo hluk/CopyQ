@@ -24,6 +24,7 @@
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xatom.h>
+#include <unistd.h> // usleep()
 
 namespace {
 
@@ -172,6 +173,7 @@ void X11Platform::pasteToWindow(WId wid)
         return;
 
     raiseWindow(wid);
+    usleep(500);
     simulateKeyPress(d->display, wid, ShiftMask, XK_Insert);
 }
 

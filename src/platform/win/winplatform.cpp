@@ -82,6 +82,7 @@ void WinPlatform::pasteToWindow(WId wid)
     input[3] = createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
 
     raiseWindow(wid);
+    Sleep(500);
     SendInput( 4, input, sizeof(INPUT) );
 }
 
