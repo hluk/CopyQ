@@ -31,6 +31,7 @@
 
 #ifdef Q_OS_WIN
 #include <windows.h>
+#include "DualModeI.h"
 #endif
 
 #ifdef HAS_TESTS
@@ -124,19 +125,12 @@ bool needsTests(const char *arg)
 
 } // namespace
 
-#ifdef Q_OS_WIN
-#pragma comment(linker, "/SUBSYSTEM:windows")
-int APIENTRY WinMain(HINSTANCE /* hInstance */,
-                     HINSTANCE /* hPrevInstance */,
-                     LPTSTR /* lpCmdLine*/,
-                     int /* cmdShow */)
-{
-    int argc = __argc;
-    char **argv = __argv;
-#else
 int main(int argc, char *argv[])
 {
+#ifdef Q_OS_WIN
+    InitializeDualMode();
 #endif
+
     // print version, help or run tests
     if (argc == 2 || argc == 3) {
         const char *arg = argv[1];
