@@ -1,0 +1,22 @@
+# Generated CMake files
+CMakeFiles/
+CMakeCache.txt
+*.cmake
+
+# Generated Visual Studio files
+Debug/
+Release/
+*.sln
+*.suo
+*.*sdf
+*.vc?proj*
+
+# Generated Qt files
+src/copyq_*.qm
+src/copyq_*.qm.rule
+src/qrc_copyq.cxx
+src/translations.qrc
+src/qrc_translations.cxx
+moc_*
+ui_*
+*.depends

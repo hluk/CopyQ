@@ -1,13 +1,3 @@
-# Qt modules
-if (WITH_QT5)
-    set(copyq_Qt5_Modules Widgets Network Svg Xml Script)
-else()
-    set(QT_USE_QTNETWORK TRUE)
-    set(QT_USE_QTSVG TRUE)
-    set(QT_USE_QTXML TRUE)
-    set(QT_USE_QTSCRIPT TRUE)
-endif()
-
 # Project files
 file(GLOB copyq_SOURCES
     *.cpp
@@ -123,21 +113,55 @@ endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
-add_executable(copyq ${copyq_SOURCES}
+set(copyq_COMPILE
+    ${copyq_SOURCES}
     ${copyq_MOC}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC}
-    ${copyq_RC}
     ${copyq_QM}
     )
 
-if (WITH_QT5)
-    qt5_use_modules(copyq ${copyq_Qt5_Modules})
+if (WIN32)
+    # Create separate binaries for GUI and console under Windows.
+
+    # GUI (copyq.exe)
+    add_executable(copyq WIN32 ${copyq_COMPILE} ${copyq_RC})
+    set_target_properties(copyq PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+
+    # console (copyq.com)
+    add_executable(copyqcon platform/win/main.cpp)
+    set_target_properties(copyqcon PROPERTIES OUTPUT_NAME "copyq" SUFFIX ".com")
+
+    # Qt modules for console app
+    if (WITH_QT5)
+        qt5_use_modules(copyqcon Widgets Network Svg Xml Script)
+    else()
+        include(${QT_USE_FILE})
+    endif()
+
+    # link console app
+    target_link_libraries(copyqcon ${QT_LIBRARIES})
+
+    # install console app
+    install(TARGETS copyqcon DESTINATION bin)
 else()
+    # Single binary for console and GUI.
+    add_executable(copyq ${copyq_COMPILE})
+endif()
+
+# Qt modules
+if (WITH_QT5)
+    qt5_use_modules(copyq Widgets Network Svg Xml Script)
+else()
+    set(QT_USE_QTNETWORK TRUE)
+    set(QT_USE_QTSVG TRUE)
+    set(QT_USE_QTXML TRUE)
+    set(QT_USE_QTSCRIPT TRUE)
     include(${QT_USE_FILE})
 endif()
 
+# link
 target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 
+# install
 install(TARGETS copyq DESTINATION bin)
-
