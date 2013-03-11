@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
      */
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
-    QString cmd = args.takeFirst();
+    QString cmd = QCoreApplication::applicationFilePath();
 
     QFile ferr;
     ferr.open(stderr, QIODevice::WriteOnly);
@@ -70,6 +70,7 @@ int main(int argc, char *argv[])
 
     // Pass arguments and execute the *.exe file.
     QProcess p;
+    args.removeFirst();
     p.start(cmd, args);
     if ( !p.waitForStarted(-1) ) {
         ferr.write( QObject::tr("ERROR: Failed to start \"%1\"!\n")
