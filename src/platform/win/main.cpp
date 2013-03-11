@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
      */
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
-    QString cmd = args.takeFirst();
+    QString cmd = QCoreApplication::applicationFilePath();
 
     QFile ferr;
     ferr.open(stderr, QIODevice::WriteOnly);
