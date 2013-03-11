@@ -4,6 +4,9 @@ CMakeCache.txt
 *.cmake
 
 # Generated Visual Studio files
+/plugins/Debug/
+/plugins/Release/
+/plugins/Win*/
 /Debug/
 /Release/
 /Win*/
@@ -13,6 +16,8 @@ CMakeCache.txt
 *.vc?proj*
 
 # Generated Qt files
+/plugins/**/*.dir/
+/src/copyqcon.dir/
 /src/copyq.dir/
 /src/copyq_*.qm
 /src/copyq_*.qm.rule
