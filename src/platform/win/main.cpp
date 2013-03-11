@@ -71,6 +71,7 @@ int main(int argc, char *argv[])
     // Pass arguments and execute the *.exe file.
     QProcess p;
     args.removeFirst();
+    p.setProcessChannelMode(QProcess::ForwardedChannels);
     p.start(cmd, args);
     if ( !p.waitForStarted(-1) ) {
         ferr.write( QObject::tr("ERROR: Failed to start \"%1\"!\n")
@@ -85,15 +86,6 @@ int main(int argc, char *argv[])
     // Read stderr and stdout.
     QFile fout;
     fout.open(stdout, QIODevice::WriteOnly);
-
-    while ( p.waitForReadyRead(-1) ) {
-        fout.write( p.readAllStandardOutput() );
-        ferr.write( p.readAllStandardError() );
-        fout.flush();
-        ferr.flush();
-        if (p.state() != QProcess::Running)
-            break;
-    }
 
     p.waitForFinished(-1);
     if ( p.error() != QProcess::UnknownError ) {
