@@ -173,7 +173,7 @@ void X11Platform::pasteToWindow(WId wid)
         return;
 
     raiseWindow(wid);
-    usleep(500);
+    usleep(150000);
     simulateKeyPress(d->display, wid, ShiftMask, XK_Insert);
 }
 

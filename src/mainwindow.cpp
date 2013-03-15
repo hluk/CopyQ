@@ -733,6 +733,7 @@ void MainWindow::trayMenuAction()
     if ( row < c->length() ) {
         c->moveToClipboard(row);
         if (m_trayItemPaste) {
+            QApplication::processEvents();
             createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
         }
         tray->contextMenu()->close();
