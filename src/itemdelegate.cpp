@@ -56,7 +56,7 @@ ItemDelegate::~ItemDelegate()
 QSize ItemDelegate::sizeHint(const QModelIndex &index) const
 {
     const ItemWidget *w = m_cache.value(index.row(), NULL);
-    return (w != NULL) ? w->size() : defaultSize;
+    return (w != NULL) ? w->widget()->size() : defaultSize;
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
@@ -254,8 +254,7 @@ void ItemDelegate::onItemChanged(ItemWidget *item)
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
         if ( w != NULL && w == item ) {
-            QSize oldSize = w->size();
-            w->updateItem();
+            QSize oldSize = w->widget()->size();
             emit rowChanged(i, oldSize);
             return;
         }
@@ -312,8 +311,9 @@ void ItemDelegate::setItemMaximumSize(const QSize &size)
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
         if (w != NULL) {
-            QSize oldSize = w->size();
-            w->setMaximumSize(m_maxSize);
+            QSize oldSize = w->widget()->size();
+            w->widget()->setMaximumSize(m_maxSize);
+            w->updateSize();
             emit rowChanged(i, oldSize);
         }
     }
@@ -385,7 +385,8 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
         return;
     }
 
-    w->setMaximumSize(m_maxSize);
+    w->widget()->setMaximumSize(m_maxSize);
+    w->updateSize();
     m_cache[row] = w;
 
     emit sizeHintChanged(index);

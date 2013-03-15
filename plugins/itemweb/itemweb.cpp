@@ -92,7 +92,6 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
 
     setHtml(html);
     updateSize();
-    updateItem();
 }
 
 void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)

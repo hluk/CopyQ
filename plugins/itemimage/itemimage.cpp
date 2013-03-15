@@ -68,9 +68,7 @@ ItemImage::ItemImage(const QPixmap &pix, QWidget *parent)
 {
     setMargin(4);
     setPixmap(pix);
-    adjustSize();
     updateSize();
-    updateItem();
 }
 
 QString ItemImage::getExternalEditorCommand(const QModelIndex &, const QString &) const

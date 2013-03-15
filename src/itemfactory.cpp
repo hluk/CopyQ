@@ -47,9 +47,13 @@ public:
         setText( tr("<p><i>No plugin available for this item formats (%1).</i></p>")
                  .arg(index.data(contentType::formats).toStringList().join(", ")) );
         setMargin(4);
-        resize(sizeHint());
         updateSize();
-        updateItem();
+    }
+
+protected:
+    virtual void updateSize()
+    {
+        adjustSize();
     }
 };
 

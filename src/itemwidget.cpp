@@ -29,7 +29,6 @@
 
 ItemWidget::ItemWidget(QWidget *widget)
     : m_re()
-    , m_size()
     , m_widget(widget)
 {
     Q_ASSERT(widget != NULL);
@@ -61,18 +60,6 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
         return;
     m_re = re;
     highlight(re, highlightFont, highlightPalette);
-}
-
-void ItemWidget::setMaximumSize(const QSize &size)
-{
-    widget()->setMaximumSize(size);
-    updateSize();
-    updateItem();
-}
-
-void ItemWidget::updateItem()
-{
-    m_size = widget()->size();
 }
 
 QWidget *ItemWidget::createEditor(QWidget *parent) const

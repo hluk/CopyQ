@@ -141,6 +141,7 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
     }
 
     setText(text);
+    updateSize();
 }
 
 void ItemData::highlight(const QRegExp &, const QFont &, const QPalette &)

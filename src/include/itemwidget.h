@@ -62,16 +62,10 @@ public:
     void setHighlight(const QRegExp &re, const QFont &highlightFont,
                       const QPalette &highlightPalette);
 
-    const QSize &size() const { return m_size; }
-
-    void setMaximumSize(const QSize& size);
-
-    virtual void updateItem();
-
     /**
      * Return widget to render.
      */
-    QWidget *widget() { return m_widget; }
+    QWidget *widget() const { return m_widget; }
 
     /**
      * Create editor widget with given @a parent.
@@ -109,6 +103,11 @@ public:
      */
     virtual QString getExternalEditorDataFormat(const QModelIndex &index) const;
 
+    /**
+     * Size of widget needs to be updated (because maximum size chaged).
+     */
+    virtual void updateSize() {}
+
 protected:
     /**
      * Highlight matching text with given font and color.
@@ -116,14 +115,8 @@ protected:
      */
     virtual void highlight(const QRegExp &, const QFont &, const QPalette &) {}
 
-    /**
-     * Size of widget needs to be updated (because maximum size chaged).
-     */
-    virtual void updateSize() {}
-
 private:
     QRegExp m_re;
-    QSize m_size;
     QWidget *m_widget;
 };
 

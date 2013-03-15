@@ -99,7 +99,6 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
         m_textDocument.setPlainText( text.left(defaultMaxBytes) );
     setDocument(&m_textDocument);
     updateSize();
-    updateItem();
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
