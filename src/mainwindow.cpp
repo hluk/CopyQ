@@ -728,14 +728,14 @@ void MainWindow::trayMenuAction()
     QVariant actionData = act->data();
     Q_ASSERT( actionData.isValid() );
 
-    if (m_trayItemPaste) {
-        int row = actionData.toInt();
-        ClipboardBrowser *c = browser();
-        if ( row < c->length() ) {
-            c->moveToClipboard(row);
+    int row = actionData.toInt();
+    ClipboardBrowser *c = browser();
+    if ( row < c->length() ) {
+        c->moveToClipboard(row);
+        if (m_trayItemPaste) {
             createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
-            tray->contextMenu()->close();
         }
+        tray->contextMenu()->close();
     }
 }
 
@@ -751,8 +751,7 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 WId MainWindow::showMenu()
 {
     PlatformPtr platform = createPlatformNativeInterface();
-    if (m_trayItemPaste)
-        m_pasteWindow = platform->getPasteWindow();
+    m_pasteWindow = platform->getPasteWindow();
 
     QMenu *menu = tray->contextMenu();
     updateTrayMenuItems();
