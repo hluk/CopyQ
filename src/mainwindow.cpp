@@ -424,6 +424,16 @@ QStringList MainWindow::tabs() const
     return tabs;
 }
 
+bool MainWindow::isTrayMenuVisible() const
+{
+    return tray->contextMenu()->isVisible();
+}
+
+WId MainWindow::trayMenuWinId() const
+{
+    return tray->contextMenu()->winId();
+}
+
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec)
 {
@@ -749,12 +759,18 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-WId MainWindow::showMenu()
+void MainWindow::showMenu()
 {
+    QMenu *menu = tray->contextMenu();
+
+    if ( menu->isVisible() ) {
+        menu->close();
+        return;
+    }
+
     PlatformPtr platform = createPlatformNativeInterface();
     m_pasteWindow = platform->getPasteWindow();
 
-    QMenu *menu = tray->contextMenu();
     updateTrayMenuItems();
 
     // open menu unser cursor
@@ -763,11 +779,6 @@ WId MainWindow::showMenu()
     pos.setX(qMax(0, qMin(screen.width() - menu->width(), pos.x())));
     pos.setY(qMax(0, qMin(screen.height() - menu->height(), pos.y())));
     menu->popup(pos);
-
-    // steal focus
-    WId wid = menu->winId();
-    platform->raiseWindow(wid);
-    return wid;
 }
 
 void MainWindow::tabChanged(int current)

@@ -98,6 +98,11 @@ class MainWindow : public QMainWindow
         /** Return tab names. */
         QStringList tabs() const;
 
+        bool isTrayMenuVisible() const;
+
+        /** Return window ID of tray menu. */
+        WId trayMenuWinId() const;
+
     signals:
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
@@ -116,7 +121,7 @@ class MainWindow : public QMainWindow
          * Show tray menu.
          * @return Window ID for the tray menu.
          */
-        WId showMenu();
+        void showMenu();
 
         /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);

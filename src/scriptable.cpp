@@ -450,8 +450,11 @@ void Scriptable::toggle()
 
 void Scriptable::menu()
 {
-    QByteArray message = QByteArray::number((qlonglong)m_wnd->showMenu());
-    sendMessage(message, CommandActivateWindow);
+    m_wnd->showMenu();
+    if (m_wnd->isTrayMenuVisible()) {
+        QByteArray message = QByteArray::number((qlonglong)m_wnd->trayMenuWinId());
+        sendMessage(message, CommandActivateWindow);
+    }
 }
 
 void Scriptable::exit()
