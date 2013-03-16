@@ -321,7 +321,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
             continue;
         if (command.re.indexIn(text) == -1)
             continue;
-        if (command.input.isEmpty() || command.input.compare("text/plain", Qt::CaseInsensitive))
+        if (!command.input.isEmpty() && command.input.compare("text/plain", Qt::CaseInsensitive))
             continue;
         if (command.wndre.indexIn(windowTitle) == -1)
             continue;
