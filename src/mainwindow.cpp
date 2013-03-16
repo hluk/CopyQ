@@ -779,6 +779,11 @@ void MainWindow::showMenu()
     pos.setX(qMax(0, qMin(screen.width() - menu->width(), pos.x())));
     pos.setY(qMax(0, qMin(screen.height() - menu->height(), pos.y())));
     menu->popup(pos);
+
+    menu->raise();
+    menu->activateWindow();
+
+    createPlatformNativeInterface()->raiseWindow(menu->winId());
 }
 
 void MainWindow::tabChanged(int current)

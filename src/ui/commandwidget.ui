@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>286</width>
-    <height>451</height>
+    <width>276</width>
+    <height>436</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
+   <property name="spacing">
+    <number>4</number>
+   </property>
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_4">
      <item>
@@ -59,9 +62,76 @@
     </layout>
    </item>
    <item>
+    <layout class="QHBoxLayout" name="horizontalLayout_3">
+     <item>
+      <widget class="QLabel" name="label_5">
+       <property name="sizePolicy">
+        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+         <horstretch>0</horstretch>
+         <verstretch>0</verstretch>
+        </sizepolicy>
+       </property>
+       <property name="text">
+        <string>&amp;Icon:</string>
+       </property>
+       <property name="buddy">
+        <cstring>lineEditIcon</cstring>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QToolButton" name="buttonIcon">
+       <property name="text">
+        <string/>
+       </property>
+       <property name="iconSize">
+        <size>
+         <width>13</width>
+         <height>16</height>
+        </size>
+       </property>
+       <property name="popupMode">
+        <enum>QToolButton::InstantPopup</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontalLayout_9">
+       <item>
+        <widget class="QLineEdit" name="lineEditIcon">
+         <property name="toolTip">
+          <string>Icon shown in menu</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QPushButton" name="pushButtonBrowse">
+         <property name="text">
+          <string>&amp;Browse</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </item>
+   <item>
     <widget class="QGroupBox" name="groupBox">
      <property name="title">
-      <string>Match</string>
+      <string>Match Items</string>
      </property>
      <layout class="QFormLayout" name="formLayout_2">
       <property name="horizontalSpacing">
@@ -71,16 +141,16 @@
        <number>2</number>
       </property>
       <property name="leftMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="topMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="rightMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <property name="bottomMargin">
-       <number>2</number>
+       <number>4</number>
       </property>
       <item row="0" column="0">
        <widget class="QLabel" name="label_4">
@@ -157,68 +227,11 @@ Leave empty to disable this.</string>
     </widget>
    </item>
    <item>
-    <layout class="QFormLayout" name="formLayout_3">
-     <property name="horizontalSpacing">
-      <number>2</number>
-     </property>
+    <layout class="QFormLayout" name="formLayout_4">
      <property name="verticalSpacing">
       <number>2</number>
      </property>
      <item row="0" column="0">
-      <layout class="QHBoxLayout" name="horizontalLayout_3">
-       <item>
-        <widget class="QLabel" name="label_5">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>&amp;Icon:</string>
-         </property>
-         <property name="buddy">
-          <cstring>lineEditIcon</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QToolButton" name="buttonIcon">
-         <property name="text">
-          <string/>
-         </property>
-         <property name="iconSize">
-          <size>
-           <width>13</width>
-           <height>16</height>
-          </size>
-         </property>
-         <property name="popupMode">
-          <enum>QToolButton::InstantPopup</enum>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="0" column="1">
-      <layout class="QHBoxLayout" name="horizontalLayout_9">
-       <item>
-        <widget class="QLineEdit" name="lineEditIcon">
-         <property name="toolTip">
-          <string>Icon shown in menu</string>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QPushButton" name="pushButtonBrowse">
-         <property name="text">
-          <string>&amp;Browse</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item row="1" column="0">
       <widget class="QLabel" name="label_6">
        <property name="text">
         <string>Copy to &amp;tab:</string>
@@ -228,17 +241,7 @@ Leave empty to disable this.</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QComboBox" name="comboBoxCopyToTab">
-       <property name="toolTip">
-        <string>Name of tab to copy new items into (leave empty not to copy)</string>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
+     <item row="1" column="0">
       <widget class="QLabel" name="label_2">
        <property name="sizePolicy">
         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
@@ -254,7 +257,17 @@ Leave empty to disable this.</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
+     <item row="0" column="1">
+      <widget class="QComboBox" name="comboBoxCopyToTab">
+       <property name="toolTip">
+        <string>Name of tab to copy new items into (leave empty not to copy)</string>
+       </property>
+       <property name="editable">
+        <bool>true</bool>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1">
       <widget class="QLineEdit" name="lineEditCommand">
        <property name="toolTip">
         <string>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
@@ -273,6 +286,18 @@ Leave empty to disable this.</string>
      <layout class="QVBoxLayout" name="verticalLayout_3">
       <property name="spacing">
        <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>4</number>
       </property>
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
@@ -421,13 +446,13 @@ Leave empty to disable this.</string>
  <tabstops>
   <tabstop>checkBoxEnable</tabstop>
   <tabstop>lineEditName</tabstop>
+  <tabstop>buttonIcon</tabstop>
+  <tabstop>lineEditIcon</tabstop>
+  <tabstop>pushButtonBrowse</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
-  <tabstop>buttonIcon</tabstop>
-  <tabstop>lineEditIcon</tabstop>
-  <tabstop>pushButtonBrowse</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>lineEditCommand</tabstop>
   <tabstop>checkBoxWait</tabstop>
