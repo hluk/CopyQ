@@ -133,9 +133,7 @@ if (WIN32)
     set_target_properties(copyqcon PROPERTIES OUTPUT_NAME "copyq" SUFFIX ".com")
 
     # Qt modules for console app
-    if (WITH_QT5)
-        qt5_use_modules(copyqcon Widgets Network Svg Xml Script)
-    else()
+    if (NOT WITH_QT5)
         include(${QT_USE_FILE})
     endif()
 
@@ -151,7 +149,7 @@ endif()
 
 # Qt modules
 if (WITH_QT5)
-    qt5_use_modules(copyq Widgets Network Svg Xml Script)
+    qt5_use_modules(copyq Widgets Network Svg Xml Script ${copyq_Qt5_Modules})
 else()
     set(QT_USE_QTNETWORK TRUE)
     set(QT_USE_QTSVG TRUE)
