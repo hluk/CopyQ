@@ -348,8 +348,14 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = QApplication::arguments().value(0) + " tab TODO write text/plain -";
         c->input = "text/plain";
         break;
-#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)
     case 12:
+        c->name = tr("Ignore copied files");
+        c->icon = QString(QChar(IconExclamationSign));
+        c->input = "text/uri-list";
+        c->ignore = true;
+        break;
+#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)
+    case 13:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon = QString(QChar(IconAsterisk));

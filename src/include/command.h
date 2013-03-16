@@ -70,7 +70,10 @@ struct Command {
     /** Separator for output items. */
     QString sep;
 
-    /** If true send item text to program's standard input. */
+    /**
+     *  If true send item text to program's standard input.
+     *  Also match only items with this format (match all if empty).
+     */
     QString input;
 
     /** If true items are created from program's standard output. */

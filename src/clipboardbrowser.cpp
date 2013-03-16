@@ -321,6 +321,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
             continue;
         if (command.re.indexIn(text) == -1)
             continue;
+        if (command.input.isEmpty() || command.input.compare("text/plain", Qt::CaseInsensitive))
+            continue;
         if (command.wndre.indexIn(windowTitle) == -1)
             continue;
 
@@ -837,6 +839,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
             foreach (const Command &c, m_sharedData->commands) {
                 if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                     if ( c.re.indexIn(text) != -1
+                         && (c.input.isEmpty() || data->hasFormat(c.input))
                          && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
                     {
                         if (c.automatic) {
