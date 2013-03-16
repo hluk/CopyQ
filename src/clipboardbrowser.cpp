@@ -26,6 +26,7 @@
 #include "configurationmanager.h"
 #include "iconfactory.h"
 #include "itemdelegate.h"
+#include "itemeditor.h"
 #include "itemfactory.h"
 #include "itemwidget.h"
 
@@ -165,18 +166,13 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
 ClipboardBrowser::~ClipboardBrowser()
 {
-    emit closeAllEditors();
     if ( m_timerSave->isActive() )
         saveItems();
 }
 
 
-void ClipboardBrowser::closeExternalEditor(ItemEditor *editor)
+void ClipboardBrowser::closeExternalEditor(QObject *editor)
 {
-    // check if file was modified before closing
-    if ( editor->fileModified() )
-        itemModified( editor->getData(), editor->getDataFormat() );
-
     editor->disconnect(this);
     disconnect(editor);
     delete editor;
@@ -279,6 +275,26 @@ bool ClipboardBrowser::fetchCacheForIndex(const QModelIndex &index)
     const int oldSize = sizeHintForIndex(index).height();
     d->cache(index);
     updateScrollOffset(index, oldSize);
+
+    return true;
+}
+
+bool ClipboardBrowser::startEditor(QObject *editor)
+{
+    connect( editor, SIGNAL(fileModified(QByteArray,QString)),
+            this, SLOT(itemModified(QByteArray,QString)) );
+
+    connect( editor, SIGNAL(closed(QObject *)),
+             this, SLOT(closeExternalEditor(QObject *)) );
+
+    bool retVal = false;
+    bool result = QMetaObject::invokeMethod( editor, "start", Qt::DirectConnection,
+                                             Q_RETURN_ARG(bool, retVal) );
+
+    if (!retVal || !result) {
+        closeExternalEditor(editor);
+        return false;
+    }
 
     return true;
 }
@@ -441,39 +457,27 @@ bool ClipboardBrowser::openEditor()
 bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
                                   const QString &editorCommand)
 {
-    ItemEditor *editor = new ItemEditor(data, mime, editorCommand.isNull() ? m_sharedData->editor
-                                                                           : editorCommand);
+    const QString &cmd =  editorCommand.isNull() ? m_sharedData->editor : editorCommand;
+    if (cmd.isNull())
+        return NULL;
 
-    connect( editor, SIGNAL(fileModified(QByteArray,QString)),
-            this, SLOT(itemModified(QByteArray,QString)) );
-
-    connect( editor, SIGNAL(closed(ItemEditor *)),
-            this, SLOT(closeExternalEditor(ItemEditor *)) );
-
-    connect( this, SIGNAL(closeAllEditors()), editor, SLOT(close()) );
-
-    if ( !editor->start() ) {
-        closeExternalEditor(editor);
-        return false;
-    }
-
-    return true;
+    QObject *editor = new ItemEditor(data, mime, cmd, this);
+    return startEditor(editor);
 }
 
 bool ClipboardBrowser::openEditor(const QModelIndex &index)
 {
     ItemWidget *item = d->cache(index);
-    const QString mime = item->getExternalEditorDataFormat(index);
-    if ( mime.isEmpty() )
-        return false;
+    QObject *editor = item->createExternalEditor(index, this);
+    if (editor == NULL) {
+        const QMimeData *data = itemData( index.row() );
+        if ( data != NULL && data->hasText() ) {
+            editor = new ItemEditor(data->text().toLocal8Bit(), QString("text/plain"),
+                                    m_sharedData->editor, this);
+        }
+    }
 
-    const QString editorCommand = item->getExternalEditorCommand(index, mime);
-    const QByteArray data = item->getExternalEditorData(index, mime);
-
-    if ( !editorCommand.isNull() && editorCommand.isEmpty() )
-        return false;
-
-    return openEditor(data, mime, editorCommand);
+    return editor != NULL && startEditor(editor);
 }
 
 void ClipboardBrowser::addItems(const QStringList &items)

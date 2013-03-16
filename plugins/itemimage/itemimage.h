@@ -35,12 +35,13 @@ class ItemImage : public QLabel, public ItemWidget
 public:
     ItemImage(const QPixmap &pix, QWidget *parent);
 
-    QString getExternalEditorCommand(const QModelIndex &index, const QString &mime) const;
-
-    QString getExternalEditorDataFormat(const QModelIndex &index) const;
+    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
 protected:
     virtual void updateSize();
+
+private:
+    QString m_editor;
 };
 
 class ItemImageLoader : public QObject, public ItemLoaderInterface

@@ -38,6 +38,21 @@ class ItemEditor : public QObject
                    QObject *parent = NULL);
         ~ItemEditor();
 
+    signals:
+        /**
+         * File was modified.
+         * @param data  modified data
+         * @param mime  MIME type of the data
+         */
+        void fileModified(const QByteArray &data, const QString &mime);
+
+        /**
+         * Editor was closed.
+         * @param who  pointer to this object
+         */
+        void closed(QObject *who);
+
+    public slots:
         /**
          * Execute editor process.
          * @retval true   Editor successfully opened.
@@ -45,36 +60,18 @@ class ItemEditor : public QObject
          */
         bool start();
 
-        /** Return true only if file was modified and reset this status. */
-        bool fileModified();
-
-        /** Get current edited data. */
-        const QByteArray &getData() const { return m_data; }
-
-        /** Get MIME format of edited data. */
-        const QString &getDataFormat() const { return m_mime; }
-
-    signals:
-        /**
-         * File was modified.
-         */
-        void fileModified(const QByteArray &data, const QString &mime);
-
-        /**
-         * Editor was closed.
-         */
-        void closed(ItemEditor *who);
-
-    public slots:
-        /**
-         * Close editor (only emits closed() signal).
-         */
-        void close() { emit closed(this); }
-
     private slots:
+        /**
+         * Close editor.
+         */
+        void close();
+
         void onTimer();
 
     private:
+        /** Return true only if file was modified and reset this status. */
+        bool fileModified();
+
         QByteArray m_data;
         QString m_mime;
         // hash of original string (saves some memory)
@@ -87,6 +84,7 @@ class ItemEditor : public QObject
         QTemporaryFile m_tmpfile;
         QFileInfo m_info;
         QDateTime m_lastmodified;
+        bool m_modified;
 };
 
 #endif // ITEMEDITOR_H

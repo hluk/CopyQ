@@ -63,6 +63,7 @@ ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QStrin
     , m_tmpfile()
     , m_info()
     , m_lastmodified()
+    , m_modified(false)
 {
 }
 
@@ -106,10 +107,19 @@ bool ItemEditor::start()
     return true;
 }
 
+void ItemEditor::close()
+{
+    // check if file was modified before closing
+    if ( m_modified || fileModified() )
+        emit fileModified(m_data, m_mime);
+
+    emit closed(this);
+}
+
 bool ItemEditor::fileModified()
 {
     m_info.refresh();
-    if (m_lastmodified != m_info.lastModified() ) {
+    if ( m_lastmodified != m_info.lastModified() ) {
         m_lastmodified = m_info.lastModified();
 
         // read text
@@ -127,9 +137,15 @@ bool ItemEditor::fileModified()
 
 void ItemEditor::onTimer()
 {
-    if ( fileModified() ) {
-        emit fileModified(m_data, m_mime);
-        m_hash = qHash(m_data);
+    if ( m_modified) {
+        // Wait until file is fully overwritten.
+        if ( !fileModified() ) {
+            m_modified = false;
+            emit fileModified(m_data, m_mime);
+            m_hash = qHash(m_data);
+        }
+    } else {
+        m_modified = fileModified();
     }
 }
 

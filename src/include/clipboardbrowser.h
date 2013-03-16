@@ -20,7 +20,6 @@
 #ifndef CLIPBOARDBROWSER_H
 #define CLIPBOARDBROWSER_H
 
-#include "itemeditor.h"
 #include "command.h"
 
 #include <QListView>
@@ -211,6 +210,11 @@ class ClipboardBrowser : public QListView
          */
         bool fetchCacheForIndex(const QModelIndex &index);
 
+        /**
+         * Connects signals and starts external editor.
+         */
+        bool startEditor(QObject *editor);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -224,8 +228,6 @@ class ClipboardBrowser : public QListView
         void requestActionDialog(const QMimeData &data, const Command &cmd);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
-        /** Close all external editors. */
-        void closeAllEditors();
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
 
@@ -262,7 +264,7 @@ class ClipboardBrowser : public QListView
         /** Item modified in external editor. */
         void itemModified(const QByteArray &bytes, const QString &mime);
         /** Called if editor was closed. */
-        void closeExternalEditor(ItemEditor *editor);
+        void closeExternalEditor(QObject *editor);
         /** Open editor with text of all selected items or for single selected item. */
         bool openEditor();
         /** Open editor. */

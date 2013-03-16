@@ -21,6 +21,7 @@
 #include "ui_itemimagesettings.h"
 
 #include "contenttype.h"
+#include "itemeditor.h"
 
 #include <QHBoxLayout>
 #include <QModelIndex>
@@ -45,7 +46,7 @@ int findImageFormat(const QStringList &formats)
     return -1;
 }
 
-bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
+bool getImageData(const QModelIndex &index, QByteArray *data, QString *mime)
 {
     const QStringList formats = index.data(contentType::formats).toStringList();
 
@@ -53,9 +54,20 @@ bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
     if (i == -1)
         return false;
 
-    const QString &mimeType = formats[i];
-    const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
-    pix->loadFromData( data, mimeType.toLatin1() );
+    *mime = formats[i];
+    *data = index.data(contentType::firstFormat + i).toByteArray();
+
+    return true;
+}
+
+bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
+{
+    QString mime;
+    QByteArray data;
+    if ( !getImageData(index, &data, &mime) )
+        return false;
+
+    pix->loadFromData( data, mime.toLatin1() );
 
     return true;
 }
@@ -71,16 +83,16 @@ ItemImage::ItemImage(const QPixmap &pix, QWidget *parent)
     updateSize();
 }
 
-QString ItemImage::getExternalEditorCommand(const QModelIndex &, const QString &) const
+QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *parent) const
 {
-    return QString("gimp %1");
-}
+    QString mime;
+    QByteArray data;
+    if ( !getImageData(index, &data, &mime) )
+        return NULL;
 
-QString ItemImage::getExternalEditorDataFormat(const QModelIndex &index) const
-{
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    int i = findImageFormat(formats);
-    return i != -1 ? formats[i] : QString();
+    QString cmd = mime.contains("svg") ? QString("inkscape %1") : QString("gimp %1");
+
+    return new ItemEditor(data, mime, cmd, parent);
 }
 
 void ItemImage::updateSize()

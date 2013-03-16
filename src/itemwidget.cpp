@@ -19,6 +19,7 @@
 
 #include "itemwidget.h"
 #include "contenttype.h"
+#include "itemeditor.h"
 
 #include <QAbstractItemModel>
 #include <QFont>
@@ -84,21 +85,7 @@ void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
     model->setData(index, textEdit->toPlainText());
 }
 
-QString ItemWidget::getExternalEditorCommand(const QModelIndex &, const QString &) const
+QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
 {
-    return QString();
-}
-
-QByteArray ItemWidget::getExternalEditorData(const QModelIndex &index, const QString &mime) const
-{
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    int i = formats.indexOf(mime);
-    return i != -1 ? index.data(contentType::firstFormat + i).toByteArray() : QByteArray();
-}
-
-QString ItemWidget::getExternalEditorDataFormat(const QModelIndex &index) const
-{
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    QString mime("text/plain");
-    return formats.contains(mime) ? mime : QString();
+    return NULL;
 }

@@ -84,24 +84,16 @@ public:
                               const QModelIndex &index) const;
 
     /**
-     * Return external editor command.
+     * Create external editor for @a index.
      *
-     * @return editor command (%1 is file to edit),
-     *         null string to use the default text editor (this is the default behavior)
-     */
-    virtual QString getExternalEditorCommand(const QModelIndex &index, const QString &mime) const;
-
-    /**
-     * Return data for external editor.
-     */
-    virtual QByteArray getExternalEditorData(const QModelIndex &index, const QString &mime) const;
-
-    /**
-     * Get MIME format for external editor data.
+     * Default implementation returns NULL.
      *
-     * Default implementation returns "text/plain".
+     * @param index  index for which the editor is opened
+     *
+     * @return Editor object -- see documentaion for public signals and slots of ItemEditor class --
+     *         NULL so default text editor is opened.
      */
-    virtual QString getExternalEditorDataFormat(const QModelIndex &index) const;
+    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
     /**
      * Size of widget needs to be updated (because maximum size chaged).
