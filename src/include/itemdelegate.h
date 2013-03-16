@@ -98,10 +98,10 @@ class ItemDelegate : public QItemDelegate
         /** Hide row. */
         void hideRow(int row);
 
-        /** Use next item loader available for item in @a row. */
+        /** Use next item loader available for @a index. */
         void nextItemLoader(const QModelIndex &index);
 
-        /** Use previous item loader available for item in @a row. */
+        /** Use previous item loader available for @a index. */
         void previousItemLoader(const QModelIndex &index);
 
     signals:
