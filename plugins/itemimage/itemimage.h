@@ -33,7 +33,8 @@ class ItemImage : public QLabel, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemImage(const QPixmap &pix, QWidget *parent);
+    ItemImage(const QPixmap &pix, const QString &imageEditor, const QString &svgEditor,
+              QWidget *parent);
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
@@ -42,6 +43,7 @@ protected:
 
 private:
     QString m_editor;
+    QString m_svgEditor;
 };
 
 class ItemImageLoader : public QObject, public ItemLoaderInterface

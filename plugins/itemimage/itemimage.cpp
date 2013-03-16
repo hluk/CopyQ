@@ -74,9 +74,12 @@ bool getPixmapFromData(const QModelIndex &index, QPixmap *pix)
 
 } // namespace
 
-ItemImage::ItemImage(const QPixmap &pix, QWidget *parent)
+ItemImage::ItemImage(const QPixmap &pix, const QString &imageEditor, const QString &svgEditor,
+                     QWidget *parent)
     : QLabel(parent)
     , ItemWidget(this)
+    , m_editor(imageEditor)
+    , m_svgEditor(svgEditor)
 {
     setMargin(4);
     setPixmap(pix);
@@ -90,9 +93,9 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     if ( !getImageData(index, &data, &mime) )
         return NULL;
 
-    QString cmd = mime.contains("svg") ? QString("inkscape %1") : QString("gimp %1");
+    const QString &cmd = mime.contains("svg") ? m_svgEditor : m_editor;
 
-    return new ItemEditor(data, mime, cmd, parent);
+    return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
 }
 
 void ItemImage::updateSize()
@@ -126,7 +129,8 @@ ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) c
         pix = pix.scaledToHeight(h);
     }
 
-    return new ItemImage(pix, parent);
+    return new ItemImage(pix, m_settings.value("image_editor").toString(),
+                         m_settings.value("svg_editor").toString(), parent);
 }
 
 QStringList ItemImageLoader::formatsToSave() const
@@ -140,6 +144,8 @@ QVariantMap ItemImageLoader::applySettings()
     Q_ASSERT(ui != NULL);
     m_settings["max_image_width"] = ui->spinBoxImageWidth->value();
     m_settings["max_image_height"] = ui->spinBoxImageHeight->value();
+    m_settings["image_editor"] = ui->lineEditImageEditor->text();
+    m_settings["svg_editor"] = ui->lineEditSvgEditor->text();
     return m_settings;
 }
 
@@ -151,6 +157,8 @@ QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
     ui->setupUi(w);
     ui->spinBoxImageWidth->setValue( m_settings.value("max_image_width", 320).toInt() );
     ui->spinBoxImageHeight->setValue( m_settings.value("max_image_height", 240).toInt() );
+    ui->lineEditImageEditor->setText( m_settings.value("image_editor", "").toString() );
+    ui->lineEditSvgEditor->setText( m_settings.value("svg_editor", "").toString() );
     return w;
 }
 
