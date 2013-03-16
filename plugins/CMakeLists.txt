@@ -1,9 +1,19 @@
 macro (copyq_add_plugin)
     set(copyq_pkg ${ARGV0})
 
-    file(GLOB copyq_plugin_${copyq_pkg}_SOURCES *.cpp ../../src/itemwidget.cpp)
-    file(GLOB copyq_plugin_${copyq_pkg}_MOCABLE *.h)
-    file(GLOB copyq_plugin_${copyq_pkg}_FORMS *.ui)
+    file(GLOB copyq_plugin_${copyq_pkg}_SOURCES
+        ${copyq_plugin_${copyq_pkg}_SOURCES}
+        *.cpp
+        ../../src/itemwidget.cpp
+        )
+    file(GLOB copyq_plugin_${copyq_pkg}_MOCABLE
+        ${copyq_plugin_${copyq_pkg}_MOCABLE}
+        *.h
+        )
+    file(GLOB copyq_plugin_${copyq_pkg}_FORMS
+        ${copyq_plugin_${copyq_pkg}_FORMS}
+        *.ui
+        )
 
     include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src/include)
 
