@@ -65,6 +65,8 @@ ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QStrin
     , m_lastmodified()
     , m_modified(false)
 {
+    if ( !m_editorcmd.contains("%1") )
+        m_editorcmd.append(" %1");
 }
 
 ItemEditor::~ItemEditor()
