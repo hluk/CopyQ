@@ -832,29 +832,28 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         }
 
         // commands
-        if (data->hasText()) {
-            const QString text = data->text();
-            const QString windowTitle = QString::fromUtf8(
-                        data->data("application/x-copyq-owner-window-title").data() );
-            foreach (const Command &c, m_sharedData->commands) {
-                if (c.automatic || c.ignore || !c.tab.isEmpty()) {
-                    if ( c.re.indexIn(text) != -1
-                         && (c.input.isEmpty() || data->hasFormat(c.input))
-                         && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
-                    {
-                        if (c.automatic) {
-                            Command cmd = c;
-                            if ( cmd.outputTab.isEmpty() )
-                                cmd.outputTab = m_id;
-                            if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) )
-                                emit requestActionDialog(*data, cmd);
-                        }
-                        if (!c.tab.isEmpty())
-                            emit addToTab(data, c.tab);
-                        if (c.ignore) {
-                            delete data;
-                            return false;
-                        }
+        bool noText = !data->hasText();
+        const QString text = data->text();
+        const QString windowTitle = QString::fromUtf8(
+                    data->data("application/x-copyq-owner-window-title").data() );
+        foreach (const Command &c, m_sharedData->commands) {
+            if (c.automatic || c.ignore || !c.tab.isEmpty()) {
+                if ( (noText || c.re.indexIn(text) != -1)
+                     && (c.input.isEmpty() || data->hasFormat(c.input))
+                     && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
+                {
+                    if (c.automatic) {
+                        Command cmd = c;
+                        if ( cmd.outputTab.isEmpty() )
+                            cmd.outputTab = m_id;
+                        if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) )
+                            emit requestActionDialog(*data, cmd);
+                    }
+                    if (!c.tab.isEmpty())
+                        emit addToTab(data, c.tab);
+                    if (c.ignore) {
+                        delete data;
+                        return false;
                     }
                 }
             }
