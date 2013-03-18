@@ -18,13 +18,13 @@
 */
 
 #include "itemeditor.h"
-#include "client_server.h"
 
 #include <QDir>
+#include <QFile>
 #include <QHash>
-#include <QMap>
 #include <QProcess>
 #include <QTimer>
+#include <stdio.h>
 
 namespace {
 
@@ -47,6 +47,13 @@ QString getFileSuffixFromMime(const QString &mime)
     if (mime == "image/svg+xml" || mime == "image/x-inkscape-svg-compressed")
         return QString(".svg");
     return QString();
+}
+
+void printError(const QString &text)
+{
+    QFile f;
+    f.open(stderr, QIODevice::WriteOnly);
+    f.write( QObject::tr("CopyQ ERROR: %1\n").arg(text).toLocal8Bit() );
 }
 
 } // namespace
@@ -84,8 +91,8 @@ bool ItemEditor::start()
     m_tmpfile.setAutoRemove(true);
     m_tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
     if ( !m_tmpfile.open() ) {
-        log( tr("Failed to open temporary file (%1) for editing item in external editor!")
-             .arg(m_tmpfile.fileName()), LogError );
+        printError( tr("Failed to open temporary file (%1) for editing item in external editor!")
+             .arg(m_tmpfile.fileName()) );
         return false;
     }
 
