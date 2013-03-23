@@ -50,12 +50,19 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     m_server = newServer(newServerName, &m_process);
 
+    COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
+               .arg(QCoreApplication::applicationFilePath())
+               .arg(arguments.join(" ")) );
+
     m_process.start( QCoreApplication::applicationFilePath(), arguments );
 
     if ( m_process.waitForStarted(2000) && m_server->waitForNewConnection(2000) ) {
+        COPYQ_LOG("Remote process: Started.");
         m_socket = m_server->nextPendingConnection();
         connect( m_socket, SIGNAL(readyRead()),
                  this, SLOT(readyRead()) );
+    } else {
+        log( "Remote process: Failed to start new remote process!", LogError );
     }
 }
 
@@ -64,8 +71,10 @@ bool RemoteProcess::writeMessage(const QByteArray &msg)
     Q_ASSERT(m_server != NULL);
     Q_ASSERT(m_socket != NULL);
     Q_ASSERT(isConnected());
-    if ( !isConnected() )
+    if ( !isConnected() ) {
+        COPYQ_LOG("Remote process: Cannot write message!");
         return false;
+    }
 
     ::writeMessage(m_socket, msg);
 

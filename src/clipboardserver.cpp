@@ -138,9 +138,13 @@ void ClipboardServer::monitorStandardError()
     if (m_monitor == NULL)
         return;
 
+    COPYQ_LOG("Monitor stderr:");
+
     const QByteArray stderrOutput = m_monitor->process().readAllStandardError().trimmed();
     foreach( const QByteArray &line, stderrOutput.split('\n') )
         log( tr("Clipboard Monitor: ") + line, LogNote );
+
+    COPYQ_LOG("Monitor stderr end.");
 }
 
 void ClipboardServer::stopMonitoring()

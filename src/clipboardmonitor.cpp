@@ -156,11 +156,13 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 
     QStringList args = QCoreApplication::instance()->arguments();
     Q_ASSERT(args.size() == 3);
+    COPYQ_LOG("Connecting to server.");
     m_socket->connectToServer(args.at(2));
     if ( !m_socket->waitForConnected(2000) ) {
         log( tr("Cannot connect to server!"), LogError );
         exit(1);
     }
+    COPYQ_LOG("Connected to server.");
 
     m_updateTimer->setSingleShot(true);
     m_updateTimer->setInterval(500);
@@ -208,6 +210,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     const QMimeData *data;
     uint newHash;
 
+    COPYQ_LOG( QString("Checking for new %1 content.")
+               .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
 #ifdef COPYQ_WS_X11
     if ( m_x11->isSynchronizing() )
         return;
@@ -368,7 +372,6 @@ void ClipboardMonitor::readyRead()
 
             COPYQ_LOG("Configured");
         } else {
-            COPYQ_LOG("Updating clipboard");
             updateClipboard( cloneData(*item.data()) );
         }
     }
@@ -384,6 +387,8 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
     m_newdata = data;
     if ( !force && m_updateTimer->isActive() )
         return;
+
+    COPYQ_LOG("Updating clipboard");
 
     m_lastHash = hash(*data, m_formats);
     setClipboardData(data, QClipboard::Clipboard);

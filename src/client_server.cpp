@@ -102,6 +102,8 @@ bool readMessage(QIODevice *socket, QByteArray *msg)
     QByteArray bytes;
     quint32 len;
 
+    COPYQ_LOG("Reading message.");
+
     if ( readBytes(socket, sizeof(len), &bytes) ) {
         QDataStream(bytes) >> len;
 
@@ -123,6 +125,11 @@ void writeMessage(QIODevice *socket, const QByteArray &msg)
     QDataStream out(socket);
     // length is serialized as a quint32, followed by msg
     out.writeBytes( msg.constData(), msg.length() );
+
+    if (out.status() == QDataStream::Ok)
+        COPYQ_LOG("Message written.");
+    else
+        log( "Cannot write message!", LogError );
 }
 
 QLocalServer *newServer(const QString &name, QObject *parent)
