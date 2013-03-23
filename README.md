@@ -24,7 +24,7 @@ To compile and run the application you'll need the latest stable version of
 
 Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
 enables the application to use advanced HTML rendering and fetching remote
-images and other data.
+images and other data. This is available through ItemWeb plugin.
 
 Additionally X11 requires XFixes extension to be installed (fixes some
 clipboard issues).
@@ -107,9 +107,10 @@ Command Line Interface
         edit [ROWS...]           Edit items or edit new one.
                                  Value -1 is for current text in clipboard.
 
-        read [MIME|ROW]...       Print raw data of clipboard or item in row.
-        write [ROW=0] MIME DATA  Write raw data to given row.
         separator SEPARATOR      Set separator for items on output.
+        read [MIME|ROW]...       Print raw data of clipboard or item in row.
+        write [ROW=0] MIME DATA [MIME DATA]...
+          Write raw data to given row.
 
         action [ROWS=0...]       Show action dialog.
         action [ROWS=0...] [PROGRAM [SEPARATOR=\n]]
