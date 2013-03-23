@@ -156,8 +156,10 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 
     QStringList args = QCoreApplication::instance()->arguments();
     Q_ASSERT(args.size() == 3);
-    COPYQ_LOG("Connecting to server.");
-    m_socket->connectToServer(args.at(2));
+
+    const QString &serverName = args[2];
+    COPYQ_LOG( QString("Connecting to server \"%1\".").arg(serverName) );
+    m_socket->connectToServer(serverName);
     if ( !m_socket->waitForConnected(2000) ) {
         log( tr("Cannot connect to server!"), LogError );
         exit(1);
