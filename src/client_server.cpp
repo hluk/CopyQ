@@ -211,11 +211,21 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
 void elideText(QAction *act)
 {
     QFont font = act->font();
-    act->setFont(font);
 
     QFontMetrics fm(font);
-    QString text = act->text().trimmed();
-    text = fm.elidedText( text.left(512).simplified(), Qt::ElideRight, 240 );
+    QString text = act->text();
+    int lines = text.count('\n');
+
+    // QAction can display only first text line so remove the rest.
+    if (lines > 0)
+        text.remove( text.indexOf('\n') , text.size() );
+
+    // Show triple-dot in middle if first line is too long.
+    text = fm.elidedText( text.simplified(), Qt::ElideMiddle, 320 );
+
+    // Show triple-dot at the end if text has multiple lines.
+    if (lines > 0)
+        text.append( QString("...") );
 
     // Escape all ampersands except first one (key hint).
     text.replace( QChar('&'), QString("&&") );
