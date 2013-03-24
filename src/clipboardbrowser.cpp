@@ -314,17 +314,15 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
     foreach (const Command &command, m_sharedData->commands) {
         ++i;
 
-        // Verify that named command is provided and text is matched.
-        if ( command.cmd.isEmpty())
+        // Verify that named command is provided and text, MIME type and window title are matched.
+        if ( command.cmd.isEmpty()
+            || command.name.isEmpty()
+            || command.re.indexIn(text) == -1
+            || (!command.input.isEmpty() && command.input.compare("text/plain", Qt::CaseInsensitive))
+            || command.wndre.indexIn(windowTitle) == -1 )
+        {
             continue;
-        if (command.name.isEmpty())
-            continue;
-        if (command.re.indexIn(text) == -1)
-            continue;
-        if (!command.input.isEmpty() && command.input.compare("text/plain", Qt::CaseInsensitive))
-            continue;
-        if (command.wndre.indexIn(windowTitle) == -1)
-            continue;
+        }
 
         // Verify that data for given MIME is available.
         if ( !command.input.isEmpty() ) {
