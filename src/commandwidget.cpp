@@ -85,6 +85,7 @@ Command CommandWidget::command() const
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
     c.ignore = ui->checkBoxIgnore->isChecked();
+    c.hideWindow = ui->checkBoxHideWindow->isChecked();
     c.enable = ui->checkBoxEnable->isChecked();
     c.icon   = ui->lineEditIcon->text();
     c.shortcut = ui->pushButtonShortcut->text();
@@ -106,6 +107,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxWait->setChecked(c.wait);
     ui->checkBoxAutomatic->setChecked(c.automatic);
     ui->checkBoxIgnore->setChecked(c.ignore);
+    ui->checkBoxHideWindow->setChecked(c.hideWindow);
     ui->checkBoxEnable->setChecked(c.enable);
     ui->lineEditIcon->setText(c.icon);
     ui->pushButtonShortcut->setText(c.shortcut);

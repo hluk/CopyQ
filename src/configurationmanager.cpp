@@ -285,6 +285,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->re   = reURL;
         c->icon = QString(QChar(IconGlobe));
         c->cmd  = "firefox %1";
+        c->hideWindow = true;
         break;
     case 4:
         c->name = tr("Autoplay videos");
@@ -292,6 +293,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->icon = QString(QChar(IconPlayCircle));
         c->cmd  = "vlc %1";
         c->automatic = true;
+        c->hideWindow = true;
         break;
     case 5:
         c->name = tr("Copy URL (web address) to other tab");
@@ -533,6 +535,7 @@ void ConfigurationManager::loadSettings()
         c.wait = settings.value("Wait").toBool();
         c.automatic = settings.value("Automatic").toBool();
         c.ignore = settings.value("Ignore").toBool();
+        c.hideWindow = settings.value("HideWindow").toBool();
         c.enable = settings.value("Enable").toBool();
         c.icon = settings.value("Icon").toString();
         c.shortcut = settings.value("Shortcut").toString();
@@ -620,6 +623,7 @@ void ConfigurationManager::saveSettings()
         settings.setValue("Wait", c.wait);
         settings.setValue("Automatic", c.automatic);
         settings.setValue("Ignore", c.ignore);
+        settings.setValue("HideWindow", c.hideWindow);
         settings.setValue("Enable", c.enable);
         settings.setValue("Icon", c.icon);
         settings.setValue("Shortcut", c.shortcut);

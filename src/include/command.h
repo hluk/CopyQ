@@ -44,6 +44,7 @@ struct Command {
         , wait(false)
         , automatic(false)
         , ignore(false)
+        , hideWindow(false)
         , enable(true)
         , icon()
         , shortcut()
@@ -87,6 +88,9 @@ struct Command {
 
     /** If true don't add matched item to list. */
     bool ignore;
+
+    /** If true close window after command is activated from menu. */
+    bool hideWindow;
 
     /** If false command is disabled and should not be used. */
     bool enable;

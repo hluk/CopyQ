@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>276</width>
-    <height>436</height>
+    <height>438</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -217,14 +217,28 @@ Leave empty to disable this.</string>
     </widget>
    </item>
    <item>
-    <widget class="QCheckBox" name="checkBoxIgnore">
-     <property name="toolTip">
-      <string>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</string>
-     </property>
-     <property name="text">
-      <string>&amp;Ignore Item</string>
-     </property>
-    </widget>
+    <layout class="QHBoxLayout" name="horizontalLayout_5">
+     <item>
+      <widget class="QCheckBox" name="checkBoxIgnore">
+       <property name="toolTip">
+        <string>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</string>
+       </property>
+       <property name="text">
+        <string>&amp;Ignore Item</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QCheckBox" name="checkBoxHideWindow">
+       <property name="toolTip">
+        <string>Hide window after command is activated from context menu of an item.</string>
+       </property>
+       <property name="text">
+        <string>&amp;Hide window</string>
+       </property>
+      </widget>
+     </item>
+    </layout>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_4">
@@ -453,6 +467,7 @@ Leave empty to disable this.</string>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
+  <tabstop>checkBoxHideWindow</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>lineEditCommand</tabstop>
   <tabstop>checkBoxWait</tabstop>

@@ -228,6 +228,8 @@ class ClipboardBrowser : public QListView
         void requestActionDialog(const QMimeData &data, const Command &cmd);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
+        /** Hide main window. */
+        void requestHide();
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
 

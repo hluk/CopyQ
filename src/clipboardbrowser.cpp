@@ -194,7 +194,8 @@ void ClipboardBrowser::contextMenuAction()
     if ( cmd.outputTab.isEmpty() )
         cmd.outputTab = m_id;
 
-    const QMimeData *data = (act->parent() == m_menu) ? getSelectedItemData() : clipboardData();
+    bool isContextMenuAction = act->parent() == m_menu;
+    const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
     if (data != NULL) {
         emit requestActionDialog(*data, cmd);
     } else {
@@ -202,6 +203,9 @@ void ClipboardBrowser::contextMenuAction()
         textData.setText(selectedText());
         emit requestActionDialog(textData, cmd);
     }
+
+    if (isContextMenuAction && cmd.hideWindow)
+        emit requestHide();
 }
 
 void ClipboardBrowser::createContextMenu()

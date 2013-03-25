@@ -401,6 +401,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
              this, SLOT(openActionDialog(const QMimeData&)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
+    connect( c, SIGNAL(requestHide()),
+             this, SLOT(close()) );
     connect( c, SIGNAL(addToTab(const QMimeData*,const QString&)),
              this, SLOT(addToTab(const QMimeData*,const QString&)),
              Qt::DirectConnection );
