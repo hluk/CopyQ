@@ -893,10 +893,10 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
             ClipboardItem *first = c->at(0);
             if ( data2->hasText() && data2->text() == first->text() ) {
                 QStringList formats = data2->formats();
-                QStringList firstFormats = first->formats();
-                foreach (const QString &format, firstFormats) {
+                const QMimeData *firstData = first->data();
+                foreach (const QString &format, firstData->formats()) {
                     if ( !formats.contains(format) )
-                        data2->setData( format, first->data()->data(format) );
+                        data2->setData( format, firstData->data(format) );
                 }
                 // remove merged item (if it's not edited)
                 if (!c->editing() || c->currentIndex().row() != 0)

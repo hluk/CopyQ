@@ -29,7 +29,6 @@
 ClipboardItem::ClipboardItem()
     : m_data(new QMimeData)
     , m_hash(0)
-    , m_formats()
 {
 }
 
@@ -51,16 +50,14 @@ bool ClipboardItem::operator ==(const QMimeData &data) const
 void ClipboardItem::clear()
 {
     m_data->clear();
-    m_formats.clear();
-    m_hash = hash(*m_data, m_formats);
+    m_hash = hash(*m_data, m_data->formats());
 }
 
 void ClipboardItem::setData(QMimeData *data)
 {
     delete m_data;
     m_data = data;
-    m_formats = m_data->formats();
-    m_hash = hash(*m_data, m_formats);
+    m_hash = 0;
 }
 
 void ClipboardItem::setData(const QVariant &value)
@@ -68,14 +65,13 @@ void ClipboardItem::setData(const QVariant &value)
     // rewrite all original data with edited text
     m_data->clear();
     m_data->setText( value.toString() );
-    m_hash = hash(*m_data, m_formats);
+    m_hash = hash(*m_data, m_data->formats());
 }
 
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
     m_data->setData(mimeType, data);
-    m_formats.append(mimeType);
-    m_hash = hash(*m_data, m_formats);
+    m_hash = hash(*m_data, m_data->formats());
 }
 
 QString ClipboardItem::text() const
@@ -90,7 +86,7 @@ QVariant ClipboardItem::data(int role) const
             return text();
     } else if (role >= Qt::UserRole) {
         if (role == contentType::formats) {
-            return formats();
+            return m_data->formats();
         } else if (role == contentType::hasText) {
             return m_data->hasText();
         } else if (role == contentType::hasHtml) {
@@ -102,7 +98,7 @@ QVariant ClipboardItem::data(int role) const
         } else if (role == contentType::imageData) {
             return m_data->imageData();
         } else if (role >= contentType::firstFormat) {
-            return m_data->data( formats().value(role - contentType::firstFormat) );
+            return m_data->data( m_data->formats().value(role - contentType::firstFormat) );
         }
     }
 
@@ -112,7 +108,7 @@ QVariant ClipboardItem::data(int role) const
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
 {
     const QMimeData *data = item.data();
-    const QStringList &formats = item.formats();
+    const QStringList &formats = item.data()->formats();
     QByteArray bytes;
     stream << formats.length();
     foreach (const QString &mime, formats) {
