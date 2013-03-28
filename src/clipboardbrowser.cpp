@@ -840,7 +840,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
                     data->data("application/x-copyq-owner-window-title").data() );
         foreach (const Command &c, m_sharedData->commands) {
             if (c.automatic || c.ignore || !c.tab.isEmpty()) {
-                if ( (noText || c.re.indexIn(text) != -1)
+                if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
                      && (c.input.isEmpty() || data->hasFormat(c.input))
                      && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
                 {
