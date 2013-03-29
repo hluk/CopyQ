@@ -306,13 +306,13 @@ bool ClipboardBrowser::startEditor(QObject *editor)
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, const QString &text,
                                          const QMimeData *data)
 {
-    QAction *act;
-
     if ( m_sharedData->commands.isEmpty() )
         return;
 
     const QString windowTitle = data == NULL ? QString() : QString::fromUtf8(
                 data->data("application/x-copyq-owner-window-title").data() );
+
+    bool isContextMenu = menu == m_menu;
 
     int i = -1;
     foreach (const Command &command, m_sharedData->commands) {
@@ -338,9 +338,9 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
             }
         }
 
-        act = menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
+        QAction *act = menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
         act->setData( QVariant(i) );
-        if ( !command.shortcut.isEmpty() )
+        if ( isContextMenu && !command.shortcut.isEmpty() )
             act->setShortcut( command.shortcut );
 
         menu->insertAction( insertBefore, act );
