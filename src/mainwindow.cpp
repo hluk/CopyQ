@@ -707,13 +707,13 @@ void MainWindow::showWindow()
     }
     c->scrollTo( c->currentIndex() );
     c->setFocus();
+    QApplication::setActiveWindow(this);
 
     createPlatformNativeInterface()->raiseWindow(winId());
 }
 
 void MainWindow::toggleVisible()
 {
-    // FIXME: focus window if not focused
     if ( isVisible() ) {
         close();
     } else {
