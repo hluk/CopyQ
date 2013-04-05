@@ -195,7 +195,8 @@ void ActionDialog::createAction()
     Action *act = new Action( commands, data,
                               ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
-                              ui->comboBoxOutputTab->currentText() );
+                              ui->comboBoxOutputTab->currentText(),
+                              m_index );
     emit accepted(act);
 
     close();
@@ -239,6 +240,11 @@ void ActionDialog::setOutputTabs(const QStringList &tabs,
 void ActionDialog::setRegExp(const QRegExp &re)
 {
     m_re = re;
+}
+
+void ActionDialog::setOutputIndex(const QModelIndex &index)
+{
+    m_index = index;
 }
 
 void ActionDialog::loadSettings()

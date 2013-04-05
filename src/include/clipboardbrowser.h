@@ -184,6 +184,11 @@ class ClipboardBrowser : public QListView
                 const QMimeData *data  ///< MIME types to match.
                 );
 
+        /**
+         * Set item data.
+         */
+        void setItemData(const QModelIndex &index, QMimeData *data);
+
     private:
         QString m_id;
         QRegExp m_lastFilter;
@@ -226,6 +231,8 @@ class ClipboardBrowser : public QListView
         void requestActionDialog(const QMimeData &data);
         /** Action dialog requested. */
         void requestActionDialog(const QMimeData &data, const Command &cmd);
+        /** Action dialog requested. */
+        void requestActionDialog(const QMimeData &data, const Command &cmd, const QModelIndex &index);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
         /** Hide main window. */

@@ -57,9 +57,7 @@ private slots:
 
     void on_pushButtonShortcut_clicked();
 
-    void on_lineEditCommand_textChanged(const QString &arg1);
-
-    void on_comboBoxOutputFormat_editTextChanged(const QString &format);
+    void on_lineEditCommand_textChanged(const QString &command);
 
     void onIconChanged(QAction *action);
 

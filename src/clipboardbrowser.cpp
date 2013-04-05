@@ -195,13 +195,18 @@ void ClipboardBrowser::contextMenuAction()
         cmd.outputTab = m_id;
 
     bool isContextMenuAction = act->parent() == m_menu;
-    const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
-    if (data != NULL) {
-        emit requestActionDialog(*data, cmd);
+    if (isContextMenuAction && cmd.transform) {
+        foreach (const QModelIndex &index, selectedIndexes())
+            emit requestActionDialog(*itemData(index.row()), cmd, index);
     } else {
-        QMimeData textData;
-        textData.setText(selectedText());
-        emit requestActionDialog(textData, cmd);
+        const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
+        if (data != NULL) {
+            emit requestActionDialog(*data, cmd);
+        } else {
+            QMimeData textData;
+            textData.setText(selectedText());
+            emit requestActionDialog(textData, cmd);
+        }
     }
 
     if (isContextMenuAction && cmd.hideWindow)
@@ -350,6 +355,12 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
 
         connect(act, SIGNAL(triggered()), this, SLOT(contextMenuAction()));
     }
+}
+
+void ClipboardBrowser::setItemData(const QModelIndex &index, QMimeData *data)
+{
+    if (!m->setData(index, data))
+        delete data;
 }
 
 void ClipboardBrowser::updateContextMenu()

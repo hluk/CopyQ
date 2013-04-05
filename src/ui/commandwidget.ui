@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
+    <width>286</width>
     <height>438</height>
    </rect>
   </property>
@@ -338,6 +338,16 @@ Leave empty to disable this.</string>
           </property>
          </widget>
         </item>
+        <item>
+         <widget class="QCheckBox" name="checkBoxTransform">
+          <property name="toolTip">
+           <string>Change item, don't create any new items.</string>
+          </property>
+          <property name="text">
+           <string>T&amp;ransform</string>
+          </property>
+         </widget>
+        </item>
        </layout>
       </item>
       <item>
@@ -383,9 +393,6 @@ Leave empty to disable this.</string>
         </item>
         <item row="2" column="1">
          <widget class="QLineEdit" name="lineEditSeparator">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="toolTip">
            <string>Separator to match for splitting the output to multiple items</string>
           </property>
@@ -409,9 +416,6 @@ Leave empty to disable this.</string>
         </item>
         <item row="3" column="1">
          <widget class="QComboBox" name="comboBoxOutputTab">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="toolTip">
            <string>Save items in tab with given name (leave empty to save in first tab)</string>
           </property>
@@ -472,6 +476,7 @@ Leave empty to disable this.</string>
   <tabstop>lineEditCommand</tabstop>
   <tabstop>checkBoxWait</tabstop>
   <tabstop>checkBoxAutomatic</tabstop>
+  <tabstop>checkBoxTransform</tabstop>
   <tabstop>comboBoxOutputFormat</tabstop>
   <tabstop>lineEditSeparator</tabstop>
   <tabstop>comboBoxOutputTab</tabstop>

@@ -391,6 +391,15 @@ void ConfigurationManager::updateIcons()
     ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
 }
 
+void ConfigurationManager::updateFormats()
+{
+    QStringList formats = ItemFactory::instance()->formatsToSave();
+    formats.prepend(QString("text/plain"));
+    formats.prepend(QString());
+    formats.removeDuplicates();
+    ui->widgetCommand->setFormats(formats);
+}
+
 void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
 {
     QFont font;
@@ -534,6 +543,7 @@ void ConfigurationManager::loadSettings()
 
         c.wait = settings.value("Wait").toBool();
         c.automatic = settings.value("Automatic").toBool();
+        c.transform = settings.value("Transform").toBool();
         c.ignore = settings.value("Ignore").toBool();
         c.hideWindow = settings.value("HideWindow").toBool();
         c.enable = settings.value("Enable").toBool();
@@ -551,6 +561,7 @@ void ConfigurationManager::loadSettings()
     settings.endGroup();
 
     updateIcons();
+    updateFormats();
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
@@ -622,6 +633,7 @@ void ConfigurationManager::saveSettings()
         settings.setValue("Output", c.output);
         settings.setValue("Wait", c.wait);
         settings.setValue("Automatic", c.automatic);
+        settings.setValue("Transform", c.transform);
         settings.setValue("Ignore", c.ignore);
         settings.setValue("HideWindow", c.hideWindow);
         settings.setValue("Enable", c.enable);
@@ -662,11 +674,7 @@ void ConfigurationManager::saveSettings()
     settings.setValue("plugin_priority", pluginPriority);
     ItemFactory::instance()->setPluginPriority(pluginPriority);
 
-    QStringList formats = ItemFactory::instance()->formatsToSave();
-    formats.prepend(QString("text/plain"));
-    formats.prepend(QString());
-    formats.removeDuplicates();
-    ui->widgetCommand->setFormats(formats);
+    updateFormats();
 
     emit configurationChanged();
 }

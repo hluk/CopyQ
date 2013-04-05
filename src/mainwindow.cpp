@@ -367,6 +367,23 @@ void MainWindow::closeAction(Action *action)
     }
 }
 
+ClipboardBrowser *MainWindow::findBrowser(const QModelIndex &index)
+{
+    if (!index.isValid())
+        return NULL;
+
+    // Find browser.
+    TabWidget *tabs = ui->tabWidget;
+    int i = 0;
+    for ( ; i < tabs->count(); ++i ) {
+        ClipboardBrowser *c = browser(i);
+        if (c->model() == index.model())
+            return c;
+    }
+
+    return NULL;
+}
+
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -397,6 +414,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
              this, SIGNAL(editingActive(bool)) );
     connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&)),
              this, SLOT(action(const QMimeData&, const Command&)) );
+    connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&, const QModelIndex&)),
+             this, SLOT(action(const QMimeData&, const Command&, const QModelIndex&)) );
     connect( c, SIGNAL(requestActionDialog(const QMimeData&)),
              this, SLOT(openActionDialog(const QMimeData&)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
@@ -929,12 +948,34 @@ void MainWindow::addItems(const QStringList &items, const QString &tabName)
         c->add(item, true);
 }
 
+void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
+{
+    ClipboardBrowser *c = findBrowser(index);
+    if (c == NULL)
+        return;
+
+    QMimeData *newData = new QMimeData();
+    newData->setData(QString("text/plain"), items.join(QString()).toLocal8Bit());
+    c->setItemData(index, newData);
+}
+
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName, true);
     QMimeData *newData = new QMimeData();
     newData->setData(format, data);
     c->add(newData, true);
+}
+
+void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
+{
+    ClipboardBrowser *c = findBrowser(index);
+    if (c == NULL)
+        return;
+
+    QMimeData *newData = new QMimeData();
+    newData->setData(format, data);
+    c->setItemData(index, newData);
 }
 
 void MainWindow::onTimerSearch()
@@ -1192,7 +1233,7 @@ ClipboardBrowser *MainWindow::browser(int index) const
 {
     QWidget *w = ui->tabWidget->widget(
                 index < 0 ? ui->tabWidget->currentIndex() : index );
-    return dynamic_cast<ClipboardBrowser*>(w);
+    return qobject_cast<ClipboardBrowser*>(w);
 }
 
 int MainWindow::tabIndex(const ClipboardBrowser *c) const
@@ -1399,8 +1440,12 @@ void MainWindow::action(Action *action)
 {
     connect( action, SIGNAL(newItems(QStringList, QString)),
              this, SLOT(addItems(QStringList, QString)) );
+    connect( action, SIGNAL(newItems(QStringList, QModelIndex)),
+             this, SLOT(addItems(QStringList, QModelIndex)) );
     connect( action, SIGNAL(newItem(QByteArray, QString, QString)),
              this, SLOT(addItem(QByteArray, QString, QString)) );
+    connect( action, SIGNAL(newItem(QByteArray, QString, QModelIndex)),
+             this, SLOT(addItem(QByteArray, QString, QModelIndex)) );
     connect( action, SIGNAL(actionStarted(Action*)),
              this, SLOT(actionStarted(Action*)) );
     connect( action, SIGNAL(actionFinished(Action*)),
@@ -1412,7 +1457,7 @@ void MainWindow::action(Action *action)
     action->start();
 }
 
-void MainWindow::action(const QMimeData &data, const Command &cmd)
+void MainWindow::action(const QMimeData &data, const Command &cmd, const QModelIndex &outputIndex)
 {
     ActionDialog *actionDialog = createActionDialog();
     QString outputTab;
@@ -1423,6 +1468,7 @@ void MainWindow::action(const QMimeData &data, const Command &cmd)
     actionDialog->setInput(cmd.input);
     actionDialog->setOutput(cmd.output);
     actionDialog->setRegExp(cmd.re);
+    actionDialog->setOutputIndex(outputIndex);
     outputTab = cmd.outputTab;
 
     if (cmd.wait) {

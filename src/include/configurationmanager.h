@@ -102,7 +102,7 @@ public:
     /** Create new command. */
     void addCommand(const Command &cmd);
 
-    /** Set available tab names (for combo box). */
+    /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
 
     /** Set fonts and color for ClipboardBrowser object. */
@@ -150,6 +150,9 @@ private:
      * Update icons in dialog.
      */
     void updateIcons();
+
+    /** Set available MIME types (for combo boxes). */
+    void updateFormats();
 
 private slots:
     void on_pushButtonDown_clicked();

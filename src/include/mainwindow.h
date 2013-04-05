@@ -22,6 +22,7 @@
 
 #include <QMainWindow>
 #include <QMap>
+#include <QModelIndex>
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
 
@@ -172,7 +173,8 @@ class MainWindow : public QMainWindow
         void action(Action *action);
 
         /** Execute command on given input data. */
-        void action(const QMimeData &data, const Command &cmd);
+        void action(const QMimeData &data, const Command &cmd,
+                    const QModelIndex &outputIndex = QModelIndex());
 
         /** Open tab creation dialog. */
         void newTab();
@@ -252,7 +254,9 @@ class MainWindow : public QMainWindow
         void tabMenuRequested(const QPoint &pos, int tab);
         void tabCloseRequested(int tab);
         void addItems(const QStringList &items, const QString &tabName);
+        void addItems(const QStringList &items, const QModelIndex &index);
         void addItem(const QByteArray &data, const QString &format, const QString &tabName);
+        void addItem(const QByteArray &data, const QString &format, const QModelIndex &index);
         void onTimerSearch();
 
         void actionStarted(Action *action);
@@ -265,6 +269,9 @@ class MainWindow : public QMainWindow
 
         /** Delete finished action and its menu item. */
         void closeAction(Action *action);
+
+        /** Return browser containing item or NULL. */
+        ClipboardBrowser *findBrowser(const QModelIndex &index);
 
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;

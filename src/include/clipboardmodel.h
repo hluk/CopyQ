@@ -62,7 +62,7 @@ public:
     QVariant data(int row) const;
 
     /** Return data in given @a row.  */
-    QMimeData *mimeDataInRow(int row) const;
+    const QMimeData *mimeDataInRow(int row) const;
 
     /** Return item in given @a row.  */
     ClipboardItem *at(int row) const;

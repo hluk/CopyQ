@@ -22,13 +22,14 @@
 Action::Action(const Commands &cmd,
                const QByteArray &input, const QString &outputItemFormat,
                const QString &itemSeparator,
-               const QString &outputTabName)
+               const QString &outputTabName, const QModelIndex &index)
     : QProcess()
     , m_input(input)
-    , m_sep(itemSeparator)
+    , m_sep(index.isValid() ? QString() : itemSeparator)
     , m_cmds(cmd)
     , m_tab(outputTabName)
     , m_outputFormat(outputItemFormat != "text/plain" ? outputItemFormat : QString())
+    , m_index(index)
     , m_errstr()
     , m_lastOutput()
     , m_failed(false)
@@ -112,7 +113,10 @@ void Action::actionFinished()
 {
     if ( !m_outputFormat.isEmpty() ) {
         if ( !m_outputData.isNull() ) {
-            emit newItem(m_outputData, m_outputFormat, m_tab);
+            if (m_index.isValid())
+                emit newItem(m_outputData, m_outputFormat, m_index);
+            else
+                emit newItem(m_outputData, m_outputFormat, m_tab);
             m_outputData = QByteArray();
         }
     } else if ( !m_lastOutput.isNull() ) {
@@ -120,7 +124,10 @@ void Action::actionFinished()
         if ( !m_lastOutput.isNull() ) {
             QStringList items;
             items.append(m_lastOutput);
-            emit newItems(items, m_tab);
+            if (m_index.isValid())
+                emit newItems(items, m_index);
+            else
+                emit newItems(items, m_tab);
             m_lastOutput = QString();
         }
     }
@@ -143,7 +150,10 @@ void Action::actionOutput()
     QStringList items;
     items = m_lastOutput.split(m_sep);
     m_lastOutput = items.takeLast();
-    emit newItems(items, m_tab);
+    if (m_index.isValid())
+        emit newItems(items, m_index);
+    else
+        emit newItems(items, m_tab);
 }
 
 void Action::actionErrorOutput()

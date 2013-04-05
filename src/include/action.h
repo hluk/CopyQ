@@ -20,6 +20,7 @@
 #ifndef ACTION_H
 #define ACTION_H
 
+#include <QModelIndex>
 #include <QProcess>
 #include <QStringList>
 
@@ -41,7 +42,8 @@ public:
             const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
             const QString &itemSeparator,
             //!< Separator for items on standard output.
-            const QString &outputTabName //!< Tab name for output items.
+            const QString &outputTabName, //!< Tab name for output items.
+            const QModelIndex &index //!< Output item index.
             );
 
     /** Return true only if command execution failed. */
@@ -68,6 +70,7 @@ private:
     const Commands m_cmds;
     const QString m_tab;
     const QString m_outputFormat;
+    const QModelIndex m_index;
     QString m_errstr;
     QString m_lastOutput;
     QByteArray m_outputData;
@@ -94,9 +97,12 @@ signals:
     void actionStarted(Action *act);
     /** Emitted if standard output has some items available. */
     void newItems(const QStringList, const QString &outputTabName);
+    void newItems(const QStringList, const QModelIndex &index);
     /** Emitted after all standard output is read. */
     void newItem(const QByteArray &data, const QString &format,
                  const QString &outputTabName);
+    void newItem(const QByteArray &data, const QString &format,
+                 const QModelIndex &index);
 };
 
 #endif // ACTION_H

@@ -21,6 +21,7 @@
 #define ACTIONDIALOG_H
 
 #include <QDialog>
+#include <QModelIndex>
 #include <QRegExp>
 
 class Action;
@@ -61,6 +62,8 @@ public:
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
     /** Set regular expression. */
     void setRegExp(const QRegExp &re);
+    /** Set output item. */
+    void setOutputIndex(const QModelIndex &index);
 
     /** Load settings. */
     void loadSettings();
@@ -76,6 +79,7 @@ private:
     Ui::ActionDialog *ui;
     QRegExp m_re;
     QMimeData *m_data;
+    QModelIndex m_index;
 
 signals:
     /** Emitted if dialog was accepted. */

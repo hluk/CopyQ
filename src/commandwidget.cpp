@@ -36,7 +36,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->setupUi(this);
     ui->lineEditIcon->hide();
     ui->checkBoxEnable->hide();
-    ui->groupBoxCommandOptions->hide();
     setFocusProxy(ui->lineEditName);
 
     IconFactory *factory = IconFactory::instance();
@@ -84,6 +83,7 @@ Command CommandWidget::command() const
     c.output = ui->comboBoxOutputFormat->currentText();
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
+    c.transform = ui->checkBoxTransform->isChecked();
     c.ignore = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
     c.enable = ui->checkBoxEnable->isChecked();
@@ -106,6 +106,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->comboBoxOutputFormat->setEditText(c.output);
     ui->checkBoxWait->setChecked(c.wait);
     ui->checkBoxAutomatic->setChecked(c.automatic);
+    ui->checkBoxTransform->setChecked(c.transform);
     ui->checkBoxIgnore->setChecked(c.ignore);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
     ui->checkBoxEnable->setChecked(c.enable);
@@ -160,20 +161,9 @@ void CommandWidget::on_pushButtonShortcut_clicked()
     }
 }
 
-void CommandWidget::on_lineEditCommand_textChanged(const QString &arg1)
+void CommandWidget::on_lineEditCommand_textChanged(const QString &command)
 {
-    ui->groupBoxCommandOptions->setHidden( arg1.isEmpty() );
-}
-
-void CommandWidget::on_comboBoxOutputFormat_editTextChanged(const QString &format)
-{
-    bool showSeparator = (format == QString("text/plain") || format == QString("text"));
-    ui->separatorLabel->setEnabled(showSeparator);
-    ui->lineEditSeparator->setEnabled(showSeparator);
-
-    bool showOutputTab = !format.isEmpty();
-    ui->labelOutputTab->setEnabled(showOutputTab);
-    ui->comboBoxOutputTab->setEnabled(showOutputTab);
+    ui->groupBoxCommandOptions->setHidden(command.isEmpty());
 }
 
 void CommandWidget::onIconChanged(QAction *action)

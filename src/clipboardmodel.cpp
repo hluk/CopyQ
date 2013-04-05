@@ -44,7 +44,7 @@ int ClipboardModel::rowCount(const QModelIndex&) const
     return m_clipboardList.size();
 }
 
-QMimeData *ClipboardModel::mimeDataInRow(int row) const
+const QMimeData *ClipboardModel::mimeDataInRow(int row) const
 {
     if (row < rowCount()) {
         return m_clipboardList[row]->data();

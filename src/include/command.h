@@ -43,6 +43,7 @@ struct Command {
         , output()
         , wait(false)
         , automatic(false)
+        , transform(false)
         , ignore(false)
         , hideWindow(false)
         , enable(true)
@@ -85,6 +86,9 @@ struct Command {
 
     /** If true run command automatically on new matched items. */
     bool automatic;
+
+    /** If true change item data, don't create any new items. */
+    bool transform;
 
     /** If true don't add matched item to list. */
     bool ignore;
