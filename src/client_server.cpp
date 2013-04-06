@@ -208,6 +208,24 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
     return newdata;
 }
 
+QString elideText(const QString &text, int maxLength)
+{
+    QString result = text.trimmed();
+    int lines = result.count('\n');
+    result = result.trimmed();
+
+    // QAction can display only first text line so remove the rest.
+    if (lines > 0)
+        result.remove( result.indexOf('\n') , text.size() );
+
+    if (result.size() > maxLength || lines > 0) {
+        result.resize(maxLength);
+        result.append( QString("...") );
+    }
+
+    return result;
+}
+
 void elideText(QAction *act)
 {
     QFont font = act->font();
@@ -215,6 +233,7 @@ void elideText(QAction *act)
     QFontMetrics fm(font);
     QString text = act->text();
     int lines = text.count('\n');
+    text = text.trimmed();
 
     // QAction can display only first text line so remove the rest.
     if (lines > 0)

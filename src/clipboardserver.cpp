@@ -297,7 +297,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     QDataStream in(message);
     in >> item;
 
-    m_wnd->setTrayToolTip(&item);
+    m_wnd->clipboardChanged(&item);
 
     if ( m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();

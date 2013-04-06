@@ -30,6 +30,7 @@
 #include "clipboardmodel.h"
 #include "command.h"
 #include "configurationmanager.h"
+#include "contenttype.h"
 #include "iconfactory.h"
 #include "platform/platformnativeinterface.h"
 #include "tabdialog.h"
@@ -125,7 +126,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( this, SIGNAL(editingActive(bool)),
              ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
     connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
-             this, SLOT(setTrayToolTip(const ClipboardItem*)) );
+             this, SLOT(clipboardChanged(const ClipboardItem*)) );
 
     // settings
     loadSettings();
@@ -914,9 +915,23 @@ void MainWindow::previousTab()
     ui->tabWidget->previousTab();
 }
 
-void MainWindow::setTrayToolTip(const ClipboardItem *item)
+void MainWindow::clipboardChanged(const ClipboardItem *item)
 {
-    tray->setToolTip( tr("Clipboard:\n%1").arg(item->text().trimmed().left(256)) );
+    QString text;
+    const QStringList formats = item->data(contentType::formats).toStringList();
+    bool hasText = formats.indexOf("text/plain") != -1;
+    if (hasText) {
+        text = item->text();
+    } else {
+        if ( formats.indexOf(QRegExp("^image/.*")) != -1 )
+            text = tr("<IMAGE>");
+        else
+            text = tr("<DATA>");
+    }
+
+    const QString format(hasText ? "\"%1\"" : "%1");
+    tray->setToolTip( tr("Clipboard:\n%1").arg( format.arg(elideText(text, 256))) );
+    setWindowTitle( tr("%1 - CopyQ").arg( format.arg(elideText(text, 30))) );
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)

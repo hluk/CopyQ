@@ -96,6 +96,7 @@ uint hash(const QMimeData &data, const QStringList &formats);
 
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 
+QString elideText(const QString &text, int maxLength);
 void elideText(QAction *act);
 
 #endif // CLIENT_SERVER_H
