@@ -182,11 +182,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
         aboutDialog->close();
     }
 
-    // deselect all
-    ClipboardBrowser *c = browser();
-    c->clearSelection();
-    c->setCurrentIndex( QModelIndex() );
-
     event->ignore();
 }
 
@@ -817,23 +812,6 @@ void MainWindow::tabChanged(int current)
     itemMenu = m;
 
     browser()->filterItems( ui->searchBar->text() );
-
-    /* Deselect first item in previously selected tab if it is current item and
-     * is the only one selected. Next time the tab is selected first item is
-     * selected as current.
-     */
-    if ( m_lastTab >= 0 && m_lastTab < ui->tabWidget->count() ) {
-        ClipboardBrowser *c = browser(m_lastTab);
-        QModelIndex current = c->currentIndex();
-        if ( current.row() == 0 ) {
-            QModelIndexList indexes = c->selectionModel()->selectedIndexes();
-            if ( indexes.isEmpty() ||
-                    (indexes.size() == 1 && indexes.first() == current) ) {
-                c->selectionModel()->clear();
-                c->setCurrentIndex( QModelIndex() );
-            }
-        }
-    }
 
     if ( current >= 0 ) {
         ClipboardBrowser *c = browser();

@@ -108,8 +108,12 @@ QList<CommandHelp> commandHelp()
         << CommandHelp("length, count, size",
                        Scriptable::tr("Print number of items in history."))
         << CommandHelp("select",
-                       Scriptable::tr("Move item in the row to clipboard."))
+                       Scriptable::tr("Copy item in the row to clipboard."))
            .addArg("[" + Scriptable::tr("ROW") + "=0]")
+        << CommandHelp("next",
+                       Scriptable::tr("Copy next item from current tab to clipboard."))
+        << CommandHelp("previous",
+                       Scriptable::tr("Copy previous item from current tab to clipboard."))
         << CommandHelp("add",
                        Scriptable::tr("Add text into clipboard."))
            .addArg(Scriptable::tr("TEXT") + "...")
@@ -551,6 +555,22 @@ void Scriptable::select()
         c->updateClipboard();
         c->delayedSaveItems(1000);
     }
+}
+
+void Scriptable::next()
+{
+    ClipboardBrowser *c = m_currentTab.isEmpty() ? m_wnd->browser()
+                                                 : m_wnd->findTab(m_currentTab);
+    if (c != NULL)
+        c->copyNextItemToClipboard();
+}
+
+void Scriptable::previous()
+{
+    ClipboardBrowser *c = m_currentTab.isEmpty() ? m_wnd->browser()
+                                                 : m_wnd->findTab(m_currentTab);
+    if (c != NULL)
+        c->copyPreviousItemToClipboard();
 }
 
 void Scriptable::add()

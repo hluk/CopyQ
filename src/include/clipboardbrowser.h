@@ -45,6 +45,7 @@ struct ClipboardBrowserShared {
     QList<Command> commands;
     bool viMode;
     bool saveOnReturnKey;
+    bool moveItemOnReturnKey;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
@@ -134,7 +135,7 @@ class ClipboardBrowser : public QListView
         const QString selectedText() const;
 
         /** Update clipboard content according to first item in list. */
-        void updateClipboard();
+        void updateClipboard(int row = 0);
 
         /** Force redrawing the list. */
         void redraw();
@@ -219,6 +220,11 @@ class ClipboardBrowser : public QListView
          * Connects signals and starts external editor.
          */
         bool startEditor(QObject *editor);
+
+        /**
+         * Select next/previous item and copy it to clipboard.
+         */
+        void copyItemToClipboard(int d);
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -324,6 +330,16 @@ class ClipboardBrowser : public QListView
         void editNew(
                 const QString &text = QString() //!< Text of new item.
                 );
+
+        /**
+         * Select next item and copy it to clipboard.
+         */
+        void copyNextItemToClipboard();
+
+        /**
+         * Select previous item and copy it to clipboard.
+         */
+        void copyPreviousItemToClipboard();
 };
 
 #endif // CLIPBOARDBROWSER_H

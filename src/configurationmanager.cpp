@@ -114,6 +114,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["maxitems"] = Option(200, "value", ui->spinBoxItems);
     m_options["editor"] = Option(DEFAULT_EDITOR, "text", ui->lineEditEditor);
     m_options["edit_ctrl_return"] = Option(true, "checked", ui->checkBoxEditCtrlReturn);
+    m_options["move"] = Option(true, "checked", ui->checkBoxMove);
     m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);
     m_options["confirm_exit"] = Option(true, "checked", ui->checkBoxConfirmExit);
     m_options["vi"] = Option(false, "checked", ui->checkBoxViMode);
@@ -144,6 +145,8 @@ ConfigurationManager::ConfigurationManager()
     m_options["second_shortcut"] = Option("", "text", ui->pushButton_5);
     m_options["show_action_dialog"] = Option("", "text", ui->pushButton_6);
     m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_7);
+    m_options["next_item_shortcut"] = Option("", "text", ui->pushButton_8);
+    m_options["previous_item_shortcut"] = Option("", "text", ui->pushButton_9);
 #endif
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
@@ -993,6 +996,16 @@ void ConfigurationManager::on_pushButton_6_clicked()
 void ConfigurationManager::on_pushButton_7_clicked()
 {
     shortcutButtonClicked(ui->pushButton_7);
+}
+
+void ConfigurationManager::on_pushButton_8_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_8);
+}
+
+void ConfigurationManager::on_pushButton_9_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_9);
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(

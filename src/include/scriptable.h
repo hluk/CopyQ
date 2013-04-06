@@ -96,6 +96,8 @@ public slots:
     QScriptValue count() { return length(); }
 
     void select();
+    void next();
+    void previous();
     void add();
     void insert();
     void remove();

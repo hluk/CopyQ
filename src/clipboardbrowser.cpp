@@ -45,6 +45,8 @@ const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
 const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
 const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
 const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSign); }
+const QIcon iconNextToClipboard() { return getIcon("go-down", IconArrowDown); }
+const QIcon iconPreviousToClipboard() { return getIcon("go-up", IconArrowUp); }
 
 bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
                      const ClipboardModel::ComparisonItem &rhs)
@@ -69,6 +71,8 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , textWrap(false)
     , commands()
     , viMode(false)
+    , saveOnReturnKey(false)
+    , moveItemOnReturnKey(false)
 {
 }
 
@@ -82,7 +86,9 @@ void ClipboardBrowserShared::loadFromConfiguration()
     maxImageHeight = cm->value("max_image_height").toInt();
     textWrap = cm->value("text_wrap").toBool();
     commands = cm->commands();
+    viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
+    moveItemOnReturnKey = cm->value("move").toBool();
 }
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
@@ -243,6 +249,14 @@ void ClipboardBrowser::createContextMenu()
     act->setShortcut( QString("F5") );
     connect(act, SIGNAL(triggered()), this, SLOT(action()));
 
+    act = m_menu->addAction( iconNextToClipboard(), tr("&Next to Clipboard...") );
+    act->setShortcut( QString("Ctrl+Shift+N") );
+    connect(act, SIGNAL(triggered()), this, SLOT(copyNextItemToClipboard()));
+
+    act = m_menu->addAction( iconPreviousToClipboard(), tr("&Previous to Clipboard...") );
+    act->setShortcut( QString("Ctrl+Shift+P") );
+    connect(act, SIGNAL(triggered()), this, SLOT(copyPreviousItemToClipboard()));
+
     connect( m_menu, SIGNAL(aboutToShow()),
              this, SLOT(updateContextMenu()),
              Qt::UniqueConnection );
@@ -306,6 +320,19 @@ bool ClipboardBrowser::startEditor(QObject *editor)
     }
 
     return true;
+}
+
+void ClipboardBrowser::copyItemToClipboard(int d)
+{
+    QModelIndex ind = currentIndex();
+    int row = ind.isValid() ? ind.row() : 0;
+    row = qMax(0, row + d);
+
+    if (row < m->rowCount()) {
+        clearSelection();
+        setCurrentIndex(index(row));
+        updateClipboard(row);
+    }
 }
 
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, const QString &text,
@@ -581,9 +608,13 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
 
 void ClipboardBrowser::moveToClipboard(int i)
 {
-    m->move(i,0);
+    int row = i;
+    if (m_sharedData->moveItemOnReturnKey) {
+        m->move(i,0);
+        row = 0;
+    }
     if ( autoUpdate() )
-        updateClipboard();
+        updateClipboard(row);
     scrollTo( currentIndex() );
 }
 
@@ -593,6 +624,16 @@ void ClipboardBrowser::editNew(const QString &text)
     selectionModel()->clearSelection();
     setCurrent(0);
     edit( index(0) );
+}
+
+void ClipboardBrowser::copyNextItemToClipboard()
+{
+    copyItemToClipboard(1);
+}
+
+void ClipboardBrowser::copyPreviousItemToClipboard()
+{
+    copyItemToClipboard(-1);
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
@@ -751,6 +792,7 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
             prev = ind;
         }
     } else {
+        clearSelection();
         setCurrentIndex(ind);
     }
 
@@ -880,8 +922,13 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     m->setData(ind, data);
 
     // filter item
-    if ( isFiltered(newRow) )
+    if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
+    } else if (!hasFocus() && !editing()) {
+        // Select new item if clipboard is not focused and the item is not filtered-out.
+        clearSelection();
+        setCurrentIndex(ind);
+    }
 
     // list size limit
     if ( m->rowCount() > m_sharedData->maxItems )
@@ -984,10 +1031,10 @@ const QMimeData *ClipboardBrowser::itemData(int i) const
     return m->mimeDataInRow( i>=0 ? i : currentIndex().row() );
 }
 
-void ClipboardBrowser::updateClipboard()
+void ClipboardBrowser::updateClipboard(int row)
 {
-    if ( m->rowCount() > 0 )
-        emit changeClipboard(m->at(0));
+    if ( row < m->rowCount() )
+        emit changeClipboard(m->at(row));
 }
 
 void ClipboardBrowser::redraw()

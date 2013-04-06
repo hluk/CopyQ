@@ -479,6 +479,16 @@ void ClipboardServer::loadSettings()
     args = createGlobalShortcut(key);
     if (args)
         args->append("edit");
+
+    key = cm->value("next_item_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("next");
+
+    key = cm->value("previous_item_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("previous");
 #endif
 
     // reload clipboard monitor configuration
