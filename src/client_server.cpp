@@ -216,10 +216,11 @@ QString elideText(const QString &text, int maxLength)
 
     // QAction can display only first text line so remove the rest.
     if (lines > 0)
-        result.remove( result.indexOf('\n') , text.size() );
+        result.remove( result.indexOf('\n'), text.size() );
 
     if (result.size() > maxLength || lines > 0) {
-        result.resize(maxLength);
+        if (result.size() > maxLength)
+            result.resize(maxLength);
         result.append( QString("...") );
     }
 
