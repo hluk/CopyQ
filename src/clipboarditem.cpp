@@ -50,14 +50,14 @@ bool ClipboardItem::operator ==(const QMimeData &data) const
 void ClipboardItem::clear()
 {
     m_data->clear();
-    m_hash = hash(*m_data, m_data->formats());
+    updateDataHash();
 }
 
 void ClipboardItem::setData(QMimeData *data)
 {
     delete m_data;
     m_data = data;
-    m_hash = 0;
+    updateDataHash();
 }
 
 void ClipboardItem::setData(const QVariant &value)
@@ -65,13 +65,13 @@ void ClipboardItem::setData(const QVariant &value)
     // rewrite all original data with edited text
     m_data->clear();
     m_data->setText( value.toString() );
-    m_hash = hash(*m_data, m_data->formats());
+    updateDataHash();
 }
 
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
     m_data->setData(mimeType, data);
-    m_hash = hash(*m_data, m_data->formats());
+    updateDataHash();
 }
 
 QString ClipboardItem::text() const
@@ -103,6 +103,12 @@ QVariant ClipboardItem::data(int role) const
     }
 
     return QVariant();
+}
+
+
+void ClipboardItem::updateDataHash()
+{
+    m_hash = hash(*m_data, m_data->formats());
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)

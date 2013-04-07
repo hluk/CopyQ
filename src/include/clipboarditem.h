@@ -82,6 +82,8 @@ public:
     uint dataHash() const { return m_hash; }
 
 private:
+    void updateDataHash();
+
     QMimeData *m_data;
     uint m_hash;
 };
