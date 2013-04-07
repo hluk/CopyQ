@@ -35,6 +35,7 @@ static QString aboutPage()
         ".h1{font-size:20pt;color:#444}"
         ".h1x{font-size:12pt;font-style:italic;color:#222;}"
         ".h2{width:100%;font-size:16pt;color:#333;margin-left:1ex;margin-top:0.2em}"
+        ".h2x{font-size:12pt;color:#222;}"
         ".h3{font-size:9pt;font-style:italic;color:#444}"
         ".pp{margin-left:4ex}"
         ".ppp{margin-left:4ex;font-size:9pt}"
@@ -51,8 +52,11 @@ static QString aboutPage()
 
         // logo
         "<td><img src=\":/images/logo.svg\" /></td>"
+
+        "<td>"
+
         // title
-        "<td><div class='h1'>CopyQ</div>"
+        "<div class='h1'>CopyQ</div>"
         // subtitle
         "<div class=\"h1x\">" + escapeHtml(AboutDialog::tr("Clipboard Manager"))
             + " v" COPYQ_VERSION "</div>"
@@ -60,25 +64,47 @@ static QString aboutPage()
         "<p></p>"
 
         "<p><table>"
+
         // copyright
         "<tr><td colspan=\"2\">Copyright (c) 2009 - 2013</td></tr>"
         // author
         "<tr><td colspan=\"2\">Lukas Holecek</td></tr>"
         // e-mail
-        "<tr><td class='h3'>" + escapeHtml(AboutDialog::tr("E-mail")) + "</td>"
-        "<td><a href=\"mailto:hluk@email.cz\">hluk@email.cz</a></td></tr>"
+        "<tr>"
+        "<td class='h3'>" + escapeHtml(AboutDialog::tr("E-mail")) + "</td>"
+        "<td><a href=\"mailto:hluk@email.cz\">hluk@email.cz</a></td>"
+        "</tr>"
         // web
-        "<tr><td class='h3'>" + escapeHtml(AboutDialog::tr("Web")) + "</td>"
-        "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td></tr></table>"
+        "<tr>"
+        "<td class='h3'>" + escapeHtml(AboutDialog::tr("Web")) + "</td>"
+        "<td><a href=\"https://code.google.com/p/copyq\">https://code.google.com/p/copyq</a></td>"
+        "</tr>"
+        "<tr>"
+        "<td></td>"
+        "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td>"
+        "</tr>"
+
         "</table></p>"
 
+        "</td>"
+
+        "</tr></table></p>"
+
+        // developers
+        "<div class='h2'>" + AboutDialog::tr("Development") + "</div>"
+        "<p class=\"pp\">"
+        "Adam Batkin (<a href=\"mailto:adam@batkin.net\">adam@batkin.net</a>)<br />"
+        "Ilya Plenne (<a href=\"mailto:libbkmz.dev@gmail.com\">libbkmz.dev@gmail.com</a>)<br />"
+        "lightonflux (<a href=\"mailto:lightonflux@znn.info\">lightonflux@znn.info</a>)<br />"
+        "Sebastian Schuberth (<a href=\"mailto:sschuberth@gmail.com\">sschuberth@gmail.com</a>)"
+        "</p>"
+
         // libraries
-        "<div class='h2'>LibQxt</div>"
-        "<p class=\"ppp\">" + escapeHtml(AboutDialog::tr("Library used in the application")) + "<br />"
+        "<p class=\"ppp\"><span class='h2x'>LibQxt</span> (" + escapeHtml(AboutDialog::tr("Library used in the application")) + ")<br />"
         "Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).<br />"
         "All rights reserved.</p>"
-        "<div class='h2'>Font Awesome</div>"
-        "<p class=\"ppp\">" + escapeHtml(AboutDialog::tr("Iconic font used in the application")) + "<br />"
+
+        "<p class=\"ppp\"><span class='h2x'>Font Awesome</span> (" + escapeHtml(AboutDialog::tr("Iconic font used in the application")) + ")<br />"
         "Created & Maintained by Dave Gandy (<a href=\"http://fortawesome.github.com/Font-Awesome/\">http://fortawesome.github.com/Font-Awesome/</a>).</p>"
 
         // keyboard title
