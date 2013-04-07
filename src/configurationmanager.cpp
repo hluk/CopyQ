@@ -113,6 +113,7 @@ ConfigurationManager::ConfigurationManager()
     /* general options */
     m_options["maxitems"] = Option(200, "value", ui->spinBoxItems);
     m_options["editor"] = Option(DEFAULT_EDITOR, "text", ui->lineEditEditor);
+    m_options["item_popup_interval"] = Option(0, "value", ui->spinBoxItemPopupInterval);
     m_options["edit_ctrl_return"] = Option(true, "checked", ui->checkBoxEditCtrlReturn);
     m_options["move"] = Option(true, "checked", ui->checkBoxMove);
     m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);

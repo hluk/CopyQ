@@ -93,6 +93,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayCurrentTab(false)
     , m_trayItems(5)
     , m_trayImages(true)
+    , m_itemPopupInterval(0)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_actions()
@@ -405,7 +406,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
     c->setAutoUpdate(true);
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
-             this, SIGNAL(changeClipboard(const ClipboardItem*)) );
+             this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
     connect( c, SIGNAL(editingActive(bool)),
              this, SIGNAL(editingActive(bool)) );
     connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&)),
@@ -691,6 +692,7 @@ void MainWindow::loadSettings()
     m_trayCurrentTab = cm->value("tray_tab_is_current").toBool();
     m_trayTabName = cm->value("tray_tab").toString();
     m_trayImages = cm->value("tray_images").toBool();
+    m_itemPopupInterval = cm->value("item_popup_interval").toBool();
 
     log( tr("Configuration loaded") );
 }
@@ -1008,6 +1010,15 @@ void MainWindow::actionFinished(Action *action)
 void MainWindow::actionError(Action *action)
 {
     closeAction(action);
+}
+
+void MainWindow::onChangeClipboardRequest(const ClipboardItem *item)
+{
+    if (m_itemPopupInterval > 0 && !isVisible()) {
+        showMessage( tr("Clipboard"), elideText(item->text(), 256), QSystemTrayIcon::Information,
+                     m_itemPopupInterval * 1000 );
+    }
+    emit changeClipboard(item);
 }
 
 void MainWindow::enterSearchMode(const QString &txt)

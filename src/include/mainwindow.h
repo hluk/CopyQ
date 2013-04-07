@@ -263,6 +263,8 @@ class MainWindow : public QMainWindow
         void actionFinished(Action *action);
         void actionError(Action *action);
 
+        void onChangeClipboardRequest(const ClipboardItem *item);
+
     private:
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
@@ -286,6 +288,7 @@ class MainWindow : public QMainWindow
         QString m_trayTabName;
         int m_trayItems;
         bool m_trayImages;
+        int m_itemPopupInterval;
         int m_lastTab;
         QTimer *m_timerSearch;
 

@@ -368,6 +368,45 @@
              </property>
             </widget>
            </item>
+           <item row="2" column="0">
+            <widget class="QLabel" name="label_25">
+             <property name="text">
+              <string>Interval in seconds for tray message:</string>
+             </property>
+            </widget>
+           </item>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_9">
+             <item>
+              <widget class="QSpinBox" name="spinBoxItemPopupInterval">
+               <property name="toolTip">
+                <string>Interval in seconds for tray message which is shown after an item is copied to clipboard (only if main window is closed).
+
+Set to 0 to disable this.</string>
+               </property>
+               <property name="minimum">
+                <number>-1</number>
+               </property>
+               <property name="maximum">
+                <number>60</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
           </layout>
          </item>
          <item row="1" column="0">
@@ -539,8 +578,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>335</width>
-                <height>321</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -877,8 +916,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>241</width>
-              <height>399</height>
+              <width>212</width>
+              <height>322</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1151,7 +1190,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>lineEditEditor</tabstop>
+  <tabstop>spinBoxItemPopupInterval</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
+  <tabstop>checkBoxMove</tabstop>
   <tabstop>pushButtonPluginPriorityUp</tabstop>
   <tabstop>pushButtonPluginPriorityDown</tabstop>
   <tabstop>tabWidgetPlugins</tabstop>
@@ -1174,15 +1215,13 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>pushButton_5</tabstop>
   <tabstop>pushButton_6</tabstop>
   <tabstop>pushButton_7</tabstop>
+  <tabstop>pushButton_8</tabstop>
+  <tabstop>pushButton_9</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorSelBg</tabstop>
   <tabstop>pushButtonColorFindBg</tabstop>
   <tabstop>pushButtonColorEditorBg</tabstop>
   <tabstop>pushButtonColorAltBg</tabstop>
-  <tabstop>pushButtonFont</tabstop>
-  <tabstop>pushButtonFoundFont</tabstop>
-  <tabstop>pushButtonEditorFont</tabstop>
-  <tabstop>pushButtonNumberFont</tabstop>
   <tabstop>pushButtonColorFg</tabstop>
   <tabstop>pushButtonColorSelFg</tabstop>
   <tabstop>pushButtonColorFindFg</tabstop>
@@ -1191,11 +1230,14 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>
+  <tabstop>pushButtonFont</tabstop>
+  <tabstop>pushButtonFoundFont</tabstop>
+  <tabstop>pushButtonEditorFont</tabstop>
+  <tabstop>pushButtonNumberFont</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>buttonBox</tabstop>
-  <tabstop>scrollArea</tabstop>
  </tabstops>
  <resources>
   <include location="../copyq.qrc"/>
