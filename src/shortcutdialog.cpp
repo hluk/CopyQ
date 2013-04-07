@@ -123,8 +123,11 @@ Qt::KeyboardModifiers ShortcutDialog::getModifiers(const QKeyEvent &event)
     int key = event.key();
     Qt::KeyboardModifiers mods = event.modifiers();
 
-    if (key == Qt::Key_Super_L || key == Qt::Key_Super_R)
+    if (key == Qt::Key_Super_L || key == Qt::Key_Super_R
+            || key == Qt::Key_Hyper_L || key == Qt::Key_Hyper_R)
+    {
         m_metaPressed = (event.type() == QEvent::KeyPress);
+    }
     if (m_metaPressed)
         mods |= Qt::MetaModifier;
 
