@@ -25,10 +25,30 @@
 
 #include <QKeyEvent>
 
+namespace {
+
+bool isKeyModifier(int key)
+{
+    switch(key) {
+    case Qt::Key_Control:
+    case Qt::Key_Shift:
+    case Qt::Key_Alt:
+    case Qt::Key_Meta:
+    case Qt::Key_Super_L:
+    case Qt::Key_Super_R:
+        return true;
+    default:
+        return false;
+    }
+}
+
+} // namespace
+
 ShortcutDialog::ShortcutDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ShortcutDialog)
     , m_shortcut()
+    , m_metaPressed(false)
 {
     ui->setupUi(this);
     setWindowIcon( getIcon("", IconHandUp) );
@@ -47,7 +67,7 @@ QKeySequence ShortcutDialog::shortcut() const
 void ShortcutDialog::keyPressEvent(QKeyEvent *event)
 {
     int key = event->key();
-    Qt::KeyboardModifiers mods = event->modifiers();
+    Qt::KeyboardModifiers mods = getModifiers(*event);
 
     if (mods == Qt::NoModifier) {
         if (key == Qt::Key_Escape)
@@ -60,20 +80,13 @@ void ShortcutDialog::keyPressEvent(QKeyEvent *event)
     event->accept();
     processKey(key, mods);
 
-    switch(key) {
-    case Qt::Key_Control:
-    case Qt::Key_Shift:
-    case Qt::Key_Alt:
-    case Qt::Key_Meta:
-        return;
-    default:
+    if ( !isKeyModifier(key) )
         accept();
-    }
 }
 
 void ShortcutDialog::keyReleaseEvent(QKeyEvent *event)
 {
-    Qt::KeyboardModifiers mods = event->modifiers();
+    Qt::KeyboardModifiers mods = getModifiers(*event);
 
     processKey(0, mods);
 }
@@ -84,16 +97,8 @@ void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
         return;
 
     int keys = 0;
-    switch(key) {
-    case Qt::Key_Control:
-    case Qt::Key_Shift:
-    case Qt::Key_Alt:
-    case Qt::Key_Meta:
-        break;
-    default:
+    if ( !isKeyModifier(key) )
         keys = key;
-        break;
-    }
 
     if (mods & Qt::ControlModifier)
         keys += Qt::CTRL;
@@ -108,4 +113,18 @@ void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
     QString shortcut = m_shortcut.toString(QKeySequence::NativeText);
 
     ui->label->setText(shortcut);
+}
+
+Qt::KeyboardModifiers ShortcutDialog::getModifiers(const QKeyEvent &event)
+{
+    int key = event.key();
+    Qt::KeyboardModifiers mods = event.modifiers();
+
+    if (key == Qt::Key_Super_L || key == Qt::Key_Super_R)
+        m_metaPressed = (event.type() == QEvent::KeyPress);
+    if (m_metaPressed)
+        mods |= Qt::MetaModifier;
+
+    return mods;
+
 }

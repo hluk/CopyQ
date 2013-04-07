@@ -43,8 +43,11 @@ protected:
 private:
     Ui::ShortcutDialog *ui;
     QKeySequence m_shortcut;
+    bool m_metaPressed;
 
     void processKey(int key, Qt::KeyboardModifiers mods);
+
+    Qt::KeyboardModifiers getModifiers(const QKeyEvent &event);
 };
 
 #endif // SHORTCUTDIALOG_H
