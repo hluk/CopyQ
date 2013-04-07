@@ -142,7 +142,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , m_checksel(false)
     , m_copysel(false)
 #endif
-    , m_lastHash(0)
     , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
 #ifdef COPYQ_WS_X11
@@ -210,7 +209,6 @@ void ClipboardMonitor::synchronize()
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
     const QMimeData *data;
-    uint newHash;
 
     COPYQ_LOG( QString("Checking for new %1 content.")
                .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
@@ -251,11 +249,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-    // same data as last time?
-    newHash = hash(*data, m_formats);
-    if (m_lastHash == newHash)
-        return;
-
     // clone only mime types defined by user
     QMimeData *data2 = cloneData(*data, &m_formats);
     // any data found?
@@ -268,9 +261,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     PlatformPtr platform = createPlatformNativeInterface();
     data2->setData( QString("application/x-copyq-owner-window-title"),
                     platform->getWindowTitle(platform->getCurrentWindow()).toUtf8() );
-
-    // send data to serve and synchronize if needed
-    m_lastHash = newHash;
 
 #ifdef COPYQ_WS_X11
     m_x11->synchronizeNone();
@@ -349,8 +339,6 @@ void ClipboardMonitor::readyRead()
             }
 #endif
 
-            if ( m_lastHash == 0 && settings.contains("_last_hash") )
-                m_lastHash = settings["_last_hash"].toUInt();
             if ( settings.contains("formats") )
                 m_formats = settings["formats"].toStringList();
             if ( settings.contains("check_clipboard") )
@@ -392,7 +380,6 @@ void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
 
     COPYQ_LOG("Updating clipboard");
 
-    m_lastHash = hash(*data, m_formats);
     setClipboardData(data, QClipboard::Clipboard);
 #ifdef COPYQ_WS_X11
     setClipboardData(cloneData(*data), QClipboard::Selection);

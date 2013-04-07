@@ -72,7 +72,6 @@ private:
     bool m_checksel;
     bool m_copysel;
 #endif
-    uint m_lastHash;
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard

@@ -208,7 +208,6 @@ void ClipboardServer::loadMonitorSettings()
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     QVariantMap settings;
-    settings["_last_hash"] = cm->value("_last_hash");
     settings["formats"] = ItemFactory::instance()->formatsToSave();
     settings["check_clipboard"] = cm->value("check_clipboard");
 #ifdef COPYQ_WS_X11
