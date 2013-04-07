@@ -889,13 +889,13 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
         // force adding item if tab name is specified
         bool force = !tabName.isEmpty();
         // merge data with first item if it is same
-        if ( !force && c->length() > 0 ) {
+        if ( !force && c->length() > 0 && data2->hasText() ) {
             ClipboardItem *first = c->at(0);
             const QString newText = data2->text();
             const QString firstItemText = first->text();
-            if ( data2->hasText()
-                 && data2->data(mimeWindowTitle) == first->data()->data(mimeWindowTitle)
-                 && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)) )
+            if ( newText == firstItemText || (
+                     data2->data(mimeWindowTitle) == first->data()->data(mimeWindowTitle)
+                     && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))) )
             {
                 QStringList formats = data2->formats();
                 const QMimeData *firstData = first->data();
