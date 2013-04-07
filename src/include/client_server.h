@@ -75,6 +75,8 @@ enum LogLevel {
     LogError
 };
 
+extern const QString mimeWindowTitle;
+
 QString escapeHtml(const QString &str);
 
 void log(const QString &text, const LogLevel level = LogNote);

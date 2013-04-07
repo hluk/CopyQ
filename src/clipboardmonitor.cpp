@@ -259,7 +259,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // add window title of clipboard owner
     PlatformPtr platform = createPlatformNativeInterface();
-    data2->setData( QString("application/x-copyq-owner-window-title"),
+    data2->setData( QString(mimeWindowTitle),
                     platform->getWindowTitle(platform->getCurrentWindow()).toUtf8() );
 
 #ifdef COPYQ_WS_X11

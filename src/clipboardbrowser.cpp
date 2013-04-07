@@ -342,7 +342,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
         return;
 
     const QString windowTitle = data == NULL ? QString() : QString::fromUtf8(
-                data->data("application/x-copyq-owner-window-title").data() );
+                data->data(mimeWindowTitle).data() );
 
     bool isContextMenu = menu == m_menu;
 
@@ -889,8 +889,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         // commands
         bool noText = !data->hasText();
         const QString text = data->text();
-        const QString windowTitle = QString::fromUtf8(
-                    data->data("application/x-copyq-owner-window-title").data() );
+        const QString windowTitle = QString::fromUtf8( data->data(mimeWindowTitle).data() );
         foreach (const Command &c, m_sharedData->commands) {
             if (c.automatic || c.ignore || !c.tab.isEmpty()) {
                 if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))

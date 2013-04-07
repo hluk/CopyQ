@@ -35,6 +35,8 @@
 #   include <QTextDocument> // Qt::escape()
 #endif
 
+const QString mimeWindowTitle = "application/x-copyq-owner-window-title";
+
 QString escapeHtml(const QString &str)
 {
 #if QT_VERSION < 0x050000

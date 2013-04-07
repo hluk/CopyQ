@@ -192,7 +192,6 @@ WId X11Platform::getPasteWindow()
 bool X11Platform::isSelecting()
 {
     // If mouse button or shift is pressed then assume that user is selecting text.
-    // FIXME: This doesn't work in GVim -- user is in visual mode and just presses a movement key.
     if (d->display == NULL)
         return false;
 
