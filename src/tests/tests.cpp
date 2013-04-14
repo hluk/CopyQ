@@ -62,7 +62,7 @@ const QString testTabs = "TEST_%1";
 const int waitMsAction = 200;
 
 /// Interval to wait (in ms) until new clipboard content is propagated to items or monitor.
-const int waitMsClipboard = 200;
+const int waitMsClipboard = 500;
 
 typedef QStringList Args;
 
