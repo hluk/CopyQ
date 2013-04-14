@@ -107,6 +107,7 @@ ClipboardBrowser::Lock::~Lock()
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)
     : QListView(parent)
+    , m_loaded(false)
     , m_id()
     , m_lastFilter()
     , m_update(false)
@@ -481,6 +482,12 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     QListView::resizeEvent(event);
     if (m_sharedData->textWrap)
         d->setItemMaximumSize( viewport()->contentsRect().size() );
+}
+
+void ClipboardBrowser::showEvent(QShowEvent *event)
+{
+    loadItems();
+    QListView::showEvent(event);
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
@@ -879,6 +886,12 @@ bool ClipboardBrowser::add(const QString &txt, bool force)
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
+    if ( !m_loaded && !m_id.isEmpty() ) {
+        loadItems();
+        if (!m_loaded)
+            return false;
+    }
+
     if (!force) {
         // don't add if new data is same as first item
         if ( m->rowCount() > 0 && *m->at(0) == *data ) {
@@ -965,15 +978,17 @@ void ClipboardBrowser::loadSettings()
 
 void ClipboardBrowser::loadItems()
 {
-    if ( m_id.isEmpty() ) return;
+    if ( m_loaded || m_id.isEmpty() )
+        return;
     ConfigurationManager::instance()->loadItems(*m, m_id);
     m_timerSave->stop();
     setCurrentIndex( QModelIndex() );
+    m_loaded = true;
 }
 
 void ClipboardBrowser::saveItems()
 {
-    if ( m_id.isEmpty() )
+    if ( !m_loaded || m_id.isEmpty() )
         return;
 
     m_timerSave->stop();
@@ -983,7 +998,7 @@ void ClipboardBrowser::saveItems()
 
 void ClipboardBrowser::delayedSaveItems(int msec)
 {
-    if ( m_id.isEmpty() || m_timerSave->isActive() )
+    if ( !m_loaded || m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
     m_timerSave->start(msec);
@@ -991,7 +1006,8 @@ void ClipboardBrowser::delayedSaveItems(int msec)
 
 void ClipboardBrowser::purgeItems()
 {
-    if ( m_id.isEmpty() ) return;
+    if ( m_id.isEmpty() )
+        return;
     ConfigurationManager::instance()->removeItems(m_id);
     m_timerSave->stop();
 }

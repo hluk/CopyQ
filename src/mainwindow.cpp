@@ -381,6 +381,13 @@ ClipboardBrowser *MainWindow::findBrowser(const QModelIndex &index)
     return NULL;
 }
 
+ClipboardBrowser *MainWindow::getBrowser(int index) const
+{
+    QWidget *w = ui->tabWidget->widget(
+                index < 0 ? ui->tabWidget->currentIndex() : index );
+    return qobject_cast<ClipboardBrowser*>(w);
+}
+
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -402,8 +409,11 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
     c = new ClipboardBrowser(this, m_sharedData);
     c->setID(name);
     c->loadSettings();
-    c->loadItems();
     c->setAutoUpdate(true);
+
+    // Preload items only in the first tab.
+    if ( ui->tabWidget->count() == 0 )
+        c->loadItems();
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
@@ -437,7 +447,7 @@ QStringList MainWindow::tabs() const
     TabWidget *w = ui->tabWidget;
 
     for( int i = 0; i < w->count(); ++i )
-        tabs << browser(i)->getID();
+        tabs << getBrowser(i)->getID();
 
     return tabs;
 }
@@ -1238,11 +1248,12 @@ void MainWindow::openPreferences()
     ConfigurationManager::instance()->exec();
 }
 
-ClipboardBrowser *MainWindow::browser(int index) const
+ClipboardBrowser *MainWindow::browser(int index)
 {
-    QWidget *w = ui->tabWidget->widget(
-                index < 0 ? ui->tabWidget->currentIndex() : index );
-    return qobject_cast<ClipboardBrowser*>(w);
+    ClipboardBrowser *c = getBrowser(index);
+    if (c != NULL)
+        c->loadItems();
+    return c;
 }
 
 int MainWindow::tabIndex(const ClipboardBrowser *c) const

@@ -191,6 +191,7 @@ class ClipboardBrowser : public QListView
         void setItemData(const QModelIndex &index, QMimeData *data);
 
     private:
+        bool m_loaded;
         QString m_id;
         QRegExp m_lastFilter;
         bool m_update;
@@ -231,6 +232,7 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void paintEvent(QPaintEvent *event);
         void resizeEvent(QResizeEvent *event);
+        void showEvent(QShowEvent *event);
 
     signals:
         /** Action dialog requested. */

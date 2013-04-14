@@ -74,8 +74,11 @@ class MainWindow : public QMainWindow
         /** Create new action dialog. */
         ActionDialog *createActionDialog();
 
-        /** Return browser widget in given tab @a index (or current tab). */
-        ClipboardBrowser *browser(int index = -1) const;
+        /**
+         * Return browser widget in given tab @a index (or current tab).
+         * Load items if not loaded yet.
+         */
+        ClipboardBrowser *browser(int index = -1);
 
         /** Return tab index for browser widget (-1 if not found). */
         int tabIndex(const ClipboardBrowser *c) const;
@@ -274,6 +277,9 @@ class MainWindow : public QMainWindow
 
         /** Return browser containing item or NULL. */
         ClipboardBrowser *findBrowser(const QModelIndex &index);
+
+        /** Return browser widget in given tab @a index (or current tab). */
+        ClipboardBrowser *getBrowser(int index = -1) const;
 
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
