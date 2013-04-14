@@ -105,7 +105,9 @@ ItemFactory::ItemFactory()
                     log( pluginLoader.errorString(), LogError );
                 } else {
                     ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
-                    if (loader != NULL)
+                    if (loader == NULL)
+                        pluginLoader.unload();
+                    else
                         m_loaders.append(loader);
                 }
             }
