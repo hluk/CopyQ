@@ -27,6 +27,7 @@
 #include <QApplication>
 #include <QClipboard>
 #include <QLocalSocket>
+#include <QScopedPointer>
 
 class QMimeData;
 class QTimer;
@@ -61,11 +62,11 @@ public:
     }
 
     /** Change clipboard and primary selection content. */
-    void updateClipboard(QMimeData *data, bool force = false);
+    void updateClipboard(QMimeData *data = NULL);
 
 private:
     QStringList m_formats;
-    QMimeData *m_newdata;
+    QScopedPointer<QMimeData> m_newdata;
     bool m_checkclip;
 #ifdef COPYQ_WS_X11
     bool m_copyclip;
@@ -76,6 +77,7 @@ private:
 
     // don't allow rapid access to clipboard
     QTimer *m_updateTimer;
+    int m_checkMode;
 
 #ifdef COPYQ_WS_X11
     // stuff for X11 window system

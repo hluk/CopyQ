@@ -135,7 +135,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     : QObject()
     , App(new QApplication(argc, argv))
     , m_formats()
-    , m_newdata(NULL)
+    , m_newdata()
     , m_checkclip(false)
 #ifdef COPYQ_WS_X11
     , m_copyclip(false)
@@ -144,6 +144,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
     , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
+    , m_checkMode(-1)
 #ifdef COPYQ_WS_X11
     , m_x11(new PrivateX11)
 #endif
@@ -166,9 +167,9 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     COPYQ_LOG("Connected to server.");
 
     m_updateTimer->setSingleShot(true);
-    m_updateTimer->setInterval(500);
+    m_updateTimer->setInterval(300);
     connect( m_updateTimer, SIGNAL(timeout()),
-             this, SLOT(updateTimeout()), Qt::DirectConnection);
+             this, SLOT(updateTimeout()));
 
 #ifdef COPYQ_WS_X11
     connect( &m_x11->timer(), SIGNAL(timeout()),
@@ -208,6 +209,15 @@ void ClipboardMonitor::synchronize()
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
+    if ( m_updateTimer->isActive() ) {
+        // Check clipboard after interval because someone is updating it very quickly.
+        m_updateTimer->start();
+        m_checkMode = mode;
+        return;
+    }
+    m_updateTimer->start();
+    m_checkMode = -1;
+
     const QMimeData *data;
 
     COPYQ_LOG( QString("Checking for new %1 content.")
@@ -300,8 +310,12 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
 
 void ClipboardMonitor::updateTimeout()
 {
-    if (m_newdata)
-        updateClipboard(m_newdata, true);
+    if (m_checkMode != -1) {
+        checkClipboard(m_checkMode == QClipboard::Clipboard ? QClipboard::Clipboard
+                                                            : QClipboard::Selection);
+    } else if (m_newdata) {
+        updateClipboard();
+    }
 }
 
 void ClipboardMonitor::readyRead()
@@ -369,23 +383,23 @@ void ClipboardMonitor::readyRead()
     m_socket->blockSignals(false);
 }
 
-void ClipboardMonitor::updateClipboard(QMimeData *data, bool force)
+void ClipboardMonitor::updateClipboard(QMimeData *data)
 {
-    if (m_newdata && m_newdata != data)
-        delete m_newdata;
-
-    m_newdata = data;
-    if ( !force && m_updateTimer->isActive() )
+    if (data != NULL)
+        m_newdata.reset(data);
+    if ( m_updateTimer->isActive() )
         return;
 
     COPYQ_LOG("Updating clipboard");
 
-    setClipboardData(data, QClipboard::Clipboard);
 #ifdef COPYQ_WS_X11
-    setClipboardData(cloneData(*data), QClipboard::Selection);
+    setClipboardData(cloneData(*m_newdata), QClipboard::Selection);
 #endif
+    setClipboardData(m_newdata.take(), QClipboard::Clipboard);
 
-    m_newdata = NULL;
+    m_checkMode = -1;
+
+    m_newdata.reset();
 
     m_updateTimer->start();
 }
