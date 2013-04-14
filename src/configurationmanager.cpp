@@ -148,6 +148,7 @@ ConfigurationManager::ConfigurationManager()
     m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_7);
     m_options["next_item_shortcut"] = Option("", "text", ui->pushButton_8);
     m_options["previous_item_shortcut"] = Option("", "text", ui->pushButton_9);
+    m_options["paste_as_plain_text"] = Option("", "text", ui->pushButton_10);
 #endif
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
@@ -1007,6 +1008,11 @@ void ConfigurationManager::on_pushButton_8_clicked()
 void ConfigurationManager::on_pushButton_9_clicked()
 {
     shortcutButtonClicked(ui->pushButton_9);
+}
+
+void ConfigurationManager::on_pushButton_10_clicked()
+{
+    shortcutButtonClicked(ui->pushButton_10);
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(

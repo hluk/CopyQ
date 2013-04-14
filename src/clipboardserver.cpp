@@ -488,6 +488,13 @@ void ClipboardServer::loadSettings()
     args = createGlobalShortcut(key);
     if (args)
         args->append("previous");
+
+    key = cm->value("paste_as_plain_text").toString();
+    args = createGlobalShortcut(key);
+    if (args) {
+        args->append("eval");
+        args->append("copy(clipboard()); paste()");
+    }
 #endif
 
     // reload clipboard monitor configuration
