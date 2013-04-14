@@ -19,11 +19,13 @@
 
 #include "client_server.h"
 #include "clipboardbrowser.h"
+#include "clipboarditem.h"
 #include "configurationmanager.h"
 #include "mainwindow.h"
 #include "scriptable.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QApplication>
 #include <QDir>
@@ -104,6 +106,15 @@ QList<CommandHelp> commandHelp()
                        Scriptable::tr("Print X11 selection content."))
            .addArg("[" + Scriptable::tr("MIME") + "]")
     #endif
+        << CommandHelp("paste",
+                       Scriptable::tr("Paste clipboard to current window\n"
+                                      "(may not work with some applications)."))
+        << CommandHelp("copy", Scriptable::tr("Set clipboard text."))
+           .addArg(Scriptable::tr("TEXT"))
+        << CommandHelp("copy", Scriptable::tr("\nSet clipboard content."))
+           .addArg(Scriptable::tr("MIME"))
+           .addArg(Scriptable::tr("DATA"))
+           .addArg("[" + Scriptable::tr("MIME") + " " + Scriptable::tr("DATA") + "]...")
         << CommandHelp()
         << CommandHelp("length, count, size",
                        Scriptable::tr("Print number of items in history."))
@@ -500,6 +511,39 @@ QScriptValue Scriptable::selection()
 #endif
 
     return QScriptValue();
+}
+
+void Scriptable::copy()
+{
+    int args = argumentCount();
+
+    ClipboardItem item;
+    if (args == 1) {
+        QScriptValue value = argument(0);
+        QByteArray *bytes = toByteArray(value);
+        item.setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+    } else if (args % 2 == 1) {
+        for (int i = 0; i < args; ++i) {
+            // MIME
+            QString mime = toString(argument(i));
+
+            // DATA
+            QScriptValue value = argument(++i);
+            QByteArray *bytes = toByteArray(value);
+            item.setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+        }
+    } else {
+        throwError(argumentError());
+        return;
+    }
+
+    m_wnd->setClipboard(&item);
+}
+
+void Scriptable::paste()
+{
+    PlatformPtr platform = createPlatformNativeInterface();
+    platform->pasteToWindow(platform->getCurrentWindow());
 }
 
 QScriptValue Scriptable::tab()

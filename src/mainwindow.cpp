@@ -951,6 +951,15 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     setWindowTitle( tr("%1 - CopyQ").arg( format.arg(elideText(text, 30))) );
 }
 
+void MainWindow::setClipboard(const ClipboardItem *item)
+{
+    if (m_itemPopupInterval > 0 && !isVisible()) {
+        showMessage( tr("Clipboard"), elideText(item->text(), 256), QSystemTrayIcon::Information,
+                     m_itemPopupInterval * 1000 );
+    }
+    emit changeClipboard(item);
+}
+
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName, true);
@@ -1029,11 +1038,7 @@ void MainWindow::actionError(Action *action)
 
 void MainWindow::onChangeClipboardRequest(const ClipboardItem *item)
 {
-    if (m_itemPopupInterval > 0 && !isVisible()) {
-        showMessage( tr("Clipboard"), elideText(item->text(), 256), QSystemTrayIcon::Information,
-                     m_itemPopupInterval * 1000 );
-    }
-    emit changeClipboard(item);
+    setClipboard(item);
 }
 
 void MainWindow::enterSearchMode(const QString &txt)

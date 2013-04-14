@@ -247,6 +247,9 @@ class MainWindow : public QMainWindow
         /** Called after clipboard content changes. */
         void clipboardChanged(const ClipboardItem *item);
 
+        /** Set clipboard. */
+        void setClipboard(const ClipboardItem *item);
+
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
