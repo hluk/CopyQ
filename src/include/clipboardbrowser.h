@@ -98,7 +98,7 @@ class ClipboardBrowser : public QListView
         void clear();
 
         /**
-         * Moves an item to the top if exists.
+         * Select item with given @a hash and move it to clipboard.
          *
          * @return true only if item exists
          */
@@ -178,9 +178,7 @@ class ClipboardBrowser : public QListView
         /**
          * Add matching commands to menu.
          */
-        void addCommandsToMenu(
-                QMenu *menu,           ///< Menu to update.
-                QAction *insertBefore, ///< Insert items before this action (if NULL append items).
+        void addCommandsToMenu(QMenu *menu, ///< Insert items before this action (if NULL append items).
                 const QString &text,   ///< Text to match.
                 const QMimeData *data  ///< MIME types to match.
                 );

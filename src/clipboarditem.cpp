@@ -55,6 +55,7 @@ void ClipboardItem::clear()
 
 void ClipboardItem::setData(QMimeData *data)
 {
+    Q_ASSERT(data != NULL);
     delete m_data;
     m_data = data;
     updateDataHash();

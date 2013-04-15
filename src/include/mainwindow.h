@@ -32,6 +32,7 @@ class ActionDialog;
 class ClipboardBrowser;
 class ClipboardItem;
 class QMimeData;
+class TrayMenu;
 struct ClipboardBrowserShared;
 struct Command;
 
@@ -118,14 +119,12 @@ class MainWindow : public QMainWindow
         void keyPressEvent(QKeyEvent *event);
         void dragEnterEvent(QDragEnterEvent *event);
         void dropEvent(QDropEvent *event);
-        bool eventFilter(QObject *object, QEvent *event);
 
     public slots:
         /**
-         * Show tray menu.
-         * @return Window ID for the tray menu.
+         * Show/hide tray menu.
          */
-        void showMenu();
+        void toggleMenu();
 
         /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);
@@ -253,7 +252,7 @@ class MainWindow : public QMainWindow
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
-        void trayMenuAction();
+        void onTrayActionTriggered(uint clipboardItemHash);
         void enterSearchMode(const QString &txt);
         void tabChanged(int current);
         void tabMoved(int from, int to);
@@ -289,6 +288,7 @@ class MainWindow : public QMainWindow
         QMenu *itemCmdMenu;
         QMenu *cmdMenu;
         QMenu *itemMenu;
+        TrayMenu *trayMenu;
         QSystemTrayIcon *tray;
         bool m_browsemode;
         bool m_confirmExit;

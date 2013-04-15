@@ -336,8 +336,7 @@ void ClipboardBrowser::copyItemToClipboard(int d)
     }
 }
 
-void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, const QString &text,
-                                         const QMimeData *data)
+void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
         return;
@@ -346,6 +345,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, QAction *insertBefore, con
                 data->data(mimeWindowTitle).data() );
 
     bool isContextMenu = menu == m_menu;
+
+    QAction *insertBefore = NULL;
 
     int i = -1;
     foreach (const Command &command, m_sharedData->commands) {
@@ -403,7 +404,7 @@ void ClipboardBrowser::updateContextMenu()
 
     m_menu->addSeparator();
 
-    addCommandsToMenu(m_menu, NULL, selectedText(), getSelectedItemData());
+    addCommandsToMenu(m_menu, selectedText(), getSelectedItemData());
 }
 
 void ClipboardBrowser::onRowChanged(int row, const QSize &oldSize)
@@ -864,7 +865,9 @@ bool ClipboardBrowser::select(uint item_hash)
     if (row < 0)
         return false;
 
-    return m->move(row, 0);
+    setCurrent(row);
+    moveToClipboard(row);
+    return true;
 }
 
 void ClipboardBrowser::sortItems(const QModelIndexList &indexes)
@@ -984,6 +987,9 @@ void ClipboardBrowser::loadItems()
     m_timerSave->stop();
     setCurrentIndex( QModelIndex() );
     m_loaded = true;
+
+    scrollToTop();
+    scrollTo(currentIndex());
 }
 
 void ClipboardBrowser::saveItems()

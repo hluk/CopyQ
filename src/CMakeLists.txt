@@ -29,6 +29,7 @@ set(copyq_MOCABLE
     include/tabbar.h
     include/tabdialog.h
     include/tabwidget.h
+    include/traymenu.h
     )
 
 file(GLOB copyq_FORMS

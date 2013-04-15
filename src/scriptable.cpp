@@ -465,7 +465,7 @@ void Scriptable::toggle()
 
 void Scriptable::menu()
 {
-    m_wnd->showMenu();
+    m_wnd->toggleMenu();
     if (m_wnd->isTrayMenuVisible()) {
         QByteArray message = QByteArray::number((qlonglong)m_wnd->trayMenuWinId());
         sendMessage(message, CommandActivateWindow);

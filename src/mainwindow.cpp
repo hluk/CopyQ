@@ -35,9 +35,9 @@
 #include "platform/platformnativeinterface.h"
 #include "tabdialog.h"
 #include "tabwidget.h"
+#include "traymenu.h"
 
 #include <QCloseEvent>
-#include <QDesktopWidget>
 #include <QFile>
 #include <QFileDialog>
 #include <QMenu>
@@ -86,6 +86,7 @@ MainWindow::MainWindow(QWidget *parent)
     , aboutDialog(NULL)
     , cmdMenu(NULL)
     , itemMenu(NULL)
+    , trayMenu(new TrayMenu())
     , tray(NULL)
     , m_browsemode(false)
     , m_confirmExit(true)
@@ -112,6 +113,8 @@ MainWindow::MainWindow(QWidget *parent)
     // signals & slots
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
              this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
+    connect( trayMenu, SIGNAL(aboutToShow()),
+             this, SLOT(updateTrayMenuItems()) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int)),
              this, SLOT(tabChanged(int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
@@ -190,7 +193,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::createMenu()
 {
     QMenuBar *menubar = menuBar();
-    QMenu *traymenu = new QMenu(this);
     QMenu *menu;
     QAction *act;
 
@@ -198,31 +200,25 @@ void MainWindow::createMenu()
     menubar->clear();
     delete tray->contextMenu();
 
-    tray->setContextMenu(traymenu);
-    traymenu->installEventFilter(this);
+    tray->setContextMenu(trayMenu);
+    connect(trayMenu, SIGNAL(clipboardItemActionTriggered(uint)), SLOT(onTrayActionTriggered(uint)));
 
     connect( this, SIGNAL(editingActive(bool)),
              menubar, SLOT(setDisabled(bool)), Qt::UniqueConnection );
-
-    // items before the first separator in tray
-    traymenu->addSeparator();
-
-    // commands before the second separator in tray
-    traymenu->addSeparator();
 
     // File
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = traymenu->addAction( iconTray(), tr("&Show/Hide"),
+    act = trayMenu->addAction( iconTray(), tr("&Show/Hide"),
                            this, SLOT(toggleVisible()) );
-    traymenu->setDefaultAction(act);
+    trayMenu->setDefaultAction(act);
 
     // - separator
     menu->addSeparator();
 
     // - new
-    act = traymenu->addAction( iconNew(), tr("&New Item"),
+    act = trayMenu->addAction( iconNew(), tr("&New Item"),
                                this, SLOT(editNewItem()) );
     menu->addAction( act->icon(), act->text(),
                      this, SLOT(editNewItem()),
@@ -239,7 +235,7 @@ void MainWindow::createMenu()
                      QKeySequence::Save );
 
     // - action dialog
-    act = traymenu->addAction( iconAction(), tr("&Action..."),
+    act = trayMenu->addAction( iconAction(), tr("&Action..."),
                                this, SLOT(openActionDialog()) );
     act->setWhatsThis( tr("Open action dialog") );
 
@@ -247,14 +243,14 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - preferences
-    act = traymenu->addAction( iconPreferences(),
+    act = trayMenu->addAction( iconPreferences(),
                                tr("&Preferences"),
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
                      QKeySequence(tr("Ctrl+P")) );
 
     // - show clipboard content
-    act = traymenu->addAction( iconClipboard(),
+    act = trayMenu->addAction( iconClipboard(),
                                tr("Show &Clipboard Content"),
                                this, SLOT(showClipboardContent()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
@@ -324,11 +320,11 @@ void MainWindow::createMenu()
     // Commands
     cmdMenu = menubar->addMenu(tr("Co&mmands"));
     cmdMenu->setEnabled(false);
-    traymenu->addMenu(cmdMenu);
+    trayMenu->addMenu(cmdMenu);
 
     // Exit in tray menu
-    traymenu->addSeparator();
-    traymenu->addAction( iconExit(), tr("E&xit"),
+    trayMenu->addSeparator();
+    trayMenu->addAction( iconExit(), tr("E&xit"),
                          this, SLOT(exit()) );
 
     // Help
@@ -339,7 +335,7 @@ void MainWindow::createMenu()
     menu->addAction(act);
 
     // update tray menu before opening
-    connect( traymenu, SIGNAL(aboutToShow()),
+    connect( trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
 }
 
@@ -590,57 +586,6 @@ void MainWindow::dropEvent(QDropEvent *event)
     c->updateClipboard();
 }
 
-bool MainWindow::eventFilter(QObject *object, QEvent *event)
-{
-    if ( event->type() == QEvent::KeyPress ) {
-        QMenu *menu = tray->contextMenu();
-        if (object == menu) {
-            // tray menu key press event
-            QList<QAction *> actions = menu->actions();
-            if (actions.empty())
-                return false;
-
-            QKeyEvent *keyEvent = static_cast<QKeyEvent *>(event);
-            int k = keyEvent->key();
-
-            if (keyEvent->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= k && k <= Qt::Key_9) {
-                // Allow keypad digit to activate appropriate item in context menu.
-                const int id = k - Qt::Key_0;
-                QAction *act = actions.value(id, NULL);
-                if (act == NULL)
-                    return false;
-
-                QVariant data = act->data();
-                if ( !data.canConvert(QVariant::Int) || data.toInt() != id )
-                    return false;
-
-                act->trigger();
-                menu->hide();
-
-                return true;
-            } else {
-                // Movement in tray menu.
-                switch (k) {
-                case Qt::Key_PageDown:
-                case Qt::Key_End:
-                    menu->setActiveAction(actions.last());
-                    break;
-                case Qt::Key_PageUp:
-                case Qt::Key_Home:
-                    menu->setActiveAction(actions.first());
-                    break;
-                default:
-                    return false;
-                }
-
-                return true;
-            }
-        }
-    }
-
-    return false;
-}
-
 void MainWindow::resetStatus()
 {
     if ( !ui->searchBar->text().isEmpty() ) {
@@ -759,60 +704,29 @@ void MainWindow::showBrowser(const ClipboardBrowser *browser)
     }
 }
 
-void MainWindow::trayMenuAction()
+void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
-    QAction *act = qobject_cast<QAction *>(sender());
-    Q_ASSERT(act != NULL);
-
-    QVariant actionData = act->data();
-    Q_ASSERT( actionData.isValid() );
-
-    int row = actionData.toInt();
     ClipboardBrowser *c = browser();
-    if ( row < c->length() ) {
-        c->moveToClipboard(row);
-        if (m_trayItemPaste) {
-            QApplication::processEvents();
-            createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
-        }
-        tray->contextMenu()->close();
+    if (c->select(clipboardItemHash) && m_trayItemPaste) {
+        QApplication::processEvents();
+        createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
     }
 }
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
     if ( reason == QSystemTrayIcon::MiddleClick ) {
-        showMenu();
+        toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         toggleVisible();
     }
 }
 
-void MainWindow::showMenu()
+void MainWindow::toggleMenu()
 {
-    QMenu *menu = tray->contextMenu();
-
-    if ( menu->isVisible() ) {
-        menu->close();
-        return;
-    }
-
     PlatformPtr platform = createPlatformNativeInterface();
     m_pasteWindow = platform->getPasteWindow();
-
-    updateTrayMenuItems();
-
-    // open menu unser cursor
-    QPoint pos = QCursor::pos();
-    QRect screen = QApplication::desktop()->screenGeometry();
-    pos.setX(qMax(0, qMin(screen.width() - menu->width(), pos.x())));
-    pos.setY(qMax(0, qMin(screen.height() - menu->height(), pos.y())));
-    menu->popup(pos);
-
-    menu->raise();
-    menu->activateWindow();
-
-    createPlatformNativeInterface()->raiseWindow(menu->winId());
+    trayMenu->toggle();
 }
 
 void MainWindow::tabChanged(int current)
@@ -1079,7 +993,6 @@ void MainWindow::changeTrayIcon(const QIcon &icon)
 void MainWindow::updateTrayMenuItems()
 {
     QAction *act;
-    QMenu *menu = tray->contextMenu();
 
     ClipboardBrowser *c = NULL;
     if (m_trayCurrentTab) {
@@ -1088,72 +1001,16 @@ void MainWindow::updateTrayMenuItems()
         c = m_trayTabName.isEmpty() ? browser(0) : findTab(m_trayTabName);
     }
 
-    QList<QAction *> actions = menu->actions();
-    int i = 0;
-    int len = actions.size();
-
-    // Remove items.
-    for( ; i < len && !actions[i]->isSeparator(); ++i )
-        menu->removeAction(actions[i]);
-
-    QAction *sep = actions[i];
-
-    // Remove commands.
-    for( ++i ; i < len && !actions[i]->isSeparator(); ++i )
-        menu->removeAction(actions[i]);
-
-    QAction *sep2 = actions[i];
+    trayMenu->clearClipboardItemActions();
+    trayMenu->clearCustomActions();
 
     // Add items.
-    len = c != NULL ? qMin( m_trayItems, c->length() ) : 0;
-    unsigned char hint('0');
-    for( i = 0; i < len; ++i ) {
-        QString text = c->itemText(i);
-
-        if (hint <= '9') {
-            act = menu->addAction(QString('&') + hint + ". " + text);
-            ++hint;
-        } else {
-            act = menu->addAction(text);
-        }
-
-        act->setData( QVariant(i) );
-
-        menu->insertAction(sep, act);
-
-        elideText(act);
-
-        // Menu item icon from image.
-        if (m_trayImages) {
-            const QMimeData *data = c->itemData(i);
-            if (data != NULL) {
-                QStringList formats = data->formats();
-                int i = 0;
-                for ( ; i < formats.size(); ++i ) {
-                    if (formats[i].startsWith("image/"))
-                        break;
-                }
-                if (i < formats.size()) {
-                    QString &format = formats[i];
-                    QPixmap pix;
-                    pix.loadFromData( data->data(format), format.toLatin1().data() );
-                    const int iconSize = 24;
-                    int x = 0;
-                    int y = 0;
-                    if (pix.width() > pix.height()) {
-                        pix = pix.scaledToHeight(iconSize);
-                        x = (pix.width() - iconSize) / 2;
-                    } else {
-                        pix = pix.scaledToWidth(iconSize);
-                        y = (pix.height() - iconSize) / 2;
-                    }
-                    pix = pix.copy(x, y, iconSize, iconSize);
-                    act->setIcon(pix);
-                }
-            }
-        }
-
-        connect(act, SIGNAL(triggered()), this, SLOT(trayMenuAction()));
+    const int len = (c != NULL) ? qMin( m_trayItems, c->length() ) : 0;
+    const int current = c->currentIndex().row();
+    for ( int i = 0; i < len; ++i ) {
+        const ClipboardItem *item = c->at(i);
+        if (item != NULL)
+            trayMenu->addClipboardItemAction(*item, m_trayImages, i == current);
     }
 
     // Add commands.
@@ -1164,20 +1021,20 @@ void MainWindow::updateTrayMenuItems()
 
         // Show clipboard content as disabled item.
         QString text = data != NULL ? data->text() : c->selectedText();
-        act = menu->addAction(text);
+        act = trayMenu->addAction(text);
         act->setDisabled(true);
-        menu->insertAction(sep2, act);
+        trayMenu->addCustomAction(act);
         elideText(act);
 
-        c->addCommandsToMenu(menu, sep2, text, data);
+        int i = trayMenu->actions().size();
+        c->addCommandsToMenu(trayMenu, text, data);
+        QList<QAction *> actions = trayMenu->actions();
+        for ( ; i < actions.size(); ++i )
+            trayMenu->addCustomAction(actions[i]);
     }
 
-    // First action is active when menu pops up.
-    actions = menu->actions();
-    len = actions.size();
-    for( i = 0; i < len && (actions[i]->isSeparator() || !actions[i]->isEnabled()); ++i ) {}
-    if (i < len)
-        menu->setActiveAction(actions[i]);
+    if (trayMenu->activeAction() == NULL)
+        trayMenu->setActiveFirstEnabledAction();
 }
 
 void MainWindow::openAboutDialog()

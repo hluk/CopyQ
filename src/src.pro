@@ -46,6 +46,7 @@ HEADERS += \
     include/tabbar.h \
     include/tabdialog.h \
     include/tabwidget.h \
+    include/traymenu.h \
     platform/platformnativeinterface.h \
     ../qt/bytearrayclass.h \
     ../qt/bytearrayprototype.h \
@@ -81,6 +82,7 @@ SOURCES += \
     tabbar.cpp \
     tabdialog.cpp \
     tabwidget.cpp \
+    traymenu.cpp \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp
 
