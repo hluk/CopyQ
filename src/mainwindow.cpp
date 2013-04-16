@@ -109,12 +109,15 @@ MainWindow::MainWindow(QWidget *parent)
     // tray
     tray = new QSystemTrayIcon(this);
     tray->setIcon( iconTray() );
+    tray->setContextMenu(trayMenu);
 
     // signals & slots
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
              this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
     connect( trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
+    connect( trayMenu, SIGNAL(clipboardItemActionTriggered(uint)),
+             this, SLOT(onTrayActionTriggered(uint)) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int)),
              this, SLOT(tabChanged(int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
@@ -198,10 +201,7 @@ void MainWindow::createMenu()
 
     itemMenu = NULL;
     menubar->clear();
-    delete tray->contextMenu();
-
-    tray->setContextMenu(trayMenu);
-    connect(trayMenu, SIGNAL(clipboardItemActionTriggered(uint)), SLOT(onTrayActionTriggered(uint)));
+    trayMenu->clear();
 
     connect( this, SIGNAL(editingActive(bool)),
              menubar, SLOT(setDisabled(bool)), Qt::UniqueConnection );

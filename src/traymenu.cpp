@@ -73,8 +73,8 @@ QAction *lastEnabledAction(QMenu *menu)
 
 TrayMenu::TrayMenu(QWidget *parent)
     : QMenu(parent)
-    , m_clipboardItemActionsSeparator(addSeparator())
-    , m_customActionsSeparator(addSeparator())
+    , m_clipboardItemActionsSeparator()
+    , m_customActionsSeparator()
     , m_clipboardItemActions()
     , m_customActions()
 {
@@ -112,6 +112,7 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
 
     act->setData( QVariant(item.dataHash()) );
 
+    resetSeparators();
     insertAction(m_clipboardItemActionsSeparator, act);
 
     elideText(act);
@@ -152,6 +153,7 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
 void TrayMenu::addCustomAction(QAction *action)
 {
     m_customActions.append(action);
+    resetSeparators();
     insertAction(m_customActionsSeparator, action);
 }
 
@@ -211,6 +213,18 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
     }
 
     QMenu::keyPressEvent(event);
+}
+
+void TrayMenu::resetSeparators()
+{
+    if ( m_customActionsSeparator.isNull() ) {
+        QAction *firstAction = actions().value(0, NULL);
+        m_customActionsSeparator = firstAction != NULL ? insertSeparator(firstAction)
+                                                       : addSeparator();
+    }
+
+    if ( m_clipboardItemActionsSeparator.isNull() )
+        m_clipboardItemActionsSeparator = insertSeparator(m_customActionsSeparator);
 }
 
 void TrayMenu::onClipboardItemActionTriggered()

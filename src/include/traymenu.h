@@ -64,8 +64,10 @@ protected:
     void keyPressEvent(QKeyEvent *event);
 
 private:
-    QAction *m_clipboardItemActionsSeparator;
-    QAction *m_customActionsSeparator;
+    void resetSeparators();
+
+    QPointer<QAction> m_clipboardItemActionsSeparator;
+    QPointer<QAction> m_customActionsSeparator;
     QList<QPointer<QAction> > m_clipboardItemActions;
     QList<QPointer<QAction> > m_customActions;
 };
