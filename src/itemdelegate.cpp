@@ -28,8 +28,24 @@
 #include <QPlainTextEdit>
 #include <QResizeEvent>
 
+namespace {
+
 const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
+
+inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
+{
+#if QT_VERSION < 0x050000
+    if (value != NULL)
+        *ptr = QSharedPointer<ItemWidget>(value);
+    else
+        ptr->clear();
+#else
+    ptr->reset(value);
+#endif
+}
+
+} // namespace
 
 ItemDelegate::ItemDelegate(QWidget *parent)
     : QItemDelegate(parent)
@@ -200,7 +216,7 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     // - recalculate size only if item edited
     int row = a.row();
     if ( row == b.row() ) {
-        m_cache[row].reset();
+        reset(&m_cache[row]);
         emit sizeHintChanged(a);
     }
 }
@@ -357,7 +373,7 @@ void ItemDelegate::previousItemLoader(const QModelIndex &index)
 
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 {
-    m_cache[index.row()].reset(w);
+    reset(&m_cache[index.row()], w);
     if (w == NULL)
         return;
 
@@ -372,7 +388,7 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 void ItemDelegate::invalidateCache()
 {
     for( int i = 0; i < m_cache.length(); ++i )
-        m_cache[i].reset();
+        reset(&m_cache[i]);
 }
 
 void ItemDelegate::setSearch(const QRegExp &re)
