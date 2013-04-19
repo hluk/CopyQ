@@ -77,9 +77,11 @@ private:
 
     // don't allow rapid access to clipboard
     QTimer *m_updateTimer;
-    int m_checkMode;
+    bool m_needCheckClipboard;
 
 #ifdef COPYQ_WS_X11
+    bool m_needCheckSelection;
+
     // stuff for X11 window system
     PrivateX11* m_x11;
 #endif

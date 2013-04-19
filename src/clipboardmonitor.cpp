@@ -89,6 +89,7 @@ public:
 
     void synchronizeNone()
     {
+        Q_ASSERT( !isSynchronizing() );
         delete m_syncData;
         m_syncData = NULL;
         m_syncTimer.stop();
@@ -144,8 +145,9 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
     , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
-    , m_checkMode(-1)
+    , m_needCheckClipboard(false)
 #ifdef COPYQ_WS_X11
+    , m_needCheckSelection(false)
     , m_x11(new PrivateX11)
 #endif
 {
@@ -209,22 +211,28 @@ void ClipboardMonitor::synchronize()
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
-    if ( m_updateTimer->isActive() ) {
-        // Check clipboard after interval because someone is updating it very quickly.
-        m_updateTimer->start();
-        m_checkMode = mode;
+#ifdef COPYQ_WS_X11
+    if ( m_x11->isSynchronizing() )
         return;
-    }
-    m_updateTimer->start();
-    m_checkMode = -1;
+    m_x11->synchronizeNone();
+#endif
 
-    const QMimeData *data;
+    // Check clipboard after interval because someone is updating it very quickly.
+    bool needToWait = m_updateTimer->isActive();
+    if (mode == QClipboard::Clipboard)
+        m_needCheckClipboard = needToWait;
+#ifdef COPYQ_WS_X11
+    else if (mode == QClipboard::Selection)
+        m_needCheckSelection = needToWait;
+#endif
+
+    m_updateTimer->start();
+    if (needToWait)
+        return;
 
     COPYQ_LOG( QString("Checking for new %1 content.")
                .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
 #ifdef COPYQ_WS_X11
-    if ( m_x11->isSynchronizing() )
-        return;
     if (mode == QClipboard::Clipboard) {
         if ( (!m_checkclip && !m_copyclip) ||
              QApplication::clipboard()->ownsClipboard() )
@@ -251,7 +259,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #endif
 
     // get clipboard data
-    data = clipboardData(mode);
+    const QMimeData *data = clipboardData(mode);
 
     // data retrieved?
     if (!data) {
@@ -273,8 +281,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
                     platform->getWindowTitle(platform->getCurrentWindow()).toUtf8() );
 
 #ifdef COPYQ_WS_X11
-    m_x11->synchronizeNone();
-
     if (mode == QClipboard::Clipboard) {
         if (m_copyclip)
             m_x11->synchronize(data2, QClipboard::Selection);
@@ -310,9 +316,12 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
 
 void ClipboardMonitor::updateTimeout()
 {
-    if (m_checkMode != -1) {
-        checkClipboard(m_checkMode == QClipboard::Clipboard ? QClipboard::Clipboard
-                                                            : QClipboard::Selection);
+    if (m_needCheckClipboard) {
+        checkClipboard(QClipboard::Clipboard);
+#ifdef COPYQ_WS_X11
+    } else if (m_needCheckSelection) {
+        checkClipboard(QClipboard::Selection);
+#endif
     } else if (m_newdata) {
         updateClipboard();
     }
@@ -394,10 +403,10 @@ void ClipboardMonitor::updateClipboard(QMimeData *data)
 
 #ifdef COPYQ_WS_X11
     setClipboardData(cloneData(*m_newdata), QClipboard::Selection);
+    m_needCheckSelection = false;
 #endif
     setClipboardData(m_newdata.take(), QClipboard::Clipboard);
-
-    m_checkMode = -1;
+    m_needCheckClipboard = false;
 
     m_newdata.reset();
 
