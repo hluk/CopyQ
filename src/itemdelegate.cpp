@@ -136,7 +136,6 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
             ItemWidget *item = dynamic_cast<ItemWidget *>(object);
             if (item != NULL) {
                 item->widget()->resize(resize->size());
-                onItemChanged(item);
                 return true;
             }
         }
@@ -249,18 +248,6 @@ void ItemDelegate::editorCancel()
     emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
 }
 
-void ItemDelegate::onItemChanged(ItemWidget *item)
-{
-    for( int i = 0; i < m_cache.length(); ++i ) {
-        ItemWidget *w = m_cache[i];
-        if ( w != NULL && w == item ) {
-            QSize oldSize = w->widget()->size();
-            emit rowChanged(i, oldSize);
-            return;
-        }
-    }
-}
-
 void ItemDelegate::editingStarts()
 {
     emit editingActive(true);
@@ -311,10 +298,8 @@ void ItemDelegate::setItemMaximumSize(const QSize &size)
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
         if (w != NULL) {
-            QSize oldSize = w->widget()->size();
             w->widget()->setMaximumSize(m_maxSize);
             w->updateSize();
-            emit rowChanged(i, oldSize);
         }
     }
 }

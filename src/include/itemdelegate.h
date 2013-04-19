@@ -108,8 +108,6 @@ class ItemDelegate : public QItemDelegate
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
 
-        void rowChanged(int row, const QSize &oldSize);
-
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
                    const QModelIndex &index) const;
@@ -150,8 +148,6 @@ class ItemDelegate : public QItemDelegate
                        int destinationRow);
         void editorSave();
         void editorCancel();
-
-        void onItemChanged(ItemWidget *item);
 
     private slots:
         void editingStarts();

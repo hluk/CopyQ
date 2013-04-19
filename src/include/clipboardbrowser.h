@@ -210,12 +210,6 @@ class ClipboardBrowser : public QListView
         void updateScrollOffset(const QModelIndex &index, int oldSize);
 
         /**
-         * Cache given index.
-         * @return false only if index was already cached
-         */
-        bool fetchCacheForIndex(const QModelIndex &index);
-
-        /**
          * Connects signals and starts external editor.
          */
         bool startEditor(QObject *editor);
@@ -258,8 +252,6 @@ class ClipboardBrowser : public QListView
     private slots:
         void contextMenuAction();
         void updateContextMenu();
-
-        void onRowChanged(int row, const QSize &oldSize);
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
