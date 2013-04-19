@@ -22,6 +22,7 @@
 
 #include <QItemDelegate>
 #include <QRegExp>
+#include <QSharedPointer>
 
 class Item;
 class ItemWidget;
@@ -34,7 +35,7 @@ class ItemWidget;
  * To achieve better performance the first call to get sizeHint() value for
  * an item returns some default value (so it doesn't have to render all items).
  *
- * Before calling paint ()for an index item on given index must be cached
+ * Before calling paint() for an index item on given index must be cached
  * using cache().
  */
 class ItemDelegate : public QItemDelegate
@@ -126,14 +127,7 @@ class ItemDelegate : public QItemDelegate
         QFont m_numberFont;
         QPalette m_numberPalette;
 
-        // items drawn using QTextDocument
-        QList<ItemWidget*> m_cache;
-
-        /** Remove cached item for given @a row. */
-        void removeCache(int row);
-
-        /** Remove cached item for given @a index. */
-        void removeCache(const QModelIndex &index);
+        QList< QSharedPointer<ItemWidget> > m_cache;
 
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
