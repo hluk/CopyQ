@@ -66,7 +66,6 @@ class ClipboardBrowser : public QListView
             private:
                 ClipboardBrowser *c;
                 bool m_autoUpdate;
-                bool m_updates;
         };
 
         explicit ClipboardBrowser(QWidget *parent = NULL,
@@ -210,11 +209,6 @@ class ClipboardBrowser : public QListView
         bool isFiltered(int row) const;
 
         /**
-         * Update scroll offset if size of an item is changed or new item is added.
-         */
-        void updateScrollOffset(const QModelIndex &index, int oldSize);
-
-        /**
          * Connects signals and starts external editor.
          */
         bool startEditor(QObject *editor);
@@ -224,12 +218,14 @@ class ClipboardBrowser : public QListView
          */
         void copyItemToClipboard(int d);
 
+        void preload(int minY, int maxY);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
-        void paintEvent(QPaintEvent *event);
         void resizeEvent(QResizeEvent *event);
         void showEvent(QShowEvent *event);
+        void updateGeometries();
 
     signals:
         /** Action dialog requested. */
@@ -259,6 +255,8 @@ class ClipboardBrowser : public QListView
         void updateContextMenu();
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
+
+        void updateCurrentPage(bool force = false);
 
     public slots:
         /** Receive key event. */

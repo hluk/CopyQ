@@ -99,6 +99,9 @@ class ItemDelegate : public QItemDelegate
         /** Hide row. */
         void hideRow(int row);
 
+        /** Show/hide row. */
+        void setRowVisible(int row, bool visible);
+
         /** Use next item loader available for @a index. */
         void nextItemLoader(const QModelIndex &index);
 

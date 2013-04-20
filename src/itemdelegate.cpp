@@ -28,10 +28,13 @@
 #include <QPlainTextEdit>
 #include <QResizeEvent>
 
+Q_DECLARE_METATYPE(QModelIndex)
+
 namespace {
 
 const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
+const char propertyItemIndex[] = "itemIndex";
 
 inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 {
@@ -152,6 +155,8 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
             ItemWidget *item = dynamic_cast<ItemWidget *>(object);
             if (item != NULL) {
                 item->widget()->resize(resize->size());
+                QModelIndex index = item->widget()->property(propertyItemIndex).value<QModelIndex>();
+                emit sizeHintChanged(index);
                 return true;
             }
         }
@@ -284,11 +289,12 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
     int n = index.row();
 
     ItemWidget *w = m_cache[n].data();
-    if (w != NULL)
-        return w;
-
-    w = ItemFactory::instance()->createItem(index, m_parent);
-    setIndexWidget(index, w);
+    if (w == NULL) {
+        w = ItemFactory::instance()->createItem(index, m_parent);
+        setIndexWidget(index, w);
+    } else {
+        w->widget()->setProperty(propertyItemIndex, QVariant::fromValue(index));
+    }
 
     return w;
 }
@@ -344,11 +350,11 @@ void ItemDelegate::updateRowPosition(int row, const QPoint &position)
     }
 }
 
-void ItemDelegate::hideRow(int row)
+void ItemDelegate::setRowVisible(int row, bool visible)
 {
     ItemWidget *w = m_cache[row].data();
     if (w != NULL)
-        w->widget()->hide();
+        w->widget()->setVisible(visible);
 }
 
 void ItemDelegate::nextItemLoader(const QModelIndex &index)
@@ -379,10 +385,10 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     w->widget()->setMaximumSize(m_maxSize);
     w->updateSize();
+    w->widget()->installEventFilter(this);
+    w->widget()->setProperty(propertyItemIndex, QVariant::fromValue(index));
 
     emit sizeHintChanged(index);
-
-    w->widget()->installEventFilter(this);
 }
 
 void ItemDelegate::invalidateCache()
@@ -452,7 +458,4 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     QPalette palette = w->widget()->palette();
     palette.setColor( QPalette::Text, option.palette.color(role) );
     w->widget()->setPalette(palette);
-
-    /* render widget */
-    w->widget()->show();
 }

@@ -30,11 +30,9 @@
 #include "itemfactory.h"
 #include "itemwidget.h"
 
-#include <QElapsedTimer>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMimeData>
-#include <QScopedPointer>
 #include <QScrollBar>
 #include <QTimer>
 
@@ -95,7 +93,6 @@ void ClipboardBrowserShared::loadFromConfiguration()
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
 {
     m_autoUpdate = c->autoUpdate();
-    m_updates = c->updatesEnabled();
     c->setAutoUpdate(false);
     c->setUpdatesEnabled(false);
 }
@@ -103,7 +100,7 @@ ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
 ClipboardBrowser::Lock::~Lock()
 {
     c->setAutoUpdate(m_autoUpdate);
-    c->setUpdatesEnabled(m_updates);
+    c->setUpdatesEnabled(true);
 }
 
 ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)
@@ -142,7 +139,10 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     delete old_model;
 
     connect( d, SIGNAL(editingActive(bool)),
-             this, SIGNAL(editingActive(bool)) );
+             SIGNAL(editingActive(bool)) );
+
+    connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
+             SLOT(onSizeHintChanged(QModelIndex)) );
 
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              d, SLOT(rowsRemoved(QModelIndex,int,int)) );
@@ -160,6 +160,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
              SLOT(delayedSaveItems()) );
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              SLOT(delayedSaveItems()) );
+    connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
+             SLOT(updateCurrentPage()) );
 
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));
@@ -301,6 +303,89 @@ void ClipboardBrowser::copyItemToClipboard(int d)
     }
 }
 
+void ClipboardBrowser::preload(int minY, int maxY)
+{
+    ClipboardBrowser::Lock lock(this);
+
+    QModelIndex ind;
+    QRect rect;
+    int i = 0;
+
+    // Find first index to preload.
+    forever {
+        ind = index(i);
+        if ( !ind.isValid() )
+            return;
+
+        rect = visualRect(ind);
+        if ( !isIndexHidden(ind) && rect.y() + rect.height() >= 0 )
+            break;
+
+        d->setRowVisible(i, false);
+
+        ++i;
+    }
+
+    int y = rect.y();
+    int firstIndex = i;
+
+    if (i > 0 && minY < 0) {
+        ind = index(--i);
+        rect = visualRect(ind);
+
+        forever {
+            // Fetch item.
+            int h = d->hasCache(ind) ? rect.height() : d->cache(ind)->widget()->height();
+
+            // Done?
+            y -= 2 * spacing() + h;
+            if (y + h < minY)
+                break;
+
+            for ( ind = index(--i); ind.isValid() && isIndexHidden(ind); ind = index(--i) ) {}
+
+            if ( !ind.isValid() )
+                break;
+
+            rect = visualRect(ind);
+        }
+
+        if ( !ind.isValid() ) {
+            i = firstIndex;
+            ind = index(i);
+        }
+    }
+
+    // Render visible items forwards.
+    forever {
+        // Fetch item.
+        int h = d->hasCache(ind) ? rect.height() : d->cache(ind)->widget()->height();
+
+        // Correct position.
+        const int oldY = d->cache(ind)->widget()->y();
+        if (y != oldY)
+            d->updateRowPosition( i, QPoint(rect.x(), y) );
+
+        d->setRowVisible(i, true);
+
+        // Done?
+        y += 2 * spacing() + h;
+        if (y > maxY)
+            break;
+
+        for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
+
+        if ( !ind.isValid() )
+            break;
+
+        rect = visualRect(ind);
+    }
+
+    // Hide the rest.
+    for ( ++i ; i < m->rowCount(); ++i )
+        d->setRowVisible(i, false);
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -381,6 +466,12 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     delayedSaveItems();
 }
 
+void ClipboardBrowser::updateCurrentPage(bool force)
+{
+    if ((force || updatesEnabled()) && isVisible() && m_loaded)
+        preload(0, viewport()->contentsRect().height());
+}
+
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
     if ( !selectedIndexes().isEmpty() ) {
@@ -389,82 +480,12 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
     }
 }
 
-void ClipboardBrowser::paintEvent(QPaintEvent *event)
-{
-    QScopedPointer<ClipboardBrowser::Lock> lockPtr;
-
-    // Stop caching after elapsed time and at least one newly cached item.
-    static const qint64 maxElapsedMs = 100;
-    QElapsedTimer timer;
-    timer.start();
-
-    QRect cacheRect = event->rect();
-    int minY = cacheRect.y();
-    int maxY = cacheRect.y() + 2 * cacheRect.height();
-
-    QModelIndex ind;
-    QRect rect;
-    int i = 0;
-
-    // Find first index to render.
-    forever {
-        ind = index(i);
-        if ( !ind.isValid() )
-            return;
-
-        rect = visualRect(ind);
-        if ( !isIndexHidden(ind) && rect.y() + rect.height() >= minY )
-            break;
-
-        d->hideRow(i);
-
-        ++i;
-    }
-
-    int y = rect.y();
-
-    // Render visible items.
-    forever {
-        int h;
-        if ( d->hasCache(ind) ) {
-            h = rect.height();
-        } else {
-            if (lockPtr.isNull())
-                lockPtr.reset(new ClipboardBrowser::Lock(this));
-            h = d->cache(ind)->widget()->height();
-
-            if ( timer.hasExpired(maxElapsedMs) )
-                break;
-        }
-
-        y += 10 + h;
-        if ( rect.y() > maxY )
-            break;
-
-        if ( rect.y() != d->cache(ind)->widget()->y() ) {
-            if (lockPtr.isNull())
-                lockPtr.reset(new ClipboardBrowser::Lock(this));
-            d->updateRowPosition( i, rect.topLeft() );
-        }
-
-        for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
-
-        if ( !ind.isValid() )
-            break;
-
-        rect = visualRect(ind);
-    }
-
-    lockPtr.reset();
-
-    QListView::paintEvent(event);
-}
-
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
+
     if (m_sharedData->textWrap)
-        d->setItemMaximumSize( viewport()->contentsRect().size() );
+        d->setItemMaximumSize(viewport()->contentsRect().size());
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
@@ -476,7 +497,15 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
     if ( !d->hasCache(index(0)) )
         scrollToTop();
 
+    updateCurrentPage(true);
+
     QListView::showEvent(event);
+}
+
+void ClipboardBrowser::updateGeometries()
+{
+    updateCurrentPage();
+    QListView::updateGeometries();
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
@@ -581,7 +610,7 @@ void ClipboardBrowser::filterItems(const QString &str)
     for(int i = 0; i < m->rowCount(); ++i) {
         if ( isFiltered(i) ) {
             setRowHidden(i, true);
-            d->hideRow(i);
+            d->setRowVisible(i, false);
         } else if (first == -1) {
             first = i;
         }
@@ -690,38 +719,56 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
             QModelIndex current = currentIndex();
             int row = current.row();
+            const int h = viewport()->contentsRect().height();
             int d;
 
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
                 d = (key == Qt::Key_PageDown) ? 1 : -1;
-                const int h = viewport()->height();
+
                 QRect rect = visualRect(current);
 
                 if ( rect.height() > h && d < 0 ? rect.top() < 0 : rect.bottom() > h ) {
+                    // Scroll within long item.
                     QScrollBar *v = verticalScrollBar();
                     v->setValue( v->value() + d * v->pageStep() );
                     break;
                 }
 
-                int maxY = verticalOffset() + (d > 0 ? h : 0);
-                for ( int i = row + d; i >= 0 && i < model()->rowCount(); i += d ) {
-                    QModelIndex ind = index(i);
-                    if ( !isIndexHidden(ind) ) {
-                        const QRect rect = rectForIndex(ind);
-                        if ( d > 0 ? rect.y() >= maxY : rect.bottom() <= maxY ) {
-                            if ( row == current.row() )
-                                maxY += d * h - rect.height();
-                            else
-                                break;
-                        }
-                        row = i;
-                    }
+                if ( row == (d > 0 ? m->rowCount() - 1 : 0) )
+                    break; // Nothing to do.
+
+                const int minY = d > 0 ? 0 : -h;
+                preload(minY, minY + 2 * h);
+                doItemsLayout();
+
+                rect = visualRect(current);
+
+                const int s = spacing();
+                const int fromY = d > 0 ? qMax(0, rect.bottom()) : qMin(h, rect.y());
+                const int y = fromY + d * h;
+                QModelIndex ind = indexAt(QPoint(s, y));
+                if (!ind.isValid()) {
+                    ind = indexAt(QPoint(s, y + 2 * s));
+                    if (!ind.isValid())
+                        ind = index(d > 0 ? m->rowCount() - 1 : 0);
                 }
+
+                QRect rect2 = visualRect(ind);
+                if (d > 0 && rect2.y() > h && rect2.bottom() - rect.bottom() > h && row + 1 < ind.row())
+                    row = ind.row() - 1;
+                else if (d < 0 && rect2.bottom() < 0 && rect.y() - rect2.y() > h && row - 1 > ind.row())
+                    row = ind.row() + 1;
+                else
+                    row = d > 0 ? qMax(current.row() + 1, ind.row()) : qMin(current.row() - 1, ind.row());
             } else {
                 if (key == Qt::Key_Up) {
                     --row;
+                    preload(-h, h);
+                    doItemsLayout();
                 } else if (key == Qt::Key_Down) {
                     ++row;
+                    preload(0, 2 * h);
+                    doItemsLayout();
                 } else {
                     if (key == Qt::Key_End) {
                         row = model()->rowCount() - 1;
