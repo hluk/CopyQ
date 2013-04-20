@@ -655,7 +655,8 @@ void Scriptable::insert()
     data->setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
     c->add(data, true, row);
 
-    c->updateClipboard();
+    if (row == 0)
+        c->updateClipboard();
     c->delayedSaveItems(1000);
 }
 
