@@ -494,7 +494,7 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 
     if (!currentIndex().isValid())
         setCurrent(0);
-    if ( !d->hasCache(index(0)) )
+    if ( m->rowCount() > 0 && !d->hasCache(index(0)) )
         scrollToTop();
 
     updateCurrentPage(true);
