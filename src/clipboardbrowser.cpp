@@ -112,6 +112,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m( new ClipboardModel(this) )
     , d( new ItemDelegate(viewport()) )
     , m_timerSave( new QTimer(this) )
+    , m_timerScroll( new QTimer(this) )
     , m_menu( new QMenu(this) )
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
 {
@@ -130,6 +131,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     connect( m_timerSave, SIGNAL(timeout()),
              this, SLOT(saveItems()) );
 
+    m_timerScroll->setSingleShot(true);
+    m_timerScroll->setInterval(50);
+
     // delegate for rendering and editing items
     setItemDelegate(d);
 
@@ -140,9 +144,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     connect( d, SIGNAL(editingActive(bool)),
              SIGNAL(editingActive(bool)) );
-
-    connect( d, SIGNAL(sizeHintChanged(QModelIndex)),
-             SLOT(onSizeHintChanged(QModelIndex)) );
 
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              d, SLOT(rowsRemoved(QModelIndex,int,int)) );
@@ -160,8 +161,20 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
              SLOT(delayedSaveItems()) );
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              SLOT(delayedSaveItems()) );
+
+    // update on change
+    connect( d, SIGNAL(rowSizeChanged(int)),
+             SLOT(onRowSizeChanged(int)) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(updateCurrentPage()) );
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(updateCurrentPage()) );
+    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+             SLOT(updateCurrentPage()) );
     connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
              SLOT(updateCurrentPage()) );
+    connect( verticalScrollBar(), SIGNAL(rangeChanged(int,int)),
+             SLOT(updateCurrentPage()), Qt::QueuedConnection );
 
     connect( this, SIGNAL(doubleClicked(QModelIndex)),
             SLOT(moveToClipboard(QModelIndex)));
@@ -308,8 +321,14 @@ void ClipboardBrowser::preload(int minY, int maxY)
     ClipboardBrowser::Lock lock(this);
 
     QModelIndex ind;
-    QRect rect;
     int i = 0;
+    int y = spacing();
+    const int s = 2 * spacing();
+    const int offset = verticalOffset();
+
+    // Start preloading from current item and keep relative scroll offset.
+    const int currentY = visualRect(currentIndex()).y();
+    bool currentIsVisible = currentY > 0 && currentY < viewport()->contentsRect().height();
 
     // Find first index to preload.
     forever {
@@ -317,73 +336,88 @@ void ClipboardBrowser::preload(int minY, int maxY)
         if ( !ind.isValid() )
             return;
 
-        rect = visualRect(ind);
-        if ( !isIndexHidden(ind) && rect.y() + rect.height() >= 0 )
-            break;
+        if ( !isIndexHidden(ind) ) {
+            const int h = d->sizeHint(ind).height();
+            if (y + h >= offset)
+                break;
+            y += s + h;
+        }
 
         d->setRowVisible(i, false);
 
         ++i;
     }
 
-    int y = rect.y();
-    int firstIndex = i;
+    // Absolute to relative.
+    y -= offset;
 
-    if (i > 0 && minY < 0) {
-        ind = index(--i);
-        rect = visualRect(ind);
-
+    // Preload items backwards and correct scroll offset.
+    if (i > 0) {
         forever {
-            // Fetch item.
-            int h = d->hasCache(ind) ? rect.height() : d->cache(ind)->widget()->height();
-
-            // Done?
-            y -= 2 * spacing() + h;
-            if (y + h < minY)
-                break;
-
+            const int lastIndex = i;
             for ( ind = index(--i); ind.isValid() && isIndexHidden(ind); ind = index(--i) ) {}
 
-            if ( !ind.isValid() )
+            if ( !ind.isValid() ) {
+                i = lastIndex;
+                ind = index(i);
                 break;
+            }
 
-            rect = visualRect(ind);
-        }
+            // Fetch item.
+            const int h = d->cache(ind)->widget()->height();
 
-        if ( !ind.isValid() ) {
-            i = firstIndex;
-            ind = index(i);
+            // Done?
+            y -= s + h;
+            if (y + h < minY)
+                break;
         }
     }
+
+    bool update = false;
+    bool lastToPreload = false;
 
     // Render visible items forwards.
     forever {
         // Fetch item.
-        int h = d->hasCache(ind) ? rect.height() : d->cache(ind)->widget()->height();
+        const int h = d->cache(ind)->widget()->height();
 
         // Correct position.
-        const int oldY = d->cache(ind)->widget()->y();
-        if (y != oldY)
-            d->updateRowPosition( i, QPoint(rect.x(), y) );
+        if (y != d->cache(ind)->widget()->y())
+            d->updateRowPosition( i, QPoint(spacing(), y) );
 
         d->setRowVisible(i, true);
 
+        // Re-layout items afterwards if item position changed.
+        if (!update && y != visualRect(ind).y()) {
+            currentIsVisible = currentIsVisible && y < 0;
+            update = true;
+        }
+
         // Done?
-        y += 2 * spacing() + h;
-        if (y > maxY)
-            break;
+        y += s + h;
+        if (y > maxY) {
+            if (lastToPreload)
+                break;
+            lastToPreload = true; // One more item to preload.
+        }
 
         for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
 
         if ( !ind.isValid() )
             break;
-
-        rect = visualRect(ind);
     }
 
     // Hide the rest.
     for ( ++i ; i < m->rowCount(); ++i )
         d->setRowVisible(i, false);
+
+    if (update) {
+        scheduleDelayedItemsLayout();
+        if (currentIsVisible) {
+            scrollTo(currentIndex(), currentY <= s ? QAbstractItemView::PositionAtTop
+                                                   : QAbstractItemView::PositionAtCenter);
+        }
+    }
 }
 
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
@@ -464,12 +498,24 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
         updateClipboard();
     d->dataChanged(a, b);
     delayedSaveItems();
+
+    updateCurrentPage();
 }
 
-void ClipboardBrowser::updateCurrentPage(bool force)
+void ClipboardBrowser::onRowSizeChanged(int row)
 {
-    if ((force || updatesEnabled()) && isVisible() && m_loaded)
-        preload(0, viewport()->contentsRect().height());
+    if ( updatesEnabled() && visualRect(index(row)).intersects(viewport()->contentsRect()) ) {
+        updateCurrentPage();
+        scheduleDelayedItemsLayout();
+    }
+}
+
+void ClipboardBrowser::updateCurrentPage()
+{
+    if ( !m_loaded && !m_id.isEmpty() )
+        return; // Items not loaded yet.
+    if ( isVisible() )
+        preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
 }
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
@@ -486,6 +532,8 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
     if (m_sharedData->textWrap)
         d->setItemMaximumSize(viewport()->contentsRect().size());
+
+    updateCurrentPage();
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
@@ -497,15 +545,9 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
     if ( m->rowCount() > 0 && !d->hasCache(index(0)) )
         scrollToTop();
 
-    updateCurrentPage(true);
+    updateCurrentPage();
 
     QListView::showEvent(event);
-}
-
-void ClipboardBrowser::updateGeometries()
-{
-    updateCurrentPage();
-    QListView::updateGeometries();
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
@@ -617,6 +659,7 @@ void ClipboardBrowser::filterItems(const QString &str)
     }
     // select first visible
     setCurrentIndex( index(first) );
+    updateCurrentPage();
 }
 
 void ClipboardBrowser::moveToClipboard()
@@ -680,10 +723,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Up:
         case Qt::Key_End:
         case Qt::Key_Home:
-            if ( autoUpdate() && m->moveItems(selectedIndexes(), key) )
+            if ( m->moveItems(selectedIndexes(), key) && autoUpdate() )
                 updateClipboard();
             scrollTo( currentIndex() );
-            event->accept();
             break;
 
         // cycle formats
@@ -696,7 +738,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 else
                     d->nextItemLoader(index);
             }
-            event->accept();
             break;
         }
 
@@ -715,14 +756,19 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
         case Qt::Key_Home:
         case Qt::Key_End: {
-            event->accept();
-
             QModelIndex current = currentIndex();
             int row = current.row();
             const int h = viewport()->contentsRect().height();
             int d;
 
             if (key == Qt::Key_PageDown || key == Qt::Key_PageUp) {
+                event->accept();
+
+                // Disallow fast page up/down too keep application responsive.
+                if (m_timerScroll->isActive())
+                    break;
+                m_timerScroll->start();
+
                 d = (key == Qt::Key_PageDown) ? 1 : -1;
 
                 QRect rect = visualRect(current);
@@ -739,7 +785,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
                 const int minY = d > 0 ? 0 : -h;
                 preload(minY, minY + 2 * h);
-                doItemsLayout();
+                executeDelayedItemsLayout();
 
                 rect = visualRect(current);
 
@@ -763,12 +809,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             } else {
                 if (key == Qt::Key_Up) {
                     --row;
-                    preload(-h, h);
-                    doItemsLayout();
                 } else if (key == Qt::Key_Down) {
                     ++row;
-                    preload(0, 2 * h);
-                    doItemsLayout();
                 } else {
                     if (key == Qt::Key_End) {
                         row = model()->rowCount() - 1;
@@ -1005,6 +1047,8 @@ void ClipboardBrowser::loadSettings()
 
     // re-create menu
     createContextMenu();
+
+    updateCurrentPage();
 }
 
 void ClipboardBrowser::loadItems()

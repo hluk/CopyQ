@@ -28,8 +28,6 @@
 #include <QPlainTextEdit>
 #include <QResizeEvent>
 
-Q_DECLARE_METATYPE(QModelIndex)
-
 namespace {
 
 const QSize defaultSize(0, 512);
@@ -62,6 +60,7 @@ ItemDelegate::ItemDelegate(QWidget *parent)
     , m_editorFont()
     , m_editorPalette()
     , m_numberFont()
+    , m_numberWidth(0)
     , m_numberPalette()
     , m_cache()
 {
@@ -155,8 +154,8 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
             ItemWidget *item = dynamic_cast<ItemWidget *>(object);
             if (item != NULL) {
                 item->widget()->resize(resize->size());
-                QModelIndex index = item->widget()->property(propertyItemIndex).value<QModelIndex>();
-                emit sizeHintChanged(index);
+                int i = item->widget()->property(propertyItemIndex).toInt();
+                emit rowSizeChanged(i);
                 return true;
             }
         }
@@ -222,7 +221,7 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     int row = a.row();
     if ( row == b.row() ) {
         reset(&m_cache[row]);
-        emit sizeHintChanged(a);
+        emit rowSizeChanged(a.row());
     }
 }
 
@@ -293,7 +292,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
         w = ItemFactory::instance()->createItem(index, m_parent);
         setIndexWidget(index, w);
     } else {
-        w->widget()->setProperty(propertyItemIndex, QVariant::fromValue(index));
+        w->widget()->setProperty(propertyItemIndex, index.row());
     }
 
     return w;
@@ -307,9 +306,8 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
 void ItemDelegate::setItemMaximumSize(const QSize &size)
 {
     int w = size.width() - 8;
-    if (m_showNumber) {
-        w -= QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
-    }
+    if (m_showNumber)
+        w -= m_numberWidth;
 
     if (m_maxSize.width() == w)
         return;
@@ -335,7 +333,7 @@ void ItemDelegate::updateRowPosition(int row, const QPoint &position)
     int y = position.y();
 
     if (m_showNumber)
-        x += QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
+        x += m_numberWidth;
 
     w->widget()->move(x, y);
 
@@ -386,9 +384,9 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     w->widget()->setMaximumSize(m_maxSize);
     w->updateSize();
     w->widget()->installEventFilter(this);
-    w->widget()->setProperty(propertyItemIndex, QVariant::fromValue(index));
+    w->widget()->setProperty(propertyItemIndex, index.row());
 
-    emit sizeHintChanged(index);
+    emit rowSizeChanged(index.row());
 }
 
 void ItemDelegate::invalidateCache()
@@ -417,6 +415,7 @@ void ItemDelegate::setEditorStyle(const QFont &font, const QPalette &palette)
 void ItemDelegate::setNumberStyle(const QFont &font, const QPalette &palette)
 {
     m_numberFont = font;
+    m_numberWidth = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
     m_numberPalette = palette;
 }
 

@@ -200,6 +200,7 @@ class ClipboardBrowser : public QListView
         ClipboardModel *m;
         ItemDelegate *d;
         QTimer *m_timerSave;
+        QTimer *m_timerScroll;
 
         QMenu *m_menu;
 
@@ -218,6 +219,9 @@ class ClipboardBrowser : public QListView
          */
         void copyItemToClipboard(int d);
 
+        /**
+         * Preload items in given range (relative to current scroll offset).
+         */
         void preload(int minY, int maxY);
 
     protected:
@@ -225,7 +229,6 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void resizeEvent(QResizeEvent *event);
         void showEvent(QShowEvent *event);
-        void updateGeometries();
 
     signals:
         /** Action dialog requested. */
@@ -256,7 +259,9 @@ class ClipboardBrowser : public QListView
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
-        void updateCurrentPage(bool force = false);
+        void onRowSizeChanged(int row);
+
+        void updateCurrentPage();
 
     public slots:
         /** Receive key event. */

@@ -112,6 +112,9 @@ class ItemDelegate : public QItemDelegate
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
 
+        /** Emitted if @a row size changes. */
+        void rowSizeChanged(int row);
+
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,
                    const QModelIndex &index) const;
@@ -128,6 +131,7 @@ class ItemDelegate : public QItemDelegate
         QFont m_editorFont;
         QPalette m_editorPalette;
         QFont m_numberFont;
+        int m_numberWidth;
         QPalette m_numberPalette;
 
         QList< QSharedPointer<ItemWidget> > m_cache;
