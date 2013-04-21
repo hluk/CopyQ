@@ -578,8 +578,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>98</width>
-                <height>28</height>
+                <width>335</width>
+                <height>321</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -893,6 +893,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </item>
            <item row="9" column="1">
             <widget class="QPushButton" name="pushButton_10">
+             <property name="toolTip">
+              <string>Paste current clipboard content as plain text (i.e. remove formating).</string>
+             </property>
              <property name="text">
               <string/>
              </property>
@@ -933,8 +936,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>212</width>
-              <height>322</height>
+              <width>241</width>
+              <height>399</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

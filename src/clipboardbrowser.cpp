@@ -264,11 +264,11 @@ void ClipboardBrowser::createContextMenu()
     act->setShortcut( QString("F5") );
     connect(act, SIGNAL(triggered()), this, SLOT(action()));
 
-    act = m_menu->addAction( iconNextToClipboard(), tr("&Next to Clipboard...") );
+    act = m_menu->addAction( iconNextToClipboard(), tr("&Next to Clipboard") );
     act->setShortcut( QString("Ctrl+Shift+N") );
     connect(act, SIGNAL(triggered()), this, SLOT(copyNextItemToClipboard()));
 
-    act = m_menu->addAction( iconPreviousToClipboard(), tr("&Previous to Clipboard...") );
+    act = m_menu->addAction( iconPreviousToClipboard(), tr("&Previous to Clipboard") );
     act->setShortcut( QString("Ctrl+Shift+P") );
     connect(act, SIGNAL(triggered()), this, SLOT(copyPreviousItemToClipboard()));
 
