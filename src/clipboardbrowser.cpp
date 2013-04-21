@@ -646,9 +646,11 @@ void ClipboardBrowser::filterItems(const QString &str)
     // if search string empty: all items visible
     d->setSearch(m_lastFilter);
 
+    // row to select
+    int first = str.isEmpty() ? currentIndex().row() : -1;
+
     // hide filtered items
     reset();
-    int first = -1;
     for(int i = 0; i < m->rowCount(); ++i) {
         if ( isFiltered(i) ) {
             setRowHidden(i, true);
