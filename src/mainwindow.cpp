@@ -386,23 +386,29 @@ ClipboardBrowser *MainWindow::getBrowser(int index) const
 
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
+    int i = findTabIndex(name);
+    return i != -1 ? browser(i) : NULL;
+}
+
+int MainWindow::findTabIndex(const QString &name)
+{
     TabWidget *w = ui->tabWidget;
 
     for( int i = 0; i < w->count(); ++i )
         if ( name == w->tabText(i) )
-            return browser(i);
+            return i;
 
-    return NULL;
+    return -1;
 }
 
 ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
 {
     /* check name */
-    ClipboardBrowser *c = findTab(name);
-    if (c != NULL)
-        return c;
+    int i = findTabIndex(name);
+    if (i != -1)
+        return getBrowser(i);
 
-    c = new ClipboardBrowser(this, m_sharedData);
+    ClipboardBrowser *c = new ClipboardBrowser(this, m_sharedData);
     c->setID(name);
     c->loadSettings();
     c->setAutoUpdate(true);

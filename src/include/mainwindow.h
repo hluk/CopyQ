@@ -86,9 +86,16 @@ class MainWindow : public QMainWindow
 
         /**
          * Find tab with given @a name.
+         * Load items if not loaded yet.
          * @return found tab or NULL
          */
         ClipboardBrowser *findTab(const QString &name);
+
+        /**
+         * Find tab with given @a name.
+         * @return found tab index or -1
+         */
+        int findTabIndex(const QString &name);
 
         /**
          * Create tab with given @a name if it doesn't exist.
