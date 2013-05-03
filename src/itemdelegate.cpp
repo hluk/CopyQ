@@ -73,8 +73,13 @@ ItemDelegate::~ItemDelegate()
 
 QSize ItemDelegate::sizeHint(const QModelIndex &index) const
 {
-    const ItemWidget *w = m_cache.value(index.row()).data();
-    return (w != NULL) ? w->widget()->size() : defaultSize;
+    int row = index.row();
+    if ( row < m_cache.size() ) {
+        const ItemWidget *w = m_cache[row].data();
+        if (w != NULL)
+            return w->widget()->size();
+    }
+    return defaultSize;
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
