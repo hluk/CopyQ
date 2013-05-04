@@ -176,9 +176,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     connect( verticalScrollBar(), SIGNAL(rangeChanged(int,int)),
              SLOT(updateCurrentPage()), Qt::QueuedConnection );
 
-    connect( this, SIGNAL(doubleClicked(QModelIndex)),
-            SLOT(moveToClipboard(QModelIndex)));
-
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 

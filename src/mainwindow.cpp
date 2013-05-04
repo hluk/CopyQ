@@ -97,6 +97,9 @@ MainWindow::MainWindow(QWidget *parent)
     , m_itemPopupInterval(0)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
+    , m_activateCloses(true)
+    , m_activateFocuses(false)
+    , m_activatePastes(false)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayItemPaste(true)
@@ -431,6 +434,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(requestHide()),
              this, SLOT(close()) );
+    connect( c, SIGNAL(doubleClicked(QModelIndex)),
+             this, SLOT(activateCurrentItem()) );
     connect( c, SIGNAL(addToTab(const QMimeData*,const QString&)),
              this, SLOT(addToTab(const QMimeData*,const QString&)),
              Qt::DirectConnection );
@@ -539,13 +544,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            // move current item to clipboard and hide window
-            if ( c->selectionModel()->selectedIndexes().count() > 1 )
-                c->add( c->selectedText() );
-            else
-                c->moveToClipboard( c->currentIndex() );
-            resetStatus();
-            close();
+            activateCurrentItem();
             break;
 
         case Qt::Key_F3:
@@ -647,6 +646,10 @@ void MainWindow::loadSettings()
     }
     cm->setTabs(tabs);
 
+    m_activateCloses = cm->value("activate_closes").toBool();
+    m_activateFocuses = cm->value("activate_focuses").toBool();
+    m_activatePastes = cm->value("activate_pastes").toBool();
+
     m_trayItems = cm->value("tray_items").toInt();
     m_trayItemPaste = cm->value("tray_item_paste").toBool();
     m_trayCommands = cm->value("tray_commands").toBool();
@@ -670,6 +673,8 @@ void MainWindow::showWindow()
            correct position */
         QApplication::processEvents();
     }
+
+    m_pasteWindow = createPlatformNativeInterface()->getPasteWindow();
 
     showNormal();
     raise();
@@ -878,6 +883,29 @@ void MainWindow::setClipboard(const ClipboardItem *item)
                      m_itemPopupInterval * 1000 );
     }
     emit changeClipboard(item);
+}
+
+void MainWindow::activateCurrentItem()
+{
+    // Copy current item or selection to clipboard.
+    ClipboardBrowser *c = browser();
+    if ( c->selectionModel()->selectedIndexes().count() > 1 )
+        c->add( c->selectedText() );
+    else
+        c->moveToClipboard( c->currentIndex() );
+
+    resetStatus();
+
+    // Perform custom actions on item activation.
+    if (m_activateCloses)
+        close();
+    if (m_activateFocuses || m_activatePastes) {
+        PlatformPtr platform = createPlatformNativeInterface();
+        if (m_activateFocuses)
+            platform->raiseWindow(m_pasteWindow);
+        if (m_activatePastes)
+            platform->pasteToWindow(m_pasteWindow);
+    }
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)

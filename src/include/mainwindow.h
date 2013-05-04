@@ -256,6 +256,9 @@ class MainWindow : public QMainWindow
         /** Set clipboard. */
         void setClipboard(const ClipboardItem *item);
 
+        /** Activate current item. */
+        void activateCurrentItem();
+
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
@@ -307,6 +310,10 @@ class MainWindow : public QMainWindow
         int m_itemPopupInterval;
         int m_lastTab;
         QTimer *m_timerSearch;
+
+        bool m_activateCloses;
+        bool m_activateFocuses;
+        bool m_activatePastes;
 
         QMap<Action*, QAction*> m_actions;
 

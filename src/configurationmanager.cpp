@@ -123,6 +123,10 @@ ConfigurationManager::ConfigurationManager()
     m_options["tab_position"] = Option(0, "currentIndex", ui->comboBoxTabPosition);
     m_options["text_wrap"] = Option(true, "checked", ui->checkBoxTextWrap);
 
+    m_options["activate_closes"] = Option(true, "checked", ui->checkBoxActivateCloses);
+    m_options["activate_focuses"] = Option(false, "checked", ui->checkBoxActivateFocuses);
+    m_options["activate_pastes"] = Option(false, "checked", ui->checkBoxActivatePastes);
+
     m_options["tray_items"] = Option(5, "value", ui->spinBoxTrayItems);
     m_options["tray_item_paste"] = Option(true, "checked", ui->checkBoxPasteMenuItem);
     m_options["tray_commands"] = Option(true, "checked", ui->checkBoxTrayShowCommands);

@@ -234,7 +234,7 @@
          <string>&amp;History</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="3" column="0">
+         <item row="6" column="0">
           <widget class="QGroupBox" name="groupBox_2">
            <property name="title">
             <string>Formats of clipboard content to save and display</string>
@@ -296,6 +296,64 @@
              </widget>
             </item>
            </layout>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>After item is activated...</string>
+           </property>
+           <layout class="QHBoxLayout" name="horizontalLayout_11">
+            <item>
+             <widget class="QCheckBox" name="checkBoxActivateCloses">
+              <property name="toolTip">
+               <string>Close main window after item is activated.</string>
+              </property>
+              <property name="text">
+               <string>&amp;Close main window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBoxActivateFocuses">
+              <property name="toolTip">
+               <string>Focus last window after item is activated.</string>
+              </property>
+              <property name="text">
+               <string>&amp;Focus last window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBoxActivatePastes">
+              <property name="toolTip">
+               <string>Paste to current window after item is activated.</string>
+              </property>
+              <property name="text">
+               <string>&amp;Paste to current window</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="checkBoxMove">
+           <property name="text">
+            <string>Move item to the top of list on Return key and double-click</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
+           <property name="toolTip">
+            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
+           </property>
+           <property name="text">
+            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
+           </property>
           </widget>
          </item>
          <item row="0" column="0">
@@ -408,25 +466,6 @@ Set to 0 to disable this.</string>
             </layout>
            </item>
           </layout>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
-           <property name="toolTip">
-            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
-           </property>
-           <property name="text">
-            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="checkBoxMove">
-           <property name="text">
-            <string>Move item to the top of list on Return key and double-click</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>
@@ -1213,6 +1252,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>spinBoxItemPopupInterval</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>checkBoxMove</tabstop>
+  <tabstop>checkBoxActivateCloses</tabstop>
+  <tabstop>checkBoxActivateFocuses</tabstop>
+  <tabstop>checkBoxActivatePastes</tabstop>
   <tabstop>pushButtonPluginPriorityUp</tabstop>
   <tabstop>pushButtonPluginPriorityDown</tabstop>
   <tabstop>tabWidgetPlugins</tabstop>
