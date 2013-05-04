@@ -343,8 +343,9 @@ ClipboardBrowser *Scriptable::currentTab()
 {
     if ( m_currentTab.isEmpty() )
         return m_wnd->browser(0);
-    else
-        return m_wnd->createTab(m_currentTab, true);
+
+    int i = m_wnd->findTabIndex(m_currentTab);
+    return (i != -1) ? m_wnd->browser(i) : m_wnd->createTab(m_currentTab, true);
 }
 
 const QString &Scriptable::getCurrentTab() const
