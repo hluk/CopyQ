@@ -336,10 +336,6 @@ void MainWindow::createMenu()
                            this, SLOT(openAboutDialog()),
                            QKeySequence::HelpContents );
     menu->addAction(act);
-
-    // update tray menu before opening
-    connect( trayMenu, SIGNAL(aboutToShow()),
-             this, SLOT(updateTrayMenuItems()) );
 }
 
 void MainWindow::closeAction(Action *action)
