@@ -7,5 +7,7 @@
         <file>images/tab_rename.svg</file>
         <file>images/tab_remove.svg</file>
         <file>images/fontawesome-webfont.ttf</file>
+        <file>images/icon-disabled.svg</file>
+        <file>images/icon-disabled-running.svg</file>
     </qresource>
 </RCC>

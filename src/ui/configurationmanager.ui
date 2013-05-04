@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>637</width>
-    <height>493</height>
+    <height>504</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -647,7 +647,7 @@ Set to 0 to disable this.</string>
                <x>0</x>
                <y>0</y>
                <width>68</width>
-               <height>323</height>
+               <height>334</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -751,13 +751,6 @@ Set to 0 to disable this.</string>
          <string>&amp;Shortcuts</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_9">
-         <item row="2" column="0">
-          <widget class="QLabel" name="label_21">
-           <property name="text">
-            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/body&gt;&lt;/html&gt;</string>
-           </property>
-          </widget>
-         </item>
          <item row="0" column="0">
           <widget class="QLabel" name="label_18">
            <property name="text">
@@ -768,210 +761,268 @@ Set to 0 to disable this.</string>
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <layout class="QFormLayout" name="formLayout">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-           </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Sh&amp;ow/hide main window</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="0" column="1">
-            <widget class="QPushButton" name="pushButton">
-             <property name="toolTip">
-              <string>Shortcut to show or hide main window</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_2">
-             <property name="text">
-              <string>Show the tray &amp;menu</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_2</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <widget class="QPushButton" name="pushButton_2">
-             <property name="toolTip">
-              <string>Shortcut to show tray menu</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="0">
-            <widget class="QLabel" name="label_16">
-             <property name="text">
-              <string>Edit &amp;first item</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_4</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="0">
-            <widget class="QLabel" name="label_17">
-             <property name="text">
-              <string>Copy &amp;second item</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_5</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="0">
-            <widget class="QLabel" name="label_20">
-             <property name="text">
-              <string>Show &amp;action dialog</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_6</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="0">
-            <widget class="QLabel" name="label_22">
-             <property name="text">
-              <string>Create &amp;new item</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_7</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_23">
-             <property name="text">
-              <string>&amp;Edit clipboard</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_3</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QPushButton" name="pushButton_3">
-             <property name="toolTip">
-              <string>Shortcut to edit clipboard content</string>
-             </property>
-            </widget>
-           </item>
-           <item row="3" column="1">
-            <widget class="QPushButton" name="pushButton_4">
-             <property name="toolTip">
-              <string>Shortcut to edit first item</string>
-             </property>
-            </widget>
-           </item>
-           <item row="4" column="1">
-            <widget class="QPushButton" name="pushButton_5">
-             <property name="toolTip">
-              <string>Shortcut to put the second item to clipboard</string>
-             </property>
-            </widget>
-           </item>
-           <item row="5" column="1">
-            <widget class="QPushButton" name="pushButton_6">
-             <property name="toolTip">
-              <string>Shortcut to show action dialog</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="6" column="1">
-            <widget class="QPushButton" name="pushButton_7">
-             <property name="toolTip">
-              <string>Shortcut to create new item</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="0">
-            <widget class="QLabel" name="label_7">
-             <property name="text">
-              <string>Copy n&amp;ext item</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_8</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="7" column="1">
-            <widget class="QPushButton" name="pushButton_8">
-             <property name="toolTip">
-              <string>Copy next item from current tab to clipboard</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="0">
-            <widget class="QLabel" name="label_10">
-             <property name="text">
-              <string>Copy &amp;previous item</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_9</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="8" column="1">
-            <widget class="QPushButton" name="pushButton_9">
-             <property name="toolTip">
-              <string>Copy previous item from current tab to clipboard</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="0">
-            <widget class="QLabel" name="label_26">
-             <property name="text">
-              <string>Paste as pla&amp;in text</string>
-             </property>
-             <property name="buddy">
-              <cstring>pushButton_10</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="9" column="1">
-            <widget class="QPushButton" name="pushButton_10">
-             <property name="toolTip">
-              <string>Paste current clipboard content as plain text (i.e. remove formating).</string>
-             </property>
-             <property name="text">
-              <string/>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
          <item row="3" column="0">
-          <spacer name="verticalSpacer_4">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QLabel" name="label_21">
+           <property name="text">
+            <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/body&gt;&lt;/html&gt;</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QScrollArea" name="scrollAreaShortcuts">
+           <property name="widgetResizable">
+            <bool>true</bool>
            </property>
-          </spacer>
+           <widget class="QWidget" name="scrollAreaWidgetContents_3">
+            <property name="geometry">
+             <rect>
+              <x>0</x>
+              <y>0</y>
+              <width>593</width>
+              <height>370</height>
+             </rect>
+            </property>
+            <layout class="QFormLayout" name="formLayout_4">
+             <property name="fieldGrowthPolicy">
+              <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+             </property>
+             <item row="0" column="0">
+              <widget class="QLabel" name="label">
+               <property name="text">
+                <string>Sh&amp;ow/hide main window</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="0" column="1">
+              <widget class="QPushButton" name="pushButton">
+               <property name="toolTip">
+                <string>Shortcut to show or hide main window</string>
+               </property>
+               <property name="text">
+                <string>toggle_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="0">
+              <widget class="QLabel" name="label_2">
+               <property name="text">
+                <string>Show the tray &amp;menu</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_2</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="1" column="1">
+              <widget class="QPushButton" name="pushButton_2">
+               <property name="toolTip">
+                <string>Shortcut to show tray menu</string>
+               </property>
+               <property name="text">
+                <string>menu_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="0">
+              <widget class="QLabel" name="label_23">
+               <property name="text">
+                <string>&amp;Edit clipboard</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_3</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="2" column="1">
+              <widget class="QPushButton" name="pushButton_3">
+               <property name="toolTip">
+                <string>Shortcut to edit clipboard content</string>
+               </property>
+               <property name="text">
+                <string>edit_clipboard_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="0">
+              <widget class="QLabel" name="label_16">
+               <property name="text">
+                <string>Edit &amp;first item</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_4</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="3" column="1">
+              <widget class="QPushButton" name="pushButton_4">
+               <property name="toolTip">
+                <string>Shortcut to edit first item</string>
+               </property>
+               <property name="text">
+                <string>edit_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="0">
+              <widget class="QLabel" name="label_17">
+               <property name="text">
+                <string>Copy &amp;second item</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_5</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="4" column="1">
+              <widget class="QPushButton" name="pushButton_5">
+               <property name="toolTip">
+                <string>Shortcut to put the second item to clipboard</string>
+               </property>
+               <property name="text">
+                <string>second_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="0">
+              <widget class="QLabel" name="label_20">
+               <property name="text">
+                <string>Show &amp;action dialog</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_6</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="5" column="1">
+              <widget class="QPushButton" name="pushButton_6">
+               <property name="toolTip">
+                <string>Shortcut to show action dialog</string>
+               </property>
+               <property name="text">
+                <string>show_action_dialog</string>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="0">
+              <widget class="QLabel" name="label_22">
+               <property name="text">
+                <string>Create &amp;new item</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_7</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="6" column="1">
+              <widget class="QPushButton" name="pushButton_7">
+               <property name="toolTip">
+                <string>Shortcut to create new item</string>
+               </property>
+               <property name="text">
+                <string>new_item_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="0">
+              <widget class="QLabel" name="label_7">
+               <property name="text">
+                <string>Copy n&amp;ext item</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_8</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="7" column="1">
+              <widget class="QPushButton" name="pushButton_8">
+               <property name="toolTip">
+                <string>Copy next item from current tab to clipboard</string>
+               </property>
+               <property name="text">
+                <string>next_item_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="0">
+              <widget class="QLabel" name="label_10">
+               <property name="text">
+                <string>Copy &amp;previous item</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_9</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="8" column="1">
+              <widget class="QPushButton" name="pushButton_9">
+               <property name="toolTip">
+                <string>Copy previous item from current tab to clipboard</string>
+               </property>
+               <property name="text">
+                <string>previous_item_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="0">
+              <widget class="QLabel" name="label_26">
+               <property name="text">
+                <string>Paste as pla&amp;in text</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_10</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="9" column="1">
+              <widget class="QPushButton" name="pushButton_10">
+               <property name="toolTip">
+                <string>Paste current clipboard content as plain text (i.e. remove formating).</string>
+               </property>
+               <property name="text">
+                <string>paste_as_plain_text</string>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="0">
+              <widget class="QLabel" name="label_27">
+               <property name="text">
+                <string>Disable clipboard saving</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_11</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="10" column="1">
+              <widget class="QPushButton" name="pushButton_11">
+               <property name="text">
+                <string>disable_monitoring_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="0">
+              <widget class="QLabel" name="label_28">
+               <property name="text">
+                <string>Enable clipboard saving</string>
+               </property>
+               <property name="buddy">
+                <cstring>pushButton_12</cstring>
+               </property>
+              </widget>
+             </item>
+             <item row="11" column="1">
+              <widget class="QPushButton" name="pushButton_12">
+               <property name="text">
+                <string>enable_monitoring_shortcut</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </widget>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -993,8 +1044,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>293</width>
-              <height>399</height>
+              <width>212</width>
+              <height>322</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1282,6 +1333,7 @@ Set to 0 to disable this.</string>
   <tabstop>comboBoxMenuTab</tabstop>
   <tabstop>checkBoxTrayShowCommands</tabstop>
   <tabstop>checkBoxTrayImages</tabstop>
+  <tabstop>listWidgetCommands</tabstop>
   <tabstop>widgetCommand</tabstop>
   <tabstop>toolButtonAddCommand</tabstop>
   <tabstop>pushButtonRemove</tabstop>
@@ -1297,6 +1349,8 @@ Set to 0 to disable this.</string>
   <tabstop>pushButton_8</tabstop>
   <tabstop>pushButton_9</tabstop>
   <tabstop>pushButton_10</tabstop>
+  <tabstop>pushButton_11</tabstop>
+  <tabstop>pushButton_12</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorSelBg</tabstop>
   <tabstop>pushButtonColorFindBg</tabstop>
@@ -1318,6 +1372,7 @@ Set to 0 to disable this.</string>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>buttonBox</tabstop>
+  <tabstop>scrollAreaShortcuts</tabstop>
  </tabstops>
  <resources>
   <include location="../copyq.qrc"/>

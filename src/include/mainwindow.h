@@ -23,6 +23,7 @@
 #include <QMainWindow>
 #include <QMap>
 #include <QModelIndex>
+#include <QPointer>
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
 
@@ -31,6 +32,7 @@ class Action;
 class ActionDialog;
 class ClipboardBrowser;
 class ClipboardItem;
+class QAction;
 class QMimeData;
 class TrayMenu;
 struct ClipboardBrowserShared;
@@ -159,8 +161,6 @@ class MainWindow : public QMainWindow
 
         /** Close main window and exit the application. */
         void exit();
-        /** Change tray icon. */
-        void changeTrayIcon(const QIcon &icon);
         /** Load settings. */
         void loadSettings();
 
@@ -259,6 +259,12 @@ class MainWindow : public QMainWindow
         /** Activate current item. */
         void activateCurrentItem();
 
+        /** Temporarily disable monitoring (i.e. adding new clipboard content to the first tab). */
+        void disableMonitoring(bool disable);
+
+        /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
+        void toggleMonitoring();
+
     private slots:
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
@@ -287,6 +293,12 @@ class MainWindow : public QMainWindow
         /** Delete finished action and its menu item. */
         void closeAction(Action *action);
 
+        /** Update tray and window icon depending on current state. */
+        void updateIcon();
+
+        /** Update name and icon of "disable/enable monitoring" menu actions. */
+        void updateMonitoringActions();
+
         /** Return browser containing item or NULL. */
         ClipboardBrowser *findBrowser(const QModelIndex &index);
 
@@ -314,6 +326,10 @@ class MainWindow : public QMainWindow
         bool m_activateCloses;
         bool m_activateFocuses;
         bool m_activatePastes;
+
+        bool m_monitoringDisabled;
+        QPointer<QAction> m_actionToggleMonitoring;
+        QPointer<QAction> m_actionMonitoringDisabled;
 
         QMap<Action*, QAction*> m_actions;
 

@@ -137,7 +137,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , App(new QApplication(argc, argv))
     , m_formats()
     , m_newdata()
-    , m_checkclip(false)
 #ifdef COPYQ_WS_X11
     , m_copyclip(false)
     , m_checksel(false)
@@ -234,11 +233,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
                .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {
-        if ( (!m_checkclip && !m_copyclip) ||
-             QApplication::clipboard()->ownsClipboard() )
-        {
+        if ( QApplication::clipboard()->ownsClipboard() )
             return;
-        }
     } else if (mode == QClipboard::Selection) {
         if ( (!m_checksel && !m_copysel) ||
              QApplication::clipboard()->ownsSelection() ||
@@ -251,11 +247,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 #else /* !COPYQ_WS_X11 */
     // check if clipboard data are needed
-    if (mode != QClipboard::Clipboard || !m_checkclip ||
-            QApplication::clipboard()->ownsClipboard())
-    {
+    if (mode != QClipboard::Clipboard || QApplication::clipboard()->ownsClipboard())
         return;
-    }
 #endif
 
     // get clipboard data
@@ -284,10 +277,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     if (mode == QClipboard::Clipboard) {
         if (m_copyclip)
             m_x11->synchronize(data2, QClipboard::Selection);
-        if (m_checkclip)
-            clipboardChanged(mode, data2);
-        else
-            delete data2;
+        clipboardChanged(mode, data2);
     } else {
         if (m_copysel)
             m_x11->synchronize(data2, QClipboard::Clipboard);
@@ -364,8 +354,6 @@ void ClipboardMonitor::readyRead()
 
             if ( settings.contains("formats") )
                 m_formats = settings["formats"].toStringList();
-            if ( settings.contains("check_clipboard") )
-                m_checkclip = settings["check_clipboard"].toBool();
 #ifdef COPYQ_WS_X11
             if ( settings.contains("copy_clipboard") )
                 m_copyclip = settings["copy_clipboard"].toBool();

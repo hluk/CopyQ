@@ -110,6 +110,7 @@ private:
     QLocalServer *m_server;
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
+    bool m_checkclip;
     uint m_lastHash;
     QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
 

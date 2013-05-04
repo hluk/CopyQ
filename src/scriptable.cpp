@@ -97,6 +97,8 @@ QList<CommandHelp> commandHelp()
                        Scriptable::tr("Open context menu."))
         << CommandHelp("exit",
                        Scriptable::tr("Exit server."))
+        << CommandHelp("disable, enable",
+                       Scriptable::tr("Disable or enable clipboard content saving."))
         << CommandHelp()
         << CommandHelp("clipboard",
                        Scriptable::tr("Print clipboard content."))
@@ -481,6 +483,16 @@ void Scriptable::exit()
     sendMessage(message, CommandSuccess);
     m_client->flush();
     QApplication::exit(0);
+}
+
+void Scriptable::disable()
+{
+    m_wnd->disableMonitoring(true);
+}
+
+void Scriptable::enable()
+{
+    m_wnd->disableMonitoring(false);
 }
 
 QScriptValue Scriptable::clipboard()

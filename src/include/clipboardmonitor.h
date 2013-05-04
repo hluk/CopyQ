@@ -67,7 +67,6 @@ public:
 private:
     QStringList m_formats;
     QScopedPointer<QMimeData> m_newdata;
-    bool m_checkclip;
 #ifdef COPYQ_WS_X11
     bool m_copyclip;
     bool m_checksel;

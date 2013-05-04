@@ -142,17 +142,12 @@ ConfigurationManager::ConfigurationManager()
     m_options["command_history_size"] = Option(100);
     m_options["_last_hash"] = Option(0);
 #ifndef NO_GLOBAL_SHORTCUTS
-    /* shortcuts */
-    m_options["toggle_shortcut"] = Option("", "text", ui->pushButton);
-    m_options["menu_shortcut"] = Option("", "text", ui->pushButton_2);
-    m_options["edit_clipboard_shortcut"] = Option("", "text", ui->pushButton_3);
-    m_options["edit_shortcut"] = Option("", "text", ui->pushButton_4);
-    m_options["second_shortcut"] = Option("", "text", ui->pushButton_5);
-    m_options["show_action_dialog"] = Option("", "text", ui->pushButton_6);
-    m_options["new_item_shortcut"] = Option("", "text", ui->pushButton_7);
-    m_options["next_item_shortcut"] = Option("", "text", ui->pushButton_8);
-    m_options["previous_item_shortcut"] = Option("", "text", ui->pushButton_9);
-    m_options["paste_as_plain_text"] = Option("", "text", ui->pushButton_10);
+    /* shortcuts -- generate options from UI (button text is key for shortcut option) */
+    foreach (QPushButton *button, ui->scrollAreaShortcuts->findChildren<QPushButton *>()) {
+        QString text = button->text();
+        m_options[text] = Option("", "text", button);
+        connect(button, SIGNAL(clicked()), SLOT(onShortcutButtonClicked()));
+    }
 #endif
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
@@ -931,7 +926,7 @@ void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
     list->blockSignals(false);
 }
 
-void ConfigurationManager::shortcutButtonClicked(QPushButton *button)
+void ConfigurationManager::shortcutButtonClicked(QObject *button)
 {
     ShortcutDialog *dialog = new ShortcutDialog(this);
     if (dialog->exec() == QDialog::Accepted) {
@@ -939,7 +934,7 @@ void ConfigurationManager::shortcutButtonClicked(QPushButton *button)
         QString text;
         if ( !shortcut.isEmpty() )
             text = shortcut.toString(QKeySequence::NativeText);
-        button->setText(text);
+        button->setProperty("text", text);
     }
 }
 
@@ -970,54 +965,10 @@ void ConfigurationManager::colorButtonClicked(QPushButton *button)
     }
 }
 
-void ConfigurationManager::on_pushButton_clicked()
+void ConfigurationManager::onShortcutButtonClicked()
 {
-    shortcutButtonClicked(ui->pushButton);
-}
-
-void ConfigurationManager::on_pushButton_2_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_2);
-}
-
-void ConfigurationManager::on_pushButton_3_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_3);
-}
-
-void ConfigurationManager::on_pushButton_4_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_4);
-}
-
-void ConfigurationManager::on_pushButton_5_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_5);
-}
-
-void ConfigurationManager::on_pushButton_6_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_6);
-}
-
-void ConfigurationManager::on_pushButton_7_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_7);
-}
-
-void ConfigurationManager::on_pushButton_8_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_8);
-}
-
-void ConfigurationManager::on_pushButton_9_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_9);
-}
-
-void ConfigurationManager::on_pushButton_10_clicked()
-{
-    shortcutButtonClicked(ui->pushButton_10);
+    Q_ASSERT(sender() != NULL);
+    shortcutButtonClicked(sender());
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(

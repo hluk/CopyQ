@@ -52,6 +52,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     , m_server(NULL)
     , m_wnd(NULL)
     , m_monitor(NULL)
+    , m_checkclip(false)
     , m_lastHash(0)
     , m_shortcutActions()
 {
@@ -209,7 +210,7 @@ void ClipboardServer::loadMonitorSettings()
 
     QVariantMap settings;
     settings["formats"] = ItemFactory::instance()->formatsToSave();
-    settings["check_clipboard"] = cm->value("check_clipboard");
+    m_checkclip = cm->value("check_clipboard").toBool();
 #ifdef COPYQ_WS_X11
     settings["copy_clipboard"] = cm->value("copy_clipboard");
     settings["copy_selection"] = cm->value("copy_selection");
@@ -298,7 +299,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
 
     m_wnd->clipboardChanged(&item);
 
-    if ( m_lastHash != item.dataHash() ) {
+    if ( m_checkclip && m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();
         m_wnd->addToTab( item.data() );
     }
@@ -495,6 +496,16 @@ void ClipboardServer::loadSettings()
         args->append("eval");
         args->append("copy(clipboard()); paste()");
     }
+
+    key = cm->value("disable_monitoring_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("disable");
+
+    key = cm->value("enable_monitoring_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args)
+        args->append("enable");
 #endif
 
     // reload clipboard monitor configuration

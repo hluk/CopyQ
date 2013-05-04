@@ -37,6 +37,7 @@
 #include "tabwidget.h"
 #include "traymenu.h"
 
+#include <QAction>
 #include <QCloseEvent>
 #include <QFile>
 #include <QFileDialog>
@@ -46,12 +47,13 @@
 #include <QTimer>
 
 #ifdef COPYQ_ICON_PREFIX
-#   define RETURN_ICON_FROM_PREFIX(suffix, fallback) \
+#   define RETURN_ICON_FROM_PREFIX(suffix, fallback) do { \
         const QString fileName(COPYQ_ICON_PREFIX suffix); \
-        return QFile::exists(fileName) ? QIcon(fileName) : fallback;
+        return QFile::exists(fileName) ? QIcon(fileName) : fallback; \
+    } while(false)
 #else
 #   define RETURN_ICON_FROM_PREFIX(suffix, fallback) \
-        return fallback;
+        return fallback
 #endif
 
 namespace {
@@ -71,11 +73,17 @@ const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortDown); }
 const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
-const QIcon iconTray() {
-    RETURN_ICON_FROM_PREFIX( "-normal.svg", getIconFromResources("icon") );
+const QIcon iconTray(bool disabled) {
+    if (disabled)
+        RETURN_ICON_FROM_PREFIX( "-disabled.svg", getIconFromResources("icon-disabled") );
+    else
+        RETURN_ICON_FROM_PREFIX( "-normal.svg", getIconFromResources("icon") );
 }
-const QIcon iconTrayRunning() {
-    RETURN_ICON_FROM_PREFIX( "-busy.svg", getIconFromResources("icon-running") );
+const QIcon iconTrayRunning(bool disabled) {
+    if (disabled)
+        RETURN_ICON_FROM_PREFIX( "-disabled-busy.svg", getIconFromResources("icon-disabled-running") );
+    else
+        RETURN_ICON_FROM_PREFIX( "-busy.svg", getIconFromResources("icon-running") );
 }
 
 } // namespace
@@ -100,6 +108,9 @@ MainWindow::MainWindow(QWidget *parent)
     , m_activateCloses(true)
     , m_activateFocuses(false)
     , m_activatePastes(false)
+    , m_monitoringDisabled(false)
+    , m_actionToggleMonitoring()
+    , m_actionMonitoringDisabled()
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayItemPaste(true)
@@ -107,12 +118,10 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    setWindowIcon( iconTray());
-
     // tray
     tray = new QSystemTrayIcon(this);
-    tray->setIcon( iconTray() );
     tray->setContextMenu(trayMenu);
+    updateIcon();
 
     // signals & slots
     connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
@@ -213,7 +222,7 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = trayMenu->addAction( iconTray(), tr("&Show/Hide"),
+    act = trayMenu->addAction( iconTray(false), tr("&Show/Hide"),
                            this, SLOT(toggleVisible()) );
     trayMenu->setDefaultAction(act);
 
@@ -258,6 +267,12 @@ void MainWindow::createMenu()
                                this, SLOT(showClipboardContent()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
                      QKeySequence(tr("Ctrl+Shift+C")) );
+
+    // - enable/disable
+    m_actionToggleMonitoring = trayMenu->addAction( "", this, SLOT(toggleMonitoring()) );
+    m_actionMonitoringDisabled = menu->addAction( QIcon(), "", this, SLOT(toggleMonitoring()),
+                                                  QKeySequence(tr("Ctrl+Shift+X")) );
+    updateMonitoringActions();
 
     // - separator
     menu->addSeparator();
@@ -355,7 +370,35 @@ void MainWindow::closeAction(Action *action)
 
     if ( m_actions.isEmpty() ) {
         cmdMenu->setEnabled(false);
-        changeTrayIcon( iconTray() );
+        updateIcon();
+    }
+}
+
+void MainWindow::updateIcon()
+{
+    QIcon icon = iconTray(m_monitoringDisabled);
+    setWindowIcon(icon);
+
+    if ( !m_actions.isEmpty() )
+        icon = iconTrayRunning(m_monitoringDisabled);
+    tray->setIcon(icon);
+}
+
+void MainWindow::updateMonitoringActions()
+{
+    const QString text = m_monitoringDisabled ? tr("&Enable Clipboard Saving")
+                                              : tr("&Disable Clipboard Saving");
+
+    QIcon icon = iconTray(!m_monitoringDisabled);
+
+    if (!m_actionToggleMonitoring.isNull()) {
+        m_actionToggleMonitoring->setText(text);
+        m_actionToggleMonitoring->setIcon(icon);
+    }
+
+    if (!m_actionMonitoringDisabled.isNull()) {
+        m_actionMonitoringDisabled->setText(text);
+        m_actionMonitoringDisabled->setIcon(icon);
     }
 }
 
@@ -799,6 +842,9 @@ void MainWindow::tabCloseRequested(int tab)
 
 void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
 {
+    if (m_monitoringDisabled)
+        return;
+
     ClipboardBrowser *c;
     TabWidget *tabs = ui->tabWidget;
     int i = 0;
@@ -904,6 +950,21 @@ void MainWindow::activateCurrentItem()
     }
 }
 
+void MainWindow::disableMonitoring(bool disable)
+{
+    if (m_monitoringDisabled == disable)
+        return;
+    m_monitoringDisabled = disable;
+
+    updateMonitoringActions();
+    updateIcon();
+}
+
+void MainWindow::toggleMonitoring()
+{
+    disableMonitoring(!m_monitoringDisabled);
+}
+
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName, true);
@@ -965,7 +1026,7 @@ void MainWindow::actionStarted(Action *action)
     cmdMenu->addAction(act);
     cmdMenu->setEnabled(true);
 
-    changeTrayIcon( iconTrayRunning() );
+    updateIcon();
 
     elideText(act);
 }
@@ -1013,11 +1074,6 @@ void MainWindow::enterBrowseMode(bool browsemode)
         l->setEnabled(true);
         l->setFocus(Qt::ShortcutFocusReason);
     }
-}
-
-void MainWindow::changeTrayIcon(const QIcon &icon)
-{
-    tray->setIcon(icon);
 }
 
 void MainWindow::updateTrayMenuItems()
