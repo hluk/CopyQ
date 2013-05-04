@@ -32,6 +32,7 @@ enum IconId {
     IconOff = 0xf011,
     IconCog = 0xf013,
     IconFile = 0xf016,
+    IconDownloadAlt = 0xf019,
     IconInbox = 0xf01c,
     IconPlayCircle = 0xf01d,
     IconQRCode = 0xf029,

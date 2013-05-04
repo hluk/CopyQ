@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>549</width>
+    <width>637</width>
     <height>493</height>
    </rect>
   </property>
@@ -234,68 +234,16 @@
          <string>&amp;History</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="6" column="0">
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="title">
-            <string>Formats of clipboard content to save and display</string>
+         <item row="1" column="0">
+          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
+           <property name="toolTip">
+            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+
+Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
            </property>
-           <layout class="QVBoxLayout" name="verticalLayout_2">
-            <item>
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by moving the tabs below.</string>
-              </property>
-              <property name="wordWrap">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <layout class="QHBoxLayout" name="horizontalLayout_2">
-              <item>
-               <widget class="QLabel" name="label_3">
-                <property name="text">
-                 <string>Change display priority:</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButtonPluginPriorityUp">
-                <property name="text">
-                 <string>Hi&amp;gher</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QPushButton" name="pushButtonPluginPriorityDown">
-                <property name="text">
-                 <string>L&amp;ower</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_3">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item>
-             <widget class="QTabWidget" name="tabWidgetPlugins">
-              <property name="movable">
-               <bool>true</bool>
-              </property>
-             </widget>
-            </item>
-           </layout>
+           <property name="text">
+            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
+           </property>
           </widget>
          </item>
          <item row="3" column="0">
@@ -341,18 +289,6 @@
           <widget class="QCheckBox" name="checkBoxMove">
            <property name="text">
             <string>Move item to the top of list on Return key and double-click</string>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="0">
-          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
-           <property name="toolTip">
-            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
-
-Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
-           </property>
-           <property name="text">
-            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
            </property>
           </widget>
          </item>
@@ -466,6 +402,81 @@ Set to 0 to disable this.</string>
             </layout>
            </item>
           </layout>
+         </item>
+         <item row="4" column="0">
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+        </layout>
+       </widget>
+       <widget class="QWidget" name="tabItems">
+        <attribute name="title">
+         <string>&amp;Items</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="text">
+            <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by moving the tabs below.</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_2">
+           <item>
+            <widget class="QLabel" name="label_3">
+             <property name="text">
+              <string>Change display priority:</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonPluginPriorityUp">
+             <property name="text">
+              <string>Hi&amp;gher</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonPluginPriorityDown">
+             <property name="text">
+              <string>L&amp;ower</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_3">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </item>
+         <item>
+          <widget class="QTabWidget" name="tabWidgetPlugins">
+           <property name="movable">
+            <bool>true</bool>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -617,8 +628,8 @@ Set to 0 to disable this.</string>
                <rect>
                 <x>0</x>
                 <y>0</y>
-                <width>335</width>
-                <height>321</height>
+                <width>98</width>
+                <height>28</height>
                </rect>
               </property>
               <layout class="QGridLayout" name="gridLayout_4">
@@ -975,8 +986,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>241</width>
-              <height>399</height>
+              <width>212</width>
+              <height>322</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

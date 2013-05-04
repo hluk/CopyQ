@@ -220,6 +220,7 @@ ConfigurationManager::ConfigurationManager()
     QTabWidget *tw = ui->tabWidget;
     tw->setTabIcon( tw->indexOf(ui->tabClipboard), getIcon("", IconPaste) );
     tw->setTabIcon( tw->indexOf(ui->tabGeneral), getIcon("", IconListOl) );
+    tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconDownloadAlt) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), getIcon("", IconCogs) );
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconHandUp) );
