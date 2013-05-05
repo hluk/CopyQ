@@ -101,7 +101,7 @@
     <message>
         <location filename="../src/aboutdialog.cpp" line="135"/>
         <source>Put selected items into clipboard</source>
-        <translation>Pner las entradas seleccionadas en el portapapeles</translation>
+        <translation>Poner las entradas seleccionadas en el portapapeles</translation>
     </message>
     <message>
         <location filename="../src/aboutdialog.cpp" line="136"/>
@@ -337,7 +337,7 @@ La orden se puede configurar en preferencias.</translation>
         <location filename="../src/clipboardserver.cpp" line="260"/>
         <source>Bad command syntax. Use -h for help.
 </source>
-        <translation>Sintáxis de orden incorrecta. Use -h para ver la ayuda.
+        <translation>Sintaxis de orden incorrecta. Use -h para ver la ayuda.
 </translation>
     </message>
 </context>
