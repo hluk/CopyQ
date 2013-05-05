@@ -337,7 +337,8 @@ La orden se puede configurar en preferencias.</translation>
         <location filename="../src/clipboardserver.cpp" line="260"/>
         <source>Bad command syntax. Use -h for help.
 </source>
-        <translation>Sintáxis de orden incorrecta. Use -h para ver la ayuda.</translation>
+        <translation>Sintáxis de orden incorrecta. Use -h para ver la ayuda.
+</translation>
     </message>
 </context>
 <context>
@@ -1771,13 +1772,15 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../src/mainwindow.cpp" line="361"/>
         <source>Error: %1
 </source>
-        <translation>Error: %1</translation>
+        <translation>Error: %1
+</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="363"/>
         <source>Exit code: %1
 </source>
-        <translation>Código de salida: %1</translation>
+        <translation>Código de salida: %1
+</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="366"/>
@@ -1931,26 +1934,30 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../src/client_server.cpp" line="55"/>
         <source>CopyQ: %1
 </source>
-        <translation>CopyQ: %1</translation>
+        <translation>CopyQ: %1
+</translation>
     </message>
     <message>
         <location filename="../src/client_server.cpp" line="57"/>
         <source>CopyQ warning: %1
 </source>
-        <translation>Alarma CopyQ: %1</translation>
+        <translation>Alarma CopyQ: %1
+</translation>
     </message>
     <message>
         <location filename="../src/client_server.cpp" line="59"/>
         <location filename="../src/itemeditor.cpp" line="56"/>
         <source>CopyQ ERROR: %1
 </source>
-        <translation>CopyQ ERROR: %1</translation>
+        <translation>CopyQ ERROR: %1
+</translation>
     </message>
     <message>
         <location filename="../src/client_server.cpp" line="62"/>
         <source>CopyQ DEBUG: %1
 </source>
-        <translation>CopyQ DEBUG: %1</translation>
+        <translation>CopyQ DEBUG: %1
+</translation>
     </message>
     <message>
         <location filename="../src/clipboarditem.cpp" line="143"/>
