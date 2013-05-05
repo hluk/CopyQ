@@ -110,89 +110,7 @@ ConfigurationManager::ConfigurationManager()
                 ->setProperty("COMMAND", i);
     }
 
-    /* general options */
-    m_options["maxitems"] = Option(200, "value", ui->spinBoxItems);
-    m_options["editor"] = Option(DEFAULT_EDITOR, "text", ui->lineEditEditor);
-    m_options["item_popup_interval"] = Option(0, "value", ui->spinBoxItemPopupInterval);
-    m_options["edit_ctrl_return"] = Option(true, "checked", ui->checkBoxEditCtrlReturn);
-    m_options["move"] = Option(true, "checked", ui->checkBoxMove);
-    m_options["check_clipboard"] = Option(true, "checked", ui->checkBoxClip);
-    m_options["confirm_exit"] = Option(true, "checked", ui->checkBoxConfirmExit);
-    m_options["vi"] = Option(false, "checked", ui->checkBoxViMode);
-    m_options["always_on_top"] = Option(false, "checked", ui->checkBoxAlwaysOnTop);
-    m_options["tab_position"] = Option(0, "currentIndex", ui->comboBoxTabPosition);
-    m_options["text_wrap"] = Option(true, "checked", ui->checkBoxTextWrap);
-
-    m_options["activate_closes"] = Option(true, "checked", ui->checkBoxActivateCloses);
-    m_options["activate_focuses"] = Option(false, "checked", ui->checkBoxActivateFocuses);
-    m_options["activate_pastes"] = Option(false, "checked", ui->checkBoxActivatePastes);
-
-    m_options["tray_items"] = Option(5, "value", ui->spinBoxTrayItems);
-    m_options["tray_item_paste"] = Option(true, "checked", ui->checkBoxPasteMenuItem);
-    m_options["tray_commands"] = Option(true, "checked", ui->checkBoxTrayShowCommands);
-    m_options["tray_tab_is_current"] = Option(true, "checked", ui->checkBoxMenuTabIsCurrent);
-    m_options["tray_images"] = Option(true, "checked", ui->checkBoxTrayImages);
-    m_options["tray_tab"] = Option("", "text", ui->comboBoxMenuTab->lineEdit());
-
-    // Tooltip to show on command line.
-    ui->comboBoxMenuTab->lineEdit()->setToolTip( ui->comboBoxMenuTab->toolTip() );
-
-    /* other options */
-    m_options["tabs"] = Option(QStringList());
-    m_options["command_history_size"] = Option(100);
-    m_options["_last_hash"] = Option(0);
-#ifndef NO_GLOBAL_SHORTCUTS
-    /* shortcuts -- generate options from UI (button text is key for shortcut option) */
-    foreach (QPushButton *button, ui->scrollAreaShortcuts->findChildren<QPushButton *>()) {
-        QString text = button->text();
-        m_options[text] = Option("", "text", button);
-        connect(button, SIGNAL(clicked()), SLOT(onShortcutButtonClicked()));
-    }
-#endif
-#ifdef COPYQ_WS_X11
-    /* X11 clipboard selection monitoring and synchronization */
-    m_options["check_selection"] = Option(true, "checked", ui->checkBoxSel);
-    m_options["copy_clipboard"] = Option(true, "checked", ui->checkBoxCopyClip);
-    m_options["copy_selection"] = Option(true, "checked", ui->checkBoxCopySel);
-#else
-    ui->checkBoxCopySel->hide();
-    ui->checkBoxSel->hide();
-    ui->checkBoxCopyClip->hide();
-#endif
-
-    // values of last submitted action
-    m_options["action_has_input"]  = Option(false);
-    m_options["action_has_output"] = Option(false);
-    m_options["action_separator"]  = Option("\\n");
-    m_options["action_output_tab"] = Option("");
-
-    /* appearance options */
-    QString name;
-    QPalette p;
-    name = p.color(QPalette::Base).name();
-    m_theme["bg"]          = Option(name, "VALUE", ui->pushButtonColorBg);
-    m_theme["edit_bg"]     = Option(name, "VALUE", ui->pushButtonColorEditorBg);
-    name = p.color(QPalette::Text).name();
-    m_theme["fg"]          = Option(name, "VALUE", ui->pushButtonColorFg);
-    m_theme["edit_fg"]     = Option(name, "VALUE", ui->pushButtonColorEditorFg);
-    name = p.color(QPalette::Text).lighter(400).name();
-    m_theme["num_fg"]      = Option(name, "VALUE", ui->pushButtonColorNumberFg);
-    name = p.color(QPalette::AlternateBase).name();
-    m_theme["alt_bg"]      = Option(name, "VALUE", ui->pushButtonColorAltBg);
-    name = p.color(QPalette::Highlight).name();
-    m_theme["sel_bg"]      = Option(name, "VALUE", ui->pushButtonColorSelBg);
-    name = p.color(QPalette::HighlightedText).name();
-    m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
-    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFindBg);
-    m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFindFg);
-    m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
-    m_theme["edit_font"]   = Option("", "VALUE", ui->pushButtonEditorFont);
-    m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
-    m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
-    m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
-    m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
-
-    m_options["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
+    initOptions();
 
     /* datafile for items */
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
@@ -403,6 +321,132 @@ void ConfigurationManager::updateFormats()
     formats.prepend(QString());
     formats.removeDuplicates();
     ui->widgetCommand->setFormats(formats);
+}
+
+void ConfigurationManager::initOptions()
+{
+    /* general options */
+    bind("maxitems", ui->spinBoxItems, 200);
+    bind("maxitems", ui->spinBoxItems, 200);
+    bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
+    bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);
+    bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
+    bind("move", ui->checkBoxMove, true);
+    bind("check_clipboard", ui->checkBoxClip, true);
+    bind("confirm_exit", ui->checkBoxConfirmExit, true);
+    bind("vi", ui->checkBoxViMode, false);
+    bind("always_on_top", ui->checkBoxAlwaysOnTop, false);
+    bind("tab_position", ui->comboBoxTabPosition, 0);
+    bind("text_wrap", ui->checkBoxTextWrap, true);
+
+    bind("activate_closes", ui->checkBoxActivateCloses, true);
+    bind("activate_focuses", ui->checkBoxActivateFocuses, false);
+    bind("activate_pastes", ui->checkBoxActivatePastes, false);
+
+    bind("tray_items", ui->spinBoxTrayItems, 5);
+    bind("tray_item_paste", ui->checkBoxPasteMenuItem, true);
+    bind("tray_commands", ui->checkBoxTrayShowCommands, true);
+    bind("tray_tab_is_current", ui->checkBoxMenuTabIsCurrent, true);
+    bind("tray_images", ui->checkBoxTrayImages, true);
+    bind("tray_tab", ui->comboBoxMenuTab->lineEdit(), "");
+
+    // Tooltip to show on command line.
+    ui->comboBoxMenuTab->lineEdit()->setToolTip( ui->comboBoxMenuTab->toolTip() );
+
+    /* other options */
+    bind("tabs", QStringList());
+    bind("command_history_size", 100);
+    bind("_last_hash", 0);
+#ifndef NO_GLOBAL_SHORTCUTS
+    /* shortcuts -- generate options from UI (button text is key for shortcut option) */
+    foreach (QPushButton *button, ui->scrollAreaShortcuts->findChildren<QPushButton *>()) {
+        QString text = button->text();
+        bind(text.toLatin1().data(), button, "");
+        connect(button, SIGNAL(clicked()), SLOT(onShortcutButtonClicked()));
+    }
+#endif
+#ifdef COPYQ_WS_X11
+    /* X11 clipboard selection monitoring and synchronization */
+    bind("check_selection", ui->checkBoxSel, true);
+    bind("copy_clipboard", ui->checkBoxCopyClip, true);
+    bind("copy_selection", ui->checkBoxCopySel, true);
+#else
+    ui->checkBoxCopySel->hide();
+    ui->checkBoxSel->hide();
+    ui->checkBoxCopyClip->hide();
+#endif
+
+    // values of last submitted action
+    bind("action_has_input", false);
+    bind("action_has_output", false);
+    bind("action_separator", "\\n");
+    bind("action_output_tab", "");
+
+    /* appearance options */
+    QString name;
+    QPalette p;
+    name = p.color(QPalette::Base).name();
+    m_theme["bg"]          = Option(name, "VALUE", ui->pushButtonColorBg);
+    m_theme["edit_bg"]     = Option(name, "VALUE", ui->pushButtonColorEditorBg);
+    name = p.color(QPalette::Text).name();
+    m_theme["fg"]          = Option(name, "VALUE", ui->pushButtonColorFg);
+    m_theme["edit_fg"]     = Option(name, "VALUE", ui->pushButtonColorEditorFg);
+    name = p.color(QPalette::Text).lighter(400).name();
+    m_theme["num_fg"]      = Option(name, "VALUE", ui->pushButtonColorNumberFg);
+    name = p.color(QPalette::AlternateBase).name();
+    m_theme["alt_bg"]      = Option(name, "VALUE", ui->pushButtonColorAltBg);
+    name = p.color(QPalette::Highlight).name();
+    m_theme["sel_bg"]      = Option(name, "VALUE", ui->pushButtonColorSelBg);
+    name = p.color(QPalette::HighlightedText).name();
+    m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
+    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFindBg);
+    m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFindFg);
+    m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
+    m_theme["edit_font"]   = Option("", "VALUE", ui->pushButtonEditorFont);
+    m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
+    m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
+    m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
+    m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
+
+    // Connect signals from theme buttons.
+    foreach (QPushButton *button, ui->scrollAreaTheme->findChildren<QPushButton *>()) {
+        if (button->objectName().endsWith("Font"))
+            connect(button, SIGNAL(clicked()), SLOT(onFontButtonClicked()));
+        else if (button->objectName().startsWith("pushButtonColor"))
+            connect(button, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
+    }
+
+    bind("use_system_icons", ui->checkBoxSystemIcons, false);
+}
+
+void ConfigurationManager::bind(const char *optionKey, QCheckBox *obj, bool defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue, "checked", obj);
+}
+
+void ConfigurationManager::bind(const char *optionKey, QSpinBox *obj, int defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue, "value", obj);
+}
+
+void ConfigurationManager::bind(const char *optionKey, QLineEdit *obj, const char *defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue, "text", obj);
+}
+
+void ConfigurationManager::bind(const char *optionKey, QComboBox *obj, int defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue, "currentIndex", obj);
+}
+
+void ConfigurationManager::bind(const char *optionKey, QPushButton *obj, const char *defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue, "text", obj);
+}
+
+void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultValue)
+{
+    m_options[optionKey] = Option(defaultValue);
 }
 
 void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
@@ -938,7 +982,7 @@ void ConfigurationManager::shortcutButtonClicked(QObject *button)
     }
 }
 
-void ConfigurationManager::fontButtonClicked(QPushButton *button)
+void ConfigurationManager::fontButtonClicked(QObject *button)
 {
     QFont font;
     font.fromString( button->property("VALUE").toString() );
@@ -950,7 +994,7 @@ void ConfigurationManager::fontButtonClicked(QPushButton *button)
     }
 }
 
-void ConfigurationManager::colorButtonClicked(QPushButton *button)
+void ConfigurationManager::colorButtonClicked(QObject *button)
 {
     QColor color = button->property("VALUE").toString();
     QColorDialog dialog(color, this);
@@ -961,7 +1005,7 @@ void ConfigurationManager::colorButtonClicked(QPushButton *button)
 
         QPixmap pix(16, 16);
         pix.fill(color);
-        button->setIcon(pix);
+        button->setProperty("icon", QIcon(pix));
     }
 }
 
@@ -969,6 +1013,18 @@ void ConfigurationManager::onShortcutButtonClicked()
 {
     Q_ASSERT(sender() != NULL);
     shortcutButtonClicked(sender());
+}
+
+void ConfigurationManager::onFontButtonClicked()
+{
+    Q_ASSERT(sender() != NULL);
+    fontButtonClicked(sender());
+}
+
+void ConfigurationManager::onColorButtonClicked()
+{
+    Q_ASSERT(sender() != NULL);
+    colorButtonClicked(sender());
 }
 
 void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
@@ -1007,76 +1063,6 @@ void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
 {
     const QItemSelectionModel *sel = ui->listWidgetCommands->selectionModel();
     ui->pushButtonRemove->setEnabled( sel->hasSelection() );
-}
-
-void ConfigurationManager::on_pushButtonFont_clicked()
-{
-    fontButtonClicked(ui->pushButtonFont);
-}
-
-void ConfigurationManager::on_pushButtonEditorFont_clicked()
-{
-    fontButtonClicked(ui->pushButtonEditorFont);
-}
-
-void ConfigurationManager::on_pushButtonFoundFont_clicked()
-{
-    fontButtonClicked(ui->pushButtonFoundFont);
-}
-
-void ConfigurationManager::on_pushButtonNumberFont_clicked()
-{
-    fontButtonClicked(ui->pushButtonNumberFont);
-}
-
-void ConfigurationManager::on_pushButtonColorBg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorBg);
-}
-
-void ConfigurationManager::on_pushButtonColorFg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorFg);
-}
-
-void ConfigurationManager::on_pushButtonColorAltBg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorAltBg);
-}
-
-void ConfigurationManager::on_pushButtonColorSelBg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorSelBg);
-}
-
-void ConfigurationManager::on_pushButtonColorSelFg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorSelFg);
-}
-
-void ConfigurationManager::on_pushButtonColorFindBg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorFindBg);
-}
-
-void ConfigurationManager::on_pushButtonColorFindFg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorFindFg);
-}
-
-void ConfigurationManager::on_pushButtonColorEditorBg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorEditorBg);
-}
-
-void ConfigurationManager::on_pushButtonColorEditorFg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorEditorFg);
-}
-
-void ConfigurationManager::on_pushButtonColorNumberFg_clicked()
-{
-    colorButtonClicked(ui->pushButtonColorNumberFg);
 }
 
 void ConfigurationManager::on_pushButtonLoadTheme_clicked()

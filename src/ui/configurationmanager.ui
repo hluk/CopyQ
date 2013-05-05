@@ -646,8 +646,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>68</width>
-               <height>334</height>
+               <width>98</width>
+               <height>28</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -778,8 +778,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>593</width>
-              <height>370</height>
+              <width>339</width>
+              <height>336</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
@@ -1032,7 +1032,7 @@ Set to 0 to disable this.</string>
         </attribute>
         <layout class="QHBoxLayout" name="horizontalLayout_10">
          <item>
-          <widget class="QScrollArea" name="scrollArea">
+          <widget class="QScrollArea" name="scrollAreaTheme">
            <property name="focusPolicy">
             <enum>Qt::NoFocus</enum>
            </property>
@@ -1044,8 +1044,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>212</width>
-              <height>322</height>
+              <width>293</width>
+              <height>410</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

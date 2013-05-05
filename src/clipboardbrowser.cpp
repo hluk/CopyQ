@@ -1129,7 +1129,7 @@ void ClipboardBrowser::updateClipboard(int row)
 void ClipboardBrowser::redraw()
 {
     d->invalidateCache();
-    update();
+    updateCurrentPage();
 }
 
 bool ClipboardBrowser::editing()

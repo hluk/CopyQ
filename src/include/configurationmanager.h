@@ -30,12 +30,17 @@ namespace Ui {
     class ConfigurationManager;
 }
 
-class ClipboardModel;
 class ClipboardBrowser;
+class ClipboardModel;
 class QAbstractButton;
+class QCheckBox;
+class QComboBox;
+class QLineEdit;
 class QListWidgetItem;
-class QTreeWidgetItem;
+class QPushButton;
 class QSettings;
+class QSpinBox;
+class QTreeWidgetItem;
 
 /**
  * Configuration management.
@@ -132,8 +137,8 @@ private:
 
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
-    void fontButtonClicked(QPushButton *button);
-    void colorButtonClicked(QPushButton *button);
+    void fontButtonClicked(QObject *button);
+    void colorButtonClicked(QObject *button);
 
     /**
      * Some example commands.
@@ -154,6 +159,14 @@ private:
     /** Set available MIME types (for combo boxes). */
     void updateFormats();
 
+    void initOptions();
+    void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
+    void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
+    void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
+    void bind(const char *optionKey, QComboBox *obj, int defaultValue);
+    void bind(const char *optionKey, QPushButton *obj, const char *defaultValue);
+    void bind(const char *optionKey, const QVariant &defaultValue);
+
 private slots:
     void on_pushButtonDown_clicked();
     void on_pushButtonUp_clicked();
@@ -162,27 +175,15 @@ private slots:
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
     void onFinished(int result);
+
     void onShortcutButtonClicked();
+    void onFontButtonClicked();
+    void onColorButtonClicked();
+
     void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
                                                   QListWidgetItem *previous);
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
     void on_listWidgetCommands_itemSelectionChanged();
-
-    void on_pushButtonFont_clicked();
-    void on_pushButtonEditorFont_clicked();
-    void on_pushButtonFoundFont_clicked();
-    void on_pushButtonNumberFont_clicked();
-
-    void on_pushButtonColorBg_clicked();
-    void on_pushButtonColorFg_clicked();
-    void on_pushButtonColorAltBg_clicked();
-    void on_pushButtonColorSelBg_clicked();
-    void on_pushButtonColorSelFg_clicked();
-    void on_pushButtonColorFindBg_clicked();
-    void on_pushButtonColorFindFg_clicked();
-    void on_pushButtonColorEditorBg_clicked();
-    void on_pushButtonColorEditorFg_clicked();
-    void on_pushButtonColorNumberFg_clicked();
 
     void on_pushButtonLoadTheme_clicked();
     void on_pushButtonSaveTheme_clicked();
