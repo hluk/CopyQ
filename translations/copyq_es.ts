@@ -1620,7 +1620,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/mainwindow.cpp" line="250"/>
         <source>&amp;Action...</source>
-        <translation>&amp;Ácción...</translation>
+        <translation type="unfinished">&amp;Acción...</translation>
     </message>
     <message>
         <location filename="../src/mainwindow.cpp" line="252"/>
