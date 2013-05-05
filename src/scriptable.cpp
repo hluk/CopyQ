@@ -98,7 +98,7 @@ QList<CommandHelp> commandHelp()
         << CommandHelp("exit",
                        Scriptable::tr("Exit server."))
         << CommandHelp("disable, enable",
-                       Scriptable::tr("Disable or enable clipboard content saving."))
+                       Scriptable::tr("Disable or enable clipboard content storing."))
         << CommandHelp()
         << CommandHelp("clipboard",
                        Scriptable::tr("Print clipboard content."))

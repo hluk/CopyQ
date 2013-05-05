@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>637</width>
-    <height>504</height>
+    <width>680</width>
+    <height>476</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -61,61 +61,57 @@
             <bool>false</bool>
            </property>
            <layout class="QGridLayout" name="gridLayout_8">
+            <item row="1" column="0">
+             <widget class="QCheckBox" name="checkBoxCopyClip">
+              <property name="toolTip">
+               <string>Copy clipboard content to the primary selection</string>
+              </property>
+              <property name="text">
+               <string>clipboard to selection (&amp;2)</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="2" column="0">
+             <widget class="QCheckBox" name="checkBoxSel">
+              <property name="toolTip">
+               <string>Save primary selection in history</string>
+              </property>
+              <property name="text">
+               <string>selection to history (&amp;3)</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
+            <item row="3" column="0">
+             <widget class="QCheckBox" name="checkBoxCopySel">
+              <property name="toolTip">
+               <string>Copy primary selection content to the clipboard</string>
+              </property>
+              <property name="text">
+               <string>selection to clipboard (&amp;4)</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
+            </item>
             <item row="0" column="0">
-             <layout class="QVBoxLayout" name="verticalLayout_3">
-              <item>
-               <widget class="QCheckBox" name="checkBoxClip">
-                <property name="toolTip">
-                 <string>Save clipboard in history</string>
-                </property>
-                <property name="text">
-                 <string>clipboard to history (&amp;1)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxCopyClip">
-                <property name="toolTip">
-                 <string>Copy clipboard content to the primary selection</string>
-                </property>
-                <property name="text">
-                 <string>clipboard to selection (&amp;2)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxSel">
-                <property name="toolTip">
-                 <string>Save primary selection in history</string>
-                </property>
-                <property name="text">
-                 <string>selection to history (&amp;3)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxCopySel">
-                <property name="toolTip">
-                 <string>Copy primary selection content to the clipboard</string>
-                </property>
-                <property name="text">
-                 <string>selection to clipboard (&amp;4)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-             </layout>
+             <widget class="QCheckBox" name="checkBoxClip">
+              <property name="toolTip">
+               <string>Save clipboard in history</string>
+              </property>
+              <property name="text">
+               <string>clipboard to history (&amp;1)</string>
+              </property>
+              <property name="checked">
+               <bool>true</bool>
+              </property>
+             </widget>
             </item>
            </layout>
           </widget>
@@ -236,13 +232,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="checkBoxMove">
-           <property name="text">
-            <string>Move item to the top of list on Return key and double-click</string>
-           </property>
-          </widget>
-         </item>
          <item row="4" column="0">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
@@ -259,9 +248,19 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
          <item row="3" column="0">
           <widget class="QGroupBox" name="groupBox_3">
            <property name="title">
-            <string>After item is activated...</string>
+            <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
            </property>
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QCheckBox" name="checkBoxMove">
+              <property name="toolTip">
+               <string>Move item to the top of the list after it is activated.</string>
+              </property>
+              <property name="text">
+               <string>Move item to the top</string>
+              </property>
+             </widget>
+            </item>
             <item>
              <widget class="QCheckBox" name="checkBoxActivateCloses">
               <property name="toolTip">
@@ -507,6 +506,19 @@ Set to 0 to disable this.</string>
              </property>
             </widget>
            </item>
+           <item>
+            <spacer name="horizontalSpacer_7">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
          </item>
          <item>
@@ -546,6 +558,19 @@ Set to 0 to disable this.</string>
               <bool>true</bool>
              </property>
             </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
          </item>
@@ -637,7 +662,7 @@ Set to 0 to disable this.</string>
                <x>0</x>
                <y>0</y>
                <width>68</width>
-               <height>334</height>
+               <height>286</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -768,8 +793,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>593</width>
-              <height>370</height>
+              <width>636</width>
+              <height>342</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
@@ -792,7 +817,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to show or hide main window</string>
                </property>
                <property name="text">
-                <string>toggle_shortcut</string>
+                <string notr="true">toggle_shortcut</string>
                </property>
               </widget>
              </item>
@@ -812,7 +837,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to show tray menu</string>
                </property>
                <property name="text">
-                <string>menu_shortcut</string>
+                <string notr="true">menu_shortcut</string>
                </property>
               </widget>
              </item>
@@ -832,7 +857,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to edit clipboard content</string>
                </property>
                <property name="text">
-                <string>edit_clipboard_shortcut</string>
+                <string notr="true">edit_clipboard_shortcut</string>
                </property>
               </widget>
              </item>
@@ -852,7 +877,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to edit first item</string>
                </property>
                <property name="text">
-                <string>edit_shortcut</string>
+                <string notr="true">edit_shortcut</string>
                </property>
               </widget>
              </item>
@@ -872,7 +897,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to put the second item to clipboard</string>
                </property>
                <property name="text">
-                <string>second_shortcut</string>
+                <string notr="true">second_shortcut</string>
                </property>
               </widget>
              </item>
@@ -892,7 +917,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to show action dialog</string>
                </property>
                <property name="text">
-                <string>show_action_dialog</string>
+                <string notr="true">show_action_dialog</string>
                </property>
               </widget>
              </item>
@@ -912,7 +937,7 @@ Set to 0 to disable this.</string>
                 <string>Shortcut to create new item</string>
                </property>
                <property name="text">
-                <string>new_item_shortcut</string>
+                <string notr="true">new_item_shortcut</string>
                </property>
               </widget>
              </item>
@@ -932,7 +957,7 @@ Set to 0 to disable this.</string>
                 <string>Copy next item from current tab to clipboard</string>
                </property>
                <property name="text">
-                <string>next_item_shortcut</string>
+                <string notr="true">next_item_shortcut</string>
                </property>
               </widget>
              </item>
@@ -952,7 +977,7 @@ Set to 0 to disable this.</string>
                 <string>Copy previous item from current tab to clipboard</string>
                </property>
                <property name="text">
-                <string>previous_item_shortcut</string>
+                <string notr="true">previous_item_shortcut</string>
                </property>
               </widget>
              </item>
@@ -972,14 +997,14 @@ Set to 0 to disable this.</string>
                 <string>Paste current clipboard content as plain text (i.e. remove formating).</string>
                </property>
                <property name="text">
-                <string>paste_as_plain_text</string>
+                <string notr="true">paste_as_plain_text</string>
                </property>
               </widget>
              </item>
              <item row="10" column="0">
               <widget class="QLabel" name="label_27">
                <property name="text">
-                <string>Disable clipboard saving</string>
+                <string>Disable clipboard storing</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton_11</cstring>
@@ -992,14 +1017,14 @@ Set to 0 to disable this.</string>
                 <string>Temporarily disable clipboard content to be saved in history.</string>
                </property>
                <property name="text">
-                <string>disable_monitoring_shortcut</string>
+                <string notr="true">disable_monitoring_shortcut</string>
                </property>
               </widget>
              </item>
              <item row="11" column="0">
               <widget class="QLabel" name="label_28">
                <property name="text">
-                <string>Enable clipboard saving</string>
+                <string>Enable clipboard storing</string>
                </property>
                <property name="buddy">
                 <cstring>pushButton_12</cstring>
@@ -1009,10 +1034,10 @@ Set to 0 to disable this.</string>
              <item row="11" column="1">
               <widget class="QPushButton" name="pushButton_12">
                <property name="toolTip">
-                <string>Enable clipboard content saving.</string>
+                <string>Enable clipboard content storing.</string>
                </property>
                <property name="text">
-                <string>enable_monitoring_shortcut</string>
+                <string notr="true">enable_monitoring_shortcut</string>
                </property>
               </widget>
              </item>
@@ -1040,8 +1065,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>293</width>
-              <height>410</height>
+              <width>314</width>
+              <height>348</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">

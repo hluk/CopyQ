@@ -386,8 +386,8 @@ void MainWindow::updateIcon()
 
 void MainWindow::updateMonitoringActions()
 {
-    const QString text = m_monitoringDisabled ? tr("&Enable Clipboard Saving")
-                                              : tr("&Disable Clipboard Saving");
+    const QString text = m_monitoringDisabled ? tr("&Enable Clipboard Storing")
+                                              : tr("&Disable Clipboard Storing");
 
     QIcon icon = iconTray(!m_monitoringDisabled);
 
