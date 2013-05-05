@@ -32,7 +32,7 @@
 namespace {
 
 const QStringList imageFormats =
-        QStringList("image/svg+xml") << QString("image/bmp") << QString("image/png")
+        QStringList("image/svg+xml") << QString("image/png") << QString("image/bmp")
                                      << QString("image/jpeg") << QString("image/gif");
 
 int findImageFormat(const QStringList &formats)
