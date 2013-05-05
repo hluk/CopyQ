@@ -988,6 +988,9 @@ Set to 0 to disable this.</string>
              </item>
              <item row="10" column="1">
               <widget class="QPushButton" name="pushButton_11">
+               <property name="toolTip">
+                <string>Temporarily disable clipboard content to be saved in history.</string>
+               </property>
                <property name="text">
                 <string>disable_monitoring_shortcut</string>
                </property>
@@ -1005,6 +1008,9 @@ Set to 0 to disable this.</string>
              </item>
              <item row="11" column="1">
               <widget class="QPushButton" name="pushButton_12">
+               <property name="toolTip">
+                <string>Enable clipboard content saving.</string>
+               </property>
                <property name="text">
                 <string>enable_monitoring_shortcut</string>
                </property>
