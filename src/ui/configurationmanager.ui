@@ -39,6 +39,16 @@
          <string>C&amp;lipboard</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
+         <item row="5" column="0">
+          <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
+           <property name="toolTip">
+            <string>Keep main window above other windows</string>
+           </property>
+           <property name="text">
+            <string>Always on &amp;Top</string>
+           </property>
+          </widget>
+         </item>
          <item row="0" column="0">
           <widget class="QGroupBox" name="groupBox">
            <property name="title">
@@ -110,6 +120,29 @@
            </layout>
           </widget>
          </item>
+         <item row="6" column="0">
+          <widget class="QCheckBox" name="checkBoxConfirmExit">
+           <property name="toolTip">
+            <string>Confirm application exit</string>
+           </property>
+           <property name="text">
+            <string>Confirm application e&amp;xit</string>
+           </property>
+           <property name="checked">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="checkBoxViMode">
+           <property name="toolTip">
+            <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
+           </property>
+           <property name="text">
+            <string>&amp;Vi style navigation</string>
+           </property>
+          </widget>
+         </item>
          <item row="3" column="0">
           <widget class="QCheckBox" name="checkBoxTextWrap">
            <property name="toolTip">
@@ -133,38 +166,9 @@
            </property>
           </spacer>
          </item>
-         <item row="6" column="0">
-          <widget class="QCheckBox" name="checkBoxConfirmExit">
-           <property name="toolTip">
-            <string>Confirm application exit</string>
-           </property>
-           <property name="text">
-            <string>Confirm application e&amp;xit</string>
-           </property>
-           <property name="checked">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
-           <property name="toolTip">
-            <string>Keep main window above other windows</string>
-           </property>
-           <property name="text">
-            <string>Always on &amp;Top</string>
-           </property>
-          </widget>
-         </item>
          <item row="1" column="0">
-          <layout class="QFormLayout" name="formLayout_3">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-           </property>
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item row="0" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout">
+           <item>
             <widget class="QLabel" name="label_19">
              <property name="text">
               <string>&amp;Position of Tabs:</string>
@@ -174,58 +178,44 @@
              </property>
             </widget>
            </item>
-           <item row="0" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QComboBox" name="comboBoxTabPosition">
              <item>
-              <widget class="QComboBox" name="comboBoxTabPosition">
-               <item>
-                <property name="text">
-                 <string>Top</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Bottom</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Left</string>
-                </property>
-               </item>
-               <item>
-                <property name="text">
-                 <string>Right</string>
-                </property>
-               </item>
-              </widget>
+              <property name="text">
+               <string>Top</string>
+              </property>
              </item>
              <item>
-              <spacer name="horizontalSpacer_5">
-               <property name="orientation">
-                <enum>Qt::Horizontal</enum>
-               </property>
-               <property name="sizeHint" stdset="0">
-                <size>
-                 <width>40</width>
-                 <height>20</height>
-                </size>
-               </property>
-              </spacer>
+              <property name="text">
+               <string>Bottom</string>
+              </property>
              </item>
-            </layout>
+             <item>
+              <property name="text">
+               <string>Left</string>
+              </property>
+             </item>
+             <item>
+              <property name="text">
+               <string>Right</string>
+              </property>
+             </item>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
            </item>
           </layout>
-         </item>
-         <item row="4" column="0">
-          <widget class="QCheckBox" name="checkBoxViMode">
-           <property name="toolTip">
-            <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
-           </property>
-           <property name="text">
-            <string>&amp;Vi style navigation</string>
-           </property>
-          </widget>
          </item>
         </layout>
        </widget>
@@ -245,6 +235,26 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
             <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
            </property>
           </widget>
+         </item>
+         <item row="2" column="0">
+          <widget class="QCheckBox" name="checkBoxMove">
+           <property name="text">
+            <string>Move item to the top of list on Return key and double-click</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <spacer name="verticalSpacer_6">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
+           </property>
+          </spacer>
          </item>
          <item row="3" column="0">
           <widget class="QGroupBox" name="groupBox_3">
@@ -283,13 +293,6 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              </widget>
             </item>
            </layout>
-          </widget>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="checkBoxMove">
-           <property name="text">
-            <string>Move item to the top of list on Return key and double-click</string>
-           </property>
           </widget>
          </item>
          <item row="0" column="0">
@@ -402,19 +405,6 @@ Set to 0 to disable this.</string>
             </layout>
            </item>
           </layout>
-         </item>
-         <item row="4" column="0">
-          <spacer name="verticalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
          </item>
         </layout>
        </widget>
@@ -646,8 +636,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>98</width>
-               <height>28</height>
+               <width>68</width>
+               <height>334</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -778,8 +768,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>339</width>
-              <height>336</height>
+              <width>593</width>
+              <height>370</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
