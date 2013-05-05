@@ -935,7 +935,7 @@ Poner a 0 para deshabilitar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1037"/>
         <source>Enable clipboard content to be saved in history.</source>
-        <translation type="unfinished"></translation>
+        <translation>Permitir que el contenido del portapapeles se guarde en el historial.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="772"/>
@@ -1569,12 +1569,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="73"/>
         <source>&amp;Web Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Entradas &amp;Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="75"/>
         <source>Display web pages.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar páginas web.</translation>
     </message>
 </context>
 <context>
