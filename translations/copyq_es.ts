@@ -563,122 +563,122 @@ Dejar en blanco para deshabilitar esto.</translation>
         <translation>&amp;Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="55"/>
+        <location filename="../src/ui/configurationmanager.ui" line="249"/>
         <source>S&amp;ynchronize</source>
         <translation>&amp;Sincronizar</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="106"/>
+        <location filename="../src/ui/configurationmanager.ui" line="300"/>
         <source>Save clipboard in history</source>
         <translation>Guardar portapapeles en el historal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="109"/>
+        <location filename="../src/ui/configurationmanager.ui" line="303"/>
         <source>clipboard to history (&amp;1)</source>
         <translation>portapapeles a historial (&amp;1)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="67"/>
+        <location filename="../src/ui/configurationmanager.ui" line="261"/>
         <source>Copy clipboard content to the primary selection</source>
         <translation>Copiar contenido del portapapeles a la selección primaria</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="70"/>
+        <location filename="../src/ui/configurationmanager.ui" line="264"/>
         <source>clipboard to selection (&amp;2)</source>
         <translation>portapapeles a selección (&amp;2)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="80"/>
+        <location filename="../src/ui/configurationmanager.ui" line="274"/>
         <source>Save primary selection in history</source>
         <translation>Guardar selección principal en el historial</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="83"/>
+        <location filename="../src/ui/configurationmanager.ui" line="277"/>
         <source>selection to history (&amp;3)</source>
         <translation>selección a historial (&amp;3)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="93"/>
+        <location filename="../src/ui/configurationmanager.ui" line="287"/>
         <source>Copy primary selection content to the clipboard</source>
         <translation>Copiar contenido de la selección primaria al portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="96"/>
+        <location filename="../src/ui/configurationmanager.ui" line="290"/>
         <source>selection to clipboard (&amp;4)</source>
         <translation>selección a portapapeles (&amp;4)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="145"/>
+        <location filename="../src/ui/configurationmanager.ui" line="204"/>
         <source>Break text if it&apos;s too long to fit on line.</source>
         <translation>Ajustar texto si es demasiado largo para caber en una sola línea.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="148"/>
+        <location filename="../src/ui/configurationmanager.ui" line="207"/>
         <source>W&amp;rap long text</source>
         <translation>&amp;Ajuste de línea</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="122"/>
+        <location filename="../src/ui/configurationmanager.ui" line="234"/>
         <source>Confirm application exit</source>
         <translation>Pedir confirmación para salir del programa</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="125"/>
+        <location filename="../src/ui/configurationmanager.ui" line="237"/>
         <source>Confirm application e&amp;xit</source>
         <translation>Pedir confirmación para &amp;salir del programa</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="45"/>
+        <location filename="../src/ui/configurationmanager.ui" line="224"/>
         <source>Keep main window above other windows</source>
         <translation>Mantener ventana principal por encima de las otras ventanas</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="48"/>
+        <location filename="../src/ui/configurationmanager.ui" line="227"/>
         <source>Always on &amp;Top</source>
         <translation>Mantener por &amp;encima</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="170"/>
+        <location filename="../src/ui/configurationmanager.ui" line="146"/>
         <source>&amp;Position of Tabs:</source>
         <translation>&amp;Posición de las Pestañas:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="181"/>
+        <location filename="../src/ui/configurationmanager.ui" line="98"/>
         <source>Top</source>
         <translation>Arriba</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="186"/>
+        <location filename="../src/ui/configurationmanager.ui" line="103"/>
         <source>Bottom</source>
         <translation>Abajo</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="191"/>
+        <location filename="../src/ui/configurationmanager.ui" line="108"/>
         <source>Left</source>
         <translation>Izquierda</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="196"/>
+        <location filename="../src/ui/configurationmanager.ui" line="113"/>
         <source>Right</source>
         <translation>Derecha</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="135"/>
+        <location filename="../src/ui/configurationmanager.ui" line="214"/>
         <source>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</source>
         <translation>Soporte para teclas de navegación Vi  (H, J, K, L etc.), tecla de barra (/) para buscar</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="138"/>
+        <location filename="../src/ui/configurationmanager.ui" line="217"/>
         <source>&amp;Vi style navigation</source>
         <translation>Estilo de navegación &amp;Vi</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="220"/>
+        <location filename="../src/ui/configurationmanager.ui" line="319"/>
         <source>&amp;History</source>
         <translation>&amp;Historial</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="226"/>
+        <location filename="../src/ui/configurationmanager.ui" line="325"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</source>
@@ -687,7 +687,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</sou
 Nota: Las entradas editadas pueden guardarse con Ctrl+S o F2 al margen de esta opción.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="231"/>
+        <location filename="../src/ui/configurationmanager.ui" line="330"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
         <translation>&amp;Guardar la entrada editada con Ctrl+Return y crear una nueva línea con la tecla Return</translation>
     </message>
@@ -696,32 +696,32 @@ Nota: Las entradas editadas pueden guardarse con Ctrl+S o F2 al margen de esta o
         <translation type="obsolete">Después de que la entrada se active...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="267"/>
+        <location filename="../src/ui/configurationmanager.ui" line="366"/>
         <source>Close main window after item is activated.</source>
         <translation>Cerrar ventana principal después de que se active la entrada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="270"/>
+        <location filename="../src/ui/configurationmanager.ui" line="369"/>
         <source>&amp;Close main window</source>
         <translation>&amp;Cerrar ventana principal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="277"/>
+        <location filename="../src/ui/configurationmanager.ui" line="376"/>
         <source>Focus last window after item is activated.</source>
         <translation>Poner el foco en la última ventana después de que se active la entrada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="280"/>
+        <location filename="../src/ui/configurationmanager.ui" line="379"/>
         <source>&amp;Focus last window</source>
         <translation>Cambiar el &amp;foco a la última ventana</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="287"/>
+        <location filename="../src/ui/configurationmanager.ui" line="386"/>
         <source>Paste to current window after item is activated.</source>
         <translation>Pegar a la ventana actual después de que se active la entrada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="290"/>
+        <location filename="../src/ui/configurationmanager.ui" line="389"/>
         <source>&amp;Paste to current window</source>
         <translation>&amp;Pegar a la ventana actual</translation>
     </message>
@@ -730,22 +730,22 @@ Nota: Las entradas editadas pueden guardarse con Ctrl+S o F2 al margen de esta o
         <translation type="obsolete">Mover entrada al primer lugar de la lista al pulsar la tecla Return y al hacer doble click</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="305"/>
+        <location filename="../src/ui/configurationmanager.ui" line="404"/>
         <source>Maximum &amp;number of items in history:</source>
         <translation>&amp;Número máximo de entradas en el historial:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="317"/>
+        <location filename="../src/ui/configurationmanager.ui" line="416"/>
         <source>Maximum number of items in each tab</source>
         <translation>Número máximo de entradas por cada pestaña</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="345"/>
+        <location filename="../src/ui/configurationmanager.ui" line="444"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
         <translation>Orden del &amp;editor externo (%1 es el archivo a editar):</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="355"/>
+        <location filename="../src/ui/configurationmanager.ui" line="454"/>
         <source>External editor command (%1 is file to edit).
   Examples:
     gedit %1
@@ -760,17 +760,17 @@ Nota: Las entradas editadas pueden guardarse con Ctrl+S o F2 al margen de esta o
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="363"/>
+        <location filename="../src/ui/configurationmanager.ui" line="462"/>
         <source>gedit %1</source>
         <translation>gedit %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="370"/>
+        <location filename="../src/ui/configurationmanager.ui" line="469"/>
         <source>Interval in seconds for tray message:</source>
         <translation>Intervalo en segundos para el mensaje de la bandeja:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="379"/>
+        <location filename="../src/ui/configurationmanager.ui" line="478"/>
         <source>Interval in seconds for tray message which is shown after an item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.</source>
@@ -779,297 +779,326 @@ Set to 0 to disable this.</source>
 Poner a 0 para deshabilitar.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="412"/>
+        <location filename="../src/ui/configurationmanager.ui" line="511"/>
         <source>&amp;Items</source>
         <translation>&amp;Entradas</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="418"/>
+        <location filename="../src/ui/configurationmanager.ui" line="517"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by moving the tabs below.</source>
         <translation>El formato de visualización de una entrada seleccionada en el historial se puede cambiar pulsando &lt;b&gt;Ctrl+Left&lt;/b&gt; o &lt;b&gt;Ctrl+Right&lt;/b&gt;. Puedes cambiar la prioridad de los formatos de visualización moviendo las pestañas de abajo.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="430"/>
+        <location filename="../src/ui/configurationmanager.ui" line="529"/>
         <source>Change display priority:</source>
         <translation>Cambiar prioridad de visualización:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="437"/>
+        <location filename="../src/ui/configurationmanager.ui" line="536"/>
         <source>Hi&amp;gher</source>
         <translation>&amp;Mayor</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="444"/>
+        <location filename="../src/ui/configurationmanager.ui" line="543"/>
         <source>L&amp;ower</source>
         <translation>M&amp;enor</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="474"/>
+        <location filename="../src/ui/configurationmanager.ui" line="573"/>
         <source>&amp;Tray</source>
         <translation>&amp;Bandeja</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="482"/>
+        <location filename="../src/ui/configurationmanager.ui" line="581"/>
         <source>N&amp;umber of items in tray menu:</source>
         <translation>N&amp;úmero de entradas en el menú de la bandeja:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="492"/>
+        <location filename="../src/ui/configurationmanager.ui" line="591"/>
         <source>Number of items in tray menu</source>
         <translation>Número de entradas en el menú de la bandeja</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="502"/>
+        <location filename="../src/ui/configurationmanager.ui" line="601"/>
         <source>Paste item to current window after selecting it in menu.</source>
         <translation>Pegar entrada a la ventana actual después de seleccionarla en el menú.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="505"/>
+        <location filename="../src/ui/configurationmanager.ui" line="604"/>
         <source>&amp;Paste activated item to current window</source>
         <translation>&amp;Pegar entrada activada a la ventana actual</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="529"/>
+        <location filename="../src/ui/configurationmanager.ui" line="628"/>
         <source>Show items from current tab in content menu</source>
         <translation>Mostrar entradas de la pestaña actual en el menu contextual</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="532"/>
+        <location filename="../src/ui/configurationmanager.ui" line="631"/>
         <source>Show c&amp;urrent tab in menu,</source>
         <translation>Mostrar pestaña &amp;actual en el menú,</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="539"/>
+        <location filename="../src/ui/configurationmanager.ui" line="638"/>
         <source>or choose o&amp;ther tab:</source>
         <translation>o elija o&amp;tra pestaña:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="555"/>
+        <location filename="../src/ui/configurationmanager.ui" line="654"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
         <translation>Nombre de la pestaña a mostrar en el menú de la bandeja (en blanco para mostrar la primera pestaña)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="580"/>
+        <location filename="../src/ui/configurationmanager.ui" line="679"/>
         <source>Show command for current clipboard content in tray menu.</source>
         <translation>Mostrar orden para contenido actual del portapapeles en el menú de la bandeja.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="583"/>
+        <location filename="../src/ui/configurationmanager.ui" line="682"/>
         <source>Sho&amp;w commands for clipboard content</source>
         <translation>M&amp;ostrar órdenes para el contenido del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="590"/>
+        <location filename="../src/ui/configurationmanager.ui" line="689"/>
         <source>Show image preview next to menu items</source>
         <translation>Mostrar previsualización de imagen al lado de la entradas del menú</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="593"/>
+        <location filename="../src/ui/configurationmanager.ui" line="692"/>
         <source>Show &amp;image preview as menu item icon</source>
         <translation>Mostrar previsualización de &amp;imagen como icono de la entrada del menú</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="614"/>
+        <location filename="../src/ui/configurationmanager.ui" line="713"/>
         <source>Co&amp;mmands</source>
         <translation>Ó&amp;rdenes</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="626"/>
+        <location filename="../src/ui/configurationmanager.ui" line="725"/>
         <source>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</source>
         <translation>Definir qué hacer con un nuevo texto coincidente en el portapapeles. Las órdenes se aplican en el orden de aparición en la lista y también se pueden ejecutar desde el menú principal y con el menú contextual cuando se seleccionan las entradas coincidentes.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="701"/>
+        <location filename="../src/ui/configurationmanager.ui" line="800"/>
         <source>Create new command or a add an existing example command.</source>
         <translation>Crear una orden nueva o añadir una orden de ejemplo existente.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="704"/>
+        <location filename="../src/ui/configurationmanager.ui" line="803"/>
         <source>Add Command [+]</source>
         <translation>Añadir Orden [+]</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="707"/>
         <source>+</source>
-        <translation>+</translation>
+        <translation type="obsolete">+</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="720"/>
+        <location filename="../src/ui/configurationmanager.ui" line="819"/>
         <source>Remove [Del]</source>
         <translation>Eliminar [Supr]</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="723"/>
         <source>Del</source>
-        <translation>Supr</translation>
+        <translation type="obsolete">Supr</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="730"/>
+        <location filename="../src/ui/configurationmanager.ui" line="829"/>
         <source>Up [Ctrl+Up]</source>
         <translation>Arriba [Ctrl+Arriba]</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="733"/>
         <source>Ctrl+Up</source>
-        <translation>Ctrl+Arriba</translation>
+        <translation type="obsolete">Ctrl+Arriba</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="740"/>
+        <location filename="../src/ui/configurationmanager.ui" line="839"/>
         <source>Down [Ctrl+Down]</source>
         <translation>Abajo [Ctrl+Abajo]</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="743"/>
         <source>Ctrl+Down</source>
-        <translation>Ctrl+Abajo</translation>
+        <translation type="obsolete">Ctrl+Abajo</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="766"/>
+        <location filename="../src/ui/configurationmanager.ui" line="865"/>
         <source>&amp;Shortcuts</source>
         <translation>Accesos &amp;rápidos</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="782"/>
+        <location filename="../src/ui/configurationmanager.ui" line="881"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Nota:&lt;/b&gt; Algunas combinaciones de teclas podrían no funcionar.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1037"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1136"/>
         <source>Enable clipboard content to be saved in history.</source>
         <translation>Permitir que el contenido del portapapeles se guarde en el historial.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="772"/>
+        <location filename="../src/ui/configurationmanager.ui" line="871"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn&apos;t have focus.&lt;/body&gt;&lt;/html&gt;</source>
         <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Estos accesos rápidos funcionan incluso si la ventana del programa no tiene el foco.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="807"/>
+        <location filename="../src/ui/configurationmanager.ui" line="906"/>
         <source>Sh&amp;ow/hide main window</source>
         <translation>M&amp;ostrar/ocultar ventana principal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="817"/>
+        <location filename="../src/ui/configurationmanager.ui" line="916"/>
         <source>Shortcut to show or hide main window</source>
         <translation>Acceso rápido para mostrar u ocultar la ventana principal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="827"/>
+        <location filename="../src/ui/configurationmanager.ui" line="926"/>
         <source>Show the tray &amp;menu</source>
         <translation>Mostrar el &amp;menú de la bandeja</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="837"/>
+        <location filename="../src/ui/configurationmanager.ui" line="936"/>
         <source>Shortcut to show tray menu</source>
         <translation>Acceso rápido para mostrar el menú de la bandeja</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="867"/>
+        <location filename="../src/ui/configurationmanager.ui" line="966"/>
         <source>Edit &amp;first item</source>
         <translation>Editar la &amp;primera entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="887"/>
+        <location filename="../src/ui/configurationmanager.ui" line="986"/>
         <source>Copy &amp;second item</source>
         <translation>Copiar la &amp;segunda entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="907"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1006"/>
         <source>Show &amp;action dialog</source>
         <translation>Mostar ventana de diálogo de &amp;acción</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="927"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1026"/>
         <source>Create &amp;new item</source>
         <translation>Crear &amp;nueva entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="847"/>
+        <location filename="../src/ui/configurationmanager.ui" line="946"/>
         <source>&amp;Edit clipboard</source>
         <translation>&amp;Editar portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="251"/>
+        <location filename="../src/ui/configurationmanager.ui" line="65"/>
+        <source>Transparency of main window if unfocused.
+
+Note: This is not be supported on all systems.</source>
+        <translation>Transparencia de la ventana principal cuando pierde el foco.
+
+Nota: No funciona en todos los sistemas.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="136"/>
+        <source>&amp;Unfocused transparency:</source>
+        <translation>Transparencia &amp;sin foco:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="156"/>
+        <source>&amp;Focused transparency:</source>
+        <translation>Transparencia con &amp;foco:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="168"/>
+        <source>Transparency of main window if focused.
+
+Note: This is not be supported on all systems.</source>
+        <translation>Transparencia de la ventana principal cuando tiene el foco.
+
+Nota: No funciona en todos los sistemas.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="173"/>
+        <source>%</source>
+        <translation>%</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="350"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
         <translation>Después de que la entrada se active (doble-click o tecla Enter), copiarla al portapapeles y...</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="257"/>
+        <location filename="../src/ui/configurationmanager.ui" line="356"/>
         <source>Move item to the top of the list after it is activated.</source>
         <translation>Mover entrada al primer lugar de la lista después de que sea activada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="260"/>
+        <location filename="../src/ui/configurationmanager.ui" line="359"/>
         <source>Move item to the top</source>
         <translation>Mover entrada al primer lugar</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="857"/>
+        <location filename="../src/ui/configurationmanager.ui" line="956"/>
         <source>Shortcut to edit clipboard content</source>
         <translation>Acceso rápido para editar el contenido del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="877"/>
+        <location filename="../src/ui/configurationmanager.ui" line="976"/>
         <source>Shortcut to edit first item</source>
         <translation>Acceso rápido para editar la primera entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="897"/>
+        <location filename="../src/ui/configurationmanager.ui" line="996"/>
         <source>Shortcut to put the second item to clipboard</source>
         <translation>Acceso rápido para poner la segunda entrada en el portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="917"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1016"/>
         <source>Shortcut to show action dialog</source>
         <translation>Acceso rápido para mostrar la ventana de diálogo de acción</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="937"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1036"/>
         <source>Shortcut to create new item</source>
         <translation>Acceso rápido para crear una nueva entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="947"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1046"/>
         <source>Copy n&amp;ext item</source>
         <translation>Copiar &amp;siguiente entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="957"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1056"/>
         <source>Copy next item from current tab to clipboard</source>
         <translation>Copiar la siguiente entrada de la pestaña actual al portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="967"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1066"/>
         <source>Copy &amp;previous item</source>
         <translation>Copiar entrada &amp;anterior</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="977"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1076"/>
         <source>Copy previous item from current tab to clipboard</source>
         <translation>Copiar la entrada anterior de la pestaña actual al portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="987"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1086"/>
         <source>Paste as pla&amp;in text</source>
         <translation>Copiar como texto &amp;plano</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="997"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1096"/>
         <source>Paste current clipboard content as plain text (i.e. remove formating).</source>
         <translation>Pegar el contenido actual del portapapeles como texto plano (sin formato).</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1007"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1106"/>
         <source>Disable clipboard storing</source>
         <translation>Deshabilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1017"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1116"/>
         <source>Temporarily disable clipboard content to be saved in history.</source>
         <translation>Deshabilitar temporalmente que el contenido del portapapeles se guarde en el historial.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1027"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1126"/>
         <source>Enable clipboard storing</source>
         <translation>Habilitar el almacenamiento del portapapeles</translation>
     </message>
@@ -1078,137 +1107,137 @@ Poner a 0 para deshabilitar.</translation>
         <translation type="obsolete">Habilitar el almacenamiento del contenido del portapapeles.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1052"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1151"/>
         <source>&amp;Appearance</source>
         <translation>&amp;Apariencia</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1081"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1180"/>
         <source>Background:</source>
         <translation>Fondo:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1088"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1187"/>
         <source>Normal (&amp;1)</source>
         <translation>Normal (&amp;1)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1095"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1194"/>
         <source>Selected (&amp;3)</source>
         <translation>Seleccionado (&amp;3)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1102"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1201"/>
         <source>Found (&amp;5)</source>
         <translation>Encontrado (&amp;5)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1109"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1208"/>
         <source>Editor (&amp;7)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1116"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1215"/>
         <source>Alternate (&amp;9)</source>
         <translation>Alterno (&amp;9)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1136"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1235"/>
         <source>Font:</source>
         <translation>Tipo de letra:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1143"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1242"/>
         <source>&amp;Normal</source>
         <translation>&amp;Normal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1150"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1249"/>
         <source>Fo&amp;und</source>
         <translation>&amp;Encontrado</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1157"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1256"/>
         <source>&amp;Editor</source>
         <translation>&amp;Editor</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1164"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1263"/>
         <source>Num&amp;ber</source>
         <translation>&amp;Número</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1175"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1274"/>
         <source>Foreground:</source>
         <translation>Texto:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1182"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1281"/>
         <source>Normal (&amp;2)</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1189"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1288"/>
         <source>Selected (&amp;4)</source>
         <translation>Seleccionado (&amp;4)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1196"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1295"/>
         <source>Found (&amp;6)</source>
         <translation>Encontrado (&amp;6)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1203"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1302"/>
         <source>Editor (&amp;8)</source>
         <translation>Editor (&amp;8)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1210"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1309"/>
         <source>Number (1&amp;0)</source>
         <translation>Número (1&amp;0)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1217"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1316"/>
         <source>Show &amp;Number</source>
         <translation>Mostrar &amp;Número</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1224"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1323"/>
         <source>Show scrollbars</source>
         <translation>Mostrar barras de deplazamiento</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1227"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1326"/>
         <source>Sc&amp;rollbars</source>
         <translation>Ba&amp;rras de desplazamiento</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1234"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1333"/>
         <source>Use icons from desktop environment whenever possible.</source>
         <translation>Usar iconos del entorno de escritorio siempre que sea posible.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1237"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1336"/>
         <source>S&amp;ystem Icons</source>
         <translation>Iconos de S&amp;istema</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1257"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1356"/>
         <source>Theme:</source>
         <translation>Tema:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1264"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1363"/>
         <source>&amp;Load Theme</source>
         <translation>&amp;Cargar Tema</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1271"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1370"/>
         <source>&amp;Save Theme</source>
         <translation>&amp;Guardar Tema</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1289"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1388"/>
         <source>Preview:</source>
         <translation>Previsualización:</translation>
     </message>
@@ -1333,27 +1362,27 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="795"/>
+        <location filename="../src/configurationmanager.cpp" line="797"/>
         <source>Reset preferences?</source>
         <translation>¿Reiniciar preferencias?</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="796"/>
+        <location filename="../src/configurationmanager.cpp" line="798"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores por defecto.&lt;br /&gt;&lt;br /&gt;¿Está seguro de que desea &lt;strong&gt;reiniciar todas las preferencias&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="960"/>
+        <location filename="../src/configurationmanager.cpp" line="962"/>
         <source>&lt;untitled command&gt;</source>
         <translation>&lt;orden sin título&gt;</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="1071"/>
+        <location filename="../src/configurationmanager.cpp" line="1073"/>
         <source>Open Theme File</source>
         <translation>Abrir Fichero de Tema</translation>
     </message>
     <message>
-        <location filename="../src/configurationmanager.cpp" line="1081"/>
+        <location filename="../src/configurationmanager.cpp" line="1083"/>
         <source>Save Theme File As</source>
         <translation>Guardar Fichero de Tema Como</translation>
     </message>
@@ -1591,311 +1620,311 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>&amp;Buscar:</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="154"/>
+        <location filename="../src/mainwindow.cpp" line="157"/>
         <source>&amp;clipboard</source>
         <translation>&amp;portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="183"/>
+        <location filename="../src/mainwindow.cpp" line="186"/>
         <source>Exit?</source>
         <translation>¿Salir?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="184"/>
+        <location filename="../src/mainwindow.cpp" line="187"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>¿Desea &lt;strong&gt;salir&lt;/strong&gt; de CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="222"/>
+        <location filename="../src/mainwindow.cpp" line="225"/>
         <source>&amp;File</source>
         <translation>&amp;Archivo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="225"/>
+        <location filename="../src/mainwindow.cpp" line="228"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Mostrar/Ocultar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="233"/>
+        <location filename="../src/mainwindow.cpp" line="236"/>
         <source>&amp;New Item</source>
         <translation>&amp;Nueva entrada</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="240"/>
+        <location filename="../src/mainwindow.cpp" line="243"/>
         <source>&amp;Import Tab...</source>
         <translation>&amp;Importar Pestaña...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="242"/>
+        <location filename="../src/mainwindow.cpp" line="245"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="245"/>
+        <location filename="../src/mainwindow.cpp" line="248"/>
         <source>&amp;Export Tab...</source>
         <translation>&amp;Exportar Pestaña...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="250"/>
+        <location filename="../src/mainwindow.cpp" line="253"/>
         <source>&amp;Action...</source>
         <translation>&amp;Acción...</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="252"/>
+        <location filename="../src/mainwindow.cpp" line="255"/>
         <source>Open action dialog</source>
         <translation>Abrir ventana de diálogo de acción</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="259"/>
+        <location filename="../src/mainwindow.cpp" line="262"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Preferencias</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="262"/>
+        <location filename="../src/mainwindow.cpp" line="265"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="266"/>
+        <location filename="../src/mainwindow.cpp" line="269"/>
         <source>Show &amp;Clipboard Content</source>
         <translation>Mostrar contenido del &amp;Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="269"/>
+        <location filename="../src/mainwindow.cpp" line="272"/>
         <source>Ctrl+Shift+C</source>
         <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="274"/>
+        <location filename="../src/mainwindow.cpp" line="277"/>
         <source>Ctrl+Shift+X</source>
         <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="281"/>
-        <location filename="../src/mainwindow.cpp" line="345"/>
+        <location filename="../src/mainwindow.cpp" line="284"/>
+        <location filename="../src/mainwindow.cpp" line="348"/>
         <source>E&amp;xit</source>
         <translation>&amp;Salir</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="283"/>
+        <location filename="../src/mainwindow.cpp" line="286"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="286"/>
+        <location filename="../src/mainwindow.cpp" line="289"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="290"/>
+        <location filename="../src/mainwindow.cpp" line="293"/>
         <source>&amp;Sort Selected Items</source>
         <translation>&amp;Ordenar las entradas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="292"/>
+        <location filename="../src/mainwindow.cpp" line="295"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="296"/>
+        <location filename="../src/mainwindow.cpp" line="299"/>
         <source>&amp;Reverse Selected Items</source>
         <translation>&amp;Ordenar inversamente la entradas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="298"/>
+        <location filename="../src/mainwindow.cpp" line="301"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="304"/>
+        <location filename="../src/mainwindow.cpp" line="307"/>
         <source>&amp;Paste Items</source>
         <translation>&amp;Pegar entradas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="310"/>
+        <location filename="../src/mainwindow.cpp" line="313"/>
         <source>&amp;Copy Selected Items</source>
         <translation>&amp;Copiar Entradas Seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="322"/>
+        <location filename="../src/mainwindow.cpp" line="325"/>
         <source>&amp;Item</source>
         <translation>&amp;Entrada</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="325"/>
+        <location filename="../src/mainwindow.cpp" line="328"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Pestañas</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="328"/>
-        <location filename="../src/mainwindow.cpp" line="814"/>
+        <location filename="../src/mainwindow.cpp" line="331"/>
+        <location filename="../src/mainwindow.cpp" line="834"/>
         <source>&amp;New tab</source>
         <translation>&amp;Nueva pestaña</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="330"/>
+        <location filename="../src/mainwindow.cpp" line="333"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="331"/>
+        <location filename="../src/mainwindow.cpp" line="334"/>
         <source>&amp;Rename tab</source>
         <translation>&amp;Cambiar el nombre de la pestaña</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="333"/>
+        <location filename="../src/mainwindow.cpp" line="336"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="334"/>
+        <location filename="../src/mainwindow.cpp" line="337"/>
         <source>&amp;Remove tab</source>
         <translation>&amp;Cerrar pestaña</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="336"/>
+        <location filename="../src/mainwindow.cpp" line="339"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="339"/>
+        <location filename="../src/mainwindow.cpp" line="342"/>
         <source>Co&amp;mmands</source>
         <translation>Ó&amp;rdenes</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="349"/>
-        <location filename="../src/mainwindow.cpp" line="350"/>
+        <location filename="../src/mainwindow.cpp" line="352"/>
+        <location filename="../src/mainwindow.cpp" line="353"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="361"/>
+        <location filename="../src/mainwindow.cpp" line="364"/>
         <source>Error: %1
 </source>
         <translation>Error: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="363"/>
+        <location filename="../src/mainwindow.cpp" line="366"/>
         <source>Exit code: %1
 </source>
         <translation>Código de salida: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="366"/>
+        <location filename="../src/mainwindow.cpp" line="369"/>
         <source>Command &quot;%1&quot;</source>
         <translation>Orden &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="389"/>
+        <location filename="../src/mainwindow.cpp" line="398"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Habilitar el Almacenamiento del Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="390"/>
+        <location filename="../src/mainwindow.cpp" line="399"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Deshabilitar el Almacenamiento del Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="653"/>
+        <location filename="../src/mainwindow.cpp" line="669"/>
         <source>Loading configuration</source>
         <translation>Cargando configuración</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="700"/>
+        <location filename="../src/mainwindow.cpp" line="720"/>
         <source>Configuration loaded</source>
         <translation>Configuración cargada</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="824"/>
+        <location filename="../src/mainwindow.cpp" line="844"/>
         <source>&amp;Rename tab &quot;%1&quot;</source>
         <translation>&amp;Cambiar el nombre de la pestaña &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="826"/>
+        <location filename="../src/mainwindow.cpp" line="846"/>
         <source>&amp;Remove tab &quot;%1&quot;</source>
         <translation>&amp;Cerrar pestaña &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="911"/>
+        <location filename="../src/mainwindow.cpp" line="931"/>
         <source>&lt;IMAGE&gt;</source>
         <translation>&lt;IMAGE&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="913"/>
+        <location filename="../src/mainwindow.cpp" line="933"/>
         <source>&lt;DATA&gt;</source>
         <translation>&lt;DATA&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="917"/>
+        <location filename="../src/mainwindow.cpp" line="937"/>
         <source>Clipboard:
 %1</source>
         <translation>Portapapeles:\n%1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="918"/>
+        <location filename="../src/mainwindow.cpp" line="938"/>
         <source>%1 - CopyQ</source>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="924"/>
+        <location filename="../src/mainwindow.cpp" line="944"/>
         <source>Clipboard</source>
         <translation>Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1015"/>
+        <location filename="../src/mainwindow.cpp" line="1035"/>
         <source>KILL</source>
         <translation>KILL</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1016"/>
+        <location filename="../src/mainwindow.cpp" line="1036"/>
         <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
         <translation>&lt;b&gt;COMMAND:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1017"/>
+        <location filename="../src/mainwindow.cpp" line="1037"/>
         <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
         <translation>&lt;b&gt;INPUT:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1328"/>
-        <location filename="../src/mainwindow.cpp" line="1379"/>
+        <location filename="../src/mainwindow.cpp" line="1348"/>
+        <location filename="../src/mainwindow.cpp" line="1399"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Entradas (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1333"/>
+        <location filename="../src/mainwindow.cpp" line="1353"/>
         <source>CopyQ Error Saving File</source>
         <translation>CopyQ Error al Guardar un Archivo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1334"/>
+        <location filename="../src/mainwindow.cpp" line="1354"/>
         <source>Cannot save file &quot;%1&quot;!</source>
         <translation>¡No se pudo guardar el archivo &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1384"/>
+        <location filename="../src/mainwindow.cpp" line="1404"/>
         <source>CopyQ Error Opening File</source>
         <translation>CopyQ Error al Abrir un Archivo</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1385"/>
+        <location filename="../src/mainwindow.cpp" line="1405"/>
         <source>Cannot open file &quot;%1&quot;!</source>
         <translation>¡No se pudo abrir el archivo &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1424"/>
+        <location filename="../src/mainwindow.cpp" line="1444"/>
         <source>Executing: %1</source>
         <translation>Ejecutando: %1</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1520"/>
+        <location filename="../src/mainwindow.cpp" line="1540"/>
         <source>Remove Tab?</source>
         <translation>¿Cerrar pestaña?</translation>
     </message>
     <message>
-        <location filename="../src/mainwindow.cpp" line="1521"/>
+        <location filename="../src/mainwindow.cpp" line="1541"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>¿Desea cerrar la pestaña &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
