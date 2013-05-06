@@ -336,6 +336,7 @@ void ConfigurationManager::initOptions()
     bind("confirm_exit", ui->checkBoxConfirmExit, true);
     bind("vi", ui->checkBoxViMode, false);
     bind("always_on_top", ui->checkBoxAlwaysOnTop, false);
+    bind("transparency", ui->spinBoxTransparency, 0);
     bind("tab_position", ui->comboBoxTabPosition, 0);
     bind("text_wrap", ui->checkBoxTextWrap, true);
 

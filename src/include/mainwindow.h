@@ -128,6 +128,7 @@ class MainWindow : public QMainWindow
         void keyPressEvent(QKeyEvent *event);
         void dragEnterEvent(QDragEnterEvent *event);
         void dropEvent(QDropEvent *event);
+        bool event(QEvent *event);
 
     public slots:
         /**
@@ -296,6 +297,8 @@ class MainWindow : public QMainWindow
         /** Update tray and window icon depending on current state. */
         void updateIcon();
 
+        void updateWindowTransparency();
+
         /** Update name and icon of "disable/enable monitoring" menu actions. */
         void updateMonitoringActions();
 
@@ -322,6 +325,8 @@ class MainWindow : public QMainWindow
         int m_itemPopupInterval;
         int m_lastTab;
         QTimer *m_timerSearch;
+
+        int m_transparency;
 
         bool m_activateCloses;
         bool m_activateFocuses;

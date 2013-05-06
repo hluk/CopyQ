@@ -105,6 +105,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_itemPopupInterval(0)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
+    , m_transparency(0)
     , m_activateCloses(true)
     , m_activateFocuses(false)
     , m_activatePastes(false)
@@ -384,6 +385,11 @@ void MainWindow::updateIcon()
     tray->setIcon(icon);
 }
 
+void MainWindow::updateWindowTransparency()
+{
+    setWindowOpacity(!isActiveWindow() ? (100 - m_transparency) / 100.0 : 1.0);
+}
+
 void MainWindow::updateMonitoringActions()
 {
     const QString text = m_monitoringDisabled ? tr("&Enable Clipboard Storing")
@@ -630,6 +636,13 @@ void MainWindow::dropEvent(QDropEvent *event)
     c->updateClipboard();
 }
 
+bool MainWindow::event(QEvent *event)
+{
+    if (event->type() == QEvent::WindowActivate || event->type() == QEvent::WindowDeactivate)
+        updateWindowTransparency();
+    return QMainWindow::event(event);
+}
+
 void MainWindow::resetStatus()
 {
     if ( !ui->searchBar->text().isEmpty() ) {
@@ -664,6 +677,9 @@ void MainWindow::loadSettings()
     } else {
         setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
     }
+
+    m_transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
+    updateWindowTransparency();
 
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();
