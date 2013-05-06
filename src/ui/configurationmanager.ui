@@ -57,15 +57,37 @@
            <property name="fieldGrowthPolicy">
             <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
            </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_19">
-             <property name="text">
-              <string>&amp;Position of Tabs:</string>
-             </property>
-             <property name="buddy">
-              <cstring>comboBoxTabPosition</cstring>
-             </property>
-            </widget>
+           <item row="2" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout">
+             <item>
+              <widget class="QSpinBox" name="spinBoxTransparencyUnfocused">
+               <property name="toolTip">
+                <string>Transparency of main window if unfocused.
+
+Note: This is not be supported on all systems.</string>
+               </property>
+               <property name="suffix">
+                <string>%</string>
+               </property>
+               <property name="maximum">
+                <number>100</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item row="0" column="1">
             <layout class="QHBoxLayout" name="horizontalLayout_6">
@@ -108,22 +130,42 @@
              </item>
             </layout>
            </item>
-           <item row="1" column="0">
+           <item row="2" column="0">
             <widget class="QLabel" name="label_29">
              <property name="text">
               <string>&amp;Unfocused transparency:</string>
              </property>
              <property name="buddy">
-              <cstring>spinBoxTransparency</cstring>
+              <cstring>spinBoxTransparencyUnfocused</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="0" column="0">
+            <widget class="QLabel" name="label_19">
+             <property name="text">
+              <string>&amp;Position of Tabs:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBoxTabPosition</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="1" column="0">
+            <widget class="QLabel" name="label_30">
+             <property name="text">
+              <string>&amp;Focused transparency:</string>
+             </property>
+             <property name="buddy">
+              <cstring>spinBoxTransparencyFocused</cstring>
              </property>
             </widget>
            </item>
            <item row="1" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout">
+            <layout class="QHBoxLayout" name="horizontalLayout_12">
              <item>
-              <widget class="QSpinBox" name="spinBoxTransparency">
+              <widget class="QSpinBox" name="spinBoxTransparencyFocused">
                <property name="toolTip">
-                <string>Transparency of main window if unfocused.
+                <string>Transparency of main window if focused.
 
 Note: This is not be supported on all systems.</string>
                </property>
@@ -136,7 +178,7 @@ Note: This is not be supported on all systems.</string>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer_8">
+              <spacer name="horizontalSpacer_9">
                <property name="orientation">
                 <enum>Qt::Horizontal</enum>
                </property>
@@ -718,8 +760,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>98</width>
-               <height>28</height>
+               <width>68</width>
+               <height>320</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -850,8 +892,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>339</width>
-              <height>336</height>
+              <width>636</width>
+              <height>342</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
@@ -1122,8 +1164,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>212</width>
-              <height>322</height>
+              <width>314</width>
+              <height>382</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1390,7 +1432,8 @@ Set to 0 to disable this.</string>
   <tabstop>checkBoxAlwaysOnTop</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>comboBoxTabPosition</tabstop>
-  <tabstop>spinBoxTransparency</tabstop>
+  <tabstop>spinBoxTransparencyUnfocused</tabstop>
+  <tabstop>spinBoxTransparencyFocused</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxSel</tabstop>

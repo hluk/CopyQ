@@ -327,6 +327,7 @@ class MainWindow : public QMainWindow
         QTimer *m_timerSearch;
 
         int m_transparency;
+        int m_transparencyFocused;
 
         bool m_activateCloses;
         bool m_activateFocuses;

@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     , aboutDialog(NULL)
     , cmdMenu(NULL)
     , itemMenu(NULL)
-    , trayMenu( new TrayMenu(this) )
+    , trayMenu(NULL)
     , tray(NULL)
     , m_browsemode(false)
     , m_confirmExit(true)
@@ -106,6 +106,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_transparency(0)
+    , m_transparencyFocused(0)
     , m_activateCloses(true)
     , m_activateFocuses(false)
     , m_activatePastes(false)
@@ -121,6 +122,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // tray
     tray = new QSystemTrayIcon(this);
+    trayMenu = new TrayMenu(this);
     tray->setContextMenu(trayMenu);
     updateIcon();
 
@@ -387,7 +389,8 @@ void MainWindow::updateIcon()
 
 void MainWindow::updateWindowTransparency()
 {
-    setWindowOpacity(!isActiveWindow() ? (100 - m_transparency) / 100.0 : 1.0);
+    int opacity = 100 - (isActiveWindow() ? m_transparencyFocused : m_transparency);
+    setWindowOpacity(opacity / 100.0);
 }
 
 void MainWindow::updateMonitoringActions()
@@ -679,6 +682,7 @@ void MainWindow::loadSettings()
     }
 
     m_transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
+    m_transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );
     updateWindowTransparency();
 
     // tab bar position
