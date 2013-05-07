@@ -94,7 +94,7 @@ MainWindow::MainWindow(QWidget *parent)
     , aboutDialog(NULL)
     , cmdMenu(NULL)
     , itemMenu(NULL)
-    , trayMenu(NULL)
+    , trayMenu( new TrayMenu(this) )
     , tray(NULL)
     , m_browsemode(false)
     , m_confirmExit(true)
@@ -123,8 +123,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // tray
     tray = new QSystemTrayIcon(this);
-    trayMenu = new TrayMenu(this);
-    tray->setContextMenu(trayMenu);
     updateIcon();
 
     // signals & slots
@@ -510,12 +508,12 @@ QStringList MainWindow::tabs() const
 
 bool MainWindow::isTrayMenuVisible() const
 {
-    return tray->contextMenu()->isVisible();
+    return trayMenu->isVisible();
 }
 
 WId MainWindow::trayMenuWinId() const
 {
-    return tray->contextMenu()->winId();
+    return trayMenu->winId();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -788,7 +786,7 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    if ( reason == QSystemTrayIcon::MiddleClick ) {
+    if ( reason == QSystemTrayIcon::MiddleClick || reason == QSystemTrayIcon::Context ) {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         toggleVisible();
