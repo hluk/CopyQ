@@ -117,6 +117,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayItemPaste(true)
     , m_pasteWindow()
+    , m_lastWindow()
 {
     ui->setupUi(this);
 
@@ -733,7 +734,9 @@ void MainWindow::showWindow()
         QApplication::processEvents();
     }
 
-    m_pasteWindow = createPlatformNativeInterface()->getPasteWindow();
+    PlatformPtr platform = createPlatformNativeInterface();
+    m_pasteWindow = platform->getPasteWindow();
+    m_lastWindow = platform->getCurrentWindow();
 
     showNormal();
     raise();
@@ -965,7 +968,7 @@ void MainWindow::activateCurrentItem()
     if (m_activateFocuses || m_activatePastes) {
         PlatformPtr platform = createPlatformNativeInterface();
         if (m_activateFocuses)
-            platform->raiseWindow(m_pasteWindow);
+            platform->raiseWindow(m_lastWindow);
         if (m_activatePastes)
             platform->pasteToWindow(m_pasteWindow);
     }

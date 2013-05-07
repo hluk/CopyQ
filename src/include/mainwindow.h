@@ -343,6 +343,7 @@ class MainWindow : public QMainWindow
 
         bool m_trayItemPaste;
         WId m_pasteWindow;
+        WId m_lastWindow;
     };
 
 #endif // MAINWINDOW_H
