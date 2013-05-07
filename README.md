@@ -95,12 +95,20 @@ Command Line Interface
         toggle                   Show or hide main window.
         menu                     Open context menu.
         exit                     Exit server.
+        disable, enable          Disable or enable clipboard content storing.
 
         clipboard [MIME]         Print clipboard content.
         selection [MIME]         Print X11 selection content.
+        paste                    Paste clipboard to current window
+                                 (may not work with some applications).
+        copy TEXT                Set clipboard text.
+        copy MIME DATA [MIME DATA]...
+          Set clipboard content.
 
         length, count, size      Print number of items in history.
-        select [ROW=0]           Move item in the row to clipboard.
+        select [ROW=0]           Copy item in the row to clipboard.
+        next                     Copy next item from current tab to clipboard.
+        previous                 Copy previous item from current tab to clipboard.
         add TEXT...              Add text into clipboard.
         insert ROW TEXT          Insert text into given row.
         remove [ROWS=0...]       Remove items in given rows.
