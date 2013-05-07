@@ -170,7 +170,7 @@ Note: This is not be supported on all systems.</string>
 Note: This is not be supported on all systems.</string>
                </property>
                <property name="suffix">
-                <string>%</string>
+                <string notr="true">%</string>
                </property>
                <property name="maximum">
                 <number>100</number>
@@ -1432,8 +1432,8 @@ Set to 0 to disable this.</string>
   <tabstop>checkBoxAlwaysOnTop</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>comboBoxTabPosition</tabstop>
-  <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>spinBoxTransparencyFocused</tabstop>
+  <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxSel</tabstop>

@@ -1013,9 +1013,8 @@ Note: This is not be supported on all systems.</source>
 Nota: No funciona en todos los sistemas.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="173"/>
         <source>%</source>
-        <translation>%</translation>
+        <translation type="obsolete">%</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="350"/>
