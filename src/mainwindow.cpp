@@ -434,6 +434,19 @@ ClipboardBrowser *MainWindow::getBrowser(int index) const
     return qobject_cast<ClipboardBrowser*>(w);
 }
 
+void MainWindow::updateFocusWindows()
+{
+    if (m_activateFocuses || m_activatePastes) {
+        PlatformPtr platform = createPlatformNativeInterface();
+        WId pasteWid = m_activatePastes ? platform->getPasteWindow() : WId();
+        WId lastWid = m_activateFocuses ? platform->getCurrentWindow() : WId();
+        if ( m_activatePastes && find(pasteWid) == NULL )
+            m_pasteWindow = pasteWid;
+        if ( m_activateFocuses && find(lastWid) == NULL )
+            m_lastWindow = lastWid;
+    }
+}
+
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     int i = findTabIndex(name);
@@ -640,8 +653,14 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 bool MainWindow::event(QEvent *event)
 {
-    if (event->type() == QEvent::WindowActivate || event->type() == QEvent::WindowDeactivate)
+    if (event->type() == QEvent::WindowActivate) {
+        updateFocusWindows();
         updateWindowTransparency();
+    } else if (event->type() == QEvent::WindowDeactivate) {
+        m_lastWindow = WId();
+        m_pasteWindow = WId();
+        updateWindowTransparency();
+    }
     return QMainWindow::event(event);
 }
 
@@ -732,9 +751,7 @@ void MainWindow::showWindow()
         QApplication::processEvents();
     }
 
-    PlatformPtr platform = createPlatformNativeInterface();
-    m_pasteWindow = platform->getPasteWindow();
-    m_lastWindow = platform->getCurrentWindow();
+    updateFocusWindows();
 
     showNormal();
     raise();

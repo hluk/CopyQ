@@ -308,6 +308,9 @@ class MainWindow : public QMainWindow
         /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *getBrowser(int index = -1) const;
 
+        /** Update WId for paste and last focused window if needed. */
+        void updateFocusWindows();
+
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
         QMenu *itemCmdMenu;
