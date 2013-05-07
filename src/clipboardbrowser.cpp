@@ -1004,7 +1004,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if (!hasFocus() && !editing()) {
+    } else if (newRow == 0 && !hasFocus() && !editing()) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);
