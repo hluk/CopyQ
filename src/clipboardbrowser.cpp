@@ -280,6 +280,15 @@ bool ClipboardBrowser::isFiltered(int row) const
     return m_lastFilter.indexIn(text) == -1;
 }
 
+bool ClipboardBrowser::hideFiltered(int row)
+{
+    bool hide = isFiltered(row);
+    setRowHidden(row, hide);
+    d->setRowVisible(row, !hide);
+
+    return hide;
+}
+
 bool ClipboardBrowser::startEditor(QObject *editor)
 {
     connect( editor, SIGNAL(fileModified(QByteArray,QString)),
@@ -493,6 +502,10 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     d->dataChanged(a, b);
     delayedSaveItems();
 
+    // Refilter items.
+    for (int i = a.row(); i <= b.row(); ++i)
+        hideFiltered(i);
+
     updateCurrentPage();
 }
 
@@ -547,6 +560,11 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 void ClipboardBrowser::commitData(QWidget *editor)
 {
     QAbstractItemView::commitData(editor);
+
+    QModelIndex current = currentIndex();
+    if ( isRowHidden(current.row()) )
+        setCurrent(current.row());
+
     saveItems();
 }
 
@@ -644,14 +662,9 @@ void ClipboardBrowser::filterItems(const QString &str)
     int first = str.isEmpty() ? currentIndex().row() : -1;
 
     // hide filtered items
-    reset();
     for(int i = 0; i < m->rowCount(); ++i) {
-        if ( isFiltered(i) ) {
-            setRowHidden(i, true);
-            d->setRowVisible(i, false);
-        } else if (first == -1) {
+        if (!hideFiltered(i) && first == -1)
             first = i;
-        }
     }
     // select first visible
     setCurrentIndex( index(first) );
@@ -684,7 +697,10 @@ void ClipboardBrowser::editNew(const QString &text)
 {
     add(text, true);
     selectionModel()->clearSelection();
-    setCurrent(0);
+
+    // Select edited item even if it's hidden.
+    QModelIndex newIndex = index(0);
+    setCurrentIndex(newIndex);
     edit( index(0) );
 }
 
@@ -840,7 +856,7 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
     int cur = prev.row();
 
     // direction
-    int dir = cur < row ? 1 : -1;
+    int dir = cur <= row ? 1 : -1;
 
     // select first visible
     int i = m->getRowNumber(row, cycle);
@@ -1004,7 +1020,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if (newRow == 0 && !hasFocus() && !editing()) {
+    } else if (!hasFocus() && !editing()) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);

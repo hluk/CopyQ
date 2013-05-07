@@ -210,6 +210,12 @@ class ClipboardBrowser : public QListView
         bool isFiltered(int row) const;
 
         /**
+         * Hide row if filtered out, otherwise show.
+         * @return true only if hidden
+         */
+        bool hideFiltered(int row);
+
+        /**
          * Connects signals and starts external editor.
          */
         bool startEditor(QObject *editor);
