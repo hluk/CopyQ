@@ -227,7 +227,6 @@ QString helpHead()
 QString helpTail()
 {
     return Scriptable::tr("NOTES:") + nl
-        + Scriptable::tr("  - Changing first item (ROW is 0) will also change clipboard.") + nl
         + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
         + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
                       "    expanding escape sequences (i.e. \\n, \\t and others).") + nl

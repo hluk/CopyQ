@@ -951,10 +951,11 @@ void MainWindow::activateCurrentItem()
 {
     // Copy current item or selection to clipboard.
     ClipboardBrowser *c = browser();
-    if ( c->selectionModel()->selectedIndexes().count() > 1 )
+    if ( c->selectionModel()->selectedIndexes().count() > 1 ) {
         c->add( c->selectedText() );
-    else
-        c->moveToClipboard( c->currentIndex() );
+        c->setCurrent(0);
+    }
+    c->moveToClipboard( c->currentIndex() );
 
     resetStatus();
 

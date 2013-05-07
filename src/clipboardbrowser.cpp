@@ -490,8 +490,6 @@ void ClipboardBrowser::updateContextMenu()
 void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 {
     QListView::dataChanged(a, b);
-    if ( autoUpdate() && a.row() == 0 )
-        updateClipboard();
     d->dataChanged(a, b);
     delayedSaveItems();
 
@@ -721,8 +719,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Up:
         case Qt::Key_End:
         case Qt::Key_Home:
-            if ( m->moveItems(selectedIndexes(), key) && autoUpdate() )
-                updateClipboard();
+            m->moveItems(selectedIndexes(), key);
             scrollTo( currentIndex() );
             break;
 
@@ -920,9 +917,6 @@ void ClipboardBrowser::remove()
 
     // select next
     setCurrent(current);
-
-    if ( autoUpdate() && current == 0 )
-        updateClipboard();
 }
 
 void ClipboardBrowser::clear()

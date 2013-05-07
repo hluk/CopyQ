@@ -140,7 +140,6 @@ Command Line Interface
           Print version of program and libraries.
 
     NOTES:
-      - Changing first item (ROW is 0) will also change clipboard.
       - Use dash argument (-) to read data from stdandard input.
       - Use double-dash argument (--) to read all following arguments without
         expanding escape sequences (i.e. \n, \t and others).
