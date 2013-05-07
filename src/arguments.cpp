@@ -19,6 +19,7 @@
 
 #include "arguments.h"
 
+#include <QByteArray>
 #include <QDataStream>
 #include <QFile>
 #include <QDir>
@@ -98,6 +99,10 @@ Arguments::Arguments(int &argc, char **argv)
             addArgumentFromCommandLine(m_args, arg, m_args.size());
         }
     }
+}
+
+Arguments::~Arguments()
+{
 }
 
 void Arguments::reset(const QString &currentPath)

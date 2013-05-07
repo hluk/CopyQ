@@ -23,6 +23,7 @@
 #include "clipboarditem.h"
 #include "platform/platformnativeinterface.h"
 
+#include <QApplication>
 #include <QMimeData>
 #include <QTimer>
 

@@ -22,7 +22,8 @@
 
 #include <QString>
 #include <QVector>
-#include <QByteArray>
+
+class QByteArray;
 
 /**
  * Class for processing program arguments.
@@ -40,6 +41,8 @@ public:
 
     Arguments();
     Arguments(int &argc, char **argv);
+
+    ~Arguments();
 
     /** Clear arguments and set current path. */
     void reset(const QString &currentPath = QString());

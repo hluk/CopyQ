@@ -20,9 +20,9 @@
 #ifndef ITEMFACTORY_H
 #define ITEMFACTORY_H
 
-#include <QAbstractListModel>
 #include <QObject>
 #include <QVector>
+#include <QMap>
 
 class ItemWidget;
 class ItemLoaderInterface;

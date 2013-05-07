@@ -20,13 +20,10 @@
 #ifndef CLIPBOARDITEM_H
 #define CLIPBOARDITEM_H
 
-#include <QSharedPointer>
-#include <QSize>
-#include <QString>
-#include <QStringList>
-
-class ClipboardModel;
+class QByteArray;
+class QDataStream;
 class QMimeData;
+class QString;
 class QVariant;
 
 /**
@@ -79,13 +76,13 @@ public:
     const QMimeData *data() const { return m_data; }
 
     /** Return hash for item's data. */
-    uint dataHash() const { return m_hash; }
+    unsigned int dataHash() const { return m_hash; }
 
 private:
     void updateDataHash();
 
     QMimeData *m_data;
-    uint m_hash;
+    unsigned int m_hash;
 };
 
 /**

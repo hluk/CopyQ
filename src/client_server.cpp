@@ -19,8 +19,6 @@
 
 #include "client_server.h"
 
-#include <cstdio>
-
 #include <QAction>
 #include <QApplication>
 #include <QClipboard>
@@ -29,7 +27,6 @@
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QObject>
-#include <QProcessEnvironment>
 #include <QThread>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()

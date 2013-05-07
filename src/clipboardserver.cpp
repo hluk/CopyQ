@@ -22,7 +22,6 @@
 #include "arguments.h"
 #include "clipboardbrowser.h"
 #include "clipboarditem.h"
-#include "clipboardmonitor.h"
 #include "configurationmanager.h"
 #include "itemfactory.h"
 #include "mainwindow.h"

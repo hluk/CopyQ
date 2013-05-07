@@ -21,11 +21,9 @@
 #define ITEMWIDGET_H
 
 #include <QRegExp>
-#include <QSize>
-#include <QSharedPointer>
 #include <QStringList>
 #include <QtPlugin>
-#include <QVariant>
+#include <QVariantMap>
 
 class QAbstractItemModel;
 class QFont;

@@ -22,7 +22,7 @@
 #include "client_server.h"
 #include "clipboarditem.h"
 
-#include <QSize>
+#include <QDataStream>
 
 const QModelIndex emptyIndex;
 

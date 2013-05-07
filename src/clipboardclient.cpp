@@ -23,7 +23,6 @@
 #include "client_server.h"
 #include "platform/platformnativeinterface.h"
 
-#include <cstdio>
 #include <QCoreApplication>
 #include <QFile>
 

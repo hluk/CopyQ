@@ -20,9 +20,6 @@
 #ifndef CONFIGURATIONMANAGER_H
 #define CONFIGURATIONMANAGER_H
 
-#include "command.h"
-#include "option.h"
-
 #include <QDialog>
 #include <QHash>
 
@@ -32,6 +29,8 @@ namespace Ui {
 
 class ClipboardBrowser;
 class ClipboardModel;
+class Command;
+class Option;
 class QAbstractButton;
 class QCheckBox;
 class QComboBox;

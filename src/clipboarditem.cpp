@@ -20,10 +20,13 @@
 #include "clipboarditem.h"
 
 #include "client_server.h"
-#include "clipboardmodel.h"
 #include "contenttype.h"
 
+#include <QByteArray>
+#include <QDataStream>
 #include <QMimeData>
+#include <QString>
+#include <QStringList>
 #include <QVariant>
 
 ClipboardItem::ClipboardItem()

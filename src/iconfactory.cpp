@@ -20,9 +20,11 @@
 #include "iconfactory.h"
 
 #include <QFontDatabase>
+#include <QIcon>
 #include <QMutex>
 #include <QMutexLocker>
 #include <QPainter>
+#include <QPixmap>
 
 const int iconSize = 16;
 const int fontSize = iconSize - 2;
@@ -58,6 +60,10 @@ IconFactory::IconFactory()
         m_iconFont = QFont("FontAwesome");
         m_iconFont.setPixelSize(fontSize);
     }
+}
+
+IconFactory::~IconFactory()
+{
 }
 
 const QPixmap &IconFactory::getPixmap(ushort id)

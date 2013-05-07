@@ -22,10 +22,12 @@
 
 #include "client_server.h"
 #include "clipboardmodel.h"
+#include "command.h"
 #include "iconfactory.h"
 #include "itemdelegate.h"
 #include "itemfactory.h"
 #include "itemwidget.h"
+#include "option.h"
 #include "pluginwidget.h"
 #include "shortcutdialog.h"
 

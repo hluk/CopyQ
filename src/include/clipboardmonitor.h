@@ -24,10 +24,10 @@
 
 #include "client_server.h"
 
-#include <QApplication>
 #include <QClipboard>
 #include <QLocalSocket>
 #include <QScopedPointer>
+#include <QStringList>
 
 class QMimeData;
 class QTimer;

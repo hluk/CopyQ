@@ -21,9 +21,10 @@
 #define ICONFACTORY_H
 
 #include <QFont>
-#include <QIcon>
-#include <QPixmap>
 #include <QHash>
+
+class QIcon;
+class QPixmap;
 
 // http://fortawesome.github.com/Font-Awesome/design.html
 enum IconId {
@@ -76,6 +77,8 @@ public:
     static bool hasInstance() { return m_Instance != NULL; }
 
     IconFactory();
+
+    ~IconFactory();
 
     const QFont &iconFont() { return m_iconFont; }
 

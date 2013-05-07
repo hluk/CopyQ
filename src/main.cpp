@@ -26,6 +26,7 @@
 #include "scriptable.h"
 
 #include <cstdio>
+#include <QCoreApplication>
 #include <QFile>
 #include <QScriptEngine>
 

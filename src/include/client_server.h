@@ -22,11 +22,11 @@
 
 #include <QClipboard>
 #include <QtGlobal> // Q_WS_*
-#include <QWidget> // WId
 
 // Application version
 #define COPYQ_VERSION "1.8.0"
 
+class QAction;
 class QByteArray;
 class QIODevice;
 class QLocalServer;
