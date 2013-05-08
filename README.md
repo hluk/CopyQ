@@ -5,13 +5,15 @@ CopyQ
 
 CopyQ is clipboard manager with searchable and editable history.
 
-To build and install CopyQ on your system read `INSTALL` file.
-
 To start CopyQ run `copyq` command without parameters. The application main
 window is accessible by clicking on system tray icon or running `copyq toggle`.
 
 To exit the application select Exit from tray menu or press Ctrl-Q keys in the
 application window.
+
+To build and install CopyQ on your system read `INSTALL` file.
+
+To help with translating, fixing or writing code read `HACKING` file.
 
 For more info go to <http://code.google.com/p/copyq/>.
 

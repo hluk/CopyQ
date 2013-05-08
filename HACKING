@@ -1,0 +1,60 @@
+Translations
+------------
+
+To translate UI strings in the application for example to Latin:
+
+    1. to "copyq.pro" file add translation file path to TRANSLATIONS variable,
+       in this case change:
+
+            TRANSLATIONS = translations/copyq_cs.ts \
+                           translations/copyq_de.ts \
+                           translations/copyq_es.ts
+
+       to (notice '\' at end of each line):
+
+            TRANSLATIONS = translations/copyq_cs.ts \
+                           translations/copyq_de.ts \
+                           translations/copyq_es.ts \
+                           translations/copyq_la.ts
+
+
+    2. run command "lupdate copyq.pro" to generates the new translation file,
+    3. run command "linguist translations/copyq_la.ts",
+    4. translate.
+
+After building the application it should contain the new translations.
+
+Command "lupdate copyq.pro" need to be run periodically to add new string for
+translation and update existing ones.
+
+Writing Platform-dependent Code
+-------------------------------
+
+To be able to fully use this software on different platform there need to be
+support for platform-specific features as system-wide shortcuts, focusing and
+pasting to other windows.
+
+To port the code to other platforms:
+
+    1. create new directory "src/platform/<PLATFORM_NAME>",
+    2. implement interface from "src/platform/platformnativeinterface.h",
+    3. modify "platform.cmake" and "platform.pri" to be able to compile
+       the platform-dependent code on given platforms with "cmake" and "qmake".
+
+System-wide shortcuts are handled using third-party library libqxt in "qxt/".
+
+Writing Plugins
+---------------
+
+Plugins in this application are used to display different types of data (MIME
+formats) as items in clipboard history and other tabs.
+
+See existing plugins in "plugins" directory. Simply just copy one plugin
+directory and start rewriting the code and modify "plugins/CMakeLists.txt" to
+contain path to the new directory.
+
+Any plugin class must implement ItemLoaderInterface from
+"src/include/itemwidget.h" and must be QObject. Mainly any object of this class
+should be able to instantiate ItemWidget object (using create() method) if
+suitable data are available.
+
