@@ -311,6 +311,9 @@ class MainWindow : public QMainWindow
         /** Update WId for paste and last focused window if needed. */
         void updateFocusWindows();
 
+        /** Return true only if main window owns window/widget with given WId. */
+        bool isForeignWindow(WId wid);
+
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
         QMenu *itemCmdMenu;

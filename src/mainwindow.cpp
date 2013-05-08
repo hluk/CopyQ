@@ -438,13 +438,14 @@ void MainWindow::updateFocusWindows()
 {
     if (m_activateFocuses || m_activatePastes) {
         PlatformPtr platform = createPlatformNativeInterface();
-        WId pasteWid = m_activatePastes ? platform->getPasteWindow() : WId();
-        WId lastWid = m_activateFocuses ? platform->getCurrentWindow() : WId();
-        if ( m_activatePastes && find(pasteWid) == NULL )
-            m_pasteWindow = pasteWid;
-        if ( m_activateFocuses && find(lastWid) == NULL )
-            m_lastWindow = lastWid;
+        m_pasteWindow = m_activatePastes ? platform->getPasteWindow() : WId();
+        m_lastWindow = m_activateFocuses ? platform->getCurrentWindow() : WId();
     }
+}
+
+bool MainWindow::isForeignWindow(WId wid)
+{
+    return wid != WId() && winId() != wid && find(wid) == NULL;
 }
 
 ClipboardBrowser *MainWindow::findTab(const QString &name)
@@ -795,7 +796,7 @@ void MainWindow::showBrowser(const ClipboardBrowser *browser)
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = browser();
-    if (c->select(clipboardItemHash) && m_trayItemPaste) {
+    if (c->select(clipboardItemHash) && m_trayItemPaste && isForeignWindow(m_pasteWindow)) {
         QApplication::processEvents();
         createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
     }
@@ -982,9 +983,9 @@ void MainWindow::activateCurrentItem()
         close();
     if (m_activateFocuses || m_activatePastes) {
         PlatformPtr platform = createPlatformNativeInterface();
-        if (m_activateFocuses)
+        if (m_activateFocuses && isForeignWindow(m_lastWindow))
             platform->raiseWindow(m_lastWindow);
-        if (m_activatePastes)
+        if (m_activatePastes && isForeignWindow(m_pasteWindow))
             platform->pasteToWindow(m_pasteWindow);
     }
 }

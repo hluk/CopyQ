@@ -29,7 +29,6 @@ namespace Ui {
 
 class ClipboardBrowser;
 class ClipboardModel;
-class Command;
 class Option;
 class QAbstractButton;
 class QCheckBox;
@@ -40,6 +39,8 @@ class QPushButton;
 class QSettings;
 class QSpinBox;
 class QTreeWidgetItem;
+
+struct Command;
 
 /**
  * Configuration management.
