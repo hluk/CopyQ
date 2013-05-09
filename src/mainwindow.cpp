@@ -118,6 +118,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayItemPaste(true)
     , m_pasteWindow()
     , m_lastWindow()
+    , m_timerUpdateFocusWindows( new QTimer(this) )
 {
     ui->setupUi(this);
 
@@ -144,6 +145,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(onTimerSearch()) );
     connect( ui->searchBar, SIGNAL(textChanged(QString)),
              m_timerSearch, SLOT(start()) );
+    connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
+             this, SLOT(updateFocusWindows()) );
     connect( this, SIGNAL(editingActive(bool)),
              ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
     connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
@@ -160,6 +163,9 @@ MainWindow::MainWindow(QWidget *parent)
     // search timer
     m_timerSearch->setSingleShot(true);
     m_timerSearch->setInterval(200);
+
+    m_timerUpdateFocusWindows->setSingleShot(true);
+    m_timerUpdateFocusWindows->setInterval(50);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->loadGeometry(this);
@@ -434,18 +440,15 @@ ClipboardBrowser *MainWindow::getBrowser(int index) const
     return qobject_cast<ClipboardBrowser*>(w);
 }
 
-void MainWindow::updateFocusWindows()
-{
-    if (m_activateFocuses || m_activatePastes) {
-        PlatformPtr platform = createPlatformNativeInterface();
-        m_pasteWindow = m_activatePastes ? platform->getPasteWindow() : WId();
-        m_lastWindow = m_activateFocuses ? platform->getCurrentWindow() : WId();
-    }
-}
-
 bool MainWindow::isForeignWindow(WId wid)
 {
     return wid != WId() && winId() != wid && find(wid) == NULL;
+}
+
+void MainWindow::delayedUpdateFocusWindows()
+{
+    if (m_activateFocuses || m_activatePastes)
+        m_timerUpdateFocusWindows->start();
 }
 
 ClipboardBrowser *MainWindow::findTab(const QString &name)
@@ -668,6 +671,26 @@ bool MainWindow::event(QEvent *event)
     }
     return QMainWindow::event(event);
 }
+
+#ifdef COPYQ_WS_X11
+bool MainWindow::x11Event(XEvent *event)
+{
+    delayedUpdateFocusWindows();
+    return QMainWindow::x11Event(event);
+}
+#elif defined(Q_OS_WIN)
+bool MainWindow::winEvent(MSG *message, long *result)
+{
+    delayedUpdateFocusWindows();
+    return QMainWindow::winEvent(message, result);
+}
+#elif defined(Q_OS_MAC)
+bool MainWindow::macEvent(EventHandlerCallRef caller, EventRef event)
+{
+    delayedUpdateFocusWindows();
+    return QMainWindow::macEvent(caller, event);
+}
+#endif
 
 void MainWindow::resetStatus()
 {
@@ -1092,6 +1115,24 @@ void MainWindow::actionError(Action *action)
 void MainWindow::onChangeClipboardRequest(const ClipboardItem *item)
 {
     setClipboard(item);
+}
+
+void MainWindow::updateFocusWindows()
+{
+    if ( isActiveWindow() || (!m_activateFocuses && !m_activatePastes) )
+        return;
+
+    PlatformPtr platform = createPlatformNativeInterface();
+    if (m_activatePastes) {
+        WId pasteWindow = platform->getPasteWindow();
+        if ( isForeignWindow(pasteWindow) )
+            m_pasteWindow = pasteWindow;
+    }
+    if (m_activateFocuses) {
+        WId lastWindow = platform->getCurrentWindow();
+        if ( isForeignWindow(lastWindow) )
+            m_lastWindow = lastWindow;
+    }
 }
 
 void MainWindow::enterSearchMode(const QString &txt)

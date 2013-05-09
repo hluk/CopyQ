@@ -130,6 +130,14 @@ class MainWindow : public QMainWindow
         void dropEvent(QDropEvent *event);
         bool event(QEvent *event);
 
+#ifdef COPYQ_WS_X11
+        bool x11Event(XEvent *event);
+#elif defined(Q_OS_WIN)
+        bool winEvent(MSG *message, long *result);
+#elif defined(Q_OS_MAC)
+        bool macEvent(EventHandlerCallRef caller, EventRef event);
+#endif
+
     public slots:
         /**
          * Show/hide tray menu.
@@ -287,6 +295,9 @@ class MainWindow : public QMainWindow
 
         void onChangeClipboardRequest(const ClipboardItem *item);
 
+        /** Update WId for paste and last focused window if needed. */
+        void updateFocusWindows();
+
     private:
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
@@ -308,11 +319,11 @@ class MainWindow : public QMainWindow
         /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *getBrowser(int index = -1) const;
 
-        /** Update WId for paste and last focused window if needed. */
-        void updateFocusWindows();
-
         /** Return true only if main window owns window/widget with given WId. */
         bool isForeignWindow(WId wid);
+
+        /** Call updateFocusWindows() after a small delay. */
+        void delayedUpdateFocusWindows();
 
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
@@ -350,6 +361,7 @@ class MainWindow : public QMainWindow
         bool m_trayItemPaste;
         WId m_pasteWindow;
         WId m_lastWindow;
+        QTimer *m_timerUpdateFocusWindows;
     };
 
 #endif // MAINWINDOW_H
