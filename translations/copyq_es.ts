@@ -1079,7 +1079,7 @@ Nota: No funciona en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1086"/>
         <source>Paste as pla&amp;in text</source>
-        <translation>Copiar como texto &amp;plano</translation>
+        <translation>Pegar como texto &amp;plano</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1096"/>
