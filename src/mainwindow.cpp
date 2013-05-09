@@ -654,8 +654,9 @@ void MainWindow::dropEvent(QDropEvent *event)
 
 bool MainWindow::event(QEvent *event)
 {
-    if (event->type() == QEvent::WindowActivate) {
+    if (event->type() == QEvent::Enter) {
         updateFocusWindows();
+    } else if (event->type() == QEvent::WindowActivate) {
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {
         m_lastWindow = WId();
