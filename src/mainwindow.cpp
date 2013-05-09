@@ -386,9 +386,9 @@ void MainWindow::updateIcon()
     tray->setIcon(icon);
 }
 
-void MainWindow::updateWindowTransparency()
+void MainWindow::updateWindowTransparency(bool mouseOver)
 {
-    int opacity = 100 - (isActiveWindow() ? m_transparencyFocused : m_transparency);
+    int opacity = 100 - (mouseOver || isActiveWindow() ? m_transparencyFocused : m_transparency);
     setWindowOpacity(opacity / 100.0);
 }
 
@@ -656,6 +656,9 @@ bool MainWindow::event(QEvent *event)
 {
     if (event->type() == QEvent::Enter) {
         updateFocusWindows();
+        updateWindowTransparency(true);
+    } else if (event->type() == QEvent::Leave) {
+        updateWindowTransparency(false);
     } else if (event->type() == QEvent::WindowActivate) {
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {

@@ -297,7 +297,7 @@ class MainWindow : public QMainWindow
         /** Update tray and window icon depending on current state. */
         void updateIcon();
 
-        void updateWindowTransparency();
+        void updateWindowTransparency(bool mouseOver = false);
 
         /** Update name and icon of "disable/enable monitoring" menu actions. */
         void updateMonitoringActions();
