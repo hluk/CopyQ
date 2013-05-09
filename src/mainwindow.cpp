@@ -979,14 +979,18 @@ void MainWindow::activateCurrentItem()
     resetStatus();
 
     // Perform custom actions on item activation.
+    WId lastWindow = m_lastWindow;
+    WId pasteWindow = m_pasteWindow;
     if (m_activateCloses)
         close();
     if (m_activateFocuses || m_activatePastes) {
         PlatformPtr platform = createPlatformNativeInterface();
-        if (m_activateFocuses && isForeignWindow(m_lastWindow))
-            platform->raiseWindow(m_lastWindow);
-        if (m_activatePastes && isForeignWindow(m_pasteWindow))
-            platform->pasteToWindow(m_pasteWindow);
+        if (m_activateFocuses && isForeignWindow(lastWindow))
+            platform->raiseWindow(lastWindow);
+        if (m_activatePastes && isForeignWindow(pasteWindow)) {
+            QApplication::processEvents();
+            platform->pasteToWindow(pasteWindow);
+        }
     }
 }
 
