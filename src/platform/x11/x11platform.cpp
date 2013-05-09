@@ -179,14 +179,7 @@ void X11Platform::pasteToWindow(WId wid)
 
 WId X11Platform::getPasteWindow()
 {
-    if (d->display == NULL)
-        return 0L;
-
-    Window win;
-    int revert;
-    XGetInputFocus(d->display, &win, &revert);
-
-    return win;
+    return getCurrentWindow();
 }
 
 bool X11Platform::isSelecting()
