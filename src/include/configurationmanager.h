@@ -160,6 +160,7 @@ private:
     void updateFormats();
 
     void initOptions();
+    void initThemeOptions();
     void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
@@ -187,6 +188,7 @@ private slots:
 
     void on_pushButtonLoadTheme_clicked();
     void on_pushButtonSaveTheme_clicked();
+    void on_pushButtonResetTheme_clicked();
 
     void on_checkBoxShowNumber_stateChanged(int);
     void on_checkBoxScrollbars_stateChanged(int);

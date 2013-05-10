@@ -386,7 +386,11 @@ void ConfigurationManager::initOptions()
     bind("action_separator", "\\n");
     bind("action_output_tab", "");
 
-    /* appearance options */
+    initThemeOptions();
+}
+
+void ConfigurationManager::initThemeOptions()
+{
     QString name;
     QPalette p;
     name = p.color(QPalette::Base).name();
@@ -1089,6 +1093,11 @@ void ConfigurationManager::on_pushButtonSaveTheme_clicked()
         QSettings settings(filename, QSettings::IniFormat);
         saveTheme(settings);
     }
+}
+
+void ConfigurationManager::on_pushButtonResetTheme_clicked()
+{
+    initThemeOptions();
 }
 
 void ConfigurationManager::on_checkBoxShowNumber_stateChanged(int)

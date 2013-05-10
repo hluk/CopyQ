@@ -760,8 +760,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>68</width>
-               <height>361</height>
+               <width>21</width>
+               <height>16</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -892,7 +892,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>622</width>
+              <width>372</width>
               <height>390</height>
              </rect>
             </property>
@@ -1405,6 +1405,13 @@ Set to 0 to disable this.</string>
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonResetTheme">
+                 <property name="text">
+                  <string>&amp;Reset Theme</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
             </layout>
@@ -1528,6 +1535,7 @@ Set to 0 to disable this.</string>
   <tabstop>pushButtonNumberFont</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
+  <tabstop>pushButtonResetTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>buttonBox</tabstop>
   <tabstop>scrollAreaShortcuts</tabstop>
