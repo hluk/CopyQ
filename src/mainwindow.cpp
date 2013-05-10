@@ -672,23 +672,31 @@ bool MainWindow::event(QEvent *event)
     return QMainWindow::event(event);
 }
 
-#ifdef COPYQ_WS_X11
+#if QT_VERSION < 0x050000
+#   ifdef COPYQ_WS_X11
 bool MainWindow::x11Event(XEvent *event)
 {
     delayedUpdateFocusWindows();
     return QMainWindow::x11Event(event);
 }
-#elif defined(Q_OS_WIN)
+#   elif defined(Q_OS_WIN)
 bool MainWindow::winEvent(MSG *message, long *result)
 {
     delayedUpdateFocusWindows();
     return QMainWindow::winEvent(message, result);
 }
-#elif defined(Q_OS_MAC)
+#   elif defined(Q_OS_MAC)
 bool MainWindow::macEvent(EventHandlerCallRef caller, EventRef event)
 {
     delayedUpdateFocusWindows();
     return QMainWindow::macEvent(caller, event);
+}
+#   endif
+#else
+bool MainWindow::nativeEvent(const QByteArray &eventType, void *message, long *result)
+{
+    delayedUpdateFocusWindows();
+    return QMainWindow::nativeEvent(eventType, message, result);
 }
 #endif
 

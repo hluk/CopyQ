@@ -130,12 +130,16 @@ class MainWindow : public QMainWindow
         void dropEvent(QDropEvent *event);
         bool event(QEvent *event);
 
-#ifdef COPYQ_WS_X11
+#if QT_VERSION < 0x050000
+#   ifdef COPYQ_WS_X11
         bool x11Event(XEvent *event);
-#elif defined(Q_OS_WIN)
+#   elif defined(Q_OS_WIN)
         bool winEvent(MSG *message, long *result);
-#elif defined(Q_OS_MAC)
+#   elif defined(Q_OS_MAC)
         bool macEvent(EventHandlerCallRef caller, EventRef event);
+#   endif
+#else
+        bool nativeEvent(const QByteArray &eventType, void *message, long *result);
 #endif
 
     public slots:
