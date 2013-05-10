@@ -709,6 +709,7 @@ void ClipboardBrowser::editNew(const QString &text)
     QModelIndex newIndex = index(0);
     setCurrentIndex(newIndex);
     edit( index(0) );
+    updateClipboard(0);
 }
 
 void ClipboardBrowser::copyNextItemToClipboard()
