@@ -17,6 +17,22 @@ To help with translating, fixing or writing code read `HACKING` file.
 
 For more info go to <http://code.google.com/p/copyq/>.
 
+Features
+--------
+
+* Supports Linux (X11) and Windows.
+* Store text, HTML, images and any other custom format.
+* Customize tray menu.
+* Save items in new tabs.
+* Quickly browse through items (fast navigation, filtering with matched text highlighting).
+* Sort items, create new, remove, copy/paste to different tab.
+* Variety of system-wide shortcuts (e.g. show main window or tray, edit clipboard, copy next/previous item, paste as plain text).
+* Immediately paste to focused window from tray or main window.
+* Fully customizable appearance (colors, fonts, transparency).
+* Advanced command-line interface and scripting.
+* Ignore clipboard copied from some windows or containing some text.
+* Apply custom commands on selected items or automatically when new matching clipboard content is available.
+
 Dependencies
 ------------
 
