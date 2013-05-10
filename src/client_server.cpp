@@ -207,44 +207,40 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
     return newdata;
 }
 
-QString elideText(const QString &text, int maxLength)
+QString elideText(const QString &text, int maxLength, const QFontMetrics &fm)
 {
-    QString result = text.trimmed();
-    int lines = result.count('\n');
-    result = result.trimmed();
+    const int oldLines = text.count('\n');
+
+    QString result = text;
+    result.remove(QRegExp("^\\s*"));
+
+    const int newLines = result.count('\n');
 
     // QAction can display only first text line so remove the rest.
-    if (lines > 0)
+    if (newLines > 0)
         result.remove( result.indexOf('\n'), text.size() );
 
-    if (result.size() > maxLength || lines > 0) {
+    if (maxLength <= 0) {
+        // Show triple-dot in middle if text is too long.
+        result = fm.elidedText( result.simplified(), Qt::ElideMiddle, 320 );
+        if (newLines > 0)
+            result.append( QString("...") );
+    } else if (result.size() > maxLength || newLines > 0) {
+        // Show triple-dot at the end text is too long.
         if (result.size() > maxLength)
             result.resize(maxLength);
         result.append( QString("...") );
     }
+
+    if (newLines < oldLines && result != "...")
+        result.prepend("...");
 
     return result;
 }
 
 void elideText(QAction *act)
 {
-    QFont font = act->font();
-
-    QFontMetrics fm(font);
-    QString text = act->text();
-    int lines = text.count('\n');
-    text = text.trimmed();
-
-    // QAction can display only first text line so remove the rest.
-    if (lines > 0)
-        text.remove( text.indexOf('\n') , text.size() );
-
-    // Show triple-dot in middle if first line is too long.
-    text = fm.elidedText( text.simplified(), Qt::ElideMiddle, 320 );
-
-    // Show triple-dot at the end if text has multiple lines.
-    if (lines > 0)
-        text.append( QString("...") );
+    QString text = elideText( act->text(), -1, QFontMetrics(act->font()) );
 
     // Escape all ampersands except first one (key hint).
     text.replace( QChar('&'), QString("&&") );

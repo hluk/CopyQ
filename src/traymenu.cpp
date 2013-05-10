@@ -105,9 +105,8 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     QAction *act;
 
     const int i = m_clipboardItemActions.size();
-    const QString text = (i < 10 ? QString("&%1. ").arg(i) : QString()) + item.text();
 
-    act = addAction(text);
+    act = addAction(item.text());
     m_clipboardItemActions.append(act);
 
     act->setData( QVariant(item.dataHash()) );
@@ -116,6 +115,10 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     insertAction(m_clipboardItemActionsSeparator, act);
 
     elideText(act);
+
+    // Add number key hint.
+    if (i < 10)
+        act->setText( act->text().prepend(QString("&%1. ").arg(i)) );
 
     // Menu item icon from image.
     if (showImages) {

@@ -21,6 +21,8 @@
 #define CLIENT_SERVER_H
 
 #include <QClipboard>
+#include <QFont>
+#include <QFontMetrics>
 #include <QtGlobal> // Q_WS_*
 
 // Application version
@@ -98,7 +100,7 @@ uint hash(const QMimeData &data, const QStringList &formats);
 
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 
-QString elideText(const QString &text, int maxLength);
+QString elideText(const QString &text, int maxLength, const QFontMetrics &fm = QFontMetrics(QFont()));
 void elideText(QAction *act);
 
 #endif // CLIENT_SERVER_H
