@@ -505,6 +505,20 @@ void ClipboardServer::loadSettings()
     args = createGlobalShortcut(key);
     if (args)
         args->append("enable");
+
+    key = cm->value("paste_and_copy_next_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args) {
+        args->append("eval");
+        args->append("paste(); next();");
+    }
+
+    key = cm->value("paste_and_copy_previous_shortcut").toString();
+    args = createGlobalShortcut(key);
+    if (args) {
+        args->append("eval");
+        args->append("paste(); previous();");
+    }
 #endif
 
     // reload clipboard monitor configuration

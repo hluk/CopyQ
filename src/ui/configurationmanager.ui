@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>680</width>
-    <height>476</height>
+    <height>517</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -761,7 +761,7 @@ Set to 0 to disable this.</string>
                <x>0</x>
                <y>0</y>
                <width>68</width>
-               <height>320</height>
+               <height>361</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -892,8 +892,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>636</width>
-              <height>342</height>
+              <width>622</width>
+              <height>390</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
@@ -1140,6 +1140,40 @@ Set to 0 to disable this.</string>
                </property>
               </widget>
              </item>
+             <item row="12" column="0">
+              <widget class="QLabel" name="label_31">
+               <property name="text">
+                <string>Paste and copy next</string>
+               </property>
+              </widget>
+             </item>
+             <item row="12" column="1">
+              <widget class="QPushButton" name="pushButton_13">
+               <property name="toolTip">
+                <string>Paste current clipboard content and copy next item to clipboard.</string>
+               </property>
+               <property name="text">
+                <string>paste_and_copy_next_shortcut</string>
+               </property>
+              </widget>
+             </item>
+             <item row="13" column="0">
+              <widget class="QLabel" name="label_32">
+               <property name="text">
+                <string>Paste and copy previous</string>
+               </property>
+              </widget>
+             </item>
+             <item row="13" column="1">
+              <widget class="QPushButton" name="pushButton_14">
+               <property name="toolTip">
+                <string>Paste current clipboard content and copy previous item to clipboard.</string>
+               </property>
+               <property name="text">
+                <string>paste_and_copy_previous_shortcut</string>
+               </property>
+              </widget>
+             </item>
             </layout>
            </widget>
           </widget>
@@ -1165,7 +1199,7 @@ Set to 0 to disable this.</string>
               <x>0</x>
               <y>0</y>
               <width>314</width>
-              <height>382</height>
+              <height>423</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1473,6 +1507,8 @@ Set to 0 to disable this.</string>
   <tabstop>pushButton_10</tabstop>
   <tabstop>pushButton_11</tabstop>
   <tabstop>pushButton_12</tabstop>
+  <tabstop>pushButton_13</tabstop>
+  <tabstop>pushButton_14</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorSelBg</tabstop>
   <tabstop>pushButtonColorFindBg</tabstop>
