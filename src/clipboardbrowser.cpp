@@ -559,11 +559,17 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 
 void ClipboardBrowser::commitData(QWidget *editor)
 {
+    const int row = currentIndex().row();
+    bool inClipboard = clipboardData()->text() == itemText(0);
+
     QAbstractItemView::commitData(editor);
 
-    QModelIndex current = currentIndex();
-    if ( isRowHidden(current.row()) )
-        setCurrent(current.row());
+    if ( isRowHidden(row) )
+        setCurrent(row);
+
+    // If clipboard text is same as old item text, copy the edited item to clipboard.
+    if (inClipboard)
+        updateClipboard(0);
 
     saveItems();
 }
@@ -645,6 +651,7 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
         QMimeData *data = new QMimeData;
         data->setData(mime, bytes);
         add(data, true);
+        updateClipboard(0);
         saveItems();
     }
 }
