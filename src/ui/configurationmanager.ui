@@ -1153,7 +1153,7 @@ Set to 0 to disable this.</string>
                 <string>Paste current clipboard content and copy next item to clipboard.</string>
                </property>
                <property name="text">
-                <string>paste_and_copy_next_shortcut</string>
+                <string notr="true">paste_and_copy_next_shortcut</string>
                </property>
               </widget>
              </item>
@@ -1170,7 +1170,7 @@ Set to 0 to disable this.</string>
                 <string>Paste current clipboard content and copy previous item to clipboard.</string>
                </property>
                <property name="text">
-                <string>paste_and_copy_previous_shortcut</string>
+                <string notr="true">paste_and_copy_previous_shortcut</string>
                </property>
               </widget>
              </item>
