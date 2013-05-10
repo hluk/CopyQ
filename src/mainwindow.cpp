@@ -95,7 +95,7 @@ MainWindow::MainWindow(QWidget *parent)
     , cmdMenu(NULL)
     , itemMenu(NULL)
     , trayMenu( new TrayMenu(this) )
-    , tray(NULL)
+    , tray( new QSystemTrayIcon(this) )
     , m_browsemode(false)
     , m_confirmExit(true)
     , m_trayCommands(false)
@@ -122,8 +122,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    // tray
-    tray = new QSystemTrayIcon(this);
+    tray->setContextMenu(trayMenu);
+
     updateIcon();
 
     // signals & slots
@@ -831,7 +831,7 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
-    if ( reason == QSystemTrayIcon::MiddleClick || reason == QSystemTrayIcon::Context ) {
+    if ( reason == QSystemTrayIcon::MiddleClick ) {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         toggleVisible();
@@ -840,8 +840,6 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 
 void MainWindow::toggleMenu()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
-    m_pasteWindow = platform->getPasteWindow();
     trayMenu->toggle();
 }
 
@@ -1167,6 +1165,9 @@ void MainWindow::enterBrowseMode(bool browsemode)
 
 void MainWindow::updateTrayMenuItems()
 {
+    PlatformPtr platform = createPlatformNativeInterface();
+    m_pasteWindow = platform->getPasteWindow();
+
     QAction *act;
 
     ClipboardBrowser *c = NULL;
