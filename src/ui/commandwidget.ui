@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>CommandWidget</class>
  <widget class="QWidget" name="CommandWidget">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>322</width>
+    <height>467</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>Form</string>
   </property>
@@ -396,9 +404,6 @@ Leave empty to disable this.</string>
         </item>
         <item row="2" column="0">
          <widget class="QLabel" name="separatorLabel">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="text">
            <string>&amp;Separator:</string>
           </property>
@@ -419,9 +424,6 @@ Leave empty to disable this.</string>
         </item>
         <item row="3" column="0">
          <widget class="QLabel" name="labelOutputTab">
-          <property name="enabled">
-           <bool>false</bool>
-          </property>
           <property name="text">
            <string>Output &amp;tab:</string>
           </property>

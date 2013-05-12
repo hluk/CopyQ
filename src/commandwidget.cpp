@@ -36,6 +36,7 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->setupUi(this);
     ui->lineEditIcon->hide();
     ui->checkBoxEnable->hide();
+    ui->groupBoxCommandOptions->hide();
     setFocusProxy(ui->lineEditName);
 
     IconFactory *factory = IconFactory::instance();
