@@ -129,7 +129,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="27"/>
         <source>Co&amp;mmand:</source>
-        <translation>Ó&amp;rden:</translation>
+        <translation>O&amp;rden:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="37"/>
@@ -423,7 +423,7 @@ Dejar en blanco para deshabilitar esto.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="222"/>
         <source>Action</source>
-        <translation type="unfinished"></translation>
+        <translation>Acción</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="245"/>
@@ -896,22 +896,22 @@ Poner a 0 para deshabilitar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1146"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar y copiar siguiente</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1153"/>
         <source>Paste current clipboard content and copy next item to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar contenido actual del portapapeles y copiar seguiente entrada al portapapeles.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1163"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar y copiar abterior</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1170"/>
         <source>Paste current clipboard content and copy previous item to clipboard.</source>
-        <translation type="unfinished"></translation>
+        <translation>Pegar contenido actual del portapapeles y copiar entrada anterior al portapapeles.</translation>
     </message>
     <message>
         <source>+</source>
@@ -1263,7 +1263,7 @@ Nota: No funciona en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1411"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Reestablecer tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1429"/>
