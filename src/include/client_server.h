@@ -26,7 +26,7 @@
 #include <QtGlobal> // Q_WS_*
 
 // Application version
-#define COPYQ_VERSION "1.8.1"
+#define COPYQ_VERSION "1.8.2"
 
 class QAction;
 class QByteArray;
