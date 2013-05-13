@@ -128,10 +128,10 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 {
     int count = rowCount();
-    if (position >= count)
+    if (position < 0 || position >= count)
         return false;
 
-    int last = qMin(position+rows-1, count-1);
+    int last = qMin(position + rows - 1, count - 1);
     beginRemoveRows(emptyIndex, position, last);
 
     for (int row = position; row <= last; ++row) {
