@@ -238,10 +238,17 @@ void ClipboardBrowser::contextMenuAction()
     }
 
     if (cmd.remove) {
+        int current = -1;
         foreach (const QModelIndex &index, selected) {
-            if (index.isValid())
-                removeRow(index.row());
+            if (index.isValid()) {
+                int row = index.row();
+                removeRow(row);
+                if (current == -1 || current > row)
+                    current = row;
+            }
         }
+        if ( !currentIndex().isValid() )
+            setCurrent(current);
     }
 
     if (isContextMenuAction && cmd.hideWindow)
