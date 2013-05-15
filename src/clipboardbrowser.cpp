@@ -213,7 +213,7 @@ void ClipboardBrowser::contextMenuAction()
         cmd.outputTab = m_id;
 
     bool isContextMenuAction = act->parent() == m_menu;
-    QModelIndexList selected = selectedIndexes();
+    const QModelIndexList selected = selectedIndexes();
 
     const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
     QMimeData textData;
@@ -234,7 +234,8 @@ void ClipboardBrowser::contextMenuAction()
     }
 
     if ( !cmd.tab.isEmpty() && cmd.tab != getID() ) {
-        emit addToTab(data != NULL ? data : &textData, cmd.tab);
+        for (int i = selected.size() - 1; i >= 0; --i)
+            emit addToTab(itemData(selected[i].row()), cmd.tab);
     }
 
     if (cmd.remove) {
