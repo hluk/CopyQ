@@ -233,7 +233,7 @@ void ClipboardBrowser::contextMenuAction()
         }
     }
 
-    if ( !cmd.tab.isEmpty() ) {
+    if ( !cmd.tab.isEmpty() && cmd.tab != getID() ) {
         emit addToTab(data != NULL ? data : &textData, cmd.tab);
     }
 
@@ -468,7 +468,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
         // Verify that named command is provided and text, MIME type and window title are matched.
         if ( !command.inMenu
-            || (command.cmd.isEmpty() && command.tab.isEmpty())
+            || (command.cmd.isEmpty() && (command.tab.isEmpty() || command.tab == getID()))
             || command.name.isEmpty()
             || command.re.indexIn(text) == -1
             || command.wndre.indexIn(windowTitle) == -1 )
