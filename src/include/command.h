@@ -43,8 +43,9 @@ struct Command {
         , output()
         , wait(false)
         , automatic(false)
+        , inMenu(false)
         , transform(false)
-        , ignore(false)
+        , remove(false)
         , hideWindow(false)
         , enable(true)
         , icon()
@@ -87,11 +88,14 @@ struct Command {
     /** If true run command automatically on new matched items. */
     bool automatic;
 
+    /** If true show command in context menu on matching items. */
+    bool inMenu;
+
     /** If true change item data, don't create any new items. */
     bool transform;
 
-    /** If true don't add matched item to list. */
-    bool ignore;
+    /** If true remove matched items. */
+    bool remove;
 
     /** If true close window after command is activated from menu. */
     bool hideWindow;

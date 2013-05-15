@@ -213,17 +213,34 @@ void ClipboardBrowser::contextMenuAction()
         cmd.outputTab = m_id;
 
     bool isContextMenuAction = act->parent() == m_menu;
-    if (isContextMenuAction && cmd.transform) {
-        foreach (const QModelIndex &index, selectedIndexes())
-            emit requestActionDialog(*itemData(index.row()), cmd, index);
-    } else {
-        const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
-        if (data != NULL) {
-            emit requestActionDialog(*data, cmd);
+    QModelIndexList selected = selectedIndexes();
+
+    const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
+    QMimeData textData;
+    if (data == NULL)
+        textData.setText(selectedText());
+
+    if ( !cmd.cmd.isEmpty() ) {
+        if (isContextMenuAction && cmd.transform) {
+            foreach (const QModelIndex &index, selected)
+                emit requestActionDialog(*itemData(index.row()), cmd, index);
         } else {
-            QMimeData textData;
-            textData.setText(selectedText());
-            emit requestActionDialog(textData, cmd);
+            if (data != NULL) {
+                emit requestActionDialog(*data, cmd);
+            } else {
+                emit requestActionDialog(textData, cmd);
+            }
+        }
+    }
+
+    if ( !cmd.tab.isEmpty() ) {
+        emit addToTab(data != NULL ? data : &textData, cmd.tab);
+    }
+
+    if (cmd.remove) {
+        foreach (const QModelIndex &index, selected) {
+            if (index.isValid())
+                removeRow(index.row());
         }
     }
 
@@ -443,7 +460,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
         ++i;
 
         // Verify that named command is provided and text, MIME type and window title are matched.
-        if ( command.cmd.isEmpty()
+        if ( !command.inMenu
+            || (command.cmd.isEmpty() && command.tab.isEmpty())
             || command.name.isEmpty()
             || command.re.indexIn(text) == -1
             || command.wndre.indexIn(windowTitle) == -1 )
@@ -996,7 +1014,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         const QString text = data->text();
         const QString windowTitle = QString::fromUtf8( data->data(mimeWindowTitle).data() );
         foreach (const Command &c, m_sharedData->commands) {
-            if (c.automatic || c.ignore || !c.tab.isEmpty()) {
+            if (c.automatic && (c.remove || !c.cmd.isEmpty() || !c.tab.isEmpty())) {
                 if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
                      && (c.input.isEmpty() || data->hasFormat(c.input))
                      && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
@@ -1010,7 +1028,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
                     }
                     if (!c.tab.isEmpty())
                         emit addToTab(data, c.tab);
-                    if (c.ignore) {
+                    if (c.remove) {
                         delete data;
                         return false;
                     }

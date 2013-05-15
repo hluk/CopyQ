@@ -196,14 +196,15 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     case 1:
         c->name = tr("New command");
         c->input = c->output = "";
-        c->wait = c->automatic = c->ignore = false;
+        c->wait = c->automatic = c->remove = false;
         c->sep = QString("\\n");
         break;
     case 2:
         c->name = tr("Ignore items with no or single character");
         c->re   = QRegExp("^\\s*\\S?\\s*$");
         c->icon = QString(QChar(IconExclamationSign));
-        c->ignore = true;
+        c->remove = true;
+        c->automatic = true;
         break;
     case 3:
         c->name = tr("Open in &Browser");
@@ -211,6 +212,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->icon = QString(QChar(IconGlobe));
         c->cmd  = "firefox %1";
         c->hideWindow = true;
+        c->inMenu = true;
         break;
     case 4:
         c->name = tr("Autoplay videos");
@@ -219,6 +221,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = "vlc %1";
         c->automatic = true;
         c->hideWindow = true;
+        c->inMenu = true;
         break;
     case 5:
         c->name = tr("Copy URL (web address) to other tab");
@@ -236,6 +239,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->outputTab = "&BASH";
         c->sep = "\\n";
         c->shortcut = tr("Ctrl+R");
+        c->inMenu = true;
         break;
     case 7:
         c->name = tr("Create thumbnail (needs ImageMagick)");
@@ -243,6 +247,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = "convert - -resize 92x92 png:-";
         c->input = "image/png";
         c->output = "image/png";
+        c->inMenu = true;
         break;
     case 8:
         c->name = tr("Create QR Code from URL (needs qrencode)");
@@ -251,6 +256,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = "qrencode -o - -t PNG -s 6";
         c->input = "text/plain";
         c->output = "image/png";
+        c->inMenu = true;
         break;
     case 9:
         c->name = tr("Label image");
@@ -260,6 +266,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->input = "image/bmp";
         c->output = "text/html";
         c->wait = true;
+        c->inMenu = true;
         break;
     case 10:
         c->name = tr("Open URL");
@@ -268,25 +275,37 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = "curl %1";
         c->input = "text/plain";
         c->output = "text/html";
+        c->inMenu = true;
         break;
     case 11:
         c->name = tr("Add to &TODO tab");
         c->icon = QString(QChar(IconShare));
-        c->cmd  = QApplication::arguments().value(0) + " tab TODO write text/plain -";
+        c->tab  = "TODO";
         c->input = "text/plain";
+        c->inMenu = true;
         break;
     case 12:
+        c->name = tr("Move to &TODO tab");
+        c->icon = QString(QChar(IconShare));
+        c->tab  = "TODO";
+        c->input = "text/plain";
+        c->remove = true;
+        c->inMenu = true;
+        break;
+    case 13:
         c->name = tr("Ignore copied files");
         c->icon = QString(QChar(IconExclamationSign));
         c->input = "text/uri-list";
-        c->ignore = true;
+        c->remove = true;
+        c->automatic = true;
         break;
 #if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)
-    case 13:
+    case 14:
         c->name  = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon = QString(QChar(IconAsterisk));
-        c->ignore = true;
+        c->remove = true;
+        c->automatic = true;
         break;
 #endif
     default:
@@ -601,13 +620,28 @@ void ConfigurationManager::loadSettings()
         c.wait = settings.value("Wait").toBool();
         c.automatic = settings.value("Automatic").toBool();
         c.transform = settings.value("Transform").toBool();
-        c.ignore = settings.value("Ignore").toBool();
         c.hideWindow = settings.value("HideWindow").toBool();
         c.enable = settings.value("Enable").toBool();
         c.icon = settings.value("Icon").toString();
         c.shortcut = settings.value("Shortcut").toString();
         c.tab = settings.value("Tab").toString();
         c.outputTab = settings.value("OutputTab").toString();
+
+        // backwards compatibility with versions up to 1.8.2
+        const QVariant inMenu = settings.value("InMenu");
+        if ( inMenu.isValid() )
+            c.inMenu = inMenu.toBool();
+        else
+            c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
+
+        if (settings.value("Ignore").toBool()) {
+            c.remove = c.automatic = true;
+            settings.remove("Ignore");
+            settings.setValue("Remove", c.remove);
+            settings.setValue("Automatic", c.automatic);
+        } else {
+            c.remove = settings.value("Remove").toBool();
+        }
 
         addCommand(c);
     }
@@ -690,8 +724,9 @@ void ConfigurationManager::saveSettings()
         settings.setValue("Output", c.output);
         settings.setValue("Wait", c.wait);
         settings.setValue("Automatic", c.automatic);
+        settings.setValue("InMenu", c.inMenu);
         settings.setValue("Transform", c.transform);
-        settings.setValue("Ignore", c.ignore);
+        settings.setValue("Remove", c.remove);
         settings.setValue("HideWindow", c.hideWindow);
         settings.setValue("Enable", c.enable);
         settings.setValue("Icon", c.icon);

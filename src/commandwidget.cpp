@@ -36,7 +36,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->setupUi(this);
     ui->lineEditIcon->hide();
     ui->checkBoxEnable->hide();
-    ui->groupBoxCommandOptions->hide();
     setFocusProxy(ui->lineEditName);
 
     IconFactory *factory = IconFactory::instance();
@@ -61,6 +60,8 @@ CommandWidget::CommandWidget(QWidget *parent)
         connect( menu, SIGNAL(triggered(QAction*)),
                  this, SLOT(onIconChanged(QAction*)) );
     }
+
+    updateWidgets();
 }
 
 CommandWidget::~CommandWidget()
@@ -84,8 +85,9 @@ Command CommandWidget::command() const
     c.output = ui->comboBoxOutputFormat->currentText();
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
+    c.inMenu   = ui->checkBoxInMenu->isChecked();
     c.transform = ui->checkBoxTransform->isChecked();
-    c.ignore = ui->checkBoxIgnore->isChecked();
+    c.remove = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
     c.enable = ui->checkBoxEnable->isChecked();
     c.icon   = ui->lineEditIcon->text();
@@ -107,8 +109,9 @@ void CommandWidget::setCommand(const Command &c)
     ui->comboBoxOutputFormat->setEditText(c.output);
     ui->checkBoxWait->setChecked(c.wait);
     ui->checkBoxAutomatic->setChecked(c.automatic);
+    ui->checkBoxInMenu->setChecked(c.inMenu);
     ui->checkBoxTransform->setChecked(c.transform);
-    ui->checkBoxIgnore->setChecked(c.ignore);
+    ui->checkBoxIgnore->setChecked(c.remove);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
     ui->checkBoxEnable->setChecked(c.enable);
     ui->lineEditIcon->setText(c.icon);
@@ -162,14 +165,24 @@ void CommandWidget::on_pushButtonShortcut_clicked()
     }
 }
 
-void CommandWidget::on_lineEditCommand_textChanged(const QString &command)
+void CommandWidget::on_lineEditCommand_textChanged(const QString &)
 {
-    ui->groupBoxCommandOptions->setHidden(command.isEmpty());
+    updateWidgets();
+}
+
+void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
+{
+    updateWidgets();
+}
+
+void CommandWidget::on_checkBoxInMenu_stateChanged(int)
+{
+    updateWidgets();
 }
 
 void CommandWidget::onIconChanged(QAction *action)
 {
-    ui->lineEditIcon->setText( action->text() );
+    ui->lineEditIcon->setText(action->text());
 }
 
 void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)
@@ -179,4 +192,13 @@ void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)
     w->addItem("");
     w->addItems(tabs);
     w->setEditText(text);
+}
+
+void CommandWidget::updateWidgets()
+{
+    bool inMenu = ui->checkBoxInMenu->isChecked();
+    bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
+    ui->groupBoxAction->setVisible(copyOrExecute);
+    ui->groupBoxInMenu->setVisible(inMenu);
+    ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->lineEditCommand->text().isEmpty());
 }

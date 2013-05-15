@@ -59,12 +59,18 @@ private slots:
 
     void on_lineEditCommand_textChanged(const QString &command);
 
+    void on_checkBoxAutomatic_stateChanged(int);
+
+    void on_checkBoxInMenu_stateChanged(int);
+
     void onIconChanged(QAction *action);
 
 private:
-    Ui::CommandWidget *ui;
-
     void setTabs(const QStringList &tabs, QComboBox *w);
+
+    void updateWidgets();
+
+    Ui::CommandWidget *ui;
 };
 
 #endif // COMMANDWIDGET_H
