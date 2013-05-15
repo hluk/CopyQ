@@ -386,6 +386,14 @@ void ConfigurationManager::initOptions()
     bind("action_separator", "\\n");
     bind("action_output_tab", "");
 
+    // Connect signals from theme buttons.
+    foreach (QPushButton *button, ui->scrollAreaTheme->findChildren<QPushButton *>()) {
+        if (button->objectName().endsWith("Font"))
+            connect(button, SIGNAL(clicked()), SLOT(onFontButtonClicked()));
+        else if (button->objectName().startsWith("pushButtonColor"))
+            connect(button, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
+    }
+
     initThemeOptions();
 }
 
@@ -415,14 +423,6 @@ void ConfigurationManager::initThemeOptions()
     m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
     m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
     m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
-
-    // Connect signals from theme buttons.
-    foreach (QPushButton *button, ui->scrollAreaTheme->findChildren<QPushButton *>()) {
-        if (button->objectName().endsWith("Font"))
-            connect(button, SIGNAL(clicked()), SLOT(onFontButtonClicked()));
-        else if (button->objectName().startsWith("pushButtonColor"))
-            connect(button, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
-    }
 
     bind("use_system_icons", ui->checkBoxSystemIcons, false);
 }
