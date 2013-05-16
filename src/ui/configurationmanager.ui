@@ -246,7 +246,7 @@ Note: This is not be supported on all systems.</string>
            <item>
             <widget class="QGroupBox" name="groupBox">
              <property name="title">
-              <string>S&amp;ynchronize</string>
+              <string>Clipboard Manipulation</string>
              </property>
              <property name="flat">
               <bool>false</bool>
@@ -255,42 +255,23 @@ Note: This is not be supported on all systems.</string>
               <bool>false</bool>
              </property>
              <layout class="QGridLayout" name="gridLayout_8">
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="checkBoxCopyClip">
-                <property name="toolTip">
-                 <string>Copy clipboard content to the primary selection</string>
-                </property>
-                <property name="text">
-                 <string>clipboard to selection (&amp;2)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
               <item row="2" column="0">
                <widget class="QCheckBox" name="checkBoxSel">
                 <property name="toolTip">
-                 <string>Save primary selection in history</string>
+                 <string>Save text selected with mouse (primary selection) in history</string>
                 </property>
                 <property name="text">
-                 <string>selection to history (&amp;3)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
+                 <string>(&amp;2) Store text selected using mouse</string>
                 </property>
                </widget>
               </item>
-              <item row="3" column="0">
+              <item row="4" column="0">
                <widget class="QCheckBox" name="checkBoxCopySel">
                 <property name="toolTip">
-                 <string>Copy primary selection content to the clipboard</string>
+                 <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
                 </property>
                 <property name="text">
-                 <string>selection to clipboard (&amp;4)</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
+                 <string>(&amp;4) Paste mouse selection as clipboard</string>
                 </property>
                </widget>
               </item>
@@ -300,10 +281,20 @@ Note: This is not be supported on all systems.</string>
                  <string>Save clipboard in history</string>
                 </property>
                 <property name="text">
-                 <string>clipboard to history (&amp;1)</string>
+                 <string>(&amp;1) Store clipboard</string>
                 </property>
                 <property name="checked">
                  <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="checkBoxCopyClip">
+                <property name="toolTip">
+                 <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
+                </property>
+                <property name="text">
+                 <string>(&amp;3) Paste clipboard as mouse selection</string>
                 </property>
                </widget>
               </item>
@@ -760,8 +751,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>21</width>
-               <height>16</height>
+               <width>68</width>
+               <height>361</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -892,7 +883,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>372</width>
+              <width>622</width>
               <height>390</height>
              </rect>
             </property>
@@ -1476,8 +1467,8 @@ Set to 0 to disable this.</string>
   <tabstop>spinBoxTransparencyFocused</tabstop>
   <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxClip</tabstop>
-  <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
+  <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>lineEditEditor</tabstop>

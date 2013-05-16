@@ -390,9 +390,9 @@ void ConfigurationManager::initOptions()
 #endif
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
-    bind("check_selection", ui->checkBoxSel, true);
-    bind("copy_clipboard", ui->checkBoxCopyClip, true);
-    bind("copy_selection", ui->checkBoxCopySel, true);
+    bind("check_selection", ui->checkBoxSel, false);
+    bind("copy_clipboard", ui->checkBoxCopyClip, false);
+    bind("copy_selection", ui->checkBoxCopySel, false);
 #else
     ui->checkBoxCopySel->hide();
     ui->checkBoxSel->hide();
