@@ -254,8 +254,10 @@ class MainWindow : public QMainWindow
         void addToTab(
                 const QMimeData *data,
                 //!< Item data (it may be updated if item with same text exists).
-                const QString &tabName = QString()
+                const QString &tabName = QString(),
                 //!< Tab name of target tab (first tab if empty).
+                bool moveExistingToTop = false
+                //!< If item already exists, move it to top and select it.
                 );
 
         /** Set next or first tab as current. */

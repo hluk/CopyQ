@@ -912,7 +912,7 @@ void MainWindow::tabCloseRequested(int tab)
         newTab();
 }
 
-void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
+void MainWindow::addToTab(const QMimeData *data, const QString &tabName, bool moveExistingToTop)
 {
     if (m_monitoringDisabled)
         return;
@@ -933,7 +933,7 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName)
     }
 
     ClipboardBrowser::Lock lock(c);
-    if ( !c->select(hash(*data, data->formats())) ) {
+    if ( !c->select(hash(*data, data->formats()), moveExistingToTop) ) {
         QMimeData *data2 = cloneData(*data);
         // force adding item if tab name is specified
         bool force = !tabName.isEmpty();

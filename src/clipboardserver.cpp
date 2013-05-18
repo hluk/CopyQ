@@ -300,7 +300,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
 
     if ( m_checkclip && m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();
-        m_wnd->addToTab( item.data() );
+        m_wnd->addToTab( item.data(), QString(), true );
     }
 
     COPYQ_LOG("Message received from monitor.");
