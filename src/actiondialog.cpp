@@ -30,7 +30,21 @@
 #include <QMessageBox>
 #include <QMimeData>
 
+namespace {
+
 const QStringList standardFormats = QStringList() << QString() << QString("text/plain");
+
+bool wasChangedByUser(QObject *object)
+{
+    return object->property("UserChanged").toBool();
+}
+
+void setChangedByUser(QWidget *object)
+{
+    object->setProperty("UserChanged", object->hasFocus());
+}
+
+} // namespace
 
 ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
@@ -81,7 +95,15 @@ void ActionDialog::restoreHistory()
     ui->cmdEdit->clear();
     while( !in.atEnd() ) {
         in >> v;
-        ui->cmdEdit->addItem(v.toString());
+        if (v.canConvert(QVariant::String)) {
+            // backwards compatibility with versions up to 1.8.2
+            QVariantMap values;
+            values["cmd"] = v;
+            ui->cmdEdit->addItem(v.toString(), values);
+        } else {
+            QVariantMap values = v.value<QVariantMap>();
+            ui->cmdEdit->addItem(values["cmd"].toString(), v);
+        }
     }
     ui->cmdEdit->setCurrentIndex(0);
     ui->cmdEdit->lineEdit()->selectAll();
@@ -107,7 +129,7 @@ void ActionDialog::saveHistory()
     QDataStream out(&file);
 
     for (int i = 0; i < ui->cmdEdit->count(); ++i)
-        out << QVariant(ui->cmdEdit->itemText(i));
+        out << QVariant(ui->cmdEdit->itemData(i));
 }
 
 void ActionDialog::createAction()
@@ -249,33 +271,19 @@ void ActionDialog::setOutputIndex(const QModelIndex &index)
 
 void ActionDialog::loadSettings()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
-    restoreHistory();
-
     ui->comboBoxInputFormat->clear();
     ui->comboBoxInputFormat->addItems(standardFormats);
-    ui->comboBoxInputFormat->setCurrentIndex(cm->value("action_has_input").toBool() ? 1 : 0);
 
     ui->comboBoxOutputFormat->clear();
     ui->comboBoxOutputFormat->addItems(standardFormats);
-    ui->comboBoxOutputFormat->setCurrentIndex(cm->value("action_has_output").toBool() ? 1 : 0);
 
-    ui->separatorEdit->setText(cm->value("action_separator").toString());
-    ui->comboBoxOutputTab->setEditText(cm->value("action_output_tab").toString());
+    restoreHistory();
 }
 
 void ActionDialog::saveSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->saveGeometry(this);
-
-    cm->setValue("action_has_input",
-                 ui->comboBoxInputFormat->currentText() == QString("text/plain"));
-    cm->setValue("action_has_output",
-                 ui->comboBoxOutputFormat->currentText() == QString("text/plain"));
-    cm->setValue("action_separator",  ui->separatorEdit->text());
-    cm->setValue("action_output_tab", ui->comboBoxOutputTab->currentText());
 
     saveHistory();
 }
@@ -289,15 +297,24 @@ void ActionDialog::showEvent(QShowEvent *e)
 
 void ActionDialog::accept()
 {
-    QDialog::accept();
-
     QString text = ui->cmdEdit->currentText();
+
+    QVariantMap values;
+    values["cmd"] = text;
+    values["input"] = ui->comboBoxInputFormat->currentText();
+    values["output"] = ui->comboBoxOutputFormat->currentText();
+    values["sep"] = ui->separatorEdit->text();
+    values["outputTab"] = ui->comboBoxOutputTab->currentText();
+
     int i = ui->cmdEdit->findText(text);
     if (i != -1)
         ui->cmdEdit->removeItem(i);
-    ui->cmdEdit->insertItem(0, text);
+
+    ui->cmdEdit->insertItem(0, text, values);
 
     saveSettings();
+
+    QDialog::accept();
 }
 
 void ActionDialog::updateMinimalGeometry()
@@ -340,8 +357,33 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
+void ActionDialog::on_cmdEdit_currentIndexChanged(int index)
+{
+    // Restore values from history.
+    QVariant v = ui->cmdEdit->itemData(index);
+    QVariantMap values = v.value<QVariantMap>();
+
+    // Don't automatically change values if they were edited by user.
+    if ( !wasChangedByUser(ui->comboBoxInputFormat) ) {
+        int i = ui->comboBoxInputFormat->findText(values.value("input").toString());
+        if (i != -1)
+            ui->comboBoxInputFormat->setCurrentIndex(i);
+    }
+
+    if ( !wasChangedByUser(ui->comboBoxOutputFormat) )
+        ui->comboBoxOutputFormat->setEditText(values.value("output").toString());
+
+    if ( !wasChangedByUser(ui->separatorEdit) )
+        ui->separatorEdit->setText(values.value("sep").toString());
+
+    if ( !wasChangedByUser(ui->comboBoxOutputTab) )
+        ui->comboBoxOutputTab->setEditText(values.value("outputTab").toString());
+}
+
 void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &format)
 {
+    setChangedByUser(ui->comboBoxInputFormat);
+
     bool show = format.toLower().startsWith(QString("text"));
     ui->inputText->setVisible(show);
 
@@ -356,6 +398,8 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
 
 void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
 {
+    setChangedByUser(ui->comboBoxOutputFormat);
+
     bool showSeparator = text.toLower().startsWith(QString("text"));
     ui->separatorLabel->setVisible(showSeparator);
     ui->separatorEdit->setVisible(showSeparator);
@@ -365,4 +409,14 @@ void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
     ui->comboBoxOutputTab->setVisible(showOutputTab);
 
     updateMinimalGeometry();
+}
+
+void ActionDialog::on_comboBoxOutputTab_editTextChanged(const QString &)
+{
+    setChangedByUser(ui->comboBoxOutputTab);
+}
+
+void ActionDialog::on_separatorEdit_textEdited(const QString &)
+{
+    setChangedByUser(ui->separatorEdit);
 }
