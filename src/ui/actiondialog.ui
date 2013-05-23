@@ -2,6 +2,14 @@
 <ui version="4.0">
  <class>ActionDialog</class>
  <widget class="QDialog" name="ActionDialog">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>276</width>
+    <height>374</height>
+   </rect>
+  </property>
   <property name="windowTitle">
    <string>CopyQ Action Dialog</string>
   </property>
@@ -11,40 +19,33 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout" stretch="0,1">
-     <property name="spacing">
-      <number>6</number>
+    <widget class="QLabel" name="label_2">
+     <property name="sizePolicy">
+      <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+       <horstretch>0</horstretch>
+       <verstretch>0</verstretch>
+      </sizepolicy>
      </property>
-     <item>
-      <widget class="QLabel" name="label_2">
-       <property name="sizePolicy">
-        <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-         <horstretch>0</horstretch>
-         <verstretch>0</verstretch>
-        </sizepolicy>
-       </property>
-       <property name="text">
-        <string>Co&amp;mmand:</string>
-       </property>
-       <property name="buddy">
-        <cstring>cmdEdit</cstring>
-       </property>
-      </widget>
-     </item>
-     <item>
-      <widget class="QComboBox" name="cmdEdit">
-       <property name="toolTip">
-        <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
-       </property>
-       <property name="editable">
-        <bool>true</bool>
-       </property>
-       <property name="insertPolicy">
-        <enum>QComboBox::NoInsert</enum>
-       </property>
-      </widget>
-     </item>
-    </layout>
+     <property name="text">
+      <string>Co&amp;mmand (%1 is text of selected items):</string>
+     </property>
+     <property name="buddy">
+      <cstring>cmdEdit</cstring>
+     </property>
+    </widget>
+   </item>
+   <item>
+    <widget class="QComboBox" name="cmdEdit">
+     <property name="toolTip">
+      <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
+     </property>
+     <property name="editable">
+      <bool>true</bool>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::NoInsert</enum>
+     </property>
+    </widget>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_3">
@@ -92,7 +93,11 @@
       </widget>
      </item>
      <item row="1" column="0" colspan="2">
-      <widget class="QPlainTextEdit" name="inputText"/>
+      <widget class="QPlainTextEdit" name="inputText">
+       <property name="tabChangesFocus">
+        <bool>true</bool>
+       </property>
+      </widget>
      </item>
      <item row="3" column="0">
       <widget class="QLabel" name="separatorLabel">
@@ -106,6 +111,10 @@
      </item>
      <item row="3" column="1">
       <widget class="QLineEdit" name="separatorEdit">
+       <property name="toolTip">
+        <string>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
+&lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</string>
+       </property>
        <property name="text">
         <string>\n</string>
        </property>
