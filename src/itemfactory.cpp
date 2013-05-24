@@ -33,6 +33,8 @@
 
 namespace {
 
+const int dummyItemMaxChars = 4096;
+
 bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs)
 {
     return lhs->priority() > rhs->priority();
@@ -44,15 +46,17 @@ public:
         : QLabel(parent)
         , ItemWidget(this)
     {
-        setText( tr("<p><i>No plugin available for this item formats (%1).</i></p>")
-                 .arg(index.data(contentType::formats).toStringList().join(", ")) );
         setMargin(4);
+        setWordWrap(true);
+        setTextFormat(Qt::PlainText);
+        setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
         updateSize();
     }
 
 protected:
     virtual void updateSize()
     {
+        setMinimumWidth(maximumWidth());
         adjustSize();
     }
 };

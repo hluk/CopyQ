@@ -142,6 +142,10 @@ ConfigurationManager::ConfigurationManager()
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 
     loadSettings();
+
+    // Hide tab with plugins if no plugins are available.
+    if ( ui->tabWidgetPlugins->count() == 0 )
+        ui->tabWidget->removeTab( ui->tabWidget->indexOf(ui->tabItems) );
 }
 
 ConfigurationManager::~ConfigurationManager()
