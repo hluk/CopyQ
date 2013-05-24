@@ -966,6 +966,7 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName, bool mo
                      data2->data(mimeWindowTitle) == first->data()->data(mimeWindowTitle)
                      && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))) )
             {
+                force = true;
                 QStringList formats = data2->formats();
                 const QMimeData *firstData = first->data();
                 foreach (const QString &format, firstData->formats()) {
