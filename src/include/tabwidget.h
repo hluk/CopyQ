@@ -35,6 +35,7 @@ public slots:
     void nextTab();
     void previousTab();
     void setTabBarDisabled(bool disabled);
+    void setTabBarHidden(bool hidden);
 
 signals:
     void tabMoved(int from, int to);

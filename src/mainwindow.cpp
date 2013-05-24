@@ -107,6 +107,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_timerSearch( new QTimer(this) )
     , m_transparency(0)
     , m_transparencyFocused(0)
+    , m_hideTabs(false)
     , m_activateCloses(true)
     , m_activateFocuses(false)
     , m_activatePastes(false)
@@ -533,6 +534,11 @@ WId MainWindow::trayMenuWinId() const
     return trayMenu->winId();
 }
 
+void MainWindow::setHideTabs(bool hide)
+{
+    ui->tabWidget->setTabBarHidden(hide);
+}
+
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec)
 {
@@ -548,6 +554,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     QString txt;
     ClipboardBrowser *c = browser();
+
+    if (m_hideTabs && event->key() == Qt::Key_Alt)
+        setHideTabs(false);
 
     if (m_browsemode && ConfigurationManager::instance()->value("vi").toBool()) {
         if (c->handleViKey(event))
@@ -643,6 +652,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 }
 
+void MainWindow::keyReleaseEvent(QKeyEvent *event)
+{
+    if (m_hideTabs && event->key() == Qt::Key_Alt)
+        setHideTabs(true);
+    QMainWindow::keyReleaseEvent(event);
+}
+
 void MainWindow::dragEnterEvent(QDragEnterEvent *event)
 {
     event->acceptProposedAction();
@@ -662,6 +678,7 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(true);
     } else if (event->type() == QEvent::Leave) {
         updateWindowTransparency(false);
+        setHideTabs(m_hideTabs);
     } else if (event->type() == QEvent::WindowActivate) {
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {
@@ -738,6 +755,9 @@ void MainWindow::loadSettings()
     m_transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
     m_transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );
     updateWindowTransparency();
+
+    m_hideTabs = cm->value("hide_tabs").toBool();
+    setHideTabs(m_hideTabs);
 
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();

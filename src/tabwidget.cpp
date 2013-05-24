@@ -52,3 +52,8 @@ void TabWidget::setTabBarDisabled(bool disabled)
     tabBar()->setDisabled(disabled);
 }
 
+void TabWidget::setTabBarHidden(bool hidden)
+{
+    tabBar()->setHidden(hidden);
+}
+
