@@ -42,6 +42,8 @@ HEADERS += \
     include/pluginwidget.h \
     include/remoteprocess.h \
     include/scriptable.h \
+    include/scriptableproxy.h \
+    include/scriptableworker.h \
     include/shortcutdialog.h \
     include/tabbar.h \
     include/tabdialog.h \
@@ -78,6 +80,7 @@ SOURCES += \
     pluginwidget.cpp \
     remoteprocess.cpp \
     scriptable.cpp \
+    scriptableworker.cpp \
     shortcutdialog.cpp \
     tabbar.cpp \
     tabdialog.cpp \

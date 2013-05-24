@@ -25,6 +25,7 @@ set(copyq_MOCABLE
     include/pluginwidget.h
     include/remoteprocess.h
     include/scriptable.h
+    include/scriptableworker.h
     include/shortcutdialog.h
     include/tabbar.h
     include/tabdialog.h

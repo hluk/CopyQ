@@ -20,15 +20,15 @@
 #ifndef SCRIPTABLE_H
 #define SCRIPTABLE_H
 
+#include "scriptableproxy.h"
+
 #include <QObject>
 #include <QString>
 #include <QScriptable>
 #include <QScriptValue>
 
-class MainWindow;
 class ByteArrayClass;
 class ClipboardBrowser;
-class QLocalSocket;
 class QScriptEngine;
 
 class Scriptable : public QObject, protected QScriptable
@@ -39,7 +39,7 @@ class Scriptable : public QObject, protected QScriptable
     Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
 
 public:
-    Scriptable(MainWindow *wnd, QLocalSocket* client, QObject *parent = NULL);
+    Scriptable(ScriptableProxy *proxy, QObject *parent = NULL);
 
     void initEngine(QScriptEngine *engine, const QString &currentPath);
 
@@ -55,7 +55,7 @@ public:
 
     QScriptValue applyRest(int first);
 
-    ClipboardBrowser *currentTab();
+    int currentTab();
 
     const QString &getCurrentTab() const;
     void setCurrentTab(const QString &tab);
@@ -70,9 +70,10 @@ public:
 
     QString arg(int i, const QString &defaultValue = QString());
 
-    void sendMessage(const QByteArray &message, int exitCode);
-
     void throwError(const QString &errorMessage);
+
+signals:
+    void sendMessage(const QByteArray &message, int exitCode);
 
 public slots:
     QScriptValue version();
@@ -128,8 +129,7 @@ public slots:
     void abort();
 
 private:
-    MainWindow *m_wnd;
-    QLocalSocket *m_client;
+    ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
     QString m_currentTab;

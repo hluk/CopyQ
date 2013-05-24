@@ -47,7 +47,9 @@ typedef enum {
     /** Command successfully invoked. */
     CommandSuccess,
     /** Activate window */
-    CommandActivateWindow
+    CommandActivateWindow,
+    /** Command to exit application. */
+    CommandExit
 } CommandStatus;
 
 #if QT_VERSION < 0x050000

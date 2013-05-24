@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include <QClipboard>
 #include <QMainWindow>
 #include <QMap>
 #include <QModelIndex>
@@ -71,51 +72,10 @@ class MainWindow : public QMainWindow
         /** Save settings, items in browsers and window geometry. */
         void saveSettings();
 
-        /** Hide (minimize to tray) window on close. */
-        void closeEvent(QCloseEvent *event);
-
         /** Create new action dialog. */
         ActionDialog *createActionDialog();
 
-        /**
-         * Return browser widget in given tab @a index (or current tab).
-         * Load items if not loaded yet.
-         */
-        ClipboardBrowser *browser(int index = -1);
-
-        /** Return tab index for browser widget (-1 if not found). */
-        int tabIndex(const ClipboardBrowser *c) const;
-
-        /**
-         * Find tab with given @a name.
-         * Load items if not loaded yet.
-         * @return found tab or NULL
-         */
-        ClipboardBrowser *findTab(const QString &name);
-
-        /**
-         * Find tab with given @a name.
-         * @return found tab index or -1
-         */
-        int findTabIndex(const QString &name);
-
-        /**
-         * Create tab with given @a name if it doesn't exist.
-         * @return Existing or new tab with given @a name.
-         */
-        ClipboardBrowser *createTab(
-                const QString &name, //!< Name of the new tab.
-                bool save
-                //!< If true saveSettings() is called if tab is created.
-                );
-
-        /** Return tab names. */
-        QStringList tabs() const;
-
         bool isTrayMenuVisible() const;
-
-        /** Return window ID of tray menu. */
-        WId trayMenuWinId() const;
 
         /** Clean mode hides main menu, tab bar and scroll bar. **/
         void setHideTabs(bool hide);
@@ -134,6 +94,9 @@ class MainWindow : public QMainWindow
         void dropEvent(QDropEvent *event);
         bool event(QEvent *event);
 
+        /** Hide (minimize to tray) window on close. */
+        void closeEvent(QCloseEvent *event);
+
 #if QT_VERSION < 0x050000
 #   ifdef COPYQ_WS_X11
         bool x11Event(XEvent *event);
@@ -148,9 +111,50 @@ class MainWindow : public QMainWindow
 
     public slots:
         /**
-         * Show/hide tray menu.
+         * Return browser widget in given tab @a index (or current tab).
+         * Load items if not loaded yet.
          */
-        void toggleMenu();
+        ClipboardBrowser *browser(int index = -1);
+
+        /**
+         * Find tab with given @a name.
+         * Load items if not loaded yet.
+         * @return found tab or NULL
+         */
+        ClipboardBrowser *findTab(const QString &name);
+
+        /**
+         * Find tab with given @a name.
+         * @return found tab index or -1
+         */
+        int findTabIndex(const QString &name);
+
+        /** Return tab index for browser widget (-1 if not found). */
+        int tabIndex(const ClipboardBrowser *c) const;
+
+        /**
+         * Create tab with given @a name if it doesn't exist.
+         * @return Existing or new tab with given @a name.
+         */
+        ClipboardBrowser *createTab(
+                const QString &name, //!< Name of the new tab.
+                bool save
+                //!< If true saveSettings() is called if tab is created.
+                );
+
+        /** Return window ID. */
+        WId mainWinId() const;
+
+        /** Return window ID of tray menu. */
+        WId trayMenuWinId() const;
+
+        /**
+         * Show/hide tray menu. Return true only if menu is shown.
+         */
+        bool toggleMenu();
+
+        /** Return tab names. */
+        QStringList tabs() const;
 
         /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);
@@ -169,10 +173,12 @@ class MainWindow : public QMainWindow
 
         /** Show and focus main window. */
         void showWindow();
-        /** Show/hide main window. */
-        void toggleVisible();
+        /** Show/hide main window. Return true only if window is shown. */
+        bool toggleVisible();
         /** Show window and given tab and give focus to the tab. */
         void showBrowser(const ClipboardBrowser *browser);
+        /** Show window and given tab and give focus to the tab. */
+        void showBrowser(int index);
         /** Enter browse mode and reset search. */
         void resetStatus();
 
@@ -283,6 +289,10 @@ class MainWindow : public QMainWindow
 
         /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
         void toggleMonitoring();
+
+        /** Return clipboard data. If MIME type is "?" return list of available MIME types. */
+        QByteArray getClipboardData(const QString &mime,
+                                    QClipboard::Mode mode = QClipboard::Clipboard);
 
     private slots:
         void updateTrayMenuItems();

@@ -529,6 +529,11 @@ bool MainWindow::isTrayMenuVisible() const
     return trayMenu->isVisible();
 }
 
+WId MainWindow::mainWinId() const
+{
+    return winId();
+}
+
 WId MainWindow::trayMenuWinId() const
 {
     return trayMenu->winId();
@@ -828,23 +833,29 @@ void MainWindow::showWindow()
     createPlatformNativeInterface()->raiseWindow(winId());
 }
 
-void MainWindow::toggleVisible()
+bool MainWindow::toggleVisible()
 {
     if ( isVisible() ) {
         close();
-    } else {
-        showWindow();
+        return false;
     }
+
+    showWindow();
+    return true;
 }
 
 void MainWindow::showBrowser(const ClipboardBrowser *browser)
 {
-    TabWidget *tabs = ui->tabWidget;
     int i = 0;
-    for( ; i < tabs->count() && this->browser(i) != browser; ++i );
-    if ( i < tabs->count() ) {
+    for( ; i < ui->tabWidget->count() && this->browser(i) != browser; ++i ) {}
+    showBrowser(i);
+}
+
+void MainWindow::showBrowser(int index)
+{
+    if ( index > 0 && index < ui->tabWidget->count() ) {
         showWindow();
-        tabs->setCurrentIndex(i);
+        ui->tabWidget->setCurrentIndex(index);
     }
 }
 
@@ -866,9 +877,10 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
     }
 }
 
-void MainWindow::toggleMenu()
+bool MainWindow::toggleMenu()
 {
     trayMenu->toggle();
+    return trayMenu->isVisible();
 }
 
 void MainWindow::tabChanged(int current)
@@ -1061,6 +1073,15 @@ void MainWindow::disableMonitoring(bool disable)
 void MainWindow::toggleMonitoring()
 {
     disableMonitoring(!m_monitoringDisabled);
+}
+
+QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mode)
+{
+    const QMimeData *data = ::clipboardData(mode);
+    if (data == NULL)
+        return QByteArray();
+
+    return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)

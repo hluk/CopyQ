@@ -77,17 +77,6 @@ class ClipboardBrowser : public QListView
 
         /** Add new item to the browser. */
         bool add(
-                const QString &txt, //!< Text of new item.
-                bool force = false //!< If true ignore commands and duplicates.
-                );
-        /** Add new item to the browser. */
-        bool add(
-                QMimeData *item, //!< Data for new item.
-                bool force = false, //!< If true ignore commands and duplicates.
-                int row = 0 //!< Target row for the new item.
-                );
-        /** Add new item to the browser. */
-        bool add(
                 const ClipboardItem &item, //!< Item to copy.
                 bool force = false, //!< If true ignore commands and duplicates.
                 int row = 0 //!< Target row for the new item.
@@ -112,8 +101,6 @@ class ClipboardBrowser : public QListView
         /** Reverse order of selected items. */
         void reverseItems(const QModelIndexList &indexes);
 
-        /** Number of items in list. */
-        int length() const { return model()->rowCount(); }
         /** Text of item in given row or current row. */
         QString itemText(int i = -1) const;
         /** Text of item. */
@@ -122,12 +109,6 @@ class ClipboardBrowser : public QListView
         const QMimeData *itemData(int i = -1) const;
         /** Index of item in given row. */
         QModelIndex index(int i) const { return model()->index(i,0); }
-        /** Set current item. */
-        void setCurrent(
-                int row, //!< Row of the item.
-                bool cycle = false, //!< If true @a row is relative number of rows from top.
-                bool selection = false //!< Makes selection.
-                );
         /** Return clipboard item at given row. */
         ClipboardItem *at(int row) const;
 
@@ -271,6 +252,22 @@ class ClipboardBrowser : public QListView
         void updateCurrentPage();
 
     public slots:
+        /** Add new item to the browser. */
+        bool add(
+                const QString &txt, //!< Text of new item.
+                bool force = false //!< If true ignore commands and duplicates.
+                );
+
+        /** Add new item to the browser. */
+        bool add(
+                QMimeData *item, //!< Data for new item.
+                bool force = false, //!< If true ignore commands and duplicates.
+                int row = 0 //!< Target row for the new item.
+                );
+
+        /** Number of items in list. */
+        int length() const { return model()->rowCount(); }
+
         /** Receive key event. */
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
         /** Move current item to clipboard. */
@@ -306,6 +303,13 @@ class ClipboardBrowser : public QListView
         void remove();
 
         void removeRow(int row);
+
+        /** Set current item. */
+        void setCurrent(
+                int row, //!< Row of the item.
+                bool cycle = false, //!< If true @a row is relative number of rows from top.
+                bool selection = false //!< Makes selection.
+                );
 
         /** Open action dialog on selected items. */
         void action();
@@ -347,6 +351,15 @@ class ClipboardBrowser : public QListView
          * Select previous item and copy it to clipboard.
          */
         void copyPreviousItemToClipboard();
+
+        /**
+         * Data of item in given row or current row.
+         * If MIME type is "?" return list of available MIME types.
+         */
+        QByteArray itemData(int i, const QString &mime) const;
+
+        /** Edit item in given @a row. */
+        void editRow(int row);
 };
 
 #endif // CLIPBOARDBROWSER_H

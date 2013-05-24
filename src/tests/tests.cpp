@@ -200,6 +200,8 @@ void Tests::itemToClipboard()
     RUN(Args("read") << "0", "TESTING2");
     RUN(Args("read") << "1", "TESTING1");
 
+    RUN(Args("select") << "0", "");
+
     qSleep(waitMsClipboard);
     RUN(Args("clipboard"), "TESTING2");
     QCOMPARE( getClipboard().data(), "TESTING2" );

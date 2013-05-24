@@ -23,8 +23,9 @@
 #include "app.h"
 #include "client_server.h"
 
-#include <QProcess>
 #include <QMap>
+#include <QProcess>
+#include <QThreadPool>
 
 class Arguments;
 class ClipboardBrowser;
@@ -54,28 +55,12 @@ public:
     bool isListening() const;
 
     /**
-     * Execute command.
-     * @return Command status.
+     * Execute command in different thread.
      */
-    CommandStatus doCommand(
-            Arguments &args, //!< Contains command and its arguments.
-            QByteArray *response, //!< For storing command response message.
+    void doCommand(
+            const Arguments &args, //!< Contains command and its arguments.
             QLocalSocket *client = NULL //!< For sending responses.
             );
-
-    /** Send message to client. */
-    void sendMessage(
-            QLocalSocket* client, //!< Client socket.
-            const QByteArray &message, //!< Message for client.
-            int exitCode = 0 //!< Exit code for client (non-zero for an error).
-            );
-
-    /** Helper function for sending a message to a client. */
-    void sendMessage(QLocalSocket* client, const QString &message,
-                     int exitCode = 0)
-    {
-        sendMessage( client, message.toLocal8Bit(), exitCode );
-    }
 
     /** Stop monitor application. */
     void stopMonitoring();
@@ -106,6 +91,9 @@ public:
 protected:
     bool eventFilter(QObject *object, QEvent *ev);
 
+signals:
+    void terminateClientThreads();
+
 private:
     QLocalServer *m_server;
     MainWindow* m_wnd;
@@ -113,6 +101,7 @@ private:
     bool m_checkclip;
     uint m_lastHash;
     QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
+    QThreadPool m_clientThreads;
 
 public slots:
     /** Load @a item data to clipboard. */
@@ -139,6 +128,13 @@ private slots:
 
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);
+
+    /** Send message to client. */
+    void sendMessage(
+            QLocalSocket* client, //!< Client socket.
+            const QByteArray &message, //!< Message for client.
+            int exitCode = 0 //!< Exit code for client (non-zero for an error).
+            );
 };
 
 #endif // CLIPBOARDSERVER_H

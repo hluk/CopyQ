@@ -26,8 +26,7 @@
 #include "itemfactory.h"
 #include "mainwindow.h"
 #include "remoteprocess.h"
-#include "scriptable.h"
-#include "../qt/bytearrayclass.h"
+#include "scriptableworker.h"
 
 #include <QAction>
 #include <QApplication>
@@ -35,15 +34,13 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QMenu>
-#include <QScriptEngine>
+#include <QThread>
 
 #ifdef NO_GLOBAL_SHORTCUTS
 struct QxtGlobalShortcut {};
 #else
 #include "../qxt/qxtglobalshortcut.h"
 #endif
-
-Q_DECLARE_METATYPE(QByteArray*)
 
 ClipboardServer::ClipboardServer(int &argc, char **argv)
     : QObject()
@@ -54,6 +51,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
     , m_checkclip(false)
     , m_lastHash(0)
     , m_shortcutActions()
+    , m_clientThreads()
 {
     // listen
     m_server = newServer( clipboardServerName(), this );
@@ -96,6 +94,9 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
 
 ClipboardServer::~ClipboardServer()
 {
+    emit terminateClientThreads();
+    m_clientThreads.waitForDone();
+
     if( isMonitoring() )
         stopMonitoring();
 
@@ -246,46 +247,50 @@ void ClipboardServer::newConnection()
 
     Arguments args;
     QByteArray msg;
-    readMessage(client, &msg);
-    QDataStream in(msg);
-    in >> args;
 
-    COPYQ_LOG( QString("%1: Message received from client.").arg(id) );
+    if ( readMessage(client, &msg) ) {
+        QDataStream in(msg);
+        in >> args;
 
-    QByteArray client_msg;
-    // try to handle command
-    int exitCode = doCommand(args, &client_msg, client);
-    if ( exitCode == CommandBadSyntax ) {
-        client_msg = tr("Bad command syntax. Use -h for help.\n").toLocal8Bit();
-    }
+        COPYQ_LOG( QString("%1: Message received from client.").arg(id) );
 
-    if ( client->state() == QLocalSocket::ConnectedState ) {
-        connect(client, SIGNAL(disconnected()),
-                client, SLOT(deleteLater()));
-        sendMessage(client, client_msg, exitCode);
-        sendMessage(client, QByteArray(), CommandFinished);
-        COPYQ_LOG( QString("%1: Disconnected from client.").arg(id) );
+        // try to handle command
+        doCommand(args, client);
     } else {
-        COPYQ_LOG( QString("%1: Client disconnected!").arg(id) );
+        const QString error = client->errorString();
+        log( tr("Cannot read message from client! (%1)").arg(error), LogError );
         client->deleteLater();
     }
 }
 
 void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exitCode)
 {
+#ifdef COPYQ_LOG_DEBUG
+    quintptr id = client->socketDescriptor();
+#endif
+
     COPYQ_LOG( QString("%1: Sending message to client (exit code: %2).")
-               .arg(client->socketDescriptor())
+               .arg(id)
                .arg(exitCode) );
 
-    {
+    if ( client->state() == QLocalSocket::ConnectedState ) {
         QByteArray msg;
         QDataStream out(&msg, QIODevice::WriteOnly);
         out << exitCode;
         out.writeRawData( message.constData(), message.length() );
         writeMessage(client, msg);
+        if (exitCode == CommandFinished) {
+            connect(client, SIGNAL(disconnected()),
+                    client, SLOT(deleteLater()));
+            COPYQ_LOG( QString("%1: Disconnected from client.").arg(id) );
+        } else if (exitCode == CommandExit) {
+            client->flush();
+            QApplication::exit(0);
+        }
+        COPYQ_LOG( QString("%1: Message send to client.").arg(id) );
+    } else {
+        COPYQ_LOG( QString("%1: Client disconnected!").arg(id) );
     }
-
-    COPYQ_LOG( QString("%1: Message send to client.").arg(client->socketDescriptor()) );
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
@@ -328,55 +333,37 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
     m_lastHash = item->dataHash();
 }
 
-CommandStatus ClipboardServer::doCommand(
-        Arguments &args, QByteArray *response, QLocalSocket *client)
+void ClipboardServer::doCommand(const Arguments &args, QLocalSocket *client)
 {
-    COPYQ_LOG("Starting scripting engine.");
+    ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client);
 
-    if ( args.length() <= Arguments::Rest ) {
-        COPYQ_LOG("Scripting engine: bad command syntax");
-        return CommandBadSyntax;
-    }
-    const QString cmd = QString::fromUtf8( args.at(Arguments::Rest) );
+    // Delete worker after it's finished.
+    connect(worker, SIGNAL(finished()), worker, SLOT(deleteLater()));
 
-    QScriptEngine engine;
-    Scriptable scriptable(m_wnd, client);
-    scriptable.initEngine( &engine, QString::fromUtf8(args.at(Arguments::CurrentPath)) );
+    // Terminate worket at application exit.
+    connect(this, SIGNAL(terminateClientThreads()),
+            worker, SLOT(terminate()));
+
     if (client != NULL) {
-        connect( client, SIGNAL(disconnected()),
-                 &scriptable, SLOT(abort()) );
+        connect(client, SIGNAL(disconnected()),
+                worker, SLOT(terminate()));
+        connect(worker, SIGNAL(sendMessage(QLocalSocket*,QByteArray,int)),
+                this, SLOT(sendMessage(QLocalSocket*,QByteArray,int)));
+
+        // Add client thread to pool.
+        m_clientThreads.start(worker, 1);
+    } else {
+        // Run application command immediatelly (should be fast).
+        QThread *workerThread = new QThread(this);
+        worker->moveToThread(workerThread);
+
+        // t.started -> w.run -> w.finished -> t.quit -> t.finished -> delete t,w,c
+        connect(workerThread, SIGNAL(started()), worker, SLOT(run()));
+        connect(worker, SIGNAL(finished()), workerThread, SLOT(quit()));
+        connect(workerThread, SIGNAL(finished()), workerThread, SLOT(deleteLater()));
+
+        workerThread->start();
     }
-
-    QScriptValue result;
-    QScriptValueList fnArgs;
-
-    QScriptValue fn = engine.globalObject().property(cmd);
-    if ( !fn.isFunction() ) {
-        COPYQ_LOG("Scripting engine: unknown command");
-        return CommandBadSyntax;
-    }
-
-    for ( int i = Arguments::Rest + 1; i < args.length(); ++i )
-        fnArgs.append( scriptable.newByteArray(args.at(i)) );
-
-    result = fn.call(QScriptValue(), fnArgs);
-
-    if ( engine.hasUncaughtException() ) {
-        COPYQ_LOG( QString("Scripting engine: command error (\"%1\")").arg(cmd) );
-        response->append(engine.uncaughtException().toString() + '\n');
-        engine.clearExceptions();
-        return CommandError;
-    }
-
-    QByteArray *bytes = qscriptvalue_cast<QByteArray*>(result.data());
-    if (bytes != NULL)
-        response->append(*bytes);
-    else if (!result.isUndefined())
-        response->append(result.toString() + '\n');
-
-    COPYQ_LOG("Scripting engine: finished");
-
-    return CommandSuccess;
 }
 
 Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
@@ -453,8 +440,6 @@ void ClipboardServer::loadSettings()
         args->append("-1");
     }
 
-    key = cm->value("second_shortcut").toString();
-
     key = cm->value("edit_shortcut").toString();
     args = createGlobalShortcut(key);
     if (args) {
@@ -529,6 +514,5 @@ void ClipboardServer::loadSettings()
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
     Arguments args = m_shortcutActions[shortcut];
-    QByteArray response;
-    doCommand(args, &response);
+    doCommand(args);
 }

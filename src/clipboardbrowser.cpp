@@ -1174,6 +1174,20 @@ void ClipboardBrowser::updateClipboard(int row)
         emit changeClipboard(m->at(row));
 }
 
+QByteArray ClipboardBrowser::itemData(int i, const QString &mime) const
+{
+    const QMimeData *data = itemData(i);
+    if (data == NULL)
+        return QByteArray();
+
+    return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
+}
+
+void ClipboardBrowser::editRow(int row)
+{
+    edit( index(row) );
+}
+
 void ClipboardBrowser::redraw()
 {
     d->invalidateCache();

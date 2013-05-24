@@ -93,6 +93,10 @@ void ClipboardClient::readyRead()
             exit(exitCode);
             break;
         }
+        if (exitCode == CommandExit) {
+            exit(0);
+            break;
+        }
     }
 }
 
