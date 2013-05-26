@@ -146,6 +146,8 @@ void X11Platform::raiseWindow(WId wid)
     if (d->display == NULL || wid == 0L)
         return;
 
+    usleep(50000); // Window may not be visible yet.
+
     XEvent e;
     e.xclient.type = ClientMessage;
     e.xclient.message_type = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", False);
