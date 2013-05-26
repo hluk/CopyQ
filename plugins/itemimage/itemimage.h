@@ -20,7 +20,7 @@
 #ifndef ITEMIMAGE_H
 #define ITEMIMAGE_H
 
-#include "itemwidget.h"
+#include "item/itemwidget.h"
 
 #include <QLabel>
 

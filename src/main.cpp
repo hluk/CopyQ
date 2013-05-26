@@ -17,13 +17,13 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "mainwindow.h"
-
-#include "client_server.h"
-#include "clipboardserver.h"
-#include "clipboardclient.h"
-#include "clipboardmonitor.h"
-#include "scriptable.h"
+#include "app/app.h"
+#include "app/clipboardclient.h"
+#include "app/clipboardmonitor.h"
+#include "app/clipboardserver.h"
+#include "common/client_server.h"
+#include "gui/mainwindow.h"
+#include "scriptable/scriptable.h"
 
 #include <cstdio>
 #include <QCoreApplication>

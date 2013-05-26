@@ -20,8 +20,8 @@
 #include "itemimage.h"
 #include "ui_itemimagesettings.h"
 
-#include "contenttype.h"
-#include "itemeditor.h"
+#include "common/contenttype.h"
+#include "item/itemeditor.h"
 
 #include <QHBoxLayout>
 #include <QModelIndex>

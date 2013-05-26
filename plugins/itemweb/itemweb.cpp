@@ -19,7 +19,7 @@
 
 #include "itemweb.h"
 
-#include "contenttype.h"
+#include "common/contenttype.h"
 
 #include <QApplication>
 #include <QDesktopWidget>

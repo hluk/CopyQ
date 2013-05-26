@@ -4,7 +4,7 @@ macro (copyq_add_plugin)
     file(GLOB copyq_plugin_${copyq_pkg}_SOURCES
         ${copyq_plugin_${copyq_pkg}_SOURCES}
         *.cpp
-        ../../src/itemwidget.cpp
+        ../../src/item/itemwidget.cpp
         )
     file(GLOB copyq_plugin_${copyq_pkg}_MOCABLE
         ${copyq_plugin_${copyq_pkg}_MOCABLE}
@@ -15,7 +15,7 @@ macro (copyq_add_plugin)
         *.ui
         )
 
-    include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src/include)
+    include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src)
 
     if (WITH_QT5)
         include_directories(${Qt5Widgets_INCLUDES})

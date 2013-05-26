@@ -20,7 +20,7 @@
 #ifndef ITEMTEXT_H
 #define ITEMTEXT_H
 
-#include "itemwidget.h"
+#include "item/itemwidget.h"
 
 #include <QTextDocument>
 #include <QTextEdit>

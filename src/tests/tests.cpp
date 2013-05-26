@@ -19,9 +19,9 @@
 
 #include "tests.h"
 
-#include "client_server.h"
-#include "clipboarditem.h"
-#include "remoteprocess.h"
+#include "app/remoteprocess.h"
+#include "common/client_server.h"
+#include "item/clipboarditem.h"
 
 #include <QApplication>
 #include <QClipboard>

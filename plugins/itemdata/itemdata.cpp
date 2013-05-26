@@ -20,7 +20,7 @@
 #include "itemdata.h"
 #include "ui_itemdatasettings.h"
 
-#include "contenttype.h"
+#include "common/contenttype.h"
 
 #include <QContextMenuEvent>
 #include <QModelIndex>

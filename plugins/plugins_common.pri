@@ -1,8 +1,8 @@
 TEMPLATE     = lib
 CONFIG      += plugin
-INCLUDEPATH += ../../src/include
-HEADERS     += ../../src/include/itemwidget.h
-SOURCES     += ../../src/itemwidget.cpp
+INCLUDEPATH += ../../src
+HEADERS     += ../../src/item/itemwidget.h
+SOURCES     += ../../src/item/itemwidget.cpp
 DESTDIR      = ../
 
 QT += core gui

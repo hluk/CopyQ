@@ -1,36 +1,41 @@
 # Project files
 file(GLOB copyq_SOURCES
-    *.cpp
+    main.cpp
+    app/*.cpp
+    common/*.cpp
+    gui/*.cpp
+    item/*.cpp
+    scriptable/*.cpp
     ../qt/*.cpp
     )
 
 set(copyq_MOCABLE
+    app/clipboardclient.h
+    app/clipboardmonitor.h
+    app/clipboardserver.h
+    app/remoteprocess.h
+    common/action.h
+    gui/aboutdialog.h
+    gui/actiondialog.h
+    gui/clipboardbrowser.h
+    gui/clipboarddialog.h
+    gui/commandwidget.h
+    gui/configurationmanager.h
+    gui/mainwindow.h
+    gui/pluginwidget.h
+    gui/shortcutdialog.h
+    gui/tabbar.h
+    gui/tabdialog.h
+    gui/tabwidget.h
+    gui/traymenu.h
+    item/itemdelegate.h
+    item/itemeditor.h
+    item/itemfactory.h
+    item/clipboardmodel.h
     ../qt/bytearrayclass.h
     ../qt/bytearrayprototype.h
-    include/aboutdialog.h
-    include/actiondialog.h
-    include/action.h
-    include/clipboardbrowser.h
-    include/clipboardclient.h
-    include/clipboarddialog.h
-    include/clipboardmodel.h
-    include/clipboardmonitor.h
-    include/clipboardserver.h
-    include/commandwidget.h
-    include/configurationmanager.h
-    include/itemdelegate.h
-    include/itemeditor.h
-    include/itemfactory.h
-    include/mainwindow.h
-    include/pluginwidget.h
-    include/remoteprocess.h
-    include/scriptable.h
-    include/scriptableworker.h
-    include/shortcutdialog.h
-    include/tabbar.h
-    include/tabdialog.h
-    include/tabwidget.h
-    include/traymenu.h
+    scriptable/scriptable.h
+    scriptable/scriptableworker.h
     )
 
 file(GLOB copyq_FORMS
@@ -40,7 +45,7 @@ file(GLOB copyq_FORMS
 set(copyq_RESOURCES copyq.qrc)
 
 # Qt include paths and definitions
-include_directories(${CMAKE_CURRENT_BINARY_DIR} . include)
+include_directories(${CMAKE_CURRENT_BINARY_DIR} .)
 if (WITH_QT5)
     include_directories(${Qt5Widgets_INCLUDES})
     add_definitions(${Qt5Widgets_DEFINITIONS})

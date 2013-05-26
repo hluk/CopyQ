@@ -1458,13 +1458,13 @@ Set to 0 to disable this.</string>
   <customwidget>
    <class>CommandWidget</class>
    <extends>QWidget</extends>
-   <header>commandwidget.h</header>
+   <header>gui/commandwidget.h</header>
    <container>1</container>
   </customwidget>
   <customwidget>
    <class>ClipboardBrowser</class>
    <extends>QListView</extends>
-   <header>clipboardbrowser.h</header>
+   <header>gui/clipboardbrowser.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

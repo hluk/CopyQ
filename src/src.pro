@@ -2,7 +2,7 @@ TEMPLATE = app
 
 TARGET = ../copyq
 DEPENDPATH += .
-INCLUDEPATH += include
+INCLUDEPATH += $$PWD
 RESOURCES = copyq.qrc
 FORMS += \
     ui/mainwindow.ui \
@@ -15,79 +15,79 @@ FORMS += \
     ui/shortcutdialog.ui \
     ui/commandwidget.ui
 HEADERS += \
-    include/aboutdialog.h \
-    include/actiondialog.h \
-    include/action.h \
-    include/app.h \
-    include/arguments.h \
-    include/client_server.h \
-    include/clipboardbrowser.h \
-    include/clipboardclient.h \
-    include/clipboarddialog.h \
-    include/clipboarditem.h \
-    include/clipboardmodel.h \
-    include/clipboardmonitor.h \
-    include/clipboardserver.h \
-    include/contenttype.h \
-    include/command.h \
-    include/commandwidget.h \
-    include/configurationmanager.h \
-    include/iconfactory.h \
-    include/itemdelegate.h \
-    include/itemeditor.h \
-    include/itemfactory.h \
-    include/itemwidget.h \
-    include/mainwindow.h \
-    include/option.h \
-    include/pluginwidget.h \
-    include/remoteprocess.h \
-    include/scriptable.h \
-    include/scriptableproxy.h \
-    include/scriptableworker.h \
-    include/shortcutdialog.h \
-    include/tabbar.h \
-    include/tabdialog.h \
-    include/tabwidget.h \
-    include/traymenu.h \
+    app/app.h \
+    app/clipboardclient.h \
+    app/clipboardmonitor.h \
+    app/clipboardserver.h \
+    app/remoteprocess.h \
+    common/action.h \
+    common/arguments.h \
+    common/client_server.h \
+    common/command.h \
+    common/contenttype.h \
+    common/option.h \
+    gui/aboutdialog.h \
+    gui/actiondialog.h \
+    gui/clipboardbrowser.h \
+    gui/clipboarddialog.h \
+    gui/commandwidget.h \
+    gui/configurationmanager.h \
+    gui/iconfactory.h \
+    gui/mainwindow.h \
+    gui/pluginwidget.h \
+    gui/shortcutdialog.h \
+    gui/tabbar.h \
+    gui/tabdialog.h \
+    gui/tabwidget.h \
+    gui/traymenu.h \
+    item/clipboarditem.h \
+    item/clipboardmodel.h \
+    item/itemdelegate.h \
+    item/itemeditor.h \
+    item/itemfactory.h \
+    item/itemwidget.h \
+    platform/dummy/dummyplatform.h \
     platform/platformnativeinterface.h \
     ../qt/bytearrayclass.h \
     ../qt/bytearrayprototype.h \
-    platform/dummy/dummyplatform.h
+    scriptable/scriptable.h \
+    scriptable/scriptableproxy.h \
+    scriptable/scriptableworker.h
 SOURCES += \
-    aboutdialog.cpp \
-    action.cpp \
-    actiondialog.cpp \
-    app.cpp \
-    arguments.cpp \
-    client_server.cpp \
-    clipboardbrowser.cpp \
-    clipboardclient.cpp \
-    clipboarddialog.cpp \
-    clipboarditem.cpp \
-    clipboardmodel.cpp \
-    clipboardmonitor.cpp \
-    clipboardserver.cpp \
-    commandwidget.cpp \
-    configurationmanager.cpp \
-    iconfactory.cpp \
-    itemdelegate.cpp \
-    itemeditor.cpp \
-    itemfactory.cpp \
-    itemwidget.cpp \
+    app/app.cpp \
+    app/clipboardclient.cpp \
+    app/clipboardmonitor.cpp \
+    app/clipboardserver.cpp \
+    app/remoteprocess.cpp \
+    common/action.cpp \
+    common/arguments.cpp \
+    common/client_server.cpp \
+    common/option.cpp \
+    gui/aboutdialog.cpp \
+    gui/actiondialog.cpp \
+    gui/clipboardbrowser.cpp \
+    gui/clipboarddialog.cpp \
+    gui/commandwidget.cpp \
+    gui/configurationmanager.cpp \
+    gui/iconfactory.cpp \
+    gui/mainwindow.cpp \
+    gui/pluginwidget.cpp \
+    gui/shortcutdialog.cpp \
+    gui/tabbar.cpp \
+    gui/tabdialog.cpp \
+    gui/tabwidget.cpp \
+    gui/traymenu.cpp \
+    item/clipboarditem.cpp \
+    item/clipboardmodel.cpp \
+    item/itemdelegate.cpp \
+    item/itemeditor.cpp \
+    item/itemfactory.cpp \
+    item/itemwidget.cpp \
     main.cpp \
-    mainwindow.cpp \
-    option.cpp \
-    pluginwidget.cpp \
-    remoteprocess.cpp \
-    scriptable.cpp \
-    scriptableworker.cpp \
-    shortcutdialog.cpp \
-    tabbar.cpp \
-    tabdialog.cpp \
-    tabwidget.cpp \
-    traymenu.cpp \
     ../qt/bytearrayclass.cpp \
-    ../qt/bytearrayprototype.cpp
+    ../qt/bytearrayprototype.cpp \
+    scriptable/scriptable.cpp \
+    scriptable/scriptableworker.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

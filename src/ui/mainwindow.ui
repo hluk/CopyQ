@@ -74,7 +74,7 @@
   <customwidget>
    <class>TabWidget</class>
    <extends>QTabWidget</extends>
-   <header>tabwidget.h</header>
+   <header>gui/tabwidget.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>

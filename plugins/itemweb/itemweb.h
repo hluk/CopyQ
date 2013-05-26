@@ -20,7 +20,7 @@
 #ifndef ITEMWEB_H
 #define ITEMWEB_H
 
-#include "itemwidget.h"
+#include "item/itemwidget.h"
 
 #if QT_VERSION < 0x050000
 #   include <QtWebKit/QWebView>
