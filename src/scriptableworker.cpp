@@ -38,6 +38,7 @@ ScriptableWorker::ScriptableWorker(MainWindow *mainWindow, const Arguments &args
     , m_client(client)
     , m_terminated(false)
 {
+    setAutoDelete(false);
 }
 
 void ScriptableWorker::run()

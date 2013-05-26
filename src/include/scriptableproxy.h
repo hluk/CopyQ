@@ -33,8 +33,7 @@
 
 #define BEGIN_INVOKE_BROSER(methodName, index) \
         ClipboardBrowser *browser = m_wnd->browser(index); \
-        if (browser != NULL) \
-            QMetaObject::invokeMethod(browser, methodName, Qt::BlockingQueuedConnection
+        QMetaObject::invokeMethod(browser, methodName, Qt::BlockingQueuedConnection
 
 #define END_INVOKE );
 

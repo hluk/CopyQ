@@ -19,8 +19,6 @@
 
 #include "x11platform.h"
 
-//#include "client_server.h"
-
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xatom.h>

@@ -27,7 +27,7 @@
 class Action;
 class QAbstractButton;
 class QMimeData;
-class Command;
+struct Command;
 
 namespace Ui {
     class ActionDialog;

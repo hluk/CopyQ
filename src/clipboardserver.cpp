@@ -335,6 +335,8 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
 
 void ClipboardServer::doCommand(const Arguments &args, QLocalSocket *client)
 {
+    // Worker object without parent needs to be deleted afterwards!
+    // There is no parent so as it's possible to move the worker to another thread.
     ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client);
 
     // Delete worker after it's finished.
@@ -351,9 +353,9 @@ void ClipboardServer::doCommand(const Arguments &args, QLocalSocket *client)
                 this, SLOT(sendMessage(QLocalSocket*,QByteArray,int)));
 
         // Add client thread to pool.
-        m_clientThreads.start(worker, 1);
+        m_clientThreads.start(worker);
     } else {
-        // Run application command immediatelly (should be fast).
+        // Run internally created command immediatelly (should be fast).
         QThread *workerThread = new QThread(this);
         worker->moveToThread(workerThread);
 
