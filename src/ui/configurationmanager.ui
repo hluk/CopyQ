@@ -271,7 +271,7 @@ Note: This is not be supported on all systems.</string>
                  <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
                 </property>
                 <property name="text">
-                 <string>(&amp;4) Paste mouse selection as clipboard</string>
+                 <string>(&amp;4) Paste mouse selection with keyboard</string>
                 </property>
                </widget>
               </item>
@@ -294,7 +294,7 @@ Note: This is not be supported on all systems.</string>
                  <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
                 </property>
                 <property name="text">
-                 <string>(&amp;3) Paste clipboard as mouse selection</string>
+                 <string>(&amp;3) Paste clipboard with mouse</string>
                 </property>
                </widget>
               </item>
