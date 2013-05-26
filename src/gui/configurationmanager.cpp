@@ -451,6 +451,26 @@ void ConfigurationManager::initThemeOptions()
     bind("use_system_icons", ui->checkBoxSystemIcons, false);
 }
 
+void ConfigurationManager::updateColorButtons()
+{
+    /* color indicating icons for color buttons */
+    QSize iconSize(16, 16);
+    QPixmap pix(iconSize);
+    QList<QPushButton *> buttons;
+    buttons << ui->pushButtonColorBg << ui->pushButtonColorFg
+            << ui->pushButtonColorAltBg
+            << ui->pushButtonColorSelBg << ui->pushButtonColorSelFg
+            << ui->pushButtonColorFindBg << ui->pushButtonColorFindFg
+            << ui->pushButtonColorEditorBg << ui->pushButtonColorEditorFg
+            << ui->pushButtonColorNumberFg;
+    foreach (QPushButton *button, buttons) {
+        QColor color = button->property("VALUE").toString();
+        pix.fill(color);
+        button->setIcon(pix);
+        button->setIconSize(iconSize);
+    }
+}
+
 void ConfigurationManager::bind(const char *optionKey, QCheckBox *obj, bool defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "checked", obj);
@@ -786,22 +806,7 @@ void ConfigurationManager::loadTheme(QSettings &settings)
         }
     }
 
-    /* color indicating icons for color buttons */
-    QSize iconSize(16, 16);
-    QPixmap pix(iconSize);
-    QList<QPushButton *> buttons;
-    buttons << ui->pushButtonColorBg << ui->pushButtonColorFg
-            << ui->pushButtonColorAltBg
-            << ui->pushButtonColorSelBg << ui->pushButtonColorSelFg
-            << ui->pushButtonColorFindBg << ui->pushButtonColorFindFg
-            << ui->pushButtonColorEditorBg << ui->pushButtonColorEditorFg
-            << ui->pushButtonColorNumberFg;
-    foreach (QPushButton *button, buttons) {
-        QColor color = button->property("VALUE").toString();
-        pix.fill(color);
-        button->setIcon(pix);
-        button->setIconSize(iconSize);
-    }
+    updateColorButtons();
 
     decorateBrowser(ui->clipboardBrowserPreview);
 }
@@ -1138,6 +1143,8 @@ void ConfigurationManager::on_pushButtonSaveTheme_clicked()
 void ConfigurationManager::on_pushButtonResetTheme_clicked()
 {
     initThemeOptions();
+    updateColorButtons();
+    decorateBrowser(ui->clipboardBrowserPreview);
 }
 
 void ConfigurationManager::on_checkBoxShowNumber_stateChanged(int)
