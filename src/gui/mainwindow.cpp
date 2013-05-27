@@ -287,7 +287,7 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - exit
-    act = menu->addAction( iconExit(), tr("E&xit"),
+    menu->addAction( iconExit(), tr("E&xit"),
                            this, SLOT(exit()),
                            QKeySequence(tr("Ctrl+Q")) );
 
@@ -295,30 +295,30 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&Edit") );
 
     // - sort
-    act = menu->addAction( iconSort(),
-                           tr("&Sort Selected Items"),
-                           this, SLOT(sortSelectedItems()),
-                           QKeySequence(tr("Ctrl+Shift+S")) );
+    menu->addAction( iconSort(),
+                     tr("&Sort Selected Items"),
+                     this, SLOT(sortSelectedItems()),
+                     QKeySequence(tr("Ctrl+Shift+S")) );
 
     // - reverse order
-    act = menu->addAction( iconReverse(),
-                           tr("&Reverse Selected Items"),
-                           this, SLOT(reverseSelectedItems()),
-                           QKeySequence(tr("Ctrl+Shift+R")) );
+    menu->addAction( iconReverse(),
+                     tr("&Reverse Selected Items"),
+                     this, SLOT(reverseSelectedItems()),
+                     QKeySequence(tr("Ctrl+Shift+R")) );
 
     // - separator
     menu->addSeparator();
 
     // - paste items
-    act = menu->addAction( iconPaste(), tr("&Paste Items"),
-                           this, SLOT(pasteItems()) );
-    act->setShortcuts(QKeySequence::Paste);
+    menu->addAction( iconPaste(), tr("&Paste Items"),
+                     this, SLOT(pasteItems()),
+                     QKeySequence::Paste );
 
     // - copy items
-    act = menu->addAction( iconCopy(),
-                           tr("&Copy Selected Items"),
-                           this, SLOT(copyItems()) );
-    act->setShortcuts(QKeySequence::Copy);
+    menu->addAction( iconCopy(),
+                     tr("&Copy Selected Items"),
+                     this, SLOT(copyItems()),
+                     QKeySequence::Copy );
 
     // Items
     ClipboardBrowser *c = browser();
@@ -356,10 +356,9 @@ void MainWindow::createMenu()
 
     // Help
     menu = menubar->addMenu( tr("&Help") );
-    act = menu->addAction( iconHelp(), tr("&Help"),
-                           this, SLOT(openAboutDialog()),
-                           QKeySequence::HelpContents );
-    menu->addAction(act);
+    menu->addAction( iconHelp(), tr("&Help"),
+                     this, SLOT(openAboutDialog()),
+                     QKeySequence::HelpContents );
 }
 
 void MainWindow::closeAction(Action *action)

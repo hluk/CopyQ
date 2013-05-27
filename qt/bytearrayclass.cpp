@@ -129,15 +129,14 @@ QScriptValue ByteArrayClass::property(const QScriptValue &object,
     QByteArray *ba = qscriptvalue_cast<QByteArray*>(object.data());
     if (!ba)
         return QScriptValue();
-    if (name == length) {
+
+    if (name == length)
         return ba->length();
-    } else {
-        qint32 pos = id;
-        if ((pos < 0) || (pos >= ba->size()))
-            return QScriptValue();
-        return uint(ba->at(pos)) & 255;
-    }
-    return QScriptValue();
+
+    qint32 pos = id;
+    if ((pos < 0) || (pos >= ba->size()))
+        return QScriptValue();
+    return uint(ba->at(pos)) & 255;
 }
 //! [4]
 
@@ -149,6 +148,7 @@ void ByteArrayClass::setProperty(QScriptValue &object,
     QByteArray *ba = qscriptvalue_cast<QByteArray*>(object.data());
     if (!ba)
         return;
+
     if (name == length) {
         resize(*ba, value.toInt32());
     } else {

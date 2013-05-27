@@ -206,6 +206,8 @@ void Tests::itemToClipboard()
     RUN(Args("clipboard"), "TESTING2");
     QCOMPARE( getClipboard().data(), "TESTING2" );
 
+    // select second item and move to top
+    RUN(Args("config") << "move" << "true", "");
     RUN(Args("select") << "1", "");
     RUN(Args("read") << "0", "TESTING1");
     RUN(Args("read") << "1", "TESTING2");
@@ -213,6 +215,16 @@ void Tests::itemToClipboard()
     qSleep(waitMsClipboard);
     RUN(Args("clipboard"), "TESTING1");
     QCOMPARE( getClipboard().data(), "TESTING1" );
+
+    // select without moving
+    RUN(Args("config") << "move" << "0", "");
+    RUN(Args("select") << "1", "");
+    RUN(Args("read") << "0", "TESTING1");
+    RUN(Args("read") << "1", "TESTING2");
+
+    qSleep(waitMsClipboard);
+    RUN(Args("clipboard"), "TESTING2");
+    QCOMPARE( getClipboard().data(), "TESTING2" );
 }
 
 void Tests::tabAddRemove()
