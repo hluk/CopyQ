@@ -860,7 +860,7 @@ void MainWindow::showBrowser(int index)
 
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
-    ClipboardBrowser *c = browser();
+    ClipboardBrowser *c = getTabForTrayMenu();
     if (c->select(clipboardItemHash) && m_trayItemPaste && isForeignWindow(m_pasteWindow)) {
         QApplication::processEvents();
         createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
@@ -1085,6 +1085,12 @@ QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mo
     return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
 }
 
+ClipboardBrowser *MainWindow::getTabForTrayMenu()
+{
+    return m_trayCurrentTab ? browser()
+                            : m_trayTabName.isEmpty() ? browser(0) : findTab(m_trayTabName);
+}
+
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName, true);
@@ -1219,14 +1225,7 @@ void MainWindow::updateTrayMenuItems()
     PlatformPtr platform = createPlatformNativeInterface();
     m_pasteWindow = platform->getPasteWindow();
 
-    QAction *act;
-
-    ClipboardBrowser *c = NULL;
-    if (m_trayCurrentTab) {
-        c = browser();
-    } else {
-        c = m_trayTabName.isEmpty() ? browser(0) : findTab(m_trayTabName);
-    }
+    ClipboardBrowser *c = getTabForTrayMenu();
 
     trayMenu->clearClipboardItemActions();
     trayMenu->clearCustomActions();
@@ -1248,7 +1247,7 @@ void MainWindow::updateTrayMenuItems()
 
         // Show clipboard content as disabled item.
         QString text = data != NULL ? data->text() : c->selectedText();
-        act = trayMenu->addAction(text);
+        QAction *act = trayMenu->addAction(text);
         act->setDisabled(true);
         trayMenu->addCustomAction(act);
         elideText(act);

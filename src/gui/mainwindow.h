@@ -295,6 +295,7 @@ class MainWindow : public QMainWindow
                                     QClipboard::Mode mode = QClipboard::Clipboard);
 
     private slots:
+        ClipboardBrowser *getTabForTrayMenu();
         void updateTrayMenuItems();
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void onTrayActionTriggered(uint clipboardItemHash);
