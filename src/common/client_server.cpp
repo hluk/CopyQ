@@ -238,12 +238,13 @@ QString elideText(const QString &text, int maxLength, const QFontMetrics &fm)
     return result;
 }
 
-void elideText(QAction *act)
+void elideText(QAction *act, bool escapeAmpersands)
 {
     QString text = elideText( act->text(), -1, QFontMetrics(act->font()) );
 
-    // Escape all ampersands except first one (key hint).
-    text.replace( QChar('&'), QString("&&") );
-    int i = text.indexOf( QChar('&') );
-    act->setText( text.left(qMax(0, i)) + text.mid(i + 1) );
+    // Escape all ampersands.
+    if (escapeAmpersands)
+        text.replace( QChar('&'), QString("&&") );
+
+    act->setText(text);
 }

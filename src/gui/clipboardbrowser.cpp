@@ -495,7 +495,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
         menu->insertAction( insertBefore, act );
         insertBefore = act;
 
-        elideText(act);
+        elideText(act, false);
 
         connect(act, SIGNAL(triggered()), this, SLOT(contextMenuAction()));
     }

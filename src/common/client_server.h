@@ -103,6 +103,6 @@ uint hash(const QMimeData &data, const QStringList &formats);
 QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
 
 QString elideText(const QString &text, int maxLength, const QFontMetrics &fm = QFontMetrics(QFont()));
-void elideText(QAction *act);
+void elideText(QAction *act, bool escapeAmpersands);
 
 #endif // CLIENT_SERVER_H

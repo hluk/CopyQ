@@ -114,7 +114,7 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     resetSeparators();
     insertAction(m_clipboardItemActionsSeparator, act);
 
-    elideText(act);
+    elideText(act, true);
 
     // Add number key hint.
     if (i < 10)

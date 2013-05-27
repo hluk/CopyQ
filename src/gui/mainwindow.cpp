@@ -1154,7 +1154,7 @@ void MainWindow::actionStarted(Action *action)
 
     updateIcon();
 
-    elideText(act);
+    elideText(act, true);
 }
 
 void MainWindow::actionFinished(Action *action)
@@ -1250,7 +1250,7 @@ void MainWindow::updateTrayMenuItems()
         QAction *act = trayMenu->addAction(text);
         act->setDisabled(true);
         trayMenu->addCustomAction(act);
-        elideText(act);
+        elideText(act, true);
 
         int i = trayMenu->actions().size();
         c->addCommandsToMenu(trayMenu, text, data);
