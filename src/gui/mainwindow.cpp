@@ -1009,16 +1009,18 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     QString text;
     const QStringList formats = item->data(contentType::formats).toStringList();
     bool hasText = formats.indexOf("text/plain") != -1;
+
     if (hasText) {
         text = item->text();
+    } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
+        text = tr("<IMAGE>");
+    } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
+        text = tr("<FILES>");
     } else {
-        if ( formats.indexOf(QRegExp("^image/.*")) != -1 )
-            text = tr("<IMAGE>");
-        else
-            text = tr("<DATA>");
+        text = tr("<DATA>");
     }
 
-    const QString format(hasText ? "\"%1\"" : "%1");
+    QString format(hasText ? "\"%1\"" : "%1");
     tray->setToolTip( tr("Clipboard:\n%1").arg( format.arg(elideText(text, 256))) );
     setWindowTitle( tr("%1 - CopyQ").arg( format.arg(elideText(text, 30))) );
 }
