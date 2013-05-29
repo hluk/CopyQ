@@ -1,3 +1,4 @@
+; Use Inno Setup with Unicode support and preprocessor.
 #define AppVersion "1.8.2"
 #define Root "C:\dev\copyq"
 
@@ -20,10 +21,10 @@ Compression=lzma
 SolidCompression=yes
 
 [Languages]
-Name: "english"; MessagesFile: "compiler:Default.isl"
-Name: "czech"; MessagesFile: "compiler:Languages\Czech.isl"
-Name: "german"; MessagesFile: "compiler:Languages\German.isl"
-Name: "spanish"; MessagesFile: "compiler:Languages\Spanish.isl"
+Name: en; MessagesFile: "compiler:Default.isl"
+Name: cz; MessagesFile: "compiler:Languages\Czech.isl"
+Name: de; MessagesFile: "compiler:Languages\German.isl"
+Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
