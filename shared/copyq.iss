@@ -41,6 +41,13 @@ cz.PluginImages=Obrázky
 cz.PluginWeb=Webové stránky
 cz.PluginData=Různá data
 
+es.ProgramFiles=Archivos de programa
+es.Plugins=Complementos
+es.PluginText=Texto resaltado
+es.PluginImages=Imágenes
+es.PluginWeb=Páginas web
+es.PluginData=Varios datos
+
 [Types]
 Name: "full"; Description: "{code:GetFullInstallation}"
 Name: "compact"; Description: "{code:GetCompactInstallation}"
