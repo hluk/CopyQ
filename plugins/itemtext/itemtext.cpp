@@ -212,7 +212,9 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) co
 
 QStringList ItemTextLoader::formatsToSave() const
 {
-    return QStringList("text/plain") << QString("text/html") << QString("text/richtext");
+    return m_settings.value("use_rich_text", true).toBool()
+            ? QStringList("text/plain") << QString("text/html") << QString("text/richtext")
+            : QStringList("text/plain");
 }
 
 QVariantMap ItemTextLoader::applySettings()
