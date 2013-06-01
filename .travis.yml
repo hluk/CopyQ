@@ -5,7 +5,7 @@ compiler:
 
 install:
   - sudo apt-get update
-  - sudo apt-get install libqt4-dev
+  - sudo apt-get install libqt4-dev libxtst-dev
 
 script:
   - qmake -project

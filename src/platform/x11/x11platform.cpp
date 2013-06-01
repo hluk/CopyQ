@@ -19,9 +19,6 @@
 
 #include "x11platform.h"
 
-#warning remove
-#include <QDebug>
-
 #include <X11/extensions/XTest.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -87,10 +84,8 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
 
     QList<KeyCode> modsToRelease;
     foreach (int mod, mods) {
-        if ( isPressed(XKeysymToKeycode(display, mod), keyMap) ) {
+        if ( isPressed(XKeysymToKeycode(display, mod), keyMap) )
             modsToRelease << XKeysymToKeycode(display, mod);
-            qDebug() << mod;
-        }
     }
 
     // Release currently pressed modifiers.
