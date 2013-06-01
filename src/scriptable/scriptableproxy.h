@@ -185,6 +185,7 @@ public:
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)
+    PROXY_METHOD(pasteToCurrentWindow)
 
     PROXY_METHOD_VOID_1(disableMonitoring, bool)
     PROXY_METHOD_VOID_1(setClipboard, const ClipboardItem *)

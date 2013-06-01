@@ -118,6 +118,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayItemPaste(true)
+    , m_trayPasteWindow()
     , m_pasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
@@ -906,9 +907,9 @@ void MainWindow::showBrowser(int index)
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
-    if (c->select(clipboardItemHash) && m_trayItemPaste && isForeignWindow(m_pasteWindow)) {
+    if (c->select(clipboardItemHash) && m_trayItemPaste && isForeignWindow(m_trayPasteWindow)) {
         QApplication::processEvents();
-        createPlatformNativeInterface()->pasteToWindow(m_pasteWindow);
+        createPlatformNativeInterface()->pasteToWindow(m_trayPasteWindow);
     }
 }
 
@@ -1131,6 +1132,12 @@ QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mo
     return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
 }
 
+void MainWindow::pasteToCurrentWindow()
+{
+    PlatformPtr platform = createPlatformNativeInterface();
+    platform->pasteToWindow( platform->getPasteWindow() );
+}
+
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
     return m_trayCurrentTab ? browser()
@@ -1269,7 +1276,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
 void MainWindow::updateTrayMenuItems()
 {
     PlatformPtr platform = createPlatformNativeInterface();
-    m_pasteWindow = platform->getPasteWindow();
+    m_trayPasteWindow = platform->getPasteWindow();
 
     ClipboardBrowser *c = getTabForTrayMenu();
 

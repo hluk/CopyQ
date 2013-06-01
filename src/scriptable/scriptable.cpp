@@ -22,7 +22,6 @@
 #include "common/client_server.h"
 #include "gui/configurationmanager.h"
 #include "item/clipboarditem.h"
-#include "platform/platformnativeinterface.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
 
@@ -523,8 +522,7 @@ void Scriptable::copy()
 
 void Scriptable::paste()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
-    platform->pasteToWindow(platform->getCurrentWindow());
+    m_proxy->pasteToCurrentWindow();
 }
 
 QScriptValue Scriptable::tab()

@@ -292,6 +292,9 @@ class MainWindow : public QMainWindow
         QByteArray getClipboardData(const QString &mime,
                                     QClipboard::Mode mode = QClipboard::Clipboard);
 
+        /** Paste clipboard content to current window. */
+        void pasteToCurrentWindow();
+
     private slots:
         ClipboardBrowser *getTabForTrayMenu();
         void updateTrayMenuItems();
@@ -387,6 +390,7 @@ class MainWindow : public QMainWindow
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
 
         bool m_trayItemPaste;
+        WId m_trayPasteWindow;
         WId m_pasteWindow;
         WId m_lastWindow;
         QTimer *m_timerUpdateFocusWindows;

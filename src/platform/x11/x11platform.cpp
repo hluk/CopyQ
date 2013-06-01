@@ -19,6 +19,10 @@
 
 #include "x11platform.h"
 
+#warning remove
+#include <QDebug>
+
+#include <X11/extensions/XTest.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xatom.h>
@@ -52,6 +56,63 @@ struct X11WindowProperty {
     unsigned char *data;
 };
 
+#ifdef HAS_X11TEST
+void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
+{
+    foreach (int modCode, modCodes) {
+        KeyCode keyCode = XKeysymToKeycode(display, modCode);
+        XTestFakeKeyEvent(display, keyCode, keyDown, CurrentTime);
+    }
+}
+
+bool isPressed(KeyCode keyCode, const char keyMap[32])
+{
+    return ((keyMap[keyCode >> 3] >> (keyCode & 7)) & 1)
+            || ((keyMap[keyCode >> 3] >> (keyCode & 7)) & 1);
+}
+
+void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int key)
+{
+    // Find modifiers to release.
+    static QList<int> mods = QList<int>()
+            << XK_Shift_L << XK_Shift_R
+            << XK_Control_L << XK_Control_R
+            << XK_Meta_L << XK_Meta_R
+            << XK_Alt_L << XK_Alt_R
+            << XK_Super_L << XK_Super_R
+            << XK_Hyper_L << XK_Hyper_R;
+
+    char keyMap[32];
+    XQueryKeymap(display, keyMap);
+
+    QList<KeyCode> modsToRelease;
+    foreach (int mod, mods) {
+        if ( isPressed(XKeysymToKeycode(display, mod), keyMap) ) {
+            modsToRelease << XKeysymToKeycode(display, mod);
+            qDebug() << mod;
+        }
+    }
+
+    // Release currently pressed modifiers.
+    foreach (KeyCode mod, modsToRelease)
+        XTestFakeKeyEvent(display, mod, False, CurrentTime);
+
+    simulateModifierKeyPress(display, modCodes, True);
+
+    KeyCode keyCode = XKeysymToKeycode(display, key);
+    XTestFakeKeyEvent(display, keyCode, True, CurrentTime);
+    XTestFakeKeyEvent(display, keyCode, False, CurrentTime);
+
+    simulateModifierKeyPress(display, modCodes, False);
+
+    // Press modifiers again.
+    foreach (KeyCode mod, modsToRelease)
+        XTestFakeKeyEvent(display, mod, True, CurrentTime);
+
+    XSync(display, False);
+}
+#else
+
 void simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
 {
     XKeyEvent event;
@@ -77,6 +138,7 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
     XSendEvent(display, window, True, KeyPressMask, xev);
     XSync(display, False);
 }
+#endif
 
 } // namespace
 
@@ -174,7 +236,12 @@ void X11Platform::pasteToWindow(WId wid)
 
     raiseWindow(wid);
     usleep(150000);
+
+#ifdef HAS_X11TEST
+    simulateKeyPress(d->display, QList<int>() << XK_Shift_L, XK_Insert);
+#else
     simulateKeyPress(d->display, wid, ShiftMask, XK_Insert);
+#endif
 
     // Don't do anything hasty until the content is actually pasted.
     usleep(150000);
