@@ -108,6 +108,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_transparency(0)
     , m_transparencyFocused(0)
     , m_hideTabs(false)
+    , m_hideMenuBar(false)
     , m_activateCloses(true)
     , m_activateFocuses(false)
     , m_activatePastes(false)
@@ -451,6 +452,27 @@ void MainWindow::delayedUpdateFocusWindows()
         m_timerUpdateFocusWindows->start();
 }
 
+void MainWindow::setHideTabs(bool hide)
+{
+    ui->tabWidget->setTabBarHidden(hide);
+}
+
+void MainWindow::setHideMenuBar(bool hide)
+{
+    if (m_hideMenuBar) {
+        const QColor color = palette().color(QPalette::Highlight);
+        ui->widgetShowMenuBar->setStyleSheet( QString("*{background-color:%1}").arg(color.name()) );
+        ui->widgetShowMenuBar->installEventFilter(this);
+        ui->widgetShowMenuBar->show();
+    } else {
+        ui->widgetShowMenuBar->removeEventFilter(this);
+        ui->widgetShowMenuBar->hide();
+    }
+
+    // Hiding menu bar completely disables shortcuts for child QAction.
+    menuBar()->setStyleSheet(hide ? "QMenuBar{height:0}" : "");
+}
+
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     int i = findTabIndex(name);
@@ -538,11 +560,6 @@ WId MainWindow::trayMenuWinId() const
     return trayMenu->winId();
 }
 
-void MainWindow::setHideTabs(bool hide)
-{
-    ui->tabWidget->setTabBarHidden(hide);
-}
-
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec)
 {
@@ -559,8 +576,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QString txt;
     ClipboardBrowser *c = browser();
 
-    if (m_hideTabs && event->key() == Qt::Key_Alt)
-        setHideTabs(false);
+    if (event->key() == Qt::Key_Alt) {
+        if (m_hideTabs)
+            setHideTabs(false);
+        if (m_hideMenuBar)
+            setHideMenuBar(false);
+    }
 
     if (m_browsemode && ConfigurationManager::instance()->value("vi").toBool()) {
         if (c->handleViKey(event))
@@ -658,8 +679,14 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if (m_hideTabs && event->key() == Qt::Key_Alt)
-        setHideTabs(true);
+    if (event->key() == Qt::Key_Alt) {
+        if (m_hideTabs)
+            setHideTabs(true);
+        if (m_hideMenuBar) {
+            setHideMenuBar(true);
+            enterBrowseMode(m_browsemode);
+        }
+    }
     QMainWindow::keyReleaseEvent(event);
 }
 
@@ -682,15 +709,31 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(true);
     } else if (event->type() == QEvent::Leave) {
         updateWindowTransparency(false);
+
         setHideTabs(m_hideTabs);
+        setHideMenuBar(m_hideMenuBar);
     } else if (event->type() == QEvent::WindowActivate) {
         updateWindowTransparency();
+
+        // Update highligh color of show/hide widget for menu bar.
+        setHideMenuBar(m_hideMenuBar);
     } else if (event->type() == QEvent::WindowDeactivate) {
         m_lastWindow = WId();
         m_pasteWindow = WId();
         updateWindowTransparency();
+
+        setHideTabs(m_hideTabs);
+        setHideMenuBar(m_hideMenuBar);
     }
     return QMainWindow::event(event);
+}
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+    if (obj == ui->widgetShowMenuBar && event->type() == QEvent::Enter)
+        setHideMenuBar(false);
+
+    return false;
 }
 
 #if QT_VERSION < 0x050000
@@ -762,6 +805,8 @@ void MainWindow::loadSettings()
 
     m_hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_hideTabs);
+    m_hideMenuBar = cm->value("hide_menu_bar").toBool();
+    setHideMenuBar(m_hideMenuBar);
 
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();
@@ -890,6 +935,7 @@ void MainWindow::tabChanged(int current)
     menuBar()->insertMenu( itemMenu->menuAction(), m );
     menuBar()->removeAction( itemMenu->menuAction() );
     itemMenu = m;
+    setHideMenuBar(m_hideMenuBar);
 
     browser()->filterItems( ui->searchBar->text() );
 

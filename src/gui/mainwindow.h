@@ -77,9 +77,6 @@ class MainWindow : public QMainWindow
 
         bool isTrayMenuVisible() const;
 
-        /** Clean mode hides main menu, tab bar and scroll bar. **/
-        void setHideTabs(bool hide);
-
     signals:
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
@@ -93,6 +90,7 @@ class MainWindow : public QMainWindow
         void dragEnterEvent(QDragEnterEvent *event);
         void dropEvent(QDropEvent *event);
         bool event(QEvent *event);
+        bool eventFilter(QObject *obj, QEvent *event);
 
         /** Hide (minimize to tray) window on close. */
         void closeEvent(QCloseEvent *event);
@@ -346,6 +344,12 @@ class MainWindow : public QMainWindow
         /** Call updateFocusWindows() after a small delay. */
         void delayedUpdateFocusWindows();
 
+        /** Show/hide tab bar. **/
+        void setHideTabs(bool hide);
+
+        /** Show/hide menu bar. **/
+        void setHideMenuBar(bool hide);
+
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
         QMenu *itemCmdMenu;
@@ -368,6 +372,7 @@ class MainWindow : public QMainWindow
         int m_transparencyFocused;
 
         bool m_hideTabs;
+        bool m_hideMenuBar;
 
         bool m_activateCloses;
         bool m_activateFocuses;

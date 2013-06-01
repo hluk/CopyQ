@@ -364,6 +364,7 @@ void ConfigurationManager::initOptions()
     bind("transparency_focused", ui->spinBoxTransparencyFocused, 0);
     bind("transparency", ui->spinBoxTransparencyUnfocused, 0);
     bind("hide_tabs", ui->checkBoxHideTabs, false);
+    bind("hide_menu_bar", ui->checkBoxHideMenuBar, false);
     bind("tab_position", ui->comboBoxTabPosition, 0);
     bind("text_wrap", ui->checkBoxTextWrap, true);
 
