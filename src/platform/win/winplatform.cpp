@@ -84,6 +84,9 @@ void WinPlatform::pasteToWindow(WId wid)
     raiseWindow(wid);
     Sleep(150);
     SendInput( 4, input, sizeof(INPUT) );
+
+    // Don't do anything hasty until the content is actually pasted.
+    Sleep(150);
 }
 
 WId WinPlatform::getPasteWindow()

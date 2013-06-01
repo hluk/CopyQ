@@ -175,6 +175,9 @@ void X11Platform::pasteToWindow(WId wid)
     raiseWindow(wid);
     usleep(150000);
     simulateKeyPress(d->display, wid, ShiftMask, XK_Insert);
+
+    // Don't do anything hasty until the content is actually pasted.
+    usleep(150000);
 }
 
 WId X11Platform::getPasteWindow()
