@@ -670,7 +670,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             QMainWindow::keyPressEvent(event);
             if ( !event->isAccepted() ) {
                 txt = event->text();
-                if ( !txt.isEmpty() )
+                if ( !txt.isEmpty() && txt[0].isPrint() )
                     enterSearchMode(txt);
             }
             break;
