@@ -6,6 +6,7 @@ endif(NOT X11_Xfixes_FOUND)
 
 if(X11_XTest_FOUND)
     add_definitions( -DHAS_X11TEST )
+    set(copyq_LIBRARIES ${X11_XTest_LIB})
 else(X11_XTest_FOUND)
     message(WARNING "X11 'TEST' extension library is needed to be able to"
                     " automatically paste to some windows!")
@@ -24,5 +25,5 @@ endif()
 
 set(USE_QXT TRUE)
 
-set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB} ${X11_XTest_LIB})
+set(copyq_LIBRARIES ${copyq_LIBRARIES} ${X11_LIBRARIES} ${X11_Xfixes_LIB})
 
