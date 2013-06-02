@@ -1384,7 +1384,13 @@ WId MainWindow::openActionDialog(const QMimeData &data)
 
 void MainWindow::openPreferences()
 {
+    // Turn off "always on top" so that configuration dialog is not below main window.
+    Qt::WindowFlags flags = windowFlags();
+    setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
+
     ConfigurationManager::instance()->exec();
+
+    setWindowFlags(flags);
 }
 
 ClipboardBrowser *MainWindow::browser(int index)
