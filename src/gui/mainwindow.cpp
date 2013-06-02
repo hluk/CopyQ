@@ -863,8 +863,6 @@ void MainWindow::showWindow()
     raise();
     activateWindow();
 
-    ConfigurationManager::instance()->loadGeometry(this);
-
     // if no item is selected then select first
     ClipboardBrowser *c = browser();
     if( c->selectionModel()->selectedIndexes().size() <= 1 &&
