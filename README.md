@@ -47,6 +47,10 @@ images and other data. This is available through ItemWeb plugin.
 Additionally X11 requires XFixes extension to be installed (fixes some
 clipboard issues).
 
+Optional dependency for X11 is XTest extension (Ubuntu package `libxtst6` and
+`libxtst-dev` for compilation). This is needed for some applications like
+`gedit` so that automatic pasting works correctly.
+
 Keyboard navigation
 -------------------
 * `PgDown/PgUp`, `Home/End`, `Up/Down`
