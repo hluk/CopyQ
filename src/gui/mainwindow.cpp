@@ -470,6 +470,8 @@ void MainWindow::setHideMenuBar(bool hide)
         ui->widgetShowMenuBar->hide();
     }
 
+    menuBar()->setNativeMenuBar(!m_hideMenuBar);
+
     // Hiding menu bar completely disables shortcuts for child QAction.
     menuBar()->setStyleSheet(hide ? "QMenuBar{height:0}" : "");
 }
