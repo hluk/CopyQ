@@ -396,7 +396,7 @@ void Scriptable::throwError(const QString &errorMessage)
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" COPYQ_VERSION " (hluk@email.cz)\n"
-            + tr("Build with: ")
+            + tr("Built with: ")
             + "Qt " + QT_VERSION_STR +
             + ", LibQxt " + QXT_VERSION_STR
             + '\n';
