@@ -353,6 +353,12 @@ class MainWindow : public QMainWindow
         /** Show/hide menu bar. **/
         void setHideMenuBar(bool hide);
 
+        /**
+         * Update auto-saving of tab.
+         * Don't save the first tab if option "clear_first_tab" is set.
+         */
+        void updateTabsAutoSaving();
+
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
         QMenu *itemCmdMenu;
@@ -384,6 +390,8 @@ class MainWindow : public QMainWindow
         bool m_monitoringDisabled;
         QPointer<QAction> m_actionToggleMonitoring;
         QPointer<QAction> m_actionMonitoringDisabled;
+
+        bool m_clearFirstTab;
 
         QMap<Action*, QAction*> m_actions;
 

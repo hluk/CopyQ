@@ -330,7 +330,7 @@ Note: This is not be supported on all systems.</string>
          <string>&amp;History</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="1" column="0">
+         <item row="2" column="0">
           <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
            <property name="toolTip">
             <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
@@ -342,7 +342,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </property>
           </widget>
          </item>
-         <item row="4" column="0">
+         <item row="5" column="0">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -355,7 +355,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </property>
           </spacer>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QGroupBox" name="groupBox_3">
            <property name="title">
             <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
@@ -404,7 +404,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </layout>
           </widget>
          </item>
-         <item row="0" column="0">
+         <item row="1" column="0">
           <layout class="QFormLayout" name="formLayout_2">
            <property name="fieldGrowthPolicy">
             <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -514,6 +514,16 @@ Set to 0 to disable this.</string>
             </layout>
            </item>
           </layout>
+         </item>
+         <item row="0" column="0">
+          <widget class="QCheckBox" name="checkBoxClearFirstTab">
+           <property name="toolTip">
+            <string>Application will start with empty first tab.</string>
+           </property>
+           <property name="text">
+            <string>Clear the first tab at exit</string>
+           </property>
+          </widget>
          </item>
         </layout>
        </widget>
@@ -771,8 +781,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>98</width>
-               <height>28</height>
+               <width>68</width>
+               <height>361</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -903,7 +913,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>374</width>
+              <width>622</width>
               <height>390</height>
              </rect>
             </property>
@@ -1209,8 +1219,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>212</width>
-              <height>349</height>
+              <width>314</width>
+              <height>423</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1492,6 +1502,7 @@ Set to 0 to disable this.</string>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
+  <tabstop>checkBoxClearFirstTab</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>spinBoxItemPopupInterval</tabstop>

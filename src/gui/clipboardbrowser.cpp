@@ -114,6 +114,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerSave( new QTimer(this) )
     , m_timerScroll( new QTimer(this) )
     , m_menu( new QMenu(this) )
+    , m_save(true)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
 {
     setLayoutMode(QListView::Batched);
@@ -505,6 +506,20 @@ void ClipboardBrowser::setItemData(const QModelIndex &index, QMimeData *data)
 {
     if (!m->setData(index, data))
         delete data;
+}
+
+void ClipboardBrowser::setSavingEnabled(bool enable)
+{
+    if (m_save == enable)
+        return;
+
+    m_save = enable;
+    if (m_save) {
+        delayedSaveItems();
+    } else {
+        m_timerSave->stop();
+        ConfigurationManager::instance()->removeItems( getID() );
+    }
 }
 
 void ClipboardBrowser::updateContextMenu()
@@ -1110,7 +1125,7 @@ void ClipboardBrowser::loadItems()
 
 void ClipboardBrowser::saveItems()
 {
-    if ( !m_loaded || m_id.isEmpty() )
+    if ( !m_loaded || !m_save || m_id.isEmpty() )
         return;
 
     m_timerSave->stop();
@@ -1120,7 +1135,7 @@ void ClipboardBrowser::saveItems()
 
 void ClipboardBrowser::delayedSaveItems(int msec)
 {
-    if ( !m_loaded || m_id.isEmpty() || m_timerSave->isActive() )
+    if ( !m_loaded || !m_save || m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
     m_timerSave->start(msec);

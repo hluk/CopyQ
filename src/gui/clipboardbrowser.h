@@ -174,6 +174,12 @@ class ClipboardBrowser : public QListView
          */
         void keyboardSearch(const QString &) {}
 
+        /**
+         * Enable or disable saving items.
+         * Disabling saving removes saved file and won't automatically save any items.
+         */
+        void setSavingEnabled(bool enable);
+
     private:
         bool m_loaded;
         QString m_id;
@@ -185,6 +191,8 @@ class ClipboardBrowser : public QListView
         QTimer *m_timerScroll;
 
         QMenu *m_menu;
+
+        bool m_save;
 
         ClipboardBrowserSharedPtr m_sharedData;
 

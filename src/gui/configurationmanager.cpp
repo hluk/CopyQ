@@ -351,7 +351,7 @@ void ConfigurationManager::updateFormats()
 void ConfigurationManager::initOptions()
 {
     /* general options */
-    bind("maxitems", ui->spinBoxItems, 200);
+    bind("clear_first_tab", ui->checkBoxClearFirstTab, false);
     bind("maxitems", ui->spinBoxItems, 200);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
     bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);

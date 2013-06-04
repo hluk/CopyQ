@@ -115,6 +115,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_monitoringDisabled(false)
     , m_actionToggleMonitoring()
     , m_actionMonitoringDisabled()
+    , m_clearFirstTab(false)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayItemPaste(true)
@@ -157,9 +158,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // settings
     loadSettings();
-
-    if ( ui->tabWidget->count() == 0 )
-        addTab( tr("&clipboard") );
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -474,6 +472,15 @@ void MainWindow::setHideMenuBar(bool hide)
 
     // Hiding menu bar completely disables shortcuts for child QAction.
     menuBar()->setStyleSheet(hide ? "QMenuBar{height:0}" : "");
+}
+
+void MainWindow::updateTabsAutoSaving()
+{
+    browser(0)->setSavingEnabled(!m_clearFirstTab);
+
+    TabWidget *tabs = ui->tabWidget;
+    for ( int i = 1; i < tabs->count(); ++i )
+        browser(i)->setSavingEnabled(true);
 }
 
 ClipboardBrowser *MainWindow::findTab(const QString &name)
@@ -831,6 +838,12 @@ void MainWindow::loadSettings()
     }
     cm->setTabs(tabs);
 
+    if ( ui->tabWidget->count() == 0 )
+        addTab( tr("&clipboard") );
+
+    m_clearFirstTab = cm->value("clear_first_tab").toBool();
+    updateTabsAutoSaving();
+
     m_activateCloses = cm->value("activate_closes").toBool();
     m_activateFocuses = cm->value("activate_focuses").toBool();
     m_activatePastes = cm->value("activate_pastes").toBool();
@@ -955,6 +968,7 @@ void MainWindow::tabMoved(int, int)
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setTabs(tabs());
     cm->saveSettings();
+    updateTabsAutoSaving();
 }
 
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
