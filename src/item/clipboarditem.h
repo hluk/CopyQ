@@ -79,6 +79,10 @@ public:
     unsigned int dataHash() const { return m_hash; }
 
 private:
+    /** Disable copying. */
+    ClipboardItem(const ClipboardItem &);
+    ClipboardItem &operator=(const ClipboardItem &);
+
     void updateDataHash();
 
     QMimeData *m_data;
