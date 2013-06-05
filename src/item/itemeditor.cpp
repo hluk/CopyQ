@@ -23,6 +23,7 @@
 #include <QFile>
 #include <QHash>
 #include <QProcess>
+#include <QTemporaryFile>
 #include <QTimer>
 #include <stdio.h>
 
@@ -67,7 +68,6 @@ ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QStrin
     , m_editorcmd(editor)
     , m_editor(NULL)
     , m_timer( new QTimer(this) )
-    , m_tmpfile()
     , m_info()
     , m_lastmodified()
     , m_modified(false)
@@ -80,6 +80,12 @@ ItemEditor::~ItemEditor()
 {
     if (m_editor && m_editor->isOpen())
         m_editor->close();
+
+    QString tmpPath = m_info.filePath();
+    if ( !tmpPath.isEmpty() ) {
+        if ( !QFile::remove(tmpPath) )
+            printError( tr("Failed to remove temporary file (%1)").arg(tmpPath) );
+    }
 }
 
 bool ItemEditor::start()
@@ -87,21 +93,23 @@ bool ItemEditor::start()
     // create temp file
     const QString tmpFileName = QString("CopyQ.XXXXXX") + getFileSuffixFromMime(m_mime);
     QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-    m_tmpfile.setFileTemplate(tmpPath);
-    m_tmpfile.setAutoRemove(true);
-    m_tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner);
-    if ( !m_tmpfile.open() ) {
+
+    QTemporaryFile tmpfile;
+    tmpfile.setFileTemplate(tmpPath);
+    tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
+    if ( !tmpfile.open() ) {
         printError( tr("Failed to open temporary file (%1) for editing item in external editor!")
-             .arg(m_tmpfile.fileName()) );
+             .arg(tmpfile.fileName()) );
         return false;
     }
 
     // write text to temp file
-    m_tmpfile.write( m_data );
-    m_tmpfile.flush();
+    tmpfile.write(m_data);
+    tmpfile.flush();
 
     // monitor file
-    m_info.setFile( m_tmpfile.fileName() );
+    m_info.setFile( tmpfile.fileName() );
     m_lastmodified = m_info.lastModified();
     m_timer->start(500);
     connect( m_timer, SIGNAL(timeout()),
@@ -111,7 +119,10 @@ bool ItemEditor::start()
     m_editor = new QProcess(this);
     connect( m_editor, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(close()) );
-    m_editor->start(m_editorcmd.arg(m_tmpfile.fileName()));
+    m_editor->start( m_editorcmd.arg(m_info.filePath()) );
+
+    tmpfile.setAutoRemove(false);
+    tmpfile.close();
 
     return true;
 }
@@ -132,8 +143,13 @@ bool ItemEditor::fileModified()
         m_lastmodified = m_info.lastModified();
 
         // read text
-        m_tmpfile.seek(0);
-        m_data = m_tmpfile.readAll();
+        QFile file( m_info.filePath() );
+        if ( file.open(QIODevice::ReadOnly) ) {
+            m_data = file.readAll();
+            file.close();
+        } else {
+            printError( tr("Failed to read temporary file (%1)!").arg(m_info.fileName()) );
+        }
 
         // new hash
         uint newhash = qHash(m_data);
@@ -146,7 +162,7 @@ bool ItemEditor::fileModified()
 
 void ItemEditor::onTimer()
 {
-    if ( m_modified) {
+    if (m_modified) {
         // Wait until file is fully overwritten.
         if ( !fileModified() ) {
             m_modified = false;

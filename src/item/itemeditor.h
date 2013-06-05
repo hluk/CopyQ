@@ -24,7 +24,6 @@
 #include <QFileInfo>
 #include <QObject>
 #include <QString>
-#include <QTemporaryFile>
 
 class QProcess;
 class QTimer;
@@ -81,7 +80,6 @@ class ItemEditor : public QObject
         QProcess *m_editor;
         QTimer *m_timer;
 
-        QTemporaryFile m_tmpfile;
         QFileInfo m_info;
         QDateTime m_lastmodified;
         bool m_modified;
