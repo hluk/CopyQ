@@ -123,6 +123,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
+    , m_timerGeometry( new QTimer(this) )
 {
     ui->setupUi(this);
 
@@ -166,6 +167,9 @@ MainWindow::MainWindow(QWidget *parent)
     m_timerUpdateFocusWindows->setSingleShot(true);
     m_timerUpdateFocusWindows->setInterval(50);
 
+    m_timerGeometry->setSingleShot(true);
+    m_timerGeometry->setInterval(250);
+
     // notify window if configuration changes
     ConfigurationManager *cm = ConfigurationManager::instance();
     connect( cm, SIGNAL(configurationChanged()),
@@ -201,8 +205,6 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    ConfigurationManager::instance()->saveGeometry(this);
-
     hide();
 
     if ( aboutDialog && !aboutDialog->isHidden() ) {
@@ -210,6 +212,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
     event->ignore();
+}
+
+void MainWindow::resizeEvent(QResizeEvent *event)
+{
+    QMainWindow::resizeEvent(event);
+    if (!m_timerGeometry->isActive())
+        ConfigurationManager::instance()->saveGeometry(this);
+}
+
+void MainWindow::moveEvent(QMoveEvent *event)
+{
+    QMainWindow::moveEvent(event);
+    if (!m_timerGeometry->isActive())
+        ConfigurationManager::instance()->saveGeometry(this);
 }
 
 void MainWindow::createMenu()
@@ -867,6 +883,9 @@ void MainWindow::showWindow()
            correct position */
         QApplication::processEvents();
     }
+
+    // Don't save geometry after window shown.
+    m_timerGeometry->start();
 
     ConfigurationManager::instance()->loadGeometry(this);
 

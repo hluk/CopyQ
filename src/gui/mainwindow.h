@@ -95,6 +95,9 @@ class MainWindow : public QMainWindow
         /** Hide (minimize to tray) window on close. */
         void closeEvent(QCloseEvent *event);
 
+        void resizeEvent(QResizeEvent *event);
+        void moveEvent(QMoveEvent *event);
+
 #if QT_VERSION < 0x050000
 #   ifdef COPYQ_WS_X11
         bool x11Event(XEvent *event);
@@ -402,6 +405,8 @@ class MainWindow : public QMainWindow
         WId m_pasteWindow;
         WId m_lastWindow;
         QTimer *m_timerUpdateFocusWindows;
+
+        QTimer *m_timerGeometry;
     };
 
 #endif // MAINWINDOW_H
