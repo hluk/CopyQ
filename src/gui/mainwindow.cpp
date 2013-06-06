@@ -126,8 +126,6 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    tray->setContextMenu(trayMenu);
-
     updateIcon();
 
     // signals & slots
@@ -179,6 +177,8 @@ MainWindow::MainWindow(QWidget *parent)
     enterBrowseMode();
 
     tray->show();
+
+    tray->setContextMenu(trayMenu);
 
     setAcceptDrops(true);
 }
