@@ -32,6 +32,7 @@
 #include "item/itemwidget.h"
 
 #include <QColorDialog>
+#include <QDesktopWidget>
 #include <QFile>
 #include <QFileDialog>
 #include <QFontDialog>
@@ -326,6 +327,20 @@ QString ConfigurationManager::itemFileName(const QString &id) const
     return m_datfilename + part + QString(".dat");
 }
 
+QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) const
+{
+    QString widgetName = widget->objectName();
+    QString optionName = "Options/" + widgetName + "_geometry";
+
+    // current screen number
+    int n = widget->isVisible() ? QApplication::desktop()->screenNumber(widget)
+                                : QApplication::desktop()->screenNumber(QCursor::pos());
+    if (n > 0)
+        optionName.append( QString("_screen_%1").arg(n) );
+
+    return optionName;
+}
+
 void ConfigurationManager::updateIcons()
 {
     IconFactory *factory = IconFactory::instance();
@@ -563,17 +578,14 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
 bool ConfigurationManager::loadGeometry(QWidget *widget) const
 {
     QSettings settings;
-    QString widgetName = widget->objectName();
-    QVariant option = settings.value("Options/" + widgetName + "_geometry");
+    QVariant option = settings.value( getGeomentryOptionName(widget) );
     return widget->restoreGeometry(option.toByteArray());
 }
 
 void ConfigurationManager::saveGeometry(const QWidget *widget)
 {
     QSettings settings;
-    QString widgetName = widget->objectName();
-    settings.setValue( "Options/" + widgetName + "_geometry",
-                       widget->saveGeometry() );
+    settings.setValue( getGeomentryOptionName(widget), widget->saveGeometry() );
 }
 
 QVariant ConfigurationManager::value(const QString &name) const

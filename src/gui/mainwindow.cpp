@@ -166,10 +166,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_timerUpdateFocusWindows->setSingleShot(true);
     m_timerUpdateFocusWindows->setInterval(50);
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->loadGeometry(this);
-
     // notify window if configuration changes
+    ConfigurationManager *cm = ConfigurationManager::instance();
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
@@ -786,8 +784,6 @@ void MainWindow::resetStatus()
 void MainWindow::saveSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
-
-    cm->saveGeometry(this);
     cm->setTabs(tabs());
     cm->saveSettings();
 }
@@ -871,6 +867,8 @@ void MainWindow::showWindow()
            correct position */
         QApplication::processEvents();
     }
+
+    ConfigurationManager::instance()->loadGeometry(this);
 
     updateFocusWindows();
 

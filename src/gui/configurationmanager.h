@@ -152,6 +152,11 @@ private:
     QString itemFileName(const QString &id) const;
 
     /**
+     * @return Name of option to save/restore geometry of @a widget.
+     */
+    QString getGeomentryOptionName(const QWidget *widget) const;
+
+    /**
      * Update icons in dialog.
      */
     void updateIcons();
