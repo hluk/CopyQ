@@ -189,6 +189,7 @@ class ClipboardBrowser : public QListView
         ItemDelegate *d;
         QTimer *m_timerSave;
         QTimer *m_timerScroll;
+        QTimer *m_timerShowNotes;
 
         QMenu *m_menu;
 
@@ -197,6 +198,7 @@ class ClipboardBrowser : public QListView
         ClipboardBrowserSharedPtr m_sharedData;
 
         void createContextMenu();
+        bool isFiltered(const QModelIndex &index, int role) const;
         bool isFiltered(int row) const;
 
         /**
@@ -225,6 +227,7 @@ class ClipboardBrowser : public QListView
         void contextMenuEvent(QContextMenuEvent *);
         void resizeEvent(QResizeEvent *event);
         void showEvent(QShowEvent *event);
+        void currentChanged(const QModelIndex &current, const QModelIndex &previous);
 
     signals:
         /** Action dialog requested. */
@@ -258,6 +261,11 @@ class ClipboardBrowser : public QListView
         void onRowSizeChanged(int row);
 
         void updateCurrentPage();
+
+        /**
+         * Show notes for current item.
+         */
+        void updateItemNotes();
 
     public slots:
         /** Add new item to the browser. */
@@ -311,6 +319,9 @@ class ClipboardBrowser : public QListView
         void remove();
 
         void removeRow(int row);
+
+        /** Edit notes for current item. */
+        void editNotes();
 
         /** Set current item. */
         void setCurrent(

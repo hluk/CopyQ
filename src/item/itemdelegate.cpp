@@ -20,6 +20,7 @@
 #include "itemdelegate.h"
 
 #include "common/client_server.h"
+#include "common/contenttype.h"
 #include "itemfactory.h"
 #include "itemwidget.h"
 
@@ -32,7 +33,8 @@ namespace {
 
 const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
-const char propertyItemIndex[] = "itemIndex";
+const char propertyItemIndex[] = "CopyQ_item_index";
+const char propertyEditNotes[] = "CopyQ_edit_notes";
 
 inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 {
@@ -55,6 +57,7 @@ ItemDelegate::ItemDelegate(QWidget *parent)
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(defaultMaximumSize)
+    , m_editNotes(false)
     , m_foundFont()
     , m_foundPalette()
     , m_editorFont()
@@ -173,7 +176,8 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
                                     const QModelIndex &index) const
 {
     ItemWidget *w = m_cache[index.row()].data();
-    QWidget *editor = (w != NULL) ? w->createEditor(parent) : new QPlainTextEdit(parent);
+    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(parent)
+                                                 : w->createEditor(parent);
     if (editor == NULL)
         return NULL;
 
@@ -194,27 +198,39 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     connect( editor, SIGNAL(textChanged()),
              this, SLOT(editingStarts()) );
 
+    if (m_editNotes)
+        editor->setProperty(propertyEditNotes, true);
+
     return editor;
 }
 
 void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    ItemWidget *w = m_cache[index.row()].data();
-    if (w != NULL)
-        w->setEditorData(editor, index);
-    else
-        editor->setProperty( "plainText", index.data(Qt::EditRole) );
+    if ( editor->property(propertyEditNotes).toBool() ) {
+        editor->setProperty( "plainText", index.data(contentType::notes) );
+    } else {
+        ItemWidget *w = m_cache[index.row()].data();
+        if (w != NULL)
+            w->setEditorData(editor, index);
+        else
+            editor->setProperty( "plainText", index.data(Qt::EditRole) );
+    }
 }
 
 void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                                 const QModelIndex &index) const
 {
-    ItemWidget *w = m_cache[index.row()].data();
-    if (w != NULL) {
-        w->setModelData(editor, model, index);
-    } else {
+    if ( editor->property(propertyEditNotes).toBool() ) {
         QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
-        model->setData(index, textEdit->toPlainText());
+        model->setData(index, textEdit->toPlainText(), contentType::notes);
+    } else {
+        ItemWidget *w = m_cache[index.row()].data();
+        if (w != NULL) {
+            w->setModelData(editor, model, index);
+        } else {
+            QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
+            model->setData(index, textEdit->toPlainText());
+        }
     }
 }
 
@@ -378,6 +394,11 @@ void ItemDelegate::previousItemLoader(const QModelIndex &index)
         if (w2 != NULL)
             setIndexWidget(index, w2);
     }
+}
+
+void ItemDelegate::setEditNotes(bool editNotes)
+{
+    m_editNotes = editNotes;
 }
 
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)

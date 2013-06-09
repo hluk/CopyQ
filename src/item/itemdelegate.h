@@ -108,6 +108,9 @@ class ItemDelegate : public QItemDelegate
         /** Use previous item loader available for @a index. */
         void previousItemLoader(const QModelIndex &index);
 
+        /** Enable/disable editing notes. */
+        void setEditNotes(bool editNotes);
+
     signals:
         /** User begins or stops to edit an item in a tab. */
         void editingActive(bool active);
@@ -125,6 +128,7 @@ class ItemDelegate : public QItemDelegate
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
+        bool m_editNotes;
 
         QFont m_foundFont;
         QPalette m_foundPalette;

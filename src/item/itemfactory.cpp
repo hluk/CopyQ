@@ -130,9 +130,13 @@ ItemWidget *ItemFactory::createItem(ItemLoaderInterface *loader,
     if (loader->isEnabled()) {
         ItemWidget *item = loader->create(index, parent);
         if (item != NULL) {
-            QObject *obj = item->widget();
-            m_loaderChildren[obj] = loader;
-            connect(obj, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
+            QWidget *w = item->widget();
+            QString notes = index.data(contentType::notes).toString();
+            if (!notes.isEmpty())
+                w->setToolTip(notes);
+
+            m_loaderChildren[w] = loader;
+            connect(w, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
             return item;
         }
     }

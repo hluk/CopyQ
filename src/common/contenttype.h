@@ -31,6 +31,7 @@ enum {
     text,
     html,
     imageData,
+    notes,
     firstFormat
 };
 

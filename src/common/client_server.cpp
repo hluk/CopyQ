@@ -33,6 +33,7 @@
 #endif
 
 const QString mimeWindowTitle = "application/x-copyq-owner-window-title";
+const QString mimeItemNotes = "application/x-copyq-item-notes";
 
 QString escapeHtml(const QString &str)
 {

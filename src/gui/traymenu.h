@@ -22,6 +22,7 @@
 
 #include <QMenu>
 #include <QPointer>
+#include <QTimer>
 
 class ClipboardItem;
 
@@ -59,6 +60,8 @@ signals:
 
 private slots:
     void onClipboardItemActionTriggered();
+    void onActionHovered(QAction *action);
+    void updateTooltip();
 
 protected:
     void keyPressEvent(QKeyEvent *event);
@@ -70,6 +73,8 @@ private:
     QPointer<QAction> m_customActionsSeparator;
     QList<QPointer<QAction> > m_clipboardItemActions;
     QList<QPointer<QAction> > m_customActions;
+
+    QTimer m_timerShowTooltip;
 };
 
 #endif // TRAYMENU_H

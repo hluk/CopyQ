@@ -20,6 +20,7 @@
 #include "clipboardmodel.h"
 
 #include "common/client_server.h"
+#include "common/contenttype.h"
 #include "clipboarditem.h"
 
 #include <QDataStream>
@@ -81,9 +82,13 @@ Qt::ItemFlags ClipboardModel::flags(const QModelIndex &index) const
 
 bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if (index.isValid() && role == Qt::EditRole) {
+    if ( index.isValid() && (role == Qt::EditRole || role == contentType::notes) ) {
         int row = index.row();
-        m_clipboardList[row]->setData(value);
+        ClipboardItem *item = m_clipboardList[row];
+        if (role == Qt::EditRole)
+            item->setData(value);
+        else
+            item->setData( mimeItemNotes, value.toString().toUtf8() );
         emit dataChanged(index, index);
         return true;
     }

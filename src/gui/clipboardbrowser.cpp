@@ -20,6 +20,7 @@
 #include "clipboardbrowser.h"
 
 #include "common/client_server.h"
+#include "common/contenttype.h"
 #include "gui/clipboarddialog.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -35,12 +36,14 @@
 #include <QMimeData>
 #include <QScrollBar>
 #include <QTimer>
+#include <QToolTip>
 
 namespace {
 
 const QIcon iconAction() { return getIcon("action", IconCog); }
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
+const QIcon iconEditNotes() { return getIcon("accessories-text-editor", IconEditSign); }
 const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
 const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
 const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSign); }
@@ -57,6 +60,42 @@ bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
                         const ClipboardModel::ComparisonItem &rhs)
 {
     return lhs.first > rhs.first;
+}
+
+QString highlightText(const QString &text, QRegExp &re)
+{
+    if (text.isEmpty())
+        return QString();
+
+    QString result("<p>");
+
+    if (re.isEmpty()) {
+        result.append( escapeHtml(text) );
+    } else {
+        int a = 0;
+        forever {
+            int b = re.indexIn(text, a);
+            if (b == -1)
+                break;
+
+            int len = re.matchedLength();
+
+            result.append( escapeHtml(text.mid(a, b - a + (len == 0 ? 1 : 0))) );
+
+            if (len == 0) {
+                ++a;
+            } else {
+                a = b + len;
+                result.append( QString("<b>") + escapeHtml(text.mid(b, len)) + QString("</b>") );
+            }
+        }
+
+        result.append( escapeHtml(text.mid(a)) );
+    }
+
+    result.append( QString("</p>") );
+
+    return result.replace( QString("\n"), QString("<br />") );
 }
 
 } // namespace
@@ -113,6 +152,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , d( new ItemDelegate(viewport()) )
     , m_timerSave( new QTimer(this) )
     , m_timerScroll( new QTimer(this) )
+    , m_timerShowNotes( new QTimer(this) )
     , m_menu( new QMenu(this) )
     , m_save(true)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
@@ -134,6 +174,11 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     m_timerScroll->setSingleShot(true);
     m_timerScroll->setInterval(50);
+
+    m_timerShowNotes->setSingleShot(true);
+    m_timerShowNotes->setInterval(250);
+    connect( m_timerShowNotes, SIGNAL(timeout()),
+             this, SLOT(updateItemNotes()) );
 
     // delegate for rendering and editing items
     setItemDelegate(d);
@@ -279,6 +324,10 @@ void ClipboardBrowser::createContextMenu()
     act->setShortcut( QString("F2") );
     connect(act, SIGNAL(triggered()), this, SLOT(editSelected()));
 
+    act = m_menu->addAction( iconEditNotes(), tr("&Edit Notes") );
+    act->setShortcut( QString("Shift+F2") );
+    connect(act, SIGNAL(triggered()), this, SLOT(editNotes()));
+
     act = m_menu->addAction( iconEditExternal(), tr("E&dit with editor") );
     act->setShortcut( QString("Ctrl+E") );
     connect(act, SIGNAL(triggered()), this, SLOT(openEditor()));
@@ -300,10 +349,16 @@ void ClipboardBrowser::createContextMenu()
              Qt::UniqueConnection );
 }
 
+bool ClipboardBrowser::isFiltered(const QModelIndex &index, int role) const
+{
+    QString text = m->data(index, role).toString();
+    return m_lastFilter.indexIn(text) == -1;
+}
+
 bool ClipboardBrowser::isFiltered(int row) const
 {
-    QString text = m->data(m->index(row), Qt::EditRole).toString();
-    return m_lastFilter.indexIn(text) == -1;
+    QModelIndex ind = m->index(row);
+    return isFiltered(ind, Qt::EditRole) && isFiltered(ind, contentType::notes);
 }
 
 bool ClipboardBrowser::hideFiltered(int row)
@@ -548,6 +603,8 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
         hideFiltered(i);
 
     updateCurrentPage();
+
+    m_timerShowNotes->start();
 }
 
 void ClipboardBrowser::onRowSizeChanged(int row)
@@ -564,6 +621,29 @@ void ClipboardBrowser::updateCurrentPage()
         return; // Items not loaded yet.
     if ( isVisible() )
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
+}
+
+void ClipboardBrowser::updateItemNotes()
+{
+    if (!isVisible())
+        return;
+
+    QToolTip::hideText();
+
+    QModelIndex index = currentIndex();
+    if(!index.isValid())
+        return;
+
+    ItemWidget *item = d->cache(index);
+    QWidget *w = item->widget();
+
+    QString toolTip = highlightText( w->toolTip(), m_lastFilter );
+    if (toolTip.isEmpty())
+        return;
+
+    QPoint toolTipPosition = w->parentWidget()->mapToGlobal( w->geometry().topRight() );
+
+    QToolTip::showText(toolTipPosition, toolTip, w);
 }
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
@@ -596,21 +676,25 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
     updateCurrentPage();
 
     QListView::showEvent(event);
+
+    m_timerShowNotes->start();
+}
+
+void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
+{
+    QListView::currentChanged(current, previous);
+
+    updateItemNotes();
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
 {
     const int row = currentIndex().row();
-    bool inClipboard = clipboardData()->text() == itemText(0);
 
     QAbstractItemView::commitData(editor);
 
     if ( isRowHidden(row) )
         setCurrent(row);
-
-    // If clipboard text is same as old item text, copy the edited item to clipboard.
-    if (inClipboard)
-        updateClipboard(0);
 
     saveItems();
 }
@@ -673,6 +757,20 @@ void ClipboardBrowser::removeRow(int row)
     model()->removeRow(row);
 }
 
+void ClipboardBrowser::editNotes()
+{
+    QModelIndex ind = currentIndex();
+    if ( !ind.isValid() )
+        return;
+
+    scrollTo(ind, PositionAtTop);
+    emit requestShow(this);
+
+    d->setEditNotes(true);
+    edit(ind);
+    d->setEditNotes(false);
+}
+
 void ClipboardBrowser::action()
 {
     const QMimeData *data = getSelectedItemData();
@@ -717,6 +815,8 @@ void ClipboardBrowser::filterItems(const QString &str)
     // select first visible
     setCurrentIndex( index(first) );
     updateCurrentPage();
+
+    m_timerShowNotes->start();
 }
 
 void ClipboardBrowser::moveToClipboard()

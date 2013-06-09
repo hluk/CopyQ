@@ -29,8 +29,11 @@
 #include <QKeyEvent>
 #include <QMimeData>
 #include <QPixmap>
+#include <QToolTip>
 
 namespace {
+
+const char propertyHasToolTip[] = "CopyQ_has_tooltip";
 
 void removeAllActions(QList<QPointer<QAction> > *actions, QMenu *menu)
 {
@@ -77,7 +80,15 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_customActionsSeparator()
     , m_clipboardItemActions()
     , m_customActions()
+    , m_timerShowTooltip()
 {
+    connect( this, SIGNAL(hovered(QAction*)),
+             this, SLOT(onActionHovered(QAction*)) );
+
+    m_timerShowTooltip.setSingleShot(true);
+    m_timerShowTooltip.setInterval(250);
+    connect( &m_timerShowTooltip, SIGNAL(timeout()),
+             this, SLOT(updateTooltip()) );
 }
 
 void TrayMenu::toggle()
@@ -86,6 +97,9 @@ void TrayMenu::toggle()
         close();
         return;
     }
+
+    if (isEmpty())
+        return;
 
     // open menu unser cursor
     QPoint pos = QCursor::pos();
@@ -119,6 +133,12 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     // Add number key hint.
     if (i < 10)
         act->setText( act->text().prepend(QString("&%1. ").arg(i)) );
+
+    QString tooltip = item.data(contentType::notes).toString();
+    if ( !tooltip.isEmpty() ) {
+        act->setToolTip(tooltip);
+        act->setProperty(propertyHasToolTip, true);
+    }
 
     // Menu item icon from image.
     if (showImages) {
@@ -241,4 +261,24 @@ void TrayMenu::onClipboardItemActionTriggered()
     uint hash = actionData.toUInt();
     emit clipboardItemActionTriggered(hash);
     close();
+}
+
+void TrayMenu::onActionHovered(QAction *action)
+{
+    QToolTip::hideText();
+
+    if ( action->property(propertyHasToolTip).toBool() )
+        m_timerShowTooltip.start();
+    else
+        m_timerShowTooltip.stop();
+}
+
+void TrayMenu::updateTooltip()
+{
+    QAction *action = activeAction();
+    if ( action == NULL || !action->property(propertyHasToolTip).toBool() )
+        return;
+
+    QPoint pos = actionGeometry(action).topRight();
+    QToolTip::showText( mapToGlobal(pos), action->toolTip() );
 }

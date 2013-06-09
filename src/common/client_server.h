@@ -80,6 +80,7 @@ enum LogLevel {
 };
 
 extern const QString mimeWindowTitle;
+extern const QString mimeItemNotes;
 
 QString escapeHtml(const QString &str);
 

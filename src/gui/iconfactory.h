@@ -66,6 +66,7 @@ enum IconId {
     IconSortUp = 0xf0de,
     IconPaste = 0xf0ea,
     IconKeyboard = 0xf11c,
+    IconEditSign = 0xf14b,
     IconLast = 0xf14d
 };
 

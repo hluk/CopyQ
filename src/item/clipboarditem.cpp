@@ -66,9 +66,11 @@ void ClipboardItem::setData(QMimeData *data)
 
 void ClipboardItem::setData(const QVariant &value)
 {
-    // rewrite all original data with edited text
+    // rewrite all original data, except notes, with edited text
+    const QByteArray notes = m_data->data(mimeItemNotes);
     m_data->clear();
     m_data->setText( value.toString() );
+    m_data->setData(mimeItemNotes, notes);
     updateDataHash();
 }
 
@@ -101,6 +103,8 @@ QVariant ClipboardItem::data(int role) const
             return m_data->html();
         } else if (role == contentType::imageData) {
             return m_data->imageData();
+        } else if (role == contentType::notes) {
+            return QString::fromUtf8( m_data->data(mimeItemNotes) );
         } else if (role >= contentType::firstFormat) {
             return m_data->data( m_data->formats().value(role - contentType::firstFormat) );
         }
