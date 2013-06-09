@@ -79,7 +79,7 @@ const QPixmap &IconFactory::getPixmap(ushort id)
             painter.setFont( iconFont() );
             painter.setPen(iconColor);
 
-            painter.drawText( 0, 0, iconSize, iconSize, Qt::AlignHCenter | Qt::AlignVCenter,
+            painter.drawText( QRect(1, 1, iconSize - 1, iconSize - 1),
                               QString(QChar(id)) );
         }
 
