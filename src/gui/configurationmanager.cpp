@@ -139,7 +139,7 @@ ConfigurationManager::ConfigurationManager()
     tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconDownloadAlt) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), getIcon("", IconCogs) );
-    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconHandUp) );
+    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconKeyboard) );
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
 
     loadSettings();
