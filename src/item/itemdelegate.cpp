@@ -326,19 +326,20 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
 
 void ItemDelegate::setItemMaximumSize(const QSize &size)
 {
-    int w = size.width() - 8;
+    int width = size.width() - 8;
     if (m_showNumber)
-        w -= m_numberWidth;
+        width -= m_numberWidth;
 
-    if (m_maxSize.width() == w)
+    if (m_maxSize.width() == width)
         return;
 
-    m_maxSize.setWidth(w);
+    m_maxSize.setWidth(width);
 
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i].data();
         if (w != NULL) {
             w->widget()->setMaximumSize(m_maxSize);
+            w->widget()->setMinimumWidth(width);
             w->updateSize();
         }
     }
@@ -408,6 +409,7 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
         return;
 
     w->widget()->setMaximumSize(m_maxSize);
+    w->widget()->setMinimumWidth(m_maxSize.width());
     w->updateSize();
     w->widget()->installEventFilter(this);
     w->widget()->setProperty(propertyItemIndex, index.row());
