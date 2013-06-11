@@ -151,7 +151,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
              this, SLOT(updateFocusWindows()) );
     connect( this, SIGNAL(editingActive(bool)),
-             ui->tabWidget, SLOT(setTabBarDisabled(bool)) );
+             SLOT(onEditingActive(bool)) );
     connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(clipboardChanged(const ClipboardItem*)) );
 
@@ -237,9 +237,6 @@ void MainWindow::createMenu()
     itemMenu = NULL;
     menubar->clear();
     trayMenu->clear();
-
-    connect( this, SIGNAL(editingActive(bool)),
-             menubar, SLOT(setDisabled(bool)), Qt::UniqueConnection );
 
     // File
     menu = menubar->addMenu( tr("&File") );
@@ -600,6 +597,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     QString txt;
     ClipboardBrowser *c = browser();
 
+    if (c->editing())
+        return;
+
     if (event->key() == Qt::Key_Alt) {
         if (m_hideTabs)
             setHideTabs(false);
@@ -684,7 +684,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Escape:
-            if ( ui->searchBar->isHidden() )
+            if ( ui->widgetFind->isHidden() )
                 close();
             else
                 resetStatus();
@@ -901,8 +901,12 @@ void MainWindow::showWindow()
             c->currentIndex().row() <= 0 ) {
         c->setCurrent(0);
     }
-    c->scrollTo( c->currentIndex() );
-    c->setFocus();
+
+    if ( !c->editing() ) {
+        c->scrollTo( c->currentIndex() );
+        c->setFocus();
+    }
+
     QApplication::setActiveWindow(this);
 
     createPlatformNativeInterface()->raiseWindow(winId());
@@ -1274,6 +1278,12 @@ void MainWindow::updateFocusWindows()
     }
 }
 
+void MainWindow::onEditingActive(bool active)
+{
+    ui->centralWidget->setHidden(active);
+    menuBar()->setHidden(active);
+}
+
 void MainWindow::enterSearchMode(const QString &txt)
 {
     enterBrowseMode( txt.isEmpty() );
@@ -1284,23 +1294,15 @@ void MainWindow::enterBrowseMode(bool browsemode)
 {
     m_browsemode = browsemode;
 
-    QLineEdit *l = ui->searchBar;
-    QLabel *b = ui->findLabel;
-
     if(m_browsemode){
         // browse mode
         browser()->setFocus();
-        if ( l->text().isEmpty() ) {
-            l->hide();
-            b->hide();
-            l->setEnabled(false);
-        }
+        if ( ui->searchBar->text().isEmpty() )
+            ui->widgetFind->hide();
     } else {
         // search mode
-        l->show();
-        b->show();
-        l->setEnabled(true);
-        l->setFocus(Qt::ShortcutFocusReason);
+        ui->widgetFind->show();
+        ui->searchBar->setFocus(Qt::ShortcutFocusReason);
     }
 }
 
@@ -1421,7 +1423,8 @@ void MainWindow::openPreferences()
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
 
-    ConfigurationManager::instance()->exec();
+    if (isEnabled())
+        ConfigurationManager::instance()->exec();
 
     setWindowFlags(flags);
 }
@@ -1458,8 +1461,10 @@ void MainWindow::editNewItem()
     ClipboardBrowser *c = browser( ui->tabWidget->currentIndex() );
     if (c) {
         showWindow();
-        c->setFocus();
-        c->editNew();
+        if ( !c->editing() ) {
+            c->setFocus();
+            c->editNew();
+        }
     }
 }
 

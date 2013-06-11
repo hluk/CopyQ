@@ -154,6 +154,8 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
 
             QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
             menu->popup( menuEvent->globalPos() );
+
+            return true;
         }
     } else {
         // resize event for items
@@ -172,26 +174,18 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &option,
+QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &,
                                     const QModelIndex &index) const
 {
     ItemWidget *w = m_cache[index.row()].data();
-    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(parent)
-                                                 : w->createEditor(parent);
+    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(parent->window())
+                                                 : w->createEditor(parent->window());
     if (editor == NULL)
         return NULL;
 
     editor->setPalette(m_editorPalette);
     editor->setFont(m_editorFont);
     editor->setObjectName("editor");
-
-    // maximal editor size
-    QRect w_rect = parent->contentsRect();
-    QRect o_rect = option.rect;
-    QSize max_size( w_rect.width() - o_rect.left() - 4,
-                    w_rect.height() - o_rect.top() - 4 );
-    editor->setMaximumSize(max_size);
-    editor->setMinimumSize(max_size);
 
     connect( editor, SIGNAL(destroyed()),
              this, SLOT(editingStops()) );
@@ -202,6 +196,11 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
         editor->setProperty(propertyEditNotes, true);
 
     return editor;
+}
+
+void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &, const QModelIndex &) const
+{
+    editor->setGeometry(editor->parentWidget()->contentsRect());
 }
 
 void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const

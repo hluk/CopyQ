@@ -619,7 +619,7 @@ void ClipboardBrowser::updateCurrentPage()
 {
     if ( !m_loaded && !m_id.isEmpty() )
         return; // Items not loaded yet.
-    if ( isVisible() )
+    if ( isVisible() && !editing() )
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
 }
 
@@ -843,7 +843,10 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::editNew(const QString &text)
 {
-    add(text, true);
+    bool added = add(text, true);
+    if (!added)
+        return;
+
     selectionModel()->clearSelection();
 
     // Select edited item even if it's hidden.
@@ -1052,7 +1055,6 @@ void ClipboardBrowser::editSelected()
     } else {
         QModelIndex ind = currentIndex();
         if ( ind.isValid() ) {
-            scrollTo(ind, PositionAtTop);
             emit requestShow(this);
             edit(ind);
         }
@@ -1124,6 +1126,9 @@ bool ClipboardBrowser::add(const QString &txt, bool force)
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
+    if (editing())
+        return false;
+
     if ( !m_loaded && !m_id.isEmpty() ) {
         loadItems();
         if (!m_loaded)
@@ -1174,7 +1179,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if (!hasFocus() && !editing()) {
+    } else if (!hasFocus()) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);

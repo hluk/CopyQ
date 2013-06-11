@@ -323,6 +323,8 @@ class MainWindow : public QMainWindow
         /** Update WId for paste and last focused window if needed. */
         void updateFocusWindows();
 
+        void onEditingActive(bool active);
+
     private:
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
