@@ -156,6 +156,10 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
             menu->popup( menuEvent->globalPos() );
 
             return true;
+        } else if ( type == QEvent::FocusOut ) {
+            // Don't allow editor to loose child focus.
+            editor->setFocus();
+            return false;
         }
     } else {
         // resize event for items
