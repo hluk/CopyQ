@@ -25,6 +25,7 @@
 #include "itemwidget.h"
 
 #include <QMenu>
+#include <QLayout>
 #include <QPainter>
 #include <QPlainTextEdit>
 #include <QResizeEvent>
@@ -156,10 +157,6 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
             menu->popup( menuEvent->globalPos() );
 
             return true;
-        } else if ( type == QEvent::FocusOut ) {
-            // Don't allow editor to loose child focus.
-            editor->setFocus();
-            return false;
         }
     } else {
         // resize event for items
@@ -181,9 +178,14 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
 QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &,
                                     const QModelIndex &index) const
 {
+    // Use parent's parent widget so that context menu works everywhere in editor and
+    // scrolling in viewport doesn't affect editor.
+    QWidget *realParent = parent->parentWidget();
+    Q_ASSERT(realParent != NULL);
+
     ItemWidget *w = m_cache[index.row()].data();
-    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(parent->window())
-                                                 : w->createEditor(parent->window());
+    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(realParent)
+                                                 : w->createEditor(realParent);
     if (editor == NULL)
         return NULL;
 
@@ -191,13 +193,11 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     editor->setFont(m_editorFont);
     editor->setObjectName("editor");
 
-    connect( editor, SIGNAL(destroyed()),
-             this, SLOT(editingStops()) );
-    connect( editor, SIGNAL(textChanged()),
-             this, SLOT(editingStarts()) );
-
     if (m_editNotes)
         editor->setProperty(propertyEditNotes, true);
+
+    // Ignore default context menu.
+    editor->setContextMenuPolicy(Qt::NoContextMenu);
 
     return editor;
 }
@@ -289,16 +289,6 @@ void ItemDelegate::editorCancel()
     Q_ASSERT(editor != NULL);
 
     emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
-}
-
-void ItemDelegate::editingStarts()
-{
-    emit editingActive(true);
-}
-
-void ItemDelegate::editingStops()
-{
-    emit editingActive(false);
 }
 
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)

@@ -46,6 +46,7 @@ struct ClipboardBrowserShared {
     bool viMode;
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
+    bool showScrollBars;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
@@ -195,6 +196,8 @@ class ClipboardBrowser : public QListView
 
         bool m_save;
 
+        bool m_editing;
+
         ClipboardBrowserSharedPtr m_sharedData;
 
         void createContextMenu();
@@ -222,7 +225,12 @@ class ClipboardBrowser : public QListView
          */
         void preload(int minY, int maxY);
 
+        void setEditingActive(bool active);
+
+        void editItem(const QModelIndex &index);
+
     protected:
+        void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
         void resizeEvent(QResizeEvent *event);
@@ -245,9 +253,6 @@ class ClipboardBrowser : public QListView
 
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(const QMimeData *data, const QString &tabName);
-
-        /** User begins or stops to edit an item in a tab. */
-        void editingActive(bool active);
 
     protected slots:
         void commitData(QWidget *editor);

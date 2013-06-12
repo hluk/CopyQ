@@ -528,47 +528,47 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     c->setFont(font);
 
     /* scrollbars */
-    Qt::ScrollBarPolicy scrollbarPolicy = m_theme["show_scrollbars"].value().toBool()
+    Qt::ScrollBarPolicy scrollbarPolicy = themeValue("show_scrollbars").toBool()
             ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
     c->setVerticalScrollBarPolicy(scrollbarPolicy);
     c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     /* colors */
     p = c->palette();
-    color.setNamedColor( m_theme["bg"].value().toString() );
+    color.setNamedColor( themeValue("bg").toString() );
     p.setBrush(QPalette::Base, color);
-    color.setNamedColor( m_theme["fg"].value().toString() );
+    color.setNamedColor( themeValue("fg").toString() );
     p.setBrush(QPalette::Text, color);
-    color.setNamedColor( m_theme["alt_bg"].value().toString() );
+    color.setNamedColor( themeValue("alt_bg").toString() );
     p.setBrush(QPalette::AlternateBase, color);
-    color.setNamedColor( m_theme["sel_bg"].value().toString() );
+    color.setNamedColor( themeValue("sel_bg").toString() );
     p.setBrush(QPalette::Highlight, color);
-    color.setNamedColor( m_theme["sel_fg"].value().toString() );
+    color.setNamedColor( themeValue("sel_fg").toString() );
     p.setBrush(QPalette::HighlightedText, color);
     c->setPalette(p);
 
     /* search style */
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
-    font.fromString( m_theme["find_font"].value().toString() );
-    color.setNamedColor( m_theme["find_bg"].value().toString() );
+    font.fromString( themeValue("find_font").toString() );
+    color.setNamedColor( themeValue("find_bg").toString() );
     p.setColor(QPalette::Base, color);
-    color.setNamedColor( m_theme["find_fg"].value().toString() );
+    color.setNamedColor( themeValue("find_fg").toString() );
     p.setColor(QPalette::Text, color);
     d->setSearchStyle(font, p);
 
     /* editor style */
     d->setSearchStyle(font, p);
-    font.fromString( m_theme["edit_font"].value().toString() );
-    color.setNamedColor( m_theme["edit_bg"].value().toString() );
+    font.fromString( themeValue("edit_font").toString() );
+    color.setNamedColor( themeValue("edit_bg").toString() );
     p.setColor(QPalette::Base, color);
-    color.setNamedColor( m_theme["edit_fg"].value().toString() );
+    color.setNamedColor( themeValue("edit_fg").toString() );
     p.setColor(QPalette::Text, color);
     d->setEditorStyle(font, p);
 
     /* number style */
-    d->setShowNumber(m_theme["show_number"].value().toBool());
-    font.fromString( m_theme["num_font"].value().toString() );
-    color.setNamedColor( m_theme["num_fg"].value().toString() );
+    d->setShowNumber(themeValue("show_number").toBool());
+    font.fromString( themeValue("num_font").toString() );
+    color.setNamedColor( themeValue("num_fg").toString() );
     p.setColor(QPalette::Text, color);
     d->setNumberStyle(font, p);
 
@@ -596,6 +596,11 @@ QVariant ConfigurationManager::value(const QString &name) const
 void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 {
     m_options[name].setValue(value);
+}
+
+QVariant ConfigurationManager::themeValue(const QString &name) const
+{
+    return m_theme[name].value();
 }
 
 QStringList ConfigurationManager::options() const
@@ -827,7 +832,7 @@ void ConfigurationManager::loadTheme(QSettings &settings)
 void ConfigurationManager::saveTheme(QSettings &settings) const
 {
     foreach ( const QString &key, m_theme.keys() )
-        settings.setValue( key, m_theme[key].value() );
+        settings.setValue( key, themeValue(key) );
 }
 
 ConfigurationManager::Commands ConfigurationManager::commands() const

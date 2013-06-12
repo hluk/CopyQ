@@ -115,9 +115,6 @@ class ItemDelegate : public QItemDelegate
         void setEditNotes(bool editNotes);
 
     signals:
-        /** User begins or stops to edit an item in a tab. */
-        void editingActive(bool active);
-
         /** Emitted if @a row size changes. */
         void rowSizeChanged(int row);
 
@@ -156,10 +153,6 @@ class ItemDelegate : public QItemDelegate
                        int destinationRow);
         void editorSave();
         void editorCancel();
-
-    private slots:
-        void editingStarts();
-        void editingStops();
 };
 
 #endif

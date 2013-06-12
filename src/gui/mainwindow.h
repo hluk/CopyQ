@@ -81,9 +81,6 @@ class MainWindow : public QMainWindow
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
 
-        /** User begins or stops to edit an item in a tab. */
-        void editingActive(bool active);
-
     protected:
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);
@@ -322,8 +319,6 @@ class MainWindow : public QMainWindow
 
         /** Update WId for paste and last focused window if needed. */
         void updateFocusWindows();
-
-        void onEditingActive(bool active);
 
     private:
         /** Create menu bar and tray menu with items. Called once. */

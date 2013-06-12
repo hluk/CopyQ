@@ -111,6 +111,7 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , viMode(false)
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
+    , showScrollBars(true)
 {
 }
 
@@ -127,6 +128,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
     moveItemOnReturnKey = cm->value("move").toBool();
+    showScrollBars = cm->themeValue("show_scrollbars").toBool();
 }
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
@@ -155,6 +157,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerShowNotes( new QTimer(this) )
     , m_menu( new QMenu(this) )
     , m_save(true)
+    , m_editing(false)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
 {
     setLayoutMode(QListView::Batched);
@@ -187,9 +190,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     QItemSelectionModel *old_model = selectionModel();
     setModel(m);
     delete old_model;
-
-    connect( d, SIGNAL(editingActive(bool)),
-             SIGNAL(editingActive(bool)) );
 
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              d, SLOT(rowsRemoved(QModelIndex,int,int)) );
@@ -507,6 +507,34 @@ void ClipboardBrowser::preload(int minY, int maxY)
     }
 }
 
+void ClipboardBrowser::setEditingActive(bool active)
+{
+    m_editing = active;
+
+    setFocusPolicy(active ? Qt::NoFocus : Qt::StrongFocus);
+
+    if (m_sharedData->showScrollBars) {
+        Qt::ScrollBarPolicy policy = active ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded;
+        setVerticalScrollBarPolicy(policy);
+        setHorizontalScrollBarPolicy(policy);
+    }
+}
+
+void ClipboardBrowser::editItem(const QModelIndex &index)
+{
+    if (!index.isValid())
+        return;
+
+    setEditingActive(true);
+    QListView::edit(index);
+}
+
+void ClipboardBrowser::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint)
+{
+    setEditingActive(false);
+    QListView::closeEditor(editor, hint);
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -619,7 +647,7 @@ void ClipboardBrowser::updateCurrentPage()
 {
     if ( !m_loaded && !m_id.isEmpty() )
         return; // Items not loaded yet.
-    if ( isVisible() && !editing() )
+    if ( isVisible() )
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
 }
 
@@ -648,7 +676,7 @@ void ClipboardBrowser::updateItemNotes()
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( !selectedIndexes().isEmpty() ) {
+    if ( !editing() && !selectedIndexes().isEmpty() ) {
         m_menu->exec( event->globalPos() );
         event->accept();
     }
@@ -767,7 +795,7 @@ void ClipboardBrowser::editNotes()
     emit requestShow(this);
 
     d->setEditNotes(true);
-    edit(ind);
+    editItem(ind);
     d->setEditNotes(false);
 }
 
@@ -852,7 +880,7 @@ void ClipboardBrowser::editNew(const QString &text)
     // Select edited item even if it's hidden.
     QModelIndex newIndex = index(0);
     setCurrentIndex(newIndex);
-    edit( index(0) );
+    editItem( index(0) );
     updateClipboard(0);
 }
 
@@ -1056,7 +1084,7 @@ void ClipboardBrowser::editSelected()
         QModelIndex ind = currentIndex();
         if ( ind.isValid() ) {
             emit requestShow(this);
-            edit(ind);
+            editItem(ind);
         }
     }
 }
@@ -1126,7 +1154,7 @@ bool ClipboardBrowser::add(const QString &txt, bool force)
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
-    if (editing())
+    if ( editing() )
         return false;
 
     if ( !m_loaded && !m_id.isEmpty() ) {
@@ -1179,7 +1207,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if (!hasFocus()) {
+    } else if ( !hasFocus() ) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);
@@ -1216,6 +1244,8 @@ void ClipboardBrowser::loadSettings()
     createContextMenu();
 
     updateCurrentPage();
+
+    setEditingActive(editing());
 }
 
 void ClipboardBrowser::loadItems()
@@ -1305,7 +1335,7 @@ QByteArray ClipboardBrowser::itemData(int i, const QString &mime) const
 
 void ClipboardBrowser::editRow(int row)
 {
-    edit( index(row) );
+    editItem( index(row) );
 }
 
 void ClipboardBrowser::redraw()
@@ -1316,7 +1346,7 @@ void ClipboardBrowser::redraw()
 
 bool ClipboardBrowser::editing()
 {
-    return state() == QAbstractItemView::EditingState;
+    return m_editing;
 }
 
 bool ClipboardBrowser::handleViKey(QKeyEvent *event)

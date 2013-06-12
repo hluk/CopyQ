@@ -150,8 +150,6 @@ MainWindow::MainWindow(QWidget *parent)
              m_timerSearch, SLOT(start()) );
     connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
              this, SLOT(updateFocusWindows()) );
-    connect( this, SIGNAL(editingActive(bool)),
-             SLOT(onEditingActive(bool)) );
     connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(clipboardChanged(const ClipboardItem*)) );
 
@@ -529,8 +527,6 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool save)
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
-    connect( c, SIGNAL(editingActive(bool)),
-             this, SIGNAL(editingActive(bool)) );
     connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&)),
              this, SLOT(action(const QMimeData&, const Command&)) );
     connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&, const QModelIndex&)),
@@ -1276,12 +1272,6 @@ void MainWindow::updateFocusWindows()
         if ( isForeignWindow(lastWindow) )
             m_lastWindow = lastWindow;
     }
-}
-
-void MainWindow::onEditingActive(bool active)
-{
-    ui->centralWidget->setHidden(active);
-    menuBar()->setHidden(active);
 }
 
 void MainWindow::enterSearchMode(const QString &txt)
