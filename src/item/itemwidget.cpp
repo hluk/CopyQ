@@ -35,19 +35,14 @@ ItemWidget::ItemWidget(QWidget *widget)
 {
     Q_ASSERT(widget != NULL);
 
+    // Object name for style sheet.
+    widget->setObjectName("item");
+
+    // Item widgets are not focusable.
+    widget->setFocusPolicy(Qt::NoFocus);
+
     // Limit size of items.
     widget->setMaximumSize(2048, 2048);
-
-    QWidget *parent = widget->parentWidget();
-    if (parent != NULL) {
-        QPalette palette( parent->palette() );
-        palette.setColor(QPalette::Background, Qt::transparent);
-        palette.setColor(QPalette::Base, Qt::transparent);
-        widget->setPalette(palette);
-        widget->setFont( parent->font() );
-        widget->setAutoFillBackground(true);
-        widget->setFocusPolicy(Qt::NoFocus);
-    }
 }
 
 void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,

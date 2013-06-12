@@ -26,6 +26,7 @@
 #include "gui/iconfactory.h"
 #include "gui/pluginwidget.h"
 #include "gui/shortcutdialog.h"
+#include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
 #include "item/itemfactory.h"
@@ -47,9 +48,51 @@
 #define DEFAULT_EDITOR "gedit %1"
 #endif
 
+namespace {
+
 const QRegExp reURL("^(https?|ftps?|file)://");
 const QString fileErrorString =
         ConfigurationManager::tr("Cannot save tab \"%1\" to \"%2\" (%3)!");
+
+QString getFontStyleSheet(const QString &fontString)
+{
+    QString result;
+    if (fontString.isEmpty())
+        return QString();
+
+    QFont font;
+    font.fromString(fontString);
+
+    qreal size = font.pointSizeF();
+    QString sizeUnits = "pt";
+    if (size < 0.0) {
+        size = font.pixelSize();
+        sizeUnits = "px";
+    }
+
+    result.append( QString(";font-family: \"%1\"").arg(font.family()) );
+    result.append( QString(";font:%1 %2 %3%4")
+                   .arg(font.style() == QFont::StyleItalic
+                        ? "italic" : font.style() == QFont::StyleOblique ? "oblique" : "normal")
+                   .arg(font.bold() ? "bold" : "")
+                   .arg(size)
+                   .arg(sizeUnits)
+                   );
+    result.append( QString(";text-decoration:%1 %2 %3")
+                   .arg(font.strikeOut() ? "line-through" : "")
+                   .arg(font.underline() ? "underline" : "")
+                   .arg(font.overline() ? "overline" : "")
+                   );
+    // QFont::weight -> CSS
+    // (normal) 50 -> 400
+    // (bold)   75 -> 700
+    int w = font.weight() * 12 - 200;
+    result.append( QString(";font-weight:%1").arg(w) );
+
+    return result;
+}
+
+} // namespace
 
 // singleton
 ConfigurationManager* ConfigurationManager::m_Instance = 0;
@@ -98,7 +141,13 @@ ConfigurationManager::ConfigurationManager()
                  << tr("Example item %1").arg(1)
                  << tr("Example item %1").arg(2)
                  << tr("Example item %1").arg(3) );
+    c->at(0)->setData( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
     c->filterItems( tr("item") );
+
+    QAction *act = new QAction(c);
+    act->setShortcut( QString("Shift+F2") );
+    connect(act, SIGNAL(triggered()), c, SLOT(editNotes()));
+    c->addAction(act);
 
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->tabShortcuts->deleteLater();
@@ -457,12 +506,24 @@ void ConfigurationManager::initThemeOptions()
     m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
     m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFindBg);
     m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFindFg);
+    name = p.color(QPalette::ToolTipBase).name();
+    m_theme["notes_bg"]  = Option(name, "VALUE", ui->pushButtonColorNotesBg);
+    name = p.color(QPalette::ToolTipText).name();
+    m_theme["notes_fg"]  = Option(name, "VALUE", ui->pushButtonColorNotesFg);
+
     m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
     m_theme["edit_font"]   = Option("", "VALUE", ui->pushButtonEditorFont);
     m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
     m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
+    m_theme["notes_font"]  = Option("", "VALUE", ui->pushButtonNotesFont);
     m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
     m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
+
+    m_theme["item_css"] = Option("");
+    m_theme["alt_item_css"] = Option("");
+    m_theme["sel_item_css"] = Option("");
+    m_theme["notes_css"] = Option("");
+    m_theme["css"] = Option("");
 
     bind("use_system_icons", ui->checkBoxSystemIcons, false);
 }
@@ -477,6 +538,7 @@ void ConfigurationManager::updateColorButtons()
             << ui->pushButtonColorAltBg
             << ui->pushButtonColorSelBg << ui->pushButtonColorSelFg
             << ui->pushButtonColorFindBg << ui->pushButtonColorFindFg
+            << ui->pushButtonColorNotesBg << ui->pushButtonColorNotesFg
             << ui->pushButtonColorEditorBg << ui->pushButtonColorEditorFg
             << ui->pushButtonColorNumberFg;
     foreach (QPushButton *button, buttons) {
@@ -523,10 +585,6 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     QPalette p;
     QColor color;
 
-    /* fonts */
-    font.fromString( ui->pushButtonFont->property("VALUE").toString() );
-    c->setFont(font);
-
     /* scrollbars */
     Qt::ScrollBarPolicy scrollbarPolicy = themeValue("show_scrollbars").toBool()
             ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
@@ -534,18 +592,43 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     /* colors */
-    p = c->palette();
-    color.setNamedColor( themeValue("bg").toString() );
-    p.setBrush(QPalette::Base, color);
-    color.setNamedColor( themeValue("fg").toString() );
-    p.setBrush(QPalette::Text, color);
-    color.setNamedColor( themeValue("alt_bg").toString() );
-    p.setBrush(QPalette::AlternateBase, color);
-    color.setNamedColor( themeValue("sel_bg").toString() );
-    p.setBrush(QPalette::Highlight, color);
-    color.setNamedColor( themeValue("sel_fg").toString() );
-    p.setBrush(QPalette::HighlightedText, color);
-    c->setPalette(p);
+    c->setStyleSheet(
+        QString("ClipboardBrowser,#item{")
+        + getFontStyleSheet( themeValue("font").toString() )
+        + ";color:" + themeValue("fg").toString()
+        + ";" + themeValue("item_css").toString()
+        + "}"
+
+        + QString("ClipboardBrowser{")
+        + ";background:" + themeValue("bg").toString()
+        + "}"
+
+        + QString("ClipboardBrowser::item:alternate{")
+        + ";background:" + themeValue("alt_bg").toString()
+        + ";color:" + themeValue("alt_fg").toString()
+        + ";" + themeValue("alt_item_css").toString()
+        + "}"
+
+        + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"]{")
+        + ";color:" + themeValue("sel_fg").toString()
+        + ";" + themeValue("sel_item_css").toString()
+        + "}"
+
+        + QString("ClipboardBrowser::item:selected{")
+        + ";background:" + themeValue("sel_bg").toString()
+        + "}"
+
+        + QString("#item{background:transparent}")
+
+        + QString("QToolTip{")
+        + getFontStyleSheet( themeValue("notes_font").toString() )
+        + ";background:" + themeValue("notes_bg").toString()
+        + ";color:" + themeValue("notes_fg").toString()
+        + ";" + themeValue("notes_css").toString()
+        + "}"
+
+        + themeValue("css").toString()
+        );
 
     /* search style */
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );

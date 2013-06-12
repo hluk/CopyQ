@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>680</width>
-    <height>517</height>
+    <width>682</width>
+    <height>572</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -781,8 +781,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>68</width>
-               <height>361</height>
+               <width>80</width>
+               <height>395</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -914,7 +914,7 @@ Set to 0 to disable this.</string>
               <x>0</x>
               <y>0</y>
               <width>622</width>
-              <height>390</height>
+              <height>474</height>
              </rect>
             </property>
             <layout class="QFormLayout" name="formLayout_4">
@@ -1219,8 +1219,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>314</width>
-              <height>423</height>
+              <width>315</width>
+              <height>463</height>
              </rect>
             </property>
             <layout class="QHBoxLayout" name="horizontalLayout_3">
@@ -1272,6 +1272,13 @@ Set to 0 to disable this.</string>
                 </widget>
                </item>
                <item>
+                <widget class="QPushButton" name="pushButtonColorNotesBg">
+                 <property name="text">
+                  <string>Notes</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
                 <spacer name="verticalSpacer_3">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -1319,6 +1326,13 @@ Set to 0 to disable this.</string>
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonNotesFont">
+                 <property name="text">
+                  <string>Notes</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
              <item>
@@ -1362,6 +1376,13 @@ Set to 0 to disable this.</string>
                 <widget class="QPushButton" name="pushButtonColorNumberFg">
                  <property name="text">
                   <string>Number (1&amp;0)</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonColorNotesFg">
+                 <property name="text">
+                  <string>Notes</string>
                  </property>
                 </widget>
                </item>
@@ -1541,15 +1562,17 @@ Set to 0 to disable this.</string>
   <tabstop>pushButton_13</tabstop>
   <tabstop>pushButton_14</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
-  <tabstop>pushButtonColorSelBg</tabstop>
-  <tabstop>pushButtonColorFindBg</tabstop>
-  <tabstop>pushButtonColorEditorBg</tabstop>
-  <tabstop>pushButtonColorAltBg</tabstop>
   <tabstop>pushButtonColorFg</tabstop>
+  <tabstop>pushButtonColorSelBg</tabstop>
   <tabstop>pushButtonColorSelFg</tabstop>
+  <tabstop>pushButtonColorFindBg</tabstop>
   <tabstop>pushButtonColorFindFg</tabstop>
+  <tabstop>pushButtonColorEditorBg</tabstop>
   <tabstop>pushButtonColorEditorFg</tabstop>
+  <tabstop>pushButtonColorAltBg</tabstop>
   <tabstop>pushButtonColorNumberFg</tabstop>
+  <tabstop>pushButtonColorNotesBg</tabstop>
+  <tabstop>pushButtonColorNotesFg</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>
@@ -1557,6 +1580,7 @@ Set to 0 to disable this.</string>
   <tabstop>pushButtonFoundFont</tabstop>
   <tabstop>pushButtonEditorFont</tabstop>
   <tabstop>pushButtonNumberFont</tabstop>
+  <tabstop>pushButtonNotesFont</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>pushButtonResetTheme</tabstop>

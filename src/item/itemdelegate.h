@@ -26,6 +26,7 @@
 
 class Item;
 class ItemWidget;
+class QListView;
 
 /**
  * Delegate for items in ClipboardBrowser.
@@ -43,7 +44,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        ItemDelegate(QWidget *parent = NULL);
+        ItemDelegate(QListView *parent = NULL);
 
         ~ItemDelegate();
 
@@ -123,7 +124,7 @@ class ItemDelegate : public QItemDelegate
                    const QModelIndex &index) const;
 
     private:
-        QWidget *m_parent;
+        QListView *m_parent;
         bool m_showNumber;
         bool m_saveOnReturnKey;
         QRegExp m_re;

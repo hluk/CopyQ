@@ -25,6 +25,7 @@
 #include "itemwidget.h"
 
 #include <QMenu>
+#include <QListView>
 #include <QLayout>
 #include <QPainter>
 #include <QPlainTextEdit>
@@ -51,7 +52,7 @@ inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 
 } // namespace
 
-ItemDelegate::ItemDelegate(QWidget *parent)
+ItemDelegate::ItemDelegate(QListView *parent)
     : QItemDelegate(parent)
     , m_parent(parent)
     , m_showNumber(false)
@@ -72,7 +73,6 @@ ItemDelegate::ItemDelegate(QWidget *parent)
 
 ItemDelegate::~ItemDelegate()
 {
-    invalidateCache();
 }
 
 QSize ItemDelegate::sizeHint(const QModelIndex &index) const
@@ -209,14 +209,22 @@ void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewI
 
 void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
+    bool hasCustomEditor = false;
+
     if ( editor->property(propertyEditNotes).toBool() ) {
         editor->setProperty( "plainText", index.data(contentType::notes) );
     } else {
         ItemWidget *w = m_cache[index.row()].data();
-        if (w != NULL)
+        hasCustomEditor = w != NULL;
+        if (hasCustomEditor)
             w->setEditorData(editor, index);
         else
             editor->setProperty( "plainText", index.data(Qt::EditRole) );
+    }
+
+    if (!hasCustomEditor) {
+        QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
+        textEdit->selectAll();
     }
 }
 
@@ -303,7 +311,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n].data();
     if (w == NULL) {
-        w = ItemFactory::instance()->createItem(index, m_parent);
+        w = ItemFactory::instance()->createItem(index, m_parent->viewport());
         setIndexWidget(index, w);
     } else {
         w->widget()->setProperty(propertyItemIndex, index.row());
@@ -451,11 +459,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     const QRect &rect = option.rect;
 
+    bool isSelected = option.state & QStyle::State_Selected;
+
     /* render background (selected, alternate, ...) */
     QStyle *style = m_parent->style();
-    style->drawControl(QStyle::CE_ItemViewItem, &option, painter);
-    QPalette::ColorRole role = option.state & QStyle::State_Selected ?
-                QPalette::HighlightedText : QPalette::Text;
+    style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_parent);
+    QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
 
     /* render number */
     QRect numRect(0, 0, 0, 0);
@@ -475,7 +484,11 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     w->setHighlight(m_re, m_foundFont, m_foundPalette);
 
     /* text color for selected/unselected item */
-    QPalette palette = w->widget()->palette();
-    palette.setColor( QPalette::Text, option.palette.color(role) );
-    w->widget()->setPalette(palette);
+    QWidget *ww = w->widget();
+    if ( ww->property("CopyQ_selected") != isSelected ) {
+        ww->setProperty("CopyQ_selected", isSelected);
+        style->unpolish(ww);
+        style->polish(ww);
+        ww->update();
+    }
 }

@@ -270,7 +270,7 @@ class ClipboardBrowser : public QListView
         /**
          * Show notes for current item.
          */
-        void updateItemNotes();
+        void updateItemNotes(bool immediately = true);
 
     public slots:
         /** Add new item to the browser. */

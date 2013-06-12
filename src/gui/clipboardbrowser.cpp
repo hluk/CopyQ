@@ -106,7 +106,7 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , formats(QString("text/plain"))
     , maxImageWidth(100)
     , maxImageHeight(100)
-    , textWrap(false)
+    , textWrap(true)
     , commands()
     , viMode(false)
     , saveOnReturnKey(false)
@@ -151,7 +151,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_lastFilter()
     , m_update(false)
     , m( new ClipboardModel(this) )
-    , d( new ItemDelegate(viewport()) )
+    , d( new ItemDelegate(this) )
     , m_timerSave( new QTimer(this) )
     , m_timerScroll( new QTimer(this) )
     , m_timerShowNotes( new QTimer(this) )
@@ -230,6 +230,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
 ClipboardBrowser::~ClipboardBrowser()
 {
+    d->invalidateCache();
     if ( m_timerSave->isActive() )
         saveItems();
 }
@@ -631,8 +632,7 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
         hideFiltered(i);
 
     updateCurrentPage();
-
-    m_timerShowNotes->start();
+    updateItemNotes(false);
 }
 
 void ClipboardBrowser::onRowSizeChanged(int row)
@@ -651,7 +651,7 @@ void ClipboardBrowser::updateCurrentPage()
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
 }
 
-void ClipboardBrowser::updateItemNotes()
+void ClipboardBrowser::updateItemNotes(bool immediately)
 {
     if (!isVisible())
         return;
@@ -662,6 +662,12 @@ void ClipboardBrowser::updateItemNotes()
     if(!index.isValid())
         return;
 
+    if (!immediately) {
+        m_timerShowNotes->start();
+        return;
+    }
+    m_timerShowNotes->stop();
+
     ItemWidget *item = d->cache(index);
     QWidget *w = item->widget();
 
@@ -669,7 +675,8 @@ void ClipboardBrowser::updateItemNotes()
     if (toolTip.isEmpty())
         return;
 
-    QPoint toolTipPosition = w->parentWidget()->mapToGlobal( w->geometry().topRight() );
+    QPoint toolTipPosition = QPoint(viewport()->geometry().right(), w->y());
+    toolTipPosition = w->parentWidget()->mapToGlobal(toolTipPosition);
 
     QToolTip::showText(toolTipPosition, toolTip, w);
 }
@@ -705,14 +712,13 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 
     QListView::showEvent(event);
 
-    m_timerShowNotes->start();
+    updateItemNotes(false);
 }
 
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     QListView::currentChanged(current, previous);
-
-    updateItemNotes();
+    updateItemNotes(false);
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
@@ -844,7 +850,7 @@ void ClipboardBrowser::filterItems(const QString &str)
     setCurrentIndex( index(first) );
     updateCurrentPage();
 
-    m_timerShowNotes->start();
+    updateItemNotes(false);
 }
 
 void ClipboardBrowser::moveToClipboard()
