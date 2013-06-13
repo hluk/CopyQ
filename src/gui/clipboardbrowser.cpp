@@ -514,6 +514,12 @@ void ClipboardBrowser::setEditingActive(bool active)
 
     setFocusPolicy(active ? Qt::NoFocus : Qt::StrongFocus);
 
+    // Disable shortcuts while editing.
+    if (active)
+        m_menu->clear();
+    else
+        createContextMenu();
+
     if (m_sharedData->showScrollBars) {
         Qt::ScrollBarPolicy policy = active ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded;
         setVerticalScrollBarPolicy(policy);
