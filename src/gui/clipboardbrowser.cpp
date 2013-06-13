@@ -727,6 +727,15 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
     updateItemNotes(false);
 }
 
+void ClipboardBrowser::focusInEvent(QFocusEvent *event)
+{
+    // Always focus active editor instead of list.
+    if (editing())
+        focusNextChild();
+    else
+        QListView::focusInEvent(event);
+}
+
 void ClipboardBrowser::commitData(QWidget *editor)
 {
     const int row = currentIndex().row();

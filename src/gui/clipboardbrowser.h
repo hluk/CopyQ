@@ -236,6 +236,7 @@ class ClipboardBrowser : public QListView
         void resizeEvent(QResizeEvent *event);
         void showEvent(QShowEvent *event);
         void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+        void focusInEvent(QFocusEvent *event);
 
     signals:
         /** Action dialog requested. */
