@@ -620,12 +620,7 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
 
         + QString("#item{background:transparent}")
 
-        + QString("QToolTip{")
-        + getFontStyleSheet( themeValue("notes_font").toString() )
-        + ";background:" + themeValue("notes_bg").toString()
-        + ";color:" + themeValue("notes_fg").toString()
-        + ";" + themeValue("notes_css").toString()
-        + "}"
+        + getToolTipStyleSheet()
 
         + themeValue("css").toString()
         );
@@ -656,6 +651,16 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     d->setNumberStyle(font, p);
 
     c->redraw();
+}
+
+QString ConfigurationManager::getToolTipStyleSheet() const
+{
+    return QString("QToolTip{")
+            + getFontStyleSheet( themeValue("notes_font").toString() )
+            + ";background:" + themeValue("notes_bg").toString()
+            + ";color:" + themeValue("notes_fg").toString()
+            + ";" + themeValue("notes_css").toString()
+            + "}";
 }
 
 bool ConfigurationManager::loadGeometry(QWidget *widget) const

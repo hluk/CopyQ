@@ -864,6 +864,8 @@ void MainWindow::loadSettings()
     m_trayImages = cm->value("tray_images").toBool();
     m_itemPopupInterval = cm->value("item_popup_interval").toBool();
 
+    trayMenu->setStyleSheet( cm->getToolTipStyleSheet() );
+
     log( tr("Configuration loaded") );
 }
 

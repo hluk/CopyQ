@@ -280,5 +280,5 @@ void TrayMenu::updateTooltip()
         return;
 
     QPoint pos = actionGeometry(action).topRight();
-    QToolTip::showText( mapToGlobal(pos), action->toolTip() );
+    QToolTip::showText( mapToGlobal(pos), action->toolTip(), this );
 }
