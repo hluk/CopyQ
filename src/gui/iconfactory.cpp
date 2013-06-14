@@ -24,11 +24,30 @@
 #include <QMutex>
 #include <QMutexLocker>
 #include <QPainter>
+#include <QPalette>
 #include <QPixmap>
+
+namespace {
 
 const int iconSize = 16;
 const int fontSize = iconSize - 2;
-const QColor iconColor = QColor(72, 72, 72);
+
+/**
+ * Get suitable color for icons.
+ * @note This doesn't work if with some styles (e.g. GTK).
+ */
+QColor getDefaultIconColor()
+{
+    QColor c = QPalette().color(QPalette::Window);
+    bool menuBackgrounIsLight = (QPalette().color(QPalette::Window).lightness() > 128);
+    c.setHsl(c.hue(),
+             c.saturation() + (menuBackgrounIsLight ? 50 : 10),
+             c.lightness() + (menuBackgrounIsLight ? -140 : 100));
+
+    return c;
+}
+
+} // namespace
 
 // singleton
 IconFactory* IconFactory::m_Instance = 0;
@@ -48,6 +67,7 @@ IconFactory *IconFactory::instance()
 
 IconFactory::IconFactory()
     : m_iconFont()
+    , m_iconColor( getDefaultIconColor() )
     , m_useSystemIcons(true)
     , m_loaded(false)
     , m_pixmapCache()
@@ -77,8 +97,7 @@ const QPixmap &IconFactory::getPixmap(ushort id)
             QPainter painter(&pix);
 
             painter.setFont( iconFont() );
-            painter.setPen(iconColor);
-
+            painter.setPen(m_iconColor);
             painter.drawText( QRect(1, 1, iconSize - 1, iconSize - 1),
                               QString(QChar(id)) );
         }

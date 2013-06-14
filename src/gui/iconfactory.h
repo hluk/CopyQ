@@ -20,6 +20,7 @@
 #ifndef ICONFACTORY_H
 #define ICONFACTORY_H
 
+#include <QColor>
 #include <QFont>
 #include <QHash>
 
@@ -104,6 +105,7 @@ private:
     static IconFactory* m_Instance;
 
     QFont m_iconFont;
+    QColor m_iconColor;
     bool m_useSystemIcons;
     bool m_loaded;
 
