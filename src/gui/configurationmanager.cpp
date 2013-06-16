@@ -585,47 +585,43 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     QPalette p;
     QColor color;
 
-    /* scrollbars */
+    // scrollbars
     Qt::ScrollBarPolicy scrollbarPolicy = themeValue("show_scrollbars").toBool()
             ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
     c->setVerticalScrollBarPolicy(scrollbarPolicy);
     c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
-    /* colors */
+    // colors and font
     c->setStyleSheet(
         QString("ClipboardBrowser,#item{")
         + getFontStyleSheet( themeValue("font").toString() )
         + ";color:" + themeValue("fg").toString()
-        + ";" + themeValue("item_css").toString()
-        + "}"
-
-        + QString("ClipboardBrowser{")
         + ";background:" + themeValue("bg").toString()
         + "}"
 
         + QString("ClipboardBrowser::item:alternate{")
-        + ";background:" + themeValue("alt_bg").toString()
         + ";color:" + themeValue("alt_fg").toString()
-        + ";" + themeValue("alt_item_css").toString()
+        + ";background:" + themeValue("alt_bg").toString()
         + "}"
 
         + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"]{")
         + ";color:" + themeValue("sel_fg").toString()
-        + ";" + themeValue("sel_item_css").toString()
-        + "}"
-
-        + QString("ClipboardBrowser::item:selected{")
         + ";background:" + themeValue("sel_bg").toString()
         + "}"
 
         + QString("#item{background:transparent}")
+        + QString("#item[CopyQ_selected=\"true\"]{background:transparent}")
 
         + getToolTipStyleSheet()
 
+        // Allow user to change CSS.
+        + QString("ClipboardBrowser{") + themeValue("item_css").toString() + "}"
+        + QString("ClipboardBrowser::item:alternate{") + themeValue("alt_item_css").toString() + "}"
+        + QString("ClipboardBrowser::item:selected{") + themeValue("sel_item_css").toString() + "}"
         + themeValue("css").toString()
         );
 
-    /* search style */
+    // search style
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
     font.fromString( themeValue("find_font").toString() );
     color.setNamedColor( themeValue("find_bg").toString() );
@@ -634,7 +630,7 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     p.setColor(QPalette::Text, color);
     d->setSearchStyle(font, p);
 
-    /* editor style */
+    // editor style
     d->setSearchStyle(font, p);
     font.fromString( themeValue("edit_font").toString() );
     color.setNamedColor( themeValue("edit_bg").toString() );
@@ -643,7 +639,7 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     p.setColor(QPalette::Text, color);
     d->setEditorStyle(font, p);
 
-    /* number style */
+    // number style
     d->setShowNumber(themeValue("show_number").toBool());
     font.fromString( themeValue("num_font").toString() );
     color.setNamedColor( themeValue("num_fg").toString() );
