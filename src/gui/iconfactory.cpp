@@ -19,6 +19,7 @@
 
 #include "iconfactory.h"
 
+#include <QBitmap>
 #include <QFontDatabase>
 #include <QIcon>
 #include <QMutex>
@@ -130,7 +131,19 @@ const QIcon &IconFactory::getIcon(const QString &iconName)
     ResourceIconCache::iterator it = m_resourceIconCache.find(iconName);
     if ( it == m_resourceIconCache.end() ) {
         const QString resourceName = QString(":/images/") + iconName + QString(".svg");
-        QIcon icon(resourceName);
+        QIcon icon;
+
+        // Tint tab icons.
+        if ( iconName.startsWith(QString("tab_")) ) {
+            QPixmap pix(resourceName);
+            QPixmap pix2( pix.size() );
+            pix2.fill(m_iconColor);
+            pix2.setMask( pix.mask() );
+            icon = pix2;
+        } else {
+            icon = QIcon(resourceName);
+        }
+
         it = m_resourceIconCache.insert(iconName, icon);
     }
 
