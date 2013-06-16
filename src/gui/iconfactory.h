@@ -67,8 +67,11 @@ enum IconId {
     IconSortUp = 0xf0de,
     IconPaste = 0xf0ea,
     IconKeyboard = 0xf11c,
+    IconSortByAlphabet = 0xf15d,
+    IconSortByAlphabetAlt = 0xf15e,
+    IconTerminal = 0xf120,
     IconEditSign = 0xf14b,
-    IconLast = 0xf14d
+    IconLast = 0xf18a
 };
 
 class IconFactory

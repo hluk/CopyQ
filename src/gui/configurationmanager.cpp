@@ -286,7 +286,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     case 6:
         c->name = tr("Run shell script");
         c->re   = QRegExp("^#!/bin/bash");
-        c->icon = QString(QChar(IconEdit));
+        c->icon = QString(QChar(IconTerminal));
         c->cmd  = "/bin/bash";
         c->input = "text/plain";
         c->output = "text/plain";

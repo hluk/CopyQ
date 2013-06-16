@@ -67,9 +67,9 @@ const QIcon iconNew() { return getIcon("document-new", IconFile); }
 const QIcon iconOpen() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconPaste() { return getIcon("edit-paste", IconPaste); }
 const QIcon iconPreferences() { return getIcon("preferences-other", IconWrench); }
-const QIcon iconReverse() { return getIcon("view-sort-descending", IconSortUp); }
+const QIcon iconReverse() { return getIcon("view-sort-descending", IconSortByAlphabetAlt); }
 const QIcon iconSave() { return getIcon("document-save", IconSave); }
-const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortDown); }
+const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortByAlphabet); }
 const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
