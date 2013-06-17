@@ -1739,7 +1739,7 @@ Strg+Rauf oder Strg+Runter.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="193"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
-        <translation>Möchtest du CopyQ &lt;strong&gt;beenden;/strong&gt;?</translation>
+        <translation>Möchtest du CopyQ &lt;strong&gt;beenden&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="231"/>
