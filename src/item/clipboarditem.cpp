@@ -97,6 +97,8 @@ QVariant ClipboardItem::data(int role) const
             return m_data->hasText();
         } else if (role == contentType::hasHtml) {
             return m_data->hasHtml();
+        } else if (role == contentType::hasNotes) {
+            return !m_data->data(mimeItemNotes).isEmpty();
         } else if (role == contentType::text) {
             return m_data->text();
         } else if (role == contentType::html) {

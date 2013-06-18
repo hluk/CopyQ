@@ -21,6 +21,7 @@
 
 #include "common/contenttype.h"
 #include "common/client_server.h"
+#include "gui/iconfactory.h"
 #include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
 
@@ -34,6 +35,8 @@
 namespace {
 
 const char propertyHasToolTip[] = "CopyQ_has_tooltip";
+
+const QIcon iconNotes() { return getIcon("", IconEditSign); }
 
 void removeAllActions(QList<QPointer<QAction> > *actions, QMenu *menu)
 {
@@ -138,6 +141,7 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     if ( !tooltip.isEmpty() ) {
         act->setToolTip(tooltip);
         act->setProperty(propertyHasToolTip, true);
+        act->setIcon(iconNotes());
     }
 
     // Menu item icon from image.

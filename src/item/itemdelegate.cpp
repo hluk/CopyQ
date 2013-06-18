@@ -21,8 +21,9 @@
 
 #include "common/client_server.h"
 #include "common/contenttype.h"
-#include "itemfactory.h"
-#include "itemwidget.h"
+#include "gui/iconfactory.h"
+#include "item/itemfactory.h"
+#include "item/itemwidget.h"
 
 #include <QMenu>
 #include <QListView>
@@ -490,5 +491,19 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         style->unpolish(ww);
         style->polish(ww);
         ww->update();
+    }
+
+    /* show small icon if item has notes */
+    if ( index.data(contentType::hasNotes).toBool() ) {
+        QFont font = IconFactory::instance()->iconFont();
+        int size = qMin(rect.height() - 5, 18);
+        font.setPixelSize(size);
+
+        painter->save();
+        painter->setFont(font);
+        painter->setPen(m_numberPalette.color(role));
+        painter->drawText( rect.right() - size, rect.top() + size,
+                           QString(QChar(IconEditSign)) );
+        painter->restore();
     }
 }

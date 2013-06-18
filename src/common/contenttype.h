@@ -28,6 +28,7 @@ enum {
     formats = Qt::UserRole,
     hasText,
     hasHtml,
+    hasNotes,
     text,
     html,
     imageData,
