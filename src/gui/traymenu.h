@@ -54,6 +54,9 @@ public:
     /** Select first enabled menu item. */
     void setActiveFirstEnabledAction();
 
+protected:
+    void paintEvent(QPaintEvent *event);
+
 signals:
     /** Emitted if numbered action triggered. */
     void clipboardItemActionTriggered(uint clipboardItemHash);

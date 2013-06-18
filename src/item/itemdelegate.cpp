@@ -495,15 +495,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     /* show small icon if item has notes */
     if ( index.data(contentType::hasNotes).toBool() ) {
-        QFont font = IconFactory::instance()->iconFont();
-        int size = qMin(rect.height() - 5, 18);
-        font.setPixelSize(size);
-
-        painter->save();
-        painter->setFont(font);
         painter->setPen(m_numberPalette.color(role));
-        painter->drawText( rect.right() - size, rect.top() + size,
-                           QString(QChar(IconEditSign)) );
-        painter->restore();
+        IconFactory::instance()->drawIcon(IconEditSign, rect, painter);
     }
 }

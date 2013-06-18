@@ -173,6 +173,18 @@ QIcon IconFactory::iconFromFile(const QString &fileName)
     return QIcon(pix);
 }
 
+void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
+{
+    QFont font = IconFactory::instance()->iconFont();
+    int size = qMin(itemRect.height() - 5, 18);
+    font.setPixelSize(size);
+
+    painter->save();
+    painter->setFont(font);
+    painter->drawText( itemRect.right() - size, itemRect.top() + size, QString(QChar(id)) );
+    painter->restore();
+}
+
 const QIcon &getIconFromResources(const QString &iconName)
 {
     return IconFactory::instance()->getIcon(iconName);

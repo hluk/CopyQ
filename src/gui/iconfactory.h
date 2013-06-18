@@ -26,6 +26,7 @@
 
 class QIcon;
 class QPixmap;
+class QPainter;
 
 // http://fortawesome.github.com/Font-Awesome/design.html
 enum IconId {
@@ -88,6 +89,8 @@ public:
 
     const QFont &iconFont() { return m_iconFont; }
 
+    const QColor &iconColor() { return m_iconColor; }
+
     const QPixmap &getPixmap(ushort id);
     const QIcon getIcon(const QString &themeName, ushort id);
     const QIcon &getIcon(const QString &iconName);
@@ -103,6 +106,8 @@ public:
      * Return true only if the icon resources were successfuly loaded.
      */
     bool isLoaded() const { return m_loaded; }
+
+    void drawIcon(ushort id, const QRect &itemRect, QPainter *painter);
 
 private:
     static IconFactory* m_Instance;

@@ -29,14 +29,13 @@
 #include <QDesktopWidget>
 #include <QKeyEvent>
 #include <QMimeData>
+#include <QPainter>
 #include <QPixmap>
 #include <QToolTip>
 
 namespace {
 
 const char propertyHasToolTip[] = "CopyQ_has_tooltip";
-
-const QIcon iconNotes() { return getIcon("", IconEditSign); }
 
 void removeAllActions(QList<QPointer<QAction> > *actions, QMenu *menu)
 {
@@ -141,7 +140,6 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     if ( !tooltip.isEmpty() ) {
         act->setToolTip(tooltip);
         act->setProperty(propertyHasToolTip, true);
-        act->setIcon(iconNotes());
     }
 
     // Menu item icon from image.
@@ -199,6 +197,24 @@ void TrayMenu::setActiveFirstEnabledAction()
     QAction *action = firstEnabledAction(this);
     if (action != NULL)
         setActiveAction(action);
+}
+
+void TrayMenu::paintEvent(QPaintEvent *event)
+{
+    QMenu::paintEvent(event);
+
+    IconFactory *iconFactory = IconFactory::instance();
+
+    QPainter painter(this);
+    painter.setPen(iconFactory->iconColor());
+
+    // Draw small icon for items with notes.
+    foreach ( QAction *action, actions() ) {
+        if ( action->property(propertyHasToolTip).toBool() ) {
+            QRect rect = actionGeometry(action);
+            iconFactory->drawIcon(IconEditSign, rect, &painter);
+        }
+    }
 }
 
 void TrayMenu::keyPressEvent(QKeyEvent *event)
