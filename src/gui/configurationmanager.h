@@ -76,6 +76,10 @@ public:
     void setValue(const QString &name, const QVariant &value);
     /** Return value for theme option with given @a name. */
     QVariant themeValue(const QString &name) const;
+    /** Return parsed color name. */
+    QString themeColor(const QString &name) const;
+    /** Return style sheet with given @a name. */
+    QString themeStyleSheet(const QString &name) const;
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
     /** Return tooltip text for option with given @a name. */

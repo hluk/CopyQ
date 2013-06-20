@@ -48,6 +48,10 @@
 #define DEFAULT_EDITOR "gedit %1"
 #endif
 
+#ifndef COPYQ_THEME_PREFIX
+#  define COPYQ_THEME_PREFIX
+#endif
+
 namespace {
 
 const QRegExp reURL("^(https?|ftps?|file)://");
@@ -90,6 +94,56 @@ QString getFontStyleSheet(const QString &fontString)
     result.append( QString(";font-weight:%1").arg(w) );
 
     return result;
+}
+
+int normalizeColorValue(int value)
+{
+    return qBound(0, value, 255);
+}
+
+void addColor(const QString &color, float multiply, int *r, int *g, int *b,
+              const ConfigurationManager *cm)
+{
+    if (color.isEmpty())
+        return;
+
+    QColor toAdd;
+    float x = multiply;
+
+    if (color.at(0).isDigit()) {
+        bool ok;
+        x = multiply * color.toFloat(&ok);
+        if (!ok)
+            return;
+        toAdd = QColor(Qt::black);
+    } else if (color.startsWith('#')) {
+        toAdd = QColor(color);
+    } else {
+        toAdd = QColor(cm->themeValue(color).toString());
+    }
+
+    *r = normalizeColorValue(*r + x * toAdd.red());
+    *g = normalizeColorValue(*g + x * toAdd.green());
+    *b = normalizeColorValue(*b + x * toAdd.blue());
+}
+
+QColor evalColor(const QString &expression, const ConfigurationManager *cm)
+{
+    int r = 0;
+    int g = 0;
+    int b = 0;
+
+    QStringList addList = QString(expression).remove(' ').split('+');
+    foreach (const QString &add, addList) {
+        QStringList subList = add.split('-');
+        float multiply = 1;
+        foreach (const QString &sub, subList) {
+            addColor(sub, multiply, &r, &g, &b, cm);
+            multiply = -1;
+        }
+    }
+
+    return QColor(r, g, b);
 }
 
 } // namespace
@@ -542,7 +596,7 @@ void ConfigurationManager::updateColorButtons()
             << ui->pushButtonColorEditorBg << ui->pushButtonColorEditorFg
             << ui->pushButtonColorNumberFg;
     foreach (QPushButton *button, buttons) {
-        QColor color = button->property("VALUE").toString();
+        QColor color = evalColor( button->property("VALUE").toString(), this );
         pix.fill(color);
         button->setIcon(pix);
         button->setIconSize(iconSize);
@@ -595,18 +649,18 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     c->setStyleSheet(
         QString("ClipboardBrowser,#item{")
         + getFontStyleSheet( themeValue("font").toString() )
-        + ";color:" + themeValue("fg").toString()
-        + ";background:" + themeValue("bg").toString()
+        + ";color:" + themeColor("fg")
+        + ";background:" + themeColor("bg")
         + "}"
 
         + QString("ClipboardBrowser::item:alternate{")
-        + ";color:" + themeValue("alt_fg").toString()
-        + ";background:" + themeValue("alt_bg").toString()
+        + ";color:" + themeColor("alt_fg")
+        + ";background:" + themeColor("alt_bg")
         + "}"
 
         + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"]{")
-        + ";color:" + themeValue("sel_fg").toString()
-        + ";background:" + themeValue("sel_bg").toString()
+        + ";color:" + themeColor("sel_fg")
+        + ";background:" + themeColor("sel_bg")
         + "}"
 
         + QString("#item{background:transparent}")
@@ -615,34 +669,34 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
         + getToolTipStyleSheet()
 
         // Allow user to change CSS.
-        + QString("ClipboardBrowser{") + themeValue("item_css").toString() + "}"
-        + QString("ClipboardBrowser::item:alternate{") + themeValue("alt_item_css").toString() + "}"
-        + QString("ClipboardBrowser::item:selected{") + themeValue("sel_item_css").toString() + "}"
+        + QString("ClipboardBrowser{") + themeStyleSheet("item_css") + "}"
+        + QString("ClipboardBrowser::item:alternate{") + themeStyleSheet("alt_item_css") + "}"
+        + QString("ClipboardBrowser::item:selected{") + themeStyleSheet("sel_item_css") + "}"
         + themeValue("css").toString()
         );
 
     // search style
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
     font.fromString( themeValue("find_font").toString() );
-    color.setNamedColor( themeValue("find_bg").toString() );
+    color.setNamedColor( themeColor("find_bg") );
     p.setColor(QPalette::Base, color);
-    color.setNamedColor( themeValue("find_fg").toString() );
+    color.setNamedColor( themeColor("find_fg") );
     p.setColor(QPalette::Text, color);
     d->setSearchStyle(font, p);
 
     // editor style
     d->setSearchStyle(font, p);
     font.fromString( themeValue("edit_font").toString() );
-    color.setNamedColor( themeValue("edit_bg").toString() );
+    color.setNamedColor( themeColor("edit_bg") );
     p.setColor(QPalette::Base, color);
-    color.setNamedColor( themeValue("edit_fg").toString() );
+    color.setNamedColor( themeColor("edit_fg") );
     p.setColor(QPalette::Text, color);
     d->setEditorStyle(font, p);
 
     // number style
     d->setShowNumber(themeValue("show_number").toBool());
     font.fromString( themeValue("num_font").toString() );
-    color.setNamedColor( themeValue("num_fg").toString() );
+    color.setNamedColor( themeColor("num_fg") );
     p.setColor(QPalette::Text, color);
     d->setNumberStyle(font, p);
 
@@ -653,9 +707,9 @@ QString ConfigurationManager::getToolTipStyleSheet() const
 {
     return QString("QToolTip{")
             + getFontStyleSheet( themeValue("notes_font").toString() )
-            + ";background:" + themeValue("notes_bg").toString()
-            + ";color:" + themeValue("notes_fg").toString()
-            + ";" + themeValue("notes_css").toString()
+            + ";background:" + themeColor("notes_bg")
+            + ";color:" + themeColor("notes_fg")
+            + ";" + themeStyleSheet("notes_css")
             + "}";
 }
 
@@ -685,6 +739,34 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 QVariant ConfigurationManager::themeValue(const QString &name) const
 {
     return m_theme[name].value();
+}
+
+QString ConfigurationManager::themeColor(const QString &name) const
+{
+    return evalColor( themeValue(name).toString(), this ).name();
+}
+
+QString ConfigurationManager::themeStyleSheet(const QString &name) const
+{
+    QString css = themeValue(name).toString();
+    int i = 0;
+
+    forever {
+        i = css.indexOf("${", i);
+        if (i == -1)
+            break;
+        int j = css.indexOf('}', i + 2);
+        if (j == -1)
+            break;
+
+        const QString var = css.mid(i + 2, j - i - 2);
+
+        const QString colorName = evalColor(var, this).name();
+        css.replace(i, j - i + 1, colorName);
+        i += colorName.size();
+    }
+
+    return css;
 }
 
 QStringList ConfigurationManager::options() const
@@ -1223,7 +1305,8 @@ void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
 void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 {
     const QString filename =
-        QFileDialog::getOpenFileName(this, tr("Open Theme File"), QString(), QString("*.ini"));
+        QFileDialog::getOpenFileName(this, tr("Open Theme File"),
+                                     QString(COPYQ_THEME_PREFIX), QString("*.ini"));
     if ( !filename.isNull() ) {
         QSettings settings(filename, QSettings::IniFormat);
         loadTheme(settings);
