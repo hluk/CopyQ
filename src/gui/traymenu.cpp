@@ -74,6 +74,12 @@ QAction *lastEnabledAction(QMenu *menu)
     return NULL;
 }
 
+void showTooltipForAction(const QString &text, QAction *action, QMenu *menu)
+{
+    const QPoint pos = menu->actionGeometry(action).topRight();
+    QToolTip::showText( menu->mapToGlobal(pos), text, menu );
+}
+
 } // namespace
 
 TrayMenu::TrayMenu(QWidget *parent)
@@ -122,7 +128,9 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
 
     const int i = m_clipboardItemActions.size();
 
-    act = addAction(item.text());
+    const QString text = item.text();
+    act = addAction(text);
+    act->setWhatsThis(text);
     m_clipboardItemActions.append(act);
 
     act->setData( QVariant(item.dataHash()) );
@@ -252,6 +260,14 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
         case Qt::Key_Escape:
             close();
             break;
+        case Qt::Key_F1: {
+            QAction *action = activeAction();
+            if (action != NULL) {
+                showTooltipForAction(action->whatsThis(), action, this);
+                return;
+            }
+            break;
+        }
         }
     }
 
@@ -299,6 +315,5 @@ void TrayMenu::updateTooltip()
     if ( action == NULL || !action->property(propertyHasToolTip).toBool() )
         return;
 
-    QPoint pos = actionGeometry(action).topRight();
-    QToolTip::showText( mapToGlobal(pos), action->toolTip(), this );
+    showTooltipForAction(action->toolTip(), action, this);
 }
