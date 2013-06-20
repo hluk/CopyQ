@@ -1,0 +1,144 @@
+v1.8.3
+- Options to hide tab bar and main menu
+- Automatic paste works with more applications under Linux/X11
+- Multi-monitor support
+- Lot of GUI fixes and improvements
+
+v1.8.2
+- Added shortcut to paste current and copy next/previous item
+- Bugfixes (paste to correct window, show tray menu on Unity, GUI and usability fixes)
+
+v1.8.1
+- Spanish translation
+- Option and system-wide shortcuts to temporarily disable clipboard storing
+- Option for main window transparency
+- Custom action on item activation
+- Various GUI improvements and bugfixes
+
+v1.8.0
+- New shortcuts: "Next/previous item to clipboard", "Paste as plain text"
+- Show clipboard content in main window title and tray tooltip
+- New options for commands (transform current item, close main window)
+- GUI enhancements, faster application start with many tabs and items, lot of bugfixes
+
+v1.7.5
+- User-settable editor for images
+- Command-line fixes for Windows
+- Commands for items of specified format (MIME type)
+- Tray menu fixes
+
+v1.7.4
+- Improved automatic paste from tray
+
+v1.7.3
+- Paste immediately after choosing tray item
+- German translation
+- Support for system-wide shortcuts on Qt 5
+
+v1.7.2
+- Clipboard content visible in tray tooltip
+
+v1.7.1
+- Bugfixes for text encoding
+
+v1.7.0
+- Plugins for saving and displaying clipboard content
+- Bugfixes (lot of refactoring and tests happened)
+
+v1.6.3
+- Some important bugfixes
+
+v1.6.2
+- Dialog for viewing item content
+- Improved tray menu
+- Minor GUI updates
+
+v1.6.1
+- Configurable tray menu
+- Lot of fixes in GUI and bugfixes
+
+v1.6.0
+- Highlight text and copy text in items
+- Interactive web view
+- Commands for any MIME type
+- e.g. it's possible to create QR Code image from an URL and save it in list
+- Pipe commands using '|' character
+
+v1.5.0
+- Option to use WebKit to render HTML
+- Wrap text with long lines
+- Faster list rendering
+- Icons from FontAwesome
+- Desktop icon on Linux
+
+v1.4.1
+- Support for other languages -- right now supports only English and Czech (any help is welcome)
+- New "insert" command
+- More safe item saving
+
+v1.4.0
+- lot of GUI Improvements, faster interaction
+- Automatic commands for matched windows (only on Linux and Windows)
+
+v1.3.3
+- GUI Improvements
+- New system-wide shortcuts
+- Item editing improved
+
+v1.3.2
+- Drag'n'Drop to clipboard
+- "Always on Top" option
+- Change tab bar position
+- Fix parsing arguments
+
+v1.3.1
+- GUI improvements
+- Mode for Vi navigation (h, j, k, l keys for movement)
+- Better performance
+
+v1.3.0
+- Import/export items to/from a file (not compatible with older saved format)
+- Use scripts to handle item history
+- Improved performance
+
+v1.2.5
+- Save/load items to/from a file
+- Sort selected items
+- Easier tab browsing (left/right arrow keys)
+- GUI improvements
+- More shortcut combinations work on Linux
+
+v1.2.4
+- Improved commands
+- Fixed and faster scrolling
+- Better tab manipulation
+
+v1.2.3
+- Bugfixes and major clean-up
+
+v1.2.2
+- Performance improved
+
+v1.2.1
+- Save items from commands in other tabs
+- Missing icons in Windows version
+
+v1.2.0
+- Appearance settings
+- Tab manipulation from command line
+- Copy/paste items from/to tabs
+- Faster searching
+
+v1.1.0
+- Better performance
+- New configuration options
+- Improved command line
+
+v1.0.2
+- Improved Windows compatibility
+- Global shortcuts
+- Automatic commands
+
+v1.0.1
+- Compatibility with different platforms
+
