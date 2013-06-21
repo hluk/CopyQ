@@ -109,6 +109,9 @@ static QString aboutPage()
         "<p class=\"ppp\"><span class='h2x'>Font Awesome</span> (" + escapeHtml(AboutDialog::tr("Iconic font used in the application")) + ")<br />"
         "Created & Maintained by Dave Gandy (<a href=\"http://fortawesome.github.com/Font-Awesome/\">http://fortawesome.github.com/Font-Awesome/</a>).</p>"
 
+        "<p class=\"ppp\"><span class='h2x'>Solarized</span> (" + escapeHtml(AboutDialog::tr("Color palette used for themes")) + ")<br />"
+        "Copyright (c) 2011 Ethan Schoonover (<a href=\"http://ethanschoonover.com/solarized\">http://ethanschoonover.com/solarized</a>).</p>"
+
         // keyboard title
         "<div class='h2'>" + escapeHtml(AboutDialog::tr("Keyboard")) + "</div>"
         "<p class=\"pp\">" + escapeHtml(AboutDialog::tr("Type any text to search the clipboard history.")) + "</p>"
