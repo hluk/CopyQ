@@ -1037,7 +1037,10 @@ void ConfigurationManager::loadTheme(QSettings &settings)
 
 void ConfigurationManager::saveTheme(QSettings &settings) const
 {
-    foreach ( const QString &key, m_theme.keys() )
+    QStringList keys = m_theme.keys();
+    keys.sort();
+
+    foreach (const QString &key, keys)
         settings.setValue( key, themeValue(key) );
 }
 
@@ -1399,8 +1402,10 @@ void ConfigurationManager::on_pushButtonEditTheme_clicked()
             settings.sync();
         }
 
-        ItemEditor *editor = new ItemEditor(tmpfile.readAll(), "application/x-copyq-theme", cmd,
-                                            this);
+        QByteArray data = tmpfile.readAll();
+        data.replace("\\n", "\n"); // keep ini file user friendly
+
+        ItemEditor *editor = new ItemEditor(data, "application/x-copyq-theme", cmd, this);
 
         connect( editor, SIGNAL(fileModified(QByteArray,QString)),
                  this, SLOT(onThemeModified(QByteArray)) );
