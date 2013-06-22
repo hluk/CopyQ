@@ -1273,10 +1273,11 @@ void ConfigurationManager::fontButtonClicked(QObject *button)
 
 void ConfigurationManager::colorButtonClicked(QObject *button)
 {
-    QColor color = deserializeColor( button->property("VALUE").toString() );
+    QColor color = evalColor( button->property("VALUE").toString(), this );
     QColorDialog dialog(this);
     dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
     dialog.setCurrentColor(color);
+
     if ( dialog.exec() == QDialog::Accepted ) {
         color = dialog.selectedColor();
         COPYQ_LOG(QString("%1 #%2").arg(color.name()).arg(serializeColor(color)));
