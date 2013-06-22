@@ -96,12 +96,39 @@ QString getFontStyleSheet(const QString &fontString)
     return result;
 }
 
+QString serializeColor(const QColor &color)
+{
+    if (color.alpha() == 255)
+        return color.name();
+
+    return QString("rgba(%1,%2,%3,%4)")
+            .arg(color.red())
+            .arg(color.green())
+            .arg(color.blue())
+            .arg(color.alpha() * 1.0 / 255);
+}
+
+QColor deserializeColor(const QString &colorName)
+{
+    if ( colorName.startsWith("rgba(") ) {
+        QStringList list = colorName.mid(5, colorName.indexOf(')') - 5).split(',');
+        int r = list.value(0).toInt();
+        int g = list.value(1).toInt();
+        int b = list.value(2).toInt();
+        int a = list.value(3).toDouble() * 255;
+
+        return QColor(r, g, b, a);
+    }
+
+    return QColor(colorName);
+}
+
 int normalizeColorValue(int value)
 {
     return qBound(0, value, 255);
 }
 
-void addColor(const QString &color, float multiply, int *r, int *g, int *b,
+void addColor(const QString &color, float multiply, int *r, int *g, int *b, int *a,
               const ConfigurationManager *cm)
 {
     if (color.isEmpty())
@@ -116,15 +143,17 @@ void addColor(const QString &color, float multiply, int *r, int *g, int *b,
         if (!ok)
             return;
         toAdd = QColor(Qt::black);
-    } else if (color.startsWith('#')) {
-        toAdd = QColor(color);
+    } else if ( color.startsWith('#') || color.startsWith("rgba(") ) {
+        toAdd = deserializeColor(color);
     } else {
-        toAdd = QColor(cm->themeValue(color).toString());
+        toAdd = deserializeColor(cm->themeValue(color).toString());
     }
 
     *r = normalizeColorValue(*r + x * toAdd.red());
     *g = normalizeColorValue(*g + x * toAdd.green());
     *b = normalizeColorValue(*b + x * toAdd.blue());
+    if (multiply > 0.0)
+        *a = normalizeColorValue(*a + x * toAdd.alpha());
 }
 
 QColor evalColor(const QString &expression, const ConfigurationManager *cm)
@@ -132,18 +161,19 @@ QColor evalColor(const QString &expression, const ConfigurationManager *cm)
     int r = 0;
     int g = 0;
     int b = 0;
+    int a = 0;
 
     QStringList addList = QString(expression).remove(' ').split('+');
     foreach (const QString &add, addList) {
         QStringList subList = add.split('-');
         float multiply = 1;
         foreach (const QString &sub, subList) {
-            addColor(sub, multiply, &r, &g, &b, cm);
+            addColor(sub, multiply, &r, &g, &b, &a, cm);
             multiply = -1;
         }
     }
 
-    return QColor(r, g, b);
+    return QColor(r, g, b, a);
 }
 
 } // namespace
@@ -544,25 +574,25 @@ void ConfigurationManager::initThemeOptions()
 {
     QString name;
     QPalette p;
-    name = p.color(QPalette::Base).name();
+    name = serializeColor( p.color(QPalette::Base) );
     m_theme["bg"]          = Option(name, "VALUE", ui->pushButtonColorBg);
     m_theme["edit_bg"]     = Option(name, "VALUE", ui->pushButtonColorEditorBg);
-    name = p.color(QPalette::Text).name();
+    name = serializeColor( p.color(QPalette::Text) );
     m_theme["fg"]          = Option(name, "VALUE", ui->pushButtonColorFg);
     m_theme["edit_fg"]     = Option(name, "VALUE", ui->pushButtonColorEditorFg);
-    name = p.color(QPalette::Text).lighter(400).name();
+    name = serializeColor( p.color(QPalette::Text).lighter(400) );
     m_theme["num_fg"]      = Option(name, "VALUE", ui->pushButtonColorNumberFg);
-    name = p.color(QPalette::AlternateBase).name();
+    name = serializeColor( p.color(QPalette::AlternateBase) );
     m_theme["alt_bg"]      = Option(name, "VALUE", ui->pushButtonColorAltBg);
-    name = p.color(QPalette::Highlight).name();
+    name = serializeColor( p.color(QPalette::Highlight) );
     m_theme["sel_bg"]      = Option(name, "VALUE", ui->pushButtonColorSelBg);
-    name = p.color(QPalette::HighlightedText).name();
+    name = serializeColor( p.color(QPalette::HighlightedText) );
     m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
     m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFindBg);
     m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFindFg);
-    name = p.color(QPalette::ToolTipBase).name();
+    name = serializeColor( p.color(QPalette::ToolTipBase) );
     m_theme["notes_bg"]  = Option(name, "VALUE", ui->pushButtonColorNotesBg);
-    name = p.color(QPalette::ToolTipText).name();
+    name = serializeColor( p.color(QPalette::ToolTipText) );
     m_theme["notes_fg"]  = Option(name, "VALUE", ui->pushButtonColorNotesFg);
 
     m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
@@ -649,18 +679,18 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     c->setStyleSheet(
         QString("ClipboardBrowser,#item{")
         + getFontStyleSheet( themeValue("font").toString() )
-        + ";color:" + themeColor("fg")
-        + ";background:" + themeColor("bg")
+        + ";color:" + themeColorString("fg")
+        + ";background:" + themeColorString("bg")
         + "}"
 
         + QString("ClipboardBrowser::item:alternate{")
-        + ";color:" + themeColor("alt_fg")
-        + ";background:" + themeColor("alt_bg")
+        + ";color:" + themeColorString("alt_fg")
+        + ";background:" + themeColorString("alt_bg")
         + "}"
 
         + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"]{")
-        + ";color:" + themeColor("sel_fg")
-        + ";background:" + themeColor("sel_bg")
+        + ";color:" + themeColorString("sel_fg")
+        + ";background:" + themeColorString("sel_bg")
         + "}"
 
         + QString("#item{background:transparent}")
@@ -678,25 +708,25 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     // search style
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
     font.fromString( themeValue("find_font").toString() );
-    color.setNamedColor( themeColor("find_bg") );
+    color = themeColor("find_bg");
     p.setColor(QPalette::Base, color);
-    color.setNamedColor( themeColor("find_fg") );
+    color = themeColor("find_fg");
     p.setColor(QPalette::Text, color);
     d->setSearchStyle(font, p);
 
     // editor style
     d->setSearchStyle(font, p);
     font.fromString( themeValue("edit_font").toString() );
-    color.setNamedColor( themeColor("edit_bg") );
+    color = themeColor("edit_bg");
     p.setColor(QPalette::Base, color);
-    color.setNamedColor( themeColor("edit_fg") );
+    color = themeColor("edit_fg");
     p.setColor(QPalette::Text, color);
     d->setEditorStyle(font, p);
 
     // number style
     d->setShowNumber(themeValue("show_number").toBool());
     font.fromString( themeValue("num_font").toString() );
-    color.setNamedColor( themeColor("num_fg") );
+    color = themeColor("num_fg");
     p.setColor(QPalette::Text, color);
     d->setNumberStyle(font, p);
 
@@ -707,8 +737,8 @@ QString ConfigurationManager::getToolTipStyleSheet() const
 {
     return QString("QToolTip{")
             + getFontStyleSheet( themeValue("notes_font").toString() )
-            + ";background:" + themeColor("notes_bg")
-            + ";color:" + themeColor("notes_fg")
+            + ";background:" + themeColorString("notes_bg")
+            + ";color:" + themeColorString("notes_fg")
             + ";" + themeStyleSheet("notes_css")
             + "}";
 }
@@ -741,9 +771,14 @@ QVariant ConfigurationManager::themeValue(const QString &name) const
     return m_theme[name].value();
 }
 
-QString ConfigurationManager::themeColor(const QString &name) const
+QColor ConfigurationManager::themeColor(const QString &name) const
 {
-    return evalColor( themeValue(name).toString(), this ).name();
+    return evalColor( themeValue(name).toString(), this );
+}
+
+QString ConfigurationManager::themeColorString(const QString &name) const
+{
+    return serializeColor( themeColor(name) );
 }
 
 QString ConfigurationManager::themeStyleSheet(const QString &name) const
@@ -761,7 +796,7 @@ QString ConfigurationManager::themeStyleSheet(const QString &name) const
 
         const QString var = css.mid(i + 2, j - i - 2);
 
-        const QString colorName = evalColor(var, this).name();
+        const QString colorName = serializeColor( evalColor(var, this) );
         css.replace(i, j - i + 1, colorName);
         i += colorName.size();
     }
@@ -1233,11 +1268,14 @@ void ConfigurationManager::fontButtonClicked(QObject *button)
 
 void ConfigurationManager::colorButtonClicked(QObject *button)
 {
-    QColor color = button->property("VALUE").toString();
-    QColorDialog dialog(color, this);
+    QColor color = deserializeColor( button->property("VALUE").toString() );
+    QColorDialog dialog(this);
+    dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
+    dialog.setCurrentColor(color);
     if ( dialog.exec() == QDialog::Accepted ) {
         color = dialog.selectedColor();
-        button->setProperty( "VALUE", color.name() );
+        COPYQ_LOG(QString("%1 #%2").arg(color.name()).arg(serializeColor(color)));
+        button->setProperty( "VALUE", serializeColor(color) );
         decorateBrowser(ui->clipboardBrowserPreview);
 
         QPixmap pix(16, 16);
