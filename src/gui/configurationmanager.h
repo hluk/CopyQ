@@ -205,6 +205,7 @@ private slots:
     void on_pushButtonLoadTheme_clicked();
     void on_pushButtonSaveTheme_clicked();
     void on_pushButtonResetTheme_clicked();
+    void on_pushButtonEditTheme_clicked();
 
     void on_checkBoxShowNumber_stateChanged(int);
     void on_checkBoxScrollbars_stateChanged(int);
@@ -212,6 +213,8 @@ private slots:
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
     void on_pushButtonPluginPriorityUp_clicked();
     void on_pushButtonPluginPriorityDown_clicked();
+
+    void onThemeModified(const QByteArray &bytes);
 };
 
 #endif // CONFIGURATIONMANAGER_H

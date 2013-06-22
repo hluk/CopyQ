@@ -29,6 +29,7 @@
 #include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
+#include "item/itemeditor.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 
@@ -41,6 +42,7 @@
 #include <QMessageBox>
 #include <QMutex>
 #include <QSettings>
+#include <QTemporaryFile>
 
 #ifdef Q_OS_WIN
 #define DEFAULT_EDITOR "notepad %1"
@@ -1370,6 +1372,43 @@ void ConfigurationManager::on_pushButtonResetTheme_clicked()
     decorateBrowser(ui->clipboardBrowserPreview);
 }
 
+void ConfigurationManager::on_pushButtonEditTheme_clicked()
+{
+    const QString cmd = value("editor").toString();
+    if (cmd.isNull()) {
+        QMessageBox::warning( this, tr("No External Editor"),
+                              tr("Set external editor command first!") );
+        return;
+    }
+
+    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
+    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
+
+    QTemporaryFile tmpfile;
+    tmpfile.setFileTemplate(tmpPath);
+    tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
+    if ( tmpfile.open() ) {
+        {
+            QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
+            saveTheme(settings);
+            settings.sync();
+        }
+
+        ItemEditor *editor = new ItemEditor(tmpfile.readAll(), "application/x-copyq-theme", cmd,
+                                            this);
+
+        connect( editor, SIGNAL(fileModified(QByteArray,QString)),
+                 this, SLOT(onThemeModified(QByteArray)) );
+
+        connect( editor, SIGNAL(closed(QObject *)),
+                 editor, SLOT(deleteLater()) );
+
+        if ( !editor->start() )
+            delete editor;
+    }
+}
+
 void ConfigurationManager::on_checkBoxShowNumber_stateChanged(int)
 {
     decorateBrowser(ui->clipboardBrowserPreview);
@@ -1403,4 +1442,23 @@ void ConfigurationManager::on_pushButtonPluginPriorityDown_clicked()
         tabs->insertTab(i + 1, tabs->widget(i), tabs->tabText(i));
         tabs->setCurrentIndex(i + 1);
     }
+}
+
+void ConfigurationManager::onThemeModified(const QByteArray &bytes)
+{
+    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
+    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
+
+    QTemporaryFile tmpfile;
+    tmpfile.setFileTemplate(tmpPath);
+    tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
+    if ( !tmpfile.open() )
+        return;
+
+    tmpfile.write(bytes);
+    tmpfile.flush();
+
+    QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
+    loadTheme(settings);
 }

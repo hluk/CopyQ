@@ -47,6 +47,8 @@ QString getFileSuffixFromMime(const QString &mime)
         return QString(".gif");
     if (mime == "image/svg+xml" || mime == "image/x-inkscape-svg-compressed")
         return QString(".svg");
+    if (mime == "application/x-copyq-theme")
+        return QString(".ini");
     return QString();
 }
 

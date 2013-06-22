@@ -1454,6 +1454,16 @@ Set to 0 to disable this.</string>
                  </property>
                 </widget>
                </item>
+               <item>
+                <widget class="QPushButton" name="pushButtonEditTheme">
+                 <property name="toolTip">
+                  <string>Edit current theme in external editor</string>
+                 </property>
+                 <property name="text">
+                  <string>E&amp;dit Theme</string>
+                 </property>
+                </widget>
+               </item>
               </layout>
              </item>
             </layout>
@@ -1584,9 +1594,10 @@ Set to 0 to disable this.</string>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>pushButtonResetTheme</tabstop>
+  <tabstop>pushButtonEditTheme</tabstop>
   <tabstop>clipboardBrowserPreview</tabstop>
-  <tabstop>buttonBox</tabstop>
   <tabstop>scrollAreaShortcuts</tabstop>
+  <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>
   <include location="../copyq.qrc"/>
