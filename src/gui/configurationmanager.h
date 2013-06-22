@@ -177,6 +177,7 @@ private:
     void initOptions();
     void initThemeOptions();
     void updateColorButtons();
+    void updateFontButtons();
     void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);

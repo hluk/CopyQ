@@ -41,6 +41,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMutex>
+#include <QPainter>
 #include <QSettings>
 #include <QTemporaryFile>
 
@@ -593,8 +594,8 @@ void ConfigurationManager::initThemeOptions()
     m_theme["sel_bg"]      = Option(name, "VALUE", ui->pushButtonColorSelBg);
     name = serializeColor( p.color(QPalette::HighlightedText) );
     m_theme["sel_fg"]      = Option(name, "VALUE", ui->pushButtonColorSelFg);
-    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFindBg);
-    m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFindFg);
+    m_theme["find_bg"]     = Option("#ff0", "VALUE", ui->pushButtonColorFoundBg);
+    m_theme["find_fg"]     = Option("#000", "VALUE", ui->pushButtonColorFoundFg);
     name = serializeColor( p.color(QPalette::ToolTipBase) );
     m_theme["notes_bg"]  = Option(name, "VALUE", ui->pushButtonColorNotesBg);
     name = serializeColor( p.color(QPalette::ToolTipText) );
@@ -622,17 +623,49 @@ void ConfigurationManager::updateColorButtons()
     /* color indicating icons for color buttons */
     QSize iconSize(16, 16);
     QPixmap pix(iconSize);
-    QList<QPushButton *> buttons;
-    buttons << ui->pushButtonColorBg << ui->pushButtonColorFg
-            << ui->pushButtonColorAltBg
-            << ui->pushButtonColorSelBg << ui->pushButtonColorSelFg
-            << ui->pushButtonColorFindBg << ui->pushButtonColorFindFg
-            << ui->pushButtonColorNotesBg << ui->pushButtonColorNotesFg
-            << ui->pushButtonColorEditorBg << ui->pushButtonColorEditorFg
-            << ui->pushButtonColorNumberFg;
+
+    QList<QPushButton *> buttons =
+            ui->scrollAreaTheme->findChildren<QPushButton *>(QRegExp("^pushButtonColor"));
+
     foreach (QPushButton *button, buttons) {
         QColor color = evalColor( button->property("VALUE").toString(), this );
         pix.fill(color);
+        button->setIcon(pix);
+        button->setIconSize(iconSize);
+    }
+}
+
+void ConfigurationManager::updateFontButtons()
+{
+    QSize iconSize(32, 16);
+    QPixmap pix(iconSize);
+
+    QRegExp re("^pushButton(.*)Font$");
+    QList<QPushButton *> buttons = ui->scrollAreaTheme->findChildren<QPushButton *>(re);
+
+    foreach (QPushButton *button, buttons) {
+        re.indexIn(button->objectName());
+        const QString colorButtonName = "pushButtonColor" + re.cap(1);
+
+        QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
+        QColor colorFg = (buttonFg == NULL) ? themeColor("fg")
+                                            : evalColor( buttonFg->property("VALUE").toString(), this );
+
+        QPushButton *buttonBg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Bg");
+        QColor colorBg = (buttonBg == NULL) ? themeColor("bg")
+                                            : evalColor( buttonBg->property("VALUE").toString(), this );
+
+        QPainter painter(&pix);
+        if (colorBg.alpha() < 255)
+            pix.fill(themeColor("bg"));
+        pix.fill(colorBg);
+        painter.setPen(colorFg);
+
+        QFont font;
+        font.fromString( button->property("VALUE").toString() );
+        painter.setFont(font);
+        painter.drawText( QRect(0, 0, iconSize.width(), iconSize.height()), Qt::AlignCenter, tr("Abc") );
+
         button->setIcon(pix);
         button->setIconSize(iconSize);
     }
@@ -1031,6 +1064,7 @@ void ConfigurationManager::loadTheme(QSettings &settings)
     }
 
     updateColorButtons();
+    updateFontButtons();
 
     decorateBrowser(ui->clipboardBrowserPreview);
 }
@@ -1271,6 +1305,8 @@ void ConfigurationManager::fontButtonClicked(QObject *button)
         font = dialog.selectedFont();
         button->setProperty( "VALUE", font.toString() );
         decorateBrowser(ui->clipboardBrowserPreview);
+
+        updateFontButtons();
     }
 }
 
@@ -1290,6 +1326,8 @@ void ConfigurationManager::colorButtonClicked(QObject *button)
         QPixmap pix(16, 16);
         pix.fill(color);
         button->setProperty("icon", QIcon(pix));
+
+        updateFontButtons();
     }
 }
 
@@ -1376,6 +1414,7 @@ void ConfigurationManager::on_pushButtonResetTheme_clicked()
 {
     initThemeOptions();
     updateColorButtons();
+    updateFontButtons();
     decorateBrowser(ui->clipboardBrowserPreview);
 }
 

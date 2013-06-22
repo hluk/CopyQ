@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>682</width>
-    <height>572</height>
+    <width>709</width>
+    <height>607</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -782,7 +782,7 @@ Set to 0 to disable this.</string>
                <x>0</x>
                <y>0</y>
                <width>80</width>
-               <height>395</height>
+               <height>430</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -913,7 +913,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>622</width>
+              <width>649</width>
               <height>474</height>
              </rect>
             </property>
@@ -1219,66 +1219,206 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>315</width>
-              <height>463</height>
+              <width>329</width>
+              <height>498</height>
              </rect>
             </property>
-            <layout class="QHBoxLayout" name="horizontalLayout_3">
+            <layout class="QVBoxLayout" name="verticalLayout_9">
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_9">
-               <property name="leftMargin">
-                <number>0</number>
+              <layout class="QGridLayout" name="gridLayout_6">
+               <property name="spacing">
+                <number>2</number>
                </property>
-               <item>
+               <item row="0" column="1">
                 <widget class="QLabel" name="label_8">
                  <property name="text">
-                  <string>Background:</string>
+                  <string>Background</string>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="4" column="2">
+                <widget class="QPushButton" name="pushButtonColorEditorFg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
                 <widget class="QPushButton" name="pushButtonColorBg">
                  <property name="text">
-                  <string>Normal (&amp;1)</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="0" column="2">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Foreground</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="3">
+                <widget class="QPushButton" name="pushButtonFont">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
                 <widget class="QPushButton" name="pushButtonColorSelBg">
                  <property name="text">
-                  <string>Selected (&amp;3)</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorFindBg">
+               <item row="0" column="3">
+                <widget class="QLabel" name="label_13">
                  <property name="text">
-                  <string>Found (&amp;5)</string>
+                  <string>Font</string>
                  </property>
                 </widget>
                </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorEditorBg">
+               <item row="2" column="2">
+                <widget class="QPushButton" name="pushButtonColorSelFg">
                  <property name="text">
-                  <string>Editor (&amp;7)</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="pushButtonColorFg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="0">
+                <widget class="QLabel" name="label_39">
+                 <property name="text">
+                  <string>Number</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="1">
+                <widget class="QPushButton" name="pushButtonColorFoundBg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="1">
                 <widget class="QPushButton" name="pushButtonColorAltBg">
                  <property name="text">
-                  <string>Alternate (&amp;9)</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_34">
+                 <property name="text">
+                  <string>Selected</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_33">
+                 <property name="text">
+                  <string>Normal</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="1">
+                <widget class="QPushButton" name="pushButtonColorEditorBg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="0">
+                <widget class="QLabel" name="label_35">
+                 <property name="text">
+                  <string>Found</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
+                <widget class="QPushButton" name="pushButtonColorFoundFg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="4" column="0">
+                <widget class="QLabel" name="label_36">
+                 <property name="text">
+                  <string>Editor</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="2">
+                <widget class="QPushButton" name="pushButtonColorNumberFg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="2">
+                <widget class="QPushButton" name="pushButtonColorNotesFg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="5" column="0">
+                <widget class="QLabel" name="label_37">
+                 <property name="text">
+                  <string>Alternate</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="1">
                 <widget class="QPushButton" name="pushButtonColorNotesBg">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="0">
+                <widget class="QLabel" name="label_38">
                  <property name="text">
                   <string>Notes</string>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="4" column="3">
+                <widget class="QPushButton" name="pushButtonEditorFont">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="7" column="3">
+                <widget class="QPushButton" name="pushButtonNumberFont">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="6" column="3">
+                <widget class="QPushButton" name="pushButtonNotesFont">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="3">
+                <widget class="QPushButton" name="pushButtonFoundFont">
+                 <property name="text">
+                  <string/>
+                 </property>
+                </widget>
+               </item>
+               <item row="8" column="0">
                 <spacer name="verticalSpacer_3">
                  <property name="orientation">
                   <enum>Qt::Vertical</enum>
@@ -1291,101 +1431,10 @@ Set to 0 to disable this.</string>
                  </property>
                 </spacer>
                </item>
-               <item>
-                <widget class="QLabel" name="label_13">
-                 <property name="text">
-                  <string>Font:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonFont">
-                 <property name="text">
-                  <string>&amp;Normal</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonFoundFont">
-                 <property name="text">
-                  <string>Fo&amp;und</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonEditorFont">
-                 <property name="text">
-                  <string>&amp;Editor</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonNumberFont">
-                 <property name="text">
-                  <string>Num&amp;ber</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonNotesFont">
-                 <property name="text">
-                  <string>Notes</string>
-                 </property>
-                </widget>
-               </item>
               </layout>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
-               <item>
-                <widget class="QLabel" name="label_12">
-                 <property name="text">
-                  <string>Foreground:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorFg">
-                 <property name="text">
-                  <string>Normal (&amp;2)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorSelFg">
-                 <property name="text">
-                  <string>Selected (&amp;4)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorFindFg">
-                 <property name="text">
-                  <string>Found (&amp;6)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorEditorFg">
-                 <property name="text">
-                  <string>Editor (&amp;8)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorNumberFg">
-                 <property name="text">
-                  <string>Number (1&amp;0)</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonColorNotesFg">
-                 <property name="text">
-                  <string>Notes</string>
-                 </property>
-                </widget>
-               </item>
+              <layout class="QHBoxLayout" name="horizontalLayout_13">
                <item>
                 <widget class="QCheckBox" name="checkBoxShowNumber">
                  <property name="text">
@@ -1413,19 +1462,23 @@ Set to 0 to disable this.</string>
                  </property>
                 </widget>
                </item>
-               <item>
-                <spacer name="verticalSpacer_5">
-                 <property name="orientation">
-                  <enum>Qt::Vertical</enum>
-                 </property>
-                 <property name="sizeHint" stdset="0">
-                  <size>
-                   <width>20</width>
-                   <height>40</height>
-                  </size>
-                 </property>
-                </spacer>
-               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_5">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QVBoxLayout" name="verticalLayout_5">
                <item>
                 <widget class="QLabel" name="label_14">
                  <property name="text">
@@ -1573,24 +1626,24 @@ Set to 0 to disable this.</string>
   <tabstop>pushButton_14</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorFg</tabstop>
+  <tabstop>pushButtonFont</tabstop>
   <tabstop>pushButtonColorSelBg</tabstop>
   <tabstop>pushButtonColorSelFg</tabstop>
-  <tabstop>pushButtonColorFindBg</tabstop>
-  <tabstop>pushButtonColorFindFg</tabstop>
+  <tabstop>pushButtonColorFoundBg</tabstop>
+  <tabstop>pushButtonColorFoundFg</tabstop>
+  <tabstop>pushButtonFoundFont</tabstop>
   <tabstop>pushButtonColorEditorBg</tabstop>
   <tabstop>pushButtonColorEditorFg</tabstop>
+  <tabstop>pushButtonEditorFont</tabstop>
   <tabstop>pushButtonColorAltBg</tabstop>
-  <tabstop>pushButtonColorNumberFg</tabstop>
   <tabstop>pushButtonColorNotesBg</tabstop>
   <tabstop>pushButtonColorNotesFg</tabstop>
+  <tabstop>pushButtonNotesFont</tabstop>
+  <tabstop>pushButtonColorNumberFg</tabstop>
+  <tabstop>pushButtonNumberFont</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>
-  <tabstop>pushButtonFont</tabstop>
-  <tabstop>pushButtonFoundFont</tabstop>
-  <tabstop>pushButtonEditorFont</tabstop>
-  <tabstop>pushButtonNumberFont</tabstop>
-  <tabstop>pushButtonNotesFont</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>pushButtonResetTheme</tabstop>
