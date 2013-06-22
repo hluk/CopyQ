@@ -130,8 +130,10 @@ int normalizeColorValue(int value)
     return qBound(0, value, 255);
 }
 
+QColor evalColor(const QString &expression, const ConfigurationManager *cm, int maxRecursion = 8);
+
 void addColor(const QString &color, float multiply, int *r, int *g, int *b, int *a,
-              const ConfigurationManager *cm)
+              const ConfigurationManager *cm, int maxRecursion)
 {
     if (color.isEmpty())
         return;
@@ -148,7 +150,8 @@ void addColor(const QString &color, float multiply, int *r, int *g, int *b, int 
     } else if ( color.startsWith('#') || color.startsWith("rgba(") ) {
         toAdd = deserializeColor(color);
     } else {
-        toAdd = deserializeColor(cm->themeValue(color).toString());
+        if (maxRecursion > 0)
+            toAdd = evalColor(cm->themeValue(color).toString(), cm, maxRecursion - 1);
     }
 
     *r = normalizeColorValue(*r + x * toAdd.red());
@@ -158,7 +161,7 @@ void addColor(const QString &color, float multiply, int *r, int *g, int *b, int 
         *a = normalizeColorValue(*a + x * toAdd.alpha());
 }
 
-QColor evalColor(const QString &expression, const ConfigurationManager *cm)
+QColor evalColor(const QString &expression, const ConfigurationManager *cm, int maxRecursion)
 {
     int r = 0;
     int g = 0;
@@ -170,7 +173,7 @@ QColor evalColor(const QString &expression, const ConfigurationManager *cm)
         QStringList subList = add.split('-');
         float multiply = 1;
         foreach (const QString &sub, subList) {
-            addColor(sub, multiply, &r, &g, &b, &a, cm);
+            addColor(sub, multiply, &r, &g, &b, &a, cm, maxRecursion);
             multiply = -1;
         }
     }
