@@ -46,6 +46,11 @@ void TabWidget::refreshTabBar()
         m_bar->refresh();
 }
 
+int TabWidget::getCurrentTab() const
+{
+    return m_bar->getCurrentTab();
+}
+
 void TabWidget::nextTab()
 {
     if ( m_bar->isTreeModeEnabled() ) {

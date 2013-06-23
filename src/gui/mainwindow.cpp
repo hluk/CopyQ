@@ -1741,7 +1741,10 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
 void MainWindow::removeTab(bool ask, int tab_index)
 {
     TabWidget *w = ui->tabWidget;
-    int i = tab_index >= 0 ? tab_index : w->currentIndex();
+    int i = tab_index >= 0 ? tab_index : w->getCurrentTab();
+    if (i < 0)
+        return;
+
     ClipboardBrowser *c = browser(i);
 
     if ( c != NULL && w->count() > 1 ) {

@@ -117,6 +117,12 @@ void TabBar::refresh()
     updateTreeSize();
 }
 
+int TabBar::getCurrentTab() const
+{
+    QTreeWidgetItem *item = m_treeWidget->currentItem();
+    return (item == NULL) ? -1 : item->data(0, Qt::UserRole).toInt();
+}
+
 void TabBar::nextTreeItem()
 {
     if ( !isTreeModeEnabled() )
@@ -298,7 +304,17 @@ void TabBar::removeTabFromTree(int index)
 {
     Q_ASSERT(isTreeModeEnabled());
 
-    delete findTreeItem(index);
+    QTreeWidgetItem *item = findTreeItem(index);
+    Q_ASSERT(item != NULL);
+
+    if (item->childCount() == 0) {
+        // Recursively remove empty parent item.
+        while (item->parent() != NULL && item->parent()->childCount() == 1)
+            item = item->parent();
+        delete item;
+    } else {
+        item->setData(0, Qt::UserRole, -1);
+    }
 }
 
 void TabBar::updateTreeSize()
@@ -313,4 +329,3 @@ void TabBar::updateTreeSize()
 
     resize( w, height() );
 }
-

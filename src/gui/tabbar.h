@@ -44,6 +44,9 @@ public:
 
     void refresh();
 
+    /** Return current tab (-1 if current is group in tree). */
+    int getCurrentTab() const;
+
 public slots:
     void nextTreeItem();
     void previousTreeItem();
