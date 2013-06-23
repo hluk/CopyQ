@@ -781,8 +781,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>80</width>
-               <height>430</height>
+               <width>35</width>
+               <height>16</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -913,7 +913,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>649</width>
+              <width>376</width>
               <height>474</height>
              </rect>
             </property>
@@ -1533,6 +1533,9 @@ Set to 0 to disable this.</string>
              <property name="text">
               <string>Preview:</string>
              </property>
+             <property name="buddy">
+              <cstring>clipboardBrowserPreview</cstring>
+             </property>
             </widget>
            </item>
            <item>
@@ -1624,6 +1627,7 @@ Set to 0 to disable this.</string>
   <tabstop>pushButton_12</tabstop>
   <tabstop>pushButton_13</tabstop>
   <tabstop>pushButton_14</tabstop>
+  <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>pushButtonColorBg</tabstop>
   <tabstop>pushButtonColorFg</tabstop>
   <tabstop>pushButtonFont</tabstop>
@@ -1648,7 +1652,6 @@ Set to 0 to disable this.</string>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>pushButtonResetTheme</tabstop>
   <tabstop>pushButtonEditTheme</tabstop>
-  <tabstop>clipboardBrowserPreview</tabstop>
   <tabstop>scrollAreaShortcuts</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>

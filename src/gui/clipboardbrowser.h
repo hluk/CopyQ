@@ -277,14 +277,15 @@ class ClipboardBrowser : public QListView
         /** Add new item to the browser. */
         bool add(
                 const QString &txt, //!< Text of new item.
-                bool force = false //!< If true ignore commands and duplicates.
+                bool force = false, //!< If true ignore commands and duplicates.
+                int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
         /** Add new item to the browser. */
         bool add(
                 QMimeData *item, //!< Data for new item.
                 bool force = false, //!< If true ignore commands and duplicates.
-                int row = 0 //!< Target row for the new item.
+                int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
         /** Number of items in list. */

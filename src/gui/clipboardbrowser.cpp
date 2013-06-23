@@ -1166,11 +1166,11 @@ void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
     m->sortItems(indexes, &reverseSort);
 }
 
-bool ClipboardBrowser::add(const QString &txt, bool force)
+bool ClipboardBrowser::add(const QString &txt, bool force, int row)
 {
     QMimeData *data = new QMimeData;
     data->setText(txt);
-    return add(data, force);
+    return add(data, force, row);
 }
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
@@ -1220,7 +1220,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     }
 
     // create new item
-    int newRow = qMax(0, qMin(row, m->rowCount()));
+    int newRow = row < 0 ? m->rowCount() : qMin(row, m->rowCount());
     m->insertRow(newRow);
     QModelIndex ind = index(newRow);
     m->setData(ind, data);
