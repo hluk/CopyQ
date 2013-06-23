@@ -24,8 +24,7 @@
 
 class QModelIndex;
 class QMouseEvent;
-class QTreeWidget;
-class QTreeWidgetItem;
+class TabTree;
 class QPoint;
 
 class TabBar : public QTabBar
@@ -63,16 +62,14 @@ signals:
     void treeItemSelected(bool isGroup);
 
 private slots:
-    void onCurrentChanged(int index);
-    void onTreeCurrentChanged(const QModelIndex &index);
+    void onTreeCurrentChanged(int index);
 
 private:
-    QTreeWidgetItem *findTreeItem(int index);
     void insertTabToTree(int index);
     void removeTabFromTree(int index);
     void updateTreeSize();
 
-    QTreeWidget *m_treeWidget;
+    TabTree *m_tabTree;
 };
 
 #endif // TABBAR_H

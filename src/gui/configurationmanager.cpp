@@ -616,6 +616,7 @@ void ConfigurationManager::initThemeOptions()
     m_theme["css"] = Option("");
 
     m_theme["tab_tree_css"] = Option("");
+    m_theme["tab_tree_item_css"] = Option("");
 
     bind("use_system_icons", ui->checkBoxSystemIcons, false);
 }
@@ -776,9 +777,14 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
 void ConfigurationManager::decorateTabs(QWidget *tabWidget) const
 {
     tabWidget->setStyleSheet(
-        QString("#tabs QTreeWidget{")
+        QString("#tabs TabTree{")
         + themeStyleSheet("tab_tree_css")
-        + "}");
+        + "}"
+
+        + QString("#tabs TabTree QLabel{")
+        + themeStyleSheet("tab_tree_item_css")
+        + "}"
+        );
 }
 
 QString ConfigurationManager::getToolTipStyleSheet() const

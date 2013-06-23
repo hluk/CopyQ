@@ -26,6 +26,7 @@ set(copyq_MOCABLE
     gui/shortcutdialog.h
     gui/tabbar.h
     gui/tabdialog.h
+    gui/tabtree.h
     gui/tabwidget.h
     gui/traymenu.h
     item/itemdelegate.h

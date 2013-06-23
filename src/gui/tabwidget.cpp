@@ -97,6 +97,9 @@ void TabWidget::setTreeModeEnabled(bool enabled)
 
 void TabWidget::onTreeItemSelected(bool isGroup)
 {
-    currentWidget()->setHidden(isGroup);
-    currentWidget()->setFocus();
+    for (int i = 0; i < count(); ++i)
+        widget(i)->setHidden(isGroup);
+
+    if (!isGroup)
+        currentWidget()->setFocus();
 }
