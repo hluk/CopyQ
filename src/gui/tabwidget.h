@@ -23,6 +23,7 @@
 #include <QTabWidget>
 
 class QPoint;
+class TabBar;
 
 class TabWidget : public QTabWidget
 {
@@ -31,15 +32,24 @@ class TabWidget : public QTabWidget
 public:
     explicit TabWidget(QWidget *parent = NULL);
 
+    void refreshTabBar();
+
 public slots:
     void nextTab();
     void previousTab();
     void setTabBarDisabled(bool disabled);
     void setTabBarHidden(bool hidden);
+    void setTreeModeEnabled(bool enabled);
 
 signals:
     void tabMoved(int from, int to);
     void tabMenuRequested(const QPoint &pos, int tab);
+
+private slots:
+    void onTreeItemSelected(bool isGroup);
+
+private:
+    TabBar *m_bar;
 };
 
 #endif // TABWIDGET_H

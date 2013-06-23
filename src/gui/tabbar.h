@@ -22,7 +22,10 @@
 
 #include <QTabBar>
 
+class QModelIndex;
 class QMouseEvent;
+class QTreeWidget;
+class QTreeWidgetItem;
 class QPoint;
 
 class TabBar : public QTabBar
@@ -32,11 +35,41 @@ class TabBar : public QTabBar
 public:
     explicit TabBar(QWidget *parent = NULL);
 
+    void setTreeModeEnabled(bool enabled);
+
+    bool isTreeModeEnabled() const;
+
+    QSize minimumSizeHint() const;
+    QSize sizeHint() const;
+
+    void refresh();
+
+public slots:
+    void nextTreeItem();
+    void previousTreeItem();
+
 protected:
+    void tabInserted(int index);
+    void tabRemoved(int index);
+
     void mousePressEvent(QMouseEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
+    void treeItemSelected(bool isGroup);
+
+private slots:
+    void onCurrentChanged(int index);
+    void onTreeCurrentChanged(const QModelIndex &index);
+
+private:
+    QTreeWidgetItem *findTreeItem(int index);
+    void insertTabToTree(int index);
+    void removeTabFromTree(int index);
+    void updateTreeSize();
+
+    QTreeWidget *m_treeWidget;
 };
 
 #endif // TABBAR_H

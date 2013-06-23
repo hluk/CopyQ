@@ -615,6 +615,8 @@ void ConfigurationManager::initThemeOptions()
     m_theme["notes_css"] = Option("");
     m_theme["css"] = Option("");
 
+    m_theme["tab_tree_css"] = Option("");
+
     bind("use_system_icons", ui->checkBoxSystemIcons, false);
 }
 
@@ -740,7 +742,7 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
         + QString("ClipboardBrowser{") + themeStyleSheet("item_css") + "}"
         + QString("ClipboardBrowser::item:alternate{") + themeStyleSheet("alt_item_css") + "}"
         + QString("ClipboardBrowser::item:selected{") + themeStyleSheet("sel_item_css") + "}"
-        + themeValue("css").toString()
+        + themeStyleSheet("css")
         );
 
     // search style
@@ -769,6 +771,14 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
     d->setNumberStyle(font, p);
 
     c->redraw();
+}
+
+void ConfigurationManager::decorateTabs(QWidget *tabWidget) const
+{
+    tabWidget->setStyleSheet(
+        QString("#tabs QTreeWidget{")
+        + themeStyleSheet("tab_tree_css")
+        + "}");
 }
 
 QString ConfigurationManager::getToolTipStyleSheet() const

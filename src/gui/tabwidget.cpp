@@ -24,27 +24,47 @@
 
 TabWidget::TabWidget(QWidget *parent)
     : QTabWidget(parent)
+    , m_bar(new TabBar(this))
 {
-    TabBar *bar = new TabBar(this);
-    setTabBar(bar);
+    m_bar->setObjectName("tabs");
 
-    connect( bar, SIGNAL(tabMoved(int, int)),
+    setTabBar(m_bar);
+
+    connect( m_bar, SIGNAL(tabMoved(int, int)),
              this, SIGNAL(tabMoved(int, int)) );
-    connect( bar, SIGNAL(tabMenuRequested(QPoint, int)),
+    connect( m_bar, SIGNAL(tabMenuRequested(QPoint, int)),
              this, SIGNAL(tabMenuRequested(QPoint, int)) );
-    connect( bar, SIGNAL(tabCloseRequested(int)),
+    connect( m_bar, SIGNAL(tabCloseRequested(int)),
              this, SIGNAL(tabCloseRequested(int)) );
+    connect( m_bar, SIGNAL(treeItemSelected(bool)),
+             this, SLOT(onTreeItemSelected(bool)) );
+}
+
+void TabWidget::refreshTabBar()
+{
+    if (m_bar->isTreeModeEnabled())
+        m_bar->refresh();
 }
 
 void TabWidget::nextTab()
 {
-    setCurrentIndex( (currentIndex() + 1) % count() );
+    if ( m_bar->isTreeModeEnabled() ) {
+        m_bar->nextTreeItem();
+    } else {
+        const int tab = (currentIndex() + 1) % count();
+        setCurrentIndex(tab);
+    }
 }
 
 void TabWidget::previousTab()
 {
-    int size = count();
-    setCurrentIndex( (size + currentIndex() - 1) % size );
+    if ( m_bar->isTreeModeEnabled() ) {
+        m_bar->previousTreeItem();
+    } else {
+        const int size = count();
+        const int tab = (size + currentIndex() - 1) % size;
+        setCurrentIndex(tab);
+    }
 }
 
 void TabWidget::setTabBarDisabled(bool disabled)
@@ -57,3 +77,21 @@ void TabWidget::setTabBarHidden(bool hidden)
     tabBar()->setHidden(hidden);
 }
 
+void TabWidget::setTreeModeEnabled(bool enabled)
+{
+    if (m_bar->isTreeModeEnabled() == enabled)
+        return;
+
+    m_bar->setTreeModeEnabled(enabled);
+
+    if (!enabled) {
+        for (int i = 0; i < count(); ++i)
+            widget(i)->show();
+    }
+}
+
+void TabWidget::onTreeItemSelected(bool isGroup)
+{
+    currentWidget()->setHidden(isGroup);
+    currentWidget()->setFocus();
+}

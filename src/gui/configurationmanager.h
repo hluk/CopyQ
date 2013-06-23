@@ -121,6 +121,9 @@ public:
     /** Set fonts and color for ClipboardBrowser object. */
     void decorateBrowser(ClipboardBrowser *c) const;
 
+    /** Decorate tab widget. */
+    void decorateTabs(QWidget *tabWidget) const;
+
     QString getToolTipStyleSheet() const;
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */

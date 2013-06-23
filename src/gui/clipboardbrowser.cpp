@@ -162,7 +162,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(1);
-    setFrameShadow(QFrame::Sunken);
+    setFrameShape(QFrame::NoFrame);
     setTabKeyNavigation(false);
     setAlternatingRowColors(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);

@@ -60,7 +60,7 @@
            <item row="0" column="0">
             <widget class="QLabel" name="label_19">
              <property name="text">
-              <string>&amp;Position of Tabs:</string>
+              <string>Tab La&amp;yout:</string>
              </property>
              <property name="buddy">
               <cstring>comboBoxTabPosition</cstring>
@@ -89,6 +89,16 @@
                <item>
                 <property name="text">
                  <string>Right</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Tree (Left)</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Tree (Right)</string>
                 </property>
                </item>
               </widget>
@@ -781,8 +791,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>35</width>
-               <height>16</height>
+               <width>98</width>
+               <height>28</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -913,7 +923,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>376</width>
+              <width>384</width>
               <height>474</height>
              </rect>
             </property>
@@ -1219,8 +1229,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>329</width>
-              <height>498</height>
+              <width>323</width>
+              <height>424</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_9">

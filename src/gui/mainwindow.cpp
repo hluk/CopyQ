@@ -829,10 +829,14 @@ void MainWindow::loadSettings()
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();
     ui->tabWidget->setTabPosition(
-          tabPosition == 1 ? QTabWidget::South
+          tabPosition == 0 ? QTabWidget::North
+        : tabPosition == 1 ? QTabWidget::South
         : tabPosition == 2 ? QTabWidget::West
         : tabPosition == 3 ? QTabWidget::East
-                           : QTabWidget::North);
+        : tabPosition == 4 ? QTabWidget::West
+                           : QTabWidget::East);
+    ui->tabWidget->setTreeModeEnabled(tabPosition > 3);
+    cm->decorateTabs(ui->tabWidget);
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1727,6 +1731,7 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     c->setID(name);
     c->saveItems();
     w->setTabText(tabIndex, name);
+    w->refreshTabBar();
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->removeItems(oldName);
