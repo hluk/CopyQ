@@ -46,6 +46,9 @@ public:
     /** Return current tab (-1 if current is group in tree). */
     int getCurrentTab() const;
 
+    /** Return path to current group in tree (empty string if tree mode is disabled). */
+    QString getCurrentTabPath() const;
+
 public slots:
     void nextTreeItem();
     void previousTreeItem();
@@ -59,6 +62,7 @@ protected:
 
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
+    void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void treeItemSelected(bool isGroup);
 
 private slots:

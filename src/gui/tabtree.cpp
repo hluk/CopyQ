@@ -23,6 +23,7 @@
 
 #include <QAction>
 #include <QLabel>
+#include <QMouseEvent>
 
 namespace {
 
@@ -36,6 +37,11 @@ void addTreeAction(QTreeWidget *tree, const QList<QKeySequence> &shortcuts,
     tree->addAction(act);
     tree->connect( act, SIGNAL(triggered()), slot );
 }
+
+enum {
+    DataIndex = Qt::UserRole,
+    DataText
+};
 
 } // namespace
 
@@ -67,7 +73,7 @@ void TabTree::insertTab(const QString &path, int index)
 
         if (parentItem == NULL) {
             for (int i = 0; i < topLevelItemCount(); ++i) {
-                if ( topLevelItem(i)->data(0, Qt::UserRole + 1).toString() == text ) {
+                if ( topLevelItem(i)->data(0, DataText).toString() == text ) {
                     item = topLevelItem(i);
                     break;
                 }
@@ -75,7 +81,7 @@ void TabTree::insertTab(const QString &path, int index)
         } else {
             parentItem->setExpanded(true);
             for (int i = 0; i < parentItem->childCount(); ++i) {
-                if ( parentItem->child(i)->data(0, Qt::UserRole + 1).toString() == text ) {
+                if ( parentItem->child(i)->data(0, DataText).toString() == text ) {
                     item = parentItem->child(i);
                     break;
                 }
@@ -86,8 +92,8 @@ void TabTree::insertTab(const QString &path, int index)
             item = (parentItem == NULL) ? new QTreeWidgetItem(this)
                                         : new QTreeWidgetItem(parentItem);
 
-            item->setData(0, Qt::UserRole, -1);
-            item->setData(0, Qt::UserRole + 1, text);
+            item->setData(0, DataIndex, -1);
+            item->setData(0, DataText, text);
 
             // Underline key hint in text.
             QString labelText = text;
@@ -112,7 +118,7 @@ void TabTree::insertTab(const QString &path, int index)
     }
 
     Q_ASSERT(item != NULL);
-    item->setData(0, Qt::UserRole, index);
+    item->setData(0, DataIndex, index);
 }
 
 void TabTree::removeTab(int index)
@@ -130,7 +136,7 @@ void TabTree::removeTab(int index)
 
         delete item;
     } else {
-        item->setData(0, Qt::UserRole, -1);
+        item->setData(0, DataIndex, -1);
     }
 
     // Shift greater indexes.
@@ -139,7 +145,7 @@ void TabTree::removeTab(int index)
         item = items[i];
         const int oldIndex = getTabIndex(item);
         if (oldIndex > index)
-            item->setData(0, Qt::UserRole, oldIndex - 1);
+            item->setData(0, DataIndex, oldIndex - 1);
     }
 }
 
@@ -147,21 +153,51 @@ QTreeWidgetItem *TabTree::findTreeItem(int index) const
 {
     QList<QTreeWidgetItem *> items = findItems(QString(), Qt::MatchContains | Qt::MatchRecursive);
     for (int i = items.size() - 1; i >= 0; --i) {
-        if ( items[i]->data(0, Qt::UserRole).toInt() == index )
+        if ( getTabIndex(items[i]) == index )
             return items[i];
     }
 
     return NULL;
 }
 
-int TabTree::getTabIndex(QTreeWidgetItem *item) const
+int TabTree::getTabIndex(const QTreeWidgetItem *item) const
 {
-    return (item == NULL) ? -1 : item->data(0, Qt::UserRole).toInt();
+    return (item == NULL) ? -1 : item->data(0, DataIndex).toInt();
 }
 
-int TabTree::getCurrentTabIndex() const
+QString TabTree::getTabPath(const QTreeWidgetItem *item) const
 {
-    return getTabIndex( currentItem() );
+    QString result;
+    const QTreeWidgetItem *parent = item;
+
+    while (parent != NULL) {
+        const QString part = parent->data(0, DataText).toString();
+        if ( !result.isEmpty() )
+            result.prepend('/');
+        result.prepend(part);
+        parent = parent->parent();
+    }
+
+    return result;
+}
+
+bool TabTree::isTabGroup(const QTreeWidgetItem *item) const
+{
+    return item != NULL && item->childCount() > 0;
+}
+
+void TabTree::mousePressEvent(QMouseEvent *event)
+{
+    if ( event->button() == Qt::RightButton ) {
+        QTreeWidgetItem *item = itemAt(event->pos());
+        QString tabPath = getTabPath(item);
+        if ( isTabGroup(item) )
+            tabPath.append('/');
+        emit tabMenuRequested( event->globalPos(), tabPath );
+        event->accept();
+    } else {
+        QTreeWidget::mousePressEvent(event);
+    }
 }
 
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
@@ -197,7 +233,7 @@ void TabTree::previousTreeItem()
 
     if (item == NULL) {
         item = topLevelItem( topLevelItemCount() - 1 );
-        while (item != NULL && item->childCount() > 0)
+        while ( isTabGroup(item) )
             item = item->child( item->childCount() - 1 );
     }
 

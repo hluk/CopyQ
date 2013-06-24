@@ -207,7 +207,7 @@ class MainWindow : public QMainWindow
                     const QModelIndex &outputIndex = QModelIndex());
 
         /** Open tab creation dialog. */
-        void newTab();
+        void newTab(const QString &name = QString());
         /** Open tab renaming dialog (for given tab index or current tab). */
         void renameTab(int tab = -1);
         /** Rename current tab to given name (if possible). */
@@ -304,6 +304,7 @@ class MainWindow : public QMainWindow
         void tabChanged(int current);
         void tabMoved(int from, int to);
         void tabMenuRequested(const QPoint &pos, int tab);
+        void tabMenuRequested(const QPoint &pos, const QString &groupPath);
         void tabCloseRequested(int tab);
         void addItems(const QStringList &items, const QString &tabName);
         void addItems(const QStringList &items, const QModelIndex &index);
@@ -324,6 +325,9 @@ class MainWindow : public QMainWindow
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
 
+        /** Create context menu for @a tab. It will be automatically deleted after closed. */
+        void popupTabBarMenu(const QPoint &pos, const QString &tab);
+
         /** Delete finished action and its menu item. */
         void closeAction(Action *action);
 
@@ -337,6 +341,12 @@ class MainWindow : public QMainWindow
 
         /** Return browser containing item or NULL. */
         ClipboardBrowser *findBrowser(const QModelIndex &index);
+
+        /** Return browser with given ID. */
+        ClipboardBrowser *findBrowser(const QString &id);
+
+        /** Return browser index with given ID. */
+        int findBrowserIndex(const QString &id);
 
         /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *getBrowser(int index = -1) const;

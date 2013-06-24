@@ -140,8 +140,10 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(tabChanged(int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
              this, SLOT(tabMoved(int, int)) );
-    connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint, int)),
-             this, SLOT(tabMenuRequested(QPoint, int)) );
+    connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint,int)),
+             this, SLOT(tabMenuRequested(QPoint,int)) );
+    connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint,QString)),
+             this, SLOT(tabMenuRequested(QPoint,QString)) );
     connect( ui->tabWidget, SIGNAL(tabCloseRequested(int)),
              this, SLOT(tabCloseRequested(int)) );
     connect( m_timerSearch, SIGNAL(timeout()),
@@ -370,6 +372,30 @@ void MainWindow::createMenu()
                      QKeySequence::HelpContents );
 }
 
+void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
+{
+    QMenu menu(this);
+
+    const int tabIndex = findBrowserIndex(tab);
+    bool hasTab = tabIndex != -1;
+
+    QAction *actNew = menu.addAction( iconTabNew(), tr("&New tab") );
+    QAction *actRename =
+            hasTab ? menu.addAction( iconTabRename(), tr("&Rename tab \"%1\"").arg(tab) ) : NULL;
+    QAction *actRemove =
+            hasTab ? menu.addAction( iconTabRemove(), tr("&Remove tab \"%1\"").arg(tab) ) : NULL;
+
+    QAction *act = menu.exec(pos);
+    if (act != NULL) {
+        if (act == actNew)
+            newTab(tab);
+        else if (act == actRename)
+            renameTab(tabIndex);
+        else if (act == actRemove)
+            removeTab(true, tabIndex);
+    }
+}
+
 void MainWindow::closeAction(Action *action)
 {
     QString msg;
@@ -434,12 +460,32 @@ ClipboardBrowser *MainWindow::findBrowser(const QModelIndex &index)
     TabWidget *tabs = ui->tabWidget;
     int i = 0;
     for ( ; i < tabs->count(); ++i ) {
-        ClipboardBrowser *c = browser(i);
+        ClipboardBrowser *c = getBrowser(i);
         if (c->model() == index.model())
             return c;
     }
 
     return NULL;
+}
+
+ClipboardBrowser *MainWindow::findBrowser(const QString &id)
+{
+    const int i = findBrowserIndex(id);
+    return (i != -1) ? getBrowser(i) : NULL;
+}
+
+int MainWindow::findBrowserIndex(const QString &id)
+{
+    ClipboardBrowser *c = getBrowser(0);
+    int i = 0;
+
+    while (c != NULL) {
+        if (c->getID() == id)
+            return i;
+        c = getBrowser(++i);
+    }
+
+    return -1;
 }
 
 ClipboardBrowser *MainWindow::getBrowser(int index) const
@@ -996,27 +1042,16 @@ void MainWindow::tabMoved(int, int)
 
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
 {
-    QMenu *menu = new QMenu(this);
-
-    menu->addAction( iconTabNew(), tr("&New tab"),
-                     this, SLOT(newTab()) );
-
-    if (tab < 0) {
-        menu->exec(pos);
+    ClipboardBrowser *c = getBrowser(tab);
+    if (c == NULL)
         return;
-    }
+    const QString tabName = c->getID();
+    popupTabBarMenu(pos, tabName);
+}
 
-    QString name = ui->tabWidget->tabText(tab);
-    QAction *renameAct = menu->addAction( iconTabRename(),
-                                          tr("&Rename tab \"%1\"").arg(name) );
-    QAction *removeAct = menu->addAction( iconTabRemove(),
-                                          tr("&Remove tab \"%1\"").arg(name) );
-
-    QAction *act = menu->exec(pos);
-    if (act == renameAct)
-        renameTab(tab);
-    else if (act == removeAct)
-        removeTab(true, tab);
+void MainWindow::tabMenuRequested(const QPoint &pos, const QString &groupPath)
+{
+    popupTabBarMenu(pos, groupPath);
 }
 
 void MainWindow::tabCloseRequested(int tab)
@@ -1032,20 +1067,15 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName, bool mo
     if (m_monitoringDisabled)
         return;
 
-    ClipboardBrowser *c;
-    TabWidget *tabs = ui->tabWidget;
-    int i = 0;
+    ClipboardBrowser *c = tabName.isEmpty() ? browser(0) : findBrowser(tabName);
 
-    if ( !tabName.isEmpty() )
-        for ( ; i < tabs->count() && tabs->tabText(i) != tabName; ++i );
-
-    if ( i < tabs->count() ) {
-        c = browser(i);
-    } else if ( !tabName.isEmpty() ) {
+    if ( c == NULL && !tabName.isEmpty() )
         c = createTab(tabName, true);
-    } else {
+
+    if (c == NULL)
         return;
-    }
+
+    c->loadItems();
 
     ClipboardBrowser::Lock lock(c);
     if ( !c->select(hash(*data, data->formats()), moveExistingToTop) ) {
@@ -1690,10 +1720,13 @@ void MainWindow::action(const QMimeData &data, const Command &cmd, const QModelI
     }
 }
 
-void MainWindow::newTab()
+void MainWindow::newTab(const QString &name)
 {
     TabDialog *d = new TabDialog(TabDialog::TabNew, this);
     d->setTabs(tabs());
+
+    QString tabPath = name.isNull() ? ui->tabWidget->getCurrentTabPath() : name;
+    d->setTabName( tabPath.mid(0, tabPath.lastIndexOf('/') + 1) );
 
     connect( d, SIGNAL(accepted(QString, int)),
              this, SLOT(addTab(QString)) );
@@ -1706,7 +1739,10 @@ void MainWindow::newTab()
 void MainWindow::renameTab(int tab)
 {
     TabDialog *d = new TabDialog(TabDialog::TabRename, this);
-    int i = tab >= 0 ? tab : ui->tabWidget->currentIndex();
+    int i = tab >= 0 ? tab : ui->tabWidget->getCurrentTab();
+    if (i < 0)
+        return;
+
     d->setTabIndex(i);
     d->setTabs(tabs());
     d->setTabName(browser(i)->getID());
@@ -1738,14 +1774,14 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     cm->setTabs(tabs());
 }
 
-void MainWindow::removeTab(bool ask, int tab_index)
+void MainWindow::removeTab(bool ask, int tabIndex)
 {
     TabWidget *w = ui->tabWidget;
-    int i = tab_index >= 0 ? tab_index : w->getCurrentTab();
+    int i = tabIndex >= 0 ? tabIndex : w->getCurrentTab();
     if (i < 0)
         return;
 
-    ClipboardBrowser *c = browser(i);
+    ClipboardBrowser *c = getBrowser(i);
 
     if ( c != NULL && w->count() > 1 ) {
         int answer = QMessageBox::Yes;
@@ -1754,11 +1790,12 @@ void MainWindow::removeTab(bool ask, int tab_index)
                         this,
                         tr("Remove Tab?"),
                         tr("Do you want to remove tab <strong>%1</strong>?"
-                           ).arg( w->tabText(i).remove('&')),
+                           ).arg( w->tabText(i).remove('&') ),
                         QMessageBox::Yes | QMessageBox::No,
                         QMessageBox::Yes);
         }
         if (answer == QMessageBox::Yes) {
+            ui->tabWidget->setCurrentIndex(0);
             ConfigurationManager::instance()->removeItems( c->getID() );
             c->purgeItems();
             c->deleteLater();

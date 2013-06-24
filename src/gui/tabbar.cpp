@@ -51,6 +51,8 @@ void TabBar::setTreeModeEnabled(bool enabled)
 
         connect( m_tabTree, SIGNAL(currentTabChanged(int)),
                  this, SLOT(onTreeCurrentChanged(int)) );
+        connect( m_tabTree, SIGNAL(tabMenuRequested(QPoint,QString)),
+                 this, SIGNAL(tabMenuRequested(QPoint,QString)) );
         connect( this, SIGNAL(currentChanged(int)),
                  m_tabTree, SLOT(setCurrentTabIndex(int)) );
     } else {
@@ -90,7 +92,12 @@ void TabBar::refresh()
 
 int TabBar::getCurrentTab() const
 {
-    return isTreeModeEnabled() ? m_tabTree->getCurrentTabIndex() : currentIndex();
+    return isTreeModeEnabled() ? m_tabTree->getTabIndex( m_tabTree->currentItem() ) : currentIndex();
+}
+
+QString TabBar::getCurrentTabPath() const
+{
+    return isTreeModeEnabled() ? m_tabTree->getTabPath( m_tabTree->currentItem() ) : QString();
 }
 
 void TabBar::nextTreeItem()

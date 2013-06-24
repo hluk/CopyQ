@@ -38,13 +38,19 @@ public:
     QTreeWidgetItem *findTreeItem(int index) const;
 
     /** Get tab index for @a item (-1 if it's a group). */
-    int getTabIndex(QTreeWidgetItem *item) const;
+    int getTabIndex(const QTreeWidgetItem *item) const;
 
-    /** Return current tab index or -1 if no item or group is current. */
-    int getCurrentTabIndex() const;
+    /** Return path to item in tree (empty string if tree mode is disabled). */
+    QString getTabPath(const QTreeWidgetItem *item) const;
+
+    bool isTabGroup(const QTreeWidgetItem *item) const;
 
 signals:
     void currentTabChanged(int index);
+    void tabMenuRequested(const QPoint &pos, const QString &groupPath);
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
 
 public slots:
     void setCurrentTabIndex(int index);

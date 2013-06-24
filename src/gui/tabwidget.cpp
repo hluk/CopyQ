@@ -34,6 +34,8 @@ TabWidget::TabWidget(QWidget *parent)
              this, SIGNAL(tabMoved(int, int)) );
     connect( m_bar, SIGNAL(tabMenuRequested(QPoint, int)),
              this, SIGNAL(tabMenuRequested(QPoint, int)) );
+    connect( m_bar, SIGNAL(tabMenuRequested(QPoint,QString)),
+             this, SIGNAL(tabMenuRequested(QPoint,QString)) );
     connect( m_bar, SIGNAL(tabCloseRequested(int)),
              this, SIGNAL(tabCloseRequested(int)) );
     connect( m_bar, SIGNAL(treeItemSelected(bool)),
@@ -49,6 +51,11 @@ void TabWidget::refreshTabBar()
 int TabWidget::getCurrentTab() const
 {
     return m_bar->getCurrentTab();
+}
+
+QString TabWidget::getCurrentTabPath() const
+{
+    return m_bar->getCurrentTabPath();
 }
 
 void TabWidget::nextTab()
