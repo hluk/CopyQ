@@ -97,16 +97,22 @@ void TabWidget::setTreeModeEnabled(bool enabled)
     m_bar->setTreeModeEnabled(enabled);
 
     if (!enabled) {
-        for (int i = 0; i < count(); ++i)
-            widget(i)->show();
+        QWidget *w = currentWidget();
+        if (w != NULL)
+            w->show();
     }
 }
 
 void TabWidget::onTreeItemSelected(bool isGroup)
 {
-    for (int i = 0; i < count(); ++i)
-        widget(i)->setHidden(isGroup);
+    QWidget *w = currentWidget();
+    if (w == NULL)
+        return;
 
-    if (!isGroup)
-        currentWidget()->setFocus();
+    if (isGroup) {
+        w->hide();
+    } else {
+        w->show();
+        w->setFocus();
+    }
 }
