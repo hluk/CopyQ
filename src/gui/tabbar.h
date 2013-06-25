@@ -49,6 +49,9 @@ public:
     /** Return path to current group in tree (empty string if tree mode is disabled). */
     QString getCurrentTabPath() const;
 
+    /** Return true only if tree mode is enabled and tab is tab group. */
+    bool isTabGroup(const QString &tab) const;
+
 public slots:
     void nextTreeItem();
     void previousTreeItem();

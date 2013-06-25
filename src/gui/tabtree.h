@@ -37,12 +37,16 @@ public:
     /** Return item with given @a index or NULL if it doesn't exist. */
     QTreeWidgetItem *findTreeItem(int index) const;
 
+    /** Return item with given @a path or NULL if it doesn't exist. */
+    QTreeWidgetItem *findTreeItem(const QString &path) const;
+
     /** Get tab index for @a item (-1 if it's a group). */
     int getTabIndex(const QTreeWidgetItem *item) const;
 
     /** Return path to item in tree (empty string if tree mode is disabled). */
     QString getTabPath(const QTreeWidgetItem *item) const;
 
+    /** Return true only if tab is tab group. */
     bool isTabGroup(const QTreeWidgetItem *item) const;
 
 signals:
@@ -51,6 +55,7 @@ signals:
 
 protected:
     void mousePressEvent(QMouseEvent *event);
+    void contextMenuEvent(QContextMenuEvent *event);
 
 public slots:
     void setCurrentTabIndex(int index);
@@ -59,6 +64,9 @@ public slots:
 
 private slots:
     void onCurrentItemChanged(QTreeWidgetItem *current);
+
+private:
+    void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
 };
 
 #endif // TABTREE_H

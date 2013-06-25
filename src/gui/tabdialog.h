@@ -38,7 +38,8 @@ public:
     /** Tab dialog type (new tab or rename existing tab). */
     typedef enum {
         TabNew,
-        TabRename
+        TabRename,
+        TabGroupRename
     } TabDialogType;
 
     explicit TabDialog(TabDialogType type, QWidget *parent = NULL);
@@ -53,14 +54,21 @@ public:
     /** Set current tab name. */
     void setTabName(const QString &tabName);
 
+    /** Set current tab group name. */
+    void setTabGroupName(const QString &tabGroupName);
+
 private:
     Ui::TabDialog *ui;
     int m_tabIndex;
+    QString m_tabGroupName;
     QStringList m_tabs;
 
 signals:
     /** Signal emitted if tab @a name is accepted. */
     void accepted(const QString &name, int tabIndex);
+
+    /** Signal emitted if tab group @a name is accepted. */
+    void accepted(const QString &newName, const QString &oldName);
 
 private slots:
     void onAccepted();

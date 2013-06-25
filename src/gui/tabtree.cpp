@@ -27,6 +27,11 @@
 
 namespace {
 
+enum {
+    DataIndex = Qt::UserRole,
+    DataText
+};
+
 void addTreeAction(QTreeWidget *tree, const QList<QKeySequence> &shortcuts,
                    const char *slot, bool widgetContext = true)
 {
@@ -38,10 +43,45 @@ void addTreeAction(QTreeWidget *tree, const QList<QKeySequence> &shortcuts,
     tree->connect( act, SIGNAL(triggered()), slot );
 }
 
-enum {
-    DataIndex = Qt::UserRole,
-    DataText
-};
+QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComponents)
+{
+    QTreeWidgetItem *parentItem = NULL;
+
+    if ( !pathComponents->isEmpty() ) {
+        const QString &text = pathComponents->first();
+
+        for (int i = 0; i < tree.topLevelItemCount(); ++i) {
+            if ( tree.topLevelItem(i)->data(0, DataText).toString() == text ) {
+                parentItem = tree.topLevelItem(i);
+                break;
+            }
+        }
+    }
+
+    if (parentItem != NULL) {
+        pathComponents->pop_front();
+
+        while ( !pathComponents->isEmpty() ) {
+            const QString &text = pathComponents->first();
+            QTreeWidgetItem *item = NULL;
+
+            for (int i = 0; i < parentItem->childCount(); ++i) {
+                if ( parentItem->child(i)->data(0, DataText).toString() == text ) {
+                    item = parentItem->child(i);
+                    break;
+                }
+            }
+
+            if (item == NULL)
+                break;
+
+            parentItem = item;
+            pathComponents->pop_front();
+        }
+    }
+
+    return parentItem;
+}
 
 } // namespace
 
@@ -64,57 +104,33 @@ TabTree::TabTree(QWidget *parent) :
 
 void TabTree::insertTab(const QString &path, int index)
 {
-    const QStringList pathComponents = path.split('/');
-    QTreeWidgetItem *parentItem = NULL;
-    QTreeWidgetItem *item = NULL;
+    QStringList pathComponents = path.split('/');
+    QTreeWidgetItem *item = findLastTreeItem(*this, &pathComponents);
 
     foreach (const QString &text, pathComponents) {
-        item = NULL;
+        item = (item == NULL) ? new QTreeWidgetItem(this) : new QTreeWidgetItem(item);
 
-        if (parentItem == NULL) {
-            for (int i = 0; i < topLevelItemCount(); ++i) {
-                if ( topLevelItem(i)->data(0, DataText).toString() == text ) {
-                    item = topLevelItem(i);
-                    break;
-                }
-            }
-        } else {
-            parentItem->setExpanded(true);
-            for (int i = 0; i < parentItem->childCount(); ++i) {
-                if ( parentItem->child(i)->data(0, DataText).toString() == text ) {
-                    item = parentItem->child(i);
-                    break;
-                }
-            }
+        item->setExpanded(true);
+        item->setData(0, DataIndex, -1);
+        item->setData(0, DataText, text);
+
+        // Underline key hint in text.
+        QString labelText = text;
+        int i = labelText.indexOf('&');
+        if (i != -1 && i + 1 < text.size()) {
+            labelText = labelText.mid(0, i)
+                    + "<u>"
+                    + escapeHtml(labelText.at(i+1))
+                    + "</u>"
+                    + labelText.mid(i + 2);
         }
 
-        if (item == NULL) {
-            item = (parentItem == NULL) ? new QTreeWidgetItem(this)
-                                        : new QTreeWidgetItem(parentItem);
-
-            item->setData(0, DataIndex, -1);
-            item->setData(0, DataText, text);
-
-            // Underline key hint in text.
-            QString labelText = text;
-            int i = labelText.indexOf('&');
-            if (i != -1 && i + 1 < text.size()) {
-                labelText = labelText.mid(0, i)
-                        + "<u>"
-                        + escapeHtml(labelText.at(i+1))
-                        + "</u>"
-                        + labelText.mid(i + 2);
-            }
-
-            // Create widget and set item height.
-            QLabel *label = new QLabel(labelText, this);
-            label->setMargin(2);
-            label->adjustSize();
-            item->setSizeHint( 0, label->sizeHint() + QSize(2, 2) );
-            setItemWidget(item, 0, label);
-        }
-
-        parentItem = item;
+        // Create widget and set item height.
+        QLabel *label = new QLabel(labelText, this);
+        label->setMargin(2);
+        label->adjustSize();
+        item->setSizeHint( 0, label->sizeHint() + QSize(2, 2) );
+        setItemWidget(item, 0, label);
     }
 
     Q_ASSERT(item != NULL);
@@ -160,6 +176,13 @@ QTreeWidgetItem *TabTree::findTreeItem(int index) const
     return NULL;
 }
 
+QTreeWidgetItem *TabTree::findTreeItem(const QString &path) const
+{
+    QStringList pathComponents = path.split('/');
+    QTreeWidgetItem *parentItem = findLastTreeItem(*this, &pathComponents);
+    return pathComponents.isEmpty() ? parentItem : NULL;
+}
+
 int TabTree::getTabIndex(const QTreeWidgetItem *item) const
 {
     return (item == NULL) ? -1 : item->data(0, DataIndex).toInt();
@@ -172,11 +195,12 @@ QString TabTree::getTabPath(const QTreeWidgetItem *item) const
 
     while (parent != NULL) {
         const QString part = parent->data(0, DataText).toString();
-        if ( !result.isEmpty() )
-            result.prepend('/');
+        result.prepend('/');
         result.prepend(part);
         parent = parent->parent();
     }
+
+    result.chop(1);
 
     return result;
 }
@@ -189,20 +213,32 @@ bool TabTree::isTabGroup(const QTreeWidgetItem *item) const
 void TabTree::mousePressEvent(QMouseEvent *event)
 {
     if ( event->button() == Qt::RightButton ) {
-        QTreeWidgetItem *item = itemAt(event->pos());
-        QString tabPath = getTabPath(item);
-        if ( isTabGroup(item) )
-            tabPath.append('/');
-        emit tabMenuRequested( event->globalPos(), tabPath );
+        requestTabMenu(event->pos(), event->globalPos());
         event->accept();
     } else {
         QTreeWidget::mousePressEvent(event);
     }
 }
 
+void TabTree::contextMenuEvent(QContextMenuEvent *event)
+{
+    requestTabMenu(event->pos(), event->globalPos());
+    event->accept();
+}
+
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
 {
     emit currentTabChanged( getTabIndex(current) );
+}
+
+void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
+{
+    QTreeWidgetItem *item = itemAt(itemPosition);
+    if (item == NULL)
+        return;
+
+    QString tabPath = getTabPath(item);
+    emit tabMenuRequested(menuPosition, tabPath);
 }
 
 void TabTree::setCurrentTabIndex(int index)

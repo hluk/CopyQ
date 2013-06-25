@@ -208,6 +208,10 @@ class MainWindow : public QMainWindow
 
         /** Open tab creation dialog. */
         void newTab(const QString &name = QString());
+        /** Open tab group renaming dialog. */
+        void renameTabGroup(const QString &name);
+        /** Rename current tab to given name (if possible). */
+        void renameTabGroup(const QString &newName, const QString &oldName);
         /** Open tab renaming dialog (for given tab index or current tab). */
         void renameTab(int tab = -1);
         /** Rename current tab to given name (if possible). */

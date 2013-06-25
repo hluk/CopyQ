@@ -100,6 +100,11 @@ QString TabBar::getCurrentTabPath() const
     return isTreeModeEnabled() ? m_tabTree->getTabPath( m_tabTree->currentItem() ) : QString();
 }
 
+bool TabBar::isTabGroup(const QString &tab) const
+{
+    return isTreeModeEnabled() && m_tabTree->isTabGroup( m_tabTree->findTreeItem(tab) );
+}
+
 void TabBar::nextTreeItem()
 {
     if ( isTreeModeEnabled() )

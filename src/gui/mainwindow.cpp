@@ -348,10 +348,10 @@ void MainWindow::createMenu()
     menu->addAction( iconTabNew(), tr("&New tab"),
                      this, SLOT(newTab()),
                      QKeySequence(tr("Ctrl+T")) );
-    menu->addAction( iconTabRename(), tr("&Rename tab"),
+    menu->addAction( iconTabRename(), tr("Re&name tab"),
                      this, SLOT(renameTab()),
                      QKeySequence(tr("Ctrl+F2")) );
-    menu->addAction( iconTabRemove(), tr("&Remove tab"),
+    menu->addAction( iconTabRemove(), tr("Re&move tab"),
                      this, SLOT(removeTab()),
                      QKeySequence(tr("Ctrl+W")) );
 
@@ -378,17 +378,22 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
 
     const int tabIndex = findBrowserIndex(tab);
     bool hasTab = tabIndex != -1;
+    bool isGroup = ui->tabWidget->isTabGroup(tab);
 
     QAction *actNew = menu.addAction( iconTabNew(), tr("&New tab") );
+    QAction *actRenameGroup =
+            isGroup ? menu.addAction( iconTabRename(), tr("Rename &group \"%1\"").arg(tab) ) : NULL;
     QAction *actRename =
-            hasTab ? menu.addAction( iconTabRename(), tr("&Rename tab \"%1\"").arg(tab) ) : NULL;
+            hasTab ? menu.addAction( iconTabRename(), tr("Re&name tab \"%1\"").arg(tab) ) : NULL;
     QAction *actRemove =
-            hasTab ? menu.addAction( iconTabRemove(), tr("&Remove tab \"%1\"").arg(tab) ) : NULL;
+            hasTab ? menu.addAction( iconTabRemove(), tr("Re&move tab \"%1\"").arg(tab) ) : NULL;
 
     QAction *act = menu.exec(pos);
     if (act != NULL) {
         if (act == actNew)
             newTab(tab);
+        else if (act == actRenameGroup)
+            renameTabGroup(tab);
         else if (act == actRename)
             renameTab(tabIndex);
         else if (act == actRemove)
@@ -1725,7 +1730,14 @@ void MainWindow::newTab(const QString &name)
     TabDialog *d = new TabDialog(TabDialog::TabNew, this);
     d->setTabs(tabs());
 
-    QString tabPath = name.isNull() ? ui->tabWidget->getCurrentTabPath() : name;
+    QString tabPath = name;
+
+    if ( tabPath.isNull() ) {
+        tabPath = ui->tabWidget->getCurrentTabPath();
+        if ( ui->tabWidget->isTabGroup(tabPath) )
+            tabPath.append('/');
+    }
+
     d->setTabName( tabPath.mid(0, tabPath.lastIndexOf('/') + 1) );
 
     connect( d, SIGNAL(accepted(QString, int)),
@@ -1734,6 +1746,33 @@ void MainWindow::newTab(const QString &name)
              d, SLOT(deleteLater()) );
 
     d->open();
+}
+
+void MainWindow::renameTabGroup(const QString &name)
+{
+    TabDialog *d = new TabDialog(TabDialog::TabGroupRename, this);
+
+    d->setTabs(tabs());
+    d->setTabGroupName(name);
+
+    connect( d, SIGNAL(accepted(QString, QString)),
+             this, SLOT(renameTabGroup(QString, QString)) );
+    connect( d, SIGNAL(finished(int)),
+             d, SLOT(deleteLater()) );
+
+    d->open();
+}
+
+void MainWindow::renameTabGroup(const QString &newName, const QString &oldName)
+{
+    const QStringList tabs = this->tabs();
+    const QString tabPrefix = oldName + '/';
+
+    for ( int i = 0; i < tabs.size(); ++i ) {
+        const QString &tab = tabs[i];
+        if ( tab == oldName || tab.startsWith(tabPrefix) )
+            renameTab( newName + tab.mid(oldName.size()), i );
+    }
 }
 
 void MainWindow::renameTab(int tab)

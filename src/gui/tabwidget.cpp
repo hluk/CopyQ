@@ -58,6 +58,11 @@ QString TabWidget::getCurrentTabPath() const
     return m_bar->getCurrentTabPath();
 }
 
+bool TabWidget::isTabGroup(const QString &tab) const
+{
+    return m_bar->isTabGroup(tab);
+}
+
 void TabWidget::nextTab()
 {
     if ( m_bar->isTreeModeEnabled() ) {

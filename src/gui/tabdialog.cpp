@@ -26,6 +26,7 @@ TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::TabDialog)
     , m_tabIndex(-1)
+    , m_tabGroupName()
     , m_tabs()
 {
     ui->setupUi(this);
@@ -33,8 +34,11 @@ TabDialog::TabDialog(TabDialog::TabDialogType type, QWidget *parent)
     if (type == TabNew) {
         setWindowTitle( tr("CopyQ New Tab") );
         setWindowIcon( QIcon(":/images/tab_new") );
-    } else {
+    } else if (type == TabRename) {
         setWindowTitle( tr("CopyQ Rename Tab") );
+        setWindowIcon( QIcon(":/images/tab_rename") );
+    } else {
+        setWindowTitle( tr("CopyQ Rename Tab Group") );
         setWindowIcon( QIcon(":/images/tab_rename") );
     }
 
@@ -68,14 +72,39 @@ void TabDialog::setTabName(const QString &tabName)
     ui->lineEditTabName->setText(tabName);
 }
 
+void TabDialog::setTabGroupName(const QString &tabGroupName)
+{
+    m_tabGroupName = tabGroupName;
+    ui->lineEditTabName->setText(m_tabGroupName);
+}
+
 void TabDialog::validate()
 {
-    QString text = ui->lineEditTabName->text();
-    bool ok = !text.isEmpty() && !m_tabs.contains(text);
+    bool ok = true;
+    const QString text = ui->lineEditTabName->text();
+
+    if ( m_tabGroupName.isEmpty() ) {
+        ok = !text.isEmpty() && !m_tabs.contains(text);
+    } else {
+        const QString tabPrefix = m_tabGroupName + '/';
+        foreach (const QString &tab, m_tabs) {
+            if ( tab == m_tabGroupName || tab.startsWith(tabPrefix) ) {
+                const QString newName = text + tab.mid(m_tabGroupName.size());
+                if ( newName.isEmpty() || m_tabs.contains(newName) ) {
+                    ok = false;
+                    break;
+                }
+            }
+        }
+    }
+
     ui->buttonBox->button(QDialogButtonBox::Ok)->setEnabled(ok);
 }
 
 void TabDialog::onAccepted()
 {
-    emit accepted(ui->lineEditTabName->text(), m_tabIndex);
+    if ( m_tabGroupName.isEmpty() )
+        emit accepted(ui->lineEditTabName->text(), m_tabIndex);
+    else
+        emit accepted(ui->lineEditTabName->text(), m_tabGroupName);
 }
