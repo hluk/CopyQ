@@ -69,7 +69,6 @@ private slots:
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
-    void createLabel(QTreeWidgetItem *item);
     void shiftIndexesBetween(int from, int to = -1);
 };
 

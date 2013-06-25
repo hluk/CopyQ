@@ -26,12 +26,14 @@
 #include <QList>
 #include <QMouseEvent>
 #include <QPair>
+#include <QPainter>
 
 namespace {
 
 enum {
     DataIndex = Qt::UserRole,
-    DataText
+    DataText,
+    DataLabelText
 };
 
 void addTreeAction(QTreeWidget *tree, const QList<QKeySequence> &shortcuts,
@@ -121,7 +123,15 @@ void TabTree::insertTab(const QString &path, int index)
         item->setData(0, DataText, text);
 
         // Create widget and set item height.
-        createLabel(item);
+        QString labelText = text;
+        const int i = labelText.indexOf('&');
+        if (i != -1 && i + 1 < labelText.size()) {
+            labelText = tr("(%1) %2",
+                           "Tab tree item text format; %1 is key hint (usually underlined in labels).")
+                    .arg(labelText.at(i + 1))
+                    .arg(labelText.mid(0, i) + labelText.mid(i + 1));
+        }
+        item->setText(0, labelText);
     }
 
     Q_ASSERT(item != NULL);
@@ -240,29 +250,6 @@ void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosit
 
     QString tabPath = getTabPath(item);
     emit tabMenuRequested(menuPosition, tabPath);
-}
-
-void TabTree::createLabel(QTreeWidgetItem *item)
-{
-    QString labelText = item->data(0, DataText).toString();
-
-    // Underline key hint in text.
-    const int i = labelText.indexOf('&');
-    if (i != -1 && i + 1 < labelText.size()) {
-        labelText = labelText.mid(0, i)
-                + "<u>"
-                + escapeHtml(labelText.at(i+1))
-                + "</u>"
-                + labelText.mid(i + 2);
-    }
-
-    QLabel *label = new QLabel(labelText, this);
-    label->setMargin(2);
-    label->adjustSize();
-    label->setTextInteractionFlags(Qt::NoTextInteraction);
-    label->setTextFormat(Qt::RichText);
-    item->setSizeHint( 0, label->sizeHint() + QSize(2, 2) );
-    setItemWidget(item, 0, label);
 }
 
 void TabTree::shiftIndexesBetween(int from, int to)

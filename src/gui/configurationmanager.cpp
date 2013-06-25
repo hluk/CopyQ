@@ -615,8 +615,14 @@ void ConfigurationManager::initThemeOptions()
     m_theme["notes_css"] = Option("");
     m_theme["css"] = Option("");
 
-    m_theme["tab_tree_css"] = Option("");
-    m_theme["tab_tree_item_css"] = Option("");
+    m_theme["tab_tree_css"] = Option(
+                "\n    ;color: ${fg}"
+                "\n    ;background-color: ${bg}"
+                "\n    ;selection-color: ${sel_fg}"
+                "\n    ;selection-background-color: ${sel_bg}"
+                );
+    m_theme["tab_tree_item_css"] = Option("padding:2px");
+    m_theme["tab_tree_sel_item_css"] = Option("");
 
     bind("use_system_icons", ui->checkBoxSystemIcons, false);
 }
@@ -777,13 +783,10 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
 void ConfigurationManager::decorateTabs(QWidget *tabWidget) const
 {
     tabWidget->setStyleSheet(
-        QString("#tabs TabTree{")
-        + themeStyleSheet("tab_tree_css")
-        + "}"
-
-        + QString("#tabs TabTree QLabel{")
-        + themeStyleSheet("tab_tree_item_css")
-        + "}"
+        QString("#tabs TabTree{") + themeStyleSheet("tab_tree_css") + "}"
+        + QString("#tabs TabTree::item{") + themeStyleSheet("tab_tree_item_css") + "}"
+        + QString("#tabs TabTree::branch:selected, #tabs TabTree::item:selected{")
+                + themeStyleSheet("tab_tree_sel_item_css") + "}"
         );
 }
 
