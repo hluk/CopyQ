@@ -20,11 +20,12 @@
 #ifndef TABBAR_H
 #define TABBAR_H
 
+#include "gui/tabtree.h"
+
 #include <QTabBar>
 
 class QModelIndex;
 class QMouseEvent;
-class TabTree;
 class QPoint;
 
 class TabBar : public QTabBar
@@ -46,15 +47,7 @@ public:
     /** Return current tab (-1 if current is group in tree). */
     int getCurrentTab() const;
 
-    /** Return path to current group in tree (empty string if tree mode is disabled). */
-    QString getCurrentTabPath() const;
-
-    /** Return true only if tree mode is enabled and tab is tab group. */
-    bool isTabGroup(const QString &tab) const;
-
-public slots:
-    void nextTreeItem();
-    void previousTreeItem();
+    TabTree *tabTree() const { return m_tabTree; }
 
 protected:
     void tabInserted(int index);
@@ -65,11 +58,13 @@ protected:
 
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
-    void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void treeItemSelected(bool isGroup);
+    void tabRenamed(const QString &newName, int index);
 
 private slots:
     void onTreeCurrentChanged(int index);
+    void onTreeTabMoved(int index, const QString &newName);
+    void onTreeTabMoved(int from, int to);
 
 private:
     void insertTabToTree(int index);

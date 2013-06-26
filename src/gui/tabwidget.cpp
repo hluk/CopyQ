@@ -19,6 +19,7 @@
 
 #include "tabwidget.h"
 #include "tabbar.h"
+#include "tabtree.h"
 
 #include <QPoint>
 
@@ -34,8 +35,8 @@ TabWidget::TabWidget(QWidget *parent)
              this, SIGNAL(tabMoved(int, int)) );
     connect( m_bar, SIGNAL(tabMenuRequested(QPoint, int)),
              this, SIGNAL(tabMenuRequested(QPoint, int)) );
-    connect( m_bar, SIGNAL(tabMenuRequested(QPoint,QString)),
-             this, SIGNAL(tabMenuRequested(QPoint,QString)) );
+    connect( m_bar, SIGNAL(tabRenamed(QString,int)),
+             this, SIGNAL(tabRenamed(QString,int)) );
     connect( m_bar, SIGNAL(tabCloseRequested(int)),
              this, SIGNAL(tabCloseRequested(int)) );
     connect( m_bar, SIGNAL(treeItemSelected(bool)),
@@ -44,8 +45,7 @@ TabWidget::TabWidget(QWidget *parent)
 
 void TabWidget::refreshTabBar()
 {
-    if (m_bar->isTreeModeEnabled())
-        m_bar->refresh();
+    return m_bar->refresh();
 }
 
 int TabWidget::getCurrentTab() const
@@ -55,18 +55,28 @@ int TabWidget::getCurrentTab() const
 
 QString TabWidget::getCurrentTabPath() const
 {
-    return m_bar->getCurrentTabPath();
+    return isTreeModeEnabled() ? tabTree()->getTabPath( tabTree()->currentItem() ) : QString();
 }
 
 bool TabWidget::isTabGroup(const QString &tab) const
 {
-    return m_bar->isTabGroup(tab);
+    return isTreeModeEnabled() && tabTree()->isTabGroup( tabTree()->findTreeItem(tab) );
+}
+
+bool TabWidget::isTreeModeEnabled() const
+{
+    return m_bar->isTreeModeEnabled();
+}
+
+void TabWidget::moveTab(int from, int to)
+{
+    m_bar->moveTab(from, to);
 }
 
 void TabWidget::nextTab()
 {
-    if ( m_bar->isTreeModeEnabled() ) {
-        m_bar->nextTreeItem();
+    if ( isTreeModeEnabled() ) {
+        tabTree()->nextTreeItem();
     } else {
         const int tab = (currentIndex() + 1) % count();
         setCurrentIndex(tab);
@@ -75,8 +85,8 @@ void TabWidget::nextTab()
 
 void TabWidget::previousTab()
 {
-    if ( m_bar->isTreeModeEnabled() ) {
-        m_bar->previousTreeItem();
+    if ( isTreeModeEnabled() ) {
+        tabTree()->previousTreeItem();
     } else {
         const int size = count();
         const int tab = (size + currentIndex() - 1) % size;
@@ -101,7 +111,12 @@ void TabWidget::setTreeModeEnabled(bool enabled)
 
     m_bar->setTreeModeEnabled(enabled);
 
-    if (!enabled) {
+    if (enabled) {
+        connect( tabTree(), SIGNAL(tabMenuRequested(QPoint,QString)),
+                 this, SIGNAL(tabMenuRequested(QPoint,QString)) );
+        connect( tabTree(), SIGNAL(tabMoved(QString,QString,QString)),
+                 this, SIGNAL(tabMoved(QString,QString,QString)) );
+    } else {
         QWidget *w = currentWidget();
         if (w != NULL)
             w->show();
@@ -120,4 +135,9 @@ void TabWidget::onTreeItemSelected(bool isGroup)
         w->show();
         w->setFocus();
     }
+}
+
+TabTree *TabWidget::tabTree() const
+{
+    return m_bar->tabTree();
 }

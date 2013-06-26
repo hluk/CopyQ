@@ -23,7 +23,9 @@
 
 #include <QAction>
 #include <QLabel>
+#include <QList>
 #include <QMouseEvent>
+#include <QPair>
 
 namespace {
 
@@ -100,6 +102,10 @@ TabTree::TabTree(QWidget *parent) :
 
     connect( this, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
              this, SLOT(onCurrentItemChanged(QTreeWidgetItem*)) );
+
+    setDragEnabled(true);
+    setDragDropMode(QAbstractItemView::InternalMove);
+    setDragDropOverwriteMode(false);
 }
 
 void TabTree::insertTab(const QString &path, int index)
@@ -114,23 +120,8 @@ void TabTree::insertTab(const QString &path, int index)
         item->setData(0, DataIndex, -1);
         item->setData(0, DataText, text);
 
-        // Underline key hint in text.
-        QString labelText = text;
-        int i = labelText.indexOf('&');
-        if (i != -1 && i + 1 < text.size()) {
-            labelText = labelText.mid(0, i)
-                    + "<u>"
-                    + escapeHtml(labelText.at(i+1))
-                    + "</u>"
-                    + labelText.mid(i + 2);
-        }
-
         // Create widget and set item height.
-        QLabel *label = new QLabel(labelText, this);
-        label->setMargin(2);
-        label->adjustSize();
-        item->setSizeHint( 0, label->sizeHint() + QSize(2, 2) );
-        setItemWidget(item, 0, label);
+        createLabel(item);
     }
 
     Q_ASSERT(item != NULL);
@@ -155,14 +146,7 @@ void TabTree::removeTab(int index)
         item->setData(0, DataIndex, -1);
     }
 
-    // Shift greater indexes.
-    QList<QTreeWidgetItem *> items = findItems(QString(), Qt::MatchContains | Qt::MatchRecursive);
-    for (int i = items.size() - 1; i >= 0; --i) {
-        item = items[i];
-        const int oldIndex = getTabIndex(item);
-        if (oldIndex > index)
-            item->setData(0, DataIndex, oldIndex - 1);
-    }
+    shiftIndexesBetween(index);
 }
 
 QTreeWidgetItem *TabTree::findTreeItem(int index) const
@@ -226,6 +210,23 @@ void TabTree::contextMenuEvent(QContextMenuEvent *event)
     event->accept();
 }
 
+void TabTree::dropEvent(QDropEvent *event)
+{
+    QTreeWidgetItem *current = currentItem();
+    if (current == NULL)
+        return;
+
+    const QString oldPrefix = getTabPath(current);
+    const int index = getTabIndex(current);
+
+    blockSignals(true);
+    QTreeWidget::dropEvent(event);
+    blockSignals(false);
+
+    current = findTreeItem(index);
+    emit tabMoved( oldPrefix, getTabPath(current), getTabPath(itemAbove(current)) );
+}
+
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
 {
     emit currentTabChanged( getTabIndex(current) );
@@ -239,6 +240,38 @@ void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosit
 
     QString tabPath = getTabPath(item);
     emit tabMenuRequested(menuPosition, tabPath);
+}
+
+void TabTree::createLabel(QTreeWidgetItem *item)
+{
+    QString labelText = item->data(0, DataText).toString();
+
+    // Underline key hint in text.
+    const int i = labelText.indexOf('&');
+    if (i != -1 && i + 1 < labelText.size()) {
+        labelText = labelText.mid(0, i)
+                + "<u>"
+                + escapeHtml(labelText.at(i+1))
+                + "</u>"
+                + labelText.mid(i + 2);
+    }
+
+    QLabel *label = new QLabel(labelText, this);
+    label->setMargin(2);
+    label->adjustSize();
+    label->setTextInteractionFlags(Qt::NoTextInteraction);
+    label->setTextFormat(Qt::RichText);
+    item->setSizeHint( 0, label->sizeHint() + QSize(2, 2) );
+    setItemWidget(item, 0, label);
+}
+
+void TabTree::shiftIndexesBetween(int from, int to)
+{
+    foreach (QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+        const int oldIndex = getTabIndex(item);
+        if (oldIndex > from && (to <= 0 || oldIndex < to))
+            item->setData(0, DataIndex, oldIndex - 1);
+    }
 }
 
 void TabTree::setCurrentTabIndex(int index)

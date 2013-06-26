@@ -307,6 +307,7 @@ class MainWindow : public QMainWindow
         void enterSearchMode(const QString &txt);
         void tabChanged(int current);
         void tabMoved(int from, int to);
+        void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
         void tabMenuRequested(const QPoint &pos, int tab);
         void tabMenuRequested(const QPoint &pos, const QString &groupPath);
         void tabCloseRequested(int tab);

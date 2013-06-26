@@ -140,10 +140,14 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(tabChanged(int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
              this, SLOT(tabMoved(int, int)) );
+    connect( ui->tabWidget, SIGNAL(tabMoved(QString,QString,QString)),
+             this, SLOT(tabMoved(QString,QString,QString)) );
     connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint,int)),
              this, SLOT(tabMenuRequested(QPoint,int)) );
     connect( ui->tabWidget, SIGNAL(tabMenuRequested(QPoint,QString)),
              this, SLOT(tabMenuRequested(QPoint,QString)) );
+    connect( ui->tabWidget, SIGNAL(tabRenamed(QString,int)),
+             this, SLOT(renameTab(QString,int)) );
     connect( ui->tabWidget, SIGNAL(tabCloseRequested(int)),
              this, SLOT(tabCloseRequested(int)) );
     connect( m_timerSearch, SIGNAL(timeout()),
@@ -1043,6 +1047,60 @@ void MainWindow::tabMoved(int, int)
     cm->setTabs(tabs());
     cm->saveSettings();
     updateTabsAutoSaving();
+}
+
+void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix)
+{
+    QStringList tabs = this->tabs();
+
+    QString prefix = afterPrefix + '/';
+
+    int afterIndex = tabs.size() - 1;
+    for (; afterIndex >= 0; --afterIndex) {
+        const QString &tab = tabs[afterIndex];
+        if ( tab == afterPrefix || tab.startsWith(prefix) )
+            break;
+    }
+
+    prefix = oldPrefix + '/';
+
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    TabWidget *w = ui->tabWidget;
+    w->blockSignals(true);
+
+    for (int i = 0, d = 0; i < tabs.size(); ++i) {
+        const QString &tab = tabs[i];
+        bool down = (i < afterIndex);
+
+        if (i == afterIndex) {
+            d = 0;
+        } else if ( tab == oldPrefix || tab.startsWith(prefix) ) {
+            const int from = down ? i - d : i;
+            const int to = afterIndex + (down ? 0 : d + 1);
+
+            // Rename tab if needed.
+            if (newPrefix != oldPrefix) {
+                const QString newName = newPrefix + tab.mid(oldPrefix.size());
+                if ( newName.isEmpty() || tabs.contains(newName) )
+                    break;
+
+                ClipboardBrowser *c = browser(i);
+                c->setID(newName);
+                c->saveItems();
+                cm->removeItems(tab);
+
+                w->setTabText(from, newName);
+            }
+
+            // Move tab.
+            w->moveTab(from, to);
+            ++d;
+        }
+    }
+
+    cm->setTabs(this->tabs());
+    w->refreshTabBar();
+    w->blockSignals(false);
 }
 
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)

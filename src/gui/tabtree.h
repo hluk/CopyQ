@@ -52,10 +52,12 @@ public:
 signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
+    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
+    void dropEvent(QDropEvent *event);
 
 public slots:
     void setCurrentTabIndex(int index);
@@ -67,6 +69,8 @@ private slots:
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
+    void createLabel(QTreeWidgetItem *item);
+    void shiftIndexesBetween(int from, int to = -1);
 };
 
 #endif // TABTREE_H

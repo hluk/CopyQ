@@ -49,10 +49,12 @@ void TabBar::setTreeModeEnabled(bool enabled)
 
         refresh();
 
+        connect( m_tabTree, SIGNAL(tabMoved(int,QString)),
+                 this, SLOT(onTreeTabMoved(int,QString)) );
+        connect( m_tabTree, SIGNAL(tabMoved(int,int)),
+                 this, SLOT(onTreeTabMoved(int,int)) );
         connect( m_tabTree, SIGNAL(currentTabChanged(int)),
                  this, SLOT(onTreeCurrentChanged(int)) );
-        connect( m_tabTree, SIGNAL(tabMenuRequested(QPoint,QString)),
-                 this, SIGNAL(tabMenuRequested(QPoint,QString)) );
         connect( this, SIGNAL(currentChanged(int)),
                  m_tabTree, SLOT(setCurrentTabIndex(int)) );
     } else {
@@ -93,28 +95,6 @@ void TabBar::refresh()
 int TabBar::getCurrentTab() const
 {
     return isTreeModeEnabled() ? m_tabTree->getTabIndex( m_tabTree->currentItem() ) : currentIndex();
-}
-
-QString TabBar::getCurrentTabPath() const
-{
-    return isTreeModeEnabled() ? m_tabTree->getTabPath( m_tabTree->currentItem() ) : QString();
-}
-
-bool TabBar::isTabGroup(const QString &tab) const
-{
-    return isTreeModeEnabled() && m_tabTree->isTabGroup( m_tabTree->findTreeItem(tab) );
-}
-
-void TabBar::nextTreeItem()
-{
-    if ( isTreeModeEnabled() )
-        m_tabTree->nextTreeItem();
-}
-
-void TabBar::previousTreeItem()
-{
-    if ( isTreeModeEnabled() )
-        m_tabTree->previousTreeItem();
 }
 
 void TabBar::tabInserted(int index)
@@ -172,6 +152,17 @@ void TabBar::onTreeCurrentChanged(int index)
         setCurrentIndex(index);
 
     emit treeItemSelected(isGroup);
+}
+
+void TabBar::onTreeTabMoved(int index, const QString &newName)
+{
+    setTabText(index, newName);
+    emit tabRenamed(newName, index);
+}
+
+void TabBar::onTreeTabMoved(int from, int to)
+{
+    moveTab(from, to);
 }
 
 void TabBar::insertTabToTree(int index)

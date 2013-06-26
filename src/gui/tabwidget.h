@@ -24,6 +24,7 @@
 
 class QPoint;
 class TabBar;
+class TabTree;
 
 class TabWidget : public QTabWidget
 {
@@ -43,6 +44,10 @@ public:
     /** Return true only if tree mode is enabled and tab is tab group. */
     bool isTabGroup(const QString &tab) const;
 
+    bool isTreeModeEnabled() const;
+
+    void moveTab(int from, int to);
+
 public slots:
     void nextTab();
     void previousTab();
@@ -54,11 +59,15 @@ signals:
     void tabMoved(int from, int to);
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
+    void tabRenamed(const QString &newName, int index);
+    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
 
 private slots:
     void onTreeItemSelected(bool isGroup);
 
 private:
+    TabTree *tabTree() const;
+
     TabBar *m_bar;
 };
 
