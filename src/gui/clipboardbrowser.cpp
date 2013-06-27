@@ -659,7 +659,9 @@ void ClipboardBrowser::updateCurrentPage()
 
 void ClipboardBrowser::updateItemNotes(bool immediately)
 {
-    if (!isVisible())
+    m_timerShowNotes->stop();
+
+    if (!hasFocus())
         return;
 
     QToolTip::hideText();
@@ -672,7 +674,6 @@ void ClipboardBrowser::updateItemNotes(bool immediately)
         m_timerShowNotes->start();
         return;
     }
-    m_timerShowNotes->stop();
 
     ItemWidget *item = d->cache(index);
     QWidget *w = item->widget();
@@ -730,10 +731,12 @@ void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIn
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)
 {
     // Always focus active editor instead of list.
-    if (editing())
+    if (editing()) {
         focusNextChild();
-    else
+    } else {
         QListView::focusInEvent(event);
+        updateItemNotes(false);
+    }
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)
