@@ -54,11 +54,18 @@ struct X11WindowProperty {
 };
 
 #ifdef HAS_X11TEST
+void FakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
+{
+    XTestFakeKeyEvent(display, keyCode, isPress, CurrentTime);
+    XSync(display, False);
+    usleep(6000);
+}
+
 void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
 {
     foreach (int modCode, modCodes) {
         KeyCode keyCode = XKeysymToKeycode(display, modCode);
-        XTestFakeKeyEvent(display, keyCode, keyDown, CurrentTime);
+        FakeKeyEvent(display, keyCode, keyDown);
     }
 }
 
@@ -90,19 +97,20 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
 
     // Release currently pressed modifiers.
     foreach (KeyCode mod, modsToRelease)
-        XTestFakeKeyEvent(display, mod, False, CurrentTime);
+        FakeKeyEvent(display, mod, False);
 
     simulateModifierKeyPress(display, modCodes, True);
 
     KeyCode keyCode = XKeysymToKeycode(display, key);
-    XTestFakeKeyEvent(display, keyCode, True, CurrentTime);
-    XTestFakeKeyEvent(display, keyCode, False, CurrentTime);
+
+    FakeKeyEvent(display, keyCode, True);
+    FakeKeyEvent(display, keyCode, False);
 
     simulateModifierKeyPress(display, modCodes, False);
 
     // Press modifiers again.
     foreach (KeyCode mod, modsToRelease)
-        XTestFakeKeyEvent(display, mod, True, CurrentTime);
+        FakeKeyEvent(display, mod, True);
 
     XSync(display, False);
 }
