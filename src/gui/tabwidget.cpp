@@ -43,9 +43,9 @@ TabWidget::TabWidget(QWidget *parent)
              this, SLOT(onTreeItemSelected(bool)) );
 }
 
-void TabWidget::refreshTabBar()
+void TabWidget::refreshTabBar(const QString &currentPath)
 {
-    return m_bar->refresh();
+    return m_bar->refresh(currentPath);
 }
 
 int TabWidget::getCurrentTab() const
@@ -66,11 +66,6 @@ bool TabWidget::isTabGroup(const QString &tab) const
 bool TabWidget::isTreeModeEnabled() const
 {
     return m_bar->isTreeModeEnabled();
-}
-
-void TabWidget::moveTab(int from, int to)
-{
-    m_bar->moveTab(from, to);
 }
 
 void TabWidget::nextTab()

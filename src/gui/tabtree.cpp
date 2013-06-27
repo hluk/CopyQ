@@ -110,7 +110,7 @@ TabTree::TabTree(QWidget *parent) :
     setDragDropOverwriteMode(false);
 }
 
-void TabTree::insertTab(const QString &path, int index)
+void TabTree::insertTab(const QString &path, int index, bool selected)
 {
     QStringList pathComponents = path.split('/');
     QTreeWidgetItem *item = findLastTreeItem(*this, &pathComponents);
@@ -136,12 +136,16 @@ void TabTree::insertTab(const QString &path, int index)
 
     Q_ASSERT(item != NULL);
     item->setData(0, DataIndex, index);
+
+    if (selected)
+        setCurrentItem(item);
 }
 
 void TabTree::removeTab(int index)
 {
     QTreeWidgetItem *item = findTreeItem(index);
-    Q_ASSERT(item != NULL);
+    if (item == NULL)
+        return;
 
     if (item->childCount() == 0) {
         // Recursively remove empty parent item.
@@ -227,19 +231,20 @@ void TabTree::dropEvent(QDropEvent *event)
         return;
 
     const QString oldPrefix = getTabPath(current);
-    const int index = getTabIndex(current);
 
     blockSignals(true);
     QTreeWidget::dropEvent(event);
     blockSignals(false);
 
-    current = findTreeItem(index);
-    emit tabMoved( oldPrefix, getTabPath(current), getTabPath(itemAbove(current)) );
+    const QString newPrefix = getTabPath(current);
+    const QString afterPrefix = getTabPath(itemAbove(current));
+    emit tabMoved(oldPrefix, newPrefix, afterPrefix);
 }
 
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
 {
-    emit currentTabChanged( getTabIndex(current) );
+    if (current != NULL)
+        emit currentTabChanged( getTabIndex(current) );
 }
 
 void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)

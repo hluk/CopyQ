@@ -49,10 +49,6 @@ void TabBar::setTreeModeEnabled(bool enabled)
 
         refresh();
 
-        connect( m_tabTree, SIGNAL(tabMoved(int,QString)),
-                 this, SLOT(onTreeTabMoved(int,QString)) );
-        connect( m_tabTree, SIGNAL(tabMoved(int,int)),
-                 this, SLOT(onTreeTabMoved(int,int)) );
         connect( m_tabTree, SIGNAL(currentTabChanged(int)),
                  this, SLOT(onTreeCurrentChanged(int)) );
         connect( this, SIGNAL(currentChanged(int)),
@@ -83,13 +79,19 @@ QSize TabBar::sizeHint() const
     return QTabBar::sizeHint();
 }
 
-void TabBar::refresh()
+void TabBar::refresh(const QString &currentPath)
 {
+    if ( !isTreeModeEnabled() )
+        return;
+
     m_tabTree->clear();
 
     for (int i = 0; i < count(); ++i)
         insertTabToTree(i);
     updateTreeSize();
+
+    if ( !currentPath.isEmpty() )
+        m_tabTree->setCurrentItem( m_tabTree->findTreeItem(currentPath) );
 }
 
 int TabBar::getCurrentTab() const
@@ -168,9 +170,7 @@ void TabBar::onTreeTabMoved(int from, int to)
 void TabBar::insertTabToTree(int index)
 {
     Q_ASSERT(isTreeModeEnabled());
-    m_tabTree->insertTab(tabText(index), index);
-    if ( getCurrentTab() != currentIndex() )
-        m_tabTree->setCurrentTabIndex( currentIndex() );
+    m_tabTree->insertTab(tabText(index), index, index == currentIndex());
 }
 
 void TabBar::removeTabFromTree(int index)

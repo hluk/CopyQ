@@ -1274,6 +1274,7 @@ void ClipboardBrowser::loadItems()
     if ( m_loaded || m_id.isEmpty() )
         return;
 
+    COPYQ_LOG(QString("Loading items for tab \"%1\"").arg(getID()));
     ConfigurationManager::instance()->loadItems(*m, m_id);
     m_timerSave->stop();
     m_loaded = true;

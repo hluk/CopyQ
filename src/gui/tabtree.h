@@ -29,7 +29,7 @@ public:
     explicit TabTree(QWidget *parent = NULL);
 
     /** Create tab in @a path with given @a index. */
-    void insertTab(const QString &path, int index);
+    void insertTab(const QString &path, int index, bool selected);
 
     /** Remove tab with given @a index. */
     void removeTab(int index);

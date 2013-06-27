@@ -33,7 +33,7 @@ class TabWidget : public QTabWidget
 public:
     explicit TabWidget(QWidget *parent = NULL);
 
-    void refreshTabBar();
+    void refreshTabBar(const QString &currentPath = QString());
 
     /** Return current tab (-1 if current is group in tree). */
     int getCurrentTab() const;
@@ -45,8 +45,6 @@ public:
     bool isTabGroup(const QString &tab) const;
 
     bool isTreeModeEnabled() const;
-
-    void moveTab(int from, int to);
 
 public slots:
     void nextTab();

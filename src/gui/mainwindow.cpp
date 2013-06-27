@@ -544,11 +544,11 @@ void MainWindow::setHideMenuBar(bool hide)
 
 void MainWindow::updateTabsAutoSaving()
 {
-    browser(0)->setSavingEnabled(!m_clearFirstTab);
+    getBrowser(0)->setSavingEnabled(!m_clearFirstTab);
 
     TabWidget *tabs = ui->tabWidget;
     for ( int i = 1; i < tabs->count(); ++i )
-        browser(i)->setSavingEnabled(true);
+        getBrowser(i)->setSavingEnabled(true);
 }
 
 ClipboardBrowser *MainWindow::findTab(const QString &name)
@@ -1059,26 +1059,27 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
 
     QString prefix = afterPrefix + '/';
 
-    int afterIndex = tabs.size() - 1;
-    for (; afterIndex >= 0; --afterIndex) {
-        const QString &tab = tabs[afterIndex];
-        if ( tab == afterPrefix || tab.startsWith(prefix) )
-            break;
+    int afterIndex = -1;
+    if ( !afterPrefix.isEmpty() ) {
+        afterIndex = tabs.indexOf(afterPrefix);
+        if (afterIndex == -1) {
+            for (afterIndex = 0; afterIndex < tabs.size() && !tabs[afterIndex].startsWith(prefix); ++afterIndex) {}
+            --afterIndex;
+        }
     }
 
     prefix = oldPrefix + '/';
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     TabWidget *w = ui->tabWidget;
-    w->blockSignals(true);
 
     for (int i = 0, d = 0; i < tabs.size(); ++i) {
         const QString &tab = tabs[i];
         bool down = (i < afterIndex);
 
-        if (i == afterIndex) {
+        if (i == afterIndex)
             d = 0;
-        } else if ( tab == oldPrefix || tab.startsWith(prefix) ) {
+        if ( tab == oldPrefix || tab.startsWith(prefix) ) {
             const int from = down ? i - d : i;
             const int to = afterIndex + (down ? 0 : d + 1);
 
@@ -1096,15 +1097,25 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
                 w->setTabText(from, newName);
             }
 
-            // Move tab.
-            w->moveTab(from, to);
+            // Move tab (without focusing other browser).
+            w->blockSignals(true);
+            bool isCurrent = w->currentIndex() == from;
+            if (isCurrent) {
+                w->addTab(new QWidget(w), QString());
+                w->setCurrentIndex(tabs.size());
+            }
+            w->insertTab(to, w->widget(from), w->tabText(from));
+            if (isCurrent) {
+                w->setCurrentIndex(to);
+                w->removeTab(tabs.size());
+            }
+            w->blockSignals(false);
             ++d;
         }
     }
 
     cm->setTabs(this->tabs());
-    w->refreshTabBar();
-    w->blockSignals(false);
+    w->refreshTabBar(newPrefix);
 }
 
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
