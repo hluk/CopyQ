@@ -216,6 +216,8 @@ class MainWindow : public QMainWindow
         void renameTab(int tab = -1);
         /** Rename current tab to given name (if possible). */
         void renameTab(const QString &name, int tabIndex);
+        /** Remove all tab in group. */
+        void removeTabGroup(const QString &name);
         /** Remove tab. */
         void removeTab(
                 bool ask = true, //!< Ask before removing.

@@ -391,6 +391,8 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
             hasTab ? menu.addAction( iconTabRename(), tr("Re&name tab \"%1\"").arg(tab) ) : NULL;
     QAction *actRemove =
             hasTab ? menu.addAction( iconTabRemove(), tr("Re&move tab \"%1\"").arg(tab) ) : NULL;
+    QAction *actRemoveGroup =
+            isGroup ? menu.addAction( iconTabRename(), tr("Remove group \"%1\"").arg(tab) ) : NULL;
 
     QAction *act = menu.exec(pos);
     if (act != NULL) {
@@ -402,6 +404,8 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
             renameTab(tabIndex);
         else if (act == actRemove)
             removeTab(true, tabIndex);
+        else if (act == actRemoveGroup)
+            removeTabGroup(tab);
     }
 }
 
@@ -1871,6 +1875,36 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     cm->setTabs(tabs());
 }
 
+void MainWindow::removeTabGroup(const QString &name)
+{
+    int answer = QMessageBox::question(
+                this,
+                tr("Remove All Tabs in Group?"),
+                tr("Do you want to remove <strong>all tabs</strong> in group <strong>%1</strong>?"
+                   ).arg(name),
+                QMessageBox::Yes | QMessageBox::No,
+                QMessageBox::Yes);
+    if (answer == QMessageBox::Yes) {
+        ui->tabWidget->setCurrentIndex(0);
+        const QStringList tabs = this->tabs();
+        const QString tabPrefix = name + '/';
+        const int currentTabIndex = ui->tabWidget->currentIndex();
+
+        for ( int i = tabs.size() - 1; i >= 0; --i ) {
+            const QString &tab = tabs[i];
+            if ( tab == name || tab.startsWith(tabPrefix) ) {
+                if (currentTabIndex == i)
+                    ui->tabWidget->setCurrentIndex(0);
+                ClipboardBrowser *c = getBrowser(i);
+                c->purgeItems();
+                c->deleteLater();
+                ui->tabWidget->removeTab(i);
+            }
+        }
+        saveSettings();
+    }
+}
+
 void MainWindow::removeTab(bool ask, int tabIndex)
 {
     TabWidget *w = ui->tabWidget;
@@ -1892,8 +1926,8 @@ void MainWindow::removeTab(bool ask, int tabIndex)
                         QMessageBox::Yes);
         }
         if (answer == QMessageBox::Yes) {
-            ui->tabWidget->setCurrentIndex(0);
-            ConfigurationManager::instance()->removeItems( c->getID() );
+            if ( ui->tabWidget->currentIndex() == tabIndex )
+                ui->tabWidget->setCurrentIndex(0);
             c->purgeItems();
             c->deleteLater();
             w->removeTab(i);
