@@ -201,6 +201,9 @@ QList<CommandHelp> commandHelp()
         << CommandHelp("eval, -e",
                        Scriptable::tr("Evaluate ECMAScript program."))
            .addArg("[" + Scriptable::tr("SCRIPT") + "]")
+        << CommandHelp("session, -s, --session",
+                       Scriptable::tr("\nStarts or connects to application instance with given session name."))
+           .addArg(Scriptable::tr("SESSION"))
         << CommandHelp("help, -h, --help",
                        Scriptable::tr("\nPrint help for COMMAND or all commands."))
            .addArg("[" + Scriptable::tr("COMMAND") + "]")

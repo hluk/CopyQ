@@ -48,7 +48,7 @@ class ClipboardServer : public QObject, public App
     Q_OBJECT
 
 public:
-    ClipboardServer(int &argc, char **argv);
+    ClipboardServer(int &argc, char **argv, const QString &sessionName = QString());
     ~ClipboardServer();
 
     /** Returns true if server is listening to incoming client connections. */

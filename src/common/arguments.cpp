@@ -64,7 +64,7 @@ Arguments::Arguments()
     reset(QDir::currentPath());
 }
 
-Arguments::Arguments(int &argc, char **argv)
+Arguments::Arguments(int argc, char **argv, int skipArgc)
     : m_args()
 {
     reset(QDir::currentPath());
@@ -74,7 +74,7 @@ Arguments::Arguments(int &argc, char **argv)
      * "--" read all following arguments without control sequences
      */
     bool readRaw = false;
-    for (int i = 1; i < argc; ++i) {
+    for (int i = skipArgc; i < argc; ++i) {
         const char *arg = argv[i];
         if (readRaw) {
             m_args.append( QString::fromLocal8Bit(arg).toUtf8() );

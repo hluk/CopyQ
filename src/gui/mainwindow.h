@@ -77,6 +77,8 @@ class MainWindow : public QMainWindow
 
         bool isTrayMenuVisible() const;
 
+        void setSessionName(const QString &sessionName);
+
     signals:
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
@@ -421,6 +423,8 @@ class MainWindow : public QMainWindow
         QTimer *m_timerUpdateFocusWindows;
 
         QTimer *m_timerGeometry;
+
+        QString m_sessionName;
     };
 
 #endif // MAINWINDOW_H

@@ -20,13 +20,15 @@
 #ifndef APP_H
 #define APP_H
 
+#include <QString>
+
 class QCoreApplication;
 
 /** Application class. */
 class App
 {
 public:
-    explicit App(QCoreApplication *application);
+    explicit App(QCoreApplication *application, const QString &sessionName = QString());
 
     virtual ~App() {}
 

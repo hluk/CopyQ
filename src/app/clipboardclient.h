@@ -38,7 +38,8 @@ class ClipboardClient : public QObject, public App
     Q_OBJECT
 
 public:
-    ClipboardClient(int &argc, char **argv);
+    ClipboardClient(int &argc, char **argv,
+                    int skipArgc = 0, const QString &sessionName = QString());
 
 private:
     QLocalSocket m_client;

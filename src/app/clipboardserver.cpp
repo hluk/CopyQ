@@ -42,9 +42,9 @@ struct QxtGlobalShortcut {};
 #include "../qxt/qxtglobalshortcut.h"
 #endif
 
-ClipboardServer::ClipboardServer(int &argc, char **argv)
+ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
-    , App(new QApplication(argc, argv))
+    , App(new QApplication(argc, argv), sessionName)
     , m_server(NULL)
     , m_wnd(NULL)
     , m_monitor(NULL)
@@ -63,6 +63,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv)
 
     // main window
     m_wnd = new MainWindow;
+    m_wnd->setSessionName(sessionName);
 
     // listen
     connect( m_server, SIGNAL(newConnection()),

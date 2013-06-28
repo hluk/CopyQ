@@ -124,6 +124,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerGeometry( new QTimer(this) )
+    , m_sessionName()
 {
     ui->setupUi(this);
 
@@ -624,6 +625,11 @@ QStringList MainWindow::tabs() const
 bool MainWindow::isTrayMenuVisible() const
 {
     return trayMenu->isVisible();
+}
+
+void MainWindow::setSessionName(const QString &sessionName)
+{
+    m_sessionName = sessionName;
 }
 
 WId MainWindow::mainWinId() const
@@ -1213,7 +1219,12 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
 
     QString format(hasText ? "\"%1\"" : "%1");
     tray->setToolTip( tr("Clipboard:\n%1").arg( format.arg(elideText(text, 256))) );
-    setWindowTitle( tr("%1 - CopyQ").arg( format.arg(elideText(text, 30))) );
+
+    const QString clipboardContent = format.arg(elideText(text, 30));
+    if ( m_sessionName.isEmpty() )
+        setWindowTitle( tr("%1 - CopyQ").arg(clipboardContent) );
+    else
+        setWindowTitle( tr("%1 - %2 - CopyQ").arg(clipboardContent).arg(m_sessionName) );
 }
 
 void MainWindow::setClipboard(const ClipboardItem *item)
@@ -1523,14 +1534,15 @@ WId MainWindow::openActionDialog(const QMimeData &data)
 
 void MainWindow::openPreferences()
 {
+    if ( !isEnabled() )
+        return;
+
     // Turn off "always on top" so that configuration dialog is not below main window.
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
 
-    if (isEnabled())
-        ConfigurationManager::instance()->exec();
-
-    setWindowFlags(flags);
+    if ( ConfigurationManager::instance()->exec() == QDialog::Rejected )
+        setWindowFlags(flags);
 }
 
 ClipboardBrowser *MainWindow::browser(int index)

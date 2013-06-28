@@ -40,7 +40,7 @@ public:
     };
 
     Arguments();
-    Arguments(int &argc, char **argv);
+    Arguments(int argc, char **argv, int skipArgc = 1);
 
     ~Arguments();
 

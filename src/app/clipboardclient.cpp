@@ -26,11 +26,11 @@
 #include <QCoreApplication>
 #include <QFile>
 
-ClipboardClient::ClipboardClient(int &argc, char **argv)
+ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QString &sessionName)
     : QObject()
-    , App(new QCoreApplication(argc, argv))
+    , App(new QCoreApplication(argc, argv), sessionName)
     , m_client()
-    , m_args(argc, argv)
+    , m_args(argc, argv, skipArgc + 1)
 {
     // client socket
     connect( &m_client, SIGNAL(readyRead()),

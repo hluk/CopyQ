@@ -52,22 +52,23 @@ void exitSignalHandler(int)
 
 #endif // Q_OS_UNIX
 
-App::App(QCoreApplication *application)
+App::App(QCoreApplication *application, const QString &sessionName)
     : m_app(application)
     , m_exitCode(0)
     , m_closed(false)
 {
+    QString session("copyq");
+    if ( !sessionName.isEmpty() )
+        session += "-" + sessionName;
+
 #ifdef HAS_TESTS
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    if ( env.value("COPYQ_TESTING") == "1" ) {
-        QCoreApplication::setOrganizationName("copyq-test");
-        QCoreApplication::setApplicationName("copyq-test");
-    } else
+    if ( env.value("COPYQ_TESTING") == "1" )
+        session += ".test";
 #endif
-    {
-        QCoreApplication::setOrganizationName("copyq");
-        QCoreApplication::setApplicationName("copyq");
-    }
+
+    QCoreApplication::setOrganizationName(session);
+    QCoreApplication::setApplicationName(session);
 
     const QString locale = QLocale::system().name();
     QTranslator *translator = new QTranslator(m_app);

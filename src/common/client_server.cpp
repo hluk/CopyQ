@@ -157,7 +157,7 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
-    return name + QString("_")
+    return QCoreApplication::applicationName() + "_" + name + QString("_")
 #ifdef Q_OS_WIN
             + qgetenv("USERNAME")
 #else
@@ -168,12 +168,12 @@ QString serverName(const QString &name)
 
 QString clipboardServerName()
 {
-    return serverName("CopyQ_server");
+    return serverName("server");
 }
 
 QString clipboardMonitorServerName()
 {
-    return serverName("CopyQ_monitor_server");
+    return serverName("monitor_server");
 }
 
 uint hash(const QMimeData &data, const QStringList &formats)

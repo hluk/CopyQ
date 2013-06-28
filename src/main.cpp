@@ -67,9 +67,9 @@ void evaluate(const QString &functionName, const char *arg)
     f.write( result.toString().toStdString().data() );
 }
 
-int startServer(int argc, char *argv[])
+int startServer(int argc, char *argv[], const QString &sessionName)
 {
-    ClipboardServer app(argc, argv);
+    ClipboardServer app(argc, argv, sessionName);
     if ( app.isListening() ) {
         return app.exec();
     } else {
@@ -84,9 +84,9 @@ int startMonitor(int argc, char *argv[])
     return app.isConnected() ? app.exec() : 0;
 }
 
-int startClient(int argc, char *argv[])
+int startClient(int argc, char *argv[], int skipArgc, const QString &sessionName)
 {
-    ClipboardClient app(argc, argv);
+    ClipboardClient app(argc, argv, skipArgc, sessionName);
     return app.exec();
 }
 
@@ -97,18 +97,56 @@ int startTests(int argc, char *argv[])
 }
 #endif
 
-bool needsHelp(const char *arg)
+bool needsHelp(const QString &arg)
 {
-    return strcmp("-h",arg) == 0 ||
-           strcmp("--help",arg) == 0 ||
-           strcmp("help",arg) == 0;
+    return arg == "-h" ||
+           arg == "--help" ||
+           arg == "help";
 }
 
-bool needsVersion(const char *arg)
+bool needsVersion(const QString &arg)
 {
-    return strcmp("-v",arg) == 0 ||
-           strcmp("--version",arg) == 0 ||
-           strcmp("version",arg) == 0;
+    return arg == "-v" ||
+           arg == "--version" ||
+           arg == "version";
+}
+
+QString getSessionName(int *argc, char *argv[])
+{
+    if (*argc <= 1)
+        return QString("");
+
+    QString sessionName;
+    const QString arg1(argv[1]);
+
+    if (arg1 == "-s" || arg1 == "--session" || arg1 == "session") {
+        if (*argc > 2) {
+            *argc -= 2;
+            sessionName = argv[2];
+        }
+    } else if (arg1.startsWith("--session=")) {
+        sessionName = arg1.mid( arg1.indexOf('=') + 1 );
+        *argc -= 1;
+    } else {
+        return QString("");
+    }
+
+    // check session name
+    bool ok = !sessionName.isNull() && sessionName.length() < 16;
+    if (ok) {
+        foreach (const QChar &c, sessionName) {
+            ok == c.isLetterOrNumber() || c == '-' || c == '_';
+            if (!ok)
+                break;
+        }
+    }
+
+    if (!ok) {
+        log( QObject::tr("Session name must contain at most 16 characters\n"
+                         "which can be letters, digits, '-' or '_'!"), LogWarning );
+    }
+
+    return ok ? sessionName : QString();
 }
 
 #ifdef HAS_TESTS
@@ -140,10 +178,19 @@ int main(int argc, char *argv[])
         }
     }
 
-    if (argc == 1) {
+    // get session name (default empty)
+    QString sessionName;
+    int newArgc = argc;
+    if (argc > 1) {
+        sessionName = getSessionName(&newArgc, argv);
+        if ( sessionName.isNull() )
+            return 2;
+    }
+
+    if (newArgc == 1) {
         // if server hasn't been run yet and no argument were specified
         // then run this process as server
-        return startServer(argc, argv);
+        return startServer(argc, argv, sessionName);
     } else if (argc == 3 && strcmp(argv[1], "monitor") == 0) {
         // if first argument is monitor (second is monitor server name/ID)
         // then run this process as monitor
@@ -151,6 +198,6 @@ int main(int argc, char *argv[])
     } else {
         // if argument specified and server is running
         // then run this process as client
-        return startClient(argc, argv);
+        return startClient(argc, argv, argc - newArgc, sessionName);
     }
 }

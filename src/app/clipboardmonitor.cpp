@@ -263,11 +263,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // clone only mime types defined by user
     QMimeData *data2 = cloneData(*data, &m_formats);
-    // any data found?
-    if ( data2->formats().isEmpty() ) {
-        delete data2;
-        return;
-    }
 
     // add window title of clipboard owner
     PlatformPtr platform = createPlatformNativeInterface();
