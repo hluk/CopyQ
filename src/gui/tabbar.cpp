@@ -29,6 +29,7 @@
 TabBar::TabBar(QWidget *parent)
     : QTabBar(parent)
     , m_tabTree(NULL)
+    , m_resizing(false)
 {
     setFocusPolicy(Qt::NoFocus);
 }
@@ -141,9 +142,17 @@ void TabBar::mousePressEvent(QMouseEvent *event)
 
 void TabBar::resizeEvent(QResizeEvent *event)
 {
+    // resizeEvent() shouldn't be called recursively
+    Q_ASSERT(!m_resizing);
+    if (m_resizing)
+        return;
+
     QTabBar::resizeEvent(event);
-    if ( isTreeModeEnabled() )
-        m_tabTree->resize(size());
+    if ( isTreeModeEnabled() ) {
+        m_resizing = true;
+        updateTreeSize();
+        m_resizing = false;
+    }
 }
 
 void TabBar::onTreeCurrentChanged(int index)
@@ -185,9 +194,12 @@ void TabBar::updateTreeSize()
 
     int w = m_tabTree->verticalScrollBar()->sizeHint().width(); // space for scrollbar
 
-    resize(1, height());
+    m_tabTree->resize(1, height());
     m_tabTree->resizeColumnToContents(0);
     w += m_tabTree->columnWidth(0);
 
-    resize( w, height() );
+    if ( w != width() )
+        resize( w, height() );
+    else
+        m_tabTree->resize(size()); // Called from resizeEvent().
 }

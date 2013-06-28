@@ -72,6 +72,7 @@ private:
     void updateTreeSize();
 
     TabTree *m_tabTree;
+    bool m_resizing;
 };
 
 #endif // TABBAR_H
