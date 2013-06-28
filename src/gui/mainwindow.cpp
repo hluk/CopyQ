@@ -125,6 +125,21 @@ QColor sessionNameToColor(const QString &name)
     return QColor(r, g, b);
 }
 
+QString textLabelForData(const QMimeData *data, int maxChars)
+{
+    const QStringList formats = data->formats();
+
+    if ( formats.indexOf("text/plain") != -1 )
+        return MainWindow::tr("\"%1\"").arg( elideText(data->text(), maxChars) );
+    else if ( formats.indexOf(QRegExp("^image/.*")) != -1 )
+        return MainWindow::tr("<IMAGE>");
+    else if ( formats.indexOf(QString("text/uri-list")) != -1 )
+        return MainWindow::tr("<FILES>");
+    else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) )
+        return MainWindow::tr("<EMPTY>");
+    return MainWindow::tr("<DATA>");
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -326,10 +341,9 @@ void MainWindow::createMenu()
                      QKeySequence(tr("Ctrl+P")) );
 
     // - show clipboard content
-    act = trayMenu->addAction( iconClipboard(),
-                               tr("Show &Clipboard Content"),
-                               this, SLOT(showClipboardContent()) );
-    menu->addAction( act->icon(), act->text(), this, SLOT(showClipboardContent()),
+    menu->addAction( iconClipboard(),
+                     tr("Show &Clipboard Content"),
+                     this, SLOT(showClipboardContent()),
                      QKeySequence(tr("Ctrl+Shift+C")) );
 
     // - enable/disable
@@ -1250,26 +1264,10 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const ClipboardItem *item)
 {
-    QString text;
-    const QStringList formats = item->data(contentType::formats).toStringList();
-    bool hasText = formats.indexOf("text/plain") != -1;
+    QString text = textLabelForData(item->data(), 256);
+    tray->setToolTip( tr("Clipboard:\n%1").arg(text) );
 
-    if (hasText) {
-        text = item->text();
-    } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
-        text = tr("<IMAGE>");
-    } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
-        text = tr("<FILES>");
-    } else if ( item->isEmpty() ) {
-        text = tr("<EMPTY>");
-    } else {
-        text = tr("<DATA>");
-    }
-
-    QString format(hasText ? "\"%1\"" : "%1");
-    tray->setToolTip( tr("Clipboard:\n%1").arg( format.arg(elideText(text, 256))) );
-
-    const QString clipboardContent = format.arg(elideText(text, 30));
+    const QString clipboardContent = elideText(text, 30);
     if ( m_sessionName.isEmpty() )
         setWindowTitle( tr("%1 - CopyQ").arg(clipboardContent) );
     else
@@ -1497,10 +1495,13 @@ void MainWindow::updateTrayMenuItems()
 
         // Show clipboard content as disabled item.
         QString text = data != NULL ? data->text() : c->selectedText();
-        QAction *act = trayMenu->addAction(text);
-        act->setDisabled(true);
+        QAction *act = trayMenu->addAction( iconClipboard(),
+                                            textLabelForData(data, 128),
+                                            this, SLOT(showClipboardContent()) );
         trayMenu->addCustomAction(act);
         elideText(act, true);
+        act->setText( tr("&Clipboard: %1").arg(act->text()) );
+        elideText(act, false);
 
         int i = trayMenu->actions().size();
         c->addCommandsToMenu(trayMenu, text, data);
