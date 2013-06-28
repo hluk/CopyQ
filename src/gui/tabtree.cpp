@@ -126,10 +126,13 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
         QString labelText = text;
         const int i = labelText.indexOf('&');
         if (i != -1 && i + 1 < labelText.size()) {
+            const QString keyHint = labelText.at(i + 1);
+            const QString label = labelText.mid(0, i) + labelText.mid(i + 1);
             labelText = tr("(%1) %2",
-                           "Tab tree item text format; %1 is key hint (usually underlined in labels).")
-                    .arg(labelText.at(i + 1))
-                    .arg(labelText.mid(0, i) + labelText.mid(i + 1));
+                           "Tab tree item label format;"
+                           " %1 is key hint (usually underlined in labels).")
+                    .arg(keyHint)
+                    .arg(label.size() == 1 ? QString() : label);
         }
         item->setText(0, labelText);
     }
