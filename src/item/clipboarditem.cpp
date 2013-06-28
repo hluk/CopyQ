@@ -74,6 +74,12 @@ void ClipboardItem::setData(const QVariant &value)
     updateDataHash();
 }
 
+bool ClipboardItem::isEmpty() const
+{
+    const QStringList formats = m_data->formats();
+    return formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle);
+}
+
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
     m_data->setData(mimeType, data);
@@ -124,7 +130,7 @@ void ClipboardItem::updateDataHash()
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
 {
     const QMimeData *data = item.data();
-    const QStringList &formats = item.data()->formats();
+    const QStringList formats = item.data()->formats();
     QByteArray bytes;
     stream << formats.length();
     foreach (const QString &mime, formats) {

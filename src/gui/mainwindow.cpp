@@ -1213,6 +1213,8 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
         text = tr("<IMAGE>");
     } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
         text = tr("<FILES>");
+    } else if ( item->isEmpty() ) {
+        text = tr("<EMPTY>");
     } else {
         text = tr("<DATA>");
     }
