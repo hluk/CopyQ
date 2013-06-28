@@ -78,10 +78,18 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"))
     return (data != NULL) ? data->data(mime) : QByteArray();
 }
 
+void initTestProcess(QProcess *p)
+{
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("COPYQ_TESTING", "1");
+    p->setProcessEnvironment(env);
+}
+
 int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArray *stderrData = NULL,
         const QByteArray &in = QByteArray())
 {
     QProcess p;
+    initTestProcess(&p);
     p.start( QApplication::applicationFilePath(), arguments );
 
     p.write(in);
@@ -447,9 +455,7 @@ bool Tests::startServer()
         m_server->deleteLater();
     m_server = new QProcess(this);
 
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("COPYQ_TESTING", "1");
-    m_server->setProcessEnvironment(env);
+    initTestProcess(m_server);
 
     m_server->start( QApplication::applicationFilePath(), QIODevice::ReadOnly );
     m_server->waitForStarted();
