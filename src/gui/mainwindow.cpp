@@ -1265,7 +1265,7 @@ void MainWindow::previousTab()
 void MainWindow::clipboardChanged(const ClipboardItem *item)
 {
     QString text = textLabelForData(item->data(), 256);
-    tray->setToolTip( tr("Clipboard:\n%1").arg(text) );
+    tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
     const QString clipboardContent = elideText(text, 30);
     if ( m_sessionName.isEmpty() )
@@ -1498,10 +1498,9 @@ void MainWindow::updateTrayMenuItems()
         QAction *act = trayMenu->addAction( iconClipboard(),
                                             textLabelForData(data, 128),
                                             this, SLOT(showClipboardContent()) );
-        trayMenu->addCustomAction(act);
-        elideText(act, true);
-        act->setText( tr("&Clipboard: %1").arg(act->text()) );
+        act->setText( tr("&Clipboard: %1", "Tray menu clipboard item format").arg(act->text()) );
         elideText(act, false);
+        trayMenu->addCustomAction(act);
 
         int i = trayMenu->actions().size();
         c->addCommandsToMenu(trayMenu, text, data);
