@@ -250,9 +250,6 @@ void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
 void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
 {
     QTreeWidgetItem *item = itemAt(itemPosition);
-    if (item == NULL)
-        return;
-
     QString tabPath = getTabPath(item);
     emit tabMenuRequested(menuPosition, tabPath);
 }
