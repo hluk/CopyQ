@@ -38,6 +38,7 @@
 #include "platform/platformnativeinterface.h"
 
 #include <QAction>
+#include <QBitmap>
 #include <QCloseEvent>
 #include <QFile>
 #include <QFileDialog>
@@ -45,6 +46,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QTimer>
+#include <QPainter>
 
 #ifdef COPYQ_ICON_PREFIX
 #   define RETURN_ICON_FROM_PREFIX(suffix, fallback) do { \
@@ -84,6 +86,43 @@ const QIcon iconTrayRunning(bool disabled) {
         RETURN_ICON_FROM_PREFIX( "-disabled-busy.svg", getIconFromResources("icon-disabled-running") );
     else
         RETURN_ICON_FROM_PREFIX( "-busy.svg", getIconFromResources("icon-running") );
+}
+
+void colorizePixmap(QPixmap *pix, const QColor &from, const QColor &to)
+{
+    QPixmap pix2( pix->size() );
+    pix2.fill(to);
+    pix2.setMask( pix->createMaskFromColor(from, Qt::MaskOutColor) );
+
+    QPainter p(pix);
+    p.drawPixmap(0, 0, pix2);
+}
+
+QColor sessionNameToColor(const QString &name)
+{
+    if (name.isEmpty())
+        return QColor(Qt::white);
+
+    int r = 0;
+    int g = 0;
+    int b = 0;
+
+    foreach (const QChar &c, name) {
+        const ushort x = c.unicode() % 3;
+        if (x == 0)
+            r += 255;
+        else if (x == 1)
+            g += 255;
+        else
+            b += 255;
+    }
+
+    int max = qMax(r, qMax(g, b));
+    r = r * 255 / max;
+    g = g * 255 / max;
+    b = b * 255 / max;
+
+    return QColor(r, g, b);
 }
 
 } // namespace
@@ -434,6 +473,13 @@ void MainWindow::closeAction(Action *action)
 void MainWindow::updateIcon()
 {
     QIcon icon = iconTray(m_monitoringDisabled);
+
+    if ( !m_sessionName.isEmpty() ) {
+        QPixmap pix = icon.pixmap( tray->geometry().size() );
+        colorizePixmap( &pix, QColor(0x7f, 0xca, 0x9b), sessionNameToColor(m_sessionName) );
+        icon = pix;
+    }
+
     setWindowIcon(icon);
 
     if ( !m_actions.isEmpty() )
@@ -630,6 +676,7 @@ bool MainWindow::isTrayMenuVisible() const
 void MainWindow::setSessionName(const QString &sessionName)
 {
     m_sessionName = sessionName;
+    updateIcon();
 }
 
 WId MainWindow::mainWinId() const
