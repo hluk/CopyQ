@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>709</width>
-    <height>607</height>
+    <width>591</width>
+    <height>580</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -791,8 +791,8 @@ Set to 0 to disable this.</string>
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>98</width>
-               <height>28</height>
+               <width>35</width>
+               <height>16</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -923,7 +923,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>384</width>
+              <width>376</width>
               <height>474</height>
              </rect>
             </property>
@@ -1229,8 +1229,8 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>323</width>
-              <height>424</height>
+              <width>270</width>
+              <height>471</height>
              </rect>
             </property>
             <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -1444,15 +1444,15 @@ Set to 0 to disable this.</string>
               </layout>
              </item>
              <item>
-              <layout class="QHBoxLayout" name="horizontalLayout_13">
-               <item>
+              <layout class="QGridLayout" name="gridLayout_7">
+               <item row="0" column="0">
                 <widget class="QCheckBox" name="checkBoxShowNumber">
                  <property name="text">
                   <string>Show &amp;Number</string>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="0" column="1">
                 <widget class="QCheckBox" name="checkBoxScrollbars">
                  <property name="toolTip">
                   <string>Show scrollbars</string>
@@ -1462,7 +1462,7 @@ Set to 0 to disable this.</string>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="1" column="0">
                 <widget class="QCheckBox" name="checkBoxSystemIcons">
                  <property name="toolTip">
                   <string>Use icons from desktop environment whenever possible.</string>
@@ -1488,36 +1488,36 @@ Set to 0 to disable this.</string>
               </spacer>
              </item>
              <item>
-              <layout class="QVBoxLayout" name="verticalLayout_5">
-               <item>
-                <widget class="QLabel" name="label_14">
-                 <property name="text">
-                  <string>Theme:</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonLoadTheme">
-                 <property name="text">
-                  <string>&amp;Load Theme</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
-                <widget class="QPushButton" name="pushButtonSaveTheme">
-                 <property name="text">
-                  <string>&amp;Save Theme</string>
-                 </property>
-                </widget>
-               </item>
-               <item>
+              <layout class="QGridLayout" name="gridLayout_5">
+               <item row="3" column="1">
                 <widget class="QPushButton" name="pushButtonResetTheme">
                  <property name="text">
                   <string>&amp;Reset Theme</string>
                  </property>
                 </widget>
                </item>
-               <item>
+               <item row="0" column="1">
+                <widget class="QLabel" name="label_14">
+                 <property name="text">
+                  <string>Theme:</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <widget class="QPushButton" name="pushButtonLoadTheme">
+                 <property name="text">
+                  <string>&amp;Load Theme</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="2">
+                <widget class="QPushButton" name="pushButtonSaveTheme">
+                 <property name="text">
+                  <string>&amp;Save Theme</string>
+                 </property>
+                </widget>
+               </item>
+               <item row="3" column="2">
                 <widget class="QPushButton" name="pushButtonEditTheme">
                  <property name="toolTip">
                   <string>Edit current theme in external editor</string>
@@ -1662,8 +1662,8 @@ Set to 0 to disable this.</string>
   <tabstop>pushButtonSaveTheme</tabstop>
   <tabstop>pushButtonResetTheme</tabstop>
   <tabstop>pushButtonEditTheme</tabstop>
-  <tabstop>scrollAreaShortcuts</tabstop>
   <tabstop>buttonBox</tabstop>
+  <tabstop>scrollAreaShortcuts</tabstop>
  </tabstops>
  <resources>
   <include location="../copyq.qrc"/>
