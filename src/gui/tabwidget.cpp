@@ -22,56 +22,173 @@
 #include "tabtree.h"
 
 #include <QPoint>
+#include <QStackedLayout>
 
 TabWidget::TabWidget(QWidget *parent)
-    : QTabWidget(parent)
-    , m_bar(new TabBar(this))
+    : QWidget(parent)
+    , m_tabBar(NULL)
+    , m_tabTree(NULL)
 {
-    m_bar->setObjectName("tabs");
+    m_layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    setLayout(m_layout);
+    m_layout->setContentsMargins(0, 0, 0, 0);
+    m_layout->setSpacing(0);
 
-    setTabBar(m_bar);
+    m_stackedLayout = new QStackedLayout(this);
+    m_layout->addLayout(m_stackedLayout);
 
-    connect( m_bar, SIGNAL(tabMoved(int, int)),
-             this, SIGNAL(tabMoved(int, int)) );
-    connect( m_bar, SIGNAL(tabMenuRequested(QPoint, int)),
-             this, SIGNAL(tabMenuRequested(QPoint, int)) );
-    connect( m_bar, SIGNAL(tabRenamed(QString,int)),
-             this, SIGNAL(tabRenamed(QString,int)) );
-    connect( m_bar, SIGNAL(tabCloseRequested(int)),
-             this, SIGNAL(tabCloseRequested(int)) );
-    connect( m_bar, SIGNAL(treeItemSelected(bool)),
-             this, SLOT(onTreeItemSelected(bool)) );
-}
-
-void TabWidget::refreshTabBar(const QString &currentPath)
-{
-    return m_bar->refresh(currentPath);
-}
-
-int TabWidget::getCurrentTab() const
-{
-    return m_bar->getCurrentTab();
+    createTabBar();
 }
 
 QString TabWidget::getCurrentTabPath() const
 {
-    return isTreeModeEnabled() ? tabTree()->getTabPath( tabTree()->currentItem() ) : QString();
+    return isTreeModeEnabled() ? m_tabTree->getTabPath( m_tabTree->currentItem() ) : QString();
 }
 
 bool TabWidget::isTabGroup(const QString &tab) const
 {
-    return isTreeModeEnabled() && tabTree()->isTabGroup( tabTree()->findTreeItem(tab) );
+    return isTreeModeEnabled() && m_tabTree->isTabGroup( m_tabTree->findTreeItem(tab) );
 }
 
 bool TabWidget::isTreeModeEnabled() const
 {
-    return m_bar->isTreeModeEnabled();
+    return m_tabTree != NULL;
+}
+
+int TabWidget::currentIndex() const
+{
+    return m_stackedLayout->currentIndex();
+}
+
+QWidget *TabWidget::widget(int tabIndex)
+{
+    return m_stackedLayout->widget(tabIndex);
+}
+
+int TabWidget::count() const
+{
+    return m_stackedLayout->count();
+}
+
+QString TabWidget::tabText(int tabIndex) const
+{
+    return isTreeModeEnabled() ? m_tabTree->getTabPath( m_tabTree->findTreeItem(tabIndex) )
+                               : m_tabBar->tabText(tabIndex);
+}
+
+void TabWidget::setTabText(int tabIndex, const QString &tabText)
+{
+    if ( isTreeModeEnabled() ) {
+        m_tabTree->setTabText(tabIndex, tabText);
+    } else {
+        m_tabBar->setTabText(tabIndex, tabText);
+    }
+}
+
+void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
+{
+    m_stackedLayout->insertWidget(tabIndex, widget);
+
+    if ( isTreeModeEnabled() )
+        m_tabTree->insertTab(tabText, tabIndex, count() == 1);
+    else
+        m_tabBar->insertTab(tabIndex, tabText);
+}
+
+void TabWidget::removeTab(int tabIndex)
+{
+    if (tabIndex == currentIndex())
+        setCurrentIndex(0);
+
+    if ( isTreeModeEnabled() )
+        m_tabTree->removeTab(tabIndex);
+    else
+        m_tabBar->removeTab(tabIndex);
+
+    QWidget *w = m_stackedLayout->widget(tabIndex);
+    m_stackedLayout->removeWidget(w);
+    delete w;
+}
+
+void TabWidget::setTabPosition(QBoxLayout::Direction direction)
+{
+    m_layout->setDirection(direction);
+}
+
+void TabWidget::clear()
+{
+    if ( isTreeModeEnabled() ) {
+        m_tabTree->clear();
+    } else {
+        delete m_tabBar;
+        createTabBar();
+    }
+
+    if ( !m_stackedLayout->isEmpty() ) {
+        QWidget *w = m_stackedLayout->widget(0);
+        m_stackedLayout->removeWidget(w);
+        delete w;
+    }
+}
+
+QStringList TabWidget::tabs() const
+{
+    QStringList tabs;
+
+    for( int i = 0; i < count(); ++i )
+        tabs.append( tabText(i) );
+
+    return tabs;
+}
+
+void TabWidget::moveTab(int from, int to)
+{
+    if ( isTreeModeEnabled() )
+        m_tabTree->moveTab(from, to);
+    else
+        m_tabBar->moveTab(from, to);
+
+    bool isCurrent = currentIndex() == from;
+
+    m_stackedLayout->insertWidget(to, m_stackedLayout->widget(from));
+
+    if (isCurrent)
+        setCurrentIndex(to);
+}
+
+void TabWidget::setCurrentIndex(int tabIndex)
+{
+    QWidget *w = currentWidget();
+    const int current = (isTreeModeEnabled() && w != NULL && w->isHidden()) ? -1 : currentIndex();
+
+    if (tabIndex == current)
+        return;
+
+    if (tabIndex != -1) {
+        m_stackedLayout->setCurrentIndex(tabIndex);
+
+        w = currentWidget();
+        w->show();
+        if (isTreeModeEnabled() ? m_tabTree->hasFocus() : m_tabBar->hasFocus())
+            w->setFocus();
+
+        if ( isTreeModeEnabled() )
+            m_tabTree->setCurrentTabIndex(tabIndex);
+        else
+            m_tabBar->setCurrentIndex(tabIndex);
+    } else {
+        if (w->hasFocus())
+            isTreeModeEnabled() ? m_tabTree->setFocus() : m_tabBar->setFocus();
+        w->hide();
+    }
+
+    emit currentChanged(tabIndex, current);
 }
 
 void TabWidget::nextTab()
 {
     if ( isTreeModeEnabled() ) {
-        tabTree()->nextTreeItem();
+        m_tabTree->nextTreeItem();
     } else {
         const int tab = (currentIndex() + 1) % count();
         setCurrentIndex(tab);
@@ -81,7 +198,7 @@ void TabWidget::nextTab()
 void TabWidget::previousTab()
 {
     if ( isTreeModeEnabled() ) {
-        tabTree()->previousTreeItem();
+        m_tabTree->previousTreeItem();
     } else {
         const int size = count();
         const int tab = (size + currentIndex() - 1) % size;
@@ -91,30 +208,33 @@ void TabWidget::previousTab()
 
 void TabWidget::setTabBarDisabled(bool disabled)
 {
-    tabBar()->setDisabled(disabled);
+    if ( isTreeModeEnabled() )
+        m_tabTree->setDisabled(disabled);
+    else
+        m_tabBar->setDisabled(disabled);
 }
 
 void TabWidget::setTabBarHidden(bool hidden)
 {
-    tabBar()->setHidden(hidden);
+    if ( isTreeModeEnabled() )
+        m_tabTree->setHidden(hidden);
+    else
+        m_tabBar->setHidden(hidden);
 }
 
 void TabWidget::setTreeModeEnabled(bool enabled)
 {
-    if (m_bar->isTreeModeEnabled() == enabled)
+    if (isTreeModeEnabled() == enabled)
         return;
 
-    m_bar->setTreeModeEnabled(enabled);
-
     if (enabled) {
-        connect( tabTree(), SIGNAL(tabMenuRequested(QPoint,QString)),
-                 this, SIGNAL(tabMenuRequested(QPoint,QString)) );
-        connect( tabTree(), SIGNAL(tabMoved(QString,QString,QString)),
-                 this, SIGNAL(tabMoved(QString,QString,QString)) );
+        delete m_tabBar;
+        m_tabBar = NULL;
+        createTabTree();
     } else {
-        QWidget *w = currentWidget();
-        if (w != NULL)
-            w->show();
+        delete m_tabTree;
+        m_tabTree = NULL;
+        createTabBar();
     }
 }
 
@@ -132,7 +252,42 @@ void TabWidget::onTreeItemSelected(bool isGroup)
     }
 }
 
-TabTree *TabWidget::tabTree() const
+void TabWidget::onTabMoved(int from, int to)
 {
-    return m_bar->tabTree();
+    m_stackedLayout->insertWidget(to, m_stackedLayout->widget(from));
+}
+
+void TabWidget::createTabBar()
+{
+    m_tabBar = new TabBar(this);
+    m_layout->addWidget(m_tabBar);
+
+    m_tabBar->setExpanding(false);
+    m_tabBar->setMovable(true);
+
+    connect( m_tabBar, SIGNAL(tabMenuRequested(QPoint, int)),
+             this, SIGNAL(tabMenuRequested(QPoint, int)) );
+    connect( m_tabBar, SIGNAL(tabRenamed(QString,int)),
+             this, SIGNAL(tabRenamed(QString,int)) );
+    connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
+             this, SIGNAL(tabCloseRequested(int)) );
+    connect( m_tabBar, SIGNAL(currentChanged(int)),
+             this, SLOT(setCurrentIndex(int)) );
+    connect( m_tabBar, SIGNAL(tabMoved(int, int)),
+             this, SLOT(onTabMoved(int, int)) );
+}
+
+void TabWidget::createTabTree()
+{
+    m_tabTree = new TabTree(this);
+    m_layout->addWidget(m_tabTree);
+
+    m_tabTree->setObjectName("tab_tree");
+
+    connect( m_tabTree, SIGNAL(tabMenuRequested(QPoint,QString)),
+             this, SIGNAL(tabMenuRequested(QPoint,QString)) );
+    connect( m_tabTree, SIGNAL(tabMoved(QString,QString,QString)),
+             this, SIGNAL(tabMoved(QString,QString,QString)) );
+    connect( m_tabTree, SIGNAL(currentTabChanged(int)),
+             this, SLOT(setCurrentIndex(int)) );
 }

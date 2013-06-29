@@ -49,6 +49,14 @@ public:
     /** Return true only if tab is tab group. */
     bool isTabGroup(const QTreeWidgetItem *item) const;
 
+    /** Return true only if tab is tab group and is empty. */
+    bool isEmptyTabGroup(const QTreeWidgetItem *item) const;
+
+    /** Change tab index of tab. */
+    void moveTab(int from, int to);
+
+    void setTabText(int tabIndex, const QString &tabText);
+
 signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
@@ -69,7 +77,9 @@ private slots:
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
-    void shiftIndexesBetween(int from, int to = -1);
+    void shiftIndexesBetween(int from, int to = -1, int how = -1);
+    void updateSize();
+    void deleteItem(QTreeWidgetItem *item);
 };
 
 #endif // TABTREE_H

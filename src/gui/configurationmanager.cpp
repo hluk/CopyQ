@@ -783,9 +783,9 @@ void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
 void ConfigurationManager::decorateTabs(QWidget *tabWidget) const
 {
     tabWidget->setStyleSheet(
-        QString("#tabs TabTree{") + themeStyleSheet("tab_tree_css") + "}"
-        + QString("#tabs TabTree::item{") + themeStyleSheet("tab_tree_item_css") + "}"
-        + QString("#tabs TabTree::branch:selected, #tabs TabTree::item:selected{")
+        QString("#tab_tree{") + themeStyleSheet("tab_tree_css") + "}"
+        + QString("#tab_tree::item{") + themeStyleSheet("tab_tree_item_css") + "}"
+        + QString("#tab_tree::branch:selected, #tab_tree::item:selected{")
                 + themeStyleSheet("tab_tree_sel_item_css") + "}"
         );
 }
@@ -1153,7 +1153,11 @@ void ConfigurationManager::addCommand(const Command &c)
 
 void ConfigurationManager::setTabs(const QStringList &tabs)
 {
+    Q_ASSERT( !tabs.contains(QString()) );
+    Q_ASSERT( tabs.toSet().size() == tabs.size() );
+
     setValue("tabs", tabs);
+    QSettings().setValue("Options/tabs", tabs);
     ui->widgetCommand->setTabs(tabs);
 
     QString text = ui->comboBoxMenuTab->currentText();

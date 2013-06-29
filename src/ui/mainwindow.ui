@@ -78,18 +78,12 @@
      </widget>
     </item>
     <item>
-     <widget class="TabWidget" name="tabWidget">
-      <property name="currentIndex">
-       <number>-1</number>
-      </property>
-      <property name="documentMode">
-       <bool>true</bool>
-      </property>
-      <property name="tabsClosable">
-       <bool>false</bool>
-      </property>
-      <property name="movable">
-       <bool>true</bool>
+     <widget class="TabWidget" name="tabWidget" native="true">
+      <property name="sizePolicy">
+       <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
+        <horstretch>0</horstretch>
+        <verstretch>1</verstretch>
+       </sizepolicy>
       </property>
      </widget>
     </item>
@@ -100,7 +94,7 @@
  <customwidgets>
   <customwidget>
    <class>TabWidget</class>
-   <extends>QTabWidget</extends>
+   <extends>QWidget</extends>
    <header>gui/tabwidget.h</header>
    <container>1</container>
   </customwidget>

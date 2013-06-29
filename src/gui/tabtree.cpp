@@ -27,6 +27,7 @@
 #include <QMouseEvent>
 #include <QPair>
 #include <QPainter>
+#include <QScrollBar>
 
 namespace {
 
@@ -108,6 +109,10 @@ TabTree::TabTree(QWidget *parent) :
     setDragEnabled(true);
     setDragDropMode(QAbstractItemView::InternalMove);
     setDragDropOverwriteMode(false);
+
+    setFrameShape(QFrame::NoFrame);
+    setHeaderHidden(true);
+    setSelectionMode(QAbstractItemView::SingleSelection);
 }
 
 void TabTree::insertTab(const QString &path, int index, bool selected)
@@ -116,7 +121,31 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
     QTreeWidgetItem *item = findLastTreeItem(*this, &pathComponents);
 
     foreach (const QString &text, pathComponents) {
-        item = (item == NULL) ? new QTreeWidgetItem(this) : new QTreeWidgetItem(item);
+        QTreeWidgetItem *parent = item;
+
+        if (parent != NULL) {
+            int to = 0;
+            for ( ; to < parent->childCount(); ++to ) {
+                 const int index2 = getTabIndex(parent->child(to));
+                 if (index2 != -1 && index < index2)
+                     break;
+            }
+            int from = parent->childCount();
+            item = new QTreeWidgetItem(parent);
+            if (from != to)
+                parent->insertChild(to, parent->takeChild(from));
+        } else {
+            int to = 0;
+            for ( ; to < topLevelItemCount(); ++to ) {
+                 const int index2 = getTabIndex(topLevelItem(to));
+                 if (index2 != -1 && index < index2)
+                     break;
+            }
+            int from = topLevelItemCount();
+            item = new QTreeWidgetItem(this);
+            if (from != to)
+                insertTopLevelItem(to, takeTopLevelItem(from));
+        }
 
         item->setExpanded(true);
         item->setData(0, DataIndex, -1);
@@ -142,6 +171,8 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
 
     if (selected)
         setCurrentItem(item);
+
+    updateSize();
 }
 
 void TabTree::removeTab(int index)
@@ -150,20 +181,13 @@ void TabTree::removeTab(int index)
     if (item == NULL)
         return;
 
-    if (item->childCount() == 0) {
-        // Recursively remove empty parent item.
-        QTreeWidgetItem *parent = item->parent();
-        while (parent != NULL && parent->childCount() == 1 && getTabIndex(parent) < 0) {
-            item = parent;
-            parent = item->parent();
-        }
-
-        delete item;
-    } else {
+    if (item->childCount() == 0)
+        deleteItem(item);
+    else
         item->setData(0, DataIndex, -1);
-    }
 
-    shiftIndexesBetween(index);
+    shiftIndexesBetween(index + 1);
+    updateSize();
 }
 
 QTreeWidgetItem *TabTree::findTreeItem(int index) const
@@ -211,6 +235,39 @@ bool TabTree::isTabGroup(const QTreeWidgetItem *item) const
     return item != NULL && item->childCount() > 0;
 }
 
+bool TabTree::isEmptyTabGroup(const QTreeWidgetItem *item) const
+{
+    return item->childCount() == 0 && getTabIndex(item) < 0;
+}
+
+void TabTree::moveTab(int from, int to)
+{
+    if (from == to)
+        return;
+
+    QTreeWidgetItem *item = findTreeItem(from);
+    if (item == NULL)
+        return;
+
+    if (from < to)
+        shiftIndexesBetween(from + 1, to, -1);
+    else
+        shiftIndexesBetween(to, from - 1, 1);
+
+    item->setData(0, DataIndex, to);
+}
+
+void TabTree::setTabText(int tabIndex, const QString &tabText)
+{
+    QTreeWidgetItem *item = findTreeItem(tabIndex);
+    bool isCurrent = item == currentItem();
+    insertTab(tabText, tabIndex, isCurrent);
+
+    item->setData(0, DataIndex, -1);
+    if ( isEmptyTabGroup(item) )
+        deleteItem(item);
+}
+
 void TabTree::mousePressEvent(QMouseEvent *event)
 {
     if ( event->button() == Qt::RightButton ) {
@@ -237,11 +294,20 @@ void TabTree::dropEvent(QDropEvent *event)
 
     blockSignals(true);
     QTreeWidget::dropEvent(event);
+    setCurrentItem(current);
     blockSignals(false);
 
     const QString newPrefix = getTabPath(current);
     const QString afterPrefix = getTabPath(itemAbove(current));
     emit tabMoved(oldPrefix, newPrefix, afterPrefix);
+
+    // Remove empty groups.
+    foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+        if ( isEmptyTabGroup(item) )
+            deleteItem(item);
+    }
+
+    updateSize();
 }
 
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
@@ -257,17 +323,31 @@ void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosit
     emit tabMenuRequested(menuPosition, tabPath);
 }
 
-void TabTree::shiftIndexesBetween(int from, int to)
+void TabTree::shiftIndexesBetween(int from, int to, int how)
 {
-    foreach (QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+    foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
         const int oldIndex = getTabIndex(item);
-        if (oldIndex > from && (to <= 0 || oldIndex < to))
-            item->setData(0, DataIndex, oldIndex - 1);
+        if (oldIndex >= from && (to == -1 || oldIndex <= to))
+            item->setData(0, DataIndex, oldIndex + how);
     }
+}
+
+void TabTree::updateSize()
+{
+    int w = verticalScrollBar()->sizeHint().width(); // space for scrollbar
+
+    expandAll();
+
+    w += sizeHintForColumn(0);
+    setMinimumWidth(w);
+    setMaximumWidth(w);
 }
 
 void TabTree::setCurrentTabIndex(int index)
 {
+    if (index < 0)
+        return;
+
     QTreeWidgetItem *item = findTreeItem(index);
     if (item != NULL)
         setCurrentItem(item);
@@ -300,4 +380,16 @@ void TabTree::previousTreeItem()
 
     if (item != NULL)
         setCurrentItem(item);
+}
+
+void TabTree::deleteItem(QTreeWidgetItem *item)
+{
+    // Recursively remove empty parent item.
+    QTreeWidgetItem *parent = item->parent();
+    while (parent != NULL && parent->childCount() == 1 && getTabIndex(parent) < 0) {
+        item = parent;
+        parent = item->parent();
+    }
+
+    delete item;
 }

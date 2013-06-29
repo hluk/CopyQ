@@ -83,6 +83,8 @@ class MainWindow : public QMainWindow
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
 
+        void tabGroupSelected(bool selected);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);
@@ -137,9 +139,7 @@ class MainWindow : public QMainWindow
          * @return Existing or new tab with given @a name.
          */
         ClipboardBrowser *createTab(
-                const QString &name, //!< Name of the new tab.
-                bool save
-                //!< If true saveSettings() is called if tab is created.
+                const QString &name //!< Name of the new tab.
                 );
 
         /** Return window ID. */
@@ -152,9 +152,6 @@ class MainWindow : public QMainWindow
          * Show/hide tray menu. Return true only if menu is shown.
          */
         bool toggleMenu();
-
-        /** Return tab names. */
-        QStringList tabs() const;
 
         /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);
@@ -221,9 +218,11 @@ class MainWindow : public QMainWindow
         /** Remove all tab in group. */
         void removeTabGroup(const QString &name);
         /** Remove tab. */
+        void removeTab();
+        /** Remove tab. */
         void removeTab(
-                bool ask = true, //!< Ask before removing.
-                int tab_index = -1 //!< Tab index or current tab.
+                bool ask, //!< Ask before removing.
+                int tab_index //!< Tab index or current tab.
                 );
         /**
          * Add tab with given name if doesn't exist and focus the tab.
@@ -309,7 +308,7 @@ class MainWindow : public QMainWindow
         void trayActivated(QSystemTrayIcon::ActivationReason reason);
         void onTrayActionTriggered(uint clipboardItemHash);
         void enterSearchMode(const QString &txt);
-        void tabChanged(int current);
+        void tabChanged(int current, int previous);
         void tabMoved(int from, int to);
         void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
         void tabMenuRequested(const QPoint &pos, int tab);

@@ -20,23 +20,20 @@
 #ifndef TABWIDGET_H
 #define TABWIDGET_H
 
-#include <QTabWidget>
+#include <QBoxLayout>
+#include <QWidget>
 
 class QPoint;
+class QStackedLayout;
 class TabBar;
 class TabTree;
 
-class TabWidget : public QTabWidget
+class TabWidget : public QWidget
 {
     Q_OBJECT
 
 public:
     explicit TabWidget(QWidget *parent = NULL);
-
-    void refreshTabBar(const QString &currentPath = QString());
-
-    /** Return current tab (-1 if current is group in tree). */
-    int getCurrentTab() const;
 
     /** Return path to current group in tree (empty string if tree mode is disabled). */
     QString getCurrentTabPath() const;
@@ -44,9 +41,41 @@ public:
     /** Return true only if tree mode is enabled and tab is tab group. */
     bool isTabGroup(const QString &tab) const;
 
+    /** Return true only if tree mode is enabled. */
     bool isTreeModeEnabled() const;
 
+    /** Return current tab (-1 if current is group in tree). */
+    int currentIndex() const;
+
+    QWidget *widget(int tabIndex);
+
+    QWidget *currentWidget() { return widget( currentIndex() ); }
+
+    /** Return number of tabs. */
+    int count() const;
+
+    /** Return path of tab in tree or label in tab bar. */
+    QString tabText(int tabIndex) const;
+
+    void setTabText(int tabIndex, const QString &tabText);
+
+    void insertTab(int tabIndex, QWidget *widget, const QString &tabText);
+
+    void addTab(QWidget *widget, const QString &tabText) { insertTab( count(), widget, tabText); }
+
+    void removeTab(int tabIndex);
+
+    void setTabPosition(QBoxLayout::Direction direction);
+
+    void clear();
+
+    /** Return tab names. */
+    QStringList tabs() const;
+
+    void moveTab(int from, int to);
+
 public slots:
+    void setCurrentIndex(int tabIndex);
     void nextTab();
     void previousTab();
     void setTabBarDisabled(bool disabled);
@@ -59,14 +88,21 @@ signals:
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabRenamed(const QString &newName, int index);
     void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
+    void currentChanged(int tabIndex, int oldTabIndex);
+    void tabCloseRequested(int);
 
 private slots:
     void onTreeItemSelected(bool isGroup);
+    void onTabMoved(int from, int to);
 
 private:
-    TabTree *tabTree() const;
+    void createTabBar();
+    void createTabTree();
 
-    TabBar *m_bar;
+    TabBar *m_tabBar;
+    TabTree *m_tabTree;
+    QBoxLayout *m_layout;
+    QStackedLayout *m_stackedLayout;
 };
 
 #endif // TABWIDGET_H

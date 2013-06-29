@@ -23,6 +23,7 @@
 #include "common/command.h"
 
 #include <QListView>
+#include <QPointer>
 #include <QSharedPointer>
 
 class ClipboardItem;
@@ -128,8 +129,8 @@ class ClipboardBrowser : public QListView
         /** Return true if automatic clipboard update is on. */
         bool autoUpdate() { return m_update; }
 
-        /** Return context menu. */
-        QMenu *contextMenu() const {return m_menu;}
+        /** Set context menu for item actions. */
+        void setContextMenu(QMenu *menu);
 
         /**
          * Set ID. Used to save items. If ID is empty saving is disabled.
@@ -192,7 +193,7 @@ class ClipboardBrowser : public QListView
         QTimer *m_timerScroll;
         QTimer *m_timerShowNotes;
 
-        QMenu *m_menu;
+        QPointer<QMenu> m_menu;
 
         bool m_save;
 

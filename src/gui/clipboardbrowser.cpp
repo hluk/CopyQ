@@ -155,7 +155,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerSave( new QTimer(this) )
     , m_timerScroll( new QTimer(this) )
     , m_timerShowNotes( new QTimer(this) )
-    , m_menu( new QMenu(this) )
+    , m_menu(NULL)
     , m_save(true)
     , m_editing(false)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
@@ -259,7 +259,7 @@ void ClipboardBrowser::contextMenuAction()
     if ( cmd.outputTab.isEmpty() )
         cmd.outputTab = m_id;
 
-    bool isContextMenuAction = act->parent() == m_menu;
+    bool isContextMenuAction = m_menu != NULL && act->parent() == m_menu;
     const QModelIndexList selected = selectedIndexes();
 
     const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
@@ -305,9 +305,15 @@ void ClipboardBrowser::contextMenuAction()
 
 void ClipboardBrowser::createContextMenu()
 {
+    if (m_menu == NULL)
+        return;
+
     QAction *act;
 
     m_menu->clear();
+
+    if (editing())
+        return;
 
     act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
     m_menu->setDefaultAction(act);
@@ -345,9 +351,7 @@ void ClipboardBrowser::createContextMenu()
     act->setShortcut( QString("Ctrl+Shift+P") );
     connect(act, SIGNAL(triggered()), this, SLOT(copyPreviousItemToClipboard()));
 
-    connect( m_menu, SIGNAL(aboutToShow()),
-             this, SLOT(updateContextMenu()),
-             Qt::UniqueConnection );
+    updateContextMenu();
 }
 
 bool ClipboardBrowser::isFiltered(const QModelIndex &index, int role) const
@@ -515,10 +519,7 @@ void ClipboardBrowser::setEditingActive(bool active)
     setFocusPolicy(active ? Qt::NoFocus : Qt::StrongFocus);
 
     // Disable shortcuts while editing.
-    if (active)
-        m_menu->clear();
-    else
-        createContextMenu();
+    createContextMenu();
 
     if (m_sharedData->showScrollBars) {
         Qt::ScrollBarPolicy policy = active ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded;
@@ -614,6 +615,9 @@ void ClipboardBrowser::setSavingEnabled(bool enable)
 
 void ClipboardBrowser::updateContextMenu()
 {
+    if (m_menu == NULL)
+        return;
+
     QList<QAction *> actions = m_menu->actions();
 
     // remove old actions
@@ -1366,6 +1370,23 @@ void ClipboardBrowser::redraw()
 {
     d->invalidateCache();
     updateCurrentPage();
+}
+
+void ClipboardBrowser::setContextMenu(QMenu *menu)
+{
+    if ( !m_menu.isNull() ) {
+        disconnect( m_menu, SIGNAL(aboutToShow()),
+                    this, SLOT(updateContextMenu()) );
+    }
+
+    m_menu = menu;
+
+    if ( !m_menu.isNull() ) {
+        connect( m_menu, SIGNAL(aboutToShow()),
+                 this, SLOT(updateContextMenu()) );
+    }
+
+    createContextMenu();
 }
 
 bool ClipboardBrowser::editing()

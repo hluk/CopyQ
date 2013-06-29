@@ -19,107 +19,12 @@
 
 #include "tabbar.h"
 
-#include "gui/tabtree.h"
-
-#include <QModelIndex>
 #include <QMouseEvent>
-#include <QTreeWidget>
-#include <QScrollBar>
 
 TabBar::TabBar(QWidget *parent)
     : QTabBar(parent)
-    , m_tabTree(NULL)
-    , m_resizing(false)
 {
     setFocusPolicy(Qt::NoFocus);
-}
-
-void TabBar::setTreeModeEnabled(bool enabled)
-{
-    if ( isTreeModeEnabled() == enabled )
-        return;
-
-    if (enabled) {
-        m_tabTree = new TabTree(this);
-        m_tabTree->setFrameShape(QFrame::NoFrame);
-        m_tabTree->setHeaderHidden(true);
-        m_tabTree->setSelectionMode(QAbstractItemView::SingleSelection);
-
-        if ( isVisible() )
-            m_tabTree->show();
-
-        refresh();
-
-        connect( m_tabTree, SIGNAL(currentTabChanged(int)),
-                 this, SLOT(onTreeCurrentChanged(int)) );
-        connect( this, SIGNAL(currentChanged(int)),
-                 m_tabTree, SLOT(setCurrentTabIndex(int)) );
-    } else {
-        delete m_tabTree;
-        m_tabTree = NULL;
-    }
-
-    setUsesScrollButtons(!enabled);
-}
-
-bool TabBar::isTreeModeEnabled() const
-{
-    return m_tabTree != NULL;
-}
-
-QSize TabBar::minimumSizeHint() const
-{
-    return isTreeModeEnabled() ? m_tabTree->minimumSize() : QTabBar::minimumSizeHint();
-}
-
-QSize TabBar::sizeHint() const
-{
-    if ( isTreeModeEnabled() )
-        return m_tabTree->size();
-
-    return QTabBar::sizeHint();
-}
-
-void TabBar::refresh(const QString &currentPath)
-{
-    if ( !isTreeModeEnabled() )
-        return;
-
-    m_tabTree->clear();
-
-    for (int i = 0; i < count(); ++i)
-        insertTabToTree(i);
-    updateTreeSize();
-
-    if ( !currentPath.isEmpty() )
-        m_tabTree->setCurrentItem( m_tabTree->findTreeItem(currentPath) );
-}
-
-int TabBar::getCurrentTab() const
-{
-    return isTreeModeEnabled() ? m_tabTree->getTabIndex( m_tabTree->currentItem() ) : currentIndex();
-}
-
-void TabBar::tabInserted(int index)
-{
-    QTabBar::tabInserted(index);
-
-    if ( isTreeModeEnabled() ) {
-        insertTabToTree(index);
-        updateTreeSize();
-    }
-}
-
-void TabBar::tabRemoved(int index)
-{
-    QTabBar::tabRemoved(index);
-
-    if ( isTreeModeEnabled() ) {
-        removeTabFromTree(index);
-        updateTreeSize();
-        if ( getCurrentTab() != currentIndex() )
-            m_tabTree->setCurrentTabIndex( currentIndex() );
-    }
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)
@@ -138,68 +43,4 @@ void TabBar::mousePressEvent(QMouseEvent *event)
     }
 
     QTabBar::mousePressEvent(event);
-}
-
-void TabBar::resizeEvent(QResizeEvent *event)
-{
-    // resizeEvent() shouldn't be called recursively
-    Q_ASSERT(!m_resizing);
-    if (m_resizing)
-        return;
-
-    QTabBar::resizeEvent(event);
-    if ( isTreeModeEnabled() ) {
-        m_resizing = true;
-        updateTreeSize();
-        m_resizing = false;
-    }
-}
-
-void TabBar::onTreeCurrentChanged(int index)
-{
-    bool isGroup = index < 0;
-
-    if (!isGroup)
-        setCurrentIndex(index);
-
-    emit treeItemSelected(isGroup);
-}
-
-void TabBar::onTreeTabMoved(int index, const QString &newName)
-{
-    setTabText(index, newName);
-    emit tabRenamed(newName, index);
-}
-
-void TabBar::onTreeTabMoved(int from, int to)
-{
-    moveTab(from, to);
-}
-
-void TabBar::insertTabToTree(int index)
-{
-    Q_ASSERT(isTreeModeEnabled());
-    m_tabTree->insertTab(tabText(index), index, index == currentIndex());
-}
-
-void TabBar::removeTabFromTree(int index)
-{
-    Q_ASSERT(isTreeModeEnabled());
-    m_tabTree->removeTab(index);
-}
-
-void TabBar::updateTreeSize()
-{
-    Q_ASSERT(isTreeModeEnabled());
-
-    int w = m_tabTree->verticalScrollBar()->sizeHint().width(); // space for scrollbar
-
-    m_tabTree->resize(1, height());
-    m_tabTree->resizeColumnToContents(0);
-    w += m_tabTree->columnWidth(0);
-
-    if ( w != width() )
-        resize( w, height() );
-    else
-        m_tabTree->resize(size()); // Called from resizeEvent().
 }
