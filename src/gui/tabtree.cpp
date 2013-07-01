@@ -37,6 +37,8 @@ enum {
     DataLabelText
 };
 
+const char propertyUsageCounter[] = "CopyQ_usage_counter";
+
 void addTreeAction(QTreeWidget *tree, const QList<QKeySequence> &shortcuts,
                    const char *slot, bool widgetContext = true)
 {
@@ -86,6 +88,15 @@ QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComp
     }
 
     return parentItem;
+}
+
+QChar getKeyHint(const QString &labelText)
+{
+    const int from = labelText.lastIndexOf('/');
+    const int i = labelText.indexOf('&', qMax(0, from));
+    if (i != -1 && i + 1 < labelText.size())
+        return labelText.at(i + 1);
+    return QChar();
 }
 
 } // namespace
@@ -153,15 +164,16 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
 
         // Create widget and set item height.
         QString labelText = text;
-        const int i = labelText.indexOf('&');
-        if (i != -1 && i + 1 < labelText.size()) {
-            const QString keyHint = labelText.at(i + 1);
-            const QString label = labelText.mid(0, i) + labelText.mid(i + 1);
+        const QChar keyHint = getKeyHint(labelText);
+        if ( !keyHint.isNull() ) {
+            labelText.remove( labelText.indexOf('&'), 1 );
             labelText = tr("(%1) %2",
                            "Tab tree item label format;"
                            " %1 is key hint (usually underlined in labels).")
                     .arg(keyHint)
-                    .arg(label.size() == 1 ? QString() : label);
+                    .arg(labelText.size() == 1 ? QString() : labelText);
+
+            addShortcut(keyHint);
         }
         item->setText(0, labelText);
     }
@@ -310,10 +322,53 @@ void TabTree::dropEvent(QDropEvent *event)
     updateSize();
 }
 
+void TabTree::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
+{
+    // Remove shortcut.
+    for (int row = start; row <= end; ++row) {
+        QTreeWidgetItem *item = parent.isValid() ? itemFromIndex(parent.child(row, 0))
+                                                 : topLevelItem(row);
+        QChar keyHint = getKeyHint(getTabPath(item));
+        if ( !keyHint.isNull() )
+            removeShortcut(keyHint);
+    }
+
+    QTreeWidget::rowsAboutToBeRemoved(parent, start, end);
+}
+
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
 {
     if (current != NULL)
         emit currentTabChanged( getTabIndex(current) );
+}
+
+void TabTree::onKeyHintActionTriggered()
+{
+    QObject *obj = sender();
+    Q_ASSERT(obj != NULL);
+
+    QChar keyHint = m_shortcuts.key(obj);
+    Q_ASSERT( !keyHint.isNull() );
+
+    QTreeWidgetItem *foundItem = NULL;
+    bool previousIsCurrent = false;
+    QList<QTreeWidgetItem *> items = findItems(QString(), Qt::MatchContains | Qt::MatchRecursive);
+
+    // Select next item with given key hint.
+    foreach (QTreeWidgetItem *item, items) {
+        if ( currentItem() == item ) {
+            previousIsCurrent = true;
+        } else if ( (foundItem == NULL || previousIsCurrent)
+                    && getKeyHint(getTabPath(item)) == keyHint )
+        {
+            foundItem = item;
+            if (previousIsCurrent)
+                break;
+        }
+    }
+
+    if (foundItem != NULL)
+        setCurrentItem(foundItem);
 }
 
 void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
@@ -392,4 +447,34 @@ void TabTree::deleteItem(QTreeWidgetItem *item)
     }
 
     delete item;
+}
+
+void TabTree::addShortcut(const QChar &keyHint)
+{
+    if ( !m_shortcuts.contains(keyHint) ) {
+        QAction *act = new QAction(this);
+        m_shortcuts[keyHint] = act;
+        act->setShortcut( QKeySequence(tr("Alt+%1").arg(keyHint)) );
+        act->setShortcutContext(Qt::WindowShortcut);
+        act->setProperty(propertyUsageCounter, 1);
+        addAction(act);
+        connect(act, SIGNAL(triggered()), this, SLOT(onKeyHintActionTriggered()) );
+    } else {
+        QObject *act = m_shortcuts[keyHint];
+        int i = act->property(propertyUsageCounter).toInt();
+        act->setProperty(propertyUsageCounter, i + 1);
+    }
+}
+
+void TabTree::removeShortcut(const QChar &keyHint)
+{
+    QObject *act = m_shortcuts[keyHint];
+    Q_ASSERT(act != NULL);
+    int i = act->property(propertyUsageCounter).toInt();
+    if (i == 1) {
+        m_shortcuts.remove(keyHint);
+        delete act;
+    } else {
+        act->setProperty(propertyUsageCounter, i - 1);
+    }
 }
