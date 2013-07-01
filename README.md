@@ -13,9 +13,7 @@ application window.
 
 To build and install CopyQ on your system read `INSTALL` file.
 
-To help with translating, fixing or writing code read `HACKING` file.
-
-For more info go to <http://code.google.com/p/copyq/>.
+For more info go to <https://sourceforge.net/projects/copyq/>.
 
 Features
 --------
@@ -32,6 +30,11 @@ Features
 * Advanced command-line interface and scripting.
 * Ignore clipboard copied from some windows or containing some text.
 * Apply custom commands on selected items or automatically when new matching clipboard content is available.
+
+Developers and Traslators
+-------------------------
+
+If you want to help with translating, fixing or writing code read `HACKING` file.
 
 Dependencies
 ------------
