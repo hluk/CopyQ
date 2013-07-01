@@ -101,8 +101,9 @@ QChar getKeyHint(const QString &labelText)
 
 } // namespace
 
-TabTree::TabTree(QWidget *parent) :
-    QTreeWidget(parent)
+TabTree::TabTree(QWidget *parent)
+    : QTreeWidget(parent)
+    , m_shortcuts()
 {
     // More consistent behavior for selecting items using arrow keys.
     addTreeAction(this, QList<QKeySequence>() << Qt::Key_Down << Qt::Key_Right,

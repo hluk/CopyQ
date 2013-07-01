@@ -28,6 +28,8 @@ TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
     , m_tabBar(NULL)
     , m_tabTree(NULL)
+    , m_layout(NULL)
+    , m_stackedLayout(NULL)
 {
     m_layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     setLayout(m_layout);

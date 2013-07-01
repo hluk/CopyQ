@@ -135,7 +135,7 @@ QString getSessionName(int *argc, char *argv[])
     bool ok = !sessionName.isNull() && sessionName.length() < 16;
     if (ok) {
         foreach (const QChar &c, sessionName) {
-            ok == c.isLetterOrNumber() || c == '-' || c == '_';
+            ok = c.isLetterOrNumber() || c == '-' || c == '_';
             if (!ok)
                 break;
         }
