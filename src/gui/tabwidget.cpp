@@ -117,17 +117,17 @@ void TabWidget::setTabPosition(QBoxLayout::Direction direction)
 
 void TabWidget::clear()
 {
-    if ( isTreeModeEnabled() ) {
-        m_tabTree->clear();
-    } else {
-        delete m_tabBar;
-        createTabBar();
-    }
-
-    if ( !m_stackedLayout->isEmpty() ) {
+    while ( !m_stackedLayout->isEmpty() ) {
         QWidget *w = m_stackedLayout->widget(0);
         m_stackedLayout->removeWidget(w);
         delete w;
+    }
+
+    if ( isTreeModeEnabled() ) {
+        m_tabTree->clear();
+    } else {
+        while( m_tabBar->count() > 0 )
+            m_tabBar->removeTab(0);
     }
 }
 
@@ -168,6 +168,9 @@ void TabWidget::setCurrentIndex(int tabIndex)
         m_stackedLayout->setCurrentIndex(tabIndex);
 
         w = currentWidget();
+        if (w == NULL)
+            return;
+
         w->show();
         if (isTreeModeEnabled() ? m_tabTree->hasFocus() : m_tabBar->hasFocus())
             w->setFocus();
@@ -176,7 +179,7 @@ void TabWidget::setCurrentIndex(int tabIndex)
             m_tabTree->setCurrentTabIndex(tabIndex);
         else
             m_tabBar->setCurrentIndex(tabIndex);
-    } else {
+    } else if (w != NULL) {
         if (w->hasFocus())
             isTreeModeEnabled() ? m_tabTree->setFocus() : m_tabBar->setFocus();
         w->hide();
