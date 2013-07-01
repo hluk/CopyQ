@@ -95,6 +95,7 @@ static QString aboutPage()
         "<p class=\"pp\">"
         "Adam Batkin (<a href=\"mailto:adam@batkin.net\">adam@batkin.net</a>)<br />"
         "Ilya Plenne (<a href=\"mailto:libbkmz.dev@gmail.com\">libbkmz.dev@gmail.com</a>)<br />"
+        "Jörg Thalheim (<a href=\"mailto:joerg@higgsboson.tk\">joerg@higgsboson.tk</a>)<br />"
         "lightonflux (<a href=\"mailto:lightonflux@znn.info\">lightonflux@znn.info</a>)<br />"
         "Patricio M. Ros (<a href=\"mailto:patricioros.dev@gmail.com\">patricioros.dev@gmail.com</a>)<br />"
         "Scott Kostyshak (<a href=\"mailto:skostysh@princeton.edu\">skostysh@princeton.edu</a>)<br />"
