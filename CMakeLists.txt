@@ -60,7 +60,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(copyq_plugin_INSTALL_DIR "${CMAKE_INSTALL_PREFIX}/lib/copyq/plugins")
 
     set(copyq_THEME_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/themes")
-    add_definitions( -DCOPYQ_THEME_PREFIX="${copyq_THEME_INSTALL_PREFIX}/copyq" )
+    add_definitions( -DCOPYQ_THEME_PREFIX="${copyq_THEME_INSTALL_PREFIX}" )
     file(GLOB copyq_THEMES shared/themes/*.ini)
     install(FILES ${copyq_THEMES} DESTINATION ${copyq_THEME_INSTALL_PREFIX})
 else()

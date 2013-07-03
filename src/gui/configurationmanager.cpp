@@ -52,7 +52,7 @@
 #endif
 
 #ifndef COPYQ_THEME_PREFIX
-#  define COPYQ_THEME_PREFIX
+#  define COPYQ_THEME_PREFIX ""
 #endif
 
 namespace {
@@ -131,10 +131,10 @@ int normalizeColorValue(int value)
     return qBound(0, value, 255);
 }
 
-QColor evalColor(const QString &expression, const ConfigurationManager *cm, int maxRecursion = 8);
+QColor evalColor(const QString &expression, const QHash<QString, Option> &theme, int maxRecursion = 8);
 
 void addColor(const QString &color, float multiply, int *r, int *g, int *b, int *a,
-              const ConfigurationManager *cm, int maxRecursion)
+              const QHash<QString, Option> &theme, int maxRecursion)
 {
     if (color.isEmpty())
         return;
@@ -152,7 +152,7 @@ void addColor(const QString &color, float multiply, int *r, int *g, int *b, int 
         toAdd = deserializeColor(color);
     } else {
         if (maxRecursion > 0)
-            toAdd = evalColor(cm->themeValue(color).toString(), cm, maxRecursion - 1);
+            toAdd = evalColor(theme.value(color).value().toString(), theme, maxRecursion - 1);
     }
 
     *r = normalizeColorValue(*r + x * toAdd.red());
@@ -162,7 +162,7 @@ void addColor(const QString &color, float multiply, int *r, int *g, int *b, int 
         *a = normalizeColorValue(*a + x * toAdd.alpha());
 }
 
-QColor evalColor(const QString &expression, const ConfigurationManager *cm, int maxRecursion)
+QColor evalColor(const QString &expression, const QHash<QString, Option> &theme, int maxRecursion)
 {
     int r = 0;
     int g = 0;
@@ -174,7 +174,7 @@ QColor evalColor(const QString &expression, const ConfigurationManager *cm, int 
         QStringList subList = add.split('-');
         float multiply = 1;
         foreach (const QString &sub, subList) {
-            addColor(sub, multiply, &r, &g, &b, &a, cm, maxRecursion);
+            addColor(sub, multiply, &r, &g, &b, &a, theme, maxRecursion);
             multiply = -1;
         }
     }
@@ -263,8 +263,8 @@ ConfigurationManager::ConfigurationManager()
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
 
     // Create directory to save items (otherwise it may not exist at time of saving).
-    QDir settingsDir(settingsFileName + "/..");
-    if ( settingsDir.mkdir(".") ) {
+    QDir settingsDir( QDir::cleanPath(settingsFileName + "/..") );
+    if ( !settingsDir.mkpath(".") ) {
         log( tr("Cannot create directory for settings \"%1\"!").arg(settingsDir.path()),
              LogError );
     }
@@ -286,6 +286,51 @@ ConfigurationManager::ConfigurationManager()
     // Hide tab with plugins if no plugins are available.
     if ( ui->tabWidgetPlugins->count() == 0 )
         ui->tabWidget->removeTab( ui->tabWidget->indexOf(ui->tabItems) );
+}
+
+void ConfigurationManager::updateTheme(QSettings &settings, QHash<QString, Option> *theme)
+{
+    foreach ( const QString &key, theme->keys() ) {
+        if ( settings.contains(key) ) {
+            QVariant value = settings.value(key);
+            if ( value.isValid() )
+                (*theme)[key].setValue(value);
+        }
+    }
+}
+
+void ConfigurationManager::updateThemes()
+{
+    // Add themes in combo box.
+    ui->comboBoxThemes->clear();
+    ui->comboBoxThemes->addItem(QString());
+
+    const QStringList nameFilters("*.ini");
+    const QDir::Filters filters = QDir::Files | QDir::Readable;
+
+    QDir themesDir( defaultUserThemePath() );
+    if ( themesDir.mkpath(".") ) {
+        foreach ( const QFileInfo &fileInfo,
+                  themesDir.entryInfoList(nameFilters, filters, QDir::Name) )
+        {
+            const QIcon icon = createThemeIcon( themesDir.absoluteFilePath(fileInfo.fileName()) );
+            ui->comboBoxThemes->addItem( icon, fileInfo.baseName() );
+        }
+    }
+
+    const QString themesPath(COPYQ_THEME_PREFIX);
+    if ( !themesPath.isEmpty() ) {
+        QDir dir(themesPath);
+        foreach ( const QFileInfo &fileInfo,
+                  dir.entryList(nameFilters, filters, QDir::Name) )
+        {
+            const QString name = fileInfo.baseName();
+            if ( ui->comboBoxThemes->findText(name) == -1 ) {
+                const QIcon icon = createThemeIcon( dir.absoluteFilePath(fileInfo.fileName()) );
+                ui->comboBoxThemes->addItem(icon, name);
+            }
+        }
+    }
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -637,7 +682,7 @@ void ConfigurationManager::updateColorButtons()
             ui->scrollAreaTheme->findChildren<QPushButton *>(QRegExp("^pushButtonColor"));
 
     foreach (QPushButton *button, buttons) {
-        QColor color = evalColor( button->property("VALUE").toString(), this );
+        QColor color = evalColor( button->property("VALUE").toString(), m_theme );
         pix.fill(color);
         button->setIcon(pix);
         button->setIconSize(iconSize);
@@ -658,11 +703,11 @@ void ConfigurationManager::updateFontButtons()
 
         QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");
         QColor colorFg = (buttonFg == NULL) ? themeColor("fg")
-                                            : evalColor( buttonFg->property("VALUE").toString(), this );
+                                            : evalColor( buttonFg->property("VALUE").toString(), m_theme );
 
         QPushButton *buttonBg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Bg");
         QColor colorBg = (buttonBg == NULL) ? themeColor("bg")
-                                            : evalColor( buttonBg->property("VALUE").toString(), this );
+                                            : evalColor( buttonBg->property("VALUE").toString(), m_theme );
 
         QPainter painter(&pix);
         if (colorBg.alpha() < 255)
@@ -708,6 +753,73 @@ void ConfigurationManager::bind(const char *optionKey, QPushButton *obj, const c
 void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultValue)
 {
     m_options[optionKey] = Option(defaultValue);
+}
+
+QString ConfigurationManager::defaultUserThemePath() const
+{
+    return QDir::cleanPath(m_datfilename + "/../themes");
+}
+
+QVariant ConfigurationManager::themeValue(const QString &name, const QHash<QString, Option> &theme) const
+{
+    return theme[name].value();
+}
+
+QColor ConfigurationManager::themeColor(const QString &name, const QHash<QString, Option> &theme) const
+{
+    return evalColor( themeValue(name, theme).toString(), theme );
+}
+
+QIcon ConfigurationManager::createThemeIcon(const QString &fileName)
+{
+    QHash<QString, Option> theme;
+    foreach (const QString &key, m_theme.keys())
+        theme[key].setValue( m_theme[key].value() );
+
+    QSettings settings(fileName, QSettings::IniFormat);
+    updateTheme(settings, &theme);
+
+    QPixmap pix(16, 16);
+
+    QPainter p(&pix);
+    pix.fill(Qt::black);
+
+    QRect rect(1, 1, 14, 5);
+    p.setPen(Qt::NoPen);
+    p.setBrush( themeColor("sel_bg", theme) );
+    p.drawRect(rect);
+
+    rect.translate(0, 5);
+    p.setBrush( themeColor("bg", theme) );
+    p.drawRect(rect);
+
+    rect.translate(0, 5);
+    p.setBrush( themeColor("alt_bg", theme) );
+    p.drawRect(rect);
+
+    QLine line;
+
+    line = QLine(2, 3, 14, 3);
+    QPen pen;
+    p.setOpacity(0.6);
+
+    pen.setColor( themeColor("sel_fg", theme) );
+    pen.setDashPattern(QVector<qreal>() << 2 << 1 << 1 << 1 << 3 << 1 << 2 << 10);
+    p.setPen(pen);
+    p.drawLine(line);
+
+    line.translate(0, 5);
+    pen.setColor( themeColor("fg", theme) );
+    pen.setDashPattern(QVector<qreal>() << 2 << 1 << 4 << 10);
+    p.setPen(pen);
+    p.drawLine(line);
+
+    line.translate(0, 5);
+    pen.setDashPattern(QVector<qreal>() << 3 << 1 << 2 << 1 << 1);
+    p.setPen(pen);
+    p.drawLine(line);
+
+    return pix;
 }
 
 void ConfigurationManager::decorateBrowser(ClipboardBrowser *c) const
@@ -825,12 +937,12 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 
 QVariant ConfigurationManager::themeValue(const QString &name) const
 {
-    return m_theme[name].value();
+    return themeValue(name, m_theme);
 }
 
 QColor ConfigurationManager::themeColor(const QString &name) const
 {
-    return evalColor( themeValue(name).toString(), this );
+    return themeColor(name, m_theme);
 }
 
 QString ConfigurationManager::themeColorString(const QString &name) const
@@ -853,7 +965,7 @@ QString ConfigurationManager::themeStyleSheet(const QString &name) const
 
         const QString var = css.mid(i + 2, j - i - 2);
 
-        const QString colorName = serializeColor( evalColor(var, this) );
+        const QString colorName = serializeColor( evalColor(var, m_theme) );
         css.replace(i, j - i + 1, colorName);
         i += colorName.size();
     }
@@ -1074,13 +1186,7 @@ void ConfigurationManager::saveSettings()
 
 void ConfigurationManager::loadTheme(QSettings &settings)
 {
-    foreach ( const QString &key, m_theme.keys() ) {
-        if ( settings.contains(key) ) {
-            QVariant value = settings.value(key);
-            if ( value.isValid() )
-                m_theme[key].setValue(value);
-        }
-    }
+    updateTheme(settings, &m_theme);
 
     updateColorButtons();
     updateFontButtons();
@@ -1233,6 +1339,7 @@ void ConfigurationManager::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
     loadGeometry(this);
+    updateThemes();
 }
 
 void ConfigurationManager::onFinished(int result)
@@ -1335,7 +1442,7 @@ void ConfigurationManager::fontButtonClicked(QObject *button)
 
 void ConfigurationManager::colorButtonClicked(QObject *button)
 {
-    QColor color = evalColor( button->property("VALUE").toString(), this );
+    QColor color = evalColor( button->property("VALUE").toString(), m_theme );
     QColorDialog dialog(this);
     dialog.setOptions(dialog.options() | QColorDialog::ShowAlphaChannel);
     dialog.setCurrentColor(color);
@@ -1412,25 +1519,28 @@ void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
 
 void ConfigurationManager::on_pushButtonLoadTheme_clicked()
 {
-    const QString filename =
-        QFileDialog::getOpenFileName(this, tr("Open Theme File"),
-                                     QString(COPYQ_THEME_PREFIX), QString("*.ini"));
+    const QString filename = QFileDialog::getOpenFileName(this, tr("Open Theme File"),
+                                                          defaultUserThemePath(), QString("*.ini"));
     if ( !filename.isNull() ) {
         QSettings settings(filename, QSettings::IniFormat);
         loadTheme(settings);
     }
+
+    updateThemes();
 }
 
 void ConfigurationManager::on_pushButtonSaveTheme_clicked()
 {
-    QString filename =
-        QFileDialog::getSaveFileName(this, tr("Save Theme File As"), QString(), QString("*.ini"));
+    QString filename = QFileDialog::getSaveFileName(this, tr("Save Theme File As"),
+                                                    defaultUserThemePath(), QString("*.ini"));
     if ( !filename.isNull() ) {
         if ( !filename.endsWith(".ini") )
             filename.append(".ini");
         QSettings settings(filename, QSettings::IniFormat);
         saveTheme(settings);
     }
+
+    updateThemes();
 }
 
 void ConfigurationManager::on_pushButtonResetTheme_clicked()
@@ -1513,6 +1623,23 @@ void ConfigurationManager::on_pushButtonPluginPriorityDown_clicked()
         tabs->insertTab(i + 1, tabs->widget(i), tabs->tabText(i));
         tabs->setCurrentIndex(i + 1);
     }
+}
+
+void ConfigurationManager::on_comboBoxThemes_activated(const QString &text)
+{
+    if ( text.isEmpty() )
+        return;
+
+    QString fileName = defaultUserThemePath() + "/" + text + ".ini";
+    if ( !QFile(fileName).exists() ) {
+        fileName = COPYQ_THEME_PREFIX;
+        if ( fileName.isEmpty() || !QFile(fileName).exists() )
+            return;
+        fileName.append("/" + text + ".ini");
+    }
+
+    QSettings settings(fileName, QSettings::IniFormat);
+    loadTheme(settings);
 }
 
 void ConfigurationManager::onThemeModified(const QByteArray &bytes)

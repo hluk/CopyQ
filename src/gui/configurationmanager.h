@@ -125,6 +125,7 @@ public:
     void decorateTabs(QWidget *tabWidget) const;
 
     QString getToolTipStyleSheet() const;
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -148,6 +149,8 @@ private:
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);
 
+    void updateTheme(QSettings &settings, QHash<QString, Option> *theme);
+    void updateThemes();
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
     void fontButtonClicked(QObject *button);
@@ -188,6 +191,11 @@ private:
     void bind(const char *optionKey, QPushButton *obj, const char *defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
+    QString defaultUserThemePath() const;
+    QVariant themeValue(const QString &name, const QHash<QString, Option> &theme) const;
+    QColor themeColor(const QString &name, const QHash<QString, Option> &theme) const;
+    QIcon createThemeIcon(const QString &fileName);
+
 private slots:
     void on_pushButtonDown_clicked();
     void on_pushButtonUp_clicked();
@@ -217,6 +225,8 @@ private slots:
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
     void on_pushButtonPluginPriorityUp_clicked();
     void on_pushButtonPluginPriorityDown_clicked();
+
+    void on_comboBoxThemes_activated(const QString &text);
 
     void onThemeModified(const QByteArray &bytes);
 };
