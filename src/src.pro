@@ -13,7 +13,8 @@ FORMS += \
     ui/pluginwidget.ui \
     ui/tabdialog.ui \
     ui/shortcutdialog.ui \
-    ui/commandwidget.ui
+    ui/commandwidget.ui \
+    ui/configtabappearance.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -53,7 +54,8 @@ HEADERS += \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
     scriptable/scriptableworker.h \
-    gui/tabtree.h
+    gui/tabtree.h \
+    gui/configtabappearance.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -89,7 +91,8 @@ SOURCES += \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
     scriptable/scriptableworker.cpp \
-    gui/tabtree.cpp
+    gui/tabtree.cpp \
+    gui/configtabappearance.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

@@ -29,6 +29,7 @@
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboarddialog.h"
 #include "gui/configurationmanager.h"
+#include "gui/configtabappearance.h"
 #include "gui/iconfactory.h"
 #include "gui/tabdialog.h"
 #include "gui/tabwidget.h"
@@ -964,7 +965,7 @@ void MainWindow::loadSettings()
         : tabPosition == 4 ? QBoxLayout::RightToLeft
                            : QBoxLayout::LeftToRight);
     ui->tabWidget->setTreeModeEnabled(tabPosition > 3);
-    cm->decorateTabs(ui->tabWidget);
+    cm->tabAppearance()->decorateTabs(ui->tabWidget);
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -995,7 +996,7 @@ void MainWindow::loadSettings()
     m_trayImages = cm->value("tray_images").toBool();
     m_itemPopupInterval = cm->value("item_popup_interval").toBool();
 
-    trayMenu->setStyleSheet( cm->getToolTipStyleSheet() );
+    trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
     log( tr("Configuration loaded") );
 }

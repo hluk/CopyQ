@@ -36,7 +36,7 @@ TabWidget::TabWidget(QWidget *parent)
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
 
-    m_stackedLayout = new QStackedLayout(this);
+    m_stackedLayout = new QStackedLayout(m_layout);
     m_layout->addLayout(m_stackedLayout);
 
     createTabBar();

@@ -20,6 +20,7 @@ set(copyq_MOCABLE
     gui/clipboardbrowser.h
     gui/clipboarddialog.h
     gui/commandwidget.h
+    gui/configtabappearance.h
     gui/configurationmanager.h
     gui/mainwindow.h
     gui/pluginwidget.h

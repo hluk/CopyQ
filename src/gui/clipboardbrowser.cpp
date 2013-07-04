@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "common/contenttype.h"
 #include "gui/clipboarddialog.h"
+#include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "item/clipboarditem.h"
@@ -128,7 +129,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
     moveItemOnReturnKey = cm->value("move").toBool();
-    showScrollBars = cm->themeValue("show_scrollbars").toBool();
+    showScrollBars = cm->tabAppearance()->themeValue("show_scrollbars").toBool();
 }
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
@@ -1258,7 +1259,7 @@ void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    cm->decorateBrowser(this);
+    cm->tabAppearance()->decorateBrowser(this);
 
     // restore configuration
     m->setMaxItems(m_sharedData->maxItems);

@@ -29,6 +29,7 @@ namespace Ui {
 
 class ClipboardBrowser;
 class ClipboardModel;
+class ConfigTabAppearance;
 class Option;
 class QAbstractButton;
 class QCheckBox;
@@ -65,23 +66,11 @@ public:
     void loadSettings();
     /** Load settings to default file. Emits configurationChanged() signal. */
     void saveSettings();
-    /** Load theme from settings file. */
-    void loadTheme(QSettings &settings);
-    /** Load theme to settings file. */
-    void saveTheme(QSettings &settings) const;
 
     /** Return value for option with given @a name. */
     QVariant value(const QString &name) const;
     /** Set @a value for option with given @a name. */
     void setValue(const QString &name, const QVariant &value);
-    /** Return value for theme option with given @a name. */
-    QVariant themeValue(const QString &name) const;
-    /** Return parsed color. */
-    QColor themeColor(const QString &name) const;
-    /** Return parsed color name. */
-    QString themeColorString(const QString &name) const;
-    /** Return style sheet with given @a name. */
-    QString themeStyleSheet(const QString &name) const;
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
     /** Return tooltip text for option with given @a name. */
@@ -118,13 +107,7 @@ public:
     /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
 
-    /** Set fonts and color for ClipboardBrowser object. */
-    void decorateBrowser(ClipboardBrowser *c) const;
-
-    /** Decorate tab widget. */
-    void decorateTabs(QWidget *tabWidget) const;
-
-    QString getToolTipStyleSheet() const;
+    const ConfigTabAppearance *tabAppearance() const;
 
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
@@ -141,7 +124,6 @@ private:
     Ui::ConfigurationManager *ui;
     QString m_datfilename;
     QHash<QString, Option> m_options;
-    QHash<QString, Option> m_theme;
     Commands m_commands;
 
     explicit ConfigurationManager();
@@ -149,12 +131,8 @@ private:
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);
 
-    void updateTheme(QSettings &settings, QHash<QString, Option> *theme);
-    void updateThemes();
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
-    void fontButtonClicked(QObject *button);
-    void colorButtonClicked(QObject *button);
 
     /**
      * Some example commands.
@@ -181,20 +159,12 @@ private:
     void updateFormats();
 
     void initOptions();
-    void initThemeOptions();
-    void updateColorButtons();
-    void updateFontButtons();
     void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, QPushButton *obj, const char *defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
-
-    QString defaultUserThemePath() const;
-    QVariant themeValue(const QString &name, const QHash<QString, Option> &theme) const;
-    QColor themeColor(const QString &name, const QHash<QString, Option> &theme) const;
-    QIcon createThemeIcon(const QString &fileName);
 
 private slots:
     void on_pushButtonDown_clicked();
@@ -206,29 +176,15 @@ private slots:
     void onFinished(int result);
 
     void onShortcutButtonClicked();
-    void onFontButtonClicked();
-    void onColorButtonClicked();
 
     void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
                                                   QListWidgetItem *previous);
     void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
     void on_listWidgetCommands_itemSelectionChanged();
 
-    void on_pushButtonLoadTheme_clicked();
-    void on_pushButtonSaveTheme_clicked();
-    void on_pushButtonResetTheme_clicked();
-    void on_pushButtonEditTheme_clicked();
-
-    void on_checkBoxShowNumber_stateChanged(int);
-    void on_checkBoxScrollbars_stateChanged(int);
-
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
     void on_pushButtonPluginPriorityUp_clicked();
     void on_pushButtonPluginPriorityDown_clicked();
-
-    void on_comboBoxThemes_activated(const QString &text);
-
-    void onThemeModified(const QByteArray &bytes);
 };
 
 #endif // CONFIGURATIONMANAGER_H
