@@ -41,9 +41,9 @@
 #include <QSettings>
 
 #ifdef Q_OS_WIN
-#define DEFAULT_EDITOR "notepad %1"
+#   define DEFAULT_EDITOR "notepad %1"
 #else
-#define DEFAULT_EDITOR "gedit %1"
+#   define DEFAULT_EDITOR "gedit %1"
 #endif
 
 namespace {
@@ -562,6 +562,8 @@ void ConfigurationManager::loadSettings()
 
     updateIcons();
     updateFormats();
+
+    ui->configTabAppearance->setEditor( value("editor").toString() );
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
