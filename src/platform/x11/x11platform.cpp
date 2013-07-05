@@ -214,19 +214,24 @@ void X11Platform::raiseWindow(WId wid)
     usleep(50000); // Window may not be visible yet.
 
     XEvent e;
-    e.xclient.type = ClientMessage;
-    e.xclient.message_type = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", False);
+    memset(&e, 0, sizeof(e));
+    e.type = ClientMessage;
     e.xclient.display = d->display;
     e.xclient.window = wid;
+    e.xclient.message_type = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", False);
     e.xclient.format = 32;
-    e.xclient.data.l[0] = 2;
+    e.xclient.data.l[0] = 2L;
     e.xclient.data.l[1] = CurrentTime;
     e.xclient.data.l[2] = 0;
     e.xclient.data.l[3] = 0;
     e.xclient.data.l[4] = 0;
 
-    XSendEvent(d->display, DefaultRootWindow(d->display),
-               False, SubstructureNotifyMask | SubstructureRedirectMask, &e);
+    XWindowAttributes wattr;
+    XGetWindowAttributes(d->display, wid, &wattr);
+
+    XSendEvent(d->display, wattr.screen->root, False,
+               SubstructureNotifyMask | SubstructureRedirectMask,
+               &e);
 
     XRaiseWindow(d->display, wid);
     XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);

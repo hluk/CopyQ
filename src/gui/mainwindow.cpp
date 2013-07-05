@@ -1039,6 +1039,7 @@ void MainWindow::showWindow()
 
     QApplication::setActiveWindow(this);
 
+    QApplication::processEvents();
     createPlatformNativeInterface()->raiseWindow(winId());
 }
 
@@ -1586,6 +1587,7 @@ WId MainWindow::openActionDialog(const QMimeData &data)
     actionDialog->show();
 
     // steal focus
+    QApplication::processEvents();
     WId wid = actionDialog->winId();
     createPlatformNativeInterface()->raiseWindow(wid);
     return wid;

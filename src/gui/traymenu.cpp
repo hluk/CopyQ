@@ -119,6 +119,7 @@ void TrayMenu::toggle()
     raise();
     activateWindow();
 
+    QApplication::processEvents();
     createPlatformNativeInterface()->raiseWindow(winId());
 }
 
