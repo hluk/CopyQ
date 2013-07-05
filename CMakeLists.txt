@@ -13,7 +13,6 @@ if (NOT WITH_QT5)
         set(QT_QMAKE_EXECUTABLE "qmake-qt4")
         find_package(Qt4)
         if (NOT QT4_FOUND)
-            set(WITH_QT5 ON)
             message(FATAL_ERROR
                     "Qt 4 is unavailable. To compile with Qt 5 use -DWITH_QT5=TRUE.\n"
                     "Note: Qt version 5.0.2 and earlier can be unstable on some systems.")
