@@ -22,22 +22,22 @@
 #include "tabtree.h"
 
 #include <QPoint>
-#include <QStackedLayout>
+#include <QStackedWidget>
 
 TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
     , m_tabBar(NULL)
     , m_tabTree(NULL)
     , m_layout(NULL)
-    , m_stackedLayout(NULL)
+    , m_stackedWidget(NULL)
 {
     m_layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
     setLayout(m_layout);
     m_layout->setContentsMargins(0, 0, 0, 0);
     m_layout->setSpacing(0);
 
-    m_stackedLayout = new QStackedLayout(m_layout);
-    m_layout->addLayout(m_stackedLayout);
+    m_stackedWidget = new QStackedWidget(this);
+    m_layout->addWidget(m_stackedWidget);
 
     createTabBar();
 }
@@ -59,17 +59,17 @@ bool TabWidget::isTreeModeEnabled() const
 
 int TabWidget::currentIndex() const
 {
-    return m_stackedLayout->currentIndex();
+    return m_stackedWidget->currentIndex();
 }
 
 QWidget *TabWidget::widget(int tabIndex)
 {
-    return m_stackedLayout->widget(tabIndex);
+    return m_stackedWidget->widget(tabIndex);
 }
 
 int TabWidget::count() const
 {
-    return m_stackedLayout->count();
+    return m_stackedWidget->count();
 }
 
 QString TabWidget::tabText(int tabIndex) const
@@ -89,7 +89,7 @@ void TabWidget::setTabText(int tabIndex, const QString &tabText)
 
 void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
 {
-    m_stackedLayout->insertWidget(tabIndex, widget);
+    m_stackedWidget->insertWidget(tabIndex, widget);
 
     if ( isTreeModeEnabled() )
         m_tabTree->insertTab(tabText, tabIndex, count() == 1);
@@ -107,8 +107,8 @@ void TabWidget::removeTab(int tabIndex)
     else
         m_tabBar->removeTab(tabIndex);
 
-    QWidget *w = m_stackedLayout->widget(tabIndex);
-    m_stackedLayout->removeWidget(w);
+    QWidget *w = m_stackedWidget->widget(tabIndex);
+    m_stackedWidget->removeWidget(w);
     delete w;
 }
 
@@ -119,9 +119,9 @@ void TabWidget::setTabPosition(QBoxLayout::Direction direction)
 
 void TabWidget::clear()
 {
-    while ( !m_stackedLayout->isEmpty() ) {
-        QWidget *w = m_stackedLayout->widget(0);
-        m_stackedLayout->removeWidget(w);
+    while ( m_stackedWidget->count() > 0 ) {
+        QWidget *w = m_stackedWidget->widget(0);
+        m_stackedWidget->removeWidget(w);
         delete w;
     }
 
@@ -152,7 +152,7 @@ void TabWidget::moveTab(int from, int to)
 
     bool isCurrent = currentIndex() == from;
 
-    m_stackedLayout->insertWidget(to, m_stackedLayout->widget(from));
+    m_stackedWidget->insertWidget(to, m_stackedWidget->widget(from));
 
     if (isCurrent)
         setCurrentIndex(to);
@@ -167,7 +167,7 @@ void TabWidget::setCurrentIndex(int tabIndex)
         return;
 
     if (tabIndex != -1) {
-        m_stackedLayout->setCurrentIndex(tabIndex);
+        m_stackedWidget->setCurrentIndex(tabIndex);
 
         w = currentWidget();
         if (w == NULL)
@@ -259,7 +259,7 @@ void TabWidget::onTreeItemSelected(bool isGroup)
 
 void TabWidget::onTabMoved(int from, int to)
 {
-    m_stackedLayout->insertWidget(to, m_stackedLayout->widget(from));
+    m_stackedWidget->insertWidget(to, m_stackedWidget->widget(from));
 }
 
 void TabWidget::createTabBar()

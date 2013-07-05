@@ -24,7 +24,7 @@
 #include <QWidget>
 
 class QPoint;
-class QStackedLayout;
+class QStackedWidget;
 class TabBar;
 class TabTree;
 
@@ -102,7 +102,7 @@ private:
     TabBar *m_tabBar;
     TabTree *m_tabTree;
     QBoxLayout *m_layout;
-    QStackedLayout *m_stackedLayout;
+    QStackedWidget *m_stackedWidget;
 };
 
 #endif // TABWIDGET_H
