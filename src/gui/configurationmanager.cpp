@@ -46,10 +46,6 @@
 #define DEFAULT_EDITOR "gedit %1"
 #endif
 
-#ifndef COPYQ_THEME_PREFIX
-#  define COPYQ_THEME_PREFIX ""
-#endif
-
 namespace {
 
 const QRegExp reURL("^(https?|ftps?|file)://");

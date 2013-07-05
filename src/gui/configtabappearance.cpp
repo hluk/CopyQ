@@ -36,6 +36,10 @@
 #include <QSettings>
 #include <QTemporaryFile>
 
+#ifndef COPYQ_THEME_PREFIX
+#  define COPYQ_THEME_PREFIX ""
+#endif
+
 namespace {
 
 QString getFontStyleSheet(const QString &fontString)
