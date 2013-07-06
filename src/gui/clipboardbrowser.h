@@ -47,7 +47,6 @@ struct ClipboardBrowserShared {
     bool viMode;
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
-    bool showScrollBars;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 

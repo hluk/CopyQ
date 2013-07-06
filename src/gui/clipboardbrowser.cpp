@@ -112,7 +112,6 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , viMode(false)
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
-    , showScrollBars(true)
 {
 }
 
@@ -129,7 +128,6 @@ void ClipboardBrowserShared::loadFromConfiguration()
     viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
     moveItemOnReturnKey = cm->value("move").toBool();
-    showScrollBars = cm->tabAppearance()->themeValue("show_scrollbars").toBool();
 }
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
@@ -522,11 +520,8 @@ void ClipboardBrowser::setEditingActive(bool active)
     // Disable shortcuts while editing.
     createContextMenu();
 
-    if (m_sharedData->showScrollBars) {
-        Qt::ScrollBarPolicy policy = active ? Qt::ScrollBarAlwaysOff : Qt::ScrollBarAsNeeded;
-        setVerticalScrollBarPolicy(policy);
-        setHorizontalScrollBarPolicy(policy);
-    }
+    verticalScrollBar()->setHidden(active);
+    horizontalScrollBar()->setHidden(active);
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index)
