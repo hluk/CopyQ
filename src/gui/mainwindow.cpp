@@ -130,15 +130,23 @@ QString textLabelForData(const QMimeData *data, int maxChars)
 {
     const QStringList formats = data->formats();
 
-    if ( formats.indexOf("text/plain") != -1 )
-        return MainWindow::tr("\"%1\"").arg( elideText(data->text(), maxChars) );
-    else if ( formats.indexOf(QRegExp("^image/.*")) != -1 )
-        return MainWindow::tr("<IMAGE>");
-    else if ( formats.indexOf(QString("text/uri-list")) != -1 )
-        return MainWindow::tr("<FILES>");
-    else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) )
-        return MainWindow::tr("<EMPTY>");
-    return MainWindow::tr("<DATA>");
+    if ( formats.indexOf("text/plain") != -1 ) {
+        return MainWindow::tr("\"%1\"",
+                              "Quoted clipboard text in main window title and tray tooltip")
+                .arg( elideText(data->text(), maxChars) );
+    } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
+        return MainWindow::tr("<IMAGE>",
+                              "Part of main window title and tray tooltip shown if clipboard contains image");
+    } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
+        return MainWindow::tr("<FILES>",
+                              "Part of main window title and tray tooltip shown if clipboard contains URLs/files");
+    } else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) ) {
+        return MainWindow::tr("<EMPTY>",
+                              "Part of main window title and tray tooltip shown if clipboard is empty");
+    }
+
+    return MainWindow::tr("<DATA>",
+                          "Part of main window title and tray tooltip shown if clipboard contains unrecognized data");
 }
 
 } // namespace
@@ -713,7 +721,8 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 
 void MainWindow::showError(const QString &msg)
 {
-    tray->showMessage(tr("CopyQ Error"), msg, QSystemTrayIcon::Critical);
+    tray->showMessage(tr("CopyQ Error", "Tray tooltip error message title"),
+                      msg, QSystemTrayIcon::Critical);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -1172,7 +1181,7 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
                     const QString oldName = newName;
                     int num = 0;
                     do {
-                        newName = tr("%1 (%2)", "Format for renaming items")
+                        newName = tr("%1 (%2)", "Format for automatic tab renaming (%1 is name, %2 is number)")
                                 .arg(oldName)
                                 .arg(++num);
                     } while ( tabs.contains(newName) );
@@ -1279,10 +1288,15 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
     const QString clipboardContent = elideText(text, 30);
-    if ( m_sessionName.isEmpty() )
-        setWindowTitle( tr("%1 - CopyQ").arg(clipboardContent) );
-    else
-        setWindowTitle( tr("%1 - %2 - CopyQ").arg(clipboardContent).arg(m_sessionName) );
+    if ( m_sessionName.isEmpty() ) {
+        setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
+                        .arg(clipboardContent) );
+    } else {
+        setWindowTitle( tr("%1 - %2 - CopyQ",
+                           "Main window title format (%1 is clipboard content label, %2 is session name)")
+                        .arg(clipboardContent)
+                        .arg(m_sessionName) );
+    }
 }
 
 void MainWindow::setClipboard(const ClipboardItem *item)

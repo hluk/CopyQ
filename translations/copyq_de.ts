@@ -29,97 +29,97 @@
         <translation>Entwicklung</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="109"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="110"/>
         <source>Iconic font used in the application</source>
         <translation>In der Anwendung verwendete ikonische Schriftart</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="112"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="113"/>
         <source>Color palette used for themes</source>
         <translation>Farbparlette für Themes</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="116"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="117"/>
         <source>Keyboard</source>
         <translation>Tastatur</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="117"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="118"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>Drücke eine Taste um im Verlauf zu suchen.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="122"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="123"/>
         <source>Item list navigation</source>
         <translation>Navigation in Liste</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="123"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="124"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>Hoch/Runter, Bild hoch/runter, Pos1/Ende</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="125"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="126"/>
         <source>Tab navigation</source>
         <translation>Navigation zwischen Reitern</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="126"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="127"/>
         <source>Left, Right, Tab, Shift+Tab</source>
         <translation>Links, Rechts, Tab, Umschalt+Tab</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="129"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="130"/>
         <source>Move selected items</source>
         <translation>Ausgewähltes Element verschieben</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="130"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="131"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Strg+Hoch/Runter, Strg+Pos1/Ende</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="132"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
         <source>Reset search or hide window</source>
         <translation>Suche zurücksetzen oder Fenster verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="134"/>
         <source>Escape</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="136"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="137"/>
         <source>Delete item</source>
         <translation>Element entfernen</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="137"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Delete</source>
         <translation>Entf</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Put selected items into clipboard</source>
         <translation>Ausgewähltes Element in Zwischenablage legen</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Enter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="143"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="144"/>
         <source>Change item display format</source>
         <translation>Anzeigeformat ändern</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="144"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="145"/>
         <source>Ctrl+Left/Right</source>
         <translation>Strg+Links/Rechts</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="105"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="106"/>
         <source>Library used in the application</source>
         <translation>Verwendete Bibliotheken</translation>
     </message>
@@ -207,48 +207,48 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardBrowser</name>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="312"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="319"/>
         <source>Move to &amp;Clipboard</source>
         <translation>In die Zwis&amp;chenablage verschieben</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="316"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="323"/>
         <source>&amp;Show Content...</source>
         <translation>Inhaltanzeigen... (&amp;s)
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="320"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="327"/>
         <source>&amp;Remove</source>
         <translation>Entfe&amp;rnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="324"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="331"/>
         <source>&amp;Edit</source>
         <translation>B&amp;earbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="328"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="335"/>
         <source>&amp;Edit Notes</source>
         <translation>Notizen b&amp;earbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="332"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="339"/>
         <source>E&amp;dit with editor</source>
         <translation>Mit Texte&amp;ditor bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="336"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="343"/>
         <source>&amp;Action...</source>
         <translation>&amp;Ausführen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="340"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="347"/>
         <source>&amp;Next to Clipboard</source>
         <translation>&amp;Nächstes in die Zwischenablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="344"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="351"/>
         <source>&amp;Previous to Clipboard</source>
         <translation>&amp;Voriges in die Zwischenablage</translation>
     </message>
@@ -256,17 +256,17 @@ You can set up the command in preferences.</source>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="112"/>
+        <location filename="../src/app/clipboardclient.cpp" line="111"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Kann nicht mit Server verbinden! Bitte zuerst CopyQ-Server starten.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="116"/>
+        <location filename="../src/app/clipboardclient.cpp" line="115"/>
         <source>Connection refused by server!</source>
         <translation>Verbindung vom Server abgewiesen!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="119"/>
+        <location filename="../src/app/clipboardclient.cpp" line="118"/>
         <source>Connection lost!</source>
         <translation>Verbindung verloren!</translation>
     </message>
@@ -335,27 +335,27 @@ You can set up the command in preferences.</source>
         <translation>Überwachung der Zwischenablage: wurde gestartetSpuštěn</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="147"/>
+        <location filename="../src/app/clipboardserver.cpp" line="150"/>
         <source>Clipboard Monitor: </source>
         <translation>Überwachung der Zwischenablage:</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="160"/>
+        <location filename="../src/app/clipboardserver.cpp" line="163"/>
         <source>Clipboard Monitor: Terminating</source>
         <translation>Überwachung der Zwischenablage: abschließend</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="168"/>
+        <location filename="../src/app/clipboardserver.cpp" line="171"/>
         <source>Clipboard Monitor: Terminated</source>
         <translation>Überwachung der Zwischenablage: abgeschloßen</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="189"/>
+        <location filename="../src/app/clipboardserver.cpp" line="195"/>
         <source>Cannot start clipboard monitor!</source>
         <translation>Kann Überwachung der Zwischenablage nicht starten!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="262"/>
+        <location filename="../src/app/clipboardserver.cpp" line="266"/>
         <source>Cannot read message from client! (%1)</source>
         <translation>Konnte Nachricht vom Client nicht empfangen!(%1) </translation>
     </message>
@@ -611,6 +611,187 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
         <location filename="../src/gui/commandwidget.cpp" line="146"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
         <translation>Bildateien (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
+    </message>
+</context>
+<context>
+    <name>ConfigTabAppearance</name>
+    <message>
+        <source>Form</source>
+        <translation type="obsolete">Formular</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="81"/>
+        <source>Number</source>
+        <translation type="unfinished">Zahlen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="102"/>
+        <source>Font</source>
+        <translation type="unfinished">Schriftart</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="123"/>
+        <source>Editor</source>
+        <translation type="unfinished">Editor</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="130"/>
+        <source>Background</source>
+        <translation type="unfinished">Hintergrund</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="137"/>
+        <source>Normal</source>
+        <translation type="unfinished">Normal</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="144"/>
+        <source>Found</source>
+        <translation type="unfinished">Gefunden</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="186"/>
+        <source>Selected</source>
+        <translation type="unfinished">Ausgewählt</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="214"/>
+        <source>Alternate</source>
+        <translation type="unfinished">Alternativ</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="221"/>
+        <source>Foreground</source>
+        <translation type="unfinished">Vordergrund</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="228"/>
+        <source>Notes</source>
+        <translation type="unfinished">Notizen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="252"/>
+        <source>Show &amp;Number</source>
+        <translation type="unfinished">Zeige Numme&amp;r</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="259"/>
+        <source>Show scrollbars</source>
+        <translation type="unfinished">Scrollleisten anzeigen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="262"/>
+        <source>Sc&amp;rollbars</source>
+        <translation type="unfinished">Scrollleis&amp;ten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="269"/>
+        <source>Use icons from desktop environment whenever possible.</source>
+        <translation type="unfinished">Nutze Icons der Desktopumgebung, wenn möglich.</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="272"/>
+        <source>S&amp;ystem Icons</source>
+        <translation type="unfinished">&amp;System-Icons</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="296"/>
+        <source>&amp;Reset Theme</source>
+        <translation type="unfinished">Theme zu&amp;rücksetzen</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="303"/>
+        <source>Theme:</source>
+        <translation type="unfinished">Theme:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="310"/>
+        <source>&amp;Load Theme</source>
+        <translation type="unfinished">&amp;Lade Theme</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="317"/>
+        <source>&amp;Save Theme</source>
+        <translation type="unfinished">S&amp;peichere Theme</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="324"/>
+        <source>Edit current theme in external editor</source>
+        <translation type="unfinished">Aktuelles Theme in externen Editor bearbeiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="327"/>
+        <source>E&amp;dit Theme</source>
+        <translation type="unfinished">Theme b&amp;earbeiten</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="348"/>
+        <source>Preview:</source>
+        <translation type="unfinished">Vorschau:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="182"/>
+        <source>Search string is &quot;item&quot;.</source>
+        <translation type="unfinished">Suche für &quot;prvek&quot;.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="183"/>
+        <source>Select an item and
+press F2 to edit.</source>
+        <translation type="unfinished">Wähle ein Element und
+drücke F2 zum bearbeiten.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="185"/>
+        <source>Select items and move them with
+CTRL and up or down key.</source>
+        <translation type="unfinished">Selektiere Elemente und verschiebe sie mit
+Strg+Rauf oder Strg+Runter.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="187"/>
+        <source>Remove item with Delete key.</source>
+        <translation type="unfinished">Entferne Element mit der Entf-Taste.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="189"/>
+        <source>Example item %1</source>
+        <translation type="unfinished">Beispiel eines Elements %1</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="191"/>
+        <source>Some random notes (Shift+F2 to edit)</source>
+        <translation type="unfinished">Ein paar Zufallsnotizen (Shift+F2 zum Bearbeiten)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="192"/>
+        <source>item</source>
+        <translation type="unfinished">Element</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="351"/>
+        <source>Open Theme File</source>
+        <translation type="unfinished">Theme-Datei öffnen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="363"/>
+        <source>Save Theme File As</source>
+        <translation type="unfinished">Theme-Datei speichern</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="386"/>
+        <source>No External Editor</source>
+        <translation type="unfinished">Kein externer Editor</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="387"/>
+        <source>Set external editor command first!</source>
+        <translation type="unfinished">Erst einen externen Editor festlegen!</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabappearance.cpp" line="599"/>
+        <source>Abc</source>
+        <translation type="unfinished">Abc</translation>
     </message>
 </context>
 <context>
@@ -1318,283 +1499,249 @@ Setze diesen Eintrag auf 0 zum Deaktivieren.</translation>
         <translation type="obsolete">Nummer (1&amp;0)</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1451"/>
         <source>Show &amp;Number</source>
-        <translation>Zeige Numme&amp;r</translation>
+        <translation type="obsolete">Zeige Numme&amp;r</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1458"/>
         <source>Show scrollbars</source>
-        <translation>Scrollleisten anzeigen</translation>
+        <translation type="obsolete">Scrollleisten anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1461"/>
         <source>Sc&amp;rollbars</source>
-        <translation>Scrollleis&amp;ten</translation>
+        <translation type="obsolete">Scrollleis&amp;ten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1468"/>
         <source>Use icons from desktop environment whenever possible.</source>
-        <translation>Nutze Icons der Desktopumgebung, wenn möglich.</translation>
+        <translation type="obsolete">Nutze Icons der Desktopumgebung, wenn möglich.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1471"/>
         <source>S&amp;ystem Icons</source>
-        <translation>&amp;System-Icons</translation>
+        <translation type="obsolete">&amp;System-Icons</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1502"/>
         <source>Theme:</source>
-        <translation>Theme:</translation>
+        <translation type="obsolete">Theme:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1509"/>
         <source>&amp;Load Theme</source>
-        <translation>&amp;Lade Theme</translation>
+        <translation type="obsolete">&amp;Lade Theme</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1516"/>
         <source>&amp;Save Theme</source>
-        <translation>S&amp;peichere Theme</translation>
+        <translation type="obsolete">S&amp;peichere Theme</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1495"/>
         <source>&amp;Reset Theme</source>
-        <translation>Theme zu&amp;rücksetzen</translation>
+        <translation type="obsolete">Theme zu&amp;rücksetzen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1245"/>
         <source>Background</source>
-        <translation>Hintergrund</translation>
+        <translation type="obsolete">Hintergrund</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1266"/>
         <source>Foreground</source>
-        <translation>Vordergrund</translation>
+        <translation type="obsolete">Vordergrund</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1287"/>
         <source>Font</source>
-        <translation>Schriftart</translation>
+        <translation type="obsolete">Schriftart</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1308"/>
         <source>Number</source>
-        <translation>Zahlen</translation>
+        <translation type="obsolete">Zahlen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1329"/>
         <source>Selected</source>
-        <translation>Ausgewählt</translation>
+        <translation type="obsolete">Ausgewählt</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1336"/>
         <source>Normal</source>
-        <translation>Normal</translation>
+        <translation type="obsolete">Normal</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1350"/>
         <source>Found</source>
-        <translation>Gefunden</translation>
+        <translation type="obsolete">Gefunden</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1364"/>
         <source>Editor</source>
-        <translation>Editor</translation>
+        <translation type="obsolete">Editor</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1385"/>
         <source>Alternate</source>
-        <translation>Alternativ</translation>
+        <translation type="obsolete">Alternativ</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1399"/>
         <source>Notes</source>
-        <translation>Notizen</translation>
+        <translation type="obsolete">Notizen</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1523"/>
         <source>Edit current theme in external editor</source>
-        <translation>Aktuelles Theme in externen Editor bearbeiten</translation>
+        <translation type="obsolete">Aktuelles Theme in externen Editor bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1526"/>
         <source>E&amp;dit Theme</source>
-        <translation>Theme b&amp;earbeiten</translation>
+        <translation type="obsolete">Theme b&amp;earbeiten</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1544"/>
         <source>Preview:</source>
-        <translation>Vorschau:</translation>
+        <translation type="obsolete">Vorschau:</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="62"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="53"/>
         <source>Cannot save tab &quot;%1&quot; to &quot;%2&quot; (%3)!</source>
         <translation>Kann Reiter &quot;%1&quot; nicht nach &quot;%2&quot; speichern (&quot;%3&quot;)!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="225"/>
         <source>Search string is &quot;item&quot;.</source>
-        <translation>Suche für &quot;prvek&quot;.</translation>
+        <translation type="obsolete">Suche für &quot;prvek&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="226"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation>Wähle ein Element und
+        <translation type="obsolete">Wähle ein Element und
 drücke F2 zum bearbeiten.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="228"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation>Selektiere Elemente und verschiebe sie mit
+        <translation type="obsolete">Selektiere Elemente und verschiebe sie mit
 Strg+Rauf oder Strg+Runter.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="230"/>
         <source>Remove item with Delete key.</source>
-        <translation>Entferne Element mit der Entf-Taste.</translation>
+        <translation type="obsolete">Entferne Element mit der Entf-Taste.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="232"/>
         <source>Example item %1</source>
-        <translation>Beispiel eines Elements %1</translation>
+        <translation type="obsolete">Beispiel eines Elements %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="234"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Ein paar Zufallsnotizen (Shift+F2 zum Bearbeiten)</translation>
+        <translation type="obsolete">Ein paar Zufallsnotizen (Shift+F2 zum Bearbeiten)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="235"/>
         <source>item</source>
-        <translation>Element</translation>
+        <translation type="obsolete">Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="268"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="118"/>
         <source>Cannot create directory for settings &quot;%1&quot;!</source>
         <translation>Kann Verzeichnis für Konfigurationseinstellungen nicht erstellen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="341"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="191"/>
         <source>New command</source>
         <translation>Neuer Befehl</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="347"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="197"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignoriere Elemente mit keinem oder nur einem Zeichen</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="354"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="204"/>
         <source>Open in &amp;Browser</source>
         <translation>&amp;Öffne in Browser</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="362"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="212"/>
         <source>Autoplay videos</source>
         <translation>Videos automatisch abspielen</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="371"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="221"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Kopiere URL zu einem anderen Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="377"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="227"/>
         <source>Run shell script</source>
         <translation>Shell-Skript ausführen</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="385"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="235"/>
         <source>Ctrl+R</source>
         <translation>Strg+r</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="389"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="239"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Thumbnail erstellen(benötigt ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="397"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="247"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Erstelle QR Code aus URL (benötigt qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="406"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="256"/>
         <source>Label image</source>
         <translation>Beschrifte Bilder</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="416"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="266"/>
         <source>Open URL</source>
         <translation>Öffne URL</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="425"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="275"/>
         <source>Add to &amp;TODO tab</source>
         <translation>Füge zum &amp;TODO-Reiter hinzu</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="432"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="282"/>
         <source>Move to &amp;TODO tab</source>
         <translation>Zum &amp;TODO tab verschieben</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="440"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="290"/>
         <source>Ignore copied files</source>
         <translation>Kopierte Dateien ignorieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="448"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="298"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignoriere *&quot;Passwort&quot;* Fenster</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="449"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="299"/>
         <source>Password</source>
         <translation>Passwort</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="676"/>
         <source>Abc</source>
-        <translation>Abc</translation>
+        <translation type="obsolete">Abc</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1128"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="715"/>
         <source>Reset preferences?</source>
         <translation>Einstellungen zurücksetzen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1129"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="716"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Diese Aktion wird alle Einstellungen auf die Standardwerte zurücksetzen. &lt;br /&gt;&lt;br /&gt;Möchtest du wirklich  &lt;strong&gt;alle Einstellungen zurücksetzen&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1293"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="889"/>
         <source>&lt;untitled command&gt;</source>
         <translation>&lt;Namenloser Befehl&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1412"/>
         <source>Open Theme File</source>
-        <translation>Theme-Datei öffnen</translation>
+        <translation type="obsolete">Theme-Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1423"/>
         <source>Save Theme File As</source>
-        <translation>Theme-Datei speichern</translation>
+        <translation type="obsolete">Theme-Datei speichern</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1444"/>
         <source>No External Editor</source>
-        <translation>Kein externer Editor</translation>
+        <translation type="obsolete">Kein externer Editor</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1445"/>
         <source>Set external editor command first!</source>
-        <translation>Erst einen externen Editor festlegen!</translation>
+        <translation type="obsolete">Erst einen externen Editor festlegen!</translation>
     </message>
 </context>
 <context>
@@ -1832,174 +1979,220 @@ Strg+Rauf oder Strg+Runter.</translation>
         <translation>&amp;Finde:</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="980"/>
+        <location filename="../src/gui/mainwindow.cpp" line="991"/>
         <source>&amp;clipboard</source>
         <translation>&amp;Zwischenablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="253"/>
+        <location filename="../src/gui/mainwindow.cpp" line="262"/>
         <source>Exit?</source>
         <translation>Beenden?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="133"/>
         <source>&quot;%1&quot;</source>
-        <translation>&quot;%1&quot;</translation>
+        <translation type="obsolete">&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="139"/>
         <source>&lt;EMPTY&gt;</source>
-        <translation>&lt;LEER&gt;</translation>
+        <translation type="obsolete">&lt;LEER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="254"/>
+        <location filename="../src/gui/mainwindow.cpp" line="134"/>
+        <source>&quot;%1&quot;</source>
+        <comment>Quoted clipboard text in main window title and tray tooltip</comment>
+        <translation type="unfinished">&quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="138"/>
+        <source>&lt;IMAGE&gt;</source>
+        <comment>Part of main window title and tray tooltip shown if clipboard contains image</comment>
+        <translation type="unfinished">&lt;BILD&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="141"/>
+        <source>&lt;FILES&gt;</source>
+        <comment>Part of main window title and tray tooltip shown if clipboard contains URLs/files</comment>
+        <translation type="unfinished">&lt;DATEI&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="144"/>
+        <source>&lt;EMPTY&gt;</source>
+        <comment>Part of main window title and tray tooltip shown if clipboard is empty</comment>
+        <translation type="unfinished">&lt;LEER&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="148"/>
+        <source>&lt;DATA&gt;</source>
+        <comment>Part of main window title and tray tooltip shown if clipboard contains unrecognized data</comment>
+        <translation type="unfinished">&lt;DATEN&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="263"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Möchtest du CopyQ &lt;strong&gt;beenden&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="301"/>
+        <location filename="../src/gui/mainwindow.cpp" line="309"/>
         <source>&amp;File</source>
         <translation>&amp;Datei</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="304"/>
+        <location filename="../src/gui/mainwindow.cpp" line="312"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Zeigen/Verstecken</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="312"/>
+        <location filename="../src/gui/mainwindow.cpp" line="320"/>
         <source>&amp;New Item</source>
         <translation>&amp;Neues Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="319"/>
+        <location filename="../src/gui/mainwindow.cpp" line="332"/>
         <source>&amp;Import Tab...</source>
         <translation>&amp;Importiere Reiter...</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="321"/>
+        <location filename="../src/gui/mainwindow.cpp" line="334"/>
         <source>Ctrl+I</source>
         <translation>Strg+i</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="324"/>
+        <location filename="../src/gui/mainwindow.cpp" line="337"/>
         <source>&amp;Export Tab...</source>
         <translation>&amp;Exportiere Reiter...</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="329"/>
+        <location filename="../src/gui/mainwindow.cpp" line="344"/>
         <source>&amp;Action...</source>
         <translation>&amp;Ausführen...</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="331"/>
+        <location filename="../src/gui/mainwindow.cpp" line="346"/>
         <source>Open action dialog</source>
         <translation>Ausführungsdialog</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="338"/>
+        <location filename="../src/gui/mainwindow.cpp" line="353"/>
         <source>&amp;Preferences</source>
         <translation>&amp;Einstellungen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="341"/>
+        <location filename="../src/gui/mainwindow.cpp" line="356"/>
         <source>Ctrl+P</source>
         <translation>Strg+p</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="345"/>
+        <location filename="../src/gui/mainwindow.cpp" line="360"/>
         <source>Show &amp;Clipboard Content</source>
         <translation>Zeige &amp;Inhalt der Zwischenablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="347"/>
+        <location filename="../src/gui/mainwindow.cpp" line="362"/>
         <source>Ctrl+Shift+C</source>
         <translation>Strg+Umschalt+c</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="352"/>
+        <location filename="../src/gui/mainwindow.cpp" line="367"/>
         <source>Ctrl+Shift+X</source>
         <translation>Strg+Shift+X</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="359"/>
-        <location filename="../src/gui/mainwindow.cpp" line="423"/>
+        <location filename="../src/gui/mainwindow.cpp" line="374"/>
+        <location filename="../src/gui/mainwindow.cpp" line="441"/>
         <source>E&amp;xit</source>
         <translation>&amp;Beenden</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="361"/>
+        <location filename="../src/gui/mainwindow.cpp" line="376"/>
         <source>Ctrl+Q</source>
         <translation>Strg+q</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="364"/>
+        <location filename="../src/gui/mainwindow.cpp" line="379"/>
         <source>&amp;Edit</source>
         <translation>&amp;Bearbeiten</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="368"/>
+        <location filename="../src/gui/mainwindow.cpp" line="385"/>
         <source>&amp;Sort Selected Items</source>
         <translation>&amp;Selektiere Element</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="370"/>
+        <location filename="../src/gui/mainwindow.cpp" line="387"/>
         <source>Ctrl+Shift+S</source>
         <translation>Strg+Umschalt+s</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="374"/>
+        <location filename="../src/gui/mainwindow.cpp" line="391"/>
         <source>&amp;Reverse Selected Items</source>
         <translation>&amp;Reihenfolge der selektierten Elemente umdrehen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="376"/>
+        <location filename="../src/gui/mainwindow.cpp" line="393"/>
         <source>Ctrl+Shift+R</source>
         <translation>Strg+Umschalt+r</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="382"/>
+        <location filename="../src/gui/mainwindow.cpp" line="399"/>
         <source>&amp;Paste Items</source>
         <translation>&amp;Elemente einfügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="388"/>
+        <location filename="../src/gui/mainwindow.cpp" line="405"/>
         <source>&amp;Copy Selected Items</source>
         <translation>&amp;Kopiere selektierte Elemente</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="400"/>
+        <location filename="../src/gui/mainwindow.cpp" line="410"/>
         <source>&amp;Item</source>
         <translation>&amp;Elemente</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="403"/>
+        <location filename="../src/gui/mainwindow.cpp" line="415"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="406"/>
-        <location filename="../src/gui/mainwindow.cpp" line="441"/>
+        <location filename="../src/gui/mainwindow.cpp" line="418"/>
+        <location filename="../src/gui/mainwindow.cpp" line="459"/>
         <source>&amp;New tab</source>
         <translation>&amp;Neuer Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="408"/>
+        <location filename="../src/gui/mainwindow.cpp" line="420"/>
         <source>Ctrl+T</source>
         <translation>Strg+t</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="409"/>
+        <location filename="../src/gui/mainwindow.cpp" line="422"/>
         <source>Re&amp;name tab</source>
         <translation>Reiter umbe&amp;nnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="412"/>
+        <location filename="../src/gui/mainwindow.cpp" line="428"/>
         <source>Re&amp;move tab</source>
         <translation>Reiter entfernen (&amp;m)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1268"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1184"/>
+        <source>%1 (%2)</source>
+        <comment>Format for automatic tab renaming (%1 is name, %2 is number)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1292"/>
+        <source>%1 - CopyQ</source>
+        <comment>Main window title format (%1 is clipboard content label)</comment>
+        <translation type="unfinished">%1 - CopyQ</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1295"/>
+        <source>%1 - %2 - CopyQ</source>
+        <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
+        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1288"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -2011,7 +2204,7 @@ Strg+Rauf oder Strg+Runter.</translation>
         <translation type="obsolete">Reiter um&amp;benennen</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="411"/>
+        <location filename="../src/gui/mainwindow.cpp" line="424"/>
         <source>Ctrl+F2</source>
         <translation>Strg+F2</translation>
     </message>
@@ -2020,43 +2213,43 @@ Strg+Rauf oder Strg+Runter.</translation>
         <translation type="obsolete">En&amp;tferne Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="414"/>
+        <location filename="../src/gui/mainwindow.cpp" line="430"/>
         <source>Ctrl+W</source>
         <translation>Strg+w</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="417"/>
+        <location filename="../src/gui/mainwindow.cpp" line="435"/>
         <source>Co&amp;mmands</source>
         <translation>&amp;Befehl</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="427"/>
-        <location filename="../src/gui/mainwindow.cpp" line="428"/>
+        <location filename="../src/gui/mainwindow.cpp" line="445"/>
+        <location filename="../src/gui/mainwindow.cpp" line="446"/>
         <source>&amp;Help</source>
         <translation>&amp;Hilfe</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="443"/>
+        <location filename="../src/gui/mainwindow.cpp" line="461"/>
         <source>Rename &amp;group &quot;%1&quot;</source>
         <translation>&amp;Gruppe umbenennen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="445"/>
+        <location filename="../src/gui/mainwindow.cpp" line="463"/>
         <source>Re&amp;name tab &quot;%1&quot;</source>
         <translation>Reiter umbe&amp;nnen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="447"/>
+        <location filename="../src/gui/mainwindow.cpp" line="465"/>
         <source>Re&amp;move tab &quot;%1&quot;</source>
         <translation>Reiter entfernen &quot;%1&quot; (&amp;m)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="449"/>
+        <location filename="../src/gui/mainwindow.cpp" line="467"/>
         <source>Remove group &quot;%1&quot;</source>
         <translation>Gruppe entfernen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="471"/>
+        <location filename="../src/gui/mainwindow.cpp" line="489"/>
         <source>Error: %1
 </source>
         <translation>Fehler: %1
@@ -2064,34 +2257,40 @@ Strg+Rauf oder Strg+Runter.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="473"/>
+        <location filename="../src/gui/mainwindow.cpp" line="491"/>
         <source>Exit code: %1
 </source>
         <translation>Exitcode: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="476"/>
+        <location filename="../src/gui/mainwindow.cpp" line="494"/>
         <source>Command &quot;%1&quot;</source>
         <translation>Befehl: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="512"/>
+        <location filename="../src/gui/mainwindow.cpp" line="530"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>Zwisch&amp;enablage speichern aktivieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="513"/>
+        <location filename="../src/gui/mainwindow.cpp" line="531"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>Zwischenablage speichern &amp;deaktivieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="931"/>
+        <location filename="../src/gui/mainwindow.cpp" line="724"/>
+        <source>CopyQ Error</source>
+        <comment>Tray tooltip error message title</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="942"/>
         <source>Loading configuration</source>
         <translation>Lade Konfiguration</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="999"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1010"/>
         <source>Configuration loaded</source>
         <translation>Konfiguration geladen</translation>
     </message>
@@ -2104,19 +2303,16 @@ Strg+Rauf oder Strg+Runter.</translation>
         <translation type="obsolete">&amp;Reiter entfernen &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="135"/>
         <source>&lt;IMAGE&gt;</source>
-        <translation>&lt;BILD&gt;</translation>
+        <translation type="obsolete">&lt;BILD&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="137"/>
         <source>&lt;FILES&gt;</source>
-        <translation>&lt;DATEI&gt;</translation>
+        <translation type="obsolete">&lt;DATEI&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="140"/>
         <source>&lt;DATA&gt;</source>
-        <translation>&lt;DATEN&gt;</translation>
+        <translation type="obsolete">&lt;DATEN&gt;</translation>
     </message>
     <message>
         <source>Clipboard:
@@ -2125,89 +2321,87 @@ Strg+Rauf oder Strg+Runter.</translation>
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1272"/>
         <source>%1 - CopyQ</source>
-        <translation>%1 - CopyQ</translation>
+        <translation type="obsolete">%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1274"/>
         <source>%1 - %2 - CopyQ</source>
-        <translation>%1 - %2 - CopyQ</translation>
+        <translation type="obsolete">%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1280"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1305"/>
         <source>Clipboard</source>
         <translation>Zwischenablage</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1397"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1422"/>
         <source>KILL</source>
         <translation>KILL</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1398"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1423"/>
         <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
         <translation>&lt;b&gt;Befehl:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1399"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1424"/>
         <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
         <translation>&lt;b&gt;INPUT:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1501"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1526"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Zwischenablage: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1728"/>
-        <location filename="../src/gui/mainwindow.cpp" line="1779"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1753"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1804"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Elemente (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1733"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1758"/>
         <source>CopyQ Error Saving File</source>
         <translation>Copyq Fehler beim Speichern einer Datei</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1734"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1759"/>
         <source>Cannot save file &quot;%1&quot;!</source>
         <translation>Kann Datei &quot;%1&quot; nicht speichern!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1784"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1809"/>
         <source>CopyQ Error Opening File</source>
         <translation>Copyq Fehler beim Öffnen einer Datei</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1785"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1810"/>
         <source>Cannot open file &quot;%1&quot;!</source>
         <translation>Kann Datei &quot;%1&quot; nicht öffnen!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1824"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1849"/>
         <source>Executing: %1</source>
         <translation>Führe aus: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1954"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1978"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Alle Reiter in der Gruppe entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1955"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1979"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wollen sie wirkliche &lt;strong&gt;alle Reiter&lt;/strong&gt; in der Gruppe &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1994"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2024"/>
         <source>Remove Tab?</source>
         <translation>Reiter entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1995"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2025"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Möchtest du den Tab &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
@@ -2233,21 +2427,21 @@ Strg+Rauf oder Strg+Runter.</translation>
 <context>
     <name>QObject</name>
     <message>
-        <location filename="../src/common/client_server.cpp" line="53"/>
+        <location filename="../src/common/client_server.cpp" line="54"/>
         <source>CopyQ: %1
 </source>
         <translation>CopyQ: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/common/client_server.cpp" line="55"/>
+        <location filename="../src/common/client_server.cpp" line="56"/>
         <source>CopyQ warning: %1
 </source>
         <translation>CopyQ Warnung: %1
 </translation>
     </message>
     <message>
-        <location filename="../src/common/client_server.cpp" line="57"/>
+        <location filename="../src/common/client_server.cpp" line="58"/>
         <location filename="../src/item/itemeditor.cpp" line="59"/>
         <source>CopyQ ERROR: %1
 </source>
@@ -2255,7 +2449,7 @@ Strg+Rauf oder Strg+Runter.</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/common/client_server.cpp" line="60"/>
+        <location filename="../src/common/client_server.cpp" line="61"/>
         <source>CopyQ DEBUG: %1
 </source>
         <translation></translation>
@@ -2763,7 +2957,14 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
 <context>
     <name>TabDialog</name>
     <message>
-        <location filename="../src/ui/tabdialog.ui" line="27"/>
+        <location filename="../src/ui/tabdialog.ui" line="29"/>
+        <source>Tab name must be non-empty and unique.&lt;br /&gt;
+Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
+Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;name:</source>
         <translation>&amp;Name:</translation>
     </message>
@@ -2786,10 +2987,15 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
 <context>
     <name>TabTree</name>
     <message>
-        <location filename="../src/gui/tabtree.cpp" line="131"/>
+        <location filename="../src/gui/tabtree.cpp" line="171"/>
         <source>(%1) %2</source>
         <comment>Tab tree item label format; %1 is key hint (usually underlined in labels).</comment>
         <translation>(%1) %2</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/tabtree.cpp" line="458"/>
+        <source>Alt+%1</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 </TS>
