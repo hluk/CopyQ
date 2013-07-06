@@ -8,9 +8,9 @@ AppName=CopyQ
 AppVersion={#AppVersion}
 AppVerName=CopyQ {#AppVersion}
 AppPublisher=Lukas Holecek
-AppPublisherURL=https://code.google.com/p/copyq/
-AppSupportURL=https://code.google.com/p/copyq/
-AppUpdatesURL=https://code.google.com/p/copyq/
+AppPublisherURL=https://sourceforge.net/projects/copyq/
+AppSupportURL=https://sourceforge.net/projects/copyq/
+AppUpdatesURL=https://sourceforge.net/projects/copyq/
 DefaultDirName={pf}\CopyQ
 DefaultGroupName=CopyQ
 AllowNoIcons=yes
@@ -72,22 +72,49 @@ Source: "{#Root}\copyq.com"; DestDir: "{app}"; Components: program; Flags: ignor
 Source: "{#Root}\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Root}\msvcp100.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\msvcr100.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtCore4.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtGui4.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtNetwork4.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtScript4.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtSvg4.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtXml4.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web
+Source: "{#Root}\HACKING"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "{#Root}\themes\*"; DestDir: "{app}\themes"; Components: program; Flags: ignoreversion
 Source: "{#Root}\plugins\itemtext.dll"; DestDir: "{app}\plugins"; Components: plugins/text; Flags: ignoreversion
 Source: "{#Root}\plugins\itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
 Source: "{#Root}\plugins\itemweb.dll"; DestDir: "{app}\plugins"; Components: plugins/web; Flags: ignoreversion
 Source: "{#Root}\plugins\itemdata.dll"; DestDir: "{app}\plugins"; Components: plugins/data; Flags: ignoreversion
+Source: "{#Root}\msvcp100.dll"; DestDir: "{app}"; Components: program
+Source: "{#Root}\msvcr100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
-Source: "{#Root}\imageformats\qico4.dll"; DestDir: "{app}\imageformats"; Components: program
-Source: "{#Root}\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program
+; Qt 4
+Source: "{#Root}\QtCore4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\QtGui4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\QtNetwork4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\QtScript4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\QtSvg4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\QtXml4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\imageformats\qico4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+; Qt 5
+Source: "{#Root}\icudt51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\icuin51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\icuuc51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\libGLESv2.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\libEGL.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Core.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Gui.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Network.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Script.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Svg.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Xml.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Widgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5WebKit.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5WebKitWidgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5OpenGL.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Qml.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Quick.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Sensors.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5Sql.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\Qt5V8.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#Root}\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Root}\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]

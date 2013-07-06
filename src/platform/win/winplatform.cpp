@@ -51,13 +51,13 @@ WinPlatform::WinPlatform()
 
 WId WinPlatform::getCurrentWindow()
 {
-    return GetForegroundWindow();
+    return (WId)GetForegroundWindow();
 }
 
 QString WinPlatform::getWindowTitle(WId wid)
 {
     TCHAR buf[1024];
-    GetWindowText(wid, buf, 1024);
+    GetWindowText((HWND)wid, buf, 1024);
 #   ifdef UNICODE
     return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
 #   else
@@ -67,8 +67,8 @@ QString WinPlatform::getWindowTitle(WId wid)
 
 void WinPlatform::raiseWindow(WId wid)
 {
-    SetForegroundWindow(wid);
-    SetWindowPos(wid, HWND_TOP, 0, 0, 0, 0,
+    SetForegroundWindow((HWND)wid);
+    SetWindowPos((HWND)wid, HWND_TOP, 0, 0, 0, 0,
                  SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
 }
 

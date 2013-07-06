@@ -37,7 +37,11 @@
 #include <QTemporaryFile>
 
 #ifndef COPYQ_THEME_PREFIX
-#  define COPYQ_THEME_PREFIX ""
+#   ifdef Q_OS_WIN
+#       define COPYQ_THEME_PREFIX QApplication::applicationDirPath() + "/themes"
+#   else
+#       define COPYQ_THEME_PREFIX ""
+#   endif
 #endif
 
 namespace {
@@ -399,7 +403,14 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
         }
 
         QByteArray data = tmpfile.readAll();
-        data.replace("\\n", "\n"); // keep ini file user friendly
+        // keep ini file user friendly
+        data.replace("\\n",
+#ifdef Q_OS_WIN
+                     "\r\n"
+#else
+                     "\n"
+#endif
+                     );
 
         ItemEditor *editor = new ItemEditor(data, "application/x-copyq-theme", m_editor, this);
 

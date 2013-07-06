@@ -135,14 +135,19 @@ if (WIN32)
 
     # GUI (copyq.exe)
     add_executable(copyq WIN32 ${copyq_COMPILE} ${copyq_RC})
-    set_target_properties(copyq PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+
+    if (MSVC)
+        set_target_properties(copyq PROPERTIES LINK_FLAGS "/ENTRY:mainCRTStartup")
+    endif()
 
     # console (copyq.com)
     add_executable(copyqcon platform/win/main.cpp)
     set_target_properties(copyqcon PROPERTIES OUTPUT_NAME "copyq" SUFFIX ".com")
 
     # Qt modules for console app
-    if (NOT WITH_QT5)
+    if (WITH_QT5)
+        qt5_use_modules(copyqcon Core)
+    else()
         include(${QT_USE_FILE})
     endif()
 
