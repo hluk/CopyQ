@@ -77,7 +77,7 @@ static QString aboutPage()
         // web
         "<tr>"
         "<td class='h3'>" + escapeHtml(AboutDialog::tr("Web")) + "</td>"
-        "<td><a href=\"https://code.google.com/p/copyq\">https://code.google.com/p/copyq</a></td>"
+        "<td><a href=\"https://sourceforge.net/projects/copyq/\">https://sourceforge.net/projects/copyq/</a></td>"
         "</tr>"
         "<tr>"
         "<td></td>"
