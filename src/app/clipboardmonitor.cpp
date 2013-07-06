@@ -297,7 +297,7 @@ void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << item;
-    writeMessage(m_socket, msg);
+    writeMessage(msg);
 }
 
 void ClipboardMonitor::updateTimeout()
@@ -324,52 +324,56 @@ void ClipboardMonitor::readyRead()
             return;
         }
 
-        ClipboardItem item;
-        QDataStream in(&msg, QIODevice::ReadOnly);
-        in >> item;
+        if (msg == "ping") {
+            writeMessage(QByteArray("pong") );
+        } else {
+            ClipboardItem item;
+            QDataStream in(&msg, QIODevice::ReadOnly);
+            in >> item;
 
-        /* Does server send settings for monitor? */
-        QByteArray settings_data = item.data()->data("application/x-copyq-settings");
-        if ( !settings_data.isEmpty() ) {
+            /* Does server send settings for monitor? */
+            QByteArray settings_data = item.data()->data(mimeApplicationSettings);
+            if ( !settings_data.isEmpty() ) {
 
-            QDataStream settings_in(settings_data);
-            QVariantMap settings;
-            settings_in >> settings;
+                QDataStream settings_in(settings_data);
+                QVariantMap settings;
+                settings_in >> settings;
 
 #ifdef COPYQ_LOG_DEBUG
-            {
-                COPYQ_LOG("Loading configuration:");
-                foreach (const QString &key, settings.keys()) {
-                    QVariant val = settings[key];
-                    const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
-                                                                      : val.toString();
-                    COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
+                {
+                    COPYQ_LOG("Loading configuration:");
+                    foreach (const QString &key, settings.keys()) {
+                        QVariant val = settings[key];
+                        const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
+                                                                          : val.toString();
+                        COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
+                    }
                 }
+#endif
+
+                if ( settings.contains("formats") )
+                    m_formats = settings["formats"].toStringList();
+#ifdef COPYQ_WS_X11
+                if ( settings.contains("copy_clipboard") )
+                    m_copyclip = settings["copy_clipboard"].toBool();
+                if ( settings.contains("copy_selection") )
+                    m_copysel = settings["copy_selection"].toBool();
+                if ( settings.contains("check_selection") )
+                    m_checksel = settings["check_selection"].toBool();
+#endif
+
+                connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
+                         this, SLOT(checkClipboard(QClipboard::Mode)) );
+
+#ifdef COPYQ_WS_X11
+                checkClipboard(QClipboard::Selection);
+#endif
+                checkClipboard(QClipboard::Clipboard);
+
+                COPYQ_LOG("Configured");
+            } else {
+                updateClipboard( cloneData(*item.data()) );
             }
-#endif
-
-            if ( settings.contains("formats") )
-                m_formats = settings["formats"].toStringList();
-#ifdef COPYQ_WS_X11
-            if ( settings.contains("copy_clipboard") )
-                m_copyclip = settings["copy_clipboard"].toBool();
-            if ( settings.contains("copy_selection") )
-                m_copysel = settings["copy_selection"].toBool();
-            if ( settings.contains("check_selection") )
-                m_checksel = settings["check_selection"].toBool();
-#endif
-
-            connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-                     this, SLOT(checkClipboard(QClipboard::Mode)) );
-
-#ifdef COPYQ_WS_X11
-            checkClipboard(QClipboard::Selection);
-#endif
-            checkClipboard(QClipboard::Clipboard);
-
-            COPYQ_LOG("Configured");
-        } else {
-            updateClipboard( cloneData(*item.data()) );
         }
     }
 
@@ -397,3 +401,10 @@ void ClipboardMonitor::updateClipboard(QMimeData *data)
     m_updateTimer->start();
 }
 
+void ClipboardMonitor::writeMessage(const QByteArray &msg)
+{
+    if ( !::writeMessage(m_socket, msg) ) {
+        log( "Failed to send data to server!", LogError );
+        exit(1);
+    }
+}

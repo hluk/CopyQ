@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include <QProcess>
+#include <QTimer>
 
 class QByteArray;
 class QLocalServer;
@@ -71,11 +72,15 @@ signals:
 
 private slots:
     void readyRead();
+    void ping();
+    void pongTimeout();
 
 private:
     QProcess m_process;
     QLocalServer *m_server;
     QLocalSocket *m_socket;
+    QTimer m_timerPing;
+    QTimer m_timerPongTimeout;
 };
 
 #endif // REMOTEPROCESS_H

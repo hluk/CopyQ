@@ -64,30 +64,6 @@ public:
     /** Change clipboard and primary selection content. */
     void updateClipboard(QMimeData *data = NULL);
 
-private:
-    QStringList m_formats;
-    QScopedPointer<QMimeData> m_newdata;
-#ifdef COPYQ_WS_X11
-    bool m_copyclip;
-    bool m_checksel;
-    bool m_copysel;
-#endif
-    QLocalSocket *m_socket;
-
-    // don't allow rapid access to clipboard
-    QTimer *m_updateTimer;
-    bool m_needCheckClipboard;
-
-#ifdef COPYQ_WS_X11
-    bool m_needCheckSelection;
-
-    // stuff for X11 window system
-    PrivateX11* m_x11;
-#endif
-
-    /** Send new clipboard or primary selection data to server. */
-    void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
-
 public slots:
     /**
      * Check clipboard or primary selection.
@@ -119,6 +95,32 @@ private slots:
 
     /** Data can be received from monitor. */
     void readyRead();
+
+private:
+    /** Send new clipboard or primary selection data to server. */
+    void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
+
+    void writeMessage(const QByteArray &msg);
+
+    QStringList m_formats;
+    QScopedPointer<QMimeData> m_newdata;
+#ifdef COPYQ_WS_X11
+    bool m_copyclip;
+    bool m_checksel;
+    bool m_copysel;
+#endif
+    QLocalSocket *m_socket;
+
+    // don't allow rapid access to clipboard
+    QTimer *m_updateTimer;
+    bool m_needCheckClipboard;
+
+#ifdef COPYQ_WS_X11
+    bool m_needCheckSelection;
+
+    // stuff for X11 window system
+    PrivateX11* m_x11;
+#endif
 };
 
 #endif // CLIPBOARDMONITOR_H

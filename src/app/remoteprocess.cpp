@@ -32,7 +32,18 @@ RemoteProcess::RemoteProcess(QObject *parent)
     , m_process()
     , m_server(NULL)
     , m_socket(NULL)
+    , m_timerPing()
+    , m_timerPongTimeout()
 {
+    m_timerPing.setInterval(8000);
+    m_timerPing.setSingleShot(true);
+    connect( &m_timerPing, SIGNAL(timeout()),
+             this, SLOT(ping()) );
+
+    m_timerPongTimeout.setInterval(4000);
+    m_timerPongTimeout.setSingleShot(true);
+    connect( &m_timerPongTimeout, SIGNAL(timeout()),
+             this, SLOT(pongTimeout()) );
 }
 
 RemoteProcess::~RemoteProcess()
@@ -56,11 +67,12 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     m_process.start( QCoreApplication::applicationFilePath(), arguments );
 
-    if ( m_process.waitForStarted(2000) && m_server->waitForNewConnection(2000) ) {
+    if ( m_process.waitForStarted(16000) && m_server->waitForNewConnection(4000) ) {
         COPYQ_LOG("Remote process: Started.");
         m_socket = m_server->nextPendingConnection();
         connect( m_socket, SIGNAL(readyRead()),
                  this, SLOT(readyRead()) );
+        ping();
     } else {
         log( "Remote process: Failed to start new remote process!", LogError );
     }
@@ -76,7 +88,10 @@ bool RemoteProcess::writeMessage(const QByteArray &msg)
         return false;
     }
 
-    ::writeMessage(m_socket, msg);
+    if ( !::writeMessage(m_socket, msg) ) {
+        emit connectionError();
+        return false;
+    }
 
     return true;
 }
@@ -125,12 +140,30 @@ void RemoteProcess::readyRead()
     while ( m_socket->bytesAvailable() > 0 ) {
         QByteArray msg;
         if( !::readMessage(m_socket, &msg) ) {
-            log( "Incorrect message from remote process.", LogError );
+            log( "Remote process: Incorrect message from remote process.", LogError );
             emit connectionError();
             return;
         }
-        emit newMessage(msg);
+
+        if (msg == "pong") {
+            m_timerPing.start();
+            m_timerPongTimeout.stop();
+        } else {
+            emit newMessage(msg);
+        }
     }
 
     m_socket->blockSignals(false);
+}
+
+void RemoteProcess::ping()
+{
+    writeMessage("ping");
+    m_timerPongTimeout.start();
+}
+
+void RemoteProcess::pongTimeout()
+{
+    log( "Remote process: Connection timeout!", LogError );
+    emit connectionError();
 }

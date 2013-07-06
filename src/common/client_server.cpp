@@ -34,6 +34,7 @@
 
 const QString mimeWindowTitle = "application/x-copyq-owner-window-title";
 const QString mimeItemNotes = "application/x-copyq-item-notes";
+const QString mimeApplicationSettings = "application/x-copyq-settings";
 
 QString escapeHtml(const QString &str)
 {
@@ -102,13 +103,13 @@ bool readMessage(QIODevice *socket, QByteArray *msg)
     QByteArray bytes;
     quint32 len;
 
-    COPYQ_LOG("Reading message.");
+    COPYQ_LOG_VERBOSE("Reading message.");
 
     if ( readBytes(socket, sizeof(len), &bytes) ) {
         QDataStream(bytes) >> len;
 
         if ( readBytes(socket, len, msg) ) {
-            COPYQ_LOG( QString("Message read (%1 bytes).").arg(msg->size()) );
+            COPYQ_LOG_VERBOSE( QString("Message read (%1 bytes).").arg(msg->size()) );
             return true;
         }
     }
@@ -118,18 +119,21 @@ bool readMessage(QIODevice *socket, QByteArray *msg)
     return false;
 }
 
-void writeMessage(QIODevice *socket, const QByteArray &msg)
+bool writeMessage(QIODevice *socket, const QByteArray &msg)
 {
-    COPYQ_LOG( QString("Write message (%1 bytes).").arg(msg.size()) );
+    COPYQ_LOG_VERBOSE( QString("Write message (%1 bytes).").arg(msg.size()) );
 
     QDataStream out(socket);
     // length is serialized as a quint32, followed by msg
     out.writeBytes( msg.constData(), msg.length() );
 
-    if (out.status() == QDataStream::Ok)
-        COPYQ_LOG("Message written.");
-    else
-        log( "Cannot write message!", LogError );
+    if (out.status() != QDataStream::Ok) {
+        COPYQ_LOG("Cannot write message!");
+        return false;
+    }
+
+    COPYQ_LOG_VERBOSE("Message written.");
+    return true;
 }
 
 QLocalServer *newServer(const QString &name, QObject *parent)

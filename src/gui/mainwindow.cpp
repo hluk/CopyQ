@@ -713,7 +713,7 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 
 void MainWindow::showError(const QString &msg)
 {
-    tray->showMessage(QString("Error"), msg, QSystemTrayIcon::Critical);
+    tray->showMessage(tr("CopyQ Error"), msg, QSystemTrayIcon::Critical);
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)

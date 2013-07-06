@@ -66,8 +66,10 @@ typedef enum {
 
 #ifdef COPYQ_LOG_DEBUG
 #   define COPYQ_LOG(msg) log(msg, LogDebug)
+#   define COPYQ_LOG_VERBOSE(msg) if ( qgetenv("COPYQ_VERBOSE") == "1" ) log(msg, LogDebug);
 #else
 #   define COPYQ_LOG(msg)
+#   define COPYQ_LOG_VERBOSE(msg)
 #endif
 
 enum LogLevel {
@@ -81,6 +83,7 @@ enum LogLevel {
 
 extern const QString mimeWindowTitle;
 extern const QString mimeItemNotes;
+extern const QString mimeApplicationSettings;
 
 QString escapeHtml(const QString &str);
 
@@ -92,7 +95,7 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes);
 bool readMessage(QIODevice *socket, QByteArray *msg);
-void writeMessage(QIODevice *socket, const QByteArray &msg);
+bool writeMessage(QIODevice *socket, const QByteArray &msg);
 
 QLocalServer *newServer(const QString &name, QObject *parent=NULL);
 QString serverName(const QString &name);

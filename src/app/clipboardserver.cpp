@@ -140,9 +140,12 @@ void ClipboardServer::monitorStandardError()
     if (m_monitor == NULL)
         return;
 
+    const QByteArray stderrOutput = m_monitor->process().readAllStandardError().trimmed();
+    if ( stderrOutput.isEmpty() )
+        return;
+
     COPYQ_LOG("Monitor stderr:");
 
-    const QByteArray stderrOutput = m_monitor->process().readAllStandardError().trimmed();
     foreach( const QByteArray &line, stderrOutput.split('\n') )
         log( tr("Clipboard Monitor: ") + line, LogNote );
 
@@ -186,9 +189,10 @@ void ClipboardServer::startMonitoring()
         const QString name = clipboardMonitorServerName();
         m_monitor->start( name, QStringList("monitor") << name );
         if ( !m_monitor->isConnected() ) {
-            log( tr("Cannot start clipboard monitor!"), LogError );
+            disconnect();
             delete m_monitor;
             m_monitor = NULL;
+            log( tr("Cannot start clipboard monitor!"), LogError );
             exit(10);
             return;
         }
@@ -223,7 +227,7 @@ void ClipboardServer::loadMonitorSettings()
     settings_out << settings;
 
     ClipboardItem item;
-    item.setData("application/x-copyq-settings", settings_data);
+    item.setData(mimeApplicationSettings, settings_data);
 
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
@@ -279,8 +283,9 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
         QDataStream out(&msg, QIODevice::WriteOnly);
         out << exitCode;
         out.writeRawData( message.constData(), message.length() );
-        writeMessage(client, msg);
-        if (exitCode == CommandFinished) {
+        if ( !writeMessage(client, msg) ) {
+            COPYQ_LOG( QString("%1: Failed to send message to client!").arg(id) );
+        } else if (exitCode == CommandFinished) {
             connect(client, SIGNAL(disconnected()),
                     client, SLOT(deleteLater()));
             COPYQ_LOG( QString("%1: Disconnected from client.").arg(id) );

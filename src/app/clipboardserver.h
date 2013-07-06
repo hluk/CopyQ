@@ -94,15 +94,6 @@ protected:
 signals:
     void terminateClientThreads();
 
-private:
-    QLocalServer *m_server;
-    MainWindow* m_wnd;
-    RemoteProcess *m_monitor;
-    bool m_checkclip;
-    uint m_lastHash;
-    QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
-    QThreadPool m_clientThreads;
-
 public slots:
     /** Load @a item data to clipboard. */
     void changeClipboard(const ClipboardItem *item);
@@ -135,6 +126,15 @@ private slots:
             const QByteArray &message, //!< Message for client.
             int exitCode = 0 //!< Exit code for client (non-zero for an error).
             );
+
+private:
+    QLocalServer *m_server;
+    MainWindow* m_wnd;
+    RemoteProcess *m_monitor;
+    bool m_checkclip;
+    uint m_lastHash;
+    QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
+    QThreadPool m_clientThreads;
 };
 
 #endif // CLIPBOARDSERVER_H
