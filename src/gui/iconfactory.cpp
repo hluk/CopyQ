@@ -22,6 +22,7 @@
 #include <QBitmap>
 #include <QFontDatabase>
 #include <QIcon>
+#include <QMenu>
 #include <QMutex>
 #include <QMutexLocker>
 #include <QPainter>
@@ -35,12 +36,16 @@ const int fontSize = iconSize - 2;
 
 /**
  * Get suitable color for icons.
- * @note This doesn't work if with some styles (e.g. GTK).
  */
 QColor getDefaultIconColor()
 {
-    QColor c = QPalette().color(QPalette::Window);
-    bool menuBackgrounIsLight = (QPalette().color(QPalette::Window).lightness() > 128);
+    QImage img(1, 1, QImage::Format_RGB32);
+    QMenu m;
+    m.resize(16, 16);
+    m.render(&img, QPoint(-8, -8));
+
+    QColor c = img.pixel(0, 0);
+    bool menuBackgrounIsLight = c.lightness() > 128;
     c.setHsl(c.hue(),
              c.saturation() + (menuBackgrounIsLight ? 50 : 10),
              c.lightness() + (menuBackgrounIsLight ? -140 : 100));
