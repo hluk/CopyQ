@@ -150,7 +150,8 @@ void CommandWidget::on_pushButtonBrowse_clicked()
 
 void CommandWidget::on_lineEditIcon_textChanged(const QString &)
 {
-    ui->buttonIcon->setIcon( IconFactory::iconFromFile(ui->lineEditIcon->text()) );
+    ui->buttonIcon->setIcon( IconFactory::iconFromFile(ui->lineEditIcon->text(),
+                                                       getDefaultIconColor<QToolButton>()) );
 }
 
 void CommandWidget::on_pushButtonShortcut_clicked()

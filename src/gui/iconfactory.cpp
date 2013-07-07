@@ -34,25 +34,6 @@ namespace {
 const int iconSize = 16;
 const int fontSize = iconSize - 2;
 
-/**
- * Get suitable color for icons.
- */
-QColor getDefaultIconColor()
-{
-    QImage img(1, 1, QImage::Format_RGB32);
-    QMenu m;
-    m.resize(16, 16);
-    m.render(&img, QPoint(-8, -8));
-
-    QColor c = img.pixel(0, 0);
-    bool menuBackgrounIsLight = c.lightness() > 128;
-    c.setHsl(c.hue(),
-             c.saturation() + (menuBackgrounIsLight ? 50 : 10),
-             c.lightness() + (menuBackgrounIsLight ? -140 : 100));
-
-    return c;
-}
-
 } // namespace
 
 // singleton
@@ -73,7 +54,7 @@ IconFactory *IconFactory::instance()
 
 IconFactory::IconFactory()
     : m_iconFont()
-    , m_iconColor( getDefaultIconColor() )
+    , m_iconColor()
     , m_useSystemIcons(true)
     , m_loaded(false)
     , m_pixmapCache()
@@ -85,6 +66,7 @@ IconFactory::IconFactory()
         m_loaded = true;
         m_iconFont = QFont("FontAwesome");
         m_iconFont.setPixelSize(fontSize);
+        m_iconColor = getDefaultIconColor<QMenu>();
     }
 }
 
@@ -95,35 +77,27 @@ IconFactory::~IconFactory()
 const QPixmap &IconFactory::getPixmap(ushort id)
 {
     PixmapCache::iterator it = m_pixmapCache.find(id);
-    if ( it == m_pixmapCache.end() ) {
-        QPixmap pix(iconSize, iconSize);
-        pix.fill(Qt::transparent);
-
-        if ( isLoaded() ) {
-            QPainter painter(&pix);
-
-            painter.setFont( iconFont() );
-            painter.setPen(m_iconColor);
-            painter.drawText( QRect(1, 1, iconSize - 1, iconSize - 1),
-                              QString(QChar(id)) );
-        }
-
-        it = m_pixmapCache.insert(id, pix);
-    }
+    if ( it == m_pixmapCache.end() )
+        it = m_pixmapCache.insert(id, createPixmap(id, m_iconColor));
 
     return *it;
 }
 
-const QIcon IconFactory::getIcon(const QString &themeName, ushort id)
+QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &color)
 {
+    // Icon from theme
+    if ( (!isLoaded() || useSystemIcons()) && !themeName.isEmpty() ) {
+        QIcon icon = QIcon::fromTheme(themeName);
+        if ( !icon.isNull() )
+            return icon;
+    }
+
+    // Icon with different color than for QMenu
+    if ( color.isValid() && color != m_iconColor )
+        return QIcon( createPixmap(id, color) );
+
     IconCache::iterator it = m_iconCache.find(id);
     if ( it == m_iconCache.end() ) {
-        if ( (!isLoaded() || useSystemIcons()) && !themeName.isEmpty() ) {
-            QIcon icon = QIcon::fromTheme(themeName);
-            if ( !icon.isNull() )
-                return icon;
-        }
-
         QIcon icon( getPixmap(id) );
         it = m_iconCache.insert(id, icon);
     }
@@ -161,14 +135,14 @@ void IconFactory::invalidateCache()
     m_iconCache.clear();
 }
 
-QIcon IconFactory::iconFromFile(const QString &fileName)
+QIcon IconFactory::iconFromFile(const QString &fileName, const QColor &color)
 {
     if ( fileName.isEmpty() )
         return QIcon();
 
     ushort unicode = fileName.at(0).unicode();
     if (fileName.size() == 1 && unicode >= IconFirst && unicode <= IconLast)
-        return instance()->getIcon("", unicode);
+        return instance()->getIcon("", unicode, color);
 
     QImage image(fileName);
     if (image.isNull())
@@ -190,12 +164,44 @@ void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
     painter->restore();
 }
 
+QPixmap IconFactory::createPixmap(ushort id, const QColor &color)
+{
+    QPixmap pix(iconSize, iconSize);
+    pix.fill(Qt::transparent);
+
+    if ( isLoaded() ) {
+        QPainter painter(&pix);
+
+        painter.setFont( iconFont() );
+        painter.setPen(color);
+        painter.drawText( QRect(1, 1, iconSize - 1, iconSize - 1),
+                          QString(QChar(id)) );
+    }
+
+    return pix;
+}
+
 const QIcon &getIconFromResources(const QString &iconName)
 {
     return IconFactory::instance()->getIcon(iconName);
 }
 
-const QIcon getIcon(const QString &themeName, ushort iconId)
+const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color)
 {
-    return IconFactory::instance()->getIcon(themeName, iconId);
+    return IconFactory::instance()->getIcon(themeName, iconId, color);
+}
+
+QColor getDefaultIconColor(QWidget *widget)
+{
+    QImage img(1, 1, QImage::Format_RGB32);
+    widget->resize(16, 16);
+    widget->render(&img, QPoint(-8, -8));
+
+    QColor c = img.pixel(0, 0);
+    bool menuBackgrounIsLight = c.lightness() > 128;
+    c.setHsl(c.hue(),
+             c.saturation() + (menuBackgrounIsLight ? 50 : 10),
+             c.lightness() + (menuBackgrounIsLight ? -120 : 100));
+
+    return c;
 }

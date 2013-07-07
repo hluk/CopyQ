@@ -92,7 +92,7 @@ public:
     const QColor &iconColor() { return m_iconColor; }
 
     const QPixmap &getPixmap(ushort id);
-    const QIcon getIcon(const QString &themeName, ushort id);
+    QIcon getIcon(const QString &themeName, ushort id, const QColor &color);
     const QIcon &getIcon(const QString &iconName);
 
     void setUseSystemIcons(bool enable) { m_useSystemIcons = enable; }
@@ -100,7 +100,7 @@ public:
 
     void invalidateCache();
 
-    static QIcon iconFromFile(const QString &fileName);
+    static QIcon iconFromFile(const QString &fileName, const QColor &color = QColor());
 
     /**
      * Return true only if the icon resources were successfuly loaded.
@@ -108,6 +108,8 @@ public:
     bool isLoaded() const { return m_loaded; }
 
     void drawIcon(ushort id, const QRect &itemRect, QPainter *painter);
+
+    QPixmap createPixmap(ushort id, const QColor &color);
 
 private:
     static IconFactory* m_Instance;
@@ -127,7 +129,16 @@ private:
     ResourceIconCache m_resourceIconCache;
 };
 
+QColor getDefaultIconColor(QWidget *widget);
+
+/// Get icon color for a widget.
+template<typename Widget>
+QColor getDefaultIconColor() {
+    Widget w;
+    return getDefaultIconColor(&w);
+}
+
 const QIcon &getIconFromResources(const QString &iconName);
-const QIcon getIcon(const QString &themeName, ushort iconId);
+const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color = QColor());
 
 #endif // ICONFACTORY_H

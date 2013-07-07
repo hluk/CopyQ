@@ -121,16 +121,6 @@ ConfigurationManager::ConfigurationManager()
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
-    // Tab icons
-    QTabWidget *tw = ui->tabWidget;
-    tw->setTabIcon( tw->indexOf(ui->tabClipboard), getIcon("", IconPaste) );
-    tw->setTabIcon( tw->indexOf(ui->tabGeneral), getIcon("", IconListOl) );
-    tw->setTabIcon( tw->indexOf(ui->tabItems), getIcon("", IconDownloadAlt) );
-    tw->setTabIcon( tw->indexOf(ui->tabTray), getIcon("", IconInbox) );
-    tw->setTabIcon( tw->indexOf(ui->tabCommands), getIcon("", IconCogs) );
-    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), getIcon("", IconKeyboard) );
-    tw->setTabIcon( tw->indexOf(ui->tabAppearance), getIcon("", IconPicture) );
-
     loadSettings();
 
     // Hide tab with plugins if no plugins are available.
@@ -336,11 +326,14 @@ void ConfigurationManager::updateIcons()
     factory->invalidateCache();
     factory->setUseSystemIcons(ui->configTabAppearance->themeValue("use_system_icons").toBool());
 
+    const QColor color = getDefaultIconColor<QPushButton>();
+
     // Command button icons.
-    ui->toolButtonAddCommand->setIcon( getIcon("list-add", IconPlus) );
-    ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus) );
-    ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
-    ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
+    ui->toolButtonAddCommand->setIcon( getIcon("list-add", IconPlus,
+                                               getDefaultIconColor<QToolButton>()) );
+    ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus, color) );
+    ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown, color) );
+    ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp, color) );
 }
 
 void ConfigurationManager::updateFormats()
@@ -350,6 +343,25 @@ void ConfigurationManager::updateFormats()
     formats.prepend(QString());
     formats.removeDuplicates();
     ui->widgetCommand->setFormats(formats);
+}
+
+void ConfigurationManager::initTabIcons()
+{
+    QTabWidget *tw = ui->tabWidget;
+    if ( !tw->tabIcon(0).isNull() )
+        return;
+
+    IconFactory *f = IconFactory::instance();
+
+    QColor color = getDefaultIconColor<QWidget>();
+
+    tw->setTabIcon( tw->indexOf(ui->tabClipboard), f->createPixmap(IconPaste, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->createPixmap(IconListOl, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconDownloadAlt, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
 }
 
 void ConfigurationManager::initOptions()
@@ -825,6 +837,7 @@ void ConfigurationManager::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
     loadGeometry(this);
+    initTabIcons();
 }
 
 void ConfigurationManager::onFinished(int result)
@@ -891,7 +904,8 @@ void ConfigurationManager::updateCommandItem(QListWidgetItem *item)
     item->setText(text);
 
     // icon
-    item->setIcon( IconFactory::iconFromFile(c.icon) );
+    QColor color = getDefaultIconColor<QListWidget>();
+    item->setIcon( IconFactory::iconFromFile(c.icon, color) );
 
     // check state
     item->setCheckState(c.enable ? Qt::Checked : Qt::Unchecked);

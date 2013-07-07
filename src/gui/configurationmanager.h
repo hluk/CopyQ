@@ -158,6 +158,8 @@ private:
     /** Set available MIME types (for combo boxes). */
     void updateFormats();
 
+    void initTabIcons();
+
     void initOptions();
     void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
