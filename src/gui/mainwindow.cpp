@@ -605,20 +605,18 @@ void MainWindow::setHideTabs(bool hide)
 
 void MainWindow::setHideMenuBar(bool hide)
 {
-    if (m_hideMenuBar) {
-        const QColor color = palette().color(QPalette::Highlight);
-        ui->widgetShowMenuBar->setStyleSheet( QString("*{background-color:%1}").arg(color.name()) );
-        ui->widgetShowMenuBar->installEventFilter(this);
-        ui->widgetShowMenuBar->show();
-    } else {
-        ui->widgetShowMenuBar->removeEventFilter(this);
-        ui->widgetShowMenuBar->hide();
-    }
+    if (!m_hideMenuBar)
+        return;
+
+    const QColor color = palette().color(QPalette::Highlight);
+    ui->widgetShowMenuBar->setStyleSheet( QString("*{background-color:%1}").arg(color.name()) );
+    ui->widgetShowMenuBar->installEventFilter(this);
+    ui->widgetShowMenuBar->show();
 
     menuBar()->setNativeMenuBar(!m_hideMenuBar);
 
     // Hiding menu bar completely disables shortcuts for child QAction.
-    menuBar()->setStyleSheet(hide ? "QMenuBar{height:0}" : "");
+    menuBar()->setStyleSheet(hide ? QString("QMenuBar{height:0}") : QString());
 }
 
 void MainWindow::updateTabsAutoSaving()
@@ -960,8 +958,18 @@ void MainWindow::loadSettings()
 
     m_hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_hideTabs);
-    m_hideMenuBar = cm->value("hide_menu_bar").toBool();
-    setHideMenuBar(m_hideMenuBar);
+
+    // Don't override menu bar style if unnecessary.
+    if ( m_hideMenuBar != cm->value("hide_menu_bar").toBool() ) {
+        m_hideMenuBar = !m_hideMenuBar;
+        if (m_hideMenuBar) {
+            setHideMenuBar(true);
+        } else {
+            ui->widgetShowMenuBar->removeEventFilter(this);
+            ui->widgetShowMenuBar->hide();
+            menuBar()->setStyleSheet(QString());
+        }
+    }
 
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();
