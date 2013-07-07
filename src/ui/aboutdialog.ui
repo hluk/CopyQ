@@ -6,20 +6,35 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>458</width>
-    <height>452</height>
+    <width>514</width>
+    <height>694</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>CopyQ About</string>
   </property>
   <property name="windowIcon">
-   <iconset resource="copyq.qrc">
+   <iconset resource="../copyq.qrc">
     <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <property name="spacing">
+    <number>0</number>
+   </property>
+   <property name="leftMargin">
+    <number>0</number>
+   </property>
+   <property name="topMargin">
+    <number>0</number>
+   </property>
+   <property name="rightMargin">
+    <number>0</number>
+   </property>
+   <property name="bottomMargin">
+    <number>0</number>
+   </property>
    <item>
-    <widget class="QTextEdit" name="textEdit">
+    <widget class="QTextBrowser" name="textBrowser">
      <property name="undoRedoEnabled">
       <bool>false</bool>
      </property>
@@ -31,6 +46,9 @@
      </property>
      <property name="textInteractionFlags">
       <set>Qt::TextBrowserInteraction</set>
+     </property>
+     <property name="openExternalLinks">
+      <bool>true</bool>
      </property>
     </widget>
    </item>
@@ -47,7 +65,7 @@
   </layout>
  </widget>
  <resources>
-  <include location="copyq.qrc"/>
+  <include location="../copyq.qrc"/>
  </resources>
  <connections>
   <connection>

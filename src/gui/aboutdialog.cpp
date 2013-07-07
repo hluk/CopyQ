@@ -156,7 +156,7 @@ AboutDialog::AboutDialog(QWidget *parent)
     , ui(new Ui::AboutDialog)
 {
     ui->setupUi(this);
-    ui->textEdit->setText( aboutPage() );
+    ui->textBrowser->setText( aboutPage() );
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
 
