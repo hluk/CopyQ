@@ -83,6 +83,11 @@ static QString aboutPage()
         "<td></td>"
         "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td>"
         "</tr>"
+        // wiki
+        "<tr>"
+        "<td class='h3'>" + escapeHtml(AboutDialog::tr("Wiki")) + "</td>"
+        "<td><a href=\"https://sourceforge.net/p/copyq/wiki/Home/\">https://sourceforge.net/p/copyq/wiki/Home/</a></td>"
+        "</tr>"
 
         "</table></p>"
 
