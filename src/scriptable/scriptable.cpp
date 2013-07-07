@@ -346,7 +346,7 @@ int Scriptable::currentTab()
     if (i != -1)
         return i;
 
-    m_proxy->createTab(m_currentTab, true);
+    m_proxy->createTab(m_currentTab);
     return m_proxy->findTabIndex(m_currentTab);
 }
 
@@ -505,7 +505,7 @@ void Scriptable::copy()
         QScriptValue value = argument(0);
         QByteArray *bytes = toByteArray(value);
         item.setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
-    } else if (args % 2 == 1) {
+    } else if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
             // MIME
             QString mime = toString(argument(i));

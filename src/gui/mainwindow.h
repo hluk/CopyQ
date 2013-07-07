@@ -302,6 +302,8 @@ class MainWindow : public QMainWindow
         /** Paste clipboard content to current window. */
         void pasteToCurrentWindow();
 
+        QStringList tabs() const;
+
     private slots:
         ClipboardBrowser *getTabForTrayMenu();
         void updateTrayMenuItems();

@@ -1366,6 +1366,11 @@ void MainWindow::pasteToCurrentWindow()
     platform->pasteToWindow( platform->getPasteWindow() );
 }
 
+QStringList MainWindow::tabs() const
+{
+    return ui->tabWidget->tabs();
+}
+
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
     return m_trayCurrentTab ? browser()

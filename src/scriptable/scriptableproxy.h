@@ -199,7 +199,7 @@ public:
     PROXY_METHOD_0(WId, mainWinId)
     PROXY_METHOD_0(WId, trayMenuWinId)
     PROXY_METHOD_1(int, findTabIndex, const QString &)
-    PROXY_METHOD_2(ClipboardBrowser *, createTab, const QString &, bool)
+    PROXY_METHOD_1(ClipboardBrowser *, createTab, const QString &)
 
     PROXY_METHOD_VOID_1(showBrowser, int)
 
