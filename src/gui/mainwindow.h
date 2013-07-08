@@ -423,7 +423,7 @@ class MainWindow : public QMainWindow
         WId m_lastWindow;
         QTimer *m_timerUpdateFocusWindows;
 
-        QTimer *m_timerGeometry;
+        QTimer *m_timerShowWindow;
 
         QString m_sessionName;
     };

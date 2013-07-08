@@ -211,8 +211,6 @@ void X11Platform::raiseWindow(WId wid)
     if (d->display == NULL || wid == 0L)
         return;
 
-    usleep(50000); // Window may not be visible yet.
-
     XEvent e;
     memset(&e, 0, sizeof(e));
     e.type = ClientMessage;
@@ -220,7 +218,7 @@ void X11Platform::raiseWindow(WId wid)
     e.xclient.window = wid;
     e.xclient.message_type = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", False);
     e.xclient.format = 32;
-    e.xclient.data.l[0] = 2L;
+    e.xclient.data.l[0] = 2;
     e.xclient.data.l[1] = CurrentTime;
     e.xclient.data.l[2] = 0;
     e.xclient.data.l[3] = 0;
@@ -229,12 +227,14 @@ void X11Platform::raiseWindow(WId wid)
     XWindowAttributes wattr;
     XGetWindowAttributes(d->display, wid, &wattr);
 
-    XSendEvent(d->display, wattr.screen->root, False,
-               SubstructureNotifyMask | SubstructureRedirectMask,
-               &e);
+    if (wattr.map_state == IsViewable) {
+        XSendEvent(d->display, wattr.screen->root, False,
+                   SubstructureNotifyMask | SubstructureRedirectMask,
+                   &e);
 
-    XRaiseWindow(d->display, wid);
-    XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);
+        XRaiseWindow(d->display, wid);
+        XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);
+    }
 }
 
 void X11Platform::pasteToWindow(WId wid)

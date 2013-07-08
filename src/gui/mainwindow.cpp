@@ -186,7 +186,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_pasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
-    , m_timerGeometry( new QTimer(this) )
+    , m_timerShowWindow( new QTimer(this) )
     , m_sessionName()
 {
     ui->setupUi(this);
@@ -235,8 +235,8 @@ MainWindow::MainWindow(QWidget *parent)
     m_timerUpdateFocusWindows->setSingleShot(true);
     m_timerUpdateFocusWindows->setInterval(50);
 
-    m_timerGeometry->setSingleShot(true);
-    m_timerGeometry->setInterval(250);
+    m_timerShowWindow->setSingleShot(true);
+    m_timerShowWindow->setInterval(250);
 
     // notify window if configuration changes
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -285,14 +285,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
-    if (!m_timerGeometry->isActive())
+    if (!m_timerShowWindow->isActive())
         ConfigurationManager::instance()->saveGeometry(this);
 }
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
     QMainWindow::moveEvent(event);
-    if (!m_timerGeometry->isActive())
+    if (!m_timerShowWindow->isActive())
         ConfigurationManager::instance()->saveGeometry(this);
 }
 
@@ -1032,7 +1032,7 @@ void MainWindow::showWindow()
     }
 
     // Don't save geometry after window shown.
-    m_timerGeometry->start();
+    m_timerShowWindow->start();
 
     ConfigurationManager::instance()->loadGeometry(this);
 
@@ -1056,12 +1056,15 @@ void MainWindow::showWindow()
 
     QApplication::setActiveWindow(this);
 
-    QApplication::processEvents();
     createPlatformNativeInterface()->raiseWindow(winId());
 }
 
 bool MainWindow::toggleVisible()
 {
+    // Showing/hiding window in quick succession doesn't work well on X11.
+    if ( m_timerShowWindow->isActive() )
+        return false;
+
     if ( isVisible() ) {
         close();
         return false;
@@ -1614,7 +1617,6 @@ WId MainWindow::openActionDialog(const QMimeData &data)
     actionDialog->show();
 
     // steal focus
-    QApplication::processEvents();
     WId wid = actionDialog->winId();
     createPlatformNativeInterface()->raiseWindow(wid);
     return wid;
