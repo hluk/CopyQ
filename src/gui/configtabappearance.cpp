@@ -587,10 +587,9 @@ void ConfigTabAppearance::updateFontButtons()
         QColor colorBg = (buttonBg == NULL) ? themeColor("bg")
                                             : evalColor( buttonBg->property("VALUE").toString(), m_theme );
 
+        pix.fill((colorBg.alpha() < 255) ? themeColor("bg") : colorBg);
+
         QPainter painter(&pix);
-        if (colorBg.alpha() < 255)
-            pix.fill(themeColor("bg"));
-        pix.fill(colorBg);
         painter.setPen(colorFg);
 
         QFont font;
@@ -715,9 +714,9 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
     updateTheme(settings, &theme);
 
     QPixmap pix(16, 16);
+    pix.fill(Qt::black);
 
     QPainter p(&pix);
-    pix.fill(Qt::black);
 
     QRect rect(1, 1, 14, 5);
     p.setPen(Qt::NoPen);
