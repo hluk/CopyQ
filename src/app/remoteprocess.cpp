@@ -67,14 +67,16 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     m_process.start( QCoreApplication::applicationFilePath(), arguments );
 
-    if ( m_process.waitForStarted(16000) && m_server->waitForNewConnection(4000) ) {
+    if ( !m_process.waitForStarted(16000) ) {
+        log( "Remote process: Failed to start new remote process!", LogError );
+    } else if ( !m_server->waitForNewConnection(16000) ) {
+        log( "Remote process: Failed to connect to new remote process!", LogError );
+    } else {
         COPYQ_LOG("Remote process: Started.");
         m_socket = m_server->nextPendingConnection();
         connect( m_socket, SIGNAL(readyRead()),
                  this, SLOT(readyRead()) );
         ping();
-    } else {
-        log( "Remote process: Failed to start new remote process!", LogError );
     }
 }
 
