@@ -1,3 +1,12 @@
+v1.9.0
+- User notes
+- Improved appearance settings with some example themes
+- Tree view for tabs with groups
+- Sessions, i.e. run multiple independent instances
+- Lot of GUI improvements
+- Compatibility with Qt5
+- Bugfixes (crashing on Unity, icon colors etc.)
+
 v1.8.3
 - Options to hide tab bar and main menu
 - Automatic paste works with more applications under Linux/X11
