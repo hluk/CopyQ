@@ -249,8 +249,6 @@ MainWindow::MainWindow(QWidget *parent)
     tray->show();
 
     tray->setContextMenu(trayMenu);
-
-    setAcceptDrops(true);
 }
 
 void MainWindow::exit()
@@ -843,18 +841,6 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
         }
     }
     QMainWindow::keyReleaseEvent(event);
-}
-
-void MainWindow::dragEnterEvent(QDragEnterEvent *event)
-{
-    event->acceptProposedAction();
-}
-
-void MainWindow::dropEvent(QDropEvent *event)
-{
-    ClipboardBrowser *c = browser();
-    addToTab(event->mimeData(), c->getID());
-    c->updateClipboard();
 }
 
 bool MainWindow::event(QEvent *event)

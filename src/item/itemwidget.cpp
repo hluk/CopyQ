@@ -43,6 +43,9 @@ ItemWidget::ItemWidget(QWidget *widget)
 
     // Limit size of items.
     widget->setMaximumSize(2048, 2048);
+
+    // Disable drag'n'drop by default.
+    widget->setAcceptDrops(false);
 }
 
 void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,

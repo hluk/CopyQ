@@ -238,6 +238,10 @@ class ClipboardBrowser : public QListView
         void currentChanged(const QModelIndex &current, const QModelIndex &previous);
         void focusInEvent(QFocusEvent *event);
 
+        void dragEnterEvent(QDragEnterEvent *event);
+        void dragMoveEvent(QDragMoveEvent *event);
+        void dropEvent(QDropEvent *event);
+
     signals:
         /** Action dialog requested. */
         void requestActionDialog(const QMimeData &data);

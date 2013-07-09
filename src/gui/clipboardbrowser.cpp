@@ -225,6 +225,8 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
     setAttribute(Qt::WA_MacShowFocusRect, 0);
+
+    setAcceptDrops(true);
 }
 
 ClipboardBrowser::~ClipboardBrowser()
@@ -517,6 +519,8 @@ void ClipboardBrowser::setEditingActive(bool active)
 
     setFocusPolicy(active ? Qt::NoFocus : Qt::StrongFocus);
 
+    setAcceptDrops(!m_editing);
+
     // Disable shortcuts while editing.
     createContextMenu();
 
@@ -737,6 +741,22 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
         QListView::focusInEvent(event);
         updateItemNotes(false);
     }
+}
+
+void ClipboardBrowser::dragEnterEvent(QDragEnterEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
+{
+    event->acceptProposedAction();
+}
+
+void ClipboardBrowser::dropEvent(QDropEvent *event)
+{
+    add( cloneData(*event->mimeData()), true );
+    saveItems();
 }
 
 void ClipboardBrowser::commitData(QWidget *editor)

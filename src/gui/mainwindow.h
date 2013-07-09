@@ -88,8 +88,6 @@ class MainWindow : public QMainWindow
     protected:
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);
-        void dragEnterEvent(QDragEnterEvent *event);
-        void dropEvent(QDropEvent *event);
         bool event(QEvent *event);
         bool eventFilter(QObject *obj, QEvent *event);
 
