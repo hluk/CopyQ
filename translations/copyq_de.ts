@@ -26,7 +26,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="88"/>
         <source>Wiki</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiki</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="99"/>
@@ -623,176 +623,176 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="81"/>
         <source>Number</source>
-        <translation type="unfinished">Zahlen</translation>
+        <translation>Zahlen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="102"/>
         <source>Font</source>
-        <translation type="unfinished">Schriftart</translation>
+        <translation>Schriftart</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="123"/>
         <source>Editor</source>
-        <translation type="unfinished">Editor</translation>
+        <translation>Editor</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="130"/>
         <source>Background</source>
-        <translation type="unfinished">Hintergrund</translation>
+        <translation>Hintergrund</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="137"/>
         <source>Normal</source>
-        <translation type="unfinished">Normal</translation>
+        <translation>Normal</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="144"/>
         <source>Found</source>
-        <translation type="unfinished">Gefunden</translation>
+        <translation>Gefunden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="186"/>
         <source>Selected</source>
-        <translation type="unfinished">Ausgewählt</translation>
+        <translation>Ausgewählt</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="214"/>
         <source>Alternate</source>
-        <translation type="unfinished">Alternativ</translation>
+        <translation>Alternativ</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="221"/>
         <source>Foreground</source>
-        <translation type="unfinished">Vordergrund</translation>
+        <translation>Vordergrund</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="228"/>
         <source>Notes</source>
-        <translation type="unfinished">Notizen</translation>
+        <translation>Notizen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="252"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished">Zeige Numme&amp;r</translation>
+        <translation>Zeige Numme&amp;r</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="259"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished">Scrollleisten anzeigen</translation>
+        <translation>Scrollleisten anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="262"/>
         <source>Sc&amp;rollbars</source>
-        <translation type="unfinished">Scrollleis&amp;ten</translation>
+        <translation>Scrollleis&amp;ten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="269"/>
         <source>Use icons from desktop environment whenever possible.</source>
-        <translation type="unfinished">Nutze Icons der Desktopumgebung, wenn möglich.</translation>
+        <translation>Nutze Icons der Desktopumgebung, wenn möglich.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="272"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished">&amp;System-Icons</translation>
+        <translation>&amp;System-Icons</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="296"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished">Theme zu&amp;rücksetzen</translation>
+        <translation>Theme zu&amp;rücksetzen</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>Theme:</source>
-        <translation type="unfinished">Theme:</translation>
+        <translation>Theme:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished">&amp;Lade Theme</translation>
+        <translation>&amp;Lade Theme</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="317"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished">S&amp;peichere Theme</translation>
+        <translation>S&amp;peichere Theme</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="324"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished">Aktuelles Theme in externen Editor bearbeiten</translation>
+        <translation>Aktuelles Theme in externen Editor bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="327"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished">Theme b&amp;earbeiten</translation>
+        <translation>Theme b&amp;earbeiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Preview:</source>
-        <translation type="unfinished">Vorschau:</translation>
+        <translation>Vorschau:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="182"/>
         <source>Search string is &quot;item&quot;.</source>
-        <translation type="unfinished">Suche für &quot;prvek&quot;.</translation>
+        <translation>Der Suchtext für &quot;Eintrag&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="183"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished">Wähle ein Element und
+        <translation>Wähle ein Element und
 drücke F2 zum bearbeiten.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="185"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished">Selektiere Elemente und verschiebe sie mit
+        <translation>Selektiere Elemente und verschiebe sie mit
 Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="187"/>
         <source>Remove item with Delete key.</source>
-        <translation type="unfinished">Entferne Element mit der Entf-Taste.</translation>
+        <translation>Entferne Element mit der Entf-Taste.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
         <source>Example item %1</source>
-        <translation type="unfinished">Beispiel eines Elements %1</translation>
+        <translation>Beispiel eines Elements %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="191"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished">Ein paar Zufallsnotizen (Shift+F2 zum Bearbeiten)</translation>
+        <translation>Ein paar Zufallsnotizen (Shift+F2 zum Bearbeiten)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="192"/>
         <source>item</source>
-        <translation type="unfinished">Element</translation>
+        <translation>Element</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="351"/>
         <source>Open Theme File</source>
-        <translation type="unfinished">Theme-Datei öffnen</translation>
+        <translation>Theme-Datei öffnen</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="363"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished">Theme-Datei speichern</translation>
+        <translation>Theme-Datei speichern</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="386"/>
         <source>No External Editor</source>
-        <translation type="unfinished">Kein externer Editor</translation>
+        <translation>Kein externer Editor</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="387"/>
         <source>Set external editor command first!</source>
-        <translation type="unfinished">Erst einen externen Editor festlegen!</translation>
+        <translation>Erst einen externen Editor festlegen!</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="598"/>
         <source>Abc</source>
-        <translation type="unfinished">Abc</translation>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -2001,31 +2001,31 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/gui/mainwindow.cpp" line="134"/>
         <source>&quot;%1&quot;</source>
         <comment>Quoted clipboard text in main window title and tray tooltip</comment>
-        <translation type="unfinished">&quot;%1&quot;</translation>
+        <translation>&quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="138"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Part of main window title and tray tooltip shown if clipboard contains image</comment>
-        <translation type="unfinished">&lt;BILD&gt;</translation>
+        <translation>&lt;BILD&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="141"/>
         <source>&lt;FILES&gt;</source>
         <comment>Part of main window title and tray tooltip shown if clipboard contains URLs/files</comment>
-        <translation type="unfinished">&lt;DATEI&gt;</translation>
+        <translation>&lt;DATEI&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="144"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Part of main window title and tray tooltip shown if clipboard is empty</comment>
-        <translation type="unfinished">&lt;LEER&gt;</translation>
+        <translation>&lt;LEER&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="148"/>
         <source>&lt;DATA&gt;</source>
         <comment>Part of main window title and tray tooltip shown if clipboard contains unrecognized data</comment>
-        <translation type="unfinished">&lt;DATEN&gt;</translation>
+        <translation>&lt;DATEN&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="263"/>
@@ -2178,19 +2178,19 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/gui/mainwindow.cpp" line="1195"/>
         <source>%1 (%2)</source>
         <comment>Format for automatic tab renaming (%1 is name, %2 is number)</comment>
-        <translation type="unfinished">%1 (%2)</translation>
+        <translation>%1 (%2)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1303"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished">%1 - CopyQ</translation>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1306"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished">%1 - %2 - CopyQ</translation>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
         <source>%1 (%2)</source>
@@ -2288,7 +2288,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/gui/mainwindow.cpp" line="722"/>
         <source>CopyQ Error</source>
         <comment>Tray tooltip error message title</comment>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Fehler</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="940"/>
@@ -2967,7 +2967,9 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Reitername muss nicht leer und einzigartig sein.&lt;br /&gt;
+Reiter &lt;b&gt;Notizen&lt;/b&gt; kann nicht &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt; geöffnet werden
+Benutze &lt;b&gt;/&lt;/b&gt; als Pfadtrenner im im Baumreiteransicht.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -3001,7 +3003,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabtree.cpp" line="458"/>
         <source>Alt+%1</source>
-        <translation type="unfinished"></translation>
+        <translation>Alt+%1</translation>
     </message>
 </context>
 </TS>
