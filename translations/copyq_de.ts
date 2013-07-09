@@ -61,7 +61,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="129"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation>Hoch/Runter, Bild hoch/runter, Pos1/Ende</translation>
+        <translation>Hoch/Herunter, Bild hoch/herunter, Pos1/Ende</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="136"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation>Strg+Hoch/Runter, Strg+Pos1/Ende</translation>
+        <translation>Strg+Hoch/Herunter, Strg+Pos1/Ende</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="138"/>
@@ -621,10 +621,6 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
 <context>
     <name>ConfigTabAppearance</name>
     <message>
-        <source>Form</source>
-        <translation type="obsolete">Formular</translation>
-    </message>
-    <message>
         <location filename="../src/ui/configtabappearance.ui" line="81"/>
         <source>Number</source>
         <translation type="unfinished">Zahlen</translation>
@@ -751,7 +747,7 @@ drücke F2 zum bearbeiten.</translation>
         <source>Select items and move them with
 CTRL and up or down key.</source>
         <translation type="unfinished">Selektiere Elemente und verschiebe sie mit
-Strg+Rauf oder Strg+Runter.</translation>
+Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="187"/>
@@ -1048,7 +1044,7 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="860"/>
         <source>Up [Ctrl+Up]</source>
-        <translation>Rauf [Strg+Rauf]</translation>
+        <translation>Hoch [Strg+Hoch]</translation>
     </message>
     <message>
         <source>Ctrl+Up</source>
@@ -1057,7 +1053,7 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="870"/>
         <source>Down [Ctrl+Down]</source>
-        <translation>Runter [Strg+Runter]</translation>
+        <translation>Herunter [Strg+Herunter]</translation>
     </message>
     <message>
         <source>Ctrl+Down</source>
@@ -1610,7 +1606,7 @@ drücke F2 zum bearbeiten.</translation>
         <source>Select items and move them with
 CTRL and up or down key.</source>
         <translation type="obsolete">Selektiere Elemente und verschiebe sie mit
-Strg+Rauf oder Strg+Runter.</translation>
+Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     </message>
     <message>
         <source>Remove item with Delete key.</source>
@@ -2182,7 +2178,7 @@ Strg+Rauf oder Strg+Runter.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="1195"/>
         <source>%1 (%2)</source>
         <comment>Format for automatic tab renaming (%1 is name, %2 is number)</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1303"/>
@@ -2195,6 +2191,11 @@ Strg+Rauf oder Strg+Runter.</translation>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation type="unfinished">%1 - %2 - CopyQ</translation>
+    </message>
+    <message>
+        <source>%1 (%2)</source>
+        <comment>Format for renaming items</comment>
+        <translation type="obsolete">%1 (%2)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1299"/>
@@ -2236,22 +2237,22 @@ Strg+Rauf oder Strg+Runter.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="461"/>
         <source>Rename &amp;group &quot;%1&quot;</source>
-        <translation>&amp;Gruppe umbenennen &quot;%1&quot;</translation>
+        <translation>&amp;Gruppe &quot;%1&quot; umbenennen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="463"/>
         <source>Re&amp;name tab &quot;%1&quot;</source>
-        <translation>Reiter umbe&amp;nnen &quot;%1&quot;</translation>
+        <translation>Reiter &quot;%1&quot; umbe&amp;nnen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="465"/>
         <source>Re&amp;move tab &quot;%1&quot;</source>
-        <translation>Reiter entfernen &quot;%1&quot; (&amp;m)</translation>
+        <translation>Reiter &quot;%1&quot; entfernen  (&amp;m)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="467"/>
         <source>Remove group &quot;%1&quot;</source>
-        <translation>Gruppe entfernen &quot;%1&quot;</translation>
+        <translation>Gruppe &quot;%1&quot; entfernen </translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="489"/>
