@@ -82,46 +82,11 @@ ItemFactory *ItemFactory::instance()
 ItemFactory::ItemFactory()
     : m_loaders()
     , m_loaderChildren()
-{
-    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-#if defined(COPYQ_WS_X11)
-    if ( pluginsDir.dirName() == QString("bin") ) {
-        pluginsDir.cdUp();
-        pluginsDir.cd("lib");
-        pluginsDir.cd("copyq");
-    }
-#elif defined(Q_OS_MAC)
-    if (pluginsDir.dirName() == "MacOS") {
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-        pluginsDir.cdUp();
-    }
-#endif
-
-    if ( pluginsDir.cd("plugins") ) {
-        foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
-            if ( QLibrary::isLibrary(fileName) ) {
-                const QString path = pluginsDir.absoluteFilePath(fileName);
-                QPluginLoader pluginLoader(path);
-                QObject *plugin = pluginLoader.instance();
-                log( QObject::tr("Loading plugin: %1").arg(path), LogNote );
-                if (plugin == NULL) {
-                    log( pluginLoader.errorString(), LogError );
-                } else {
-                    ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
-                    if (loader == NULL)
-                        pluginLoader.unload();
-                    else
-                        m_loaders.append(loader);
-                }
-            }
-        }
-
-        qSort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
-    }
+{ 
+    loadPlugins();
 
     if ( m_loaders.isEmpty() )
-        log( QObject::tr("No plugins loaded!"), LogWarning );
+        log( QObject::tr("No plugins loaded"), LogNote );
 }
 
 ItemWidget *ItemFactory::createItem(ItemLoaderInterface *loader,
@@ -233,4 +198,56 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
     }
 
     return NULL;
+}
+
+bool ItemFactory::loadPlugins()
+{
+#if defined(COPYQ_WS_X11)
+#   ifdef COPYQ_PLUGIN_PREFIX
+    QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
+#   else
+    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
+    if ( pluginsDir.dirName() == QString("bin")
+         && (!pluginsDir.cdUp() || !pluginsDir.cd("lib") || !pluginsDir.cd("copyq")) )
+    {
+         return false;
+    }
+#   endif
+#elif defined(Q_OS_MAC)
+    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
+    if ( pluginsDir.dirName() == "MacOS"
+         && (!pluginsDir.cdUp() || !pluginsDir.cdUp() || !pluginsDir.cdUp()) )
+    {
+        return false;
+    }
+#else
+    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
+    if ( !pluginsDir.cd("plugins") )
+        return false;
+#endif
+
+    if ( !pluginsDir.isReadable() )
+        return false;
+
+    foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
+        if ( QLibrary::isLibrary(fileName) ) {
+            const QString path = pluginsDir.absoluteFilePath(fileName);
+            QPluginLoader pluginLoader(path);
+            QObject *plugin = pluginLoader.instance();
+            log( QObject::tr("Loading plugin: %1").arg(path), LogNote );
+            if (plugin == NULL) {
+                log( pluginLoader.errorString(), LogError );
+            } else {
+                ItemLoaderInterface *loader = qobject_cast<ItemLoaderInterface *>(plugin);
+                if (loader == NULL)
+                    pluginLoader.unload();
+                else
+                    m_loaders.append(loader);
+            }
+        }
+    }
+
+    qSort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
+
+    return true;
 }

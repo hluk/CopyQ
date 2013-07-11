@@ -43,7 +43,7 @@ macro (copyq_add_plugin)
 
     target_link_libraries(${copyq_pkg} ${QT_LIBRARIES})
 
-    install(TARGETS ${copyq_pkg} DESTINATION ${copyq_plugin_INSTALL_DIR})
+    install(TARGETS ${copyq_pkg} DESTINATION ${PLUGIN_INSTALL_PREFIX})
 endmacro()
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/plugins)

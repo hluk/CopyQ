@@ -61,6 +61,7 @@ private slots:
 
 private:
     ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir);
+    bool loadPlugins();
 
     static ItemFactory *m_Instance;
     QVector<ItemLoaderInterface *> m_loaders;
