@@ -132,6 +132,9 @@ ItemWidget *ItemFactory::previousItemLoader(const QModelIndex &index, ItemWidget
 
 QStringList ItemFactory::formatsToSave() const
 {
+    if (m_loaders.isEmpty())
+        return QStringList("text/plain"); // DummyItem can handle text.
+
     QStringList formats;
 
     foreach (const ItemLoaderInterface *loader, m_loaders) {
