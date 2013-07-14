@@ -192,6 +192,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    ConfigurationManager::instance()->loadGeometry(this);
+
     updateIcon();
 
     // signals & slots
@@ -263,10 +265,8 @@ void MainWindow::exit()
                     QMessageBox::Yes);
     }
 
-    if (answer == QMessageBox::Yes) {
-        close();
+    if (answer == QMessageBox::Yes)
         QApplication::exit();
-    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -274,8 +274,8 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if (m_showTray) {
         hide();
     } else {
-        if (isMinimized()) {
-            exit();
+        if ( isMinimized() ) {
+            QApplication::exit();
             return;
         }
         showMinimized();
@@ -298,7 +298,9 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     m_timerShowWindow->start();
     QMainWindow::showEvent(event);
+#ifdef COPYQ_WS_X11
     ConfigurationManager::instance()->loadGeometry(this);
+#endif
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
@@ -1048,9 +1050,9 @@ void MainWindow::showWindow()
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & Qt::X11BypassWindowManagerHint);
     setWindowFlags(flags);
-#endif
 
     ConfigurationManager::instance()->loadGeometry(this);
+#endif
 
     updateFocusWindows();
 
