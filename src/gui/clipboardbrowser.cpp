@@ -665,9 +665,6 @@ void ClipboardBrowser::updateItemNotes(bool immediately)
 {
     m_timerShowNotes->stop();
 
-    if (!hasFocus())
-        return;
-
     QToolTip::hideText();
 
     QModelIndex index = currentIndex();
@@ -678,6 +675,9 @@ void ClipboardBrowser::updateItemNotes(bool immediately)
         m_timerShowNotes->start();
         return;
     }
+
+    if (!hasFocus())
+        return;
 
     ItemWidget *item = d->cache(index);
     QWidget *w = item->widget();

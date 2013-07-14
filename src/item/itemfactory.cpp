@@ -92,8 +92,9 @@ ItemFactory::ItemFactory()
 ItemWidget *ItemFactory::createItem(ItemLoaderInterface *loader,
                                     const QModelIndex &index, QWidget *parent)
 {
-    if (loader->isEnabled()) {
-        ItemWidget *item = loader->create(index, parent);
+    if (loader == NULL || loader->isEnabled()) {
+        ItemWidget *item = (loader == NULL) ? new DummyItem(index, parent)
+                                           : loader->create(index, parent);
         if (item != NULL) {
             QWidget *w = item->widget();
             QString notes = index.data(contentType::notes).toString();
@@ -117,7 +118,7 @@ ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
             return item;
     }
 
-    return new DummyItem(index, parent);
+    return createItem(NULL, index, parent);
 }
 
 ItemWidget *ItemFactory::nextItemLoader(const QModelIndex &index, ItemWidget *current)
@@ -181,7 +182,7 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
     Q_ASSERT(current->widget() != NULL);
 
     QWidget *w = current->widget();
-    ItemLoaderInterface *currentLoader = m_loaderChildren.value(w, NULL);
+    ItemLoaderInterface *currentLoader = m_loaderChildren[w];
     if (currentLoader == NULL)
         return NULL;
 
