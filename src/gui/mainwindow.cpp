@@ -894,7 +894,6 @@ bool MainWindow::event(QEvent *event)
         m_timerShowWindow->start();
         ConfigurationManager::instance()->loadGeometry(this);
     }
-    qDebug() << event;
     return QMainWindow::event(event);
 }
 
