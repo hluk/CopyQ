@@ -31,6 +31,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/configtabappearance.h"
 #include "gui/iconfactory.h"
+#include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
 #include "gui/tabwidget.h"
 #include "gui/traymenu.h"
@@ -189,6 +190,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_sessionName()
+    , m_notifications(NULL)
 {
     ui->setupUi(this);
 
@@ -742,15 +744,41 @@ WId MainWindow::trayMenuWinId() const
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
-                             QSystemTrayIcon::MessageIcon icon, int msec)
+                             QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {
-    tray->showMessage(title, msg, icon, msec);
+    QColor color = Qt::white; //getDefaultIconColor<QWidget>();
+    IconFactory *ifact = IconFactory::instance();
+    QPixmap icon2;
+
+    switch (icon) {
+    case QSystemTrayIcon::Information:
+        icon2 = ifact->createPixmap(IconInfoSign, color, 32);
+        break;
+    case QSystemTrayIcon::Warning:
+        icon2 = ifact->createPixmap(IconWarningSign, color, 32);
+        break;
+    case QSystemTrayIcon::Critical:
+        icon2 = ifact->createPixmap(IconRemoveSign, color, 32);
+        break;
+    default:
+        break;
+    }
+
+    showMessage(title, msg, icon2, msec, notificationId);
+}
+
+void MainWindow::showMessage(const QString &title, const QString &msg, const QPixmap &icon,
+                             int msec, int notificationId)
+{
+    if (m_notifications == NULL)
+        m_notifications = new NotificationDaemon(this);
+    m_notifications->create(title, msg, icon, msec, this, notificationId);
 }
 
 void MainWindow::showError(const QString &msg)
 {
-    tray->showMessage(tr("CopyQ Error", "Tray tooltip error message title"),
-                      msg, QSystemTrayIcon::Critical);
+    showMessage( tr("CopyQ Error", "Notification error message title"),
+                 msg, QSystemTrayIcon::Critical );
 }
 
 void MainWindow::keyPressEvent(QKeyEvent *event)
@@ -1029,7 +1057,7 @@ void MainWindow::loadSettings()
     m_trayCurrentTab = cm->value("tray_tab_is_current").toBool();
     m_trayTabName = cm->value("tray_tab").toString();
     m_trayImages = cm->value("tray_images").toBool();
-    m_itemPopupInterval = cm->value("item_popup_interval").toBool();
+    m_itemPopupInterval = cm->value("item_popup_interval").toInt();
 
     trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
@@ -1330,9 +1358,10 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
 
 void MainWindow::setClipboard(const ClipboardItem *item)
 {
-    if (m_itemPopupInterval > 0 && !isVisible()) {
-        showMessage( tr("Clipboard"), elideText(item->text(), 256), QSystemTrayIcon::Information,
-                     m_itemPopupInterval * 1000 );
+    if ( m_itemPopupInterval != 0 && (!isVisible() || isMinimized()) ) {
+        showMessage( QString(), elideText(item->text(), 256),
+                     IconFactory::instance()->createPixmap(IconPaste, Qt::white, 24),
+                     m_itemPopupInterval * 1000, 0 );
     }
     emit changeClipboard(item);
 }

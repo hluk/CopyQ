@@ -55,7 +55,9 @@ HEADERS += \
     scriptable/scriptableproxy.h \
     scriptable/scriptableworker.h \
     gui/tabtree.h \
-    gui/configtabappearance.h
+    gui/configtabappearance.h \
+    gui/notification.h \
+    gui/notificationdaemon.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -92,7 +94,9 @@ SOURCES += \
     scriptable/scriptable.cpp \
     scriptable/scriptableworker.cpp \
     gui/tabtree.cpp \
-    gui/configtabappearance.cpp
+    gui/configtabappearance.cpp \
+    gui/notification.cpp \
+    gui/notificationdaemon.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

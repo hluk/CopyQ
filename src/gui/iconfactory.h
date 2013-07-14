@@ -56,6 +56,7 @@ enum IconId {
     IconAsterisk = 0xf069,
     IconExclamationSign = 0xf06a,
     IconEyeOpen = 0xf06e,
+    IconWarningSign = 0xf071,
     IconFolderOpen = 0xf07c,
     IconCogs = 0xf085,
     IconHandUp = 0xf0a6,
@@ -109,7 +110,7 @@ public:
 
     void drawIcon(ushort id, const QRect &itemRect, QPainter *painter);
 
-    QPixmap createPixmap(ushort id, const QColor &color);
+    QPixmap createPixmap(ushort id, const QColor &color, int size = -1);
 
 private:
     static IconFactory* m_Instance;

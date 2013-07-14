@@ -111,7 +111,7 @@ void TrayMenu::toggle()
 
     // open menu unser cursor
     QPoint pos = QCursor::pos();
-    QRect screen = QApplication::desktop()->screenGeometry(pos);
+    QRect screen = QApplication::desktop()->availableGeometry(pos);
     pos.setX(qMax(0, qMin(screen.right() - width(), pos.x())));
     pos.setY(qMax(0, qMin(screen.bottom() - height(), pos.y())));
     popup(pos);

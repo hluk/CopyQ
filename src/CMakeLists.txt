@@ -23,6 +23,8 @@ set(copyq_MOCABLE
     gui/configtabappearance.h
     gui/configurationmanager.h
     gui/mainwindow.h
+    gui/notification.h
+    gui/notificationdaemon.h
     gui/pluginwidget.h
     gui/shortcutdialog.h
     gui/tabbar.h

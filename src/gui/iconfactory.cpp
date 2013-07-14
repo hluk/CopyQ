@@ -32,7 +32,6 @@
 namespace {
 
 const int iconSize = 16;
-const int fontSize = iconSize - 2;
 
 } // namespace
 
@@ -65,7 +64,6 @@ IconFactory::IconFactory()
     if (id != -1) {
         m_loaded = true;
         m_iconFont = QFont("FontAwesome");
-        m_iconFont.setPixelSize(fontSize);
         m_iconColor = getDefaultIconColor<QMenu>();
     }
 }
@@ -164,17 +162,20 @@ void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
     painter->restore();
 }
 
-QPixmap IconFactory::createPixmap(ushort id, const QColor &color)
+QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
 {
-    QPixmap pix(iconSize, iconSize);
+    const int sz = (size > 0) ? size : iconSize;
+    QPixmap pix(sz, sz);
     pix.fill(Qt::transparent);
 
     if ( isLoaded() ) {
         QPainter painter(&pix);
 
-        painter.setFont( iconFont() );
+        QFont font = iconFont();
+        font.setPixelSize(sz - 2);
+        painter.setFont(font);
         painter.setPen(color);
-        painter.drawText( QRect(1, 1, iconSize - 1, iconSize - 1),
+        painter.drawText( QRect(1, 1, sz - 1, sz - 1),
                           QString(QChar(id)) );
     }
 

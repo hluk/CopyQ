@@ -33,6 +33,7 @@ class Action;
 class ActionDialog;
 class ClipboardBrowser;
 class ClipboardItem;
+class NotificationDaemon;
 class QAction;
 class QMimeData;
 class TrayMenu;
@@ -164,10 +165,15 @@ class MainWindow : public QMainWindow
                 const QString &msg, //!< Message text.
                 QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information,
                 //!< Type of popup.
-                int msec = 8000 //!< Show interval.
+                int msec = 8000, //!< Show interval.
+                int notificationId = -1 //!< ID of notification.
                 );
 
-        /** Show error in tray popup message. */
+        /** Show popup with icon. */
+        void showMessage(const QString &title, const QString &msg, const QPixmap &icon, int msec,
+                         int notificationId);
+
+        /** Show error popup message. */
         void showError(const QString &msg);
 
         /** Show and focus main window. */
@@ -429,6 +435,8 @@ class MainWindow : public QMainWindow
         QTimer *m_timerShowWindow;
 
         QString m_sessionName;
+
+        NotificationDaemon *m_notifications;
     };
 
 #endif // MAINWINDOW_H

@@ -508,7 +508,9 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
                <property name="toolTip">
                 <string>Interval in seconds for tray message which is shown after an item is copied to clipboard (only if main window is closed).
 
-Set to 0 to disable this.</string>
+Set to 0 to disable this.
+
+Set to -1 to keep visible until clicked.</string>
                </property>
                <property name="minimum">
                 <number>-1</number>
