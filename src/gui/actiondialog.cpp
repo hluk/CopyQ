@@ -278,21 +278,14 @@ void ActionDialog::loadSettings()
     ui->comboBoxOutputFormat->addItems(standardFormats);
 
     restoreHistory();
+    ConfigurationManager::instance()->loadGeometry(this);
+    updateMinimalGeometry();
 }
 
 void ActionDialog::saveSettings()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->saveGeometry(this);
-
+    ConfigurationManager::instance()->saveGeometry(this);
     saveHistory();
-}
-
-void ActionDialog::showEvent(QShowEvent *e)
-{
-    QDialog::showEvent(e);
-    ConfigurationManager::instance()->loadGeometry(this);
-    updateMinimalGeometry();
 }
 
 void ActionDialog::accept()

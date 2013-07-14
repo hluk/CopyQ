@@ -163,17 +163,13 @@ AboutDialog::AboutDialog(QWidget *parent)
     ui->setupUi(this);
     ui->textBrowser->setText( aboutPage() );
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
+
+    ConfigurationManager::instance()->loadGeometry(this);
 }
 
 AboutDialog::~AboutDialog()
 {
     delete ui;
-}
-
-void AboutDialog::showEvent(QShowEvent *e)
-{
-    QDialog::showEvent(e);
-    ConfigurationManager::instance()->loadGeometry(this);
 }
 
 void AboutDialog::onFinished(int)

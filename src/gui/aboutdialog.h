@@ -37,9 +37,6 @@ public:
 private:
     Ui::AboutDialog *ui;
 
-protected:
-    void showEvent(QShowEvent *);
-
 private slots:
     void onFinished(int result);
 };

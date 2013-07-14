@@ -126,6 +126,8 @@ ConfigurationManager::ConfigurationManager()
     // Hide tab with plugins if no plugins are available.
     if ( ui->tabWidgetPlugins->count() == 0 )
         ui->tabWidget->removeTab( ui->tabWidget->indexOf(ui->tabItems) );
+
+    loadGeometry(this);
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -836,7 +838,6 @@ void ConfigurationManager::on_pushButtonRemove_clicked()
 void ConfigurationManager::showEvent(QShowEvent *e)
 {
     QDialog::showEvent(e);
-    loadGeometry(this);
     initTabIcons();
 }
 

@@ -73,7 +73,6 @@ public:
     void saveSettings();
 
 protected:
-    void showEvent(QShowEvent *e);
     void accept();
 
 private:
