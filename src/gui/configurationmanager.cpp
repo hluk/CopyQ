@@ -314,8 +314,9 @@ QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) cons
     QString optionName = "Options/" + widgetName + "_geometry";
 
     // current screen number
-    int n = widget->isVisible() ? QApplication::desktop()->screenNumber(widget)
-                                : QApplication::desktop()->screenNumber(QCursor::pos());
+    int n = widget->isVisible() && !widget->isMinimized()
+            ? QApplication::desktop()->screenNumber(widget)
+            : QApplication::desktop()->screenNumber(QCursor::pos());
     if (n > 0)
         optionName.append( QString("_screen_%1").arg(n) );
 

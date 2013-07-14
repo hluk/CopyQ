@@ -254,6 +254,7 @@ void MainWindow::exit()
 {
     int answer = QMessageBox::Yes;
     if ( m_confirmExit ) {
+        showWindow();
         answer = QMessageBox::question(
                     this,
                     tr("Exit?"),
@@ -283,31 +284,35 @@ void MainWindow::closeEvent(QCloseEvent *event)
     if ( aboutDialog && !aboutDialog->isHidden() ) {
         aboutDialog->close();
     }
-
     event->ignore();
+}
+
+void MainWindow::hideEvent(QHideEvent *event)
+{
+    QMainWindow::hideEvent(event);
+    if (!m_showTray)
+        showMinimized();
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    m_timerShowWindow->start();
+    QMainWindow::showEvent(event);
+    ConfigurationManager::instance()->loadGeometry(this);
 }
 
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
-    if (!m_timerShowWindow->isActive()) {
-        if (!isMinimized())
-            ConfigurationManager::instance()->saveGeometry(this);
-    } else {
-        m_timerShowWindow->start();
-        ConfigurationManager::instance()->loadGeometry(this);
-    }
+    if (!m_timerShowWindow->isActive())
+        ConfigurationManager::instance()->saveGeometry(this);
 }
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
     QMainWindow::moveEvent(event);
-    if (!m_timerShowWindow->isActive()) {
+    if (!m_timerShowWindow->isActive())
         ConfigurationManager::instance()->saveGeometry(this);
-    } else {
-        m_timerShowWindow->start();
-        ConfigurationManager::instance()->loadGeometry(this);
-    }
 }
 
 void MainWindow::createMenu()
@@ -890,9 +895,6 @@ bool MainWindow::event(QEvent *event)
 
         setHideTabs(m_hideTabs);
         setHideMenuBar(m_hideMenuBar);
-    } else if (event->type() == QEvent::Show) {
-        m_timerShowWindow->start();
-        ConfigurationManager::instance()->loadGeometry(this);
     }
     return QMainWindow::event(event);
 }
@@ -1029,7 +1031,7 @@ void MainWindow::loadSettings()
 
     trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
-    m_showTray = !cm->value("disable_tray").toBool();
+    m_showTray = !cm->value("disable_tray").toBool() && tray->isSystemTrayAvailable();
     tray->setVisible(m_showTray);
     if (!m_showTray && !isVisible())
         showMinimized();
@@ -1041,19 +1043,14 @@ void MainWindow::loadSettings()
 
 void MainWindow::showWindow()
 {
-    if ( isVisible() ) {
-        if ( QApplication::focusWidget() )
-            return;
+#ifdef COPYQ_WS_X11
+    /* Re-initialize window in window manager so it can popup on current workspace. */
+    Qt::WindowFlags flags = windowFlags();
+    setWindowFlags(flags & Qt::X11BypassWindowManagerHint);
+    setWindowFlags(flags);
+#endif
 
-        /* close the main window first so it can popup on current workspace */
-        bool showTray = m_showTray;
-        m_showTray = true;
-        close();
-        m_showTray = showTray;
-        /* process pending events to ensure that the window will be opened at
-           correct position */
-        QApplication::processEvents();
-    }
+    ConfigurationManager::instance()->loadGeometry(this);
 
     updateFocusWindows();
 

@@ -94,6 +94,10 @@ class MainWindow : public QMainWindow
         /** Hide (minimize to tray) window on close. */
         void closeEvent(QCloseEvent *event);
 
+        void hideEvent(QHideEvent *event);
+
+        void showEvent(QShowEvent *event);
+
         void resizeEvent(QResizeEvent *event);
         void moveEvent(QMoveEvent *event);
 
