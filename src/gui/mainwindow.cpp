@@ -181,6 +181,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_clearFirstTab(false)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
+    , m_showTray(true)
     , m_trayItemPaste(true)
     , m_trayPasteWindow()
     , m_pasteWindow()
@@ -246,8 +247,6 @@ MainWindow::MainWindow(QWidget *parent)
     // browse mode by default
     enterBrowseMode();
 
-    tray->show();
-
     tray->setContextMenu(trayMenu);
 }
 
@@ -271,7 +270,15 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    hide();
+    if (m_showTray) {
+        hide();
+    } else {
+        if (isMinimized()) {
+            exit();
+            return;
+        }
+        showMinimized();
+    }
 
     if ( aboutDialog && !aboutDialog->isHidden() ) {
         aboutDialog->close();
@@ -283,15 +290,24 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::resizeEvent(QResizeEvent *event)
 {
     QMainWindow::resizeEvent(event);
-    if (!m_timerShowWindow->isActive())
-        ConfigurationManager::instance()->saveGeometry(this);
+    if (!m_timerShowWindow->isActive()) {
+        if (!isMinimized())
+            ConfigurationManager::instance()->saveGeometry(this);
+    } else {
+        m_timerShowWindow->start();
+        ConfigurationManager::instance()->loadGeometry(this);
+    }
 }
 
 void MainWindow::moveEvent(QMoveEvent *event)
 {
     QMainWindow::moveEvent(event);
-    if (!m_timerShowWindow->isActive())
+    if (!m_timerShowWindow->isActive()) {
         ConfigurationManager::instance()->saveGeometry(this);
+    } else {
+        m_timerShowWindow->start();
+        ConfigurationManager::instance()->loadGeometry(this);
+    }
 }
 
 void MainWindow::createMenu()
@@ -503,18 +519,27 @@ void MainWindow::closeAction(Action *action)
 void MainWindow::updateIcon()
 {
     QIcon icon = iconTray(m_monitoringDisabled);
+    QColor color = sessionNameToColor(m_sessionName);
 
-    if ( !m_sessionName.isEmpty() ) {
-        QPixmap pix = icon.pixmap( tray->geometry().size() );
-        colorizePixmap( &pix, QColor(0x7f, 0xca, 0x9b), sessionNameToColor(m_sessionName) );
-        icon = pix;
+    if (m_showTray) {
+        if ( !m_actions.isEmpty() ) {
+            tray->setIcon( iconTrayRunning(m_monitoringDisabled) );
+        } else if ( m_sessionName.isEmpty() ) {
+            tray->setIcon(icon);
+        } else {
+            QPixmap trayPix = icon.pixmap( m_showTray ? tray->geometry().size() : iconSize() );
+            colorizePixmap( &trayPix, QColor(0x7f, 0xca, 0x9b), color );
+            tray->setIcon( QIcon(trayPix) );
+        }
     }
 
-    setWindowIcon(icon);
-
-    if ( !m_actions.isEmpty() )
-        icon = iconTrayRunning(m_monitoringDisabled);
-    tray->setIcon(icon);
+    if ( m_sessionName.isEmpty() ) {
+        setWindowIcon(icon);
+    } else {
+        QPixmap pix = icon.pixmap( m_showTray ? tray->geometry().size() : iconSize() );
+        colorizePixmap( &pix, QColor(0x7f, 0xca, 0x9b), color );
+        setWindowIcon( QIcon(pix) );
+    }
 }
 
 void MainWindow::updateWindowTransparency(bool mouseOver)
@@ -865,7 +890,11 @@ bool MainWindow::event(QEvent *event)
 
         setHideTabs(m_hideTabs);
         setHideMenuBar(m_hideMenuBar);
+    } else if (event->type() == QEvent::Show) {
+        m_timerShowWindow->start();
+        ConfigurationManager::instance()->loadGeometry(this);
     }
+    qDebug() << event;
     return QMainWindow::event(event);
 }
 
@@ -1001,6 +1030,13 @@ void MainWindow::loadSettings()
 
     trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
+    m_showTray = !cm->value("disable_tray").toBool();
+    tray->setVisible(m_showTray);
+    if (!m_showTray && !isVisible())
+        showMinimized();
+
+    updateIcon();
+
     log( tr("Configuration loaded") );
 }
 
@@ -1011,16 +1047,14 @@ void MainWindow::showWindow()
             return;
 
         /* close the main window first so it can popup on current workspace */
+        bool showTray = m_showTray;
+        m_showTray = true;
         close();
+        m_showTray = showTray;
         /* process pending events to ensure that the window will be opened at
            correct position */
         QApplication::processEvents();
     }
-
-    // Don't save geometry after window shown.
-    m_timerShowWindow->start();
-
-    ConfigurationManager::instance()->loadGeometry(this);
 
     updateFocusWindows();
 
@@ -1051,7 +1085,7 @@ bool MainWindow::toggleVisible()
     if ( m_timerShowWindow->isActive() )
         return false;
 
-    if ( isVisible() ) {
+    if ( isVisible() && !isMinimized() ) {
         close();
         return false;
     }
@@ -1616,9 +1650,11 @@ void MainWindow::openPreferences()
     // Turn off "always on top" so that configuration dialog is not below main window.
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
+    showNormal();
 
     if ( ConfigurationManager::instance()->exec() == QDialog::Rejected )
         setWindowFlags(flags);
+    showNormal();
 }
 
 ClipboardBrowser *MainWindow::browser(int index)

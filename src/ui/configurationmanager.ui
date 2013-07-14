@@ -39,7 +39,7 @@
          <string>C&amp;lipboard</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
-         <item row="8" column="0">
+         <item row="9" column="0">
           <spacer name="verticalSpacer">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -51,6 +51,135 @@
             </size>
            </property>
           </spacer>
+         </item>
+         <item row="0" column="0">
+          <layout class="QHBoxLayout" name="horizontalLayout_14">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
+             <item>
+              <widget class="QCheckBox" name="checkBoxTextWrap">
+               <property name="toolTip">
+                <string>Break text if it's too long to fit on line.</string>
+               </property>
+               <property name="text">
+                <string>W&amp;rap long text</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxViMode">
+               <property name="toolTip">
+                <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
+               </property>
+               <property name="text">
+                <string>&amp;Vi style navigation</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
+               <property name="toolTip">
+                <string>Keep main window above other windows</string>
+               </property>
+               <property name="text">
+                <string>Always on &amp;Top</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxConfirmExit">
+               <property name="toolTip">
+                <string>Confirm application exit</string>
+               </property>
+               <property name="text">
+                <string>Confirm application e&amp;xit</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <widget class="QGroupBox" name="groupBox">
+             <property name="title">
+              <string>Clipboard Manipulation</string>
+             </property>
+             <property name="flat">
+              <bool>false</bool>
+             </property>
+             <property name="checkable">
+              <bool>false</bool>
+             </property>
+             <layout class="QGridLayout" name="gridLayout_8">
+              <item row="2" column="0">
+               <widget class="QCheckBox" name="checkBoxSel">
+                <property name="toolTip">
+                 <string>Save text selected with mouse (primary selection) in history</string>
+                </property>
+                <property name="text">
+                 <string>(&amp;2) Store text selected using mouse</string>
+                </property>
+               </widget>
+              </item>
+              <item row="4" column="0">
+               <widget class="QCheckBox" name="checkBoxCopySel">
+                <property name="toolTip">
+                 <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
+                </property>
+                <property name="text">
+                 <string>(&amp;4) Paste mouse selection with keyboard</string>
+                </property>
+               </widget>
+              </item>
+              <item row="0" column="0">
+               <widget class="QCheckBox" name="checkBoxClip">
+                <property name="toolTip">
+                 <string>Save clipboard in history</string>
+                </property>
+                <property name="text">
+                 <string>(&amp;1) Store clipboard</string>
+                </property>
+                <property name="checked">
+                 <bool>true</bool>
+                </property>
+               </widget>
+              </item>
+              <item row="3" column="0">
+               <widget class="QCheckBox" name="checkBoxCopyClip">
+                <property name="toolTip">
+                 <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
+                </property>
+                <property name="text">
+                 <string>(&amp;3) Paste clipboard with mouse</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </widget>
+           </item>
+          </layout>
+         </item>
+         <item row="3" column="0">
+          <widget class="QCheckBox" name="checkBoxHideTabs">
+           <property name="toolTip">
+            <string>Hide tabs (press Alt key to show)</string>
+           </property>
+           <property name="text">
+            <string>Hi&amp;de tabs</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QCheckBox" name="checkBoxHideMenuBar">
+           <property name="toolTip">
+            <string>Hide menu bar in main window (press Alt key or move mouse to top of the window to show)</string>
+           </property>
+           <property name="text">
+            <string>Hide me&amp;nu bar</string>
+           </property>
+          </widget>
          </item>
          <item row="2" column="0">
           <layout class="QFormLayout" name="formLayout">
@@ -204,132 +333,13 @@ Note: This is not be supported on all systems.</string>
            </item>
           </layout>
          </item>
-         <item row="0" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_14">
-           <item>
-            <layout class="QVBoxLayout" name="verticalLayout_11">
-             <item>
-              <widget class="QCheckBox" name="checkBoxTextWrap">
-               <property name="toolTip">
-                <string>Break text if it's too long to fit on line.</string>
-               </property>
-               <property name="text">
-                <string>W&amp;rap long text</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBoxViMode">
-               <property name="toolTip">
-                <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
-               </property>
-               <property name="text">
-                <string>&amp;Vi style navigation</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
-               <property name="toolTip">
-                <string>Keep main window above other windows</string>
-               </property>
-               <property name="text">
-                <string>Always on &amp;Top</string>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QCheckBox" name="checkBoxConfirmExit">
-               <property name="toolTip">
-                <string>Confirm application exit</string>
-               </property>
-               <property name="text">
-                <string>Confirm application e&amp;xit</string>
-               </property>
-               <property name="checked">
-                <bool>true</bool>
-               </property>
-              </widget>
-             </item>
-            </layout>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox">
-             <property name="title">
-              <string>Clipboard Manipulation</string>
-             </property>
-             <property name="flat">
-              <bool>false</bool>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_8">
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="checkBoxSel">
-                <property name="toolTip">
-                 <string>Save text selected with mouse (primary selection) in history</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;2) Store text selected using mouse</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QCheckBox" name="checkBoxCopySel">
-                <property name="toolTip">
-                 <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;4) Paste mouse selection with keyboard</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QCheckBox" name="checkBoxClip">
-                <property name="toolTip">
-                 <string>Save clipboard in history</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;1) Store clipboard</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QCheckBox" name="checkBoxCopyClip">
-                <property name="toolTip">
-                 <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;3) Paste clipboard with mouse</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="3" column="0">
-          <widget class="QCheckBox" name="checkBoxHideTabs">
+         <item row="5" column="0">
+          <widget class="QCheckBox" name="checkBoxDisableTray">
            <property name="toolTip">
-            <string>Hide tabs (press Alt key to show)</string>
+            <string>Don't show tray icon; minimize window when closed</string>
            </property>
            <property name="text">
-            <string>Hi&amp;de tabs</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QCheckBox" name="checkBoxHideMenuBar">
-           <property name="toolTip">
-            <string>Hide menu bar in main window (press Alt key or move mouse to top of the window to show)</string>
-           </property>
-           <property name="text">
-            <string>Hide me&amp;nu bar</string>
+            <string>&amp;Disable tray</string>
            </property>
           </widget>
          </item>
@@ -923,7 +933,7 @@ Set to 0 to disable this.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>384</width>
+              <width>382</width>
               <height>474</height>
              </rect>
             </property>
@@ -1262,6 +1272,7 @@ Set to 0 to disable this.</string>
   <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>
   <tabstop>checkBoxHideMenuBar</tabstop>
+  <tabstop>checkBoxDisableTray</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>

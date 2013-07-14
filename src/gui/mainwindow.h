@@ -415,6 +415,7 @@ class MainWindow : public QMainWindow
 
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
 
+        bool m_showTray;
         bool m_trayItemPaste;
         WId m_trayPasteWindow;
         WId m_pasteWindow;
