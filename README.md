@@ -13,9 +13,17 @@ application window.
 
 To build and install CopyQ on your system read `INSTALL` file.
 
-For more info go to <https://sourceforge.net/projects/copyq/>.
+Web Site:
+    <https://sourceforge.net/projects/copyq/>
 
-Documentation can be found at <https://sourceforge.net/p/copyq/wiki/Home/>.
+Wiki:
+    <https://sourceforge.net/p/copyq/wiki/Home/>
+
+Mailing List:
+    <https://groups.google.com/group/copyq>
+
+Bug Reports:
+    <https://github.com/hluk/CopyQ/issues>
 
 Features
 --------
