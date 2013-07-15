@@ -659,12 +659,15 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["notes_bg"]  = Option(name, "VALUE", ui->pushButtonColorNotesBg);
     name = serializeColor( p.color(QPalette::ToolTipText) );
     m_theme["notes_fg"]  = Option(name, "VALUE", ui->pushButtonColorNotesFg);
+    m_theme["notification_bg"]  = Option("#333", "VALUE", ui->pushButtonColorNotificationBg);
+    m_theme["notification_fg"]  = Option("#ddd", "VALUE", ui->pushButtonColorNotificationFg);
 
     m_theme["font"]        = Option("", "VALUE", ui->pushButtonFont);
     m_theme["edit_font"]   = Option("", "VALUE", ui->pushButtonEditorFont);
     m_theme["find_font"]   = Option("", "VALUE", ui->pushButtonFoundFont);
     m_theme["num_font"]    = Option("", "VALUE", ui->pushButtonNumberFont);
     m_theme["notes_font"]  = Option("", "VALUE", ui->pushButtonNotesFont);
+    m_theme["notification_font"]  = Option("", "VALUE", ui->pushButtonNotificationFont);
     m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
     m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
 

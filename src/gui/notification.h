@@ -37,7 +37,7 @@ protected:
     void setMessage(const QString &msg);
     void setIcon(const QPixmap &icon);
     void setInterval(int msec);
-    void setOpacity();
+    void setOpacity(qreal opacity);
 
     void mousePressEvent(QMouseEvent *event);
     void enterEvent(QEvent *event);

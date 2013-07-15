@@ -38,31 +38,24 @@ Notification::Notification(QWidget *parent)
     connect( parent, SIGNAL(destroyed()),
              this, SLOT(deleteLater()) );
 
-    setAttribute(Qt::WA_TranslucentBackground, true);
-    setStyleSheet("* {color: #ddd; background: black}"
-                  "#NotificationBody {border-radius: 0px}");
-
     QVBoxLayout *bodyLayout = new QVBoxLayout(this);
+    bodyLayout->setMargin(8);
     m_body = new QWidget(this);
-    m_body->setObjectName("NotificationBody");
-    m_body->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     bodyLayout->addWidget(m_body);
+    bodyLayout->setSizeConstraint(QLayout::SetMaximumSize);
 
     QGridLayout *layout = new QGridLayout(m_body);
-    layout->setMargin(10);
+    layout->setMargin(0);
 
     m_titleLabel = new QLabel(this);
-    m_titleLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
     layout->addWidget(m_titleLabel, 0, 0, 1, 2, Qt::AlignCenter);
     m_titleLabel->setTextFormat(Qt::PlainText);
 
     m_iconLabel = new QLabel(this);
-    m_iconLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    layout->addWidget(m_iconLabel, 1, 0);
+    layout->addWidget(m_iconLabel, 1, 0, Qt::AlignTop);
 
     m_msgLabel = new QLabel(this);
-    m_msgLabel->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Minimum);
-    layout->addWidget(m_msgLabel, 1, 1);
+    layout->addWidget(m_msgLabel, 1, 1, Qt::AlignAbsolute);
     m_msgLabel->setTextFormat(Qt::PlainText);
 
     setWindowFlags(Qt::ToolTip);
@@ -106,6 +99,12 @@ void Notification::setInterval(int msec)
     }
 }
 
+void Notification::setOpacity(qreal opacity)
+{
+    setWindowOpacity(opacity);
+    m_opacity = opacity;
+}
+
 void Notification::mousePressEvent(QMouseEvent *)
 {
     deleteLater();
@@ -114,12 +113,16 @@ void Notification::mousePressEvent(QMouseEvent *)
 void Notification::enterEvent(QEvent *event)
 {
     setWindowOpacity(1.0);
+    if (m_timer != NULL)
+        m_timer->stop();
     QWidget::enterEvent(event);
 }
 
 void Notification::leaveEvent(QEvent *event)
 {
     setWindowOpacity(m_opacity);
+    if (m_timer != NULL)
+        m_timer->start();
     QWidget::leaveEvent(event);
 }
 
@@ -132,25 +135,6 @@ void Notification::adjust()
 void Notification::popup(const QPoint &position, int msec)
 {
     move(position);
-
-    const QRect r = rect();
-    const int radius = 0;
-    const int m = layout()->margin();
-    const int w = r.width() - 2 * m;
-    const int h = r.height() - 2 * m;
-    const int x = r.x() + m;
-    const int y = r.y() + m;
-    const QRegion corner(x, y, radius * 2, radius * 2, QRegion::Ellipse);
-
-    QRegion mask = corner;
-    mask = mask.united( QRect(x + radius, y, w - radius * 2, h) );
-    mask = mask.united( QRect(x, y + radius, w, h - radius * 2) );
-    mask = mask.united( corner.translated(w - radius * 2, 0) );
-    mask = mask.united( corner.translated(w - radius * 2, h - radius * 2) );
-    mask = mask.united( corner.translated(0, h - radius * 2) );
-
-    setMask(mask);
-
     show();
     setInterval(msec);
 }

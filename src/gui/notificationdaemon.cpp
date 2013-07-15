@@ -27,11 +27,15 @@
 #include <QPoint>
 #include <QVariant>
 
+static const int notificationMargin = 8;
+
 NotificationDaemon::NotificationDaemon(QObject *parent)
     : QObject(parent)
     , m_lastId(0)
     , m_position(BottomRight)
     , m_notifications()
+    , m_colorBg(Qt::black)
+    , m_colorFg(Qt::gray)
 {
 }
 
@@ -45,15 +49,25 @@ Notification *NotificationDaemon::create(const QString &title, const QString &ms
     const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == NULL) {
         notification = new Notification(parent);
+        setAppearance(notification);
         notification->setProperty("CopyQ_id", newId);
         m_notifications[newId] = notification;
     }
 
+    notification->resize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     notification->setTitle(title);
     notification->setIcon(icon);
     notification->setMessage(msg);
 
     notification->adjust();
+
+    QRect screen = QApplication::desktop()->availableGeometry();
+    int w = screen.width();
+    int h = screen.height();
+    w = qMax(qMin(w, 200), w / 3);
+    h = qMax(qMin(h, 200), h / 3);
+    notification->setMaximumSize(w, h);
+
     QPoint pos = findPosition(newId, notification);
 
     connect( notification, SIGNAL(destroyed(QObject*)),
@@ -64,9 +78,25 @@ Notification *NotificationDaemon::create(const QString &title, const QString &ms
     return notification;
 }
 
+void NotificationDaemon::updateInterval(int id, int msec)
+{
+    Notification *notification = m_notifications.value(id, NULL);
+    if (notification)
+        notification->setInterval(msec);
+}
+
 void NotificationDaemon::setPosition(NotificationDaemon::Position position)
 {
     m_position = position;
+}
+
+void NotificationDaemon::updateAppearance()
+{
+    if ( m_notifications.isEmpty() )
+        return;
+
+    foreach (int id, m_notifications.keys())
+        setAppearance(m_notifications[id]);
 }
 
 void NotificationDaemon::notificationDestroyed(QObject *notification)
@@ -91,15 +121,32 @@ QPoint NotificationDaemon::findPosition(int ignoreId, Notification *notification
     }
 
     if (m_position & Bottom)
-        y -= notification->height();
+        y -= notification->height() + notificationMargin;
+    else
+        y += notificationMargin;
 
     int x;
     if (m_position & Left)
-        x = 0;
+        x = notificationMargin;
     else if (m_position & Right)
-        x = screen.width() - notification->width();
+        x = screen.width() - notification->width() - notificationMargin;
     else
         x = screen.width() / 2 - notification->width() / 2;
 
     return QPoint(x, y);
+}
+
+void NotificationDaemon::setAppearance(Notification *notification)
+{
+    QColor bg = m_colorBg;
+    const qreal opacity = bg.alphaF();
+    bg.setAlpha(255);
+
+    QPalette p = notification->palette();
+    p.setColor(QPalette::Window, bg);
+    p.setColor(QPalette::WindowText, m_colorFg);
+
+    notification->setPalette(p);
+    notification->setOpacity(opacity);
+    notification->setFont(m_font);
 }

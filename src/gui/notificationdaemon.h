@@ -20,6 +20,8 @@
 #ifndef NOTIFICATIONDAEMON_H
 #define NOTIFICATIONDAEMON_H
 
+#include <QColor>
+#include <QFont>
 #include <QMap>
 #include <QObject>
 
@@ -34,8 +36,8 @@ class NotificationDaemon : public QObject
 public:
     enum Position {
         Top = 0x2,
-        Right = 0x4,
-        Bottom = 0x8,
+        Bottom = 0x4,
+        Right = 0x8,
         Left = 0x10,
         TopRight = Top | Right,
         BottomRight = Bottom | Right,
@@ -45,10 +47,20 @@ public:
 
     explicit NotificationDaemon(QObject *parent = NULL);
 
+    /** Create new notification or update one with same @a id (if non-negative). */
     Notification *create(const QString &title, const QString &msg, const QPixmap &icon,
                          int msec, QWidget *parent, int id = -1);
 
+    /** Update interval to show notification with given @a id. */
+    void updateInterval(int id, int msec);
+
     void setPosition(Position position);
+
+    void setBackground(const QColor &color) { m_colorBg = color; }
+    void setForeground(const QColor &color) { m_colorFg = color; }
+    void setFont(const QFont &font) { m_font = font; }
+
+    void updateAppearance();
 
 private slots:
     void notificationDestroyed(QObject *notification);
@@ -57,9 +69,14 @@ private:
     /** Find ideal position for new notification. */
     QPoint findPosition(int ignoreId, Notification *notification);
 
+    void setAppearance(Notification *notification);
+
     int m_lastId;
     Position m_position;
     QMap<int, Notification*> m_notifications;
+    QColor m_colorBg;
+    QColor m_colorFg;
+    QFont m_font;
 };
 
 #endif // NOTIFICATIONDAEMON_H

@@ -58,6 +58,9 @@ public:
 
     void setEditor(const QString &editor) { m_editor = editor; }
 
+    /** Return parsed color. */
+    QColor themeColor(const QString &name) const;
+
 protected:
     void showEvent(QShowEvent *event);
 
@@ -87,8 +90,6 @@ private:
     void updateColorButtons();
     void updateFontButtons();
 
-    /** Return parsed color. */
-    QColor themeColor(const QString &name) const;
     /** Return parsed color name. */
     QString themeColorString(const QString &name) const;
     /** Return style sheet with given @a name. */

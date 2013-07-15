@@ -552,6 +552,37 @@ void MainWindow::updateIcon()
     }
 }
 
+void MainWindow::updateNotifications()
+{
+    if (m_notifications == NULL)
+        return;
+
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    const ConfigTabAppearance *appearance = cm->tabAppearance();
+    m_notifications->setBackground( appearance->themeColor("notification_bg") );
+    m_notifications->setForeground( appearance->themeColor("notification_fg") );
+
+    QFont font;
+    font.fromString( appearance->themeValue("notification_font").toString() );
+    m_notifications->setFont(font);
+
+    int id = cm->value("notification_position").toInt();
+    NotificationDaemon::Position position;
+    switch (id) {
+    case 0: position = NotificationDaemon::Top; break;
+    case 1: position = NotificationDaemon::Bottom; break;
+    case 2: position = NotificationDaemon::TopRight; break;
+    case 3: position = NotificationDaemon::BottomRight; break;
+    case 4: position = NotificationDaemon::BottomLeft; break;
+    default: position = NotificationDaemon::TopLeft; break;
+    }
+    m_notifications->setPosition(position);
+
+    m_notifications->updateInterval(0, m_itemPopupInterval);
+
+    m_notifications->updateAppearance();
+}
+
 void MainWindow::updateWindowTransparency(bool mouseOver)
 {
     int opacity = 100 - (mouseOver || isActiveWindow() ? m_transparencyFocused : m_transparency);
@@ -771,16 +802,19 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 void MainWindow::showMessage(const QString &title, const QString &msg, const QPixmap &icon,
                              int msec, int notificationId)
 {
-    if (m_notifications == NULL)
+    if (m_notifications == NULL) {
         m_notifications = new NotificationDaemon(this);
+        updateNotifications();
+    }
     m_notifications->create(title, msg, icon, msec, this, notificationId);
 }
 
 void MainWindow::showClipboardMessage(const ClipboardItem *item)
 {
-    if ( m_itemPopupInterval != 0 && (!isVisible() || isMinimized()) ) {
+    if ( m_itemPopupInterval != 0 ) {
+        QColor color = ConfigurationManager::instance()->tabAppearance()->themeColor("notification_fg");
         showMessage( QString(), textLabelForData(item->data(), 512),
-                     IconFactory::instance()->createPixmap(IconPaste, Qt::white, 24),
+                     IconFactory::instance()->createPixmap(IconPaste, color, 16),
                      m_itemPopupInterval * 1000, 0 );
     }
 }
@@ -1077,6 +1111,8 @@ void MainWindow::loadSettings()
     if (!m_showTray && !isVisible())
         showMinimized();
 
+    updateNotifications();
+
     updateIcon();
 
     log( tr("Configuration loaded") );
@@ -1372,7 +1408,8 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
 
 void MainWindow::setClipboard(const ClipboardItem *item)
 {
-    showClipboardMessage(item);
+    if ( m_clipboardNotify || !isVisible() || isMinimized() )
+        showClipboardMessage(item);
     emit changeClipboard(item);
 }
 

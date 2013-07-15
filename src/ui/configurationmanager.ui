@@ -350,55 +350,6 @@ Note: This is not be supported on all systems.</string>
          <string>&amp;History</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="5" column="0">
-          <widget class="QGroupBox" name="groupBox_3">
-           <property name="title">
-            <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <widget class="QCheckBox" name="checkBoxMove">
-              <property name="toolTip">
-               <string>Move item to the top of the list after it is activated.</string>
-              </property>
-              <property name="text">
-               <string>Move item to the top</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxActivateCloses">
-              <property name="toolTip">
-               <string>Close main window after item is activated.</string>
-              </property>
-              <property name="text">
-               <string>&amp;Close main window</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxActivateFocuses">
-              <property name="toolTip">
-               <string>Focus last window after item is activated.</string>
-              </property>
-              <property name="text">
-               <string>&amp;Focus last window</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxActivatePastes">
-              <property name="toolTip">
-               <string>Paste to current window after item is activated.</string>
-              </property>
-              <property name="text">
-               <string>&amp;Paste to current window</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
          <item row="1" column="0">
           <layout class="QFormLayout" name="formLayout_2">
            <property name="fieldGrowthPolicy">
@@ -472,7 +423,7 @@ Note: This is not be supported on all systems.</string>
            <item row="2" column="0">
             <widget class="QLabel" name="label_25">
              <property name="text">
-              <string>Interval in seconds to disaply notifications:</string>
+              <string>Interval in seconds to display notifications:</string>
              </property>
             </widget>
            </item>
@@ -481,7 +432,7 @@ Note: This is not be supported on all systems.</string>
              <item>
               <widget class="QSpinBox" name="spinBoxItemPopupInterval">
                <property name="toolTip">
-                <string>Interval in seconds for tray message which is shown after an item is copied to clipboard (only if main window is closed).
+                <string>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
 
@@ -510,6 +461,70 @@ Set to -1 to keep visible until clicked.</string>
              </item>
             </layout>
            </item>
+           <item row="3" column="0">
+            <widget class="QLabel" name="label_8">
+             <property name="text">
+              <string>&amp;Notification position:</string>
+             </property>
+             <property name="buddy">
+              <cstring>comboBoxNotificationPosition</cstring>
+             </property>
+            </widget>
+           </item>
+           <item row="3" column="1">
+            <layout class="QHBoxLayout" name="horizontalLayout_10">
+             <item>
+              <widget class="QComboBox" name="comboBoxNotificationPosition">
+               <property name="toolTip">
+                <string>Position on screen for notifications</string>
+               </property>
+               <item>
+                <property name="text">
+                 <string>Top</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Bottom</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Top Right</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Bottom Right</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Bottom Left</string>
+                </property>
+               </item>
+               <item>
+                <property name="text">
+                 <string>Top Left</string>
+                </property>
+               </item>
+              </widget>
+             </item>
+             <item>
+              <spacer name="horizontalSpacer_10">
+               <property name="orientation">
+                <enum>Qt::Horizontal</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>40</width>
+                 <height>20</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
           </layout>
          </item>
          <item row="0" column="0">
@@ -523,6 +538,55 @@ Set to -1 to keep visible until clicked.</string>
           </widget>
          </item>
          <item row="6" column="0">
+          <widget class="QGroupBox" name="groupBox_3">
+           <property name="title">
+            <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
+           </property>
+           <layout class="QVBoxLayout" name="verticalLayout_8">
+            <item>
+             <widget class="QCheckBox" name="checkBoxMove">
+              <property name="toolTip">
+               <string>Move item to the top of the list after it is activated.</string>
+              </property>
+              <property name="text">
+               <string>Move item to the top</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBoxActivateCloses">
+              <property name="toolTip">
+               <string>Close main window after item is activated.</string>
+              </property>
+              <property name="text">
+               <string>&amp;Close main window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBoxActivateFocuses">
+              <property name="toolTip">
+               <string>Focus last window after item is activated.</string>
+              </property>
+              <property name="text">
+               <string>&amp;Focus last window</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QCheckBox" name="checkBoxActivatePastes">
+              <property name="toolTip">
+               <string>Paste to current window after item is activated.</string>
+              </property>
+              <property name="text">
+               <string>&amp;Paste to current window</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </widget>
+         </item>
+         <item row="7" column="0">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -535,7 +599,7 @@ Set to -1 to keep visible until clicked.</string>
            </property>
           </spacer>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
            <property name="toolTip">
             <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
@@ -547,7 +611,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
            </property>
           </widget>
          </item>
-         <item row="2" column="0">
+         <item row="3" column="0">
           <widget class="QCheckBox" name="checkBoxClipboardNotify">
            <property name="text">
             <string>&amp;Display notification if clipboard changes</string>
@@ -1290,6 +1354,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
   <tabstop>spinBoxItems</tabstop>
   <tabstop>lineEditEditor</tabstop>
   <tabstop>spinBoxItemPopupInterval</tabstop>
+  <tabstop>comboBoxNotificationPosition</tabstop>
   <tabstop>checkBoxClipboardNotify</tabstop>
   <tabstop>checkBoxEditCtrlReturn</tabstop>
   <tabstop>checkBoxMove</tabstop>

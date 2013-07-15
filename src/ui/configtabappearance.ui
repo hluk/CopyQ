@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>446</width>
-    <height>500</height>
+    <width>474</width>
+    <height>506</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
@@ -30,8 +30,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>257</width>
-        <height>480</height>
+        <width>266</width>
+        <height>473</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -40,89 +40,18 @@
          <property name="spacing">
           <number>2</number>
          </property>
-         <item row="4" column="2">
-          <widget class="QPushButton" name="pushButtonColorEditorFg">
-           <property name="text">
-            <string/>
+         <item row="9" column="0">
+          <spacer name="verticalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Vertical</enum>
            </property>
-          </widget>
-         </item>
-         <item row="6" column="2">
-          <widget class="QPushButton" name="pushButtonColorNotesFg">
-           <property name="text">
-            <string/>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>20</width>
+             <height>40</height>
+            </size>
            </property>
-          </widget>
-         </item>
-         <item row="1" column="3">
-          <widget class="QPushButton" name="pushButtonFont">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="1">
-          <widget class="QPushButton" name="pushButtonColorAltBg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="1" column="2">
-          <widget class="QPushButton" name="pushButtonColorFg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <widget class="QLabel" name="label_39">
-           <property name="text">
-            <string>Number</string>
-           </property>
-          </widget>
-         </item>
-         <item row="6" column="3">
-          <widget class="QPushButton" name="pushButtonNotesFont">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="2" column="2">
-          <widget class="QPushButton" name="pushButtonColorSelFg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="3">
-          <widget class="QLabel" name="label_13">
-           <property name="text">
-            <string>Font</string>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="1">
-          <widget class="QPushButton" name="pushButtonColorEditorBg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="2">
-          <widget class="QPushButton" name="pushButtonColorFoundFg">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="4" column="0">
-          <widget class="QLabel" name="label_36">
-           <property name="text">
-            <string>Editor</string>
-           </property>
-          </widget>
+          </spacer>
          </item>
          <item row="0" column="1">
           <widget class="QLabel" name="label_8">
@@ -131,31 +60,10 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="0">
-          <widget class="QLabel" name="label_33">
+         <item row="6" column="0">
+          <widget class="QLabel" name="label_38">
            <property name="text">
-            <string>Normal</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="0">
-          <widget class="QLabel" name="label_35">
-           <property name="text">
-            <string>Found</string>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="3">
-          <widget class="QPushButton" name="pushButtonFoundFont">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item row="3" column="1">
-          <widget class="QPushButton" name="pushButtonColorFoundBg">
-           <property name="text">
-            <string/>
+            <string>Notes</string>
            </property>
           </widget>
          </item>
@@ -173,10 +81,24 @@
            </property>
           </widget>
          </item>
-         <item row="7" column="3">
-          <widget class="QPushButton" name="pushButtonNumberFont">
+         <item row="4" column="1">
+          <widget class="QPushButton" name="pushButtonColorEditorBg">
            <property name="text">
             <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="3">
+          <widget class="QPushButton" name="pushButtonFoundFont">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="0">
+          <widget class="QLabel" name="label_35">
+           <property name="text">
+            <string>Found</string>
            </property>
           </widget>
          </item>
@@ -187,15 +109,15 @@
            </property>
           </widget>
          </item>
-         <item row="1" column="1">
-          <widget class="QPushButton" name="pushButtonColorBg">
+         <item row="6" column="2">
+          <widget class="QPushButton" name="pushButtonColorNotesFg">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
-         <item row="7" column="2">
-          <widget class="QPushButton" name="pushButtonColorNumberFg">
+         <item row="1" column="2">
+          <widget class="QPushButton" name="pushButtonColorFg">
            <property name="text">
             <string/>
            </property>
@@ -203,6 +125,90 @@
          </item>
          <item row="2" column="1">
           <widget class="QPushButton" name="pushButtonColorSelBg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="5" column="1">
+          <widget class="QPushButton" name="pushButtonColorAltBg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="2">
+          <widget class="QPushButton" name="pushButtonColorEditorFg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="3">
+          <widget class="QPushButton" name="pushButtonFont">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="2" column="2">
+          <widget class="QPushButton" name="pushButtonColorSelFg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="6" column="3">
+          <widget class="QPushButton" name="pushButtonNotesFont">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="0">
+          <widget class="QLabel" name="label_39">
+           <property name="text">
+            <string>Number</string>
+           </property>
+          </widget>
+         </item>
+         <item row="1" column="0">
+          <widget class="QLabel" name="label_33">
+           <property name="text">
+            <string>Normal</string>
+           </property>
+          </widget>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_36">
+           <property name="text">
+            <string>Editor</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="3">
+          <widget class="QLabel" name="label_13">
+           <property name="text">
+            <string>Font</string>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="1">
+          <widget class="QPushButton" name="pushButtonColorFoundBg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="3">
+          <widget class="QPushButton" name="pushButtonNumberFont">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="3" column="2">
+          <widget class="QPushButton" name="pushButtonColorFoundFg">
            <property name="text">
             <string/>
            </property>
@@ -222,25 +228,47 @@
            </property>
           </widget>
          </item>
-         <item row="6" column="0">
-          <widget class="QLabel" name="label_38">
+         <item row="1" column="1">
+          <widget class="QPushButton" name="pushButtonColorBg">
            <property name="text">
-            <string>Notes</string>
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="7" column="2">
+          <widget class="QPushButton" name="pushButtonColorNumberFg">
+           <property name="text">
+            <string/>
            </property>
           </widget>
          </item>
          <item row="8" column="0">
-          <spacer name="verticalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
+          <widget class="QLabel" name="label">
+           <property name="text">
+            <string>Notification</string>
            </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
+          </widget>
+         </item>
+         <item row="8" column="1">
+          <widget class="QPushButton" name="pushButtonColorNotificationBg">
+           <property name="text">
+            <string/>
            </property>
-          </spacer>
+          </widget>
+         </item>
+         <item row="8" column="2">
+          <widget class="QPushButton" name="pushButtonColorNotificationFg">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item row="8" column="3">
+          <widget class="QPushButton" name="pushButtonNotificationFont">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
          </item>
         </layout>
        </item>
@@ -385,6 +413,9 @@
   <tabstop>pushButtonNotesFont</tabstop>
   <tabstop>pushButtonColorNumberFg</tabstop>
   <tabstop>pushButtonNumberFont</tabstop>
+  <tabstop>pushButtonColorNotificationBg</tabstop>
+  <tabstop>pushButtonColorNotificationFg</tabstop>
+  <tabstop>pushButtonNotificationFont</tabstop>
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>
