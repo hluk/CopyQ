@@ -332,6 +332,7 @@ class MainWindow : public QMainWindow
         void addItem(const QByteArray &data, const QString &format, const QString &tabName);
         void addItem(const QByteArray &data, const QString &format, const QModelIndex &index);
         void onTimerSearch();
+        void onTrayTimer();
 
         void actionStarted(Action *action);
         void actionFinished(Action *action);
@@ -439,6 +440,8 @@ class MainWindow : public QMainWindow
         QTimer *m_timerUpdateFocusWindows;
 
         QTimer *m_timerShowWindow;
+
+        QTimer *m_trayTimer;
 
         QString m_sessionName;
 

@@ -190,6 +190,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
+    , m_trayTimer(NULL)
     , m_sessionName()
     , m_notifications(NULL)
 {
@@ -1106,7 +1107,18 @@ void MainWindow::loadSettings()
 
     trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
-    m_showTray = !cm->value("disable_tray").toBool() && tray->isSystemTrayAvailable();
+    m_showTray = !cm->value("disable_tray").toBool();
+    delete m_trayTimer;
+    if ( m_showTray && !QSystemTrayIcon::isSystemTrayAvailable() ) {
+        m_showTray = false;
+        m_trayTimer = new QTimer(this);
+        connect( m_trayTimer, SIGNAL(timeout()),
+                 this, SLOT(onTrayTimer()) );
+        m_trayTimer->setSingleShot(true);
+        m_trayTimer->setInterval(1000);
+        m_trayTimer->start();
+    }
+
     tray->setVisible(m_showTray);
     if (!m_showTray && !isVisible())
         showMinimized();
@@ -1524,6 +1536,23 @@ void MainWindow::onTimerSearch()
     QString txt = ui->searchBar->text();
     enterBrowseMode( txt.isEmpty() );
     browser()->filterItems(txt);
+}
+
+void MainWindow::onTrayTimer()
+{
+    if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
+        delete m_trayTimer;
+        m_trayTimer = NULL;
+
+        m_showTray = true;
+        tray->setVisible(true);
+        if ( isMinimized() )
+            hide();
+
+        updateIcon();
+    } else {
+        m_trayTimer->start();
+    }
 }
 
 void MainWindow::actionStarted(Action *action)
