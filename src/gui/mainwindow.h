@@ -159,7 +159,7 @@ class MainWindow : public QMainWindow
         /** Switch between browse and search mode. */
         void enterBrowseMode(bool browsemode = true);
 
-        /** Show tray popup message. */
+        /** Show notification. */
         void showMessage(
                 const QString &title, //!< Message title.
                 const QString &msg, //!< Message text.
@@ -172,6 +172,9 @@ class MainWindow : public QMainWindow
         /** Show popup with icon. */
         void showMessage(const QString &title, const QString &msg, const QPixmap &icon, int msec,
                          int notificationId);
+
+        /** Show clipboard content in notification. */
+        void showClipboardMessage(const ClipboardItem *item);
 
         /** Show error popup message. */
         void showError(const QString &msg);
@@ -402,6 +405,7 @@ class MainWindow : public QMainWindow
         int m_trayItems;
         bool m_trayImages;
         int m_itemPopupInterval;
+        bool m_clipboardNotify;
         int m_lastTab;
         QTimer *m_timerSearch;
 

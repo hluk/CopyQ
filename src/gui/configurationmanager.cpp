@@ -374,6 +374,7 @@ void ConfigurationManager::initOptions()
     bind("maxitems", ui->spinBoxItems, 200);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
     bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);
+    bind("clipboard_notify", ui->checkBoxClipboardNotify, false);
     bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
     bind("move", ui->checkBoxMove, true);
     bind("check_clipboard", ui->checkBoxClip, true);

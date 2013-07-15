@@ -167,6 +167,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayItems(5)
     , m_trayImages(true)
     , m_itemPopupInterval(0)
+    , m_clipboardNotify(false)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_transparency(0)
@@ -775,6 +776,15 @@ void MainWindow::showMessage(const QString &title, const QString &msg, const QPi
     m_notifications->create(title, msg, icon, msec, this, notificationId);
 }
 
+void MainWindow::showClipboardMessage(const ClipboardItem *item)
+{
+    if ( m_itemPopupInterval != 0 && (!isVisible() || isMinimized()) ) {
+        showMessage( QString(), textLabelForData(item->data(), 512),
+                     IconFactory::instance()->createPixmap(IconPaste, Qt::white, 24),
+                     m_itemPopupInterval * 1000, 0 );
+    }
+}
+
 void MainWindow::showError(const QString &msg)
 {
     showMessage( tr("CopyQ Error", "Notification error message title"),
@@ -1058,6 +1068,7 @@ void MainWindow::loadSettings()
     m_trayTabName = cm->value("tray_tab").toString();
     m_trayImages = cm->value("tray_images").toBool();
     m_itemPopupInterval = cm->value("item_popup_interval").toInt();
+    m_clipboardNotify = m_itemPopupInterval != 0 && cm->value("clipboard_notify").toBool();
 
     trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
@@ -1344,6 +1355,9 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     QString text = textLabelForData(item->data(), 256);
     tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
+    if (m_clipboardNotify)
+        showClipboardMessage(item);
+
     const QString clipboardContent = elideText(text, 30);
     if ( m_sessionName.isEmpty() ) {
         setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
@@ -1358,11 +1372,7 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
 
 void MainWindow::setClipboard(const ClipboardItem *item)
 {
-    if ( m_itemPopupInterval != 0 && (!isVisible() || isMinimized()) ) {
-        showMessage( QString(), elideText(item->text(), 256),
-                     IconFactory::instance()->createPixmap(IconPaste, Qt::white, 24),
-                     m_itemPopupInterval * 1000, 0 );
-    }
+    showClipboardMessage(item);
     emit changeClipboard(item);
 }
 
