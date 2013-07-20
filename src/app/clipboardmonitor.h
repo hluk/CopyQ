@@ -64,14 +64,13 @@ public:
     /** Change clipboard and primary selection content. */
     void updateClipboard(QMimeData *data = NULL);
 
-public slots:
+private slots:
     /**
      * Check clipboard or primary selection.
      * @see updateSelection()
      */
     void checkClipboard(QClipboard::Mode mode);
 
-private slots:
 #ifdef COPYQ_WS_X11
     /**
      * Return true if primary selection data can be retrieved.
@@ -88,6 +87,11 @@ private slots:
      * Synchronize clipboard and X11 primary selection.
      */
     void synchronize();
+
+    /**
+     * Reset clipboard if empty.
+     */
+    void resetClipboard();
 #endif
 
     /** Update clipboard data in reasonably long intervals. */

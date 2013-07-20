@@ -51,18 +51,23 @@ public:
         : m_dsp()
         , m_timer()
         , m_syncTimer()
-        , m_syncData(NULL)
+        , m_resetClipboardTimer()
+        , m_data(NULL)
         , m_syncTo(QClipboard::Clipboard)
     {
         m_timer.setSingleShot(true);
         m_timer.setInterval(100);
+
         m_syncTimer.setSingleShot(true);
         m_syncTimer.setInterval(100);
+
+        m_resetClipboardTimer.setSingleShot(true);
+        m_resetClipboardTimer.setInterval(250);
     }
 
     ~PrivateX11()
     {
-        delete m_syncData;
+        delete m_data;
     }
 
     bool waitForKeyRelease()
@@ -88,25 +93,40 @@ public:
         return m_syncTimer;
     }
 
+    const QTimer &resetClipboardTimer() const
+    {
+        return m_resetClipboardTimer;
+    }
+
+    void resetData(const QMimeData *data = NULL)
+    {
+        delete m_data;
+        m_data = data != NULL ? cloneData(*data) : NULL;
+    }
+
+    QMimeData *releaseData()
+    {
+        Q_ASSERT(m_data != NULL);
+        QMimeData *data = m_data;
+        m_data = NULL;
+        return data;
+    }
+
     void synchronizeNone()
     {
-        Q_ASSERT( !isSynchronizing() );
-        delete m_syncData;
-        m_syncData = NULL;
+        resetData();
         m_syncTimer.stop();
     }
 
-    void synchronize(QMimeData *data, QClipboard::Mode modeSyncTo)
+    void synchronize(QClipboard::Mode modeSyncTo)
     {
-        delete m_syncData;
-        m_syncData = cloneData(*data);
         m_syncTo = modeSyncTo;
         m_syncTimer.start();
     }
 
     void synchronize()
     {
-        if (m_syncData == NULL || m_syncTimer.isActive())
+        if (m_data == NULL || m_syncTimer.isActive())
             return;
 
         if (m_syncTo == QClipboard::Selection && waitForKeyRelease()) {
@@ -114,21 +134,41 @@ public:
             return;
         }
 
-        Q_ASSERT( isSynchronizing() );
-        setClipboardData(m_syncData, m_syncTo);
-        m_syncData = NULL;
+        setClipboardData(releaseData(), m_syncTo);
     }
 
-    bool isSynchronizing()
+    /**
+     * Remember last non-empty clipboard content and
+     * reset clipboard after interval if data is empty.
+     */
+    bool resetClipboard(const QMimeData *data)
     {
-        return !m_syncTimer.isActive() && m_syncData != NULL;
+        m_syncTimer.stop();
+
+        if ( data->formats().isEmpty() ) {
+            m_resetClipboardTimer.start();
+            return true;
+        }
+
+        resetData(data);
+        m_resetClipboardTimer.stop();
+        return false;
+    }
+
+    void resetClipboard()
+    {
+        if (m_data == NULL || m_resetClipboardTimer.isActive())
+            return;
+
+        setClipboardData(releaseData(), QClipboard::Clipboard);
     }
 
 private:
     X11Platform m_dsp;
     QTimer m_timer;
     QTimer m_syncTimer;
-    QMimeData *m_syncData;
+    QTimer m_resetClipboardTimer;
+    QMimeData *m_data;
     QClipboard::Mode m_syncTo;
 };
 #endif
@@ -178,6 +218,8 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
              this, SLOT(updateSelection()) );
     connect( &m_x11->syncTimer(), SIGNAL(timeout()),
              this, SLOT(synchronize()) );
+    connect( &m_x11->resetClipboardTimer(), SIGNAL(timeout()),
+             this, SLOT(resetClipboard()) );
 #endif
 }
 
@@ -207,13 +249,16 @@ void ClipboardMonitor::synchronize()
 {
     m_x11->synchronize();
 }
+
+void ClipboardMonitor::resetClipboard()
+{
+    m_x11->resetClipboard();
+}
 #endif /* !COPYQ_WS_X11 */
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
 #ifdef COPYQ_WS_X11
-    if ( m_x11->isSynchronizing() )
-        return;
     m_x11->synchronizeNone();
 #endif
 
@@ -261,6 +306,11 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
+#ifdef COPYQ_WS_X11
+    if ( m_x11->resetClipboard(data) )
+        return;
+#endif
+
     // clone only mime types defined by user
     QMimeData *data2 = cloneData(*data, &m_formats);
 
@@ -272,11 +322,11 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {
         if (m_copyclip)
-            m_x11->synchronize(data2, QClipboard::Selection);
+            m_x11->synchronize(QClipboard::Selection);
         clipboardChanged(mode, data2);
     } else {
         if (m_copysel)
-            m_x11->synchronize(data2, QClipboard::Clipboard);
+            m_x11->synchronize(QClipboard::Clipboard);
         if (m_checksel)
             clipboardChanged(mode, data2);
         else
