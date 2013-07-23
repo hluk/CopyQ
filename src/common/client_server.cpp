@@ -215,9 +215,12 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
     return newdata;
 }
 
-QString elideText(const QString &text, int maxLength, const QFontMetrics &fm)
+QString elideText(const QString &text, int maxChars, const QString &format, const QFontMetrics &fm,
+                  bool escapeAmpersands)
 {
     const int oldLines = text.count('\n');
+    const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
+    const int formatLength = format.isEmpty() ? 0 : format.size() - 2;
 
     QString result = text;
     result.remove(QRegExp("^\\s*"));
@@ -228,31 +231,77 @@ QString elideText(const QString &text, int maxLength, const QFontMetrics &fm)
     if (newLines > 0)
         result.remove( result.indexOf('\n'), text.size() );
 
-    if (maxLength <= 0) {
+    if (maxChars <= 0) {
         // Show triple-dot in middle if text is too long.
-        result = fm.elidedText( result.simplified(), Qt::ElideMiddle, 320 );
+        result = fm.elidedText( result.simplified(), Qt::ElideMiddle, 320 - formatWidth);
         if (newLines > 0)
             result.append( QString("...") );
-    } else if (result.size() > maxLength || newLines > 0) {
+    } else if (result.size() > maxChars - formatLength || newLines > 0) {
         // Show triple-dot at the end text is too long.
-        if (result.size() > maxLength)
-            result.resize(maxLength);
+        if (result.size() > maxChars - formatLength)
+            result.resize(maxChars - formatLength);
         result.append( QString("...") );
     }
 
     if (newLines < oldLines && result != "...")
         result.prepend("...");
 
-    return result;
-}
-
-void elideText(QAction *act, bool escapeAmpersands)
-{
-    QString text = elideText( act->text(), -1, QFontMetrics(act->font()) );
-
     // Escape all ampersands.
     if (escapeAmpersands)
-        text.replace( QChar('&'), QString("&&") );
+        result.replace( QChar('&'), QString("&&") );
+
+    return format.isEmpty() ? result : format.arg(result);
+}
+
+void elideText(QAction *act, bool escapeAmpersands, const QString &format)
+{
+    QString text = elideText( act->text(), -1, format, QFontMetrics(act->font()), escapeAmpersands );
 
     act->setText(text);
+}
+
+QString textLabelForData(const QMimeData *data, int maxChars, QAction *act, const QString &format)
+{
+    const QStringList formats = data->formats();
+    QString label;
+
+    if ( formats.indexOf("text/plain") != -1 ) {
+        const QString text = data->text();
+        const int n = text.count(QChar('\n')) + 1;
+
+        if (n > 1)
+            label = QObject::tr("\"%1\" (%n lines)", "Label for multi-line text in clipboard", n);
+        else
+            label = QObject::tr("\"%1\"", "Label for single-line text in clipboard");
+
+        if (act == NULL)
+            label = elideText(text, maxChars, label);
+
+        if (!format.isEmpty())
+            label = format.arg(label);
+
+        if (act == NULL)
+            return label;
+
+        act->setText(text);
+        elideText(act, true, label);
+        return act->text();
+    } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
+        label = QObject::tr("<IMAGE>", "Label for image in clipboard");
+    } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
+        label = QObject::tr("<FILES>", "Label for URLs/files in clipboard");
+    } else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) ) {
+        label = QObject::tr("<EMPTY>", "Label for empty clipboard");
+    } else {
+        label = QObject::tr("<DATA>", "Label for data in clipboard");
+    }
+
+    if (!format.isEmpty())
+        label = format.arg(label);
+
+    if (act == NULL)
+        return label;
+
+    act->setText(label);
+    return label;
 }

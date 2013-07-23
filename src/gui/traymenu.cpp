@@ -139,11 +139,14 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     resetSeparators();
     insertAction(m_clipboardItemActionsSeparator, act);
 
-    elideText(act, true);
+    QString format;
 
     // Add number key hint.
     if (i < 10)
-        act->setText( act->text().prepend(QString("&%1. ").arg(i)) );
+        format = tr("&%1. %2", "Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)").arg(i);
+
+    const QString label = textLabelForData(item.data(), -1, act, format);
+    act->setText(label);
 
     QString tooltip = item.data(contentType::notes).toString();
     if ( !tooltip.isEmpty() ) {

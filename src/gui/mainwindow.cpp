@@ -127,29 +127,6 @@ QColor sessionNameToColor(const QString &name)
     return QColor(r, g, b);
 }
 
-QString textLabelForData(const QMimeData *data, int maxChars)
-{
-    const QStringList formats = data->formats();
-
-    if ( formats.indexOf("text/plain") != -1 ) {
-        return MainWindow::tr("\"%1\"",
-                              "Quoted clipboard text in main window title and tray tooltip")
-                .arg( elideText(data->text(), maxChars) );
-    } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
-        return MainWindow::tr("<IMAGE>",
-                              "Part of main window title and tray tooltip shown if clipboard contains image");
-    } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
-        return MainWindow::tr("<FILES>",
-                              "Part of main window title and tray tooltip shown if clipboard contains URLs/files");
-    } else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) ) {
-        return MainWindow::tr("<EMPTY>",
-                              "Part of main window title and tray tooltip shown if clipboard is empty");
-    }
-
-    return MainWindow::tr("<DATA>",
-                          "Part of main window title and tray tooltip shown if clipboard contains unrecognized data");
-}
-
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -1406,7 +1383,7 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     if (m_clipboardNotify)
         showClipboardMessage(item);
 
-    const QString clipboardContent = elideText(text, 30);
+    const QString clipboardContent = textLabelForData(item->data(), 30);
     if ( m_sessionName.isEmpty() ) {
         setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
                         .arg(clipboardContent) );
@@ -1659,11 +1636,10 @@ void MainWindow::updateTrayMenuItems()
 
         // Show clipboard content as disabled item.
         QString text = data != NULL ? data->text() : c->selectedText();
+        const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
         QAction *act = trayMenu->addAction( iconClipboard(),
-                                            textLabelForData(data, 128),
-                                            this, SLOT(showClipboardContent()) );
-        act->setText( tr("&Clipboard: %1", "Tray menu clipboard item format").arg(act->text()) );
-        elideText(act, false);
+                                            QString(), this, SLOT(showClipboardContent()) );
+        textLabelForData(data, -1, act, format);
         trayMenu->addCustomAction(act);
 
         int i = trayMenu->actions().size();
