@@ -25,6 +25,7 @@
 
 #include <QApplication>
 #include <QMimeData>
+#include <QScopedPointer>
 #include <QTimer>
 
 #ifdef COPYQ_WS_X11
@@ -48,12 +49,18 @@ void setClipboardData(QMimeData *data, QClipboard::Mode mode)
 class PrivateX11 {
 public:
     PrivateX11()
-        : m_dsp()
+        : m_x11Platform()
         , m_timer()
         , m_syncTimer()
-        , m_resetClipboardTimer()
-        , m_data(NULL)
+        , m_resetTimer()
+        , m_clipboardData()
+        , m_selectionData()
         , m_syncTo(QClipboard::Clipboard)
+        , m_resetClipboard(false)
+        , m_resetSelection(false)
+        , m_copyclip(false)
+        , m_checksel(false)
+        , m_copysel(false)
     {
         m_timer.setSingleShot(true);
         m_timer.setInterval(100);
@@ -61,13 +68,8 @@ public:
         m_syncTimer.setSingleShot(true);
         m_syncTimer.setInterval(100);
 
-        m_resetClipboardTimer.setSingleShot(true);
-        m_resetClipboardTimer.setInterval(250);
-    }
-
-    ~PrivateX11()
-    {
-        delete m_data;
+        m_resetTimer.setSingleShot(true);
+        m_resetTimer.setInterval(500);
     }
 
     bool waitForKeyRelease()
@@ -75,7 +77,7 @@ public:
         if (m_timer.isActive())
             return true;
 
-        if ( m_dsp.isSelecting() ) {
+        if ( m_x11Platform.isSelecting() ) {
             m_timer.start();
             return true;
         }
@@ -95,38 +97,33 @@ public:
 
     const QTimer &resetClipboardTimer() const
     {
-        return m_resetClipboardTimer;
+        return m_resetTimer;
     }
 
-    void resetData(const QMimeData *data = NULL)
+    bool synchronize(QClipboard::Mode modeSyncTo)
     {
-        delete m_data;
-        m_data = data != NULL ? cloneData(*data) : NULL;
-    }
+        if ( (modeSyncTo == QClipboard::Selection) ? !m_copyclip : !m_copysel ) {
+            m_syncTimer.stop();
+            return false;
+        }
 
-    QMimeData *releaseData()
-    {
-        Q_ASSERT(m_data != NULL);
-        QMimeData *data = m_data;
-        m_data = NULL;
-        return data;
-    }
+        m_resetClipboard = false;
+        m_resetSelection = false;
+        m_resetTimer.stop();
 
-    void synchronizeNone()
-    {
-        resetData();
-        m_syncTimer.stop();
-    }
-
-    void synchronize(QClipboard::Mode modeSyncTo)
-    {
         m_syncTo = modeSyncTo;
         m_syncTimer.start();
+        return true;
     }
 
     void synchronize()
     {
-        if (m_data == NULL || m_syncTimer.isActive())
+        if (m_syncTimer.isActive())
+            return;
+
+        QMimeData *sourceData = (m_syncTo == QClipboard::Clipboard) ? m_selectionData.data()
+                                                                    : m_clipboardData.data();
+        if (sourceData == NULL)
             return;
 
         if (m_syncTo == QClipboard::Selection && waitForKeyRelease()) {
@@ -134,42 +131,96 @@ public:
             return;
         }
 
-        setClipboardData(releaseData(), m_syncTo);
+        setClipboardData(cloneData(*sourceData), m_syncTo);
     }
 
     /**
-     * Remember last non-empty clipboard content and
-     * reset clipboard after interval if data is empty.
+     * Remember last non-empty clipboard content and reset clipboard after interval if there is no owner.
+     *
+     * @return false if clipboard doesn't have given formats, otherwise true
      */
-    bool resetClipboard(const QMimeData *data)
+    bool resetClipboard(QClipboard::Mode mode, const QMimeData *data, const QStringList &formats)
     {
-        m_syncTimer.stop();
+        Q_ASSERT(data != NULL);
 
-        if ( data->formats().isEmpty() ) {
-            m_resetClipboardTimer.start();
-            return true;
+        bool isClip = (mode == QClipboard::Clipboard);
+        bool isEmpty = isClip ? m_x11Platform.isClipboardEmpty() : m_x11Platform.isSelectionEmpty();
+        QScopedPointer<QMimeData> &clipData = isClip ? m_clipboardData : m_selectionData;
+
+        // Need reset?
+        if (isEmpty) {
+            COPYQ_LOG( QString("%1 is empty").arg(isClip ? "Clipboard" : "Selection") );
+
+            bool &reset = isClip ? m_resetClipboard : m_resetSelection;
+            reset = !clipData.isNull() && (!m_syncTimer.isActive() || m_syncTo == mode);
+
+            if (reset) {
+                m_syncTimer.stop();
+                m_resetTimer.start();
+            } else if (m_resetTimer.isActive() && !m_resetClipboard && !m_resetSelection) {
+                m_resetTimer.stop();
+            }
+
+            return false;
         }
 
-        resetData(data);
-        m_resetClipboardTimer.stop();
-        return false;
+        QScopedPointer<QMimeData> dataCopy(cloneData(*data, &formats));
+        if ( dataCopy->formats().isEmpty() )
+            return false;
+
+        clipData.reset(dataCopy.take());
+        return true;
     }
 
     void resetClipboard()
     {
-        if (m_data == NULL || m_resetClipboardTimer.isActive())
+        if (m_resetTimer.isActive() || m_syncTimer.isActive())
             return;
 
-        setClipboardData(releaseData(), QClipboard::Clipboard);
+        if (m_resetSelection && !m_selectionData.isNull()) {
+            COPYQ_LOG( QString("Resetting selection") );
+            setClipboardData(m_selectionData.take(), QClipboard::Selection);
+        }
+
+        if (m_resetClipboard && !m_clipboardData.isNull()) {
+            COPYQ_LOG( QString("Resetting clipboard") );
+            setClipboardData(m_clipboardData.take(), QClipboard::Clipboard);
+        }
+    }
+
+    void loadSettings(const QVariantMap &settings)
+    {
+        if ( settings.contains("copy_clipboard") )
+            m_copyclip = settings["copy_clipboard"].toBool();
+        if ( settings.contains("copy_selection") )
+            m_copysel = settings["copy_selection"].toBool();
+        if ( settings.contains("check_selection") )
+            m_checksel = settings["check_selection"].toBool();
+    }
+
+    bool hasCheckSelection() const { return m_checksel; }
+
+    bool hasCopySelection() const { return m_copysel; }
+
+    const QMimeData *data(QClipboard::Mode mode) const
+    {
+        return mode == QClipboard::Clipboard ? m_clipboardData.data() : m_selectionData.data();
     }
 
 private:
-    X11Platform m_dsp;
+    X11Platform m_x11Platform;
     QTimer m_timer;
     QTimer m_syncTimer;
-    QTimer m_resetClipboardTimer;
-    QMimeData *m_data;
+    QTimer m_resetTimer;
+    QScopedPointer<QMimeData> m_clipboardData;
+    QScopedPointer<QMimeData> m_selectionData;
     QClipboard::Mode m_syncTo;
+    bool m_resetClipboard;
+    bool m_resetSelection;
+
+    bool m_copyclip;
+    bool m_checksel;
+    bool m_copysel;
 };
 #endif
 
@@ -178,11 +229,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , App(new QApplication(argc, argv))
     , m_formats()
     , m_newdata()
-#ifdef COPYQ_WS_X11
-    , m_copyclip(false)
-    , m_checksel(false)
-    , m_copysel(false)
-#endif
     , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
     , m_needCheckClipboard(false)
@@ -258,10 +304,6 @@ void ClipboardMonitor::resetClipboard()
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
-#ifdef COPYQ_WS_X11
-    m_x11->synchronizeNone();
-#endif
-
     // Check clipboard after interval because someone is updating it very quickly.
     bool needToWait = m_updateTimer->isActive();
     if (mode == QClipboard::Clipboard)
@@ -275,19 +317,13 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     if (needToWait)
         return;
 
-    COPYQ_LOG( QString("Checking for new %1 content.")
-               .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {
         if ( QApplication::clipboard()->ownsClipboard() )
             return;
     } else if (mode == QClipboard::Selection) {
-        if ( (!m_checksel && !m_copysel) ||
-             QApplication::clipboard()->ownsSelection() ||
-             !updateSelection(false) )
-        {
+        if ( QApplication::clipboard()->ownsSelection() || !updateSelection(false) )
             return;
-        }
     } else {
         return;
     }
@@ -296,6 +332,9 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     if (mode != QClipboard::Clipboard || QApplication::clipboard()->ownsClipboard())
         return;
 #endif
+
+    COPYQ_LOG( QString("Checking for new %1 content.")
+               .arg(mode == QClipboard::Clipboard ? "clipboard" : "selection") );
 
     // get clipboard data
     const QMimeData *data = clipboardData(mode);
@@ -306,13 +345,14 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-#ifdef COPYQ_WS_X11
-    if ( m_x11->resetClipboard(data) )
-        return;
-#endif
-
     // clone only mime types defined by user
+#ifdef COPYQ_WS_X11
+    if ( !m_x11->resetClipboard(mode, data, m_formats) )
+        return; // no owner -> reset content
+    QMimeData *data2 = cloneData(*m_x11->data(mode), &m_formats);
+#else
     QMimeData *data2 = cloneData(*data, &m_formats);
+#endif
 
     // add window title of clipboard owner
     PlatformPtr platform = createPlatformNativeInterface();
@@ -321,13 +361,13 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {
-        if (m_copyclip)
-            m_x11->synchronize(QClipboard::Selection);
+        if ( m_x11->synchronize(QClipboard::Selection) )
+            m_needCheckSelection = false;
         clipboardChanged(mode, data2);
     } else {
-        if (m_copysel)
-            m_x11->synchronize(QClipboard::Clipboard);
-        if (m_checksel)
+        if ( m_x11->synchronize(QClipboard::Clipboard) )
+            m_needCheckClipboard = false;
+        if ( m_x11->hasCheckSelection() )
             clipboardChanged(mode, data2);
         else
             delete data2;
@@ -337,9 +377,14 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #endif
 }
 
-void ClipboardMonitor::clipboardChanged(QClipboard::Mode, QMimeData *data)
+void ClipboardMonitor::clipboardChanged(QClipboard::Mode mode, QMimeData *data)
 {
     ClipboardItem item;
+
+#ifdef COPYQ_WS_X11
+    if (mode == QClipboard::Selection && !m_x11->hasCopySelection())
+        data->setData(mimeClipboardMode, "selection");
+#endif
 
     item.setData(data);
 
@@ -404,16 +449,11 @@ void ClipboardMonitor::readyRead()
                 if ( settings.contains("formats") )
                     m_formats = settings["formats"].toStringList();
 #ifdef COPYQ_WS_X11
-                if ( settings.contains("copy_clipboard") )
-                    m_copyclip = settings["copy_clipboard"].toBool();
-                if ( settings.contains("copy_selection") )
-                    m_copysel = settings["copy_selection"].toBool();
-                if ( settings.contains("check_selection") )
-                    m_checksel = settings["check_selection"].toBool();
+                m_x11->loadSettings(settings);
 #endif
 
                 connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-                         this, SLOT(checkClipboard(QClipboard::Mode)) );
+                         this, SLOT(checkClipboard(QClipboard::Mode)), Qt::UniqueConnection );
 
 #ifdef COPYQ_WS_X11
                 checkClipboard(QClipboard::Selection);

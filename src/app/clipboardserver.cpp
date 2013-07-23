@@ -144,12 +144,8 @@ void ClipboardServer::monitorStandardError()
     if ( stderrOutput.isEmpty() )
         return;
 
-    COPYQ_LOG("Monitor stderr:");
-
     foreach( const QByteArray &line, stderrOutput.split('\n') )
         log( tr("Clipboard Monitor: ") + line, LogNote );
-
-    COPYQ_LOG("Monitor stderr end.");
 }
 
 void ClipboardServer::stopMonitoring()
@@ -307,7 +303,12 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     QDataStream in(message);
     in >> item;
 
+#ifdef COPYQ_WS_X11
+    if ( item.data()->data(mimeClipboardMode) != "selection" )
+        m_wnd->clipboardChanged(&item);
+#else
     m_wnd->clipboardChanged(&item);
+#endif
 
     if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();

@@ -43,6 +43,10 @@ public:
 
     bool isSelecting();
 
+    bool isClipboardEmpty() const;
+
+    bool isSelectionEmpty() const;
+
 private:
     X11PlatformPrivate *d;
 };

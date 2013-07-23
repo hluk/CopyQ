@@ -108,11 +108,6 @@ private:
 
     QStringList m_formats;
     QScopedPointer<QMimeData> m_newdata;
-#ifdef COPYQ_WS_X11
-    bool m_copyclip;
-    bool m_checksel;
-    bool m_copysel;
-#endif
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard

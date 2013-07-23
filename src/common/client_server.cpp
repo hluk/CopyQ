@@ -35,6 +35,9 @@
 const QString mimeWindowTitle = "application/x-copyq-owner-window-title";
 const QString mimeItemNotes = "application/x-copyq-item-notes";
 const QString mimeApplicationSettings = "application/x-copyq-settings";
+#ifdef COPYQ_WS_X11
+const QString mimeClipboardMode = "application/x-copyq-clipboard-mode";
+#endif
 
 QString escapeHtml(const QString &str)
 {

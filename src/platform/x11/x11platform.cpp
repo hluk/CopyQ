@@ -275,3 +275,21 @@ bool X11Platform::isSelecting()
 
     return event.xbutton.state & (Button1Mask | ShiftMask);
 }
+
+bool X11Platform::isClipboardEmpty() const
+{
+    if (d->display == NULL)
+        return false;
+
+    static Atom atom = XInternAtom(d->display, "CLIPBOARD", False);
+    return XGetSelectionOwner(d->display, atom) == None;
+}
+
+bool X11Platform::isSelectionEmpty() const
+{
+    if (d->display == NULL)
+        return false;
+
+    static Atom atom = XA_PRIMARY;
+    return XGetSelectionOwner(d->display, atom) == None;
+}
