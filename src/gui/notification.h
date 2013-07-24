@@ -48,6 +48,9 @@ protected:
 
     void popup(const QPoint &position, int msec);
 
+protected:
+    void paintEvent(QPaintEvent *event);
+
 private:
     QWidget *m_body;
     QLabel *m_titleLabel;

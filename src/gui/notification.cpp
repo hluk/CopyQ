@@ -23,6 +23,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QMap>
+#include <QPainter>
 #include <QTimer>
 #include <QVBoxLayout>
 
@@ -143,4 +144,19 @@ void Notification::popup(const QPoint &position, int msec)
     move(position);
     show();
     setInterval(msec);
+}
+
+void Notification::paintEvent(QPaintEvent *event)
+{
+    QWidget::paintEvent(event);
+
+    QPainter p(this);
+
+    // black outer border
+    p.setPen(Qt::black);
+    p.drawRect(rect().adjusted(0, 0, -1, -1));
+
+    // light inner border
+    p.setPen( palette().color(QPalette::Window).lighter(300) );
+    p.drawRect(rect().adjusted(1, 1, -2, -2));
 }
