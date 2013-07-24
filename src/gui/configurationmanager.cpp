@@ -375,7 +375,7 @@ void ConfigurationManager::initOptions()
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
     bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);
     bind("notification_position", ui->comboBoxNotificationPosition, 3);
-    bind("clipboard_notify", ui->checkBoxClipboardNotify, false);
+    bind("clipboard_notification_lines", ui->spinBoxClipboardNotificationLines, 0);
     bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
     bind("move", ui->checkBoxMove, true);
     bind("check_clipboard", ui->checkBoxClip, true);

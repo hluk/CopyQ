@@ -113,37 +113,32 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
  * Elide text with given font or to maximum length
  *
  * @param text              text to shorten
- * @param maxChars          maximum characters for result; ignored if zero or negative
  * @param format            optional format for result, e.g. "-- %1 --"
- * @param fm                used to calculate ideal width if @a maxChars is zero or negative
+ * @param font              used to calculate ideal width if @a maxChars is zero or negative
  * @param escapeAmpersands  escape ampersands because only key hint can follow it
+ * @param maxWidthPixels    maximum width of result text in pixels
+ * @param maxLines          maximum number of lines
  *
  * @param shortened text (or same text if not too long)
  */
-QString elideText(const QString &text, int maxChars, const QString &format = QString(),
-                  const QFontMetrics &fm = QFontMetrics(QFont()), bool escapeAmpersands = false);
-
-/**
- * Elide text for text in @a act (display triple dots if text too long or multi-line).
- *
- * @param act               action where text is modified if too long
- * @param escapeAmpersands  escape ampersands because only key hint can follow it
- * @param format            optional format for result, e.g. "-- %1 --"
- */
-void elideText(QAction *act, bool escapeAmpersands, const QString &format = QString());
+QString elideText(const QString &text, const QFont &font = QFont(),
+                  const QString &format = QString(), bool escapeAmpersands = false,
+                  int maxWidthPixels = 320, int maxLines = 1);
 
 /**
  * Show small label for data.
  *
  * @param data      data
  * @param maxChars  maximum characters if data contain text; ignored if @a act is not null
+ * @param maxLines  maximum lines if data contain text; ignored if @a act is not null
  * @param act       if not null, used to calculate ideal width (instead of @a maxChars) and
  *                  call QAction::setText() with result
  * @param format    optional format for result, e.g. "-- %1 --"
  *
  * @return result text
  */
-QString textLabelForData(const QMimeData *data, int maxChars, QAction *act = NULL,
-                         const QString &format = QString());
+QString textLabelForData(const QMimeData &data, const QFont &font = QFont(),
+                         const QString &format = QString(), bool escapeAmpersands = false,
+                         int maxWidthPixels = 320, int maxLines = 1);
 
 #endif // CLIENT_SERVER_H

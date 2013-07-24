@@ -215,58 +215,52 @@ QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
     return newdata;
 }
 
-QString elideText(const QString &text, int maxChars, const QString &format, const QFontMetrics &fm,
-                  bool escapeAmpersands)
+QString elideText(const QString &text, const QFont &font, const QString &format,
+                  bool escapeAmpersands, int maxWidthPixels, int maxLines)
 {
     const int oldLines = text.count('\n');
-    const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
-    const int formatLength = format.isEmpty() ? 0 : format.size() - 2;
 
-    QString result = text;
-    result.remove(QRegExp("^\\s*"));
+    QString newText = text;
+    newText.remove(QRegExp("^\\s+"));
 
-    const int newLines = result.count('\n');
+    const int newLines = newText.count('\n');
 
-    // QAction can display only first text line so remove the rest.
-    if (newLines > 0)
-        result.remove( result.indexOf('\n'), text.size() );
-
-    if (maxChars <= 0) {
-        // Show triple-dot in middle if text is too long.
-        result = fm.elidedText( result.simplified(), Qt::ElideMiddle, 320 - formatWidth);
-        if (newLines > 0)
+    int lines = 0;
+    QString result;
+    foreach ( QString line, newText.split('\n') ) {
+        if (++lines > maxLines) {
             result.append( QString("...") );
-    } else if (result.size() > maxChars - formatLength || newLines > 0) {
-        // Show triple-dot at the end text is too long.
-        if (result.size() > maxChars - formatLength)
-            result.resize(maxChars - formatLength);
-        result.append( QString("...") );
-    }
+            break;
+        }
 
-    if (newLines < oldLines && result != "...")
-        result.prepend("...");
+        // Show triple-dot in middle if text is too long.
+        QFontMetrics fm(font);
+        const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
+        line = fm.elidedText(line, Qt::ElideMiddle, maxWidthPixels - formatWidth);
+
+        if ( !result.isEmpty() )
+            result.append('\n');
+        result.append(line);
+    }
 
     // Escape all ampersands.
     if (escapeAmpersands)
         result.replace( QChar('&'), QString("&&") );
 
+    if (newLines < oldLines && result != "...")
+        result.prepend("...");
+
     return format.isEmpty() ? result : format.arg(result);
 }
 
-void elideText(QAction *act, bool escapeAmpersands, const QString &format)
+QString textLabelForData(const QMimeData &data, const QFont &font, const QString &format,
+                         bool escapeAmpersands, int maxWidthPixels, int maxLines)
 {
-    QString text = elideText( act->text(), -1, format, QFontMetrics(act->font()), escapeAmpersands );
-
-    act->setText(text);
-}
-
-QString textLabelForData(const QMimeData *data, int maxChars, QAction *act, const QString &format)
-{
-    const QStringList formats = data->formats();
+    const QStringList formats = data.formats();
     QString label;
 
     if ( formats.indexOf("text/plain") != -1 ) {
-        const QString text = data->text();
+        const QString text = data.text();
         const int n = text.count(QChar('\n')) + 1;
 
         if (n > 1)
@@ -274,18 +268,10 @@ QString textLabelForData(const QMimeData *data, int maxChars, QAction *act, cons
         else
             label = QObject::tr("\"%1\"", "Label for single-line text in clipboard");
 
-        if (act == NULL)
-            label = elideText(text, maxChars, label);
-
         if (!format.isEmpty())
             label = format.arg(label);
 
-        if (act == NULL)
-            return label;
-
-        act->setText(text);
-        elideText(act, true, label);
-        return act->text();
+        return elideText(text, font, label, escapeAmpersands, maxWidthPixels, maxLines);
     } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
     } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
@@ -299,9 +285,5 @@ QString textLabelForData(const QMimeData *data, int maxChars, QAction *act, cons
     if (!format.isEmpty())
         label = format.arg(label);
 
-    if (act == NULL)
-        return label;
-
-    act->setText(label);
     return label;
 }

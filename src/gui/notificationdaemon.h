@@ -60,6 +60,10 @@ public:
     void setForeground(const QColor &color) { m_colorFg = color; }
     void setFont(const QFont &font) { m_font = font; }
 
+    QFont font() const { return m_font; }
+
+    QSize maximumSize() const;
+
     void updateAppearance();
 
 private slots:

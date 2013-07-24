@@ -144,7 +144,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayItems(5)
     , m_trayImages(true)
     , m_itemPopupInterval(0)
-    , m_clipboardNotify(false)
+    , m_clipboardNotificationLines(0)
     , m_lastTab(0)
     , m_timerSearch( new QTimer(this) )
     , m_transparency(0)
@@ -533,7 +533,7 @@ void MainWindow::updateIcon()
 void MainWindow::updateNotifications()
 {
     if (m_notifications == NULL)
-        return;
+        m_notifications = new NotificationDaemon(this);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     const ConfigTabAppearance *appearance = cm->tabAppearance();
@@ -780,19 +780,21 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 void MainWindow::showMessage(const QString &title, const QString &msg, const QPixmap &icon,
                              int msec, int notificationId)
 {
-    if (m_notifications == NULL) {
-        m_notifications = new NotificationDaemon(this);
+    if (m_notifications == NULL)
         updateNotifications();
-    }
     m_notifications->create(title, msg, icon, msec, this, notificationId);
 }
 
 void MainWindow::showClipboardMessage(const ClipboardItem *item)
 {
-    if ( m_itemPopupInterval != 0 ) {
+    if ( m_itemPopupInterval != 0 && m_clipboardNotificationLines > 0) {
+        if (m_notifications == NULL)
+            updateNotifications();
         QColor color = ConfigurationManager::instance()->tabAppearance()->themeColor("notification_fg");
-        showMessage( QString(), textLabelForData(item->data(), 512),
-                     IconFactory::instance()->createPixmap(IconPaste, color, 16),
+        const int width = m_notifications->maximumSize().width() - 16 - 16 - 8;
+        const QString text = textLabelForData(*item->data(), m_notifications->font(), QString(),
+                                              false, width, m_clipboardNotificationLines);
+        showMessage( QString(), text, IconFactory::instance()->createPixmap(IconPaste, color, 16),
                      m_itemPopupInterval * 1000, 0 );
     }
 }
@@ -1080,7 +1082,7 @@ void MainWindow::loadSettings()
     m_trayTabName = cm->value("tray_tab").toString();
     m_trayImages = cm->value("tray_images").toBool();
     m_itemPopupInterval = cm->value("item_popup_interval").toInt();
-    m_clipboardNotify = m_itemPopupInterval != 0 && cm->value("clipboard_notify").toBool();
+    m_clipboardNotificationLines = cm->value("clipboard_notification_lines").toInt();
 
     trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
@@ -1100,7 +1102,8 @@ void MainWindow::loadSettings()
     if (!m_showTray && !isVisible())
         showMinimized();
 
-    updateNotifications();
+    if (m_notifications != NULL)
+        updateNotifications();
 
     updateIcon();
 
@@ -1377,13 +1380,12 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const ClipboardItem *item)
 {
-    QString text = textLabelForData(item->data(), 256);
+    QString text = textLabelForData(*item->data());
     tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
-    if (m_clipboardNotify)
-        showClipboardMessage(item);
+    showClipboardMessage(item);
 
-    const QString clipboardContent = textLabelForData(item->data(), 30);
+    const QString clipboardContent = textLabelForData(*item->data());
     if ( m_sessionName.isEmpty() ) {
         setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
                         .arg(clipboardContent) );
@@ -1397,7 +1399,7 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
 
 void MainWindow::setClipboard(const ClipboardItem *item)
 {
-    if ( m_clipboardNotify || !isVisible() || isMinimized() )
+    if ( !isVisible() || isMinimized() )
         showClipboardMessage(item);
     emit changeClipboard(item);
 }
@@ -1540,7 +1542,7 @@ void MainWindow::actionStarted(Action *action)
                       tr("<b>INPUT:</b>") + '\n' +
                       escapeHtml( QString::fromLocal8Bit(action->input()) );
 
-    QAction *act = m_actions[action] = new QAction(text, this);
+    QAction *act = m_actions[action] = new QAction(this);
     act->setToolTip(tooltip);
 
     connect( act, SIGNAL(triggered()),
@@ -1551,7 +1553,7 @@ void MainWindow::actionStarted(Action *action)
 
     updateIcon();
 
-    elideText(act, true);
+    act->setText( elideText(text, act->font(), QString(), true) );
 }
 
 void MainWindow::actionFinished(Action *action)
@@ -1639,7 +1641,8 @@ void MainWindow::updateTrayMenuItems()
         const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
         QAction *act = trayMenu->addAction( iconClipboard(),
                                             QString(), this, SLOT(showClipboardContent()) );
-        textLabelForData(data, -1, act, format);
+        static const QMimeData emptyData;
+        act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
         trayMenu->addCustomAction(act);
 
         int i = trayMenu->actions().size();

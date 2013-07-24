@@ -579,7 +579,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
             }
         }
 
-        QAction *act = menu->addAction( IconFactory::iconFromFile(command.icon), command.name );
+        QAction *act = menu->addAction( IconFactory::iconFromFile(command.icon), QString() );
         act->setData( QVariant(i) );
         if ( isContextMenu && !command.shortcut.isEmpty() )
             act->setShortcut( command.shortcut );
@@ -587,7 +587,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
         menu->insertAction( insertBefore, act );
         insertBefore = act;
 
-        elideText(act, false);
+        act->setText( elideText(command.name, act->font()) );
 
         connect(act, SIGNAL(triggered()), this, SLOT(contextMenuAction()));
     }

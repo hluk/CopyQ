@@ -61,12 +61,7 @@ Notification *NotificationDaemon::create(const QString &title, const QString &ms
 
     notification->adjust();
 
-    QRect screen = QApplication::desktop()->availableGeometry();
-    int w = screen.width();
-    int h = screen.height();
-    w = qMax(qMin(w, 200), w / 3);
-    h = qMax(qMin(h, 200), h / 3);
-    notification->setMaximumSize(w, h);
+    notification->setMaximumSize( maximumSize() );
 
     QPoint pos = findPosition(newId, notification);
 
@@ -88,6 +83,17 @@ void NotificationDaemon::updateInterval(int id, int msec)
 void NotificationDaemon::setPosition(NotificationDaemon::Position position)
 {
     m_position = position;
+}
+
+QSize NotificationDaemon::maximumSize() const
+{
+    QRect screen = QApplication::desktop()->availableGeometry();
+    int w = screen.width();
+    int h = screen.height();
+    w = qMax(qMin(w, 200), w / 3);
+    h = qMax(qMin(h, 200), h / 3);
+
+    return QSize(w, h);
 }
 
 void NotificationDaemon::updateAppearance()

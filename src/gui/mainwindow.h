@@ -408,7 +408,7 @@ class MainWindow : public QMainWindow
         int m_trayItems;
         bool m_trayImages;
         int m_itemPopupInterval;
-        bool m_clipboardNotify;
+        int m_clipboardNotificationLines;
         int m_lastTab;
         QTimer *m_timerSearch;
 
