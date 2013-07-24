@@ -19,6 +19,7 @@
 
 #include "gui/notificationdaemon.h"
 
+#include "common/client_server.h"
 #include "gui/notification.h"
 
 #include <QApplication>
@@ -42,33 +43,61 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
 Notification *NotificationDaemon::create(const QString &title, const QString &msg,
                                          const QPixmap &icon, int msec, QWidget *parent, int id)
 {
-    Notification *notification = NULL;
-    if (id >= 0)
-        notification = m_notifications.value(id, NULL);
+    Notification *notification = createNotification(parent, id);
 
-    const int newId = (id >= 0) ? id : -(++m_lastId);
-    if (notification == NULL) {
-        notification = new Notification(parent);
-        setAppearance(notification);
-        notification->setProperty("CopyQ_id", newId);
-        m_notifications[newId] = notification;
-    }
-
-    notification->resize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     notification->setTitle(title);
     notification->setIcon(icon);
     notification->setMessage(msg);
 
-    notification->adjust();
+    popupNotification(notification, msec);
 
-    notification->setMaximumSize( maximumSize() );
+    return notification;
+}
 
-    QPoint pos = findPosition(newId, notification);
+Notification *NotificationDaemon::create(const QMimeData &data, int maxLines, const QPixmap &icon,
+                                         int msec, QWidget *parent, int id)
+{
+    Notification *notification = createNotification(parent, id);
 
-    connect( notification, SIGNAL(destroyed(QObject*)),
-             this, SLOT(notificationDestroyed(QObject*)) );
+    notification->setIcon(icon);
 
-    notification->popup(pos, msec);
+    const int width = maximumSize().width() - icon.width() - 16 - 8;
+
+    QStringList formats = data.formats();
+    const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
+
+    if ( data.hasText() ) {
+        QString text = data.text();
+        const int n = text.count('\n') + 1;
+
+        QString format;
+        if (n > 1) {
+            format = QObject::tr("%1<div align=\"right\"><small>&mdash; %n lines &mdash;</small></div>",
+                                 "Notification label for multi-line text in clipboard", n);
+        } else {
+            format = QObject::tr("%1", "Notification label for single-line text in clipboard");
+        }
+
+        text = elideText(text, m_font, QString(), false, width, maxLines);
+        text = escapeHtml(text);
+        text.replace( QString("\n"), QString("<br />") );
+        notification->setMessage( format.arg(text), Qt::RichText );
+    } else if (imageIndex != -1) {
+        QPixmap pix;
+        const QString &imageFormat = formats[imageIndex];
+        pix.loadFromData( data.data(imageFormat), imageFormat.toLatin1() );
+
+        const int height = maxLines * QFontMetrics(m_font).lineSpacing();
+        if (pix.width() > width || pix.height() > height)
+            pix = pix.scaled(QSize(width, height), Qt::KeepAspectRatio);
+
+        notification->setPixmap(pix);
+    } else {
+        const QString text = textLabelForData(data, m_font, QString(), false, width, maxLines);
+        notification->setMessage(text);
+    }
+
+    popupNotification(notification, msec);
 
     return notification;
 }
@@ -111,18 +140,17 @@ void NotificationDaemon::notificationDestroyed(QObject *notification)
     m_notifications.remove(id);
 }
 
-QPoint NotificationDaemon::findPosition(int ignoreId, Notification *notification)
+QPoint NotificationDaemon::findPosition(Notification *notification)
 {
     QRect screen = QApplication::desktop()->availableGeometry();
 
     int y = (m_position & Top) ? 0 : screen.bottom();
-    foreach (int id, m_notifications.keys()) {
-        if (id != ignoreId) {
-            Notification *notification = m_notifications[id];
+    foreach (Notification *notification2, m_notifications.values()) {
+        if (notification != notification2) {
             if (m_position & Top)
-                y = qMax( y, notification->y() + notification->height() );
+                y = qMax( y, notification2->y() + notification2->height() );
             else
-                y = qMin( y, notification->y() );
+                y = qMin( y, notification2->y() );
         }
     }
 
@@ -155,4 +183,36 @@ void NotificationDaemon::setAppearance(Notification *notification)
     notification->setPalette(p);
     notification->setOpacity(opacity);
     notification->setFont(m_font);
+}
+
+Notification *NotificationDaemon::createNotification(QWidget *parent, int id)
+{
+    Notification *notification = NULL;
+    if (id >= 0)
+        notification = m_notifications.value(id, NULL);
+
+    const int newId = (id >= 0) ? id : -(++m_lastId);
+    if (notification == NULL) {
+        notification = new Notification(parent);
+        setAppearance(notification);
+        notification->setProperty("CopyQ_id", newId);
+        m_notifications[newId] = notification;
+    }
+
+    connect( notification, SIGNAL(destroyed(QObject*)),
+             this, SLOT(notificationDestroyed(QObject*)) );
+
+    return notification;
+}
+
+void NotificationDaemon::popupNotification(Notification *notification, int msec)
+{
+    notification->resize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
+    notification->adjust();
+
+    notification->setMaximumSize( maximumSize() );
+
+    const QPoint pos = findPosition(notification);
+
+    notification->popup(pos, msec);
 }

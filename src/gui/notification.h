@@ -34,7 +34,8 @@ protected:
     explicit Notification(QWidget *parent);
 
     void setTitle(const QString &title);
-    void setMessage(const QString &msg);
+    void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
+    void setPixmap(const QPixmap &pixmap);
     void setIcon(const QPixmap &icon);
     void setInterval(int msec);
     void setOpacity(qreal opacity);

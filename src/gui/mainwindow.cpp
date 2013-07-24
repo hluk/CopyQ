@@ -791,11 +791,9 @@ void MainWindow::showClipboardMessage(const ClipboardItem *item)
         if (m_notifications == NULL)
             updateNotifications();
         QColor color = ConfigurationManager::instance()->tabAppearance()->themeColor("notification_fg");
-        const int width = m_notifications->maximumSize().width() - 16 - 16 - 8;
-        const QString text = textLabelForData(*item->data(), m_notifications->font(), QString(),
-                                              false, width, m_clipboardNotificationLines);
-        showMessage( QString(), text, IconFactory::instance()->createPixmap(IconPaste, color, 16),
-                     m_itemPopupInterval * 1000, 0 );
+        m_notifications->create(*item->data(), m_clipboardNotificationLines,
+                                IconFactory::instance()->createPixmap(IconPaste, color, 16),
+                                m_itemPopupInterval * 1000, this, 0 );
     }
 }
 

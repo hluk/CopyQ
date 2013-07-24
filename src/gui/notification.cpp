@@ -50,13 +50,13 @@ Notification::Notification(QWidget *parent)
     m_titleLabel = new QLabel(this);
     layout->addWidget(m_titleLabel, 0, 0, 1, 2, Qt::AlignCenter);
     m_titleLabel->setTextFormat(Qt::PlainText);
+    setTitle( QString() );
 
     m_iconLabel = new QLabel(this);
     layout->addWidget(m_iconLabel, 1, 0, Qt::AlignTop);
 
     m_msgLabel = new QLabel(this);
     layout->addWidget(m_msgLabel, 1, 1, Qt::AlignAbsolute);
-    m_msgLabel->setTextFormat(Qt::PlainText);
 
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
@@ -73,10 +73,16 @@ void Notification::setTitle(const QString &title)
     }
 }
 
-void Notification::setMessage(const QString &msg)
+void Notification::setMessage(const QString &msg, Qt::TextFormat format)
 {
+    m_msgLabel->setTextFormat(format);
     m_msgLabel->setText(msg);
     m_msgLabel->adjustSize();
+}
+
+void Notification::setPixmap(const QPixmap &pixmap)
+{
+    m_msgLabel->setPixmap(pixmap);
 }
 
 void Notification::setIcon(const QPixmap &icon)

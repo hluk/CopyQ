@@ -23,6 +23,7 @@
 #include <QColor>
 #include <QFont>
 #include <QMap>
+#include <QMimeData>
 #include <QObject>
 
 class Notification;
@@ -51,6 +52,10 @@ public:
     Notification *create(const QString &title, const QString &msg, const QPixmap &icon,
                          int msec, QWidget *parent, int id = -1);
 
+    /** Create new notification or update one with same @a id (if non-negative). */
+    Notification *create(const QMimeData &data, int maxLines, const QPixmap &icon,
+                         int msec, QWidget *parent, int id = -1);
+
     /** Update interval to show notification with given @a id. */
     void updateInterval(int id, int msec);
 
@@ -71,9 +76,13 @@ private slots:
 
 private:
     /** Find ideal position for new notification. */
-    QPoint findPosition(int ignoreId, Notification *notification);
+    QPoint findPosition(Notification *notification);
 
     void setAppearance(Notification *notification);
+
+    Notification *createNotification(QWidget *parent, int id = -1);
+
+    void popupNotification(Notification *notification, int msec);
 
     int m_lastId;
     Position m_position;

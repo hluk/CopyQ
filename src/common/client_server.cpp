@@ -236,11 +236,13 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
         // Show triple-dot in middle if text is too long.
         QFontMetrics fm(font);
         const int formatWidth = format.isEmpty() ? 0 : fm.width(format.arg(QString()));
-        line = fm.elidedText(line, Qt::ElideMiddle, maxWidthPixels - formatWidth);
+        line = fm.elidedText(line.simplified(), Qt::ElideMiddle, maxWidthPixels - formatWidth);
 
-        if ( !result.isEmpty() )
-            result.append('\n');
-        result.append(line);
+        if ( !line.isEmpty() ) {
+            if ( !result.isEmpty() )
+                result.append('\n');
+            result.append(line);
+        }
     }
 
     // Escape all ampersands.
