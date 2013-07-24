@@ -1346,9 +1346,9 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName, bool mo
             ClipboardItem *first = c->at(0);
             const QString newText = data2->text();
             const QString firstItemText = first->text();
-            if ( newText == firstItemText || (
+            if ( first->data()->hasText() && (newText == firstItemText || (
                      data2->data(mimeWindowTitle) == first->data()->data(mimeWindowTitle)
-                     && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))) )
+                     && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)))) )
             {
                 force = true;
                 QStringList formats = data2->formats();
