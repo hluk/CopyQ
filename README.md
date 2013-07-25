@@ -2,6 +2,7 @@ CopyQ
 =====
 
 [![Build Status](https://travis-ci.org/hluk/CopyQ.png)](https://travis-ci.org/hluk/CopyQ)
+[![Stories in Ready](https://badge.waffle.io/hluk/CopyQ.png)](http://waffle.io/hluk/CopyQ)
 
 CopyQ is clipboard manager with searchable and editable history.
 
