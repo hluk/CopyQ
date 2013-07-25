@@ -587,7 +587,7 @@ void ConfigTabAppearance::updateFontButtons()
         QColor colorBg = (buttonBg == NULL) ? themeColor("bg")
                                             : evalColor( buttonBg->property("VALUE").toString(), m_theme );
 
-        pix.fill((colorBg.alpha() < 255) ? themeColor("bg") : colorBg);
+        pix.fill(colorBg);
 
         QPainter painter(&pix);
         painter.setPen(colorFg);
