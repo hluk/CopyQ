@@ -132,6 +132,8 @@ private:
     ResourceIconCache m_resourceIconCache;
 };
 
+QColor getDefaultIconColor(const QColor &color);
+
 QColor getDefaultIconColor(QWidget *widget);
 
 /// Get icon color for a widget.

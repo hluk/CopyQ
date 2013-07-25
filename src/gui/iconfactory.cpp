@@ -192,17 +192,22 @@ const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color
     return IconFactory::instance()->getIcon(themeName, iconId, color);
 }
 
-QColor getDefaultIconColor(QWidget *widget)
+QColor getDefaultIconColor(const QColor &color)
 {
-    QImage img(1, 1, QImage::Format_RGB32);
-    widget->resize(16, 16);
-    widget->render(&img, QPoint(-8, -8));
-
-    QColor c = img.pixel(0, 0);
+    QColor c = color;
     bool menuBackgrounIsLight = c.lightness() > 128;
     c.setHsl(c.hue(),
              c.saturation() + (menuBackgrounIsLight ? 50 : 10),
              c.lightness() + (menuBackgrounIsLight ? -120 : 100));
 
     return c;
+}
+
+QColor getDefaultIconColor(QWidget *widget)
+{
+    QImage img(1, 1, QImage::Format_RGB32);
+    widget->resize(16, 16);
+    widget->render(&img, QPoint(-8, -8));
+
+    return getDefaultIconColor( img.pixel(0, 0) );
 }

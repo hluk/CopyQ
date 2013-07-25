@@ -168,7 +168,7 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
 
     widget->setFocusProxy(editor);
 
-    const QColor color = getDefaultIconColor(toolBar);
+    const QColor color = getDefaultIconColor( m_editorPalette.color(QPalette::Base) );
 
     QAction *act;
     act = new QAction( iconSave(color), tr("Save"), editor );
