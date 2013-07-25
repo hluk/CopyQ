@@ -28,9 +28,11 @@
 #include <QMenu>
 #include <QListView>
 #include <QLayout>
+#include <QMainWindow>
 #include <QPainter>
 #include <QPlainTextEdit>
 #include <QResizeEvent>
+#include <QToolBar>
 
 namespace {
 
@@ -38,6 +40,12 @@ const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
 const char propertyItemIndex[] = "CopyQ_item_index";
 const char propertyEditNotes[] = "CopyQ_edit_notes";
+const QString editorObjectName = "CopyQ_editor";
+
+const QIcon iconSave(const QColor &color = QColor()) { return getIcon("document-save", IconSave, color); }
+const QIcon iconCancel(const QColor &color = QColor()) { return getIcon("document-revert", IconRemove, color); }
+const QIcon iconUndo(const QColor &color = QColor()) { return getIcon("edit-undo", IconUndo, color); }
+const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo", IconRepeat, color); }
 
 inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 {
@@ -49,6 +57,16 @@ inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 #else
     ptr->reset(value);
 #endif
+}
+
+QWidget *getEditor(QObject *widget)
+{
+    return widget->findChild<QPlainTextEdit *>(editorObjectName);
+}
+
+QPlainTextEdit *getPlainTextEdit(QWidget *widget)
+{
+    return qobject_cast<QPlainTextEdit *>(widget->findChild<QWidget *>(editorObjectName));
 }
 
 } // namespace
@@ -95,81 +113,15 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
 
 bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
 {
-    if (object->objectName() == "editor") {
-        QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>(object);
-        if (editor == NULL)
-            return false;
-
-        QEvent::Type type = event->type();
-        if ( type == QEvent::KeyPress ) {
-            QKeyEvent *keyevent = static_cast<QKeyEvent *>(event);
-            switch ( keyevent->key() ) {
-                case Qt::Key_Enter:
-                case Qt::Key_Return:
-                    // Commit data on Ctrl+Return or Enter?
-                    if (m_saveOnReturnKey) {
-                        if (keyevent->modifiers() == Qt::ControlModifier) {
-                            editor->insertPlainText("\n");
-                            return true;
-                        } else if (keyevent->modifiers() != Qt::NoModifier) {
-                            return false;
-                        }
-                    } else {
-                        if (keyevent->modifiers() != Qt::ControlModifier)
-                            return false;
-                    }
-                    emit commitData(editor);
-                    emit closeEditor(editor);
-                    return true;
-                case Qt::Key_S:
-                    // Commit data on Ctrl+S.
-                    if (keyevent->modifiers() != Qt::ControlModifier)
-                        return false;
-                    emit commitData(editor);
-                    emit closeEditor(editor);
-                    return true;
-                case Qt::Key_F2:
-                    // Commit data on F2.
-                    emit commitData(editor);
-                    emit closeEditor(editor);
-                    return true;
-                case Qt::Key_Escape:
-                    // Close editor without committing data.
-                    emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
-                    return true;
-                default:
-                    return false;
-            }
-        } else if ( type == QEvent::ContextMenu ) {
-            QAction *act;
-            QMenu *menu = editor->createStandardContextMenu();
-            connect( menu, SIGNAL(aboutToHide()), menu, SLOT(deleteLater()) );
-            menu->setParent(editor);
-
-            act = menu->addAction( tr("&Save Item") );
-            act->setShortcut( QKeySequence(tr("F2, Ctrl+Enter")) );
-            connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
-
-            act = menu->addAction( tr("Cancel Editing") );
-            act->setShortcut( QKeySequence(tr("Escape")) );
-            connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
-
-            QContextMenuEvent *menuEvent = static_cast<QContextMenuEvent *>(event);
-            menu->popup( menuEvent->globalPos() );
-
+    // resize event for items
+    if (event->type() == QEvent::Resize) {
+        QResizeEvent *resize = static_cast<QResizeEvent *>(event);
+        ItemWidget *item = dynamic_cast<ItemWidget *>(object);
+        if (item != NULL) {
+            item->widget()->resize(resize->size());
+            int i = item->widget()->property(propertyItemIndex).toInt();
+            emit rowSizeChanged(i);
             return true;
-        }
-    } else {
-        // resize event for items
-        if (event->type() == QEvent::Resize) {
-            QResizeEvent *resize = static_cast<QResizeEvent *>(event);
-            ItemWidget *item = dynamic_cast<ItemWidget *>(object);
-            if (item != NULL) {
-                item->widget()->resize(resize->size());
-                int i = item->widget()->property(propertyItemIndex).toInt();
-                emit rowSizeChanged(i);
-                return true;
-            }
         }
     }
 
@@ -184,23 +136,77 @@ QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem 
     QWidget *realParent = parent->parentWidget();
     Q_ASSERT(realParent != NULL);
 
+    QWidget *widget = new QWidget(realParent);
+
     ItemWidget *w = m_cache[index.row()].data();
-    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(realParent)
-                                                 : w->createEditor(realParent);
-    if (editor == NULL)
+    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(widget)
+                                                 : w->createEditor(widget);
+    if (editor == NULL) {
+        delete widget;
         return NULL;
+    }
 
     editor->setPalette(m_editorPalette);
     editor->setFont(m_editorFont);
-    editor->setObjectName("editor");
+    editor->setObjectName(editorObjectName);
 
     if (m_editNotes)
-        editor->setProperty(propertyEditNotes, true);
+        widget->setProperty(propertyEditNotes, true);
 
-    // Ignore default context menu.
-    editor->setContextMenuPolicy(Qt::NoContextMenu);
+    widget->setPalette(m_editorPalette);
+    widget->setBackgroundRole(QPalette::Base);
+    widget->setAutoFillBackground(true);
 
-    return editor;
+    QToolBar *toolBar = new QToolBar(widget);
+    toolBar->setBackgroundRole(QPalette::Base);
+
+    QVBoxLayout *layout = new QVBoxLayout(widget);
+    layout->setSpacing(0);
+    layout->setContentsMargins(QMargins(0, 0, 0, 0));
+    layout->addWidget(toolBar);
+    layout->addWidget(editor);
+
+    widget->setFocusProxy(editor);
+
+    const QColor color = getDefaultIconColor(toolBar);
+
+    QAction *act;
+    act = new QAction( iconSave(color), tr("Save"), editor );
+    toolBar->addAction(act);
+    act->setToolTip( tr("Save Item") );
+    act->setShortcuts( QList<QKeySequence>()
+                       << QKeySequence(tr("F2", "Shortcut to save item editor changes"))
+                       << QKeySequence(tr("Ctrl+Return", "Shortcut to save item editor changes"))
+                       << QKeySequence(tr("Ctrl+Enter", "Shortcut to save item editor changes"))
+                       );
+    connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
+
+    act = new QAction( iconCancel(color), tr("Cancel"), editor );
+    toolBar->addAction(act);
+    act->setToolTip( tr("Cancel Editing and Revert Changes") );
+    act->setShortcut( QKeySequence(tr("Escape", "Shortcut to revert item editor changes")) );
+    connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
+
+    QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(editor);
+    if (plainTextEdit != NULL) {
+        plainTextEdit->setFrameShape(QFrame::NoFrame);
+
+        act = new QAction( iconUndo(color), tr("Undo"), editor );
+        toolBar->addAction(act);
+        act->setShortcut( QKeySequence::Undo );
+        act->setEnabled(false);
+        connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(undo()) );
+        connect( plainTextEdit, SIGNAL(undoAvailable(bool)), act, SLOT(setEnabled(bool)) );
+
+        act = new QAction( iconRedo(color), tr("Redo"), editor );
+        toolBar->addAction(act);
+        act->setShortcut( QKeySequence::Redo );
+        act->setEnabled(false);
+        connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(redo()) );
+        connect( plainTextEdit, SIGNAL(redoAvailable(bool)), act, SLOT(setEnabled(bool)) );
+    }
+
+    return widget;
 }
 
 void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &, const QModelIndex &) const
@@ -213,14 +219,14 @@ void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) cons
     bool hasCustomEditor = false;
 
     if ( editor->property(propertyEditNotes).toBool() ) {
-        editor->setProperty( "plainText", index.data(contentType::notes) );
+        getPlainTextEdit(editor)->setProperty( "plainText", index.data(contentType::notes) );
     } else {
         ItemWidget *w = m_cache[index.row()].data();
         hasCustomEditor = w != NULL;
         if (hasCustomEditor)
-            w->setEditorData(editor, index);
+            w->setEditorData(getEditor(editor), index);
         else
-            editor->setProperty( "plainText", index.data(Qt::EditRole) );
+            getPlainTextEdit(editor)->setProperty( "plainText", index.data(Qt::EditRole) );
     }
 
     if (!hasCustomEditor) {
@@ -233,16 +239,13 @@ void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
                                 const QModelIndex &index) const
 {
     if ( editor->property(propertyEditNotes).toBool() ) {
-        QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
-        model->setData(index, textEdit->toPlainText(), contentType::notes);
+        model->setData(index, getPlainTextEdit(editor)->toPlainText(), contentType::notes);
     } else {
         ItemWidget *w = m_cache[index.row()].data();
-        if (w != NULL) {
-            w->setModelData(editor, model, index);
-        } else {
-            QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
-            model->setData(index, textEdit->toPlainText());
-        }
+        if (w != NULL)
+            w->setModelData(getEditor(editor), model, index);
+        else
+            model->setData(index, getPlainTextEdit(editor)->toPlainText());
     }
 }
 
@@ -279,9 +282,9 @@ void ItemDelegate::editorSave()
 {
     QAction *action = qobject_cast<QAction*>( sender() );
     Q_ASSERT(action != NULL);
-    QObject *parent = action->parent();
-    Q_ASSERT(parent != NULL);
-    QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>( parent->parent() );
+    QWidget *editor = qobject_cast<QWidget *>(action->parent());
+    Q_ASSERT(editor != NULL);
+    editor = editor->parentWidget();
     Q_ASSERT(editor != NULL);
 
     emit commitData(editor);
@@ -292,9 +295,9 @@ void ItemDelegate::editorCancel()
 {
     QAction *action = qobject_cast<QAction*>( sender() );
     Q_ASSERT(action != NULL);
-    QObject *parent = action->parent();
-    Q_ASSERT(parent != NULL);
-    QPlainTextEdit *editor = qobject_cast<QPlainTextEdit*>( parent->parent() );
+    QWidget *editor = qobject_cast<QWidget *>(action->parent());
+    Q_ASSERT(editor != NULL);
+    editor = editor->parentWidget();
     Q_ASSERT(editor != NULL);
 
     emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);

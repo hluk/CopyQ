@@ -39,17 +39,6 @@ enum {
 
 const char propertyUsageCounter[] = "CopyQ_usage_counter";
 
-void addTreeAction(QTreeWidget *tree, const QList<QKeySequence> &shortcuts,
-                   const char *slot, bool widgetContext = true)
-{
-    QAction *act = new QAction(tree);
-    act->setShortcutContext(widgetContext ? Qt::WidgetShortcut : Qt::WindowShortcut);
-    act->setShortcuts(shortcuts);
-    act->setPriority(QAction::HighPriority);
-    tree->addAction(act);
-    tree->connect( act, SIGNAL(triggered()), slot );
-}
-
 QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComponents)
 {
     QTreeWidgetItem *parentItem = NULL;
@@ -105,16 +94,6 @@ TabTree::TabTree(QWidget *parent)
     : QTreeWidget(parent)
     , m_shortcuts()
 {
-    // More consistent behavior for selecting items using arrow keys.
-    addTreeAction(this, QList<QKeySequence>() << Qt::Key_Down << Qt::Key_Right,
-                  SLOT(nextTreeItem()));
-    addTreeAction(this, QList<QKeySequence>() << Qt::Key_Up << Qt::Key_Left,
-                  SLOT(previousTreeItem()));
-    addTreeAction(this, QList<QKeySequence>() << QKeySequence::NextChild,
-                  SLOT(nextTreeItem()), false);
-    addTreeAction(this, QList<QKeySequence>() << QKeySequence::PreviousChild,
-                  SLOT(previousTreeItem()), false);
-
     connect( this, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
              this, SLOT(onCurrentItemChanged(QTreeWidgetItem*)) );
 
