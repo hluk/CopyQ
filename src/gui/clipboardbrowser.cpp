@@ -29,11 +29,13 @@
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
 #include "item/itemeditor.h"
+#include "item/itemeditorwidget.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 
 #include <QKeyEvent>
 #include <QMenu>
+#include <QMessageBox>
 #include <QMimeData>
 #include <QScrollBar>
 #include <QTimer>
@@ -156,7 +158,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerShowNotes( new QTimer(this) )
     , m_menu(NULL)
     , m_save(true)
-    , m_editing(false)
+    , m_editor(NULL)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
 {
     setLayoutMode(QListView::Batched);
@@ -167,7 +169,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setWrapping(false);
     setLayoutMode(QListView::SinglePass);
-    setEditTriggers(QAbstractItemView::EditKeyPressed);
+    setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSpacing(5);
 
     m_timerSave->setSingleShot(true);
@@ -513,13 +515,32 @@ void ClipboardBrowser::preload(int minY, int maxY)
     }
 }
 
-void ClipboardBrowser::setEditingActive(bool active)
+void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
 {
-    m_editing = active;
+    bool active = editor != NULL;
+
+    if (m_editor != editor) {
+        m_editor = editor;
+        if (active) {
+            connect( editor, SIGNAL(destroyed()),
+                     this, SLOT(onEditorDestroyed()) );
+            connect( editor, SIGNAL(save()),
+                     this, SLOT(onEditorSave()) );
+            connect( editor, SIGNAL(cancel()),
+                     this, SLOT(onEditorCancel()) );
+            connect( editor, SIGNAL(invalidate()),
+                     editor, SLOT(deleteLater()) );
+            updateEditorGeometry();
+            editor->show();
+            editor->setFocus();
+        } else {
+            setFocus();
+        }
+    }
 
     setFocusPolicy(active ? Qt::NoFocus : Qt::StrongFocus);
 
-    setAcceptDrops(!m_editing);
+    setAcceptDrops(!active);
 
     // Disable shortcuts while editing.
     createContextMenu();
@@ -528,19 +549,27 @@ void ClipboardBrowser::setEditingActive(bool active)
     horizontalScrollBar()->setHidden(active);
 }
 
-void ClipboardBrowser::editItem(const QModelIndex &index)
+void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes)
 {
     if (!index.isValid())
         return;
 
-    setEditingActive(true);
-    QListView::edit(index);
+    ItemEditorWidget *editor = d->createCustomEditor(this, index, editNotes);
+    if (editor != NULL) {
+        if ( editor->isValid() )
+            setEditorWidget(editor);
+        else
+            delete editor;
+    }
 }
 
-void ClipboardBrowser::closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint)
+void ClipboardBrowser::updateEditorGeometry()
 {
-    setEditingActive(false);
-    QListView::closeEditor(editor, hint);
+    if ( editing() ) {
+        const QRect contents = viewport()->contentsRect();
+        const QMargins margins = contentsMargins();
+        m_editor->setGeometry( contents.translated(margins.left(), margins.top()) );
+    }
 }
 
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
@@ -692,9 +721,26 @@ void ClipboardBrowser::updateItemNotes(bool immediately)
     QToolTip::showText(toolTipPosition, toolTip, w);
 }
 
+void ClipboardBrowser::onEditorDestroyed()
+{
+    setEditorWidget(NULL);
+}
+
+void ClipboardBrowser::onEditorSave()
+{
+    Q_ASSERT(m_editor != NULL);
+    m_editor->commitData(m);
+    delete m_editor;
+}
+
+void ClipboardBrowser::onEditorCancel()
+{
+    maybeCloseEditor();
+}
+
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( !editing() && !selectedIndexes().isEmpty() ) {
+    if ( m_menu != NULL && !editing() && !selectedIndexes().isEmpty() ) {
         m_menu->exec( event->globalPos() );
         event->accept();
     }
@@ -705,7 +751,9 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     QListView::resizeEvent(event);
 
     if (m_sharedData->textWrap)
-        d->setItemMaximumSize(viewport()->contentsRect().size());
+        d->setItemMaximumSize( viewport()->contentsRect().size() );
+
+    updateEditorGeometry();
 
     updateCurrentPage();
 }
@@ -756,18 +804,6 @@ void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
 void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
     add( cloneData(*event->mimeData()), true );
-    saveItems();
-}
-
-void ClipboardBrowser::commitData(QWidget *editor)
-{
-    const int row = currentIndex().row();
-
-    QAbstractItemView::commitData(editor);
-
-    if ( isRowHidden(row) )
-        setCurrent(row);
-
     saveItems();
 }
 
@@ -838,9 +874,7 @@ void ClipboardBrowser::editNotes()
     scrollTo(ind, PositionAtTop);
     emit requestShow(this);
 
-    d->setEditNotes(true);
-    editItem(ind);
-    d->setEditNotes(false);
+    editItem(ind, true);
 }
 
 void ClipboardBrowser::action()
@@ -1197,9 +1231,6 @@ bool ClipboardBrowser::add(const QString &txt, bool force, int row)
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
-    if ( editing() )
-        return false;
-
     if ( !m_loaded && !m_id.isEmpty() ) {
         loadItems();
         if (!m_loaded)
@@ -1250,7 +1281,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if ( !hasFocus() ) {
+    } else if ( !editing() && !hasFocus() ) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);
@@ -1288,7 +1319,7 @@ void ClipboardBrowser::loadSettings()
 
     updateCurrentPage();
 
-    setEditingActive(editing());
+    setEditorWidget(m_editor);
 }
 
 void ClipboardBrowser::loadItems()
@@ -1407,7 +1438,25 @@ void ClipboardBrowser::setContextMenu(QMenu *menu)
 
 bool ClipboardBrowser::editing()
 {
-    return m_editing;
+    return m_editor != NULL;
+}
+
+bool ClipboardBrowser::maybeCloseEditor()
+{
+    if ( editing() ) {
+        if ( m_editor->hasChanges() ) {
+            int answer = QMessageBox::question( this,
+                        tr("Discard Changes?"),
+                        tr("Do you really want to <strong>discard changes</strong>?"),
+                        QMessageBox::No | QMessageBox::Yes,
+                        QMessageBox::No );
+            if (answer == QMessageBox::No)
+                return false;
+        }
+        delete m_editor;
+    }
+
+    return true;
 }
 
 bool ClipboardBrowser::handleViKey(QKeyEvent *event)

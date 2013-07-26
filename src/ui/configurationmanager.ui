@@ -665,7 +665,7 @@ Set to 0 to disable.</string>
            <property name="toolTip">
             <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
-Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</string>
+Note: Edited items can be saved with F2 disregarding this option.</string>
            </property>
            <property name="text">
             <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
@@ -928,8 +928,8 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
               <rect>
                <x>0</x>
                <y>0</y>
-               <width>73</width>
-               <height>387</height>
+               <width>98</width>
+               <height>28</height>
               </rect>
              </property>
              <layout class="QGridLayout" name="gridLayout_4">
@@ -1060,7 +1060,7 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</str
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>534</width>
+              <width>382</width>
               <height>474</height>
              </rect>
             </property>

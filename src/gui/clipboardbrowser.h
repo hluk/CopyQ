@@ -29,6 +29,7 @@
 class ClipboardItem;
 class ClipboardModel;
 class ItemDelegate;
+class ItemEditorWidget;
 class QMimeData;
 class QTimer;
 
@@ -143,6 +144,13 @@ class ClipboardBrowser : public QListView
         bool editing();
 
         /**
+         * Close editor if unless user don't want to discard changed (show message box).
+         *
+         * @return true only if editor was closed
+         */
+        bool maybeCloseEditor();
+
+        /**
          * Handle key for Vi mode.
          */
         bool handleViKey(QKeyEvent *event);
@@ -196,7 +204,7 @@ class ClipboardBrowser : public QListView
 
         bool m_save;
 
-        bool m_editing;
+        ItemEditorWidget *m_editor;
 
         ClipboardBrowserSharedPtr m_sharedData;
 
@@ -225,12 +233,13 @@ class ClipboardBrowser : public QListView
          */
         void preload(int minY, int maxY);
 
-        void setEditingActive(bool active);
+        void setEditorWidget(ItemEditorWidget *widget);
 
-        void editItem(const QModelIndex &index);
+        void editItem(const QModelIndex &index, bool editNotes = false);
+
+        void updateEditorGeometry();
 
     protected:
-        void closeEditor(QWidget *editor, QAbstractItemDelegate::EndEditHint hint);
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
         void resizeEvent(QResizeEvent *event);
@@ -259,9 +268,6 @@ class ClipboardBrowser : public QListView
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(const QMimeData *data, const QString &tabName);
 
-    protected slots:
-        void commitData(QWidget *editor);
-
     private slots:
         void contextMenuAction();
         void updateContextMenu();
@@ -276,6 +282,12 @@ class ClipboardBrowser : public QListView
          * Show notes for current item.
          */
         void updateItemNotes(bool immediately = true);
+
+        void onEditorDestroyed();
+
+        void onEditorSave();
+
+        void onEditorCancel();
 
     public slots:
         /** Add new item to the browser. */

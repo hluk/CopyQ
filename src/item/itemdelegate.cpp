@@ -24,28 +24,17 @@
 #include "gui/iconfactory.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
+#include "item/itemeditorwidget.h"
 
-#include <QMenu>
 #include <QListView>
-#include <QLayout>
-#include <QMainWindow>
 #include <QPainter>
-#include <QPlainTextEdit>
 #include <QResizeEvent>
-#include <QToolBar>
 
 namespace {
 
 const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
 const char propertyItemIndex[] = "CopyQ_item_index";
-const char propertyEditNotes[] = "CopyQ_edit_notes";
-const QString editorObjectName = "CopyQ_editor";
-
-const QIcon iconSave(const QColor &color = QColor()) { return getIcon("document-save", IconSave, color); }
-const QIcon iconCancel(const QColor &color = QColor()) { return getIcon("document-revert", IconRemove, color); }
-const QIcon iconUndo(const QColor &color = QColor()) { return getIcon("edit-undo", IconUndo, color); }
-const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo", IconRepeat, color); }
 
 inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 {
@@ -59,16 +48,6 @@ inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
 #endif
 }
 
-QWidget *getEditor(QObject *widget)
-{
-    return widget->findChild<QPlainTextEdit *>(editorObjectName);
-}
-
-QPlainTextEdit *getPlainTextEdit(QWidget *widget)
-{
-    return qobject_cast<QPlainTextEdit *>(widget->findChild<QWidget *>(editorObjectName));
-}
-
 } // namespace
 
 ItemDelegate::ItemDelegate(QListView *parent)
@@ -78,11 +57,8 @@ ItemDelegate::ItemDelegate(QListView *parent)
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(defaultMaximumSize)
-    , m_editNotes(false)
     , m_foundFont()
     , m_foundPalette()
-    , m_editorFont()
-    , m_editorPalette()
     , m_numberFont()
     , m_numberWidth(0)
     , m_numberPalette()
@@ -128,127 +104,6 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
-QWidget *ItemDelegate::createEditor(QWidget *parent, const QStyleOptionViewItem &,
-                                    const QModelIndex &index) const
-{
-    // Use parent's parent widget so that context menu works everywhere in editor and
-    // scrolling in viewport doesn't affect editor.
-    QWidget *realParent = parent->parentWidget();
-    Q_ASSERT(realParent != NULL);
-
-    QWidget *widget = new QWidget(realParent);
-
-    ItemWidget *w = m_cache[index.row()].data();
-    QWidget *editor = (w == NULL || m_editNotes) ? new QPlainTextEdit(widget)
-                                                 : w->createEditor(widget);
-    if (editor == NULL) {
-        delete widget;
-        return NULL;
-    }
-
-    editor->setPalette(m_editorPalette);
-    editor->setFont(m_editorFont);
-    editor->setObjectName(editorObjectName);
-
-    if (m_editNotes)
-        widget->setProperty(propertyEditNotes, true);
-
-    widget->setPalette(m_editorPalette);
-    widget->setBackgroundRole(QPalette::Base);
-    widget->setAutoFillBackground(true);
-
-    QToolBar *toolBar = new QToolBar(widget);
-    toolBar->setBackgroundRole(QPalette::Base);
-
-    QVBoxLayout *layout = new QVBoxLayout(widget);
-    layout->setSpacing(0);
-    layout->setContentsMargins(QMargins(0, 0, 0, 0));
-    layout->addWidget(toolBar);
-    layout->addWidget(editor);
-
-    widget->setFocusProxy(editor);
-
-    const QColor color = getDefaultIconColor( m_editorPalette.color(QPalette::Base) );
-
-    QAction *act;
-    act = new QAction( iconSave(color), tr("Save"), editor );
-    toolBar->addAction(act);
-    act->setToolTip( tr("Save Item") );
-    act->setShortcuts( QList<QKeySequence>()
-                       << QKeySequence(tr("F2", "Shortcut to save item editor changes"))
-                       << QKeySequence(tr("Ctrl+Return", "Shortcut to save item editor changes"))
-                       << QKeySequence(tr("Ctrl+Enter", "Shortcut to save item editor changes"))
-                       );
-    connect( act, SIGNAL(triggered()), this, SLOT(editorSave()) );
-
-    act = new QAction( iconCancel(color), tr("Cancel"), editor );
-    toolBar->addAction(act);
-    act->setToolTip( tr("Cancel Editing and Revert Changes") );
-    act->setShortcut( QKeySequence(tr("Escape", "Shortcut to revert item editor changes")) );
-    connect( act, SIGNAL(triggered()), this, SLOT(editorCancel()) );
-
-    QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(editor);
-    if (plainTextEdit != NULL) {
-        plainTextEdit->setFrameShape(QFrame::NoFrame);
-
-        act = new QAction( iconUndo(color), tr("Undo"), editor );
-        toolBar->addAction(act);
-        act->setShortcut( QKeySequence::Undo );
-        act->setEnabled(false);
-        connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(undo()) );
-        connect( plainTextEdit, SIGNAL(undoAvailable(bool)), act, SLOT(setEnabled(bool)) );
-
-        act = new QAction( iconRedo(color), tr("Redo"), editor );
-        toolBar->addAction(act);
-        act->setShortcut( QKeySequence::Redo );
-        act->setEnabled(false);
-        connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(redo()) );
-        connect( plainTextEdit, SIGNAL(redoAvailable(bool)), act, SLOT(setEnabled(bool)) );
-    }
-
-    return widget;
-}
-
-void ItemDelegate::updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &, const QModelIndex &) const
-{
-    editor->setGeometry(editor->parentWidget()->contentsRect());
-}
-
-void ItemDelegate::setEditorData(QWidget *editor, const QModelIndex &index) const
-{
-    bool hasCustomEditor = false;
-
-    if ( editor->property(propertyEditNotes).toBool() ) {
-        getPlainTextEdit(editor)->setProperty( "plainText", index.data(contentType::notes) );
-    } else {
-        ItemWidget *w = m_cache[index.row()].data();
-        hasCustomEditor = w != NULL;
-        if (hasCustomEditor)
-            w->setEditorData(getEditor(editor), index);
-        else
-            getPlainTextEdit(editor)->setProperty( "plainText", index.data(Qt::EditRole) );
-    }
-
-    if (!hasCustomEditor) {
-        QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
-        textEdit->selectAll();
-    }
-}
-
-void ItemDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
-                                const QModelIndex &index) const
-{
-    if ( editor->property(propertyEditNotes).toBool() ) {
-        model->setData(index, getPlainTextEdit(editor)->toPlainText(), contentType::notes);
-    } else {
-        ItemWidget *w = m_cache[index.row()].data();
-        if (w != NULL)
-            w->setModelData(getEditor(editor), model, index);
-        else
-            model->setData(index, getPlainTextEdit(editor)->toPlainText());
-    }
-}
-
 void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 {
     // recalculating sizes of many items is expensive (when searching)
@@ -276,31 +131,6 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
         m_cache.move(i,dest);
         ++dest;
     }
-}
-
-void ItemDelegate::editorSave()
-{
-    QAction *action = qobject_cast<QAction*>( sender() );
-    Q_ASSERT(action != NULL);
-    QWidget *editor = qobject_cast<QWidget *>(action->parent());
-    Q_ASSERT(editor != NULL);
-    editor = editor->parentWidget();
-    Q_ASSERT(editor != NULL);
-
-    emit commitData(editor);
-    emit closeEditor(editor);
-}
-
-void ItemDelegate::editorCancel()
-{
-    QAction *action = qobject_cast<QAction*>( sender() );
-    Q_ASSERT(action != NULL);
-    QWidget *editor = qobject_cast<QWidget *>(action->parent());
-    Q_ASSERT(editor != NULL);
-    editor = editor->parentWidget();
-    Q_ASSERT(editor != NULL);
-
-    emit closeEditor(editor, QAbstractItemDelegate::RevertModelCache);
 }
 
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
@@ -402,9 +232,12 @@ void ItemDelegate::previousItemLoader(const QModelIndex &index)
     }
 }
 
-void ItemDelegate::setEditNotes(bool editNotes)
+ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModelIndex &index,
+                                                   bool editNotes)
 {
-    m_editNotes = editNotes;
+    return new ItemEditorWidget(cache(index), index, editNotes,
+                                m_editorFont, m_editorPalette, m_saveOnReturnKey,
+                                parent);
 }
 
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)

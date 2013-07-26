@@ -57,7 +57,8 @@ HEADERS += \
     gui/tabtree.h \
     gui/configtabappearance.h \
     gui/notification.h \
-    gui/notificationdaemon.h
+    gui/notificationdaemon.h \
+    item/itemeditorwidget.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -96,7 +97,8 @@ SOURCES += \
     gui/tabtree.cpp \
     gui/configtabappearance.cpp \
     gui/notification.cpp \
-    gui/notificationdaemon.cpp
+    gui/notificationdaemon.cpp \
+    item/itemeditorwidget.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

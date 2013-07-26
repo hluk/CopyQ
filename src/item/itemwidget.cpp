@@ -69,9 +69,9 @@ QWidget *ItemWidget::createEditor(QWidget *parent) const
 
 void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QString text = index.data(Qt::EditRole).toString();
     QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
     if (textEdit != NULL) {
+        const QString text = index.data(Qt::EditRole).toString();
         textEdit->setPlainText(text);
         textEdit->selectAll();
     }
@@ -82,6 +82,12 @@ void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
 {
     QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
     model->setData(index, textEdit->toPlainText());
+}
+
+bool ItemWidget::hasChanges(QWidget *editor) const
+{
+    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
+    return textEdit != NULL && textEdit->document() && textEdit->document()->availableUndoSteps() > 0;
 }
 
 QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const

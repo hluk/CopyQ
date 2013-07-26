@@ -34,6 +34,7 @@ set(copyq_MOCABLE
     gui/traymenu.h
     item/itemdelegate.h
     item/itemeditor.h
+    item/itemeditorwidget.h
     item/itemfactory.h
     item/clipboardmodel.h
     ../qt/bytearrayclass.h

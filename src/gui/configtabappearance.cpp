@@ -191,9 +191,16 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     c->at(0)->setData( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
     c->filterItems( tr("item") );
 
-    QAction *act = new QAction(c);
+    QAction *act;
+
+    act = new QAction(c);
     act->setShortcut( QString("Shift+F2") );
     connect(act, SIGNAL(triggered()), c, SLOT(editNotes()));
+    c->addAction(act);
+
+    act = new QAction(c);
+    act->setShortcut( QString("F2") );
+    connect(act, SIGNAL(triggered()), c, SLOT(editSelected()));
     c->addAction(act);
 
     // Connect signals from theme buttons.
@@ -289,7 +296,7 @@ void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
 
 QString ConfigTabAppearance::getToolTipStyleSheet() const
 {
-    return QString("QToolTip{")
+    return QString("#item QToolTip, QMenu QToolTip {")
             + getFontStyleSheet( themeValue("notes_font").toString() )
             + ";background:" + themeColorString("notes_bg")
             + ";color:" + themeColorString("notes_fg")

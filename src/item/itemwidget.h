@@ -82,6 +82,11 @@ public:
                               const QModelIndex &index) const;
 
     /**
+     * Return true if data in editor were changed.
+     */
+    virtual bool hasChanges(QWidget *editor) const;
+
+    /**
      * Create external editor for @a index.
      *
      * Default implementation returns NULL.

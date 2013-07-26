@@ -235,6 +235,16 @@ MainWindow::MainWindow(QWidget *parent)
 
 void MainWindow::exit()
 {
+    // Check if not editing in any tab (show and try to close editors).
+    for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
+        ClipboardBrowser *c = getBrowser(i);
+        if ( c->editing() ) {
+            showBrowser(i);
+            if ( !c->maybeCloseEditor() )
+                return;
+        }
+    }
+
     int answer = QMessageBox::Yes;
     if ( m_confirmExit ) {
         showWindow();
@@ -1166,7 +1176,7 @@ void MainWindow::showBrowser(const ClipboardBrowser *browser)
 
 void MainWindow::showBrowser(int index)
 {
-    if ( index > 0 && index < ui->tabWidget->count() ) {
+    if ( index >= 0 && index < ui->tabWidget->count() ) {
         showWindow();
         ui->tabWidget->setCurrentIndex(index);
     }

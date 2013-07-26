@@ -25,6 +25,7 @@
 #include <QSharedPointer>
 
 class Item;
+class ItemEditorWidget;
 class ItemWidget;
 class QListView;
 
@@ -52,18 +53,6 @@ class ItemDelegate : public QItemDelegate
 
         QSize sizeHint(const QStyleOptionViewItem &option,
                        const QModelIndex &index) const;
-
-        QWidget *createEditor(QWidget *parent,
-                              const QStyleOptionViewItem &option,
-                              const QModelIndex &index) const;
-
-        void updateEditorGeometry(QWidget *editor, const QStyleOptionViewItem &option,
-                                  const QModelIndex &index) const;
-
-        void setEditorData(QWidget *editor, const QModelIndex &index) const;
-
-        void setModelData(QWidget *editor, QAbstractItemModel *model,
-                          const QModelIndex &index) const;
 
         bool eventFilter(QObject *object, QEvent *event);
 
@@ -112,8 +101,9 @@ class ItemDelegate : public QItemDelegate
         /** Use previous item loader available for @a index. */
         void previousItemLoader(const QModelIndex &index);
 
-        /** Enable/disable editing notes. */
-        void setEditNotes(bool editNotes);
+        /** Create internal item editor widget. */
+        ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,
+                                             bool editNotes);
 
     signals:
         /** Emitted if @a row size changes. */
@@ -129,7 +119,6 @@ class ItemDelegate : public QItemDelegate
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
-        bool m_editNotes;
 
         QFont m_foundFont;
         QPalette m_foundPalette;
@@ -152,8 +141,6 @@ class ItemDelegate : public QItemDelegate
                        int sourceStart, int sourceEnd,
                        const QModelIndex &destinationParent,
                        int destinationRow);
-        void editorSave();
-        void editorCancel();
 };
 
 #endif
