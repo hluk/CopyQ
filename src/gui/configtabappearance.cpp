@@ -258,7 +258,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
     // search style
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
-    font.fromString( themeValue("find_font").toString() );
+    font = themeFont("find_font");
     color = themeColor("find_bg");
     p.setColor(QPalette::Base, color);
     color = themeColor("find_fg");
@@ -267,7 +267,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
     // editor style
     d->setSearchStyle(font, p);
-    font.fromString( themeValue("edit_font").toString() );
+    font = themeFont("edit_font");
     color = themeColor("edit_bg");
     p.setColor(QPalette::Base, color);
     color = themeColor("edit_fg");
@@ -276,10 +276,12 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
     // number style
     d->setShowNumber(themeValue("show_number").toBool());
-    font.fromString( themeValue("num_font").toString() );
+    font = themeFont("num_font");
     color = themeColor("num_fg");
     p.setColor(QPalette::Text, color);
     d->setNumberStyle(font, p);
+
+    d->setFontAntialiasing( themeValue("font_antialiasing").toBool() );
 
     c->redraw();
 }
@@ -442,6 +444,12 @@ void ConfigTabAppearance::on_checkBoxScrollbars_stateChanged(int)
     decorateBrowser(ui->clipboardBrowserPreview);
 }
 
+void ConfigTabAppearance::on_checkBoxAntialias_stateChanged(int)
+{
+    updateFontButtons();
+    decorateBrowser(ui->clipboardBrowserPreview);
+}
+
 void ConfigTabAppearance::on_comboBoxThemes_activated(const QString &text)
 {
     if ( text.isEmpty() )
@@ -525,8 +533,7 @@ void ConfigTabAppearance::updateThemes()
 
 void ConfigTabAppearance::fontButtonClicked(QObject *button)
 {
-    QFont font;
-    font.fromString( button->property("VALUE").toString() );
+    QFont font = themeFontFromString( button->property("VALUE").toString() );
     QFontDialog dialog(font, this);
     if ( dialog.exec() == QDialog::Accepted ) {
         font = dialog.selectedFont();
@@ -599,8 +606,7 @@ void ConfigTabAppearance::updateFontButtons()
         QPainter painter(&pix);
         painter.setPen(colorFg);
 
-        QFont font;
-        font.fromString( button->property("VALUE").toString() );
+        QFont font = themeFontFromString( button->property("VALUE").toString() );
         painter.setFont(font);
         painter.drawText( QRect(0, 0, iconSize.width(), iconSize.height()), Qt::AlignCenter, tr("Abc") );
 
@@ -609,9 +615,23 @@ void ConfigTabAppearance::updateFontButtons()
     }
 }
 
+QFont ConfigTabAppearance::themeFontFromString(const QString &fontString) const
+{
+    QFont font;
+    font.fromString(fontString);
+    if ( !themeValue("font_antialiasing").toBool() )
+        font.setStyleStrategy(QFont::NoAntialias);
+    return font;
+}
+
 QColor ConfigTabAppearance::themeColor(const QString &name) const
 {
     return themeColor(name, m_theme);
+}
+
+QFont ConfigTabAppearance::themeFont(const QString &name) const
+{
+    return themeFontFromString( themeValue(name).toString() );
 }
 
 QString ConfigTabAppearance::themeColorString(const QString &name) const
@@ -694,6 +714,8 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["tab_tree_sel_item_css"] = Option("");
 
     m_theme["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
+
+    m_theme["font_antialiasing"] = Option(true, "checked", ui->checkBoxAntialias);
 }
 
 QString ConfigTabAppearance::defaultUserThemePath() const

@@ -62,6 +62,7 @@ ItemDelegate::ItemDelegate(QListView *parent)
     , m_numberFont()
     , m_numberWidth(0)
     , m_numberPalette()
+    , m_antialiasing(true)
     , m_cache()
 {
 }
@@ -246,11 +247,19 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     if (w == NULL)
         return;
 
-    w->widget()->setMaximumSize(m_maxSize);
-    w->widget()->setMinimumWidth(m_maxSize.width());
+    QWidget *ww = w->widget();
+
+    if (!m_antialiasing) {
+        QFont f = ww->font();
+        f.setStyleStrategy(QFont::NoAntialias);
+        ww->setFont(f);
+    }
+
+    ww->setMaximumSize(m_maxSize);
+    ww->setMinimumWidth(m_maxSize.width());
     w->updateSize();
-    w->widget()->installEventFilter(this);
-    w->widget()->setProperty(propertyItemIndex, index.row());
+    ww->installEventFilter(this);
+    ww->setProperty(propertyItemIndex, index.row());
 
     emit rowSizeChanged(index.row());
 }

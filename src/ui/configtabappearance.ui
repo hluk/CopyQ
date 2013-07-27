@@ -31,7 +31,7 @@
         <x>0</x>
         <y>0</y>
         <width>266</width>
-        <height>473</height>
+        <height>486</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -301,6 +301,13 @@
            </property>
           </widget>
          </item>
+         <item row="1" column="1">
+          <widget class="QCheckBox" name="checkBoxAntialias">
+           <property name="text">
+            <string>&amp;Antialias</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </item>
        <item>
@@ -419,6 +426,7 @@
   <tabstop>checkBoxShowNumber</tabstop>
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>
+  <tabstop>checkBoxAntialias</tabstop>
   <tabstop>comboBoxThemes</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>

@@ -61,6 +61,9 @@ public:
     /** Return parsed color. */
     QColor themeColor(const QString &name) const;
 
+    /** Return parsed color. */
+    QFont themeFont(const QString &name) const;
+
 protected:
     void showEvent(QShowEvent *event);
 
@@ -75,6 +78,7 @@ private slots:
 
     void on_checkBoxShowNumber_stateChanged(int);
     void on_checkBoxScrollbars_stateChanged(int);
+    void on_checkBoxAntialias_stateChanged(int);
 
     void on_comboBoxThemes_activated(const QString &text);
 
@@ -89,6 +93,8 @@ private:
 
     void updateColorButtons();
     void updateFontButtons();
+
+    QFont themeFontFromString(const QString &fontString) const;
 
     /** Return parsed color name. */
     QString themeColorString(const QString &name) const;

@@ -550,8 +550,7 @@ void MainWindow::updateNotifications()
     m_notifications->setBackground( appearance->themeColor("notification_bg") );
     m_notifications->setForeground( appearance->themeColor("notification_fg") );
 
-    QFont font;
-    font.fromString( appearance->themeValue("notification_font").toString() );
+    QFont font = appearance->themeFont("notification_font");
     m_notifications->setFont(font);
 
     int id = cm->value("notification_position").toInt();

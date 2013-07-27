@@ -86,6 +86,9 @@ class ItemDelegate : public QItemDelegate
         /** Save edited item on return or ctrl+return. */
         void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }
 
+        /** Enable/disable font antialiasing. */
+        void setFontAntialiasing(bool enable) { m_antialiasing = enable; }
+
         /** Update row position. */
         void updateRowPosition(int row, const QPoint &position);
 
@@ -127,6 +130,7 @@ class ItemDelegate : public QItemDelegate
         QFont m_numberFont;
         int m_numberWidth;
         QPalette m_numberPalette;
+        bool m_antialiasing;
 
         QList< QSharedPointer<ItemWidget> > m_cache;
 
