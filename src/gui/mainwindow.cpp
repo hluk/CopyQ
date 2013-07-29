@@ -1737,13 +1737,17 @@ void MainWindow::openPreferences()
         return;
 
     // Turn off "always on top" so that configuration dialog is not below main window.
-    Qt::WindowFlags flags = windowFlags();
-    setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
-    showNormal();
+    if ( isVisible() ) {
+        Qt::WindowFlags flags = windowFlags();
+        setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
+        showNormal();
 
-    if ( ConfigurationManager::instance()->exec() == QDialog::Rejected )
-        setWindowFlags(flags);
-    showNormal();
+        if ( ConfigurationManager::instance()->exec() == QDialog::Rejected )
+            setWindowFlags(flags);
+        showNormal();
+    } else {
+        ConfigurationManager::instance()->exec();
+    }
 }
 
 ClipboardBrowser *MainWindow::browser(int index)
