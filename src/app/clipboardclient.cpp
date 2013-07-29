@@ -53,10 +53,11 @@ void ClipboardClient::sendMessage()
     QByteArray msg;
     QDataStream out(&msg, QIODevice::WriteOnly);
     out << m_args;
-    if ( writeMessage(&m_client, msg) )
+    if ( writeMessage(&m_client, msg) ) {
         COPYQ_LOG("Message send to server.");
-    else
+    } else {
         COPYQ_LOG("Failed to send message to server!");
+    }
 }
 
 void ClipboardClient::readyRead()

@@ -34,6 +34,7 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QMenu>
+#include <QMimeData>
 #include <QThread>
 
 #ifdef NO_GLOBAL_SHORTCUTS

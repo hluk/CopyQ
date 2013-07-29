@@ -292,6 +292,7 @@ bool X11Platform::canAutostart()
 
 bool X11Platform::isAutostartEnabled()
 {
+#ifdef COPYQ_DESKTOP_PREFIX
     const QString filename = getDesktopFilename();
 
     QFile desktopFile(filename);
@@ -313,10 +314,14 @@ bool X11Platform::isAutostartEnabled()
     }
 
     return true;
+#else
+    return false;
+#endif
 }
 
 void X11Platform::setAutostartEnabled(bool enable)
 {
+#ifdef COPYQ_DESKTOP_PREFIX
     if ( isAutostartEnabled() == enable )
         return;
 
@@ -358,6 +363,7 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     QFile::remove(filename);
     desktopFile2.rename(filename);
+#endif
 }
 
 bool X11Platform::isSelecting()
