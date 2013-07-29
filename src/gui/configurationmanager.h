@@ -160,6 +160,12 @@ private:
 
     void initTabIcons();
 
+    /** Update autostarting the application. */
+    void updateAutostart();
+
+    /** Enable/disable autostarting the application. */
+    void setAutostartEnable();
+
     void initOptions();
     void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);

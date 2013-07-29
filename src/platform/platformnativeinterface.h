@@ -56,6 +56,21 @@ public:
      * Get window for pasting (can be different from current window).
      */
     virtual WId getPasteWindow() = 0;
+
+    /**
+     * Return true automatic the application start at system startup is supported.
+     */
+    virtual bool canAutostart() = 0;
+
+    /**
+     * Return true if the application is automatically started at system startup.
+     */
+    virtual bool isAutostartEnabled() = 0;
+
+    /**
+     * Enable automatic application start at system startup.
+     */
+    virtual void setAutostartEnabled(bool enable) = 0;
 };
 
 /**

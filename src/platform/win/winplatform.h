@@ -36,6 +36,12 @@ public:
     void pasteToWindow(WId wid);
 
     WId getPasteWindow();
+
+    bool canAutostart() { return false; }
+
+    bool isAutostartEnabled() { return false; }
+
+    void setAutostartEnabled(bool) {}
 };
 
 #endif // WINPLATFORM_H

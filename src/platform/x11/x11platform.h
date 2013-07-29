@@ -41,6 +41,22 @@ public:
 
     WId getPasteWindow();
 
+    bool canAutostart();
+
+    /**
+     * Return true only if "copyq.desktop" file exists in "autostart" directory of current user and
+     * it doesn't contain "Hidden" property or its value is false.
+     */
+    bool isAutostartEnabled();
+
+    /**
+     * Replace "Hidden" property in current user's autostart "copyq.desktop" file
+     * (create the file if it doesn't exist).
+     *
+     * Additionally, replace "Exec" property with current application path.
+     */
+    void setAutostartEnabled(bool);
+
     bool isSelecting();
 
     bool isClipboardEmpty() const;

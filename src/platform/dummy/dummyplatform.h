@@ -34,6 +34,12 @@ public:
     void pasteToWindow(WId) {}
 
     WId getPasteWindow() { return WId(); }
+
+    bool canAutostart() { return false; }
+
+    bool isAutostartEnabled() { return false; }
+
+    void setAutostartEnabled(bool) {}
 };
 
 #endif // DUMMYPLATFORM_H

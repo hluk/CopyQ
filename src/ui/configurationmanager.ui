@@ -424,6 +424,16 @@ Note: This is not be supported on all systems.</string>
              </property>
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
+               <widget class="QCheckBox" name="checkBoxAutostart">
+                <property name="toolTip">
+                 <string>Run the application on system startup</string>
+                </property>
+                <property name="text">
+                 <string>&amp;Autostart</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="checkBoxTextWrap">
                 <property name="toolTip">
                  <string>Break text if it's too long to fit on line.</string>
@@ -1410,6 +1420,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
  </customwidgets>
  <tabstops>
   <tabstop>tabWidget</tabstop>
+  <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxTextWrap</tabstop>
   <tabstop>checkBoxAlwaysOnTop</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>

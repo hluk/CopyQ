@@ -31,6 +31,7 @@
 #include "item/itemdelegate.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QDesktopWidget>
 #include <QDir>
@@ -367,9 +368,27 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
 }
 
+void ConfigurationManager::updateAutostart()
+{
+    PlatformPtr platform = createPlatformNativeInterface();
+
+    if ( platform->canAutostart() ) {
+        bind("autostart", ui->checkBoxAutostart, platform->isAutostartEnabled());
+    } else {
+        ui->checkBoxAutostart->hide();
+    }
+}
+
+void ConfigurationManager::setAutostartEnable()
+{
+    PlatformPtr platform = createPlatformNativeInterface();
+    platform->setAutostartEnabled( value("autostart").toBool() );
+}
+
 void ConfigurationManager::initOptions()
 {
     /* general options */
+    bind("autostart", ui->checkBoxAutostart, false);
     bind("clear_first_tab", ui->checkBoxClearFirstTab, false);
     bind("maxitems", ui->spinBoxItems, 200);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
@@ -630,6 +649,8 @@ void ConfigurationManager::loadSettings()
     }
 
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
+
+    updateAutostart();
 }
 
 void ConfigurationManager::saveSettings()
@@ -701,6 +722,8 @@ void ConfigurationManager::saveSettings()
     updateFormats();
 
     ui->configTabAppearance->setEditor( value("editor").toString() );
+
+    setAutostartEnable();
 
     emit configurationChanged();
 }

@@ -19,6 +19,10 @@
 
 #include "x11platform.h"
 
+#include <QApplication>
+#include <QDir>
+#include <QRegExp>
+
 #include <X11/extensions/XTest.h>
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
@@ -143,6 +147,23 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
 }
 #endif
 
+QString getDesktopFilename()
+{
+    QString filename;
+
+    const char *path = getenv("XDG_CONFIG_HOME");
+    if (path == NULL) {
+        filename = QDir::homePath() + QDir::separator() + ".config";
+    } else {
+        filename.fromLocal8Bit(path);
+    }
+
+    filename.append( QDir::separator() );
+    filename.append("autostart/copyq.desktop");
+
+    return filename;
+}
+
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -258,6 +279,85 @@ void X11Platform::pasteToWindow(WId wid)
 WId X11Platform::getPasteWindow()
 {
     return getCurrentWindow();
+}
+
+bool X11Platform::canAutostart()
+{
+#ifdef COPYQ_DESKTOP_PREFIX
+    return true;
+#else
+    return false;
+#endif
+}
+
+bool X11Platform::isAutostartEnabled()
+{
+    const QString filename = getDesktopFilename();
+
+    QFile desktopFile(filename);
+
+    if ( !desktopFile.exists() )
+        return false;
+
+    if ( !desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) )
+        return false;
+
+    QRegExp re("^Hidden\\s*=\\s*([a-zA-Z01]+)");
+
+    while ( !desktopFile.atEnd() ) {
+        QString line = QString::fromUtf8(desktopFile.readLine());
+        if ( re.indexIn(line) != -1 ) {
+            QString value = re.cap(1);
+            return !(value.startsWith("True") || value.startsWith("true") || value.startsWith("0"));
+        }
+    }
+
+    return true;
+}
+
+void X11Platform::setAutostartEnabled(bool enable)
+{
+    if ( isAutostartEnabled() == enable )
+        return;
+
+    const QString filename = getDesktopFilename();
+
+    QFile desktopFile(filename);
+
+    bool createUserDesktopFile = !desktopFile.exists();
+    if (createUserDesktopFile) {
+        const QString filename2 =
+                QString(COPYQ_DESKTOP_PREFIX) + QDir::separator() + QString("copyq.desktop");
+        desktopFile.setFileName(filename2);
+    }
+
+    if ( !desktopFile.open(QIODevice::ReadOnly | QIODevice::Text) )
+        return;
+
+    QFile desktopFile2(filename + ".new");
+    if ( !desktopFile2.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) )
+        return;
+
+    QRegExp re("^Hidden\\s*=\\s*");
+
+    while ( !desktopFile.atEnd() ) {
+        QString line = QString::fromUtf8(desktopFile.readLine());
+        if ( line.startsWith("Exec=") && line.endsWith("copyq\n") ) {
+            desktopFile2.write("Exec=");
+            desktopFile2.write( QApplication::applicationFilePath().toUtf8() );
+            desktopFile2.write("\n");
+        } else if ( re.indexIn(line) == -1 ) {
+            desktopFile2.write(line.toUtf8());
+        }
+    }
+
+    desktopFile.close();
+
+    desktopFile2.write("Hidden=");
+    desktopFile2.write(enable ? "False" : "True");
+
+    QFile::remove(filename);
+    desktopFile2.rename(filename);
 }
 
 bool X11Platform::isSelecting()

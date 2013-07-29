@@ -2171,7 +2171,6 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 MainWindow::~MainWindow()
 {
     ConfigurationManager::instance()->disconnect();
-    saveSettings();
     tray->hide();
     delete ui;
 }

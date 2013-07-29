@@ -70,6 +70,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     add_definitions( -DCOPYQ_ICON_PREFIX="${ICON_INSTALL_PREFIX}/copyq" )
     add_definitions( -DCOPYQ_THEME_PREFIX="${THEME_INSTALL_PREFIX}" )
     add_definitions( -DCOPYQ_PLUGIN_PREFIX="${PLUGIN_INSTALL_PREFIX}" )
+    add_definitions( -DCOPYQ_DESKTOP_PREFIX="${DESKTOP_INSTALL_PREFIX}" )
 endif()
 
 add_subdirectory(src)
