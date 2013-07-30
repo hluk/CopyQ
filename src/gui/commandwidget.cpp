@@ -139,6 +139,11 @@ void CommandWidget::setFormats(const QStringList &formats)
     ui->comboBoxOutputFormat->setEditText(text);
 }
 
+void CommandWidget::setCommandEnabled(bool enabled)
+{
+    ui->checkBoxEnable->setChecked(enabled);
+}
+
 void CommandWidget::on_pushButtonBrowse_clicked()
 {
     QString filename = QFileDialog::getOpenFileName(

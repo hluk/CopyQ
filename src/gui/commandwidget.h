@@ -50,6 +50,9 @@ public:
     /** Set possible formats (for combo box). */
     void setFormats(const QStringList &formats);
 
+    /** Enable/disable command. */
+    void setCommandEnabled(bool enabled);
+
 private slots:
     void on_pushButtonBrowse_clicked();
 

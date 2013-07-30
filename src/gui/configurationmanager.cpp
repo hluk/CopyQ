@@ -985,13 +985,12 @@ void ConfigurationManager::on_listWidgetCommands_currentItemChanged(
 void ConfigurationManager::on_listWidgetCommands_itemChanged(
         QListWidgetItem *item)
 {
-    if ( ui->listWidgetCommands->currentItem() != item )
-        return;
-
+    bool enable = (item->checkState() == Qt::Checked);
     int row = ui->listWidgetCommands->row(item);
-    Command c = ui->widgetCommand->command();
-    c.enable = m_commands[row].enable = (item->checkState() == Qt::Checked);
-    ui->widgetCommand->setCommand(c);
+    m_commands[row].enable = enable;
+
+    if ( ui->listWidgetCommands->currentItem() == item )
+        ui->widgetCommand->setCommandEnabled(enable);
 }
 
 void ConfigurationManager::on_listWidgetCommands_itemSelectionChanged()
