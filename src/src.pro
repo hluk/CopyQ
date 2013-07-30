@@ -14,7 +14,8 @@ FORMS += \
     ui/tabdialog.ui \
     ui/shortcutdialog.ui \
     ui/commandwidget.ui \
-    ui/configtabappearance.ui
+    ui/configtabappearance.ui \
+    ui/itemorderlist.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -58,7 +59,8 @@ HEADERS += \
     gui/configtabappearance.h \
     gui/notification.h \
     gui/notificationdaemon.h \
-    item/itemeditorwidget.h
+    item/itemeditorwidget.h \
+    gui/itemorderlist.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -98,7 +100,8 @@ SOURCES += \
     gui/configtabappearance.cpp \
     gui/notification.cpp \
     gui/notificationdaemon.cpp \
-    item/itemeditorwidget.cpp
+    item/itemeditorwidget.cpp \
+    gui/itemorderlist.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

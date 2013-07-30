@@ -77,7 +77,7 @@ public:
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual QString id() const { return "itemtext"; }
-    virtual QString name() const { return tr("Te&xt Items"); }
+    virtual QString name() const { return tr("Text"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display plain text and simple HTML items."); }
 

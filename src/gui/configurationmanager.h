@@ -29,6 +29,7 @@ namespace Ui {
 
 class ClipboardBrowser;
 class ClipboardModel;
+class CommandWidget;
 class ConfigTabAppearance;
 class Option;
 class QAbstractButton;
@@ -100,7 +101,7 @@ public:
     void saveGeometry(const QWidget *widget);
 
     /** Return enabled commands. */
-    Commands commands() const;
+    Commands commands(bool onlyEnabled = true) const;
     /** Create new command. */
     void addCommand(const Command &cmd);
 
@@ -109,22 +110,17 @@ public:
 
     const ConfigTabAppearance *tabAppearance() const;
 
+    void setVisible(bool visible);
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
-
-    void applyPluginConfiguration();
-    void loadPluginConfiguration();
-
-protected:
-    void showEvent(QShowEvent *);
 
 private:
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QString m_datfilename;
     QHash<QString, Option> m_options;
-    Commands m_commands;
 
     explicit ConfigurationManager();
 
@@ -150,15 +146,18 @@ private:
      */
     QString getGeomentryOptionName(const QWidget *widget) const;
 
+    void loadCommands();
+
     /**
      * Update icons in dialog.
      */
     void updateIcons();
 
-    /** Set available MIME types (for combo boxes). */
-    void updateFormats();
-
     void initTabIcons();
+
+    void initPluginWidgets();
+
+    void initCommandWidgets();
 
     /** Update autostarting the application. */
     void updateAutostart();
@@ -175,24 +174,18 @@ private:
     void bind(const char *optionKey, const QVariant &defaultValue);
 
 private slots:
-    void on_pushButtonDown_clicked();
-    void on_pushButtonUp_clicked();
-    void on_pushButtonRemove_clicked();
-    void on_toolButtonAddCommand_triggered(QAction *action);
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
     void onFinished(int result);
 
+    void on_itemOrderListCommands_addButtonClicked(QAction *action);
+
     void onShortcutButtonClicked();
 
-    void on_listWidgetCommands_currentItemChanged(QListWidgetItem *current,
-                                                  QListWidgetItem *previous);
-    void on_listWidgetCommands_itemChanged(QListWidgetItem *item);
-    void on_listWidgetCommands_itemSelectionChanged();
-
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
-    void on_pushButtonPluginPriorityUp_clicked();
-    void on_pushButtonPluginPriorityDown_clicked();
+
+    void onCurrentCommandWidgetIconChanged(const QIcon &icon);
+    void onCurrentCommandWidgetNameChanged(const QString &name);
 };
 
 #endif // CONFIGURATIONMANAGER_H

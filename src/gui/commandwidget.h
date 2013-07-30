@@ -50,11 +50,18 @@ public:
     /** Set possible formats (for combo box). */
     void setFormats(const QStringList &formats);
 
-    /** Enable/disable command. */
-    void setCommandEnabled(bool enabled);
+    /** Return command icon. */
+    QIcon icon() const;
+
+signals:
+    void iconChanged(const QIcon &icon);
+
+    void nameChanged(const QString &name);
 
 private slots:
     void on_pushButtonBrowse_clicked();
+
+    void on_lineEditName_textChanged(const QString &name);
 
     void on_lineEditIcon_textChanged(const QString &arg1);
 

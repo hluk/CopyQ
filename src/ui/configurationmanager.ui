@@ -704,68 +704,6 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabItems">
-        <attribute name="title">
-         <string>&amp;Items</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="text">
-            <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by moving the tabs below.</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_2">
-           <item>
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>Change display priority:</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonPluginPriorityUp">
-             <property name="text">
-              <string>Hi&amp;gher</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonPluginPriorityDown">
-             <property name="text">
-              <string>L&amp;ower</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_3">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QTabWidget" name="tabWidgetPlugins">
-           <property name="movable">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
        <widget class="QWidget" name="tabTray">
         <attribute name="title">
          <string>&amp;Tray</string>
@@ -906,6 +844,36 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
          </item>
         </layout>
        </widget>
+       <widget class="QWidget" name="tabItems">
+        <attribute name="title">
+         <string>&amp;Items</string>
+        </attribute>
+        <layout class="QVBoxLayout" name="verticalLayout_2">
+         <item>
+          <widget class="QLabel" name="label_5">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="text">
+            <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering plugins below.</string>
+           </property>
+           <property name="wordWrap">
+            <bool>true</bool>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="ItemOrderList" name="itemOrderListPlugins" native="true">
+           <property name="focusPolicy">
+            <enum>Qt::WheelFocus</enum>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </widget>
        <widget class="QWidget" name="tabCommands">
         <attribute name="title">
          <string>Co&amp;mmands</string>
@@ -928,133 +896,11 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
           </widget>
          </item>
          <item>
-          <widget class="QSplitter" name="splitter">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="MinimumExpanding">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
+          <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
+           <property name="focusPolicy">
+            <enum>Qt::WheelFocus</enum>
            </property>
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="handleWidth">
-            <number>8</number>
-           </property>
-           <widget class="QListWidget" name="listWidgetCommands">
-            <property name="selectionMode">
-             <enum>QAbstractItemView::ExtendedSelection</enum>
-            </property>
-           </widget>
-           <widget class="QScrollArea" name="scrollAreaCommand">
-            <property name="focusPolicy">
-             <enum>Qt::NoFocus</enum>
-            </property>
-            <property name="widgetResizable">
-             <bool>true</bool>
-            </property>
-            <widget class="QWidget" name="scrollAreaWidgetContents">
-             <property name="geometry">
-              <rect>
-               <x>0</x>
-               <y>0</y>
-               <width>98</width>
-               <height>28</height>
-              </rect>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_4">
-              <property name="leftMargin">
-               <number>0</number>
-              </property>
-              <property name="topMargin">
-               <number>0</number>
-              </property>
-              <property name="rightMargin">
-               <number>0</number>
-              </property>
-              <property name="bottomMargin">
-               <number>0</number>
-              </property>
-              <item row="0" column="0">
-               <widget class="CommandWidget" name="widgetCommand" native="true">
-                <property name="enabled">
-                 <bool>false</bool>
-                </property>
-                <property name="focusPolicy">
-                 <enum>Qt::WheelFocus</enum>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </widget>
           </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <item>
-            <widget class="QToolButton" name="toolButtonAddCommand">
-             <property name="toolTip">
-              <string>Create new command or a add an existing example command.</string>
-             </property>
-             <property name="text">
-              <string>Add Command [+]</string>
-             </property>
-             <property name="shortcut">
-              <string notr="true">+</string>
-             </property>
-             <property name="popupMode">
-              <enum>QToolButton::InstantPopup</enum>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonRemove">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Remove [Del]</string>
-             </property>
-             <property name="shortcut">
-              <string notr="true">Del</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonUp">
-             <property name="text">
-              <string>Up [Ctrl+Up]</string>
-             </property>
-             <property name="shortcut">
-              <string notr="true">Ctrl+Up</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonDown">
-             <property name="text">
-              <string>Down [Ctrl+Down]</string>
-             </property>
-             <property name="shortcut">
-              <string notr="true">Ctrl+Down</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
          </item>
         </layout>
        </widget>
@@ -1406,15 +1252,15 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CommandWidget</class>
-   <extends>QWidget</extends>
-   <header>gui/commandwidget.h</header>
-   <container>1</container>
-  </customwidget>
-  <customwidget>
    <class>ConfigTabAppearance</class>
    <extends>QWidget</extends>
    <header>gui/configtabappearance.h</header>
+   <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>ItemOrderList</class>
+   <extends>QWidget</extends>
+   <header>gui/itemorderlist.h</header>
    <container>1</container>
   </customwidget>
  </customwidgets>
@@ -1446,21 +1292,14 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>checkBoxActivateCloses</tabstop>
   <tabstop>checkBoxActivateFocuses</tabstop>
   <tabstop>checkBoxActivatePastes</tabstop>
-  <tabstop>pushButtonPluginPriorityUp</tabstop>
-  <tabstop>pushButtonPluginPriorityDown</tabstop>
-  <tabstop>tabWidgetPlugins</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
   <tabstop>checkBoxPasteMenuItem</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>
   <tabstop>checkBoxTrayShowCommands</tabstop>
   <tabstop>checkBoxTrayImages</tabstop>
-  <tabstop>listWidgetCommands</tabstop>
-  <tabstop>widgetCommand</tabstop>
-  <tabstop>toolButtonAddCommand</tabstop>
-  <tabstop>pushButtonRemove</tabstop>
-  <tabstop>pushButtonUp</tabstop>
-  <tabstop>pushButtonDown</tabstop>
+  <tabstop>itemOrderListPlugins</tabstop>
+  <tabstop>itemOrderListCommands</tabstop>
   <tabstop>pushButton</tabstop>
   <tabstop>pushButton_2</tabstop>
   <tabstop>pushButton_3</tabstop>

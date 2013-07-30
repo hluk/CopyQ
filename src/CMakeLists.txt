@@ -22,6 +22,7 @@ set(copyq_MOCABLE
     gui/commandwidget.h
     gui/configtabappearance.h
     gui/configurationmanager.h
+    gui/itemorderlist.h
     gui/mainwindow.h
     gui/notification.h
     gui/notificationdaemon.h

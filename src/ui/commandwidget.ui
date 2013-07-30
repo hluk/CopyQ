@@ -18,23 +18,6 @@
     <number>4</number>
    </property>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_4">
-     <item>
-      <widget class="QCheckBox" name="checkBoxEnable">
-       <property name="toolTip">
-        <string>Enable this command</string>
-       </property>
-       <property name="text">
-        <string>&amp;Enable</string>
-       </property>
-       <property name="checked">
-        <bool>true</bool>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </item>
-   <item>
     <layout class="QFormLayout" name="formLayout_3">
      <item row="0" column="0">
       <widget class="QLabel" name="label_3">
@@ -127,9 +110,6 @@
       </layout>
      </item>
     </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout"/>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBox">
@@ -542,7 +522,6 @@ Note: If this is applied automatically, no other automatic commands are executed
   </layout>
  </widget>
  <tabstops>
-  <tabstop>checkBoxEnable</tabstop>
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>
   <tabstop>lineEditIcon</tabstop>

@@ -70,7 +70,7 @@ public:
     virtual int priority() const { return 10; }
 
     virtual QString id() const { return "itemweb"; }
-    virtual QString name() const { return tr("&Web Items"); }
+    virtual QString name() const { return tr("Web"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display web pages."); }
 

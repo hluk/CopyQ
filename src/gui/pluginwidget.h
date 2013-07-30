@@ -37,8 +37,7 @@ public:
     explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = 0);
     ~PluginWidget();
 
-public slots:
-    void applySettings();
+    ItemLoaderInterface *loader() const { return m_loader; }
 
 private:
     Ui::PluginWidget *ui;

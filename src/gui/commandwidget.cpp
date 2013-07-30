@@ -35,7 +35,6 @@ CommandWidget::CommandWidget(QWidget *parent)
 {
     ui->setupUi(this);
     ui->lineEditIcon->hide();
-    ui->checkBoxEnable->hide();
     setFocusProxy(ui->lineEditName);
 
     IconFactory *factory = IconFactory::instance();
@@ -89,7 +88,7 @@ Command CommandWidget::command() const
     c.transform = ui->checkBoxTransform->isChecked();
     c.remove = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
-    c.enable = ui->checkBoxEnable->isChecked();
+    c.enable = true;
     c.icon   = ui->lineEditIcon->text();
     c.shortcut = ui->pushButtonShortcut->text();
     c.tab    = ui->comboBoxCopyToTab->currentText();
@@ -113,7 +112,6 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxTransform->setChecked(c.transform);
     ui->checkBoxIgnore->setChecked(c.remove);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
-    ui->checkBoxEnable->setChecked(c.enable);
     ui->lineEditIcon->setText(c.icon);
     ui->pushButtonShortcut->setText(c.shortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
@@ -139,9 +137,9 @@ void CommandWidget::setFormats(const QStringList &formats)
     ui->comboBoxOutputFormat->setEditText(text);
 }
 
-void CommandWidget::setCommandEnabled(bool enabled)
+QIcon CommandWidget::icon() const
 {
-    ui->checkBoxEnable->setChecked(enabled);
+   return ui->buttonIcon->icon();
 }
 
 void CommandWidget::on_pushButtonBrowse_clicked()
@@ -153,10 +151,17 @@ void CommandWidget::on_pushButtonBrowse_clicked()
         ui->lineEditIcon->setText(filename);
 }
 
+void CommandWidget::on_lineEditName_textChanged(const QString &name)
+{
+    emit nameChanged(name);
+}
+
 void CommandWidget::on_lineEditIcon_textChanged(const QString &)
 {
-    ui->buttonIcon->setIcon( IconFactory::iconFromFile(ui->lineEditIcon->text(),
-                                                       getDefaultIconColor<QToolButton>()) );
+    QIcon icon =
+            IconFactory::iconFromFile(ui->lineEditIcon->text(), getDefaultIconColor<QToolButton>());
+    ui->buttonIcon->setIcon(icon);
+    emit iconChanged(icon);
 }
 
 void CommandWidget::on_pushButtonShortcut_clicked()
