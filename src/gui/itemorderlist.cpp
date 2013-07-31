@@ -33,6 +33,7 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     ui->toolButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
     updateIcons();
+    setCurrentItemWidget(NULL);
 }
 
 ItemOrderList::~ItemOrderList()
