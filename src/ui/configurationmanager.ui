@@ -34,9 +34,9 @@
        <property name="currentIndex">
         <number>0</number>
        </property>
-       <widget class="QWidget" name="tabClipboard">
+       <widget class="QWidget" name="tabGeneral">
         <attribute name="title">
-         <string>C&amp;lipboard</string>
+         <string>&amp;General</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_2">
          <item row="3" column="0">
@@ -418,66 +418,61 @@ Note: This is not be supported on all systems.</string>
          <item row="0" column="0">
           <layout class="QHBoxLayout" name="horizontalLayout_14">
            <item>
-            <widget class="QGroupBox" name="groupBox_5">
-             <property name="title">
-              <string>General</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_7">
-              <item>
-               <widget class="QCheckBox" name="checkBoxAutostart">
-                <property name="toolTip">
-                 <string>Run the application on system startup</string>
-                </property>
-                <property name="text">
-                 <string>&amp;Autostart</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxTextWrap">
-                <property name="toolTip">
-                 <string>Break text if it's too long to fit on line.</string>
-                </property>
-                <property name="text">
-                 <string>W&amp;rap long text</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
-                <property name="toolTip">
-                 <string>Keep main window above other windows</string>
-                </property>
-                <property name="text">
-                 <string>Always on &amp;Top</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxConfirmExit">
-                <property name="toolTip">
-                 <string>Confirm application exit</string>
-                </property>
-                <property name="text">
-                 <string>Confirm application e&amp;xit</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxViMode">
-                <property name="toolTip">
-                 <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
-                </property>
-                <property name="text">
-                 <string>&amp;Vi style navigation</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
+            <layout class="QVBoxLayout" name="verticalLayout_9">
+             <item>
+              <widget class="QCheckBox" name="checkBoxAutostart">
+               <property name="toolTip">
+                <string>Run the application on system startup</string>
+               </property>
+               <property name="text">
+                <string>&amp;Autostart</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxTextWrap">
+               <property name="toolTip">
+                <string>Break text if it's too long to fit on line.</string>
+               </property>
+               <property name="text">
+                <string>W&amp;rap long text</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxAlwaysOnTop">
+               <property name="toolTip">
+                <string>Keep main window above other windows</string>
+               </property>
+               <property name="text">
+                <string>Always on &amp;Top</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxConfirmExit">
+               <property name="toolTip">
+                <string>Confirm application exit</string>
+               </property>
+               <property name="text">
+                <string>Confirm application e&amp;xit</string>
+               </property>
+               <property name="checked">
+                <bool>true</bool>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxViMode">
+               <property name="toolTip">
+                <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
+               </property>
+               <property name="text">
+                <string>&amp;Vi style navigation</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
            <item>
             <widget class="QGroupBox" name="groupBox">
@@ -541,7 +536,7 @@ Note: This is not be supported on all systems.</string>
          </item>
         </layout>
        </widget>
-       <widget class="QWidget" name="tabGeneral">
+       <widget class="QWidget" name="tabHistory">
         <attribute name="title">
          <string>&amp;History</string>
         </attribute>
@@ -936,7 +931,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>382</width>
+              <width>374</width>
               <height>474</height>
              </rect>
             </property>

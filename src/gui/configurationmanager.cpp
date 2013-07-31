@@ -338,8 +338,8 @@ void ConfigurationManager::initTabIcons()
 
     QColor color = getDefaultIconColor<QWidget>();
 
-    tw->setTabIcon( tw->indexOf(ui->tabClipboard), f->createPixmap(IconPaste, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->createPixmap(IconListOl, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->createPixmap(IconWrench, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabHistory), f->createPixmap(IconListOl, color) );
     tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconDownloadAlt, color) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
