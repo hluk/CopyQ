@@ -853,7 +853,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
             </sizepolicy>
            </property>
            <property name="text">
-            <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering plugins below.</string>
+            <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</string>
            </property>
            <property name="wordWrap">
             <bool>true</bool>
@@ -931,7 +931,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>374</width>
+              <width>382</width>
               <height>474</height>
              </rect>
             </property>

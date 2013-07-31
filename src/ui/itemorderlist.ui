@@ -10,9 +10,6 @@
     <height>395</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout_6">
    <item>
     <widget class="QSplitter" name="splitter">
@@ -84,7 +81,7 @@
      <item>
       <widget class="QToolButton" name="toolButtonAdd">
        <property name="toolTip">
-        <string>Create new command or a add an existing example command.</string>
+        <string/>
        </property>
        <property name="text">
         <string>&amp;Add</string>
