@@ -67,6 +67,7 @@ public:
     virtual QString name() const { return tr("Data"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Various data to save."); }
+    virtual QVariant icon() const { return QVariant(0xf15c); }
 
     virtual QStringList formatsToSave() const;
 

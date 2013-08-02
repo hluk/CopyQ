@@ -80,6 +80,7 @@ public:
     virtual QString name() const { return tr("Text"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display plain text and simple HTML items."); }
+    virtual QVariant icon() const { return QVariant(0xf031); }
 
     virtual QStringList formatsToSave() const;
 

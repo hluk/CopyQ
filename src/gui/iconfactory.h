@@ -31,6 +31,7 @@ class QPainter;
 // http://fortawesome.github.com/Font-Awesome/design.html
 enum IconId {
     IconFirst = 0xf000,
+    IconThList = 0xf00b,
     IconRemove = 0xf00d,
     IconOff = 0xf011,
     IconCog = 0xf013,
@@ -39,6 +40,7 @@ enum IconId {
     IconInbox = 0xf01c,
     IconPlayCircle = 0xf01d,
     IconRepeat = 0xf01e,
+    IconListAlt = 0xf022,
     IconQRCode = 0xf029,
     IconTag = 0xf02b,
     IconPicture = 0xf03e,

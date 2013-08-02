@@ -339,8 +339,8 @@ void ConfigurationManager::initTabIcons()
     QColor color = getDefaultIconColor<QWidget>();
 
     tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->createPixmap(IconWrench, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabHistory), f->createPixmap(IconListOl, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconDownloadAlt, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabHistory), f->createPixmap(IconListAlt, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconThList, color) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
@@ -353,8 +353,15 @@ void ConfigurationManager::initPluginWidgets()
 
     foreach ( ItemLoaderInterface *loader, ItemFactory::instance()->loaders() ) {
         PluginWidget *pluginWidget = new PluginWidget(loader, this);
-        ui->itemOrderListPlugins->appendItem( loader->name(), loader->isEnabled(), QIcon(),
-                                              pluginWidget);
+
+        QIcon icon;
+        const QVariant maybeIcon = loader->icon();
+        if ( maybeIcon.canConvert(QVariant::UInt) )
+            icon = getIcon( QString(), maybeIcon.toUInt(), getDefaultIconColor(ui->itemOrderListPlugins) );
+        else if ( maybeIcon.canConvert(QVariant::Icon) )
+            icon = maybeIcon.value<QIcon>();
+
+        ui->itemOrderListPlugins->appendItem( loader->name(), loader->isEnabled(), icon, pluginWidget );
     }
 }
 

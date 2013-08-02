@@ -65,6 +65,7 @@ public:
     virtual QString name() const { return tr("Images"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display images."); }
+    virtual QVariant icon() const { return QVariant(0xf030); }
 
     virtual QStringList formatsToSave() const;
 

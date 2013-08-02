@@ -17,7 +17,6 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #include "pluginwidget.h"
 #include "ui_pluginwidget.h"
 

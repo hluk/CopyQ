@@ -73,6 +73,7 @@ public:
     virtual QString name() const { return tr("Web"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display web pages."); }
+    virtual QVariant icon() const { return QVariant(0xf0ac); }
 
     virtual QStringList formatsToSave() const;
 };

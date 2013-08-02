@@ -157,6 +157,13 @@ public:
     virtual QString description() const = 0;
 
     /**
+     * Return icon representing the plugin.
+     *
+     * Return value can be QIcon or UInt (to render a character from icon font). Default is no icon.
+     */
+    virtual QVariant icon() const { return QVariant(); }
+
+    /**
      * Provide formats to save (possibly configurable).
      */
     virtual QStringList formatsToSave() const { return QStringList(); }
