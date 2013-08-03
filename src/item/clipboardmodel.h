@@ -22,6 +22,7 @@
 
 #include <QAbstractListModel>
 #include <QList>
+#include <QSharedPointer>
 
 class QMimeData;
 
@@ -40,8 +41,10 @@ class ClipboardModel : public QAbstractListModel
     Q_OBJECT
 
 public:
+    typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
+
     /** Argument type for comparison. First is row, second is item pointer. */
-    typedef QPair<int, ClipboardItem*> ComparisonItem;
+    typedef QPair<int, ClipboardItemPtr> ComparisonItem;
 
     /** Return true if lhs is greater than rhs. */
     typedef bool CompareItems(const ComparisonItem &lhs,
@@ -137,11 +140,11 @@ public:
 
     /** Return clipboard item on given @a row or NULL if row doesn't exist. */
     ClipboardItem* get(int row) {
-        return (row < rowCount()) ? m_clipboardList[row] : NULL;
+        return (row < rowCount()) ? m_clipboardList[row].data() : NULL;
     }
 
 private:
-    QList<ClipboardItem *> m_clipboardList;
+    QList<ClipboardItemPtr> m_clipboardList;
     int m_max;
 };
 

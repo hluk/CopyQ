@@ -36,8 +36,6 @@ ClipboardModel::ClipboardModel(QObject *parent)
 
 ClipboardModel::~ClipboardModel()
 {
-    foreach (ClipboardItem *item, m_clipboardList)
-        delete item;
 }
 
 int ClipboardModel::rowCount(const QModelIndex&) const
@@ -47,16 +45,12 @@ int ClipboardModel::rowCount(const QModelIndex&) const
 
 const QMimeData *ClipboardModel::mimeDataInRow(int row) const
 {
-    if (row >= 0 && row < rowCount()) {
-        return m_clipboardList[row]->data();
-    } else {
-        return NULL;
-    }
+    return (row >= 0 && row < rowCount()) ? m_clipboardList[row]->data() : NULL;
 }
 
 ClipboardItem *ClipboardModel::at(int row) const
 {
-    return m_clipboardList[row];
+    return m_clipboardList[row].data();
 }
 
 QVariant ClipboardModel::data(int row) const
@@ -84,66 +78,71 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
 {
     if ( index.isValid() && (role == Qt::EditRole || role == contentType::notes) ) {
         int row = index.row();
-        ClipboardItem *item = m_clipboardList[row];
+
         if (role == Qt::EditRole)
-            item->setData(value);
+            m_clipboardList[row]->setData(value);
         else
-            item->setData( mimeItemNotes, value.toString().toUtf8() );
+            m_clipboardList[row]->setData( mimeItemNotes, value.toString().toUtf8() );
+
         emit dataChanged(index, index);
+
         return true;
     }
+
     return false;
 }
 
 bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
 {
-    if (index.isValid()) {
-        int row = index.row();
-        m_clipboardList[row]->setData(value);
-        emit dataChanged(index, index);
-        return true;
-    }
-    return false;
+    if ( !index.isValid() )
+        return false;
+
+    m_clipboardList[index.row()]->setData(value);
+
+    emit dataChanged(index, index);
+
+    return true;
 }
 
 ClipboardItem *ClipboardModel::append()
 {
-    int rows = rowCount();
-    ClipboardItem *item = new ClipboardItem();
-    beginInsertRows(emptyIndex, rows, rows);
+    ClipboardItemPtr item( new ClipboardItem() );
+
+    beginInsertRows(emptyIndex, rowCount(), rowCount());
+
     m_clipboardList.append(item);
+
     endInsertRows();
-    return item;
+
+    return item.data();
 }
 
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
-    ClipboardItem *item;
-    beginInsertRows(emptyIndex, position, position+rows-1);
+    beginInsertRows(emptyIndex, position, position + rows - 1);
 
-    for (int row = 0; row < rows; ++row) {
-        item = new ClipboardItem();
-        m_clipboardList.insert(position, item);
-    }
+    for (int row = 0; row < rows; ++row)
+        m_clipboardList.insert(position, ClipboardItemPtr(new ClipboardItem()));
 
     endInsertRows();
+
     return true;
 }
 
 bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 {
-    int count = rowCount();
-    if (position < 0 || position >= count)
+    if ( position < 0 || position >= rowCount() )
         return false;
 
-    int last = qMin(position + rows - 1, count - 1);
+    int last = qMin( position + rows, rowCount() ) - 1;
+
     beginRemoveRows(emptyIndex, position, last);
 
-    for (int row = position; row <= last; ++row) {
-        delete m_clipboardList.takeAt(position);
-    }
+    m_clipboardList.erase( m_clipboardList.begin() + position,
+                           m_clipboardList.begin() + last + 1 );
 
     endRemoveRows();
+
     return true;
 }
 
@@ -152,10 +151,11 @@ int ClipboardModel::getRowNumber(int row, bool cycle) const
     int n = rowCount();
     if (n == 0)
         return -1;
+
     if (row >= n)
-        return cycle ? 0 : n-1;
+        return cycle ? 0 : n - 1;
     else if (row < 0)
-        return cycle ? n-1 : 0;
+        return cycle ? n - 1 : 0;
     else
         return row;
 }
@@ -168,13 +168,10 @@ void ClipboardModel::setMaxItems(int max)
     if (max >= rows)
         return;
 
-    // crop list
-    beginRemoveRows(emptyIndex, max, rows-1 );
+    beginRemoveRows(emptyIndex, max + 1, rows - 1);
 
-    while ( rows > max ) {
-        delete m_clipboardList.takeLast();
-        --rows;
-    }
+    m_clipboardList.erase( m_clipboardList.begin() + max,
+                           m_clipboardList.end() );
 
     endRemoveRows();
 }
@@ -186,11 +183,14 @@ bool ClipboardModel::move(int pos, int newpos)
 
     if( from == -1 || to == -1 )
         return false;
-    if ( !beginMoveRows(emptyIndex, from, from, emptyIndex,
-                        from < to ? to+1 : to) )
+
+    if ( !beginMoveRows(emptyIndex, from, from, emptyIndex, from < to ? to + 1 : to) )
         return false;
+
     m_clipboardList.move(from, to);
+
     endMoveRows();
+
     return true;
 }
 
@@ -242,8 +242,7 @@ bool ClipboardModel::moveItems(QModelIndexList indexList, int key) {
 void ClipboardModel::sortItems(const QModelIndexList &indexList,
                                CompareItems *compare)
 {
-    ComparisonItem a, b;
-    QList< QPair<int, ClipboardItem*> > list;
+    QList< QPair<int, ClipboardItemPtr> > list;
     QList<int> rows;
 
     for (int i = 0; i < indexList.length(); ++i) {
@@ -274,6 +273,7 @@ int ClipboardModel::findItem(uint item_hash) const
         if ( m_clipboardList[i]->dataHash() == item_hash )
             return i;
     }
+
     return -1;
 }
 
