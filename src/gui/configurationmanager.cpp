@@ -97,15 +97,6 @@ ConfigurationManager::ConfigurationManager()
     ui->tabShortcuts->deleteLater();
 #endif
 
-    Command cmd;
-    int i = 0;
-    QMenu *menu = new QMenu(this);
-    ui->itemOrderListCommands->setAddMenu(menu);
-    while ( defaultCommand(++i, &cmd) ) {
-        menu->addAction( iconFactory()->iconFromFile(cmd.icon), cmd.name.remove('&') )
-                ->setProperty("COMMAND", i);
-    }
-
     initOptions();
 
     /* datafile for items */
@@ -115,13 +106,6 @@ ConfigurationManager::ConfigurationManager()
     const QString settingsFileName = settings.fileName();
     m_datfilename = settingsFileName;
     m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
-
-    // Create directory to save items (otherwise it may not exist at time of saving).
-    QDir settingsDir( QDir::cleanPath(settingsFileName + "/..") );
-    if ( !settingsDir.mkpath(".") ) {
-        log( tr("Cannot create directory for settings \"%1\"!").arg(settingsDir.path()),
-             LogError );
-    }
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
@@ -152,6 +136,9 @@ void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 void ConfigurationManager::saveItems(const ClipboardModel &model, const QString &id)
 {
     const QString fileName = itemFileName(id);
+
+    if ( !createItemDirectory() )
+        return;
 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
@@ -304,6 +291,19 @@ QString ConfigurationManager::itemFileName(const QString &id) const
     return m_datfilename + part + QString(".dat");
 }
 
+bool ConfigurationManager::createItemDirectory()
+{
+    QDir settingsDir( QDir::cleanPath(m_datfilename + "/..") );
+    if ( !settingsDir.mkpath(".") ) {
+        log( tr("Cannot create directory for settings \"%1\"!").arg(settingsDir.path()),
+             LogError );
+
+        return false;
+    }
+
+    return true;
+}
+
 QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) const
 {
     QString widgetName = widget->objectName();
@@ -343,7 +343,9 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconThList, color) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
+#ifdef NO_GLOBAL_SHORTCUTS
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
+#endif
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
 }
 
@@ -371,6 +373,17 @@ void ConfigurationManager::initCommandWidgets()
 
     foreach ( const Command &command, commands(false) )
         addCommand(command);
+
+    if ( !ui->itemOrderListCommands->hasAddMenu() ) {
+        Command cmd;
+        int i = 0;
+        QMenu *menu = new QMenu(this);
+        ui->itemOrderListCommands->setAddMenu(menu);
+        while ( defaultCommand(++i, &cmd) ) {
+            menu->addAction( iconFactory()->iconFromFile(cmd.icon), cmd.name.remove('&') )
+                    ->setProperty("COMMAND", i);
+        }
+    }
 }
 
 void ConfigurationManager::updateAutostart()

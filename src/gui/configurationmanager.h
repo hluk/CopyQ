@@ -28,9 +28,7 @@ namespace Ui {
     class ConfigurationManager;
 }
 
-class ClipboardBrowser;
 class ClipboardModel;
-class CommandWidget;
 class ConfigTabAppearance;
 class IconFactory;
 class ItemFactory;
@@ -41,9 +39,7 @@ class QComboBox;
 class QLineEdit;
 class QListWidgetItem;
 class QPushButton;
-class QSettings;
 class QSpinBox;
-class QTreeWidgetItem;
 
 struct Command;
 
@@ -149,6 +145,8 @@ private:
      * @return File name for data file with items.
      */
     QString itemFileName(const QString &id) const;
+
+    bool createItemDirectory();
 
     /**
      * @return Name of option to save/restore geometry of @a widget.
