@@ -121,11 +121,9 @@ private:
 
     QFont m_iconFont;
     QColor m_iconColor;
+    QColor m_iconColorActive;
     bool m_useSystemIcons;
     bool m_loaded;
-
-    typedef QHash<ushort, QPixmap> PixmapCache;
-    PixmapCache m_pixmapCache;
 
     typedef QHash<ushort, QIcon> IconCache;
     IconCache m_iconCache;

@@ -33,6 +33,18 @@ namespace {
 
 const int iconSize = 16;
 
+/// Up to this value of background lightness, icon color will be lighter.
+const int lightThreshold = 150;
+
+QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
+{
+    QPixmap pix2( pix.size() );
+    pix2.fill(color);
+    pix2.setMask( pix.mask() );
+
+    return pix2;
+}
+
 } // namespace
 
 // singleton
@@ -56,7 +68,6 @@ IconFactory::IconFactory()
     , m_iconColor()
     , m_useSystemIcons(true)
     , m_loaded(false)
-    , m_pixmapCache()
     , m_iconCache()
     , m_resourceIconCache()
 {
@@ -64,21 +75,16 @@ IconFactory::IconFactory()
     if (id != -1) {
         m_loaded = true;
         m_iconFont = QFont("FontAwesome");
-        m_iconColor = getDefaultIconColor<QMenu>();
+
+        QMenu menu;
+        m_iconColor = getDefaultIconColor(&menu);
+        menu.setActiveAction( menu.addAction( QString() ) );
+        m_iconColorActive = getDefaultIconColor(&menu);
     }
 }
 
 IconFactory::~IconFactory()
 {
-}
-
-const QPixmap &IconFactory::getPixmap(ushort id)
-{
-    PixmapCache::iterator it = m_pixmapCache.find(id);
-    if ( it == m_pixmapCache.end() )
-        it = m_pixmapCache.insert(id, createPixmap(id, m_iconColor));
-
-    return *it;
 }
 
 QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &color)
@@ -91,12 +97,16 @@ QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &co
     }
 
     // Icon with different color than for QMenu
-    if ( color.isValid() && color != m_iconColor )
-        return QIcon( createPixmap(id, color) );
+    if ( color.isValid() && color != m_iconColor ) {
+        QIcon icon( createPixmap(id, color) );
+        icon.addPixmap( createPixmap(id, m_iconColorActive), QIcon::Selected );
+        return icon;
+    }
 
     IconCache::iterator it = m_iconCache.find(id);
     if ( it == m_iconCache.end() ) {
-        QIcon icon( getPixmap(id) );
+        QIcon icon( createPixmap(id, m_iconColor) );
+        icon.addPixmap( createPixmap(id, m_iconColorActive), QIcon::Active );
         it = m_iconCache.insert(id, icon);
     }
 
@@ -113,10 +123,8 @@ const QIcon &IconFactory::getIcon(const QString &iconName)
         // Tint tab icons.
         if ( iconName.startsWith(QString("tab_")) ) {
             QPixmap pix(resourceName);
-            QPixmap pix2( pix.size() );
-            pix2.fill(m_iconColor);
-            pix2.setMask( pix.mask() );
-            icon = pix2;
+            icon = colorizedPixmap(pix, m_iconColor);
+            icon.addPixmap( colorizedPixmap(pix, m_iconColorActive), QIcon::Active );
         } else {
             icon = QIcon(resourceName);
         }
@@ -129,7 +137,6 @@ const QIcon &IconFactory::getIcon(const QString &iconName)
 
 void IconFactory::invalidateCache()
 {
-    m_pixmapCache.clear();
     m_iconCache.clear();
 }
 
@@ -195,7 +202,7 @@ const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color
 QColor getDefaultIconColor(const QColor &color)
 {
     QColor c = color;
-    bool menuBackgrounIsLight = c.lightness() > 128;
+    bool menuBackgrounIsLight = c.lightness() > lightThreshold;
     c.setHsl(c.hue(),
              c.saturation() + (menuBackgrounIsLight ? 50 : 10),
              c.lightness() + (menuBackgrounIsLight ? -120 : 100));
