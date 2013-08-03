@@ -727,16 +727,6 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
             </widget>
            </item>
            <item>
-            <widget class="QCheckBox" name="checkBoxPasteMenuItem">
-             <property name="toolTip">
-              <string>Paste item to current window after selecting it in menu.</string>
-             </property>
-             <property name="text">
-              <string>&amp;Paste activated item to current window</string>
-             </property>
-            </widget>
-           </item>
-           <item>
             <spacer name="horizontalSpacer_7">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
@@ -750,6 +740,16 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
             </spacer>
            </item>
           </layout>
+         </item>
+         <item>
+          <widget class="QCheckBox" name="checkBoxPasteMenuItem">
+           <property name="toolTip">
+            <string>Paste item to current window after selecting it in menu.</string>
+           </property>
+           <property name="text">
+            <string>&amp;Paste activated item to current window</string>
+           </property>
+          </widget>
          </item>
          <item>
           <layout class="QHBoxLayout" name="horizontalLayout_8">
@@ -914,7 +914,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            </property>
           </widget>
          </item>
-         <item row="3" column="0">
+         <item row="4" column="0">
           <widget class="QLabel" name="label_21">
            <property name="text">
             <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/body&gt;&lt;/html&gt;</string>
@@ -931,7 +931,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>382</width>
+              <width>534</width>
               <height>474</height>
              </rect>
             </property>
@@ -1309,7 +1309,6 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>pushButton_12</tabstop>
   <tabstop>pushButton_13</tabstop>
   <tabstop>pushButton_14</tabstop>
-  <tabstop>scrollAreaShortcuts</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
  <resources>

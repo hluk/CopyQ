@@ -871,3 +871,8 @@ void ConfigurationManager::onCurrentCommandWidgetNameChanged(const QString &name
 {
     ui->itemOrderListCommands->setCurrentItemLabel(name);
 }
+
+void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
+{
+    ui->checkBoxPasteMenuItem->setEnabled(value > 0);
+}

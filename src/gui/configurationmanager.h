@@ -186,6 +186,7 @@ private slots:
 
     void onCurrentCommandWidgetIconChanged(const QIcon &icon);
     void onCurrentCommandWidgetNameChanged(const QString &name);
+    void on_spinBoxTrayItems_valueChanged(int value);
 };
 
 #endif // CONFIGURATIONMANAGER_H
