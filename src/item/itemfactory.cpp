@@ -27,8 +27,6 @@
 #include <QDir>
 #include <QLabel>
 #include <QModelIndex>
-#include <QMutex>
-#include <QMutexLocker>
 #include <QPluginLoader>
 
 namespace {
@@ -83,24 +81,9 @@ protected:
 
 } // namespace
 
-// singleton
-ItemFactory* ItemFactory::m_Instance = 0;
-
-ItemFactory *ItemFactory::instance()
-{
-    static QMutex mutex;
-
-    if ( !hasInstance() ) {
-        QMutexLocker lock(&mutex);
-        if ( !hasInstance() )
-            m_Instance = new ItemFactory();
-    }
-
-    return m_Instance;
-}
-
-ItemFactory::ItemFactory()
-    : m_loaders()
+ItemFactory::ItemFactory(QObject *parent)
+    : QObject(parent)
+    , m_loaders()
     , m_loaderChildren()
 { 
     loadPlugins();

@@ -779,7 +779,7 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {
     QColor color = notificationDaemon()->foreground();
-    IconFactory *ifact = IconFactory::instance();
+    IconFactory *ifact = ConfigurationManager::instance()->iconFactory();
     QPixmap icon2;
 
     switch (icon) {
@@ -808,10 +808,11 @@ void MainWindow::showMessage(const QString &title, const QString &msg, const QPi
 void MainWindow::showClipboardMessage(const ClipboardItem *item)
 {
     if ( m_itemPopupInterval != 0 && m_clipboardNotificationLines > 0) {
-        QColor color = notificationDaemon()->foreground();
-        notificationDaemon()->create(*item->data(), m_clipboardNotificationLines,
-                                     IconFactory::instance()->createPixmap(IconPaste, color, 16),
-                                     m_itemPopupInterval * 1000, this, 0 );
+        const QColor color = notificationDaemon()->foreground();
+        const QPixmap icon =
+                ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
+        notificationDaemon()->create( *item->data(), m_clipboardNotificationLines, icon,
+                                      m_itemPopupInterval * 1000, this, 0 );
     }
 }
 

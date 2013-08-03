@@ -23,8 +23,6 @@
 #include <QFontDatabase>
 #include <QIcon>
 #include <QMenu>
-#include <QMutex>
-#include <QMutexLocker>
 #include <QPainter>
 #include <QPalette>
 #include <QPixmap>
@@ -46,22 +44,6 @@ QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 }
 
 } // namespace
-
-// singleton
-IconFactory* IconFactory::m_Instance = 0;
-
-IconFactory *IconFactory::instance()
-{
-    static QMutex mutex;
-
-    if ( !hasInstance() ) {
-        QMutexLocker lock(&mutex);
-        if ( !hasInstance() )
-            m_Instance = new IconFactory();
-    }
-
-    return m_Instance;
-}
 
 IconFactory::IconFactory()
     : m_iconFont()
@@ -148,7 +130,7 @@ QIcon IconFactory::iconFromFile(const QString &fileName, const QColor &color)
 
     ushort unicode = fileName.at(0).unicode();
     if (fileName.size() == 1 && unicode >= IconFirst && unicode <= IconLast)
-        return instance()->getIcon("", unicode, color);
+        return getIcon("", unicode, color);
 
     QImage image(fileName);
     if (image.isNull())
@@ -160,7 +142,7 @@ QIcon IconFactory::iconFromFile(const QString &fileName, const QColor &color)
 
 void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
 {
-    QFont font = IconFactory::instance()->iconFont();
+    QFont font = iconFont();
     int size = qMin(itemRect.height() - 5, 18);
     font.setPixelSize(size);
 
@@ -188,16 +170,6 @@ QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
     }
 
     return pix;
-}
-
-const QIcon &getIconFromResources(const QString &iconName)
-{
-    return IconFactory::instance()->getIcon(iconName);
-}
-
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color)
-{
-    return IconFactory::instance()->getIcon(themeName, iconId, color);
 }
 
 QColor getDefaultIconColor(const QColor &color)

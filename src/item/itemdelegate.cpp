@@ -21,6 +21,7 @@
 
 #include "common/client_server.h"
 #include "common/contenttype.h"
+#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
@@ -146,7 +147,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n].data();
     if (w == NULL) {
-        w = ItemFactory::instance()->createItem(index, m_parent->viewport());
+        w = ConfigurationManager::instance()->itemFactory()->createItem(index, m_parent->viewport());
         setIndexWidget(index, w);
     } else {
         w->widget()->setProperty(propertyItemIndex, index.row());
@@ -217,7 +218,7 @@ void ItemDelegate::nextItemLoader(const QModelIndex &index)
 {
     ItemWidget *w = m_cache[index.row()].data();
     if (w != NULL) {
-        ItemWidget *w2 = ItemFactory::instance()->nextItemLoader(index, w);
+        ItemWidget *w2 = ConfigurationManager::instance()->itemFactory()->nextItemLoader(index, w);
         if (w2 != NULL)
             setIndexWidget(index, w2);
     }
@@ -227,7 +228,7 @@ void ItemDelegate::previousItemLoader(const QModelIndex &index)
 {
     ItemWidget *w = m_cache[index.row()].data();
     if (w != NULL) {
-        ItemWidget *w2 = ItemFactory::instance()->previousItemLoader(index, w);
+        ItemWidget *w2 = ConfigurationManager::instance()->itemFactory()->previousItemLoader(index, w);
         if (w2 != NULL)
             setIndexWidget(index, w2);
     }
@@ -341,6 +342,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* show small icon if item has notes */
     if ( index.data(contentType::hasNotes).toBool() ) {
         painter->setPen(m_numberPalette.color(role));
-        IconFactory::instance()->drawIcon(IconEditSign, rect, painter);
+        ConfigurationManager::instance()->iconFactory()->drawIcon(IconEditSign, rect, painter);
     }
 }

@@ -106,9 +106,6 @@ QString highlightText(const QString &text, QRegExp &re)
 ClipboardBrowserShared::ClipboardBrowserShared()
     : editor()
     , maxItems(100)
-    , formats(QString("text/plain"))
-    , maxImageWidth(100)
-    , maxImageHeight(100)
     , textWrap(true)
     , commands()
     , viMode(false)
@@ -122,9 +119,6 @@ void ClipboardBrowserShared::loadFromConfiguration()
     ConfigurationManager *cm = ConfigurationManager::instance();
     editor = cm->value("editor").toString();
     maxItems = cm->value("maxitems").toInt();
-    formats = ItemFactory::instance()->formatsToSave();
-    maxImageWidth = cm->value("max_image_width").toInt();
-    maxImageHeight = cm->value("max_image_height").toInt();
     textWrap = cm->value("text_wrap").toBool();
     commands = cm->commands();
     viMode = cm->value("vi").toBool();
@@ -608,7 +602,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
             }
         }
 
-        QAction *act = menu->addAction( IconFactory::iconFromFile(command.icon), QString() );
+        IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
+        QAction *act = menu->addAction( iconFactory->iconFromFile(command.icon), QString() );
         act->setData( QVariant(i) );
         if ( isContextMenu && !command.shortcut.isEmpty() )
             act->setShortcut( command.shortcut );

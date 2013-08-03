@@ -37,12 +37,7 @@ class ItemFactory : public QObject
     Q_OBJECT
 
 public:
-    /** Return singleton instance. */
-    static ItemFactory *instance();
-
-    static bool hasInstance() { return m_Instance != NULL; }
-
-    ItemFactory();
+    ItemFactory(QObject *parent);
 
     ~ItemFactory();
 
@@ -68,7 +63,6 @@ private:
     ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir);
     bool loadPlugins();
 
-    static ItemFactory *m_Instance;
     QVector<ItemLoaderInterfacePtr> m_loaders;
     QMap<QObject *, ItemLoaderInterfacePtr> m_loaderChildren;
 };

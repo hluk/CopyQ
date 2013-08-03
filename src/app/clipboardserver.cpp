@@ -211,7 +211,7 @@ void ClipboardServer::loadMonitorSettings()
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     QVariantMap settings;
-    settings["formats"] = ItemFactory::instance()->formatsToSave();
+    settings["formats"] = cm->itemFactory()->formatsToSave();
     m_checkclip = cm->value("check_clipboard").toBool();
 #ifdef COPYQ_WS_X11
     settings["copy_clipboard"] = cm->value("copy_clipboard");

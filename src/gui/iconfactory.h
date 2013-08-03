@@ -83,11 +83,6 @@ enum IconId {
 class IconFactory
 {
 public:
-    /** Return singleton instance. */
-    static IconFactory *instance();
-
-    static bool hasInstance() { return m_Instance != NULL; }
-
     IconFactory();
 
     ~IconFactory();
@@ -105,7 +100,7 @@ public:
 
     void invalidateCache();
 
-    static QIcon iconFromFile(const QString &fileName, const QColor &color = QColor());
+    QIcon iconFromFile(const QString &fileName, const QColor &color = QColor());
 
     /**
      * Return true only if the icon resources were successfuly loaded.
@@ -117,8 +112,6 @@ public:
     QPixmap createPixmap(ushort id, const QColor &color, int size = -1);
 
 private:
-    static IconFactory* m_Instance;
-
     QFont m_iconFont;
     QColor m_iconColor;
     QColor m_iconColorActive;
@@ -142,8 +135,5 @@ QColor getDefaultIconColor() {
     Widget w;
     return getDefaultIconColor(&w);
 }
-
-const QIcon &getIconFromResources(const QString &iconName);
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color = QColor());
 
 #endif // ICONFACTORY_H

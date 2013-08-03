@@ -21,6 +21,7 @@
 
 #include "common/contenttype.h"
 #include "common/client_server.h"
+#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
@@ -215,7 +216,7 @@ void TrayMenu::paintEvent(QPaintEvent *event)
 {
     QMenu::paintEvent(event);
 
-    IconFactory *iconFactory = IconFactory::instance();
+    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
 
     QPainter painter(this);
     painter.setPen(iconFactory->iconColor());

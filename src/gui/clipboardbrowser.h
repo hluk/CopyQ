@@ -40,9 +40,6 @@ struct ClipboardBrowserShared {
 
     QString editor;
     int maxItems;
-    QStringList formats;
-    int maxImageWidth;
-    int maxImageHeight;
     bool textWrap;
     QList<Command> commands;
     bool viMode;

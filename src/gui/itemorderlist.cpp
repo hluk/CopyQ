@@ -20,6 +20,7 @@
 #include "gui/itemorderlist.h"
 #include "ui_itemorderlist.h"
 
+#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 
 #include <QMenu>
@@ -32,7 +33,6 @@ ItemOrderList::ItemOrderList(QWidget *parent)
     ui->pushButtonRemove->hide();
     ui->toolButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
-    updateIcons();
     setCurrentItemWidget(NULL);
 }
 

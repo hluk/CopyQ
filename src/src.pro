@@ -5,17 +5,17 @@ DEPENDPATH += .
 INCLUDEPATH += $$PWD
 RESOURCES = copyq.qrc
 FORMS += \
-    ui/mainwindow.ui \
-    ui/actiondialog.ui \
     ui/aboutdialog.ui \
-    ui/configurationmanager.ui \
+    ui/actiondialog.ui \
     ui/clipboarddialog.ui \
-    ui/pluginwidget.ui \
-    ui/tabdialog.ui \
-    ui/shortcutdialog.ui \
     ui/commandwidget.ui \
     ui/configtabappearance.ui \
-    ui/itemorderlist.ui
+    ui/configurationmanager.ui \
+    ui/itemorderlist.ui \
+    ui/mainwindow.ui \
+    ui/pluginwidget.ui \
+    ui/shortcutdialog.ui \
+    ui/tabdialog.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -33,19 +33,25 @@ HEADERS += \
     gui/clipboardbrowser.h \
     gui/clipboarddialog.h \
     gui/commandwidget.h \
+    gui/configtabappearance.h \
     gui/configurationmanager.h \
     gui/iconfactory.h \
+    gui/itemorderlist.h \
     gui/mainwindow.h \
+    gui/notificationdaemon.h \
+    gui/notification.h \
     gui/pluginwidget.h \
     gui/shortcutdialog.h \
     gui/tabbar.h \
     gui/tabdialog.h \
+    gui/tabtree.h \
     gui/tabwidget.h \
     gui/traymenu.h \
     item/clipboarditem.h \
     item/clipboardmodel.h \
     item/itemdelegate.h \
     item/itemeditor.h \
+    item/itemeditorwidget.h \
     item/itemfactory.h \
     item/itemwidget.h \
     platform/dummy/dummyplatform.h \
@@ -54,13 +60,7 @@ HEADERS += \
     ../qt/bytearrayprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h \
-    gui/tabtree.h \
-    gui/configtabappearance.h \
-    gui/notification.h \
-    gui/notificationdaemon.h \
-    item/itemeditorwidget.h \
-    gui/itemorderlist.h
+    scriptable/scriptableworker.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -76,32 +76,32 @@ SOURCES += \
     gui/clipboardbrowser.cpp \
     gui/clipboarddialog.cpp \
     gui/commandwidget.cpp \
+    gui/configtabappearance.cpp \
     gui/configurationmanager.cpp \
     gui/iconfactory.cpp \
+    gui/itemorderlist.cpp \
     gui/mainwindow.cpp \
+    gui/notification.cpp \
+    gui/notificationdaemon.cpp \
     gui/pluginwidget.cpp \
     gui/shortcutdialog.cpp \
     gui/tabbar.cpp \
     gui/tabdialog.cpp \
+    gui/tabtree.cpp \
     gui/tabwidget.cpp \
     gui/traymenu.cpp \
     item/clipboarditem.cpp \
     item/clipboardmodel.cpp \
     item/itemdelegate.cpp \
     item/itemeditor.cpp \
+    item/itemeditorwidget.cpp \
     item/itemfactory.cpp \
     item/itemwidget.cpp \
     main.cpp \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
-    scriptable/scriptableworker.cpp \
-    gui/tabtree.cpp \
-    gui/configtabappearance.cpp \
-    gui/notification.cpp \
-    gui/notificationdaemon.cpp \
-    item/itemeditorwidget.cpp \
-    gui/itemorderlist.cpp
+    scriptable/scriptableworker.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

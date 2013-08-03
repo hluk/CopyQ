@@ -22,6 +22,7 @@
 
 #include <QDialog>
 #include <QHash>
+#include <QScopedPointer>
 
 namespace Ui {
     class ConfigurationManager;
@@ -31,6 +32,8 @@ class ClipboardBrowser;
 class ClipboardModel;
 class CommandWidget;
 class ConfigTabAppearance;
+class IconFactory;
+class ItemFactory;
 class Option;
 class QAbstractButton;
 class QCheckBox;
@@ -112,6 +115,9 @@ public:
 
     void setVisible(bool visible);
 
+    ItemFactory *itemFactory() const { return m_itemFactory; }
+    IconFactory *iconFactory() const { return m_iconFactory.data(); }
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -121,6 +127,9 @@ private:
     Ui::ConfigurationManager *ui;
     QString m_datfilename;
     QHash<QString, Option> m_options;
+
+    ItemFactory *m_itemFactory;
+    QScopedPointer<IconFactory> m_iconFactory;
 
     explicit ConfigurationManager();
 
@@ -188,5 +197,9 @@ private slots:
     void onCurrentCommandWidgetNameChanged(const QString &name);
     void on_spinBoxTrayItems_valueChanged(int value);
 };
+
+const QIcon &getIconFromResources(const QString &iconName);
+
+const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color = QColor());
 
 #endif // CONFIGURATIONMANAGER_H

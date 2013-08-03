@@ -57,7 +57,7 @@ const QString fileErrorString =
 } // namespace
 
 // singleton
-ConfigurationManager* ConfigurationManager::m_Instance = 0;
+ConfigurationManager *ConfigurationManager::m_Instance = 0;
 
 ConfigurationManager *ConfigurationManager::instance()
 {
@@ -65,8 +65,11 @@ ConfigurationManager *ConfigurationManager::instance()
 
     if (!m_Instance) {
         QMutexLocker lock(&mutex);
-        if (!m_Instance)
+        if (!m_Instance) {
             m_Instance = new ConfigurationManager();
+            m_Instance->loadSettings();
+            m_Instance->loadGeometry(m_Instance);
+        }
     }
 
     return m_Instance;
@@ -85,6 +88,8 @@ ConfigurationManager::ConfigurationManager()
     , ui(new Ui::ConfigurationManager)
     , m_datfilename()
     , m_options()
+    , m_itemFactory(new ItemFactory(this))
+    , m_iconFactory(new IconFactory)
 {
     ui->setupUi(this);
 
@@ -97,7 +102,7 @@ ConfigurationManager::ConfigurationManager()
     QMenu *menu = new QMenu(this);
     ui->itemOrderListCommands->setAddMenu(menu);
     while ( defaultCommand(++i, &cmd) ) {
-        menu->addAction( IconFactory::iconFromFile(cmd.icon), cmd.name.remove('&') )
+        menu->addAction( iconFactory()->iconFromFile(cmd.icon), cmd.name.remove('&') )
                 ->setProperty("COMMAND", i);
     }
 
@@ -119,10 +124,6 @@ ConfigurationManager::ConfigurationManager()
     }
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
-
-    loadSettings();
-
-    loadGeometry(this);
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -320,9 +321,8 @@ QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) cons
 
 void ConfigurationManager::updateIcons()
 {
-    IconFactory *factory = IconFactory::instance();
-    factory->invalidateCache();
-    factory->setUseSystemIcons(ui->configTabAppearance->themeValue("use_system_icons").toBool());
+    iconFactory()->invalidateCache();
+    iconFactory()->setUseSystemIcons(ui->configTabAppearance->themeValue("use_system_icons").toBool());
 
     ui->itemOrderListPlugins->updateIcons();
     ui->itemOrderListCommands->updateIcons();
@@ -334,7 +334,7 @@ void ConfigurationManager::initTabIcons()
     if ( !tw->tabIcon(0).isNull() )
         return;
 
-    IconFactory *f = IconFactory::instance();
+    IconFactory *f = iconFactory();
 
     QColor color = getDefaultIconColor<QWidget>();
 
@@ -351,7 +351,7 @@ void ConfigurationManager::initPluginWidgets()
 {
     ui->itemOrderListPlugins->clearItems();
 
-    foreach ( const ItemLoaderInterfacePtr &loader, ItemFactory::instance()->loaders() ) {
+    foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
         PluginWidget *pluginWidget = new PluginWidget(loader, this);
 
         QIcon icon;
@@ -557,7 +557,7 @@ void ConfigurationManager::loadSettings()
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
-    foreach ( const ItemLoaderInterfacePtr &loader, ItemFactory::instance()->loaders() ) {
+    foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
         settings.beginGroup(loader->id());
 
         QVariantMap s;
@@ -574,7 +574,7 @@ void ConfigurationManager::loadSettings()
     // load plugin priority
     const QStringList pluginPriority =
             settings.value("plugin_priority", QStringList()).toStringList();
-    ItemFactory::instance()->setPluginPriority(pluginPriority);
+    itemFactory()->setPluginPriority(pluginPriority);
 
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
@@ -654,7 +654,7 @@ void ConfigurationManager::saveSettings()
     for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
         pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
     settings.setValue("plugin_priority", pluginPriority);
-    ItemFactory::instance()->setPluginPriority(pluginPriority);
+    itemFactory()->setPluginPriority(pluginPriority);
 
     ui->configTabAppearance->setEditor( value("editor").toString() );
 
@@ -765,7 +765,7 @@ void ConfigurationManager::addCommand(const Command &c)
 
     cmdWidget->setCommand(c);
 
-    QStringList formats = ItemFactory::instance()->formatsToSave();
+    QStringList formats = itemFactory()->formatsToSave();
     formats.prepend(QString("text/plain"));
     formats.prepend(QString());
     formats.removeDuplicates();
@@ -875,4 +875,14 @@ void ConfigurationManager::onCurrentCommandWidgetNameChanged(const QString &name
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
+}
+
+const QIcon &getIconFromResources(const QString &iconName)
+{
+    return ConfigurationManager::instance()->iconFactory()->getIcon(iconName);
+}
+
+const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color)
+{
+    return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color);
 }

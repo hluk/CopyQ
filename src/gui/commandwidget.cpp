@@ -21,6 +21,7 @@
 #include "ui_commandwidget.h"
 
 #include "common/command.h"
+#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/shortcutdialog.h"
 
@@ -37,7 +38,7 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->lineEditIcon->hide();
     setFocusProxy(ui->lineEditName);
 
-    IconFactory *factory = IconFactory::instance();
+    IconFactory *factory = ConfigurationManager::instance()->iconFactory();
     if ( factory->isLoaded() ) {
         // iconic font
         const QFont &font = factory->iconFont();
@@ -158,8 +159,9 @@ void CommandWidget::on_lineEditName_textChanged(const QString &name)
 
 void CommandWidget::on_lineEditIcon_textChanged(const QString &)
 {
+    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     QIcon icon =
-            IconFactory::iconFromFile(ui->lineEditIcon->text(), getDefaultIconColor<QToolButton>());
+            iconFactory->iconFromFile(ui->lineEditIcon->text(), getDefaultIconColor<QToolButton>());
     ui->buttonIcon->setIcon(icon);
     emit iconChanged(icon);
 }
