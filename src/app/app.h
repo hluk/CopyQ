@@ -20,6 +20,7 @@
 #ifndef APP_H
 #define APP_H
 
+#include <QScopedPointer>
 #include <QString>
 
 class QCoreApplication;
@@ -30,7 +31,7 @@ class App
 public:
     explicit App(QCoreApplication *application, const QString &sessionName = QString());
 
-    virtual ~App() {}
+    virtual ~App();
 
     /**
      * Execute application. Returns immediately if exit() was called before.
@@ -44,7 +45,7 @@ public:
     void exit(int exitCode=0);
 
 private:
-    QCoreApplication *m_app;
+    QScopedPointer<QCoreApplication> m_app;
     int m_exitCode;
     bool m_closed;
 };

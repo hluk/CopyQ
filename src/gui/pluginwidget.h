@@ -17,7 +17,6 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-
 #ifndef PLUGINWIDGET_H
 #define PLUGINWIDGET_H
 
@@ -29,19 +28,21 @@ class PluginWidget;
 
 class ItemLoaderInterface;
 
+typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
+
 class PluginWidget : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit PluginWidget(ItemLoaderInterface *loader, QWidget *parent = 0);
+    explicit PluginWidget(const ItemLoaderInterfacePtr &loader, QWidget *parent = 0);
     ~PluginWidget();
 
-    ItemLoaderInterface *loader() const { return m_loader; }
+    ItemLoaderInterfacePtr loader() const { return m_loader; }
 
 private:
     Ui::PluginWidget *ui;
-    ItemLoaderInterface *m_loader;
+    ItemLoaderInterfacePtr m_loader;
     QWidget *m_loaderSettings;
 };
 

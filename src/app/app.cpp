@@ -71,11 +71,11 @@ App::App(QCoreApplication *application, const QString &sessionName)
     QCoreApplication::setApplicationName(session);
 
     const QString locale = QLocale::system().name();
-    QTranslator *translator = new QTranslator(m_app);
+    QTranslator *translator = new QTranslator(m_app.data());
     translator->load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QCoreApplication::installTranslator(translator);
 
-    translator = new QTranslator(m_app);
+    translator = new QTranslator(m_app.data());
     translator->load("copyq_" + locale, ":/translations");
     QCoreApplication::installTranslator(translator);
 
@@ -84,8 +84,8 @@ App::App(QCoreApplication *application, const QString &sessionName)
     if ( ::socketpair(AF_UNIX, SOCK_STREAM, 0, signalFd) != 0 ) {
         log( QObject::tr("socketpair() failed!"), LogError );
     } else {
-        QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, m_app);
-        sn->connect( sn, SIGNAL(activated(int)), m_app, SLOT(quit()) );
+        QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, m_app.data());
+        sn->connect( sn, SIGNAL(activated(int)), m_app.data(), SLOT(quit()) );
 
         struct sigaction sigact;
 
@@ -98,6 +98,10 @@ App::App(QCoreApplication *application, const QString &sessionName)
             log( QObject::tr("sigaction() failed!"), LogError );
     }
 #endif
+}
+
+App::~App()
+{
 }
 
 int App::exec()

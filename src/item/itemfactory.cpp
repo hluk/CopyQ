@@ -35,10 +35,30 @@ namespace {
 
 const int dummyItemMaxChars = 4096;
 
-bool priorityLessThan(const ItemLoaderInterface *lhs, const ItemLoaderInterface *rhs)
+bool priorityLessThan(const ItemLoaderInterfacePtr &lhs, const ItemLoaderInterfacePtr &rhs)
 {
     return lhs->priority() > rhs->priority();
 }
+
+/** Sort plugins by prioritized list of names. */
+class PluginSorter {
+public:
+    PluginSorter(const QStringList &pluginNames) : m_order(pluginNames) {}
+
+    int value(const ItemLoaderInterfacePtr &item) const
+    {
+        const int val = m_order.indexOf( item->name() );
+        return val == -1 ? m_order.size() : val;
+    }
+
+    bool operator()(const ItemLoaderInterfacePtr &lhs, const ItemLoaderInterfacePtr &rhs) const
+    {
+        return value(lhs) < value(rhs);
+    }
+
+private:
+    const QStringList &m_order;
+};
 
 class DummyItem : public QLabel, public ItemWidget {
 public:
@@ -89,10 +109,14 @@ ItemFactory::ItemFactory()
         log( QObject::tr("No plugins loaded"), LogNote );
 }
 
-ItemWidget *ItemFactory::createItem(ItemLoaderInterface *loader,
+ItemFactory::~ItemFactory()
+{
+}
+
+ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
                                     const QModelIndex &index, QWidget *parent)
 {
-    if (loader == NULL || loader->isEnabled()) {
+    if (loader.isNull() || loader->isEnabled()) {
         ItemWidget *item = (loader == NULL) ? new DummyItem(index, parent)
                                            : loader->create(index, parent);
         if (item != NULL) {
@@ -112,13 +136,13 @@ ItemWidget *ItemFactory::createItem(ItemLoaderInterface *loader,
 
 ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
 {
-    foreach (ItemLoaderInterface *loader, m_loaders) {
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         ItemWidget *item = createItem(loader, index, parent);
         if (item != NULL)
             return item;
     }
 
-    return createItem(NULL, index, parent);
+    return createItem(ItemLoaderInterfacePtr(), index, parent);
 }
 
 ItemWidget *ItemFactory::nextItemLoader(const QModelIndex &index, ItemWidget *current)
@@ -135,7 +159,7 @@ QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
 
-    foreach (const ItemLoaderInterface *loader, m_loaders) {
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         if (loader->isEnabled()) {
             foreach ( const QString &format, loader->formatsToSave() ) {
                 if ( !formats.contains(format) )
@@ -152,23 +176,7 @@ QStringList ItemFactory::formatsToSave() const
 
 void ItemFactory::setPluginPriority(const QStringList &pluginNames)
 {
-    int a = -1;
-    int b = -1;
-    int j = -1;
-    for (int i = 0; i < m_loaders.size(); ++i) {
-        b = pluginNames.indexOf( m_loaders[i]->name() );
-        if (b != -1) {
-            if (a > b) {
-                // swap and restart
-                qSwap(m_loaders[j], m_loaders[i]);
-                i = 0;
-                a = b = -1;
-            } else {
-                a = b;
-                j = i;
-            }
-        }
-    }
+    qSort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)
@@ -182,8 +190,8 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
     Q_ASSERT(current->widget() != NULL);
 
     QWidget *w = current->widget();
-    ItemLoaderInterface *currentLoader = m_loaderChildren[w];
-    if (currentLoader == NULL)
+    ItemLoaderInterfacePtr currentLoader = m_loaderChildren[w];
+    if ( currentLoader.isNull() )
         return NULL;
 
     const int currentIndex = m_loaders.indexOf(currentLoader);
@@ -246,7 +254,7 @@ bool ItemFactory::loadPlugins()
                 if (loader == NULL)
                     pluginLoader.unload();
                 else
-                    m_loaders.append(loader);
+                    m_loaders.append( ItemLoaderInterfacePtr(loader) );
             }
         }
     }

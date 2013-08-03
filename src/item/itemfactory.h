@@ -20,14 +20,17 @@
 #ifndef ITEMFACTORY_H
 #define ITEMFACTORY_H
 
-#include <QObject>
-#include <QVector>
 #include <QMap>
+#include <QObject>
+#include <QSharedPointer>
+#include <QVector>
 
 class ItemWidget;
 class ItemLoaderInterface;
 class QModelIndex;
 class QWidget;
+
+typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
 
 class ItemFactory : public QObject
 {
@@ -41,7 +44,9 @@ public:
 
     ItemFactory();
 
-    ItemWidget *createItem(ItemLoaderInterface *loader,
+    ~ItemFactory();
+
+    ItemWidget *createItem(const ItemLoaderInterfacePtr &loader,
                            const QModelIndex &index, QWidget *parent);
 
     ItemWidget *createItem(const QModelIndex &index, QWidget *parent);
@@ -52,7 +57,7 @@ public:
 
     QStringList formatsToSave() const;
 
-    const QVector<ItemLoaderInterface *> &loaders() const { return m_loaders; }
+    const QVector<ItemLoaderInterfacePtr> &loaders() const { return m_loaders; }
 
     void setPluginPriority(const QStringList &pluginNames);
 
@@ -64,8 +69,8 @@ private:
     bool loadPlugins();
 
     static ItemFactory *m_Instance;
-    QVector<ItemLoaderInterface *> m_loaders;
-    QMap<QObject *, ItemLoaderInterface *> m_loaderChildren;
+    QVector<ItemLoaderInterfacePtr> m_loaders;
+    QMap<QObject *, ItemLoaderInterfacePtr> m_loaderChildren;
 };
 
 #endif // ITEMFACTORY_H

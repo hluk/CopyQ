@@ -351,7 +351,7 @@ void ConfigurationManager::initPluginWidgets()
 {
     ui->itemOrderListPlugins->clearItems();
 
-    foreach ( ItemLoaderInterface *loader, ItemFactory::instance()->loaders() ) {
+    foreach ( const ItemLoaderInterfacePtr &loader, ItemFactory::instance()->loaders() ) {
         PluginWidget *pluginWidget = new PluginWidget(loader, this);
 
         QIcon icon;
@@ -557,7 +557,7 @@ void ConfigurationManager::loadSettings()
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
-    foreach (ItemLoaderInterface *loader, ItemFactory::instance()->loaders()) {
+    foreach ( const ItemLoaderInterfacePtr &loader, ItemFactory::instance()->loaders() ) {
         settings.beginGroup(loader->id());
 
         QVariantMap s;
@@ -633,7 +633,7 @@ void ConfigurationManager::saveSettings()
     for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
         QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
         PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-        ItemLoaderInterface *loader = pluginWidget->loader();
+        ItemLoaderInterfacePtr loader = pluginWidget->loader();
         loader->setEnabled( ui->itemOrderListPlugins->isItemChecked(i) );
 
         settings.beginGroup(loader->id());
