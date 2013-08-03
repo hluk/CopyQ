@@ -707,11 +707,12 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["tab_tree_css"] = Option(
                 "\n    ;color: ${fg}"
                 "\n    ;background-color: ${bg}"
-                "\n    ;selection-color: ${sel_fg}"
-                "\n    ;selection-background-color: ${sel_bg}"
                 );
     m_theme["tab_tree_item_css"] = Option("padding:2px");
-    m_theme["tab_tree_sel_item_css"] = Option("");
+    m_theme["tab_tree_sel_item_css"] = Option(
+                "\n    ;color: ${sel_fg}"
+                "\n    ;background-color: ${sel_bg}"
+                );
 
     m_theme["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
 
