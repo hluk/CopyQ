@@ -393,6 +393,9 @@ class MainWindow : public QMainWindow
          */
         void updateTabsAutoSaving();
 
+        /** Return notification daemon (create if doesn't exist). */
+        NotificationDaemon *notificationDaemon();
+
         Ui::MainWindow *ui;
         AboutDialog *aboutDialog;
         QMenu *itemCmdMenu;

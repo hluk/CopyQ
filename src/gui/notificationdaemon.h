@@ -65,6 +65,7 @@ public:
     void setForeground(const QColor &color) { m_colorFg = color; }
     void setFont(const QFont &font) { m_font = font; }
 
+    QColor foreground() const { return m_colorFg; }
     QFont font() const { return m_font; }
 
     QSize maximumSize() const;

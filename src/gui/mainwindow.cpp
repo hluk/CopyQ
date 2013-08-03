@@ -497,13 +497,18 @@ void MainWindow::closeAction(Action *action)
 {
     QString msg;
 
-    if ( action->actionFailed() || action->exitStatus() != QProcess::NormalExit )
+    QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
+
+    if ( action->actionFailed() || action->exitStatus() != QProcess::NormalExit ) {
         msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
-    else if ( action->exitCode() != 0 )
+        icon = QSystemTrayIcon::Critical;
+    } else if ( action->exitCode() != 0 ) {
         msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
+        icon = QSystemTrayIcon::Warning;
+    }
 
     if ( !msg.isEmpty() )
-        showMessage( tr("Command \"%1\"").arg(action->command()), msg );
+        showMessage( tr("Command \"%1\"").arg(action->command()), msg, icon );
 
     delete m_actions.take(action);
     action->deleteLater();
@@ -679,6 +684,14 @@ void MainWindow::updateTabsAutoSaving()
         getBrowser(i)->setSavingEnabled(true);
 }
 
+NotificationDaemon *MainWindow::notificationDaemon()
+{
+    if (m_notifications == NULL)
+        updateNotifications();
+
+    return m_notifications;
+}
+
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     int i = findTabIndex(name);
@@ -765,7 +778,7 @@ WId MainWindow::trayMenuWinId() const
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {
-    QColor color = Qt::white; //getDefaultIconColor<QWidget>();
+    QColor color = notificationDaemon()->foreground();
     IconFactory *ifact = IconFactory::instance();
     QPixmap icon2;
 
@@ -789,20 +802,16 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 void MainWindow::showMessage(const QString &title, const QString &msg, const QPixmap &icon,
                              int msec, int notificationId)
 {
-    if (m_notifications == NULL)
-        updateNotifications();
-    m_notifications->create(title, msg, icon, msec, this, notificationId);
+    notificationDaemon()->create(title, msg, icon, msec, this, notificationId);
 }
 
 void MainWindow::showClipboardMessage(const ClipboardItem *item)
 {
     if ( m_itemPopupInterval != 0 && m_clipboardNotificationLines > 0) {
-        if (m_notifications == NULL)
-            updateNotifications();
-        QColor color = ConfigurationManager::instance()->tabAppearance()->themeColor("notification_fg");
-        m_notifications->create(*item->data(), m_clipboardNotificationLines,
-                                IconFactory::instance()->createPixmap(IconPaste, color, 16),
-                                m_itemPopupInterval * 1000, this, 0 );
+        QColor color = notificationDaemon()->foreground();
+        notificationDaemon()->create(*item->data(), m_clipboardNotificationLines,
+                                     IconFactory::instance()->createPixmap(IconPaste, color, 16),
+                                     m_itemPopupInterval * 1000, this, 0 );
     }
 }
 
