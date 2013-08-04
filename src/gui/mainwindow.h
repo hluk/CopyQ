@@ -393,6 +393,10 @@ class MainWindow : public QMainWindow
          */
         void updateTabsAutoSaving();
 
+        void saveCollapsedTabs();
+
+        void loadCollapsedTabs();
+
         /** Return notification daemon (create if doesn't exist). */
         NotificationDaemon *notificationDaemon();
 

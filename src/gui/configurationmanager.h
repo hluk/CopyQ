@@ -71,6 +71,10 @@ public:
     QVariant value(const QString &name) const;
     /** Set @a value for option with given @a name. */
     void setValue(const QString &name, const QVariant &value);
+
+    void saveValue(const QString &name, const QVariant &value);
+    QVariant loadValue(const QString &name);
+
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
     /** Return tooltip text for option with given @a name. */

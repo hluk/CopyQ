@@ -684,6 +684,24 @@ void MainWindow::updateTabsAutoSaving()
         getBrowser(i)->setSavingEnabled(true);
 }
 
+void MainWindow::saveCollapsedTabs()
+{
+    TabWidget *tabs = ui->tabWidget;
+    if ( tabs->isTreeModeEnabled() ) {
+        ConfigurationManager::instance()->saveValue(
+                    "Options/collapsed_tabs", tabs->collapsedTabs() );
+    }
+}
+
+void MainWindow::loadCollapsedTabs()
+{
+    TabWidget *tabs = ui->tabWidget;
+    if ( tabs->isTreeModeEnabled() ) {
+        tabs->setCollapsedTabs(
+                    ConfigurationManager::instance()->loadValue("Options/collapsed_tabs").toStringList() );
+    }
+}
+
 NotificationDaemon *MainWindow::notificationDaemon()
 {
     if (m_notifications == NULL)
@@ -1058,6 +1076,8 @@ void MainWindow::loadSettings()
         }
     }
 
+    saveCollapsedTabs();
+
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();
     ui->tabWidget->clear();
@@ -1084,6 +1104,8 @@ void MainWindow::loadSettings()
 
     if ( ui->tabWidget->count() == 0 )
         addTab( tr("&clipboard") );
+
+    loadCollapsedTabs();
 
     m_clearFirstTab = cm->value("clear_first_tab").toBool();
     updateTabsAutoSaving();
@@ -2180,6 +2202,7 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 
 MainWindow::~MainWindow()
 {
+    saveCollapsedTabs();
     ConfigurationManager::instance()->disconnect();
     tray->hide();
     delete ui;

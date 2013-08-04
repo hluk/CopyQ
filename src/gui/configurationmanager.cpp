@@ -528,6 +528,16 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
     m_options[name].setValue(value);
 }
 
+void ConfigurationManager::saveValue(const QString &name, const QVariant &value)
+{
+    QSettings().setValue(name, value);
+}
+
+QVariant ConfigurationManager::loadValue(const QString &name)
+{
+    return QSettings().value(name);
+}
+
 QStringList ConfigurationManager::options() const
 {
     QStringList options;
@@ -786,7 +796,7 @@ void ConfigurationManager::addCommand(const Command &c)
     formats.removeDuplicates();
     cmdWidget->setFormats(formats);
 
-    cmdWidget->setTabs( QSettings().value("Options/tabs").toStringList() );
+    cmdWidget->setTabs( loadValue("Options/tabs").toStringList() );
 
     connect( cmdWidget, SIGNAL(iconChanged(QIcon)),
              this, SLOT(onCurrentCommandWidgetIconChanged(QIcon)) );
@@ -802,7 +812,7 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
     Q_ASSERT( tabs.toSet().size() == tabs.size() );
 
     setValue("tabs", tabs);
-    QSettings().setValue("Options/tabs", tabs);
+    saveValue("Options/tabs", tabs);
 
     QString text = ui->comboBoxMenuTab->currentText();
     ui->comboBoxMenuTab->clear();

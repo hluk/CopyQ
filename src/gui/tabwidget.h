@@ -67,6 +67,10 @@ public:
 
     void setTabPosition(QBoxLayout::Direction direction);
 
+    void setCollapsedTabs(const QStringList &collapsedTabs);
+
+    QStringList collapsedTabs() const;
+
     void clear();
 
     /** Return tab names. */

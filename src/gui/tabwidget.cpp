@@ -137,6 +137,17 @@ void TabWidget::setTabPosition(QBoxLayout::Direction direction)
     m_layout->setDirection(direction);
 }
 
+void TabWidget::setCollapsedTabs(const QStringList &collapsedTabs)
+{
+    if ( isTreeModeEnabled() )
+        m_tabTree->setCollapseTabs(collapsedTabs);
+}
+
+QStringList TabWidget::collapsedTabs() const
+{
+    return isTreeModeEnabled() ? m_tabTree->collapsedTabs() : QStringList();
+}
+
 void TabWidget::clear()
 {
     while ( m_stackedWidget->count() > 0 ) {

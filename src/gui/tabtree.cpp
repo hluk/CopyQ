@@ -260,6 +260,27 @@ void TabTree::setTabText(int tabIndex, const QString &tabText)
         deleteItem(item);
 }
 
+void TabTree::setCollapseTabs(const QStringList &collapsedPaths)
+{
+    foreach (const QString &path, collapsedPaths) {
+        QTreeWidgetItem *item = findTreeItem(path);
+        if ( isTabGroup(item) )
+            item->setExpanded(false);
+    }
+}
+
+QStringList TabTree::collapsedTabs() const
+{
+    QStringList tabs;
+
+    foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+        if ( isTabGroup(item) && !item->isExpanded() )
+            tabs.append( getTabPath(item) );
+    }
+
+    return tabs;
+}
+
 void TabTree::mousePressEvent(QMouseEvent *event)
 {
     if ( event->button() == Qt::RightButton ) {

@@ -59,6 +59,10 @@ public:
 
     void setTabText(int tabIndex, const QString &tabText);
 
+    void setCollapseTabs(const QStringList &collapsedPaths);
+
+    QStringList collapsedTabs() const;
+
 signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
@@ -75,7 +79,6 @@ public slots:
     void nextTreeItem();
     void previousTreeItem();
 
-private slots:
     void onCurrentItemChanged(QTreeWidgetItem *current);
     void onKeyHintActionTriggered();
 
