@@ -363,7 +363,8 @@ void ConfigurationManager::initPluginWidgets()
         else if ( maybeIcon.canConvert(QVariant::Icon) )
             icon = maybeIcon.value<QIcon>();
 
-        ui->itemOrderListPlugins->appendItem( loader->name(), loader->isEnabled(), icon, pluginWidget );
+        ui->itemOrderListPlugins->appendItem(
+                    loader->name(), itemFactory()->isLoaderEnabled(loader), icon, pluginWidget );
     }
 }
 
@@ -578,7 +579,7 @@ void ConfigurationManager::loadSettings()
             s[name] = settings.value(name);
         }
         loader->loadSettings(s);
-        loader->setEnabled( settings.value("enabled", true).toBool() );
+        itemFactory()->setLoaderEnabled( loader, settings.value("enabled", true).toBool() );
 
         settings.endGroup();
     }
@@ -647,7 +648,6 @@ void ConfigurationManager::saveSettings()
         QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
         PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
         ItemLoaderInterfacePtr loader = pluginWidget->loader();
-        loader->setEnabled( ui->itemOrderListPlugins->isItemChecked(i) );
 
         settings.beginGroup(loader->id());
 
@@ -656,7 +656,9 @@ void ConfigurationManager::saveSettings()
             settings.setValue(name, s[name]);
         }
 
-        settings.setValue("enabled", loader->isEnabled());
+        bool enabled = ui->itemOrderListPlugins->isItemChecked(i);
+        itemFactory()->setLoaderEnabled(loader, enabled);
+        settings.setValue("enabled", enabled);
 
         settings.endGroup();
     }

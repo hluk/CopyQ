@@ -45,13 +45,21 @@ public:
 
     int value(const ItemLoaderInterfacePtr &item) const
     {
-        const int val = m_order.indexOf( item->name() );
-        return val == -1 ? m_order.size() : val;
+        return m_order.indexOf( item->name() );
     }
 
     bool operator()(const ItemLoaderInterfacePtr &lhs, const ItemLoaderInterfacePtr &rhs) const
     {
-        return value(lhs) < value(rhs);
+        const int l = value(lhs);
+        const int r = value(rhs);
+
+        if (l == -1)
+            return (r == -1) && lhs->priority() > rhs->priority();
+
+        if (r == -1)
+            return true;
+
+        return l < r;
     }
 
 private:
@@ -84,6 +92,7 @@ protected:
 ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
     , m_loaders()
+    , m_disabledLoaders()
     , m_loaderChildren()
 { 
     loadPlugins();
@@ -99,7 +108,7 @@ ItemFactory::~ItemFactory()
 ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
                                     const QModelIndex &index, QWidget *parent)
 {
-    if (loader.isNull() || loader->isEnabled()) {
+    if ( loader.isNull() || isLoaderEnabled(loader) ) {
         ItemWidget *item = (loader == NULL) ? new DummyItem(index, parent)
                                            : loader->create(index, parent);
         if (item != NULL) {
@@ -143,7 +152,7 @@ QStringList ItemFactory::formatsToSave() const
     QStringList formats;
 
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        if (loader->isEnabled()) {
+        if ( isLoaderEnabled(loader) ) {
             foreach ( const QString &format, loader->formatsToSave() ) {
                 if ( !formats.contains(format) )
                     formats.append(format);
@@ -160,6 +169,19 @@ QStringList ItemFactory::formatsToSave() const
 void ItemFactory::setPluginPriority(const QStringList &pluginNames)
 {
     qSort( m_loaders.begin(), m_loaders.end(), PluginSorter(pluginNames) );
+}
+
+void ItemFactory::setLoaderEnabled(const ItemLoaderInterfacePtr &loader, bool enabled)
+{
+    if (enabled)
+        m_disabledLoaders.remove(loader);
+    else
+        m_disabledLoaders.insert(loader);
+}
+
+bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
+{
+    return !m_disabledLoaders.contains(loader);
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)

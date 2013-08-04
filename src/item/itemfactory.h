@@ -22,6 +22,7 @@
 
 #include <QMap>
 #include <QObject>
+#include <QSet>
 #include <QSharedPointer>
 #include <QVector>
 
@@ -32,31 +33,75 @@ class QWidget;
 
 typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
 
+/**
+ * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate
+ * ItemLoaderInterface::create().
+ */
 class ItemFactory : public QObject
 {
     Q_OBJECT
 
 public:
+    /**
+     * Loads item plugins.
+     */
     ItemFactory(QObject *parent);
 
     ~ItemFactory();
 
+    /**
+     * Instantiate ItemWidget using given @a loader if possible.
+     */
     ItemWidget *createItem(const ItemLoaderInterfacePtr &loader,
                            const QModelIndex &index, QWidget *parent);
 
+    /**
+     * Instantiate ItemWidget using appropriate loader or creates simple ItemWidget (DummyItem).
+     */
     ItemWidget *createItem(const QModelIndex &index, QWidget *parent);
 
+    /**
+     * Uses next item loader to instantiate ItemWidget.
+     */
     ItemWidget *nextItemLoader(const QModelIndex &index, ItemWidget *current);
 
+    /**
+     * Uses previous item loader to instantiate ItemWidget.
+     */
     ItemWidget *previousItemLoader(const QModelIndex &index, ItemWidget *current);
 
+    /**
+     * Formats to save in history, union of enabled ItemLoaderInterface objects.
+     */
     QStringList formatsToSave() const;
 
+    /**
+     * Return list of loaders.
+     */
     const QVector<ItemLoaderInterfacePtr> &loaders() const { return m_loaders; }
 
+    /**
+     * Sort loaders by priority.
+     *
+     * Method createItem() tries to instantiate ItemWidget with loader in this order.
+     *
+     * If priority of a loader is not set here, it is sorted after using
+     * ItemLoaderInterface::priotity() after all loader explicitly sorted.
+     */
     void setPluginPriority(const QStringList &pluginNames);
 
+    /**
+     * Enable or disable instantiation of ItemWidget objects using @a loader.
+     */
+    void setLoaderEnabled(const ItemLoaderInterfacePtr &loader, bool enabled);
+
+    /**
+     * Return true if @a loader is enabled.
+     */
+    bool isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const;
+
 private slots:
+    /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);
 
 private:
@@ -64,6 +109,7 @@ private:
     bool loadPlugins();
 
     QVector<ItemLoaderInterfacePtr> m_loaders;
+    QSet<ItemLoaderInterfacePtr> m_disabledLoaders;
     QMap<QObject *, ItemLoaderInterfacePtr> m_loaderChildren;
 };
 

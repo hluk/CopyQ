@@ -118,7 +118,7 @@ private:
 class ItemLoaderInterface
 {
 public:
-    ItemLoaderInterface() : m_enabled(true) {}
+    ItemLoaderInterface() {}
 
     virtual ~ItemLoaderInterface() {}
 
@@ -165,24 +165,25 @@ public:
 
     /**
      * Provide formats to save (possibly configurable).
+     *
+     * The values are stored into user QSettings, under group with name same as value of id().
      */
     virtual QStringList formatsToSave() const { return QStringList(); }
 
+    /**
+     * Save and return configuration values to save from current settings widget.
+     */
     virtual QVariantMap applySettings() { return QVariantMap(); }
 
+    /**
+     * Load stored configuration values.
+     */
     virtual void loadSettings(const QVariantMap &) {}
 
     /**
      * Create settings widget.
      */
     virtual QWidget *createSettingsWidget(QWidget *) { return NULL; }
-
-    bool isEnabled() const { return m_enabled; }
-
-    void setEnabled(bool enabled) { m_enabled = enabled; }
-
-private:
-    bool m_enabled;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)
