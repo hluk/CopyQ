@@ -73,7 +73,7 @@ public:
     void updateAppearance();
 
 private slots:
-    void notificationDestroyed(QObject *notification);
+    void onNotificationClose(Notification *notification);
 
 private:
     /** Find ideal position for new notification. */
@@ -84,6 +84,8 @@ private:
     Notification *createNotification(QWidget *parent, int id = -1);
 
     void popupNotification(Notification *notification, int msec);
+
+    void hideNotification(Notification *notification);
 
     int m_lastId;
     Position m_position;

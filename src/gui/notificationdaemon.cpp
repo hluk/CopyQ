@@ -134,10 +134,14 @@ void NotificationDaemon::updateAppearance()
         setAppearance(m_notifications[id]);
 }
 
-void NotificationDaemon::notificationDestroyed(QObject *notification)
+void NotificationDaemon::onNotificationClose(Notification *notification)
 {
-    int id = notification->property("CopyQ_id").toInt();
+    const int id = notification->id();
     m_notifications.remove(id);
+
+    hideNotification(notification);
+
+    delete notification;
 }
 
 QPoint NotificationDaemon::findPosition(Notification *notification)
@@ -193,14 +197,15 @@ Notification *NotificationDaemon::createNotification(QWidget *parent, int id)
 
     const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == NULL) {
-        notification = new Notification(parent);
+        notification = new Notification(newId, parent);
         setAppearance(notification);
-        notification->setProperty("CopyQ_id", newId);
         m_notifications[newId] = notification;
+    } else {
+        hideNotification(notification);
     }
 
-    connect( notification, SIGNAL(destroyed(QObject*)),
-             this, SLOT(notificationDestroyed(QObject*)) );
+    connect( notification, SIGNAL(closeNotification(Notification*)),
+             this, SLOT(onNotificationClose(Notification*)) );
 
     return notification;
 }
@@ -215,4 +220,18 @@ void NotificationDaemon::popupNotification(Notification *notification, int msec)
     const QPoint pos = findPosition(notification);
 
     notification->popup(pos, msec);
+}
+
+void NotificationDaemon::hideNotification(Notification *notification)
+{
+    notification->hide();
+
+    const int y = notification->y();
+    const int d = (notification->height() + notificationMargin) * ((m_position & Bottom) ? 1 : -1);
+
+    foreach (Notification *notification2, m_notifications.values()) {
+        const int y2 = notification2->y();
+        if ( m_position & Bottom ? y2 < y : y2 > y )
+            notification2->move( notification2->x(), y2 + d );
+    }
 }

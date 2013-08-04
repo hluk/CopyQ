@@ -27,8 +27,9 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-Notification::Notification(QWidget *parent)
+Notification::Notification(int id, QWidget *parent)
     : QWidget()
+    , m_id(id)
     , m_body(NULL)
     , m_titleLabel(NULL)
     , m_iconLabel(NULL)
@@ -100,8 +101,9 @@ void Notification::setInterval(int msec)
     if (msec > 0) {
         m_timer = new QTimer(this);
         m_timer->setInterval(msec);
+        m_timer->setSingleShot(true);
         connect( m_timer, SIGNAL(timeout()),
-                 this, SLOT(deleteLater()) );
+                 this, SLOT(onTimeout()) );
         m_timer->start();
     }
 }
@@ -112,9 +114,25 @@ void Notification::setOpacity(qreal opacity)
     m_opacity = opacity;
 }
 
+void Notification::adjust()
+{
+    m_body->adjustSize();
+    adjustSize();
+}
+
+void Notification::popup(const QPoint &position, int msec)
+{
+    move(position);
+    show();
+    setInterval(msec);
+}
+
 void Notification::mousePressEvent(QMouseEvent *)
 {
-    deleteLater();
+    if (m_timer != NULL)
+        m_timer->stop();
+
+    emit closeNotification(this);
 }
 
 void Notification::enterEvent(QEvent *event)
@@ -133,19 +151,6 @@ void Notification::leaveEvent(QEvent *event)
     QWidget::leaveEvent(event);
 }
 
-void Notification::adjust()
-{
-    m_body->adjustSize();
-    adjustSize();
-}
-
-void Notification::popup(const QPoint &position, int msec)
-{
-    move(position);
-    show();
-    setInterval(msec);
-}
-
 void Notification::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
@@ -159,4 +164,9 @@ void Notification::paintEvent(QPaintEvent *event)
     // light inner border
     p.setPen( palette().color(QPalette::Window).lighter(300) );
     p.drawRect(rect().adjusted(1, 1, -2, -2));
+}
+
+void Notification::onTimeout()
+{
+    emit closeNotification(this);
 }

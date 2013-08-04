@@ -31,7 +31,7 @@ class Notification : public QWidget
     Q_OBJECT
     friend class NotificationDaemon;
 protected:
-    explicit Notification(QWidget *parent);
+    Notification(int id, QWidget *parent);
 
     void setTitle(const QString &title);
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
@@ -40,18 +40,26 @@ protected:
     void setInterval(int msec);
     void setOpacity(qreal opacity);
 
-    void mousePressEvent(QMouseEvent *event);
-    void enterEvent(QEvent *event);
-    void leaveEvent(QEvent *event);
+    int id() const { return m_id; }
 
     void adjust();
 
     void popup(const QPoint &position, int msec);
 
-protected:
+    void mousePressEvent(QMouseEvent *event);
+    void enterEvent(QEvent *event);
+    void leaveEvent(QEvent *event);
     void paintEvent(QPaintEvent *event);
 
+signals:
+    /** Emitted if notification needs to be closed. */
+    void closeNotification(Notification *self);
+
+private slots:
+    void onTimeout();
+
 private:
+    const int m_id;
     QWidget *m_body;
     QLabel *m_titleLabel;
     QLabel *m_iconLabel;
