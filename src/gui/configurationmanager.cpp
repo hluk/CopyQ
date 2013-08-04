@@ -343,7 +343,7 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconThList, color) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
-#ifdef NO_GLOBAL_SHORTCUTS
+#ifndef NO_GLOBAL_SHORTCUTS
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
 #endif
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
