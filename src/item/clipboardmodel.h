@@ -20,13 +20,13 @@
 #ifndef CLIPBOARDMODEL_H
 #define CLIPBOARDMODEL_H
 
+#include "item/clipboarditem.h"
+
 #include <QAbstractListModel>
 #include <QList>
 #include <QSharedPointer>
 
 class QMimeData;
-
-class ClipboardItem;
 
 /**
  * Model containing ClipboardItem objects.

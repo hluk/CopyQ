@@ -21,7 +21,6 @@
 
 #include "common/client_server.h"
 #include "common/contenttype.h"
-#include "clipboarditem.h"
 
 #include <QDataStream>
 

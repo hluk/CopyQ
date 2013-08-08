@@ -20,8 +20,6 @@
 #include "pluginwidget.h"
 #include "ui_pluginwidget.h"
 
-#include "item/itemwidget.h"
-
 PluginWidget::PluginWidget(const ItemLoaderInterfacePtr &loader, QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::PluginWidget)

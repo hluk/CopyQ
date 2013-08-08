@@ -20,13 +20,13 @@
 #ifndef PLUGINWIDGET_H
 #define PLUGINWIDGET_H
 
+#include "item/itemwidget.h"
+
 #include <QWidget>
 
 namespace Ui {
 class PluginWidget;
 }
-
-class ItemLoaderInterface;
 
 typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
 
