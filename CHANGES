@@ -1,3 +1,13 @@
+v1.9.1
+- Notifications -- customizable theme, timeout and position on screen
+- Optional notification for new clipboard content
+- Autostart option on Linux
+- Reset empty clipboard to previous content
+- More user-friendly item editor
+- Optional font antialiasing
+- Changed layout of configuration dialog
+- Other fixes
+
 v1.9.0
 - User notes
 - Improved appearance settings with some example themes
