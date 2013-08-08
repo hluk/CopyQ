@@ -100,6 +100,11 @@ public:
      */
     bool isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const;
 
+    /**
+     * Return true if no plugins were loaded.
+     */
+    bool hasLoaders() const { return !m_loaders.isEmpty(); }
+
 private slots:
     /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);

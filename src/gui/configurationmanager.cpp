@@ -97,6 +97,9 @@ ConfigurationManager::ConfigurationManager()
     ui->tabShortcuts->deleteLater();
 #endif
 
+    if ( !itemFactory()->hasLoaders() )
+        ui->tabItems->deleteLater();
+
     initOptions();
 
     /* datafile for items */
@@ -324,7 +327,8 @@ void ConfigurationManager::updateIcons()
     iconFactory()->invalidateCache();
     iconFactory()->setUseSystemIcons(ui->configTabAppearance->themeValue("use_system_icons").toBool());
 
-    ui->itemOrderListPlugins->updateIcons();
+    if ( itemFactory()->hasLoaders() )
+        ui->itemOrderListPlugins->updateIcons();
     ui->itemOrderListCommands->updateIcons();
 }
 
@@ -351,6 +355,9 @@ void ConfigurationManager::initTabIcons()
 
 void ConfigurationManager::initPluginWidgets()
 {
+    if (!itemFactory()->hasLoaders())
+        return;
+
     ui->itemOrderListPlugins->clearItems();
 
     foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
@@ -653,33 +660,35 @@ void ConfigurationManager::saveSettings()
     updateIcons();
 
     // save settings for each plugin
-    settings.beginGroup("Plugins");
-    for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
-        QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
-        PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-        ItemLoaderInterfacePtr loader = pluginWidget->loader();
+    if ( itemFactory()->hasLoaders() ) {
+        settings.beginGroup("Plugins");
+        for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
+            QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
+            PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
+            ItemLoaderInterfacePtr loader = pluginWidget->loader();
 
-        settings.beginGroup(loader->id());
+            settings.beginGroup(loader->id());
 
-        QVariantMap s = loader->applySettings();
-        foreach (const QString &name, s.keys()) {
-            settings.setValue(name, s[name]);
+            QVariantMap s = loader->applySettings();
+            foreach (const QString &name, s.keys()) {
+                settings.setValue(name, s[name]);
+            }
+
+            bool enabled = ui->itemOrderListPlugins->isItemChecked(i);
+            itemFactory()->setLoaderEnabled(loader, enabled);
+            settings.setValue("enabled", enabled);
+
+            settings.endGroup();
         }
-
-        bool enabled = ui->itemOrderListPlugins->isItemChecked(i);
-        itemFactory()->setLoaderEnabled(loader, enabled);
-        settings.setValue("enabled", enabled);
-
         settings.endGroup();
-    }
-    settings.endGroup();
 
-    // save plugin priority
-    QStringList pluginPriority;
-    for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
-        pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
-    settings.setValue("plugin_priority", pluginPriority);
-    itemFactory()->setPluginPriority(pluginPriority);
+        // save plugin priority
+        QStringList pluginPriority;
+        for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
+            pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
+        settings.setValue("plugin_priority", pluginPriority);
+        itemFactory()->setPluginPriority(pluginPriority);
+    }
 
     ui->configTabAppearance->setEditor( value("editor").toString() );
 
@@ -860,7 +869,8 @@ void ConfigurationManager::onFinished(int result)
         loadSettings();
     }
 
-    ui->itemOrderListPlugins->clearItems();
+    if ( itemFactory()->hasLoaders() )
+        ui->itemOrderListPlugins->clearItems();
     ui->itemOrderListCommands->clearItems();
 }
 
