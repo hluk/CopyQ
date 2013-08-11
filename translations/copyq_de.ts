@@ -894,7 +894,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/ui/configurationmanager.ui" line="111"/>
         <location filename="../src/ui/configurationmanager.ui" line="232"/>
         <source>Top</source>
-        <translation>Open</translation>
+        <translation>Oben</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="116"/>
@@ -1046,7 +1046,7 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="886"/>
         <source>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</source>
-        <translation>uDefiniere was mit neuem übereinstimmenden Text in der Zwischenablage getan werden soll. Befehle werden der Reihenfolge in der Liste entsprechend angewendet. Und können auch über Hauptmenü und Kontextmenü (via Rechtsklick) aufgerufen werden.</translation>
+        <translation>Definiere was mit neuem übereinstimmenden Text in der Zwischenablage getan werden soll. Befehle werden der Reihenfolge in der Liste entsprechend angewendet. Und können auch über Hauptmenü und Kontextmenü (via Rechtsklick) aufgerufen werden.</translation>
     </message>
     <message>
         <source>Remove [Del]</source>
@@ -1080,12 +1080,12 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="920"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Note:&lt;/b&gt; Some key combinations may not work.&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Pozn.:&lt;/b&gt; Manche Tastenkombination funktionieren vielleicht nicht.&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Hinweis:&lt;/b&gt; Manche Tastenkombination funktionieren eventuell nicht.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="910"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn&apos;t have focus.&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Diese Tastenkombination funktionieren auchc wenn die Anwendung nicht fokusiert ist.&lt;/body&gt;&lt;/html&gt;</translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;Diese Tastenkombination funktionieren auch wenn die Anwendung nicht fokusiert ist.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="945"/>
