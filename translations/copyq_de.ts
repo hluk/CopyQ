@@ -219,7 +219,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="319"/>
         <source>&amp;Show Content...</source>
-        <translation>Inhaltanzeigen... (&amp;s)
+        <translation>Inhalt anzeigen... (&amp;s)
 </translation>
     </message>
     <message>
@@ -260,12 +260,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1444"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"></translation>
+        <translation>Änderungen verwerfen?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1445"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"></translation>
+        <translation>Willst du wirklich &lt;strong&gt;die Änderungen verwerfen&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -681,7 +681,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="248"/>
         <source>Notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigung</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="280"/>
@@ -711,7 +711,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="307"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Antialiasing</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="331"/>
@@ -1130,7 +1130,7 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="856"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Anzeigeformat des ausgewählten Eintrages im Verlauf kann durch drücken von &lt;b&gt;Strg+Links&lt;/b&gt; oder &lt;b&gt;Strg&lt;/b&gt; verändert werden. Du kannst die Priorität einzelnen der Anzeigeformate darunter verändern.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="995"/>
@@ -1181,17 +1181,17 @@ Anmerkung: Dies wird nicht auf allen Betriebsystemen unterstützt.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="39"/>
         <source>&amp;General</source>
-        <translation type="unfinished"></translation>
+        <translation>All&amp;gemein</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="45"/>
         <source>Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Benachrichtigung</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="51"/>
         <source>Interval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
+        <translation>Anzeigedauer für Benachrichtigungen in Sekunden:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="63"/>
@@ -1200,54 +1200,60 @@ Anmerkung: Dies wird nicht auf allen Betriebsystemen unterstützt.</translation>
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dauer in Sekunden zum Anzeigen von Benachrichtigungen für neue Inhalte in der Zwischenablage oder wenn ein Eintrag in die Zwischenablage kopiert wurde (Nur wenn das Hauptfenster geschlossen ist).
+
+Auf 0 setzen um die Anzeige zu deaktivieren
+
+Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="95"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>Position der Be&amp;nachrichtigung:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="107"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>Position auf dem Bildschirm für Benachrichtgungen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"/>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Oben rechts</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="126"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Mitte rechts</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="131"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Unten links</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="136"/>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>Open Links</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="159"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeilenanzahl für eine &amp;Benachrichtigung:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="171"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeilenanzahl welche bei neuen Inhalten in der Zwischenablage angezeigt wird.
+
+Auf 0 setzen zum deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="213"/>
         <source>Layout and Transparency</source>
-        <translation type="unfinished"></translation>
+        <translation>Layout und Transparenz</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="219"/>
@@ -1281,27 +1287,27 @@ Anmerkung: Dies wird nicht auf allen Betriebsystemen unterstützt.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="367"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"></translation>
+        <translation>Zeigen/Verstecken</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="393"/>
         <source>Don&apos;t show tray icon; minimize window when closed</source>
-        <translation type="unfinished"></translation>
+        <translation>Kein Tray-Icon anzeigen; Fenster minimieren wenn geschlossen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="396"/>
         <source>&amp;Disable tray</source>
-        <translation type="unfinished"></translation>
+        <translation>Tray-Icon &amp;deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="425"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendung beim Systemstart laden</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="428"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Autostart</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="480"/>
@@ -1386,7 +1392,9 @@ Setze diesen Eintrag auf 0 zum Deaktivieren.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation type="unfinished"></translation>
+        <translation>Nicht auswählen um mit der Entertaste veränderte Einträge zu speichen und mit Strg+Enter neue Zeilen zu erstellen.
+
+Hinweis: Veränderte Eintrage können mit F2 trotz dieser Option gespeichert werden.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="704"/>
@@ -1868,7 +1876,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="67"/>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>Daten</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="69"/>
@@ -1992,44 +2000,44 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="147"/>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="149"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>Eintrag speichern (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="150"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="154"/>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>Abbrechen</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="156"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Bearbeiten abbrechen und Änderungen rückgängig machen</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="157"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished"></translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="165"/>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>Rückgängig</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="172"/>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>Wiederholen</translation>
     </message>
 </context>
 <context>
@@ -2041,7 +2049,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="65"/>
         <source>Images</source>
-        <translation type="unfinished">Bilder</translation>
+        <translation>Bilder</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="67"/>
@@ -2105,22 +2113,22 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="87"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="103"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished">Entfe&amp;rnen</translation>
+        <translation>Entfe&amp;rnen</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="110"/>
         <source>&amp;Up</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Hoch</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="117"/>
         <source>&amp;Down</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Herunter</translation>
     </message>
 </context>
 <context>
@@ -2132,7 +2140,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="80"/>
         <source>Text</source>
-        <translation type="unfinished">Text</translation>
+        <translation>Text</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="82"/>
@@ -2157,7 +2165,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="73"/>
         <source>Web</source>
-        <translation type="unfinished"></translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../plugins/itemweb/itemweb.h" line="75"/>
@@ -2371,7 +2379,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/gui/mainwindow.cpp" line="839"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished">CopyQ Fehler</translation>
+        <translation>CopyQ Fehler</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1319"/>
@@ -2659,8 +2667,8 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/common/client_server.cpp" line="269"/>
         <source>&quot;%1&quot; (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>&quot;%1&quot; (%n Zeilen)</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2668,31 +2676,31 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../src/common/client_server.cpp" line="271"/>
         <source>&quot;%1&quot;</source>
         <comment>Label for single-line text in clipboard</comment>
-        <translation type="unfinished">&quot;%1&quot;</translation>
+        <translation>&quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/common/client_server.cpp" line="278"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished">&lt;BILD&gt;</translation>
+        <translation>&lt;BILD&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/client_server.cpp" line="280"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation type="unfinished">&lt;DATEI&gt;</translation>
+        <translation>&lt;DATEI&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/client_server.cpp" line="282"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished">&lt;LEER&gt;</translation>
+        <translation>&lt;LEER&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/client_server.cpp" line="284"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished">&lt;DATEN&gt;</translation>
+        <translation>&lt;DATEN&gt;</translation>
     </message>
     <message>
         <location filename="../src/item/clipboarditem.cpp" line="158"/>
@@ -2723,7 +2731,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="101"/>
         <source>No plugins loaded</source>
-        <translation type="unfinished"></translation>
+        <translation>Keine Plugins geladen</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="254"/>
@@ -2738,8 +2746,8 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/notificationdaemon.cpp" line="75"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n Zeilen &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2747,7 +2755,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <location filename="../src/gui/notificationdaemon.cpp" line="78"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished"></translation>
+        <translation>%1</translation>
     </message>
 </context>
 <context>
@@ -3265,7 +3273,7 @@ Benutze &lt;b&gt;/&lt;/b&gt; als Pfadtrenner im im Baumreiteransicht.</translati
         <location filename="../src/gui/traymenu.cpp" line="147"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"></translation>
+        <translation>&amp;%1. %2</translation>
     </message>
 </context>
 </TS>
