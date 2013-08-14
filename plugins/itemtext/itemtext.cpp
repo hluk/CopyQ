@@ -76,11 +76,9 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
-    , m_searchTextDocument()
     , m_textFormat(isRichText ? Qt::RichText : Qt::PlainText)
 {
     init(m_textDocument, font());
-    init(m_searchTextDocument, font());
 
     setUndoRedoEnabled(false);
 
@@ -103,41 +101,36 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    m_searchTextDocument.clear();
-    if ( re.isEmpty() ) {
-        setDocument(&m_textDocument);
-    } else {
-        bool plain = m_textFormat == Qt::PlainText;
-        const QString &text = plain ? m_textDocument.toPlainText() : m_textDocument.toHtml();
-        if (plain)
-            m_searchTextDocument.setPlainText(text);
-        else
-            m_searchTextDocument.setHtml(text);
+    QList<QTextEdit::ExtraSelection> selections;
 
-        QTextCursor cur = m_searchTextDocument.find(re);
+    if ( !re.isEmpty() ) {
+        QTextEdit::ExtraSelection selection;
+        selection.format.setBackground( highlightPalette.base() );
+        selection.format.setForeground( highlightPalette.text() );
+        selection.format.setFont(highlightFont);
+
+        QTextCursor cur = m_textDocument.find(re);
         int a = cur.position();
         while ( !cur.isNull() ) {
-            QTextCharFormat fmt = cur.charFormat();
             if ( cur.hasSelection() ) {
-                fmt.setBackground( highlightPalette.base() );
-                fmt.setForeground( highlightPalette.text() );
-                fmt.setFont(highlightFont);
-                cur.setCharFormat(fmt);
+                selection.cursor = cur;
+                selections.append(selection);
             } else {
                 cur.movePosition(QTextCursor::NextCharacter);
             }
-            cur = m_searchTextDocument.find(re, cur);
+            cur = m_textDocument.find(re, cur);
             int b = cur.position();
             if (a == b) {
                 cur.movePosition(QTextCursor::NextCharacter);
-                cur = m_searchTextDocument.find(re, cur);
+                cur = m_textDocument.find(re, cur);
                 b = cur.position();
                 if (a == b) break;
             }
             a = b;
         }
-        setDocument(&m_searchTextDocument);
     }
+
+    setExtraSelections(selections);
 
     update();
 }
@@ -145,7 +138,6 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
 void ItemText::updateSize()
 {
     const int w = maximumWidth();
-    m_searchTextDocument.setTextWidth(w);
     m_textDocument.setTextWidth(w);
     resize( m_textDocument.idealWidth() + 16, m_textDocument.size().height() );
 }

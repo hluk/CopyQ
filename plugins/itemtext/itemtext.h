@@ -59,7 +59,6 @@ private slots:
 
 private:
     QTextDocument m_textDocument;
-    QTextDocument m_searchTextDocument;
     Qt::TextFormat m_textFormat;
 };
 
