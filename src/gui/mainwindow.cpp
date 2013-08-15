@@ -170,6 +170,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayTimer(NULL)
     , m_sessionName()
     , m_notifications(NULL)
+    , m_timerMiminizing(NULL)
+    , m_minimizeUnsupported(false)
 {
     ui->setupUi(this);
 
@@ -262,7 +264,7 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if (m_showTray) {
+    if ( !closeMinimizes() ) {
         hide();
     } else {
         if ( isMinimized() ) {
@@ -281,7 +283,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 void MainWindow::hideEvent(QHideEvent *event)
 {
     QMainWindow::hideEvent(event);
-    if (!m_showTray)
+    if ( closeMinimizes() )
         showMinimized();
 }
 
@@ -702,6 +704,11 @@ void MainWindow::loadCollapsedTabs()
     }
 }
 
+bool MainWindow::closeMinimizes() const
+{
+    return !m_showTray && !m_minimizeUnsupported;
+}
+
 NotificationDaemon *MainWindow::notificationDaemon()
 {
     if (m_notifications == NULL)
@@ -973,6 +980,13 @@ bool MainWindow::event(QEvent *event)
         setHideTabs(m_hideTabs);
         setHideMenuBar(m_hideMenuBar);
     } else if (event->type() == QEvent::WindowActivate) {
+        if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() ) {
+            // Window manager ignores window minimizing -- hide it instead.
+            m_minimizeUnsupported = true;
+            hide();
+            return true;
+        }
+
         updateWindowTransparency();
 
         // Update highligh color of show/hide widget for menu bar.
@@ -1138,8 +1152,16 @@ void MainWindow::loadSettings()
     }
 
     tray->setVisible(m_showTray);
-    if (!m_showTray && !isVisible())
+    if (!m_showTray) {
+        if (m_timerMiminizing == NULL) {
+            // Check if window manager can minimize window properly.
+            // If window is activated while minimizing, assume that minimizing is not supported.
+            m_timerMiminizing = new QTimer(this);
+            m_timerMiminizing->setSingleShot(true);
+            m_timerMiminizing->start(1000);
+        }
         showMinimized();
+    }
 
     if (m_notifications != NULL)
         updateNotifications();
@@ -1151,6 +1173,9 @@ void MainWindow::loadSettings()
 
 void MainWindow::showWindow()
 {
+    if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() )
+        return;
+
 #ifdef COPYQ_WS_X11
     /* Re-initialize window in window manager so it can popup on current workspace. */
     Qt::WindowFlags flags = windowFlags();
@@ -1774,9 +1799,10 @@ void MainWindow::openPreferences()
         setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
         showNormal();
 
-        if ( ConfigurationManager::instance()->exec() == QDialog::Rejected )
+        if ( ConfigurationManager::instance()->exec() == QDialog::Rejected ) {
             setWindowFlags(flags);
-        showNormal();
+            showNormal();
+        }
     } else {
         ConfigurationManager::instance()->exec();
     }

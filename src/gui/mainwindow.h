@@ -397,6 +397,15 @@ class MainWindow : public QMainWindow
 
         void loadCollapsedTabs();
 
+        /**
+         * Return true if window should be minimized instead of closed/hidden.
+         *
+         * If tray icon is not available, window should be minimized so that it can be opened with
+         * mouse. Some window managers (dwm, wmfs etc.) doesn't support minimizing, in that case
+         * window can be hidden instead.
+         */
+        bool closeMinimizes() const;
+
         /** Return notification daemon (create if doesn't exist). */
         NotificationDaemon *notificationDaemon();
 
@@ -453,6 +462,9 @@ class MainWindow : public QMainWindow
         QString m_sessionName;
 
         NotificationDaemon *m_notifications;
+
+        QTimer *m_timerMiminizing;
+        bool m_minimizeUnsupported;
     };
 
 #endif // MAINWINDOW_H
