@@ -1540,8 +1540,11 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
-    foreach (const QString &item, items)
-        c->add(item, true);
+    {
+        ClipboardBrowser::Lock lock(c);
+        foreach (const QString &item, items)
+            c->add(item, true);
+    }
 }
 
 void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
