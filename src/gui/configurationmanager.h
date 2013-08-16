@@ -202,6 +202,9 @@ private slots:
 
 const QIcon &getIconFromResources(const QString &iconName);
 
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color = QColor());
+const QIcon getIcon(const QString &themeName, ushort iconId);
+
+const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color,
+                    const QColor &activeColor);
 
 #endif // CONFIGURATIONMANAGER_H

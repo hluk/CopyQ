@@ -87,14 +87,14 @@ bool ItemOrderList::isItemChecked(int row) const
 
 void ItemOrderList::updateIcons()
 {
-    const QColor color = getDefaultIconColor<QPushButton>();
+    static const QColor color = getDefaultIconColor(*ui->pushButtonRemove, QPalette::Window);
+    static const QColor color2 = getDefaultIconColor(*ui->toolButtonAdd, QPalette::Window);
 
     // Command button icons.
-    ui->toolButtonAdd->setIcon( getIcon("list-add", IconPlus,
-                                        getDefaultIconColor<QToolButton>()) );
-    ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus, color) );
-    ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown, color) );
-    ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp, color) );
+    ui->toolButtonAdd->setIcon( getIcon("list-add", IconPlus, color2, color2) );
+    ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus, color, color) );
+    ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown, color, color) );
+    ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp, color, color) );
 }
 
 void ItemOrderList::setCurrentItem(int row)

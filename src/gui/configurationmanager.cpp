@@ -54,6 +54,11 @@ const QRegExp reURL("^(https?|ftps?|file)://");
 const QString fileErrorString =
         ConfigurationManager::tr("Cannot save tab \"%1\" to \"%2\" (%3)!");
 
+void activateColor(QPalette::ColorRole role, QPalette *pal)
+{
+    pal->setColor(QPalette::Inactive, role, pal->color(QPalette::Active, role));
+}
+
 } // namespace
 
 // singleton
@@ -340,7 +345,7 @@ void ConfigurationManager::initTabIcons()
 
     IconFactory *f = iconFactory();
 
-    QColor color = getDefaultIconColor<QWidget>();
+    static const QColor color = getDefaultIconColor<QTabBar>(QPalette::Window);
 
     tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->createPixmap(IconWrench, color) );
     tw->setTabIcon( tw->indexOf(ui->tabHistory), f->createPixmap(IconListAlt, color) );
@@ -360,13 +365,16 @@ void ConfigurationManager::initPluginWidgets()
 
     ui->itemOrderListPlugins->clearItems();
 
+    static const QColor color = getDefaultIconColor<QListWidget>(QPalette::Base);
+    static const QColor activeColor = getDefaultIconColor<QListWidget>(QPalette::Highlight);
+
     foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
         PluginWidget *pluginWidget = new PluginWidget(loader, this);
 
         QIcon icon;
         const QVariant maybeIcon = loader->icon();
         if ( maybeIcon.canConvert(QVariant::UInt) )
-            icon = getIcon( QString(), maybeIcon.toUInt(), getDefaultIconColor(ui->itemOrderListPlugins) );
+            icon = getIcon( QString(), maybeIcon.toUInt(), color, activeColor );
         else if ( maybeIcon.canConvert(QVariant::Icon) )
             icon = maybeIcon.value<QIcon>();
 
@@ -917,7 +925,12 @@ const QIcon &getIconFromResources(const QString &iconName)
     return ConfigurationManager::instance()->iconFactory()->getIcon(iconName);
 }
 
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color)
+const QIcon getIcon(const QString &themeName, ushort iconId)
 {
-    return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color);
+    return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId);
+}
+
+const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
+{
+    return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
 }

@@ -23,6 +23,7 @@
 #include <QColor>
 #include <QFont>
 #include <QHash>
+#include <QPalette>
 
 class QIcon;
 class QPixmap;
@@ -92,7 +93,8 @@ public:
     const QColor &iconColor() { return m_iconColor; }
 
     const QPixmap &getPixmap(ushort id);
-    QIcon getIcon(const QString &themeName, ushort id, const QColor &color);
+    QIcon getIcon(const QString &themeName, ushort id);
+    QIcon getIcon(const QString &themeName, ushort id, const QColor &color, const QColor &activeColor);
     const QIcon &getIcon(const QString &iconName);
 
     void setUseSystemIcons(bool enable) { m_useSystemIcons = enable; }
@@ -100,7 +102,8 @@ public:
 
     void invalidateCache();
 
-    QIcon iconFromFile(const QString &fileName, const QColor &color = QColor());
+    QIcon iconFromFile(const QString &fileName, const QColor &color = QColor(),
+                       const QColor &activeColor = QColor());
 
     /**
      * Return true only if the icon resources were successfuly loaded.
@@ -127,13 +130,13 @@ private:
 
 QColor getDefaultIconColor(const QColor &color);
 
-QColor getDefaultIconColor(QWidget *widget);
+QColor getDefaultIconColor(const QWidget &widget, QPalette::ColorRole colorRole);
 
-/// Get icon color for a widget.
 template<typename Widget>
-QColor getDefaultIconColor() {
+QColor getDefaultIconColor(QPalette::ColorRole colorRole)
+{
     Widget w;
-    return getDefaultIconColor(&w);
+    return getDefaultIconColor(w, colorRole);
 }
 
 #endif // ICONFACTORY_H

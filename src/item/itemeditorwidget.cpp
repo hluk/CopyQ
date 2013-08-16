@@ -34,10 +34,10 @@
 
 namespace {
 
-const QIcon iconSave(const QColor &color = QColor()) { return getIcon("document-save", IconSave, color); }
-const QIcon iconCancel(const QColor &color = QColor()) { return getIcon("document-revert", IconRemove, color); }
-const QIcon iconUndo(const QColor &color = QColor()) { return getIcon("edit-undo", IconUndo, color); }
-const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo", IconRepeat, color); }
+const QIcon iconSave(const QColor &color = QColor()) { return getIcon("document-save", IconSave, color, color); }
+const QIcon iconCancel(const QColor &color = QColor()) { return getIcon("document-revert", IconRemove, color, color); }
+const QIcon iconUndo(const QColor &color = QColor()) { return getIcon("edit-undo", IconUndo, color, color); }
+const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo", IconRepeat, color, color); }
 
 } // namespace
 

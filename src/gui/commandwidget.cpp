@@ -159,9 +159,9 @@ void CommandWidget::on_lineEditName_textChanged(const QString &name)
 
 void CommandWidget::on_lineEditIcon_textChanged(const QString &)
 {
+    static const QColor color = getDefaultIconColor(*ui->buttonIcon, QPalette::Window);
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-    QIcon icon =
-            iconFactory->iconFromFile(ui->lineEditIcon->text(), getDefaultIconColor<QToolButton>());
+    QIcon icon = iconFactory->iconFromFile( ui->lineEditIcon->text(), color );
     ui->buttonIcon->setIcon(icon);
     emit iconChanged(icon);
 }
