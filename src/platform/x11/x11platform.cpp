@@ -340,8 +340,11 @@ void X11Platform::setAutostartEnabled(bool enable)
         return;
 
     QFile desktopFile2(filename + ".new");
-    if ( !desktopFile2.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) )
+    if ( !QDir(QDir::cleanPath(filename + "/..")).mkpath(".")
+         || !desktopFile2.open(QIODevice::WriteOnly | QIODevice::Truncate | QIODevice::Text) )
+    {
         return;
+    }
 
     QRegExp re("^Hidden\\s*=\\s*");
 
