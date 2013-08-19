@@ -196,6 +196,7 @@ class ClipboardBrowser : public QListView
         QTimer *m_timerSave;
         QTimer *m_timerScroll;
         QTimer *m_timerShowNotes;
+        QTimer *m_timerUpdate;
 
         QPointer<QMenu> m_menu;
 
@@ -235,6 +236,8 @@ class ClipboardBrowser : public QListView
         void editItem(const QModelIndex &index, bool editNotes = false);
 
         void updateEditorGeometry();
+
+        void initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot = NULL);
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -365,9 +368,8 @@ class ClipboardBrowser : public QListView
         void saveItems();
         /**
          * Save items to configuration after an interval.
-         * Default interval is 30 seconds.
          */
-        void delayedSaveItems(int msec = 30000);
+        void delayedSaveItems();
         /**
          * Clear all items from configuration.
          * @see setID, loadItems, saveItems

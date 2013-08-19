@@ -150,6 +150,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerSave( new QTimer(this) )
     , m_timerScroll( new QTimer(this) )
     , m_timerShowNotes( new QTimer(this) )
+    , m_timerUpdate( new QTimer(this) )
     , m_menu(NULL)
     , m_save(true)
     , m_editor(NULL)
@@ -166,17 +167,10 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSpacing(5);
 
-    m_timerSave->setSingleShot(true);
-    connect( m_timerSave, SIGNAL(timeout()),
-             this, SLOT(saveItems()) );
-
-    m_timerScroll->setSingleShot(true);
-    m_timerScroll->setInterval(50);
-
-    m_timerShowNotes->setSingleShot(true);
-    m_timerShowNotes->setInterval(250);
-    connect( m_timerShowNotes, SIGNAL(timeout()),
-             this, SLOT(updateItemNotes()) );
+    initSingleShotTimer(m_timerSave, 30000, SLOT(saveItems()));
+    initSingleShotTimer(m_timerScroll, 50);
+    initSingleShotTimer(m_timerShowNotes, 250, SLOT(updateItemNotes()));
+    initSingleShotTimer(m_timerUpdate, 0, SLOT(updateCurrentPage()));
 
     // delegate for rendering and editing items
     setItemDelegate(d);
@@ -566,6 +560,16 @@ void ClipboardBrowser::updateEditorGeometry()
     }
 }
 
+void ClipboardBrowser::initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot)
+{
+    timer->setSingleShot(true);
+    timer->setInterval(milliseconds);
+    if (slot != NULL) {
+        connect( timer, SIGNAL(timeout()),
+                 this, slot );
+    }
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -679,10 +683,17 @@ void ClipboardBrowser::onRowSizeChanged(int row)
 
 void ClipboardBrowser::updateCurrentPage()
 {
+    if ( m_timerUpdate->isActive() )
+        return; // Update already requested.
     if ( !m_loaded && !m_id.isEmpty() )
         return; // Items not loaded yet.
-    if ( isVisible() && updatesEnabled() )
+
+    if ( sender() == m_timerUpdate && isVisible() && updatesEnabled() ) {
+        m_timerUpdate->stop();
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
+    } else {
+        m_timerUpdate->start();
+    }
 }
 
 void ClipboardBrowser::updateItemNotes(bool immediately)
@@ -762,9 +773,9 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
     if ( m->rowCount() > 0 && !d->hasCache(index(0)) )
         scrollToTop();
 
-    updateCurrentPage();
-
     QListView::showEvent(event);
+
+    updateCurrentPage();
 
     updateItemNotes(false);
 }
@@ -1338,12 +1349,12 @@ void ClipboardBrowser::saveItems()
     ConfigurationManager::instance()->saveItems(*m, m_id);
 }
 
-void ClipboardBrowser::delayedSaveItems(int msec)
+void ClipboardBrowser::delayedSaveItems()
 {
     if ( !m_loaded || !m_save || m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
-    m_timerSave->start(msec);
+    m_timerSave->start();
 }
 
 void ClipboardBrowser::purgeItems()
