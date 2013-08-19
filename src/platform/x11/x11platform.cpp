@@ -147,6 +147,7 @@ void simulateKeyPress(Display *display, Window window, unsigned int modifiers, u
 }
 #endif
 
+#ifdef COPYQ_DESKTOP_PREFIX
 QString getDesktopFilename()
 {
     QString filename;
@@ -163,6 +164,7 @@ QString getDesktopFilename()
 
     return filename;
 }
+#endif
 
 } // namespace
 
@@ -366,6 +368,8 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     QFile::remove(filename);
     desktopFile2.rename(filename);
+#else
+    Q_UNUSED(enable);
 #endif
 }
 
