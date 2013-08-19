@@ -298,10 +298,13 @@ void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
 
 QString ConfigTabAppearance::getToolTipStyleSheet() const
 {
+    const QString fg = themeColorString("notes_fg");
     return QString("#item QToolTip, QMenu QToolTip {")
             + getFontStyleSheet( themeValue("notes_font").toString() )
             + ";background:" + themeColorString("notes_bg")
-            + ";color:" + themeColorString("notes_fg")
+            + ";color:" + fg
+            // Reseting border helps in some cases to set correct backgroung color.
+            + ";border:1px solid " + fg
             + ";" + themeStyleSheet("notes_css")
             + "}";
 }
