@@ -70,7 +70,14 @@ void ClipboardItem::setData(const QVariant &value)
     const QByteArray notes = m_data->data(mimeItemNotes);
     m_data->clear();
     m_data->setText( value.toString() );
-    m_data->setData(mimeItemNotes, notes);
+    if ( !notes.isEmpty() )
+        m_data->setData(mimeItemNotes, notes);
+    updateDataHash();
+}
+
+void ClipboardItem::removeData(const QString &mimeType)
+{
+    m_data->removeFormat(mimeType);
     updateDataHash();
 }
 

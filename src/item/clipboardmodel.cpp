@@ -78,10 +78,15 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     if ( index.isValid() && (role == Qt::EditRole || role == contentType::notes) ) {
         int row = index.row();
 
-        if (role == Qt::EditRole)
+        if (role == Qt::EditRole) {
             m_clipboardList[row]->setData(value);
-        else
-            m_clipboardList[row]->setData( mimeItemNotes, value.toString().toUtf8() );
+        } else {
+            const QString notes = value.toString();
+            if ( notes.isEmpty() )
+                m_clipboardList[row]->removeData(mimeItemNotes);
+            else
+                m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
+        }
 
         emit dataChanged(index, index);
 

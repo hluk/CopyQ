@@ -69,6 +69,9 @@ public:
      */
     void setData(const QVariant &value);
 
+    /** Remove item's MIME type data. */
+    void removeData(const QString &mimeType);
+
     /** Return data for given @a role. */
     QVariant data(int role) const;
 

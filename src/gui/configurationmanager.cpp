@@ -54,11 +54,6 @@ const QRegExp reURL("^(https?|ftps?|file)://");
 const QString fileErrorString =
         ConfigurationManager::tr("Cannot save tab \"%1\" to \"%2\" (%3)!");
 
-void activateColor(QPalette::ColorRole role, QPalette *pal)
-{
-    pal->setColor(QPalette::Inactive, role, pal->color(QPalette::Active, role));
-}
-
 } // namespace
 
 // singleton
