@@ -65,12 +65,6 @@
          <property name="text">
           <string/>
          </property>
-         <property name="iconSize">
-          <size>
-           <width>13</width>
-           <height>16</height>
-          </size>
-         </property>
          <property name="popupMode">
           <enum>QToolButton::InstantPopup</enum>
          </property>
