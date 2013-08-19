@@ -44,6 +44,7 @@
 #include <QCloseEvent>
 #include <QFile>
 #include <QFileDialog>
+#include <QFlags>
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
@@ -129,42 +130,79 @@ QColor sessionNameToColor(const QString &name)
 
 } // namespace
 
+enum ItemActivationCommand {
+    ActivateNoCommand = 0x0,
+    ActivateCloses = 0x1,
+    ActivateFocuses = 0x2,
+    ActivatePastes = 0x4
+};
+
+struct MainWindowOptions {
+    MainWindowOptions()
+        : confirmExit(true)
+        , viMode(false)
+        , trayCommands(false)
+        , trayCurrentTab(false)
+        , trayTabName()
+        , trayItems(5)
+        , trayImages(true)
+        , itemPopupInterval(0)
+        , clipboardNotificationLines(0)
+        , transparency(0)
+        , transparencyFocused(0)
+        , hideTabs(false)
+        , hideMenuBar(false)
+        , itemActivationCommands(ActivateCloses)
+        , clearFirstTab(false)
+        , showTray(true)
+        , trayItemPaste(true)
+    {}
+
+    bool activateCloses() const { return itemActivationCommands & ActivateCloses; }
+    bool activateFocuses() const { return itemActivationCommands & ActivateFocuses; }
+    bool activatePastes() const { return itemActivationCommands & ActivatePastes; }
+
+    bool confirmExit;
+    bool viMode;
+    bool trayCommands;
+    bool trayCurrentTab;
+    QString trayTabName;
+    int trayItems;
+    bool trayImages;
+    int itemPopupInterval;
+    int clipboardNotificationLines;
+    int transparency;
+    int transparencyFocused;
+
+    bool hideTabs;
+    bool hideMenuBar;
+
+    int itemActivationCommands;
+
+    bool clearFirstTab;
+
+    bool showTray;
+    bool trayItemPaste;
+};
+
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , aboutDialog(NULL)
-    , cmdMenu(NULL)
-    , itemMenu(NULL)
-    , trayMenu( new TrayMenu(this) )
-    , tray( new QSystemTrayIcon(this) )
+    , m_menuCommand(NULL)
+    , m_menuItem(NULL)
+    , m_trayMenu( new TrayMenu(this) )
+    , m_tray( new QSystemTrayIcon(this) )
     , m_browsemode(false)
-    , m_confirmExit(true)
-    , m_trayCommands(false)
-    , m_trayCurrentTab(false)
-    , m_trayItems(5)
-    , m_trayImages(true)
-    , m_itemPopupInterval(0)
-    , m_clipboardNotificationLines(0)
-    , m_lastTab(0)
-    , m_timerSearch( new QTimer(this) )
-    , m_transparency(0)
-    , m_transparencyFocused(0)
-    , m_hideTabs(false)
-    , m_hideMenuBar(false)
-    , m_activateCloses(true)
-    , m_activateFocuses(false)
-    , m_activatePastes(false)
+    , m_options(new MainWindowOptions)
     , m_monitoringDisabled(false)
     , m_actionToggleMonitoring()
     , m_actionMonitoringDisabled()
-    , m_clearFirstTab(false)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
-    , m_showTray(true)
-    , m_trayItemPaste(true)
     , m_trayPasteWindow()
     , m_pasteWindow()
     , m_lastWindow()
+    , m_timerSearch( new QTimer(this) )
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_trayTimer(NULL)
@@ -180,11 +218,11 @@ MainWindow::MainWindow(QWidget *parent)
     updateIcon();
 
     // signals & slots
-    connect( tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+    connect( m_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
              this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
-    connect( trayMenu, SIGNAL(aboutToShow()),
+    connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
-    connect( trayMenu, SIGNAL(clipboardItemActionTriggered(uint)),
+    connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint)),
              this, SLOT(onTrayActionTriggered(uint)) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
              this, SLOT(tabChanged(int,int)) );
@@ -232,7 +270,7 @@ MainWindow::MainWindow(QWidget *parent)
     // browse mode by default
     enterBrowseMode();
 
-    tray->setContextMenu(trayMenu);
+    m_tray->setContextMenu(m_trayMenu);
 }
 
 void MainWindow::exit()
@@ -248,7 +286,7 @@ void MainWindow::exit()
     }
 
     int answer = QMessageBox::Yes;
-    if ( m_confirmExit ) {
+    if (m_options->confirmExit) {
         showWindow();
         answer = QMessageBox::question(
                     this,
@@ -274,9 +312,6 @@ void MainWindow::closeEvent(QCloseEvent *event)
         showMinimized();
     }
 
-    if ( aboutDialog && !aboutDialog->isHidden() ) {
-        aboutDialog->close();
-    }
     event->ignore();
 }
 
@@ -317,21 +352,21 @@ void MainWindow::createMenu()
     QAction *act;
 
     menubar->clear();
-    trayMenu->clear();
+    m_trayMenu->clear();
 
     // File
     menu = menubar->addMenu( tr("&File") );
 
     // - show/hide
-    act = trayMenu->addAction( iconTray(false), tr("&Show/Hide"),
+    act = m_trayMenu->addAction( iconTray(false), tr("&Show/Hide"),
                            this, SLOT(toggleVisible()) );
-    trayMenu->setDefaultAction(act);
+    m_trayMenu->setDefaultAction(act);
 
     // - separator
     menu->addSeparator();
 
     // - new
-    act = trayMenu->addAction( iconNew(), tr("&New Item"),
+    act = m_trayMenu->addAction( iconNew(), tr("&New Item"),
                                this, SLOT(editNewItem()) );
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
@@ -355,7 +390,7 @@ void MainWindow::createMenu()
             act, SLOT(setDisabled(bool)) );
 
     // - action dialog
-    act = trayMenu->addAction( iconAction(), tr("&Action..."),
+    act = m_trayMenu->addAction( iconAction(), tr("&Action..."),
                                this, SLOT(openActionDialog()) );
     act->setWhatsThis( tr("Open action dialog") );
 
@@ -363,7 +398,7 @@ void MainWindow::createMenu()
     menu->addSeparator();
 
     // - preferences
-    act = trayMenu->addAction( iconPreferences(),
+    act = m_trayMenu->addAction( iconPreferences(),
                                tr("&Preferences"),
                                this, SLOT(openPreferences()) );
     menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
@@ -376,7 +411,7 @@ void MainWindow::createMenu()
                      QKeySequence(tr("Ctrl+Shift+C")) );
 
     // - enable/disable
-    m_actionToggleMonitoring = trayMenu->addAction( "", this, SLOT(toggleMonitoring()) );
+    m_actionToggleMonitoring = m_trayMenu->addAction( "", this, SLOT(toggleMonitoring()) );
     m_actionMonitoringDisabled = menu->addAction( QIcon(), "", this, SLOT(toggleMonitoring()),
                                                   QKeySequence(tr("Ctrl+Shift+X")) );
     updateMonitoringActions();
@@ -421,9 +456,9 @@ void MainWindow::createMenu()
                      QKeySequence::Copy );
 
     // Items
-    itemMenu = menubar->addMenu( tr("&Item") );
+    m_menuItem = menubar->addMenu( tr("&Item") );
     connect(this, SIGNAL(tabGroupSelected(bool)),
-            itemMenu, SLOT(setDisabled(bool)) );
+            m_menuItem, SLOT(setDisabled(bool)) );
 
     // Tabs
     menu = menubar->addMenu(tr("&Tabs"));
@@ -446,13 +481,13 @@ void MainWindow::createMenu()
             act, SLOT(setDisabled(bool)) );
 
     // Commands
-    cmdMenu = menubar->addMenu(tr("Co&mmands"));
-    cmdMenu->setEnabled(false);
-    trayMenu->addMenu(cmdMenu);
+    m_menuCommand = menubar->addMenu(tr("Co&mmands"));
+    m_menuCommand->setEnabled(false);
+    m_trayMenu->addMenu(m_menuCommand);
 
     // Exit in tray menu
-    trayMenu->addSeparator();
-    trayMenu->addAction( iconExit(), tr("E&xit"),
+    m_trayMenu->addSeparator();
+    m_trayMenu->addAction( iconExit(), tr("E&xit"),
                          this, SLOT(exit()) );
 
     // Help
@@ -516,7 +551,7 @@ void MainWindow::closeAction(Action *action)
     action->deleteLater();
 
     if ( m_actions.isEmpty() ) {
-        cmdMenu->setEnabled(false);
+        m_menuCommand->setEnabled(false);
         updateIcon();
     }
 }
@@ -526,22 +561,22 @@ void MainWindow::updateIcon()
     QIcon icon = iconTray(m_monitoringDisabled);
     QColor color = sessionNameToColor(m_sessionName);
 
-    if (m_showTray) {
+    if (m_options->showTray) {
         if ( !m_actions.isEmpty() ) {
-            tray->setIcon( iconTrayRunning(m_monitoringDisabled) );
+            m_tray->setIcon( iconTrayRunning(m_monitoringDisabled) );
         } else if ( m_sessionName.isEmpty() ) {
-            tray->setIcon(icon);
+            m_tray->setIcon(icon);
         } else {
-            QPixmap trayPix = icon.pixmap( m_showTray ? tray->geometry().size() : iconSize() );
+            QPixmap trayPix = icon.pixmap( m_options->showTray ? m_tray->geometry().size() : iconSize() );
             colorizePixmap( &trayPix, QColor(0x7f, 0xca, 0x9b), color );
-            tray->setIcon( QIcon(trayPix) );
+            m_tray->setIcon( QIcon(trayPix) );
         }
     }
 
     if ( m_sessionName.isEmpty() ) {
         setWindowIcon(icon);
     } else {
-        QPixmap pix = icon.pixmap( m_showTray ? tray->geometry().size() : iconSize() );
+        QPixmap pix = icon.pixmap( m_options->showTray ? m_tray->geometry().size() : iconSize() );
         colorizePixmap( &pix, QColor(0x7f, 0xca, 0x9b), color );
         setWindowIcon( QIcon(pix) );
     }
@@ -572,14 +607,14 @@ void MainWindow::updateNotifications()
     }
     m_notifications->setPosition(position);
 
-    m_notifications->updateInterval(0, m_itemPopupInterval);
+    m_notifications->updateInterval(0, m_options->itemPopupInterval);
 
     m_notifications->updateAppearance();
 }
 
 void MainWindow::updateWindowTransparency(bool mouseOver)
 {
-    int opacity = 100 - (mouseOver || isActiveWindow() ? m_transparencyFocused : m_transparency);
+    int opacity = 100 - (mouseOver || isActiveWindow() ? m_options->transparencyFocused : m_options->transparency);
     setWindowOpacity(opacity / 100.0);
 }
 
@@ -652,7 +687,7 @@ bool MainWindow::isForeignWindow(WId wid)
 
 void MainWindow::delayedUpdateFocusWindows()
 {
-    if (m_activateFocuses || m_activatePastes)
+    if ( m_options->activateFocuses() || m_options->activatePastes() )
         m_timerUpdateFocusWindows->start();
 }
 
@@ -663,7 +698,7 @@ void MainWindow::setHideTabs(bool hide)
 
 void MainWindow::setHideMenuBar(bool hide)
 {
-    if (!m_hideMenuBar)
+    if (!m_options->hideMenuBar)
         return;
 
     const QColor color = palette().color(QPalette::Highlight);
@@ -671,7 +706,7 @@ void MainWindow::setHideMenuBar(bool hide)
     ui->widgetShowMenuBar->installEventFilter(this);
     ui->widgetShowMenuBar->show();
 
-    menuBar()->setNativeMenuBar(!m_hideMenuBar);
+    menuBar()->setNativeMenuBar(!m_options->hideMenuBar);
 
     // Hiding menu bar completely disables shortcuts for child QAction.
     menuBar()->setStyleSheet(hide ? QString("QMenuBar{height:0}") : QString());
@@ -679,7 +714,7 @@ void MainWindow::setHideMenuBar(bool hide)
 
 void MainWindow::updateTabsAutoSaving()
 {
-    getBrowser(0)->setSavingEnabled(!m_clearFirstTab);
+    getBrowser(0)->setSavingEnabled(!m_options->clearFirstTab);
 
     TabWidget *tabs = ui->tabWidget;
     for ( int i = 1; i < tabs->count(); ++i )
@@ -706,7 +741,7 @@ void MainWindow::loadCollapsedTabs()
 
 bool MainWindow::closeMinimizes() const
 {
-    return !m_showTray && !m_minimizeUnsupported;
+    return !m_options->showTray && !m_minimizeUnsupported;
 }
 
 NotificationDaemon *MainWindow::notificationDaemon()
@@ -781,7 +816,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
 
 bool MainWindow::isTrayMenuVisible() const
 {
-    return trayMenu->isVisible();
+    return m_trayMenu->isVisible();
 }
 
 void MainWindow::setSessionName(const QString &sessionName)
@@ -797,7 +832,7 @@ WId MainWindow::mainWinId() const
 
 WId MainWindow::trayMenuWinId() const
 {
-    return trayMenu->winId();
+    return m_trayMenu->winId();
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,
@@ -832,12 +867,12 @@ void MainWindow::showMessage(const QString &title, const QString &msg, const QPi
 
 void MainWindow::showClipboardMessage(const ClipboardItem *item)
 {
-    if ( m_itemPopupInterval != 0 && m_clipboardNotificationLines > 0) {
+    if ( m_options->itemPopupInterval != 0 && m_options->clipboardNotificationLines > 0) {
         const QColor color = notificationDaemon()->foreground();
         const QPixmap icon =
                 ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
-        notificationDaemon()->create( *item->data(), m_clipboardNotificationLines, icon,
-                                      m_itemPopupInterval * 1000, this, 0 );
+        notificationDaemon()->create( *item->data(), m_options->clipboardNotificationLines, icon,
+                                      m_options->itemPopupInterval * 1000, this, 0 );
     }
 }
 
@@ -856,13 +891,13 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
 
     if (event->key() == Qt::Key_Alt) {
-        if (m_hideTabs)
+        if (m_options->hideTabs)
             setHideTabs(false);
-        if (m_hideMenuBar)
+        if (m_options->hideMenuBar)
             setHideMenuBar(false);
     }
 
-    if (m_browsemode && ConfigurationManager::instance()->value("vi").toBool()) {
+    if (m_browsemode && m_options->viMode) {
         if (c->handleViKey(event))
             return;
         switch( event->key() ) {
@@ -959,9 +994,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
     if (event->key() == Qt::Key_Alt) {
-        if (m_hideTabs)
+        if (m_options->hideTabs)
             setHideTabs(true);
-        if (m_hideMenuBar) {
+        if (m_options->hideMenuBar) {
             setHideMenuBar(true);
             enterBrowseMode(m_browsemode);
         }
@@ -977,8 +1012,8 @@ bool MainWindow::event(QEvent *event)
     } else if (event->type() == QEvent::Leave) {
         updateWindowTransparency(false);
 
-        setHideTabs(m_hideTabs);
-        setHideMenuBar(m_hideMenuBar);
+        setHideTabs(m_options->hideTabs);
+        setHideMenuBar(m_options->hideMenuBar);
     } else if (event->type() == QEvent::WindowActivate) {
         if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() ) {
             // Window manager ignores window minimizing -- hide it instead.
@@ -990,14 +1025,14 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency();
 
         // Update highligh color of show/hide widget for menu bar.
-        setHideMenuBar(m_hideMenuBar);
+        setHideMenuBar(m_options->hideMenuBar);
     } else if (event->type() == QEvent::WindowDeactivate) {
         m_lastWindow = WId();
         m_pasteWindow = WId();
         updateWindowTransparency();
 
-        setHideTabs(m_hideTabs);
-        setHideMenuBar(m_hideMenuBar);
+        setHideTabs(m_options->hideTabs);
+        setHideMenuBar(m_options->hideMenuBar);
     }
     return QMainWindow::event(event);
 }
@@ -1059,7 +1094,7 @@ void MainWindow::loadSettings()
     log( tr("Loading configuration") );
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    m_confirmExit = cm->value("confirm_exit").toBool();
+    m_options->confirmExit = cm->value("confirm_exit").toBool();
 
     // update menu items and icons
     createMenu();
@@ -1071,17 +1106,20 @@ void MainWindow::loadSettings()
         setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
     }
 
-    m_transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
-    m_transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );
+    // Vi mode
+    m_options->viMode = ConfigurationManager::instance()->value("vi").toBool();
+
+    m_options->transparency = qMax( 0, qMin(100, cm->value("transparency").toInt()) );
+    m_options->transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );
     updateWindowTransparency();
 
-    m_hideTabs = cm->value("hide_tabs").toBool();
-    setHideTabs(m_hideTabs);
+    m_options->hideTabs = cm->value("hide_tabs").toBool();
+    setHideTabs(m_options->hideTabs);
 
     // Don't override menu bar style if unnecessary.
-    if ( m_hideMenuBar != cm->value("hide_menu_bar").toBool() ) {
-        m_hideMenuBar = !m_hideMenuBar;
-        if (m_hideMenuBar) {
+    if ( m_options->hideMenuBar != cm->value("hide_menu_bar").toBool() ) {
+        m_options->hideMenuBar = !m_options->hideMenuBar;
+        if (m_options->hideMenuBar) {
             setHideMenuBar(true);
         } else {
             ui->widgetShowMenuBar->removeEventFilter(this);
@@ -1121,28 +1159,32 @@ void MainWindow::loadSettings()
 
     loadCollapsedTabs();
 
-    m_clearFirstTab = cm->value("clear_first_tab").toBool();
+    m_options->clearFirstTab = cm->value("clear_first_tab").toBool();
     updateTabsAutoSaving();
 
-    m_activateCloses = cm->value("activate_closes").toBool();
-    m_activateFocuses = cm->value("activate_focuses").toBool();
-    m_activatePastes = cm->value("activate_pastes").toBool();
+    m_options->itemActivationCommands = ActivateNoCommand;
+    if ( cm->value("activate_closes").toBool() )
+        m_options->itemActivationCommands |= ActivateCloses;
+    if ( cm->value("activate_focuses").toBool() )
+        m_options->itemActivationCommands |= ActivateFocuses;
+    if ( cm->value("activate_pastes").toBool() )
+        m_options->itemActivationCommands |= ActivatePastes;
 
-    m_trayItems = cm->value("tray_items").toInt();
-    m_trayItemPaste = cm->value("tray_item_paste").toBool();
-    m_trayCommands = cm->value("tray_commands").toBool();
-    m_trayCurrentTab = cm->value("tray_tab_is_current").toBool();
-    m_trayTabName = cm->value("tray_tab").toString();
-    m_trayImages = cm->value("tray_images").toBool();
-    m_itemPopupInterval = cm->value("item_popup_interval").toInt();
-    m_clipboardNotificationLines = cm->value("clipboard_notification_lines").toInt();
+    m_options->trayItems = cm->value("tray_items").toInt();
+    m_options->trayItemPaste = cm->value("tray_item_paste").toBool();
+    m_options->trayCommands = cm->value("tray_commands").toBool();
+    m_options->trayCurrentTab = cm->value("tray_tab_is_current").toBool();
+    m_options->trayTabName = cm->value("tray_tab").toString();
+    m_options->trayImages = cm->value("tray_images").toBool();
+    m_options->itemPopupInterval = cm->value("item_popup_interval").toInt();
+    m_options->clipboardNotificationLines = cm->value("clipboard_notification_lines").toInt();
 
-    trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
+    m_trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
-    m_showTray = !cm->value("disable_tray").toBool();
+    m_options->showTray = !cm->value("disable_tray").toBool();
     delete m_trayTimer;
-    if ( m_showTray && !QSystemTrayIcon::isSystemTrayAvailable() ) {
-        m_showTray = false;
+    if ( m_options->showTray && !QSystemTrayIcon::isSystemTrayAvailable() ) {
+        m_options->showTray = false;
         m_trayTimer = new QTimer(this);
         connect( m_trayTimer, SIGNAL(timeout()),
                  this, SLOT(onTrayTimer()) );
@@ -1151,8 +1193,8 @@ void MainWindow::loadSettings()
         m_trayTimer->start();
     }
 
-    tray->setVisible(m_showTray);
-    if (!m_showTray) {
+    m_tray->setVisible(m_options->showTray);
+    if (!m_options->showTray) {
         if (m_timerMiminizing == NULL) {
             // Check if window manager can minimize window properly.
             // If window is activated while minimizing, assume that minimizing is not supported.
@@ -1241,7 +1283,7 @@ void MainWindow::showBrowser(int index)
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
-    if (c->select(clipboardItemHash) && m_trayItemPaste && isForeignWindow(m_trayPasteWindow)) {
+    if (c->select(clipboardItemHash) && m_options->trayItemPaste && isForeignWindow(m_trayPasteWindow)) {
         QApplication::processEvents();
         createPlatformNativeInterface()->pasteToWindow(m_trayPasteWindow);
     }
@@ -1258,8 +1300,8 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 
 bool MainWindow::toggleMenu()
 {
-    trayMenu->toggle();
-    return trayMenu->isVisible();
+    m_trayMenu->toggle();
+    return m_trayMenu->isVisible();
 }
 
 void MainWindow::tabChanged(int current, int previous)
@@ -1272,7 +1314,7 @@ void MainWindow::tabChanged(int current, int previous)
 
     bool currentIsTabGroup = current == -1;
 
-    itemMenu->clear();
+    m_menuItem->clear();
 
     emit tabGroupSelected(currentIsTabGroup);
 
@@ -1281,8 +1323,8 @@ void MainWindow::tabChanged(int current, int previous)
 
     // update item menu (necessary for keyboard shortcuts to work)
     ClipboardBrowser *c = browser();
-    c->setContextMenu(itemMenu);
-    setHideMenuBar(m_hideMenuBar);
+    c->setContextMenu(m_menuItem);
+    setHideMenuBar(m_options->hideMenuBar);
 
     c->filterItems( ui->searchBar->text() );
 
@@ -1291,8 +1333,6 @@ void MainWindow::tabChanged(int current, int previous)
             c->setCurrent(0);
         }
     }
-
-    m_lastTab = current;
 }
 
 void MainWindow::tabMoved(int, int)
@@ -1445,7 +1485,7 @@ void MainWindow::previousTab()
 void MainWindow::clipboardChanged(const ClipboardItem *item)
 {
     QString text = textLabelForData(*item->data());
-    tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
+    m_tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
     showClipboardMessage(item);
 
@@ -1483,13 +1523,13 @@ void MainWindow::activateCurrentItem()
     // Perform custom actions on item activation.
     WId lastWindow = m_lastWindow;
     WId pasteWindow = m_pasteWindow;
-    if (m_activateCloses)
+    if ( m_options->activateCloses() )
         close();
-    if (m_activateFocuses || m_activatePastes) {
+    if ( m_options->activateFocuses() || m_options->activatePastes() ) {
         PlatformPtr platform = createPlatformNativeInterface();
-        if (m_activateFocuses && isForeignWindow(lastWindow))
+        if ( m_options->activateFocuses() && isForeignWindow(lastWindow) )
             platform->raiseWindow(lastWindow);
-        if (m_activatePastes && isForeignWindow(pasteWindow)) {
+        if ( m_options->activatePastes() && isForeignWindow(pasteWindow) ) {
             QApplication::processEvents();
             platform->pasteToWindow(pasteWindow);
         }
@@ -1533,8 +1573,8 @@ QStringList MainWindow::tabs() const
 
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
-    return m_trayCurrentTab ? browser()
-                            : m_trayTabName.isEmpty() ? browser(0) : findTab(m_trayTabName);
+    return m_options->trayCurrentTab ? browser()
+                            : m_options->trayTabName.isEmpty() ? browser(0) : findTab(m_options->trayTabName);
 }
 
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
@@ -1590,8 +1630,8 @@ void MainWindow::onTrayTimer()
         delete m_trayTimer;
         m_trayTimer = NULL;
 
-        m_showTray = true;
-        tray->setVisible(true);
+        m_options->showTray = true;
+        m_tray->setVisible(true);
         if ( isMinimized() )
             hide();
 
@@ -1615,8 +1655,8 @@ void MainWindow::actionStarted(Action *action)
     connect( act, SIGNAL(triggered()),
              action, SLOT(terminate()) );
 
-    cmdMenu->addAction(act);
-    cmdMenu->setEnabled(true);
+    m_menuCommand->addAction(act);
+    m_menuCommand->setEnabled(true);
 
     updateIcon();
 
@@ -1640,16 +1680,16 @@ void MainWindow::onChangeClipboardRequest(const ClipboardItem *item)
 
 void MainWindow::updateFocusWindows()
 {
-    if ( isActiveWindow() || (!m_activateFocuses && !m_activatePastes) )
+    if ( isActiveWindow() || (!m_options->activateFocuses() && !m_options->activatePastes()) )
         return;
 
     PlatformPtr platform = createPlatformNativeInterface();
-    if (m_activatePastes) {
+    if ( m_options->activatePastes() ) {
         WId pasteWindow = platform->getPasteWindow();
         if ( isForeignWindow(pasteWindow) )
             m_pasteWindow = pasteWindow;
     }
-    if (m_activateFocuses) {
+    if ( m_options->activateFocuses() ) {
         WId lastWindow = platform->getCurrentWindow();
         if ( isForeignWindow(lastWindow) )
             m_lastWindow = lastWindow;
@@ -1685,20 +1725,20 @@ void MainWindow::updateTrayMenuItems()
 
     ClipboardBrowser *c = getTabForTrayMenu();
 
-    trayMenu->clearClipboardItemActions();
-    trayMenu->clearCustomActions();
+    m_trayMenu->clearClipboardItemActions();
+    m_trayMenu->clearCustomActions();
 
     // Add items.
-    const int len = (c != NULL) ? qMin( m_trayItems, c->length() ) : 0;
+    const int len = (c != NULL) ? qMin( m_options->trayItems, c->length() ) : 0;
     const int current = c->currentIndex().row();
     for ( int i = 0; i < len; ++i ) {
         const ClipboardItem *item = c->at(i);
         if (item != NULL)
-            trayMenu->addClipboardItemAction(*item, m_trayImages, i == current);
+            m_trayMenu->addClipboardItemAction(*item, m_options->trayImages, i == current);
     }
 
     // Add commands.
-    if (m_trayCommands) {
+    if (m_options->trayCommands) {
         if (c == NULL)
             c = browser(0);
         const QMimeData *data = clipboardData();
@@ -1706,28 +1746,26 @@ void MainWindow::updateTrayMenuItems()
         // Show clipboard content as disabled item.
         QString text = data != NULL ? data->text() : c->selectedText();
         const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
-        QAction *act = trayMenu->addAction( iconClipboard(),
+        QAction *act = m_trayMenu->addAction( iconClipboard(),
                                             QString(), this, SLOT(showClipboardContent()) );
         static const QMimeData emptyData;
         act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
-        trayMenu->addCustomAction(act);
+        m_trayMenu->addCustomAction(act);
 
-        int i = trayMenu->actions().size();
-        c->addCommandsToMenu(trayMenu, text, data);
-        QList<QAction *> actions = trayMenu->actions();
+        int i = m_trayMenu->actions().size();
+        c->addCommandsToMenu(m_trayMenu, text, data);
+        QList<QAction *> actions = m_trayMenu->actions();
         for ( ; i < actions.size(); ++i )
-            trayMenu->addCustomAction(actions[i]);
+            m_trayMenu->addCustomAction(actions[i]);
     }
 
-    if (trayMenu->activeAction() == NULL)
-        trayMenu->setActiveFirstEnabledAction();
+    if (m_trayMenu->activeAction() == NULL)
+        m_trayMenu->setActiveFirstEnabledAction();
 }
 
 void MainWindow::openAboutDialog()
 {
-    if ( !aboutDialog ) {
-        aboutDialog = new AboutDialog(this);
-    }
+    AboutDialog *aboutDialog = new AboutDialog(this);
     aboutDialog->show();
     aboutDialog->activateWindow();
 }
@@ -2233,6 +2271,6 @@ MainWindow::~MainWindow()
 {
     saveCollapsedTabs();
     ConfigurationManager::instance()->disconnect();
-    tray->hide();
+    m_tray->hide();
     delete ui;
 }

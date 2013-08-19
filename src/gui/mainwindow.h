@@ -28,7 +28,6 @@
 #include <QSharedPointer>
 #include <QSystemTrayIcon>
 
-class AboutDialog;
 class Action;
 class ActionDialog;
 class ClipboardBrowser;
@@ -39,6 +38,7 @@ class QMimeData;
 class TrayMenu;
 struct ClipboardBrowserShared;
 struct Command;
+struct MainWindowOptions;
 
 namespace Ui
 {
@@ -410,53 +410,32 @@ class MainWindow : public QMainWindow
         NotificationDaemon *notificationDaemon();
 
         Ui::MainWindow *ui;
-        AboutDialog *aboutDialog;
-        QMenu *itemCmdMenu;
-        QMenu *cmdMenu;
-        QMenu *itemMenu;
-        TrayMenu *trayMenu;
-        QSystemTrayIcon *tray;
+
+        QMenu *m_menuCommand;
+        QMenu *m_menuItem;
+        TrayMenu *m_trayMenu;
+
+        QSystemTrayIcon *m_tray;
+
         bool m_browsemode;
-        bool m_confirmExit;
-        bool m_trayCommands;
-        bool m_trayCurrentTab;
-        QString m_trayTabName;
-        int m_trayItems;
-        bool m_trayImages;
-        int m_itemPopupInterval;
-        int m_clipboardNotificationLines;
-        int m_lastTab;
-        QTimer *m_timerSearch;
 
-        int m_transparency;
-        int m_transparencyFocused;
-
-        bool m_hideTabs;
-        bool m_hideMenuBar;
-
-        bool m_activateCloses;
-        bool m_activateFocuses;
-        bool m_activatePastes;
+        QScopedPointer<MainWindowOptions> m_options;
 
         bool m_monitoringDisabled;
         QPointer<QAction> m_actionToggleMonitoring;
         QPointer<QAction> m_actionMonitoringDisabled;
 
-        bool m_clearFirstTab;
-
         QMap<Action*, QAction*> m_actions;
 
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
 
-        bool m_showTray;
-        bool m_trayItemPaste;
         WId m_trayPasteWindow;
         WId m_pasteWindow;
         WId m_lastWindow;
+
+        QTimer *m_timerSearch;
         QTimer *m_timerUpdateFocusWindows;
-
         QTimer *m_timerShowWindow;
-
         QTimer *m_trayTimer;
 
         QString m_sessionName;
