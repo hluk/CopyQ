@@ -21,6 +21,7 @@
 #include "tabbar.h"
 #include "tabtree.h"
 
+#include <QAction>
 #include <QPoint>
 #include <QStackedWidget>
 

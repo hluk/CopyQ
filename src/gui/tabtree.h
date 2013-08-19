@@ -20,7 +20,6 @@
 #ifndef TABTREE_H
 #define TABTREE_H
 
-#include <QAction>
 #include <QString>
 #include <QTreeWidget>
 
@@ -72,6 +71,8 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
     void dropEvent(QDropEvent *event);
+    bool event(QEvent *event);
+    void rowsInserted(const QModelIndex &parent, int start, int end);
     void rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
 
 public slots:
@@ -80,18 +81,13 @@ public slots:
     void previousTreeItem();
 
     void onCurrentItemChanged(QTreeWidgetItem *current);
-    void onKeyHintActionTriggered();
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
     void shiftIndexesBetween(int from, int to = -1, int how = -1);
     void updateSize();
     void deleteItem(QTreeWidgetItem *item);
-    void addShortcut(const QChar &keyHint);
-    void removeShortcut(const QChar &keyHint);
-
-    /// Map from a key hint to QAction for 'Alt+<key hint>'.
-    QMap<QChar, QObject*> m_shortcuts;
+    void refreshMnemonics(const QKeySequence &mnemonic);
 };
 
 #endif // TABTREE_H

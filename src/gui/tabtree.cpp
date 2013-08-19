@@ -22,11 +22,9 @@
 #include "common/client_server.h"
 
 #include <QAction>
-#include <QLabel>
 #include <QList>
 #include <QMouseEvent>
 #include <QPair>
-#include <QPainter>
 #include <QScrollBar>
 
 namespace {
@@ -34,10 +32,10 @@ namespace {
 enum {
     DataIndex = Qt::UserRole,
     DataText,
-    DataLabelText
+    DataLabelText,
+    DataMnemonic,
+    DataMnemonicId
 };
-
-const char propertyUsageCounter[] = "CopyQ_usage_counter";
 
 QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComponents)
 {
@@ -92,7 +90,6 @@ QChar getKeyHint(const QString &labelText)
 
 TabTree::TabTree(QWidget *parent)
     : QTreeWidget(parent)
-    , m_shortcuts()
 {
     connect( this, SIGNAL(currentItemChanged(QTreeWidgetItem*,QTreeWidgetItem*)),
              this, SLOT(onCurrentItemChanged(QTreeWidgetItem*)) );
@@ -142,19 +139,24 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
         item->setData(0, DataIndex, -1);
         item->setData(0, DataText, text);
 
-        // Create widget and set item height.
+        // mnemonic for item
         QString labelText = text;
         const QChar keyHint = getKeyHint(labelText);
         if ( !keyHint.isNull() ) {
-            labelText.remove( labelText.indexOf('&'), 1 );
-            labelText = tr("(%1) %2",
-                           "Tab tree item label format;"
-                           " %1 is key hint (usually underlined in labels).")
-                    .arg(keyHint)
-                    .arg(labelText.size() == 1 ? QString() : labelText);
+            QKeySequence mnemonic( tr("Alt+%1").arg(keyHint) );
+            if ( !mnemonic.isEmpty() ) {
+                labelText.remove( labelText.indexOf('&'), 1 );
+                labelText = tr("(%1) %2",
+                               "Tab tree item label format;"
+                               " %1 is key hint (usually underlined in labels).")
+                        .arg(keyHint)
+                        .arg(labelText.size() == 1 ? QString() : labelText);
 
-            addShortcut(keyHint);
+                item->setData( 0, DataMnemonic, mnemonic );
+                refreshMnemonics(mnemonic);
+            }
         }
+
         item->setText(0, labelText);
     }
 
@@ -323,15 +325,48 @@ void TabTree::dropEvent(QDropEvent *event)
     updateSize();
 }
 
+bool TabTree::event(QEvent *event)
+{
+    if ( event->type() == QEvent::Shortcut ) {
+        QShortcutEvent *shortcutEvent = static_cast<QShortcutEvent *>(event);
+        const int mnemonic = shortcutEvent->shortcutId();
+
+        foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+            const QVariant itemMnemonic = item->data(0, DataMnemonicId);
+            if ( itemMnemonic.canConvert<int>() && mnemonic == itemMnemonic.value<int>() ) {
+                setCurrentItem(item);
+                return true;
+            }
+        }
+    }
+
+    return QTreeWidget::event(event);
+}
+
+void TabTree::rowsInserted(const QModelIndex &parent, int start, int end)
+{
+    // Re-add shortcut.
+    for (int row = start; row <= end; ++row) {
+        QTreeWidgetItem *item = parent.isValid() ? itemFromIndex(parent.child(row, 0))
+                                                 : topLevelItem(row);
+        QKeySequence mnemonic = item->data(0, DataMnemonic).value<QKeySequence>();
+        if ( !mnemonic.isEmpty() )
+            refreshMnemonics(mnemonic);
+    }
+
+    QTreeWidget::rowsInserted(parent, start, end);
+}
+
 void TabTree::rowsAboutToBeRemoved(const QModelIndex &parent, int start, int end)
 {
     // Remove shortcut.
     for (int row = start; row <= end; ++row) {
         QTreeWidgetItem *item = parent.isValid() ? itemFromIndex(parent.child(row, 0))
                                                  : topLevelItem(row);
-        QChar keyHint = getKeyHint(getTabPath(item));
-        if ( !keyHint.isNull() )
-            removeShortcut(keyHint);
+        const QVariant itemMnemonic = item->data(0, DataMnemonicId);
+        if ( itemMnemonic.canConvert<int>() )
+            releaseShortcut( itemMnemonic.toInt() );
+        item->setData( 0, DataMnemonicId, QVariant() );
     }
 
     QTreeWidget::rowsAboutToBeRemoved(parent, start, end);
@@ -341,35 +376,6 @@ void TabTree::onCurrentItemChanged(QTreeWidgetItem *current)
 {
     if (current != NULL)
         emit currentTabChanged( getTabIndex(current) );
-}
-
-void TabTree::onKeyHintActionTriggered()
-{
-    QObject *obj = sender();
-    Q_ASSERT(obj != NULL);
-
-    QChar keyHint = m_shortcuts.key(obj);
-    Q_ASSERT( !keyHint.isNull() );
-
-    QTreeWidgetItem *foundItem = NULL;
-    bool previousIsCurrent = false;
-    QList<QTreeWidgetItem *> items = findItems(QString(), Qt::MatchContains | Qt::MatchRecursive);
-
-    // Select next item with given key hint.
-    foreach (QTreeWidgetItem *item, items) {
-        if ( currentItem() == item ) {
-            previousIsCurrent = true;
-        } else if ( (foundItem == NULL || previousIsCurrent)
-                    && getKeyHint(getTabPath(item)) == keyHint )
-        {
-            foundItem = item;
-            if (previousIsCurrent)
-                break;
-        }
-    }
-
-    if (foundItem != NULL)
-        setCurrentItem(foundItem);
 }
 
 void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
@@ -450,32 +456,15 @@ void TabTree::deleteItem(QTreeWidgetItem *item)
     delete item;
 }
 
-void TabTree::addShortcut(const QChar &keyHint)
+void TabTree::refreshMnemonics(const QKeySequence &mnemonic)
 {
-    if ( !m_shortcuts.contains(keyHint) ) {
-        QAction *act = new QAction(this);
-        m_shortcuts[keyHint] = act;
-        act->setShortcut( QKeySequence(tr("Alt+%1").arg(keyHint)) );
-        act->setShortcutContext(Qt::WindowShortcut);
-        act->setProperty(propertyUsageCounter, 1);
-        addAction(act);
-        connect(act, SIGNAL(triggered()), this, SLOT(onKeyHintActionTriggered()) );
-    } else {
-        QObject *act = m_shortcuts[keyHint];
-        int i = act->property(propertyUsageCounter).toInt();
-        act->setProperty(propertyUsageCounter, i + 1);
-    }
-}
-
-void TabTree::removeShortcut(const QChar &keyHint)
-{
-    QObject *act = m_shortcuts[keyHint];
-    Q_ASSERT(act != NULL);
-    int i = act->property(propertyUsageCounter).toInt();
-    if (i == 1) {
-        m_shortcuts.remove(keyHint);
-        delete act;
-    } else {
-        act->setProperty(propertyUsageCounter, i - 1);
+    // Re-add shortcuts for mnemonics in correct item order.
+    foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+        if ( mnemonic == item->data(0, DataMnemonic).value<QKeySequence>() ) {
+            const QVariant itemMnemonic = item->data(0, DataMnemonicId);
+            if ( itemMnemonic.canConvert<int>() )
+                releaseShortcut( itemMnemonic.toInt() );
+            item->setData( 0, DataMnemonicId, grabShortcut(mnemonic) );
+        }
     }
 }
