@@ -1,3 +1,7 @@
+v1.9.2
+- Better performance
+- GUI improvements and bugfixes
+
 v1.9.1
 - Notifications -- customizable theme, timeout and position on screen
 - Optional notification for new clipboard content
