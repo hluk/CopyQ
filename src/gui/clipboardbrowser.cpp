@@ -687,8 +687,10 @@ void ClipboardBrowser::updateCurrentPage()
         return; // Update already requested.
     if ( !m_loaded && !m_id.isEmpty() )
         return; // Items not loaded yet.
+    if ( !isVisible() )
+        return; // Update on showEvent().
 
-    if ( sender() == m_timerUpdate && isVisible() && updatesEnabled() ) {
+    if ( sender() == m_timerUpdate && updatesEnabled() ) {
         m_timerUpdate->stop();
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
     } else {
