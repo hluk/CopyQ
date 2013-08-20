@@ -289,9 +289,8 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
 {
     tabWidget->setStyleSheet(
-        QString("#tab_tree{") + themeStyleSheet("tab_tree_css") + "}"
-        + QString("#tab_tree::item{") + themeStyleSheet("tab_tree_item_css") + "}"
-        + QString("#tab_tree::branch:selected, #tab_tree::item:selected{")
+        QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
+        + QString("#tab_tree::branch:selected, #tab_tree_item[CopyQ_selected=\"true\"]{")
                 + themeStyleSheet("tab_tree_sel_item_css") + "}"
         );
 }

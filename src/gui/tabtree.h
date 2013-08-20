@@ -71,23 +71,21 @@ protected:
     void mousePressEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
     void dropEvent(QDropEvent *event);
-    bool event(QEvent *event);
+    bool eventFilter(QObject *obj, QEvent *event);
     void rowsInserted(const QModelIndex &parent, int start, int end);
-    void rowsAboutToBeRemoved(const QModelIndex & parent, int start, int end);
 
 public slots:
     void setCurrentTabIndex(int index);
     void nextTreeItem();
     void previousTreeItem();
 
-    void onCurrentItemChanged(QTreeWidgetItem *current);
+    void onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
     void shiftIndexesBetween(int from, int to = -1, int how = -1);
     void updateSize();
     void deleteItem(QTreeWidgetItem *item);
-    void refreshMnemonics(const QKeySequence &mnemonic);
 };
 
 #endif // TABTREE_H
