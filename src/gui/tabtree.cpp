@@ -51,7 +51,7 @@ void setItemWidgetSelected(QTreeWidgetItem *item)
     style->unpolish(w);
     style->polish(w);
 
-    item->setSizeHint( 0, w->minimumSizeHint() + QSize(4, 4) );
+    item->setSizeHint( 0, w->minimumSizeHint() );
 }
 
 void labelItem(QTreeWidgetItem *item)
@@ -59,6 +59,7 @@ void labelItem(QTreeWidgetItem *item)
     QTreeWidget *parent = item->treeWidget();
     const QString text = item->data(0, DataText).toString();
     QLabel *label = new QLabel(text, parent);
+    label->setMargin(2);
     label->setObjectName("tab_tree_item");
     label->setBuddy(parent);
     label->installEventFilter(parent);
