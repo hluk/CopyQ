@@ -290,8 +290,15 @@ void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
 {
     tabWidget->setStyleSheet(
         QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
-        + QString("#tab_tree::branch:selected, #tab_tree_item[CopyQ_selected=\"true\"]{")
-                + themeStyleSheet("tab_tree_sel_item_css") + "}"
+        + QString("#tab_tree::branch:selected"
+                  ",#tab_tree::item:selected"
+                  ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                  "{")
+                + themeStyleSheet("tab_tree_sel_item_css")
+                + "}"
+        + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
+                  ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                  "{background:transparent}")
         );
 }
 

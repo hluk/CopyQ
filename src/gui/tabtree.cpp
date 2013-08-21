@@ -46,7 +46,7 @@ void setItemWidgetSelected(QTreeWidgetItem *item)
     if (w == NULL)
         return;
 
-    w->setProperty("CopyQ_selected", item->isSelected());
+    w->setProperty("CopyQ_selected", parent->currentItem() == item);
     QStyle *style = w->style();
     style->unpolish(w);
     style->polish(w);
@@ -56,8 +56,11 @@ void setItemWidgetSelected(QTreeWidgetItem *item)
 
 void labelItem(QTreeWidgetItem *item)
 {
-    QTreeWidget *parent = item->treeWidget();
     const QString text = item->data(0, DataText).toString();
+    if ( text.isEmpty() )
+        return;
+
+    QTreeWidget *parent = item->treeWidget();
     QLabel *label = new QLabel(text, parent);
     label->setMargin(2);
     label->setObjectName("tab_tree_item");
@@ -122,8 +125,6 @@ TabTree::TabTree(QWidget *parent)
     setFrameShape(QFrame::NoFrame);
     setHeaderHidden(true);
     setSelectionMode(QAbstractItemView::SingleSelection);
-
-    setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
 }
 
 void TabTree::insertTab(const QString &path, int index, bool selected)
@@ -315,6 +316,7 @@ void TabTree::dropEvent(QDropEvent *event)
     blockSignals(true);
     QTreeWidget::dropEvent(event);
     setCurrentItem(current);
+    setItemWidgetSelected(current);
     blockSignals(false);
 
     const QString newPrefix = getTabPath(current);
@@ -346,22 +348,29 @@ bool TabTree::eventFilter(QObject *obj, QEvent *event)
 
 void TabTree::rowsInserted(const QModelIndex &parent, int start, int end)
 {
-    for (int row = start; row <= end; ++row) {
-        QTreeWidgetItem *item = parent.isValid() ? itemFromIndex(parent.child(row, 0))
-                                                 : topLevelItem(row);
-        labelItem(item);
-    }
-
     QTreeWidget::rowsInserted(parent, start, end);
+
+    for (int row = start; row <= end; ++row) {
+        QList<QTreeWidgetItem *> items;
+        items.append( parent.isValid() ? itemFromIndex(parent.child(row, 0))
+                                       : topLevelItem(row) );
+        while ( !items.isEmpty() ) {
+            QTreeWidgetItem *item = items.takeLast();
+            labelItem(item);
+
+            const int n = item->childCount();
+            items.reserve(items.size() + n);
+            for (int i = 0; i < n; ++i)
+                items.append(item->child(i));
+        }
+    }
 }
 
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
-    if (current != NULL) {
-        emit currentTabChanged( getTabIndex(current) );
-        setItemWidgetSelected(current);
-        setItemWidgetSelected(previous);
-    }
+    emit currentTabChanged( getTabIndex(current) );
+    setItemWidgetSelected(current);
+    setItemWidgetSelected(previous);
 }
 
 void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
@@ -386,6 +395,7 @@ void TabTree::updateSize()
 
     expandAll();
 
+    resizeColumnToContents(0);
     w += sizeHintForColumn(0);
     setMinimumWidth(w);
     setMaximumWidth(w);
