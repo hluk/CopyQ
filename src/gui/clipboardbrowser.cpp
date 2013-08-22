@@ -641,7 +641,7 @@ void ClipboardBrowser::setSavingEnabled(bool enable)
     }
 }
 
-void ClipboardBrowser::updateContextMenu()
+void ClipboardBrowser::cleanContextMenu()
 {
     if (m_menu == NULL)
         return;
@@ -655,6 +655,14 @@ void ClipboardBrowser::updateContextMenu()
         m_menu->removeAction(actions[i]);
 
     m_menu->addSeparator();
+}
+
+void ClipboardBrowser::updateContextMenu()
+{
+    if (m_menu == NULL)
+        return;
+
+    cleanContextMenu();
 
     addCommandsToMenu(m_menu, selectedText(), getSelectedItemData());
 }
@@ -665,9 +673,14 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     d->dataChanged(a, b);
     delayedSaveItems();
 
+    const int current = currentIndex().row();
+
     // Refilter items.
-    for (int i = a.row(); i <= b.row(); ++i)
+    for (int i = a.row(); i <= b.row(); ++i) {
         hideFiltered(i);
+        if (current == i)
+            updateContextMenu();
+    }
 
     updateCurrentPage();
     updateItemNotes(false);
@@ -785,6 +798,7 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     QListView::currentChanged(current, previous);
+    cleanContextMenu();
     updateItemNotes(false);
 }
 
