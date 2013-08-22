@@ -19,6 +19,20 @@
 
 #include "action.h"
 
+#include  <QCoreApplication>
+
+namespace {
+
+void startProcess(QProcess *process, const QStringList &args)
+{
+    // Replace "copyq" command with full application path.
+    QString cmd = (args.first() == "copyq") ? QCoreApplication::applicationFilePath()
+                                            : args.first();
+    process->start(cmd, args.mid(1), QIODevice::ReadWrite);
+}
+
+} // namespace
+
 Action::Action(const Commands &cmd,
                const QByteArray &input, const QString &outputItemFormat,
                const QString &itemSeparator,
@@ -76,15 +90,14 @@ void Action::start()
                 continue;
             QProcess *process = (i + 2 == m_cmds.size()) ? this : new QProcess(this);
             lastProcess->setStandardOutputProcess(process);
-            lastProcess->start(args.first(), args.mid(1), QIODevice::ReadWrite);
+            startProcess(lastProcess, args);
             lastProcess = process;
         }
     } else {
         m_firstProcess = this;
     }
 
-    const QStringList &args = m_cmds.last();
-    QProcess::start(args.isEmpty() ? QString() : args.first(), args.mid(1), QIODevice::ReadWrite);
+    startProcess(this, m_cmds.last());
 }
 
 void Action::actionError(QProcess::ProcessError)

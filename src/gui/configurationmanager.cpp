@@ -164,29 +164,26 @@ void ConfigurationManager::removeItems(const QString &id)
 bool ConfigurationManager::defaultCommand(int index, Command *c)
 {
     *c = Command();
-    switch(index) {
-    case 1:
+    int i = 0;
+    if (index == ++i) {
         c->name = tr("New command");
         c->input = c->output = "";
         c->wait = c->automatic = c->remove = false;
         c->sep = QString("\\n");
-        break;
-    case 2:
+    } else if (index == ++i) {
         c->name = tr("Ignore items with no or single character");
         c->re   = QRegExp("^\\s*\\S?\\s*$");
         c->icon = QString(QChar(IconExclamationSign));
         c->remove = true;
         c->automatic = true;
-        break;
-    case 3:
+    } else if (index == ++i) {
         c->name = tr("Open in &Browser");
         c->re   = reURL;
         c->icon = QString(QChar(IconGlobe));
         c->cmd  = "firefox %1";
         c->hideWindow = true;
         c->inMenu = true;
-        break;
-    case 4:
+    } else if (index == ++i) {
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
         c->icon = QString(QChar(IconPlayCircle));
@@ -194,14 +191,12 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->automatic = true;
         c->hideWindow = true;
         c->inMenu = true;
-        break;
-    case 5:
+    } else if (index == ++i) {
         c->name = tr("Copy URL (web address) to other tab");
         c->re   = reURL;
         c->icon = QString(QChar(IconCopy));
         c->tab  = "&web";
-        break;
-    case 6:
+    } else if (index == ++i) {
         c->name = tr("Run shell script");
         c->re   = QRegExp("^#!/bin/bash");
         c->icon = QString(QChar(IconTerminal));
@@ -212,16 +207,14 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->sep = "\\n";
         c->shortcut = tr("Ctrl+R");
         c->inMenu = true;
-        break;
-    case 7:
+    } else if (index == ++i) {
         c->name = tr("Create thumbnail (needs ImageMagick)");
         c->icon = QString(QChar(IconPicture));
         c->cmd  = "convert - -resize 92x92 png:-";
         c->input = "image/png";
         c->output = "image/png";
         c->inMenu = true;
-        break;
-    case 8:
+    } else if (index == ++i) {
         c->name = tr("Create QR Code from URL (needs qrencode)");
         c->re   = reURL;
         c->icon = QString(QChar(IconQRCode));
@@ -229,8 +222,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->input = "text/plain";
         c->output = "image/png";
         c->inMenu = true;
-        break;
-    case 9:
+    } else if (index == ++i) {
         c->name = tr("Label image");
         c->icon = QString(QChar(IconTag));
         c->cmd  = "base64 | perl -p -i -e 'BEGIN {print \"<img src=\\\\\"data:image/bmp;base64,\"} "
@@ -239,8 +231,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->output = "text/html";
         c->wait = true;
         c->inMenu = true;
-        break;
-    case 10:
+    } else if (index == ++i) {
         c->name = tr("Open URL");
         c->re   = reURL;
         c->icon = QString(QChar(IconEyeOpen));
@@ -248,39 +239,59 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->input = "text/plain";
         c->output = "text/html";
         c->inMenu = true;
-        break;
-    case 11:
+    } else if (index == ++i) {
         c->name = tr("Add to &TODO tab");
         c->icon = QString(QChar(IconShare));
         c->tab  = "TODO";
         c->input = "text/plain";
         c->inMenu = true;
-        break;
-    case 12:
+    } else if (index == ++i) {
         c->name = tr("Move to &TODO tab");
         c->icon = QString(QChar(IconShare));
         c->tab  = "TODO";
         c->input = "text/plain";
         c->remove = true;
         c->inMenu = true;
-        break;
-    case 13:
+    } else if (index == ++i) {
         c->name = tr("Ignore copied files");
         c->icon = QString(QChar(IconExclamationSign));
         c->input = "text/uri-list";
         c->remove = true;
         c->automatic = true;
-        break;
 #if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)
-    case 14:
-        c->name  = tr("Ignore *\"Password\"* window");
+    } else if (index == ++i) {
+        c->name = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));
         c->icon = QString(QChar(IconAsterisk));
         c->remove = true;
         c->automatic = true;
-        break;
 #endif
-    default:
+    } else if (index == ++i) {
+        c->name = tr("Encrypt Text (needs GnuGP)");
+        c->icon = QString(QChar(IconLock));
+        c->input = "text/plain";
+        c->output = "application/x-copyq-encypted-text";
+        c->inMenu = true;
+        c->transform = true;
+        c->cmd = "gpg --default-recipient-self --encrypt";
+        c->shortcut = tr("Ctrl+L");
+    } else if (index == ++i) {
+        c->name = tr("Decrypt Text");
+        c->icon = QString(QChar(IconUnlock));
+        c->input = "application/x-copyq-encypted-text";
+        c->output = "text/plain";
+        c->inMenu = true;
+        c->transform = true;
+        c->cmd = "gpg --no-tty --decrypt";
+        c->shortcut = tr("Ctrl+L");
+    } else if (index == ++i) {
+        c->name = tr("Decrypt and Copy Text");
+        c->icon = QString(QChar(IconUnlockAlt));
+        c->input = "application/x-copyq-encypted-text";
+        c->inMenu = true;
+        c->cmd = "gpg --no-tty --decrypt | copyq copy -";
+        c->shortcut = tr("Ctrl+Shift+L");
+    } else {
         return false;
     }
 
