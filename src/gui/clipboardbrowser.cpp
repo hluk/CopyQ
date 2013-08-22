@@ -260,8 +260,11 @@ void ClipboardBrowser::contextMenuAction()
 
     if ( !cmd.cmd.isEmpty() ) {
         if (isContextMenuAction && cmd.transform) {
-            foreach (const QModelIndex &index, selected)
-                emit requestActionDialog(*itemData(index.row()), cmd, index);
+            foreach (const QModelIndex &index, selected) {
+                const QMimeData *data = itemData( index.row() );
+                if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) )
+                    emit requestActionDialog(*data, cmd, index);
+            }
         } else {
             if (data != NULL) {
                 emit requestActionDialog(*data, cmd);
@@ -582,6 +585,14 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
     QAction *insertBefore = NULL;
 
+    QSet<QString> availableFormats;
+    if (data != NULL) {
+        availableFormats = data->formats().toSet();
+    } else {
+        foreach ( const QModelIndex &ind, selectionModel()->selectedIndexes() )
+            availableFormats.unite( itemData(ind.row())->formats().toSet() );
+    }
+
     int i = -1;
     foreach (const Command &command, m_sharedData->commands) {
         ++i;
@@ -597,14 +608,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
         }
 
         // Verify that data for given MIME is available.
-        if ( !command.input.isEmpty() ) {
-            if (data != NULL) {
-                if ( !data->hasFormat(command.input) )
-                    continue;
-            } else if ( command.input != QString("text/plain") ) {
-                continue;
-            }
-        }
+        if ( !command.input.isEmpty() && !availableFormats.contains(command.input) )
+            continue;
 
         IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
         QAction *act = menu->addAction( iconFactory->iconFromFile(command.icon), QString() );

@@ -1743,20 +1743,21 @@ void MainWindow::updateTrayMenuItems()
             c = browser(0);
         const QMimeData *data = clipboardData();
 
-        // Show clipboard content as disabled item.
-        QString text = data != NULL ? data->text() : c->selectedText();
-        const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
-        QAction *act = m_trayMenu->addAction( iconClipboard(),
-                                            QString(), this, SLOT(showClipboardContent()) );
-        static const QMimeData emptyData;
-        act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
-        m_trayMenu->addCustomAction(act);
+        if (data != NULL) {
+            // Show clipboard content as disabled item.
+            const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
+            QAction *act = m_trayMenu->addAction( iconClipboard(),
+                                                QString(), this, SLOT(showClipboardContent()) );
+            static const QMimeData emptyData;
+            act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
+            m_trayMenu->addCustomAction(act);
 
-        int i = m_trayMenu->actions().size();
-        c->addCommandsToMenu(m_trayMenu, text, data);
-        QList<QAction *> actions = m_trayMenu->actions();
-        for ( ; i < actions.size(); ++i )
-            m_trayMenu->addCustomAction(actions[i]);
+            int i = m_trayMenu->actions().size();
+            c->addCommandsToMenu(m_trayMenu, data->text(), data);
+            QList<QAction *> actions = m_trayMenu->actions();
+            for ( ; i < actions.size(); ++i )
+                m_trayMenu->addCustomAction(actions[i]);
+        }
     }
 
     if (m_trayMenu->activeAction() == NULL)
