@@ -59,8 +59,13 @@ void ClipboardItem::clear()
 void ClipboardItem::setData(QMimeData *data)
 {
     Q_ASSERT(data != NULL);
+
+    // rewrite all original data, except notes, with edited text
+    const QByteArray notes = m_data->data(mimeItemNotes);
     delete m_data;
     m_data = data;
+    if ( !notes.isEmpty() )
+        m_data->setData(mimeItemNotes, notes);
     updateDataHash();
 }
 
