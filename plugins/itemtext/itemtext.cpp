@@ -34,12 +34,6 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 100*1024;
 
-void init(QTextDocument &doc, const QFont &font)
-{
-    doc.setDefaultFont(font);
-    doc.setUndoRedoEnabled(false);
-}
-
 bool getRichText(const QModelIndex &index, const QStringList &formats, QString *text)
 {
     if ( index.data(contentType::hasHtml).toBool() ) {
@@ -76,10 +70,10 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
-    , m_textFormat(isRichText ? Qt::RichText : Qt::PlainText)
 {
-    init(m_textDocument, font());
+    m_textDocument.setDefaultFont(font());
 
+    setReadOnly(true);
     setUndoRedoEnabled(false);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
@@ -89,14 +83,11 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
-    setReadOnly(true);
-
     if (isRichText)
         m_textDocument.setHtml( text.left(defaultMaxBytes) );
     else
         m_textDocument.setPlainText( text.left(defaultMaxBytes) );
     setDocument(&m_textDocument);
-    updateSize();
 }
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
@@ -171,6 +162,12 @@ void ItemText::mouseReleaseEvent(QMouseEvent *e)
     } else {
         QTextEdit::mouseReleaseEvent(e);
     }
+}
+
+void ItemText::showEvent(QShowEvent *event)
+{
+    QTextEdit::showEvent(event);
+    updateSize();
 }
 
 void ItemText::onSelectionChanged()

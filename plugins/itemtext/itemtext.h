@@ -54,12 +54,13 @@ protected:
 
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
+    virtual void showEvent(QShowEvent *event);
+
 private slots:
     void onSelectionChanged();
 
 private:
     QTextDocument m_textDocument;
-    Qt::TextFormat m_textFormat;
 };
 
 class ItemTextLoader : public QObject, public ItemLoaderInterface
