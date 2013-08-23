@@ -54,6 +54,16 @@ const QRegExp reURL("^(https?|ftps?|file)://");
 const QString fileErrorString =
         ConfigurationManager::tr("Cannot save tab \"%1\" to \"%2\" (%3)!");
 
+QString getConfigurationFilePath(const QString &suffix)
+{
+    // key filenames
+    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
+                       QCoreApplication::organizationName(),
+                       QCoreApplication::applicationName());
+    QString path = settings.fileName();
+    return path.replace( QRegExp(".ini$"), suffix );
+}
+
 } // namespace
 
 // singleton
@@ -103,12 +113,7 @@ ConfigurationManager::ConfigurationManager()
     initOptions();
 
     /* datafile for items */
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    const QString settingsFileName = settings.fileName();
-    m_datfilename = settingsFileName;
-    m_datfilename.replace( QRegExp(".ini$"), QString("_tab_") );
+    m_datfilename = getConfigurationFilePath("_tab_");
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
@@ -163,6 +168,12 @@ void ConfigurationManager::removeItems(const QString &id)
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)
 {
+    static const QString gpgCommand =
+            QString("gpg --trust-model always --no-tty --recipient copyq"
+                    " --no-default-keyring --secret-keyring \"%1\" --keyring \"%2\" ")
+            .arg(getConfigurationFilePath(".sec"))
+            .arg(getConfigurationFilePath(".pub"));
+
     *c = Command();
     int i = 0;
     if (index == ++i) {
@@ -270,26 +281,26 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->name = tr("Encrypt Text (needs GnuGP)");
         c->icon = QString(QChar(IconLock));
         c->input = "text/plain";
-        c->output = "application/x-copyq-encypted-text";
+        c->output = "application/x-copyq-encrypted-text";
         c->inMenu = true;
         c->transform = true;
-        c->cmd = "gpg --default-recipient-self --encrypt";
+        c->cmd = gpgCommand + "--encrypt";
         c->shortcut = tr("Ctrl+L");
     } else if (index == ++i) {
         c->name = tr("Decrypt Text");
         c->icon = QString(QChar(IconUnlock));
-        c->input = "application/x-copyq-encypted-text";
+        c->input = "application/x-copyq-encrypted-text";
         c->output = "text/plain";
         c->inMenu = true;
         c->transform = true;
-        c->cmd = "gpg --no-tty --decrypt";
+        c->cmd = gpgCommand + "--decrypt";
         c->shortcut = tr("Ctrl+L");
     } else if (index == ++i) {
         c->name = tr("Decrypt and Copy Text");
         c->icon = QString(QChar(IconUnlockAlt));
-        c->input = "application/x-copyq-encypted-text";
+        c->input = "application/x-copyq-encrypted-text";
         c->inMenu = true;
-        c->cmd = "gpg --no-tty --decrypt | copyq copy -";
+        c->cmd = gpgCommand + "--decrypt | copyq copy -";
         c->shortcut = tr("Ctrl+Shift+L");
     } else {
         return false;

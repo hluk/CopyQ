@@ -228,7 +228,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
     // colors and font
     c->setStyleSheet(
-        QString("ClipboardBrowser,#item{")
+        QString("ClipboardBrowser,#item,#item_child{")
         + getFontStyleSheet( themeValue("font").toString() )
         + ";color:" + themeColorString("fg")
         + ";background:" + themeColorString("bg")
@@ -239,13 +239,13 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
         + ";background:" + themeColorString("alt_bg")
         + "}"
 
-        + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"]{")
+        + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{")
         + ";color:" + themeColorString("sel_fg")
         + ";background:" + themeColorString("sel_bg")
         + "}"
 
-        + QString("#item{background:transparent}")
-        + QString("#item[CopyQ_selected=\"true\"]{background:transparent}")
+        + QString("#item,#item  #item_child{background:transparent}")
+        + QString("#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"]  #item_child{background:transparent}")
 
         + getToolTipStyleSheet()
 

@@ -336,6 +336,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         ww->setProperty("CopyQ_selected", isSelected);
         style->unpolish(ww);
         style->polish(ww);
+        foreach (QWidget *child, ww->findChildren<QWidget *>()) {
+            child->setStyle(style);
+            style->unpolish(child);
+            style->polish(child);
+            child->update();
+        }
         ww->update();
     }
 
