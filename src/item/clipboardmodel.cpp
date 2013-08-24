@@ -75,25 +75,28 @@ Qt::ItemFlags ClipboardModel::flags(const QModelIndex &index) const
 
 bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, int role)
 {
-    if ( index.isValid() && (role == Qt::EditRole || role == contentType::notes) ) {
-        int row = index.row();
+    if ( !index.isValid() )
+        return false;
 
-        if (role == Qt::EditRole) {
-            m_clipboardList[row]->setData(value);
-        } else {
-            const QString notes = value.toString();
-            if ( notes.isEmpty() )
-                m_clipboardList[row]->removeData(mimeItemNotes);
-            else
-                m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
-        }
+    int row = index.row();
 
-        emit dataChanged(index, index);
-
-        return true;
+    if (role == Qt::EditRole) {
+        m_clipboardList[row]->setData(value);
+    } else if (role == contentType::notes) {
+        const QString notes = value.toString();
+        if ( notes.isEmpty() )
+            m_clipboardList[row]->removeData(mimeItemNotes);
+        else
+            m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
+    } else if (role >= contentType::firstFormat) {
+        m_clipboardList[row]->setData( role - contentType::firstFormat, value.toByteArray() );
+    } else {
+        return false;
     }
 
-    return false;
+    emit dataChanged(index, index);
+
+    return true;
 }
 
 bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)

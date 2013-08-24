@@ -21,49 +21,37 @@
 #include "ui_itemencryptedsettings.h"
 
 #include "common/contenttype.h"
+#include "item/encrypt.h"
 
+#include <QCoreApplication>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QPlainTextEdit>
 #include <QSettings>
 #include <QtPlugin>
-#include <QCoreApplication>
 
 namespace {
 
 const QString defaultFormat = QString("application/x-copyq-encrypted-text");
 
-struct KeyPairPaths {
-    KeyPairPaths()
-    {
-        QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                           QCoreApplication::organizationName(),
-                           QCoreApplication::applicationName());
-        QString settingsFileName = settings.fileName();
-        settingsFileName.remove( QRegExp(".ini$") );
-        sec = settingsFileName + ".sec";
-        pub = settingsFileName + ".pub";
-    }
-
-    QString sec;
-    QString pub;
-};
-
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
-    const KeyPairPaths keys;
-    QStringList gpgArgs =
-            QStringList() << "--charset" << "utf-8" << "--display-charset" << "utf-8" << "--no-tty"
-                          << "--no-default-keyring" << "--secret-keyring" << keys.sec << "--keyring" << keys.pub;
-    gpgArgs.append(args);
-    p->start("gpg", gpgArgs);
+    p->start("gpg", getDefaultEncryptCommandArguments() + args);
+}
+
+QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByteArray())
+{
+    QProcess p;
+    startGpgProcess( &p, args );
+    p.write(input);
+    p.closeWriteChannel();
+    p.waitForFinished();
+    return p.readAllStandardOutput();
 }
 
 bool keysExist()
 {
-    QProcess p;
-    startGpgProcess( &p, QStringList("--list-keys") );
-    p.waitForFinished();
-    return !p.readAllStandardOutput().isEmpty();
+    return !readGpgOutput( QStringList("--list-keys") ).isEmpty();
 }
 
 } // namespace
@@ -97,6 +85,38 @@ ItemEncrypted::ItemEncrypted(const QModelIndex &index, QWidget *parent)
     updateSize();
 }
 
+void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    // Decrypt before editing.
+    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit *>(editor);
+    if (textEdit != NULL) {
+        const QStringList formats = index.data(contentType::formats).toStringList();
+        const int i = formats.indexOf(defaultFormat);
+        if (i != -1) {
+            const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
+            const QString text = QString::fromUtf8( readGpgOutput(QStringList("--decrypt"), data) );
+            textEdit->setPlainText(text);
+            textEdit->selectAll();
+        }
+    }
+}
+
+void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
+                                 const QModelIndex &index) const
+{
+    // Encrypt after editing.
+    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit*>(editor);
+    if (textEdit != NULL) {
+        const QStringList formats = index.data(contentType::formats).toStringList();
+        const int i = formats.indexOf(defaultFormat);
+        if (i != -1) {
+            const QString text = textEdit->toPlainText();
+            const QByteArray data = readGpgOutput( QStringList("--encrypt"), text.toUtf8() );
+            model->setData( index, data, contentType::firstFormat + i );
+        }
+    }
+}
+
 void ItemEncrypted::updateSize()
 {
     setMinimumWidth(maximumWidth());
@@ -113,6 +133,7 @@ ItemEncryptedLoader::ItemEncryptedLoader()
 
 ItemEncryptedLoader::~ItemEncryptedLoader()
 {
+    terminateGpgProcess();
     delete ui;
 }
 
@@ -149,22 +170,14 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
 
 void ItemEncryptedLoader::setPassword()
 {
-    // Accessing global member variable is OK because this is always main GUI thread.
     if (m_gpgProcess != NULL) {
-        QProcess *p = m_gpgProcess;
-        m_gpgProcess = NULL;
-        p->terminate();
-        p->waitForFinished();
-        p->deleteLater();
-        m_gpgProcessStatus = GpgNotRunning;
-        updateUi();
+        terminateGpgProcess();
         return;
     }
 
-    const KeyPairPaths keys;
-
     if ( !keysExist() ) {
         // Generate keys if they don't exist.
+        const KeyPairPaths keys;
         m_gpgProcessStatus = GpgGeneratingKeys;
         m_gpgProcess = new QProcess(this);
         startGpgProcess( m_gpgProcess, QStringList() << "--batch" << "--gen-key" );
@@ -190,6 +203,19 @@ void ItemEncryptedLoader::setPassword()
                  this, SLOT(onGpgProcessFinished(int,QProcess::ExitStatus)) );
     }
 
+    updateUi();
+}
+
+void ItemEncryptedLoader::terminateGpgProcess()
+{
+    if (m_gpgProcess == NULL)
+        return;
+    QProcess *p = m_gpgProcess;
+    m_gpgProcess = NULL;
+    p->terminate();
+    p->waitForFinished();
+    p->deleteLater();
+    m_gpgProcessStatus = GpgNotRunning;
     updateUi();
 }
 
@@ -230,7 +256,7 @@ void ItemEncryptedLoader::updateUi()
         ui->labelInfo->setText( tr("Setting new password...") );
         ui->pushButtonPassword->setText( tr("Cancel") );
     } else if ( !keysExist() ) {
-        ui->labelInfo->setText( tr("Encryption keys must be generated before item encryption can be used!") );
+        ui->labelInfo->setText( tr("Encryption keys <strong>must be generated</strong> before item encryption can be used.") );
         ui->pushButtonPassword->setText( tr("Generate New Keys...") );
     } else {
         ui->pushButtonPassword->setText( tr("Change Password...") );

@@ -98,6 +98,12 @@ void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
     updateDataHash();
 }
 
+void ClipboardItem::setData(int formatIndex, const QByteArray &data)
+{
+    if ( formatIndex >= 0 && formatIndex < m_data->formats().size() )
+        m_data->setData( m_data->formats().value(formatIndex), data );
+}
+
 QString ClipboardItem::text() const
 {
     return m_data->text();

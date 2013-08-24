@@ -69,7 +69,7 @@ QWidget *ItemWidget::createEditor(QWidget *parent) const
 
 void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
+    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit *>(editor);
     if (textEdit != NULL) {
         const QString text = index.data(Qt::EditRole).toString();
         textEdit->setPlainText(text);
@@ -80,8 +80,9 @@ void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
 void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const
 {
-    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit*>(editor));
-    model->setData(index, textEdit->toPlainText());
+    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit*>(editor);
+    if (textEdit != NULL)
+        model->setData(index, textEdit->toPlainText());
 }
 
 bool ItemWidget::hasChanges(QWidget *editor) const

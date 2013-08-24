@@ -38,7 +38,10 @@ class ItemEncrypted : public QWidget, public ItemWidget
 public:
     ItemEncrypted(const QModelIndex &index, QWidget *parent);
 
-    virtual QWidget *createEditor(QWidget *) const { return NULL; }
+    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+
+    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const;
 
 protected:
     virtual void updateSize();
@@ -77,6 +80,7 @@ public:
 
 private slots:
     void setPassword();
+    void terminateGpgProcess();
     void onGpgProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
 
 private:

@@ -63,6 +63,9 @@ public:
     /** Set item's MIME type data. */
     void setData(const QString &mimeType, const QByteArray &data);
 
+    /** Set item's MIME type data. */
+    void setData(int formatIndex, const QByteArray &data);
+
     /**
      * Set item's data.
      * Clears all data and saves @a value as text/plain MIME type.
