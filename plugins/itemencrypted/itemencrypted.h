@@ -45,10 +45,6 @@ public:
 
 protected:
     virtual void updateSize();
-
-private:
-    QLabel *m_iconLabel;
-    QLabel *m_notesLabel;
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface
@@ -85,6 +81,7 @@ private slots:
 
 private:
     enum GpgProcessStatus {
+        GpgNotInstalled,
         GpgNotRunning,
         GpgGeneratingKeys,
         GpgChangingPassword

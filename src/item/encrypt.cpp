@@ -20,6 +20,7 @@
 #include "item/encrypt.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QRegExp>
 #include <QSettings>
 #include <QString>
@@ -60,6 +61,6 @@ QString getEncryptCommand()
 KeyPairPaths::KeyPairPaths()
 {
     const QString path = getConfigurationFilePath(QString());
-    sec = path + ".sec";
-    pub = path + ".pub";
+    sec = QDir::toNativeSeparators(path + ".sec");
+    pub = QDir::toNativeSeparators(path + ".pub");
 }

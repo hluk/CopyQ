@@ -34,6 +34,7 @@ en.PluginText=Text with Highlighting
 en.PluginImages=Images
 en.PluginWeb=Web Pages
 en.PluginData=Various Data
+en.PluginEncrypted=Encryption
 
 cz.ProgramFiles=Soubory programu
 cz.Plugins=Zásuvné moduly
@@ -41,6 +42,7 @@ cz.PluginText=Text se zvýrazňováním
 cz.PluginImages=Obrázky
 cz.PluginWeb=Webové stránky
 cz.PluginData=Různá data
+cz.PluginEncrypted=Šifrování
 
 es.ProgramFiles=Archivos de programa
 es.Plugins=Complementos
@@ -61,6 +63,7 @@ Name: "plugins/text"; Description: "{cm:PluginText}"; Types: full
 Name: "plugins/images"; Description: "{cm:PluginImages}"; Types: full
 Name: "plugins/web"; Description: "{cm:PluginWeb}"; Types: full
 Name: "plugins/data"; Description: "{cm:PluginData}"; Types: full
+Name: "plugins/encrypted"; Description: "{cm:PluginEncrypted}"; Types: full
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -78,6 +81,7 @@ Source: "{#Root}\plugins\itemtext.dll"; DestDir: "{app}\plugins"; Components: pl
 Source: "{#Root}\plugins\itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
 Source: "{#Root}\plugins\itemweb.dll"; DestDir: "{app}\plugins"; Components: plugins/web; Flags: ignoreversion
 Source: "{#Root}\plugins\itemdata.dll"; DestDir: "{app}\plugins"; Components: plugins/data; Flags: ignoreversion
+Source: "{#Root}\plugins\itemencrypted.dll"; DestDir: "{app}\plugins"; Components: plugins/encrypted; Flags: ignoreversion
 Source: "{#Root}\msvcp100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\msvcr100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs

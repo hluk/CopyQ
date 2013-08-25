@@ -20,6 +20,7 @@
 #include "iconfactory.h"
 
 #include <QBitmap>
+#include <QCoreApplication>
 #include <QFontDatabase>
 #include <QIcon>
 #include <QMenu>

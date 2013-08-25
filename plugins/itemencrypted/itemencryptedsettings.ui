@@ -14,7 +14,7 @@
    <item>
     <widget class="QLabel" name="label">
      <property name="text">
-      <string>To encrypt and decrypt items add appropriate commands under Commands tab. &lt;a href=&quot;http://www.gnupg.org/&quot;&gt;GnuPG&lt;/a&gt; application must be installed.</string>
+      <string>To encrypt and decrypt items add appropriate commands under Commands tab.</string>
      </property>
      <property name="wordWrap">
       <bool>true</bool>

@@ -24,7 +24,6 @@
 #include "item/encrypt.h"
 #include "item/serialize.h"
 
-#include <QCoreApplication>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPlainTextEdit>
@@ -60,27 +59,27 @@ bool keysExist()
 ItemEncrypted::ItemEncrypted(const QModelIndex &index, QWidget *parent)
     : QWidget(parent)
     , ItemWidget(this)
-    , m_iconLabel(new QLabel(this))
-    , m_notesLabel(NULL)
 {
     QHBoxLayout *layout = new QHBoxLayout(this);
 
     // Show small icon.
-    m_iconLabel->setObjectName("item_child");
-    m_iconLabel->setFont( QFont("FontAwesome") );
-    m_iconLabel->setText( QChar(0xf023) );
-    layout->addWidget(m_iconLabel);
+    QLabel *iconLabel = new QLabel(this);
+    iconLabel->setObjectName("item_child");
+    iconLabel->setTextFormat(Qt::RichText);
+    iconLabel->setText("<span style=\"font-family:FontAwesome\">&#xf023;</span>");
+    layout->addWidget(iconLabel);
 
     // Show item notes if available.
     const QString notes = index.data(contentType::notes).toString();
     if ( !notes.isEmpty() ) {
-        m_notesLabel = new QLabel(this);
-        m_notesLabel->setObjectName("item_child");
-        m_notesLabel->setTextFormat(Qt::PlainText);
-        m_notesLabel->setWordWrap(true);
-        m_notesLabel->setText(notes);
-        layout->addWidget(m_notesLabel);
-        layout->setStretchFactor(m_notesLabel, 1);
+        QLabel *notesLabel = new QLabel(this);
+        notesLabel = new QLabel(this);
+        notesLabel->setObjectName("item_child");
+        notesLabel->setTextFormat(Qt::PlainText);
+        notesLabel->setWordWrap(true);
+        notesLabel->setText(notes);
+        layout->addWidget(notesLabel);
+        layout->setStretchFactor(notesLabel, 1);
     }
 
     updateSize();
@@ -165,6 +164,15 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     ui = new Ui::ItemEncryptedSettings;
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
+
+    // Check if gpg application is available.
+    QProcess p;
+    startGpgProcess(&p, QStringList("--version"));
+    p.closeWriteChannel();
+    p.waitForFinished();
+    if ( p.error() != QProcess::UnknownError )
+        m_gpgProcessStatus = GpgNotInstalled;
+
     updateUi();
 
     connect( ui->pushButtonPassword, SIGNAL(clicked()),
@@ -175,6 +183,9 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
 
 void ItemEncryptedLoader::setPassword()
 {
+    if (m_gpgProcessStatus == GpgGeneratingKeys)
+        return;
+
     if (m_gpgProcess != NULL) {
         terminateGpgProcess();
         return;
@@ -195,20 +206,21 @@ void ItemEncryptedLoader::setPassword()
                  "\n%commit"
                  "\n" );
         m_gpgProcess->closeWriteChannel();
-
-        connect( m_gpgProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
-                 this, SLOT(onGpgProcessFinished(int,QProcess::ExitStatus)) );
     } else {
         // Change password.
         m_gpgProcessStatus = GpgChangingPassword;
         m_gpgProcess = new QProcess(this);
         startGpgProcess( m_gpgProcess, QStringList() << "--edit-key" << "copyq" << "passwd" << "save");
-
-        connect( m_gpgProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
-                 this, SLOT(onGpgProcessFinished(int,QProcess::ExitStatus)) );
     }
 
-    updateUi();
+    m_gpgProcess->waitForStarted();
+    if ( m_gpgProcess->state() == QProcess::NotRunning ) {
+        onGpgProcessFinished( m_gpgProcess->exitCode(), m_gpgProcess->exitStatus() );
+    } else {
+        connect( m_gpgProcess, SIGNAL(finished(int,QProcess::ExitStatus)),
+                 this, SLOT(onGpgProcessFinished(int,QProcess::ExitStatus)) );
+        updateUi();
+    }
 }
 
 void ItemEncryptedLoader::terminateGpgProcess()
@@ -226,14 +238,21 @@ void ItemEncryptedLoader::terminateGpgProcess()
 
 void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatus exitStatus)
 {
+    QString error;
+
     if (m_gpgProcess != NULL) {
         if (ui != NULL) {
+            error = tr("Error: %1");
             if (exitStatus != QProcess::NormalExit)
-                ui->labelInfo->setText( tr("Error: %1").arg(m_gpgProcess->errorString()) );
+                error = error.arg(m_gpgProcess->errorString());
             else if (exitCode != 0)
-                ui->labelInfo->setText( tr("Error: %1").arg(QString::fromUtf8(m_gpgProcess->readAllStandardError())) );
+                error = error.arg(QString::fromUtf8(m_gpgProcess->readAllStandardError()));
+            else if ( m_gpgProcess->error() != QProcess::UnknownError )
+                error = error.arg(m_gpgProcess->errorString());
+            else if ( !keysExist() )
+                error = error.arg( tr("Failed to generate keys.") );
             else
-                ui->labelInfo->setText( tr("Done") );
+                error.clear();
         }
 
         m_gpgProcess->deleteLater();
@@ -243,10 +262,12 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     GpgProcessStatus oldStatus = m_gpgProcessStatus;
     m_gpgProcessStatus = GpgNotRunning;
 
-    updateUi();
-
-    if (oldStatus == GpgGeneratingKeys)
+    if ( oldStatus == GpgGeneratingKeys && error.isEmpty() ) {
         setPassword();
+    } else {
+        updateUi();
+        ui->labelInfo->setText( error.isEmpty() ? tr("Done") : error );
+    }
 }
 
 void ItemEncryptedLoader::updateUi()
@@ -254,7 +275,10 @@ void ItemEncryptedLoader::updateUi()
     if (ui == NULL)
         return;
 
-    if (m_gpgProcessStatus == GpgGeneratingKeys) {
+    if (m_gpgProcessStatus == GpgNotInstalled) {
+        ui->labelInfo->setText("To use item encryption, install <a href=\"http://www.gnupg.org/\">GnuPG</a> application and restart CopyQ.");
+        ui->pushButtonPassword->hide();
+    } else if (m_gpgProcessStatus == GpgGeneratingKeys) {
         ui->labelInfo->setText( tr("Creating new keys (this may take a few minutes)...") );
         ui->pushButtonPassword->setText( tr("Cancel") );
     } else if (m_gpgProcessStatus == GpgChangingPassword) {
