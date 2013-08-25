@@ -1304,7 +1304,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
                     }
                     if (!c.tab.isEmpty())
                         emit addToTab(data, c.tab);
-                    if (c.remove) {
+                    if (c.remove || c.transform) {
                         delete data;
                         return false;
                     }

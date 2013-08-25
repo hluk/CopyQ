@@ -142,7 +142,13 @@ QVariant ClipboardItem::data(int role) const
 
 void ClipboardItem::updateDataHash()
 {
-    m_hash = hash(*m_data, m_data->formats());
+    QStringList formats = m_data->formats();
+
+    // Skip some special data.
+    formats.removeAll(mimeClipboardMode);
+    formats.removeAll(mimeWindowTitle);
+
+    m_hash = hash(*m_data, formats);
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
