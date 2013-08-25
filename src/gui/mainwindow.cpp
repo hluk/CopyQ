@@ -37,6 +37,7 @@
 #include "gui/traymenu.h"
 #include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
+#include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QAction>
@@ -1602,7 +1603,10 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QS
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
     QMimeData *newData = new QMimeData();
-    newData->setData(format, data);
+    if (format == mimeItems)
+        deserializeData(newData, data);
+    else
+        newData->setData(format, data);
     c->add(newData, true);
 }
 
@@ -1613,7 +1617,10 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QM
         return;
 
     QMimeData *newData = new QMimeData();
-    newData->setData(format, data);
+    if (format == mimeItems)
+        deserializeData(newData, data);
+    else
+        newData->setData(format, data);
     c->setItemData(index, newData);
 }
 
@@ -1902,8 +1909,8 @@ void MainWindow::pasteItems()
     const int row = list.isEmpty() ? 0 : list.first().row();
 
     // Insert items from clipboard or just clipboard content.
-    if ( data->hasFormat("application/x-copyq-item") ) {
-        const QByteArray bytes = data->data("application/x-copyq-item");
+    if ( data->hasFormat(mimeItems) ) {
+        const QByteArray bytes = data->data(mimeItems);
         QDataStream in(bytes);
 
         while ( !in.atEnd() ) {
@@ -1930,19 +1937,11 @@ void MainWindow::pasteItems()
 
 void MainWindow::copyItems()
 {
-    QByteArray bytes;
-    QDataStream out(&bytes, QIODevice::WriteOnly);
-
     ClipboardBrowser *c = browser();
     QModelIndexList indexes = c->selectionModel()->selectedRows();
 
     if ( indexes.isEmpty() )
         return;
-
-    /* Copy items in reverse (items will be pasted correctly). */
-    for ( int i = indexes.size()-1; i >= 0; --i ) {
-        out << *c->at( indexes.at(i).row() );
-    }
 
     ClipboardItem item;
     QMimeData data;
@@ -1950,8 +1949,14 @@ void MainWindow::copyItems()
         int row = indexes.at(0).row();
         item.setData( cloneData(*c->at(row)->data()) );
     } else {
+        /* Copy items in reverse (items will be pasted correctly). */
+        QByteArray bytes;
+        for ( int i = indexes.size()-1; i >= 0; --i ) {
+            const ClipboardItem *item = c->at( indexes.at(i).row() );
+            bytes.append( serializeData(*item->data()) );
+        }
         data.setText( c->selectedText() );
-        data.setData("application/x-copyq-item", bytes);
+        data.setData(mimeItems, bytes);
         item.setData( cloneData(data) );
     }
 

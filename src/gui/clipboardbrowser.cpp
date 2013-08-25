@@ -32,6 +32,7 @@
 #include "item/itemeditorwidget.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
+#include "item/serialize.h"
 
 #include <QKeyEvent>
 #include <QMenu>
@@ -262,8 +263,14 @@ void ClipboardBrowser::contextMenuAction()
         if (isContextMenuAction && cmd.transform) {
             foreach (const QModelIndex &index, selected) {
                 const QMimeData *data = itemData( index.row() );
-                if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) )
+
+                if (cmd.input == mimeItems) {
+                    QMimeData data2;
+                    data2.setData( mimeItems, serializeData(*data) );
+                    emit requestActionDialog(data2, cmd, index);
+                } else if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) ) {
                     emit requestActionDialog(*data, cmd, index);
+                }
             }
         } else {
             if (data != NULL) {
@@ -608,8 +615,13 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
         }
 
         // Verify that data for given MIME is available.
-        if ( !command.input.isEmpty() && !availableFormats.contains(command.input) )
+        if (command.input == mimeItems) {
+            // Disallow applying action that takes serialized item more times.
+            if ( availableFormats.contains(command.output) )
+                continue;
+        } else if ( !command.input.isEmpty() && !availableFormats.contains(command.input) ) {
             continue;
+        }
 
         IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
         QAction *act = menu->addAction( iconFactory->iconFromFile(command.icon), QString() );
@@ -1278,15 +1290,21 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         foreach (const Command &c, m_sharedData->commands) {
             if (c.automatic && (c.remove || !c.cmd.isEmpty() || !c.tab.isEmpty())) {
                 if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
-                     && (c.input.isEmpty() || data->hasFormat(c.input))
+                     && (c.input.isEmpty() || c.input == mimeItems || data->hasFormat(c.input))
                      && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
                 {
                     if (c.automatic) {
                         Command cmd = c;
                         if ( cmd.outputTab.isEmpty() )
                             cmd.outputTab = m_id;
-                        if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) )
+
+                        if (cmd.input == mimeItems) {
+                            QMimeData data2;
+                            data2.setData( mimeItems, serializeData(*data) );
+                            emit requestActionDialog(data2, cmd);
+                        } else if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) ) {
                             emit requestActionDialog(*data, cmd);
+                        }
                     }
                     if (!c.tab.isEmpty())
                         emit addToTab(data, c.tab);

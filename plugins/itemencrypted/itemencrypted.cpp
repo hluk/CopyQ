@@ -22,6 +22,7 @@
 
 #include "common/contenttype.h"
 #include "item/encrypt.h"
+#include "item/serialize.h"
 
 #include <QCoreApplication>
 #include <QHBoxLayout>
@@ -32,7 +33,7 @@
 
 namespace {
 
-const QString defaultFormat = QString("application/x-copyq-encrypted-text");
+const QString defaultFormat = QString("application/x-copyq-encrypted");
 
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
@@ -93,9 +94,11 @@ void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) con
         const QStringList formats = index.data(contentType::formats).toStringList();
         const int i = formats.indexOf(defaultFormat);
         if (i != -1) {
-            const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
-            const QString text = QString::fromUtf8( readGpgOutput(QStringList("--decrypt"), data) );
-            textEdit->setPlainText(text);
+            const QByteArray encryptedBytes = index.data(contentType::firstFormat + i).toByteArray();
+            const QByteArray bytes = readGpgOutput(QStringList("--decrypt"), encryptedBytes);
+            QMimeData data;
+            deserializeData(&data, bytes);
+            textEdit->setPlainText(data.text());
             textEdit->selectAll();
         }
     }
@@ -110,9 +113,11 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
         const QStringList formats = index.data(contentType::formats).toStringList();
         const int i = formats.indexOf(defaultFormat);
         if (i != -1) {
-            const QString text = textEdit->toPlainText();
-            const QByteArray data = readGpgOutput( QStringList("--encrypt"), text.toUtf8() );
-            model->setData( index, data, contentType::firstFormat + i );
+            QMimeData data;
+            data.setText( textEdit->toPlainText() );
+            QByteArray bytes = serializeData(data);
+            const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
+            model->setData( index, encryptedBytes, contentType::firstFormat + i );
         }
     }
 }

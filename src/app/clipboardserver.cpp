@@ -26,6 +26,7 @@
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"
 #include "item/itemfactory.h"
+#include "item/encrypt.h"
 #include "scriptable/scriptableworker.h"
 
 #include <QAction>

@@ -33,6 +33,7 @@
 #endif
 
 const QString mimeWindowTitle = "application/x-copyq-owner-window-title";
+const QString mimeItems = "application/x-copyq-item";
 const QString mimeItemNotes = "application/x-copyq-item-notes";
 const QString mimeApplicationSettings = "application/x-copyq-settings";
 #ifdef COPYQ_WS_X11

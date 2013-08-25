@@ -25,10 +25,15 @@ namespace {
 
 void startProcess(QProcess *process, const QStringList &args)
 {
-    // Replace "copyq" command with full application path.
-    QString cmd = (args.first() == "copyq") ? QCoreApplication::applicationFilePath()
-                                            : args.first();
-    process->start(cmd, args.mid(1), QIODevice::ReadWrite);
+    if (args.first() == "copyq") {
+        // Replace "copyq" command with full application path.
+        const QString session = QCoreApplication::instance()->property("CopyQ_session_name").toString();
+        process->start(QCoreApplication::applicationFilePath(),
+                       QStringList() << "--session" << session << args.mid(1),
+                       QIODevice::ReadWrite);
+    } else {
+        process->start(args.first(), args.mid(1), QIODevice::ReadWrite);
+    }
 }
 
 } // namespace

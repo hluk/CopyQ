@@ -263,29 +263,29 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->automatic = true;
 #endif
     } else if (index == ++i) {
-        c->name = tr("Encrypt Text (needs GnuGP)");
+        c->name = tr("Encrypt (needs GnuGP)");
         c->icon = QString(QChar(IconLock));
-        c->input = "text/plain";
-        c->output = "application/x-copyq-encrypted-text";
+        c->input = mimeItems;
+        c->output = "application/x-copyq-encrypted";
         c->inMenu = true;
         c->transform = true;
-        c->cmd = getEncryptCommand() + "--encrypt";
+        c->cmd = getEncryptCommand() + " --encrypt";
         c->shortcut = tr("Ctrl+L");
     } else if (index == ++i) {
-        c->name = tr("Decrypt Text");
+        c->name = tr("Decrypt");
         c->icon = QString(QChar(IconUnlock));
-        c->input = "application/x-copyq-encrypted-text";
-        c->output = "text/plain";
+        c->input = "application/x-copyq-encrypted";
+        c->output = mimeItems;
         c->inMenu = true;
         c->transform = true;
-        c->cmd = getEncryptCommand() + "--decrypt";
+        c->cmd = getEncryptCommand() + " --decrypt";
         c->shortcut = tr("Ctrl+L");
     } else if (index == ++i) {
-        c->name = tr("Decrypt and Copy Text");
+        c->name = tr("Decrypt and Copy");
         c->icon = QString(QChar(IconUnlockAlt));
-        c->input = "application/x-copyq-encrypted-text";
+        c->input = "application/x-copyq-encrypted";
         c->inMenu = true;
-        c->cmd = getEncryptCommand() + "--decrypt | copyq copy -";
+        c->cmd = getEncryptCommand() + " --decrypt | copyq copy " + mimeItems + " -";
         c->shortcut = tr("Ctrl+Shift+L");
     } else {
         return false;

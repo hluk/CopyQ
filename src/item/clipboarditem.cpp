@@ -21,6 +21,7 @@
 
 #include "common/client_server.h"
 #include "common/contenttype.h"
+#include "item/serialize.h"
 
 #include <QByteArray>
 #include <QDataStream>
@@ -139,7 +140,6 @@ QVariant ClipboardItem::data(int role) const
     return QVariant();
 }
 
-
 void ClipboardItem::updateDataHash()
 {
     m_hash = hash(*m_data, m_data->formats());
@@ -147,39 +147,16 @@ void ClipboardItem::updateDataHash()
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
 {
-    const QMimeData *data = item.data();
-    const QStringList formats = item.data()->formats();
-    QByteArray bytes;
-    stream << formats.length();
-    foreach (const QString &mime, formats) {
-        bytes = data->data(mime);
-        if ( !bytes.isEmpty() )
-            bytes = qCompress(bytes);
-        stream << mime << bytes;
-    }
-
+    stream << *item.data();
     return stream;
 }
 
 QDataStream &operator>>(QDataStream &stream, ClipboardItem &item)
 {
-    int length;
-
-    stream >> length;
-    QString mime;
-    QByteArray bytes;
-    for (int i = 0; i < length; ++i) {
-        stream >> mime >> bytes;
-        if( !bytes.isEmpty() ) {
-            bytes = qUncompress(bytes);
-            if (bytes.isEmpty()) {
-                log( QObject::tr("Clipboard history file copyq.dat is corrupted!"),
-                     LogError );
-                break;
-            }
-        }
-        item.setData(mime, bytes);
-    }
-
+    QMimeData *data = new QMimeData();
+    stream >> *data;
+    if ( stream.status() == QDataStream::ReadCorruptData )
+        log( QObject::tr("Clipboard history file copyq.dat is corrupted!"), LogError );
+    item.setData(data);
     return stream;
 }

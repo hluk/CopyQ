@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "gui/configurationmanager.h"
 #include "item/clipboarditem.h"
+#include "item/serialize.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
 
@@ -513,7 +514,17 @@ void Scriptable::copy()
             // DATA
             QScriptValue value = argument(++i);
             QByteArray *bytes = toByteArray(value);
-            item.setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+            if (bytes != NULL) {
+                if (mime == mimeItems) {
+                    QMimeData *newData = new QMimeData();
+                    deserializeData(newData, *bytes);
+                    item.setData(newData);
+                } else {
+                    item.setData(mime, *bytes);
+                }
+            } else {
+                item.setData( mime, toString(value).toLocal8Bit() );
+            }
         }
     } else {
         throwError(argumentError());

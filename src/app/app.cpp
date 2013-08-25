@@ -58,8 +58,10 @@ App::App(QCoreApplication *application, const QString &sessionName)
     , m_closed(false)
 {
     QString session("copyq");
-    if ( !sessionName.isEmpty() )
+    if ( !sessionName.isEmpty() ) {
         session += "-" + sessionName;
+        m_app->setProperty("CopyQ_session_name", sessionName);
+    }
 
 #ifdef HAS_TESTS
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();

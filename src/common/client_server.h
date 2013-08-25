@@ -82,6 +82,7 @@ enum LogLevel {
 };
 
 extern const QString mimeWindowTitle;
+extern const QString mimeItems;
 extern const QString mimeItemNotes;
 extern const QString mimeApplicationSettings;
 #ifdef COPYQ_WS_X11
