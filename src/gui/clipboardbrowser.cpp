@@ -682,14 +682,18 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     d->dataChanged(a, b);
     delayedSaveItems();
 
-    const int current = currentIndex().row();
+    bool updateMenu = false;
+    const QModelIndexList selected = selectedIndexes();
 
     // Refilter items.
     for (int i = a.row(); i <= b.row(); ++i) {
         hideFiltered(i);
-        if (current == i)
-            updateContextMenu();
+        if ( !updateMenu && selected.contains(index(i)) )
+            updateMenu = true;
     }
+
+    if (updateMenu)
+        updateContextMenu();
 
     updateCurrentPage();
     updateItemNotes(false);
