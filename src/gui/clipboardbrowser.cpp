@@ -658,7 +658,7 @@ void ClipboardBrowser::setSavingEnabled(bool enable)
     }
 }
 
-void ClipboardBrowser::cleanContextMenu()
+void ClipboardBrowser::updateContextMenu()
 {
     if (m_menu == NULL)
         return;
@@ -672,14 +672,6 @@ void ClipboardBrowser::cleanContextMenu()
         m_menu->removeAction(actions[i]);
 
     m_menu->addSeparator();
-}
-
-void ClipboardBrowser::updateContextMenu()
-{
-    if (m_menu == NULL)
-        return;
-
-    cleanContextMenu();
 
     addCommandsToMenu(m_menu, selectedText(), getSelectedItemData());
 }
@@ -815,8 +807,14 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     QListView::currentChanged(current, previous);
-    cleanContextMenu();
     updateItemNotes(false);
+}
+
+void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
+                                        const QItemSelection &deselected)
+{
+    QListView::selectionChanged(selected, deselected);
+    updateContextMenu();
 }
 
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)
@@ -1049,7 +1047,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
         }
 
         default:
-            updateContextMenu();
             QListView::keyPressEvent(event);
             break;
         }
@@ -1137,7 +1134,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
         default:
             // allow user defined shortcuts
-            updateContextMenu();
             QListView::keyPressEvent(event);
             // search
             event->ignore();
@@ -1466,18 +1462,7 @@ void ClipboardBrowser::redraw()
 
 void ClipboardBrowser::setContextMenu(QMenu *menu)
 {
-    if ( !m_menu.isNull() ) {
-        disconnect( m_menu, SIGNAL(aboutToShow()),
-                    this, SLOT(updateContextMenu()) );
-    }
-
     m_menu = menu;
-
-    if ( !m_menu.isNull() ) {
-        connect( m_menu, SIGNAL(aboutToShow()),
-                 this, SLOT(updateContextMenu()) );
-    }
-
     createContextMenu();
 }
 

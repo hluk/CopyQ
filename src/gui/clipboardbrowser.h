@@ -245,6 +245,7 @@ class ClipboardBrowser : public QListView
         void resizeEvent(QResizeEvent *event);
         void showEvent(QShowEvent *event);
         void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+        void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
         void focusInEvent(QFocusEvent *event);
 
         void dragEnterEvent(QDragEnterEvent *event);
@@ -270,7 +271,6 @@ class ClipboardBrowser : public QListView
 
     private slots:
         void contextMenuAction();
-        void cleanContextMenu();
         void updateContextMenu();
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
