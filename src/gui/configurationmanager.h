@@ -81,18 +81,22 @@ public:
     QString optionToolTip(const QString &name) const;
 
     /** Load items from configuration file. */
-    void loadItems(
+    bool loadItems(
             ClipboardModel &model, //!< Model for items.
             const QString &id //!< See ClipboardBrowser::getID().
             );
     /** Save items to configuration file. */
-    void saveItems(
-            const ClipboardModel &model, //!< Model containing items to save.
+    bool saveItems(const ClipboardModel &model, //!< Model containing items to save.
             const QString &id //!< See ClipboardBrowser::getID().
             );
     /** Remove configuration file for items. */
     void removeItems(
             const QString &id //!< See ClipboardBrowser::getID().
+            );
+    /** Move configuration file for items. */
+    void moveItems(
+            const QString &oldId, //!< See ClipboardBrowser::getID().
+            const QString &newId //!< See ClipboardBrowser::getID().
             );
 
     /**

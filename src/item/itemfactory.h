@@ -26,8 +26,10 @@
 #include <QSharedPointer>
 #include <QVector>
 
-class ItemWidget;
 class ItemLoaderInterface;
+class ItemWidget;
+class QAbstractItemModel;
+class QFile;
 class QModelIndex;
 class QWidget;
 
@@ -104,6 +106,23 @@ public:
      * Return true if no plugins were loaded.
      */
     bool hasLoaders() const { return !m_loaders.isEmpty(); }
+
+    /**
+     * Load items using a plugin.
+     * @return true only if any plugin (ItemLoaderInterface::loadItems()) returned true
+     */
+    bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
+    /**
+     * Save items using a plugin.
+     * @return true only if items were saved
+     */
+    bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+
+    /**
+     * Called after items were loaded.
+     */
+    void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
 
 private slots:
     /** Called if child ItemWidget destroyed. **/

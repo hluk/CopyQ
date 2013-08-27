@@ -30,6 +30,7 @@ ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_clipboardList()
     , m_max(100)
+    , m_disabled(false)
 {
 }
 
@@ -88,6 +89,8 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
             m_clipboardList[row]->removeData(mimeItemNotes);
         else
             m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
+    } else if (role == contentType::data) {
+        m_clipboardList[row]->setData( value.value<QVariantMap>() );
     } else if (role >= contentType::firstFormat) {
         m_clipboardList[row]->setData( role - contentType::firstFormat, value.toByteArray() );
     } else {
@@ -289,14 +292,10 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
     int length = model.rowCount();
     stream << length;
 
-    COPYQ_LOG( QString("Saving %1 items.").arg(length) );
-
     // save in reverse order so the items
     // can be later restored in right order
-    for(int i = 0; i < length; ++i)
+    for(int i = 0; i < length && stream.status() == QDataStream::Ok; ++i)
         stream << *model.at(i);
-
-    COPYQ_LOG("Items saved.");
 
     return stream;
 }
@@ -305,17 +304,15 @@ QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
 {
     int length;
     stream >> length;
+    if ( stream.status() != QDataStream::Ok )
+        return stream;
     length = qMin( length, model.maxItems() ) - model.rowCount();
 
-    COPYQ_LOG( QString("Loading %1 items.").arg(length) );
-
     ClipboardItem *item;
-    for(int i = 0; i < length; ++i) {
+    for(int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
         item = model.append();
         stream >> *item;
     }
-
-    COPYQ_LOG("Items loaded.");
 
     return stream;
 }

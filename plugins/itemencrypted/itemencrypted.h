@@ -29,6 +29,7 @@ namespace Ui {
 class ItemEncryptedSettings;
 }
 
+class QFile;
 class QLabel;
 
 class ItemEncrypted : public QWidget, public ItemWidget
@@ -74,10 +75,20 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
+    virtual bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
+    virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+
+    virtual void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
+signals:
+    void pluginDisableTab(const QString &tabName, bool disable);
+
 private slots:
     void setPassword();
     void terminateGpgProcess();
     void onGpgProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
+    bool shouldEncryptTab(const QString &tabName) const;
 
 private:
     enum GpgProcessStatus {

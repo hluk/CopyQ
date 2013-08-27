@@ -95,3 +95,18 @@ QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
 {
     return NULL;
 }
+
+
+bool ItemLoaderInterface::loadItems(const QString &, QAbstractItemModel *, QFile *)
+{
+    return false;
+}
+
+bool ItemLoaderInterface::saveItems(const QString &, const QAbstractItemModel &, QFile *)
+{
+    return false;
+}
+
+void ItemLoaderInterface::itemsLoaded(const QString &, QAbstractItemModel *, QFile *)
+{
+}

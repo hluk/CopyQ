@@ -711,6 +711,8 @@ void ClipboardBrowser::updateCurrentPage()
 {
     if ( m_timerUpdate->isActive() )
         return; // Update already requested.
+    if ( m->isDisabled() )
+        return;
     if ( !m_loaded && !m_id.isEmpty() )
         return; // Items not loaded yet.
     if ( !isVisible() )
@@ -794,8 +796,6 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
-    loadItems();
-
     if (!currentIndex().isValid())
         setCurrent(0);
     if ( m->rowCount() > 0 && !d->hasCache(index(0)) )
@@ -858,7 +858,10 @@ bool ClipboardBrowser::openEditor()
 bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
                                   const QString &editorCommand)
 {
-    const QString &cmd =  editorCommand.isNull() ? m_sharedData->editor : editorCommand;
+    if ( m->isDisabled() || !m_loaded )
+        return false;
+
+    const QString &cmd = editorCommand.isNull() ? m_sharedData->editor : editorCommand;
     if (cmd.isNull())
         return false;
 
@@ -868,6 +871,9 @@ bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
 
 bool ClipboardBrowser::openEditor(const QModelIndex &index)
 {
+    if ( m->isDisabled() || !m_loaded )
+        return false;
+
     ItemWidget *item = d->cache(index);
     QObject *editor = item->createExternalEditor(index, this);
     if (editor == NULL) {
@@ -990,6 +996,9 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::editNew(const QString &text)
 {
+    if ( m->isDisabled() || !m_loaded )
+        return;
+
     bool added = add(text, true);
     if (!added)
         return;
@@ -1270,6 +1279,8 @@ bool ClipboardBrowser::add(const QString &txt, bool force, int row)
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
+    if ( m->isDisabled() )
+        return false;
     if ( !m_loaded && !m_id.isEmpty() ) {
         loadItems();
         if (!m_loaded)
@@ -1372,25 +1383,24 @@ void ClipboardBrowser::loadItems()
     if ( m_loaded || m_id.isEmpty() )
         return;
 
-    COPYQ_LOG(QString("Loading items for tab \"%1\"").arg(getID()));
-    ConfigurationManager::instance()->loadItems(*m, m_id);
     m_timerSave->stop();
-    m_loaded = true;
+    m_loaded = ConfigurationManager::instance()->loadItems(*m, m_id);
 }
 
-void ClipboardBrowser::saveItems()
+bool ClipboardBrowser::saveItems()
 {
-    if ( !m_loaded || !m_save || m_id.isEmpty() )
-        return;
+    if ( m->isDisabled() || !m_loaded || !m_save || m_id.isEmpty() )
+        return false;
 
     m_timerSave->stop();
 
     ConfigurationManager::instance()->saveItems(*m, m_id);
+    return true;
 }
 
 void ClipboardBrowser::delayedSaveItems()
 {
-    if ( !m_loaded || !m_save || m_id.isEmpty() || m_timerSave->isActive() )
+    if ( m->isDisabled() || !m_loaded || !m_save || m_id.isEmpty() || m_timerSave->isActive() )
         return;
 
     m_timerSave->start();
@@ -1468,6 +1478,24 @@ void ClipboardBrowser::setContextMenu(QMenu *menu)
 {
     m_menu = menu;
     createContextMenu();
+}
+
+void ClipboardBrowser::setID(const QString &id)
+{
+    if (m_id == id)
+        return;
+
+    const QString oldId = m_id;
+    m_id = id;
+
+    ConfigurationManager *c = ConfigurationManager::instance();
+    bool saved = saveItems();
+    if ( !oldId.isEmpty() ) {
+        if (saved)
+            c->removeItems(oldId);
+        else
+            c->moveItems(oldId, id);
+    }
 }
 
 bool ClipboardBrowser::editing()

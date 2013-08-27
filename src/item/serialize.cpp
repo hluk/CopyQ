@@ -45,9 +45,10 @@ QDataStream &operator>>(QDataStream &stream, QMimeData &data)
     int length;
 
     stream >> length;
+
     QString mime;
     QByteArray bytes;
-    for (int i = 0; i < length; ++i) {
+    for (int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
         stream >> mime >> bytes;
         if( !bytes.isEmpty() ) {
             bytes = qUncompress(bytes);
@@ -70,8 +71,9 @@ QByteArray serializeData(const QMimeData &data)
     return bytes;
 }
 
-void deserializeData(QMimeData *data, const QByteArray &bytes)
+bool deserializeData(QMimeData *data, const QByteArray &bytes)
 {
     QDataStream out(bytes);
     out >> *data;
+    return out.status() == QDataStream::Ok;
 }

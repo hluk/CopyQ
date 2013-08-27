@@ -30,6 +30,18 @@
 #include <QStringList>
 #include <QVariant>
 
+namespace {
+
+void clearDataExceptNotes(QMimeData *data)
+{
+    const QByteArray notes = data->data(mimeItemNotes);
+    data->clear();
+    if ( !notes.isEmpty() )
+        data->setData(mimeItemNotes, notes);
+}
+
+} // namespace
+
 ClipboardItem::ClipboardItem()
     : m_data(new QMimeData)
     , m_hash(0)
@@ -73,11 +85,16 @@ void ClipboardItem::setData(QMimeData *data)
 void ClipboardItem::setData(const QVariant &value)
 {
     // rewrite all original data, except notes, with edited text
-    const QByteArray notes = m_data->data(mimeItemNotes);
-    m_data->clear();
+    clearDataExceptNotes(m_data);
     m_data->setText( value.toString() );
-    if ( !notes.isEmpty() )
-        m_data->setData(mimeItemNotes, notes);
+    updateDataHash();
+}
+
+void ClipboardItem::setData(const QVariantMap &data)
+{
+    clearDataExceptNotes(m_data);
+    foreach ( const QString &format, data.keys() )
+        m_data->setData( format, data[format].toByteArray() );
     updateDataHash();
 }
 
@@ -163,8 +180,6 @@ QDataStream &operator>>(QDataStream &stream, ClipboardItem &item)
 {
     QMimeData *data = new QMimeData();
     stream >> *data;
-    if ( stream.status() == QDataStream::ReadCorruptData )
-        log( QObject::tr("Clipboard history file copyq.dat is corrupted!"), LogError );
     item.setData(data);
     return stream;
 }

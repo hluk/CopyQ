@@ -27,6 +27,6 @@ class QMimeData;
 QDataStream &operator<<(QDataStream &stream, const QMimeData &data);
 QDataStream &operator>>(QDataStream &stream, QMimeData &data);
 QByteArray serializeData(const QMimeData &data);
-void deserializeData(QMimeData *data, const QByteArray &bytes);
+bool deserializeData(QMimeData *data, const QByteArray &bytes);
 
 #endif // SERIALIZE_H

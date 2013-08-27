@@ -42,6 +42,28 @@
     </widget>
    </item>
    <item>
+    <widget class="QGroupBox" name="groupBoxEncryptTabs">
+     <property name="title">
+      <string>Encrypted Tabs</string>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="1" column="0">
+       <widget class="QPlainTextEdit" name="plainTextEditEncryptTabs"/>
+      </item>
+      <item row="0" column="0" colspan="2">
+       <widget class="QLabel" name="label_4">
+        <property name="text">
+         <string>Specify names of tabs (one per line) which will be automatically encrypted and decrypted.</string>
+        </property>
+        <property name="wordWrap">
+         <bool>true</bool>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
     <spacer name="verticalSpacer">
      <property name="orientation">
       <enum>Qt::Vertical</enum>

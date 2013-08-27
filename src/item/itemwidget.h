@@ -26,6 +26,7 @@
 #include <QVariantMap>
 
 class QAbstractItemModel;
+class QFile;
 class QFont;
 class QModelIndex;
 class QPalette;
@@ -184,6 +185,23 @@ public:
      * Create settings widget.
      */
     virtual QWidget *createSettingsWidget(QWidget *) { return NULL; }
+
+    /**
+     * Load items using a plugin.
+     * @return true only if items were saved by this plugin (or just not to load them any further)
+     */
+    virtual bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
+    /**
+     * Save items using a plugin.
+     * @return true only if items were saved
+     */
+    virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+
+    /**
+     * Called after items were loaded.
+     */
+    virtual void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

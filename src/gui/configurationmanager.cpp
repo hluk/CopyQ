@@ -114,7 +114,7 @@ ConfigurationManager::~ConfigurationManager()
     delete ui;
 }
 
-void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
+bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 {
     const QString fileName = itemFileName(id);
 
@@ -124,37 +124,82 @@ void ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
         // Try to open temp file if regular file doesn't exist.
         file.setFileName(fileName + ".tmp");
         if ( !file.exists() )
-            return;
+            return true;
         file.rename(fileName);
     }
+
+    COPYQ_LOG( QString("Loading items (tab \"%1\").").arg(id) );
+
     file.open(QIODevice::ReadOnly);
-    QDataStream in(&file);
-    in >> model;
+
+    if ( !itemFactory()->loadItems(id, &model, &file) ) {
+        file.seek(0);
+        QDataStream in(&file);
+        in >> model;
+        if ( in.status() != QDataStream::Ok ) {
+            log( QObject::tr("Item file \"%1\" is corrupted or some CopyQ plugins are missing!")
+                 .arg(file.fileName()),
+                 LogError );
+        }
+    }
+
+    COPYQ_LOG( QString("%1 items loaded (tab \"%2\").").arg(model.rowCount()).arg(id) );
+
+    if ( model.isDisabled() ) {
+        COPYQ_LOG( QString("Tab \"%1\" is disabled.").arg(id) );
+        return false;
+    }
+
+    itemFactory()->itemsLoaded(id, &model, &file);
+
+    return true;
 }
 
-void ConfigurationManager::saveItems(const ClipboardModel &model, const QString &id)
+bool ConfigurationManager::saveItems(const ClipboardModel &model, const QString &id)
 {
     const QString fileName = itemFileName(id);
 
     if ( !createItemDirectory() )
-        return;
+        return false;
 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
-    if ( !file.open(QIODevice::WriteOnly) )
+    if ( !file.open(QIODevice::WriteOnly) ) {
         log( fileErrorString.arg(id).arg(fileName).arg(file.errorString()), LogError );
-    QDataStream out(&file);
-    out << model;
+        return false;
+    }
+
+    COPYQ_LOG( QString("Saving %1 items.").arg(model.rowCount()) );
+
+    if ( !itemFactory()->saveItems(id, model, &file) ) {
+        QDataStream out(&file);
+        out << model;
+    }
+
+    COPYQ_LOG("Items saved.");
 
     // Overwrite previous file.
     QFile::remove(fileName);
     if ( !file.rename(fileName) )
         log( fileErrorString.arg(id).arg(fileName).arg(file.errorString()), LogError );
+
+    return true;
 }
 
 void ConfigurationManager::removeItems(const QString &id)
 {
     QFile::remove( itemFileName(id) );
+}
+
+void ConfigurationManager::moveItems(const QString &oldId, const QString &newId)
+{
+    const QString oldFileName = itemFileName(oldId);
+    const QString newFileName = itemFileName(newId);
+
+    if (oldFileName != newFileName) {
+        QFile::copy(oldFileName, newFileName);
+        QFile::remove(oldFileName);
+    }
 }
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)

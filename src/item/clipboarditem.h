@@ -20,11 +20,12 @@
 #ifndef CLIPBOARDITEM_H
 #define CLIPBOARDITEM_H
 
+#include <QVariant>
+
 class QByteArray;
 class QDataStream;
 class QMimeData;
 class QString;
-class QVariant;
 
 /**
  * Class for clipboard items in ClipboardModel.
@@ -71,6 +72,11 @@ public:
      * Clears all data and saves @a value as text/plain MIME type.
      */
     void setData(const QVariant &value);
+
+    /**
+     * Set formats from map with MIME type as key and data as value.
+     */
+    void setData(const QVariantMap &data);
 
     /** Remove item's MIME type data. */
     void removeData(const QString &mimeType);

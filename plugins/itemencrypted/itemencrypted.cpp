@@ -24,6 +24,7 @@
 #include "item/encrypt.h"
 #include "item/serialize.h"
 
+#include <QFile>
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPlainTextEdit>
@@ -52,6 +53,43 @@ QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByt
 bool keysExist()
 {
     return !readGpgOutput( QStringList("--list-keys") ).isEmpty();
+}
+
+int getEncryptedFormatIndex(const QModelIndex &index)
+{
+    const QStringList formats = index.data(contentType::formats).toStringList();
+    return formats.indexOf(defaultFormat);
+}
+
+bool decryptMimeData(QMimeData *data, const QModelIndex &index, int formatIndex)
+{
+    if (formatIndex < 0)
+        return false;
+
+    const QByteArray encryptedBytes = index.data(contentType::firstFormat + formatIndex).toByteArray();
+    const QByteArray bytes = readGpgOutput( QStringList() << "--decrypt", encryptedBytes );
+
+    return deserializeData(data, bytes);
+}
+
+void encryptMimeData(const QMimeData &data, const QModelIndex &index, QAbstractItemModel *model)
+{
+    const QByteArray bytes = serializeData(data);
+    const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
+    QVariantMap dataMap;
+    dataMap.insert(defaultFormat, encryptedBytes);
+    model->setData(index, dataMap, contentType::data);
+}
+
+bool isEncryptedFile(QFile *file)
+{
+    file->seek(0);
+    QDataStream stream(file);
+
+    QString header;
+    stream >> header;
+
+    return header == QString("CopyQ_encrypted_tab");
 }
 
 } // namespace
@@ -90,13 +128,8 @@ void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) con
     // Decrypt before editing.
     QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit *>(editor);
     if (textEdit != NULL) {
-        const QStringList formats = index.data(contentType::formats).toStringList();
-        const int i = formats.indexOf(defaultFormat);
-        if (i != -1) {
-            const QByteArray encryptedBytes = index.data(contentType::firstFormat + i).toByteArray();
-            const QByteArray bytes = readGpgOutput(QStringList("--decrypt"), encryptedBytes);
-            QMimeData data;
-            deserializeData(&data, bytes);
+        QMimeData data;
+        if ( decryptMimeData(&data, index, getEncryptedFormatIndex(index)) ) {
             textEdit->setPlainText(data.text());
             textEdit->selectAll();
         }
@@ -109,15 +142,9 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
     // Encrypt after editing.
     QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit*>(editor);
     if (textEdit != NULL) {
-        const QStringList formats = index.data(contentType::formats).toStringList();
-        const int i = formats.indexOf(defaultFormat);
-        if (i != -1) {
-            QMimeData data;
-            data.setText( textEdit->toPlainText() );
-            QByteArray bytes = serializeData(data);
-            const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
-            model->setData( index, encryptedBytes, contentType::firstFormat + i );
-        }
+        QMimeData data;
+        data.setText( textEdit->toPlainText() );
+        encryptMimeData(data, index, model);
     }
 }
 
@@ -155,7 +182,8 @@ QStringList ItemEncryptedLoader::formatsToSave() const
 QVariantMap ItemEncryptedLoader::applySettings()
 {
     Q_ASSERT(ui != NULL);
-    return  m_settings;
+    m_settings.insert( "encrypt_tabs", ui->plainTextEditEncryptTabs->toPlainText().split('\n') );
+    return m_settings;
 }
 
 QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
@@ -164,6 +192,9 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     ui = new Ui::ItemEncryptedSettings;
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
+
+    ui->plainTextEditEncryptTabs->setPlainText(
+                m_settings.value("encrypt_tabs").toStringList().join("\n") );
 
     // Check if gpg application is available.
     QProcess p;
@@ -179,6 +210,111 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
              this, SLOT(setPassword()) );
 
     return w;
+}
+
+bool ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, QFile *file)
+{
+    bool encrypted = isEncryptedFile(file);
+
+    // decrypt
+    if (encrypted) {
+        model->setProperty("disabled", true);
+
+        if (m_gpgProcessStatus == GpgNotInstalled)
+            return true;
+
+        QProcess p;
+        startGpgProcess( &p, QStringList("--decrypt") );
+
+        char encryptedBytes[4096];
+
+        QDataStream stream(file);
+        while ( !stream.atEnd() ) {
+            const int bytesRead = stream.readRawData(encryptedBytes, 4096);
+            p.write(encryptedBytes, bytesRead);
+        }
+
+        p.closeWriteChannel();
+        p.waitForFinished();
+
+        const QByteArray bytes = p.readAllStandardOutput();
+        if ( bytes.isEmpty() )
+            return true;
+
+        QDataStream stream2(bytes);
+
+        quint64 maxItems = model->property("maxItems").toInt();
+        quint64 length;
+        stream2 >> length;
+        if ( length <= 0 || stream2.status() != QDataStream::Ok )
+            return true;
+        length = qMin(length, maxItems) - model->rowCount();
+
+        for ( quint64 i = 0; i < length && stream2.status() == QDataStream::Ok; ++i ) {
+            if ( !model->insertRow(i) )
+                return true;
+            QVariantMap dataMap;
+            stream2 >> dataMap;
+            model->setData( model->index(i, 0), dataMap, contentType::data );
+        }
+
+        if (stream2.status() != QDataStream::Ok)
+            return true;
+
+        model->setProperty("disabled", false);
+    }
+
+    return encrypted;
+}
+
+bool ItemEncryptedLoader::saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file)
+{
+    if (m_gpgProcessStatus == GpgNotInstalled)
+        return false;
+
+    if ( !shouldEncryptTab(tabName) )
+        return false;
+
+    quint64 length = model.rowCount();
+    if (length == 0)
+        return false; // No need to encode empty tab.
+
+    QByteArray bytes;
+
+    {
+        QDataStream stream(&bytes, QIODevice::WriteOnly);
+
+        stream << length;
+
+        for (quint64 i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
+            QVariantMap dataMap;
+            QModelIndex index = model.index(i, 0);
+            const QStringList formats = index.data(contentType::formats).toStringList();
+            for ( int j = 0; j < formats.size(); ++j )
+                dataMap.insert(formats[j], index.data(contentType::firstFormat + j).toByteArray() );
+            stream << dataMap;
+        }
+    }
+
+    bytes = readGpgOutput(QStringList("--encrypt"), bytes);
+    if ( bytes.isEmpty() )
+        return false;
+
+    QDataStream stream(file);
+    stream << QString("CopyQ_encrypted_tab");
+    stream.writeRawData( bytes.data(), bytes.size() );
+
+    return true;
+}
+
+void ItemEncryptedLoader::itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file)
+{
+    if (m_gpgProcessStatus == GpgNotInstalled)
+        return;
+
+    // Check if items need to be save again.
+    if ( shouldEncryptTab(tabName) != isEncryptedFile(file) )
+        saveItems(tabName, *model, file);
 }
 
 void ItemEncryptedLoader::setPassword()
@@ -270,6 +406,28 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     }
 }
 
+bool ItemEncryptedLoader::shouldEncryptTab(const QString &tabName) const
+{
+    foreach ( const QString &encryptTabName, m_settings.value("encrypt_tabs").toStringList() ) {
+        QString tabName1 = tabName;
+
+        // Ignore ampersands (usually just for underlining mnemonics) if none is specified.
+        if ( !encryptTabName.contains('&') )
+            tabName1.remove('&');
+
+        // Ignore path in tab tree if none path separator is specified.
+        if ( !encryptTabName.contains('/') ) {
+            const int i = tabName1.lastIndexOf('/');
+            tabName1.remove(0, i + 1);
+        }
+
+        if ( tabName1 == encryptTabName )
+            return true;
+    }
+
+    return false;
+}
+
 void ItemEncryptedLoader::updateUi()
 {
     if (ui == NULL)
@@ -278,6 +436,7 @@ void ItemEncryptedLoader::updateUi()
     if (m_gpgProcessStatus == GpgNotInstalled) {
         ui->labelInfo->setText("To use item encryption, install <a href=\"http://www.gnupg.org/\">GnuPG</a> application and restart CopyQ.");
         ui->pushButtonPassword->hide();
+        ui->groupBoxEncryptTabs->hide();
     } else if (m_gpgProcessStatus == GpgGeneratingKeys) {
         ui->labelInfo->setText( tr("Creating new keys (this may take a few minutes)...") );
         ui->pushButtonPassword->setText( tr("Cancel") );

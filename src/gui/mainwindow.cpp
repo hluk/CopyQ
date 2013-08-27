@@ -886,7 +886,7 @@ void MainWindow::showError(const QString &msg)
 void MainWindow::keyPressEvent(QKeyEvent *event)
 {
     QString txt;
-    ClipboardBrowser *c = browser();
+    ClipboardBrowser *c = getBrowser();
 
     if (c->editing())
         return;
@@ -947,11 +947,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Left:
-            if ( browser()->hasFocus() )
+            if ( c->hasFocus() )
                 previousTab();
             break;
         case Qt::Key_Right:
-            if ( browser()->hasFocus() )
+            if ( c->hasFocus() )
                 nextTab();
             break;
 
@@ -1078,7 +1078,7 @@ void MainWindow::resetStatus()
 {
     if ( !ui->searchBar->text().isEmpty() ) {
         ui->searchBar->clear();
-        browser()->clearFilter();
+        getBrowser()->clearFilter();
     }
     enterBrowseMode();
 }
@@ -1269,7 +1269,7 @@ bool MainWindow::toggleVisible()
 void MainWindow::showBrowser(const ClipboardBrowser *browser)
 {
     int i = 0;
-    for( ; i < ui->tabWidget->count() && this->browser(i) != browser; ++i ) {}
+    for( ; i < ui->tabWidget->count() && getBrowser(i) != browser; ++i ) {}
     showBrowser(i);
 }
 
@@ -1308,7 +1308,7 @@ bool MainWindow::toggleMenu()
 void MainWindow::tabChanged(int current, int previous)
 {
     if (previous != -1) {
-        ClipboardBrowser *before = browser(previous);
+        ClipboardBrowser *before = getBrowser(previous);
         if (before != NULL)
             before->setContextMenu(NULL);
     }
@@ -1364,8 +1364,6 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
 
     prefix = oldPrefix + '/';
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     for (int i = 0, d = 0; i < tabs.size(); ++i) {
         const QString &tab = tabs[i];
         bool down = (i < afterIndex);
@@ -1390,10 +1388,8 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
                     w->setTabText(from, newName);
                 }
 
-                ClipboardBrowser *c = browser(from);
+                ClipboardBrowser *c = getBrowser(from);
                 c->setID(newName);
-                c->saveItems();
-                cm->removeItems(tab);
             }
 
             // Move tab.
@@ -1403,7 +1399,7 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
         }
     }
 
-    cm->setTabs(w->tabs());
+    ConfigurationManager::instance()->setTabs( w->tabs() );
 }
 
 void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
@@ -1715,7 +1711,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
 
     if(m_browsemode){
         // browse mode
-        browser()->setFocus();
+        getBrowser()->setFocus();
         if ( ui->searchBar->text().isEmpty() )
             ui->widgetFind->hide();
     } else {
@@ -1944,7 +1940,6 @@ void MainWindow::copyItems()
         return;
 
     ClipboardItem item;
-    QMimeData data;
     if ( indexes.size() == 1 ) {
         int row = indexes.at(0).row();
         item.setData( cloneData(*c->at(row)->data()) );
@@ -1955,6 +1950,7 @@ void MainWindow::copyItems()
             const ClipboardItem *item = c->at( indexes.at(i).row() );
             bytes.append( serializeData(*item->data()) );
         }
+        QMimeData data;
         data.setText( c->selectedText() );
         data.setData(mimeItems, bytes);
         item.setData( cloneData(data) );
@@ -2193,16 +2189,12 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     if ( name.isEmpty() || ui->tabWidget->tabs().contains(name) )
         return;
 
-    TabWidget *w = ui->tabWidget;
     ClipboardBrowser *c = browser(tabIndex);
-    QString oldName = c->getID();
 
     c->setID(name);
-    c->saveItems();
-    w->setTabText(tabIndex, name);
+    ui->tabWidget->setTabText(tabIndex, name);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->removeItems(oldName);
     cm->setTabs(ui->tabWidget->tabs());
 }
 

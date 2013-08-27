@@ -25,6 +25,7 @@
 
 #include <QCoreApplication>
 #include <QDir>
+#include <QFile>
 #include <QLabel>
 #include <QModelIndex>
 #include <QPluginLoader>
@@ -182,6 +183,33 @@ void ItemFactory::setLoaderEnabled(const ItemLoaderInterfacePtr &loader, bool en
 bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
 {
     return !m_disabledLoaders.contains(loader);
+}
+
+bool ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file)
+{
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        if ( loader->loadItems(tabName, model, file) )
+            return true;
+    }
+
+    return false;
+}
+
+bool ItemFactory::saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file)
+{
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        file->seek(0);
+        if ( loader->saveItems(tabName, model, file) )
+            return true;
+    }
+
+    return false;
+}
+
+void ItemFactory::itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file)
+{
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders)
+        loader->itemsLoaded(tabName, model, file);
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)
