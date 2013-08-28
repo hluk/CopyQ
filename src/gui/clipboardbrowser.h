@@ -298,7 +298,10 @@ class ClipboardBrowser : public QListView
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
-        /** Add new item to the browser. */
+        /**
+         * Add new item to the browser.
+         * @a item is automatically deleted after it's no longer needed.
+         */
         bool add(
                 QMimeData *item, //!< Data for new item.
                 bool force = false, //!< If true ignore commands and duplicates.

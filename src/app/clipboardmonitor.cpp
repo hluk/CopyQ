@@ -349,9 +349,9 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #ifdef COPYQ_WS_X11
     if ( !m_x11->resetClipboard(mode, data, m_formats) )
         return; // no owner -> reset content
-    QMimeData *data2 = cloneData(*m_x11->data(mode), &m_formats);
+    QScopedPointer<QMimeData> data2( cloneData(*m_x11->data(mode), &m_formats) );
 #else
-    QMimeData *data2 = cloneData(*data, &m_formats);
+    QScopedPointer<QMimeData> data2( cloneData(*data, &m_formats) );
 #endif
 
     // add window title of clipboard owner
@@ -363,17 +363,15 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     if (mode == QClipboard::Clipboard) {
         if ( m_x11->synchronize(QClipboard::Selection) )
             m_needCheckSelection = false;
-        clipboardChanged(mode, data2);
+        clipboardChanged( mode, data2.take() );
     } else {
         if ( m_x11->synchronize(QClipboard::Clipboard) )
             m_needCheckClipboard = false;
         if ( m_x11->hasCheckSelection() )
-            clipboardChanged(mode, data2);
-        else
-            delete data2;
+            clipboardChanged( mode, data2.take() );
     }
 #else /* !COPYQ_WS_X11 */
-    clipboardChanged(mode, data2);
+    clipboardChanged( mode, data2.take() );
 #endif
 }
 

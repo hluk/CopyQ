@@ -1279,20 +1279,20 @@ bool ClipboardBrowser::add(const QString &txt, bool force, int row)
 
 bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
 {
+    QScopedPointer<QMimeData> dataGuard(data);
+
     if ( m->isDisabled() )
         return false;
     if ( !m_loaded && !m_id.isEmpty() ) {
         loadItems();
-        if (!m_loaded)
+        if ( m->isDisabled() || !m_loaded )
             return false;
     }
 
     if (!force) {
         // don't add if new data is same as first item
-        if ( m->rowCount() > 0 && *m->at(0) == *data ) {
-            delete data;
+        if ( m->rowCount() > 0 && *m->at(0) == *data )
             return false;
-        }
 
         // commands
         bool noText = !data->hasText();
@@ -1319,10 +1319,8 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
                     }
                     if (!c.tab.isEmpty())
                         emit addToTab(data, c.tab);
-                    if (c.remove || c.transform) {
-                        delete data;
+                    if (c.remove || c.transform)
                         return false;
-                    }
                 }
             }
         }
@@ -1332,7 +1330,7 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     int newRow = row < 0 ? m->rowCount() : qMin(row, m->rowCount());
     m->insertRow(newRow);
     QModelIndex ind = index(newRow);
-    m->setData(ind, data);
+    m->setData( ind, dataGuard.take() );
 
     // filter item
     if ( isFiltered(newRow) ) {

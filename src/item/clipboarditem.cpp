@@ -50,7 +50,6 @@ ClipboardItem::ClipboardItem()
 
 ClipboardItem::~ClipboardItem()
 {
-    delete m_data;
 }
 
 bool ClipboardItem::operator ==(const ClipboardItem &item) const
@@ -75,8 +74,7 @@ void ClipboardItem::setData(QMimeData *data)
 
     // rewrite all original data, except notes, with edited text
     const QByteArray notes = m_data->data(mimeItemNotes);
-    delete m_data;
-    m_data = data;
+    m_data.reset(data);
     if ( !notes.isEmpty() )
         m_data->setData(mimeItemNotes, notes);
     updateDataHash();
@@ -85,14 +83,14 @@ void ClipboardItem::setData(QMimeData *data)
 void ClipboardItem::setData(const QVariant &value)
 {
     // rewrite all original data, except notes, with edited text
-    clearDataExceptNotes(m_data);
+    clearDataExceptNotes( m_data.data() );
     m_data->setText( value.toString() );
     updateDataHash();
 }
 
 void ClipboardItem::setData(const QVariantMap &data)
 {
-    clearDataExceptNotes(m_data);
+    clearDataExceptNotes( m_data.data() );
     foreach ( const QString &format, data.keys() )
         m_data->setData( format, data[format].toByteArray() );
     updateDataHash();
