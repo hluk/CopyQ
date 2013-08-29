@@ -46,6 +46,7 @@ struct ClipboardBrowserShared {
     bool viMode;
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
+    int minutesToExpire;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
 
@@ -198,6 +199,7 @@ class ClipboardBrowser : public QListView
         QTimer *m_timerScroll;
         QTimer *m_timerShowNotes;
         QTimer *m_timerUpdate;
+        QTimer *m_timerExpire;
 
         QPointer<QMenu> m_menu;
 
@@ -242,11 +244,16 @@ class ClipboardBrowser : public QListView
 
         void initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot = NULL);
 
+        void restartExpiring();
+
+        void stopExpiring();
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
         void resizeEvent(QResizeEvent *event);
         void showEvent(QShowEvent *event);
+        void hideEvent(QHideEvent *event);
         void currentChanged(const QModelIndex &current, const QModelIndex &previous);
         void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
         void focusInEvent(QFocusEvent *event);
@@ -286,6 +293,8 @@ class ClipboardBrowser : public QListView
          * Show notes for current item.
          */
         void updateItemNotes(bool immediately = true);
+
+        void expire();
 
         void onEditorDestroyed();
 

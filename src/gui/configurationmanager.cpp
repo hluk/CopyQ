@@ -478,6 +478,7 @@ void ConfigurationManager::initOptions()
     bind("autostart", ui->checkBoxAutostart, false);
     bind("clear_first_tab", ui->checkBoxClearFirstTab, false);
     bind("maxitems", ui->spinBoxItems, 200);
+    bind("expire_tab", ui->spinBoxExpireTab, 0);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
     bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);
     bind("notification_position", ui->comboBoxNotificationPosition, 3);

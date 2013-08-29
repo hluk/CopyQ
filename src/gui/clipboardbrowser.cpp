@@ -114,6 +114,7 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     , viMode(false)
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
+    , minutesToExpire(0)
 {
 }
 
@@ -127,6 +128,7 @@ void ClipboardBrowserShared::loadFromConfiguration()
     viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
     moveItemOnReturnKey = cm->value("move").toBool();
+    minutesToExpire = cm->value("expire_tab").toInt();
 }
 
 ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
@@ -154,6 +156,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerScroll( new QTimer(this) )
     , m_timerShowNotes( new QTimer(this) )
     , m_timerUpdate( new QTimer(this) )
+    , m_timerExpire(NULL)
     , m_menu(NULL)
     , m_save(true)
     , m_editor(NULL)
@@ -583,6 +586,18 @@ void ClipboardBrowser::initSingleShotTimer(QTimer *timer, int milliseconds, cons
     }
 }
 
+void ClipboardBrowser::restartExpiring()
+{
+    if ( m_loaded && m_timerExpire != NULL && isHidden() )
+        m_timerExpire->start();
+}
+
+void ClipboardBrowser::stopExpiring()
+{
+    if (m_timerExpire != NULL)
+        m_timerExpire->stop();
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -712,6 +727,8 @@ void ClipboardBrowser::onRowSizeChanged(int row)
 
 void ClipboardBrowser::updateCurrentPage()
 {
+    restartExpiring();
+
     if ( m_timerUpdate->isActive() )
         return; // Update already requested.
     if ( m->isDisabled() )
@@ -760,6 +777,15 @@ void ClipboardBrowser::updateItemNotes(bool immediately)
     QToolTip::showText(toolTipPosition, toolTip, w);
 }
 
+void ClipboardBrowser::expire()
+{
+    if ( m_timerSave->isActive() )
+        saveItems();
+
+    m_loaded = false;
+    clear();
+}
+
 void ClipboardBrowser::onEditorDestroyed()
 {
     setEditorWidget(NULL);
@@ -802,6 +828,11 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 
 void ClipboardBrowser::showEvent(QShowEvent *event)
 {
+    stopExpiring();
+
+    if ( !m->isDisabled() )
+        loadItems();
+
     if (!currentIndex().isValid())
         setCurrent(0);
     if ( m->rowCount() > 0 && !d->hasCache(index(0)) )
@@ -812,6 +843,12 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
     updateCurrentPage();
 
     updateItemNotes(false);
+}
+
+void ClipboardBrowser::hideEvent(QHideEvent *event)
+{
+    QListView::hideEvent(event);
+    restartExpiring();
 }
 
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
@@ -1380,10 +1417,21 @@ void ClipboardBrowser::loadSettings()
     updateCurrentPage();
 
     setEditorWidget(m_editor);
+
+    delete m_timerExpire;
+    m_timerExpire = NULL;
+
+    if (m_sharedData->minutesToExpire > 0) {
+        m_timerExpire = new QTimer(this);
+        initSingleShotTimer( m_timerExpire, 60000 * m_sharedData->minutesToExpire, SLOT(expire()) );
+        restartExpiring();
+    }
 }
 
 void ClipboardBrowser::loadItems()
 {
+    restartExpiring();
+
     if ( m_loaded || m_id.isEmpty() )
         return;
 
@@ -1408,10 +1456,10 @@ void ClipboardBrowser::loadItems()
 
 bool ClipboardBrowser::saveItems()
 {
+    m_timerSave->stop();
+
     if ( m->isDisabled() || !m_loaded || !m_save || m_id.isEmpty() )
         return false;
-
-    m_timerSave->stop();
 
     ConfigurationManager::instance()->saveItems(*m, m_id);
     return true;
