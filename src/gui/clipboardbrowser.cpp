@@ -35,9 +35,11 @@
 #include "item/serialize.h"
 
 #include <QKeyEvent>
+#include <QPushButton>
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QPainter>
 #include <QScrollBar>
 #include <QTimer>
 #include <QToolTip>
@@ -156,6 +158,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_save(true)
     , m_editor(NULL)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
+    , m_loadButton(NULL)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(1);
@@ -789,6 +792,9 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     if (m_sharedData->textWrap)
         d->setItemMaximumSize( viewport()->contentsRect().size() );
 
+    if (m_loadButton != NULL)
+        m_loadButton->resize( event->size() );
+
     updateEditorGeometry();
 
     updateCurrentPage();
@@ -1383,6 +1389,21 @@ void ClipboardBrowser::loadItems()
 
     m_timerSave->stop();
     m_loaded = ConfigurationManager::instance()->loadItems(*m, m_id);
+
+    // Show lock button if model is disabled.
+    if ( !m->isDisabled() ) {
+        delete m_loadButton;
+        m_loadButton = NULL;
+    } else if (m_loadButton == NULL) {
+        m_loadButton = new QPushButton( QString(QChar(IconLock)), this );
+        QFont iconFont("FontAwesome", 4 * font().pointSize() );
+        m_loadButton->setFont(iconFont);
+        m_loadButton->setFlat(true);
+        m_loadButton->resize( size() );
+        m_loadButton->show();
+        connect( m_loadButton, SIGNAL(clicked()),
+                 this, SLOT(loadItems()) );
+    }
 }
 
 bool ClipboardBrowser::saveItems()

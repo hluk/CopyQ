@@ -31,6 +31,7 @@ class ClipboardModel;
 class ItemDelegate;
 class ItemEditorWidget;
 class QMimeData;
+class QPushButton;
 class QTimer;
 
 struct ClipboardBrowserShared {
@@ -205,6 +206,8 @@ class ClipboardBrowser : public QListView
         ItemEditorWidget *m_editor;
 
         ClipboardBrowserSharedPtr m_sharedData;
+
+        QPushButton *m_loadButton;
 
         void createContextMenu();
         bool isFiltered(const QModelIndex &index, int role) const;
