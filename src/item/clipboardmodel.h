@@ -41,6 +41,7 @@ class ClipboardModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
     Q_PROPERTY(bool disabled READ isDisabled WRITE setDisabled)
+    Q_PROPERTY(bool dirty READ isDirty WRITE setDirty)
 
 public:
     typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
@@ -98,9 +99,15 @@ public:
     /** Return maximum number of items in model. */
     int maxItems() const { return m_max; }
 
+    /** Disabled model shouldn't be changed until loaded. */
+    bool isDisabled() const { return m_disabled; }
+
     void setDisabled(bool disabled) { m_disabled = disabled; }
 
-    bool isDisabled() const { return m_disabled; }
+    /** Dirty model should be saved. */
+    bool isDirty() const { return m_dirty; }
+
+    void setDirty(bool dirty) { m_dirty = dirty; }
 
     /**
      * Move an item.
@@ -153,6 +160,7 @@ private:
     QList<ClipboardItemPtr> m_clipboardList;
     int m_max;
     bool m_disabled;
+    bool m_dirty;
 };
 
 /**

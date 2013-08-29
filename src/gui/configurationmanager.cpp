@@ -128,7 +128,7 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
         file.rename(fileName);
     }
 
-    COPYQ_LOG( QString("Loading items (tab \"%1\").").arg(id) );
+    COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(id) );
 
     file.open(QIODevice::ReadOnly);
 
@@ -143,14 +143,20 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
         }
     }
 
-    COPYQ_LOG( QString("%1 items loaded (tab \"%2\").").arg(model.rowCount()).arg(id) );
+    COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(id).arg(model.rowCount()) );
 
     if ( model.isDisabled() ) {
-        COPYQ_LOG( QString("Tab \"%1\" is disabled.").arg(id) );
+        COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(id) );
         return false;
     }
 
     itemFactory()->itemsLoaded(id, &model, &file);
+
+    if ( model.isDirty() ) {
+        COPYQ_LOG( QString("Tab \"%1\": Dirty").arg(id) );
+        saveItems(model, id);
+        model.setDirty(false);
+    }
 
     return true;
 }
@@ -169,14 +175,14 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model, const QString 
         return false;
     }
 
-    COPYQ_LOG( QString("Saving %1 items.").arg(model.rowCount()) );
+    COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(id).arg(model.rowCount()) );
 
     if ( !itemFactory()->saveItems(id, model, &file) ) {
         QDataStream out(&file);
         out << model;
     }
 
-    COPYQ_LOG("Items saved.");
+    COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(id) );
 
     // Overwrite previous file.
     QFile::remove(fileName);

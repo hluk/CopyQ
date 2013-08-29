@@ -313,8 +313,13 @@ void ItemEncryptedLoader::itemsLoaded(const QString &tabName, QAbstractItemModel
         return;
 
     // Check if items need to be save again.
-    if ( shouldEncryptTab(tabName) != isEncryptedFile(file) )
-        saveItems(tabName, *model, file);
+    bool encrypt = shouldEncryptTab(tabName);
+    if ( encrypt != isEncryptedFile(file) ) {
+        if (encrypt)
+            saveItems(tabName, *model, file);
+        else
+            model->setProperty("dirty", true);
+    }
 }
 
 void ItemEncryptedLoader::setPassword()

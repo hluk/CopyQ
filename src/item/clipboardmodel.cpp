@@ -31,6 +31,7 @@ ClipboardModel::ClipboardModel(QObject *parent)
     , m_clipboardList()
     , m_max(100)
     , m_disabled(false)
+    , m_dirty(false)
 {
 }
 
