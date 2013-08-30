@@ -28,8 +28,9 @@ namespace Ui {
 class ItemOrderList;
 }
 
-class QMenu;
 class QAbstractButton;
+class QMenu;
+class QScrollArea;
 
 class ItemOrderList : public QWidget
 {
@@ -80,7 +81,7 @@ private:
     void setCurrentItemWidget(QWidget *widget);
 
     Ui::ItemOrderList *ui;
-    QMap<QListWidgetItem*, QWidget*> m_itemWidgets;
+    QMap<QListWidgetItem*, QScrollArea*> m_itemWidgets;
 };
 
 #endif // ITEMORDERLIST_H

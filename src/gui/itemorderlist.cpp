@@ -24,6 +24,8 @@
 #include "gui/iconfactory.h"
 
 #include <QMenu>
+#include <QScrollArea>
+#include <QScrollBar>
 
 ItemOrderList::ItemOrderList(QWidget *parent)
     : QWidget(parent)
@@ -66,13 +68,27 @@ void ItemOrderList::appendItem(const QString &label, bool checked, const QIcon &
 {
     QListWidgetItem *item = new QListWidgetItem(icon, label, ui->listWidgetItems);
     item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
-    m_itemWidgets[item] = widget;
-    ui->stackedWidget->addWidget(widget);
+
+    QScrollArea *area = new QScrollArea(ui->stackedWidget);
+    area->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    area->setWidget(widget);
+    area->setWidgetResizable(true);
+
+    m_itemWidgets[item] = area;
+    ui->stackedWidget->addWidget(area);
+
+    // Resize list to minimal size.
+    const int w = ui->listWidgetItems->sizeHintForColumn(0)
+                + ui->listWidgetItems->verticalScrollBar()->sizeHint().width() + 4;
+    ui->listWidgetItems->setMaximumWidth(w);
+
+    if ( ui->listWidgetItems->currentItem() == NULL )
+        ui->listWidgetItems->setCurrentRow(0);
 }
 
 QWidget *ItemOrderList::itemWidget(int row) const
 {
-    return m_itemWidgets[item(row)];
+    return m_itemWidgets[item(row)]->widget();
 }
 
 int ItemOrderList::itemCount() const
@@ -101,7 +117,9 @@ void ItemOrderList::setCurrentItem(int row)
 {
     QListWidgetItem *currentItem = item(row);
     ui->listWidgetItems->setCurrentItem(currentItem, QItemSelectionModel::ClearAndSelect);
-    m_itemWidgets[currentItem]->setFocus();
+    QWidget *widget = m_itemWidgets[currentItem];
+    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    widget->setFocus();
 }
 
 void ItemOrderList::setCurrentItemIcon(const QIcon &icon)
