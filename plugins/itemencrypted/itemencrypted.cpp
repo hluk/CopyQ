@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QHBoxLayout>
 #include <QLabel>
+#include <QMimeData>
 #include <QPlainTextEdit>
 #include <QSettings>
 #include <QtPlugin>
