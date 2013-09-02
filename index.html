@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="CopyQ : Clipboard Manager with Advanced Features" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>CopyQ</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/hluk/CopyQ">View on GitHub</a>
+
+          <h1 id="project_title">CopyQ</h1>
+          <h2 id="project_tagline">Clipboard Manager with Advanced Features</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/hluk/CopyQ/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/hluk/CopyQ/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="copyq" class="anchor" href="#copyq"><span class="octicon octicon-link"></span></a>CopyQ</h1>
+
+<p>CopyQ is clipboard manager with searchable and editable history.</p>
+
+<p>Downloads:
+    <a href="http://sourceforge.net/projects/copyq/files/">http://sourceforge.net/projects/copyq/files/</a></p>
+
+<p>Wiki:
+    <a href="https://sourceforge.net/p/copyq/wiki/Home/">https://sourceforge.net/p/copyq/wiki/Home/</a></p>
+
+<p>Mailing List:
+    <a href="https://groups.google.com/group/copyq">https://groups.google.com/group/copyq</a></p>
+
+<p>Bug Reports:
+    <a href="https://github.com/hluk/CopyQ/issues">https://github.com/hluk/CopyQ/issues</a></p>
+
+<h2>
+<a name="features" class="anchor" href="#features"><span class="octicon octicon-link"></span></a>Features</h2>
+
+<ul>
+<li>Supports Linux and Windows.</li>
+<li>Store text, HTML, images and any other custom format.</li>
+<li>Customize tray menu.</li>
+<li>Save items in tabs or tree.</li>
+<li>Quickly browse through items (fast navigation, filtering with matched text highlighting).</li>
+<li>Sort items, create new, edit, remove, copy/paste to different tab.</li>
+<li>Variety of system-wide shortcuts (e.g. show main window or tray, edit clipboard, copy next/previous, paste as plain text).</li>
+<li>Immediately paste to focused window from tray or main window.</li>
+<li>Fully customizable appearance (colors, fonts, transparency).</li>
+<li>Advanced command-line interface and scripting.</li>
+<li>Ignore clipboard copied from some windows or containing some text.</li>
+<li>Apply custom commands on selected items or automatically when new matching clipboard content is available.</li>
+</ul><h2>
+<a name="install-and-run" class="anchor" href="#install-and-run"><span class="octicon octicon-link"></span></a>Install and Run</h2>
+
+<p>To install CopyQ, either use binary package or installer provided for your system or follow instructions in <a href="https://github.com/hluk/CopyQ/blob/master/INSTALL">INSTALL</a> to build the application.</p>
+
+<p>To start CopyQ run <code>copyq</code> command without parameters. The application main
+window is accessible by clicking on system tray icon or running <code>copyq toggle</code>.</p>
+
+<p>To exit the application select Exit from tray menu or press Ctrl-Q keys in the
+application window.</p>
+
+<h2>
+<a name="developers-and-translators" class="anchor" href="#developers-and-translators"><span class="octicon octicon-link"></span></a>Developers and Translators</h2>
+
+<p>If you want to help with translating, fixing or writing code read <a href="https://github.com/hluk/CopyQ/blob/master/HACKING">HACKING</a>.</p>
+
+<h2>
+<a name="dependencies" class="anchor" href="#dependencies"><span class="octicon octicon-link"></span></a>Dependencies</h2>
+
+<p>To compile and run the application you'll need the latest stable version of
+<a href="http://qt.digia.com/">Qt</a> library (there is also experimental support for
+<a href="http://qt-project.org/wiki/Qt_5.0">Qt 5</a>).</p>
+
+<p>Optional dependency is <a href="http://trac.webkit.org/wiki/QtWebKit">QtWebKit</a> which
+enables the application to use advanced HTML rendering and fetching remote
+images and other data. This is available through ItemWeb plugin.</p>
+
+<p>Additionally X11 requires XFixes extension to be installed (fixes some
+clipboard issues).</p>
+
+<p>Optional dependency for X11 is XTest extension (Ubuntu package <code>libxtst6</code> and
+<code>libxtst-dev</code> for compilation). This is needed for some applications like
+<code>gedit</code> so that automatic pasting works correctly.</p>
+
+<h2>
+<a name="keyboard-navigation" class="anchor" href="#keyboard-navigation"><span class="octicon octicon-link"></span></a>Keyboard navigation</h2>
+
+<ul>
+<li>
+<p><code>PgDown/PgUp</code>, <code>Home/End</code>, <code>Up/Down</code></p>
+
+<p>item list navigation</p>
+</li>
+<li>
+<p><code>Left</code>, <code>Right</code>, <code>Tab</code>, <code>Shift+Tab</code></p>
+
+<p>tab navigation</p>
+</li>
+<li>
+<p><code>Ctrl+Up</code>, <code>Ctrl+Down</code></p>
+
+<p>move selected items</p>
+</li>
+<li>
+<p><code>Ctrl+Left</code>, <code>Ctrl+Right</code></p>
+
+<p>cycle through item formats</p>
+</li>
+<li>
+<p><code>Escape</code></p>
+
+<p>hide window</p>
+</li>
+<li>
+<p><code>Ctrl+Q</code></p>
+
+<p>exit</p>
+</li>
+<li>
+<p><code>F2</code></p>
+
+<p>edit selected items (in place)</p>
+</li>
+<li>
+<p><code>Ctrl+E</code></p>
+
+<p>edit items in external editor</p>
+</li>
+<li>
+<p><code>F5</code></p>
+
+<p>open action dialog for selected items</p>
+</li>
+<li>
+<p><code>Delete</code></p>
+
+<p>delete selected items</p>
+</li>
+<li>
+<p><code>Enter</code></p>
+
+<p>put current item into clipboard</p>
+</li>
+<li>
+<p><code>F1</code></p>
+
+<p>show help</p>
+</li>
+</ul><p>Type any number to select item with given id.</p>
+
+<p>Type a regular expressions (case-insensitive) to search/filter items.</p>
+
+<h2>
+<a name="usage-examples" class="anchor" href="#usage-examples"><span class="octicon octicon-link"></span></a>Usage Examples</h2>
+
+<p>CopyQ must be running to be able to issue commands using command line.
+Most of the examples should work on GNU/Linux with the correct applications
+installed.</p>
+
+<p>To start CopyQ run following command:</p>
+
+<pre><code>copyq
+</code></pre>
+
+<p>Insert text to the clipboard:</p>
+
+<pre><code>copyq add "print([x**2 for x in range(10)])"
+</code></pre>
+
+<p>and process it in Python interpreter:</p>
+
+<pre><code>copyq action python
+</code></pre>
+
+<p>The result can be copied to the clipboard with:</p>
+
+<pre><code>copyq select 0
+</code></pre>
+
+<p>For each file in given directory create new item:</p>
+
+<pre><code>copyq action "ls /"
+</code></pre>
+
+<p>Load file content into clipboard:</p>
+
+<pre><code>copyq action "cat file.txt" ""
+</code></pre>
+
+<p>Note: Last argument is separator - empty string means "create single item".</p>
+
+<p>Process an item with the Python interpreter and redirect the standard output
+to the standard error output using sh command (shell):</p>
+
+<pre><code>copyq add 'print("Hello world!")'
+copyq action 'sh -c "python 1&gt;&amp;2"'
+copyq read 0
+</code></pre>
+
+<p>Note: Standard error output will be show as tray icon tooltip.</p>
+
+<p>To concatenate items select them items in CopyQ window and press F5 key,
+type <code>cat</code> into command input field, check <code>Output into item(s)</code> check box,
+clear <code>Separator field</code> and press OK button to submit.</p>
+
+<p>Monitor file (or pipe) <code>$HOME/clipboard</code> and load every new line into clipboard:</p>
+
+<pre><code>copyq action "tail -f $HOME/clipboard"
+</code></pre>
+
+<p>This process can be killed by right clicking on tray icon and selecting
+the process from context menu.</p>
+
+<p>Find files in current directory:</p>
+
+<pre><code>copyq action "find \"$PWD\" -iname '*.cpp'"
+</code></pre>
+
+<p>Open CopyQ window and select one of the found files from history. Open action
+dialog (press F5 key) and in the command field type your favorite text editor
+(e.g. <code>gedit %1</code>; <code>%1</code> will be replaced with temporary filename containing
+selected text).</p>
+
+<p>To copy an image to clipboard use for example:</p>
+
+<pre><code>copyq write image/gif - &lt; image.gif
+copyq write image/svg - &lt; image.svg
+</code></pre>
+
+<h2>
+<a name="command-line-interface" class="anchor" href="#command-line-interface"><span class="octicon octicon-link"></span></a>Command Line Interface</h2>
+
+<pre><code>Usage: copyq [COMMAND]
+
+Starts server if no command is specified.
+  COMMANDs:
+    show                     Show main window.
+    hide                     Hide main window.
+    toggle                   Show or hide main window.
+    menu                     Open context menu.
+    exit                     Exit server.
+    disable, enable          Disable or enable clipboard content storing.
+
+    clipboard [MIME]         Print clipboard content.
+    selection [MIME]         Print X11 selection content.
+    paste                    Paste clipboard to current window
+                             (may not work with some applications).
+    copy TEXT                Set clipboard text.
+    copy MIME DATA [MIME DATA]...
+      Set clipboard content.
+
+    length, count, size      Print number of items in history.
+    select [ROW=0]           Copy item in the row to clipboard.
+    next                     Copy next item from current tab to clipboard.
+    previous                 Copy previous item from current tab to clipboard.
+    add TEXT...              Add text into clipboard.
+    insert ROW TEXT          Insert text into given row.
+    remove [ROWS=0...]       Remove items in given rows.
+    edit [ROWS...]           Edit items or edit new one.
+                             Value -1 is for current text in clipboard.
+
+    separator SEPARATOR      Set separator for items on output.
+    read [MIME|ROW]...       Print raw data of clipboard or item in row.
+    write [ROW=0] MIME DATA [MIME DATA]...
+      Write raw data to given row.
+
+    action [ROWS=0...]       Show action dialog.
+    action [ROWS=0...] [PROGRAM [SEPARATOR=\n]]
+      Run PROGRAM on item text in the rows.
+      Use %1 in PROGRAM to pass text as argument.
+    popup TITLE MESSAGE [TIME=8000]
+      Show tray popup message for TIME milliseconds.
+
+    tab                      List available tab names.
+    tab NAME [COMMAND]       Run command on tab with given name.
+                             Tab is created if it doesn't exist.
+                             Default is the first tab.
+    removetab NAME           Remove tab.
+    renametab NAME NEW_NAME  Rename tab.
+
+    exporttab FILE_NAME      Export items to file.
+    importtab FILE_NAME      Import items from file.
+
+    config                   List all options.
+    config OPTION            Get option value.
+    config OPTION VALUE      Set option value.
+
+    eval, -e [SCRIPT]        Evaluate ECMAScript program.
+    session, -s, --session SESSION
+      Starts or connects to application instance with given session name.
+    help, -h, --help [COMMAND]
+      Print help for COMMAND or all commands.
+    version, -v, --version
+      Print version of program and libraries.
+
+NOTES:
+  - Use dash argument (-) to read data from stdandard input.
+  - Use double-dash argument (--) to read all following arguments without
+    expanding escape sequences (i.e. \n, \t and others).
+  - Use ? for MIME to print available MIME types (default is "text/plain").
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">CopyQ maintained by <a href="https://github.com/hluk">hluk</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
