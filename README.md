@@ -29,20 +29,34 @@ Bug Reports:
 Features
 --------
 
-* Supports Linux (X11) and Windows.
+* Supports Linux and Windows.
 * Store text, HTML, images and any other custom format.
 * Customize tray menu.
-* Save items in new tabs.
+* Save items in tabs or tree.
 * Quickly browse through items (fast navigation, filtering with matched text highlighting).
-* Sort items, create new, remove, copy/paste to different tab.
-* Variety of system-wide shortcuts (e.g. show main window or tray, edit clipboard, copy next/previous item, paste as plain text).
+* Sort items, create new, edit, remove, copy/paste to different tab.
+* Variety of system-wide shortcuts (e.g. show main window or tray, edit clipboard, copy next/previous, paste as plain text).
 * Immediately paste to focused window from tray or main window.
 * Fully customizable appearance (colors, fonts, transparency).
 * Advanced command-line interface and scripting.
 * Ignore clipboard copied from some windows or containing some text.
 * Apply custom commands on selected items or automatically when new matching clipboard content is available.
 
-Developers and Traslators
+Install and Run
+---------------
+
+To install CopyQ, use binary package or installer provided for your system or
+follow instructions in
+[INSTALL](https://github.com/hluk/CopyQ/blob/master/INSTALL) to build the
+application.
+
+To start CopyQ run `copyq` command without parameters. The application main
+window is accessible by clicking on system tray icon or running `copyq toggle`.
+
+To exit the application select Exit from tray menu or press Ctrl-Q keys in the
+application window.
+
+Developers and Translators
 -------------------------
 
 If you want to help with translating, fixing or writing code read `HACKING` file.
@@ -119,6 +133,72 @@ Type any number to select item with given id.
 
 Type a regular expressions (case-insensitive) to search/filter items.
 
+Usage Examples
+--------------
+CopyQ must be running to be able to issue commands using command line.
+Most of the examples should work on GNU/Linux with the correct applications
+installed.
+
+To start CopyQ run following command:
+
+    copyq
+
+Insert text to the clipboard:
+
+    copyq add "print([x**2 for x in range(10)])"
+
+and process it in Python interpreter:
+
+    copyq action python
+
+The result can be copied to the clipboard with:
+
+    copyq select 0
+
+For each file in given directory create new item:
+
+    copyq action "ls /"
+
+Load file content into clipboard:
+
+    copyq action "cat file.txt" ""
+
+Note: Last argument is separator - empty string means "create single item".
+
+Process an item with the Python interpreter and redirect the standard output
+to the standard error output using sh command (shell):
+
+    copyq add 'print("Hello world!")'
+    copyq action 'sh -c "python 1>&2"'
+    copyq read 0
+
+Note: Standard error output will be show as tray icon tooltip.
+
+To concatenate items select them items in CopyQ window and press F5 key,
+type `cat` into command input field, check `Output into item(s)` check box,
+clear `Separator field` and press OK button to submit.
+
+Monitor file (or pipe) `$HOME/clipboard` and load every new line into clipboard:
+
+    copyq action "tail -f $HOME/clipboard"
+
+This process can be killed by right clicking on tray icon and selecting
+the process from context menu.
+
+Find files in current directory:
+
+    copyq action "find \"$PWD\" -iname '*.cpp'"
+
+Open CopyQ window and select one of the found files from history. Open action
+dialog (press F5 key) and in the command field type your favorite text editor
+(e.g. `gedit %1`; `%1` will be replaced with temporary filename containing
+selected text).
+
+To copy an image to clipboard use for example:
+
+    copyq write image/gif - < image.gif
+    copyq write image/svg - < image.svg
+
 Command Line Interface
 ----------------------
 
@@ -178,6 +258,8 @@ Command Line Interface
         config OPTION VALUE      Set option value.
 
         eval, -e [SCRIPT]        Evaluate ECMAScript program.
+        session, -s, --session SESSION
+          Starts or connects to application instance with given session name.
         help, -h, --help [COMMAND]
           Print help for COMMAND or all commands.
         version, -v, --version
@@ -188,68 +270,4 @@ Command Line Interface
       - Use double-dash argument (--) to read all following arguments without
         expanding escape sequences (i.e. \n, \t and others).
       - Use ? for MIME to print available MIME types (default is "text/plain").
-
-Usage Examples
---------------
-CopyQ must be running to be able to issue commands using command line.
-Most of the examples should work on GNU/Linux with the correct applications
-installed.
-
-To start CopyQ run following command:
-
-    copyq
-
-Insert text to the clipboard:
-
-    copyq add "print([x**2 for x in range(10)])"
-
-and process it in Python interpreter:
-
-    copyq action python
-
-The result will be copied to the clipboard.
-
-For each file in given directory create new item:
-
-    copyq action "ls /"
-
-Load file content into clipboard:
-
-    copyq action "cat file.txt" ""
-
-Note: Last argument is separator - empty string means "create single item".
-
-Process an item with the Python interpreter and redirect the standard output
-to the standard error output using sh command (shell):
-
-    copyq add 'print("Hello world!")'
-    copyq action 'sh -c "python 1>&2"'
-    copyq read 0
-
-Note: Standard error output will be show as tray icon tooltip.
-
-To concatenate items select them items in CopyQ window and press F5 key,
-type `cat` into command input field, check `Output into item(s)` check box,
-clear `Separator field` and press Ok button to submit.
-
-Monitor file (or pipe) `$HOME/clipboard` and load every new line into clipboard:
-
-    copyq action "tail -f $HOME/clipboard"
-
-This process can be killed by right clicking on tray icon and selecting
-the process from context menu.
-
-Find files in current directory:
-
-    copyq action "find \"$PWD\" -iname '*.cpp'"
-
-Open CopyQ window and select one of the found files from history. Open action
-dialog (press F5 key) and in the command field type your favorite text editor
-(e.g. `gedit %1`; `%1` will be replaced with temporary filename containing
-selected text).
-
-To copy an image to clipboard use for example:
-
-    copyq write image/gif - < image.gif
-    copyq write image/svg - < image.svg
 
