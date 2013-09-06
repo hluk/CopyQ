@@ -258,7 +258,12 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     ww->setMaximumSize(m_maxSize);
     ww->setMinimumWidth(m_maxSize.width());
+
+    // Try to get proper size by showing item momentarily.
+    ww->show();
     w->updateSize();
+    ww->hide();
+
     ww->installEventFilter(this);
     ww->setProperty(propertyItemIndex, index.row());
 

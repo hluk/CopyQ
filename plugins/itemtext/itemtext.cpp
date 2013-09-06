@@ -164,12 +164,6 @@ void ItemText::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-void ItemText::showEvent(QShowEvent *event)
-{
-    QTextEdit::showEvent(event);
-    updateSize();
-}
-
 void ItemText::onSelectionChanged()
 {
     setProperty("copyOnMouseUp", true);
