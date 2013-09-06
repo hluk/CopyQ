@@ -890,7 +890,7 @@ void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
 
 void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
-    add( cloneData(*event->mimeData()), true );
+    add( cloneData(*event->mimeData()) );
     saveItems();
 }
 
@@ -936,7 +936,7 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
 void ClipboardBrowser::addItems(const QStringList &items)
 {
     for(int i=items.count()-1; i>=0; --i) {
-        add(items[i], true);
+        add(items[i]);
     }
 }
 
@@ -988,7 +988,7 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
     if ( !bytes.isEmpty() ) {
         QMimeData *data = new QMimeData;
         data->setData(mime, bytes);
-        add(data, true);
+        add(data);
         updateClipboard(0);
         saveItems();
     }
@@ -1045,7 +1045,7 @@ void ClipboardBrowser::editNew(const QString &text)
     if ( m->isDisabled() || !m_loaded )
         return;
 
-    bool added = add(text, true);
+    bool added = add(text);
     if (!added)
         return;
 
