@@ -162,19 +162,6 @@
         return retVal; \
     }
 
-#define PROXY_METHOD_BROWSER_3(RetType, methodName, Arg1Type, Arg2Type, Arg3Type) \
-    RetType methodName(int i, Arg1Type arg1, Arg2Type arg2, Arg3Type arg3) \
-    { \
-        RetType retVal; \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
-            , Q_RETURN_ARG(RetType, retVal) \
-            , Q_ARG(Arg1Type, arg1) \
-            , Q_ARG(Arg2Type, arg2) \
-            , Q_ARG(Arg3Type, arg3) \
-        END_INVOKE \
-        return retVal; \
-    }
-
 /**
  * Invoke methods (of MainWindow and its ClipboardBrowser objects) from different thread.
  */
@@ -224,8 +211,8 @@ public:
     PROXY_METHOD_BROWSER_0(int, length)
     PROXY_METHOD_BROWSER_1(bool, openEditor, const QByteArray &)
 
-    PROXY_METHOD_BROWSER_2(bool, add, const QString &, bool)
-    PROXY_METHOD_BROWSER_3(bool, add, QMimeData *, bool, int)
+    PROXY_METHOD_BROWSER_1(bool, add, const QString &)
+    PROXY_METHOD_BROWSER_2(bool, add, QMimeData *, int)
     PROXY_METHOD_BROWSER_VOID_1(editRow, int)
     PROXY_METHOD_BROWSER_VOID_1(editNew, const QString &)
 

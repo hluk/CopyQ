@@ -157,6 +157,7 @@ void ClipboardServer::stopMonitoring()
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setValue("_last_hash", m_lastHash);
+    cm->saveValue("Options/_last_hash", m_lastHash);
 
     log( tr("Clipboard Monitor: Terminating") );
 
@@ -306,7 +307,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     in >> item;
 
 #ifdef COPYQ_WS_X11
-    if ( item.data()->data(mimeClipboardMode) != "selection" )
+    if ( item.data().data(mimeClipboardMode) != "selection" )
         m_wnd->clipboardChanged(&item);
 #else
     m_wnd->clipboardChanged(&item);

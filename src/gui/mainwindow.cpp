@@ -745,6 +745,42 @@ bool MainWindow::closeMinimizes() const
     return !m_options->showTray && !m_minimizeUnsupported;
 }
 
+bool MainWindow::triggerActionForData(const QMimeData &data, const QString &sourceTab)
+{
+    bool noText = !data.hasText();
+    const QString text = data.text();
+    const QString windowTitle = QString::fromUtf8( data.data(mimeWindowTitle).data() );
+
+    foreach (const Command &c, m_sharedData->commands) {
+        if (c.automatic && (c.remove || !c.cmd.isEmpty() || !c.tab.isEmpty())) {
+            if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
+                 && (c.input.isEmpty() || c.input == mimeItems || data.hasFormat(c.input))
+                 && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
+            {
+                if (c.automatic) {
+                    Command cmd = c;
+                    if ( cmd.outputTab.isEmpty() )
+                        cmd.outputTab = sourceTab;
+
+                    if (cmd.input == mimeItems) {
+                        QMimeData data2;
+                        data2.setData( mimeItems, serializeData(data) );
+                        action(data2, cmd);
+                    } else if ( cmd.input.isEmpty() || data.hasFormat(cmd.input) ) {
+                        action(data, cmd);
+                    }
+                }
+                if (!c.tab.isEmpty())
+                    addToTab(data, c.tab);
+                if (c.remove || c.transform)
+                    return false;
+            }
+        }
+    }
+
+    return true;
+}
+
 NotificationDaemon *MainWindow::notificationDaemon()
 {
     if (m_notifications == NULL)
@@ -789,20 +825,20 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
-    connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&)),
-             this, SLOT(action(const QMimeData&, const Command&)) );
-    connect( c, SIGNAL(requestActionDialog(const QMimeData&, const Command&, const QModelIndex&)),
-             this, SLOT(action(const QMimeData&, const Command&, const QModelIndex&)) );
-    connect( c, SIGNAL(requestActionDialog(const QMimeData&)),
-             this, SLOT(openActionDialog(const QMimeData&)) );
+    connect( c, SIGNAL(requestActionDialog(const QMimeData, const Command)),
+             this, SLOT(action(const QMimeData, const Command)) );
+    connect( c, SIGNAL(requestActionDialog(const QMimeData, const Command, const QModelIndex)),
+             this, SLOT(action(const QMimeData&, const Command, const QModelIndex)) );
+    connect( c, SIGNAL(requestActionDialog(const QMimeData)),
+             this, SLOT(openActionDialog(const QMimeData)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(requestHide()),
              this, SLOT(close()) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
-    connect( c, SIGNAL(addToTab(const QMimeData*,const QString&)),
-             this, SLOT(addToTab(const QMimeData*,const QString&)),
+    connect( c, SIGNAL(addToTab(const QMimeData,const QString)),
+             this, SLOT(addToTab(const QMimeData,const QString)),
              Qt::DirectConnection );
 
     ui->tabWidget->addTab(c, name);
@@ -872,7 +908,7 @@ void MainWindow::showClipboardMessage(const ClipboardItem *item)
         const QColor color = notificationDaemon()->foreground();
         const QPixmap icon =
                 ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
-        notificationDaemon()->create( *item->data(), m_options->clipboardNotificationLines, icon,
+        notificationDaemon()->create( item->data(), m_options->clipboardNotificationLines, icon,
                                       m_options->itemPopupInterval * 1000, this, 0 );
     }
 }
@@ -1424,7 +1460,7 @@ void MainWindow::tabCloseRequested(int tab)
         newTab();
 }
 
-void MainWindow::addToTab(const QMimeData *data, const QString &tabName, bool moveExistingToTop)
+void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool moveExistingToTop)
 {
     if (m_monitoringDisabled)
         return;
@@ -1440,32 +1476,42 @@ void MainWindow::addToTab(const QMimeData *data, const QString &tabName, bool mo
     c->loadItems();
 
     ClipboardBrowser::Lock lock(c);
-    if ( !c->select(hash(*data, data->formats()), moveExistingToTop) ) {
-        QMimeData *data2 = cloneData(*data);
-        // force adding item if tab name is specified
-        bool force = !tabName.isEmpty();
+
+    const uint itemHash = hash(data, data.formats());
+
+    // force adding item if tab name is specified
+    bool force = !tabName.isEmpty();
+
+    if ( c->select(itemHash, moveExistingToTop) ) {
+        if (!force)
+            triggerActionForData(data, tabName);
+    } else {
+        QScopedPointer<QMimeData> data2( cloneData(data) );
+
         // merge data with first item if it is same
         if ( !force && c->length() > 0 && data2->hasText() ) {
             ClipboardItem *first = c->at(0);
             const QString newText = data2->text();
             const QString firstItemText = first->text();
-            if ( first->data()->hasText() && (newText == firstItemText || (
-                     data2->data(mimeWindowTitle) == first->data()->data(mimeWindowTitle)
+            if ( first->data().hasText() && (newText == firstItemText || (
+                     data2->data(mimeWindowTitle) == first->data().data(mimeWindowTitle)
                      && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)))) )
             {
                 force = true;
                 QStringList formats = data2->formats();
-                const QMimeData *firstData = first->data();
-                foreach (const QString &format, firstData->formats()) {
+                const QMimeData &firstData = first->data();
+                foreach (const QString &format, firstData.formats()) {
                     if ( !formats.contains(format) )
-                        data2->setData( format, firstData->data(format) );
+                        data2->setData( format, firstData.data(format) );
                 }
                 // remove merged item (if it's not edited)
                 if (!c->editing() || c->currentIndex().row() != 0)
                     c->model()->removeRow(0);
             }
         }
-        c->add(data2, force);
+
+        if ( force || triggerActionForData(*data2.data(), tabName) )
+            c->add( data2.take() );
     }
 }
 
@@ -1481,12 +1527,12 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const ClipboardItem *item)
 {
-    QString text = textLabelForData(*item->data());
+    QString text = textLabelForData( item->data() );
     m_tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
     showClipboardMessage(item);
 
-    const QString clipboardContent = textLabelForData(*item->data());
+    const QString clipboardContent = textLabelForData( item->data() );
     if ( m_sessionName.isEmpty() ) {
         setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
                         .arg(clipboardContent) );
@@ -1580,7 +1626,7 @@ void MainWindow::addItems(const QStringList &items, const QString &tabName)
     {
         ClipboardBrowser::Lock lock(c);
         foreach (const QString &item, items)
-            c->add(item, true);
+            c->add(item);
     }
 }
 
@@ -1603,7 +1649,7 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QS
         deserializeData(newData, data);
     else
         newData->setData(format, data);
-    c->add(newData, true);
+    c->add(newData);
 }
 
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
@@ -1912,11 +1958,11 @@ void MainWindow::pasteItems()
         while ( !in.atEnd() ) {
             ClipboardItem item;
             in >> item;
-            c->add(item, true, row);
+            c->add(item, row);
             ++count;
         }
     } else {
-        c->add( cloneData(*data), true, row );
+        c->add( cloneData(*data), row );
         count = 1;
     }
 
@@ -1942,13 +1988,13 @@ void MainWindow::copyItems()
     ClipboardItem item;
     if ( indexes.size() == 1 ) {
         int row = indexes.at(0).row();
-        item.setData( cloneData(*c->at(row)->data()) );
+        item.setData( cloneData(c->at(row)->data()) );
     } else {
         /* Copy items in reverse (items will be pasted correctly). */
         QByteArray bytes;
         for ( int i = indexes.size()-1; i >= 0; --i ) {
             const ClipboardItem *item = c->at( indexes.at(i).row() );
-            bytes.append( serializeData(*item->data()) );
+            bytes.append( serializeData(item->data()) );
         }
         QMimeData data;
         data.setText( c->selectedText() );

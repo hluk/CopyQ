@@ -278,7 +278,7 @@ class MainWindow : public QMainWindow
 
         /** Add @a data to tab with given name (create if tab doesn't exist). */
         void addToTab(
-                const QMimeData *data,
+                const QMimeData &data,
                 //!< Item data (it may be updated if item with same text exists).
                 const QString &tabName = QString(),
                 //!< Tab name of target tab (first tab if empty).
@@ -405,6 +405,12 @@ class MainWindow : public QMainWindow
          * window can be hidden instead.
          */
         bool closeMinimizes() const;
+
+        /**
+         * Trigger all matching automatic commands on @a data.
+         * If Command::remove of an applied command is true the method immediately returns false.
+         */
+        bool triggerActionForData(const QMimeData &data, const QString &sourceTab);
 
         /** Return notification daemon (create if doesn't exist). */
         NotificationDaemon *notificationDaemon();

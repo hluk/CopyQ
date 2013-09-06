@@ -170,7 +170,7 @@ void ClipboardItem::updateDataHash()
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
 {
-    stream << *item.data();
+    stream << item.data();
     return stream;
 }
 

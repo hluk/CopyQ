@@ -615,9 +615,9 @@ void Scriptable::add()
         if (bytes != NULL) {
             QMimeData *data = new QMimeData;
             data->setData(defaultMime, *bytes);
-            m_proxy->add(tab, data, true, 0);
+            m_proxy->add(tab, data, 0);
         } else {
-            m_proxy->add(tab, toString(value), true);
+            m_proxy->add( tab, toString(value) );
         }
     }
 
@@ -638,7 +638,7 @@ void Scriptable::insert()
     QByteArray *bytes = toByteArray(value);
     QMimeData *data = new QMimeData;
     data->setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
-    m_proxy->add(tab, data, true, row);
+    m_proxy->add(tab, data, row);
 
     m_proxy->delayedSaveItems(tab, 1000);
 }
@@ -763,7 +763,7 @@ void Scriptable::write()
         value = argument(++arg);
     }
 
-    m_proxy->add(currentTab(), data, true, row);
+    m_proxy->add(currentTab(), data, row);
 }
 
 QScriptValue Scriptable::separator()

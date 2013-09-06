@@ -85,7 +85,7 @@ public:
     QVariant data(int role) const;
 
     /** Return item's data. */
-    const QMimeData *data() const { return m_data.data(); }
+    const QMimeData &data() const { return *m_data.data(); }
 
     /** Return hash for item's data. */
     unsigned int dataHash() const { return m_hash; }

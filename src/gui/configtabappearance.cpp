@@ -186,7 +186,7 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
                        "CTRL and up or down key.")
                  << tr("Remove item with Delete key.") );
     for (int i = 1; i <= 20; ++i)
-        c->add( tr("Example item %1").arg(i), true, -1 );
+        c->add( tr("Example item %1").arg(i), -1 );
 
     c->at(0)->setData( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
     c->filterItems( tr("item") );

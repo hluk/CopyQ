@@ -79,7 +79,6 @@ class ClipboardBrowser : public QListView
         /** Add new item to the browser. */
         bool add(
                 const ClipboardItem &item, //!< Item to copy.
-                bool force = false, //!< If true ignore commands and duplicates.
                 int row = 0 //!< Target row for the new item.
                 );
 
@@ -92,7 +91,7 @@ class ClipboardBrowser : public QListView
          * @return true only if item exists
          */
         bool select(
-                uint item_hash, //!< Hash of the item.
+                uint itemHash, //!< Hash of the item.
                 bool moveToTop = false //!< Move existing item to top.
                 );
 
@@ -277,7 +276,7 @@ class ClipboardBrowser : public QListView
         void changeClipboard(const ClipboardItem *item);
 
         /** Add item to another tab (invoked by an automatic command). */
-        void addToTab(const QMimeData *data, const QString &tabName);
+        void addToTab(const QMimeData &data, const QString &tabName);
 
     private slots:
         void contextMenuAction();
@@ -306,7 +305,6 @@ class ClipboardBrowser : public QListView
         /** Add new item to the browser. */
         bool add(
                 const QString &txt, //!< Text of new item.
-                bool force = false, //!< If true ignore commands and duplicates.
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
@@ -316,7 +314,6 @@ class ClipboardBrowser : public QListView
          */
         bool add(
                 QMimeData *item, //!< Data for new item.
-                bool force = false, //!< If true ignore commands and duplicates.
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 

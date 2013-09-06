@@ -425,7 +425,7 @@ void ClipboardMonitor::readyRead()
             in >> item;
 
             /* Does server send settings for monitor? */
-            QByteArray settings_data = item.data()->data(mimeApplicationSettings);
+            QByteArray settings_data = item.data().data(mimeApplicationSettings);
             if ( !settings_data.isEmpty() ) {
 
                 QDataStream settings_in(settings_data);
@@ -460,7 +460,7 @@ void ClipboardMonitor::readyRead()
 
                 COPYQ_LOG("Configured");
             } else {
-                updateClipboard( cloneData(*item.data()) );
+                updateClipboard( cloneData(item.data()) );
             }
         }
     }

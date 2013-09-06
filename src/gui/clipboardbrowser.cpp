@@ -288,8 +288,11 @@ void ClipboardBrowser::contextMenuAction()
     }
 
     if ( !cmd.tab.isEmpty() && cmd.tab != getID() ) {
-        for (int i = selected.size() - 1; i >= 0; --i)
-            emit addToTab(itemData(selected[i].row()), cmd.tab);
+        for (int i = selected.size() - 1; i >= 0; --i) {
+            const QMimeData *data = itemData( selected[i].row() );
+            if (data != NULL)
+                emit addToTab(*data, cmd.tab);
+        }
     }
 
     if (cmd.remove) {
@@ -1287,9 +1290,9 @@ void ClipboardBrowser::clear()
     m->removeRows(0, m->rowCount());
 }
 
-bool ClipboardBrowser::select(uint item_hash, bool moveToTop)
+bool ClipboardBrowser::select(uint itemHash, bool moveToTop)
 {
-    int row = m->findItem(item_hash);
+    int row = m->findItem(itemHash);
     if (row < 0)
         return false;
 
@@ -1313,14 +1316,14 @@ void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
     m->sortItems(indexes, &reverseSort);
 }
 
-bool ClipboardBrowser::add(const QString &txt, bool force, int row)
+bool ClipboardBrowser::add(const QString &txt, int row)
 {
     QMimeData *data = new QMimeData;
     data->setText(txt);
-    return add(data, force, row);
+    return add(data, row);
 }
 
-bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
+bool ClipboardBrowser::add(QMimeData *data, int row)
 {
     QScopedPointer<QMimeData> dataGuard(data);
 
@@ -1330,43 +1333,6 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
         loadItems();
         if ( m->isDisabled() || !m_loaded )
             return false;
-    }
-
-    if (!force) {
-        // don't add if new data is same as first item
-        if ( m->rowCount() > 0 && *m->at(0) == *data )
-            return false;
-
-        // commands
-        bool noText = !data->hasText();
-        const QString text = data->text();
-        const QString windowTitle = QString::fromUtf8( data->data(mimeWindowTitle).data() );
-        foreach (const Command &c, m_sharedData->commands) {
-            if (c.automatic && (c.remove || !c.cmd.isEmpty() || !c.tab.isEmpty())) {
-                if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
-                     && (c.input.isEmpty() || c.input == mimeItems || data->hasFormat(c.input))
-                     && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
-                {
-                    if (c.automatic) {
-                        Command cmd = c;
-                        if ( cmd.outputTab.isEmpty() )
-                            cmd.outputTab = m_id;
-
-                        if (cmd.input == mimeItems) {
-                            QMimeData data2;
-                            data2.setData( mimeItems, serializeData(*data) );
-                            emit requestActionDialog(data2, cmd);
-                        } else if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) ) {
-                            emit requestActionDialog(*data, cmd);
-                        }
-                    }
-                    if (!c.tab.isEmpty())
-                        emit addToTab(data, c.tab);
-                    if (c.remove || c.transform)
-                        return false;
-                }
-            }
-        }
     }
 
     // create new item
@@ -1393,9 +1359,9 @@ bool ClipboardBrowser::add(QMimeData *data, bool force, int row)
     return true;
 }
 
-bool ClipboardBrowser::add(const ClipboardItem &item, bool force, int row)
+bool ClipboardBrowser::add(const ClipboardItem &item, int row)
 {
-    return add( cloneData(*item.data()), force, row );
+    return add( cloneData(item.data()), row );
 }
 
 void ClipboardBrowser::loadSettings()
