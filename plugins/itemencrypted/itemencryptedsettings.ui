@@ -48,7 +48,7 @@
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupBoxShareInfo">
      <property name="title">
       <string>Sharing Encrypted Items/Tabs</string>
      </property>

@@ -198,8 +198,8 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
         ui->labelShareInfo->setText( tr("To share encrypted items on other computer or"
                                         " session, you'll need public and secret key files:"
                                         "<ul>"
-                                        "<li>\"%1\"</li>"
-                                        "<li>\"%2\"<br />(Keep this secret key on a safe place.)</li>"
+                                        "<li>%1</li>"
+                                        "<li>%2<br />(Keep this secret key in a safe place.)</li>"
                                         "</ul>"
                                         )
                                      .arg(keys.pub)
@@ -447,6 +447,7 @@ void ItemEncryptedLoader::updateUi()
                                " application and restart CopyQ.");
         ui->pushButtonPassword->hide();
         ui->groupBoxEncryptTabs->hide();
+        ui->groupBoxShareInfo->hide();
     } else if (m_gpgProcessStatus == GpgGeneratingKeys) {
         ui->labelInfo->setText( tr("Creating new keys (this may take a few minutes)...") );
         ui->pushButtonPassword->setText( tr("Cancel") );
