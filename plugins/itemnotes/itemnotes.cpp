@@ -297,12 +297,7 @@ QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
 
 ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    const int i = formats.indexOf(defaultFormat);
-    if (i == -1)
-        return NULL;
-
-    const QString text = index.data(contentType::firstFormat + i).toString();
+    const QString text = index.data(contentType::notes).toString();
     if ( text.isEmpty() )
         return NULL;
 
