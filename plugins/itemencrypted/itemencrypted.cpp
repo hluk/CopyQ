@@ -202,8 +202,22 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     startGpgProcess(&p, QStringList("--version"));
     p.closeWriteChannel();
     p.waitForFinished();
-    if ( p.error() != QProcess::UnknownError )
+    if ( p.error() != QProcess::UnknownError ) {
         m_gpgProcessStatus = GpgNotInstalled;
+    } else {
+        KeyPairPaths keys;
+        ui->labelShareInfo->setTextFormat(Qt::RichText);
+        ui->labelShareInfo->setText( tr("To share encrypted items on other computer or"
+                                        " session, you'll need public and secret key files:"
+                                        "<ul>"
+                                        "<li>\"%1\"</li>"
+                                        "<li>\"%2\"<br />(Keep this secret key on a safe place.)</li>"
+                                        "</ul>"
+                                        )
+                                     .arg(keys.pub)
+                                     .arg(keys.sec)
+                                     );
+    }
 
     updateUi();
 
@@ -440,7 +454,9 @@ void ItemEncryptedLoader::updateUi()
         return;
 
     if (m_gpgProcessStatus == GpgNotInstalled) {
-        ui->labelInfo->setText("To use item encryption, install <a href=\"http://www.gnupg.org/\">GnuPG</a> application and restart CopyQ.");
+        ui->labelInfo->setText("To use item encryption, install"
+                               " <a href=\"http://www.gnupg.org/\">GnuPG</a>"
+                               " application and restart CopyQ.");
         ui->pushButtonPassword->hide();
         ui->groupBoxEncryptTabs->hide();
     } else if (m_gpgProcessStatus == GpgGeneratingKeys) {
@@ -450,7 +466,8 @@ void ItemEncryptedLoader::updateUi()
         ui->labelInfo->setText( tr("Setting new password...") );
         ui->pushButtonPassword->setText( tr("Cancel") );
     } else if ( !keysExist() ) {
-        ui->labelInfo->setText( tr("Encryption keys <strong>must be generated</strong> before item encryption can be used.") );
+        ui->labelInfo->setText( tr("Encryption keys <strong>must be generated</strong>"
+                                   " before item encryption can be used.") );
         ui->pushButtonPassword->setText( tr("Generate New Keys...") );
     } else {
         ui->pushButtonPassword->setText( tr("Change Password...") );
