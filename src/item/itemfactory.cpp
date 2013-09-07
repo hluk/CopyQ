@@ -189,7 +189,7 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
 bool ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        if ( loader->loadItems(tabName, model, file) )
+        if ( isLoaderEnabled(loader) && loader->loadItems(tabName, model, file) )
             return true;
     }
 
@@ -199,9 +199,11 @@ bool ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, Q
 bool ItemFactory::saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        file->seek(0);
-        if ( loader->saveItems(tabName, model, file) )
-            return true;
+        if ( isLoaderEnabled(loader) ) {
+            file->seek(0);
+            if ( loader->saveItems(tabName, model, file) )
+                return true;
+        }
     }
 
     return false;
@@ -209,8 +211,10 @@ bool ItemFactory::saveItems(const QString &tabName, const QAbstractItemModel &mo
 
 void ItemFactory::itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file)
 {
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders)
-        loader->itemsLoaded(tabName, model, file);
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        if ( isLoaderEnabled(loader) )
+            loader->itemsLoaded(tabName, model, file);
+    }
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)
@@ -302,9 +306,11 @@ ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &inde
 {
     for ( int i = 0; i < m_loaders.size(); ++i ) {
         const ItemLoaderInterfacePtr &loader = m_loaders[i];
-        ItemWidget *newItem = loader->transform(item, index);
-        if (newItem != NULL)
-            item = newItem;
+        if ( isLoaderEnabled(loader) ) {
+            ItemWidget *newItem = loader->transform(item, index);
+            if (newItem != NULL)
+                item = newItem;
+        }
     }
 
     return item;
