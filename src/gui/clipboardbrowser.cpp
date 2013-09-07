@@ -41,6 +41,7 @@
 #include <QMimeData>
 #include <QPainter>
 #include <QScrollBar>
+#include <QShortcut>
 #include <QTimer>
 
 namespace {
@@ -55,6 +56,9 @@ const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSig
 const QIcon iconNextToClipboard() { return getIcon("go-down", IconArrowDown); }
 const QIcon iconPreviousToClipboard() { return getIcon("go-up", IconArrowUp); }
 
+const char propertyActionIndex[] = "CopyQ_action_index";
+const char propertyActionInOwnMenu[] = "CopyQ_action_in_own_menu";
+
 bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
                      const ClipboardModel::ComparisonItem &rhs)
 {
@@ -65,42 +69,6 @@ bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
                         const ClipboardModel::ComparisonItem &rhs)
 {
     return lhs.first > rhs.first;
-}
-
-QString highlightText(const QString &text, QRegExp &re)
-{
-    if (text.isEmpty())
-        return QString();
-
-    QString result("<p>");
-
-    if (re.isEmpty()) {
-        result.append( escapeHtml(text) );
-    } else {
-        int a = 0;
-        forever {
-            int b = re.indexIn(text, a);
-            if (b == -1)
-                break;
-
-            int len = re.matchedLength();
-
-            result.append( escapeHtml(text.mid(a, b - a + (len == 0 ? 1 : 0))) );
-
-            if (len == 0) {
-                ++a;
-            } else {
-                a = b + len;
-                result.append( QString("<b>") + escapeHtml(text.mid(b, len)) + QString("</b>") );
-            }
-        }
-
-        result.append( escapeHtml(text.mid(a)) );
-    }
-
-    result.append( QString("</p>") );
-
-    return result.replace( QString("\n"), QString("<br />") );
 }
 
 } // namespace
@@ -240,10 +208,10 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
 
 void ClipboardBrowser::contextMenuAction()
 {
-    QAction *act = qobject_cast<QAction *>(sender());
-    Q_ASSERT(act != NULL);
+    Q_ASSERT(sender() != NULL);
+    QObject *obj = sender();
 
-    QVariant actionData = act->data();
+    QVariant actionData = obj->property(propertyActionIndex);
     Q_ASSERT( actionData.isValid() );
 
     int i = actionData.toInt();
@@ -254,7 +222,7 @@ void ClipboardBrowser::contextMenuAction()
     if ( cmd.outputTab.isEmpty() )
         cmd.outputTab = m_id;
 
-    bool isContextMenuAction = m_menu != NULL && act->parent() == m_menu;
+    bool isContextMenuAction = obj->property(propertyActionInOwnMenu).toBool();
     const QModelIndexList selected = selectedIndexes();
 
     const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
@@ -304,6 +272,8 @@ void ClipboardBrowser::contextMenuAction()
         }
         if ( !currentIndex().isValid() )
             setCurrent(current);
+        if ( !selectionModel()->hasSelection() )
+            setCurrentIndex( currentIndex() );
     }
 
     if (isContextMenuAction && cmd.hideWindow)
@@ -616,7 +586,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
     const QString windowTitle = data == NULL ? QString() : QString::fromUtf8(
                 data->data(mimeWindowTitle).data() );
 
-    bool isContextMenu = menu == m_menu;
+    bool isOwnMenu = menu == m_menu;
 
     QAction *insertBefore = NULL;
 
@@ -653,9 +623,22 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
         IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
         QAction *act = menu->addAction( iconFactory->iconFromFile(command.icon), QString() );
-        act->setData( QVariant(i) );
-        if ( isContextMenu && !command.shortcut.isEmpty() )
-            act->setShortcut( command.shortcut );
+
+        if ( isOwnMenu && !command.shortcut.isEmpty() ) {
+            // Override any previous shortcuts.
+            QShortcut *shortcut = new QShortcut( command.shortcut, this,
+                                                 SLOT(contextMenuAction()),
+                                                 SLOT(contextMenuAction()) );
+
+            connect( act, SIGNAL(destroyed()),
+                     shortcut, SLOT(deleteLater()) );
+
+            shortcut->setProperty(propertyActionIndex, i);
+            shortcut->setProperty(propertyActionInOwnMenu, isOwnMenu);
+        }
+
+        act->setProperty(propertyActionIndex, i);
+        act->setProperty(propertyActionInOwnMenu, isOwnMenu);
 
         menu->insertAction( insertBefore, act );
         insertBefore = act;

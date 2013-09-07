@@ -36,6 +36,7 @@ enum IconId {
     IconRemove = 0xf00d,
     IconOff = 0xf011,
     IconCog = 0xf013,
+    IconTrash = 0xf014,
     IconFile = 0xf016,
     IconDownloadAlt = 0xf019,
     IconInbox = 0xf01c,

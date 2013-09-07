@@ -338,6 +338,13 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->inMenu = true;
         c->cmd = getEncryptCommand() + " --decrypt | copyq copy " + mimeItems + " -";
         c->shortcut = tr("Ctrl+Shift+L");
+    } else if (index == ++i) {
+        c->name = tr("Move to Trash");
+        c->icon = QString(QChar(IconTrash));
+        c->inMenu = true;
+        c->tab  = tr("(trash)");
+        c->remove = true;
+        c->shortcut = tr("Delete");
     } else {
         return false;
     }
