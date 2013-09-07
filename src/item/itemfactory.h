@@ -132,6 +132,9 @@ private:
     ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir);
     bool loadPlugins();
 
+    /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
+    ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);
+
     QVector<ItemLoaderInterfacePtr> m_loaders;
     QSet<ItemLoaderInterfacePtr> m_disabledLoaders;
     QMap<QObject *, ItemLoaderInterfacePtr> m_loaderChildren;

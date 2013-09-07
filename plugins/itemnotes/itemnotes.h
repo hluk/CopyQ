@@ -17,24 +17,31 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMTEXT_H
-#define ITEMTEXT_H
+#ifndef ITEMNOTES_H
+#define ITEMNOTES_H
 
 #include "item/itemwidget.h"
 
-#include <QTextDocument>
-#include <QTextEdit>
+#include <QScopedPointer>
+#include <QWidget>
 
 namespace Ui {
-class ItemTextSettings;
+class ItemNotesSettings;
 }
 
-class ItemText : public QTextEdit, public ItemWidget
+class QLabel;
+class QTextEdit;
+class QTimer;
+
+class ItemNotes : public QWidget, public ItemWidget
 {
     Q_OBJECT
 
 public:
-    ItemText(const QString &text, bool isRichText, QWidget *parent);
+    ItemNotes(ItemWidget *childItem, const QString &text,
+              bool notesAtBottom, bool showIconOnly, bool showToolTip);
+
+    virtual void setCurrent(bool current);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -50,31 +57,39 @@ protected:
 
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
+    virtual void paintEvent(QPaintEvent *event);
+
+    virtual bool eventFilter(QObject *obj, QEvent *event);
+
 private slots:
     void onSelectionChanged();
+    void showToolTip();
 
 private:
-    QTextDocument m_textDocument;
+    QTextEdit *m_notes;
+    QLabel *m_icon;
+    QScopedPointer<ItemWidget> m_childItem;
+    bool m_notesAtBottom;
+    QTimer *m_timerShowToolTip;
+    QString m_toolTipText;
 };
 
-class ItemTextLoader : public QObject, public ItemLoaderInterface
+class ItemNotesLoader : public QObject, public ItemLoaderInterface
 {
     Q_OBJECT
     Q_PLUGIN_METADATA(IID COPYQ_PLUGIN_ITEM_LOADER_ID)
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemTextLoader();
+    ItemNotesLoader();
 
-    ~ItemTextLoader();
+    ~ItemNotesLoader();
 
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
-
-    virtual QString id() const { return "itemtext"; }
-    virtual QString name() const { return tr("Text"); }
+    virtual QString id() const { return "itemnotes"; }
+    virtual QString name() const { return tr("Notes"); }
     virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Display plain text and simple HTML items."); }
-    virtual QVariant icon() const { return QVariant(0xf031); }
+    virtual QString description() const { return tr("Display notes for items."); }
+    virtual QVariant icon() const { return QVariant(0xf14b); }
 
     virtual QStringList formatsToSave() const;
 
@@ -84,9 +99,11 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
+    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+
 private:
     QVariantMap m_settings;
-    Ui::ItemTextSettings *ui;
+    Ui::ItemNotesSettings *ui;
 };
 
-#endif // ITEMTEXT_H
+#endif // ITEMNOTES_H

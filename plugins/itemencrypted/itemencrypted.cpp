@@ -25,7 +25,7 @@
 #include "item/serialize.h"
 
 #include <QFile>
-#include <QHBoxLayout>
+#include <QVBoxLayout>
 #include <QLabel>
 #include <QMimeData>
 #include <QPlainTextEdit>
@@ -95,11 +95,12 @@ bool isEncryptedFile(QFile *file)
 
 } // namespace
 
-ItemEncrypted::ItemEncrypted(const QModelIndex &index, QWidget *parent)
+ItemEncrypted::ItemEncrypted(QWidget *parent)
     : QWidget(parent)
     , ItemWidget(this)
 {
-    QHBoxLayout *layout = new QHBoxLayout(this);
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setMargin(6);
 
     // Show small icon.
     QLabel *iconLabel = new QLabel(this);
@@ -107,19 +108,6 @@ ItemEncrypted::ItemEncrypted(const QModelIndex &index, QWidget *parent)
     iconLabel->setTextFormat(Qt::RichText);
     iconLabel->setText("<span style=\"font-family:FontAwesome\">&#xf023;</span>");
     layout->addWidget(iconLabel);
-
-    // Show item notes if available.
-    const QString notes = index.data(contentType::notes).toString();
-    if ( !notes.isEmpty() ) {
-        QLabel *notesLabel = new QLabel(this);
-        notesLabel = new QLabel(this);
-        notesLabel->setObjectName("item_child");
-        notesLabel->setTextFormat(Qt::PlainText);
-        notesLabel->setWordWrap(true);
-        notesLabel->setText(notes);
-        layout->addWidget(notesLabel);
-        layout->setStretchFactor(notesLabel, 1);
-    }
 
     updateSize();
 }
@@ -172,7 +160,7 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
 ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     const QStringList formats = index.data(contentType::formats).toStringList();
-    return formats.contains(defaultFormat) ? new ItemEncrypted(index, parent) : NULL;
+    return formats.contains(defaultFormat) ? new ItemEncrypted(parent) : NULL;
 }
 
 QStringList ItemEncryptedLoader::formatsToSave() const

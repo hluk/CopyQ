@@ -1,7 +1,9 @@
 TEMPLATE = subdirs
-SUBDIRS  = itemtext \
-           itemimage \
-           itemweb \
+SUBDIRS  = \
            itemdata \
-           itemencrypted
+           itemencrypted \
+           itemimage \
+           itemnotes \
+           itemtext \
+           itemweb
 

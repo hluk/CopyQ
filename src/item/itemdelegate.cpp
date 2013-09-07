@@ -254,6 +254,8 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
         QFont f = ww->font();
         f.setStyleStrategy(QFont::NoAntialias);
         ww->setFont(f);
+        foreach (QWidget *child, ww->findChildren<QWidget *>("item_child"))
+            child->setFont(f);
     }
 
     ww->setMaximumSize(m_maxSize);
@@ -348,11 +350,5 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
             child->update();
         }
         ww->update();
-    }
-
-    /* show small icon if item has notes */
-    if ( index.data(contentType::hasNotes).toBool() ) {
-        painter->setPen(m_numberPalette.color(role));
-        ConfigurationManager::instance()->iconFactory()->drawIcon(IconEditSign, rect, painter);
     }
 }

@@ -50,8 +50,9 @@ endmacro()
 
 set(LIBRARY_OUTPUT_PATH ${PROJECT_BINARY_DIR}/plugins)
 
-add_subdirectory("itemtext")
-add_subdirectory("itemimage")
-add_subdirectory("itemweb")
 add_subdirectory("itemdata")
 add_subdirectory("itemencrypted")
+add_subdirectory("itemimage")
+add_subdirectory("itemnotes")
+add_subdirectory("itemtext")
+add_subdirectory("itemweb")

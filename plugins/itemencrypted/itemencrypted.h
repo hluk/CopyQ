@@ -37,7 +37,7 @@ class ItemEncrypted : public QWidget, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemEncrypted(const QModelIndex &index, QWidget *parent);
+    ItemEncrypted(QWidget *parent);
 
     virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
 

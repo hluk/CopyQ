@@ -113,6 +113,7 @@ ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
         ItemWidget *item = (loader == NULL) ? new DummyItem(index, parent)
                                            : loader->create(index, parent);
         if (item != NULL) {
+            item = transformItem(item, index);
             QWidget *w = item->widget();
             QString notes = index.data(contentType::notes).toString();
             if (!notes.isEmpty())
@@ -295,4 +296,16 @@ bool ItemFactory::loadPlugins()
     qSort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
+}
+
+ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &index)
+{
+    for ( int i = 0; i < m_loaders.size(); ++i ) {
+        const ItemLoaderInterfacePtr &loader = m_loaders[i];
+        ItemWidget *newItem = loader->transform(item, index);
+        if (newItem != NULL)
+            item = newItem;
+    }
+
+    return item;
 }

@@ -42,7 +42,6 @@
 #include <QPainter>
 #include <QScrollBar>
 #include <QTimer>
-#include <QToolTip>
 
 namespace {
 
@@ -154,7 +153,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , d( new ItemDelegate(this) )
     , m_timerSave( new QTimer(this) )
     , m_timerScroll( new QTimer(this) )
-    , m_timerShowNotes( new QTimer(this) )
     , m_timerUpdate( new QTimer(this) )
     , m_timerExpire(NULL)
     , m_menu(NULL)
@@ -176,7 +174,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     initSingleShotTimer(m_timerSave, 30000, SLOT(saveItems()));
     initSingleShotTimer(m_timerScroll, 50);
-    initSingleShotTimer(m_timerShowNotes, 250, SLOT(updateItemNotes()));
     initSingleShotTimer(m_timerUpdate, 0, SLOT(updateCurrentPage()));
 
     // delegate for rendering and editing items
@@ -601,6 +598,16 @@ void ClipboardBrowser::stopExpiring()
         m_timerExpire->stop();
 }
 
+void ClipboardBrowser::updateCurrentItem()
+{
+    const QModelIndex current = currentIndex();
+    if ( current.isValid() && d->hasCache(current) ) {
+        ItemWidget *item = d->cache(current);
+        item->setCurrent(false);
+        item->setCurrent( hasFocus() );
+    }
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -717,7 +724,6 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
         updateContextMenu();
 
     updateCurrentPage();
-    updateItemNotes(false);
 }
 
 void ClipboardBrowser::onRowSizeChanged(int row)
@@ -744,40 +750,10 @@ void ClipboardBrowser::updateCurrentPage()
     if ( sender() == m_timerUpdate && updatesEnabled() ) {
         m_timerUpdate->stop();
         preload(-2 * spacing(), viewport()->contentsRect().height() + 2 * spacing());
+        updateCurrentItem();
     } else {
         m_timerUpdate->start();
     }
-}
-
-void ClipboardBrowser::updateItemNotes(bool immediately)
-{
-    m_timerShowNotes->stop();
-
-    QToolTip::hideText();
-
-    QModelIndex index = currentIndex();
-    if(!index.isValid())
-        return;
-
-    if (!immediately) {
-        m_timerShowNotes->start();
-        return;
-    }
-
-    if (!hasFocus())
-        return;
-
-    ItemWidget *item = d->cache(index);
-    QWidget *w = item->widget();
-
-    QString toolTip = highlightText( w->toolTip(), m_lastFilter );
-    if (toolTip.isEmpty())
-        return;
-
-    QPoint toolTipPosition = QPoint(viewport()->geometry().right(), w->y());
-    toolTipPosition = w->parentWidget()->mapToGlobal(toolTipPosition);
-
-    QToolTip::showText(toolTipPosition, toolTip, w);
 }
 
 void ClipboardBrowser::expire()
@@ -844,8 +820,6 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
     QListView::showEvent(event);
 
     updateCurrentPage();
-
-    updateItemNotes(false);
 }
 
 void ClipboardBrowser::hideEvent(QHideEvent *event)
@@ -857,7 +831,13 @@ void ClipboardBrowser::hideEvent(QHideEvent *event)
 void ClipboardBrowser::currentChanged(const QModelIndex &current, const QModelIndex &previous)
 {
     QListView::currentChanged(current, previous);
-    updateItemNotes(false);
+
+    if ( previous.isValid() && d->hasCache(previous) ) {
+        ItemWidget *item = d->cache(previous);
+        item->setCurrent(false);
+    }
+
+    updateCurrentItem();
 }
 
 void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
@@ -874,7 +854,7 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
         focusNextChild();
     } else {
         QListView::focusInEvent(event);
-        updateItemNotes(false);
+        updateCurrentItem();
     }
 }
 
@@ -1014,8 +994,6 @@ void ClipboardBrowser::filterItems(const QString &str)
     // select first visible
     setCurrentIndex( index(first) );
     updateCurrentPage();
-
-    updateItemNotes(false);
 }
 
 void ClipboardBrowser::moveToClipboard()

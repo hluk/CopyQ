@@ -104,6 +104,11 @@ public:
      */
     virtual void updateSize() {}
 
+    /**
+     * Called if widget is set or unset as current.
+     */
+    virtual void setCurrent(bool current);
+
 protected:
     /**
      * Highlight matching text with given font and color.
@@ -135,7 +140,7 @@ public:
      *
      * @return NULL if index hasn't appropriate data
      */
-    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const = 0;
+    virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     /**
      * Simple ID of plugin (e.g. part of plugin file name).
@@ -202,6 +207,13 @@ public:
      * Called after items were loaded.
      */
     virtual void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
+    /**
+     * Allow to transform item widget (wrap around a new widget).
+     * By default returns NULL not to wrap the widget.
+     * New ItemWidget must take care of deleting the old one!
+     */
+    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

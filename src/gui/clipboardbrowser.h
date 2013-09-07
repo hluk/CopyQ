@@ -196,7 +196,6 @@ class ClipboardBrowser : public QListView
         ItemDelegate *d;
         QTimer *m_timerSave;
         QTimer *m_timerScroll;
-        QTimer *m_timerShowNotes;
         QTimer *m_timerUpdate;
         QTimer *m_timerExpire;
 
@@ -247,6 +246,8 @@ class ClipboardBrowser : public QListView
 
         void stopExpiring();
 
+        void updateCurrentItem();
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -287,11 +288,6 @@ class ClipboardBrowser : public QListView
         void onRowSizeChanged(int row);
 
         void updateCurrentPage();
-
-        /**
-         * Show notes for current item.
-         */
-        void updateItemNotes(bool immediately = true);
 
         void expire();
 

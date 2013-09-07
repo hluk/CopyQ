@@ -96,6 +96,15 @@ QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
     return NULL;
 }
 
+void ItemWidget::setCurrent(bool)
+{
+}
+
+
+ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const
+{
+    return NULL;
+}
 
 bool ItemLoaderInterface::loadItems(const QString &, QAbstractItemModel *, QFile *)
 {
@@ -109,4 +118,9 @@ bool ItemLoaderInterface::saveItems(const QString &, const QAbstractItemModel &,
 
 void ItemLoaderInterface::itemsLoaded(const QString &, QAbstractItemModel *, QFile *)
 {
+}
+
+ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
+{
+    return NULL;
 }
