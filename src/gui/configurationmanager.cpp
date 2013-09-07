@@ -946,6 +946,8 @@ void ConfigurationManager::onFinished(int result)
 void ConfigurationManager::shortcutButtonClicked(QObject *button)
 {
     ShortcutDialog *dialog = new ShortcutDialog(this);
+    dialog->setExpectModifier(true);
+
     if (dialog->exec() == QDialog::Accepted) {
         QKeySequence shortcut = dialog->shortcut();
         QString text;

@@ -36,18 +36,22 @@ public:
 
     QKeySequence shortcut() const;
 
+    /** Expect modifier or accept shortcuts without one. */
+    void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
 
 private:
-    Ui::ShortcutDialog *ui;
-    QKeySequence m_shortcut;
-    bool m_metaPressed;
-
     void processKey(int key, Qt::KeyboardModifiers mods);
 
     Qt::KeyboardModifiers getModifiers(const QKeyEvent &event);
+
+    Ui::ShortcutDialog *ui;
+    QKeySequence m_shortcut;
+    bool m_metaPressed;
+    bool m_expectModifier;
 };
 
 #endif // SHORTCUTDIALOG_H

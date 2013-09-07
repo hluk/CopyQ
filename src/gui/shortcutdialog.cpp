@@ -53,6 +53,7 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     , ui(new Ui::ShortcutDialog)
     , m_shortcut()
     , m_metaPressed(false)
+    , m_expectModifier(false)
 {
     ui->setupUi(this);
     setWindowIcon( getIcon("", IconHandUp) );
@@ -78,7 +79,9 @@ void ShortcutDialog::keyPressEvent(QKeyEvent *event)
             reject();
         else if (key == Qt::Key_Backspace)
             accept();
-        return;
+
+        if (m_expectModifier)
+            return;
     }
 
     event->accept();
