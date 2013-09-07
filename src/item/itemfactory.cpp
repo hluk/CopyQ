@@ -165,6 +165,11 @@ QStringList ItemFactory::formatsToSave() const
     if ( !formats.contains("text/plain") )
         formats.prepend("text/plain");
 
+    if ( !formats.contains(mimeItemNotes) )
+        formats.append(mimeItemNotes);
+    if ( !formats.contains(mimeItems) )
+        formats.append(mimeItems);
+
     return formats;
 }
 
