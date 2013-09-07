@@ -681,9 +681,9 @@ ClipboardBrowser *MainWindow::getBrowser(int index) const
     return qobject_cast<ClipboardBrowser*>(w);
 }
 
-bool MainWindow::isForeignWindow(WId wid)
+bool MainWindow::isValidWindow(WId wid) const
 {
-    return wid != WId() && winId() != wid && find(wid) == NULL;
+    return wid != WId();
 }
 
 void MainWindow::delayedUpdateFocusWindows()
@@ -1320,7 +1320,7 @@ void MainWindow::showBrowser(int index)
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
-    if (c->select(clipboardItemHash) && m_options->trayItemPaste && isForeignWindow(m_trayPasteWindow)) {
+    if (c->select(clipboardItemHash) && m_options->trayItemPaste && isValidWindow(m_trayPasteWindow)) {
         QApplication::processEvents();
         createPlatformNativeInterface()->pasteToWindow(m_trayPasteWindow);
     }
@@ -1570,9 +1570,9 @@ void MainWindow::activateCurrentItem()
         close();
     if ( m_options->activateFocuses() || m_options->activatePastes() ) {
         PlatformPtr platform = createPlatformNativeInterface();
-        if ( m_options->activateFocuses() && isForeignWindow(lastWindow) )
+        if ( m_options->activateFocuses() && isValidWindow(lastWindow) )
             platform->raiseWindow(lastWindow);
-        if ( m_options->activatePastes() && isForeignWindow(pasteWindow) ) {
+        if ( m_options->activatePastes() && isValidWindow(pasteWindow) ) {
             QApplication::processEvents();
             platform->pasteToWindow(pasteWindow);
         }
@@ -1735,12 +1735,12 @@ void MainWindow::updateFocusWindows()
     PlatformPtr platform = createPlatformNativeInterface();
     if ( m_options->activatePastes() ) {
         WId pasteWindow = platform->getPasteWindow();
-        if ( isForeignWindow(pasteWindow) )
+        if ( isValidWindow(pasteWindow) )
             m_pasteWindow = pasteWindow;
     }
     if ( m_options->activateFocuses() ) {
         WId lastWindow = platform->getCurrentWindow();
-        if ( isForeignWindow(lastWindow) )
+        if ( isValidWindow(lastWindow) )
             m_lastWindow = lastWindow;
     }
 }

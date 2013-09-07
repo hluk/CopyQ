@@ -375,8 +375,8 @@ class MainWindow : public QMainWindow
         /** Return browser widget in given tab @a index (or current tab). */
         ClipboardBrowser *getBrowser(int index = -1) const;
 
-        /** Return true only if main window owns window/widget with given WId. */
-        bool isForeignWindow(WId wid);
+        /** Return true only if window ID is valid. */
+        bool isValidWindow(WId wid) const;
 
         /** Call updateFocusWindows() after a small delay. */
         void delayedUpdateFocusWindows();
