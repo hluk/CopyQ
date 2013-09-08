@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>PluginWidget</class>
- <widget class="QWidget" name="PluginWidget">
+ <class>ItemFakeVimSettings</class>
+ <widget class="QWidget" name="ItemFakeVimSettings">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -12,24 +12,21 @@
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="labelDescription">
+    <widget class="QCheckBox" name="checkBoxEnable">
      <property name="text">
-      <string/>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+      <string>Enable FakeVim for Editing Items</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="labelAuthor">
+    <widget class="QLabel" name="label">
      <property name="text">
-      <string/>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
+      <string>Path to Configuration File:</string>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="QLineEdit" name="lineEditSourceFileName"/>
    </item>
    <item>
     <spacer name="verticalSpacer">
@@ -39,7 +36,7 @@
      <property name="sizeHint" stdset="0">
       <size>
        <width>20</width>
-       <height>1</height>
+       <height>40</height>
       </size>
      </property>
     </spacer>

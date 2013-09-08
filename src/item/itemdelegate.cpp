@@ -114,7 +114,7 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     int row = a.row();
     if ( row == b.row() ) {
         reset(&m_cache[row]);
-        emit rowSizeChanged(a.row());
+        emit rowSizeChanged(row);
     }
 }
 
@@ -237,7 +237,8 @@ void ItemDelegate::previousItemLoader(const QModelIndex &index)
 ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModelIndex &index,
                                                    bool editNotes)
 {
-    return new ItemEditorWidget(cache(index), index, editNotes,
+    cache(index);
+    return new ItemEditorWidget(m_cache[index.row()], index, editNotes,
                                 m_editorFont, m_editorPalette, m_saveOnReturnKey,
                                 parent);
 }

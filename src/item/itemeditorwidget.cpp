@@ -41,7 +41,7 @@ const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo
 
 } // namespace
 
-ItemEditorWidget::ItemEditorWidget(const ItemWidget *itemWidget, const QModelIndex &index,
+ItemEditorWidget::ItemEditorWidget(const QSharedPointer<ItemWidget> &itemWidget, const QModelIndex &index,
                                    bool editNotes, const QFont &font, const QPalette &palette,
                                    bool saveOnReturnKey, QWidget *parent)
     : QWidget(parent)
@@ -52,10 +52,10 @@ ItemEditorWidget::ItemEditorWidget(const ItemWidget *itemWidget, const QModelInd
     , m_saveOnReturnKey(saveOnReturnKey)
 {
     m_noteEditor = editNotes ? new QPlainTextEdit(this) : NULL;
-    QWidget *editor = editNotes ? m_noteEditor : itemWidget->createEditor(this);
+    QWidget *editor = editNotes ? m_noteEditor : createEditor(itemWidget.data());
 
     if (editor == NULL) {
-        m_itemWidget = NULL;
+        m_itemWidget.clear();
     } else {
         connect( m_itemWidget->widget(), SIGNAL(destroyed()),
                  this, SLOT(onItemWidgetDestroyed()) );
@@ -91,16 +91,13 @@ bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
         if (k == Qt::Key_Return || k == Qt::Key_Enter) {
             Qt::KeyboardModifiers mods = keyevent->modifiers();
             if ( (mods & (Qt::ShiftModifier | Qt::AltModifier | Qt::MetaModifier)) == 0 ) {
-                if (m_saveOnReturnKey) {
-                    if (mods.testFlag(Qt::ControlModifier) ) {
-                        keyevent->setModifiers(mods & ~Qt::ControlModifier);
-                        return false;
-                    }
-
-                    emit save();
-                    return true;
-                } else if ( mods.testFlag(Qt::ControlModifier) ) {
-                    emit save();
+                bool controlPressed = mods.testFlag(Qt::ControlModifier);
+                if (m_saveOnReturnKey && controlPressed ) {
+                    keyevent->setModifiers(mods & ~Qt::ControlModifier);
+                    return false;
+                }
+                if ( m_saveOnReturnKey || controlPressed ) {
+                    saveAndExit();
                     return true;
                 }
             }
@@ -112,8 +109,28 @@ bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
 
 void ItemEditorWidget::onItemWidgetDestroyed()
 {
-    m_itemWidget = NULL;
-    emit invalidate();
+    m_itemWidget.clear();
+}
+
+void ItemEditorWidget::saveAndExit()
+{
+    emit save();
+    emit cancel();
+}
+
+QWidget *ItemEditorWidget::createEditor(const ItemWidget *itemWidget)
+{
+    QWidget *editor = itemWidget->createEditor(this);
+
+    const QMetaObject *metaObject = editor->metaObject();
+    if ( metaObject->indexOfSignal("save()") != -1 )
+        connect( editor, SIGNAL(save()), SIGNAL(save()) );
+    if ( metaObject->indexOfSignal("cancel()") != -1 )
+        connect( editor, SIGNAL(cancel()), SIGNAL(cancel()) );
+    if ( metaObject->indexOfSignal("invalidate()") != -1 )
+        connect( editor, SIGNAL(invalidate()), SIGNAL(invalidate()) );
+
+    return editor;
 }
 
 void ItemEditorWidget::initEditor(QWidget *editor, const QFont &font, const QPalette &palette)
@@ -132,6 +149,7 @@ void ItemEditorWidget::initEditor(QWidget *editor, const QFont &font, const QPal
 
     QToolBar *toolBar = new QToolBar(this);
     toolBar->setBackgroundRole(QPalette::Base);
+    toolBar->setStyleSheet("QToolBar{border:0}");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
@@ -149,7 +167,7 @@ void ItemEditorWidget::initEditor(QWidget *editor, const QFont &font, const QPal
     act->setToolTip( tr("Save Item (<strong>F2</strong>)") );
     act->setShortcut( QKeySequence(tr("F2", "Shortcut to save item editor changes")) );
     connect( act, SIGNAL(triggered()),
-             this, SIGNAL(save()) );
+             this, SLOT(saveAndExit()) );
 
     act = new QAction( iconCancel(color), tr("Cancel"), editor );
     toolBar->addAction(act);

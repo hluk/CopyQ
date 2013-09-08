@@ -21,6 +21,7 @@
 #define ITEMEDITORWIDGET_H
 
 #include <QPersistentModelIndex>
+#include <QSharedPointer>
 #include <QWidget>
 
 class ItemWidget;
@@ -34,11 +35,11 @@ class ItemEditorWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ItemEditorWidget(const ItemWidget *itemWidget, const QModelIndex &index, bool editNotes,
-                     const QFont &font, const QPalette &palette, bool saveOnReturnKey,
+    ItemEditorWidget(const QSharedPointer<ItemWidget> &itemWidget, const QModelIndex &index,
+                     bool editNotes, const QFont &font, const QPalette &palette, bool saveOnReturnKey,
                      QWidget *parent = NULL);
 
-    bool isValid() const { return m_itemWidget != NULL && m_editor != NULL && m_index.isValid(); }
+    bool isValid() const { return !m_itemWidget.isNull() && m_editor != NULL && m_index.isValid(); }
 
     void commitData(QAbstractItemModel *model) const;
 
@@ -54,11 +55,13 @@ protected:
 
 private slots:
     void onItemWidgetDestroyed();
+    void saveAndExit();
 
 private:
+    QWidget *createEditor(const ItemWidget *itemWidget);
     void initEditor(QWidget *editor, const QFont &font, const QPalette &palette);
 
-    const ItemWidget *m_itemWidget;
+    QSharedPointer<ItemWidget> m_itemWidget;
     QPersistentModelIndex m_index;
     QWidget *m_editor;
     QPlainTextEdit *m_noteEditor;

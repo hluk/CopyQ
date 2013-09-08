@@ -88,7 +88,7 @@ void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
 bool ItemWidget::hasChanges(QWidget *editor) const
 {
     QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
-    return textEdit != NULL && textEdit->document() && textEdit->document()->availableUndoSteps() > 0;
+    return textEdit != NULL && textEdit->document() && textEdit->document()->isModified();
 }
 
 QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const

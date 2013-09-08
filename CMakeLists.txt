@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 2.8)
+cmake_minimum_required(VERSION 2.8.6)
 project(copyq)
 
 # Options (cmake -LH)
@@ -12,6 +12,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set(THEME_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/themes" CACHE PATH "Install path for themes")
     set(DESKTOP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/applications" CACHE PATH "Install path for \"copyq.desktop\"")
 endif()
+
+set(CMAKE_AUTOMOC ON)
 
 # If Qt4 unavailable use Qt5.
 if (NOT WITH_QT5)

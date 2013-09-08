@@ -519,8 +519,15 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
     // Disable shortcuts while editing.
     createContextMenu();
 
-    verticalScrollBar()->setHidden(active);
-    horizontalScrollBar()->setHidden(active);
+    // Hide scrollbars while editing.
+    Qt::ScrollBarPolicy scrollbarPolicy = Qt::ScrollBarAlwaysOff;
+    if (!active) {
+        const ConfigTabAppearance *appearance = ConfigurationManager::instance()->tabAppearance();
+        scrollbarPolicy = appearance->themeValue("show_scrollbars").toBool()
+                ? Qt::ScrollBarAsNeeded : Qt::ScrollBarAlwaysOff;
+    }
+    setVerticalScrollBarPolicy(scrollbarPolicy);
+    setHorizontalScrollBarPolicy(scrollbarPolicy);
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes)
@@ -757,7 +764,6 @@ void ClipboardBrowser::onEditorSave()
 {
     Q_ASSERT(m_editor != NULL);
     m_editor->commitData(m);
-    delete m_editor;
 }
 
 void ClipboardBrowser::onEditorCancel()

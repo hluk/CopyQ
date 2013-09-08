@@ -9,41 +9,6 @@ file(GLOB copyq_SOURCES
     ../qt/*.cpp
     )
 
-set(copyq_MOCABLE
-    app/clipboardclient.h
-    app/clipboardmonitor.h
-    app/clipboardserver.h
-    app/remoteprocess.h
-    common/action.h
-    gui/aboutdialog.h
-    gui/actiondialog.h
-    gui/clipboardbrowser.h
-    gui/clipboarddialog.h
-    gui/commandwidget.h
-    gui/configtabappearance.h
-    gui/configurationmanager.h
-    gui/itemorderlist.h
-    gui/mainwindow.h
-    gui/notification.h
-    gui/notificationdaemon.h
-    gui/pluginwidget.h
-    gui/shortcutdialog.h
-    gui/tabbar.h
-    gui/tabdialog.h
-    gui/tabtree.h
-    gui/tabwidget.h
-    gui/traymenu.h
-    item/itemdelegate.h
-    item/itemeditor.h
-    item/itemeditorwidget.h
-    item/itemfactory.h
-    item/clipboardmodel.h
-    ../qt/bytearrayclass.h
-    ../qt/bytearrayprototype.h
-    scriptable/scriptable.h
-    scriptable/scriptableworker.h
-    )
-
 file(GLOB copyq_FORMS
     ui/*.ui
     )
@@ -68,9 +33,6 @@ if (USE_QXT)
         ../qxt/qxtglobal.cpp
         ../qxt/qxtglobalshortcut.cpp
         )
-    set(copyq_MOCABLE ${copyq_MOCABLE}
-        ../qxt/qxtglobalshortcut.h
-        )
     add_definitions( -DQXT_STATIC )
 endif()
 
@@ -81,9 +43,6 @@ if (WITH_TESTS)
 
     file(GLOB copyq_SOURCES ${copyq_SOURCES}
         tests/*.cpp
-        )
-    file(GLOB copyq_MOCABLE ${copyq_MOCABLE}
-        tests/*.h
         )
 
     if (WITH_QT5)
@@ -115,11 +74,9 @@ endforeach(QM_FILE)
 file(APPEND ${copyq_QM_RCC} "</qresource></RCC>")
 
 if (WITH_QT5)
-    qt5_wrap_cpp(copyq_MOC ${copyq_MOCABLE})
     qt5_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
     qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES} ${copyq_QM_RCC})
 else()
-    qt4_wrap_cpp(copyq_MOC ${copyq_MOCABLE})
     qt4_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
     qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES} ${copyq_QM_RCC})
 endif()
@@ -128,7 +85,6 @@ set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
 
 set(copyq_COMPILE
     ${copyq_SOURCES}
-    ${copyq_MOC}
     ${copyq_FORMS_HEADERS}
     ${copyq_RESOURCES_RCC}
     ${copyq_QM}

@@ -1,0 +1,5 @@
+<RCC>
+    <qresource prefix="/">
+        <file>fakevim/fakevim.png</file>
+    </qresource>
+</RCC>

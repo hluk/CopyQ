@@ -68,6 +68,11 @@ public:
 
     /**
      * Create editor widget with given @a parent.
+     * Editor widget can have signals:
+     *   1. save(), to save data,
+     *   2. cancel(), if hasChanges() is true a dialog will pop-up asking user whether to save
+     *      changes, otherwise editor closes,
+     *   3. invalidate(), to close editor immediately.
      */
     virtual QWidget *createEditor(QWidget *parent) const;
 
