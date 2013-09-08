@@ -314,7 +314,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->automatic = true;
 #endif
     } else if (index == ++i) {
-        c->name = tr("Encrypt (needs GnuGP)");
+        c->name = tr("Encrypt (needs GnuPG)");
         c->icon = QString(QChar(IconLock));
         c->input = mimeItems;
         c->output = "application/x-copyq-encrypted";

@@ -62,9 +62,9 @@ public:
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual QString id() const { return "itemencrypted"; }
-    virtual QString name() const { return tr("Encrypted"); }
+    virtual QString name() const { return tr("Encryption"); }
     virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Encrypted items"); }
+    virtual QString description() const { return tr("Encrypt items and tabs."); }
     virtual QVariant icon() const { return QVariant(0xf023); }
 
     virtual QStringList formatsToSave() const;

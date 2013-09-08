@@ -20,14 +20,14 @@
       <item>
        <widget class="QRadioButton" name="radioButtonTop">
         <property name="text">
-         <string>&amp;Notes at Top</string>
+         <string>A&amp;bove Item</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QRadioButton" name="radioButtonBottom">
         <property name="text">
-         <string>Notes at &amp;Bottom</string>
+         <string>B&amp;elow Item</string>
         </property>
        </widget>
       </item>

@@ -614,7 +614,7 @@ Note: This is not be supported on all systems.</string>
            <item row="1" column="0">
             <widget class="QLabel" name="label_3">
              <property name="text">
-              <string>&amp;Unload tab after an interval:</string>
+              <string>&amp;Unload tab after an interval in minutes:</string>
              </property>
              <property name="buddy">
               <cstring>spinBoxExpireTab</cstring>
@@ -626,19 +626,12 @@ Note: This is not be supported on all systems.</string>
              <item>
               <widget class="QSpinBox" name="spinBoxExpireTab">
                <property name="toolTip">
-                <string>Unload each tab after specified number of minutes of inactivity.
+                <string>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</string>
                </property>
                <property name="maximum">
                 <number>480</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <widget class="QLabel" name="label_13">
-               <property name="text">
-                <string>minutes</string>
                </property>
               </widget>
              </item>
@@ -977,7 +970,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
              <rect>
               <x>0</x>
               <y>0</y>
-              <width>531</width>
+              <width>384</width>
               <height>474</height>
              </rect>
             </property>

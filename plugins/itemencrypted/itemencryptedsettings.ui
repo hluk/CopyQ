@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>324</width>
-    <height>314</height>
+    <height>367</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -50,7 +50,7 @@
    <item>
     <widget class="QGroupBox" name="groupBoxShareInfo">
      <property name="title">
-      <string>Sharing Encrypted Items/Tabs</string>
+      <string>Sharing Encrypted Items and Tabs</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_2">
       <item>
@@ -78,7 +78,8 @@
       <item row="0" column="0" colspan="2">
        <widget class="QLabel" name="label_4">
         <property name="text">
-         <string>Specify names of tabs (one per line) which will be automatically encrypted and decrypted.</string>
+         <string>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
+&lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</string>
         </property>
         <property name="wordWrap">
          <bool>true</bool>
