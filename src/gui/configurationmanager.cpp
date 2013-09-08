@@ -52,8 +52,16 @@
 namespace {
 
 const QRegExp reURL("^(https?|ftps?|file)://");
-const QString fileErrorString =
-        ConfigurationManager::tr("Cannot save tab \"%1\" to \"%2\" (%3)!");
+
+void printItemFileError(const QString &id, const QString &fileName, const QFile &file)
+{
+    QLocale locale = QLocale::system();
+    log( ConfigurationManager::tr("Cannot save tab %1 to %2 (%3)!")
+         .arg( locale.quoteString(id) )
+         .arg( locale.quoteString(fileName) )
+         .arg( file.errorString() )
+         , LogError );
+}
 
 } // namespace
 
@@ -137,8 +145,8 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
         QDataStream in(&file);
         in >> model;
         if ( in.status() != QDataStream::Ok ) {
-            log( QObject::tr("Item file \"%1\" is corrupted or some CopyQ plugins are missing!")
-                 .arg(file.fileName()),
+            log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
+                 .arg( QLocale::system().quoteString(file.fileName()) ),
                  LogError );
         }
     }
@@ -171,7 +179,7 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model, const QString 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
     if ( !file.open(QIODevice::WriteOnly) ) {
-        log( fileErrorString.arg(id).arg(fileName).arg(file.errorString()), LogError );
+        printItemFileError(id, fileName, file);
         return false;
     }
 
@@ -187,7 +195,7 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model, const QString 
     // Overwrite previous file.
     QFile::remove(fileName);
     if ( !file.rename(fileName) )
-        log( fileErrorString.arg(id).arg(fileName).arg(file.errorString()), LogError );
+        printItemFileError(id, fileName, file);
 
     return true;
 }
@@ -363,7 +371,8 @@ bool ConfigurationManager::createItemDirectory()
 {
     QDir settingsDir( QDir::cleanPath(m_datfilename + "/..") );
     if ( !settingsDir.mkpath(".") ) {
-        log( tr("Cannot create directory for settings \"%1\"!").arg(settingsDir.path()),
+        log( tr("Cannot create directory for settings %1!")
+             .arg(QLocale::system().quoteString(settingsDir.path()) ),
              LogError );
 
         return false;

@@ -177,9 +177,11 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
 {
     ui->setupUi(this);
 
+    const QString searchFor = tr("item", "Search expression in preview in Appearance tab.");
+
     ClipboardBrowser *c = ui->clipboardBrowserPreview;
     c->addItems( QStringList()
-                 << tr("Search string is \"item\".")
+                 << tr("Search string is %1.").arg( QLocale::system().quoteString(searchFor) )
                  << tr("Select an item and\n"
                        "press F2 to edit.")
                  << tr("Select items and move them with\n"
@@ -189,7 +191,9 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
         c->add( tr("Example item %1").arg(i), -1 );
 
     c->at(0)->setData( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
-    c->filterItems( tr("item") );
+
+    // Highlight found text but don't filter out any items.
+    c->filterItems( QString("|") + searchFor );
 
     QAction *act;
 

@@ -202,8 +202,8 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
                                         "<li>%2<br />(Keep this secret key in a safe place.)</li>"
                                         "</ul>"
                                         )
-                                     .arg(keys.pub)
-                                     .arg(keys.sec)
+                                     .arg( QLocale::system().quoteString(keys.pub) )
+                                     .arg( QLocale::system().quoteString(keys.sec) )
                                      );
     }
 

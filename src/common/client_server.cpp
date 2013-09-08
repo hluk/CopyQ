@@ -267,9 +267,11 @@ QString textLabelForData(const QMimeData &data, const QFont &font, const QString
         const int n = text.count(QChar('\n')) + 1;
 
         if (n > 1)
-            label = QObject::tr("\"%1\" (%n lines)", "Label for multi-line text in clipboard", n);
+            label = QObject::tr("%1 (%n lines)", "Label for multi-line text in clipboard", n);
         else
-            label = QObject::tr("\"%1\"", "Label for single-line text in clipboard");
+            label = QString("%1");
+
+        label = label.arg( QLocale::system().quoteString("%1") );
 
         if (!format.isEmpty())
             label = format.arg(label);
