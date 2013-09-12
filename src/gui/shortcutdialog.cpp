@@ -75,10 +75,13 @@ void ShortcutDialog::keyPressEvent(QKeyEvent *event)
     Qt::KeyboardModifiers mods = getModifiers(*event);
 
     if (mods == Qt::NoModifier) {
-        if (key == Qt::Key_Escape)
+        if (key == Qt::Key_Escape) {
             reject();
-        else if (key == Qt::Key_Backspace)
+            return;
+        } else if (key == Qt::Key_Backspace) {
             accept();
+            return;
+        }
 
         if (m_expectModifier)
             return;

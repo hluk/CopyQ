@@ -22,6 +22,7 @@
 #include "app/remoteprocess.h"
 #include "common/arguments.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"
@@ -378,31 +379,30 @@ void ClipboardServer::doCommand(const Arguments &args, QLocalSocket *client)
     }
 }
 
-Arguments *ClipboardServer::createGlobalShortcut(const QString &shortcut)
+void ClipboardServer::createGlobalShortcut(Actions::Id id, const QByteArray &script)
 {
 #ifdef NO_GLOBAL_SHORTCUTS
-    Q_UNUSED(shortcut);
-    return NULL;
+    Q_UNUSED(id);
+    Q_UNUSED(script);
 #else
-    if ( shortcut.isEmpty() )
-        return NULL;
+    ConfigTabShortcuts *shortcuts = ConfigurationManager::instance()->tabShortcuts();
+    foreach ( const QKeySequence &shortcut, shortcuts->shortcuts(id) ) {
+        QxtGlobalShortcut *s = new QxtGlobalShortcut(shortcut, this);
+        connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
+                 this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
 
-    QKeySequence keyseq(shortcut, QKeySequence::NativeText);
-    QxtGlobalShortcut *s = new QxtGlobalShortcut(keyseq, this);
-    connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
-             this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
+        // Don't process global shortcuts any further.
+        // FIXME: This should be set for all modal windows.
+        QAction *act = new QAction(this);
+        act->setShortcut(shortcut);
+        act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+        act->setPriority(QAction::HighPriority);
+        m_wnd->addAction(act);
+        ConfigurationManager::instance()->addAction(act);
+        connect( s, SIGNAL(destroyed()), act, SLOT(deleteLater()) );
 
-    // Don't process global shortcuts any further.
-    // FIXME: This should be set for all modal windows.
-    QAction *act = new QAction(this);
-    act->setShortcut(keyseq);
-    act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-    act->setPriority(QAction::HighPriority);
-    m_wnd->addAction(act);
-    ConfigurationManager::instance()->addAction(act);
-    connect( s, SIGNAL(destroyed()), act, SLOT(deleteLater()) );
-
-    return &m_shortcutActions[s];
+        m_shortcutActions[s] = script;
+    }
 #endif
 }
 
@@ -425,97 +425,24 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 void ClipboardServer::loadSettings()
 {
 #ifndef NO_GLOBAL_SHORTCUTS
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
-    // set global shortcuts
-    QString key;
-    Arguments *args;
-
     foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
         delete s;
     m_shortcutActions.clear();
 
-    key = cm->value("toggle_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("toggle");
-
-    key = cm->value("menu_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("menu");
-
-    key = cm->value("edit_clipboard_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args) {
-        args->append("edit");
-        args->append("-1");
-    }
-
-    key = cm->value("edit_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args) {
-        args->append("edit");
-        args->append("0");
-    }
-
-    key = cm->value("second_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args) {
-        args->append("select");
-        args->append("1");
-    }
-
-    key = cm->value("show_action_dialog").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("action");
-
-    key = cm->value("new_item_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("edit");
-
-    key = cm->value("next_item_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("next");
-
-    key = cm->value("previous_item_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("previous");
-
-    key = cm->value("paste_as_plain_text").toString();
-    args = createGlobalShortcut(key);
-    if (args) {
-        args->append("eval");
-        args->append("copy(clipboard()); paste()");
-    }
-
-    key = cm->value("disable_monitoring_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("disable");
-
-    key = cm->value("enable_monitoring_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args)
-        args->append("enable");
-
-    key = cm->value("paste_and_copy_next_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args) {
-        args->append("eval");
-        args->append("paste(); next();");
-    }
-
-    key = cm->value("paste_and_copy_previous_shortcut").toString();
-    args = createGlobalShortcut(key);
-    if (args) {
-        args->append("eval");
-        args->append("paste(); previous();");
-    }
+    createGlobalShortcut(Actions::Global_ToggleMainWindow, "toggle()");
+    createGlobalShortcut(Actions::Global_ShowTray, "menu()");
+    createGlobalShortcut(Actions::Global_EditClipboard, "edit(-1)");
+    createGlobalShortcut(Actions::Global_EditFirstItem, "edit(0)");
+    createGlobalShortcut(Actions::Global_CopySecondItem, "select(1)");
+    createGlobalShortcut(Actions::Global_ShowActionDialog, "action()");
+    createGlobalShortcut(Actions::Global_CreateItem, "edit()");
+    createGlobalShortcut(Actions::Global_CopyNextItem, "next()");
+    createGlobalShortcut(Actions::Global_CopyPreviousItem, "previous()");
+    createGlobalShortcut(Actions::Global_PasteAsPlainText, "copy(clipboard()); paste()");
+    createGlobalShortcut(Actions::Global_DisableClipboardStoring, "disable()");
+    createGlobalShortcut(Actions::Global_EnableClipboardStoring, "enable()");
+    createGlobalShortcut(Actions::Global_PasteAndCopyNext, "paste(); next();");
+    createGlobalShortcut(Actions::Global_PasteAndCopyPrevious, "paste(); previous();");
 #endif
 
     // reload clipboard monitor configuration
@@ -525,6 +452,8 @@ void ClipboardServer::loadSettings()
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
-    Arguments args = m_shortcutActions[shortcut];
+    Arguments args;
+    args.append("eval");
+    args.append(m_shortcutActions[shortcut]);
     doCommand(args);
 }

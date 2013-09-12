@@ -30,6 +30,7 @@ namespace Ui {
 
 class ClipboardModel;
 class ConfigTabAppearance;
+class ConfigTabShortcuts;
 class IconFactory;
 class ItemFactory;
 class Option;
@@ -38,7 +39,6 @@ class QCheckBox;
 class QComboBox;
 class QLineEdit;
 class QListWidgetItem;
-class QPushButton;
 class QSpinBox;
 
 struct Command;
@@ -108,14 +108,16 @@ public:
     void saveGeometry(const QWidget *widget);
 
     /** Return enabled commands. */
-    Commands commands(bool onlyEnabled = true) const;
+    Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
     /** Create new command. */
     void addCommand(const Command &cmd);
 
     /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
 
-    const ConfigTabAppearance *tabAppearance() const;
+    ConfigTabAppearance *tabAppearance() const;
+
+    ConfigTabShortcuts *tabShortcuts() const;
 
     void setVisible(bool visible);
 
@@ -185,7 +187,6 @@ private:
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
-    void bind(const char *optionKey, QPushButton *obj, const char *defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
 private slots:
@@ -194,8 +195,6 @@ private slots:
     void onFinished(int result);
 
     void on_itemOrderListCommands_addButtonClicked(QAction *action);
-
-    void onShortcutButtonClicked();
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
 

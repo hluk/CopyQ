@@ -41,7 +41,7 @@ public:
 
     /** Load theme from settings file. */
     void loadTheme(QSettings &settings);
-    /** Load theme to settings file. */
+    /** Save theme to settings file. */
     void saveTheme(QSettings &settings) const;
 
     /** Return value for theme option with given @a name. */

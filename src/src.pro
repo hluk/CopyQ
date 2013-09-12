@@ -15,7 +15,9 @@ FORMS += \
     ui/mainwindow.ui \
     ui/pluginwidget.ui \
     ui/shortcutdialog.ui \
-    ui/tabdialog.ui
+    ui/tabdialog.ui \
+    ui/configtabshortcuts.ui \
+    ui/shortcutswidget.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -62,7 +64,10 @@ HEADERS += \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
     scriptable/scriptableworker.h \
-    item/serialize.h
+    item/serialize.h \
+    gui/configtabshortcuts.h \
+    gui/shortcutswidget.h \
+    gui/shortcutbutton.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -105,7 +110,10 @@ SOURCES += \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
     scriptable/scriptableworker.cpp \
-    item/serialize.cpp
+    item/serialize.cpp \
+    gui/configtabshortcuts.cpp \
+    gui/shortcutswidget.cpp \
+    gui/shortcutbutton.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

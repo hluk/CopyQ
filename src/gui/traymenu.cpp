@@ -38,11 +38,11 @@ namespace {
 
 const char propertyHasToolTip[] = "CopyQ_has_tooltip";
 
-void removeAllActions(QList<QPointer<QAction> > *actions, QMenu *menu)
+void removeAllActions(QList<QPointer<QAction> > *actions)
 {
     foreach (QPointer<QAction> actionPtr, *actions) {
         if ( !actionPtr.isNull() )
-            menu->removeAction(actionPtr.data());
+            delete actionPtr.data();
     }
     actions->clear();
 }
@@ -197,12 +197,12 @@ void TrayMenu::addCustomAction(QAction *action)
 
 void TrayMenu::clearClipboardItemActions()
 {
-    removeAllActions(&m_clipboardItemActions, this);
+    removeAllActions(&m_clipboardItemActions);
 }
 
 void TrayMenu::clearCustomActions()
 {
-    removeAllActions(&m_customActions, this);
+    removeAllActions(&m_customActions);
 }
 
 void TrayMenu::setActiveFirstEnabledAction()

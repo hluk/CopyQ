@@ -22,6 +22,7 @@
 
 #include "app.h"
 #include "common/client_server.h"
+#include "gui/configtabshortcuts.h"
 
 #include <QMap>
 #include <QProcess>
@@ -80,13 +81,9 @@ public:
      * If shortcut is pressed on host system doCommand() is called with the new
      * arguments assigned to shortcut.
      *
-     * @return New arguments assigned to shortcut.
-     *
      * @see shortcutActivated()
      */
-    Arguments *createGlobalShortcut(
-            const QString &shortcut //!< Shortcut string (e.g. "CTRL+ALT+X").
-            );
+    void createGlobalShortcut(Actions::Id id, const QByteArray &script);
 
 protected:
     bool eventFilter(QObject *object, QEvent *ev);
@@ -133,7 +130,7 @@ private:
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;
-    QMap<QxtGlobalShortcut*, Arguments> m_shortcutActions;
+    QMap<QxtGlobalShortcut*, QByteArray> m_shortcutActions;
     QThreadPool m_clientThreads;
 };
 

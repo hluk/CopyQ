@@ -41,20 +41,9 @@
 #include <QMimeData>
 #include <QPainter>
 #include <QScrollBar>
-#include <QShortcut>
 #include <QTimer>
 
 namespace {
-
-const QIcon iconAction() { return getIcon("action", IconCog); }
-const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
-const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
-const QIcon iconEditNotes() { return getIcon("accessories-text-editor", IconEditSign); }
-const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
-const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
-const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSign); }
-const QIcon iconNextToClipboard() { return getIcon("go-down", IconArrowDown); }
-const QIcon iconPreviousToClipboard() { return getIcon("go-up", IconArrowUp); }
 
 const char propertyActionIndex[] = "CopyQ_action_index";
 const char propertyActionInOwnMenu[] = "CopyQ_action_in_own_menu";
@@ -285,48 +274,11 @@ void ClipboardBrowser::createContextMenu()
     if (m_menu == NULL)
         return;
 
-    QAction *act;
-
-    m_menu->clear();
+    foreach ( QAction *action, m_menu->actions() )
+        delete action;
 
     if (editing())
         return;
-
-    act = m_menu->addAction( iconClipboard(), tr("Move to &Clipboard") );
-    m_menu->setDefaultAction(act);
-    connect(act, SIGNAL(triggered()), this, SLOT(moveToClipboard()));
-
-    act = m_menu->addAction( iconShowContent(), tr("&Show Content...") );
-    act->setShortcut( QString("F4") );
-    connect(act, SIGNAL(triggered()), this, SLOT(showItemContent()));
-
-    act = m_menu->addAction( iconRemove(), tr("&Remove") );
-    act->setShortcut( QString("Delete") );
-    connect(act, SIGNAL(triggered()), this, SLOT(remove()));
-
-    act = m_menu->addAction( iconEdit(), tr("&Edit") );
-    act->setShortcut( QString("F2") );
-    connect(act, SIGNAL(triggered()), this, SLOT(editSelected()));
-
-    act = m_menu->addAction( iconEditNotes(), tr("&Edit Notes") );
-    act->setShortcut( QString("Shift+F2") );
-    connect(act, SIGNAL(triggered()), this, SLOT(editNotes()));
-
-    act = m_menu->addAction( iconEditExternal(), tr("E&dit with editor") );
-    act->setShortcut( QString("Ctrl+E") );
-    connect(act, SIGNAL(triggered()), this, SLOT(openEditor()));
-
-    act = m_menu->addAction( iconAction(), tr("&Action...") );
-    act->setShortcut( QString("F5") );
-    connect(act, SIGNAL(triggered()), this, SLOT(action()));
-
-    act = m_menu->addAction( iconNextToClipboard(), tr("&Next to Clipboard") );
-    act->setShortcut( QString("Ctrl+Shift+N") );
-    connect(act, SIGNAL(triggered()), this, SLOT(copyNextItemToClipboard()));
-
-    act = m_menu->addAction( iconPreviousToClipboard(), tr("&Previous to Clipboard") );
-    act->setShortcut( QString("Ctrl+Shift+P") );
-    connect(act, SIGNAL(triggered()), this, SLOT(copyPreviousItemToClipboard()));
 
     updateContextMenu();
 }
@@ -516,9 +468,6 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
 
     setAcceptDrops(!active);
 
-    // Disable shortcuts while editing.
-    createContextMenu();
-
     // Hide scrollbars while editing.
     Qt::ScrollBarPolicy scrollbarPolicy = Qt::ScrollBarAlwaysOff;
     if (!active) {
@@ -585,6 +534,43 @@ void ClipboardBrowser::updateCurrentItem()
     }
 }
 
+void ClipboardBrowser::initActions()
+{
+    createAction( Actions::Item_MoveToClipboard, SLOT(moveToClipboard()) );
+    createAction( Actions::Item_ShowContent, SLOT(showItemContent()) );
+    createAction( Actions::Item_Remove, SLOT(remove()) );
+    createAction( Actions::Item_Edit, SLOT(editSelected()) );
+    createAction( Actions::Item_EditNotes, SLOT(editNotes()) );
+    createAction( Actions::Item_EditWithEditor, SLOT(openEditor()) );
+    createAction( Actions::Item_Action, SLOT(action()) );
+    createAction( Actions::Item_NextToClipboard, SLOT(copyNextItemToClipboard()) );
+    createAction( Actions::Item_PreviousToClipboard, SLOT(copyPreviousItemToClipboard()) );
+}
+
+void ClipboardBrowser::clearActions()
+{
+    foreach (QAction *action, actions()) {
+        action->disconnect(this);
+        removeAction(action);
+        if (m_menu != NULL)
+            m_menu->removeAction(action);
+    }
+
+    if (m_menu != NULL) {
+        foreach ( QAction *action, m_menu->actions() )
+            delete action;
+    }
+}
+
+QAction *ClipboardBrowser::createAction(Actions::Id id, const char *slot)
+{
+    ConfigTabShortcuts *shortcuts = ConfigurationManager::instance()->tabShortcuts();
+    QAction *act = shortcuts->action(id, this, Qt::WidgetShortcut);
+    connect( act, SIGNAL(triggered()), this, slot, Qt::UniqueConnection );
+    m_menu->addAction(act);
+    return act;
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -605,9 +591,11 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
             availableFormats.unite( itemData(ind.row())->formats().toSet() );
     }
 
-    int i = -1;
-    foreach (const Command &command, m_sharedData->commands) {
-        ++i;
+    QList<QAction*> actions;
+    QList<QKeySequence> shortcuts;
+
+    for (int i = m_sharedData->commands.size() - 1; i >= 0; --i) {
+        const Command &command = m_sharedData->commands[i];
 
         // Verify that named command is provided and text, MIME type and window title are matched.
         if ( !command.inMenu
@@ -628,32 +616,41 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
             continue;
         }
 
-        IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-        QAction *act = menu->addAction( iconFactory->iconFromFile(command.icon), QString() );
-
-        if ( isOwnMenu && !command.shortcut.isEmpty() ) {
-            // Override any previous shortcuts.
-            QShortcut *shortcut = new QShortcut( command.shortcut, this,
-                                                 SLOT(contextMenuAction()),
-                                                 SLOT(contextMenuAction()) );
-
-            connect( act, SIGNAL(destroyed()),
-                     shortcut, SLOT(deleteLater()) );
-
-            shortcut->setProperty(propertyActionIndex, i);
-            shortcut->setProperty(propertyActionInOwnMenu, isOwnMenu);
-        }
+        QAction *act = new QAction(this);
+        menu->insertAction(insertBefore, act);
 
         act->setProperty(propertyActionIndex, i);
         act->setProperty(propertyActionInOwnMenu, isOwnMenu);
 
-        menu->insertAction( insertBefore, act );
+        act->setText( elideText(command.name, font()) );
+
+        IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
+        act->setIcon( iconFactory->iconFromFile(command.icon) );
+
+        if ( isOwnMenu && !command.shortcut.isEmpty() ) {
+            const QKeySequence shortcut = command.shortcut;
+
+            // Disable same shortcuts in commands.
+            for (int j = actions.size() - 1; j >= 0; --j) {
+                QAction *act = actions[j];
+                if ( act->shortcut() == shortcut ) {
+                    act->setShortcut(QKeySequence());
+                    actions.removeAt(j);
+                }
+            }
+
+            actions.append(act);
+            act->setShortcut(command.shortcut);
+//            act->setShortcutContext(Qt::WidgetShortcut);
+            shortcuts.append(shortcut);
+        }
+
         insertBefore = act;
-
-        act->setText( elideText(command.name, act->font()) );
-
         connect(act, SIGNAL(triggered()), this, SLOT(contextMenuAction()));
     }
+
+    if (isOwnMenu)
+        ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(shortcuts);
 }
 
 void ClipboardBrowser::setItemData(const QModelIndex &index, QMimeData *data)
@@ -681,13 +678,9 @@ void ClipboardBrowser::updateContextMenu()
     if (m_menu == NULL)
         return;
 
-    QList<QAction *> actions = m_menu->actions();
+    m_menu->clear();
 
-    // remove old actions
-    int i, len;
-    for( i = 0, len = actions.size(); i<len && !actions[i]->isSeparator(); ++i ) {}
-    for( ; i<len; ++i )
-        m_menu->removeAction(actions[i]);
+    initActions();
 
     m_menu->addSeparator();
 
@@ -1344,7 +1337,6 @@ void ClipboardBrowser::loadSettings()
 
     d->setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
 
-    // re-create menu
     createContextMenu();
 
     updateCurrentPage();
@@ -1476,6 +1468,7 @@ void ClipboardBrowser::redraw()
 
 void ClipboardBrowser::setContextMenu(QMenu *menu)
 {
+    clearActions();
     m_menu = menu;
     createContextMenu();
 }

@@ -21,6 +21,7 @@
 #define CLIPBOARDBROWSER_H
 
 #include "common/command.h"
+#include "gui/configtabshortcuts.h"
 
 #include <QListView>
 #include <QPointer>
@@ -247,6 +248,12 @@ class ClipboardBrowser : public QListView
         void stopExpiring();
 
         void updateCurrentItem();
+
+        void initActions();
+
+        void clearActions();
+
+        QAction *createAction(Actions::Id id, const char *slot);
 
     protected:
         void keyPressEvent(QKeyEvent *event);

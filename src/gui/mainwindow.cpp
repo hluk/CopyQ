@@ -28,8 +28,8 @@
 #include "gui/actiondialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboarddialog.h"
-#include "gui/configurationmanager.h"
 #include "gui/configtabappearance.h"
+#include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
@@ -64,18 +64,7 @@
 
 namespace {
 
-const QIcon iconAction() { return getIcon("action", IconCog); }
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
-const QIcon iconCopy() { return getIcon("edit-copy", IconCopy); }
-const QIcon iconExit() { return getIcon("application-exit", IconOff); }
-const QIcon iconHelp() { return getIcon("help-about", IconQuestionSign); }
-const QIcon iconNew() { return getIcon("document-new", IconFile); }
-const QIcon iconOpen() { return getIcon("document-open", IconFolderOpen); }
-const QIcon iconPaste() { return getIcon("edit-paste", IconPaste); }
-const QIcon iconPreferences() { return getIcon("preferences-other", IconWrench); }
-const QIcon iconReverse() { return getIcon("view-sort-descending", IconSortByAlphabetAlt); }
-const QIcon iconSave() { return getIcon("document-save", IconSave); }
-const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortByAlphabet); }
 const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
@@ -358,103 +347,60 @@ void MainWindow::createMenu()
     // File
     menu = menubar->addMenu( tr("&File") );
 
-    // - show/hide
-    act = m_trayMenu->addAction( iconTray(false), tr("&Show/Hide"),
-                           this, SLOT(toggleVisible()) );
-    m_trayMenu->setDefaultAction(act);
-
     // - separator
     menu->addSeparator();
 
     // - new
-    act = m_trayMenu->addAction( iconNew(), tr("&New Item"),
-                               this, SLOT(editNewItem()) );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            act, SLOT(setDisabled(bool)) );
-
-    act = menu->addAction( act->icon(), act->text(),
-                           this, SLOT(editNewItem()),
-                           QKeySequence::New );
+    act = createAction( Actions::File_New, SLOT(editNewItem()), menu );
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
 
     // - import tab
-    menu->addAction( iconOpen(), tr("&Import Tab..."),
-                     this, SLOT(loadTab()),
-                     QKeySequence(tr("Ctrl+I")) );
+    createAction( Actions::File_ImportTab, SLOT(loadTab()), menu );
 
     // - export tab
-    act = menu->addAction( iconSave(), tr("&Export Tab..."),
-                           this, SLOT(saveTab()),
-                           QKeySequence::Save );
+    act = createAction( Actions::File_ExportTab, SLOT(saveTab()), menu );
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
-
-    // - action dialog
-    act = m_trayMenu->addAction( iconAction(), tr("&Action..."),
-                               this, SLOT(openActionDialog()) );
-    act->setWhatsThis( tr("Open action dialog") );
 
     // - separator
     menu->addSeparator();
 
     // - preferences
-    act = m_trayMenu->addAction( iconPreferences(),
-                               tr("&Preferences"),
-                               this, SLOT(openPreferences()) );
-    menu->addAction( act->icon(), act->text(), this, SLOT(openPreferences()),
-                     QKeySequence(tr("Ctrl+P")) );
+    createAction( Actions::File_Preferences, SLOT(openPreferences()), menu );
 
     // - show clipboard content
-    menu->addAction( iconClipboard(),
-                     tr("Show &Clipboard Content"),
-                     this, SLOT(showClipboardContent()),
-                     QKeySequence(tr("Ctrl+Shift+C")) );
+    createAction( Actions::File_ShowClipboardContent, SLOT(showClipboardContent()), menu );
 
     // - enable/disable
-    m_actionToggleMonitoring = m_trayMenu->addAction( "", this, SLOT(toggleMonitoring()) );
-    m_actionMonitoringDisabled = menu->addAction( QIcon(), "", this, SLOT(toggleMonitoring()),
-                                                  QKeySequence(tr("Ctrl+Shift+X")) );
+    act = createAction( Actions::File_ToggleClipboardStoring, SLOT(toggleMonitoring()), menu );
+    m_actionToggleMonitoring = act;
+    m_actionMonitoringDisabled = act;
     updateMonitoringActions();
 
     // - separator
     menu->addSeparator();
 
     // - exit
-    menu->addAction( iconExit(), tr("E&xit"),
-                           this, SLOT(exit()),
-                           QKeySequence(tr("Ctrl+Q")) );
+    createAction( Actions::File_Exit, SLOT(exit()), menu );
 
     // Edit
     menu = menubar->addMenu( tr("&Edit") );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            menu, SLOT(setDisabled(bool)) );
 
     // - sort
-    menu->addAction( iconSort(),
-                     tr("&Sort Selected Items"),
-                     this, SLOT(sortSelectedItems()),
-                     QKeySequence(tr("Ctrl+Shift+S")) );
+    createAction( Actions::Edit_SortSelectedItems, SLOT(sortSelectedItems()), menu );
 
     // - reverse order
-    menu->addAction( iconReverse(),
-                     tr("&Reverse Selected Items"),
-                     this, SLOT(reverseSelectedItems()),
-                     QKeySequence(tr("Ctrl+Shift+R")) );
+    createAction( Actions::Edit_ReverseSelectedItems, SLOT(reverseSelectedItems()), menu );
 
     // - separator
     menu->addSeparator();
 
     // - paste items
-    menu->addAction( iconPaste(), tr("&Paste Items"),
-                     this, SLOT(pasteItems()),
-                     QKeySequence::Paste );
+    createAction( Actions::Edit_PasteItems, SLOT(pasteItems()), menu );
 
     // - copy items
-    menu->addAction( iconCopy(),
-                     tr("&Copy Selected Items"),
-                     this, SLOT(copyItems()),
-                     QKeySequence::Copy );
+    createAction( Actions::Edit_CopySelectedItems, SLOT(copyItems()), menu );
 
     // Items
     m_menuItem = menubar->addMenu( tr("&Item") );
@@ -464,38 +410,42 @@ void MainWindow::createMenu()
     // Tabs
     menu = menubar->addMenu(tr("&Tabs"));
 
-    // add tab
-    menu->addAction( iconTabNew(), tr("&New tab"),
-                     this, SLOT(newTab()),
-                     QKeySequence(tr("Ctrl+T")) );
+    // - new tab
+    createAction( Actions::Tabs_NewTab, SLOT(newTab()), menu );
 
-    act = menu->addAction( iconTabRename(), tr("Re&name tab"),
-                           this, SLOT(renameTab()),
-                           QKeySequence(tr("Ctrl+F2")) );
+    // - rename tab
+    act = createAction( Actions::Tabs_RenameTab, SLOT(renameTab()), menu );
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
 
-    act = menu->addAction( iconTabRemove(), tr("Re&move tab"),
-                           this, SLOT(removeTab()),
-                           QKeySequence(tr("Ctrl+W")) );
+    // - remove tab
+    act = createAction( Actions::Tabs_RemoveTab, SLOT(removeTab()), menu );
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
+
 
     // Commands
     m_menuCommand = menubar->addMenu(tr("Co&mmands"));
     m_menuCommand->setEnabled(false);
     m_trayMenu->addMenu(m_menuCommand);
 
-    // Exit in tray menu
-    m_trayMenu->addSeparator();
-    m_trayMenu->addAction( iconExit(), tr("E&xit"),
-                         this, SLOT(exit()) );
-
     // Help
-    menu = menubar->addMenu( tr("&Help") );
-    menu->addAction( iconHelp(), tr("&Help"),
-                     this, SLOT(openAboutDialog()),
-                     QKeySequence::HelpContents );
+    menu = menubar->addMenu(tr("&Help"));
+    act = createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
+
+    // Tray menu
+    act = m_trayMenu->addAction( iconTray(false), tr("&Show/Hide"),
+                                 this, SLOT(toggleVisible()) );
+    m_trayMenu->setDefaultAction(act);
+    addTrayAction(Actions::File_New);
+    act = addTrayAction(Actions::Item_Action);
+    act->setWhatsThis( tr("Open action dialog") );
+    addTrayAction(Actions::File_Preferences);
+    addTrayAction(Actions::File_ToggleClipboardStoring);
+    addTrayAction(Actions::File_Exit);
+    m_trayMenu->addMenu(m_menuCommand);
+    m_trayMenu->addSeparator();
+    addTrayAction(Actions::File_Exit);
 }
 
 void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
@@ -791,24 +741,7 @@ NotificationDaemon *MainWindow::notificationDaemon()
     return m_notifications;
 }
 
-ClipboardBrowser *MainWindow::findTab(const QString &name)
-{
-    int i = findTabIndex(name);
-    return i != -1 ? browser(i) : NULL;
-}
-
-int MainWindow::findTabIndex(const QString &name)
-{
-    TabWidget *w = ui->tabWidget;
-
-    for( int i = 0; i < w->count(); ++i )
-        if ( name == w->tabText(i) )
-            return i;
-
-    return -1;
-}
-
-ClipboardBrowser *MainWindow::createTab(const QString &name)
+ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
 {
     /* check name */
     int i = findTabIndex(name);
@@ -845,11 +778,56 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
 
     ui->tabWidget->addTab(c, name);
 
-    ConfigurationManager::instance()->setTabs( ui->tabWidget->tabs() );
-
     if (firstTab)
         tabChanged(0, -1);
 
+    if (needSave != NULL)
+        *needSave = true;
+
+    return c;
+}
+
+QAction *MainWindow::createAction(Actions::Id id, const char *slot, QMenu *menu)
+{
+    ConfigTabShortcuts *shortcuts = ConfigurationManager::instance()->tabShortcuts();
+    QAction *act = shortcuts->action(id, this, Qt::WindowShortcut);
+    connect(act, SIGNAL(triggered()),
+            this, slot, Qt::UniqueConnection);
+    menu->addAction(act);
+    return act;
+}
+
+QAction *MainWindow::addTrayAction(Actions::Id id)
+{
+    ConfigTabShortcuts *shortcuts = ConfigurationManager::instance()->tabShortcuts();
+    QAction *act = shortcuts->action(id, NULL, Qt::WindowShortcut);
+    m_trayMenu->addAction(act);
+    return act;
+}
+
+ClipboardBrowser *MainWindow::findTab(const QString &name)
+{
+    int i = findTabIndex(name);
+    return i != -1 ? browser(i) : NULL;
+}
+
+int MainWindow::findTabIndex(const QString &name)
+{
+    TabWidget *w = ui->tabWidget;
+
+    for( int i = 0; i < w->count(); ++i )
+        if ( name == w->tabText(i) )
+            return i;
+
+    return -1;
+}
+
+ClipboardBrowser *MainWindow::createTab(const QString &name)
+{
+    bool needSave = false;
+    ClipboardBrowser *c = createTab(name, &needSave);
+    if (needSave)
+        ConfigurationManager::instance()->setTabs( ui->tabWidget->tabs() );
     return c;
 }
 
@@ -1189,7 +1167,7 @@ void MainWindow::loadSettings()
     QStringList tabs = cm->value("tabs").toStringList();
     foreach (const QString &name, tabs) {
         ClipboardBrowser *c;
-        c = createTab(name);
+        c = createTab(name, NULL);
         c->loadSettings();
     }
 

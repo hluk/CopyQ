@@ -26,7 +26,6 @@
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
 #include "gui/pluginwidget.h"
-#include "gui/shortcutdialog.h"
 #include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/encrypt.h"
@@ -101,10 +100,6 @@ ConfigurationManager::ConfigurationManager()
     , m_iconFactory(new IconFactory)
 {
     ui->setupUi(this);
-
-#ifdef NO_GLOBAL_SHORTCUTS
-    ui->tabShortcuts->deleteLater();
-#endif
 
     if ( !itemFactory()->hasLoaders() )
         ui->tabItems->deleteLater();
@@ -399,11 +394,13 @@ QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) cons
 void ConfigurationManager::updateIcons()
 {
     iconFactory()->invalidateCache();
-    iconFactory()->setUseSystemIcons(ui->configTabAppearance->themeValue("use_system_icons").toBool());
+    iconFactory()->setUseSystemIcons(tabAppearance()->themeValue("use_system_icons").toBool());
 
     if ( itemFactory()->hasLoaders() )
         ui->itemOrderListPlugins->updateIcons();
     ui->itemOrderListCommands->updateIcons();
+
+    tabShortcuts()->updateIcons();
 }
 
 void ConfigurationManager::initTabIcons()
@@ -421,9 +418,7 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconThList, color) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
-#ifndef NO_GLOBAL_SHORTCUTS
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
-#endif
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
 }
 
@@ -531,14 +526,6 @@ void ConfigurationManager::initOptions()
     bind("tabs", QStringList());
     bind("command_history_size", 100);
     bind("_last_hash", 0);
-#ifndef NO_GLOBAL_SHORTCUTS
-    /* shortcuts -- generate options from UI (button text is key for shortcut option) */
-    foreach (QPushButton *button, ui->scrollAreaShortcuts->findChildren<QPushButton *>()) {
-        QString text = button->text();
-        bind(text.toLatin1().data(), button, "");
-        connect(button, SIGNAL(clicked()), SLOT(onShortcutButtonClicked()));
-    }
-#endif
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
     bind("check_selection", ui->checkBoxSel, false);
@@ -575,11 +562,6 @@ void ConfigurationManager::bind(const char *optionKey, QLineEdit *obj, const cha
 void ConfigurationManager::bind(const char *optionKey, QComboBox *obj, int defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "currentIndex", obj);
-}
-
-void ConfigurationManager::bind(const char *optionKey, QPushButton *obj, const char *defaultValue)
-{
-    m_options[optionKey] = Option(defaultValue, "text", obj);
 }
 
 void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultValue)
@@ -654,15 +636,20 @@ void ConfigurationManager::loadSettings()
                 m_options[key].setValue(value);
         }
     }
+    tabShortcuts()->loadGlobalShortcuts(settings);
+    settings.endGroup();
+
+    settings.beginGroup("Shortcuts");
+    tabShortcuts()->loadShortcuts(settings);
     settings.endGroup();
 
     settings.beginGroup("Theme");
-    ui->configTabAppearance->loadTheme(settings);
+    tabAppearance()->loadTheme(settings);
     settings.endGroup();
 
     updateIcons();
 
-    ui->configTabAppearance->setEditor( value("editor").toString() );
+    tabAppearance()->setEditor( value("editor").toString() );
 
     // load settings for each plugin
     settings.beginGroup("Plugins");
@@ -702,14 +689,9 @@ void ConfigurationManager::saveSettings()
 
     // save commands
     settings.beginWriteArray("Commands");
-    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-        QWidget *w = ui->itemOrderListCommands->itemWidget(i);
-        CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
-        Command c = cmdWidget->command();
-
-        c.enable = ui->itemOrderListCommands->isItemChecked(i);
-
-        settings.setArrayIndex(i);
+    int i = 0;
+    foreach ( const Command &c, commands(false, false) ) {
+        settings.setArrayIndex(i++);
         settings.setValue("Name", c.name);
         settings.setValue("Match", c.re.pattern());
         settings.setValue("Window", c.wndre.pattern());
@@ -729,10 +711,15 @@ void ConfigurationManager::saveSettings()
         settings.setValue("Tab", c.tab);
         settings.setValue("OutputTab", c.outputTab);
     }
+    tabShortcuts()->saveGlobalShortcuts(settings);
     settings.endArray();
 
+    settings.beginGroup("Shortcuts");
+    tabShortcuts()->saveShortcuts(settings);
+    settings.endGroup();
+
     settings.beginGroup("Theme");
-    ui->configTabAppearance->saveTheme(settings);
+    tabAppearance()->saveTheme(settings);
     settings.endGroup();
 
     updateIcons();
@@ -768,71 +755,83 @@ void ConfigurationManager::saveSettings()
         itemFactory()->setPluginPriority(pluginPriority);
     }
 
-    ui->configTabAppearance->setEditor( value("editor").toString() );
+    tabAppearance()->setEditor( value("editor").toString() );
 
     setAutostartEnable();
 
     emit configurationChanged();
 }
 
-ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled) const
+ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled, bool onlySaved) const
 {
-    QSettings settings;
-
     Commands commands;
 
-    int size = settings.beginReadArray("Commands");
-    for(int i=0; i<size; ++i) {
-        settings.setArrayIndex(i);
+    if (!onlySaved) {
+        for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
+            QWidget *w = ui->itemOrderListCommands->itemWidget(i);
+            CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
+            Command c = cmdWidget->command();
+            c.enable = ui->itemOrderListCommands->isItemChecked(i);
 
-        Command c;
-        c.enable = settings.value("Enable").toBool();
-
-        if (onlyEnabled && !c.enable)
-            continue;
-
-        c.name = settings.value("Name").toString();
-        c.re   = QRegExp( settings.value("Match").toString() );
-        c.wndre = QRegExp( settings.value("Window").toString() );
-        c.cmd = settings.value("Command").toString();
-        c.sep = settings.value("Separator").toString();
-
-        c.input = settings.value("Input").toString();
-        if ( c.input == "false" || c.input == "true" )
-            c.input = c.input == "true" ? QString("text/plain") : QString();
-
-        c.output = settings.value("Output").toString();
-        if ( c.output == "false" || c.output == "true" )
-            c.output = c.output == "true" ? QString("text/plain") : QString();
-
-        c.wait = settings.value("Wait").toBool();
-        c.automatic = settings.value("Automatic").toBool();
-        c.transform = settings.value("Transform").toBool();
-        c.hideWindow = settings.value("HideWindow").toBool();
-        c.icon = settings.value("Icon").toString();
-        c.shortcut = settings.value("Shortcut").toString();
-        c.tab = settings.value("Tab").toString();
-        c.outputTab = settings.value("OutputTab").toString();
-
-        // backwards compatibility with versions up to 1.8.2
-        const QVariant inMenu = settings.value("InMenu");
-        if ( inMenu.isValid() )
-            c.inMenu = inMenu.toBool();
-        else
-            c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
-
-        if (settings.value("Ignore").toBool()) {
-            c.remove = c.automatic = true;
-            settings.remove("Ignore");
-            settings.setValue("Remove", c.remove);
-            settings.setValue("Automatic", c.automatic);
-        } else {
-            c.remove = settings.value("Remove").toBool();
+            if (!onlyEnabled || c.enable)
+                commands.append(c);
         }
+    } else {
+        QSettings settings;
 
-        commands.append(c);
+        int size = settings.beginReadArray("Commands");
+        for(int i=0; i<size; ++i) {
+            settings.setArrayIndex(i);
+
+            Command c;
+            c.enable = settings.value("Enable").toBool();
+
+            if (onlyEnabled && !c.enable)
+                continue;
+
+            c.name = settings.value("Name").toString();
+            c.re   = QRegExp( settings.value("Match").toString() );
+            c.wndre = QRegExp( settings.value("Window").toString() );
+            c.cmd = settings.value("Command").toString();
+            c.sep = settings.value("Separator").toString();
+
+            c.input = settings.value("Input").toString();
+            if ( c.input == "false" || c.input == "true" )
+                c.input = c.input == "true" ? QString("text/plain") : QString();
+
+            c.output = settings.value("Output").toString();
+            if ( c.output == "false" || c.output == "true" )
+                c.output = c.output == "true" ? QString("text/plain") : QString();
+
+            c.wait = settings.value("Wait").toBool();
+            c.automatic = settings.value("Automatic").toBool();
+            c.transform = settings.value("Transform").toBool();
+            c.hideWindow = settings.value("HideWindow").toBool();
+            c.icon = settings.value("Icon").toString();
+            c.shortcut = settings.value("Shortcut").toString();
+            c.tab = settings.value("Tab").toString();
+            c.outputTab = settings.value("OutputTab").toString();
+
+            // backwards compatibility with versions up to 1.8.2
+            const QVariant inMenu = settings.value("InMenu");
+            if ( inMenu.isValid() )
+                c.inMenu = inMenu.toBool();
+            else
+                c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
+
+            if (settings.value("Ignore").toBool()) {
+                c.remove = c.automatic = true;
+                settings.remove("Ignore");
+                settings.setValue("Remove", c.remove);
+                settings.setValue("Automatic", c.automatic);
+            } else {
+                c.remove = settings.value("Remove").toBool();
+            }
+
+            commands.append(c);
+        }
+        settings.endArray();
     }
-    settings.endArray();
 
     return commands;
 }
@@ -908,9 +907,14 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
     ui->comboBoxMenuTab->setEditText(text);
 }
 
-const ConfigTabAppearance *ConfigurationManager::tabAppearance() const
+ConfigTabAppearance *ConfigurationManager::tabAppearance() const
 {
     return ui->configTabAppearance;
+}
+
+ConfigTabShortcuts *ConfigurationManager::tabShortcuts() const
+{
+    return ui->configTabShortcuts;
 }
 
 void ConfigurationManager::setVisible(bool visible)
@@ -950,26 +954,6 @@ void ConfigurationManager::onFinished(int result)
     if ( itemFactory()->hasLoaders() )
         ui->itemOrderListPlugins->clearItems();
     ui->itemOrderListCommands->clearItems();
-}
-
-void ConfigurationManager::shortcutButtonClicked(QObject *button)
-{
-    ShortcutDialog *dialog = new ShortcutDialog(this);
-    dialog->setExpectModifier(true);
-
-    if (dialog->exec() == QDialog::Accepted) {
-        QKeySequence shortcut = dialog->shortcut();
-        QString text;
-        if ( !shortcut.isEmpty() )
-            text = shortcut.toString(QKeySequence::NativeText);
-        button->setProperty("text", text);
-    }
-}
-
-void ConfigurationManager::onShortcutButtonClicked()
-{
-    Q_ASSERT(sender() != NULL);
-    shortcutButtonClicked(sender());
 }
 
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)

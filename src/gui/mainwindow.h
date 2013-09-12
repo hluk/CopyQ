@@ -20,6 +20,8 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "gui/configtabshortcuts.h"
+
 #include <QClipboard>
 #include <QMainWindow>
 #include <QMap>
@@ -414,6 +416,12 @@ class MainWindow : public QMainWindow
 
         /** Return notification daemon (create if doesn't exist). */
         NotificationDaemon *notificationDaemon();
+
+        ClipboardBrowser *createTab(const QString &name, bool *needSave);
+
+        QAction *createAction(Actions::Id id, const char *slot, QMenu *menu);
+
+        QAction *addTrayAction(Actions::Id id);
 
         Ui::MainWindow *ui;
 
