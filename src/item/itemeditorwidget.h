@@ -39,7 +39,7 @@ public:
                      bool editNotes, const QFont &font, const QPalette &palette, bool saveOnReturnKey,
                      QWidget *parent = NULL);
 
-    bool isValid() const { return !m_itemWidget.isNull() && m_editor != NULL && m_index.isValid(); }
+    bool isValid() const;
 
     void commitData(QAbstractItemModel *model) const;
 

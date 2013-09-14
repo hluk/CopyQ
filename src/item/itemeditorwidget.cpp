@@ -67,19 +67,32 @@ ItemEditorWidget::ItemEditorWidget(const QSharedPointer<ItemWidget> &itemWidget,
     }
 }
 
+bool ItemEditorWidget::isValid() const
+{
+    if ( !m_index.isValid() )
+        return false;
+    return (!m_itemWidget.isNull() && m_editor != NULL) || m_noteEditor != NULL;
+}
+
 void ItemEditorWidget::commitData(QAbstractItemModel *model) const
 {
     if ( hasChanges() ) {
-        if (m_noteEditor != NULL)
+        if (m_noteEditor != NULL) {
             model->setData(m_index, m_noteEditor->toPlainText(), contentType::notes);
-        else
+            m_noteEditor->document()->setModified(false);
+        } else {
             m_itemWidget->setModelData(m_editor, model, m_index);
+        }
     }
 }
 
 bool ItemEditorWidget::hasChanges() const
 {
-    return isValid() && m_itemWidget->hasChanges(m_editor);
+    if ( !m_index.isValid() )
+        return false;
+    if (m_noteEditor != NULL)
+        return m_noteEditor->document()->isModified();
+    return !m_itemWidget.isNull() && m_itemWidget->hasChanges(m_editor);
 }
 
 bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
