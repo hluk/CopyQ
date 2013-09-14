@@ -4736,8 +4736,6 @@ void FakeVimHandler::Private::handleInsertMode(const Input &input)
     } else {
         m_insertState.insertingSpaces = input.isKey(Key_Space);
         if (!handleInsertInEditor(input)) {
-            if (!m_textedit && !m_plaintextedit)
-                return;
             const QString toInsert = input.text();
             if (toInsert.isEmpty())
                 return;
@@ -6943,7 +6941,7 @@ bool FakeVimHandler::Private::handleInsertInEditor(const Input &input)
                     static_cast<Qt::KeyboardModifiers>(input.modifiers()), input.text());
     setAnchor();
     if (!passEventToEditor(event))
-        return false;
+        return !m_textedit && !m_plaintextedit; // Mark event as handled if it has destroyed editor.
 
     endEditBlock();
 
