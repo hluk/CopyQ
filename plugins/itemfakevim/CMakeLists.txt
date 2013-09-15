@@ -6,7 +6,7 @@ file(GLOB copyq_plugin_itemfakevim_SOURCES
 
 include_directories(fakevim)
 
-add_definitions( -DFAKEVIM_STANDALONE )
+add_definitions( -DFAKEVIM_STANDALONE -DQTCREATOR_UTILS_STATIC_LIB )
 
 set(copyq_plugin_itemfakevim_RESOURCES itemfakevim.qrc)
 
