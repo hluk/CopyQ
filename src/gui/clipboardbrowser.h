@@ -210,6 +210,8 @@ class ClipboardBrowser : public QListView
 
         QPushButton *m_loadButton;
 
+        QPoint m_dragPosition;
+
         void createContextMenu();
         bool isFiltered(const QModelIndex &index, int role) const;
         bool isFiltered(int row) const;
@@ -266,8 +268,11 @@ class ClipboardBrowser : public QListView
         void focusInEvent(QFocusEvent *event);
 
         void dragEnterEvent(QDragEnterEvent *event);
+        void dragLeaveEvent(QDragLeaveEvent *event);
         void dragMoveEvent(QDragMoveEvent *event);
         void dropEvent(QDropEvent *event);
+
+        void paintEvent(QPaintEvent *e);
 
     signals:
         /** Action dialog requested. */

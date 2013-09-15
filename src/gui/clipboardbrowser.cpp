@@ -842,18 +842,63 @@ void ClipboardBrowser::focusInEvent(QFocusEvent *event)
 
 void ClipboardBrowser::dragEnterEvent(QDragEnterEvent *event)
 {
-    event->acceptProposedAction();
+    dragMoveEvent(event);
+}
+
+void ClipboardBrowser::dragLeaveEvent(QDragLeaveEvent *event)
+{
+    QListView::dragLeaveEvent(event);
+    m_dragPosition = QPoint();
+    update();
 }
 
 void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
 {
     event->acceptProposedAction();
+    m_dragPosition = event->pos();
+    update();
 }
 
 void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
-    add( cloneData(*event->mimeData()) );
+    const QModelIndex index = indexAt(event->pos());
+    const int row = index.isValid() ? index.row() : length();
+    add( cloneData(*event->mimeData()), row );
     saveItems();
+    m_dragPosition = QPoint();
+}
+
+void ClipboardBrowser::paintEvent(QPaintEvent *e)
+{
+    QListView::paintEvent(e);
+
+    // If dragging an item into list, draw indicator for dropping items.
+    if ( !m_dragPosition.isNull() ) {
+        const int s = spacing();
+
+        QModelIndex pointedIndex = indexAt(m_dragPosition);
+        if ( !pointedIndex.isValid() )
+            pointedIndex = indexAt(m_dragPosition + QPoint(0, 2 * s));
+
+        QRect rect;
+        if ( pointedIndex.isValid() ) {
+            rect = visualRect(pointedIndex);
+            rect.translate(0, -s);
+        } else if ( length() > 0 ){
+            rect = visualRect( index(length() - 1) );
+            rect.translate(0, rect.height() + s);
+        } else {
+            rect = viewport()->rect();
+            rect.translate(0, s);
+        }
+
+        rect.adjust(8, 0, -8, 0);
+
+        QPainter p(viewport());
+        p.setPen( QPen(QColor(255, 255, 255, 150), s) );
+        p.setCompositionMode(QPainter::CompositionMode_Difference);
+        p.drawLine( rect.topLeft(), rect.topRight() );
+    }
 }
 
 bool ClipboardBrowser::openEditor()
