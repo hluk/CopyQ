@@ -10,9 +10,6 @@
     <height>300</height>
    </rect>
   </property>
-  <property name="windowTitle">
-   <string>Form</string>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="leftMargin">
     <number>0</number>
@@ -31,7 +28,7 @@
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&amp;Filter:</string>
+        <string>&amp;Find:</string>
        </property>
        <property name="buddy">
         <cstring>lineEditFilter</cstring>
