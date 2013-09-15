@@ -22,13 +22,11 @@
 
 #include "common/command.h"
 #include "gui/configurationmanager.h"
-#include "gui/shortcutbutton.h"
 #include "gui/iconfactory.h"
+#include "gui/shortcutbutton.h"
 
-#include <QMap>
 #include <QList>
 #include <QPointer>
-#include <QList>
 #include <QPushButton>
 #include <QSettings>
 
@@ -268,6 +266,8 @@ void ShortcutsWidget::saveShortcuts(QSettings &settings) const
 
 void ShortcutsWidget::addAction(int id, const QString &text, const QKeySequence &shortcut, const QString &settingsKey)
 {
+    Q_ASSERT(!hasAction(id));
+
     MenuAction *action = new MenuAction(text, shortcut, settingsKey, ui->tableWidget);
     m_actions.insert( id, QSharedPointer<MenuAction>(action) );
     m_shortcuts << action->shortcuts();
@@ -294,7 +294,6 @@ QList<QKeySequence> ShortcutsWidget::shortcuts(int id) const
 void ShortcutsWidget::updateIcons(int id, const QIcon &icon)
 {
     action(id)->updateIcons(icon);
-    ui->tableWidget->resizeColumnToContents(Columns::Text);
 }
 
 void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)

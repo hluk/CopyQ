@@ -34,6 +34,9 @@ class QSettings;
 
 class MenuAction;
 
+/**
+ * Widget with list of modifiable shortcuts and filter field.
+ */
 class ShortcutsWidget : public QWidget
 {
     Q_OBJECT
@@ -48,16 +51,21 @@ public:
     /** Save shortcuts to settings file. */
     void saveShortcuts(QSettings &settings) const;
 
+    /** Create action with @a id (must be unique) and add it to the list. */
     void addAction(int id, const QString &text, const QKeySequence &shortcut, const QString &settingsKey);
 
+    /** Return true if action with given @a id is in the list. */
     bool hasAction(int id) const { return m_actions.contains(id); }
 
+    /** Return action with given @a id (must exist), set context and return the action. */
     QAction *action(int id, QWidget *parent, Qt::ShortcutContext context);
 
+    /** Return list of shortcuts defined for given @a id (must exist). */
     QList<QKeySequence> shortcuts(int id) const;
 
     void updateIcons(int id, const QIcon &icon = QIcon());
 
+    /** Disable shortcuts for actions that are currently in list. */
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
 
 protected:

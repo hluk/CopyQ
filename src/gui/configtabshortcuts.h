@@ -96,12 +96,15 @@ public:
     /** Save system-wide shortcuts to settings file. */
     void saveGlobalShortcuts(QSettings &settings) const;
 
+    /** Return action with given @a id, set context and return the action. */
     QAction *action(Actions::Id id, QWidget *parent, Qt::ShortcutContext context);
 
+    /** Return list of shortcuts defined for given @a id. */
     QList<QKeySequence> shortcuts(Actions::Id id) const;
 
     void updateIcons();
 
+    /** Disable shortcuts for all actions. */
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
 
 private:

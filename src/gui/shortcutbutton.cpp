@@ -23,7 +23,6 @@
 #include "gui/iconfactory.h"
 #include "gui/shortcutdialog.h"
 
-#include <QKeyEvent>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QVariant>

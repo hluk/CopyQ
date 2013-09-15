@@ -34,6 +34,7 @@ public:
     explicit ShortcutDialog(QWidget *parent = NULL);
     ~ShortcutDialog();
 
+    /** Return accepted shortcut or empty one. */
     QKeySequence shortcut() const;
 
     /** Expect modifier or accept shortcuts without one. */

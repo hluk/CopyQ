@@ -27,6 +27,9 @@
 class QHBoxLayout;
 class QPushButton;
 
+/**
+ * Widget with buttons for defining shortcuts and single button for adding shortcuts.
+ */
 class ShortcutButton : public QWidget
 {
     Q_OBJECT
@@ -36,16 +39,21 @@ public:
     /** Expect modifier or accept shortcuts without one. */
     void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
 
+    /** Creates new shortcut button for @a shortcut if it's valid and same button doesn't exist. */
     void addShortcut(const QKeySequence &shortcut);
 
+    /** Remove all shortcut buttons. */
     void clearShortcuts();
 
+    /** Remove all shortcut buttons and add button with shortcut passed in constructor if valid. */
     void resetShortcuts();
 
+    /** Return valid shortcuts defined by buttons. */
     QList<QKeySequence> shortcuts() const;
 
     void updateIcons();
 
+    /** Add icon and tooltip to buttons that contain shortcut from @a ambiguousShortcuts list. */
     void checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
                                  const QIcon &warningIcon, const QString &warningToolTip);
 
@@ -53,7 +61,9 @@ protected:
     bool focusNextPrevChild(bool next);
 
 signals:
+    /** Emited if new @a shortcut (with button) was added. */
     void shortcutAdded(const QKeySequence &shortcut);
+    /** Emited if @a shortcut (with button) was removed. */
     void shortcutRemoved(const QKeySequence &shortcut);
 
 private slots:
