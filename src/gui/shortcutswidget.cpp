@@ -264,7 +264,8 @@ void ShortcutsWidget::saveShortcuts(QSettings &settings) const
     }
 }
 
-void ShortcutsWidget::addAction(int id, const QString &text, const QKeySequence &shortcut, const QString &settingsKey)
+void ShortcutsWidget::addAction(int id, const QString &text, const QString &settingsKey,
+                                const QKeySequence &shortcut)
 {
     Q_ASSERT(!hasAction(id));
 

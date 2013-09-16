@@ -64,6 +64,8 @@ public:
     /** Change clipboard and primary selection content. */
     void updateClipboard(QMimeData *data = NULL);
 
+    virtual void exit(int exitCode);
+
 private slots:
     /**
      * Check clipboard or primary selection.
@@ -99,6 +101,9 @@ private slots:
 
     /** Data can be received from monitor. */
     void readyRead();
+
+    /** Server connection closed. */
+    void onDisconnected();
 
 private:
     /** Send new clipboard or primary selection data to server. */

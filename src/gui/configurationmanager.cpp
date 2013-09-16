@@ -685,6 +685,7 @@ void ConfigurationManager::saveSettings()
     foreach ( const QString &key, m_options.keys() ) {
         settings.setValue( key, m_options[key].value() );
     }
+    tabShortcuts()->saveGlobalShortcuts(settings);
     settings.endGroup();
 
     // save commands
@@ -711,7 +712,6 @@ void ConfigurationManager::saveSettings()
         settings.setValue("Tab", c.tab);
         settings.setValue("OutputTab", c.outputTab);
     }
-    tabShortcuts()->saveGlobalShortcuts(settings);
     settings.endArray();
 
     settings.beginGroup("Shortcuts");

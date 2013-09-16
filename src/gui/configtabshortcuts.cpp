@@ -169,34 +169,34 @@ void ConfigTabShortcuts::initShortcuts()
 {
     ShortcutsWidget *w = ui->shortcutsWidgetGeneral;
 
-    w->addAction( Actions::File_New, tr("&New Item"), QKeySequence::New, "new" );
-    w->addAction( Actions::File_ImportTab, tr("&Import Tab..."), tr("Ctrl+I"), "import_tab" );
-    w->addAction( Actions::File_ExportTab, tr("&Export Tab..."), QKeySequence::Save, "export_tab" );
-    w->addAction( Actions::File_Preferences, tr("&Preferences..."), tr("Ctrl+P"), "preferences" );
-    w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), tr("Ctrl+Shift+C"), "show_clipboard_content" );
-    w->addAction( Actions::File_ToggleClipboardStoring, tr("&Enable Clipboard Storing"), tr("Ctrl+Shift+X"), "toggle_clipboard_storing" );
-    w->addAction( Actions::File_Exit, tr("E&xit"), tr("Ctrl+Q"), "exit" );
+    w->addAction( Actions::File_New, tr("&New Item"), "new", QKeySequence::New );
+    w->addAction( Actions::File_ImportTab, tr("&Import Tab..."), "import_tab", tr("Ctrl+I") );
+    w->addAction( Actions::File_ExportTab, tr("&Export Tab..."), "export_tab", QKeySequence::Save );
+    w->addAction( Actions::File_Preferences, tr("&Preferences..."), "preferences", tr("Ctrl+P") );
+    w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), "show_clipboard_content", tr("Ctrl+Shift+C") );
+    w->addAction( Actions::File_ToggleClipboardStoring, tr("&Enable Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
+    w->addAction( Actions::File_Exit, tr("E&xit"), "exit", tr("Ctrl+Q") );
 
-    w->addAction( Actions::Edit_SortSelectedItems, tr("&Sort Selected Items"), tr("Ctrl+Shift+S"), "sort_selected_items" );
-    w->addAction( Actions::Edit_ReverseSelectedItems, tr("&Reverse Selected Items"), tr("Ctrl+Shift+R"), "reverse_selected_items" );
-    w->addAction( Actions::Edit_PasteItems, tr("&Paste Items"), QKeySequence::Paste, "paste_selected_items" );
-    w->addAction( Actions::Edit_CopySelectedItems, tr("&Copy Selected Items"), QKeySequence::Copy, "copy_selected_items" );
+    w->addAction( Actions::Edit_SortSelectedItems, tr("&Sort Selected Items"), "sort_selected_items", tr("Ctrl+Shift+S") );
+    w->addAction( Actions::Edit_ReverseSelectedItems, tr("&Reverse Selected Items"), "reverse_selected_items", tr("Ctrl+Shift+R") );
+    w->addAction( Actions::Edit_PasteItems, tr("&Paste Items"), "paste_selected_items", QKeySequence::Paste );
+    w->addAction( Actions::Edit_CopySelectedItems, tr("&Copy Selected Items"), "copy_selected_items", QKeySequence::Copy );
 
-    w->addAction( Actions::Item_MoveToClipboard, tr("Move to &Clipboard"), QKeySequence(), "move_to_clipboard" );
-    w->addAction( Actions::Item_ShowContent, tr("&Show Content..."), tr("F4"), "show_item_content" );
-    w->addAction( Actions::Item_Remove, tr("&Remove"), tr("Delete"), "delete_item" );
-    w->addAction( Actions::Item_Edit, tr("&Edit"), tr("F2"), "edit" );
-    w->addAction( Actions::Item_EditNotes, tr("&Edit Notes"), tr("Shift+F2"), "edit_notes" );
-    w->addAction( Actions::Item_EditWithEditor, tr("E&dit with editor"), tr("Ctrl+E"), "editor" );
-    w->addAction( Actions::Item_Action, tr("&Action..."), tr("F5"), "action" );
-    w->addAction( Actions::Item_NextToClipboard, tr("&Next to Clipboard"), tr("Ctrl+Shift+N"), "next_to_clipboard" );
-    w->addAction( Actions::Item_PreviousToClipboard, tr("&Previous to Clipboard"), tr("Ctrl+Shift+P"), "previous_to_clipboard" );
+    w->addAction( Actions::Item_MoveToClipboard, tr("Move to &Clipboard"), "move_to_clipboard" );
+    w->addAction( Actions::Item_ShowContent, tr("&Show Content..."), "show_item_content", tr("F4") );
+    w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item", tr("Delete") );
+    w->addAction( Actions::Item_Edit, tr("&Edit"), "edit", tr("F2") );
+    w->addAction( Actions::Item_EditNotes, tr("&Edit Notes"), "edit_notes", tr("Shift+F2") );
+    w->addAction( Actions::Item_EditWithEditor, tr("E&dit with editor"), "editor", tr("Ctrl+E") );
+    w->addAction( Actions::Item_Action, tr("&Action..."), "action", tr("F5") );
+    w->addAction( Actions::Item_NextToClipboard, tr("&Next to Clipboard"), "next_to_clipboard", tr("Ctrl+Shift+N") );
+    w->addAction( Actions::Item_PreviousToClipboard, tr("&Previous to Clipboard"), "previous_to_clipboard", tr("Ctrl+Shift+P") );
 
-    w->addAction( Actions::Tabs_NewTab, tr("&New tab"), tr("Ctrl+T"), "new_tab" );
-    w->addAction( Actions::Tabs_RenameTab, tr("Re&name tab"), tr("Ctrl+F2"), "rename_tab" );
-    w->addAction( Actions::Tabs_RemoveTab, tr("Re&move tab"), tr("Ctrl+W"), "remove_tab" );
+    w->addAction( Actions::Tabs_NewTab, tr("&New tab"), "new_tab", tr("Ctrl+T") );
+    w->addAction( Actions::Tabs_RenameTab, tr("Re&name tab"), "rename_tab", tr("Ctrl+F2") );
+    w->addAction( Actions::Tabs_RemoveTab, tr("Re&move tab"), "remove_tab", tr("Ctrl+W") );
 
-    w->addAction( Actions::Help_Help, tr("&Help"), QKeySequence::HelpContents, "help" );
+    w->addAction( Actions::Help_Help, tr("&Help"), "help", QKeySequence::HelpContents );
 
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->shortcutsWidgetGeneral->setParent(this);
@@ -205,19 +205,19 @@ void ConfigTabShortcuts::initShortcuts()
 #else
     w = ui->shortcutsWidgetSystemWide;
 
-    w->addAction( Actions::Global_ToggleMainWindow, tr("Sh&ow/hide main window"), QKeySequence(), "toggle_shortcut" );
-    w->addAction( Actions::Global_ShowTray, tr("Show the tray &menu"), QKeySequence(), "menu_shortcut" );
-    w->addAction( Actions::Global_EditClipboard, tr("&Edit clipboard"), QKeySequence(), "edit_clipboard_shortcut" );
-    w->addAction( Actions::Global_EditFirstItem, tr("Edit &first item"), QKeySequence(), "edit_shortcut" );
-    w->addAction( Actions::Global_CopySecondItem, tr("Copy &second item"), QKeySequence(), "second_shortcut" );
-    w->addAction( Actions::Global_ShowActionDialog, tr("Show &action dialog"), QKeySequence(), "show_action_dialog" );
-    w->addAction( Actions::Global_CreateItem, tr("Create &new item"), QKeySequence(), "new_item_shortcut" );
-    w->addAction( Actions::Global_CopyNextItem, tr("Copy n&ext item"), QKeySequence(), "next_item_shortcut" );
-    w->addAction( Actions::Global_CopyPreviousItem, tr("Copy &previous item"), QKeySequence(), "previous_item_shortcut" );
-    w->addAction( Actions::Global_PasteAsPlainText, tr("Paste as pla&in text"), QKeySequence(), "paste_as_plain_text" );
-    w->addAction( Actions::Global_DisableClipboardStoring, tr("Disable clipboard storing"), QKeySequence(), "disable_monitoring_shortcut" );
-    w->addAction( Actions::Global_EnableClipboardStoring, tr("Enable clipboard storing"), QKeySequence(), "enable_monitoring_shortcut" );
-    w->addAction( Actions::Global_PasteAndCopyNext, tr("Paste and copy next"), QKeySequence(), "paste_and_copy_next_shortcut" );
-    w->addAction( Actions::Global_PasteAndCopyPrevious, tr("Paste and copy previous"), QKeySequence(), "paste_and_copy_previous_shortcut" );
+    w->addAction( Actions::Global_ToggleMainWindow, tr("Sh&ow/hide main window"), "toggle_shortcut" );
+    w->addAction( Actions::Global_ShowTray, tr("Show the tray &menu"), "menu_shortcut" );
+    w->addAction( Actions::Global_EditClipboard, tr("&Edit clipboard"), "edit_clipboard_shortcut" );
+    w->addAction( Actions::Global_EditFirstItem, tr("Edit &first item"), "edit_shortcut" );
+    w->addAction( Actions::Global_CopySecondItem, tr("Copy &second item"), "second_shortcut" );
+    w->addAction( Actions::Global_ShowActionDialog, tr("Show &action dialog"), "show_action_dialog" );
+    w->addAction( Actions::Global_CreateItem, tr("Create &new item"), "new_item_shortcut" );
+    w->addAction( Actions::Global_CopyNextItem, tr("Copy n&ext item"), "next_item_shortcut" );
+    w->addAction( Actions::Global_CopyPreviousItem, tr("Copy &previous item"), "previous_item_shortcut" );
+    w->addAction( Actions::Global_PasteAsPlainText, tr("Paste as pla&in text"), "paste_as_plain_text" );
+    w->addAction( Actions::Global_DisableClipboardStoring, tr("Disable clipboard storing"), "disable_monitoring_shortcut" );
+    w->addAction( Actions::Global_EnableClipboardStoring, tr("Enable clipboard storing"), "enable_monitoring_shortcut" );
+    w->addAction( Actions::Global_PasteAndCopyNext, tr("Paste and copy next"), "paste_and_copy_next_shortcut" );
+    w->addAction( Actions::Global_PasteAndCopyPrevious, tr("Paste and copy previous"), "paste_and_copy_previous_shortcut" );
 #endif
 }

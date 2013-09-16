@@ -42,7 +42,7 @@ public:
     /**
      * Exit application with given exit code.
      */
-    void exit(int exitCode=0);
+    virtual void exit(int exitCode=0);
 
 private:
     QScopedPointer<QCoreApplication> m_app;

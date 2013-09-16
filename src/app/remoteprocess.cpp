@@ -107,6 +107,8 @@ bool RemoteProcess::isConnected() const
 void RemoteProcess::closeConnection()
 {
     if (m_server != NULL) {
+        writeMessage(QByteArray());
+
         if (m_socket != NULL) {
             m_socket->disconnectFromServer();
             m_socket->deleteLater();
