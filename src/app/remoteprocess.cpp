@@ -119,6 +119,8 @@ void RemoteProcess::closeConnection()
         m_server->deleteLater();
         m_server = NULL;
 
+        QCoreApplication::processEvents();
+
         if ( m_process.state() != QProcess::NotRunning && !m_process.waitForFinished(4000) ) {
             log( "Remote process: Close connection unsucessful!", LogError );
             m_process.terminate();
