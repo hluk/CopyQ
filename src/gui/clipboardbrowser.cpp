@@ -641,7 +641,6 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
             actions.append(act);
             act->setShortcut(command.shortcut);
-            act->setShortcutContext(Qt::WidgetShortcut);
             shortcuts.append(shortcut);
         }
 
