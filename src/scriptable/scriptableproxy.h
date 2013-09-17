@@ -31,10 +31,6 @@
 #define BEGIN_INVOKE(methodName) \
         QMetaObject::invokeMethod(m_wnd, methodName, Qt::BlockingQueuedConnection
 
-#define BEGIN_INVOKE_BROSER(methodName, index) \
-        ClipboardBrowser *browser = m_wnd->browser(index); \
-        QMetaObject::invokeMethod(browser, methodName, Qt::BlockingQueuedConnection
-
 #define END_INVOKE );
 
 #define PROXY_METHOD(methodName) \
@@ -105,59 +101,15 @@
         return retVal; \
     }
 
-#define PROXY_METHOD_BROWSER(methodName) \
-    void methodName(int i) \
-    { \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
-        END_INVOKE \
-    }
-
-#define PROXY_METHOD_BROWSER_VOID_1(methodName, Arg1Type) \
-    void methodName(int i, Arg1Type arg1) \
-    { \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
-            , Q_ARG(Arg1Type, arg1) \
-        END_INVOKE \
-    }
-
-#define PROXY_METHOD_BROWSER_VOID_2(methodName, Arg1Type, Arg2Type) \
-    void methodName(int i, Arg1Type arg1, Arg2Type arg2) \
-    { \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
-            , Q_ARG(Arg1Type, arg1) \
-            , Q_ARG(Arg2Type, arg2) \
-        END_INVOKE \
-    }
-
-#define PROXY_METHOD_BROWSER_0(RetType, methodName) \
-    RetType methodName(int i) \
+#define PROXY_METHOD_3(RetType, methodName, Arg1Type, Arg2Type, Arg3Type) \
+    RetType methodName(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3) \
     { \
         RetType retVal; \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
-            , Q_RETURN_ARG(RetType, retVal) \
-        END_INVOKE \
-        return retVal; \
-    }
-
-#define PROXY_METHOD_BROWSER_1(RetType, methodName, Arg1Type) \
-    RetType methodName(int i, Arg1Type arg1) \
-    { \
-        RetType retVal; \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
-            , Q_RETURN_ARG(RetType, retVal) \
-            , Q_ARG(Arg1Type, arg1) \
-        END_INVOKE \
-        return retVal; \
-    }
-
-#define PROXY_METHOD_BROWSER_2(RetType, methodName, Arg1Type, Arg2Type) \
-    RetType methodName(int i, Arg1Type arg1, Arg2Type arg2) \
-    { \
-        RetType retVal; \
-        BEGIN_INVOKE_BROSER(#methodName, i) \
+        BEGIN_INVOKE(#methodName) \
             , Q_RETURN_ARG(RetType, retVal) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
+            , Q_ARG(Arg3Type, arg3) \
         END_INVOKE \
         return retVal; \
     }
@@ -202,21 +154,23 @@ public:
     PROXY_METHOD_1(QByteArray, getClipboardData, const QString &)
     PROXY_METHOD_2(QByteArray, getClipboardData, const QString &, QClipboard::Mode)
 
-    PROXY_METHOD_BROWSER(copyNextItemToClipboard)
-    PROXY_METHOD_BROWSER(copyPreviousItemToClipboard)
-    PROXY_METHOD_BROWSER_VOID_1(moveToClipboard, int)
-    PROXY_METHOD_BROWSER_VOID_1(delayedSaveItems, int)
-    PROXY_METHOD_BROWSER_VOID_1(removeRow, int)
-    PROXY_METHOD_BROWSER_VOID_1(setCurrent, int)
-    PROXY_METHOD_BROWSER_0(int, length)
-    PROXY_METHOD_BROWSER_1(bool, openEditor, const QByteArray &)
+    PROXY_METHOD_VOID_1(browserLock, int)
+    PROXY_METHOD_VOID_1(browserUnlock, int)
+    PROXY_METHOD_VOID_1(browserCopyNextItemToClipboard, int)
+    PROXY_METHOD_VOID_1(browserCopyPreviousItemToClipboard, int)
+    PROXY_METHOD_VOID_2(browserMoveToClipboard, int, int)
+    PROXY_METHOD_VOID_1(browserDelayedSaveItems, int)
+    PROXY_METHOD_VOID_2(browserRemoveRow, int, int)
+    PROXY_METHOD_VOID_2(browserSetCurrent, int, int)
+    PROXY_METHOD_1(int, browserLength, int)
+    PROXY_METHOD_2(bool, browserOpenEditor, int, const QByteArray &)
 
-    PROXY_METHOD_BROWSER_1(bool, add, const QString &)
-    PROXY_METHOD_BROWSER_2(bool, add, QMimeData *, int)
-    PROXY_METHOD_BROWSER_VOID_1(editRow, int)
-    PROXY_METHOD_BROWSER_VOID_1(editNew, const QString &)
+    PROXY_METHOD_2(bool, browserAdd, int, const QString &)
+    PROXY_METHOD_3(bool, browserAdd, int, QMimeData *, int)
+    PROXY_METHOD_VOID_2(browserEditRow, int, int)
+    PROXY_METHOD_VOID_2(browserEditNew, int, const QString &)
 
-    PROXY_METHOD_BROWSER_2(QByteArray, itemData, int, const QString &)
+    PROXY_METHOD_3(QByteArray, browserItemData, int, int, const QString &)
 
 private:
     MainWindow *m_wnd;

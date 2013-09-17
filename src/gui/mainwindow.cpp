@@ -1594,6 +1594,81 @@ QStringList MainWindow::tabs() const
     return ui->tabWidget->tabs();
 }
 
+void MainWindow::browserLock(int i)
+{
+    browser(i)->lock();
+}
+
+void MainWindow::browserUnlock(int i)
+{
+    browser(i)->unlock();
+}
+
+void MainWindow::browserCopyNextItemToClipboard(int i)
+{
+    browser(i)->copyNextItemToClipboard();
+}
+
+void MainWindow::browserCopyPreviousItemToClipboard(int i)
+{
+    browser(i)->copyPreviousItemToClipboard();
+}
+
+void MainWindow::browserMoveToClipboard(int i, int arg1)
+{
+    browser(i)->moveToClipboard(arg1);
+}
+
+void MainWindow::browserDelayedSaveItems(int i)
+{
+    browser(i)->delayedSaveItems();
+}
+
+void MainWindow::browserRemoveRow(int i, int arg1)
+{
+    browser(i)->removeRow(arg1);
+}
+
+void MainWindow::browserSetCurrent(int i, int arg1)
+{
+    browser(i)->setCurrent(arg1);
+}
+
+int MainWindow::browserLength(int i)
+{
+    return browser(i)->length();
+}
+
+bool MainWindow::browserOpenEditor(int i, const QByteArray &arg1)
+{
+    return browser(i)->openEditor(arg1);
+}
+
+bool MainWindow::browserAdd(int i, const QString &arg1)
+{
+    return browser(i)->add(arg1);
+}
+
+bool MainWindow::browserAdd(int i, QMimeData *arg1, int arg2)
+{
+    return browser(i)->add(arg1, arg2);
+}
+
+void MainWindow::browserEditRow(int i, int arg1)
+{
+    browser(i)->editRow(arg1);
+}
+
+void MainWindow::browserEditNew(int i, const QString &arg1)
+{
+    browser(i)->editNew(arg1);
+}
+
+QByteArray MainWindow::browserItemData(int i, int arg1, const QString &arg2)
+{
+    return browser(i)->itemData(arg1, arg2);
+}
+
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
     return m_options->trayCurrentTab ? browser()

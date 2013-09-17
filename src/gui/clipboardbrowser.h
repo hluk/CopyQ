@@ -62,12 +62,11 @@ class ClipboardBrowser : public QListView
          */
         class Lock {
             public:
-                Lock(ClipboardBrowser *self);
-                ~Lock();
+                Lock(ClipboardBrowser *self) : c(self) { c->lock(); }
+                ~Lock() { c->unlock(); }
 
             private:
                 ClipboardBrowser *c;
-                bool m_autoUpdate;
         };
 
         explicit ClipboardBrowser(QWidget *parent = NULL,
@@ -123,7 +122,7 @@ class ClipboardBrowser : public QListView
         void redraw();
 
         /** Toggle automatic clipboard update. */
-        void setAutoUpdate(bool update) { m_update = update; }
+        void setAutoUpdate(bool update);
 
         /** Return true if automatic clipboard update is on. */
         bool autoUpdate() { return m_update; }
@@ -188,6 +187,9 @@ class ClipboardBrowser : public QListView
          */
         void setSavingEnabled(bool enable);
 
+        void lock();
+        void unlock();
+
     private:
         bool m_loaded;
         QString m_id;
@@ -211,6 +213,9 @@ class ClipboardBrowser : public QListView
         QPushButton *m_loadButton;
 
         QPoint m_dragPosition;
+
+        int m_spinLock;
+        bool m_updateLock;
 
         void createContextMenu();
         bool isFiltered(const QModelIndex &index, int role) const;

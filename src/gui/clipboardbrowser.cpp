@@ -87,19 +87,6 @@ void ClipboardBrowserShared::loadFromConfiguration()
     minutesToExpire = cm->value("expire_tab").toInt();
 }
 
-ClipboardBrowser::Lock::Lock(ClipboardBrowser *self) : c(self)
-{
-    m_autoUpdate = c->autoUpdate();
-    c->setAutoUpdate(false);
-    c->setUpdatesEnabled(false);
-}
-
-ClipboardBrowser::Lock::~Lock()
-{
-    c->setAutoUpdate(m_autoUpdate);
-    c->setUpdatesEnabled(true);
-}
-
 ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserSharedPtr &sharedData)
     : QListView(parent)
     , m_loaded(false)
@@ -117,6 +104,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_editor(NULL)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
     , m_loadButton(NULL)
+    , m_dragPosition()
+    , m_spinLock(0)
+    , m_updateLock(m_update)
 {
     setLayoutMode(QListView::Batched);
     setBatchSize(1);
@@ -249,21 +239,8 @@ void ClipboardBrowser::contextMenuAction()
         }
     }
 
-    if (cmd.remove) {
-        int current = -1;
-        foreach (const QModelIndex &index, selected) {
-            if (index.isValid()) {
-                int row = index.row();
-                removeRow(row);
-                if (current == -1 || current > row)
-                    current = row;
-            }
-        }
-        if ( !currentIndex().isValid() )
-            setCurrent(current);
-        if ( !selectionModel()->hasSelection() )
-            setCurrentIndex( currentIndex() );
-    }
+    if (cmd.remove)
+        remove();
 
     if (isContextMenuAction && cmd.hideWindow)
         emit requestHide();
@@ -672,9 +649,30 @@ void ClipboardBrowser::setSavingEnabled(bool enable)
     }
 }
 
+void ClipboardBrowser::lock()
+{
+    if (m_spinLock == 0) {
+        bool update = autoUpdate();
+        setAutoUpdate(false);
+        m_updateLock = update;
+        setUpdatesEnabled(false);
+    }
+    ++m_spinLock;
+}
+
+void ClipboardBrowser::unlock()
+{
+    Q_ASSERT(m_spinLock > 0);
+    --m_spinLock;
+    if (m_spinLock == 0) {
+        setAutoUpdate(m_updateLock);
+        setUpdatesEnabled(true);
+    }
+}
+
 void ClipboardBrowser::updateContextMenu()
 {
-    if (m_menu == NULL)
+    if (m_menu == NULL || !updatesEnabled())
         return;
 
     m_menu->clear();
@@ -1278,6 +1276,7 @@ void ClipboardBrowser::remove()
 
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
+    ClipboardBrowser::Lock lock(this);
     foreach (int row, rows) {
         if ( !isRowHidden(row) )
             m->removeRow(row);
@@ -1508,6 +1507,13 @@ void ClipboardBrowser::redraw()
 {
     d->invalidateCache();
     updateCurrentPage();
+}
+
+void ClipboardBrowser::setAutoUpdate(bool update)
+{
+    m_updateLock = update;
+    if (m_spinLock == 0)
+        m_update = update;
 }
 
 void ClipboardBrowser::setContextMenu(QMenu *menu)

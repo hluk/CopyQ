@@ -317,6 +317,22 @@ class MainWindow : public QMainWindow
 
         QStringList tabs() const;
 
+        void browserLock(int);
+        void browserUnlock(int);
+        void browserCopyNextItemToClipboard(int);
+        void browserCopyPreviousItemToClipboard(int);
+        void browserMoveToClipboard(int, int);
+        void browserDelayedSaveItems(int);
+        void browserRemoveRow(int, int);
+        void browserSetCurrent(int, int);
+        int browserLength(int);
+        bool browserOpenEditor(int, const QByteArray &);
+        bool browserAdd(int, const QString &);
+        bool browserAdd(int, QMimeData *, int);
+        void browserEditRow(int, int);
+        void browserEditNew(int, const QString &);
+        QByteArray browserItemData(int, int, const QString &);
+
     private slots:
         ClipboardBrowser *getTabForTrayMenu();
         void updateTrayMenuItems();
