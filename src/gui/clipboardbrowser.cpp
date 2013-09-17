@@ -548,6 +548,15 @@ QAction *ClipboardBrowser::createAction(Actions::Id id, const char *slot)
     return act;
 }
 
+QModelIndex ClipboardBrowser::indexNear(const QPoint &point) const
+{
+    QModelIndex ind = indexAt(point);
+    if ( !ind.isValid() )
+        ind = indexAt(point + QPoint(0, 2 * spacing()));
+
+    return ind;
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -858,7 +867,7 @@ void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
 
 void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
-    const QModelIndex index = indexAt(event->pos());
+    const QModelIndex index = indexNear(event->pos());
     const int row = index.isValid() ? index.row() : length();
     add( cloneData(*event->mimeData()), row );
     saveItems();
@@ -873,9 +882,7 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
     if ( !m_dragPosition.isNull() ) {
         const int s = spacing();
 
-        QModelIndex pointedIndex = indexAt(m_dragPosition);
-        if ( !pointedIndex.isValid() )
-            pointedIndex = indexAt(m_dragPosition + QPoint(0, 2 * s));
+        QModelIndex pointedIndex = indexNear(m_dragPosition);
 
         QRect rect;
         if ( pointedIndex.isValid() ) {
@@ -1154,15 +1161,11 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
 
                 rect = visualRect(current);
 
-                const int s = spacing();
                 const int fromY = d > 0 ? qMax(0, rect.bottom()) : qMin(h, rect.y());
                 const int y = fromY + d * h;
-                QModelIndex ind = indexAt(QPoint(s, y));
-                if (!ind.isValid()) {
-                    ind = indexAt(QPoint(s, y + 2 * s));
-                    if (!ind.isValid())
-                        ind = index(d > 0 ? m->rowCount() - 1 : 0);
-                }
+                QModelIndex ind = indexNear(QPoint(0, y));
+                if (!ind.isValid())
+                    ind = index(d > 0 ? m->rowCount() - 1 : 0);
 
                 QRect rect2 = visualRect(ind);
                 if (d > 0 && rect2.y() > h && rect2.bottom() - rect.bottom() > h && row + 1 < ind.row())

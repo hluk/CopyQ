@@ -262,6 +262,12 @@ class ClipboardBrowser : public QListView
 
         QAction *createAction(Actions::Id id, const char *slot);
 
+        /**
+         * Get index near given @a point.
+         * If space between items is at the @a point, return next item.
+         */
+        QModelIndex indexNear(const QPoint &point) const;
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
