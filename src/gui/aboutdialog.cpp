@@ -109,6 +109,10 @@ static QString aboutPage()
         "</p>"
 
         // libraries
+        "<p class=\"ppp\"><span class='h2x'>Qt</span> (" + escapeHtml(AboutDialog::tr("Library used in the application")) + ")<br />"
+        "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies) (<a href=\"http://qt.digia.com/\">http://qt.digia.com/</a>).<br />"
+        "All rights reserved.</p>"
+
         "<p class=\"ppp\"><span class='h2x'>LibQxt</span> (" + escapeHtml(AboutDialog::tr("Library used in the application")) + ")<br />"
         "Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).<br />"
         "All rights reserved.</p>"
