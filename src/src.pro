@@ -113,7 +113,9 @@ SOURCES += \
     item/serialize.cpp \
     gui/configtabshortcuts.cpp \
     gui/shortcutswidget.cpp \
-    gui/shortcutbutton.cpp
+    gui/shortcutbutton.cpp \
+    gui/fancylineedit.cpp \
+    gui/filterlineedit.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

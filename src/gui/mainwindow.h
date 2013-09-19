@@ -349,7 +349,7 @@ class MainWindow : public QMainWindow
         void addItems(const QStringList &items, const QModelIndex &index);
         void addItem(const QByteArray &data, const QString &format, const QString &tabName);
         void addItem(const QByteArray &data, const QString &format, const QModelIndex &index);
-        void onTimerSearch();
+        void onFilterChanged(const QRegExp &re);
         void onTrayTimer();
 
         void actionStarted(Action *action);
@@ -463,7 +463,6 @@ class MainWindow : public QMainWindow
         WId m_pasteWindow;
         WId m_lastWindow;
 
-        QTimer *m_timerSearch;
         QTimer *m_timerUpdateFocusWindows;
         QTimer *m_timerShowWindow;
         QTimer *m_trayTimer;

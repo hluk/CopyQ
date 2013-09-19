@@ -47,35 +47,7 @@
      </widget>
     </item>
     <item>
-     <widget class="QWidget" name="widgetFind" native="true">
-      <layout class="QHBoxLayout" name="horizontalLayout">
-       <property name="leftMargin">
-        <number>2</number>
-       </property>
-       <property name="topMargin">
-        <number>2</number>
-       </property>
-       <property name="rightMargin">
-        <number>2</number>
-       </property>
-       <property name="bottomMargin">
-        <number>2</number>
-       </property>
-       <item>
-        <widget class="QLabel" name="findLabel">
-         <property name="text">
-          <string>&amp;Find:</string>
-         </property>
-         <property name="buddy">
-          <cstring>searchBar</cstring>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QLineEdit" name="searchBar"/>
-       </item>
-      </layout>
-     </widget>
+     <widget class="Utils::FilterLineEdit" name="searchBar"/>
     </item>
     <item>
      <widget class="TabWidget" name="tabWidget" native="true">
@@ -97,6 +69,11 @@
    <extends>QWidget</extends>
    <header>gui/tabwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>Utils::FilterLineEdit</class>
+   <extends>QLineEdit</extends>
+   <header>gui/filterlineedit.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

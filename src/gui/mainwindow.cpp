@@ -49,6 +49,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QPushButton>
 #include <QTimer>
 #include <QPainter>
 
@@ -192,7 +193,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_trayPasteWindow()
     , m_pasteWindow()
     , m_lastWindow()
-    , m_timerSearch( new QTimer(this) )
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_trayTimer(NULL)
@@ -228,10 +228,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(renameTab(QString,int)) );
     connect( ui->tabWidget, SIGNAL(tabCloseRequested(int)),
              this, SLOT(tabCloseRequested(int)) );
-    connect( m_timerSearch, SIGNAL(timeout()),
-             this, SLOT(onTimerSearch()) );
-    connect( ui->searchBar, SIGNAL(textChanged(QString)),
-             m_timerSearch, SLOT(start()) );
+    connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
+             this, SLOT(onFilterChanged(QRegExp)) );
     connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
              this, SLOT(updateFocusWindows()) );
     connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
@@ -241,10 +239,6 @@ MainWindow::MainWindow(QWidget *parent)
     loadSettings();
 
     ui->tabWidget->setCurrentIndex(0);
-
-    // search timer
-    m_timerSearch->setSingleShot(true);
-    m_timerSearch->setInterval(200);
 
     m_timerUpdateFocusWindows->setSingleShot(true);
     m_timerUpdateFocusWindows->setInterval(50);
@@ -991,7 +985,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Escape:
-            if ( ui->widgetFind->isHidden() )
+            if ( ui->searchBar->isHidden() )
                 close();
             else
                 resetStatus();
@@ -1343,7 +1337,7 @@ void MainWindow::tabChanged(int current, int previous)
     c->setContextMenu(m_menuItem);
     setHideMenuBar(m_options->hideMenuBar);
 
-    c->filterItems( ui->searchBar->text() );
+    c->filterItems( ui->searchBar->filter() );
 
     if ( current >= 0 ) {
         if( !c->currentIndex().isValid() && isVisible() ) {
@@ -1721,11 +1715,10 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QM
     c->setItemData(index, newData);
 }
 
-void MainWindow::onTimerSearch()
+void MainWindow::onFilterChanged(const QRegExp &re)
 {
-    QString txt = ui->searchBar->text();
-    enterBrowseMode( txt.isEmpty() );
-    browser()->filterItems(txt);
+    enterBrowseMode( re.isEmpty() );
+    browser()->filterItems(re);
 }
 
 void MainWindow::onTrayTimer()
@@ -1814,10 +1807,10 @@ void MainWindow::enterBrowseMode(bool browsemode)
         // browse mode
         getBrowser()->setFocus();
         if ( ui->searchBar->text().isEmpty() )
-            ui->widgetFind->hide();
+            ui->searchBar->hide();
     } else {
         // search mode
-        ui->widgetFind->show();
+        ui->searchBar->show();
         ui->searchBar->setFocus(Qt::ShortcutFocusReason);
     }
 }

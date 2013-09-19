@@ -347,10 +347,10 @@ class ClipboardBrowser : public QListView
         void moveToClipboard(const QModelIndex &ind);
         /** Move item to clipboard. */
         void moveToClipboard(int i);
-        /** Show only items matching the pattern. */
-        void filterItems(const QString &str);
+        /** Show only items matching the regular expression. */
+        void filterItems(const QRegExp &re);
         /** Show all items. */
-        void clearFilter() { filterItems( QString() ); }
+        void clearFilter() { filterItems( QRegExp() ); }
         /** Item modified in external editor. */
         void itemModified(const QByteArray &bytes, const QString &mime);
         /** Called if editor was closed. */

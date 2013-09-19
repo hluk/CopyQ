@@ -1009,17 +1009,17 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
     }
 }
 
-void ClipboardBrowser::filterItems(const QString &str)
+void ClipboardBrowser::filterItems(const QRegExp &re)
 {
-    if (m_lastFilter.pattern() == str)
+    if (m_lastFilter == re)
         return;
-    m_lastFilter = QRegExp(str, Qt::CaseInsensitive);
+    m_lastFilter = re;
 
     // if search string empty: all items visible
     d->setSearch(m_lastFilter);
 
     // row to select
-    int first = str.isEmpty() ? currentIndex().row() : -1;
+    int first = re.isEmpty() ? currentIndex().row() : -1;
 
     // hide filtered items
     for(int i = 0; i < m->rowCount(); ++i) {

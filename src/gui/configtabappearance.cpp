@@ -193,7 +193,7 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     c->at(0)->setData( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
 
     // Highlight found text but don't filter out any items.
-    c->filterItems( QString("|") + searchFor );
+    c->filterItems( QRegExp(QString("|") + searchFor, Qt::CaseInsensitive) );
 
     QAction *act;
 
