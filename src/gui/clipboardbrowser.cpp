@@ -529,14 +529,14 @@ void ClipboardBrowser::clearActions()
     foreach (QAction *action, actions()) {
         action->disconnect(this);
         removeAction(action);
-        if (m_menu != NULL)
+        if ( action->property(propertyActionIndex).isValid() )
+            delete action;
+        else if (m_menu != NULL)
             m_menu->removeAction(action);
     }
 
-    if (m_menu != NULL) {
-        foreach ( QAction *action, m_menu->actions() )
-            delete action;
-    }
+    // No actions should be left to remove.
+    Q_ASSERT(m_menu == NULL || m_menu->isEmpty());
 }
 
 QAction *ClipboardBrowser::createAction(Actions::Id id, const char *slot)
@@ -604,6 +604,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
         QAction *act = new QAction(this);
         menu->insertAction(insertBefore, act);
+        addAction(act);
 
         act->setProperty(propertyActionIndex, i);
         act->setProperty(propertyActionInOwnMenu, isOwnMenu);
@@ -627,6 +628,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
             actions.append(act);
             act->setShortcut(command.shortcut);
+            act->setShortcutContext(Qt::WidgetShortcut);
             shortcuts.append(shortcut);
         }
 
@@ -685,6 +687,8 @@ void ClipboardBrowser::updateContextMenu()
         return;
 
     m_menu->clear();
+
+    clearActions();
 
     initActions();
 
