@@ -93,9 +93,16 @@ QRegExp FilterLineEdit::filter() const
 {
     Qt::CaseSensitivity sensitivity =
             m_actionCaseInsensitive->isChecked() ? Qt::CaseInsensitive : Qt::CaseSensitive;
-    QRegExp::PatternSyntax syntax =
-            m_actionRe->isChecked() ? QRegExp::RegExp2 : QRegExp::FixedString;
-    return QRegExp(text(), sensitivity, syntax);
+
+    QString pattern;
+    if (m_actionRe->isChecked()) {
+        pattern = text();
+    } else {
+        foreach ( const QString &str, text().split(QRegExp("\\s+"), QString::SkipEmptyParts) )
+            pattern.append( ".*" + QRegExp::escape(str) );
+    }
+
+    return QRegExp(pattern, sensitivity, QRegExp::RegExp2);
 }
 
 void FilterLineEdit::onTextChanged()

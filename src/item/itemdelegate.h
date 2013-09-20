@@ -62,6 +62,9 @@ class ItemDelegate : public QItemDelegate
         /** Set regular expression for highlighting. */
         void setSearch(const QRegExp &re);
 
+        /** Return regular expression for highlighting. */
+        const QRegExp &searchExpression() const { return m_re; }
+
         /** Search highlight style. */
         void setSearchStyle(const QFont &font, const QPalette &palette);
 
@@ -92,9 +95,6 @@ class ItemDelegate : public QItemDelegate
         /** Update row position. */
         void updateRowPosition(int row, const QPoint &position);
 
-        /** Hide row. */
-        void hideRow(int row);
-
         /** Show/hide row. */
         void setRowVisible(int row, bool visible);
 
@@ -109,8 +109,8 @@ class ItemDelegate : public QItemDelegate
                                              bool editNotes);
 
     signals:
-        /** Emitted if @a row size changes. */
-        void rowSizeChanged(int row);
+        /** Emitted if size of a widget has changed. */
+        void rowSizeChanged();
 
     protected:
         void paint(QPainter *painter, const QStyleOptionViewItem &option,

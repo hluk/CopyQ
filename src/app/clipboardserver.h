@@ -124,6 +124,9 @@ private slots:
             int exitCode = 0 //!< Exit code for client (non-zero for an error).
             );
 
+    /** Clean up before quitting. */
+    void onAboutToQuit();
+
 private:
     QLocalServer *m_server;
     MainWindow* m_wnd;
@@ -132,6 +135,7 @@ private:
     uint m_lastHash;
     QMap<QxtGlobalShortcut*, QByteArray> m_shortcutActions;
     QThreadPool m_clientThreads;
+    QThreadPool m_internalThreads;
 };
 
 #endif // CLIPBOARDSERVER_H

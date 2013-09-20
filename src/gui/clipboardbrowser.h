@@ -25,12 +25,15 @@
 
 #include <QListView>
 #include <QPointer>
+#include <QScopedPointer>
 #include <QSharedPointer>
 
 class ClipboardItem;
 class ClipboardModel;
 class ItemDelegate;
 class ItemEditorWidget;
+class ScrollSaver;
+class QProgressBar;
 class QMimeData;
 class QPushButton;
 class QTimer;
@@ -193,13 +196,14 @@ class ClipboardBrowser : public QListView
     private:
         bool m_loaded;
         QString m_id;
-        QRegExp m_lastFilter;
+        int m_lastFiltered;
         bool m_update;
         ClipboardModel *m;
         ItemDelegate *d;
         QTimer *m_timerSave;
         QTimer *m_timerScroll;
         QTimer *m_timerUpdate;
+        QTimer *m_timerFilter;
         QTimer *m_timerExpire;
 
         QPointer<QMenu> m_menu;
@@ -211,11 +215,13 @@ class ClipboardBrowser : public QListView
         ClipboardBrowserSharedPtr m_sharedData;
 
         QPushButton *m_loadButton;
+        QProgressBar *m_searchProgress;
 
-        QPoint m_dragPosition;
+        int m_dragPosition;
 
         int m_spinLock;
         bool m_updateLock;
+        QScopedPointer<ScrollSaver> m_scrollSaver;
 
         void createContextMenu();
         bool isFiltered(const QModelIndex &index, int role) const;
@@ -266,7 +272,9 @@ class ClipboardBrowser : public QListView
          * Get index near given @a point.
          * If space between items is at the @a point, return next item.
          */
-        QModelIndex indexNear(const QPoint &point) const;
+        QModelIndex indexNear(int offset) const;
+
+        void updateSearchProgress();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -308,8 +316,6 @@ class ClipboardBrowser : public QListView
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
-        void onRowSizeChanged(int row);
-
         void updateCurrentPage();
 
         void expire();
@@ -319,6 +325,8 @@ class ClipboardBrowser : public QListView
         void onEditorSave();
 
         void onEditorCancel();
+
+        void filterItems();
 
     public slots:
         /** Add new item to the browser. */

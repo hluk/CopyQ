@@ -257,16 +257,18 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
 class ClipboardBrowserRemoteLock
 {
 public:
-    ClipboardBrowserRemoteLock(ScriptableProxy *proxy, int tabIndex)
-        : m_proxy(proxy)
+    ClipboardBrowserRemoteLock(ScriptableProxy *proxy, int tabIndex, int rows)
+        : m_proxy(rows > 4 ? proxy : NULL)
         , m_tabIndex(tabIndex)
     {
-        m_proxy->browserLock(m_tabIndex);
+        if (m_proxy != NULL)
+            m_proxy->browserLock(m_tabIndex);
     }
 
     ~ClipboardBrowserRemoteLock()
     {
-        m_proxy->browserUnlock(m_tabIndex);
+        if (m_proxy != NULL)
+            m_proxy->browserUnlock(m_tabIndex);
     }
 
 private:
@@ -629,8 +631,9 @@ void Scriptable::add()
 {
     int tab = currentTab();
 
-    ClipboardBrowserRemoteLock lock(m_proxy, tab);
-    for (int i = 0; i < argumentCount(); ++i) {
+    const int count = argumentCount();
+    ClipboardBrowserRemoteLock lock(m_proxy, tab, count);
+    for (int i = 0; i < count; ++i) {
         QScriptValue value = argument(i);
         QByteArray *bytes = toByteArray(value);
         if (bytes != NULL) {
@@ -683,7 +686,7 @@ void Scriptable::remove()
 
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-    ClipboardBrowserRemoteLock lock(m_proxy, tab);
+    ClipboardBrowserRemoteLock lock(m_proxy, tab, rows.size());
     foreach (int row, rows)
         m_proxy->browserRemoveRow(tab, row);
 
