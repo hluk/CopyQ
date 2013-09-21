@@ -49,10 +49,10 @@ class TextEditWidget : public TextEdit
 public:
     TextEditWidget(QWidget *parent = NULL)
         : TextEdit(parent)
-        , m_handler(this)
+        , m_handler(new FakeVimHandler(this, NULL))
     {
-        m_handler.installEventFilter();
-        m_handler.setupWidget();
+        m_handler->installEventFilter();
+        m_handler->setupWidget();
 
         setCursorWidth(0);
         setFrameShape(QFrame::NoFrame);
@@ -65,7 +65,8 @@ public:
 
     ~TextEditWidget()
     {
-        m_handler.disconnectFromEditor();
+        m_handler->disconnectFromEditor();
+        m_handler->deleteLater();
     }
 
     void paintEvent(QPaintEvent *e)
@@ -140,7 +141,7 @@ public:
         m_cursorRect = rect;
     }
 
-    FakeVimHandler &fakeVimHandler() { return m_handler; }
+    FakeVimHandler &fakeVimHandler() { return *m_handler; }
 
     void highlightMatches(const QString &pattern)
     {
@@ -235,7 +236,7 @@ private:
         viewport()->update();
     }
 
-    FakeVimHandler m_handler;
+    FakeVimHandler *m_handler;
     QRect m_cursorRect;
 
     bool m_hasBlockSelection;
