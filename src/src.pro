@@ -36,14 +36,19 @@ HEADERS += \
     gui/clipboarddialog.h \
     gui/commandwidget.h \
     gui/configtabappearance.h \
+    gui/configtabshortcuts.h \
     gui/configurationmanager.h \
+    gui/fancylineedit.h \
+    gui/filterlineedit.h \
     gui/iconfactory.h \
     gui/itemorderlist.h \
     gui/mainwindow.h \
     gui/notificationdaemon.h \
     gui/notification.h \
     gui/pluginwidget.h \
+    gui/shortcutbutton.h \
     gui/shortcutdialog.h \
+    gui/shortcutswidget.h \
     gui/tabbar.h \
     gui/tabdialog.h \
     gui/tabtree.h \
@@ -57,17 +62,14 @@ HEADERS += \
     item/itemeditorwidget.h \
     item/itemfactory.h \
     item/itemwidget.h \
+    item/serialize.h \
     platform/dummy/dummyplatform.h \
     platform/platformnativeinterface.h \
     ../qt/bytearrayclass.h \
     ../qt/bytearrayprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h \
-    item/serialize.h \
-    gui/configtabshortcuts.h \
-    gui/shortcutswidget.h \
-    gui/shortcutbutton.h
+    scriptable/scriptableworker.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -84,14 +86,19 @@ SOURCES += \
     gui/clipboarddialog.cpp \
     gui/commandwidget.cpp \
     gui/configtabappearance.cpp \
+    gui/configtabshortcuts.cpp \
     gui/configurationmanager.cpp \
+    gui/fancylineedit.cpp \
+    gui/filterlineedit.cpp \
     gui/iconfactory.cpp \
     gui/itemorderlist.cpp \
     gui/mainwindow.cpp \
     gui/notification.cpp \
     gui/notificationdaemon.cpp \
     gui/pluginwidget.cpp \
+    gui/shortcutbutton.cpp \
     gui/shortcutdialog.cpp \
+    gui/shortcutswidget.cpp \
     gui/tabbar.cpp \
     gui/tabdialog.cpp \
     gui/tabtree.cpp \
@@ -105,17 +112,12 @@ SOURCES += \
     item/itemeditorwidget.cpp \
     item/itemfactory.cpp \
     item/itemwidget.cpp \
+    item/serialize.cpp \
     main.cpp \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
-    scriptable/scriptableworker.cpp \
-    item/serialize.cpp \
-    gui/configtabshortcuts.cpp \
-    gui/shortcutswidget.cpp \
-    gui/shortcutbutton.cpp \
-    gui/fancylineedit.cpp \
-    gui/filterlineedit.cpp
+    scriptable/scriptableworker.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
