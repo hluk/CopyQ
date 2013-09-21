@@ -1457,8 +1457,10 @@ bool ClipboardBrowser::add(const QString &txt, int row)
 
 bool ClipboardBrowser::add(QMimeData *data, int row)
 {
+    bool keepUserSelection = hasUserSelection();
+
     QScopedPointer<ClipboardBrowser::Lock> lock;
-    if ( updatesEnabled() && hasUserSelection() )
+    if ( updatesEnabled() && keepUserSelection )
         lock.reset(new ClipboardBrowser::Lock(this));
 
     QScopedPointer<QMimeData> dataGuard(data);
@@ -1480,7 +1482,7 @@ bool ClipboardBrowser::add(QMimeData *data, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if ( lock.isNull() ) {
+    } else if (!keepUserSelection) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);

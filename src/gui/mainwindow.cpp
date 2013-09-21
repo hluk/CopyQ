@@ -1449,8 +1449,6 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
 
     c->loadItems();
 
-    ClipboardBrowser::Lock lock(c);
-
     const uint itemHash = hash(data, data.formats());
 
     // force adding item if tab name is specified
