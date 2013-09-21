@@ -37,16 +37,10 @@ const QSize defaultSize(0, 512);
 const QSize defaultMaximumSize(2048, 2048 * 8);
 const int margin = 6;
 
-inline void reset(QSharedPointer<ItemWidget> *ptr, ItemWidget *value = NULL)
+inline void reset(ItemWidget **ptr, ItemWidget *value = NULL)
 {
-#if QT_VERSION < 0x050000
-    if (value != NULL)
-        *ptr = QSharedPointer<ItemWidget>(value);
-    else
-        ptr->clear();
-#else
-    ptr->reset(value);
-#endif
+    delete *ptr;
+    *ptr = value != NULL ? value : NULL;
 }
 
 } // namespace
@@ -76,7 +70,7 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
 {
     int row = index.row();
     if ( row < m_cache.size() ) {
-        const ItemWidget *w = m_cache[row].data();
+        const ItemWidget *w = m_cache[row];
         if (w != NULL)
             return w->widget()->size();
     }
@@ -113,7 +107,7 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
 void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
 {
     for( int i = end; i >= start; --i ) {
-        m_cache.removeAt(i);
+        delete m_cache.takeAt(i);
     }
 }
 
@@ -130,14 +124,14 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
 void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
 {
     for( int i = start; i <= end; ++i )
-        m_cache.insert(i, QSharedPointer<ItemWidget>());
+        m_cache.insert(i, NULL);
 }
 
 ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 {
     int n = index.row();
 
-    ItemWidget *w = m_cache[n].data();
+    ItemWidget *w = m_cache[n];
     if (w == NULL) {
         w = ConfigurationManager::instance()->itemFactory()->createItem(index, m_parent->viewport());
         setIndexWidget(index, w);
@@ -148,7 +142,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
 bool ItemDelegate::hasCache(const QModelIndex &index) const
 {
-    return !m_cache[index.row()].isNull();
+    return m_cache[index.row()] != NULL;
 }
 
 void ItemDelegate::setItemMaximumSize(const QSize &size)
@@ -163,7 +157,7 @@ void ItemDelegate::setItemMaximumSize(const QSize &size)
     m_maxSize.setWidth(width);
 
     for( int i = 0; i < m_cache.length(); ++i ) {
-        ItemWidget *w = m_cache[i].data();
+        ItemWidget *w = m_cache[i];
         if (w != NULL) {
             w->widget()->setMaximumSize(m_maxSize);
             w->widget()->setMinimumWidth(width);
@@ -174,7 +168,7 @@ void ItemDelegate::setItemMaximumSize(const QSize &size)
 
 void ItemDelegate::updateRowPosition(int row, const QPoint &position)
 {
-    ItemWidget *w = m_cache[row].data();
+    ItemWidget *w = m_cache[row];
     if (w == NULL)
         return;
 
@@ -188,7 +182,7 @@ void ItemDelegate::updateRowPosition(int row, const QPoint &position)
 
     y += w->widget()->height();
     for (int i = row + 1; i < m_cache.size(); ++i ) {
-        w = m_cache[i].data();
+        w = m_cache[i];
         if (w == NULL)
             continue;
 
@@ -199,14 +193,14 @@ void ItemDelegate::updateRowPosition(int row, const QPoint &position)
 
 void ItemDelegate::setRowVisible(int row, bool visible)
 {
-    ItemWidget *w = m_cache[row].data();
+    ItemWidget *w = m_cache[row];
     if (w != NULL)
         w->widget()->setVisible(visible);
 }
 
 void ItemDelegate::nextItemLoader(const QModelIndex &index)
 {
-    ItemWidget *w = m_cache[index.row()].data();
+    ItemWidget *w = m_cache[index.row()];
     if (w != NULL) {
         ItemWidget *w2 = ConfigurationManager::instance()->itemFactory()->nextItemLoader(index, w);
         if (w2 != NULL)
@@ -216,7 +210,7 @@ void ItemDelegate::nextItemLoader(const QModelIndex &index)
 
 void ItemDelegate::previousItemLoader(const QModelIndex &index)
 {
-    ItemWidget *w = m_cache[index.row()].data();
+    ItemWidget *w = m_cache[index.row()];
     if (w != NULL) {
         ItemWidget *w2 = ConfigurationManager::instance()->itemFactory()->previousItemLoader(index, w);
         if (w2 != NULL)
@@ -322,7 +316,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                                        true, num );
     }
 
-    ItemWidget *w = m_cache[row].data();
+    ItemWidget *w = m_cache[row];
     if (w == NULL)
         return;
 

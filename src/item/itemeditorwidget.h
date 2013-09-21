@@ -21,7 +21,6 @@
 #define ITEMEDITORWIDGET_H
 
 #include <QPersistentModelIndex>
-#include <QSharedPointer>
 #include <QWidget>
 
 class ItemWidget;
@@ -35,7 +34,7 @@ class ItemEditorWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ItemEditorWidget(const QSharedPointer<ItemWidget> &itemWidget, const QModelIndex &index,
+    ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index,
                      bool editNotes, const QFont &font, const QPalette &palette, bool saveOnReturnKey,
                      QWidget *parent = NULL);
 
@@ -61,7 +60,7 @@ private:
     QWidget *createEditor(const ItemWidget *itemWidget);
     void initEditor(QWidget *editor, const QFont &font, const QPalette &palette);
 
-    QSharedPointer<ItemWidget> m_itemWidget;
+    ItemWidget *m_itemWidget;
     QPersistentModelIndex m_index;
     QWidget *m_editor;
     QPlainTextEdit *m_noteEditor;

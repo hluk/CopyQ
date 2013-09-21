@@ -41,7 +41,7 @@ const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo
 
 } // namespace
 
-ItemEditorWidget::ItemEditorWidget(const QSharedPointer<ItemWidget> &itemWidget, const QModelIndex &index,
+ItemEditorWidget::ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index,
                                    bool editNotes, const QFont &font, const QPalette &palette,
                                    bool saveOnReturnKey, QWidget *parent)
     : QWidget(parent)
@@ -52,10 +52,10 @@ ItemEditorWidget::ItemEditorWidget(const QSharedPointer<ItemWidget> &itemWidget,
     , m_saveOnReturnKey(saveOnReturnKey)
 {
     m_noteEditor = editNotes ? new QPlainTextEdit(this) : NULL;
-    QWidget *editor = editNotes ? m_noteEditor : createEditor(itemWidget.data());
+    QWidget *editor = editNotes ? m_noteEditor : createEditor(itemWidget);
 
     if (editor == NULL) {
-        m_itemWidget.clear();
+        m_itemWidget = NULL;
     } else {
         connect( m_itemWidget->widget(), SIGNAL(destroyed()),
                  this, SLOT(onItemWidgetDestroyed()) );
@@ -71,7 +71,7 @@ bool ItemEditorWidget::isValid() const
 {
     if ( !m_index.isValid() )
         return false;
-    return (!m_itemWidget.isNull() && m_editor != NULL) || m_noteEditor != NULL;
+    return (m_itemWidget != NULL && m_editor != NULL) || m_noteEditor != NULL;
 }
 
 void ItemEditorWidget::commitData(QAbstractItemModel *model) const
@@ -92,7 +92,7 @@ bool ItemEditorWidget::hasChanges() const
         return false;
     if (m_noteEditor != NULL)
         return m_noteEditor->document()->isModified();
-    return !m_itemWidget.isNull() && m_itemWidget->hasChanges(m_editor);
+    return m_itemWidget != NULL && m_itemWidget->hasChanges(m_editor);
 }
 
 bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
@@ -122,7 +122,7 @@ bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
 
 void ItemEditorWidget::onItemWidgetDestroyed()
 {
-    m_itemWidget.clear();
+    m_itemWidget = NULL;
 }
 
 void ItemEditorWidget::saveAndExit()

@@ -22,7 +22,6 @@
 
 #include <QItemDelegate>
 #include <QRegExp>
-#include <QSharedPointer>
 
 class Item;
 class ItemEditorWidget;
@@ -132,7 +131,7 @@ class ItemDelegate : public QItemDelegate
         QPalette m_numberPalette;
         bool m_antialiasing;
 
-        QList< QSharedPointer<ItemWidget> > m_cache;
+        QList<ItemWidget*> m_cache;
 
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
