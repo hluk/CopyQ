@@ -142,7 +142,7 @@ class ClipboardBrowser : public QListView
         /**
          * Return true if editing is active.
          */
-        bool editing();
+        bool editing() const;
 
         /**
          * Close editor if unless user don't want to discard changed (show message box).
@@ -192,6 +192,9 @@ class ClipboardBrowser : public QListView
 
         void lock();
         void unlock();
+
+        /** Return true if user defined a selection and it shouldn't change programmatically. */
+        bool hasUserSelection() const;
 
     private:
         bool m_loaded;

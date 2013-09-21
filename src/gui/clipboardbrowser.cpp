@@ -92,9 +92,6 @@ public:
             m_current = indexNear(m_view, 0);
             m_oldOffset = m_view->visualRect(m_current).y();
         }
-
-       if ( m_current.row() == 0 && !m_view->isActiveWindow() )
-           m_current = QPersistentModelIndex();
     }
 
     void restore()
@@ -768,7 +765,15 @@ void ClipboardBrowser::unlock()
         m_scrollSaver.reset(NULL);
 
         setUpdatesEnabled(true);
+
+        m_timerUpdate->start();
     }
+}
+
+bool ClipboardBrowser::hasUserSelection() const
+{
+    return isActiveWindow() || editing() || currentIndex().row() > 0
+            || selectionModel()->selectedRows().count() > 1;
 }
 
 void ClipboardBrowser::updateContextMenu()
@@ -1452,6 +1457,10 @@ bool ClipboardBrowser::add(const QString &txt, int row)
 
 bool ClipboardBrowser::add(QMimeData *data, int row)
 {
+    QScopedPointer<ClipboardBrowser::Lock> lock;
+    if ( updatesEnabled() && hasUserSelection() )
+        lock.reset(new ClipboardBrowser::Lock(this));
+
     QScopedPointer<QMimeData> dataGuard(data);
 
     if ( m->isDisabled() )
@@ -1471,7 +1480,7 @@ bool ClipboardBrowser::add(QMimeData *data, int row)
     // filter item
     if ( isFiltered(newRow) ) {
         setRowHidden(newRow, true);
-    } else if ( !editing() && !hasFocus() && currentIndex().row() < 1 ) {
+    } else if ( lock.isNull() ) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
         setCurrentIndex(ind);
@@ -1665,7 +1674,7 @@ void ClipboardBrowser::setID(const QString &id)
     }
 }
 
-bool ClipboardBrowser::editing()
+bool ClipboardBrowser::editing() const
 {
     return m_editor != NULL;
 }
