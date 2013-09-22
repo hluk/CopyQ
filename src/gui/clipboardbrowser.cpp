@@ -485,16 +485,12 @@ void ClipboardBrowser::preload(int minY, int maxY)
             break;
     }
 
-    updateSearchProgress();
-
     // Hide the rest.
     for ( ; i < m->rowCount(); ++i )
         d->setRowVisible(i, false);
 
-    if (update) {
+    if (update)
         scheduleDelayedItemsLayout();
-        executeDelayedItemsLayout();
-    }
 }
 
 void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
@@ -643,7 +639,7 @@ void ClipboardBrowser::updateSearchProgress()
         m_searchProgress->setValue(m_lastFiltered);
         const int margin = 8;
         m_searchProgress->setGeometry( margin, height() - m_searchProgress->height() - margin,
-                                       width() - 2 * margin, m_searchProgress->height() );
+                                       viewport()->width() - 2 * margin, m_searchProgress->height() );
         m_searchProgress->show();
     } else {
         delete m_searchProgress;
@@ -782,7 +778,7 @@ void ClipboardBrowser::unlock()
 
         setUpdatesEnabled(true);
 
-        m_timerUpdate->start();
+        updateCurrentPage();
     }
 }
 
@@ -922,6 +918,9 @@ void ClipboardBrowser::filterItems()
     // select first visible
     if (!currentIndex().isValid() || sender() != m_timerFilter)
         setCurrentIndex( index(first) );
+
+    updateSearchProgress();
+
     updateCurrentPage();
 }
 
