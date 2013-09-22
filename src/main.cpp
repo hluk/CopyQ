@@ -97,19 +97,27 @@ int startTests(int argc, char *argv[])
 }
 #endif
 
-bool needsHelp(const QString &arg)
+bool needsHelp(const QByteArray &arg)
 {
     return arg == "-h" ||
            arg == "--help" ||
            arg == "help";
 }
 
-bool needsVersion(const QString &arg)
+bool needsVersion(const QByteArray &arg)
 {
     return arg == "-v" ||
            arg == "--version" ||
            arg == "version";
 }
+
+#ifdef HAS_TESTS
+bool needsTests(const QByteArray &arg)
+{
+    return arg == "--tests" ||
+           arg == "tests";
+}
+#endif
 
 QString getSessionName(int *argc, char *argv[])
 {
@@ -149,21 +157,13 @@ QString getSessionName(int *argc, char *argv[])
     return ok ? sessionName : QString();
 }
 
-#ifdef HAS_TESTS
-bool needsTests(const char *arg)
-{
-    return strcmp("--tests", arg) == 0 ||
-           strcmp("tests", arg) == 0;
-}
-#endif
-
 } // namespace
 
 int main(int argc, char *argv[])
 {
     // print version, help or run tests
     if (argc == 2 || argc == 3) {
-        const char *arg = argv[1];
+        const QByteArray arg(argv[1]);
         if ( argc == 2 && needsVersion(arg) ) {
             evaluate("version", NULL);
             return 0;

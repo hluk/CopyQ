@@ -41,8 +41,10 @@
 
 namespace {
 
-const QVector<quint32> maskModifiers = QVector<quint32>()
-    << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
+QVector<quint32> maskModifiers()
+{
+    return QVector<quint32>() << 0 << Mod2Mask << LockMask << (Mod2Mask | LockMask);
+}
 
 typedef int (*X11ErrorHandler)(Display* display, XErrorEvent* event);
 
@@ -123,9 +125,11 @@ public:
     {
         QxtX11ErrorHandler errorHandler;
 
-        for (int i = 0; !errorHandler.error && i < maskModifiers.size(); ++i) {
-            XGrabKey(display(), keycode, modifiers | maskModifiers[i], window, True,
+        foreach (quint32 maskMods, maskModifiers()) {
+            XGrabKey(display(), keycode, modifiers | maskMods, window, True,
                      GrabModeAsync, GrabModeAsync);
+            if (errorHandler.error)
+                break;
         }
 
         if (errorHandler.error) {
@@ -140,7 +144,7 @@ public:
     {
         QxtX11ErrorHandler errorHandler;
 
-        foreach (quint32 maskMods, maskModifiers) {
+        foreach (quint32 maskMods, maskModifiers()) {
             XUngrabKey(display(), keycode, modifiers | maskMods, window);
         }
 

@@ -151,8 +151,6 @@ void ClipboardServer::stopMonitoring()
     if (m_monitor == NULL)
         return;
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     log( tr("Clipboard Monitor: Terminating") );
 
     m_monitor->disconnect();

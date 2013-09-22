@@ -50,8 +50,6 @@
 
 namespace {
 
-const QRegExp reURL("^(https?|ftps?|file)://");
-
 void printItemFileError(const QString &id, const QString &fileName, const QFile &file)
 {
     QLocale locale = QLocale::system();
@@ -213,6 +211,8 @@ void ConfigurationManager::moveItems(const QString &oldId, const QString &newId)
 
 bool ConfigurationManager::defaultCommand(int index, Command *c)
 {
+    static const QRegExp reURL("^(https?|ftps?|file)://");
+
     *c = Command();
     int i = 0;
     if (index == ++i) {

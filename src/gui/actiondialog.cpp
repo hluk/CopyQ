@@ -32,7 +32,13 @@
 
 namespace {
 
-const QStringList standardFormats = QStringList() << QString() << QString("text/plain");
+void initFormatComboBox(QComboBox *combo, const QStringList &additionalFormats = QStringList())
+{
+    QStringList formats = QStringList() << QString() << QString("text/plain") << additionalFormats;
+    formats.removeDuplicates();
+    combo->clear();
+    combo->addItems(formats);
+}
 
 bool wasChangedByUser(QObject *object)
 {
@@ -71,10 +77,7 @@ void ActionDialog::setInputData(const QMimeData &data)
     m_data = cloneData(data);
 
     QString defaultFormat = ui->comboBoxInputFormat->currentText();
-    ui->comboBoxInputFormat->clear();
-    QStringList formats = QStringList() << standardFormats << data.formats();
-    formats.removeDuplicates();
-    ui->comboBoxInputFormat->addItems(formats);
+    initFormatComboBox(ui->comboBoxInputFormat, data.formats());
     const int index = qMax(0, ui->comboBoxInputFormat->findText(defaultFormat));
     ui->comboBoxInputFormat->setCurrentIndex(index);
 
@@ -271,11 +274,8 @@ void ActionDialog::setOutputIndex(const QModelIndex &index)
 
 void ActionDialog::loadSettings()
 {
-    ui->comboBoxInputFormat->clear();
-    ui->comboBoxInputFormat->addItems(standardFormats);
-
-    ui->comboBoxOutputFormat->clear();
-    ui->comboBoxOutputFormat->addItems(standardFormats);
+    initFormatComboBox(ui->comboBoxInputFormat);
+    initFormatComboBox(ui->comboBoxOutputFormat);
 
     restoreHistory();
     ConfigurationManager::instance()->loadGeometry(this);
