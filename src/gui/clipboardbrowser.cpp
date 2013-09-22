@@ -182,7 +182,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     initSingleShotTimer(m_timerSave, 30000, SLOT(saveItems()));
     initSingleShotTimer(m_timerScroll, 50);
-    initSingleShotTimer(m_timerUpdate, 0, SLOT(updateCurrentPage()));
+    initSingleShotTimer(m_timerUpdate, 10, SLOT(doUpdateCurrentPage()));
     initSingleShotTimer(m_timerFilter, 10, SLOT(filterItems()));
 
     // delegate for rendering and editing items
@@ -816,27 +816,30 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
 void ClipboardBrowser::updateCurrentPage()
 {
-    restartExpiring();
+    if ( !m_timerUpdate->isActive() )
+        m_timerUpdate->start();
+}
 
-    if ( !updatesEnabled() )
+void ClipboardBrowser::doUpdateCurrentPage()
+{
+    if ( !updatesEnabled() ) {
+        m_timerUpdate->start();
         return;
-    if ( m_timerUpdate->isActive() )
-        return; // Update already requested.
-    if ( m->isDisabled() )
-        return;
-    if ( !m_loaded && !m_id.isEmpty() )
+    }
+
+    if ( !m_loaded )
         return; // Items not loaded yet.
     if ( !isVisible() )
         return; // Update on showEvent().
+    if ( m->isDisabled() )
+        return;
 
-    if ( sender() == m_timerUpdate ) {
-        const int h = viewport()->contentsRect().height();
-        preload(-h, h);
-        updateCurrentItem();
-        m_timerUpdate->stop();
-    } else {
-        m_timerUpdate->start();
-    }
+    restartExpiring();
+
+    const int h = viewport()->contentsRect().height();
+    preload(-h, h);
+    updateCurrentItem();
+    m_timerUpdate->stop();
 }
 
 void ClipboardBrowser::expire()

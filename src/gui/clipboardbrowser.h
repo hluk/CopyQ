@@ -319,7 +319,11 @@ class ClipboardBrowser : public QListView
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
+        /** Delayed update. */
         void updateCurrentPage();
+
+        /** Immediate update if possible. */
+        void doUpdateCurrentPage();
 
         void expire();
 
