@@ -152,8 +152,6 @@ void ClipboardServer::stopMonitoring()
         return;
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->setValue("_last_hash", m_lastHash);
-    cm->saveValue("Options/_last_hash", m_lastHash);
 
     log( tr("Clipboard Monitor: Terminating") );
 
@@ -216,6 +214,8 @@ void ClipboardServer::loadMonitorSettings()
     settings["copy_selection"] = cm->value("copy_selection");
     settings["check_selection"] = cm->value("check_selection");
 #endif
+
+    m_lastHash = 0;
 
     QByteArray settings_data;
     QDataStream settings_out(&settings_data, QIODevice::WriteOnly);
@@ -319,7 +319,10 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     m_wnd->clipboardChanged(&item);
 #endif
 
-    if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
+    // Don't add item to list on application start.
+    if (m_lastHash == 0) {
+        m_lastHash = item.dataHash();
+    } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();
         m_wnd->addToTab( item.data(), QString(), true );
     }
