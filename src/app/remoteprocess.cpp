@@ -125,6 +125,9 @@ void RemoteProcess::closeConnection()
         QCoreApplication::processEvents();
 
         m_process.terminate();
+
+        if ( m_process.state() != QProcess::NotRunning && !m_process.waitForFinished(2000) )
+            log( "Remote process: Cannot terminate process!", LogError );
     }
 }
 
