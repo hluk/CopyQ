@@ -51,7 +51,6 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
 {
     setButtonVisible(Left, true);
     setButtonVisible(Right, true);
-    setButtonToolTip(Right, tr("Clear text"));
     setAutoHideButton(Right, true);
     connect(this, SIGNAL(rightButtonClicked()), this, SLOT(clear()));
 

@@ -634,7 +634,8 @@ void ClipboardBrowser::updateSearchProgress()
         if (m_searchProgress == NULL) {
             m_searchProgress = new QProgressBar(this);
         }
-        m_searchProgress->setFormat( tr("Searching %p%...") );
+        m_searchProgress->setFormat( tr("Searching %p%...",
+                                        "Text in progress bar for searching/filtering items; %p is amount in percent") );
         m_searchProgress->setRange(0, length());
         m_searchProgress->setValue(m_lastFiltered);
         const int margin = 8;
