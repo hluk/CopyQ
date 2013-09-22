@@ -2117,6 +2117,9 @@ bool MainWindow::loadTab(const QString &fileName)
 
     in >> *model;
 
+    c->loadItems();
+    c->saveItems();
+
     file.close();
 
     return true;

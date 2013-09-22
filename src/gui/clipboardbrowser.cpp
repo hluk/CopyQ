@@ -876,6 +876,7 @@ void ClipboardBrowser::onEditorSave()
 {
     Q_ASSERT(m_editor != NULL);
     m_editor->commitData(m);
+    saveItems();
 }
 
 void ClipboardBrowser::onEditorCancel()
