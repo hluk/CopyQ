@@ -455,15 +455,19 @@ void ClipboardBrowser::preload(int minY, int maxY)
 
         d->setRowVisible(i, true);
 
+        // Next.
+        ind = index(++i);
+
         // Done?
-        y += h + s; // top of next item
+        y += h + s; // top of item
         if (y > maxY) {
             if (lastToPreload)
                 break;
             lastToPreload = true; // One more item to preload.
         }
 
-        for ( ind = index(++i); ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
+        // Skip hidden.
+        for ( ; ind.isValid() && isIndexHidden(ind); ind = index(++i) ) {}
 
         if ( !ind.isValid() )
             break;
