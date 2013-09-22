@@ -410,17 +410,10 @@ void ClipboardBrowser::preload(int minY, int maxY)
     // Absolute to relative.
     y -= offset;
 
+    bool update = false;
+
     // Preload items backwards.
     forever {
-        // Fetch item.
-        const int h = d->cache(ind)->widget()->height();
-
-        // Done?
-        y -= h; // top of item
-        if (y + h < minY)
-            break;
-        y -= s; // bottom of previous item
-
         const int lastIndex = i;
         for ( ind = index(--i); ind.isValid() && isIndexHidden(ind); ind = index(--i) ) {}
 
@@ -429,25 +422,44 @@ void ClipboardBrowser::preload(int minY, int maxY)
             ind = index(i);
             break;
         }
+
+        const QRect oldRect(visualRect(ind));
+
+        // Fetch item.
+        const int h = d->cache(ind)->widget()->height();
+
+        // Re-layout rows afterwards if size has changed.
+        const int dy = h - oldRect.height();
+        if (dy != 0) {
+            maxY += dy;
+            update = true;
+        }
+
+        // Done?
+        y -= h; // top of item
+        if (y + h < minY)
+            break;
+        y -= s; // bottom of previous item
     }
 
     y = visualRect(ind).y();
     bool lastToPreload = false;
-    bool update = false;
 
     // Render visible items, re-layout rows and correct scroll offset.
     forever {
         if (m_lastFiltered != -1 && m_lastFiltered < i)
             break;
 
+        const QRect oldRect(update ? QRect() : visualRect(ind));
+
         // Fetch item.
         QWidget *w = d->cache(ind)->widget();
 
         const int h = w->height();
 
-        // Re-layout rows afterwards if row position changed.
-        if ( !update && y != visualRect(ind).y() )
-            update = true;
+        // Re-layout rows afterwards if row position or size has changed.
+        if (!update)
+            update = (y != oldRect.y() || h != oldRect.height());
 
         // Correct widget position.
         if (y != w->y())
