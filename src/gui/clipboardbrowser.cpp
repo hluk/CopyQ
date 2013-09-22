@@ -831,7 +831,7 @@ void ClipboardBrowser::doUpdateCurrentPage()
         return;
     }
 
-    if ( !m_loaded )
+    if ( !m_loaded && !m_id.isEmpty() )
         return; // Items not loaded yet.
     if ( !isVisible() )
         return; // Update on showEvent().
