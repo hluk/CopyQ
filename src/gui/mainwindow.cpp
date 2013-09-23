@@ -1114,10 +1114,12 @@ void MainWindow::loadSettings()
     createMenu();
 
     // always on top window hint
-    if (cm->value("always_on_top").toBool()) {
-        setWindowFlags(windowFlags() | Qt::WindowStaysOnTopHint);
-    } else {
-        setWindowFlags(windowFlags() & ~Qt::WindowStaysOnTopHint);
+    bool alwaysOnTop = cm->value("always_on_top").toBool();
+    bool hasAlwaysOnTop = windowFlags().testFlag(Qt::WindowStaysOnTopHint);
+    if (alwaysOnTop != hasAlwaysOnTop) {
+        setWindowFlags(windowFlags() ^ Qt::WindowStaysOnTopHint);
+        // Workaround for QTBUG-28601.
+        setAcceptDrops(true);
     }
 
     // Vi mode
