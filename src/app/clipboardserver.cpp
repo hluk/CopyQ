@@ -49,7 +49,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     : QObject()
     , App(new QApplication(argc, argv), sessionName)
     , m_server(NULL)
-    , m_wnd(NULL)
+    , m_wnd(new MainWindow)
     , m_monitor(NULL)
     , m_checkclip(false)
     , m_lastHash(0)
@@ -66,7 +66,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     QApplication::setQuitOnLastWindowClosed(false);
 
     // main window
-    m_wnd = new MainWindow;
     m_wnd->setSessionName(sessionName);
 
     // listen

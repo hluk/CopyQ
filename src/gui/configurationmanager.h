@@ -51,6 +51,8 @@ class ConfigurationManager : public QDialog
 {
     Q_OBJECT
 
+    friend class MainWindow;
+
 public:
     typedef QList<Command> Commands;
 
@@ -128,16 +130,24 @@ signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
 
+protected:
+    static void createInstance(QWidget *parent);
+
+private slots:
+    void apply();
+    void on_buttonBox_clicked(QAbstractButton* button);
+    void onFinished(int result);
+
+    void on_itemOrderListCommands_addButtonClicked(QAction *action);
+
+    void on_checkBoxMenuTabIsCurrent_stateChanged(int);
+
+    void onCurrentCommandWidgetIconChanged(const QIcon &icon);
+    void onCurrentCommandWidgetNameChanged(const QString &name);
+    void on_spinBoxTrayItems_valueChanged(int value);
+
 private:
-    static ConfigurationManager *m_Instance;
-    Ui::ConfigurationManager *ui;
-    QString m_datfilename;
-    QHash<QString, Option> m_options;
-
-    ItemFactory *m_itemFactory;
-    QScopedPointer<IconFactory> m_iconFactory;
-
-    explicit ConfigurationManager();
+    explicit ConfigurationManager(QWidget *parent);
 
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);
@@ -189,18 +199,13 @@ private:
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
-private slots:
-    void apply();
-    void on_buttonBox_clicked(QAbstractButton* button);
-    void onFinished(int result);
+    static ConfigurationManager *m_Instance;
+    Ui::ConfigurationManager *ui;
+    QString m_datfilename;
+    QHash<QString, Option> m_options;
 
-    void on_itemOrderListCommands_addButtonClicked(QAction *action);
-
-    void on_checkBoxMenuTabIsCurrent_stateChanged(int);
-
-    void onCurrentCommandWidgetIconChanged(const QIcon &icon);
-    void onCurrentCommandWidgetNameChanged(const QString &name);
-    void on_spinBoxTrayItems_valueChanged(int value);
+    ItemFactory *m_itemFactory;
+    QScopedPointer<IconFactory> m_iconFactory;
 };
 
 const QIcon &getIconFromResources(const QString &iconName);

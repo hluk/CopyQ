@@ -44,13 +44,14 @@ public:
 
     QRegExp filter() const;
 
+    void loadSettings();
+
 signals:
     void filterChanged(const QRegExp &);
 
 private slots:
     void onTextChanged();
     void onMenuAction();
-    void loadSettings();
 
 private:
     QTimer *m_timerSearch;

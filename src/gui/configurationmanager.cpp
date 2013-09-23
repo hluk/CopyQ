@@ -39,7 +39,6 @@
 #include <QFile>
 #include <QMenu>
 #include <QMessageBox>
-#include <QMutex>
 #include <QSettings>
 
 #ifdef Q_OS_WIN
@@ -67,30 +66,12 @@ ConfigurationManager *ConfigurationManager::m_Instance = 0;
 
 ConfigurationManager *ConfigurationManager::instance()
 {
-    static QMutex mutex;
-
-    if (!m_Instance) {
-        QMutexLocker lock(&mutex);
-        if (!m_Instance) {
-            m_Instance = new ConfigurationManager();
-            m_Instance->loadSettings();
-            m_Instance->loadGeometry(m_Instance);
-        }
-    }
-
+    Q_ASSERT(m_Instance != NULL);
     return m_Instance;
 }
 
-void ConfigurationManager::drop()
-{
-    static QMutex mutex;
-    QMutexLocker lock(&mutex);
-    delete m_Instance;
-    m_Instance = NULL;
-}
-
-ConfigurationManager::ConfigurationManager()
-    : QDialog()
+ConfigurationManager::ConfigurationManager(QWidget *parent)
+    : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
     , m_datfilename()
     , m_options()
@@ -112,6 +93,7 @@ ConfigurationManager::ConfigurationManager()
 
 ConfigurationManager::~ConfigurationManager()
 {
+    m_Instance = NULL;
     delete ui;
 }
 
@@ -926,6 +908,14 @@ void ConfigurationManager::setVisible(bool visible)
         initPluginWidgets();
         initCommandWidgets();
     }
+}
+
+void ConfigurationManager::createInstance(QWidget *parent)
+{
+    Q_ASSERT(m_Instance == NULL);
+    m_Instance = new ConfigurationManager(parent);
+    m_Instance->loadSettings();
+    m_Instance->loadGeometry(m_Instance);
 }
 
 void ConfigurationManager::apply()

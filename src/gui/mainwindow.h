@@ -317,6 +317,8 @@ class MainWindow : public QMainWindow
 
         QStringList tabs() const;
 
+        QVariant config(const QString &name, const QString &value);
+
         void browserLock(int);
         void browserUnlock(int);
         void browserCopyNextItemToClipboard(int);

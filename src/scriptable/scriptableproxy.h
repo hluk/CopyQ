@@ -148,6 +148,8 @@ public:
     PROXY_METHOD_1(bool, loadTab, const QString &)
     PROXY_METHOD_2(bool, saveTab, const QString &, int)
 
+    PROXY_METHOD_2(QVariant, config, const QString &, const QString &)
+
     PROXY_METHOD_VOID_4(showMessage, const QString &, const QString &,
                         QSystemTrayIcon::MessageIcon, int)
 

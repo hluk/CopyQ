@@ -74,18 +74,6 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
 
     m_actionCaseInsensitive = menu->addAction(tr("Case Insensitive"));
     m_actionCaseInsensitive->setCheckable(true);
-
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    QVariant val;
-    val = cm->loadValue("Options/filter_regular_expression");
-    m_actionRe->setChecked(!val.isValid() || val.toBool());
-    val = cm->loadValue("Options/filter_case_insensitive");
-    m_actionCaseInsensitive->setChecked(!val.isValid() || val.toBool());
-
-    // icons
-    connect( ConfigurationManager::instance(), SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
-    loadSettings();
 }
 
 QRegExp FilterLineEdit::filter() const
@@ -104,24 +92,18 @@ QRegExp FilterLineEdit::filter() const
     return QRegExp(pattern, sensitivity, QRegExp::RegExp2);
 }
 
-void FilterLineEdit::onTextChanged()
-{
-    emit filterChanged(filter());
-}
-
-void FilterLineEdit::onMenuAction()
-{
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->saveValue("Options/filter_regular_expression", m_actionRe->isChecked());
-    cm->saveValue("Options/filter_case_insensitive", m_actionCaseInsensitive->isChecked());
-
-    const QRegExp re = filter();
-    if ( !re.isEmpty() )
-        emit filterChanged(re);
-}
-
 void FilterLineEdit::loadSettings()
 {
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    QVariant val;
+
+    val = cm->loadValue("Options/filter_regular_expression");
+    m_actionRe->setChecked(!val.isValid() || val.toBool());
+
+    val = cm->loadValue("Options/filter_case_insensitive");
+    m_actionCaseInsensitive->setChecked(!val.isValid() || val.toBool());
+
     // KDE has custom icons for this. Notice that icon namings are counter intuitive.
     // If these icons are not available we use the freedesktop standard name before
     // falling back to a bundled resource.
@@ -150,5 +132,20 @@ void FilterLineEdit::loadSettings()
     setButtonPixmap(Left, pix2);
 }
 
+void FilterLineEdit::onTextChanged()
+{
+    emit filterChanged(filter());
+}
+
+void FilterLineEdit::onMenuAction()
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    cm->saveValue("Options/filter_regular_expression", m_actionRe->isChecked());
+    cm->saveValue("Options/filter_case_insensitive", m_actionCaseInsensitive->isChecked());
+
+    const QRegExp re = filter();
+    if ( !re.isEmpty() )
+        emit filterChanged(re);
+}
 
 } // namespace Utils

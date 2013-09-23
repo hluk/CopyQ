@@ -20,7 +20,6 @@
 #include "scriptable.h"
 
 #include "common/client_server.h"
-#include "gui/configurationmanager.h"
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "../qt/bytearrayclass.h"
@@ -878,39 +877,13 @@ QScriptValue Scriptable::config()
 {
     const QString name = arg(0);
     const QString value = arg(1);
-    ConfigurationManager *cm = ConfigurationManager::instance();
 
-    if ( name.isNull() ) {
-        // print options
-        QStringList options = cm->options();
-        options.sort();
-        QString opts;
-        foreach (const QString &option, options)
-            opts.append( option + "\n  " +
-                         cm->optionToolTip(option).replace('\n', "\n  ").toLocal8Bit() + '\n' );
-        return opts;
-    } else {
-        if ( cm->options().contains(name) ) {
-            if ( value.isNull() ) {
-                // print option value
-                return cm->value(name).toString();
-            } else {
-                // set option
-                if ( cm->isVisible() ) {
-                    throwError(
-                        tr("To modify options from command line you must first "
-                           "close the CopyQ Configuration dialog!") );
-                } else {
-                    cm->setValue(name, value);
-                    cm->saveSettings();
-                }
-            }
-        } else {
-            throwError( tr("Invalid option!") );
-        }
-    }
+    const QVariant result = m_proxy->config(name, value);
 
-    return QScriptValue();
+    if ( !result.isValid() )
+        throwError( tr("Invalid option!") );
+
+    return result.toString();
 }
 
 void Scriptable::eval()

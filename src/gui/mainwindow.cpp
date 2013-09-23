@@ -203,6 +203,9 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
+    // create configuration manager
+    ConfigurationManager::createInstance(this);
+
     ConfigurationManager::instance()->loadGeometry(this);
 
     updateIcon();
@@ -1221,6 +1224,8 @@ void MainWindow::loadSettings()
 
     updateIcon();
 
+    ui->searchBar->loadSettings();
+
     log( tr("Configuration loaded") );
 }
 
@@ -1586,6 +1591,35 @@ QStringList MainWindow::tabs() const
     return ui->tabWidget->tabs();
 }
 
+QVariant MainWindow::config(const QString &name, const QString &value)
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    if ( name.isNull() ) {
+        // print options
+        QStringList options = cm->options();
+        options.sort();
+        QString opts;
+        foreach (const QString &option, options)
+            opts.append( option + "\n  " +
+                         cm->optionToolTip(option).replace('\n', "\n  ").toLocal8Bit() + '\n' );
+        return opts;
+    }
+
+    if ( cm->options().contains(name) ) {
+        if ( value.isNull() )
+            return cm->value(name).toString(); // return option value
+
+        // set option
+        cm->setValue(name, value);
+        cm->saveSettings();
+
+        return QString();
+    }
+
+    return QVariant();
+}
+
 void MainWindow::browserLock(int i)
 {
     browser(i)->lock();
@@ -1930,19 +1964,7 @@ void MainWindow::openPreferences()
     if ( !isEnabled() )
         return;
 
-    // Turn off "always on top" so that configuration dialog is not below main window.
-    if ( isVisible() ) {
-        Qt::WindowFlags flags = windowFlags();
-        setWindowFlags(flags & ~Qt::WindowStaysOnTopHint);
-        showNormal();
-
-        if ( ConfigurationManager::instance()->exec() == QDialog::Rejected ) {
-            setWindowFlags(flags);
-            showNormal();
-        }
-    } else {
-        ConfigurationManager::instance()->exec();
-    }
+    ConfigurationManager::instance()->exec();
 }
 
 ClipboardBrowser *MainWindow::browser(int index)
