@@ -151,11 +151,15 @@ QStringList TabWidget::collapsedTabs() const
 
 void TabWidget::clear()
 {
+    m_stackedWidget->hide();
+
     while ( m_stackedWidget->count() > 0 ) {
         QWidget *w = m_stackedWidget->widget(0);
         m_stackedWidget->removeWidget(w);
         delete w;
     }
+
+    m_stackedWidget->show();
 
     if ( isTreeModeEnabled() ) {
         m_tabTree->clear();
