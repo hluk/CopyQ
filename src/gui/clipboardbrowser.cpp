@@ -78,19 +78,22 @@ class ScrollSaver {
 public:
     ScrollSaver(QListView *view)
         : m_view(view)
-        , m_current()
+        , m_index()
         , m_oldOffset(0)
+        , m_currentSelected(false)
     {}
 
     void save()
     {
-        m_current = m_view->currentIndex();
-        m_oldOffset = m_view->visualRect(m_current).y();
+        m_index = m_view->currentIndex();
+        m_oldOffset = m_view->visualRect(m_index).y();
 
-        if ( !m_current.isValid()
-             || m_oldOffset < 0 || m_oldOffset > m_view->viewport()->contentsRect().height() ) {
-            m_current = indexNear(m_view, 0);
-            m_oldOffset = m_view->visualRect(m_current).y();
+        m_currentSelected = m_index.isValid() && m_oldOffset >= 0
+                && m_oldOffset < m_view->viewport()->contentsRect().height();
+
+        if (!m_currentSelected) {
+            m_index = indexNear(m_view, 0);
+            m_oldOffset = m_view->visualRect(m_index).y();
         }
     }
 
@@ -98,15 +101,14 @@ public:
     {
         QModelIndex current = m_view->currentIndex();
 
-        if ( !m_current.isValid() ) {
+        if ( !m_index.isValid() ) {
             if ( !current.isValid() )
                 m_view->setCurrentIndex( m_view->model()->index(0, 0) );
             return;
         }
 
-        if ( !current.isValid() || m_current == current
-             || m_oldOffset < 0 || m_oldOffset > m_view->viewport()->contentsRect().height() ) {
-            const int dy = m_view->visualRect(m_current).y() - m_oldOffset;
+        if ( !current.isValid() || (m_currentSelected && m_index == current) ) {
+            const int dy = m_view->visualRect(m_index).y() - m_oldOffset;
             if (dy != 0) {
                 const int v = m_view->verticalScrollBar()->value();
                 m_view->verticalScrollBar()->setValue(v + dy);
@@ -116,8 +118,9 @@ public:
 
 private:
     QListView *m_view;
-    QPersistentModelIndex m_current;
+    QPersistentModelIndex m_index;
     int m_oldOffset;
+    bool m_currentSelected;
 };
 
 ClipboardBrowserShared::ClipboardBrowserShared()
@@ -1188,9 +1191,10 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
 void ClipboardBrowser::moveToClipboard(int i)
 {
     int row = i;
-    if (m_sharedData->moveItemOnReturnKey) {
+    if (m_sharedData->moveItemOnReturnKey && i != 0) {
         m->move(i,0);
         row = 0;
+        scrollToTop();
     }
     if ( autoUpdate() )
         updateClipboard(row);

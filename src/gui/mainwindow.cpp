@@ -1461,6 +1461,8 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
     // force adding item if tab name is specified
     bool force = !tabName.isEmpty();
 
+    bool reselectFirst = false;
+
     if ( c->select(itemHash, moveExistingToTop) ) {
         if (!force)
             triggerActionForData(data, tabName);
@@ -1484,13 +1486,18 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
                         data2->setData( format, firstData.data(format) );
                 }
                 // remove merged item (if it's not edited)
-                if (!c->editing() || c->currentIndex().row() != 0)
+                if (!c->editing() || c->currentIndex().row() != 0) {
+                    reselectFirst = c->currentIndex().row() == 0;
                     c->model()->removeRow(0);
+                }
             }
         }
 
         if ( force || triggerActionForData(*data2.data(), tabName) )
             c->add( data2.take() );
+
+        if (reselectFirst)
+            c->setCurrent(0);
     }
 }
 
