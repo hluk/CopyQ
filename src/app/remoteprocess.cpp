@@ -30,7 +30,6 @@
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
-    , m_process(new QProcess(parent))
     , m_server(NULL)
     , m_socket(NULL)
     , m_timerPing()
@@ -50,19 +49,6 @@ RemoteProcess::RemoteProcess(QObject *parent)
 RemoteProcess::~RemoteProcess()
 {
     closeConnection();
-
-    m_process->waitForFinished(1000);
-    if ( m_process->state() == QProcess::NotRunning ) {
-        delete m_process;
-    } else {
-        connect( QCoreApplication::instance(), SIGNAL(aboutToQuit()),
-                 m_process, SLOT(kill()) );
-        connect( m_process, SIGNAL(finished(int,QProcess::ExitStatus)),
-                 m_process, SLOT(deleteLater()) );
-        connect( m_process, SIGNAL(error(QProcess::ProcessError)),
-                 m_process, SLOT(deleteLater()) );
-        m_process->terminate();
-    }
 }
 
 void RemoteProcess::start(const QString &newServerName, const QStringList &arguments)
@@ -73,16 +59,13 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
     if ( isConnected() )
         return;
 
-    m_server = newServer(newServerName, m_process);
+    m_server = newServer(newServerName, this);
 
     COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
                .arg(QCoreApplication::applicationFilePath())
                .arg(arguments.join(" ")) );
 
-    m_process->start( QCoreApplication::applicationFilePath(), arguments );
-    m_process->closeWriteChannel();
-
-    if ( !m_process->waitForStarted(16000) ) {
+    if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments) ) {
         log( "Remote process: Failed to start new remote process!", LogError );
     } else if ( !m_server->waitForNewConnection(16000) ) {
         log( "Remote process: Failed to connect to new remote process!", LogError );
@@ -115,16 +98,11 @@ bool RemoteProcess::writeMessage(const QByteArray &msg)
 
 bool RemoteProcess::isConnected() const
 {
-    return m_socket != NULL && m_socket->state() == QLocalSocket::ConnectedState &&
-            m_process->state() == QProcess::Running;
+    return m_socket != NULL && m_socket->state() == QLocalSocket::ConnectedState;
 }
 
 void RemoteProcess::closeConnection()
 {
-    m_process->disconnect();
-    m_process->closeReadChannel(QProcess::StandardOutput);
-    m_process->closeReadChannel(QProcess::StandardError);
-
     if (m_server != NULL) {
         m_timerPing.stop();
         m_timerPongTimeout.stop();

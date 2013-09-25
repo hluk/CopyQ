@@ -26,7 +26,6 @@
 class QByteArray;
 class QLocalServer;
 class QLocalSocket;
-class QProcess;
 class QString;
 
 /**
@@ -62,8 +61,6 @@ public:
 
     void closeConnection();
 
-    QProcess &process() { return *m_process; }
-
 signals:
     /**
      * Remote processed sends @a message.
@@ -81,7 +78,6 @@ private slots:
     void pongTimeout();
 
 private:
-    QProcess *m_process;
     QLocalServer *m_server;
     QLocalSocket *m_socket;
     QTimer m_timerPing;

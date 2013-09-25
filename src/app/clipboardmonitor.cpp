@@ -246,13 +246,9 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     Q_ASSERT(args.size() == 3);
 
     const QString &serverName = args[2];
-    COPYQ_LOG( QString("Connecting to server \"%1\".").arg(serverName) );
     m_socket->connectToServer(serverName);
-    if ( !m_socket->waitForConnected(2000) ) {
-        log( tr("Cannot connect to server!"), LogError );
+    if ( !m_socket->waitForConnected(2000) )
         exit(1);
-    }
-    COPYQ_LOG("Connected to server.");
 
     m_updateTimer->setSingleShot(true);
     m_updateTimer->setInterval(300);
@@ -512,4 +508,18 @@ void ClipboardMonitor::writeMessage(const QByteArray &msg)
         log( "Failed to send data to server!", LogError );
         exit(1);
     }
+}
+
+void ClipboardMonitor::log(const QString &text, const LogLevel level)
+{
+    ClipboardItem item;
+
+    QString message = createLogMessage("Clipboard Monitor", text, level);
+    item.setData( mimeMessage, message.trimmed().toUtf8() );
+
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
+    out << item;
+
+    writeMessage(msg);
 }

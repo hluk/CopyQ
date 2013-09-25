@@ -45,6 +45,12 @@ struct QxtGlobalShortcut {};
 #include "../qxt/qxtglobalshortcut.h"
 #endif
 
+namespace {
+
+int monitorProcessId = 0;
+
+} // namespace
+
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
     , App(new QApplication(argc, argv), sessionName)
@@ -111,40 +117,6 @@ bool ClipboardServer::isListening() const
     return m_server->isListening();
 }
 
-void ClipboardServer::monitorStateChanged(QProcess::ProcessState newState)
-{
-    COPYQ_LOG( QString("Monitor state changed: %1").arg(newState) );
-
-    if (newState == QProcess::NotRunning) {
-        monitorStandardError();
-
-        QString msg = tr("Clipboard monitor crashed!");
-        log(msg, LogError);
-        m_wnd->showError(msg);
-
-        // restart clipboard monitor
-        stopMonitoring();
-        startMonitoring();
-    } else if (newState == QProcess::Starting) {
-        log( tr("Clipboard Monitor: Starting") );
-    } else if (newState == QProcess::Running) {
-        log( tr("Clipboard Monitor: Started") );
-    }
-}
-
-void ClipboardServer::monitorStandardError()
-{
-    if (m_monitor == NULL)
-        return;
-
-    const QByteArray stderrOutput = m_monitor->process().readAllStandardError().trimmed();
-    if ( stderrOutput.isEmpty() )
-        return;
-
-    foreach( const QByteArray &line, stderrOutput.split('\n') )
-        log( tr("Clipboard Monitor: ") + line, LogNote );
-}
-
 void ClipboardServer::stopMonitoring()
 {
     if (m_monitor == NULL)
@@ -166,16 +138,15 @@ void ClipboardServer::startMonitoring()
 
     if ( m_monitor == NULL ) {
         m_monitor = new RemoteProcess(this);
-        connect( &m_monitor->process(), SIGNAL(stateChanged(QProcess::ProcessState)),
-                 this, SLOT(monitorStateChanged(QProcess::ProcessState)) );
-        connect( &m_monitor->process(), SIGNAL(readyReadStandardError()),
-                 this, SLOT(monitorStandardError()) );
         connect( m_monitor, SIGNAL(newMessage(QByteArray)),
                  this, SLOT(newMonitorMessage(QByteArray)) );
         connect( m_monitor, SIGNAL(connectionError()),
                  this, SLOT(monitorConnectionError()) );
 
-        const QString name = clipboardMonitorServerName();
+        QString name = clipboardMonitorServerName().arg(monitorProcessId);
+        while ( !QLocalServer::removeServer(name) )
+            name = clipboardMonitorServerName().arg(++monitorProcessId);
+
         m_monitor->start( name, QStringList("monitor") << name );
         if ( !m_monitor->isConnected() ) {
             disconnect();
@@ -308,19 +279,25 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     QDataStream in(message);
     in >> item;
 
+    if ( item.data().hasFormat(mimeMessage) ) {
+        const QByteArray data = item.data().data(mimeMessage);
+        foreach( const QByteArray &line, data.split('\n') )
+            log( QString::fromUtf8(line), LogNote );
+    } else {
 #ifdef COPYQ_WS_X11
-    if ( item.data().data(mimeClipboardMode) != "selection" )
-        m_wnd->clipboardChanged(&item);
+        if ( item.data().data(mimeClipboardMode) != "selection" )
+            m_wnd->clipboardChanged(&item);
 #else
-    m_wnd->clipboardChanged(&item);
+        m_wnd->clipboardChanged(&item);
 #endif
 
-    // Don't add item to list on application start.
-    if (m_lastHash == 0) {
-        m_lastHash = item.dataHash();
-    } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
-        m_lastHash = item.dataHash();
-        m_wnd->addToTab( item.data(), QString(), true );
+        // Don't add item to list on application start.
+        if (m_lastHash == 0) {
+            m_lastHash = item.dataHash();
+        } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
+            m_lastHash = item.dataHash();
+            m_wnd->addToTab( item.data(), QString(), true );
+        }
     }
 
     COPYQ_LOG("Message received from monitor.");

@@ -111,6 +111,8 @@ private:
 
     void writeMessage(const QByteArray &msg);
 
+    void log(const QString &text, const LogLevel level);
+
     QStringList m_formats;
     QScopedPointer<QMimeData> m_newdata;
     QLocalSocket *m_socket;

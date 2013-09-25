@@ -511,8 +511,4 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 
     qSleep(waitMsClipboard);
     QVERIFY( m_monitor->isConnected() );
-    QByteArray stderrData = m_monitor->process().readAllStandardError();
-    QVERIFY2(testStderr(stderrData), stderrData);
-    QByteArray stdoutData = m_monitor->process().readAllStandardOutput();
-    QVERIFY2(stdoutData.isEmpty(), stdoutData);
 }

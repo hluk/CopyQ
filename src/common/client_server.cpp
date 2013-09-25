@@ -36,6 +36,7 @@ const QString mimeWindowTitle = "application/x-copyq-owner-window-title";
 const QString mimeItems = "application/x-copyq-item";
 const QString mimeItemNotes = "application/x-copyq-item-notes";
 const QString mimeApplicationSettings = "application/x-copyq-settings";
+const QString mimeMessage = "application/x-copyq-message";
 #ifdef COPYQ_WS_X11
 const QString mimeClipboardMode = "application/x-copyq-clipboard-mode";
 #endif
@@ -49,23 +50,27 @@ QString escapeHtml(const QString &str)
 #endif
 }
 
-void log(const QString &text, const LogLevel level)
+QString createLogMessage(const QString &label, const QString &text, const LogLevel level)
 {
-    QString msg;
-    QString level_id;
+    QString levelId;
 
     if (level == LogNote)
-        level_id = QObject::tr("CopyQ: %1\n");
+        levelId = QObject::tr("%1: %2\n");
     else if (level == LogWarning)
-        level_id = QObject::tr("CopyQ warning: %1\n");
+        levelId = QObject::tr("%1 warning: %2\n");
     else if (level == LogError)
-        level_id = QObject::tr("CopyQ ERROR: %1\n");
+        levelId = QObject::tr("%1 ERROR: %2\n");
 #ifdef COPYQ_LOG_DEBUG
     else if (level == LogDebug)
-        level_id = QObject::tr("CopyQ DEBUG: %1\n");
+        levelId = QObject::tr("%1 DEBUG: %2\n");
 #endif
 
-    msg = level_id.arg(text);
+    return levelId.arg(label).arg(text);
+}
+
+void log(const QString &text, const LogLevel level)
+{
+    const QString msg = createLogMessage("CopyQ", text, level);
 
     QFile f;
     f.open(stderr, QIODevice::WriteOnly);
@@ -176,12 +181,12 @@ QString serverName(const QString &name)
 
 QString clipboardServerName()
 {
-    return serverName("server");
+    return serverName("s");
 }
 
 QString clipboardMonitorServerName()
 {
-    return serverName("monitor_server");
+    return serverName("m%1");
 }
 
 uint hash(const QMimeData &data, const QStringList &formats)

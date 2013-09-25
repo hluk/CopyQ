@@ -108,12 +108,6 @@ private slots:
     /** An error occurred on monitor connection. */
     void monitorConnectionError();
 
-    /** Monitor state changed. */
-    void monitorStateChanged(QProcess::ProcessState newState);
-
-    /** Message can be read from monitor standard error output. */
-    void monitorStandardError();
-
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);
 

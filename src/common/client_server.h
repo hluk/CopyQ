@@ -85,11 +85,14 @@ extern const QString mimeWindowTitle;
 extern const QString mimeItems;
 extern const QString mimeItemNotes;
 extern const QString mimeApplicationSettings;
+extern const QString mimeMessage;
 #ifdef COPYQ_WS_X11
 extern const QString mimeClipboardMode;
 #endif
 
 QString escapeHtml(const QString &str);
+
+QString createLogMessage(const QString &label, const QString &text, const LogLevel level);
 
 void log(const QString &text, const LogLevel level = LogNote);
 
