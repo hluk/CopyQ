@@ -1446,7 +1446,7 @@ void ClipboardBrowser::clear()
     m->removeRows(0, m->rowCount());
 }
 
-bool ClipboardBrowser::select(uint itemHash, bool moveToTop)
+bool ClipboardBrowser::select(uint itemHash, bool moveToTop, bool moveToClipboard)
 {
     int row = m->findItem(itemHash);
     if (row < 0)
@@ -1455,10 +1455,14 @@ bool ClipboardBrowser::select(uint itemHash, bool moveToTop)
     if (moveToTop) {
         m->move(row, 0);
         row = 0;
+        scrollToTop();
     }
 
     setCurrent(row);
-    moveToClipboard(row);
+
+    if (moveToClipboard)
+        this->moveToClipboard(row);
+
     return true;
 }
 

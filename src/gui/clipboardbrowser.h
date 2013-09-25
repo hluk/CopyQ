@@ -93,9 +93,9 @@ class ClipboardBrowser : public QListView
          *
          * @return true only if item exists
          */
-        bool select(
-                uint itemHash, //!< Hash of the item.
-                bool moveToTop = false //!< Move existing item to top.
+        bool select(uint itemHash, //!< Hash of the item.
+                bool moveToTop = false, //!< Move existing item to top.
+                bool moveToClipboard = true //!< Move existing item to clipboard
                 );
 
         /** Sort selected items. */

@@ -1463,7 +1463,7 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
 
     bool reselectFirst = false;
 
-    if ( c->select(itemHash, moveExistingToTop) ) {
+    if ( c->select(itemHash, moveExistingToTop, false) ) {
         if (!force)
             triggerActionForData(data, tabName);
     } else {
