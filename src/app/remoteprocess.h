@@ -21,16 +21,21 @@
 #define REMOTEPROCESS_H
 
 #include <QObject>
-#include <QProcess>
 #include <QTimer>
 
 class QByteArray;
 class QLocalServer;
 class QLocalSocket;
+class QProcess;
 class QString;
 
 /**
  * Starts process and handles communication with it.
+ *
+ * Parent->child hierarchy after start() is called is following:
+ *
+ *   Parent of RemoteProcess -> QProcess -> QLocalServer -> QLocalSocket
+ *
  */
 class RemoteProcess : public QObject
 {
@@ -57,7 +62,7 @@ public:
 
     void closeConnection();
 
-    QProcess &process() { return m_process; }
+    QProcess &process() { return *m_process; }
 
 signals:
     /**
@@ -76,7 +81,7 @@ private slots:
     void pongTimeout();
 
 private:
-    QProcess m_process;
+    QProcess *m_process;
     QLocalServer *m_server;
     QLocalSocket *m_socket;
     QTimer m_timerPing;

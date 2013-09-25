@@ -238,7 +238,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
 {
     connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(readyRead()), Qt::DirectConnection );
+             this, SLOT(readyRead()) );
     connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(onDisconnected()) );
 
@@ -422,10 +422,7 @@ void ClipboardMonitor::readyRead()
             return;
         }
 
-        if (msg.isEmpty()) {
-            onDisconnected();
-            return;
-        } else if (msg == "ping") {
+        if (msg == "ping") {
             writeMessage(QByteArray("pong") );
         } else {
             ClipboardItem item;
@@ -505,6 +502,7 @@ void ClipboardMonitor::updateClipboard(QMimeData *data)
 void ClipboardMonitor::exit(int exitCode)
 {
     m_updateTimer->start(); // Don't check clipboard after this.
+    m_socket->abort();
     App::exit(exitCode);
 }
 
