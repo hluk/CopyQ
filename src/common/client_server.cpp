@@ -190,6 +190,13 @@ uint hash(const QMimeData &data, const QStringList &formats)
 
     QByteArray bytes;
     foreach ( const QString &mime, formats ) {
+        // Skip some special data.
+        if (mime == mimeWindowTitle)
+            continue;
+#ifdef COPYQ_WS_X11
+        if (mime == mimeClipboardMode)
+            continue;
+#endif
         bytes = data.data(mime);
         hash ^= qHash(bytes) + qHash(mime);
     }
