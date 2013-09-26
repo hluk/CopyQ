@@ -273,13 +273,13 @@ void ClipboardServer::onAboutToQuit()
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
 {
-    COPYQ_LOG("Receiving message from monitor.");
-
     ClipboardItem item;
     QDataStream in(message);
     in >> item;
 
-    if ( item.data().hasFormat(mimeMessage) ) {
+    if ( in.status() != QDataStream::Ok ) {
+        log( tr("Failed to read message from monitor."), LogError );
+    } else if ( item.data().hasFormat(mimeMessage) ) {
         const QByteArray data = item.data().data(mimeMessage);
         foreach( const QByteArray &line, data.split('\n') )
             log( QString::fromUtf8(line), LogNote );
@@ -299,8 +299,6 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
             m_wnd->addToTab( item.data(), QString(), true );
         }
     }
-
-    COPYQ_LOG("Message received from monitor.");
 }
 
 void ClipboardServer::monitorConnectionError()

@@ -84,7 +84,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
 #ifdef Q_OS_UNIX
     // Safely quit application on TERM and HUP signals.
     if ( ::socketpair(AF_UNIX, SOCK_STREAM, 0, signalFd) != 0 ) {
-        log( QObject::tr("socketpair() failed!"), LogError );
+        log( QString("socketpair() failed!"), LogError );
     } else {
         QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, m_app.data());
         sn->connect( sn, SIGNAL(activated(int)), m_app.data(), SLOT(quit()) );
@@ -97,7 +97,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
         sigact.sa_flags |= SA_RESTART;
 
         if ( sigaction(SIGHUP, &sigact, 0) > 0 || sigaction(SIGTERM, &sigact, 0) > 0 )
-            log( QObject::tr("sigaction() failed!"), LogError );
+            log( QString("sigaction() failed!"), LogError );
     }
 #endif
 }

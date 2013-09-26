@@ -55,17 +55,17 @@ QString createLogMessage(const QString &label, const QString &text, const LogLev
     QString levelId;
 
     if (level == LogNote)
-        levelId = QObject::tr("%1: %2\n");
+        levelId = QString("%1");
     else if (level == LogWarning)
-        levelId = QObject::tr("%1 warning: %2\n");
+        levelId = QObject::tr("warning: %1");
     else if (level == LogError)
-        levelId = QObject::tr("%1 ERROR: %2\n");
+        levelId = QObject::tr("ERROR: %1");
 #ifdef COPYQ_LOG_DEBUG
     else if (level == LogDebug)
-        levelId = QObject::tr("%1 DEBUG: %2\n");
+        levelId = QString("DEBUG: %1");
 #endif
 
-    return levelId.arg(label).arg(text);
+    return label + " " + levelId.arg(text) + "\n";
 }
 
 void log(const QString &text, const LogLevel level)
