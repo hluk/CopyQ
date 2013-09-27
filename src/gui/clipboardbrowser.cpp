@@ -1566,6 +1566,11 @@ void ClipboardBrowser::loadItems()
     if ( m_loaded || m_id.isEmpty() )
         return;
 
+    // Don't decrypt tab automatically if the operation was cancelled/unsuccessful previously.
+    // In such case, decrypt only if unlock button was clicked.
+    if ( m->isDisabled() && sender() != m_loadButton )
+        return;
+
     m_timerSave->stop();
     m_loaded = ConfigurationManager::instance()->loadItems(*m, m_id);
 
