@@ -862,7 +862,10 @@ class Input
 {
 public:
     // Remove some extra "information" on Mac.
-    static int cleanModifier(int m)  { return m & ~Qt::KeypadModifier; }
+    static Qt::KeyboardModifiers cleanModifier(Qt::KeyboardModifiers m)
+    {
+        return m & ~Qt::KeypadModifier;
+    }
 
     Input()
         : m_key(0), m_xkey(0), m_modifiers(0) {}
@@ -876,7 +879,7 @@ public:
             m_key = x.toUpper().unicode();
     }
 
-    Input(int k, int m, const QString &t = QString())
+    Input(int k, Qt::KeyboardModifiers m, const QString &t = QString())
         : m_key(k), m_modifiers(cleanModifier(m)), m_text(t)
     {
         if (m_text.size() == 1) {
@@ -893,7 +896,7 @@ public:
         }
 
         // Set text only if input is ascii key without control modifier.
-        if (m_text.isEmpty() && k >= 0 && k <= 0x7f && (m & (HostOsInfo::controlModifier())) == 0) {
+        if (m_text.isEmpty() && k >= 0 && k <= 0x7f && (m & HostOsInfo::controlModifier()) == 0) {
             QChar c = QChar::fromLatin1(k);
             m_text = QString((m & ShiftModifier) != 0 ? c.toUpper() : c.toLower());
         }
@@ -935,12 +938,12 @@ public:
 
     bool is(int c) const
     {
-        return m_xkey == c && m_modifiers != int(HostOsInfo::controlModifier());
+        return m_xkey == c && m_modifiers != Qt::KeyboardModifiers(HostOsInfo::controlModifier());
     }
 
     bool isControl() const
     {
-        return m_modifiers & HostOsInfo::controlModifier();
+        return m_modifiers == Qt::KeyboardModifiers(HostOsInfo::controlModifier());
     }
 
     bool isControl(int c) const
@@ -986,7 +989,7 @@ public:
 
     int key() const { return m_key; }
 
-    int modifiers() const { return m_modifiers; }
+    Qt::KeyboardModifiers modifiers() const { return m_modifiers; }
 
     // Return raw character for macro recording or dot command.
     QChar raw() const
@@ -1037,12 +1040,12 @@ public:
 private:
     int m_key;
     int m_xkey;
-    int m_modifiers;
+    Qt::KeyboardModifiers m_modifiers;
     QString m_text;
 };
 
 // mapping to <Nop> (do nothing)
-static const Input Nop(-1, -1, QString());
+static const Input Nop(-1, Qt::KeyboardModifiers(-1), QString());
 
 QDebug operator<<(QDebug ts, const Input &input) { return input.dump(ts); }
 
@@ -1080,7 +1083,7 @@ static Input parseVimKeyName(const QString &keyName)
     if (len == 1 && keys.at(0).toUpper() == _("NOP"))
         return Nop;
 
-    int mods = NoModifier;
+    Qt::KeyboardModifiers mods = NoModifier;
     for (int i = 0; i < len - 1; ++i) {
         const QString &key = keys[i].toUpper();
         if (key == _("S"))
@@ -1524,12 +1527,13 @@ public:
     EventResult handleSearchSubSubMode(const Input &);
     bool handleCommandSubSubMode(const Input &);
     void fixSelection(); // Fix selection according to current range, move and command modes.
+    bool finishSearch();
     void finishMovement(const QString &dotCommandMovement = QString());
     void resetCommandMode();
     void clearCommandMode();
     QTextCursor search(const SearchData &sd, int startPos, int count, bool showMessages);
     void search(const SearchData &sd, bool showMessages = true);
-    void searchNext(bool forward = true);
+    bool searchNext(bool forward = true);
     void searchBalanced(bool forward, QChar needle, QChar other);
     void highlightMatches(const QString &needle);
     void stopIncrementalFind();
@@ -2096,20 +2100,37 @@ void FakeVimHandler::Private::init()
 
 void FakeVimHandler::Private::focus()
 {
+    if (g.inFakeVim)
+        return;
+
+    enterFakeVim();
+
     stopIncrementalFind();
     if (!isInsertMode()) {
-        leaveVisualMode();
+        if (g.subsubmode == SearchSubSubMode) {
+            setPosition(m_searchStartPosition);
+            scrollToLine(m_searchFromScreenLine);
+            setTargetColumn();
+        } else {
+            leaveVisualMode();
+        }
+
+        bool exitCommandLine = (g.subsubmode == SearchSubSubMode || g.mode == ExMode);
         resetCommandMode();
+        if (exitCommandLine)
+            updateMiniBuffer();
     }
     updateCursorShape();
-    if (!g.inFakeVim || g.mode != CommandMode)
+    if (g.mode != CommandMode)
         updateMiniBuffer();
     updateHighlights();
+
+    leaveFakeVim();
 }
 
 void FakeVimHandler::Private::enterFakeVim()
 {
-    QTC_ASSERT(!g.inFakeVim, qDebug() << "enterFakeVim() shouldn't be called recursively!");
+    QTC_ASSERT(!g.inFakeVim, qDebug() << "enterFakeVim() shouldn't be called recursively!"; return);
 
     m_cursor = EDITOR(textCursor());
     g.inFakeVim = true;
@@ -2133,7 +2154,7 @@ void FakeVimHandler::Private::enterFakeVim()
 
 void FakeVimHandler::Private::leaveFakeVim(bool needUpdate)
 {
-    QTC_ASSERT(g.inFakeVim, qDebug() << "enterFakeVim() not called before leaveFakeVim()!");
+    QTC_ASSERT(g.inFakeVim, qDebug() << "enterFakeVim() not called before leaveFakeVim()!"; return);
 
     // The command might have destroyed the editor.
     if (m_textedit || m_plaintextedit) {
@@ -2173,7 +2194,7 @@ void FakeVimHandler::Private::leaveFakeVim(bool needUpdate)
 bool FakeVimHandler::Private::wantsOverride(QKeyEvent *ev)
 {
     const int key = ev->key();
-    const int mods = ev->modifiers();
+    const Qt::KeyboardModifiers mods = ev->modifiers();
     KEY_DEBUG("SHORTCUT OVERRIDE" << key << "  PASSING: " << g.passing);
 
     if (key == Key_Escape) {
@@ -2190,7 +2211,7 @@ bool FakeVimHandler::Private::wantsOverride(QKeyEvent *ev)
     }
 
     // We are interested in overriding most Ctrl key combinations.
-    if (mods == int(HostOsInfo::controlModifier())
+    if (mods == Qt::KeyboardModifiers(HostOsInfo::controlModifier())
             && !config(ConfigPassControlKey).toBool()
             && ((key >= Key_A && key <= Key_Z && key != Key_K)
                 || key == Key_BracketLeft || key == Key_BracketRight)) {
@@ -2213,7 +2234,7 @@ bool FakeVimHandler::Private::wantsOverride(QKeyEvent *ev)
 EventResult FakeVimHandler::Private::handleEvent(QKeyEvent *ev)
 {
     const int key = ev->key();
-    const int mods = ev->modifiers();
+    const Qt::KeyboardModifiers mods = ev->modifiers();
 
     if (key == Key_Shift || key == Key_Alt || key == Key_Control
             || key == Key_Alt || key == Key_AltGr || key == Key_Meta)
@@ -2726,14 +2747,16 @@ void FakeVimHandler::Private::updateFind(bool isComplete)
     g.currentMessage.clear();
 
     const QString &needle = g.searchBuffer.contents();
+    if (isComplete) {
+        setPosition(m_searchStartPosition);
+        if (!needle.isEmpty())
+            recordJump();
+    }
+
     SearchData sd;
     sd.needle = needle;
     sd.forward = g.lastSearchForward;
     sd.highlightMatches = isComplete;
-    if (isComplete) {
-        setPosition(m_searchStartPosition);
-        recordJump();
-    }
     search(sd, isComplete);
 }
 
@@ -3016,6 +3039,17 @@ void FakeVimHandler::Private::fixSelection()
         moveRight();
         setAnchorAndPosition(position(), pos);
     }
+}
+
+bool FakeVimHandler::Private::finishSearch()
+{
+    if (g.lastSearch.isEmpty()
+        || (!g.currentMessage.isEmpty() && g.currentMessageLevel == MessageError)) {
+        return false;
+    }
+    if (g.submode != NoSubMode)
+        setAnchorAndPosition(m_searchStartPosition, position());
+    return true;
 }
 
 void FakeVimHandler::Private::finishMovement(const QString &dotCommandMovement)
@@ -3488,7 +3522,7 @@ bool FakeVimHandler::Private::handleMovement(const Input &input)
         g.searchBuffer.historyPush(needle);
         g.lastSearch = needle;
         g.lastSearchForward = input.is('*');
-        searchNext();
+        handled = searchNext();
     } else if (input.is('\'')) {
         g.subsubmode = TickSubSubMode;
         if (g.submode != NoSubMode)
@@ -3655,7 +3689,7 @@ bool FakeVimHandler::Private::handleMovement(const Input &input)
             }
             setPosition(m_cursor.selectionStart());
         } else {
-            searchNext(input.is('n'));
+            handled = searchNext(input.is('n'));
         }
     } else if (input.is('t')) {
         g.movetype = MoveInclusive;
@@ -4378,6 +4412,7 @@ bool FakeVimHandler::Private::handleWindowSubMode(const Input &input)
     if (handleCount(input))
         return true;
 
+    leaveVisualMode();
     emit q->windowCommandRequested(input.toString(), count());
 
     g.submode = NoSubMode;
@@ -4814,7 +4849,6 @@ EventResult FakeVimHandler::Private::handleExMode(const Input &input)
 {
     if (input.isEscape()) {
         g.commandBuffer.clear();
-        enterCommandMode(g.returnToMode);
         resetCommandMode();
         m_ctrlVActive = false;
     } else if (m_ctrlVActive) {
@@ -4825,7 +4859,7 @@ EventResult FakeVimHandler::Private::handleExMode(const Input &input)
         return EventHandled;
     } else if (input.isBackspace()) {
         if (g.commandBuffer.isEmpty()) {
-            enterCommandMode(g.returnToMode);
+            leaveVisualMode();
             resetCommandMode();
         } else if (g.commandBuffer.hasSelection()) {
             g.commandBuffer.deleteSelected();
@@ -4855,11 +4889,8 @@ EventResult FakeVimHandler::Private::handleSearchSubSubMode(const Input &input)
 
     if (input.isEscape()) {
         g.currentMessage.clear();
-        g.searchBuffer.clear();
-        setAnchorAndPosition(m_searchStartPosition, m_searchStartPosition);
+        setPosition(m_searchStartPosition);
         scrollToLine(m_searchFromScreenLine);
-        enterCommandMode(g.returnToMode);
-        resetCommandMode();
     } else if (input.isBackspace()) {
         if (g.searchBuffer.isEmpty())
             resetCommandMode();
@@ -4871,19 +4902,17 @@ EventResult FakeVimHandler::Private::handleSearchSubSubMode(const Input &input)
             g.lastSearch = needle;
         else
             g.searchBuffer.setContents(g.lastSearch);
-        if (!g.lastSearch.isEmpty()) {
-            updateFind(true);
-            finishMovement(g.searchBuffer.prompt() + g.lastSearch + QLatin1Char('\n'));
+
+        updateFind(true);
+
+        if (finishSearch()) {
+            if (g.submode != NoSubMode)
+                finishMovement(g.searchBuffer.prompt() + g.lastSearch + QLatin1Char('\n'));
+            if (g.currentMessage.isEmpty())
+                showMessage(MessageCommand, g.searchBuffer.display());
         } else {
-            finishMovement();
-        }
-        if (g.currentMessage.isEmpty())
-            showMessage(MessageCommand, g.searchBuffer.display());
-        else if (g.currentMessageLevel == MessageError)
             handled = EventCancelled; // Not found so cancel mapping if any.
-        enterCommandMode(g.returnToMode);
-        resetCommandMode();
-        g.searchBuffer.clear();
+        }
     } else if (input.isKey(Key_Tab)) {
         g.searchBuffer.insertChar(QChar(9));
     } else if (!g.searchBuffer.handleInput(input)) {
@@ -4891,10 +4920,14 @@ EventResult FakeVimHandler::Private::handleSearchSubSubMode(const Input &input)
         return EventUnhandled;
     }
 
-    updateMiniBuffer();
-
-    if (!input.isReturn() && !input.isEscape())
+    if (input.isReturn() || input.isEscape()) {
+        g.searchBuffer.clear();
+        resetCommandMode();
+        updateMiniBuffer();
+    } else {
+        updateMiniBuffer();
         updateFind(false);
+    }
 
     return handled;
 }
@@ -5966,7 +5999,7 @@ void FakeVimHandler::Private::search(const SearchData &sd, bool showMessages)
     setTargetColumn();
 }
 
-void FakeVimHandler::Private::searchNext(bool forward)
+bool FakeVimHandler::Private::searchNext(bool forward)
 {
     SearchData sd;
     sd.needle = g.lastSearch;
@@ -5976,6 +6009,7 @@ void FakeVimHandler::Private::searchNext(bool forward)
     showMessage(MessageCommand, QLatin1Char(g.lastSearchForward ? '/' : '?') + sd.needle);
     recordJump();
     search(sd);
+    return finishSearch();
 }
 
 void FakeVimHandler::Private::highlightMatches(const QString &needle)
@@ -6937,8 +6971,7 @@ bool FakeVimHandler::Private::handleInsertInEditor(const Input &input)
 
     joinPreviousEditBlock();
 
-    QKeyEvent event(QEvent::KeyPress, input.key(),
-                    static_cast<Qt::KeyboardModifiers>(input.modifiers()), input.text());
+    QKeyEvent event(QEvent::KeyPress, input.key(), input.modifiers(), input.text());
     setAnchor();
     if (!passEventToEditor(event))
         return !m_textedit && !m_plaintextedit; // Mark event as handled if it has destroyed editor.
