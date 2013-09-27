@@ -253,15 +253,15 @@ La orden se puede configurar en preferencias.</translation>
         <location filename="../src/gui/clipboardbrowser.cpp" line="640"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Buscando %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1717"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1722"/>
         <source>Discard Changes?</source>
         <translation>¿Descartar los cambios?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="1718"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="1723"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>¿Está seguro de que desea &lt;strong&gt;descartar los cambios&lt;/strong&gt;?</translation>
     </message>
@@ -370,7 +370,7 @@ La orden se puede configurar en preferencias.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="281"/>
         <source>Failed to read message from monitor.</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al leer mensaje del monitor.</translation>
     </message>
     <message>
         <source>Bad command syntax. Use -h for help.
@@ -793,12 +793,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../src/gui/configtabappearance.cpp" line="180"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"></translation>
+        <translation>entrada</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="184"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Buscar texto %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="373"/>
@@ -835,292 +835,292 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="36"/>
         <source>A&amp;pplication Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Accesos rápidos de &amp;aplicación</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="46"/>
         <source>S&amp;ystem Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Accesos rápidos de &amp;sistema</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="172"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished">&amp;Nueva entrada</translation>
+        <translation>&amp;Nueva entrada</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="173"/>
         <source>&amp;Import Tab...</source>
-        <translation type="unfinished">&amp;Importar Pestaña...</translation>
+        <translation>&amp;Importar Pestaña...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="173"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished">Ctrl+I</translation>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="174"/>
         <source>&amp;Export Tab...</source>
-        <translation type="unfinished">&amp;Exportar Pestaña...</translation>
+        <translation>&amp;Exportar Pestaña...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="175"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Preferencias...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="175"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished">Ctrl+P</translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="176"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished">Mostrar contenido del &amp;Portapapeles</translation>
+        <translation>Mostrar contenido del &amp;Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="176"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished">Ctrl+Shift+C</translation>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="177"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished">&amp;Habilitar el Almacenamiento del Portapapeles</translation>
+        <translation>&amp;Habilitar el Almacenamiento del Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="177"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished">Ctrl+Shift+X</translation>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="178"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished">&amp;Salir</translation>
+        <translation>&amp;Salir</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="178"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished">Ctrl+Q</translation>
+        <translation>Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="180"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished">&amp;Ordenar las entradas seleccionadas</translation>
+        <translation>&amp;Ordenar las entradas seleccionadas</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="180"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished">Ctrl+Shift+S</translation>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="181"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished">&amp;Ordenar inversamente la entradas seleccionadas</translation>
+        <translation>&amp;Ordenar inversamente la entradas seleccionadas</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="181"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished">Ctrl+Shift+R</translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="182"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished">&amp;Pegar entradas</translation>
+        <translation>&amp;Pegar entradas</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="183"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished">&amp;Copiar Entradas Seleccionadas</translation>
+        <translation>&amp;Copiar Entradas Seleccionadas</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="185"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished">Mover al &amp;Portapapeles</translation>
+        <translation>Mover al &amp;Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="186"/>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished">&amp;Mostrar Contenido...</translation>
+        <translation>&amp;Mostrar Contenido...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="186"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation>F4</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="187"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Eliminar</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="187"/>
         <source>Delete</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="188"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished">&amp;Editar</translation>
+        <translation>&amp;Editar</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="188"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="189"/>
         <source>&amp;Edit Notes</source>
-        <translation type="unfinished">&amp;Editar Notas</translation>
+        <translation>&amp;Editar Notas</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="189"/>
         <source>Shift+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="190"/>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished">E&amp;ditar con un editor</translation>
+        <translation>E&amp;ditar con un editor</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="190"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+E</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="191"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished">&amp;Acción...</translation>
+        <translation>&amp;Acción...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="191"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation>F5</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="192"/>
         <source>&amp;Next to Clipboard</source>
-        <translation type="unfinished">&amp;Siguiente al Portapapeles</translation>
+        <translation>&amp;Siguiente al Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="192"/>
         <source>Ctrl+Shift+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="193"/>
         <source>&amp;Previous to Clipboard</source>
-        <translation type="unfinished">&amp;Anterior al Portapapeles</translation>
+        <translation>&amp;Anterior al Portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="193"/>
         <source>Ctrl+Shift+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="195"/>
         <source>&amp;New tab</source>
-        <translation type="unfinished">&amp;Nueva pestaña</translation>
+        <translation>&amp;Nueva pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="195"/>
         <source>Ctrl+T</source>
-        <translation type="unfinished">Ctrl+T</translation>
+        <translation>Ctrl+T</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="196"/>
         <source>Re&amp;name tab</source>
-        <translation type="unfinished">Ca&amp;mbiar el nombre de la pestaña</translation>
+        <translation>Ca&amp;mbiar el nombre de la pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="196"/>
         <source>Ctrl+F2</source>
-        <translation type="unfinished">Ctrl+F2</translation>
+        <translation>Ctrl+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="197"/>
         <source>Re&amp;move tab</source>
-        <translation type="unfinished">Ce&amp;rrar pestaña</translation>
+        <translation>Ce&amp;rrar pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="197"/>
         <source>Ctrl+W</source>
-        <translation type="unfinished">Ctrl+W</translation>
+        <translation>Ctrl+W</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="199"/>
         <source>&amp;Help</source>
-        <translation type="unfinished">&amp;Ayuda</translation>
+        <translation>&amp;Ayuda</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="208"/>
         <source>Sh&amp;ow/hide main window</source>
-        <translation type="unfinished">M&amp;ostrar/ocultar ventana principal</translation>
+        <translation>M&amp;ostrar/ocultar ventana principal</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="209"/>
         <source>Show the tray &amp;menu</source>
-        <translation type="unfinished">Mostrar el &amp;menú de la bandeja</translation>
+        <translation>Mostrar el &amp;menú de la bandeja</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="210"/>
         <source>&amp;Edit clipboard</source>
-        <translation type="unfinished">&amp;Editar portapapeles</translation>
+        <translation>&amp;Editar portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="211"/>
         <source>Edit &amp;first item</source>
-        <translation type="unfinished">Editar la &amp;primera entrada</translation>
+        <translation>Editar la &amp;primera entrada</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="212"/>
         <source>Copy &amp;second item</source>
-        <translation type="unfinished">Copiar la &amp;segunda entrada</translation>
+        <translation>Copiar la &amp;segunda entrada</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="213"/>
         <source>Show &amp;action dialog</source>
-        <translation type="unfinished">Mostar ventana de diálogo de &amp;acción</translation>
+        <translation>Mostar ventana de diálogo de &amp;acción</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="214"/>
         <source>Create &amp;new item</source>
-        <translation type="unfinished">Crear &amp;nueva entrada</translation>
+        <translation>Crear &amp;nueva entrada</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="215"/>
         <source>Copy n&amp;ext item</source>
-        <translation type="unfinished">Copiar &amp;siguiente entrada</translation>
+        <translation>Copiar &amp;siguiente entrada</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="216"/>
         <source>Copy &amp;previous item</source>
-        <translation type="unfinished">Copiar entrada &amp;anterior</translation>
+        <translation>Copiar entrada &amp;anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="217"/>
         <source>Paste as pla&amp;in text</source>
-        <translation type="unfinished">Pegar como texto &amp;plano</translation>
+        <translation>Pegar como texto &amp;plano</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="218"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished">Deshabilitar el almacenamiento del portapapeles</translation>
+        <translation>Deshabilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="219"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished">Habilitar el almacenamiento del portapapeles</translation>
+        <translation>Habilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="220"/>
         <source>Paste and copy next</source>
-        <translation type="unfinished">Pegar y copiar siguiente</translation>
+        <translation>Pegar y copiar siguiente</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="221"/>
         <source>Paste and copy previous</source>
-        <translation type="unfinished">Pegar y copiar abterior</translation>
+        <translation>Pegar y copiar abterior</translation>
     </message>
 </context>
 <context>
@@ -1354,14 +1354,16 @@ Poner 0 para deshabilitar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="617"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Limpiar pestaña después de un intervalo de tiempo (en minutos):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="629"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Limpiar cada pestaña, liberando espacio de memoria, tras un número de minutos de inactivida especificados.
+
+Poner a 0 para no limpiar pestañas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="373"/>
@@ -1674,7 +1676,7 @@ Poner a 0 para deshabilitar.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="51"/>
         <source>Interval in seconds to display notifications:</source>
-        <translation>Intervalo en segundos para mostrar las nostificaciones:</translation>
+        <translation>Intervalo en segundos para mostrar las notificaciones:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="63"/>
@@ -2004,7 +2006,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="55"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation type="unfinished"></translation>
+        <translation>!No se pudo guardar la pestaña %1 a %2 (%3)!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="201"/>
@@ -2089,48 +2091,48 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="302"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Encriptar (requiere GnuPG)</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="309"/>
         <location filename="../src/gui/configurationmanager.cpp" line="318"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="311"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Desencriptar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="320"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Desencriptar y Copiar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="325"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="327"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>Tirar a la Papelera</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="330"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(papelera)</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="332"/>
         <source>Delete</source>
-        <translation type="unfinished">Eliminar</translation>
+        <translation>Eliminar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="351"/>
         <source>Cannot create directory for settings %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡No se pudo crear directorio para la configuración %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="839"/>
@@ -2344,64 +2346,64 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="198"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>Para compartir entradas encriptadas en otros ordenadores o en otra sesión, necesitará ficheros de claves pública y privada:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Mantenga esta clave privada en un lugar seguro.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="389"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Error: %1
- {1?}</translation>
+        <translation>Error: %1
+</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="397"/>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>Error al generar claves.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="413"/>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>Hecho</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="452"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>Creando nuevas claves (esto puede tardar unos minutos)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="453"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="456"/>
         <source>Cancel</source>
-        <translation type="unfinished">Cancelar</translation>
+        <translation>Cancelar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="455"/>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Estableciendo una nueva contraseña...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="458"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation type="unfinished"></translation>
+        <translation>Las claves de encriptación &lt;strong&gt;deben generarse&lt;/strong&gt; antes de que se pueda usar la encriptación de entradas.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="460"/>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>Generar Nuevas Claves...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="462"/>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>Cambiar Contraseñas...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="65"/>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Encriptación</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="67"/>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Encriptar entradas y pestañas.</translation>
     </message>
 </context>
 <context>
@@ -2409,23 +2411,24 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation type="unfinished"></translation>
+        <translation>Para encriptar y desencriptar entradas, añada las órdenes apropiadas en la pestaña Órdenes.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="53"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Compartiendo Entradas y Pestañas Encriptadas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="75"/>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>Pestañas Encriptadas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="81"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Especifique los nombres de las pestañas (una por línea) que se encriptarán y desencriptarán automáticamente.&lt;/p&gt;
+&lt;p&gt;Establezca el intervalo de limpieza de pestañas en la pestaña Histórico para limpiar las entradas de la memoria de manera segura.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2433,17 +2436,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="72"/>
         <source>FakeVim</source>
-        <translation type="unfinished"></translation>
+        <translation>FakeVim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="74"/>
         <source>FakeVim plugin is part of Qt Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>El complemento FakeVim es parte de Qt Creator</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="76"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Emula al editor Vim al editar entradas.</translation>
     </message>
 </context>
 <context>
@@ -2451,12 +2454,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation type="unfinished"></translation>
+        <translation>Activar FakeVim para Editar Entradas</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation type="unfinished"></translation>
+        <translation>Ruta al Archivo de Configuración:</translation>
     </message>
 </context>
 <context>
@@ -2524,12 +2527,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="89"/>
         <source>Notes</source>
-        <translation type="unfinished">Notas</translation>
+        <translation>Notas</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
         <source>Display notes for items.</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar notas para las entradas.</translation>
     </message>
 </context>
 <context>
@@ -2537,27 +2540,27 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation type="unfinished"></translation>
+        <translation>Posición de las Notas</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Encima de la Entrada</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Debajo de la entrada</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>&amp;Icon Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Solo el &amp;Icono</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar Too&amp;l Tip</translation>
     </message>
 </context>
 <context>
@@ -2806,37 +2809,37 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="459"/>
         <source>Rename &amp;group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cambiar el nombre del grupo %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="461"/>
         <source>Re&amp;name tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cambiar el nombre de la pestaña %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="463"/>
         <source>Re&amp;move tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cerrar pestaña %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="465"/>
         <source>Remove group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cerrar el grupo %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="497"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Orden %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2113"/>
         <source>Cannot save file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡No se pudo guardar el archivo %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2168"/>
         <source>Cannot open file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡No se pudo abrir el archivo %1!</translation>
     </message>
     <message>
         <source>CopyQ Error</source>
@@ -3079,7 +3082,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="282"/>
         <source>Information</source>
-        <translation type="unfinished"></translation>
+        <translation>Información</translation>
     </message>
 </context>
 <context>
@@ -3121,9 +3124,9 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../src/common/client_server.cpp" line="282"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%1 (%n línea)</numerusform>
+            <numerusform>%1 (%n líneas)</numerusform>
         </translation>
     </message>
     <message>
@@ -3147,12 +3150,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/common/client_server.cpp" line="60"/>
         <source>warning: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>advertencias: %1</translation>
     </message>
     <message>
         <location filename="../src/common/client_server.cpp" line="62"/>
         <source>ERROR: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ERROR: %1</translation>
     </message>
     <message>
         <location filename="../src/common/client_server.cpp" line="293"/>
@@ -3213,8 +3216,8 @@ que pueden ser letras, dígitos, &apos;-&apos; o &apos;_&apos;!</translation>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
+            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n línea &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
             <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n líneas &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -3226,7 +3229,7 @@ que pueden ser letras, dígitos, &apos;-&apos; o &apos;_&apos;!</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="123"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡El archivo %1 está corrupto o falta algún complemento de CopyQ!</translation>
     </message>
 </context>
 <context>
@@ -3698,17 +3701,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="331"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Ya hay una orden utilizando este atajo de teclado.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="332"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>¡EL atajo de teclado ya existe!</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished">&amp;Buscar:</translation>
+        <translation>&amp;Buscar:</translation>
     </message>
 </context>
 <context>
@@ -3769,12 +3772,12 @@ Usar &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="72"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Expresión Regular</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="75"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>No distinguir entre mayúscula/minúsculas</translation>
     </message>
 </context>
 </TS>
