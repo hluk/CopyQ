@@ -988,10 +988,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             break;
 
         case Qt::Key_Escape:
-            if ( ui->searchBar->isHidden() )
+            if ( ui->searchBar->isHidden() ) {
                 close();
-            else
+                getBrowser()->setCurrent(0);
+            } else {
                 resetStatus();
+            }
             break;
 
         default:
