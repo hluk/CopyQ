@@ -883,7 +883,8 @@ QScriptValue Scriptable::config()
     if ( !result.isValid() )
         throwError( tr("Invalid option!") );
 
-    return result.toString();
+    const QString output = result.toString();
+    return output.isEmpty() ? QScriptValue() : output;
 }
 
 void Scriptable::eval()

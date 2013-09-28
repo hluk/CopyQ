@@ -170,13 +170,13 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
-    return QCoreApplication::applicationName() + "_" + name + QString("_")
+    return QCoreApplication::applicationName() + "_"
 #ifdef Q_OS_WIN
             + qgetenv("USERNAME")
 #else
             + qgetenv("USER")
 #endif
-            ;
+            + "_" + name;
 }
 
 QString clipboardServerName()
