@@ -2023,37 +2023,10 @@ void MainWindow::pasteItems()
         return;
 
     ClipboardBrowser *c = browser();
-    ClipboardBrowser::Lock lock(c);
-    int count = 0;
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     qSort(list);
     const int row = list.isEmpty() ? 0 : list.first().row();
-
-    // Insert items from clipboard or just clipboard content.
-    if ( data->hasFormat(mimeItems) ) {
-        const QByteArray bytes = data->data(mimeItems);
-        QDataStream in(bytes);
-
-        while ( !in.atEnd() ) {
-            ClipboardItem item;
-            in >> item;
-            c->add(item, row);
-            ++count;
-        }
-    } else {
-        c->add( cloneData(*data), row );
-        count = 1;
-    }
-
-    // Select new items.
-    if (count > 0) {
-        QItemSelection sel;
-        QModelIndex first = c->index(row);
-        QModelIndex last = c->index(row + count - 1);
-        sel.select(first, last);
-        c->setCurrentIndex(first);
-        c->selectionModel()->select(sel, QItemSelectionModel::ClearAndSelect);
-    }
+    c->paste(*data, row);
 }
 
 void MainWindow::copyItems()
@@ -2069,15 +2042,8 @@ void MainWindow::copyItems()
         int row = indexes.at(0).row();
         item.setData( cloneData(c->at(row)->data()) );
     } else {
-        /* Copy items in reverse (items will be pasted correctly). */
-        QByteArray bytes;
-        for ( int i = indexes.size()-1; i >= 0; --i ) {
-            const ClipboardItem *item = c->at( indexes.at(i).row() );
-            bytes.append( serializeData(item->data()) );
-        }
         QMimeData data;
-        data.setText( c->selectedText() );
-        data.setData(mimeItems, bytes);
+        c->copyIndexes(indexes, &data);
         item.setData( cloneData(data) );
     }
 

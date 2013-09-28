@@ -196,6 +196,17 @@ class ClipboardBrowser : public QListView
         /** Return true if user defined a selection and it shouldn't change programmatically. */
         bool hasUserSelection() const;
 
+        void copyIndexes(const QModelIndexList &indexes, QMimeData *data);
+
+        /** Remove items and return row number of last removed item. */
+        int removeIndexes(const QModelIndexList &indexes);
+
+        /** Paste items. */
+        void paste(const QMimeData &data, int destinationRow);
+
+        /** Render preview image with items. */
+        QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
+
     private:
         bool m_loaded;
         QString m_id;
@@ -221,6 +232,7 @@ class ClipboardBrowser : public QListView
         QProgressBar *m_searchProgress;
 
         int m_dragPosition;
+        QPoint m_dragStartPosition;
 
         int m_spinLock;
         bool m_updateLock;
@@ -295,6 +307,10 @@ class ClipboardBrowser : public QListView
         void dropEvent(QDropEvent *event);
 
         void paintEvent(QPaintEvent *e);
+
+        void mousePressEvent(QMouseEvent *event);
+        void mouseReleaseEvent(QMouseEvent *event);
+        void mouseMoveEvent(QMouseEvent *event);
 
     signals:
         /** Action dialog requested. */

@@ -34,6 +34,7 @@
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 
+#include <QApplication>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QProgressBar>
@@ -168,6 +169,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_loadButton(NULL)
     , m_searchProgress(NULL)
     , m_dragPosition(-1)
+    , m_dragStartPosition()
     , m_spinLock(0)
     , m_updateLock(m_update)
     , m_scrollSaver()
@@ -792,6 +794,126 @@ bool ClipboardBrowser::hasUserSelection() const
             || selectionModel()->selectedRows().count() > 1;
 }
 
+void ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, QMimeData *data)
+{
+    QByteArray bytes;
+    QString text;
+
+    /* Copy items in reverse (items will be pasted correctly). */
+    for ( int i = indexes.size()-1; i >= 0; --i ) {
+        const QModelIndex ind = indexes.at(i);
+        if ( isIndexHidden(ind) )
+            continue;
+
+        const ClipboardItem *item = at( ind.row() );
+        bytes.append( serializeData(item->data()) );
+
+        if ( !text.isEmpty() )
+            text.prepend('\n');
+        text.prepend( itemText(ind) );
+    }
+
+    data->setData(mimeItems, bytes);
+    data->setText(text);
+}
+
+int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
+{
+    if ( indexes.isEmpty() )
+        return -1;
+
+    QList<int> rows;
+    rows.reserve( indexes.size() );
+
+    foreach (const QModelIndex &index, indexes) {
+        if ( index.isValid() )
+            rows.append( index.row() );
+    }
+
+    qSort( rows.begin(), rows.end(), qGreater<int>() );
+
+    ClipboardBrowser::Lock lock(this);
+    foreach (int row, rows) {
+        if ( !isRowHidden(row) )
+            m->removeRow(row);
+    }
+
+    return rows.last();
+}
+
+void ClipboardBrowser::paste(const QMimeData &data, int destinationRow)
+{
+    ClipboardBrowser::Lock lock(this);
+
+    int count = 0;
+
+    // Insert items from clipboard or just clipboard content.
+    if ( data.hasFormat(mimeItems) ) {
+        const QByteArray bytes = data.data(mimeItems);
+        QDataStream in(bytes);
+
+        while ( !in.atEnd() ) {
+            ClipboardItem item;
+            in >> item;
+            add(item, destinationRow);
+            ++count;
+        }
+    } else {
+        add( cloneData(data), destinationRow );
+        count = 1;
+    }
+
+    // Select new items.
+    if (count > 0) {
+        QItemSelection sel;
+        QModelIndex first = index(destinationRow);
+        QModelIndex last = index(destinationRow + count - 1);
+        sel.select(first, last);
+        setCurrentIndex(first);
+        selectionModel()->select(sel, QItemSelectionModel::ClearAndSelect);
+    }
+
+    saveItems();
+}
+
+QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight)
+{
+    int h = 0;
+    const int s = spacing();
+    foreach (const QModelIndex &index, indexes) {
+        if ( !isIndexHidden(index) )
+            h += visualRect(index).height() + s;
+    }
+
+    if (h == 0)
+        return QPixmap();
+
+    const QRect rect(0, 0, qMin(maxWidth, viewport()->contentsRect().width()), qMin(maxHeight, h) );
+
+    QPixmap pix( rect.size() );
+    pix.fill(Qt::transparent);
+    QPainter p(&pix);
+
+    h = 0;
+    const QPoint pos = viewport()->pos() - QPoint(s / 2 + 1, s / 2 + 1);
+    foreach (const QModelIndex &index, indexes) {
+        if ( isIndexHidden(index) )
+            continue;
+        render( &p, QPoint(0, h), visualRect(index).translated(pos).adjusted(0, 0, s, s) );
+        h += visualRect(index).height() + s;
+        if ( h > rect.height() )
+            break;
+    }
+
+    p.setPen(Qt::black);
+    p.setBrush(Qt::NoBrush);
+    p.drawRect( 0, 0, rect.width() - 1, rect.height() - 1 );
+    p.setPen(Qt::white);
+    p.drawRect( 1, 1, rect.width() - 3, rect.height() - 3 );
+
+    return pix;
+}
+
 void ClipboardBrowser::updateContextMenu()
 {
     if (m_menu == NULL || !updatesEnabled())
@@ -1029,9 +1151,9 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
     const QModelIndex index = indexNear( event->pos().y() );
     const int row = index.isValid() ? index.row() : length();
-    add( cloneData(*event->mimeData()), row );
-    saveItems();
+    paste( *event->mimeData(), row );
     m_dragPosition = -1;
+    event->accept();
 }
 
 void ClipboardBrowser::paintEvent(QPaintEvent *e)
@@ -1063,6 +1185,78 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
         p.setCompositionMode(QPainter::CompositionMode_Difference);
         p.drawLine( rect.topLeft(), rect.topRight() );
     }
+}
+
+void ClipboardBrowser::mousePressEvent(QMouseEvent *event)
+{
+    if ( event->button() == Qt::LeftButton
+         && (event->modifiers() & (Qt::ShiftModifier | Qt::ControlModifier)) == 0
+         && indexNear( event->pos().y() ).isValid() )
+    {
+        m_dragStartPosition = event->pos();
+    }
+
+    QListView::mousePressEvent(event);
+}
+
+void ClipboardBrowser::mouseReleaseEvent(QMouseEvent *event)
+{
+    m_dragStartPosition = QPoint();
+    QListView::mouseReleaseEvent(event);
+}
+
+void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
+{
+    if ( m_dragStartPosition.isNull() ) {
+        QListView::mouseMoveEvent(event);
+        return;
+    }
+
+    if ( (event->pos() - m_dragStartPosition).manhattanLength() < QApplication::startDragDistance() )
+         return;
+
+    QModelIndex index = indexNear( m_dragStartPosition.y() );
+    if ( !index.isValid() )
+        return;
+
+    QModelIndexList selected = selectedIndexes();
+    if ( !selected.contains(index) ) {
+        setCurrentIndex(index);
+        selected.clear();
+        selected.append(index);
+    }
+
+    qSort(selected);
+
+    QScopedPointer<QMimeData> data;
+    if ( selected.size() > 1 ) {
+        data.reset(new QMimeData);
+        copyIndexes(selected, data.data());
+        index = selected.first();
+    } else {
+        data.reset( cloneData(*itemData(index.row())) );
+    }
+
+    QDrag *drag = new QDrag(this);
+    drag->setMimeData( data.take() );
+    drag->setPixmap( renderItemPreview(selected, 150, 150) );
+
+    // Save persistent indexes so after the items are dropped (and added) these indexes remain valid.
+    QList<QPersistentModelIndex> indexesToRemove;
+    foreach (const QModelIndex &index, selected)
+        indexesToRemove.append(index);
+
+    // start dragging (doesn't block event loop)
+    Qt::DropAction dropAction = drag->exec(Qt::CopyAction | Qt::MoveAction);
+
+    if (dropAction == Qt::MoveAction) {
+        selected.clear();
+        foreach (const QModelIndex &index, indexesToRemove)
+            selected.append(index);
+        removeIndexes(selected);
+    }
+
+    event->accept();
 }
 
 bool ClipboardBrowser::openEditor()
@@ -1417,28 +1611,9 @@ void ClipboardBrowser::editSelected()
 
 void ClipboardBrowser::remove()
 {
-    QModelIndexList list = selectedIndexes();
-    if ( list.isEmpty() )
-        return;
-
-    QList<int> rows;
-    rows.reserve( list.size() );
-
-    foreach (const QModelIndex &index, list)
-        rows.append( index.row() );
-
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
-
-    ClipboardBrowser::Lock lock(this);
-    foreach (int row, rows) {
-        if ( !isRowHidden(row) )
-            m->removeRow(row);
-    }
-
-    int current = rows.last();
-
-    // select next
-    setCurrent(current);
+    int lastRow = removeIndexes( selectedIndexes() );
+    if (lastRow != -1)
+        setCurrent(lastRow);
 }
 
 void ClipboardBrowser::clear()
