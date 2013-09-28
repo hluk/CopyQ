@@ -206,6 +206,8 @@ private:
 
     ItemFactory *m_itemFactory;
     QScopedPointer<IconFactory> m_iconFactory;
+
+    bool m_optionWidgetsLoaded;
 };
 
 const QIcon &getIconFromResources(const QString &iconName);
