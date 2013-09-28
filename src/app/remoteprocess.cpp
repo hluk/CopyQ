@@ -74,6 +74,8 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
         m_socket = m_server->nextPendingConnection();
         connect( m_socket, SIGNAL(readyRead()),
                  this, SLOT(readyRead()) );
+        connect( m_socket, SIGNAL(disconnected()),
+                 this, SIGNAL(connectionError()) );
         ping();
     }
 }
@@ -148,6 +150,7 @@ void RemoteProcess::ping()
 {
     if ( isConnected() ) {
         writeMessage("ping");
+        m_timerPing.stop();
         m_timerPongTimeout.start();
     }
 }
