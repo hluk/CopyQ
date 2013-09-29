@@ -1,3 +1,14 @@
+v1.9.3
+- Item and tab encryption (using GnuPG)
+- FakeVim plugin for editing items (Vim editor emulation)
+- Drag'n'drop items from and to list
+- Improved appearance for notes
+- Improved search bar
+- New GUI for application and system-wide shortcuts
+- Option to unload tabs after an interval
+- Fixed item sizes and disabling font anti-aliasing
+- Major bug fixes (mainly for Windows) and performance improvements
+
 v1.9.2
 - Better performance
 - GUI improvements and bugfixes
