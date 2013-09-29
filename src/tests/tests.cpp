@@ -460,8 +460,13 @@ bool Tests::startServer()
     m_server->start( QApplication::applicationFilePath(), QIODevice::ReadOnly );
     m_server->waitForStarted();
 
-    if (m_server->state() != QProcess::Running)
+    if (m_server->state() != QProcess::Running) {
+        log( QString("Failed to launch \"%1\": %2")
+             .arg(QApplication::applicationFilePath())
+             .arg(m_server->errorString()),
+             LogError );
         return false;
+    }
 
     // Wait for client/server communication is established.
     int tries = 0;
