@@ -457,7 +457,7 @@ bool Tests::startServer()
 
     initTestProcess(m_server);
 
-    m_server->start( QApplication::applicationFilePath(), QIODevice::ReadOnly );
+    m_server->start( QApplication::applicationFilePath(), QStringList(), QIODevice::ReadOnly );
     m_server->waitForStarted();
 
     if (m_server->state() != QProcess::Running) {

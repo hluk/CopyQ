@@ -257,17 +257,25 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
 
 bool ItemFactory::loadPlugins()
 {
-#if defined(COPYQ_WS_X11)
-#   ifdef COPYQ_PLUGIN_PREFIX
+#ifdef COPYQ_PLUGIN_PREFIX
     QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
-#   else
+#elif defined(COPYQ_WS_X11)
     QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
     if ( pluginsDir.dirName() == QString("bin")
-         && (!pluginsDir.cdUp() || !pluginsDir.cd("lib") || !pluginsDir.cd("copyq")) )
+         && pluginsDir.cdUp()
+         && (pluginsDir.cd("lib64") || pluginsDir.cd("lib"))
+         && pluginsDir.cd("copyq") )
     {
-         return false;
+        // OK, installed in /usr/local/bin or /usr/bin.
+    } else {
+        pluginsDir.setPath( QCoreApplication::instance()->applicationDirPath() );
+        if ( pluginsDir.cd("plugins") ) {
+            // OK, plugins in same directory as executable.
+            pluginsDir.cd("copyq");
+        } else {
+            return false;
+        }
     }
-#   endif
 #elif defined(Q_OS_MAC)
     QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
     if ( pluginsDir.dirName() == "MacOS"

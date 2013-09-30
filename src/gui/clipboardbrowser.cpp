@@ -35,6 +35,7 @@
 #include "item/serialize.h"
 
 #include <QApplication>
+#include <QDrag>
 #include <QKeyEvent>
 #include <QPushButton>
 #include <QProgressBar>

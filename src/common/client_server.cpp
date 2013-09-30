@@ -41,6 +41,15 @@ const QString mimeMessage = "application/x-copyq-message";
 const QString mimeClipboardMode = "application/x-copyq-clipboard-mode";
 #endif
 
+QString quoteString(const QString &str)
+{
+#if QT_VERSION >= 0x040800
+    return QLocale::system().quoteString(str);
+#else
+    return '"' + str + '"';
+#endif
+}
+
 QString escapeHtml(const QString &str)
 {
 #if QT_VERSION < 0x050000
@@ -283,7 +292,7 @@ QString textLabelForData(const QMimeData &data, const QFont &font, const QString
         else
             label = QString("%1");
 
-        label = label.arg( QLocale::system().quoteString("%1") );
+        label = label.arg( quoteString("%1") );
 
         if (!format.isEmpty())
             label = format.arg(label);

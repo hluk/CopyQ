@@ -25,6 +25,7 @@
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTranslator>
+#include <QVariant>
 #ifdef HAS_TESTS
 #   include <QProcessEnvironment>
 #endif
@@ -60,7 +61,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
     QString session("copyq");
     if ( !sessionName.isEmpty() ) {
         session += "-" + sessionName;
-        m_app->setProperty("CopyQ_session_name", sessionName);
+        m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
     }
 
 #ifdef HAS_TESTS

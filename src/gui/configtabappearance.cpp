@@ -181,7 +181,7 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
 
     ClipboardBrowser *c = ui->clipboardBrowserPreview;
     c->addItems( QStringList()
-                 << tr("Search string is %1.").arg( QLocale::system().quoteString(searchFor) )
+                 << tr("Search string is %1.").arg( quoteString(searchFor) )
                  << tr("Select an item and\n"
                        "press F2 to edit.")
                  << tr("Select items and move them with\n"

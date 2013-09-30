@@ -90,6 +90,8 @@ extern const QString mimeMessage;
 extern const QString mimeClipboardMode;
 #endif
 
+QString quoteString(const QString &str);
+
 QString escapeHtml(const QString &str);
 
 QString createLogMessage(const QString &label, const QString &text, const LogLevel level);

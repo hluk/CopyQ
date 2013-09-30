@@ -1164,7 +1164,7 @@ void History::append(const QString &item)
 
 const QString &History::move(const QStringRef &prefix, int skip)
 {
-    if (!current().startsWith(prefix))
+    if (!current().startsWith(prefix.toString()))
         restart();
 
     if (m_items.last() != prefix)
@@ -1172,7 +1172,7 @@ const QString &History::move(const QStringRef &prefix, int skip)
 
     int i = m_index + skip;
     if (!prefix.isEmpty())
-        for (; i >= 0 && i < m_items.size() && !m_items[i].startsWith(prefix); i += skip)
+        for (; i >= 0 && i < m_items.size() && !m_items[i].startsWith(prefix.toString()); i += skip)
             ;
     if (i >= 0 && i < m_items.size())
         m_index = i;
@@ -7367,7 +7367,7 @@ void FakeVimHandler::Private::undoRedo(bool undo)
     if (state.isValid()) {
         m_lastChangePosition = state.position;
         Marks marks = m_marks;
-        marks.swap(state.marks);
+        qSwap(marks, state.marks);
         updateMarks(marks);
         m_lastVisualMode = state.lastVisualMode;
         m_lastVisualModeInverted = state.lastVisualModeInverted;

@@ -122,7 +122,7 @@ SOURCES += \
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-Debug {
+CONFIG(debug, debug|release) {
     DEFINES += HAS_TESTS COPYQ_LOG_DEBUG
     QT += testlib
     SOURCES += tests/tests.cpp

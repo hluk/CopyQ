@@ -36,6 +36,15 @@ namespace {
 
 const QString defaultFormat = QString("application/x-copyq-encrypted");
 
+QString quoteString(const QString &str)
+{
+#if QT_VERSION >= 0x040800
+    return QLocale::system().quoteString(str);
+#else
+    return '"' + str + '"';
+#endif
+}
+
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
     p->start("gpg", getDefaultEncryptCommandArguments() + args);
@@ -202,8 +211,8 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
                                         "<li>%2<br />(Keep this secret key in a safe place.)</li>"
                                         "</ul>"
                                         )
-                                     .arg( QLocale::system().quoteString(keys.pub) )
-                                     .arg( QLocale::system().quoteString(keys.sec) )
+                                     .arg( quoteString(keys.pub) )
+                                     .arg( quoteString(keys.sec) )
                                      );
     }
 

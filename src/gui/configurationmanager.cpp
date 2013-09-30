@@ -51,10 +51,9 @@ namespace {
 
 void printItemFileError(const QString &id, const QString &fileName, const QFile &file)
 {
-    QLocale locale = QLocale::system();
     log( ConfigurationManager::tr("Cannot save tab %1 to %2 (%3)!")
-         .arg( locale.quoteString(id) )
-         .arg( locale.quoteString(fileName) )
+         .arg( quoteString(id) )
+         .arg( quoteString(fileName) )
          .arg( file.errorString() )
          , LogError );
 }
@@ -122,7 +121,7 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
         in >> model;
         if ( in.status() != QDataStream::Ok ) {
             log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
-                 .arg( QLocale::system().quoteString(file.fileName()) ),
+                 .arg( quoteString(file.fileName()) ),
                  LogError );
         }
     }
@@ -350,7 +349,7 @@ bool ConfigurationManager::createItemDirectory()
     QDir settingsDir( QDir::cleanPath(m_datfilename + "/..") );
     if ( !settingsDir.mkpath(".") ) {
         log( tr("Cannot create directory for settings %1!")
-             .arg(QLocale::system().quoteString(settingsDir.path()) ),
+             .arg(quoteString(settingsDir.path()) ),
              LogError );
 
         return false;

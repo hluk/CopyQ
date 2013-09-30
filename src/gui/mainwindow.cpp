@@ -453,7 +453,7 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
     bool hasTab = tabIndex != -1;
     bool isGroup = ui->tabWidget->isTabGroup(tab);
 
-    QString quotedTab = QLocale::system().quoteString(tab);
+    const QString quotedTab = quoteString(tab);
     QAction *actNew = menu.addAction( iconTabNew(), tr("&New tab") );
     QAction *actRenameGroup =
             isGroup ? menu.addAction( iconTabRename(), tr("Rename &group %1").arg(quotedTab) ) : NULL;
@@ -495,7 +495,7 @@ void MainWindow::closeAction(Action *action)
 
     if ( !msg.isEmpty() )
         showMessage( tr("Command %1")
-                     .arg( QLocale::system().quoteString(action->command()) ), msg, icon );
+                     .arg(quoteString(action->command())), msg, icon );
 
     delete m_actions.take(action);
     action->deleteLater();
@@ -2079,7 +2079,7 @@ bool MainWindow::saveTab(int tab_index)
     if ( !saveTab(fileName, tab_index) ) {
         QMessageBox::critical( this, tr("CopyQ Error Saving File"),
                                tr("Cannot save file %1!")
-                               .arg(QLocale::system().quoteString(fileName)) );
+                               .arg(quoteString(fileName)) );
         return false;
     }
 
@@ -2134,7 +2134,7 @@ bool MainWindow::loadTab()
     if ( !loadTab(fileName) ) {
         QMessageBox::critical( this, tr("CopyQ Error Opening File"),
                                tr("Cannot open file %1!")
-                               .arg(QLocale::system().quoteString(fileName)) );
+                               .arg(quoteString(fileName)) );
         return false;
     }
 
