@@ -39,9 +39,14 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 
 #define END_INVOKE );
 
+// Compile-time check ScriptableProxyHelper member method arguments.
+#define CAN_INVOKE(methodName) \
+    if (false) m_helper->methodName
+
 #define PROXY_METHOD(methodName) \
     void methodName() \
     { \
+        CAN_INVOKE(methodName)(); \
         BEGIN_INVOKE(#methodName) \
         END_INVOKE \
     }
@@ -49,6 +54,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_VOID_1(methodName, Arg1Type) \
     void methodName(Arg1Type arg1) \
     { \
+        CAN_INVOKE(methodName)(arg1); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
         END_INVOKE \
@@ -57,6 +63,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_VOID_2(methodName, Arg1Type, Arg2Type) \
     void methodName(Arg1Type arg1, Arg2Type arg2) \
     { \
+        CAN_INVOKE(methodName)(arg1, arg2); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
@@ -66,6 +73,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_VOID_4(methodName, Arg1Type, Arg2Type, Arg3Type, Arg4Type) \
     void methodName(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3, Arg4Type arg4) \
     { \
+        CAN_INVOKE(methodName)(arg1, arg2, arg3, arg4); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
@@ -77,6 +85,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_0(RetType, methodName) \
     RetType methodName() \
     { \
+        CAN_INVOKE(methodName)(); \
         BEGIN_INVOKE(#methodName) \
         END_INVOKE_AND_RETURN(RetType) \
     } \
@@ -84,6 +93,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_1(RetType, methodName, Arg1Type) \
     RetType methodName(Arg1Type arg1) \
     { \
+        CAN_INVOKE(methodName)(arg1); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
         END_INVOKE_AND_RETURN(RetType) \
@@ -92,6 +102,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_2(RetType, methodName, Arg1Type, Arg2Type) \
     RetType methodName(Arg1Type arg1, Arg2Type arg2) \
     { \
+        CAN_INVOKE(methodName)(arg1, arg2); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
@@ -101,6 +112,7 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define PROXY_METHOD_3(RetType, methodName, Arg1Type, Arg2Type, Arg3Type) \
     RetType methodName(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3) \
     { \
+        CAN_INVOKE(methodName)(arg1, arg2, arg3); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
