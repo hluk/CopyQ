@@ -20,6 +20,7 @@
 #include "scriptable.h"
 
 #include "common/client_server.h"
+#include "common/command.h"
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "../qt/bytearrayclass.h"
@@ -832,11 +833,11 @@ void Scriptable::action()
                                                   : QString('\n');
         QMimeData data;
         data.setText(text);
-        m_proxy->action(data, command);
+        m_proxy->action(&data, command);
     } else {
         QMimeData data;
         data.setText(text);
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(data));
+        QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(&data));
         emit sendMessage(message, CommandActivateWindow);
     }
 }

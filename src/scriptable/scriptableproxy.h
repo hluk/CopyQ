@@ -26,10 +26,16 @@
 
 #include <QMetaObject>
 #include <QMimeData>
+#include <QObject>
 #include <QStringList>
 
+Q_DECLARE_METATYPE(QMimeData*)
+Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
+
 #define BEGIN_INVOKE(methodName) \
-        QMetaObject::invokeMethod(m_wnd, methodName, Qt::BlockingQueuedConnection
+        QMetaObject::invokeMethod(m_helper, methodName, Qt::BlockingQueuedConnection \
+
+#define END_INVOKE_AND_RETURN(RetType) ); return m_helper->value().value<RetType>();
 
 #define END_INVOKE );
 
@@ -71,56 +77,134 @@
 #define PROXY_METHOD_0(RetType, methodName) \
     RetType methodName() \
     { \
-        RetType retVal; \
         BEGIN_INVOKE(#methodName) \
-            , Q_RETURN_ARG(RetType, retVal) \
-        END_INVOKE \
-        return retVal; \
-    }
+        END_INVOKE_AND_RETURN(RetType) \
+    } \
 
 #define PROXY_METHOD_1(RetType, methodName, Arg1Type) \
     RetType methodName(Arg1Type arg1) \
     { \
-        RetType retVal; \
         BEGIN_INVOKE(#methodName) \
-            , Q_RETURN_ARG(RetType, retVal) \
             , Q_ARG(Arg1Type, arg1) \
-        END_INVOKE \
-        return retVal; \
-    }
+        END_INVOKE_AND_RETURN(RetType) \
+    } \
 
 #define PROXY_METHOD_2(RetType, methodName, Arg1Type, Arg2Type) \
     RetType methodName(Arg1Type arg1, Arg2Type arg2) \
     { \
-        RetType retVal; \
         BEGIN_INVOKE(#methodName) \
-            , Q_RETURN_ARG(RetType, retVal) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
-        END_INVOKE \
-        return retVal; \
-    }
+        END_INVOKE_AND_RETURN(RetType) \
+    } \
 
 #define PROXY_METHOD_3(RetType, methodName, Arg1Type, Arg2Type, Arg3Type) \
     RetType methodName(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3) \
     { \
-        RetType retVal; \
         BEGIN_INVOKE(#methodName) \
-            , Q_RETURN_ARG(RetType, retVal) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
             , Q_ARG(Arg3Type, arg3) \
-        END_INVOKE \
-        return retVal; \
-    }
+        END_INVOKE_AND_RETURN(RetType) \
+    } \
+
+namespace detail {
+
+class ScriptableProxyHelper : public QObject
+{
+    Q_OBJECT
+public:
+    /** Create proxy object and move it to same thread as @a mainWindow. */
+    explicit ScriptableProxyHelper(MainWindow *mainWindow)
+      : QObject(NULL)
+      , m_wnd(mainWindow)
+    {}
+
+    const QVariant &value() const { return v; }
+
+public slots:
+    void close() { m_wnd->close(); }
+    void showWindow() { m_wnd->showWindow(); }
+    void pasteToCurrentWindow() { m_wnd->pasteToCurrentWindow(); }
+
+    void disableMonitoring(bool arg1) { m_wnd->disableMonitoring(arg1); }
+    void setClipboard(const ClipboardItem *arg1) { m_wnd->setClipboard(arg1); }
+
+    void renameTab(const QString &arg1, int arg2) { m_wnd->renameTab(arg1, arg2); }
+    void removeTab(bool arg1, int arg2) { m_wnd->removeTab(arg1, arg2); }
+
+    void createTab(const QString &arg1) { m_wnd->createTab(arg1); }
+
+    void showBrowser(int arg1) { m_wnd->showBrowser(arg1); }
+
+    void action(QMimeData *arg1, const Command &arg2) { m_wnd->action(*arg1, arg2); }
+
+    void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4) { m_wnd->showMessage(arg1, arg2, arg3, arg4); }
+
+    void browserLock(int arg1) { m_wnd->browser(arg1)->lock(); }
+    void browserUnlock(int arg1) { m_wnd->browser(arg1)->unlock(); }
+    void browserCopyNextItemToClipboard(int arg1) { m_wnd->browser(arg1)->copyNextItemToClipboard(); }
+    void browserCopyPreviousItemToClipboard(int arg1) { m_wnd->browser(arg1)->copyPreviousItemToClipboard(); }
+    void browserMoveToClipboard(int arg1, int arg2) { m_wnd->browser(arg1)->moveToClipboard(arg2); }
+    void browserDelayedSaveItems(int arg1) { m_wnd->browser(arg1)->delayedSaveItems(); }
+    void browserRemoveRow(int arg1, int arg2) { m_wnd->browser(arg1)->removeRow(arg2); }
+    void browserSetCurrent(int arg1, int arg2) { m_wnd->browser(arg1)->setCurrent(arg2); }
+
+    void browserEditRow(int arg1, int arg2) { m_wnd->browser(arg1)->editRow(arg2); }
+    void browserEditNew(int arg1, const QString &arg2) { m_wnd->browser(arg1)->editNew(arg2); }
+
+    void tabs() { v = m_wnd->tabs(); }
+    void toggleVisible() { v = m_wnd->toggleVisible(); }
+    void toggleMenu() { v = m_wnd->toggleMenu(); }
+    void mainWinId() { v = (qulonglong)m_wnd->mainWinId(); }
+    void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenuWinId(); }
+    void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
+
+    void openActionDialog(QMimeData *arg1) { v = (qulonglong)m_wnd->openActionDialog(*arg1); }
+
+    void loadTab(const QString &arg1) { v = m_wnd->loadTab(arg1); }
+    void saveTab(const QString &arg1, int arg2) { v = m_wnd->saveTab(arg1, arg2); }
+
+    void config(const QString &arg1, const QString &arg2) { v = m_wnd->config(arg1, arg2); }
+
+    void getClipboardData(const QString &arg1) { v = m_wnd->getClipboardData(arg1); }
+    void getClipboardData(const QString &arg1, QClipboard::Mode arg2) { v = m_wnd->getClipboardData(arg1, arg2); }
+
+    void browserLength(int arg1) { v = m_wnd->browser(arg1)->length(); }
+    void browserOpenEditor(int arg1, const QByteArray &arg2) { v = m_wnd->browser(arg1)->openEditor(arg2); }
+
+    void browserAdd(int arg1, const QString &arg2) { v = m_wnd->browser(arg1)->add(arg2); }
+    void browserAdd(int arg1, QMimeData *arg2, int arg3) { v = m_wnd->browser(arg1)->add(arg2, arg3); }
+
+    void browserItemData(int arg1, int arg2, const QString &arg3) { v = m_wnd->browser(arg1)->itemData(arg2, arg3); }
+
+private:
+    MainWindow *m_wnd;
+    QVariant v; ///< Last return value retrieved.
+};
+
+} // namespace detail
 
 /**
  * Invoke methods (of MainWindow and its ClipboardBrowser objects) from different thread.
+ *
+ * Methods are invoked using ScriptableProxyHelper that is moved to the same thread as
+ * MainWindow object. The main reason for this is that QMetaObject::invokeMethod() cannot return
+ * value (expecially in Qt 4.7) when called with Qt::BlockingQueuedConnection.
  */
 class ScriptableProxy
 {
 public:
-    explicit ScriptableProxy(MainWindow *mainWindow) : m_wnd(mainWindow) {}
+    explicit ScriptableProxy(MainWindow *mainWindow)
+        : m_wnd(mainWindow)
+        , m_helper(new detail::ScriptableProxyHelper(mainWindow))
+    {
+        qRegisterMetaType<QMimeData*>("MimeDataPtr");
+        qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
+        m_helper->moveToThread(mainWindow->thread());
+    }
+
+    ~ScriptableProxy() { delete m_helper; }
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)
@@ -135,15 +219,15 @@ public:
     PROXY_METHOD_0(QStringList, tabs)
     PROXY_METHOD_0(bool, toggleVisible)
     PROXY_METHOD_0(bool, toggleMenu)
-    PROXY_METHOD_0(WId, mainWinId)
-    PROXY_METHOD_0(WId, trayMenuWinId)
+    PROXY_METHOD_0(qulonglong, mainWinId)
+    PROXY_METHOD_0(qulonglong, trayMenuWinId)
     PROXY_METHOD_1(int, findTabIndex, const QString &)
-    PROXY_METHOD_1(ClipboardBrowser *, createTab, const QString &)
+    PROXY_METHOD_VOID_1(createTab, const QString &)
 
     PROXY_METHOD_VOID_1(showBrowser, int)
 
-    PROXY_METHOD_1(WId, openActionDialog, const QMimeData &)
-    PROXY_METHOD_VOID_2(action, const QMimeData &, const Command &)
+    PROXY_METHOD_1(qulonglong, openActionDialog, QMimeData *)
+    PROXY_METHOD_VOID_2(action, QMimeData *, const Command &)
 
     PROXY_METHOD_1(bool, loadTab, const QString &)
     PROXY_METHOD_2(bool, saveTab, const QString &, int)
@@ -176,6 +260,7 @@ public:
 
 private:
     MainWindow *m_wnd;
+    detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.
 };
 
 #endif // SCRIPTABLEPROXY_H

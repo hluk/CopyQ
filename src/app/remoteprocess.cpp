@@ -84,7 +84,7 @@ bool RemoteProcess::writeMessage(const QByteArray &msg)
 {
     Q_ASSERT(m_server != NULL);
     Q_ASSERT(m_socket != NULL);
-    Q_ASSERT(isConnected());
+
     if ( !isConnected() ) {
         COPYQ_LOG("Remote process: Cannot write message!");
         return false;

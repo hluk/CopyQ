@@ -6,6 +6,7 @@ file(GLOB copyq_SOURCES
     gui/*.cpp
     item/*.cpp
     scriptable/*.cpp
+    scriptable/scriptableproxy.h
     ../qt/*.cpp
     )
 
