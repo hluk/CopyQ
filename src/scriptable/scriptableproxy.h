@@ -196,8 +196,7 @@ class ScriptableProxy
 {
 public:
     explicit ScriptableProxy(MainWindow *mainWindow)
-        : m_wnd(mainWindow)
-        , m_helper(new detail::ScriptableProxyHelper(mainWindow))
+        : m_helper(new detail::ScriptableProxyHelper(mainWindow))
     {
         qRegisterMetaType<QMimeData*>("MimeDataPtr");
         qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
@@ -259,7 +258,6 @@ public:
     PROXY_METHOD_3(QByteArray, browserItemData, int, int, const QString &)
 
 private:
-    MainWindow *m_wnd;
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.
 };
 
