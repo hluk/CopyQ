@@ -134,7 +134,6 @@ public:
         painter.setCompositionMode(QPainter::CompositionMode_Difference);
         painter.fillRect(rect, Qt::white);
 
-        // FIXME: Clear text cursor properly. Entering insert mode leaves a shadow of block cursor.
         if (!hasBlockSelection() && m_cursorRect.width() != rect.width())
             viewport()->update();
 
