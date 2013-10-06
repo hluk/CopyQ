@@ -119,6 +119,17 @@ QColor sessionNameToColor(const QString &name)
     return QColor(r, g, b);
 }
 
+QMimeData *createMimeData(const QByteArray &data, const QString &format)
+{
+    QMimeData *newData = new QMimeData;
+    if (format == mimeItems)
+        deserializeData(newData, data);
+    else
+        newData->setData(format, data);
+
+    return newData;
+}
+
 } // namespace
 
 enum ItemActivationCommand {
@@ -1644,26 +1655,14 @@ void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
-    QMimeData *newData = new QMimeData();
-    if (format == mimeItems)
-        deserializeData(newData, data);
-    else
-        newData->setData(format, data);
-    c->add(newData);
+    c->add( createMimeData(data, format) );
 }
 
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
 {
     ClipboardBrowser *c = findBrowser(index);
-    if (c == NULL)
-        return;
-
-    QMimeData *newData = new QMimeData();
-    if (format == mimeItems)
-        deserializeData(newData, data);
-    else
-        newData->setData(format, data);
-    c->setItemData(index, newData);
+    if (c)
+        c->setItemData( index, createMimeData(data, format) );
 }
 
 void MainWindow::onFilterChanged(const QRegExp &re)

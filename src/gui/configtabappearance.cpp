@@ -167,6 +167,17 @@ QColor evalColor(const QString &expression, const QHash<QString, Option> &theme,
     return QColor(r, g, b, a);
 }
 
+bool openTemporaryFile(QTemporaryFile *file)
+{
+    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
+    const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
+
+    file->setFileTemplate(tmpPath);
+    file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
+    return file->open();
+}
+
 } // namespace
 
 ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
@@ -410,14 +421,8 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
         return;
     }
 
-    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
-    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-
     QTemporaryFile tmpfile;
-    tmpfile.setFileTemplate(tmpPath);
-    tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
-
-    if ( tmpfile.open() ) {
+    if ( openTemporaryFile(&tmpfile) ) {
         {
             QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
             saveTheme(settings);
@@ -482,12 +487,9 @@ void ConfigTabAppearance::on_comboBoxThemes_activated(const QString &text)
 
 void ConfigTabAppearance::onThemeModified(const QByteArray &bytes)
 {
-    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
-    QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-
     QTemporaryFile tmpfile;
-    tmpfile.setFileTemplate(tmpPath);
-    tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+    if ( !openTemporaryFile(&tmpfile) )
+        return;
 
     if ( !tmpfile.open() )
         return;
