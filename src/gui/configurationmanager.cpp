@@ -434,7 +434,7 @@ void ConfigurationManager::initCommandWidgets()
     ui->itemOrderListCommands->clearItems();
 
     foreach ( const Command &command, commands(false) )
-        addCommand(command);
+        addCommand(command, false);
 
     if ( !ui->itemOrderListCommands->hasAddMenu() ) {
         Command cmd;
@@ -505,7 +505,6 @@ void ConfigurationManager::initOptions()
     ui->comboBoxMenuTab->lineEdit()->setToolTip( ui->comboBoxMenuTab->toolTip() );
 
     /* other options */
-    bind("tabs", QStringList());
     bind("command_history_size", 100);
     bind("_last_hash", 0);
 #ifdef COPYQ_WS_X11
@@ -551,6 +550,35 @@ void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultVa
     m_options[optionKey] = Option(defaultValue);
 }
 
+void ConfigurationManager::saveCommands(const Commands &commands)
+{
+    QSettings settings;
+    settings.beginWriteArray("Commands");
+    int i = 0;
+    foreach (const Command &c, commands) {
+        settings.setArrayIndex(i++);
+        settings.setValue("Name", c.name);
+        settings.setValue("Match", c.re.pattern());
+        settings.setValue("Window", c.wndre.pattern());
+        settings.setValue("Command", c.cmd);
+        settings.setValue("Separator", c.sep);
+        settings.setValue("Input", c.input);
+        settings.setValue("Output", c.output);
+        settings.setValue("Wait", c.wait);
+        settings.setValue("Automatic", c.automatic);
+        settings.setValue("InMenu", c.inMenu);
+        settings.setValue("Transform", c.transform);
+        settings.setValue("Remove", c.remove);
+        settings.setValue("HideWindow", c.hideWindow);
+        settings.setValue("Enable", c.enable);
+        settings.setValue("Icon", c.icon);
+        settings.setValue("Shortcut", c.shortcut);
+        settings.setValue("Tab", c.tab);
+        settings.setValue("OutputTab", c.outputTab);
+    }
+    settings.endArray();
+}
+
 bool ConfigurationManager::loadGeometry(QWidget *widget) const
 {
     QSettings settings;
@@ -569,22 +597,23 @@ void ConfigurationManager::saveGeometry(const QWidget *widget)
 
 QVariant ConfigurationManager::value(const QString &name) const
 {
-    return m_options[name].value();
+    if ( m_options.contains(name) )
+        return m_options[name].value();
+    return QSettings().value("Options/" + name);
 }
 
 void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 {
-    m_options[name].setValue(value);
-}
+    if ( m_options.contains(name) ) {
+        if ( m_options[name].value() == value )
+            return;
 
-void ConfigurationManager::saveValue(const QString &name, const QVariant &value)
-{
-    QSettings().setValue(name, value);
-}
+        m_options[name].setValue(value);
 
-QVariant ConfigurationManager::loadValue(const QString &name)
-{
-    return QSettings().value(name);
+        emit configurationChanged();
+    }
+
+    QSettings().setValue( "Options/" + name, m_options[name].value() );
 }
 
 QStringList ConfigurationManager::options() const
@@ -657,98 +686,6 @@ void ConfigurationManager::loadSettings()
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
     updateAutostart();
-}
-
-void ConfigurationManager::saveSettings()
-{
-    QSettings settings;
-
-    settings.beginGroup("Options");
-    foreach ( const QString &key, m_options.keys() ) {
-        settings.setValue( key, m_options[key].value() );
-    }
-    settings.endGroup();
-
-    // Save configuration without command line alternatives only if option widgets are initialized
-    // (i.e. clicked OK or Apply in configuration dialog).
-    if (m_optionWidgetsLoaded) {
-        // save commands
-        settings.beginWriteArray("Commands");
-        int i = 0;
-        foreach ( const Command &c, commands(false, false) ) {
-            settings.setArrayIndex(i++);
-            settings.setValue("Name", c.name);
-            settings.setValue("Match", c.re.pattern());
-            settings.setValue("Window", c.wndre.pattern());
-            settings.setValue("Command", c.cmd);
-            settings.setValue("Separator", c.sep);
-            settings.setValue("Input", c.input);
-            settings.setValue("Output", c.output);
-            settings.setValue("Wait", c.wait);
-            settings.setValue("Automatic", c.automatic);
-            settings.setValue("InMenu", c.inMenu);
-            settings.setValue("Transform", c.transform);
-            settings.setValue("Remove", c.remove);
-            settings.setValue("HideWindow", c.hideWindow);
-            settings.setValue("Enable", c.enable);
-            settings.setValue("Icon", c.icon);
-            settings.setValue("Shortcut", c.shortcut);
-            settings.setValue("Tab", c.tab);
-            settings.setValue("OutputTab", c.outputTab);
-        }
-        settings.endArray();
-
-        settings.beginGroup("Shortcuts");
-        tabShortcuts()->saveShortcuts(settings);
-        settings.endGroup();
-
-        settings.beginGroup("Options");
-        tabShortcuts()->saveGlobalShortcuts(settings);
-        settings.endGroup();
-
-        settings.beginGroup("Theme");
-        tabAppearance()->saveTheme(settings);
-        settings.endGroup();
-
-        updateIcons();
-
-        // save settings for each plugin
-        if ( itemFactory()->hasLoaders() ) {
-            settings.beginGroup("Plugins");
-            for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
-                QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
-                PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-                ItemLoaderInterfacePtr loader = pluginWidget->loader();
-
-                settings.beginGroup(loader->id());
-
-                QVariantMap s = loader->applySettings();
-                foreach (const QString &name, s.keys()) {
-                    settings.setValue(name, s[name]);
-                }
-
-                bool enabled = ui->itemOrderListPlugins->isItemChecked(i);
-                itemFactory()->setLoaderEnabled(loader, enabled);
-                settings.setValue("enabled", enabled);
-
-                settings.endGroup();
-            }
-            settings.endGroup();
-
-            // save plugin priority
-            QStringList pluginPriority;
-            for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
-                pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
-            settings.setValue("plugin_priority", pluginPriority);
-            itemFactory()->setPluginPriority(pluginPriority);
-        }
-    }
-
-    tabAppearance()->setEditor( value("editor").toString() );
-
-    setAutostartEnable();
-
-    emit configurationChanged();
 }
 
 ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled, bool onlySaved) const
@@ -859,7 +796,7 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-void ConfigurationManager::addCommand(const Command &c)
+void ConfigurationManager::addCommand(const Command &c, bool save)
 {
     CommandWidget *cmdWidget = new CommandWidget(this);
 
@@ -871,7 +808,7 @@ void ConfigurationManager::addCommand(const Command &c)
     formats.removeDuplicates();
     cmdWidget->setFormats(formats);
 
-    cmdWidget->setTabs( loadValue("Options/tabs").toStringList() );
+    cmdWidget->setTabs( value("tabs").toStringList() );
 
     connect( cmdWidget, SIGNAL(iconChanged(QIcon)),
              this, SLOT(onCurrentCommandWidgetIconChanged(QIcon)) );
@@ -879,6 +816,12 @@ void ConfigurationManager::addCommand(const Command &c)
              this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
 
     ui->itemOrderListCommands->appendItem(c.name, c.enable, cmdWidget->icon(), cmdWidget);
+
+    if (save) {
+        Commands cmds = commands(false, true);
+        cmds.append(c);
+        saveCommands(cmds);
+    }
 }
 
 void ConfigurationManager::setTabs(const QStringList &tabs)
@@ -887,7 +830,6 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
     Q_ASSERT( tabs.toSet().size() == tabs.size() );
 
     setValue("tabs", tabs);
-    saveValue("Options/tabs", tabs);
 
     QString text = ui->comboBoxMenuTab->currentText();
     ui->comboBoxMenuTab->clear();
@@ -928,7 +870,70 @@ void ConfigurationManager::createInstance(QWidget *parent)
 
 void ConfigurationManager::apply()
 {
-    saveSettings();
+    QSettings settings;
+
+    settings.beginGroup("Options");
+    foreach ( const QString &key, m_options.keys() ) {
+        settings.setValue( key, m_options[key].value() );
+    }
+    settings.endGroup();
+
+    // Save configuration without command line alternatives only if option widgets are initialized
+    // (i.e. clicked OK or Apply in configuration dialog).
+    if (m_optionWidgetsLoaded) {
+        saveCommands( commands(false, false) );
+
+        settings.beginGroup("Shortcuts");
+        tabShortcuts()->saveShortcuts(settings);
+        settings.endGroup();
+
+        settings.beginGroup("Options");
+        tabShortcuts()->saveGlobalShortcuts(settings);
+        settings.endGroup();
+
+        settings.beginGroup("Theme");
+        tabAppearance()->saveTheme(settings);
+        settings.endGroup();
+
+        updateIcons();
+
+        // save settings for each plugin
+        if ( itemFactory()->hasLoaders() ) {
+            settings.beginGroup("Plugins");
+            for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
+                QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
+                PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
+                ItemLoaderInterfacePtr loader = pluginWidget->loader();
+
+                settings.beginGroup(loader->id());
+
+                QVariantMap s = loader->applySettings();
+                foreach (const QString &name, s.keys()) {
+                    settings.setValue(name, s[name]);
+                }
+
+                bool enabled = ui->itemOrderListPlugins->isItemChecked(i);
+                itemFactory()->setLoaderEnabled(loader, enabled);
+                settings.setValue("enabled", enabled);
+
+                settings.endGroup();
+            }
+            settings.endGroup();
+
+            // save plugin priority
+            QStringList pluginPriority;
+            for (int i = 0; i <  ui->itemOrderListPlugins->itemCount(); ++i)
+                pluginPriority.append( ui->itemOrderListPlugins->itemLabel(i) );
+            settings.setValue("plugin_priority", pluginPriority);
+            itemFactory()->setPluginPriority(pluginPriority);
+        }
+    }
+
+    tabAppearance()->setEditor( value("editor").toString() );
+
+    setAutostartEnable();
+
+    emit configurationChanged();
 }
 
 void ConfigurationManager::on_itemOrderListCommands_addButtonClicked(QAction *action)
@@ -936,7 +941,7 @@ void ConfigurationManager::on_itemOrderListCommands_addButtonClicked(QAction *ac
     Command cmd;
     if ( !defaultCommand(action->property("COMMAND").toInt(), &cmd) )
         return;
-    addCommand(cmd);
+    addCommand(cmd, false);
     ui->itemOrderListCommands->setCurrentItem( ui->itemOrderListCommands->itemCount() - 1 );
 }
 

@@ -66,16 +66,11 @@ public:
 
     /** Load settings from default file. */
     void loadSettings();
-    /** Load settings to default file. Emits configurationChanged() signal. */
-    void saveSettings();
 
     /** Return value for option with given @a name. */
     QVariant value(const QString &name) const;
     /** Set @a value for option with given @a name. */
     void setValue(const QString &name, const QVariant &value);
-
-    void saveValue(const QString &name, const QVariant &value);
-    QVariant loadValue(const QString &name);
 
     /** Return list of options that can be set or view using command line. */
     QStringList options() const;
@@ -112,7 +107,7 @@ public:
     /** Return enabled commands. */
     Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
     /** Create new command. */
-    void addCommand(const Command &cmd);
+    void addCommand(const Command &cmd, bool save = true);
 
     /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
@@ -198,6 +193,8 @@ private:
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
+
+    void saveCommands(const Commands &commands);
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

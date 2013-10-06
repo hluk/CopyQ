@@ -98,10 +98,10 @@ void FilterLineEdit::loadSettings()
 
     QVariant val;
 
-    val = cm->loadValue("Options/filter_regular_expression");
+    val = cm->value("filter_regular_expression");
     m_actionRe->setChecked(!val.isValid() || val.toBool());
 
-    val = cm->loadValue("Options/filter_case_insensitive");
+    val = cm->value("filter_case_insensitive");
     m_actionCaseInsensitive->setChecked(!val.isValid() || val.toBool());
 
     // KDE has custom icons for this. Notice that icon namings are counter intuitive.
@@ -140,8 +140,8 @@ void FilterLineEdit::onTextChanged()
 void FilterLineEdit::onMenuAction()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->saveValue("Options/filter_regular_expression", m_actionRe->isChecked());
-    cm->saveValue("Options/filter_case_insensitive", m_actionCaseInsensitive->isChecked());
+    cm->setValue("filter_regular_expression", m_actionRe->isChecked());
+    cm->setValue("filter_case_insensitive", m_actionCaseInsensitive->isChecked());
 
     const QRegExp re = filter();
     if ( !re.isEmpty() )

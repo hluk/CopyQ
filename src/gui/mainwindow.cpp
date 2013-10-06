@@ -674,19 +674,15 @@ void MainWindow::updateTabsAutoSaving()
 void MainWindow::saveCollapsedTabs()
 {
     TabWidget *tabs = ui->tabWidget;
-    if ( tabs->isTreeModeEnabled() ) {
-        ConfigurationManager::instance()->saveValue(
-                    "Options/collapsed_tabs", tabs->collapsedTabs() );
-    }
+    if ( tabs->isTreeModeEnabled() )
+        ConfigurationManager::instance()->setValue( "collapsed_tabs", tabs->collapsedTabs() );
 }
 
 void MainWindow::loadCollapsedTabs()
 {
     TabWidget *tabs = ui->tabWidget;
-    if ( tabs->isTreeModeEnabled() ) {
-        tabs->setCollapsedTabs(
-                    ConfigurationManager::instance()->loadValue("Options/collapsed_tabs").toStringList() );
-    }
+    if ( tabs->isTreeModeEnabled() )
+        tabs->setCollapsedTabs( ConfigurationManager::instance()->value("collapsed_tabs").toStringList() );
 }
 
 bool MainWindow::closeMinimizes() const
@@ -1102,7 +1098,6 @@ void MainWindow::saveSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setTabs(ui->tabWidget->tabs());
-    cm->saveSettings();
 }
 
 void MainWindow::loadSettings()
@@ -1359,7 +1354,6 @@ void MainWindow::tabMoved(int, int)
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setTabs(ui->tabWidget->tabs());
-    cm->saveSettings();
     updateTabsAutoSaving();
 }
 
@@ -1623,7 +1617,6 @@ QVariant MainWindow::config(const QString &name, const QString &value)
 
         // set option
         cm->setValue(name, value);
-        cm->saveSettings();
 
         return QString();
     }

@@ -336,7 +336,6 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 
         cm = ConfigurationManager::instance();
         cm->addCommand(cmd);
-        cm->saveSettings();
         QMessageBox::information(
                     this, tr("Command saved"),
                     tr("Command was saved and can be accessed from item menu.\n"
