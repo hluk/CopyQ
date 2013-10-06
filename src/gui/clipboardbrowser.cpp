@@ -74,6 +74,18 @@ QModelIndex indexNear(const QListView *view, int offset)
     return ind;
 }
 
+void updateLoadButtonIcon(QPushButton *loadButton)
+{
+    QColor color = getDefaultIconColor(*loadButton->parentWidget(), QPalette::Base);
+    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
+    const int iconSize = 64;
+    QIcon icon;
+    icon.addPixmap(iconFactory->createPixmap(IconLock, color, iconSize));
+    icon.addPixmap(iconFactory->createPixmap(IconUnlockAlt, color, iconSize), QIcon::Active);
+    loadButton->setIconSize( QSize(iconSize, iconSize) );
+    loadButton->setIcon(icon);
+}
+
 } // namespace
 
 class ScrollSaver {
@@ -1731,6 +1743,9 @@ void ClipboardBrowser::loadSettings()
 
     updateCurrentPage();
 
+    if (m_loadButton)
+        updateLoadButtonIcon(m_loadButton);
+
     delete m_timerExpire;
     m_timerExpire = NULL;
 
@@ -1766,11 +1781,10 @@ void ClipboardBrowser::loadItems()
         delete m_loadButton;
         m_loadButton = NULL;
     } else if (m_loadButton == NULL) {
-        m_loadButton = new QPushButton( QString(QChar(IconLock)), this );
-        QFont iconFont("FontAwesome", 4 * font().pointSize() );
-        m_loadButton->setFont(iconFont);
+        m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);
         m_loadButton->resize( size() );
+        updateLoadButtonIcon(m_loadButton);
         m_loadButton->show();
         connect( m_loadButton, SIGNAL(clicked()),
                  this, SLOT(loadItems()) );
