@@ -222,9 +222,16 @@ ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModel
                                                    bool editNotes)
 {
     cache(index);
-    return new ItemEditorWidget(m_cache[index.row()], index, editNotes,
-                                m_editorFont, m_editorPalette, m_saveOnReturnKey,
-                                parent);
+    ItemEditorWidget *editor = new ItemEditorWidget(m_cache[index.row()], index, editNotes, parent);
+    loadEditorSettings(editor);
+    return editor;
+}
+
+void ItemDelegate::loadEditorSettings(ItemEditorWidget *editor)
+{
+    editor->setEditorPalette(m_editorPalette);
+    editor->setEditorFont(m_editorFont);
+    editor->setSaveOnReturnKey(m_saveOnReturnKey);
 }
 
 void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)

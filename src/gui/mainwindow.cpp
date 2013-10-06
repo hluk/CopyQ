@@ -1094,12 +1094,6 @@ void MainWindow::resetStatus()
     enterBrowseMode();
 }
 
-void MainWindow::saveSettings()
-{
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->setTabs(ui->tabWidget->tabs());
-}
-
 void MainWindow::loadSettings()
 {
     log( tr("Loading configuration") );
@@ -1145,7 +1139,6 @@ void MainWindow::loadSettings()
 
     // tab bar position
     int tabPosition = cm->value("tab_position").toInt();
-    ui->tabWidget->clear();
     ui->tabWidget->setTabPosition(
           tabPosition == 0 ? QBoxLayout::BottomToTop
         : tabPosition == 1 ? QBoxLayout::TopToBottom
@@ -1161,11 +1154,8 @@ void MainWindow::loadSettings()
 
     /* are tabs already loaded? */
     QStringList tabs = cm->value("tabs").toStringList();
-    foreach (const QString &name, tabs) {
-        ClipboardBrowser *c;
-        c = createTab(name, NULL);
-        c->loadSettings();
-    }
+    foreach (const QString &name, tabs)
+        createTab(name, NULL)->loadSettings();
 
     if ( ui->tabWidget->count() == 0 )
         addTab( tr("&clipboard") );

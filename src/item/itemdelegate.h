@@ -107,6 +107,9 @@ class ItemDelegate : public QItemDelegate
         ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,
                                              bool editNotes);
 
+        /** Load settings for @a editor. */
+        void loadEditorSettings(ItemEditorWidget *editor);
+
     signals:
         /** Emitted if size of a widget has changed. */
         void rowSizeChanged();

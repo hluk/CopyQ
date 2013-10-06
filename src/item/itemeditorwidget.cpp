@@ -42,16 +42,16 @@ const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo
 } // namespace
 
 ItemEditorWidget::ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index,
-                                   bool editNotes, const QFont &font, const QPalette &palette,
-                                   bool saveOnReturnKey, QWidget *parent)
+                                   bool editNotes, QWidget *parent)
     : QWidget(parent)
     , m_itemWidget(itemWidget)
     , m_index(index)
     , m_editor(NULL)
     , m_noteEditor(NULL)
-    , m_saveOnReturnKey(saveOnReturnKey)
+    , m_toolBar(NULL)
+    , m_saveOnReturnKey(false)
 {
-    m_noteEditor = editNotes ? new QPlainTextEdit(this) : NULL;
+    m_noteEditor = editNotes ? new QPlainTextEdit(parent) : NULL;
     QWidget *editor = editNotes ? m_noteEditor : createEditor(itemWidget);
 
     if (editor == NULL) {
@@ -59,7 +59,7 @@ ItemEditorWidget::ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &in
     } else {
         connect( m_itemWidget->widget(), SIGNAL(destroyed()),
                  this, SLOT(onItemWidgetDestroyed()) );
-        initEditor(editor, font, palette);
+        initEditor(editor);
         if (m_noteEditor != NULL)
             m_noteEditor->setPlainText( index.data(contentType::notes).toString() );
         else
@@ -95,6 +95,28 @@ bool ItemEditorWidget::hasChanges() const
     return m_itemWidget != NULL && m_itemWidget->hasChanges(m_editor);
 }
 
+void ItemEditorWidget::setEditorPalette(const QPalette &palette)
+{
+    setPalette(palette);
+    if (m_editor) {
+        QPalette pal2 = palette;
+        pal2.setColor(QPalette::Base, Qt::transparent);
+        m_editor->setPalette(pal2);
+        initMenuItems();
+    }
+}
+
+void ItemEditorWidget::setEditorFont(const QFont &font)
+{
+    if (m_editor)
+        m_editor->setFont(font);
+}
+
+void ItemEditorWidget::setSaveOnReturnKey(bool enabled)
+{
+    m_saveOnReturnKey = enabled;
+}
+
 bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
 {
     if ( object == m_editor && event->type() == QEvent::KeyPress ) {
@@ -123,6 +145,7 @@ bool ItemEditorWidget::eventFilter(QObject *object, QEvent *event)
 void ItemEditorWidget::onItemWidgetDestroyed()
 {
     m_itemWidget = NULL;
+    emit invalidate();
 }
 
 void ItemEditorWidget::saveAndExit()
@@ -146,62 +169,67 @@ QWidget *ItemEditorWidget::createEditor(const ItemWidget *itemWidget)
     return editor;
 }
 
-void ItemEditorWidget::initEditor(QWidget *editor, const QFont &font, const QPalette &palette)
+void ItemEditorWidget::initEditor(QWidget *editor)
 {
     m_editor = editor;
 
     setFocusPolicy(Qt::StrongFocus);
 
-    setPalette(palette);
-    editor->setPalette(palette);
-    editor->setFont(font);
     editor->installEventFilter(this);
 
     setBackgroundRole(QPalette::Base);
     setAutoFillBackground(true);
 
-    QToolBar *toolBar = new QToolBar(this);
-    toolBar->setBackgroundRole(QPalette::Base);
-    toolBar->setStyleSheet("QToolBar{border:0}");
+    m_toolBar = new QToolBar(this);
+    m_toolBar->setBackgroundRole(QPalette::Base);
+    m_toolBar->setStyleSheet("QToolBar{border:0}");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setSpacing(0);
     layout->setContentsMargins(QMargins(0, 0, 0, 0));
-    layout->addWidget(toolBar);
+    layout->addWidget(m_toolBar);
     layout->addWidget(editor);
 
     setFocusProxy(editor);
+}
 
-    const QColor color = getDefaultIconColor( palette.color(QPalette::Base) );
+void ItemEditorWidget::initMenuItems()
+{
+    Q_ASSERT(m_editor);
+
+    foreach (QAction *action, m_toolBar->actions())
+        delete action;
+
+    const QColor color = getDefaultIconColor( palette().color(QPalette::Base) );
 
     QAction *act;
-    act = new QAction( iconSave(color), tr("Save"), editor );
-    toolBar->addAction(act);
+    act = new QAction( iconSave(color), tr("Save"), m_editor );
+    m_toolBar->addAction(act);
     act->setToolTip( tr("Save Item (<strong>F2</strong>)") );
     act->setShortcut( QKeySequence(tr("F2", "Shortcut to save item editor changes")) );
     connect( act, SIGNAL(triggered()),
              this, SLOT(saveAndExit()) );
 
-    act = new QAction( iconCancel(color), tr("Cancel"), editor );
-    toolBar->addAction(act);
+    act = new QAction( iconCancel(color), tr("Cancel"), m_editor );
+    m_toolBar->addAction(act);
     act->setToolTip( tr("Cancel Editing and Revert Changes") );
     act->setShortcut( QKeySequence(tr("Escape", "Shortcut to revert item editor changes")) );
     connect( act, SIGNAL(triggered()),
              this, SIGNAL(cancel()) );
 
-    QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(editor);
+    QPlainTextEdit *plainTextEdit = qobject_cast<QPlainTextEdit*>(m_editor);
     if (plainTextEdit != NULL) {
         plainTextEdit->setFrameShape(QFrame::NoFrame);
 
-        act = new QAction( iconUndo(color), tr("Undo"), editor );
-        toolBar->addAction(act);
+        act = new QAction( iconUndo(color), tr("Undo"), m_editor );
+        m_toolBar->addAction(act);
         act->setShortcut(QKeySequence::Undo);
         act->setEnabled(false);
         connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(undo()) );
         connect( plainTextEdit, SIGNAL(undoAvailable(bool)), act, SLOT(setEnabled(bool)) );
 
-        act = new QAction( iconRedo(color), tr("Redo"), editor );
-        toolBar->addAction(act);
+        act = new QAction( iconRedo(color), tr("Redo"), m_editor );
+        m_toolBar->addAction(act);
         act->setShortcut(QKeySequence::Redo);
         act->setEnabled(false);
         connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(redo()) );

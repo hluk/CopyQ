@@ -71,8 +71,6 @@ public:
 
     QStringList collapsedTabs() const;
 
-    void clear();
-
     /** Return tab names. */
     QStringList tabs() const;
 

@@ -64,7 +64,9 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
 
 QWidget *ItemWidget::createEditor(QWidget *parent) const
 {
-    return new QPlainTextEdit(parent);
+    QPlainTextEdit *editor = new QPlainTextEdit(parent);
+    editor->setStyleSheet("*{background:transparent}");
+    return editor;
 }
 
 void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const

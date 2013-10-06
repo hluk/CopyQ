@@ -165,6 +165,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerExpire(NULL)
     , m_menu(NULL)
     , m_save(true)
+    , m_invalidateCache(false)
     , m_editor(NULL)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
     , m_loadButton(NULL)
@@ -319,9 +320,6 @@ void ClipboardBrowser::createContextMenu()
 
     foreach ( QAction *action, m_menu->actions() )
         delete action;
-
-    if (editing())
-        return;
 
     updateContextMenu();
 }
@@ -517,8 +515,13 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
             updateEditorGeometry();
             editor->show();
             editor->setFocus();
+            stopExpiring();
         } else {
             setFocus();
+            if (isHidden())
+                restartExpiring();
+            if (m_invalidateCache)
+                invalidateItemCache();
         }
     }
 
@@ -535,6 +538,8 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
     }
     setVerticalScrollBarPolicy(scrollbarPolicy);
     setHorizontalScrollBarPolicy(scrollbarPolicy);
+
+    updateContextMenu();
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes)
@@ -923,6 +928,9 @@ void ClipboardBrowser::updateContextMenu()
     m_menu->clear();
 
     clearActions();
+
+    if (editing())
+        return;
 
     initActions();
 
@@ -1723,8 +1731,6 @@ void ClipboardBrowser::loadSettings()
 
     updateCurrentPage();
 
-    setEditorWidget(m_editor);
-
     delete m_timerExpire;
     m_timerExpire = NULL;
 
@@ -1732,6 +1738,11 @@ void ClipboardBrowser::loadSettings()
         m_timerExpire = new QTimer(this);
         initSingleShotTimer( m_timerExpire, 60000 * m_sharedData->minutesToExpire, SLOT(expire()) );
         restartExpiring();
+    }
+
+    if (m_editor) {
+        d->loadEditorSettings(m_editor);
+        setEditorWidget(m_editor);
     }
 }
 
@@ -1847,10 +1858,15 @@ void ClipboardBrowser::editRow(int row)
     editItem( index(row) );
 }
 
-void ClipboardBrowser::redraw()
+void ClipboardBrowser::invalidateItemCache()
 {
-    d->invalidateCache();
-    updateCurrentPage();
+    if (editing()) {
+        m_invalidateCache = true;
+    } else {
+        m_invalidateCache = false;
+        d->invalidateCache();
+        updateCurrentPage();
+    }
 }
 
 void ClipboardBrowser::setAutoUpdate(bool update)

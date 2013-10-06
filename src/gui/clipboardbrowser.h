@@ -121,8 +121,8 @@ class ClipboardBrowser : public QListView
         /** Update clipboard content according to first item in list. */
         void updateClipboard(int row = 0);
 
-        /** Force redrawing the list. */
-        void redraw();
+        /** Invalidate item cache. */
+        void invalidateItemCache();
 
         /** Toggle automatic clipboard update. */
         void setAutoUpdate(bool update);
@@ -223,6 +223,7 @@ class ClipboardBrowser : public QListView
         QPointer<QMenu> m_menu;
 
         bool m_save;
+        bool m_invalidateCache;
 
         ItemEditorWidget *m_editor;
 

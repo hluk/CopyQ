@@ -287,7 +287,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
     d->setFontAntialiasing( themeValue("font_antialiasing").toBool() );
 
-    c->redraw();
+    c->invalidateItemCache();
 }
 
 void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const

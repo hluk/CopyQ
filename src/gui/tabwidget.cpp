@@ -149,26 +149,6 @@ QStringList TabWidget::collapsedTabs() const
     return isTreeModeEnabled() ? m_tabTree->collapsedTabs() : QStringList();
 }
 
-void TabWidget::clear()
-{
-    m_stackedWidget->hide();
-
-    while ( m_stackedWidget->count() > 0 ) {
-        QWidget *w = m_stackedWidget->widget(0);
-        m_stackedWidget->removeWidget(w);
-        delete w;
-    }
-
-    m_stackedWidget->show();
-
-    if ( isTreeModeEnabled() ) {
-        m_tabTree->clear();
-    } else {
-        while( m_tabBar->count() > 0 )
-            m_tabBar->removeTab(0);
-    }
-}
-
 QStringList TabWidget::tabs() const
 {
     QStringList tabs;
@@ -268,14 +248,22 @@ void TabWidget::setTreeModeEnabled(bool enabled)
     if (isTreeModeEnabled() == enabled)
         return;
 
+    const QStringList tabs = this->tabs();
+
     if (enabled) {
         delete m_tabBar;
         m_tabBar = NULL;
+
         createTabTree();
+        for (int i = 0; i < tabs.size(); ++i)
+            m_tabTree->insertTab(tabs[i], i, i == 0);
     } else {
         delete m_tabTree;
         m_tabTree = NULL;
+
         createTabBar();
+        for (int i = 0; i < tabs.size(); ++i)
+            m_tabBar->insertTab(i, tabs[i]);
     }
 }
 

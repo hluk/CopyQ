@@ -72,9 +72,6 @@ class MainWindow : public QMainWindow
         /** Return true if in browse mode. */
         bool browseMode() const { return m_browsemode; }
 
-        /** Save settings, items in browsers and window geometry. */
-        void saveSettings();
-
         /** Create new action dialog. */
         ActionDialog *createActionDialog();
 

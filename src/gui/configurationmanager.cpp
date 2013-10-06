@@ -610,10 +610,13 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 
         m_options[name].setValue(value);
 
-        emit configurationChanged();
-    }
+        // Save the retrieved option value since option widget can modify it (e.g. int in range).
+        QSettings().setValue( "Options/" + name, m_options[name].value() );
 
-    QSettings().setValue( "Options/" + name, m_options[name].value() );
+        emit configurationChanged();
+    } else {
+        QSettings().setValue("Options/" + name, value);
+    }
 }
 
 QStringList ConfigurationManager::options() const

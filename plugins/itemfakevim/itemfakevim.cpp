@@ -378,18 +378,18 @@ signals:
     void invalidate();
 
 protected:
-    void showEvent(QShowEvent *event)
+    bool event(QEvent *event)
     {
-        QPalette pal = palette();
-
-        textEditWidget()->setFont(font());
-        textEditWidget()->setPalette(pal);
-
-        pal.setColor(QPalette::Window, pal.color(QPalette::Base));
-        pal.setColor(QPalette::WindowText, pal.color(QPalette::Text));
-        m_statusBar->setPalette(pal);
-
-        QWidget::showEvent(event);
+        if (event->type() == QEvent::PaletteChange) {
+            QPalette pal = palette();
+            m_editor->setPalette(pal);
+            pal.setColor(QPalette::Window, pal.color(QPalette::Base));
+            pal.setColor(QPalette::WindowText, pal.color(QPalette::Text));
+            m_statusBar->setPalette(pal);
+        } else if (event->type() == QEvent::FontChange) {
+            m_editor->setFont(font());
+        }
+        return false;
     }
 
 private:

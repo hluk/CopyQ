@@ -26,6 +26,7 @@
 class ItemWidget;
 class QAbstractItemModel;
 class QPlainTextEdit;
+class QToolBar;
 
 /**
  * Internal editor widget for items.
@@ -34,8 +35,7 @@ class ItemEditorWidget : public QWidget
 {
     Q_OBJECT
 public:
-    ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index,
-                     bool editNotes, const QFont &font, const QPalette &palette, bool saveOnReturnKey,
+    ItemEditorWidget(ItemWidget *itemWidget, const QModelIndex &index, bool editNotes,
                      QWidget *parent = NULL);
 
     bool isValid() const;
@@ -43,6 +43,12 @@ public:
     void commitData(QAbstractItemModel *model) const;
 
     bool hasChanges() const;
+
+    void setEditorPalette(const QPalette &palette);
+
+    void setEditorFont(const QFont &font);
+
+    void setSaveOnReturnKey(bool enabled);
 
 signals:
     void save();
@@ -58,12 +64,14 @@ private slots:
 
 private:
     QWidget *createEditor(const ItemWidget *itemWidget);
-    void initEditor(QWidget *editor, const QFont &font, const QPalette &palette);
+    void initEditor(QWidget *editor);
+    void initMenuItems();
 
     ItemWidget *m_itemWidget;
     QPersistentModelIndex m_index;
     QWidget *m_editor;
     QPlainTextEdit *m_noteEditor;
+    QToolBar *m_toolBar;
     bool m_saveOnReturnKey;
 };
 
