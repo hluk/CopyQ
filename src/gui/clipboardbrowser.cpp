@@ -954,6 +954,12 @@ void ClipboardBrowser::updateContextMenu()
 void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 {
     QListView::dataChanged(a, b);
+
+    if (editing()) {
+        m_invalidateCache = true;
+        return;
+    }
+
     d->dataChanged(a, b);
     delayedSaveItems();
 
