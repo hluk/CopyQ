@@ -56,6 +56,7 @@ public:
 
         setCursorWidth(0);
         setFrameShape(QFrame::NoFrame);
+        setLineWrapMode(QTextEdit::WidgetWidth);
 
         connect( this, SIGNAL(selectionChanged()),
                  this, SLOT(onSelectionChanged()) );
@@ -290,7 +291,13 @@ public slots:
 
     void handleExCommand(bool *handled, const ExCommand &cmd)
     {
-        if ( wantSaveAndQuit(cmd) ) {
+        if (cmd.cmd == "set") {
+            QString arg = cmd.args;
+            bool enable = !arg.startsWith("no");
+            if (enable)
+                arg.remove(0, 2);
+            *handled = setOption(arg, enable);
+        } else if ( wantSaveAndQuit(cmd) ) {
             // :wq
             emit save();
             emit cancel();
@@ -338,6 +345,15 @@ private:
     bool wantQuit(const ExCommand &cmd)
     {
         return cmd.matches("q", "quit") || cmd.matches("qa", "qall");
+    }
+
+    bool setOption(const QString &option, bool enable)
+    {
+        if (option == "linebreak" || option == "lbr")
+            m_editorWidget->setLineWrapMode(enable ? QTextEdit::WidgetWidth : QTextEdit::NoWrap);
+        else
+            return false;
+        return true;
     }
 
     TextEditWidget *m_editorWidget;
