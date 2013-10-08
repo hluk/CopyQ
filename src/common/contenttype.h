@@ -26,7 +26,7 @@ namespace contentType {
 
 enum {
     formats = Qt::UserRole,
-    data,
+    data, ///< data as QVarianMap (QString format -> QByteArray bytes)
     hasText,
     hasHtml,
     hasNotes,

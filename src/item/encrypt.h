@@ -24,6 +24,8 @@
 
 class QStringList;
 
+extern const QString mimeEncryptedData;
+
 QString getConfigurationFilePath(const QString &suffix);
 
 QStringList getDefaultEncryptCommandArguments();

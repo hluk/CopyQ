@@ -22,7 +22,7 @@
 
 #include "app.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 
 #include <QClipboard>
 #include <QLocalSocket>

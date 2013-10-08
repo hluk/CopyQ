@@ -20,6 +20,7 @@
 #ifndef ITEMWEB_H
 #define ITEMWEB_H
 
+#include "gui/icons.h"
 #include "item/itemwidget.h"
 
 #if QT_VERSION < 0x050000
@@ -73,7 +74,7 @@ public:
     virtual QString name() const { return tr("Web"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display web pages."); }
-    virtual QVariant icon() const { return QVariant(0xf0ac); }
+    virtual QVariant icon() const { return QVariant(IconGlobe); }
 
     virtual QStringList formatsToSave() const;
 };

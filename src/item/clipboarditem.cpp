@@ -19,13 +19,14 @@
 
 #include "clipboarditem.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 #include "common/contenttype.h"
 #include "item/serialize.h"
 
 #include <QByteArray>
 #include <QDataStream>
 #include <QMimeData>
+#include <QSet>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -38,6 +39,22 @@ void clearDataExceptNotes(QMimeData *data)
     data->clear();
     if ( !notes.isEmpty() )
         data->setData(mimeItemNotes, notes);
+}
+
+bool needUpdate(const QVariantMap &data, const QMimeData &itemData)
+{
+    QStringList formats = itemData.formats();
+    if ( !data.contains(mimeItemNotes) )
+        formats.removeOne(mimeItemNotes);
+    if ( formats.toSet() != data.keys().toSet() )
+        return true;
+
+    foreach (const QString &format, formats) {
+        if ( itemData.data(format) != data[format].toByteArray() )
+            return true;
+    }
+
+    return false;
 }
 
 } // namespace
@@ -88,12 +105,17 @@ void ClipboardItem::setData(const QVariant &value)
     updateDataHash();
 }
 
-void ClipboardItem::setData(const QVariantMap &data)
+bool ClipboardItem::setData(const QVariantMap &data)
 {
+    if ( !needUpdate(data, *m_data) )
+        return false;
+
     clearDataExceptNotes( m_data.data() );
     foreach ( const QString &format, data.keys() )
         m_data->setData( format, data[format].toByteArray() );
     updateDataHash();
+
+    return true;
 }
 
 void ClipboardItem::removeData(const QString &mimeType)

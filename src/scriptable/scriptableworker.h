@@ -21,7 +21,7 @@
 #define SCRIPTABLEWORKER_H
 
 #include "common/arguments.h"
-#include "common/client_server.h"
+#include "common/common.h"
 
 #include <QRunnable>
 #include <QObject>

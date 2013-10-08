@@ -34,8 +34,6 @@
 
 namespace {
 
-const QString defaultFormat = QString("application/x-copyq-encrypted");
-
 QString quoteString(const QString &str)
 {
 #if QT_VERSION >= 0x040800
@@ -68,7 +66,7 @@ bool keysExist()
 int getEncryptedFormatIndex(const QModelIndex &index)
 {
     const QStringList formats = index.data(contentType::formats).toStringList();
-    return formats.indexOf(defaultFormat);
+    return formats.indexOf(mimeEncryptedData);
 }
 
 bool decryptMimeData(QMimeData *data, const QModelIndex &index, int formatIndex)
@@ -87,7 +85,7 @@ void encryptMimeData(const QMimeData &data, const QModelIndex &index, QAbstractI
     const QByteArray bytes = serializeData(data);
     const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
     QVariantMap dataMap;
-    dataMap.insert(defaultFormat, encryptedBytes);
+    dataMap.insert(mimeEncryptedData, encryptedBytes);
     model->setData(index, dataMap, contentType::data);
 }
 
@@ -169,12 +167,12 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
 ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     const QStringList formats = index.data(contentType::formats).toStringList();
-    return formats.contains(defaultFormat) ? new ItemEncrypted(parent) : NULL;
+    return formats.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : NULL;
 }
 
 QStringList ItemEncryptedLoader::formatsToSave() const
 {
-    return QStringList(defaultFormat);
+    return QStringList(mimeEncryptedData);
 }
 
 QVariantMap ItemEncryptedLoader::applySettings()

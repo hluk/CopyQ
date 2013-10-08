@@ -21,8 +21,8 @@
 #include "ui_actiondialog.h"
 
 #include "common/action.h"
-#include "common/client_server.h"
 #include "common/command.h"
+#include "common/common.h"
 #include "gui/configurationmanager.h"
 
 #include <QSettings>

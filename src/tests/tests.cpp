@@ -21,6 +21,7 @@
 
 #include "app/remoteprocess.h"
 #include "common/client_server.h"
+#include "common/common.h"
 #include "item/clipboarditem.h"
 
 #include <QApplication>
@@ -438,14 +439,14 @@ void Tests::rawData()
         QString arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
         QByteArray stderrData;
         QCOMPARE( run(Args(args) << "write"
-                      << "application/x-copyq-test1" << arg1
-                      << "application/x-copyq-test2" << "-"
-                      << "application/x-copyq-test3" << arg2 ,
+                      << MIME_PREFIX "test1" << arg1
+                      << MIME_PREFIX "test2" << "-"
+                      << MIME_PREFIX "test3" << arg2 ,
                   NULL, &stderrData, in), 0);
         QVERIFY2(testStderr(stderrData), stderrData);
-        RUN(Args(args) << "read" << "application/x-copyq-test1" << "0", arg1.toLatin1());
-        RUN(Args(args) << "read" << "application/x-copyq-test2" << "0", in);
-        RUN(Args(args) << "read" << "application/x-copyq-test3" << "0", arg2.toLatin1());
+        RUN(Args(args) << "read" << MIME_PREFIX "test1" << "0", arg1.toLatin1());
+        RUN(Args(args) << "read" << MIME_PREFIX "test2" << "0", in);
+        RUN(Args(args) << "read" << MIME_PREFIX "test3" << "0", arg2.toLatin1());
     }
 }
 

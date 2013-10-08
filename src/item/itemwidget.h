@@ -197,16 +197,22 @@ public:
     virtual QWidget *createSettingsWidget(QWidget *) { return NULL; }
 
     /**
-     * Load items using a plugin.
+     * Load items.
      * @return true only if items were saved by this plugin (or just not to load them any further)
      */
     virtual bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
 
     /**
-     * Save items using a plugin.
+     * Save items.
      * @return true only if items were saved
      */
     virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+
+    /**
+     * Create new tab and load items.
+     * @return true only if any plugin (ItemLoaderInterface::createTab()) returned true
+     */
+    virtual bool createTab(const QString &tabName, QAbstractItemModel *model, QFile *file);
 
     /**
      * Called after items were loaded.

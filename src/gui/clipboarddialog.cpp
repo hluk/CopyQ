@@ -20,7 +20,7 @@
 #include "clipboarddialog.h"
 #include "ui_clipboarddialog.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 #include "configurationmanager.h"
 
 #include <QListWidgetItem>
@@ -75,7 +75,9 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
         QTextCodec *codec = QTextCodec::codecForName("utf-8");
         if (mime == QLatin1String("text/html"))
             codec = QTextCodec::codecForHtml(bytes, codec);
-        edit->setPlainText( codec->toUnicode(bytes) );
+        else
+            codec = QTextCodec::codecForUtfText(bytes, codec);
+        edit->setPlainText( codec ? codec->toUnicode(bytes) : QString() );
     }
 
     ui->labelProperties->setText(

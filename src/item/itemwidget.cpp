@@ -118,6 +118,11 @@ bool ItemLoaderInterface::saveItems(const QString &, const QAbstractItemModel &,
     return false;
 }
 
+bool ItemLoaderInterface::createTab(const QString &, QAbstractItemModel *, QFile *)
+{
+    return false;
+}
+
 void ItemLoaderInterface::itemsLoaded(const QString &, QAbstractItemModel *, QFile *)
 {
 }

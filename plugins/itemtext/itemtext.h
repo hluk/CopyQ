@@ -20,6 +20,7 @@
 #ifndef ITEMTEXT_H
 #define ITEMTEXT_H
 
+#include "gui/icons.h"
 #include "item/itemwidget.h"
 
 #include <QTextDocument>
@@ -74,7 +75,7 @@ public:
     virtual QString name() const { return tr("Text"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display plain text and simple HTML items."); }
-    virtual QVariant icon() const { return QVariant(0xf031); }
+    virtual QVariant icon() const { return QVariant(IconFont); }
 
     virtual QStringList formatsToSave() const;
 

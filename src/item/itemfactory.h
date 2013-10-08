@@ -124,6 +124,12 @@ public:
      */
     void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
 
+    /**
+     * Create new tab and load items using a plugin.
+     * @return true only if any plugin (ItemLoaderInterface::createTab()) returned true
+     */
+    bool createTab(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
 private slots:
     /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);

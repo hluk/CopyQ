@@ -21,6 +21,7 @@
 
 #include "common/arguments.h"
 #include "common/client_server.h"
+#include "common/common.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QCoreApplication>

@@ -19,8 +19,8 @@
 
 #include "itemfactory.h"
 
+#include "common/common.h"
 #include "common/contenttype.h"
-#include "common/client_server.h"
 #include "itemwidget.h"
 
 #include <QCoreApplication>
@@ -194,6 +194,7 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
 bool ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        file->seek(0);
         if ( isLoaderEnabled(loader) && loader->loadItems(tabName, model, file) )
             return true;
     }
@@ -220,6 +221,19 @@ void ItemFactory::itemsLoaded(const QString &tabName, QAbstractItemModel *model,
         if ( isLoaderEnabled(loader) )
             loader->itemsLoaded(tabName, model, file);
     }
+}
+
+bool ItemFactory::createTab(const QString &tabName, QAbstractItemModel *model, QFile *file)
+{
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        if ( isLoaderEnabled(loader) ) {
+            file->seek(0);
+            if ( loader->createTab(tabName, model, file) )
+                return true;
+        }
+    }
+
+    return false;
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)

@@ -20,7 +20,7 @@
 #include "gui/configtabappearance.h"
 #include "ui_configtabappearance.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 #include "common/option.h"
 #include "gui/clipboardbrowser.h"
 #include "item/clipboarditem.h"
@@ -439,7 +439,7 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
 #endif
                      );
 
-        ItemEditor *editor = new ItemEditor(data, "application/x-copyq-theme", m_editor, this);
+        ItemEditor *editor = new ItemEditor(data, MIME_PREFIX "theme", m_editor, this);
 
         connect( editor, SIGNAL(fileModified(QByteArray,QString)),
                  this, SLOT(onThemeModified(QByteArray)) );

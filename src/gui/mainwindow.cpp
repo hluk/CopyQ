@@ -21,7 +21,7 @@
 #include "ui_mainwindow.h"
 
 #include "common/action.h"
-#include "common/client_server.h"
+#include "common/common.h"
 #include "common/command.h"
 #include "common/contenttype.h"
 #include "gui/aboutdialog.h"
@@ -31,6 +31,7 @@
 #include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/icons.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
 #include "gui/tabwidget.h"

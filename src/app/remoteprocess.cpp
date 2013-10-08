@@ -20,6 +20,7 @@
 #include "remoteprocess.h"
 
 #include "common/client_server.h"
+#include "common/common.h"
 
 #include <QCoreApplication>
 #include <QByteArray>

@@ -20,6 +20,7 @@
 #include "clipboardmonitor.h"
 
 #include "common/client_server.h"
+#include "common/common.h"
 #include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
 

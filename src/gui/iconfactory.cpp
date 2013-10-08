@@ -19,6 +19,8 @@
 
 #include "iconfactory.h"
 
+#include "gui/icons.h"
+
 #include <QBitmap>
 #include <QCoreApplication>
 #include <QFontDatabase>

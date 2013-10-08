@@ -19,12 +19,13 @@
 
 #include "clipboardbrowser.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 #include "common/contenttype.h"
 #include "gui/clipboarddialog.h"
 #include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/icons.h"
 #include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
@@ -240,6 +241,9 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
              SLOT(updateCurrentPage()) );
     connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
              SLOT(updateCurrentPage()) );
+
+    connect( m, SIGNAL(unloaded()),
+             SLOT(onModelUnloaded()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -961,7 +965,8 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     }
 
     d->dataChanged(a, b);
-    delayedSaveItems();
+    if ( !m->isDisabled() )
+        delayedSaveItems();
 
     bool updateMenu = false;
     const QModelIndexList selected = selectedIndexes();
@@ -1012,8 +1017,7 @@ void ClipboardBrowser::expire()
     if ( m_timerSave->isActive() )
         saveItems();
 
-    m_loaded = false;
-    clear();
+    m->unloadItems();
 }
 
 void ClipboardBrowser::onEditorDestroyed()
@@ -1031,6 +1035,11 @@ void ClipboardBrowser::onEditorSave()
 void ClipboardBrowser::onEditorCancel()
 {
     maybeCloseEditor();
+}
+
+void ClipboardBrowser::onModelUnloaded()
+{
+    m_loaded = false;
 }
 
 void ClipboardBrowser::filterItems()
@@ -1641,11 +1650,6 @@ void ClipboardBrowser::remove()
     int lastRow = removeIndexes( selectedIndexes() );
     if (lastRow != -1)
         setCurrent(lastRow);
-}
-
-void ClipboardBrowser::clear()
-{
-    m->removeRows(0, m->rowCount());
 }
 
 bool ClipboardBrowser::select(uint itemHash, bool moveToTop, bool moveToClipboard)

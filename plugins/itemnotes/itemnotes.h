@@ -20,6 +20,7 @@
 #ifndef ITEMNOTES_H
 #define ITEMNOTES_H
 
+#include "gui/icons.h"
 #include "item/itemwidget.h"
 
 #include <QScopedPointer>
@@ -89,7 +90,7 @@ public:
     virtual QString name() const { return tr("Notes"); }
     virtual QString author() const { return QString(); }
     virtual QString description() const { return tr("Display notes for items."); }
-    virtual QVariant icon() const { return QVariant(0xf14b); }
+    virtual QVariant icon() const { return QVariant(IconEditSign); }
 
     virtual QStringList formatsToSave() const;
 

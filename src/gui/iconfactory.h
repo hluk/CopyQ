@@ -29,63 +29,6 @@ class QIcon;
 class QPixmap;
 class QPainter;
 
-// http://fortawesome.github.com/Font-Awesome/design.html
-enum IconId {
-    IconFirst = 0xf000,
-    IconSearch = 0xf002,
-    IconThList = 0xf00b,
-    IconRemove = 0xf00d,
-    IconOff = 0xf011,
-    IconCog = 0xf013,
-    IconTrash = 0xf014,
-    IconFile = 0xf016,
-    IconDownloadAlt = 0xf019,
-    IconInbox = 0xf01c,
-    IconPlayCircle = 0xf01d,
-    IconRepeat = 0xf01e,
-    IconLock = 0xf023,
-    IconListAlt = 0xf022,
-    IconQRCode = 0xf029,
-    IconTag = 0xf02b,
-    IconPicture = 0xf03e,
-    IconPencil = 0xf040,
-    IconEdit = 0xf044,
-    IconShare = 0xf045,
-    IconRemoveSign = 0xf057,
-    IconQuestionSign = 0xf059,
-    IconInfoSign = 0xf05a,
-    IconArrowLeft = 0xf060,
-    IconArrowRight = 0xf061,
-    IconArrowUp = 0xf062,
-    IconArrowDown = 0xf063,
-    IconPlus = 0xf067,
-    IconMinus = 0xf068,
-    IconAsterisk = 0xf069,
-    IconExclamationSign = 0xf06a,
-    IconEyeOpen = 0xf06e,
-    IconWarningSign = 0xf071,
-    IconFolderOpen = 0xf07c,
-    IconCogs = 0xf085,
-    IconUnlock = 0xf09c,
-    IconHandUp = 0xf0a6,
-    IconGlobe = 0xf0ac,
-    IconWrench = 0xf0ad,
-    IconCopy = 0xf0c5,
-    IconSave = 0xf0c7,
-    IconListOl = 0xf0cb,
-    IconSortDown = 0xf0dd,
-    IconSortUp = 0xf0de,
-    IconUndo = 0xf0e2,
-    IconPaste = 0xf0ea,
-    IconKeyboard = 0xf11c,
-    IconUnlockAlt = 0xf13e,
-    IconSortByAlphabet = 0xf15d,
-    IconSortByAlphabetAlt = 0xf15e,
-    IconTerminal = 0xf120,
-    IconEditSign = 0xf14b,
-    IconLast = 0xf18a
-};
-
 class IconFactory
 {
 public:

@@ -19,7 +19,7 @@
 
 #include "clipboardmodel.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 #include "common/contenttype.h"
 
 #include <QDataStream>
@@ -91,7 +91,8 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
         else
             m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
     } else if (role == contentType::data) {
-        m_clipboardList[row]->setData( value.value<QVariantMap>() );
+        if ( !m_clipboardList[row]->setData(value.toMap()) )
+            return true;
     } else if (role >= contentType::firstFormat) {
         m_clipboardList[row]->setData( role - contentType::firstFormat, value.toByteArray() );
     } else {
@@ -169,6 +170,12 @@ int ClipboardModel::getRowNumber(int row, bool cycle) const
         return cycle ? n - 1 : 0;
     else
         return row;
+}
+
+void ClipboardModel::unloadItems()
+{
+    emit unloaded();
+    removeRows(0, rowCount());
 }
 
 void ClipboardModel::setMaxItems(int max)

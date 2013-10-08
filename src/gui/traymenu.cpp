@@ -20,9 +20,10 @@
 #include "traymenu.h"
 
 #include "common/contenttype.h"
-#include "common/client_server.h"
+#include "common/common.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/icons.h"
 #include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
 

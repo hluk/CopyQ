@@ -19,8 +19,8 @@
 
 #include "scriptable.h"
 
-#include "common/client_server.h"
 #include "common/command.h"
+#include "common/common.h"
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "../qt/bytearrayclass.h"

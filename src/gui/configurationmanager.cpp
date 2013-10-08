@@ -20,11 +20,12 @@
 #include "configurationmanager.h"
 #include "ui_configurationmanager.h"
 
-#include "common/client_server.h"
 #include "common/command.h"
+#include "common/common.h"
 #include "common/option.h"
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
+#include "gui/icons.h"
 #include "gui/pluginwidget.h"
 #include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
@@ -104,26 +105,31 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
     // Load file with items.
     QFile file(fileName);
     if ( !file.exists() ) {
-        // Try to open temp file if regular file doesn't exist.
-        file.setFileName(fileName + ".tmp");
-        if ( !file.exists() )
-            return true;
-        file.rename(fileName);
+        // Try to open temporary file if regular file doesn't exist.
+        QFile tmpFile(fileName + ".tmp");
+        if ( tmpFile.exists() )
+            tmpFile.rename(fileName);
     }
 
     COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(id) );
 
-    file.open(QIODevice::ReadOnly);
+    if ( file.exists() ) {
+        file.open(QIODevice::ReadOnly);
 
-    if ( !itemFactory()->loadItems(id, &model, &file) ) {
-        file.seek(0);
-        QDataStream in(&file);
-        in >> model;
-        if ( in.status() != QDataStream::Ok ) {
-            log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
-                 .arg( quoteString(file.fileName()) ),
-                 LogError );
+        if ( !itemFactory()->loadItems(id, &model, &file) ) {
+            file.seek(0);
+            QDataStream in(&file);
+            in >> model;
+            if ( in.status() != QDataStream::Ok ) {
+                log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
+                     .arg( quoteString(file.fileName()) ),
+                     LogError );
+            }
         }
+    } else {
+        COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(id) );
+        file.open(QIODevice::ReadWrite);
+        itemFactory()->createTab(id, &model, &file);
     }
 
     COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(id).arg(model.rowCount()) );
@@ -302,7 +308,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->name = tr("Encrypt (needs GnuPG)");
         c->icon = QString(QChar(IconLock));
         c->input = mimeItems;
-        c->output = "application/x-copyq-encrypted";
+        c->output = mimeEncryptedData;
         c->inMenu = true;
         c->transform = true;
         c->cmd = getEncryptCommand() + " --encrypt";
@@ -310,7 +316,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     } else if (index == ++i) {
         c->name = tr("Decrypt");
         c->icon = QString(QChar(IconUnlock));
-        c->input = "application/x-copyq-encrypted";
+        c->input = mimeEncryptedData;
         c->output = mimeItems;
         c->inMenu = true;
         c->transform = true;
@@ -319,7 +325,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     } else if (index == ++i) {
         c->name = tr("Decrypt and Copy");
         c->icon = QString(QChar(IconUnlockAlt));
-        c->input = "application/x-copyq-encrypted";
+        c->input = mimeEncryptedData;
         c->inMenu = true;
         c->cmd = getEncryptCommand() + " --decrypt | copyq copy " + mimeItems + " -";
         c->shortcut = tr("Ctrl+Shift+L");

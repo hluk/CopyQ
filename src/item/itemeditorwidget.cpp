@@ -24,6 +24,7 @@
 
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/icons.h"
 
 #include <QAbstractItemModel>
 #include <QAction>
@@ -151,7 +152,7 @@ void ItemEditorWidget::onItemWidgetDestroyed()
 void ItemEditorWidget::saveAndExit()
 {
     emit save();
-    emit cancel();
+    emit invalidate();
 }
 
 QWidget *ItemEditorWidget::createEditor(const ItemWidget *itemWidget)

@@ -39,7 +39,7 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 10*1024;
 
-const QString defaultFormat = QString("application/x-copyq-item-notes");
+const QString mimeEncryptedData = QString("application/x-copyq-item-notes");
 
 const int notesIndent = 16;
 
@@ -265,7 +265,7 @@ ItemNotesLoader::~ItemNotesLoader()
 
 QStringList ItemNotesLoader::formatsToSave() const
 {
-    return QStringList(defaultFormat);
+    return QStringList(mimeEncryptedData);
 }
 
 QVariantMap ItemNotesLoader::applySettings()

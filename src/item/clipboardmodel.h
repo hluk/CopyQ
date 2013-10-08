@@ -156,6 +156,12 @@ public:
         return (row < rowCount()) ? m_clipboardList[row].data() : NULL;
     }
 
+    /** Emit unloaded() and unload (remove) all items. */
+    void unloadItems();
+
+signals:
+    void unloaded();
+
 private:
     QList<ClipboardItemPtr> m_clipboardList;
     int m_max;

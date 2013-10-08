@@ -19,7 +19,7 @@
 
 #include "gui/notificationdaemon.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 #include "gui/notification.h"
 
 #include <QApplication>

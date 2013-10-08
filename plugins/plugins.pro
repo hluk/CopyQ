@@ -6,5 +6,6 @@ SUBDIRS  = \
            itemimage \
            itemnotes \
            itemtext \
+           itemsync \
            itemweb
 

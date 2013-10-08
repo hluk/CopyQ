@@ -85,9 +85,6 @@ class ClipboardBrowser : public QListView
                 int row = 0 //!< Target row for the new item.
                 );
 
-        /** Remove all items. */
-        void clear();
-
         /**
          * Select item with given @a hash and move it to clipboard.
          *
@@ -349,6 +346,8 @@ class ClipboardBrowser : public QListView
         void onEditorSave();
 
         void onEditorCancel();
+
+        void onModelUnloaded();
 
         void filterItems();
 
