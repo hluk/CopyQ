@@ -1800,9 +1800,10 @@ void MainWindow::updateTrayMenuItems()
             act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
             m_trayMenu->addCustomAction(act);
 
+            int i = m_trayMenu->actions().size();
             c->addCommandsToMenu(m_trayMenu, data->text(), data);
             QList<QAction *> actions = m_trayMenu->actions();
-            for ( int i = m_trayMenu->actions().size(); i < actions.size(); ++i )
+            for ( ; i < actions.size(); ++i )
                 m_trayMenu->addCustomAction(actions[i]);
         }
     }
