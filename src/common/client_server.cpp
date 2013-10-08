@@ -53,9 +53,9 @@ QString quoteString(const QString &str)
 QString escapeHtml(const QString &str)
 {
 #if QT_VERSION < 0x050000
-    return Qt::escape(str);
+    return Qt::escape(str).replace('\n', "<br />");
 #else
-    return str.toHtmlEscaped();
+    return str.toHtmlEscaped().replace('\n', "<br />");
 #endif
 }
 

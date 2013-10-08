@@ -1692,12 +1692,13 @@ void MainWindow::actionStarted(Action *action)
 {
     // menu item
     QString text = tr("KILL") + " " + action->command();
-    QString tooltip = tr("<b>COMMAND:</b>") + '\n' + escapeHtml(text) + '\n' +
-                      tr("<b>INPUT:</b>") + '\n' +
+    QString tooltip = tr("<b>COMMAND:</b>") + "<br />" + escapeHtml(text) + "<br />" +
+                      tr("<b>INPUT:</b>") + "<br />" +
                       escapeHtml( QString::fromLocal8Bit(action->input()) );
 
     QAction *act = m_actions[action] = new QAction(this);
     act->setToolTip(tooltip);
+    act->setWhatsThis(tooltip);
 
     connect( act, SIGNAL(triggered()),
              action, SLOT(terminate()) );
@@ -1799,10 +1800,9 @@ void MainWindow::updateTrayMenuItems()
             act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
             m_trayMenu->addCustomAction(act);
 
-            int i = m_trayMenu->actions().size();
             c->addCommandsToMenu(m_trayMenu, data->text(), data);
             QList<QAction *> actions = m_trayMenu->actions();
-            for ( ; i < actions.size(); ++i )
+            for ( int i = m_trayMenu->actions().size(); i < actions.size(); ++i )
                 m_trayMenu->addCustomAction(actions[i]);
         }
     }

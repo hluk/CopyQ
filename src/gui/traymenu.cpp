@@ -75,10 +75,21 @@ QAction *lastEnabledAction(QMenu *menu)
     return NULL;
 }
 
-void showTooltipForAction(const QString &text, QAction *action, QMenu *menu)
+void showToolTipForAction(const QString &text, QAction *action, QMenu *menu)
 {
     const QPoint pos = menu->actionGeometry(action).topRight();
     QToolTip::showText( menu->mapToGlobal(pos), text, menu );
+}
+
+void setActionToolTip(QAction *action, const QString &tooltip)
+{
+    action->setToolTip(tooltip);
+    action->setProperty( propertyHasToolTip, !tooltip.isEmpty() );
+}
+
+bool hasToolTip(QAction *action)
+{
+    return action->property(propertyHasToolTip).toBool();
 }
 
 } // namespace
@@ -149,11 +160,7 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     const QString label = textLabelForData( item.data(), act->font(), format, true );
     act->setText(label);
 
-    QString tooltip = item.data(contentType::notes).toString();
-    if ( !tooltip.isEmpty() ) {
-        act->setToolTip(tooltip);
-        act->setProperty(propertyHasToolTip, true);
-    }
+    setActionToolTip( act, item.data(contentType::notes).toString() );
 
     // Menu item icon from image.
     if (showImages) {
@@ -223,7 +230,7 @@ void TrayMenu::paintEvent(QPaintEvent *event)
 
     // Draw small icon for items with notes.
     foreach ( QAction *action, actions() ) {
-        if ( action->property(propertyHasToolTip).toBool() ) {
+        if ( hasToolTip(action) ) {
             QRect rect = actionGeometry(action);
             iconFactory->drawIcon(IconEditSign, rect, &painter);
         }
@@ -268,7 +275,7 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
         case Qt::Key_F1: {
             QAction *action = activeAction();
             if (action != NULL) {
-                showTooltipForAction(action->whatsThis(), action, this);
+                showToolTipForAction(action->whatsThis(), action, this);
                 return;
             }
             break;
@@ -308,7 +315,7 @@ void TrayMenu::onActionHovered(QAction *action)
 {
     QToolTip::hideText();
 
-    if ( action->property(propertyHasToolTip).toBool() )
+    if ( hasToolTip(action) )
         m_timerShowTooltip.start();
     else
         m_timerShowTooltip.stop();
@@ -317,8 +324,8 @@ void TrayMenu::onActionHovered(QAction *action)
 void TrayMenu::updateTooltip()
 {
     QAction *action = activeAction();
-    if ( action == NULL || !action->property(propertyHasToolTip).toBool() )
+    if ( action == NULL || !hasToolTip(action) )
         return;
 
-    showTooltipForAction(action->toolTip(), action, this);
+    showToolTipForAction(action->toolTip(), action, this);
 }
