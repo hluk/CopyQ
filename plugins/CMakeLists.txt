@@ -31,6 +31,9 @@ macro (copyq_add_plugin)
         ${copyq_plugin_RCC}
         )
 
+    set_target_properties(${copyq_pkg} PROPERTIES
+        COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
+
     if (WITH_QT5)
         qt5_use_modules(${copyq_pkg} Widgets ${copyq_plugin_${copyq_pkg}_Qt5_Modules})
     else()

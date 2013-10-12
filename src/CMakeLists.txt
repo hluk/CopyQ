@@ -47,7 +47,7 @@ if (WITH_TESTS)
         )
 
     if (WITH_QT5)
-        set(copyq_Qt5_Modules ${copyq_Qt5_Modules} Test)
+        list(APPEND copyq_Qt5_Modules Test)
     else()
         set(QT_USE_QTTEST TRUE)
     endif()
@@ -112,6 +112,9 @@ if (WIN32)
         include(${QT_USE_FILE})
     endif()
 
+    # macros definitions for preprocessor and moc
+    set_target_properties(copyqcon PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
+
     # link console app
     target_link_libraries(copyqcon ${QT_LIBRARIES})
 
@@ -132,6 +135,9 @@ else()
     set(QT_USE_QTSCRIPT TRUE)
     include(${QT_USE_FILE})
 endif()
+
+# macros definitions for preprocessor and moc
+set_target_properties(copyq PROPERTIES COMPILE_DEFINITIONS "${copyq_DEFINITIONS}")
 
 # link
 target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
