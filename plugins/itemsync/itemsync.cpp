@@ -28,10 +28,13 @@
 #include <QDir>
 #include <QFile>
 #include <QFileSystemWatcher>
-#include <QVariantMap>
+#include <QLabel>
+#include <QMouseEvent>
+#include <QTextEdit>
 #include <QTimer>
-#include <QUrl>
 #include <QtPlugin>
+#include <QUrl>
+#include <QVariantMap>
 
 namespace {
 
@@ -286,6 +289,166 @@ QMap<Hash, QString> listFiles(const QDir &dir)
 }
 
 } // namespace
+
+ItemSync::ItemSync(const QString &label, bool replaceChildItem, ItemWidget *childItem)
+    : QWidget( childItem->widget()->parentWidget() )
+    , ItemWidget(this)
+    , m_label( new QTextEdit(this) )
+    , m_icon( new QLabel(this) )
+    , m_childItem(childItem)
+{
+    if (replaceChildItem)
+        m_childItem.reset();
+
+    // icon
+    m_icon->setObjectName("item_child");
+    m_icon->setTextFormat(Qt::RichText);
+    m_icon->setText( QString("<span style=\"font-family:FontAwesome;font-size:14px\">&#x%1;</span>")
+                     .arg(IconFile, 0, 16) );
+    m_icon->adjustSize();
+
+    if ( !m_childItem.isNull() ) {
+        m_childItem->widget()->setObjectName("item_child");
+        m_childItem->widget()->setParent(this);
+        m_childItem->widget()->move( m_icon->width() + 6, 0 );
+    }
+
+    m_label->setObjectName("item_child");
+
+    m_label->document()->setDefaultFont(font());
+
+    m_label->setReadOnly(true);
+    m_label->setUndoRedoEnabled(false);
+
+    m_label->setFocusPolicy(Qt::NoFocus);
+    m_label->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_label->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
+    m_label->setFrameStyle(QFrame::NoFrame);
+
+    // Selecting text copies it to clipboard.
+    connect( m_label, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
+
+    m_label->setPlainText(label);
+
+    m_label->viewport()->installEventFilter(this);
+
+    m_icon->move(4, 4);
+    m_label->move( m_icon->geometry().right() + 4, 0 );
+}
+
+void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
+{
+    if ( !m_childItem.isNull() )
+        m_childItem->setHighlight(re, highlightFont, highlightPalette);
+
+    if (m_label != NULL) {
+        QList<QTextEdit::ExtraSelection> selections;
+
+        if ( !re.isEmpty() ) {
+            QTextEdit::ExtraSelection selection;
+            selection.format.setBackground( highlightPalette.base() );
+            selection.format.setForeground( highlightPalette.text() );
+            selection.format.setFont(highlightFont);
+
+            QTextCursor cur = m_label->document()->find(re);
+            int a = cur.position();
+            while ( !cur.isNull() ) {
+                if ( cur.hasSelection() ) {
+                    selection.cursor = cur;
+                    selections.append(selection);
+                } else {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                }
+                cur = m_label->document()->find(re, cur);
+                int b = cur.position();
+                if (a == b) {
+                    cur.movePosition(QTextCursor::NextCharacter);
+                    cur = m_label->document()->find(re, cur);
+                    b = cur.position();
+                    if (a == b) break;
+                }
+                a = b;
+            }
+        }
+
+        m_label->setExtraSelections(selections);
+    }
+
+    update();
+}
+
+void ItemSync::updateSize()
+{
+    const int w = maximumWidth() - ( m_icon != NULL ? m_icon->width() : 0 );
+
+    if ( !m_childItem.isNull() ) {
+        m_childItem->widget()->setMaximumWidth(w);
+        m_childItem->updateSize();
+    }
+
+    const int h = m_childItem.isNull() ? 0 : m_childItem->widget()->height();
+
+    if (m_label != NULL) {
+        m_label->setMaximumWidth(w - m_label->x());
+        m_label->document()->setTextWidth(w - m_label->x());
+        m_label->resize( m_label->document()->idealWidth() + 16, m_label->document()->size().height() );
+
+        if ( !m_childItem.isNull() )
+            m_childItem->widget()->move( 0, m_label->height() );
+
+        resize( w, h + m_label->height() );
+    } else {
+        resize(w, h);
+    }
+}
+
+void ItemSync::mousePressEvent(QMouseEvent *e)
+{
+    m_label->setTextCursor( m_label->cursorForPosition(e->pos()) );
+    QWidget::mousePressEvent(e);
+    e->ignore();
+}
+
+void ItemSync::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
+        QWidget::mouseDoubleClickEvent(e);
+    else
+        e->ignore();
+}
+
+void ItemSync::contextMenuEvent(QContextMenuEvent *e)
+{
+    e->ignore();
+}
+
+void ItemSync::mouseReleaseEvent(QMouseEvent *e)
+{
+    if ( property("copyOnMouseUp").toBool() ) {
+        setProperty("copyOnMouseUp", false);
+        if ( m_label->textCursor().hasSelection() )
+            m_label->copy();
+    } else {
+        QWidget::mouseReleaseEvent(e);
+    }
+}
+
+bool ItemSync::eventFilter(QObject *obj, QEvent *event)
+{
+    if ( m_label != NULL && obj == m_label->viewport() ) {
+        if ( event->type() == QEvent::MouseButtonPress ) {
+            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
+            mousePressEvent(ev);
+        }
+    }
+
+    return QWidget::eventFilter(obj, event);
+}
+
+void ItemSync::onSelectionChanged()
+{
+    setProperty("copyOnMouseUp", true);
+}
 
 class FileWatcher : public QObject {
     Q_OBJECT
@@ -670,6 +833,19 @@ bool ItemSyncLoader::createTab(const QString &tabName, QAbstractItemModel *model
     loadItems(tabName, model, file);
 
     return true;
+}
+
+ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
+{
+    const QStringList formats = index.data(contentType::formats).toStringList();
+    const int indexOfBaseName = formats.indexOf(mimeBaseName);
+    if (indexOfBaseName == -1)
+        return NULL;
+
+    const QString baseName = index.data(contentType::firstFormat + indexOfBaseName).toString();
+
+    bool replaceChildItem = formats.indexOf(mimeNoSave) != -1;
+    return new ItemSync(baseName, replaceChildItem, itemWidget);
 }
 
 void ItemSyncLoader::removeWatcher(QObject *watcher)

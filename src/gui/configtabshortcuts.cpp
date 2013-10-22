@@ -34,7 +34,7 @@ const QIcon iconEditNotes() { return getIcon("accessories-text-editor", IconEdit
 const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
 const QIcon iconExit() { return getIcon("application-exit", IconOff); }
 const QIcon iconHelp() { return getIcon("help-about", IconQuestionSign); }
-const QIcon iconNew() { return getIcon("document-new", IconFile); }
+const QIcon iconNew() { return getIcon("document-new", IconFileAlt); }
 const QIcon iconNextToClipboard() { return getIcon("go-down", IconArrowDown); }
 const QIcon iconOpen() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconPaste() { return getIcon("edit-paste", IconPaste); }

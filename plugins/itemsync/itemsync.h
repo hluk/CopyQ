@@ -23,11 +23,47 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
+#include <QWidget>
+
 namespace Ui {
 class ItemSyncSettings;
 }
 
 class FileWatcher;
+class QLabel;
+class QTextEdit;
+
+class ItemSync : public QWidget, public ItemWidget
+{
+    Q_OBJECT
+
+public:
+    ItemSync(const QString &label, bool replaceChildItem, ItemWidget *childItem = NULL);
+
+protected:
+    virtual void highlight(const QRegExp &re, const QFont &highlightFont,
+                           const QPalette &highlightPalette);
+
+    virtual void updateSize();
+
+    virtual void mousePressEvent(QMouseEvent *e);
+
+    virtual void mouseDoubleClickEvent(QMouseEvent *e);
+
+    virtual void contextMenuEvent(QContextMenuEvent *e);
+
+    virtual void mouseReleaseEvent(QMouseEvent *e);
+
+    virtual bool eventFilter(QObject *obj, QEvent *event);
+
+private slots:
+    void onSelectionChanged();
+
+private:
+    QTextEdit *m_label;
+    QLabel *m_icon;
+    QScopedPointer<ItemWidget> m_childItem;
+};
 
 /**
  * Synchronizes selected tab with destination path.
@@ -60,6 +96,8 @@ public:
     virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
 
     virtual bool createTab(const QString &tabName, QAbstractItemModel *model, QFile *file);
+
+    virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
 private slots:
     void removeWatcher(QObject *watcher);

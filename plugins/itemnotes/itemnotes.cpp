@@ -62,7 +62,8 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     if (showIconOnly) {
         m_icon->setObjectName("item_child");
         m_icon->setTextFormat(Qt::RichText);
-        m_icon->setText("<span style=\"font-family:FontAwesome\">&#xf14b;</span>");
+        m_icon->setText( QString("<span style=\"font-family:FontAwesome;font-size:14px\">&#x%1;</span>")
+                         .arg(IconEditSign, 0, 16) );
         m_icon->adjustSize();
         m_childItem->widget()->move( m_icon->width() + 6, 0 );
         m_icon->move(4, 6);
@@ -154,7 +155,6 @@ void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const Q
 
 void ItemNotes::updateSize()
 {
-    // FIXME: Set correct layout with icon only.
     const int w = maximumWidth() - ( m_icon != NULL ? m_icon->width() : 0 );
 
     m_childItem->widget()->setMaximumWidth(w);
