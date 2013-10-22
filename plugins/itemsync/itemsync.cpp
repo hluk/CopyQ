@@ -273,15 +273,16 @@ void addNoSaveData(const QByteArray &unsavedUriList, const QByteArray &unsavedTe
 }
 
 /// Load hash of all existing files to map (hash -> filename).
-QMap<Hash, QString> listFiles(const QDir &dir)
+QMultiMap<Hash, QString> listFiles(const QDir &dir)
 {
-    QMap<Hash, QString> files;
+    QMultiMap<Hash, QString> files;
 
     foreach ( const QString &fileName, dir.entryList(itemFileFilter) ) {
-        QFile f( dir.absoluteFilePath(fileName) );
+        const QString path = dir.absoluteFilePath(fileName);
+        QFile f(path);
         if (f.open(QIODevice::ReadOnly)) {
             const Hash hash = calculateHash(&f);
-            files.insert(hash, dir.absoluteFilePath(fileName));
+            files.insert(hash, path);
         }
     }
 
@@ -697,7 +698,7 @@ bool ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model
             if ( !dir.mkpath(".") )
                 return true;
 
-            foreach ( const QString &fileName, dir.entryList(itemFileFilter, QDir::Time) ) {
+            foreach ( const QString &fileName, dir.entryList(itemFileFilter, QDir::Time | QDir::Reversed) ) {
                 const QString filePath = dir.absoluteFilePath(fileName);
                 if ( !files.contains(filePath) )
                     files.append(filePath);
