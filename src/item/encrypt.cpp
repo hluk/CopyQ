@@ -26,7 +26,7 @@
 #include <QString>
 #include <QStringList>
 
-const QString mimeEncryptedData = "application/x-copyq-encrypted";
+const char mimeEncryptedData[] = "application/x-copyq-encrypted";
 
 QString getConfigurationFilePath(const QString &suffix)
 {

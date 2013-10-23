@@ -24,7 +24,7 @@
 
 class QStringList;
 
-extern const QString mimeEncryptedData;
+extern const char mimeEncryptedData[];
 
 QString getConfigurationFilePath(const QString &suffix);
 

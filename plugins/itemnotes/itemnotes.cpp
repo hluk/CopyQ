@@ -39,7 +39,7 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 10*1024;
 
-const QString mimeEncryptedData = QString("application/x-copyq-item-notes");
+const char mimeEncryptedData[] = "application/x-copyq-item-notes";
 
 const int notesIndent = 16;
 

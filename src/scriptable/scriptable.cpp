@@ -36,11 +36,9 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
-const QString defaultMime("text/plain");
+const char defaultMime[] = "text/plain";
 
 const char *const programName = "CopyQ Clipboard Manager";
-
-const QString nl("\n");
 
 struct CommandHelp {
     CommandHelp()
@@ -67,14 +65,14 @@ struct CommandHelp {
     QString toString() const
     {
         if (cmd.isNull())
-            return nl;
+            return "\n";
 
         const int indent = 23;
         bool indentFirst = desc.startsWith('\n');
         return QString("    %1").arg(cmd + args, indentFirst ? 0 : -indent)
                 + (indentFirst ? QString() : QString("  "))
                 + QString(desc).replace('\n', "\n" + QString(' ')
-                    .repeated(4 + 2 + (indentFirst ? 0 : indent))) + nl;
+                    .repeated(4 + 2 + (indentFirst ? 0 : indent))) + "\n";
     }
 
     QString cmd;
@@ -219,18 +217,17 @@ QList<CommandHelp> commandHelp()
 
 QString helpHead()
 {
-    return Scriptable::tr("Usage: copyq [%1]").arg(Scriptable::tr("COMMAND")) + nl
-        + nl
-        + Scriptable::tr("Starts server if no command is specified.") + nl
+    return Scriptable::tr("Usage: copyq [%1]").arg(Scriptable::tr("COMMAND")) + "\n\n"
+        + Scriptable::tr("Starts server if no command is specified.") + "\n"
         + Scriptable::tr("  COMMANDs:");
 }
 
 QString helpTail()
 {
-    return Scriptable::tr("NOTES:") + nl
-        + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + nl
+    return Scriptable::tr("NOTES:") + "\n"
+        + Scriptable::tr("  - Use dash argument (-) to read data from stdandard input.") + "\n"
         + Scriptable::tr("  - Use double-dash argument (--) to read all following arguments without\n"
-                      "    expanding escape sequences (i.e. \\n, \\t and others).") + nl
+                      "    expanding escape sequences (i.e. \\n, \\t and others).") + "\n"
         + Scriptable::tr("  - Use ? for MIME to print available MIME types (default is \"text/plain\").");
 }
 
@@ -434,7 +431,7 @@ QScriptValue Scriptable::help()
     QString helpString;
 
     if (cmd.isNull())
-        helpString.append(helpHead() + nl);
+        helpString.append(helpHead() + "\n");
 
     bool found = cmd.isNull();
     foreach (CommandHelp hlp, commandHelp()) {
@@ -452,10 +449,10 @@ QScriptValue Scriptable::help()
     }
 
     if (cmd.isNull())
-        helpString.append(nl + helpTail());
+        helpString.append("\n" + helpTail());
 
     return helpString.toLocal8Bit() +
-            (cmd.isNull() ? nl + nl + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
+            (cmd.isNull() ? "\n\n" + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
                           : QString());
 }
 

@@ -33,8 +33,6 @@
 
 namespace {
 
-const QSize defaultSize(0, 512);
-const QSize defaultMaximumSize(2048, 2048 * 8);
 const int margin = 6;
 
 inline void reset(ItemWidget **ptr, ItemWidget *value = NULL)
@@ -51,7 +49,7 @@ ItemDelegate::ItemDelegate(QListView *parent)
     , m_showNumber(false)
     , m_saveOnReturnKey(true)
     , m_re()
-    , m_maxSize(defaultMaximumSize)
+    , m_maxSize(2048, 2048 * 8)
     , m_foundFont()
     , m_foundPalette()
     , m_numberFont()
@@ -74,7 +72,7 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
         if (w != NULL)
             return w->widget()->size();
     }
-    return defaultSize;
+    return QSize(0, 512);
 }
 
 QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,

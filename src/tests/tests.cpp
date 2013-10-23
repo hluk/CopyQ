@@ -56,9 +56,6 @@ do {\
 
 namespace {
 
-/// Naming scheme for test tabs in application.
-const QString testTabs = "TEST_%1";
-
 /// Interval to wait (in ms) until an action is completed and items from stdout are created.
 const int waitMsAction = 200;
 
@@ -66,6 +63,12 @@ const int waitMsAction = 200;
 const int waitMsClipboard = 500;
 
 typedef QStringList Args;
+
+/// Naming scheme for test tabs in application.
+QString testTab(int index)
+{
+    return QString("TEST_%1").arg(index);
+}
 
 bool testStderr(const QByteArray &stderrData)
 {
@@ -184,7 +187,7 @@ void Tests::cleanup()
 {
     // Remove test tabs
     for (int i = 0; i < 10; ++i) {
-        QString tab = testTabs.arg(i);
+        QString tab = testTab(i);
         if ( hasTab(tab.toLatin1()) )
             RUN(Args("removetab") << tab, "");
     }
@@ -238,7 +241,7 @@ void Tests::itemToClipboard()
 
 void Tests::tabAddRemove()
 {
-    const QString tab = testTabs.arg(1);
+    const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
 
     QVERIFY( !hasTab(tab) );
@@ -266,7 +269,7 @@ void Tests::tabAddRemove()
 
 void Tests::action()
 {
-    const Args args = Args("tab") << testTabs.arg(1);
+    const Args args = Args("tab") << testTab(1);
     const Args argsAction = Args(args) << "action";
     const QString action = QString("%1 %2 %3").arg(QApplication::applicationFilePath())
                                               .arg(args.join(" "));
@@ -300,7 +303,7 @@ void Tests::action()
 
 void Tests::insertRemoveItems()
 {
-    const Args args = Args("tab") << testTabs.arg(1);
+    const Args args = Args("tab") << testTab(1);
 
     RUN(Args(args) << "add" << "abc" << "ghi", "");
     RUN(Args(args) << "read" << "0", "ghi");
@@ -332,9 +335,9 @@ void Tests::insertRemoveItems()
 
 void Tests::renameTab()
 {
-    const QString tab1 = testTabs.arg(1);
-    const QString tab2 = testTabs.arg(2);
-    const QString tab3 = testTabs.arg(3);
+    const QString tab1 = testTab(1);
+    const QString tab2 = testTab(2);
+    const QString tab3 = testTab(3);
 
     RUN(Args("tab") << tab1 << "add" << "abc" << "def" << "ghi", "");
     RUN(Args("tab") << tab1 << "size", "3\n");
@@ -374,7 +377,7 @@ void Tests::renameTab()
 
 void Tests::importExportTab()
 {
-    const QString tab = testTabs.arg(1);
+    const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
 
     RUN(Args(args) << "add" << "abc" << "def" << "ghi", "");
@@ -393,7 +396,7 @@ void Tests::importExportTab()
 
 void Tests::separator()
 {
-    const QString tab = testTabs.arg(1);
+    const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
 
     RUN(Args(args) << "add" << "abc" << "def" << "ghi", "");
@@ -404,8 +407,8 @@ void Tests::separator()
 
 void Tests::eval()
 {
-    const QString tab1 = testTabs.arg(1);
-    const QString tab2 = testTabs.arg(2);
+    const QString tab1 = testTab(1);
+    const QString tab2 = testTab(2);
 
     RUN(Args("eval") << "print('123')", "123");
 
@@ -422,7 +425,7 @@ void Tests::eval()
 
 void Tests::rawData()
 {
-    const QString tab = testTabs.arg(1);
+    const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
 
     {

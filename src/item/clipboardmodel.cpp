@@ -24,8 +24,6 @@
 
 #include <QDataStream>
 
-const QModelIndex emptyIndex;
-
 ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
     , m_clipboardList()
@@ -120,7 +118,7 @@ ClipboardItem *ClipboardModel::append()
 {
     ClipboardItemPtr item( new ClipboardItem() );
 
-    beginInsertRows(emptyIndex, rowCount(), rowCount());
+    beginInsertRows(QModelIndex(), rowCount(), rowCount());
 
     m_clipboardList.append(item);
 
@@ -131,7 +129,7 @@ ClipboardItem *ClipboardModel::append()
 
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
-    beginInsertRows(emptyIndex, position, position + rows - 1);
+    beginInsertRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
         m_clipboardList.insert(position, ClipboardItemPtr(new ClipboardItem()));
@@ -148,7 +146,7 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 
     int last = qMin( position + rows, rowCount() ) - 1;
 
-    beginRemoveRows(emptyIndex, position, last);
+    beginRemoveRows(QModelIndex(), position, last);
 
     m_clipboardList.erase( m_clipboardList.begin() + position,
                            m_clipboardList.begin() + last + 1 );
@@ -186,7 +184,7 @@ void ClipboardModel::setMaxItems(int max)
     if (max >= rows)
         return;
 
-    beginRemoveRows(emptyIndex, max + 1, rows - 1);
+    beginRemoveRows(QModelIndex(), max + 1, rows - 1);
 
     m_clipboardList.erase( m_clipboardList.begin() + max,
                            m_clipboardList.end() );
@@ -202,7 +200,7 @@ bool ClipboardModel::move(int pos, int newpos)
     if( from == -1 || to == -1 )
         return false;
 
-    if ( !beginMoveRows(emptyIndex, from, from, emptyIndex, from < to ? to + 1 : to) )
+    if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(), from < to ? to + 1 : to) )
         return false;
 
     m_clipboardList.move(from, to);

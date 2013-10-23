@@ -40,18 +40,18 @@ namespace {
 
 const int currentVersion = 1;
 
-const QString configVersion = "copyq_itemsync_version";
-const QString configPath = "path";
-const QString configSavedFiles = "saved_files";
+const char configVersion[] = "copyq_itemsync_version";
+const char configPath[] = "path";
+const char configSavedFiles[] = "saved_files";
 
-const QString dataFileSuffix = "_data.dat";
+const char dataFileSuffix[] = "_data.dat";
 
-const QString mimeBaseName = "application/x-copyq-itemsync-basename";
-const QString mimeUnknownData = "application/octet-stream";
-const QString mimeNoSave = "application/x-copyq-itemsync-no-save";
+const char mimeBaseName[] = "application/x-copyq-itemsync-basename";
+const char mimeUnknownData[] = "application/octet-stream";
+const char mimeNoSave[] = "application/x-copyq-itemsync-no-save";
 
-const char *propertyModelDisabled = "disabled";
-const char *propertyModelDirty = "dirty";
+const char propertyModelDisabled[] = "disabled";
+const char propertyModelDirty []= "dirty";
 
 const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
 

@@ -81,13 +81,13 @@ enum LogLevel {
 };
 
 #define MIME_PREFIX "application/x-copyq-"
-extern const QString mimeWindowTitle;
-extern const QString mimeItems;
-extern const QString mimeItemNotes;
-extern const QString mimeApplicationSettings;
-extern const QString mimeMessage;
+extern const char mimeWindowTitle[];
+extern const char mimeItems[];
+extern const char mimeItemNotes[];
+extern const char mimeApplicationSettings[];
+extern const char mimeMessage[];
 #ifdef COPYQ_WS_X11
-extern const QString mimeClipboardMode;
+extern const char mimeClipboardMode[];
 #endif
 
 QString quoteString(const QString &str);

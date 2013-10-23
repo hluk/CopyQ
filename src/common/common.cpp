@@ -31,13 +31,13 @@
 #   include <QTextDocument> // Qt::escape()
 #endif
 
-const QString mimeWindowTitle = MIME_PREFIX "owner-window-title";
-const QString mimeItems = MIME_PREFIX "item";
-const QString mimeItemNotes = MIME_PREFIX "item-notes";
-const QString mimeApplicationSettings = MIME_PREFIX "settings";
-const QString mimeMessage = MIME_PREFIX "message";
+const char mimeWindowTitle[] = MIME_PREFIX "owner-window-title";
+const char mimeItems[] = MIME_PREFIX "item";
+const char mimeItemNotes[] = MIME_PREFIX "item-notes";
+const char mimeApplicationSettings[] = MIME_PREFIX "settings";
+const char mimeMessage[] = MIME_PREFIX "message";
 #ifdef COPYQ_WS_X11
-const QString mimeClipboardMode = MIME_PREFIX "clipboard-mode";
+const char mimeClipboardMode[] = MIME_PREFIX "clipboard-mode";
 #endif
 
 QString quoteString(const QString &str)
