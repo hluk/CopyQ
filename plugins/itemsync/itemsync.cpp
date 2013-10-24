@@ -79,6 +79,23 @@ void writeConfiguration(QFile *file, const QStringList &savedFiles)
     stream << config;
 }
 
+bool renameToUnique(QString *name, const QStringList &usedNames)
+{
+    if ( !usedNames.contains(*name) )
+        return true;
+
+    int i = 0;
+    QString newName;
+    do {
+        if (i >= 99999)
+            return false;
+        newName = *name + '-' + QString::number(++i);
+    } while ( usedNames.contains(newName) );
+
+    *name = newName;
+    return true;
+}
+
 bool renameToUnique(const QString &fileName, QMultiMap<Hash, QString> *existingFiles = NULL)
 {
     if ( !QFile::exists(fileName) )
@@ -273,11 +290,15 @@ void addNoSaveData(const QByteArray &unsavedUriList, const QByteArray &unsavedTe
 }
 
 /// Load hash of all existing files to map (hash -> filename).
-QMultiMap<Hash, QString> listFiles(const QDir &dir)
+QMultiMap<Hash, QString> listFiles(const QDir &dir, QSet<int> *usedBaseNameIndexes)
 {
     QMultiMap<Hash, QString> files;
 
+    QRegExp re("^copyq_(\\d{4})");
+
     foreach ( const QString &fileName, dir.entryList(itemFileFilter) ) {
+        if ( re.indexIn(fileName) == 0 )
+            usedBaseNameIndexes->insert(re.cap(1).toInt());
         const QString path = dir.absoluteFilePath(fileName);
         QFile f(path);
         if (f.open(QIODevice::ReadOnly)) {
@@ -738,9 +759,12 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
     if ( !dir.mkpath(".") )
         return false;
 
-    QMultiMap<Hash, QString> existingFiles = listFiles(dir);
+    QSet<int> usedBaseNameIndexes;
+    int baseNameIndex = -1;
+    QMultiMap<Hash, QString> existingFiles = listFiles(dir, &usedBaseNameIndexes);
 
     QStringList savedFiles;
+    QStringList usedBaseNames;
 
     FileWatcher *watcher = m_watchers.value(&model, NULL);
     Q_ASSERT(watcher);
@@ -749,10 +773,17 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
     for (int row = 0; row < model.rowCount(); ++row) {
         const QModelIndex index = model.index(row, 0);
         const QStringList formats = index.data(contentType::formats).toStringList();
+
         QString baseName = getBaseName(index, formats);
-        if ( baseName.isEmpty() || QRegExp("copyq_\\d{4}(-\\d+)?").exactMatch(baseName) )
-            baseName = QString("copyq_%1").arg( row, 4, 10, QChar('0') );
+        if ( baseName.isEmpty() ) {
+            while ( usedBaseNameIndexes.contains(++baseNameIndex) ) {}
+            baseName = QString("copyq_%1").arg( baseNameIndex, 4, 10, QChar('0') );
+        }
+        else if (!renameToUnique(&baseName, usedBaseNames))
+            return false;
+        usedBaseNames.append(baseName);
         watcher->setIndexBaseName(index, baseName);
+
         const QString filePath = dir.absoluteFilePath(baseName);
 
         QVariantMap dataMap;
