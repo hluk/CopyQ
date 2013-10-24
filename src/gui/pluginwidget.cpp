@@ -43,6 +43,7 @@ PluginWidget::PluginWidget(const ItemLoaderInterfacePtr &loader, QWidget *parent
     m_loaderSettings = m_loader->createSettingsWidget(this);
     if (m_loaderSettings != NULL) {
         ui->verticalLayout->insertWidget(2, m_loaderSettings);
+        ui->verticalLayout->setStretch(2, 1);
     }
 }
 
