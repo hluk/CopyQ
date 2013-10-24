@@ -932,9 +932,6 @@ void ItemSyncLoader::removeModel()
 void ItemSyncLoader::onBrowseButtonClicked()
 {
     QTableWidget *t = ui->tableWidgetSyncTabs;
-    const QString path = QFileDialog::getExistingDirectory(t, tr("Open Directory for Synchronization"));
-    if ( path.isEmpty() )
-        return;
 
     QObject *button = sender();
     Q_ASSERT(button != NULL);
@@ -943,7 +940,12 @@ void ItemSyncLoader::onBrowseButtonClicked()
     for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::button) != button; ++row ) {}
     Q_ASSERT(row != t->rowCount());
 
-    t->item(row, syncTabsTableColumns::path)->setText(path);
+
+    QTableWidgetItem *item = t->item(row, syncTabsTableColumns::path);
+    const QString path =
+            QFileDialog::getExistingDirectory( t, tr("Open Directory for Synchronization"), item->text() );
+    if ( !path.isEmpty() )
+        item->setText(path);
 }
 
 bool ItemSyncLoader::shouldSyncTab(const QString &tabName) const
