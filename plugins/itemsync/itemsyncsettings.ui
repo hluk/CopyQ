@@ -20,9 +20,12 @@
    </item>
    <item>
     <widget class="QTableWidget" name="tableWidgetSyncTabs">
-     <attribute name="horizontalHeaderStretchLastSection">
+     <property name="alternatingRowColors">
       <bool>true</bool>
-     </attribute>
+     </property>
+     <property name="showGrid">
+      <bool>false</bool>
+     </property>
      <attribute name="verticalHeaderVisible">
       <bool>false</bool>
      </attribute>
@@ -34,6 +37,11 @@
      <column>
       <property name="text">
        <string>Path</string>
+      </property>
+     </column>
+     <column>
+      <property name="text">
+       <string/>
       </property>
      </column>
     </widget>

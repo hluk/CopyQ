@@ -28,8 +28,11 @@
 #include <QDir>
 #include <QFile>
 #include <QFileSystemWatcher>
+#include <QFileDialog>
 #include <QLabel>
 #include <QMouseEvent>
+#include <QPushButton>
+#include <QScopedPointer>
 #include <QTextEdit>
 #include <QTimer>
 #include <QtPlugin>
@@ -61,6 +64,14 @@ const bool saveUnknownData = false;
 const qint64 sizeLimit = 10 << 20;
 
 typedef QByteArray Hash;
+
+namespace syncTabsTableColumns {
+enum {
+    tabName,
+    path,
+    button
+};
+}
 
 bool readConfig(QFile *file, QVariantMap *config)
 {
@@ -122,6 +133,17 @@ bool renameToUnique(const QString &fileName, QMultiMap<Hash, QString> *existingF
     }
 
     return QFile::rename(fileName, newFileName);
+}
+
+QPushButton *createBrowseButton()
+{
+    QScopedPointer<QPushButton> button(new QPushButton);
+    QFont font("FontAwesome");
+    font.setPixelSize(14);
+    button->setFont(font);
+    button->setText( QString(QChar(IconFolderOpen)) );
+    button->setToolTip( ItemSyncLoader::tr("Browse...") );
+    return button.take();
 }
 
 struct Ext {
@@ -657,9 +679,9 @@ QVariantMap ItemSyncLoader::applySettings()
     QStringList tabPaths;
     m_tabPaths.clear();
     for (int row = 0, i = 0; i < t->rowCount(); ++row, i += 2) {
-        const QString tabName = t->item(row, 0)->text();
+        const QString tabName = t->item(row, syncTabsTableColumns::tabName)->text();
         if ( !tabName.isEmpty() ) {
-            const QString tabPath = t->item(row, 1)->text();
+            const QString tabPath = t->item(row, syncTabsTableColumns::path)->text();
             tabPaths << tabName << tabPath;
             m_tabPaths.insert(tabName, tabPath);
         }
@@ -690,9 +712,19 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     QTableWidget *t = ui->tableWidgetSyncTabs;
     for (int row = 0, i = 0; i < tabPaths.size() + 20; ++row, i += 2) {
         t->insertRow(row);
-        t->setItem( row, 0, new QTableWidgetItem(tabPaths.value(i)) );
-        t->setItem( row, 1, new QTableWidgetItem(tabPaths.value(i + 1)) );
+        t->setItem( row, syncTabsTableColumns::tabName, new QTableWidgetItem(tabPaths.value(i)) );
+        t->setItem( row, syncTabsTableColumns::path, new QTableWidgetItem(tabPaths.value(i + 1)) );
+
+        QPushButton *button = createBrowseButton();
+        connect( button, SIGNAL(clicked()), SLOT(onBrowseButtonClicked()) );
+        t->setCellWidget( row, syncTabsTableColumns::button, button);
     }
+
+    QHeaderView *header = t->horizontalHeader();
+    header->setResizeMode(syncTabsTableColumns::path, QHeaderView::Stretch);
+    header->resizeSection(syncTabsTableColumns::button, t->rowHeight(0));
+    header->setResizeMode(syncTabsTableColumns::button, QHeaderView::Fixed);
+    t->resizeColumnToContents(syncTabsTableColumns::tabName);
 
     return w;
 }
@@ -895,6 +927,23 @@ void ItemSyncLoader::removeModel()
     const QObject *model = sender();
     Q_ASSERT(model);
     delete m_watchers.take(model);
+}
+
+void ItemSyncLoader::onBrowseButtonClicked()
+{
+    QTableWidget *t = ui->tableWidgetSyncTabs;
+    const QString path = QFileDialog::getExistingDirectory(t, tr("Open Directory for Synchronization"));
+    if ( path.isEmpty() )
+        return;
+
+    QObject *button = sender();
+    Q_ASSERT(button != NULL);
+
+    int row = 0;
+    for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::button) != button; ++row ) {}
+    Q_ASSERT(row != t->rowCount());
+
+    t->item(row, syncTabsTableColumns::path)->setText(path);
 }
 
 bool ItemSyncLoader::shouldSyncTab(const QString &tabName) const

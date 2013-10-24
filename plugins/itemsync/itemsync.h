@@ -102,6 +102,7 @@ public:
 private slots:
     void removeWatcher(QObject *watcher);
     void removeModel();
+    void onBrowseButtonClicked();
 
 private:
     bool shouldSyncTab(const QString &tabName) const;
