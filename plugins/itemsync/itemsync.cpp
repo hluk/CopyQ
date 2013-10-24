@@ -888,7 +888,7 @@ bool ItemSyncLoader::createTab(const QString &tabName, QAbstractItemModel *model
 
     QDir dir( tabPath(tabName) );
     QStringList savedFiles;
-    foreach ( const QString &fileName, dir.entryList(itemFileFilter, QDir::Name) )
+    foreach ( const QString &fileName, dir.entryList(itemFileFilter, QDir::Name | QDir::Reversed) )
         savedFiles.append( dir.absoluteFilePath(fileName) );
 
     writeConfiguration(file, savedFiles);
