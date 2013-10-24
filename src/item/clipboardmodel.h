@@ -83,7 +83,7 @@ public:
                     const QModelIndex &index = QModelIndex());
 
     /** Set data for given @a index. */
-    bool setData(const QModelIndex &index, QMimeData *value);
+    bool setMimeData(const QModelIndex &index, QMimeData *value);
 
     /** Append new item to model. */
     ClipboardItem *append();

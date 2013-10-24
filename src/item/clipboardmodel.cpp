@@ -102,7 +102,7 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     return true;
 }
 
-bool ClipboardModel::setData(const QModelIndex &index, QMimeData *value)
+bool ClipboardModel::setMimeData(const QModelIndex &index, QMimeData *value)
 {
     if ( !index.isValid() )
         return false;

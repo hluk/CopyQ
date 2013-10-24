@@ -760,7 +760,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
 void ClipboardBrowser::setItemData(const QModelIndex &index, QMimeData *data)
 {
-    if (!m->setData(index, data))
+    if (!m->setMimeData(index, data))
         delete data;
 }
 
@@ -1711,7 +1711,7 @@ bool ClipboardBrowser::add(QMimeData *data, int row)
     int newRow = row < 0 ? m->rowCount() : qMin(row, m->rowCount());
     m->insertRow(newRow);
     QModelIndex ind = index(newRow);
-    m->setData( ind, dataGuard.take() );
+    m->setMimeData( ind, dataGuard.take() );
 
     // filter item
     if ( isFiltered(newRow) ) {

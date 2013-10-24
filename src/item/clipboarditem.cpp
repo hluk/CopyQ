@@ -33,12 +33,12 @@
 
 namespace {
 
-void clearDataExceptNotes(QMimeData *data)
+void clearDataExceptInternal(QMimeData *data)
 {
-    const QByteArray notes = data->data(mimeItemNotes);
-    data->clear();
-    if ( !notes.isEmpty() )
-        data->setData(mimeItemNotes, notes);
+    foreach ( const QString &format, data->formats() ) {
+        if ( !format.startsWith("application/x-copyq-") )
+            data->removeFormat(format);
+    }
 }
 
 bool needUpdate(const QVariantMap &data, const QMimeData &itemData)
@@ -89,18 +89,23 @@ void ClipboardItem::setData(QMimeData *data)
 {
     Q_ASSERT(data != NULL);
 
-    // rewrite all original data, except notes, with edited text
-    const QByteArray notes = m_data->data(mimeItemNotes);
+    // if new data contains internal data (MIME starts with "application/x-copyq-"), update all data
+    // otherwise rewrite all original data, except internal data
+    const QStringList newFormats = data->formats();
+    bool updateAll = newFormats.indexOf( QRegExp("^application/x-copyq-.*") ) != -1;
+    foreach ( const QString &format, m_data->formats().toSet().subtract(newFormats.toSet()) ) {
+        if ( updateAll || format.startsWith("application/x-copyq-") )
+            data->setData( format, m_data->data(format) );
+    }
+
     m_data.reset(data);
-    if ( !notes.isEmpty() )
-        m_data->setData(mimeItemNotes, notes);
     updateDataHash();
 }
 
 void ClipboardItem::setData(const QVariant &value)
 {
-    // rewrite all original data, except notes, with edited text
-    clearDataExceptNotes( m_data.data() );
+    // rewrite all original data, except internal data
+    clearDataExceptInternal( m_data.data() );
     m_data->setText( value.toString() );
     updateDataHash();
 }
@@ -110,7 +115,7 @@ bool ClipboardItem::setData(const QVariantMap &data)
     if ( !needUpdate(data, *m_data) )
         return false;
 
-    clearDataExceptNotes( m_data.data() );
+    clearDataExceptInternal( m_data.data() );
     foreach ( const QString &format, data.keys() )
         m_data->setData( format, data[format].toByteArray() );
     updateDataHash();
