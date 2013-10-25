@@ -332,9 +332,75 @@ QMultiMap<Hash, QString> listFiles(const QDir &dir, QSet<int> *usedBaseNameIndex
     return files;
 }
 
+bool hasVideoExtension(const QString &ext)
+{
+    return ext == "avi"
+            || ext == "mkv"
+            || ext == "mp4"
+            || ext == "mpg"
+            || ext == "mpeg"
+            || ext == "ogv"
+            || ext == "flv";
+}
+
+bool hasAudioExtension(const QString &ext)
+{
+    return ext == "mp3"
+            || ext == "wav"
+            || ext == "ogg"
+            || ext == "m4a";
+}
+
+bool hasImageExtension(const QString &ext)
+{
+    return ext == "png"
+            || ext == "jpg"
+            || ext == "gif"
+            || ext == "bmp"
+            || ext == "svg"
+            || ext == "tga"
+            || ext == "tiff"
+            || ext == "psd"
+            || ext == "xcf"
+            || ext == "ico"
+            || ext == "pbm"
+            || ext == "ppm"
+            || ext == "eps"
+            || ext == "pcx"
+            || ext == "jpx"
+            || ext == "jp2";
+}
+
+bool hasArchiveExtension(const QString &ext)
+{
+    return ext == "zip"
+            || ext == "7z"
+            || ext == "tar"
+            || ext == "rar"
+            || QRegExp("r\\d\\d").exactMatch(ext)
+            || ext == "arj";
+}
+
+bool hasTextExtension(const QString &ext)
+{
+    return ext == "txt"
+            || ext == "log"
+            || ext == "xml"
+            || ext == "html"
+            || ext == "htm"
+            || ext == "pdf"
+            || ext == "doc"
+            || ext == "docx"
+            || ext == "odt"
+            || ext == "xls"
+            || ext == "rtf"
+            || ext == "csv"
+            || ext == "ppt";
+}
+
 } // namespace
 
-ItemSync::ItemSync(const QString &label, bool replaceChildItem, ItemWidget *childItem)
+ItemSync::ItemSync(const QString &label, IconId icon, bool replaceChildItem, ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
     , m_label( new QTextEdit(this) )
@@ -348,7 +414,7 @@ ItemSync::ItemSync(const QString &label, bool replaceChildItem, ItemWidget *chil
     m_icon->setObjectName("item_child");
     m_icon->setTextFormat(Qt::RichText);
     m_icon->setText( QString("<span style=\"font-family:FontAwesome;font-size:14px\">&#x%1;</span>")
-                     .arg(IconFile, 0, 16) );
+                     .arg(icon, 0, 16) );
     m_icon->adjustSize();
 
     if ( !m_childItem.isNull() ) {
@@ -908,8 +974,37 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 
     const QString baseName = index.data(contentType::firstFormat + indexOfBaseName).toString();
 
+    IconId icon = IconFile;
+    if ( formats.contains(mimeNoSave) ) {
+        // icon from file name extension
+        const int i = baseName.lastIndexOf('.');
+        if (i != -1) {
+            const QString ext = baseName.mid(i + 1).toLower();
+            if ( hasVideoExtension(ext) )
+                icon = IconPlayCircle;
+            else if ( hasAudioExtension(ext) )
+                icon = IconVolumeUp;
+            else if ( hasImageExtension(ext) )
+                icon = IconCamera;
+            else if ( hasArchiveExtension(ext) )
+                icon = IconFileText;
+            else if ( hasTextExtension(ext) )
+                icon = IconFileText;
+        }
+    } else {
+        // icon from MIME type
+        if ( formats.indexOf(QRegExp("video/.*")) != -1 )
+            icon = IconPlayCircle;
+        else if ( formats.indexOf(QRegExp("audio/.*")) != -1 )
+            icon = IconVolumeUp;
+        else if ( formats.indexOf(QRegExp("image/.*")) != -1 )
+            icon = IconCamera;
+        else if ( formats.indexOf(QRegExp("text/.*")) != -1 )
+            icon = IconFileText;
+    }
+
     bool replaceChildItem = formats.indexOf(mimeNoSave) != -1;
-    return new ItemSync(baseName, replaceChildItem, itemWidget);
+    return new ItemSync(baseName, icon, replaceChildItem, itemWidget);
 }
 
 void ItemSyncLoader::removeWatcher(QObject *watcher)

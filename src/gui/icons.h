@@ -36,6 +36,7 @@ enum IconId {
     IconRepeat = 0xf01e,
     IconLock = 0xf023,
     IconListAlt = 0xf022,
+    IconVolumeUp = 0xf028,
     IconQRCode = 0xf029,
     IconTag = 0xf02b,
     IconCamera = 0xf030,
@@ -79,6 +80,7 @@ enum IconId {
     IconSortByAlphabetAlt = 0xf15e,
     IconTerminal = 0xf120,
     IconEditSign = 0xf14b,
+    IconArchive = 0xf187,
     IconLast = 0xf18a
 };
 
