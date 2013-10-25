@@ -3,8 +3,9 @@ Steps to build and install
 
 To build and install the application CMake is required (http://www.cmake.org/).
 
-On Ubuntu you'll need packages libqt4-dev, cmake, libxfixes-dev, libxtst-dev,
-libqtwebkit-dev (optional).
+On Ubuntu you'll need packages libqt4-dev, cmake, libxfixes-dev,
+libxtst-dev (optional; auto-paste into some applications),
+libqtwebkit-dev (optional; advanced HTML rendering).
 
 Build with following commands:
 
