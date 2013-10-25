@@ -61,9 +61,11 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
 
     if (showIconOnly) {
         m_icon->setObjectName("item_child");
-        m_icon->setTextFormat(Qt::RichText);
-        m_icon->setText( QString("<span style=\"font-family:FontAwesome;font-size:14px\">&#x%1;</span>")
-                         .arg(IconEditSign, 0, 16) );
+        m_icon->setTextFormat(Qt::PlainText);
+        QFont iconFont("FontAwesome");
+        m_icon->setFont(iconFont);
+        m_icon->setStyleSheet("*{font-size:14px}");
+        m_icon->setText(QString(QChar(IconEditSign)));
         m_icon->adjustSize();
         m_childItem->widget()->move( m_icon->width() + 6, 0 );
         m_icon->move(4, 6);
