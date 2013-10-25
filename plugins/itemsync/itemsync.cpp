@@ -73,6 +73,15 @@ enum {
 };
 }
 
+void setHeaderSectionResizeMode(QHeaderView *header, int logicalIndex, QHeaderView::ResizeMode mode)
+{
+#if QT_VERSION < 0x050000
+    header->setResizeMode(logicalIndex, mode);
+#else
+    header->setSectionResizeMode(logicalIndex, mode);
+#endif
+}
+
 bool readConfig(QFile *file, QVariantMap *config)
 {
     QDataStream stream(file);
@@ -789,9 +798,9 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     }
 
     QHeaderView *header = t->horizontalHeader();
-    header->setResizeMode(syncTabsTableColumns::path, QHeaderView::Stretch);
+    setHeaderSectionResizeMode(header, syncTabsTableColumns::path, QHeaderView::Stretch);
+    setHeaderSectionResizeMode(header, syncTabsTableColumns::button, QHeaderView::Fixed);
     header->resizeSection(syncTabsTableColumns::button, t->rowHeight(0));
-    header->setResizeMode(syncTabsTableColumns::button, QHeaderView::Fixed);
     t->resizeColumnToContents(syncTabsTableColumns::tabName);
 
     return w;
