@@ -23,7 +23,9 @@
 #include <QDir>
 #include <QRegExp>
 
-#include <X11/extensions/XTest.h>
+#ifdef HAS_X11TEST
+#   include <X11/extensions/XTest.h>
+#endif
 #include <X11/Xlib.h>
 #include <X11/keysym.h>
 #include <X11/Xatom.h>
