@@ -114,9 +114,9 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
     COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(id) );
 
     if ( file.exists() ) {
-        file.open(QIODevice::ReadOnly);
-
-        if ( !itemFactory()->loadItems(id, &model, &file) ) {
+        if ( !file.open(QIODevice::ReadOnly) ) {
+            model.setDisabled(true);
+        } else if ( !itemFactory()->loadItems(id, &model, &file) ) {
             file.seek(0);
             QDataStream in(&file);
             in >> model;
@@ -128,8 +128,10 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
         }
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(id) );
-        file.open(QIODevice::ReadWrite);
-        itemFactory()->createTab(id, &model, &file);
+        if ( file.open(QIODevice::ReadWrite) )
+            itemFactory()->createTab(id, &model, &file);
+        else
+            model.setDisabled(true);
     }
 
     COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(id).arg(model.rowCount()) );
