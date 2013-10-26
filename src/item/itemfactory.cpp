@@ -82,7 +82,7 @@ public:
             setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
             updateSize();
         } else {
-            resize(0, 0);
+            setMaximumSize(0, 0);
         }
     }
 
