@@ -34,6 +34,8 @@
 
 namespace {
 
+const char dataFileHeader[] = "CopyQ_encrypted_tab";
+
 QString quoteString(const QString &str)
 {
 #if QT_VERSION >= 0x040800
@@ -97,7 +99,7 @@ bool isEncryptedFile(QFile *file)
     QString header;
     stream >> header;
 
-    return header == QString("CopyQ_encrypted_tab");
+    return header == dataFileHeader;
 }
 
 } // namespace
@@ -311,7 +313,7 @@ bool ItemEncryptedLoader::saveItems(const QString &tabName, const QAbstractItemM
         return false;
 
     QDataStream stream(file);
-    stream << QString("CopyQ_encrypted_tab");
+    stream << QString(dataFileHeader);
     stream.writeRawData( bytes.data(), bytes.size() );
 
     return true;

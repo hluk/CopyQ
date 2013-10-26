@@ -124,6 +124,7 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
                 log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
                      .arg( quoteString(file.fileName()) ),
                      LogError );
+                model.setDisabled(true);
             }
         }
     } else {

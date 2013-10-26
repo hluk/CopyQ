@@ -50,6 +50,7 @@ struct FileFormat {
 namespace {
 
 const int currentVersion = 1;
+const char dataFileHeader[] = "CopyQ_itemsync_tab";
 
 const char configVersion[] = "copyq_itemsync_version";
 const char configPath[] = "path";
@@ -106,6 +107,11 @@ void setHeaderSectionResizeMode(QHeaderView *header, int logicalIndex, QHeaderVi
 bool readConfig(QFile *file, QVariantMap *config)
 {
     QDataStream stream(file);
+    QString header;
+    stream >> header;
+    if (header != dataFileHeader)
+        return false;
+
     stream >> *config;
     return config->value(configVersion, 0).toInt() == currentVersion;
 }
@@ -117,6 +123,7 @@ void writeConfiguration(QFile *file, const QStringList &savedFiles)
     config.insert(configSavedFiles, savedFiles);
 
     QDataStream stream(file);
+    stream << QString(dataFileHeader);
     stream << config;
 }
 
