@@ -38,30 +38,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     ui->setupUi(this);
     ui->lineEditIcon->hide();
     setFocusProxy(ui->lineEditName);
-
-    IconFactory *factory = ConfigurationManager::instance()->iconFactory();
-    if ( factory->isLoaded() ) {
-        // iconic font
-        const QFont &font = factory->iconFont();
-        QFontMetrics fm(font);
-
-        ui->buttonIcon->setFont( factory->iconFont() );
-
-        // change icon
-        QMenu *menu = new QMenu(this);
-        menu->addAction( QString() );
-        for (ushort i = IconFirst; i <= IconLast; ++i) {
-            QChar c(i);
-            if ( fm.inFont(c) ) {
-                QAction *act = menu->addAction( QString(c) );
-                act->setFont(font);
-            }
-        }
-        ui->buttonIcon->setMenu(menu);
-        connect( menu, SIGNAL(triggered(QAction*)),
-                 this, SLOT(onIconChanged(QAction*)) );
-    }
-
     updateWidgets();
 }
 
@@ -164,6 +140,7 @@ void CommandWidget::on_lineEditIcon_textChanged(const QString &)
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     QIcon icon = iconFactory->iconFromFile( ui->lineEditIcon->text(), color );
     ui->buttonIcon->setIcon(icon);
+    ui->buttonIcon->setText(QString());
     emit iconChanged(icon);
 }
 
@@ -194,9 +171,9 @@ void CommandWidget::on_checkBoxInMenu_stateChanged(int)
     updateWidgets();
 }
 
-void CommandWidget::onIconChanged(QAction *action)
+void CommandWidget::on_buttonIcon_currentIconChanged(int icon)
 {
-    ui->lineEditIcon->setText(action->text());
+    ui->lineEditIcon->setText(QString(QChar(icon)));
 }
 
 void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)

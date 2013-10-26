@@ -73,7 +73,7 @@ private slots:
 
     void on_checkBoxInMenu_stateChanged(int);
 
-    void onIconChanged(QAction *action);
+    void on_buttonIcon_currentIconChanged(int icon);
 
 private:
     void setTabs(const QStringList &tabs, QComboBox *w);

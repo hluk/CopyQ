@@ -61,12 +61,9 @@
      <item row="1" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="QToolButton" name="buttonIcon">
+        <widget class="IconSelectButton" name="buttonIcon">
          <property name="text">
           <string/>
-         </property>
-         <property name="popupMode">
-          <enum>QToolButton::InstantPopup</enum>
          </property>
         </widget>
        </item>
@@ -515,6 +512,13 @@ Note: If this is applied automatically, no other automatic commands are executed
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>IconSelectButton</class>
+   <extends>QToolButton</extends>
+   <header>gui/iconselectbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>

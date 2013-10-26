@@ -22,6 +22,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "gui/iconselectbutton.h"
 
 #include <QCryptographicHash>
 #include <QDateTime>
@@ -39,6 +40,13 @@
 #include <QUrl>
 #include <QVariantMap>
 
+struct FileFormat {
+    bool isValid() const { return !formats.isEmpty(); }
+    QStringList formats;
+    QString itemMime;
+    int icon;
+};
+
 namespace {
 
 const int currentVersion = 1;
@@ -46,12 +54,17 @@ const int currentVersion = 1;
 const char configVersion[] = "copyq_itemsync_version";
 const char configPath[] = "path";
 const char configSavedFiles[] = "saved_files";
+const char configSyncTabs[] = "sync_tabs";
+const char configFormatSettings[] = "format_settings";
 
 const char dataFileSuffix[] = "_data.dat";
 
+const char mimeExtensionMap[] = "application/x-copyq-itemsync-mime-to-extension-map";
 const char mimeBaseName[] = "application/x-copyq-itemsync-basename";
 const char mimeUnknownData[] = "application/octet-stream";
 const char mimeNoSave[] = "application/x-copyq-itemsync-no-save";
+
+const char mimeUriList[] = "text/uri-list";
 
 const char propertyModelDisabled[] = "disabled";
 const char propertyModelDirty []= "dirty";
@@ -69,7 +82,15 @@ namespace syncTabsTableColumns {
 enum {
     tabName,
     path,
-    button
+    browse
+};
+}
+
+namespace formatSettingsTableColumns {
+enum {
+    formats,
+    itemMime,
+    icon
 };
 }
 
@@ -99,17 +120,45 @@ void writeConfiguration(QFile *file, const QStringList &savedFiles)
     stream << config;
 }
 
-bool renameToUnique(QString *name, const QStringList &usedNames)
+FileFormat getFormatSettingsFromFileName(const QString &fileName,
+                                         const QList<FileFormat> &formatSettings,
+                                         QString *foundExt = NULL)
+{
+    for ( int i = 0; i < formatSettings.size(); ++i ) {
+        const FileFormat &format = formatSettings[i];
+        foreach ( const QString &ext, format.formats ) {
+            if ( !ext.contains('/') && fileName.endsWith(ext) ) {
+                if (foundExt)
+                    *foundExt = ext;
+                return format;
+            }
+        }
+    }
+    return FileFormat();
+}
+
+bool renameToUnique(QString *name, const QStringList &usedNames,
+                    const QList<FileFormat> &formatSettings)
 {
     if ( !usedNames.contains(*name) )
         return true;
+
+    QString ext;
+    const FileFormat fileFormat = getFormatSettingsFromFileName(*name, formatSettings, &ext);
+    if ( !fileFormat.isValid() )
+        ext = name->mid( name->lastIndexOf('.') );
+    QString baseName = name->left( name->size() - ext.size() );
+    if ( baseName.endsWith('.') ) {
+        baseName.chop(1);
+        ext.prepend('.');
+    }
 
     int i = 0;
     QString newName;
     do {
         if (i >= 99999)
             return false;
-        newName = *name + '-' + QString::number(++i);
+        newName = baseName + '-' + QString::number(++i) + ext;
     } while ( usedNames.contains(newName) );
 
     *name = newName;
@@ -231,7 +280,7 @@ bool saveItemFile(const QString &fileName, const QByteArray &bytes,
                   QMultiMap<Hash, QString> *existingFiles, QStringList *savedFiles)
 {
     const Hash hash = calculateHash(bytes);
-    const QList<QString> fileNames = existingFiles->values(hash);
+    const QStringList fileNames = existingFiles->values(hash);
 
     if ( !fileNames.isEmpty() ) {
         if ( fileNames.contains(fileName) ) {
@@ -260,25 +309,43 @@ bool saveItemFile(const QString &fileName, const QByteArray &bytes,
     return true;
 }
 
-struct BaseNameExtentions {
+struct BaseNameExtensions {
     QString baseName;
     QList<Ext> exts;
 };
 
-typedef QList<BaseNameExtentions> BaseNameExtentionsList;
-BaseNameExtentionsList listFiles(const QStringList &files)
+typedef QList<BaseNameExtensions> BaseNameExtensionsList;
+BaseNameExtensionsList listFiles(const QStringList &files,
+                                 const QList<FileFormat> &formatSettings)
 {
-    BaseNameExtentionsList fileList;
+    BaseNameExtensionsList fileList;
     QMap<QString, int> fileMap;
-    const QList<Ext> exts = fileExtensionsAndFormats();
+
+    QList<Ext> userExts;
+    foreach (const FileFormat &format, formatSettings) {
+        if ( !format.itemMime.isEmpty() ) {
+            foreach (const QString &ext, format.formats) {
+                if ( !ext.contains('/') )
+                    userExts.append( Ext(ext, format.itemMime) );
+            }
+        }
+    }
+
+    QList<Ext> exts = fileExtensionsAndFormats();
+
     foreach (const QString &fileName, files) {
-        const Ext ext = findByExtension(fileName, exts);
+        Ext ext = findByExtension(fileName, userExts);
+        if ( ext.extension.isEmpty() )
+            ext = findByExtension(fileName, exts);
+        else
+            ext.extension.clear();
+
         const QString baseName = fileName.left( fileName.size() - ext.extension.size() );
 
         int i = fileMap.value(baseName, -1);
         if (i == -1) {
             i = fileList.size();
-            fileList.append( BaseNameExtentions() );
+            fileList.append( BaseNameExtensions() );
             fileList[i].baseName = baseName;
             fileMap.insert(baseName, i);
         }
@@ -315,7 +382,7 @@ void addNoSaveData(const QByteArray &unsavedUriList, const QByteArray &unsavedTe
 {
     if ( !unsavedUriList.isEmpty() ) {
         dataMap->insert(mimeNoSave, "Synchronization disabled.");
-        dataMap->insert("text/uri-list", unsavedUriList);
+        dataMap->insert(mimeUriList, unsavedUriList);
         dataMap->insert("text/plain", unsavedText);
     }
 }
@@ -407,9 +474,75 @@ bool hasTextExtension(const QString &ext)
             || ext == "ppt";
 }
 
+QVariantMap getMimeToExtensionMap(const QStringList &formats, const QModelIndex &index)
+{
+    QVariantMap mimeToExtension;
+    const int indexOfMimeToExtension = formats.indexOf(mimeExtensionMap);
+    if (indexOfMimeToExtension != -1) {
+        QByteArray bytes = index.data(contentType::firstFormat + indexOfMimeToExtension).toByteArray();
+        foreach ( const QByteArray &line, bytes.split('\n') ) {
+            QList<QByteArray> list = line.split(' ');
+            if ( list.size() == 2 )
+                mimeToExtension.insert( QString(list[0]), QString(list[1]) );
+        }
+    }
+
+    return mimeToExtension;
+}
+
+FileFormat getFormatSettingsFromMime(const QString &mime, const QList<FileFormat> &formatSettings)
+{
+    for ( int i = 0; i < formatSettings.size(); ++i ) {
+        const FileFormat &format = formatSettings[i];
+        if ( format.formats.contains(mime) )
+            return format;
+    }
+    return FileFormat();
+}
+
+int iconFromMime(const QString &format, const QList<FileFormat> &formatSettings)
+{
+    const FileFormat fileFormat = getFormatSettingsFromMime( format, formatSettings );
+    if ( fileFormat.isValid() )
+        return fileFormat.icon;
+    if ( format.startsWith("video/") )
+        return IconPlayCircle;
+    if ( format.startsWith("audio/") )
+        return IconVolumeUp;
+    if ( format.startsWith("image/") )
+        return IconCamera;
+    if ( format.startsWith("text/") )
+        return IconFileText;
+    return -1;
+}
+
+int iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &formatSettings)
+{
+    const FileFormat fileFormat = getFormatSettingsFromFileName(baseName, formatSettings);
+    if ( fileFormat.isValid() )
+        return fileFormat.icon;
+
+    const int i = baseName.lastIndexOf('.');
+    if (i != -1)  {
+        const QString ext = baseName.mid(i + 1);
+        if ( hasVideoExtension(ext) )
+            return IconPlayCircle;
+        if ( hasAudioExtension(ext) )
+            return IconVolumeUp;
+        if ( hasImageExtension(ext) )
+            return IconCamera;
+        if ( hasArchiveExtension(ext) )
+            return IconFileText;
+        if ( hasTextExtension(ext) )
+            return IconFileText;
+    }
+
+    return -1;
+}
+
 } // namespace
 
-ItemSync::ItemSync(const QString &label, IconId icon, bool replaceChildItem, ItemWidget *childItem)
+ItemSync::ItemSync(const QString &label, int icon, bool replaceChildItem, ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
     , m_label( new QTextEdit(this) )
@@ -574,10 +707,12 @@ void ItemSync::onSelectionChanged()
 class FileWatcher : public QObject {
     Q_OBJECT
 public:
-    FileWatcher(const QStringList &paths, QAbstractItemModel *model, QObject *parent)
+    FileWatcher(const QStringList &paths, QAbstractItemModel *model,
+                const QList<FileFormat> &formatSettings, QObject *parent)
         : QObject(parent)
         , m_watcher(paths)
         , m_model(model)
+        , m_formatSettings(formatSettings)
     {
         m_updateTimer.setInterval(updateItemsIntervalMs);
         m_updateTimer.setSingleShot(true);
@@ -605,11 +740,12 @@ public:
     {
         const int maxItems = m_model->property("maxItems").toInt();
 
-        const BaseNameExtentionsList fileList = listFiles(files);
-        foreach (const BaseNameExtentions &baseNameWithExts, fileList) {
+        const BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
+        foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
             bool removed = removedBaseNames.contains(baseNameWithExts.baseName);
 
             QVariantMap dataMap;
+            QByteArray mimeToExtension;
             QByteArray unsavedUriList;
             QByteArray unsavedText;
 
@@ -629,10 +765,11 @@ public:
                     stream >> dataMap2;
                     if ( stream.status() == QDataStream::Ok )
                         dataMap.unite(dataMap2);
-                } else if (f.size() > sizeLimit || (ext.format == mimeUnknownData && !saveUnknownData) ) {
+                } else if ( f.size() > sizeLimit || (ext.format == mimeUnknownData && !saveUnknownData) ) {
                     updateUriList( QFileInfo(f), &unsavedUriList, &unsavedText );
                 } else {
                     dataMap.insert(ext.format, f.readAll());
+                    mimeToExtension.append(ext.format + " " + ext.extension + "\n");
                 }
             }
 
@@ -640,6 +777,8 @@ public:
 
             if ( !dataMap.isEmpty() ) {
                 dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
+                if ( !mimeToExtension.isEmpty() )
+                    dataMap.insert(mimeExtensionMap, mimeToExtension);
 
                 if ( !setIndexData(dataMap) )
                     return false;
@@ -664,7 +803,7 @@ private slots:
 
         QDir dir( m_watcher.directories().value(0) );
         QStringList files = dir.entryList(itemFileFilter, QDir::Time | QDir::Reversed);
-        BaseNameExtentionsList fileList = listFiles(files);
+        BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
         QStringList removedBaseNames;
 
         for ( QMap<QPersistentModelIndex, QString>::iterator it = m_itemFiles.begin();
@@ -678,6 +817,7 @@ private slots:
                 for ( i = 0; i < fileList.size() && fileList[i].baseName != baseName; ++i ) {}
 
                 QVariantMap dataMap;
+                QByteArray mimeToExtension;
                 QByteArray unsavedUriList;
                 QByteArray unsavedText;
 
@@ -686,10 +826,12 @@ private slots:
                     foreach (const Ext &ext, fileList[i].exts) {
                         QFile f(fileNamePrefix + ext.extension);
                         files.removeOne(baseName + ext.extension);
-                        if (f.size() > sizeLimit || (ext.format == mimeUnknownData && !saveUnknownData) )
+                        if (f.size() > sizeLimit || (ext.format == mimeUnknownData && !saveUnknownData) ) {
                             updateUriList( QFileInfo(f), &unsavedUriList, &unsavedText );
-                        else if ( f.open(QIODevice::ReadOnly) )
+                        } else if ( f.open(QIODevice::ReadOnly) ) {
                             dataMap.insert( ext.format, f.readAll() );
+                            mimeToExtension.append(ext.format + " " + ext.extension + "\n");
+                        }
                         m_watcher.addPath( f.fileName() );
                     }
                     fileList.removeAt(i);
@@ -701,6 +843,8 @@ private slots:
                     m_model->removeRow( index.row() );
                 } else {
                     dataMap.insert(mimeBaseName, baseName);
+                    if ( !mimeToExtension.isEmpty() )
+                        dataMap.insert(mimeExtensionMap, mimeToExtension);
                     m_model->setData(index, QVariant(), contentType::notes);
                     m_model->setData(index, dataMap, contentType::data);
                 }
@@ -736,6 +880,7 @@ private:
     QPointer<QAbstractItemModel> m_model;
     QTimer m_updateTimer;
     QMap<QPersistentModelIndex, QString> m_itemFiles;
+    const QList<FileFormat> &m_formatSettings;
 };
 
 ItemSyncLoader::ItemSyncLoader()
@@ -763,7 +908,27 @@ QVariantMap ItemSyncLoader::applySettings()
             m_tabPaths.insert(tabName, tabPath);
         }
     }
-    m_settings.insert("sync_tabs", tabPaths);
+    m_settings.insert(configSyncTabs, tabPaths);
+
+    t = ui->tableWidgetFormatSettings;
+    QVariantList formatSettings;
+    m_formatSettings.clear();
+    for (int row = 0; row < t->rowCount(); ++row) {
+        FileFormat fileFormat;
+        fileFormat.formats = t->item(row, formatSettingsTableColumns::formats)->text()
+                .split( QRegExp("[,;\\s]"), QString::SkipEmptyParts );
+        fileFormat.itemMime = t->item(row, formatSettingsTableColumns::itemMime)->text();
+        fileFormat.icon = t->cellWidget(row, formatSettingsTableColumns::icon)
+                ->property("currentIcon").toInt();
+        m_formatSettings.append(fileFormat);
+
+        QVariantMap format;
+        format["formats"] = fileFormat.formats;
+        format["itemMime"] = fileFormat.itemMime;
+        format["icon"] = fileFormat.icon;
+        formatSettings.append(format);
+    }
+    m_settings.insert(configFormatSettings, formatSettings);
 
     return m_settings;
 }
@@ -773,9 +938,29 @@ void ItemSyncLoader::loadSettings(const QVariantMap &settings)
     m_settings = settings;
 
     m_tabPaths.clear();
-    const QStringList tabPaths = m_settings.value("sync_tabs").toStringList();
+    const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
     for (int i = 0; i < tabPaths.size(); i += 2)
         m_tabPaths.insert( tabPaths[i], tabPaths.value(i + 1) );
+
+    m_formatSettings.clear();
+    const QVariantList formatSettings = m_settings.value(configFormatSettings).toList();
+    for (int i = 0; i < formatSettings.size(); ++i) {
+        QVariantMap format = formatSettings[i].toMap();
+        FileFormat fileFormat;
+        fileFormat.formats = format.value("formats").toStringList();
+        fileFormat.itemMime = format.value("itemMime").toString();
+        fileFormat.icon = format.value("icon").toInt();
+        m_formatSettings.append(fileFormat);
+    }
+}
+
+void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int stretchColumn, int fixedColumn)
+{
+    QHeaderView *header = table->horizontalHeader();
+    setHeaderSectionResizeMode(header, stretchColumn, QHeaderView::Stretch);
+    setHeaderSectionResizeMode(header, fixedColumn, QHeaderView::Fixed);
+    header->resizeSection(fixedColumn, table->rowHeight(0));
+    table->resizeColumnToContents(normalColumn);
 }
 
 QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
@@ -785,7 +970,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    const QStringList tabPaths = m_settings.value("sync_tabs").toStringList();
+    const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
     QTableWidget *t = ui->tableWidgetSyncTabs;
     for (int row = 0, i = 0; i < tabPaths.size() + 20; ++row, i += 2) {
         t->insertRow(row);
@@ -793,15 +978,28 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
         t->setItem( row, syncTabsTableColumns::path, new QTableWidgetItem(tabPaths.value(i + 1)) );
 
         QPushButton *button = createBrowseButton();
+        t->setCellWidget(row, syncTabsTableColumns::browse, button);
         connect( button, SIGNAL(clicked()), SLOT(onBrowseButtonClicked()) );
-        t->setCellWidget( row, syncTabsTableColumns::button, button);
     }
+    setNormalStretchFixedColumns(t, syncTabsTableColumns::tabName, syncTabsTableColumns::path,
+                                 syncTabsTableColumns::browse);
 
-    QHeaderView *header = t->horizontalHeader();
-    setHeaderSectionResizeMode(header, syncTabsTableColumns::path, QHeaderView::Stretch);
-    setHeaderSectionResizeMode(header, syncTabsTableColumns::button, QHeaderView::Fixed);
-    header->resizeSection(syncTabsTableColumns::button, t->rowHeight(0));
-    t->resizeColumnToContents(syncTabsTableColumns::tabName);
+    const QVariantList formatSettings = m_settings.value(configFormatSettings).toList();
+    t = ui->tableWidgetFormatSettings;
+    for (int row = 0; row < formatSettings.size() + 10; ++row) {
+        const QVariantMap format = formatSettings.value(row).toMap();
+        t->insertRow(row);
+        t->setItem( row, formatSettingsTableColumns::formats,
+                    new QTableWidgetItem(format.value("formats").toStringList().join(", ")) );
+        t->setItem( row, formatSettingsTableColumns::itemMime, new QTableWidgetItem(format.value("itemMime").toString()) );
+
+        IconSelectButton *button = new IconSelectButton();
+        button->setCurrentIcon( format.value("icon", -1).toInt() );
+        t->setCellWidget(row, formatSettingsTableColumns::icon, button);
+    }
+    setNormalStretchFixedColumns(t, formatSettingsTableColumns::formats,
+                                 formatSettingsTableColumns::itemMime,
+                                 formatSettingsTableColumns::icon);
 
     return w;
 }
@@ -883,12 +1081,14 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
         const QModelIndex index = model.index(row, 0);
         const QStringList formats = index.data(contentType::formats).toStringList();
 
+        const QVariantMap mimeToExtension = getMimeToExtensionMap(formats, index);
+
         QString baseName = getBaseName(index, formats);
         if ( baseName.isEmpty() ) {
             while ( usedBaseNameIndexes.contains(++baseNameIndex) ) {}
             baseName = QString("copyq_%1").arg( baseNameIndex, 4, 10, QChar('0') );
         }
-        else if (!renameToUnique(&baseName, usedBaseNames))
+        else if (!renameToUnique(&baseName, usedBaseNames, m_formatSettings))
             return false;
         usedBaseNames.append(baseName);
         watcher->setIndexBaseName(index, baseName);
@@ -902,7 +1102,7 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
 
         if (noSave) {
             savedFiles.prepend(filePath);
-            const int urisIndex = formats.indexOf("text/uri-list");
+            const int urisIndex = formats.indexOf(mimeUriList);
             if (urisIndex != -1) {
                 const QByteArray uriList = index.data(contentType::firstFormat + urisIndex).toByteArray();
                 foreach (const QByteArray &uri, uriList.split('\n')) {
@@ -917,9 +1117,9 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
 
         for (int formatIndex = 0; formatIndex < formats.size(); ++formatIndex) {
             const QString format = formats[formatIndex];
-            if (format == mimeBaseName)
-                continue;
-            if ( noSave && (format == mimeNoSave || format == "text/plain" || format == "text/uri-list") )
+            if ( format.startsWith("application/x-copyq-itemsync") )
+                continue; // skip internal data
+            if ( noSave && (format == "text/plain" || format == "text/uri-list") )
                 continue;
 
             const QVariant value = index.data(contentType::firstFormat + formatIndex);
@@ -928,8 +1128,11 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
                 if ( !saveItemFile(filePath, value.toByteArray(), &existingFiles, &savedFiles) )
                     return false;
             } else {
-                const QString ext = findByFormat(format, exts).extension;
-                if ( ext.isEmpty() )
+                bool userType = mimeToExtension.contains(format);
+                QString ext = userType ? mimeToExtension[format].toString()
+                                       : findByFormat(format, exts).extension;
+
+                if ( !userType && ext.isEmpty() )
                     dataMap.insert(format, value);
                 else if ( !saveItemFile(filePath + ext, value.toByteArray(), &existingFiles, &savedFiles) )
                     return false;
@@ -985,36 +1188,26 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 
     const QString baseName = index.data(contentType::firstFormat + indexOfBaseName).toString();
 
-    IconId icon = IconFile;
+    int icon = -1;
     if ( formats.contains(mimeNoSave) ) {
-        // icon from file name extension
-        const int i = baseName.lastIndexOf('.');
-        if (i != -1) {
-            const QString ext = baseName.mid(i + 1).toLower();
-            if ( hasVideoExtension(ext) )
-                icon = IconPlayCircle;
-            else if ( hasAudioExtension(ext) )
-                icon = IconVolumeUp;
-            else if ( hasImageExtension(ext) )
-                icon = IconCamera;
-            else if ( hasArchiveExtension(ext) )
-                icon = IconFileText;
-            else if ( hasTextExtension(ext) )
-                icon = IconFileText;
-        }
+        icon = iconFromBaseNameExtension(baseName, m_formatSettings);
     } else {
-        // icon from MIME type
-        if ( formats.indexOf(QRegExp("video/.*")) != -1 )
-            icon = IconPlayCircle;
-        else if ( formats.indexOf(QRegExp("audio/.*")) != -1 )
-            icon = IconVolumeUp;
-        else if ( formats.indexOf(QRegExp("image/.*")) != -1 )
-            icon = IconCamera;
-        else if ( formats.indexOf(QRegExp("text/.*")) != -1 )
-            icon = IconFileText;
+        const QVariantMap mimeToExtension = getMimeToExtensionMap(formats, index);
+        foreach (const QString &format, formats) {
+            if ( format.startsWith("application/x-copyq-itemsync") )
+                continue; // skip internal data
+            icon = mimeToExtension.contains(format)
+                    ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)
+                    : iconFromMime(format, m_formatSettings);
+            if (icon != -1)
+                break;
+        }
     }
 
-    bool replaceChildItem = formats.indexOf(mimeNoSave) != -1;
+    if (icon == -1)
+        icon = IconFile;
+
+    bool replaceChildItem = formats.contains(mimeNoSave) && !formats.contains(mimeExtensionMap);
     return new ItemSync(baseName, icon, replaceChildItem, itemWidget);
 }
 
@@ -1043,7 +1236,7 @@ void ItemSyncLoader::onBrowseButtonClicked()
     Q_ASSERT(button != NULL);
 
     int row = 0;
-    for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::button) != button; ++row ) {}
+    for ( ; row < t->rowCount() && t->cellWidget(row, syncTabsTableColumns::browse) != button; ++row ) {}
     Q_ASSERT(row != t->rowCount());
 
 
@@ -1067,7 +1260,7 @@ QString ItemSyncLoader::tabPath(const QString &tabName) const
 
 FileWatcher *ItemSyncLoader::createWatcher(QAbstractItemModel *model, const QStringList &paths)
 {
-    FileWatcher *watcher = new FileWatcher(paths, model, this);
+    FileWatcher *watcher = new FileWatcher(paths, model, m_formatSettings, this);
     m_watchers.insert(model, watcher);
 
     connect( model, SIGNAL(unloaded()),

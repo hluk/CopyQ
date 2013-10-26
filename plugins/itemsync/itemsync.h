@@ -32,13 +32,14 @@ class ItemSyncSettings;
 class FileWatcher;
 class QLabel;
 class QTextEdit;
+struct FileFormat;
 
 class ItemSync : public QWidget, public ItemWidget
 {
     Q_OBJECT
 
 public:
-    ItemSync(const QString &label, IconId icon, bool replaceChildItem, ItemWidget *childItem = NULL);
+    ItemSync(const QString &label, int icon, bool replaceChildItem, ItemWidget *childItem = NULL);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -113,6 +114,7 @@ private:
     QVariantMap m_settings;
     QMap<const QObject*, FileWatcher*> m_watchers;
     QMap<QString, QString> m_tabPaths;
+    QList<FileFormat> m_formatSettings;
 };
 
 #endif // ITEMSYNC_H

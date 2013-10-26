@@ -60,6 +60,7 @@ IconFactory::IconFactory()
     if (id != -1) {
         m_loaded = true;
         m_iconFont = QFont("FontAwesome");
+        m_iconFont.setPixelSize(14);
 
         // Try to get menu color more precisely by rendering dummy widget and getting color of pixel
         // that is presumably menu background.
