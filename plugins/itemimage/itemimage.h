@@ -37,6 +37,8 @@ public:
     ItemImage(const QPixmap &pix, const QString &imageEditor, const QString &svgEditor,
               QWidget *parent);
 
+    virtual QWidget *createEditor(QWidget *) const { return NULL; }
+
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
 protected:

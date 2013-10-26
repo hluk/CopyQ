@@ -155,6 +155,29 @@ void ItemNotes::highlight(const QRegExp &re, const QFont &highlightFont, const Q
     update();
 }
 
+QWidget *ItemNotes::createEditor(QWidget *parent) const
+{
+    return m_childItem.isNull() ? NULL : m_childItem->createEditor(parent);
+}
+
+void ItemNotes::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    Q_ASSERT( !m_childItem.isNull() );
+    return m_childItem->setEditorData(editor, index);
+}
+
+void ItemNotes::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    Q_ASSERT( !m_childItem.isNull() );
+    return m_childItem->setModelData(editor, model, index);
+}
+
+bool ItemNotes::hasChanges(QWidget *editor) const
+{
+    Q_ASSERT( !m_childItem.isNull() );
+    return m_childItem->hasChanges(editor);
+}
+
 void ItemNotes::updateSize()
 {
     const int w = maximumWidth() - ( m_icon != NULL ? m_icon->width() : 0 );

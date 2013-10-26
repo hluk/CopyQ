@@ -42,6 +42,8 @@ protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette);
 
+    virtual QWidget *createEditor(QWidget *) const { return NULL; }
+
     virtual void updateSize();
 
     virtual void mousePressEvent(QMouseEvent *e);

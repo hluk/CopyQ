@@ -159,13 +159,15 @@ QWidget *ItemEditorWidget::createEditor(const ItemWidget *itemWidget)
 {
     QWidget *editor = itemWidget->createEditor(this);
 
-    const QMetaObject *metaObject = editor->metaObject();
-    if ( metaObject->indexOfSignal("save()") != -1 )
-        connect( editor, SIGNAL(save()), SIGNAL(save()) );
-    if ( metaObject->indexOfSignal("cancel()") != -1 )
-        connect( editor, SIGNAL(cancel()), SIGNAL(cancel()) );
-    if ( metaObject->indexOfSignal("invalidate()") != -1 )
-        connect( editor, SIGNAL(invalidate()), SIGNAL(invalidate()) );
+    if (editor) {
+        const QMetaObject *metaObject = editor->metaObject();
+        if ( metaObject->indexOfSignal("save()") != -1 )
+            connect( editor, SIGNAL(save()), SIGNAL(save()) );
+        if ( metaObject->indexOfSignal("cancel()") != -1 )
+            connect( editor, SIGNAL(cancel()), SIGNAL(cancel()) );
+        if ( metaObject->indexOfSignal("invalidate()") != -1 )
+            connect( editor, SIGNAL(invalidate()), SIGNAL(invalidate()) );
+    }
 
     return editor;
 }

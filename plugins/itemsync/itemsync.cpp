@@ -638,6 +638,29 @@ void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QP
     update();
 }
 
+QWidget *ItemSync::createEditor(QWidget *parent) const
+{
+    return m_childItem.isNull() ? NULL : m_childItem->createEditor(parent);
+}
+
+void ItemSync::setEditorData(QWidget *editor, const QModelIndex &index) const
+{
+    Q_ASSERT( !m_childItem.isNull() );
+    return m_childItem->setEditorData(editor, index);
+}
+
+void ItemSync::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
+{
+    Q_ASSERT( !m_childItem.isNull() );
+    return m_childItem->setModelData(editor, model, index);
+}
+
+bool ItemSync::hasChanges(QWidget *editor) const
+{
+    Q_ASSERT( !m_childItem.isNull() );
+    return m_childItem->hasChanges(editor);
+}
+
 void ItemSync::updateSize()
 {
     const int w = maximumWidth() - ( m_icon != NULL ? m_icon->width() : 0 );

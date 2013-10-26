@@ -45,6 +45,15 @@ protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette);
 
+    virtual QWidget *createEditor(QWidget *parent) const;
+
+    virtual void setEditorData(QWidget *editor, const QModelIndex &index) const;
+
+    virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
+                              const QModelIndex &index) const;
+
+    virtual bool hasChanges(QWidget *editor) const;
+
     virtual void updateSize();
 
     virtual void mousePressEvent(QMouseEvent *e);

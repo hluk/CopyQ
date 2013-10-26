@@ -72,12 +72,23 @@ public:
     DummyItem(const QModelIndex &index, QWidget *parent)
         : QLabel(parent)
         , ItemWidget(this)
+        , m_hasText(false)
     {
-        setMargin(4);
-        setWordWrap(true);
-        setTextFormat(Qt::PlainText);
-        setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
-        updateSize();
+        if ( index.data(contentType::hasText).toBool() ) {
+            m_hasText = true;
+            setMargin(4);
+            setWordWrap(true);
+            setTextFormat(Qt::PlainText);
+            setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
+            updateSize();
+        } else {
+            resize(0, 0);
+        }
+    }
+
+    QWidget *createEditor(QWidget *parent) const
+    {
+        return m_hasText ? ItemWidget::createEditor(parent) : NULL;
     }
 
 protected:
@@ -86,6 +97,9 @@ protected:
         setMinimumWidth(maximumWidth());
         adjustSize();
     }
+
+private:
+    bool m_hasText;
 };
 
 } // namespace
@@ -111,7 +125,7 @@ ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
 {
     if ( loader.isNull() || isLoaderEnabled(loader) ) {
         ItemWidget *item = (loader == NULL) ? new DummyItem(index, parent)
-                                           : loader->create(index, parent);
+                                            : loader->create(index, parent);
         if (item != NULL) {
             item = transformItem(item, index);
             QWidget *w = item->widget();

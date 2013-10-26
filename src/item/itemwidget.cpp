@@ -26,7 +26,7 @@
 #include <QFont>
 #include <QModelIndex>
 #include <QPalette>
-#include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QWidget>
 
 ItemWidget::ItemWidget(QWidget *widget)
@@ -64,14 +64,14 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
 
 QWidget *ItemWidget::createEditor(QWidget *parent) const
 {
-    QPlainTextEdit *editor = new QPlainTextEdit(parent);
+    QTextEdit *editor = new QTextEdit(parent);
     editor->setStyleSheet("*{background:transparent}");
     return editor;
 }
 
 void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit *>(editor);
+    QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
     if (textEdit != NULL) {
         const QString text = index.data(Qt::EditRole).toString();
         textEdit->setPlainText(text);
@@ -82,14 +82,16 @@ void ItemWidget::setEditorData(QWidget *editor, const QModelIndex &index) const
 void ItemWidget::setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const
 {
-    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit*>(editor);
-    if (textEdit != NULL)
+    QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
+    if (textEdit != NULL) {
         model->setData(index, textEdit->toPlainText());
+        textEdit->document()->setModified(false);
+    }
 }
 
 bool ItemWidget::hasChanges(QWidget *editor) const
 {
-    QPlainTextEdit *textEdit = (qobject_cast<QPlainTextEdit *>(editor));
+    QTextEdit *textEdit = (qobject_cast<QTextEdit *>(editor));
     return textEdit != NULL && textEdit->document() && textEdit->document()->isModified();
 }
 
