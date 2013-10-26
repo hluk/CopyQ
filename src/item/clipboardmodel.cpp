@@ -90,7 +90,11 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
             m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
     } else if (role == contentType::data) {
         if ( !m_clipboardList[row]->setData(value.toMap()) )
-            return true;
+            return false;
+    } else if (role == contentType::clearData) {
+        if ( m_clipboardList[row]->isEmpty() )
+            return false;
+        m_clipboardList[row]->clear();
     } else if (role >= contentType::firstFormat) {
         m_clipboardList[row]->setData( role - contentType::firstFormat, value.toByteArray() );
     } else {

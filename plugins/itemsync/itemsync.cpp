@@ -387,7 +387,9 @@ void updateUriList(const QFileInfo &info, QByteArray *unsavedUriList, QByteArray
 
 void addNoSaveData(const QByteArray &unsavedUriList, const QByteArray &unsavedText, QVariantMap *dataMap)
 {
-    if ( !unsavedUriList.isEmpty() ) {
+    if ( unsavedUriList.isEmpty() ) {
+        dataMap->remove(mimeNoSave);
+    } else {
         dataMap->insert(mimeNoSave, "Synchronization disabled.");
         dataMap->insert(mimeUriList, unsavedUriList);
         dataMap->insert("text/plain", unsavedText);
@@ -820,7 +822,7 @@ public:
         return true;
     }
 
-private slots:
+public slots:
     /**
      * Check for new files.
      */
@@ -875,7 +877,7 @@ private slots:
                     dataMap.insert(mimeBaseName, baseName);
                     if ( !mimeToExtension.isEmpty() )
                         dataMap.insert(mimeExtensionMap, mimeToExtension);
-                    m_model->setData(index, QVariant(), contentType::notes);
+                    m_model->setData(index, QVariant(), contentType::clearData);
                     m_model->setData(index, dataMap, contentType::data);
                 }
             } else {
@@ -959,6 +961,9 @@ QVariantMap ItemSyncLoader::applySettings()
         formatSettings.append(format);
     }
     m_settings.insert(configFormatSettings, formatSettings);
+
+    foreach ( const QObject *model, m_watchers.keys() )
+        m_watchers[model]->updateItems();
 
     return m_settings;
 }
@@ -1237,7 +1242,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     if (icon == -1)
         icon = IconFile;
 
-    bool replaceChildItem = formats.contains(mimeNoSave) && !formats.contains(mimeExtensionMap);
+    bool replaceChildItem = formats.contains(mimeNoSave);
     return new ItemSync(baseName, icon, replaceChildItem, itemWidget);
 }
 
