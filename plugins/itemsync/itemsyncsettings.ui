@@ -10,78 +10,81 @@
     <height>300</height>
    </rect>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout">
+  <layout class="QVBoxLayout" name="verticalLayout_3">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>Tabs to save:</string>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QTableWidget" name="tableWidgetSyncTabs">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>2</verstretch>
-      </sizepolicy>
-     </property>
-     <property name="alternatingRowColors">
-      <bool>true</bool>
-     </property>
-     <property name="showGrid">
-      <bool>false</bool>
-     </property>
-     <attribute name="verticalHeaderVisible">
-      <bool>false</bool>
-     </attribute>
-     <column>
-      <property name="text">
-       <string>Tab Name</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Path</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string/>
-      </property>
-     </column>
-    </widget>
-   </item>
-   <item>
-    <widget class="QLabel" name="label_2">
-     <property name="text">
-      <string>Display Formats:</string>
-     </property>
-    </widget>
-   </item>
-   <item>
-    <widget class="QTableWidget" name="tableWidgetFormatSettings">
-     <property name="sizePolicy">
-      <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
-       <horstretch>0</horstretch>
-       <verstretch>1</verstretch>
-      </sizepolicy>
-     </property>
-     <column>
-      <property name="text">
-       <string>Extensions, MIME</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string>Item MIME Type</string>
-      </property>
-     </column>
-     <column>
-      <property name="text">
-       <string/>
-      </property>
-     </column>
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="label">
+         <property name="text">
+          <string>Tabs to save:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidgetSyncTabs">
+         <property name="alternatingRowColors">
+          <bool>true</bool>
+         </property>
+         <property name="showGrid">
+          <bool>false</bool>
+         </property>
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
+         <column>
+          <property name="text">
+           <string>Tab Name</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Path</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string/>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="verticalLayoutWidget_2">
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_2">
+         <property name="text">
+          <string>Display Formats:</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QTableWidget" name="tableWidgetFormatSettings">
+         <column>
+          <property name="text">
+           <string>Extensions, MIME</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string>Item MIME Type</string>
+          </property>
+         </column>
+         <column>
+          <property name="text">
+           <string/>
+          </property>
+         </column>
+        </widget>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
