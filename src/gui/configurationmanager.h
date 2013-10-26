@@ -112,6 +112,9 @@ public:
     /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
 
+    /** Return list of saved tabs (ordered by "tabs" option if possible). */
+    QStringList savedTabs() const;
+
     ConfigTabAppearance *tabAppearance() const;
 
     ConfigTabShortcuts *tabShortcuts() const;

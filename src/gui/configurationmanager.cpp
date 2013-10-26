@@ -847,6 +847,28 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
     ui->comboBoxMenuTab->setEditText(text);
 }
 
+QStringList ConfigurationManager::savedTabs() const
+{
+    QStringList tabs = value("tabs").toStringList();
+    const QString configPath = QDir::cleanPath(m_datfilename + "/..");
+
+    QStringList files = QDir(configPath).entryList(QStringList("*_tab_*.dat"));
+    files.append( QDir(configPath).entryList(QStringList("*_tab_*.dat.tmp")) );
+
+    QRegExp re("_tab_([^.]*)");
+
+    foreach (const QString fileName, files) {
+        if ( fileName.contains(re) ) {
+            const QString tabName =
+                    QString::fromLocal8Bit(QByteArray::fromBase64(re.cap(1).toLocal8Bit()));
+            if ( !tabs.contains(tabName) )
+                tabs.append(tabName);
+        }
+    }
+
+    return tabs;
+}
+
 ConfigTabAppearance *ConfigurationManager::tabAppearance() const
 {
     return ui->configTabAppearance;

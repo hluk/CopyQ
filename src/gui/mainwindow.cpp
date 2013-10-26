@@ -1165,7 +1165,7 @@ void MainWindow::loadSettings()
     m_sharedData->loadFromConfiguration();
 
     /* are tabs already loaded? */
-    QStringList tabs = cm->value("tabs").toStringList();
+    QStringList tabs = cm->savedTabs();
     foreach (const QString &name, tabs)
         createTab(name, NULL)->loadSettings();
 
