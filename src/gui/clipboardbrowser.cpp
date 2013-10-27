@@ -87,6 +87,19 @@ void updateLoadButtonIcon(QPushButton *loadButton)
     loadButton->setIcon(icon);
 }
 
+bool hasFormat(const QVariantMap &data, const QString &format)
+{
+    if (format == mimeItems) {
+        foreach (const QString &key, data.keys()) {
+            if ( !key.startsWith(MIME_PREFIX) )
+                return true;
+        }
+        return false;
+    }
+
+    return data.contains(format);
+}
+
 } // namespace
 
 class ScrollSaver {
@@ -303,7 +316,7 @@ void ClipboardBrowser::contextMenuAction()
         if (isContextMenuAction && cmd.transform) {
             foreach (const QModelIndex &index, selected) {
                 QVariantMap data = itemData( index.row() );
-                if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.contains(cmd.input) )
+                if ( cmd.input.isEmpty() || hasFormat(data, cmd.input) )
                     emit requestActionDialog(data, cmd, index);
             }
         } else {
