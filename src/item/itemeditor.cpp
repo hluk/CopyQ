@@ -33,7 +33,7 @@ namespace {
 
 QString getFileSuffixFromMime(const QString &mime)
 {
-    if (mime == "text/plain")
+    if (mime == mimeText)
         return QString(".txt");
     if (mime == "text/html")
         return QString(".html");

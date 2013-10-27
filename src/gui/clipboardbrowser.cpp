@@ -294,7 +294,7 @@ void ClipboardBrowser::contextMenuAction()
     } else {
         const QMimeData *data = clipboardData();
         if (data == NULL)
-            textData.insert( mimeText, selectedText() );
+            setTextData( &textData, selectedText() );
         else
             dataMap = cloneData(*data);
     }
@@ -830,7 +830,7 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
 
     QVariantMap data;
     data.insert(mimeItems, bytes);
-    data.insert(mimeText, text);
+    setTextData(&data, text);
     return data;
 }
 
@@ -1325,10 +1325,8 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     QObject *editor = item->createExternalEditor(index, this);
     if (editor == NULL) {
         QVariantMap data = itemData( index.row() );
-        if ( data.contains(mimeText) ) {
-            editor = new ItemEditor(data[mimeText].toString().toLocal8Bit(), mimeText,
-                                    m_sharedData->editor, this);
-        }
+        if ( data.contains(mimeText) )
+            editor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
     }
 
     return editor != NULL && startEditor(editor);

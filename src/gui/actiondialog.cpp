@@ -34,7 +34,7 @@ namespace {
 
 void initFormatComboBox(QComboBox *combo, const QStringList &additionalFormats = QStringList())
 {
-    QStringList formats = QStringList() << QString() << QString("text/plain") << additionalFormats;
+    QStringList formats = QStringList() << QString() << QString(mimeText) << additionalFormats;
     formats.removeDuplicates();
     combo->clear();
     combo->addItems(formats);
@@ -396,10 +396,8 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
     ui->inputText->setVisible(show);
 
     QString text;
-    if ((show || format.isEmpty()) && !m_data.isEmpty() ) {
-        text = format.isEmpty() ? m_data.value(mimeText).toString()
-                                : QString::fromLocal8Bit( m_data.value(format).toByteArray() );
-    }
+    if ((show || format.isEmpty()) && !m_data.isEmpty() )
+        text = getTextData( m_data, format.isEmpty() ? mimeText : format );
     ui->inputText->setPlainText(text);
 
     updateMinimalGeometry();

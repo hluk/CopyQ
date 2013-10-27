@@ -119,6 +119,21 @@ uint hash(const QVariantMap &data)
     return hash;
 }
 
+QString getTextData(const QVariantMap &data)
+{
+    return getTextData(data, mimeText);
+}
+
+QString getTextData(const QVariantMap &data, const QString &mime)
+{
+    return QString::fromUtf8( data.value(mime).toByteArray() );
+}
+
+void setTextData(QVariantMap *data, const QString &text)
+{
+    data->insert(mimeText, text.toUtf8());
+}
+
 QVariantMap cloneData(const QMimeData &data, const QStringList *formats)
 {
     QVariantMap newdata;
@@ -151,6 +166,16 @@ QVariantMap createDataMap(const QString &format, const QVariant &value)
     QVariantMap dataMap;
     dataMap.insert(format, value);
     return dataMap;
+}
+
+QVariantMap createDataMap(const QString &format, const QByteArray &value)
+{
+    return createDataMap( format, QVariant(value) );
+}
+
+QVariantMap createDataMap(const QString &format, const QString &value)
+{
+    return createDataMap( format, value.toUtf8() );
 }
 
 QString elideText(const QString &text, const QFont &font, const QString &format,
@@ -200,7 +225,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 
     const QStringList formats = data.keys();
     if ( formats.contains(mimeText) ) {
-        const QString text = data[mimeText].toString();
+        const QString text = getTextData(data);
         const int n = text.count(QChar('\n')) + 1;
 
         if (n > 1)

@@ -73,7 +73,7 @@ void ClipboardItem::setData(const QVariant &value)
 {
     // rewrite all original data, except internal data
     clearDataExceptInternal(&m_data);
-    m_data.insert( mimeText, value.toString() );
+    setTextData( &m_data, value.toString() );
     updateDataHash();
 }
 
@@ -126,7 +126,7 @@ void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 
 QString ClipboardItem::text() const
 {
-    return m_data.value(mimeText).toString();
+    return getTextData(m_data);
 }
 
 QVariant ClipboardItem::data(int role) const
@@ -144,11 +144,11 @@ QVariant ClipboardItem::data(int role) const
         } else if (role == contentType::hasNotes) {
             return m_data.contains(mimeItemNotes);
         } else if (role == contentType::text) {
-            return m_data.value(mimeText);
+            return getTextData(m_data);
         } else if (role == contentType::html) {
             return m_data.value("text/html");
         } else if (role == contentType::notes) {
-            return QString::fromUtf8( m_data.value(mimeItemNotes).toByteArray() );
+            return getTextData(m_data, mimeItemNotes);
         }
     }
 

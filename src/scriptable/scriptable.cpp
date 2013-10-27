@@ -35,8 +35,6 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
-const char defaultMime[] = "text/plain";
-
 const char *const programName = "CopyQ Clipboard Manager";
 
 struct CommandHelp {
@@ -501,14 +499,14 @@ void Scriptable::enable()
 
 QScriptValue Scriptable::clipboard()
 {
-    const QString &mime = arg(0, defaultMime);
+    const QString &mime = arg(0, mimeText);
     return newByteArray( m_proxy->getClipboardData(mime) );
 }
 
 QScriptValue Scriptable::selection()
 {
 #ifdef COPYQ_WS_X11
-    const QString &mime = arg(0, defaultMime);
+    const QString &mime = arg(0, mimeText);
     return newByteArray( m_proxy->getClipboardData(mime, QClipboard::Selection) );
 #else
     return QScriptValue();
@@ -523,7 +521,7 @@ void Scriptable::copy()
     if (args == 1) {
         QScriptValue value = argument(0);
         QByteArray *bytes = toByteArray(value);
-        item.setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+        item.setData( mimeText, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
     } else if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
             // MIME
@@ -634,7 +632,7 @@ void Scriptable::add()
         QByteArray *bytes = toByteArray(value);
         if (bytes != NULL) {
             QVariantMap data;
-            data.insert(defaultMime, *bytes);
+            data.insert(mimeText, *bytes);
             m_proxy->browserAdd(tab, data, 0);
         } else {
             m_proxy->browserAdd( tab, toString(value) );
@@ -657,7 +655,7 @@ void Scriptable::insert()
     QScriptValue value = argument(1);
     QByteArray *bytes = toByteArray(value);
     QVariantMap data;
-    data.insert( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+    data.insert( mimeText, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
     m_proxy->browserAdd(tab, data, row);
 
     m_proxy->browserDelayedSaveItems(tab);
@@ -702,8 +700,8 @@ void Scriptable::edit()
         if (i > 0)
             text.append( getInputSeparator() );
         if ( toInt(value, row) ) {
-            text.append( row >= 0 ? m_proxy->browserItemData(tab, row, defaultMime)
-                                  : QString::fromUtf8(m_proxy->getClipboardData(defaultMime)) );
+            text.append( row >= 0 ? m_proxy->browserItemData(tab, row, mimeText)
+                                  : QString::fromUtf8(m_proxy->getClipboardData(mimeText)) );
         } else {
             text.append( toString(value) );
         }
@@ -723,7 +721,7 @@ void Scriptable::edit()
 QScriptValue Scriptable::read()
 {
     QByteArray result;
-    QString mime(defaultMime);
+    QString mime(mimeText);
     QScriptValue value;
     QString sep = getInputSeparator();
 
@@ -811,28 +809,26 @@ void Scriptable::action()
             text.append(sep);
         else
             anyRows = true;
-        text.append( QString::fromUtf8(m_proxy->browserItemData(tab, row, defaultMime)) );
+        text.append( QString::fromUtf8(m_proxy->browserItemData(tab, row, mimeText)) );
     }
 
     if (!anyRows) {
-        text = QString::fromUtf8( m_proxy->getClipboardData(defaultMime) );
+        text = QString::fromUtf8( m_proxy->getClipboardData(mimeText) );
     }
+
+    const QVariantMap data = createDataMap(mimeText, text);
 
     if (i < argumentCount()) {
         Command command;
         command.cmd = toString(value);
-        command.output = defaultMime;
-        command.input = defaultMime;
+        command.output = mimeText;
+        command.input = mimeText;
         command.wait = false;
         command.outputTab = m_proxy->tabs().value(tab);
         command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
                                                   : QString('\n');
-        QVariantMap data;
-        data.insert(mimeText, text);
         m_proxy->action(data, command);
     } else {
-        QVariantMap data;
-        data.insert(mimeText, text);
         QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(data));
         emit sendMessage(message, CommandActivateWindow);
     }

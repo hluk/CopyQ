@@ -712,7 +712,7 @@ bool MainWindow::closeMinimizes() const
 bool MainWindow::triggerActionForData(const QVariantMap &data, const QString &sourceTab)
 {
     bool noText = !data.contains(mimeText);
-    const QString text = noText ? QString() : data[mimeText].toString();
+    const QString text = noText ? QString() : getTextData(data);
     const QString windowTitle = data.value(mimeWindowTitle).toString();
 
     foreach (const Command &c, m_sharedData->commands) {
@@ -1472,8 +1472,8 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool 
         // merge data with first item if it is same
         if ( !force && c->length() > 0 && data2.contains(mimeText) ) {
             ClipboardItem *first = c->at(0);
-            const QString newText = data2[mimeText].toString();
-            const QString firstItemText = first->text();
+            const QByteArray newText = data2[mimeText].toByteArray();
+            const QByteArray firstItemText = first->data(mimeText);
             if ( first->data().contains(mimeText) && (newText == firstItemText || (
                      data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
                      && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)))) )
@@ -1650,7 +1650,7 @@ void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
         return;
 
     QVariantMap dataMap;
-    dataMap.insert( "text/plain", items.join(QString()).toLocal8Bit() );
+    dataMap.insert( mimeText, items.join(QString()).toLocal8Bit() );
     c->model()->setData(index, dataMap, contentType::updateData);
 }
 
@@ -1811,7 +1811,7 @@ void MainWindow::updateTrayMenuItems()
             m_trayMenu->addCustomAction(act);
 
             int i = m_trayMenu->actions().size();
-            c->addCommandsToMenu(m_trayMenu, dataMap.value(mimeText).toString(), dataMap);
+            c->addCommandsToMenu(m_trayMenu, getTextData(dataMap), dataMap);
             QList<QAction *> actions = m_trayMenu->actions();
             for ( ; i < actions.size(); ++i )
                 m_trayMenu->addCustomAction(actions[i]);
@@ -1860,7 +1860,7 @@ void MainWindow::openActionDialog(int row)
         if (selected.size() == 1)
             dataMap = c->itemData(selected.first().row());
         else
-            dataMap.insert(mimeText, c->selectedText());
+            setTextData( &dataMap, c->selectedText() );
     } else {
         const QMimeData *data = clipboardData();
         if (data != NULL)

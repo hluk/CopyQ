@@ -242,8 +242,8 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->re   = QRegExp("^#!/bin/bash");
         c->icon = QString(QChar(IconTerminal));
         c->cmd  = "/bin/bash";
-        c->input = "text/plain";
-        c->output = "text/plain";
+        c->input = mimeText;
+        c->output = mimeText;
         c->outputTab = "&BASH";
         c->sep = "\\n";
         c->shortcut = tr("Ctrl+R");
@@ -260,7 +260,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->re   = reURL;
         c->icon = QString(QChar(IconQRCode));
         c->cmd  = "qrencode -o - -t PNG -s 6";
-        c->input = "text/plain";
+        c->input = mimeText;
         c->output = "image/png";
         c->inMenu = true;
     } else if (index == ++i) {
@@ -277,20 +277,20 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->re   = reURL;
         c->icon = QString(QChar(IconEyeOpen));
         c->cmd  = "curl %1";
-        c->input = "text/plain";
+        c->input = mimeText;
         c->output = "text/html";
         c->inMenu = true;
     } else if (index == ++i) {
         c->name = tr("Add to &TODO tab");
         c->icon = QString(QChar(IconShare));
         c->tab  = "TODO";
-        c->input = "text/plain";
+        c->input = mimeText;
         c->inMenu = true;
     } else if (index == ++i) {
         c->name = tr("Move to &TODO tab");
         c->icon = QString(QChar(IconShare));
         c->tab  = "TODO";
-        c->input = "text/plain";
+        c->input = mimeText;
         c->remove = true;
         c->inMenu = true;
     } else if (index == ++i) {
@@ -735,11 +735,11 @@ ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled, 
 
             c.input = settings.value("Input").toString();
             if ( c.input == "false" || c.input == "true" )
-                c.input = c.input == "true" ? QString("text/plain") : QString();
+                c.input = c.input == "true" ? QString(mimeText) : QString();
 
             c.output = settings.value("Output").toString();
             if ( c.output == "false" || c.output == "true" )
-                c.output = c.output == "true" ? QString("text/plain") : QString();
+                c.output = c.output == "true" ? QString(mimeText) : QString();
 
             c.wait = settings.value("Wait").toBool();
             c.automatic = settings.value("Automatic").toBool();
@@ -815,7 +815,7 @@ void ConfigurationManager::addCommand(const Command &c, bool save)
     cmdWidget->setCommand(c);
 
     QStringList formats = itemFactory()->formatsToSave();
-    formats.prepend(QString("text/plain"));
+    formats.prepend(mimeText);
     formats.prepend(QString());
     formats.removeDuplicates();
     cmdWidget->setFormats(formats);

@@ -67,7 +67,7 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
     const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
 
     if ( data.contains(mimeText) ) {
-        QString text = data[mimeText].toString();
+        QString text = getTextData(data);
         const int n = text.count('\n') + 1;
 
         QString format;

@@ -114,7 +114,7 @@ void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) con
     if (textEdit != NULL) {
         QVariantMap data;
         if ( decryptMimeData(&data, index) ) {
-            textEdit->setPlainText( data[mimeText].toString() );
+            textEdit->setPlainText( getTextData(data, mimeText) );
             textEdit->selectAll();
         }
     }
@@ -125,11 +125,8 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
 {
     // Encrypt after editing.
     QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
-    if (textEdit != NULL) {
-        QVariantMap data;
-        data.insert( mimeText, textEdit->toPlainText() );
-        encryptMimeData(data, index, model);
-    }
+    if (textEdit != NULL)
+        encryptMimeData( createDataMap(mimeText, textEdit->toPlainText()), index, model );
 }
 
 void ItemEncrypted::updateSize()
