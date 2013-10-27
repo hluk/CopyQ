@@ -77,10 +77,13 @@ public:
      * Set formats from map with MIME type as key and data as value.
      * @return true data are not same
      */
-    bool setData(const QVariantMap &data);
+    void setData(const QVariantMap &data);
 
     /** Remove item's MIME type data. */
     void removeData(const QString &mimeType);
+
+    /** Remove item's MIME type data. */
+    bool removeData(const QStringList &mimeTypeList);
 
     /** Return data for given @a role. */
     QVariant data(int role) const;

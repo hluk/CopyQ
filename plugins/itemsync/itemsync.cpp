@@ -60,10 +60,11 @@ const char configFormatSettings[] = "format_settings";
 
 const char dataFileSuffix[] = "_data.dat";
 
-const char mimeExtensionMap[] = "application/x-copyq-itemsync-mime-to-extension-map";
-const char mimeBaseName[] = "application/x-copyq-itemsync-basename";
+#define MIME_PREFIX_ITEMSYNC "application/x-copyq-itemsync-"
+const char mimeExtensionMap[] = MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
+const char mimeBaseName[] = MIME_PREFIX_ITEMSYNC "basename";
+const char mimeNoSave[] = MIME_PREFIX_ITEMSYNC "no-save";
 const char mimeUnknownData[] = "application/octet-stream";
-const char mimeNoSave[] = "application/x-copyq-itemsync-no-save";
 
 const char mimeUriList[] = "text/uri-list";
 
@@ -862,8 +863,7 @@ public slots:
                     dataMap.insert(mimeBaseName, baseName);
                     if ( !mimeToExtension.isEmpty() )
                         dataMap.insert(mimeExtensionMap, mimeToExtension);
-                    m_model->setData(index, QVariant(), contentType::clearData);
-                    m_model->setData(index, dataMap, contentType::data);
+                    m_model->setData(index, dataMap, contentType::resetData);
                 }
             } else {
                 // If an item was removed, ignore its file.
@@ -884,7 +884,7 @@ private:
     {
         if ( m_model->insertRow(0) ) {
             const QModelIndex &index = m_model->index(0, 0);
-            m_model->setData(index, dataMap, contentType::data);
+            m_model->setData(index, dataMap, contentType::updateData);
             Q_ASSERT( dataMap.contains(mimeBaseName) );
             setIndexBaseName( index, dataMap.value(mimeBaseName).toString() );
             return true;
@@ -1142,7 +1142,7 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
 
         for (int formatIndex = 0; formatIndex < formats.size(); ++formatIndex) {
             const QString format = formats[formatIndex];
-            if ( format.startsWith("application/x-copyq-itemsync") )
+            if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
             if ( noSave && (format == "text/plain" || format == "text/uri-list") )
                 continue;
@@ -1219,7 +1219,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     } else {
         const QVariantMap mimeToExtension = getMimeToExtensionMap(formats, index);
         foreach (const QString &format, formats) {
-            if ( format.startsWith("application/x-copyq-itemsync") )
+            if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
             icon = mimeToExtension.contains(format)
                     ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)

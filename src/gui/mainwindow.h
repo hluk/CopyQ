@@ -456,6 +456,6 @@ class MainWindow : public QMainWindow
 
         QTimer *m_timerMiminizing;
         bool m_minimizeUnsupported;
-    };
+};
 
 #endif // MAINWINDOW_H

@@ -19,6 +19,8 @@
 
 #include "serialize.h"
 
+#include "common/common.h"
+
 #include <QByteArray>
 #include <QDataStream>
 #include <QMimeData>

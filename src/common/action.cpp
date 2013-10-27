@@ -39,7 +39,8 @@ void startProcess(QProcess *process, const QStringList &args)
 } // namespace
 
 Action::Action(const Commands &cmd,
-               const QByteArray &input, const QString &outputItemFormat,
+               const QByteArray &input, const QStringList &inputFormats,
+               const QString &outputItemFormat,
                const QString &itemSeparator,
                const QString &outputTabName, const QModelIndex &index)
     : QProcess()
@@ -47,6 +48,7 @@ Action::Action(const Commands &cmd,
     , m_sep(index.isValid() ? QString() : itemSeparator)
     , m_cmds(cmd)
     , m_tab(outputTabName)
+    , m_inputFormats(inputFormats)
     , m_outputFormat(outputItemFormat != "text/plain" ? outputItemFormat : QString())
     , m_index(index)
     , m_errstr()
@@ -79,6 +81,11 @@ QString Action::command() const
         text.append(args.join(" "));
     }
     return text;
+}
+
+QString Action::outputFormat() const
+{
+    return m_outputFormat.isEmpty() ? QString("text/plain") : m_outputFormat;
 }
 
 void Action::start()

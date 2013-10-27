@@ -503,6 +503,23 @@ void MainWindow::closeAction(Action *action)
     } else if ( action->exitCode() != 0 ) {
         msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
         icon = QSystemTrayIcon::Warning;
+    } else if ( !action->inputFormats().isEmpty() ) {
+        QModelIndex index = action->index();
+        ClipboardBrowser *c = findBrowser(index);
+        if (c) {
+            QStringList removeFormats;
+            if ( action->inputFormats().size() > 1 ) {
+                QScopedPointer<QMimeData> data(new QMimeData);
+                deserializeData( data.data(), action->input() );
+                removeFormats = data->formats();
+            } else {
+                removeFormats.append( action->inputFormats()[0] );
+            }
+
+            removeFormats.removeAll( action->outputFormat() );
+            if ( !removeFormats.isEmpty() )
+                c->model()->setData(index, removeFormats, contentType::removeFormats);
+        }
     }
 
     if ( !msg.isEmpty() )
@@ -719,13 +736,8 @@ bool MainWindow::triggerActionForData(const QMimeData &data, const QString &sour
                     if ( cmd.outputTab.isEmpty() )
                         cmd.outputTab = sourceTab;
 
-                    if (cmd.input == mimeItems) {
-                        QMimeData data2;
-                        data2.setData( mimeItems, serializeData(data) );
-                        action(data2, cmd);
-                    } else if ( cmd.input.isEmpty() || data.hasFormat(cmd.input) ) {
+                    if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.hasFormat(cmd.input) )
                         action(data, cmd);
-                    }
                 }
                 if (!c.tab.isEmpty())
                     addToTab(data, c.tab);
@@ -1648,9 +1660,9 @@ void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
     if (c == NULL)
         return;
 
-    QMimeData *newData = new QMimeData();
-    newData->setData(QString("text/plain"), items.join(QString()).toLocal8Bit());
-    c->setItemData(index, newData);
+    QVariantMap dataMap;
+    dataMap.insert( "text/plain", items.join(QString()).toLocal8Bit() );
+    c->model()->setData(index, dataMap, contentType::updateData);
 }
 
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QString &tabName)
@@ -1662,8 +1674,19 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QS
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
 {
     ClipboardBrowser *c = findBrowser(index);
-    if (c)
-        c->setItemData( index, createMimeData(data, format) );
+    if (c == NULL)
+        return;
+
+    QVariantMap dataMap;
+    if (format == mimeItems) {
+        QMimeData data2;
+        deserializeData(&data2, data);
+        foreach ( const QString &format, data2.formats() )
+            dataMap.insert( format, data2.data(format) );
+    } else {
+        dataMap.insert(format, data);
+    }
+    c->model()->setData(index, dataMap, contentType::updateData);
 }
 
 void MainWindow::onFilterChanged(const QRegExp &re)

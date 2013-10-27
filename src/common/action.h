@@ -36,9 +36,9 @@ public:
     typedef QList<QStringList> Commands;
 
     /** Create action with command line parameters. */
-    Action(
-            const Commands &cmd, //!< Program to run.
+    Action(const Commands &cmd, //!< Program to run.
             const QByteArray &input, //!< Standard input contents.
+            const QStringList &inputFormats,
             const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
             const QString &itemSeparator,
             //!< Separator for items on standard output.
@@ -61,6 +61,15 @@ public:
     /** Return input. */
     const QByteArray &input() const { return m_input; }
 
+    /** Return input formats. */
+    const QStringList &inputFormats() const { return m_inputFormats; }
+
+    /** Return output format. */
+    QString outputFormat() const;
+
+    /** Return destination index. */
+    QModelIndex index() const { return m_index; }
+
     /** Execute command. */
     void start();
 
@@ -69,8 +78,9 @@ private:
     const QRegExp m_sep;
     const Commands m_cmds;
     const QString m_tab;
+    const QStringList m_inputFormats;
     const QString m_outputFormat;
-    const QModelIndex m_index;
+    const QPersistentModelIndex m_index;
     QString m_errstr;
     QString m_lastOutput;
     QByteArray m_outputData;

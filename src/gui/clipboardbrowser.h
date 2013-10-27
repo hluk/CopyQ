@@ -172,11 +172,6 @@ class ClipboardBrowser : public QListView
                 );
 
         /**
-         * Set item data.
-         */
-        void setItemData(const QModelIndex &index, QMimeData *data);
-
-        /**
          * Override to disable default QAbstractItemView search.
          */
         void keyboardSearch(const QString &) {}

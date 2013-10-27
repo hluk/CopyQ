@@ -20,6 +20,7 @@
 #include "itemencrypted.h"
 #include "ui_itemencryptedsettings.h"
 
+#include "common/common.h"
 #include "common/contenttype.h"
 #include "item/encrypt.h"
 #include "item/serialize.h"
@@ -35,15 +36,6 @@
 namespace {
 
 const char dataFileHeader[] = "CopyQ_encrypted_tab";
-
-QString quoteString(const QString &str)
-{
-#if QT_VERSION >= 0x040800
-    return QLocale::system().quoteString(str);
-#else
-    return '"' + str + '"';
-#endif
-}
 
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
@@ -88,7 +80,7 @@ void encryptMimeData(const QMimeData &data, const QModelIndex &index, QAbstractI
     const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
     QVariantMap dataMap;
     dataMap.insert(mimeEncryptedData, encryptedBytes);
-    model->setData(index, dataMap, contentType::data);
+    model->setData(index, dataMap, contentType::resetData);
 }
 
 bool isEncryptedFile(QFile *file)
@@ -267,7 +259,7 @@ bool ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, 
                 return true;
             QVariantMap dataMap;
             stream2 >> dataMap;
-            model->setData( model->index(i, 0), dataMap, contentType::data );
+            model->setData( model->index(i, 0), dataMap, contentType::resetData );
         }
 
         if (stream2.status() != QDataStream::Ok)

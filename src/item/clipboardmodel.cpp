@@ -23,6 +23,7 @@
 #include "common/contenttype.h"
 
 #include <QDataStream>
+#include <QStringList>
 
 ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
@@ -88,13 +89,15 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
             m_clipboardList[row]->removeData(mimeItemNotes);
         else
             m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
-    } else if (role == contentType::data) {
-        if ( !m_clipboardList[row]->setData(value.toMap()) )
+    } else if (role == contentType::updateData) {
+        m_clipboardList[row]->setData( value.toMap() );
+    } else if (role == contentType::resetData) {
+        const ClipboardItemPtr &item = m_clipboardList[row];
+        item->clear();
+        item->setData( value.toMap() );
+    } else if (role >= contentType::removeFormats) {
+        if ( !m_clipboardList[row]->removeData(value.toStringList()) )
             return false;
-    } else if (role == contentType::clearData) {
-        if ( m_clipboardList[row]->isEmpty() )
-            return false;
-        m_clipboardList[row]->clear();
     } else if (role >= contentType::firstFormat) {
         m_clipboardList[row]->setData( role - contentType::firstFormat, value.toByteArray() );
     } else {

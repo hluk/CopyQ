@@ -296,21 +296,11 @@ void ClipboardBrowser::contextMenuAction()
         if (isContextMenuAction && cmd.transform) {
             foreach (const QModelIndex &index, selected) {
                 const QMimeData *data = itemData( index.row() );
-
-                if (cmd.input == mimeItems) {
-                    QMimeData data2;
-                    data2.setData( mimeItems, serializeData(*data) );
-                    emit requestActionDialog(data2, cmd, index);
-                } else if ( cmd.input.isEmpty() || data->hasFormat(cmd.input) ) {
+                if ( cmd.input.isEmpty() || cmd.input == mimeItems || data->hasFormat(cmd.input) )
                     emit requestActionDialog(*data, cmd, index);
-                }
             }
         } else {
-            if (data != NULL) {
-                emit requestActionDialog(*data, cmd);
-            } else {
-                emit requestActionDialog(textData, cmd);
-            }
+            emit requestActionDialog(data ? *data : textData, cmd);
         }
     }
 
@@ -756,12 +746,6 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
     if (isOwnMenu)
         ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(shortcuts);
-}
-
-void ClipboardBrowser::setItemData(const QModelIndex &index, QMimeData *data)
-{
-    if (!m->setMimeData(index, data))
-        delete data;
 }
 
 void ClipboardBrowser::setSavingEnabled(bool enable)

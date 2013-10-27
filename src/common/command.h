@@ -74,7 +74,7 @@ struct Command {
     QString sep;
 
     /**
-     *  If true send item text to program's standard input.
+     *  If not empty send item text to program's standard input.
      *  Also match only items with this format (match all if empty).
      */
     QString input;

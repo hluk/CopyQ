@@ -36,25 +36,14 @@ namespace {
 void clearDataExceptInternal(QMimeData *data)
 {
     foreach ( const QString &format, data->formats() ) {
-        if ( !format.startsWith("application/x-copyq-") )
+        if ( !format.startsWith(MIME_PREFIX) )
             data->removeFormat(format);
     }
 }
 
-bool needUpdate(const QVariantMap &data, const QMimeData &itemData)
+bool containsInternalFormat(const QList<QString> &keys)
 {
-    QStringList formats = itemData.formats();
-    if ( !data.contains(mimeItemNotes) )
-        formats.removeOne(mimeItemNotes);
-    if ( formats.toSet() != data.keys().toSet() )
-        return true;
-
-    foreach (const QString &format, formats) {
-        if ( itemData.data(format) != data[format].toByteArray() )
-            return true;
-    }
-
-    return false;
+    return !keys.isEmpty() && keys[0].startsWith(MIME_PREFIX);
 }
 
 } // namespace
@@ -92,9 +81,9 @@ void ClipboardItem::setData(QMimeData *data)
     // if new data contains internal data (MIME starts with "application/x-copyq-"), update all data
     // otherwise rewrite all original data, except internal data
     const QStringList newFormats = data->formats();
-    bool updateAll = newFormats.indexOf( QRegExp("^application/x-copyq-.*") ) != -1;
+    bool updateAll = containsInternalFormat(newFormats);
     foreach ( const QString &format, m_data->formats().toSet().subtract(newFormats.toSet()) ) {
-        if ( updateAll || format.startsWith("application/x-copyq-") )
+        if ( updateAll || format.startsWith(MIME_PREFIX) )
             data->setData( format, m_data->data(format) );
     }
 
@@ -110,23 +99,32 @@ void ClipboardItem::setData(const QVariant &value)
     updateDataHash();
 }
 
-bool ClipboardItem::setData(const QVariantMap &data)
+void ClipboardItem::setData(const QVariantMap &data)
 {
-    if ( !needUpdate(data, *m_data) )
-        return false;
+    if ( !containsInternalFormat(data.keys()) )
+        clearDataExceptInternal( m_data.data() );
 
-    clearDataExceptInternal( m_data.data() );
     foreach ( const QString &format, data.keys() )
         m_data->setData( format, data[format].toByteArray() );
     updateDataHash();
-
-    return true;
 }
 
 void ClipboardItem::removeData(const QString &mimeType)
 {
     m_data->removeFormat(mimeType);
     updateDataHash();
+}
+
+bool ClipboardItem::removeData(const QStringList &mimeTypeList)
+{
+    bool removed = false;
+    foreach (const QString &mimeType, mimeTypeList) {
+        if ( m_data->hasFormat(mimeType) ) {
+            m_data->removeFormat(mimeType);
+            removed = true;
+        }
+    }
+    return removed;
 }
 
 bool ClipboardItem::isEmpty() const
@@ -143,8 +141,10 @@ void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 
 void ClipboardItem::setData(int formatIndex, const QByteArray &data)
 {
-    if ( formatIndex >= 0 && formatIndex < m_data->formats().size() )
+    if ( formatIndex >= 0 && formatIndex < m_data->formats().size() ) {
         m_data->setData( m_data->formats().value(formatIndex), data );
+        updateDataHash();
+    }
 }
 
 QString ClipboardItem::text() const

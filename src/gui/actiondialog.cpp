@@ -23,6 +23,7 @@
 #include "common/action.h"
 #include "common/command.h"
 #include "common/common.h"
+#include "item/serialize.h"
 #include "gui/configurationmanager.h"
 
 #include <QSettings>
@@ -209,15 +210,33 @@ void ActionDialog::createAction()
     if ( !arg.isEmpty() || !quote.isNull() )
         command->append(arg);
 
-    QByteArray data;
+    QByteArray bytes;
+    QStringList inputFormats;
     if ( !format.isEmpty() ) {
-        if ( !input.isEmpty() )
-            data = input.toLocal8Bit();
-        else if (m_data != NULL)
-            data = m_data->data(format);
+        if ( m_index.isValid() )
+            inputFormats.append(format);
+
+        if ( !input.isEmpty() ) {
+            bytes = input.toLocal8Bit();
+        } else if (m_data != NULL) {
+            if (format == mimeItems) {
+                QMimeData data2;
+                inputFormats.clear();
+                foreach ( const QString &format, m_data->formats() ) {
+                    if ( !format.startsWith(MIME_PREFIX) ) {
+                        data2.setData( format, m_data->data(format) );
+                        if ( m_index.isValid() )
+                            inputFormats.append(format);
+                    }
+                }
+                bytes = serializeData(data2);
+            } else {
+                bytes = m_data->data(format);
+            }
+        }
     }
 
-    Action *act = new Action( commands, data,
+    Action *act = new Action( commands, bytes, inputFormats,
                               ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
                               ui->comboBoxOutputTab->currentText(),
