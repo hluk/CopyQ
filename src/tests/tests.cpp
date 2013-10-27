@@ -23,6 +23,7 @@
 #include "common/client_server.h"
 #include "common/common.h"
 #include "item/clipboarditem.h"
+#include "item/serialize.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -506,16 +507,8 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 
     QVERIFY( m_monitor->isConnected() );
 
-    // Create item.
-    ClipboardItem item;
-    item.setData(mime, bytes);
-
-    // Send item.
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << item;
-
-    QVERIFY( m_monitor->writeMessage(msg) );
+    const QVariantMap data = createDataMap(mime, bytes);
+    QVERIFY( m_monitor->writeMessage(serializeData(data)) );
     QApplication::processEvents();
 
     qSleep(waitMsClipboard);

@@ -25,8 +25,8 @@
 class QByteArray;
 class QDataStream;
 
-QDataStream &operator<<(QDataStream &stream, const QVariantMap &data);
-QDataStream &operator>>(QDataStream &stream, QVariantMap &data);
+void serializeData(QDataStream *out, const QVariantMap &data);
+void deserializeData(QDataStream *out, QVariantMap *data);
 QByteArray serializeData(const QVariantMap &data);
 bool deserializeData(QVariantMap *data, const QByteArray &bytes);
 

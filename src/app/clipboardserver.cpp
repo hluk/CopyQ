@@ -28,6 +28,7 @@
 #include "item/clipboarditem.h"
 #include "item/itemfactory.h"
 #include "item/encrypt.h"
+#include "item/serialize.h"
 #include "scriptable/scriptableworker.h"
 
 #include <QAction>
@@ -185,17 +186,12 @@ void ClipboardServer::loadMonitorSettings()
 
     m_lastHash = 0;
 
-    QByteArray settings_data;
-    QDataStream settings_out(&settings_data, QIODevice::WriteOnly);
-    settings_out << settings;
+    QByteArray settingsData;
+    QDataStream settingsOut(&settingsData, QIODevice::WriteOnly);
+    settingsOut << settings;
 
-    ClipboardItem item;
-    item.setData(mimeApplicationSettings, settings_data);
-
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << item;
-    m_monitor->writeMessage(msg);
+    const QVariantMap data = createDataMap(mimeApplicationSettings, settingsData);
+    m_monitor->writeMessage( serializeData(data) );
 }
 
 bool ClipboardServer::isMonitoring()
@@ -274,19 +270,23 @@ void ClipboardServer::onAboutToQuit()
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
 {
-    ClipboardItem item;
-    QDataStream in(message);
-    in >> item;
+    QVariantMap data;
 
-    if ( in.status() != QDataStream::Ok ) {
+    if ( !deserializeData(&data, message) ) {
         log( tr("Failed to read message from monitor."), LogError );
-    } else if ( item.data().contains(mimeMessage) ) {
-        const QByteArray data = item.data()[mimeMessage].toByteArray();
-        foreach( const QByteArray &line, data.split('\n') )
+        return;
+    }
+
+    ClipboardItem item;
+    item.setData(data);
+
+    if ( data.contains(mimeMessage) ) {
+        const QByteArray bytes = data[mimeMessage].toByteArray();
+        foreach( const QByteArray &line, bytes.split('\n') )
             log( QString::fromUtf8(line), LogNote );
     } else {
 #ifdef COPYQ_WS_X11
-        if ( item.data().value(mimeClipboardMode) != "selection" )
+        if ( data.value(mimeClipboardMode) != "selection" )
             m_wnd->clipboardChanged(&item);
 #else
         m_wnd->clipboardChanged(&item);
@@ -317,10 +317,7 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
 
     COPYQ_LOG("Sending message to monitor.");
 
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << *item;
-    m_monitor->writeMessage(msg);
+    m_monitor->writeMessage( serializeData(item->data()) );
     m_lastHash = item->dataHash();
 }
 

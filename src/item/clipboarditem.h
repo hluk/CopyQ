@@ -107,12 +107,4 @@ private:
     unsigned int m_hash;
 };
 
-/**
- * @defgroup clipboard_item_serialization_operators ClipboardItem Serialization Operators
- * @{
- */
-QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item);
-QDataStream &operator>>(QDataStream &stream, ClipboardItem &item);
-///@}
-
 #endif // CLIPBOARDITEM_H

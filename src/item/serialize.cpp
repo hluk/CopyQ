@@ -26,54 +26,51 @@
 #include <QObject>
 #include <QStringList>
 
-QDataStream &operator<<(QDataStream &stream, const QVariantMap &data)
+void serializeData(QDataStream *out, const QVariantMap &data)
 {
+    *out << data.size();
     QByteArray bytes;
-    stream << data.size();
     foreach (const QString &mime, data.keys()) {
         bytes = data[mime].toByteArray();
         if ( !bytes.isEmpty() )
             bytes = qCompress(bytes);
-        stream << mime << bytes;
+        *out << mime << bytes;
     }
-
-    return stream;
 }
 
-QDataStream &operator>>(QDataStream &stream, QVariantMap &data)
+void deserializeData(QDataStream *out, QVariantMap *data)
 {
     int length;
 
-    stream >> length;
+    *out >> length;
 
     QString mime;
-    QByteArray bytes;
-    for (int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
-        stream >> mime >> bytes;
-        if( !bytes.isEmpty() ) {
-            bytes = qUncompress(bytes);
-            if (bytes.isEmpty()) {
-                stream.setStatus(QDataStream::ReadCorruptData);
+    QByteArray tmpBytes;
+    for (int i = 0; i < length && out->status() == QDataStream::Ok; ++i) {
+        *out >> mime >> tmpBytes;
+        if( !tmpBytes.isEmpty() ) {
+            tmpBytes = qUncompress(tmpBytes);
+            if ( tmpBytes.isEmpty() ) {
+                out->setStatus(QDataStream::ReadCorruptData);
                 break;
             }
         }
-        data.insert(mime, bytes);
+        data->insert(mime, tmpBytes);
     }
 
-    return stream;
 }
 
 QByteArray serializeData(const QVariantMap &data)
 {
     QByteArray bytes;
     QDataStream out(&bytes, QIODevice::WriteOnly);
-    out << data;
+    serializeData(&out, data);
     return bytes;
 }
 
 bool deserializeData(QVariantMap *data, const QByteArray &bytes)
 {
     QDataStream out(bytes);
-    out >> *data;
+    deserializeData(&out, data);
     return out.status() == QDataStream::Ok;
 }

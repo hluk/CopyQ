@@ -79,12 +79,6 @@ class ClipboardBrowser : public QListView
         /** Load settings. */
         void loadSettings();
 
-        /** Add new item to the browser. */
-        bool add(
-                const ClipboardItem &item, //!< Item to copy.
-                int row = 0 //!< Target row for the new item.
-                );
-
         /**
          * Select item with given @a hash and move it to clipboard.
          *

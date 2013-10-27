@@ -21,6 +21,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "item/serialize.h"
 
 #include <QDataStream>
 #include <QStringList>
@@ -305,7 +306,7 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
     // save in reverse order so the items
     // can be later restored in right order
     for(int i = 0; i < length && stream.status() == QDataStream::Ok; ++i)
-        stream << *model.at(i);
+        serializeData( &stream, model.at(i)->data() );
 
     return stream;
 }
@@ -321,7 +322,9 @@ QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
     ClipboardItem *item;
     for(int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
         item = model.append();
-        stream >> *item;
+        QVariantMap data;
+        deserializeData(&stream, &data);
+        item->setData(data);
     }
 
     return stream;

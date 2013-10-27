@@ -38,6 +38,7 @@
 #include <QApplication>
 #include <QDrag>
 #include <QKeyEvent>
+#include <QMimeData>
 #include <QPushButton>
 #include <QProgressBar>
 #include <QMenu>
@@ -867,9 +868,9 @@ void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
         QDataStream in(bytes);
 
         while ( !in.atEnd() ) {
-            ClipboardItem item;
-            in >> item;
-            add(item, destinationRow);
+            QVariantMap data;
+            deserializeData(&in, &data);
+            add(data, destinationRow);
             ++count;
         }
     } else {
@@ -1725,11 +1726,6 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     delayedSaveItems();
 
     return true;
-}
-
-bool ClipboardBrowser::add(const ClipboardItem &item, int row)
-{
-    return add(item.data(), row );
 }
 
 void ClipboardBrowser::loadSettings()

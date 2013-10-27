@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "common/common.h"
 #include "item/clipboarditem.h"
+#include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QApplication>
@@ -375,15 +376,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
 void ClipboardMonitor::clipboardChanged(const QVariantMap &data)
 {
-    ClipboardItem item;
-
-    item.setData(data);
-
-    // send clipboard item
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << item;
-    writeMessage(msg);
+    writeMessage( serializeData(data) );
 }
 
 void ClipboardMonitor::updateTimeout()
@@ -414,12 +407,11 @@ void ClipboardMonitor::readyRead()
         if (msg == "ping") {
             writeMessage(QByteArray("pong") );
         } else {
-            ClipboardItem item;
-            QDataStream in(&msg, QIODevice::ReadOnly);
-            in >> item;
+            QVariantMap data;
+            deserializeData(&data, msg);
 
             /* Does server send settings for monitor? */
-            QByteArray settingsData = item.data(mimeApplicationSettings);
+            QByteArray settingsData = data.value(mimeApplicationSettings).toByteArray();
             if ( !settingsData.isEmpty() ) {
                 QDataStream settings_in(settingsData);
                 QVariantMap settings;
@@ -453,7 +445,7 @@ void ClipboardMonitor::readyRead()
 
                 COPYQ_LOG("Configured");
             } else {
-                updateClipboard(item.data());
+                updateClipboard(data);
             }
         }
     }
@@ -504,14 +496,7 @@ void ClipboardMonitor::writeMessage(const QByteArray &msg)
 
 void ClipboardMonitor::log(const QString &text, const LogLevel level)
 {
-    ClipboardItem item;
-
-    QString message = createLogMessage("Clipboard Monitor", text, level);
-    item.setData( mimeMessage, message.trimmed().toUtf8() );
-
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    out << item;
-
-    writeMessage(msg);
+    const QString message = createLogMessage("Clipboard Monitor", text, level);
+    const QVariantMap data = createDataMap(mimeMessage, message.trimmed().toUtf8());
+    writeMessage( serializeData(data) );
 }

@@ -41,11 +41,6 @@ void clearDataExceptInternal(QVariantMap *data)
     }
 }
 
-bool containsInternalFormat(const QList<QString> &keys)
-{
-    return !keys.isEmpty() && keys[0].startsWith(MIME_PREFIX);
-}
-
 } // namespace
 
 ClipboardItem::ClipboardItem()
@@ -163,18 +158,4 @@ QVariant ClipboardItem::data(int role) const
 void ClipboardItem::updateDataHash()
 {
     m_hash = hash(m_data);
-}
-
-QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
-{
-    stream << item.data();
-    return stream;
-}
-
-QDataStream &operator>>(QDataStream &stream, ClipboardItem &item)
-{
-    QVariantMap data;
-    stream >> data;
-    item.setData(data);
-    return stream;
 }

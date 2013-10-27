@@ -50,6 +50,7 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QPushButton>
 #include <QTimer>
 #include <QPainter>
