@@ -121,6 +121,7 @@ TabTree::TabTree(QWidget *parent)
     setDragEnabled(true);
     setDragDropMode(QAbstractItemView::InternalMove);
     setDragDropOverwriteMode(false);
+    setDefaultDropAction(Qt::CopyAction); // otherwise tab is lost if moved outside tree
 
     setFrameShape(QFrame::NoFrame);
     setHeaderHidden(true);

@@ -1167,6 +1167,11 @@ void ClipboardBrowser::dragLeaveEvent(QDragLeaveEvent *event)
 
 void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
 {
+    // Ignore unknown data from Qt widgets.
+    const QStringList formats = event->mimeData()->formats();
+    if ( formats.size() == 1 && formats[0].startsWith("application/x-q") )
+        return;
+
     event->acceptProposedAction();
     m_dragPosition = event->pos().y();
     update();
