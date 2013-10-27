@@ -295,6 +295,8 @@ void ClipboardBrowser::contextMenuAction()
         const QMimeData *data = clipboardData();
         if (data == NULL)
             textData.insert( mimeText, selectedText() );
+        else
+            dataMap = cloneData(*data);
     }
 
     if ( !cmd.cmd.isEmpty() ) {
