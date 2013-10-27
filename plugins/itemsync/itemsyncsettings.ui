@@ -66,9 +66,12 @@
        </item>
        <item>
         <widget class="QTableWidget" name="tableWidgetFormatSettings">
+         <attribute name="verticalHeaderVisible">
+          <bool>false</bool>
+         </attribute>
          <column>
           <property name="text">
-           <string>Extensions, MIME</string>
+           <string>Extensions</string>
           </property>
          </column>
          <column>

@@ -134,7 +134,7 @@ FileFormat getFormatSettingsFromFileName(const QString &fileName,
     for ( int i = 0; i < formatSettings.size(); ++i ) {
         const FileFormat &format = formatSettings[i];
         foreach ( const QString &ext, format.formats ) {
-            if ( !ext.contains('/') && fileName.endsWith(ext) ) {
+            if ( fileName.endsWith(ext) ) {
                 if (foundExt)
                     *foundExt = ext;
                 return format;
@@ -331,10 +331,8 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     QList<Ext> userExts;
     foreach (const FileFormat &format, formatSettings) {
         if ( !format.itemMime.isEmpty() ) {
-            foreach (const QString &ext, format.formats) {
-                if ( !ext.contains('/') )
-                    userExts.append( Ext(ext, format.itemMime) );
-            }
+            foreach (const QString &ext, format.formats)
+                userExts.append( Ext(ext, format.itemMime) );
         }
     }
 
@@ -499,21 +497,8 @@ QVariantMap getMimeToExtensionMap(const QStringList &formats, const QModelIndex 
     return mimeToExtension;
 }
 
-FileFormat getFormatSettingsFromMime(const QString &mime, const QList<FileFormat> &formatSettings)
+int iconFromMime(const QString &format)
 {
-    for ( int i = 0; i < formatSettings.size(); ++i ) {
-        const FileFormat &format = formatSettings[i];
-        if ( format.formats.contains(mime) )
-            return format;
-    }
-    return FileFormat();
-}
-
-int iconFromMime(const QString &format, const QList<FileFormat> &formatSettings)
-{
-    const FileFormat fileFormat = getFormatSettingsFromMime( format, formatSettings );
-    if ( fileFormat.isValid() )
-        return fileFormat.icon;
     if ( format.startsWith("video/") )
         return IconPlayCircle;
     if ( format.startsWith("audio/") )
@@ -929,6 +914,7 @@ QVariantMap ItemSyncLoader::applySettings()
 {
     Q_ASSERT(ui);
 
+    // Apply settings from tab sync path table.
     QTableWidget *t = ui->tableWidgetSyncTabs;
     QStringList tabPaths;
     m_tabPaths.clear();
@@ -942,6 +928,7 @@ QVariantMap ItemSyncLoader::applySettings()
     }
     m_settings.insert(configSyncTabs, tabPaths);
 
+    // Apply settings from file format table.
     t = ui->tableWidgetFormatSettings;
     QVariantList formatSettings;
     m_formatSettings.clear();
@@ -962,6 +949,7 @@ QVariantMap ItemSyncLoader::applySettings()
     }
     m_settings.insert(configFormatSettings, formatSettings);
 
+    // Update data of items with watched files.
     foreach ( const QObject *model, m_watchers.keys() )
         m_watchers[model]->updateItems();
 
@@ -1005,6 +993,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
+    // Init tab sync path table.
     const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
     QTableWidget *t = ui->tableWidgetSyncTabs;
     for (int row = 0, i = 0; i < tabPaths.size() + 20; ++row, i += 2) {
@@ -1019,6 +1008,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     setNormalStretchFixedColumns(t, syncTabsTableColumns::tabName, syncTabsTableColumns::path,
                                  syncTabsTableColumns::browse);
 
+    // Init file format table.
     const QVariantList formatSettings = m_settings.value(configFormatSettings).toList();
     t = ui->tableWidgetFormatSettings;
     for (int row = 0; row < formatSettings.size() + 10; ++row) {
@@ -1233,7 +1223,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
                 continue; // skip internal data
             icon = mimeToExtension.contains(format)
                     ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)
-                    : iconFromMime(format, m_formatSettings);
+                    : iconFromMime(format);
             if (icon != -1)
                 break;
         }
