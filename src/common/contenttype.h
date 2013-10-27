@@ -22,12 +22,28 @@
 
 #include <Qt>
 
+/**
+ * Enum values are used in ClipboardModel class to fetch or set data from ClipboardItem.
+ * @see ClipboardModel:setData(), ClipboardModel::data()
+ */
 namespace contentType {
 
 enum {
-    data = Qt::UserRole, ///< data as QVarianMap (QString format -> QByteArray bytes)
-    updateData, ///< update existing data
-    removeFormats, ///< remove formats (QStringList)
+    /**
+     * Set/get data as QVarianMap (key is MIME type and value is QByteArray).
+     */
+    data = Qt::UserRole,
+
+    /**
+     * Update existing data. Clears non-internal data if passed data map contains non-internal data.
+     */
+    updateData,
+
+    /**
+     * Remove formats (QStringList of MIME types).
+     */
+    removeFormats,
+
     hasText,
     hasHtml,
     hasNotes,

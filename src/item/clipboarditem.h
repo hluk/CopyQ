@@ -71,7 +71,8 @@ public:
 
     /**
      * Update current data.
-     * @return true were already inserted
+     * Clears non-internal data if passed data map contains non-internal data.
+     * @return true if any data were changed
      */
     bool updateData(const QVariantMap &data);
 

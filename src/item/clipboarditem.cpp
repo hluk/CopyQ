@@ -85,14 +85,24 @@ void ClipboardItem::setData(const QVariantMap &data)
 
 bool ClipboardItem::updateData(const QVariantMap &data)
 {
-    bool added = false;
+    const int oldSize = m_data.size();
+    foreach ( const QString &format, m_data.keys() ) {
+        if ( !format.startsWith(MIME_PREFIX) ) {
+            clearDataExceptInternal(&m_data);
+            break;
+        }
+    }
+
+    bool changed = (oldSize != m_data.size());
+
     foreach ( const QString &format, data.keys() ) {
         if ( m_data.value(format) != data[format] ) {
             m_data.insert( format, data[format].toByteArray() );
-            added = true;
+            changed = true;
         }
     }
-    return added;
+
+    return changed;
 }
 
 void ClipboardItem::removeData(const QString &mimeType)
