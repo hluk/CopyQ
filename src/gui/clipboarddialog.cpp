@@ -35,7 +35,7 @@ ClipboardDialog::ClipboardDialog(const QVariantMap &itemData, QWidget *parent)
     ui->setupUi(this);
 
     QVariantMap data;
-    if ( data.isEmpty() ) {
+    if ( itemData.isEmpty() ) {
         const QMimeData *clipData = clipboardData();
         if (clipData)
             data = cloneData(*clipData);
