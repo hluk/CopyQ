@@ -42,7 +42,6 @@
 #include <QProgressBar>
 #include <QMenu>
 #include <QMessageBox>
-#include <QMimeData>
 #include <QPainter>
 #include <QScrollBar>
 #include <QTimer>
@@ -287,28 +286,33 @@ void ClipboardBrowser::contextMenuAction()
     bool isContextMenuAction = obj->property(propertyActionInOwnMenu).toBool();
     const QModelIndexList selected = selectedIndexes();
 
-    const QMimeData *data = isContextMenuAction ? getSelectedItemData() : clipboardData();
-    QMimeData textData;
-    if (data == NULL)
-        textData.setText(selectedText());
+    QVariantMap dataMap;
+    QVariantMap textData;
+    if (isContextMenuAction) {
+        dataMap = getSelectedItemData();
+    } else {
+        const QMimeData *data = clipboardData();
+        if (data == NULL)
+            textData.insert( mimeText, selectedText() );
+    }
 
     if ( !cmd.cmd.isEmpty() ) {
         if (isContextMenuAction && cmd.transform) {
             foreach (const QModelIndex &index, selected) {
-                const QMimeData *data = itemData( index.row() );
-                if ( cmd.input.isEmpty() || cmd.input == mimeItems || data->hasFormat(cmd.input) )
-                    emit requestActionDialog(*data, cmd, index);
+                QVariantMap data = itemData( index.row() );
+                if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.contains(cmd.input) )
+                    emit requestActionDialog(data, cmd, index);
             }
         } else {
-            emit requestActionDialog(data ? *data : textData, cmd);
+            emit requestActionDialog( dataMap.isEmpty() ? dataMap : textData, cmd );
         }
     }
 
     if ( !cmd.tab.isEmpty() && cmd.tab != getID() ) {
         for (int i = selected.size() - 1; i >= 0; --i) {
-            const QMimeData *data = itemData( selected[i].row() );
-            if (data != NULL)
-                emit addToTab(*data, cmd.tab);
+            QVariantMap data = itemData( selected[i].row() );
+            if ( !data.isEmpty() )
+                emit addToTab(data, cmd.tab);
         }
     }
 
@@ -665,24 +669,23 @@ void ClipboardBrowser::updateSearchProgress()
     }
 }
 
-void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QMimeData *data)
+void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QVariantMap &data)
 {
     if ( m_sharedData->commands.isEmpty() )
         return;
 
-    const QString windowTitle = data == NULL ? QString() : QString::fromUtf8(
-                data->data(mimeWindowTitle).data() );
+    const QString windowTitle = data.value(mimeWindowTitle).toString();
 
     bool isOwnMenu = menu == m_menu;
 
     QAction *insertBefore = NULL;
 
     QSet<QString> availableFormats;
-    if (data != NULL) {
-        availableFormats = data->formats().toSet();
+    if ( !data.isEmpty() ) {
+        availableFormats = data.keys().toSet();
     } else {
         foreach ( const QModelIndex &ind, selectionModel()->selectedIndexes() )
-            availableFormats.unite( itemData(ind.row())->formats().toSet() );
+            availableFormats.unite( itemData(ind.row()).keys().toSet() );
     }
 
     QList<QAction*> actions;
@@ -800,7 +803,7 @@ bool ClipboardBrowser::hasUserSelection() const
             || selectionModel()->selectedRows().count() > 1;
 }
 
-void ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, QMimeData *data)
+QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
 {
     QByteArray bytes;
     QString text;
@@ -819,8 +822,10 @@ void ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, QMimeData *da
         text.prepend( itemText(ind) );
     }
 
-    data->setData(mimeItems, bytes);
-    data->setText(text);
+    QVariantMap data;
+    data.insert(mimeItems, bytes);
+    data.insert(mimeText, text);
+    return data;
 }
 
 int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
@@ -847,15 +852,15 @@ int ClipboardBrowser::removeIndexes(const QModelIndexList &indexes)
     return rows.last();
 }
 
-void ClipboardBrowser::paste(const QMimeData &data, int destinationRow)
+void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
 {
     ClipboardBrowser::Lock lock(this);
 
     int count = 0;
 
     // Insert items from clipboard or just clipboard content.
-    if ( data.hasFormat(mimeItems) ) {
-        const QByteArray bytes = data.data(mimeItems);
+    if ( data.contains(mimeItems) ) {
+        const QByteArray bytes = data[mimeItems].toByteArray();
         QDataStream in(bytes);
 
         while ( !in.atEnd() ) {
@@ -865,7 +870,7 @@ void ClipboardBrowser::paste(const QMimeData &data, int destinationRow)
             ++count;
         }
     } else {
-        add( cloneData(data), destinationRow );
+        add(data, destinationRow);
         count = 1;
     }
 
@@ -1171,7 +1176,8 @@ void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
     const QModelIndex index = indexNear( event->pos().y() );
     const int row = index.isValid() ? index.row() : length();
-    paste( *event->mimeData(), row );
+    QVariantMap data = cloneData( *event->mimeData() );
+    paste(data, row);
     m_dragPosition = -1;
     event->accept();
 }
@@ -1248,17 +1254,16 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     qSort(selected);
 
-    QScopedPointer<QMimeData> data;
+    QVariantMap data;
     if ( selected.size() > 1 ) {
-        data.reset(new QMimeData);
-        copyIndexes(selected, data.data());
+        data = copyIndexes(selected);
         index = selected.first();
     } else {
-        data.reset( cloneData(*itemData(index.row())) );
+        data = itemData(index.row());
     }
 
     QDrag *drag = new QDrag(this);
-    drag->setMimeData( data.take() );
+    drag->setMimeData( createMimeData(data) );
     drag->setPixmap( renderItemPreview(selected, 150, 150) );
 
     // Save persistent indexes so after the items are dropped (and added) these indexes remain valid.
@@ -1308,9 +1313,9 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     ItemWidget *item = d->cache(index);
     QObject *editor = item->createExternalEditor(index, this);
     if (editor == NULL) {
-        const QMimeData *data = itemData( index.row() );
-        if ( data != NULL && data->hasText() ) {
-            editor = new ItemEditor(data->text().toLocal8Bit(), QString("text/plain"),
+        QVariantMap data = itemData( index.row() );
+        if ( data.contains(mimeText) ) {
+            editor = new ItemEditor(data[mimeText].toString().toLocal8Bit(), mimeText,
                                     m_sharedData->editor, this);
         }
     }
@@ -1327,8 +1332,8 @@ void ClipboardBrowser::addItems(const QStringList &items)
 
 void ClipboardBrowser::showItemContent()
 {
-    const QMimeData *data = itemData();
-    if (data == NULL)
+    QVariantMap data = itemData();
+    if ( data.isEmpty() )
         return;
 
     ClipboardDialog *d = new ClipboardDialog(data, this);
@@ -1357,23 +1362,18 @@ void ClipboardBrowser::editNotes()
 
 void ClipboardBrowser::action()
 {
-    const QMimeData *data = getSelectedItemData();
-    if (data != NULL) {
-        emit requestActionDialog(*data);
-    } else {
-        QMimeData textData;
-        textData.setText(selectedText());
-        emit requestActionDialog(textData);
-    }
+    const QVariantMap data = getSelectedItemData();
+    if ( !data.isEmpty() )
+        emit requestActionDialog(data);
+    else
+        emit requestActionDialog( createDataMap(mimeText, selectedText()) );
 }
 
 void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime)
 {
     // add new item
     if ( !bytes.isEmpty() ) {
-        QMimeData *data = new QMimeData;
-        data->setData(mime, bytes);
-        add(data);
+        add( createDataMap(mime, bytes) );
         updateClipboard(0);
         saveItems();
     }
@@ -1676,20 +1676,16 @@ void ClipboardBrowser::reverseItems(const QModelIndexList &indexes)
 
 bool ClipboardBrowser::add(const QString &txt, int row)
 {
-    QMimeData *data = new QMimeData;
-    data->setText(txt);
-    return add(data, row);
+    return add( createDataMap(mimeText, txt), row );
 }
 
-bool ClipboardBrowser::add(QMimeData *data, int row)
+bool ClipboardBrowser::add(const QVariantMap &data, int row)
 {
     bool keepUserSelection = hasUserSelection();
 
     QScopedPointer<ClipboardBrowser::Lock> lock;
     if ( updatesEnabled() && keepUserSelection )
         lock.reset(new ClipboardBrowser::Lock(this));
-
-    QScopedPointer<QMimeData> dataGuard(data);
 
     if ( m->isDisabled() )
         return false;
@@ -1703,7 +1699,7 @@ bool ClipboardBrowser::add(QMimeData *data, int row)
     int newRow = row < 0 ? m->rowCount() : qMin(row, m->rowCount());
     m->insertRow(newRow);
     QModelIndex ind = index(newRow);
-    m->setMimeData( ind, dataGuard.take() );
+    m->setDataMap(ind, data);
 
     // filter item
     if ( isFiltered(newRow) ) {
@@ -1725,7 +1721,7 @@ bool ClipboardBrowser::add(QMimeData *data, int row)
 
 bool ClipboardBrowser::add(const ClipboardItem &item, int row)
 {
-    return add( cloneData(item.data()), row );
+    return add(item.data(), row );
 }
 
 void ClipboardBrowser::loadSettings()
@@ -1849,9 +1845,9 @@ QString ClipboardBrowser::itemText(QModelIndex ind) const
     return ind.isValid() ? ind.data(Qt::EditRole).toString() : QString();
 }
 
-const QMimeData *ClipboardBrowser::itemData(int i) const
+QVariantMap ClipboardBrowser::itemData(int i) const
 {
-    return m->mimeDataInRow( i>=0 ? i : currentIndex().row() );
+    return m->dataMapInRow( i >= 0 ? i : currentIndex().row() );
 }
 
 void ClipboardBrowser::updateClipboard(int row)
@@ -1862,11 +1858,12 @@ void ClipboardBrowser::updateClipboard(int row)
 
 QByteArray ClipboardBrowser::itemData(int i, const QString &mime) const
 {
-    const QMimeData *data = itemData(i);
-    if (data == NULL)
+    const QVariantMap data = itemData(i);
+    if ( data.isEmpty() )
         return QByteArray();
 
-    return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
+    return mime == "?" ? QStringList(data.keys()).join("\n").toUtf8() + '\n'
+                       : data.value(mime).toByteArray();
 }
 
 void ClipboardBrowser::editRow(int row)
@@ -1992,8 +1989,8 @@ void ClipboardBrowser::setTextWrap(bool enabled)
     d->setItemMaximumSize( enabled ? viewport()->contentsRect().size() : QSize(2048, 2048) );
 }
 
-const QMimeData *ClipboardBrowser::getSelectedItemData() const
+QVariantMap ClipboardBrowser::getSelectedItemData() const
 {
     QModelIndexList selected = selectionModel()->selectedRows();
-    return (selected.size() == 1) ? itemData(selected.first().row()) : NULL;
+    return (selected.size() == 1) ? itemData(selected.first().row()) : QVariantMap();
 }

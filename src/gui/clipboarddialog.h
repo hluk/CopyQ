@@ -21,7 +21,7 @@
 #define CLIPBOARDDIALOG_H
 
 #include <QDialog>
-#include <QMimeData>
+#include <QVariantMap>
 
 class QListWidgetItem;
 
@@ -37,7 +37,7 @@ public:
     /**
      * Create dialog with item data or clipboard data content displayed.
      */
-    explicit ClipboardDialog(const QMimeData *itemData = NULL, QWidget *parent = NULL);
+    explicit ClipboardDialog(const QVariantMap &itemData = QVariantMap(), QWidget *parent = NULL);
     ~ClipboardDialog();
 
 private slots:
@@ -46,7 +46,7 @@ private slots:
 
 private:
     Ui::ClipboardDialog *ui;
-    QMimeData m_data;
+    QVariantMap m_data;
 };
 
 #endif // CLIPBOARDDIALOG_H

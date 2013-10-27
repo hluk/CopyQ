@@ -24,6 +24,7 @@
 #include <QFont>
 #include <QFontMetrics>
 #include <QtGlobal> // Q_WS_*
+#include <QVariantMap>
 
 // Application version
 #define COPYQ_VERSION "1.9.3"
@@ -81,6 +82,7 @@ enum LogLevel {
 };
 
 #define MIME_PREFIX "application/x-copyq-"
+extern const char mimeText[];
 extern const char mimeWindowTitle[];
 extern const char mimeItems[];
 extern const char mimeItemNotes[];
@@ -102,9 +104,13 @@ bool isMainThread();
 
 const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
-uint hash(const QMimeData &data, const QStringList &formats);
+uint hash(const QVariantMap &data);
 
-QMimeData *cloneData(const QMimeData &data, const QStringList *formats=NULL);
+QVariantMap cloneData(const QMimeData &data, const QStringList *formats = NULL);
+
+QMimeData* createMimeData(const QVariantMap &data);
+
+QVariantMap createDataMap(const QString &format, const QVariant &value);
 
 /**
  * Elide text with given font or to maximum length
@@ -134,7 +140,7 @@ QString elideText(const QString &text, const QFont &font = QFont(),
  *
  * @return result text
  */
-QString textLabelForData(const QMimeData &data, const QFont &font = QFont(),
+QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
                          const QString &format = QString(), bool escapeAmpersands = false,
                          int maxWidthPixels = 320, int maxLines = 1);
 

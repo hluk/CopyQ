@@ -54,7 +54,7 @@ Notification *NotificationDaemon::create(const QString &title, const QString &ms
     return notification;
 }
 
-Notification *NotificationDaemon::create(const QMimeData &data, int maxLines, const QPixmap &icon,
+Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, const QPixmap &icon,
                                          int msec, QWidget *parent, int id)
 {
     Notification *notification = createNotification(parent, id);
@@ -63,11 +63,11 @@ Notification *NotificationDaemon::create(const QMimeData &data, int maxLines, co
 
     const int width = maximumSize().width() - icon.width() - 16 - 8;
 
-    QStringList formats = data.formats();
+    const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
 
-    if ( data.hasText() ) {
-        QString text = data.text();
+    if ( data.contains(mimeText) ) {
+        QString text = data[mimeText].toString();
         const int n = text.count('\n') + 1;
 
         QString format;
@@ -85,7 +85,7 @@ Notification *NotificationDaemon::create(const QMimeData &data, int maxLines, co
     } else if (imageIndex != -1) {
         QPixmap pix;
         const QString &imageFormat = formats[imageIndex];
-        pix.loadFromData( data.data(imageFormat), imageFormat.toLatin1() );
+        pix.loadFromData( data[imageFormat].toByteArray(), imageFormat.toLatin1() );
 
         const int height = maxLines * QFontMetrics(m_font).lineSpacing();
         if (pix.width() > width || pix.height() > height)

@@ -280,13 +280,13 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
 
     if ( in.status() != QDataStream::Ok ) {
         log( tr("Failed to read message from monitor."), LogError );
-    } else if ( item.data().hasFormat(mimeMessage) ) {
-        const QByteArray data = item.data().data(mimeMessage);
+    } else if ( item.data().contains(mimeMessage) ) {
+        const QByteArray data = item.data()[mimeMessage].toByteArray();
         foreach( const QByteArray &line, data.split('\n') )
             log( QString::fromUtf8(line), LogNote );
     } else {
 #ifdef COPYQ_WS_X11
-        if ( item.data().data(mimeClipboardMode) != "selection" )
+        if ( item.data().value(mimeClipboardMode) != "selection" )
             m_wnd->clipboardChanged(&item);
 #else
         m_wnd->clipboardChanged(&item);

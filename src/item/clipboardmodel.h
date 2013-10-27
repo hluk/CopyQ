@@ -67,7 +67,7 @@ public:
     QVariant data(int row) const;
 
     /** Return data in given @a row.  */
-    const QMimeData *mimeDataInRow(int row) const;
+    QVariantMap dataMapInRow(int row) const;
 
     /** Return item in given @a row.  */
     ClipboardItem *at(int row) const;
@@ -83,7 +83,7 @@ public:
                     const QModelIndex &index = QModelIndex());
 
     /** Set data for given @a index. */
-    bool setMimeData(const QModelIndex &index, QMimeData *value);
+    bool setDataMap(const QModelIndex &index, const QVariantMap &value);
 
     /** Append new item to model. */
     ClipboardItem *append();

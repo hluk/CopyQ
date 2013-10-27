@@ -29,7 +29,6 @@
 #include <QSettings>
 #include <QFile>
 #include <QMessageBox>
-#include <QMimeData>
 
 namespace {
 
@@ -57,7 +56,7 @@ ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ActionDialog)
     , m_re()
-    , m_data(NULL)
+    , m_data()
 {
     ui->setupUi(this);
 
@@ -68,17 +67,15 @@ ActionDialog::ActionDialog(QWidget *parent)
 
 ActionDialog::~ActionDialog()
 {
-    delete m_data;
     delete ui;
 }
 
-void ActionDialog::setInputData(const QMimeData &data)
+void ActionDialog::setInputData(const QVariantMap &data)
 {
-    delete m_data;
-    m_data = cloneData(data);
+    m_data = data;
 
     QString defaultFormat = ui->comboBoxInputFormat->currentText();
-    initFormatComboBox(ui->comboBoxInputFormat, data.formats());
+    initFormatComboBox(ui->comboBoxInputFormat, data.keys());
     const int index = qMax(0, ui->comboBoxInputFormat->findText(defaultFormat));
     ui->comboBoxInputFormat->setCurrentIndex(index);
 
@@ -218,20 +215,20 @@ void ActionDialog::createAction()
 
         if ( !input.isEmpty() ) {
             bytes = input.toLocal8Bit();
-        } else if (m_data != NULL) {
+        } else if ( !m_data.isEmpty() ) {
             if (format == mimeItems) {
-                QMimeData data2;
+                QVariantMap data2;
                 inputFormats.clear();
-                foreach ( const QString &format, m_data->formats() ) {
+                foreach ( const QString &format, m_data.keys() ) {
                     if ( !format.startsWith(MIME_PREFIX) ) {
-                        data2.setData( format, m_data->data(format) );
+                        data2.insert( format, m_data[format] );
                         if ( m_index.isValid() )
                             inputFormats.append(format);
                     }
                 }
                 bytes = serializeData(data2);
             } else {
-                bytes = m_data->data(format);
+                bytes = m_data.value(format).toByteArray();
             }
         }
     }
@@ -399,8 +396,9 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
     ui->inputText->setVisible(show);
 
     QString text;
-    if ((show || format.isEmpty()) && m_data != NULL) {
-        text = format.isEmpty() ? m_data->text() : QString::fromLocal8Bit(m_data->data(format));
+    if ((show || format.isEmpty()) && !m_data.isEmpty() ) {
+        text = format.isEmpty() ? m_data.value(mimeText).toString()
+                                : QString::fromLocal8Bit( m_data.value(format).toByteArray() );
     }
     ui->inputText->setPlainText(text);
 

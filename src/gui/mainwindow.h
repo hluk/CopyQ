@@ -36,7 +36,6 @@ class ClipboardBrowser;
 class ClipboardItem;
 class NotificationDaemon;
 class QAction;
-class QMimeData;
 class TrayMenu;
 struct ClipboardBrowserShared;
 struct Command;
@@ -203,7 +202,7 @@ class MainWindow : public QMainWindow
         /** Open action dialog for given @a row (or current) in current tab. */
         void openActionDialog(int row = -1);
         /** Open action dialog with given input @a text. */
-        WId openActionDialog(const QMimeData &data);
+        WId openActionDialog(const QVariantMap &data);
 
         /** Open preferences dialog. */
         void openPreferences();
@@ -212,7 +211,7 @@ class MainWindow : public QMainWindow
         void action(Action *action);
 
         /** Execute command on given input data. */
-        void action(const QMimeData &data, const Command &cmd,
+        void action(const QVariantMap &data, const Command &cmd,
                     const QModelIndex &outputIndex = QModelIndex());
 
         /** Open tab creation dialog. */
@@ -277,7 +276,7 @@ class MainWindow : public QMainWindow
 
         /** Add @a data to tab with given name (create if tab doesn't exist). */
         void addToTab(
-                const QMimeData &data,
+                const QVariantMap &data,
                 //!< Item data (it may be updated if item with same text exists).
                 const QString &tabName = QString(),
                 //!< Tab name of target tab (first tab if empty).
@@ -411,7 +410,7 @@ class MainWindow : public QMainWindow
          * Trigger all matching automatic commands on @a data.
          * If Command::remove of an applied command is true the method immediately returns false.
          */
-        bool triggerActionForData(const QMimeData &data, const QString &sourceTab);
+        bool triggerActionForData(const QVariantMap &data, const QString &sourceTab);
 
         /** Return notification daemon (create if doesn't exist). */
         NotificationDaemon *notificationDaemon();

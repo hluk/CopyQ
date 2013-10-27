@@ -117,18 +117,17 @@ ItemData::ItemData(const QModelIndex &index, int maxBytes, QWidget *parent)
 
     QString text;
 
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    for (int i = 0; i < formats.size(); ++i ) {
-        QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
-        const int size = data.size();
+    const QVariantMap data = index.data(contentType::data).toMap();
+    foreach ( const QString &format, data.keys() ) {
+        QByteArray bytes = data[format].toByteArray();
+        const int size = bytes.size();
         bool trimmed = size > maxBytes;
         if (trimmed)
-            data = data.left(maxBytes);
+            bytes = bytes.left(maxBytes);
 
-        const QString &format = formats[i];
         bool hasText = format.startsWith("text/") ||
                        format.startsWith("application/x-copyq-owner-window-title");
-        const QString content = hasText ? escapeHtml(stringFromBytes(data, format)) : hexData(data);
+        const QString content = hasText ? escapeHtml(stringFromBytes(bytes, format)) : hexData(bytes);
         text.append( QString("<p>") );
         text.append( QString("<b>%1</b> (%2 bytes)<pre>%3</pre>")
                      .arg(format)
@@ -184,7 +183,7 @@ ItemDataLoader::~ItemDataLoader()
 
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
+    const QStringList formats = index.data(contentType::data).toMap().keys();
     if ( emptyIntersection(formats, formatsToSave()) )
         return NULL;
 

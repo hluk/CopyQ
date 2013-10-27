@@ -362,11 +362,9 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     return fileList;
 }
 
-QString getBaseName(const QModelIndex &index, const QStringList &formats)
+QString getBaseName(const QModelIndex &index)
 {
-    const int baseNameIndex = formats.indexOf(mimeBaseName);
-    return (baseNameIndex != -1) ? index.data(contentType::firstFormat + baseNameIndex).toString()
-                                 : QString();
+    return index.data(contentType::data).toMap().value(mimeBaseName).toString();
 }
 
 void updateUriList(const QFileInfo &info, QByteArray *unsavedUriList, QByteArray *unsavedText)
@@ -482,17 +480,15 @@ bool hasTextExtension(const QString &ext)
             || ext == "ppt";
 }
 
-QVariantMap getMimeToExtensionMap(const QStringList &formats, const QModelIndex &index)
+QVariantMap getMimeToExtensionMap(const QModelIndex &index)
 {
     QVariantMap mimeToExtension;
-    const int indexOfMimeToExtension = formats.indexOf(mimeExtensionMap);
-    if (indexOfMimeToExtension != -1) {
-        QByteArray bytes = index.data(contentType::firstFormat + indexOfMimeToExtension).toByteArray();
-        foreach ( const QByteArray &line, bytes.split('\n') ) {
-            QList<QByteArray> list = line.split(' ');
-            if ( list.size() == 2 )
-                mimeToExtension.insert( QString(list[0]), QString(list[1]) );
-        }
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    const QByteArray bytes = dataMap.value(mimeExtensionMap).toByteArray();
+    foreach ( const QByteArray &line, bytes.split('\n') ) {
+        QList<QByteArray> list = line.split(' ');
+        if ( list.size() == 2 )
+            mimeToExtension.insert( QString(list[0]), QString(list[1]) );
     }
 
     return mimeToExtension;
@@ -863,7 +859,7 @@ public slots:
                     dataMap.insert(mimeBaseName, baseName);
                     if ( !mimeToExtension.isEmpty() )
                         dataMap.insert(mimeExtensionMap, mimeToExtension);
-                    m_model->setData(index, dataMap, contentType::resetData);
+                    m_model->setData(index, dataMap, contentType::data);
                 }
             } else {
                 // If an item was removed, ignore its file.
@@ -1104,11 +1100,10 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
 
     for (int row = 0; row < model.rowCount(); ++row) {
         const QModelIndex index = model.index(row, 0);
-        const QStringList formats = index.data(contentType::formats).toStringList();
 
-        const QVariantMap mimeToExtension = getMimeToExtensionMap(formats, index);
+        const QVariantMap mimeToExtension = getMimeToExtensionMap(index);
 
-        QString baseName = getBaseName(index, formats);
+        QString baseName = getBaseName(index);
         if ( baseName.isEmpty() ) {
             while ( usedBaseNameIndexes.contains(++baseNameIndex) ) {}
             baseName = QString("copyq_%1").arg( baseNameIndex, 4, 10, QChar('0') );
@@ -1123,13 +1118,13 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
         QVariantMap dataMap;
         const QList<Ext> exts = fileExtensionsAndFormats();
 
-        bool noSave = formats.contains(mimeNoSave);
+        const QVariantMap itemData = index.data(contentType::data).toMap();
+        bool noSave = itemData.contains(mimeNoSave);
 
         if (noSave) {
             savedFiles.prepend(filePath);
-            const int urisIndex = formats.indexOf(mimeUriList);
-            if (urisIndex != -1) {
-                const QByteArray uriList = index.data(contentType::firstFormat + urisIndex).toByteArray();
+            if ( itemData.contains(mimeUriList) ) {
+                const QByteArray uriList = itemData[mimeUriList].toByteArray();
                 foreach (const QByteArray &uri, uriList.split('\n')) {
                     const QString path = QUrl::fromEncoded(uri).toLocalFile();
                     foreach (const QByteArray &key, existingFiles.keys()) {
@@ -1140,14 +1135,13 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
             }
         }
 
-        for (int formatIndex = 0; formatIndex < formats.size(); ++formatIndex) {
-            const QString format = formats[formatIndex];
+        foreach ( const QString &format, dataMap.keys() ) {
             if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
             if ( noSave && (format == "text/plain" || format == "text/uri-list") )
                 continue;
 
-            const QVariant value = index.data(contentType::firstFormat + formatIndex);
+            const QVariant value = dataMap[format];
 
             if (format == mimeUnknownData) {
                 if ( !saveItemFile(filePath, value.toByteArray(), &existingFiles, &savedFiles) )
@@ -1206,19 +1200,19 @@ bool ItemSyncLoader::createTab(const QString &tabName, QAbstractItemModel *model
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    const int indexOfBaseName = formats.indexOf(mimeBaseName);
-    if (indexOfBaseName == -1)
+    const QString baseName = getBaseName(index);
+    if ( baseName.isEmpty() )
         return NULL;
 
-    const QString baseName = index.data(contentType::firstFormat + indexOfBaseName).toString();
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    bool noSave = dataMap.contains(mimeNoSave);
 
     int icon = -1;
-    if ( formats.contains(mimeNoSave) ) {
+    if (noSave) {
         icon = iconFromBaseNameExtension(baseName, m_formatSettings);
     } else {
-        const QVariantMap mimeToExtension = getMimeToExtensionMap(formats, index);
-        foreach (const QString &format, formats) {
+        const QVariantMap mimeToExtension = getMimeToExtensionMap(index);
+        foreach ( const QString &format, dataMap.keys() ) {
             if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
             icon = mimeToExtension.contains(format)
@@ -1232,8 +1226,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     if (icon == -1)
         icon = IconFile;
 
-    bool replaceChildItem = formats.contains(mimeNoSave);
-    return new ItemSync(baseName, icon, replaceChildItem, itemWidget);
+    return new ItemSync(baseName, icon, noSave, itemWidget);
 }
 
 void ItemSyncLoader::removeWatcher(QObject *watcher)

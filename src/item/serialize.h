@@ -20,13 +20,14 @@
 #ifndef SERIALIZE_H
 #define SERIALIZE_H
 
+#include <QVariantMap>
+
 class QByteArray;
 class QDataStream;
-class QMimeData;
 
-QDataStream &operator<<(QDataStream &stream, const QMimeData &data);
-QDataStream &operator>>(QDataStream &stream, QMimeData &data);
-QByteArray serializeData(const QMimeData &data);
-bool deserializeData(QMimeData *data, const QByteArray &bytes);
+QDataStream &operator<<(QDataStream &stream, const QVariantMap &data);
+QDataStream &operator>>(QDataStream &stream, QVariantMap &data);
+QByteArray serializeData(const QVariantMap &data);
+bool deserializeData(QVariantMap *data, const QByteArray &bytes);
 
 #endif // SERIALIZE_H

@@ -35,27 +35,25 @@ const QStringList imageFormats =
         QStringList("image/svg+xml") << QString("image/png") << QString("image/bmp")
                                      << QString("image/jpeg") << QString("image/gif");
 
-int findImageFormat(const QStringList &formats)
+QString findImageFormat(const QList<QString> &formats)
 {
     foreach (const QString &format, imageFormats) {
-        int i = formats.indexOf(format);
-        if (i != -1)
-            return i;
+        if (formats.contains(format))
+            return format;
     }
 
-    return -1;
+    return QString();
 }
 
 bool getImageData(const QModelIndex &index, QByteArray *data, QString *mime)
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
+    QVariantMap dataMap = index.data(contentType::data).toMap();
 
-    int i = findImageFormat(formats);
-    if (i == -1)
+    *mime = findImageFormat(dataMap.keys());
+    if ( mime->isEmpty() )
         return false;
 
-    *mime = formats[i];
-    *data = index.data(contentType::firstFormat + i).toByteArray();
+    *data = dataMap[*mime].toByteArray();
 
     return true;
 }

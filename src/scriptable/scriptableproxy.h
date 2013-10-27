@@ -25,11 +25,9 @@
 #include "item/clipboarditem.h"
 
 #include <QMetaObject>
-#include <QMimeData>
 #include <QObject>
 #include <QStringList>
 
-Q_DECLARE_METATYPE(QMimeData*)
 Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 
 #define BEGIN_INVOKE(methodName) \
@@ -149,7 +147,7 @@ public slots:
 
     void showBrowser(int arg1) { m_wnd->showBrowser(arg1); }
 
-    void action(QMimeData *arg1, const Command &arg2) { m_wnd->action(*arg1, arg2); }
+    void action(const QVariantMap &arg1, const Command &arg2) { m_wnd->action(arg1, arg2); }
 
     void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4) { m_wnd->showMessage(arg1, arg2, arg3, arg4); }
 
@@ -172,7 +170,7 @@ public slots:
     void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenuWinId(); }
     void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
 
-    void openActionDialog(QMimeData *arg1) { v = (qulonglong)m_wnd->openActionDialog(*arg1); }
+    void openActionDialog(const QVariantMap &arg1) { v = (qulonglong)m_wnd->openActionDialog(arg1); }
 
     void loadTab(const QString &arg1) { v = m_wnd->loadTab(arg1); }
     void saveTab(const QString &arg1, int arg2) { v = m_wnd->saveTab(arg1, arg2); }
@@ -186,7 +184,7 @@ public slots:
     void browserOpenEditor(int arg1, const QByteArray &arg2) { v = m_wnd->browser(arg1)->openEditor(arg2); }
 
     void browserAdd(int arg1, const QString &arg2) { v = m_wnd->browser(arg1)->add(arg2); }
-    void browserAdd(int arg1, QMimeData *arg2, int arg3) { v = m_wnd->browser(arg1)->add(arg2, arg3); }
+    void browserAdd(int arg1, const QVariantMap &arg2, int arg3) { v = m_wnd->browser(arg1)->add(arg2, arg3); }
 
     void browserItemData(int arg1, int arg2, const QString &arg3) { v = m_wnd->browser(arg1)->itemData(arg2, arg3); }
 
@@ -210,7 +208,6 @@ public:
     explicit ScriptableProxy(MainWindow *mainWindow)
         : m_helper(new detail::ScriptableProxyHelper(mainWindow))
     {
-        qRegisterMetaType<QMimeData*>("MimeDataPtr");
         qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
         m_helper->moveToThread(mainWindow->thread());
     }
@@ -237,8 +234,8 @@ public:
 
     PROXY_METHOD_VOID_1(showBrowser, int)
 
-    PROXY_METHOD_1(qulonglong, openActionDialog, QMimeData *)
-    PROXY_METHOD_VOID_2(action, QMimeData *, const Command &)
+    PROXY_METHOD_1(qulonglong, openActionDialog, const QVariantMap &)
+    PROXY_METHOD_VOID_2(action, const QVariantMap &, const Command &)
 
     PROXY_METHOD_1(bool, loadTab, const QString &)
     PROXY_METHOD_2(bool, saveTab, const QString &, int)
@@ -263,7 +260,7 @@ public:
     PROXY_METHOD_2(bool, browserOpenEditor, int, const QByteArray &)
 
     PROXY_METHOD_2(bool, browserAdd, int, const QString &)
-    PROXY_METHOD_3(bool, browserAdd, int, QMimeData *, int)
+    PROXY_METHOD_3(bool, browserAdd, int, const QVariantMap &, int)
     PROXY_METHOD_VOID_2(browserEditRow, int, int)
     PROXY_METHOD_VOID_2(browserEditNew, int, const QString &)
 

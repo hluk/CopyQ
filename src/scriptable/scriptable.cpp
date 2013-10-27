@@ -28,7 +28,6 @@
 
 #include <QApplication>
 #include <QDir>
-#include <QMimeData>
 #include <QScriptContext>
 #include <QScriptEngine>
 
@@ -535,8 +534,8 @@ void Scriptable::copy()
             QByteArray *bytes = toByteArray(value);
             if (bytes != NULL) {
                 if (mime == mimeItems) {
-                    QMimeData *newData = new QMimeData();
-                    deserializeData(newData, *bytes);
+                    QVariantMap newData;
+                    deserializeData(&newData, *bytes);
                     item.setData(newData);
                 } else {
                     item.setData(mime, *bytes);
@@ -634,8 +633,8 @@ void Scriptable::add()
         QScriptValue value = argument(i);
         QByteArray *bytes = toByteArray(value);
         if (bytes != NULL) {
-            QMimeData *data = new QMimeData;
-            data->setData(defaultMime, *bytes);
+            QVariantMap data;
+            data.insert(defaultMime, *bytes);
             m_proxy->browserAdd(tab, data, 0);
         } else {
             m_proxy->browserAdd( tab, toString(value) );
@@ -657,8 +656,8 @@ void Scriptable::insert()
 
     QScriptValue value = argument(1);
     QByteArray *bytes = toByteArray(value);
-    QMimeData *data = new QMimeData;
-    data->setData( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+    QVariantMap data;
+    data.insert( defaultMime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
     m_proxy->browserAdd(tab, data, row);
 
     m_proxy->browserDelayedSaveItems(tab);
@@ -771,7 +770,7 @@ void Scriptable::write()
         row = 0;
     }
 
-    QMimeData *data = new QMimeData();
+    QVariantMap data;
 
     while (arg < args) {
         // MIME
@@ -780,7 +779,7 @@ void Scriptable::write()
         // DATA
         value = argument(++arg);
         QByteArray *bytes = toByteArray(value);
-        data->setData( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+        data.insert( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
 
         value = argument(++arg);
     }
@@ -828,13 +827,13 @@ void Scriptable::action()
         command.outputTab = m_proxy->tabs().value(tab);
         command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
                                                   : QString('\n');
-        QMimeData data;
-        data.setText(text);
-        m_proxy->action(&data, command);
+        QVariantMap data;
+        data.insert(mimeText, text);
+        m_proxy->action(data, command);
     } else {
-        QMimeData data;
-        data.setText(text);
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(&data));
+        QVariantMap data;
+        data.insert(mimeText, text);
+        QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(data));
         emit sendMessage(message, CommandActivateWindow);
     }
 }

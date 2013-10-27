@@ -28,7 +28,6 @@
 #include <QFile>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QMimeData>
 #include <QPlainTextEdit>
 #include <QSettings>
 #include <QtPlugin>
@@ -57,30 +56,25 @@ bool keysExist()
     return !readGpgOutput( QStringList("--list-keys") ).isEmpty();
 }
 
-int getEncryptedFormatIndex(const QModelIndex &index)
+bool decryptMimeData(QVariantMap *detinationData, const QModelIndex &index)
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    return formats.indexOf(mimeEncryptedData);
-}
-
-bool decryptMimeData(QMimeData *data, const QModelIndex &index, int formatIndex)
-{
-    if (formatIndex < 0)
+    const QVariantMap data = index.data(contentType::data).toMap();
+    if ( !data.contains(mimeEncryptedData) )
         return false;
 
-    const QByteArray encryptedBytes = index.data(contentType::firstFormat + formatIndex).toByteArray();
+    const QByteArray encryptedBytes = data.value(mimeEncryptedData).toByteArray();
     const QByteArray bytes = readGpgOutput( QStringList() << "--decrypt", encryptedBytes );
 
-    return deserializeData(data, bytes);
+    return deserializeData(detinationData, bytes);
 }
 
-void encryptMimeData(const QMimeData &data, const QModelIndex &index, QAbstractItemModel *model)
+void encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstractItemModel *model)
 {
     const QByteArray bytes = serializeData(data);
     const QByteArray encryptedBytes = readGpgOutput( QStringList("--encrypt"), bytes );
     QVariantMap dataMap;
     dataMap.insert(mimeEncryptedData, encryptedBytes);
-    model->setData(index, dataMap, contentType::resetData);
+    model->setData(index, dataMap, contentType::data);
 }
 
 bool isEncryptedFile(QFile *file)
@@ -118,9 +112,9 @@ void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) con
     // Decrypt before editing.
     QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit *>(editor);
     if (textEdit != NULL) {
-        QMimeData data;
-        if ( decryptMimeData(&data, index, getEncryptedFormatIndex(index)) ) {
-            textEdit->setPlainText(data.text());
+        QVariantMap data;
+        if ( decryptMimeData(&data, index) ) {
+            textEdit->setPlainText( data[mimeText].toString() );
             textEdit->selectAll();
         }
     }
@@ -132,8 +126,8 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
     // Encrypt after editing.
     QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit*>(editor);
     if (textEdit != NULL) {
-        QMimeData data;
-        data.setText( textEdit->toPlainText() );
+        QVariantMap data;
+        data.insert( mimeText, textEdit->toPlainText() );
         encryptMimeData(data, index, model);
     }
 }
@@ -160,8 +154,8 @@ ItemEncryptedLoader::~ItemEncryptedLoader()
 
 ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
-    return formats.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : NULL;
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    return dataMap.contains(mimeEncryptedData) ? new ItemEncrypted(parent) : NULL;
 }
 
 QStringList ItemEncryptedLoader::formatsToSave() const
@@ -259,7 +253,7 @@ bool ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, 
                 return true;
             QVariantMap dataMap;
             stream2 >> dataMap;
-            model->setData( model->index(i, 0), dataMap, contentType::resetData );
+            model->setData( model->index(i, 0), dataMap, contentType::data );
         }
 
         if (stream2.status() != QDataStream::Ok)
@@ -291,11 +285,8 @@ bool ItemEncryptedLoader::saveItems(const QString &tabName, const QAbstractItemM
         stream << length;
 
         for (quint64 i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
-            QVariantMap dataMap;
             QModelIndex index = model.index(i, 0);
-            const QStringList formats = index.data(contentType::formats).toStringList();
-            for ( int j = 0; j < formats.size(); ++j )
-                dataMap.insert(formats[j], index.data(contentType::firstFormat + j).toByteArray() );
+            const QVariantMap dataMap = index.data(contentType::data).toMap();
             stream << dataMap;
         }
     }

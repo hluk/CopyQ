@@ -120,17 +120,6 @@ QColor sessionNameToColor(const QString &name)
     return QColor(r, g, b);
 }
 
-QMimeData *createMimeData(const QByteArray &data, const QString &format)
-{
-    QMimeData *newData = new QMimeData;
-    if (format == mimeItems)
-        deserializeData(newData, data);
-    else
-        newData->setData(format, data);
-
-    return newData;
-}
-
 } // namespace
 
 enum ItemActivationCommand {
@@ -509,9 +498,9 @@ void MainWindow::closeAction(Action *action)
         if (c) {
             QStringList removeFormats;
             if ( action->inputFormats().size() > 1 ) {
-                QScopedPointer<QMimeData> data(new QMimeData);
-                deserializeData( data.data(), action->input() );
-                removeFormats = data->formats();
+                QVariantMap data;
+                deserializeData( &data, action->input() );
+                removeFormats = data.keys();
             } else {
                 removeFormats.append( action->inputFormats()[0] );
             }
@@ -719,16 +708,16 @@ bool MainWindow::closeMinimizes() const
     return !m_options->showTray && !m_minimizeUnsupported;
 }
 
-bool MainWindow::triggerActionForData(const QMimeData &data, const QString &sourceTab)
+bool MainWindow::triggerActionForData(const QVariantMap &data, const QString &sourceTab)
 {
-    bool noText = !data.hasText();
-    const QString text = data.text();
-    const QString windowTitle = QString::fromUtf8( data.data(mimeWindowTitle).data() );
+    bool noText = !data.contains(mimeText);
+    const QString text = noText ? QString() : data[mimeText].toString();
+    const QString windowTitle = data.value(mimeWindowTitle).toString();
 
     foreach (const Command &c, m_sharedData->commands) {
         if (c.automatic && (c.remove || !c.cmd.isEmpty() || !c.tab.isEmpty())) {
             if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
-                 && (c.input.isEmpty() || c.input == mimeItems || data.hasFormat(c.input))
+                 && (c.input.isEmpty() || c.input == mimeItems || data.contains(c.input))
                  && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
             {
                 if (c.automatic) {
@@ -736,7 +725,7 @@ bool MainWindow::triggerActionForData(const QMimeData &data, const QString &sour
                     if ( cmd.outputTab.isEmpty() )
                         cmd.outputTab = sourceTab;
 
-                    if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.hasFormat(cmd.input) )
+                    if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.contains(cmd.input) )
                         action(data, cmd);
                 }
                 if (!c.tab.isEmpty())
@@ -777,20 +766,20 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
-    connect( c, SIGNAL(requestActionDialog(const QMimeData, const Command)),
-             this, SLOT(action(const QMimeData, const Command)) );
-    connect( c, SIGNAL(requestActionDialog(const QMimeData, const Command, const QModelIndex)),
-             this, SLOT(action(const QMimeData&, const Command, const QModelIndex)) );
-    connect( c, SIGNAL(requestActionDialog(const QMimeData)),
-             this, SLOT(openActionDialog(const QMimeData)) );
+    connect( c, SIGNAL(requestActionDialog(const QVariantMap, const Command)),
+             this, SLOT(action(const QVariantMap, const Command)) );
+    connect( c, SIGNAL(requestActionDialog(const QVariantMap, const Command, const QModelIndex)),
+             this, SLOT(action(const QVariantMap&, const Command, const QModelIndex)) );
+    connect( c, SIGNAL(requestActionDialog(const QVariantMap)),
+             this, SLOT(openActionDialog(const QVariantMap)) );
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(requestHide()),
              this, SLOT(close()) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
-    connect( c, SIGNAL(addToTab(const QMimeData,const QString)),
-             this, SLOT(addToTab(const QMimeData,const QString)),
+    connect( c, SIGNAL(addToTab(const QVariantMap,const QString)),
+             this, SLOT(addToTab(const QVariantMap,const QString)),
              Qt::DirectConnection );
 
     ui->tabWidget->addTab(c, name);
@@ -1451,7 +1440,7 @@ void MainWindow::tabCloseRequested(int tab)
         newTab();
 }
 
-void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool moveExistingToTop)
+void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool moveExistingToTop)
 {
     if (m_monitoringDisabled)
         return;
@@ -1466,7 +1455,7 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
 
     c->loadItems();
 
-    const uint itemHash = hash(data, data.formats());
+    const uint itemHash = hash(data);
 
     // force adding item if tab name is specified
     bool force = !tabName.isEmpty();
@@ -1477,23 +1466,22 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
         if (!force)
             triggerActionForData(data, tabName);
     } else {
-        QScopedPointer<QMimeData> data2( cloneData(data) );
+        QVariantMap data2 = data;
 
         // merge data with first item if it is same
-        if ( !force && c->length() > 0 && data2->hasText() ) {
+        if ( !force && c->length() > 0 && data2.contains(mimeText) ) {
             ClipboardItem *first = c->at(0);
-            const QString newText = data2->text();
+            const QString newText = data2[mimeText].toString();
             const QString firstItemText = first->text();
-            if ( first->data().hasText() && (newText == firstItemText || (
-                     data2->data(mimeWindowTitle) == first->data().data(mimeWindowTitle)
+            if ( first->data().contains(mimeText) && (newText == firstItemText || (
+                     data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
                      && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)))) )
             {
                 force = true;
-                QStringList formats = data2->formats();
-                const QMimeData &firstData = first->data();
-                foreach (const QString &format, firstData.formats()) {
-                    if ( !formats.contains(format) )
-                        data2->setData( format, firstData.data(format) );
+                const QVariantMap &firstData = first->data();
+                foreach (const QString &format, firstData.keys()) {
+                    if ( !data2.contains(format) )
+                        data2.insert(format, firstData[format]);
                 }
                 // remove merged item (if it's not edited)
                 if (!c->editing() || c->currentIndex().row() != 0) {
@@ -1503,8 +1491,8 @@ void MainWindow::addToTab(const QMimeData &data, const QString &tabName, bool mo
             }
         }
 
-        if ( force || triggerActionForData(*data2.data(), tabName) )
-            c->add( data2.take() );
+        if ( force || triggerActionForData(data2, tabName) )
+            c->add(data2);
 
         if (reselectFirst)
             c->setCurrent(0);
@@ -1668,7 +1656,7 @@ void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
-    c->add( createMimeData(data, format) );
+    c->add( createDataMap(format, data) );
 }
 
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
@@ -1678,14 +1666,10 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QM
         return;
 
     QVariantMap dataMap;
-    if (format == mimeItems) {
-        QMimeData data2;
-        deserializeData(&data2, data);
-        foreach ( const QString &format, data2.formats() )
-            dataMap.insert( format, data2.data(format) );
-    } else {
+    if (format == mimeItems)
+        deserializeData(&dataMap, data);
+    else
         dataMap.insert(format, data);
-    }
     c->model()->setData(index, dataMap, contentType::updateData);
 }
 
@@ -1816,16 +1800,17 @@ void MainWindow::updateTrayMenuItems()
         const QMimeData *data = clipboardData();
 
         if (data != NULL) {
+            const QVariantMap dataMap = cloneData(*data);
+
             // Show clipboard content as disabled item.
             const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
             QAction *act = m_trayMenu->addAction( iconClipboard(),
                                                 QString(), this, SLOT(showClipboardContent()) );
-            static const QMimeData emptyData;
-            act->setText( textLabelForData(data != NULL ? *data : emptyData, act->font(), format, true) );
+            act->setText( textLabelForData(dataMap, act->font(), format, true) );
             m_trayMenu->addCustomAction(act);
 
             int i = m_trayMenu->actions().size();
-            c->addCommandsToMenu(m_trayMenu, data->text(), data);
+            c->addCommandsToMenu(m_trayMenu, dataMap.value(mimeText).toString(), dataMap);
             QList<QAction *> actions = m_trayMenu->actions();
             for ( ; i < actions.size(); ++i )
                 m_trayMenu->addCustomAction(actions[i]);
@@ -1845,7 +1830,7 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::showClipboardContent()
 {
-    ClipboardDialog *d = new ClipboardDialog(NULL, this);
+    ClipboardDialog *d = new ClipboardDialog(QVariantMap(), this);
     connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
     d->show();
 }
@@ -1866,31 +1851,26 @@ ActionDialog *MainWindow::createActionDialog()
 void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
+    QVariantMap dataMap;
     if (row >= 0) {
-        const QMimeData *data = c->itemData(row);
-        if (data != NULL)
-            openActionDialog(*data);
+        dataMap = c->itemData(row);
     } else if ( hasFocus() ) {
         QModelIndexList selected = c->selectionModel()->selectedRows();
-        if (selected.size() == 1) {
-            const QMimeData *data = c->itemData(selected.first().row());
-            if (data != NULL)
-            openActionDialog(*data);
-        } else {
-            QMimeData data;
-            data.setText(c->selectedText());
-            openActionDialog(data);
-        }
+        if (selected.size() == 1)
+            dataMap = c->itemData(selected.first().row());
+        else
+            dataMap.insert(mimeText, c->selectedText());
     } else {
         const QMimeData *data = clipboardData();
         if (data != NULL)
-            openActionDialog(*data);
-        else
-            openActionDialog(0);
+            dataMap = cloneData(*data);
     }
+
+    if ( !dataMap.isEmpty() )
+        openActionDialog(dataMap);
 }
 
-WId MainWindow::openActionDialog(const QMimeData &data)
+WId MainWindow::openActionDialog(const QVariantMap &data)
 {
     ActionDialog *actionDialog = createActionDialog();
     actionDialog->setInputData(data);
@@ -1958,7 +1938,7 @@ void MainWindow::pasteItems()
     QModelIndexList list = c->selectionModel()->selectedIndexes();
     qSort(list);
     const int row = list.isEmpty() ? 0 : list.first().row();
-    c->paste(*data, row);
+    c->paste( cloneData(*data), row );
 }
 
 void MainWindow::copyItems()
@@ -1970,14 +1950,8 @@ void MainWindow::copyItems()
         return;
 
     ClipboardItem item;
-    if ( indexes.size() == 1 ) {
-        int row = indexes.at(0).row();
-        item.setData( cloneData(c->at(row)->data()) );
-    } else {
-        QMimeData data;
-        c->copyIndexes(indexes, &data);
-        item.setData( cloneData(data) );
-    }
+    item.setData( (indexes.size() == 1) ? c->itemData(indexes.first().row())
+                                        : c->copyIndexes(indexes) );
 
     emit changeClipboard(&item);
 }
@@ -2109,7 +2083,7 @@ void MainWindow::action(Action *action)
     action->start();
 }
 
-void MainWindow::action(const QMimeData &data, const Command &cmd, const QModelIndex &outputIndex)
+void MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
     ActionDialog *actionDialog = createActionDialog();
     QString outputTab;

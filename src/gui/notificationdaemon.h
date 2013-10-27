@@ -23,8 +23,8 @@
 #include <QColor>
 #include <QFont>
 #include <QMap>
-#include <QMimeData>
 #include <QObject>
+#include <QVariantMap>
 
 class Notification;
 class QPixmap;
@@ -53,7 +53,7 @@ public:
                          int msec, QWidget *parent, int id = -1);
 
     /** Create new notification or update one with same @a id (if non-negative). */
-    Notification *create(const QMimeData &data, int maxLines, const QPixmap &icon,
+    Notification *create(const QVariantMap &data, int maxLines, const QPixmap &icon,
                          int msec, QWidget *parent, int id = -1);
 
     /** Update interval to show notification with given @a id. */

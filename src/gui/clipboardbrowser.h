@@ -27,6 +27,7 @@
 #include <QPointer>
 #include <QScopedPointer>
 #include <QSharedPointer>
+#include <QVariantMap>
 
 class ClipboardItem;
 class ClipboardModel;
@@ -34,7 +35,6 @@ class ItemDelegate;
 class ItemEditorWidget;
 class ScrollSaver;
 class QProgressBar;
-class QMimeData;
 class QPushButton;
 class QTimer;
 
@@ -106,7 +106,7 @@ class ClipboardBrowser : public QListView
         /** Text of item. */
         QString itemText(QModelIndex ind) const;
         /** Data of item in given row or current row. */
-        const QMimeData *itemData(int i = -1) const;
+        QVariantMap itemData(int i = -1) const;
         /** Index of item in given row. */
         QModelIndex index(int i) const { return model()->index(i,0); }
         /** Return clipboard item at given row. */
@@ -161,14 +161,14 @@ class ClipboardBrowser : public QListView
         /**
          * Get data of selected item, NULL if none or multiple items selected.
          */
-        const QMimeData *getSelectedItemData() const;
+        QVariantMap getSelectedItemData() const;
 
         /**
          * Add matching commands to menu.
          */
         void addCommandsToMenu(QMenu *menu, ///< Insert items before this action (if NULL append items).
                 const QString &text,   ///< Text to match.
-                const QMimeData *data  ///< MIME types to match.
+                const QVariantMap &data  ///< MIME types to match.
                 );
 
         /**
@@ -188,13 +188,13 @@ class ClipboardBrowser : public QListView
         /** Return true if user defined a selection and it shouldn't change programmatically. */
         bool hasUserSelection() const;
 
-        void copyIndexes(const QModelIndexList &indexes, QMimeData *data);
+        QVariantMap copyIndexes(const QModelIndexList &indexes);
 
         /** Remove items and return row number of last removed item. */
         int removeIndexes(const QModelIndexList &indexes);
 
         /** Paste items. */
-        void paste(const QMimeData &data, int destinationRow);
+        void paste(const QVariantMap &data, int destinationRow);
 
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
@@ -307,11 +307,11 @@ class ClipboardBrowser : public QListView
 
     signals:
         /** Action dialog requested. */
-        void requestActionDialog(const QMimeData &data);
+        void requestActionDialog(const QVariantMap &data);
         /** Action dialog requested. */
-        void requestActionDialog(const QMimeData &data, const Command &cmd);
+        void requestActionDialog(const QVariantMap &data, const Command &cmd);
         /** Action dialog requested. */
-        void requestActionDialog(const QMimeData &data, const Command &cmd, const QModelIndex &index);
+        void requestActionDialog(const QVariantMap &data, const Command &cmd, const QModelIndex &index);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
         /** Hide main window. */
@@ -320,7 +320,7 @@ class ClipboardBrowser : public QListView
         void changeClipboard(const ClipboardItem *item);
 
         /** Add item to another tab (invoked by an automatic command). */
-        void addToTab(const QMimeData &data, const QString &tabName);
+        void addToTab(const QVariantMap &data, const QString &tabName);
 
     private slots:
         void contextMenuAction();
@@ -358,7 +358,7 @@ class ClipboardBrowser : public QListView
          * @a item is automatically deleted after it's no longer needed.
          */
         bool add(
-                QMimeData *item, //!< Data for new item.
+                const QVariantMap &item, //!< Data for new item.
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 

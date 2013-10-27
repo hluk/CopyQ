@@ -45,7 +45,7 @@ public:
     /** Compare with other item (using hash). */
     bool operator ==(const ClipboardItem &item) const;
     /** Compare with other data (using hash). */
-    bool operator ==(const QMimeData &data) const;
+    bool operator ==(const QVariantMap &data) const;
 
     /** Return item's plain text. */
     QString text() const;
@@ -55,17 +55,8 @@ public:
     /** Clear item's data */
     void clear();
 
-    /**
-     * Set item's data.
-     * Item takes ownership of the @a data.
-     */
-    void setData(QMimeData *data);
-
     /** Set item's MIME type data. */
     void setData(const QString &mimeType, const QByteArray &data);
-
-    /** Set item's MIME type data. */
-    void setData(int formatIndex, const QByteArray &data);
 
     /**
      * Set item's data.
@@ -75,9 +66,14 @@ public:
 
     /**
      * Set formats from map with MIME type as key and data as value.
-     * @return true data are not same
      */
     void setData(const QVariantMap &data);
+
+    /**
+     * Update current data.
+     * @return true were already inserted
+     */
+    bool updateData(const QVariantMap &data);
 
     /** Remove item's MIME type data. */
     void removeData(const QString &mimeType);
@@ -89,7 +85,10 @@ public:
     QVariant data(int role) const;
 
     /** Return item's data. */
-    const QMimeData &data() const { return *m_data.data(); }
+    const QVariantMap &data() const { return m_data; }
+
+    /** Return data for format. */
+    QByteArray data(const QString &format) const { return m_data.value(format).toByteArray(); }
 
     /** Return hash for item's data. */
     unsigned int dataHash() const { return m_hash; }
@@ -104,7 +103,7 @@ private:
 
     void updateDataHash();
 
-    QScopedPointer<QMimeData> m_data;
+    QVariantMap m_data;
     unsigned int m_hash;
 };
 

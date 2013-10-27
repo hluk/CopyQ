@@ -31,6 +31,7 @@
 #   include <QTextDocument> // Qt::escape()
 #endif
 
+const char mimeText[] = "text/plain";
 const char mimeWindowTitle[] = MIME_PREFIX "owner-window-title";
 const char mimeItems[] = MIME_PREFIX "item";
 const char mimeItemNotes[] = MIME_PREFIX "item-notes";
@@ -100,12 +101,11 @@ const QMimeData *clipboardData(QClipboard::Mode mode)
     return data;
 }
 
-uint hash(const QMimeData &data, const QStringList &formats)
+uint hash(const QVariantMap &data)
 {
     uint hash = 0;
 
-    QByteArray bytes;
-    foreach ( const QString &mime, formats ) {
+    foreach ( const QString &mime, data.keys() ) {
         // Skip some special data.
         if (mime == mimeWindowTitle)
             continue;
@@ -113,30 +113,44 @@ uint hash(const QMimeData &data, const QStringList &formats)
         if (mime == mimeClipboardMode)
             continue;
 #endif
-        bytes = data.data(mime);
-        hash ^= qHash(bytes) + qHash(mime);
+        hash ^= qHash(data[mime].toByteArray()) + qHash(mime);
     }
 
     return hash;
 }
 
-QMimeData *cloneData(const QMimeData &data, const QStringList *formats)
+QVariantMap cloneData(const QMimeData &data, const QStringList *formats)
 {
-    QMimeData *newdata = new QMimeData;
+    QVariantMap newdata;
     if (formats) {
         foreach (const QString &mime, *formats) {
             QByteArray bytes = data.data(mime);
             if ( !bytes.isEmpty() )
-                newdata->setData(mime, bytes);
+                newdata.insert(mime, bytes);
         }
     } else {
         foreach ( const QString &mime, data.formats() ) {
             // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
             if ( !mime.isEmpty() && mime[0].isLower() )
-                newdata->setData(mime, data.data(mime));
+                newdata.insert(mime, data.data(mime));
         }
     }
     return newdata;
+}
+
+QMimeData* createMimeData(const QVariantMap &data)
+{
+    QScopedPointer<QMimeData> newClipboardData(new QMimeData);
+    foreach ( const QString &format, data.keys() )
+        newClipboardData->setData( format, data[format].toByteArray() );
+    return newClipboardData.take();
+}
+
+QVariantMap createDataMap(const QString &format, const QVariant &value)
+{
+    QVariantMap dataMap;
+    dataMap.insert(format, value);
+    return dataMap;
 }
 
 QString elideText(const QString &text, const QFont &font, const QString &format,
@@ -179,14 +193,14 @@ QString elideText(const QString &text, const QFont &font, const QString &format,
     return format.isEmpty() ? result : format.arg(result);
 }
 
-QString textLabelForData(const QMimeData &data, const QFont &font, const QString &format,
+QString textLabelForData(const QVariantMap &data, const QFont &font, const QString &format,
                          bool escapeAmpersands, int maxWidthPixels, int maxLines)
 {
-    const QStringList formats = data.formats();
     QString label;
 
-    if ( formats.indexOf("text/plain") != -1 ) {
-        const QString text = data.text();
+    const QStringList formats = data.keys();
+    if ( formats.contains(mimeText) ) {
+        const QString text = data[mimeText].toString();
         const int n = text.count(QChar('\n')) + 1;
 
         if (n > 1)

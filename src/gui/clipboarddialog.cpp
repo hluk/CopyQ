@@ -27,28 +27,34 @@
 #include <QTextCodec>
 #include <QUrl>
 
-ClipboardDialog::ClipboardDialog(const QMimeData *itemData, QWidget *parent)
+ClipboardDialog::ClipboardDialog(const QVariantMap &itemData, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ClipboardDialog)
     , m_data()
 {
     ui->setupUi(this);
 
-    const QMimeData *data = itemData != NULL ? itemData : clipboardData();
-    if (data) {
-        foreach ( const QString &mime, data->formats() ) {
-            if ( mime.contains("/") ) {
-                m_data.setData( mime, data->data(mime) );
-                ui->listWidgetFormats->addItem(mime);
-            }
-        }
-        ui->horizontalLayout->setStretchFactor(1, 1);
-        ui->listWidgetFormats->setCurrentRow(0);
+    QVariantMap data;
+    if ( data.isEmpty() ) {
+        const QMimeData *clipData = clipboardData();
+        if (clipData)
+            data = cloneData(*clipData);
+    } else {
+        data = itemData;
     }
+
+    foreach ( const QString &mime, data.keys() ) {
+        if ( mime.contains("/") ) {
+            m_data.insert(mime, data[mime]);
+            ui->listWidgetFormats->addItem(mime);
+        }
+    }
+    ui->horizontalLayout->setStretchFactor(1, 1);
+    ui->listWidgetFormats->setCurrentRow(0);
 
     ConfigurationManager::instance()->loadGeometry(this);
 
-    if (itemData != NULL)
+    if ( itemData.isEmpty() )
         setWindowTitle( tr("CopyQ Item Content") );
 }
 
@@ -66,7 +72,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     QString mime = current->text();
 
     edit->clear();
-    QByteArray bytes = m_data.data(mime);
+    const QByteArray bytes = m_data.value(mime).toByteArray();
     if ( mime.startsWith(QString("image")) ) {
         edit->document()->addResource( QTextDocument::ImageResource,
                                        QUrl("data://1"), bytes );

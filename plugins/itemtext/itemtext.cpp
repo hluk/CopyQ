@@ -34,18 +34,18 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 100*1024;
 
-bool getRichText(const QModelIndex &index, const QStringList &formats, QString *text)
+bool getRichText(const QModelIndex &index, QString *text)
 {
     if ( index.data(contentType::hasHtml).toBool() ) {
         *text = index.data(contentType::html).toString();
         return true;
     }
 
-    int i = formats.indexOf("text/richtext");
-    if (i == -1)
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    if ( !dataMap.contains("text/richtext") )
         return false;
 
-    const QByteArray data = index.data(contentType::firstFormat + i).toByteArray();
+    const QByteArray data = dataMap["text/richtext"].toByteArray();
     *text = QString::fromUtf8(data);
 
     // Remove trailing null character.
@@ -181,11 +181,9 @@ ItemTextLoader::~ItemTextLoader()
 
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
-    const QStringList formats = index.data(contentType::formats).toStringList();
-
     QString text;
     bool isRichText = m_settings.value("use_rich_text", true).toBool()
-            && getRichText(index, formats, &text);
+            && getRichText(index, &text);
 
     if ( isRichText || getText(index, &text) )
         return new ItemText(text, isRichText, parent);

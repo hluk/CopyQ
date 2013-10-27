@@ -62,7 +62,7 @@ public:
     }
 
     /** Change clipboard and primary selection content. */
-    void updateClipboard(QMimeData *data = NULL);
+    void updateClipboard(const QVariantMap &data = QVariantMap());
 
     virtual void exit(int exitCode);
 
@@ -107,14 +107,14 @@ private slots:
 
 private:
     /** Send new clipboard or primary selection data to server. */
-    void clipboardChanged(QClipboard::Mode mode, QMimeData *data);
+    void clipboardChanged(const QVariantMap &data);
 
     void writeMessage(const QByteArray &msg);
 
     void log(const QString &text, const LogLevel level);
 
     QStringList m_formats;
-    QScopedPointer<QMimeData> m_newdata;
+    QVariantMap m_newdata;
     QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard

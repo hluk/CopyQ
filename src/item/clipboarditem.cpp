@@ -33,11 +33,11 @@
 
 namespace {
 
-void clearDataExceptInternal(QMimeData *data)
+void clearDataExceptInternal(QVariantMap *data)
 {
-    foreach ( const QString &format, data->formats() ) {
+    foreach ( const QString &format, data->keys() ) {
         if ( !format.startsWith(MIME_PREFIX) )
-            data->removeFormat(format);
+            data->remove(format);
     }
 }
 
@@ -49,7 +49,7 @@ bool containsInternalFormat(const QList<QString> &keys)
 } // namespace
 
 ClipboardItem::ClipboardItem()
-    : m_data(new QMimeData)
+    : m_data()
     , m_hash(0)
 {
 }
@@ -63,55 +63,46 @@ bool ClipboardItem::operator ==(const ClipboardItem &item) const
     return m_hash == item.m_hash;
 }
 
-bool ClipboardItem::operator ==(const QMimeData &data) const
+bool ClipboardItem::operator ==(const QVariantMap &data) const
 {
-    return m_hash == hash(data, data.formats());
+    return m_hash == hash(data);
 }
 
 void ClipboardItem::clear()
 {
-    m_data->clear();
-    updateDataHash();
-}
-
-void ClipboardItem::setData(QMimeData *data)
-{
-    Q_ASSERT(data != NULL);
-
-    // if new data contains internal data (MIME starts with "application/x-copyq-"), update all data
-    // otherwise rewrite all original data, except internal data
-    const QStringList newFormats = data->formats();
-    bool updateAll = containsInternalFormat(newFormats);
-    foreach ( const QString &format, m_data->formats().toSet().subtract(newFormats.toSet()) ) {
-        if ( updateAll || format.startsWith(MIME_PREFIX) )
-            data->setData( format, m_data->data(format) );
-    }
-
-    m_data.reset(data);
+    m_data.clear();
     updateDataHash();
 }
 
 void ClipboardItem::setData(const QVariant &value)
 {
     // rewrite all original data, except internal data
-    clearDataExceptInternal( m_data.data() );
-    m_data->setText( value.toString() );
+    clearDataExceptInternal(&m_data);
+    m_data.insert( mimeText, value.toString() );
     updateDataHash();
 }
 
 void ClipboardItem::setData(const QVariantMap &data)
 {
-    if ( !containsInternalFormat(data.keys()) )
-        clearDataExceptInternal( m_data.data() );
-
-    foreach ( const QString &format, data.keys() )
-        m_data->setData( format, data[format].toByteArray() );
+    m_data = data;
     updateDataHash();
+}
+
+bool ClipboardItem::updateData(const QVariantMap &data)
+{
+    bool added = false;
+    foreach ( const QString &format, data.keys() ) {
+        if ( m_data.value(format) != data[format] ) {
+            m_data.insert( format, data[format].toByteArray() );
+            added = true;
+        }
+    }
+    return added;
 }
 
 void ClipboardItem::removeData(const QString &mimeType)
 {
-    m_data->removeFormat(mimeType);
+    m_data.remove(mimeType);
     updateDataHash();
 }
 
@@ -119,8 +110,8 @@ bool ClipboardItem::removeData(const QStringList &mimeTypeList)
 {
     bool removed = false;
     foreach (const QString &mimeType, mimeTypeList) {
-        if ( m_data->hasFormat(mimeType) ) {
-            m_data->removeFormat(mimeType);
+        if ( m_data.contains(mimeType) ) {
+            m_data.remove(mimeType);
             removed = true;
         }
     }
@@ -129,53 +120,40 @@ bool ClipboardItem::removeData(const QStringList &mimeTypeList)
 
 bool ClipboardItem::isEmpty() const
 {
-    const QStringList formats = m_data->formats();
-    return formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle);
+    return m_data.isEmpty() || ( m_data.size() == 1 && m_data.contains(mimeWindowTitle) );
 }
 
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
-    m_data->setData(mimeType, data);
+    m_data.insert(mimeType, data);
     updateDataHash();
-}
-
-void ClipboardItem::setData(int formatIndex, const QByteArray &data)
-{
-    if ( formatIndex >= 0 && formatIndex < m_data->formats().size() ) {
-        m_data->setData( m_data->formats().value(formatIndex), data );
-        updateDataHash();
-    }
 }
 
 QString ClipboardItem::text() const
 {
-    return m_data->text();
+    return m_data.value(mimeText).toString();
 }
 
 QVariant ClipboardItem::data(int role) const
 {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
-        if ( m_data->hasText() )
+        if ( m_data.contains(mimeText) )
             return text();
     } else if (role >= Qt::UserRole) {
-        if (role == contentType::formats) {
-            return m_data->formats();
+        if (role == contentType::data) {
+            return m_data; // copy-on-write, so this should be fast
         } else if (role == contentType::hasText) {
-            return m_data->hasText();
+            return m_data.contains(mimeText);
         } else if (role == contentType::hasHtml) {
-            return m_data->hasHtml();
+            return m_data.contains("text/html");
         } else if (role == contentType::hasNotes) {
-            return !m_data->data(mimeItemNotes).isEmpty();
+            return m_data.contains(mimeItemNotes);
         } else if (role == contentType::text) {
-            return m_data->text();
+            return m_data.value(mimeText);
         } else if (role == contentType::html) {
-            return m_data->html();
-        } else if (role == contentType::imageData) {
-            return m_data->imageData();
+            return m_data.value("text/html");
         } else if (role == contentType::notes) {
-            return QString::fromUtf8( m_data->data(mimeItemNotes) );
-        } else if (role >= contentType::firstFormat) {
-            return m_data->data( m_data->formats().value(role - contentType::firstFormat) );
+            return QString::fromUtf8( m_data.value(mimeItemNotes).toByteArray() );
         }
     }
 
@@ -184,7 +162,7 @@ QVariant ClipboardItem::data(int role) const
 
 void ClipboardItem::updateDataHash()
 {
-    m_hash = hash( *m_data, m_data->formats() );
+    m_hash = hash(m_data);
 }
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
@@ -195,8 +173,8 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardItem &item)
 
 QDataStream &operator>>(QDataStream &stream, ClipboardItem &item)
 {
-    QMimeData *data = new QMimeData();
-    stream >> *data;
+    QVariantMap data;
+    stream >> data;
     item.setData(data);
     return stream;
 }

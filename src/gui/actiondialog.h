@@ -23,10 +23,10 @@
 #include <QDialog>
 #include <QModelIndex>
 #include <QRegExp>
+#include <QVariantMap>
 
 class Action;
 class QAbstractButton;
-class QMimeData;
 struct Command;
 
 namespace Ui {
@@ -50,7 +50,7 @@ public:
     const QString dataFilename() const;
 
     /** Set action input data. */
-    void setInputData(const QMimeData &data);
+    void setInputData(const QVariantMap &data);
     /** Set command with arguments. */
     void setCommand(const QString &cmd);
     /** Item separator for command output. */
@@ -78,7 +78,7 @@ protected:
 private:
     Ui::ActionDialog *ui;
     QRegExp m_re;
-    QMimeData *m_data;
+    QVariantMap m_data;
     QModelIndex m_index;
 
 signals:

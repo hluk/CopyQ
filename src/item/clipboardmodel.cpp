@@ -43,9 +43,9 @@ int ClipboardModel::rowCount(const QModelIndex&) const
     return m_clipboardList.size();
 }
 
-const QMimeData *ClipboardModel::mimeDataInRow(int row) const
+QVariantMap ClipboardModel::dataMapInRow(int row) const
 {
-    return (row >= 0 && row < rowCount()) ? &m_clipboardList[row]->data() : NULL;
+    return (row >= 0 && row < rowCount()) ? m_clipboardList[row]->data() : QVariantMap();
 }
 
 ClipboardItem *ClipboardModel::at(int row) const
@@ -90,16 +90,13 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
         else
             m_clipboardList[row]->setData( mimeItemNotes, notes.toUtf8() );
     } else if (role == contentType::updateData) {
-        m_clipboardList[row]->setData( value.toMap() );
-    } else if (role == contentType::resetData) {
-        const ClipboardItemPtr &item = m_clipboardList[row];
-        item->clear();
-        item->setData( value.toMap() );
+        if ( !m_clipboardList[row]->updateData(value.toMap()) )
+            return false;
+    } else if (role == contentType::data) {
+        m_clipboardList[row]->setData(value.toMap());
     } else if (role >= contentType::removeFormats) {
         if ( !m_clipboardList[row]->removeData(value.toStringList()) )
             return false;
-    } else if (role >= contentType::firstFormat) {
-        m_clipboardList[row]->setData( role - contentType::firstFormat, value.toByteArray() );
     } else {
         return false;
     }
@@ -109,7 +106,7 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     return true;
 }
 
-bool ClipboardModel::setMimeData(const QModelIndex &index, QMimeData *value)
+bool ClipboardModel::setDataMap(const QModelIndex &index, const QVariantMap &value)
 {
     if ( !index.isValid() )
         return false;

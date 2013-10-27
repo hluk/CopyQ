@@ -25,18 +25,15 @@
 namespace contentType {
 
 enum {
-    formats = Qt::UserRole,
-    updateData, ///< data as QVarianMap (QString format -> QByteArray bytes)
-    resetData, ///< reset all data from QVariantMap
+    data = Qt::UserRole, ///< data as QVarianMap (QString format -> QByteArray bytes)
+    updateData, ///< update existing data
     removeFormats, ///< remove formats (QStringList)
     hasText,
     hasHtml,
     hasNotes,
     text,
     html,
-    imageData,
-    notes,
-    firstFormat
+    notes
 };
 
 }
