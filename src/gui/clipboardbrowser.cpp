@@ -316,8 +316,11 @@ void ClipboardBrowser::contextMenuAction()
         }
     }
 
-    if (cmd.remove)
-        remove();
+    if (cmd.remove) {
+        const int lastRow = removeIndexes(selected);
+        if (lastRow != -1)
+            setCurrent(lastRow);
+    }
 
     if (isContextMenuAction && cmd.hideWindow)
         emit requestHide();
@@ -696,7 +699,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
         // Verify that named command is provided and text, MIME type and window title are matched.
         if ( !command.inMenu
-            || (command.cmd.isEmpty() && (command.tab.isEmpty() || command.tab == getID()))
+            || (command.cmd.isEmpty() && !command.remove && (command.tab.isEmpty() || command.tab == getID()))
             || command.name.isEmpty()
             || command.re.indexIn(text) == -1
             || command.wndre.indexIn(windowTitle) == -1 )
@@ -1643,7 +1646,7 @@ void ClipboardBrowser::remove()
                 QMessageBox::Yes );
 
     if (answer == QMessageBox::Yes) {
-        int lastRow = removeIndexes( selectedIndexes() );
+        const int lastRow = removeIndexes( selectedIndexes() );
         if (lastRow != -1)
             setCurrent(lastRow);
     }
