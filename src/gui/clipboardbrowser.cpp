@@ -1647,9 +1647,17 @@ void ClipboardBrowser::editSelected()
 
 void ClipboardBrowser::remove()
 {
-    int lastRow = removeIndexes( selectedIndexes() );
-    if (lastRow != -1)
-        setCurrent(lastRow);
+    int answer = QMessageBox::question(
+                this, tr("Remove Items?"),
+                tr("Do you really want to <strong>remove</strong> selected items?"),
+                QMessageBox::No | QMessageBox::Yes,
+                QMessageBox::Yes );
+
+    if (answer == QMessageBox::Yes) {
+        int lastRow = removeIndexes( selectedIndexes() );
+        if (lastRow != -1)
+            setCurrent(lastRow);
+    }
 }
 
 bool ClipboardBrowser::select(uint itemHash, bool moveToTop, bool moveToClipboard)
