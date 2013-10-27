@@ -28,7 +28,7 @@
 #include <QFile>
 #include <QVBoxLayout>
 #include <QLabel>
-#include <QPlainTextEdit>
+#include <QTextEdit>
 #include <QSettings>
 #include <QtPlugin>
 
@@ -110,7 +110,7 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
 void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
     // Decrypt before editing.
-    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit *>(editor);
+    QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
     if (textEdit != NULL) {
         QVariantMap data;
         if ( decryptMimeData(&data, index) ) {
@@ -124,7 +124,7 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
                                  const QModelIndex &index) const
 {
     // Encrypt after editing.
-    QPlainTextEdit *textEdit = qobject_cast<QPlainTextEdit*>(editor);
+    QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
     if (textEdit != NULL) {
         QVariantMap data;
         data.insert( mimeText, textEdit->toPlainText() );

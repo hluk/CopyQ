@@ -555,9 +555,9 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
+ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelIndex &)
 {
-    if ( m_settings["really_enable"].toBool() && index.data(contentType::hasText).toBool() )
+    if ( m_settings["really_enable"].toBool() )
         return new ItemFakeVim(itemWidget, m_settings["source_file"].toString() );
 
     return NULL;
