@@ -65,7 +65,7 @@ void ItemWidget::setHighlight(const QRegExp &re, const QFont &highlightFont,
 QWidget *ItemWidget::createEditor(QWidget *parent) const
 {
     QTextEdit *editor = new QTextEdit(parent);
-    editor->setStyleSheet("*{background:transparent}");
+    editor->setFrameShape(QFrame::NoFrame);
     return editor;
 }
 

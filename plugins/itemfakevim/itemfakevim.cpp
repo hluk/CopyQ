@@ -72,6 +72,8 @@ public:
 
         editor->installEventFilter(this);
         editor->viewport()->installEventFilter(this);
+
+        editor->setStyleSheet("*{background:transparent}");
     }
 
     ~TextEditWidget()
