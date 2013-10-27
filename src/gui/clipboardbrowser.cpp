@@ -305,7 +305,7 @@ void ClipboardBrowser::contextMenuAction()
                     emit requestActionDialog(data, cmd, index);
             }
         } else {
-            emit requestActionDialog( dataMap.isEmpty() ? dataMap : textData, cmd );
+            emit requestActionDialog( dataMap.isEmpty() ? textData : dataMap, cmd );
         }
     }
 
