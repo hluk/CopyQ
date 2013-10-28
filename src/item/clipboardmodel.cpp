@@ -301,12 +301,12 @@ int ClipboardModel::findItem(uint item_hash) const
 
 QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
 {
-    int length = model.rowCount();
+    qint32 length = model.rowCount();
     stream << length;
 
     // save in reverse order so the items
     // can be later restored in right order
-    for(int i = 0; i < length && stream.status() == QDataStream::Ok; ++i)
+    for(qint32 i = 0; i < length && stream.status() == QDataStream::Ok; ++i)
         serializeData( &stream, model.at(i)->data() );
 
     return stream;
@@ -314,14 +314,14 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
 
 QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
 {
-    int length;
+    qint32 length;
     stream >> length;
     if ( stream.status() != QDataStream::Ok )
         return stream;
     length = qMin( length, model.maxItems() ) - model.rowCount();
 
     ClipboardItem *item;
-    for(int i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
+    for(qint32 i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
         item = model.append();
         QVariantMap data;
         deserializeData(&stream, &data);

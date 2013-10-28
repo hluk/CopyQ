@@ -23,30 +23,132 @@
 
 #include <QByteArray>
 #include <QDataStream>
+#include <QList>
 #include <QObject>
+#include <QPair>
 #include <QStringList>
+
+namespace {
+
+typedef QList< QPair<QString, QString> > MimeToCompressed;
+
+void addMime(MimeToCompressed &m, const QString &mime, int value)
+{
+    const QString num = QString::number(value, 16);
+    Q_ASSERT(num.size() == 1);
+    m.append( QPair<QString, QString>(mime, num) );
+}
+
+const MimeToCompressed &mimeToCompressedList()
+{
+    static MimeToCompressed m;
+    if ( m.isEmpty() ) {
+        int i = 0;
+        addMime(m, mimeWindowTitle, ++i);
+        addMime(m, mimeItemNotes, ++i);
+
+        addMime(m, MIME_PREFIX, ++i);
+
+        addMime(m, mimeText, ++i);
+        addMime(m, "text/html", ++i);
+        addMime(m, "text/uri-list", ++i);
+        addMime(m, "image/", ++i);
+        addMime(m, "text/", ++i);
+        addMime(m, "application/", ++i);
+        addMime(m, "audio/", ++i);
+        addMime(m, "video/", ++i);
+    }
+    return m;
+}
+
+QString decompressMime(const QString &mime)
+{
+    const QString num = mime.mid(0, 1);
+    const MimeToCompressed &m = mimeToCompressedList();
+    for ( MimeToCompressed::const_iterator it = m.begin(); it != m.end(); ++it ) {
+        if (num == it->second)
+            return it->first + mime.mid(1);
+    }
+
+    Q_ASSERT( mime.startsWith("0") );
+    return mime.mid(1);
+}
+
+QString compressMime(const QString &mime)
+{
+    const MimeToCompressed &m = mimeToCompressedList();
+    for ( MimeToCompressed::const_iterator it = m.begin(); it != m.end(); ++it ) {
+        if ( mime.startsWith(it->first) )
+            return it->second + mime.mid( it->first.size() );
+    }
+    return "0" + mime;
+}
+
+bool shouldCompress(const QByteArray &bytes, const QString &mime)
+{
+    return bytes.size() > 256
+            && ( !mime.startsWith("image/") || mime.contains("bmp") || mime.contains("xml") || mime.contains("svg") );
+}
+
+bool deserializeDataV2(QDataStream *out, QVariantMap *data)
+{
+    qint32 size;
+    *out >> size;
+
+    QString mime;
+    QByteArray tmpBytes;
+    bool compress;
+    for (qint32 i = 0; i < size && out->status() == QDataStream::Ok; ++i) {
+        *out >> mime >> compress >> tmpBytes;
+        if(compress) {
+            tmpBytes = qUncompress(tmpBytes);
+            if ( tmpBytes.isEmpty() ) {
+                out->setStatus(QDataStream::ReadCorruptData);
+                break;
+            }
+        }
+        mime = decompressMime(mime);
+        data->insert(mime, tmpBytes);
+    }
+
+    return out->status() == QDataStream::Ok;
+}
+
+} // namespace
 
 void serializeData(QDataStream *out, const QVariantMap &data)
 {
-    *out << data.size();
+    *out << (qint32)(-2);
+
+    const qint32 size = data.size();
+    *out << size;
+
     QByteArray bytes;
     foreach (const QString &mime, data.keys()) {
         bytes = data[mime].toByteArray();
-        if ( !bytes.isEmpty() )
-            bytes = qCompress(bytes);
-        *out << mime << bytes;
+        bool compress = shouldCompress(bytes, mime);
+        *out << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );
     }
 }
 
 void deserializeData(QDataStream *out, QVariantMap *data)
 {
-    int length;
+    qint32 length;
 
     *out >> length;
+    if ( out->status() != QDataStream::Ok )
+        return;
 
+    if (length == -2) {
+        deserializeDataV2(out, data);
+        return;
+    }
+
+    // Deprecated format.
+    // TODO: Data should be saved again in new format.
     QString mime;
     QByteArray tmpBytes;
-    for (int i = 0; i < length && out->status() == QDataStream::Ok; ++i) {
+    for (qint32 i = 0; i < length && out->status() == QDataStream::Ok; ++i) {
         *out >> mime >> tmpBytes;
         if( !tmpBytes.isEmpty() ) {
             tmpBytes = qUncompress(tmpBytes);
@@ -57,7 +159,6 @@ void deserializeData(QDataStream *out, QVariantMap *data)
         }
         data->insert(mime, tmpBytes);
     }
-
 }
 
 QByteArray serializeData(const QVariantMap &data)
