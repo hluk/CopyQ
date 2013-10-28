@@ -20,6 +20,7 @@
 #include "itemdata.h"
 #include "ui_itemdatasettings.h"
 
+#include "common/common.h"
 #include "common/contenttype.h"
 
 #include <QContextMenuEvent>
@@ -28,25 +29,10 @@
 #include <QTextCodec>
 #include <QtPlugin>
 
-#if QT_VERSION < 0x050000
-#   include <QTextDocument> // Qt::escape()
-#endif
-
 namespace {
 
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 256;
-
-const QStringList defaultFormats = QStringList("text/uri-list") << QString("text/xml");
-
-QString escapeHtml(const QString &str)
-{
-#if QT_VERSION < 0x050000
-    return Qt::escape(str);
-#else
-    return str.toHtmlEscaped();
-#endif
-}
 
 QString hexData(const QByteArray &data)
 {
@@ -192,7 +178,9 @@ ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) co
 
 QStringList ItemDataLoader::formatsToSave() const
 {
-    return m_settings.value("formats", defaultFormats).toStringList();
+    return m_settings.contains("formats")
+            ? m_settings["formats"].toStringList()
+            : QStringList("text/uri-list") << QString("text/xml");
 }
 
 QVariantMap ItemDataLoader::applySettings()
@@ -210,7 +198,7 @@ QWidget *ItemDataLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    QStringList formats = m_settings.value("formats", defaultFormats).toStringList();
+    const QStringList formats = formatsToSave();
     ui->plainTextEditFormats->setPlainText( formats.join(QString("\n")) );
     ui->spinBoxMaxChars->setValue( m_settings.value("max_bytes", defaultMaxBytes).toInt() );
 
