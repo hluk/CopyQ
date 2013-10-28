@@ -106,9 +106,14 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 uint hash(const QVariantMap &data);
 
-QString getTextData(const QVariantMap &data);
-
+/**
+ * Get given text format from data; null string if not available.
+ * Assumes that text data is UTF8 encoded.
+ */
 QString getTextData(const QVariantMap &data, const QString &mime);
+
+/** Helper function that calls getTextData(data, "text/plain"). */
+QString getTextData(const QVariantMap &data);
 
 void setTextData(QVariantMap *data, const QString &text);
 

@@ -119,14 +119,14 @@ uint hash(const QVariantMap &data)
     return hash;
 }
 
+QString getTextData(const QVariantMap &data, const QString &mime)
+{
+    return data.contains(mime) ? QString::fromUtf8( data[mime].toByteArray() ) : QString();
+}
+
 QString getTextData(const QVariantMap &data)
 {
     return getTextData(data, mimeText);
-}
-
-QString getTextData(const QVariantMap &data, const QString &mime)
-{
-    return QString::fromUtf8( data.value(mime).toByteArray() );
 }
 
 void setTextData(QVariantMap *data, const QString &text)

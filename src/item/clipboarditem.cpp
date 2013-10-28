@@ -156,7 +156,7 @@ QVariant ClipboardItem::data(int role) const
         } else if (role == contentType::text) {
             return getTextData(m_data);
         } else if (role == contentType::html) {
-            return m_data.value("text/html");
+            return getTextData(m_data, "text/html");
         } else if (role == contentType::notes) {
             return getTextData(m_data, mimeItemNotes);
         }
