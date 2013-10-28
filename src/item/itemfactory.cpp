@@ -287,35 +287,41 @@ bool ItemFactory::loadPlugins()
 {
 #ifdef COPYQ_PLUGIN_PREFIX
     QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
-#elif defined(COPYQ_WS_X11)
-    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-    if ( pluginsDir.dirName() == QString("bin")
-         && pluginsDir.cdUp()
-         && (pluginsDir.cd("lib64") || pluginsDir.cd("lib"))
-         && pluginsDir.cd("copyq") )
-    {
-        // OK, installed in /usr/local/bin or /usr/bin.
-    } else {
+#else
+    QDir pluginsDir;
+#endif
+
+    if ( !pluginsDir.isReadable() ) {
+#if defined(COPYQ_WS_X11)
         pluginsDir.setPath( QCoreApplication::instance()->applicationDirPath() );
-        if ( pluginsDir.cd("plugins") ) {
-            // OK, plugins in same directory as executable.
-            pluginsDir.cd("copyq");
+        if ( pluginsDir.dirName() == QString("bin")
+             && pluginsDir.cdUp()
+             && (pluginsDir.cd("lib64") || pluginsDir.cd("lib"))
+             && pluginsDir.cd("copyq") )
+        {
+            // OK, installed in /usr/local/bin or /usr/bin.
         } else {
+            pluginsDir.setPath( QCoreApplication::instance()->applicationDirPath() );
+            if ( pluginsDir.cd("plugins") ) {
+                // OK, plugins in same directory as executable.
+                pluginsDir.cd("copyq");
+            } else {
+                return false;
+            }
+        }
+#elif defined(Q_OS_MAC)
+        QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
+        if ( pluginsDir.dirName() == "MacOS"
+             && (!pluginsDir.cdUp() || !pluginsDir.cdUp() || !pluginsDir.cdUp()) )
+        {
             return false;
         }
-    }
-#elif defined(Q_OS_MAC)
-    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-    if ( pluginsDir.dirName() == "MacOS"
-         && (!pluginsDir.cdUp() || !pluginsDir.cdUp() || !pluginsDir.cdUp()) )
-    {
-        return false;
-    }
 #else
-    QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-    if ( !pluginsDir.cd("plugins") )
-        return false;
+        QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
+        if ( !pluginsDir.cd("plugins") )
+            return false;
 #endif
+    }
 
     if ( !pluginsDir.isReadable() )
         return false;
