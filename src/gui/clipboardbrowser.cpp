@@ -1653,11 +1653,11 @@ void ClipboardBrowser::editSelected()
 
 void ClipboardBrowser::remove()
 {
-    int answer = QMessageBox::question(
-                this, tr("Remove Items?"),
-                tr("Do you really want to <strong>remove</strong> selected items?"),
-                QMessageBox::No | QMessageBox::Yes,
-                QMessageBox::Yes );
+    const QString &question = m->itemRemovalQuestion();
+    int answer = question.isEmpty() ? QMessageBox::Yes
+                                    : QMessageBox::question( this, tr("Remove Items?"), question,
+                                                             QMessageBox::No | QMessageBox::Yes,
+                                                             QMessageBox::Yes );
 
     if (answer == QMessageBox::Yes) {
         const int lastRow = removeIndexes( selectedIndexes() );

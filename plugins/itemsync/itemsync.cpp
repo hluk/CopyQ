@@ -70,6 +70,7 @@ const char mimeUriList[] = "text/uri-list";
 
 const char propertyModelDisabled[] = "disabled";
 const char propertyModelDirty []= "dirty";
+const char propertyModelItemRemovalQuestion[] = "itemRemovalQuestion";
 
 const int updateItemsIntervalMs = 2000; // Interval to update items after a file has changed.
 
@@ -740,6 +741,10 @@ public:
                  &m_updateTimer, SLOT(start()) );
         connect( &m_watcher, SIGNAL(fileChanged(QString)),
                  &m_updateTimer, SLOT(start()) );
+
+        // Ask before removing file.
+        model->setProperty(propertyModelItemRemovalQuestion,
+                           tr("Do you really want to <strong>remove items and associated files</strong>?"));
     }
 
     void clearIndexBaseNames()
@@ -1068,7 +1073,7 @@ bool ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model
         model->setProperty(propertyModelDirty, true);
     }
 
-    model->setProperty(propertyModelDisabled, false);
+    model->setProperty(propertyModelDisabled, true);
 
     return true;
 }

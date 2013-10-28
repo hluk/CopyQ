@@ -42,6 +42,7 @@ class ClipboardModel : public QAbstractListModel
     Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
     Q_PROPERTY(bool disabled READ isDisabled WRITE setDisabled)
     Q_PROPERTY(bool dirty READ isDirty WRITE setDirty)
+    Q_PROPERTY(QString itemRemovalQuestion READ itemRemovalQuestion WRITE setItemRemovalQuestion)
 
 public:
     typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
@@ -109,6 +110,11 @@ public:
 
     void setDirty(bool dirty) { m_dirty = dirty; }
 
+    /** Question before removing item (e.g. "Really remove items?"). Don't ast if empty. */
+    const QString &itemRemovalQuestion() const { return m_itemRemovalQuestion; }
+
+    void setItemRemovalQuestion(const QString &itemRemovalQuestion) { m_itemRemovalQuestion = itemRemovalQuestion; }
+
     /**
      * Move an item.
      * @return True only if item was successfully moved.
@@ -167,6 +173,7 @@ private:
     int m_max;
     bool m_disabled;
     bool m_dirty;
+    QString m_itemRemovalQuestion;
 };
 
 /**
