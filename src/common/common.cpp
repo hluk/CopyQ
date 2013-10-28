@@ -27,11 +27,14 @@
 #include <QMimeData>
 #include <QObject>
 #include <QThread>
+#include <QUrl>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
 #endif
 
 const char mimeText[] = "text/plain";
+const char mimeHtml[] = "text/html";
+const char mimeUriList[] = "text/uri-list";
 const char mimeWindowTitle[] = MIME_PREFIX "owner-window-title";
 const char mimeItems[] = MIME_PREFIX "item";
 const char mimeItemNotes[] = MIME_PREFIX "item-notes";
@@ -119,6 +122,24 @@ uint hash(const QVariantMap &data)
     return hash;
 }
 
+QByteArray getUtf8Data(const QMimeData &data, const QString &format)
+{
+    if (format == mimeHtml)
+        return data.html().toUtf8();
+    if (format == mimeText)
+        return data.text().toUtf8();
+    if (format == mimeUriList) {
+        QByteArray bytes;
+        foreach ( const QUrl &url, data.urls() ) {
+            if ( !bytes.isEmpty() )
+                bytes += '\n';
+            bytes += url.toString();
+        }
+        return bytes;
+    }
+    return data.data(format);
+}
+
 QString getTextData(const QVariantMap &data, const QString &mime)
 {
     return data.contains(mime) ? QString::fromUtf8( data[mime].toByteArray() ) : QString();
@@ -134,21 +155,24 @@ void setTextData(QVariantMap *data, const QString &text)
     data->insert(mimeText, text.toUtf8());
 }
 
-QVariantMap cloneData(const QMimeData &data, const QStringList *formats)
+QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 {
     QVariantMap newdata;
-    if (formats) {
-        foreach (const QString &mime, *formats) {
-            QByteArray bytes = data.data(mime);
-            if ( !bytes.isEmpty() )
-                newdata.insert(mime, bytes);
-        }
-    } else {
-        foreach ( const QString &mime, data.formats() ) {
-            // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
-            if ( !mime.isEmpty() && mime[0].isLower() )
-                newdata.insert(mime, data.data(mime));
-        }
+    foreach (const QString &mime, formats) {
+        const QByteArray bytes = getUtf8Data(data, mime);
+        if ( !bytes.isEmpty() )
+            newdata.insert(mime, bytes);
+    }
+    return newdata;
+}
+
+QVariantMap cloneData(const QMimeData &data)
+{
+    QVariantMap newdata;
+    foreach ( const QString &mime, data.formats() ) {
+        // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
+        if ( !mime.isEmpty() && mime[0].isLower() )
+            newdata.insert(mime, data.data(mime));
     }
     return newdata;
 }
@@ -241,7 +265,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         return elideText(text, font, label, escapeAmpersands, maxWidthPixels, maxLines);
     } else if ( formats.indexOf(QRegExp("^image/.*")) != -1 ) {
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
-    } else if ( formats.indexOf(QString("text/uri-list")) != -1 ) {
+    } else if ( formats.indexOf(mimeUriList) != -1 ) {
         label = QObject::tr("<FILES>", "Label for URLs/files in clipboard");
     } else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) ) {
         label = QObject::tr("<EMPTY>", "Label for empty clipboard");

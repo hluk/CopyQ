@@ -296,7 +296,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     } else if (index == ++i) {
         c->name = tr("Ignore copied files");
         c->icon = QString(QChar(IconExclamationSign));
-        c->input = "text/uri-list";
+        c->input = mimeUriList;
         c->remove = true;
         c->automatic = true;
 #if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)

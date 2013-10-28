@@ -177,7 +177,7 @@ public:
             return false;
         }
 
-        QVariantMap dataCopy(cloneData(*data, &formats));
+        QVariantMap dataCopy( cloneData(*data, formats) );
         if ( dataCopy.isEmpty() )
             return false;
 

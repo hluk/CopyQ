@@ -66,8 +66,6 @@ const char mimeBaseName[] = MIME_PREFIX_ITEMSYNC "basename";
 const char mimeNoSave[] = MIME_PREFIX_ITEMSYNC "no-save";
 const char mimeUnknownData[] = "application/octet-stream";
 
-const char mimeUriList[] = "text/uri-list";
-
 const char propertyModelDisabled[] = "disabled";
 const char propertyModelDirty []= "dirty";
 const char propertyModelItemRemovalQuestion[] = "itemRemovalQuestion";
@@ -238,13 +236,13 @@ QList<Ext> fileExtensionsAndFormats()
 
         exts.append( Ext(".bmp", "image/bmp") );
         exts.append( Ext(".gif", "image/gif") );
-        exts.append( Ext(".html", "text/html") );
+        exts.append( Ext(".html", mimeHtml) );
         exts.append( Ext("_inkscape.svg", "image/x-inkscape-svg-compressed") );
         exts.append( Ext(".jpg", "image/jpeg") );
         exts.append( Ext(".jpg", "image/jpeg") );
         exts.append( Ext(".png", "image/png") );
-        exts.append( Ext(".txt", "text/plain") );
-        exts.append( Ext(".uri", "text/uri-list") );
+        exts.append( Ext(".txt", mimeText) );
+        exts.append( Ext(".uri", mimeUriList) );
         exts.append( Ext(".xml", "application/xml") );
         exts.append( Ext("_xml.svg", "image/svg+xml") );
         exts.append( Ext(".xml", "text/xml") );
@@ -393,7 +391,7 @@ void addNoSaveData(const QByteArray &unsavedUriList, const QByteArray &unsavedTe
     } else {
         dataMap->insert(mimeNoSave, "Synchronization disabled.");
         dataMap->insert(mimeUriList, unsavedUriList);
-        dataMap->insert("text/plain", unsavedText);
+        dataMap->insert(mimeText, unsavedText);
     }
 }
 
@@ -1144,7 +1142,7 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
         foreach ( const QString &format, itemData.keys() ) {
             if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
-            if ( noSave && (format == "text/plain" || format == "text/uri-list") )
+            if ( noSave && (format == mimeUriList || format == mimeUriList) )
                 continue;
 
             const QVariant value = itemData[format];

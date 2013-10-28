@@ -50,8 +50,9 @@ const MimeToCompressed &mimeToCompressedList()
         addMime(m, MIME_PREFIX, ++i);
 
         addMime(m, mimeText, ++i);
-        addMime(m, "text/html", ++i);
-        addMime(m, "text/uri-list", ++i);
+        addMime(m, mimeHtml, ++i);
+        addMime(m, mimeUriList, ++i);
+
         addMime(m, "image/", ++i);
         addMime(m, "text/", ++i);
         addMime(m, "application/", ++i);

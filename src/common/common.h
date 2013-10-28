@@ -83,6 +83,8 @@ enum LogLevel {
 
 #define MIME_PREFIX "application/x-copyq-"
 extern const char mimeText[];
+extern const char mimeHtml[];
+extern const char mimeUriList[];
 extern const char mimeWindowTitle[];
 extern const char mimeItems[];
 extern const char mimeItemNotes[];
@@ -106,6 +108,8 @@ const QMimeData *clipboardData(QClipboard::Mode mode = QClipboard::Clipboard);
 
 uint hash(const QVariantMap &data);
 
+QByteArray getUtf8Data(const QMimeData &data, const QString &format);
+
 /**
  * Get given text format from data; null string if not available.
  * Assumes that text data is UTF8 encoded.
@@ -117,7 +121,11 @@ QString getTextData(const QVariantMap &data);
 
 void setTextData(QVariantMap *data, const QString &text);
 
-QVariantMap cloneData(const QMimeData &data, const QStringList *formats = NULL);
+/** Clone data for given formats (text or HTML will be UTF8 encoded). */
+QVariantMap cloneData(const QMimeData &data, const QStringList &formats);
+
+/** Clone all data as is. */
+QVariantMap cloneData(const QMimeData &data);
 
 QMimeData* createMimeData(const QVariantMap &data);
 
