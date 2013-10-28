@@ -36,12 +36,24 @@
 
 namespace {
 
+const char mimeOwner[] = MIME_PREFIX "owner";
+const char propertyOwner[] = "CopyQ_owner";
+
 void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
 {
     Q_ASSERT( isMainThread() );
     COPYQ_LOG( QString("Setting %1.").arg(mode == QClipboard::Clipboard ? "clipboard"
                                                                         : "selection") );
-    QApplication::clipboard()->setMimeData( createMimeData(data), mode );
+
+    QScopedPointer<QMimeData> mimeData( createMimeData(data) );
+    mimeData->setData( mimeOwner, QCoreApplication::instance()->property(propertyOwner).toByteArray() );
+
+    QApplication::clipboard()->setMimeData( mimeData.take(), mode );
+}
+
+bool ownsClipboardData(const QMimeData &data)
+{
+    return data.data(mimeOwner) == QCoreApplication::instance()->property(propertyOwner).toByteArray();
 }
 
 } // namespace
@@ -199,6 +211,8 @@ public:
             m_checksel = settings["check_selection"].toBool();
     }
 
+    bool hasCopyClipboard() const { return m_copyclip; }
+
     bool hasCheckSelection() const { return m_checksel; }
 
     bool hasCopySelection() const { return m_copysel; }
@@ -250,6 +264,8 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     m_socket->connectToServer(serverName);
     if ( !m_socket->waitForConnected(2000) )
         exit(1);
+
+    QCoreApplication::instance()->setProperty( propertyOwner, serverName.toUtf8() );
 
     m_updateTimer->setSingleShot(true);
     m_updateTimer->setInterval(300);
@@ -315,18 +331,11 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
 
 #ifdef COPYQ_WS_X11
-    if (mode == QClipboard::Clipboard) {
-        if ( QApplication::clipboard()->ownsClipboard() )
-            return;
-    } else if (mode == QClipboard::Selection) {
-        if ( QApplication::clipboard()->ownsSelection() || !updateSelection(false) )
-            return;
-    } else {
+    if (mode == QClipboard::Selection && !updateSelection(false) )
         return;
-    }
 #else /* !COPYQ_WS_X11 */
     // check if clipboard data are needed
-    if (mode != QClipboard::Clipboard || QApplication::clipboard()->ownsClipboard())
+    if (mode != QClipboard::Clipboard)
         return;
 #endif
 
@@ -341,6 +350,10 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         log( tr("Cannot access clipboard data!"), LogError );
         return;
     }
+
+    // do nothing if this monitor set the clipboard
+    if ( ownsClipboardData(*data) )
+        return;
 
     // clone only mime types defined by user
 #ifdef COPYQ_WS_X11
@@ -430,7 +443,7 @@ void ClipboardMonitor::readyRead()
 #endif
 
                 if ( settings.contains("formats") )
-                    m_formats = settings["formats"].toStringList();
+                    m_formats = settings["formats"].toStringList() << mimeOwner;
 #ifdef COPYQ_WS_X11
                 m_x11->loadSettings(settings);
 #endif
@@ -467,12 +480,15 @@ void ClipboardMonitor::updateClipboard(const QVariantMap &data)
 
     COPYQ_LOG("Updating clipboard");
 
-#ifdef COPYQ_WS_X11
-    setClipboardData(m_newdata, QClipboard::Selection);
-    m_needCheckSelection = false;
-#endif
     setClipboardData(m_newdata, QClipboard::Clipboard);
     m_needCheckClipboard = false;
+
+#ifdef COPYQ_WS_X11
+    if ( m_x11->hasCopyClipboard() ) {
+        setClipboardData(m_newdata, QClipboard::Selection);
+        m_needCheckSelection = false;
+    }
+#endif
 
     m_newdata.clear();
 
