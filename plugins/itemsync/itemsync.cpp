@@ -1073,7 +1073,7 @@ bool ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model
         model->setProperty(propertyModelDirty, true);
     }
 
-    model->setProperty(propertyModelDisabled, true);
+    model->setProperty(propertyModelDisabled, false);
 
     return true;
 }
