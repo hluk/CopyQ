@@ -71,8 +71,6 @@ const char mimeUriList[] = "text/uri-list";
 const char propertyModelDisabled[] = "disabled";
 const char propertyModelDirty []= "dirty";
 
-const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
-
 const int updateItemsIntervalMs = 2000; // Interval to update items after a file has changed.
 
 const bool saveUnknownData = false;
@@ -94,6 +92,11 @@ enum {
     itemMime,
     icon
 };
+}
+
+QDir::Filters itemFileFilter()
+{
+    return QDir::Files | QDir::Readable | QDir::Writable;
 }
 
 void setHeaderSectionResizeMode(QHeaderView *header, int logicalIndex, QHeaderView::ResizeMode mode)
@@ -400,7 +403,7 @@ QMultiMap<Hash, QString> listFiles(const QDir &dir, QSet<int> *usedBaseNameIndex
 
     QRegExp re("^copyq_(\\d{4})");
 
-    foreach ( const QString &fileName, dir.entryList(itemFileFilter) ) {
+    foreach ( const QString &fileName, dir.entryList(itemFileFilter()) ) {
         if ( re.indexIn(fileName) == 0 )
             usedBaseNameIndexes->insert(re.cap(1).toInt());
         const QString path = dir.absoluteFilePath(fileName);
@@ -816,7 +819,7 @@ public slots:
         m_model->setProperty(propertyModelDisabled, true);
 
         QDir dir( m_watcher.directories().value(0) );
-        QStringList files = dir.entryList(itemFileFilter, QDir::Time | QDir::Reversed);
+        QStringList files = dir.entryList(itemFileFilter(), QDir::Time | QDir::Reversed);
         BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
         QStringList removedBaseNames;
 
@@ -1047,7 +1050,7 @@ bool ItemSyncLoader::loadItems(const QString &tabName, QAbstractItemModel *model
             if ( !dir.mkpath(".") )
                 return true;
 
-            foreach ( const QString &fileName, dir.entryList(itemFileFilter, QDir::Time | QDir::Reversed) ) {
+            foreach ( const QString &fileName, dir.entryList(itemFileFilter(), QDir::Time | QDir::Reversed) ) {
                 const QString filePath = dir.absoluteFilePath(fileName);
                 if ( !files.contains(filePath) )
                     files.append(filePath);
@@ -1187,7 +1190,7 @@ bool ItemSyncLoader::createTab(const QString &tabName, QAbstractItemModel *model
 
     QDir dir( tabPath(tabName) );
     QStringList savedFiles;
-    foreach ( const QString &fileName, dir.entryList(itemFileFilter, QDir::Name | QDir::Reversed) )
+    foreach ( const QString &fileName, dir.entryList(itemFileFilter(), QDir::Name | QDir::Reversed) )
         savedFiles.append( dir.absoluteFilePath(fileName) );
 
     writeConfiguration(file, savedFiles);

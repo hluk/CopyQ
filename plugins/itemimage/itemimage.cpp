@@ -31,14 +31,18 @@
 
 namespace {
 
-const QStringList imageFormats =
-        QStringList("image/svg+xml") << QString("image/png") << QString("image/bmp")
-                                     << QString("image/jpeg") << QString("image/gif");
-
 QString findImageFormat(const QList<QString> &formats)
 {
+    // Check formats in this order.
+    static const QStringList imageFormats = QStringList()
+            << QString("image/svg+xml")
+            << QString("image/png")
+            << QString("image/bmp")
+            << QString("image/jpeg")
+            << QString("image/gif");
+
     foreach (const QString &format, imageFormats) {
-        if (formats.contains(format))
+        if ( formats.contains(format) )
             return format;
     }
 
