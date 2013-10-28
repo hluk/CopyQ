@@ -1138,13 +1138,13 @@ bool ItemSyncLoader::saveItems(const QString &tabName, const QAbstractItemModel 
             }
         }
 
-        foreach ( const QString &format, dataMap.keys() ) {
+        foreach ( const QString &format, itemData.keys() ) {
             if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
                 continue; // skip internal data
             if ( noSave && (format == "text/plain" || format == "text/uri-list") )
                 continue;
 
-            const QVariant value = dataMap[format];
+            const QVariant value = itemData[format];
 
             if (format == mimeUnknownData) {
                 if ( !saveItemFile(filePath, value.toByteArray(), &existingFiles, &savedFiles) )
