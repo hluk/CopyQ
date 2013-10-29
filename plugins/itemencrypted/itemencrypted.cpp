@@ -22,6 +22,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "gui/icons.h"
 #include "item/encrypt.h"
 #include "item/serialize.h"
 
@@ -99,9 +100,10 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
 
     // Show small icon.
     QLabel *iconLabel = new QLabel(this);
-    iconLabel->setObjectName("item_child");
-    iconLabel->setTextFormat(Qt::RichText);
-    iconLabel->setText("<span style=\"font-family:FontAwesome\">&#xf023;</span>");
+    QFont iconFont("FontAwesome");
+    iconFont.setPixelSize(14);
+    iconLabel->setFont(iconFont);
+    iconLabel->setText(QString(QChar(IconLock)));
     layout->addWidget(iconLabel);
 
     updateSize();

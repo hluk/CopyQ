@@ -60,15 +60,13 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     m_childItem->widget()->setParent(this);
 
     if (showIconOnly) {
-        m_icon->setObjectName("item_child");
-        m_icon->setTextFormat(Qt::PlainText);
         QFont iconFont("FontAwesome");
+        iconFont.setPixelSize(14);
         m_icon->setFont(iconFont);
-        m_icon->setStyleSheet("*{font-size:14px}");
         m_icon->setText(QString(QChar(IconEditSign)));
         m_icon->adjustSize();
         m_childItem->widget()->move( m_icon->width() + 6, 0 );
-        m_icon->move(4, 6);
+        m_icon->move(4, 4);
     } else {
         m_notes->setObjectName("item_child");
 
@@ -205,9 +203,11 @@ void ItemNotes::updateSize()
 
 void ItemNotes::mousePressEvent(QMouseEvent *e)
 {
-    m_notes->setTextCursor( m_notes->cursorForPosition(e->pos()) );
     QWidget::mousePressEvent(e);
-    e->ignore();
+    if (m_notes) {
+        m_notes->setTextCursor( m_notes->cursorForPosition(e->pos()) );
+        e->ignore();
+    }
 }
 
 void ItemNotes::mouseDoubleClickEvent(QMouseEvent *e)
@@ -225,7 +225,7 @@ void ItemNotes::contextMenuEvent(QContextMenuEvent *e)
 
 void ItemNotes::mouseReleaseEvent(QMouseEvent *e)
 {
-    if ( property("copyOnMouseUp").toBool() ) {
+    if ( m_notes && property("copyOnMouseUp").toBool() ) {
         setProperty("copyOnMouseUp", false);
         if ( m_notes->textCursor().hasSelection() )
             m_notes->copy();

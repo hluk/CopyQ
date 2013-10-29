@@ -548,11 +548,9 @@ ItemSync::ItemSync(const QString &label, int icon, bool replaceChildItem, ItemWi
         m_childItem.reset();
 
     // icon
-    m_icon->setObjectName("item_child");
-    m_icon->setTextFormat(Qt::PlainText);
     QFont iconFont("FontAwesome");
+    iconFont.setPixelSize(14);
     m_icon->setFont(iconFont);
-    m_icon->setStyleSheet("*{font-size:14px}");
     m_icon->setText(QString(QChar(icon)));
     m_icon->adjustSize();
 
