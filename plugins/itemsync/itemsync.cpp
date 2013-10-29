@@ -155,8 +155,11 @@ bool renameToUnique(QString *name, const QStringList &usedNames,
 
     QString ext;
     const FileFormat fileFormat = getFormatSettingsFromFileName(*name, formatSettings, &ext);
-    if ( !fileFormat.isValid() )
-        ext = name->mid( name->lastIndexOf('.') );
+    if ( !fileFormat.isValid() ) {
+        const int i = name->lastIndexOf('.');
+        if (i != -1)
+            ext = name->mid(i);
+    }
     QString baseName = name->left( name->size() - ext.size() );
     if ( baseName.endsWith('.') ) {
         baseName.chop(1);

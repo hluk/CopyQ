@@ -90,6 +90,7 @@ extern const char mimeItems[];
 extern const char mimeItemNotes[];
 extern const char mimeApplicationSettings[];
 extern const char mimeMessage[];
+extern const char mimeOwner[];
 #ifdef COPYQ_WS_X11
 extern const char mimeClipboardMode[];
 #endif

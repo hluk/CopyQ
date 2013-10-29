@@ -36,7 +36,6 @@
 
 namespace {
 
-const char mimeOwner[] = MIME_PREFIX "owner";
 const char propertyOwner[] = "CopyQ_owner";
 
 void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
@@ -443,7 +442,7 @@ void ClipboardMonitor::readyRead()
 #endif
 
                 if ( settings.contains("formats") )
-                    m_formats = settings["formats"].toStringList() << mimeOwner;
+                    m_formats = settings["formats"].toStringList();
 #ifdef COPYQ_WS_X11
                 m_x11->loadSettings(settings);
 #endif

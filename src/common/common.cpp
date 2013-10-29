@@ -40,6 +40,7 @@ const char mimeItems[] = MIME_PREFIX "item";
 const char mimeItemNotes[] = MIME_PREFIX "item-notes";
 const char mimeApplicationSettings[] = MIME_PREFIX "settings";
 const char mimeMessage[] = MIME_PREFIX "message";
+const char mimeOwner[] = MIME_PREFIX "owner";
 #ifdef COPYQ_WS_X11
 const char mimeClipboardMode[] = MIME_PREFIX "clipboard-mode";
 #endif
@@ -171,7 +172,8 @@ QVariantMap cloneData(const QMimeData &data)
     QVariantMap newdata;
     foreach ( const QString &mime, data.formats() ) {
         // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
-        if ( !mime.isEmpty() && mime[0].isLower() )
+        // and internal type to check clipboard owner
+        if ( !mime.isEmpty() && mime[0].isLower() && mime != mimeOwner )
             newdata.insert(mime, data.data(mime));
     }
     return newdata;
