@@ -19,8 +19,6 @@
 
 #include "iconselectbutton.h"
 
-#include "gui/configurationmanager.h"
-#include "gui/iconfactory.h"
 #include "gui/icons.h"
 
 #include <QAction>
@@ -42,26 +40,24 @@ IconSelectButton::IconSelectButton(QWidget *parent)
 {
     setPopupMode(QToolButton::InstantPopup);
 
-    IconFactory *factory = ConfigurationManager::instance()->iconFactory();
-    if ( factory->isLoaded() ) {
-        const QFont &font = factory->iconFont();
-        QFontMetrics fm(font);
+    QFont font("FontAwesome");
+    font.setPixelSize(14);
+    QFontMetrics fm(font);
 
-        setFont( factory->iconFont() );
+    setFont(font);
 
-        QMenu *menu = new QMenu(this);
-        menu->addAction( QString() );
-        for (ushort i = IconFirst; i <= IconLast; ++i) {
-            QChar c(i);
-            if ( fm.inFont(c) ) {
-                QAction *act = menu->addAction( QString(c) );
-                act->setFont(font);
-            }
+    QMenu *menu = new QMenu(this);
+    menu->addAction( QString() );
+    for (ushort i = IconFirst; i <= IconLast; ++i) {
+        QChar c(i);
+        if ( fm.inFont(c) ) {
+            QAction *act = menu->addAction( QString(c) );
+            act->setFont(font);
         }
-        setMenu(menu);
-        connect( menu, SIGNAL(triggered(QAction*)),
-                 this, SLOT(onIconChanged(QAction*)) );
     }
+    setMenu(menu);
+    connect( menu, SIGNAL(triggered(QAction*)),
+             this, SLOT(onIconChanged(QAction*)) );
 }
 
 void IconSelectButton::setCurrentIcon(int icon)

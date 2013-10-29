@@ -34,6 +34,41 @@ namespace {
 
 const int dummyItemMaxChars = 4096;
 
+bool findPluginDir(QDir *pluginsDir)
+{
+#if defined(COPYQ_WS_X11)
+    pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+    if ( pluginsDir->dirName() == QString("bin")
+         && pluginsDir->cdUp()
+         && (pluginsDir->cd("lib64") || pluginsDir->cd("lib"))
+         && pluginsDir->cd("copyq") )
+    {
+        // OK, installed in /usr/local/bin or /usr/bin.
+    } else {
+        pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+        if ( pluginsDir->cd("plugins") ) {
+            // OK, plugins in same directory as executable.
+            pluginsDir->cd("copyq");
+        } else {
+            return false;
+        }
+    }
+#elif defined(Q_OS_MAC)
+    pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+    if ( pluginsDir->dirName() == "MacOS"
+         && (!pluginsDir->cdUp() || !pluginsDir->cdUp() || !pluginsDir->cdUp()) )
+    {
+        return false;
+    }
+#else
+    pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
+    if ( !pluginsDir->cd("plugins") )
+        return false;
+#endif
+
+    return pluginsDir->isReadable();
+}
+
 bool priorityLessThan(const ItemLoaderInterfacePtr &lhs, const ItemLoaderInterfacePtr &rhs)
 {
     return lhs->priority() > rhs->priority();
@@ -287,44 +322,13 @@ bool ItemFactory::loadPlugins()
 {
 #ifdef COPYQ_PLUGIN_PREFIX
     QDir pluginsDir(COPYQ_PLUGIN_PREFIX);
+    if ( !pluginsDir.isReadable() && !findPluginDir(&pluginsDir))
+        return false;
 #else
     QDir pluginsDir;
-#endif
-
-    if ( !pluginsDir.isReadable() ) {
-#if defined(COPYQ_WS_X11)
-        pluginsDir.setPath( QCoreApplication::instance()->applicationDirPath() );
-        if ( pluginsDir.dirName() == QString("bin")
-             && pluginsDir.cdUp()
-             && (pluginsDir.cd("lib64") || pluginsDir.cd("lib"))
-             && pluginsDir.cd("copyq") )
-        {
-            // OK, installed in /usr/local/bin or /usr/bin.
-        } else {
-            pluginsDir.setPath( QCoreApplication::instance()->applicationDirPath() );
-            if ( pluginsDir.cd("plugins") ) {
-                // OK, plugins in same directory as executable.
-                pluginsDir.cd("copyq");
-            } else {
-                return false;
-            }
-        }
-#elif defined(Q_OS_MAC)
-        QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-        if ( pluginsDir.dirName() == "MacOS"
-             && (!pluginsDir.cdUp() || !pluginsDir.cdUp() || !pluginsDir.cdUp()) )
-        {
-            return false;
-        }
-#else
-        QDir pluginsDir( QCoreApplication::instance()->applicationDirPath() );
-        if ( !pluginsDir.cd("plugins") )
-            return false;
-#endif
-    }
-
-    if ( !pluginsDir.isReadable() )
+    if ( !findPluginDir(&pluginsDir))
         return false;
+#endif
 
     foreach (QString fileName, pluginsDir.entryList(QDir::Files)) {
         if ( QLibrary::isLibrary(fileName) ) {
