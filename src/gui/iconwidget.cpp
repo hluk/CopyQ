@@ -25,9 +25,17 @@
 
 IconWidget::IconWidget(int icon, QWidget *parent)
     : QWidget(parent)
-    , m_icon(QString(QChar(icon)))
+    , m_icon()
 {
-    setFixedSize(sizeHint());
+    QFont iconFont("FontAwesome");
+    QFontMetrics fm(iconFont);
+    QChar c(icon);
+    if ( fm.inFont(c) ) {
+        m_icon = QString(c);
+        setFixedSize(sizeHint());
+    } else {
+        setFixedSize( QSize(0, 0) );
+    }
 }
 
 QSize IconWidget::sizeHint() const
@@ -37,6 +45,9 @@ QSize IconWidget::sizeHint() const
 
 void IconWidget::paintEvent(QPaintEvent *)
 {
+    if (m_icon.isEmpty())
+        return;
+
     QPainter p(this);
 
     QFont iconFont("FontAwesome");
