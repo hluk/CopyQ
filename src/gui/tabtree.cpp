@@ -126,6 +126,8 @@ TabTree::TabTree(QWidget *parent)
     setFrameShape(QFrame::NoFrame);
     setHeaderHidden(true);
     setSelectionMode(QAbstractItemView::SingleSelection);
+
+    verticalScrollBar()->installEventFilter(this);
 }
 
 void TabTree::insertTab(const QString &path, int index, bool selected)
@@ -335,7 +337,10 @@ void TabTree::dropEvent(QDropEvent *event)
 
 bool TabTree::eventFilter(QObject *obj, QEvent *event)
 {
-    if ( obj != this && event->type() == QEvent::Shortcut ) {
+    if ( obj == verticalScrollBar() ) {
+        if ( event->type() == QEvent::Show || event->type() == QEvent::Hide )
+            updateSize();
+    } else if ( event->type() == QEvent::Shortcut ) {
         foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
             if ( itemWidget(item, 0) == obj ) {
                 setCurrentItem(item);
@@ -367,6 +372,12 @@ void TabTree::rowsInserted(const QModelIndex &parent, int start, int end)
     }
 }
 
+void TabTree::showEvent(QShowEvent *event)
+{
+    QTreeWidget::showEvent(event);
+    updateSize();
+}
+
 void TabTree::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous)
 {
     emit currentTabChanged( getTabIndex(current) );
@@ -392,21 +403,17 @@ void TabTree::shiftIndexesBetween(int from, int to, int how)
 
 void TabTree::updateSize()
 {
-    const Qt::ScrollBarPolicy policy = verticalScrollBarPolicy();
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
-
-    int w = verticalScrollBar()->sizeHint().width(); // space for scrollbar
-
     const QMargins margins = contentsMargins();
-    w += margins.left() + margins.right();
+    int w = margins.left() + margins.right();
 
     expandAll();
 
     resizeColumnToContents(0);
     w += sizeHintForColumn(0);
-    setFixedWidth(w);
 
-    setVerticalScrollBarPolicy(policy);
+    w += 4;
+
+    setFixedWidth(w);
 }
 
 void TabTree::setCurrentTabIndex(int index)

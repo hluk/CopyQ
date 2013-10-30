@@ -73,6 +73,7 @@ protected:
     void dropEvent(QDropEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
     void rowsInserted(const QModelIndex &parent, int start, int end);
+    void showEvent(QShowEvent *event);
 
 public slots:
     void setCurrentTabIndex(int index);
