@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "gui/icons.h"
+#include "gui/iconwidget.h"
 #include "item/encrypt.h"
 #include "item/serialize.h"
 
@@ -99,12 +100,8 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
     layout->setMargin(6);
 
     // Show small icon.
-    QLabel *iconLabel = new QLabel(this);
-    QFont iconFont("FontAwesome");
-    iconFont.setPixelSize(14);
-    iconLabel->setFont(iconFont);
-    iconLabel->setText(QString(QChar(IconLock)));
-    layout->addWidget(iconLabel);
+    QWidget *iconWidget = new IconWidget(IconLock, this);
+    layout->addWidget(iconWidget);
 
     updateSize();
 }

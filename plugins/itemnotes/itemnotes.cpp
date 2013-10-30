@@ -21,6 +21,7 @@
 #include "ui_itemnotessettings.h"
 
 #include "common/contenttype.h"
+#include "gui/iconwidget.h"
 
 #include <QContextMenuEvent>
 #include <QLabel>
@@ -33,6 +34,7 @@
 #include <QTimer>
 #include <QToolTip>
 #include <QtPlugin>
+#include <QDebug>
 
 namespace {
 
@@ -50,7 +52,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
     , m_notes( showIconOnly ? NULL : new QTextEdit(this) )
-    , m_icon( showIconOnly ? new QLabel(this) : NULL )
+    , m_icon( showIconOnly ? new IconWidget(IconEditSign, this) : NULL )
     , m_childItem(childItem)
     , m_notesAtBottom(notesAtBottom)
     , m_timerShowToolTip(NULL)
@@ -60,13 +62,8 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     m_childItem->widget()->setParent(this);
 
     if (showIconOnly) {
-        QFont iconFont("FontAwesome");
-        iconFont.setPixelSize(14);
-        m_icon->setFont(iconFont);
-        m_icon->setText(QString(QChar(IconEditSign)));
-        m_icon->adjustSize();
-        m_childItem->widget()->move( m_icon->width() + 6, 0 );
         m_icon->move(4, 4);
+        m_childItem->widget()->move( m_icon->width() + 6, 0 );
     } else {
         m_notes->setObjectName("item_child");
 

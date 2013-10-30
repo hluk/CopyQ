@@ -31,7 +31,6 @@ class ItemEncryptedSettings;
 }
 
 class QFile;
-class QLabel;
 
 class ItemEncrypted : public QWidget, public ItemWidget
 {

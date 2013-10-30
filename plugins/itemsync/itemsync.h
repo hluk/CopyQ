@@ -30,7 +30,6 @@ class ItemSyncSettings;
 }
 
 class FileWatcher;
-class QLabel;
 class QTextEdit;
 struct FileFormat;
 
@@ -71,7 +70,7 @@ private slots:
 
 private:
     QTextEdit *m_label;
-    QLabel *m_icon;
+    QWidget *m_icon;
     QScopedPointer<ItemWidget> m_childItem;
 };
 

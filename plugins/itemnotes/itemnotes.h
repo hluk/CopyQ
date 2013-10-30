@@ -30,7 +30,6 @@ namespace Ui {
 class ItemNotesSettings;
 }
 
-class QLabel;
 class QTextEdit;
 class QTimer;
 
@@ -77,7 +76,7 @@ private slots:
 
 private:
     QTextEdit *m_notes;
-    QLabel *m_icon;
+    QWidget *m_icon;
     QScopedPointer<ItemWidget> m_childItem;
     bool m_notesAtBottom;
     QTimer *m_timerShowToolTip;

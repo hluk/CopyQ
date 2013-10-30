@@ -72,7 +72,8 @@ HEADERS += \
     scriptable/scriptableworker.h \
     common/common.h \
     gui/icons.h \
-    gui/iconselectbutton.h
+    gui/iconselectbutton.h \
+    gui/iconwidget.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -122,7 +123,8 @@ SOURCES += \
     scriptable/scriptable.cpp \
     scriptable/scriptableworker.cpp \
     common/common.cpp \
-    gui/iconselectbutton.cpp
+    gui/iconselectbutton.cpp \
+    gui/iconwidget.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "gui/iconselectbutton.h"
+#include "gui/iconwidget.h"
 
 #include <QCryptographicHash>
 #include <QDateTime>
@@ -542,18 +543,11 @@ ItemSync::ItemSync(const QString &label, int icon, bool replaceChildItem, ItemWi
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
     , m_label( new QTextEdit(this) )
-    , m_icon( new QLabel(this) )
+    , m_icon( new IconWidget(icon, this) )
     , m_childItem(childItem)
 {
     if (replaceChildItem)
         m_childItem.reset();
-
-    // icon
-    QFont iconFont("FontAwesome");
-    iconFont.setPixelSize(14);
-    m_icon->setFont(iconFont);
-    m_icon->setText(QString(QChar(icon)));
-    m_icon->adjustSize();
 
     if ( !m_childItem.isNull() ) {
         m_childItem->widget()->setObjectName("item_child");
