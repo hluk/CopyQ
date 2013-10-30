@@ -116,7 +116,7 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
     if ( file.exists() ) {
         if ( !file.open(QIODevice::ReadOnly) ) {
             model.setDisabled(true);
-        } else if ( !itemFactory()->loadItems(id, &model, &file) ) {
+        } else if ( !itemFactory()->loadItems(id, &model, &file) && file.size() > 0 ) {
             file.seek(0);
             QDataStream in(&file);
             in >> model;
