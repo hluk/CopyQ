@@ -30,17 +30,15 @@ IconWidget::IconWidget(int icon, QWidget *parent)
     QFont iconFont("FontAwesome");
     QFontMetrics fm(iconFont);
     QChar c(icon);
-    if ( fm.inFont(c) ) {
+    if ( fm.inFont(c) )
         m_icon = QString(c);
-        setFixedSize(sizeHint());
-    } else {
-        setFixedSize( QSize(0, 0) );
-    }
+
+    setFixedSize(sizeHint());
 }
 
 QSize IconWidget::sizeHint() const
 {
-    return QSize(16, 16);
+    return m_icon.isEmpty() ? QSize(0, 0) : QSize(16, 16);
 }
 
 void IconWidget::paintEvent(QPaintEvent *)

@@ -62,7 +62,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     m_childItem->widget()->setParent(this);
 
     if (showIconOnly) {
-        m_icon->move(4, 4);
+        m_icon->move(4, 2);
         m_childItem->widget()->move( m_icon->width() + 6, 0 );
     } else {
         m_notes->setObjectName("item_child");

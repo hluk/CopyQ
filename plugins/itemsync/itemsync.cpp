@@ -574,7 +574,7 @@ ItemSync::ItemSync(const QString &label, int icon, bool replaceChildItem, ItemWi
 
     m_label->viewport()->installEventFilter(this);
 
-    m_icon->move(4, 4);
+    m_icon->move(4, 2);
     m_label->move( m_icon->geometry().right() + 4, 0 );
 }
 
