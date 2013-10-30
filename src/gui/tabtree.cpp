@@ -392,14 +392,21 @@ void TabTree::shiftIndexesBetween(int from, int to, int how)
 
 void TabTree::updateSize()
 {
+    const Qt::ScrollBarPolicy policy = verticalScrollBarPolicy();
+    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOn);
+
     int w = verticalScrollBar()->sizeHint().width(); // space for scrollbar
+
+    const QMargins margins = contentsMargins();
+    w += margins.left() + margins.right();
 
     expandAll();
 
     resizeColumnToContents(0);
     w += sizeHintForColumn(0);
-    setMinimumWidth(w);
-    setMaximumWidth(w);
+    setFixedWidth(w);
+
+    setVerticalScrollBarPolicy(policy);
 }
 
 void TabTree::setCurrentTabIndex(int index)
