@@ -208,6 +208,9 @@ QList<CommandHelp> commandHelp()
 #ifdef HAS_TESTS
         << CommandHelp("tests, --tests",
                        Scriptable::tr("Run tests."))
+        << CommandHelp("keys",
+                       Scriptable::tr("Pass keys to the main window."))
+           .addArg(Scriptable::tr("KEYS") + "...")
 #endif
            ;
 }
@@ -915,6 +918,20 @@ void Scriptable::abort()
         eng = m_engine;
     if ( eng && eng->isEvaluating() )
         eng->abortEvaluation();
+}
+
+void Scriptable::keys()
+{
+#ifdef HAS_TESTS
+    for (int i = 0; i < argumentCount(); ++i) {
+        const QString keys = toString(argument(i));
+        const QString error = m_proxy->sendKeys(keys);
+        if ( !error.isEmpty() ) {
+            throwError(error);
+            return;
+        }
+    }
+#endif
 }
 
 int Scriptable::getTabIndexOrError(const QString &name)

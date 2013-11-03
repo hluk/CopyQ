@@ -55,6 +55,10 @@
 #include <QTimer>
 #include <QPainter>
 
+#ifdef HAS_TESTS
+#   include <QTest>
+#endif
+
 #ifdef COPYQ_ICON_PREFIX
 #   define RETURN_ICON_FROM_PREFIX(suffix, fallback) do { \
         const QString fileName(COPYQ_ICON_PREFIX suffix); \
@@ -1625,6 +1629,31 @@ QVariant MainWindow::config(const QString &name, const QString &value)
     }
 
     return QVariant();
+}
+
+QString MainWindow::sendKeys(const QString &keys) const
+{
+#ifdef HAS_TESTS
+    QWidget *w = QApplication::focusWidget();
+    if (!w)
+        return tr("Cannot send keys, no widget is focused!");
+
+    if (keys.startsWith(":")) {
+        QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 100);
+    } else {
+        const QKeySequence shortcut(keys);
+
+        if ( shortcut.isEmpty() ) {
+            return tr("Cannot parse key \"%1\"!").arg(keys);
+        } else {
+            QTest::keyClick(w, Qt::Key(shortcut & ~Qt::KeyboardModifierMask),
+                            Qt::KeyboardModifiers(shortcut & Qt::KeyboardModifierMask), 100);
+        }
+    }
+    return QString();
+#else
+    return tr("This is only available if tests are compiled!");
+#endif
 }
 
 ClipboardBrowser *MainWindow::getTabForTrayMenu()

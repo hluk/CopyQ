@@ -315,6 +315,8 @@ class MainWindow : public QMainWindow
 
         QVariant config(const QString &name, const QString &value);
 
+        QString sendKeys(const QString &keys) const;
+
     private slots:
         ClipboardBrowser *getTabForTrayMenu();
         void updateTrayMenuItems();

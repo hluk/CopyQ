@@ -128,6 +128,8 @@ public slots:
     void print(const QScriptValue &value);
     void abort();
 
+    void keys();
+
 private:
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

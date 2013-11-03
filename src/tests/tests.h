@@ -43,6 +43,8 @@ private slots:
     void init();
     void cleanup();
 
+    void moveAndDeleteItems();
+
     void clipboardToItem();
     void itemToClipboard();
     void tabAddRemove();

@@ -62,6 +62,12 @@ const int waitMsAction = 200;
 /// Interval to wait (in ms) until new clipboard content is propagated to items or monitor.
 const int waitMsClipboard = 1000;
 
+/// Interval to wait (in ms) until window is shown and focused.
+const int waitMsShow = 250;
+
+/// Interval to wait (in ms) until search is complete.
+const int waitMsSearch = 250;
+
 typedef QStringList Args;
 
 void waitFor(int ms)
@@ -75,7 +81,7 @@ void waitFor(int ms)
 /// Naming scheme for test tabs in application.
 QString testTab(int index)
 {
-    return QString("TEST_%1").arg(index);
+    return QString("TEST_&%1").arg(index);
 }
 
 bool testStderr(const QByteArray &stderrData)
@@ -199,6 +205,63 @@ void Tests::cleanup()
         if ( hasTab(tab.toLatin1()) )
             RUN(Args("removetab") << tab, "");
     }
+}
+
+void Tests::moveAndDeleteItems()
+{
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+    RUN(Args(args) << "add" << "A" << "B" << "C", "");
+
+    RUN(Args(args) << "show", "");
+    waitFor(waitMsShow);
+
+    RUN(Args(args) << "read" << "0", "C");
+    // focus test tab
+    RUN(Args(args) << "keys" << "ALT+1", "");
+    // delete first item
+    RUN(Args(args) << "keys" << "DELETE", "");
+    RUN(Args(args) << "read" << "0", "B");
+
+    // move item one down
+    RUN(Args(args) << "keys" << "CTRL+DOWN", "");
+    RUN(Args(args) << "read" << "0", "A");
+    RUN(Args(args) << "read" << "1", "B");
+
+    // select first item
+    RUN(Args("config") << "move" << "false", "");
+    RUN(Args("config") << "activate_closes" << "false", "");
+    RUN(Args("config") << "activate_focuses" << "false", "");
+    RUN(Args("config") << "activate_pastes" << "false", "");
+    RUN(Args(args) << "keys" << "UP" << "ENTER", "");
+    waitFor(waitMsClipboard);
+    RUN(Args(args) << "clipboard", "A");
+
+    // select all and delete
+    RUN(Args(args) << "keys" << "CTRL+A" << "DELETE", "");
+    RUN(Args(args) << "size", "0\n");
+
+    RUN(Args(args) << "add" << "ABC" << "DEF" << "GHI" << "JKL", "");
+
+    // search and delete
+    RUN(Args(args) << "keys" << ":[AG]", "");
+    waitFor(waitMsSearch);
+    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << "DELETE", "");
+    RUN(Args(args) << "read" << "0", "JKL");
+    RUN(Args(args) << "read" << "1", "DEF");
+    RUN(Args(args) << "size", "2\n");
+    RUN(Args(args) << "keys" << "ESCAPE", "");
+
+    // copy items to new tab
+    RUN(Args(args) << "keys" << "CTRL+A" << QKeySequence(QKeySequence::Copy).toString(), "");
+    RUN(Args(args) << "keys" << "CTRL+T", "");
+    const QString tab2 = testTab(2);
+    RUN(Args(args) << "keys" << ":" + tab2 << "ENTER", "");
+    RUN(Args(args) << "keys" << QKeySequence(QKeySequence::Paste).toString(), "");
+    const Args args2 = Args("tab") << tab2;
+    RUN(Args(args2) << "read" << "0", "JKL");
+    RUN(Args(args2) << "read" << "1", "DEF");
+    RUN(Args(args2) << "size", "2\n");
 }
 
 void Tests::clipboardToItem()

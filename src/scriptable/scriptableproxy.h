@@ -188,6 +188,8 @@ public slots:
 
     void browserItemData(int arg1, int arg2, const QString &arg3) { v = m_wnd->browser(arg1)->itemData(arg2, arg3); }
 
+    QString sendKeys(const QString &arg1) { return m_wnd->sendKeys(arg1); }
+
 private:
     MainWindow *m_wnd;
     QVariant v; ///< Last return value retrieved.
@@ -265,6 +267,8 @@ public:
     PROXY_METHOD_VOID_2(browserEditNew, int, const QString &)
 
     PROXY_METHOD_3(QByteArray, browserItemData, int, int, const QString &)
+
+    PROXY_METHOD_1(QString, sendKeys, const QString &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.
