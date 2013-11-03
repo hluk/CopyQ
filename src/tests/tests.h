@@ -63,7 +63,7 @@ private:
     void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain"));
 
     QProcess *m_server;
-    RemoteProcess *m_monitor;
+    RemoteProcess *m_monitor; /// Process to provide clipboard set by tests.
 };
 
 #endif // TESTS_H

@@ -27,14 +27,13 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QElapsedTimer>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QProcess>
 #include <QTemporaryFile>
 #include <QTest>
-
-using QTest::qSleep;
 
 #define VERIFY_SERVER_OUTPUT() \
 do {\
@@ -61,9 +60,17 @@ namespace {
 const int waitMsAction = 200;
 
 /// Interval to wait (in ms) until new clipboard content is propagated to items or monitor.
-const int waitMsClipboard = 500;
+const int waitMsClipboard = 1000;
 
 typedef QStringList Args;
+
+void waitFor(int ms)
+{
+    QElapsedTimer t;
+    t.start();
+    while (t.elapsed() < ms)
+        QApplication::processEvents();
+}
 
 /// Naming scheme for test tabs in application.
 QString testTab(int index)
@@ -153,7 +160,7 @@ void Tests::initTestCase()
         // Wait until client/server communication is closed.
         int tries = 0;
         while( !startServer() && ++tries <= 100 )
-            qSleep(100);
+            waitFor(100);
 
         QVERIFY( isServerRunning() );
     } else {
@@ -196,15 +203,28 @@ void Tests::cleanup()
 
 void Tests::clipboardToItem()
 {
+    setClipboard("TEST0");
+    QCOMPARE( getClipboard().data(), "TEST0" );
+    RUN(Args("clipboard"), "TEST0");
+
     setClipboard("TEST1");
     QCOMPARE( getClipboard().data(), "TEST1" );
     RUN(Args("clipboard"), "TEST1");
     RUN(Args("read") << "0", "TEST1");
 
-    setClipboard("TEST2");
-    QCOMPARE( getClipboard().data(), "TEST2" );
-    RUN(Args("clipboard"), "TEST2");
-    RUN(Args("read") << "0", "TEST2");
+    const QByteArray htmlBytes = "<b>TEST2</b>";
+    setClipboard(htmlBytes, "text/html");
+    QCOMPARE( getClipboard("text/html").data(), htmlBytes.data() );
+    RUN(Args("clipboard") << "text/html", htmlBytes.data());
+    RUN(Args("read") << "text/html" << "0", htmlBytes.data());
+
+    // Unicode test.
+    const QString test = QString::fromUtf8(QByteArray("Zkouška s různými českými znaky!"));
+    const QByteArray bytes = test.toUtf8();
+    setClipboard(bytes);
+    QCOMPARE( getClipboard(), bytes );
+    RUN(Args("clipboard"), bytes);
+    RUN(Args("read") << "0", bytes);
 }
 
 void Tests::itemToClipboard()
@@ -215,7 +235,7 @@ void Tests::itemToClipboard()
 
     RUN(Args("select") << "0", "");
 
-    qSleep(waitMsClipboard);
+    waitFor(waitMsClipboard);
     RUN(Args("clipboard"), "TESTING2");
     QCOMPARE( getClipboard().data(), "TESTING2" );
 
@@ -225,7 +245,7 @@ void Tests::itemToClipboard()
     RUN(Args("read") << "0", "TESTING1");
     RUN(Args("read") << "1", "TESTING2");
 
-    qSleep(waitMsClipboard);
+    waitFor(waitMsClipboard);
     RUN(Args("clipboard"), "TESTING1");
     QCOMPARE( getClipboard().data(), "TESTING1" );
 
@@ -235,7 +255,7 @@ void Tests::itemToClipboard()
     RUN(Args("read") << "0", "TESTING1");
     RUN(Args("read") << "1", "TESTING2");
 
-    qSleep(waitMsClipboard);
+    waitFor(waitMsClipboard);
     RUN(Args("clipboard"), "TESTING2");
     QCOMPARE( getClipboard().data(), "TESTING2" );
 }
@@ -277,25 +297,25 @@ void Tests::action()
 
     // action with size
     RUN(Args(argsAction) << action.arg("size") << "", "");
-    qSleep(waitMsAction);
+    waitFor(waitMsAction);
     RUN(Args(args) << "size", "1\n");
     RUN(Args(args) << "read" << "0", "0\n");
 
     // action with size
     RUN(Args(argsAction) << action.arg("size") << "", "");
-    qSleep(waitMsAction);
+    waitFor(waitMsAction);
     RUN(Args(args) << "size", "2\n");
     RUN(Args(args) << "read" << "0", "1\n");
 
     // action with eval print
     RUN(Args(argsAction) << action.arg("eval 'print(\"A,B,C\")'") << "", "");
-    qSleep(waitMsAction);
+    waitFor(waitMsAction);
     RUN(Args(args) << "size", "3\n");
     RUN(Args(args) << "read" << "0", "A,B,C");
 
     // action with read and comma separator for new items
     RUN(Args(argsAction) << action.arg("read 0") << ",", "");
-    qSleep(waitMsAction);
+    waitFor(waitMsAction);
     RUN(Args(args) << "size", "6\n");
     RUN(Args(args) << "read" << "0", "C");
     RUN(Args(args) << "read" << "1", "B");
@@ -476,7 +496,7 @@ bool Tests::startServer()
     // Wait for client/server communication is established.
     int tries = 0;
     while( !isServerRunning() && ++tries <= 50 )
-        qSleep(100);
+        waitFor(100);
 
     return isServerRunning();
 }
@@ -501,7 +521,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 {
     if (m_monitor == NULL) {
         m_monitor = new RemoteProcess();
-        const QString name = "copyq" + clipboardMonitorServerName().arg("") + "_TEST";
+        const QString name = "copyq" + clipboardMonitorServerName().arg("TEST");
         m_monitor->start( name, QStringList("monitor") << name );
     }
 
@@ -509,8 +529,8 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 
     const QVariantMap data = createDataMap(mime, bytes);
     QVERIFY( m_monitor->writeMessage(serializeData(data)) );
-    QApplication::processEvents();
 
-    qSleep(waitMsClipboard);
+    waitFor(waitMsClipboard);
+
     QVERIFY( m_monitor->isConnected() );
 }
