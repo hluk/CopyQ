@@ -1,6 +1,8 @@
 include(../plugins_common.pri)
 
-HEADERS += itemsync.h
+HEADERS += itemsync.h \
+    ../../src/gui/iconselectbutton.h \
+    ../../src/gui/iconwidget.h
 SOURCES += itemsync.cpp
 SOURCES += \
     ../../src/common/common.cpp \

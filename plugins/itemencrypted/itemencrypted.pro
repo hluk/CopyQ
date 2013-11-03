@@ -1,6 +1,7 @@
 include(../plugins_common.pri)
 
-HEADERS += itemencrypted.h
+HEADERS += itemencrypted.h \
+    ../../src/gui/iconwidget.h
 SOURCES += itemencrypted.cpp
 SOURCES += \
     ../../src/common/common.cpp \

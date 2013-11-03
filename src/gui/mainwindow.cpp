@@ -1646,12 +1646,13 @@ QString MainWindow::sendKeys(const QString &keys) const
         if ( shortcut.isEmpty() ) {
             return tr("Cannot parse key \"%1\"!").arg(keys);
         } else {
-            QTest::keyClick(w, Qt::Key(shortcut & ~Qt::KeyboardModifierMask),
-                            Qt::KeyboardModifiers(shortcut & Qt::KeyboardModifierMask), 100);
+            QTest::keyClick(w, Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
+                            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 100);
         }
     }
     return QString();
 #else
+    Q_UNUSED(keys);
     return tr("This is only available if tests are compiled!");
 #endif
 }

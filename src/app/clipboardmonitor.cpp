@@ -360,7 +360,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return; // no owner -> reset content
     QVariantMap data2 = m_x11->data(mode);
 #else
-    QVariantMap data2( cloneData(*data, &m_formats) );
+    QVariantMap data2( cloneData(*data, m_formats) );
 #endif
 
     // add window title of clipboard owner

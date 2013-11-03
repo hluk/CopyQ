@@ -1,7 +1,4 @@
-equals(WITH_WEBKIT,0) {
-    TEMPLATE = subdirs
-}
-!equals(WITH_WEBKIT,0) {
+equals(WITH_WEBKIT,1) {
     include(../plugins_common.pri)
 
     HEADERS += itemweb.h
@@ -14,5 +11,8 @@ equals(WITH_WEBKIT,0) {
     !lessThan(QT_MAJOR_VERSION, 5) {
         QT += webkitwidgets
     }
+}
+!equals(WITH_WEBKIT,1) {
+    TEMPLATE = subdirs
 }
 

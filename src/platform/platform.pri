@@ -1,4 +1,4 @@
-unix:!macx {
+unix:!macx:!android {
     include(x11/x11platform.pri)
 }
 win32 {
@@ -7,7 +7,7 @@ win32 {
 macx {
     include(mac/macplatform.pri)
 }
-!unix:!win32 {
+!unix|android:!win32 {
     SOURCES += platform/dummy/dummyplatform.cpp
 }
 

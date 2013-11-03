@@ -30,6 +30,7 @@ HEADERS += \
     common/command.h \
     common/contenttype.h \
     common/option.h \
+    common/common.h \
     gui/aboutdialog.h \
     gui/actiondialog.h \
     gui/clipboardbrowser.h \
@@ -41,6 +42,8 @@ HEADERS += \
     gui/fancylineedit.h \
     gui/filterlineedit.h \
     gui/iconfactory.h \
+    gui/iconselectbutton.h \
+    gui/iconwidget.h \
     gui/itemorderlist.h \
     gui/mainwindow.h \
     gui/notificationdaemon.h \
@@ -69,11 +72,7 @@ HEADERS += \
     ../qt/bytearrayprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h \
-    common/common.h \
-    gui/icons.h \
-    gui/iconselectbutton.h \
-    gui/iconwidget.h
+    scriptable/scriptableworker.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -83,6 +82,7 @@ SOURCES += \
     common/action.cpp \
     common/arguments.cpp \
     common/client_server.cpp \
+    common/common.cpp \
     common/option.cpp \
     gui/aboutdialog.cpp \
     gui/actiondialog.cpp \
@@ -95,6 +95,8 @@ SOURCES += \
     gui/fancylineedit.cpp \
     gui/filterlineedit.cpp \
     gui/iconfactory.cpp \
+    gui/iconselectbutton.cpp \
+    gui/iconwidget.cpp \
     gui/itemorderlist.cpp \
     gui/mainwindow.cpp \
     gui/notification.cpp \
@@ -121,10 +123,7 @@ SOURCES += \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
-    scriptable/scriptableworker.cpp \
-    common/common.cpp \
-    gui/iconselectbutton.cpp \
-    gui/iconwidget.cpp
+    scriptable/scriptableworker.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
