@@ -54,6 +54,8 @@ private slots:
     void eval();
     void rawData();
 
+    void nextPrevious();
+
 private:
     bool startServer();
     bool stopServer();

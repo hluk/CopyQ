@@ -474,6 +474,29 @@ void Tests::rawData()
     }
 }
 
+void Tests::nextPrevious()
+{
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+    RUN(Args(args)  << "add" << "A" << "B" << "C", "");
+
+    RUN(Args(args)  << "next", "");
+    waitFor(waitMsClipboard);
+    RUN(Args(args)  << "read", "B");
+
+    RUN(Args(args)  << "next", "");
+    waitFor(waitMsClipboard);
+    RUN(Args(args)  << "read", "A");
+
+    RUN(Args(args)  << "previous", "");
+    waitFor(waitMsClipboard);
+    RUN(Args(args)  << "read", "B");
+
+    RUN(Args(args)  << "previous", "");
+    waitFor(waitMsClipboard);
+    RUN(Args(args)  << "read", "C");
+}
+
 bool Tests::startServer()
 {
     if (m_server != NULL)
