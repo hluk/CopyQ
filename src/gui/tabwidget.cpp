@@ -123,14 +123,14 @@ void TabWidget::removeTab(int tabIndex)
     if (tabIndex == currentIndex())
         setCurrentIndex(0);
 
+    QWidget *w = m_stackedWidget->widget(tabIndex);
+    m_stackedWidget->removeWidget(w);
+    delete w;
+
     if ( isTreeModeEnabled() )
         m_tabTree->removeTab(tabIndex);
     else
         m_tabBar->removeTab(tabIndex);
-
-    QWidget *w = m_stackedWidget->widget(tabIndex);
-    m_stackedWidget->removeWidget(w);
-    delete w;
 }
 
 void TabWidget::setTabPosition(QBoxLayout::Direction direction)

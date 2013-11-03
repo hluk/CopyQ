@@ -2259,7 +2259,7 @@ void MainWindow::removeTab(bool ask, int tabIndex)
         }
         if (answer == QMessageBox::Yes) {
             if ( ui->tabWidget->currentIndex() == tabIndex )
-                ui->tabWidget->setCurrentIndex(0);
+                ui->tabWidget->setCurrentIndex(tabIndex == 0 ? 1 : 0);
             c->purgeItems();
             c->deleteLater();
             w->removeTab(tabIndex);
