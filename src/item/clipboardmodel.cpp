@@ -304,8 +304,6 @@ QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
     qint32 length = model.rowCount();
     stream << length;
 
-    // save in reverse order so the items
-    // can be later restored in right order
     for(qint32 i = 0; i < length && stream.status() == QDataStream::Ok; ++i)
         serializeData( &stream, model.at(i)->data() );
 
