@@ -100,6 +100,9 @@ ConfigurationManager::~ConfigurationManager()
 
 bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
 {
+    if ( !createItemDirectory() )
+        return false;
+
     const QString fileName = itemFileName(id);
 
     // Load file with items.
