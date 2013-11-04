@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" package="org.qtproject.copyq" android:versionName="2.8.2">
+    <application android:name="org.qtproject.qt5.android.bindings.QtApplication" android:label="@string/app_name" android:icon="@drawable/icon">
+        <service android:process=":qt">
+            <meta-data android:name="android.app.arguments" android:value="monitor /data/data/org.qtproject.example.copyq/files/.config/copyq/.copyq_m"/>
+            <meta-data android:name="android.app.background_running" android:value="true"/>
+        </service>
+        <activity android:name="org.qtproject.qt5.android.bindings.QtActivity" android:screenOrientation="unspecified" android:configChanges="orientation|locale|fontScale|keyboard|keyboardHidden|navigation|screenSize" android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+            <meta-data android:name="android.app.qt_sources_resource_id" android:resource="@array/qt_sources"/>
+            <meta-data android:name="android.app.repository" android:value="@string/repository"/>
+            <meta-data android:name="android.app.qt_libs_resource_id" android:resource="@array/qt_libs"/>
+            <meta-data android:name="android.app.bundled_libs_resource_id" android:resource="@array/bundled_libs"/>
+            <meta-data android:name="android.app.lib_name" android:value="copyq"/>
+            <!-- Deploy Qt libs as part of package -->
+            <meta-data android:name="android.app.bundle_local_qt_libs" android:value="1"/>
+            <meta-data android:name="android.app.bundled_in_lib_resource_id" android:resource="@array/bundled_in_lib"/>
+            <meta-data android:name="android.app.bundled_in_assets_resource_id" android:resource="@array/bundled_in_assets"/>
+            <!-- Run with local libs -->
+            <meta-data android:name="android.app.use_local_qt_libs" android:value="1"/>
+            <meta-data android:name="android.app.libs_prefix" android:value="/data/local/tmp/qt/"/>
+            <meta-data android:name="android.app.load_local_libs" android:value="@string/local_libs"/>
+            <meta-data android:name="android.app.load_local_jars" android:value="@string/local_jars"/>
+            <meta-data android:name="android.app.static_init_classes" android:value="@string/init_classes"/>
+            <!--  Messages maps -->
+            <meta-data android:name="android.app.ministro_not_found_msg" android:value="@string/ministro_not_found_msg"/>
+            <meta-data android:name="android.app.ministro_needed_msg" android:value="@string/ministro_needed_msg"/>
+            <meta-data android:name="android.app.fatal_error_msg" android:value="@string/fatal_error_msg"/>
+            <!--  Messages maps -->
+            <!-- Splash screen -->
+            <meta-data android:name="android.app.splash_screen" android:resource="@layout/splash"/>
+            <!-- Splash screen -->
+        </activity>
+    </application>
+    <!-- %%INSERT_USES_SDK%% -->
+    <supports-screens android:normalScreens="true" android:smallScreens="true" android:anyDensity="true" android:largeScreens="true"/>
+
+
+    <!-- %%INSERT_PERMISSIONS -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <!-- %%INSERT_FEATURES -->
+</manifest>

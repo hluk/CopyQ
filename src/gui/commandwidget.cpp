@@ -40,7 +40,10 @@ const char globalShortcutsDisabled[] = "DISABLED";
 
 const QIcon iconClipboard() { return getIcon("", IconPaste); }
 const QIcon iconMenu() { return getIcon("", IconBars); }
+
+#ifndef NO_GLOBAL_SHORTCUTS
 const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
+#endif
 
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {
