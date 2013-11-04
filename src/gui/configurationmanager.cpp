@@ -591,6 +591,13 @@ void ConfigurationManager::saveCommands(const Commands &commands)
     settings.endArray();
 }
 
+QIcon ConfigurationManager::getCommandIcon(const QString &iconString) const
+{
+    static const QColor color = getDefaultIconColor(*ui->itemOrderListCommands, QPalette::Base);
+    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
+    return iconFactory->iconFromFile(iconString, color);
+}
+
 bool ConfigurationManager::loadGeometry(QWidget *widget) const
 {
     QSettings settings;
@@ -825,12 +832,13 @@ void ConfigurationManager::addCommand(const Command &c, bool save)
 
     cmdWidget->setTabs( value("tabs").toStringList() );
 
-    connect( cmdWidget, SIGNAL(iconChanged(QIcon)),
-             this, SLOT(onCurrentCommandWidgetIconChanged(QIcon)) );
+    connect( cmdWidget, SIGNAL(iconChanged(QString)),
+             this, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
     connect( cmdWidget, SIGNAL(nameChanged(QString)),
              this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
 
-    ui->itemOrderListCommands->appendItem(c.name, c.enable, cmdWidget->icon(), cmdWidget);
+    ui->itemOrderListCommands->appendItem(c.name, c.enable,
+                                          getCommandIcon(cmdWidget->currentIcon()), cmdWidget);
 
     if (save) {
         Commands cmds = commands(false, true);
@@ -1002,9 +1010,9 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
     ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
 }
 
-void ConfigurationManager::onCurrentCommandWidgetIconChanged(const QIcon &icon)
+void ConfigurationManager::onCurrentCommandWidgetIconChanged(const QString &iconString)
 {
-    ui->itemOrderListCommands->setCurrentItemIcon(icon);
+    ui->itemOrderListCommands->setCurrentItemIcon( getCommandIcon(iconString) );
 }
 
 void ConfigurationManager::onCurrentCommandWidgetNameChanged(const QString &name)

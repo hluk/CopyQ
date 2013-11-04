@@ -54,49 +54,27 @@
         <string>&amp;Icon:</string>
        </property>
        <property name="buddy">
-        <cstring>lineEditIcon</cstring>
+        <cstring>buttonIcon</cstring>
        </property>
       </widget>
      </item>
      <item row="1" column="1">
       <layout class="QHBoxLayout" name="horizontalLayout_3">
        <item>
-        <widget class="IconSelectButton" name="buttonIcon">
-         <property name="text">
-          <string/>
-         </property>
-        </widget>
+        <widget class="IconSelectButton" name="buttonIcon"/>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_9">
-         <item>
-          <widget class="QLineEdit" name="lineEditIcon">
-           <property name="toolTip">
-            <string>Icon shown in menu</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonBrowse">
-           <property name="text">
-            <string>&amp;Browse</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>
@@ -522,8 +500,6 @@ Note: If this is applied automatically, no other automatic commands are executed
  <tabstops>
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>
-  <tabstop>lineEditIcon</tabstop>
-  <tabstop>pushButtonBrowse</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>

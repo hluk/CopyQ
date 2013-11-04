@@ -27,7 +27,6 @@
 #include "gui/shortcutdialog.h"
 
 #include <QAction>
-#include <QFileDialog>
 #include <QFontMetrics>
 #include <QMenu>
 
@@ -36,7 +35,6 @@ CommandWidget::CommandWidget(QWidget *parent)
     , ui(new Ui::CommandWidget)
 {
     ui->setupUi(this);
-    ui->lineEditIcon->hide();
     setFocusProxy(ui->lineEditName);
     updateWidgets();
 }
@@ -67,7 +65,7 @@ Command CommandWidget::command() const
     c.remove = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
     c.enable = true;
-    c.icon   = ui->lineEditIcon->text();
+    c.icon   = ui->buttonIcon->currentIcon();
     c.shortcut = ui->pushButtonShortcut->text();
     c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
@@ -90,7 +88,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxTransform->setChecked(c.transform);
     ui->checkBoxIgnore->setChecked(c.remove);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
-    ui->lineEditIcon->setText(c.icon);
+    ui->buttonIcon->setCurrentIcon(c.icon);
     ui->pushButtonShortcut->setText(c.shortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
     ui->comboBoxOutputTab->setEditText(c.outputTab);
@@ -115,18 +113,9 @@ void CommandWidget::setFormats(const QStringList &formats)
     ui->comboBoxOutputFormat->setEditText(text);
 }
 
-QIcon CommandWidget::icon() const
+QString CommandWidget::currentIcon() const
 {
-   return ui->buttonIcon->icon();
-}
-
-void CommandWidget::on_pushButtonBrowse_clicked()
-{
-    QString filename = QFileDialog::getOpenFileName(
-                this, tr("Open Icon file"), QString(),
-                tr("Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)"));
-    if ( !filename.isNull() )
-        ui->lineEditIcon->setText(filename);
+   return ui->buttonIcon->currentIcon();
 }
 
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
@@ -134,14 +123,9 @@ void CommandWidget::on_lineEditName_textChanged(const QString &name)
     emit nameChanged(name);
 }
 
-void CommandWidget::on_lineEditIcon_textChanged(const QString &)
+void CommandWidget::on_buttonIcon_currentIconChanged(const QString &iconString)
 {
-    static const QColor color = getDefaultIconColor(*ui->buttonIcon, QPalette::Window);
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-    QIcon icon = iconFactory->iconFromFile( ui->lineEditIcon->text(), color );
-    ui->buttonIcon->setIcon(icon);
-    ui->buttonIcon->setText(QString());
-    emit iconChanged(icon);
+    emit iconChanged(iconString);
 }
 
 void CommandWidget::on_pushButtonShortcut_clicked()
@@ -169,11 +153,6 @@ void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
 void CommandWidget::on_checkBoxInMenu_stateChanged(int)
 {
     updateWidgets();
-}
-
-void CommandWidget::on_buttonIcon_currentIconChanged(int icon)
-{
-    ui->lineEditIcon->setText(QString(QChar(icon)));
 }
 
 void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)

@@ -51,19 +51,17 @@ public:
     void setFormats(const QStringList &formats);
 
     /** Return command icon. */
-    QIcon icon() const;
+    QString currentIcon() const;
 
 signals:
-    void iconChanged(const QIcon &icon);
+    void iconChanged(const QString &iconString);
 
     void nameChanged(const QString &name);
 
 private slots:
-    void on_pushButtonBrowse_clicked();
-
     void on_lineEditName_textChanged(const QString &name);
 
-    void on_lineEditIcon_textChanged(const QString &arg1);
+    void on_buttonIcon_currentIconChanged(const QString &iconString);
 
     void on_pushButtonShortcut_clicked();
 
@@ -72,8 +70,6 @@ private slots:
     void on_checkBoxAutomatic_stateChanged(int);
 
     void on_checkBoxInMenu_stateChanged(int);
-
-    void on_buttonIcon_currentIconChanged(int icon);
 
 private:
     void setTabs(const QStringList &tabs, QComboBox *w);

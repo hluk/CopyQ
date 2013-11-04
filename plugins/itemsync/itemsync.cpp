@@ -45,7 +45,7 @@ struct FileFormat {
     bool isValid() const { return !formats.isEmpty(); }
     QStringList formats;
     QString itemMime;
-    int icon;
+    QString icon;
 };
 
 namespace {
@@ -207,13 +207,18 @@ bool renameToUnique(const QString &fileName, QMultiMap<Hash, QString> *existingF
     return QFile::rename(fileName, newFileName);
 }
 
+QString iconFromId(int id)
+{
+    return id != -1 ? QString(QChar(id)) : QString();
+}
+
 QPushButton *createBrowseButton()
 {
     QScopedPointer<QPushButton> button(new QPushButton);
     QFont font("FontAwesome");
     font.setPixelSize(14);
     button->setFont(font);
-    button->setText( QString(QChar(IconFolderOpen)) );
+    button->setText( iconFromId(IconFolderOpen) );
     button->setToolTip( ItemSyncLoader::tr("Browse...") );
     return button.take();
 }
@@ -500,7 +505,7 @@ QVariantMap getMimeToExtensionMap(const QModelIndex &index)
     return mimeToExtension;
 }
 
-int iconFromMime(const QString &format)
+int iconFromMimeHelper(const QString &format)
 {
     if ( format.startsWith("video/") )
         return IconPlayCircle;
@@ -513,12 +518,13 @@ int iconFromMime(const QString &format)
     return -1;
 }
 
-int iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &formatSettings)
+QString iconFromMime(const QString &format)
 {
-    const FileFormat fileFormat = getFormatSettingsFromFileName(baseName, formatSettings);
-    if ( fileFormat.isValid() )
-        return fileFormat.icon;
+    return iconFromId(iconFromMimeHelper(format));
+}
 
+int iconFromBaseNameExtensionHelper(const QString &baseName)
+{
     const int i = baseName.lastIndexOf('.');
     if (i != -1)  {
         const QString ext = baseName.mid(i + 1);
@@ -537,9 +543,18 @@ int iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &
     return -1;
 }
 
+QString iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &formatSettings)
+{
+    const FileFormat fileFormat = getFormatSettingsFromFileName(baseName, formatSettings);
+    if ( fileFormat.isValid() )
+        return fileFormat.icon;
+
+    return iconFromId(iconFromBaseNameExtensionHelper(baseName));
+}
+
 } // namespace
 
-ItemSync::ItemSync(const QString &label, int icon, bool replaceChildItem, ItemWidget *childItem)
+ItemSync::ItemSync(const QString &label, const QString &icon, bool replaceChildItem, ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
     , m_label( new QTextEdit(this) )
@@ -935,7 +950,7 @@ QVariantMap ItemSyncLoader::applySettings()
                 .split( QRegExp("[,;\\s]"), QString::SkipEmptyParts );
         fileFormat.itemMime = t->item(row, formatSettingsTableColumns::itemMime)->text();
         fileFormat.icon = t->cellWidget(row, formatSettingsTableColumns::icon)
-                ->property("currentIcon").toInt();
+                ->property("currentIcon").toString();
         m_formatSettings.append(fileFormat);
 
         QVariantMap format;
@@ -969,7 +984,7 @@ void ItemSyncLoader::loadSettings(const QVariantMap &settings)
         FileFormat fileFormat;
         fileFormat.formats = format.value("formats").toStringList();
         fileFormat.itemMime = format.value("itemMime").toString();
-        fileFormat.icon = format.value("icon").toInt();
+        fileFormat.icon = format.value("icon").toString();
         m_formatSettings.append(fileFormat);
     }
 }
@@ -1016,7 +1031,7 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
         t->setItem( row, formatSettingsTableColumns::itemMime, new QTableWidgetItem(format.value("itemMime").toString()) );
 
         IconSelectButton *button = new IconSelectButton();
-        button->setCurrentIcon( format.value("icon", -1).toInt() );
+        button->setCurrentIcon( format.value("icon").toString() );
         t->setCellWidget(row, formatSettingsTableColumns::icon, button);
     }
     setNormalStretchFixedColumns(t, formatSettingsTableColumns::formats,
@@ -1208,7 +1223,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     bool noSave = dataMap.contains(mimeNoSave);
 
-    int icon = -1;
+    QString icon;
     if (noSave) {
         icon = iconFromBaseNameExtension(baseName, m_formatSettings);
     } else {
@@ -1219,13 +1234,13 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
             icon = mimeToExtension.contains(format)
                     ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)
                     : iconFromMime(format);
-            if (icon != -1)
+            if ( !icon.isNull() )
                 break;
         }
     }
 
-    if (icon == -1)
-        icon = IconFile;
+    if ( icon.isNull() )
+        icon = iconFromId(IconFile);
 
     return new ItemSync(baseName, icon, noSave, itemWidget);
 }

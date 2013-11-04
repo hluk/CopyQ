@@ -140,7 +140,7 @@ private slots:
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
 
-    void onCurrentCommandWidgetIconChanged(const QIcon &icon);
+    void onCurrentCommandWidgetIconChanged(const QString &iconString);
     void onCurrentCommandWidgetNameChanged(const QString &name);
     void on_spinBoxTrayItems_valueChanged(int value);
 
@@ -198,6 +198,8 @@ private:
     void bind(const char *optionKey, const QVariant &defaultValue);
 
     void saveCommands(const Commands &commands);
+
+    QIcon getCommandIcon(const QString &iconString) const;
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

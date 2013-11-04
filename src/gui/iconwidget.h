@@ -30,6 +30,8 @@ class IconWidget : public QWidget
 public:
     explicit IconWidget(int icon, QWidget *parent = NULL);
 
+    explicit IconWidget(const QString &icon, QWidget *parent = NULL);
+
     virtual QSize sizeHint() const;
 
 protected:

@@ -36,6 +36,13 @@ IconWidget::IconWidget(int icon, QWidget *parent)
     setFixedSize(sizeHint());
 }
 
+IconWidget::IconWidget(const QString &icon, QWidget *parent)
+    : QWidget(parent)
+    , m_icon(icon)
+{
+    setFixedSize(sizeHint());
+}
+
 QSize IconWidget::sizeHint() const
 {
     return m_icon.isEmpty() ? QSize(0, 0) : QSize(16, 16);
@@ -48,12 +55,17 @@ void IconWidget::paintEvent(QPaintEvent *)
 
     QPainter p(this);
 
-    QFont iconFont("FontAwesome");
-    iconFont.setPixelSize(14);
-    p.setFont(iconFont);
-    p.setRenderHint(QPainter::TextAntialiasing, true);
+    if (m_icon.size() == 1) {
+        QFont iconFont("FontAwesome");
+        iconFont.setPixelSize(14);
+        p.setFont(iconFont);
+        p.setRenderHint(QPainter::TextAntialiasing, true);
 
-    if (parentWidget())
-        p.setPen( parentWidget()->palette().color(QPalette::Text) );
-    p.drawText( QPoint(1, 15), m_icon);
+        if (parentWidget())
+            p.setPen( parentWidget()->palette().color(QPalette::Text) );
+        p.drawText( QPoint(1, 15), m_icon);
+    } else {
+        QPixmap pix(m_icon);
+        p.drawPixmap( 0, 0, pix.scaled(size(), Qt::KeepAspectRatio) );
+    }
 }

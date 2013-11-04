@@ -22,63 +22,181 @@
 #include "gui/icons.h"
 
 #include <QAction>
+#include <QDialogButtonBox>
+#include <QDialog>
+#include <QFileDialog>
+#include <QIcon>
+#include <QListWidget>
 #include <QMenu>
+#include <QVBoxLayout>
 
 namespace {
 
-int iconForAction(QAction *action)
+static QRect lastDialogGeometry;
+static QStringList lastSelectedFileNames;
+
+class IconSelectDialog : public QDialog
 {
-    const QString iconText = action->text();
-    return iconText.isEmpty() ? IconFirst - 1 : action->text().at(0).unicode();
-}
+    Q_OBJECT
+
+public:
+    IconSelectDialog(const QString &defaultIcon, QWidget *parent)
+        : QDialog(parent)
+        , m_iconList(new QListWidget(this))
+        , m_selectedIcon(defaultIcon)
+    {
+        m_iconList->setViewMode(QListView::IconMode);
+        connect( m_iconList, SIGNAL(activated(QModelIndex)),
+                 this, SLOT(onIconListItemActivated(QModelIndex)) );
+
+        QFont font("FontAwesome");
+        font.setPixelSize(14);
+        QFontMetrics fm(font);
+
+        m_iconList->setFont(font);
+        m_iconList->setGridSize( QSize(20, 20) );
+        m_iconList->setResizeMode(QListView::Adjust);
+        m_iconList->setSelectionMode(QAbstractItemView::SingleSelection);
+        m_iconList->setDragDropMode(QAbstractItemView::NoDragDrop);
+
+        m_iconList->addItem( QString("") );
+        m_iconList->item(0)->setSizeHint( QSize(20, 20) );
+
+        for (ushort i = IconFirst; i <= IconLast; ++i) {
+            QChar c(i);
+            if ( fm.inFont(c) ) {
+                const QString icon(c);
+                m_iconList->addItem(icon);
+                if (defaultIcon == icon)
+                    m_iconList->setCurrentRow(m_iconList->count() - 1);
+            }
+        }
+
+        QPushButton *browseButton = new QPushButton(tr("Browse..."), this);
+        if ( m_selectedIcon.size() > 2 )
+            browseButton->setIcon(QIcon(m_selectedIcon));
+        connect( browseButton, SIGNAL(clicked()),
+                 this, SLOT(onBrowse()) );
+
+        QDialogButtonBox *buttonBox = new QDialogButtonBox(
+                    QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, this);
+        connect( buttonBox, SIGNAL(rejected()),
+                 this, SLOT(reject()) );
+        connect( buttonBox, SIGNAL(accepted()),
+                 this, SLOT(onAcceptCurrent()) );
+
+        QVBoxLayout *layout = new QVBoxLayout(this);
+        layout->addWidget(m_iconList);
+
+        QHBoxLayout *buttonLayout = new QHBoxLayout(this);
+        layout->addLayout(buttonLayout);
+        buttonLayout->addWidget(browseButton);
+        buttonLayout->addWidget(buttonBox);
+
+        m_iconList->setFocus();
+
+        if ( lastDialogGeometry.isValid() )
+            setGeometry(lastDialogGeometry);
+        if (parent)
+            move( parent->mapToGlobal(QPoint(0, 0)) );
+    }
+
+    const QString &selectedIcon() const { return m_selectedIcon; }
+
+public slots:
+    void done(int result)
+    {
+        lastDialogGeometry = geometry();
+        QDialog::done(result);
+    }
+
+private slots:
+    void onIconListItemActivated(const QModelIndex &index)
+    {
+        m_selectedIcon = m_iconList->item(index.row())->text();
+        accept();
+    }
+
+    void onBrowse()
+    {
+        const QString fileName = QFileDialog::getOpenFileName(
+                    this, tr("Open Icon file"), m_selectedIcon,
+                    tr("Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)"));
+        if ( !fileName.isNull() ) {
+            m_selectedIcon = fileName;
+            accept();
+        }
+    }
+
+    void onAcceptCurrent()
+    {
+        const QModelIndex index = m_iconList->currentIndex();
+        if ( index.isValid() && m_iconList->item(index.row())->isSelected() )
+            onIconListItemActivated(index);
+        else
+            reject();
+    }
+
+private:
+    QListWidget *m_iconList;
+    QString m_selectedIcon;
+};
 
 } // namespace
 
 IconSelectButton::IconSelectButton(QWidget *parent)
-    : QToolButton(parent)
-    , m_currentIcon(IconFirst - 1)
+    : QPushButton(parent)
+    , m_currentIcon()
 {
-    setPopupMode(QToolButton::InstantPopup);
+    connect( this, SIGNAL(clicked()), SLOT(onClicked()) );
 
-    QFont font("FontAwesome");
-    font.setPixelSize(14);
-    QFontMetrics fm(font);
-
-    setFont(font);
-
-    QMenu *menu = new QMenu(this);
-    menu->addAction( QString() );
-    for (ushort i = IconFirst; i <= IconLast; ++i) {
-        QChar c(i);
-        if ( fm.inFont(c) ) {
-            QAction *act = menu->addAction( QString(c) );
-            act->setFont(font);
-        }
-    }
-    setMenu(menu);
-    connect( menu, SIGNAL(triggered(QAction*)),
-             this, SLOT(onIconChanged(QAction*)) );
+    // reset button text to "..."
+    m_currentIcon = "X";
+    setCurrentIcon(QString());
 }
 
-void IconSelectButton::setCurrentIcon(int icon)
+void IconSelectButton::setCurrentIcon(const QString &iconString)
 {
-    foreach ( QAction *action, menu()->actions() ) {
-        if ( iconForAction(action) == icon ) {
-            onIconChanged(action);
-            return;
+    if ( m_currentIcon == iconString )
+        return;
+
+    m_currentIcon = iconString;
+
+    setText(QString());
+    setIcon(QIcon());
+
+    if ( iconString.size() == 1 ) {
+        QFont font("FontAwesome");
+        font.setPixelSize(14);
+
+        const QChar c = iconString[0];
+        if ( c.unicode() >= IconFirst && c.unicode() <= IconLast && QFontMetrics(font).inFont(c) ) {
+            setFont(font);
+            setText(iconString);
+        } else {
+            m_currentIcon = QString();
         }
+    } else if ( !iconString.isEmpty() ) {
+        const QIcon icon(iconString);
+        if ( icon.isNull() )
+            m_currentIcon = QString();
+        else
+            setIcon(icon);
     }
 
-    if (m_currentIcon != IconFirst - 1) {
-        m_currentIcon = IconFirst - 1;
-        setText(QString());
-        emit currentIconChanged(m_currentIcon);
+    if (m_currentIcon.isEmpty()) {
+        setFont(QFont());
+        setText( tr("...", "Select/browse icon.") );
     }
-}
 
-void IconSelectButton::onIconChanged(QAction *action)
-{
-    m_currentIcon = iconForAction(action);
-    setText(action->text());
     emit currentIconChanged(m_currentIcon);
 }
+
+void IconSelectButton::onClicked()
+{
+    IconSelectDialog *dialog = new IconSelectDialog(m_currentIcon, this);
+    if ( dialog->exec() == QDialog::Accepted )
+        setCurrentIcon(dialog->selectedIcon());
+}
+
+#include "iconselectbutton.moc"

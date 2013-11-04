@@ -20,27 +20,27 @@
 #ifndef ICONSELECTBUTTON_H
 #define ICONSELECTBUTTON_H
 
-#include <QToolButton>
+#include <QPushButton>
 
-class IconSelectButton : public QToolButton
+class IconSelectButton : public QPushButton
 {
     Q_OBJECT
-    Q_PROPERTY(int currentIcon READ currentIcon WRITE setCurrentIcon NOTIFY currentIconChanged)
+    Q_PROPERTY(QString currentIcon READ currentIcon WRITE setCurrentIcon NOTIFY currentIconChanged)
 public:
     explicit IconSelectButton(QWidget *parent = NULL);
 
-    int currentIcon() const { return m_currentIcon; }
+    const QString &currentIcon() const { return m_currentIcon; }
 
-    void setCurrentIcon(int icon);
+    void setCurrentIcon(const QString &iconString);
 
 signals:
-    void currentIconChanged(int icon);
+    void currentIconChanged(const QString &icon);
 
 private slots:
-    void onIconChanged(QAction *action);
+    void onClicked();
 
 private:
-    int m_currentIcon;
+    QString m_currentIcon;
 };
 
 #endif // ICONSELECTBUTTON_H
