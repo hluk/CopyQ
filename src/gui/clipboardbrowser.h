@@ -127,8 +127,8 @@ class ClipboardBrowser : public QListView
         /**
          * Set ID. Used to save items. If ID is empty saving is disabled.
          */
-        void setID(const QString &id);
-        const QString &getID() const { return m_id; }
+        void setTabName(const QString &id);
+        const QString &tabName() const { return m_tabName; }
 
         /**
          * Return true if editing is active.
@@ -194,8 +194,8 @@ class ClipboardBrowser : public QListView
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
 
     private:
-        bool m_loaded;
-        QString m_id;
+        QSharedPointer<class ItemLoaderInterface> m_itemLoader;
+        QString m_tabName;
         int m_lastFiltered;
         bool m_update;
         ClipboardModel *m;
@@ -278,6 +278,8 @@ class ClipboardBrowser : public QListView
 
         void updateSearchProgress();
 
+        int getDropRow(const QPoint &position);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -320,7 +322,13 @@ class ClipboardBrowser : public QListView
         void contextMenuAction();
         void updateContextMenu();
 
+        void onRowsInserted(const QModelIndex &parent, int first, int last);
+
+        void onRowsRemoved(const QModelIndex &parent, int first, int last);
+
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
+
+        void onTabNameChanged(const QString &tabName);
 
         /** Delayed update. */
         void updateCurrentPage();

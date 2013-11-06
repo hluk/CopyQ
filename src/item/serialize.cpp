@@ -20,9 +20,12 @@
 #include "serialize.h"
 
 #include "common/common.h"
+#include "common/contenttype.h"
 
+#include <QAbstractItemModel>
 #include <QByteArray>
 #include <QDataStream>
+#include <QFile>
 #include <QList>
 #include <QObject>
 #include <QPair>
@@ -117,31 +120,31 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data)
 
 } // namespace
 
-void serializeData(QDataStream *out, const QVariantMap &data)
+void serializeData(QDataStream *stream, const QVariantMap &data)
 {
-    *out << (qint32)(-2);
+    *stream << (qint32)(-2);
 
     const qint32 size = data.size();
-    *out << size;
+    *stream << size;
 
     QByteArray bytes;
     foreach (const QString &mime, data.keys()) {
         bytes = data[mime].toByteArray();
         bool compress = shouldCompress(bytes, mime);
-        *out << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );
+        *stream << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );
     }
 }
 
-void deserializeData(QDataStream *out, QVariantMap *data)
+void deserializeData(QDataStream *stream, QVariantMap *data)
 {
     qint32 length;
 
-    *out >> length;
-    if ( out->status() != QDataStream::Ok )
+    *stream >> length;
+    if ( stream->status() != QDataStream::Ok )
         return;
 
     if (length == -2) {
-        deserializeDataV2(out, data);
+        deserializeDataV2(stream, data);
         return;
     }
 
@@ -149,12 +152,12 @@ void deserializeData(QDataStream *out, QVariantMap *data)
     // TODO: Data should be saved again in new format.
     QString mime;
     QByteArray tmpBytes;
-    for (qint32 i = 0; i < length && out->status() == QDataStream::Ok; ++i) {
-        *out >> mime >> tmpBytes;
+    for (qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
+        *stream >> mime >> tmpBytes;
         if( !tmpBytes.isEmpty() ) {
             tmpBytes = qUncompress(tmpBytes);
             if ( tmpBytes.isEmpty() ) {
-                out->setStatus(QDataStream::ReadCorruptData);
+                stream->setStatus(QDataStream::ReadCorruptData);
                 break;
             }
         }
@@ -175,4 +178,48 @@ bool deserializeData(QVariantMap *data, const QByteArray &bytes)
     QDataStream out(bytes);
     deserializeData(&out, data);
     return out.status() == QDataStream::Ok;
+}
+
+bool serializeData(const QAbstractItemModel &model, QDataStream *stream)
+{
+    qint32 length = model.rowCount();
+    *stream << length;
+
+    for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i)
+        serializeData( stream, model.data(model.index(i, 0), contentType::data).toMap() );
+
+    return stream->status() == QDataStream::Ok;
+}
+
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
+{
+    qint32 length;
+    *stream >> length;
+    if ( stream->status() != QDataStream::Ok )
+        return false;
+
+    length = qMin( length, model->property("maxItems").toInt() ) - model->rowCount();
+
+    for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
+        const int row = model->rowCount();
+        if ( !model->insertRow(row) )
+            return false;
+        QVariantMap data;
+        deserializeData(stream, &data);
+        model->setData( model->index(row, 0), data, contentType::data );
+    }
+
+    return stream->status() == QDataStream::Ok;
+}
+
+bool serializeData(const QAbstractItemModel &model, QFile *file)
+{
+    QDataStream stream(file);
+    return serializeData(model, &stream);
+}
+
+bool deserializeData(QAbstractItemModel *model, QFile *file)
+{
+    QDataStream stream(file);
+    return deserializeData(model, &stream);
 }

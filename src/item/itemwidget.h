@@ -200,24 +200,24 @@ public:
      * Load items.
      * @return true only if items were saved by this plugin (or just not to load them any further)
      */
-    virtual bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    virtual bool loadItems(QAbstractItemModel *model, QFile *file);
 
     /**
      * Save items.
      * @return true only if items were saved
      */
-    virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+    virtual bool saveItems(const QAbstractItemModel &model, QFile *file);
 
     /**
      * Create new tab and load items.
      * @return true only if any plugin (ItemLoaderInterface::createTab()) returned true
      */
-    virtual bool createTab(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    virtual bool createTab(QAbstractItemModel *model, QFile *file);
 
     /**
      * Called after items were loaded.
      */
-    virtual void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    virtual void itemsLoaded(QAbstractItemModel *model, QFile *file);
 
     /**
      * Allow to transform item widget (wrap around a new widget).
@@ -225,6 +225,17 @@ public:
      * New ItemWidget must take care of deleting the old one!
      */
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+
+    /**
+     * Called before items are deleted by user.
+     * @return true if items can be removed, false to cancel the removal
+     */
+    virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
+
+    /**
+     * Called when items are being deleted by user.
+     */
+    virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

@@ -638,7 +638,7 @@ int MainWindow::findBrowserIndex(const QString &id)
     int i = 0;
 
     while (c != NULL) {
-        if (c->getID() == id)
+        if (c->tabName() == id)
             return i;
         c = getBrowser(++i);
     }
@@ -760,7 +760,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
         return getBrowser(i);
 
     ClipboardBrowser *c = new ClipboardBrowser(this, m_sharedData);
-    c->setID(name);
+    c->setTabName(name);
     c->loadSettings();
     c->setAutoUpdate(true);
 
@@ -1370,7 +1370,7 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
     QStringList tabs;
     TabWidget *w = ui->tabWidget;
     for( int i = 0; i < w->count(); ++i )
-        tabs << getBrowser(i)->getID();
+        tabs << getBrowser(i)->tabName();
 
     QString prefix = afterPrefix + '/';
 
@@ -1410,7 +1410,7 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
                 }
 
                 ClipboardBrowser *c = getBrowser(from);
-                c->setID(newName);
+                c->setTabName(newName);
             }
 
             // Move tab.
@@ -1428,7 +1428,7 @@ void MainWindow::tabMenuRequested(const QPoint &pos, int tab)
     ClipboardBrowser *c = getBrowser(tab);
     if (c == NULL)
         return;
-    const QString tabName = c->getID();
+    const QString tabName = c->tabName();
     popupTabBarMenu(pos, tabName);
 }
 
@@ -1981,8 +1981,13 @@ void MainWindow::copyItems()
         return;
 
     ClipboardItem item;
-    item.setData( (indexes.size() == 1) ? c->itemData(indexes.first().row())
-                                        : c->copyIndexes(indexes) );
+    QVariantMap data = c->copyIndexes(indexes);
+    if ( indexes.size() == 1 ) {
+        QVariantMap data2 = c->itemData(indexes.first().row());
+        data2.remove(mimeItems);
+        data.unite(data2);
+    }
+    item.setData(data);
 
     emit changeClipboard(&item);
 }
@@ -1999,7 +2004,8 @@ bool MainWindow::saveTab(const QString &fileName, int tab_index)
     ClipboardBrowser *c = browser(i);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
-    out << QByteArray("CopyQ v1") << c->getID() << *model;
+    out << QByteArray("CopyQ v1") << c->tabName();
+    serializeData(*model, &out);
 
     file.close();
 
@@ -2051,7 +2057,7 @@ bool MainWindow::loadTab(const QString &fileName)
     ClipboardBrowser *c = createTab(tabName);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
-    in >> *model;
+    deserializeData(model, &in);
 
     c->loadItems();
     c->saveItems();
@@ -2207,7 +2213,7 @@ void MainWindow::renameTab(int tab)
 
     d->setTabIndex(i);
     d->setTabs(ui->tabWidget->tabs());
-    d->setTabName(browser(i)->getID());
+    d->setTabName(browser(i)->tabName());
 
     connect( d, SIGNAL(accepted(QString, int)),
              this, SLOT(renameTab(QString, int)) );
@@ -2224,7 +2230,7 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
 
     ClipboardBrowser *c = browser(tabIndex);
 
-    c->setID(name);
+    c->setTabName(name);
     ui->tabWidget->setTabText(tabIndex, name);
 
     ConfigurationManager *cm = ConfigurationManager::instance();

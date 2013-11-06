@@ -206,7 +206,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-bool ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, QFile *file)
+bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
 {
     bool encrypted = isEncryptedFile(file);
 
@@ -261,12 +261,12 @@ bool ItemEncryptedLoader::loadItems(const QString &, QAbstractItemModel *model, 
     return encrypted;
 }
 
-bool ItemEncryptedLoader::saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file)
+bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file)
 {
     if (m_gpgProcessStatus == GpgNotInstalled)
         return false;
 
-    if ( !shouldEncryptTab(tabName) )
+    if ( !shouldEncryptTab(model) )
         return false;
 
     quint64 length = model.rowCount();
@@ -298,16 +298,16 @@ bool ItemEncryptedLoader::saveItems(const QString &tabName, const QAbstractItemM
     return true;
 }
 
-void ItemEncryptedLoader::itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file)
+void ItemEncryptedLoader::itemsLoaded(QAbstractItemModel *model, QFile *file)
 {
     if (m_gpgProcessStatus == GpgNotInstalled)
         return;
 
     // Check if items need to be save again.
-    bool encrypt = shouldEncryptTab(tabName);
+    bool encrypt = shouldEncryptTab(*model);
     if ( encrypt != isEncryptedFile(file) ) {
         if (encrypt)
-            saveItems(tabName, *model, file);
+            saveItems(*model, file);
         else
             model->setProperty("dirty", true);
     }
@@ -402,8 +402,10 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
     }
 }
 
-bool ItemEncryptedLoader::shouldEncryptTab(const QString &tabName) const
+bool ItemEncryptedLoader::shouldEncryptTab(const QAbstractItemModel &model) const
 {
+    const QString tabName = model.property("tabName").toString();
+
     foreach ( const QString &encryptTabName, m_settings.value("encrypt_tabs").toStringList() ) {
         QString tabName1 = tabName;
 

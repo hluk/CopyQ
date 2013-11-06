@@ -86,7 +86,7 @@ void ClipboardItem::setData(const QVariantMap &data)
 bool ClipboardItem::updateData(const QVariantMap &data)
 {
     const int oldSize = m_data.size();
-    foreach ( const QString &format, m_data.keys() ) {
+    foreach ( const QString &format, data.keys() ) {
         if ( !format.startsWith(MIME_PREFIX) ) {
             clearDataExceptInternal(&m_data);
             break;

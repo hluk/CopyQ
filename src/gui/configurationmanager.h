@@ -43,6 +43,8 @@ class QSpinBox;
 
 struct Command;
 
+typedef QSharedPointer<class ItemLoaderInterface> ItemLoaderInterfacePtr;
+
 /**
  * Configuration management.
  * Singleton.
@@ -78,17 +80,14 @@ public:
     QString optionToolTip(const QString &name) const;
 
     /** Load items from configuration file. */
-    bool loadItems(
-            ClipboardModel &model, //!< Model for items.
-            const QString &id //!< See ClipboardBrowser::getID().
+    ItemLoaderInterfacePtr loadItems(
+            ClipboardModel &model //!< Model for items.
             );
     /** Save items to configuration file. */
-    bool saveItems(const ClipboardModel &model, //!< Model containing items to save.
-            const QString &id //!< See ClipboardBrowser::getID().
+    bool saveItems(const ClipboardModel &model //!< Model containing items to save.
             );
     /** Remove configuration file for items. */
-    void removeItems(
-            const QString &id //!< See ClipboardBrowser::getID().
+    void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
             );
     /** Move configuration file for items. */
     void moveItems(

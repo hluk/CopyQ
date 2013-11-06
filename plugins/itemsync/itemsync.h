@@ -77,6 +77,15 @@ private:
 
 /**
  * Synchronizes selected tab with destination path.
+ *
+ * For all tabs that have user-set synchronization directory, loads up to maximum number of items
+ * from files (tries to use the same files every time tab is loaded).
+ *
+ * Items contains base name of assigned files. E.g. files 'example.txt', 'example.html' and
+ * 'example_notes.txt' belong to single item with base name 'example' containing text, HTML and
+ * notes.
+ *
+ * If item data are changed it is saved to appropriate files.
  */
 class ItemSyncLoader : public QObject, public ItemLoaderInterface
 {
@@ -92,7 +101,7 @@ public:
     virtual QString id() const { return "itemsync"; }
     virtual QString name() const { return tr("Synchronize"); }
     virtual QString author() const { return QString(); }
-    virtual QString description() const { return tr("Synchronize items with a directory on disk."); }
+    virtual QString description() const { return tr("Synchronize items and notes with a directory on disk."); }
     virtual QVariant icon() const { return QVariant(IconUploadAlt); }
 
     virtual QVariantMap applySettings();
@@ -101,13 +110,17 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
-    virtual bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    virtual bool loadItems(QAbstractItemModel *model, QFile *file);
 
-    virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+    virtual bool saveItems(const QAbstractItemModel &model, QFile *file);
 
-    virtual bool createTab(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    virtual bool createTab(QAbstractItemModel *model, QFile *file);
 
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
+
+    virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
+
+    virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
 
 private slots:
     void removeWatcher(QObject *watcher);
@@ -115,9 +128,10 @@ private slots:
     void onBrowseButtonClicked();
 
 private:
-    bool shouldSyncTab(const QString &tabName) const;
-    QString tabPath(const QString &tabName) const;
-    FileWatcher *createWatcher(QAbstractItemModel *model, const QStringList &paths);
+    bool shouldSyncTab(const QAbstractItemModel &model) const;
+    QString tabPath(const QAbstractItemModel &model) const;
+    FileWatcher *createWatcher(QAbstractItemModel *model, const QString &tabPath,
+                               const QStringList &paths);
 
     Ui::ItemSyncSettings *ui;
     QVariantMap m_settings;

@@ -98,12 +98,13 @@ ConfigurationManager::~ConfigurationManager()
     delete ui;
 }
 
-bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
+ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
 {
     if ( !createItemDirectory() )
-        return false;
+        return ItemLoaderInterfacePtr();
 
-    const QString fileName = itemFileName(id);
+    const QString tabName = model.property("tabName").toString();
+    const QString fileName = itemFileName(tabName);
 
     // Load file with items.
     QFile file(fileName);
@@ -114,51 +115,45 @@ bool ConfigurationManager::loadItems(ClipboardModel &model, const QString &id)
             tmpFile.rename(fileName);
     }
 
-    COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(id) );
+    COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
+
+    ItemLoaderInterfacePtr loader;
 
     if ( file.exists() ) {
-        if ( !file.open(QIODevice::ReadOnly) ) {
+        if ( !file.open(QIODevice::ReadOnly) )
             model.setDisabled(true);
-        } else if ( !itemFactory()->loadItems(id, &model, &file) && file.size() > 0 ) {
-            file.seek(0);
-            QDataStream in(&file);
-            in >> model;
-            if ( in.status() != QDataStream::Ok ) {
-                log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
-                     .arg( quoteString(file.fileName()) ),
-                     LogError );
-                model.setDisabled(true);
-            }
-        }
+        else
+            loader = itemFactory()->loadItems(&model, &file);
     } else {
-        COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(id) );
+        COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
         if ( file.open(QIODevice::ReadWrite) )
-            itemFactory()->createTab(id, &model, &file);
+            loader = itemFactory()->createTab(&model, &file);
         else
             model.setDisabled(true);
     }
 
-    COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(id).arg(model.rowCount()) );
+    COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
 
     if ( model.isDisabled() ) {
-        COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(id) );
-        return false;
+        COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(tabName) );
+        return ItemLoaderInterfacePtr();
     }
 
-    itemFactory()->itemsLoaded(id, &model, &file);
+    itemFactory()->itemsLoaded(&model, &file);
 
     if ( model.isDirty() ) {
-        COPYQ_LOG( QString("Tab \"%1\": Dirty").arg(id) );
-        saveItems(model, id);
+        COPYQ_LOG( QString("Tab \"%1\": Dirty").arg(tabName) );
+        saveItems(model);
         model.setDirty(false);
     }
 
-    return true;
+    return loader;
 }
 
-bool ConfigurationManager::saveItems(const ClipboardModel &model, const QString &id)
+bool ConfigurationManager::saveItems(const ClipboardModel &model)
 {
-    const QString fileName = itemFileName(id);
+    const QString tabName = model.property("tabName").toString();
+    const QString fileName = itemFileName(tabName);
 
     if ( !createItemDirectory() )
         return false;
@@ -166,30 +161,27 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model, const QString 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
     if ( !file.open(QIODevice::WriteOnly) ) {
-        printItemFileError(id, fileName, file);
+        printItemFileError(tabName, fileName, file);
         return false;
     }
 
-    COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(id).arg(model.rowCount()) );
+    COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
-    if ( !itemFactory()->saveItems(id, model, &file) ) {
-        QDataStream out(&file);
-        out << model;
-    }
+    itemFactory()->saveItems(model, &file);
 
-    COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(id) );
+    COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
 
     // Overwrite previous file.
     QFile::remove(fileName);
     if ( !file.rename(fileName) )
-        printItemFileError(id, fileName, file);
+        printItemFileError(tabName, fileName, file);
 
     return true;
 }
 
-void ConfigurationManager::removeItems(const QString &id)
+void ConfigurationManager::removeItems(const QString &tabName)
 {
-    QFile::remove( itemFileName(id) );
+    QFile::remove( itemFileName(tabName) );
 }
 
 void ConfigurationManager::moveItems(const QString &oldId, const QString &newId)

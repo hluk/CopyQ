@@ -42,7 +42,7 @@ class ClipboardModel : public QAbstractListModel
     Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
     Q_PROPERTY(bool disabled READ isDisabled WRITE setDisabled)
     Q_PROPERTY(bool dirty READ isDirty WRITE setDirty)
-    Q_PROPERTY(QString itemRemovalQuestion READ itemRemovalQuestion WRITE setItemRemovalQuestion)
+    Q_PROPERTY(QString tabName READ tabName WRITE setTabName NOTIFY tabNameChanged)
 
 public:
     typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
@@ -110,10 +110,10 @@ public:
 
     void setDirty(bool dirty) { m_dirty = dirty; }
 
-    /** Question before removing item (e.g. "Really remove items?"). Don't ast if empty. */
-    const QString &itemRemovalQuestion() const { return m_itemRemovalQuestion; }
+    /** Dirty model should be saved. */
+    const QString &tabName() const { return m_tabName; }
 
-    void setItemRemovalQuestion(const QString &itemRemovalQuestion) { m_itemRemovalQuestion = itemRemovalQuestion; }
+    void setTabName(const QString &tabName);
 
     /**
      * Move an item.
@@ -127,12 +127,13 @@ public:
      * Move items.
      * @return True only if all items was successfully moved.
      */
-    bool moveItems(
+    bool moveItemsWithKeyboard(
             QModelIndexList list, //!< Indexed of items to move.
-            int key
+            int key,
             /*!< Key representing direction for movement (can be one of
              *   Qt::Key_Down, Qt::Key_Up, Qt::Key_End, Qt::Key_Home).
              */
+            int count = 1
             );
 
     /**
@@ -167,21 +168,14 @@ public:
 
 signals:
     void unloaded();
+    void tabNameChanged(const QString &tabName);
 
 private:
     QList<ClipboardItemPtr> m_clipboardList;
     int m_max;
     bool m_disabled;
     bool m_dirty;
-    QString m_itemRemovalQuestion;
+    QString m_tabName;
 };
-
-/**
- * @defgroup clipboard_model_serialization_operators ClipboardModel Serialization Operators
- * @{
- */
-QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model);
-QDataStream &operator>>(QDataStream &stream, ClipboardModel &model);
-///@}
 
 #endif // CLIPBOARDMODEL_H

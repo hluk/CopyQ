@@ -22,12 +22,19 @@
 
 #include <QVariantMap>
 
+class QAbstractItemModel;
 class QByteArray;
 class QDataStream;
+class QFile;
 
 void serializeData(QDataStream *out, const QVariantMap &data);
-void deserializeData(QDataStream *out, QVariantMap *data);
+void deserializeData(QDataStream *stream, QVariantMap *data);
 QByteArray serializeData(const QVariantMap &data);
 bool deserializeData(QVariantMap *data, const QByteArray &bytes);
+
+bool serializeData(const QAbstractItemModel &model, QDataStream *stream);
+bool deserializeData(QAbstractItemModel *model, QDataStream *stream);
+bool serializeData(const QAbstractItemModel &model, QFile *file);
+bool deserializeData(QAbstractItemModel *model, QFile *file);
 
 #endif // SERIALIZE_H

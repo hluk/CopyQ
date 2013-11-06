@@ -32,7 +32,6 @@ ClipboardModel::ClipboardModel(QObject *parent)
     , m_max(100)
     , m_disabled(false)
     , m_dirty(false)
-    , m_itemRemovalQuestion()
 {
 }
 
@@ -95,7 +94,11 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
         if ( !m_clipboardList[row]->updateData(value.toMap()) )
             return false;
     } else if (role == contentType::data) {
-        m_clipboardList[row]->setData(value.toMap());
+        const ClipboardItemPtr &item = m_clipboardList[row];
+        const QVariantMap dataMap = value.toMap();
+        if ( item->data() == dataMap )
+            return false;
+        item->setData(dataMap);
     } else if (role >= contentType::removeFormats) {
         if ( !m_clipboardList[row]->removeData(value.toStringList()) )
             return false;
@@ -198,6 +201,15 @@ void ClipboardModel::setMaxItems(int max)
     endRemoveRows();
 }
 
+void ClipboardModel::setTabName(const QString &tabName)
+{
+    if (m_tabName == tabName)
+        return;
+
+    m_tabName = tabName;
+    emit tabNameChanged(m_tabName);
+}
+
 bool ClipboardModel::move(int pos, int newpos)
 {
     int from = getRowNumber(pos,true);
@@ -216,7 +228,7 @@ bool ClipboardModel::move(int pos, int newpos)
     return true;
 }
 
-bool ClipboardModel::moveItems(QModelIndexList indexList, int key) {
+bool ClipboardModel::moveItemsWithKeyboard(QModelIndexList indexList, int key, int count) {
     int from, to;
     bool res = false;
 
@@ -234,10 +246,10 @@ bool ClipboardModel::moveItems(QModelIndexList indexList, int key) {
 
         switch (key) {
         case Qt::Key_Down:
-            to = from+1;
+            to = from + count;
             break;
         case Qt::Key_Up:
-            to = from-1;
+            to = from - count;
             break;
         case Qt::Key_End:
             to = rowCount()-i-1;
@@ -297,34 +309,4 @@ int ClipboardModel::findItem(uint item_hash) const
     }
 
     return -1;
-}
-
-QDataStream &operator<<(QDataStream &stream, const ClipboardModel &model)
-{
-    qint32 length = model.rowCount();
-    stream << length;
-
-    for(qint32 i = 0; i < length && stream.status() == QDataStream::Ok; ++i)
-        serializeData( &stream, model.at(i)->data() );
-
-    return stream;
-}
-
-QDataStream &operator>>(QDataStream &stream, ClipboardModel &model)
-{
-    qint32 length;
-    stream >> length;
-    if ( stream.status() != QDataStream::Ok )
-        return stream;
-    length = qMin( length, model.maxItems() ) - model.rowCount();
-
-    ClipboardItem *item;
-    for(qint32 i = 0; i < length && stream.status() == QDataStream::Ok; ++i) {
-        item = model.append();
-        QVariantMap data;
-        deserializeData(&stream, &data);
-        item->setData(data);
-    }
-
-    return stream;
 }

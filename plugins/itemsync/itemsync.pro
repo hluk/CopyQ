@@ -7,7 +7,8 @@ SOURCES += itemsync.cpp
 SOURCES += \
     ../../src/common/common.cpp \
     ../../src/gui/iconselectbutton.cpp \
-    ../../src/gui/iconwidget.cpp
+    ../../src/gui/iconwidget.cpp \
+    ../../src/item/serialize.cpp
 FORMS   += itemsyncsettings.ui
 TARGET   = $$qtLibraryTarget(itemsync)
 

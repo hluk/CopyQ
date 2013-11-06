@@ -21,7 +21,8 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
-#include "itemwidget.h"
+#include "item/itemwidget.h"
+#include "item/serialize.h"
 
 #include <QCoreApplication>
 #include <QDir>
@@ -137,11 +138,41 @@ private:
     bool m_hasText;
 };
 
+class DummyLoader : public ItemLoaderInterface
+{
+public:
+    QString id() const { return QString(); }
+    QString name() const { return QString(); }
+    QString author() const { return QString(); }
+    QString description() const { return QString(); }
+
+    bool loadItems(QAbstractItemModel *model, QFile *file)
+    {
+        if ( file->size() > 0 ) {
+            file->seek(0);
+            if ( !deserializeData(model, file) ) {
+                log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
+                     .arg( quoteString(file->fileName()) ),
+                     LogError );
+                model->setProperty("disabled", true);
+            }
+        }
+
+        return true;
+    }
+
+    bool saveItems(const QAbstractItemModel &model, QFile *file)
+    {
+        return serializeData(model, file);
+    }
+};
+
 } // namespace
 
 ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
     , m_loaders()
+    , m_dummyLoader(new DummyLoader)
     , m_disabledLoaders()
     , m_loaderChildren()
 { 
@@ -240,49 +271,51 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
     return !m_disabledLoaders.contains(loader);
 }
 
-bool ItemFactory::loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file)
+ItemLoaderInterfacePtr ItemFactory::loadItems(QAbstractItemModel *model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         file->seek(0);
-        if ( isLoaderEnabled(loader) && loader->loadItems(tabName, model, file) )
-            return true;
+        if ( isLoaderEnabled(loader) && loader->loadItems(model, file) )
+            return loader;
     }
 
-    return false;
+    m_dummyLoader->loadItems(model, file);
+    return m_dummyLoader;
 }
 
-bool ItemFactory::saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file)
+bool ItemFactory::saveItems(const QAbstractItemModel &model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             file->seek(0);
-            if ( loader->saveItems(tabName, model, file) )
+            if ( loader->saveItems(model, file) )
                 return true;
         }
     }
 
-    return false;
+    return m_dummyLoader->saveItems(model, file);
 }
 
-void ItemFactory::itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file)
+void ItemFactory::itemsLoaded(QAbstractItemModel *model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         if ( isLoaderEnabled(loader) )
-            loader->itemsLoaded(tabName, model, file);
+            loader->itemsLoaded(model, file);
     }
 }
 
-bool ItemFactory::createTab(const QString &tabName, QAbstractItemModel *model, QFile *file)
+ItemLoaderInterfacePtr ItemFactory::createTab(QAbstractItemModel *model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             file->seek(0);
-            if ( loader->createTab(tabName, model, file) )
-                return true;
+            if ( loader->createTab(model, file) )
+                return loader;
         }
     }
 
-    return false;
+    m_dummyLoader->createTab(model, file);
+    return m_dummyLoader;
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)

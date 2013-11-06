@@ -75,20 +75,17 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
-    virtual bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    virtual bool loadItems(QAbstractItemModel *model, QFile *file);
 
-    virtual bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+    virtual bool saveItems(const QAbstractItemModel &model, QFile *file);
 
-    virtual void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
-
-signals:
-    void pluginDisableTab(const QString &tabName, bool disable);
+    virtual void itemsLoaded(QAbstractItemModel *model, QFile *file);
 
 private slots:
     void setPassword();
     void terminateGpgProcess();
     void onGpgProcessFinished(int exitCode, QProcess::ExitStatus exitStatus);
-    bool shouldEncryptTab(const QString &tabName) const;
+    bool shouldEncryptTab(const QAbstractItemModel &model) const;
 
 private:
     enum GpgProcessStatus {

@@ -111,24 +111,24 @@ public:
      * Load items using a plugin.
      * @return true only if any plugin (ItemLoaderInterface::loadItems()) returned true
      */
-    bool loadItems(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    ItemLoaderInterfacePtr loadItems(QAbstractItemModel *model, QFile *file);
 
     /**
      * Save items using a plugin.
      * @return true only if items were saved
      */
-    bool saveItems(const QString &tabName, const QAbstractItemModel &model, QFile *file);
+    bool saveItems(const QAbstractItemModel &model, QFile *file);
 
     /**
      * Called after items were loaded.
      */
-    void itemsLoaded(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    void itemsLoaded(QAbstractItemModel *model, QFile *file);
 
     /**
      * Create new tab and load items using a plugin.
      * @return true only if any plugin (ItemLoaderInterface::createTab()) returned true
      */
-    bool createTab(const QString &tabName, QAbstractItemModel *model, QFile *file);
+    ItemLoaderInterfacePtr createTab(QAbstractItemModel *model, QFile *file);
 
 private slots:
     /** Called if child ItemWidget destroyed. **/
@@ -142,6 +142,7 @@ private:
     ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);
 
     QVector<ItemLoaderInterfacePtr> m_loaders;
+    ItemLoaderInterfacePtr m_dummyLoader;
     QSet<ItemLoaderInterfacePtr> m_disabledLoaders;
     QMap<QObject *, ItemLoaderInterfacePtr> m_loaderChildren;
 };

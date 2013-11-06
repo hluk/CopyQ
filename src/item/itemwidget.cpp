@@ -110,26 +110,35 @@ ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const
     return NULL;
 }
 
-bool ItemLoaderInterface::loadItems(const QString &, QAbstractItemModel *, QFile *)
+bool ItemLoaderInterface::loadItems(QAbstractItemModel *, QFile *)
 {
     return false;
 }
 
-bool ItemLoaderInterface::saveItems(const QString &, const QAbstractItemModel &, QFile *)
+bool ItemLoaderInterface::saveItems(const QAbstractItemModel &, QFile *)
 {
     return false;
 }
 
-bool ItemLoaderInterface::createTab(const QString &, QAbstractItemModel *, QFile *)
+bool ItemLoaderInterface::createTab(QAbstractItemModel *, QFile *)
 {
     return false;
 }
 
-void ItemLoaderInterface::itemsLoaded(const QString &, QAbstractItemModel *, QFile *)
+void ItemLoaderInterface::itemsLoaded(QAbstractItemModel *, QFile *)
 {
 }
 
 ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
 {
     return NULL;
+}
+
+bool ItemLoaderInterface::canRemoveItems(const QList<QModelIndex> &)
+{
+    return true;
+}
+
+void ItemLoaderInterface::itemsRemovedByUser(const QList<QModelIndex> &)
+{
 }
