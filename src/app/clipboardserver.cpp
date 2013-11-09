@@ -260,6 +260,8 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
 
 void ClipboardServer::onAboutToQuit()
 {
+    COPYQ_LOG("Closing server.");
+
     emit terminateClientThreads();
     m_clientThreads.waitForDone();
     m_internalThreads.waitForDone();

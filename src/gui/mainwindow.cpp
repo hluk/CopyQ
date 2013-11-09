@@ -306,6 +306,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
     }
 
     event->ignore();
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::hideEvent(QHideEvent *event)

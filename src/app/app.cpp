@@ -31,22 +31,20 @@
 #endif
 
 #ifdef Q_OS_UNIX
-#   include <QSocketNotifier>
 #   include <signal.h>
 #   include <sys/socket.h>
 #   include <unistd.h>
 
 namespace {
 
-int signalFd[2];
-
 /**
  * Unix signal handler (TERM, HUP).
  */
 void exitSignalHandler(int)
 {
-    char a = 1;
-    ::write(signalFd[0], &a, sizeof(a));
+    COPYQ_LOG("Terminating application on signal.");
+    if ( QCoreApplication::instance() )
+        QCoreApplication::instance()->quit();
 }
 
 } // namespace
@@ -84,22 +82,17 @@ App::App(QCoreApplication *application, const QString &sessionName)
 
 #ifdef Q_OS_UNIX
     // Safely quit application on TERM and HUP signals.
-    if ( ::socketpair(AF_UNIX, SOCK_STREAM, 0, signalFd) != 0 ) {
-        log( QString("socketpair() failed!"), LogError );
-    } else {
-        QSocketNotifier *sn = new QSocketNotifier(signalFd[1], QSocketNotifier::Read, m_app.data());
-        sn->connect( sn, SIGNAL(activated(int)), m_app.data(), SLOT(quit()) );
+    struct sigaction sigact;
 
-        struct sigaction sigact;
+    sigact.sa_handler = ::exitSignalHandler;
+    sigemptyset(&sigact.sa_mask);
+    sigact.sa_flags = 0;
+    sigact.sa_flags |= SA_RESTART;
 
-        sigact.sa_handler = ::exitSignalHandler;
-        sigemptyset(&sigact.sa_mask);
-        sigact.sa_flags = 0;
-        sigact.sa_flags |= SA_RESTART;
-
-        if ( sigaction(SIGHUP, &sigact, 0) > 0 || sigaction(SIGTERM, &sigact, 0) > 0 )
-            log( QString("sigaction() failed!"), LogError );
-    }
+    if ( sigaction(SIGHUP, &sigact, 0) > 0
+         || sigaction(SIGINT, &sigact, 0) > 0
+         || sigaction(SIGTERM, &sigact, 0) > 0 )
+        log( QString("sigaction() failed!"), LogError );
 #endif
 }
 
