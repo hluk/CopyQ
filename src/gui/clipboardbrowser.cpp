@@ -1338,7 +1338,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         selected.clear();
         foreach (const QModelIndex &index, indexesToRemove)
             selected.append(index);
-        QWidget *target = drag->target();
+        QObject *target = drag->target();
         if (target == this || target == viewport()) {
             int count = getDropRow( mapFromGlobal(QCursor::pos()) ) - index.row();
             const int key = count > 0 ? Qt::Key_Down : Qt::Key_Up;
