@@ -1361,7 +1361,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 bool ItemSyncLoader::canRemoveItems(const QList<QModelIndex> &indexList)
 {
     return !containsItemsWithFiles(indexList)
-            || QMessageBox::question( NULL, tr("Remove Items?"),
+            || QMessageBox::question( QApplication::activeWindow(), tr("Remove Items?"),
                                       tr("Do you really want to <strong>remove items and associated files</strong>?"),
                                       QMessageBox::No | QMessageBox::Yes,
                                       QMessageBox::Yes ) == QMessageBox::Yes;
