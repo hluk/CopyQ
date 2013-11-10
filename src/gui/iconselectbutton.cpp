@@ -32,6 +32,8 @@
 
 namespace {
 
+const int gridSize = 22;
+
 static QRect lastDialogGeometry;
 static QStringList lastSelectedFileNames;
 
@@ -45,6 +47,8 @@ public:
         , m_iconList(new QListWidget(this))
         , m_selectedIcon(defaultIcon)
     {
+        setWindowTitle( tr("CopyQ Select Icon") );
+
         m_iconList->setViewMode(QListView::IconMode);
         connect( m_iconList, SIGNAL(activated(QModelIndex)),
                  this, SLOT(onIconListItemActivated(QModelIndex)) );
@@ -53,20 +57,22 @@ public:
         font.setPixelSize(14);
         QFontMetrics fm(font);
 
+        const QSize size(gridSize, gridSize);
         m_iconList->setFont(font);
-        m_iconList->setGridSize( QSize(20, 20) );
+        m_iconList->setGridSize(size);
         m_iconList->setResizeMode(QListView::Adjust);
         m_iconList->setSelectionMode(QAbstractItemView::SingleSelection);
         m_iconList->setDragDropMode(QAbstractItemView::NoDragDrop);
 
         m_iconList->addItem( QString("") );
-        m_iconList->item(0)->setSizeHint( QSize(20, 20) );
+        m_iconList->item(0)->setSizeHint(size);
 
         for (ushort i = IconFirst; i <= IconLast; ++i) {
             QChar c(i);
             if ( fm.inFont(c) ) {
                 const QString icon(c);
-                m_iconList->addItem(icon);
+                QListWidgetItem *item = new QListWidgetItem(icon, m_iconList);
+                item->setSizeHint(size);
                 if (defaultIcon == icon)
                     m_iconList->setCurrentRow(m_iconList->count() - 1);
             }
