@@ -23,7 +23,68 @@
 #include "common/common.h"
 #include "configurationmanager.h"
 
-static QString aboutPage()
+namespace {
+
+QString helpKeys(const QString &description, const QString &keys)
+{
+    static bool odd = true;
+    odd = !odd;
+    return QString("<tr class='%1'><td>%2</td><td class='key'>%3</td></tr>")
+            .arg( odd ? "odd" : "" )
+            .arg( escapeHtml(description) )
+            .arg( escapeHtml(keys) );
+}
+
+QString helpUrl(const char *url)
+{
+    return QString("<a href='%2'>%2</a>").arg(url);
+}
+
+QString helpMail(const char *url)
+{
+    return QString("<a href='mailto:%1'>%1</a>").arg(url);
+}
+
+QString helpLink(const QString &name, const QString &link)
+{
+    return QString("<tr><td class='h3'>%1</td><td>%2</td></tr>").arg(name, link);
+}
+
+QString helpDeveloper(const char *name, const char *mail)
+{
+    return QString("<div>%1 (%2)</div>")
+            .arg(name)
+            .arg(mail);
+}
+
+QString helpLib(const char *name, const QString &description, const QString &copyright, const char *url)
+{
+    return QString("<p class=\"ppp\"><span class='h2x'>%1</span> (%2)<br />%3 (%4)</p>")
+            .arg(name)
+            .arg( escapeHtml(description) )
+            .arg(copyright)
+            .arg( helpUrl(url) );
+}
+
+} // namespace
+
+AboutDialog::AboutDialog(QWidget *parent)
+    : QDialog(parent)
+    , ui(new Ui::AboutDialog)
+{
+    ui->setupUi(this);
+    ui->textBrowser->setText( aboutPage() );
+    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
+
+    ConfigurationManager::instance()->loadGeometry(this);
+}
+
+AboutDialog::~AboutDialog()
+{
+    delete ui;
+}
+
+QString AboutDialog::aboutPage()
 {
     return
         "<html>"
@@ -58,123 +119,71 @@ static QString aboutPage()
         // title
         "<div class='h1'>CopyQ</div>"
         // subtitle
-        "<div class=\"h1x\">" + escapeHtml(AboutDialog::tr("Clipboard Manager"))
+        "<div class=\"h1x\">" + escapeHtml(tr("Clipboard Manager"))
             + " v" COPYQ_VERSION "</div>"
 
         "<p></p>"
 
         "<p><table>"
-
         // copyright
         "<tr><td colspan=\"2\">Copyright (c) 2009 - 2013</td></tr>"
         // author
         "<tr><td colspan=\"2\">Lukas Holecek</td></tr>"
-        // e-mail
-        "<tr>"
-        "<td class='h3'>" + escapeHtml(AboutDialog::tr("E-mail")) + "</td>"
-        "<td><a href=\"mailto:hluk@email.cz\">hluk@email.cz</a></td>"
-        "</tr>"
-        // web
-        "<tr>"
-        "<td class='h3'>" + escapeHtml(AboutDialog::tr("Web")) + "</td>"
-        "<td><a href=\"https://sourceforge.net/projects/copyq/\">https://sourceforge.net/projects/copyq/</a></td>"
-        "</tr>"
-        "<tr>"
-        "<td></td>"
-        "<td><a href=\"http://github.com/hluk/copyq\">github.com/hluk/copyq</a></td>"
-        "</tr>"
-        // wiki
-        "<tr>"
-        "<td class='h3'>" + escapeHtml(AboutDialog::tr("Wiki")) + "</td>"
-        "<td><a href=\"https://sourceforge.net/p/copyq/wiki/Home/\">https://sourceforge.net/p/copyq/wiki/Home/</a></td>"
-        "</tr>"
-
+            + helpLink( tr("E-mail"), helpMail("hluk@email.cz") )
+            + helpLink( tr("Web"), helpUrl("http://hluk.github.io/CopyQ/") )
+            + helpLink( tr("Wiki"), helpUrl("https://sourceforge.net/p/copyq/wiki/Home/") )
+            +
         "</table></p>"
 
         "</td>"
 
         "</tr></table></p>"
 
-        // developers
-        "<div class='h2'>" + AboutDialog::tr("Development") + "</div>"
+        "<div class='h2'>" + tr("Development") + "</div>"
         "<p class=\"pp\">"
-        "Adam Batkin (<a href=\"mailto:adam@batkin.net\">adam@batkin.net</a>)<br />"
-        "Ilya Plenne (<a href=\"mailto:libbkmz.dev@gmail.com\">libbkmz.dev@gmail.com</a>)<br />"
-        "J&#246;rg Thalheim (<a href=\"mailto:joerg@higgsboson.tk\">joerg@higgsboson.tk</a>)<br />"
-        "lightonflux (<a href=\"mailto:lightonflux@znn.info\">lightonflux@znn.info</a>)<br />"
-        "Patricio M. Ros (<a href=\"mailto:patricioros.dev@gmail.com\">patricioros.dev@gmail.com</a>)<br />"
-        "Scott Kostyshak (<a href=\"mailto:skostysh@princeton.edu\">skostysh@princeton.edu</a>)<br />"
-        "Sebastian Schuberth (<a href=\"mailto:sschuberth@gmail.com\">sschuberth@gmail.com</a>)<br />"
-        "Tomas Nilzon (<a href=\"tomas@nilzon.eu\">tomas@nilzon.eu</a>)"
+            // developers
+            + helpDeveloper("Adam Batkin", "adam@batkin.net")
+            + helpDeveloper("Ilya Plenne", "libbkmz.dev@gmail.com")
+            + helpDeveloper("J&#246;rg Thalheim", "joerg@higgsboson.tk")
+            + helpDeveloper("lightonflux", "lightonflux@znn.info")
+            + helpDeveloper("Patricio M. Ros", "patricioros.dev@gmail.com")
+            + helpDeveloper("Scott Kostyshak", "skostysh@princeton.edu")
+            + helpDeveloper("Sebastian Schuberth", "sschuberth@gmail.com")
+            + helpDeveloper("Tomas Nilzon", "tomas@nilzon.eu")
+            +
         "</p>"
 
-        // libraries
-        "<p class=\"ppp\"><span class='h2x'>Qt</span> (" + escapeHtml(AboutDialog::tr("Library used in the application")) + ")<br />"
-        "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies) (<a href=\"http://qt.digia.com/\">http://qt.digia.com/</a>).<br />"
-        "All rights reserved.</p>"
-
-        "<p class=\"ppp\"><span class='h2x'>LibQxt</span> (" + escapeHtml(AboutDialog::tr("Library used in the application")) + ")<br />"
-        "Copyright (c) 2006 - 2011, the LibQxt project (<a href=\"http://libqxt.org/\">http://libqxt.org</a>).<br />"
-        "All rights reserved.</p>"
-
-        "<p class=\"ppp\"><span class='h2x'>Font Awesome</span> (" + escapeHtml(AboutDialog::tr("Iconic font used in the application")) + ")<br />"
-        "Created & Maintained by Dave Gandy (<a href=\"http://fortawesome.github.com/Font-Awesome/\">http://fortawesome.github.com/Font-Awesome/</a>).</p>"
-
-        "<p class=\"ppp\"><span class='h2x'>Solarized</span> (" + escapeHtml(AboutDialog::tr("Color palette used for themes")) + ")<br />"
-        "Copyright (c) 2011 Ethan Schoonover (<a href=\"http://ethanschoonover.com/solarized\">http://ethanschoonover.com/solarized</a>).</p>"
+            // libraries
+            + helpLib("Qt", tr("Library used in the application"),
+                      "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies)", "http://qt.digia.com/")
+            + helpLib("LibQxt", tr("Library used in the application"),
+                      "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
+            + helpLib("Font Awesome", tr("Iconic font used in the application"),
+                      "Created & Maintained by Dave Gandy", "http://fortawesome.github.com/Font-Awesome")
+            + helpLib("Solarized", tr("Color palette used for themes"),
+                      "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
+            +
 
         // keyboard title
-        "<div class='h2'>" + escapeHtml(AboutDialog::tr("Keyboard")) + "</div>"
-        "<p class=\"pp\">" + escapeHtml(AboutDialog::tr("Type any text to search the clipboard history.")) + "</p>"
+        "<div class='h2'>" + escapeHtml(tr("Keyboard")) + "</div>"
+        "<p class=\"pp\">" + escapeHtml(tr("Type any text to search the clipboard history.")) + "</p>"
 
         // keyboard table
         "<p><table id=\"keys\">"
-        "<tr class=\"odd\">"
-        "<td>" + escapeHtml(AboutDialog::tr("Item list navigation")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Up/Down, Page Up/Down, Home/End")) + "</td>"
-        "</tr>"
-        "<tr><td>" + escapeHtml(AboutDialog::tr("Tab navigation")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Left, Right, Tab, Shift+Tab")) + "</td>"
-        "</tr>"
-        "<tr class=\"odd\">"
-        "<td>" + escapeHtml(AboutDialog::tr("Move selected items")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Ctrl+Up/Down, Ctrl+Home/End")) + "</td>"
-        "</tr>"
-        "<tr><td>" + escapeHtml(AboutDialog::tr("Reset search or hide window")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Escape")) + "</td>"
-        "</tr>"
-        "<tr class=\"odd\">"
-        "<td>" + escapeHtml(AboutDialog::tr("Delete item")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Delete")) + "</td>"
-        "</tr>"
-        "<tr><td>" + escapeHtml(AboutDialog::tr("Put selected items into clipboard")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Enter")) + "</td>"
-        "</tr>"
-        "<tr class=\"odd\">"
-        "<td>" + escapeHtml(AboutDialog::tr("Change item display format")) + "</td>"
-        "<td class=\"key\">" + escapeHtml(AboutDialog::tr("Ctrl+Left/Right")) + "</td>"
-        "</tr>"
+            + helpKeys( tr("Item list navigation"), tr("Up/Down, Page Up/Down, Home/End") )
+            + helpKeys( tr("Tab navigation"), tr("Left, Right, Tab, Shift+Tab") )
+            + helpKeys( tr("Move selected items"), tr("Ctrl+Up/Down, Ctrl+Home/End") )
+            + helpKeys( tr("Reset search or hide window"), tr("Escape") )
+            + helpKeys( tr("Delete item"), tr("Delete") )
+            + helpKeys( tr("Put selected items into clipboard"), tr("Enter") )
+            + helpKeys( tr("Change item display format"), tr("Ctrl+Left/Right") )
+            + helpKeys( tr("Edit Item"), tr("F2") )
+            +
         "</table></p>"
 
         "<p></p>"
 
         "</body></html>";
-}
-
-AboutDialog::AboutDialog(QWidget *parent)
-    : QDialog(parent)
-    , ui(new Ui::AboutDialog)
-{
-    ui->setupUi(this);
-    ui->textBrowser->setText( aboutPage() );
-    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
-
-    ConfigurationManager::instance()->loadGeometry(this);
-}
-
-AboutDialog::~AboutDialog()
-{
-    delete ui;
 }
 
 void AboutDialog::onFinished(int)

@@ -35,6 +35,8 @@ public:
     ~AboutDialog();
 
 private:
+    static QString aboutPage();
+
     Ui::AboutDialog *ui;
 
 private slots:
