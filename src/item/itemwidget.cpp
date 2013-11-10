@@ -142,3 +142,8 @@ bool ItemLoaderInterface::canRemoveItems(const QList<QModelIndex> &)
 void ItemLoaderInterface::itemsRemovedByUser(const QList<QModelIndex> &)
 {
 }
+
+bool ItemLoaderInterface::matches(const QModelIndex &, const QRegExp &) const
+{
+    return false;
+}

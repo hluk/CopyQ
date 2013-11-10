@@ -110,6 +110,8 @@ public:
 
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
+    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+
 private:
     QVariantMap m_settings;
     Ui::ItemNotesSettings *ui;

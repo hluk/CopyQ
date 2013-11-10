@@ -226,7 +226,6 @@ class ClipboardBrowser : public QListView
         QScopedPointer<ScrollSaver> m_scrollSaver;
 
         void createContextMenu();
-        bool isFiltered(const QModelIndex &index, int role) const;
         bool isFiltered(int row) const;
 
         /**

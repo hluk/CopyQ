@@ -165,6 +165,12 @@ public:
     {
         return serializeData(model, file);
     }
+
+    bool matches(const QModelIndex &index, const QRegExp &re) const
+    {
+        const QString text = index.data(contentType::text).toString();
+        return re.indexIn(text) != -1;
+    }
 };
 
 } // namespace
@@ -316,6 +322,16 @@ ItemLoaderInterfacePtr ItemFactory::createTab(QAbstractItemModel *model, QFile *
 
     m_dummyLoader->createTab(model, file);
     return m_dummyLoader;
+}
+
+bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
+{
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        if ( isLoaderEnabled(loader) && loader->matches(index, re) )
+            return true;
+    }
+
+    return m_dummyLoader->matches(index, re);
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)

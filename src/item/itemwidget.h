@@ -30,6 +30,7 @@ class QFile;
 class QFont;
 class QModelIndex;
 class QPalette;
+class QRegExp;
 class QWidget;
 
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
@@ -236,6 +237,12 @@ public:
      * Called when items are being deleted by user.
      */
     virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
+
+    /**
+     * Return true if regular expression matches items content.
+     * Returns false by default.
+     */
+    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

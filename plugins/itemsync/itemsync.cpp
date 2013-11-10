@@ -1403,6 +1403,13 @@ void ItemSyncLoader::itemsRemovedByUser(const QList<QModelIndex> &indexList)
     }
 }
 
+bool ItemSyncLoader::matches(const QModelIndex &index, const QRegExp &re) const
+{
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    const QString text = dataMap.value(mimeBaseName).toString();
+    return re.indexIn(text) != -1;
+}
+
 void ItemSyncLoader::removeWatcher(QObject *watcher)
 {
     foreach ( const QObject *model, m_watchers.keys() ) {

@@ -130,6 +130,11 @@ public:
      */
     ItemLoaderInterfacePtr createTab(QAbstractItemModel *model, QFile *file);
 
+    /**
+     * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;
+     */
+    bool matches(const QModelIndex &index, const QRegExp &re) const;
+
 private slots:
     /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);

@@ -349,19 +349,13 @@ void ClipboardBrowser::createContextMenu()
     updateContextMenu();
 }
 
-bool ClipboardBrowser::isFiltered(const QModelIndex &index, int role) const
-{
-    QString text = m->data(index, role).toString();
-    return d->searchExpression().indexIn(text) == -1;
-}
-
 bool ClipboardBrowser::isFiltered(int row) const
 {
-    if ( d->searchExpression().isEmpty() )
+    if ( d->searchExpression().isEmpty() || !m_itemLoader)
         return false;
 
-    QModelIndex ind = m->index(row);
-    return isFiltered(ind, Qt::EditRole) && isFiltered(ind, contentType::notes);
+    const QModelIndex ind = m->index(row);
+    return !ConfigurationManager::instance()->itemFactory()->matches( ind, d->searchExpression() );
 }
 
 bool ClipboardBrowser::hideFiltered(int row)

@@ -85,8 +85,11 @@ QRegExp FilterLineEdit::filter() const
     if (m_actionRe->isChecked()) {
         pattern = text();
     } else {
-        foreach ( const QString &str, text().split(QRegExp("\\s+"), QString::SkipEmptyParts) )
-            pattern.append( ".*" + QRegExp::escape(str) );
+        foreach ( const QString &str, text().split(QRegExp("\\s+"), QString::SkipEmptyParts) ) {
+            if ( !pattern.isEmpty() )
+                pattern.append(".*");
+            pattern.append( QRegExp::escape(str) );
+        }
     }
 
     return QRegExp(pattern, sensitivity, QRegExp::RegExp2);

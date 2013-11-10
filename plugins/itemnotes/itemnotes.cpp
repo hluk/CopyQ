@@ -326,7 +326,13 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex
     return new ItemNotes( itemWidget, text,
                           m_settings["notes_at_bottom"].toBool(),
                           m_settings["icon_only"].toBool(),
-                          m_settings["show_tooltip"].toBool() );
+            m_settings["show_tooltip"].toBool() );
+}
+
+bool ItemNotesLoader::matches(const QModelIndex &index, const QRegExp &re) const
+{
+    const QString text = index.data(contentType::notes).toString();
+    return re.indexIn(text) != -1;
 }
 
 Q_EXPORT_PLUGIN2(itemtext, ItemNotesLoader)

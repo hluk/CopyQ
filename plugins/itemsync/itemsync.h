@@ -122,6 +122,8 @@ public:
 
     virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
 
+    virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+
 private slots:
     void removeWatcher(QObject *watcher);
     void removeModel();
