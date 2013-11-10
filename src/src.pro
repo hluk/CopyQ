@@ -72,7 +72,8 @@ HEADERS += \
     ../qt/bytearrayprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h
+    scriptable/scriptableworker.h \
+    gui/iconfont.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -123,7 +124,8 @@ SOURCES += \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
-    scriptable/scriptableworker.cpp
+    scriptable/scriptableworker.cpp \
+    gui/iconfont.cpp
 
 QT += core gui xml network script
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets

@@ -36,8 +36,6 @@ public:
 
     ~IconFactory();
 
-    const QFont &iconFont() { return m_iconFont; }
-
     const QColor &iconColor() { return m_iconColor; }
 
     const QPixmap &getPixmap(ushort id);
@@ -53,17 +51,11 @@ public:
     QIcon iconFromFile(const QString &fileName, const QColor &color = QColor(),
                        const QColor &activeColor = QColor());
 
-    /**
-     * Return true only if the icon resources were successfuly loaded.
-     */
-    bool isLoaded() const { return m_loaded; }
-
     void drawIcon(ushort id, const QRect &itemRect, QPainter *painter);
 
     QPixmap createPixmap(ushort id, const QColor &color, int size = -1);
 
 private:
-    QFont m_iconFont;
     QColor m_iconColor;
     QColor m_iconColorActive;
     bool m_useSystemIcons;

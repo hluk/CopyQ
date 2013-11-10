@@ -20,6 +20,7 @@
 #include "iconfactory.h"
 
 #include "gui/icons.h"
+#include "gui/iconfont.h"
 
 #include <QBitmap>
 #include <QCoreApplication>
@@ -48,34 +49,28 @@ QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 } // namespace
 
 IconFactory::IconFactory()
-    : m_iconFont()
-    , m_iconColor()
+    : m_iconColor()
     , m_iconColorActive()
     , m_useSystemIcons(true)
     , m_loaded(false)
     , m_iconCache()
     , m_resourceIconCache()
 {
-    const int id = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf");
-    if (id != -1) {
-        m_loaded = true;
-        m_iconFont = QFont("FontAwesome");
-        m_iconFont.setPixelSize(14);
+    m_loaded = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf") != -1;
 
-        // Try to get menu color more precisely by rendering dummy widget and getting color of pixel
-        // that is presumably menu background.
-        QMenu menu;
+    // Try to get menu color more precisely by rendering dummy widget and getting color of pixel
+    // that is presumably menu background.
+    QMenu menu;
 
-        QImage img(1, 1, QImage::Format_RGB32);
-        menu.resize(16, 16);
+    QImage img(1, 1, QImage::Format_RGB32);
+    menu.resize(16, 16);
 
-        menu.render(&img, QPoint(-8, -8));
-        m_iconColor = getDefaultIconColor( img.pixel(0, 0) );
+    menu.render(&img, QPoint(-8, -8));
+    m_iconColor = getDefaultIconColor( img.pixel(0, 0) );
 
-        menu.setActiveAction( menu.addAction(QString()) );
-        menu.render(&img, QPoint(-8, -8));
-        m_iconColorActive = getDefaultIconColor( img.pixel(0, 0) );
-    }
+    menu.setActiveAction( menu.addAction(QString()) );
+    menu.render(&img, QPoint(-8, -8));
+    m_iconColorActive = getDefaultIconColor( img.pixel(0, 0) );
 }
 
 IconFactory::~IconFactory()
@@ -91,7 +86,7 @@ QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &co
                            const QColor &activeColor)
 {
     // Icon from theme
-    if ( (!isLoaded() || useSystemIcons()) && !themeName.isEmpty() ) {
+    if ( (!m_loaded || useSystemIcons()) && !themeName.isEmpty() ) {
         QIcon icon = QIcon::fromTheme(themeName);
         if ( !icon.isNull() )
             return icon;
@@ -184,7 +179,7 @@ QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
     QPixmap pix(sz, sz);
     pix.fill(Qt::transparent);
 
-    if ( isLoaded() ) {
+    if (m_loaded) {
         QPainter painter(&pix);
 
         QFont font = iconFont();

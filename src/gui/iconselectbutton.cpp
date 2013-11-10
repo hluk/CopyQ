@@ -20,6 +20,7 @@
 #include "iconselectbutton.h"
 
 #include "gui/icons.h"
+#include "gui/iconfont.h"
 
 #include <QAction>
 #include <QDialogButtonBox>
@@ -31,8 +32,6 @@
 #include <QVBoxLayout>
 
 namespace {
-
-const int gridSize = 22;
 
 static QRect lastDialogGeometry;
 static QStringList lastSelectedFileNames;
@@ -53,12 +52,11 @@ public:
         connect( m_iconList, SIGNAL(activated(QModelIndex)),
                  this, SLOT(onIconListItemActivated(QModelIndex)) );
 
-        QFont font("FontAwesome");
-        font.setPixelSize(14);
-        QFontMetrics fm(font);
+        QFontMetrics fm( iconFont() );
 
+        const int gridSize = iconFontSizePixels() + 8;
         const QSize size(gridSize, gridSize);
-        m_iconList->setFont(font);
+        m_iconList->setFont( iconFont() );
         m_iconList->setGridSize(size);
         m_iconList->setResizeMode(QListView::Adjust);
         m_iconList->setSelectionMode(QAbstractItemView::SingleSelection);
@@ -172,12 +170,9 @@ void IconSelectButton::setCurrentIcon(const QString &iconString)
     setIcon(QIcon());
 
     if ( iconString.size() == 1 ) {
-        QFont font("FontAwesome");
-        font.setPixelSize(14);
-
         const QChar c = iconString[0];
-        if ( c.unicode() >= IconFirst && c.unicode() <= IconLast && QFontMetrics(font).inFont(c) ) {
-            setFont(font);
+        if ( c.unicode() >= IconFirst && c.unicode() <= IconLast && QFontMetrics(iconFont()).inFont(c) ) {
+            setFont(iconFont());
             setText(iconString);
         } else {
             m_currentIcon = QString();

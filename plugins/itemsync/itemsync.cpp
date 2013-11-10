@@ -23,6 +23,8 @@
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "gui/iconselectbutton.h"
+#include "gui/icons.h"
+#include "gui/iconfont.h"
 #include "gui/iconwidget.h"
 #include "item/serialize.h"
 
@@ -240,9 +242,7 @@ QString iconFromId(int id)
 QPushButton *createBrowseButton()
 {
     QScopedPointer<QPushButton> button(new QPushButton);
-    QFont font("FontAwesome");
-    font.setPixelSize(14);
-    button->setFont(font);
+    button->setFont( iconFont() );
     button->setText( iconFromId(IconFolderOpen) );
     button->setToolTip( ItemSyncLoader::tr("Browse...") );
     return button.take();

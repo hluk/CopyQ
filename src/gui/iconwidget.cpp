@@ -19,6 +19,9 @@
 
 #include "iconwidget.h"
 
+#include "gui/icons.h"
+#include "gui/iconfont.h"
+
 #include <QPainter>
 #include <QPaintEvent>
 #include <QString>
@@ -27,8 +30,7 @@ IconWidget::IconWidget(int icon, QWidget *parent)
     : QWidget(parent)
     , m_icon()
 {
-    QFont iconFont("FontAwesome");
-    QFontMetrics fm(iconFont);
+    QFontMetrics fm(iconFont());
     QChar c(icon);
     if ( fm.inFont(c) )
         m_icon = QString(c);
@@ -56,9 +58,7 @@ void IconWidget::paintEvent(QPaintEvent *)
     QPainter p(this);
 
     if (m_icon.size() == 1) {
-        QFont iconFont("FontAwesome");
-        iconFont.setPixelSize(14);
-        p.setFont(iconFont);
+        p.setFont(iconFont());
         p.setRenderHint(QPainter::TextAntialiasing, true);
 
         if (parentWidget())
