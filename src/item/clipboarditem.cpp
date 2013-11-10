@@ -69,12 +69,13 @@ void ClipboardItem::clear()
     updateDataHash();
 }
 
-void ClipboardItem::setData(const QVariant &value)
+void ClipboardItem::setText(const QString &text)
 {
-    // rewrite all original data, except internal data
-    clearDataExceptInternal(&m_data);
-    setTextData( &m_data, value.toString() );
-    updateDataHash();
+    foreach ( const QString &format, m_data.keys() ) {
+        if ( format.startsWith("text/") )
+            m_data.remove(format);
+    }
+    setTextData(&m_data, text);
 }
 
 void ClipboardItem::setData(const QVariantMap &data)
@@ -97,7 +98,7 @@ bool ClipboardItem::updateData(const QVariantMap &data)
 
     foreach ( const QString &format, data.keys() ) {
         if ( m_data.value(format) != data[format] ) {
-            m_data.insert( format, data[format].toByteArray() );
+            m_data.insert(format, data[format]);
             changed = true;
         }
     }

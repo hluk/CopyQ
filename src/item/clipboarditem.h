@@ -59,10 +59,10 @@ public:
     void setData(const QString &mimeType, const QByteArray &data);
 
     /**
-     * Set item's data.
-     * Clears all data and saves @a value as text/plain MIME type.
+     * Set item's text data.
+     * Clears all other text data and saves @a text as text/plain MIME type.
      */
-    void setData(const QVariant &value);
+    void setText(const QString &text);
 
     /**
      * Set formats from map with MIME type as key and data as value.

@@ -83,7 +83,7 @@ bool ClipboardModel::setData(const QModelIndex &index, const QVariant &value, in
     int row = index.row();
 
     if (role == Qt::EditRole) {
-        m_clipboardList[row]->setData(value);
+        m_clipboardList[row]->setText(value.toString());
     } else if (role == contentType::notes) {
         const QString notes = value.toString();
         if ( notes.isEmpty() )
