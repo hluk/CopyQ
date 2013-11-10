@@ -2,6 +2,11 @@
 layout: index
 ---
 
+CopyQ is clipboard manager with searchable and editable history.
+
+Web Site:
+    <http://hluk.github.io/CopyQ/>
+
 Downloads:
     <http://sourceforge.net/projects/copyq/files/>
 
@@ -20,31 +25,6 @@ Bug Reports:
 ![Tree View](images/screenshot-tree.png)
 ![Run Action and Create Items](images/screenshot-action.png)
 ![Open in Web Browser](images/screenshot-browser.png)
-
-CopyQ is clipboard manager with searchable and editable history.
-
-To start CopyQ run `copyq` command without parameters. The application main
-window is accessible by clicking on system tray icon or running `copyq toggle`.
-
-To exit the application select Exit from tray menu or press Ctrl-Q keys in the
-application window.
-
-To build and install CopyQ on your system read `INSTALL` file.
-
-Web Site:
-    <http://hluk.github.io/CopyQ/>
-
-Downloads:
-    <http://sourceforge.net/projects/copyq/files/>
-
-Wiki:
-    <https://sourceforge.net/p/copyq/wiki/Home/>
-
-Mailing List:
-    <https://groups.google.com/group/copyq>
-
-Bug Reports:
-    <https://github.com/hluk/CopyQ/issues>
 
 Features
 --------
