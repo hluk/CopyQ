@@ -59,7 +59,8 @@ application window.
 Developers and Translators
 -------------------------
 
-If you want to help with translating, fixing or writing code read `HACKING` file.
+If you want to help with translating, fixing or writing code read
+[HACKING](https://github.com/hluk/CopyQ/blob/master/HACKING) file.
 
 Dependencies
 ------------
