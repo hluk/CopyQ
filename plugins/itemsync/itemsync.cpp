@@ -881,7 +881,7 @@ public slots:
                 foreach (const Ext &ext, fileList[i].exts) {
                     QFile f(fileNamePrefix + ext.extension);
                     uriList.append( QFileInfo(f).absoluteFilePath() );
-                    if ( f.size() < sizeLimit && !ext.format.isEmpty() && f.open(QIODevice::ReadOnly) ) {
+                    if ( f.size() < sizeLimit && f.open(QIODevice::ReadOnly) ) {
                         if ( ext.format.isEmpty() ) {
                             deserializeData(&dataMap, f.readAll());
                             mimeToExtension.insert(QString(), QString());
