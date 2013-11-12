@@ -397,6 +397,9 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 
 void setUriList(const QStringList &uriList, QVariantMap *dataMap)
 {
+    if ( uriList.isEmpty() )
+        return;
+
     bool updateUriData = !dataMap->contains(mimeUriList);
     bool updateTextData = !dataMap->contains(mimeText);
     if (!updateUriData && !updateTextData)
