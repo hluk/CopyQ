@@ -364,13 +364,21 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 
     QList<Ext> exts = fileExtensionsAndFormats();
 
-    foreach (const QString &fileName, files) {
-        Ext ext = findByExtension(fileName, userExts);
+    foreach (const QString &filePath, files) {
+        QFileInfo info(filePath);
+        if ( info.isHidden() || !info.isReadable() )
+            continue;
+
+        Ext ext = findByExtension(filePath, userExts);
         if ( ext.extension.isEmpty() )
-            ext = findByExtension(fileName, exts);
+            ext = findByExtension(filePath, exts);
         else
             ext.extension.clear();
 
+        if ( ext.format.isEmpty() )
+            continue;
+
+        const QString fileName = info.fileName();
         const QString baseName = fileName.left( fileName.size() - ext.extension.size() );
 
         int i = fileMap.value(baseName, -1);
@@ -780,13 +788,12 @@ public:
         connectModel();
     }
 
-    void createItemsFromFiles(const QDir &dir, const QStringList &files)
+    void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
     {
         disconnectModel();
 
         const int maxItems = m_model->property("maxItems").toInt();
 
-        const BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
         foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
             QVariantMap dataMap;
             QVariantMap mimeToExtension;
@@ -847,7 +854,9 @@ public slots:
         m_model->setProperty(propertyModelDisabled, true);
 
         QDir dir( m_watcher.directories().value(0) );
-        QStringList files = dir.entryList(itemFileFilter(), QDir::Time | QDir::Reversed);
+        QStringList files;
+        foreach ( const QString &fileName, dir.entryList(itemFileFilter(), QDir::Time | QDir::Reversed) )
+            files.append( dir.absoluteFilePath(fileName) );
         BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
 
         for ( int row = 0; row < m_model->rowCount(); ++row ) {
@@ -865,7 +874,6 @@ public slots:
                 const QString fileNamePrefix = dir.absoluteFilePath(baseName);
                 foreach (const Ext &ext, fileList[i].exts) {
                     QFile f(fileNamePrefix + ext.extension);
-                    files.removeOne(baseName + ext.extension);
                     uriList.append( QFileInfo(f).absoluteFilePath() );
                     if ( f.size() < sizeLimit && !ext.format.isEmpty() && f.open(QIODevice::ReadOnly) ) {
                         if ( ext.format.isEmpty() ) {
@@ -894,7 +902,7 @@ public slots:
             }
         }
 
-        createItemsFromFiles(dir, files);
+        createItemsFromFiles(dir, fileList);
 
         foreach (const QString &fileName, files)
             watchPath( dir.absoluteFilePath(fileName) );
@@ -1205,7 +1213,7 @@ bool ItemSyncLoader::loadItems(QAbstractItemModel *model, QFile *file)
             // Monitor files in directory.
             FileWatcher *watcher = createWatcher(model, dir.path(), files);
 
-            watcher->createItemsFromFiles(dir, files);
+            watcher->createItemsFromFiles(dir, listFiles(files, m_formatSettings));
             if ( !watcher->isValid() )
                 return true;
         }
