@@ -356,10 +356,8 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 
     QList<Ext> userExts;
     foreach (const FileFormat &format, formatSettings) {
-        if ( !format.itemMime.isEmpty() ) {
-            foreach (const QString &ext, format.extensions)
-                userExts.append( Ext(ext, format.itemMime) );
-        }
+        foreach (const QString &ext, format.extensions)
+            userExts.append( Ext(ext, format.itemMime) );
     }
 
     QList<Ext> exts = fileExtensionsAndFormats();
@@ -370,13 +368,18 @@ BaseNameExtensionsList listFiles(const QStringList &files,
             continue;
 
         Ext ext = findByExtension(filePath, userExts);
-        if ( ext.extension.isEmpty() )
+        if ( ext.extension.isEmpty() ) {
             ext = findByExtension(filePath, exts);
-        else
-            ext.extension.clear();
-
-        if ( ext.format.isEmpty() )
-            continue;
+            if ( ext.format.isEmpty() )
+                continue;
+        } else {
+            if (ext.format == "-")
+                continue;
+            if ( ext.format.isEmpty() )
+                ext = findByExtension(filePath, exts);
+            else
+                ext.extension.clear();
+        }
 
         const QString fileName = info.fileName();
         const QString baseName = fileName.left( fileName.size() - ext.extension.size() );
@@ -1262,30 +1265,11 @@ bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
         const QModelIndex index = model.index(row, 0);
         const QVariantMap itemData = index.data(contentType::data).toMap();
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
-        QString baseName = getBaseName(index);
+        const QString baseName = getBaseName(index);
         const QString filePath = dir.absoluteFilePath(baseName);
-        bool saveDataFile = false;
-        const QList<Ext> exts = fileExtensionsAndFormats();
 
-        foreach ( const QString &format, itemData.keys() ) {
-            if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
-                continue; // skip internal data
-
-            if ( format.isEmpty() ) {
-                savedFiles.prepend(filePath);
-            } else {
-                bool hasFile = mimeToExtension.contains(format);
-                const QString ext = findByFormat(format, exts, mimeToExtension).extension;
-
-                if ( !hasFile && ext.isEmpty() )
-                    saveDataFile = true;
-                else
-                    savedFiles.prepend(filePath + ext);
-            }
-        }
-
-        if (saveDataFile)
-            savedFiles.prepend(filePath + dataFileSuffix);
+        foreach (const QVariant &ext, mimeToExtension.values())
+            savedFiles.prepend( filePath + ext.toString() );
     }
 
     writeConfiguration(file, savedFiles);
@@ -1336,6 +1320,8 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
             break;
     }
 
+    if (replaceItemWidget)
+        icon = iconFromBaseNameExtension(baseName, m_formatSettings);
     if ( icon.isNull() )
         icon = iconFromId(IconFile);
 
