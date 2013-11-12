@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>400</width>
-    <height>300</height>
+    <height>348</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_3">
@@ -19,42 +19,63 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QLabel" name="label_4">
-         <property name="text">
-          <string>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory in given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
+        <widget class="QGroupBox" name="groupBox">
+         <property name="title">
+          <string>Synchronization Tabs and Directories</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="tableWidgetSyncTabs">
-         <property name="alternatingRowColors">
-          <bool>true</bool>
-         </property>
-         <property name="showGrid">
-          <bool>false</bool>
-         </property>
-         <attribute name="verticalHeaderVisible">
-          <bool>false</bool>
-         </attribute>
-         <column>
-          <property name="text">
-           <string>Tab Name</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Path</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string/>
-          </property>
-         </column>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="tableWidgetSyncTabs">
+            <property name="alternatingRowColors">
+             <bool>true</bool>
+            </property>
+            <property name="showGrid">
+             <bool>false</bool>
+            </property>
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Tab Name</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Path</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
@@ -62,36 +83,57 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <layout class="QVBoxLayout" name="verticalLayout_2">
        <item>
-        <widget class="QLabel" name="label_3">
-         <property name="text">
-          <string>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Files to Item Data Formats</string>
+         </property>
+         <layout class="QVBoxLayout" name="verticalLayout_5">
+          <property name="leftMargin">
+           <number>6</number>
+          </property>
+          <property name="topMargin">
+           <number>6</number>
+          </property>
+          <property name="rightMargin">
+           <number>6</number>
+          </property>
+          <property name="bottomMargin">
+           <number>6</number>
+          </property>
+          <item>
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <widget class="QTableWidget" name="tableWidgetFormatSettings">
-         <attribute name="verticalHeaderVisible">
-          <bool>false</bool>
-         </attribute>
-         <column>
-          <property name="text">
-           <string>Extensions</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string>Item MIME Type</string>
-          </property>
-         </column>
-         <column>
-          <property name="text">
-           <string/>
-          </property>
-         </column>
+            </property>
+            <property name="wordWrap">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="tableWidgetFormatSettings">
+            <attribute name="verticalHeaderVisible">
+             <bool>false</bool>
+            </attribute>
+            <column>
+             <property name="text">
+              <string>Extensions</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string>Item MIME Type</string>
+             </property>
+            </column>
+            <column>
+             <property name="text">
+              <string/>
+             </property>
+            </column>
+           </widget>
+          </item>
+         </layout>
         </widget>
        </item>
       </layout>
