@@ -564,7 +564,7 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
 QString iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &formatSettings)
 {
     const FileFormat fileFormat = getFormatSettingsFromFileName(baseName, formatSettings);
-    if ( fileFormat.isValid() )
+    if ( !fileFormat.icon.isEmpty() )
         return fileFormat.icon;
 
     return iconFromId(iconFromBaseNameExtensionHelper(baseName));
