@@ -814,8 +814,7 @@ void ClipboardBrowser::unlock()
 
 bool ClipboardBrowser::hasUserSelection() const
 {
-    return isActiveWindow() || editing() || currentIndex().row() > 0
-            || selectionModel()->selectedRows().count() > 1;
+    return isActiveWindow() || editing() || selectionModel()->selectedRows().count() > 1;
 }
 
 QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
