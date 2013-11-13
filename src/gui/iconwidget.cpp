@@ -47,7 +47,11 @@ IconWidget::IconWidget(const QString &icon, QWidget *parent)
 
 QSize IconWidget::sizeHint() const
 {
-    return m_icon.isEmpty() ? QSize(0, 0) : QSize(16, 16);
+    if ( m_icon.isEmpty() )
+        return QSize(0, 0);
+
+    const int side = iconFontSizePixels() + 4;
+    return QSize(side, side);
 }
 
 void IconWidget::paintEvent(QPaintEvent *)

@@ -629,38 +629,36 @@ void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QP
     if ( !m_childItem.isNull() )
         m_childItem->setHighlight(re, highlightFont, highlightPalette);
 
-    if (m_label != NULL) {
-        QList<QTextEdit::ExtraSelection> selections;
+    QList<QTextEdit::ExtraSelection> selections;
 
-        if ( !re.isEmpty() ) {
-            QTextEdit::ExtraSelection selection;
-            selection.format.setBackground( highlightPalette.base() );
-            selection.format.setForeground( highlightPalette.text() );
-            selection.format.setFont(highlightFont);
+    if ( !re.isEmpty() ) {
+        QTextEdit::ExtraSelection selection;
+        selection.format.setBackground( highlightPalette.base() );
+        selection.format.setForeground( highlightPalette.text() );
+        selection.format.setFont(highlightFont);
 
-            QTextCursor cur = m_label->document()->find(re);
-            int a = cur.position();
-            while ( !cur.isNull() ) {
-                if ( cur.hasSelection() ) {
-                    selection.cursor = cur;
-                    selections.append(selection);
-                } else {
-                    cur.movePosition(QTextCursor::NextCharacter);
-                }
-                cur = m_label->document()->find(re, cur);
-                int b = cur.position();
-                if (a == b) {
-                    cur.movePosition(QTextCursor::NextCharacter);
-                    cur = m_label->document()->find(re, cur);
-                    b = cur.position();
-                    if (a == b) break;
-                }
-                a = b;
+        QTextCursor cur = m_label->document()->find(re);
+        int a = cur.position();
+        while ( !cur.isNull() ) {
+            if ( cur.hasSelection() ) {
+                selection.cursor = cur;
+                selections.append(selection);
+            } else {
+                cur.movePosition(QTextCursor::NextCharacter);
             }
+            cur = m_label->document()->find(re, cur);
+            int b = cur.position();
+            if (a == b) {
+                cur.movePosition(QTextCursor::NextCharacter);
+                cur = m_label->document()->find(re, cur);
+                b = cur.position();
+                if (a == b) break;
+            }
+            a = b;
         }
-
-        m_label->setExtraSelections(selections);
     }
+
+    m_label->setExtraSelections(selections);
 
     update();
 }
@@ -690,27 +688,22 @@ bool ItemSync::hasChanges(QWidget *editor) const
 
 void ItemSync::updateSize()
 {
-    const int w = maximumWidth() - ( m_icon != NULL ? m_icon->width() : 0 );
+    const int w = maximumWidth() - m_icon->width();
+
+    m_label->setMaximumWidth(w - m_label->x());
+    m_label->document()->setTextWidth(w - m_label->x());
+    m_label->resize( m_label->document()->idealWidth() + 16, m_label->document()->size().height() );
+
+    int h = qMax( m_label->height(), m_icon->height() );
 
     if ( !m_childItem.isNull() ) {
         m_childItem->widget()->setMaximumWidth(w);
         m_childItem->updateSize();
+        m_childItem->widget()->move(0, h);
+        h += m_childItem->widget()->height();
     }
 
-    const int h = m_childItem.isNull() ? 0 : m_childItem->widget()->height();
-
-    if (m_label != NULL) {
-        m_label->setMaximumWidth(w - m_label->x());
-        m_label->document()->setTextWidth(w - m_label->x());
-        m_label->resize( m_label->document()->idealWidth() + 16, m_label->document()->size().height() );
-
-        if ( !m_childItem.isNull() )
-            m_childItem->widget()->move( 0, m_label->height() );
-
-        resize( w, h + m_label->height() );
-    } else {
-        resize(w, h);
-    }
+    resize(w, h);
 }
 
 void ItemSync::mousePressEvent(QMouseEvent *e)
