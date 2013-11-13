@@ -127,6 +127,7 @@ private:
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;
+    bool m_ignoreNextItem;
     QMap<QxtGlobalShortcut*, QByteArray> m_shortcutActions;
     QThreadPool m_clientThreads;
     QThreadPool m_internalThreads;

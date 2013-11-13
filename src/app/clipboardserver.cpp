@@ -60,6 +60,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_monitor(NULL)
     , m_checkclip(false)
     , m_lastHash(0)
+    , m_ignoreNextItem(true)
     , m_shortcutActions()
     , m_clientThreads()
     , m_internalThreads()
@@ -295,7 +296,8 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
 #endif
 
         // Don't add item to list on application start.
-        if (m_lastHash == 0) {
+        if (m_ignoreNextItem) {
+            m_ignoreNextItem = false;
             m_lastHash = item.dataHash();
         } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
             m_lastHash = item.dataHash();
