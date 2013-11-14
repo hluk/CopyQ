@@ -139,6 +139,11 @@ bool ItemLoaderInterface::canRemoveItems(const QList<QModelIndex> &)
     return true;
 }
 
+bool ItemLoaderInterface::canMoveItems(const QList<QModelIndex> &)
+{
+    return true;
+}
+
 void ItemLoaderInterface::itemsRemovedByUser(const QList<QModelIndex> &)
 {
 }

@@ -1335,6 +1335,13 @@ bool ItemSyncLoader::canRemoveItems(const QList<QModelIndex> &indexList)
                                       QMessageBox::Yes ) == QMessageBox::Yes;
 }
 
+bool ItemSyncLoader::canMoveItems(const QList<QModelIndex> &)
+{
+    // Don't remove items if moved out of list.
+    // Items will be automatically removed if underlying files are deleted by the move operation.
+    return false;
+}
+
 void ItemSyncLoader::itemsRemovedByUser(const QList<QModelIndex> &indexList)
 {
     // Remove unneeded files (remaining records in the hash map).

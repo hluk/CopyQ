@@ -120,6 +120,8 @@ public:
 
     virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
 
+    virtual bool canMoveItems(const QList<QModelIndex> &indexList);
+
     virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
 
     virtual bool matches(const QModelIndex &index, const QRegExp &re) const;

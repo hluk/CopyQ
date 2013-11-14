@@ -234,6 +234,12 @@ public:
     virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
 
     /**
+     * Called before items are moved out of list (i.e. deleted) by user.
+     * @return true if items can be moved, false to cancel the removal
+     */
+    virtual bool canMoveItems(const QList<QModelIndex> &);
+
+    /**
      * Called when items are being deleted by user.
      */
     virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);

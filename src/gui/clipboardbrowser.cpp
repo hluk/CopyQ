@@ -1338,7 +1338,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
             count = (count > 0) ? count - 1 : -count;
             m->moveItemsWithKeyboard(selected, key, count);
             update();
-        } else if ( m_itemLoader->canRemoveItems(selected) ) {
+        } else if ( m_itemLoader->canMoveItems(selected) ) {
             removeIndexes(selected);
         }
     }
