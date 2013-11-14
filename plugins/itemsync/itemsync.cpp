@@ -157,8 +157,13 @@ QString getBaseName(const QModelIndex &index)
 bool renameToUnique(QString *name, QStringList *usedNames,
                     const QList<FileFormat> &formatSettings)
 {
-    if ( name->isEmpty() )
+    if ( name->isEmpty() ) {
         *name = "copyq_0000";
+    } else {
+        // Replace unsafe characters.
+        name->replace( QRegExp("/|\\\\|^\\."), QString("_") );
+    }
+
     if ( !usedNames->contains(*name) ) {
         usedNames->append(*name);
         return true;
@@ -366,7 +371,7 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 
     foreach (const QString &filePath, files) {
         QFileInfo info(filePath);
-        if ( info.isHidden() || !info.isReadable() )
+        if ( info.isHidden() || info.fileName().startsWith('.') || !info.isReadable() )
             continue;
 
         Ext ext = findByExtension(filePath, userExts);

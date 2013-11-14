@@ -85,7 +85,13 @@ private:
  * 'example_notes.txt' belong to single item with base name 'example' containing text, HTML and
  * notes.
  *
- * If item data are changed it is saved to appropriate files.
+ * If item data are changed it is saved to appropriate files and vice versa.
+ *
+ * If files is in synchronization directory but is of unknown type, hidden, unreadable or its
+ * file name starts with dot (this is hidden file on UNIX so lets make it same everywhere) it
+ * won't be added to the list.
+ *
+ * Unknown file types can be defined in settings so such files are loaded.
  */
 class ItemSyncLoader : public QObject, public ItemLoaderInterface
 {
