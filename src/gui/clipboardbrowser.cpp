@@ -1333,11 +1333,13 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
             selected.append(index);
         QObject *target = drag->target();
         if (target == this || target == viewport()) {
-            int count = getDropRow( mapFromGlobal(QCursor::pos()) ) - index.row();
-            const int key = count > 0 ? Qt::Key_Down : Qt::Key_Up;
-            count = (count > 0) ? count - 1 : -count;
-            m->moveItemsWithKeyboard(selected, key, count);
-            update();
+            const int targetRow = getDropRow( mapFromGlobal(QCursor::pos()) );
+            const QPersistentModelIndex targetIndex = this->index(targetRow);
+            foreach (const QModelIndex &index, indexesToRemove) {
+                const int from = index.row();
+                const int to = targetIndex.row();
+                m->move(from, from < to ? to - 1 : to);
+            }
         } else if ( m_itemLoader->canMoveItems(selected) ) {
             removeIndexes(selected);
         }
