@@ -115,15 +115,14 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
             tmpFile.rename(fileName);
     }
 
-    COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
-
     ItemLoaderInterfacePtr loader;
 
     if ( file.exists() ) {
-        if ( !file.open(QIODevice::ReadOnly) )
-            model.setDisabled(true);
-        else
+        COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
+        if ( file.open(QIODevice::ReadOnly) )
             loader = itemFactory()->loadItems(&model, &file);
+        else
+            model.setDisabled(true);
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
         if ( file.open(QIODevice::ReadWrite) )
@@ -139,35 +138,39 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
         return ItemLoaderInterfacePtr();
     }
 
+    file.close();
+    file.open(QIODevice::ReadOnly);
     itemFactory()->itemsLoaded(&model, &file);
 
     if ( model.isDirty() ) {
         COPYQ_LOG( QString("Tab \"%1\": Dirty").arg(tabName) );
-        saveItems(model);
+        ItemLoaderInterfacePtr loader2 = saveItems(model);
+        if ( !loader2.isNull() )
+            loader = loader2;
         model.setDirty(false);
     }
 
     return loader;
 }
 
-bool ConfigurationManager::saveItems(const ClipboardModel &model)
+ItemLoaderInterfacePtr ConfigurationManager::saveItems(const ClipboardModel &model)
 {
     const QString tabName = model.property("tabName").toString();
     const QString fileName = itemFileName(tabName);
 
     if ( !createItemDirectory() )
-        return false;
+        return ItemLoaderInterfacePtr();
 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
     if ( !file.open(QIODevice::WriteOnly) ) {
         printItemFileError(tabName, fileName, file);
-        return false;
+        return ItemLoaderInterfacePtr();
     }
 
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
-    itemFactory()->saveItems(model, &file);
+    ItemLoaderInterfacePtr loader = itemFactory()->saveItems(model, &file);
 
     COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
 
@@ -176,7 +179,7 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model)
     if ( !file.rename(fileName) )
         printItemFileError(tabName, fileName, file);
 
-    return true;
+    return loader;
 }
 
 void ConfigurationManager::removeItems(const QString &tabName)

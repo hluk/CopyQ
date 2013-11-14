@@ -117,7 +117,7 @@ public:
      * Save items using a plugin.
      * @return true only if items were saved
      */
-    bool saveItems(const QAbstractItemModel &model, QFile *file);
+    ItemLoaderInterfacePtr saveItems(const QAbstractItemModel &model, QFile *file);
 
     /**
      * Called after items were loaded.

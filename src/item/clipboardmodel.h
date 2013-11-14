@@ -110,7 +110,7 @@ public:
 
     void setDirty(bool dirty) { m_dirty = dirty; }
 
-    /** Dirty model should be saved. */
+    /** Tab name associated with model. */
     const QString &tabName() const { return m_tabName; }
 
     void setTabName(const QString &tabName);

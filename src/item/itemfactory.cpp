@@ -289,22 +289,24 @@ ItemLoaderInterfacePtr ItemFactory::loadItems(QAbstractItemModel *model, QFile *
     return m_dummyLoader;
 }
 
-bool ItemFactory::saveItems(const QAbstractItemModel &model, QFile *file)
+ItemLoaderInterfacePtr ItemFactory::saveItems(const QAbstractItemModel &model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
         if ( isLoaderEnabled(loader) ) {
             file->seek(0);
             if ( loader->saveItems(model, file) )
-                return true;
+                return loader;
         }
     }
 
-    return m_dummyLoader->saveItems(model, file);
+    m_dummyLoader->saveItems(model, file);
+    return m_dummyLoader;
 }
 
 void ItemFactory::itemsLoaded(QAbstractItemModel *model, QFile *file)
 {
     foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        file->seek(0);
         if ( isLoaderEnabled(loader) )
             loader->itemsLoaded(model, file);
     }

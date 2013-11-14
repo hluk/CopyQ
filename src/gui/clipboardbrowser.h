@@ -210,6 +210,7 @@ class ClipboardBrowser : public QListView
 
         bool m_save;
         bool m_invalidateCache;
+        bool m_expire;
 
         ItemEditorWidget *m_editor;
 

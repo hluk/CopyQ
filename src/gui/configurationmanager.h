@@ -84,7 +84,8 @@ public:
             ClipboardModel &model //!< Model for items.
             );
     /** Save items to configuration file. */
-    bool saveItems(const ClipboardModel &model //!< Model containing items to save.
+    ItemLoaderInterfacePtr saveItems(
+            const ClipboardModel &model //!< Model containing items to save.
             );
     /** Remove configuration file for items. */
     void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().

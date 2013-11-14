@@ -122,6 +122,8 @@ public:
 
     virtual bool createTab(QAbstractItemModel *model, QFile *file);
 
+    virtual void itemsLoaded(QAbstractItemModel *model, QFile *file);
+
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
     virtual bool canRemoveItems(const QList<QModelIndex> &indexList);
@@ -142,6 +144,9 @@ private:
     QString tabPath(const QAbstractItemModel &model) const;
     FileWatcher *createWatcher(QAbstractItemModel *model, const QString &tabPath,
                                const QStringList &paths);
+    void createWatcherAndLoadItems(QAbstractItemModel *model,
+                                   const QVariantMap &config = QVariantMap());
+    void createWatcherAndLoadItems(QAbstractItemModel *model, const QStringList &files);
 
     Ui::ItemSyncSettings *ui;
     QVariantMap m_settings;

@@ -32,6 +32,7 @@ ClipboardModel::ClipboardModel(QObject *parent)
     , m_max(100)
     , m_disabled(false)
     , m_dirty(false)
+    , m_tabName()
 {
 }
 

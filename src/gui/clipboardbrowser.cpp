@@ -192,6 +192,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_menu(NULL)
     , m_save(true)
     , m_invalidateCache(false)
+    , m_expire(false)
     , m_editor(NULL)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
     , m_loadButton(NULL)
@@ -541,6 +542,8 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
                 restartExpiring();
             if (m_invalidateCache)
                 invalidateItemCache();
+            if (m_expire)
+                expire();
         }
     }
 
@@ -1050,10 +1053,21 @@ void ClipboardBrowser::doUpdateCurrentPage()
 
 void ClipboardBrowser::expire()
 {
-    if ( m_timerSave->isActive() )
-        saveItems();
+    if (editing()) {
+        m_expire = true;
+    } else {
+        m_expire = false;
 
-    m->unloadItems();
+        if ( m_timerSave->isActive() )
+            saveItems();
+
+        m->unloadItems();
+
+        if ( isVisible() ) {
+            loadItems();
+            updateCurrentPage();
+        }
+    }
 }
 
 void ClipboardBrowser::onEditorDestroyed()
@@ -1781,6 +1795,9 @@ void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
+    saveItems();
+    expire();
+
     cm->tabAppearance()->decorateBrowser(this);
 
     // restore configuration
@@ -1849,7 +1866,7 @@ bool ClipboardBrowser::saveItems()
     if ( m->isDisabled() || !m_itemLoader || !m_save || tabName().isEmpty() )
         return false;
 
-    ConfigurationManager::instance()->saveItems(*m);
+    m_itemLoader = ConfigurationManager::instance()->saveItems(*m);
     return true;
 }
 
