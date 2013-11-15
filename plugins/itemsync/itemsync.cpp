@@ -165,8 +165,9 @@ bool renameToUnique(QString *name, QStringList *usedNames,
     if ( name->isEmpty() ) {
         *name = "copyq_0000";
     } else {
-        // Replace unsafe characters.
+        // Replace/remove unsafe characters.
         name->replace( QRegExp("/|\\\\|^\\."), QString("_") );
+        name->remove( QRegExp("\\n|\\r") );
     }
 
     if ( !usedNames->contains(*name) ) {
@@ -209,35 +210,6 @@ bool renameToUnique(QString *name, QStringList *usedNames,
 
     *name = newName;
     usedNames->append(*name);
-
-    return true;
-}
-
-bool renameToUnique(QAbstractItemModel *model, int first, int last,
-                    const QList<FileFormat> &formatSettings)
-{
-    QStringList usedBaseNames;
-    for (int i = 0; i < model->rowCount(); ++i) {
-        if (i >= first && i <= last)
-            continue;
-        const QModelIndex index = model->index(i, 0);
-        const QString baseName = getBaseName(index);
-        Q_ASSERT( !baseName.isEmpty() );
-        usedBaseNames.append(baseName);
-    }
-
-    for (int i = first; i <= last; ++i) {
-        const QModelIndex index = model->index(i, 0);
-        const QString oldBaseName = getBaseName(index);
-        QString baseName = oldBaseName;
-        if ( !renameToUnique(&baseName, &usedBaseNames, formatSettings) )
-            return false;
-        if (baseName != oldBaseName) {
-            QVariantMap dataMap;
-            dataMap.insert(mimeBaseName, baseName);
-            model->setData(index, dataMap, contentType::updateData);
-        }
-    }
 
     return true;
 }
@@ -603,6 +575,15 @@ bool containsUserData(const QVariantMap &dataMap)
     return false;
 }
 
+void fixUserExtensions(QStringList *exts)
+{
+    for (int i = 0; i < exts->size(); ++i) {
+        QString &ext = (*exts)[i];
+        if ( !ext.startsWith('.') )
+            ext.prepend('.');
+    }
+}
+
 } // namespace
 
 ItemSync::ItemSync(const QString &label, const QString &icon, bool replaceChildItem, ItemWidget *childItem)
@@ -777,6 +758,15 @@ void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
     }
 }
 
+void moveFormatFiles(const QString &oldPath, const QString &newPath,
+                     const QVariantMap &mimeToExtension)
+{
+    foreach ( const QString &format, mimeToExtension.keys() ) {
+        const QString ext = mimeToExtension[format].toString();
+        QFile::rename(oldPath + ext, newPath + ext);
+    }
+}
+
 void ItemSync::onSelectionChanged()
 {
     setProperty("copyOnMouseUp", true);
@@ -794,6 +784,7 @@ public:
         , m_formatSettings(formatSettings)
         , m_path(path)
         , m_valid(false)
+        , m_indexToBaseName()
     {
         m_watcher.addPath(path);
 
@@ -853,7 +844,7 @@ public:
                 if ( !mimeToExtension.isEmpty() )
                     dataMap.insert(mimeExtensionMap, mimeToExtension);
 
-                if ( !setIndexData(dataMap) )
+                if ( !createItem(dataMap) )
                     return;
                 if ( m_model->rowCount() >= maxItems )
                     break;
@@ -921,8 +912,8 @@ public slots:
             setUriList(&uriList, &dataMap);
 
             if ( dataMap.isEmpty() ) {
-                m_model->removeRow(row);
-                --row;
+                m_indexToBaseName.remove(index);
+                m_model->removeRow(row--);
             } else {
                 dataMap.insert(mimeBaseName, baseName);
                 if ( !mimeToExtension.isEmpty() )
@@ -952,6 +943,14 @@ private slots:
         saveItems(a.row(), b.row());
     }
 
+    void onRowsRemoved(const QModelIndex &, int first, int last)
+    {
+        for (int i = first; i <= last; ++i) {
+            const QPersistentModelIndex index = m_model->index(i, 0);
+            m_indexToBaseName.remove(index);
+        }
+    }
+
 private:
     void watchPath(const QString &path)
     {
@@ -963,6 +962,8 @@ private:
     {
         connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
                  this, SLOT(onRowsInserted(QModelIndex, int, int)) );
+        connect( m_model.data(), SIGNAL(rowsRemoved(QModelIndex, int, int)),
+                 this, SLOT(onRowsRemoved(QModelIndex, int, int)) );
         connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                  SLOT(onDataChanged(QModelIndex,QModelIndex)) );
         m_valid = true;
@@ -977,12 +978,14 @@ private:
                     this, SLOT(onRowsInserted(QModelIndex, int, int)) );
     }
 
-    bool setIndexData(const QVariantMap &dataMap)
+    bool createItem(const QVariantMap &dataMap)
     {
         if ( m_model->insertRow(0) ) {
             const QModelIndex &index = m_model->index(0, 0);
             m_model->setData(index, dataMap, contentType::updateData);
-            Q_ASSERT( !getBaseName(index).isEmpty() );
+            const QString baseName = getBaseName(index);
+            Q_ASSERT( !baseName.isEmpty() );
+            m_indexToBaseName.insert(index, baseName);
             return true;
         }
 
@@ -993,7 +996,7 @@ private:
     {
         disconnectModel();
 
-        if ( !renameToUnique(m_model.data(), first, last, m_formatSettings) )
+        if ( !renameToUnique(first, last) )
             return;
 
         if ( m_path.isEmpty() )
@@ -1066,10 +1069,53 @@ private:
 
                 // Remove files of removed formats.
                 removeFormatFiles(filePath, oldMimeToExtension);
+
+                m_indexToBaseName.insert(index, baseName);
             }
         }
 
         connectModel();
+    }
+
+    bool renameToUnique(int first, int last)
+    {
+        QStringList usedBaseNames;
+        for (int i = 0; i < m_model->rowCount(); ++i) {
+            if (i >= first && i <= last)
+                continue;
+            const QModelIndex index = m_model->index(i, 0);
+            const QString baseName = getBaseName(index);
+            Q_ASSERT( !baseName.isEmpty() );
+            usedBaseNames.append(baseName);
+        }
+
+        for (int i = first; i <= last; ++i) {
+            const QModelIndex index = m_model->index(i, 0);
+            const QString oldBaseName = getBaseName(index);
+            QString baseName = oldBaseName;
+
+            if ( !::renameToUnique(&baseName, &usedBaseNames, m_formatSettings) )
+                return false;
+
+            if (baseName != oldBaseName) {
+                // Rename item.
+                QVariantMap dataMap;
+                dataMap.insert(mimeBaseName, baseName);
+                m_model->setData(index, dataMap, contentType::updateData);
+
+                // Move files.
+                const QString olderBaseName = m_indexToBaseName.value(index);
+                if ( !olderBaseName.isEmpty() ) {
+                    const QVariantMap itemData = index.data(contentType::data).toMap();
+                    const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
+                    moveFormatFiles(m_path + '/' + olderBaseName, m_path + '/' + baseName,
+                                    mimeToExtension);
+                }
+                m_indexToBaseName.insert(index, baseName);
+            }
+        }
+
+        return true;
     }
 
     QFileSystemWatcher m_watcher;
@@ -1078,6 +1124,7 @@ private:
     const QList<FileFormat> &m_formatSettings;
     QString m_path;
     bool m_valid;
+    QMap<QPersistentModelIndex, QString> m_indexToBaseName;
 };
 
 ItemSyncLoader::ItemSyncLoader()
@@ -1121,6 +1168,7 @@ QVariantMap ItemSyncLoader::applySettings()
             continue;
         fileFormat.icon = t->cellWidget(row, formatSettingsTableColumns::icon)
                 ->property("currentIcon").toString();
+        fixUserExtensions(&fileFormat.extensions);
         m_formatSettings.append(fileFormat);
 
         QVariantMap format;
@@ -1161,6 +1209,7 @@ void ItemSyncLoader::loadSettings(const QVariantMap &settings)
         fileFormat.extensions = format.value("formats").toStringList();
         fileFormat.itemMime = format.value("itemMime").toString();
         fileFormat.icon = format.value("icon").toString();
+        fixUserExtensions(&fileFormat.extensions);
         m_formatSettings.append(fileFormat);
     }
 }
