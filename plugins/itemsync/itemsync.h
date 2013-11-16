@@ -38,8 +38,7 @@ class ItemSync : public QWidget, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemSync(const QString &label, const QString &icon, bool replaceChildItem,
-             ItemWidget *childItem = NULL);
+    ItemSync(const QString &label, const QString &icon, ItemWidget *childItem = NULL);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -131,6 +130,8 @@ public:
     virtual bool canMoveItems(const QList<QModelIndex> &indexList);
 
     virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
+
+    virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
 
     virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
 

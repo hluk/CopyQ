@@ -64,12 +64,13 @@ const char configFormatSettings[] = "format_settings";
 
 const char tabConfigSavedFiles[] = "saved_files";
 
-const char dataFileSuffix[] = "_data.dat";
+const char dataFileSuffix[] = "_copyq.dat";
 
 #define MIME_PREFIX_ITEMSYNC MIME_PREFIX "itemsync-"
 const char mimeExtensionMap[] = MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
 const char mimeBaseName[] = MIME_PREFIX_ITEMSYNC "basename";
 const char mimeNoSave[] = MIME_PREFIX_ITEMSYNC "no-save";
+const char mimeSyncPath[] = MIME_PREFIX_ITEMSYNC "sync-path";
 
 const char propertyModelDisabled[] = "disabled";
 const char propertyModelDirty []= "dirty";
@@ -305,7 +306,7 @@ Hash calculateHash(QFile *file)
 }
 
 bool saveItemFile(const QString &filePath, const QByteArray &bytes,
-                  QMultiMap<Hash, QString> *existingFiles, QStringList *uriList)
+                  QMultiMap<Hash, QString> *existingFiles)
 {
     const Hash hash = calculateHash(bytes);
     const QStringList fileNames = existingFiles->values(hash);
@@ -320,8 +321,6 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
             return false;
         }
     }
-
-    uriList->append(filePath);
 
     return true;
 }
@@ -380,49 +379,6 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     }
 
     return fileList;
-}
-
-void setUriList(QStringList *uriList, QVariantMap *dataMap)
-{
-    if ( uriList->isEmpty() )
-        return;
-
-    bool updateUriData = !dataMap->contains(mimeUriList);
-    bool updateTextData = !dataMap->contains(mimeText);
-    if (!updateUriData && !updateTextData)
-        return;
-
-    QByteArray uriData;
-    QByteArray textData;
-
-    qSort(*uriList);
-    foreach (const QString &uri, *uriList) {
-        if (updateUriData) {
-            if ( !uriData.isEmpty() )
-                uriData.append("\n");
-            uriData.append( QUrl::fromLocalFile(uri).toEncoded() );
-        }
-
-        if (updateTextData) {
-            if ( !textData.isEmpty() )
-                textData.append("\n");
-            textData.append( QString(uri)
-                             .replace('\\', "\\\\")
-                             .replace('\n', "\\n")
-                             .replace('\r', "\\r") );
-        }
-    }
-
-    QVariantMap noSaveData;
-    if (updateUriData) {
-        noSaveData.insert(mimeUriList, calculateHash(uriData));
-        dataMap->insert(mimeUriList, uriData);
-    }
-    if (updateTextData) {
-        noSaveData.insert(mimeText, calculateHash(textData));
-        dataMap->insert(mimeText, textData);
-    }
-    dataMap->insert(mimeNoSave, noSaveData);
 }
 
 /// Load hash of all existing files to map (hash -> filename).
@@ -586,16 +542,13 @@ void fixUserExtensions(QStringList *exts)
 
 } // namespace
 
-ItemSync::ItemSync(const QString &label, const QString &icon, bool replaceChildItem, ItemWidget *childItem)
+ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childItem)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
     , m_label( new QTextEdit(this) )
     , m_icon( new IconWidget(icon, this) )
     , m_childItem(childItem)
 {
-    if (replaceChildItem)
-        m_childItem.reset();
-
     if ( !m_childItem.isNull() ) {
         m_childItem->widget()->setObjectName("item_child");
         m_childItem->widget()->setParent(this);
@@ -767,6 +720,15 @@ void moveFormatFiles(const QString &oldPath, const QString &newPath,
     }
 }
 
+void copyFormatFiles(const QString &oldPath, const QString &newPath,
+                     const QVariantMap &mimeToExtension)
+{
+    foreach ( const QString &format, mimeToExtension.keys() ) {
+        const QString ext = mimeToExtension[format].toString();
+        QFile::copy(oldPath + ext, newPath + ext);
+    }
+}
+
 void ItemSync::onSelectionChanged()
 {
     setProperty("copyOnMouseUp", true);
@@ -816,7 +778,6 @@ public:
         foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
             QVariantMap dataMap;
             QVariantMap mimeToExtension;
-            QStringList uriList;
 
             foreach (const Ext &ext, baseNameWithExts.exts) {
                 const QString fileName = baseNameWithExts.baseName + ext.extension;
@@ -824,8 +785,6 @@ public:
                 QFile f( dir.absoluteFilePath(fileName) );
                 if ( !f.open(QIODevice::ReadOnly) )
                     continue;
-
-                uriList.append( QFileInfo(f).absoluteFilePath() );
 
                 if ( fileName.endsWith(dataFileSuffix) && deserializeData(&dataMap, f.readAll()) ) {
                     mimeToExtension.insert( QString(), QString(dataFileSuffix) );
@@ -837,12 +796,9 @@ public:
                 }
             }
 
-            setUriList(&uriList, &dataMap);
-
-            if ( !dataMap.isEmpty() ) {
+            if ( !mimeToExtension.isEmpty() ) {
                 dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
-                if ( !mimeToExtension.isEmpty() )
-                    dataMap.insert(mimeExtensionMap, mimeToExtension);
+                dataMap.insert(mimeExtensionMap, mimeToExtension);
 
                 if ( !createItem(dataMap) )
                     return;
@@ -888,30 +844,30 @@ public slots:
 
             QVariantMap dataMap;
             QVariantMap mimeToExtension;
-            QStringList uriList;
 
             if ( i < fileList.size() ) {
                 const QString fileNamePrefix = dir.absoluteFilePath(baseName);
                 foreach (const Ext &ext, fileList[i].exts) {
                     QFile f(fileNamePrefix + ext.extension);
-                    uriList.append( QFileInfo(f).absoluteFilePath() );
-                    if ( f.size() < sizeLimit && f.open(QIODevice::ReadOnly) ) {
-                        if ( ext.format.isEmpty() ) {
-                            deserializeData(&dataMap, f.readAll());
-                            mimeToExtension.insert( QString(), QString(dataFileSuffix) );
-                        } else {
-                            dataMap.insert( ext.format, f.readAll() );
-                            mimeToExtension.insert(ext.format, ext.extension);
-                        }
+                    if ( !f.open(QIODevice::ReadOnly) )
+                         continue;
+
+                    if ( ext.format.isEmpty() || f.size() > sizeLimit ) {
+                        mimeToExtension.insert( QString(), QString() );
+                    } else if ( ext.extension.endsWith(dataFileSuffix) ) {
+                        deserializeData(&dataMap, f.readAll());
+                        mimeToExtension.insert( QString(), QString(dataFileSuffix) );
+                    } else {
+                        dataMap.insert( ext.format, f.readAll() );
+                        mimeToExtension.insert(ext.format, ext.extension);
                     }
+
                     watchPath( f.fileName() );
                 }
                 fileList.removeAt(i);
             }
 
-            setUriList(&uriList, &dataMap);
-
-            if ( dataMap.isEmpty() ) {
+            if ( mimeToExtension.isEmpty() ) {
                 m_indexToBaseName.remove(index);
                 m_model->removeRow(row--);
             } else {
@@ -1019,7 +975,6 @@ private:
             QVariantMap oldMimeToExtension = itemData.value(mimeExtensionMap).toMap();
             QVariantMap mimeToExtension;
             QVariantMap dataMapUnknown;
-            QStringList uriList;
             const QList<Ext> exts = fileExtensionsAndFormats();
 
             const QVariantMap noSaveData = itemData.value(mimeNoSave).toMap();
@@ -1031,40 +986,39 @@ private:
                 const QByteArray bytes = itemData[format].toByteArray();
 
                 if ( noSaveData.contains(format) && noSaveData[format].toByteArray() == calculateHash(bytes) ) {
-                    mimeToExtension.insert(QString(), QString());
+                    itemData.remove(format);
                     continue;
                 }
 
-                if ( format.isEmpty() ) {
-                    if ( !saveItemFile(filePath, bytes, &existingFiles, &uriList) )
-                        return;
-                } else {
-                    bool hasFile = oldMimeToExtension.contains(format);
-                    const QString ext = findByFormat(format, exts, oldMimeToExtension).extension;
+                bool hasFile = oldMimeToExtension.contains(format);
+                const QString ext = findByFormat(format, exts, oldMimeToExtension).extension;
 
-                    if ( !hasFile && ext.isEmpty() ) {
-                        dataMapUnknown.insert(format, bytes);
-                    } else {
-                        mimeToExtension.insert(format, ext);
-                        if ( !saveItemFile(filePath + ext, bytes, &existingFiles, &uriList) )
-                            return;
-                    }
+                if ( !hasFile && ext.isEmpty() ) {
+                    dataMapUnknown.insert(format, bytes);
+                } else {
+                    mimeToExtension.insert(format, ext);
+                    if ( !saveItemFile(filePath + ext, bytes, &existingFiles) )
+                        return;
                 }
             }
+
+            if ( mimeToExtension.isEmpty() )
+                mimeToExtension.insert(QString(), QString());
 
             if ( !dataMapUnknown.isEmpty() ) {
                 mimeToExtension.insert( QString(), QString(dataFileSuffix) );
                 QByteArray data = serializeData(dataMapUnknown);
-                if ( !saveItemFile(filePath + dataFileSuffix, data, &existingFiles, &uriList) )
+                if ( !saveItemFile(filePath + dataFileSuffix, data, &existingFiles) )
                     return;
             }
 
-            if ( mimeToExtension != oldMimeToExtension ) {
+            if ( !noSaveData.isEmpty() || mimeToExtension != oldMimeToExtension ) {
+                itemData.remove(mimeNoSave);
+
                 foreach ( const QString &format, mimeToExtension.keys() )
                     oldMimeToExtension.remove(format);
 
                 itemData.insert(mimeExtensionMap, mimeToExtension);
-                setUriList(&uriList, &itemData);
                 m_model->setData(index, itemData, contentType::data);
 
                 // Remove files of removed formats.
@@ -1097,21 +1051,27 @@ private:
             if ( !::renameToUnique(&baseName, &usedBaseNames, m_formatSettings) )
                 return false;
 
-            if (baseName != oldBaseName) {
-                // Rename item.
-                QVariantMap dataMap;
-                dataMap.insert(mimeBaseName, baseName);
-                m_model->setData(index, dataMap, contentType::updateData);
+            QVariantMap itemData = index.data(contentType::data).toMap();
+            const QString syncPath = itemData.value(mimeSyncPath).toString();
+            bool copyFilesFromOtherTab = !syncPath.isEmpty() && syncPath != m_path;
 
-                // Move files.
-                const QString olderBaseName = m_indexToBaseName.value(index);
-                if ( !olderBaseName.isEmpty() ) {
-                    const QVariantMap itemData = index.data(contentType::data).toMap();
-                    const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
-                    moveFormatFiles(m_path + '/' + olderBaseName, m_path + '/' + baseName,
-                                    mimeToExtension);
+            if ( copyFilesFromOtherTab || baseName != oldBaseName ) {
+                const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
+                const QString newBasePath = m_path + '/' + baseName;
+
+                if ( !syncPath.isEmpty() ) {
+                    copyFormatFiles(syncPath + '/' + oldBaseName, newBasePath, mimeToExtension);
+                } else {
+                    // Move files.
+                    const QString olderBaseName = m_indexToBaseName.value(index);
+                    if ( !olderBaseName.isEmpty() )
+                        moveFormatFiles(m_path + '/' + olderBaseName, newBasePath, mimeToExtension);
+                    m_indexToBaseName.insert(index, baseName);
                 }
-                m_indexToBaseName.insert(index, baseName);
+
+                itemData.remove(mimeSyncPath);
+                itemData.insert(mimeBaseName, baseName);
+                m_model->setData(index, itemData, contentType::data);
             }
         }
 
@@ -1168,14 +1128,15 @@ QVariantMap ItemSyncLoader::applySettings()
             continue;
         fileFormat.icon = t->cellWidget(row, formatSettingsTableColumns::icon)
                 ->property("currentIcon").toString();
-        fixUserExtensions(&fileFormat.extensions);
-        m_formatSettings.append(fileFormat);
 
         QVariantMap format;
         format["formats"] = fileFormat.extensions;
         format["itemMime"] = fileFormat.itemMime;
         format["icon"] = fileFormat.icon;
         formatSettings.append(format);
+
+        fixUserExtensions(&fileFormat.extensions);
+        m_formatSettings.append(fileFormat);
     }
     m_settings.insert(configFormatSettings, formatSettings);
 
@@ -1361,10 +1322,6 @@ void ItemSyncLoader::itemsLoaded(QAbstractItemModel *model, QFile *file)
             for (int i = 0; i < model->rowCount(); ++i) {
                 const QModelIndex index = model->index(i, 0);
                 QVariantMap dataMap = index.data(contentType::data).toMap();
-                const QVariantMap noSaveData = dataMap.value(mimeNoSave).toMap();
-
-                foreach ( const QString &format, noSaveData.keys() )
-                    dataMap.remove(format);
 
                 if ( containsUserData(dataMap) )
                     model->setData(index, dataMap, contentType::data);
@@ -1383,16 +1340,11 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
-    const QVariantMap noSaveData = dataMap.value(mimeNoSave).toMap();
 
     QString icon;
-    bool replaceItemWidget = true;
     foreach ( const QString &format, dataMap.keys() ) {
         if ( format.startsWith(MIME_PREFIX) )
             continue; // skip internal data
-        if ( noSaveData.contains(format) && noSaveData[format].toByteArray() == calculateHash(dataMap[format].toByteArray()) )
-            continue;
-        replaceItemWidget = false;
         icon = mimeToExtension.contains(format)
                 ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)
                 : iconFromMime(format);
@@ -1400,12 +1352,13 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
             break;
     }
 
-    if (replaceItemWidget)
+    if ( icon.isNull() ) {
         icon = iconFromBaseNameExtension(baseName, m_formatSettings);
-    if ( icon.isNull() )
-        icon = iconFromId(IconFile);
+        if ( icon.isNull() )
+            icon = iconFromId(IconFile);
+    }
 
-    return new ItemSync(baseName, icon, replaceItemWidget, itemWidget);
+    return new ItemSync(baseName, icon, itemWidget);
 }
 
 bool ItemSyncLoader::canRemoveItems(const QList<QModelIndex> &indexList)
@@ -1459,6 +1412,57 @@ void ItemSyncLoader::itemsRemovedByUser(const QList<QModelIndex> &indexList)
         else
             removeFormatFiles(path + '/' + baseName, mimeToExtension);
     }
+}
+
+QVariantMap ItemSyncLoader::copyItem(const QAbstractItemModel &model, const QVariantMap &itemData)
+{
+    QVariantMap copiedItemData = itemData;
+    const QString syncPath = tabPath(model);
+    copiedItemData.insert(mimeSyncPath, syncPath);
+
+    // Add text/plain and text/uri-list if not present.
+    bool updateUriData = !copiedItemData.contains(mimeUriList);
+    bool updateTextData = !copiedItemData.contains(mimeText);
+    if (updateUriData || updateTextData) {
+        QByteArray uriData;
+        QByteArray textData;
+
+        const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
+        const QString basePath = syncPath + '/' + itemData.value(mimeBaseName).toString();
+
+        foreach ( const QString &format, mimeToExtension.keys() ) {
+            const QString ext = mimeToExtension[format].toString();
+            const QString filePath = basePath + ext;
+
+            if (updateUriData) {
+                if ( !uriData.isEmpty() )
+                    uriData.append("\n");
+                uriData.append( QUrl::fromLocalFile(filePath).toEncoded() );
+            }
+
+            if (updateTextData) {
+                if ( !textData.isEmpty() )
+                    textData.append("\n");
+                textData.append( QString(filePath)
+                                 .replace('\\', "\\\\")
+                                 .replace('\n', "\\n")
+                                 .replace('\r', "\\r") );
+            }
+        }
+
+        QVariantMap noSaveData;
+        if (updateUriData) {
+            noSaveData.insert(mimeUriList, calculateHash(uriData));
+            copiedItemData.insert(mimeUriList, uriData);
+        }
+        if (updateTextData) {
+            noSaveData.insert(mimeText, calculateHash(textData));
+            copiedItemData.insert(mimeText, textData);
+        }
+        copiedItemData.insert(mimeNoSave, noSaveData);
+    }
+
+    return copiedItemData;
 }
 
 bool ItemSyncLoader::matches(const QModelIndex &index, const QRegExp &re) const

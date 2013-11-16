@@ -1842,7 +1842,7 @@ void MainWindow::updateTrayMenuItems()
             m_trayMenu->addCustomAction(act);
 
             int i = m_trayMenu->actions().size();
-            c->addCommandsToMenu(m_trayMenu, getTextData(dataMap), dataMap);
+            c->addCommandsToMenu(m_trayMenu, dataMap);
             QList<QAction *> actions = m_trayMenu->actions();
             for ( ; i < actions.size(); ++i )
                 m_trayMenu->addCustomAction(actions[i]);

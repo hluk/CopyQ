@@ -161,7 +161,6 @@ class ClipboardBrowser : public QListView
          * Add matching commands to menu.
          */
         void addCommandsToMenu(QMenu *menu, ///< Insert items before this action (if NULL append items).
-                const QString &text,   ///< Text to match.
                 const QVariantMap &data  ///< MIME types to match.
                 );
 
@@ -182,7 +181,7 @@ class ClipboardBrowser : public QListView
         /** Return true if user defined a selection and it shouldn't change programmatically. */
         bool hasUserSelection() const;
 
-        QVariantMap copyIndexes(const QModelIndexList &indexes);
+        QVariantMap copyIndexes(const QModelIndexList &indexes, bool serializeItems = true) const;
 
         /** Remove items and return row number of last removed item. */
         int removeIndexes(const QModelIndexList &indexes);

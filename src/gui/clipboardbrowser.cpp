@@ -687,7 +687,7 @@ int ClipboardBrowser::getDropRow(const QPoint &position)
     return index.isValid() ? index.row() : length();
 }
 
-void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const QVariantMap &data)
+void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 {
     if ( m_sharedData->commands.isEmpty() )
         return;
@@ -698,14 +698,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
 
     QAction *insertBefore = NULL;
 
-    QSet<QString> availableFormats;
-    if ( !data.isEmpty() ) {
-        availableFormats = data.keys().toSet();
-    } else {
-        foreach ( const QModelIndex &ind, selectionModel()->selectedIndexes() )
-            availableFormats.unite( itemData(ind.row()).keys().toSet() );
-    }
-
+    const QList<QString> availableFormats = data.keys();
     QList<QAction*> actions;
     QList<QKeySequence> shortcuts;
 
@@ -716,7 +709,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QString &text, const
         if ( !command.inMenu
             || (command.cmd.isEmpty() && !command.remove && (command.tab.isEmpty() || command.tab == tabName()))
             || command.name.isEmpty()
-            || command.re.indexIn(text) == -1
+            || command.re.indexIn(getTextData(data)) == -1
             || command.wndre.indexIn(windowTitle) == -1 )
         {
             continue;
@@ -820,13 +813,15 @@ bool ClipboardBrowser::hasUserSelection() const
     return isActiveWindow() || editing() || selectionModel()->selectedRows().count() > 1;
 }
 
-QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
+QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool serializeItems) const
 {
     Q_ASSERT(m_itemLoader);
 
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
-    QString text;
+    QByteArray text;
+    QByteArray uriList;
+    QVariantMap data;
 
     /* Copy items in reverse (items will be pasted correctly). */
     for ( int i = indexes.size()-1; i >= 0; --i ) {
@@ -836,16 +831,35 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
 
         const ClipboardItem *item = at( ind.row() );
         const QVariantMap copiedItemData = m_itemLoader->copyItem(*m, item->data());
-        stream << copiedItemData;
 
-        if ( !text.isEmpty() )
-            text.prepend('\n');
-        text.prepend( getTextData(copiedItemData) );
+        if (serializeItems)
+            stream << copiedItemData;
+
+        if (indexes.size() == 1) {
+            data = copiedItemData;
+        } else {
+            if ( !text.isEmpty() )
+                text.prepend('\n');
+            text.prepend( copiedItemData.value(mimeText).toByteArray() );
+
+            QByteArray uri = copiedItemData.value(mimeUriList).toByteArray();
+            if ( !uri.isEmpty() ) {
+                if ( !uriList.isEmpty() )
+                    text.prepend('\n');
+                uriList.prepend(uri);
+            }
+        }
     }
 
-    QVariantMap data;
-    data.insert(mimeItems, bytes);
-    setTextData(&data, text);
+    if (serializeItems)
+        data.insert(mimeItems, bytes);
+    if (indexes.size()  > 1) {
+        if ( !text.isNull() )
+            data.insert(mimeText, text);
+        if ( !uriList.isNull() )
+            data.insert(mimeUriList, uriList);
+    }
+
     return data;
 }
 
@@ -951,7 +965,7 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
 
 void ClipboardBrowser::updateContextMenu()
 {
-    if (m_menu == NULL || !updatesEnabled())
+    if (!m_menu || !m_itemLoader || !updatesEnabled())
         return;
 
     m_menu->clear();
@@ -965,7 +979,7 @@ void ClipboardBrowser::updateContextMenu()
 
     m_menu->addSeparator();
 
-    addCommandsToMenu(m_menu, selectedText(), getSelectedItemData());
+    addCommandsToMenu(m_menu, getSelectedItemData());
 }
 
 void ClipboardBrowser::onRowsInserted(const QModelIndex &parent, int first, int last)
@@ -1325,8 +1339,7 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     qSort(selected);
 
-    QVariantMap data;
-    data = copyIndexes(selected);
+    QVariantMap data = copyIndexes(selected);
     index = selected.first();
 
     QDrag *drag = new QDrag(this);
@@ -1410,7 +1423,7 @@ void ClipboardBrowser::addItems(const QStringList &items)
 
 void ClipboardBrowser::showItemContent()
 {
-    QVariantMap data = itemData();
+    QVariantMap data = getSelectedItemData();
     if ( data.isEmpty() )
         return;
 
@@ -2048,6 +2061,7 @@ void ClipboardBrowser::setTextWrap(bool enabled)
 
 QVariantMap ClipboardBrowser::getSelectedItemData() const
 {
-    QModelIndexList selected = selectionModel()->selectedRows();
-    return (selected.size() == 1) ? itemData(selected.first().row()) : QVariantMap();
+    QModelIndexList selected = selectedIndexes();
+    qSort(selected);
+    return copyIndexes(selected, false);
 }
