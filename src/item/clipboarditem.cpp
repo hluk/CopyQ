@@ -75,7 +75,9 @@ void ClipboardItem::setText(const QString &text)
         if ( format.startsWith("text/") )
             m_data.remove(format);
     }
+
     setTextData(&m_data, text);
+    updateDataHash();
 }
 
 void ClipboardItem::setData(const QVariantMap &data)
@@ -103,6 +105,8 @@ bool ClipboardItem::updateData(const QVariantMap &data)
         }
     }
 
+    updateDataHash();
+
     return changed;
 }
 
@@ -121,6 +125,8 @@ bool ClipboardItem::removeData(const QStringList &mimeTypeList)
             removed = true;
         }
     }
+    updateDataHash();
+
     return removed;
 }
 
