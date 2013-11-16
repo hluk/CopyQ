@@ -884,9 +884,9 @@ void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
         QDataStream in(bytes);
 
         while ( !in.atEnd() ) {
-            QVariantMap data;
-            deserializeData(&in, &data);
-            add(data, destinationRow);
+            QVariantMap dataMap;
+            deserializeData(&in, &dataMap);
+            add(dataMap, destinationRow);
             ++count;
         }
     } else {
@@ -1322,12 +1322,8 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
     qSort(selected);
 
     QVariantMap data;
-    if ( selected.size() > 1 ) {
-        data = copyIndexes(selected);
-        index = selected.first();
-    } else {
-        data = itemData(index.row());
-    }
+    data = copyIndexes(selected);
+    index = selected.first();
 
     QDrag *drag = new QDrag(this);
     drag->setMimeData( createMimeData(data) );
@@ -1358,6 +1354,8 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
             removeIndexes(selected);
         }
     }
+
+    update(); // Clear drag indicator.
 
     event->accept();
 }
