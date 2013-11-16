@@ -822,7 +822,10 @@ bool ClipboardBrowser::hasUserSelection() const
 
 QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
 {
+    Q_ASSERT(m_itemLoader);
+
     QByteArray bytes;
+    QDataStream stream(&bytes, QIODevice::WriteOnly);
     QString text;
 
     /* Copy items in reverse (items will be pasted correctly). */
@@ -832,11 +835,12 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes)
             continue;
 
         const ClipboardItem *item = at( ind.row() );
-        bytes.append( serializeData(item->data()) );
+        const QVariantMap copiedItemData = m_itemLoader->copyItem(*m, item->data());
+        stream << copiedItemData;
 
         if ( !text.isEmpty() )
             text.prepend('\n');
-        text.prepend( itemText(ind) );
+        text.prepend( getTextData(copiedItemData) );
     }
 
     QVariantMap data;
@@ -881,11 +885,11 @@ void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
     // Insert items from clipboard or just clipboard content.
     if ( data.contains(mimeItems) ) {
         const QByteArray bytes = data[mimeItems].toByteArray();
-        QDataStream in(bytes);
+        QDataStream stream(bytes);
 
-        while ( !in.atEnd() ) {
+        while ( !stream.atEnd() ) {
             QVariantMap dataMap;
-            deserializeData(&in, &dataMap);
+            stream >> dataMap;
             add(dataMap, destinationRow);
             ++count;
         }
@@ -1767,9 +1771,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
     // create new item
     int newRow = row < 0 ? m->rowCount() : qMin(row, m->rowCount());
-    m->insertRow(newRow);
-    QModelIndex ind = index(newRow);
-    m->setDataMap(ind, data);
+    m->insertItem(data, newRow);
 
     // filter item
     if ( isFiltered(newRow) ) {
@@ -1777,7 +1779,7 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     } else if (!keepUserSelection) {
         // Select new item if clipboard is not focused and the item is not filtered-out.
         clearSelection();
-        setCurrentIndex(ind);
+        setCurrent(newRow);
     }
 
     // list size limit

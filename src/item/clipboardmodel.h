@@ -86,8 +86,8 @@ public:
     /** Set data for given @a index. */
     bool setDataMap(const QModelIndex &index, const QVariantMap &value);
 
-    /** Append new item to model. */
-    ClipboardItem *append();
+    /** insert new item to model. */
+    void insertItem(const QVariantMap &data, int row);
 
     /**
      * Set maximum number of items in model.

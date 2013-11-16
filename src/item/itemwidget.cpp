@@ -148,6 +148,11 @@ void ItemLoaderInterface::itemsRemovedByUser(const QList<QModelIndex> &)
 {
 }
 
+QVariantMap ItemLoaderInterface::copyItem(const QAbstractItemModel &, const QVariantMap &itemData)
+{
+    return itemData;
+}
+
 bool ItemLoaderInterface::matches(const QModelIndex &, const QRegExp &) const
 {
     return false;

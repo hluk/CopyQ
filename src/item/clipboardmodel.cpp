@@ -124,17 +124,16 @@ bool ClipboardModel::setDataMap(const QModelIndex &index, const QVariantMap &val
     return true;
 }
 
-ClipboardItem *ClipboardModel::append()
+void ClipboardModel::insertItem(const QVariantMap &data, int row)
 {
     ClipboardItemPtr item( new ClipboardItem() );
+    item->setData(data);
 
-    beginInsertRows(QModelIndex(), rowCount(), rowCount());
+    beginInsertRows(QModelIndex(), row, row);
 
-    m_clipboardList.append(item);
+    m_clipboardList.insert(row, item);
 
     endInsertRows();
-
-    return item.data();
 }
 
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)

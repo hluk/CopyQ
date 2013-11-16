@@ -245,6 +245,11 @@ public:
     virtual void itemsRemovedByUser(const QList<QModelIndex> &indexList);
 
     /**
+     * Return copy of items data.
+     */
+    virtual QVariantMap copyItem(const QAbstractItemModel &model, const QVariantMap &itemData);
+
+    /**
      * Return true if regular expression matches items content.
      * Returns false by default.
      */
