@@ -353,7 +353,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     /* text color for selected/unselected item */
     QWidget *ww = w->widget();
-    if ( ww->property("CopyQ_selected") != isSelected ) {
+    if ( !ww->property("CopyQ_no_style").toBool() && ww->property("CopyQ_selected") != isSelected ) {
         ww->setProperty("CopyQ_selected", isSelected);
         ww->setStyle(style);
         foreach (QWidget *child, ww->findChildren<QWidget *>()) {

@@ -93,6 +93,8 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
+    setProperty("CopyQ_no_style", true);
+
     setHtml(html);
     updateSize();
 }

@@ -90,6 +90,9 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
         m_textDocument.setHtml( text.left(defaultMaxBytes) );
     else
         m_textDocument.setPlainText( text.left(defaultMaxBytes) );
+
+    setProperty("CopyQ_no_style", isRichText);
+
     setDocument(&m_textDocument);
 }
 
@@ -133,7 +136,7 @@ void ItemText::updateSize()
 {
     const int w = maximumWidth();
     m_textDocument.setTextWidth(w);
-    setFixedSize( m_textDocument.idealWidth() + 16, m_textDocument.size().height() );
+    setFixedSize( w, m_textDocument.size().height() );
 }
 
 void ItemText::mousePressEvent(QMouseEvent *e)
