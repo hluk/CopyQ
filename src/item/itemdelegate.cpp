@@ -278,10 +278,8 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     ww->hide();
 
     ww->installEventFilter(this);
-    foreach (QWidget *child, ww->findChildren<QWidget *>()) {
+    foreach (QWidget *child, ww->findChildren<QWidget *>())
         child->installEventFilter(this);
-        child->setStyle(m_parent->style());
-    }
 
     updateRowPosition( index.row(), QPoint(0, m_parent->spacing()) );
 
@@ -357,12 +355,10 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     QWidget *ww = w->widget();
     if ( ww->property("CopyQ_selected") != isSelected ) {
         ww->setProperty("CopyQ_selected", isSelected);
-        style->unpolish(ww);
-        style->polish(ww);
+        ww->setStyle(style);
         foreach (QWidget *child, ww->findChildren<QWidget *>()) {
             child->setProperty("CopyQ_selected", isSelected);
-            style->unpolish(child);
-            style->polish(child);
+            child->setStyle(style);
         }
         ww->update();
     }

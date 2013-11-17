@@ -67,7 +67,7 @@ void IconWidget::paintEvent(QPaintEvent *)
 
         if (parentWidget())
             p.setPen( parentWidget()->palette().color(QPalette::Text) );
-        p.drawText( QPoint(1, 15), m_icon);
+        p.drawText( rect(), Qt::AlignCenter, m_icon);
     } else {
         QPixmap pix(m_icon);
         p.drawPixmap( 0, 0, pix.scaled(size(), Qt::KeepAspectRatio) );

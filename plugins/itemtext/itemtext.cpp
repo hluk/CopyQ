@@ -133,7 +133,7 @@ void ItemText::updateSize()
 {
     const int w = maximumWidth();
     m_textDocument.setTextWidth(w);
-    resize( m_textDocument.idealWidth() + 16, m_textDocument.size().height() );
+    setFixedSize( m_textDocument.idealWidth() + 16, m_textDocument.size().height() );
 }
 
 void ItemText::mousePressEvent(QMouseEvent *e)

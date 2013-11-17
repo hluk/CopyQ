@@ -23,6 +23,7 @@
 #include "common/contenttype.h"
 #include "gui/iconwidget.h"
 
+#include <QBoxLayout>
 #include <QContextMenuEvent>
 #include <QLabel>
 #include <QModelIndex>
@@ -62,9 +63,12 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
 
+    QBoxLayout *layout;
+
     if (showIconOnly) {
-        m_icon->move(4, 2);
-        m_childItem->widget()->move( m_icon->width() + 6, 0 );
+        layout = new QHBoxLayout(this);
+        layout->addWidget(m_icon, 0, Qt::AlignRight | Qt::AlignTop);
+        layout->addWidget(m_childItem->widget());
     } else {
         m_notes->setObjectName("item_child");
 
@@ -83,9 +87,20 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
 
         m_notes->setPlainText( text.left(defaultMaxBytes) );
 
-        m_notes->move(notesIndent, 0);
+        layout = new QVBoxLayout(this);
 
-        m_notes->viewport()->installEventFilter(this);
+        QHBoxLayout *labelLayout = new QHBoxLayout;
+        labelLayout->setMargin(0);
+        labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
+        labelLayout->addWidget(m_notes, 0, Qt::AlignLeft);
+
+        if (notesAtBottom) {
+            layout->addWidget( m_childItem->widget() );
+            layout->addLayout(labelLayout);
+        } else {
+            layout->addLayout(labelLayout);
+            layout->addWidget( m_childItem->widget() );
+        }
     }
 
     if (showToolTip) {
@@ -96,6 +111,9 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
                  this, SLOT(showToolTip()) );
         m_toolTipText = text;
     }
+
+    layout->setMargin(0);
+    layout->setSpacing(0);
 }
 
 void ItemNotes::setCurrent(bool current)
@@ -176,27 +194,18 @@ bool ItemNotes::hasChanges(QWidget *editor) const
 
 void ItemNotes::updateSize()
 {
-    const int w = maximumWidth() - ( m_icon != NULL ? m_icon->width() : 0 );
-
-    m_childItem->widget()->setMaximumWidth(w);
-    m_childItem->updateSize();
-
-    const int h = m_childItem->widget()->height();
-
-    if (m_notes != NULL) {
-        m_notes->setMaximumWidth(w - notesIndent);
-        m_notes->document()->setTextWidth(w - notesIndent);
-        m_notes->resize( m_notes->document()->idealWidth() + 16, m_notes->document()->size().height() );
-
-        if (m_notesAtBottom)
-            m_notes->move(notesIndent, h);
-        else
-            m_childItem->widget()->move( 0, m_notes->height() );
-
-        resize( w, h + m_notes->height() );
-    } else {
-        resize(w, h);
+    const int w = maximumWidth();
+    if (m_notes) {
+        QTextDocument *doc = m_notes->document();
+        doc->setTextWidth(w);
+        m_notes->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
     }
+
+    if ( !m_childItem.isNull() )
+        m_childItem->updateSize();
+
+    adjustSize();
+    setFixedSize(minimumSizeHint());
 }
 
 void ItemNotes::mousePressEvent(QMouseEvent *e)
@@ -235,18 +244,6 @@ void ItemNotes::paintEvent(QPaintEvent *event)
         p.drawRect(m_notes->x() - notesIndent + 4, m_notes->y() + 4,
                    notesIndent - 4, m_notes->height() - 8);
     }
-}
-
-bool ItemNotes::eventFilter(QObject *obj, QEvent *event)
-{
-    if ( m_notes != NULL && obj == m_notes->viewport() ) {
-        if ( event->type() == QEvent::MouseButtonPress ) {
-            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
-            mousePressEvent(ev);
-        }
-    }
-
-    return QWidget::eventFilter(obj, event);
 }
 
 void ItemNotes::onSelectionChanged()

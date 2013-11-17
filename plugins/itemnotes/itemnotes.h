@@ -64,8 +64,6 @@ protected:
 
     virtual void paintEvent(QPaintEvent *event);
 
-    virtual bool eventFilter(QObject *obj, QEvent *event);
-
 private slots:
     void onSelectionChanged();
     void showToolTip();

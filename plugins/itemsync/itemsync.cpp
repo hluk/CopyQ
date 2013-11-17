@@ -28,6 +28,7 @@
 #include "gui/iconwidget.h"
 #include "item/serialize.h"
 
+#include <QBoxLayout>
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QDir>
@@ -550,11 +551,23 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     , m_childItem(childItem)
     , m_copyOnMouseUp(false)
 {
-    if ( !m_childItem.isNull() ) {
-        m_childItem->widget()->setObjectName("item_child");
-        m_childItem->widget()->setParent(this);
-        m_childItem->widget()->move( m_icon->width() + 6, 0 );
-    }
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setMargin(0);
+    layout->setSpacing(0);
+
+    QHBoxLayout *labelLayout = new QHBoxLayout;
+    labelLayout->setMargin(0);
+
+    labelLayout->addWidget(m_icon);
+    labelLayout->addWidget(m_label);
+    labelLayout->addStretch();
+
+    layout->addLayout(labelLayout);
+
+    QWidget *w = m_childItem->widget();
+    layout->addWidget(w);
+    w->setObjectName("item_child");
+    w->setParent(this);
 
     m_label->setObjectName("item_child");
 
@@ -572,17 +585,11 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     connect( m_label, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
     m_label->setPlainText(label);
-
-    m_label->viewport()->installEventFilter(this);
-
-    m_icon->move(4, 2);
-    m_label->move( m_icon->geometry().right() + 4, 0 );
 }
 
 void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    if ( !m_childItem.isNull() )
-        m_childItem->setHighlight(re, highlightFont, highlightPalette);
+    m_childItem->setHighlight(re, highlightFont, highlightPalette);
 
     QList<QTextEdit::ExtraSelection> selections;
 
@@ -620,45 +627,35 @@ void ItemSync::highlight(const QRegExp &re, const QFont &highlightFont, const QP
 
 QWidget *ItemSync::createEditor(QWidget *parent) const
 {
-    return m_childItem.isNull() ? NULL : m_childItem->createEditor(parent);
+    return m_childItem->createEditor(parent);
 }
 
 void ItemSync::setEditorData(QWidget *editor, const QModelIndex &index) const
 {
-    Q_ASSERT( !m_childItem.isNull() );
     return m_childItem->setEditorData(editor, index);
 }
 
 void ItemSync::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
 {
-    Q_ASSERT( !m_childItem.isNull() );
     return m_childItem->setModelData(editor, model, index);
 }
 
 bool ItemSync::hasChanges(QWidget *editor) const
 {
-    Q_ASSERT( !m_childItem.isNull() );
     return m_childItem->hasChanges(editor);
 }
 
 void ItemSync::updateSize()
 {
-    const int w = maximumWidth() - m_icon->width();
+    const int w = maximumWidth();
+    QTextDocument *doc = m_label->document();
+    doc->setTextWidth(w);
+    m_label->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
 
-    m_label->setMaximumWidth(w - m_label->x());
-    m_label->document()->setTextWidth(w - m_label->x());
-    m_label->resize( m_label->document()->idealWidth() + 16, m_label->document()->size().height() );
+    m_childItem->updateSize();
 
-    int h = qMax( m_label->height(), m_icon->height() );
-
-    if ( !m_childItem.isNull() ) {
-        m_childItem->widget()->setMaximumWidth(w);
-        m_childItem->updateSize();
-        m_childItem->widget()->move(0, h);
-        h += m_childItem->widget()->height();
-    }
-
-    resize(w, h);
+    adjustSize();
+    setFixedSize(minimumSizeHint());
 }
 
 void ItemSync::mousePressEvent(QMouseEvent *e)
@@ -691,18 +688,6 @@ void ItemSync::mouseReleaseEvent(QMouseEvent *e)
     } else {
         QWidget::mouseReleaseEvent(e);
     }
-}
-
-bool ItemSync::eventFilter(QObject *obj, QEvent *event)
-{
-    if ( m_label != NULL && obj == m_label->viewport() ) {
-        if ( event->type() == QEvent::MouseButtonPress ) {
-            QMouseEvent *ev = static_cast<QMouseEvent *>(event);
-            mousePressEvent(ev);
-        }
-    }
-
-    return QWidget::eventFilter(obj, event);
 }
 
 void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
