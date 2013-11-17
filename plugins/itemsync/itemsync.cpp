@@ -261,8 +261,6 @@ QList<Ext> fileExtensionsAndFormats()
         exts.append( Ext(".xml", "application/xml") );
         exts.append( Ext("_xml.svg", "image/svg+xml") );
         exts.append( Ext(".xml", "text/xml") );
-
-        exts.append( Ext(dataFileSuffix, "") );
     }
 
     return exts;
@@ -351,18 +349,24 @@ BaseNameExtensionsList listFiles(const QStringList &files,
         if ( info.isHidden() || info.fileName().startsWith('.') || !info.isReadable() )
             continue;
 
-        Ext ext = findByExtension(filePath, userExts);
-        if ( ext.extension.isEmpty() ) {
-            ext = findByExtension(filePath, exts);
-            if ( ext.format.isEmpty() )
-                continue;
+        Ext ext;
+        if ( filePath.endsWith(dataFileSuffix) ) {
+            ext = Ext(dataFileSuffix, "");
         } else {
-            if (ext.format == "-")
-                continue;
-            if ( ext.format.isEmpty() )
+            ext = findByExtension(filePath, userExts);
+
+            if ( ext.extension.isEmpty() ) {
                 ext = findByExtension(filePath, exts);
-            else
-                ext.extension.clear();
+                if ( ext.format.isEmpty() )
+                    continue;
+            } else {
+                if (ext.format == "-")
+                    continue;
+                if ( ext.format.isEmpty() )
+                    ext = findByExtension(filePath, exts);
+                else
+                    ext.extension.clear();
+            }
         }
 
         const QString fileName = info.fileName();
@@ -538,6 +542,10 @@ void fixUserExtensions(QStringList *exts)
         QString &ext = (*exts)[i];
         if ( !ext.startsWith('.') )
             ext.prepend('.');
+        // Use "_user.dat" instead of "*.dat" to avoid collisions with extension "_copy.dat"
+        // internally used to store data of unknown MIME type.
+        if ( ext.toLower().endsWith(".dat") )
+            ext.insert(ext.size() - 4, "_user");
     }
 }
 
@@ -897,7 +905,12 @@ private:
             const QModelIndex &index = m_model->index(0, 0);
             m_model->setData(index, dataMap, contentType::updateData);
             const QString baseName = getBaseName(index);
+
             Q_ASSERT( !baseName.isEmpty() );
+            Q_ASSERT( dataMap.contains(mimeExtensionMap) );
+            Q_ASSERT( !dataMap[mimeExtensionMap].toMap().isEmpty() );
+            Q_ASSERT( !dataMap[mimeExtensionMap].toMap().value(QString(), QString("X")).toString().isEmpty() );
+
             m_indexToBaseName.insert(index, baseName);
             return true;
         }
@@ -959,8 +972,8 @@ private:
                 }
             }
 
-            if ( mimeToExtension.isEmpty() )
-                mimeToExtension.insert(QString(), QString());
+            if ( oldMimeToExtension.contains(QString()) )
+                mimeToExtension.insert( QString(), oldMimeToExtension[QString()] );
 
             if ( !dataMapUnknown.isEmpty() ) {
                 mimeToExtension.insert( QString(), QString(dataFileSuffix) );
@@ -1047,10 +1060,10 @@ private:
             if ( !f.open(QIODevice::ReadOnly) )
                 continue;
 
-            if ( fileName.endsWith(dataFileSuffix) && deserializeData(dataMap, f.readAll()) ) {
+            if ( ext.extension == dataFileSuffix && deserializeData(dataMap, f.readAll()) ) {
                 mimeToExtension->insert( QString(), QString(dataFileSuffix) );
             } else if ( f.size() > sizeLimit || ext.format.isEmpty() ) {
-                mimeToExtension->insert(QString(), QString());
+                mimeToExtension->insert( QString(), ext.extension );
             } else {
                 dataMap->insert(ext.format, f.readAll());
                 mimeToExtension->insert(ext.format, ext.extension);
