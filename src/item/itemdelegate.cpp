@@ -57,7 +57,7 @@ ItemDelegate::ItemDelegate(QListView *parent)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
     , m_vMargin( itemMargin() )
-    , m_hMargin( m_vMargin * 2 + 2 )
+    , m_hMargin( m_vMargin * 2 + 6 )
     , m_foundFont()
     , m_foundPalette()
     , m_numberFont()
@@ -295,7 +295,7 @@ void ItemDelegate::setNumberStyle(const QFont &font, const QPalette &palette)
     m_numberFont = font;
     if ( !m_numberSize.isEmpty() ) {
         m_numberSize = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).size()
-                + QSize(m_hMargin, 2 * m_vMargin);
+                + QSize(m_hMargin / 2, 2 * m_vMargin);
     }
     m_numberPalette = palette;
 }
