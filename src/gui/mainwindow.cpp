@@ -1242,6 +1242,9 @@ void MainWindow::showWindow()
     if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() )
         return;
 
+    if ( isActiveWindow() )
+        return;
+
 #ifdef COPYQ_WS_X11
     /* Re-initialize window in window manager so it can popup on current workspace. */
     Qt::WindowFlags flags = windowFlags();
