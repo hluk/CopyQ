@@ -730,7 +730,7 @@ public:
     FileWatcher(const QString &path, const QStringList &paths, QAbstractItemModel *model,
                 const QList<FileFormat> &formatSettings, QObject *parent)
         : QObject(parent)
-        , m_watcher(paths)
+        , m_watcher()
         , m_model(model)
         , m_formatSettings(formatSettings)
         , m_path(path)
