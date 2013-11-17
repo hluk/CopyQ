@@ -1390,7 +1390,7 @@ bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
         return false;
 
     const QString &cmd = editorCommand.isNull() ? m_sharedData->editor : editorCommand;
-    if (cmd.isNull())
+    if ( cmd.isEmpty() )
         return false;
 
     QObject *editor = new ItemEditor(data, mime, cmd, this);
