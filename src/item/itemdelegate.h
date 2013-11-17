@@ -74,7 +74,7 @@ class ItemDelegate : public QItemDelegate
         void setNumberStyle(const QFont &font, const QPalette &palette);
 
         /** Show/hide item number. */
-        void setShowNumber(bool show) { m_showNumber = show; }
+        void setShowNumber(bool show);
 
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
@@ -92,7 +92,7 @@ class ItemDelegate : public QItemDelegate
         void setFontAntialiasing(bool enable) { m_antialiasing = enable; }
 
         /** Update row position. */
-        void updateRowPosition(int row, const QPoint &position);
+        void updateRowPosition(int row, int y);
 
         /** Show/hide row. */
         void setRowVisible(int row, bool visible);
@@ -120,23 +120,26 @@ class ItemDelegate : public QItemDelegate
 
     private:
         QListView *m_parent;
-        bool m_showNumber;
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
+        int m_vMargin;
+        int m_hMargin;
 
         QFont m_foundFont;
         QPalette m_foundPalette;
         QFont m_editorFont;
         QPalette m_editorPalette;
         QFont m_numberFont;
-        int m_numberWidth;
+        QSize m_numberSize;
         QPalette m_numberPalette;
         bool m_antialiasing;
 
         QList<ItemWidget*> m_cache;
 
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
+
+        void updateItemMaximumSize();
 
     public slots:
         // change size buffer

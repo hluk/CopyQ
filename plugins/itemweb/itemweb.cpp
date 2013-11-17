@@ -96,7 +96,6 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     setProperty("CopyQ_no_style", true);
 
     setHtml(html);
-    updateSize();
 }
 
 void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
@@ -111,16 +110,17 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
 
 void ItemWeb::onItemChanged()
 {
-    updateSize();
+    updateSize(maximumSize());
 }
 
-void ItemWeb::updateSize()
+void ItemWeb::updateSize(const QSize &maximumSize)
 {
-    const int w = maximumWidth();
+    setMaximumSize(maximumSize);
+    const int w = maximumSize.width();
     page()->setPreferredContentsSize( QSize(w, 10) );
     QSize size( w, page()->mainFrame()->contentsSize().height() );
     page()->setViewportSize(size);
-    resize(size);
+    setFixedSize(size);
 }
 
 void ItemWeb::onSelectionChanged()

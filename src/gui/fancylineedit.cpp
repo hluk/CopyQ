@@ -83,7 +83,7 @@ static void execMenuAtWidget(QMenu *menu, QWidget *widget)
     valid user input).
  */
 
-enum { margin = 6 };
+enum { m_margin = 6 };
 
 #define ICONBUTTON_HEIGHT 18
 #define FADE_TIME 160

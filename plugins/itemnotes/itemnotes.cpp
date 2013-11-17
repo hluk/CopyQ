@@ -192,20 +192,22 @@ bool ItemNotes::hasChanges(QWidget *editor) const
     return m_childItem->hasChanges(editor);
 }
 
-void ItemNotes::updateSize()
+void ItemNotes::updateSize(const QSize &maximumSize)
 {
-    const int w = maximumWidth();
+    setMaximumSize(maximumSize);
+
     if (m_notes) {
+        const int w = maximumSize.width() - 2 * notesIndent - 8;
         QTextDocument *doc = m_notes->document();
         doc->setTextWidth(w);
         m_notes->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
     }
 
     if ( !m_childItem.isNull() )
-        m_childItem->updateSize();
+        m_childItem->updateSize(maximumSize);
 
     adjustSize();
-    setFixedSize(minimumSizeHint());
+    setFixedSize(sizeHint());
 }
 
 void ItemNotes::mousePressEvent(QMouseEvent *e)

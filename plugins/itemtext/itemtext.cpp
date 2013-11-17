@@ -91,6 +91,8 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     else
         m_textDocument.setPlainText( text.left(defaultMaxBytes) );
 
+    m_textDocument.setDocumentMargin(0);
+
     setProperty("CopyQ_no_style", isRichText);
 
     setDocument(&m_textDocument);
@@ -132,11 +134,13 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
     update();
 }
 
-void ItemText::updateSize()
+void ItemText::updateSize(const QSize &maximumSize)
 {
-    const int w = maximumWidth();
+    const int w = maximumSize.width();
+    setMaximumHeight( maximumSize.height() );
+    setFixedWidth(w);
     m_textDocument.setTextWidth(w);
-    setFixedSize( w, m_textDocument.size().height() );
+    setFixedHeight( m_textDocument.size().height() );
 }
 
 void ItemText::mousePressEvent(QMouseEvent *e)

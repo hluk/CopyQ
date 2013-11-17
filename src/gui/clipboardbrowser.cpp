@@ -450,7 +450,8 @@ void ClipboardBrowser::preload(int minY, int maxY)
         const QRect oldRect(visualRect(ind));
 
         // Fetch item.
-        const int h = d->cache(ind)->widget()->height();
+        d->cache(ind);
+        const int h = d->sizeHint(ind).height();
 
         // Re-layout rows afterwards if size has changed.
         const int dy = h - oldRect.height();
@@ -477,17 +478,15 @@ void ClipboardBrowser::preload(int minY, int maxY)
         const QRect oldRect(update ? QRect() : visualRect(ind));
 
         // Fetch item.
-        QWidget *w = d->cache(ind)->widget();
-
-        const int h = w->height();
+        d->cache(ind);
+        const int h = d->sizeHint(ind).height();
 
         // Re-layout rows afterwards if row position or size has changed.
         if (!update)
             update = (y != oldRect.y() || h != oldRect.height());
 
         // Correct widget position.
-        if (y != w->y())
-            d->updateRowPosition( i, QPoint(0, y) );
+        d->updateRowPosition(i, y);
 
         d->setRowVisible(i, true);
 

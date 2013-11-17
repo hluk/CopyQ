@@ -108,7 +108,7 @@ public:
     /**
      * Size of widget needs to be updated (because maximum size chaged).
      */
-    virtual void updateSize() {}
+    virtual void updateSize(const QSize &maximumSize);
 
     /**
      * Called if widget is set or unset as current.

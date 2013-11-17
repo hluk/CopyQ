@@ -43,9 +43,6 @@ public:
 
     virtual void setModelData(QWidget *editor, QAbstractItemModel *model,
                               const QModelIndex &index) const;
-
-protected:
-    virtual void updateSize();
 };
 
 class ItemEncryptedLoader : public QObject, public ItemLoaderInterface

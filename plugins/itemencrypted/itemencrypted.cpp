@@ -102,8 +102,6 @@ ItemEncrypted::ItemEncrypted(QWidget *parent)
     // Show small icon.
     QWidget *iconWidget = new IconWidget(IconLock, this);
     layout->addWidget(iconWidget);
-
-    updateSize();
 }
 
 void ItemEncrypted::setEditorData(QWidget *editor, const QModelIndex &index) const
@@ -126,12 +124,6 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
     QTextEdit *textEdit = qobject_cast<QTextEdit*>(editor);
     if (textEdit != NULL)
         encryptMimeData( createDataMap(mimeText, textEdit->toPlainText()), index, model );
-}
-
-void ItemEncrypted::updateSize()
-{
-    setMinimumWidth(maximumWidth());
-    adjustSize();
 }
 
 ItemEncryptedLoader::ItemEncryptedLoader()

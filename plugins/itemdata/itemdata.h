@@ -44,8 +44,6 @@ protected:
 
     virtual QWidget *createEditor(QWidget *) const { return NULL; }
 
-    virtual void updateSize();
-
     virtual void mousePressEvent(QMouseEvent *e);
 
     virtual void mouseDoubleClickEvent(QMouseEvent *e);

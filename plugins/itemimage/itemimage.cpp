@@ -85,7 +85,6 @@ ItemImage::ItemImage(const QPixmap &pix, const QString &imageEditor, const QStri
 {
     setMargin(4);
     setPixmap(pix);
-    updateSize();
 }
 
 QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *parent) const
@@ -98,11 +97,6 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     const QString &cmd = mime.contains("svg") ? m_svgEditor : m_editor;
 
     return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
-}
-
-void ItemImage::updateSize()
-{
-    adjustSize();
 }
 
 ItemImageLoader::ItemImageLoader()

@@ -112,11 +112,11 @@ public:
     {
         if ( index.data(contentType::hasText).toBool() ) {
             m_hasText = true;
-            setMargin(4);
+            setMargin(0);
             setWordWrap(true);
             setTextFormat(Qt::PlainText);
             setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
-            updateSize();
+            setTextInteractionFlags(Qt::TextSelectableByMouse);
         } else {
             setMaximumSize(0, 0);
         }
@@ -127,11 +127,14 @@ public:
         return m_hasText ? ItemWidget::createEditor(parent) : NULL;
     }
 
-protected:
-    virtual void updateSize()
+    virtual void updateSize(const QSize &maximumSize)
     {
-        setMinimumWidth(maximumWidth());
-        adjustSize();
+        if (m_hasText) {
+            setMinimumSize(0, 0);
+            setMaximumSize(maximumSize);
+            adjustSize();
+            setFixedSize(sizeHint());
+        }
     }
 
 private:

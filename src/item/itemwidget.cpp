@@ -100,6 +100,15 @@ QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
     return NULL;
 }
 
+void ItemWidget::updateSize(const QSize &maximumSize)
+{
+    QWidget *w = widget();
+    w->setMinimumSize(0, 0);
+    w->setMaximumSize(maximumSize);
+    w->adjustSize();
+    w->setFixedSize( w->sizeHint() );
+}
+
 void ItemWidget::setCurrent(bool)
 {
 }

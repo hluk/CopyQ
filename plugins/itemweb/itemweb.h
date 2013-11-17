@@ -40,7 +40,7 @@ protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
                    const QPalette &highlightPalette);
 
-    virtual void updateSize();
+    virtual void updateSize(const QSize &maximumSize);
 
     virtual void mousePressEvent(QMouseEvent *e);
 

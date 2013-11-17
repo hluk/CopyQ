@@ -28,6 +28,7 @@
 #include "item/itemeditorwidget.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QEvent>
 #include <QListView>
 #include <QMouseEvent>
@@ -35,12 +36,16 @@
 
 namespace {
 
-const int margin = 6;
-
 inline void reset(ItemWidget **ptr, ItemWidget *value = NULL)
 {
     delete *ptr;
     *ptr = value != NULL ? value : NULL;
+}
+
+int itemMargin()
+{
+    const int dpi = QApplication::desktop()->physicalDpiX();
+    return ( dpi <= 120 ) ? 4 : 4 * dpi / 120;
 }
 
 } // namespace
@@ -48,14 +53,15 @@ inline void reset(ItemWidget **ptr, ItemWidget *value = NULL)
 ItemDelegate::ItemDelegate(QListView *parent)
     : QItemDelegate(parent)
     , m_parent(parent)
-    , m_showNumber(false)
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
+    , m_vMargin( itemMargin() )
+    , m_hMargin( m_vMargin * 2 + 2 )
     , m_foundFont()
     , m_foundPalette()
     , m_numberFont()
-    , m_numberWidth(0)
+    , m_numberSize( QSize(0, 0) )
     , m_numberPalette()
     , m_antialiasing(true)
     , m_cache()
@@ -71,8 +77,11 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
     int row = index.row();
     if ( row < m_cache.size() ) {
         const ItemWidget *w = m_cache[row];
-        if (w != NULL)
-            return w->widget()->size();
+        if (w != NULL) {
+            QWidget *ww = w->widget();
+            return QSize( ww->width() + 2 * m_hMargin + m_numberSize.width(),
+                          qMax(ww->height() + 2 * m_vMargin, m_numberSize.height()) );
+        }
     }
     return QSize(0, 512);
 }
@@ -166,9 +175,7 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
 
 void ItemDelegate::setItemMaximumSize(const QSize &size)
 {
-    int width = size.width() - 2 * margin;
-    if (m_showNumber)
-        width -= m_numberWidth + margin;
+    int width = size.width() - 2 * m_hMargin - m_numberSize.width();
 
     if (m_maxSize.width() == width)
         return;
@@ -177,37 +184,16 @@ void ItemDelegate::setItemMaximumSize(const QSize &size)
 
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
-        if (w != NULL) {
-            w->widget()->setMaximumSize(m_maxSize);
-            w->widget()->setMinimumWidth(width);
-            w->updateSize();
-        }
+        if (w != NULL)
+            w->updateSize(m_maxSize);
     }
 }
 
-void ItemDelegate::updateRowPosition(int row, const QPoint &position)
+void ItemDelegate::updateRowPosition(int row, int y)
 {
     ItemWidget *w = m_cache[row];
-    if (w == NULL)
-        return;
-
-    int x = position.x() + margin;
-    int y = position.y();
-
-    if (m_showNumber)
-        x += m_numberWidth + margin;
-
-    w->widget()->move(x, y);
-
-    y += w->widget()->height();
-    for (int i = row + 1; i < m_cache.size(); ++i ) {
-        w = m_cache[i];
-        if (w == NULL)
-            continue;
-
-        if (w->widget()->y() < y)
-            w->widget()->hide();
-    }
+    if (w != NULL)
+        w->widget()->move( QPoint(m_numberSize.width() + m_hMargin, y + m_vMargin) );
 }
 
 void ItemDelegate::setRowVisible(int row, bool visible)
@@ -269,19 +255,14 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
             child->setFont(f);
     }
 
-    ww->setMaximumSize(m_maxSize);
-    ww->setMinimumWidth(m_maxSize.width());
-
     // Try to get proper size by showing item momentarily.
     ww->show();
-    w->updateSize();
+    w->updateSize(m_maxSize);
     ww->hide();
 
     ww->installEventFilter(this);
     foreach (QWidget *child, ww->findChildren<QWidget *>())
         child->installEventFilter(this);
-
-    updateRowPosition( index.row(), QPoint(0, m_parent->spacing()) );
 
     emit rowSizeChanged();
 }
@@ -312,14 +293,33 @@ void ItemDelegate::setEditorStyle(const QFont &font, const QPalette &palette)
 void ItemDelegate::setNumberStyle(const QFont &font, const QPalette &palette)
 {
     m_numberFont = font;
-    m_numberWidth = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).width();
+    if ( !m_numberSize.isEmpty() ) {
+        m_numberSize = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).size()
+                + QSize(m_hMargin, 2 * m_vMargin);
+    }
     m_numberPalette = palette;
+}
+
+void ItemDelegate::setShowNumber(bool show)
+{
+    if ( show == !m_numberSize.isEmpty() )
+        return;
+
+    if (show) {
+        m_numberSize = QSize(1, 1);
+        setNumberStyle(m_numberFont, m_numberPalette);
+    } else {
+        m_numberSize = QSize(0, 0);
+    }
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
                          const QModelIndex &index) const
 {
     int row = index.row();
+    ItemWidget *w = m_cache[row];
+    if (w == NULL)
+        return;
 
     const QRect &rect = option.rect;
 
@@ -332,21 +332,17 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     /* render number */
     QRect numRect(0, 0, 0, 0);
-    if (m_showNumber) {
-        QString num = QString::number(row) + "  ";
+    if ( !m_numberSize.isEmpty() ) {
+        const QString num = QString::number(row);
         painter->save();
         painter->setFont(m_numberFont);
-        style->drawItemText(painter, rect.translated(margin, margin), 0,
+        style->drawItemText(painter, rect.translated(m_hMargin / 2, m_vMargin), 0,
                             m_numberPalette, true, num,
                             role);
         painter->restore();
         numRect = style->itemTextRect( QFontMetrics(m_numberFont), rect, 0,
                                        true, num );
     }
-
-    ItemWidget *w = m_cache[row];
-    if (w == NULL)
-        return;
 
     /* highlight search string */
     w->setHighlight(m_re, m_foundFont, m_foundPalette);

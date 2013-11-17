@@ -491,9 +491,9 @@ void ItemFakeVim::highlight(const QRegExp &re, const QFont &highlightFont, const
     m_childItem->setHighlight(re, highlightFont, highlightPalette);
 }
 
-void ItemFakeVim::updateSize()
+void ItemFakeVim::updateSize(const QSize &maximumSize)
 {
-    m_childItem->updateSize();
+    m_childItem->updateSize(maximumSize);
 }
 
 QWidget *ItemFakeVim::createEditor(QWidget *parent) const

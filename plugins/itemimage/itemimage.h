@@ -41,9 +41,6 @@ public:
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
-protected:
-    virtual void updateSize();
-
 private:
     QString m_editor;
     QString m_svgEditor;

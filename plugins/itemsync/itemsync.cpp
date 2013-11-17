@@ -645,17 +645,19 @@ bool ItemSync::hasChanges(QWidget *editor) const
     return m_childItem->hasChanges(editor);
 }
 
-void ItemSync::updateSize()
+void ItemSync::updateSize(const QSize &maximumSize)
 {
-    const int w = maximumWidth();
+    setMaximumSize(maximumSize);
+
+    const int w = maximumSize.width() - m_icon->width() - 8;
     QTextDocument *doc = m_label->document();
     doc->setTextWidth(w);
     m_label->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
 
-    m_childItem->updateSize();
+    m_childItem->updateSize(maximumSize);
 
     adjustSize();
-    setFixedSize(minimumSizeHint());
+    setFixedSize(sizeHint());
 }
 
 void ItemSync::mousePressEvent(QMouseEvent *e)
