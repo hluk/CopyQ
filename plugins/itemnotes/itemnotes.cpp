@@ -57,6 +57,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     , m_notesAtBottom(notesAtBottom)
     , m_timerShowToolTip(NULL)
     , m_toolTipText()
+    , m_copyOnMouseUp(false)
 {
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
@@ -200,30 +201,18 @@ void ItemNotes::updateSize()
 
 void ItemNotes::mousePressEvent(QMouseEvent *e)
 {
-    QWidget::mousePressEvent(e);
     if (m_notes) {
-        m_notes->setTextCursor( m_notes->cursorForPosition(e->pos()) );
-        e->ignore();
+        const QPoint pos = m_notes->viewport()->mapFrom(this, e->pos());
+        m_notes->setTextCursor( m_notes->cursorForPosition(pos) );
+        QWidget::mousePressEvent(e);
     }
-}
-
-void ItemNotes::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
-        QWidget::mouseDoubleClickEvent(e);
-    else
-        e->ignore();
-}
-
-void ItemNotes::contextMenuEvent(QContextMenuEvent *e)
-{
     e->ignore();
 }
 
 void ItemNotes::mouseReleaseEvent(QMouseEvent *e)
 {
-    if ( m_notes && property("copyOnMouseUp").toBool() ) {
-        setProperty("copyOnMouseUp", false);
+    if (m_notes && m_copyOnMouseUp) {
+        m_copyOnMouseUp = false;
         if ( m_notes->textCursor().hasSelection() )
             m_notes->copy();
     } else {
@@ -262,7 +251,7 @@ bool ItemNotes::eventFilter(QObject *obj, QEvent *event)
 
 void ItemNotes::onSelectionChanged()
 {
-    setProperty("copyOnMouseUp", true);
+    m_copyOnMouseUp = true;
 }
 
 void ItemNotes::showToolTip()

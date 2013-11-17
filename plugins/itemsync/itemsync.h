@@ -72,6 +72,7 @@ private:
     QTextEdit *m_label;
     QWidget *m_icon;
     QScopedPointer<ItemWidget> m_childItem;
+    bool m_copyOnMouseUp;
 };
 
 /**

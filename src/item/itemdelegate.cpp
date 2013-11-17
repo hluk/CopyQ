@@ -27,8 +27,10 @@
 #include "item/itemwidget.h"
 #include "item/itemeditorwidget.h"
 
+#include <QApplication>
 #include <QEvent>
 #include <QListView>
+#include <QMouseEvent>
 #include <QPainter>
 
 namespace {
@@ -81,11 +83,30 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
     return sizeHint(index);
 }
 
-bool ItemDelegate::eventFilter(QObject *, QEvent *event)
+bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
 {
     // resize event for items
-    if (event->type() == QEvent::Resize)
+    switch ( event->type() ) {
+    case QEvent::Resize:
         emit rowSizeChanged();
+        break;
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonRelease:
+    case QEvent::MouseButtonDblClick:
+    case QEvent::MouseMove: {
+        // Don't pass mouse events to item if keyboard modifier is pressed or the item is
+        // not yet selected (will be selected by the event).
+        if ( static_cast<QMouseEvent*>(event)->modifiers() != Qt::NoModifier ||
+             !object->property("CopyQ_selected").toBool() )
+        {
+            QApplication::sendEvent(m_parent, event);
+            return true;
+        }
+        break;
+    }
+    default:
+        break;
+    }
 
     return false;
 }
@@ -257,6 +278,10 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     ww->hide();
 
     ww->installEventFilter(this);
+    foreach (QWidget *child, ww->findChildren<QWidget *>()) {
+        child->installEventFilter(this);
+        child->setStyle(m_parent->style());
+    }
 
     updateRowPosition( index.row(), QPoint(0, m_parent->spacing()) );
 
@@ -335,10 +360,9 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
         style->unpolish(ww);
         style->polish(ww);
         foreach (QWidget *child, ww->findChildren<QWidget *>()) {
-            child->setStyle(style);
+            child->setProperty("CopyQ_selected", isSelected);
             style->unpolish(child);
             style->polish(child);
-            child->update();
         }
         ww->update();
     }

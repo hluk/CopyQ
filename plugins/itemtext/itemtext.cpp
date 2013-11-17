@@ -70,6 +70,7 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
+    , m_copyOnMouseUp(false)
 {
     m_textDocument.setDefaultFont(font());
 
@@ -79,6 +80,8 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
+
+    setContextMenuPolicy(Qt::NoContextMenu);
 
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
@@ -137,26 +140,12 @@ void ItemText::mousePressEvent(QMouseEvent *e)
 {
     setTextCursor( cursorForPosition(e->pos()) );
     QTextEdit::mousePressEvent(e);
-    e->ignore();
-}
-
-void ItemText::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
-        QTextEdit::mouseDoubleClickEvent(e);
-    else
-        e->ignore();
-}
-
-void ItemText::contextMenuEvent(QContextMenuEvent *e)
-{
-    e->ignore();
 }
 
 void ItemText::mouseReleaseEvent(QMouseEvent *e)
 {
-    if ( property("copyOnMouseUp").toBool() ) {
-        setProperty("copyOnMouseUp", false);
+    if (m_copyOnMouseUp) {
+        m_copyOnMouseUp = false;
         if ( textCursor().hasSelection() )
             copy();
     } else {
@@ -166,7 +155,7 @@ void ItemText::mouseReleaseEvent(QMouseEvent *e)
 
 void ItemText::onSelectionChanged()
 {
-    setProperty("copyOnMouseUp", true);
+    m_copyOnMouseUp = true;
 }
 
 ItemTextLoader::ItemTextLoader()

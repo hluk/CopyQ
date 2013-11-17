@@ -45,10 +45,6 @@ protected:
 
     virtual void mousePressEvent(QMouseEvent *e);
 
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
-
-    virtual void contextMenuEvent(QContextMenuEvent *e);
-
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
 private slots:
@@ -56,6 +52,7 @@ private slots:
 
 private:
     QTextDocument m_textDocument;
+    bool m_copyOnMouseUp;
 };
 
 class ItemTextLoader : public QObject, public ItemLoaderInterface

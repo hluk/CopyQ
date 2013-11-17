@@ -548,6 +548,7 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     , m_label( new QTextEdit(this) )
     , m_icon( new IconWidget(icon, this) )
     , m_childItem(childItem)
+    , m_copyOnMouseUp(false)
 {
     if ( !m_childItem.isNull() ) {
         m_childItem->widget()->setObjectName("item_child");
@@ -662,7 +663,8 @@ void ItemSync::updateSize()
 
 void ItemSync::mousePressEvent(QMouseEvent *e)
 {
-    m_label->setTextCursor( m_label->cursorForPosition(e->pos()) );
+    const QPoint pos = m_label->viewport()->mapFrom(this, e->pos());
+    m_label->setTextCursor( m_label->cursorForPosition(pos) );
     QWidget::mousePressEvent(e);
     e->ignore();
 }
@@ -682,8 +684,8 @@ void ItemSync::contextMenuEvent(QContextMenuEvent *e)
 
 void ItemSync::mouseReleaseEvent(QMouseEvent *e)
 {
-    if ( property("copyOnMouseUp").toBool() ) {
-        setProperty("copyOnMouseUp", false);
+    if (m_copyOnMouseUp) {
+        m_copyOnMouseUp = false;
         if ( m_label->textCursor().hasSelection() )
             m_label->copy();
     } else {
@@ -731,7 +733,7 @@ void copyFormatFiles(const QString &oldPath, const QString &newPath,
 
 void ItemSync::onSelectionChanged()
 {
-    setProperty("copyOnMouseUp", true);
+    m_copyOnMouseUp = true;
 }
 
 class FileWatcher : public QObject {

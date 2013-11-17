@@ -44,10 +44,6 @@ protected:
 
     virtual void mousePressEvent(QMouseEvent *e);
 
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
-
-    virtual void contextMenuEvent(QContextMenuEvent *e);
-
     virtual void wheelEvent(QWheelEvent *e);
 
     virtual void mouseReleaseEvent(QMouseEvent *e);
@@ -57,6 +53,9 @@ private slots:
 
 private slots:
     void onItemChanged();
+
+private:
+    bool m_copyOnMouseUp;
 };
 
 class ItemWebLoader : public QObject, public ItemLoaderInterface

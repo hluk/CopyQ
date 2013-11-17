@@ -57,6 +57,7 @@ bool getHtml(const QModelIndex &index, QString *text)
 ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     : QWebView(parent)
     , ItemWidget(this)
+    , m_copyOnMouseUp(false)
 {
     QWebFrame *frame = page()->mainFrame();
     frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
@@ -76,6 +77,8 @@ ItemWeb::ItemWeb(const QString &html, QWidget *parent)
     pal.setBrush(QPalette::Base, Qt::transparent);
     page()->setPalette(pal);
     setAttribute(Qt::WA_OpaquePaintEvent, false);
+
+    setContextMenuPolicy(Qt::NoContextMenu);
 
     connect( frame, SIGNAL(loadFinished(bool)),
              this, SLOT(onItemChanged()) );
@@ -120,7 +123,7 @@ void ItemWeb::updateSize()
 
 void ItemWeb::onSelectionChanged()
 {
-    setProperty("copyOnMouseUp", true);
+    m_copyOnMouseUp = true;
 }
 
 void ItemWeb::mousePressEvent(QMouseEvent *e)
@@ -131,19 +134,6 @@ void ItemWeb::mousePressEvent(QMouseEvent *e)
     e->ignore();
 }
 
-void ItemWeb::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
-        QWebView::mouseDoubleClickEvent(e);
-    else
-        e->ignore();
-}
-
-void ItemWeb::contextMenuEvent(QContextMenuEvent *e)
-{
-    e->ignore();
-}
-
 void ItemWeb::wheelEvent(QWheelEvent *e)
 {
     e->ignore();
@@ -151,8 +141,8 @@ void ItemWeb::wheelEvent(QWheelEvent *e)
 
 void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
 {
-    if ( property("copyOnMouseUp").toBool() ) {
-        setProperty("copyOnMouseUp", false);
+    if (m_copyOnMouseUp) {
+        m_copyOnMouseUp = false;
 #if QT_VERSION >= 0x040800
         if ( hasSelection() )
 #endif

@@ -60,10 +60,6 @@ protected:
 
     virtual void mousePressEvent(QMouseEvent *e);
 
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
-
-    virtual void contextMenuEvent(QContextMenuEvent *e);
-
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
     virtual void paintEvent(QPaintEvent *event);
@@ -81,6 +77,7 @@ private:
     bool m_notesAtBottom;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
+    bool m_copyOnMouseUp;
 };
 
 class ItemNotesLoader : public QObject, public ItemLoaderInterface
