@@ -81,9 +81,9 @@ private:
  * For all tabs that have user-set synchronization directory, loads up to maximum number of items
  * from files (tries to use the same files every time tab is loaded).
  *
- * Items contains base name of assigned files. E.g. files 'example.txt', 'example.html' and
- * 'example_notes.txt' belong to single item with base name 'example' containing text, HTML and
- * notes.
+ * Items contains base name of assigned files (MIME is 'application/x-copyq-itemsync-basename').
+ * E.g. files 'example.txt', 'example.html' and 'example_notes.txt' belong to single item with
+ * base name 'example' containing text, HTML and notes.
  *
  * If item data are changed it is saved to appropriate files and vice versa.
  *
@@ -92,6 +92,8 @@ private:
  * won't be added to the list.
  *
  * Unknown file types can be defined in settings so such files are loaded.
+ *
+ * Item data with unknown MIME type is serialized in '<BASE NAME>_copyq.dat' file.
  */
 class ItemSyncLoader : public QObject, public ItemLoaderInterface
 {

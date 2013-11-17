@@ -781,22 +781,7 @@ public:
             QVariantMap dataMap;
             QVariantMap mimeToExtension;
 
-            foreach (const Ext &ext, baseNameWithExts.exts) {
-                const QString fileName = baseNameWithExts.baseName + ext.extension;
-
-                QFile f( dir.absoluteFilePath(fileName) );
-                if ( !f.open(QIODevice::ReadOnly) )
-                    continue;
-
-                if ( fileName.endsWith(dataFileSuffix) && deserializeData(&dataMap, f.readAll()) ) {
-                    mimeToExtension.insert( QString(), QString(dataFileSuffix) );
-                } else if ( f.size() > sizeLimit || ext.format.isEmpty() ) {
-                    mimeToExtension.insert(QString(), QString());
-                } else {
-                    dataMap.insert(ext.format, f.readAll());
-                    mimeToExtension.insert(ext.format, ext.extension);
-                }
-            }
+            updateDataAndWatchFile(dir, baseNameWithExts, &dataMap, &mimeToExtension);
 
             if ( !mimeToExtension.isEmpty() ) {
                 dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
@@ -848,24 +833,7 @@ public slots:
             QVariantMap mimeToExtension;
 
             if ( i < fileList.size() ) {
-                const QString fileNamePrefix = dir.absoluteFilePath(baseName);
-                foreach (const Ext &ext, fileList[i].exts) {
-                    QFile f(fileNamePrefix + ext.extension);
-                    if ( !f.open(QIODevice::ReadOnly) )
-                         continue;
-
-                    if ( ext.format.isEmpty() || f.size() > sizeLimit ) {
-                        mimeToExtension.insert( QString(), QString() );
-                    } else if ( ext.extension.endsWith(dataFileSuffix) ) {
-                        deserializeData(&dataMap, f.readAll());
-                        mimeToExtension.insert( QString(), QString(dataFileSuffix) );
-                    } else {
-                        dataMap.insert( ext.format, f.readAll() );
-                        mimeToExtension.insert(ext.format, ext.extension);
-                    }
-
-                    watchPath( f.fileName() );
-                }
+                updateDataAndWatchFile(dir, fileList[i], &dataMap, &mimeToExtension);
                 fileList.removeAt(i);
             }
 
@@ -1078,6 +1046,31 @@ private:
         }
 
         return true;
+    }
+
+    void updateDataAndWatchFile(const QDir &dir, const BaseNameExtensions &baseNameWithExts,
+                                QVariantMap *dataMap, QVariantMap *mimeToExtension)
+    {
+        const QString basePath = dir.absoluteFilePath(baseNameWithExts.baseName);
+
+        foreach (const Ext &ext, baseNameWithExts.exts) {
+            const QString fileName = basePath + ext.extension;
+
+            QFile f( dir.absoluteFilePath(fileName) );
+            if ( !f.open(QIODevice::ReadOnly) )
+                continue;
+
+            if ( fileName.endsWith(dataFileSuffix) && deserializeData(dataMap, f.readAll()) ) {
+                mimeToExtension->insert( QString(), QString(dataFileSuffix) );
+            } else if ( f.size() > sizeLimit || ext.format.isEmpty() ) {
+                mimeToExtension->insert(QString(), QString());
+            } else {
+                dataMap->insert(ext.format, f.readAll());
+                mimeToExtension->insert(ext.format, ext.extension);
+            }
+
+            watchPath(fileName);
+        }
     }
 
     QFileSystemWatcher m_watcher;
