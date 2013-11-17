@@ -117,6 +117,7 @@ public:
             setTextFormat(Qt::PlainText);
             setText( index.data(contentType::text).toString().left(dummyItemMaxChars) );
             setTextInteractionFlags(Qt::TextSelectableByMouse);
+            setFocusPolicy(Qt::NoFocus);
         } else {
             setMaximumSize(0, 0);
         }
