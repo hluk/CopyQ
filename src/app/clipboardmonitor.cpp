@@ -36,8 +36,6 @@
 
 namespace {
 
-const char propertyOwner[] = "CopyQ_owner";
-
 void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
 {
     Q_ASSERT( isMainThread() );
@@ -45,14 +43,14 @@ void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
                                                                         : "selection") );
 
     QScopedPointer<QMimeData> mimeData( createMimeData(data) );
-    mimeData->setData( mimeOwner, QCoreApplication::instance()->property(propertyOwner).toByteArray() );
+    mimeData->setData(mimeOwner, QByteArray());
 
     QApplication::clipboard()->setMimeData( mimeData.take(), mode );
 }
 
 bool ownsClipboardData(const QMimeData &data)
 {
-    return data.data(mimeOwner) == QCoreApplication::instance()->property(propertyOwner).toByteArray();
+    return data.hasFormat(mimeOwner);
 }
 
 } // namespace
@@ -266,8 +264,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     if ( !m_socket->waitForConnected(2000) )
         exit(1);
 
-    QCoreApplication::instance()->setProperty( propertyOwner, serverName.toUtf8() );
-
     m_updateTimer->setSingleShot(true);
     m_updateTimer->setInterval(300);
     connect( m_updateTimer, SIGNAL(timeout()),
@@ -326,6 +322,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     else if (mode == QClipboard::Selection)
         m_needCheckSelection = needToWait;
 #endif
+    else
+        return;
 
     m_updateTimer->start();
     if (needToWait)
@@ -333,10 +331,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Selection && !updateSelection(false) )
-        return;
-#else /* !COPYQ_WS_X11 */
-    // check if clipboard data are needed
-    if (mode != QClipboard::Clipboard)
         return;
 #endif
 
@@ -352,7 +346,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-    // do nothing if this monitor set the clipboard
+    // do nothing if any monitor set the clipboard
     if ( ownsClipboardData(*data) )
         return;
 
