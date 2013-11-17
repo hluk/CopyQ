@@ -35,6 +35,8 @@ namespace {
 
 typedef QList< QPair<QString, QString> > MimeToCompressed;
 
+const int maxMimeTypes = 99;
+
 void addMime(MimeToCompressed &m, const QString &mime, int value)
 {
     const QString num = QString::number(value, 16);
@@ -128,7 +130,10 @@ void serializeData(QDataStream *stream, const QVariantMap &data)
     *stream << size;
 
     QByteArray bytes;
+    int mimeTypes = 0;
     foreach (const QString &mime, data.keys()) {
+        if (++mimeTypes > maxMimeTypes)
+            break;
         bytes = data[mime].toByteArray();
         bool compress = shouldCompress(bytes, mime);
         *stream << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );
@@ -145,6 +150,11 @@ void deserializeData(QDataStream *stream, QVariantMap *data)
 
     if (length == -2) {
         deserializeDataV2(stream, data);
+        return;
+    }
+
+    if (length < 0 || length > maxMimeTypes) {
+        stream->setStatus(QDataStream::ReadCorruptData);
         return;
     }
 
@@ -195,8 +205,14 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
 {
     qint32 length;
     *stream >> length;
+
     if ( stream->status() != QDataStream::Ok )
         return false;
+
+    if (length < 0 || length > 9999) {
+        stream->setStatus(QDataStream::ReadCorruptData);
+        return false;
+    }
 
     length = qMin( length, model->property("maxItems").toInt() ) - model->rowCount();
 
