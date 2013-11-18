@@ -44,7 +44,7 @@ ClipboardDialog::ClipboardDialog(const QVariantMap &itemData, QWidget *parent)
     }
 
     foreach ( const QString &mime, data.keys() ) {
-        if ( mime.contains("/") && data[mime].canConvert<QByteArray>() ) {
+        if ( data[mime].canConvert<QByteArray>() ) {
             m_data.insert(mime, data[mime]);
             ui->listWidgetFormats->addItem(mime);
         }
