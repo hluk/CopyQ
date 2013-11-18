@@ -270,15 +270,6 @@ QList<Ext> fileExtensionsAndFormats()
 
 QString findByFormat(const QString &format, const QList<FileFormat> &formatSettings)
 {
-    // Find in user defined extensions.
-    foreach (const FileFormat &fileFormat, formatSettings) {
-        if ( !fileFormat.extensions.isEmpty() && fileFormat.itemMime != "-"
-             && format == fileFormat.itemMime )
-        {
-            return fileFormat.extensions.first();
-        }
-    }
-
     // Find in default extensions.
     const QList<Ext> &exts = fileExtensionsAndFormats();
 
@@ -286,6 +277,15 @@ QString findByFormat(const QString &format, const QList<FileFormat> &formatSetti
         const Ext &ext = exts[i];
         if (ext.format == format)
             return ext.extension;
+    }
+
+    // Find in user defined extensions.
+    foreach (const FileFormat &fileFormat, formatSettings) {
+        if ( !fileFormat.extensions.isEmpty() && fileFormat.itemMime != "-"
+             && format == fileFormat.itemMime )
+        {
+            return fileFormat.extensions.first();
+        }
     }
 
     return QString();
