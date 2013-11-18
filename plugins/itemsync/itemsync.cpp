@@ -266,29 +266,55 @@ QList<Ext> fileExtensionsAndFormats()
     return exts;
 }
 
-Ext findByFormat(const QString &format, const QList<Ext> &exts, const QVariantMap &userExtension)
+QString findByFormat(const QString &format, const QList<FileFormat> &formatSettings)
 {
-    if ( userExtension.contains(format) )
-        return Ext(userExtension[format].toString(), format);
+    // Find in user defined extensions.
+    foreach (const FileFormat &fileFormat, formatSettings) {
+        if ( !fileFormat.extensions.isEmpty() && fileFormat.itemMime != "-"
+             && format == fileFormat.itemMime )
+        {
+            return fileFormat.extensions.first();
+        }
+    }
+
+    // Find in default extensions.
+    const QList<Ext> &exts = fileExtensionsAndFormats();
 
     for (int i = 0; i < exts.size(); ++i) {
         const Ext &ext = exts[i];
         if (ext.format == format)
-            return ext;
+            return ext.extension;
     }
 
-    return Ext();
+    return QString();
 }
 
-Ext findByExtension(const QString &fileName, const QList<Ext> &exts)
+Ext findByExtension(const QString &fileName, const QList<FileFormat> &formatSettings)
 {
+    // Is internal data format?
+    if ( fileName.endsWith(dataFileSuffix) )
+        return Ext(dataFileSuffix, "");
+
+    // Find in user defined formats.
+    foreach (const FileFormat &format, formatSettings) {
+        if ( !format.itemMime.isEmpty() ) {
+            foreach (const QString &ext, format.extensions) {
+                if ( fileName.endsWith(ext) )
+                    return Ext( QString(), format.itemMime );
+            }
+        }
+    }
+
+    // Find in default formats.
+    const QList<Ext> &exts = fileExtensionsAndFormats();
+
     for (int i = 0; i < exts.size(); ++i) {
         const Ext &ext = exts[i];
         if ( fileName.endsWith(ext.extension) )
             return ext;
     }
 
-    return Ext("", "");
+    return Ext();
 }
 
 Hash calculateHash(const QByteArray &bytes)
@@ -336,38 +362,14 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     BaseNameExtensionsList fileList;
     QMap<QString, int> fileMap;
 
-    QList<Ext> userExts;
-    foreach (const FileFormat &format, formatSettings) {
-        foreach (const QString &ext, format.extensions)
-            userExts.append( Ext(ext, format.itemMime) );
-    }
-
-    QList<Ext> exts = fileExtensionsAndFormats();
-
     foreach (const QString &filePath, files) {
         QFileInfo info(filePath);
         if ( info.isHidden() || info.fileName().startsWith('.') || !info.isReadable() )
             continue;
 
-        Ext ext;
-        if ( filePath.endsWith(dataFileSuffix) ) {
-            ext = Ext(dataFileSuffix, "");
-        } else {
-            ext = findByExtension(filePath, userExts);
-
-            if ( ext.extension.isEmpty() ) {
-                ext = findByExtension(filePath, exts);
-                if ( ext.format.isEmpty() )
-                    continue;
-            } else {
-                if (ext.format == "-")
-                    continue;
-                if ( ext.format.isEmpty() )
-                    ext = findByExtension(filePath, exts);
-                else
-                    ext.extension.clear();
-            }
-        }
+        const Ext ext = findByExtension(filePath, formatSettings);
+        if ( ext.format.isEmpty() || ext.format == "-" )
+            continue;
 
         const QString fileName = info.fileName();
         const QString baseName = fileName.left( fileName.size() - ext.extension.size() );
@@ -945,7 +947,6 @@ private:
             QVariantMap oldMimeToExtension = itemData.value(mimeExtensionMap).toMap();
             QVariantMap mimeToExtension;
             QVariantMap dataMapUnknown;
-            const QList<Ext> exts = fileExtensionsAndFormats();
 
             const QVariantMap noSaveData = itemData.value(mimeNoSave).toMap();
 
@@ -961,7 +962,8 @@ private:
                 }
 
                 bool hasFile = oldMimeToExtension.contains(format);
-                const QString ext = findByFormat(format, exts, oldMimeToExtension).extension;
+                const QString ext = hasFile ? oldMimeToExtension[format].toString()
+                                            : findByFormat(format, m_formatSettings);
 
                 if ( !hasFile && ext.isEmpty() ) {
                     dataMapUnknown.insert(format, bytes);
