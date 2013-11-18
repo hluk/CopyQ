@@ -553,6 +553,9 @@ void fixUserExtensions(QStringList *exts)
         // internally used to store data of unknown MIME type.
         if ( ext.toLower().endsWith(".dat") )
             ext.insert(ext.size() - 4, "_user");
+        // Remove invalid extensions containing path separator.
+        if ( ext.contains('/') )
+            exts->removeAt(i--);
     }
 }
 
