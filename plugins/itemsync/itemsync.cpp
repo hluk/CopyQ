@@ -167,9 +167,9 @@ QString getBaseName(const QModelIndex &index)
 void getBaseNameAndExtension(const QString &fileName, QString *baseName, QString *ext,
                              const QList<FileFormat> &formatSettings)
 {
-    const FileFormat fileFormat = getFormatSettingsFromFileName(fileName, formatSettings, ext);
-
     ext->clear();
+
+    const FileFormat fileFormat = getFormatSettingsFromFileName(fileName, formatSettings, ext);
 
     if ( !fileFormat.isValid() ) {
         const int i = fileName.lastIndexOf('.');
