@@ -37,6 +37,7 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QPushButton>
 #include <QScopedPointer>
@@ -164,7 +165,28 @@ QString getBaseName(const QModelIndex &index)
     return index.data(contentType::data).toMap().value(mimeBaseName).toString();
 }
 
-bool renameToUnique(QString *name, QStringList *usedNames,
+void getBaseNameAndExtension(const QString &fileName, QString *baseName, QString *ext,
+                             const QList<FileFormat> &formatSettings)
+{
+    const FileFormat fileFormat = getFormatSettingsFromFileName(fileName, formatSettings, ext);
+
+    ext->clear();
+
+    if ( !fileFormat.isValid() ) {
+        const int i = fileName.lastIndexOf('.');
+        if (i != -1)
+            *ext = fileName.mid(i);
+    }
+
+    *baseName = fileName.left( fileName.size() - ext->size() );
+
+    if ( baseName->endsWith('.') ) {
+        baseName->chop(1);
+        ext->prepend('.');
+    }
+}
+
+bool renameToUnique(const QString &path, QString *name, QStringList *usedNames,
                     const QList<FileFormat> &formatSettings)
 {
     if ( name->isEmpty() ) {
@@ -181,17 +203,8 @@ bool renameToUnique(QString *name, QStringList *usedNames,
     }
 
     QString ext;
-    const FileFormat fileFormat = getFormatSettingsFromFileName(*name, formatSettings, &ext);
-    if ( !fileFormat.isValid() ) {
-        const int i = name->lastIndexOf('.');
-        if (i != -1)
-            ext = name->mid(i);
-    }
-    QString baseName = name->left( name->size() - ext.size() );
-    if ( baseName.endsWith('.') ) {
-        baseName.chop(1);
-        ext.prepend('.');
-    }
+    QString baseName;
+    getBaseNameAndExtension(*name, &baseName, &ext, formatSettings);
 
     int i = 0;
     int fieldWidth = 0;
@@ -211,7 +224,7 @@ bool renameToUnique(QString *name, QStringList *usedNames,
         if (i >= 99999)
             return false;
         newName = baseName + QString("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
-    } while ( usedNames->contains(newName) );
+    } while ( usedNames->contains(newName) || QFile::exists(path + '/' + newName) );
 
     *name = newName;
     usedNames->append(*name);
@@ -262,7 +275,7 @@ QList<Ext> fileExtensionsAndFormats()
         exts.append( Ext(".txt", mimeText) );
         exts.append( Ext(".uri", mimeUriList) );
         exts.append( Ext(".xml", "application/xml") );
-        exts.append( Ext("_xml.svg", "image/svg+xml") );
+        exts.append( Ext(".svg", "image/svg+xml") );
         exts.append( Ext(".xml", "text/xml") );
     }
 
@@ -357,9 +370,30 @@ bool saveItemFile(const QString &filePath, const QByteArray &bytes,
 }
 
 struct BaseNameExtensions {
+    explicit BaseNameExtensions(const QString &baseName = QString(),
+                                const QList<Ext> &exts = QList<Ext>())
+        : baseName(baseName)
+        , exts(exts) {}
     QString baseName;
     QList<Ext> exts;
 };
+
+bool getBaseNameExtension(const QString &filePath, const QList<FileFormat> &formatSettings,
+                          QString *baseName, Ext *ext)
+{
+    QFileInfo info(filePath);
+    if ( info.isHidden() || info.fileName().startsWith('.') || !info.isReadable() )
+        return false;
+
+    *ext = findByExtension(filePath, formatSettings);
+    if ( ext->format.isEmpty() || ext->format == "-" )
+        return false;
+
+    const QString fileName = info.fileName();
+    *baseName = fileName.left( fileName.size() - ext->extension.size() );
+
+    return true;
+}
 
 typedef QList<BaseNameExtensions> BaseNameExtensionsList;
 BaseNameExtensionsList listFiles(const QStringList &files,
@@ -369,26 +403,18 @@ BaseNameExtensionsList listFiles(const QStringList &files,
     QMap<QString, int> fileMap;
 
     foreach (const QString &filePath, files) {
-        QFileInfo info(filePath);
-        if ( info.isHidden() || info.fileName().startsWith('.') || !info.isReadable() )
-            continue;
+        QString baseName;
+        Ext ext;
+        if ( getBaseNameExtension(filePath, formatSettings, &baseName, &ext) ) {
+            int i = fileMap.value(baseName, -1);
+            if (i == -1) {
+                i = fileList.size();
+                fileList.append( BaseNameExtensions(baseName) );
+                fileMap.insert(baseName, i);
+            }
 
-        const Ext ext = findByExtension(filePath, formatSettings);
-        if ( ext.format.isEmpty() || ext.format == "-" )
-            continue;
-
-        const QString fileName = info.fileName();
-        const QString baseName = fileName.left( fileName.size() - ext.extension.size() );
-
-        int i = fileMap.value(baseName, -1);
-        if (i == -1) {
-            i = fileList.size();
-            fileList.append( BaseNameExtensions() );
-            fileList[i].baseName = baseName;
-            fileMap.insert(baseName, i);
+            fileList[i].exts.append(ext);
         }
-
-        fileList[i].exts.append(ext);
     }
 
     return fileList;
@@ -789,23 +815,31 @@ public:
         const int maxItems = m_model->property("maxItems").toInt();
 
         foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
-            QVariantMap dataMap;
-            QVariantMap mimeToExtension;
-
-            updateDataAndWatchFile(dir, baseNameWithExts, &dataMap, &mimeToExtension);
-
-            if ( !mimeToExtension.isEmpty() ) {
-                dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
-                dataMap.insert(mimeExtensionMap, mimeToExtension);
-
-                if ( !createItem(dataMap) )
-                    return;
-                if ( m_model->rowCount() >= maxItems )
-                    break;
-            }
+            if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
+                return;
+            if ( m_model->rowCount() >= maxItems )
+                break;
         }
 
         connectModel();
+    }
+
+    bool createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
+    {
+        QVariantMap dataMap;
+        QVariantMap mimeToExtension;
+
+        updateDataAndWatchFile(dir, baseNameWithExts, &dataMap, &mimeToExtension);
+
+        if ( !mimeToExtension.isEmpty() ) {
+            dataMap.insert( mimeBaseName, QFileInfo(baseNameWithExts.baseName).fileName() );
+            dataMap.insert(mimeExtensionMap, mimeToExtension);
+
+            if ( !createItem(dataMap, targetRow) )
+                return false;
+        }
+
+        return true;
     }
 
     const QString &path() const { return m_path; }
@@ -881,10 +915,8 @@ private slots:
 
     void onRowsRemoved(const QModelIndex &, int first, int last)
     {
-        for (int i = first; i <= last; ++i) {
-            const QPersistentModelIndex index = m_model->index(i, 0);
+        foreach ( const QPersistentModelIndex &index, indexList(first, last) )
             m_indexToBaseName.remove(index);
-        }
     }
 
 private:
@@ -914,10 +946,11 @@ private:
                     this, SLOT(onRowsInserted(QModelIndex, int, int)) );
     }
 
-    bool createItem(const QVariantMap &dataMap)
+    bool createItem(const QVariantMap &dataMap, int targetRow)
     {
-        if ( m_model->insertRow(0) ) {
-            const QModelIndex &index = m_model->index(0, 0);
+        const int row = qMax( 0, qMin(targetRow, m_model->rowCount()) );
+        if ( m_model->insertRow(row) ) {
+            const QModelIndex &index = m_model->index(row, 0);
             m_model->setData(index, dataMap, contentType::updateData);
             const QString baseName = getBaseName(index);
 
@@ -933,11 +966,21 @@ private:
         return false;
     }
 
+    QList<QPersistentModelIndex> indexList(int first, int last)
+    {
+        QList<QPersistentModelIndex> indexList;
+        for (int i = first; i <= last; ++i)
+            indexList.append( m_model->index(i, 0) );
+        return indexList;
+    }
+
     void saveItems(int first, int last)
     {
         disconnectModel();
 
-        if ( !renameToUnique(first, last) )
+        const QList<QPersistentModelIndex> indexList = this->indexList(first, last);
+
+        if ( !renameToUnique(indexList) )
             return;
 
         if ( m_path.isEmpty() )
@@ -952,8 +995,10 @@ private:
 
         QMultiMap<Hash, QString> existingFiles = listFiles(dir);
 
-        for (int row = first; row <= last; ++row) {
-            const QModelIndex index = m_model->index(row, 0);
+        foreach (const QPersistentModelIndex &index, indexList) {
+            if ( !index.isValid() )
+                continue;
+
             const QString baseName = getBaseName(index);
             const QString filePath = dir.absoluteFilePath(baseName);
             QVariantMap itemData = index.data(contentType::data).toMap();
@@ -1020,24 +1065,26 @@ private:
         connectModel();
     }
 
-    bool renameToUnique(int first, int last)
+    bool renameToUnique(const QList<QPersistentModelIndex> &indexList)
     {
         QStringList usedBaseNames;
         for (int i = 0; i < m_model->rowCount(); ++i) {
-            if (i >= first && i <= last)
-                continue;
             const QModelIndex index = m_model->index(i, 0);
-            const QString baseName = getBaseName(index);
-            Q_ASSERT( !baseName.isEmpty() );
-            usedBaseNames.append(baseName);
+            if ( !indexList.contains(index) ) {
+                const QString baseName = getBaseName(index);
+                Q_ASSERT( !baseName.isEmpty() );
+                usedBaseNames.append(baseName);
+            }
         }
 
-        for (int i = first; i <= last; ++i) {
-            const QModelIndex index = m_model->index(i, 0);
+        foreach (const QPersistentModelIndex &index, indexList) {
+            if ( !index.isValid() )
+                continue;
+
             const QString oldBaseName = getBaseName(index);
             QString baseName = oldBaseName;
 
-            if ( !::renameToUnique(&baseName, &usedBaseNames, m_formatSettings) )
+            if ( !::renameToUnique(m_path, &baseName, &usedBaseNames, m_formatSettings) )
                 return false;
 
             QVariantMap itemData = index.data(contentType::data).toMap();
@@ -1061,6 +1108,14 @@ private:
                 itemData.remove(mimeSyncPath);
                 itemData.insert(mimeBaseName, baseName);
                 m_model->setData(index, itemData, contentType::data);
+
+                if ( oldBaseName.isEmpty() && itemData.contains(mimeUriList) ) {
+                    if ( copyFilesFromUriList(itemData[mimeUriList].toByteArray(), index.row(),
+                                              &usedBaseNames) )
+                    {
+                         m_model->removeRow(index.row());
+                    }
+                }
             }
         }
 
@@ -1094,6 +1149,43 @@ private:
 
             watchPath(fileName);
         }
+    }
+
+    bool copyFilesFromUriList(const QByteArray &uriData, int targetRow, QStringList *usedBaseNames)
+    {
+        QMimeData tmpData;
+        tmpData.setData(mimeUriList, uriData);
+
+        bool copied = false;
+
+        foreach ( const QUrl &url, tmpData.urls() ) {
+            if ( url.isLocalFile() ) {
+                QFile f(url.toLocalFile());
+
+                if (f.exists()) {
+                    QString ext;
+                    QString baseName;
+                    getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &ext,
+                                             m_formatSettings );
+
+                    if ( ::renameToUnique(m_path, &baseName, usedBaseNames, m_formatSettings) ) {
+                        const QString targetFilePath = m_path + '/' + baseName + ext;
+                        f.copy(targetFilePath);
+                        if ( m_model->rowCount() < m_model->property("maxItems").toInt() ) {
+                            QString baseName;
+                            Ext ext;
+                            if ( getBaseNameExtension(targetFilePath, m_formatSettings, &baseName, &ext) ) {
+                                BaseNameExtensions baseNameExts(baseName, QList<Ext>() << ext);
+                                createItemFromFiles( QDir(m_path), baseNameExts, targetRow );
+                                copied = true;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return copied;
     }
 
     QFileSystemWatcher m_watcher;
