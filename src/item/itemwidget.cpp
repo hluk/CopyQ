@@ -106,7 +106,7 @@ void ItemWidget::updateSize(const QSize &maximumSize)
     w->setMinimumSize(0, 0);
     w->setMaximumSize(maximumSize);
     w->adjustSize();
-    w->setFixedSize( w->sizeHint() );
+    w->setFixedSize( w->size() );
 }
 
 void ItemWidget::setCurrent(bool)

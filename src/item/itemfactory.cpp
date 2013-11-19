@@ -130,12 +130,8 @@ public:
 
     virtual void updateSize(const QSize &maximumSize)
     {
-        if (m_hasText) {
-            setMinimumSize(0, 0);
-            setMaximumSize(maximumSize);
-            adjustSize();
-            setFixedSize(sizeHint());
-        }
+        if (m_hasText)
+            ItemWidget::updateSize(maximumSize);
     }
 
 private:
