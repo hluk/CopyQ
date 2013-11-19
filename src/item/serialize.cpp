@@ -236,6 +236,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
 bool serializeData(const QAbstractItemModel &model, QFile *file)
 {
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
     return serializeData(model, &stream);
 }
 

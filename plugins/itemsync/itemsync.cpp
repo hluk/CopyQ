@@ -137,6 +137,7 @@ void writeConfiguration(QFile *file, const QStringList &savedFiles)
     config.insert(tabConfigSavedFiles, savedFiles);
 
     QDataStream stream(file);
+    stream.setVersion(QDataStream::Qt_4_7);
     stream << QString(dataFileHeader);
     stream << config;
 }

@@ -37,6 +37,7 @@
 namespace {
 
 const char dataFileHeader[] = "CopyQ_encrypted_tab";
+const char dataFileHeaderV2[] = "CopyQ_encrypted_tab v2";
 
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
@@ -87,7 +88,7 @@ bool isEncryptedFile(QFile *file)
     QString header;
     stream >> header;
 
-    return header == dataFileHeader;
+    return header == dataFileHeader || header == dataFileHeaderV2;
 }
 
 } // namespace
@@ -269,6 +270,7 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file
 
     {
         QDataStream stream(&bytes, QIODevice::WriteOnly);
+        stream.setVersion(QDataStream::Qt_4_7);
 
         stream << length;
 
@@ -284,7 +286,7 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file
         return false;
 
     QDataStream stream(file);
-    stream << QString(dataFileHeader);
+    stream << QString(dataFileHeaderV2);
     stream.writeRawData( bytes.data(), bytes.size() );
 
     return true;

@@ -2003,12 +2003,13 @@ bool MainWindow::saveTab(const QString &fileName, int tab_index)
         return false;
 
     QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_4_7);
 
     int i = tab_index >= 0 ? tab_index : ui->tabWidget->currentIndex();
     ClipboardBrowser *c = browser(i);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
-    out << QByteArray("CopyQ v1") << c->tabName();
+    out << QByteArray("CopyQ v2") << c->tabName();
     serializeData(*model, &out);
 
     file.close();
@@ -2044,7 +2045,7 @@ bool MainWindow::loadTab(const QString &fileName)
     QByteArray header;
     QString tabName;
     in >> header >> tabName;
-    if ( !header.startsWith("CopyQ v1") || tabName.isEmpty() ) {
+    if ( !(header.startsWith("CopyQ v1") || header.startsWith("CopyQ v2")) || tabName.isEmpty() ) {
         file.close();
         return false;
     }
