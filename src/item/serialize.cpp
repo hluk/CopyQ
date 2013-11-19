@@ -142,36 +142,41 @@ void serializeData(QDataStream *stream, const QVariantMap &data)
 
 void deserializeData(QDataStream *stream, QVariantMap *data)
 {
-    qint32 length;
+    try {
+        qint32 length;
 
-    *stream >> length;
-    if ( stream->status() != QDataStream::Ok )
-        return;
+        *stream >> length;
+        if ( stream->status() != QDataStream::Ok )
+            return;
 
-    if (length == -2) {
-        deserializeDataV2(stream, data);
-        return;
-    }
-
-    if (length < 0 || length > maxMimeTypes) {
-        stream->setStatus(QDataStream::ReadCorruptData);
-        return;
-    }
-
-    // Deprecated format.
-    // TODO: Data should be saved again in new format.
-    QString mime;
-    QByteArray tmpBytes;
-    for (qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
-        *stream >> mime >> tmpBytes;
-        if( !tmpBytes.isEmpty() ) {
-            tmpBytes = qUncompress(tmpBytes);
-            if ( tmpBytes.isEmpty() ) {
-                stream->setStatus(QDataStream::ReadCorruptData);
-                break;
-            }
+        if (length == -2) {
+            deserializeDataV2(stream, data);
+            return;
         }
-        data->insert(mime, tmpBytes);
+
+        if (length < 0 || length > maxMimeTypes) {
+            stream->setStatus(QDataStream::ReadCorruptData);
+            return;
+        }
+
+        // Deprecated format.
+        // TODO: Data should be saved again in new format.
+        QString mime;
+        QByteArray tmpBytes;
+        for (qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
+            *stream >> mime >> tmpBytes;
+            if( !tmpBytes.isEmpty() ) {
+                tmpBytes = qUncompress(tmpBytes);
+                if ( tmpBytes.isEmpty() ) {
+                    stream->setStatus(QDataStream::ReadCorruptData);
+                    break;
+                }
+            }
+            data->insert(mime, tmpBytes);
+        }
+    } catch (const std::exception &e) {
+        log( QObject::tr("Data deserialization failed: %1").arg(e.what()), LogError );
+        stream->setStatus(QDataStream::ReadCorruptData);
     }
 }
 
