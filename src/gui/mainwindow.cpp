@@ -686,15 +686,6 @@ void MainWindow::setHideMenuBar(bool hide)
     menuBar()->setStyleSheet(hide ? QString("QMenuBar{height:0}") : QString());
 }
 
-void MainWindow::updateTabsAutoSaving()
-{
-    getBrowser(0)->setSavingEnabled(!m_options->clearFirstTab);
-
-    TabWidget *tabs = ui->tabWidget;
-    for ( int i = 1; i < tabs->count(); ++i )
-        getBrowser(i)->setSavingEnabled(true);
-}
-
 void MainWindow::saveCollapsedTabs()
 {
     TabWidget *tabs = ui->tabWidget;
@@ -985,7 +976,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Return:
         case Qt::Key_Enter:
-            activateCurrentItem();
+            if ( c->isLoaded() )
+                activateCurrentItem();
+            else
+                c->loadItemsAgain();
             break;
 
         case Qt::Key_F3:
@@ -1181,9 +1175,6 @@ void MainWindow::loadSettings()
 
     loadCollapsedTabs();
 
-    m_options->clearFirstTab = cm->value("clear_first_tab").toBool();
-    updateTabsAutoSaving();
-
     m_options->itemActivationCommands = ActivateNoCommand;
     if ( cm->value("activate_closes").toBool() )
         m_options->itemActivationCommands |= ActivateCloses;
@@ -1366,7 +1357,6 @@ void MainWindow::tabMoved(int, int)
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->setTabs(ui->tabWidget->tabs());
-    updateTabsAutoSaving();
 }
 
 void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix)
@@ -1548,10 +1538,12 @@ void MainWindow::activateCurrentItem()
 {
     // Copy current item or selection to clipboard.
     ClipboardBrowser *c = browser();
+
     if ( c->selectionModel()->selectedIndexes().count() > 1 ) {
         c->add( c->selectedText() );
         c->setCurrent(0);
     }
+
     c->moveToClipboard( c->currentIndex() );
 
     resetStatus();

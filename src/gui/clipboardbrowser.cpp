@@ -190,7 +190,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_timerFilter( new QTimer(this) )
     , m_timerExpire(NULL)
     , m_menu(NULL)
-    , m_save(true)
     , m_invalidateCache(false)
     , m_expire(false)
     , m_editor(NULL)
@@ -778,20 +777,6 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
         ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(shortcuts);
 }
 
-void ClipboardBrowser::setSavingEnabled(bool enable)
-{
-    if (m_save == enable)
-        return;
-
-    m_save = enable;
-    if (m_save) {
-        delayedSaveItems();
-    } else {
-        m_timerSave->stop();
-        ConfigurationManager::instance()->removeItems( tabName() );
-    }
-}
-
 void ClipboardBrowser::lock()
 {
     if (m_spinLock == 0) {
@@ -1027,8 +1012,7 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     }
 
     d->dataChanged(a, b);
-    if ( !m->isDisabled() )
-        delayedSaveItems();
+    delayedSaveItems();
 
     bool updateMenu = false;
     const QModelIndexList selected = selectedIndexes();
@@ -1075,12 +1059,10 @@ void ClipboardBrowser::doUpdateCurrentPage()
         return;
     }
 
-    if ( !m_itemLoader && !tabName().isEmpty() )
-        return; // Items not loaded yet.
+    if ( !isLoaded() )
+        return;
     if ( !isVisible() )
         return; // Update on showEvent().
-    if ( m->isDisabled() )
-        return;
 
     restartExpiring();
 
@@ -1203,8 +1185,7 @@ void ClipboardBrowser::showEvent(QShowEvent *event)
 {
     stopExpiring();
 
-    if ( !m->isDisabled() )
-        loadItems();
+    loadItems();
 
     if (!currentIndex().isValid())
         setCurrent(0);
@@ -1407,7 +1388,7 @@ bool ClipboardBrowser::openEditor()
 bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
                                   const QString &editorCommand)
 {
-    if ( m->isDisabled() || !m_itemLoader )
+    if ( !isLoaded() )
         return false;
 
     const QString &cmd = editorCommand.isNull() ? m_sharedData->editor : editorCommand;
@@ -1420,7 +1401,7 @@ bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
 
 bool ClipboardBrowser::openEditor(const QModelIndex &index)
 {
-    if ( m->isDisabled() || !m_itemLoader )
+    if ( !isLoaded() )
         return false;
 
     ItemWidget *item = d->cache(index);
@@ -1527,7 +1508,7 @@ void ClipboardBrowser::moveToClipboard(int i)
 
 void ClipboardBrowser::editNew(const QString &text)
 {
-    if ( m->isDisabled() || !m_itemLoader )
+    if ( !isLoaded() )
         return;
 
     bool added = add(text);
@@ -1796,9 +1777,9 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
 
     if ( m->isDisabled() )
         return false;
-    if ( !m_itemLoader && !tabName().isEmpty() ) {
+    if ( !isLoaded() ) {
         loadItems();
-        if ( m->isDisabled() || !m_itemLoader )
+        if ( !isLoaded() )
             return false;
     }
 
@@ -1864,14 +1845,19 @@ void ClipboardBrowser::loadSettings()
 
 void ClipboardBrowser::loadItems()
 {
-    restartExpiring();
-
-    if ( m_itemLoader || tabName().isEmpty() )
-        return;
-
     // Don't decrypt tab automatically if the operation was cancelled/unsuccessful previously.
     // In such case, decrypt only if unlock button was clicked.
     if ( m->isDisabled() && sender() != m_loadButton )
+        return;
+
+    loadItemsAgain();
+}
+
+void ClipboardBrowser::loadItemsAgain()
+{
+    restartExpiring();
+
+    if ( isLoaded() )
         return;
 
     m_timerSave->stop();
@@ -1899,7 +1885,7 @@ bool ClipboardBrowser::saveItems()
 {
     m_timerSave->stop();
 
-    if ( m->isDisabled() || !m_itemLoader || !m_save || tabName().isEmpty() )
+    if ( !isLoaded() || tabName().isEmpty() )
         return false;
 
     m_itemLoader = ConfigurationManager::instance()->saveItems(*m);
@@ -1908,7 +1894,7 @@ bool ClipboardBrowser::saveItems()
 
 void ClipboardBrowser::delayedSaveItems()
 {
-    if ( m->isDisabled() || !m_itemLoader || !m_save || tabName().isEmpty() || m_timerSave->isActive() )
+    if ( !isLoaded() || tabName().isEmpty() || m_timerSave->isActive() )
         return;
 
     m_timerSave->start();
@@ -2010,6 +1996,11 @@ void ClipboardBrowser::setTabName(const QString &id)
 bool ClipboardBrowser::editing() const
 {
     return m_editor != NULL;
+}
+
+bool ClipboardBrowser::isLoaded() const
+{
+    return ( m_itemLoader && !m->isDisabled() ) || tabName().isEmpty();
 }
 
 bool ClipboardBrowser::maybeCloseEditor()

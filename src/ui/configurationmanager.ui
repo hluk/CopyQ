@@ -32,7 +32,7 @@
         <enum>QTabWidget::North</enum>
        </property>
        <property name="currentIndex">
-        <number>0</number>
+        <number>1</number>
        </property>
        <widget class="QWidget" name="tabGeneral">
         <attribute name="title">
@@ -541,7 +541,7 @@ Note: This is not be supported on all systems.</string>
          <string>&amp;History</string>
         </attribute>
         <layout class="QGridLayout" name="gridLayout_3">
-         <item row="1" column="0">
+         <item row="0" column="0">
           <layout class="QFormLayout" name="formLayout_2">
            <property name="fieldGrowthPolicy">
             <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
@@ -652,17 +652,7 @@ Set to 0 not to unload tabs.</string>
            </item>
           </layout>
          </item>
-         <item row="0" column="0">
-          <widget class="QCheckBox" name="checkBoxClearFirstTab">
-           <property name="toolTip">
-            <string>Application will start with empty first tab.</string>
-           </property>
-           <property name="text">
-            <string>Clear the first tab at exit</string>
-           </property>
-          </widget>
-         </item>
-         <item row="5" column="0">
+         <item row="4" column="0">
           <widget class="QGroupBox" name="groupBox_3">
            <property name="title">
             <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
@@ -711,7 +701,7 @@ Set to 0 not to unload tabs.</string>
            </layout>
           </widget>
          </item>
-         <item row="6" column="0">
+         <item row="5" column="0">
           <spacer name="verticalSpacer_6">
            <property name="orientation">
             <enum>Qt::Vertical</enum>
@@ -724,7 +714,7 @@ Set to 0 not to unload tabs.</string>
            </property>
           </spacer>
          </item>
-         <item row="3" column="0">
+         <item row="2" column="0">
           <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
            <property name="toolTip">
             <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
@@ -1014,7 +1004,6 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>comboBoxNotificationPosition</tabstop>
   <tabstop>spinBoxItemPopupInterval</tabstop>
   <tabstop>spinBoxClipboardNotificationLines</tabstop>
-  <tabstop>checkBoxClearFirstTab</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxExpireTab</tabstop>
   <tabstop>lineEditEditor</tabstop>

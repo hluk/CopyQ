@@ -136,6 +136,11 @@ class ClipboardBrowser : public QListView
         bool editing() const;
 
         /**
+         * Return true if items are loaded (loadItems() called or tabName() is empty).
+         */
+        bool isLoaded() const;
+
+        /**
          * Close editor if unless user don't want to discard changed (show message box).
          *
          * @return true only if editor was closed
@@ -169,12 +174,6 @@ class ClipboardBrowser : public QListView
          */
         void keyboardSearch(const QString &) {}
 
-        /**
-         * Enable or disable saving items.
-         * Disabling saving removes saved file and won't automatically save any items.
-         */
-        void setSavingEnabled(bool enable);
-
         void lock();
         void unlock();
 
@@ -207,7 +206,6 @@ class ClipboardBrowser : public QListView
 
         QPointer<QMenu> m_menu;
 
-        bool m_save;
         bool m_invalidateCache;
         bool m_expire;
 
@@ -423,9 +421,17 @@ class ClipboardBrowser : public QListView
 
         /**
          * Load items from configuration.
+         * This function does nothing if model is disabled (e.g. loading failed previously).
          * @see setID, saveItems, purgeItems
          */
         void loadItems();
+
+        /**
+         * Load items from configuration even if model is disabled.
+         * @see loadItems
+         */
+        void loadItemsAgain();
+
         /**
          * Save items to configuration.
          * @see setID, loadItems, purgeItems

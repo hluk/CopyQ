@@ -389,12 +389,6 @@ class MainWindow : public QMainWindow
         /** Show/hide menu bar. **/
         void setHideMenuBar(bool hide);
 
-        /**
-         * Update auto-saving of tab.
-         * Don't save the first tab if option "clear_first_tab" is set.
-         */
-        void updateTabsAutoSaving();
-
         void saveCollapsedTabs();
 
         void loadCollapsedTabs();

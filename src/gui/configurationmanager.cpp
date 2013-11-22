@@ -476,7 +476,6 @@ void ConfigurationManager::initOptions()
 {
     /* general options */
     bind("autostart", ui->checkBoxAutostart, false);
-    bind("clear_first_tab", ui->checkBoxClearFirstTab, false);
     bind("maxitems", ui->spinBoxItems, 200);
     bind("expire_tab", ui->spinBoxExpireTab, 0);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
