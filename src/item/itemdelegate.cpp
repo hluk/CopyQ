@@ -132,15 +132,14 @@ void ItemDelegate::dataChanged(const QModelIndex &a, const QModelIndex &b)
     }
 }
 
-void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
+void ItemDelegate::rowsRemoved(int start, int end)
 {
     for( int i = end; i >= start; --i ) {
         delete m_cache.takeAt(i);
     }
 }
 
-void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd,
-               const QModelIndex &, int destinationRow)
+void ItemDelegate::rowsMoved(int sourceStart, int sourceEnd, int destinationRow)
 {
     int dest = sourceStart < destinationRow ? destinationRow-1 : destinationRow;
     for( int i = sourceStart; i <= sourceEnd; ++i ) {
@@ -149,7 +148,13 @@ void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd
     }
 }
 
-void ItemDelegate::rowsInserted(const QModelIndex &, int start, int end)
+void ItemDelegate::clear()
+{
+    while ( !m_cache.isEmpty() )
+        delete m_cache.takeAt(0);
+}
+
+void ItemDelegate::rowsInserted(int start, int end)
 {
     for( int i = start; i <= end; ++i )
         m_cache.insert(i, NULL);

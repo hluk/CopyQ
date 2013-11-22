@@ -110,6 +110,12 @@ class ItemDelegate : public QItemDelegate
         /** Load settings for @a editor. */
         void loadEditorSettings(ItemEditorWidget *editor);
 
+        void dataChanged(const QModelIndex &a, const QModelIndex &b);
+        void rowsRemoved(int start, int end);
+        void rowsInserted(int start, int end);
+        void rowsMoved(int sourceStart, int sourceEnd, int destinationRow);
+        void clear();
+
     signals:
         /** Emitted if size of a widget has changed. */
         void rowSizeChanged();
@@ -140,16 +146,6 @@ class ItemDelegate : public QItemDelegate
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
         void updateItemMaximumSize();
-
-    public slots:
-        // change size buffer
-        void dataChanged(const QModelIndex &a, const QModelIndex &b);
-        void rowsRemoved(const QModelIndex &parent, int start, int end);
-        void rowsInserted(const QModelIndex &parent, int start, int end);
-        void rowsMoved(const QModelIndex &sourceParent,
-                       int sourceStart, int sourceEnd,
-                       const QModelIndex &destinationParent,
-                       int destinationRow);
 };
 
 #endif

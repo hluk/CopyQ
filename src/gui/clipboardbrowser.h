@@ -279,6 +279,10 @@ class ClipboardBrowser : public QListView
 
         int getDropRow(const QPoint &position);
 
+        void connectModel();
+
+        void disconnectModel();
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -324,6 +328,8 @@ class ClipboardBrowser : public QListView
         void onRowsInserted(const QModelIndex &parent, int first, int last);
 
         void onRowsRemoved(const QModelIndex &parent, int first, int last);
+
+        void onRowsMoved(const QModelIndex &parent, int start, int end, const QModelIndex &destination, int row);
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
