@@ -110,11 +110,12 @@ class ItemDelegate : public QItemDelegate
         /** Load settings for @a editor. */
         void loadEditorSettings(ItemEditorWidget *editor);
 
+    public slots:
         void dataChanged(const QModelIndex &a, const QModelIndex &b);
-        void rowsRemoved(int start, int end);
-        void rowsInserted(int start, int end);
-        void rowsMoved(int sourceStart, int sourceEnd, int destinationRow);
-        void clear();
+        void rowsRemoved(const QModelIndex &parent, int start, int end);
+        void rowsInserted(const QModelIndex &parent, int start, int end);
+        void rowsMoved(const QModelIndex &parent, int sourceStart, int sourceEnd,
+                       const QModelIndex &destination, int destinationRow);
 
     signals:
         /** Emitted if size of a widget has changed. */

@@ -220,9 +220,20 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     // delegate for rendering and editing items
     setItemDelegate(d);
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             d, SLOT(rowsInserted(QModelIndex, int, int)) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             d, SLOT(rowsRemoved(QModelIndex,int,int)) );
+    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+             d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
+    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
+
+    connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
+             SLOT(updateCurrentPage()) );
 
     setAttribute(Qt::WA_MacShowFocusRect, 0);
 
@@ -659,43 +670,31 @@ void ClipboardBrowser::connectModel()
     if (m == model())
         return;
 
-    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
-             SLOT(onRowsRemoved(QModelIndex,int,int)) );
-    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             SLOT(onRowsInserted(QModelIndex, int, int)) );
-
-    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
-             SLOT(onRowsMoved(QModelIndex, int, int, QModelIndex, int)) );
-
-    // save if data in model changed
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
-             SLOT(delayedSaveItems()) );
-
     connect( m, SIGNAL(tabNameChanged(QString)),
              SLOT(onTabNameChanged(QString)) );
-
-    // update on change
-    connect( d, SIGNAL(rowSizeChanged()),
-             SLOT(updateCurrentPage()) );
-    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
-             SLOT(updateCurrentPage()) );
-    connect( verticalScrollBar(), SIGNAL(valueChanged(int)),
-             SLOT(updateCurrentPage()) );
-
     connect( m, SIGNAL(unloaded()),
              SLOT(onModelUnloaded()) );
 
-    if ( m->rowCount() > 0 ) {
-        d->rowsInserted(0, m->rowCount() - 1);
-        updateCurrentPage();
-    }
+    // update on change
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(onModelDataChanged()) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(onModelDataChanged()) );
+    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+             SLOT(onModelDataChanged()) );
+    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             SLOT(onModelDataChanged()) );
+    connect( d, SIGNAL(rowSizeChanged()),
+             SLOT(updateCurrentPage()) );
 
     // set new model
     QAbstractItemModel *oldModel = model();
     setModel(m);
     delete oldModel;
+
+    updateCurrentPage();
 }
 
 void ClipboardBrowser::disconnectModel()
@@ -703,8 +702,8 @@ void ClipboardBrowser::disconnectModel()
     if (m != model())
         return;
 
-    m->disconnect();
-    d->clear();
+    m->disconnect(this);
+    d->disconnect(this);
     setModel(new ClipboardModel(this));
 }
 
@@ -995,36 +994,18 @@ void ClipboardBrowser::updateContextMenu()
     addCommandsToMenu(m_menu, getSelectedItemData());
 }
 
-void ClipboardBrowser::onRowsInserted(const QModelIndex &, int first, int last)
+void ClipboardBrowser::onModelDataChanged()
 {
-    d->rowsInserted(first, last);
     delayedSaveItems();
     updateCurrentPage();
-}
-
-void ClipboardBrowser::onRowsRemoved(const QModelIndex &, int first, int last)
-{
-    d->rowsRemoved(first, last);
-    delayedSaveItems();
-    updateCurrentPage();
-}
-
-void ClipboardBrowser::onRowsMoved(const QModelIndex &, int start, int end, const QModelIndex &, int row)
-{
-    d->rowsMoved(start, end, row);
 }
 
 void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 {
-    QListView::dataChanged(a, b);
-
     if (editing()) {
         m_invalidateCache = true;
         return;
     }
-
-    d->dataChanged(a, b);
-    delayedSaveItems();
 
     bool updateMenu = false;
     const QModelIndexList selected = selectedIndexes();
@@ -1038,8 +1019,6 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
     if (updateMenu)
         updateContextMenu();
-
-    updateCurrentPage();
 }
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
