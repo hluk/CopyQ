@@ -811,6 +811,8 @@ void ClipboardBrowser::unlock()
 
         setUpdatesEnabled(true);
 
+        updateContextMenu();
+
         updateCurrentPage();
     }
 }
@@ -853,6 +855,11 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
                 if ( !uriList.isEmpty() )
                     uriList.prepend('\n');
                 uriList.prepend(uri);
+            }
+
+            foreach ( const QString &format, copiedItemData.keys() ) {
+                if ( !data.contains(format) )
+                    data.insert(format, copiedItemData[format]);
             }
         }
     }
