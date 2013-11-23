@@ -221,11 +221,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     // delegate for rendering and editing items
     setItemDelegate(d);
 
-    // set new model
-    QItemSelectionModel *old_model = selectionModel();
-    setModel(m);
-    delete old_model;
-
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
@@ -440,8 +435,7 @@ void ClipboardBrowser::preload(int minY, int maxY)
         y -= s; // bottom of previous item
     }
 
-    const QRect rect = visualRect(ind);
-    y = rect.isValid() ? visualRect(ind).y() : spacing();
+    y = visualRect(ind).y();
     bool lastToPreload = false;
 
     // Render visible items, re-layout rows and correct scroll offset.
@@ -662,6 +656,9 @@ int ClipboardBrowser::getDropRow(const QPoint &position)
 
 void ClipboardBrowser::connectModel()
 {
+    if (m == model())
+        return;
+
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(onRowsRemoved(QModelIndex,int,int)) );
     connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
@@ -694,12 +691,21 @@ void ClipboardBrowser::connectModel()
         d->rowsInserted(0, m->rowCount() - 1);
         updateCurrentPage();
     }
+
+    // set new model
+    QAbstractItemModel *oldModel = model();
+    setModel(m);
+    delete oldModel;
 }
 
 void ClipboardBrowser::disconnectModel()
 {
+    if (m != model())
+        return;
+
     m->disconnect();
     d->clear();
+    setModel(new ClipboardModel(this));
 }
 
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
