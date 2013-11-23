@@ -100,11 +100,6 @@ enum {
 };
 }
 
-QDir::Filters itemFileFilter()
-{
-    return QDir::Files | QDir::Readable | QDir::Writable;
-}
-
 void setHeaderSectionResizeMode(QHeaderView *header, int logicalIndex, QHeaderView::ResizeMode mode)
 {
 #if QT_VERSION < 0x050000
@@ -365,11 +360,12 @@ BaseNameExtensionsList listFiles(const QStringList &files,
 }
 
 /// Load hash of all existing files to map (hash -> filename).
-QStringList listFiles(const QDir &dir)
+QStringList listFiles(const QDir &dir, const QDir::SortFlags &sortFlags = QDir::NoSort)
 {
     QStringList files;
 
-    foreach ( const QString &fileName, dir.entryList(itemFileFilter()) ) {
+    const QDir::Filters itemFileFilter = QDir::Files | QDir::Readable | QDir::Writable;
+    foreach ( const QString &fileName, dir.entryList(itemFileFilter, sortFlags) ) {
         const QString path = dir.absoluteFilePath(fileName);
         QFileInfo info(path);
         if ( canUseFile(info) )
@@ -377,6 +373,21 @@ QStringList listFiles(const QDir &dir)
     }
 
     return files;
+}
+
+/// Return true only if no file name in @a fileNames starts with @a baseName.
+bool isUniqueBaseName(const QString &baseName, const QStringList &fileNames,
+                      const QStringList &baseNames = QStringList())
+{
+    if ( baseNames.contains(baseName) )
+        return false;
+
+    foreach (const QString fileName, fileNames) {
+        if ( fileName.startsWith(baseName) )
+            return false;
+    }
+
+    return true;
 }
 
 bool hasVideoExtension(const QString &ext)
@@ -728,7 +739,6 @@ public:
         , m_path(path)
         , m_valid(false)
         , m_indexData()
-        , m_usedBaseNames()
     {
         m_watcher.addPath(path);
 
@@ -743,6 +753,9 @@ public:
                  &m_updateTimer, SLOT(start()) );
 
         connectModel();
+
+        if (model->rowCount() > 0)
+            saveItems(0, model->rowCount() - 1);
 
         createItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings) );
     }
@@ -801,9 +814,7 @@ public slots:
         m_model->setProperty(propertyModelDisabled, true);
 
         QDir dir( m_watcher.directories().value(0) );
-        QStringList files;
-        foreach ( const QString &fileName, dir.entryList(itemFileFilter(), QDir::Time | QDir::Reversed) )
-            files.append( dir.absoluteFilePath(fileName) );
+        const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
         BaseNameExtensionsList fileList = listFiles(files, m_formatSettings);
 
         for ( int row = 0; row < m_model->rowCount(); ++row ) {
@@ -856,8 +867,6 @@ private slots:
         foreach ( const QPersistentModelIndex &index, indexList(first, last) ) {
             QMap<QPersistentModelIndex, IndexData>::iterator it = m_indexData.find(index);
             Q_ASSERT( it != m_indexData.end() );
-            Q_ASSERT( m_usedBaseNames.contains(it.value().baseName) );
-            m_usedBaseNames.remove(it.value().baseName);
             m_indexData.erase(it);
         }
     }
@@ -914,7 +923,6 @@ private:
         IndexData &data = m_indexData[index];
 
         data.baseName = baseName;
-        m_usedBaseNames.insert(baseName);
 
         QMap<QString, Hash> &formatData = data.formatHash;
         formatData.clear();
@@ -939,9 +947,6 @@ private:
 
         const QList<QPersistentModelIndex> indexList = this->indexList(first, last);
 
-        if ( !renameMoveCopy(indexList) )
-            return;
-
         if ( m_path.isEmpty() )
             return;
 
@@ -951,6 +956,9 @@ private:
             log( tr("Failed to create synchronization directory \"%1\"!").arg(m_path) );
             return;
         }
+
+        if ( !renameMoveCopy(dir, indexList) )
+            return;
 
         QStringList existingFiles = listFiles(dir);
 
@@ -1025,7 +1033,7 @@ private:
         connectModel();
     }
 
-    bool renameToUnique(QString *name, bool newFile)
+    bool renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name)
     {
         if ( name->isEmpty() ) {
             *name = "copyq_0000";
@@ -1035,10 +1043,10 @@ private:
             name->remove( QRegExp("\\n|\\r") );
         }
 
-        if ( !m_usedBaseNames.contains(*name) ) {
-            m_usedBaseNames.insert(*name);
+        const QStringList fileNames = dir.entryList();
+
+        if ( isUniqueBaseName(*name, fileNames, baseNames) )
             return true;
-        }
 
         QString ext;
         QString baseName;
@@ -1062,16 +1070,17 @@ private:
             if (i >= 99999)
                 return false;
             newName = baseName + QString("%1").arg(++i, fieldWidth, 10, QChar('0')) + ext;
-        } while ( m_usedBaseNames.contains(newName) || (newFile && QFile::exists(m_path + '/' + newName)) );
+        } while ( !isUniqueBaseName(newName, fileNames, baseNames) );
 
         *name = newName;
-        m_usedBaseNames.insert(*name);
 
         return true;
     }
 
-    bool renameMoveCopy(const QList<QPersistentModelIndex> &indexList)
+    bool renameMoveCopy(const QDir dir, const QList<QPersistentModelIndex> &indexList)
     {
+        QStringList baseNames;
+
         foreach (const QPersistentModelIndex &index, indexList) {
             if ( !index.isValid() )
                 continue;
@@ -1083,9 +1092,10 @@ private:
             bool newItem = olderBaseName.isEmpty();
             bool itemRenamed = olderBaseName != baseName;
             if ( newItem || itemRenamed ) {
-                if ( !renameToUnique(&baseName, oldBaseName.isEmpty()) )
+                if ( !renameToUnique(dir, baseNames, &baseName) )
                     return false;
                 itemRenamed = olderBaseName != baseName;
+                baseNames.append(baseName);
             }
 
             QVariantMap itemData = index.data(contentType::data).toMap();
@@ -1109,7 +1119,7 @@ private:
                 updateIndexData(index, itemData);
 
                 if ( oldBaseName.isEmpty() && itemData.contains(mimeUriList) ) {
-                    if ( copyFilesFromUriList(itemData[mimeUriList].toByteArray(), index.row()) )
+                    if ( copyFilesFromUriList(itemData[mimeUriList].toByteArray(), index.row(), baseNames) )
                          m_model->removeRow(index.row());
                 }
             }
@@ -1147,12 +1157,14 @@ private:
         }
     }
 
-    bool copyFilesFromUriList(const QByteArray &uriData, int targetRow)
+    bool copyFilesFromUriList(const QByteArray &uriData, int targetRow, const QStringList &baseNames)
     {
         QMimeData tmpData;
         tmpData.setData(mimeUriList, uriData);
 
         bool copied = false;
+
+        const QDir dir(m_path);
 
         foreach ( const QUrl &url, tmpData.urls() ) {
             if ( url.isLocalFile() ) {
@@ -1164,8 +1176,8 @@ private:
                     getBaseNameAndExtension( QFileInfo(f).fileName(), &baseName, &ext,
                                              m_formatSettings );
 
-                    if ( renameToUnique(&baseName, true) ) {
-                        const QString targetFilePath = m_path + '/' + baseName + ext;
+                    if ( renameToUnique(dir, baseNames, &baseName) ) {
+                        const QString targetFilePath = dir.absoluteFilePath(baseName + ext);
                         f.copy(targetFilePath);
                         if ( m_model->rowCount() < m_model->property("maxItems").toInt() ) {
                             QString baseName;
@@ -1196,7 +1208,6 @@ private:
     QString m_path;
     bool m_valid;
     QMap<QPersistentModelIndex, IndexData> m_indexData;
-    QSet<QString> m_usedBaseNames;
 };
 
 ItemSyncLoader::ItemSyncLoader()
@@ -1407,9 +1418,7 @@ bool ItemSyncLoader::createTab(QAbstractItemModel *model, QFile *file)
         return false;
 
     QDir dir( tabPath(*model) );
-    QStringList savedFiles;
-    foreach ( const QString &fileName, dir.entryList(itemFileFilter(), QDir::Name | QDir::Reversed) )
-        savedFiles.append( dir.absoluteFilePath(fileName) );
+    const QStringList savedFiles = listFiles(dir, QDir::Name | QDir::Reversed);
 
     writeConfiguration(file, savedFiles);
 
@@ -1662,8 +1671,7 @@ void ItemSyncLoader::createWatcherAndLoadItems(QAbstractItemModel *model, const 
 
         QStringList files = config.value(tabConfigSavedFiles).toStringList();
 
-        foreach ( const QString &fileName, dir.entryList(itemFileFilter(), QDir::Time | QDir::Reversed) ) {
-            const QString filePath = dir.absoluteFilePath(fileName);
+        foreach ( const QString &filePath, listFiles(dir, QDir::Time | QDir::Reversed) ) {
             if ( !files.contains(filePath) )
                 files.append(filePath);
         }
