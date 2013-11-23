@@ -47,7 +47,7 @@ QString helpMail(const char *url)
 
 QString helpLink(const QString &name, const QString &link)
 {
-    return QString("<tr><td class='h3'>%1</td><td>%2</td></tr>").arg(name, link);
+    return QString("<tr><td class='h3'>%1</td><td class='link'>%2</td></tr>").arg(name, link);
 }
 
 QString helpDeveloper(const char *name, const char *mail)
@@ -59,7 +59,8 @@ QString helpDeveloper(const char *name, const char *mail)
 
 QString helpLib(const char *name, const QString &description, const QString &copyright, const char *url)
 {
-    return QString("<p class=\"ppp\"><span class='h2x'>%1</span> (%2)<br />%3 (%4)</p>")
+    return QString("<p class=\"ppp\"><span class='h2x'>%1</span>"
+                   "&nbsp;&nbsp;&nbsp;<span class='h3'>%2</span><br />%3 (%4)</p>")
             .arg(name)
             .arg( escapeHtml(description) )
             .arg(copyright)
@@ -91,30 +92,31 @@ QString AboutDialog::aboutPage()
 
         // CSS
         "<head><style type=\"text/css\">"
-        "body{font-size:10pt;background-color:white;color:black}"
+        "body{font-size:10pt;background:white;color:#333;margin:1.5em}"
         "p, li{white-space:pre-wrap;margin-left:1ex}"
-        ".h1{font-size:20pt;color:#444}"
-        ".h1x{font-size:12pt;color:#222;}"
-        ".h2{width:100%;font-size:16pt;color:#333;margin-left:1ex;margin-top:0.2em}"
-        ".h2x{font-size:12pt;color:#222;}"
-        ".h3{font-size:9pt;color:#444}"
+        "a{text-decoration:none}"
+        ".h1{font-size:26pt;color:#666;white-space:pre}"
+        ".h1x{font-size:16pt;color:#888;white-space:pre}"
+        ".h2{width:100%;font-size:16pt;margin-left:1ex;margin-top:0.2em}"
+        ".h2x{font-size:12pt}"
+        ".h3{font-size:9pt;color:#666}"
+        ".links td{padding:0}"
+        ".link{font-size:9pt}"
         ".pp{margin-left:4ex}"
         ".ppp{margin-left:4ex;font-size:9pt}"
         "table{border:0}"
-        ".odd {background-color:#def}"
+        ".odd {background:#def}"
         "td{padding:0.1em}"
         "#keys{margin-left:4ex}"
-        ".key{color:#333;font-family:monospace;font-size:9pt;padding-left:0.5em}"
+        ".key{font-family:monospace;font-size:9pt;padding-left:0.5em}"
+        ".logo{float:left}"
+        ".info{font-size:9pt}"
         "</style></head>"
 
         "<body>"
 
-        "<p><table><tr>"
-
         // logo
-        "<td><img src=\":/images/logo.svg\" /></td>"
-
-        "<td>"
+        "<img class='logo' src=':/images/logo.svg' />"
 
         // title
         "<div class='h1'>CopyQ</div>"
@@ -122,22 +124,20 @@ QString AboutDialog::aboutPage()
         "<div class=\"h1x\">" + escapeHtml(tr("Clipboard Manager"))
             + " v" COPYQ_VERSION "</div>"
 
-        "<p></p>"
-
-        "<p><table>"
-        // copyright
-        "<tr><td colspan=\"2\">Copyright (c) 2009 - 2013</td></tr>"
-        // author
-        "<tr><td colspan=\"2\">Lukas Holecek</td></tr>"
+        "<p>"
+        "<table class='links'>"
+            + helpLink( tr("Author"), "Lukas Holecek" )
             + helpLink( tr("E-mail"), helpMail("hluk@email.cz") )
             + helpLink( tr("Web"), helpUrl("http://hluk.github.io/CopyQ/") )
             + helpLink( tr("Wiki"), helpUrl("https://sourceforge.net/p/copyq/wiki/Home/") )
             +
-        "</table></p>"
+        "</table>"
+        "</p>"
 
-        "</td>"
+        // copyright
+        "<p class='info'>Copyright (c) 2009 - 2013</p>"
 
-        "</tr></table></p>"
+        "<p></p>"
 
         "<div class='h2'>" + tr("Development") + "</div>"
         "<p class=\"pp\">"
