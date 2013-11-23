@@ -822,8 +822,6 @@ bool ClipboardBrowser::hasUserSelection() const
 
 QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool serializeItems) const
 {
-    Q_ASSERT(m_itemLoader);
-
     QByteArray bytes;
     QDataStream stream(&bytes, QIODevice::WriteOnly);
     QByteArray text;
@@ -837,7 +835,8 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
             continue;
 
         const ClipboardItem *item = at( ind.row() );
-        const QVariantMap copiedItemData = m_itemLoader->copyItem(*m, item->data());
+        const QVariantMap copiedItemData = m_itemLoader ? m_itemLoader->copyItem(*m, item->data())
+                                                        : item->data();
 
         if (serializeItems)
             stream << copiedItemData;
@@ -852,7 +851,7 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
             QByteArray uri = copiedItemData.value(mimeUriList).toByteArray();
             if ( !uri.isEmpty() ) {
                 if ( !uriList.isEmpty() )
-                    text.prepend('\n');
+                    uriList.prepend('\n');
                 uriList.prepend(uri);
             }
         }
