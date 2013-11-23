@@ -139,8 +139,8 @@ void ItemDelegate::rowsRemoved(const QModelIndex &, int start, int end)
     }
 }
 
-void ItemDelegate::rowsMoved(const QModelIndex &parent, int sourceStart, int sourceEnd,
-                             const QModelIndex &destination, int destinationRow)
+void ItemDelegate::rowsMoved(const QModelIndex &, int sourceStart, int sourceEnd,
+                             const QModelIndex &, int destinationRow)
 {
     int dest = sourceStart < destinationRow ? destinationRow-1 : destinationRow;
     for( int i = sourceStart; i <= sourceEnd; ++i ) {
