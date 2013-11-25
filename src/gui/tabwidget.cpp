@@ -110,12 +110,16 @@ void TabWidget::setTabText(int tabIndex, const QString &tabText)
 
 void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
 {
+    bool firstTab = count() == 0;
     m_stackedWidget->insertWidget(tabIndex, widget);
 
     if ( isTreeModeEnabled() )
-        m_tabTree->insertTab(tabText, tabIndex, count() == 1);
+        m_tabTree->insertTab(tabText, tabIndex, firstTab);
     else
         m_tabBar->insertTab(tabIndex, tabText);
+
+    if (firstTab)
+        emit currentChanged(0, -1);
 }
 
 void TabWidget::removeTab(int tabIndex)

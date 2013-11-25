@@ -746,8 +746,11 @@ NotificationDaemon *MainWindow::notificationDaemon()
 
 ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
 {
-    /* check name */
     int i = findTabIndex(name);
+
+    if (needSave != NULL)
+        *needSave = (i == -1);
+
     if (i != -1)
         return getBrowser(i);
 
@@ -755,11 +758,6 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     c->setTabName(name);
     c->loadSettings();
     c->setAutoUpdate(true);
-
-    // Preload items only in the first tab.
-    bool firstTab = ui->tabWidget->count() == 0;
-    if (firstTab)
-        c->loadItems();
 
     connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
@@ -780,12 +778,6 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
              Qt::DirectConnection );
 
     ui->tabWidget->addTab(c, name);
-
-    if (firstTab)
-        tabChanged(0, -1);
-
-    if (needSave != NULL)
-        *needSave = true;
 
     return c;
 }
@@ -827,7 +819,7 @@ int MainWindow::findTabIndex(const QString &name)
 
 ClipboardBrowser *MainWindow::createTab(const QString &name)
 {
-    bool needSave = false;
+    bool needSave;
     ClipboardBrowser *c = createTab(name, &needSave);
     if (needSave)
         ConfigurationManager::instance()->setTabs( ui->tabWidget->tabs() );
@@ -1165,10 +1157,14 @@ void MainWindow::loadSettings()
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
 
-    /* are tabs already loaded? */
+    // create tabs
     QStringList tabs = cm->savedTabs();
-    foreach (const QString &name, tabs)
-        createTab(name, NULL)->loadSettings();
+    foreach (const QString &name, tabs) {
+        bool settingsLoaded;
+        ClipboardBrowser *c = createTab(name, &settingsLoaded);
+        if (!settingsLoaded)
+            c->loadSettings();
+    }
 
     if ( ui->tabWidget->count() == 0 )
         addTab( tr("&clipboard") );
