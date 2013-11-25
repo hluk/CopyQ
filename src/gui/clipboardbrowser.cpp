@@ -1850,6 +1850,7 @@ void ClipboardBrowser::loadItemsAgain()
         m_loadButton = NULL;
         m->blockSignals(false);
         d->rowsInserted(QModelIndex(), 0, m->rowCount());
+        scheduleDelayedItemsLayout();
     } else if (m_loadButton == NULL) {
         m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);

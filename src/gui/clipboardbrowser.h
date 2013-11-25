@@ -323,7 +323,7 @@ class ClipboardBrowser : public QListView
         void contextMenuAction();
         void updateContextMenu();
 
-        void onModelDataChanged(QModelIndex &a, QModelIndex &b);
+        void onModelDataChanged();
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 
