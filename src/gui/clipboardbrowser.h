@@ -277,7 +277,7 @@ class ClipboardBrowser : public QListView
 
         int getDropRow(const QPoint &position);
 
-        void connectModel();
+        void connectModelAndDelegate();
 
         void disconnectModel();
 
@@ -323,7 +323,7 @@ class ClipboardBrowser : public QListView
         void contextMenuAction();
         void updateContextMenu();
 
-        void onModelDataChanged();
+        void onModelDataChanged(QModelIndex &a, QModelIndex &b);
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
 

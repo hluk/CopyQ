@@ -218,17 +218,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     initSingleShotTimer(m_timerUpdate, 10, SLOT(doUpdateCurrentPage()));
     initSingleShotTimer(m_timerFilter, 10, SLOT(filterItems()));
 
-    // delegate for rendering and editing items
-    setItemDelegate(d);
-    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
-             d, SLOT(rowsInserted(QModelIndex, int, int)) );
-    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
-             d, SLOT(rowsRemoved(QModelIndex,int,int)) );
-    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
-             d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
-    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-             d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
-
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
 
@@ -239,7 +228,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 
     setAcceptDrops(true);
 
-    connectModel();
+    connectModelAndDelegate();
 }
 
 ClipboardBrowser::~ClipboardBrowser()
@@ -665,10 +654,9 @@ int ClipboardBrowser::getDropRow(const QPoint &position)
     return index.isValid() ? index.row() : length();
 }
 
-void ClipboardBrowser::connectModel()
+void ClipboardBrowser::connectModelAndDelegate()
 {
-    if (m == model())
-        return;
+    Q_ASSERT(m != model());
 
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
@@ -689,22 +677,23 @@ void ClipboardBrowser::connectModel()
     connect( d, SIGNAL(rowSizeChanged()),
              SLOT(updateCurrentPage()) );
 
+    // delegate for rendering and editing items
+    setItemDelegate(d);
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             d, SLOT(rowsInserted(QModelIndex, int, int)) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             d, SLOT(rowsRemoved(QModelIndex,int,int)) );
+    connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+             d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
+    connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
+
     // set new model
     QAbstractItemModel *oldModel = model();
     setModel(m);
     delete oldModel;
 
     updateCurrentPage();
-}
-
-void ClipboardBrowser::disconnectModel()
-{
-    if (m != model())
-        return;
-
-    m->disconnect(this);
-    d->disconnect(this);
-    setModel(new ClipboardModel(this));
 }
 
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
@@ -1100,7 +1089,6 @@ void ClipboardBrowser::onEditorCancel()
 void ClipboardBrowser::onModelUnloaded()
 {
     m_itemLoader.clear();
-    disconnectModel();
 }
 
 void ClipboardBrowser::filterItems()
@@ -1853,14 +1841,15 @@ void ClipboardBrowser::loadItemsAgain()
 
     m_timerSave->stop();
 
-    disconnectModel();
+    m->blockSignals(true);
     m_itemLoader = ConfigurationManager::instance()->loadItems(*m);
 
     // Show lock button if model is disabled.
     if ( !m->isDisabled() ) {
         delete m_loadButton;
         m_loadButton = NULL;
-        connectModel();
+        m->blockSignals(false);
+        d->rowsInserted(QModelIndex(), 0, m->rowCount());
     } else if (m_loadButton == NULL) {
         m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);
