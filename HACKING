@@ -62,3 +62,19 @@ Any plugin class must implement ItemLoaderInterface from
 should be able to instantiate ItemWidget object (using create() method) if
 suitable data are available.
 
+Running Tests
+-------------
+
+After changing code or implementing new features, it's important to check if
+unit tests are not failing.
+
+Following command will execute all tests.
+
+    copyq tests
+
+Or run
+
+   copyq tests --help
+
+to get more information about tests.
+
