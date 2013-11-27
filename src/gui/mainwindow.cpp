@@ -431,7 +431,8 @@ void MainWindow::createMenu()
     // Commands
     m_menuCommand = menubar->addMenu(tr("Co&mmands"));
     m_menuCommand->setEnabled(false);
-    m_trayMenu->addMenu(m_menuCommand);
+    // TODO: https://bugreports.qt-project.org/browse/QTBUG-31342
+//    m_trayMenu->addMenu(m_menuCommand);
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
@@ -447,7 +448,8 @@ void MainWindow::createMenu()
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     addTrayAction(Actions::File_Exit);
-    m_trayMenu->addMenu(m_menuCommand);
+    // TODO: https://bugreports.qt-project.org/browse/QTBUG-31342
+//    m_trayMenu->addMenu(m_menuCommand);
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 }
