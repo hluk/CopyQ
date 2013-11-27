@@ -1,5 +1,5 @@
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
-    platform/dummy/*.cpp
+    platform/mac/*.cpp
     ../qxt/qxtglobalshortcut_mac.cpp
     )
 
