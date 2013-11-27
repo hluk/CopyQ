@@ -33,17 +33,17 @@
 #include <QAbstractEventDispatcher>
 #include <QtDebug>
 
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
 int QxtGlobalShortcutPrivate::ref = 0;
 #   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
 QAbstractEventDispatcher::EventFilter QxtGlobalShortcutPrivate::prevEventFilter = 0;
 #   endif
-#endif // Q_WS_MAC
+#endif // Q_OS_MAC
 QHash<QPair<quint32, quint32>, QxtGlobalShortcut*> QxtGlobalShortcutPrivate::shortcuts;
 
 QxtGlobalShortcutPrivate::QxtGlobalShortcutPrivate() : enabled(true), key(Qt::Key(0)), mods(Qt::NoModifier)
 {
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
     if (ref == 0) {
 #   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
         prevEventFilter = QAbstractEventDispatcher::instance()->setEventFilter(eventFilter);
@@ -52,12 +52,12 @@ QxtGlobalShortcutPrivate::QxtGlobalShortcutPrivate() : enabled(true), key(Qt::Ke
 #endif
     }
     ++ref;
-#endif // Q_WS_MAC
+#endif // Q_OS_MAC
 }
 
 QxtGlobalShortcutPrivate::~QxtGlobalShortcutPrivate()
 {
-#ifndef Q_WS_MAC
+#ifndef Q_OS_MAC
     --ref;
     if (ref == 0) {
         QAbstractEventDispatcher *ed = QAbstractEventDispatcher::instance();
@@ -69,7 +69,7 @@ QxtGlobalShortcutPrivate::~QxtGlobalShortcutPrivate()
 #   endif
         }
     }
-#endif // Q_WS_MAC
+#endif // Q_OS_MAC
 }
 
 bool QxtGlobalShortcutPrivate::setShortcut(const QKeySequence& shortcut)
