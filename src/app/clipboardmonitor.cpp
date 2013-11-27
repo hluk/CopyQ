@@ -500,7 +500,7 @@ void ClipboardMonitor::exit(int exitCode)
 void ClipboardMonitor::writeMessage(const QByteArray &msg)
 {
     if ( !::writeMessage(m_socket, msg) ) {
-        log( "Failed to send data to server!", LogError );
+        ::log( "Failed to send data to server!", LogError );
         exit(1);
     }
 }
