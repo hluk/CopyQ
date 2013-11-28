@@ -21,5 +21,6 @@ misc
     - look at this first:
       https://github.com/petroules/petroules-utilities-qt/blob/master/src/windowmanager_mac.mm
     - then these:
+      https://github.com/ianyh/Amethyst/blob/master/Amethyst/AMWindowManager.m
       https://github.com/jigish/slate/blob/master/Slate/RunningApplications.mm
       https://github.com/eczarny/spectacle
