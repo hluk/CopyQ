@@ -61,6 +61,7 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
         return;
 
     m_server = newServer(newServerName, this);
+    connect(m_server, SIGNAL(newConnection()), SLOT(onNewConnection()));
 
     COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
                .arg(QCoreApplication::applicationFilePath())
@@ -68,17 +69,28 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments) ) {
         log( "Remote process: Failed to start new remote process!", LogError );
-    } else if ( !m_server->waitForNewConnection(16000) ) {
-        log( "Remote process: Failed to connect to new remote process!", LogError );
-    } else {
-        COPYQ_LOG("Remote process: Started.");
-        m_socket = m_server->nextPendingConnection();
-        connect( m_socket, SIGNAL(readyRead()),
-                 this, SLOT(readyRead()) );
-        connect( m_socket, SIGNAL(disconnected()),
-                 this, SIGNAL(connectionError()) );
-        ping();
     }
+}
+
+void RemoteProcess::onNewConnection() {
+    Q_ASSERT(m_socket == NULL);
+    COPYQ_LOG("Remote process: Started.");
+
+    if (m_socket) {
+        // This shouldn't actually happen, but try to handle it in case it does.
+        COPYQ_LOG("Remote process got a new socket.");
+        disconnect(m_socket, 0, this, 0);
+        m_socket->close();
+    }
+
+    m_socket = m_server->nextPendingConnection();
+    connect( m_socket, SIGNAL(readyRead()),
+             this, SLOT(readyRead()) );
+    connect( m_socket, SIGNAL(disconnected()),
+             this, SIGNAL(connectionError()) );
+    ping();
+
+    emit connected();
 }
 
 bool RemoteProcess::writeMessage(const QByteArray &msg)

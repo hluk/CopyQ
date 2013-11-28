@@ -145,22 +145,14 @@ void ClipboardServer::startMonitoring()
                  this, SLOT(newMonitorMessage(QByteArray)) );
         connect( m_monitor, SIGNAL(connectionError()),
                  this, SLOT(monitorConnectionError()) );
+        connect( m_monitor, SIGNAL(connected()),
+                 this, SLOT(loadMonitorSettings()) );
 
         QString name = clipboardMonitorServerName().arg(monitorProcessId);
         while ( !QLocalServer::removeServer(name) )
             name = clipboardMonitorServerName().arg(++monitorProcessId);
 
         m_monitor->start( name, QStringList("monitor") << name );
-        if ( !m_monitor->isConnected() ) {
-            disconnect();
-            delete m_monitor;
-            m_monitor = NULL;
-            log( tr("Cannot start clipboard monitor!"), LogError );
-            exit(10);
-            return;
-        }
-
-        loadMonitorSettings();
     }
     m_wnd->browser(0)->setAutoUpdate(true);
 }
