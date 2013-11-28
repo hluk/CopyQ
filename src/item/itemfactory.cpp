@@ -61,6 +61,10 @@ bool findPluginDir(QDir *pluginsDir)
     {
         return false;
     }
+    if ( !pluginsDir->cd("plugins") ) {
+        return false;
+    }
+
 #else
     pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
     if ( !pluginsDir->cd("plugins") )
