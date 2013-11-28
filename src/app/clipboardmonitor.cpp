@@ -250,6 +250,10 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , m_needCheckSelection(false)
     , m_x11(new PrivateX11)
 #endif
+#ifdef Q_OS_MAC
+    , m_prevHash(0)
+    , m_clipboardCheckTimer(new QTimer(this))
+#endif
 {
     connect( m_socket, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
@@ -276,6 +280,12 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
              this, SLOT(synchronize()) );
     connect( &m_x11->resetClipboardTimer(), SIGNAL(timeout()),
              this, SLOT(resetClipboard()) );
+#endif
+
+#ifdef Q_OS_MAC
+    m_clipboardCheckTimer->setInterval(150);
+    connect(m_clipboardCheckTimer, SIGNAL(timeout()), this, SLOT(clipboardTimeout()));
+    m_clipboardCheckTimer->start();
 #endif
 }
 
@@ -459,6 +469,18 @@ void ClipboardMonitor::readyRead()
     }
 
     m_socket->blockSignals(false);
+}
+
+void ClipboardMonitor::clipboardTimeout() {
+    const QMimeData *data = QApplication::clipboard()->mimeData(QClipboard::Clipboard);
+    if (data) {
+        QVariantMap data2( cloneData(*data, m_formats) );
+        const uint new_hash = hash(data2);
+        if (new_hash != m_prevHash) {
+            m_prevHash = new_hash;
+            checkClipboard(QClipboard::Clipboard);
+        }
+    }
 }
 
 void ClipboardMonitor::onDisconnected()

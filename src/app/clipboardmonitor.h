@@ -105,6 +105,8 @@ private slots:
     /** Server connection closed. */
     void onDisconnected();
 
+    void clipboardTimeout();
+
 private:
     /** Send new clipboard or primary selection data to server. */
     void clipboardChanged(const QVariantMap &data);
@@ -126,6 +128,11 @@ private:
 
     // stuff for X11 window system
     PrivateX11* m_x11;
+#endif
+
+#ifdef Q_OS_MAC
+    uint m_prevHash;
+    QTimer *m_clipboardCheckTimer;
 #endif
 };
 
