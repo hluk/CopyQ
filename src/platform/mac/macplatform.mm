@@ -19,7 +19,10 @@
 
 #include "macplatform.h"
 
-//#include <qt_mac.h>
+#include <Cocoa/Cocoa.h>
+
+#include <QApplication>
+#include <QWidget>
 
 namespace {
 
@@ -36,21 +39,38 @@ MacPlatform::MacPlatform()
 
 WId MacPlatform::getCurrentWindow()
 {
-    // TODO
-    return (WId)0;
+    QWidget *widget = QApplication::activeWindow();
+    if (widget == NULL)
+        return 0L;
+
+    return widget->winId();
 }
 
 QString MacPlatform::getWindowTitle(WId wid)
 {
-    // TODO
-    Q_UNUSED(wid);
-    return QString();
+    if (wid == 0L)
+        return QString();
+
+    QWidget *widget = QWidget::find(wid);
+    if (widget == NULL)
+        return QString();
+
+    return widget->windowTitle();
 }
 
 void MacPlatform::raiseWindow(WId wid)
 {
-    // TODO
-    Q_UNUSED(wid);
+    if (wid == 0L)
+        return;
+
+    QWidget *widget = QWidget::find(wid);
+    if (widget == NULL)
+        return;
+
+    widget->setWindowState(widget->windowState() & ~Qt::WindowMinimized | Qt::WindowActive);
+    widget->show();
+    widget->activateWindow();
+    widget->raise();
 }
 
 void MacPlatform::pasteToWindow(WId wid)
