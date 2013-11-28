@@ -1,0 +1,25 @@
+info.plist
+- icons
+- hide in dock
+  <!-- hide dock icon -->
+  <key>LSUIElement</key>
+  <string>1</string>
+- add translated names
+- copy plugins into bundle
+- package Qt (?)
+links:
+  http://kuvacode.com/francis/qt-and-the-mac-app-store/
+  http://web.njit.edu/all_topics/Prog_Lang_Docs/html/qt/appicon.html#2
+
+bugs
+- misses data sometimes when m_wnd->addToTab is done
+- need to re-add command menu(s?) (QTBUG-31549, QTBUG-34160)
+
+misc
+- figure out a good timeout for the clipboard monitor timer
+- everything in mac-platform
+    - look at this first:
+      https://github.com/petroules/petroules-utilities-qt/blob/master/src/windowmanager_mac.mm
+    - then these:
+      https://github.com/jigish/slate/blob/master/Slate/RunningApplications.mm
+      https://github.com/eczarny/spectacle
