@@ -14,13 +14,13 @@ links:
 bugs
 - misses data sometimes when m_wnd->addToTab is done
 - need to re-add command menu(s?) (QTBUG-31549, QTBUG-34160)
-- RemoteProcess times out eventually (this is consistent). Get 'Remote process: Connection timeout!' when opening main window, and it restarts it.
 - no window titles
 - tests fail (probably due to missing platform stuff??)
 - test build on cmake
 
 misc
 - figure out a good timeout for the clipboard monitor timer
+- use an NSTimer with some tolerance
 - everything in mac-platform
     - look at these first:
       https://github.com/petroules/petroules-utilities-qt/blob/master/src/windowmanager_mac.mm
