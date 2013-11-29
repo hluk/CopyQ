@@ -103,13 +103,6 @@ int startClient(int argc, char *argv[], int skipArgc, const QString &sessionName
     return app.exec();
 }
 
-#ifdef HAS_TESTS
-int startTests(int argc, char *argv[])
-{
-    return tests::main(argc, argv);
-}
-#endif
-
 bool needsHelp(const QByteArray &arg)
 {
     return arg == "-h" ||
@@ -186,7 +179,7 @@ int main(int argc, char *argv[])
 #ifdef HAS_TESTS
         } else if ( needsTests(arg) ) {
             // Skip the "tests" argument and pass the rest to tests.
-            return startTests(argc - 1, argv + 1);
+            return tests::main(argc - 1, argv + 1);
 #endif
         }
     }
