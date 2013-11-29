@@ -4,4 +4,5 @@ SOURCES += \
 USE_QXT = 1
 
 OBJECTIVE_SOURCES += \
-    platform/mac/macplatform.mm
+    platform/mac/macplatform.mm \
+    platform/mac/macactivity.mm
