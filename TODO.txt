@@ -1,15 +1,10 @@
 info.plist
-- icons
-- hide in dock
-  <!-- hide dock icon -->
-  <key>LSUIElement</key>
-  <string>1</string>
-- add translated names
-- copy plugins into bundle
-- package Qt (?)
+- add translated app names
+- package Qt (commented out because it's broken..)
 links:
   http://kuvacode.com/francis/qt-and-the-mac-app-store/
   http://web.njit.edu/all_topics/Prog_Lang_Docs/html/qt/appicon.html#2
+  http://qt-project.org/doc/qt-5.0/qtdoc/deployment-mac.html#creating-the-application-package
 
 bugs
 - misses data sometimes when m_wnd->addToTab is done

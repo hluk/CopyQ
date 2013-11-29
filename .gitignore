@@ -41,3 +41,4 @@ ui_*
 /.qmake.cache
 /copyq.app
 copyq.pro.user
+.DS_Store
