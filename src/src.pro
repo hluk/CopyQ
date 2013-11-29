@@ -144,10 +144,6 @@ macx {
     COPYQ_PLUGINS.files = $$files(../plugins/*.dylib)
     COPYQ_PLUGINS.path = Contents/Resources/plugins/
     QMAKE_BUNDLE_DATA += COPYQ_PLUGINS
-
-    CONFIG(release, debug|release) {
-        #QMAKE_POST_LINK += macdeployqt ../copyq.app
-    }
 }
 
 QT += core gui xml network script svg
