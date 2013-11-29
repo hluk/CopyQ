@@ -19,8 +19,6 @@ bugs
 - test build on cmake
 
 misc
-- figure out a good timeout for the clipboard monitor timer
-- use an NSTimer with some tolerance
 - everything in mac-platform
     - look at these first:
       https://github.com/petroules/petroules-utilities-qt/blob/master/src/windowmanager_mac.mm
