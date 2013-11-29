@@ -36,6 +36,7 @@
 
 #ifdef Q_OS_MAC
 #  include "platform/mac/macplatform.h"
+#  include "platform/mac/mactimer.h"
 #endif
 
 namespace {
@@ -256,7 +257,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
 #ifdef Q_OS_MAC
     , m_prevChangeCount(0)
-    , m_clipboardCheckTimer(new QTimer(this))
+    , m_clipboardCheckTimer(new MacTimer(this))
     , m_macPlatform(new MacPlatform())
 #endif
 {
@@ -288,7 +289,8 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
 
 #ifdef Q_OS_MAC
-    m_clipboardCheckTimer->setInterval(150);
+    m_clipboardCheckTimer->setInterval(250);
+    m_clipboardCheckTimer->setTolerance(500);
     connect(m_clipboardCheckTimer, SIGNAL(timeout()), this, SLOT(clipboardTimeout()));
     m_clipboardCheckTimer->start();
 #endif

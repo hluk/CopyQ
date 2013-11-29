@@ -37,6 +37,7 @@ class PrivateX11;
 
 #ifdef Q_OS_MAC
 class MacPlatform;
+class MacTimer;
 #endif
 
 /**
@@ -136,7 +137,7 @@ private:
 
 #ifdef Q_OS_MAC
     long int m_prevChangeCount;
-    QTimer *m_clipboardCheckTimer;
+    MacTimer *m_clipboardCheckTimer;
     MacPlatform *m_macPlatform;
 #endif
 };
