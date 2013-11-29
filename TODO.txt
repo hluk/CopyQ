@@ -1,6 +1,5 @@
 info.plist
 - add translated app names
-- package Qt (commented out because it's broken..)
 links:
   http://kuvacode.com/francis/qt-and-the-mac-app-store/
   http://web.njit.edu/all_topics/Prog_Lang_Docs/html/qt/appicon.html#2
@@ -8,12 +7,13 @@ links:
 
 bugs
 - misses data sometimes when m_wnd->addToTab is done
+  sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
 - need to re-add command menu(s?) (QTBUG-31549, QTBUG-34160)
-- no window titles
 - tests fail (probably due to missing platform stuff??)
-- test build on cmake
 
 misc
+- test build on cmake
+- add docs on how to package app (make copyq.app) to the readme and hacking files
 - everything in mac-platform
     - look at these first:
       https://github.com/petroules/petroules-utilities-qt/blob/master/src/windowmanager_mac.mm

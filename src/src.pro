@@ -150,7 +150,7 @@ macx {
     }
 }
 
-QT += core gui xml network script
+QT += core gui xml network script svg
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
 CONFIG(debug, debug|release) {
