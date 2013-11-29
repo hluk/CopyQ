@@ -35,6 +35,10 @@ class QTimer;
 class PrivateX11;
 #endif
 
+#ifdef Q_OS_MAC
+class MacPlatform;
+#endif
+
 /**
  * Application monitor server.
  *
@@ -131,8 +135,9 @@ private:
 #endif
 
 #ifdef Q_OS_MAC
-    uint m_prevHash;
+    long int m_prevChangeCount;
     QTimer *m_clipboardCheckTimer;
+    MacPlatform *m_macPlatform;
 #endif
 };
 

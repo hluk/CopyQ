@@ -34,6 +34,10 @@
 #  include "platform/x11/x11platform.h"
 #endif
 
+#ifdef Q_OS_MAC
+#  include "platform/mac/macplatform.h"
+#endif
+
 namespace {
 
 void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
@@ -251,8 +255,9 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , m_x11(new PrivateX11)
 #endif
 #ifdef Q_OS_MAC
-    , m_prevHash(0)
+    , m_prevChangeCount(0)
     , m_clipboardCheckTimer(new QTimer(this))
+    , m_macPlatform(new MacPlatform())
 #endif
 {
     connect( m_socket, SIGNAL(readyRead()),
@@ -293,6 +298,9 @@ ClipboardMonitor::~ClipboardMonitor()
 {
 #ifdef COPYQ_WS_X11
     delete m_x11;
+#endif
+#ifdef Q_OS_MAC
+    delete m_macPlatform;
 #endif
 }
 
@@ -472,15 +480,13 @@ void ClipboardMonitor::readyRead()
 }
 
 void ClipboardMonitor::clipboardTimeout() {
-    const QMimeData *data = QApplication::clipboard()->mimeData(QClipboard::Clipboard);
-    if (data) {
-        QVariantMap data2( cloneData(*data, m_formats) );
-        const uint new_hash = hash(data2);
-        if (new_hash != m_prevHash) {
-            m_prevHash = new_hash;
-            checkClipboard(QClipboard::Clipboard);
-        }
+#ifdef Q_OS_MAC
+    long int newCount = m_macPlatform->getChangeCount();
+    if (newCount != m_prevChangeCount) {
+        m_prevChangeCount = newCount;
+        checkClipboard(QClipboard::Clipboard);
     }
+#endif
 }
 
 void ClipboardMonitor::onDisconnected()

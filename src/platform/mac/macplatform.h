@@ -52,6 +52,11 @@ public:
      */
     WId getPasteWindow();
 
+    /**
+     * Get the number of changes to the clipboard (NSPasteboard::changeCount).
+     */
+    long int getChangeCount();
+
     // TODO: this
     bool canAutostart() { return false; }
     bool isAutostartEnabled() { return false; }

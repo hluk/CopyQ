@@ -83,3 +83,9 @@ WId MacPlatform::getPasteWindow()
 {
     return getCurrentWindow();
 }
+
+long int MacPlatform::getChangeCount() {
+    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+    NSInteger changeCount = [pasteboard changeCount];
+    return changeCount;
+}
