@@ -37,6 +37,7 @@ en.PluginData=Various Data
 en.PluginNotes=Notes
 en.PluginEncrypted=Encryption
 en.PluginFakeVim=FakeVim Editor
+en.PluginSynchronize=Synchronize Items to Disk
 
 cz.ProgramFiles=Soubory programu
 cz.Plugins=Zásuvné moduly
@@ -47,6 +48,7 @@ cz.PluginData=Různá data
 cz.PluginNotes=Poznámky
 cz.PluginEncrypted=Šifrování
 cz.PluginFakeVim=FakeVim editor
+cz.PluginSynchronize=Synchronizace prvků na disk
 
 es.ProgramFiles=Archivos de programa
 es.Plugins=Complementos
@@ -70,6 +72,7 @@ Name: "plugins/data"; Description: "{cm:PluginData}"; Types: full
 Name: "plugins/notes"; Description: "{cm:PluginNotes}"; Types: full
 Name: "plugins/encrypted"; Description: "{cm:PluginEncrypted}"; Types: full
 Name: "plugins/fakevim"; Description: "{cm:PluginFakeVim}"; Types: full
+Name: "plugins/synchronize"; Description: "{cm:PluginSynchronize}"; Types: full
 
 [Tasks]
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
@@ -90,6 +93,7 @@ Source: "{#Root}\plugins\itemdata.dll"; DestDir: "{app}\plugins"; Components: pl
 Source: "{#Root}\plugins\itemnotes.dll"; DestDir: "{app}\plugins"; Components: plugins/notes; Flags: ignoreversion
 Source: "{#Root}\plugins\itemencrypted.dll"; DestDir: "{app}\plugins"; Components: plugins/encrypted; Flags: ignoreversion
 Source: "{#Root}\plugins\itemfakevim.dll"; DestDir: "{app}\plugins"; Components: plugins/fakevim; Flags: ignoreversion
+Source: "{#Root}\plugins\itemsynchronize.dll"; DestDir: "{app}\plugins"; Components: plugins/synchronize; Flags: ignoreversion
 Source: "{#Root}\msvcp100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\msvcr100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
