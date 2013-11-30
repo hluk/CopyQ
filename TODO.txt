@@ -1,10 +1,3 @@
-info.plist
-- add translated app names
-links:
-  http://kuvacode.com/francis/qt-and-the-mac-app-store/
-  http://web.njit.edu/all_topics/Prog_Lang_Docs/html/qt/appicon.html#2
-  http://qt-project.org/doc/qt-5.0/qtdoc/deployment-mac.html#creating-the-application-package
-
 bugs
 - misses data sometimes when m_wnd->addToTab is done
   sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
@@ -16,6 +9,7 @@ misc
 - add docs on how to package app (make copyq.app) to the readme and hacking files
 - everything in mac-platform
     - look at these first:
+      https://github.com/SiO2/Silica
       https://github.com/petroules/petroules-utilities-qt/blob/master/src/windowmanager_mac.mm
       https://github.com/TermiT/Flycut/
     - then these:
