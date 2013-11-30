@@ -1,5 +1,5 @@
 ﻿; Use Inno Setup with Unicode support and preprocessor.
-#define AppVersion "1.9.3"
+#define AppVersion "2.0.0 beta"
 #define Root "C:\dev\copyq"
 
 [Setup]
