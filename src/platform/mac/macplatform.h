@@ -34,6 +34,8 @@ public:
 
     /**
      * Return window title text of current window.
+     *
+     * On OS X, this gets the title of the application instead of the window.
      */
     QString getWindowTitle(WId wid);
 
@@ -57,10 +59,13 @@ public:
      */
     long int getChangeCount();
 
-    // TODO: this
+    // TODO: OS X can in fact add app to autostart..
     bool canAutostart() { return false; }
     bool isAutostartEnabled() { return false; }
     void setAutostartEnabled(bool) {}
+
+private:
+    static void *m_currentPasteWindow;
 };
 
 #endif // MACPLATFORM_H

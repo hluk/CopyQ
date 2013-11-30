@@ -200,8 +200,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayPasteWindow()
-    , m_pasteWindow()
-    , m_lastWindow()
+    , m_pasteWindow(0)
+    , m_lastWindow(0)
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_trayTimer(NULL)
@@ -1062,8 +1062,8 @@ bool MainWindow::event(QEvent *event)
         // Update highligh color of show/hide widget for menu bar.
         setHideMenuBar(m_options->hideMenuBar);
     } else if (event->type() == QEvent::WindowDeactivate) {
-        m_lastWindow = WId();
-        m_pasteWindow = WId();
+        m_lastWindow = 0;
+        m_pasteWindow = 0;
         updateWindowTransparency();
 
         setHideTabs(m_options->hideTabs);
