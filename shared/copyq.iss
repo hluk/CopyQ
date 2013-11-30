@@ -93,7 +93,7 @@ Source: "{#Root}\plugins\itemdata.dll"; DestDir: "{app}\plugins"; Components: pl
 Source: "{#Root}\plugins\itemnotes.dll"; DestDir: "{app}\plugins"; Components: plugins/notes; Flags: ignoreversion
 Source: "{#Root}\plugins\itemencrypted.dll"; DestDir: "{app}\plugins"; Components: plugins/encrypted; Flags: ignoreversion
 Source: "{#Root}\plugins\itemfakevim.dll"; DestDir: "{app}\plugins"; Components: plugins/fakevim; Flags: ignoreversion
-Source: "{#Root}\plugins\itemsynchronize.dll"; DestDir: "{app}\plugins"; Components: plugins/synchronize; Flags: ignoreversion
+Source: "{#Root}\plugins\itemsync.dll"; DestDir: "{app}\plugins"; Components: plugins/synchronize; Flags: ignoreversion
 Source: "{#Root}\msvcp100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\msvcr100.dll"; DestDir: "{app}"; Components: program
 Source: "{#Root}\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
