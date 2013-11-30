@@ -190,7 +190,8 @@ QPushButton *createBrowseButton()
     QScopedPointer<QPushButton> button(new QPushButton);
     button->setFont( iconFont() );
     button->setText( iconFromId(IconFolderOpen) );
-    button->setToolTip( ItemSyncLoader::tr("Browse...") );
+    button->setToolTip( ItemSyncLoader::tr("Browse...",
+                                           "Button text for opening file dialog to select synchronization directory") );
     return button.take();
 }
 
