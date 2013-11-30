@@ -35,7 +35,7 @@ class ItemText : public QTextEdit, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemText(const QString &text, bool isRichText, QWidget *parent);
+    ItemText(const QString &text, bool isRichText, int maxLines, QWidget *parent);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
