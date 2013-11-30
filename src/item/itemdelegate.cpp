@@ -36,6 +36,8 @@
 
 namespace {
 
+const char propertySelectedItem[] = "CopyQ_selected";
+
 inline void reset(ItemWidget **ptr, ItemWidget *value = NULL)
 {
     delete *ptr;
@@ -46,6 +48,17 @@ int itemMargin()
 {
     const int dpi = QApplication::desktop()->physicalDpiX();
     return ( dpi <= 120 ) ? 4 : 4 * dpi / 120;
+}
+
+bool isItemSelected(QObject *object)
+{
+    for ( QObject *parent = object; parent != NULL; parent = parent->parent() ) {
+        if ( parent->objectName() == "item" )
+            return parent->property(propertySelectedItem).toBool();
+    }
+
+    Q_ASSERT(false);
+    return false;
 }
 
 } // namespace
@@ -105,9 +118,7 @@ bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
     case QEvent::MouseMove: {
         // Don't pass mouse events to item if keyboard modifier is pressed or the item is
         // not yet selected (will be selected by the event).
-        if ( static_cast<QMouseEvent*>(event)->modifiers() != Qt::NoModifier ||
-             !object->property("CopyQ_selected").toBool() )
-        {
+        if ( static_cast<QMouseEvent*>(event)->modifiers() != Qt::NoModifier || !isItemSelected(object) ) {
             QApplication::sendEvent(m_parent, event);
             return true;
         }
@@ -349,13 +360,13 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     /* text color for selected/unselected item */
     QWidget *ww = w->widget();
-    if ( !ww->property("CopyQ_no_style").toBool() && ww->property("CopyQ_selected") != isSelected ) {
-        ww->setProperty("CopyQ_selected", isSelected);
-        ww->setStyle(style);
-        foreach (QWidget *child, ww->findChildren<QWidget *>()) {
-            child->setProperty("CopyQ_selected", isSelected);
-            child->setStyle(style);
+    if ( ww->property(propertySelectedItem) != isSelected ) {
+        ww->setProperty(propertySelectedItem, isSelected);
+        if ( !ww->property("CopyQ_no_style").toBool() ) {
+            ww->setStyle(style);
+            foreach (QWidget *child, ww->findChildren<QWidget *>())
+                child->setStyle(style);
+            ww->update();
         }
-        ww->update();
     }
 }
