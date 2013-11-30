@@ -2,6 +2,7 @@ bugs
 - misses data sometimes when m_wnd->addToTab is done
   sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
 - tests fail (probably due to missing platform stuff??)
+- clicking the tray menu toggles the main window
 
 misc
 - test build on cmake
