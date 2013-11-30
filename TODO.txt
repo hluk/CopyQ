@@ -1,7 +1,6 @@
 bugs
 - misses data sometimes when m_wnd->addToTab is done
   sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
-- need to re-add command menu(s?) (QTBUG-31549, QTBUG-34160)
 - tests fail (probably due to missing platform stuff??)
 
 misc

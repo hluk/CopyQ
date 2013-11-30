@@ -420,6 +420,12 @@ class MainWindow : public QMainWindow
         Ui::MainWindow *ui;
 
         QMenu *m_menuCommand;
+#ifdef Q_OS_MAC
+        // A duplicate of m_menuCommand used in the trayMenu.
+        // This is necessary due to QTBUG-31549, and/or QTBUG-34160
+        QMenu *m_trayMenuCommand;
+#endif // Q_OS_MAC
+
         QMenu *m_menuItem;
         TrayMenu *m_trayMenu;
 

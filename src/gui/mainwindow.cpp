@@ -186,6 +186,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_menuCommand(NULL)
+#ifdef Q_OS_MAC
+    , m_trayMenuCommand(NULL)
+#endif // Q_OS_MAC
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray( new QSystemTrayIcon(this) )
@@ -431,8 +434,15 @@ void MainWindow::createMenu()
     // Commands
     m_menuCommand = menubar->addMenu(tr("Co&mmands"));
     m_menuCommand->setEnabled(false);
-    // TODO: https://bugreports.qt-project.org/browse/QTBUG-31342
-//    m_trayMenu->addMenu(m_menuCommand);
+
+#ifdef Q_OS_MAC
+    // Make a copy of m_menuCommand for the trayMenu, necessary on OS X due
+    // to QTBUG-31549, and/or QTBUG-34160
+    m_trayMenuCommand = m_trayMenu->addMenu(tr("Co&mmands"));
+    m_trayMenuCommand->setEnabled(false);
+#else
+    m_trayMenu->addMenu(m_menuCommand);
+#endif // Q_OS_MAC
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
@@ -448,8 +458,11 @@ void MainWindow::createMenu()
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     addTrayAction(Actions::File_Exit);
-    // TODO: https://bugreports.qt-project.org/browse/QTBUG-31342
-//    m_trayMenu->addMenu(m_menuCommand);
+#ifdef Q_OS_MAC
+    m_trayMenu->addMenu(m_trayMenuCommand);
+#else
+    m_trayMenu->addMenu(m_menuCommand);
+#endif // Q_OS_MAC
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 }
@@ -528,6 +541,9 @@ void MainWindow::closeAction(Action *action)
 
     if ( m_actions.isEmpty() ) {
         m_menuCommand->setEnabled(false);
+#ifdef Q_OS_MAC
+        m_trayMenuCommand->setEnabled(false);
+#endif // Q_OS_MAC
         updateIcon();
     }
 }
@@ -1738,6 +1754,11 @@ void MainWindow::actionStarted(Action *action)
 
     m_menuCommand->addAction(act);
     m_menuCommand->setEnabled(true);
+
+#ifdef Q_OS_MAC
+    m_trayMenuCommand->addAction(act);
+    m_trayMenuCommand->setEnabled(true);
+#endif // Q_OS_MAC
 
     updateIcon();
 
