@@ -18,6 +18,7 @@
 */
 
 #include "itemweb.h"
+#include "ui_itemwebsettings.h"
 
 #include "common/contenttype.h"
 
@@ -39,6 +40,8 @@
 
 namespace {
 
+const char optionMaximumHeight[] = "max_height";
+
 bool getHtml(const QModelIndex &index, QString *text)
 {
     *text = index.data(contentType::html).toString();
@@ -54,14 +57,14 @@ bool getHtml(const QModelIndex &index, QString *text)
 
 } // namespace
 
-ItemWeb::ItemWeb(const QString &html, QWidget *parent)
+ItemWeb::ItemWeb(const QString &html, int maximumHeight, QWidget *parent)
     : QWebView(parent)
     , ItemWidget(this)
     , m_copyOnMouseUp(false)
+    , m_maximumHeight(maximumHeight)
 {
     QWebFrame *frame = page()->mainFrame();
     frame->setScrollBarPolicy(Qt::Horizontal, Qt::ScrollBarAlwaysOff);
-    frame->setScrollBarPolicy(Qt::Vertical,   Qt::ScrollBarAlwaysOff);
 
     const QFont &defaultFont = font();
     settings()->setFontFamily(QWebSettings::StandardFont, defaultFont.family());
@@ -117,8 +120,14 @@ void ItemWeb::updateSize(const QSize &maximumSize)
 {
     setMaximumSize(maximumSize);
     const int w = maximumSize.width();
-    page()->setPreferredContentsSize( QSize(w, 10) );
-    QSize size( w, page()->mainFrame()->contentsSize().height() );
+    const int scrollBarWidth = page()->mainFrame()->scrollBarGeometry(Qt::Vertical).width();
+    page()->setPreferredContentsSize( QSize(w - scrollBarWidth, 10) );
+
+    int h = page()->mainFrame()->contentsSize().height();
+    if (0 < m_maximumHeight && m_maximumHeight < h)
+        h = m_maximumHeight;
+
+    const QSize size(w, h);
     page()->setViewportSize(size);
     setFixedSize(size);
 }
@@ -154,11 +163,16 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
+ItemWebLoader::ItemWebLoader()
+    : ui(NULL)
+{
+}
+
 ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     QString html;
     if ( getHtml(index, &html) )
-        return new ItemWeb(html, parent);
+        return new ItemWeb(html, m_settings.value(optionMaximumHeight, 0).toInt(), parent);
 
     return NULL;
 }
@@ -166,6 +180,22 @@ ItemWidget *ItemWebLoader::create(const QModelIndex &index, QWidget *parent) con
 QStringList ItemWebLoader::formatsToSave() const
 {
     return QStringList("text/plain") << QString("text/html");
+}
+
+QVariantMap ItemWebLoader::applySettings()
+{
+    m_settings[optionMaximumHeight] = ui->spinBoxMaxHeight->value();
+    return m_settings;
+}
+
+QWidget *ItemWebLoader::createSettingsWidget(QWidget *parent)
+{
+    delete ui;
+    ui = new Ui::ItemWebSettings;
+    QWidget *w = new QWidget(parent);
+    ui->setupUi(w);
+    ui->spinBoxMaxHeight->setValue( m_settings.value(optionMaximumHeight, 0).toInt() );
+    return w;
 }
 
 Q_EXPORT_PLUGIN2(itemweb, ItemWebLoader)

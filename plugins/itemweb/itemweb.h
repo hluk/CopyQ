@@ -23,18 +23,24 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
+#include <QVariantMap>
+
 #if QT_VERSION < 0x050000
 #   include <QtWebKit/QWebView>
 #else
 #   include <QtWebKitWidgets/QWebView>
 #endif
 
+namespace Ui {
+class ItemWebSettings;
+}
+
 class ItemWeb : public QWebView, public ItemWidget
 {
     Q_OBJECT
 
 public:
-    ItemWeb(const QString &html, QWidget *parent);
+    ItemWeb(const QString &html, int maximumHeight, QWidget *parent);
 
 protected:
     void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -56,6 +62,7 @@ private slots:
 
 private:
     bool m_copyOnMouseUp;
+    int m_maximumHeight;
 };
 
 class ItemWebLoader : public QObject, public ItemLoaderInterface
@@ -65,6 +72,8 @@ class ItemWebLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemWebLoader();
+
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
     virtual int priority() const { return 10; }
@@ -76,6 +85,16 @@ public:
     virtual QVariant icon() const { return QVariant(IconGlobe); }
 
     virtual QStringList formatsToSave() const;
+
+    virtual QVariantMap applySettings();
+
+    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+
+    virtual QWidget *createSettingsWidget(QWidget *parent);
+
+private:
+    QVariantMap m_settings;
+    Ui::ItemWebSettings *ui;
 };
 
 #endif // ITEMWEB_H

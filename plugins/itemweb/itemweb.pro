@@ -3,6 +3,7 @@ equals(WITH_WEBKIT,1) {
 
     HEADERS += itemweb.h
     SOURCES += itemweb.cpp
+    FORMS   += itemwebsettings.ui
     TARGET   = $$qtLibraryTarget(itemweb)
 
     lessThan(QT_MAJOR_VERSION, 5) {
