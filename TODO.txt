@@ -2,13 +2,20 @@ bugs
 - misses data sometimes when m_wnd->addToTab is done
   sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
 - tests fail (probably due to missing platform stuff??)
+- using LSUIElement in the Info.plist makes the menu unusable in the GUI :(.
+  May be able to work around this using some magic with
+  NSApplicationActivationPolicy. If not, then will need to launch a separate
+  process to show the main window (!!!), since we can "promote" an app from
+  an "Accessory" to a "normal" app, but not vice-versa. As a temporary work
+  around, we can try to add the menu directly to the app window instead of
+  using the global menu..
 
 misc
 - test build on cmake
 - add docs on how to package app (make copyq.app) to the readme and hacking files
 - show in dock when main window up
 - b&w themed icon?
+- lots more testing!
 
 macplatform:
 - Find a way to get the current window title instead of the application title
-- Add autostart
