@@ -27,9 +27,6 @@ class MacPlatform : public PlatformNativeInterface
 public:
     MacPlatform();
 
-    /**
-     * Get currently focused window.
-     */
     WId getCurrentWindow();
 
     /**
@@ -39,19 +36,8 @@ public:
      */
     QString getWindowTitle(WId wid);
 
-    /**
-     * Raise and focus a window to foreground.
-     */
     void raiseWindow(WId wid);
-
-    /**
-     * Paste clipboard content to given window (e.g. send Ctrl+Insert to the window).
-     */
     void pasteToWindow(WId wid);
-
-    /**
-     * Get window for pasting (can be different from current window).
-     */
     WId getPasteWindow();
 
     /**
@@ -59,10 +45,9 @@ public:
      */
     long int getChangeCount();
 
-    // TODO: OS X can in fact add app to autostart..
-    bool canAutostart() { return false; }
-    bool isAutostartEnabled() { return false; }
-    void setAutostartEnabled(bool) {}
+    bool canAutostart() { return true; }
+    bool isAutostartEnabled();
+    void setAutostartEnabled(bool);
 
 private:
     static void *m_currentPasteWindow;

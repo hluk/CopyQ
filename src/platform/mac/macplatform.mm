@@ -94,6 +94,82 @@ namespace {
         CFRelease(commandUp);
         CFRelease(sourceRef);
     }
+
+    bool isApplicationInItemList(LSSharedFileListRef list) {
+        bool flag = false;
+        UInt32 seed;
+        CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
+        if (items) {
+            CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+            if (url) {
+                for (id item in(__bridge NSArray *) items) {
+                    LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
+                    if (LSSharedFileListItemResolve(itemRef, 0, &url, NULL) == noErr) {
+                        if ([[(__bridge NSURL *) url path] hasPrefix:[[NSBundle mainBundle] bundlePath]]) {
+                            flag = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            CFRelease(items);
+        }
+        return flag;
+    }
+
+    void addToLoginItems()
+    {
+        LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+        if (list) {
+            if (!isApplicationInItemList(list)) {
+                CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+                if (url) {
+                    // Don't "Hide on Launch", as we don't have a window to show anyway
+                    NSDictionary *properties = [NSDictionary
+                        dictionaryWithObject: [NSNumber numberWithBool:NO]
+                        forKey: @"com.apple.loginitem.HideOnLaunch"];
+                    LSSharedFileListItemRef item = LSSharedFileListInsertItemURL(list, kLSSharedFileListItemLast, NULL, NULL, url, (__bridge CFDictionaryRef)properties, NULL);
+                    if (item)
+                        CFRelease(item);
+                } else {
+                    ::log("Unable to find url for bundle, can't auto-load app", LogWarning);
+                }
+            }
+            CFRelease(list);
+        } else {
+            ::log("Unable to access shared file list, can't auto-load app", LogWarning);
+        }
+    }
+
+    void removeFromLoginItems()
+    {
+        LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+        if (list) {
+            if (isApplicationInItemList(list)) {
+                CFURLRef url = (__bridge CFURLRef)[NSURL fileURLWithPath:[[NSBundle mainBundle] bundlePath]];
+                if (url) {
+                    UInt32 seed;
+                    CFArrayRef items = LSSharedFileListCopySnapshot(list, &seed);
+                    if (items) {
+                        for (id item in(__bridge NSArray *) items) {
+                            LSSharedFileListItemRef itemRef = (__bridge LSSharedFileListItemRef)item;
+                            if (LSSharedFileListItemResolve(itemRef, 0, &url, NULL) == noErr)
+                                if ([[(__bridge NSURL *) url path] hasPrefix:[[NSBundle mainBundle] bundlePath]])
+                                    LSSharedFileListItemRemove(list, itemRef);
+                        }
+                        CFRelease(items);
+                    } else {
+                        ::log("No items in list of auto-loaded apps, can't stop auto-load of app", LogWarning);
+                    }
+                } else {
+                    ::log("Unable to find url for bundle, can't stop auto-load of app", LogWarning);
+                }
+            }
+            CFRelease(list);
+        } else {
+            ::log("Unable to access shared file list, can't stop auto-load of app", LogWarning);
+        }
+    }
 } // namespace
 
 PlatformPtr createPlatformNativeInterface()
@@ -205,4 +281,29 @@ long int MacPlatform::getChangeCount()
     NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
     NSInteger changeCount = [pasteboard changeCount];
     return changeCount;
+}
+
+bool MacPlatform::isAutostartEnabled()
+{
+    // Note that this will need to be done differently if CopyQ goes into
+    // the App Store.
+    // http://rhult.github.io/articles/sandboxed-launch-on-login/
+    bool isInList = false;
+    LSSharedFileListRef list = LSSharedFileListCreate(kCFAllocatorDefault, kLSSharedFileListSessionLoginItems, NULL);
+    if (list) {
+        isInList = isApplicationInItemList(list);
+        CFRelease(list);
+    }
+    return isInList;
+}
+
+void MacPlatform::setAutostartEnabled(bool shouldEnable)
+{
+    if (shouldEnable != isAutostartEnabled()) {
+        if (shouldEnable) {
+            addToLoginItems();
+        } else {
+            removeFromLoginItems();
+        }
+    }
 }
