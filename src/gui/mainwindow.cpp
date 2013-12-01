@@ -1323,11 +1323,14 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
+    // Don't do this on OS X, we only ever get "Trigger"
+#ifndef Q_OS_MAC
     if ( reason == QSystemTrayIcon::MiddleClick ) {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         toggleVisible();
     }
+#endif // Q_OS_MAC
 }
 
 bool MainWindow::toggleMenu()

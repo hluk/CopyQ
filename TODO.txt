@@ -2,11 +2,13 @@ bugs
 - misses data sometimes when m_wnd->addToTab is done
   sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
 - tests fail (probably due to missing platform stuff??)
-- clicking the tray menu toggles the main window
 
 misc
 - test build on cmake
 - add docs on how to package app (make copyq.app) to the readme and hacking files
+- show in dock when main window up
+- b&w themed icon?
 
 macplatform:
 - Find a way to get the current window title instead of the application title
+- Add autostart
