@@ -6,7 +6,7 @@
         <string>NSApplication</string>
 
         <key>CFBundleIconFile</key>
-        <string>icon.icns</string>
+        <string>@ICON@</string>
 
         <key>CFBundlePackageType</key>
         <string>APPL</string>
@@ -15,7 +15,7 @@
         <string></string>
 
         <key>CFBundleExecutable</key>
-        <string>copyq</string>
+        <string>@EXECUTABLE@</string>
 
         <key>CFBundleName</key>
         <string>CopyQ</string>
