@@ -1,11 +1,17 @@
-LIBS    += -framework Carbon -framework Cocoa
+LIBS += -framework Carbon -framework Cocoa
+
 SOURCES += \
-           ../qxt/qxtglobalshortcut_mac.cpp
+    ../qxt/qxtglobalshortcut_mac.cpp \
+    platform/mac/foregroundbackgroundfilter.cpp
+
 HEADERS += \
-    platform/mac/mactimer.h
-USE_QXT = 1
+    platform/mac/mactimer.h \
+    platform/mac/foregroundbackgroundfilter.h
+
 
 OBJECTIVE_SOURCES += \
     platform/mac/macplatform.mm \
     platform/mac/macactivity.mm \
     platform/mac/mactimer.mm
+
+USE_QXT = 1

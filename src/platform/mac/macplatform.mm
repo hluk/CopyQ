@@ -307,3 +307,39 @@ void MacPlatform::setAutostartEnabled(bool shouldEnable)
         }
     }
 }
+
+bool MacPlatform::isNormalApp()
+{
+    return ([NSApp activationPolicy] == NSApplicationActivationPolicyRegular);
+}
+
+bool MacPlatform::becomeNormalApp()
+{
+    BOOL worked = NO;
+    if ([NSApp activationPolicy] != NSApplicationActivationPolicyRegular) {
+        BOOL worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+        if (!worked) {
+            COPYQ_LOG("unable to become a regular window");
+        }
+    }
+
+    return (worked == YES);
+}
+
+bool MacPlatform::becomeBackgroundApp()
+{
+    BOOL worked = NO;
+    if ([NSApp activationPolicy] != NSApplicationActivationPolicyAccessory) {
+        BOOL worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
+        if (!worked) {
+            COPYQ_LOG("unable to become an accessory window");
+
+            worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
+            if (!worked) {
+                COPYQ_LOG("unable to become a background/prohibited window");
+            }
+        }
+    }
+
+    return (worked == YES);
+}

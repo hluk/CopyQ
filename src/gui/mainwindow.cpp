@@ -41,6 +41,10 @@
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 
+#ifdef Q_OS_MAC
+#  include "platform/mac/foregroundbackgroundfilter.h"
+#endif
+
 #include <QAction>
 #include <QBitmap>
 #include <QCloseEvent>
@@ -267,6 +271,10 @@ MainWindow::MainWindow(QWidget *parent)
     enterBrowseMode();
 
     m_tray->setContextMenu(m_trayMenu);
+
+#ifdef Q_OS_MAC
+    ForegroundBackgroundFilter::installFilter(this);
+#endif
 }
 
 void MainWindow::exit()
@@ -1323,8 +1331,10 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
+#ifdef Q_OS_MAC
     // Don't do this on OS X, we only ever get "Trigger"
-#ifndef Q_OS_MAC
+    Q_UNUSED(reason);
+#else
     if ( reason == QSystemTrayIcon::MiddleClick ) {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {

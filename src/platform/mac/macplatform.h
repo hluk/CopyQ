@@ -49,6 +49,10 @@ public:
     bool isAutostartEnabled();
     void setAutostartEnabled(bool);
 
+    bool becomeNormalApp();
+    bool becomeBackgroundApp();
+    bool isNormalApp();
+
 private:
     static void *m_currentPasteWindow;
 };
