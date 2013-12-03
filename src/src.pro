@@ -139,11 +139,6 @@ macx {
 
     # Icon is mandatory for submission
     ICON = images/icon.icns
-
-    # Add plugins to the app bundle
-    COPYQ_PLUGINS.files = $$files(../plugins/*.dylib)
-    COPYQ_PLUGINS.path = Contents/Resources/plugins/
-    QMAKE_BUNDLE_DATA += COPYQ_PLUGINS
 }
 
 QT += core gui xml network script svg
