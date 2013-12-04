@@ -623,10 +623,22 @@ static bool substituteText(QString *text, QRegExp &pattern, const QString &repla
 {
     bool substituted = false;
     int pos = 0;
+    int right = -1;
     while (true) {
         pos = pattern.indexIn(*text, pos, QRegExp::CaretAtZero);
         if (pos == -1)
             break;
+
+        // ensure that substitution is advancing towards end of line
+        if (right == text->size() - pos) {
+            ++pos;
+            if (pos == text->size())
+                break;
+            continue;
+        }
+
+        right = text->size() - pos;
+
         substituted = true;
         QString matched = text->mid(pos, pattern.cap(0).size());
         QString repl;
@@ -652,7 +664,7 @@ static bool substituteText(QString *text, QRegExp &pattern, const QString &repla
             }
         }
         text->replace(pos, matched.size(), repl);
-        pos += qMax(1, repl.size());
+        pos += (repl.isEmpty() && matched.isEmpty()) ? 1 : repl.size();
 
         if (pos >= text->size() || !global)
             break;
@@ -782,6 +794,11 @@ static const QMap<QString, int> &vimKeyNames()
     k.insert(_("KPOINT"), Key_Period);
 
     return k;
+}
+
+static bool isOnlyControlModifier(const Qt::KeyboardModifiers &mods)
+{
+    return (mods ^ HostOsInfo::controlModifier()) == Qt::NoModifier;
 }
 
 
@@ -938,12 +955,12 @@ public:
 
     bool is(int c) const
     {
-        return m_xkey == c && m_modifiers != HostOsInfo::controlModifier();
+        return m_xkey == c && !isControl();
     }
 
     bool isControl() const
     {
-        return m_modifiers == HostOsInfo::controlModifier();
+        return isOnlyControlModifier(m_modifiers);
     }
 
     bool isControl(int c) const
@@ -1847,7 +1864,7 @@ public:
     void setCurrentRange(const Range &range);
     Range currentRange() const { return Range(position(), anchor(), g.rangemode); }
 
-    void yankText(const Range &range, int toregister = '"');
+    void yankText(const Range &range, int toregister);
 
     void pasteText(bool afterCursor);
 
@@ -2220,7 +2237,7 @@ bool FakeVimHandler::Private::wantsOverride(QKeyEvent *ev)
     }
 
     // We are interested in overriding most Ctrl key combinations.
-    if (mods == HostOsInfo::controlModifier()
+    if (isOnlyControlModifier(mods)
             && !config(ConfigPassControlKey).toBool()
             && ((key >= Key_A && key <= Key_Z && key != Key_K)
                 || key == Key_BracketLeft || key == Key_BracketRight)) {
@@ -6465,6 +6482,15 @@ void FakeVimHandler::Private::moveToMatchingParanthesis()
 
     const int anc = anchor();
     QTextCursor tc = m_cursor;
+
+    // If no known parenthesis symbol is under cursor find one on the current line after cursor.
+    static const QString parenthesesChars(_("([{}])"));
+    while (!parenthesesChars.contains(document()->characterAt(tc.position())) && !tc.atBlockEnd())
+        tc.setPosition(tc.position() + 1);
+
+    if (tc.atBlockEnd())
+        tc = m_cursor;
+
     emit q->moveToMatchingParenthesis(&moved, &forward, &tc);
     if (moved && forward)
         tc.movePosition(Left, KeepAnchor, 1);
@@ -6577,10 +6603,19 @@ void FakeVimHandler::Private::scrollToLine(int line)
     EDITOR(setTextCursor(tc2));
     EDITOR(ensureCursorVisible());
 
+    int offset = 0;
     const QTextBlock block = document()->findBlockByLineNumber(line);
-    const QTextLine textLine = block.isValid()
-        ? block.layout()->lineAt(line - block.firstLineNumber()) : QTextLine();
-    tc2.setPosition(block.position() + (textLine.isValid() ? textLine.textStart() : 0));
+    if (block.isValid()) {
+        const int blockLineCount = block.layout()->lineCount();
+        const int lineInBlock = line - block.firstLineNumber();
+        if (0 <= lineInBlock && lineInBlock < blockLineCount) {
+            QTextLine textLine = block.layout()->lineAt(lineInBlock);
+            offset = textLine.textStart();
+        } else {
+//            QTC_CHECK(false);
+        }
+    }
+    tc2.setPosition(block.position() + offset);
     EDITOR(setTextCursor(tc2));
     EDITOR(ensureCursorVisible());
 
@@ -6734,7 +6769,26 @@ QString FakeVimHandler::Private::selectText(const Range &range) const
 
 void FakeVimHandler::Private::yankText(const Range &range, int reg)
 {
-    setRegister(reg, selectText(range), range.rangemode);
+    const QString text = selectText(range);
+    setRegister(reg, text, range.rangemode);
+
+    // If register is not specified or " ...
+    if (m_register == '"') {
+        // copy to yank register 0 too
+        setRegister('0', text, range.rangemode);
+
+        // with delete and change commands set register 1 (if text contains more lines) or
+        // small delete register -
+        if (g.submode == DeleteSubMode || g.submode == ChangeSubMode) {
+            if (text.contains(QLatin1Char('\n')))
+                setRegister('1', text, range.rangemode);
+            else
+                setRegister('-', text, range.rangemode);
+        }
+    } else {
+        // Always copy to " register too.
+        setRegister('"', text, range.rangemode);
+    }
 
     const int lines = document()->findBlock(range.endPos).blockNumber()
         - document()->findBlock(range.beginPos).blockNumber() + 1;
