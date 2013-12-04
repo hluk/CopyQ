@@ -60,9 +60,6 @@ public:
         m_handler->installEventFilter();
         m_handler->setupWidget();
 
-        editor->setCursorWidth(0);
-        editor->setFrameShape(QFrame::NoFrame);
-
         connect( editor, SIGNAL(selectionChanged()),
                  this, SLOT(onSelectionChanged()) );
         connect( editor, SIGNAL(cursorPositionChanged()),
@@ -70,7 +67,6 @@ public:
 
         setLineWrappingEnabled(true);
 
-        editor->installEventFilter(this);
         editor->viewport()->installEventFilter(this);
 
         editor->setStyleSheet("*{background:transparent}");
@@ -82,14 +78,12 @@ public:
         m_handler->deleteLater();
     }
 
-    bool eventFilter(QObject *ob, QEvent *ev)
+    bool eventFilter(QObject *, QEvent *ev)
     {
         if ( ev->type() != QEvent::Paint )
             return false;
 
         QWidget *viewport = editor()->viewport();
-        if (ob != viewport)
-            return false;
 
         QPaintEvent *e = static_cast<QPaintEvent*>(ev);
 
