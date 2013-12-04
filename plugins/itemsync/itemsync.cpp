@@ -1378,7 +1378,7 @@ bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
 
     if (!watcher) {
         // Don't save items if path is empty.
-        return shouldSyncTab(*model);
+        return shouldSyncTab(model);
     }
 
     const QString path = watcher->path();
