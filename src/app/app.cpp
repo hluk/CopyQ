@@ -20,6 +20,7 @@
 #include "app.h"
 
 #include "common/common.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QCoreApplication>
 #include <QLibraryInfo>
@@ -94,6 +95,8 @@ App::App(QCoreApplication *application, const QString &sessionName)
          || sigaction(SIGTERM, &sigact, 0) > 0 )
         log( QString("sigaction() failed!"), LogError );
 #endif
+
+    createPlatformNativeInterface()->onApplicationStarted();
 }
 
 App::~App()

@@ -33,6 +33,31 @@
 
 namespace {
 
+int (*old_xio_errhandler)(Display *) = NULL;
+
+// Try to handle X11 fatal error gracefully.
+int copyq_xio_errhandler(Display *display)
+{
+    // Try to call MainWindow::saveTabs().
+    if ( QCoreApplication::instance() ) {
+        foreach ( QWidget *obj, qApp->topLevelWidgets() ) {
+            if (obj->objectName() == "MainWindow") {
+                QMetaObject::invokeMethod(obj, "saveTabs");
+                break;
+            }
+        }
+    }
+
+    // Call the old handler (possibly for Qt).
+    if (old_xio_errhandler)
+        old_xio_errhandler(display);
+
+    // As documentation for XSetIOErrorHandler states, this function should not return.
+    exit(1);
+
+    return 0;
+}
+
 struct X11WindowProperty {
     X11WindowProperty(Display *display, Window w, Atom property, long longOffset,
                       long longLength, Atom reqType)
@@ -407,4 +432,9 @@ bool X11Platform::isSelectionEmpty() const
 
     static Atom atom = XA_PRIMARY;
     return XGetSelectionOwner(d->display, atom) == None;
+}
+
+void X11Platform::onApplicationStarted()
+{
+    old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
 }

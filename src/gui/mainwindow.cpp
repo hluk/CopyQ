@@ -2022,6 +2022,12 @@ bool MainWindow::saveTab(int tab_index)
     return true;
 }
 
+void MainWindow::saveTabs()
+{
+    for( int i = 0; i < ui->tabWidget->count(); ++i )
+        getBrowser(i)->saveUnsavedItems();
+}
+
 bool MainWindow::loadTab(const QString &fileName)
 {
     QFile file(fileName);

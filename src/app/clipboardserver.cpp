@@ -83,6 +83,10 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     connect( QCoreApplication::instance(), SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()));
+
+    connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
+             this, SLOT(onCommitData()) );
+
     connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
@@ -263,12 +267,21 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
+    onCommitData();
+
     emit terminateClientThreads();
     m_clientThreads.waitForDone();
     m_internalThreads.waitForDone();
 
     if( isMonitoring() )
         stopMonitoring();
+}
+
+void ClipboardServer::onCommitData()
+{
+    m_wnd->saveTabs();
+    // TODO: Ask user to cancel application exit if
+    //       sessionManager.allowsInteraction() && m_clientThreads.activeThreadCount() > 0
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
