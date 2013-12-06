@@ -19,6 +19,7 @@
 
 #include "macplatform.h"
 
+#include "macmime.h"
 #include <common/common.h>
 
 #include <QMutex>
@@ -179,6 +180,9 @@ PlatformPtr createPlatformNativeInterface()
 
 MacPlatform::MacPlatform()
 {
+    // TODO: this is a nasty hack, and I'm not even sure if it works
+    static CopyQPasteboardMime *globalMime = new CopyQPasteboardMime();
+    Q_UNUSED(globalMime);
 }
 
 WId MacPlatform::getCurrentWindow()
