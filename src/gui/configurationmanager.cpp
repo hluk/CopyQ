@@ -140,19 +140,7 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
         COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
         if ( file.open(QIODevice::ReadOnly) )
             loader = itemFactory()->loadItems(&model, &file);
-
-        if ( needToSaveItemsAgain(model, *itemFactory(), loader) ) {
-            COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin").arg(tabName) );
-            model.setDisabled(true);
-            loader.clear();
-            file.close();
-            if ( file.open(QIODevice::WriteOnly) ) {
-                loader = itemFactory()->initializeTab(&model);
-                saveItems(model, loader);
-            } else {
-                COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items").arg(tabName) );
-            }
-        }
+        saveItemsWithOther(model, &loader);
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
         if ( file.open(QIODevice::WriteOnly) ) {
@@ -173,20 +161,20 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
     return loader;
 }
 
-ItemLoaderInterfacePtr ConfigurationManager::saveItems(const ClipboardModel &model,
-                                                       const ItemLoaderInterfacePtr &loader)
+bool ConfigurationManager::saveItems(const ClipboardModel &model,
+                                     const ItemLoaderInterfacePtr &loader)
 {
     const QString tabName = model.property("tabName").toString();
     const QString fileName = itemFileName(tabName);
 
     if ( !createItemDirectory() )
-        return ItemLoaderInterfacePtr();
+        return false;
 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
     if ( !file.open(QIODevice::WriteOnly) ) {
         printItemFileError(tabName, fileName, file);
-        return ItemLoaderInterfacePtr();
+        return false;
     }
 
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
@@ -202,7 +190,30 @@ ItemLoaderInterfacePtr ConfigurationManager::saveItems(const ClipboardModel &mod
         COPYQ_LOG( QString("Tab \"%1\": Failed to save items!").arg(tabName) );
     }
 
-    return loader;
+    return true;
+}
+
+bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
+                                              ItemLoaderInterfacePtr *loader)
+{
+    if ( !needToSaveItemsAgain(model, *itemFactory(), *loader) )
+        return false;
+
+    model.setDisabled(true);
+
+    COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
+               .arg(model.property("tabName").toString()) );
+
+    *loader = itemFactory()->initializeTab(&model);
+    if ( *loader && saveItems(model, *loader) ) {
+        model.setDisabled(false);
+        return true;
+    } else {
+        COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
+               .arg(model.property("tabName").toString()) );
+    }
+
+    return false;
 }
 
 void ConfigurationManager::removeItems(const QString &tabName)
@@ -215,9 +226,12 @@ void ConfigurationManager::moveItems(const QString &oldId, const QString &newId)
     const QString oldFileName = itemFileName(oldId);
     const QString newFileName = itemFileName(newId);
 
-    if (oldFileName != newFileName) {
-        QFile::copy(oldFileName, newFileName);
+    if ( oldFileName != newFileName && QFile::copy(oldFileName, newFileName) ) {
         QFile::remove(oldFileName);
+    } else {
+        COPYQ_LOG( QString("Failed to move items from \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\")")
+                   .arg(oldFileName).arg(oldId)
+                   .arg(newFileName).arg(newId) );
     }
 }
 

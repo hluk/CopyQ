@@ -1012,18 +1012,22 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
 {
-    bool saved = saveItems();
-
-    QString oldTabName = m_tabName;
-    m_tabName = tabName;
-
-    if ( !tabName.isEmpty() ) {
-        ConfigurationManager *c = ConfigurationManager::instance();
-        if (saved)
-            c->removeItems(oldTabName);
-        else
-            c->moveItems(oldTabName, tabName);
+    if ( m_tabName.isEmpty() ) {
+        m_tabName = tabName;
+        return;
     }
+
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    // Just move last saved file if tab is not loaded yet.
+    if ( isLoaded() && cm->saveItemsWithOther(*m, &m_itemLoader) ) {
+        m_timerSave->stop();
+        cm->removeItems(m_tabName);
+    } else {
+        cm->moveItems(m_tabName, tabName);
+    }
+
+    m_tabName = tabName;
 }
 
 void ClipboardBrowser::updateCurrentPage()
@@ -1841,12 +1845,12 @@ void ClipboardBrowser::loadItemsAgain()
 
     m->blockSignals(true);
     m_itemLoader = ConfigurationManager::instance()->loadItems(*m);
+    m->blockSignals(false);
 
     // Show lock button if model is disabled.
     if ( !m->isDisabled() ) {
         delete m_loadButton;
         m_loadButton = NULL;
-        m->blockSignals(false);
         d->rowsInserted(QModelIndex(), 0, m->rowCount());
         scheduleDelayedItemsLayout();
         updateCurrentPage();

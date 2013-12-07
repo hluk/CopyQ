@@ -84,8 +84,11 @@ public:
             ClipboardModel &model //!< Model for items.
             );
     /** Save items to configuration file. */
-    ItemLoaderInterfacePtr saveItems(const ClipboardModel &model //!< Model containing items to save.
+    bool saveItems(const ClipboardModel &model //!< Model containing items to save.
             , const ItemLoaderInterfacePtr &loader);
+    /** Save items with other plugin with higher priority than current one (@a loader). */
+    bool saveItemsWithOther(ClipboardModel &model //!< Model containing items to save.
+            , ItemLoaderInterfacePtr *loader);
     /** Remove configuration file for items. */
     void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
             );
