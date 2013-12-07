@@ -19,7 +19,7 @@
 
 #include "macplatform.h"
 
-#include "macmime.h"
+#include "copyqpasteboardmime.h"
 #include <common/common.h>
 
 #include <QMutex>

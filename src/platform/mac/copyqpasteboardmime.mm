@@ -17,7 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "macmime.h"
+#include "copyqpasteboardmime.h"
 
 #include <common/common.h>
 
