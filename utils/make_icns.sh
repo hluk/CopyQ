@@ -18,5 +18,5 @@ convert -background transparent $img2 -resize 512x512 icon.iconset/icon_256x256@
 convert -background transparent $img2 -resize 512x512 icon.iconset/icon_512x512.png
 convert -background transparent $img2 -resize 1024x1024 icon.iconset/icon_512x512@2x.png
 
-iconutil --convert icns --output $out icon.iconset 
+iconutil --convert icns --output $out icon.iconset
 rm -rf icon.iconset

@@ -116,4 +116,3 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
     }
     return false;
 }
-

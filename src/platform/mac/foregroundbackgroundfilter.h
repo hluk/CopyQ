@@ -32,7 +32,7 @@ class MainWindow;
  * This event filter manages the "activationPolicy" for an OS X app by
  * ensuring that it is a "regular" app when there are windows shown, but
  * an "accessory" or "prohibited"/"background" app when there are none.
- * 
+ *
  * This allows the app to not have a dock icon unless there is an open window.
  */
 class ForegroundBackgroundFilter : public QObject

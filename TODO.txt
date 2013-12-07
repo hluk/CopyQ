@@ -6,7 +6,7 @@ bugs
 misc
 - test build on cmake
 - add docs on how to package app (make copyq.app) to the readme and hacking files
-  ~/Qt5.2.0/5.2.0-rc1/clang_64/bin/qmake CONFIG+=release && make copyq.app 
+  ~/Qt5.2.0/5.2.0-rc1/clang_64/bin/qmake CONFIG+=release && make copyq.app
 - b&w themed icon?
 - lots more testing!
 - sign the bundle (?)
