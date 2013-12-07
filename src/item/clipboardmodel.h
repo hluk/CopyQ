@@ -41,7 +41,6 @@ class ClipboardModel : public QAbstractListModel
     Q_OBJECT
     Q_PROPERTY(int maxItems READ maxItems WRITE setMaxItems)
     Q_PROPERTY(bool disabled READ isDisabled WRITE setDisabled)
-    Q_PROPERTY(bool dirty READ isDirty WRITE setDirty)
     Q_PROPERTY(QString tabName READ tabName WRITE setTabName NOTIFY tabNameChanged)
 
 public:
@@ -104,11 +103,6 @@ public:
     bool isDisabled() const { return m_disabled; }
 
     void setDisabled(bool disabled) { m_disabled = disabled; }
-
-    /** Dirty model should be saved. */
-    bool isDirty() const { return m_dirty; }
-
-    void setDirty(bool dirty) { m_dirty = dirty; }
 
     /** Tab name associated with model. */
     const QString &tabName() const { return m_tabName; }
@@ -174,7 +168,6 @@ private:
     QList<ClipboardItemPtr> m_clipboardList;
     int m_max;
     bool m_disabled;
-    bool m_dirty;
     QString m_tabName;
 };
 

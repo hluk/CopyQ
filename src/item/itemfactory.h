@@ -47,7 +47,7 @@ public:
     /**
      * Loads item plugins.
      */
-    ItemFactory(QObject *parent);
+    explicit ItemFactory(QObject *parent);
 
     ~ItemFactory();
 
@@ -114,21 +114,10 @@ public:
     ItemLoaderInterfacePtr loadItems(QAbstractItemModel *model, QFile *file);
 
     /**
-     * Save items using a plugin.
-     * @return true only if items were saved
+     * Initialize tab.
+     * @return true only if any plugin (ItemLoaderInterface::initializeTab()) returned true
      */
-    ItemLoaderInterfacePtr saveItems(const QAbstractItemModel &model, QFile *file);
-
-    /**
-     * Called after items were loaded.
-     */
-    void itemsLoaded(QAbstractItemModel *model, QFile *file);
-
-    /**
-     * Create new tab and load items using a plugin.
-     * @return true only if any plugin (ItemLoaderInterface::createTab()) returned true
-     */
-    ItemLoaderInterfacePtr createTab(QAbstractItemModel *model, QFile *file);
+    ItemLoaderInterfacePtr initializeTab(QAbstractItemModel *model);
 
     /**
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;
@@ -142,6 +131,9 @@ private slots:
 private:
     ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir);
     bool loadPlugins();
+
+    /** Return enabled plugins with dummy item loader. */
+    QList<ItemLoaderInterfacePtr> enabledLoaders() const;
 
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
     ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);

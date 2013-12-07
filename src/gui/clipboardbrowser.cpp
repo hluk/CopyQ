@@ -1059,8 +1059,7 @@ void ClipboardBrowser::expire()
     } else {
         m_expire = false;
 
-        if ( m_timerSave->isActive() )
-            saveItems();
+        saveUnsavedItems();
 
         m->unloadItems();
 
@@ -1788,7 +1787,6 @@ void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    saveItems();
     expire();
 
     cm->tabAppearance()->decorateBrowser(this);
@@ -1851,6 +1849,8 @@ void ClipboardBrowser::loadItemsAgain()
         m->blockSignals(false);
         d->rowsInserted(QModelIndex(), 0, m->rowCount());
         scheduleDelayedItemsLayout();
+        updateCurrentPage();
+        setCurrent(0);
     } else if (m_loadButton == NULL) {
         m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);
@@ -1869,7 +1869,7 @@ bool ClipboardBrowser::saveItems()
     if ( !isLoaded() || tabName().isEmpty() )
         return false;
 
-    m_itemLoader = ConfigurationManager::instance()->saveItems(*m);
+    ConfigurationManager::instance()->saveItems(*m, m_itemLoader);
     return true;
 }
 

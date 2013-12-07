@@ -146,15 +146,24 @@ public:
     QString author() const { return QString(); }
     QString description() const { return QString(); }
 
+    ItemWidget *create(const QModelIndex &index, QWidget *parent) const
+    {
+        return new DummyItem(index, parent);
+    }
+
+    bool canLoadItems(QFile *) { return true; }
+
+    bool canSaveItems(const QAbstractItemModel &) { return true; }
+
     bool loadItems(QAbstractItemModel *model, QFile *file)
     {
         if ( file->size() > 0 ) {
-            file->seek(0);
             if ( !deserializeData(model, file) ) {
+                model->removeRows(0, model->rowCount());
                 log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
                      .arg( quoteString(file->fileName()) ),
                      LogError );
-                model->setProperty("disabled", true);
+                return false;
             }
         }
 
@@ -164,6 +173,11 @@ public:
     bool saveItems(const QAbstractItemModel &model, QFile *file)
     {
         return serializeData(model, file);
+    }
+
+    bool initializeTab(QAbstractItemModel *)
+    {
+        return true;
     }
 
     bool matches(const QModelIndex &index, const QRegExp &re) const
@@ -195,20 +209,18 @@ ItemFactory::~ItemFactory()
 ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
                                     const QModelIndex &index, QWidget *parent)
 {
-    if ( loader.isNull() || isLoaderEnabled(loader) ) {
-        ItemWidget *item = (loader == NULL) ? new DummyItem(index, parent)
-                                            : loader->create(index, parent);
-        if (item != NULL) {
-            item = transformItem(item, index);
-            QWidget *w = item->widget();
-            QString notes = index.data(contentType::notes).toString();
-            if (!notes.isEmpty())
-                w->setToolTip(notes);
+    ItemWidget *item = loader->create(index, parent);
 
-            m_loaderChildren[w] = loader;
-            connect(w, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
-            return item;
-        }
+    if (item != NULL) {
+        item = transformItem(item, index);
+        QWidget *w = item->widget();
+        QString notes = index.data(contentType::notes).toString();
+        if (!notes.isEmpty())
+            w->setToolTip(notes);
+
+        m_loaderChildren[w] = loader;
+        connect(w, SIGNAL(destroyed(QObject*)), SLOT(loaderChildDestroyed(QObject*)));
+        return item;
     }
 
     return NULL;
@@ -216,13 +228,13 @@ ItemWidget *ItemFactory::createItem(const ItemLoaderInterfacePtr &loader,
 
 ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
 {
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
         ItemWidget *item = createItem(loader, index, parent);
         if (item != NULL)
             return item;
     }
 
-    return createItem(ItemLoaderInterfacePtr(), index, parent);
+    return NULL;
 }
 
 ItemWidget *ItemFactory::nextItemLoader(const QModelIndex &index, ItemWidget *current)
@@ -239,12 +251,10 @@ QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
 
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        if ( isLoaderEnabled(loader) ) {
-            foreach ( const QString &format, loader->formatsToSave() ) {
-                if ( !formats.contains(format) )
-                    formats.append(format);
-            }
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+        foreach ( const QString &format, loader->formatsToSave() ) {
+            if ( !formats.contains(format) )
+                formats.append(format);
         }
     }
 
@@ -279,51 +289,25 @@ bool ItemFactory::isLoaderEnabled(const ItemLoaderInterfacePtr &loader) const
 
 ItemLoaderInterfacePtr ItemFactory::loadItems(QAbstractItemModel *model, QFile *file)
 {
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
         file->seek(0);
-        if ( isLoaderEnabled(loader) && loader->loadItems(model, file) )
-            return loader;
-    }
-
-    m_dummyLoader->loadItems(model, file);
-    return m_dummyLoader;
-}
-
-ItemLoaderInterfacePtr ItemFactory::saveItems(const QAbstractItemModel &model, QFile *file)
-{
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        if ( isLoaderEnabled(loader) ) {
+        if ( loader->canLoadItems(file) ) {
             file->seek(0);
-            if ( loader->saveItems(model, file) )
-                return loader;
+            return loader->loadItems(model, file) ? loader : ItemLoaderInterfacePtr();
         }
     }
 
-    m_dummyLoader->saveItems(model, file);
-    return m_dummyLoader;
+    return ItemLoaderInterfacePtr();
 }
 
-void ItemFactory::itemsLoaded(QAbstractItemModel *model, QFile *file)
+ItemLoaderInterfacePtr ItemFactory::initializeTab(QAbstractItemModel *model)
 {
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        file->seek(0);
-        if ( isLoaderEnabled(loader) )
-            loader->itemsLoaded(model, file);
-    }
-}
-
-ItemLoaderInterfacePtr ItemFactory::createTab(QAbstractItemModel *model, QFile *file)
-{
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
-        if ( isLoaderEnabled(loader) ) {
-            file->seek(0);
-            if ( loader->createTab(model, file) )
-                return loader;
-        }
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+        if ( loader->canSaveItems(*model) )
+            return loader->initializeTab(model) ? loader : ItemLoaderInterfacePtr();
     }
 
-    m_dummyLoader->createTab(model, file);
-    return m_dummyLoader;
+    return ItemLoaderInterfacePtr();
 }
 
 bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
@@ -351,17 +335,20 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
     if ( currentLoader.isNull() )
         return NULL;
 
-    const int currentIndex = m_loaders.indexOf(currentLoader);
+
+    const QList<ItemLoaderInterfacePtr> loaders = enabledLoaders();
+
+    const int currentIndex = loaders.indexOf(currentLoader);
     Q_ASSERT(currentIndex != -1);
 
-    const int size = m_loaders.size();
+    const int size = loaders.size();
     for (int i = currentIndex + dir; i != currentIndex; i = i + dir) {
         if (i >= size)
             i = i % size;
         else if (i < 0)
             i = size - 1;
 
-        ItemWidget *item = createItem(m_loaders[i], index, w->parentWidget());
+        ItemWidget *item = createItem(loaders[i], index, w->parentWidget());
         if (item != NULL)
             return item;
     }
@@ -402,6 +389,20 @@ bool ItemFactory::loadPlugins()
     qSort(m_loaders.begin(), m_loaders.end(), priorityLessThan);
 
     return true;
+}
+
+QList<ItemLoaderInterfacePtr> ItemFactory::enabledLoaders() const
+{
+    QList<ItemLoaderInterfacePtr> enabledLoaders;
+
+    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+        if ( isLoaderEnabled(loader) )
+            enabledLoaders.append(loader);
+    }
+
+    enabledLoaders.append(m_dummyLoader);
+
+    return enabledLoaders;
 }
 
 ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &index)

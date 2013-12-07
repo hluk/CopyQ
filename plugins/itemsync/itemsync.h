@@ -114,13 +114,15 @@ public:
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
+    virtual bool canLoadItems(QFile *file);
+
+    virtual bool canSaveItems(const QAbstractItemModel &model);
+
     virtual bool loadItems(QAbstractItemModel *model, QFile *file);
 
     virtual bool saveItems(const QAbstractItemModel &model, QFile *file);
 
-    virtual bool createTab(QAbstractItemModel *model, QFile *file);
-
-    virtual void itemsLoaded(QAbstractItemModel *model, QFile *file);
+    virtual bool initializeTab(QAbstractItemModel *model);
 
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
@@ -140,13 +142,9 @@ private slots:
     void onBrowseButtonClicked();
 
 private:
-    bool shouldSyncTab(const QAbstractItemModel &model) const;
     QString tabPath(const QAbstractItemModel &model) const;
-    FileWatcher *createWatcher(QAbstractItemModel *model, const QString &tabPath,
-                               const QStringList &paths);
-    void createWatcherAndLoadItems(QAbstractItemModel *model,
-                                   const QVariantMap &config = QVariantMap());
-    void createWatcherAndLoadItems(QAbstractItemModel *model, const QStringList &files);
+
+    bool loadItems(QAbstractItemModel *model, const QStringList &files);
 
     Ui::ItemSyncSettings *ui;
     QVariantMap m_settings;
