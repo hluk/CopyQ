@@ -59,8 +59,6 @@ protected:
 
     virtual void mouseDoubleClickEvent(QMouseEvent *e);
 
-    virtual void contextMenuEvent(QContextMenuEvent *e);
-
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
 private slots:

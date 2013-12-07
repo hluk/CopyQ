@@ -586,6 +586,7 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_label->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_label->setFrameStyle(QFrame::NoFrame);
+    m_label->setContextMenuPolicy(Qt::NoContextMenu);
 
     // Selecting text copies it to clipboard.
     connect( m_label, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
@@ -668,23 +669,22 @@ void ItemSync::updateSize(const QSize &maximumSize)
 
 void ItemSync::mousePressEvent(QMouseEvent *e)
 {
-    const QPoint pos = m_label->viewport()->mapFrom(this, e->pos());
-    m_label->setTextCursor( m_label->cursorForPosition(pos) );
-    QWidget::mousePressEvent(e);
-    e->ignore();
+    if (e->button() == Qt::LeftButton) {
+        const QPoint pos = m_label->viewport()->mapFrom(this, e->pos());
+        m_label->setTextCursor( m_label->cursorForPosition(pos) );
+        QWidget::mousePressEvent(e);
+        e->ignore();
+    } else {
+        QWidget::mousePressEvent(e);
+    }
 }
 
 void ItemSync::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
+    if ( e->button() == Qt::LeftButton && e->modifiers().testFlag(Qt::ShiftModifier) )
         QWidget::mouseDoubleClickEvent(e);
     else
         e->ignore();
-}
-
-void ItemSync::contextMenuEvent(QContextMenuEvent *e)
-{
-    e->ignore();
 }
 
 void ItemSync::mouseReleaseEvent(QMouseEvent *e)
