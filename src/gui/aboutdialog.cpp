@@ -52,7 +52,7 @@ QString helpLink(const QString &name, const QString &link)
 
 QString helpDeveloper(const char *name, const char *mail)
 {
-    return QString("<div>%1 (%2)</div>")
+    return QString("<div>%1 &nbsp;&nbsp;&nbsp;<span class='h3'>%2</span></div>")
             .arg(name)
             .arg(mail);
 }
@@ -60,7 +60,7 @@ QString helpDeveloper(const char *name, const char *mail)
 QString helpLib(const char *name, const QString &description, const QString &copyright, const char *url)
 {
     return QString("<p class=\"ppp\"><span class='h2x'>%1</span>"
-                   "&nbsp;&nbsp;&nbsp;<span class='h3'>%2</span><br />%3 (%4)</p>")
+                   "&nbsp;&nbsp;&nbsp;<span class='h3'>%2</span><br />%3<br />%4</p>")
             .arg(name)
             .arg( escapeHtml(description) )
             .arg(copyright)
