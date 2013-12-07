@@ -2,7 +2,6 @@ bugs
 - misses data sometimes when m_wnd->addToTab is done
   sometimes data is thrown away around mainwindow.cpp#1477. Not sure why..
 - 3 tests failing
-- sometimes pastes the previous thing when pasting from UI. issue with usleep?
 
 misc
 - test build on cmake

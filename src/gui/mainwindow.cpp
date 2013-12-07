@@ -1324,7 +1324,8 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
     if (c->select(clipboardItemHash) && m_options->trayItemPaste && isValidWindow(m_trayPasteWindow)) {
-        QApplication::processEvents();
+        // Force "processEvents" to last at least 100ms
+        QApplication::processEvents(QEventLoop::AllEvents | QEventLoop::WaitForMoreEvents, 100);
         createPlatformNativeInterface()->pasteToWindow(m_trayPasteWindow);
     }
 }
@@ -1585,7 +1586,8 @@ void MainWindow::activateCurrentItem()
         if ( m_options->activateFocuses() && isValidWindow(lastWindow) )
             platform->raiseWindow(lastWindow);
         if ( m_options->activatePastes() && isValidWindow(pasteWindow) ) {
-            QApplication::processEvents();
+            // Force "processEvents" to last at least 100ms
+            QApplication::processEvents(QEventLoop::AllEvents | QEventLoop::WaitForMoreEvents, 100);
             platform->pasteToWindow(pasteWindow);
         }
     }
