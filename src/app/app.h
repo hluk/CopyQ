@@ -25,6 +25,10 @@
 
 class QCoreApplication;
 
+#ifdef Q_OS_MAC
+class CopyQPasteboardMime;
+#endif // Q_OS_MAC
+
 /** Application class. */
 class App
 {
@@ -46,6 +50,10 @@ public:
 
 private:
     QScopedPointer<QCoreApplication> m_app;
+#ifdef Q_OS_MAC
+    // Need a single one of this around at all times to map OS X UTIs to/from MIME types
+    QScopedPointer<CopyQPasteboardMime> m_pasteboardmime;
+#endif // Q_OS_MAC
     int m_exitCode;
     bool m_closed;
 };

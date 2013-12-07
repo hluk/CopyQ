@@ -12,8 +12,6 @@ misc
 - lots more testing!
 - sign the bundle (?)
   https://developer.apple.com/library/mac/documentation/Security/Conceptual/CodeSigningGuide/Procedures/Procedures.html#//apple_ref/doc/uid/TP40005929-CH4-SW2
-- using a bit of a hack to create the single instance of CopyQPasteboardMime
-- CopyQPasteboardMime has the wrong file name
 - test all the plugins
 
 macplatform:
