@@ -19,6 +19,7 @@
 
 #include "macplatform.h"
 
+#include "copyqpasteboardmime.h"
 #include <common/common.h>
 
 #include <QMutex>
@@ -31,6 +32,7 @@ void * MacPlatform::m_currentPasteWindow = 0;
 
 namespace {
     QMutex mutex(QMutex::Recursive);
+    CopyQPasteboardMime *pasteboardMime = 0;
 
     template<typename T> inline T* objc_cast(id from)
     {
@@ -179,6 +181,13 @@ PlatformPtr createPlatformNativeInterface()
 
 MacPlatform::MacPlatform()
 {
+}
+
+void MacPlatform::onApplicationStarted() {
+    QMutexLocker lock(&mutex);
+    if (!pasteboardMime) {
+        pasteboardMime = new CopyQPasteboardMime();
+    }
 }
 
 WId MacPlatform::getCurrentWindow()

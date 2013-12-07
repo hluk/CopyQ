@@ -49,6 +49,8 @@ public:
     bool isAutostartEnabled();
     void setAutostartEnabled(bool);
 
+    void onApplicationStarted();
+
     bool becomeNormalApp();
     bool becomeBackgroundApp();
     bool isNormalApp();

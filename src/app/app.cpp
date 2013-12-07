@@ -31,10 +31,6 @@
 #   include <QProcessEnvironment>
 #endif
 
-#ifdef Q_OS_MAC
-#   include "platform/mac/copyqpasteboardmime.h"
-#endif // Q_OS_MAC
-
 #ifdef Q_OS_UNIX
 #   include <signal.h>
 #   include <sys/socket.h>
@@ -58,9 +54,6 @@ void exitSignalHandler(int)
 
 App::App(QCoreApplication *application, const QString &sessionName)
     : m_app(application)
-#ifdef Q_OS_MAC
-    , m_pasteboardmime(new CopyQPasteboardMime())
-#endif
     , m_exitCode(0)
     , m_closed(false)
 {
