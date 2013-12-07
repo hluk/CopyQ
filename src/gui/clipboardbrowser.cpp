@@ -1881,6 +1881,12 @@ void ClipboardBrowser::delayedSaveItems()
     m_timerSave->start();
 }
 
+void ClipboardBrowser::saveUnsavedItems()
+{
+    if ( m_timerSave->isActive() )
+        saveItems();
+}
+
 void ClipboardBrowser::purgeItems()
 {
     if ( tabName().isEmpty() )

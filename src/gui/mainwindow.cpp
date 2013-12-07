@@ -1661,7 +1661,7 @@ QString MainWindow::sendKeys(const QString &keys) const
 #ifdef HAS_TESTS
     QWidget *w = QApplication::focusWidget();
     if (!w)
-        return tr("Cannot send keys, no widget is focused!");
+        return QString("Cannot send keys, no widget is focused!");
 
     if (keys.startsWith(":")) {
         QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 100);
@@ -1669,7 +1669,7 @@ QString MainWindow::sendKeys(const QString &keys) const
         const QKeySequence shortcut(keys);
 
         if ( shortcut.isEmpty() ) {
-            return tr("Cannot parse key \"%1\"!").arg(keys);
+            return QString("Cannot parse key \"%1\"!").arg(keys);
         } else {
             QTest::keyClick(w, Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
                             Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 100);
@@ -1678,7 +1678,7 @@ QString MainWindow::sendKeys(const QString &keys) const
     return QString();
 #else
     Q_UNUSED(keys);
-    return tr("This is only available if tests are compiled!");
+    return QString("This is only available if tests are compiled!");
 #endif
 }
 
@@ -2058,6 +2058,12 @@ bool MainWindow::saveTab(int tab_index)
     }
 
     return true;
+}
+
+void MainWindow::saveTabs()
+{
+    for( int i = 0; i < ui->tabWidget->count(); ++i )
+        getBrowser(i)->saveUnsavedItems();
 }
 
 bool MainWindow::loadTab(const QString &fileName)

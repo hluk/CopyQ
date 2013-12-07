@@ -36,6 +36,7 @@ class RemoteProcess;
 class QLocalServer;
 class QLocalSocket;
 class QxtGlobalShortcut;
+class QSessionManager;
 
 /**
  * The application main server.
@@ -120,6 +121,8 @@ private slots:
 
     /** Clean up before quitting. */
     void onAboutToQuit();
+
+    void onCommitData();
 
 private:
     QLocalServer *m_server;

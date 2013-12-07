@@ -71,6 +71,11 @@ public:
      * Enable automatic application start at system startup.
      */
     virtual void setAutostartEnabled(bool enable) = 0;
+
+    /**
+     * Called after application starts.
+     */
+    virtual void onApplicationStarted() = 0;
 };
 
 /**

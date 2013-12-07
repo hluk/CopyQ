@@ -25,6 +25,7 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
 #include <QtPlugin>
@@ -33,6 +34,10 @@ namespace {
 
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 100*1024;
+
+const char optionUseRichText[] = "use_rich_text";
+const char optionMaximumLines[] = "max_lines";
+const char optionMaximumHeight[] = "max_height";
 
 bool getRichText(const QModelIndex &index, QString *text)
 {
@@ -66,11 +71,12 @@ bool getText(const QModelIndex &index, QString *text)
 
 } // namespace
 
-ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
+ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent)
     : QTextEdit(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_copyOnMouseUp(false)
+    , m_maximumHeight(maximumHeight)
 {
     m_textDocument.setDefaultFont(font());
 
@@ -78,7 +84,6 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     setUndoRedoEnabled(false);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
-    setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
 
     setContextMenuPolicy(Qt::NoContextMenu);
@@ -94,6 +99,20 @@ ItemText::ItemText(const QString &text, bool isRichText, QWidget *parent)
     m_textDocument.setDocumentMargin(0);
 
     setProperty("CopyQ_no_style", isRichText);
+
+    if (maxLines > 0) {
+        QTextBlock block = m_textDocument.findBlockByLineNumber(maxLines);
+        if (block.isValid()) {
+            QTextCursor tc(&m_textDocument);
+            tc.setPosition(block.position() - 1);
+            tc.movePosition(QTextCursor::End, QTextCursor::KeepAnchor);
+            tc.removeSelectedText();
+            tc.insertHtml( " &nbsp;"
+                           "<span style='background:rgba(0,0,0,30);border-radius:4px'>"
+                           "&nbsp;&hellip;&nbsp;"
+                           "</span>");
+        }
+    }
 
     setDocument(&m_textDocument);
 }
@@ -140,7 +159,9 @@ void ItemText::updateSize(const QSize &maximumSize)
     setMaximumHeight( maximumSize.height() );
     setFixedWidth(w);
     m_textDocument.setTextWidth(w);
-    setFixedHeight( m_textDocument.size().height() );
+
+    const int h = m_textDocument.size().height();
+    setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
 }
 
 void ItemText::mousePressEvent(QMouseEvent *e)
@@ -178,18 +199,20 @@ ItemTextLoader::~ItemTextLoader()
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
 {
     QString text;
-    bool isRichText = m_settings.value("use_rich_text", true).toBool()
+    bool isRichText = m_settings.value(optionUseRichText, true).toBool()
             && getRichText(index, &text);
 
-    if ( isRichText || getText(index, &text) )
-        return new ItemText(text, isRichText, parent);
+    if ( !isRichText && !getText(index, &text) )
+        return NULL;
 
-    return NULL;
+    const int maxLines = m_settings.value(optionMaximumLines, 0).toInt();
+    const int maxHeight = m_settings.value(optionMaximumHeight, 0).toInt();
+    return new ItemText(text, isRichText, maxLines, maxHeight, parent);
 }
 
 QStringList ItemTextLoader::formatsToSave() const
 {
-    return m_settings.value("use_rich_text", true).toBool()
+    return m_settings.value(optionUseRichText, true).toBool()
             ? QStringList("text/plain") << QString("text/html") << QString("text/richtext")
             : QStringList("text/plain");
 }
@@ -197,7 +220,9 @@ QStringList ItemTextLoader::formatsToSave() const
 QVariantMap ItemTextLoader::applySettings()
 {
     Q_ASSERT(ui != NULL);
-    m_settings["use_rich_text"] = ui->checkBoxUseRichText->isChecked();
+    m_settings[optionUseRichText] = ui->checkBoxUseRichText->isChecked();
+    m_settings[optionMaximumLines] = ui->spinBoxMaxLines->value();
+    m_settings[optionMaximumHeight] = ui->spinBoxMaxHeight->value();
     return m_settings;
 }
 
@@ -207,7 +232,9 @@ QWidget *ItemTextLoader::createSettingsWidget(QWidget *parent)
     ui = new Ui::ItemTextSettings;
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
-    ui->checkBoxUseRichText->setChecked( m_settings.value("use_rich_text", true).toBool() );
+    ui->checkBoxUseRichText->setChecked( m_settings.value(optionUseRichText, true).toBool() );
+    ui->spinBoxMaxLines->setValue( m_settings.value(optionMaximumLines, 0).toInt() );
+    ui->spinBoxMaxHeight->setValue( m_settings.value(optionMaximumHeight, 0).toInt() );
     return w;
 }
 

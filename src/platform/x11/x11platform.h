@@ -63,6 +63,8 @@ public:
 
     bool isSelectionEmpty() const;
 
+    void onApplicationStarted();
+
 private:
     X11PlatformPrivate *d;
 };

@@ -16,6 +16,10 @@
         <translation>E-Mail</translation>
     </message>
     <message>
+        <source>Web</source>
+        <translation>Web</translation>
+    </message>
+    <message>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
@@ -68,6 +72,10 @@
         <translation>Suche zurücksetzen oder Fenster verstecken</translation>
     </message>
     <message>
+        <source>Escape</source>
+        <translation>Escape</translation>
+    </message>
+    <message>
         <source>Delete item</source>
         <translation>Element entfernen</translation>
     </message>
@@ -86,6 +94,10 @@
     <message>
         <source>Ctrl+Left/Right</source>
         <translation>Strg+Links/Rechts</translation>
+    </message>
+    <message>
+        <source>F2</source>
+        <translation>F2</translation>
     </message>
     <message>
         <source>Library used in the application</source>
@@ -1772,18 +1784,248 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     </message>
 </context>
 <context>
+    <name>FakeVim::Internal</name>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="174"/>
+        <source>Use Vim-style Editing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="176"/>
+        <source>Read .vimrc</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="178"/>
+        <source>Path to .vimrc</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FakeVim::Internal::FakeVimHandler</name>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="133"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="141"/>
+        <source>Unknown option: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="136"/>
+        <source>Argument must be positive: %1=%2</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="858"/>
+        <source>Mark &apos;%1&apos; not set.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3372"/>
+        <source>%1%2%</source>
+        <translation type="unfinished">%1%2%</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3374"/>
+        <source>%1All</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3388"/>
+        <source>Not implemented in FakeVim.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5484"/>
+        <source>Unknown option:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5562"/>
+        <source>Move lines into themselves.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5606"/>
+        <source>%n lines moved.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5665"/>
+        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5679"/>
+        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5686"/>
+        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5694"/>
+        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5724"/>
+        <source>&quot;%1&quot; %2L, %3C</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5758"/>
+        <source>%n lines filtered.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5843"/>
+        <source>Cannot open file %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6002"/>
+        <source>Invalid regular expression: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6038"/>
+        <source>Pattern not found: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6042"/>
+        <source>Search hit BOTTOM, continuing at TOP.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6043"/>
+        <source>Search hit TOP, continuing at BOTTOM.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6048"/>
+        <source>Search hit BOTTOM without match for: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6049"/>
+        <source>Search hit TOP without match for: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6156"/>
+        <source>%n lines indented.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6213"/>
+        <source>%n lines %1ed %2 time.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6742"/>
+        <source>%n lines yanked.</source>
+        <translation type="unfinished">
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7448"/>
+        <source>Already at oldest change.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7449"/>
+        <source>Already at newest change.</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FakeVim::Internal::FakeVimHandler::Private</name>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2629"/>
+        <source>Recursive mapping</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4026"/>
+        <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5687"/>
+        <source> [New] </source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5916"/>
+        <source>Not an editor command: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
+    <name>FileWatcher</name>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="957"/>
+        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <translation>Erstellen des Synchronisiationsverzeichnis fehlgeschlagen &quot;%1&quot;!</translation>
+    </message>
+</context>
+<context>
+    <name>IconSelectButton</name>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="190"/>
+        <source>...</source>
+        <comment>Select/browse icon.</comment>
+        <translation>...</translation>
+    </message>
+</context>
+<context>
+    <name>IconSelectDialog</name>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="49"/>
+        <source>CopyQ Select Icon</source>
+        <translation>CopyQ-Auswahlicon</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="79"/>
+        <source>Browse...</source>
+        <translation>Durchsuchen...</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="127"/>
+        <source>Open Icon file</source>
+        <translation>Icon-Datei öffnen</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/iconselectbutton.cpp" line="128"/>
+        <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
+        <translation>Bildateien (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
+    </message>
+</context>
+<context>
     <name>ItemDataLoader</name>
     <message>
         <source>&amp;Data Items</source>
         <translation>&amp;Datenelemte</translation>
     </message>
     <message>
-        <location filename="../plugins/itemdata/itemdata.h" line="67"/>
+        <location filename="../plugins/itemdata/itemdata.h" line="68"/>
         <source>Data</source>
         <translation>Daten</translation>
     </message>
     <message>
-        <location filename="../plugins/itemdata/itemdata.h" line="69"/>
+        <location filename="../plugins/itemdata/itemdata.h" line="70"/>
         <source>Various data to save.</source>
         <translation>Verschiedene Daten zu speichern.</translation>
     </message>
@@ -1884,17 +2126,17 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
 <context>
     <name>ItemEditor</name>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="89"/>
+        <location filename="../src/item/itemeditor.cpp" line="91"/>
         <source>Failed to remove temporary file (%1)</source>
         <translation>Entfernen der temporären Datei gescheitert (%1)</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="104"/>
+        <location filename="../src/item/itemeditor.cpp" line="106"/>
         <source>Failed to open temporary file (%1) for editing item in external editor!</source>
         <translation>Temporäre Datei (%1) zum öffnen in externem Texteditor konnte nicht geöffnet werden!</translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="153"/>
+        <location filename="../src/item/itemeditor.cpp" line="155"/>
         <source>Failed to read temporary file (%1)!</source>
         <translation>Lesern der temporären Datei gescheitert (%1)</translation>
     </message>
@@ -1939,63 +2181,63 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
 <context>
     <name>ItemEncryptedLoader</name>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="198"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="182"/>
         <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Du benötigst einen öffentlichen und einen geheimen Schlüssel um verschlüsselte Elemente mit anderen Computern oder in anderen Sitzungen zu öffnen:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt; (Bewahre diesen geheimen Schlüssel an einen sicheren Ort auf) &lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="389"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="371"/>
         <source>Error: %1</source>
         <translation>Fehler: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="397"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="379"/>
         <source>Failed to generate keys.</source>
         <translation>Schlüsselerstellung fehlgeschlagen.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="413"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="395"/>
         <source>Done</source>
         <translation>Erledigt</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="452"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="436"/>
         <source>Creating new keys (this may take a few minutes)...</source>
         <translation>Generiere neue Schlüssel (dies kann ein paar Minuten dauern)...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="453"/>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="456"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="437"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="440"/>
         <source>Cancel</source>
         <translation>Abbrechen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="455"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="439"/>
         <source>Setting new password...</source>
         <translation>Neues Passwort festlegen...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="458"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="442"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
         <translation>Die Schlüssel zur Verschlüsselung &lt;strong&gt; müssen generiert werden &lt;/strong&gt; bevor die Verschlüsselung von Elementen genutzt werden kann. </translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="460"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="444"/>
         <source>Generate New Keys...</source>
         <translation>Erstelle neue Schlüssel...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="462"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="446"/>
         <source>Change Password...</source>
         <translation>Passwort ändern...</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.h" line="65"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.h" line="62"/>
         <source>Encryption</source>
         <translation>Verschlüsselung</translation>
     </message>
     <message>
-        <location filename="../plugins/itemencrypted/itemencrypted.h" line="67"/>
+        <location filename="../plugins/itemencrypted/itemencrypted.h" line="64"/>
         <source>Encrypt items and tabs.</source>
         <translation>Verschlüssele Elemente und Reiter.</translation>
     </message>
@@ -2119,12 +2361,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
 <context>
     <name>ItemNotesLoader</name>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="89"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="93"/>
         <source>Notes</source>
         <translation>Notizen</translation>
     </message>
     <message>
-        <location filename="../plugins/itemnotes/itemnotes.h" line="91"/>
+        <location filename="../plugins/itemnotes/itemnotes.h" line="95"/>
         <source>Display notes for items.</source>
         <translation>Notizen zu Elementen anzeigen.</translation>
     </message>
@@ -2185,18 +2427,104 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     </message>
 </context>
 <context>
+    <name>ItemSyncLoader</name>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="193"/>
+        <source>Browse...</source>
+        <comment>Button text for opening file dialog to select synchronization directory</comment>
+        <translation>Durchsuchen...</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1390"/>
+        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <translation>Synchronisieren des Reiters &quot;%1&quot; mit dem Verzeichnis &quot;%2&quot; fehlgeschlagen!</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1493"/>
+        <source>Remove Items?</source>
+        <translation>Einträge entfernen?</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1494"/>
+        <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
+        <translation>Wollen sie wirkliche &lt;strong&gt;alle Einträge und zugehörige Dateien entfernen&lt;/strong&gt;?</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.cpp" line="1631"/>
+        <source>Open Directory for Synchronization</source>
+        <translation>Verzeichnis für Synchronisierung öffnen</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.h" line="108"/>
+        <source>Synchronize</source>
+        <translation>Sychronisieren</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsync.h" line="110"/>
+        <source>Synchronize items and notes with a directory on disk.</source>
+        <translation>Einträge und Notizen mit einem Verzeichnis auf der Festplatte synchronisieren.</translation>
+    </message>
+</context>
+<context>
+    <name>ItemSyncSettings</name>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
+        <source>Synchronization Tabs and Directories</source>
+        <translation>Sychronisation von Reitern und Verzeichnissen</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
+        <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Sychronisiere die Inhalte des &lt;strong&gt;Reiters&lt;/strong&gt; mit dem Verzeichnis mit folgenden &lt;strong&gt;Pfad&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Setze einen &lt;strong&gt;leeren Pfad&lt;/strong&gt; um die Einträge dieses &lt;strong&gt;Reiters&lt;/strong&gt; nicht zu speichern.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
+        <source>Tab Name</source>
+        <translation>Reitername</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
+        <source>Path</source>
+        <translation>Pfad</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
+        <source>Files to Item Data Formats</source>
+        <translation>Dateien zum Dateiformateintrags</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
+        <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
+&lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Setze MIME Type auf &lt;strong&gt;-&lt;/strong&gt;(Minus) um Dateien zu ignorieren. Andere unbekannte oder versteckte Dateien werden ignoriert.&lt;/p&gt;
+&lt;p&gt;Beispiel: Lade die &lt;strong&gt;txt&lt;/strong&gt;-Dateierweiterung als &lt;strong&gt;text/plain&lt;/strong&gt; MIME Type.&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
+        <source>Extensions</source>
+        <translation>Erweiterung</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
+        <source>Item MIME Type</source>
+        <translation>MIME Type-Eintrag</translation>
+    </message>
+</context>
+<context>
     <name>ItemTextLoader</name>
     <message>
         <source>Te&amp;xt Items</source>
         <translation>&amp;Textelemente</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtext/itemtext.h" line="74"/>
+        <location filename="../plugins/itemtext/itemtext.h" line="73"/>
         <source>Text</source>
         <translation>Text</translation>
     </message>
     <message>
-        <location filename="../plugins/itemtext/itemtext.h" line="76"/>
+        <location filename="../plugins/itemtext/itemtext.h" line="75"/>
         <source>Display plain text and simple HTML items.</source>
         <translation>Zeige Elemente aus Rohtext und HTML an.</translation>
     </message>
@@ -2208,6 +2536,16 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <source>Save and display HTML and rich text</source>
         <translation>Zeige an und speichere HTML und RTF</translation>
     </message>
+    <message>
+        <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
+        <source>Maximum number of lines to display (0 to show all):</source>
+        <translation>Maximal anzuzeigende Zeilenanzahl (0 um Alle zu  zeigen):</translation>
+    </message>
+    <message>
+        <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
+        <source>Maximum height in pixels (0 for no limit):</source>
+        <translation>Maximale Höhe in Pixeln (0 für kein Limit):</translation>
+    </message>
 </context>
 <context>
     <name>ItemWebLoader</name>
@@ -2216,12 +2554,10 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <translation>&amp;Web Elemente</translation>
     </message>
     <message>
-        <location filename="../plugins/itemweb/itemweb.h" line="73"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../plugins/itemweb/itemweb.h" line="75"/>
         <source>Display web pages.</source>
         <translation>Webseiten anzeigen.</translation>
     </message>
@@ -2613,7 +2949,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
 <context>
     <name>Proxy</name>
     <message>
-        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="282"/>
+        <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="312"/>
         <source>Information</source>
         <translation>Information</translation>
     </message>
@@ -2633,7 +2969,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
 </translation>
     </message>
     <message>
-        <location filename="../src/item/itemeditor.cpp" line="59"/>
+        <location filename="../src/item/itemeditor.cpp" line="61"/>
         <source>CopyQ ERROR: %1
 </source>
         <translation>CopyQ FEHLER: %1
@@ -2658,21 +2994,44 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <translation>&quot;%1&quot;</translation>
     </message>
     <message>
+        <location filename="../src/common/common.cpp" line="73"/>
+        <source>warning: %1</source>
+        <translation>Warnung: %1</translation>
+    </message>
+    <message>
+        <location filename="../src/common/common.cpp" line="75"/>
+        <source>ERROR: %1</source>
+        <translation>FEHLER: %1</translation>
+    </message>
+    <message numerus="yes">
+        <location filename="../src/common/common.cpp" line="258"/>
+        <source>%1 (%n lines)</source>
+        <comment>Label for multi-line text in clipboard</comment>
+        <translation>
+            <numerusform>%1 (%n Zeilen)</numerusform>
+            <numerusform></numerusform>
+        </translation>
+    </message>
+    <message>
+        <location filename="../src/common/common.cpp" line="269"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation>&lt;BILD&gt;</translation>
     </message>
     <message>
+        <location filename="../src/common/common.cpp" line="271"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation>&lt;DATEI&gt;</translation>
     </message>
     <message>
+        <location filename="../src/common/common.cpp" line="273"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;LEER&gt;</translation>
     </message>
     <message>
+        <location filename="../src/common/common.cpp" line="275"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATEN&gt;</translation>
@@ -2722,6 +3081,11 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
+    </message>
+    <message>
+        <location filename="../src/item/serialize.cpp" line="178"/>
+        <source>Data deserialization failed: %1</source>
+        <translation>Datendeserialisierung fehlgeschlagen: %1</translation>
     </message>
 </context>
 <context>

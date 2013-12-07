@@ -437,6 +437,12 @@ class ClipboardBrowser : public QListView
          * Save items to configuration after an interval.
          */
         void delayedSaveItems();
+
+        /**
+         * Save items to configuration if needed.
+         */
+        void saveUnsavedItems();
+
         /**
          * Clear all items from configuration.
          * @see setID, loadItems, saveItems

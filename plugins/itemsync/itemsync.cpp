@@ -190,7 +190,8 @@ QPushButton *createBrowseButton()
     QScopedPointer<QPushButton> button(new QPushButton);
     button->setFont( iconFont() );
     button->setText( iconFromId(IconFolderOpen) );
-    button->setToolTip( ItemSyncLoader::tr("Browse...") );
+    button->setToolTip( ItemSyncLoader::tr("Browse...",
+                                           "Button text for opening file dialog to select synchronization directory") );
     return button.take();
 }
 
@@ -947,9 +948,6 @@ private:
 
         const QList<QPersistentModelIndex> indexList = this->indexList(first, last);
 
-        if ( m_path.isEmpty() )
-            return;
-
         // Create path if doesn't exist.
         QDir dir(m_path);
         if ( !dir.mkpath(".") ) {
@@ -1377,34 +1375,34 @@ bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
 {
     // If anything fails, just return false so the items are save regularly.
     FileWatcher *watcher = m_watchers.value(&model, NULL);
-    if (!watcher)
-        return false;
+
+    if (!watcher) {
+        // Don't save items if path is empty.
+        return shouldSyncTab(model);
+    }
 
     const QString path = watcher->path();
     QStringList savedFiles;
 
-    // Don't save items if path is empty.
-    if ( !path.isEmpty() ) {
-        if ( !watcher->isValid() ) {
-            log( tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
-                 .arg(model.property("tabName").toString())
-                 .arg(path),
-                 LogError );
-            return false;
-        }
+    if ( !watcher->isValid() ) {
+        log( tr("Failed to synchronize tab \"%1\" with directory \"%2\"!")
+             .arg(model.property("tabName").toString())
+             .arg(path),
+             LogError );
+        return false;
+    }
 
-        QDir dir(path);
+    QDir dir(path);
 
-        for (int row = 0; row < model.rowCount(); ++row) {
-            const QModelIndex index = model.index(row, 0);
-            const QVariantMap itemData = index.data(contentType::data).toMap();
-            const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
-            const QString baseName = getBaseName(index);
-            const QString filePath = dir.absoluteFilePath(baseName);
+    for (int row = 0; row < model.rowCount(); ++row) {
+        const QModelIndex index = model.index(row, 0);
+        const QVariantMap itemData = index.data(contentType::data).toMap();
+        const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
+        const QString baseName = getBaseName(index);
+        const QString filePath = dir.absoluteFilePath(baseName);
 
-            foreach (const QVariant &ext, mimeToExtension.values())
-                savedFiles.prepend( filePath + ext.toString() );
-        }
+        foreach (const QVariant &ext, mimeToExtension.values())
+            savedFiles.prepend( filePath + ext.toString() );
     }
 
     writeConfiguration(file, savedFiles);

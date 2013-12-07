@@ -258,6 +258,10 @@ class MainWindow : public QMainWindow
         bool saveTab(
                 int tab_index = -1 //!< Tab index or current tab.
                 );
+
+        /** Save all unsaved tabs. */
+        void saveTabs();
+
         /**
          * Load saved items to new tab.
          * @return True only if all items were successfully loaded.

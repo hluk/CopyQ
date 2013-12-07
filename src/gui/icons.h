@@ -81,7 +81,7 @@ enum IconId {
     IconTerminal = 0xf120,
     IconEditSign = 0xf14b,
     IconArchive = 0xf187,
-    IconLast = 0xf18b
+    IconLast = 0xf196
 };
 
 #endif // ICONS_H

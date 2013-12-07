@@ -35,7 +35,7 @@ class ItemText : public QTextEdit, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemText(const QString &text, bool isRichText, QWidget *parent);
+    ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -53,6 +53,7 @@ private slots:
 private:
     QTextDocument m_textDocument;
     bool m_copyOnMouseUp;
+    int m_maximumHeight;
 };
 
 class ItemTextLoader : public QObject, public ItemLoaderInterface
