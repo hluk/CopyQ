@@ -151,10 +151,11 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
 
     file.close();
 
-    if (loader)
+    if (loader) {
         COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
-    else
+    } else {
         COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(tabName) );
+    }
 
     model.setDisabled(!loader);
 
