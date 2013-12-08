@@ -1455,7 +1455,8 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
 
 void ClipboardBrowser::filterItems(const QRegExp &re)
 {
-    if (d->searchExpression() == re)
+    // Do nothing if same regexp was already set or both are empty (don't compare regexp options).
+    if ( (d->searchExpression().isEmpty() && re.isEmpty()) || d->searchExpression() == re )
         return;
 
     d->setSearch(re);
