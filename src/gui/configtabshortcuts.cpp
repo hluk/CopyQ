@@ -24,34 +24,6 @@
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
 
-namespace {
-
-const QIcon iconAction() { return getIcon("action", IconCog); }
-const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
-const QIcon iconCopy() { return getIcon("edit-copy", IconCopy); }
-const QIcon iconEditExternal() { return getIcon("accessories-text-editor", IconPencil); }
-const QIcon iconEditNotes() { return getIcon("accessories-text-editor", IconEditSign); }
-const QIcon iconEdit() { return getIcon("accessories-text-editor", IconEdit); }
-const QIcon iconExit() { return getIcon("application-exit", IconOff); }
-const QIcon iconHelp() { return getIcon("help-about", IconQuestionSign); }
-const QIcon iconNew() { return getIcon("document-new", IconFileAlt); }
-const QIcon iconNextToClipboard() { return getIcon("go-down", IconArrowDown); }
-const QIcon iconOpen() { return getIcon("document-open", IconFolderOpen); }
-const QIcon iconPaste() { return getIcon("edit-paste", IconPaste); }
-const QIcon iconPreferences() { return getIcon("preferences-other", IconWrench); }
-const QIcon iconPreviousToClipboard() { return getIcon("go-up", IconArrowUp); }
-const QIcon iconRemove() { return getIcon("list-remove", IconRemove); }
-const QIcon iconReverse() { return getIcon("view-sort-descending", IconSortByAlphabetAlt); }
-const QIcon iconSave() { return getIcon("document-save", IconSave); }
-const QIcon iconShowContent() { return getIcon("dialog-information", IconInfoSign); }
-const QIcon iconSort() { return getIcon("view-sort-ascending", IconSortByAlphabet); }
-
-const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
-const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
-const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
-
-} // namespace
-
 ConfigTabShortcuts::ConfigTabShortcuts(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ConfigTabShortcuts)
@@ -111,34 +83,35 @@ void ConfigTabShortcuts::updateIcons()
 {
     ShortcutsWidget *w = ui->shortcutsWidgetGeneral;
 
-    w->updateIcons( Actions::File_New, iconNew() );
-    w->updateIcons( Actions::File_ImportTab, iconOpen() );
-    w->updateIcons( Actions::File_ExportTab, iconSave() );
-    w->updateIcons( Actions::File_Preferences, iconPreferences() );
-    w->updateIcons( Actions::File_ShowClipboardContent, iconClipboard() );
+    w->updateIcons( Actions::File_New, "document-new", IconFileAlt );
+    w->updateIcons( Actions::File_ImportTab, "document-open", IconFolderOpen );
+    w->updateIcons( Actions::File_ExportTab, "document-save", IconSave );
+    w->updateIcons( Actions::File_Preferences, "preferences-other", IconWrench );
+    w->updateIcons( Actions::File_ShowClipboardContent, "clipboard", IconPaste );
     w->updateIcons( Actions::File_ToggleClipboardStoring );
-    w->updateIcons( Actions::File_Exit, iconExit() );
+    w->updateIcons( Actions::File_Exit, "application-exit", IconOff );
 
-    w->updateIcons( Actions::Edit_SortSelectedItems, iconSort() );
-    w->updateIcons( Actions::Edit_ReverseSelectedItems, iconReverse() );
-    w->updateIcons( Actions::Edit_PasteItems, iconPaste() );
-    w->updateIcons( Actions::Edit_CopySelectedItems, iconCopy() );
+    w->updateIcons( Actions::Edit_SortSelectedItems, "view-sort-ascending", IconSortByAlphabet );
+    w->updateIcons( Actions::Edit_ReverseSelectedItems, "view-sort-descending", IconSortByAlphabetAlt );
+    w->updateIcons( Actions::Edit_PasteItems, "edit-paste", IconPaste );
+    w->updateIcons( Actions::Edit_CopySelectedItems, "edit-copy", IconCopy );
 
-    w->updateIcons( Actions::Item_MoveToClipboard, iconClipboard() );
-    w->updateIcons( Actions::Item_ShowContent, iconShowContent() );
-    w->updateIcons( Actions::Item_Remove, iconRemove() );
-    w->updateIcons( Actions::Item_Edit, iconEdit() );
-    w->updateIcons( Actions::Item_EditNotes, iconEditNotes() );
-    w->updateIcons( Actions::Item_EditWithEditor, iconEditExternal() );
-    w->updateIcons( Actions::Item_Action, iconAction() );
-    w->updateIcons( Actions::Item_NextToClipboard, iconNextToClipboard() );
-    w->updateIcons( Actions::Item_PreviousToClipboard, iconPreviousToClipboard() );
+    w->updateIcons( Actions::Item_MoveToClipboard, "clipboard", IconPaste );
+    w->updateIcons( Actions::Item_ShowContent, "dialog-information", IconInfoSign );
+    w->updateIcons( Actions::Item_Remove, "list-remove", IconRemove );
+    w->updateIcons( Actions::Item_Edit, "accessories-text-editor", IconEdit );
+    w->updateIcons( Actions::Item_EditNotes, "accessories-text-editor", IconEditSign );
+    w->updateIcons( Actions::Item_EditWithEditor, "accessories-text-editor", IconPencil );
+    w->updateIcons( Actions::Item_Action, "action", IconCog );
+    w->updateIcons( Actions::Item_NextToClipboard, "go-down", IconArrowDown );
+    w->updateIcons( Actions::Item_PreviousToClipboard, "go-up", IconArrowUp );
 
-    w->updateIcons( Actions::Tabs_NewTab, iconTabNew() );
-    w->updateIcons( Actions::Tabs_RenameTab, iconTabRename() );
-    w->updateIcons( Actions::Tabs_RemoveTab, iconTabRemove() );
 
-    w->updateIcons( Actions::Help_Help, iconHelp() );
+    w->updateIcons( Actions::Tabs_NewTab, "tab_new" );
+    w->updateIcons( Actions::Tabs_RenameTab, "tab_rename" );
+    w->updateIcons( Actions::Tabs_RemoveTab, "tab_remove" );
+
+    w->updateIcons( Actions::Help_Help, "help-about", IconQuestionSign );
 
 #ifndef NO_GLOBAL_SHORTCUTS
     w = ui->shortcutsWidgetSystemWide;

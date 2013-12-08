@@ -53,6 +53,7 @@
 #include <QMimeData>
 #include <QPushButton>
 #include <QTimer>
+#include <QToolBar>
 #include <QPainter>
 
 #ifdef HAS_TESTS
@@ -173,6 +174,7 @@ struct MainWindowOptions {
 
     bool hideTabs;
     bool hideMenuBar;
+    bool hideToolbar;
 
     int itemActivationCommands;
 
@@ -211,8 +213,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     // create configuration manager
     ConfigurationManager::createInstance(this);
+    ConfigurationManager *cm = ConfigurationManager::instance();
 
-    ConfigurationManager::instance()->loadGeometry(this);
+    cm->loadGeometry(this);
+    restoreState( cm->value(objectName() + "_state").toByteArray() );
 
     updateIcon();
 
@@ -256,7 +260,6 @@ MainWindow::MainWindow(QWidget *parent)
     m_timerShowWindow->setInterval(250);
 
     // notify window if configuration changes
-    ConfigurationManager *cm = ConfigurationManager::instance();
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
@@ -773,6 +776,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
              this, SLOT(close()) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
+    connect( c, SIGNAL(contextMenuUpdated()),
+             this, SLOT(onItemMenuUpdated()) );
     connect( c, SIGNAL(addToTab(const QVariantMap,const QString)),
              this, SLOT(addToTab(const QVariantMap,const QString)),
              Qt::DirectConnection );
@@ -1140,6 +1145,11 @@ void MainWindow::loadSettings()
         }
     }
 
+    m_options->hideToolbar = cm->value("hide_toolbar").toBool();
+    ui->toolBar->clear();
+    ui->toolBar->setHidden(m_options->hideToolbar);
+    cm->tabAppearance()->decorateToolBar(ui->toolBar);
+
     saveCollapsedTabs();
 
     // tab bar position
@@ -1168,6 +1178,8 @@ void MainWindow::loadSettings()
 
     if ( ui->tabWidget->count() == 0 )
         addTab( tr("&clipboard") );
+
+    browser()->setContextMenu(m_menuItem);
 
     loadCollapsedTabs();
 
@@ -1329,6 +1341,7 @@ void MainWindow::tabChanged(int current, int previous)
     bool currentIsTabGroup = current == -1;
 
     m_menuItem->clear();
+    onItemMenuUpdated();
 
     emit tabGroupSelected(currentIsTabGroup);
 
@@ -1772,6 +1785,28 @@ void MainWindow::updateFocusWindows()
         WId lastWindow = platform->getCurrentWindow();
         if ( isValidWindow(lastWindow) )
             m_lastWindow = lastWindow;
+    }
+}
+
+void MainWindow::onItemMenuUpdated()
+{
+    if ( !ui->toolBar->isVisible() )
+        return;
+
+    ui->toolBar->clear();
+    const QColor color = getDefaultIconColor(*ui->toolBar, QPalette::Window);
+    foreach ( QAction *action, m_menuItem->actions() ) {
+        if ( action->isSeparator() ) {
+            ui->toolBar->addSeparator();
+        } else if ( !action->icon().isNull() ) {
+            QIcon icon = action->icon();
+            bool hasIconId;
+            const int iconId = action->property("CopyQ_icon_id").toInt(&hasIconId);
+            const QString iconTheme = action->property("CopyQ_icon_theme").toString();
+            if (hasIconId)
+                icon = getIcon(iconTheme, iconId, color, color);
+            ui->toolBar->addAction( icon, action->text(), action, SIGNAL(triggered()) );
+        }
     }
 }
 
@@ -2305,8 +2340,10 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 
 MainWindow::~MainWindow()
 {
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    cm->disconnect();
+    cm->setValue( objectName() + "_state", saveState() );
     saveCollapsedTabs();
-    ConfigurationManager::instance()->disconnect();
     m_tray->hide();
     delete ui;
 }

@@ -116,23 +116,27 @@ QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &co
 const QIcon &IconFactory::getIcon(const QString &iconName)
 {
     ResourceIconCache::iterator it = m_resourceIconCache.find(iconName);
-    if ( it == m_resourceIconCache.end() ) {
-        const QString resourceName = QString(":/images/") + iconName + QString(".svg");
-        QIcon icon;
-
-        // Tint tab icons.
-        if ( iconName.startsWith(QString("tab_")) ) {
-            QPixmap pix(resourceName);
-            icon = colorizedPixmap(pix, m_iconColor);
-            icon.addPixmap( colorizedPixmap(pix, m_iconColorActive), QIcon::Active );
-        } else {
-            icon = QIcon(resourceName);
-        }
-
-        it = m_resourceIconCache.insert(iconName, icon);
-    }
+    if ( it == m_resourceIconCache.end() )
+        it = m_resourceIconCache.insert( iconName, getIcon(iconName, m_iconColor, m_iconColorActive) );
 
     return *it;
+}
+
+QIcon IconFactory::getIcon(const QString &iconName, const QColor &color, const QColor &activeColor)
+{
+    const QString resourceName = QString(":/images/") + iconName + QString(".svg");
+    QIcon icon;
+
+    // Tint tab icons.
+    if ( iconName.startsWith(QString("tab_")) ) {
+        QPixmap pix(resourceName);
+        icon = colorizedPixmap(pix, color.isValid() ? color : m_iconColor);
+        icon.addPixmap( colorizedPixmap(pix, activeColor.isValid() ? activeColor : m_iconColorActive), QIcon::Active );
+    } else {
+        icon = QIcon(resourceName);
+    }
+
+    return icon;
 }
 
 void IconFactory::invalidateCache()

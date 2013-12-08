@@ -42,6 +42,7 @@ public:
     QIcon getIcon(const QString &themeName, ushort id);
     QIcon getIcon(const QString &themeName, ushort id, const QColor &color, const QColor &activeColor);
     const QIcon &getIcon(const QString &iconName);
+    QIcon getIcon(const QString &iconName, const QColor &color, const QColor &activeColor);
 
     void setUseSystemIcons(bool enable) { m_useSystemIcons = enable; }
     bool useSystemIcons() const { return m_useSystemIcons; }

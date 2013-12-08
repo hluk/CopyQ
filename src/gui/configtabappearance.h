@@ -53,6 +53,9 @@ public:
     /** Decorate tab widget. */
     void decorateTabs(QWidget *tabWidget) const;
 
+    /** Decorate tool bar. */
+    void decorateToolBar(QWidget *toolBar) const;
+
     /** Return stylesheet for tooltips. */
     QString getToolTipStyleSheet() const;
 

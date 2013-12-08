@@ -388,6 +388,16 @@ Note: This is not be supported on all systems.</string>
                </widget>
               </item>
               <item>
+               <widget class="QCheckBox" name="checkBoxHideToolbar">
+                <property name="toolTip">
+                 <string>Hide toolbar</string>
+                </property>
+                <property name="text">
+                 <string>Hide too&amp;lbar</string>
+                </property>
+               </widget>
+              </item>
+              <item>
                <widget class="QCheckBox" name="checkBoxDisableTray">
                 <property name="toolTip">
                  <string>Don't show tray icon; minimize window when closed</string>
@@ -1000,6 +1010,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>
   <tabstop>checkBoxHideMenuBar</tabstop>
+  <tabstop>checkBoxHideToolbar</tabstop>
   <tabstop>checkBoxDisableTray</tabstop>
   <tabstop>comboBoxNotificationPosition</tabstop>
   <tabstop>spinBoxItemPopupInterval</tabstop>

@@ -744,6 +744,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 
         IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
         act->setIcon( iconFactory->iconFromFile(command.icon) );
+        if (command.icon.size() == 1)
+            act->setProperty( "CopyQ_icon_id", command.icon[0].unicode() );
 
         if ( isOwnMenu && !command.shortcut.isEmpty() ) {
             const QKeySequence shortcut = command.shortcut;
@@ -981,6 +983,8 @@ void ClipboardBrowser::updateContextMenu()
     m_menu->addSeparator();
 
     addCommandsToMenu(m_menu, getSelectedItemData());
+
+    emit contextMenuUpdated();
 }
 
 void ClipboardBrowser::onModelDataChanged()

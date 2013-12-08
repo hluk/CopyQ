@@ -531,6 +531,7 @@ void ConfigurationManager::initOptions()
     bind("transparency", ui->spinBoxTransparencyUnfocused, 0);
     bind("hide_tabs", ui->checkBoxHideTabs, false);
     bind("hide_menu_bar", ui->checkBoxHideMenuBar, false);
+    bind("hide_toolbar", ui->checkBoxHideToolbar, false);
     bind("disable_tray", ui->checkBoxDisableTray, false);
     bind("tab_position", ui->comboBoxTabPosition, 0);
     bind("text_wrap", ui->checkBoxTextWrap, true);
@@ -1063,12 +1064,18 @@ const QIcon &getIconFromResources(const QString &iconName)
     return ConfigurationManager::instance()->iconFactory()->getIcon(iconName);
 }
 
-const QIcon getIcon(const QString &themeName, ushort iconId)
+QIcon getIconFromResources(const QString &iconName, const QColor &color, const QColor &activeColor)
+{
+    Q_ASSERT( !iconName.isEmpty() );
+    return ConfigurationManager::instance()->iconFactory()->getIcon(iconName, color, activeColor);
+}
+
+QIcon getIcon(const QString &themeName, ushort iconId)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId);
 }
 
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
+QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
 }
