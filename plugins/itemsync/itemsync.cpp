@@ -690,6 +690,11 @@ bool ItemSync::hasChanges(QWidget *editor) const
     return m_childItem->hasChanges(editor);
 }
 
+QObject *ItemSync::createExternalEditor(const QModelIndex &index, QWidget *parent) const
+{
+    return m_childItem->createExternalEditor(index, parent);
+}
+
 void ItemSync::updateSize(const QSize &maximumSize)
 {
     setMaximumSize(maximumSize);

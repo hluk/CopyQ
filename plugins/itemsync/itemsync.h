@@ -53,6 +53,8 @@ protected:
 
     virtual bool hasChanges(QWidget *editor) const;
 
+    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+
     virtual void updateSize(const QSize &maximumSize);
 
     virtual void mousePressEvent(QMouseEvent *e);
