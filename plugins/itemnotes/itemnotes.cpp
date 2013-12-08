@@ -192,6 +192,12 @@ bool ItemNotes::hasChanges(QWidget *editor) const
     return m_childItem->hasChanges(editor);
 }
 
+QObject *ItemNotes::createExternalEditor(const QModelIndex &index, QWidget *parent) const
+{
+    return m_childItem ? m_childItem->createExternalEditor(index, parent)
+                       : ItemWidget::createExternalEditor(index, parent);
+}
+
 void ItemNotes::updateSize(const QSize &maximumSize)
 {
     setMaximumSize(maximumSize);
