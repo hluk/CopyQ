@@ -66,6 +66,7 @@ const char configFormatSettings[] = "format_settings";
 const char tabConfigSavedFiles[] = "saved_files";
 
 const char dataFileSuffix[] = "_copyq.dat";
+const char noteFileSuffix[] = "_note.txt";
 
 #define MIME_PREFIX_ITEMSYNC MIME_PREFIX "itemsync-"
 const char mimeExtensionMap[] = MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
@@ -153,6 +154,7 @@ FileFormat getFormatSettingsFromFileName(const QString &fileName,
             }
         }
     }
+
     return FileFormat();
 }
 
@@ -214,7 +216,7 @@ QList<Ext> fileExtensionsAndFormats()
     static QList<Ext> exts;
 
     if ( exts.isEmpty() ) {
-        exts.append( Ext("_note.txt", mimeItemNotes) );
+        exts.append( Ext(noteFileSuffix, mimeItemNotes) );
 
         exts.append( Ext(".bmp", "image/bmp") );
         exts.append( Ext(".gif", "image/gif") );
@@ -497,13 +499,57 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
     return -1;
 }
 
-QString iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &formatSettings)
+QString iconFromUserExtension(const QStringList &fileNames, const QList<FileFormat> &formatSettings)
 {
-    const FileFormat fileFormat = getFormatSettingsFromFileName(baseName, formatSettings);
-    if ( !fileFormat.icon.isEmpty() )
-        return fileFormat.icon;
+    foreach ( const FileFormat &format, formatSettings ) {
+        if ( format.icon.isEmpty() )
+            continue;
 
-    return iconFromId(iconFromBaseNameExtensionHelper(baseName));
+        foreach (const QString &ext, format.extensions) {
+            foreach (const QString &fileName, fileNames) {
+                if ( fileName.endsWith(ext) )
+                    return format.icon;
+            }
+        }
+    }
+
+    return QString();
+}
+
+QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSettings)
+{
+    const QString baseName = getBaseName(index);
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
+
+    QStringList fileNames;
+    foreach ( const QString &format, mimeToExtension.keys() ) {
+        // Don't change icon for notes.
+        if (format != mimeItemNotes)
+            fileNames.append( baseName + mimeToExtension[format].toString() );
+    }
+
+    // Try to get user icon from file extension.
+    const QString icon = iconFromUserExtension(fileNames, formatSettings);
+    if ( !icon.isEmpty() )
+        return icon;
+
+    // Try to get default icon from MIME type.
+    foreach ( const QString &format, dataMap.keys() ) {
+        const QString icon = iconFromMime(format);
+        if ( !icon.isEmpty() )
+            return icon;
+    }
+
+    // Try to get default icon from file extension.
+    foreach (const QString &fileName, fileNames) {
+        const int id = iconFromBaseNameExtensionHelper(fileName);
+        if (id != -1)
+            return iconFromId(id);
+    }
+
+    // Return icon for unknown files.
+    return iconFromId(IconFile);
 }
 
 bool containsItemsWithFiles(const QList<QModelIndex> &indexList)
@@ -1403,29 +1449,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     if ( baseName.isEmpty() )
         return NULL;
 
-    const QVariantMap dataMap = index.data(contentType::data).toMap();
-    const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
-
-    QString icon;
-    foreach ( const QString &format, dataMap.keys() ) {
-        if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
-            continue; // skip internal data
-
-        icon = mimeToExtension.contains(format)
-                ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)
-                : iconFromMime(format);
-
-        if ( !icon.isNull() )
-            break;
-    }
-
-    if ( icon.isNull() ) {
-        icon = iconFromBaseNameExtension(baseName, m_formatSettings);
-        if ( icon.isNull() )
-            icon = iconFromId(IconFile);
-    }
-
-    return new ItemSync(baseName, icon, itemWidget);
+    return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
 }
 
 bool ItemSyncLoader::canRemoveItems(const QList<QModelIndex> &indexList)
