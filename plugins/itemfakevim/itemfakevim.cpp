@@ -523,6 +523,11 @@ bool ItemFakeVim::hasChanges(QWidget *editor) const
 
 }
 
+QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *parent) const
+{
+    return m_childItem->createExternalEditor(index, parent);
+}
+
 ItemFakeVimLoader::ItemFakeVimLoader()
     : ui(NULL)
 {

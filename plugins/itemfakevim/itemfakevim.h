@@ -52,6 +52,8 @@ protected:
 
     virtual bool hasChanges(QWidget *editor) const;
 
+    virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
+
 private:
     QScopedPointer<ItemWidget> m_childItem;
     QString m_sourceFileName;
