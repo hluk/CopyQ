@@ -124,6 +124,8 @@ public:
 
     virtual bool initializeTab(QAbstractItemModel *model);
 
+    virtual void uninitializeTab(QAbstractItemModel *model);
+
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
     virtual bool canRemoveItems(const QList<QModelIndex> &indexList);

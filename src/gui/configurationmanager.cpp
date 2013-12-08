@@ -204,6 +204,7 @@ bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
     COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
                .arg(model.property("tabName").toString()) );
 
+    (*loader)->uninitializeTab(&model);
     *loader = itemFactory()->initializeTab(&model);
     if ( *loader && saveItems(model, *loader) ) {
         model.setDisabled(false);

@@ -745,7 +745,12 @@ public:
         connect( &m_watcher, SIGNAL(fileChanged(QString)),
                  &m_updateTimer, SLOT(start()) );
 
-        connectModel();
+        connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
+                 this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
+        connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
+                 this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
+        connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+                 SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
 
         if (model->rowCount() > 0)
             saveItems(0, model->rowCount() - 1);
@@ -755,20 +760,23 @@ public:
         updateItems();
     }
 
-    void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
+    const QString &path() const { return m_path; }
+
+    bool isValid() const { return m_valid; }
+
+    QAbstractItemModel *model() const { return m_model; }
+
+public slots:
+    void lock()
     {
-        disconnectModel();
+        m_valid = false;
+        m_model->setProperty(propertyModelDisabled, true);
+    }
 
-        const int maxItems = m_model->property("maxItems").toInt();
-
-        foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
-            if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
-                return;
-            if ( m_model->rowCount() >= maxItems )
-                break;
-        }
-
-        connectModel();
+    void unlock()
+    {
+        m_valid = true;
+        m_model->setProperty(propertyModelDisabled, false);
     }
 
     bool createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
@@ -789,13 +797,18 @@ public:
         return true;
     }
 
-    const QString &path() const { return m_path; }
+    void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
+    {
+        const int maxItems = m_model->property("maxItems").toInt();
 
-    bool isValid() const { return m_valid; }
+        foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
+            if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
+                return;
+            if ( m_model->rowCount() >= maxItems )
+                break;
+        }
+    }
 
-    QAbstractItemModel *model() const { return m_model; }
-
-public slots:
     /**
      * Check for new files.
      */
@@ -804,9 +817,7 @@ public slots:
         if ( m_model.isNull() )
             return;
 
-        disconnectModel();
-
-        m_model->setProperty(propertyModelDisabled, true);
+        lock();
 
         QDir dir( m_watcher.directories().value(0) );
         const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
@@ -841,9 +852,7 @@ public slots:
         foreach (const QString &fileName, files)
             watchPath( dir.absoluteFilePath(fileName) );
 
-        m_model->setProperty(propertyModelDisabled, false);
-
-        connectModel();
+        unlock();
     }
 
 private slots:
@@ -871,26 +880,6 @@ private:
     {
         if ( !m_watcher.files().contains(path) )
             m_watcher.addPath(path);
-    }
-
-    void connectModel()
-    {
-        connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
-                 this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
-        connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
-                 this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
-        connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-                 SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
-        m_valid = true;
-    }
-
-    void disconnectModel()
-    {
-        m_valid = false;
-        disconnect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-                    this, SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-        disconnect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
-                    this, SLOT(onRowsInserted(QModelIndex, int, int)) );
     }
 
     bool createItem(const QVariantMap &dataMap, int targetRow)
@@ -938,7 +927,10 @@ private:
 
     void saveItems(int first, int last)
     {
-        disconnectModel();
+        if (!isValid())
+            return;
+
+        lock();
 
         const QList<QPersistentModelIndex> indexList = this->indexList(first, last);
 
@@ -1022,7 +1014,7 @@ private:
             }
         }
 
-        connectModel();
+        unlock();
     }
 
     bool renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name)
@@ -1256,16 +1248,6 @@ QVariantMap ItemSyncLoader::applySettings()
     }
     m_settings.insert(configFormatSettings, formatSettings);
 
-    // Update data of items with watched files.
-    // Path of watched tab changes: save in old path, unload, reload with the new path sometime later
-    // Path of unwatched tab is set: save items in the new directory (sometime later)
-    // Path of watched tab is unset: save, unload, empty configuration file sometime later
-    foreach ( FileWatcher *watcher, m_watchers.values() ) {
-        QAbstractItemModel *m = watcher->model();
-        if ( watcher->path() == tabPath(*m) )
-            watcher->updateItems();
-    }
-
     return m_settings;
 }
 
@@ -1408,6 +1390,11 @@ bool ItemSyncLoader::initializeTab(QAbstractItemModel *model)
 {
     loadItems(model, QStringList());
     return true;
+}
+
+void ItemSyncLoader::uninitializeTab(QAbstractItemModel *model)
+{
+    delete m_watchers.take(model);
 }
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)

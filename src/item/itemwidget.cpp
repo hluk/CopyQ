@@ -144,6 +144,10 @@ bool ItemLoaderInterface::initializeTab(QAbstractItemModel *)
     return false;
 }
 
+void ItemLoaderInterface::uninitializeTab(QAbstractItemModel *)
+{
+}
+
 ItemWidget *ItemLoaderInterface::transform(ItemWidget *, const QModelIndex &)
 {
     return NULL;

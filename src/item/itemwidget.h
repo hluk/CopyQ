@@ -226,6 +226,11 @@ public:
     virtual bool initializeTab(QAbstractItemModel *model);
 
     /**
+     * Uninitialize tab (tab will be handled by different plugin).
+     */
+    virtual void uninitializeTab(QAbstractItemModel *model);
+
+    /**
      * Allow to transform item widget (wrap around a new widget).
      * By default returns NULL not to wrap the widget.
      * New ItemWidget must take care of deleting the old one!
