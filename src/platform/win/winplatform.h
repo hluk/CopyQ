@@ -42,6 +42,8 @@ public:
     bool isAutostartEnabled() { return false; }
 
     void setAutostartEnabled(bool) {}
+
+    void onApplicationStarted() {}
 };
 
 #endif // WINPLATFORM_H
