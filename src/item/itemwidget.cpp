@@ -104,7 +104,11 @@ void ItemWidget::updateSize(const QSize &maximumSize)
 {
     QWidget *w = widget();
     w->setMaximumSize(maximumSize);
-    w->setFixedSize( maximumSize.width(), w->heightForWidth(maximumSize.width()) );
+    const int h = w->heightForWidth(maximumSize.width());
+    if (h > 0)
+        w->setFixedSize( maximumSize.width(), h );
+    else
+        w->resize(w->sizeHint());
 }
 
 void ItemWidget::setCurrent(bool)

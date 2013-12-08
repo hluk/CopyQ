@@ -99,12 +99,6 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
 }
 
-void ItemImage::updateSize(const QSize &maximumSize)
-{
-    setMaximumSize(maximumSize);
-    resize(sizeHint());
-}
-
 ItemImageLoader::ItemImageLoader()
     : ui(NULL)
 {
