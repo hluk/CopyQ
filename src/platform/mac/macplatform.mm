@@ -24,6 +24,7 @@
 
 #include <QMutex>
 #include <QMutexLocker>
+#include <QGuiApplication>
 
 #include <Cocoa/Cocoa.h>
 #import <Carbon/Carbon.h>
@@ -185,7 +186,8 @@ MacPlatform::MacPlatform()
 
 void MacPlatform::onApplicationStarted() {
     QMutexLocker lock(&mutex);
-    if (!pasteboardMime) {
+    // Only try to create pasteboardMime if we have a native interface, otherwise everything breaks
+    if (!pasteboardMime && QGuiApplication::platformNativeInterface()) {
         pasteboardMime = new CopyQPasteboardMime();
     }
 }
