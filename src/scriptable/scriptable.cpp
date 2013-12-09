@@ -202,14 +202,14 @@ QList<CommandHelp> commandHelp()
            .addArg(Scriptable::tr("SESSION"))
         << CommandHelp("help, -h, --help",
                        Scriptable::tr("\nPrint help for COMMAND or all commands."))
-           .addArg("[" + Scriptable::tr("COMMAND") + "]")
+           .addArg("[" + Scriptable::tr("COMMAND") + "]...")
         << CommandHelp("version, -v, --version",
                        Scriptable::tr("\nPrint version of program and libraries."))
 #ifdef HAS_TESTS
         << CommandHelp("tests, --tests",
-                       QString("Run tests."))
+                       QString("Run tests (append --help arugment for more info)."))
         << CommandHelp("keys",
-                       QString("Pass keys to the main window."))
+                       QString("Pass keys to the main window (used in tests)."))
            .addArg(QString("KEYS") + "...")
 #endif
            ;
