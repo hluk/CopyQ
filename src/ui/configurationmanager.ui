@@ -378,16 +378,6 @@ Note: This is not be supported on all systems.</string>
                </widget>
               </item>
               <item>
-               <widget class="QCheckBox" name="checkBoxHideMenuBar">
-                <property name="toolTip">
-                 <string>Hide menu bar in main window (press Alt key or move mouse to top of the window to show)</string>
-                </property>
-                <property name="text">
-                 <string>Hide me&amp;nu bar</string>
-                </property>
-               </widget>
-              </item>
-              <item>
                <widget class="QCheckBox" name="checkBoxHideToolbar">
                 <property name="toolTip">
                  <string>Hide toolbar</string>
@@ -1009,7 +999,6 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>spinBoxTransparencyFocused</tabstop>
   <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>
-  <tabstop>checkBoxHideMenuBar</tabstop>
   <tabstop>checkBoxHideToolbar</tabstop>
   <tabstop>checkBoxDisableTray</tabstop>
   <tabstop>comboBoxNotificationPosition</tabstop>

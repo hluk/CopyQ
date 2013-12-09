@@ -149,7 +149,6 @@ struct MainWindowOptions {
         , transparency(0)
         , transparencyFocused(0)
         , hideTabs(false)
-        , hideMenuBar(false)
         , itemActivationCommands(ActivateCloses)
         , clearFirstTab(false)
         , showTray(true)
@@ -173,7 +172,6 @@ struct MainWindowOptions {
     int transparencyFocused;
 
     bool hideTabs;
-    bool hideMenuBar;
     bool hideToolbar;
 
     int itemActivationCommands;
@@ -673,22 +671,6 @@ void MainWindow::setHideTabs(bool hide)
     ui->tabWidget->setTabBarHidden(hide);
 }
 
-void MainWindow::setHideMenuBar(bool hide)
-{
-    if (!m_options->hideMenuBar)
-        return;
-
-    const QColor color = palette().color(QPalette::Highlight);
-    ui->widgetShowMenuBar->setStyleSheet( QString("*{background-color:%1}").arg(color.name()) );
-    ui->widgetShowMenuBar->installEventFilter(this);
-    ui->widgetShowMenuBar->show();
-
-    menuBar()->setNativeMenuBar(!m_options->hideMenuBar);
-
-    // Hiding menu bar completely disables shortcuts for child QAction.
-    menuBar()->setStyleSheet(hide ? QString("QMenuBar{height:0}") : QString());
-}
-
 void MainWindow::saveCollapsedTabs()
 {
     TabWidget *tabs = ui->tabWidget;
@@ -907,12 +889,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (c->editing())
         return;
 
-    if (event->key() == Qt::Key_Alt) {
-        if (m_options->hideTabs)
-            setHideTabs(false);
-        if (m_options->hideMenuBar)
-            setHideMenuBar(false);
-    }
+    if (m_options->hideTabs && event->key() == Qt::Key_Alt)
+        setHideTabs(false);
 
     if (m_browsemode && m_options->viMode) {
         if (c->handleViKey(event))
@@ -1015,14 +993,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
 void MainWindow::keyReleaseEvent(QKeyEvent *event)
 {
-    if (event->key() == Qt::Key_Alt) {
-        if (m_options->hideTabs)
-            setHideTabs(true);
-        if (m_options->hideMenuBar) {
-            setHideMenuBar(true);
-            enterBrowseMode(m_browsemode);
-        }
-    }
+    if (m_options->hideTabs && event->key() == Qt::Key_Alt)
+        setHideTabs(true);
+
     QMainWindow::keyReleaseEvent(event);
 }
 
@@ -1033,9 +1006,7 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(true);
     } else if (event->type() == QEvent::Leave) {
         updateWindowTransparency(false);
-
         setHideTabs(m_options->hideTabs);
-        setHideMenuBar(m_options->hideMenuBar);
     } else if (event->type() == QEvent::WindowActivate) {
         if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() ) {
             // Window manager ignores window minimizing -- hide it instead.
@@ -1045,26 +1016,13 @@ bool MainWindow::event(QEvent *event)
         }
 
         updateWindowTransparency();
-
-        // Update highligh color of show/hide widget for menu bar.
-        setHideMenuBar(m_options->hideMenuBar);
     } else if (event->type() == QEvent::WindowDeactivate) {
         m_lastWindow = WId();
         m_pasteWindow = WId();
         updateWindowTransparency();
-
         setHideTabs(m_options->hideTabs);
-        setHideMenuBar(m_options->hideMenuBar);
     }
     return QMainWindow::event(event);
-}
-
-bool MainWindow::eventFilter(QObject *obj, QEvent *event)
-{
-    if (obj == ui->widgetShowMenuBar && event->type() == QEvent::Enter)
-        setHideMenuBar(false);
-
-    return false;
 }
 
 #if QT_VERSION < 0x050000
@@ -1132,18 +1090,6 @@ void MainWindow::loadSettings()
 
     m_options->hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_options->hideTabs);
-
-    // Don't override menu bar style if unnecessary.
-    if ( m_options->hideMenuBar != cm->value("hide_menu_bar").toBool() ) {
-        m_options->hideMenuBar = !m_options->hideMenuBar;
-        if (m_options->hideMenuBar) {
-            setHideMenuBar(true);
-        } else {
-            ui->widgetShowMenuBar->removeEventFilter(this);
-            ui->widgetShowMenuBar->hide();
-            menuBar()->setStyleSheet(QString());
-        }
-    }
 
     m_options->hideToolbar = cm->value("hide_toolbar").toBool();
     ui->toolBar->clear();
@@ -1351,7 +1297,6 @@ void MainWindow::tabChanged(int current, int previous)
     // update item menu (necessary for keyboard shortcuts to work)
     ClipboardBrowser *c = browser();
     c->setContextMenu(m_menuItem);
-    setHideMenuBar(m_options->hideMenuBar);
 
     c->filterItems( ui->searchBar->filter() );
 
