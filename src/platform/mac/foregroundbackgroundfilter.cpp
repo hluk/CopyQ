@@ -65,7 +65,7 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
     }
 
     if (window && (type == Qt::Dialog || type == Qt::Window)) {
-        if (dynamic_cast<QShowEvent*>(ev)) {
+        if (ev->type() == QEvent::Show) {
             // Don't foreground if we already are
             if (!m_macPlatform->isNormalApp()) {
                 if (m_mainWindow && obj != m_mainWindow && !m_mainWindow->isVisible()) {
@@ -92,7 +92,7 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
                 usleep(100000);
                 m_macPlatform->raiseWindow(window->winId());
             }
-        } else if (dynamic_cast<QHideEvent*>(ev)) {
+        } else if (ev->type() == QEvent::Hide) {
             // Don't background if there are any other visible windows..
             bool onlyWindow = true;
             foreach (QWindow *win, QApplication::topLevelWindows()) {
