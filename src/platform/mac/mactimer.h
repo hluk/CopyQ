@@ -22,6 +22,12 @@
 
 #include <QObject>
 
+#ifdef __OBJC__
+@class NSTimer;
+#else
+typedef void NSTimer;
+#endif
+
 /**
  * Class similar to a QTimer but allows setting a tolerance, which
  * makes timers more battery-friendly on OSX.
@@ -31,7 +37,7 @@ class MacTimer : public QObject
     Q_OBJECT
 
 public:
-    MacTimer(QObject *parent = 0);
+    explicit MacTimer(QObject *parent = 0);
     virtual ~MacTimer();
 
     void setInterval(int msec);
@@ -63,7 +69,7 @@ private:
     int m_tolerance;
     bool m_singleShot;
 
-    void *m_nsTimer;
+    NSTimer *m_nsTimer;
 };
 
 #endif // MACTIMER_H

@@ -98,13 +98,10 @@ void MacTimer::start() {
         }
     );
 
-    m_nsTimer = (void *) timer;
-
     // Set the tolerance using an NSTimer as there is no CF way of doing so
-    NSTimer *nsTimer = (NSTimer *)timer;
-    if ([nsTimer respondsToSelector:@selector(setTolerance:)]) {
+    if ([m_nsTimer respondsToSelector:@selector(setTolerance:)]) {
         double toleranceSeconds = (double)m_tolerance / 1000.0;
-        [nsTimer setTolerance:toleranceSeconds];
+        [m_nsTimer setTolerance:toleranceSeconds];
     }
 
     // add timer to the hidden run loop
