@@ -32,12 +32,22 @@
 
 namespace {
     QPointer<ForegroundBackgroundFilter> globalFilter = 0;
+
+    MainWindow * getMainWindow() {
+        foreach (QWidget *win, QApplication::topLevelWidgets()) {
+            if (win->objectName() == "MainWindow") {
+                return qobject_cast<MainWindow*>(win);
+            }
+        }
+
+        return NULL;
+    }
 }
 
-bool ForegroundBackgroundFilter::installFilter(MainWindow *mainWindow)
+bool ForegroundBackgroundFilter::installFilter()
 {
     if (!globalFilter) {
-        globalFilter = new ForegroundBackgroundFilter(mainWindow);
+        globalFilter = new ForegroundBackgroundFilter();
         QCoreApplication *app = QCoreApplication::instance();
         globalFilter->setParent(app);
         app->installEventFilter(globalFilter);
@@ -46,9 +56,9 @@ bool ForegroundBackgroundFilter::installFilter(MainWindow *mainWindow)
     return (globalFilter != 0);
 }
 
-ForegroundBackgroundFilter::ForegroundBackgroundFilter(MainWindow *mainWindow) :
+ForegroundBackgroundFilter::ForegroundBackgroundFilter() :
     m_macPlatform(new MacPlatform())
-    , m_mainWindow(mainWindow)
+    , m_mainWindow(getMainWindow())
 {
 }
 
@@ -68,6 +78,9 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
         if (ev->type() == QEvent::Show) {
             // Don't foreground if we already are
             if (!m_macPlatform->isNormalApp()) {
+                if (!m_mainWindow) {
+                    m_mainWindow = getMainWindow();
+                }
                 if (m_mainWindow && obj != m_mainWindow && !m_mainWindow->isVisible()) {
                     // If the main window is not visible, show the main window,
                     // and repost the event. This is a workaround to fix the

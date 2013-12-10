@@ -272,10 +272,6 @@ MainWindow::MainWindow(QWidget *parent)
     enterBrowseMode();
 
     m_tray->setContextMenu(m_trayMenu);
-
-#ifdef Q_OS_MAC
-    ForegroundBackgroundFilter::installFilter(this);
-#endif
 }
 
 void MainWindow::exit()

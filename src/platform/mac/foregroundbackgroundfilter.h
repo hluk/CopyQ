@@ -43,12 +43,12 @@ public:
     /**
      * Install the filter if not already installed.
      */
-    static bool installFilter(MainWindow *mainWindow);
+    static bool installFilter();
     virtual ~ForegroundBackgroundFilter();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev);
-    ForegroundBackgroundFilter(MainWindow *mainWindow);
+    ForegroundBackgroundFilter();
 
 private:
     QScopedPointer<MacPlatform> m_macPlatform;

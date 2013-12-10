@@ -20,6 +20,7 @@
 #include "macplatform.h"
 
 #include "copyqpasteboardmime.h"
+#include "foregroundbackgroundfilter.h"
 #include <common/common.h>
 
 #include <QMutex>
@@ -190,6 +191,8 @@ void MacPlatform::onApplicationStarted() {
     if (!pasteboardMime && QGuiApplication::platformNativeInterface()) {
         pasteboardMime = new CopyQPasteboardMime();
     }
+
+    ForegroundBackgroundFilter::installFilter();
 }
 
 WId MacPlatform::getCurrentWindow()
