@@ -25,22 +25,17 @@
 
 #include <QWindow>
 #include <QEvent>
-#include <QMutex>
-#include <QMutexLocker>
 #include <QCoreApplication>
 #include <QApplication>
 #include <QShowEvent>
 #include <QHideEvent>
 
 namespace {
-    QMutex mutex;
     QPointer<ForegroundBackgroundFilter> globalFilter = 0;
 }
 
 bool ForegroundBackgroundFilter::installFilter(MainWindow *mainWindow)
 {
-    QMutexLocker locker(&mutex);
-
     if (!globalFilter) {
         globalFilter = new ForegroundBackgroundFilter(mainWindow);
         QCoreApplication *app = QCoreApplication::instance();
