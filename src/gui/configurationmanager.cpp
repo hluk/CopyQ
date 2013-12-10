@@ -743,12 +743,6 @@ void ConfigurationManager::loadSettings()
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
     updateAutostart();
-
-#ifdef Q_OS_MAC
-    // Can't hide menu bar on OS X, it breaks the UI
-    ui->checkBoxHideMenuBar->hide();
-    bind("hide_menu_bar", ui->checkBoxHideMenuBar, false);
-#endif
 }
 
 ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled, bool onlySaved) const
