@@ -123,7 +123,8 @@ bool ItemEditor::start()
     m_editor = new QProcess(this);
     connect( m_editor, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(close()) );
-    m_editor->start( m_editorcmd.arg(m_info.filePath()) );
+    const QString nativeFilePath = QDir::toNativeSeparators(m_info.filePath());
+    m_editor->start( m_editorcmd.arg('"' + nativeFilePath + '"') );
 
     tmpfile.setAutoRemove(false);
     tmpfile.close();

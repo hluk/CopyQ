@@ -80,17 +80,6 @@ void encryptMimeData(const QVariantMap &data, const QModelIndex &index, QAbstrac
     model->setData(index, dataMap, contentType::data);
 }
 
-bool isEncryptedFile(QFile *file)
-{
-    file->seek(0);
-    QDataStream stream(file);
-
-    QString header;
-    stream >> header;
-
-    return header == dataFileHeader || header == dataFileHeaderV2;
-}
-
 } // namespace
 
 ItemEncrypted::ItemEncrypted(QWidget *parent)
@@ -199,67 +188,96 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
-bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
+bool ItemEncryptedLoader::canLoadItems(QFile *file)
 {
-    bool encrypted = isEncryptedFile(file);
+    QDataStream stream(file);
 
-    // decrypt
-    if (encrypted) {
-        model->setProperty("disabled", true);
+    QString header;
+    stream >> header;
 
-        if (m_gpgProcessStatus == GpgNotInstalled)
-            return true;
+    return stream.status() == QDataStream::Ok
+            && (header == dataFileHeader || header == dataFileHeaderV2);
+}
 
-        QProcess p;
-        startGpgProcess( &p, QStringList("--decrypt") );
+bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model)
+{
+    const QString tabName = model.property("tabName").toString();
 
-        char encryptedBytes[4096];
+    foreach ( const QString &encryptTabName, m_settings.value("encrypt_tabs").toStringList() ) {
+        QString tabName1 = tabName;
 
-        QDataStream stream(file);
-        while ( !stream.atEnd() ) {
-            const int bytesRead = stream.readRawData(encryptedBytes, 4096);
-            p.write(encryptedBytes, bytesRead);
+        // Ignore ampersands (usually just for underlining mnemonics) if none is specified.
+        if ( !encryptTabName.contains('&') )
+            tabName1.remove('&');
+
+        // Ignore path in tab tree if none path separator is specified.
+        if ( !encryptTabName.contains('/') ) {
+            const int i = tabName1.lastIndexOf('/');
+            tabName1.remove(0, i + 1);
         }
 
-        p.closeWriteChannel();
-        p.waitForFinished();
-
-        const QByteArray bytes = p.readAllStandardOutput();
-        if ( bytes.isEmpty() )
+        if ( tabName1 == encryptTabName )
             return true;
-
-        QDataStream stream2(bytes);
-
-        quint64 maxItems = model->property("maxItems").toInt();
-        quint64 length;
-        stream2 >> length;
-        if ( length <= 0 || stream2.status() != QDataStream::Ok )
-            return true;
-        length = qMin(length, maxItems) - model->rowCount();
-
-        for ( quint64 i = 0; i < length && stream2.status() == QDataStream::Ok; ++i ) {
-            if ( !model->insertRow(i) )
-                return true;
-            QVariantMap dataMap;
-            stream2 >> dataMap;
-            model->setData( model->index(i, 0), dataMap, contentType::data );
-        }
-
-        if (stream2.status() != QDataStream::Ok)
-            return true;
-
-        model->setProperty("disabled", false);
     }
 
-    return encrypted;
+    return false;
+}
+
+bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
+{
+    if (m_gpgProcessStatus == GpgNotInstalled)
+        return false;
+
+    // This is needed to skip header.
+    if ( !canLoadItems(file) )
+        return false;
+
+    QProcess p;
+    startGpgProcess( &p, QStringList("--decrypt") );
+
+    char encryptedBytes[4096];
+
+    QDataStream stream(file);
+    while ( !stream.atEnd() ) {
+        const int bytesRead = stream.readRawData(encryptedBytes, 4096);
+        if (bytesRead == -1)
+            return false;
+        p.write(encryptedBytes, bytesRead);
+    }
+
+    p.closeWriteChannel();
+    p.waitForFinished();
+
+    const QByteArray bytes = p.readAllStandardOutput();
+    if ( bytes.isEmpty() )
+        return false;
+
+    QDataStream stream2(bytes);
+
+    quint64 maxItems = model->property("maxItems").toInt();
+    quint64 length;
+    stream2 >> length;
+    if ( length <= 0 || stream2.status() != QDataStream::Ok )
+        return false;
+    length = qMin(length, maxItems) - model->rowCount();
+
+    for ( quint64 i = 0; i < length && stream2.status() == QDataStream::Ok; ++i ) {
+        if ( !model->insertRow(i) )
+            return false;
+        QVariantMap dataMap;
+        stream2 >> dataMap;
+        model->setData( model->index(i, 0), dataMap, contentType::data );
+    }
+
+    if (stream2.status() != QDataStream::Ok)
+        return false;
+
+    return true;
 }
 
 bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file)
 {
     if (m_gpgProcessStatus == GpgNotInstalled)
-        return false;
-
-    if ( !shouldEncryptTab(model) )
         return false;
 
     quint64 length = model.rowCount();
@@ -292,19 +310,9 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file
     return true;
 }
 
-void ItemEncryptedLoader::itemsLoaded(QAbstractItemModel *model, QFile *file)
+bool ItemEncryptedLoader::initializeTab(QAbstractItemModel *)
 {
-    if (m_gpgProcessStatus == GpgNotInstalled)
-        return;
-
-    // Check if items need to be save again.
-    bool encrypt = shouldEncryptTab(*model);
-    if ( encrypt != isEncryptedFile(file) ) {
-        if (encrypt)
-            saveItems(*model, file);
-        else
-            model->setProperty("dirty", true);
-    }
+    return true;
 }
 
 void ItemEncryptedLoader::setPassword()
@@ -394,30 +402,6 @@ void ItemEncryptedLoader::onGpgProcessFinished(int exitCode, QProcess::ExitStatu
         updateUi();
         ui->labelInfo->setText( error.isEmpty() ? tr("Done") : error );
     }
-}
-
-bool ItemEncryptedLoader::shouldEncryptTab(const QAbstractItemModel &model) const
-{
-    const QString tabName = model.property("tabName").toString();
-
-    foreach ( const QString &encryptTabName, m_settings.value("encrypt_tabs").toStringList() ) {
-        QString tabName1 = tabName;
-
-        // Ignore ampersands (usually just for underlining mnemonics) if none is specified.
-        if ( !encryptTabName.contains('&') )
-            tabName1.remove('&');
-
-        // Ignore path in tab tree if none path separator is specified.
-        if ( !encryptTabName.contains('/') ) {
-            const int i = tabName1.lastIndexOf('/');
-            tabName1.remove(0, i + 1);
-        }
-
-        if ( tabName1 == encryptTabName )
-            return true;
-    }
-
-    return false;
 }
 
 void ItemEncryptedLoader::updateUi()

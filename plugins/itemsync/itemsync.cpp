@@ -66,6 +66,7 @@ const char configFormatSettings[] = "format_settings";
 const char tabConfigSavedFiles[] = "saved_files";
 
 const char dataFileSuffix[] = "_copyq.dat";
+const char noteFileSuffix[] = "_note.txt";
 
 #define MIME_PREFIX_ITEMSYNC MIME_PREFIX "itemsync-"
 const char mimeExtensionMap[] = MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
@@ -76,7 +77,6 @@ const char mimeNoFormat[] = MIME_PREFIX_ITEMSYNC "no-format";
 const char mimeUnknownFormats[] = MIME_PREFIX_ITEMSYNC "unknown-formats";
 
 const char propertyModelDisabled[] = "disabled";
-const char propertyModelDirty []= "dirty";
 
 const int updateItemsIntervalMs = 2000; // Interval to update items after a file has changed.
 
@@ -121,8 +121,11 @@ bool readConfig(QFile *file, QVariantMap *config)
     QDataStream stream(file);
     if ( !readConfigHeader(&stream) )
         return false;
+
     stream >> *config;
-    return config->value(configVersion, 0).toInt() == currentVersion;
+
+    return stream.status() == QDataStream::Ok
+            && config->value(configVersion, 0).toInt() == currentVersion;
 }
 
 void writeConfiguration(QFile *file, const QStringList &savedFiles)
@@ -151,6 +154,7 @@ FileFormat getFormatSettingsFromFileName(const QString &fileName,
             }
         }
     }
+
     return FileFormat();
 }
 
@@ -212,7 +216,7 @@ QList<Ext> fileExtensionsAndFormats()
     static QList<Ext> exts;
 
     if ( exts.isEmpty() ) {
-        exts.append( Ext("_note.txt", mimeItemNotes) );
+        exts.append( Ext(noteFileSuffix, mimeItemNotes) );
 
         exts.append( Ext(".bmp", "image/bmp") );
         exts.append( Ext(".gif", "image/gif") );
@@ -495,29 +499,63 @@ int iconFromBaseNameExtensionHelper(const QString &baseName)
     return -1;
 }
 
-QString iconFromBaseNameExtension(const QString &baseName, const QList<FileFormat> &formatSettings)
+QString iconFromUserExtension(const QStringList &fileNames, const QList<FileFormat> &formatSettings)
 {
-    const FileFormat fileFormat = getFormatSettingsFromFileName(baseName, formatSettings);
-    if ( !fileFormat.icon.isEmpty() )
-        return fileFormat.icon;
+    foreach ( const FileFormat &format, formatSettings ) {
+        if ( format.icon.isEmpty() )
+            continue;
 
-    return iconFromId(iconFromBaseNameExtensionHelper(baseName));
+        foreach (const QString &ext, format.extensions) {
+            foreach (const QString &fileName, fileNames) {
+                if ( fileName.endsWith(ext) )
+                    return format.icon;
+            }
+        }
+    }
+
+    return QString();
+}
+
+QString iconForItem(const QModelIndex &index, const QList<FileFormat> &formatSettings)
+{
+    const QString baseName = getBaseName(index);
+    const QVariantMap dataMap = index.data(contentType::data).toMap();
+    const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
+
+    QStringList fileNames;
+    foreach ( const QString &format, mimeToExtension.keys() ) {
+        // Don't change icon for notes.
+        if (format != mimeItemNotes)
+            fileNames.append( baseName + mimeToExtension[format].toString() );
+    }
+
+    // Try to get user icon from file extension.
+    const QString icon = iconFromUserExtension(fileNames, formatSettings);
+    if ( !icon.isEmpty() )
+        return icon;
+
+    // Try to get default icon from MIME type.
+    foreach ( const QString &format, dataMap.keys() ) {
+        const QString icon = iconFromMime(format);
+        if ( !icon.isEmpty() )
+            return icon;
+    }
+
+    // Try to get default icon from file extension.
+    foreach (const QString &fileName, fileNames) {
+        const int id = iconFromBaseNameExtensionHelper(fileName);
+        if (id != -1)
+            return iconFromId(id);
+    }
+
+    // Return icon for unknown files.
+    return iconFromId(IconFile);
 }
 
 bool containsItemsWithFiles(const QList<QModelIndex> &indexList)
 {
     foreach (const QModelIndex &index, indexList) {
         if ( index.data(contentType::data).toMap().contains(mimeBaseName) )
-            return true;
-    }
-
-    return false;
-}
-
-bool containsUserData(const QVariantMap &dataMap)
-{
-    foreach ( const QString &format, dataMap.keys() ) {
-        if ( !format.startsWith(MIME_PREFIX) )
             return true;
     }
 
@@ -586,6 +624,7 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_label->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     m_label->setFrameStyle(QFrame::NoFrame);
+    m_label->setContextMenuPolicy(Qt::NoContextMenu);
 
     // Selecting text copies it to clipboard.
     connect( m_label, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
@@ -651,6 +690,11 @@ bool ItemSync::hasChanges(QWidget *editor) const
     return m_childItem->hasChanges(editor);
 }
 
+QObject *ItemSync::createExternalEditor(const QModelIndex &index, QWidget *parent) const
+{
+    return m_childItem->createExternalEditor(index, parent);
+}
+
 void ItemSync::updateSize(const QSize &maximumSize)
 {
     setMaximumSize(maximumSize);
@@ -668,23 +712,22 @@ void ItemSync::updateSize(const QSize &maximumSize)
 
 void ItemSync::mousePressEvent(QMouseEvent *e)
 {
-    const QPoint pos = m_label->viewport()->mapFrom(this, e->pos());
-    m_label->setTextCursor( m_label->cursorForPosition(pos) );
-    QWidget::mousePressEvent(e);
-    e->ignore();
+    if (e->button() == Qt::LeftButton) {
+        const QPoint pos = m_label->viewport()->mapFrom(this, e->pos());
+        m_label->setTextCursor( m_label->cursorForPosition(pos) );
+        QWidget::mousePressEvent(e);
+        e->ignore();
+    } else {
+        QWidget::mousePressEvent(e);
+    }
 }
 
 void ItemSync::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    if ( e->modifiers().testFlag(Qt::ShiftModifier) )
+    if ( e->button() == Qt::LeftButton && e->modifiers().testFlag(Qt::ShiftModifier) )
         QWidget::mouseDoubleClickEvent(e);
     else
         e->ignore();
-}
-
-void ItemSync::contextMenuEvent(QContextMenuEvent *e)
-{
-    e->ignore();
 }
 
 void ItemSync::mouseReleaseEvent(QMouseEvent *e)
@@ -753,28 +796,38 @@ public:
         connect( &m_watcher, SIGNAL(fileChanged(QString)),
                  &m_updateTimer, SLOT(start()) );
 
-        connectModel();
+        connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
+                 this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
+        connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
+                 this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
+        connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+                 SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
 
         if (model->rowCount() > 0)
             saveItems(0, model->rowCount() - 1);
 
         createItemsFromFiles( QDir(path), listFiles(paths, m_formatSettings) );
+
+        updateItems();
     }
 
-    void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
+    const QString &path() const { return m_path; }
+
+    bool isValid() const { return m_valid; }
+
+    QAbstractItemModel *model() const { return m_model; }
+
+public slots:
+    void lock()
     {
-        disconnectModel();
+        m_valid = false;
+        m_model->setProperty(propertyModelDisabled, true);
+    }
 
-        const int maxItems = m_model->property("maxItems").toInt();
-
-        foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
-            if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
-                return;
-            if ( m_model->rowCount() >= maxItems )
-                break;
-        }
-
-        connectModel();
+    void unlock()
+    {
+        m_valid = true;
+        m_model->setProperty(propertyModelDisabled, false);
     }
 
     bool createItemFromFiles(const QDir &dir, const BaseNameExtensions &baseNameWithExts, int targetRow)
@@ -795,13 +848,18 @@ public:
         return true;
     }
 
-    const QString &path() const { return m_path; }
+    void createItemsFromFiles(const QDir &dir, const BaseNameExtensionsList &fileList)
+    {
+        const int maxItems = m_model->property("maxItems").toInt();
 
-    bool isValid() const { return m_valid; }
+        foreach (const BaseNameExtensions &baseNameWithExts, fileList) {
+            if ( !createItemFromFiles(dir, baseNameWithExts, 0) )
+                return;
+            if ( m_model->rowCount() >= maxItems )
+                break;
+        }
+    }
 
-    QAbstractItemModel *model() const { return m_model; }
-
-public slots:
     /**
      * Check for new files.
      */
@@ -810,9 +868,7 @@ public slots:
         if ( m_model.isNull() )
             return;
 
-        disconnectModel();
-
-        m_model->setProperty(propertyModelDisabled, true);
+        lock();
 
         QDir dir( m_watcher.directories().value(0) );
         const QStringList files = listFiles(dir, QDir::Time | QDir::Reversed);
@@ -847,9 +903,7 @@ public slots:
         foreach (const QString &fileName, files)
             watchPath( dir.absoluteFilePath(fileName) );
 
-        m_model->setProperty(propertyModelDisabled, false);
-
-        connectModel();
+        unlock();
     }
 
 private slots:
@@ -877,26 +931,6 @@ private:
     {
         if ( !m_watcher.files().contains(path) )
             m_watcher.addPath(path);
-    }
-
-    void connectModel()
-    {
-        connect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
-                 this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
-        connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
-                 this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
-        connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-                 SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
-        m_valid = true;
-    }
-
-    void disconnectModel()
-    {
-        m_valid = false;
-        disconnect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
-                    this, SLOT(onDataChanged(QModelIndex,QModelIndex)) );
-        disconnect( m_model.data(), SIGNAL(rowsInserted(QModelIndex, int, int)),
-                    this, SLOT(onRowsInserted(QModelIndex, int, int)) );
     }
 
     bool createItem(const QVariantMap &dataMap, int targetRow)
@@ -944,7 +978,10 @@ private:
 
     void saveItems(int first, int last)
     {
-        disconnectModel();
+        if (!isValid())
+            return;
+
+        lock();
 
         const QList<QPersistentModelIndex> indexList = this->indexList(first, last);
 
@@ -1028,7 +1065,7 @@ private:
             }
         }
 
-        connectModel();
+        unlock();
     }
 
     bool renameToUnique(const QDir &dir, const QStringList &baseNames, QString *name)
@@ -1262,16 +1299,6 @@ QVariantMap ItemSyncLoader::applySettings()
     }
     m_settings.insert(configFormatSettings, formatSettings);
 
-    // Update data of items with watched files.
-    // Path of watched tab changes: save in old path, unload, reload with the new path sometime later
-    // Path of unwatched tab is set: save items in the new directory (sometime later)
-    // Path of watched tab is unset: save, unload, empty configuration file sometime later
-    foreach ( FileWatcher *watcher, m_watchers.values() ) {
-        QAbstractItemModel *m = watcher->model();
-        if ( watcher->path() == tabPath(*m) )
-            watcher->updateItems();
-    }
-
     return m_settings;
 }
 
@@ -1350,35 +1377,35 @@ QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
     return w;
 }
 
+bool ItemSyncLoader::canLoadItems(QFile *file)
+{
+    QDataStream stream(file);
+    return readConfigHeader(&stream);
+}
+
+bool ItemSyncLoader::canSaveItems(const QAbstractItemModel &model)
+{
+    return m_tabPaths.contains(model.property("tabName").toString());
+}
+
 bool ItemSyncLoader::loadItems(QAbstractItemModel *model, QFile *file)
 {
     QVariantMap config;
-
     if ( !readConfig(file, &config) )
         return false;
 
-    if ( shouldSyncTab(*model) ) {
-        createWatcherAndLoadItems(model, config);
-    } else {
-        QStringList files = config.value(tabConfigSavedFiles).toStringList();
-        if ( !files.isEmpty() ) {
-            const QString oldTabPath = QDir::cleanPath(files[0] + "/..");
-            QDir dir(oldTabPath);
-            createWatcher(model, dir.path(), files);
-        }
-    }
-
-    return true;
+    const QStringList files = config.value(tabConfigSavedFiles).toStringList();
+    return loadItems(model, files);
 }
 
 bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
 {
-    // If anything fails, just return false so the items are save regularly.
     FileWatcher *watcher = m_watchers.value(&model, NULL);
 
+    // Don't save items if path is empty.
     if (!watcher) {
-        // Don't save items if path is empty.
-        return shouldSyncTab(model);
+        writeConfiguration(file, QStringList());
+        return true;
     }
 
     const QString path = watcher->path();
@@ -1410,47 +1437,15 @@ bool ItemSyncLoader::saveItems(const QAbstractItemModel &model, QFile *file)
     return true;
 }
 
-bool ItemSyncLoader::createTab(QAbstractItemModel *model, QFile *file)
+bool ItemSyncLoader::initializeTab(QAbstractItemModel *model)
 {
-    if ( !shouldSyncTab(*model) )
-        return false;
-
-    QDir dir( tabPath(*model) );
-    const QStringList savedFiles = listFiles(dir, QDir::Name | QDir::Reversed);
-
-    writeConfiguration(file, savedFiles);
-
-    file->seek(0);
-    loadItems(model, file);
-
+    loadItems(model, QStringList());
     return true;
 }
 
-void ItemSyncLoader::itemsLoaded(QAbstractItemModel *model, QFile *file)
+void ItemSyncLoader::uninitializeTab(QAbstractItemModel *model)
 {
-    QDataStream stream(file);
-    bool tabSynced = readConfigHeader(&stream);
-    bool syncTab = shouldSyncTab(*model);
-
-    if (syncTab != tabSynced) {
-        model->setProperty(propertyModelDirty, true);
-        if (syncTab) {
-            createWatcherAndLoadItems(model);
-        } else {
-            delete m_watchers.take(model);
-
-            // Remove empty items.
-            for (int i = 0; i < model->rowCount(); ++i) {
-                const QModelIndex index = model->index(i, 0);
-                QVariantMap dataMap = index.data(contentType::data).toMap();
-
-                if ( containsUserData(dataMap) )
-                    model->setData(index, dataMap, contentType::data);
-                else
-                    model->removeRow(i--);
-            }
-        }
-    }
+    delete m_watchers.take(model);
 }
 
 ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex &index)
@@ -1459,29 +1454,7 @@ ItemWidget *ItemSyncLoader::transform(ItemWidget *itemWidget, const QModelIndex 
     if ( baseName.isEmpty() )
         return NULL;
 
-    const QVariantMap dataMap = index.data(contentType::data).toMap();
-    const QVariantMap mimeToExtension = dataMap.value(mimeExtensionMap).toMap();
-
-    QString icon;
-    foreach ( const QString &format, dataMap.keys() ) {
-        if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
-            continue; // skip internal data
-
-        icon = mimeToExtension.contains(format)
-                ? iconFromBaseNameExtension(baseName + mimeToExtension[format].toString(), m_formatSettings)
-                : iconFromMime(format);
-
-        if ( !icon.isNull() )
-            break;
-    }
-
-    if ( icon.isNull() ) {
-        icon = iconFromBaseNameExtension(baseName, m_formatSettings);
-        if ( icon.isNull() )
-            icon = iconFromId(IconFile);
-    }
-
-    return new ItemSync(baseName, icon, itemWidget);
+    return new ItemSync(baseName, iconForItem(index, m_formatSettings), itemWidget);
 }
 
 bool ItemSyncLoader::canRemoveItems(const QList<QModelIndex> &indexList)
@@ -1630,21 +1603,24 @@ void ItemSyncLoader::onBrowseButtonClicked()
         item->setText(path);
 }
 
-bool ItemSyncLoader::shouldSyncTab(const QAbstractItemModel &model) const
-{
-    return m_tabPaths.contains(model.property("tabName").toString());
-}
-
 QString ItemSyncLoader::tabPath(const QAbstractItemModel &model) const
 {
     const QString tabName = model.property("tabName").toString();
     return m_tabPaths.value(tabName);
 }
 
-FileWatcher *ItemSyncLoader::createWatcher(QAbstractItemModel *model, const QString &tabPath,
-                                           const QStringList &paths)
+bool ItemSyncLoader::loadItems(QAbstractItemModel *model, const QStringList &files)
 {
-    FileWatcher *watcher = new FileWatcher(tabPath, paths, model, m_formatSettings, this);
+    const QString path = files.isEmpty() ? tabPath(*model) : QFileInfo(files.first()).absolutePath();
+    if ( path.isEmpty() )
+        return true;
+
+    QDir dir(path);
+    if ( !dir.mkpath(".") )
+        return false;
+
+    // Monitor files in directory.
+    FileWatcher *watcher = new FileWatcher(dir.path(), files, model, m_formatSettings, this);
     m_watchers.insert(model, watcher);
 
     connect( model, SIGNAL(unloaded()),
@@ -1655,32 +1631,8 @@ FileWatcher *ItemSyncLoader::createWatcher(QAbstractItemModel *model, const QStr
              SLOT(removeWatcher(QObject*)) );
 
     return watcher;
-}
 
-void ItemSyncLoader::createWatcherAndLoadItems(QAbstractItemModel *model, const QVariantMap &config)
-{
-    model->setProperty(propertyModelDisabled, true);
-
-    const QString path = tabPath(*model);
-    if ( !path.isEmpty() ) {
-        QDir dir(path);
-        if ( !dir.mkpath(".") )
-            return;
-
-        QStringList files = config.value(tabConfigSavedFiles).toStringList();
-
-        foreach ( const QString &filePath, listFiles(dir, QDir::Time | QDir::Reversed) ) {
-            if ( !files.contains(filePath) )
-                files.append(filePath);
-        }
-
-        // Monitor files in directory.
-        FileWatcher *watcher = createWatcher(model, dir.path(), files);
-        if ( !watcher->isValid() )
-            return;
-    }
-
-    model->setProperty(propertyModelDisabled, false);
+    return true;
 }
 
 Q_EXPORT_PLUGIN2(itemsync, ItemSyncLoader)

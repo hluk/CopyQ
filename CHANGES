@@ -1,3 +1,11 @@
+v2.0.0
+- Synchronize items with files on disk
+- Faster tab loading and saving (data format was changed; only backward compatible)
+- User can limit size of text items
+- Opening external image editor fixed on Windows
+- New logo and website
+- Lot of other fixes
+
 v1.9.3
 - Item and tab encryption (using GnuPG)
 - FakeVim plugin for editing items (Vim editor emulation)

@@ -168,20 +168,30 @@ QString getSessionName(int *argc, char *argv[])
 int main(int argc, char *argv[])
 {
     // print version, help or run tests
-    if (argc == 2 || argc == 3) {
+    if (argc > 1) {
         const QByteArray arg(argv[1]);
-        if ( argc == 2 && needsVersion(arg) ) {
+
+        if ( needsVersion(arg) ) {
             evaluate("version", NULL);
             return 0;
-        } else if ( needsHelp(arg) ) {
-            evaluate("help", argc == 3 ? argv[2] : NULL);
+        }
+
+        if ( needsHelp(arg) ) {
+            if (argc == 2) {
+                evaluate("help", NULL);
+            } else {
+                for (int i = 2; i < argc; ++i)
+                    evaluate("help", argv[i]);
+            }
             return 0;
+        }
+
 #ifdef HAS_TESTS
-        } else if ( needsTests(arg) ) {
+        if ( needsTests(arg) ) {
             // Skip the "tests" argument and pass the rest to tests.
             return tests::main(argc - 1, argv + 1);
-#endif
         }
+#endif
     }
 
     // get session name (default empty)

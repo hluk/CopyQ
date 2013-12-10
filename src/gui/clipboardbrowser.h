@@ -316,6 +316,9 @@ class ClipboardBrowser : public QListView
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);
 
+        /** Context menu actions were updated. */
+        void contextMenuUpdated();
+
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(const QVariantMap &data, const QString &tabName);
 

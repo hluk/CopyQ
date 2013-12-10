@@ -64,7 +64,11 @@ public:
     /** Return list of shortcuts defined for given @a id (must exist). */
     QList<QKeySequence> shortcuts(int id) const;
 
-    void updateIcons(int id, const QIcon &icon = QIcon());
+    void updateIcons(int id, const QString &fromTheme, int iconId);
+
+    void updateIcons(int id, const QString &resources);
+
+    void updateIcons(int id);
 
     /** Disable shortcuts for actions that are currently in list. */
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);

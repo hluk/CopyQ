@@ -61,6 +61,23 @@ void printItemFileError(const QString &id, const QString &fileName, const QFile 
          , LogError );
 }
 
+bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &itemFactory,
+                          const ItemLoaderInterfacePtr &currentLoader)
+{
+    if (!currentLoader)
+        return false;
+
+    bool saveWithCurrent = true;
+    foreach ( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
+        if ( itemFactory.isLoaderEnabled(loader) && loader->canSaveItems(model) )
+            return loader != currentLoader;
+        else if (loader == currentLoader)
+            saveWithCurrent = false;
+    }
+
+    return !saveWithCurrent;
+}
+
 } // namespace
 
 // singleton
@@ -119,69 +136,88 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
 
     ItemLoaderInterfacePtr loader;
 
+    model.setDisabled(true);
+
     if ( file.exists() ) {
         COPYQ_LOG( QString("Tab \"%1\": Loading items").arg(tabName) );
         if ( file.open(QIODevice::ReadOnly) )
             loader = itemFactory()->loadItems(&model, &file);
-        else
-            model.setDisabled(true);
+        saveItemsWithOther(model, &loader);
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
-        if ( file.open(QIODevice::ReadWrite) )
-            loader = itemFactory()->createTab(&model, &file);
-        else
-            model.setDisabled(true);
-    }
-
-    COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
-
-    if ( model.isDisabled() ) {
-        COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(tabName) );
-        return ItemLoaderInterfacePtr();
+        if ( file.open(QIODevice::WriteOnly) ) {
+            loader = itemFactory()->initializeTab(&model);
+            saveItems(model, loader);
+        }
     }
 
     file.close();
-    file.open(QIODevice::ReadOnly);
-    itemFactory()->itemsLoaded(&model, &file);
 
-    if ( model.isDirty() ) {
-        COPYQ_LOG( QString("Tab \"%1\": Dirty").arg(tabName) );
-        ItemLoaderInterfacePtr loader2 = saveItems(model);
-        if ( !loader2.isNull() )
-            loader = loader2;
-        model.setDirty(false);
+    if (loader) {
+        COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
+    } else {
+        COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(tabName) );
     }
+
+    model.setDisabled(!loader);
 
     return loader;
 }
 
-ItemLoaderInterfacePtr ConfigurationManager::saveItems(const ClipboardModel &model)
+bool ConfigurationManager::saveItems(const ClipboardModel &model,
+                                     const ItemLoaderInterfacePtr &loader)
 {
     const QString tabName = model.property("tabName").toString();
     const QString fileName = itemFileName(tabName);
 
     if ( !createItemDirectory() )
-        return ItemLoaderInterfacePtr();
+        return false;
 
     // Save to temp file.
     QFile file( fileName + ".tmp" );
     if ( !file.open(QIODevice::WriteOnly) ) {
         printItemFileError(tabName, fileName, file);
-        return ItemLoaderInterfacePtr();
+        return false;
     }
 
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
-    ItemLoaderInterfacePtr loader = itemFactory()->saveItems(model, &file);
+    if ( loader->saveItems(model, &file) ) {
+        COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
 
-    COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
+        // Overwrite previous file.
+        QFile::remove(fileName);
+        if ( !file.rename(fileName) )
+            printItemFileError(tabName, fileName, file);
+    } else {
+        COPYQ_LOG( QString("Tab \"%1\": Failed to save items!").arg(tabName) );
+    }
 
-    // Overwrite previous file.
-    QFile::remove(fileName);
-    if ( !file.rename(fileName) )
-        printItemFileError(tabName, fileName, file);
+    return true;
+}
 
-    return loader;
+bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
+                                              ItemLoaderInterfacePtr *loader)
+{
+    if ( !needToSaveItemsAgain(model, *itemFactory(), *loader) )
+        return false;
+
+    model.setDisabled(true);
+
+    COPYQ_LOG( QString("Tab \"%1\": Saving items using other plugin")
+               .arg(model.property("tabName").toString()) );
+
+    (*loader)->uninitializeTab(&model);
+    *loader = itemFactory()->initializeTab(&model);
+    if ( *loader && saveItems(model, *loader) ) {
+        model.setDisabled(false);
+        return true;
+    } else {
+        COPYQ_LOG( QString("Tab \"%1\": Failed to re-save items")
+               .arg(model.property("tabName").toString()) );
+    }
+
+    return false;
 }
 
 void ConfigurationManager::removeItems(const QString &tabName)
@@ -194,9 +230,12 @@ void ConfigurationManager::moveItems(const QString &oldId, const QString &newId)
     const QString oldFileName = itemFileName(oldId);
     const QString newFileName = itemFileName(newId);
 
-    if (oldFileName != newFileName) {
-        QFile::copy(oldFileName, newFileName);
+    if ( oldFileName != newFileName && QFile::copy(oldFileName, newFileName) ) {
         QFile::remove(oldFileName);
+    } else {
+        COPYQ_LOG( QString("Failed to move items from \"%1\" (tab \"%2\") to \"%3\" (tab \"%4\")")
+                   .arg(oldFileName).arg(oldId)
+                   .arg(newFileName).arg(newId) );
     }
 }
 
@@ -493,7 +532,7 @@ void ConfigurationManager::initOptions()
     bind("transparency_focused", ui->spinBoxTransparencyFocused, 0);
     bind("transparency", ui->spinBoxTransparencyUnfocused, 0);
     bind("hide_tabs", ui->checkBoxHideTabs, false);
-    bind("hide_menu_bar", ui->checkBoxHideMenuBar, false);
+    bind("hide_toolbar", ui->checkBoxHideToolbar, false);
     bind("disable_tray", ui->checkBoxDisableTray, false);
     bind("tab_position", ui->comboBoxTabPosition, 0);
     bind("text_wrap", ui->checkBoxTextWrap, true);
@@ -1032,12 +1071,18 @@ const QIcon &getIconFromResources(const QString &iconName)
     return ConfigurationManager::instance()->iconFactory()->getIcon(iconName);
 }
 
-const QIcon getIcon(const QString &themeName, ushort iconId)
+QIcon getIconFromResources(const QString &iconName, const QColor &color, const QColor &activeColor)
+{
+    Q_ASSERT( !iconName.isEmpty() );
+    return ConfigurationManager::instance()->iconFactory()->getIcon(iconName, color, activeColor);
+}
+
+QIcon getIcon(const QString &themeName, ushort iconId)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId);
 }
 
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
+QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
 }

@@ -24,7 +24,6 @@
 #include "gui/iconwidget.h"
 
 #include <QBoxLayout>
-#include <QContextMenuEvent>
 #include <QLabel>
 #include <QModelIndex>
 #include <QMouseEvent>
@@ -81,6 +80,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
         m_notes->setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         m_notes->setVerticalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
         m_notes->setFrameStyle(QFrame::NoFrame);
+        m_notes->setContextMenuPolicy(Qt::NoContextMenu);
 
         // Selecting text copies it to clipboard.
         connect( m_notes, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
@@ -192,6 +192,12 @@ bool ItemNotes::hasChanges(QWidget *editor) const
     return m_childItem->hasChanges(editor);
 }
 
+QObject *ItemNotes::createExternalEditor(const QModelIndex &index, QWidget *parent) const
+{
+    return m_childItem ? m_childItem->createExternalEditor(index, parent)
+                       : ItemWidget::createExternalEditor(index, parent);
+}
+
 void ItemNotes::updateSize(const QSize &maximumSize)
 {
     setMaximumSize(maximumSize);
@@ -212,12 +218,16 @@ void ItemNotes::updateSize(const QSize &maximumSize)
 
 void ItemNotes::mousePressEvent(QMouseEvent *e)
 {
-    if (m_notes) {
-        const QPoint pos = m_notes->viewport()->mapFrom(this, e->pos());
-        m_notes->setTextCursor( m_notes->cursorForPosition(pos) );
+    if (e->button() == Qt::LeftButton) {
+        if (m_notes) {
+            const QPoint pos = m_notes->viewport()->mapFrom(this, e->pos());
+            m_notes->setTextCursor( m_notes->cursorForPosition(pos) );
+            QWidget::mousePressEvent(e);
+        }
+        e->ignore();
+    } else {
         QWidget::mousePressEvent(e);
     }
-    e->ignore();
 }
 
 void ItemNotes::mouseReleaseEvent(QMouseEvent *e)

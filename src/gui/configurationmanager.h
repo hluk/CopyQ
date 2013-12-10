@@ -39,6 +39,7 @@ class QCheckBox;
 class QComboBox;
 class QLineEdit;
 class QListWidgetItem;
+class QMainWindow;
 class QSpinBox;
 
 struct Command;
@@ -84,9 +85,11 @@ public:
             ClipboardModel &model //!< Model for items.
             );
     /** Save items to configuration file. */
-    ItemLoaderInterfacePtr saveItems(
-            const ClipboardModel &model //!< Model containing items to save.
-            );
+    bool saveItems(const ClipboardModel &model //!< Model containing items to save.
+            , const ItemLoaderInterfacePtr &loader);
+    /** Save items with other plugin with higher priority than current one (@a loader). */
+    bool saveItemsWithOther(ClipboardModel &model //!< Model containing items to save.
+            , ItemLoaderInterfacePtr *loader);
     /** Remove configuration file for items. */
     void removeItems(const QString &tabName //!< See ClipboardBrowser::getID().
             );
@@ -214,9 +217,11 @@ private:
 
 const QIcon &getIconFromResources(const QString &iconName);
 
-const QIcon getIcon(const QString &themeName, ushort iconId);
+QIcon getIconFromResources(const QString &iconName, const QColor &color, const QColor &activeColor);
 
-const QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color,
+QIcon getIcon(const QString &themeName, ushort iconId);
+
+QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color,
                     const QColor &activeColor);
 
 #endif // CONFIGURATIONMANAGER_H

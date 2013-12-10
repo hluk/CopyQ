@@ -69,6 +69,8 @@ public:
                QTableWidget *table)
         : QObject()
         , m_icon()
+        , m_iconTheme()
+        , m_iconId(-1)
         , m_text(text)
         , m_settingsKey(settingsKey)
         , m_tableItem(NULL)
@@ -139,6 +141,8 @@ public:
         if ( m_action.isNull() ) {
             m_action = new QAction(m_icon, m_text, NULL);
             m_action->setShortcuts(shortcuts());
+            m_action->setProperty("CopyQ_icon_theme", m_iconTheme);
+            m_action->setProperty("CopyQ_icon_id", m_iconId);
         }
 
         if (parent != NULL)
@@ -149,11 +153,20 @@ public:
         return m_action;
     }
 
-    void updateIcons(const QIcon &icon)
+    void updateIcons(const QIcon &icon, const QString &resource, const QString &iconTheme, int iconId)
     {
-        if ( !icon.isNull() )
+        if ( !icon.isNull() ) {
             m_icon = icon;
-        m_tableItem->setIcon(m_icon);
+            m_iconTheme = iconTheme;
+            m_iconId = iconId;
+        }
+
+        const QColor color = getDefaultIconColor<QTableWidget>(QPalette::Base);
+        if (iconId != -1)
+            m_tableItem->setIcon( getIcon(iconTheme, iconId, color, color) );
+        else if ( !resource.isEmpty() )
+            m_tableItem->setIcon( getIconFromResources(resource, color, color) );
+
         m_shortcutButton->updateIcons();
     }
 
@@ -219,6 +232,8 @@ private:
     }
 
     QIcon m_icon;
+    QString m_iconTheme;
+    int m_iconId;
     QString m_text;
     QString m_settingsKey;
     QTableWidgetItem *m_tableItem;
@@ -293,9 +308,21 @@ QList<QKeySequence> ShortcutsWidget::shortcuts(int id) const
     return action(id)->shortcuts();
 }
 
-void ShortcutsWidget::updateIcons(int id, const QIcon &icon)
+void ShortcutsWidget::updateIcons(int id, const QString &fromTheme, int iconId)
 {
-    action(id)->updateIcons(icon);
+    const QIcon icon = getIcon(fromTheme, iconId);
+    action(id)->updateIcons(icon, QString(), fromTheme, iconId);
+}
+
+void ShortcutsWidget::updateIcons(int id, const QString &resources)
+{
+    const QIcon icon = getIconFromResources(resources, QColor(), QColor());
+    action(id)->updateIcons(icon, resources, QString(), -1);
+}
+
+void ShortcutsWidget::updateIcons(int id)
+{
+    action(id)->updateIcons(QIcon(), QString(), QString(), -1);
 }
 
 void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)

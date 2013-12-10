@@ -40,6 +40,8 @@ public:
     bool isAutostartEnabled() { return false; }
 
     void setAutostartEnabled(bool) {}
+
+    void onApplicationStarted() {}
 };
 
 #endif // DUMMYPLATFORM_H

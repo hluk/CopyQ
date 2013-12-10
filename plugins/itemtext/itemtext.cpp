@@ -25,6 +25,7 @@
 #include <QContextMenuEvent>
 #include <QModelIndex>
 #include <QMouseEvent>
+#include <QScrollBar>
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
@@ -156,9 +157,10 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
 void ItemText::updateSize(const QSize &maximumSize)
 {
     const int w = maximumSize.width();
+    const int scrollBarWidth = verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0;
     setMaximumHeight( maximumSize.height() );
     setFixedWidth(w);
-    m_textDocument.setTextWidth(w);
+    m_textDocument.setTextWidth(w - scrollBarWidth);
 
     const int h = m_textDocument.size().height();
     setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);

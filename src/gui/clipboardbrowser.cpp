@@ -744,6 +744,8 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 
         IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
         act->setIcon( iconFactory->iconFromFile(command.icon) );
+        if (command.icon.size() == 1)
+            act->setProperty( "CopyQ_icon_id", command.icon[0].unicode() );
 
         if ( isOwnMenu && !command.shortcut.isEmpty() ) {
             const QKeySequence shortcut = command.shortcut;
@@ -981,6 +983,8 @@ void ClipboardBrowser::updateContextMenu()
     m_menu->addSeparator();
 
     addCommandsToMenu(m_menu, getSelectedItemData());
+
+    emit contextMenuUpdated();
 }
 
 void ClipboardBrowser::onModelDataChanged()
@@ -1012,18 +1016,22 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
 {
-    bool saved = saveItems();
-
-    QString oldTabName = m_tabName;
-    m_tabName = tabName;
-
-    if ( !tabName.isEmpty() ) {
-        ConfigurationManager *c = ConfigurationManager::instance();
-        if (saved)
-            c->removeItems(oldTabName);
-        else
-            c->moveItems(oldTabName, tabName);
+    if ( m_tabName.isEmpty() ) {
+        m_tabName = tabName;
+        return;
     }
+
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    // Just move last saved file if tab is not loaded yet.
+    if ( isLoaded() && cm->saveItemsWithOther(*m, &m_itemLoader) ) {
+        m_timerSave->stop();
+        cm->removeItems(m_tabName);
+    } else {
+        cm->moveItems(m_tabName, tabName);
+    }
+
+    m_tabName = tabName;
 }
 
 void ClipboardBrowser::updateCurrentPage()
@@ -1059,8 +1067,7 @@ void ClipboardBrowser::expire()
     } else {
         m_expire = false;
 
-        if ( m_timerSave->isActive() )
-            saveItems();
+        saveUnsavedItems();
 
         m->unloadItems();
 
@@ -1452,7 +1459,8 @@ void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime
 
 void ClipboardBrowser::filterItems(const QRegExp &re)
 {
-    if (d->searchExpression() == re)
+    // Do nothing if same regexp was already set or both are empty (don't compare regexp options).
+    if ( (d->searchExpression().isEmpty() && re.isEmpty()) || d->searchExpression() == re )
         return;
 
     d->setSearch(re);
@@ -1788,7 +1796,6 @@ void ClipboardBrowser::loadSettings()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    saveItems();
     expire();
 
     cm->tabAppearance()->decorateBrowser(this);
@@ -1843,14 +1850,16 @@ void ClipboardBrowser::loadItemsAgain()
 
     m->blockSignals(true);
     m_itemLoader = ConfigurationManager::instance()->loadItems(*m);
+    m->blockSignals(false);
 
     // Show lock button if model is disabled.
     if ( !m->isDisabled() ) {
         delete m_loadButton;
         m_loadButton = NULL;
-        m->blockSignals(false);
         d->rowsInserted(QModelIndex(), 0, m->rowCount());
         scheduleDelayedItemsLayout();
+        updateCurrentPage();
+        setCurrent(0);
     } else if (m_loadButton == NULL) {
         m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);
@@ -1869,7 +1878,7 @@ bool ClipboardBrowser::saveItems()
     if ( !isLoaded() || tabName().isEmpty() )
         return false;
 
-    m_itemLoader = ConfigurationManager::instance()->saveItems(*m);
+    ConfigurationManager::instance()->saveItems(*m, m_itemLoader);
     return true;
 }
 

@@ -314,7 +314,15 @@ void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
         + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
                   ",#tab_tree_item[CopyQ_selected=\"true\"]"
                   "{background:transparent}")
-        );
+                );
+}
+
+void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const
+{
+    toolBar->setStyleSheet(
+        QString("QToolBar{") + themeStyleSheet("tool_bar_css") + "}"
+        + QString("QToolButton{" + themeStyleSheet("tool_button_css") + "}")
+                );
 }
 
 QString ConfigTabAppearance::getToolTipStyleSheet() const
@@ -727,6 +735,13 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["tab_tree_sel_item_css"] = Option(
                 "\n    ;color: ${sel_fg}"
                 "\n    ;background-color: ${sel_bg}"
+                );
+    m_theme["tool_bar_css"] = Option(
+                "\n    ;color: ${fg}"
+                "\n    ;background-color: ${bg}"
+                );
+    m_theme["tool_button_css"] = Option(
+                "\n    ;background-color:transparent"
                 );
 
     m_theme["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);

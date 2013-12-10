@@ -88,7 +88,6 @@ class MainWindow : public QMainWindow
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);
         bool event(QEvent *event);
-        bool eventFilter(QObject *obj, QEvent *event);
 
         /** Hide (minimize to tray) window on close. */
         void closeEvent(QCloseEvent *event);
@@ -349,6 +348,8 @@ class MainWindow : public QMainWindow
         /** Update WId for paste and last focused window if needed. */
         void updateFocusWindows();
 
+        void onItemMenuUpdated();
+
     private:
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();
@@ -389,9 +390,6 @@ class MainWindow : public QMainWindow
 
         /** Show/hide tab bar. **/
         void setHideTabs(bool hide);
-
-        /** Show/hide menu bar. **/
-        void setHideMenuBar(bool hide);
 
         void saveCollapsedTabs();
 

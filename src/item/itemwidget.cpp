@@ -103,10 +103,12 @@ QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
 void ItemWidget::updateSize(const QSize &maximumSize)
 {
     QWidget *w = widget();
-    w->setMinimumSize(0, 0);
     w->setMaximumSize(maximumSize);
-    w->adjustSize();
-    w->setFixedSize( w->size() );
+    const int h = w->heightForWidth(maximumSize.width());
+    if (h > 0)
+        w->setFixedSize( maximumSize.width(), h );
+    else
+        w->resize(w->sizeHint());
 }
 
 void ItemWidget::setCurrent(bool)
@@ -119,6 +121,16 @@ ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const
     return NULL;
 }
 
+bool ItemLoaderInterface::canLoadItems(QFile *)
+{
+    return false;
+}
+
+bool ItemLoaderInterface::canSaveItems(const QAbstractItemModel &)
+{
+    return false;
+}
+
 bool ItemLoaderInterface::loadItems(QAbstractItemModel *, QFile *)
 {
     return false;
@@ -129,12 +141,12 @@ bool ItemLoaderInterface::saveItems(const QAbstractItemModel &, QFile *)
     return false;
 }
 
-bool ItemLoaderInterface::createTab(QAbstractItemModel *, QFile *)
+bool ItemLoaderInterface::initializeTab(QAbstractItemModel *)
 {
     return false;
 }
 
-void ItemLoaderInterface::itemsLoaded(QAbstractItemModel *, QFile *)
+void ItemLoaderInterface::uninitializeTab(QAbstractItemModel *)
 {
 }
 
