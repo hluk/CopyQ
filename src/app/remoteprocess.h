@@ -82,6 +82,7 @@ private slots:
     void ping();
     void pongTimeout();
     void onNewConnection();
+    void checkConnection();
 
 private:
     QLocalServer *m_server;

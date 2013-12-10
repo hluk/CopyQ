@@ -70,6 +70,14 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
     if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments) ) {
         log( "Remote process: Failed to start new remote process!", LogError );
     }
+
+    QTimer::singleShot(16000, this, SLOT(checkConnection()));
+}
+
+void RemoteProcess::checkConnection() {
+    if (!isConnected()) {
+        emit connectionError();
+    }
 }
 
 void RemoteProcess::onNewConnection() {
