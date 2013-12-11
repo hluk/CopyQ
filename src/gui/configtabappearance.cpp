@@ -739,6 +739,7 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["tool_bar_css"] = Option(
                 "\n    ;color: ${fg}"
                 "\n    ;background-color: ${bg}"
+                "\n    ;border: 0"
                 );
     m_theme["tool_button_css"] = Option(
                 "\n    ;background-color:transparent"
