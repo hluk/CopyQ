@@ -31,45 +31,44 @@ namespace {
     const QString COPYQ_MIME_PREFIX("application/x-copyq-uti-");
 
     // types handled by other (builtin) converters
-    const QStringList IGNORED_UTIS = QStringList()
-        << "public.html"
-        << "public.url"
-        << "public.file-url"
-        << "public.utf8-plain-text"
-        << "public.utf16-plain-text"
-        << "public.utf16-external-plain-text"
-        << "com.apple.traditional-mac-plain-text";
+    bool shouldIgnoreUTI(const QString &uti) {
+        return uti == QLatin1String("public.html")
+            || uti == QLatin1String("public.url")
+            || uti == QLatin1String("public.file-url")
+            || uti == QLatin1String("public.utf8-plain-text")
+            || uti == QLatin1String("public.utf16-plain-text")
+            || uti == QLatin1String("public.utf16-external-plain-text")
+            || uti == QLatin1String("com.apple.traditional-mac-plain-text");
+    }
 
     // types handled by other (builtin) converters
-    const QStringList IGNORED_MIMES = QStringList()
-        << "application/x-qt-image"
-        << "text/html"
-        << "text/plain"
-        << "text/uri-list"
-        << "application/x-copyq-owner-window-title";
-
-
-    QString mimeToUTI(const QString &mime) {
-        NSString *mimeString = mime.toNSString();
-        CFStringRef MIMEType = (__bridge CFStringRef)(mimeString);
-        CFStringRef UTI = UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, MIMEType, NULL);
-        NSString *UTIString = (__bridge NSString *)UTI;
-        QString uti = QString::fromNSString(UTIString);
-        if (UTI)
-            CFRelease(UTI);
-        return uti;
+    bool shouldIgnoreMime(const QString &mime) {
+        return mime == QLatin1String("application/x-qt-image")
+            || mime == QLatin1String("text/html")
+            || mime == QLatin1String("text/plain")
+            || mime == QLatin1String("text/uri-list")
+            || mime == QLatin1String("application/x-copyq-owner-window-title");
     }
 
-    QString utiToMime(const QString &uti) {
-        NSString *UTIString = uti.toNSString();
-        CFStringRef UTI = (__bridge CFStringRef)(UTIString);
-        CFStringRef MIMEType = UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType);
-        NSString *MIMETypeString = (__bridge NSString *)MIMEType;
-        QString mime = QString::fromNSString(MIMETypeString);
-        if (MIMEType)
-            CFRelease(MIMEType);
-        return mime;
+    CFStringRef mimeToUTI(CFStringRef mime) {
+        return UTTypeCreatePreferredIdentifierForTag(kUTTagClassMIMEType, mime, NULL);
     }
+
+    CFStringRef utiToMime(CFStringRef uti) {
+        return UTTypeCopyPreferredTagWithClass((__bridge CFStringRef)uti, kUTTagClassMIMEType);
+    }
+
+    QString convertUtiOrMime(const QString &in, CFStringRef (*convert)(CFStringRef)) {
+        NSString *inString = in.toNSString();
+        CFStringRef outRef = convert((__bridge CFStringRef)inString);
+        QString out;
+        if (outRef) {
+            out = QString::fromNSString((__bridge NSString *)outRef);
+            CFRelease(outRef);
+        }
+        return out;
+    }
+
 }
 
 QString CopyQPasteboardMime::convertorName()
@@ -79,11 +78,11 @@ QString CopyQPasteboardMime::convertorName()
 
 QString CopyQPasteboardMime::flavorFor(const QString &mime)
 {
-    if (IGNORED_MIMES.contains(mime)) {
+    if (shouldIgnoreMime(mime)) {
         return QString();
     }
 
-    QString uti = mimeToUTI(mime);
+    QString uti = convertUtiOrMime(mime, mimeToUTI);
     if (!uti.isEmpty() && !uti.startsWith("dyn.")) {
         return uti;
     } else if (mime.startsWith(COPYQ_MIME_PREFIX)) {
@@ -94,11 +93,11 @@ QString CopyQPasteboardMime::flavorFor(const QString &mime)
 
 QString CopyQPasteboardMime::mimeFor(QString uti)
 {
-    if (IGNORED_UTIS.contains(uti)) {
+    if (shouldIgnoreUTI(uti)) {
         return QString();
     }
 
-    QString mime = utiToMime(uti);
+    QString mime = convertUtiOrMime(uti, utiToMime);
     if (!mime.isEmpty()) {
         return mime;
     }
@@ -110,16 +109,16 @@ bool CopyQPasteboardMime::canConvert(const QString &mime, QString uti)
 {
     if (uti.isEmpty() || mime.isEmpty()) {
         return false;
-    } else if (IGNORED_MIMES.contains(mime)) {
+    } else if (shouldIgnoreMime(mime)) {
         return false;
-    } else if (IGNORED_UTIS.contains(uti)) {
+    } else if (shouldIgnoreUTI(uti)) {
         return false;
     }
 
-    QString convMime = utiToMime(uti);
+    QString convMime = convertUtiOrMime(uti, utiToMime);
 
 #ifdef COPYQ_LOG_DEBUG
-    if (convMime != mime || convMime.isEmpty()) {
+    if (convMime != mime) {
         COPYQ_LOG(QString("Can't convert between %1 and %2").arg(uti).arg(mime));
     }
 #endif
