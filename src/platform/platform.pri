@@ -11,3 +11,6 @@ macx {
     SOURCES += platform/dummy/dummyplatform.cpp
 }
 
+HEADERS += \
+    platform/platformwindow.h
+

@@ -26,6 +26,7 @@
 #include "gui/icons.h"
 #include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -133,7 +134,9 @@ void TrayMenu::toggle()
     activateWindow();
 
     QApplication::processEvents();
-    createPlatformNativeInterface()->raiseWindow(winId());
+    PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
+    if (window)
+        window->raise();
 }
 
 void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages, bool isCurrent)

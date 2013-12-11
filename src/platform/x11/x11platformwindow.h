@@ -17,30 +17,35 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINPLATFORM_H
-#define WINPLATFORM_H
+#ifndef X11PLATFORMWINDOW_H
+#define X11PLATFORMWINDOW_H
 
-#include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
-class WinPlatform : public PlatformNativeInterface
+#include <QSharedPointer>
+
+#include "x11displayguard.h"
+
+class QWidget;
+
+class X11PlatformWindow : public PlatformWindow
 {
 public:
-    WinPlatform() {}
+    explicit X11PlatformWindow(X11DisplayGuard &d);
 
-    PlatformWindowPtr getWindow(WId winId);
+    X11PlatformWindow(X11DisplayGuard &d, Window winId);
 
-    PlatformWindowPtr getCurrentWindow();
+    QString getTitle();
 
-    PlatformWindowPtr getPasteWindow();
+    void raise();
 
-    /** Setting application autostart is not implemented for Windows (works just from installer). */
-    bool canAutostart() { return false; }
+    void pasteClipboard();
 
-    bool isAutostartEnabled() { return false; }
+    bool isValid() const;
 
-    void setAutostartEnabled(bool) {}
-
-    void onApplicationStarted() {}
+private:
+    Window m_window;
+    X11DisplayGuard d;
 };
 
-#endif // WINPLATFORM_H
+#endif // X11PLATFORMWINDOW_H

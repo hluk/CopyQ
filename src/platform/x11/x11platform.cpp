@@ -22,14 +22,13 @@
 #include <QApplication>
 #include <QDir>
 #include <QRegExp>
+#include <QWidget>
 
-#ifdef HAS_X11TEST
-#   include <X11/extensions/XTest.h>
-#endif
+#include "x11platformwindow.h"
+#include "x11displayguard.h"
+
 #include <X11/Xlib.h>
-#include <X11/keysym.h>
 #include <X11/Xatom.h>
-#include <unistd.h> // usleep()
 
 namespace {
 
@@ -58,122 +57,6 @@ int copyq_xio_errhandler(Display *display)
     return 0;
 }
 
-struct X11WindowProperty {
-    X11WindowProperty(Display *display, Window w, Atom property, long longOffset,
-                      long longLength, Atom reqType)
-    {
-        if ( XGetWindowProperty(display, w, property, longOffset, longLength, false,
-                                reqType, &type, &format, &len, &remain, &data) != Success )
-        {
-            data = NULL;
-        }
-    }
-
-    ~X11WindowProperty()
-    {
-        if (data != NULL)
-            XFree(data);
-    }
-
-    bool isValid() const { return data != NULL; }
-
-    Atom type;
-    int format;
-    unsigned long len;
-    unsigned long remain;
-    unsigned char *data;
-};
-
-#ifdef HAS_X11TEST
-void FakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
-{
-    XTestFakeKeyEvent(display, keyCode, isPress, CurrentTime);
-    XSync(display, False);
-    usleep(6000);
-}
-
-void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
-{
-    foreach (int modCode, modCodes) {
-        KeyCode keyCode = XKeysymToKeycode(display, modCode);
-        FakeKeyEvent(display, keyCode, keyDown);
-    }
-}
-
-bool isPressed(KeyCode keyCode, const char keyMap[32])
-{
-    return ((keyMap[keyCode >> 3] >> (keyCode & 7)) & 1)
-            || ((keyMap[keyCode >> 3] >> (keyCode & 7)) & 1);
-}
-
-void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int key)
-{
-    // Find modifiers to release.
-    static QList<int> mods = QList<int>()
-            << XK_Shift_L << XK_Shift_R
-            << XK_Control_L << XK_Control_R
-            << XK_Meta_L << XK_Meta_R
-            << XK_Alt_L << XK_Alt_R
-            << XK_Super_L << XK_Super_R
-            << XK_Hyper_L << XK_Hyper_R;
-
-    char keyMap[32];
-    XQueryKeymap(display, keyMap);
-
-    QList<KeyCode> modsToRelease;
-    foreach (int mod, mods) {
-        if ( isPressed(XKeysymToKeycode(display, mod), keyMap) )
-            modsToRelease << XKeysymToKeycode(display, mod);
-    }
-
-    // Release currently pressed modifiers.
-    foreach (KeyCode mod, modsToRelease)
-        FakeKeyEvent(display, mod, False);
-
-    simulateModifierKeyPress(display, modCodes, True);
-
-    KeyCode keyCode = XKeysymToKeycode(display, key);
-
-    FakeKeyEvent(display, keyCode, True);
-    FakeKeyEvent(display, keyCode, False);
-
-    simulateModifierKeyPress(display, modCodes, False);
-
-    // Press modifiers again.
-    foreach (KeyCode mod, modsToRelease)
-        FakeKeyEvent(display, mod, True);
-
-    XSync(display, False);
-}
-#else
-
-void simulateKeyPress(Display *display, Window window, unsigned int modifiers, unsigned int key)
-{
-    XKeyEvent event;
-    XEvent *xev = reinterpret_cast<XEvent *>(&event);
-    event.display     = display;
-    event.window      = window;
-    event.root        = DefaultRootWindow(display);
-    event.subwindow   = None;
-    event.time        = CurrentTime;
-    event.x           = 1;
-    event.y           = 1;
-    event.x_root      = 1;
-    event.y_root      = 1;
-    event.same_screen = True;
-    event.keycode     = XKeysymToKeycode(display, key);
-    event.state       = modifiers;
-
-    event.type = KeyPress;
-    XSendEvent(display, window, True, KeyPressMask, xev);
-    XSync(display, False);
-
-    event.type = KeyRelease;
-    XSendEvent(display, window, True, KeyPressMask, xev);
-    XSync(display, False);
-}
-#endif
-
 #ifdef COPYQ_DESKTOP_PREFIX
 QString getDesktopFilename()
 {
@@ -200,112 +83,31 @@ PlatformPtr createPlatformNativeInterface()
     return PlatformPtr(new X11Platform);
 }
 
-class X11PlatformPrivate
-{
-public:
-    Display *display;
-};
-
 X11Platform::X11Platform()
-    : d(new X11PlatformPrivate)
+    : d(new X11DisplayGuard)
 {
-    d->display = XOpenDisplay(NULL);
 }
 
 X11Platform::~X11Platform()
 {
-    if (d->display != NULL)
-        XCloseDisplay(d->display);
-    delete d;
 }
 
-WId X11Platform::getCurrentWindow()
+PlatformWindowPtr X11Platform::getWindow(WId winId)
 {
-    if (d->display == NULL)
-        return 0L;
-
-    XSync(d->display, False);
-
-    static Atom atomWindow = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", true);
-
-    X11WindowProperty property(d->display, DefaultRootWindow(d->display), atomWindow, 0l, 1l,
-                               XA_WINDOW);
-
-    if ( property.isValid() && property.type == XA_WINDOW && property.format == 32 &&
-         property.len == 1) {
-            return *reinterpret_cast<Window *>(property.data);
-    }
-
-    return 0L;
+    QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d, winId));
+    return PlatformWindowPtr(window->isValid() ? window.take() : NULL);
 }
 
-QString X11Platform::getWindowTitle(WId wid)
+PlatformWindowPtr X11Platform::getCurrentWindow()
 {
-    if (d->display == NULL || wid == 0L)
-        return QString();
+    if (!d->display())
+        return PlatformWindowPtr();
 
-    static Atom atomName = XInternAtom(d->display, "_NET_WM_NAME", false);
-    static Atom atomUTF8 = XInternAtom(d->display, "UTF8_STRING", false);
-
-    X11WindowProperty property(d->display, wid, atomName, 0, (~0L), atomUTF8);
-    if ( property.isValid() ) {
-        QByteArray result(reinterpret_cast<const char *>(property.data), property.len);
-        return QString::fromUtf8(result);
-    }
-
-    return QString();
+    QScopedPointer<X11PlatformWindow> window(new X11PlatformWindow(*d));
+    return PlatformWindowPtr(window->isValid() ? window.take() : NULL);
 }
 
-void X11Platform::raiseWindow(WId wid)
-{
-    if (d->display == NULL || wid == 0L)
-        return;
-
-    XEvent e;
-    memset(&e, 0, sizeof(e));
-    e.type = ClientMessage;
-    e.xclient.display = d->display;
-    e.xclient.window = wid;
-    e.xclient.message_type = XInternAtom(d->display, "_NET_ACTIVE_WINDOW", False);
-    e.xclient.format = 32;
-    e.xclient.data.l[0] = 2;
-    e.xclient.data.l[1] = CurrentTime;
-    e.xclient.data.l[2] = 0;
-    e.xclient.data.l[3] = 0;
-    e.xclient.data.l[4] = 0;
-
-    XWindowAttributes wattr;
-    XGetWindowAttributes(d->display, wid, &wattr);
-
-    if (wattr.map_state == IsViewable) {
-        XSendEvent(d->display, wattr.screen->root, False,
-                   SubstructureNotifyMask | SubstructureRedirectMask,
-                   &e);
-
-        XRaiseWindow(d->display, wid);
-        XSetInputFocus(d->display, wid, RevertToPointerRoot, CurrentTime);
-    }
-}
-
-void X11Platform::pasteToWindow(WId wid)
-{
-    if (d->display == NULL || wid == 0L)
-        return;
-
-    raiseWindow(wid);
-    usleep(150000);
-
-#ifdef HAS_X11TEST
-    simulateKeyPress(d->display, QList<int>() << XK_Shift_L, XK_Insert);
-#else
-    simulateKeyPress(d->display, wid, ShiftMask, XK_Insert);
-#endif
-
-    // Don't do anything hasty until the content is actually pasted.
-    usleep(150000);
-}
-
-WId X11Platform::getPasteWindow()
+PlatformWindowPtr X11Platform::getPasteWindow()
 {
     return getCurrentWindow();
 }
@@ -403,11 +205,11 @@ void X11Platform::setAutostartEnabled(bool enable)
 bool X11Platform::isSelecting()
 {
     // If mouse button or shift is pressed then assume that user is selecting text.
-    if (d->display == NULL)
+    if (!d->display())
         return false;
 
     XEvent event;
-    XQueryPointer(d->display, DefaultRootWindow(d->display),
+    XQueryPointer(d->display(), DefaultRootWindow(d->display()),
                   &event.xbutton.root, &event.xbutton.window,
                   &event.xbutton.x_root, &event.xbutton.y_root,
                   &event.xbutton.x, &event.xbutton.y,
@@ -418,20 +220,20 @@ bool X11Platform::isSelecting()
 
 bool X11Platform::isClipboardEmpty() const
 {
-    if (d->display == NULL)
+    if (!d->display())
         return false;
 
-    static Atom atom = XInternAtom(d->display, "CLIPBOARD", False);
-    return XGetSelectionOwner(d->display, atom) == None;
+    static Atom atom = XInternAtom(d->display(), "CLIPBOARD", False);
+    return XGetSelectionOwner(d->display(), atom) == None;
 }
 
 bool X11Platform::isSelectionEmpty() const
 {
-    if (d->display == NULL)
+    if (!d->display())
         return false;
 
     static Atom atom = XA_PRIMARY;
-    return XGetSelectionOwner(d->display, atom) == None;
+    return XGetSelectionOwner(d->display(), atom) == None;
 }
 
 void X11Platform::onApplicationStarted()

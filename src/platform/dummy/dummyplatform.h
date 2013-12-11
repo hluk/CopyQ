@@ -22,18 +22,24 @@
 
 #include "platform/platformnativeinterface.h"
 
+class PlatformWindow
+{
+public:
+    QString getTitle() { return QString(); }
+
+    void raise() {}
+
+    void pasteClipboard() {}
+};
+
 class DummyPlatform : public PlatformNativeInterface
 {
 public:
-    WId getCurrentWindow() { return WId(); }
+    PlatformWindowPtr getWindow(WId) { return PlatformWindowPtr(); }
 
-    QString getWindowTitle(WId) { return QString(); }
+    PlatformWindowPtr getCurrentWindow() { return PlatformWindowPtr(); }
 
-    void raiseWindow(WId) {}
-
-    void pasteToWindow(WId) {}
-
-    WId getPasteWindow() { return WId(); }
+    PlatformWindowPtr getPasteWindow() { return PlatformWindowPtr(); }
 
     bool canAutostart() { return false; }
 

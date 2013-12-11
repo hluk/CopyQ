@@ -18,78 +18,28 @@
 */
 
 #include "winplatform.h"
+#include "winplatformwindow.h"
 
 #include <qt_windows.h>
-#include <windows.h>
-
-namespace {
-
-INPUT createInput(WORD key, DWORD flags = 0)
-{
-    INPUT input;
-
-    input.type = INPUT_KEYBOARD;
-    input.ki.wVk = key;
-    input.ki.wScan = 0;
-    input.ki.dwFlags = KEYEVENTF_UNICODE | flags;
-    input.ki.time = 0;
-    input.ki.dwExtraInfo = GetMessageExtraInfo();
-
-    return input;
-}
-
-} // namespace
 
 PlatformPtr createPlatformNativeInterface()
 {
     return PlatformPtr(new WinPlatform);
 }
 
-WinPlatform::WinPlatform()
+PlatformWindowPtr WinPlatform::getWindow(WId winId)
 {
+    HWND window = static_cast<HWND>(winId);
+    return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
 }
 
-WId WinPlatform::getCurrentWindow()
+PlatformWindowPtr WinPlatform::getCurrentWindow()
 {
-    return (WId)GetForegroundWindow();
+    HWND window = GetForegroundWindow();
+    return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
 }
 
-QString WinPlatform::getWindowTitle(WId wid)
-{
-    TCHAR buf[1024];
-    GetWindowText((HWND)wid, buf, 1024);
-#   ifdef UNICODE
-    return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
-#   else
-    return QString::fromLocal8Bit(buf);
-#   endif
-}
-
-void WinPlatform::raiseWindow(WId wid)
-{
-    SetForegroundWindow((HWND)wid);
-    SetWindowPos((HWND)wid, HWND_TOP, 0, 0, 0, 0,
-                 SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
-}
-
-void WinPlatform::pasteToWindow(WId wid)
-{
-    INPUT input[4];
-
-    input[0] = createInput(VK_LSHIFT);
-    input[1] = createInput(VK_INSERT);
-    input[2] = createInput(VK_INSERT, KEYEVENTF_KEYUP);
-    input[3] = createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
-
-    raiseWindow(wid);
-    Sleep(150);
-    SendInput( 4, input, sizeof(INPUT) );
-
-    // Don't do anything hasty until the content is actually pasted.
-    Sleep(150);
-}
-
-WId WinPlatform::getPasteWindow()
+PlatformWindowPtr WinPlatform::getPasteWindow()
 {
     return getCurrentWindow();
 }

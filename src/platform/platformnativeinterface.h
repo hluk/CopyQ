@@ -21,8 +21,15 @@
 #define PLATFORMNATIVEINTERFACE_H
 
 #include <QSharedPointer>
-#include <QString>
-#include <QWidget> // WId
+#include <QWidget>
+
+class PlatformWindow;
+class QWidget;
+
+/**
+ * Shared pointer type for PlatformWindow.
+ */
+typedef QSharedPointer<PlatformWindow> PlatformWindowPtr;
 
 /**
  * Interface for platform dependent code.
@@ -33,29 +40,21 @@ public:
     virtual ~PlatformNativeInterface() {}
 
     /**
-     * Get currently focused window.
+     * Get window from widget (NULL if failed or not implemented).
      */
-    virtual WId getCurrentWindow() = 0;
+    virtual PlatformWindowPtr getWindow(WId winId) = 0;
 
     /**
-     * Return window title text of current window.
+     * Get currently focused window (NULL if failed or not implemented).
      */
-    virtual QString getWindowTitle(WId wid) = 0;
+    virtual PlatformWindowPtr getCurrentWindow() = 0;
 
     /**
-     * Raise and focus a window to foreground.
+     * Get window for pasting (NULL if failed or not implemented).
+     *
+     * The paste window can be different from current window on some platforms.
      */
-    virtual void raiseWindow(WId wid) = 0;
-
-    /**
-     * Paste clipboard content to given window (e.g. send Ctrl+Insert to the window).
-     */
-    virtual void pasteToWindow(WId wid) = 0;
-
-    /**
-     * Get window for pasting (can be different from current window).
-     */
-    virtual WId getPasteWindow() = 0;
+    virtual PlatformWindowPtr getPasteWindow() = 0;
 
     /**
      * Return true automatic the application start at system startup is supported.
