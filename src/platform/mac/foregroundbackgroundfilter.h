@@ -26,7 +26,6 @@
 #include <QScopedPointer>
 
 class MacPlatform;
-class MainWindow;
 
 /**
  * This event filter manages the "activationPolicy" for an OS X app by
@@ -52,7 +51,7 @@ protected:
 
 private:
     QScopedPointer<MacPlatform> m_macPlatform;
-    QPointer<MainWindow> m_mainWindow;
+    QPointer<QWidget> m_mainWindow;
 };
 
 #endif // FOREGROUNDBACKGROUNDFILTER_H

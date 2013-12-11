@@ -21,7 +21,6 @@
 
 #include "macplatform.h"
 #include <common/common.h>
-#include <gui/mainwindow.h>
 
 #include <QWindow>
 #include <QEvent>
@@ -33,10 +32,10 @@
 namespace {
     QPointer<ForegroundBackgroundFilter> globalFilter = 0;
 
-    MainWindow * getMainWindow() {
-        foreach (QWidget *win, QApplication::topLevelWidgets()) {
-            if (win->objectName() == "MainWindow") {
-                return qobject_cast<MainWindow*>(win);
+    QWidget * getMainWindow() {
+        foreach (QWidget *widget, QApplication::topLevelWidgets()) {
+            if (widget->objectName() == "MainWindow") {
+                return widget;
             }
         }
 
@@ -90,7 +89,7 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
                     // is better than having the main window broken..
                     log("Showing main window first to get menu", LogNote);
                     ev->accept();
-                    m_mainWindow->showWindow();
+                    m_mainWindow->showNormal();
                     QCoreApplication::processEvents(QEventLoop::AllEvents | QEventLoop::WaitForMoreEvents, 100);
                     QCoreApplication::postEvent(obj, new QShowEvent());
                     return true;
