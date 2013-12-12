@@ -10,6 +10,9 @@
     <height>421</height>
    </rect>
   </property>
+  <property name="contextMenuPolicy">
+   <enum>Qt::PreventContextMenu</enum>
+  </property>
   <property name="windowTitle">
    <string>CopyQ</string>
   </property>
@@ -46,8 +49,8 @@
    </layout>
   </widget>
   <widget class="QToolBar" name="toolBar">
-   <property name="windowTitle">
-    <string>toolBar</string>
+   <property name="contextMenuPolicy">
+    <enum>Qt::PreventContextMenu</enum>
    </property>
    <attribute name="toolBarArea">
     <enum>TopToolBarArea</enum>
