@@ -53,6 +53,9 @@ public:
     /** Decorate tab widget. */
     void decorateTabs(QWidget *tabWidget) const;
 
+    /** Decorate main window. */
+    void decorateMainWindow(QWidget *mainWindow) const;
+
     /** Decorate tool bar. */
     void decorateToolBar(QWidget *toolBar) const;
 

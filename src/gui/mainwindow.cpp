@@ -1090,7 +1090,6 @@ void MainWindow::loadSettings()
     m_options->hideToolbar = cm->value("hide_toolbar").toBool();
     ui->toolBar->clear();
     ui->toolBar->setHidden(m_options->hideToolbar);
-    cm->tabAppearance()->decorateToolBar(ui->toolBar);
 
     saveCollapsedTabs();
 
@@ -1104,7 +1103,6 @@ void MainWindow::loadSettings()
         : tabPosition == 4 ? QBoxLayout::RightToLeft
                            : QBoxLayout::LeftToRight);
     ui->tabWidget->setTreeModeEnabled(tabPosition > 3);
-    cm->tabAppearance()->decorateTabs(ui->tabWidget);
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1178,6 +1176,11 @@ void MainWindow::loadSettings()
     m_trayPasteWindow.clear();
     m_lastWindow.clear();
     m_pasteWindow.clear();
+
+    ConfigTabAppearance *appearance = cm->tabAppearance();
+    appearance->decorateToolBar(ui->toolBar);
+    appearance->decorateTabs(ui->tabWidget);
+    appearance->decorateMainWindow(this);
 
     log( tr("Configuration loaded") );
 }
