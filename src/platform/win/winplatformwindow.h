@@ -17,30 +17,26 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINPLATFORM_H
-#define WINPLATFORM_H
+#ifndef WINPLATFORMWINDOW_H
+#define WINPLATFORMWINDOW_H
 
-#include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
-class WinPlatform : public PlatformNativeInterface
+#include <qt_windows.h>
+
+class WinPlatformWindow : public PlatformWindow
 {
 public:
-    WinPlatform() {}
+    explicit WinPlatformWindow(HWND window);
 
-    PlatformWindowPtr getWindow(WId winId);
+    QString getTitle();
 
-    PlatformWindowPtr getCurrentWindow();
+    void raise();
 
-    PlatformWindowPtr getPasteWindow();
+    void pasteClipboard();
 
-    /** Setting application autostart is not implemented for Windows (works just from installer). */
-    bool canAutostart() { return false; }
-
-    bool isAutostartEnabled() { return false; }
-
-    void setAutostartEnabled(bool) {}
-
-    void onApplicationStarted() {}
+private:
+    HWND m_window;
 };
 
-#endif // WINPLATFORM_H
+#endif // WINPLATFORMWINDOW_H

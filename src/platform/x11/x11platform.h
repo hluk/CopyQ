@@ -22,7 +22,9 @@
 
 #include "platform/platformnativeinterface.h"
 
-class X11PlatformPrivate;
+#include <QSharedPointer>
+
+class X11DisplayGuard;
 
 class X11Platform : public PlatformNativeInterface
 {
@@ -31,15 +33,11 @@ public:
 
     ~X11Platform();
 
-    WId getCurrentWindow();
+    PlatformWindowPtr getWindow(WId winId);
 
-    QString getWindowTitle(WId wid);
+    PlatformWindowPtr getCurrentWindow();
 
-    void raiseWindow(WId wid);
-
-    void pasteToWindow(WId wid);
-
-    WId getPasteWindow();
+    PlatformWindowPtr getPasteWindow();
 
     bool canAutostart();
 
@@ -66,7 +64,7 @@ public:
     void onApplicationStarted();
 
 private:
-    X11PlatformPrivate *d;
+    QSharedPointer<X11DisplayGuard> d;
 };
 
 #endif // X11DISPLAY_H

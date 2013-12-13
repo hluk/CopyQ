@@ -22,6 +22,8 @@
 
 #include "gui/configtabshortcuts.h"
 
+#include "platform/platformnativeinterface.h"
+
 #include <QClipboard>
 #include <QMainWindow>
 #include <QMap>
@@ -445,9 +447,9 @@ class MainWindow : public QMainWindow
 
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
 
-        WId m_trayPasteWindow;
-        WId m_pasteWindow;
-        WId m_lastWindow;
+        PlatformWindowPtr m_trayPasteWindow;
+        PlatformWindowPtr m_pasteWindow;
+        PlatformWindowPtr m_lastWindow;
 
         QTimer *m_timerUpdateFocusWindows;
         QTimer *m_timerShowWindow;

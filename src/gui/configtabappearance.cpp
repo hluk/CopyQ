@@ -268,7 +268,6 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
         + QString("ClipboardBrowser{") + themeStyleSheet("item_css") + "}"
         + QString("ClipboardBrowser::item:alternate{") + themeStyleSheet("alt_item_css") + "}"
         + QString("ClipboardBrowser::item:selected{") + themeStyleSheet("sel_item_css") + "}"
-        + themeStyleSheet("css")
         );
 
     // search style
@@ -315,6 +314,11 @@ void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
                   ",#tab_tree_item[CopyQ_selected=\"true\"]"
                   "{background:transparent}")
                 );
+}
+
+void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
+{
+    mainWindow->setStyleSheet( themeStyleSheet("css") );
 }
 
 void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const
@@ -739,6 +743,7 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["tool_bar_css"] = Option(
                 "\n    ;color: ${fg}"
                 "\n    ;background-color: ${bg}"
+                "\n    ;border: 0"
                 );
     m_theme["tool_button_css"] = Option(
                 "\n    ;background-color:transparent"

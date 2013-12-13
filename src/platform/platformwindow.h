@@ -17,30 +17,33 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINPLATFORM_H
-#define WINPLATFORM_H
+#ifndef PLATFORMWINDOW_H
+#define PLATFORMWINDOW_H
 
-#include "platform/platformnativeinterface.h"
+class QString;
 
-class WinPlatform : public PlatformNativeInterface
+/**
+ * Window storage class for platform. Used to raise/focus window and paste to window.
+ */
+class PlatformWindow
 {
 public:
-    WinPlatform() {}
+    virtual ~PlatformWindow() {}
 
-    PlatformWindowPtr getWindow(WId winId);
+    /**
+     * Return window title text.
+     */
+    virtual QString getTitle() = 0;
 
-    PlatformWindowPtr getCurrentWindow();
+    /**
+     * Raise/focus window.
+     */
+    virtual void raise() = 0;
 
-    PlatformWindowPtr getPasteWindow();
-
-    /** Setting application autostart is not implemented for Windows (works just from installer). */
-    bool canAutostart() { return false; }
-
-    bool isAutostartEnabled() { return false; }
-
-    void setAutostartEnabled(bool) {}
-
-    void onApplicationStarted() {}
+    /**
+     * Paste clipboard content to window.
+     */
+    virtual void pasteClipboard() = 0;
 };
 
-#endif // WINPLATFORM_H
+#endif // PLATFORMWINDOW_H

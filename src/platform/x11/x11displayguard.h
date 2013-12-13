@@ -17,30 +17,31 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef WINPLATFORM_H
-#define WINPLATFORM_H
+#ifndef X11DISPLAYGUARD_H
+#define X11DISPLAYGUARD_H
 
-#include "platform/platformnativeinterface.h"
+#include <QSharedPointer>
 
-class WinPlatform : public PlatformNativeInterface
+#include <X11/Xlib.h>
+
+class X11DisplayGuard
 {
 public:
-    WinPlatform() {}
+    /**
+     * Opens Display with XOpenDisplay().
+     * The create Display is automatically closed with XCloseDisplay() when object is destroyed.
+     */
+    X11DisplayGuard()
+        : m_display(XOpenDisplay(NULL), XCloseDisplay)
+    {}
 
-    PlatformWindowPtr getWindow(WId winId);
+    /**
+     * Get the opened Display (can be NULL if opening failed).
+     */
+    Display *display() { return m_display.data(); }
 
-    PlatformWindowPtr getCurrentWindow();
-
-    PlatformWindowPtr getPasteWindow();
-
-    /** Setting application autostart is not implemented for Windows (works just from installer). */
-    bool canAutostart() { return false; }
-
-    bool isAutostartEnabled() { return false; }
-
-    void setAutostartEnabled(bool) {}
-
-    void onApplicationStarted() {}
+private:
+    QSharedPointer<Display> m_display;
 };
 
-#endif // WINPLATFORM_H
+#endif // X11DISPLAYGUARD_H

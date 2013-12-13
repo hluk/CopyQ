@@ -24,6 +24,7 @@
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #include <QApplication>
 #include <QMimeData>
@@ -381,8 +382,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // add window title of clipboard owner
     PlatformPtr platform = createPlatformNativeInterface();
-    data2.insert( mimeWindowTitle,
-                  platform->getWindowTitle(platform->getCurrentWindow()).toUtf8() );
+    PlatformWindowPtr currentWindow = platform->getCurrentWindow();
+    data2.insert( mimeWindowTitle, currentWindow ? currentWindow->getTitle().toUtf8() : QByteArray() );
 
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {

@@ -40,6 +40,7 @@
 #include "item/clipboardmodel.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
+#include "platform/platformwindow.h"
 
 #ifdef Q_OS_MAC
 #  include "platform/mac/foregroundbackgroundfilter.h"
@@ -204,8 +205,8 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayPasteWindow()
-    , m_pasteWindow(0)
-    , m_lastWindow(0)
+    , m_pasteWindow()
+    , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_trayTimer(NULL)
@@ -677,11 +678,6 @@ ClipboardBrowser *MainWindow::getBrowser(int index) const
     return qobject_cast<ClipboardBrowser*>(w);
 }
 
-bool MainWindow::isValidWindow(WId wid) const
-{
-    return wid != WId();
-}
-
 void MainWindow::delayedUpdateFocusWindows()
 {
     if ( m_options->activateFocuses() || m_options->activatePastes() )
@@ -1039,8 +1035,8 @@ bool MainWindow::event(QEvent *event)
 
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {
-        m_lastWindow = 0;
-        m_pasteWindow = 0;
+        m_lastWindow.clear();
+        m_pasteWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
     }
@@ -1116,7 +1112,6 @@ void MainWindow::loadSettings()
     m_options->hideToolbar = cm->value("hide_toolbar").toBool();
     ui->toolBar->clear();
     ui->toolBar->setHidden(m_options->hideToolbar);
-    cm->tabAppearance()->decorateToolBar(ui->toolBar);
 
     saveCollapsedTabs();
 
@@ -1130,7 +1125,6 @@ void MainWindow::loadSettings()
         : tabPosition == 4 ? QBoxLayout::RightToLeft
                            : QBoxLayout::LeftToRight);
     ui->tabWidget->setTreeModeEnabled(tabPosition > 3);
-    cm->tabAppearance()->decorateTabs(ui->tabWidget);
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1201,6 +1195,15 @@ void MainWindow::loadSettings()
 
     ui->searchBar->loadSettings();
 
+    m_trayPasteWindow.clear();
+    m_lastWindow.clear();
+    m_pasteWindow.clear();
+
+    ConfigTabAppearance *appearance = cm->tabAppearance();
+    appearance->decorateToolBar(ui->toolBar);
+    appearance->decorateTabs(ui->tabWidget);
+    appearance->decorateMainWindow(this);
+
     log( tr("Configuration loaded") );
 }
 
@@ -1241,7 +1244,9 @@ void MainWindow::showWindow()
 
     QApplication::setActiveWindow(this);
 
-    createPlatformNativeInterface()->raiseWindow(winId());
+    PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
+    if (window)
+        window->raise();
 }
 
 bool MainWindow::toggleVisible()
@@ -1277,10 +1282,10 @@ void MainWindow::showBrowser(int index)
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
-    if (c->select(clipboardItemHash) && m_options->trayItemPaste && isValidWindow(m_trayPasteWindow)) {
+    if ( c->select(clipboardItemHash) && m_trayPasteWindow ) {
         // Force "processEvents" to last at least 100ms
         QApplication::processEvents(QEventLoop::AllEvents | QEventLoop::WaitForMoreEvents, 100);
-        createPlatformNativeInterface()->pasteToWindow(m_trayPasteWindow);
+        m_trayPasteWindow->pasteClipboard();
     }
 }
 
@@ -1531,19 +1536,18 @@ void MainWindow::activateCurrentItem()
     resetStatus();
 
     // Perform custom actions on item activation.
-    WId lastWindow = m_lastWindow;
-    WId pasteWindow = m_pasteWindow;
+    PlatformWindowPtr lastWindow = m_lastWindow;
+    PlatformWindowPtr pasteWindow = m_pasteWindow;
+
     if ( m_options->activateCloses() )
         close();
-    if ( m_options->activateFocuses() || m_options->activatePastes() ) {
-        PlatformPtr platform = createPlatformNativeInterface();
-        if ( m_options->activateFocuses() && isValidWindow(lastWindow) )
-            platform->raiseWindow(lastWindow);
-        if ( m_options->activatePastes() && isValidWindow(pasteWindow) ) {
-            // Force "processEvents" to last at least 100ms
-            QApplication::processEvents(QEventLoop::AllEvents | QEventLoop::WaitForMoreEvents, 100);
-            platform->pasteToWindow(pasteWindow);
-        }
+
+    if (lastWindow)
+        lastWindow->raise();
+
+    if (pasteWindow) {
+        QApplication::processEvents();
+        pasteWindow->pasteClipboard();
     }
 }
 
@@ -1573,8 +1577,9 @@ QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mo
 
 void MainWindow::pasteToCurrentWindow()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
-    platform->pasteToWindow( platform->getPasteWindow() );
+    PlatformWindowPtr window = createPlatformNativeInterface()->getPasteWindow();
+    if (window)
+        window->pasteClipboard();
 }
 
 QStringList MainWindow::tabs() const
@@ -1755,14 +1760,16 @@ void MainWindow::updateFocusWindows()
         return;
 
     PlatformPtr platform = createPlatformNativeInterface();
+
     if ( m_options->activatePastes() ) {
-        WId pasteWindow = platform->getPasteWindow();
-        if ( isValidWindow(pasteWindow) )
+        PlatformWindowPtr pasteWindow = platform->getPasteWindow();
+        if (pasteWindow)
             m_pasteWindow = pasteWindow;
     }
+
     if ( m_options->activateFocuses() ) {
-        WId lastWindow = platform->getCurrentWindow();
-        if ( isValidWindow(lastWindow) )
+        PlatformWindowPtr lastWindow = platform->getCurrentWindow();
+        if (lastWindow)
             m_lastWindow = lastWindow;
     }
 }
@@ -1813,8 +1820,8 @@ void MainWindow::enterBrowseMode(bool browsemode)
 
 void MainWindow::updateTrayMenuItems()
 {
-    PlatformPtr platform = createPlatformNativeInterface();
-    m_trayPasteWindow = platform->getPasteWindow();
+    if (m_options->trayItemPaste)
+        m_trayPasteWindow = createPlatformNativeInterface()->getPasteWindow();
 
     ClipboardBrowser *c = getTabForTrayMenu();
 
@@ -1915,7 +1922,10 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
 
     // steal focus
     WId wid = actionDialog->winId();
-    createPlatformNativeInterface()->raiseWindow(wid);
+    PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
+    if (window)
+        window->raise();
+
     return wid;
 }
 
