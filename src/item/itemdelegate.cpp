@@ -336,9 +336,19 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
 
     bool isSelected = option.state & QStyle::State_Selected;
 
+    /* Alternate colors from last item so deleting or inserting a row won't make following
+     * items switch background style. Otherwise the effect can be distracting.
+     * Property "alternatingRowColors" must be disabled in QAbstractItemView.
+     */
+    QStyleOptionViewItemV4 option2(option);
+    if ( (m_cache.size() & 1) == (row & 1) )
+        option2.features &= ~QStyleOptionViewItemV2::Alternate;
+    else
+        option2.features |= QStyleOptionViewItemV2::Alternate;
+
     /* render background (selected, alternate, ...) */
     QStyle *style = m_parent->style();
-    style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_parent);
+    style->drawControl(QStyle::CE_ItemViewItem, &option2, painter, m_parent);
     QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
 
     /* render number */
