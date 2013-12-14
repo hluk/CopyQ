@@ -207,6 +207,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_notifications(NULL)
     , m_timerMiminizing(NULL)
     , m_minimizeUnsupported(false)
+    , m_lastAction()
 {
     ui->setupUi(this);
 
@@ -1622,10 +1623,14 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
 void MainWindow::addItems(const QStringList &items, const QString &tabName)
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
-    {
-        ClipboardBrowser::Lock lock(c);
-        foreach (const QString &item, items)
-            c->add(item);
+    ClipboardBrowser::Lock lock(c);
+    foreach (const QString &item, items)
+        c->add(item);
+
+    if (m_lastAction) {
+        if (m_lastAction == sender())
+            c->setCurrent(items.size() - 1);
+        m_lastAction = NULL;
     }
 }
 
@@ -1644,6 +1649,12 @@ void MainWindow::addItem(const QByteArray &data, const QString &format, const QS
 {
     ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
     c->add( createDataMap(format, data) );
+
+    if (m_lastAction) {
+        if (m_lastAction == sender())
+            c->setCurrent(0);
+        m_lastAction = NULL;
+    }
 }
 
 void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
@@ -1745,6 +1756,8 @@ void MainWindow::onItemMenuUpdated()
 {
     if ( !ui->toolBar->isVisible() )
         return;
+
+    m_lastAction = NULL;
 
     ui->toolBar->clear();
     const QColor color = getDefaultIconColor(*ui->toolBar, QPalette::Window);
@@ -2091,6 +2104,8 @@ void MainWindow::reverseSelectedItems()
 
 void MainWindow::action(Action *action)
 {
+    m_lastAction = action;
+
     connect( action, SIGNAL(newItems(QStringList, QString)),
              this, SLOT(addItems(QStringList, QString)) );
     connect( action, SIGNAL(newItems(QStringList, QModelIndex)),
