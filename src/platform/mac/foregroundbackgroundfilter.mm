@@ -20,6 +20,7 @@
 #include "foregroundbackgroundfilter.h"
 
 #include "macplatform.h"
+#include "platform/platformwindow.h"
 #include <common/common.h>
 
 #include <QWindow>
@@ -28,6 +29,9 @@
 #include <QApplication>
 #include <QShowEvent>
 #include <QHideEvent>
+
+#include <Cocoa/Cocoa.h>
+#include <Carbon/Carbon.h>
 
 namespace {
     QPointer<ForegroundBackgroundFilter> globalFilter = 0;
@@ -40,6 +44,39 @@ namespace {
         }
 
         return NULL;
+    }
+
+    bool isNormalApp() {
+        return ([NSApp activationPolicy] == NSApplicationActivationPolicyRegular);
+    }
+
+    bool becomeNormalApp() {
+        BOOL worked = NO;
+        if ([NSApp activationPolicy] != NSApplicationActivationPolicyRegular) {
+            BOOL worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyRegular];
+            if (!worked) {
+                COPYQ_LOG("unable to become a regular window");
+            }
+        }
+
+        return (worked == YES);
+    }
+
+    bool becomeBackgroundApp() {
+        BOOL worked = NO;
+        if ([NSApp activationPolicy] != NSApplicationActivationPolicyAccessory) {
+            BOOL worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyAccessory];
+            if (!worked) {
+                COPYQ_LOG("unable to become an accessory window");
+
+                worked = [NSApp setActivationPolicy:NSApplicationActivationPolicyProhibited];
+                if (!worked) {
+                    COPYQ_LOG("unable to become a background/prohibited window");
+                }
+            }
+        }
+
+        return (worked == YES);
     }
 }
 
@@ -76,7 +113,7 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
     if (window && (type == Qt::Dialog || type == Qt::Window)) {
         if (ev->type() == QEvent::Show) {
             // Don't foreground if we already are
-            if (!m_macPlatform->isNormalApp()) {
+            if (!isNormalApp()) {
                 if (!m_mainWindow) {
                     m_mainWindow = getMainWindow();
                 }
@@ -96,13 +133,13 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
                 }
 
                 COPYQ_LOG("Become normal app");
-                m_macPlatform->becomeNormalApp();
+                becomeNormalApp();
 
                 // Forcably raise the main window if we just became
                 // "normal" OS X ignores all requests for focus before
                 // this.
                 usleep(100000);
-                m_macPlatform->raiseWindow(window->winId());
+                m_macPlatform->getWindow(window->winId())->raise();
             }
         } else if (ev->type() == QEvent::Hide) {
             // Don't background if there are any other visible windows..
@@ -117,7 +154,7 @@ bool ForegroundBackgroundFilter::eventFilter(QObject *obj, QEvent *ev)
 
             if (onlyWindow) {
                 COPYQ_LOG("Become background app");
-                m_macPlatform->becomeBackgroundApp();
+                becomeBackgroundApp();
             }
         }
     }

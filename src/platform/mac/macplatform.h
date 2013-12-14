@@ -27,23 +27,9 @@ class MacPlatform : public PlatformNativeInterface
 public:
     MacPlatform();
 
-    WId getCurrentWindow();
-
-    /**
-     * Return window title text of current window.
-     *
-     * On OS X, this gets the title of the application instead of the window.
-     */
-    QString getWindowTitle(WId wid);
-
-    void raiseWindow(WId wid);
-    void pasteToWindow(WId wid);
-    WId getPasteWindow();
-
-    /**
-     * Get the number of changes to the clipboard (NSPasteboard::changeCount).
-     */
-    long int getChangeCount();
+    PlatformWindowPtr getWindow(WId winId);
+    PlatformWindowPtr getCurrentWindow();
+    PlatformWindowPtr getPasteWindow();
 
     bool canAutostart() { return true; }
     bool isAutostartEnabled();
@@ -51,12 +37,10 @@ public:
 
     void onApplicationStarted();
 
-    bool becomeNormalApp();
-    bool becomeBackgroundApp();
-    bool isNormalApp();
-
-private:
-    static void *m_currentPasteWindow;
+    /**
+     * Get the number of changes to the clipboard (NSPasteboard::changeCount).
+     */
+    long int getChangeCount();
 };
 
 #endif // MACPLATFORM_H
