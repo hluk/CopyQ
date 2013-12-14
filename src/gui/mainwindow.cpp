@@ -1283,8 +1283,7 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
     if ( c->select(clipboardItemHash) && m_trayPasteWindow ) {
-        // Force "processEvents" to last at least 100ms
-        QApplication::processEvents(QEventLoop::AllEvents | QEventLoop::WaitForMoreEvents, 100);
+        QApplication::processEvents();
         m_trayPasteWindow->pasteClipboard();
     }
 }
