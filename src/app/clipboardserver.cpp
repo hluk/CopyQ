@@ -290,7 +290,7 @@ void ClipboardServer::maybeQuit()
 
 bool ClipboardServer::askToQuit()
 {
-    if ( m_clientThreads.waitForDone(0) || m_internalThreads.waitForDone(0) ) {
+    if ( m_clientThreads.activeThreadCount() > 0 || m_wnd->hasRunningAction() ) {
         QMessageBox messageBox( QMessageBox::Warning, tr("Cancel Active Commands"),
                                 tr("Cancel active commands and exit?"), QMessageBox::NoButton,
                                 m_wnd );

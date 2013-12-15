@@ -80,6 +80,8 @@ class MainWindow : public QMainWindow
 
         void setSessionName(const QString &sessionName);
 
+        bool hasRunningAction() const;
+
     signals:
         /** Request clipboard change. */
         void changeClipboard(const ClipboardItem *item);

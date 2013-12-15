@@ -546,7 +546,7 @@ void MainWindow::closeAction(Action *action)
     delete m_actions.take(action);
     action->deleteLater();
 
-    if ( m_actions.isEmpty() ) {
+    if ( !hasRunningAction() ) {
         m_menuCommand->setEnabled(false);
 #ifdef Q_OS_MAC
         m_trayMenuCommand->setEnabled(false);
@@ -561,7 +561,7 @@ void MainWindow::updateIcon()
     QColor color = sessionNameToColor(m_sessionName);
 
     if (m_options->showTray) {
-        if ( !m_actions.isEmpty() ) {
+        if ( hasRunningAction() ) {
             m_tray->setIcon( iconTrayRunning(m_monitoringDisabled) );
         } else if ( m_sessionName.isEmpty() ) {
             m_tray->setIcon(icon);
@@ -841,6 +841,11 @@ void MainWindow::setSessionName(const QString &sessionName)
 {
     m_sessionName = sessionName;
     updateIcon();
+}
+
+bool MainWindow::hasRunningAction() const
+{
+    return !m_actions.isEmpty();
 }
 
 WId MainWindow::mainWinId() const
