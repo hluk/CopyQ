@@ -110,7 +110,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
         ui->tabItems->deleteLater();
 
     initOptions();
-    initLanguages();
 
     /* datafile for items */
     m_datfilename = getConfigurationFilePath("_tab_");
@@ -503,6 +502,27 @@ void ConfigurationManager::initCommandWidgets()
     }
 }
 
+void ConfigurationManager::initLanguages()
+{
+    ui->comboBoxLanguage->addItem("English");
+    ui->comboBoxLanguage->setItemData(0, "en");
+
+    const QString currentLocale = getCurrentLocale();
+
+    foreach ( const QString &item, QDir(":/translations").entryList() ) {
+        const int i = item.indexOf('_');
+        const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
+        const QString language = QLocale(locale).nativeLanguageName();
+
+        const int index = ui->comboBoxLanguage->count();
+        ui->comboBoxLanguage->addItem(language);
+        ui->comboBoxLanguage->setItemData(index, locale);
+
+        if (locale == currentLocale)
+            ui->comboBoxLanguage->setCurrentIndex(index);
+    }
+}
+
 void ConfigurationManager::updateAutostart()
 {
     PlatformPtr platform = createPlatformNativeInterface();
@@ -602,27 +622,6 @@ void ConfigurationManager::bind(const char *optionKey, QComboBox *obj, int defau
 void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultValue)
 {
     m_options[optionKey] = Option(defaultValue);
-}
-
-void ConfigurationManager::initLanguages()
-{
-    ui->comboBoxLanguage->addItem("English");
-    ui->comboBoxLanguage->setItemData(0, "en");
-
-    const QString currentLocale = getCurrentLocale();
-
-    foreach ( const QString &item, QDir(":/translations").entryList() ) {
-        const int i = item.indexOf('_');
-        const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
-        const QString language = QLocale(locale).nativeLanguageName();
-
-        const int index = ui->comboBoxLanguage->count();
-        ui->comboBoxLanguage->addItem(language);
-        ui->comboBoxLanguage->setItemData(index, locale);
-
-        if (locale == currentLocale)
-            ui->comboBoxLanguage->setCurrentIndex(index);
-    }
 }
 
 void ConfigurationManager::saveCommands(const Commands &commands)
@@ -964,6 +963,7 @@ void ConfigurationManager::setVisible(bool visible)
         initTabIcons();
         initPluginWidgets();
         initCommandWidgets();
+        initLanguages();
         m_optionWidgetsLoaded = true;
     }
 }
@@ -1074,6 +1074,8 @@ void ConfigurationManager::onFinished(int result)
     if ( itemFactory()->hasLoaders() )
         ui->itemOrderListPlugins->clearItems();
     ui->itemOrderListCommands->clearItems();
+
+    ui->comboBoxLanguage->clear();
 }
 
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)

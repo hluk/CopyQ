@@ -187,6 +187,8 @@ private:
 
     void initCommandWidgets();
 
+    void initLanguages();
+
     /** Update autostarting the application. */
     void updateAutostart();
 
@@ -199,8 +201,6 @@ private:
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
-
-    void initLanguages();
 
     void saveCommands(const Commands &commands);
 
