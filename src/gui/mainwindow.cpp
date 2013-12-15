@@ -42,6 +42,10 @@
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
+#ifdef Q_OS_MAC
+#  include "platform/mac/foregroundbackgroundfilter.h"
+#endif
+
 #include <QAction>
 #include <QBitmap>
 #include <QCloseEvent>
@@ -187,6 +191,9 @@ MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_menuCommand(NULL)
+#ifdef Q_OS_MAC
+    , m_trayMenuCommand(NULL)
+#endif // Q_OS_MAC
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray( new QSystemTrayIcon(this) )
@@ -434,7 +441,15 @@ void MainWindow::createMenu()
     // Commands
     m_menuCommand = menubar->addMenu(tr("Co&mmands"));
     m_menuCommand->setEnabled(false);
+
+#ifdef Q_OS_MAC
+    // Make a copy of m_menuCommand for the trayMenu, necessary on OS X due
+    // to QTBUG-31549, and/or QTBUG-34160
+    m_trayMenuCommand = m_trayMenu->addMenu(tr("Co&mmands"));
+    m_trayMenuCommand->setEnabled(false);
+#else
     m_trayMenu->addMenu(m_menuCommand);
+#endif // Q_OS_MAC
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
@@ -450,7 +465,11 @@ void MainWindow::createMenu()
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     addTrayAction(Actions::File_Exit);
+#ifdef Q_OS_MAC
+    m_trayMenu->addMenu(m_trayMenuCommand);
+#else
     m_trayMenu->addMenu(m_menuCommand);
+#endif // Q_OS_MAC
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 }
@@ -529,6 +548,9 @@ void MainWindow::closeAction(Action *action)
 
     if ( m_actions.isEmpty() ) {
         m_menuCommand->setEnabled(false);
+#ifdef Q_OS_MAC
+        m_trayMenuCommand->setEnabled(false);
+#endif // Q_OS_MAC
         updateIcon();
     }
 }
@@ -1269,11 +1291,16 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 
 void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 {
+#ifdef Q_OS_MAC
+    // Don't do this on OS X, we only ever get "Trigger"
+    Q_UNUSED(reason);
+#else
     if ( reason == QSystemTrayIcon::MiddleClick ) {
         toggleMenu();
     } else if ( reason == QSystemTrayIcon::Trigger || reason == QSystemTrayIcon::DoubleClick ) {
         toggleVisible();
     }
+#endif // Q_OS_MAC
 }
 
 bool MainWindow::toggleMenu()
@@ -1711,6 +1738,11 @@ void MainWindow::actionStarted(Action *action)
 
     m_menuCommand->addAction(act);
     m_menuCommand->setEnabled(true);
+
+#ifdef Q_OS_MAC
+    m_trayMenuCommand->addAction(act);
+    m_trayMenuCommand->setEnabled(true);
+#endif // Q_OS_MAC
 
     updateIcon();
 

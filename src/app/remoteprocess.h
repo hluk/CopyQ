@@ -72,10 +72,17 @@ signals:
      */
     void connectionError();
 
+    /**
+     * Successfully connected to the remote process.
+     */
+    void connected();
+
 private slots:
     void readyRead();
     void ping();
     void pongTimeout();
+    void onNewConnection();
+    void checkConnection();
 
 private:
     QLocalServer *m_server;

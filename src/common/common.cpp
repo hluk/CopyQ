@@ -164,6 +164,13 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
         if ( !bytes.isEmpty() )
             newdata.insert(mime, bytes);
     }
+#ifdef COPYQ_LOG_DEBUG
+    foreach (const QString &format, data.formats()) {
+        if (!formats.contains(format)) {
+            COPYQ_LOG(QString("skipping format: %1").arg(format));
+        }
+    }
+#endif // COPYQ_LOG_DEBUG
     return newdata;
 }
 

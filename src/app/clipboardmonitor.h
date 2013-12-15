@@ -35,6 +35,11 @@ class QTimer;
 class PrivateX11;
 #endif
 
+#ifdef Q_OS_MAC
+class MacPlatform;
+class MacTimer;
+#endif
+
 /**
  * Application monitor server.
  *
@@ -105,6 +110,8 @@ private slots:
     /** Server connection closed. */
     void onDisconnected();
 
+    void clipboardTimeout();
+
 private:
     /** Send new clipboard or primary selection data to server. */
     void clipboardChanged(const QVariantMap &data);
@@ -126,6 +133,12 @@ private:
 
     // stuff for X11 window system
     PrivateX11* m_x11;
+#endif
+
+#ifdef Q_OS_MAC
+    long int m_prevChangeCount;
+    MacTimer *m_clipboardCheckTimer;
+    MacPlatform *m_macPlatform;
 #endif
 };
 

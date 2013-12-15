@@ -70,9 +70,6 @@ public:
     /** Start monitor application. */
     void startMonitoring();
 
-    /** Send configuration to monitor. */
-    void loadMonitorSettings();
-
     /** Return true if monitor is running. */
     bool isMonitoring();
 
@@ -98,6 +95,9 @@ public slots:
 
     /** Load settings. */
     void loadSettings();
+
+    /** Send configuration to monitor. */
+    void loadMonitorSettings();
 
 private slots:
     /** A new client connected. */

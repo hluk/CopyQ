@@ -54,13 +54,28 @@ bool findPluginDir(QDir *pluginsDir)
             return false;
         }
     }
+
 #elif defined(Q_OS_MAC)
     pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
     if ( pluginsDir->dirName() == "MacOS"
-         && (!pluginsDir->cdUp() || !pluginsDir->cdUp() || !pluginsDir->cdUp()) )
+            && pluginsDir->cdUp() // Contents
+            && pluginsDir->cd("Resources")
+            && pluginsDir->cd("plugins"))
     {
+        // OK, found it in the bundle
+        COPYQ_LOG("Found plugins in application bundle");
+    } else if (
+               pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() ),
+               pluginsDir->dirName() == "MacOS"
+                && pluginsDir->cdUp() // Contents
+                && pluginsDir->cdUp() // copyq.app
+                && pluginsDir->cdUp() // repo root
+                && pluginsDir->cd("plugins")) {
+            COPYQ_LOG("Found plugins in build tree");
+    } else {
         return false;
     }
+
 #else
     pluginsDir->setPath( QCoreApplication::instance()->applicationDirPath() );
     if ( !pluginsDir->cd("plugins") )

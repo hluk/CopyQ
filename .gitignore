@@ -15,6 +15,12 @@ CMakeCache.txt
 *.*sdf
 *.vc?proj*
 
+# Generated Makefiles
+/plugins/Makefile
+/plugins/*/Makefile
+/src/Makefile
+/Makefile
+
 # Generated Qt files
 /plugins/**/*.dir/
 /src/copyqcon.dir/
@@ -24,6 +30,16 @@ CMakeCache.txt
 /src/qrc_copyq.cxx
 /src/translations.qrc
 /src/qrc_translations.cxx
+
 moc_*
 ui_*
 *.depends
+*.o
+*.dylib
+*.moc
+**/qrc_*.cpp
+/.qmake.cache
+/copyq.app
+copyq.pro.user
+.DS_Store
+.qmake.stash

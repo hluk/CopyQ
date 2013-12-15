@@ -58,15 +58,18 @@ public:
     bool setShortcut(const QKeySequence& shortcut);
     bool unsetShortcut();
 
-#ifndef Q_WS_MAC
+#   ifndef Q_OS_MAC
     static int ref;
+#   endif // Q_OS_MAC
+
 #   if QT_VERSION < QT_VERSION_CHECK(5,0,0)
+#   ifndef Q_OS_MAC
     static QAbstractEventDispatcher::EventFilter prevEventFilter;
     static bool eventFilter(void* message);
+#   endif // Q_OS_MAC
 #   else
     virtual bool nativeEventFilter(const QByteArray &eventType, void *message, long *result);
 #   endif // QT_VERSION < QT_VERSION_CHECK(5,0,0)
-#endif // Q_WS_MAC
 
     static void activateShortcut(quint32 nativeKey, quint32 nativeMods);
 

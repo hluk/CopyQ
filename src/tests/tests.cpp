@@ -109,6 +109,7 @@ int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArra
     QProcess p;
     initTestProcess(&p);
     p.start( QApplication::applicationFilePath(), arguments );
+    p.waitForStarted();
 
     p.write(in);
     p.closeWriteChannel();
@@ -120,9 +121,13 @@ int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArra
             QApplication::processEvents();
 
             if ( !p.waitForFinished(4000) ) {
+                qWarning() << "terminating process";
                 p.terminate();
-                if ( !p.waitForFinished(1000) )
+
+                if ( !p.waitForFinished(1000) ) {
+                    qWarning() << "killing process";
                     p.kill();
+                }
 
                 return -1;
             }
@@ -609,6 +614,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
         m_monitor = new RemoteProcess();
         const QString name = "copyq" + clipboardMonitorServerName().arg("TEST");
         m_monitor->start( name, QStringList("monitor") << name );
+        waitFor(1000);
     }
 
     QVERIFY( m_monitor->isConnected() );
