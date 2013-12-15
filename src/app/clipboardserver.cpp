@@ -37,7 +37,9 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QMenu>
+#include <QMessageBox>
 #include <QMimeData>
+#include <QSessionManager>
 #include <QThread>
 
 #ifdef NO_GLOBAL_SHORTCUTS
@@ -85,10 +87,13 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
              this, SLOT(onAboutToQuit()));
 
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
-             this, SLOT(onCommitData()) );
+             this, SLOT(onCommitData(QSessionManager&)) );
 
     connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
+
+    connect( m_wnd, SIGNAL(requestExit()),
+             this, SLOT(maybeQuit()) );
 
     loadSettings();
 
@@ -267,7 +272,7 @@ void ClipboardServer::onAboutToQuit()
 {
     COPYQ_LOG("Closing server.");
 
-    onCommitData();
+    m_wnd->saveTabs();
 
     emit terminateClientThreads();
     m_clientThreads.waitForDone();
@@ -277,11 +282,35 @@ void ClipboardServer::onAboutToQuit()
         stopMonitoring();
 }
 
-void ClipboardServer::onCommitData()
+void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 {
-    m_wnd->saveTabs();
-    // TODO: Ask user to cancel application exit if
-    //       sessionManager.allowsInteraction() && m_clientThreads.activeThreadCount() > 0
+    if ( sessionManager.allowsInteraction() && !askToQuit() )
+        sessionManager.cancel();
+    else
+        m_wnd->saveTabs();
+}
+
+void ClipboardServer::maybeQuit()
+{
+    if (askToQuit())
+        QCoreApplication::exit();
+}
+
+bool ClipboardServer::askToQuit()
+{
+    if ( m_clientThreads.waitForDone(0) || m_internalThreads.waitForDone(0) ) {
+        QMessageBox messageBox( QMessageBox::Warning, tr("Cancel Active Commands"),
+                                tr("Cancel active commands and exit?"), QMessageBox::NoButton,
+                                m_wnd );
+
+        messageBox.addButton(tr("Cancel Exiting"), QMessageBox::RejectRole);
+        messageBox.addButton(tr("Exit Anyway"), QMessageBox::AcceptRole);
+
+        messageBox.exec();
+        return messageBox.result() == QMessageBox::Accepted;
+    }
+
+    return true;
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)

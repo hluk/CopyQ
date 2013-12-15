@@ -486,7 +486,7 @@ void Scriptable::menu()
 
 void Scriptable::exit()
 {
-    QByteArray message = QByteArray(tr("Terminating server.\n").toLatin1());
+    QByteArray message = tr("Terminating server.\n").toLocal8Bit();
     emit sendMessage(message, CommandExit);
 }
 

@@ -86,6 +86,8 @@ class MainWindow : public QMainWindow
 
         void tabGroupSelected(bool selected);
 
+        void requestExit();
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void keyReleaseEvent(QKeyEvent *event);

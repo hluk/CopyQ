@@ -293,7 +293,7 @@ void MainWindow::exit()
     }
 
     if (answer == QMessageBox::Yes)
-        QApplication::exit();
+        emit requestExit();
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -302,7 +302,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
         hide();
     } else {
         if ( isMinimized() ) {
-            QApplication::exit();
+            exit();
             return;
         }
         showMinimized();

@@ -45,8 +45,7 @@ namespace {
 void exitSignalHandler(int)
 {
     COPYQ_LOG("Terminating application on signal.");
-    if ( QCoreApplication::instance() )
-        QCoreApplication::instance()->quit();
+    QCoreApplication::exit();
 }
 
 } // namespace

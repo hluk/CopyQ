@@ -122,9 +122,19 @@ private slots:
     /** Clean up before quitting. */
     void onAboutToQuit();
 
-    void onCommitData();
+    /**
+     * Save all data before quitting and if some commands are still executing,
+     * allow user to cancel quitting (if session manager supports it).
+     */
+    void onCommitData(QSessionManager &sessionManager);
+
+    /** Quit application, but ask to cancel exit if there are any active commands. */
+    void maybeQuit();
 
 private:
+    /** Ask to cancel application exit if there are any active commands. */
+    bool askToQuit();
+
     QLocalServer *m_server;
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
