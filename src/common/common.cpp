@@ -48,7 +48,7 @@ const char mimeClipboardMode[] = MIME_PREFIX "clipboard-mode";
 QString quoteString(const QString &str)
 {
 #if QT_VERSION >= 0x040800
-    return QLocale::system().quoteString(str);
+    return QLocale().quoteString(str);
 #else
     return '"' + str + '"';
 #endif

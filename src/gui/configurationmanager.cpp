@@ -41,6 +41,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QSettings>
+#include <QTranslator>
 
 #ifdef Q_OS_WIN
 #   define DEFAULT_EDITOR "notepad %1"
@@ -76,6 +77,13 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
     return !saveWithCurrent;
 }
 
+QString getCurrentLocale()
+{
+    QString currentLocale = QLocale().name();
+    currentLocale.truncate(currentLocale.lastIndexOf('_'));
+    return currentLocale;
+}
+
 } // namespace
 
 // singleton
@@ -102,6 +110,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
         ui->tabItems->deleteLater();
 
     initOptions();
+    initLanguages();
 
     /* datafile for items */
     m_datfilename = getConfigurationFilePath("_tab_");
@@ -595,6 +604,27 @@ void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultVa
     m_options[optionKey] = Option(defaultValue);
 }
 
+void ConfigurationManager::initLanguages()
+{
+    ui->comboBoxLanguage->addItem("English");
+    ui->comboBoxLanguage->setItemData(0, "en");
+
+    const QString currentLocale = getCurrentLocale();
+
+    foreach ( const QString &item, QDir(":/translations").entryList() ) {
+        const int i = item.indexOf('_');
+        const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
+        const QString language = QLocale(locale).nativeLanguageName();
+
+        const int index = ui->comboBoxLanguage->count();
+        ui->comboBoxLanguage->addItem(language);
+        ui->comboBoxLanguage->setItemData(index, locale);
+
+        if (locale == currentLocale)
+            ui->comboBoxLanguage->setCurrentIndex(index);
+    }
+}
+
 void ConfigurationManager::saveCommands(const Commands &commands)
 {
     QSettings settings;
@@ -1010,6 +1040,14 @@ void ConfigurationManager::apply()
     tabAppearance()->setEditor( value("editor").toString() );
 
     setAutostartEnable();
+
+    // Language changes after restart.
+    const QString locale = ui->comboBoxLanguage->itemData(ui->comboBoxLanguage->currentIndex()).toString();
+    if ( locale != settings.value("Options/language").toString() ) {
+        settings.setValue("Options/language", locale);
+        QMessageBox::information( this, tr("Restart Required"),
+                                  tr("Language will be changed after application is restarted.") );
+    }
 
     emit configurationChanged();
 }

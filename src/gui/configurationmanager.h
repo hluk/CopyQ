@@ -200,6 +200,8 @@ private:
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
+    void initLanguages();
+
     void saveCommands(const Commands &commands);
 
     QIcon getCommandIcon(const QString &iconString) const;

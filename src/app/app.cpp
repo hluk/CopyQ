@@ -25,6 +25,7 @@
 #include <QCoreApplication>
 #include <QLibraryInfo>
 #include <QLocale>
+#include <QSettings>
 #include <QTranslator>
 #include <QVariant>
 #ifdef HAS_TESTS
@@ -72,7 +73,10 @@ App::App(QCoreApplication *application, const QString &sessionName)
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
 
-    const QString locale = QLocale::system().name();
+    QString locale = QSettings().value("Options/language").toString();
+    if (locale.isEmpty())
+        locale = QLocale::system().name();
+
     QTranslator *translator = new QTranslator(m_app.data());
     translator->load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
     QCoreApplication::installTranslator(translator);
@@ -80,6 +84,8 @@ App::App(QCoreApplication *application, const QString &sessionName)
     translator = new QTranslator(m_app.data());
     translator->load("copyq_" + locale, ":/translations");
     QCoreApplication::installTranslator(translator);
+
+    QLocale::setDefault(QLocale(locale));
 
 #ifdef Q_OS_UNIX
     // Safely quit application on TERM and HUP signals.
