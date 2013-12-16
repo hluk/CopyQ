@@ -1005,8 +1005,6 @@ void ConfigurationManager::apply()
         tabAppearance()->saveTheme(settings);
         settings.endGroup();
 
-        updateIcons();
-
         // save settings for each plugin
         if ( itemFactory()->hasLoaders() ) {
             settings.beginGroup("Plugins");

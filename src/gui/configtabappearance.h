@@ -108,6 +108,7 @@ private:
     QString themeStyleSheet(const QString &name) const;
 
     void initThemeOptions();
+    void resetTheme();
     QString defaultUserThemePath() const;
     QVariant themeValue(const QString &name, const QHash<QString, Option> &theme) const;
     QColor themeColor(const QString &name, const QHash<QString, Option> &theme) const;

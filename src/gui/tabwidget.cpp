@@ -295,6 +295,8 @@ void TabWidget::createTabBar()
     m_tabBar = new TabBar(this);
     m_layout->addWidget(m_tabBar);
 
+    m_tabBar->setObjectName("tab_bar");
+
     m_tabBar->setExpanding(false);
     m_tabBar->setMovable(true);
 

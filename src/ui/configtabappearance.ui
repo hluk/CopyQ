@@ -311,6 +311,13 @@
         </layout>
        </item>
        <item>
+        <widget class="QCheckBox" name="checkBoxStyleMainWindow">
+         <property name="text">
+          <string>Set colors for tabs, tool bar and menus</string>
+         </property>
+        </widget>
+       </item>
+       <item>
         <spacer name="verticalSpacer_5">
          <property name="orientation">
           <enum>Qt::Vertical</enum>
@@ -427,6 +434,7 @@
   <tabstop>checkBoxScrollbars</tabstop>
   <tabstop>checkBoxSystemIcons</tabstop>
   <tabstop>checkBoxAntialias</tabstop>
+  <tabstop>checkBoxStyleMainWindow</tabstop>
   <tabstop>comboBoxThemes</tabstop>
   <tabstop>pushButtonLoadTheme</tabstop>
   <tabstop>pushButtonSaveTheme</tabstop>

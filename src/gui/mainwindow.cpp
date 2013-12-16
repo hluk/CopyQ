@@ -217,6 +217,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastAction()
 {
     ui->setupUi(this);
+    menuBar()->setObjectName("menu_bar");
 
     // create configuration manager
     ConfigurationManager::createInstance(this);
@@ -1091,10 +1092,36 @@ void MainWindow::loadSettings()
     log( tr("Loading configuration") );
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    m_options->confirmExit = cm->value("confirm_exit").toBool();
+
+    ConfigTabAppearance *appearance = cm->tabAppearance();
+    appearance->decorateToolBar(ui->toolBar);
+    appearance->decorateTabs(ui->tabWidget);
+    appearance->decorateMainWindow(this);
+
+    // Try to get menu color more precisely by rendering current menu bar and getting color of pixel
+    // that is presumably menu background.
+    QImage img(1, 1, QImage::Format_RGB32);
+
+    menuBar()->clear();
+    QMenu &menu = *menuBar()->addMenu(QString());
+
+    QAction *act = menu.addAction(QString());
+
+    menu.render(&img, QPoint(-8, -8));
+    const QColor color = getDefaultIconColor( img.pixel(0, 0) );
+
+    menu.setActiveAction(act);
+    menu.render(&img, QPoint(-8, -8));
+    menu.removeAction(act);
+    const QColor colorActive = getDefaultIconColor( img.pixel(0, 0) );
+
+    cm->iconFactory()->setDefaultColors(color, colorActive);
+    cm->updateIcons();
 
     // update menu items and icons
     createMenu();
+
+    m_options->confirmExit = cm->value("confirm_exit").toBool();
 
     // always on top window hint
     bool alwaysOnTop = cm->value("always_on_top").toBool();
@@ -1204,11 +1231,6 @@ void MainWindow::loadSettings()
     m_trayPasteWindow.clear();
     m_lastWindow.clear();
     m_pasteWindow.clear();
-
-    ConfigTabAppearance *appearance = cm->tabAppearance();
-    appearance->decorateToolBar(ui->toolBar);
-    appearance->decorateTabs(ui->tabWidget);
-    appearance->decorateMainWindow(this);
 
     log( tr("Configuration loaded") );
 }

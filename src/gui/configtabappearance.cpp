@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/option.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/iconfont.h"
 #include "item/clipboarditem.h"
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
@@ -302,31 +303,66 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
 void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
 {
-    tabWidget->setStyleSheet(
-        QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
-        + QString("#tab_tree::branch:selected"
-                  ",#tab_tree::item:selected"
-                  ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                  "{")
-                + themeStyleSheet("tab_tree_sel_item_css")
-                + "}"
-        + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
-                  ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                  "{background:transparent}")
-                );
+    if ( m_theme.value("style_main_window").value().toBool() ) {
+        tabWidget->setStyleSheet(
+            "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
+            "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
+            "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
+            "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
+
+            + QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
+            + QString("#tab_tree::branch:selected"
+                      ",#tab_tree::item:selected"
+                      ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                      "{")
+                    + themeStyleSheet("tab_tree_sel_item_css")
+                    + "}"
+            + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
+                      ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                      "{background:transparent}")
+                    );
+    } else {
+        tabWidget->setStyleSheet(QString());
+    }
 }
 
 void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 {
-    mainWindow->setStyleSheet( themeStyleSheet("css") );
+    if ( m_theme.value("style_main_window").value().toBool() ) {
+        const int iconSize = iconFontSizePixels();
+        mainWindow->setStyleSheet(
+                "MainWindow{background:" + themeColorString("bg") + "}"
+
+                // Remove icon border in menus.
+                + "QMenu::item:selected{border:none}"
+                + "QMenu::item{"
+                    ";padding:0.2em 1em 0.2em 1em"
+                    ";padding-left:" + QString::number(iconSize * 2) + "px}"
+                + "QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+
+                + "QMenu {" + themeStyleSheet("menu_css") + "}"
+                + "#menu_bar, #menu_bar::item, QMenu, QMenu::item, QMenu::separator {"
+                    + themeStyleSheet("menu_bar_css") + "}"
+                + "#menu_bar::item:selected, QMenu::item:selected {"
+                    + themeStyleSheet("menu_bar_selected_css") + "}"
+                + "#menu_bar::item:disabled, QMenu::item:disabled {"
+                    + themeStyleSheet("menu_bar_disabled_css") + "}"
+                + themeStyleSheet("css") );
+    } else {
+        mainWindow->setStyleSheet(QString());
+    }
 }
 
 void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const
 {
-    toolBar->setStyleSheet(
-        QString("QToolBar{") + themeStyleSheet("tool_bar_css") + "}"
-        + QString("QToolButton{" + themeStyleSheet("tool_button_css") + "}")
-                );
+    if ( m_theme.value("style_main_window").value().toBool() ) {
+        toolBar->setStyleSheet(
+            QString("QToolBar{") + themeStyleSheet("tool_bar_css") + "}"
+            + QString("QToolButton{" + themeStyleSheet("tool_button_css") + "}")
+                    );
+    } else {
+        toolBar->setStyleSheet(QString());
+    }
 }
 
 QString ConfigTabAppearance::getToolTipStyleSheet() const
@@ -357,6 +393,7 @@ ConfigTabAppearance::~ConfigTabAppearance()
 
 void ConfigTabAppearance::loadTheme(QSettings &settings)
 {
+    resetTheme();
     updateTheme(settings, &m_theme);
 
     updateColorButtons();
@@ -419,7 +456,7 @@ void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
 
 void ConfigTabAppearance::on_pushButtonResetTheme_clicked()
 {
-    initThemeOptions();
+    resetTheme();
     updateColorButtons();
     updateFontButtons();
     decorateBrowser(ui->clipboardBrowserPreview);
@@ -691,6 +728,15 @@ QString ConfigTabAppearance::themeStyleSheet(const QString &name) const
 
 void ConfigTabAppearance::initThemeOptions()
 {
+    resetTheme();
+
+    m_theme["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
+    m_theme["font_antialiasing"] = Option(true, "checked", ui->checkBoxAntialias);
+    m_theme["style_main_window"] = Option(false, "checked", ui->checkBoxStyleMainWindow);
+}
+
+void ConfigTabAppearance::resetTheme()
+{
     QString name;
     QPalette p;
     name = serializeColor( p.color(QPalette::Base) );
@@ -725,11 +771,51 @@ void ConfigTabAppearance::initThemeOptions()
     m_theme["show_number"] = Option(true, "checked", ui->checkBoxShowNumber);
     m_theme["show_scrollbars"] = Option(true, "checked", ui->checkBoxScrollbars);
 
+    m_theme["css"] = Option("");
+    m_theme["menu_css"] = Option(
+                "\n    ;border-top: 0.08em solid ${bg + #333}"
+                "\n    ;border-left: 0.08em solid ${bg + #333}"
+                "\n    ;border-bottom: 0.08em solid ${bg - #333}"
+                "\n    ;border-right: 0.08em solid ${bg - #333}"
+                );
+    m_theme["menu_bar_css"] = Option(
+                "\n    ;background: ${bg}"
+                "\n    ;color: ${fg}"
+                );
+    m_theme["menu_bar_selected_css"] = Option(
+                "\n    ;background: ${sel_bg}"
+                "\n    ;color: ${sel_fg}"
+                );
+    m_theme["menu_bar_disabled_css"] = Option(
+                "\n    ;color: ${bg - #666}"
+                );
+
     m_theme["item_css"] = Option("");
     m_theme["alt_item_css"] = Option("");
     m_theme["sel_item_css"] = Option("");
     m_theme["notes_css"] = Option("");
-    m_theme["css"] = Option("");
+
+    m_theme["tab_bar_css"] = Option(
+                "\n    ;background: ${bg - #222}"
+                );
+    m_theme["tab_bar_tab_selected_css"] = Option(
+                "\n    ;border-top: 0.05em solid ${bg - #333}"
+                "\n    ;border-left: 0.05em solid ${bg - #333}"
+                "\n    ;padding: 0.5em"
+                "\n    ;background: ${bg}"
+                "\n    ;color: ${fg}"
+                );
+    m_theme["tab_bar_tab_unselected_css"] = Option(
+                "\n    ;border-left: 0.05em solid ${bg - #333}"
+                "\n    ;padding: 0.5em"
+                "\n    ;background: ${bg - #222}"
+                "\n    ;color: ${fg - #333}"
+                );
+    m_theme["tab_bar_scroll_buttons_css"] = Option(
+                "\n    ;background: ${bg - #222}"
+                "\n    ;color: ${fg}"
+                "\n    ;border: 0"
+                );
 
     m_theme["tab_tree_css"] = Option(
                 "\n    ;color: ${fg}"
@@ -746,12 +832,8 @@ void ConfigTabAppearance::initThemeOptions()
                 "\n    ;border: 0"
                 );
     m_theme["tool_button_css"] = Option(
-                "\n    ;background-color:transparent"
+                "\n    ;background-color: transparent"
                 );
-
-    m_theme["use_system_icons"] = Option(false, "checked", ui->checkBoxSystemIcons);
-
-    m_theme["font_antialiasing"] = Option(true, "checked", ui->checkBoxAntialias);
 }
 
 QString ConfigTabAppearance::defaultUserThemePath() const

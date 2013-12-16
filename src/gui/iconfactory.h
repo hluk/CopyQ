@@ -56,6 +56,8 @@ public:
 
     QPixmap createPixmap(ushort id, const QColor &color, int size = -1);
 
+    void setDefaultColors(const QColor &color, const QColor &activeColor);
+
 private:
     QColor m_iconColor;
     QColor m_iconColorActive;

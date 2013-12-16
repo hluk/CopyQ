@@ -25,6 +25,7 @@ TabBar::TabBar(QWidget *parent)
     : QTabBar(parent)
 {
     setFocusPolicy(Qt::NoFocus);
+    setDrawBase(false);
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)

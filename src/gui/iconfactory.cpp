@@ -26,9 +26,9 @@
 #include <QCoreApplication>
 #include <QFontDatabase>
 #include <QIcon>
-#include <QMenu>
 #include <QPainter>
 #include <QPixmap>
+#include <QWidget>
 
 namespace {
 
@@ -49,28 +49,14 @@ QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 } // namespace
 
 IconFactory::IconFactory()
-    : m_iconColor()
-    , m_iconColorActive()
+    : m_iconColor(Qt::black)
+    , m_iconColorActive(Qt::white)
     , m_useSystemIcons(true)
     , m_loaded(false)
     , m_iconCache()
     , m_resourceIconCache()
 {
     m_loaded = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf") != -1;
-
-    // Try to get menu color more precisely by rendering dummy widget and getting color of pixel
-    // that is presumably menu background.
-    QMenu menu;
-
-    QImage img(1, 1, QImage::Format_RGB32);
-    menu.resize(16, 16);
-
-    menu.render(&img, QPoint(-8, -8));
-    m_iconColor = getDefaultIconColor( img.pixel(0, 0) );
-
-    menu.setActiveAction( menu.addAction(QString()) );
-    menu.render(&img, QPoint(-8, -8));
-    m_iconColorActive = getDefaultIconColor( img.pixel(0, 0) );
 }
 
 IconFactory::~IconFactory()
@@ -92,7 +78,7 @@ QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &co
             return icon;
     }
 
-    // Icon with different color than for QMenu
+    // Icon with different color the default one
     if ( color != m_iconColor || activeColor != m_iconColorActive ) {
         QIcon icon( createPixmap(id, color) );
         if ( activeColor.isValid() )
@@ -195,6 +181,13 @@ QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
     }
 
     return pix;
+}
+
+void IconFactory::setDefaultColors(const QColor &color, const QColor &activeColor)
+{
+    m_iconColor = color;
+    m_iconColorActive = activeColor;
+    m_iconCache.clear();
 }
 
 QColor getDefaultIconColor(const QColor &color)
