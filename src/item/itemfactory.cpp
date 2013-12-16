@@ -134,6 +134,7 @@ public:
             setTextInteractionFlags(Qt::TextSelectableByMouse);
             setFocusPolicy(Qt::NoFocus);
         } else {
+            setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
             setMaximumSize(0, 0);
         }
     }

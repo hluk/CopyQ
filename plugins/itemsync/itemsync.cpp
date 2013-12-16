@@ -596,10 +596,12 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     , m_copyOnMouseUp(false)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setMargin(0);
+    layout->setContentsMargins(0, 0, 0, 0);
     layout->setSpacing(0);
+    layout->setSizeConstraint(QLayout::SetMinimumSize);
 
     QHBoxLayout *labelLayout = new QHBoxLayout;
+    connect(layout, SIGNAL(destroyed()), labelLayout, SLOT(deleteLater()));
     labelLayout->setMargin(0);
 
     labelLayout->addWidget(m_icon);

@@ -83,16 +83,6 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, QWidget *parent)
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
-    connect( frame, SIGNAL(loadFinished(bool)),
-             this, SLOT(onItemChanged()) );
-    connect( frame, SIGNAL(contentsSizeChanged(QSize)),
-             this, SLOT(onItemChanged()) );
-
-    connect( frame, SIGNAL(loadFinished(bool)),
-             this, SLOT(onItemChanged()) );
-    connect( frame, SIGNAL(contentsSizeChanged(QSize)),
-             this, SLOT(onItemChanged()) );
-
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
@@ -113,23 +103,32 @@ void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
 
 void ItemWeb::onItemChanged()
 {
-    updateSize(maximumSize());
+    updateSize(m_maximumSize);
 }
 
 void ItemWeb::updateSize(const QSize &maximumSize)
 {
+    QWebFrame *frame = page()->mainFrame();
+    disconnect( frame, SIGNAL(contentsSizeChanged(QSize)),
+                this, SLOT(onItemChanged()) );
+
     setMaximumSize(maximumSize);
+    m_maximumSize = maximumSize;
+
     const int w = maximumSize.width();
-    const int scrollBarWidth = page()->mainFrame()->scrollBarGeometry(Qt::Vertical).width();
+    const int scrollBarWidth = frame->scrollBarGeometry(Qt::Vertical).width();
     page()->setPreferredContentsSize( QSize(w - scrollBarWidth, 10) );
 
-    int h = page()->mainFrame()->contentsSize().height();
+    int h = frame->contentsSize().height();
     if (0 < m_maximumHeight && m_maximumHeight < h)
         h = m_maximumHeight;
 
     const QSize size(w, h);
     page()->setViewportSize(size);
     setFixedSize(size);
+
+    connect( frame, SIGNAL(contentsSizeChanged(QSize)),
+             this, SLOT(onItemChanged()) );
 }
 
 void ItemWeb::onSelectionChanged()
