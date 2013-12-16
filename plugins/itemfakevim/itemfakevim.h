@@ -80,14 +80,15 @@ public:
 
     virtual QVariantMap applySettings();
 
-    virtual void loadSettings(const QVariantMap &settings) { m_settings = settings; }
+    virtual void loadSettings(const QVariantMap &settings);
 
     virtual QWidget *createSettingsWidget(QWidget *parent);
 
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
 private:
-    QVariantMap m_settings;
+    bool m_enabled;
+    QString m_sourceFileName;
     Ui::ItemFakeVimSettings *ui;
 };
 
