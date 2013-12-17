@@ -21,11 +21,13 @@
 
 #include <common/common.h>
 
+#include <AppKit/NSGraphics.h>
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 #include <dispatch/dispatch.h>
 
 #include <QApplication>
+#include <QSet>
 
 namespace {
     template<typename T> inline T* objc_cast(id from)
@@ -84,21 +86,78 @@ namespace {
             }
         });
     }
+
+    long int getTopWindow(pid_t process_pid) {
+        // Build a set of "normal" windows. This is necessary as "NSWindowList" gets things like the
+        // menubar (which can be "owned" by various apps).
+        QSet<long int> widsForProcess;
+        NSArray *array = (__bridge NSArray*) CGWindowListCopyWindowInfo(kCGWindowListOptionAll | kCGWindowListExcludeDesktopElements, kCGNullWindowID);
+        for (NSDictionary* dict in array) {
+            long int pid = [(NSNumber*)[dict objectForKey:@"kCGWindowOwnerPID"] longValue];
+            long int wid = [(NSNumber*)[dict objectForKey:@"kCGWindowNumber"] longValue];
+            long int layer = [(NSNumber*)[dict objectForKey:@"kCGWindowLayer"] longValue];
+
+            if (pid == process_pid && layer == 0) {
+                widsForProcess.insert(wid);
+            }
+        }
+
+        // Now look through the windows in NSWindowList (which are ordered from front to back)
+        // the first window in this list which is also in widsForProcess is our frontmost "normal" window
+        long int wid = -1;
+        NSInteger windowCount, *windows;
+        NSCountWindows(&windowCount);
+        windows = (NSInteger*) malloc(windowCount * sizeof(NSInteger));
+        if (windows) {
+            NSWindowList(windowCount, windows);
+            for (int i = 0; i < windowCount; ++i) {
+                if (widsForProcess.contains(windows[i])) {
+                    wid = windows[i];
+                    break;
+                }
+            }
+            free(windows);
+        }
+
+        return wid;
+    }
+
+    QString getTitleFromWid(long int wid) {
+        if (wid < 0) {
+            return QString();
+        }
+
+        uint32_t windowid[1] = {wid};
+        CFArrayRef windowArray = CFArrayCreate ( NULL, (const void **)windowid, 1 ,NULL);
+        NSArray *array = (__bridge NSArray*) CGWindowListCreateDescriptionFromArray(windowArray);
+
+        QString title;
+        for (NSDictionary* dict in array) {
+            title = QString::fromNSString([dict objectForKey:@"kCGWindowName"]);
+        }
+        CFRelease(windowArray);
+
+        return title;
+    }
 } // namespace
 
 MacPlatformWindow::MacPlatformWindow(NSRunningApplication *runningApp):
-    m_window(0)
+    m_windowNumber(-1)
+    , m_window(0)
 {
     if (runningApp) {
         m_runningApplication = runningApp;
         [runningApp retain];
+        m_windowNumber = getTopWindow(runningApp.processIdentifier);
         COPYQ_LOG("Created platform window for non-copyq");
     } else {
         log("Failed to convert runningApplication to application", LogWarning);
     }
 }
 
-MacPlatformWindow::MacPlatformWindow(WId wid) {
+MacPlatformWindow::MacPlatformWindow(WId wid):
+    m_windowNumber(-1)
+{
     NSView *view = objc_cast<NSView>((id)wid);
     if (view) {
         // If given a view, its ours
@@ -113,7 +172,8 @@ MacPlatformWindow::MacPlatformWindow(WId wid) {
 }
 
 MacPlatformWindow::MacPlatformWindow():
-    m_window(0)
+    m_windowNumber(-1)
+    , m_window(0)
     , m_runningApplication(0)
 {
 }
@@ -127,13 +187,13 @@ MacPlatformWindow::~MacPlatformWindow() {
 QString MacPlatformWindow::getTitle()
 {
     QString result;
-    if (m_window) {
+
+    if (m_window)
         result = QString::fromNSString([m_window title]);
-    } else if (m_runningApplication) {
+    if (result.isEmpty() && m_windowNumber >= 0)
+        result = getTitleFromWid(m_windowNumber);
+    if (result.isEmpty() && m_runningApplication)
         result = QString::fromNSString([m_runningApplication localizedName]);
-    } else {
-        ::log("Failed to get window title.", LogWarning);
-    }
 
     return result;
 }
