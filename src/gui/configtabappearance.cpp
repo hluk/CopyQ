@@ -301,37 +301,29 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     c->invalidateItemCache();
 }
 
-void ConfigTabAppearance::decorateTabs(QWidget *tabWidget) const
-{
-    if ( m_theme.value("style_main_window").value().toBool() ) {
-        tabWidget->setStyleSheet(
-            "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
-            "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
-            "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
-            "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
-
-            + QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
-            + QString("#tab_tree::branch:selected"
-                      ",#tab_tree::item:selected"
-                      ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                      "{")
-                    + themeStyleSheet("tab_tree_sel_item_css")
-                    + "}"
-            + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
-                      ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                      "{background:transparent}")
-                    );
-    } else {
-        tabWidget->setStyleSheet(QString());
-    }
-}
-
 void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 {
     if ( m_theme.value("style_main_window").value().toBool() ) {
         const int iconSize = iconFontSizePixels();
         mainWindow->setStyleSheet(
                 "MainWindow{background:" + themeColorString("bg") + "}"
+
+                "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
+                "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
+                "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
+
+                "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
+
+                + QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
+                + QString("#tab_tree::branch:selected"
+                          ",#tab_tree::item:selected"
+                          ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                          "{")
+                        + themeStyleSheet("tab_tree_sel_item_css")
+                        + "}"
+                + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
+                          ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                          "{background:transparent}")
 
                 // Remove icon border in menus.
                 + "QMenu::item:selected{border:none}"
@@ -799,14 +791,13 @@ void ConfigTabAppearance::resetTheme()
                 "\n    ;background: ${bg - #222}"
                 );
     m_theme["tab_bar_tab_selected_css"] = Option(
-                "\n    ;border-top: 0.05em solid ${bg - #333}"
-                "\n    ;border-left: 0.05em solid ${bg - #333}"
                 "\n    ;padding: 0.5em"
                 "\n    ;background: ${bg}"
+                "\n    ;border: 0.05em solid ${bg}"
                 "\n    ;color: ${fg}"
                 );
     m_theme["tab_bar_tab_unselected_css"] = Option(
-                "\n    ;border-left: 0.05em solid ${bg - #333}"
+                "\n    ;border: 0.05em solid ${bg}"
                 "\n    ;padding: 0.5em"
                 "\n    ;background: ${bg - #222}"
                 "\n    ;color: ${fg - #333}"

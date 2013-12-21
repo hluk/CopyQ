@@ -22,8 +22,11 @@
 #include "tabtree.h"
 
 #include <QAction>
+#include <QEvent>
+#include <QMainWindow>
 #include <QPoint>
 #include <QStackedWidget>
+#include <QToolBar>
 
 namespace {
 
@@ -42,18 +45,29 @@ void addTabAction(QWidget *widget, const QList<QKeySequence> &shortcuts,
 
 TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
-    , m_tabBar(NULL)
+    , m_toolBar(new QToolBar(this))
+    , m_toolBarTree(new QToolBar(this))
     , m_tabTree(NULL)
-    , m_layout(NULL)
     , m_stackedWidget(NULL)
 {
-    m_layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
-    setLayout(m_layout);
-    m_layout->setContentsMargins(0, 0, 0, 0);
-    m_layout->setSpacing(0);
+    // Set object name for tool bars so they can be saved with QMainWindow::saveState().
+    m_toolBar->setObjectName("toolBarTabBar");
+    m_toolBarTree->setObjectName("toolBarTabTree");
+
+    m_toolBar->setContextMenuPolicy(Qt::NoContextMenu);
+    m_toolBarTree->setContextMenuPolicy(Qt::NoContextMenu);
+
+    m_toolBar->installEventFilter(this);
+    connect( m_toolBar, SIGNAL(orientationChanged(Qt::Orientation)),
+             this, SLOT(onToolBarOrientationChanged(Qt::Orientation)) );
+
+    QBoxLayout *layout = new QBoxLayout(QBoxLayout::TopToBottom, this);
+    setLayout(layout);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
 
     m_stackedWidget = new QStackedWidget(this);
-    m_layout->addWidget(m_stackedWidget);
+    layout->addWidget(m_stackedWidget);
 
     addTabAction(this, QList<QKeySequence>() << QKeySequence::NextChild,
                  SLOT(nextTab()), false);
@@ -137,11 +151,6 @@ void TabWidget::removeTab(int tabIndex)
         m_tabBar->removeTab(tabIndex);
 }
 
-void TabWidget::setTabPosition(QBoxLayout::Direction direction)
-{
-    m_layout->setDirection(direction);
-}
-
 void TabWidget::setCollapsedTabs(const QStringList &collapsedTabs)
 {
     if ( isTreeModeEnabled() )
@@ -176,6 +185,12 @@ void TabWidget::moveTab(int from, int to)
 
     if (isCurrent)
         setCurrentIndex(to);
+}
+
+void TabWidget::addToolBars(QMainWindow *mainWindow)
+{
+    mainWindow->addToolBar(Qt::TopToolBarArea, m_toolBar);
+    mainWindow->addToolBar(Qt::LeftToolBarArea, m_toolBarTree);
 }
 
 void TabWidget::setCurrentIndex(int tabIndex)
@@ -249,8 +264,10 @@ void TabWidget::setTabBarHidden(bool hidden)
 
 void TabWidget::setTreeModeEnabled(bool enabled)
 {
-    if (isTreeModeEnabled() == enabled)
+    if (isTreeModeEnabled() == enabled) {
+        updateToolBar();
         return;
+    }
 
     const QStringList tabs = this->tabs();
 
@@ -269,6 +286,14 @@ void TabWidget::setTreeModeEnabled(bool enabled)
         for (int i = 0; i < tabs.size(); ++i)
             m_tabBar->insertTab(i, tabs[i]);
     }
+}
+
+bool TabWidget::eventFilter(QObject *, QEvent *event)
+{
+    if (event->type() == QEvent::Move)
+        updateToolBar();
+
+    return false;
 }
 
 void TabWidget::onTreeItemSelected(bool isGroup)
@@ -290,10 +315,22 @@ void TabWidget::onTabMoved(int from, int to)
     m_stackedWidget->insertWidget(to, m_stackedWidget->widget(from));
 }
 
+void TabWidget::onToolBarOrientationChanged(Qt::Orientation orientation)
+{
+    if (m_tabBar) {
+        if (orientation == Qt::Vertical)
+            m_tabBar->setShape(QTabBar::RoundedWest);
+        else
+            m_tabBar->setShape(QTabBar::RoundedNorth);
+
+        m_toolBar->resize(1, 1);
+    }
+}
+
 void TabWidget::createTabBar()
 {
     m_tabBar = new TabBar(this);
-    m_layout->addWidget(m_tabBar);
+    m_toolBar->addWidget(m_tabBar);
 
     m_tabBar->setObjectName("tab_bar");
 
@@ -310,12 +347,14 @@ void TabWidget::createTabBar()
              this, SLOT(setCurrentIndex(int)) );
     connect( m_tabBar, SIGNAL(tabMoved(int, int)),
              this, SLOT(onTabMoved(int, int)) );
+
+    updateToolBar();
 }
 
 void TabWidget::createTabTree()
 {
     m_tabTree = new TabTree(this);
-    m_layout->addWidget(m_tabTree);
+    m_toolBarTree->addWidget(m_tabTree);
 
     m_tabTree->setObjectName("tab_tree");
 
@@ -331,4 +370,27 @@ void TabWidget::createTabTree()
              this, SIGNAL(tabMoved(QString,QString,QString)) );
     connect( m_tabTree, SIGNAL(currentTabChanged(int)),
              this, SLOT(setCurrentIndex(int)) );
+
+    updateToolBar();
+}
+
+void TabWidget::updateToolBar()
+{
+    m_toolBar->setVisible(!isTreeModeEnabled());
+    m_toolBarTree->setVisible(isTreeModeEnabled());
+
+    if (m_tabBar) {
+        QMainWindow *mainWindow = qobject_cast<QMainWindow*>(m_toolBar->window());
+        if (mainWindow) {
+            Qt::ToolBarArea area = mainWindow->toolBarArea(m_toolBar);
+            if (area == Qt::LeftToolBarArea)
+                m_tabBar->setShape(QTabBar::RoundedWest);
+            else if (area == Qt::RightToolBarArea)
+                m_tabBar->setShape(QTabBar::RoundedEast);
+            else if (area == Qt::TopToolBarArea)
+                m_tabBar->setShape(QTabBar::RoundedNorth);
+            else if (area == Qt::BottomToolBarArea)
+                m_tabBar->setShape(QTabBar::RoundedSouth);
+        }
+    }
 }

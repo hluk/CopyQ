@@ -218,6 +218,9 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
 
+    ui->tabWidget->addToolBars(this);
+    addToolBar(Qt::RightToolBarArea, ui->toolBar);
+
     // create configuration manager
     ConfigurationManager::createInstance(this);
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -1093,7 +1096,6 @@ void MainWindow::loadSettings()
 
     ConfigTabAppearance *appearance = cm->tabAppearance();
     appearance->decorateToolBar(ui->toolBar);
-    appearance->decorateTabs(ui->tabWidget);
     appearance->decorateMainWindow(this);
 
     // Try to get menu color more precisely by rendering current menu bar and getting color of pixel
@@ -1147,15 +1149,7 @@ void MainWindow::loadSettings()
     saveCollapsedTabs();
 
     // tab bar position
-    int tabPosition = cm->value("tab_position").toInt();
-    ui->tabWidget->setTabPosition(
-          tabPosition == 0 ? QBoxLayout::BottomToTop
-        : tabPosition == 1 ? QBoxLayout::TopToBottom
-        : tabPosition == 2 ? QBoxLayout::RightToLeft
-        : tabPosition == 3 ? QBoxLayout::LeftToRight
-        : tabPosition == 4 ? QBoxLayout::RightToLeft
-                           : QBoxLayout::LeftToRight);
-    ui->tabWidget->setTreeModeEnabled(tabPosition > 3);
+    ui->tabWidget->setTreeModeEnabled(cm->value("tab_tree").toBool());
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();

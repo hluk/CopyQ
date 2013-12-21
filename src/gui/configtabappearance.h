@@ -50,9 +50,6 @@ public:
     /** Set fonts and color for ClipboardBrowser object. */
     void decorateBrowser(ClipboardBrowser *c) const;
 
-    /** Decorate tab widget. */
-    void decorateTabs(QWidget *tabWidget) const;
-
     /** Decorate main window. */
     void decorateMainWindow(QWidget *mainWindow) const;
 

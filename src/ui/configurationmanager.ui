@@ -213,66 +213,18 @@ Set to 0 to disable.</string>
               <string>Layout and Transparency</string>
              </property>
              <layout class="QFormLayout" name="formLayout">
+              <property name="fieldGrowthPolicy">
+               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+              </property>
               <item row="1" column="0">
-               <widget class="QLabel" name="label_19">
-                <property name="text">
-                 <string>Tab La&amp;yout:</string>
+               <widget class="QCheckBox" name="checkBoxTabTree">
+                <property name="toolTip">
+                 <string>Show tree with tabs instead of tab bar</string>
                 </property>
-                <property name="buddy">
-                 <cstring>comboBoxTabPosition</cstring>
+                <property name="text">
+                 <string>Tab T&amp;ree</string>
                 </property>
                </widget>
-              </item>
-              <item row="1" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_6">
-                <item>
-                 <widget class="QComboBox" name="comboBoxTabPosition">
-                  <item>
-                   <property name="text">
-                    <string>Top</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Bottom</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Left</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Right</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Tree (Left)</string>
-                   </property>
-                  </item>
-                  <item>
-                   <property name="text">
-                    <string>Tree (Right)</string>
-                   </property>
-                  </item>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_5">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
               </item>
               <item row="2" column="0">
                <widget class="QLabel" name="label_30">
@@ -1029,7 +981,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
-  <tabstop>comboBoxTabPosition</tabstop>
+  <tabstop>checkBoxTabTree</tabstop>
   <tabstop>spinBoxTransparencyFocused</tabstop>
   <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>

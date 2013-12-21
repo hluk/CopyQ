@@ -563,7 +563,7 @@ void ConfigurationManager::initOptions()
     bind("hide_tabs", ui->checkBoxHideTabs, false);
     bind("hide_toolbar", ui->checkBoxHideToolbar, false);
     bind("disable_tray", ui->checkBoxDisableTray, false);
-    bind("tab_position", ui->comboBoxTabPosition, 0);
+    bind("tab_tree", ui->checkBoxTabTree, false);
     bind("text_wrap", ui->checkBoxTextWrap, true);
 
     bind("activate_closes", ui->checkBoxActivateCloses, true);
