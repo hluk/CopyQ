@@ -83,7 +83,7 @@ QString CopyQPasteboardMime::flavorFor(const QString &mime)
     }
 
     QString uti = convertUtiOrMime(mime, mimeToUTI);
-    if (!uti.isEmpty() && !uti.startsWith("dyn.")) {
+    if (!uti.isEmpty()) {
         return uti;
     } else if (mime.startsWith(COPYQ_MIME_PREFIX)) {
         return mime.mid(COPYQ_MIME_PREFIX.length());
