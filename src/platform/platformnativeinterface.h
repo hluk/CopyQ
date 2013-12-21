@@ -50,13 +50,6 @@ public:
     virtual PlatformWindowPtr getCurrentWindow() = 0;
 
     /**
-     * Get window for pasting (NULL if failed or not implemented).
-     *
-     * The paste window can be different from current window on some platforms.
-     */
-    virtual PlatformWindowPtr getPasteWindow() = 0;
-
-    /**
      * Return true automatic the application start at system startup is supported.
      */
     virtual bool canAutostart() = 0;

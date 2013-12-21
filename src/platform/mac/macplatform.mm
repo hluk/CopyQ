@@ -146,12 +146,6 @@ PlatformWindowPtr MacPlatform::getCurrentWindow()
     return PlatformWindowPtr(new MacPlatformWindow(runningApp));
 }
 
-PlatformWindowPtr MacPlatform::getPasteWindow()
-{
-    // Focus is always on frontmost app
-    return getCurrentWindow();
-}
-
 PlatformWindowPtr MacPlatform::getWindow(WId winId) {
     return PlatformWindowPtr(new MacPlatformWindow(winId));
 }

@@ -31,8 +31,6 @@ public:
 
     PlatformWindowPtr getCurrentWindow();
 
-    PlatformWindowPtr getPasteWindow();
-
     /** Setting application autostart is not implemented for Windows (works just from installer). */
     bool canAutostart() { return false; }
 

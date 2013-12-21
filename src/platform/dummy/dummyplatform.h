@@ -39,8 +39,6 @@ public:
 
     PlatformWindowPtr getCurrentWindow() { return PlatformWindowPtr(); }
 
-    PlatformWindowPtr getPasteWindow() { return PlatformWindowPtr(); }
-
     bool canAutostart() { return false; }
 
     bool isAutostartEnabled() { return false; }

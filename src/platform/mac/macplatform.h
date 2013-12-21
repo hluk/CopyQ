@@ -29,7 +29,6 @@ public:
 
     PlatformWindowPtr getWindow(WId winId);
     PlatformWindowPtr getCurrentWindow();
-    PlatformWindowPtr getPasteWindow();
 
     bool canAutostart() { return true; }
     bool isAutostartEnabled();

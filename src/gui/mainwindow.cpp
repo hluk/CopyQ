@@ -205,7 +205,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayPasteWindow()
-    , m_pasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
@@ -1043,7 +1042,6 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {
         m_lastWindow.clear();
-        m_pasteWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
     }
@@ -1230,7 +1228,6 @@ void MainWindow::loadSettings()
 
     m_trayPasteWindow.clear();
     m_lastWindow.clear();
-    m_pasteWindow.clear();
 
     log( tr("Configuration loaded") );
 }
@@ -1564,17 +1561,18 @@ void MainWindow::activateCurrentItem()
 
     // Perform custom actions on item activation.
     PlatformWindowPtr lastWindow = m_lastWindow;
-    PlatformWindowPtr pasteWindow = m_pasteWindow;
 
     if ( m_options->activateCloses() )
         close();
 
-    if (lastWindow)
-        lastWindow->raise();
+    if (lastWindow) {
+        if (m_options->activateFocuses())
+            lastWindow->raise();
 
-    if (pasteWindow) {
-        QApplication::processEvents();
-        pasteWindow->pasteClipboard();
+        if (m_options->activatePastes()) {
+            QApplication::processEvents();
+            lastWindow->pasteClipboard();
+        }
     }
 }
 
@@ -1604,7 +1602,7 @@ QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mo
 
 void MainWindow::pasteToCurrentWindow()
 {
-    PlatformWindowPtr window = createPlatformNativeInterface()->getPasteWindow();
+    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
     if (window)
         window->pasteClipboard();
 }
@@ -1798,13 +1796,7 @@ void MainWindow::updateFocusWindows()
 
     PlatformPtr platform = createPlatformNativeInterface();
 
-    if ( m_options->activatePastes() ) {
-        PlatformWindowPtr pasteWindow = platform->getPasteWindow();
-        if (pasteWindow)
-            m_pasteWindow = pasteWindow;
-    }
-
-    if ( m_options->activateFocuses() ) {
+    if ( m_options->activatePastes() || m_options->activateFocuses() ) {
         PlatformWindowPtr lastWindow = platform->getCurrentWindow();
         if (lastWindow)
             m_lastWindow = lastWindow;
@@ -1860,7 +1852,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
 void MainWindow::updateTrayMenuItems()
 {
     if (m_options->trayItemPaste)
-        m_trayPasteWindow = createPlatformNativeInterface()->getPasteWindow();
+        m_trayPasteWindow = createPlatformNativeInterface()->getCurrentWindow();
 
     ClipboardBrowser *c = getTabForTrayMenu();
 
