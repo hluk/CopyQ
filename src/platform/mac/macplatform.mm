@@ -141,7 +141,6 @@ void MacPlatform::onApplicationStarted() {
 
 PlatformWindowPtr MacPlatform::getCurrentWindow()
 {
-    // NOTE: this is actually currently just the foreground *application*
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
     return PlatformWindowPtr(new MacPlatformWindow(runningApp));
 }
