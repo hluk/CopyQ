@@ -120,7 +120,7 @@ int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArra
         if ( !p.waitForFinished(200) ) {
             QApplication::processEvents();
 
-            if ( !p.waitForFinished(4000) ) {
+            if ( !p.waitForFinished(6000) ) {
                 qWarning() << "terminating process";
                 p.terminate();
 
