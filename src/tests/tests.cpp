@@ -271,6 +271,9 @@ void Tests::moveAndDeleteItems()
 
 void Tests::clipboardToItem()
 {
+    RUN(Args("show"), "");
+    waitFor(waitMsShow);
+
     setClipboard("TEST0");
     QCOMPARE( getClipboard().data(), "TEST0" );
     RUN(Args("clipboard"), "TEST0");
