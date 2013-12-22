@@ -127,10 +127,15 @@ void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
     bool firstTab = count() == 0;
     m_stackedWidget->insertWidget(tabIndex, widget);
 
-    if ( isTreeModeEnabled() )
+    if ( isTreeModeEnabled() ) {
         m_tabTree->insertTab(tabText, tabIndex, firstTab);
-    else
+        m_tabTree->adjustSize();
+        m_toolBarTree->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    } else {
         m_tabBar->insertTab(tabIndex, tabText);
+        m_tabBar->adjustSize();
+        m_toolBar->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
+    }
 
     if (firstTab)
         emit currentChanged(0, -1);
@@ -322,8 +327,6 @@ void TabWidget::onToolBarOrientationChanged(Qt::Orientation orientation)
             m_tabBar->setShape(QTabBar::RoundedWest);
         else
             m_tabBar->setShape(QTabBar::RoundedNorth);
-
-        m_toolBar->resize(1, 1);
     }
 }
 
