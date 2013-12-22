@@ -127,6 +127,9 @@ TabTree::TabTree(QWidget *parent)
     setHeaderHidden(true);
     setSelectionMode(QAbstractItemView::SingleSelection);
 
+    setMinimumHeight(fontMetrics().lineSpacing() * 3);
+    verticalScrollBar()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Ignored);
+
     verticalScrollBar()->installEventFilter(this);
 }
 
@@ -290,6 +293,11 @@ QStringList TabTree::collapsedTabs() const
     }
 
     return tabs;
+}
+
+QSize TabTree::sizeHint() const
+{
+    return minimumSizeHint();
 }
 
 void TabTree::mousePressEvent(QMouseEvent *event)

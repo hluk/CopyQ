@@ -62,6 +62,8 @@ public:
 
     QStringList collapsedTabs() const;
 
+    QSize sizeHint() const;
+
 signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
