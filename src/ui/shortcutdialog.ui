@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
-    <height>168</height>
+    <width>268</width>
+    <height>102</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,29 +17,20 @@
    <item>
     <widget class="QLabel" name="labelHelp">
      <property name="text">
-      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+      <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QLabel" name="label">
-     <property name="focusPolicy">
-      <enum>Qt::StrongFocus</enum>
+    <widget class="QLineEdit" name="lineEditShortcut">
+     <property name="contextMenuPolicy">
+      <enum>Qt::NoContextMenu</enum>
      </property>
-     <property name="styleSheet">
-      <string notr="true">QLabel {
-	font-size: 18pt;
-	font-weight: bold;
-}</string>
+     <property name="readOnly">
+      <bool>true</bool>
      </property>
-     <property name="text">
-      <string/>
-     </property>
-     <property name="textFormat">
-      <enum>Qt::PlainText</enum>
-     </property>
-     <property name="alignment">
-      <set>Qt::AlignCenter</set>
+     <property name="placeholderText">
+      <string>Click here and press any key combination</string>
      </property>
     </widget>
    </item>
@@ -49,7 +40,7 @@
       <enum>Qt::Horizontal</enum>
      </property>
      <property name="standardButtons">
-      <set>QDialogButtonBox::Cancel</set>
+      <set>QDialogButtonBox::Cancel|QDialogButtonBox::Reset</set>
      </property>
     </widget>
    </item>

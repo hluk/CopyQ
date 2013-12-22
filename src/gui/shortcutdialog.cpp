@@ -25,6 +25,7 @@
 #include "gui/icons.h"
 
 #include <QKeyEvent>
+#include <QPushButton>
 
 namespace {
 
@@ -57,6 +58,13 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowIcon( getIcon("", IconHandUp) );
+
+    QPushButton *resetButton = ui->buttonBox->button(QDialogButtonBox::Reset);
+    Q_ASSERT(resetButton);
+    resetButton->setText(tr("Remove Shortcut"));
+    connect(resetButton, SIGNAL(clicked()), SLOT(onResetButtonClicked()));
+
+    ui->lineEditShortcut->installEventFilter(this);
 }
 
 ShortcutDialog::~ShortcutDialog()
@@ -69,36 +77,53 @@ QKeySequence ShortcutDialog::shortcut() const
     return m_shortcut;
 }
 
-void ShortcutDialog::keyPressEvent(QKeyEvent *event)
+bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 {
-    int key = event->key();
-    Qt::KeyboardModifiers mods = getModifiers(*event);
+    if (object != ui->lineEditShortcut)
+        return false;
 
-    if (mods == Qt::NoModifier) {
-        if (key == Qt::Key_Escape) {
-            reject();
-            return;
-        } else if (key == Qt::Key_Backspace) {
-            accept();
-            return;
+    if (event->type() == QEvent::KeyPress) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+
+        const int key = keyEvent->key();
+        Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
+
+        if (mods == Qt::NoModifier) {
+            if (key == Qt::Key_Tab)
+                return false;
+
+            if (key == Qt::Key_Escape) {
+                reject();
+                return true;
+            }
+
+            if (m_expectModifier)
+                return true;
         }
 
-        if (m_expectModifier)
-            return;
+        event->accept();
+        processKey(key, mods);
+
+        if ( !isKeyModifier(key) )
+            accept();
+
+        return false;
+    } else if (event->type() == QEvent::KeyRelease) {
+        QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
+
+        processKey(0, mods);
+
+        return true;
     }
 
-    event->accept();
-    processKey(key, mods);
-
-    if ( !isKeyModifier(key) )
-        accept();
+    return false;
 }
 
-void ShortcutDialog::keyReleaseEvent(QKeyEvent *event)
+void ShortcutDialog::onResetButtonClicked()
 {
-    Qt::KeyboardModifiers mods = getModifiers(*event);
-
-    processKey(0, mods);
+    m_shortcut = QKeySequence();
+    accept();
 }
 
 void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
@@ -122,7 +147,7 @@ void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
     m_shortcut = QKeySequence(keys);
     QString shortcut = m_shortcut.toString(QKeySequence::NativeText);
 
-    ui->label->setText(shortcut);
+    ui->lineEditShortcut->setText(shortcut);
 }
 
 Qt::KeyboardModifiers ShortcutDialog::getModifiers(const QKeyEvent &event)

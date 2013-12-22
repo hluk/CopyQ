@@ -49,8 +49,8 @@ ShortcutButton::ShortcutButton(const QKeySequence &defaultShortcut, QWidget *par
 
     setFocusPolicy(Qt::WheelFocus);
 }
-void ShortcutButton::addShortcut(const QKeySequence &shortcut)
 
+void ShortcutButton::addShortcut(const QKeySequence &shortcut)
 {
     if ( shortcut.isEmpty() || shortcuts().contains(shortcut) )
         return;
