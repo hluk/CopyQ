@@ -212,6 +212,12 @@ void Tests::cleanup()
     }
 }
 
+#ifdef Q_OS_MAC
+const char *deleteKey = "BACKSPACE";
+#else
+const char *deleteKey = "DELETE";
+#endif // Q_OS_MAC
+
 void Tests::moveAndDeleteItems()
 {
     const QString tab = testTab(1);
@@ -230,7 +236,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "keys" << "ALT+1", "");
 #endif // Q_OS_MAC
     // delete first item
-    RUN(Args(args) << "keys" << "DELETE", "");
+    RUN(Args(args) << "keys" << deleteKey, "");
     RUN(Args(args) << "read" << "0", "B");
 
     // move item one down
@@ -248,7 +254,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "clipboard", "A");
 
     // select all and delete
-    RUN(Args(args) << "keys" << "CTRL+A" << "DELETE", "");
+    RUN(Args(args) << "keys" << "CTRL+A" << deleteKey, "");
     RUN(Args(args) << "size", "0\n");
 
     RUN(Args(args) << "add" << "ABC" << "DEF" << "GHI" << "JKL", "");
@@ -258,9 +264,9 @@ void Tests::moveAndDeleteItems()
     waitFor(waitMsSearch);
 #ifdef Q_OS_MAC
     // "Down" doesn't leave the search box on OS X
-    RUN(Args(args) << "keys" << "TAB" << "CTRL+A" << "DELETE", "");
+    RUN(Args(args) << "keys" << "TAB" << "CTRL+A" << deleteKey, "");
 #else
-    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << "DELETE", "");
+    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << deleteKey, "");
 #endif // Q_OS_MAC
     RUN(Args(args) << "read" << "0", "JKL");
     RUN(Args(args) << "read" << "1", "DEF");
