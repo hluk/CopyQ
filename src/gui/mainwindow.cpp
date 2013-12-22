@@ -1650,7 +1650,7 @@ QString MainWindow::sendKeys(const QString &keys) const
             return QString("Cannot parse key \"%1\"!").arg(keys);
         } else {
             QTest::keyClick(w, Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
-                            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 100);
+                            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask));
         }
     }
     return QString();
