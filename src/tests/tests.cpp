@@ -223,7 +223,12 @@ void Tests::moveAndDeleteItems()
 
     RUN(Args(args) << "read" << "0", "C");
     // focus test tab
+#ifdef Q_OS_MAC
+    // Alt-1 doesn't work on OS X
+    RUN(Args(args) << "keys" << "ALT+LEFT", "");
+#else
     RUN(Args(args) << "keys" << "ALT+1", "");
+#endif // Q_OS_MAC
     // delete first item
     RUN(Args(args) << "keys" << "DELETE", "");
     RUN(Args(args) << "read" << "0", "B");
@@ -251,7 +256,12 @@ void Tests::moveAndDeleteItems()
     // search and delete
     RUN(Args(args) << "keys" << ":[AG]", "");
     waitFor(waitMsSearch);
+#ifdef Q_OS_MAC
+    // "Down" doesn't leave the search box on OS X
+    RUN(Args(args) << "keys" << "TAB" << "CTRL+A" << "DELETE", "");
+#else
     RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << "DELETE", "");
+#endif // Q_OS_MAC
     RUN(Args(args) << "read" << "0", "JKL");
     RUN(Args(args) << "read" << "1", "DEF");
     RUN(Args(args) << "size", "2\n");
