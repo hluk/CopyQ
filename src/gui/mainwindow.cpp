@@ -993,10 +993,12 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             QMainWindow::keyPressEvent(event);
             break;
 
+#ifndef Q_OS_MAC
         case Qt::Key_Backspace:
             resetStatus();
             c->setCurrent(0);
             break;
+#endif // Q_OS_MAC
 
         case Qt::Key_Escape:
             if ( ui->searchBar->isHidden() ) {
