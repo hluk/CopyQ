@@ -63,6 +63,7 @@ private slots:
 private:
     bool m_copyOnMouseUp;
     int m_maximumHeight;
+    QSize m_maximumSize;
 };
 
 class ItemWebLoader : public QObject, public ItemLoaderInterface

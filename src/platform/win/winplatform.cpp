@@ -38,8 +38,3 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
     HWND window = GetForegroundWindow();
     return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
 }
-
-PlatformWindowPtr WinPlatform::getPasteWindow()
-{
-    return getCurrentWindow();
-}

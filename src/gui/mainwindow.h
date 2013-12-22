@@ -452,7 +452,6 @@ class MainWindow : public QMainWindow
         QSharedPointer<ClipboardBrowserShared> m_sharedData;
 
         PlatformWindowPtr m_trayPasteWindow;
-        PlatformWindowPtr m_pasteWindow;
         PlatformWindowPtr m_lastWindow;
 
         QTimer *m_timerUpdateFocusWindows;

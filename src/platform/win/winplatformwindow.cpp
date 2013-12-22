@@ -37,6 +37,17 @@ INPUT createInput(WORD key, DWORD flags = 0)
     return input;
 }
 
+bool raiseWindow(HWND window)
+{
+    if (!SetForegroundWindow(window))
+        return false;
+
+    SetWindowPos(window, HWND_TOP, 0, 0, 0, 0,
+                 SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+
+    return true;
+}
+
 } // namespace
 
 WinPlatformWindow::WinPlatformWindow(HWND window)
@@ -57,9 +68,7 @@ QString WinPlatformWindow::getTitle()
 
 void WinPlatformWindow::raise()
 {
-    SetForegroundWindow(m_window);
-    SetWindowPos(m_window, HWND_TOP, 0, 0, 0, 0,
-                 SWP_DRAWFRAME | SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);
+    raiseWindow(m_window);
 }
 
 void WinPlatformWindow::pasteClipboard()
@@ -71,7 +80,9 @@ void WinPlatformWindow::pasteClipboard()
     input[2] = createInput(VK_INSERT, KEYEVENTF_KEYUP);
     input[3] = createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
 
-    raise();
+    if (!raiseWindow(m_window))
+        return;
+
     Sleep(150);
     SendInput( 4, input, sizeof(INPUT) );
 

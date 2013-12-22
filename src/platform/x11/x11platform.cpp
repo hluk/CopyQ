@@ -107,11 +107,6 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
     return PlatformWindowPtr(window->isValid() ? window.take() : NULL);
 }
 
-PlatformWindowPtr X11Platform::getPasteWindow()
-{
-    return getCurrentWindow();
-}
-
 bool X11Platform::canAutostart()
 {
 #ifdef COPYQ_DESKTOP_PREFIX

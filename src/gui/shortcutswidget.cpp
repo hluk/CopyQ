@@ -139,10 +139,9 @@ public:
     QAction *action(QWidget *parent, Qt::ShortcutContext context)
     {
         if ( m_action.isNull() ) {
-            m_action = new QAction(m_icon, m_text, NULL);
+            m_action = new QAction(m_text, NULL);
             m_action->setShortcuts(shortcuts());
-            m_action->setProperty("CopyQ_icon_theme", m_iconTheme);
-            m_action->setProperty("CopyQ_icon_id", m_iconId);
+            updateActionIcon();
         }
 
         if (parent != NULL)
@@ -159,6 +158,7 @@ public:
             m_icon = icon;
             m_iconTheme = iconTheme;
             m_iconId = iconId;
+            updateActionIcon();
         }
 
         const QColor color = getDefaultIconColor<QTableWidget>(QPalette::Base);
@@ -229,6 +229,16 @@ private:
                 enabledShortcuts.append(shortcut);
         }
         m_action->setShortcuts(enabledShortcuts);
+    }
+
+    void updateActionIcon()
+    {
+        if ( m_action.isNull() )
+            return;
+
+        m_action->setIcon(m_icon);
+        m_action->setProperty("CopyQ_icon_theme", m_iconTheme);
+        m_action->setProperty("CopyQ_icon_id", m_iconId);
     }
 
     QIcon m_icon;

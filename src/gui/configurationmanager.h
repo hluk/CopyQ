@@ -127,6 +127,11 @@ public:
     ItemFactory *itemFactory() const { return m_itemFactory; }
     IconFactory *iconFactory() const { return m_iconFactory.data(); }
 
+    /**
+     * Update icons in dialog.
+     */
+    void updateIcons();
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -175,11 +180,6 @@ private:
     QString getGeomentryOptionName(const QWidget *widget) const;
 
     void loadCommands();
-
-    /**
-     * Update icons in dialog.
-     */
-    void updateIcons();
 
     void initTabIcons();
 

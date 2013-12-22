@@ -406,6 +406,9 @@ void TabTree::updateSize()
     const QMargins margins = contentsMargins();
     int w = margins.left() + margins.right();
 
+    if ( verticalScrollBar()->isVisible() )
+        w += verticalScrollBar()->width();
+
     expandAll();
 
     resizeColumnToContents(0);

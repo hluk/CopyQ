@@ -23,8 +23,10 @@
 #include <QBoxLayout>
 #include <QWidget>
 
+class QMainWindow;
 class QPoint;
 class QStackedWidget;
+class QToolBar;
 class TabBar;
 class TabTree;
 
@@ -65,8 +67,6 @@ public:
 
     void removeTab(int tabIndex);
 
-    void setTabPosition(QBoxLayout::Direction direction);
-
     void setCollapsedTabs(const QStringList &collapsedTabs);
 
     QStringList collapsedTabs() const;
@@ -76,6 +76,8 @@ public:
 
     void moveTab(int from, int to);
 
+    void addToolBars(QMainWindow *mainWindow);
+
 public slots:
     void setCurrentIndex(int tabIndex);
     void nextTab();
@@ -83,6 +85,9 @@ public slots:
     void setTabBarDisabled(bool disabled);
     void setTabBarHidden(bool hidden);
     void setTreeModeEnabled(bool enabled);
+
+protected:
+    bool eventFilter(QObject *object, QEvent *event);
 
 signals:
     void tabMoved(int from, int to);
@@ -96,14 +101,17 @@ signals:
 private slots:
     void onTreeItemSelected(bool isGroup);
     void onTabMoved(int from, int to);
+    void onToolBarOrientationChanged(Qt::Orientation orientation);
 
 private:
     void createTabBar();
     void createTabTree();
+    void updateToolBar();
 
+    QToolBar *m_toolBar;
+    QToolBar *m_toolBarTree;
     TabBar *m_tabBar;
     TabTree *m_tabTree;
-    QBoxLayout *m_layout;
     QStackedWidget *m_stackedWidget;
 };
 

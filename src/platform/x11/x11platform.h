@@ -37,8 +37,6 @@ public:
 
     PlatformWindowPtr getCurrentWindow();
 
-    PlatformWindowPtr getPasteWindow();
-
     bool canAutostart();
 
     /**

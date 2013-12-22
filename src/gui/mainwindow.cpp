@@ -205,7 +205,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayPasteWindow()
-    , m_pasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
@@ -217,6 +216,10 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastAction()
 {
     ui->setupUi(this);
+    menuBar()->setObjectName("menu_bar");
+
+    ui->tabWidget->addToolBars(this);
+    addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
     // create configuration manager
     ConfigurationManager::createInstance(this);
@@ -1042,7 +1045,6 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {
         m_lastWindow.clear();
-        m_pasteWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
     }
@@ -1091,10 +1093,35 @@ void MainWindow::loadSettings()
     log( tr("Loading configuration") );
 
     ConfigurationManager *cm = ConfigurationManager::instance();
-    m_options->confirmExit = cm->value("confirm_exit").toBool();
+
+    ConfigTabAppearance *appearance = cm->tabAppearance();
+    appearance->decorateToolBar(ui->toolBar);
+    appearance->decorateMainWindow(this);
+
+    // Try to get menu color more precisely by rendering current menu bar and getting color of pixel
+    // that is presumably menu background.
+    QImage img(1, 1, QImage::Format_RGB32);
+
+    menuBar()->clear();
+    QMenu &menu = *menuBar()->addMenu(QString());
+
+    QAction *act = menu.addAction(QString());
+
+    menu.render(&img, QPoint(-8, -8));
+    const QColor color = getDefaultIconColor( img.pixel(0, 0) );
+
+    menu.setActiveAction(act);
+    menu.render(&img, QPoint(-8, -8));
+    menu.removeAction(act);
+    const QColor colorActive = getDefaultIconColor( img.pixel(0, 0) );
+
+    cm->iconFactory()->setDefaultColors(color, colorActive);
+    cm->updateIcons();
 
     // update menu items and icons
     createMenu();
+
+    m_options->confirmExit = cm->value("confirm_exit").toBool();
 
     // always on top window hint
     bool alwaysOnTop = cm->value("always_on_top").toBool();
@@ -1122,15 +1149,7 @@ void MainWindow::loadSettings()
     saveCollapsedTabs();
 
     // tab bar position
-    int tabPosition = cm->value("tab_position").toInt();
-    ui->tabWidget->setTabPosition(
-          tabPosition == 0 ? QBoxLayout::BottomToTop
-        : tabPosition == 1 ? QBoxLayout::TopToBottom
-        : tabPosition == 2 ? QBoxLayout::RightToLeft
-        : tabPosition == 3 ? QBoxLayout::LeftToRight
-        : tabPosition == 4 ? QBoxLayout::RightToLeft
-                           : QBoxLayout::LeftToRight);
-    ui->tabWidget->setTreeModeEnabled(tabPosition > 3);
+    ui->tabWidget->setTreeModeEnabled(cm->value("tab_tree").toBool());
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1203,12 +1222,6 @@ void MainWindow::loadSettings()
 
     m_trayPasteWindow.clear();
     m_lastWindow.clear();
-    m_pasteWindow.clear();
-
-    ConfigTabAppearance *appearance = cm->tabAppearance();
-    appearance->decorateToolBar(ui->toolBar);
-    appearance->decorateTabs(ui->tabWidget);
-    appearance->decorateMainWindow(this);
 
     log( tr("Configuration loaded") );
 }
@@ -1542,17 +1555,18 @@ void MainWindow::activateCurrentItem()
 
     // Perform custom actions on item activation.
     PlatformWindowPtr lastWindow = m_lastWindow;
-    PlatformWindowPtr pasteWindow = m_pasteWindow;
 
     if ( m_options->activateCloses() )
         close();
 
-    if (lastWindow)
-        lastWindow->raise();
+    if (lastWindow) {
+        if (m_options->activateFocuses())
+            lastWindow->raise();
 
-    if (pasteWindow) {
-        QApplication::processEvents();
-        pasteWindow->pasteClipboard();
+        if (m_options->activatePastes()) {
+            QApplication::processEvents();
+            lastWindow->pasteClipboard();
+        }
     }
 }
 
@@ -1582,7 +1596,7 @@ QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mo
 
 void MainWindow::pasteToCurrentWindow()
 {
-    PlatformWindowPtr window = createPlatformNativeInterface()->getPasteWindow();
+    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
     if (window)
         window->pasteClipboard();
 }
@@ -1776,13 +1790,7 @@ void MainWindow::updateFocusWindows()
 
     PlatformPtr platform = createPlatformNativeInterface();
 
-    if ( m_options->activatePastes() ) {
-        PlatformWindowPtr pasteWindow = platform->getPasteWindow();
-        if (pasteWindow)
-            m_pasteWindow = pasteWindow;
-    }
-
-    if ( m_options->activateFocuses() ) {
+    if ( m_options->activatePastes() || m_options->activateFocuses() ) {
         PlatformWindowPtr lastWindow = platform->getCurrentWindow();
         if (lastWindow)
             m_lastWindow = lastWindow;
@@ -1838,7 +1846,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
 void MainWindow::updateTrayMenuItems()
 {
     if (m_options->trayItemPaste)
-        m_trayPasteWindow = createPlatformNativeInterface()->getPasteWindow();
+        m_trayPasteWindow = createPlatformNativeInterface()->getCurrentWindow();
 
     ClipboardBrowser *c = getTabForTrayMenu();
 

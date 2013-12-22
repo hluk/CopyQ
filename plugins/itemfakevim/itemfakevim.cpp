@@ -391,7 +391,7 @@ class Editor : public QWidget
     Q_OBJECT
 
 public:
-    Editor(QTextEdit *editor, QWidget *parent)
+    Editor(QTextEdit *editor, const QString &sourceFileName, QWidget *parent)
         : QWidget(parent)
         , m_editor(new TextEditWidget(editor, this))
     {
@@ -408,6 +408,9 @@ public:
         layout->addWidget(m_editor);
         layout->addWidget(m_statusBar);
         setFocusProxy(m_editor);
+
+        if (!sourceFileName.isEmpty())
+            m_editor->fakeVimHandler().handleCommand("source " + sourceFileName);
     }
 
     TextEditWidget *textEditWidget() { return m_editor; }
@@ -495,7 +498,7 @@ QWidget *ItemFakeVim::createEditor(QWidget *parent) const
     QWidget *editor = m_childItem->createEditor(parent);
     QTextEdit *textEdit = qobject_cast<QTextEdit *>(editor);
     if (textEdit)
-        return new Editor(textEdit, parent);
+        return new Editor(textEdit, m_sourceFileName, parent);
     return editor;
 }
 
@@ -509,7 +512,6 @@ void ItemFakeVim::setEditorData(QWidget *editor, const QModelIndex &index) const
         QTextEdit *editor = ed->textEditWidget()->editor();
         editor->setTextCursor(QTextCursor(editor->document()));
     }
-
 }
 
 void ItemFakeVim::setModelData(QWidget *editor, QAbstractItemModel *model, const QModelIndex &index) const
@@ -545,10 +547,17 @@ QVariant ItemFakeVimLoader::icon() const
 
 QVariantMap ItemFakeVimLoader::applySettings()
 {
-    m_settings["really_enable"] = ui->checkBoxEnable->isChecked();
-    m_settings["source_file"] = ui->lineEditSourceFileName->text();
+    QVariantMap settings;
+    settings["really_enable"] = m_enabled = ui->checkBoxEnable->isChecked();
+    settings["source_file"] = m_sourceFileName = ui->lineEditSourceFileName->text();
 
-    return m_settings;
+    return settings;
+}
+
+void ItemFakeVimLoader::loadSettings(const QVariantMap &settings)
+{
+    m_enabled = settings.value("really_enable", false).toBool();
+    m_sourceFileName = settings.value("source_file").toString();
 }
 
 QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
@@ -558,18 +567,15 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 
-    ui->checkBoxEnable->setChecked( m_settings["really_enable"].toBool() );
-    ui->lineEditSourceFileName->setText( m_settings["source_file"].toString() );
+    ui->checkBoxEnable->setChecked(m_enabled);
+    ui->lineEditSourceFileName->setText(m_sourceFileName);
 
     return w;
 }
 
 ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelIndex &)
 {
-    if ( m_settings["really_enable"].toBool() )
-        return new ItemFakeVim(itemWidget, m_settings["source_file"].toString() );
-
-    return NULL;
+    return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : NULL;
 }
 
 Q_EXPORT_PLUGIN2(itemtext, ItemFakeVimLoader)

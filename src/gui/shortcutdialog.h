@@ -41,8 +41,10 @@ public:
     void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
 
 protected:
-    void keyPressEvent(QKeyEvent *event);
-    void keyReleaseEvent(QKeyEvent *event);
+    bool eventFilter(QObject *object, QEvent *event);
+
+private slots:
+    void onResetButtonClicked();
 
 private:
     void processKey(int key, Qt::KeyboardModifiers mods);

@@ -50,9 +50,6 @@ public:
     /** Set fonts and color for ClipboardBrowser object. */
     void decorateBrowser(ClipboardBrowser *c) const;
 
-    /** Decorate tab widget. */
-    void decorateTabs(QWidget *tabWidget) const;
-
     /** Decorate main window. */
     void decorateMainWindow(QWidget *mainWindow) const;
 
@@ -108,6 +105,7 @@ private:
     QString themeStyleSheet(const QString &name) const;
 
     void initThemeOptions();
+    void resetTheme();
     QString defaultUserThemePath() const;
     QVariant themeValue(const QString &name, const QHash<QString, Option> &theme) const;
     QColor themeColor(const QString &name, const QHash<QString, Option> &theme) const;

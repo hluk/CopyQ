@@ -234,6 +234,9 @@ void X11PlatformWindow::pasteClipboard()
     raise();
     usleep(150000);
 
+    if (getCurrentWindow(d.display()) != m_window)
+        return;
+
 #ifdef HAS_X11TEST
     simulateKeyPress(d.display(), QList<int>() << XK_Shift_L, XK_Insert);
 #else
