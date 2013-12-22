@@ -615,7 +615,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 {
     if (m_monitor == NULL) {
         m_monitor = new RemoteProcess();
-        const QString name = "copyq" + clipboardMonitorServerName().arg("TEST");
+        const QString name = clipboardMonitorServerName().arg("TEST");
         m_monitor->start( name, QStringList("monitor") << name );
         waitFor(1000);
     }

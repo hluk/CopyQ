@@ -105,7 +105,9 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
 QString serverName(const QString &name)
 {
-    return QCoreApplication::applicationName() + "_"
+    // applicationName changes case depending on whether this is a GUI app
+    // or a console app on OS X.
+    return QCoreApplication::applicationName().toLower() + "_"
 #ifdef Q_OS_WIN
             + qgetenv("USERNAME")
 #else
