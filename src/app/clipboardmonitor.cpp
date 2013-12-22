@@ -49,7 +49,12 @@ void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
                                                                         : "selection") );
 
     QScopedPointer<QMimeData> mimeData( createMimeData(data) );
-    mimeData->setData(mimeOwner, QByteArray());
+
+#ifdef HAS_TESTS
+    // Don't set clipboard owner if monitor is only used to set clipboard for tests.
+    if ( !QCoreApplication::instance()->property("CopyQ_testing").toBool() )
+#endif
+        mimeData->setData(mimeOwner, QByteArray());
 
     QApplication::clipboard()->setMimeData( mimeData.take(), mode );
 }
@@ -267,10 +272,15 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     connect( m_socket, SIGNAL(disconnected()),
              this, SLOT(onDisconnected()) );
 
-    QStringList args = QCoreApplication::instance()->arguments();
-    Q_ASSERT(args.size() == 3);
+    Q_ASSERT(argc == 3);
 
-    const QString &serverName = args[2];
+    const QString serverName( QString::fromLocal8Bit(argv[2]) );
+
+#ifdef HAS_TESTS
+    if ( serverName == clipboardMonitorServerName().arg("TEST") )
+        QCoreApplication::instance()->setProperty("CopyQ_testing", true);
+#endif
+
     m_socket->connectToServer(serverName);
     if ( !m_socket->waitForConnected(2000) )
         exit(1);
