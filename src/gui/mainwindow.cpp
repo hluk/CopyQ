@@ -777,7 +777,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(requestHide()),
-             this, SLOT(close()) );
+             this, SLOT(closeAndReturnFocus()) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
     connect( c, SIGNAL(contextMenuUpdated()),
@@ -1002,7 +1002,10 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Escape:
             if ( ui->searchBar->isHidden() ) {
-                close();
+                if (m_lastWindow) {
+                    m_lastWindow->raise();
+                }
+                closeAndReturnFocus();
                 getBrowser()->setCurrent(0);
             } else {
                 resetStatus();
@@ -1228,6 +1231,13 @@ void MainWindow::loadSettings()
     log( tr("Configuration loaded") );
 }
 
+void MainWindow::closeAndReturnFocus() {
+    if (m_lastWindow) {
+        m_lastWindow->raise();
+    }
+    close();
+}
+
 void MainWindow::showWindow()
 {
     if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() )
@@ -1277,7 +1287,7 @@ bool MainWindow::toggleVisible()
         return false;
 
     if ( isVisible() && !isMinimized() ) {
-        close();
+        closeAndReturnFocus();
         return false;
     }
 
