@@ -186,15 +186,25 @@ MacPlatformWindow::~MacPlatformWindow() {
 
 QString MacPlatformWindow::getTitle()
 {
-    QString result;
+    QString appTitle;
+    if (m_runningApplication)
+        appTitle = QString::fromNSString([m_runningApplication localizedName]);
 
+    QString windowTitle;
     if (m_window)
-        result = QString::fromNSString([m_window title]);
-    if (result.isEmpty() && m_windowNumber >= 0)
-        result = getTitleFromWid(m_windowNumber);
-    if (result.isEmpty() && m_runningApplication)
-        result = QString::fromNSString([m_runningApplication localizedName]);
+        windowTitle = QString::fromNSString([m_window title]);
+    if (windowTitle.isEmpty() && m_windowNumber >= 0)
+        windowTitle = getTitleFromWid(m_windowNumber);
 
+    QString result;
+    if (windowTitle.isEmpty()) {
+        result = appTitle;
+    } else if (appTitle.isEmpty() || windowTitle.startsWith(appTitle) || windowTitle.endsWith(appTitle)) {
+        result = windowTitle;
+    } else {
+        //: Merged app and window titles for OS X. %1 is app title, %2 is window title.
+        result = QCoreApplication::instance()->translate("MacPLatformWindow", "%1 - %2").arg(appTitle).arg(windowTitle);
+    }
     return result;
 }
 
