@@ -1479,9 +1479,22 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool 
             ClipboardItem *first = c->at(0);
             const QByteArray newText = data2[mimeText].toByteArray();
             const QByteArray firstItemText = first->data(mimeText);
-            if ( first->data().contains(mimeText) && (newText == firstItemText || (
-                     data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
-                     && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)))) )
+
+            // When selecting text under X11, we can get "new" clipboard data whenever the mouse moves,
+            // so we keep updating the same clipboard item instead of adding them all!
+            if (
+                    // Check that the first item has plain text too
+                    first->data().contains(mimeText)
+                    && (
+                        // If the text is exactly the same, merge them
+                        newText == firstItemText
+                        || (
+                            // If they come from the same window, and the new text extends the previous text, merge them
+                            data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
+                            && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))
+                            )
+                        )
+                    )
             {
                 force = true;
                 const QVariantMap &firstData = first->data();
