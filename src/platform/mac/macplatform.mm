@@ -20,6 +20,7 @@
 #include "macplatform.h"
 
 #include "copyqpasteboardmime.h"
+#include "urlpasteboardmime.h"
 #include "foregroundbackgroundfilter.h"
 #include "macplatformwindow.h"
 #include <common/common.h>
@@ -33,7 +34,7 @@
 
 namespace {
     QMutex mutex(QMutex::Recursive);
-    CopyQPasteboardMime *pasteboardMime = 0;
+    QList<QMacPasteboardMime*> pasteboardMimes;
 
     template<typename T> inline T* objc_cast(id from)
     {
@@ -131,9 +132,12 @@ MacPlatform::MacPlatform()
 
 void MacPlatform::onApplicationStarted() {
     QMutexLocker lock(&mutex);
-    // Only try to create pasteboardMime if we have a native interface, otherwise everything breaks
-    if (!pasteboardMime && QGuiApplication::platformNativeInterface()) {
-        pasteboardMime = new CopyQPasteboardMime();
+    // Only try to create pasteboardMimes once, and only try if we have a native interface,
+    // otherwise everything breaks when QPasteboardMime tries to resove some native functions.
+    if (pasteboardMimes.isEmpty() && QGuiApplication::platformNativeInterface()) {
+        pasteboardMimes << new CopyQPasteboardMime();
+        pasteboardMimes << new UrlPasteboardMime(QLatin1String("public.url"));
+        pasteboardMimes << new UrlPasteboardMime(QLatin1String("public.file-url"));
     }
 
     ForegroundBackgroundFilter::installFilter();

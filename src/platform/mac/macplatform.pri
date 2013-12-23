@@ -13,6 +13,7 @@ OBJECTIVE_SOURCES += \
     platform/mac/macplatformwindow.mm \
     platform/mac/macactivity.mm \
     platform/mac/copyqpasteboardmime.mm \
+    platform/mac/urlpasteboardmime.mm \
     platform/mac/foregroundbackgroundfilter.mm \
     platform/mac/mactimer.mm
 
