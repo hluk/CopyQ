@@ -29,6 +29,8 @@
 namespace {
     // MIME prefix used to convert OS X UTIs without associated mime types.
     const QString COPYQ_MIME_PREFIX("application/x-copyq-uti-");
+    // MIME prefix used by other Qt apps to handle unknown mime types
+    const QString QT_UTI_PREFIX("com.trolltech.anymime.");
 
     // types handled by other (builtin) converters
     bool shouldIgnoreUTI(const QString &uti) {
@@ -95,6 +97,11 @@ QString CopyQPasteboardMime::mimeFor(QString uti)
 {
     if (shouldIgnoreUTI(uti)) {
         return QString();
+    }
+
+    // Handle mime data that Qt has converted by force to UTI
+    if (uti.startsWith(QT_UTI_PREFIX)) {
+        return uti.mid(QT_UTI_PREFIX.length()).replace("--", "/");
     }
 
     QString mime = convertUtiOrMime(uti, utiToMime);
