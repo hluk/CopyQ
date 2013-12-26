@@ -196,14 +196,19 @@ QString MacPlatformWindow::getTitle()
     if (windowTitle.isEmpty() && m_windowNumber >= 0)
         windowTitle = getTitleFromWid(m_windowNumber);
 
+    // We have two separate titles, the application title (shown at the top
+    // left in the menu bar and the window title (shown in the window bar).
+    // Some apps put the app name into the window title as well, some don't. We
+    // want to be able to match on the app name (e.g. Firefox, Safari, or
+    // Terminal) when writing commands, so we'll ensure that the app name is at
+    // the beginning of the returned window title.
     QString result;
     if (windowTitle.isEmpty()) {
         result = appTitle;
-    } else if (appTitle.isEmpty() || windowTitle.startsWith(appTitle) || windowTitle.endsWith(appTitle)) {
+    } else if (appTitle.isEmpty() || windowTitle.startsWith(appTitle)) {
         result = windowTitle;
     } else {
-        //: Merged app and window titles for OS X. %1 is app title, %2 is window title.
-        result = QCoreApplication::instance()->translate("MacPLatformWindow", "%1 - %2").arg(appTitle).arg(windowTitle);
+        result = QString("%1 - %2").arg(appTitle, windowTitle);
     }
     return result;
 }
