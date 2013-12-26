@@ -25,7 +25,7 @@ macro (copyq_add_plugin)
         qt4_add_resources(copyq_plugin_RCC ${copyq_plugin_${copyq_pkg}_RESOURCES})
     endif()
 
-    add_library(${copyq_pkg} SHARED
+    add_library(${copyq_pkg} MODULE
         ${copyq_plugin_SOURCES}
         ${copyq_plugin_FORMS_HEADERS}
         ${copyq_plugin_RCC}

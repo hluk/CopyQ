@@ -7,7 +7,7 @@ OPTION(WITH_TESTS "Run test cases from command line" OFF)
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 # Linux-specific options
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set(PLUGIN_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/lib/copyq/plugins" CACHE PATH "Install path for plugins")
+    set(PLUGIN_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/${CMAKE_SHARED_MODULE_PREFIX}/copyq/plugins" CACHE PATH "Install path for plugins")
     set(ICON_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/icons/hicolor/scalable/apps" CACHE PATH "Install path for icons")
     set(THEME_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/copyq/themes" CACHE PATH "Install path for themes")
     set(DESKTOP_INSTALL_PREFIX "${CMAKE_INSTALL_PREFIX}/share/applications" CACHE PATH "Install path for \"copyq.desktop\"")
