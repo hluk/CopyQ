@@ -168,7 +168,7 @@ void ConfigTabShortcuts::initShortcuts()
     QString removeKey = tr("Backspace");
 #else
     QString removeKey = tr("Delete");
-#endif Q_OS_MAC
+#endif
     w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item",  removeKey);
 
     w->addAction( Actions::Tabs_NewTab, tr("&New tab"), "new_tab", tr("Ctrl+T") );
