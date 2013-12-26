@@ -386,6 +386,17 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     if ( !m_x11->resetClipboard(mode, data, m_formats) )
         return; // no owner -> reset content
     QVariantMap data2 = m_x11->data(mode);
+#elif defined(Q_OS_MAC)
+    //  On OS X, when you copy files in Finder, etc. you get:
+    //  - The file name(s) (not paths) as plain text
+    //  - The file URI(s)
+    //  - The icon (not thumbnail) for the type of item you have in various image formants
+    // We really only want the URI list, so throw the rest away
+    QStringList formats = m_formats;
+    if (data->formats().contains(mimeUriList) && formats.contains(mimeUriList)) {
+        formats = QStringList() << mimeUriList;
+    }
+    QVariantMap data2( cloneData(*data, formats) );
 #else
     QVariantMap data2( cloneData(*data, m_formats) );
 #endif

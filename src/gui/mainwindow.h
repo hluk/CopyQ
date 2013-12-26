@@ -356,6 +356,9 @@ class MainWindow : public QMainWindow
 
         void onItemMenuUpdated();
 
+        /** Closes the main window, and returns focus to previous window. */
+        void closeAndReturnFocus();
+
     private:
         /** Create menu bar and tray menu with items. Called once. */
         void createMenu();

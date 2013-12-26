@@ -267,8 +267,8 @@ void ClipboardServer::onAboutToQuit()
     m_wnd->saveTabs();
 
     emit terminateClientThreads();
-    m_clientThreads.waitForDone();
-    m_internalThreads.waitForDone();
+    m_clientThreads.waitForDone(1000);
+    m_internalThreads.waitForDone(1000);
 
     if( isMonitoring() )
         stopMonitoring();

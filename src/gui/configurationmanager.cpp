@@ -346,7 +346,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->input = mimeUriList;
         c->remove = true;
         c->automatic = true;
-#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN)
+#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN) || defined(Q_OS_MAC)
     } else if (index == ++i) {
         c->name = tr("Ignore *\"Password\"* window");
         c->wndre = QRegExp(tr("Password"));

@@ -777,7 +777,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     connect( c, SIGNAL(requestShow(const ClipboardBrowser*)),
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(requestHide()),
-             this, SLOT(close()) );
+             this, SLOT(closeAndReturnFocus()) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
     connect( c, SIGNAL(contextMenuUpdated()),
@@ -993,14 +993,19 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             QMainWindow::keyPressEvent(event);
             break;
 
+#ifndef Q_OS_MAC
         case Qt::Key_Backspace:
             resetStatus();
             c->setCurrent(0);
             break;
+#endif // Q_OS_MAC
 
         case Qt::Key_Escape:
             if ( ui->searchBar->isHidden() ) {
-                close();
+                if (m_lastWindow) {
+                    m_lastWindow->raise();
+                }
+                closeAndReturnFocus();
                 getBrowser()->setCurrent(0);
             } else {
                 resetStatus();
@@ -1226,6 +1231,13 @@ void MainWindow::loadSettings()
     log( tr("Configuration loaded") );
 }
 
+void MainWindow::closeAndReturnFocus() {
+    if (m_lastWindow) {
+        m_lastWindow->raise();
+    }
+    close();
+}
+
 void MainWindow::showWindow()
 {
     if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() )
@@ -1275,7 +1287,7 @@ bool MainWindow::toggleVisible()
         return false;
 
     if ( isVisible() && !isMinimized() ) {
-        close();
+        closeAndReturnFocus();
         return false;
     }
 
@@ -1477,9 +1489,22 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool 
             ClipboardItem *first = c->at(0);
             const QByteArray newText = data2[mimeText].toByteArray();
             const QByteArray firstItemText = first->data(mimeText);
-            if ( first->data().contains(mimeText) && (newText == firstItemText || (
-                     data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
-                     && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText)))) )
+
+            // When selecting text under X11, we can get "new" clipboard data whenever the mouse moves,
+            // so we keep updating the same clipboard item instead of adding them all!
+            if (
+                    // Check that the first item has plain text too
+                    first->data().contains(mimeText)
+                    && (
+                        // If the text is exactly the same, merge them
+                        newText == firstItemText
+                        || (
+                            // If they come from the same window, and the new text extends the previous text, merge them
+                            data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
+                            && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))
+                            )
+                        )
+                    )
             {
                 force = true;
                 const QVariantMap &firstData = first->data();
@@ -1650,7 +1675,7 @@ QString MainWindow::sendKeys(const QString &keys) const
             return QString("Cannot parse key \"%1\"!").arg(keys);
         } else {
             QTest::keyClick(w, Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
-                            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 100);
+                            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask));
         }
     }
     return QString();

@@ -120,7 +120,7 @@ int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArra
         if ( !p.waitForFinished(200) ) {
             QApplication::processEvents();
 
-            if ( !p.waitForFinished(4000) ) {
+            if ( !p.waitForFinished(6000) ) {
                 qWarning() << "terminating process";
                 p.terminate();
 
@@ -212,6 +212,12 @@ void Tests::cleanup()
     }
 }
 
+#ifdef Q_OS_MAC
+const char *deleteKey = "BACKSPACE";
+#else
+const char *deleteKey = "DELETE";
+#endif // Q_OS_MAC
+
 void Tests::moveAndDeleteItems()
 {
     const QString tab = testTab(1);
@@ -223,9 +229,14 @@ void Tests::moveAndDeleteItems()
 
     RUN(Args(args) << "read" << "0", "C");
     // focus test tab
+#ifdef Q_OS_MAC
+    // Alt-1 doesn't work on OS X
+    RUN(Args(args) << "keys" << "ALT+LEFT", "");
+#else
     RUN(Args(args) << "keys" << "ALT+1", "");
+#endif // Q_OS_MAC
     // delete first item
-    RUN(Args(args) << "keys" << "DELETE", "");
+    RUN(Args(args) << "keys" << deleteKey, "");
     RUN(Args(args) << "read" << "0", "B");
 
     // move item one down
@@ -243,7 +254,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "clipboard", "A");
 
     // select all and delete
-    RUN(Args(args) << "keys" << "CTRL+A" << "DELETE", "");
+    RUN(Args(args) << "keys" << "CTRL+A" << deleteKey, "");
     RUN(Args(args) << "size", "0\n");
 
     RUN(Args(args) << "add" << "ABC" << "DEF" << "GHI" << "JKL", "");
@@ -251,7 +262,12 @@ void Tests::moveAndDeleteItems()
     // search and delete
     RUN(Args(args) << "keys" << ":[AG]", "");
     waitFor(waitMsSearch);
-    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << "DELETE", "");
+#ifdef Q_OS_MAC
+    // "Down" doesn't leave the search box on OS X
+    RUN(Args(args) << "keys" << "TAB" << "CTRL+A" << deleteKey, "");
+#else
+    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << deleteKey, "");
+#endif // Q_OS_MAC
     RUN(Args(args) << "read" << "0", "JKL");
     RUN(Args(args) << "read" << "1", "DEF");
     RUN(Args(args) << "size", "2\n");
@@ -271,6 +287,9 @@ void Tests::moveAndDeleteItems()
 
 void Tests::clipboardToItem()
 {
+    RUN(Args("show"), "");
+    waitFor(waitMsShow);
+
     setClipboard("TEST0");
     QCOMPARE( getClipboard().data(), "TEST0" );
     RUN(Args("clipboard"), "TEST0");
@@ -612,7 +631,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 {
     if (m_monitor == NULL) {
         m_monitor = new RemoteProcess();
-        const QString name = "copyq" + clipboardMonitorServerName().arg("TEST");
+        const QString name = clipboardMonitorServerName().arg("TEST");
         m_monitor->start( name, QStringList("monitor") << name );
         waitFor(1000);
     }

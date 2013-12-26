@@ -25,6 +25,7 @@ Features
 --------
 
 * Supports Linux and Windows.
+* Experimental support for OS X 10.9+.
 * Store text, HTML, images and any other custom format.
 * Customize tray menu.
 * Save items in tabs or tree.
@@ -62,7 +63,8 @@ Dependencies
 
 To compile and run the application you'll need the latest stable version of
 [Qt](http://qt.digia.com/) library (there is also experimental support for
-[Qt 5](http://qt-project.org/wiki/Qt_5.0)).
+[Qt 5](http://qt-project.org/wiki/Qt_5.0)). To compile on OS X, you will
+need at least Qt 5.2.
 
 Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
 enables the application to use advanced HTML rendering and fetching remote
@@ -128,6 +130,8 @@ Keyboard navigation
 Type any number to select item with given id.
 
 Type a regular expressions (case-insensitive) to search/filter items.
+
+On OS X, use Command instead of Ctrl for the shortcuts above.
 
 Usage Examples
 --------------

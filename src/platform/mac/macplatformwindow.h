@@ -56,6 +56,7 @@ private:
     // Don't allow copies
     Q_DISABLE_COPY(MacPlatformWindow);
 
+    long int m_windowNumber;
     NSWindow *m_window;
     NSRunningApplication *m_runningApplication;
 };

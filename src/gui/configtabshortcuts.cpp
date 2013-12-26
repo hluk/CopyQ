@@ -157,13 +157,19 @@ void ConfigTabShortcuts::initShortcuts()
 
     w->addAction( Actions::Item_MoveToClipboard, tr("Move to &Clipboard"), "move_to_clipboard" );
     w->addAction( Actions::Item_ShowContent, tr("&Show Content..."), "show_item_content", tr("F4") );
-    w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item", tr("Delete") );
     w->addAction( Actions::Item_Edit, tr("&Edit"), "edit", tr("F2") );
     w->addAction( Actions::Item_EditNotes, tr("&Edit Notes"), "edit_notes", tr("Shift+F2") );
     w->addAction( Actions::Item_EditWithEditor, tr("E&dit with editor"), "editor", tr("Ctrl+E") );
     w->addAction( Actions::Item_Action, tr("&Action..."), "action", tr("F5") );
     w->addAction( Actions::Item_NextToClipboard, tr("&Next to Clipboard"), "next_to_clipboard", tr("Ctrl+Shift+N") );
     w->addAction( Actions::Item_PreviousToClipboard, tr("&Previous to Clipboard"), "previous_to_clipboard", tr("Ctrl+Shift+P") );
+
+#ifdef Q_OS_MAC
+    QString removeKey = tr("Backspace");
+#else
+    QString removeKey = tr("Delete");
+#endif Q_OS_MAC
+    w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item",  removeKey);
 
     w->addAction( Actions::Tabs_NewTab, tr("&New tab"), "new_tab", tr("Ctrl+T") );
     w->addAction( Actions::Tabs_RenameTab, tr("Re&name tab"), "rename_tab", tr("Ctrl+F2") );

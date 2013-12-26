@@ -1634,7 +1634,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 }
             }
 
-            setCurrent(row, false, mods == Qt::ShiftModifier);
+            setCurrent(row, false, mods.testFlag(Qt::ShiftModifier));
             break;
         }
 
