@@ -262,9 +262,9 @@ void TabWidget::setTabBarDisabled(bool disabled)
 void TabWidget::setTabBarHidden(bool hidden)
 {
     if ( isTreeModeEnabled() )
-        m_tabTree->setHidden(hidden);
+        m_toolBarTree->setHidden(hidden);
     else
-        m_tabBar->setHidden(hidden);
+        m_toolBar->setHidden(hidden);
 }
 
 void TabWidget::setTreeModeEnabled(bool enabled)

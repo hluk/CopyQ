@@ -1144,6 +1144,9 @@ void MainWindow::loadSettings()
     m_options->transparencyFocused = qMax( 0, qMin(100, cm->value("transparency_focused").toInt()) );
     updateWindowTransparency();
 
+    // tab bar position
+    ui->tabWidget->setTreeModeEnabled(cm->value("tab_tree").toBool());
+
     m_options->hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_options->hideTabs);
 
@@ -1152,9 +1155,6 @@ void MainWindow::loadSettings()
     ui->toolBar->setHidden(m_options->hideToolbar);
 
     saveCollapsedTabs();
-
-    // tab bar position
-    ui->tabWidget->setTreeModeEnabled(cm->value("tab_tree").toBool());
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
