@@ -82,7 +82,6 @@ public slots:
     void setCurrentIndex(int tabIndex);
     void nextTab();
     void previousTab();
-    void setTabBarDisabled(bool disabled);
     void setTabBarHidden(bool hidden);
     void setTreeModeEnabled(bool enabled);
 

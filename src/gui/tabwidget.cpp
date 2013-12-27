@@ -251,14 +251,6 @@ void TabWidget::previousTab()
     }
 }
 
-void TabWidget::setTabBarDisabled(bool disabled)
-{
-    if ( isTreeModeEnabled() )
-        m_tabTree->setDisabled(disabled);
-    else
-        m_tabBar->setDisabled(disabled);
-}
-
 void TabWidget::setTabBarHidden(bool hidden)
 {
     if ( isTreeModeEnabled() )
