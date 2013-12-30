@@ -92,7 +92,7 @@ public:
         QVBoxLayout *layout = new QVBoxLayout(this);
         layout->addWidget(m_iconList);
 
-        QHBoxLayout *buttonLayout = new QHBoxLayout(this);
+        QHBoxLayout *buttonLayout = new QHBoxLayout;
         layout->addLayout(buttonLayout);
         buttonLayout->addWidget(browseButton);
         buttonLayout->addWidget(buttonBox);
