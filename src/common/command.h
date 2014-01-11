@@ -37,6 +37,7 @@ struct Command {
         : name()
         , re()
         , wndre()
+        , matchCmd()
         , cmd()
         , sep()
         , input()
@@ -62,6 +63,13 @@ struct Command {
 
     /** Regular expression to match window titles (empty matches all). */
     QRegExp wndre;
+
+    /**
+     * Program to execute to match items.
+     * Contains space separated list of arguments.
+     * Item is passed to stdin of the program.
+     */
+    QString matchCmd;
 
     /**
      * Program to execute on matched items.

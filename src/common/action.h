@@ -37,12 +37,12 @@ public:
     Action(const QString &cmd, //!< Program to run.
            const QByteArray &input, //!< Standard input contents.
            const QStringList &capturedTexts, //!< Texts to be placed as %2..%9 in command.
-           const QStringList &inputFormats,
-           const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
-           const QString &itemSeparator,
+           const QStringList &inputFormats = QStringList(),
+           const QString &outputItemFormat = QString(), //!< If not empty, signal newItems() will be emitted.
+           const QString &itemSeparator = QString(),
            //!< Separator for items on standard output.
-           const QString &outputTabName, //!< Tab name for output items.
-           const QModelIndex &index //!< Output item index.
+           const QString &outputTabName = QString(), //!< Tab name for output items.
+           const QModelIndex &index = QModelIndex() //!< Output item index.
            );
 
     /** Return true only if command execution failed. */

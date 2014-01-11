@@ -636,6 +636,7 @@ void ConfigurationManager::saveCommands(const Commands &commands)
         settings.setValue("Name", c.name);
         settings.setValue("Match", c.re.pattern());
         settings.setValue("Window", c.wndre.pattern());
+        settings.setValue("MatchCommand", c.matchCmd);
         settings.setValue("Command", c.cmd);
         settings.setValue("Separator", c.sep);
         settings.setValue("Input", c.input);
@@ -804,6 +805,7 @@ ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled, 
             c.name = settings.value("Name").toString();
             c.re   = QRegExp( settings.value("Match").toString() );
             c.wndre = QRegExp( settings.value("Window").toString() );
+            c.matchCmd = settings.value("MatchCommand").toString();
             c.cmd = settings.value("Command").toString();
             c.sep = settings.value("Separator").toString();
 

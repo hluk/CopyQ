@@ -479,4 +479,6 @@ class ClipboardBrowser : public QListView
         void editRow(int row);
 };
 
+bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName);
+
 #endif // CLIPBOARDBROWSER_H

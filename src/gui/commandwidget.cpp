@@ -54,6 +54,7 @@ Command CommandWidget::command() const
     c.name   = ui->lineEditName->text();
     c.re     = QRegExp( ui->lineEditMatch->text() );
     c.wndre  = QRegExp( ui->lineEditWindow->text() );
+    c.matchCmd = ui->lineEditMatchCmd->text();
     c.cmd    = ui->lineEditCommand->text();
     c.sep    = ui->lineEditSeparator->text();
     c.input  = ui->comboBoxInputFormat->currentText();
@@ -78,6 +79,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
+    ui->lineEditMatchCmd->setText(c.matchCmd);
     ui->lineEditCommand->setText(c.cmd);
     ui->lineEditSeparator->setText(c.sep);
     ui->comboBoxInputFormat->setEditText(c.input);

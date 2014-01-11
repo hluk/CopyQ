@@ -19,6 +19,7 @@
 
 #include "clipboardbrowser.h"
 
+#include "common/action.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "gui/clipboarddialog.h"
@@ -44,6 +45,7 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QPainter>
+#include <QProcess>
 #include <QScrollBar>
 #include <QTimer>
 #include <QElapsedTimer>
@@ -700,37 +702,22 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     if ( m_sharedData->commands.isEmpty() )
         return;
 
-    const QString windowTitle = data.value(mimeWindowTitle).toString();
-
     bool isOwnMenu = menu == m_menu;
 
     QAction *insertBefore = NULL;
 
-    const QList<QString> availableFormats = data.keys();
     QList<QAction*> actions;
     QList<QKeySequence> shortcuts;
 
     for (int i = m_sharedData->commands.size() - 1; i >= 0; --i) {
         const Command &command = m_sharedData->commands[i];
 
-        // Verify that named command is provided and text, MIME type and window title are matched.
-        if ( !command.inMenu
-            || (command.cmd.isEmpty() && !command.remove && (command.tab.isEmpty() || command.tab == tabName()))
-            || command.name.isEmpty()
-            || command.re.indexIn(getTextData(data)) == -1
-            || command.wndre.indexIn(windowTitle) == -1 )
-        {
+        // Verify that command can be added to menu.
+        if ( !command.inMenu || command.name.isEmpty() )
             continue;
-        }
 
-        // Verify that data for given MIME is available.
-        if (command.input == mimeItems) {
-            // Disallow applying action that takes serialized item more times.
-            if ( availableFormats.contains(command.output) )
-                continue;
-        } else if ( !command.input.isEmpty() && !availableFormats.contains(command.input) ) {
+        if ( !canExecuteCommand(command, data, tabName()) )
             continue;
-        }
 
         QAction *act = new QAction(this);
         menu->insertAction(insertBefore, act);
@@ -2073,4 +2060,52 @@ QVariantMap ClipboardBrowser::getSelectedItemData() const
     QModelIndexList selected = selectedIndexes();
     qSort(selected);
     return copyIndexes(selected, false);
+}
+
+bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName)
+{
+    // Verify that an action is provided.
+    if ( command.cmd.isEmpty() && !command.remove
+         && (command.tab.isEmpty() || command.tab == sourceTabName) )
+    {
+        return false;
+    }
+
+    // Verify that data for given MIME is available.
+    if ( !command.input.isEmpty() ) {
+        const QList<QString> availableFormats = data.keys();
+        if (command.input == mimeItems) {
+            // Disallow applying action that takes serialized item more times.
+            if ( availableFormats.contains(command.output) )
+                return false;
+        } else if ( !availableFormats.contains(command.input) ) {
+            return false;
+        }
+    }
+
+    // Verify that and text, MIME type and window title are matched.
+    const QString text = getTextData(data);
+    const QString windowTitle = data.value(mimeWindowTitle).toString();
+    if ( command.re.indexIn(text) == -1 || command.wndre.indexIn(windowTitle) == -1 )
+        return false;
+
+    // Verify that match command accepts item text.
+    if ( !command.matchCmd.isEmpty() ) {
+        Action matchAction(command.matchCmd, text.toLocal8Bit(), QStringList(text), QStringList());
+        matchAction.start();
+
+        // TODO: This should be async, i.e. create object (in new thread) that validates command and
+        //       emits a signal if successful.
+        if ( !matchAction.waitForFinished(4000) ) {
+            matchAction.terminate();
+            if ( !matchAction.waitForFinished(1000) )
+                matchAction.kill();
+            return false;
+        }
+
+        if (matchAction.exitStatus() != QProcess::NormalExit || matchAction.exitCode() != 0)
+            return false;
+    }
+
+    return true;
 }

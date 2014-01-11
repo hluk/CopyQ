@@ -714,29 +714,20 @@ bool MainWindow::closeMinimizes() const
 
 bool MainWindow::triggerActionForData(const QVariantMap &data, const QString &sourceTab)
 {
-    bool noText = !data.contains(mimeText);
-    const QString text = noText ? QString() : getTextData(data);
-    const QString windowTitle = data.value(mimeWindowTitle).toString();
-
     foreach (const Command &c, m_sharedData->commands) {
-        if (c.automatic && (c.remove || !c.cmd.isEmpty() || !c.tab.isEmpty())) {
-            if ( ((noText && c.re.isEmpty()) || (!noText && c.re.indexIn(text) != -1))
-                 && (c.input.isEmpty() || c.input == mimeItems || data.contains(c.input))
-                 && (windowTitle.isNull() || c.wndre.indexIn(windowTitle) != -1) )
-            {
-                if (c.automatic) {
-                    Command cmd = c;
-                    if ( cmd.outputTab.isEmpty() )
-                        cmd.outputTab = sourceTab;
+        if ( c.automatic && canExecuteCommand(c, data, sourceTab) ) {
+            Command cmd = c;
+            if ( cmd.outputTab.isEmpty() )
+                cmd.outputTab = sourceTab;
 
-                    if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.contains(cmd.input) )
-                        action(data, cmd);
-                }
-                if (!c.tab.isEmpty())
-                    addToTab(data, c.tab);
-                if (c.remove || c.transform)
-                    return false;
-            }
+            if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.contains(cmd.input) )
+                action(data, cmd);
+
+            if (!c.tab.isEmpty())
+                addToTab(data, c.tab);
+
+            if (c.remove || c.transform)
+                return false;
         }
     }
 
