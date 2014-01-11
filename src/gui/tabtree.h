@@ -64,6 +64,13 @@ public:
 
     QSize sizeHint() const;
 
+public slots:
+    void setCurrentTabIndex(int index);
+    void nextTreeItem();
+    void previousTreeItem();
+
+    void onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
+
 signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
@@ -76,13 +83,6 @@ protected:
     bool eventFilter(QObject *obj, QEvent *event);
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void showEvent(QShowEvent *event);
-
-public slots:
-    void setCurrentTabIndex(int index);
-    void nextTreeItem();
-    void previousTreeItem();
-
-    void onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *previous);
 
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);

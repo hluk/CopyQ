@@ -34,13 +34,13 @@ public:
     explicit AboutDialog(QWidget *parent = 0);
     ~AboutDialog();
 
+private slots:
+    void onFinished(int result);
+
 private:
     static QString aboutPage();
 
     Ui::AboutDialog *ui;
-
-private slots:
-    void onFinished(int result);
 };
 
 #endif // ABOUTDIALOG_H

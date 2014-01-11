@@ -83,12 +83,6 @@ public:
      */
     void createGlobalShortcut(Actions::Id id, const QByteArray &script);
 
-protected:
-    bool eventFilter(QObject *object, QEvent *ev);
-
-signals:
-    void terminateClientThreads();
-
 public slots:
     /** Load @a item data to clipboard. */
     void changeClipboard(const ClipboardItem *item);
@@ -98,6 +92,12 @@ public slots:
 
     /** Send configuration to monitor. */
     void loadMonitorSettings();
+
+signals:
+    void terminateClientThreads();
+
+protected:
+    bool eventFilter(QObject *object, QEvent *ev);
 
 private slots:
     /** A new client connected. */

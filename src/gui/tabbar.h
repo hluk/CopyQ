@@ -33,12 +33,12 @@ class TabBar : public QTabBar
 public:
     explicit TabBar(QWidget *parent = NULL);
 
-protected:
-    void mousePressEvent(QMouseEvent *event);
-
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabRenamed(const QString &newName, int index);
+
+protected:
+    void mousePressEvent(QMouseEvent *event);
 };
 
 #endif // TABBAR_H

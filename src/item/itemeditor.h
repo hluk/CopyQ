@@ -37,6 +37,14 @@ class ItemEditor : public QObject
                    QObject *parent = NULL);
         ~ItemEditor();
 
+    public slots:
+        /**
+         * Execute editor process.
+         * @retval true   Editor successfully opened.
+         * @retval false  An error occured (failed to create temporary file), editor was not opened.
+         */
+        bool start();
+
     signals:
         /**
          * File was modified.
@@ -50,14 +58,6 @@ class ItemEditor : public QObject
          * @param who  pointer to this object
          */
         void closed(QObject *who);
-
-    public slots:
-        /**
-         * Execute editor process.
-         * @retval true   Editor successfully opened.
-         * @retval false  An error occured (failed to create temporary file), editor was not opened.
-         */
-        bool start();
 
     private slots:
         /**

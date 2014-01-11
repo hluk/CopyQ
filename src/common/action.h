@@ -69,27 +69,6 @@ public:
     /** Execute command. */
     void start();
 
-private:
-    const QByteArray m_input;
-    const QRegExp m_sep;
-    const QList<QStringList> m_cmds;
-    const QString m_tab;
-    const QStringList m_inputFormats;
-    const QString m_outputFormat;
-    const QPersistentModelIndex m_index;
-    QString m_errstr;
-    QString m_lastOutput;
-    QByteArray m_outputData;
-    bool m_failed;
-    QProcess *m_firstProcess; //!< First process in pipe.
-
-private slots:
-    void actionError(QProcess::ProcessError error);
-    void actionStarted();
-    void actionFinished();
-    void actionOutput();
-    void actionErrorOutput();
-
 public slots:
     /** Terminate (kill) process. */
     void terminate();
@@ -109,6 +88,27 @@ signals:
                  const QString &outputTabName);
     void newItem(const QByteArray &data, const QString &format,
                  const QModelIndex &index);
+
+private slots:
+    void actionError(QProcess::ProcessError error);
+    void actionStarted();
+    void actionFinished();
+    void actionOutput();
+    void actionErrorOutput();
+
+private:
+    const QByteArray m_input;
+    const QRegExp m_sep;
+    const QList<QStringList> m_cmds;
+    const QString m_tab;
+    const QStringList m_inputFormats;
+    const QString m_outputFormat;
+    const QPersistentModelIndex m_index;
+    QString m_errstr;
+    QString m_lastOutput;
+    QByteArray m_outputData;
+    bool m_failed;
+    QProcess *m_firstProcess; //!< First process in pipe.
 };
 
 #endif // ACTION_H

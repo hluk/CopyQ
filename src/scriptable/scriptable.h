@@ -72,9 +72,6 @@ public:
 
     void throwError(const QString &errorMessage);
 
-signals:
-    void sendMessage(const QByteArray &message, int exitCode);
-
 public slots:
     QScriptValue version();
     QScriptValue help();
@@ -129,6 +126,9 @@ public slots:
     void abort();
 
     void keys();
+
+signals:
+    void sendMessage(const QByteArray &message, int exitCode);
 
 private:
     ScriptableProxy *m_proxy;

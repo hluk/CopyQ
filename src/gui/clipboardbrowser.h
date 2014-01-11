@@ -191,165 +191,6 @@ class ClipboardBrowser : public QListView
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
 
-    private:
-        QSharedPointer<class ItemLoaderInterface> m_itemLoader;
-        QString m_tabName;
-        int m_lastFiltered;
-        bool m_update;
-        ClipboardModel *m;
-        ItemDelegate *d;
-        QTimer *m_timerSave;
-        QTimer *m_timerScroll;
-        QTimer *m_timerUpdate;
-        QTimer *m_timerFilter;
-        QTimer *m_timerExpire;
-
-        QPointer<QMenu> m_menu;
-
-        bool m_invalidateCache;
-        bool m_expire;
-
-        ItemEditorWidget *m_editor;
-
-        ClipboardBrowserSharedPtr m_sharedData;
-
-        QPushButton *m_loadButton;
-        QProgressBar *m_searchProgress;
-
-        int m_dragPosition;
-        QPoint m_dragStartPosition;
-
-        int m_spinLock;
-        bool m_updateLock;
-        QScopedPointer<ScrollSaver> m_scrollSaver;
-
-        void createContextMenu();
-        bool isFiltered(int row) const;
-
-        /**
-         * Hide row if filtered out, otherwise show.
-         * @return true only if hidden
-         */
-        bool hideFiltered(int row);
-
-        /**
-         * Connects signals and starts external editor.
-         */
-        bool startEditor(QObject *editor);
-
-        /**
-         * Select next/previous item and copy it to clipboard.
-         */
-        void copyItemToClipboard(int d);
-
-        /**
-         * Preload items in given range (relative to current scroll offset).
-         */
-        void preload(int minY, int maxY);
-
-        void setEditorWidget(ItemEditorWidget *widget);
-
-        void editItem(const QModelIndex &index, bool editNotes = false);
-
-        void updateEditorGeometry();
-
-        void initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot = NULL);
-
-        void restartExpiring();
-
-        void stopExpiring();
-
-        void updateCurrentItem();
-
-        void initActions();
-
-        void clearActions();
-
-        QAction *createAction(Actions::Id id, const char *slot);
-
-        /**
-         * Get index near given @a point.
-         * If space between items is at the @a point, return next item.
-         */
-        QModelIndex indexNear(int offset) const;
-
-        void updateSearchProgress();
-
-        int getDropRow(const QPoint &position);
-
-        void connectModelAndDelegate();
-
-        void disconnectModel();
-
-    protected:
-        void keyPressEvent(QKeyEvent *event);
-        void contextMenuEvent(QContextMenuEvent *);
-        void resizeEvent(QResizeEvent *event);
-        void showEvent(QShowEvent *event);
-        void hideEvent(QHideEvent *event);
-        void currentChanged(const QModelIndex &current, const QModelIndex &previous);
-        void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
-        void focusInEvent(QFocusEvent *event);
-
-        void dragEnterEvent(QDragEnterEvent *event);
-        void dragLeaveEvent(QDragLeaveEvent *event);
-        void dragMoveEvent(QDragMoveEvent *event);
-        void dropEvent(QDropEvent *event);
-
-        void paintEvent(QPaintEvent *e);
-
-        void mousePressEvent(QMouseEvent *event);
-        void mouseReleaseEvent(QMouseEvent *event);
-        void mouseMoveEvent(QMouseEvent *event);
-
-    signals:
-        /** Action dialog requested. */
-        void requestActionDialog(const QVariantMap &data);
-        /** Action dialog requested. */
-        void requestActionDialog(const QVariantMap &data, const Command &cmd);
-        /** Action dialog requested. */
-        void requestActionDialog(const QVariantMap &data, const Command &cmd, const QModelIndex &index);
-        /** Show list request. */
-        void requestShow(const ClipboardBrowser *self);
-        /** Hide main window. */
-        void requestHide();
-        /** Request clipboard change. */
-        void changeClipboard(const ClipboardItem *item);
-
-        /** Context menu actions were updated. */
-        void contextMenuUpdated();
-
-        /** Add item to another tab (invoked by an automatic command). */
-        void addToTab(const QVariantMap &data, const QString &tabName);
-
-    private slots:
-        void contextMenuAction();
-        void updateContextMenu();
-
-        void onModelDataChanged();
-
-        void onDataChanged(const QModelIndex &a, const QModelIndex &b);
-
-        void onTabNameChanged(const QString &tabName);
-
-        /** Delayed update. */
-        void updateCurrentPage();
-
-        /** Immediate update if possible. */
-        void doUpdateCurrentPage();
-
-        void expire();
-
-        void onEditorDestroyed();
-
-        void onEditorSave();
-
-        void onEditorCancel();
-
-        void onModelUnloaded();
-
-        void filterItems();
-
     public slots:
         /** Add new item to the browser. */
         bool add(
@@ -477,6 +318,165 @@ class ClipboardBrowser : public QListView
 
         /** Edit item in given @a row. */
         void editRow(int row);
+
+    signals:
+        /** Action dialog requested. */
+        void requestActionDialog(const QVariantMap &data);
+        /** Action dialog requested. */
+        void requestActionDialog(const QVariantMap &data, const Command &cmd);
+        /** Action dialog requested. */
+        void requestActionDialog(const QVariantMap &data, const Command &cmd, const QModelIndex &index);
+        /** Show list request. */
+        void requestShow(const ClipboardBrowser *self);
+        /** Hide main window. */
+        void requestHide();
+        /** Request clipboard change. */
+        void changeClipboard(const ClipboardItem *item);
+
+        /** Context menu actions were updated. */
+        void contextMenuUpdated();
+
+        /** Add item to another tab (invoked by an automatic command). */
+        void addToTab(const QVariantMap &data, const QString &tabName);
+
+    protected:
+        void keyPressEvent(QKeyEvent *event);
+        void contextMenuEvent(QContextMenuEvent *);
+        void resizeEvent(QResizeEvent *event);
+        void showEvent(QShowEvent *event);
+        void hideEvent(QHideEvent *event);
+        void currentChanged(const QModelIndex &current, const QModelIndex &previous);
+        void selectionChanged(const QItemSelection &selected, const QItemSelection &deselected);
+        void focusInEvent(QFocusEvent *event);
+
+        void dragEnterEvent(QDragEnterEvent *event);
+        void dragLeaveEvent(QDragLeaveEvent *event);
+        void dragMoveEvent(QDragMoveEvent *event);
+        void dropEvent(QDropEvent *event);
+
+        void paintEvent(QPaintEvent *e);
+
+        void mousePressEvent(QMouseEvent *event);
+        void mouseReleaseEvent(QMouseEvent *event);
+        void mouseMoveEvent(QMouseEvent *event);
+
+    private slots:
+        void contextMenuAction();
+        void updateContextMenu();
+
+        void onModelDataChanged();
+
+        void onDataChanged(const QModelIndex &a, const QModelIndex &b);
+
+        void onTabNameChanged(const QString &tabName);
+
+        /** Delayed update. */
+        void updateCurrentPage();
+
+        /** Immediate update if possible. */
+        void doUpdateCurrentPage();
+
+        void expire();
+
+        void onEditorDestroyed();
+
+        void onEditorSave();
+
+        void onEditorCancel();
+
+        void onModelUnloaded();
+
+        void filterItems();
+
+    private:
+        void createContextMenu();
+        bool isFiltered(int row) const;
+
+        /**
+         * Hide row if filtered out, otherwise show.
+         * @return true only if hidden
+         */
+        bool hideFiltered(int row);
+
+        /**
+         * Connects signals and starts external editor.
+         */
+        bool startEditor(QObject *editor);
+
+        /**
+         * Select next/previous item and copy it to clipboard.
+         */
+        void copyItemToClipboard(int d);
+
+        /**
+         * Preload items in given range (relative to current scroll offset).
+         */
+        void preload(int minY, int maxY);
+
+        void setEditorWidget(ItemEditorWidget *widget);
+
+        void editItem(const QModelIndex &index, bool editNotes = false);
+
+        void updateEditorGeometry();
+
+        void initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot = NULL);
+
+        void restartExpiring();
+
+        void stopExpiring();
+
+        void updateCurrentItem();
+
+        void initActions();
+
+        void clearActions();
+
+        QAction *createAction(Actions::Id id, const char *slot);
+
+        /**
+         * Get index near given @a point.
+         * If space between items is at the @a point, return next item.
+         */
+        QModelIndex indexNear(int offset) const;
+
+        void updateSearchProgress();
+
+        int getDropRow(const QPoint &position);
+
+        void connectModelAndDelegate();
+
+        void disconnectModel();
+
+        QSharedPointer<class ItemLoaderInterface> m_itemLoader;
+        QString m_tabName;
+        int m_lastFiltered;
+        bool m_update;
+        ClipboardModel *m;
+        ItemDelegate *d;
+        QTimer *m_timerSave;
+        QTimer *m_timerScroll;
+        QTimer *m_timerUpdate;
+        QTimer *m_timerFilter;
+        QTimer *m_timerExpire;
+
+        QPointer<QMenu> m_menu;
+
+        bool m_invalidateCache;
+        bool m_expire;
+
+        ItemEditorWidget *m_editor;
+
+        ClipboardBrowserSharedPtr m_sharedData;
+
+        QPushButton *m_loadButton;
+        QProgressBar *m_searchProgress;
+
+        int m_dragPosition;
+        QPoint m_dragStartPosition;
+
+        int m_spinLock;
+        bool m_updateLock;
+        QScopedPointer<ScrollSaver> m_scrollSaver;
 };
 
 bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName);

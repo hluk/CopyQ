@@ -85,9 +85,6 @@ public slots:
     void setTabBarHidden(bool hidden);
     void setTreeModeEnabled(bool enabled);
 
-protected:
-    bool eventFilter(QObject *object, QEvent *event);
-
 signals:
     void tabMoved(int from, int to);
     void tabMenuRequested(const QPoint &pos, int tab);
@@ -96,6 +93,9 @@ signals:
     void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
     void currentChanged(int tabIndex, int oldTabIndex);
     void tabCloseRequested(int);
+
+protected:
+    bool eventFilter(QObject *object, QEvent *event);
 
 private slots:
     void onTreeItemSelected(bool isGroup);

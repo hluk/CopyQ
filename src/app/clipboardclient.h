@@ -41,15 +41,15 @@ public:
     ClipboardClient(int &argc, char **argv,
                     int skipArgc = 0, const QString &sessionName = QString());
 
-private:
-    QLocalSocket m_client;
-    Arguments m_args;
-
 private slots:
     void sendMessage();
     void readyRead();
     void readFinnished();
     void error(QLocalSocket::LocalSocketError);
+
+private:
+    QLocalSocket m_client;
+    Arguments m_args;
 };
 
 #endif // CLIPBOARDCLIENT_H

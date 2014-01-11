@@ -36,14 +36,14 @@ public:
     ScriptableWorker(MainWindow *mainWindow, const Arguments &args, QLocalSocket *client,
                      QObject *parent = NULL);
 
+public slots:
+    void run();
+    void terminate();
+
 signals:
     void sendMessage(QLocalSocket *client, const QByteArray &message, int exitCode);
     void finished();
     void terminateScriptable();
-
-public slots:
-    void run();
-    void terminate();
 
 private slots:
     void onSendMessage(const QByteArray &message, int exitCode);

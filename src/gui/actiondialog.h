@@ -72,20 +72,18 @@ public:
     /** Save settings. */
     void saveSettings();
 
-protected:
-    void accept();
-
-private:
-    Ui::ActionDialog *ui;
-    QVariantMap m_data;
-    QModelIndex m_index;
-    QStringList m_capturedTexts;
+public slots:
+    /** Create action from dialog's content. */
+    void createAction();
 
 signals:
     /** Emitted if dialog was accepted. */
     void accepted(
             Action *action //!< The accepted action.
             );
+
+protected:
+    void accept();
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
@@ -96,9 +94,11 @@ private slots:
     void on_separatorEdit_textEdited(const QString &text);
     void updateMinimalGeometry();
 
-public slots:
-    /** Create action from dialog's content. */
-    void createAction();
+private:
+    Ui::ActionDialog *ui;
+    QVariantMap m_data;
+    QModelIndex m_index;
+    QStringList m_capturedTexts;
 };
 
 #endif // ACTIONDIALOG_H

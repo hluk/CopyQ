@@ -126,6 +126,10 @@ class ItemDelegate : public QItemDelegate
                    const QModelIndex &index) const;
 
     private:
+        void setIndexWidget(const QModelIndex &index, ItemWidget *w);
+
+        void updateItemMaximumSize();
+
         QListView *m_parent;
         bool m_saveOnReturnKey;
         QRegExp m_re;
@@ -143,10 +147,6 @@ class ItemDelegate : public QItemDelegate
         bool m_antialiasing;
 
         QList<ItemWidget*> m_cache;
-
-        void setIndexWidget(const QModelIndex &index, ItemWidget *w);
-
-        void updateItemMaximumSize();
 };
 
 #endif
