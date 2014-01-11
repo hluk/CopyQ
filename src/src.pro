@@ -33,6 +33,7 @@ HEADERS += \
     common/common.h \
     gui/aboutdialog.h \
     gui/actiondialog.h \
+    gui/actionhandler.h \
     gui/clipboardbrowser.h \
     gui/clipboarddialog.h \
     gui/commandwidget.h \
@@ -42,6 +43,7 @@ HEADERS += \
     gui/fancylineedit.h \
     gui/filterlineedit.h \
     gui/iconfactory.h \
+    gui/iconfont.h \
     gui/iconselectbutton.h \
     gui/iconwidget.h \
     gui/itemorderlist.h \
@@ -72,8 +74,7 @@ HEADERS += \
     ../qt/bytearrayprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h \
-    gui/iconfont.h
+    scriptable/scriptableworker.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -87,6 +88,7 @@ SOURCES += \
     common/option.cpp \
     gui/aboutdialog.cpp \
     gui/actiondialog.cpp \
+    gui/actionhandler.cpp \
     gui/clipboardbrowser.cpp \
     gui/clipboarddialog.cpp \
     gui/commandwidget.cpp \
@@ -96,6 +98,7 @@ SOURCES += \
     gui/fancylineedit.cpp \
     gui/filterlineedit.cpp \
     gui/iconfactory.cpp \
+    gui/iconfont.cpp \
     gui/iconselectbutton.cpp \
     gui/iconwidget.cpp \
     gui/itemorderlist.cpp \
@@ -124,8 +127,7 @@ SOURCES += \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
-    scriptable/scriptableworker.cpp \
-    gui/iconfont.cpp
+    scriptable/scriptableworker.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

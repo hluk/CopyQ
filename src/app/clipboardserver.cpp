@@ -76,8 +76,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     QApplication::setQuitOnLastWindowClosed(false);
 
     // main window
-    m_wnd = new MainWindow;
-    m_wnd->setSessionName(sessionName);
+    m_wnd = new MainWindow(sessionName);
 
     // listen
     connect( m_server, SIGNAL(newConnection()),

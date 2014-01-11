@@ -33,7 +33,7 @@
 #include <QSystemTrayIcon>
 
 class Action;
-class ActionDialog;
+class ActionHandler;
 class ClipboardBrowser;
 class ClipboardItem;
 class NotificationDaemon;
@@ -67,18 +67,13 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = NULL);
+    explicit MainWindow(const QString &sessionName, QWidget *parent = NULL);
     ~MainWindow();
 
     /** Return true if in browse mode. */
     bool browseMode() const { return m_browsemode; }
 
-    /** Create new action dialog. */
-    ActionDialog *createActionDialog();
-
     bool isTrayMenuVisible() const;
-
-    void setSessionName(const QString &sessionName);
 
     bool hasRunningAction() const;
 
@@ -88,6 +83,9 @@ public slots:
      * Load items if not loaded yet.
      */
     ClipboardBrowser *browser(int index = -1);
+
+    /** Return browser containing item or NULL. */
+    ClipboardBrowser *browserForItem(const QModelIndex &index);
 
     /**
      * Find tab with given @a name.
@@ -176,9 +174,6 @@ public slots:
 
     /** Open preferences dialog. */
     void openPreferences();
-
-    /** Execute action. */
-    void action(Action *action);
 
     /** Execute command on given input data. */
     void action(const QVariantMap &data, const Command &cmd,
@@ -338,16 +333,8 @@ private slots:
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabCloseRequested(int tab);
-    void addItems(const QStringList &items, const QString &tabName);
-    void addItems(const QStringList &items, const QModelIndex &index);
-    void addItem(const QByteArray &data, const QString &format, const QString &tabName);
-    void addItem(const QByteArray &data, const QString &format, const QModelIndex &index);
     void onFilterChanged(const QRegExp &re);
     void onTrayTimer();
-
-    void actionStarted(Action *action);
-    void actionFinished(Action *action);
-    void actionError(Action *action);
 
     void onChangeClipboardRequest(const ClipboardItem *item);
 
@@ -359,6 +346,9 @@ private slots:
     /** Closes the main window, and returns focus to previous window. */
     void closeAndReturnFocus();
 
+    /** Update tray and window icon depending on current state. */
+    void updateIcon();
+
 private:
     /** Create menu bar and tray menu with items. Called once. */
     void createMenu();
@@ -366,21 +356,12 @@ private:
     /** Create context menu for @a tab. It will be automatically deleted after closed. */
     void popupTabBarMenu(const QPoint &pos, const QString &tab);
 
-    /** Delete finished action and its menu item. */
-    void closeAction(Action *action);
-
-    /** Update tray and window icon depending on current state. */
-    void updateIcon();
-
     void updateNotifications();
 
     void updateWindowTransparency(bool mouseOver = false);
 
     /** Update name and icon of "disable/enable monitoring" menu actions. */
     void updateMonitoringActions();
-
-    /** Return browser containing item or NULL. */
-    ClipboardBrowser *findBrowser(const QModelIndex &index);
 
     /** Return browser with given ID. */
     ClipboardBrowser *findBrowser(const QString &id);
@@ -430,13 +411,6 @@ private:
 
     Ui::MainWindow *ui;
 
-    QMenu *m_menuCommand;
-#ifdef Q_OS_MAC
-    // A duplicate of m_menuCommand used in the trayMenu.
-    // This is necessary due to QTBUG-31549, and/or QTBUG-34160
-    QMenu *m_trayMenuCommand;
-#endif // Q_OS_MAC
-
     QMenu *m_menuItem;
     TrayMenu *m_trayMenu;
 
@@ -449,8 +423,6 @@ private:
     bool m_monitoringDisabled;
     QPointer<QAction> m_actionToggleMonitoring;
     QPointer<QAction> m_actionMonitoringDisabled;
-
-    QMap<Action*, QAction*> m_actions;
 
     QSharedPointer<ClipboardBrowserShared> m_sharedData;
 
@@ -468,7 +440,7 @@ private:
     QTimer *m_timerMiminizing;
     bool m_minimizeUnsupported;
 
-    QPointer<Action> m_lastAction;
+    ActionHandler *m_actionHandler;
 };
 
 #endif // MAINWINDOW_H

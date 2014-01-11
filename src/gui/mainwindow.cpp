@@ -20,12 +20,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-#include "common/action.h"
 #include "common/common.h"
 #include "common/command.h"
 #include "common/contenttype.h"
 #include "gui/aboutdialog.h"
 #include "gui/actiondialog.h"
+#include "gui/actionhandler.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboarddialog.h"
 #include "gui/configtabappearance.h"
@@ -187,13 +187,9 @@ struct MainWindowOptions {
     bool trayItemPaste;
 };
 
-MainWindow::MainWindow(QWidget *parent)
+MainWindow::MainWindow(const QString &sessionName, QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
-    , m_menuCommand(NULL)
-#ifdef Q_OS_MAC
-    , m_trayMenuCommand(NULL)
-#endif // Q_OS_MAC
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray( new QSystemTrayIcon(this) )
@@ -202,18 +198,17 @@ MainWindow::MainWindow(QWidget *parent)
     , m_monitoringDisabled(false)
     , m_actionToggleMonitoring()
     , m_actionMonitoringDisabled()
-    , m_actions()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayPasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_trayTimer(NULL)
-    , m_sessionName()
+    , m_sessionName(sessionName)
     , m_notifications(NULL)
     , m_timerMiminizing(NULL)
     , m_minimizeUnsupported(false)
-    , m_lastAction()
+    , m_actionHandler(new ActionHandler(this))
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -257,6 +252,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(updateFocusWindows()) );
     connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(clipboardChanged(const ClipboardItem*)) );
+    connect( m_actionHandler, SIGNAL(hasRunningActionChanged()),
+             this, SLOT(updateIcon()) );
 
     // settings
     loadSettings();
@@ -442,17 +439,7 @@ void MainWindow::createMenu()
 
 
     // Commands
-    m_menuCommand = menubar->addMenu(tr("Co&mmands"));
-    m_menuCommand->setEnabled(false);
-
-#ifdef Q_OS_MAC
-    // Make a copy of m_menuCommand for the trayMenu, necessary on OS X due
-    // to QTBUG-31549, and/or QTBUG-34160
-    m_trayMenuCommand = m_trayMenu->addMenu(tr("Co&mmands"));
-    m_trayMenuCommand->setEnabled(false);
-#else
-    m_trayMenu->addMenu(m_menuCommand);
-#endif // Q_OS_MAC
+    menubar->addMenu(&m_actionHandler->commandMenu());
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
@@ -468,11 +455,7 @@ void MainWindow::createMenu()
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     addTrayAction(Actions::File_Exit);
-#ifdef Q_OS_MAC
-    m_trayMenu->addMenu(m_trayMenuCommand);
-#else
-    m_trayMenu->addMenu(m_menuCommand);
-#endif // Q_OS_MAC
+    m_trayMenu->addMenu(&m_actionHandler->commandTrayMenu());
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 }
@@ -508,53 +491,6 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
             removeTab(true, tabIndex);
         else if (act == actRemoveGroup)
             removeTabGroup(tab);
-    }
-}
-
-void MainWindow::closeAction(Action *action)
-{
-    QString msg;
-
-    QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
-
-    if ( action->actionFailed() || action->exitStatus() != QProcess::NormalExit ) {
-        msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
-        icon = QSystemTrayIcon::Critical;
-    } else if ( action->exitCode() != 0 ) {
-        msg += tr("Exit code: %1\n").arg(action->exitCode()) + action->errorOutput();
-        icon = QSystemTrayIcon::Warning;
-    } else if ( !action->inputFormats().isEmpty() ) {
-        QModelIndex index = action->index();
-        ClipboardBrowser *c = findBrowser(index);
-        if (c) {
-            QStringList removeFormats;
-            if ( action->inputFormats().size() > 1 ) {
-                QVariantMap data;
-                deserializeData( &data, action->input() );
-                removeFormats = data.keys();
-            } else {
-                removeFormats.append( action->inputFormats()[0] );
-            }
-
-            removeFormats.removeAll( action->outputFormat() );
-            if ( !removeFormats.isEmpty() )
-                c->model()->setData(index, removeFormats, contentType::removeFormats);
-        }
-    }
-
-    if ( !msg.isEmpty() )
-        showMessage( tr("Command %1")
-                     .arg(quoteString(action->command())), msg, icon );
-
-    delete m_actions.take(action);
-    action->deleteLater();
-
-    if ( !hasRunningAction() ) {
-        m_menuCommand->setEnabled(false);
-#ifdef Q_OS_MAC
-        m_trayMenuCommand->setEnabled(false);
-#endif // Q_OS_MAC
-        updateIcon();
     }
 }
 
@@ -636,23 +572,6 @@ void MainWindow::updateMonitoringActions()
         m_actionMonitoringDisabled->setText(text);
         m_actionMonitoringDisabled->setIcon(icon);
     }
-}
-
-ClipboardBrowser *MainWindow::findBrowser(const QModelIndex &index)
-{
-    if (!index.isValid())
-        return NULL;
-
-    // Find browser.
-    TabWidget *tabs = ui->tabWidget;
-    int i = 0;
-    for ( ; i < tabs->count(); ++i ) {
-        ClipboardBrowser *c = getBrowser(i);
-        if (c->model() == index.model())
-            return c;
-    }
-
-    return NULL;
 }
 
 ClipboardBrowser *MainWindow::findBrowser(const QString &id)
@@ -831,15 +750,9 @@ bool MainWindow::isTrayMenuVisible() const
     return m_trayMenu->isVisible();
 }
 
-void MainWindow::setSessionName(const QString &sessionName)
-{
-    m_sessionName = sessionName;
-    updateIcon();
-}
-
 bool MainWindow::hasRunningAction() const
 {
-    return !m_actions.isEmpty();
+    return m_actionHandler->hasRunningAction();
 }
 
 WId MainWindow::mainWinId() const
@@ -1682,57 +1595,6 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
                             : m_options->trayTabName.isEmpty() ? browser(0) : findTab(m_options->trayTabName);
 }
 
-void MainWindow::addItems(const QStringList &items, const QString &tabName)
-{
-    ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
-    ClipboardBrowser::Lock lock(c);
-    foreach (const QString &item, items)
-        c->add(item);
-
-    if (m_lastAction) {
-        if (m_lastAction == sender())
-            c->setCurrent(items.size() - 1);
-        m_lastAction = NULL;
-    }
-}
-
-void MainWindow::addItems(const QStringList &items, const QModelIndex &index)
-{
-    ClipboardBrowser *c = findBrowser(index);
-    if (c == NULL)
-        return;
-
-    QVariantMap dataMap;
-    dataMap.insert( mimeText, items.join(QString()).toLocal8Bit() );
-    c->model()->setData(index, dataMap, contentType::updateData);
-}
-
-void MainWindow::addItem(const QByteArray &data, const QString &format, const QString &tabName)
-{
-    ClipboardBrowser *c = tabName.isEmpty() ? browser() : createTab(tabName);
-    c->add( createDataMap(format, data) );
-
-    if (m_lastAction) {
-        if (m_lastAction == sender())
-            c->setCurrent(0);
-        m_lastAction = NULL;
-    }
-}
-
-void MainWindow::addItem(const QByteArray &data, const QString &format, const QModelIndex &index)
-{
-    ClipboardBrowser *c = findBrowser(index);
-    if (c == NULL)
-        return;
-
-    QVariantMap dataMap;
-    if (format == mimeItems)
-        deserializeData(&dataMap, data);
-    else
-        dataMap.insert(format, data);
-    c->model()->setData(index, dataMap, contentType::updateData);
-}
-
 void MainWindow::onFilterChanged(const QRegExp &re)
 {
     enterBrowseMode( re.isEmpty() );
@@ -1754,44 +1616,6 @@ void MainWindow::onTrayTimer()
     } else {
         m_trayTimer->start();
     }
-}
-
-void MainWindow::actionStarted(Action *action)
-{
-    // menu item
-    QString text = tr("KILL") + " " + action->command();
-    QString tooltip = tr("<b>COMMAND:</b>") + "<br />" + escapeHtml(text) + "<br />" +
-                      tr("<b>INPUT:</b>") + "<br />" +
-                      escapeHtml( QString::fromLocal8Bit(action->input()) );
-
-    QAction *act = m_actions[action] = new QAction(this);
-    act->setToolTip(tooltip);
-    act->setWhatsThis(tooltip);
-
-    connect( act, SIGNAL(triggered()),
-             action, SLOT(terminate()) );
-
-    m_menuCommand->addAction(act);
-    m_menuCommand->setEnabled(true);
-
-#ifdef Q_OS_MAC
-    m_trayMenuCommand->addAction(act);
-    m_trayMenuCommand->setEnabled(true);
-#endif // Q_OS_MAC
-
-    updateIcon();
-
-    act->setText( elideText(text, act->font(), QString(), true) );
-}
-
-void MainWindow::actionFinished(Action *action)
-{
-    closeAction(action);
-}
-
-void MainWindow::actionError(Action *action)
-{
-    closeAction(action);
 }
 
 void MainWindow::onChangeClipboardRequest(const ClipboardItem *item)
@@ -1817,8 +1641,6 @@ void MainWindow::onItemMenuUpdated()
 {
     if ( !ui->toolBar->isVisible() )
         return;
-
-    m_lastAction = NULL;
 
     ui->toolBar->clear();
     const QColor color = getDefaultIconColor(*ui->toolBar, QPalette::Window);
@@ -1920,19 +1742,6 @@ void MainWindow::showClipboardContent()
     d->show();
 }
 
-ActionDialog *MainWindow::createActionDialog()
-{
-    ActionDialog *actionDialog = new ActionDialog(this);
-    actionDialog->setOutputTabs(ui->tabWidget->tabs(), QString());
-
-    connect( actionDialog, SIGNAL(accepted(Action*)),
-             this, SLOT(action(Action*)) );
-    connect( actionDialog, SIGNAL(finished(int)),
-             actionDialog, SLOT(deleteLater()) );
-
-    return actionDialog;
-}
-
 void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
@@ -1957,7 +1766,7 @@ void MainWindow::openActionDialog(int row)
 
 WId MainWindow::openActionDialog(const QVariantMap &data)
 {
-    ActionDialog *actionDialog = createActionDialog();
+    ActionDialog *actionDialog = m_actionHandler->createActionDialog(ui->tabWidget->tabs());
     actionDialog->setInputData(data);
     actionDialog->show();
 
@@ -1984,6 +1793,25 @@ ClipboardBrowser *MainWindow::browser(int index)
     if (c != NULL)
         c->loadItems();
     return c;
+}
+
+ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
+{
+    if (!index.isValid())
+        return NULL;
+
+    // Find browser.
+    TabWidget *tabs = ui->tabWidget;
+    int i = 0;
+    for ( ; i < tabs->count(); ++i ) {
+        ClipboardBrowser *c = getBrowser(i);
+        if (c->model() == index.model()) {
+            c->loadItems();
+            return c;
+        }
+    }
+
+    return NULL;
 }
 
 int MainWindow::tabIndex(const ClipboardBrowser *c) const
@@ -2163,32 +1991,9 @@ void MainWindow::reverseSelectedItems()
     c->reverseItems( c->selectionModel()->selectedRows() );
 }
 
-void MainWindow::action(Action *action)
-{
-    m_lastAction = action;
-
-    connect( action, SIGNAL(newItems(QStringList, QString)),
-             this, SLOT(addItems(QStringList, QString)) );
-    connect( action, SIGNAL(newItems(QStringList, QModelIndex)),
-             this, SLOT(addItems(QStringList, QModelIndex)) );
-    connect( action, SIGNAL(newItem(QByteArray, QString, QString)),
-             this, SLOT(addItem(QByteArray, QString, QString)) );
-    connect( action, SIGNAL(newItem(QByteArray, QString, QModelIndex)),
-             this, SLOT(addItem(QByteArray, QString, QModelIndex)) );
-    connect( action, SIGNAL(actionStarted(Action*)),
-             this, SLOT(actionStarted(Action*)) );
-    connect( action, SIGNAL(actionFinished(Action*)),
-             this, SLOT(actionFinished(Action*)) );
-    connect( action, SIGNAL(actionError(Action*)),
-             this, SLOT(actionError(Action*)) );
-
-    log( tr("Executing: %1").arg(action->command()) );
-    action->start();
-}
-
 void MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
-    ActionDialog *actionDialog = createActionDialog();
+    ActionDialog *actionDialog = m_actionHandler->createActionDialog(ui->tabWidget->tabs());
     QString outputTab;
 
     actionDialog->setInputData(data);
