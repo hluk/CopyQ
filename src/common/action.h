@@ -33,18 +33,17 @@ class Action : public QProcess
 {
     Q_OBJECT
 public:
-    typedef QList<QStringList> Commands;
-
     /** Create action with command line parameters. */
-    Action(const Commands &cmd, //!< Program to run.
-            const QByteArray &input, //!< Standard input contents.
-            const QStringList &inputFormats,
-            const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
-            const QString &itemSeparator,
-            //!< Separator for items on standard output.
-            const QString &outputTabName, //!< Tab name for output items.
-            const QModelIndex &index //!< Output item index.
-            );
+    Action(const QString &cmd, //!< Program to run.
+           const QByteArray &input, //!< Standard input contents.
+           const QStringList &capturedTexts, //!< Texts to be placed as %2..%9 in command.
+           const QStringList &inputFormats,
+           const QString &outputItemFormat, //!< If not empty, signal newItems() will be emitted.
+           const QString &itemSeparator,
+           //!< Separator for items on standard output.
+           const QString &outputTabName, //!< Tab name for output items.
+           const QModelIndex &index //!< Output item index.
+           );
 
     /** Return true only if command execution failed. */
     bool actionFailed() const { return m_failed; }
@@ -54,9 +53,6 @@ public:
 
     /** Return command line. */
     QString command() const;
-
-    /** Return command arguments. */
-    const Commands &commandArguments() const { return m_cmds; }
 
     /** Return input. */
     const QByteArray &input() const { return m_input; }
@@ -76,7 +72,7 @@ public:
 private:
     const QByteArray m_input;
     const QRegExp m_sep;
-    const Commands m_cmds;
+    const QList<QStringList> m_cmds;
     const QString m_tab;
     const QStringList m_inputFormats;
     const QString m_outputFormat;

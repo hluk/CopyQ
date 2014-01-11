@@ -61,8 +61,8 @@ public:
     void setOutput(const QString &format);
     /** Set texts for tabs in combo box. */
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
-    /** Set regular expression. */
-    void setRegExp(const QRegExp &re);
+    /** Set captured texts (for %2..%9 in command). */
+    void setCapturedTexts(const QStringList &capturedTexts);
     /** Set output item. */
     void setOutputIndex(const QModelIndex &index);
 
@@ -77,9 +77,9 @@ protected:
 
 private:
     Ui::ActionDialog *ui;
-    QRegExp m_re;
     QVariantMap m_data;
     QModelIndex m_index;
+    QStringList m_capturedTexts;
 
 signals:
     /** Emitted if dialog was accepted. */

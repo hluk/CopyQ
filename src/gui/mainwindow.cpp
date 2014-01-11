@@ -2205,9 +2205,12 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
     actionDialog->setSeparator(cmd.sep);
     actionDialog->setInput(cmd.input);
     actionDialog->setOutput(cmd.output);
-    actionDialog->setRegExp(cmd.re);
     actionDialog->setOutputIndex(outputIndex);
     outputTab = cmd.outputTab;
+
+    QStringList capturedTexts = cmd.re.capturedTexts();
+    capturedTexts[0] = getTextData(data);
+    actionDialog->setCapturedTexts(capturedTexts);
 
     if (cmd.wait) {
         // Insert tab labels to action dialog's combo box.

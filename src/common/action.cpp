@@ -36,17 +36,83 @@ void startProcess(QProcess *process, const QStringList &args)
     }
 }
 
+QList<QStringList> parseCommands(const QString cmd, const QStringList &capturedTexts)
+{
+    QList<QStringList> commands;
+
+    commands.append(QStringList());
+    QStringList *command = &commands.last();
+    QString arg;
+    QChar quote;
+    bool escape = false;
+    bool percent = false;
+    foreach (QChar c, cmd) {
+        if (percent) {
+            if (c >= '1' && c <= '9') {
+                arg.resize( arg.size() - 1 );
+                arg.append( capturedTexts.value(c.digitValue() - 1) );
+                continue;
+            }
+        }
+        percent = !escape && c == '%';
+
+        if (escape) {
+            escape = false;
+            if (c == 'n') {
+                arg.append('\n');
+            } else if (c == 't') {
+                arg.append('\t');
+            } else {
+                arg.append(c);
+            }
+        } else if (c == '\\') {
+            escape = true;
+        } else if (!quote.isNull()) {
+            if (quote == c) {
+                quote = QChar();
+                command->append(arg);
+                arg.clear();
+            } else {
+                arg.append(c);
+            }
+        } else if (c == '\'' || c == '"') {
+            quote = c;
+        } else if ( c.isSpace() ) {
+            if (!arg.isEmpty()) {
+                command->append(arg);
+                arg.clear();
+            }
+        } else if (c == '|') {
+            if ( !arg.isEmpty() ) {
+                command->append(arg);
+                arg.clear();
+            }
+            commands.append(QStringList());
+            command = &commands.last();
+        } else {
+            arg.append(c);
+        }
+    }
+    if ( !arg.isEmpty() || !quote.isNull() )
+        command->append(arg);
+
+    return commands;
+}
+
 } // namespace
 
-Action::Action(const Commands &cmd,
-               const QByteArray &input, const QStringList &inputFormats,
+Action::Action(const QString &cmd,
+               const QByteArray &input,
+               const QStringList &capturedTexts,
+               const QStringList &inputFormats,
                const QString &outputItemFormat,
                const QString &itemSeparator,
-               const QString &outputTabName, const QModelIndex &index)
+               const QString &outputTabName,
+               const QModelIndex &index)
     : QProcess()
     , m_input(input)
     , m_sep(index.isValid() ? QString() : itemSeparator)
-    , m_cmds(cmd)
+    , m_cmds(parseCommands(cmd, capturedTexts))
     , m_tab(outputTabName)
     , m_inputFormats(inputFormats)
     , m_outputFormat(outputItemFormat != "text/plain" ? outputItemFormat : QString())

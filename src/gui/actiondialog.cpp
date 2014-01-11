@@ -55,8 +55,9 @@ void setChangedByUser(QWidget *object)
 ActionDialog::ActionDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ActionDialog)
-    , m_re()
     , m_data()
+    , m_index()
+    , m_capturedTexts()
 {
     ui->setupUi(this);
 
@@ -144,69 +145,6 @@ void ActionDialog::createAction()
     const QString input = ( format.isEmpty() || format.toLower().startsWith(QString("text")) )
             ? ui->inputText->toPlainText() : QString();
 
-    // parse arguments
-    Action::Commands commands;
-    commands.append(QStringList());
-    QStringList *command = &commands.last();
-    QString arg;
-    QChar quote;
-    bool escape = false;
-    bool percent = false;
-    foreach (QChar c, cmd) {
-        if (percent) {
-            if (c >= '1' && c <= '9') {
-                arg.resize( arg.size()-1 );
-                int i = c.toLatin1() - '1';
-                if (i == 0) {
-                    arg.append(input);
-                } else if ( input.indexOf(m_re) != -1 && m_re.captureCount() >= i ) {
-                    arg.append( m_re.cap(i) );
-                }
-                continue;
-            }
-        }
-        percent = !escape && c == '%';
-
-        if (escape) {
-            escape = false;
-            if (c == 'n') {
-                arg.append('\n');
-            } else if (c == 't') {
-                arg.append('\t');
-            } else {
-                arg.append(c);
-            }
-        } else if (c == '\\') {
-            escape = true;
-        } else if (!quote.isNull()) {
-            if (quote == c) {
-                quote = QChar();
-                command->append(arg);
-                arg.clear();
-            } else {
-                arg.append(c);
-            }
-        } else if (c == '\'' || c == '"') {
-            quote = c;
-        } else if ( c.isSpace() ) {
-            if (!arg.isEmpty()) {
-                command->append(arg);
-                arg.clear();
-            }
-        } else if (c == '|') {
-            if ( !arg.isEmpty() ) {
-                command->append(arg);
-                arg.clear();
-            }
-            commands.append(QStringList());
-            command = &commands.last();
-        } else {
-            arg.append(c);
-        }
-    }
-    if ( !arg.isEmpty() || !quote.isNull() )
-        command->append(arg);
-
     QByteArray bytes;
     QStringList inputFormats;
     if ( !format.isEmpty() ) {
@@ -233,7 +171,7 @@ void ActionDialog::createAction()
         }
     }
 
-    Action *act = new Action( commands, bytes, inputFormats,
+    Action *act = new Action( cmd, bytes, m_capturedTexts, inputFormats,
                               ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
                               ui->comboBoxOutputTab->currentText(),
@@ -278,9 +216,9 @@ void ActionDialog::setOutputTabs(const QStringList &tabs,
     w->setEditText(currentTabName);
 }
 
-void ActionDialog::setRegExp(const QRegExp &re)
+void ActionDialog::setCapturedTexts(const QStringList &capturedTexts)
 {
-    m_re = re;
+    m_capturedTexts = capturedTexts;
 }
 
 void ActionDialog::setOutputIndex(const QModelIndex &index)
