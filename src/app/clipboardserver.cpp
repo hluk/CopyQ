@@ -334,7 +334,8 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
             m_lastHash = item.dataHash();
         } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
             m_lastHash = item.dataHash();
-            m_wnd->addToTab( item.data(), QString(), true );
+            if ( !m_wnd->isClipboardStoringDisabled() )
+                m_wnd->addToTab( item.data(), QString(), true );
         }
     }
 }

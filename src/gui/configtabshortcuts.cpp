@@ -147,7 +147,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::File_ExportTab, tr("&Export Tab..."), "export_tab", QKeySequence::Save );
     w->addAction( Actions::File_Preferences, tr("&Preferences..."), "preferences", tr("Ctrl+P") );
     w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), "show_clipboard_content", tr("Ctrl+Shift+C") );
-    w->addAction( Actions::File_ToggleClipboardStoring, tr("&Enable Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
+    w->addAction( Actions::File_ToggleClipboardStoring, tr("&Toggle Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
     w->addAction( Actions::File_Exit, tr("E&xit"), "exit", tr("Ctrl+Q") );
 
     w->addAction( Actions::Edit_SortSelectedItems, tr("&Sort Selected Items"), "sort_selected_items", tr("Ctrl+Shift+S") );

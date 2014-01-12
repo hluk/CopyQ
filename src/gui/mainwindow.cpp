@@ -195,9 +195,8 @@ MainWindow::MainWindow(const QString &sessionName, QWidget *parent)
     , m_tray( new QSystemTrayIcon(this) )
     , m_browsemode(false)
     , m_options(new MainWindowOptions)
-    , m_monitoringDisabled(false)
-    , m_actionToggleMonitoring()
-    , m_actionMonitoringDisabled()
+    , m_clipboardStoringDisabled(false)
+    , m_actionToggleClipboardStoring()
     , m_sharedData(new ClipboardBrowserShared)
     , m_trayPasteWindow()
     , m_lastWindow()
@@ -387,9 +386,8 @@ void MainWindow::createMenu()
     createAction( Actions::File_ShowClipboardContent, SLOT(showClipboardContent()), menu );
 
     // - enable/disable
-    act = createAction( Actions::File_ToggleClipboardStoring, SLOT(toggleMonitoring()), menu );
-    m_actionToggleMonitoring = act;
-    m_actionMonitoringDisabled = act;
+    m_actionToggleClipboardStoring = createAction( Actions::File_ToggleClipboardStoring,
+                                                   SLOT(toggleClipboardStoring()), menu );
     updateMonitoringActions();
 
     // - separator
@@ -496,12 +494,12 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
 
 void MainWindow::updateIcon()
 {
-    QIcon icon = iconTray(m_monitoringDisabled);
+    QIcon icon = iconTray(m_clipboardStoringDisabled);
     QColor color = sessionNameToColor(m_sessionName);
 
     if (m_options->showTray) {
         if ( hasRunningAction() ) {
-            m_tray->setIcon( iconTrayRunning(m_monitoringDisabled) );
+            m_tray->setIcon( iconTrayRunning(m_clipboardStoringDisabled) );
         } else if ( m_sessionName.isEmpty() ) {
             m_tray->setIcon(icon);
         } else {
@@ -558,19 +556,11 @@ void MainWindow::updateWindowTransparency(bool mouseOver)
 
 void MainWindow::updateMonitoringActions()
 {
-    const QString text = m_monitoringDisabled ? tr("&Enable Clipboard Storing")
-                                              : tr("&Disable Clipboard Storing");
-
-    QIcon icon = iconTray(!m_monitoringDisabled);
-
-    if (!m_actionToggleMonitoring.isNull()) {
-        m_actionToggleMonitoring->setText(text);
-        m_actionToggleMonitoring->setIcon(icon);
-    }
-
-    if (!m_actionMonitoringDisabled.isNull()) {
-        m_actionMonitoringDisabled->setText(text);
-        m_actionMonitoringDisabled->setIcon(icon);
+    if ( !m_actionToggleClipboardStoring.isNull() ) {
+        m_actionToggleClipboardStoring->setIcon( iconTray(!m_clipboardStoringDisabled) );
+        m_actionToggleClipboardStoring->setText( m_clipboardStoringDisabled
+                                                 ? tr("&Enable Clipboard Storing")
+                                                 : tr("&Disable Clipboard Storing") );
     }
 }
 
@@ -1362,9 +1352,6 @@ void MainWindow::tabCloseRequested(int tab)
 
 void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool moveExistingToTop)
 {
-    if (m_monitoringDisabled)
-        return;
-
     ClipboardBrowser *c = tabName.isEmpty() ? browser(0) : findBrowser(tabName);
 
     if ( c == NULL && !tabName.isEmpty() )
@@ -1499,19 +1486,20 @@ void MainWindow::activateCurrentItem()
     }
 }
 
-void MainWindow::disableMonitoring(bool disable)
+void MainWindow::disableClipboardStoring(bool disable)
 {
-    if (m_monitoringDisabled == disable)
+    if (m_clipboardStoringDisabled == disable)
         return;
-    m_monitoringDisabled = disable;
+
+    m_clipboardStoringDisabled = disable;
 
     updateMonitoringActions();
     updateIcon();
 }
 
-void MainWindow::toggleMonitoring()
+void MainWindow::toggleClipboardStoring()
 {
-    disableMonitoring(!m_monitoringDisabled);
+    disableClipboardStoring(!m_clipboardStoringDisabled);
 }
 
 QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mode)

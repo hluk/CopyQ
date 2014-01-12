@@ -268,10 +268,13 @@ public slots:
     void activateCurrentItem();
 
     /** Temporarily disable monitoring (i.e. adding new clipboard content to the first tab). */
-    void disableMonitoring(bool disable);
+    void disableClipboardStoring(bool disable);
 
     /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
-    void toggleMonitoring();
+    void toggleClipboardStoring();
+
+    /** Return true if clipboard storing was disabled. */
+    bool isClipboardStoringDisabled() const { return m_clipboardStoringDisabled; }
 
     /** Return clipboard data. If MIME type is "?" return list of available MIME types. */
     QByteArray getClipboardData(const QString &mime,
@@ -420,9 +423,8 @@ private:
 
     QScopedPointer<MainWindowOptions> m_options;
 
-    bool m_monitoringDisabled;
-    QPointer<QAction> m_actionToggleMonitoring;
-    QPointer<QAction> m_actionMonitoringDisabled;
+    bool m_clipboardStoringDisabled;
+    QPointer<QAction> m_actionToggleClipboardStoring;
 
     QSharedPointer<ClipboardBrowserShared> m_sharedData;
 

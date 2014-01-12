@@ -137,7 +137,7 @@ public slots:
     void showWindow() { m_wnd->showWindow(); }
     void pasteToCurrentWindow() { m_wnd->pasteToCurrentWindow(); }
 
-    void disableMonitoring(bool arg1) { m_wnd->disableMonitoring(arg1); }
+    void disableMonitoring(bool arg1) { m_wnd->disableClipboardStoring(arg1); }
     void setClipboard(const ClipboardItem *arg1) { m_wnd->setClipboard(arg1); }
 
     void renameTab(const QString &arg1, int arg2) { m_wnd->renameTab(arg1, arg2); }
