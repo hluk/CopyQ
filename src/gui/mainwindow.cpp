@@ -65,70 +65,16 @@
 #   include <QTest>
 #endif
 
-#ifdef COPYQ_ICON_PREFIX
-#   define RETURN_ICON_FROM_PREFIX(suffix, fallback) do { \
-        const QString fileName(COPYQ_ICON_PREFIX suffix); \
-        return QFile::exists(fileName) ? QIcon(fileName) : fallback; \
-    } while(false)
-#else
-#   define RETURN_ICON_FROM_PREFIX(suffix, fallback) \
-        return fallback
-#endif
-
 namespace {
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
 const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
-const QIcon iconTray(bool disabled) {
-    if (disabled)
-        RETURN_ICON_FROM_PREFIX( "-disabled.svg", getIconFromResources("icon-disabled") );
-    else
-        RETURN_ICON_FROM_PREFIX( "-normal.svg", getIconFromResources("icon") );
-}
-const QIcon iconTrayRunning(bool disabled) {
-    if (disabled)
-        RETURN_ICON_FROM_PREFIX( "-disabled-busy.svg", getIconFromResources("icon-disabled-running") );
-    else
-        RETURN_ICON_FROM_PREFIX( "-busy.svg", getIconFromResources("icon-running") );
-}
 
-void colorizePixmap(QPixmap *pix, const QColor &from, const QColor &to)
+QIcon appIcon(AppIconFlags flags = AppIconNormal)
 {
-    QPixmap pix2( pix->size() );
-    pix2.fill(to);
-    pix2.setMask( pix->createMaskFromColor(from, Qt::MaskOutColor) );
-
-    QPainter p(pix);
-    p.drawPixmap(0, 0, pix2);
-}
-
-QColor sessionNameToColor(const QString &name)
-{
-    if (name.isEmpty())
-        return QColor(Qt::white);
-
-    int r = 0;
-    int g = 0;
-    int b = 0;
-
-    foreach (const QChar &c, name) {
-        const ushort x = c.unicode() % 3;
-        if (x == 0)
-            r += 255;
-        else if (x == 1)
-            g += 255;
-        else
-            b += 255;
-    }
-
-    int max = qMax(r, qMax(g, b));
-    r = r * 255 / max;
-    g = g * 255 / max;
-    b = b * 255 / max;
-
-    return QColor(r, g, b);
+    return ConfigurationManager::instance()->iconFactory()->appIcon(flags);
 }
 
 } // namespace
@@ -187,7 +133,7 @@ struct MainWindowOptions {
     bool trayItemPaste;
 };
 
-MainWindow::MainWindow(const QString &sessionName, QWidget *parent)
+MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
     , m_menuItem(NULL)
@@ -203,7 +149,6 @@ MainWindow::MainWindow(const QString &sessionName, QWidget *parent)
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
     , m_trayTimer(NULL)
-    , m_sessionName(sessionName)
     , m_notifications(NULL)
     , m_timerMiminizing(NULL)
     , m_minimizeUnsupported(false)
@@ -444,7 +389,7 @@ void MainWindow::createMenu()
     act = createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
 
     // Tray menu
-    act = m_trayMenu->addAction( iconTray(false), tr("&Show/Hide"),
+    act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide"),
                                  this, SLOT(toggleVisible()) );
     m_trayMenu->setDefaultAction(act);
     addTrayAction(Actions::File_New);
@@ -494,28 +439,13 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
 
 void MainWindow::updateIcon()
 {
-    QIcon icon = iconTray(m_clipboardStoringDisabled);
-    QColor color = sessionNameToColor(m_sessionName);
+    AppIconFlag flags = m_clipboardStoringDisabled ? AppIconDisabled : AppIconNormal;
+    QIcon icon = appIcon(flags);
 
-    if (m_options->showTray) {
-        if ( hasRunningAction() ) {
-            m_tray->setIcon( iconTrayRunning(m_clipboardStoringDisabled) );
-        } else if ( m_sessionName.isEmpty() ) {
-            m_tray->setIcon(icon);
-        } else {
-            QPixmap trayPix = icon.pixmap( m_options->showTray ? m_tray->geometry().size() : iconSize() );
-            colorizePixmap( &trayPix, QColor(0x7f, 0xca, 0x9b), color );
-            m_tray->setIcon( QIcon(trayPix) );
-        }
-    }
+    if (m_options->showTray)
+        m_tray->setIcon( hasRunningAction() ? appIcon(flags | AppIconRunning) : icon );
 
-    if ( m_sessionName.isEmpty() ) {
-        setWindowIcon(icon);
-    } else {
-        QPixmap pix = icon.pixmap( m_options->showTray ? m_tray->geometry().size() : iconSize() );
-        colorizePixmap( &pix, QColor(0x7f, 0xca, 0x9b), color );
-        setWindowIcon( QIcon(pix) );
-    }
+    setWindowIcon(icon);
 }
 
 void MainWindow::updateNotifications()
@@ -557,7 +487,8 @@ void MainWindow::updateWindowTransparency(bool mouseOver)
 void MainWindow::updateMonitoringActions()
 {
     if ( !m_actionToggleClipboardStoring.isNull() ) {
-        m_actionToggleClipboardStoring->setIcon( iconTray(!m_clipboardStoringDisabled) );
+        m_actionToggleClipboardStoring->setIcon(
+                    appIcon(m_clipboardStoringDisabled ? AppIconNormal : AppIconDisabled) );
         m_actionToggleClipboardStoring->setText( m_clipboardStoringDisabled
                                                  ? tr("&Enable Clipboard Storing")
                                                  : tr("&Disable Clipboard Storing") );
@@ -1437,14 +1368,15 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     showClipboardMessage(item);
 
     const QString clipboardContent = textLabelForData( item->data() );
-    if ( m_sessionName.isEmpty() ) {
+    const QString sessionName = qApp->property("CopyQ_session_name").toString();
+    if ( sessionName.isEmpty() ) {
         setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
                         .arg(clipboardContent) );
     } else {
         setWindowTitle( tr("%1 - %2 - CopyQ",
                            "Main window title format (%1 is clipboard content label, %2 is session name)")
                         .arg(clipboardContent)
-                        .arg(m_sessionName) );
+                        .arg(sessionName) );
     }
 }
 
@@ -1718,16 +1650,21 @@ void MainWindow::updateTrayMenuItems()
 
 void MainWindow::openAboutDialog()
 {
-    AboutDialog *aboutDialog = new AboutDialog(this);
-    aboutDialog->show();
+    QScopedPointer<AboutDialog> aboutDialog( new AboutDialog(this) );
+    aboutDialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    aboutDialog->setWindowIcon(appIcon());
     aboutDialog->activateWindow();
+    aboutDialog->show();
+    aboutDialog.take();
 }
 
 void MainWindow::showClipboardContent()
 {
-    ClipboardDialog *d = new ClipboardDialog(QVariantMap(), this);
-    connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
-    d->show();
+    QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(QVariantMap(), this));
+    clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    clipboardDialog->setWindowIcon(appIcon(AppIconRunning));
+    clipboardDialog->show();
+    clipboardDialog.take();
 }
 
 void MainWindow::openActionDialog(int row)
@@ -1754,7 +1691,8 @@ void MainWindow::openActionDialog(int row)
 
 WId MainWindow::openActionDialog(const QVariantMap &data)
 {
-    ActionDialog *actionDialog = m_actionHandler->createActionDialog(ui->tabWidget->tabs());
+    QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
+    actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData(data);
     actionDialog->show();
 
@@ -1763,6 +1701,8 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
     if (window)
         window->raise();
+
+    actionDialog.take();
 
     return wid;
 }
@@ -1981,8 +1921,7 @@ void MainWindow::reverseSelectedItems()
 
 void MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
-    ActionDialog *actionDialog = m_actionHandler->createActionDialog(ui->tabWidget->tabs());
-    QString outputTab;
+    QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
 
     actionDialog->setInputData(data);
     actionDialog->setCommand(cmd.cmd);
@@ -1990,7 +1929,7 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
     actionDialog->setInput(cmd.input);
     actionDialog->setOutput(cmd.output);
     actionDialog->setOutputIndex(outputIndex);
-    outputTab = cmd.outputTab;
+    QString outputTab = cmd.outputTab;
 
     QStringList capturedTexts = cmd.re.capturedTexts();
     capturedTexts[0] = getTextData(data);
@@ -2012,7 +1951,6 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
         // Create action without showing action dialog.
         actionDialog->setOutputTabs(QStringList(), outputTab);
         actionDialog->createAction();
-        actionDialog->deleteLater();
     }
 }
 

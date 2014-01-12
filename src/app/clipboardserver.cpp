@@ -58,7 +58,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     : QObject()
     , App(new QApplication(argc, argv), sessionName)
     , m_server(NULL)
-    , m_wnd(NULL)
+    , m_wnd()
     , m_monitor(NULL)
     , m_checkclip(false)
     , m_lastHash(0)
@@ -67,18 +67,14 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_clientThreads()
     , m_internalThreads()
 {
-    // listen
     m_server = newServer( clipboardServerName(), this );
     if ( !m_server->isListening() )
         return;
 
-    // don't exit when all windows closed
     QApplication::setQuitOnLastWindowClosed(false);
 
-    // main window
-    m_wnd = new MainWindow(sessionName);
+    m_wnd = QSharedPointer<MainWindow>(new MainWindow);
 
-    // listen
     connect( m_server, SIGNAL(newConnection()),
              this, SLOT(newConnection()) );
 
@@ -88,10 +84,10 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
              this, SLOT(onCommitData(QSessionManager&)) );
 
-    connect( m_wnd, SIGNAL(changeClipboard(const ClipboardItem*)),
+    connect( m_wnd.data(), SIGNAL(changeClipboard(const ClipboardItem*)),
              this, SLOT(changeClipboard(const ClipboardItem*)));
 
-    connect( m_wnd, SIGNAL(requestExit()),
+    connect( m_wnd.data(), SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
 
     loadSettings();
@@ -115,8 +111,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
 ClipboardServer::~ClipboardServer()
 {
-    delete m_wnd;
-
     // delete shortcuts manually
     foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
         delete s;
@@ -292,7 +286,7 @@ bool ClipboardServer::askToQuit()
     if ( m_clientThreads.activeThreadCount() > 0 || m_wnd->hasRunningAction() ) {
         QMessageBox messageBox( QMessageBox::Warning, tr("Cancel Active Commands"),
                                 tr("Cancel active commands and exit?"), QMessageBox::NoButton,
-                                m_wnd );
+                                m_wnd.data() );
 
         messageBox.addButton(tr("Cancel Exiting"), QMessageBox::RejectRole);
         messageBox.addButton(tr("Exit Anyway"), QMessageBox::AcceptRole);

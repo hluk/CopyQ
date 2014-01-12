@@ -24,10 +24,12 @@
 
 #include <QBitmap>
 #include <QCoreApplication>
+#include <QFile>
 #include <QFontDatabase>
 #include <QIcon>
 #include <QPainter>
 #include <QPixmap>
+#include <QVariant>
 #include <QWidget>
 
 namespace {
@@ -44,6 +46,43 @@ QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
     pix2.setMask( pix.mask() );
 
     return pix2;
+}
+
+void colorizePixmap(QPixmap *pix, const QColor &from, const QColor &to)
+{
+    QPixmap pix2( pix->size() );
+    pix2.fill(to);
+    pix2.setMask( pix->createMaskFromColor(from, Qt::MaskOutColor) );
+
+    QPainter p(pix);
+    p.drawPixmap(0, 0, pix2);
+}
+
+QColor sessionNameToColor(const QString &name)
+{
+    if (name.isEmpty())
+        return QColor(Qt::white);
+
+    int r = 0;
+    int g = 0;
+    int b = 0;
+
+    foreach (const QChar &c, name) {
+        const ushort x = c.unicode() % 3;
+        if (x == 0)
+            r += 255;
+        else if (x == 1)
+            g += 255;
+        else
+            b += 255;
+    }
+
+    int max = qMax(r, qMax(g, b));
+    r = r * 255 / max;
+    g = g * 255 / max;
+    b = b * 255 / max;
+
+    return QColor(r, g, b);
 }
 
 } // namespace
@@ -188,6 +227,44 @@ void IconFactory::setDefaultColors(const QColor &color, const QColor &activeColo
     m_iconColor = color;
     m_iconColorActive = activeColor;
     m_iconCache.clear();
+}
+
+QIcon IconFactory::iconFromPrefix(const QString &iconSuffix, const QString &resources)
+{
+#ifdef COPYQ_ICON_PREFIX
+    const QString fileName(COPYQ_ICON_PREFIX + iconSuffix);
+    if ( QFile::exists(fileName) )
+        return QIcon(fileName);
+#else
+    Q_UNUSED(iconSuffix)
+#endif
+    return getIcon(resources);
+}
+
+QIcon IconFactory::appIcon(AppIconFlags flags)
+{
+    QIcon icon = flags.testFlag(AppIconRunning) ? iconFromPrefix("-busy.svg", "icon-running")
+                                                : iconFromPrefix("-normal.svg", "icon");
+    QColor color = QColor(0x7f, 0xca, 0x9b);
+
+    const QString sessionName = qApp->property("CopyQ_session_name").toString();
+    if (!sessionName.isEmpty()) {
+        QPixmap pix = icon.pixmap(128, 128);
+        const QColor color2 = sessionNameToColor(sessionName);
+        colorizePixmap(&pix, color, color2);
+        color = color2;
+        icon = QIcon(pix);
+    }
+
+    if (flags.testFlag(AppIconDisabled)) {
+        QPixmap pix = icon.pixmap(128, 128);
+        QPainter p(&pix);
+        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
+        p.fillRect(pix.rect(), QColor(100, 100, 100, 150));
+        icon = QIcon(pix);
+    }
+
+    return icon;
 }
 
 QColor getDefaultIconColor(const QColor &color)

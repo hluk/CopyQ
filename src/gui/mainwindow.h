@@ -67,7 +67,7 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(const QString &sessionName, QWidget *parent = NULL);
+    explicit MainWindow(QWidget *parent = NULL);
     ~MainWindow();
 
     /** Return true if in browse mode. */
@@ -434,8 +434,6 @@ private:
     QTimer *m_timerUpdateFocusWindows;
     QTimer *m_timerShowWindow;
     QTimer *m_trayTimer;
-
-    QString m_sessionName;
 
     NotificationDaemon *m_notifications;
 

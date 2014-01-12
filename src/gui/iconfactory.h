@@ -24,10 +24,19 @@
 #include <QFont>
 #include <QHash>
 #include <QPalette>
+#include <QFlags>
 
 class QIcon;
 class QPixmap;
 class QPainter;
+
+enum AppIconFlag {
+    AppIconNormal,
+    AppIconRunning,
+    AppIconDisabled
+};
+Q_DECLARE_FLAGS(AppIconFlags, AppIconFlag)
+Q_DECLARE_OPERATORS_FOR_FLAGS(AppIconFlags)
 
 class IconFactory
 {
@@ -57,6 +66,11 @@ public:
     QPixmap createPixmap(ushort id, const QColor &color, int size = -1);
 
     void setDefaultColors(const QColor &color, const QColor &activeColor);
+
+    QIcon iconFromPrefix(const QString &iconSuffix, const QString &resources);
+
+    /// Return app icon (color is calculated from session name).
+    QIcon appIcon(AppIconFlags flags = AppIconNormal);
 
 private:
     QColor m_iconColor;

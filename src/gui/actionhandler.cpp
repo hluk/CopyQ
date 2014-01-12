@@ -43,8 +43,8 @@ ActionHandler::ActionHandler(MainWindow *mainWindow)
 ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
 {
     ActionDialog *actionDialog = new ActionDialog(m_wnd);
-    actionDialog->setOutputTabs(tabs, QString());
     actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    actionDialog->setOutputTabs(tabs, QString());
 
     connect( actionDialog, SIGNAL(accepted(Action*)),
              this, SLOT(action(Action*)) );

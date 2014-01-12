@@ -107,6 +107,7 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
     , m_optionWidgetsLoaded(false)
 {
     ui->setupUi(this);
+    setWindowIcon(iconFactory()->appIcon());
 
     if ( !itemFactory()->hasLoaders() )
         ui->tabItems->deleteLater();

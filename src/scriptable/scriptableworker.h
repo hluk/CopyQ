@@ -23,8 +23,9 @@
 #include "common/arguments.h"
 #include "common/common.h"
 
-#include <QRunnable>
 #include <QObject>
+#include <QRunnable>
+#include <QSharedPointer>
 
 class MainWindow;
 class QLocalSocket;
@@ -33,8 +34,8 @@ class ScriptableWorker : public QObject, public QRunnable
 {
     Q_OBJECT
 public:
-    ScriptableWorker(MainWindow *mainWindow, const Arguments &args, QLocalSocket *client,
-                     QObject *parent = NULL);
+    ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow, const Arguments &args,
+                     QLocalSocket *client, QObject *parent = NULL);
 
 public slots:
     void run();
@@ -51,7 +52,7 @@ private slots:
 private:
     CommandStatus executeScript(QByteArray *response = NULL);
 
-    MainWindow *m_wnd;
+    QSharedPointer<MainWindow> m_wnd;
     Arguments m_args;
     QLocalSocket *m_client;
     bool m_terminated;

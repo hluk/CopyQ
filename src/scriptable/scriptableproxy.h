@@ -26,6 +26,7 @@
 
 #include <QMetaObject>
 #include <QObject>
+#include <QSharedPointer>
 #include <QStringList>
 
 Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
@@ -125,7 +126,7 @@ class ScriptableProxyHelper : public QObject
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    explicit ScriptableProxyHelper(MainWindow *mainWindow)
+    explicit ScriptableProxyHelper(const QSharedPointer<MainWindow> &mainWindow)
       : QObject(NULL)
       , m_wnd(mainWindow)
     {}
@@ -191,7 +192,7 @@ public slots:
     QString sendKeys(const QString &arg1) { return m_wnd->sendKeys(arg1); }
 
 private:
-    MainWindow *m_wnd;
+    QSharedPointer<MainWindow> m_wnd;
     QVariant v; ///< Last return value retrieved.
 };
 
@@ -207,7 +208,7 @@ private:
 class ScriptableProxy
 {
 public:
-    explicit ScriptableProxy(MainWindow *mainWindow)
+    explicit ScriptableProxy(const QSharedPointer<MainWindow> &mainWindow)
         : m_helper(new detail::ScriptableProxyHelper(mainWindow))
     {
         qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");

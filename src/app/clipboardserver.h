@@ -26,6 +26,7 @@
 
 #include <QMap>
 #include <QProcess>
+#include <QSharedPointer>
 #include <QThreadPool>
 
 class Arguments;
@@ -136,7 +137,7 @@ private:
     bool askToQuit();
 
     QLocalServer *m_server;
-    MainWindow* m_wnd;
+    QSharedPointer<MainWindow> m_wnd;
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;

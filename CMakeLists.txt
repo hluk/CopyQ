@@ -41,8 +41,6 @@ endif()
 set(copyq_ICON        src/images/logo.svg)
 set(copyq_ICON_NORMAL src/images/icon.svg)
 set(copyq_ICON_BUSY   src/images/icon-running.svg)
-set(copyq_ICON_DISABLED src/images/icon-disabled.svg)
-set(copyq_ICON_DISABLED_BUSY   src/images/icon-disabled-running.svg)
 set(copyq_DESKTOP     shared/copyq.desktop)
 
 # Be more strict while compiling debugging version
@@ -61,8 +59,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     install(FILES ${copyq_ICON}        DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq.svg)
     install(FILES ${copyq_ICON_NORMAL} DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-normal.svg)
     install(FILES ${copyq_ICON_BUSY}   DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-busy.svg)
-    install(FILES ${copyq_ICON_DISABLED} DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-disabled.svg)
-    install(FILES ${copyq_ICON_DISABLED_BUSY} DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-disabled-busy.svg)
     install(FILES ${copyq_DESKTOP}     DESTINATION ${DESKTOP_INSTALL_PREFIX})
 
     set(copyq_THEME_INSTALL_PREFIX ${THEME_INSTALL_PREFIX})
