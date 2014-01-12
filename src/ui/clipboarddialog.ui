@@ -19,10 +19,6 @@
   <property name="windowTitle">
    <string>CopyQ Clipboard Content</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../copyq.qrc">
-    <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
-  </property>
   <layout class="QGridLayout" name="gridLayout">
    <item row="2" column="0">
     <widget class="QDialogButtonBox" name="buttonBox">

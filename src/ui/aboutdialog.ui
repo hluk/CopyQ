@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>CopyQ About</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../copyq.qrc">
-    <normaloff>:/images/icon.svg</normaloff>:/images/icon.svg</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>

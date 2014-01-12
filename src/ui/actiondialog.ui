@@ -13,10 +13,6 @@
   <property name="windowTitle">
    <string>CopyQ Action Dialog</string>
   </property>
-  <property name="windowIcon">
-   <iconset resource="../copyq.qrc">
-    <normaloff>:/images/icon-running.svg</normaloff>:/images/icon-running.svg</iconset>
-  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QLabel" name="label_2">
