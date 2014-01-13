@@ -1695,13 +1695,14 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData(data);
     actionDialog->show();
-    actionDialog.take();
 
     // steal focus
     WId wid = actionDialog->winId();
     PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
     if (window)
         window->raise();
+
+    actionDialog.take();
 
     return wid;
 }
