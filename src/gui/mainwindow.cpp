@@ -1695,14 +1695,13 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData(data);
     actionDialog->show();
+    actionDialog.take();
 
     // steal focus
     WId wid = actionDialog->winId();
     PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
     if (window)
         window->raise();
-
-    actionDialog.take();
 
     return wid;
 }
@@ -1947,6 +1946,7 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
 
         // Show action dialog.
         actionDialog->show();
+        actionDialog.take();
     } else {
         // Create action without showing action dialog.
         actionDialog->setOutputTabs(QStringList(), outputTab);
