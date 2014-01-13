@@ -325,6 +325,9 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
                           ",#tab_tree_item[CopyQ_selected=\"true\"]"
                           "{background:transparent}")
 
+                // Remove border in toolbars.
+                + "QToolBar{border:none}"
+
                 // Remove icon border in menus.
                 + "QMenu::item:selected{border:none}"
                 + "QMenu::item{"

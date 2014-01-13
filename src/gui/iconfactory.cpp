@@ -260,7 +260,7 @@ QIcon IconFactory::appIcon(AppIconFlags flags)
         QPixmap pix = icon.pixmap(128, 128);
         QPainter p(&pix);
         p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-        p.fillRect(pix.rect(), QColor(100, 100, 100, 150));
+        p.fillRect(pix.rect(), QColor(100, 100, 100, 100));
         icon = QIcon(pix);
     }
 
