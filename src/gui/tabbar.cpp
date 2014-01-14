@@ -27,7 +27,7 @@ TabBar::TabBar(QWidget *parent)
     setFocusPolicy(Qt::NoFocus);
     setDrawBase(false);
     setMinimumSize(1, 1);
-    setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)
