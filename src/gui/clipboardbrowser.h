@@ -153,11 +153,6 @@ class ClipboardBrowser : public QListView
         bool handleViKey(QKeyEvent *event);
 
         /**
-         * Wrap long text.
-         */
-        void setTextWrap(bool enabled);
-
-        /**
          * Get data of selected item, NULL if none or multiple items selected.
          */
         QVariantMap getSelectedItemData() const;
@@ -446,6 +441,8 @@ class ClipboardBrowser : public QListView
         void connectModelAndDelegate();
 
         void disconnectModel();
+
+        void updateItemMaximumSize();
 
         QSharedPointer<class ItemLoaderInterface> m_itemLoader;
         QString m_tabName;

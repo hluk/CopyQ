@@ -697,6 +697,21 @@ void ClipboardBrowser::connectModelAndDelegate()
     updateCurrentPage();
 }
 
+void ClipboardBrowser::updateItemMaximumSize()
+{
+    QSize maxSize(2048, 2048);
+
+    if (m_sharedData->textWrap) {
+        maxSize = viewport()->contentsRect().size();
+        if (verticalScrollBarPolicy() != Qt::ScrollBarAlwaysOff)
+             maxSize -= QSize(verticalScrollBar()->width(), 0);
+    }
+
+    d->setItemMaximumSize(maxSize);
+
+    scheduleDelayedItemsLayout();
+}
+
 void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 {
     if ( m_sharedData->commands.isEmpty() )
@@ -1141,7 +1156,7 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     QListView::resizeEvent(event);
 
     if (m_sharedData->textWrap)
-        d->setItemMaximumSize( viewport()->contentsRect().size() );
+        updateItemMaximumSize();
 
     if (m_loadButton != NULL)
         m_loadButton->resize( event->size() );
@@ -1789,7 +1804,7 @@ void ClipboardBrowser::loadSettings()
     // restore configuration
     m->setMaxItems(m_sharedData->maxItems);
 
-    setTextWrap(m_sharedData->textWrap);
+    updateItemMaximumSize();
 
     d->setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
 
@@ -2048,11 +2063,6 @@ bool ClipboardBrowser::handleViKey(QKeyEvent *event)
     }
 
     return handle;
-}
-
-void ClipboardBrowser::setTextWrap(bool enabled)
-{
-    d->setItemMaximumSize( enabled ? viewport()->contentsRect().size() : QSize(2048, 2048) );
 }
 
 QVariantMap ClipboardBrowser::getSelectedItemData() const
