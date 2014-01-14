@@ -59,11 +59,6 @@ void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
     QApplication::clipboard()->setMimeData( mimeData.take(), mode );
 }
 
-bool ownsClipboardData(const QMimeData &data)
-{
-    return data.hasFormat(mimeOwner);
-}
-
 } // namespace
 
 #ifdef COPYQ_WS_X11
@@ -153,6 +148,11 @@ public:
         }
 
         setClipboardData(sourceData, m_syncTo);
+    }
+
+    void cancelSynchronization()
+    {
+        m_syncTimer.stop();
     }
 
     /**
@@ -345,6 +345,10 @@ void ClipboardMonitor::resetClipboard()
 
 void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 {
+#ifdef COPYQ_WS_X11
+    m_x11->cancelSynchronization();
+#endif
+
     // Check clipboard after interval because someone is updating it very quickly.
     bool needToWait = m_updateTimer->isActive();
     if (mode == QClipboard::Clipboard)
@@ -377,10 +381,6 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
     }
 
-    // do nothing if any monitor set the clipboard
-    if ( ownsClipboardData(*data) )
-        return;
-
     // clone only mime types defined by user
 #ifdef COPYQ_WS_X11
     if ( !m_x11->resetClipboard(mode, data, m_formats) )
@@ -408,13 +408,13 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {
-        if ( m_x11->synchronize(QClipboard::Selection) )
+        if ( !ownsClipboardData(data2) && m_x11->synchronize(QClipboard::Selection) )
             m_needCheckSelection = false;
         clipboardChanged(data2);
     } else {
         if (!m_x11->hasCopySelection())
             data2.insert(mimeClipboardMode, "selection");
-        if ( m_x11->synchronize(QClipboard::Clipboard) )
+        if ( !ownsClipboardData(data2) && m_x11->synchronize(QClipboard::Clipboard) )
             m_needCheckClipboard = false;
         if ( m_x11->hasCheckSelection() )
             clipboardChanged(data2);

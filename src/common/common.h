@@ -136,6 +136,9 @@ QVariantMap createDataMap(const QString &format, const QByteArray &value);
 
 QVariantMap createDataMap(const QString &format, const QString &value);
 
+/** Return true if clipboard content was created by any session of this application. */
+bool ownsClipboardData(const QVariantMap &data);
+
 /**
  * Elide text with given font or to maximum length
  *

@@ -164,13 +164,18 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
         if ( !bytes.isEmpty() )
             newdata.insert(mime, bytes);
     }
+
+    if (data.hasFormat(mimeOwner))
+        newdata.insert(mimeOwner, data.data(mimeOwner));
+
 #ifdef COPYQ_LOG_DEBUG
     foreach (const QString &format, data.formats()) {
-        if (!formats.contains(format)) {
+        if (!formats.contains(format) && format != mimeOwner) {
             COPYQ_LOG(QString("skipping format: %1").arg(format));
         }
     }
 #endif // COPYQ_LOG_DEBUG
+
     return newdata;
 }
 
@@ -180,7 +185,7 @@ QVariantMap cloneData(const QMimeData &data)
     foreach ( const QString &mime, data.formats() ) {
         // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
         // and internal type to check clipboard owner
-        if ( !mime.isEmpty() && mime[0].isLower() && mime != mimeOwner )
+        if ( !mime.isEmpty() && mime[0].isLower() )
             newdata.insert(mime, data.data(mime));
     }
     return newdata;
@@ -209,6 +214,11 @@ QVariantMap createDataMap(const QString &format, const QByteArray &value)
 QVariantMap createDataMap(const QString &format, const QString &value)
 {
     return createDataMap( format, value.toUtf8() );
+}
+
+bool ownsClipboardData(const QVariantMap &data)
+{
+    return data.contains(mimeOwner);
 }
 
 QString elideText(const QString &text, const QFont &font, const QString &format,

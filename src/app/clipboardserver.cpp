@@ -142,6 +142,7 @@ void ClipboardServer::startMonitoring()
     COPYQ_LOG("Starting monitor.");
 
     if ( m_monitor == NULL ) {
+        m_ignoreNextItem = true;
         m_monitor = new RemoteProcess(this);
         connect( m_monitor, SIGNAL(newMessage(QByteArray)),
                  this, SLOT(newMonitorMessage(QByteArray)) );
@@ -322,10 +323,12 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
         m_wnd->clipboardChanged(&item);
 #endif
 
-        // Don't add item to list on application start.
         if (m_ignoreNextItem) {
+            // Don't add item to list on application start.
             m_ignoreNextItem = false;
             m_lastHash = item.dataHash();
+        } else if ( ownsClipboardData(data) ) {
+            // Don't add item to list if any running clipboard monitor set the clipboard.
         } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
             m_lastHash = item.dataHash();
             if ( !m_wnd->isClipboardStoringDisabled() )
