@@ -112,6 +112,7 @@ private:
     TabBar *m_tabBar;
     TabTree *m_tabTree;
     QStackedWidget *m_stackedWidget;
+    bool m_hideTabBar;
 };
 
 #endif // TABWIDGET_H

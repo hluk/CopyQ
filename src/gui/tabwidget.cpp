@@ -47,8 +47,10 @@ TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar(this))
     , m_toolBarTree(new QToolBar(this))
+    , m_tabBar(NULL)
     , m_tabTree(NULL)
     , m_stackedWidget(NULL)
+    , m_hideTabBar(false)
 {
     // Set object name for tool bars so they can be saved with QMainWindow::saveState().
     m_toolBar->setObjectName("toolBarTabBar");
@@ -139,6 +141,8 @@ void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
 
     if (firstTab)
         emit currentChanged(0, -1);
+
+    updateToolBar();
 }
 
 void TabWidget::removeTab(int tabIndex)
@@ -154,6 +158,8 @@ void TabWidget::removeTab(int tabIndex)
         m_tabTree->removeTab(tabIndex);
     else
         m_tabBar->removeTab(tabIndex);
+
+    updateToolBar();
 }
 
 void TabWidget::setCollapsedTabs(const QStringList &collapsedTabs)
@@ -253,10 +259,8 @@ void TabWidget::previousTab()
 
 void TabWidget::setTabBarHidden(bool hidden)
 {
-    if ( isTreeModeEnabled() )
-        m_toolBarTree->setHidden(hidden);
-    else
-        m_toolBar->setHidden(hidden);
+    m_hideTabBar = hidden;
+    updateToolBar();
 }
 
 void TabWidget::setTreeModeEnabled(bool enabled)
@@ -371,8 +375,9 @@ void TabWidget::createTabTree()
 
 void TabWidget::updateToolBar()
 {
-    m_toolBar->setVisible(!isTreeModeEnabled());
-    m_toolBarTree->setVisible(isTreeModeEnabled());
+    bool forceHide = count() == 1;
+    m_toolBar->setVisible(!forceHide && !m_hideTabBar && !isTreeModeEnabled());
+    m_toolBarTree->setVisible(!forceHide && !m_hideTabBar && isTreeModeEnabled());
 
     if (m_tabBar) {
         QMainWindow *mainWindow = qobject_cast<QMainWindow*>(m_toolBar->window());
