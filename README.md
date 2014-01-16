@@ -260,7 +260,7 @@ Command Line Interface
         eval, -e [SCRIPT]        Evaluate ECMAScript program.
         session, -s, --session SESSION
           Starts or connects to application instance with given session name.
-        help, -h, --help [COMMAND]
+        help, -h, --help [COMMAND]...
           Print help for COMMAND or all commands.
         version, -v, --version
           Print version of program and libraries.
