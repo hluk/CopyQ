@@ -277,7 +277,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     const QString serverName( QString::fromLocal8Bit(argv[2]) );
 
 #ifdef HAS_TESTS
-    if ( serverName == clipboardMonitorServerName().arg("TEST") )
+    if ( serverName == QString("copyq_TEST") )
         QCoreApplication::instance()->setProperty("CopyQ_testing", true);
 #endif
 
