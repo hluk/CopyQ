@@ -168,7 +168,7 @@ Leave empty to disable this.</string>
       <item row="2" column="0">
        <widget class="QLabel" name="label_9">
         <property name="text">
-         <string>Comman&amp;d:</string>
+         <string>&amp;Filter:</string>
         </property>
         <property name="buddy">
          <cstring>lineEditMatchCmd</cstring>
@@ -178,9 +178,9 @@ Leave empty to disable this.</string>
       <item row="2" column="1">
        <widget class="QLineEdit" name="lineEditMatchCmd">
         <property name="toolTip">
-         <string>&lt;p&gt;Match item text using simple command.&lt;/p&gt;
+         <string>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
-&lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the command. The item is &lt;b&gt;matched only if the command exit code is 0&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
