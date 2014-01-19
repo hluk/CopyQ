@@ -1045,9 +1045,11 @@ void ConfigurationManager::apply()
     setAutostartEnable();
 
     // Language changes after restart.
-    const QString locale = ui->comboBoxLanguage->itemData(ui->comboBoxLanguage->currentIndex()).toString();
-    if ( locale != settings.value("Options/language", "en").toString() ) {
-        settings.setValue("Options/language", locale);
+    const int newLocaleIndex = ui->comboBoxLanguage->currentIndex();
+    const QString newLocaleName = ui->comboBoxLanguage->itemData(newLocaleIndex).toString();
+    settings.setValue("Options/language", newLocaleName);
+    const QLocale oldLocale;
+    if (QLocale(newLocaleName).name() != oldLocale.name()) {
         QMessageBox::information( this, tr("Restart Required"),
                                   tr("Language will be changed after application is restarted.") );
     }
