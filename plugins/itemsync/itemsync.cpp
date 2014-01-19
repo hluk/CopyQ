@@ -59,7 +59,6 @@ const int currentVersion = 1;
 const char dataFileHeader[] = "CopyQ_itemsync_tab";
 
 const char configVersion[] = "copyq_itemsync_version";
-const char configPath[] = "path";
 const char configSyncTabs[] = "sync_tabs";
 const char configFormatSettings[] = "format_settings";
 
