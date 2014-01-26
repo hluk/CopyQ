@@ -127,8 +127,6 @@ Keyboard navigation
 
     show help
 
-Type any number to select item with given id.
-
 Type a regular expressions (case-insensitive) to search/filter items.
 
 On OS X, use Command instead of Ctrl for the shortcuts above.
