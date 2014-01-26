@@ -122,10 +122,14 @@ public slots:
     void currentpath();
 
     QScriptValue str(const QScriptValue &value);
+    QScriptValue input();
     void print(const QScriptValue &value);
     void abort();
 
     void keys();
+
+public slots:
+    void setInput(const QByteArray &bytes);
 
 signals:
     void sendMessage(const QByteArray &message, int exitCode);
@@ -137,6 +141,7 @@ private:
     QString m_currentTab;
     QString m_inputSeparator;
     QString m_currentPath;
+    QScriptValue m_input;
 
     int getTabIndexOrError(const QString &name);
 };

@@ -38,7 +38,7 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
     connect( &m_client, SIGNAL(readyRead()),
              this, SLOT(readyRead()) );
     connect( &m_client, SIGNAL(readChannelFinished()),
-             this, SLOT(readFinnished()) );
+             this, SLOT(readFinished()) );
     connect( &m_client, SIGNAL(error(QLocalSocket::LocalSocketError)),
              this, SLOT(error(QLocalSocket::LocalSocketError)) );
     connect( &m_client, SIGNAL(connected()),
@@ -91,6 +91,15 @@ void ClipboardClient::readyRead()
                 f.open((exitCode == CommandSuccess) ? stdout : stderr, QIODevice::WriteOnly);
                 f.write( msg.constData() + i, len - i );
             }
+        } else if (exitCode == CommandReadInput) {
+            COPYQ_LOG("Sending standard input.");
+            QFile in;
+            in.open(stdin, QIODevice::ReadOnly);
+            if ( !writeMessage(&m_client, in.readAll()) ) {
+                COPYQ_LOG("Failed to send standard input to server!");
+                exit(1);
+                break;
+            }
         }
 
         COPYQ_LOG( QString("Message received with exit code %1.").arg(exitCode) );
@@ -108,7 +117,7 @@ void ClipboardClient::readyRead()
     m_client.blockSignals(false);
 }
 
-void ClipboardClient::readFinnished()
+void ClipboardClient::readFinished()
 {
     exit();
 }

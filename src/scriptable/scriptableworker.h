@@ -45,9 +45,11 @@ signals:
     void sendMessage(QLocalSocket *client, const QByteArray &message, int exitCode);
     void finished();
     void terminateScriptable();
+    void messageReceived(const QByteArray &bytes);
 
 private slots:
     void onSendMessage(const QByteArray &message, int exitCode);
+    void onReadyRead();
 
 private:
     CommandStatus executeScript(QByteArray *response = NULL);

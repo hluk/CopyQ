@@ -19,6 +19,7 @@
 
 #include "scriptableworker.h"
 
+#include "common/client_server.h"
 #include "scriptable.h"
 #include "../qt/bytearrayclass.h"
 
@@ -75,6 +76,18 @@ void ScriptableWorker::onSendMessage(const QByteArray &message, int exitCode)
         QApplication::exit(0);
 }
 
+void ScriptableWorker::onReadyRead()
+{
+    QByteArray msg;
+    if ( readMessage(m_client, &msg) ) {
+        emit messageReceived(msg);
+    } else {
+        const QString error = m_client->errorString();
+        log( tr("Cannot read message from client! (%1)").arg(error), LogError );
+        terminate();
+    }
+}
+
 CommandStatus ScriptableWorker::executeScript(QByteArray *response)
 {
 #ifdef COPYQ_LOG_DEBUG
@@ -97,6 +110,10 @@ CommandStatus ScriptableWorker::executeScript(QByteArray *response)
     if (m_client != NULL) {
         connect(&scriptable, SIGNAL(sendMessage(QByteArray,int)),
                 SLOT(onSendMessage(QByteArray,int)));
+        connect(m_client, SIGNAL(readyRead()),
+                SLOT(onReadyRead()));
+        connect(this, SIGNAL(messageReceived(QByteArray)),
+                &scriptable, SLOT(setInput(QByteArray)));
     }
 
     connect( this, SIGNAL(terminateScriptable()),

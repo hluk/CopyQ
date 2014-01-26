@@ -44,7 +44,7 @@ public:
 private slots:
     void sendMessage();
     void readyRead();
-    void readFinnished();
+    void readFinished();
     void error(QLocalSocket::LocalSocketError);
 
 private:

@@ -273,6 +273,14 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->hideWindow = true;
         c->inMenu = true;
     } else if (index == ++i) {
+        c->name = tr("Paste as Plain Text");
+        c->input = mimeText;
+        c->icon = QString(QChar(IconPaste));
+        c->cmd  = "copyq eval \"copy(input()); paste()\"";
+        c->hideWindow = true;
+        c->inMenu = true;
+        c->shortcut = tr("Shift+Return");
+    } else if (index == ++i) {
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
         c->icon = QString(QChar(IconPlayCircle));

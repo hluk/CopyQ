@@ -49,7 +49,9 @@ typedef enum {
     /** Activate window */
     CommandActivateWindow,
     /** Command to exit application. */
-    CommandExit
+    CommandExit,
+    /** Ask client to send data from its stdin. */
+    CommandReadInput
 } CommandStatus;
 
 #if QT_VERSION < 0x050000

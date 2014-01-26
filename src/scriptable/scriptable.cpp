@@ -28,6 +28,7 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QElapsedTimer>
 #include <QScriptContext>
 #include <QScriptEngine>
 
@@ -251,6 +252,16 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
         return defaultValue;
 }
 
+bool clipboardEqualsItem(const ClipboardItem &item, ScriptableProxy *proxy)
+{
+    foreach ( const QString &format, item.data().keys() ) {
+        if ( item.data(format) != proxy->getClipboardData(format) )
+            return false;
+    }
+
+    return true;
+}
+
 class ClipboardBrowserRemoteLock
 {
 public:
@@ -284,6 +295,7 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_currentTab()
     , m_inputSeparator("\n")
     , m_currentPath()
+    , m_input()
 {
 }
 
@@ -551,6 +563,17 @@ void Scriptable::copy()
     }
 
     m_proxy->setClipboard(&item);
+
+    // Wait for clipboard to be set.
+    QElapsedTimer t;
+    t.start();
+    while (t.elapsed() < 2000) {
+        QApplication::processEvents();
+        if ( clipboardEqualsItem(item, m_proxy) )
+            return;
+    }
+
+    throwError( tr("Failed to set clipboard!") );
 }
 
 void Scriptable::paste()
@@ -900,6 +923,17 @@ QScriptValue Scriptable::str(const QScriptValue &value)
     return toString(value);
 }
 
+QScriptValue Scriptable::input()
+{
+    if ( !toByteArray(m_input) ) {
+        emit sendMessage(QByteArray(), CommandReadInput);
+        while ( !toByteArray(m_input) )
+            QApplication::processEvents();
+    }
+
+    return m_input;
+}
+
 void Scriptable::print(const QScriptValue &value)
 {
     QByteArray *message = toByteArray(value);
@@ -916,8 +950,10 @@ void Scriptable::abort()
     QScriptEngine *eng = engine();
     if (eng == NULL)
         eng = m_engine;
-    if ( eng && eng->isEvaluating() )
+    if ( eng && eng->isEvaluating() ) {
+        setInput(QByteArray()); // stop waiting for input
         eng->abortEvaluation();
+    }
 }
 
 void Scriptable::keys()
@@ -932,6 +968,11 @@ void Scriptable::keys()
         }
     }
 #endif
+}
+
+void Scriptable::setInput(const QByteArray &bytes)
+{
+    m_input = newByteArray(bytes);
 }
 
 int Scriptable::getTabIndexOrError(const QString &name)
