@@ -1,5 +1,5 @@
 ﻿; Use Inno Setup with Unicode support and preprocessor.
-#define AppVersion "2.0.0"
+#define AppVersion "2.0.1"
 #define Root "C:\dev\copyq"
 
 [Setup]
@@ -8,9 +8,9 @@ AppName=CopyQ
 AppVersion={#AppVersion}
 AppVerName=CopyQ {#AppVersion}
 AppPublisher=Lukas Holecek
-AppPublisherURL=https://sourceforge.net/projects/copyq/
-AppSupportURL=https://sourceforge.net/projects/copyq/
-AppUpdatesURL=https://sourceforge.net/projects/copyq/
+AppPublisherURL=http://hluk.github.io/CopyQ/
+AppSupportURL=http://hluk.github.io/CopyQ/
+AppUpdatesURL=http://hluk.github.io/CopyQ/
 DefaultDirName={pf}\CopyQ
 DefaultGroupName=CopyQ
 AllowNoIcons=yes
@@ -84,7 +84,6 @@ Source: "{#Root}\copyq.com"; DestDir: "{app}"; Components: program; Flags: ignor
 Source: "{#Root}\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Root}\HACKING"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\themes\*"; DestDir: "{app}\themes"; Components: program; Flags: ignoreversion
 Source: "{#Root}\plugins\itemtext.dll"; DestDir: "{app}\plugins"; Components: plugins/text; Flags: ignoreversion
 Source: "{#Root}\plugins\itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
