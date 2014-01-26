@@ -164,8 +164,6 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
         return VK_MULTIPLY;
     case Qt::Key_Plus:
         return VK_ADD;
-    case Qt::Key_Comma:
-        return VK_SEPARATOR;
     case Qt::Key_Minus:
         return VK_SUBTRACT;
     case Qt::Key_Slash:
@@ -229,6 +227,34 @@ quint32 QxtGlobalShortcutPrivate::nativeKeycode(Qt::Key key)
     case Qt::Key_Y:
     case Qt::Key_Z:
         return key;
+
+        // other symbols
+    case Qt::Key_Semicolon:
+    case Qt::Key_Colon:
+        return VK_OEM_1;
+    case Qt::Key_Equal:
+        return VK_OEM_PLUS;
+    case Qt::Key_Comma:
+        return VK_OEM_COMMA;
+    case Qt::Key_Period:
+        return VK_OEM_PERIOD;
+    case Qt::Key_Question:
+        return VK_OEM_2;
+    case Qt::Key_QuoteLeft:
+    case Qt::Key_AsciiTilde:
+        return VK_OEM_3;
+    case Qt::Key_BraceLeft:
+    case Qt::Key_BracketLeft:
+        return VK_OEM_4;
+    case Qt::Key_Bar:
+    case Qt::Key_Backslash:
+        return VK_OEM_5;
+    case Qt::Key_BraceRight:
+    case Qt::Key_BracketRight:
+        return VK_OEM_6;
+    case Qt::Key_QuoteDbl:
+    case Qt::Key_Apostrophe:
+        return VK_OEM_7;
 
     default:
         return 0;
