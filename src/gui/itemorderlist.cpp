@@ -142,6 +142,35 @@ QString ItemOrderList::itemLabel(int row) const
     return item(row)->text();
 }
 
+QList<int> ItemOrderList::selectedRows() const
+{
+    QList<int> rows;
+    foreach (QListWidgetItem *item, ui->listWidgetItems->selectedItems())
+        rows.append(ui->listWidgetItems->row(item));
+    return rows;
+}
+
+void ItemOrderList::setSelectedRows(const QList<int> &selectedRows)
+{
+    ui->listWidgetItems->clearSelection();
+    ui->listWidgetItems->setCurrentItem(NULL);
+
+    foreach (int row, selectedRows) {
+        if (row >= 0 && row < rowCount()) {
+            QListWidgetItem *item = ui->listWidgetItems->item(row);
+            if ( ui->listWidgetItems->currentItem() == NULL )
+                ui->listWidgetItems->setCurrentItem(item);
+            else
+                item->setSelected(true);
+        }
+    }
+}
+
+int ItemOrderList::rowCount() const
+{
+    return ui->listWidgetItems->count();
+}
+
 void ItemOrderList::on_pushButtonUp_clicked()
 {
     QListWidget *list = ui->listWidgetItems;
@@ -188,6 +217,7 @@ void ItemOrderList::on_listWidgetItems_itemSelectionChanged()
 {
     const QItemSelectionModel *sel = ui->listWidgetItems->selectionModel();
     ui->pushButtonRemove->setEnabled( sel->hasSelection() );
+    emit itemSelectionChanged();
 }
 
 QListWidgetItem *ItemOrderList::item(int row) const

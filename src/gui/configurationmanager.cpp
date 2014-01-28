@@ -38,6 +38,7 @@
 #include <QDesktopWidget>
 #include <QDir>
 #include <QFile>
+#include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
 #include <QSettings>
@@ -52,6 +53,9 @@
 #endif
 
 namespace {
+
+const QIcon iconLoadCommands(const QColor &color = QColor()) { return getIcon("document-open", IconFolderOpen, color, color); }
+const QIcon iconSaveCommands(const QColor &color = QColor()) { return getIcon("document-save", IconSave, color, color); }
 
 void printItemFileError(const QString &id, const QString &fileName, const QFile &file)
 {
@@ -84,6 +88,98 @@ QString getCurrentLocale()
     QString currentLocale = QLocale().name();
     currentLocale.truncate(currentLocale.lastIndexOf('_'));
     return currentLocale;
+}
+
+void saveCommands(const ConfigurationManager::Commands &commands, QSettings *settings)
+{
+    settings->beginWriteArray("Commands");
+    int i = 0;
+    foreach (const Command &c, commands) {
+        settings->setArrayIndex(i++);
+        settings->setValue("Name", c.name);
+        settings->setValue("Match", c.re.pattern());
+        settings->setValue("Window", c.wndre.pattern());
+        settings->setValue("MatchCommand", c.matchCmd);
+        settings->setValue("Command", c.cmd);
+        settings->setValue("Separator", c.sep);
+        settings->setValue("Input", c.input);
+        settings->setValue("Output", c.output);
+        settings->setValue("Wait", c.wait);
+        settings->setValue("Automatic", c.automatic);
+        settings->setValue("InMenu", c.inMenu);
+        settings->setValue("Transform", c.transform);
+        settings->setValue("Remove", c.remove);
+        settings->setValue("HideWindow", c.hideWindow);
+        settings->setValue("Enable", c.enable);
+        settings->setValue("Icon", c.icon);
+        settings->setValue("Shortcut", c.shortcut);
+        settings->setValue("Tab", c.tab);
+        settings->setValue("OutputTab", c.outputTab);
+    }
+    settings->endArray();
+}
+
+ConfigurationManager::Commands loadCommands(QSettings *settings, bool onlyEnabled = false)
+{
+    ConfigurationManager::Commands commands;
+
+    int size = settings->beginReadArray("Commands");
+
+    for(int i=0; i<size; ++i) {
+        settings->setArrayIndex(i);
+
+        Command c;
+        c.enable = settings->value("Enable").toBool();
+
+        if (onlyEnabled && !c.enable)
+            continue;
+
+        c.name = settings->value("Name").toString();
+        c.re   = QRegExp( settings->value("Match").toString() );
+        c.wndre = QRegExp( settings->value("Window").toString() );
+        c.matchCmd = settings->value("MatchCommand").toString();
+        c.cmd = settings->value("Command").toString();
+        c.sep = settings->value("Separator").toString();
+
+        c.input = settings->value("Input").toString();
+        if ( c.input == "false" || c.input == "true" )
+            c.input = c.input == "true" ? QString(mimeText) : QString();
+
+        c.output = settings->value("Output").toString();
+        if ( c.output == "false" || c.output == "true" )
+            c.output = c.output == "true" ? QString(mimeText) : QString();
+
+        c.wait = settings->value("Wait").toBool();
+        c.automatic = settings->value("Automatic").toBool();
+        c.transform = settings->value("Transform").toBool();
+        c.hideWindow = settings->value("HideWindow").toBool();
+        c.icon = settings->value("Icon").toString();
+        c.shortcut = settings->value("Shortcut").toString();
+        c.tab = settings->value("Tab").toString();
+        c.outputTab = settings->value("OutputTab").toString();
+
+        // backwards compatibility with versions up to 1.8.2
+        const QVariant inMenu = settings->value("InMenu");
+        if ( inMenu.isValid() )
+            c.inMenu = inMenu.toBool();
+        else
+            c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
+
+        if (settings->value("Ignore").toBool()) {
+            c.remove = c.automatic = true;
+            settings->remove("Ignore");
+            settings->setValue("Remove", c.remove);
+            settings->setValue("Automatic", c.automatic);
+        } else {
+            c.remove = settings->value("Remove").toBool();
+        }
+
+        commands.append(c);
+    }
+
+    settings->endArray();
+
+    return commands;
 }
 
 } // namespace
@@ -447,6 +543,10 @@ void ConfigurationManager::updateIcons()
         ui->itemOrderListPlugins->updateIcons();
     ui->itemOrderListCommands->updateIcons();
 
+    static const QColor color = getDefaultIconColor(*ui->pushButtonLoadCommands, QPalette::Window);
+    ui->pushButtonLoadCommands->setIcon(iconLoadCommands(color));
+    ui->pushButtonSaveCommands->setIcon(iconSaveCommands(color));
+
     tabShortcuts()->updateIcons();
 }
 
@@ -635,36 +735,6 @@ void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultVa
     m_options[optionKey] = Option(defaultValue);
 }
 
-void ConfigurationManager::saveCommands(const Commands &commands)
-{
-    QSettings settings;
-    settings.beginWriteArray("Commands");
-    int i = 0;
-    foreach (const Command &c, commands) {
-        settings.setArrayIndex(i++);
-        settings.setValue("Name", c.name);
-        settings.setValue("Match", c.re.pattern());
-        settings.setValue("Window", c.wndre.pattern());
-        settings.setValue("MatchCommand", c.matchCmd);
-        settings.setValue("Command", c.cmd);
-        settings.setValue("Separator", c.sep);
-        settings.setValue("Input", c.input);
-        settings.setValue("Output", c.output);
-        settings.setValue("Wait", c.wait);
-        settings.setValue("Automatic", c.automatic);
-        settings.setValue("InMenu", c.inMenu);
-        settings.setValue("Transform", c.transform);
-        settings.setValue("Remove", c.remove);
-        settings.setValue("HideWindow", c.hideWindow);
-        settings.setValue("Enable", c.enable);
-        settings.setValue("Icon", c.icon);
-        settings.setValue("Shortcut", c.shortcut);
-        settings.setValue("Tab", c.tab);
-        settings.setValue("OutputTab", c.outputTab);
-    }
-    settings.endArray();
-}
-
 QIcon ConfigurationManager::getCommandIcon(const QString &iconString) const
 {
     static const QColor color = getDefaultIconColor(*ui->itemOrderListCommands, QPalette::Base);
@@ -800,60 +870,7 @@ ConfigurationManager::Commands ConfigurationManager::commands(bool onlyEnabled, 
         }
     } else {
         QSettings settings;
-
-        int size = settings.beginReadArray("Commands");
-        for(int i=0; i<size; ++i) {
-            settings.setArrayIndex(i);
-
-            Command c;
-            c.enable = settings.value("Enable").toBool();
-
-            if (onlyEnabled && !c.enable)
-                continue;
-
-            c.name = settings.value("Name").toString();
-            c.re   = QRegExp( settings.value("Match").toString() );
-            c.wndre = QRegExp( settings.value("Window").toString() );
-            c.matchCmd = settings.value("MatchCommand").toString();
-            c.cmd = settings.value("Command").toString();
-            c.sep = settings.value("Separator").toString();
-
-            c.input = settings.value("Input").toString();
-            if ( c.input == "false" || c.input == "true" )
-                c.input = c.input == "true" ? QString(mimeText) : QString();
-
-            c.output = settings.value("Output").toString();
-            if ( c.output == "false" || c.output == "true" )
-                c.output = c.output == "true" ? QString(mimeText) : QString();
-
-            c.wait = settings.value("Wait").toBool();
-            c.automatic = settings.value("Automatic").toBool();
-            c.transform = settings.value("Transform").toBool();
-            c.hideWindow = settings.value("HideWindow").toBool();
-            c.icon = settings.value("Icon").toString();
-            c.shortcut = settings.value("Shortcut").toString();
-            c.tab = settings.value("Tab").toString();
-            c.outputTab = settings.value("OutputTab").toString();
-
-            // backwards compatibility with versions up to 1.8.2
-            const QVariant inMenu = settings.value("InMenu");
-            if ( inMenu.isValid() )
-                c.inMenu = inMenu.toBool();
-            else
-                c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
-
-            if (settings.value("Ignore").toBool()) {
-                c.remove = c.automatic = true;
-                settings.remove("Ignore");
-                settings.setValue("Remove", c.remove);
-                settings.setValue("Automatic", c.automatic);
-            } else {
-                c.remove = settings.value("Remove").toBool();
-            }
-
-            commands.append(c);
-        }
-        settings.endArray();
+        commands = loadCommands(&settings, onlyEnabled);
     }
 
     return commands;
@@ -918,7 +935,8 @@ void ConfigurationManager::addCommand(const Command &c, bool save)
     if (save) {
         Commands cmds = commands(false, true);
         cmds.append(c);
-        saveCommands(cmds);
+        QSettings settings;
+        saveCommands(cmds, &settings);
     }
 }
 
@@ -1002,7 +1020,7 @@ void ConfigurationManager::apply()
     // Save configuration without command line alternatives only if option widgets are initialized
     // (i.e. clicked OK or Apply in configuration dialog).
     if (m_optionWidgetsLoaded) {
-        saveCommands( commands(false, false) );
+        saveCommands(commands(false, false), &settings);
 
         settings.beginGroup("Shortcuts");
         tabShortcuts()->saveShortcuts(settings);
@@ -1072,6 +1090,52 @@ void ConfigurationManager::on_itemOrderListCommands_addButtonClicked(QAction *ac
         return;
     addCommand(cmd, false);
     ui->itemOrderListCommands->setCurrentItem( ui->itemOrderListCommands->itemCount() - 1 );
+}
+
+void ConfigurationManager::on_itemOrderListCommands_itemSelectionChanged()
+{
+    bool saveEnabled = !ui->itemOrderListCommands->selectedRows().isEmpty();
+    ui->pushButtonSaveCommands->setEnabled(saveEnabled);
+}
+
+void ConfigurationManager::on_pushButtonLoadCommands_clicked()
+{
+    const QStringList fileNames =
+            QFileDialog::getOpenFileNames(this, tr("Open Files with Commands"),
+                                          QString(), tr("Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)"));
+
+    foreach (const QString &fileName, fileNames) {
+        QSettings settings(fileName, QSettings::IniFormat);
+        QList<int> rowsToSelect;
+
+        foreach ( const Command &command, loadCommands(&settings) ) {
+            rowsToSelect.append(ui->itemOrderListCommands->rowCount());
+            addCommand(command, false);
+        }
+
+        ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
+    }
+}
+
+void ConfigurationManager::on_pushButtonSaveCommands_clicked()
+{
+    QString fileName =
+            QFileDialog::getSaveFileName(this, tr("Save Selected Commands"),
+                                          QString(), tr("Commands (*.ini)"));
+    if ( !fileName.isEmpty() ) {
+        if ( !fileName.endsWith(".ini") )
+            fileName.append(".ini");
+        QList<int> rows = ui->itemOrderListCommands->selectedRows();
+        Commands allCommands = commands(false, false);
+        Commands commandsToSave;
+        foreach (int row, rows) {
+            Q_ASSERT(row < allCommands.size());
+            commandsToSave.append(allCommands.value(row));
+        }
+
+        QSettings settings(fileName, QSettings::IniFormat);
+        saveCommands(commandsToSave, &settings);
+    }
 }
 
 void ConfigurationManager::onFinished(int result)

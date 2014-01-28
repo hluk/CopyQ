@@ -64,8 +64,14 @@ public:
 
     QString itemLabel(int row) const;
 
+    QList<int> selectedRows() const;
+    void setSelectedRows(const QList<int> &selectedRows);
+
+    int rowCount() const;
+
 signals:
     void addButtonClicked(QAction *action);
+    void itemSelectionChanged();
 
 private slots:
     void on_pushButtonUp_clicked();

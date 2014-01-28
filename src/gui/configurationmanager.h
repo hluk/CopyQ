@@ -145,6 +145,9 @@ private slots:
     void onFinished(int result);
 
     void on_itemOrderListCommands_addButtonClicked(QAction *action);
+    void on_itemOrderListCommands_itemSelectionChanged();
+    void on_pushButtonLoadCommands_clicked();
+    void on_pushButtonSaveCommands_clicked();
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
 
@@ -179,8 +182,6 @@ private:
      */
     QString getGeomentryOptionName(const QWidget *widget) const;
 
-    void loadCommands();
-
     void initTabIcons();
 
     void initPluginWidgets();
@@ -201,8 +202,6 @@ private:
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
-
-    void saveCommands(const Commands &commands);
 
     QIcon getCommandIcon(const QString &iconString) const;
 

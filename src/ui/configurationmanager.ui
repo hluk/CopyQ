@@ -907,6 +907,27 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            </property>
           </widget>
          </item>
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_6">
+           <item>
+            <widget class="QPushButton" name="pushButtonLoadCommands">
+             <property name="text">
+              <string>&amp;Load Commands...</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QPushButton" name="pushButtonSaveCommands">
+             <property name="enabled">
+              <bool>false</bool>
+             </property>
+             <property name="text">
+              <string>Sa&amp;ve Selected Commands...</string>
+             </property>
+            </widget>
+           </item>
+          </layout>
+         </item>
         </layout>
        </widget>
        <widget class="QWidget" name="tabShortcuts">
@@ -1004,8 +1025,6 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>itemOrderListCommands</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources>
-  <include location="../copyq.qrc"/>
- </resources>
+ <resources/>
  <connections/>
 </ui>
