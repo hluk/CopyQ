@@ -152,6 +152,8 @@ IconSelectButton::IconSelectButton(QWidget *parent)
     : QPushButton(parent)
     , m_currentIcon()
 {
+    setToolTip(tr("Select Icon..."));
+
     connect( this, SIGNAL(clicked()), SLOT(onClicked()) );
 
     // reset button text to "..."
@@ -191,6 +193,11 @@ void IconSelectButton::setCurrentIcon(const QString &iconString)
     }
 
     emit currentIconChanged(m_currentIcon);
+}
+
+QSize IconSelectButton::sizeHint() const
+{
+    return iconSize();
 }
 
 void IconSelectButton::onClicked()

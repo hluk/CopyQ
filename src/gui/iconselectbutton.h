@@ -33,6 +33,8 @@ public:
 
     void setCurrentIcon(const QString &iconString);
 
+    QSize sizeHint() const;
+
 signals:
     void currentIconChanged(const QString &icon);
 
