@@ -37,7 +37,6 @@ void FakeKeyEvent(Display* display, unsigned int keyCode, Bool isPress)
 {
     XTestFakeKeyEvent(display, keyCode, isPress, CurrentTime);
     XSync(display, False);
-    usleep(6000);
 }
 
 void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool keyDown)
