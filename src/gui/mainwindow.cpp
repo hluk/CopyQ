@@ -139,7 +139,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
     , m_tray( new QSystemTrayIcon(this) )
-    , m_browsemode(false)
     , m_options(new MainWindowOptions)
     , m_clipboardStoringDisabled(false)
     , m_actionToggleClipboardStoring()
@@ -218,6 +217,11 @@ MainWindow::MainWindow(QWidget *parent)
     enterBrowseMode();
 
     m_tray->setContextMenu(m_trayMenu);
+}
+
+bool MainWindow::browseMode() const
+{
+    return !ui->searchBar->isVisible();
 }
 
 void MainWindow::exit()
@@ -744,7 +748,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (m_options->hideTabs && event->key() == Qt::Key_Alt)
         setHideTabs(false);
 
-    if (m_browsemode && m_options->viMode) {
+    if (browseMode() && m_options->viMode) {
         if (c->handleViKey(event))
             return;
         switch( event->key() ) {
@@ -826,7 +830,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 #endif // Q_OS_MAC
 
         case Qt::Key_Escape:
-            if ( ui->searchBar->isHidden() ) {
+            if ( browseMode() ) {
                 if (m_lastWindow) {
                     m_lastWindow->raise();
                 }
@@ -1587,9 +1591,7 @@ void MainWindow::enterSearchMode(const QString &txt)
 
 void MainWindow::enterBrowseMode(bool browsemode)
 {
-    m_browsemode = browsemode;
-
-    if(m_browsemode){
+    if(browsemode){
         // browse mode
         getBrowser()->setFocus();
         if ( ui->searchBar->text().isEmpty() )

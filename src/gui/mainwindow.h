@@ -70,8 +70,8 @@ public:
     explicit MainWindow(QWidget *parent = NULL);
     ~MainWindow();
 
-    /** Return true if in browse mode. */
-    bool browseMode() const { return m_browsemode; }
+    /** Return true if in browse mode (i.e. search field is hidden). */
+    bool browseMode() const;
 
     bool isTrayMenuVisible() const;
 
@@ -418,8 +418,6 @@ private:
     TrayMenu *m_trayMenu;
 
     QSystemTrayIcon *m_tray;
-
-    bool m_browsemode;
 
     QScopedPointer<MainWindowOptions> m_options;
 
