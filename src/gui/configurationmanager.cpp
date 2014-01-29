@@ -90,31 +90,50 @@ QString getCurrentLocale()
     return currentLocale;
 }
 
+void saveValue(const char *key, const QRegExp &re, QSettings *settings)
+{
+    settings->setValue(key, re.pattern());
+}
+
+void saveValue(const char *key, const QVariant &value, QSettings *settings)
+{
+    settings->setValue(key, value);
+}
+
+/// Save only modified command properties.
+template <typename Member>
+void saveNewValue(const char *key, const Command &command, const Member &member, QSettings *settings)
+{
+    if (command.*member != Command().*member)
+        saveValue(key, command.*member, settings);
+}
+
 void saveCommands(const ConfigurationManager::Commands &commands, QSettings *settings)
 {
+    settings->remove("Commands");
     settings->beginWriteArray("Commands");
     int i = 0;
     foreach (const Command &c, commands) {
         settings->setArrayIndex(i++);
-        settings->setValue("Name", c.name);
-        settings->setValue("Match", c.re.pattern());
-        settings->setValue("Window", c.wndre.pattern());
-        settings->setValue("MatchCommand", c.matchCmd);
-        settings->setValue("Command", c.cmd);
-        settings->setValue("Separator", c.sep);
-        settings->setValue("Input", c.input);
-        settings->setValue("Output", c.output);
-        settings->setValue("Wait", c.wait);
-        settings->setValue("Automatic", c.automatic);
-        settings->setValue("InMenu", c.inMenu);
-        settings->setValue("Transform", c.transform);
-        settings->setValue("Remove", c.remove);
-        settings->setValue("HideWindow", c.hideWindow);
-        settings->setValue("Enable", c.enable);
-        settings->setValue("Icon", c.icon);
-        settings->setValue("Shortcut", c.shortcut);
-        settings->setValue("Tab", c.tab);
-        settings->setValue("OutputTab", c.outputTab);
+        saveNewValue("Name", c, &Command::name, settings);
+        saveNewValue("Match", c, &Command::re, settings);
+        saveNewValue("Window", c, &Command::wndre, settings);
+        saveNewValue("MatchCommand", c, &Command::matchCmd, settings);
+        saveNewValue("Command", c, &Command::cmd, settings);
+        saveNewValue("Separator", c, &Command::sep, settings);
+        saveNewValue("Input", c, &Command::input, settings);
+        saveNewValue("Output", c, &Command::output, settings);
+        saveNewValue("Wait", c, &Command::wait, settings);
+        saveNewValue("Automatic", c, &Command::automatic, settings);
+        saveNewValue("InMenu", c, &Command::inMenu, settings);
+        saveNewValue("Transform", c, &Command::transform, settings);
+        saveNewValue("Remove", c, &Command::remove, settings);
+        saveNewValue("HideWindow", c, &Command::hideWindow, settings);
+        saveNewValue("Enable", c, &Command::enable, settings);
+        saveNewValue("Icon", c, &Command::icon, settings);
+        saveNewValue("Shortcut", c, &Command::shortcut, settings);
+        saveNewValue("Tab", c, &Command::tab, settings);
+        saveNewValue("OutputTab", c, &Command::outputTab, settings);
     }
     settings->endArray();
 }
@@ -129,7 +148,7 @@ ConfigurationManager::Commands loadCommands(QSettings *settings, bool onlyEnable
         settings->setArrayIndex(i);
 
         Command c;
-        c.enable = settings->value("Enable").toBool();
+        c.enable = settings->value("Enable", true).toBool();
 
         if (onlyEnabled && !c.enable)
             continue;
