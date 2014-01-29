@@ -151,7 +151,7 @@ QString AboutDialog::aboutPage()
             + helpDeveloper("Ryan Wooden", "rygwdn@gmail.com")
             + helpDeveloper("Scott Kostyshak", "skostysh@princeton.edu")
             + helpDeveloper("Sebastian Schuberth", "sschuberth@gmail.com")
-            + helpDeveloper("Tomas Nilzon", "tomas@nilzon.eu")
+            + helpDeveloper("Tomas Nilzon", "tomas@tonil.eu")
             +
         "</p>"
 
