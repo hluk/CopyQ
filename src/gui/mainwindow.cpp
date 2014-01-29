@@ -143,7 +143,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_clipboardStoringDisabled(false)
     , m_actionToggleClipboardStoring()
     , m_sharedData(new ClipboardBrowserShared)
-    , m_trayPasteWindow()
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
@@ -1054,7 +1053,6 @@ void MainWindow::loadSettings()
 
     ui->searchBar->loadSettings();
 
-    m_trayPasteWindow.clear();
     m_lastWindow.clear();
 
     log( tr("Configuration loaded") );
@@ -1142,9 +1140,9 @@ void MainWindow::showBrowser(int index)
 void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
-    if ( c->select(clipboardItemHash) && m_trayPasteWindow ) {
+    if ( c->select(clipboardItemHash) && m_lastWindow ) {
         QApplication::processEvents();
-        m_trayPasteWindow->pasteClipboard();
+        m_lastWindow->pasteClipboard();
     }
 }
 
@@ -1606,7 +1604,7 @@ void MainWindow::enterBrowseMode(bool browsemode)
 void MainWindow::updateTrayMenuItems()
 {
     if (m_options->trayItemPaste)
-        m_trayPasteWindow = createPlatformNativeInterface()->getCurrentWindow();
+        m_lastWindow = createPlatformNativeInterface()->getCurrentWindow();
 
     ClipboardBrowser *c = getTabForTrayMenu();
 
