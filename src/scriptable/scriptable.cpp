@@ -196,8 +196,10 @@ QList<CommandHelp> commandHelp()
            .addArg(Scriptable::tr("VALUE"))
         << CommandHelp()
         << CommandHelp("eval, -e",
-                       Scriptable::tr("Evaluate ECMAScript program."))
+                       Scriptable::tr("\nEvaluate ECMAScript program.\n"
+                                      "Arguments are accessible using with \"arguments(0..N)\"."))
            .addArg("[" + Scriptable::tr("SCRIPT") + "]")
+           .addArg("[" + Scriptable::tr("ARGUMENTS") + "]...")
         << CommandHelp("session, -s, --session",
                        Scriptable::tr("\nStarts or connects to application instance with given session name."))
            .addArg(Scriptable::tr("SESSION"))
