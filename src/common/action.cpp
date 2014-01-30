@@ -19,7 +19,9 @@
 
 #include "action.h"
 
-#include  <QCoreApplication>
+#include <QCoreApplication>
+
+#include <string.h>
 
 namespace {
 
@@ -36,17 +38,40 @@ void startProcess(QProcess *process, const QStringList &args)
     }
 }
 
-QList<QStringList> parseCommands(const QString cmd, const QStringList &capturedTexts)
+template <typename Entry, typename Container>
+void appendAndClearNonEmpty(Entry &entry, Container &containter)
 {
-    QList<QStringList> commands;
+    if ( !entry.isEmpty() ) {
+        containter.append(entry);
+        entry.clear();
+    }
+}
 
-    commands.append(QStringList());
-    QStringList *command = &commands.last();
+bool getScriptFromLabel(const char *label, const QStringRef &cmd, QString *script)
+{
+    if ( cmd.startsWith(label) ) {
+        *script = cmd.string()->mid( strlen(label) );
+        return true;
+    }
+
+    return false;
+}
+
+QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList &capturedTexts)
+{
+    QList< QList<QStringList> > lines;
+    QList<QStringList> commands;
+    QStringList command;
+    QString script;
+
     QString arg;
     QChar quote;
     bool escape = false;
     bool percent = false;
-    foreach (QChar c, cmd) {
+
+    for (int i = 0; i < cmd.size(); ++i) {
+        const QChar &c = cmd[i];
+
         if (percent) {
             if (c >= '1' && c <= '9') {
                 arg.resize( arg.size() - 1 );
@@ -62,6 +87,8 @@ QList<QStringList> parseCommands(const QString cmd, const QStringList &capturedT
                 arg.append('\n');
             } else if (c == 't') {
                 arg.append('\t');
+            } else if (c == '\n') {
+                // Ignore escaped new line character.
             } else {
                 arg.append(c);
             }
@@ -70,33 +97,64 @@ QList<QStringList> parseCommands(const QString cmd, const QStringList &capturedT
         } else if (!quote.isNull()) {
             if (quote == c) {
                 quote = QChar();
-                command->append(arg);
+                command.append(arg);
                 arg.clear();
             } else {
                 arg.append(c);
             }
         } else if (c == '\'' || c == '"') {
             quote = c;
+        } else if (c == '|') {
+            appendAndClearNonEmpty(arg, command);
+            appendAndClearNonEmpty(command, commands);
+        } else if (c == '\n') {
+            appendAndClearNonEmpty(arg, command);
+            appendAndClearNonEmpty(command, commands);
+            appendAndClearNonEmpty(commands, lines);
         } else if ( c.isSpace() ) {
             if (!arg.isEmpty()) {
-                command->append(arg);
+                command.append(arg);
                 arg.clear();
             }
-        } else if (c == '|') {
-            if ( !arg.isEmpty() ) {
-                command->append(arg);
-                arg.clear();
-            }
-            commands.append(QStringList());
-            command = &commands.last();
+        } else if ( c == ':' && i + 1 < cmd.size() && cmd[i+1] == '\n' ) {
+            // If there is unescaped colon at the end of a line,
+            // treat the rest of the command as single argument.
+            appendAndClearNonEmpty(arg, command);
+            arg = cmd.mid(i + 2);
+            break;
         } else {
+            if ( arg.isEmpty() && command.isEmpty() ) {
+                // Treat command as script if known label is present.
+                const QStringRef c = cmd.midRef(i);
+                if ( getScriptFromLabel("copyq:", c, &script) )
+                    command << "copyq" << "eval" << "--" << script << capturedTexts;
+                else if ( getScriptFromLabel("sh:", c, &script) )
+                    command << "sh" << "-c" << "--" << script << "--" << capturedTexts;
+                else if ( getScriptFromLabel("bash:", c, &script) )
+                    command << "bash" << "-c" << "--" << script << "--" << capturedTexts;
+                else if ( getScriptFromLabel("perl:", c, &script) )
+                    command << "perl" << "-e" << script << "--" << capturedTexts;
+                else if ( getScriptFromLabel("python:", c, &script) )
+                    command << "python" << "-c" << script << capturedTexts;
+                else if ( getScriptFromLabel("ruby:", c, &script) )
+                    command << "ruby" << "-e" << script << "--" << capturedTexts;
+
+                if ( !script.isEmpty() ) {
+                    commands.append(command);
+                    lines.append(commands);
+                    return lines;
+                }
+            }
+
             arg.append(c);
         }
     }
-    if ( !arg.isEmpty() || !quote.isNull() )
-        command->append(arg);
 
-    return commands;
+    appendAndClearNonEmpty(arg, command);
+    appendAndClearNonEmpty(command, commands);
+    appendAndClearNonEmpty(commands, lines);
+
+    return lines;
 }
 
 } // namespace
@@ -121,6 +179,7 @@ Action::Action(const QString &cmd,
     , m_lastOutput()
     , m_failed(false)
     , m_firstProcess(NULL)
+    , m_currentLine(-1)
 {
     setProcessChannelMode(QProcess::SeparateChannels);
     connect( this, SIGNAL(error(QProcess::ProcessError)),
@@ -141,12 +200,15 @@ Action::Action(const QString &cmd,
 QString Action::command() const
 {
     QString text;
-    foreach ( const QStringList &args, m_cmds ) {
-        if ( !text.isEmpty() )
-            text.append(QChar('|'));
-        text.append(args.join(" "));
+    foreach ( const QList<QStringList> &line, m_cmds ) {
+        foreach ( const QStringList &args, line ) {
+            if ( !text.isEmpty() )
+                text.append(QChar('|'));
+            text.append(args.join(" "));
+        }
+        text.append('\n');
     }
-    return text;
+    return text.trimmed();
 }
 
 QString Action::outputFormat() const
@@ -154,19 +216,23 @@ QString Action::outputFormat() const
     return m_outputFormat.isEmpty() ? QString("text/plain") : m_outputFormat;
 }
 
-void Action::start()
+bool Action::start()
 {
-    if ( m_cmds.isEmpty() )
-        return;
+    if ( m_currentLine + 1 >= m_cmds.size() )
+        return false;
 
-    if ( m_cmds.size() > 1 ) {
+    ++m_currentLine;
+    const QList<QStringList> &cmds = m_cmds[m_currentLine];
+
+    Q_ASSERT( !cmds.isEmpty() );
+
+    if ( cmds.size() > 1 ) {
         QProcess *lastProcess = new QProcess(this);
         m_firstProcess = lastProcess;
-        for ( int i = 0; i + 1 < m_cmds.size(); ++i ) {
-            const QStringList &args = m_cmds[i];
-            if (args.isEmpty())
-                continue;
-            QProcess *process = (i + 2 == m_cmds.size()) ? this : new QProcess(this);
+        for ( int i = 0; i + 1 < cmds.size(); ++i ) {
+            const QStringList &args = cmds[i];
+            Q_ASSERT( !args.isEmpty() );
+            QProcess *process = (i + 2 == cmds.size()) ? this : new QProcess(this);
             lastProcess->setStandardOutputProcess(process);
             startProcess(lastProcess, args);
             lastProcess = process;
@@ -175,7 +241,8 @@ void Action::start()
         m_firstProcess = this;
     }
 
-    startProcess(this, m_cmds.last());
+    startProcess(this, cmds.last());
+    return true;
 }
 
 void Action::actionError(QProcess::ProcessError)
@@ -223,7 +290,8 @@ void Action::actionFinished()
         }
     }
 
-    emit actionFinished(this);
+    if ( !start() )
+        emit actionFinished(this);
 }
 
 void Action::actionOutput()

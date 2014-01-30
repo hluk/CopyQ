@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>322</width>
-    <height>613</height>
+    <height>622</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -223,35 +223,6 @@ Leave empty to disable this.</string>
       <property name="horizontalSpacing">
        <number>2</number>
       </property>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Copy to &amp;tab:</string>
-        </property>
-        <property name="buddy">
-         <cstring>comboBoxCopyToTab</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBoxCopyToTab">
-        <property name="toolTip">
-         <string>Name of tab to copy new items into (leave empty not to copy)</string>
-        </property>
-        <property name="editable">
-         <bool>true</bool>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
-       <widget class="QLineEdit" name="lineEditCommand">
-        <property name="toolTip">
-         <string>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
-
-&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
-        </property>
-       </widget>
-      </item>
       <item row="1" column="0">
        <widget class="QLabel" name="label_2">
         <property name="sizePolicy">
@@ -268,6 +239,16 @@ Leave empty to disable this.</string>
         </property>
        </widget>
       </item>
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_6">
+        <property name="text">
+         <string>Copy to &amp;tab:</string>
+        </property>
+        <property name="buddy">
+         <cstring>comboBoxCopyToTab</cstring>
+        </property>
+       </widget>
+      </item>
       <item row="2" column="0" colspan="2">
        <widget class="QCheckBox" name="checkBoxIgnore">
         <property name="toolTip">
@@ -277,6 +258,25 @@ Note: If this is applied automatically, no other automatic commands are executed
         </property>
         <property name="text">
          <string>&amp;Remove Item</string>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QPlainTextEdit" name="lineEditCommand">
+        <property name="toolTip">
+         <string>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
+
+&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QComboBox" name="comboBoxCopyToTab">
+        <property name="toolTip">
+         <string>Name of tab to copy new items into (leave empty not to copy)</string>
+        </property>
+        <property name="editable">
+         <bool>true</bool>
         </property>
        </widget>
       </item>

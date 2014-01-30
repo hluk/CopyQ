@@ -391,7 +391,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->name = tr("Paste as Plain Text");
         c->input = mimeText;
         c->icon = QString(QChar(IconPaste));
-        c->cmd  = "copyq eval \"copy(input()); paste()\"";
+        c->cmd  = "copyq:\ncopy(input())\npaste()";
         c->hideWindow = true;
         c->inMenu = true;
         c->shortcut = tr("Shift+Return");
@@ -437,8 +437,13 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     } else if (index == ++i) {
         c->name = tr("Label image");
         c->icon = QString(QChar(IconTag));
-        c->cmd  = "base64 | perl -p -i -e 'BEGIN {print \"<img src=\\\\\"data:image/bmp;base64,\"} "
-                  "END {print \"\\\\\" /><p>LABEL\"}'";
+        c->cmd  = "base64 | perl -p -i -e:\n"
+                  "BEGIN {\n"
+                  "    print '<img src=\"data:image/bmp;base64,'\n"
+                  "}\n"
+                  "END {\n"
+                  "    print '\" /><p>LABEL'\n"
+                  "}";
         c->input = "image/bmp";
         c->output = "text/html";
         c->wait = true;

@@ -65,7 +65,7 @@ private slots:
 
     void on_pushButtonShortcut_clicked();
 
-    void on_lineEditCommand_textChanged(const QString &command);
+    void on_lineEditCommand_textChanged();
 
     void on_checkBoxAutomatic_stateChanged(int);
 

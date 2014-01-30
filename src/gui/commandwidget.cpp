@@ -55,7 +55,7 @@ Command CommandWidget::command() const
     c.re     = QRegExp( ui->lineEditMatch->text() );
     c.wndre  = QRegExp( ui->lineEditWindow->text() );
     c.matchCmd = ui->lineEditMatchCmd->text();
-    c.cmd    = ui->lineEditCommand->text();
+    c.cmd    = ui->lineEditCommand->toPlainText();
     c.sep    = ui->lineEditSeparator->text();
     c.input  = ui->comboBoxInputFormat->currentText();
     c.output = ui->comboBoxOutputFormat->currentText();
@@ -80,7 +80,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
     ui->lineEditMatchCmd->setText(c.matchCmd);
-    ui->lineEditCommand->setText(c.cmd);
+    ui->lineEditCommand->setPlainText(c.cmd);
     ui->lineEditSeparator->setText(c.sep);
     ui->comboBoxInputFormat->setEditText(c.input);
     ui->comboBoxOutputFormat->setEditText(c.output);
@@ -142,7 +142,7 @@ void CommandWidget::on_pushButtonShortcut_clicked()
     }
 }
 
-void CommandWidget::on_lineEditCommand_textChanged(const QString &)
+void CommandWidget::on_lineEditCommand_textChanged()
 {
     updateWidgets();
 }
@@ -172,5 +172,5 @@ void CommandWidget::updateWidgets()
     bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
-    ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->lineEditCommand->text().isEmpty());
+    ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->lineEditCommand->document()->characterCount() == 0);
 }

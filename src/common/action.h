@@ -67,7 +67,7 @@ public:
     QModelIndex index() const { return m_index; }
 
     /** Execute command. */
-    void start();
+    bool start();
 
 public slots:
     /** Terminate (kill) process. */
@@ -99,7 +99,7 @@ private slots:
 private:
     const QByteArray m_input;
     const QRegExp m_sep;
-    const QList<QStringList> m_cmds;
+    const QList< QList<QStringList> > m_cmds;
     const QString m_tab;
     const QStringList m_inputFormats;
     const QString m_outputFormat;
@@ -109,6 +109,7 @@ private:
     QByteArray m_outputData;
     bool m_failed;
     QProcess *m_firstProcess; //!< First process in pipe.
+    int m_currentLine;
 };
 
 #endif // ACTION_H
