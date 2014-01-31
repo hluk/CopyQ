@@ -214,7 +214,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
     if ( stream->status() != QDataStream::Ok )
         return false;
 
-    if (length < 0 || length > 9999) {
+    if (length < 0 || length > 10000) {
         stream->setStatus(QDataStream::ReadCorruptData);
         return false;
     }
