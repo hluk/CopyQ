@@ -35,8 +35,6 @@ namespace {
 
 typedef QList< QPair<QString, QString> > MimeToCompressed;
 
-const int maxMimeTypes = 99;
-
 void addMime(MimeToCompressed &m, const QString &mime, int value)
 {
     const QString num = QString::number(value, 16);
@@ -130,10 +128,7 @@ void serializeData(QDataStream *stream, const QVariantMap &data)
     *stream << size;
 
     QByteArray bytes;
-    int mimeTypes = 0;
     foreach (const QString &mime, data.keys()) {
-        if (++mimeTypes > maxMimeTypes)
-            break;
         bytes = data[mime].toByteArray();
         bool compress = shouldCompress(bytes, mime);
         *stream << compressMime(mime) << compress << ( compress ? qCompress(bytes) : bytes );
@@ -154,7 +149,7 @@ void deserializeData(QDataStream *stream, QVariantMap *data)
             return;
         }
 
-        if (length < 0 || length > maxMimeTypes) {
+        if (length < 0) {
             stream->setStatus(QDataStream::ReadCorruptData);
             return;
         }
@@ -214,12 +209,16 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
     if ( stream->status() != QDataStream::Ok )
         return false;
 
-    if (length < 0 || length > 10000) {
+    if (length < 0) {
         stream->setStatus(QDataStream::ReadCorruptData);
         return false;
     }
 
-    length = qMin( length, model->property("maxItems").toInt() ) - model->rowCount();
+    // Limit the loaded number of items to model's maximum.
+    const QVariant maxItems = model->property("maxItems");
+    Q_ASSERT( maxItems.isValid() );
+    Q_ASSERT( maxItems.toInt() > 0 );
+    length = qMin( length, maxItems.toInt() ) - model->rowCount();
 
     for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
         const int row = model->rowCount();
