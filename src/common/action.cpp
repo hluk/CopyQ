@@ -107,7 +107,7 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
         } else if (c == '|') {
             appendAndClearNonEmpty(arg, command);
             appendAndClearNonEmpty(command, commands);
-        } else if (c == '\n') {
+        } else if (c == '\n' || c == ';') {
             appendAndClearNonEmpty(arg, command);
             appendAndClearNonEmpty(command, commands);
             appendAndClearNonEmpty(commands, lines);
