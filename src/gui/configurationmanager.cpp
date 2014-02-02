@@ -514,7 +514,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->inMenu = true;
         c->tab  = tr("(trash)");
         c->remove = true;
-        c->shortcut = tr("Delete");
+        c->shortcut = shortcutToRemove();
     } else {
         return false;
     }

@@ -192,8 +192,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(onFilterChanged(QRegExp)) );
     connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
              this, SLOT(updateFocusWindows()) );
-    connect( this, SIGNAL(changeClipboard(const ClipboardItem*)),
-             this, SLOT(clipboardChanged(const ClipboardItem*)) );
+    connect( this, SIGNAL(changeClipboard(QVariantMap)),
+             this, SLOT(clipboardChanged(QVariantMap)) );
     connect( m_actionHandler, SIGNAL(hasRunningActionChanged()),
              this, SLOT(updateIcon()) );
 
@@ -600,8 +600,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     c->loadSettings();
     c->setAutoUpdate(true);
 
-    connect( c, SIGNAL(changeClipboard(const ClipboardItem*)),
-             this, SLOT(onChangeClipboardRequest(const ClipboardItem*)) );
+    connect( c, SIGNAL(changeClipboard(QVariantMap)),
+             this, SLOT(setClipboard(QVariantMap)) );
     connect( c, SIGNAL(requestActionDialog(const QVariantMap, const Command)),
              this, SLOT(action(const QVariantMap, const Command)) );
     connect( c, SIGNAL(requestActionDialog(const QVariantMap, const Command, const QModelIndex)),
@@ -666,6 +666,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
     ClipboardBrowser *c = createTab(name, &needSave);
     if (needSave)
         ConfigurationManager::instance()->setTabs( ui->tabWidget->tabs() );
+    c->loadItems();
     return c;
 }
 
@@ -719,13 +720,13 @@ void MainWindow::showMessage(const QString &title, const QString &msg, const QPi
     notificationDaemon()->create(title, msg, icon, msec, this, notificationId);
 }
 
-void MainWindow::showClipboardMessage(const ClipboardItem *item)
+void MainWindow::showClipboardMessage(const QVariantMap &data)
 {
     if ( m_options->itemPopupInterval != 0 && m_options->clipboardNotificationLines > 0) {
         const QColor color = notificationDaemon()->foreground();
         const QPixmap icon =
                 ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
-        notificationDaemon()->create( item->data(), m_options->clipboardNotificationLines, icon,
+        notificationDaemon()->create( data, m_options->clipboardNotificationLines, icon,
                                       m_options->itemPopupInterval * 1000, this, 0 );
     }
 }
@@ -1310,7 +1311,7 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool 
 
         // merge data with first item if it is same
         if ( !force && c->length() > 0 && data2.contains(mimeText) ) {
-            ClipboardItem *first = c->at(0);
+            const ClipboardItemPtr &first = c->at(0);
             const QByteArray newText = data2[mimeText].toByteArray();
             const QByteArray firstItemText = first->data(mimeText);
 
@@ -1362,14 +1363,14 @@ void MainWindow::previousTab()
     ui->tabWidget->previousTab();
 }
 
-void MainWindow::clipboardChanged(const ClipboardItem *item)
+void MainWindow::clipboardChanged(const QVariantMap &data)
 {
-    QString text = textLabelForData( item->data() );
+    QString text = textLabelForData(data);
     m_tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
-    showClipboardMessage(item);
+    showClipboardMessage(data);
 
-    const QString clipboardContent = textLabelForData( item->data() );
+    const QString clipboardContent = textLabelForData(data);
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
     if ( sessionName.isEmpty() ) {
         setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
@@ -1382,11 +1383,11 @@ void MainWindow::clipboardChanged(const ClipboardItem *item)
     }
 }
 
-void MainWindow::setClipboard(const ClipboardItem *item)
+void MainWindow::setClipboard(const QVariantMap &data)
 {
     if ( !isVisible() || isMinimized() )
-        showClipboardMessage(item);
-    emit changeClipboard(item);
+        showClipboardMessage(data);
+    emit changeClipboard(data);
 }
 
 void MainWindow::activateCurrentItem()
@@ -1540,11 +1541,6 @@ void MainWindow::onTrayTimer()
     }
 }
 
-void MainWindow::onChangeClipboardRequest(const ClipboardItem *item)
-{
-    setClipboard(item);
-}
-
 void MainWindow::updateFocusWindows()
 {
     if ( isActiveWindow() || (!m_options->activateFocuses() && !m_options->activatePastes()) )
@@ -1615,8 +1611,8 @@ void MainWindow::updateTrayMenuItems()
     const int len = (c != NULL) ? qMin( m_options->trayItems, c->length() ) : 0;
     const int current = c->currentIndex().row();
     for ( int i = 0; i < len; ++i ) {
-        const ClipboardItem *item = c->at(i);
-        if (item != NULL)
+        const ClipboardItemPtr &item = c->at(i);
+        if ( !item.isNull() )
             m_trayMenu->addClipboardItemAction(*item, m_options->trayImages, i == current);
     }
 
@@ -1660,9 +1656,10 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::showClipboardContent()
 {
-    QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(QVariantMap(), this));
+    QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(ClipboardItemPtr(), this));
+    connect( clipboardDialog.data(), SIGNAL(changeClipboard(QVariantMap)),
+             this, SLOT(setClipboard(QVariantMap)) );
     clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
-    clipboardDialog->setWindowIcon(appIcon(AppIconRunning));
     clipboardDialog->show();
     clipboardDialog.take();
 }
@@ -1802,7 +1799,7 @@ void MainWindow::copyItems()
     }
     item.setData(data);
 
-    emit changeClipboard(&item);
+    emit changeClipboard(data);
 }
 
 bool MainWindow::saveTab(const QString &fileName, int tab_index)
@@ -2029,7 +2026,7 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
     if ( name.isEmpty() || ui->tabWidget->tabs().contains(name) )
         return;
 
-    ClipboardBrowser *c = browser(tabIndex);
+    ClipboardBrowser *c = getBrowser(tabIndex);
 
     c->setTabName(name);
     ui->tabWidget->setTabText(tabIndex, name);

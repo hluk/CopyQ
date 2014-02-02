@@ -297,3 +297,12 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 
     return label;
 }
+
+QString shortcutToRemove()
+{
+#ifdef Q_OS_MAC
+    return QObject::tr("Backspace", "Key to remove item or MIME on OS X");
+#else
+    return QObject::tr("Delete", "Key to remove item or MIME");
+#endif
+}

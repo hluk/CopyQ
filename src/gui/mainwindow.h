@@ -140,7 +140,7 @@ public slots:
                      int notificationId);
 
     /** Show clipboard content in notification. */
-    void showClipboardMessage(const ClipboardItem *item);
+    void showClipboardMessage(const QVariantMap &data);
 
     /** Show error popup message. */
     void showError(const QString &msg);
@@ -198,6 +198,7 @@ public slots:
             bool ask, //!< Ask before removing.
             int tab_index //!< Tab index or current tab.
             );
+
     /**
      * Add tab with given name if doesn't exist and focus the tab.
      * @return New or existing tab with given name.
@@ -259,10 +260,10 @@ public slots:
     void previousTab();
 
     /** Called after clipboard content changes. */
-    void clipboardChanged(const ClipboardItem *item);
+    void clipboardChanged(const QVariantMap &data);
 
     /** Set clipboard. */
-    void setClipboard(const ClipboardItem *item);
+    void setClipboard(const QVariantMap &data);
 
     /** Activate current item. */
     void activateCurrentItem();
@@ -291,7 +292,7 @@ public slots:
 
 signals:
     /** Request clipboard change. */
-    void changeClipboard(const ClipboardItem *item);
+    void changeClipboard(const QVariantMap &data);
 
     void tabGroupSelected(bool selected);
 
@@ -338,8 +339,6 @@ private slots:
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
     void onTrayTimer();
-
-    void onChangeClipboardRequest(const ClipboardItem *item);
 
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();

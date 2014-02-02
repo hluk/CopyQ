@@ -173,4 +173,9 @@ QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
                          const QString &format = QString(), bool escapeAmpersands = false,
                          int maxWidthPixels = 320, int maxLines = 1);
 
+/**
+ * Shortcut to remove items, formats etc.
+ */
+QString shortcutToRemove();
+
 #endif // COMMON_H

@@ -44,8 +44,6 @@ class ClipboardModel : public QAbstractListModel
     Q_PROPERTY(QString tabName READ tabName WRITE setTabName NOTIFY tabNameChanged)
 
 public:
-    typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
-
     /** Argument type for comparison. First is row, second is item pointer. */
     typedef QPair<int, ClipboardItemPtr> ComparisonItem;
 
@@ -70,7 +68,7 @@ public:
     QVariantMap dataMapInRow(int row) const;
 
     /** Return item in given @a row.  */
-    ClipboardItem *at(int row) const;
+    ClipboardItemPtr at(int row) const;
 
     /** Return flags for given @a index. */
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -151,11 +149,6 @@ public:
      * @return Last row index if @a cycle is true and @a row is negative.
      */
     int getRowNumber(int row, bool cycle = false) const;
-
-    /** Return clipboard item on given @a row or NULL if row doesn't exist. */
-    ClipboardItem* get(int row) {
-        return (row < rowCount()) ? m_clipboardList[row].data() : NULL;
-    }
 
     /** Emit unloaded() and unload (remove) all items. */
     void unloadItems();

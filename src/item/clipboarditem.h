@@ -20,6 +20,7 @@
 #ifndef CLIPBOARDITEM_H
 #define CLIPBOARDITEM_H
 
+#include <QSharedPointer>
 #include <QVariant>
 
 class QByteArray;
@@ -98,14 +99,12 @@ public:
     bool isEmpty() const;
 
 private:
-    /** Disable copying. */
-    ClipboardItem(const ClipboardItem &);
-    ClipboardItem &operator=(const ClipboardItem &);
-
     void updateDataHash();
 
     QVariantMap m_data;
     unsigned int m_hash;
 };
+
+typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
 
 #endif // CLIPBOARDITEM_H

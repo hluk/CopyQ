@@ -28,6 +28,7 @@
 #include <QProcess>
 #include <QSharedPointer>
 #include <QThreadPool>
+#include <QVariantMap>
 
 class Arguments;
 class ClipboardBrowser;
@@ -86,7 +87,7 @@ public:
 
 public slots:
     /** Load @a item data to clipboard. */
-    void changeClipboard(const ClipboardItem *item);
+    void changeClipboard(const QVariantMap &data);
 
     /** Load settings. */
     void loadSettings();

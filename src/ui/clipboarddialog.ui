@@ -55,7 +55,16 @@
        <property name="spacing">
         <number>0</number>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -69,7 +78,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidgetFormats"/>
+        <widget class="QListWidget" name="listWidgetFormats">
+         <property name="contextMenuPolicy">
+          <enum>Qt::ActionsContextMenu</enum>
+         </property>
+        </widget>
        </item>
       </layout>
      </widget>
@@ -81,7 +94,16 @@
        <property name="spacing">
         <number>0</number>
        </property>
-       <property name="margin">
+       <property name="leftMargin">
+        <number>0</number>
+       </property>
+       <property name="topMargin">
+        <number>0</number>
+       </property>
+       <property name="rightMargin">
+        <number>0</number>
+       </property>
+       <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
@@ -119,15 +141,18 @@
     </widget>
    </item>
   </layout>
+  <action name="actionRemove_Format">
+   <property name="text">
+    <string>Remove Format</string>
+   </property>
+  </action>
  </widget>
  <tabstops>
   <tabstop>listWidgetFormats</tabstop>
   <tabstop>textEditContent</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources>
-  <include location="../copyq.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>

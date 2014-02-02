@@ -827,7 +827,7 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
         if ( isIndexHidden(ind) )
             continue;
 
-        const ClipboardItem *item = at( ind.row() );
+        const ClipboardItemPtr &item = at( ind.row() );
         const QVariantMap copiedItemData = m_itemLoader ? m_itemLoader->copyItem(*m, item->data())
                                                         : item->data();
 
@@ -1411,13 +1411,14 @@ void ClipboardBrowser::addItems(const QStringList &items)
 
 void ClipboardBrowser::showItemContent()
 {
-    QVariantMap data = getSelectedItemData();
-    if ( data.isEmpty() )
-        return;
-
-    ClipboardDialog *d = new ClipboardDialog(data, this);
-    connect( d, SIGNAL(finished(int)), d, SLOT(deleteLater()) );
-    d->show();
+    const QModelIndex current = currentIndex();
+    if ( current.isValid() ) {
+        ClipboardItemPtr item = m->at( current.row() );
+        QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(item, this));
+        clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
+        clipboardDialog->show();
+        clipboardDialog.take();
+    }
 }
 
 void ClipboardBrowser::removeRow(int row)
@@ -1691,7 +1692,7 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
     }
 }
 
-ClipboardItem *ClipboardBrowser::at(int row) const
+ClipboardItemPtr ClipboardBrowser::at(int row) const
 {
     return m->at(row);
 }
@@ -1942,7 +1943,7 @@ QVariantMap ClipboardBrowser::itemData(int i) const
 void ClipboardBrowser::updateClipboard(int row)
 {
     if ( row < m->rowCount() )
-        emit changeClipboard(m->at(row));
+        emit changeClipboard( m->at(row)->data() );
 }
 
 QByteArray ClipboardBrowser::itemData(int i, const QString &mime) const

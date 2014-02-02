@@ -34,9 +34,9 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 #define BEGIN_INVOKE(methodName) \
         QMetaObject::invokeMethod(m_helper, methodName, Qt::BlockingQueuedConnection \
 
-#define END_INVOKE_AND_RETURN(RetType) ); return m_helper->value().value<RetType>();
-
 #define END_INVOKE );
+
+#define END_INVOKE_AND_RETURN(RetType) END_INVOKE return m_helper->value().value<RetType>();
 
 // Compile-time check ScriptableProxyHelper member method arguments.
 #define CAN_INVOKE(methodName) \
@@ -119,6 +119,15 @@ Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
         END_INVOKE_AND_RETURN(RetType) \
     } \
 
+#define BROWSER(call) \
+    ClipboardBrowser *c = fetchBrowser(); \
+    if (c) \
+        c->call
+
+#define BROWSER_RESULT(call) \
+    ClipboardBrowser *c = fetchBrowser(); \
+    v = c ? QVariant(c->call) : QVariant()
+
 namespace detail {
 
 class ScriptableProxyHelper : public QObject
@@ -129,9 +138,22 @@ public:
     explicit ScriptableProxyHelper(const QSharedPointer<MainWindow> &mainWindow)
       : QObject(NULL)
       , m_wnd(mainWindow)
-    {}
+      , m_tabName()
+      , m_lock()
+    {
+    }
 
     const QVariant &value() const { return v; }
+
+    static QString tabNotFoundError()
+    {
+        return ScriptableProxyHelper::tr("Tab with given name doesn't exist!");
+    }
+
+    static QString tabNameEmptyError()
+    {
+        return ScriptableProxyHelper::tr("Tab name cannot be empty!");
+    }
 
 public slots:
     void close() { m_wnd->close(); }
@@ -139,30 +161,81 @@ public slots:
     void pasteToCurrentWindow() { m_wnd->pasteToCurrentWindow(); }
 
     void disableMonitoring(bool arg1) { m_wnd->disableClipboardStoring(arg1); }
-    void setClipboard(const ClipboardItem *arg1) { m_wnd->setClipboard(arg1); }
+    void setClipboard(const QVariantMap &arg1) { m_wnd->setClipboard(arg1); }
 
-    void renameTab(const QString &arg1, int arg2) { m_wnd->renameTab(arg1, arg2); }
-    void removeTab(bool arg1, int arg2) { m_wnd->removeTab(arg1, arg2); }
+    void renameTab(const QString &arg1, const QString &arg2)
+    {
+        if ( arg1.isEmpty() || arg2.isEmpty() ) {
+            v = tabNameEmptyError();
+            return;
+        }
 
-    void createTab(const QString &arg1) { m_wnd->createTab(arg1); }
+        const int i = m_wnd->findTabIndex(arg2);
+        if (i == -1) {
+            v = tabNotFoundError();
+            return;
+        }
 
-    void showBrowser(int arg1) { m_wnd->showBrowser(arg1); }
+        if ( m_wnd->findTabIndex(arg1) != -1 ) {
+            v = tr("Tab with given name already exists!");
+            return;
+        }
+
+        m_wnd->renameTab(arg1, i);
+        v = QString();
+    }
+
+    void removeTab(const QString &arg1)
+    {
+        if ( arg1.isEmpty() ) {
+            v = tabNameEmptyError();
+            return;
+        }
+
+        const int i = m_wnd->findTabIndex(arg1);
+        if (i == -1) {
+            v = tabNotFoundError();
+            return;
+        }
+
+        m_wnd->removeTab(false, i);
+        v = QString();
+    }
+
+    void showBrowser()
+    {
+        ClipboardBrowser *c = fetchBrowser();
+        if (c)
+            m_wnd->showBrowser(c);
+    }
 
     void action(const QVariantMap &arg1, const Command &arg2) { m_wnd->action(arg1, arg2); }
 
     void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4) { m_wnd->showMessage(arg1, arg2, arg3, arg4); }
 
-    void browserLock(int arg1) { m_wnd->browser(arg1)->lock(); }
-    void browserUnlock(int arg1) { m_wnd->browser(arg1)->unlock(); }
-    void browserCopyNextItemToClipboard(int arg1) { m_wnd->browser(arg1)->copyNextItemToClipboard(); }
-    void browserCopyPreviousItemToClipboard(int arg1) { m_wnd->browser(arg1)->copyPreviousItemToClipboard(); }
-    void browserMoveToClipboard(int arg1, int arg2) { m_wnd->browser(arg1)->moveToClipboard(arg2); }
-    void browserDelayedSaveItems(int arg1) { m_wnd->browser(arg1)->delayedSaveItems(); }
-    void browserRemoveRow(int arg1, int arg2) { m_wnd->browser(arg1)->removeRow(arg2); }
-    void browserSetCurrent(int arg1, int arg2) { m_wnd->browser(arg1)->setCurrent(arg2); }
+    void browserLock()
+    {
+        Q_ASSERT(m_lock.isNull());
+        ClipboardBrowser *c = fetchBrowser();
+        if (c)
+            m_lock.reset( new ClipboardBrowser::Lock(c) );
+    }
 
-    void browserEditRow(int arg1, int arg2) { m_wnd->browser(arg1)->editRow(arg2); }
-    void browserEditNew(int arg1, const QString &arg2) { m_wnd->browser(arg1)->editNew(arg2); }
+    void browserUnlock()
+    {
+        Q_ASSERT(!m_lock.isNull());
+        m_lock.reset();
+    }
+
+    void browserCopyNextItemToClipboard() { BROWSER(copyNextItemToClipboard()); }
+    void browserCopyPreviousItemToClipboard() { BROWSER(copyPreviousItemToClipboard()); }
+    void browserMoveToClipboard(int arg1) { BROWSER(moveToClipboard(arg1)); }
+    void browserDelayedSaveItems() { BROWSER(delayedSaveItems()); }
+    void browserRemoveRow(int arg1) { BROWSER(removeRow(arg1)); }
+    void browserSetCurrent(int arg1) { BROWSER(setCurrent(arg1)); }
+
+    void browserEditRow(int arg1) { BROWSER(editRow(arg1)); }
+    void browserEditNew(const QString &arg1) { BROWSER(editNew(arg1)); }
 
     void tabs() { v = m_wnd->tabs(); }
     void toggleVisible() { v = m_wnd->toggleVisible(); }
@@ -174,26 +247,49 @@ public slots:
     void openActionDialog(const QVariantMap &arg1) { v = (qulonglong)m_wnd->openActionDialog(arg1); }
 
     void loadTab(const QString &arg1) { v = m_wnd->loadTab(arg1); }
-    void saveTab(const QString &arg1, int arg2) { v = m_wnd->saveTab(arg1, arg2); }
+    void saveTab(const QString &arg1)
+    {
+        ClipboardBrowser *c = fetchBrowser();
+        if (c) {
+            const int i = m_wnd->tabIndex(c);
+            v = m_wnd->saveTab(arg1, i);
+        }
+    }
 
     void config(const QString &arg1, const QString &arg2) { v = m_wnd->config(arg1, arg2); }
 
     void getClipboardData(const QString &arg1) { v = m_wnd->getClipboardData(arg1); }
     void getClipboardData(const QString &arg1, QClipboard::Mode arg2) { v = m_wnd->getClipboardData(arg1, arg2); }
 
-    void browserLength(int arg1) { v = m_wnd->browser(arg1)->length(); }
-    void browserOpenEditor(int arg1, const QByteArray &arg2) { v = m_wnd->browser(arg1)->openEditor(arg2); }
+    void browserLength() { BROWSER_RESULT(length()); }
+    void browserOpenEditor(const QByteArray &arg1) { BROWSER_RESULT(openEditor(arg1)); }
 
-    void browserAdd(int arg1, const QString &arg2) { v = m_wnd->browser(arg1)->add(arg2); }
-    void browserAdd(int arg1, const QVariantMap &arg2, int arg3) { v = m_wnd->browser(arg1)->add(arg2, arg3); }
+    void browserAdd(const QString &arg1) { BROWSER_RESULT(add(arg1)); }
+    void browserAdd(const QVariantMap &arg1, int arg2) { BROWSER_RESULT(add(arg1, arg2)); }
 
-    void browserItemData(int arg1, int arg2, const QString &arg3) { v = m_wnd->browser(arg1)->itemData(arg2, arg3); }
+    void browserItemData(int arg1, const QString &arg2) { BROWSER_RESULT(itemData(arg1, arg2)); }
 
     QString sendKeys(const QString &arg1) { return m_wnd->sendKeys(arg1); }
 
+    void setCurrentTab(const QString &tabName) { m_tabName = tabName; }
+
+    void currentTab() { BROWSER_RESULT(tabName()); }
+
 private:
+    ClipboardBrowser *fetchBrowser()
+    {
+        ClipboardBrowser *c = m_tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->createTab(m_tabName);
+        if (!c)
+            return NULL;
+
+        c->loadItems();
+        return c->isLoaded() ? c : NULL;
+    }
+
     QSharedPointer<MainWindow> m_wnd;
     QVariant v; ///< Last return value retrieved.
+    QString m_tabName;
+    QScopedPointer<ClipboardBrowser::Lock> m_lock;
 };
 
 } // namespace detail
@@ -222,10 +318,10 @@ public:
     PROXY_METHOD(pasteToCurrentWindow)
 
     PROXY_METHOD_VOID_1(disableMonitoring, bool)
-    PROXY_METHOD_VOID_1(setClipboard, const ClipboardItem *)
+    PROXY_METHOD_VOID_1(setClipboard, const QVariantMap &)
 
-    PROXY_METHOD_VOID_2(renameTab, const QString &, int)
-    PROXY_METHOD_VOID_2(removeTab, bool, int)
+    PROXY_METHOD_2(QString, renameTab, const QString &, const QString &)
+    PROXY_METHOD_1(QString, removeTab, const QString &)
 
     PROXY_METHOD_0(QStringList, tabs)
     PROXY_METHOD_0(bool, toggleVisible)
@@ -233,15 +329,14 @@ public:
     PROXY_METHOD_0(qulonglong, mainWinId)
     PROXY_METHOD_0(qulonglong, trayMenuWinId)
     PROXY_METHOD_1(int, findTabIndex, const QString &)
-    PROXY_METHOD_VOID_1(createTab, const QString &)
 
-    PROXY_METHOD_VOID_1(showBrowser, int)
+    PROXY_METHOD(showBrowser)
 
     PROXY_METHOD_1(qulonglong, openActionDialog, const QVariantMap &)
     PROXY_METHOD_VOID_2(action, const QVariantMap &, const Command &)
 
     PROXY_METHOD_1(bool, loadTab, const QString &)
-    PROXY_METHOD_2(bool, saveTab, const QString &, int)
+    PROXY_METHOD_1(bool, saveTab, const QString &)
 
     PROXY_METHOD_2(QVariant, config, const QString &, const QString &)
 
@@ -251,25 +346,28 @@ public:
     PROXY_METHOD_1(QByteArray, getClipboardData, const QString &)
     PROXY_METHOD_2(QByteArray, getClipboardData, const QString &, QClipboard::Mode)
 
-    PROXY_METHOD_VOID_1(browserLock, int)
-    PROXY_METHOD_VOID_1(browserUnlock, int)
-    PROXY_METHOD_VOID_1(browserCopyNextItemToClipboard, int)
-    PROXY_METHOD_VOID_1(browserCopyPreviousItemToClipboard, int)
-    PROXY_METHOD_VOID_2(browserMoveToClipboard, int, int)
-    PROXY_METHOD_VOID_1(browserDelayedSaveItems, int)
-    PROXY_METHOD_VOID_2(browserRemoveRow, int, int)
-    PROXY_METHOD_VOID_2(browserSetCurrent, int, int)
-    PROXY_METHOD_1(int, browserLength, int)
-    PROXY_METHOD_2(bool, browserOpenEditor, int, const QByteArray &)
+    PROXY_METHOD(browserLock)
+    PROXY_METHOD(browserUnlock)
+    PROXY_METHOD(browserCopyNextItemToClipboard)
+    PROXY_METHOD(browserCopyPreviousItemToClipboard)
+    PROXY_METHOD_VOID_1(browserMoveToClipboard, int)
+    PROXY_METHOD(browserDelayedSaveItems)
+    PROXY_METHOD_VOID_1(browserRemoveRow, int)
+    PROXY_METHOD_VOID_1(browserSetCurrent, int)
+    PROXY_METHOD_0(int, browserLength)
+    PROXY_METHOD_1(bool, browserOpenEditor, const QByteArray &)
 
-    PROXY_METHOD_2(bool, browserAdd, int, const QString &)
-    PROXY_METHOD_3(bool, browserAdd, int, const QVariantMap &, int)
-    PROXY_METHOD_VOID_2(browserEditRow, int, int)
-    PROXY_METHOD_VOID_2(browserEditNew, int, const QString &)
+    PROXY_METHOD_1(bool, browserAdd, const QString &)
+    PROXY_METHOD_2(bool, browserAdd, const QVariantMap &, int)
+    PROXY_METHOD_VOID_1(browserEditRow, int)
+    PROXY_METHOD_VOID_1(browserEditNew, const QString &)
 
-    PROXY_METHOD_3(QByteArray, browserItemData, int, int, const QString &)
+    PROXY_METHOD_2(QByteArray, browserItemData, int, const QString &)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)
+
+    PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
+    PROXY_METHOD_0(QString, currentTab)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

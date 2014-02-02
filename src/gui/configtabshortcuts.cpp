@@ -21,6 +21,7 @@
 #include "ui_configtabshortcuts.h"
 
 #include "common/client_server.h"
+#include "common/common.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
 
@@ -164,12 +165,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::Item_NextToClipboard, tr("&Next to Clipboard"), "next_to_clipboard", tr("Ctrl+Shift+N") );
     w->addAction( Actions::Item_PreviousToClipboard, tr("&Previous to Clipboard"), "previous_to_clipboard", tr("Ctrl+Shift+P") );
 
-#ifdef Q_OS_MAC
-    QString removeKey = tr("Backspace");
-#else
-    QString removeKey = tr("Delete");
-#endif
-    w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item",  removeKey);
+    w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item",  shortcutToRemove() );
 
     w->addAction( Actions::Tabs_NewTab, tr("&New tab"), "new_tab", tr("Ctrl+T") );
     w->addAction( Actions::Tabs_RenameTab, tr("Re&name tab"), "rename_tab", tr("Ctrl+F2") );

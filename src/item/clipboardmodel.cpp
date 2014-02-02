@@ -49,9 +49,9 @@ QVariantMap ClipboardModel::dataMapInRow(int row) const
     return (row >= 0 && row < rowCount()) ? m_clipboardList[row]->data() : QVariantMap();
 }
 
-ClipboardItem *ClipboardModel::at(int row) const
+ClipboardItemPtr ClipboardModel::at(int row) const
 {
-    return m_clipboardList[row].data();
+    return m_clipboardList[row];
 }
 
 QVariant ClipboardModel::data(int row) const

@@ -38,6 +38,8 @@ class QProgressBar;
 class QPushButton;
 class QTimer;
 
+typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
+
 struct ClipboardBrowserShared {
     ClipboardBrowserShared();
 
@@ -66,10 +68,10 @@ class ClipboardBrowser : public QListView
         class Lock {
             public:
                 Lock(ClipboardBrowser *self) : c(self) { c->lock(); }
-                ~Lock() { c->unlock(); }
+                ~Lock() { if (!c.isNull()) c->unlock(); }
 
             private:
-                ClipboardBrowser *c;
+                QPointer<ClipboardBrowser> c;
         };
 
         explicit ClipboardBrowser(QWidget *parent = NULL,
@@ -104,7 +106,7 @@ class ClipboardBrowser : public QListView
         /** Index of item in given row. */
         QModelIndex index(int i) const { return model()->index(i,0); }
         /** Return clipboard item at given row. */
-        ClipboardItem *at(int row) const;
+        ClipboardItemPtr at(int row) const;
 
         /** Returns concatenation of selected items. */
         const QString selectedText() const;
@@ -168,9 +170,6 @@ class ClipboardBrowser : public QListView
          * Override to disable default QAbstractItemView search.
          */
         void keyboardSearch(const QString &) {}
-
-        void lock();
-        void unlock();
 
         /** Return true if user defined a selection and it shouldn't change programmatically. */
         bool hasUserSelection() const;
@@ -326,7 +325,7 @@ class ClipboardBrowser : public QListView
         /** Hide main window. */
         void requestHide();
         /** Request clipboard change. */
-        void changeClipboard(const ClipboardItem *item);
+        void changeClipboard(const QVariantMap &data);
 
         /** Context menu actions were updated. */
         void contextMenuUpdated();
@@ -443,6 +442,9 @@ class ClipboardBrowser : public QListView
         void disconnectModel();
 
         void updateItemMaximumSize();
+
+        void lock();
+        void unlock();
 
         QSharedPointer<class ItemLoaderInterface> m_itemLoader;
         QString m_tabName;

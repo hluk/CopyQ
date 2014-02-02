@@ -254,10 +254,10 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
         return defaultValue;
 }
 
-bool clipboardEqualsItem(const ClipboardItem &item, ScriptableProxy *proxy)
+bool clipboardEquals(const QVariantMap &data, ScriptableProxy *proxy)
 {
-    foreach ( const QString &format, item.data().keys() ) {
-        if ( item.data(format) != proxy->getClipboardData(format) )
+    foreach ( const QString &format, data.keys() ) {
+        if ( data.value(format).toByteArray() != proxy->getClipboardData(format) )
             return false;
     }
 
@@ -267,23 +267,21 @@ bool clipboardEqualsItem(const ClipboardItem &item, ScriptableProxy *proxy)
 class ClipboardBrowserRemoteLock
 {
 public:
-    ClipboardBrowserRemoteLock(ScriptableProxy *proxy, int tabIndex, int rows)
+    ClipboardBrowserRemoteLock(ScriptableProxy *proxy, int rows)
         : m_proxy(rows > 4 ? proxy : NULL)
-        , m_tabIndex(tabIndex)
     {
         if (m_proxy != NULL)
-            m_proxy->browserLock(m_tabIndex);
+            m_proxy->browserLock();
     }
 
     ~ClipboardBrowserRemoteLock()
     {
         if (m_proxy != NULL)
-            m_proxy->browserUnlock(m_tabIndex);
+            m_proxy->browserUnlock();
     }
 
 private:
     ScriptableProxy *m_proxy;
-    int m_tabIndex;
 };
 
 } // namespace
@@ -294,7 +292,6 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_proxy(proxy)
     , m_engine(NULL)
     , m_baClass(NULL)
-    , m_currentTab()
     , m_inputSeparator("\n")
     , m_currentPath()
     , m_input()
@@ -385,29 +382,6 @@ QScriptValue Scriptable::applyRest(int first)
         args.append( context()->argument(i) );
 
     return fn.call(QScriptValue(), args);
-}
-
-int Scriptable::currentTab()
-{
-    if ( m_currentTab.isEmpty() )
-        return 0;
-
-    int i = m_proxy->findTabIndex(m_currentTab);
-    if (i != -1)
-        return i;
-
-    m_proxy->createTab(m_currentTab);
-    return m_proxy->findTabIndex(m_currentTab);
-}
-
-const QString &Scriptable::getCurrentTab() const
-{
-    return m_currentTab;
-}
-
-void Scriptable::setCurrentTab(const QString &tab)
-{
-    m_currentTab = tab;
 }
 
 const QString &Scriptable::getInputSeparator() const
@@ -549,11 +523,11 @@ QScriptValue Scriptable::selection()
 void Scriptable::copy()
 {
     int args = argumentCount();
+    QVariantMap data;
 
-    ClipboardItem item;
     if (args == 1) {
         QScriptValue value = argument(0);
-        item.setData( mimeText, toString(value).toUtf8() );
+        data[mimeText] = toString(value).toUtf8();
     } else if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
             // MIME
@@ -562,27 +536,24 @@ void Scriptable::copy()
             // DATA
             QScriptValue value = argument(++i);
             QByteArray bytes = toItemData(value, mime);
-            if (mime == mimeItems) {
-                QVariantMap newData;
-                deserializeData(&newData, bytes);
-                item.setData(newData);
-            } else {
-                item.setData(mime, bytes);
-            }
+            if (mime == mimeItems)
+                deserializeData(&data, bytes);
+            else
+                data[mime] = bytes;
         }
     } else {
         throwError(argumentError());
         return;
     }
 
-    m_proxy->setClipboard(&item);
+    m_proxy->setClipboard(data);
 
     // Wait for clipboard to be set.
     QElapsedTimer t;
     t.start();
     while (t.elapsed() < 2000) {
         QApplication::processEvents();
-        if ( clipboardEqualsItem(item, m_proxy) )
+        if ( clipboardEquals(data, m_proxy) )
             return;
     }
 
@@ -603,7 +574,7 @@ QScriptValue Scriptable::tab()
             response.append(tabName + '\n');
         return response;
     } else {
-        setCurrentTab(name);
+        m_proxy->setCurrentTab(name);
         return applyRest(1);
     }
 }
@@ -611,73 +582,59 @@ QScriptValue Scriptable::tab()
 void Scriptable::removetab()
 {
     const QString &name = arg(0);
-    int i = getTabIndexOrError(name);
-    if (i != -1)
-        m_proxy->removeTab(false, i);
+    const QString error = m_proxy->removeTab(name);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 void Scriptable::renametab()
 {
     const QString &name = arg(0);
     const QString &newName = arg(1);
-    int i = getTabIndexOrError(name);
-    if (i == -1)
-        return;
-    else if ( newName.isEmpty() )
-        throwError( tr("Tab name cannot be empty!") );
-    else if ( m_proxy->tabs().indexOf(newName) >= 0 )
-        throwError( tr("Tab with given name already exists!") );
-    else
-        m_proxy->renameTab(newName, i);
+    const QString error = m_proxy->renameTab(newName, name);
+    if ( !error.isEmpty() )
+        throwError(error);
 }
 
 QScriptValue Scriptable::length()
 {
-    return m_proxy->browserLength(currentTab());
+    return m_proxy->browserLength();
 }
 
 void Scriptable::select()
 {
-    int tab = currentTab();
-
     QScriptValue value = argument(0);
     int row;
     if ( toInt(value, row) ) {
-        m_proxy->browserMoveToClipboard(tab, row);
-        m_proxy->browserDelayedSaveItems(tab);
+        m_proxy->browserMoveToClipboard(row);
+        m_proxy->browserDelayedSaveItems();
     }
 }
 
 void Scriptable::next()
 {
-    int i = m_currentTab.isEmpty() ? -1 : m_proxy->findTabIndex(m_currentTab);
-    m_proxy->browserCopyNextItemToClipboard(i);
+    m_proxy->browserCopyNextItemToClipboard();
 }
 
 void Scriptable::previous()
 {
-    int i = m_currentTab.isEmpty() ? -1 : m_proxy->findTabIndex(m_currentTab);
-    m_proxy->browserCopyPreviousItemToClipboard(i);
+    m_proxy->browserCopyPreviousItemToClipboard();
 }
 
 void Scriptable::add()
 {
-    int tab = currentTab();
-
     const int count = argumentCount();
-    ClipboardBrowserRemoteLock lock(m_proxy, tab, count);
+    ClipboardBrowserRemoteLock lock(m_proxy, count);
     for (int i = 0; i < count; ++i) {
         QScriptValue value = argument(i);
-        m_proxy->browserAdd( tab, toString(value) );
+        m_proxy->browserAdd( toString(value) );
     }
 
-    m_proxy->browserDelayedSaveItems(tab);
+    m_proxy->browserDelayedSaveItems();
 }
 
 void Scriptable::insert()
 {
-    int tab = currentTab();
-
     int row;
     if ( !toInt(argument(0), row) ) {
         throwError(argumentError());
@@ -687,9 +644,9 @@ void Scriptable::insert()
     QScriptValue value = argument(1);
     QVariantMap data;
     data.insert( mimeText, toString(value).toUtf8() );
-    m_proxy->browserAdd(tab, data, row);
+    m_proxy->browserAdd(data, row);
 
-    m_proxy->browserDelayedSaveItems(tab);
+    m_proxy->browserDelayedSaveItems();
 }
 
 void Scriptable::remove()
@@ -707,20 +664,17 @@ void Scriptable::remove()
     if ( rows.empty() )
         rows.append(0);
 
-    int tab = currentTab();
-
     qSort( rows.begin(), rows.end(), qGreater<int>() );
 
-    ClipboardBrowserRemoteLock lock(m_proxy, tab, rows.size());
+    ClipboardBrowserRemoteLock lock(m_proxy, rows.size());
     foreach (int row, rows)
-        m_proxy->browserRemoveRow(tab, row);
+        m_proxy->browserRemoveRow(row);
 
-    m_proxy->browserDelayedSaveItems(tab);
+    m_proxy->browserDelayedSaveItems();
 }
 
 void Scriptable::edit()
 {
-    int tab = currentTab();
     QScriptValue value;
     QString text;
     int row;
@@ -731,7 +685,7 @@ void Scriptable::edit()
         if (i > 0)
             text.append( getInputSeparator() );
         if ( toInt(value, row) ) {
-            const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(tab, row, mimeText)
+            const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(row, mimeText)
                                               : m_proxy->getClipboardData(mimeText);
             text.append( QString::fromUtf8(bytes) );
         } else {
@@ -739,13 +693,13 @@ void Scriptable::edit()
         }
     }
 
-    if ( !m_proxy->browserOpenEditor(tab, fromString(text)) ) {
-        m_proxy->showBrowser(tab);
+    if ( !m_proxy->browserOpenEditor(fromString(text)) ) {
+        m_proxy->showBrowser();
         if (len == 1 && row >= 0) {
-            m_proxy->browserSetCurrent(tab, row);
-            m_proxy->browserEditRow(tab, row);
+            m_proxy->browserSetCurrent(row);
+            m_proxy->browserEditRow(row);
         } else {
-            m_proxy->browserEditNew(tab, text);
+            m_proxy->browserEditNew(text);
         }
     }
 }
@@ -765,7 +719,7 @@ QScriptValue Scriptable::read()
             if (used)
                 result.append(sep);
             used = true;
-            result.append( row >= 0 ? m_proxy->browserItemData(currentTab(), row, mime)
+            result.append( row >= 0 ? m_proxy->browserItemData(row, mime)
                                     : m_proxy->getClipboardData(mime) );
         } else {
             mime = toString(value);
@@ -813,7 +767,7 @@ void Scriptable::write()
         value = argument(++arg);
     }
 
-    m_proxy->browserAdd(currentTab(), data, row);
+    m_proxy->browserAdd(data, row);
 }
 
 QScriptValue Scriptable::separator()
@@ -826,7 +780,6 @@ void Scriptable::action()
 {
     QString text;
     bool anyRows = false;
-    int tab = currentTab();
     int i;
     QScriptValue value;
     QString sep = getInputSeparator();
@@ -840,7 +793,7 @@ void Scriptable::action()
             text.append(sep);
         else
             anyRows = true;
-        text.append( QString::fromUtf8(m_proxy->browserItemData(tab, row, mimeText)) );
+        text.append( QString::fromUtf8(m_proxy->browserItemData(row, mimeText)) );
     }
 
     if (!anyRows) {
@@ -855,7 +808,7 @@ void Scriptable::action()
         command.output = mimeText;
         command.input = mimeText;
         command.wait = false;
-        command.outputTab = m_proxy->tabs().value(tab);
+        command.outputTab = m_proxy->currentTab();
         command.sep = ((i + 1) < argumentCount()) ? toString( argument(i + 1) )
                                                   : QString('\n');
         m_proxy->action(data, command);
@@ -878,10 +831,9 @@ void Scriptable::popup()
 void Scriptable::exporttab()
 {
     const QString &fileName = arg(0);
-    int tab = currentTab();
     if ( fileName.isNull() ) {
         throwError(argumentError());
-    } else if ( !m_proxy->saveTab(getFileName(fileName), tab) ) {
+    } else if ( !m_proxy->saveTab(getFileName(fileName)) ) {
         throwError( tr("Cannot save to file \"%1\"!").arg(fileName) );
     }
 }
@@ -974,12 +926,4 @@ void Scriptable::keys()
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);
-}
-
-int Scriptable::getTabIndexOrError(const QString &name)
-{
-    int i = m_proxy->tabs().indexOf(name);
-    if (i == -1)
-        throwError( tr("Tab with given name doesn't exist!") );
-    return i;
 }

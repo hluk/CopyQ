@@ -21,55 +21,64 @@
 #include "ui_clipboarddialog.h"
 
 #include "common/common.h"
-#include "configurationmanager.h"
+#include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
+#include "gui/icons.h"
 
 #include <QListWidgetItem>
 #include <QTextCodec>
 #include <QUrl>
 
-ClipboardDialog::ClipboardDialog(const QVariantMap &itemData, QWidget *parent)
+ClipboardDialog::ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ClipboardDialog)
-    , m_data()
+    , m_item(item)
 {
     ui->setupUi(this);
 
+    setWindowIcon( ConfigurationManager::instance()->iconFactory()->appIcon() );
+
     QVariantMap data;
-    if ( itemData.isEmpty() ) {
+    if ( m_item.isNull() ) {
         const QMimeData *clipData = clipboardData();
         if (clipData)
             data = cloneData(*clipData);
     } else {
-        data = itemData;
+        setWindowTitle( tr("CopyQ Item Content") );
+        data = item->data();
     }
 
+    // Show only data that can be displayed.
     foreach ( const QString &mime, data.keys() ) {
-        if ( data[mime].canConvert<QByteArray>() ) {
+        if ( data[mime].canConvert<QByteArray>() && mime != mimeOwner ) {
             m_data.insert(mime, data[mime]);
             ui->listWidgetFormats->addItem(mime);
         }
     }
+
     ui->horizontalLayout->setStretchFactor(1, 1);
     ui->listWidgetFormats->setCurrentRow(0);
 
+    connect(this, SIGNAL(finished(int)), SLOT(onFinished()));
     ConfigurationManager::instance()->loadGeometry(this);
 
-    if ( itemData.isEmpty() )
-        setWindowTitle( tr("CopyQ Item Content") );
+    ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
+    ui->actionRemove_Format->setShortcut(shortcutToRemove());
+    ui->listWidgetFormats->addAction(ui->actionRemove_Format);
 }
 
 ClipboardDialog::~ClipboardDialog()
 {
-    ConfigurationManager::instance()->saveGeometry(this);
-
     delete ui;
 }
 
 void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
         QListWidgetItem *current, QListWidgetItem *)
 {
+    ui->actionRemove_Format->setEnabled(current != NULL);
+
     QTextEdit *edit = ui->textEditContent;
-    QString mime = current->text();
+    QString mime = current ? current->text() : QString();
 
     edit->clear();
     const QByteArray bytes = m_data.value(mime).toByteArray();
@@ -90,4 +99,22 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
         tr("<strong> mime:</strong> %1 <strong>size:</strong> %2 bytes")
             .arg(escapeHtml(mime))
             .arg(QString::number(bytes.size())));
+}
+
+void ClipboardDialog::on_actionRemove_Format_triggered()
+{
+     QListWidgetItem *item = ui->listWidgetFormats->currentItem();
+     if (item) {
+         m_data.remove(item->text());
+         if ( m_item.isNull() )
+             emit changeClipboard(m_data);
+         else
+             m_item->setData(m_data);
+         delete item;
+     }
+}
+
+void ClipboardDialog::onFinished()
+{
+    ConfigurationManager::instance()->saveGeometry(this);
 }

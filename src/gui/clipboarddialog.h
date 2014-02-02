@@ -20,6 +20,8 @@
 #ifndef CLIPBOARDDIALOG_H
 #define CLIPBOARDDIALOG_H
 
+#include "item/clipboarditem.h"
+
 #include <QDialog>
 #include <QVariantMap>
 
@@ -37,15 +39,23 @@ public:
     /**
      * Create dialog with item data or clipboard data content displayed.
      */
-    explicit ClipboardDialog(const QVariantMap &itemData = QVariantMap(), QWidget *parent = NULL);
+    explicit ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent = NULL);
     ~ClipboardDialog();
+
+signals:
+    void changeClipboard(const QVariantMap &data);
 
 private slots:
     void on_listWidgetFormats_currentItemChanged(
             QListWidgetItem *current, QListWidgetItem *previous);
 
+    void on_actionRemove_Format_triggered();
+
+    void onFinished();
+
 private:
     Ui::ClipboardDialog *ui;
+    ClipboardItemPtr m_item;
     QVariantMap m_data;
 };
 

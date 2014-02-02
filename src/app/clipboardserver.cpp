@@ -84,8 +84,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
              this, SLOT(onCommitData(QSessionManager&)) );
 
-    connect( m_wnd.data(), SIGNAL(changeClipboard(const ClipboardItem*)),
-             this, SLOT(changeClipboard(const ClipboardItem*)));
+    connect( m_wnd.data(), SIGNAL(changeClipboard(QVariantMap)),
+             this, SLOT(changeClipboard(QVariantMap)) );
 
     connect( m_wnd.data(), SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
@@ -318,9 +318,9 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     } else {
 #ifdef COPYQ_WS_X11
         if ( data.value(mimeClipboardMode) != "selection" )
-            m_wnd->clipboardChanged(&item);
+            m_wnd->clipboardChanged(item.data());
 #else
-        m_wnd->clipboardChanged(&item);
+        m_wnd->clipboardChanged(item.data());
 #endif
 
         if (m_ignoreNextItem) {
@@ -343,7 +343,7 @@ void ClipboardServer::monitorConnectionError()
     startMonitoring();
 }
 
-void ClipboardServer::changeClipboard(const ClipboardItem *item)
+void ClipboardServer::changeClipboard(const QVariantMap &data)
 {
     if ( !isMonitoring() ) {
         COPYQ_LOG("Cannot send message to monitor!");
@@ -352,8 +352,8 @@ void ClipboardServer::changeClipboard(const ClipboardItem *item)
 
     COPYQ_LOG("Sending message to monitor.");
 
-    m_monitor->writeMessage( serializeData(item->data()) );
-    m_lastHash = item->dataHash();
+    m_monitor->writeMessage( serializeData(data) );
+    m_lastHash = hash(data);
 }
 
 void ClipboardServer::doCommand(const Arguments &args, QLocalSocket *client)

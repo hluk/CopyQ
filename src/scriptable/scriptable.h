@@ -34,7 +34,6 @@ class QScriptEngine;
 class Scriptable : public QObject, protected QScriptable
 {
     Q_OBJECT
-    Q_PROPERTY(QString currentTab READ getCurrentTab WRITE setCurrentTab)
     Q_PROPERTY(QString inputSeparator READ getInputSeparator WRITE setInputSeparator)
     Q_PROPERTY(QString currentPath READ getCurrentPath WRITE setCurrentPath)
 
@@ -63,11 +62,6 @@ public:
     QByteArray toItemData(const QScriptValue &value, const QString &mime) const;
 
     QScriptValue applyRest(int first);
-
-    int currentTab();
-
-    const QString &getCurrentTab() const;
-    void setCurrentTab(const QString &tab);
 
     const QString &getInputSeparator() const;
     void setInputSeparator(const QString &separator);
@@ -147,7 +141,6 @@ private:
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
-    QString m_currentTab;
     QString m_inputSeparator;
     QString m_currentPath;
     QScriptValue m_input;
