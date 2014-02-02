@@ -431,4 +431,4 @@ void ItemEncryptedLoader::updateUi()
     }
 }
 
-Q_EXPORT_PLUGIN2(itemdata, ItemEncryptedLoader)
+Q_EXPORT_PLUGIN2(itemencrypted, ItemEncryptedLoader)

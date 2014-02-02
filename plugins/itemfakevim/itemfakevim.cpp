@@ -578,6 +578,6 @@ ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelInd
     return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : NULL;
 }
 
-Q_EXPORT_PLUGIN2(itemtext, ItemFakeVimLoader)
+Q_EXPORT_PLUGIN2(itemfakevim, ItemFakeVimLoader)
 
 #include "itemfakevim.moc"

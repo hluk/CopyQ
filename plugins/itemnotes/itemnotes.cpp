@@ -333,4 +333,4 @@ bool ItemNotesLoader::matches(const QModelIndex &index, const QRegExp &re) const
     return re.indexIn(text) != -1;
 }
 
-Q_EXPORT_PLUGIN2(itemtext, ItemNotesLoader)
+Q_EXPORT_PLUGIN2(itemnotes, ItemNotesLoader)
