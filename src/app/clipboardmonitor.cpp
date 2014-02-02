@@ -251,7 +251,7 @@ private:
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     : QObject()
-    , App(new QApplication(argc, argv))
+    , App(createPlatformNativeInterface()->createMonitorApplication(argc, argv))
     , m_formats()
     , m_newdata()
     , m_socket( new QLocalSocket(this) )

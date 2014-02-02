@@ -34,8 +34,6 @@
 #include <Carbon/Carbon.h>
 
 namespace {
-    QPointer<ForegroundBackgroundFilter> globalFilter = 0;
-
     QWidget * getMainWindow() {
         foreach (QWidget *widget, QApplication::topLevelWidgets()) {
             if (widget->objectName() == "MainWindow") {
@@ -80,20 +78,15 @@ namespace {
     }
 }
 
-bool ForegroundBackgroundFilter::installFilter()
+void ForegroundBackgroundFilter::installFilter(QObject *parent)
 {
-    if (!globalFilter) {
-        globalFilter = new ForegroundBackgroundFilter();
-        QCoreApplication *app = QCoreApplication::instance();
-        globalFilter->setParent(app);
-        app->installEventFilter(globalFilter);
-    }
-
-    return (globalFilter != 0);
+    ForegroundBackgroundFilter *filter = new ForegroundBackgroundFilter(parent);
+    parent->installEventFilter(filter);
 }
 
-ForegroundBackgroundFilter::ForegroundBackgroundFilter() :
-    m_macPlatform(new MacPlatform())
+ForegroundBackgroundFilter::ForegroundBackgroundFilter(QObject *parent)
+    : QObject(parent)
+    , m_macPlatform(new MacPlatform())
     , m_mainWindow(getMainWindow())
 {
 }

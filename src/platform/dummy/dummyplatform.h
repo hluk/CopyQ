@@ -22,6 +22,9 @@
 
 #include "platform/platformnativeinterface.h"
 
+#include <QApplication>
+#include <QCoreApplication>
+
 class PlatformWindow
 {
 public:
@@ -45,7 +48,17 @@ public:
 
     void setAutostartEnabled(bool) {}
 
-    void onApplicationStarted() {}
+    QApplication *createServerApplication(int &argc, char **argv) { return new QApplication(argc, argv); }
+
+    QApplication *createMonitorApplication(int &argc, char **argv) { return new QApplication(argc, argv); }
+
+    QCoreApplication *createClientApplication(int &argc, char **argv) { return new QCoreApplication(argc, argv); }
+
+    void serverApplicationCreated() {}
+
+    void monitorApplicationCreated() {}
+
+    void clientApplicationCreated() {}
 };
 
 #endif // DUMMYPLATFORM_H

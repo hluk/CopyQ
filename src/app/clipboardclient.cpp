@@ -30,7 +30,7 @@
 
 ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QString &sessionName)
     : QObject()
-    , App(new QCoreApplication(argc, argv), sessionName)
+    , App(createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_client()
     , m_args(argc, argv, skipArgc + 1)
 {

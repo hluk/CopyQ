@@ -54,66 +54,28 @@ void exitSignalHandler(int)
 
 #endif // Q_OS_UNIX
 
-#ifdef Q_OS_WIN
 namespace {
 
-void migrateDirectory(const QString oldPath, const QString newPath)
+void installTranslator(const QString &filename, const QString &directory)
 {
-    QDir oldDir(oldPath);
-    QDir newDir(newPath);
-
-    if ( oldDir.exists() && newDir.exists() ) {
-        foreach ( const QString &fileName, oldDir.entryList(QDir::Files) ) {
-            const QString oldFileName = oldDir.absoluteFilePath(fileName);
-            const QString newFileName = newDir.absoluteFilePath(fileName);
-            COPYQ_LOG( QString("Migrating \"%1\" -> \"%2\"")
-                       .arg(oldFileName)
-                       .arg(newFileName) );
-            QFile::copy(oldFileName, newFileName);
-        }
-    }
+    QTranslator *translator = new QTranslator(qApp);
+    translator->load(filename, directory);
+    QCoreApplication::installTranslator(translator);
 }
 
-void migrateConfigToAppDir()
+void installTranslator()
 {
-    const QString path = QCoreApplication::applicationDirPath() + "/config";
-    QDir dir(path);
+    QString locale = QSettings().value("Options/language").toString();
+    if (locale.isEmpty())
+        locale = QLocale::system().name();
 
-    if ( (dir.isReadable() || dir.mkdir(".")) && dir.mkpath("copyq") ) {
-        QSettings oldSettings;
-        const QString oldConfigFileName =
-                QSettings(QSettings::IniFormat, QSettings::UserScope,
-                          QCoreApplication::organizationName(),
-                          QCoreApplication::applicationName()).fileName();
-        const QString oldConfigPath = QDir::cleanPath(oldConfigFileName + "/..");
+    installTranslator("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+    installTranslator("copyq_" + locale, ":/translations");
 
-        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
-        QSettings::setDefaultFormat(QSettings::IniFormat);
-        QSettings newSettings;
-
-        if ( newSettings.allKeys().isEmpty() ) {
-            COPYQ_LOG("Migrating configuration to application directory.");
-            const QString newConfigPath = QDir::cleanPath(newSettings.fileName() + "/..");
-
-            // Migrate configuration from system directory.
-            migrateDirectory(oldConfigPath, newConfigPath);
-
-            // Migrate themes from system directory.
-            QDir(newConfigPath).mkdir("themes");
-            migrateDirectory(oldConfigPath + "/themes", newConfigPath + "/themes");
-
-            // Migrate rest of the configuration from the system registry.
-            foreach ( const QString &key, oldSettings.allKeys() )
-                newSettings.setValue(key, oldSettings.value(key));
-        }
-    } else {
-        COPYQ_LOG( QString("Cannot use \"%1\" directory to save user configuration and items.")
-                   .arg(path) );
-    }
+    QLocale::setDefault(QLocale(locale));
 }
 
 } // namespace
-#endif
 
 App::App(QCoreApplication *application, const QString &sessionName)
     : m_app(application)
@@ -135,24 +97,6 @@ App::App(QCoreApplication *application, const QString &sessionName)
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
 
-#ifdef Q_OS_WIN
-    migrateConfigToAppDir();
-#endif
-
-    QString locale = QSettings().value("Options/language").toString();
-    if (locale.isEmpty())
-        locale = QLocale::system().name();
-
-    QTranslator *translator = new QTranslator(m_app.data());
-    translator->load("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
-    QCoreApplication::installTranslator(translator);
-
-    translator = new QTranslator(m_app.data());
-    translator->load("copyq_" + locale, ":/translations");
-    QCoreApplication::installTranslator(translator);
-
-    QLocale::setDefault(QLocale(locale));
-
 #ifdef Q_OS_UNIX
     // Safely quit application on TERM and HUP signals.
     struct sigaction sigact;
@@ -168,7 +112,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
         log( QString("sigaction() failed!"), LogError );
 #endif
 
-    createPlatformNativeInterface()->onApplicationStarted();
+    installTranslator();
 }
 
 App::~App()

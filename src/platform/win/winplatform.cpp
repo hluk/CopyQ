@@ -20,7 +20,71 @@
 #include "winplatform.h"
 #include "winplatformwindow.h"
 
+#include <QApplication>
+#include <QCoreApplication>
+#include <QDir>
+#include <QSettings>
+
 #include <qt_windows.h>
+
+namespace {
+
+void migrateDirectory(const QString oldPath, const QString newPath)
+{
+    QDir oldDir(oldPath);
+    QDir newDir(newPath);
+
+    if ( oldDir.exists() && newDir.exists() ) {
+        foreach ( const QString &fileName, oldDir.entryList(QDir::Files) ) {
+            const QString oldFileName = oldDir.absoluteFilePath(fileName);
+            const QString newFileName = newDir.absoluteFilePath(fileName);
+            COPYQ_LOG( QString("Migrating \"%1\" -> \"%2\"")
+                       .arg(oldFileName)
+                       .arg(newFileName) );
+            QFile::copy(oldFileName, newFileName);
+        }
+    }
+}
+
+void migrateConfigToAppDir()
+{
+    const QString path = QCoreApplication::applicationDirPath() + "/config";
+    QDir dir(path);
+
+    if ( (dir.isReadable() || dir.mkdir(".")) && dir.mkpath("copyq") ) {
+        QSettings oldSettings;
+        const QString oldConfigFileName =
+                QSettings(QSettings::IniFormat, QSettings::UserScope,
+                          QCoreApplication::organizationName(),
+                          QCoreApplication::applicationName()).fileName();
+        const QString oldConfigPath = QDir::cleanPath(oldConfigFileName + "/..");
+
+        QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
+        QSettings::setDefaultFormat(QSettings::IniFormat);
+        QSettings newSettings;
+
+        if ( newSettings.allKeys().isEmpty() ) {
+            COPYQ_LOG("Migrating configuration to application directory.");
+            const QString newConfigPath = QDir::cleanPath(newSettings.fileName() + "/..");
+
+            // Migrate configuration from system directory.
+            migrateDirectory(oldConfigPath, newConfigPath);
+
+            // Migrate themes from system directory.
+            QDir(newConfigPath).mkdir("themes");
+            migrateDirectory(oldConfigPath + "/themes", newConfigPath + "/themes");
+
+            // Migrate rest of the configuration from the system registry.
+            foreach ( const QString &key, oldSettings.allKeys() )
+                newSettings.setValue(key, oldSettings.value(key));
+        }
+    } else {
+        COPYQ_LOG( QString("Cannot use \"%1\" directory to save user configuration and items.")
+                   .arg(path) );
+    }
+}
+
+} // namespace
 
 PlatformPtr createPlatformNativeInterface()
 {
@@ -37,4 +101,24 @@ PlatformWindowPtr WinPlatform::getCurrentWindow()
 {
     HWND window = GetForegroundWindow();
     return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
+}
+
+QApplication *WinPlatform::createServerApplication(int &argc, char **argv)
+{
+    return new QApplication(argc, argv);
+}
+
+QApplication *WinPlatform::createMonitorApplication(int &argc, char **argv)
+{
+    return new QApplication(argc, argv);
+}
+
+QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
+{
+    return new QCoreApplication(argc, argv);
+}
+
+void WinPlatform::serverApplicationCreated()
+{
+    migrateConfigToAppDir();
 }

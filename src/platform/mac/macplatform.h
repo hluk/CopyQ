@@ -22,6 +22,9 @@
 
 #include "platform/platformnativeinterface.h"
 
+class QApplication;
+class QCoreApplication;
+
 class MacPlatform : public PlatformNativeInterface
 {
 public:
@@ -34,7 +37,17 @@ public:
     bool isAutostartEnabled();
     void setAutostartEnabled(bool);
 
-    void onApplicationStarted();
+    QApplication *createServerApplication(int &argc, char **argv);
+
+    QApplication *createMonitorApplication(int &argc, char **argv);
+
+    QCoreApplication *createClientApplication(int &argc, char **argv);
+
+    void serverApplicationCreated() {}
+
+    void monitorApplicationCreated() {}
+
+    void clientApplicationCreated() {}
 
     /**
      * Get the number of changes to the clipboard (NSPasteboard::changeCount).

@@ -23,6 +23,8 @@
 #include <QSharedPointer>
 #include <QWidget>
 
+class QApplication;
+class QCoreApplication;
 class PlatformWindow;
 class QWidget;
 
@@ -65,9 +67,34 @@ public:
     virtual void setAutostartEnabled(bool enable) = 0;
 
     /**
-     * Called after application starts.
+     * Create QApplication object for server.
      */
-    virtual void onApplicationStarted() = 0;
+    virtual QApplication *createServerApplication(int &argc, char **argv) = 0;
+
+    /**
+     * Create QApplication object for clipboard monitor.
+     */
+    virtual QApplication *createMonitorApplication(int &argc, char **argv) = 0;
+
+    /**
+     * Create QCoreApplication object for client.
+     */
+    virtual QCoreApplication *createClientApplication(int &argc, char **argv) = 0;
+
+    /**
+     * Called after server application is created.
+     */
+    virtual void serverApplicationCreated() = 0;
+
+    /**
+     * Called after clipboard monitor application is created.
+     */
+    virtual void monitorApplicationCreated() = 0;
+
+    /**
+     * Called after client application is created.
+     */
+    virtual void clientApplicationCreated() = 0;
 };
 
 /**

@@ -24,6 +24,8 @@
 
 #include <QSharedPointer>
 
+class QApplication;
+class QCoreApplication;
 class X11DisplayGuard;
 
 class X11Platform : public PlatformNativeInterface
@@ -59,7 +61,17 @@ public:
 
     bool isSelectionEmpty() const;
 
-    void onApplicationStarted();
+    QApplication *createServerApplication(int &argc, char **argv);
+
+    QApplication *createMonitorApplication(int &argc, char **argv);
+
+    QCoreApplication *createClientApplication(int &argc, char **argv);
+
+    void serverApplicationCreated() {}
+
+    void monitorApplicationCreated() {}
+
+    void clientApplicationCreated() {}
 
 private:
     QSharedPointer<X11DisplayGuard> d;

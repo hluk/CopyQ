@@ -56,7 +56,7 @@ int monitorProcessId = 0;
 
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
-    , App(new QApplication(argc, argv), sessionName)
+    , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName)
     , m_server(NULL)
     , m_wnd()
     , m_monitor(NULL)

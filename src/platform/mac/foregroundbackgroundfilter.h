@@ -40,14 +40,14 @@ class ForegroundBackgroundFilter : public QObject
 
 public:
     /**
-     * Install the filter if not already installed.
+     * Install the filter to parent.
      */
-    static bool installFilter();
+    static void installFilter(QObject *parent);
     virtual ~ForegroundBackgroundFilter();
 
 protected:
     bool eventFilter(QObject *obj, QEvent *ev);
-    ForegroundBackgroundFilter();
+    ForegroundBackgroundFilter(QObject *parent);
 
 private:
     QScopedPointer<MacPlatform> m_macPlatform;

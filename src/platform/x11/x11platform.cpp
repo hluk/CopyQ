@@ -20,6 +20,7 @@
 #include "x11platform.h"
 
 #include <QApplication>
+#include <QCoreApplication>
 #include <QDir>
 #include <QRegExp>
 #include <QWidget>
@@ -231,7 +232,18 @@ bool X11Platform::isSelectionEmpty() const
     return XGetSelectionOwner(d->display(), atom) == None;
 }
 
-void X11Platform::onApplicationStarted()
+QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
     old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
+    return new QApplication(argc, argv);
+}
+
+QApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
+{
+    return new QApplication(argc, argv);
+}
+
+QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
+{
+    return new QCoreApplication(argc, argv);
 }

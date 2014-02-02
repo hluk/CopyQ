@@ -19,22 +19,48 @@
 
 #include "macplatform.h"
 
+#include "common/common.h"
 #include "copyqpasteboardmime.h"
-#include "urlpasteboardmime.h"
 #include "foregroundbackgroundfilter.h"
 #include "macplatformwindow.h"
-#include <common/common.h>
+#include "platform/mac/macactivity.h"
+#include "urlpasteboardmime.h"
 
-#include <QMutex>
-#include <QMutexLocker>
+#include <QApplication>
+#include <QCoreApplication>
 #include <QGuiApplication>
+#include <QScopedPointer>
 
 #include <Cocoa/Cocoa.h>
 #include <Carbon/Carbon.h>
 
 namespace {
-    QMutex mutex(QMutex::Recursive);
-    QList<QMacPasteboardMime*> pasteboardMimes;
+    class ClipboardApplication : public QApplication
+    {
+    public:
+        static QApplication *create(int &argc, char **argv)
+        {
+            // Only try to create pasteboardMimes once, and only try if we have a native interface,
+            // otherwise everything breaks when QPasteboardMime tries to resove some native functions.
+            if (QGuiApplication::platformNativeInterface())
+                return new ClipboardApplication(argc, argv);
+
+            return new QApplication(argc, argv);
+        }
+
+    private:
+        ClipboardApplication(int &argc, char **argv)
+            : QApplication(argc, argv)
+            , m_pasteboardMime()
+            , m_pasteboardMimeUrl(QLatin1String("public.url"))
+            , m_pasteboardMimeFileUrl(QLatin1String("public.file-url"))
+        {
+        }
+
+        CopyQPasteboardMime m_pasteboardMime;
+        UrlPasteboardMime m_pasteboardMimeUrl;
+        UrlPasteboardMime m_pasteboardMimeFileUrl;
+    };
 
     template<typename T> inline T* objc_cast(id from)
     {
@@ -130,17 +156,24 @@ MacPlatform::MacPlatform()
 {
 }
 
-void MacPlatform::onApplicationStarted() {
-    QMutexLocker lock(&mutex);
-    // Only try to create pasteboardMimes once, and only try if we have a native interface,
-    // otherwise everything breaks when QPasteboardMime tries to resove some native functions.
-    if (pasteboardMimes.isEmpty() && QGuiApplication::platformNativeInterface()) {
-        pasteboardMimes << new CopyQPasteboardMime();
-        pasteboardMimes << new UrlPasteboardMime(QLatin1String("public.url"));
-        pasteboardMimes << new UrlPasteboardMime(QLatin1String("public.file-url"));
-    }
+QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
+{
+    MacActivity activity(MacActivity::Background, "CopyQ Server");
+    QApplication *app = ClipboardApplication::create(argc, argv);
+    ForegroundBackgroundFilter::installFilter(app);
+    return app;
+}
 
-    ForegroundBackgroundFilter::installFilter();
+QApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
+{
+    MacActivity activity(MacActivity::Background, "CopyQ clipboard monitor");
+    return ClipboardApplication::create(argc, argv);
+}
+
+QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
+{
+    MacActivity activity(MacActivity::User, "CopyQ Client");
+    return new QCoreApplication(argc, argv);
 }
 
 PlatformWindowPtr MacPlatform::getCurrentWindow()
