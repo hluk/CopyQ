@@ -537,8 +537,7 @@ void Scriptable::copy()
     ClipboardItem item;
     if (args == 1) {
         QScriptValue value = argument(0);
-        QByteArray *bytes = toByteArray(value);
-        item.setData( mimeText, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+        item.setData( mimeText, toString(value).toUtf8() );
     } else if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
             // MIME
@@ -556,7 +555,7 @@ void Scriptable::copy()
                     item.setData(mime, *bytes);
                 }
             } else {
-                item.setData( mime, toString(value).toLocal8Bit() );
+                item.setData( mime, toString(value).toUtf8() );
             }
         }
     } else {
@@ -657,14 +656,7 @@ void Scriptable::add()
     ClipboardBrowserRemoteLock lock(m_proxy, tab, count);
     for (int i = 0; i < count; ++i) {
         QScriptValue value = argument(i);
-        QByteArray *bytes = toByteArray(value);
-        if (bytes != NULL) {
-            QVariantMap data;
-            data.insert(mimeText, *bytes);
-            m_proxy->browserAdd(tab, data, 0);
-        } else {
-            m_proxy->browserAdd( tab, toString(value) );
-        }
+        m_proxy->browserAdd( tab, toString(value) );
     }
 
     m_proxy->browserDelayedSaveItems(tab);
@@ -681,9 +673,8 @@ void Scriptable::insert()
     }
 
     QScriptValue value = argument(1);
-    QByteArray *bytes = toByteArray(value);
     QVariantMap data;
-    data.insert( mimeText, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+    data.insert( mimeText, toString(value).toUtf8() );
     m_proxy->browserAdd(tab, data, row);
 
     m_proxy->browserDelayedSaveItems(tab);
@@ -728,8 +719,9 @@ void Scriptable::edit()
         if (i > 0)
             text.append( getInputSeparator() );
         if ( toInt(value, row) ) {
-            text.append( row >= 0 ? m_proxy->browserItemData(tab, row, mimeText)
-                                  : QString::fromUtf8(m_proxy->getClipboardData(mimeText)) );
+            const QByteArray bytes = row >= 0 ? m_proxy->browserItemData(tab, row, mimeText)
+                                              : m_proxy->getClipboardData(mimeText);
+            text.append( QString::fromUtf8(bytes) );
         } else {
             text.append( toString(value) );
         }
@@ -804,8 +796,7 @@ void Scriptable::write()
 
         // DATA
         value = argument(++arg);
-        QByteArray *bytes = toByteArray(value);
-        data.insert( mime, bytes != NULL ? *bytes : toString(value).toLocal8Bit() );
+        data.insert( mime, toString(value).toUtf8() );
 
         value = argument(++arg);
     }

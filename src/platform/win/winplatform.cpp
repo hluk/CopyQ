@@ -17,6 +17,8 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "common/common.h"
+
 #include "winplatform.h"
 #include "winplatformwindow.h"
 
@@ -93,7 +95,7 @@ PlatformPtr createPlatformNativeInterface()
 
 PlatformWindowPtr WinPlatform::getWindow(WId winId)
 {
-    HWND window = static_cast<HWND>(winId);
+    HWND window = reinterpret_cast<HWND>(winId);
     return PlatformWindowPtr( window ? new WinPlatformWindow(window) : NULL );
 }
 
