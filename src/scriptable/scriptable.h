@@ -45,6 +45,7 @@ public:
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
+    QByteArray fromString(const QString &value) const;
     QString toString(const QScriptValue &value) const;
     bool toInt(const QScriptValue &value, int &number) const;
 
@@ -52,6 +53,14 @@ public:
      * Return pointer to QByteArray or NULL.
      */
     QByteArray *toByteArray(const QScriptValue &value) const;
+
+    /**
+     * Return data for item converted from @a value.
+     *
+     * If mime starts with "text/" or isn't byte array the value is re-encoded
+     * from local encoding to UTF8.
+     */
+    QByteArray toItemData(const QScriptValue &value, const QString &mime) const;
 
     QScriptValue applyRest(int first);
 

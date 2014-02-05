@@ -25,7 +25,6 @@
 #include "gui/mainwindow.h"
 #include "scriptable/scriptable.h"
 
-#include <cstdio>
 #include <QCoreApplication>
 #include <QFile>
 #include <QScriptEngine>
@@ -64,7 +63,7 @@ void evaluate(const QString &functionName, const char *arg)
 
     QFile f;
     f.open(stdout, QIODevice::WriteOnly);
-    f.write( result.toString().toStdString().data() );
+    f.write( scriptable.fromString(result.toString()) );
 }
 
 int startServer(int argc, char *argv[], const QString &sessionName)

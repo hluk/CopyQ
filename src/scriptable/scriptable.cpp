@@ -326,6 +326,15 @@ QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
     return m_baClass->newInstance(bytes);
 }
 
+QByteArray Scriptable::fromString(const QString &value) const
+{
+  QByteArray bytes = value.toLocal8Bit();
+#ifdef COPYQ_OS_WIN
+  bytes.replace('\n', "\r\n");
+#endif
+  return bytes;
+}
+
 QString Scriptable::toString(const QScriptValue &value) const
 {
     QByteArray *bytes = toByteArray(value);
@@ -349,6 +358,13 @@ QByteArray *Scriptable::toByteArray(const QScriptValue &value) const
         return qscriptvalue_cast<QByteArray*>(value.data());
     else
         return NULL;
+}
+
+QByteArray Scriptable::toItemData(const QScriptValue &value, const QString &mime) const
+{
+    if (!mime.startsWith("text/") && value.scriptClass() == m_baClass)
+      return *toByteArray(value);
+    return toString(value).toUtf8();
 }
 
 QScriptValue Scriptable::applyRest(int first)
@@ -427,7 +443,7 @@ QString Scriptable::arg(int i, const QString &defaultValue)
 
 void Scriptable::throwError(const QString &errorMessage)
 {
-    context()->throwError( errorMessage.toLocal8Bit() + QString("\n") );
+    context()->throwError( fromString(errorMessage + '\n') );
 }
 
 QScriptValue Scriptable::version()
@@ -462,12 +478,12 @@ QScriptValue Scriptable::help()
         return QString();
     }
 
-    if (cmd.isNull())
-        helpString.append("\n" + helpTail());
+    if ( cmd.isNull() ) {
+        helpString.append("\n" + helpTail() + "\n\n" + tr(programName)
+            + " v" + COPYQ_VERSION + " (hluk@email.cz)\n");
+    }
 
-    return helpString.toLocal8Bit() +
-            (cmd.isNull() ? "\n\n" + tr(programName) + " v" + COPYQ_VERSION + " (hluk@email.cz)\n"
-                          : QString());
+    return helpString;
 }
 
 void Scriptable::show()
@@ -500,7 +516,7 @@ void Scriptable::menu()
 
 void Scriptable::exit()
 {
-    QByteArray message = tr("Terminating server.\n").toLocal8Bit();
+    QByteArray message = fromString( tr("Terminating server.\n") );
     emit sendMessage(message, CommandExit);
 }
 
@@ -545,17 +561,13 @@ void Scriptable::copy()
 
             // DATA
             QScriptValue value = argument(++i);
-            QByteArray *bytes = toByteArray(value);
-            if (bytes != NULL) {
-                if (mime == mimeItems) {
-                    QVariantMap newData;
-                    deserializeData(&newData, *bytes);
-                    item.setData(newData);
-                } else {
-                    item.setData(mime, *bytes);
-                }
+            QByteArray bytes = toItemData(value, mime);
+            if (mime == mimeItems) {
+                QVariantMap newData;
+                deserializeData(&newData, bytes);
+                item.setData(newData);
             } else {
-                item.setData( mime, toString(value).toUtf8() );
+                item.setData(mime, bytes);
             }
         }
     } else {
@@ -727,7 +739,7 @@ void Scriptable::edit()
         }
     }
 
-    if ( !m_proxy->browserOpenEditor(tab, text.toLocal8Bit()) ) {
+    if ( !m_proxy->browserOpenEditor(tab, fromString(text)) ) {
         m_proxy->showBrowser(tab);
         if (len == 1 && row >= 0) {
             m_proxy->browserSetCurrent(tab, row);
@@ -796,7 +808,7 @@ void Scriptable::write()
 
         // DATA
         value = argument(++arg);
-        data.insert( mime, toString(value).toUtf8() );
+        data.insert( mime, toItemData(value, mime) );
 
         value = argument(++arg);
     }
@@ -930,12 +942,8 @@ QScriptValue Scriptable::input()
 void Scriptable::print(const QScriptValue &value)
 {
     QByteArray *message = toByteArray(value);
-    QByteArray bytes;
-    if (message == NULL) {
-        bytes = value.toString().toLocal8Bit();
-        message = &bytes;
-    }
-    emit sendMessage(*message, CommandSuccess);
+    QByteArray bytes = (message != NULL) ? *message : fromString(value.toString());
+    emit sendMessage(bytes, CommandSuccess);
 }
 
 void Scriptable::abort()
