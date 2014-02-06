@@ -112,6 +112,8 @@ App::App(QCoreApplication *application, const QString &sessionName)
         log( QString("sigaction() failed!"), LogError );
 #endif
 
+    createPlatformNativeInterface()->loadSettings();
+
     installTranslator();
 }
 

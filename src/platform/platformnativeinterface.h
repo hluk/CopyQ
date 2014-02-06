@@ -82,19 +82,9 @@ public:
     virtual QCoreApplication *createClientApplication(int &argc, char **argv) = 0;
 
     /**
-     * Called after server application is created.
+     * Modify settings (QSettings) before it's first used.
      */
-    virtual void serverApplicationCreated() = 0;
-
-    /**
-     * Called after clipboard monitor application is created.
-     */
-    virtual void monitorApplicationCreated() = 0;
-
-    /**
-     * Called after client application is created.
-     */
-    virtual void clientApplicationCreated() = 0;
+    virtual void loadSettings() = 0;
 };
 
 /**

@@ -47,11 +47,7 @@ public:
 
     QCoreApplication *createClientApplication(int &argc, char **argv);
 
-    void serverApplicationCreated();
-
-    void monitorApplicationCreated() {}
-
-    void clientApplicationCreated() {}
+    void loadSettings();
 };
 
 #endif // WINPLATFORM_H

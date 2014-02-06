@@ -54,11 +54,7 @@ public:
 
     QCoreApplication *createClientApplication(int &argc, char **argv) { return new QCoreApplication(argc, argv); }
 
-    void serverApplicationCreated() {}
-
-    void monitorApplicationCreated() {}
-
-    void clientApplicationCreated() {}
+    void loadSettings() {}
 };
 
 #endif // DUMMYPLATFORM_H

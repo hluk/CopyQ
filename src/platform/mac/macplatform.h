@@ -43,11 +43,7 @@ public:
 
     QCoreApplication *createClientApplication(int &argc, char **argv);
 
-    void serverApplicationCreated() {}
-
-    void monitorApplicationCreated() {}
-
-    void clientApplicationCreated() {}
+    void loadSettings() {}
 
     /**
      * Get the number of changes to the clipboard (NSPasteboard::changeCount).

@@ -120,7 +120,7 @@ QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
     return new QCoreApplication(argc, argv);
 }
 
-void WinPlatform::serverApplicationCreated()
+void WinPlatform::loadSettings()
 {
     migrateConfigToAppDir();
 }

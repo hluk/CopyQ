@@ -67,11 +67,7 @@ public:
 
     QCoreApplication *createClientApplication(int &argc, char **argv);
 
-    void serverApplicationCreated() {}
-
-    void monitorApplicationCreated() {}
-
-    void clientApplicationCreated() {}
+    void loadSettings() {}
 
 private:
     QSharedPointer<X11DisplayGuard> d;
