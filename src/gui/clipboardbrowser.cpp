@@ -979,11 +979,11 @@ void ClipboardBrowser::updateContextMenu()
     if (editing())
         return;
 
-    initActions();
+    addCommandsToMenu(m_menu, getSelectedItemData());
 
     m_menu->addSeparator();
 
-    addCommandsToMenu(m_menu, getSelectedItemData());
+    initActions();
 
     emit contextMenuUpdated();
 }
