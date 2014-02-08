@@ -213,7 +213,7 @@ ItemFactory::ItemFactory(QObject *parent)
     , m_dummyLoader(new DummyLoader)
     , m_disabledLoaders()
     , m_loaderChildren()
-{ 
+{
     loadPlugins();
 
     if ( m_loaders.isEmpty() )
