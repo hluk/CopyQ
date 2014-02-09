@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>276</width>
+    <width>285</width>
     <height>374</height>
    </rect>
   </property>
@@ -14,6 +14,16 @@
    <string>CopyQ Action Dialog</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QComboBox" name="comboBoxCommands">
+     <property name="toolTip">
+      <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
+     </property>
+     <property name="insertPolicy">
+      <enum>QComboBox::NoInsert</enum>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QLabel" name="label_2">
      <property name="sizePolicy">
@@ -26,20 +36,14 @@
       <string>Co&amp;mmand (%1 is text of selected items):</string>
      </property>
      <property name="buddy">
-      <cstring>cmdEdit</cstring>
+      <cstring>plainTextEditCommand</cstring>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QComboBox" name="cmdEdit">
-     <property name="toolTip">
-      <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
-     </property>
-     <property name="editable">
+    <widget class="QPlainTextEdit" name="plainTextEditCommand">
+     <property name="tabChangesFocus">
       <bool>true</bool>
-     </property>
-     <property name="insertPolicy">
-      <enum>QComboBox::NoInsert</enum>
      </property>
     </widget>
    </item>
@@ -151,7 +155,8 @@
   </layout>
  </widget>
  <tabstops>
-  <tabstop>cmdEdit</tabstop>
+  <tabstop>comboBoxCommands</tabstop>
+  <tabstop>plainTextEditCommand</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
   <tabstop>inputText</tabstop>
   <tabstop>comboBoxOutputFormat</tabstop>
@@ -159,9 +164,7 @@
   <tabstop>comboBoxOutputTab</tabstop>
   <tabstop>buttonBox</tabstop>
  </tabstops>
- <resources>
-  <include location="../copyq.qrc"/>
- </resources>
+ <resources/>
  <connections>
   <connection>
    <sender>buttonBox</sender>
@@ -186,8 +189,8 @@
    <slot>reject()</slot>
    <hints>
     <hint type="sourcelabel">
-     <x>325</x>
-     <y>349</y>
+     <x>275</x>
+     <y>364</y>
     </hint>
     <hint type="destinationlabel">
      <x>286</x>

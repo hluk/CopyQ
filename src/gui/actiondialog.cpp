@@ -50,6 +50,24 @@ void setChangedByUser(QWidget *object)
     object->setProperty("UserChanged", object->hasFocus());
 }
 
+QString commandToLabel(const QString &command)
+{
+    QString label = command.size() > 48 ? command.left(48) + "..." : command;
+    label.replace('\n', " ");
+    label.replace(QRegExp("\\s\\+"), " ");
+    return label;
+}
+
+int findCommand(const QComboBox &comboBox, const QVariant &itemData)
+{
+    for (int i = 0; i < comboBox.count(); ++i) {
+        if (comboBox.itemData(i) == itemData)
+            return i;
+    }
+
+    return -1;
+}
+
 } // namespace
 
 ActionDialog::ActionDialog(QWidget *parent)
@@ -60,6 +78,10 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_capturedTexts()
 {
     ui->setupUi(this);
+
+    QFont monoSpaced("monospace");
+    ui->plainTextEditCommand->setFont(monoSpaced);
+    ui->comboBoxCommands->setFont(monoSpaced);
 
     on_comboBoxInputFormat_currentIndexChanged(QString());
     on_comboBoxOutputFormat_editTextChanged(QString());
@@ -79,7 +101,6 @@ void ActionDialog::setInputData(const QVariantMap &data)
     initFormatComboBox(ui->comboBoxInputFormat, data.keys());
     const int index = qMax(0, ui->comboBoxInputFormat->findText(defaultFormat));
     ui->comboBoxInputFormat->setCurrentIndex(index);
-
 }
 
 void ActionDialog::restoreHistory()
@@ -87,28 +108,28 @@ void ActionDialog::restoreHistory()
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     int maxCount = cm->value("command_history_size").toInt();
-    ui->cmdEdit->setMaxCount(maxCount);
+    ui->comboBoxCommands->setMaxCount(maxCount);
 
     QFile file( dataFilename() );
     file.open(QIODevice::ReadOnly);
     QDataStream in(&file);
     QVariant v;
 
-    ui->cmdEdit->clear();
+    ui->comboBoxCommands->clear();
+    ui->comboBoxCommands->addItem(QString());
     while( !in.atEnd() ) {
         in >> v;
         if (v.canConvert(QVariant::String)) {
             // backwards compatibility with versions up to 1.8.2
             QVariantMap values;
             values["cmd"] = v;
-            ui->cmdEdit->addItem(v.toString(), values);
+            ui->comboBoxCommands->addItem(commandToLabel(v.toString()), values);
         } else {
             QVariantMap values = v.value<QVariantMap>();
-            ui->cmdEdit->addItem(values["cmd"].toString(), v);
+            ui->comboBoxCommands->addItem(commandToLabel(values["cmd"].toString()), v);
         }
     }
-    ui->cmdEdit->setCurrentIndex(0);
-    ui->cmdEdit->lineEdit()->selectAll();
+    ui->comboBoxCommands->setCurrentIndex(0);
 }
 
 const QString ActionDialog::dataFilename() const
@@ -130,13 +151,13 @@ void ActionDialog::saveHistory()
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
 
-    for (int i = 0; i < ui->cmdEdit->count(); ++i)
-        out << QVariant(ui->cmdEdit->itemData(i));
+    for (int i = 0; i < ui->comboBoxCommands->count(); ++i)
+        out << QVariant(ui->comboBoxCommands->itemData(i));
 }
 
 void ActionDialog::createAction()
 {
-    QString cmd = ui->cmdEdit->currentText();
+    const QString cmd = ui->plainTextEditCommand->toPlainText();
 
     if ( cmd.isEmpty() )
         return;
@@ -183,7 +204,8 @@ void ActionDialog::createAction()
 
 void ActionDialog::setCommand(const QString &cmd)
 {
-    ui->cmdEdit->setEditText(cmd);
+    ui->comboBoxCommands->setCurrentIndex(0);
+    ui->plainTextEditCommand->setPlainText(cmd);
 }
 
 void ActionDialog::setSeparator(const QString &sep)
@@ -233,18 +255,16 @@ void ActionDialog::loadSettings()
 
     restoreHistory();
     ConfigurationManager::instance()->loadGeometry(this);
-    updateMinimalGeometry();
 }
 
 void ActionDialog::saveSettings()
 {
-    ConfigurationManager::instance()->saveGeometry(this);
     saveHistory();
 }
 
 void ActionDialog::accept()
 {
-    QString text = ui->cmdEdit->currentText();
+    const QString text = ui->plainTextEditCommand->toPlainText();
 
     QVariantMap values;
     values["cmd"] = text;
@@ -253,23 +273,22 @@ void ActionDialog::accept()
     values["sep"] = ui->separatorEdit->text();
     values["outputTab"] = ui->comboBoxOutputTab->currentText();
 
-    int i = ui->cmdEdit->findText(text);
+    QVariant itemData = values;
+    int i = findCommand(*ui->comboBoxCommands, itemData);
     if (i != -1)
-        ui->cmdEdit->removeItem(i);
+        ui->comboBoxCommands->removeItem(i);
 
-    ui->cmdEdit->insertItem(0, text, values);
+    ui->comboBoxCommands->insertItem(0, commandToLabel(text), itemData);
 
     saveSettings();
 
     QDialog::accept();
 }
 
-void ActionDialog::updateMinimalGeometry()
+void ActionDialog::closeEvent(QCloseEvent *event)
 {
-    int w = width();
-    resize(minimumSize());
-    adjustSize();
-    resize(w, height());
+    ConfigurationManager::instance()->saveGeometry(this);
+    QDialog::closeEvent(event);
 }
 
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
@@ -282,7 +301,8 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         createAction();
         break;
     case QDialogButtonBox::Save:
-        cmd.name = cmd.cmd = ui->cmdEdit->currentText();
+        cmd.cmd = ui->plainTextEditCommand->toPlainText();
+        cmd.name = commandToLabel(cmd.cmd);
         cmd.input = ui->comboBoxInputFormat->currentText();
         cmd.output = ui->comboBoxOutputFormat->currentText();
         cmd.sep = ui->separatorEdit->text();
@@ -303,11 +323,13 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-void ActionDialog::on_cmdEdit_currentIndexChanged(int index)
+void ActionDialog::on_comboBoxCommands_currentIndexChanged(int index)
 {
     // Restore values from history.
-    QVariant v = ui->cmdEdit->itemData(index);
+    QVariant v = ui->comboBoxCommands->itemData(index);
     QVariantMap values = v.value<QVariantMap>();
+
+    ui->plainTextEditCommand->setPlainText(values.value("cmd").toString());
 
     // Don't automatically change values if they were edited by user.
     if ( !wasChangedByUser(ui->comboBoxInputFormat) ) {
@@ -337,8 +359,6 @@ void ActionDialog::on_comboBoxInputFormat_currentIndexChanged(const QString &for
     if ((show || format.isEmpty()) && !m_data.isEmpty() )
         text = getTextData( m_data, format.isEmpty() ? mimeText : format );
     ui->inputText->setPlainText(text);
-
-    updateMinimalGeometry();
 }
 
 void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
@@ -352,8 +372,6 @@ void ActionDialog::on_comboBoxOutputFormat_editTextChanged(const QString &text)
     bool showOutputTab = !text.isEmpty();
     ui->labelOutputTab->setVisible(showOutputTab);
     ui->comboBoxOutputTab->setVisible(showOutputTab);
-
-    updateMinimalGeometry();
 }
 
 void ActionDialog::on_comboBoxOutputTab_editTextChanged(const QString &)

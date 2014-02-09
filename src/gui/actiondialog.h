@@ -84,15 +84,15 @@ signals:
 
 protected:
     void accept();
+    void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
-    void on_cmdEdit_currentIndexChanged(int index);
+    void on_comboBoxCommands_currentIndexChanged(int index);
     void on_comboBoxInputFormat_currentIndexChanged(const QString &format);
     void on_comboBoxOutputFormat_editTextChanged(const QString &text);
     void on_comboBoxOutputTab_editTextChanged(const QString &text);
     void on_separatorEdit_textEdited(const QString &text);
-    void updateMinimalGeometry();
 
 private:
     Ui::ActionDialog *ui;
