@@ -16,7 +16,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="129"/>
         <source>Author</source>
-        <translation type="unfinished"></translation>
+        <translation>Author</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="130"/>
@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="165"/>
         <source>Color palette used for themes</source>
-        <translation>Farbparlette für Themes</translation>
+        <translation>Farbpalette für Themes</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="170"/>
@@ -61,12 +61,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="175"/>
         <source>Item list navigation</source>
-        <translation>Navigation in Liste</translation>
+        <translation>Navigation in der Liste</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="175"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation>Hoch/Herunter, Bild hoch/herunter, Pos1/Ende</translation>
+        <translation>Hoch/Runter, Bild hoch/runter, Pos1/Ende</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="176"/>
@@ -81,12 +81,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Move selected items</source>
-        <translation>Ausgewähltes Element verschieben</translation>
+        <translation>Ausgewählte Elemente verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation>Strg+Hoch/Herunter, Strg+Pos1/Ende</translation>
+        <translation>Strg+Hoch/Runter, Strg+Pos1/Ende</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="178"/>
@@ -111,12 +111,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="180"/>
         <source>Put selected items into clipboard</source>
-        <translation>Ausgewähltes Element in Zwischenablage legen</translation>
+        <translation>Ausgewählte Elemente in die Zwischenablage legen</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="180"/>
         <source>Enter</source>
-        <translation type="unfinished"></translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
@@ -136,7 +136,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="182"/>
         <source>Edit Item</source>
-        <translation type="unfinished"></translation>
+        <translation>Element bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="159"/>
@@ -159,12 +159,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="26"/>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation>&amp;Befehl (%1 ist der Text des ausgewählten Elements):</translation>
+        <translation>&amp;Befehl (%1 ist der Text der ausgewählten Elemente):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="36"/>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; des ausgewählten Elements. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z.B. zur Weitergabe an die Standardausgabe -stdout).</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z.B. zur Weitergabe an die Standardausgabe -stdout).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="57"/>
@@ -201,7 +201,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="115"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="122"/>
@@ -222,7 +222,7 @@
         <location filename="../src/gui/actiondialog.cpp" line="295"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden. Du kannst en Befehl in den Einstellungen ändern.</translation>
+        <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden. Du kannst den Befehl in den Einstellungen ändern.</translation>
     </message>
 </context>
 <context>
@@ -230,33 +230,33 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="35"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"></translation>
+        <translation>Be&amp;fehle</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="81"/>
         <source>Executing: %1</source>
-        <translation type="unfinished">Führe aus: %1</translation>
+        <translation>Führe aus: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="89"/>
         <source>KILL</source>
-        <translation type="unfinished">KILL</translation>
+        <translation>KILL</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="90"/>
         <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;Befehl:&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;Befehl:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="91"/>
         <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
-        <translation type="unfinished">&lt;b&gt;INPUT:&lt;/b&gt;</translation>
+        <translation>&lt;b&gt;INPUT:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="121"/>
         <source>Error: %1
 </source>
-        <translation type="unfinished">Fehler: %1
+        <translation>Fehler: %1
 
 </translation>
     </message>
@@ -264,13 +264,13 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/actionhandler.cpp" line="124"/>
         <source>Exit code: %1
 </source>
-        <translation type="unfinished">Exitcode: %1
+        <translation>Exitcode: %1
 </translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="146"/>
         <source>Command %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Befehl %1</translation>
     </message>
 </context>
 <context>
@@ -316,7 +316,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="638"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="unfinished"></translation>
+        <translation>Suche läuft %p%...</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="2008"/>
@@ -334,12 +334,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="120"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Kann nicht mit Server verbinden! Bitte zuerst CopyQ-Server starten.</translation>
+        <translation>Es kann keine Verbindung zum Server hergestellt werden! Bitte zuerst den CopyQ-Server starten.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="124"/>
         <source>Connection refused by server!</source>
-        <translation>Verbindung vom Server abgewiesen!</translation>
+        <translation>Die Verbindung wurde vom Server abgewiesen!</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="127"/>
@@ -362,7 +362,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="90"/>
         <source>C&amp;ontent:</source>
-        <translation>Inhalt (&amp;c):</translation>
+        <translation>&amp;Inhalt:</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="58"/>
@@ -389,7 +389,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardmonitor.cpp" line="452"/>
         <source>Cannot read message from server!</source>
-        <translation>Kann Meldungen von Server nicht lesen!</translation>
+        <translation>Kann Meldungen vom Server nicht lesen!</translation>
     </message>
 </context>
 <context>
@@ -423,22 +423,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="288"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>Beende aktive Befehle</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="289"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"></translation>
+        <translation>Möchtest du die Anwendung und damit auch alle aktiven Befehle beenden?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="292"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Doch nicht beenden</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="293"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"></translation>
+        <translation>Beenden</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="307"/>
@@ -479,7 +479,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="272"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation>Name des Reiters zudem die Elemente kopiert werden sollen (freilassen um nicht zu kopieren)</translation>
+        <translation>Name des Reiters in den die Elemente kopiert werden sollen (freilassen um nicht zu kopieren)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
@@ -503,16 +503,16 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="148"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Befehle nur auf Elemente anwenden die mit dem reguären Ausdruck übereinstimmen (freilassen um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Příklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Název PDF souborů    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Obsahuje pouze jeden znak    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdálené multimediální soubory    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Befehle nur auf Elemente anwenden die mit dem reguären Ausdruck übereinstimmen (freilassen um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beispiele:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Dateinamen die mit &quot;.pdf&quot; enden    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ein einzelnes Zeichen    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL mit einer der angegeben Dateiendungen    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="282"/>
         <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Befehl zum ausführen. Nutze %1 für den Text des Elements der als Argument übergeben wird. Nutze %2 bis %9 für zutreffende Argumente des regulären Ausdrucks (Teile die von runden Klammern umschlossen sind).&lt;/p&gt;
+        <translation>&lt;p&gt;Befehl zum Ausführen. Nutze %1 für den Text des Elements der als Argument übergeben wird. Nutze %2 bis %9 für zutreffende Argumente des regulären Ausdrucks (Teile die von runden Klammern umschlossen sind).&lt;/p&gt;
 
-&lt;p&gt;Nutze  &lt;b&gt;|&lt;/b&gt; um Befehle zu verketten (wird an die Standardeingabe des folgenden Befehls weitergereicht).&lt;/p&gt;</translation>
+&lt;p&gt;Nutze &lt;b&gt;|&lt;/b&gt; um Befehle zu verketten (wird an die Standardeingabe des folgenden Befehls weitergereicht).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="54"/>
@@ -535,12 +535,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="262"/>
         <source>Copy to &amp;tab:</source>
-        <translation>Zum &amp;Reiter kopieren:</translation>
+        <translation>Kopiere in &amp;Reiter :</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="449"/>
         <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation>elemente von Standardausgabe eines Programms erstellen (freilassen zum Deaktivieren).</translation>
+        <translation>Elemente aus Standardausgabe eines Programms erstellen (freilassen zum Deaktivieren).</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="439"/>
@@ -575,13 +575,13 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="110"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>Die Daten dieses MIME Type werden zur Standarteingabe des Befehls gesendet.
+        <translation>Die Daten dieses MIME-Typs werden zur Standardeingabe des Befehls gesendet.
 Zum Deaktivieren frei lassen.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="171"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Filter:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="241"/>
@@ -591,7 +591,7 @@ Zum Deaktivieren frei lassen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="343"/>
         <source>Hide window after command is activated from context menu of an item.</source>
-        <translation>Verstecke Fenster nach dem Ausführen des Befehls im Kontextmenü.</translation>
+        <translation>Verstecke das Fenster nach dem Ausführen des Befehls im Kontextmenü.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="383"/>
@@ -696,12 +696,12 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/commandwidget.ui" line="472"/>
         <source>\n</source>
-        <translation type="unfinished"></translation>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="489"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>Elemente in Reiter mit folgendem Namen speichern (freilassen um in den ersten Reiter zu speichern</translation>
+        <translation>Elemente in den Reiter mit dem folgenden Namen speichern (freilassen um in den ersten Reiter zu speichern)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="479"/>
@@ -812,7 +812,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="316"/>
         <source>Set colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>Für Reiter, Toolbars und Menüs ebenfalls Farben verwenden</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="338"/>
@@ -837,7 +837,7 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="366"/>
         <source>Edit current theme in external editor</source>
-        <translation>Aktuelles Theme in externen Editor bearbeiten</translation>
+        <translation>Aktuelles Theme in externem Editor bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
@@ -857,15 +857,15 @@ Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen B
         <location filename="../src/gui/configtabappearance.cpp" line="197"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation>Wähle ein Element und
-drücke F2 zum bearbeiten.</translation>
+        <translation>Selektiere ein Element und
+drücke F2 zum Bearbeiten.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="199"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation>Selektiere Elemente und verschiebe sie mit
-Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
+        <translation>Selektiere Elemente und verschiebe diese mit
+Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="201"/>
@@ -895,7 +895,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="196"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Suchtext lautet %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="428"/>
@@ -942,7 +942,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="146"/>
         <source>Ctrl+I</source>
-        <translation>Strg+i</translation>
+        <translation>Strg+I</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="147"/>
@@ -952,7 +952,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="148"/>
         <source>Ctrl+P</source>
-        <translation>Strg+p</translation>
+        <translation>Strg+P</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="149"/>
@@ -962,7 +962,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="149"/>
         <source>Ctrl+Shift+C</source>
-        <translation>Strg+Umschalt+c</translation>
+        <translation>Strg+Umschalt+C</translation>
     </message>
     <message>
         <source>&amp;Enable Clipboard Storing</source>
@@ -981,17 +981,17 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="151"/>
         <source>Ctrl+Q</source>
-        <translation>Strg+q</translation>
+        <translation>Strg+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="153"/>
         <source>&amp;Sort Selected Items</source>
-        <translation>&amp;Selektiere Element</translation>
+        <translation>&amp;Sortiere selektierte Elemente</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="153"/>
         <source>Ctrl+Shift+S</source>
-        <translation>Strg+Umschalt+s</translation>
+        <translation>Strg+Umschalt+S</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
@@ -1001,7 +1001,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
         <source>Ctrl+Shift+R</source>
-        <translation>Strg+Umschalt+r</translation>
+        <translation>Strg+Umschalt+R</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="155"/>
@@ -1021,8 +1021,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="159"/>
         <source>&amp;Show Content...</source>
-        <translation>Inhalt anzeigen... (&amp;s)
-</translation>
+        <translation>Inhalt anzeigen (&amp;s)... </translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="159"/>
@@ -1042,12 +1041,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="148"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"></translation>
+        <translation>Einstellungen (&amp;p)...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="150"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished"></translation>
+        <translation>Speichern in die Zwischenablage de-/ak&amp;tivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="160"/>
@@ -1057,7 +1056,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="160"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"></translation>
+        <translation>B&amp;earbeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
@@ -1067,7 +1066,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
         <source>Shift+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Umschalt+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="162"/>
@@ -1077,7 +1076,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="162"/>
         <source>Ctrl+E</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+E</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="163"/>
@@ -1097,22 +1096,22 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="164"/>
         <source>Ctrl+Shift+N</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+Umschalt+N</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="165"/>
         <source>&amp;Previous to Clipboard</source>
-        <translation>&amp;Voriges in die Zwischenablage</translation>
+        <translation>&amp;Vorheriges in die Zwischenablage</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="165"/>
         <source>Ctrl+Shift+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+Umschalt+P</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="168"/>
         <source>Backspace</source>
-        <translation type="unfinished"></translation>
+        <translation>Rücktaste</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="174"/>
@@ -1142,7 +1141,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="176"/>
         <source>Ctrl+W</source>
-        <translation>Strg+w</translation>
+        <translation>Strg+W</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="178"/>
@@ -1172,7 +1171,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="191"/>
         <source>Copy &amp;second item</source>
-        <translation>&amp;Zweites Element bearbeiten</translation>
+        <translation>&amp;Zweites Element kopieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="192"/>
@@ -1192,7 +1191,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="195"/>
         <source>Copy &amp;previous item</source>
-        <translation>&amp;Voriges Element kopieren</translation>
+        <translation>&amp;Vorheriges Element kopieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="196"/>
@@ -1202,32 +1201,32 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="197"/>
         <source>Disable clipboard storing</source>
-        <translation>Speichern der Zwischenablage deaktivieren</translation>
+        <translation>Speichern in die Zwischenablage deaktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="198"/>
         <source>Enable clipboard storing</source>
-        <translation>Zwischenablage speichern aktivieren</translation>
+        <translation>Speichern in die Zwischenablage aktivieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="199"/>
         <source>Paste and copy next</source>
-        <translation>Einfügen und nächtes kopieren</translation>
+        <translation>Einfügen und Nächtes kopieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="200"/>
         <source>Paste and copy previous</source>
-        <translation>Einfügen und voriges kopieren</translation>
+        <translation>Einfügen und Vorheriges kopieren</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="36"/>
         <source>A&amp;pplication Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>Anwendungs-Kurztasten (&amp;p)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="46"/>
         <source>S&amp;ystem Shortcuts</source>
-        <translation type="unfinished"></translation>
+        <translation>S&amp;ystem-Kurztasten</translation>
     </message>
 </context>
 <context>
@@ -1244,7 +1243,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="396"/>
         <source>Always on &amp;Top</source>
-        <translation>&amp;Immer oberhalb</translation>
+        <translation>&amp;Immer im Vordergrund</translation>
     </message>
     <message>
         <source>S&amp;ynchronize</source>
@@ -1269,7 +1268,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="393"/>
         <source>Keep main window above other windows</source>
-        <translation>Hauptfenster oberhalb von anderen Fenstern</translation>
+        <translation>Hauptfenster immer im Vordergrund anzeigen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="460"/>
@@ -1406,12 +1405,12 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="493"/>
         <source>Lan&amp;guage:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprache (&amp;g):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="591"/>
         <source>gedit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>gedit %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="598"/>
@@ -1717,12 +1716,12 @@ Anmerkung: Dies wird nicht auf allen Betriebsystemen unterstützt.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="331"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstecke Toolbar</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="334"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"></translation>
+        <translation>Verstecke Too&amp;lbar</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="341"/>
@@ -2166,7 +2165,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="58"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation type="unfinished"></translation>
+        <translation>Der Reiter %1 konnte nicht in %2 (%3) gespeichert werden!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="258"/>
@@ -2231,7 +2230,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="338"/>
         <source>Move to &amp;TODO tab</source>
-        <translation>Zum &amp;TODO tab verschieben</translation>
+        <translation>Zum &amp;TODO-Reiter verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="345"/>
@@ -2251,38 +2250,38 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="359"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>Verschlüsseln (benötigt GnuPG)</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="366"/>
         <location filename="../src/gui/configurationmanager.cpp" line="375"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+L</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="368"/>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschlüsseln</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="377"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>Entschlüsseln und kopieren</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="382"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Strg+Umschalt+L</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="384"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"></translation>
+        <translation>In Papierkorb verschieben</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="387"/>
         <source>(trash)</source>
-        <translation type="unfinished"></translation>
+        <translation>(Papierkorb)</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="389"/>
@@ -2297,12 +2296,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="1051"/>
         <source>Restart Required</source>
-        <translation type="unfinished"></translation>
+        <translation>Neustart erforderlich</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="1052"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"></translation>
+        <translation>Zum Ändern der Spracheinstellung ist ein Neustart der Anwendung nötig.</translation>
     </message>
     <message>
         <source>Abc</source>
@@ -2344,17 +2343,17 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="174"/>
         <source>Use Vim-style Editing</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwende Vim-Stil zum Bearbeiten</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="176"/>
         <source>Read .vimrc</source>
-        <translation type="unfinished"></translation>
+        <translation>Lese .vimrc</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="178"/>
         <source>Path to .vimrc</source>
-        <translation type="unfinished"></translation>
+        <translation>Pfad zur .vimrc</translation>
     </message>
 </context>
 <context>
@@ -2363,12 +2362,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="133"/>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="141"/>
         <source>Unknown option: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannte Option: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="136"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Argument muss positiv sein: %1=%2</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="875"/>
@@ -2378,7 +2377,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3389"/>
         <source>%1%2%</source>
-        <translation type="unfinished">%1%2%</translation>
+        <translation>%1%2%</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3391"/>
@@ -2588,7 +2587,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="70"/>
         <source>Various data to save.</source>
-        <translation>Verschiedene Daten zu speichern.</translation>
+        <translation type="unfinished">Verschiedene Daten zu speichern.</translation>
     </message>
 </context>
 <context>
@@ -2689,17 +2688,17 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="91"/>
         <source>Failed to remove temporary file (%1)</source>
-        <translation>Entfernen der temporären Datei gescheitert (%1)</translation>
+        <translation>Das Entfernen der temporären Datei (%1) ist fehlgeschlagen</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="106"/>
         <source>Failed to open temporary file (%1) for editing item in external editor!</source>
-        <translation>Temporäre Datei (%1) zum öffnen in externem Texteditor konnte nicht geöffnet werden!</translation>
+        <translation>Die temporäre Datei (%1) konnte nicht zum Bearbeiten im externen Editor geöffnet werden!</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="156"/>
         <source>Failed to read temporary file (%1)!</source>
-        <translation>Lesern der temporären Datei gescheitert (%1)</translation>
+        <translation>Das Lesen der temporären Datei (%1) ist fehlgeschlagen!</translation>
     </message>
 </context>
 <context>
@@ -4230,7 +4229,7 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="370"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Kurztaste existiert bereits!</translation>
     </message>
 </context>
 <context>
@@ -4240,9 +4239,9 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Der Reitername muss nicht leer und einzigartig sein.&lt;br /&gt;
-Reiter &lt;b&gt;Notizen&lt;/b&gt; kann nicht &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt; geöffnet werden
-Benutze &lt;b&gt;/&lt;/b&gt; als Pfadtrenner im im Baumreiteransicht.</translation>
+        <translation>Der Name des Reiters muss eindeutig und mindestens ein Zeichen lang sein.&lt;br /&gt;
+Der Reiter &lt;b&gt;No&amp;amp;tizen&lt;/b&gt; kann mit &lt;b&gt;Alt+T&lt;/b&gt; geöffnet werden.&lt;br/&gt;
+In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfad-Trennzeichen verwendet werden.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -4291,12 +4290,12 @@ Benutze &lt;b&gt;/&lt;/b&gt; als Pfadtrenner im im Baumreiteransicht.</translati
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="72"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"></translation>
+        <translation>Regulärer Ausdruck</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="75"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"></translation>
+        <translation>Gross-/Kleinschreibung ignorieren</translation>
     </message>
 </context>
 </TS>
