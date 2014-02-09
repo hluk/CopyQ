@@ -76,6 +76,7 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_data()
     , m_index()
     , m_capturedTexts()
+    , m_currentCommandIndex(-1)
 {
     ui->setupUi(this);
 
@@ -151,8 +152,11 @@ void ActionDialog::saveHistory()
     file.open(QIODevice::WriteOnly);
     QDataStream out(&file);
 
-    for (int i = 0; i < ui->comboBoxCommands->count(); ++i)
-        out << QVariant(ui->comboBoxCommands->itemData(i));
+    for (int i = 1; i < ui->comboBoxCommands->count(); ++i) {
+        QVariant itemData = ui->comboBoxCommands->itemData(i);
+        if ( !itemData.toMap().value("cmd").toString().isEmpty() )
+            out << itemData;
+    }
 }
 
 void ActionDialog::createAction()
@@ -257,30 +261,17 @@ void ActionDialog::loadSettings()
     ConfigurationManager::instance()->loadGeometry(this);
 }
 
-void ActionDialog::saveSettings()
-{
-    saveHistory();
-}
-
 void ActionDialog::accept()
 {
-    const QString text = ui->plainTextEditCommand->toPlainText();
-
-    QVariantMap values;
-    values["cmd"] = text;
-    values["input"] = ui->comboBoxInputFormat->currentText();
-    values["output"] = ui->comboBoxOutputFormat->currentText();
-    values["sep"] = ui->separatorEdit->text();
-    values["outputTab"] = ui->comboBoxOutputTab->currentText();
-
-    QVariant itemData = values;
+    QVariant itemData = createCurrentItemData();
     int i = findCommand(*ui->comboBoxCommands, itemData);
     if (i != -1)
         ui->comboBoxCommands->removeItem(i);
 
-    ui->comboBoxCommands->insertItem(0, commandToLabel(text), itemData);
+    const QString text = ui->plainTextEditCommand->toPlainText();
+    ui->comboBoxCommands->insertItem(1, commandToLabel(text), itemData);
 
-    saveSettings();
+    saveHistory();
 
     QDialog::accept();
 }
@@ -325,6 +316,14 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 
 void ActionDialog::on_comboBoxCommands_currentIndexChanged(int index)
 {
+    if ( m_currentCommandIndex >= 0 && m_currentCommandIndex < ui->comboBoxCommands->count() ) {
+        QVariant itemData = createCurrentItemData();
+        if (itemData != ui->comboBoxCommands->itemData(m_currentCommandIndex))
+            ui->comboBoxCommands->setItemData(m_currentCommandIndex, itemData);
+    }
+
+    m_currentCommandIndex = index;
+
     // Restore values from history.
     QVariant v = ui->comboBoxCommands->itemData(index);
     QVariantMap values = v.value<QVariantMap>();
@@ -382,4 +381,16 @@ void ActionDialog::on_comboBoxOutputTab_editTextChanged(const QString &)
 void ActionDialog::on_separatorEdit_textEdited(const QString &)
 {
     setChangedByUser(ui->separatorEdit);
+}
+
+QVariant ActionDialog::createCurrentItemData()
+{
+    QVariantMap values;
+    values["cmd"] = ui->plainTextEditCommand->toPlainText();
+    values["input"] = ui->comboBoxInputFormat->currentText();
+    values["output"] = ui->comboBoxOutputFormat->currentText();
+    values["sep"] = ui->separatorEdit->text();
+    values["outputTab"] = ui->comboBoxOutputTab->currentText();
+
+    return values;
 }

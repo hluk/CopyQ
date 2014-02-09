@@ -69,9 +69,6 @@ public:
     /** Load settings. */
     void loadSettings();
 
-    /** Save settings. */
-    void saveSettings();
-
 public slots:
     /** Create action from dialog's content. */
     void createAction();
@@ -95,10 +92,15 @@ private slots:
     void on_separatorEdit_textEdited(const QString &text);
 
 private:
+    QVariant createCurrentItemData();
+    void saveItemData();
+
     Ui::ActionDialog *ui;
     QVariantMap m_data;
     QModelIndex m_index;
     QStringList m_capturedTexts;
+
+    int m_currentCommandIndex;
 };
 
 #endif // ACTIONDIALOG_H
