@@ -443,7 +443,8 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="307"/>
         <source>Failed to read message from monitor.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Leider fehlt mir der Kontext, wann dieser Fehler auftreten kann</translatorcomment>
+        <translation>Fehler beim Lesen einer Nachricht.</translation>
     </message>
     <message>
         <source>Cannot start clipboard monitor!</source>
@@ -631,7 +632,7 @@ Zum Deaktivieren frei lassen.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="131"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Der Befehl wird nur auf kopierte Elemente angewendet, wenn der Titel des Fensters aus dem kopierte wurde auf den angegebenen regulären Ausdruck passt (leer lassen um den Titel des Fensters zu ignorieren). Unter OS X, beinhaltet das den Anwendungsname gefolgt von einem Bindestrich (&amp;quot;-&amp;quot;) und dem Titel des Fensters. Z.B.: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="181"/>
@@ -642,7 +643,13 @@ Zum Deaktivieren frei lassen.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Der Befehl wird nur angewendet, wenn dieser Filterbefehl erfolgreich ausgeführt werden kann.&lt;/p&gt;
+
+&lt;p&gt;Der Text des Elements wird per &lt;b&gt;STDIN&lt;/b&gt; an den Filterbefehl weitergereicht. Nur wenn &lt;b&gt;der Filterbefehl 0 als Exitcode zurückliefert&lt;/b&gt; wird der Befehl angewendet.&lt;/p&gt;
+
+&lt;p&gt;Der Platzhalter &lt;b&gt;%1&lt;/b&gt; beinhaltet den Text des Elements und die Platzhalter &lt;b&gt;%2&lt;/b&gt; bis &lt;b&gt;%9&lt;/b&gt; die Gruppierungen des regulären Ausdrucks (die Teile des regulären Ausdrucks, die in runde Klammern eingefasst sind).&lt;/p&gt;
+
+&lt;p&gt;Verwende &lt;b&gt;|&lt;/b&gt; um Befehle zu verketten (reicht STDOUT an den nächsten Befehl weiter).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="197"/>
@@ -1395,12 +1402,12 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="218"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"></translation>
+        <translation>Verwende zur Anzeige der Reiter einen Baum anstatt einer Leiste</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="221"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Reiter in einem Baum darstellen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="493"/>
@@ -1415,14 +1422,16 @@ Anmerkung.: Bearbeitete Elemente können mit Strg+s oder F2 gespeichert werden (
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="598"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation>Entlade Reiter im Intervall nach Min&amp;uten:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="610"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bei Inaktivität eines Reiters wird dieser nach der angegeben Anzahl von Minuten aus dem Speicher entladen.
+
+Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="645"/>
@@ -2291,7 +2300,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="408"/>
         <source>Cannot create directory for settings %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Das Konfigurations-Verzeichnis %1 konnte nicht erstellt werden!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="1051"/>
@@ -2372,7 +2381,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="875"/>
         <source>Mark &apos;%1&apos; not set.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Markierung %1 ist nicht gesetzt</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3389"/>
@@ -2382,111 +2391,113 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3391"/>
         <source>%1All</source>
-        <translation type="unfinished"></translation>
+        <translation>%1Alle</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3405"/>
         <source>Not implemented in FakeVim.</source>
-        <translation type="unfinished"></translation>
+        <translation>In FakeVim nicht implementiert</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5501"/>
         <source>Unknown option:</source>
-        <translation type="unfinished"></translation>
+        <translation>Unbekannte Option:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5579"/>
         <source>Move lines into themselves.</source>
-        <translation type="unfinished"></translation>
+        <translatorcomment>Leider fehlt mir der Kontext, wann dieser Text auftreten kann</translatorcomment>
+        <translation>Verschiebe Zeilen in sich selbst.</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5623"/>
         <source>%n lines moved.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeile wurde verschoben.</numerusform>
+            <numerusform>%n Zeilen wurden verschoben.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5682"/>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei &quot;%1&quot; existiert bereits (verwende ! zum Überschreiben)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5696"/>
         <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei &quot;%1&quot; konnte nicht zum Schreiben geöffnet werden</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5703"/>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; %2 %3L, %4C geschrieben.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5711"/>
         <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei &quot;%1&quot; konnte nicht zum Lesen geöffnet werden</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5741"/>
         <source>&quot;%1&quot; %2L, %3C</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5775"/>
         <source>%n lines filtered.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeile gefiltert.</numerusform>
+            <numerusform>%n Zeilen gefiltert.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>Cannot open file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei &quot;%1&quot; konnte nicht geöffnet werden</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6019"/>
         <source>Invalid regular expression: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ungültiger regulärer Ausdruck: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6055"/>
         <source>Pattern not found: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Muster nicht gefunden: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6059"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Suche ist UNTEN angekommen, es wird OBEN fortgesetzt</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6060"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Suche ist OBEN angekommen, es wird UNTEN fortgesetzt</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6065"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Suche ist UNTEN angekommen. Leider gibt es keinen Treffer für: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6066"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Suche ist OBEN angekommen. Leider gibt es keinen Treffer für: %1</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6173"/>
         <source>%n lines indented.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeile wurde eingerückt.</numerusform>
+            <numerusform>%n Zeilen wurden eingerückt.</numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6230"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
+        <translatorcomment>Leider fehlt mir der Kontext, wann dieser Text auftreten kann</translatorcomment>
+        <translation>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -2494,20 +2505,20 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6796"/>
         <source>%n lines yanked.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+        <translation>
+            <numerusform>%n Zeile kopiert.</numerusform>
+            <numerusform>%n Zeilne kopiert.</numerusform>
         </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7502"/>
         <source>Already at oldest change.</source>
-        <translation type="unfinished"></translation>
+        <translation>Undo nicht mehr möglich.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7503"/>
         <source>Already at newest change.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redo nicht mehr möglich.</translation>
     </message>
 </context>
 <context>
@@ -2515,22 +2526,22 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2646"/>
         <source>Recursive mapping</source>
-        <translation type="unfinished"></translation>
+        <translation>Rekursives Mapping</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4043"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="unfinished"></translation>
+        <translation>Tippe Alt-V, Alt-V um den FakeVim-Modus zu beenden.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5704"/>
         <source> [New] </source>
-        <translation type="unfinished"></translation>
+        <translation>[Neu]</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5933"/>
         <source>Not an editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 ist kein Editor-Befehl</translation>
     </message>
 </context>
 <context>
@@ -2587,7 +2598,8 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="70"/>
         <source>Various data to save.</source>
-        <translation type="unfinished">Verschiedene Daten zu speichern.</translation>
+        <translatorcomment>Leider fehlt mir der Kontext, wann dieser Text auftreten kann</translatorcomment>
+        <translation>Verschiedene Daten zum Speichern.</translation>
     </message>
 </context>
 <context>
@@ -3310,22 +3322,22 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="417"/>
         <source>Rename &amp;group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiter-&amp;Gruppe %1 umbenennen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="419"/>
         <source>Re&amp;name tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiter %1 umbe&amp;nennen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="421"/>
         <source>Re&amp;move tab %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiter %1 entfernen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="423"/>
         <source>Remove group %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Reiter-Gruppe %1 entfernen</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="732"/>
@@ -3354,12 +3366,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1838"/>
         <source>Cannot save file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 konnte nicht gespeichert werden!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1899"/>
         <source>Cannot open file %1!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1 konnte nicht geöffnet werden!</translation>
     </message>
     <message>
         <source>%1 (%2)</source>
@@ -3564,7 +3576,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter)</translation>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ</translation>
     </message>
 </context>
 <context>
@@ -3698,7 +3710,7 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="181"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="unfinished"></translation>
+        <translation>Die Datei %1, welche die Elemente beinhaltet, ist korrupt oder es fehlt mindestens ein CopyQ-Plugin!</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="220"/>
@@ -3918,7 +3930,7 @@ Benutze %1 in PROGRAM um Elemententexte zu verarbeiten.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="157"/>
         <source>PROGRAM</source>
-        <translation type="unfinished"></translation>
+        <translation>PROGRAM</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="159"/>
@@ -4193,12 +4205,12 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Drücke eine Kombination von Tasten. Zum Abbrechen &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; drücken.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"></translation>
+        <translation>Klicke hier und drücke eine Kombination von Tasten</translation>
     </message>
     <message>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
@@ -4207,7 +4219,7 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Kurztaste entfernen</translation>
     </message>
 </context>
 <context>
@@ -4224,7 +4236,7 @@ Gebe Version des Prograamms und der Bibliotheken aus.</translation>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="369"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"></translation>
+        <translation>Es gibt einen Befehl, der diese Kurztaste überschreibt.</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="370"/>
