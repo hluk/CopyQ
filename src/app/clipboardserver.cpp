@@ -64,6 +64,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_lastHash(0)
     , m_ignoreNextItem(true)
     , m_shortcutActions()
+    , m_shortcutBlocker()
     , m_clientThreads()
     , m_internalThreads()
 {
@@ -396,15 +397,12 @@ void ClipboardServer::createGlobalShortcut(Actions::Id id, const QByteArray &scr
         connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
                  this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
 
-        // Don't process global shortcuts any further.
-        // FIXME: This should be set for all modal windows.
-        QAction *act = new QAction(this);
+        // Create special dummy QAction so that it blocks global shortcuts in active windows.
+        QAction *act = new QAction(s);
         act->setShortcut(shortcut);
         act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
         act->setPriority(QAction::HighPriority);
-        m_wnd->addAction(act);
-        ConfigurationManager::instance()->addAction(act);
-        connect( s, SIGNAL(destroyed()), act, SLOT(deleteLater()) );
+        m_shortcutBlocker.addAction(act);
 
         m_shortcutActions[s] = script;
     }
@@ -423,7 +421,13 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                 m_wnd->enterBrowseMode(m_wnd->browseMode());
             }
         }
+    } if (ev->type() == QEvent::WindowActivate) {
+        // If top-level window is focused, don't pass global shortcuts to any child widget.
+        QWidget *w = qobject_cast<QWidget*>(object);
+        if (w && w == w->window())
+            w->addActions(m_shortcutBlocker.actions());
     }
+
     return false;
 }
 

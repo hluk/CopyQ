@@ -29,6 +29,7 @@
 #include <QSharedPointer>
 #include <QThreadPool>
 #include <QVariantMap>
+#include <QWidget>
 
 class Arguments;
 class ClipboardBrowser;
@@ -144,6 +145,7 @@ private:
     uint m_lastHash;
     bool m_ignoreNextItem;
     QMap<QxtGlobalShortcut*, QByteArray> m_shortcutActions;
+    QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;
     QThreadPool m_internalThreads;
 };
