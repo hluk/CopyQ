@@ -764,6 +764,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 previousTab();
                 break;
             default:
+                if ( !c->hasFocus() )
+                    c->setFocus();
+
                 QMainWindow::keyPressEvent(event);
                 break;
         }
