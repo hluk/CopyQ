@@ -310,9 +310,6 @@ protected:
 
     void showEvent(QShowEvent *event);
 
-    void resizeEvent(QResizeEvent *event);
-    void moveEvent(QMoveEvent *event);
-
 #if QT_VERSION < 0x050000
 #   ifdef COPYQ_WS_X11
     bool x11Event(XEvent *event);
@@ -339,6 +336,8 @@ private slots:
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
     void onTrayTimer();
+    void saveGeometry();
+    void loadGeometry();
 
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();
@@ -402,6 +401,8 @@ private:
      */
     bool triggerActionForData(const QVariantMap &data, const QString &sourceTab);
 
+    bool canSaveGeometry() const;
+
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();
 
@@ -429,6 +430,7 @@ private:
 
     QTimer *m_timerUpdateFocusWindows;
     QTimer *m_timerShowWindow;
+    QTimer *m_timerSaveGeometry;
     QTimer *m_trayTimer;
 
     NotificationDaemon *m_notifications;

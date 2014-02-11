@@ -146,6 +146,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
+    , m_timerSaveGeometry( new QTimer(this) )
     , m_trayTimer(NULL)
     , m_notifications(NULL)
     , m_timerMiminizing(NULL)
@@ -162,7 +163,7 @@ MainWindow::MainWindow(QWidget *parent)
     ConfigurationManager::createInstance(this);
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    cm->loadGeometry(this);
+    loadGeometry();
     restoreState( cm->value(objectName() + "_state").toByteArray() );
 
     updateIcon();
@@ -207,6 +208,10 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_timerShowWindow->setSingleShot(true);
     m_timerShowWindow->setInterval(250);
+
+    m_timerSaveGeometry->setSingleShot(true);
+    m_timerSaveGeometry->setInterval(500);
+    connect(m_timerSaveGeometry, SIGNAL(timeout()), SLOT(saveGeometry()));
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -267,22 +272,8 @@ void MainWindow::showEvent(QShowEvent *event)
     m_timerShowWindow->start();
     QMainWindow::showEvent(event);
 #ifdef COPYQ_WS_X11
-    ConfigurationManager::instance()->loadGeometry(this);
+    loadGeometry();
 #endif
-}
-
-void MainWindow::resizeEvent(QResizeEvent *event)
-{
-    QMainWindow::resizeEvent(event);
-    if (!m_timerShowWindow->isActive())
-        ConfigurationManager::instance()->saveGeometry(this);
-}
-
-void MainWindow::moveEvent(QMoveEvent *event)
-{
-    QMainWindow::moveEvent(event);
-    if (!m_timerShowWindow->isActive())
-        ConfigurationManager::instance()->saveGeometry(this);
 }
 
 void MainWindow::createMenu()
@@ -564,6 +555,11 @@ bool MainWindow::triggerActionForData(const QVariantMap &data, const QString &so
     }
 
     return true;
+}
+
+bool MainWindow::canSaveGeometry() const
+{
+    return isVisible() && !isMinimized() && !m_timerShowWindow->isActive();
 }
 
 NotificationDaemon *MainWindow::notificationDaemon()
@@ -851,13 +847,15 @@ void MainWindow::keyReleaseEvent(QKeyEvent *event)
 
 bool MainWindow::event(QEvent *event)
 {
-    if (event->type() == QEvent::Enter) {
+    QEvent::Type type = event->type();
+
+    if (type == QEvent::Enter) {
         updateFocusWindows();
         updateWindowTransparency(true);
-    } else if (event->type() == QEvent::Leave) {
+    } else if (type == QEvent::Leave) {
         updateWindowTransparency(false);
         setHideTabs(m_options->hideTabs);
-    } else if (event->type() == QEvent::WindowActivate) {
+    } else if (type == QEvent::WindowActivate) {
         if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() ) {
             // Window manager ignores window minimizing -- hide it instead.
             m_minimizeUnsupported = true;
@@ -866,11 +864,14 @@ bool MainWindow::event(QEvent *event)
         }
 
         updateWindowTransparency();
-    } else if (event->type() == QEvent::WindowDeactivate) {
+    } else if (type == QEvent::WindowDeactivate) {
         m_timerShowWindow->start();
         m_lastWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
+    } else if (type == QEvent::Resize || type == QEvent::Move) {
+        if ( canSaveGeometry() )
+            m_timerSaveGeometry->start();
     }
     return QMainWindow::event(event);
 }
@@ -1070,8 +1071,7 @@ void MainWindow::showWindow()
     Qt::WindowFlags flags = windowFlags();
     setWindowFlags(flags & Qt::X11BypassWindowManagerHint);
     setWindowFlags(flags);
-
-    ConfigurationManager::instance()->loadGeometry(this);
+    loadGeometry();
 #endif
 
     updateFocusWindows();
@@ -1101,6 +1101,11 @@ void MainWindow::showWindow()
 
 void MainWindow::hideWindow()
 {
+    if (m_timerSaveGeometry->isActive()) {
+        m_timerSaveGeometry->stop();
+        saveGeometry();
+    }
+
     if ( closeMinimizes() )
         showMinimized();
     else
@@ -1535,6 +1540,18 @@ void MainWindow::onTrayTimer()
     } else {
         m_trayTimer->start();
     }
+}
+
+void MainWindow::saveGeometry()
+{
+    if (canSaveGeometry())
+        ConfigurationManager::instance()->saveGeometry(this);
+}
+
+void MainWindow::loadGeometry()
+{
+    ConfigurationManager::instance()->loadGeometry(this);
+    m_timerSaveGeometry->stop();
 }
 
 void MainWindow::updateFocusWindows()
