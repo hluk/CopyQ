@@ -147,6 +147,8 @@ public slots:
 
     /** Show and focus main window. */
     void showWindow();
+    /** Hide window to tray or minimize if tray is not available. */
+    void hideWindow();
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();
     /** Show window and given tab and give focus to the tab. */
@@ -305,8 +307,6 @@ protected:
 
     /** Hide (minimize to tray) window on close. */
     void closeEvent(QCloseEvent *event);
-
-    void hideEvent(QHideEvent *event);
 
     void showEvent(QShowEvent *event);
 

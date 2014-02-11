@@ -252,25 +252,14 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if ( !closeMinimizes() ) {
-        hide();
-    } else {
-        if ( isMinimized() ) {
-            exit();
-            return;
-        }
-        showMinimized();
+    if ( closeMinimizes() && isMinimized() ) {
+        exit();
+        return;
     }
 
+    hideWindow();
     event->ignore();
     QMainWindow::closeEvent(event);
-}
-
-void MainWindow::hideEvent(QHideEvent *event)
-{
-    QMainWindow::hideEvent(event);
-    if ( closeMinimizes() )
-        showMinimized();
 }
 
 void MainWindow::showEvent(QShowEvent *event)
@@ -1060,11 +1049,12 @@ void MainWindow::loadSettings()
     log( tr("Configuration loaded") );
 }
 
-void MainWindow::closeAndReturnFocus() {
-    if (m_lastWindow) {
+void MainWindow::closeAndReturnFocus()
+{
+    if (m_lastWindow)
         m_lastWindow->raise();
-    }
-    close();
+
+    hideWindow();
 }
 
 void MainWindow::showWindow()
@@ -1107,6 +1097,14 @@ void MainWindow::showWindow()
     PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
     if (window)
         window->raise();
+}
+
+void MainWindow::hideWindow()
+{
+    if ( closeMinimizes() )
+        showMinimized();
+    else
+        hide();
 }
 
 bool MainWindow::toggleVisible()
@@ -1406,7 +1404,7 @@ void MainWindow::activateCurrentItem()
     PlatformWindowPtr lastWindow = m_lastWindow;
 
     if ( m_options->activateCloses() )
-        close();
+        hideWindow();
 
     if (lastWindow) {
         if (m_options->activateFocuses())
@@ -1531,7 +1529,7 @@ void MainWindow::onTrayTimer()
         m_options->showTray = true;
         m_tray->setVisible(true);
         if ( isMinimized() )
-            hide();
+            hideWindow();
 
         updateIcon();
     } else {
