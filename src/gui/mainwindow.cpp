@@ -878,6 +878,7 @@ bool MainWindow::event(QEvent *event)
 
         updateWindowTransparency();
     } else if (event->type() == QEvent::WindowDeactivate) {
+        m_timerShowWindow->start();
         m_lastWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
@@ -1111,10 +1112,7 @@ void MainWindow::showWindow()
 bool MainWindow::toggleVisible()
 {
     // Showing/hiding window in quick succession doesn't work well on X11.
-    if ( m_timerShowWindow->isActive() )
-        return false;
-
-    if ( isVisible() && !isMinimized() ) {
+    if ( m_timerShowWindow->isActive() || isActiveWindow() ) {
         closeAndReturnFocus();
         return false;
     }
