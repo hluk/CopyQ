@@ -22,6 +22,9 @@
 
 #include "platform/platformwindow.h"
 
+#ifndef WINVER
+#define WINVER 0x0500
+#endif
 #include <qt_windows.h>
 
 class WinPlatformWindow : public PlatformWindow
