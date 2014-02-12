@@ -1207,6 +1207,8 @@ void MainWindow::tabChanged(int current, int previous)
             c->setCurrent(0);
         }
     }
+
+    setTabOrder(ui->searchBar, c);
 }
 
 void MainWindow::tabMoved(int, int)

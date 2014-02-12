@@ -44,9 +44,6 @@
         <verstretch>1</verstretch>
        </sizepolicy>
       </property>
-      <property name="focusPolicy">
-       <enum>Qt::TabFocus</enum>
-      </property>
      </widget>
     </item>
    </layout>
