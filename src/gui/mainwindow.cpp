@@ -752,6 +752,16 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
+    if ( event->matches(QKeySequence::NextChild) ) {
+         nextTab();
+         return;
+    }
+
+    if ( event->matches(QKeySequence::PreviousChild) ) {
+         previousTab();
+         return;
+    }
+
     if ( event->modifiers() == Qt::ControlModifier ) {
         switch( event->key() ) {
             case Qt::Key_F:

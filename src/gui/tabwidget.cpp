@@ -28,21 +28,6 @@
 #include <QStackedWidget>
 #include <QToolBar>
 
-namespace {
-
-void addTabAction(QWidget *widget, const QList<QKeySequence> &shortcuts,
-                  const char *slot, bool widgetContext = true)
-{
-    QAction *act = new QAction(widget);
-    act->setShortcutContext(widgetContext ? Qt::WidgetShortcut : Qt::WindowShortcut);
-    act->setShortcuts(shortcuts);
-    act->setPriority(QAction::HighPriority);
-    widget->addAction(act);
-    widget->connect( act, SIGNAL(triggered()), slot );
-}
-
-} // namespace
-
 TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar(this))
@@ -70,11 +55,6 @@ TabWidget::TabWidget(QWidget *parent)
 
     m_stackedWidget = new QStackedWidget(this);
     layout->addWidget(m_stackedWidget);
-
-    addTabAction(this, QList<QKeySequence>() << QKeySequence::NextChild,
-                 SLOT(nextTab()), false);
-    addTabAction(this, QList<QKeySequence>() << QKeySequence::PreviousChild,
-                 SLOT(previousTab()), false);
 
     createTabBar();
 }
@@ -356,12 +336,6 @@ void TabWidget::createTabTree()
     m_toolBarTree->addWidget(m_tabTree);
 
     m_tabTree->setObjectName("tab_tree");
-
-    // More consistent behavior for selecting items using arrow keys.
-    addTabAction(m_tabTree, QList<QKeySequence>() << Qt::Key_Down << Qt::Key_Right,
-                 SLOT(nextTreeItem()));
-    addTabAction(m_tabTree, QList<QKeySequence>() << Qt::Key_Up << Qt::Key_Left,
-                 SLOT(previousTreeItem()));
 
     connect( m_tabTree, SIGNAL(tabMenuRequested(QPoint,QString)),
              this, SIGNAL(tabMenuRequested(QPoint,QString)) );

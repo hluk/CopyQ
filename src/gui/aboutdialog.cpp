@@ -174,7 +174,11 @@ QString AboutDialog::aboutPage()
         // keyboard table
         "<p><table id=\"keys\">"
             + helpKeys( tr("Item list navigation"), tr("Up/Down, Page Up/Down, Home/End") )
-            + helpKeys( tr("Tab navigation"), tr("Left, Right, Tab, Shift+Tab") )
+            + helpKeys( tr("Tab navigation"),
+                        tr("Left, Right, %1, %2", "Keys for tab navigation (%1, %2 are the standard keys).")
+                        .arg(QKeySequence(QKeySequence::NextChild).toString(QKeySequence::NativeText))
+                        .arg(QKeySequence(QKeySequence::PreviousChild).toString(QKeySequence::NativeText))
+                        )
             + helpKeys( tr("Move selected items"), tr("Ctrl+Up/Down, Ctrl+Home/End") )
             + helpKeys( tr("Reset search or hide window"), tr("Escape") )
             + helpKeys( tr("Delete item"), shortcutToRemove() )
