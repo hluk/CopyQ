@@ -50,6 +50,8 @@ cz.PluginEncrypted=Šifrování
 cz.PluginFakeVim=FakeVim editor
 cz.PluginSynchronize=Synchronizace prvků na disk
 
+de.AutoStartProgram=Starte %1 automatisch
+
 es.ProgramFiles=Archivos de programa
 es.Plugins=Complementos
 es.PluginText=Texto resaltado
@@ -75,8 +77,8 @@ Name: "plugins/fakevim"; Description: "{cm:PluginFakeVim}"; Types: full
 Name: "plugins/synchronize"; Description: "{cm:PluginSynchronize}"; Types: full
 
 [Tasks]
-Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
-Name: "startup"; Description: {cm:AutoStartProgram,CopyQ}; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
+Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; Flags: unchecked
+Name: "startup"; Description: {cm:AutoStartProgram,CopyQ}; Flags: unchecked
 
 [Files]
 Source: "{#Root}\copyq.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion
