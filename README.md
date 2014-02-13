@@ -83,7 +83,7 @@ Keyboard navigation
 
     item list navigation
 
-* `Left`, `Right`, `Tab`, `Shift+Tab`
+* `Left`, `Right`, `Ctrl+Tab`, `Ctrl+Shift+Tab`
 
     tab navigation
 
