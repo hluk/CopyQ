@@ -213,6 +213,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setLayoutMode(QListView::SinglePass);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setSpacing(5);
+    setAlternatingRowColors(true);
 
     initSingleShotTimer(m_timerSave, 30000, SLOT(saveItems()));
     initSingleShotTimer(m_timerScroll, 50);
