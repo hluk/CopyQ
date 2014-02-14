@@ -50,7 +50,7 @@ void appendAndClearNonEmpty(Entry &entry, Container &containter)
 bool getScriptFromLabel(const char *label, const QStringRef &cmd, QString *script)
 {
     if ( cmd.startsWith(label) ) {
-        *script = cmd.string()->mid( strlen(label) );
+        *script = cmd.string()->mid( cmd.position() + strlen(label) );
         return true;
     }
 
