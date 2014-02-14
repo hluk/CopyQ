@@ -76,7 +76,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="176"/>
         <source>Left, Right, Tab, Shift+Tab</source>
-        <translation>Links, Rechts, Tab, Umschalt+Tab</translation>
+        <translation>Links, Rechts, Strg+Tab, Strg+Umschalt+Tab</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
