@@ -2069,7 +2069,6 @@ bool ClipboardBrowser::handleViKey(QKeyEvent *event)
 QVariantMap ClipboardBrowser::getSelectedItemData() const
 {
     QModelIndexList selected = selectedIndexes();
-    qSort(selected);
     return copyIndexes(selected, false);
 }
 
