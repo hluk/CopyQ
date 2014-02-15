@@ -27,7 +27,9 @@
 
 #include <QApplication>
 #include <QClipboard>
+#include <QDir>
 #include <QElapsedTimer>
+#include <QFileInfo>
 #include <QLocalServer>
 #include <QLocalSocket>
 #include <QMimeData>
@@ -557,6 +559,30 @@ void Tests::importExportTab()
 
     RUN(Args(args) << "importtab" << tmp.fileName(), "");
     RUN(Args(args) << "read" << "0" << "1" << "2", "ghi\ndef\nabc");
+
+    // Export with relative path.
+    QTemporaryFile tmp2;
+    QVERIFY(tmp2.open());
+
+    // Change back to original working directory once finished.
+    struct CurrentDirectoryGuard {
+        CurrentDirectoryGuard() : oldDir(QDir::currentPath()) {}
+        ~CurrentDirectoryGuard() { QDir::setCurrent(oldDir); }
+        const QString oldDir;
+    } currentDirectoryGuard;
+
+    QDir::setCurrent( QDir::cleanPath(tmp2.fileName() + "/..") );
+
+    const QString fileName = QFileInfo( tmp2.fileName() ).fileName();
+
+    RUN(Args(args) << "add" << "jkl", "");
+    RUN(Args(args) << "exporttab" << fileName, "");
+
+    RUN(Args("removetab") << tab, "");
+    QVERIFY( !hasTab(tab) );
+
+    RUN(Args(args) << "importtab" << fileName, "");
+    RUN(Args(args) << "read" << "0" << "1" << "2" << "3", "jkl\nghi\ndef\nabc");
 }
 
 void Tests::separator()
