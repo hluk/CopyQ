@@ -11,13 +11,7 @@ before_install:
   - sudo pip install cpp-coveralls --use-mirrors
 
 script:
-  - qmake CONFIG+=debug QMAKE_CXXFLAGS+="--coverage" QMAKE_LFLAGS+="--coverage"
-  - make
-  - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start
-  - sleep 3
-  - openbox &
-  - ./copyq tests
+  - utils/build.sh
 
 after_success:
-  - coveralls -e qxt -e src/platform -e src/tests -e /usr -e plugins/itemfakevim/fakevim -E '.*/moc_.*'
+  - utils/after_build.sh
