@@ -200,6 +200,7 @@ void Tests::init()
     QVERIFY( isAnyServerRunning() );
     QVERIFY( isServerRunning() );
     VERIFY_SERVER_OUTPUT();
+    RUN(Args("hide"), "");
 }
 
 void Tests::cleanup()
