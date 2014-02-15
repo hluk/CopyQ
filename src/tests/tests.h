@@ -45,6 +45,10 @@ private slots:
 
     void moveAndDeleteItems();
 
+    void helpCommand();
+    void versionCommand();
+    void badCommand();
+
     void clipboardToItem();
     void itemToClipboard();
     void tabAddRemove();

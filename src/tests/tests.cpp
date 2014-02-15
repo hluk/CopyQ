@@ -284,6 +284,64 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args2) << "size", "2\n");
 }
 
+void Tests::helpCommand()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("help"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY(!stdoutActual.isEmpty());
+
+    const QStringList commands = QStringList()
+            << "show"
+            << "hide"
+            << "toggle"
+            << "menu"
+            << "exit"
+            << "help"
+            << "version"
+            << "clipboard"
+            << "copy"
+            << "paste"
+            << "action"
+            << "add"
+            << "remove";
+
+    foreach (const QString &command, commands) {
+        QCOMPARE( run(Args("help") << command, &stdoutActual, &stderrActual), 0 );
+        QVERIFY2( testStderr(stderrActual), stderrActual );
+        QVERIFY( !stdoutActual.isEmpty() );
+        const QString help = QString::fromLocal8Bit(stdoutActual);
+        QVERIFY( help.contains(QRegExp("\\b" + QRegExp::escape(command) + "\\b")) );
+    }
+}
+
+void Tests::versionCommand()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("version"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !stdoutActual.isEmpty() );
+
+    const QString version = QString::fromLocal8Bit(stdoutActual);
+    // Version contains application name and version.
+    QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*v" + QRegExp::escape(COPYQ_VERSION))) );
+    // Version contains Qt version.
+    QVERIFY( version.contains(QRegExp("\\bQt\\s+\\d")) );
+    // Version contains Qxt version.
+    QVERIFY( version.contains(QRegExp("\\bLibQxt\\s+\\d")) );
+}
+
+void Tests::badCommand()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("xxx"), &stdoutActual, &stderrActual), 2 );
+    QVERIFY( !stderrActual.isEmpty() );
+    QVERIFY( stdoutActual.isEmpty() );
+}
+
 void Tests::clipboardToItem()
 {
     RUN(Args("show"), "");
