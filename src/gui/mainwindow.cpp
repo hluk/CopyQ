@@ -1855,6 +1855,9 @@ bool MainWindow::saveTab(int tab_index)
     if ( fileName.isNull() )
         return false;
 
+    if ( !fileName.endsWith(".cpq") )
+        fileName.append(".cpq");
+
     if ( !saveTab(fileName, tab_index) ) {
         QMessageBox::critical( this, tr("CopyQ Error Saving File"),
                                tr("Cannot save file %1!")
