@@ -1044,8 +1044,10 @@ void MainWindow::loadSettings()
             m_timerMiminizing = new QTimer(this);
             m_timerMiminizing->setSingleShot(true);
             m_timerMiminizing->start(1000);
+            showMinimized();
+        } else if (isHidden() && !isMinimized()) {
+            showMinimized();
         }
-        showMinimized();
     }
 
     if (m_notifications != NULL)
