@@ -50,6 +50,7 @@ protected:
     void enterEvent(QEvent *event);
     void leaveEvent(QEvent *event);
     void paintEvent(QPaintEvent *event);
+    void showEvent(QShowEvent *event);
 
 signals:
     /** Emitted if notification needs to be closed. */

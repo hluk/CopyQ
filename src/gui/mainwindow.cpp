@@ -32,6 +32,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
+#include "gui/notification.h"
 #include "gui/notificationdaemon.h"
 #include "gui/tabdialog.h"
 #include "gui/tabwidget.h"
@@ -438,11 +439,7 @@ void MainWindow::updateNotifications()
 
     ConfigurationManager *cm = ConfigurationManager::instance();
     const ConfigTabAppearance *appearance = cm->tabAppearance();
-    m_notifications->setBackground( appearance->themeColor("notification_bg") );
-    m_notifications->setForeground( appearance->themeColor("notification_fg") );
-
-    QFont font = appearance->themeFont("notification_font");
-    m_notifications->setFont(font);
+    notificationDaemon()->setNotificationOpacity( appearance->themeColor("notification_bg").alphaF() );
 
     int id = cm->value("notification_position").toInt();
     NotificationDaemon::Position position;
@@ -678,7 +675,7 @@ WId MainWindow::trayMenuWinId() const
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {
-    QColor color = notificationDaemon()->foreground();
+    static const QColor color = NotificationDaemon::getNotificationIconColor(this);
     IconFactory *ifact = ConfigurationManager::instance()->iconFactory();
     QPixmap icon2;
 
@@ -708,7 +705,7 @@ void MainWindow::showMessage(const QString &title, const QString &msg, const QPi
 void MainWindow::showClipboardMessage(const QVariantMap &data)
 {
     if ( m_options->itemPopupInterval != 0 && m_options->clipboardNotificationLines > 0) {
-        const QColor color = notificationDaemon()->foreground();
+        static const QColor color = NotificationDaemon::getNotificationIconColor(this);
         const QPixmap icon =
                 ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
         notificationDaemon()->create( data, m_options->clipboardNotificationLines, icon,

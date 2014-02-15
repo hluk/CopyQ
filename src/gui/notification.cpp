@@ -28,18 +28,15 @@
 #include <QVBoxLayout>
 
 Notification::Notification(int id, QWidget *parent)
-    : QWidget()
+    : QWidget(parent)
     , m_id(id)
     , m_body(NULL)
     , m_titleLabel(NULL)
     , m_iconLabel(NULL)
     , m_msgLabel(NULL)
     , m_timer(NULL)
-    , m_opacity(0.5)
+    , m_opacity(1.0)
 {
-    connect( parent, SIGNAL(destroyed()),
-             this, SLOT(deleteLater()) );
-
     QVBoxLayout *bodyLayout = new QVBoxLayout(this);
     bodyLayout->setMargin(8);
     m_body = new QWidget(this);
@@ -110,8 +107,8 @@ void Notification::setInterval(int msec)
 
 void Notification::setOpacity(qreal opacity)
 {
-    setWindowOpacity(opacity);
     m_opacity = opacity;
+    setWindowOpacity(m_opacity);
 }
 
 void Notification::adjust()
@@ -164,6 +161,13 @@ void Notification::paintEvent(QPaintEvent *event)
     // light inner border
     p.setPen( palette().color(QPalette::Window).lighter(300) );
     p.drawRect(rect().adjusted(1, 1, -2, -2));
+}
+
+void Notification::showEvent(QShowEvent *event)
+{
+    // QTBUG-33078: Window opacity must be set after show event.
+    setWindowOpacity(m_opacity);
+    QWidget::showEvent(event);
 }
 
 void Notification::onTimeout()

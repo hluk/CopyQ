@@ -61,16 +61,13 @@ public:
 
     void setPosition(Position position);
 
-    void setBackground(const QColor &color) { m_colorBg = color; }
-    void setForeground(const QColor &color) { m_colorFg = color; }
-    void setFont(const QFont &font) { m_font = font; }
-
-    QColor foreground() const { return m_colorFg; }
-    QFont font() const { return m_font; }
-
     QSize maximumSize() const;
 
     void updateAppearance();
+
+    static QColor getNotificationIconColor(QWidget *parent);
+
+    void setNotificationOpacity(qreal opacity);
 
 private slots:
     void onNotificationClose(Notification *notification);
@@ -90,9 +87,7 @@ private:
     int m_lastId;
     Position m_position;
     QMap<int, Notification*> m_notifications;
-    QColor m_colorBg;
-    QColor m_colorFg;
-    QFont m_font;
+    qreal m_opacity;
 };
 
 #endif // NOTIFICATIONDAEMON_H

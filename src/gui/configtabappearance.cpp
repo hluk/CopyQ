@@ -311,9 +311,11 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
 void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 {
+    QString styleSheet;
+
     if ( m_theme.value("style_main_window").value().toBool() ) {
         const int iconSize = iconFontSizePixels();
-        mainWindow->setStyleSheet(
+        styleSheet =
                 "MainWindow{background:" + themeColorString("bg") + "}"
 
                 "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
@@ -358,6 +360,21 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
     } else {
         mainWindow->setStyleSheet(QString());
     }
+
+    // Notification style sheet.
+    QColor notificationBg = themeColor("notification_bg");
+    // Notification opacity should be set with NotificationDaemon::setNotificationOpacity().
+    notificationBg.setAlpha(255);
+    styleSheet += "Notification{"
+            "background:" + serializeColor(notificationBg) + ";"
+            "font:" + themeValue("notification_font").toString() + ";"
+            "}"
+            "Notification QWidget{"
+            "color:" + themeColorString("notification_fg") + ";"
+            "}"
+            ;
+
+    mainWindow->setStyleSheet(styleSheet);
 }
 
 void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const

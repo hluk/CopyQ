@@ -21,6 +21,7 @@
 
 #include "common/common.h"
 #include "gui/notification.h"
+#include "gui/iconfactory.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -35,8 +36,7 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_lastId(0)
     , m_position(BottomRight)
     , m_notifications()
-    , m_colorBg(Qt::black)
-    , m_colorFg(Qt::gray)
+    , m_opacity(1.0)
 {
 }
 
@@ -65,6 +65,7 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
 
     const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
+    const QFont &font = notification->font();
 
     if ( data.contains(mimeText) ) {
         QString text = getTextData(data);
@@ -78,7 +79,7 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
             format = QObject::tr("%1", "Notification label for single-line text in clipboard");
         }
 
-        text = elideText(text, m_font, QString(), false, width, maxLines);
+        text = elideText(text, font, QString(), false, width, maxLines);
         text = escapeHtml(text);
         text.replace( QString("\n"), QString("<br />") );
         notification->setMessage( format.arg(text), Qt::RichText );
@@ -87,13 +88,13 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
         const QString &imageFormat = formats[imageIndex];
         pix.loadFromData( data[imageFormat].toByteArray(), imageFormat.toLatin1() );
 
-        const int height = maxLines * QFontMetrics(m_font).lineSpacing();
+        const int height = maxLines * QFontMetrics(font).lineSpacing();
         if (pix.width() > width || pix.height() > height)
             pix = pix.scaled(QSize(width, height), Qt::KeepAspectRatio);
 
         notification->setPixmap(pix);
     } else {
-        const QString text = textLabelForData(data, m_font, QString(), false, width, maxLines);
+        const QString text = textLabelForData(data, font, QString(), false, width, maxLines);
         notification->setMessage(text);
     }
 
@@ -132,6 +133,20 @@ void NotificationDaemon::updateAppearance()
 
     foreach (int id, m_notifications.keys())
         setAppearance(m_notifications[id]);
+}
+
+QColor NotificationDaemon::getNotificationIconColor(QWidget *parent)
+{
+    Notification notification(0, parent);
+    return getDefaultIconColor(notification, QPalette::WindowText);
+}
+
+void NotificationDaemon::setNotificationOpacity(qreal opacity)
+{
+    if (m_opacity == opacity)
+        return;
+    m_opacity = opacity;
+    updateAppearance();
 }
 
 void NotificationDaemon::onNotificationClose(Notification *notification)
@@ -176,17 +191,7 @@ QPoint NotificationDaemon::findPosition(Notification *notification)
 
 void NotificationDaemon::setAppearance(Notification *notification)
 {
-    QColor bg = m_colorBg;
-    const qreal opacity = bg.alphaF();
-    bg.setAlpha(255);
-
-    QPalette p = notification->palette();
-    p.setColor(QPalette::Window, bg);
-    p.setColor(QPalette::WindowText, m_colorFg);
-
-    notification->setPalette(p);
-    notification->setOpacity(opacity);
-    notification->setFont(m_font);
+    notification->setOpacity(m_opacity);
 }
 
 Notification *NotificationDaemon::createNotification(QWidget *parent, int id)
