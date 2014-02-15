@@ -178,6 +178,8 @@ void Tests::initTestCase()
         QVERIFY( startServer() );
     }
 
+    waitFor(1000);
+
     cleanup();
 }
 
