@@ -355,8 +355,7 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
                 "#menu_bar::item:disabled, QMenu::item:disabled {"
                   + themeStyleSheet("menu_bar_disabled_css") + "}"
 
-                + themeStyleSheet("css")
-        );
+                + themeStyleSheet("css");
     } else {
         mainWindow->setStyleSheet(QString());
     }

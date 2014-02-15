@@ -169,7 +169,7 @@ void ActionHandler::addItems(const QStringList &items, const QModelIndex &index)
         return;
 
     QVariantMap dataMap;
-    dataMap.insert( mimeText, items.join(QString()).toLocal8Bit() );
+    dataMap.insert( mimeText, items.join(QString()).toUtf8() );
     c->model()->setData(index, dataMap, contentType::updateData);
 }
 
