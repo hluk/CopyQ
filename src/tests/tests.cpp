@@ -200,7 +200,11 @@ void Tests::init()
     QVERIFY( isAnyServerRunning() );
     QVERIFY( isServerRunning() );
     VERIFY_SERVER_OUTPUT();
-    RUN(Args("hide"), "");
+
+    // Always show main window first so that the results are consistent with desktop environments
+    // where user cannot hide main window (tiling window managers without tray).
+    RUN(Args("show"), "");
+    waitFor(waitMsShow);
 }
 
 void Tests::cleanup()
@@ -219,9 +223,6 @@ void Tests::moveAndDeleteItems()
     const Args args = Args("tab") << tab;
     RUN(Args(args) << "add" << "A" << "B" << "C", "");
 
-    RUN(Args(args) << "show", "");
-    waitFor(waitMsShow);
-
     RUN(Args(args) << "read" << "0", "C");
     // focus test tab
 #ifdef Q_OS_MAC
@@ -231,6 +232,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "keys" << "ALT+1", "");
 #endif // Q_OS_MAC
     // delete first item
+    RUN(Args(args) << "keys" << "Home", "");
     RUN(Args(args) << "keys" << shortcutToRemove(), "");
     RUN(Args(args) << "read" << "0", "B");
 
@@ -561,6 +563,10 @@ void Tests::nextPrevious()
     const QString tab = testTab(1);
     const Args args = Args("tab") << tab;
     RUN(Args(args)  << "add" << "A" << "B" << "C", "");
+
+    // Select "C" in case tab is visible and selection stays on "A".
+    RUN(Args(args)  << "previous", "");
+    RUN(Args(args)  << "previous", "");
 
     RUN(Args(args)  << "next", "");
     waitFor(waitMsClipboard);
