@@ -5,9 +5,19 @@ compiler:
 
 install:
   - sudo apt-get update
-  - sudo apt-get install libqt4-dev libxtst-dev
+  - sudo apt-get install libqt4-dev libxtst-dev openbox
+
+before_install:
+  - sudo pip install cpp-coveralls --use-mirrors
 
 script:
-  - qmake -project
-  - qmake copyq.pro
+  - qmake CONFIG+=debug QMAKE_CXXFLAGS+="-fprofile-arcs -ftest-coverage" QMAKE_LFLAGS+="-fprofile-arcs -ftest-coverage"
   - make
+  - export DISPLAY=:99.0
+  - sh -e /etc/init.d/xvfb start
+  - sleep 3
+  - openbox &
+  - ./copyq tests
+
+after_success:
+  - coveralls --exclude tests --exclude qxt --exclude src/platform --exclude src/tests
