@@ -14,6 +14,7 @@ exclude_regexs=(
     '.*/moc_.*'
     '.*\.moc$'
     '.*/ui_.*'
+    '.*/qrc_.*'
 )
 
 # Generate coverage report only with GCC.
