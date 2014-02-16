@@ -10,7 +10,7 @@ cd build
 # Configure.
 if [ "$CC" == "gcc" ]; then
     # GCC build generates coverage.
-    qmake CONFIG+=debug QMAKE_CXXFLAGS+=--coverage QMAKE_LFLAGS+=--coverage ..
+    cmake -DCMAKE_BUILD_TYPE=Debug -DCMAKE_CXX_FLAGS=--coverage -DCMAKE_C_FLAGS=--coverage ..
 else
     qmake CONFIG+=debug ..
 fi

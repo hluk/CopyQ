@@ -13,8 +13,10 @@ exclude_files=(
 exclude_regexs=(
     '.*/moc_.*'
     '.*\.moc$'
+    '.*_automoc\..*'
     '.*/ui_.*'
     '.*/qrc_.*'
+    '.*CMake.*'
 )
 
 # Generate coverage report only with GCC.
