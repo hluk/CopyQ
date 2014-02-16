@@ -787,8 +787,8 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         case Qt::Key_PageUp:
             if ( !c->hasFocus() )
                 c->setFocus();
-
-            c->keyEvent(event);
+            else
+                c->keyEvent(event);
             break;
 
         case Qt::Key_Left:
