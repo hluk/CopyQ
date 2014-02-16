@@ -375,7 +375,6 @@ void Tests::copyCommand()
     RUN( Args() << "copy" << QString::fromLocal8Bit(data1), "" );
     waitFor(waitMsClipboard);
     RUN( Args("clipboard"), data1 );
-    RUN( Args("read") << "0", data1 );
     QCOMPARE( getClipboard(), data1 );
 
     const QByteArray data2 = generateData(data);
