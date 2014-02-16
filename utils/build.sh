@@ -1,12 +1,18 @@
 #!/bin/bash
 # Build and run tests with Travis CI.
 
+set -e
+
+root=$PWD
+mkdir build
+cd build
+
 # Configure.
 if [ "$CC" == "gcc" ]; then
     # GCC build generates coverage.
-    qmake CONFIG+=debug QMAKE_CXXFLAGS+=--coverage QMAKE_LFLAGS+=--coverage
+    qmake CONFIG+=debug QMAKE_CXXFLAGS+=--coverage QMAKE_LFLAGS+=--coverage ..
 else
-    qmake CONFIG+=debug
+    qmake CONFIG+=debug ..
 fi
 
 # Build.
@@ -18,3 +24,5 @@ sh -e /etc/init.d/xvfb start
 sleep 3
 openbox &
 ./copyq tests
+
+cd "$root"

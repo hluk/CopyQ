@@ -29,5 +29,8 @@ if [ "$CC" == "gcc" ]; then
         arguments+=(--exclude-pattern "$regex")
     done
 
-    coveralls "${arguments[@]}"
+    coveralls \
+        --root "$PWD" \
+        --build-root "$PWD/build" \
+        "${arguments[@]}"
 fi
