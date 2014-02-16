@@ -108,8 +108,8 @@ void initTestProcess(QProcess *p)
 bool waitForProcessFinished(QProcess *p)
 {
     // Process events in case we own clipboard and the new process requests the contens.
-    for ( int i = 0; i < 50 && !p->waitForFinished(200); ++i )
-        QApplication::processEvents();
+    for ( int i = 0; i < 2000 && p->state() != QProcess::NotRunning; ++i )
+        waitFor(300);
 
     return p->state() == QProcess::NotRunning;
 }
