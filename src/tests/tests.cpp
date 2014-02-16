@@ -342,6 +342,18 @@ void Tests::badCommand()
     QCOMPARE( run(Args("xxx"), &stdoutActual, &stderrActual), 2 );
     QVERIFY( !stderrActual.isEmpty() );
     QVERIFY( stdoutActual.isEmpty() );
+    QVERIFY( stderrActual.contains("xxx") );
+
+    QCOMPARE( run(Args("tab") << testTab(1) << "yyy", &stdoutActual, &stderrActual), 2 );
+    QVERIFY( !stderrActual.isEmpty() );
+    QVERIFY( stdoutActual.isEmpty() );
+    QVERIFY( stderrActual.contains("yyy") );
+
+    // Bad command shoudn't create new tab.
+    QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !QString::fromLocal8Bit(stdoutActual)
+             .contains("^" + QRegExp::escape(testTab(1)) + "$") );
 }
 
 void Tests::clipboardToItem()

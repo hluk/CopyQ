@@ -373,7 +373,9 @@ QScriptValue Scriptable::applyRest(int first)
     QString name = toString(fn);
     fn = getValue(engine(), name);
     if ( !fn.isFunction() ) {
-        throwError( tr("Name \"%1\" doesn't refer to a function.").arg(name) );
+        emit sendMessage( tr("Name \"%1\" doesn't refer to a function.").arg(name).toLocal8Bit(),
+                          CommandBadSyntax );
+        throwError(QString());
         return QScriptValue();
     }
 

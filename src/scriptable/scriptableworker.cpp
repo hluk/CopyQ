@@ -50,11 +50,7 @@ void ScriptableWorker::run()
         } else {
             QByteArray response;
             int exitCode = executeScript(&response);
-
-            if ( exitCode == CommandBadSyntax )
-                response = tr("Bad command syntax. Use -h for help.\n").toLocal8Bit();
             emit sendMessage(m_client, response, exitCode);
-
             emit sendMessage(m_client, QByteArray(), CommandFinished);
         }
     }
@@ -125,6 +121,10 @@ CommandStatus ScriptableWorker::executeScript(QByteArray *response)
     QScriptValue fn = engine.globalObject().property(cmd);
     if ( !fn.isFunction() ) {
         COPYQ_LOG( msg.arg("unknown command") );
+        if (response != NULL) {
+            response->append( Scriptable::tr("Name \"%1\" doesn't refer to a function.")
+                              .arg(cmd).toLocal8Bit() + '\n' );
+        }
         return CommandBadSyntax;
     }
 
