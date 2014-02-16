@@ -243,42 +243,36 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     // colors and font
-    QString styleSheet =
-        QString("ClipboardBrowser,#item,#item_child{")
-        + getFontStyleSheet( themeValue("font").toString() )
-        + ";color:" + themeColorString("fg")
-        + ";background:" + themeColorString("bg")
-        + "}"
+    c->setStyleSheet(
+        "ClipboardBrowser,#item,#item_child{"
+          + getFontStyleSheet( themeValue("font").toString() ) + ";"
+          "color:" + themeColorString("fg") + ";"
+          "background:" + themeColorString("bg") + ";"
+        "}"
 
-        + QString("ClipboardBrowser::item:alternate{")
-        + ";color:" + themeColorString("alt_fg")
-        + ";background:" + themeColorString("alt_bg")
-        + "}"
+        "ClipboardBrowser::item:alternate{"
+          "color:" + themeColorString("alt_fg") + ";"
+          "background:" + themeColorString("alt_bg") + ";"
+        "}"
 
-        + QString("ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{")
-        + ";color:" + themeColorString("sel_fg")
-        + ";background:" + themeColorString("sel_bg")
-        + "}"
+        "ClipboardBrowser::item:selected,#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{"
+          "color:" + themeColorString("sel_fg") + ";"
+          "background:" + themeColorString("sel_bg") + ";"
+        "}"
 
-        + QString("#item,#item  #item_child{background:transparent}")
-        + QString("#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"]  #item_child{background:transparent}")
+        "#item,#item #item_child{background:transparent}"
+        "#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
 
-        + getToolTipStyleSheet()
+        // Desaturate selected item background if item list is not focused.
+        "ClipboardBrowser::item:selected:!active{" + themeStyleSheet("sel_item_css", unfocusedTheme()) + "}"
+
+        + getToolTipStyleSheet() +
 
         // Allow user to change CSS.
-        + QString("ClipboardBrowser{") + themeStyleSheet("item_css") + "}"
-        + QString("ClipboardBrowser::item:alternate{") + themeStyleSheet("alt_item_css") + "}"
-        + QString("ClipboardBrowser::item:selected{") + themeStyleSheet("sel_item_css") + "}";
-
-    // Desaturate selected item background if item list is not focused.
-    QColor unfocusedSelectedBg = themeColor("sel_bg");
-    unfocusedSelectedBg.setHsv(unfocusedSelectedBg.hue(), 0, unfocusedSelectedBg.value());
-    QHash<QString, Option> unfocusedTheme = m_theme;
-    unfocusedTheme["sel_bg"] = Option(serializeColor(unfocusedSelectedBg));
-    styleSheet.append( QString("ClipboardBrowser::item:selected:!focus{")
-                       + themeStyleSheet("sel_item_css", unfocusedTheme) + "}" );
-
-    c->setStyleSheet(styleSheet);
+        "ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
+        "ClipboardBrowser::item:alternate{" + themeStyleSheet("alt_item_css") + "}"
+        "ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
+    );
 
     // search style
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
@@ -323,35 +317,39 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 
                 "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
 
-                + QString("#tab_tree, #tab_tree_item{") + themeStyleSheet("tab_tree_css") + "}"
-                + QString("#tab_tree::branch:selected"
-                          ",#tab_tree::item:selected"
-                          ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                          "{")
-                        + themeStyleSheet("tab_tree_sel_item_css")
-                        + "}"
-                + QString("#tab_tree_item[CopyQ_selected=\"false\"]"
-                          ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                          "{background:transparent}")
+                "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
+
+                "#tab_tree::branch:selected"
+                ",#tab_tree::item:selected"
+                ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                "{"
+                + themeStyleSheet("tab_tree_sel_item_css") +
+                "}"
+
+                "#tab_tree_item[CopyQ_selected=\"false\"]"
+                ",#tab_tree_item[CopyQ_selected=\"true\"]"
+                "{background:transparent}"
 
                 // Remove border in toolbars.
-                + "QToolBar{border:none}"
+                "QToolBar{border:none}"
 
                 // Remove icon border in menus.
-                + "QMenu::item:selected{border:none}"
-                + "QMenu::item{"
-                    ";padding:0.2em 1em 0.2em 1em"
-                    ";padding-left:" + QString::number(iconSize * 2) + "px}"
-                + "QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+                "QMenu::item:selected{border:none}"
+                "QMenu::item{"
+                  ";padding:0.2em 1em 0.2em 1em"
+                  ";padding-left:" + QString::number(iconSize * 2) + "px}"
+                "QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
 
-                + "QMenu {" + themeStyleSheet("menu_css") + "}"
-                + "#menu_bar, #menu_bar::item, QMenu, QMenu::item, QMenu::separator {"
-                    + themeStyleSheet("menu_bar_css") + "}"
-                + "#menu_bar::item:selected, QMenu::item:selected {"
-                    + themeStyleSheet("menu_bar_selected_css") + "}"
-                + "#menu_bar::item:disabled, QMenu::item:disabled {"
-                    + themeStyleSheet("menu_bar_disabled_css") + "}"
-                + themeStyleSheet("css") );
+                "QMenu {" + themeStyleSheet("menu_css") + "}"
+                "#menu_bar, #menu_bar::item, QMenu, QMenu::item, QMenu::separator {"
+                  + themeStyleSheet("menu_bar_css") + "}"
+                "#menu_bar::item:selected, QMenu::item:selected {"
+                  + themeStyleSheet("menu_bar_selected_css") + "}"
+                "#menu_bar::item:disabled, QMenu::item:disabled {"
+                  + themeStyleSheet("menu_bar_disabled_css") + "}"
+
+                + themeStyleSheet("css")
+        );
     } else {
         mainWindow->setStyleSheet(QString());
     }
@@ -733,6 +731,17 @@ QString ConfigTabAppearance::themeStyleSheet(const QString &name, const ConfigTa
     }
 
     return css;
+}
+
+ConfigTabAppearance::Theme ConfigTabAppearance::unfocusedTheme() const
+{
+    QColor unfocusedSelectedBg = themeColor("sel_bg");
+    unfocusedSelectedBg.setHsv( unfocusedSelectedBg.hue(),
+                                qMax(0, unfocusedSelectedBg.saturation() - 50),
+                                unfocusedSelectedBg.value() );
+    QHash<QString, Option> unfocusedTheme = m_theme;
+    unfocusedTheme["sel_bg"] = Option(serializeColor(unfocusedSelectedBg));
+    return unfocusedTheme;
 }
 
 void ConfigTabAppearance::initThemeOptions()

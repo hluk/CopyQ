@@ -106,6 +106,8 @@ private:
     QString themeStyleSheet(const QString &name) const;
     QString themeStyleSheet(const QString &name, const Theme &theme) const;
 
+    Theme unfocusedTheme() const;
+
     void initThemeOptions();
     void resetTheme();
     QString defaultUserThemePath() const;
