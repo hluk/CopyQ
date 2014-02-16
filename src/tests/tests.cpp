@@ -426,7 +426,7 @@ void Tests::createAndCopyNewItem()
 
         RUN(Args() << "tab" << tab << "read" << "0", itemText.toLocal8Bit());
 
-        RUN(Args() << "keys" << QKeySequence(QKeySequence::Copy), "");
+        RUN(Args() << "keys" << QKeySequence(QKeySequence::Copy).toString(), "");
         waitFor(waitMsClipboard);
         RUN(Args("clipboard"), itemText.toLocal8Bit());
         QCOMPARE( getClipboard(), itemText.toLocal8Bit() );
