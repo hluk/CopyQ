@@ -859,7 +859,7 @@ QScriptValue Scriptable::config()
     const QVariant result = m_proxy->config(name, value);
 
     if ( !result.isValid() )
-        throwError( tr("Invalid option!") );
+        throwError( tr("Invalid option \"%1\"!").arg(name) );
 
     const QString output = result.toString();
     return output.isEmpty() ? QScriptValue() : output;

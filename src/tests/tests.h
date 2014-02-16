@@ -68,6 +68,8 @@ private slots:
 
     void nextPrevious();
 
+    void options();
+
 private:
     bool startServer();
     bool stopServer();

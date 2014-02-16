@@ -88,7 +88,7 @@ QString testTab(int index)
 
 bool testStderr(const QByteArray &stderrData)
 {
-    return !stderrData.contains("warning: ") && !stderrData.contains("ERROR: ");
+    return !stderrData.contains("warning: ") && !stderrData.contains("ERROR: ") && !stderrData.contains("Error: ");
 }
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
@@ -785,6 +785,37 @@ void Tests::nextPrevious()
     RUN(Args(args)  << "previous", "");
     waitFor(waitMsClipboard);
     RUN(Args(args)  << "read", "C");
+}
+
+void Tests::options()
+{
+    QByteArray stdoutActual;
+    QByteArray stderrActual;
+    QCOMPARE( run(Args("config"), &stdoutActual, &stderrActual), 0 );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
+    QVERIFY( !stdoutActual.isEmpty() );
+
+    // invalid option
+    QCOMPARE( run(Args("config") << "xxx", &stdoutActual, &stderrActual), 1 );
+    QVERIFY( !testStderr(stderrActual) );
+    QVERIFY( stdoutActual.isEmpty() );
+    QVERIFY( stderrActual.contains("xxx") );
+
+    QCOMPARE( run(Args("config") << "tab_tree", &stdoutActual, &stderrActual), 0 );
+    QVERIFY( testStderr(stderrActual) );
+    QVERIFY( stdoutActual == "true\n" || stdoutActual == "false\n" );
+
+    RUN(Args("config") << "tab_tree" << "true", "");
+    RUN(Args("config") << "tab_tree", "true\n");
+
+    RUN(Args("config") << "tab_tree" << "false", "");
+    RUN(Args("config") << "tab_tree", "false\n");
+
+    RUN(Args("config") << "tab_tree" << "1", "");
+    RUN(Args("config") << "tab_tree", "true\n");
+
+    RUN(Args("config") << "tab_tree" << "0", "");
+    RUN(Args("config") << "tab_tree", "false\n");
 }
 
 bool Tests::startServer()
