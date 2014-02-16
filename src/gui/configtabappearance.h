@@ -88,7 +88,8 @@ private slots:
     void onThemeModified(const QByteArray &bytes);
 
 private:
-    void updateTheme(QSettings &settings, QHash<QString, Option> *theme);
+    typedef QHash<QString, Option> Theme;
+    void updateTheme(QSettings &settings, Theme *theme);
     void updateThemes();
 
     void fontButtonClicked(QObject *button);
@@ -103,16 +104,17 @@ private:
     QString themeColorString(const QString &name) const;
     /** Return style sheet with given @a name. */
     QString themeStyleSheet(const QString &name) const;
+    QString themeStyleSheet(const QString &name, const Theme &theme) const;
 
     void initThemeOptions();
     void resetTheme();
     QString defaultUserThemePath() const;
-    QVariant themeValue(const QString &name, const QHash<QString, Option> &theme) const;
-    QColor themeColor(const QString &name, const QHash<QString, Option> &theme) const;
+    QVariant themeValue(const QString &name, const Theme &theme) const;
+    QColor themeColor(const QString &name, const Theme &theme) const;
     QIcon createThemeIcon(const QString &fileName);
 
     Ui::ConfigTabAppearance *ui;
-    QHash<QString, Option> m_theme;
+    Theme m_theme;
     QString m_editor;
 };
 

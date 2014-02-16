@@ -243,7 +243,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
     // colors and font
-    c->setStyleSheet(
+    QString styleSheet =
         QString("ClipboardBrowser,#item,#item_child{")
         + getFontStyleSheet( themeValue("font").toString() )
         + ";color:" + themeColorString("fg")
@@ -268,8 +268,17 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
         // Allow user to change CSS.
         + QString("ClipboardBrowser{") + themeStyleSheet("item_css") + "}"
         + QString("ClipboardBrowser::item:alternate{") + themeStyleSheet("alt_item_css") + "}"
-        + QString("ClipboardBrowser::item:selected{") + themeStyleSheet("sel_item_css") + "}"
-        );
+        + QString("ClipboardBrowser::item:selected{") + themeStyleSheet("sel_item_css") + "}";
+
+    // Desaturate selected item background if item list is not focused.
+    QColor unfocusedSelectedBg = themeColor("sel_bg");
+    unfocusedSelectedBg.setHsv(unfocusedSelectedBg.hue(), 0, unfocusedSelectedBg.value());
+    QHash<QString, Option> unfocusedTheme = m_theme;
+    unfocusedTheme["sel_bg"] = Option(serializeColor(unfocusedSelectedBg));
+    styleSheet.append( QString("ClipboardBrowser::item:selected:!focus{")
+                       + themeStyleSheet("sel_item_css", unfocusedTheme) + "}" );
+
+    c->setStyleSheet(styleSheet);
 
     // search style
     ItemDelegate *d = static_cast<ItemDelegate *>( c->itemDelegate() );
@@ -700,6 +709,11 @@ QString ConfigTabAppearance::themeColorString(const QString &name) const
 
 QString ConfigTabAppearance::themeStyleSheet(const QString &name) const
 {
+    return themeStyleSheet(name, m_theme);
+}
+
+QString ConfigTabAppearance::themeStyleSheet(const QString &name, const ConfigTabAppearance::Theme &theme) const
+{
     QString css = themeValue(name).toString();
     int i = 0;
 
@@ -713,7 +727,7 @@ QString ConfigTabAppearance::themeStyleSheet(const QString &name) const
 
         const QString var = css.mid(i + 2, j - i - 2);
 
-        const QString colorName = serializeColor( evalColor(var, m_theme) );
+        const QString colorName = serializeColor( evalColor(var, theme) );
         css.replace(i, j - i + 1, colorName);
         i += colorName.size();
     }
