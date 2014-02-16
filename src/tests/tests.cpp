@@ -156,6 +156,14 @@ bool hasTab(const QString &tabName)
     return QString::fromLocal8Bit(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
 }
 
+/// Generate unique data.
+QByteArray generateData(const QByteArray &data)
+{
+    static int i = 0;
+    return data + '_' + QByteArray::number(QDateTime::currentMSecsSinceEpoch())
+            + '_' + QByteArray::number(++i);
+}
+
 } // namespace
 
 Tests::Tests(QObject *parent)
@@ -209,6 +217,9 @@ void Tests::init()
     // where user cannot hide main window (tiling window managers without tray).
     RUN(Args("show"), "");
     waitFor(waitMsShow);
+
+    // Enable clipboard monitoring.
+    RUN(Args("enable"), "");
 }
 
 void Tests::cleanup()
@@ -391,6 +402,33 @@ void Tests::createAndCopyNewItem()
         RUN(Args("clipboard"), itemText.toLocal8Bit());
         QCOMPARE( getClipboard(), itemText.toLocal8Bit() );
     }
+}
+
+void Tests::toggleClipboardMonitoring()
+{
+    const QByteArray data = "toggleClipboardMonitoring";
+
+    const QByteArray data1 = generateData(data);
+    setClipboard(data1);
+    QCOMPARE( getClipboard(), data1 );
+    RUN(Args("clipboard"), data1);
+    RUN(Args("read") << "0", data1);
+
+    RUN(Args("disable"), "");
+
+    const QByteArray data2 = generateData(data);
+    setClipboard(data2);
+    QCOMPARE( getClipboard(), data2 );
+    RUN(Args("clipboard"), data2);
+    RUN(Args("read") << "0", data1);
+
+    RUN(Args("enable"), "");
+
+    const QByteArray data3 = generateData(data);
+    setClipboard(data3);
+    QCOMPARE( getClipboard(), data3 );
+    RUN(Args("clipboard"), data3);
+    RUN(Args("read") << "0", data3);
 }
 
 void Tests::clipboardToItem()

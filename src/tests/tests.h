@@ -51,6 +51,8 @@ private slots:
 
     void createAndCopyNewItem();
 
+    void toggleClipboardMonitoring();
+
     void clipboardToItem();
     void itemToClipboard();
     void tabAddRemove();
