@@ -105,6 +105,31 @@ void initTestProcess(QProcess *p)
     p->setProcessEnvironment(env);
 }
 
+bool waitForProcessFinished(QProcess *p)
+{
+    // Process events in case we own clipboard and the new process requests the contens.
+    for ( int i = 0; i < 50 && !p->waitForFinished(200); ++i )
+        QApplication::processEvents();
+
+    return p->state() == QProcess::NotRunning;
+}
+
+bool closeProcess(QProcess *p)
+{
+    if ( waitForProcessFinished(p) )
+        return true;
+
+    qWarning() << "terminating process";
+    p->terminate();
+
+    if ( !waitForProcessFinished(p) ) {
+        qWarning() << "killing process";
+        p->kill();
+    }
+
+    return false;
+}
+
 int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArray *stderrData = NULL,
         const QByteArray &in = QByteArray())
 {
@@ -116,25 +141,8 @@ int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArra
     p.write(in);
     p.closeWriteChannel();
 
-    if ( !p.waitForFinished(100) ) {
-        // Process events in case we own clipboard and the new process requests the contens.
-        QApplication::processEvents();
-        if ( !p.waitForFinished(200) ) {
-            QApplication::processEvents();
-
-            if ( !p.waitForFinished(6000) ) {
-                qWarning() << "terminating process";
-                p.terminate();
-
-                if ( !p.waitForFinished(1000) ) {
-                    qWarning() << "killing process";
-                    p.kill();
-                }
-
-                return -1;
-            }
-        }
-    }
+    if ( !closeProcess(&p) )
+        return -1;
 
     if (stdoutData != NULL)
         *stdoutData = p.readAllStandardOutput();
@@ -199,8 +207,7 @@ void Tests::cleanupTestCase()
         QVERIFY( stopServer() );
         if ( m_server->state() != QProcess::NotRunning ) {
             m_server->terminate();
-            if ( !m_server->waitForFinished(1000) )
-                m_server->kill();
+            QVERIFY( !closeProcess(m_server) );
         }
     }
 
@@ -851,7 +858,8 @@ bool Tests::stopServer()
         return !isServerRunning();
 
     run(Args("exit"));
-    m_server->waitForFinished(5000);
+    if ( !closeProcess(m_server) )
+        return false;
 
     return !isAnyServerRunning();
 }
