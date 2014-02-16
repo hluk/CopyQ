@@ -5,6 +5,7 @@ if(NOT X11_Xfixes_FOUND)
 endif(NOT X11_Xfixes_FOUND)
 
 if(X11_XTest_FOUND)
+    add_definitions( -DHAS_X11TEST )
     list(APPEND copyq_DEFINITIONS HAS_X11TEST)
     list(APPEND copyq_LIBRARIES ${X11_XTest_LIB})
 else(X11_XTest_FOUND)
@@ -12,6 +13,7 @@ else(X11_XTest_FOUND)
                     " automatically paste to some windows!")
 endif(X11_XTest_FOUND)
 
+add_definitions( -DCOPYQ_WS_X11 )
 list(APPEND copyq_DEFINITIONS COPYQ_WS_X11)
 
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
