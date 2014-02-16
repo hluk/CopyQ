@@ -367,6 +367,36 @@ void Tests::badCommand()
              .contains("^" + QRegExp::escape(testTab(1)) + "$") );
 }
 
+void Tests::copyCommand()
+{
+    const QByteArray data = "copyCommand";
+
+    const QByteArray data1 = generateData(data);
+    RUN( Args() << "copy" << QString::fromLocal8Bit(data1), "" );
+    waitFor(waitMsClipboard);
+    RUN( Args("clipboard"), data1 );
+    RUN( Args("read") << "0", data1 );
+    QCOMPARE( getClipboard(), data1 );
+
+    const QByteArray data2 = generateData(data);
+    RUN( Args() << "copy" << "DATA" << QString::fromLocal8Bit(data2), "" );
+    waitFor(waitMsClipboard);
+    RUN( Args("clipboard") << "DATA", data2 );
+    QCOMPARE( getClipboard("DATA"), data2 );
+
+    const QByteArray data3 = generateData(data);
+    const QByteArray data4 = generateData(data);
+    RUN( Args() << "copy"
+         << "DATA3" << QString::fromLocal8Bit(data3)
+         << "DATA4" << QString::fromLocal8Bit(data4)
+         , "" );
+    waitFor(waitMsClipboard);
+    RUN( Args("clipboard") << "DATA3", data3 );
+    RUN( Args("clipboard") << "DATA4", data4 );
+    QCOMPARE( getClipboard("DATA3"), data3 );
+    QCOMPARE( getClipboard("DATA4"), data4 );
+}
+
 void Tests::createAndCopyNewItem()
 {
     RUN(Args() << "keys" << "CTRL+T", "");

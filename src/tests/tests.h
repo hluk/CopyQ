@@ -49,6 +49,8 @@ private slots:
     void versionCommand();
     void badCommand();
 
+    void copyCommand();
+
     void createAndCopyNewItem();
 
     void toggleClipboardMonitoring();
