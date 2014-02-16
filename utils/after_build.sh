@@ -30,7 +30,6 @@ if [ "$CC" == "gcc" ]; then
     done
 
     coveralls \
-        --root "$PWD" \
-        --build-root "$PWD/build" \
+        --build-root "build" \
         "${arguments[@]}"
 fi
