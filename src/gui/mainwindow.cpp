@@ -1509,7 +1509,7 @@ QString MainWindow::sendKeys(const QString &keys) const
         return QString("Cannot send keys, no widget is focused!");
 
     if (keys.startsWith(":")) {
-        QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 100);
+        QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 20);
     } else {
         const QKeySequence shortcut(keys);
 

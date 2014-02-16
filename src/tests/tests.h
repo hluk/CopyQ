@@ -49,6 +49,8 @@ private slots:
     void versionCommand();
     void badCommand();
 
+    void createAndCopyNewItem();
+
     void clipboardToItem();
     void itemToClipboard();
     void tabAddRemove();

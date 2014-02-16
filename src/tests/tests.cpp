@@ -356,6 +356,43 @@ void Tests::badCommand()
              .contains("^" + QRegExp::escape(testTab(1)) + "$") );
 }
 
+void Tests::createAndCopyNewItem()
+{
+    RUN(Args() << "keys" << "CTRL+T", "");
+    const QString tab = testTab(1);
+    RUN(Args() << "keys" << ":" + tab << "ENTER", "");
+
+    const QStringList itemTexts = QStringList()
+            << "New item with random text and\n"
+               "useless second line!"
+            << "Second item with another random text and\n"
+               "another useless second line!";
+
+    RUN(Args() << "config" << "edit_ctrl_return" << "true", "");
+
+    foreach (const QString &itemText, itemTexts) {
+        RUN(Args() << "keys" << "CTRL+N", "");
+
+        bool firstLine = true;
+        foreach (const QString &itemLine, itemText.split('\n')) {
+            if (firstLine)
+                firstLine = false;
+            else
+                RUN(Args() << "keys" << "ENTER", "");
+            RUN(Args() << "keys" << "CTRL+N" << ":" + itemLine, "");
+        }
+
+        RUN(Args() << "keys" << "F2", "");
+
+        RUN(Args() << "tab" << tab << "read" << "0", itemText.toLocal8Bit());
+
+        RUN(Args() << "keys" << QKeySequence(QKeySequence::Copy), "");
+        waitFor(waitMsClipboard);
+        RUN(Args("clipboard"), itemText.toLocal8Bit());
+        QCOMPARE( getClipboard(), itemText.toLocal8Bit() );
+    }
+}
+
 void Tests::clipboardToItem()
 {
     RUN(Args("show"), "");
