@@ -56,6 +56,28 @@ do {\
     VERIFY_SERVER_OUTPUT(); \
 } while (0)
 
+#define WAIT_UNTIL(arguments, CONDITION, stdoutActual) \
+do {\
+    QElapsedTimer t; \
+    t.start(); \
+    bool success = false; \
+    while(true) { \
+        stdoutActual.clear(); \
+        waitFor(100); \
+        QApplication::processEvents(); \
+        QVERIFY( isServerRunning() ); \
+        QByteArray stderrActual; \
+        QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
+        stdoutActual.replace('\r', ""); \
+        QVERIFY2( testStderr(stderrActual), stderrActual ); \
+        VERIFY_SERVER_OUTPUT(); \
+        success = CONDITION; \
+        if (success || t.elapsed() < 10000) \
+            break; \
+    } \
+    QVERIFY(success); \
+} while (0)
+
 namespace {
 
 /// Interval to wait (in ms) until an action is completed and items from stdout are created.
@@ -823,6 +845,136 @@ void Tests::options()
 
     RUN(Args("config") << "tab_tree" << "0", "");
     RUN(Args("config") << "tab_tree", "false\n");
+}
+
+void Tests::editCommand()
+{
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+
+    RUN(Args("config") << "editor" << "", "");
+
+    // Edit new item.
+    const QByteArray data = "edit";
+    const QByteArray data1 = generateData(data);
+    RUN(Args(args) << "edit", "");
+    RUN(Args(args) << "keys" << ":" + QString::fromLatin1(data1) << "F2", "");
+    RUN(Args(args) << "read" << "0", data1);
+
+    // Edit existing item.
+    const QByteArray data2 = generateData(data);
+    RUN(Args(args) << "edit" << "0", "");
+    RUN(Args(args) << "keys" << "END" << ":" + QString::fromLatin1(data2) << "F2", "");
+    RUN(Args(args) << "read" << "0", data1 + data2);
+}
+
+void Tests::externalEditor()
+{
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+    const QString editorTab = testTab(2);
+    const Args editorArgs = Args("tab") << editorTab;
+    const Args editorFileNameArgs = Args(editorArgs) << "read" << "0";
+    const QString endEditor = "END_EDITOR";
+    const Args editorEndArgs = Args(editorArgs) << "add" << endEditor;
+
+    // Set edit command add first argument (filename to edit) to list.
+    // Script ends when first item is "ABORT".
+    QString cmd = QString(
+                "\"%1\" tab \"%2\" eval "
+                "\"add(arguments[1]);while(str(read(0)) != '%3');\"")
+            .arg(QApplication::applicationFilePath())
+            .arg(editorTab)
+            .arg(endEditor)
+            + " %1";
+    RUN(Args("config") << "editor" << cmd, "");
+
+    // Set clipboard.
+    const QByteArray data = "edit";
+    const QByteArray data1 = generateData(data);
+    setClipboard(data1);
+    QCOMPARE( getClipboard(), data1 );
+    RUN(Args("clipboard"), data1);
+    RUN(Args("read") << "0", data1);
+
+    QByteArray out;
+
+    // Edit clipboard.
+    RUN(Args() << "edit" << "-1", "");
+
+    // Get name of the filename to edit.
+    WAIT_UNTIL(editorFileNameArgs, !out.isEmpty(), out);
+    QFile file(out);
+    QVERIFY( file.exists() );
+    QVERIFY( file.open(QIODevice::ReadWrite) );
+    QVERIFY( file.readAll() == data1 );
+
+    // Modify clipboard.
+    const QByteArray data2 = generateData(data);
+    file.write(data2);
+    file.close();
+
+    // Close editor command.
+    WAIT_UNTIL(editorEndArgs, !file.exists(), out);
+    QCOMPARE(out.data(), "");
+    RUN(Args(editorArgs) << "remove" << "0", "");
+
+    // Check if clipboard changed.
+    waitFor(waitMsClipboard);
+    QCOMPARE( getClipboard(), data1 + data2 );
+    RUN(Args("clipboard"), data1 + data2);
+    RUN(Args("read") << "0", data1 + data2);
+
+    // Edit existing item.
+    const QString text =
+            "Some text to edit,\n"
+            "with second line!\n"
+            + generateData(data);
+    RUN(Args(args) << "add" << text, "");
+    RUN(Args(args) << "edit" << "0", "");
+
+    // Get name of the filename to edit.
+    WAIT_UNTIL(editorFileNameArgs, !out.isEmpty(), out);
+    file.setFileName(out);
+    QVERIFY( file.exists() );
+    QVERIFY( file.open(QIODevice::ReadWrite) );
+    QVERIFY( file.readAll() == text.toLocal8Bit() );
+
+    // Modify first item.
+    const QByteArray data3 = generateData(data);
+    file.write(data3);
+    file.close();
+
+    // Close editor command.
+    WAIT_UNTIL(editorEndArgs, !file.exists(), out);
+    QCOMPARE(out.data(), "");
+    RUN(Args(editorArgs) << "remove" << "0", "");
+
+    // Check first item.
+    RUN(Args(args) << "read" << "0", text.toLocal8Bit() + data3);
+
+    // Edit new item.
+    RUN(Args(args) << "edit", "");
+
+    // Get name of the filename to edit.
+    WAIT_UNTIL(editorFileNameArgs, !out.isEmpty(), out);
+    file.setFileName(out);
+    QVERIFY( file.exists() );
+    QVERIFY( file.open(QIODevice::ReadWrite) );
+    QCOMPARE( file.readAll().data(), "" );
+
+    // Modify first item.
+    const QByteArray data4 = generateData(data);
+    file.write(data4);
+    file.close();
+
+    // Close editor command.
+    WAIT_UNTIL(editorEndArgs, !file.exists(), out);
+    QCOMPARE(out.data(), "");
+    RUN(Args(editorArgs) << "remove" << "0", "");
+
+    // Check first item.
+    RUN(Args(args) << "read" << "0", data4);
 }
 
 bool Tests::startServer()

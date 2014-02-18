@@ -70,6 +70,10 @@ private slots:
 
     void options();
 
+    void editCommand();
+
+    void externalEditor();
+
 private:
     bool startServer();
     bool stopServer();
