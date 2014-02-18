@@ -337,7 +337,6 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     bool isSelected = option.state & QStyle::State_Selected;
 
     QStyleOptionViewItemV4 option2(option);
-    option2.backgroundBrush = m_parent->palette().background();
 
     /**
      * Alternate colors from last item so deleting or inserting a row won't make following
@@ -351,12 +350,12 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     /* render background (selected, alternate, ...) */
     QStyle *style = m_parent->style();
     style->drawControl(QStyle::CE_ItemViewItem, &option2, painter, m_parent);
-    QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
 
     /* render number */
     QRect numRect(0, 0, 0, 0);
     if ( !m_numberSize.isEmpty() ) {
         const QString num = QString::number(row);
+        QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
         painter->setFont(m_numberFont);
         style->drawItemText(painter, rect.translated(m_hMargin / 2, m_vMargin), 0,

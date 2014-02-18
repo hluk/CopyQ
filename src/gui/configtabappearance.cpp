@@ -242,6 +242,8 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     c->setVerticalScrollBarPolicy(scrollbarPolicy);
     c->setHorizontalScrollBarPolicy(scrollbarPolicy);
 
+    Theme unfocusedTheme = this->unfocusedTheme();
+
     // colors and font
     c->setStyleSheet(
         "ClipboardBrowser,#item,#item_child{"
@@ -264,7 +266,10 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
         "#item[CopyQ_selected=\"true\"],#item[CopyQ_selected=\"true\"] #item_child{background:transparent}"
 
         // Desaturate selected item background if item list is not focused.
-        "ClipboardBrowser::item:selected:!active{" + themeStyleSheet("sel_item_css", unfocusedTheme()) + "}"
+        "ClipboardBrowser::item:selected:!active{"
+          "background:" + serializeColor( evalColor("sel_bg", unfocusedTheme) ) + ";"
+          + themeStyleSheet("sel_item_css", unfocusedTheme) +
+        "}"
 
         + getToolTipStyleSheet() +
 
@@ -735,10 +740,13 @@ QString ConfigTabAppearance::themeStyleSheet(const QString &name, const ConfigTa
 
 ConfigTabAppearance::Theme ConfigTabAppearance::unfocusedTheme() const
 {
+    QColor bg = themeColor("bg");
     QColor unfocusedSelectedBg = themeColor("sel_bg");
-    unfocusedSelectedBg.setHsv( unfocusedSelectedBg.hue(),
-                                qMax(0, unfocusedSelectedBg.saturation() - 50),
-                                unfocusedSelectedBg.value() );
+    unfocusedSelectedBg.setRgb(
+                (bg.red() + unfocusedSelectedBg.red()) / 2,
+                (bg.green() + unfocusedSelectedBg.green()) / 2,
+                (bg.blue() + unfocusedSelectedBg.blue()) / 2
+                );
     QHash<QString, Option> unfocusedTheme = m_theme;
     unfocusedTheme["sel_bg"] = Option(serializeColor(unfocusedSelectedBg));
     return unfocusedTheme;
