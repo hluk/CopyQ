@@ -1612,7 +1612,7 @@ Anmerkung: Dies wird nicht auf allen Betriebsystemen unterstützt.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="270"/>
         <source>&amp;Unfocused transparency:</source>
-        <translation>Transparentz, wenn nicht fok&amp;usiert:</translation>
+        <translation>Transparenz, wenn nicht fok&amp;usiert:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="35"/>
@@ -1706,7 +1706,7 @@ Auf 0 setzen zum deaktivieren</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="228"/>
         <source>&amp;Focused transparency:</source>
-        <translation>Transparentz, wenn &amp;fokusiert:</translation>
+        <translation>Transparenz, wenn &amp;fokusiert:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="240"/>
