@@ -337,6 +337,7 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     bool isSelected = option.state & QStyle::State_Selected;
 
     QStyleOptionViewItemV4 option2(option);
+    option2.backgroundBrush = option.palette.base();
 
     /**
      * Alternate colors from last item so deleting or inserting a row won't make following
