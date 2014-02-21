@@ -21,7 +21,6 @@
 #define NOTIFICATIONDAEMON_H
 
 #include <QColor>
-#include <QFont>
 #include <QMap>
 #include <QObject>
 #include <QVariantMap>

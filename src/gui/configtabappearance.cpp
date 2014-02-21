@@ -82,6 +82,8 @@ QString getFontStyleSheet(const QString &fontString)
     int w = font.weight() * 12 - 200;
     result.append( QString(";font-weight:%1").arg(w) );
 
+    result.append(";");
+
     return result;
 }
 
@@ -247,7 +249,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     // colors and font
     c->setStyleSheet(
         "ClipboardBrowser,#item,#item_child{"
-          + getFontStyleSheet( themeValue("font").toString() ) + ";"
+          + getFontStyleSheet( themeValue("font").toString() ) +
           "color:" + themeColorString("fg") + ";"
           "background:" + themeColorString("bg") + ";"
         "}"
@@ -366,10 +368,10 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
     notificationBg.setAlpha(255);
     styleSheet += "Notification{"
             "background:" + serializeColor(notificationBg) + ";"
-            "font:" + themeValue("notification_font").toString() + ";"
             "}"
             "Notification QWidget{"
             "color:" + themeColorString("notification_fg") + ";"
+            + getFontStyleSheet( themeValue("notification_font").toString() ) +
             "}"
             ;
 
