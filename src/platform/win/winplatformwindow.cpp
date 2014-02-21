@@ -20,6 +20,7 @@
 #include "winplatformwindow.h"
 
 #include <QString>
+#include <QVector>
 
 namespace {
 
@@ -48,6 +49,11 @@ bool raiseWindow(HWND window)
     return true;
 }
 
+bool isKeyPressed(int key)
+{
+    return GetKeyState(key) & 0x8000;
+}
+
 } // namespace
 
 WinPlatformWindow::WinPlatformWindow(HWND window)
@@ -73,18 +79,35 @@ void WinPlatformWindow::raise()
 
 void WinPlatformWindow::pasteClipboard()
 {
-    INPUT input[4];
-
-    input[0] = createInput(VK_LSHIFT);
-    input[1] = createInput(VK_INSERT);
-    input[2] = createInput(VK_INSERT, KEYEVENTF_KEYUP);
-    input[3] = createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
-
     if (!raiseWindow(m_window))
         return;
 
     Sleep(150);
-    SendInput( 4, input, sizeof(INPUT) );
+
+    QVector<INPUT> input1;
+    QVector<INPUT> input2;
+
+    static const QList<int> mods = QList<int>()
+            << VK_LCONTROL << VK_RCONTROL
+            << VK_LSHIFT << VK_RSHIFT
+            << VK_LMENU << VK_RMENU
+            << VK_MENU;
+
+    // Release all modifiers first to send just Shift+Insert.
+    foreach (int mod, mods) {
+        if ( isKeyPressed(mod) ) {
+            input1 << createInput(mod, KEYEVENTF_KEYUP);
+            input2 << createInput(mod); // Press again at the end.
+        }
+    }
+
+    input1 << createInput(VK_LSHIFT)
+           << createInput(VK_INSERT)
+           << createInput(VK_INSERT, KEYEVENTF_KEYUP)
+           << createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
+
+    QVector<INPUT> input = input1 + input2;
+    SendInput( input.size(), input.data(), sizeof(INPUT) );
 
     // Don't do anything hasty until the content is actually pasted.
     Sleep(150);
