@@ -1020,6 +1020,7 @@ void ConfigurationManager::setVisible(bool visible)
         initCommandWidgets();
         initLanguages();
         m_optionWidgetsLoaded = true;
+        emit started();
     }
 }
 
@@ -1177,6 +1178,9 @@ void ConfigurationManager::onFinished(int result)
     ui->itemOrderListCommands->clearItems();
 
     ui->comboBoxLanguage->clear();
+
+    if (!isVisible())
+        emit stopped();
 }
 
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)

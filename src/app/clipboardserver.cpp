@@ -98,6 +98,14 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
+#ifndef NO_GLOBAL_SHORTCUTS
+    connect( cm, SIGNAL(started()),
+             this, SLOT(removeGlobalShortcuts()) );
+    connect( cm, SIGNAL(stopped()),
+             this, SLOT(createGlobalShortcuts()) );
+    createGlobalShortcuts();
+#endif
+
     // hash of the last clipboard data
     bool ok;
     m_lastHash = cm->value("_last_hash").toUInt(&ok);
@@ -253,6 +261,32 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
     } else {
         COPYQ_LOG( QString("%1: Client disconnected!").arg(id) );
     }
+}
+
+void ClipboardServer::removeGlobalShortcuts()
+{
+    foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
+        delete s;
+    m_shortcutActions.clear();
+}
+
+void ClipboardServer::createGlobalShortcuts()
+{
+    removeGlobalShortcuts();
+    createGlobalShortcut(Actions::Global_ToggleMainWindow, "toggle()");
+    createGlobalShortcut(Actions::Global_ShowTray, "menu()");
+    createGlobalShortcut(Actions::Global_EditClipboard, "edit(-1)");
+    createGlobalShortcut(Actions::Global_EditFirstItem, "edit(0)");
+    createGlobalShortcut(Actions::Global_CopySecondItem, "select(1)");
+    createGlobalShortcut(Actions::Global_ShowActionDialog, "action()");
+    createGlobalShortcut(Actions::Global_CreateItem, "edit()");
+    createGlobalShortcut(Actions::Global_CopyNextItem, "next()");
+    createGlobalShortcut(Actions::Global_CopyPreviousItem, "previous()");
+    createGlobalShortcut(Actions::Global_PasteAsPlainText, "copy(clipboard()); paste()");
+    createGlobalShortcut(Actions::Global_DisableClipboardStoring, "disable()");
+    createGlobalShortcut(Actions::Global_EnableClipboardStoring, "enable()");
+    createGlobalShortcut(Actions::Global_PasteAndCopyNext, "paste(); next();");
+    createGlobalShortcut(Actions::Global_PasteAndCopyPrevious, "paste(); previous();");
 }
 
 void ClipboardServer::onAboutToQuit()
@@ -421,7 +455,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                 m_wnd->enterBrowseMode(m_wnd->browseMode());
             }
         }
-    } if (ev->type() == QEvent::WindowActivate) {
+    } else if (ev->type() == QEvent::WindowActivate) {
         // If top-level window is focused, don't pass global shortcuts to any child widget.
         QWidget *w = qobject_cast<QWidget*>(object);
         if (w && w == w->window())
@@ -433,27 +467,6 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 
 void ClipboardServer::loadSettings()
 {
-#ifndef NO_GLOBAL_SHORTCUTS
-    foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
-        delete s;
-    m_shortcutActions.clear();
-
-    createGlobalShortcut(Actions::Global_ToggleMainWindow, "toggle()");
-    createGlobalShortcut(Actions::Global_ShowTray, "menu()");
-    createGlobalShortcut(Actions::Global_EditClipboard, "edit(-1)");
-    createGlobalShortcut(Actions::Global_EditFirstItem, "edit(0)");
-    createGlobalShortcut(Actions::Global_CopySecondItem, "select(1)");
-    createGlobalShortcut(Actions::Global_ShowActionDialog, "action()");
-    createGlobalShortcut(Actions::Global_CreateItem, "edit()");
-    createGlobalShortcut(Actions::Global_CopyNextItem, "next()");
-    createGlobalShortcut(Actions::Global_CopyPreviousItem, "previous()");
-    createGlobalShortcut(Actions::Global_PasteAsPlainText, "copy(clipboard()); paste()");
-    createGlobalShortcut(Actions::Global_DisableClipboardStoring, "disable()");
-    createGlobalShortcut(Actions::Global_EnableClipboardStoring, "enable()");
-    createGlobalShortcut(Actions::Global_PasteAndCopyNext, "paste(); next();");
-    createGlobalShortcut(Actions::Global_PasteAndCopyPrevious, "paste(); previous();");
-#endif
-
     // reload clipboard monitor configuration
     if ( isMonitoring() )
         loadMonitorSettings();

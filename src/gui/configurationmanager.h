@@ -136,6 +136,11 @@ signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
 
+    /** Emitted if configuration dialog opens. */
+    void started();
+    /** Emitted if configuration dialog closes. */
+    void stopped();
+
 protected:
     static void createInstance(QWidget *parent);
 

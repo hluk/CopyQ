@@ -122,6 +122,9 @@ private slots:
             int exitCode = 0 //!< Exit code for client (non-zero for an error).
             );
 
+    void removeGlobalShortcuts();
+    void createGlobalShortcuts();
+
     /** Clean up before quitting. */
     void onAboutToQuit();
 
