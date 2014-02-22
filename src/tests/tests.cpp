@@ -288,13 +288,8 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "add" << "A" << "B" << "C", "");
 
     RUN(Args(args) << "read" << "0", "C");
-    // focus test tab
-#ifdef Q_OS_MAC
-    // Alt-1 doesn't work on OS X
-    RUN(Args(args) << "keys" << "ALT+LEFT", "");
-#else
-    RUN(Args(args) << "keys" << "ALT+1", "");
-#endif // Q_OS_MAC
+    // focus test tab (Alt+1 may not work on some systems/desktops)
+    RUN(Args(args) << "keys" << "RIGHT", "");
     // delete first item
     RUN(Args(args) << "keys" << "Home", "");
     RUN(Args(args) << "keys" << shortcutToRemove(), "");
