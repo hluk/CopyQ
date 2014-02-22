@@ -28,6 +28,19 @@
 #include <QStackedWidget>
 #include <QToolBar>
 
+namespace {
+
+void addTabAction(QWidget *widget, const QKeySequence &shortcut,
+                  QWidget *receiver, const char *slot)
+{
+    QAction *act = new QAction(widget);
+    act->setShortcut(shortcut);
+    receiver->connect(act, SIGNAL(triggered()), slot);
+    widget->addAction(act);
+}
+
+} // namespace
+
 TabWidget::TabWidget(QWidget *parent)
     : QWidget(parent)
     , m_toolBar(new QToolBar(this))
@@ -345,6 +358,10 @@ void TabWidget::createTabTree()
              this, SLOT(setCurrentIndex(int)) );
 
     updateToolBar();
+
+    // Override left and right keys of tab tree.
+    addTabAction(m_tabTree, Qt::Key_Left, this, SLOT(previousTab()));
+    addTabAction(m_tabTree, Qt::Key_Right, this, SLOT(nextTab()));
 }
 
 void TabWidget::updateToolBar()
