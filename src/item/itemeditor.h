@@ -82,6 +82,7 @@ class ItemEditor : public QObject
 
         QFileInfo m_info;
         QDateTime m_lastmodified;
+        qint64 m_lastSize;
         bool m_modified;
 };
 

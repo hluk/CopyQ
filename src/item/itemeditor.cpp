@@ -74,6 +74,7 @@ ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QStrin
     , m_timer( new QTimer(this) )
     , m_info()
     , m_lastmodified()
+    , m_lastSize(0)
     , m_modified(false)
 {
     if ( !m_editorcmd.contains("%1") )
@@ -115,6 +116,7 @@ bool ItemEditor::start()
     // monitor file
     m_info.setFile( tmpfile.fileName() );
     m_lastmodified = m_info.lastModified();
+    m_lastSize = m_info.size();
     m_timer->start(500);
     connect( m_timer, SIGNAL(timeout()),
              this, SLOT(onTimer()) );
@@ -144,8 +146,9 @@ void ItemEditor::close()
 bool ItemEditor::fileModified()
 {
     m_info.refresh();
-    if ( m_lastmodified != m_info.lastModified() ) {
+    if ( m_lastmodified != m_info.lastModified() ||  m_lastSize != m_info.size() ) {
         m_lastmodified = m_info.lastModified();
+        m_lastSize = m_info.size();
 
         // read text
         QFile file( m_info.filePath() );
