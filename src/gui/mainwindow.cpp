@@ -1524,6 +1524,22 @@ QString MainWindow::sendKeys(const QString &keys) const
 #endif
 }
 
+QString MainWindow::selectedTab() const
+{
+    return getBrowser()->tabName();
+}
+
+QString MainWindow::selectedItems() const
+{
+    ClipboardBrowser *browser = getBrowser();
+    QString result = QString::number(browser->currentIndex().row());
+
+    foreach (const QModelIndex &index, browser->selectionModel()->selectedRows())
+        result.append("\n" + QString::number(index.row()));
+
+    return result;
+}
+
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
     return m_options->trayCurrentTab ? browser()

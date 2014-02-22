@@ -131,6 +131,12 @@ public slots:
 
     void keys();
 
+    QScriptValue selected();
+
+    QScriptValue selectedtab();
+
+    QScriptValue selecteditems();
+
 public slots:
     void setInput(const QByteArray &bytes);
 

@@ -292,6 +292,10 @@ public slots:
 
     QString sendKeys(const QString &keys) const;
 
+    QString selectedTab() const;
+
+    QString selectedItems() const;
+
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data);

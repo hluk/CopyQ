@@ -287,13 +287,21 @@ void Tests::moveAndDeleteItems()
     const Args args = Args("tab") << tab;
     RUN(Args(args) << "add" << "A" << "B" << "C", "");
 
-    RUN(Args(args) << "read" << "0", "C");
-    // focus test tab (Alt+1 may not work on some systems/desktops)
+    RUN(Args(args) << "read" << "0" << "1" << "2", "C\nB\nA");
+
+    // focus test tab by deleting (Alt+1 may not work on some systems/desktops)
     RUN(Args(args) << "keys" << "RIGHT", "");
+    RUN(Args(args) << "selectedtab", tab.toLocal8Bit() + "\n");
+
+    // select first item
+    RUN(Args(args) << "keys" << "HOME", "");
+    RUN(Args(args) << "selectedtab", tab.toLocal8Bit() + "\n");
+    RUN(Args(args) << "selecteditems", "0\n0\n");
+    RUN(Args(args) << "selected", tab.toLocal8Bit() + "\n0\n0\n");
+
     // delete first item
-    RUN(Args(args) << "keys" << "Home", "");
     RUN(Args(args) << "keys" << shortcutToRemove(), "");
-    RUN(Args(args) << "read" << "0", "B");
+    RUN(Args(args) << "read" << "0" << "1", "B\nA");
 
     // move item one down
     RUN(Args(args) << "keys" << "CTRL+DOWN", "");
@@ -990,6 +998,7 @@ bool Tests::startServer()
     int tries = 0;
     while( !isServerRunning() && ++tries <= 50 )
         waitFor(200);
+    waitFor(1000);
 
     return isServerRunning();
 }

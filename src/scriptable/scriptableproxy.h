@@ -269,11 +269,15 @@ public slots:
 
     void browserItemData(int arg1, const QString &arg2) { BROWSER_RESULT(itemData(arg1, arg2)); }
 
-    QString sendKeys(const QString &arg1) { return m_wnd->sendKeys(arg1); }
+    void sendKeys(const QString &arg1) { v = m_wnd->sendKeys(arg1); }
 
     void setCurrentTab(const QString &tabName) { m_tabName = tabName; }
 
     void currentTab() { BROWSER_RESULT(tabName()); }
+
+    void selected() { v = m_wnd->selectedTab() + '\n' + m_wnd->selectedItems(); }
+    void selectedTab() { v = m_wnd->selectedTab(); }
+    void selectedItems() { v = m_wnd->selectedItems(); }
 
 private:
     ClipboardBrowser *fetchBrowser()
@@ -368,6 +372,10 @@ public:
 
     PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
     PROXY_METHOD_0(QString, currentTab)
+
+    PROXY_METHOD_0(QString, selected)
+    PROXY_METHOD_0(QString, selectedTab)
+    PROXY_METHOD_0(QString, selectedItems)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

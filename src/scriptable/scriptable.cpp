@@ -925,6 +925,21 @@ void Scriptable::keys()
 #endif
 }
 
+QScriptValue Scriptable::selected()
+{
+    return m_proxy->selected();
+}
+
+QScriptValue Scriptable::selectedtab()
+{
+    return m_proxy->selectedTab();
+}
+
+QScriptValue Scriptable::selecteditems()
+{
+    return m_proxy->selectedItems();
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);
