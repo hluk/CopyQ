@@ -63,8 +63,7 @@ do {\
     bool success = false; \
     while(true) { \
         stdoutActual.clear(); \
-        waitFor(100); \
-        QApplication::processEvents(); \
+        waitFor(200); \
         QVERIFY( isServerRunning() ); \
         QByteArray stderrActual; \
         QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
@@ -72,19 +71,13 @@ do {\
         QVERIFY2( testStderr(stderrActual), stderrActual ); \
         VERIFY_SERVER_OUTPUT(); \
         success = CONDITION; \
-        if (success || t.elapsed() < 10000) \
+        if (success || t.elapsed() > 8000) \
             break; \
     } \
     QVERIFY(success); \
 } while (0)
 
 namespace {
-
-/// Interval to wait (in ms) until an action is completed and items from stdout are created.
-const int waitMsAction = 200;
-
-/// Interval to wait (in ms) until new clipboard content is propagated to items or monitor.
-const int waitMsClipboard = 1000;
 
 /// Interval to wait (in ms) until window is shown and focused.
 const int waitMsShow = 250;
@@ -99,7 +92,7 @@ void waitFor(int ms)
     QElapsedTimer t;
     t.start();
     while (t.elapsed() < ms)
-        QApplication::processEvents();
+        QApplication::processEvents(QEventLoop::AllEvents, ms);
 }
 
 /// Naming scheme for test tabs in application.
@@ -120,18 +113,35 @@ QByteArray getClipboard(const QString &mime = QString("text/plain"))
     return (data != NULL) ? data->data(mime) : QByteArray();
 }
 
-void initTestProcess(QProcess *p)
+bool waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString("text/plain"))
+{
+    QElapsedTimer t;
+    t.start();
+
+    while ( t.elapsed() < 4000 ) {
+        waitFor(200);
+        if (getClipboard(mime) == data)
+            return true;
+    }
+
+    return false;
+}
+
+bool startTestProcess(QProcess *p, const QStringList &arguments,
+                      QIODevice::OpenMode mode = QIODevice::ReadWrite)
 {
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
     env.insert("COPYQ_TESTING", "1");
     p->setProcessEnvironment(env);
+    p->start( QApplication::applicationFilePath(), arguments, mode );
+    return p->waitForStarted(10000);
 }
 
 bool waitForProcessFinished(QProcess *p)
 {
     // Process events in case we own clipboard and the new process requests the contens.
-    for ( int i = 0; i < 2000 && p->state() != QProcess::NotRunning; ++i )
-        waitFor(300);
+    for ( int i = 0; i < 4000 && !p->waitForFinished(200); ++i )
+        QApplication::processEvents();
 
     return p->state() == QProcess::NotRunning;
 }
@@ -156,15 +166,14 @@ int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArra
         const QByteArray &in = QByteArray())
 {
     QProcess p;
-    initTestProcess(&p);
-    p.start( QApplication::applicationFilePath(), arguments );
-    p.waitForStarted();
+    if (!startTestProcess(&p, arguments))
+        return -1;
 
     p.write(in);
     p.closeWriteChannel();
 
     if ( !closeProcess(&p) )
-        return -1;
+        return -2;
 
     if (stdoutData != NULL)
         *stdoutData = p.readAllStandardOutput();
@@ -209,16 +218,12 @@ void Tests::initTestCase()
         run(Args("exit"));
 
         // Wait until client/server communication is closed.
-        int tries = 0;
-        while( !startServer() && ++tries <= 100 )
-            waitFor(100);
-
-        QVERIFY( isServerRunning() );
-    } else {
-        QVERIFY( startServer() );
+        QByteArray out;
+        WAIT_UNTIL(Args("size"), !out.isEmpty(), out);
     }
 
-    waitFor(1000);
+    QVERIFY( startServer() );
+    QVERIFY( isServerRunning() );
 
     cleanup();
 }
@@ -253,12 +258,27 @@ void Tests::init()
 
 void Tests::cleanup()
 {
-    // Remove test tabs
-    for (int i = 0; i < 10; ++i) {
-        QString tab = testTab(i);
-        if ( hasTab(tab.toLatin1()) )
-            RUN(Args("removetab") << tab, "");
-    }
+    RUN(Args("eval") <<
+        // Create tab.
+        "tab('CLIPBOARD');"
+        "add('');"
+
+        // Remove test tabs.
+        "tabs = tab().split('\\\\n');"
+        "for (i in tabs) {"
+        "  if (tabs[i] != 'CLIPBOARD' && tabs[i]) {"
+        "    removetab(tabs[i]);"
+        "  }"
+        "}"
+
+        // Clear items in first tab.
+        "while (size() > 0) {"
+        "  remove(0);"
+        "}"
+
+        , "");
+
+    RUN(Args("tab"), "CLIPBOARD\n\n");
 }
 
 void Tests::moveAndDeleteItems()
@@ -291,7 +311,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args("config") << "activate_focuses" << "false", "");
     RUN(Args("config") << "activate_pastes" << "false", "");
     RUN(Args(args) << "keys" << "UP" << "ENTER", "");
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("A") );
     RUN(Args(args) << "clipboard", "A");
 
     // select all and delete
@@ -402,15 +422,13 @@ void Tests::copyCommand()
 
     const QByteArray data1 = generateData(data);
     RUN( Args() << "copy" << QString::fromLocal8Bit(data1), "" );
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet(data1) );
     RUN( Args("clipboard"), data1 );
-    QCOMPARE( getClipboard(), data1 );
 
     const QByteArray data2 = generateData(data);
     RUN( Args() << "copy" << "DATA" << QString::fromLocal8Bit(data2), "" );
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet(data2, "DATA") );
     RUN( Args("clipboard") << "DATA", data2 );
-    QCOMPARE( getClipboard("DATA"), data2 );
 
     const QByteArray data3 = generateData(data);
     const QByteArray data4 = generateData(data);
@@ -418,11 +436,10 @@ void Tests::copyCommand()
          << "DATA3" << QString::fromLocal8Bit(data3)
          << "DATA4" << QString::fromLocal8Bit(data4)
          , "" );
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet(data3, "DATA3") );
+    QVERIFY( waitUntilClipboardSet(data4, "DATA4") );
     RUN( Args("clipboard") << "DATA3", data3 );
     RUN( Args("clipboard") << "DATA4", data4 );
-    QCOMPARE( getClipboard("DATA3"), data3 );
-    QCOMPARE( getClipboard("DATA4"), data4 );
 }
 
 void Tests::createAndCopyNewItem()
@@ -456,19 +473,19 @@ void Tests::createAndCopyNewItem()
         RUN(Args() << "tab" << tab << "read" << "0", itemText.toLocal8Bit());
 
         RUN(Args() << "keys" << QKeySequence(QKeySequence::Copy).toString(), "");
-        waitFor(waitMsClipboard);
+        QVERIFY( waitUntilClipboardSet(itemText.toLocal8Bit()) );
         RUN(Args("clipboard"), itemText.toLocal8Bit());
-        QCOMPARE( getClipboard(), itemText.toLocal8Bit() );
     }
 }
 
 void Tests::toggleClipboardMonitoring()
 {
     const QByteArray data = "toggleClipboardMonitoring";
+    setClipboard(data);
+    RUN(Args("clipboard"), data);
 
     const QByteArray data1 = generateData(data);
     setClipboard(data1);
-    QCOMPARE( getClipboard(), data1 );
     RUN(Args("clipboard"), data1);
     RUN(Args("read") << "0", data1);
 
@@ -476,7 +493,6 @@ void Tests::toggleClipboardMonitoring()
 
     const QByteArray data2 = generateData(data);
     setClipboard(data2);
-    QCOMPARE( getClipboard(), data2 );
     RUN(Args("clipboard"), data2);
     RUN(Args("read") << "0", data1);
 
@@ -484,28 +500,21 @@ void Tests::toggleClipboardMonitoring()
 
     const QByteArray data3 = generateData(data);
     setClipboard(data3);
-    QCOMPARE( getClipboard(), data3 );
     RUN(Args("clipboard"), data3);
     RUN(Args("read") << "0", data3);
 }
 
 void Tests::clipboardToItem()
 {
-    RUN(Args("show"), "");
-    waitFor(waitMsShow);
-
     setClipboard("TEST0");
-    QCOMPARE( getClipboard().data(), "TEST0" );
     RUN(Args("clipboard"), "TEST0");
 
     setClipboard("TEST1");
-    QCOMPARE( getClipboard().data(), "TEST1" );
     RUN(Args("clipboard"), "TEST1");
     RUN(Args("read") << "0", "TEST1");
 
     const QByteArray htmlBytes = "<b>TEST2</b>";
     setClipboard(htmlBytes, "text/html");
-    QCOMPARE( getClipboard("text/html").data(), htmlBytes.data() );
     RUN(Args("clipboard") << "text/html", htmlBytes.data());
     RUN(Args("read") << "text/html" << "0", htmlBytes.data());
 
@@ -513,7 +522,6 @@ void Tests::clipboardToItem()
     const QString test = QString::fromUtf8(QByteArray("Zkouška s různými českými znaky!"));
     const QByteArray bytes = test.toUtf8();
     setClipboard(bytes);
-    QCOMPARE( getClipboard(), bytes );
     RUN(Args("clipboard"), bytes);
     RUN(Args("read") << "0", bytes);
 }
@@ -526,9 +534,8 @@ void Tests::itemToClipboard()
 
     RUN(Args("select") << "0", "");
 
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("TESTING2") );
     RUN(Args("clipboard"), "TESTING2");
-    QCOMPARE( getClipboard().data(), "TESTING2" );
 
     // select second item and move to top
     RUN(Args("config") << "move" << "true", "");
@@ -536,9 +543,8 @@ void Tests::itemToClipboard()
     RUN(Args("read") << "0", "TESTING1");
     RUN(Args("read") << "1", "TESTING2");
 
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("TESTING1") );
     RUN(Args("clipboard"), "TESTING1");
-    QCOMPARE( getClipboard().data(), "TESTING1" );
 
     // select without moving
     RUN(Args("config") << "move" << "0", "");
@@ -546,9 +552,8 @@ void Tests::itemToClipboard()
     RUN(Args("read") << "0", "TESTING1");
     RUN(Args("read") << "1", "TESTING2");
 
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("TESTING2") );
     RUN(Args("clipboard"), "TESTING2");
-    QCOMPARE( getClipboard().data(), "TESTING2" );
 }
 
 void Tests::tabAddRemove()
@@ -586,28 +591,26 @@ void Tests::action()
     const QString action = QString("%1 %2 %3").arg(QApplication::applicationFilePath())
                                               .arg(args.join(" "));
 
+    QByteArray out;
+
     // action with size
     RUN(Args(argsAction) << action.arg("size") << "", "");
-    waitFor(waitMsAction);
-    RUN(Args(args) << "size", "1\n");
+    WAIT_UNTIL(Args(args) << "size", out == "1\n", out);
     RUN(Args(args) << "read" << "0", "0\n");
 
     // action with size
     RUN(Args(argsAction) << action.arg("size") << "", "");
-    waitFor(waitMsAction);
-    RUN(Args(args) << "size", "2\n");
+    WAIT_UNTIL(Args(args) << "size", out == "2\n", out);
     RUN(Args(args) << "read" << "0", "1\n");
 
     // action with eval print
     RUN(Args(argsAction) << action.arg("eval 'print(\"A,B,C\")'") << "", "");
-    waitFor(waitMsAction);
-    RUN(Args(args) << "size", "3\n");
+    WAIT_UNTIL(Args(args) << "size", out == "3\n", out);
     RUN(Args(args) << "read" << "0", "A,B,C");
 
     // action with read and comma separator for new items
     RUN(Args(argsAction) << action.arg("read 0") << ",", "");
-    waitFor(waitMsAction);
-    RUN(Args(args) << "size", "6\n");
+    WAIT_UNTIL(Args(args) << "size", out == "6\n", out);
     RUN(Args(args) << "read" << "0", "C");
     RUN(Args(args) << "read" << "1", "B");
     RUN(Args(args) << "read" << "2", "A");
@@ -800,19 +803,19 @@ void Tests::nextPrevious()
     RUN(Args(args)  << "previous", "");
 
     RUN(Args(args)  << "next", "");
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("B") );
     RUN(Args(args)  << "read", "B");
 
     RUN(Args(args)  << "next", "");
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("A") );
     RUN(Args(args)  << "read", "A");
 
     RUN(Args(args)  << "previous", "");
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("B") );
     RUN(Args(args)  << "read", "B");
 
     RUN(Args(args)  << "previous", "");
-    waitFor(waitMsClipboard);
+    QVERIFY( waitUntilClipboardSet("C") );
     RUN(Args(args)  << "read", "C");
 }
 
@@ -893,7 +896,6 @@ void Tests::externalEditor()
     const QByteArray data = "edit";
     const QByteArray data1 = generateData(data);
     setClipboard(data1);
-    QCOMPARE( getClipboard(), data1 );
     RUN(Args("clipboard"), data1);
     RUN(Args("read") << "0", data1);
 
@@ -920,10 +922,8 @@ void Tests::externalEditor()
     RUN(Args(editorArgs) << "remove" << "0", "");
 
     // Check if clipboard changed.
-    waitFor(waitMsClipboard);
-    QCOMPARE( getClipboard(), data1 + data2 );
+    WAIT_UNTIL(Args("read") << "0", out == data1 + data2, out);
     RUN(Args("clipboard"), data1 + data2);
-    RUN(Args("read") << "0", data1 + data2);
 
     // Edit existing item.
     const QString text =
@@ -951,7 +951,7 @@ void Tests::externalEditor()
     RUN(Args(editorArgs) << "remove" << "0", "");
 
     // Check first item.
-    RUN(Args(args) << "read" << "0", text.toLocal8Bit() + data3);
+    WAIT_UNTIL(Args(args) << "read" << "0", out == text.toLocal8Bit() + data3, out);
 
     // Edit new item.
     RUN(Args(args) << "edit", "");
@@ -974,7 +974,7 @@ void Tests::externalEditor()
     RUN(Args(editorArgs) << "remove" << "0", "");
 
     // Check first item.
-    RUN(Args(args) << "read" << "0", data4);
+    WAIT_UNTIL(Args(args) << "read" << "0", out == data4, out);
 }
 
 bool Tests::startServer()
@@ -983,12 +983,7 @@ bool Tests::startServer()
         m_server->deleteLater();
     m_server = new QProcess(this);
 
-    initTestProcess(m_server);
-
-    m_server->start( QApplication::applicationFilePath(), QStringList(), QIODevice::ReadOnly );
-    m_server->waitForStarted();
-
-    if (m_server->state() != QProcess::Running) {
+    if ( !startTestProcess(m_server, QStringList(), QIODevice::ReadOnly) ) {
         log( QString("Failed to launch \"%1\": %2")
              .arg(QApplication::applicationFilePath())
              .arg(m_server->errorString()),
@@ -999,7 +994,7 @@ bool Tests::startServer()
     // Wait for client/server communication is established.
     int tries = 0;
     while( !isServerRunning() && ++tries <= 50 )
-        waitFor(100);
+        waitFor(200);
 
     return isServerRunning();
 }
@@ -1027,7 +1022,11 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
         m_monitor = new RemoteProcess();
         const QString name = "copyq_TEST";
         m_monitor->start( name, QStringList("monitor") << name );
-        waitFor(1000);
+
+        QElapsedTimer t;
+        t.start();
+        while( !m_monitor->isConnected() && t.elapsed() < 4000 )
+            waitFor(200);
     }
 
     QVERIFY( m_monitor->isConnected() );
@@ -1035,7 +1034,7 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
     const QVariantMap data = createDataMap(mime, bytes);
     QVERIFY( m_monitor->writeMessage(serializeData(data)) );
 
-    waitFor(waitMsClipboard);
-
-    QVERIFY( m_monitor->isConnected() );
+    waitUntilClipboardSet(bytes, mime);
+    QCOMPARE( getClipboard(mime), bytes );
+    waitFor(200);
 }
