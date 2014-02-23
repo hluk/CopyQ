@@ -290,8 +290,6 @@ public slots:
 
     QVariant config(const QString &name, const QString &value);
 
-    QString sendKeys(const QString &keys) const;
-
     QString selectedTab() const;
 
     QString selectedItems() const;

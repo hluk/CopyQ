@@ -11,5 +11,11 @@ SOURCES += \
     ../../src/gui/iconwidget.cpp \
     ../../src/item/serialize.cpp
 FORMS   += itemsyncsettings.ui
-TARGET   = $$qtLibraryTarget(itemsync)
+
+CONFIG(debug, debug|release) {
+    SOURCES += tests/itemsynctests.cpp
+    HEADERS += tests/itemsynctests.h
+}
+
+TARGET = $$qtLibraryTarget(itemsync)
 

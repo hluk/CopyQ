@@ -20,6 +20,8 @@
 #ifndef ITEMWIDGET_H
 #define ITEMWIDGET_H
 
+#include "tests/testinterface.h"
+
 #include <QRegExp>
 #include <QStringList>
 #include <QtPlugin>
@@ -264,6 +266,11 @@ public:
      * Returns false by default.
      */
     virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
+
+    /**
+     * Return object with tests.
+     */
+    virtual QObject *tests(const TestInterfacePtr &test) const;
 };
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)

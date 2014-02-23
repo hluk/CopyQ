@@ -140,6 +140,8 @@ public:
 
     virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
 
+    virtual QObject *tests(const TestInterfacePtr &test) const;
+
 private slots:
     void removeWatcher(QObject *watcher);
     void removeModel();

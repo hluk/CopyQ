@@ -916,6 +916,13 @@ void Scriptable::keys()
 #ifdef HAS_TESTS
     for (int i = 0; i < argumentCount(); ++i) {
         const QString keys = toString(argument(i));
+
+        QElapsedTimer t;
+        t.start();
+        const int waitForMs = keys.startsWith(":") ? 100 : 500;
+        while (t.elapsed() < waitForMs)
+            QApplication::processEvents();
+
         const QString error = m_proxy->sendKeys(keys);
         if ( !error.isEmpty() ) {
             throwError(error);

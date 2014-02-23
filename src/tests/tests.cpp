@@ -23,6 +23,8 @@
 #include "common/client_server.h"
 #include "common/common.h"
 #include "item/clipboarditem.h"
+#include "item/itemfactory.h"
+#include "item/itemwidget.h"
 #include "item/serialize.h"
 
 #include <QApplication>
@@ -34,30 +36,21 @@
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QProcess>
+#include <QScopedPointer>
 #include <QTemporaryFile>
 #include <QTest>
 
 #define VERIFY_SERVER_OUTPUT() \
-do {\
-    QVERIFY( isServerRunning() ); \
-    QByteArray output = m_server->readAllStandardError(); \
-    QVERIFY2( testStderr(output), output ); \
+do { \
+    QByteArray errors = m_test->readServerErrors(); \
+    QVERIFY2(errors.isEmpty(), errors); \
 } while (0)
 
 #define RUN(arguments, stdoutExpected) \
-do {\
-    QVERIFY( isServerRunning() ); \
-    QByteArray stdoutActual; \
-    QByteArray stderrActual; \
-    QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
-    stdoutActual.replace('\r', ""); \
-    QCOMPARE( stdoutActual.data(), QByteArray(stdoutExpected).data() ); \
-    QVERIFY2( testStderr(stderrActual), stderrActual ); \
-    VERIFY_SERVER_OUTPUT(); \
-} while (0)
+    TEST( m_test->runClient(arguments, stdoutExpected) );
 
 #define WAIT_UNTIL(arguments, CONDITION, stdoutActual) \
-do {\
+do { \
     QElapsedTimer t; \
     t.start(); \
     bool success = false; \
@@ -140,7 +133,7 @@ bool startTestProcess(QProcess *p, const QStringList &arguments,
 bool waitForProcessFinished(QProcess *p)
 {
     // Process events in case we own clipboard and the new process requests the contens.
-    for ( int i = 0; i < 4000 && !p->waitForFinished(200); ++i )
+    for ( int i = 0; i < 100 && !p->waitForFinished(200); ++i )
         QApplication::processEvents();
 
     return p->state() == QProcess::NotRunning;
@@ -162,18 +155,19 @@ bool closeProcess(QProcess *p)
     return false;
 }
 
-int run(const Args &arguments = Args(), QByteArray *stdoutData = NULL, QByteArray *stderrData = NULL,
+int run(const Args &arguments, QByteArray *stdoutData = NULL, QByteArray *stderrData = NULL,
         const QByteArray &in = QByteArray())
 {
     QProcess p;
     if (!startTestProcess(&p, arguments))
         return -1;
 
-    p.write(in);
+    if ( p.write(in) != in.size() )
+        return -2;
     p.closeWriteChannel();
 
     if ( !closeProcess(&p) )
-        return -2;
+        return -3;
 
     if (stdoutData != NULL)
         *stdoutData = p.readAllStandardOutput();
@@ -203,82 +197,219 @@ QByteArray generateData(const QByteArray &data)
             + '_' + QByteArray::number(++i);
 }
 
+class TestInterfaceImpl : public TestInterface {
+public:
+    TestInterfaceImpl()
+        : m_server(NULL)
+        , m_monitor(NULL)
+    {
+    }
+
+    ~TestInterfaceImpl()
+    {
+        stopServer();
+    }
+
+    bool startServer()
+    {
+        m_server.reset(new QProcess);
+
+        if ( !startTestProcess(m_server.data(), QStringList(), QIODevice::ReadOnly) ) {
+            log( QString("Failed to launch \"%1\": %2")
+                 .arg(QApplication::applicationFilePath())
+                 .arg(m_server->errorString()),
+                 LogError );
+            return false;
+        }
+
+        // Wait for client/server communication is established.
+        int tries = 0;
+        while( !isServerRunning() && ++tries <= 50 )
+            waitFor(200);
+        waitFor(1000);
+
+        return isServerRunning();
+    }
+
+    bool stopServer()
+    {
+        if ( m_server.isNull() )
+            return !isServerRunning();
+
+        if ( run(Args("exit")) != 0 )
+            return false;
+
+        if ( !closeProcess(m_server.data()) )
+            return false;
+
+        return !isAnyServerRunning();
+    }
+
+    bool isServerRunning()
+    {
+        return m_server != NULL && m_server->state() == QProcess::Running && isAnyServerRunning();
+    }
+
+    QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected)
+    {
+        QByteArray errors = readServerErrors();
+        if (!errors.isEmpty())
+            return errors;
+
+        QByteArray stdoutActual;
+        QByteArray stderrActual;
+        const int exitCode = run(arguments, &stdoutActual, &stderrActual);
+
+        if ( !testStderr(stderrActual) )
+            return stderrActual;
+
+        if (exitCode != 0) {
+            return "Test failed: Exit code is " + QByteArray::number(exitCode)
+                    + "\nError output is:\n" + stderrActual;
+        }
+
+        stdoutActual.replace('\r', "");
+        if (stdoutActual != stdoutExpected) {
+            return "Test failed: Unexpected output:\n" + stdoutActual
+                    + "\nExpected output was:\n"
+                    + stdoutExpected;
+        }
+
+        errors = readServerErrors();
+        return errors;
+    }
+
+    void setClipboard(const QByteArray &bytes, const QString &mime)
+    {
+        if (m_monitor == NULL) {
+            m_monitor.reset(new RemoteProcess);
+            const QString name = "copyq_TEST";
+            m_monitor->start( name, QStringList("monitor") << name );
+
+            QElapsedTimer t;
+            t.start();
+            while( !m_monitor->isConnected() && t.elapsed() < 4000 )
+                waitFor(200);
+        }
+
+        QVERIFY( m_monitor->isConnected() );
+
+        const QVariantMap data = createDataMap(mime, bytes);
+        QVERIFY( m_monitor->writeMessage(serializeData(data)) );
+
+        waitUntilClipboardSet(bytes, mime);
+        QCOMPARE( getClipboard(mime), bytes );
+        waitFor(200);
+    }
+
+    QByteArray readServerErrors()
+    {
+        if (m_server) {
+            const QByteArray output = m_server->readAllStandardError();
+            return testStderr(output) ? QByteArray() : output;
+        }
+
+        if ( isServerRunning() )
+            return "Test ERROR: Server is not running!";
+
+        return QByteArray();
+    }
+
+    QByteArray cleanup()
+    {
+        QByteArray out = runClient(Args("eval") <<
+            // Create tab.
+            "tab('CLIPBOARD');"
+            "add('');"
+
+            // Remove test tabs.
+            "tabs = tab().split('\\\\n');"
+            "for (i in tabs) {"
+            "  if (tabs[i] != 'CLIPBOARD' && tabs[i]) {"
+            "    removetab(tabs[i]);"
+            "  }"
+            "}"
+
+            // Clear items in first tab.
+            "while (size() > 0) {"
+            "  remove(0);"
+            "}"
+
+            "print(tab());"
+            , "CLIPBOARD\n");
+
+        return out;
+    }
+
+    QByteArray show()
+    {
+        const QByteArray out = runClient(Args("show"), "");
+        waitFor(waitMsShow);
+        return out;
+    }
+
+    QByteArray init()
+    {
+        if (!m_server && isAnyServerRunning() )
+            return "Other test server is running!";
+
+        if ( !isServerRunning() && !startServer() )
+            return "Failed to start server!";
+
+        QByteArray out = readServerErrors();
+        if ( !out.isEmpty() )
+            return out;
+
+        // Always show main window first so that the results are consistent with desktop environments
+        // where user cannot hide main window (tiling window managers without tray).
+        out = show();
+        if ( !out.isEmpty() )
+            return out;
+
+        // Enable clipboard monitoring.
+        out = runClient(Args("enable"), "");
+
+        return out;
+    }
+
+    QString shortcutToRemove()
+    {
+        return ::shortcutToRemove();
+    }
+
+private:
+    QScopedPointer<QProcess> m_server;
+    QScopedPointer<RemoteProcess> m_monitor; /// Process to provide clipboard set by tests.
+};
+
 } // namespace
 
-Tests::Tests(QObject *parent)
+Tests::Tests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
-    , m_server(NULL)
-    , m_monitor(NULL)
+    , m_test(test)
 {
 }
 
 void Tests::initTestCase()
 {
-    if ( isAnyServerRunning() ) {
-        run(Args("exit"));
-
-        // Wait until client/server communication is closed.
-        QByteArray out;
-        WAIT_UNTIL(Args("size"), !out.isEmpty(), out);
-    }
-
-    QVERIFY( startServer() );
-    QVERIFY( isServerRunning() );
-
+    TEST(m_test->init());
     cleanup();
 }
 
 void Tests::cleanupTestCase()
 {
-    if (m_server != NULL) {
-        QVERIFY( stopServer() );
-        if ( m_server->state() != QProcess::NotRunning ) {
-            m_server->terminate();
-            QVERIFY( !closeProcess(m_server) );
-        }
-    }
-
-    delete m_monitor;
+    QVERIFY( stopServer() );
 }
 
 void Tests::init()
 {
-    QVERIFY( isAnyServerRunning() );
-    QVERIFY( isServerRunning() );
-    VERIFY_SERVER_OUTPUT();
-
-    // Always show main window first so that the results are consistent with desktop environments
-    // where user cannot hide main window (tiling window managers without tray).
-    RUN(Args("show"), "");
-    waitFor(waitMsShow);
-
-    // Enable clipboard monitoring.
-    RUN(Args("enable"), "");
+    TEST(m_test->init());
 }
 
 void Tests::cleanup()
 {
-    RUN(Args("eval") <<
-        // Create tab.
-        "tab('CLIPBOARD');"
-        "add('');"
-
-        // Remove test tabs.
-        "tabs = tab().split('\\\\n');"
-        "for (i in tabs) {"
-        "  if (tabs[i] != 'CLIPBOARD' && tabs[i]) {"
-        "    removetab(tabs[i]);"
-        "  }"
-        "}"
-
-        // Clear items in first tab.
-        "while (size() > 0) {"
-        "  remove(0);"
-        "}"
-
-        , "");
-
-    RUN(Args("tab"), "CLIPBOARD\n\n");
+    const QByteArray out = m_test->cleanup();
+    QVERIFY2( out.isEmpty(), out );
 }
 
 void Tests::moveAndDeleteItems()
@@ -300,7 +431,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "selected", tab.toLocal8Bit() + "\n0\n0\n");
 
     // delete first item
-    RUN(Args(args) << "keys" << shortcutToRemove(), "");
+    RUN(Args(args) << "keys" << m_test->shortcutToRemove(), "");
     RUN(Args(args) << "read" << "0" << "1", "B\nA");
 
     // move item one down
@@ -318,7 +449,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "clipboard", "A");
 
     // select all and delete
-    RUN(Args(args) << "keys" << "CTRL+A" << shortcutToRemove(), "");
+    RUN(Args(args) << "keys" << "CTRL+A" << m_test->shortcutToRemove(), "");
     RUN(Args(args) << "size", "0\n");
 
     RUN(Args(args) << "add" << "ABC" << "DEF" << "GHI" << "JKL", "");
@@ -328,9 +459,9 @@ void Tests::moveAndDeleteItems()
     waitFor(waitMsSearch);
 #ifdef Q_OS_MAC
     // "Down" doesn't leave the search box on OS X
-    RUN(Args(args) << "keys" << "TAB" << "CTRL+A" << shortcutToRemove(), "");
+    RUN(Args(args) << "keys" << "TAB" << "CTRL+A" << m_test->shortcutToRemove(), "");
 #else
-    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << shortcutToRemove(), "");
+    RUN(Args(args) << "keys" << "DOWN" << "CTRL+A" << m_test->shortcutToRemove(), "");
 #endif // Q_OS_MAC
     RUN(Args(args) << "read" << "0", "JKL");
     RUN(Args(args) << "read" << "1", "DEF");
@@ -771,15 +902,7 @@ void Tests::rawData()
     const Args args = Args("tab") << tab;
 
     {
-        QByteArray in("\x00\x01\x02\x03\x04", 5);
-        QByteArray stderrData;
-        QCOMPARE( run(Args(args) << "add" << "-", NULL, &stderrData, in), 0);
-        QVERIFY2(testStderr(stderrData), stderrData);
-        RUN(Args(args) << "read" << "0", in);
-    }
-
-    {
-        QByteArray in("\x00\x01\x02\x03\x04", 5);
+        QByteArray input("\x00\x01\x02\x03\x04", 5);
         QString arg1 = QString::fromLatin1("\x01\x02\x03\x04");
         QString arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
         QByteArray stderrData;
@@ -787,10 +910,10 @@ void Tests::rawData()
                       << MIME_PREFIX "test1" << arg1
                       << MIME_PREFIX "test2" << "-"
                       << MIME_PREFIX "test3" << arg2 ,
-                  NULL, &stderrData, in), 0);
+                  NULL, &stderrData, input), 0);
         QVERIFY2(testStderr(stderrData), stderrData);
         RUN(Args(args) << "read" << MIME_PREFIX "test1" << "0", arg1.toLatin1());
-        RUN(Args(args) << "read" << MIME_PREFIX "test2" << "0", in);
+        RUN(Args(args) << "read" << MIME_PREFIX "test2" << "0", input);
         RUN(Args(args) << "read" << MIME_PREFIX "test3" << "0", arg2.toLatin1());
     }
 }
@@ -982,63 +1105,57 @@ void Tests::externalEditor()
 
 bool Tests::startServer()
 {
-    if (m_server != NULL)
-        m_server->deleteLater();
-    m_server = new QProcess(this);
-
-    if ( !startTestProcess(m_server, QStringList(), QIODevice::ReadOnly) ) {
-        log( QString("Failed to launch \"%1\": %2")
-             .arg(QApplication::applicationFilePath())
-             .arg(m_server->errorString()),
-             LogError );
-        return false;
-    }
-
-    // Wait for client/server communication is established.
-    int tries = 0;
-    while( !isServerRunning() && ++tries <= 50 )
-        waitFor(200);
-    waitFor(1000);
-
-    return isServerRunning();
+    return m_test->startServer();
 }
 
 bool Tests::stopServer()
 {
-    if (m_server == NULL)
-        return !isServerRunning();
-
-    run(Args("exit"));
-    if ( !closeProcess(m_server) )
-        return false;
-
-    return !isAnyServerRunning();
+    return m_test->stopServer();
 }
 
 bool Tests::isServerRunning()
 {
-    return m_server != NULL && m_server->state() == QProcess::Running && isAnyServerRunning();
+    return m_test->isServerRunning();
 }
 
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
 {
-    if (m_monitor == NULL) {
-        m_monitor = new RemoteProcess();
-        const QString name = "copyq_TEST";
-        m_monitor->start( name, QStringList("monitor") << name );
+    m_test->setClipboard(bytes, mime);
+}
 
-        QElapsedTimer t;
-        t.start();
-        while( !m_monitor->isConnected() && t.elapsed() < 4000 )
-            waitFor(200);
+int runTests(int argc, char *argv[])
+{
+    QRegExp onlyPlugins;
+
+    if (argc > 1) {
+        QString arg = argv[1];
+        if (arg.startsWith("PLUGINS:")) {
+            arg.remove(QRegExp("^PLUGINS:"));
+            onlyPlugins.setPattern(arg);
+            onlyPlugins.setCaseSensitivity(Qt::CaseInsensitive);
+            --argc;
+            ++argv;
+        }
     }
 
-    QVERIFY( m_monitor->isConnected() );
+    QApplication app(argc, argv);
+    int exitCode = 0;
+    TestInterfacePtr test(new TestInterfaceImpl);
+    Tests tc(test);
 
-    const QVariantMap data = createDataMap(mime, bytes);
-    QVERIFY( m_monitor->writeMessage(serializeData(data)) );
+    if (onlyPlugins.isEmpty())
+        exitCode = QTest::qExec(&tc, argc, argv);
 
-    waitUntilClipboardSet(bytes, mime);
-    QCOMPARE( getClipboard(mime), bytes );
-    waitFor(200);
+    ItemFactory itemFactory;
+    foreach( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
+        if ( loader->name().contains(onlyPlugins) ) {
+            QScopedPointer<QObject> pluginTests( loader->tests(test) );
+            if ( !pluginTests.isNull() ) {
+                const int pluginTestsExitCode = QTest::qExec(pluginTests.data(), argc, argv);
+                exitCode = qMax(exitCode, pluginTestsExitCode);
+            }
+        }
+    }
+
+    return exitCode;
 }

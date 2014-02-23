@@ -31,13 +31,6 @@
 
 #ifdef HAS_TESTS
 #  include "tests/tests.h"
-#  include <QTest>
-
-namespace tests {
-
-QTEST_MAIN(Tests)
-
-}
 #endif // HAS_TESTS
 
 Q_DECLARE_METATYPE(QByteArray*)
@@ -175,7 +168,7 @@ int main(int argc, char *argv[])
 #ifdef HAS_TESTS
         if ( needsTests(arg) ) {
             // Skip the "tests" argument and pass the rest to tests.
-            return tests::main(argc - 1, argv + 1);
+            return runTests(argc - 1, argv + 1);
         }
 #endif
     }

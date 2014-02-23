@@ -62,10 +62,6 @@
 #include <QToolBar>
 #include <QPainter>
 
-#ifdef HAS_TESTS
-#   include <QTest>
-#endif
-
 namespace {
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
@@ -1496,32 +1492,6 @@ QVariant MainWindow::config(const QString &name, const QString &value)
     }
 
     return QVariant();
-}
-
-QString MainWindow::sendKeys(const QString &keys) const
-{
-#ifdef HAS_TESTS
-    QWidget *w = QApplication::focusWidget();
-    if (!w)
-        return QString("Cannot send keys, no widget is focused!");
-
-    if (keys.startsWith(":")) {
-        QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 20);
-    } else {
-        const QKeySequence shortcut(keys);
-
-        if ( shortcut.isEmpty() ) {
-            return QString("Cannot parse key \"%1\"!").arg(keys);
-        } else {
-            QTest::keyClick(w, Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
-                            Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask));
-        }
-    }
-    return QString();
-#else
-    Q_UNUSED(keys);
-    return QString("This is only available if tests are compiled!");
-#endif
 }
 
 QString MainWindow::selectedTab() const

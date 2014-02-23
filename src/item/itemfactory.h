@@ -47,7 +47,7 @@ public:
     /**
      * Loads item plugins.
      */
-    explicit ItemFactory(QObject *parent);
+    explicit ItemFactory(QObject *parent = NULL);
 
     ~ItemFactory();
 

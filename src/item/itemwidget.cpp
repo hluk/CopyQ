@@ -178,3 +178,8 @@ bool ItemLoaderInterface::matches(const QModelIndex &, const QRegExp &) const
 {
     return false;
 }
+
+QObject *ItemLoaderInterface::tests(const TestInterfacePtr &) const
+{
+    return NULL;
+}

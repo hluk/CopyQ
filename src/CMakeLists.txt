@@ -39,18 +39,7 @@ endif()
 
 # Compile with tests?
 if (WITH_TESTS)
-    message(STATUS "Building with tests.")
-    add_definitions( -DHAS_TESTS )
-
-    file(GLOB copyq_SOURCES ${copyq_SOURCES}
-        tests/*.cpp
-        )
-
-    if (WITH_QT5)
-        list(APPEND copyq_Qt5_Modules Test)
-    else()
-        set(QT_USE_QTTEST TRUE)
-    endif()
+    file(GLOB copyq_SOURCES ${copyq_SOURCES} tests/*.cpp)
 endif()
 
 # translations

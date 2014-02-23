@@ -20,6 +20,8 @@
 #ifndef TESTS_H
 #define TESTS_H
 
+#include "tests/testinterface.h"
+
 #include <QObject>
 #include <QStringList>
 
@@ -35,7 +37,7 @@ class Tests : public QObject
     Q_OBJECT
 
 public:
-    explicit Tests(QObject *parent = NULL);
+    explicit Tests(const TestInterfacePtr &test, QObject *parent = NULL);
 
 private slots:
     void initTestCase();
@@ -78,12 +80,11 @@ private:
     bool startServer();
     bool stopServer();
     bool isServerRunning();
-
-    /** Set clipboard through monitor process. */
     void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain"));
 
-    QProcess *m_server;
-    RemoteProcess *m_monitor; /// Process to provide clipboard set by tests.
+    TestInterfacePtr m_test;
 };
+
+int runTests(int argc, char *argv[]);
 
 #endif // TESTS_H

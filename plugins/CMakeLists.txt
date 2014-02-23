@@ -11,6 +11,10 @@ macro (copyq_add_plugin)
         *.ui
         )
 
+    if (WITH_TESTS)
+        file(GLOB copyq_plugin_SOURCES ${copyq_plugin_SOURCES} tests/*.cpp)
+    endif (WITH_TESTS)
+
     include_directories(${CMAKE_CURRENT_BINARY_DIR} ../../src)
 
     if (WITH_QT5)
@@ -35,7 +39,7 @@ macro (copyq_add_plugin)
         COMPILE_DEFINITIONS "${copyq_plugin_${copyq_pkg}_DEFINITIONS}")
 
     if (WITH_QT5)
-        qt5_use_modules(${copyq_pkg} Widgets ${copyq_plugin_${copyq_pkg}_Qt5_Modules})
+        qt5_use_modules(${copyq_pkg} Widgets ${copyq_Qt5_Modules} ${copyq_plugin_${copyq_pkg}_Qt5_Modules})
     else()
         include(${QT_USE_FILE})
     endif()

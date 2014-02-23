@@ -74,7 +74,8 @@ HEADERS += \
     ../qt/bytearrayprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
-    scriptable/scriptableworker.h
+    scriptable/scriptableworker.h \
+    tests/testinterface.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \

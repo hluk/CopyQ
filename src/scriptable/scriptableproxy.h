@@ -29,6 +29,10 @@
 #include <QSharedPointer>
 #include <QStringList>
 
+#ifdef HAS_TESTS
+#   include <QTest>
+#endif
+
 Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 
 #define BEGIN_INVOKE(methodName) \
@@ -141,6 +145,7 @@ public:
       , m_tabName()
       , m_lock()
     {
+        qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
     }
 
     const QVariant &value() const { return v; }
@@ -269,8 +274,6 @@ public slots:
 
     void browserItemData(int arg1, const QString &arg2) { BROWSER_RESULT(itemData(arg1, arg2)); }
 
-    void sendKeys(const QString &arg1) { v = m_wnd->sendKeys(arg1); }
-
     void setCurrentTab(const QString &tabName) { m_tabName = tabName; }
 
     void currentTab() { BROWSER_RESULT(tabName()); }
@@ -278,6 +281,58 @@ public slots:
     void selected() { v = m_wnd->selectedTab() + '\n' + m_wnd->selectedItems(); }
     void selectedTab() { v = m_wnd->selectedTab(); }
     void selectedItems() { v = m_wnd->selectedItems(); }
+
+    void sendKeys(const QString &keys)
+    {
+#ifdef HAS_TESTS
+        QWidget *w = QApplication::focusWidget();
+        if (!w) {
+            v = QString("Cannot send keys, no widget is focused!");
+            return;
+        }
+
+        if (keys.startsWith(":")) {
+            QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 50);
+        } else {
+            const QKeySequence shortcut(keys);
+
+            if ( shortcut.isEmpty() ) {
+                v = QString("Cannot parse key \"%1\"!").arg(keys);
+                return;
+            }
+
+            // Don't stop when modal window is open.
+            QMetaObject::invokeMethod( this, "keyClick", Qt::QueuedConnection,
+                                       Q_ARG(const QKeySequence &, shortcut),
+                                       Q_ARG(const QPointer<QWidget> &, w)
+                                      );
+        }
+
+        v = QString();
+#else
+        Q_UNUSED(keys);
+        v = QString("This is only available if tests are compiled!");
+#endif
+    }
+
+    void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
+    {
+#ifdef HAS_TESTS
+        if (widget.isNull())
+            return;
+
+        m_wnd->showMessage( QString("%1 in %2")
+                            .arg(widget->metaObject()->className())
+                            .arg(widget->window()->metaObject()->className()),
+                            shortcut.toString(),
+                            QSystemTrayIcon::Information, 4000
+                            );
+
+        QTest::keyClick( widget.data(),
+                         Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
+                         Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 0 );
+#endif
+    }
 
 private:
     ClipboardBrowser *fetchBrowser()
@@ -368,14 +423,14 @@ public:
 
     PROXY_METHOD_2(QByteArray, browserItemData, int, const QString &)
 
-    PROXY_METHOD_1(QString, sendKeys, const QString &)
-
     PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
     PROXY_METHOD_0(QString, currentTab)
 
     PROXY_METHOD_0(QString, selected)
     PROXY_METHOD_0(QString, selectedTab)
     PROXY_METHOD_0(QString, selectedItems)
+
+    PROXY_METHOD_1(QString, sendKeys, const QString &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

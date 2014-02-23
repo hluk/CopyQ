@@ -28,6 +28,10 @@
 #include "gui/iconwidget.h"
 #include "item/serialize.h"
 
+#ifdef HAS_TESTS
+#   include "tests/itemsynctests.h"
+#endif
+
 #include <QBoxLayout>
 #include <QCryptographicHash>
 #include <QDir>
@@ -1305,7 +1309,22 @@ QVariantMap ItemSyncLoader::applySettings()
 
 void ItemSyncLoader::loadSettings(const QVariantMap &settings)
 {
+#ifdef HAS_TESTS
+    if ( QCoreApplication::applicationName() == "copyq.test" ) {
+        QStringList tabPaths;
+        for (int i = 0; i < 10; ++i) {
+            tabPaths.append(testTab(i));
+            tabPaths.append(testDir(i));
+        }
+        QVariantList formatSettings;
+        m_settings[configSyncTabs] = tabPaths;
+        m_settings[configFormatSettings] = formatSettings;
+    } else {
+        m_settings = settings;
+    }
+#else
     m_settings = settings;
+#endif
 
     m_tabPaths.clear();
     const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
@@ -1567,6 +1586,16 @@ bool ItemSyncLoader::matches(const QModelIndex &index, const QRegExp &re) const
     const QVariantMap dataMap = index.data(contentType::data).toMap();
     const QString text = dataMap.value(mimeBaseName).toString();
     return re.indexIn(text) != -1;
+}
+
+QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
+{
+#ifdef HAS_TESTS
+    return new ItemSyncTests(test);
+#else
+    Q_UNUSED(test);
+    return NULL;
+#endif
 }
 
 void ItemSyncLoader::removeWatcher(QObject *watcher)

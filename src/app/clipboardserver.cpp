@@ -254,7 +254,7 @@ void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &messag
                     client, SLOT(deleteLater()));
             COPYQ_LOG( QString("%1: Disconnected from client.").arg(id) );
         } else if (exitCode == CommandExit) {
-            client->flush();
+            client->waitForBytesWritten();
             connect(client, SIGNAL(destroyed()), qApp, SLOT(quit()));
         }
         COPYQ_LOG( QString("%1: Message send to client.").arg(id) );
