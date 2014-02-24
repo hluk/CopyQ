@@ -183,7 +183,7 @@ public:
         int tries = 0;
         while( !isServerRunning() && ++tries <= 50 )
             waitFor(200);
-        waitFor(1000);
+        waitFor(2000);
 
         if (!isServerRunning())
             return false;
@@ -1108,6 +1108,24 @@ void Tests::externalEditor()
 
     // Check first item.
     WAIT_UNTIL(Args(args) << "read" << "0", out == data4, out);
+}
+
+void Tests::exitCommand()
+{
+    for (int i = 0; i < 4; ++i) {
+        const QByteArray data1 = generateData("BEFORE_EXIT");
+        RUN(Args("add") << data1, "");
+        RUN(Args("keys") << "CTRL+C", "");
+
+        QVERIFY( stopServer() );
+        QCOMPARE( run(Args("exit")), 1 );
+        QVERIFY( startServer() );
+        QVERIFY( stopServer() );
+        QCOMPARE( run(Args("exit")), 1 );
+        QVERIFY( startServer() );
+
+        RUN(Args("show"), "");
+    }
 }
 
 bool Tests::startServer()

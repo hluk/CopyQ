@@ -295,9 +295,11 @@ void ClipboardServer::onAboutToQuit()
 
     m_wnd->saveTabs();
 
+    m_server->close();
+
     emit terminateClientThreads();
-    m_clientThreads.waitForDone(1000);
-    m_internalThreads.waitForDone(1000);
+    while ( !m_clientThreads.waitForDone(0) || !m_internalThreads.waitForDone(0) )
+        QApplication::processEvents();
 
     if( isMonitoring() )
         stopMonitoring();

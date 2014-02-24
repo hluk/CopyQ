@@ -76,6 +76,8 @@ private slots:
 
     void externalEditor();
 
+    void exitCommand();
+
 private:
     bool startServer();
     bool stopServer();
