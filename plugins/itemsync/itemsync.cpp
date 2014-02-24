@@ -1309,22 +1309,7 @@ QVariantMap ItemSyncLoader::applySettings()
 
 void ItemSyncLoader::loadSettings(const QVariantMap &settings)
 {
-#ifdef HAS_TESTS
-    if ( QCoreApplication::applicationName() == "copyq.test" ) {
-        QStringList tabPaths;
-        for (int i = 0; i < 10; ++i) {
-            tabPaths.append(testTab(i));
-            tabPaths.append(testDir(i));
-        }
-        QVariantList formatSettings;
-        m_settings[configSyncTabs] = tabPaths;
-        m_settings[configFormatSettings] = formatSettings;
-    } else {
-        m_settings = settings;
-    }
-#else
     m_settings = settings;
-#endif
 
     m_tabPaths.clear();
     const QStringList tabPaths = m_settings.value(configSyncTabs).toStringList();
@@ -1591,7 +1576,22 @@ bool ItemSyncLoader::matches(const QModelIndex &index, const QRegExp &re) const
 QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
 {
 #ifdef HAS_TESTS
-    return new ItemSyncTests(test);
+    QStringList tabPaths;
+    for (int i = 0; i < 10; ++i) {
+        tabPaths.append(ItemSyncTests::testTab(i));
+        tabPaths.append(ItemSyncTests::testDir(i));
+    }
+
+    // TODO: Test formats.
+    QVariantList formatSettings;
+
+    QVariantMap settings;
+    settings[configSyncTabs] = tabPaths;
+    settings[configFormatSettings] = formatSettings;
+
+    QObject *tests = new ItemSyncTests(test);
+    tests->setProperty("CopyQ_test_settings", settings);
+    return tests;
 #else
     Q_UNUSED(test);
     return NULL;

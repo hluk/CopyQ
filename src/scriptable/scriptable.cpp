@@ -31,6 +31,9 @@
 #include <QElapsedTimer>
 #include <QScriptContext>
 #include <QScriptEngine>
+#ifdef HAS_TESTS
+#   include <QSettings>
+#endif
 
 Q_DECLARE_METATYPE(QByteArray*)
 

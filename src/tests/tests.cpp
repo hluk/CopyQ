@@ -120,16 +120,6 @@ bool waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString
     return false;
 }
 
-bool startTestProcess(QProcess *p, const QStringList &arguments,
-                      QIODevice::OpenMode mode = QIODevice::ReadWrite)
-{
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("COPYQ_TESTING", "1");
-    p->setProcessEnvironment(env);
-    p->start( QApplication::applicationFilePath(), arguments, mode );
-    return p->waitForStarted(10000);
-}
-
 bool waitForProcessFinished(QProcess *p)
 {
     // Process events in case we own clipboard and the new process requests the contens.
@@ -155,40 +145,6 @@ bool closeProcess(QProcess *p)
     return false;
 }
 
-int run(const Args &arguments, QByteArray *stdoutData = NULL, QByteArray *stderrData = NULL,
-        const QByteArray &in = QByteArray())
-{
-    QProcess p;
-    if (!startTestProcess(&p, arguments))
-        return -1;
-
-    if ( p.write(in) != in.size() )
-        return -2;
-    p.closeWriteChannel();
-
-    if ( !closeProcess(&p) )
-        return -3;
-
-    if (stdoutData != NULL)
-        *stdoutData = p.readAllStandardOutput();
-    if (stderrData != NULL)
-        *stderrData = p.readAllStandardError();
-
-    return p.exitCode();
-}
-
-bool isAnyServerRunning()
-{
-    return run(Args("size")) == 0;
-}
-
-bool hasTab(const QString &tabName)
-{
-    QByteArray out;
-    run(Args("tab"), &out);
-    return QString::fromLocal8Bit(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
-}
-
 /// Generate unique data.
 QByteArray generateData(const QByteArray &data)
 {
@@ -202,6 +158,7 @@ public:
     TestInterfaceImpl()
         : m_server(NULL)
         , m_monitor(NULL)
+        , m_env(QProcessEnvironment::systemEnvironment())
     {
     }
 
@@ -228,7 +185,11 @@ public:
             waitFor(200);
         waitFor(1000);
 
-        return isServerRunning();
+        if (!isServerRunning())
+            return false;
+
+        m_env.remove("COPYQ_TEST_SETTINGS");
+        return true;
     }
 
     bool stopServer()
@@ -248,6 +209,28 @@ public:
     bool isServerRunning()
     {
         return m_server != NULL && m_server->state() == QProcess::Running && isAnyServerRunning();
+    }
+
+    int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
+            QByteArray *stderrData = NULL, const QByteArray &in = QByteArray())
+    {
+        QProcess p;
+        if (!startTestProcess(&p, arguments))
+            return -1;
+
+        if ( p.write(in) != in.size() )
+            return -2;
+        p.closeWriteChannel();
+
+        if ( !closeProcess(&p) )
+            return -3;
+
+        if (stdoutData != NULL)
+            *stdoutData = p.readAllStandardOutput();
+        if (stderrData != NULL)
+            *stderrData = p.readAllStandardError();
+
+        return p.exitCode();
     }
 
     QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected)
@@ -377,9 +360,33 @@ public:
         return ::shortcutToRemove();
     }
 
+    void setupTest(const QString &id, const QVariant &settings)
+    {
+        m_env.insert("COPYQ_TEST_ID", id);
+        QByteArray data;
+        QDataStream out(&data, QIODevice::WriteOnly);
+        out << settings;
+        m_env.insert("COPYQ_TEST_SETTINGS", data.toBase64());
+    }
+
 private:
+    bool isAnyServerRunning()
+    {
+        return run(Args("size")) == 0;
+    }
+
+    bool startTestProcess(QProcess *p, const QStringList &arguments,
+                          QIODevice::OpenMode mode = QIODevice::ReadWrite)
+    {
+        p->setProcessEnvironment(m_env);
+        p->start( QApplication::applicationFilePath(), arguments, mode );
+        return p->waitForStarted(10000);
+    }
+
     QScopedPointer<QProcess> m_server;
     QScopedPointer<RemoteProcess> m_monitor; /// Process to provide clipboard set by tests.
+    QProcessEnvironment m_env;
+    QVariantMap m_settings;
 };
 
 } // namespace
@@ -1123,6 +1130,18 @@ void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
     m_test->setClipboard(bytes, mime);
 }
 
+int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
+{
+    return m_test->run(arguments, stdoutData, stderrData, in);
+}
+
+bool Tests::hasTab(const QString &tabName)
+{
+    QByteArray out;
+    run(Args("tab"), &out);
+    return QString::fromLocal8Bit(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
+}
+
 int runTests(int argc, char *argv[])
 {
     QRegExp onlyPlugins;
@@ -1140,19 +1159,23 @@ int runTests(int argc, char *argv[])
 
     QApplication app(argc, argv);
     int exitCode = 0;
-    TestInterfacePtr test(new TestInterfaceImpl);
+    QSharedPointer<TestInterfaceImpl> test(new TestInterfaceImpl);
     Tests tc(test);
 
-    if (onlyPlugins.isEmpty())
+    if (onlyPlugins.isEmpty()) {
+        test->setupTest("CORE", QVariant());
         exitCode = QTest::qExec(&tc, argc, argv);
+    }
 
     ItemFactory itemFactory;
     foreach( const ItemLoaderInterfacePtr &loader, itemFactory.loaders() ) {
-        if ( loader->name().contains(onlyPlugins) ) {
+        if ( loader->id().contains(onlyPlugins) ) {
             QScopedPointer<QObject> pluginTests( loader->tests(test) );
             if ( !pluginTests.isNull() ) {
+                test->setupTest(loader->id(), pluginTests->property("CopyQ_test_settings"));
                 const int pluginTestsExitCode = QTest::qExec(pluginTests.data(), argc, argv);
                 exitCode = qMax(exitCode, pluginTestsExitCode);
+                test->stopServer();
             }
         }
     }

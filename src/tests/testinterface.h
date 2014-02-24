@@ -21,6 +21,7 @@
 #define TESTINTERFACE_H
 
 #include <QSharedPointer>
+#include <QVariantMap>
 
 /// Verify if method call (TestInterface::runClient() etc.) didn't fail or print error.
 #define TEST(errorsOrEmpty) \
@@ -51,6 +52,10 @@ public:
 
     /// Return true if GUI server is not running.
     virtual bool isServerRunning() = 0;
+
+    /// Run client with given @a arguments and input and read outputs and return exit code.
+    virtual int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
+                    QByteArray *stderrData = NULL, const QByteArray &in = QByteArray()) = 0;
 
     /// Run client with given @a arguments and read all errors/warnings.
     virtual QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected) = 0;

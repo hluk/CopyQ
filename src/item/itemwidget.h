@@ -269,6 +269,11 @@ public:
 
     /**
      * Return object with tests.
+     *
+     * All private slots are executed (see QtTest documentation).
+     *
+     * Property "CopyQ_test_settings" contains configuration for GUI server and
+     * if will be passed to ItemLoaderInterface::loadSettings() for this plugin.
      */
     virtual QObject *tests(const TestInterfacePtr &test) const;
 };

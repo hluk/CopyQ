@@ -17,22 +17,20 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ITEMSYNCTESTS_H
-#define ITEMSYNCTESTS_H
+#ifndef ITEMFAKEVIMTESTS_H
+#define ITEMFAKEVIMTESTS_H
 
 #include "tests/testinterface.h"
 
 #include <QObject>
 
-class ItemSyncTests : public QObject
+class ItemFakeVimTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit ItemSyncTests(const TestInterfacePtr &test, QObject *parent = NULL);
+    explicit ItemFakeVimTests(const TestInterfacePtr &test, QObject *parent = NULL);
 
-    static QString testTab(int i);
-
-    static QString testDir(int i);
+    static QString fileNameToSource();
 
 private slots:
     void initTestCase();
@@ -40,19 +38,10 @@ private slots:
     void init();
     void cleanup();
 
-    void createRemoveTestDir();
-
-    void itemsToFiles();
-    void filesToItems();
-
-    void removeItems();
-    void removeFiles();
-
-    void modifyItems();
-    void modifyFiles();
+    void createItem();
 
 private:
     TestInterfacePtr m_test;
 };
 
-#endif // ITEMSYNCTESTS_H
+#endif // ITEMFAKEVIMTESTS_H

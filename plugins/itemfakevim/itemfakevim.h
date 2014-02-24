@@ -86,6 +86,8 @@ public:
 
     virtual ItemWidget *transform(ItemWidget *itemWidget, const QModelIndex &index);
 
+    virtual QObject *tests(const TestInterfacePtr &test) const;
+
 private:
     bool m_enabled;
     QString m_sourceFileName;

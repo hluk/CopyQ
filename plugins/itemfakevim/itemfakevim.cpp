@@ -20,6 +20,7 @@
 #include "itemfakevim.h"
 #include "ui_itemfakevimsettings.h"
 
+#include "tests/itemfakevimtests.h"
 #include "common/contenttype.h"
 
 #include "fakevim/fakevimhandler.h"
@@ -576,6 +577,21 @@ QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
 ItemWidget *ItemFakeVimLoader::transform(ItemWidget *itemWidget, const QModelIndex &)
 {
     return m_enabled ? new ItemFakeVim(itemWidget, m_sourceFileName) : NULL;
+}
+
+QObject *ItemFakeVimLoader::tests(const TestInterfacePtr &test) const
+{
+#ifdef HAS_TESTS
+    QVariantMap settings;
+    settings["really_enable"] = true;
+    settings["source_file"] = QString(ItemFakeVimTests::fileNameToSource());
+    QObject *tests = new ItemFakeVimTests(test);
+    tests->setProperty("CopyQ_test_settings", settings);
+    return tests;
+#else
+    Q_UNUSED(test);
+    return NULL;
+#endif
 }
 
 Q_EXPORT_PLUGIN2(itemfakevim, ItemFakeVimLoader)

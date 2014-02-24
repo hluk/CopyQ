@@ -44,7 +44,7 @@ QString fileNameForId(int i)
 class TestDir {
 public:
     TestDir(int i)
-        : m_dir(testDir(i))
+        : m_dir(ItemSyncTests::testDir(i))
     {
         clear();
         create();
@@ -121,6 +121,16 @@ ItemSyncTests::ItemSyncTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
+}
+
+QString ItemSyncTests::testTab(int i)
+{
+    return "ITEMSYNC_TEST_&" + QString::number(i);
+}
+
+QString ItemSyncTests::testDir(int i)
+{
+    return QDir::tempPath() + "/copyq_test/itemsync_" + QString::number(i);
 }
 
 void ItemSyncTests::initTestCase()
@@ -364,14 +374,4 @@ void ItemSyncTests::modifyFiles()
 
     RUN(Args(args) << "size", "4\n");
     RUN(Args(args) << "read" << "0" << "1" << "2" << "3", "D,CX,B,A");
-}
-
-QString testTab(int i)
-{
-    return "ITEMSYNC_TEST_&" + QString::number(i);
-}
-
-QString testDir(int i)
-{
-    return QDir::tempPath() + "/copyq_test/itemsync_" + QString::number(i);
 }

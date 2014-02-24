@@ -90,8 +90,12 @@ App::App(QCoreApplication *application, const QString &sessionName)
 
 #ifdef HAS_TESTS
     QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    if ( env.value("COPYQ_TESTING") == "1" )
+    QString testId = env.value("COPYQ_TEST_ID");
+    bool testing = !testId.isEmpty();
+    if (testing) {
         session += ".test";
+        m_app->setProperty("CopyQ_test_id", testId);
+    }
 #endif
 
     QCoreApplication::setOrganizationName(session);
@@ -115,6 +119,29 @@ App::App(QCoreApplication *application, const QString &sessionName)
     createPlatformNativeInterface()->loadSettings();
 
     installTranslator();
+
+#ifdef HAS_TESTS
+    // Reset settings on first run of each test case.
+    if ( testing && env.contains("COPYQ_TEST_SETTINGS") ) {
+        QSettings settings;
+        settings.clear();
+
+        QVariant testSettings;
+        const QByteArray data = QByteArray::fromBase64( env.value("COPYQ_TEST_SETTINGS").toLatin1() );
+        QDataStream input(data);
+        input >> testSettings;
+        const QVariantMap testSettingsMap = testSettings.toMap();
+
+        settings.beginGroup("Plugins");
+        settings.beginGroup(testId);
+        foreach (const QString &key, testSettingsMap.keys())
+            settings.setValue(key, testSettingsMap[key]);
+        settings.endGroup();
+        settings.endGroup();
+
+        settings.setValue("CopyQ_test_id", testId);
+    }
+#endif
 }
 
 App::~App()
