@@ -200,8 +200,10 @@ public:
         if ( run(Args("exit")) != 0 )
             return false;
 
-        if ( !closeProcess(m_server.data()) )
+        if ( !closeProcess(m_server.data()) ) {
+            qWarning() << "Failed to close server properly!";
             return false;
+        }
 
         return !isAnyServerRunning();
     }
@@ -415,8 +417,10 @@ void Tests::init()
 
 void Tests::cleanup()
 {
-    const QByteArray out = m_test->cleanup();
-    QVERIFY2( out.isEmpty(), out );
+    if ( isServerRunning() ) {
+        const QByteArray out = m_test->cleanup();
+        QVERIFY2( out.isEmpty(), out );
+    }
 }
 
 void Tests::moveAndDeleteItems()
@@ -1120,6 +1124,7 @@ void Tests::exitCommand()
         QVERIFY( stopServer() );
         QCOMPARE( run(Args("exit")), 1 );
         QVERIFY( startServer() );
+
         QVERIFY( stopServer() );
         QCOMPARE( run(Args("exit")), 1 );
         QVERIFY( startServer() );
