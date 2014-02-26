@@ -40,6 +40,10 @@ private slots:
 
     void createItem();
 
+    void blockSelection();
+
+    void search();
+
 private:
     TestInterfacePtr m_test;
 };

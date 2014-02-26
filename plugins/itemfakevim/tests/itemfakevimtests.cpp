@@ -91,3 +91,35 @@ void ItemFakeVimTests::createItem()
     RUN(Args(args) << "keys" << ":p:wq" << "ENTER", "");
     RUN(Args(args) << "read" << "0", "ABC\nXYZ\nDEF");
 }
+
+void ItemFakeVimTests::blockSelection()
+{
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "tab" << tab1;
+
+    RUN(Args(args) << "edit", "");
+    RUN(Args(args) << "keys"
+        << ":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER", "");
+    RUN(Args(args) << "read" << "0", "ABC\nDEF\nGHI");
+
+    RUN(Args(args) << "edit" << "0", "");
+    RUN(Args(args) << "keys"
+        << ":ggl" << "CTRL+V" << ":jjs_" << "ESC" << "::wq" << "ENTER", "");
+    RUN(Args(args) << "read" << "0", "A_C\nD_F\nG_I");
+}
+
+void ItemFakeVimTests::search()
+{
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "tab" << tab1;
+
+    RUN(Args(args) << "edit", "");
+    RUN(Args(args) << "keys"
+        << ":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER", "");
+    RUN(Args(args) << "read" << "0", "ABC\nDEF\nGHI");
+
+    RUN(Args(args) << "edit" << "0", "");
+    RUN(Args(args) << "keys"
+        << ":gg/[EH]" << "ENTER" << ":r_nr_" << "F2", "");
+    RUN(Args(args) << "read" << "0", "ABC\nD_F\nG_I");
+}
