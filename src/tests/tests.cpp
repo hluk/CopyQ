@@ -47,7 +47,7 @@ do { \
 } while (0)
 
 #define RUN(arguments, stdoutExpected) \
-    TEST( m_test->runClient(arguments, stdoutExpected) );
+    TEST( m_test->runClient(arguments, toByteArray(stdoutExpected)) );
 
 #define WAIT_UNTIL(arguments, CONDITION, stdoutActual) \
 do { \
@@ -79,6 +79,21 @@ const int waitMsShow = 250;
 const int waitMsSearch = 250;
 
 typedef QStringList Args;
+
+QByteArray toByteArray(const QString &text)
+{
+    return text.toLocal8Bit();
+}
+
+QByteArray toByteArray(const QByteArray &text)
+{
+    return text;
+}
+
+QByteArray toByteArray(const char *text)
+{
+    return text;
+}
 
 void waitFor(int ms)
 {
@@ -391,6 +406,11 @@ private:
     QVariantMap m_settings;
 };
 
+QString keyNameFor(QKeySequence::StandardKey standardKey)
+{
+    return QKeySequence(standardKey).toString();
+}
+
 } // namespace
 
 Tests::Tests(const TestInterfacePtr &test, QObject *parent)
@@ -433,13 +453,13 @@ void Tests::moveAndDeleteItems()
 
     // focus test tab by deleting (Alt+1 may not work on some systems/desktops)
     RUN(Args(args) << "keys" << "RIGHT", "");
-    RUN(Args(args) << "selectedtab", tab.toLocal8Bit() + "\n");
+    RUN(Args(args) << "selectedtab", tab + "\n");
 
     // select first item
     RUN(Args(args) << "keys" << "HOME", "");
-    RUN(Args(args) << "selectedtab", tab.toLocal8Bit() + "\n");
+    RUN(Args(args) << "selectedtab", tab + "\n");
     RUN(Args(args) << "selecteditems", "0\n0\n");
-    RUN(Args(args) << "selected", tab.toLocal8Bit() + "\n0\n0\n");
+    RUN(Args(args) << "selected", tab + "\n0\n0\n");
 
     // delete first item
     RUN(Args(args) << "keys" << m_test->shortcutToRemove(), "");
@@ -480,11 +500,11 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "keys" << "ESCAPE", "");
 
     // copy items to new tab
-    RUN(Args(args) << "keys" << "CTRL+A" << QKeySequence(QKeySequence::Copy).toString(), "");
+    RUN(Args(args) << "keys" << "CTRL+A" << keyNameFor(QKeySequence::Copy), "");
     RUN(Args(args) << "keys" << "CTRL+T", "");
     const QString tab2 = testTab(2);
     RUN(Args(args) << "keys" << ":" + tab2 << "ENTER", "");
-    RUN(Args(args) << "keys" << QKeySequence(QKeySequence::Paste).toString(), "");
+    RUN(Args(args) << "keys" << keyNameFor(QKeySequence::Paste), "");
     const Args args2 = Args("tab") << tab2;
     RUN(Args(args2) << "read" << "0", "JKL");
     RUN(Args(args2) << "read" << "1", "DEF");
@@ -615,11 +635,11 @@ void Tests::createAndCopyNewItem()
 
         RUN(Args() << "keys" << "F2", "");
 
-        RUN(Args() << "tab" << tab << "read" << "0", itemText.toLocal8Bit());
+        RUN(Args() << "tab" << tab << "read" << "0", itemText);
 
-        RUN(Args() << "keys" << QKeySequence(QKeySequence::Copy).toString(), "");
+        RUN(Args() << "keys" << keyNameFor(QKeySequence::Copy), "");
         QVERIFY( waitUntilClipboardSet(itemText.toLocal8Bit()) );
-        RUN(Args("clipboard"), itemText.toLocal8Bit());
+        RUN(Args("clipboard"), itemText);
     }
 }
 
@@ -1130,6 +1150,61 @@ void Tests::exitCommand()
         QVERIFY( startServer() );
 
         RUN(Args("show"), "");
+    }
+}
+
+void Tests::nextPreviousTab()
+{
+    const QString script = QString(
+                "tabs = [\"%1\", \"%2\"];"
+                "for (i in tabs) {"
+                "  tab(tabs[i]);"
+                "  add('Item in tab ' + tabs[i]);"
+                "}"
+                )
+            .arg(testTab(1))
+            .arg(testTab(2));
+
+    RUN(Args() << "eval" << script, "");
+    const QString testTabsList =
+            "CLIPBOARD\n" +
+            testTab(1) + "\n" +
+            testTab(2) + "\n" +
+            "\n";
+    RUN(Args() << "tab", testTabsList);
+
+    RUN(Args() << "selectedtab", "CLIPBOARD\n");
+
+    typedef QPair<QString, QString> KeyPair;
+    const QList<KeyPair> keyPairs = QList<KeyPair>()
+            << KeyPair(keyNameFor(QKeySequence::NextChild), keyNameFor(QKeySequence::PreviousChild))
+            << KeyPair("RIGHT", "LEFT");
+
+    foreach (const KeyPair &keyPair, keyPairs) {
+        foreach (const QString &optionValue, QStringList() << "false" << "true") {
+            RUN(Args() << "config" << "tab_tree" << optionValue, "");
+            RUN(Args() << "config" << "tab_tree", optionValue + "\n");
+
+            RUN(Args() << "keys" << keyPair.first, "");
+            RUN(Args() << "selectedtab", testTab(1) + '\n');
+            RUN(Args() << "keys" << keyPair.first, "");
+            RUN(Args() << "selectedtab", testTab(2) + '\n');
+            RUN(Args() << "keys" << keyPair.first, "");
+            RUN(Args() << "selectedtab", "CLIPBOARD\n");
+
+            RUN(Args() << "keys" << "CTRL+T" << ":" + testTab(3) << "ENTER", "");
+            RUN(Args() << "selectedtab", testTab(3) + '\n');
+            RUN(Args() << "removetab" << testTab(3), "");
+            RUN(Args() << "tab", testTabsList);
+            RUN(Args() << "selectedtab", "CLIPBOARD\n");
+
+            RUN(Args() << "keys" << keyPair.second, "");
+            RUN(Args() << "selectedtab", testTab(2) + '\n');
+            RUN(Args() << "keys" << keyPair.second, "");
+            RUN(Args() << "selectedtab", testTab(1) + '\n');
+            RUN(Args() << "keys" << keyPair.second, "");
+            RUN(Args() << "selectedtab", "CLIPBOARD\n");
+        }
     }
 }
 

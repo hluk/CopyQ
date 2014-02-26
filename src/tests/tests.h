@@ -78,6 +78,8 @@ private slots:
 
     void exitCommand();
 
+    void nextPreviousTab();
+
 private:
     bool startServer();
     bool stopServer();
