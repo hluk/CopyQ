@@ -4,7 +4,6 @@
 # Exclude system and 3rd party files.
 exclude_files=(
     qxt
-    src/tests
     /usr
     plugins/itemfakevim/fakevim
 )
@@ -17,6 +16,7 @@ exclude_regexs=(
     '.*/ui_.*'
     '.*/qrc_.*'
     '.*CMake.*'
+    '.*/tests/.*'
 )
 
 # Generate coverage report only with GCC.
