@@ -42,6 +42,12 @@ ScriptableWorker::ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow,
     setAutoDelete(false);
 }
 
+ScriptableWorker::~ScriptableWorker()
+{
+    if (m_client != NULL)
+        m_client->deleteLater();
+}
+
 void ScriptableWorker::run()
 {
     if (!m_terminated) {

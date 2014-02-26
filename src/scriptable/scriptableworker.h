@@ -37,6 +37,8 @@ public:
     ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow, const Arguments &args,
                      QLocalSocket *client, QObject *parent = NULL);
 
+    ~ScriptableWorker();
+
 public slots:
     void run();
     void terminate();
