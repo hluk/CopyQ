@@ -76,6 +76,8 @@ private slots:
 
     void externalEditor();
 
+    void editNotes();
+
     void exitCommand();
 
     void nextPreviousTab();

@@ -1134,6 +1134,40 @@ void Tests::externalEditor()
     WAIT_UNTIL(Args(args) << "read" << "0", out == data4, out);
 }
 
+void Tests::editNotes()
+{
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+
+    RUN(Args(args) << "add" << "XXX" << "YYY", "");
+    RUN(Args(args) << "size", "2\n");
+
+    RUN(Args() << "keys" << keyNameFor(QKeySequence::NextChild), "");
+    RUN(Args() << "selectedtab", tab + '\n');
+
+    RUN(Args(args) << "read" << "?" << "0" << "1", "text/plain\n" "\n" "text/plain\n");
+
+    const QString line1 = "Testing notes";
+    const QString line2 = "... still testing.";
+    RUN(Args() << "keys" << "HOME" << "SHIFT+F2"
+        << ":" + line1 << "ENTER" << ":" + line2 << "F2" , "");
+    RUN(Args(args) << "read" << mimeItemNotes << "0", line1 + "\n" + line2);
+
+    const QByteArray data1 = generateData("NOTES");
+    RUN(Args(args) << "write" << "1" << mimeItemNotes << data1, "");
+    RUN(Args(args) << "size", "3\n");
+    RUN(Args(args) << "read" << mimeItemNotes << "1", data1);
+
+    const QByteArray data2 = generateData("NOTES");
+    const QByteArray data3 = generateData("NOTES");
+    RUN(Args() << "keys" << "DOWN" << "SHIFT+F2"
+        << "CTRL+A" << ":" + data2 << "ENTER" << ":" + data3 << "F2", "");
+    RUN(Args(args) << "read" << mimeItemNotes << "1", data2 + "\n" + data3);
+    RUN(Args(args) << "read" << mimeItemNotes << "2", "");
+    RUN(Args(args) << "read" << mimeItemNotes << "0", line1 + "\n" + line2);
+    RUN(Args(args) << "size", "3\n");
+}
+
 void Tests::exitCommand()
 {
     for (int i = 0; i < 4; ++i) {
