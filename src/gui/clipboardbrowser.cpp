@@ -516,7 +516,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
         }
     }
 
-    setFocusPolicy(active ? Qt::NoFocus : Qt::StrongFocus);
+    setFocusProxy(m_editor);
 
     setAcceptDrops(!active);
 
