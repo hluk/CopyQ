@@ -35,6 +35,7 @@ void addTabAction(QWidget *widget, const QKeySequence &shortcut,
 {
     QAction *act = new QAction(widget);
     act->setShortcut(shortcut);
+    act->setShortcutContext(Qt::WidgetShortcut);
     receiver->connect(act, SIGNAL(triggered()), slot);
     widget->addAction(act);
 }
