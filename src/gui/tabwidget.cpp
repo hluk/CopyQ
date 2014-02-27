@@ -31,11 +31,12 @@
 namespace {
 
 void addTabAction(QWidget *widget, const QKeySequence &shortcut,
-                  QWidget *receiver, const char *slot)
+                  QWidget *receiver, const char *slot,
+                  Qt::ShortcutContext context = Qt::WindowShortcut)
 {
     QAction *act = new QAction(widget);
     act->setShortcut(shortcut);
-    act->setShortcutContext(Qt::WidgetShortcut);
+    act->setShortcutContext(context);
     receiver->connect(act, SIGNAL(triggered()), slot);
     widget->addAction(act);
 }
@@ -71,6 +72,9 @@ TabWidget::TabWidget(QWidget *parent)
     layout->addWidget(m_stackedWidget);
 
     createTabBar();
+
+    addTabAction(this, QKeySequence::PreviousChild, this, SLOT(previousTab()));
+    addTabAction(this, QKeySequence::NextChild, this, SLOT(nextTab()));
 }
 
 QString TabWidget::getCurrentTabPath() const
@@ -361,8 +365,8 @@ void TabWidget::createTabTree()
     updateToolBar();
 
     // Override left and right keys of tab tree.
-    addTabAction(m_tabTree, Qt::Key_Left, this, SLOT(previousTab()));
-    addTabAction(m_tabTree, Qt::Key_Right, this, SLOT(nextTab()));
+    addTabAction(m_tabTree, Qt::Key_Left, this, SLOT(previousTab()), Qt::WidgetShortcut);
+    addTabAction(m_tabTree, Qt::Key_Right, this, SLOT(nextTab()), Qt::WidgetShortcut);
 }
 
 void TabWidget::updateToolBar()
