@@ -48,8 +48,6 @@ typedef enum {
     CommandSuccess,
     /** Activate window */
     CommandActivateWindow,
-    /** Command to exit application. */
-    CommandExit,
     /** Ask client to send data from its stdin. */
     CommandReadInput
 } CommandStatus;

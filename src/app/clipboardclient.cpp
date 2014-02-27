@@ -88,7 +88,7 @@ void ClipboardClient::readyRead()
                     window->raise();
             } else {
                 QFile f;
-                f.open((exitCode == CommandSuccess) ? stdout : stderr, QIODevice::WriteOnly);
+                f.open((exitCode == CommandSuccess || exitCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
                 f.write( msg.constData() + i, len - i );
             }
         } else if (exitCode == CommandReadInput) {
@@ -106,10 +106,6 @@ void ClipboardClient::readyRead()
 
         if (exitCode == CommandFinished || exitCode == CommandBadSyntax || exitCode == CommandError) {
             exit(exitCode);
-            break;
-        }
-        if (exitCode == CommandExit) {
-            exit(0);
             break;
         }
     }

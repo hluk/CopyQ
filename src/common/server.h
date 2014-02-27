@@ -17,38 +17,37 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SCRIPTABLEWORKER_H
-#define SCRIPTABLEWORKER_H
-
-#include "common/arguments.h"
-#include "common/common.h"
+#ifndef SERVER_H
+#define SERVER_H
 
 #include <QObject>
-#include <QRunnable>
 #include <QSharedPointer>
 
-class MainWindow;
-class QLocalSocket;
+class Arguments;
+class ClientSocket;
+class QLocalServer;
 
-class ScriptableWorker : public QObject, public QRunnable
+class Server : public QObject
 {
     Q_OBJECT
 public:
-    ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow, const Arguments &args,
-                     QObject *socket, QObject *parent = NULL);
+    static Server *create(const QString &name);
 
-public slots:
-    void run();
-    void terminate();
+    void startInThread();
 
 signals:
-    void terminated();
+    void newConnection(const Arguments &args, ClientSocket *socket);
+
+private slots:
+    void onNewConnection();
+    void start();
+    void close();
+
+protected:
+    Server(QLocalServer *server);
 
 private:
-    QSharedPointer<MainWindow> m_wnd;
-    Arguments m_args;
-    QObject *m_socket;
-    bool m_terminated;
+    QLocalServer *m_server;
 };
 
-#endif // SCRIPTABLEWORKER_H
+#endif // SERVER_H

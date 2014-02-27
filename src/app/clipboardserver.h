@@ -21,7 +21,7 @@
 #define CLIPBOARDSERVER_H
 
 #include "app.h"
-#include "common/client_server.h"
+#include "common/server.h"
 #include "gui/configtabshortcuts.h"
 
 #include <QMap>
@@ -34,10 +34,9 @@
 class Arguments;
 class ClipboardBrowser;
 class ClipboardItem;
+class ClientSocket;
 class MainWindow;
 class RemoteProcess;
-class QLocalServer;
-class QLocalSocket;
 class QxtGlobalShortcut;
 class QSessionManager;
 
@@ -58,14 +57,6 @@ public:
 
     /** Returns true if server is listening to incoming client connections. */
     bool isListening() const;
-
-    /**
-     * Execute command in different thread.
-     */
-    void doCommand(
-            const Arguments &args, //!< Contains command and its arguments.
-            QLocalSocket *client = NULL //!< For sending responses.
-            );
 
     /** Stop monitor application. */
     void stopMonitoring();
@@ -103,8 +94,13 @@ protected:
     bool eventFilter(QObject *object, QEvent *ev);
 
 private slots:
-    /** A new client connected. */
-    void newConnection();
+    /**
+     * Execute command in different thread.
+     */
+    void doCommand(
+            const Arguments &args, //!< Contains command and its arguments.
+            ClientSocket *client = NULL //!< For sending responses.
+            );
 
     /** New message from monitor process. */
     void newMonitorMessage(const QByteArray &message);
@@ -114,13 +110,6 @@ private slots:
 
     /** Shortcut was pressed on host system. */
     void shortcutActivated(QxtGlobalShortcut *shortcut);
-
-    /** Send message to client. */
-    void sendMessage(
-            QLocalSocket* client, //!< Client socket.
-            const QByteArray &message, //!< Message for client.
-            int exitCode = 0 //!< Exit code for client (non-zero for an error).
-            );
 
     void removeGlobalShortcuts();
     void createGlobalShortcuts();
@@ -141,7 +130,6 @@ private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
 
-    QLocalServer *m_server;
     QSharedPointer<MainWindow> m_wnd;
     RemoteProcess *m_monitor;
     bool m_checkclip;

@@ -132,6 +132,7 @@ void RemoteProcess::closeConnection()
 
         if (m_socket != NULL) {
             m_socket->disconnectFromServer();
+            m_socket->deleteLater();
             m_socket = NULL;
         }
 

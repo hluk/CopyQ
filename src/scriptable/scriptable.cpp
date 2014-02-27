@@ -425,6 +425,11 @@ void Scriptable::throwError(const QString &errorMessage)
     context()->throwError( fromString(errorMessage + '\n') );
 }
 
+void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
+{
+    emit sendMessage(message, exitCode);
+}
+
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" COPYQ_VERSION " (hluk@email.cz)\n"
@@ -496,7 +501,8 @@ void Scriptable::menu()
 void Scriptable::exit()
 {
     QByteArray message = fromString( tr("Terminating server.\n") );
-    emit sendMessage(message, CommandExit);
+    emit sendMessage(message, CommandFinished);
+    emit requestApplicationQuit();
 }
 
 void Scriptable::disable()

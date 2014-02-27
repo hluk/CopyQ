@@ -137,7 +137,7 @@ bool waitUntilClipboardSet(const QByteArray &data, const QString &mime = QString
 
 bool waitForProcessFinished(QProcess *p)
 {
-    // Process events in case we own clipboard and the new process requests the contens.
+    // Process events in case we own clipboard and the new process requests the contents.
     for ( int i = 0; i < 100 && !p->waitForFinished(200); ++i )
         QApplication::processEvents();
 
@@ -217,6 +217,8 @@ public:
 
         if ( !closeProcess(m_server.data()) ) {
             qWarning() << "Failed to close server properly!";
+            qWarning() << "STDERR:";
+            qWarning() << m_server->readAllStandardError();
             return false;
         }
 
@@ -319,10 +321,12 @@ public:
     {
         QByteArray out = runClient(Args("eval") <<
             // Create tab.
+            "print(1);"
             "tab('CLIPBOARD');"
             "add('');"
 
             // Remove test tabs.
+            "print(2);"
             "tabs = tab().split('\\\\n');"
             "for (i in tabs) {"
             "  if (tabs[i] != 'CLIPBOARD' && tabs[i]) {"
@@ -331,12 +335,15 @@ public:
             "}"
 
             // Clear items in first tab.
+            "print(3);"
             "while (size() > 0) {"
             "  remove(0);"
             "}"
 
+            "print(4);"
             "print(tab());"
-            , "CLIPBOARD\n");
+            "print(5);"
+            , "1234CLIPBOARD\n5");
 
         return out;
     }
@@ -353,8 +360,11 @@ public:
         if (!m_server && isAnyServerRunning() )
             return "Other test server is running!";
 
-        if ( !isServerRunning() && !startServer() )
+        if ( !isServerRunning() && !startServer() ) {
+            qWarning() << "STDERR:";
+            qWarning() << m_server->readAllStandardError();
             return "Failed to start server!";
+        }
 
         QByteArray out = readServerErrors();
         if ( !out.isEmpty() )

@@ -17,38 +17,44 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef SCRIPTABLEWORKER_H
-#define SCRIPTABLEWORKER_H
+#ifndef CLIENTSOCKET_H
+#define CLIENTSOCKET_H
 
-#include "common/arguments.h"
-#include "common/common.h"
-
+#include <QLocalSocket>
 #include <QObject>
-#include <QRunnable>
 #include <QSharedPointer>
 
-class MainWindow;
-class QLocalSocket;
+class Arguments;
+class QLocalServer;
 
-class ScriptableWorker : public QObject, public QRunnable
+class ClientSocket : public QObject
 {
     Q_OBJECT
-public:
-    ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow, const Arguments &args,
-                     QObject *socket, QObject *parent = NULL);
-
+    friend class Server;
 public slots:
-    void run();
-    void terminate();
+    /** Send message to client. */
+    void sendMessage(
+            const QByteArray &message, //!< Message for client.
+            int exitCode = 0 //!< Exit code for client (non-zero for an error).
+            );
+    void close();
 
 signals:
-    void terminated();
+    void messageReceived(const QByteArray &message);
+    void disconnected();
+
+private slots:
+    void onReadyRead();
+    void onError(QLocalSocket::LocalSocketError error);
+    void onDisconnected();
 
 private:
-    QSharedPointer<MainWindow> m_wnd;
-    Arguments m_args;
-    QObject *m_socket;
-    bool m_terminated;
+    explicit ClientSocket(QLocalSocket *socket, QObject *parent = 0);
+
+    /// Receive arguments from client.
+    Arguments readArguments();
+
+    QLocalSocket *m_socket;
 };
 
-#endif // SCRIPTABLEWORKER_H
+#endif // CLIENTSOCKET_H

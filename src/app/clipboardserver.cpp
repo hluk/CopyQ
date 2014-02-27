@@ -21,6 +21,8 @@
 
 #include "app/remoteprocess.h"
 #include "common/arguments.h"
+#include "common/clientsocket.h"
+#include "common/client_server.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
@@ -57,7 +59,6 @@ int monitorProcessId = 0;
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
     , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName)
-    , m_server(NULL)
     , m_wnd()
     , m_monitor(NULL)
     , m_checkclip(false)
@@ -68,16 +69,16 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_clientThreads()
     , m_internalThreads()
 {
-    m_server = newServer( clipboardServerName(), this );
-    if ( !m_server->isListening() )
+    Server *server = Server::create( clipboardServerName() );
+    if (!server)
         return;
 
     QApplication::setQuitOnLastWindowClosed(false);
 
     m_wnd = QSharedPointer<MainWindow>(new MainWindow);
 
-    connect( m_server, SIGNAL(newConnection()),
-             this, SLOT(newConnection()) );
+    connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
+             this, SLOT(doCommand(Arguments,ClientSocket*)) );
 
     connect( QCoreApplication::instance(), SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()));
@@ -116,6 +117,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     startMonitoring();
 
     QCoreApplication::instance()->installEventFilter(this);
+
+    server->startInThread();
 }
 
 ClipboardServer::~ClipboardServer()
@@ -128,7 +131,7 @@ ClipboardServer::~ClipboardServer()
 
 bool ClipboardServer::isListening() const
 {
-    return m_server->isListening();
+    return !m_wnd.isNull();
 }
 
 void ClipboardServer::stopMonitoring()
@@ -204,65 +207,6 @@ bool ClipboardServer::isMonitoring()
     return m_monitor != NULL && m_monitor->isConnected();
 }
 
-void ClipboardServer::newConnection()
-{
-    QLocalSocket* client( m_server->nextPendingConnection() );
-
-#ifdef COPYQ_LOG_DEBUG
-    quintptr id = client->socketDescriptor();
-    COPYQ_LOG( QString("New client connection %1").arg(id) );
-    COPYQ_LOG( QString("%1: Receiving message from client.").arg(id) );
-#endif
-
-    Arguments args;
-    QByteArray msg;
-
-    if ( readMessage(client, &msg) ) {
-        QDataStream in(msg);
-        in >> args;
-
-        COPYQ_LOG( QString("%1: Message received from client.").arg(id) );
-
-        // try to handle command
-        doCommand(args, client);
-    } else {
-        const QString error = client->errorString();
-        log( tr("Cannot read message from client! (%1)").arg(error), LogError );
-        client->deleteLater();
-    }
-}
-
-void ClipboardServer::sendMessage(QLocalSocket* client, const QByteArray &message, int exitCode)
-{
-#ifdef COPYQ_LOG_DEBUG
-    quintptr id = client->socketDescriptor();
-#endif
-
-    COPYQ_LOG( QString("%1: Sending message to client (exit code: %2).")
-               .arg(id)
-               .arg(exitCode) );
-
-    if ( client->state() == QLocalSocket::ConnectedState ) {
-        QByteArray msg;
-        QDataStream out(&msg, QIODevice::WriteOnly);
-        out << exitCode;
-        out.writeRawData( message.constData(), message.length() );
-        if ( !writeMessage(client, msg) ) {
-            COPYQ_LOG( QString("%1: Failed to send message to client!").arg(id) );
-        } else if (exitCode == CommandFinished) {
-            connect(client, SIGNAL(disconnected()),
-                    client, SLOT(deleteLater()));
-            COPYQ_LOG( QString("%1: Disconnected from client.").arg(id) );
-        } else if (exitCode == CommandExit) {
-            client->waitForBytesWritten();
-            connect(client, SIGNAL(destroyed()), qApp, SLOT(quit()));
-        }
-        COPYQ_LOG( QString("%1: Message send to client.").arg(id) );
-    } else {
-        COPYQ_LOG( QString("%1: Client disconnected!").arg(id) );
-    }
-}
-
 void ClipboardServer::removeGlobalShortcuts()
 {
     foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
@@ -295,8 +239,10 @@ void ClipboardServer::onAboutToQuit()
 
     m_wnd->saveTabs();
 
-    m_server->close();
+    COPYQ_LOG( QString("Active internal threads: %1").arg(m_internalThreads.activeThreadCount()) );
+    COPYQ_LOG( QString("Active client threads: %1").arg(m_clientThreads.activeThreadCount()) );
 
+    COPYQ_LOG("Terminating remaining threads.");
     emit terminateClientThreads();
     while ( !m_clientThreads.waitForDone(0) || !m_internalThreads.waitForDone(0) )
         QApplication::processEvents();
@@ -334,6 +280,27 @@ bool ClipboardServer::askToQuit()
     }
 
     return true;
+}
+
+void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)
+{
+    // Worker object without parent needs to be deleted afterwards!
+    // There is no parent so as it's possible to move the worker to another thread.
+    // QThreadPool takes ownership and worker will be automatically deleted
+    // after run() (see QRunnable::setAutoDelete()).
+    ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client);
+
+    // Terminate worker at application exit.
+    connect( this, SIGNAL(terminateClientThreads()),
+             worker, SLOT(terminate()) );
+
+    if (client != NULL) {
+        // Add client thread to pool.
+        m_clientThreads.start(worker);
+    } else {
+        // Run internally created command immediatelly (should be fast).
+        m_internalThreads.start(worker);
+    }
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
@@ -391,34 +358,6 @@ void ClipboardServer::changeClipboard(const QVariantMap &data)
 
     m_monitor->writeMessage( serializeData(data) );
     m_lastHash = hash(data);
-}
-
-void ClipboardServer::doCommand(const Arguments &args, QLocalSocket *client)
-{
-    // Worker object without parent needs to be deleted afterwards!
-    // There is no parent so as it's possible to move the worker to another thread.
-    ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client);
-
-    // Delete worker after it's finished.
-    connect( worker, SIGNAL(finished()),
-             worker, SLOT(deleteLater()) );
-
-    // Terminate worket at application exit.
-    connect( this, SIGNAL(terminateClientThreads()),
-             worker, SLOT(terminate()) );
-
-    if (client != NULL) {
-        connect(client, SIGNAL(disconnected()),
-                worker, SLOT(terminate()));
-        connect(worker, SIGNAL(sendMessage(QLocalSocket*,QByteArray,int)),
-                this, SLOT(sendMessage(QLocalSocket*,QByteArray,int)));
-
-        // Add client thread to pool.
-        m_clientThreads.start(worker);
-    } else {
-        // Run internally created command immediatelly (should be fast).
-        m_internalThreads.start(worker);
-    }
 }
 
 void ClipboardServer::createGlobalShortcut(Actions::Id id, const QByteArray &script)

@@ -27,10 +27,12 @@ HEADERS += \
     common/action.h \
     common/arguments.h \
     common/client_server.h \
+    common/clientsocket.h \
     common/command.h \
+    common/common.h \
     common/contenttype.h \
     common/option.h \
-    common/common.h \
+    common/server.h \
     gui/aboutdialog.h \
     gui/actiondialog.h \
     gui/actionhandler.h \
@@ -85,8 +87,10 @@ SOURCES += \
     common/action.cpp \
     common/arguments.cpp \
     common/client_server.cpp \
+    common/clientsocket.cpp \
     common/common.cpp \
     common/option.cpp \
+    common/server.cpp \
     gui/aboutdialog.cpp \
     gui/actiondialog.cpp \
     gui/actionhandler.cpp \
