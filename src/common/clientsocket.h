@@ -22,10 +22,9 @@
 
 #include <QLocalSocket>
 #include <QObject>
-#include <QSharedPointer>
+#include <QPointer>
 
 class Arguments;
-class QLocalServer;
 
 class ClientSocket : public QObject
 {
@@ -37,7 +36,7 @@ public slots:
             const QByteArray &message, //!< Message for client.
             int exitCode = 0 //!< Exit code for client (non-zero for an error).
             );
-    void close();
+    void deleteAfterDisconnected();
 
 signals:
     void messageReceived(const QByteArray &message);
@@ -54,7 +53,7 @@ private:
     /// Receive arguments from client.
     Arguments readArguments();
 
-    QLocalSocket *m_socket;
+    QPointer<QLocalSocket> m_socket;
 };
 
 #endif // CLIENTSOCKET_H

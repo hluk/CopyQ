@@ -38,8 +38,10 @@ ScriptableWorker::ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow,
     , m_socket(socket)
     , m_terminated(false)
 {
-    if (m_socket)
+    if (m_socket) {
         connect(m_socket, SIGNAL(disconnected()), SLOT(terminate()));
+        connect(this, SIGNAL(terminated()), m_socket, SLOT(deleteAfterDisconnected()));
+    }
 }
 
 void ScriptableWorker::run()
@@ -112,10 +114,15 @@ void ScriptableWorker::run()
     scriptable.sendMessageToClient(response, exitCode);
 
     COPYQ_LOG( msg.arg("finished") );
+
+    emit terminated();
 }
 
 void ScriptableWorker::terminate()
 {
+    if (m_terminated)
+        return;
+
 #ifdef COPYQ_LOG_DEBUG
     COPYQ_LOG( QString("Scripting engine: %1").arg("terminating") );
 #endif
