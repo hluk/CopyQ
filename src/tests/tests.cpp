@@ -57,7 +57,7 @@ do { \
     while(true) { \
         stdoutActual.clear(); \
         waitFor(200); \
-        QVERIFY( isServerRunning() ); \
+        QVERIFY( m_test->isServerRunning() ); \
         QByteArray stderrActual; \
         QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
         stdoutActual.replace('\r', ""); \
@@ -182,16 +182,23 @@ public:
         stopServer();
     }
 
-    bool startServer()
+    QByteArray startServer()
     {
+        if ( isServerRunning() )
+            return "Server is already running.";
+
+        if ( isAnyServerRunning() ) {
+            return "Other test server is running."
+                   "Please close the other test session before running new one.";
+        }
+
         m_server.reset(new QProcess);
 
         if ( !startTestProcess(m_server.data(), QStringList(), QIODevice::ReadOnly) ) {
-            log( QString("Failed to launch \"%1\": %2")
-                 .arg(QApplication::applicationFilePath())
-                 .arg(m_server->errorString()),
-                 LogError );
-            return false;
+            return QString("Failed to launch \"%1\": %2")
+                .arg(QApplication::applicationFilePath())
+                .arg(m_server->errorString())
+                .toLocal8Bit();
         }
 
         // Wait for client/server communication is established.
@@ -200,29 +207,33 @@ public:
             waitFor(200);
         waitFor(2000);
 
-        if (!isServerRunning())
-            return false;
+        if ( !isServerRunning() )
+            return "Unable to start server!" + readServerErrors(true);
+
+        QByteArray errors = readServerErrors();
+        if (!errors.isEmpty())
+            return errors;
 
         m_env.remove("COPYQ_TEST_SETTINGS");
-        return true;
+        return QByteArray();
     }
 
-    bool stopServer()
+    QByteArray stopServer()
     {
-        if ( m_server.isNull() )
-            return !isServerRunning();
+        QByteArray errors = readServerErrors();
+        if (!errors.isEmpty())
+            return errors;
 
-        if ( run(Args("exit")) != 0 )
-            return false;
+        if ( run(Args("exit"), NULL, &errors) != 0 )
+            return "Command 'exit' failed. Client STDERR:\n" + errors;
 
-        if ( !closeProcess(m_server.data()) ) {
-            qWarning() << "Failed to close server properly!";
-            qWarning() << "STDERR:";
-            qWarning() << m_server->readAllStandardError();
-            return false;
-        }
+        if ( !closeProcess(m_server.data()) )
+            return "Failed to close server properly!" + readServerErrors(true);
 
-        return !isAnyServerRunning();
+        if ( isServerRunning() || isAnyServerRunning() )
+            return "Unable to stop server!" + readServerErrors(true);
+
+        return readServerErrors();
     }
 
     bool isServerRunning()
@@ -254,6 +265,9 @@ public:
 
     QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected)
     {
+        if ( !isServerRunning() )
+            return "Server is not running!" + readServerErrors(true);
+
         QByteArray errors = readServerErrors();
         if (!errors.isEmpty())
             return errors;
@@ -304,15 +318,16 @@ public:
         waitFor(200);
     }
 
-    QByteArray readServerErrors()
+    QByteArray readServerErrors(bool readAll = false)
     {
         if (m_server) {
-            const QByteArray output = m_server->readAllStandardError();
-            return testStderr(output) ? QByteArray() : output;
+            QByteArray output = m_server->readAllStandardError();
+            if ( readAll || !testStderr(output) ) {
+              output.prepend("STDERR:\n");
+              output.replace('\n', "\n        ");
+              return output;
+            }
         }
-
-        if ( isServerRunning() )
-            return "Test ERROR: Server is not running!";
 
         return QByteArray();
     }
@@ -357,29 +372,20 @@ public:
 
     QByteArray init()
     {
-        if (!m_server && isAnyServerRunning() )
-            return "Other test server is running!";
-
-        if ( !isServerRunning() && !startServer() ) {
-            qWarning() << "STDERR:";
-            qWarning() << m_server->readAllStandardError();
-            return "Failed to start server!";
+        if ( !isServerRunning() ) {
+            QByteArray errors = startServer();
+            if ( !errors.isEmpty() )
+                return "Failed to start server:\n" + errors;
         }
-
-        QByteArray out = readServerErrors();
-        if ( !out.isEmpty() )
-            return out;
 
         // Always show main window first so that the results are consistent with desktop environments
         // where user cannot hide main window (tiling window managers without tray).
-        out = show();
-        if ( !out.isEmpty() )
-            return out;
+        QByteArray errors = show();
+        if ( !errors.isEmpty() )
+            return errors;
 
         // Enable clipboard monitoring.
-        out = runClient(Args("enable"), "");
-
-        return out;
+        return runClient(Args("enable"), "");
     }
 
     QString shortcutToRemove()
@@ -437,7 +443,7 @@ void Tests::initTestCase()
 
 void Tests::cleanupTestCase()
 {
-    QVERIFY( stopServer() );
+    TEST( m_test->stopServer() );
 }
 
 void Tests::init()
@@ -447,7 +453,7 @@ void Tests::init()
 
 void Tests::cleanup()
 {
-    if ( isServerRunning() ) {
+    if ( m_test->isServerRunning() ) {
         const QByteArray out = m_test->cleanup();
         QVERIFY2( out.isEmpty(), out );
     }
@@ -750,8 +756,8 @@ void Tests::tabAddRemove()
     RUN(Args(args) << "read" << "0" << "2" << "1", "ghi\nabc\ndef");
 
     // Restart server.
-    QVERIFY( stopServer() );
-    QVERIFY( startServer() );
+    TEST( m_test->stopServer() );
+    TEST( m_test->startServer() );
 
     QVERIFY( hasTab(tab) );
 
@@ -1185,13 +1191,13 @@ void Tests::exitCommand()
         RUN(Args("add") << data1, "");
         RUN(Args("keys") << "CTRL+C", "");
 
-        QVERIFY( stopServer() );
+        TEST( m_test->stopServer() );
         QCOMPARE( run(Args("exit")), 1 );
-        QVERIFY( startServer() );
+        TEST( m_test->startServer() );
 
-        QVERIFY( stopServer() );
+        TEST( m_test->stopServer() );
         QCOMPARE( run(Args("exit")), 1 );
-        QVERIFY( startServer() );
+        TEST( m_test->startServer() );
 
         RUN(Args("show"), "");
     }
@@ -1250,21 +1256,6 @@ void Tests::nextPreviousTab()
             RUN(Args() << "selectedtab", "CLIPBOARD\n");
         }
     }
-}
-
-bool Tests::startServer()
-{
-    return m_test->startServer();
-}
-
-bool Tests::stopServer()
-{
-    return m_test->stopServer();
-}
-
-bool Tests::isServerRunning()
-{
-    return m_test->isServerRunning();
 }
 
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)

@@ -22,12 +22,19 @@
 
 #include <QSharedPointer>
 #include <QVariantMap>
+#include <QDebug>
 
-/// Verify if method call (TestInterface::runClient() etc.) didn't fail or print error.
+/**
+ * Verify that method call (TestInterface::startServer(), TestInterface::runClient() etc.)
+ * didn't fail or print error.
+ */
 #define TEST(errorsOrEmpty) \
 do { \
     QByteArray errors = errorsOrEmpty; \
-    QVERIFY2(errors.isEmpty(), errors); \
+    if (!errors.isEmpty()) { \
+      qWarning() << errors; \
+      QVERIFY2(false, "Failed with previous stated errors"); \
+    } \
 } while (false)
 
 /// Skip rest of the tests
@@ -45,10 +52,10 @@ public:
     virtual ~TestInterface() {}
 
     /// Start or restart GUI server and return true if successful.
-    virtual bool startServer() = 0;
+    virtual QByteArray startServer() = 0;
 
     /// Stop GUI server and return true if server is was stopped or is not running.
-    virtual bool stopServer() = 0;
+    virtual QByteArray stopServer() = 0;
 
     /// Return true if GUI server is not running.
     virtual bool isServerRunning() = 0;
@@ -63,8 +70,11 @@ public:
     /// Set clipboard through monitor process.
     virtual void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain")) = 0;
 
-    /// Return errors/warning from server (otherwise empty output).
-    virtual QByteArray readServerErrors() = 0;
+    /**
+     * Return errors/warning from server (otherwise empty output).
+     * If @a readAll is set, read all stderr.
+     */
+    virtual QByteArray readServerErrors(bool readAll = false) = 0;
 
     /// Init test.
     virtual QByteArray init() = 0;

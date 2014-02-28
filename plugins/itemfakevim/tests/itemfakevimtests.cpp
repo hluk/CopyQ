@@ -55,7 +55,7 @@ void ItemFakeVimTests::initTestCase()
 
 void ItemFakeVimTests::cleanupTestCase()
 {
-    QVERIFY(m_test->stopServer());
+    TEST(m_test->stopServer());
 }
 
 void ItemFakeVimTests::init()

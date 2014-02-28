@@ -83,9 +83,6 @@ private slots:
     void nextPreviousTab();
 
 private:
-    bool startServer();
-    bool stopServer();
-    bool isServerRunning();
     void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain"));
     int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
             QByteArray *stderrData = NULL, const QByteArray &in = QByteArray());
