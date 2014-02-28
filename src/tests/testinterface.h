@@ -33,7 +33,7 @@ do { \
     QByteArray errors = errorsOrEmpty; \
     if (!errors.isEmpty()) { \
       qWarning() << errors; \
-      QVERIFY2(false, "Failed with previous stated errors"); \
+      QVERIFY2(false, "Failed with errors above."); \
     } \
 } while (false)
 

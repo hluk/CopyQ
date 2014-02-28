@@ -111,7 +111,10 @@ QString testTab(int index)
 
 bool testStderr(const QByteArray &stderrData)
 {
-    return !stderrData.contains("warning: ") && !stderrData.contains("ERROR: ") && !stderrData.contains("Error: ");
+    return !stderrData.contains("warning: ")
+            && !stderrData.contains("ERROR: ")
+            && !stderrData.contains("Error: ")
+            && !stderrData.contains("ASSERT");
 }
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
@@ -168,6 +171,14 @@ QByteArray generateData(const QByteArray &data)
             + '_' + QByteArray::number(++i);
 }
 
+QByteArray decorateOutput(const QByteArray &label, const QByteArray &stderrOutput)
+{
+    QByteArray output = "\n" + stderrOutput;
+    output.replace('\n', "\n    ");
+    output.prepend("\n  " + label + ":");
+    return output;
+}
+
 class TestInterfaceImpl : public TestInterface {
 public:
     TestInterfaceImpl()
@@ -220,12 +231,12 @@ public:
 
     QByteArray stopServer()
     {
-        QByteArray errors = readServerErrors();
-        if (!errors.isEmpty())
-            return errors;
-
-        if ( run(Args("exit"), NULL, &errors) != 0 )
-            return "Command 'exit' failed. Client STDERR:\n" + errors;
+        QByteArray errors;
+        const int exitCode = run(Args("exit"), NULL, &errors);
+        if ( !testStderr(errors) || exitCode != 0 ) {
+            return "Command 'exit' failed."
+                    + printClienAndServerStderr(errors, exitCode);
+        }
 
         if ( !closeProcess(m_server.data()) )
             return "Failed to close server properly!" + readServerErrors(true);
@@ -263,36 +274,34 @@ public:
         return p.exitCode();
     }
 
+    QByteArray printClienAndServerStderr(const QByteArray &clientStderr, int exitCode)
+    {
+        return "\n  Client exit code: " + QByteArray::number(exitCode) + "\n"
+                + decorateOutput("Client STDERR", clientStderr)
+                + readServerErrors(true);
+    }
+
     QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected)
     {
         if ( !isServerRunning() )
             return "Server is not running!" + readServerErrors(true);
 
-        QByteArray errors = readServerErrors();
-        if (!errors.isEmpty())
-            return errors;
-
         QByteArray stdoutActual;
         QByteArray stderrActual;
         const int exitCode = run(arguments, &stdoutActual, &stderrActual);
 
-        if ( !testStderr(stderrActual) )
-            return stderrActual;
-
-        if (exitCode != 0) {
-            return "Test failed: Exit code is " + QByteArray::number(exitCode)
-                    + "\nError output is:\n" + stderrActual;
-        }
+        if ( !testStderr(stderrActual) || exitCode != 0 )
+            return printClienAndServerStderr(stderrActual, exitCode);
 
         stdoutActual.replace('\r', "");
         if (stdoutActual != stdoutExpected) {
-            return "Test failed: Unexpected output:\n" + stdoutActual
-                    + "\nExpected output was:\n"
-                    + stdoutExpected;
+            return "Test failed: "
+                    + decorateOutput("Unexpected output", stdoutActual)
+                    + decorateOutput("Expected output", stdoutExpected)
+                    + printClienAndServerStderr(stderrActual, exitCode);
         }
 
-        errors = readServerErrors();
-        return errors;
+        return readServerErrors();
     }
 
     void setClipboard(const QByteArray &bytes, const QString &mime)
@@ -322,11 +331,8 @@ public:
     {
         if (m_server) {
             QByteArray output = m_server->readAllStandardError();
-            if ( readAll || !testStderr(output) ) {
-              output.prepend("STDERR:\n");
-              output.replace('\n', "\n        ");
-              return output;
-            }
+            if ( readAll || !testStderr(output) )
+              return decorateOutput("Server STDERR", output);
         }
 
         return QByteArray();
