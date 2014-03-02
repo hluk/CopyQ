@@ -1968,6 +1968,8 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
 void MainWindow::newTab(const QString &name)
 {
     TabDialog *d = new TabDialog(TabDialog::TabNew, this);
+    d->setAttribute(Qt::WA_DeleteOnClose, true);
+
     d->setTabs(ui->tabWidget->tabs());
 
     QString tabPath = name;
@@ -1982,8 +1984,6 @@ void MainWindow::newTab(const QString &name)
 
     connect( d, SIGNAL(accepted(QString, int)),
              this, SLOT(addTab(QString)) );
-    connect( d, SIGNAL(finished(int)),
-             d, SLOT(deleteLater()) );
 
     d->open();
 }
@@ -1991,14 +1991,13 @@ void MainWindow::newTab(const QString &name)
 void MainWindow::renameTabGroup(const QString &name)
 {
     TabDialog *d = new TabDialog(TabDialog::TabGroupRename, this);
+    d->setAttribute(Qt::WA_DeleteOnClose, true);
 
     d->setTabs(ui->tabWidget->tabs());
     d->setTabGroupName(name);
 
     connect( d, SIGNAL(accepted(QString, QString)),
              this, SLOT(renameTabGroup(QString, QString)) );
-    connect( d, SIGNAL(finished(int)),
-             d, SLOT(deleteLater()) );
 
     d->open();
 }
@@ -2018,6 +2017,7 @@ void MainWindow::renameTabGroup(const QString &newName, const QString &oldName)
 void MainWindow::renameTab(int tab)
 {
     TabDialog *d = new TabDialog(TabDialog::TabRename, this);
+    d->setAttribute(Qt::WA_DeleteOnClose, true);
     int i = tab >= 0 ? tab : ui->tabWidget->currentIndex();
     if (i < 0)
         return;
@@ -2028,8 +2028,6 @@ void MainWindow::renameTab(int tab)
 
     connect( d, SIGNAL(accepted(QString, int)),
              this, SLOT(renameTab(QString, int)) );
-    connect( d, SIGNAL(finished(int)),
-             d, SLOT(deleteLater()) );
 
     d->open();
 }
