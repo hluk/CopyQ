@@ -280,6 +280,7 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
     if (loader) {
         COPYQ_LOG( QString("Tab \"%1\": %2 items loaded").arg(tabName).arg(model.rowCount()) );
     } else {
+        model.removeRows(0, model.rowCount());
         COPYQ_LOG( QString("Tab \"%1\": Disabled").arg(tabName) );
     }
 

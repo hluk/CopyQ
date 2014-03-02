@@ -269,10 +269,7 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
         model->setData( model->index(i, 0), dataMap, contentType::data );
     }
 
-    if (stream2.status() != QDataStream::Ok)
-        return false;
-
-    return true;
+    return stream2.status() == QDataStream::Ok;
 }
 
 bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file)

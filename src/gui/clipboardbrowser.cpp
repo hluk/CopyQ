@@ -1864,6 +1864,7 @@ void ClipboardBrowser::loadItemsAgain()
         updateCurrentPage();
         setCurrent(0);
     } else if (m_loadButton == NULL) {
+        Q_ASSERT(length() == 0 && "Disabled model should be empty");
         m_loadButton = new QPushButton(this);
         m_loadButton->setFlat(true);
         m_loadButton->resize( size() );
