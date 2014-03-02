@@ -171,6 +171,8 @@ public slots:
 
     void renameTab(const QString &arg1, const QString &arg2)
     {
+        v = QString();
+
         if ( arg1.isEmpty() || arg2.isEmpty() ) {
             v = tabNameEmptyError();
             return;
@@ -188,11 +190,12 @@ public slots:
         }
 
         m_wnd->renameTab(arg1, i);
-        v = QString();
     }
 
     void removeTab(const QString &arg1)
     {
+        v = QString();
+
         if ( arg1.isEmpty() ) {
             v = tabNameEmptyError();
             return;
@@ -205,7 +208,6 @@ public slots:
         }
 
         m_wnd->removeTab(false, i);
-        v = QString();
     }
 
     void showBrowser()
@@ -255,6 +257,7 @@ public slots:
     void loadTab(const QString &arg1) { v = m_wnd->loadTab(arg1); }
     void saveTab(const QString &arg1)
     {
+        v = QString();
         ClipboardBrowser *c = fetchBrowser();
         if (c) {
             const int i = m_wnd->tabIndex(c);
@@ -286,6 +289,8 @@ public slots:
     void sendKeys(const QString &keys)
     {
 #ifdef HAS_TESTS
+        v = QString();
+
         QWidget *w = QApplication::focusWidget();
         if (!w) {
             v = QString("Cannot send keys, no widget is focused!");
@@ -316,8 +321,6 @@ public slots:
                                        Q_ARG(const QPointer<QWidget> &, w)
                                       );
         }
-
-        v = QString();
 #else
         Q_UNUSED(keys);
         v = QString("This is only available if tests are compiled!");
