@@ -25,6 +25,7 @@
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"
 
+#include <QDialog>
 #include <QMetaObject>
 #include <QObject>
 #include <QSharedPointer>
@@ -290,6 +291,9 @@ public slots:
     {
 #ifdef HAS_TESTS
         v = QString();
+
+        if (keys == "FLUSH_KEYS")
+            return;
 
         QWidget *w = QApplication::focusWidget();
         if (!w) {

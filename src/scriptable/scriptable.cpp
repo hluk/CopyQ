@@ -936,6 +936,9 @@ void Scriptable::keys()
             throwError(error);
             return;
         }
+
+        // Make sure all keys are send (shortcuts are postponed because they can be blocked by modal windows).
+        m_proxy->sendKeys("FLUSH_KEYS");
     }
 #endif
 }

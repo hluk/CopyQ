@@ -96,8 +96,10 @@ void ScriptableWorker::run()
             QScriptValue result = fn.call(QScriptValue(), fnArgs);
 
             if ( engine.hasUncaughtException() ) {
-                COPYQ_LOG( msg.arg("command error (\"%1\")").arg(cmd) );
-                response = engine.uncaughtException().toString().toLocal8Bit() + '\n';
+                const QString exceptionText = engine.uncaughtException().toString();
+                COPYQ_LOG( msg.arg(QString("error in command \"%1\": %2")
+                                   .arg(cmd).arg(exceptionText)) );
+                response = exceptionText.toLocal8Bit() + '\n';
                 exitCode = CommandError;
                 engine.clearExceptions();
             } else {
