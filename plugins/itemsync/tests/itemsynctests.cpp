@@ -43,11 +43,12 @@ QString fileNameForId(int i)
 
 class TestDir {
 public:
-    TestDir(int i)
+    TestDir(int i, bool createPath = true)
         : m_dir(ItemSyncTests::testDir(i))
     {
         clear();
-        create();
+        if (createPath)
+            create();
     }
 
     ~TestDir()
@@ -147,6 +148,14 @@ void ItemSyncTests::cleanupTestCase()
 void ItemSyncTests::init()
 {
     TEST(m_test->init());
+
+    // Remove temporary directory.
+    for (int i = 0; i < 10; ++i)
+        TestDir(i, false);
+
+    QDir tmpDir(QDir::cleanPath(testDir(0) + "/.."));
+    if ( tmpDir.exists() )
+        QVERIFY(tmpDir.rmdir("."));
 }
 
 void ItemSyncTests::cleanup()
