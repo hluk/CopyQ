@@ -49,6 +49,15 @@ do { \
  */
 class TestInterface {
 public:
+    enum ReadStderrFlag {
+        // Read errors from stderr (lines with "Error:", "Warning:" and similar).
+        ReadErrors = 0,
+        // Read all stderr.
+        ReadAllStderr = 1,
+        // Read errors from stderr but omit single exception in script.
+        ReadErrorsWithoutScriptException = 2
+    };
+
     virtual ~TestInterface() {}
 
     /// Start or restart GUI server and return true if successful.
@@ -65,7 +74,12 @@ public:
                     QByteArray *stderrData = NULL, const QByteArray &in = QByteArray()) = 0;
 
     /// Run client with given @a arguments and read all errors/warnings.
-    virtual QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected) = 0;
+    virtual QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,
+                                 const QByteArray &input = QByteArray()) = 0;
+
+    /// Run client with given @a arguments and expect errors/warnings on server and client side.
+    virtual QByteArray runClientWithError(const QStringList &arguments, int expectedExitCode,
+                                          const QByteArray &stderrContains = QByteArray()) = 0;
 
     /// Set clipboard through monitor process.
     virtual void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain")) = 0;
@@ -74,7 +88,7 @@ public:
      * Return errors/warning from server (otherwise empty output).
      * If @a readAll is set, read all stderr.
      */
-    virtual QByteArray readServerErrors(bool readAll = false) = 0;
+    virtual QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors) = 0;
 
     /// Init test.
     virtual QByteArray init() = 0;

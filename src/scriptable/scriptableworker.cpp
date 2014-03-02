@@ -77,17 +77,32 @@ void ScriptableWorker::run()
     int exitCode;
 
     if ( m_args.length() <= Arguments::Rest ) {
-        COPYQ_LOG( msg.arg("bad command syntax") );
+        COPYQ_LOG( msg.arg("Error: bad command syntax") );
         exitCode = CommandBadSyntax;
     } else {
         const QString cmd = QString::fromUtf8( m_args.at(Arguments::Rest) );
+#ifdef COPYQ_LOG_DEBUG
+        COPYQ_LOG( msg.arg(QString("Client arguments:")) );
+        for (int i = Arguments::Rest; i < m_args.length(); ++i)
+            COPYQ_LOG( msg.arg("    " + QString::fromLocal8Bit(m_args.at(i))) );
+#endif
+
+#ifdef HAS_TESTS
+        if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
+            COPYQ_LOG( msg.arg(QString("flush ID:") + QString::fromLocal8Bit(m_args.at(Arguments::Rest + 1))) );
+            scriptable.sendMessageToClient(QByteArray(), CommandFinished);
+            return;
+        }
+#endif
 
         QScriptValue fn = engine.globalObject().property(cmd);
         if ( !fn.isFunction() ) {
-            COPYQ_LOG( msg.arg("unknown command") );
-            response = Scriptable::tr("Name \"%1\" doesn't refer to a function.")
-                    .arg(cmd).toLocal8Bit() + '\n';
-            exitCode = CommandBadSyntax;
+            COPYQ_LOG( msg.arg("Error: unknown command") );
+            response = createLogMessage("CopyQ client",
+                                        Scriptable::tr("Name \"%1\" doesn't refer to a function.")
+                                        .arg(cmd),
+                                        LogError).toLocal8Bit();
+            exitCode = CommandError;
         } else {
             QScriptValueList fnArgs;
             for ( int i = Arguments::Rest + 1; i < m_args.length(); ++i )
@@ -97,11 +112,10 @@ void ScriptableWorker::run()
 
             if ( engine.hasUncaughtException() ) {
                 const QString exceptionText = engine.uncaughtException().toString();
-                COPYQ_LOG( msg.arg(QString("error in command \"%1\": %2")
+                COPYQ_LOG( msg.arg(QString("Error: exception in command \"%1\": %2")
                                    .arg(cmd).arg(exceptionText)) );
-                response = exceptionText.toLocal8Bit() + '\n';
+                response = createLogMessage("CopyQ client", exceptionText, LogError).toLocal8Bit();
                 exitCode = CommandError;
-                engine.clearExceptions();
             } else {
                 QByteArray *bytes = qscriptvalue_cast<QByteArray*>(result.data());
                 if (bytes != NULL)

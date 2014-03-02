@@ -36,6 +36,7 @@
 #include <QLocalSocket>
 #include <QMimeData>
 #include <QProcess>
+#include <QRegExp>
 #include <QScopedPointer>
 #include <QTemporaryFile>
 #include <QTest>
@@ -109,12 +110,28 @@ QString testTab(int index)
     return QString("TEST_&%1").arg(index);
 }
 
-bool testStderr(const QByteArray &stderrData)
+bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
-    return !stderrData.contains("warning: ")
-            && !stderrData.contains("ERROR: ")
-            && !stderrData.contains("Error: ")
-            && !stderrData.contains("ASSERT");
+    const QString scriptExceptionError = "Scripting engine: Error:";
+    static const QRegExp re(scriptExceptionError + "|warning:|error:|ASSERT", Qt::CaseInsensitive);
+    int from = 0;
+    bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
+    const QString output = QString::fromLocal8Bit(stderrData);
+    forever {
+        from = output.indexOf(re, from);
+        if (from == -1)
+            return true;
+
+        if ( skipScriptException && output.midRef(from).startsWith(scriptExceptionError) )
+            skipScriptException = false;
+        else
+            return false;
+
+        // Skip processed line.
+        from = output.indexOf('\n', from);
+        if (from == -1)
+            return true;
+    }
 }
 
 QByteArray getClipboard(const QString &mime = QString("text/plain"))
@@ -219,7 +236,7 @@ public:
         waitFor(2000);
 
         if ( !isServerRunning() )
-            return "Unable to start server!" + readServerErrors(true);
+            return "Unable to start server!" + readServerErrors(ReadAllStderr);
 
         QByteArray errors = readServerErrors();
         if (!errors.isEmpty())
@@ -238,11 +255,11 @@ public:
                     + printClienAndServerStderr(errors, exitCode);
         }
 
-        if ( !closeProcess(m_server.data()) )
-            return "Failed to close server properly!" + readServerErrors(true);
+        if ( !m_server.isNull() && !closeProcess(m_server.data()) )
+            return "Failed to close server properly!" + readServerErrors(ReadAllStderr);
 
         if ( isServerRunning() || isAnyServerRunning() )
-            return "Unable to stop server!" + readServerErrors(true);
+            return "Unable to stop server!" + readServerErrors(ReadAllStderr);
 
         return readServerErrors();
     }
@@ -278,17 +295,18 @@ public:
     {
         return "\n  Client exit code: " + QByteArray::number(exitCode) + "\n"
                 + decorateOutput("Client STDERR", clientStderr)
-                + readServerErrors(true);
+                + readServerErrors(ReadAllStderr);
     }
 
-    QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected)
+    QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,
+                         const QByteArray &input = QByteArray())
     {
         if ( !isServerRunning() )
-            return "Server is not running!" + readServerErrors(true);
+            return "Server is not running!" + readServerErrors(ReadAllStderr);
 
         QByteArray stdoutActual;
         QByteArray stderrActual;
-        const int exitCode = run(arguments, &stdoutActual, &stderrActual);
+        const int exitCode = run(arguments, &stdoutActual, &stderrActual, input);
 
         if ( !testStderr(stderrActual) || exitCode != 0 )
             return printClienAndServerStderr(stderrActual, exitCode);
@@ -302,6 +320,47 @@ public:
         }
 
         return readServerErrors();
+    }
+
+    QByteArray runClientWithError(const QStringList &arguments, int expectedExitCode,
+                                  const QByteArray &stderrContains = QByteArray())
+    {
+        Q_ASSERT(expectedExitCode != 0);
+
+        if ( !isServerRunning() )
+            return "Server is not running!" + readServerErrors(ReadAllStderr);
+
+        QByteArray stdoutActual;
+        QByteArray stderrActual;
+        const int exitCode = run(arguments, &stdoutActual, &stderrActual);
+
+        if ( testStderr(stderrActual) ) {
+            return "Test failed: Expected error output on client side."
+                    + printClienAndServerStderr(stderrActual, exitCode);
+        }
+
+        stdoutActual.replace('\r', "");
+        if ( !stdoutActual.isEmpty() ) {
+            return "Test failed: Expected empty output."
+                    + decorateOutput("Unexpected output", stdoutActual)
+                    + printClienAndServerStderr(stderrActual, exitCode);
+        }
+
+        if (exitCode != expectedExitCode) {
+            return QString("Test failed: Unexpected exit code %1; expected was %2")
+                    .arg(exitCode)
+                    .arg(expectedExitCode)
+                    .toLocal8Bit()
+                    + printClienAndServerStderr(stderrActual, exitCode);
+        }
+
+        if ( !stderrActual.contains(stderrContains) ) {
+            return QString("Test failed: Expected error output on client side with \"%1\".")
+                    .arg(QString::fromLocal8Bit(stderrContains)).toLocal8Bit()
+                    + printClienAndServerStderr(stderrActual, exitCode);
+        }
+
+        return readServerErrors(ReadErrorsWithoutScriptException);
     }
 
     void setClipboard(const QByteArray &bytes, const QString &mime)
@@ -327,11 +386,31 @@ public:
         waitFor(200);
     }
 
-    QByteArray readServerErrors(bool readAll = false)
+    QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors)
     {
         if (m_server) {
             QByteArray output = m_server->readAllStandardError();
-            if ( readAll || !testStderr(output) )
+
+            // Flush server output.
+            if (m_server->state() != QProcess::NotRunning) {
+                QByteArray data = generateData("FLUSH_");
+                if ( run(Args("flush") << data) == 0 ) {
+                    QElapsedTimer t;
+                    t.start();
+                    forever {
+                        output.append(m_server->readAllStandardError());
+                        if (output.contains("ID:" + data))
+                            break;
+                        if (t.elapsed() > 5000) {
+                            qWarning() << "failed to flush server output";
+                            break;
+                        }
+                        QApplication::processEvents(QEventLoop::WaitForMoreEvents);
+                    }
+                }
+            }
+
+            if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
         }
 
@@ -586,21 +665,15 @@ void Tests::badCommand()
 {
     QByteArray stdoutActual;
     QByteArray stderrActual;
-    QCOMPARE( run(Args("xxx"), &stdoutActual, &stderrActual), 2 );
-    QVERIFY( !stderrActual.isEmpty() );
-    QVERIFY( stdoutActual.isEmpty() );
-    QVERIFY( stderrActual.contains("xxx") );
+    TEST( m_test->runClientWithError(Args("xxx"), 1, "xxx") );
 
-    QCOMPARE( run(Args("tab") << testTab(1) << "yyy", &stdoutActual, &stderrActual), 2 );
-    QVERIFY( !stderrActual.isEmpty() );
-    QVERIFY( stdoutActual.isEmpty() );
-    QVERIFY( stderrActual.contains("yyy") );
+    TEST( m_test->runClientWithError(Args("tab") << testTab(1) << "yyy", 1, "yyy") );
 
     // Bad command shoudn't create new tab.
     QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( !QString::fromLocal8Bit(stdoutActual)
-             .contains("^" + QRegExp::escape(testTab(1)) + "$") );
+             .contains(QRegExp("^" + QRegExp::escape(testTab(1)) + "$")) );
 }
 
 void Tests::copyCommand()
@@ -850,20 +923,18 @@ void Tests::renameTab()
     RUN(Args("tab") << tab2 << "read" << "0" << "1" << "2", "ghi\ndef\nabc");
     QVERIFY( !hasTab(tab1) );
 
-    QByteArray stderrData;
     // Rename non-existing tab.
-    QCOMPARE( run(Args("renametab") << tab1 << tab2, NULL, &stderrData), 1 );
-    QVERIFY( !stderrData.isEmpty() );
+    TEST( m_test->runClientWithError(Args("renametab") << tab1 << tab2, 1) );
+
     // Rename to same name.
-    QCOMPARE( run(Args("renametab") << tab2 << tab2, NULL, &stderrData), 1 );
-    QVERIFY( !stderrData.isEmpty() );
+    TEST( m_test->runClientWithError(Args("renametab") << tab2 << tab2, 1) );
+
     // Rename to empty name.
-    QCOMPARE( run(Args("renametab") << tab2 << "", NULL, &stderrData), 1 );
-    QVERIFY( !stderrData.isEmpty() );
+    TEST( m_test->runClientWithError(Args("renametab") << tab2 << "", 1) );
+
     // Rename to existing tab.
     RUN(Args("tab") << tab3 << "add" << "xxx", "");
-    QCOMPARE( run(Args("renametab") << tab2 << tab3, NULL, &stderrData), 1 );
-    QVERIFY( !stderrData.isEmpty() );
+    TEST( m_test->runClientWithError(Args("renametab") << tab2 << tab3, 1) );
 
     QVERIFY( !hasTab(tab1) );
     QVERIFY( hasTab(tab2) );
@@ -938,9 +1009,7 @@ void Tests::eval()
 
     RUN(Args("eval") << "print('123')", "123");
 
-    QByteArray stderrData;
-    QCOMPARE( run(Args("eval") << "x", NULL, &stderrData), 1 );
-    QVERIFY( !stderrData.isEmpty() );
+    TEST( m_test->runClientWithError(Args("eval") << "x", 1) );
 
     RUN(Args("eval") << QString("tab('%1');add('abc');tab('%2');add('def');").arg(tab1).arg(tab2), "");
     RUN(Args("eval") << QString("tab('%1');if (size() === 1) print('ok')").arg(tab1), "ok");
@@ -958,13 +1027,12 @@ void Tests::rawData()
         QByteArray input("\x00\x01\x02\x03\x04", 5);
         QString arg1 = QString::fromLatin1("\x01\x02\x03\x04");
         QString arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
-        QByteArray stderrData;
-        QCOMPARE( run(Args(args) << "write"
-                      << MIME_PREFIX "test1" << arg1
-                      << MIME_PREFIX "test2" << "-"
-                      << MIME_PREFIX "test3" << arg2 ,
-                  NULL, &stderrData, input), 0);
-        QVERIFY2(testStderr(stderrData), stderrData);
+        TEST( m_test->runClient(
+                  Args(args) << "write"
+                  << MIME_PREFIX "test1" << arg1
+                  << MIME_PREFIX "test2" << "-"
+                  << MIME_PREFIX "test3" << arg2, "",
+                  input) );
         RUN(Args(args) << "read" << MIME_PREFIX "test1" << "0", arg1.toLatin1());
         RUN(Args(args) << "read" << MIME_PREFIX "test2" << "0", input);
         RUN(Args(args) << "read" << MIME_PREFIX "test3" << "0", arg2.toLatin1());
@@ -1007,13 +1075,10 @@ void Tests::options()
     QVERIFY( !stdoutActual.isEmpty() );
 
     // invalid option
-    QCOMPARE( run(Args("config") << "xxx", &stdoutActual, &stderrActual), 1 );
-    QVERIFY( !testStderr(stderrActual) );
-    QVERIFY( stdoutActual.isEmpty() );
-    QVERIFY( stderrActual.contains("xxx") );
+    TEST( m_test->runClientWithError(Args("config") << "xxx", 1, "xxx") );
 
     QCOMPARE( run(Args("config") << "tab_tree", &stdoutActual, &stderrActual), 0 );
-    QVERIFY( testStderr(stderrActual) );
+    QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( stdoutActual == "true\n" || stdoutActual == "false\n" );
 
     RUN(Args("config") << "tab_tree" << "true", "");
