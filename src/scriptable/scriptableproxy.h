@@ -148,6 +148,7 @@ public:
       , m_lock()
     {
         qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
+        moveToThread(m_wnd->thread());
     }
 
     const QVariant &value() const { return v; }
@@ -395,7 +396,6 @@ public:
         : m_helper(new detail::ScriptableProxyHelper(mainWindow))
     {
         qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
-        m_helper->moveToThread(mainWindow->thread());
     }
 
     ~ScriptableProxy() { delete m_helper; }

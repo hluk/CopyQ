@@ -61,6 +61,17 @@ void ClientSocket::deleteAfterDisconnected()
     }
 }
 
+void ClientSocket::close()
+{
+    if ( !m_socket.isNull() )
+        m_socket->disconnectFromServer();
+}
+
+bool ClientSocket::isClosed() const
+{
+    return m_socket.isNull() || m_socket->state() == QLocalSocket::UnconnectedState;
+}
+
 void ClientSocket::onReadyRead()
 {
     QByteArray msg;

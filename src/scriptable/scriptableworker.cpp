@@ -20,35 +20,27 @@
 #include "scriptableworker.h"
 
 #include "common/client_server.h"
-#include "scriptable.h"
+#include "common/clientsocket.h"
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
 #include <QLocalSocket>
+#include <QObject>
 #include <QScriptEngine>
 
 Q_DECLARE_METATYPE(QByteArray*)
 
 ScriptableWorker::ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow,
-                                   const Arguments &args, QObject *socket, QObject *parent)
-    : QObject(parent)
-    , QRunnable()
+                                   const Arguments &args, ClientSocket *socket)
+    : QRunnable()
     , m_wnd(mainWindow)
     , m_args(args)
     , m_socket(socket)
-    , m_terminated(false)
 {
-    if (m_socket) {
-        connect(m_socket, SIGNAL(disconnected()), SLOT(terminate()));
-        connect(this, SIGNAL(terminated()), m_socket, SLOT(deleteAfterDisconnected()));
-    }
 }
 
 void ScriptableWorker::run()
 {
-    if (m_terminated)
-        return;
-
 #ifdef COPYQ_LOG_DEBUG
     QString msg = QString("Scripting engine: %1");
 #endif
@@ -58,20 +50,27 @@ void ScriptableWorker::run()
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd);
     Scriptable scriptable(&proxy);
-    scriptable.abort();
     scriptable.initEngine( &engine, QString::fromUtf8(m_args.at(Arguments::CurrentPath)) );
 
     if (m_socket) {
-        connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
-                 m_socket, SLOT(sendMessage(QByteArray,int)) );
-        connect( m_socket, SIGNAL(messageReceived(QByteArray)),
-                 &scriptable, SLOT(setInput(QByteArray)) );
+        QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
+                          m_socket, SLOT(sendMessage(QByteArray,int)) );
+        QObject::connect( m_socket, SIGNAL(messageReceived(QByteArray)),
+                          &scriptable, SLOT(setInput(QByteArray)) );
+
+        QObject::connect( m_socket, SIGNAL(disconnected()),
+                          &scriptable, SLOT(abort()) );
+        QObject::connect( &scriptable, SIGNAL(destroyed()),
+                          m_socket, SLOT(deleteAfterDisconnected()) );
+
+        if ( m_socket->isClosed() ) {
+            COPYQ_LOG( msg.arg("terminated") );
+            return;
+        }
     }
 
-    connect( &scriptable, SIGNAL(requestApplicationQuit()),
-             qApp, SLOT(quit()) );
-    connect( this, SIGNAL(terminated()),
-             &scriptable, SLOT(abort()) );
+    QObject::connect( &scriptable, SIGNAL(requestApplicationQuit()),
+                      qApp, SLOT(quit()) );
 
     QByteArray response;
     int exitCode;
@@ -130,19 +129,4 @@ void ScriptableWorker::run()
     scriptable.sendMessageToClient(response, exitCode);
 
     COPYQ_LOG( msg.arg("finished") );
-
-    emit terminated();
-}
-
-void ScriptableWorker::terminate()
-{
-    if (m_terminated)
-        return;
-
-#ifdef COPYQ_LOG_DEBUG
-    COPYQ_LOG( QString("Scripting engine: %1").arg("terminating") );
-#endif
-
-    m_terminated = true;
-    emit terminated();
 }

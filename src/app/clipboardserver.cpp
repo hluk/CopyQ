@@ -290,11 +290,11 @@ void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)
     // after run() (see QRunnable::setAutoDelete()).
     ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client);
 
-    // Terminate worker at application exit.
-    connect( this, SIGNAL(terminateClientThreads()),
-             worker, SLOT(terminate()) );
-
     if (client != NULL) {
+        // Terminate worker at application exit.
+        connect( this, SIGNAL(terminateClientThreads()),
+                 client, SLOT(close()) );
+
         // Add client thread to pool.
         m_clientThreads.start(worker);
     } else {

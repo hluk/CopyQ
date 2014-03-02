@@ -22,33 +22,29 @@
 
 #include "common/arguments.h"
 #include "common/common.h"
+#include "gui/mainwindow.h"
+#include "scriptable/scriptable.h"
+#include "scriptable/scriptableproxy.h"
 
-#include <QObject>
 #include <QRunnable>
 #include <QSharedPointer>
 
+class ClientSocket;
 class MainWindow;
 class QLocalSocket;
 
-class ScriptableWorker : public QObject, public QRunnable
+class ScriptableWorker : public QRunnable
 {
-    Q_OBJECT
 public:
     ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow, const Arguments &args,
-                     QObject *socket, QObject *parent = NULL);
+                     ClientSocket *socket);
 
-public slots:
     void run();
-    void terminate();
-
-signals:
-    void terminated();
 
 private:
     QSharedPointer<MainWindow> m_wnd;
     Arguments m_args;
-    QObject *m_socket;
-    bool m_terminated;
+    ClientSocket *m_socket;
 };
 
 #endif // SCRIPTABLEWORKER_H

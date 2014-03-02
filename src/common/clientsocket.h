@@ -38,6 +38,10 @@ public slots:
             );
     void deleteAfterDisconnected();
 
+    void close();
+
+    bool isClosed() const;
+
 signals:
     void messageReceived(const QByteArray &message);
     void disconnected();
