@@ -19,6 +19,8 @@
 
 #include "itemsynctests.h"
 
+#include "common/common.h"
+
 #include <QDir>
 #include <QTemporaryFile>
 #include <QTest>
@@ -437,4 +439,90 @@ void ItemSyncTests::notes()
 
     RUN(Args(args) << "read" << mimeItemNotes << "0" << "1" << "2", ";;");
     RUN(Args(args) << "size", "3\n");
+}
+
+void ItemSyncTests::customFormats()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+    const Args args = Args() << "separator" << ";" << "tab" << tab1;
+
+    const QByteArray data1 = "Custom format content";
+    createFile(dir1, "test1.xxx", data1);
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "size", "1\n");
+    RUN(Args(args) << "keys" << "LEFT", "");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-xxx" << "0", data1);
+
+    const QByteArray data2 = "Other custom format content";
+    createFile(dir1, "test2.yyy", data2);
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "size", "2\n");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0", data2);
+
+    const QByteArray data3 = "Last custom format content";
+    createFile(dir1, "test3.zzz", data3);
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "size", "3\n");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0", data3);
+
+    RUN(Args(args) << "read" << MIME_PREFIX "test-xxx" << "0" << "1" << "2",
+        ";;" + data1);
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << "1" << "2",
+        data3 + ";" + data2 + ";");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << "1" << MIME_PREFIX "test-xxx" << "2",
+        data3 + ";" + data2 + ";" + data1);
+
+    // Remove
+    dir1.remove("test2.yyy");
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "size", "2\n");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << MIME_PREFIX "test-xxx" << "1",
+        data3 + ";" + data1);
+
+    // Modify file
+    const QByteArray data4 = " with update!";
+    FilePtr file = dir1.file("test1.xxx");
+    QVERIFY(file->open(QIODevice::Append));
+    file->write(data4);
+    file->close();
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "size", "2\n");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << MIME_PREFIX "test-xxx" << "1",
+        data3 + ";" + data1 + data4);
+
+    // Create item with custom data
+    const QByteArray data5 = "New item data!";
+    RUN(Args(args) << "write" << MIME_PREFIX "test-zzz" << data5, "");
+
+    RUN(Args(args) << "size", "3\n");
+
+    const QString fileData = QString(fileNameForId(0)).replace("txt", "zzz");
+
+    // Check data
+    const QByteArray data6 = " And another data!";
+    file = dir1.file(fileData);
+    QVERIFY(file->exists());
+    QVERIFY(file->open(QIODevice::ReadWrite));
+    QCOMPARE(file->readAll().data(), data5.data());
+
+    // Modify data
+    file->write(data6);
+    file->close();
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "size", "3\n");
+    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << "1" << MIME_PREFIX "test-xxx" << "2",
+        data5 + data6 + ";" + data3 + ";" + data1 + data4);
 }

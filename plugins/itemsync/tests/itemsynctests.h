@@ -53,6 +53,8 @@ private slots:
 
     void notes();
 
+    void customFormats();
+
 private:
     TestInterfacePtr m_test;
 };

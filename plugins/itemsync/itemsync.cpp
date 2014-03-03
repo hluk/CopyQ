@@ -1582,8 +1582,18 @@ QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
         tabPaths.append(ItemSyncTests::testDir(i));
     }
 
-    // TODO: Test formats.
     QVariantList formatSettings;
+    QVariantMap format;
+
+    format["formats"] = QStringList() << "xxx";
+    format["itemMime"] = QString(MIME_PREFIX "test-xxx");
+    format["icon"] = QString(iconFromId(IconTrash));
+    formatSettings << format;
+
+    format["formats"] = QStringList() << "zzz" << ".yyy";
+    format["itemMime"] = QString(MIME_PREFIX "test-zzz");
+    format["icon"] = QString();
+    formatSettings << format;
 
     QVariantMap settings;
     settings[configSyncTabs] = tabPaths;
