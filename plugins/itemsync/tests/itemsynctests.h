@@ -51,6 +51,8 @@ private slots:
     void modifyItems();
     void modifyFiles();
 
+    void notes();
+
 private:
     TestInterfacePtr m_test;
 };

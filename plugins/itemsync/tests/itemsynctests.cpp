@@ -384,3 +384,57 @@ void ItemSyncTests::modifyFiles()
     RUN(Args(args) << "size", "4\n");
     RUN(Args(args) << "read" << "0" << "1" << "2" << "3", "D,CX,B,A");
 }
+
+void ItemSyncTests::notes()
+{
+    TestDir dir1(1);
+    const QString tab1 = testTab(1);
+
+    const Args args = Args() << "separator" << ";" << "tab" << tab1;
+
+    RUN(Args(args) << "add" << "TEST1", "");
+    RUN(Args(args) << "keys" << "LEFT", "");
+    RUN(Args(args) << "keys" << "CTRL+N" << ":TEST2" << "F2", "");
+    RUN(Args(args) << "keys" << "CTRL+N" << ":TEST3" << "F2", "");
+    RUN(Args(args) << "size", "3\n");
+    RUN(Args(args) << "read" << "0" << "1" << "2", "TEST3;TEST2;TEST1");
+
+    const QString fileTest1 = fileNameForId(0);
+    const QString fileTest2 = fileNameForId(1);
+    const QString fileTest3 = fileNameForId(2);
+
+    const QStringList files1 = QStringList() << fileTest1 << fileTest2 << fileTest3;
+
+    QCOMPARE( dir1.files().join(sep), files1.join(sep) );
+
+    RUN(Args(args) << "keys" << "HOME" << "DOWN" << "SHIFT+F2" << ":NOTE1" << "F2", "");
+    RUN(Args(args) << "read" << mimeItemNotes << "0" << "1" << "2", ";NOTE1;");
+
+    // One new file for notes.
+    const QStringList files2 = dir1.files();
+    const QSet<QString> filesDiff = files2.toSet() - files1.toSet();
+    QCOMPARE( filesDiff.size(), 1 );
+    const QString fileNote = *filesDiff.begin();
+
+    // Read file with the notes.
+    FilePtr file = dir1.file(fileNote);
+    QVERIFY(file->open(QIODevice::ReadWrite));
+    QCOMPARE(file->readAll().data(), QByteArray("NOTE1").data());
+
+    // Modify notes.
+    file->write("+NOTE2");
+    file->close();
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "read" << mimeItemNotes << "0" << "1" << "2", ";NOTE1+NOTE2;");
+    RUN(Args(args) << "size", "3\n");
+
+    // Remove notes.
+    QVERIFY(file->remove());
+
+    QTest::qSleep(waitMsFiles);
+
+    RUN(Args(args) << "read" << mimeItemNotes << "0" << "1" << "2", ";;");
+    RUN(Args(args) << "size", "3\n");
+}
