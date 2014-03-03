@@ -26,6 +26,7 @@
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
+#include "gui/configtabshortcuts.h"
 
 #include <QApplication>
 #include <QClipboard>
@@ -470,6 +471,10 @@ public:
             return errors;
 
         // Enable clipboard monitoring.
+        errors = runClient(Args("config") << "check_clipboard" << "true", "");
+        if ( !errors.isEmpty() )
+            return errors;
+
         return runClient(Args("enable"), "");
     }
 
@@ -1327,6 +1332,29 @@ void Tests::nextPreviousTab()
             RUN(Args() << "selectedtab", "CLIPBOARD\n");
         }
     }
+}
+
+void Tests::openAndSavePreferences()
+{
+    const Args args = Args() << "config" << "check_clipboard";
+
+    RUN(Args(args) << "true", "");
+    RUN(Args(args), "true\n");
+    RUN(Args(args) << "false", "");
+    RUN(Args(args), "false\n");
+
+    // Open preferences dialog.
+    RUN(Args() << "keys" << ConfigTabShortcuts::tr("Ctrl+P"), "");
+
+    // Focus and set wrap text option.
+    // This behavior could differ on some systems and in other languages.
+    RUN(Args() << "keys" << "ALT+1" << "ENTER", "");
+    RUN(Args(args), "true\n");
+
+    RUN(Args(args) << "false", "");
+    RUN(Args(args), "false\n");
+    RUN(Args(args) << "true", "");
+    RUN(Args(args), "true\n");
 }
 
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)

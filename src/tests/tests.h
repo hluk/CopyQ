@@ -82,6 +82,8 @@ private slots:
 
     void nextPreviousTab();
 
+    void openAndSavePreferences();
+
 private:
     void clearServerErrors();
     void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain"));

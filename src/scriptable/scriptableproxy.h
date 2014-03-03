@@ -313,7 +313,7 @@ public slots:
 
             QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 50);
         } else {
-            const QKeySequence shortcut(keys);
+            const QKeySequence shortcut(keys, QKeySequence::PortableText);
 
             if ( shortcut.isEmpty() ) {
                 v = QString("Cannot parse key \"%1\"!").arg(keys);
