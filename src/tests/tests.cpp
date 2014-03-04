@@ -49,7 +49,7 @@ do { \
 } while (0)
 
 #define RUN(arguments, stdoutExpected) \
-    TEST( m_test->runClient(arguments, toByteArray(stdoutExpected)) );
+    TEST( m_test->runClient(arguments, toByteArray(stdoutExpected)) )
 
 #define WAIT_UNTIL(arguments, CONDITION, stdoutActual) \
 do { \
@@ -1355,6 +1355,51 @@ void Tests::openAndSavePreferences()
     RUN(Args(args), "false\n");
     RUN(Args(args) << "true", "");
     RUN(Args(args), "true\n");
+}
+
+void Tests::tray()
+{
+    RUN(Args() << "tab" << testTab(1) << "add" << "C" << "B" << "A", "");
+    RUN(Args() << "tab" << testTab(2) << "add" << "Z" << "Y" << "X", "");
+
+    RUN(Args() << "config" << "move" << "false", "");
+    RUN(Args() << "config" << "move", "false\n");
+    RUN(Args() << "config" << "tray_tab_is_current" << "false", "");
+    RUN(Args() << "config" << "tray_tab_is_current", "false\n");
+    RUN(Args() << "config" << "tray_tab" << testTab(1), "");
+    RUN(Args() << "config" << "tray_tab", testTab(1) + "\n");
+    RUN(Args() << "config" << "tray_items" << "3", "");
+    RUN(Args() << "config" << "tray_items", "3\n");
+
+    RUN(Args() << "menu", "");
+    RUN(Args() << "keys" << "DOWN" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("B") );
+    RUN(Args() << "clipboard", "B");
+
+    RUN(Args() << "config" << "tray_tab" << testTab(2), "");
+    RUN(Args() << "config" << "tray_tab", testTab(2) + "\n");
+
+    RUN(Args() << "menu", "");
+    RUN(Args() << "keys" << "DOWN" << "DOWN" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("Z") );
+    RUN(Args() << "clipboard", "Z");
+
+    // Current tab in tray.
+    RUN(Args() << "config" << "tray_tab_is_current" << "true", "");
+    RUN(Args() << "config" << "tray_tab_is_current", "true\n");
+    RUN(Args() << "keys" << "RIGHT", "");
+
+    RUN(Args() << "menu", "");
+    RUN(Args() << "keys" << "DOWN" << "DOWN" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("C") );
+    RUN(Args() << "clipboard", "C");
+
+    RUN(Args() << "keys" << "RIGHT", "");
+
+    RUN(Args() << "menu", "");
+    RUN(Args() << "keys" << "ENTER", "");
+    QVERIFY( waitUntilClipboardSet("X") );
+    RUN(Args() << "clipboard", "X");
 }
 
 void Tests::setClipboard(const QByteArray &bytes, const QString &mime)

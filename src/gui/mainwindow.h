@@ -73,9 +73,9 @@ public:
     /** Return true if in browse mode (i.e. search field is hidden). */
     bool browseMode() const;
 
-    bool isTrayMenuVisible() const;
-
     bool hasRunningAction() const;
+
+    QWidget *trayMenu();
 
 public slots:
     /**
@@ -110,12 +110,6 @@ public slots:
     ClipboardBrowser *createTab(
             const QString &name //!< Name of the new tab.
             );
-
-    /** Return window ID. */
-    WId mainWinId() const;
-
-    /** Return window ID of tray menu. */
-    WId trayMenuWinId() const;
 
     /**
      * Show/hide tray menu. Return true only if menu is shown.

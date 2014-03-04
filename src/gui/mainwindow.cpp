@@ -648,24 +648,14 @@ ClipboardBrowser *MainWindow::createTab(const QString &name)
     return c;
 }
 
-bool MainWindow::isTrayMenuVisible() const
-{
-    return m_trayMenu->isVisible();
-}
-
 bool MainWindow::hasRunningAction() const
 {
     return m_actionHandler->hasRunningAction();
 }
 
-WId MainWindow::mainWinId() const
+QWidget *MainWindow::trayMenu()
 {
-    return winId();
-}
-
-WId MainWindow::trayMenuWinId() const
-{
-    return m_trayMenu->winId();
+    return m_trayMenu;
 }
 
 void MainWindow::showMessage(const QString &title, const QString &msg,

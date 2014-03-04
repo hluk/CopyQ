@@ -250,8 +250,8 @@ public slots:
     void tabs() { v = m_wnd->tabs(); }
     void toggleVisible() { v = m_wnd->toggleVisible(); }
     void toggleMenu() { v = m_wnd->toggleMenu(); }
-    void mainWinId() { v = (qulonglong)m_wnd->mainWinId(); }
-    void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenuWinId(); }
+    void mainWinId() { v = (qulonglong)m_wnd->winId(); }
+    void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenu()->winId(); }
     void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
 
     void openActionDialog(const QVariantMap &arg1) { v = (qulonglong)m_wnd->openActionDialog(arg1); }
@@ -296,10 +296,14 @@ public slots:
         if (keys == "FLUSH_KEYS")
             return;
 
-        QWidget *w = QApplication::focusWidget();
-        if (!w) {
-            v = QString("Cannot send keys, no widget is focused!");
-            return;
+        QWidget *w = m_wnd->trayMenu();
+
+        if ( !w->isVisible() ) {
+            w = QApplication::focusWidget();
+            if (!w) {
+                v = QString("Cannot send keys, no widget is focused!");
+                return;
+            }
         }
 
         if (keys.startsWith(":")) {
