@@ -62,7 +62,6 @@ do { \
         QVERIFY( m_test->isServerRunning() ); \
         QByteArray stderrActual; \
         QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
-        stdoutActual.replace('\r', ""); \
         QVERIFY2( testStderr(stderrActual), stderrActual ); \
         VERIFY_SERVER_OUTPUT(); \
         success = CONDITION; \
@@ -284,10 +283,15 @@ public:
         if ( !closeProcess(&p) )
             return -3;
 
-        if (stdoutData != NULL)
+        if (stdoutData != NULL) {
             *stdoutData = p.readAllStandardOutput();
-        if (stderrData != NULL)
+            stdoutData->replace('\r', "");
+        }
+
+        if (stderrData != NULL) {
             *stderrData = p.readAllStandardError();
+            stderrData->replace('\r', "");
+        }
 
         return p.exitCode();
     }
@@ -312,7 +316,6 @@ public:
         if ( !testStderr(stderrActual) || exitCode != 0 )
             return printClienAndServerStderr(stderrActual, exitCode);
 
-        stdoutActual.replace('\r', "");
         if (stdoutActual != stdoutExpected) {
             return "Test failed: "
                     + decorateOutput("Unexpected output", stdoutActual)
@@ -340,7 +343,6 @@ public:
                     + printClienAndServerStderr(stderrActual, exitCode);
         }
 
-        stdoutActual.replace('\r', "");
         if ( !stdoutActual.isEmpty() ) {
             return "Test failed: Expected empty output."
                     + decorateOutput("Unexpected output", stdoutActual)
@@ -410,6 +412,8 @@ public:
                     }
                 }
             }
+
+            output.replace('\r', "");
 
             if ( flag == ReadAllStderr || !testStderr(output, flag) )
               return decorateOutput("Server STDERR", output);
