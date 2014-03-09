@@ -62,6 +62,7 @@ private:
 
     QPointer<QLocalSocket> m_socket;
     bool m_deleteAfterDisconnected;
+    bool m_closed;
 };
 
 #endif // CLIENTSOCKET_H

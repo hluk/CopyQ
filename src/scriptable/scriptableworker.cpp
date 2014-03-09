@@ -128,5 +128,8 @@ void ScriptableWorker::run()
 
     scriptable.sendMessageToClient(response, exitCode);
 
+    while ( !m_socket->isClosed() )
+        QApplication::processEvents();
+
     COPYQ_LOG( msg.arg("finished") );
 }

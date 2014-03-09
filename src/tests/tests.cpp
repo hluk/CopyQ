@@ -366,7 +366,7 @@ public:
         return readServerErrors(ReadErrorsWithoutScriptException);
     }
 
-    void setClipboard(const QByteArray &bytes, const QString &mime)
+    QByteArray setClipboard(const QByteArray &bytes, const QString &mime)
     {
         if (m_monitor == NULL) {
             m_monitor.reset(new RemoteProcess);
@@ -379,14 +379,25 @@ public:
                 waitFor(200);
         }
 
-        QVERIFY( m_monitor->isConnected() );
+        if ( !m_monitor->isConnected() )
+            return "Failed to start clipboard monitor!";
 
         const QVariantMap data = createDataMap(mime, bytes);
-        QVERIFY( m_monitor->writeMessage(serializeData(data)) );
+        if ( !m_monitor->writeMessage(serializeData(data)) )
+            return "Failed to send message to clipboard monitor!";
 
         waitUntilClipboardSet(bytes, mime);
-        QCOMPARE( getClipboard(mime), bytes );
+        QByteArray error = testClipboard(bytes, mime);
+        if ( !error.isEmpty() )
+            return "Failed to set clipboard! " + error;
+
         waitFor(200);
+
+        error = testClipboard(bytes, mime);
+        if ( !error.isEmpty() )
+            return "Clipboard was unexpectedly changed! " + error;
+
+        return "";
     }
 
     QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors)
@@ -508,6 +519,22 @@ private:
         p->setProcessEnvironment(m_env);
         p->start( QApplication::applicationFilePath(), arguments, mode );
         return p->waitForStarted(10000);
+    }
+
+    QByteArray testClipboard(const QByteArray &bytes, const QString &mime)
+    {
+        if ( !m_monitor || !m_monitor->isConnected() )
+            return "Clipboard monitor is not running!";
+
+        const QByteArray actualBytes = getClipboard(mime);
+        if (actualBytes != bytes) {
+            return QString("Test failed (clipboard data for MIME \"%1\"): ")
+                    .arg(mime).toLocal8Bit()
+                    + decorateOutput("Unexpected content", actualBytes)
+                    + decorateOutput("Expected content", bytes);
+        }
+
+        return "";
     }
 
     QScopedPointer<QProcess> m_server;
@@ -748,47 +775,47 @@ void Tests::createAndCopyNewItem()
 void Tests::toggleClipboardMonitoring()
 {
     const QByteArray data = "toggleClipboardMonitoring";
-    setClipboard(data);
+    TEST( m_test->setClipboard(data) );
     RUN(Args("clipboard"), data);
 
     const QByteArray data1 = generateData(data);
-    setClipboard(data1);
+    TEST( m_test->setClipboard(data1) );
     RUN(Args("clipboard"), data1);
     RUN(Args("read") << "0", data1);
 
     RUN(Args("disable"), "");
 
     const QByteArray data2 = generateData(data);
-    setClipboard(data2);
+    TEST( m_test->setClipboard(data2) );
     RUN(Args("clipboard"), data2);
     RUN(Args("read") << "0", data1);
 
     RUN(Args("enable"), "");
 
     const QByteArray data3 = generateData(data);
-    setClipboard(data3);
+    TEST( m_test->setClipboard(data3) );
     RUN(Args("clipboard"), data3);
     RUN(Args("read") << "0", data3);
 }
 
 void Tests::clipboardToItem()
 {
-    setClipboard("TEST0");
+    TEST( m_test->setClipboard("TEST0") );
     RUN(Args("clipboard"), "TEST0");
 
-    setClipboard("TEST1");
+    TEST( m_test->setClipboard("TEST1") );
     RUN(Args("clipboard"), "TEST1");
     RUN(Args("read") << "0", "TEST1");
 
     const QByteArray htmlBytes = "<b>TEST2</b>";
-    setClipboard(htmlBytes, "text/html");
+    TEST( m_test->setClipboard(htmlBytes, "text/html") );
     RUN(Args("clipboard") << "text/html", htmlBytes.data());
     RUN(Args("read") << "text/html" << "0", htmlBytes.data());
 
     // Unicode test.
     const QString test = QString::fromUtf8(QByteArray("Zkouška s různými českými znaky!"));
     const QByteArray bytes = test.toUtf8();
-    setClipboard(bytes);
+    TEST( m_test->setClipboard(bytes) );
     RUN(Args("clipboard"), bytes);
     RUN(Args("read") << "0", bytes);
 }
@@ -1146,7 +1173,7 @@ void Tests::externalEditor()
     // Set clipboard.
     const QByteArray data = "edit";
     const QByteArray data1 = generateData(data);
-    setClipboard(data1);
+    TEST( m_test->setClipboard(data1) );
     RUN(Args("clipboard"), data1);
     RUN(Args("read") << "0", data1);
 
@@ -1402,11 +1429,6 @@ void Tests::tray()
     RUN(Args() << "keys" << "ENTER", "");
     QVERIFY( waitUntilClipboardSet("X") );
     RUN(Args() << "clipboard", "X");
-}
-
-void Tests::setClipboard(const QByteArray &bytes, const QString &mime)
-{
-    m_test->setClipboard(bytes, mime);
 }
 
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)

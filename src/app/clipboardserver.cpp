@@ -239,6 +239,9 @@ void ClipboardServer::onAboutToQuit()
 
     m_wnd->saveTabs();
 
+    if( isMonitoring() )
+        stopMonitoring();
+
     COPYQ_LOG( QString("Active internal threads: %1").arg(m_internalThreads.activeThreadCount()) );
     COPYQ_LOG( QString("Active client threads: %1").arg(m_clientThreads.activeThreadCount()) );
 
@@ -246,9 +249,6 @@ void ClipboardServer::onAboutToQuit()
     emit terminateClientThreads();
     while ( !m_clientThreads.waitForDone(0) || !m_internalThreads.waitForDone(0) )
         QApplication::processEvents();
-
-    if( isMonitoring() )
-        stopMonitoring();
 }
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)

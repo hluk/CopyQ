@@ -32,6 +32,7 @@ ClientSocket::ClientSocket()
     : QObject()
     , m_socket()
     , m_deleteAfterDisconnected(false)
+    , m_closed(true)
 {
 }
 
@@ -76,7 +77,7 @@ void ClientSocket::close()
 
 bool ClientSocket::isClosed() const
 {
-    return m_socket.isNull() || m_socket->state() == QLocalSocket::UnconnectedState;
+    return m_closed;
 }
 
 void ClientSocket::onReadyRead()

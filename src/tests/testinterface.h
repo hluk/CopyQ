@@ -82,7 +82,7 @@ public:
                                           const QByteArray &stderrContains = QByteArray()) = 0;
 
     /// Set clipboard through monitor process.
-    virtual void setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain")) = 0;
+    virtual QByteArray setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain")) = 0;
 
     /**
      * Return errors/warning from server (otherwise empty output).
