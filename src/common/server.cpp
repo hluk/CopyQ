@@ -81,6 +81,8 @@ void Server::start()
 void Server::close()
 {
     COPYQ_LOG( QString("Client sockets open: %1").arg(findChildren<QLocalSocket*>().size()) );
+    while ( findChild<QLocalSocket*>() )
+        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
     m_server->close();
     deleteLater();
 }
