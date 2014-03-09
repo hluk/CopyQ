@@ -270,6 +270,7 @@ ItemLoaderInterfacePtr ConfigurationManager::loadItems(ClipboardModel &model)
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Creating new tab").arg(tabName) );
         if ( file.open(QIODevice::WriteOnly) ) {
+            file.close();
             loader = itemFactory()->initializeTab(&model);
             saveItems(model, loader);
         }
@@ -308,11 +309,13 @@ bool ConfigurationManager::saveItems(const ClipboardModel &model,
     COPYQ_LOG( QString("Tab \"%1\": Saving %2 items").arg(tabName).arg(model.rowCount()) );
 
     if ( loader->saveItems(model, &file) ) {
-        COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
-
         // Overwrite previous file.
-        QFile::remove(fileName);
-        if ( !file.rename(fileName) )
+        QFile oldTabFile(fileName);
+        if (oldTabFile.exists() && !oldTabFile.remove())
+            printItemFileError(tabName, fileName, oldTabFile);
+        else if ( file.rename(fileName) )
+            COPYQ_LOG( QString("Tab \"%1\": Items saved").arg(tabName) );
+        else
             printItemFileError(tabName, fileName, file);
     } else {
         COPYQ_LOG( QString("Tab \"%1\": Failed to save items!").arg(tabName) );
@@ -347,7 +350,9 @@ bool ConfigurationManager::saveItemsWithOther(ClipboardModel &model,
 
 void ConfigurationManager::removeItems(const QString &tabName)
 {
-    QFile::remove( itemFileName(tabName) );
+    const QString tabFileName = itemFileName(tabName);
+    QFile::remove(tabFileName);
+    QFile::remove(tabFileName + ".tmp");
 }
 
 void ConfigurationManager::moveItems(const QString &oldId, const QString &newId)

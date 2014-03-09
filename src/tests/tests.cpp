@@ -547,10 +547,8 @@ void Tests::init()
 
 void Tests::cleanup()
 {
-    if ( m_test->isServerRunning() ) {
-        const QByteArray out = m_test->cleanup();
-        QVERIFY2( out.isEmpty(), out );
-    }
+    if ( m_test->isServerRunning() )
+        TEST( m_test->cleanup() );
 }
 
 void Tests::moveAndDeleteItems()
