@@ -28,6 +28,13 @@
 #define SOCKET_LOG(text) \
     COPYQ_LOG( QString("%1: %2").arg(property("id").toInt()).arg(text) )
 
+ClientSocket::ClientSocket()
+    : QObject()
+    , m_socket()
+    , m_deleteAfterDisconnected(false)
+{
+}
+
 void ClientSocket::sendMessage(const QByteArray &message, int exitCode)
 {
     SOCKET_LOG( QString("Sending message to client (exit code: %1).").arg(exitCode) );
@@ -57,7 +64,7 @@ void ClientSocket::deleteAfterDisconnected()
         deleteLater();
     } else {
         SOCKET_LOG("Will delete after disconnected.");
-        connect(m_socket, SIGNAL(disconnected()), m_socket, SLOT(deleteLater()));
+        m_deleteAfterDisconnected = true;
     }
 }
 
@@ -74,33 +81,42 @@ bool ClientSocket::isClosed() const
 
 void ClientSocket::onReadyRead()
 {
-    QByteArray msg;
     if ( m_socket.isNull() ) {
         SOCKET_LOG("Cannot read message from client. Socket is already deleted.");
-    } else if ( !readMessage(m_socket, &msg) ) {
-        log( tr("Failed to read message from client!"), LogError );
         return;
     }
 
-    emit messageReceived(msg);
+    QByteArray msg;
+
+    if ( !readMessage(m_socket, &msg) )
+        log( tr("Failed to read message from client!"), LogError );
+    else
+        emit messageReceived(msg);
 }
 
 void ClientSocket::onError(QLocalSocket::LocalSocketError error)
 {
-    if (error == QLocalSocket::PeerClosedError)
+    if (error == QLocalSocket::PeerClosedError
+        || (error == QLocalSocket::ConnectionError
+            && m_socket->errorString().startsWith("QLocalSocketPrivate::completeAsyncRead")) )
+    {
         SOCKET_LOG("Disconnected from client.");
-    else
+    } else {
         log( m_socket->errorString(), LogError );
+    }
 }
 
 void ClientSocket::onDisconnected()
 {
     emit disconnected();
+    if (m_deleteAfterDisconnected)
+        deleteLater();
 }
 
 ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     : QObject(parent)
     , m_socket(socket)
+    , m_deleteAfterDisconnected(false)
 {
     m_socket->setParent(this);
     connect( m_socket, SIGNAL(disconnected()),

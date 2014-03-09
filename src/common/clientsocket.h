@@ -30,6 +30,9 @@ class ClientSocket : public QObject
 {
     Q_OBJECT
     friend class Server;
+public:
+    ClientSocket();
+
 public slots:
     /** Send message to client. */
     void sendMessage(
@@ -58,6 +61,7 @@ private:
     Arguments readArguments();
 
     QPointer<QLocalSocket> m_socket;
+    bool m_deleteAfterDisconnected;
 };
 
 #endif // CLIENTSOCKET_H
