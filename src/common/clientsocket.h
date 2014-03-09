@@ -52,7 +52,7 @@ signals:
 private slots:
     void onReadyRead();
     void onError(QLocalSocket::LocalSocketError error);
-    void onDisconnected();
+    void onStateChanged(QLocalSocket::LocalSocketState state);
 
 private:
     explicit ClientSocket(QLocalSocket *socket, QObject *parent = 0);

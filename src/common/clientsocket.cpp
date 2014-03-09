@@ -105,25 +105,35 @@ void ClientSocket::onError(QLocalSocket::LocalSocketError error)
     } else {
         log( m_socket->errorString(), LogError );
     }
+
+    onStateChanged(QLocalSocket::UnconnectedState);
 }
 
-void ClientSocket::onDisconnected()
+void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
 {
-    emit disconnected();
-    if (m_deleteAfterDisconnected)
-        deleteLater();
+    if (!m_closed) {
+        m_closed = state != QLocalSocket::ConnectedState;
+        if (m_closed) {
+            emit disconnected();
+            if (m_deleteAfterDisconnected)
+                deleteLater();
+        }
+    }
 }
 
 ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
     : QObject(parent)
     , m_socket(socket)
     , m_deleteAfterDisconnected(false)
+    , m_closed(false)
 {
     m_socket->setParent(this);
-    connect( m_socket, SIGNAL(disconnected()),
-             this, SLOT(onDisconnected()) );
-    connect( m_socket, SIGNAL(error(QLocalSocket::LocalSocketError)),
+    connect( m_socket.data(), SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
+             this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)) );
+    connect( m_socket.data(), SIGNAL(error(QLocalSocket::LocalSocketError)),
              this, SLOT(onError(QLocalSocket::LocalSocketError)) );
+
+    onStateChanged(m_socket->state());
 
 #ifdef COPYQ_LOG_DEBUG
     setProperty("id", m_socket->socketDescriptor());

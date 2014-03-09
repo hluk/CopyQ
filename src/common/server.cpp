@@ -61,7 +61,7 @@ void Server::onNewConnection()
         log( tr("Client is not connected!"), LogError );
         socket->deleteLater();
     } else {
-        QScopedPointer<ClientSocket> clientSocket( new ClientSocket(socket) );
+        QScopedPointer<ClientSocket> clientSocket( new ClientSocket(socket, this) );
 
         const Arguments args = clientSocket->readArguments();
         if ( !args.isEmpty() )
@@ -80,8 +80,9 @@ void Server::start()
 
 void Server::close()
 {
-    COPYQ_LOG( QString("Client sockets open: %1").arg(m_server->findChildren<QLocalSocket*>().size()) );
+    COPYQ_LOG( QString("Client sockets open: %1").arg(findChildren<QLocalSocket*>().size()) );
     m_server->close();
+    deleteLater();
 }
 
 Server::Server(QLocalServer *server)
@@ -91,5 +92,4 @@ Server::Server(QLocalServer *server)
     m_server->setParent(this);
     qRegisterMetaType<Arguments>("Arguments");
     connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
-    connect( qApp, SIGNAL(aboutToQuit()), SLOT(deleteLater()) );
 }
