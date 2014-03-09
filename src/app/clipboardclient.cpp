@@ -64,8 +64,6 @@ void ClipboardClient::sendMessage()
 
 void ClipboardClient::readyRead()
 {
-    m_client.blockSignals(true);
-
     COPYQ_LOG("Receiving message from server.");
 
     int exitCode, i, len;
@@ -109,8 +107,6 @@ void ClipboardClient::readyRead()
             break;
         }
     }
-
-    m_client.blockSignals(false);
 }
 
 void ClipboardClient::readFinished()

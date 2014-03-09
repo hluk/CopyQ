@@ -444,8 +444,6 @@ void ClipboardMonitor::updateTimeout()
 
 void ClipboardMonitor::readyRead()
 {
-    m_socket->blockSignals(true);
-
     while ( m_socket->bytesAvailable() > 0 ) {
         QByteArray msg;
         if( !readMessage(m_socket, &msg) ) {
@@ -499,8 +497,6 @@ void ClipboardMonitor::readyRead()
             }
         }
     }
-
-    m_socket->blockSignals(false);
 }
 
 void ClipboardMonitor::clipboardTimeout() {
