@@ -67,9 +67,16 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
                .arg(QCoreApplication::applicationFilePath())
                .arg(arguments.join(" ")) );
 
-    if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments) ) {
+    qint64 monitorPid;
+    if ( !QProcess::startDetached(QCoreApplication::applicationFilePath(), arguments,
+                                  QString(), &monitorPid) )
+    {
         log( "Remote process: Failed to start new remote process!", LogError );
+        emit connectionError();
+        return;
     }
+
+    COPYQ_LOG( QString("Remote process: Started with pid %1.").arg(monitorPid) );
 
     QTimer::singleShot(16000, this, SLOT(checkConnection()));
 }
@@ -78,6 +85,11 @@ void RemoteProcess::checkConnection() {
     if (!isConnected()) {
         emit connectionError();
     }
+}
+
+void RemoteProcess::onError()
+{
+    log( "Remote process: " + m_socket->errorString(), LogError );
 }
 
 void RemoteProcess::onNewConnection() {
@@ -96,6 +108,8 @@ void RemoteProcess::onNewConnection() {
              this, SLOT(readyRead()) );
     connect( m_socket, SIGNAL(disconnected()),
              this, SIGNAL(connectionError()) );
+    connect( m_socket, SIGNAL(error(QLocalSocket::LocalSocketError)),
+             this, SLOT(onError()) );
     ping();
 
     emit connected();

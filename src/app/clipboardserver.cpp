@@ -164,8 +164,8 @@ void ClipboardServer::startMonitoring()
                  this, SLOT(loadMonitorSettings()) );
 
         QString name = clipboardMonitorServerName().arg(monitorProcessId);
-        while ( !QLocalServer::removeServer(name) )
-            name = clipboardMonitorServerName().arg(++monitorProcessId);
+        QLocalServer::removeServer(name);
+        name = clipboardMonitorServerName().arg(++monitorProcessId);
 
         m_monitor->start( name, QStringList("monitor") << name );
     }

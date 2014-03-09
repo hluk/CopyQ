@@ -22,10 +22,10 @@
 
 #include <QObject>
 #include <QTimer>
+#include <QLocalSocket>
 
 class QByteArray;
 class QLocalServer;
-class QLocalSocket;
 class QString;
 
 /**
@@ -83,6 +83,7 @@ private slots:
     void pongTimeout();
     void onNewConnection();
     void checkConnection();
+    void onError();
 
 private:
     QLocalServer *m_server;
