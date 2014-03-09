@@ -35,6 +35,7 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QDateTime>
 #include <QKeyEvent>
 #include <QLocalServer>
 #include <QLocalSocket>
@@ -52,7 +53,12 @@ struct QxtGlobalShortcut {};
 
 namespace {
 
-int monitorProcessId = 0;
+QString newClipboardMonitorServerName()
+{
+    static int monitorProcessId = 0;
+    return serverName( "m" + QString::number(monitorProcessId) + "_"
+                       + QString::number(QDateTime::currentMSecsSinceEpoch()) );
+}
 
 } // namespace
 
@@ -163,10 +169,7 @@ void ClipboardServer::startMonitoring()
         connect( m_monitor, SIGNAL(connected()),
                  this, SLOT(loadMonitorSettings()) );
 
-        QString name = clipboardMonitorServerName().arg(monitorProcessId);
-        QLocalServer::removeServer(name);
-        name = clipboardMonitorServerName().arg(++monitorProcessId);
-
+        const QString name = newClipboardMonitorServerName();
         m_monitor->start( name, QStringList("monitor") << name );
     }
     m_wnd->browser(0)->setAutoUpdate(true);

@@ -120,8 +120,3 @@ QString clipboardServerName()
 {
     return serverName("s");
 }
-
-QString clipboardMonitorServerName()
-{
-    return serverName("m%1");
-}
