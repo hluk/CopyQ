@@ -145,11 +145,13 @@ void RemoteProcess::closeConnection()
         m_timerPongTimeout.stop();
 
         if (m_socket != NULL) {
-            m_socket->disconnectFromServer();
+            m_socket->disconnect(this);
+            m_socket->abort();
             m_socket->deleteLater();
             m_socket = NULL;
         }
 
+        m_server->disconnect(this);
         m_server->close();
         m_server = NULL;
     }
@@ -161,7 +163,7 @@ void RemoteProcess::readyRead()
     Q_ASSERT(m_socket != NULL);
     Q_ASSERT(isConnected());
 
-    while ( m_socket->bytesAvailable() > 0 ) {
+    while ( isConnected() && m_socket->bytesAvailable() > 0 ) {
         QByteArray msg;
         if( !::readMessage(m_socket, &msg) ) {
             log( "Remote process: Incorrect message from remote process.", LogError );

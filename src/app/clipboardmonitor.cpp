@@ -541,7 +541,8 @@ void ClipboardMonitor::updateClipboard(const QVariantMap &data)
 void ClipboardMonitor::exit(int exitCode)
 {
     m_updateTimer->start(); // Don't check clipboard after this.
-    m_socket->abort();
+    m_socket->waitForBytesWritten(6000);
+    m_socket->disconnectFromServer();
     App::exit(exitCode);
 }
 
