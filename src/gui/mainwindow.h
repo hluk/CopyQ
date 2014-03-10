@@ -346,6 +346,8 @@ private slots:
     /** Update tray and window icon depending on current state. */
     void updateIcon();
 
+    void onAboutToQuit();
+
 private:
     /** Create menu bar and tray menu with items. Called once. */
     void createMenu();

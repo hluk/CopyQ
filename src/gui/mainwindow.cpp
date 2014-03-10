@@ -194,6 +194,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(clipboardChanged(QVariantMap)) );
     connect( m_actionHandler, SIGNAL(hasRunningActionChanged()),
              this, SLOT(updateIcon()) );
+    connect( qApp, SIGNAL(aboutToQuit()),
+             this, SLOT(onAboutToQuit()) );
 
     // settings
     loadSettings();
@@ -426,6 +428,16 @@ void MainWindow::updateIcon()
         m_tray->setIcon( hasRunningAction() ? appIcon(flags | AppIconRunning) : icon );
 
     setWindowIcon(icon);
+}
+
+void MainWindow::onAboutToQuit()
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    cm->disconnect();
+    cm->setValue( objectName() + "_state", saveState() );
+    saveCollapsedTabs();
+    hideWindow();
+    m_tray->hide();
 }
 
 void MainWindow::updateNotifications()
@@ -2105,10 +2117,5 @@ void MainWindow::removeTab(bool ask, int tabIndex)
 
 MainWindow::~MainWindow()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    cm->disconnect();
-    cm->setValue( objectName() + "_state", saveState() );
-    saveCollapsedTabs();
-    m_tray->hide();
     delete ui;
 }
