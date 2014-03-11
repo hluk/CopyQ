@@ -27,22 +27,20 @@
 #include "scriptable/scriptableproxy.h"
 
 #include <QRunnable>
-#include <QSharedPointer>
 
 class ClientSocket;
-class MainWindow;
 class QLocalSocket;
 
 class ScriptableWorker : public QRunnable
 {
 public:
-    ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow, const Arguments &args,
+    ScriptableWorker(const MainWindowPtr &mainWindow, const Arguments &args,
                      ClientSocket *socket);
 
     void run();
 
 private:
-    QSharedPointer<MainWindow> m_wnd;
+    MainWindowPtr m_wnd;
     Arguments m_args;
     ClientSocket *m_socket;
 };

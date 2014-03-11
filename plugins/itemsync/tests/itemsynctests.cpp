@@ -22,6 +22,7 @@
 #include "common/common.h"
 
 #include <QDir>
+#include <QFile>
 #include <QTemporaryFile>
 #include <QTest>
 

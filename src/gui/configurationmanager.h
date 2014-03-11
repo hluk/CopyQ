@@ -20,6 +20,8 @@
 #ifndef CONFIGURATIONMANAGER_H
 #define CONFIGURATIONMANAGER_H
 
+#include "item/itemwidget.h"
+
 #include <QDialog>
 #include <QHash>
 #include <QScopedPointer>
@@ -43,8 +45,6 @@ class QMainWindow;
 class QSpinBox;
 
 struct Command;
-
-typedef QSharedPointer<class ItemLoaderInterface> ItemLoaderInterfacePtr;
 
 /**
  * Configuration management.

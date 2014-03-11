@@ -28,7 +28,6 @@
 #include <QDialog>
 #include <QMetaObject>
 #include <QObject>
-#include <QSharedPointer>
 #include <QStringList>
 
 #ifdef HAS_TESTS
@@ -141,7 +140,7 @@ class ScriptableProxyHelper : public QObject
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    explicit ScriptableProxyHelper(const QSharedPointer<MainWindow> &mainWindow)
+    explicit ScriptableProxyHelper(const MainWindowPtr &mainWindow)
       : QObject(NULL)
       , m_wnd(mainWindow)
       , m_tabName()
@@ -378,7 +377,7 @@ private:
         return c->isLoaded() ? c : NULL;
     }
 
-    QSharedPointer<MainWindow> m_wnd;
+    MainWindowPtr m_wnd;
     QVariant v; ///< Last return value retrieved.
     QString m_tabName;
     QScopedPointer<ClipboardBrowser::Lock> m_lock;
@@ -396,7 +395,7 @@ private:
 class ScriptableProxy
 {
 public:
-    explicit ScriptableProxy(const QSharedPointer<MainWindow> &mainWindow)
+    explicit ScriptableProxy(const MainWindowPtr &mainWindow)
         : m_helper(new detail::ScriptableProxyHelper(mainWindow))
     {
         qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");

@@ -296,7 +296,7 @@ void ShortcutsWidget::addAction(int id, const QString &text, const QString &sett
     Q_ASSERT(!hasAction(id));
 
     MenuAction *action = new MenuAction(text, shortcut, settingsKey, ui->tableWidget);
-    m_actions.insert( id, QSharedPointer<MenuAction>(action) );
+    m_actions.insert( id, MenuActionPtr(action) );
     m_shortcuts << action->shortcuts();
     m_timerCheckAmbiguous.start();
 

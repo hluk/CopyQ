@@ -47,6 +47,7 @@
 #include <QPainter>
 #include <QProcess>
 #include <QScrollBar>
+#include <QSharedPointer>
 #include <QTimer>
 #include <QElapsedTimer>
 
@@ -2121,3 +2122,5 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
     return true;
 }
+
+typedef QSharedPointer<ScrollSaver> ScrollSaverPtr;

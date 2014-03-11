@@ -21,7 +21,6 @@
 #define SERVER_H
 
 #include <QObject>
-#include <QSharedPointer>
 
 class Arguments;
 class ClientSocket;

@@ -22,8 +22,6 @@
 
 #include "platform/platformwindow.h"
 
-#include <QSharedPointer>
-
 #include "x11displayguard.h"
 
 class QWidget;

@@ -20,10 +20,11 @@
 #ifndef ITEMFACTORY_H
 #define ITEMFACTORY_H
 
+#include "item/itemwidget.h"
+
 #include <QMap>
 #include <QObject>
 #include <QSet>
-#include <QSharedPointer>
 #include <QVector>
 
 class ItemLoaderInterface;
@@ -32,8 +33,6 @@ class QAbstractItemModel;
 class QFile;
 class QModelIndex;
 class QWidget;
-
-typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
 
 /**
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate

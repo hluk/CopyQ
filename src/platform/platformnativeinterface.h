@@ -20,12 +20,13 @@
 #ifndef PLATFORMNATIVEINTERFACE_H
 #define PLATFORMNATIVEINTERFACE_H
 
+#include "platform/platformwindow.h"
+
 #include <QSharedPointer>
 #include <QWidget>
 
 class QApplication;
 class QCoreApplication;
-class PlatformWindow;
 class QWidget;
 
 /**

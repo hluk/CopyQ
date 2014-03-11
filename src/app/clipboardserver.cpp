@@ -84,7 +84,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     QApplication::setQuitOnLastWindowClosed(false);
 
-    m_wnd = QSharedPointer<MainWindow>(new MainWindow);
+    m_wnd = MainWindowPtr(new MainWindow);
 
     connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
              this, SLOT(doCommand(Arguments,ClientSocket*)) );

@@ -22,6 +22,8 @@
 
 #include "common/command.h"
 #include "gui/configtabshortcuts.h"
+#include "item/clipboarditem.h"
+#include "item/itemwidget.h"
 
 #include <QListView>
 #include <QPointer>
@@ -29,16 +31,12 @@
 #include <QSharedPointer>
 #include <QVariantMap>
 
-class ClipboardItem;
 class ClipboardModel;
 class ItemDelegate;
 class ItemEditorWidget;
-class ScrollSaver;
 class QProgressBar;
 class QPushButton;
 class QTimer;
-
-typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
 
 struct ClipboardBrowserShared {
     ClipboardBrowserShared();
@@ -446,7 +444,7 @@ class ClipboardBrowser : public QListView
         void lock();
         void unlock();
 
-        QSharedPointer<class ItemLoaderInterface> m_itemLoader;
+        ItemLoaderInterfacePtr m_itemLoader;
         QString m_tabName;
         int m_lastFiltered;
         bool m_update;
@@ -475,7 +473,7 @@ class ClipboardBrowser : public QListView
 
         int m_spinLock;
         bool m_updateLock;
-        QScopedPointer<ScrollSaver> m_scrollSaver;
+        QScopedPointer<class ScrollSaver> m_scrollSaver;
 };
 
 bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName);

@@ -28,8 +28,6 @@ namespace Ui {
 class PluginWidget;
 }
 
-typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
-
 class PluginWidget : public QWidget
 {
     Q_OBJECT

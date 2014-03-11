@@ -23,10 +23,10 @@
 #include "app.h"
 #include "common/server.h"
 #include "gui/configtabshortcuts.h"
+#include "gui/mainwindow.h"
 
 #include <QMap>
 #include <QProcess>
-#include <QSharedPointer>
 #include <QThreadPool>
 #include <QVariantMap>
 #include <QWidget>
@@ -35,7 +35,6 @@ class Arguments;
 class ClipboardBrowser;
 class ClipboardItem;
 class ClientSocket;
-class MainWindow;
 class RemoteProcess;
 class QxtGlobalShortcut;
 class QSessionManager;
@@ -127,7 +126,7 @@ private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
 
-    QSharedPointer<MainWindow> m_wnd;
+    MainWindowPtr m_wnd;
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;

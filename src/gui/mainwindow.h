@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "gui/clipboardbrowser.h"
 #include "gui/configtabshortcuts.h"
 
 #include "platform/platformnativeinterface.h"
@@ -34,12 +35,10 @@
 
 class Action;
 class ActionHandler;
-class ClipboardBrowser;
 class ClipboardItem;
 class NotificationDaemon;
 class QAction;
 class TrayMenu;
-struct ClipboardBrowserShared;
 struct Command;
 struct MainWindowOptions;
 
@@ -422,7 +421,7 @@ private:
     bool m_clipboardStoringDisabled;
     QPointer<QAction> m_actionToggleClipboardStoring;
 
-    QSharedPointer<ClipboardBrowserShared> m_sharedData;
+    ClipboardBrowserSharedPtr m_sharedData;
 
     PlatformWindowPtr m_lastWindow;
 
@@ -438,5 +437,7 @@ private:
 
     ActionHandler *m_actionHandler;
 };
+
+typedef QSharedPointer<MainWindow> MainWindowPtr;
 
 #endif // MAINWINDOW_H

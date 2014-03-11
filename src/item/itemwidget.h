@@ -23,6 +23,7 @@
 #include "tests/testinterface.h"
 
 #include <QRegExp>
+#include <QSharedPointer>
 #include <QStringList>
 #include <QtPlugin>
 #include <QVariantMap>
@@ -277,6 +278,8 @@ public:
      */
     virtual QObject *tests(const TestInterfacePtr &test) const;
 };
+
+typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;
 
 Q_DECLARE_INTERFACE(ItemLoaderInterface, COPYQ_PLUGIN_ITEM_LOADER_ID)
 

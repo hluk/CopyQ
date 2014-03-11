@@ -30,7 +30,7 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
-ScriptableWorker::ScriptableWorker(const QSharedPointer<MainWindow> &mainWindow,
+ScriptableWorker::ScriptableWorker(const MainWindowPtr &mainWindow,
                                    const Arguments &args, ClientSocket *socket)
     : QRunnable()
     , m_wnd(mainWindow)

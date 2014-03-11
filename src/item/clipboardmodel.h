@@ -24,7 +24,6 @@
 
 #include <QAbstractListModel>
 #include <QList>
-#include <QSharedPointer>
 
 class QMimeData;
 
