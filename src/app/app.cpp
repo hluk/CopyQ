@@ -153,9 +153,9 @@ int App::exec()
     if (m_closed) {
         m_app->processEvents();
         return m_exitCode;
-    } else {
-        return m_app->exec();
     }
+
+    return m_app->exec();
 }
 
 void App::exit(int exitCode)

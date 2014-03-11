@@ -383,8 +383,7 @@ public:
             return "Failed to start clipboard monitor!";
 
         const QVariantMap data = createDataMap(mime, bytes);
-        if ( !m_monitor->writeMessage(serializeData(data)) )
-            return "Failed to send message to clipboard monitor!";
+        m_monitor->writeMessage(serializeData(data));
 
         waitUntilClipboardSet(bytes, mime);
         QByteArray error = testClipboard(bytes, mime);

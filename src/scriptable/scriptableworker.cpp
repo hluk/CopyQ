@@ -67,6 +67,8 @@ void ScriptableWorker::run()
             COPYQ_LOG( msg.arg("terminated") );
             return;
         }
+
+        m_socket->start();
     }
 
     QObject::connect( &scriptable, SIGNAL(requestApplicationQuit()),

@@ -76,8 +76,11 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_internalThreads()
 {
     Server *server = Server::create( clipboardServerName() );
-    if (!server)
+    if (!server) {
+        log( QObject::tr("CopyQ server is already running."), LogWarning );
+        exit(0);
         return;
+    }
 
     QApplication::setQuitOnLastWindowClosed(false);
 
@@ -135,11 +138,6 @@ ClipboardServer::~ClipboardServer()
     m_shortcutActions.clear();
 }
 
-bool ClipboardServer::isListening() const
-{
-    return !m_wnd.isNull();
-}
-
 void ClipboardServer::stopMonitoring()
 {
     if (m_monitor == NULL)
@@ -148,7 +146,6 @@ void ClipboardServer::stopMonitoring()
     log( tr("Clipboard Monitor: Terminating") );
 
     m_monitor->disconnect();
-    m_monitor->closeConnection();
     m_monitor->deleteLater();
     m_monitor = NULL;
 

@@ -25,10 +25,10 @@
 #include "common/common.h"
 
 #include <QClipboard>
-#include <QLocalSocket>
 #include <QScopedPointer>
 #include <QStringList>
 
+class QLocalSocket;
 class QMimeData;
 class QTimer;
 #ifdef COPYQ_WS_X11
@@ -60,16 +60,13 @@ public:
 
     ~ClipboardMonitor();
 
-    /** Return true only if monitor socket is connected. */
-    bool isConnected() const
-    {
-        return m_socket->state() == QLocalSocket::ConnectedState;
-    }
-
     /** Change clipboard and primary selection content. */
     void updateClipboard(const QVariantMap &data = QVariantMap());
 
     virtual void exit(int exitCode);
+
+signals:
+    void sendMessage(const QByteArray &message);
 
 private slots:
     /**
@@ -104,8 +101,8 @@ private slots:
     /** Update clipboard data in reasonably long intervals. */
     void updateTimeout();
 
-    /** Data can be received from monitor. */
-    void readyRead();
+    /** Message received from server. */
+    void onMessageReceived(const QByteArray &message);
 
     /** Server connection closed. */
     void onDisconnected();
@@ -116,13 +113,14 @@ private:
     /** Send new clipboard or primary selection data to server. */
     void clipboardChanged(const QVariantMap &data);
 
-    void writeMessage(const QByteArray &msg);
+    void writeMessage(const QByteArray &message);
 
     void log(const QString &text, const LogLevel level);
 
+    void startClientSocket(QLocalSocket *localSocket);
+
     QStringList m_formats;
     QVariantMap m_newdata;
-    QLocalSocket *m_socket;
 
     // don't allow rapid access to clipboard
     QTimer *m_updateTimer;

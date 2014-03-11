@@ -33,6 +33,11 @@ class ClientSocket : public QObject
 public:
     ClientSocket();
 
+    explicit ClientSocket(QLocalSocket *socket, QObject *parent = 0);
+
+    /// Start emiting messageReceived(). This method is thread-safe.
+    void start();
+
 public slots:
     /** Send message to client. */
     void sendMessage(
@@ -55,8 +60,6 @@ private slots:
     void onStateChanged(QLocalSocket::LocalSocketState state);
 
 private:
-    explicit ClientSocket(QLocalSocket *socket, QObject *parent = 0);
-
     /// Receive arguments from client.
     Arguments readArguments();
 

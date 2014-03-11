@@ -55,9 +55,6 @@ public:
     ClipboardServer(int &argc, char **argv, const QString &sessionName = QString());
     ~ClipboardServer();
 
-    /** Returns true if server is listening to incoming client connections. */
-    bool isListening() const;
-
     /** Stop monitor application. */
     void stopMonitoring();
 

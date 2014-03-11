@@ -32,7 +32,7 @@ bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
     qint64 avail, read = 0;
     bytes->clear();
     while (read < size) {
-        if ( socket->bytesAvailable() == 0 && !socket->waitForReadyRead(1000) )
+        if ( socket->bytesAvailable() == 0 && !socket->waitForReadyRead(4000) )
             return false;
         avail = qMin( socket->bytesAvailable(), size-read );
         bytes->append( socket->read(avail) );

@@ -36,6 +36,33 @@ ClientSocket::ClientSocket()
 {
 }
 
+ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
+    : QObject(parent)
+    , m_socket(socket)
+    , m_deleteAfterDisconnected(false)
+    , m_closed(false)
+{
+    m_socket->setParent(this);
+    connect( m_socket.data(), SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
+             this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)) );
+    connect( m_socket.data(), SIGNAL(error(QLocalSocket::LocalSocketError)),
+             this, SLOT(onError(QLocalSocket::LocalSocketError)) );
+
+    onStateChanged(m_socket->state());
+
+#ifdef COPYQ_LOG_DEBUG
+    setProperty("id", m_socket->socketDescriptor());
+    SOCKET_LOG("New connection");
+#endif
+}
+
+void ClientSocket::start()
+{
+    connect( m_socket, SIGNAL(readyRead()),
+             this, SLOT(onReadyRead()), Qt::UniqueConnection );
+    QMetaObject::invokeMethod(this, "onReadyRead", Qt::QueuedConnection);
+}
+
 void ClientSocket::sendMessage(const QByteArray &message, int exitCode)
 {
     SOCKET_LOG( QString("Sending message to client (exit code: %1).").arg(exitCode) );
@@ -87,12 +114,14 @@ void ClientSocket::onReadyRead()
         return;
     }
 
-    QByteArray msg;
+    while (m_socket->bytesAvailable() > 0) {
+        QByteArray msg;
 
-    if ( !readMessage(m_socket, &msg) )
-        log( tr("Failed to read message from client!"), LogError );
-    else
-        emit messageReceived(msg);
+        if ( !readMessage(m_socket, &msg) )
+            log( tr("Failed to read message from client!"), LogError );
+        else
+            emit messageReceived(msg);
+    }
 }
 
 void ClientSocket::onError(QLocalSocket::LocalSocketError error)
@@ -121,26 +150,6 @@ void ClientSocket::onStateChanged(QLocalSocket::LocalSocketState state)
     }
 }
 
-ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
-    : QObject(parent)
-    , m_socket(socket)
-    , m_deleteAfterDisconnected(false)
-    , m_closed(false)
-{
-    m_socket->setParent(this);
-    connect( m_socket.data(), SIGNAL(stateChanged(QLocalSocket::LocalSocketState)),
-             this, SLOT(onStateChanged(QLocalSocket::LocalSocketState)) );
-    connect( m_socket.data(), SIGNAL(error(QLocalSocket::LocalSocketError)),
-             this, SLOT(onError(QLocalSocket::LocalSocketError)) );
-
-    onStateChanged(m_socket->state());
-
-#ifdef COPYQ_LOG_DEBUG
-    setProperty("id", m_socket->socketDescriptor());
-    SOCKET_LOG("New client connection");
-#endif
-}
-
 Arguments ClientSocket::readArguments()
 {
     Arguments args;
@@ -150,8 +159,6 @@ Arguments ClientSocket::readArguments()
         SOCKET_LOG("Message received from client.");
         QDataStream input(msg);
         input >> args;
-        connect( m_socket, SIGNAL(readyRead()),
-                 this, SLOT(onReadyRead()) );
     } else {
         log( tr("Failed to read message from client!"), LogError );
     }

@@ -19,22 +19,22 @@
 
 #include "remoteprocess.h"
 
+#include "common/arguments.h"
 #include "common/client_server.h"
+#include "common/clientsocket.h"
 #include "common/common.h"
+#include "common/server.h"
 
 #include <QCoreApplication>
 #include <QByteArray>
-#include <QLocalServer>
-#include <QLocalSocket>
 #include <QProcess>
 #include <QString>
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
-    , m_server(NULL)
-    , m_socket(NULL)
     , m_timerPing()
     , m_timerPongTimeout()
+    , m_state(Unconnected)
 {
     m_timerPing.setInterval(8000);
     m_timerPing.setSingleShot(true);
@@ -49,19 +49,30 @@ RemoteProcess::RemoteProcess(QObject *parent)
 
 RemoteProcess::~RemoteProcess()
 {
-    closeConnection();
+    m_timerPing.stop();
+    m_timerPongTimeout.stop();
 }
 
 void RemoteProcess::start(const QString &newServerName, const QStringList &arguments)
 {
-    Q_ASSERT(m_server == NULL);
-    Q_ASSERT(m_socket == NULL);
     Q_ASSERT(!isConnected());
     if ( isConnected() )
         return;
 
-    m_server = newServer(newServerName, this);
-    connect(m_server, SIGNAL(newConnection()), SLOT(onNewConnection()));
+    m_state = Connecting;
+
+    Server *server = Server::create(newServerName);
+    if (!server) {
+        onConnectionError();
+        return;
+    }
+
+    connect(this, SIGNAL(destroyed()),
+            server, SLOT(deleteLater()) );
+    connect(server, SIGNAL(newConnection(Arguments,ClientSocket*)),
+            this, SLOT(onNewConnection(Arguments,ClientSocket*)));
+
+    server->startInThread();
 
     COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
                .arg(QCoreApplication::applicationFilePath())
@@ -72,7 +83,7 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
                                   QString(), &monitorPid) )
     {
         log( "Remote process: Failed to start new remote process!", LogError );
-        emit connectionError();
+        onConnectionError();
         return;
     }
 
@@ -87,97 +98,41 @@ void RemoteProcess::checkConnection() {
     }
 }
 
-void RemoteProcess::onError()
+void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
 {
-    log( "Remote process: " + m_socket->errorString(), LogError );
-}
-
-void RemoteProcess::onNewConnection() {
-    Q_ASSERT(m_socket == NULL);
     COPYQ_LOG("Remote process: Started.");
+    m_state = Connected;
 
-    if (m_socket) {
-        // This shouldn't actually happen, but try to handle it in case it does.
-        COPYQ_LOG("Remote process got a new socket.");
-        disconnect(m_socket, 0, this, 0);
-        m_socket->close();
-    }
+    connect( this, SIGNAL(destroyed()),
+             socket, SLOT(deleteAfterDisconnected()) );
+    connect( this, SIGNAL(sendMessage(QByteArray)),
+             socket, SLOT(sendMessage(QByteArray)) );
+    connect( socket, SIGNAL(messageReceived(QByteArray)),
+             this, SIGNAL(newMessage(QByteArray)) );
+    connect( socket, SIGNAL(disconnected()),
+             this, SLOT(onConnectionError()) );
 
-    m_socket = m_server->nextPendingConnection();
-    connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(readyRead()) );
-    connect( m_socket, SIGNAL(disconnected()),
-             this, SIGNAL(connectionError()) );
-    connect( m_socket, SIGNAL(error(QLocalSocket::LocalSocketError)),
-             this, SLOT(onError()) );
+    socket->start();
+
     ping();
 
     emit connected();
 }
 
-bool RemoteProcess::writeMessage(const QByteArray &msg)
+void RemoteProcess::onConnectionError()
 {
-    Q_ASSERT(m_server != NULL);
-    Q_ASSERT(m_socket != NULL);
+    m_state = Unconnected;
+    emit connectionError();
+}
 
-    if ( !isConnected() ) {
-        COPYQ_LOG("Remote process: Cannot write message!");
-        return false;
-    }
-
-    if ( !::writeMessage(m_socket, msg) ) {
-        emit connectionError();
-        return false;
-    }
-
-    return true;
+void RemoteProcess::writeMessage(const QByteArray &msg)
+{
+    emit sendMessage(msg);
 }
 
 bool RemoteProcess::isConnected() const
 {
-    return m_socket != NULL && m_socket->state() == QLocalSocket::ConnectedState;
-}
-
-void RemoteProcess::closeConnection()
-{
-    if (m_server != NULL) {
-        m_timerPing.stop();
-        m_timerPongTimeout.stop();
-
-        if (m_socket != NULL) {
-            m_socket->disconnect(this);
-            m_socket->abort();
-            m_socket->deleteLater();
-            m_socket = NULL;
-        }
-
-        m_server->disconnect(this);
-        m_server->close();
-        m_server = NULL;
-    }
-}
-
-void RemoteProcess::readyRead()
-{
-    Q_ASSERT(m_server != NULL);
-    Q_ASSERT(m_socket != NULL);
-    Q_ASSERT(isConnected());
-
-    while ( isConnected() && m_socket->bytesAvailable() > 0 ) {
-        QByteArray msg;
-        if( !::readMessage(m_socket, &msg) ) {
-            log( "Remote process: Incorrect message from remote process.", LogError );
-            emit connectionError();
-            break;
-        }
-
-        if (msg == "pong") {
-            m_timerPing.start();
-            m_timerPongTimeout.stop();
-        } else {
-            emit newMessage(msg);
-        }
-    }
+    return m_state == Connected;
 }
 
 void RemoteProcess::ping()
@@ -192,5 +147,5 @@ void RemoteProcess::ping()
 void RemoteProcess::pongTimeout()
 {
     log( "Remote process: Connection timeout!", LogError );
-    emit connectionError();
+    onConnectionError();
 }

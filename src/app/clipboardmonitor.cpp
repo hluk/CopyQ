@@ -19,7 +19,9 @@
 
 #include "clipboardmonitor.h"
 
+#include "common/arguments.h"
 #include "common/client_server.h"
+#include "common/clientsocket.h"
 #include "common/common.h"
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
@@ -29,6 +31,7 @@
 #include <QApplication>
 #include <QMimeData>
 #include <QScopedPointer>
+#include <QThread>
 #include <QTimer>
 
 #ifdef COPYQ_WS_X11
@@ -254,7 +257,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , App(createPlatformNativeInterface()->createMonitorApplication(argc, argv))
     , m_formats()
     , m_newdata()
-    , m_socket( new QLocalSocket(this) )
     , m_updateTimer( new QTimer(this) )
     , m_needCheckClipboard(false)
 #ifdef COPYQ_WS_X11
@@ -267,11 +269,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , m_macPlatform(new MacPlatform())
 #endif
 {
-    connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(readyRead()) );
-    connect( m_socket, SIGNAL(disconnected()),
-             this, SLOT(onDisconnected()) );
-
     Q_ASSERT(argc == 3);
 
     const QString serverName( QString::fromLocal8Bit(argv[2]) );
@@ -280,10 +277,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     if ( serverName == QString("copyq_TEST") )
         QCoreApplication::instance()->setProperty("CopyQ_testing", true);
 #endif
-
-    m_socket->connectToServer(serverName);
-    if ( !m_socket->waitForConnected(2000) )
-        exit(1);
 
     m_updateTimer->setSingleShot(true);
     m_updateTimer->setInterval(300);
@@ -305,6 +298,13 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     connect(m_clipboardCheckTimer, SIGNAL(timeout()), this, SLOT(clipboardTimeout()));
     m_clipboardCheckTimer->start();
 #endif
+
+    QLocalSocket *localSocket = new QLocalSocket(this);
+    localSocket->connectToServer(serverName);
+    if ( localSocket->waitForConnected(4000) )
+        startClientSocket(localSocket);
+    else
+        exit(1);
 }
 
 ClipboardMonitor::~ClipboardMonitor()
@@ -442,59 +442,50 @@ void ClipboardMonitor::updateTimeout()
     }
 }
 
-void ClipboardMonitor::readyRead()
+void ClipboardMonitor::onMessageReceived(const QByteArray &message)
 {
-    while ( m_socket->bytesAvailable() > 0 ) {
-        QByteArray msg;
-        if( !readMessage(m_socket, &msg) ) {
-            log( tr("Cannot read message from server!"), LogError );
-            exit(1);
-            return;
-        }
+    if (message == "ping") {
+        writeMessage( QByteArray("pong") );
+    } else {
+        QVariantMap data;
+        deserializeData(&data, message);
 
-        if (msg == "ping") {
-            writeMessage(QByteArray("pong") );
-        } else {
-            QVariantMap data;
-            deserializeData(&data, msg);
-
-            /* Does server send settings for monitor? */
-            QByteArray settingsData = data.value(mimeApplicationSettings).toByteArray();
-            if ( !settingsData.isEmpty() ) {
-                QDataStream settings_in(settingsData);
-                QVariantMap settings;
-                settings_in >> settings;
+        /* Does server send settings for monitor? */
+        QByteArray settingsData = data.value(mimeApplicationSettings).toByteArray();
+        if ( !settingsData.isEmpty() ) {
+            QDataStream settings_in(settingsData);
+            QVariantMap settings;
+            settings_in >> settings;
 
 #ifdef COPYQ_LOG_DEBUG
-                {
-                    COPYQ_LOG("Loading configuration:");
-                    foreach (const QString &key, settings.keys()) {
-                        QVariant val = settings[key];
-                        const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
-                                                                          : val.toString();
-                        COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
-                    }
+            {
+                COPYQ_LOG("Loading configuration:");
+                foreach (const QString &key, settings.keys()) {
+                    QVariant val = settings[key];
+                    const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
+                                                                      : val.toString();
+                    COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
                 }
-#endif
-
-                if ( settings.contains("formats") )
-                    m_formats = settings["formats"].toStringList();
-#ifdef COPYQ_WS_X11
-                m_x11->loadSettings(settings);
-#endif
-
-                connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-                         this, SLOT(checkClipboard(QClipboard::Mode)), Qt::UniqueConnection );
-
-#ifdef COPYQ_WS_X11
-                checkClipboard(QClipboard::Selection);
-#endif
-                checkClipboard(QClipboard::Clipboard);
-
-                COPYQ_LOG("Configured");
-            } else {
-                updateClipboard(data);
             }
+#endif
+
+            if ( settings.contains("formats") )
+                m_formats = settings["formats"].toStringList();
+#ifdef COPYQ_WS_X11
+            m_x11->loadSettings(settings);
+#endif
+
+            connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
+                     this, SLOT(checkClipboard(QClipboard::Mode)), Qt::UniqueConnection );
+
+#ifdef COPYQ_WS_X11
+            checkClipboard(QClipboard::Selection);
+#endif
+            checkClipboard(QClipboard::Clipboard);
+
+            COPYQ_LOG("Configured");
+        } else {
+            updateClipboard(data);
         }
     }
 }
@@ -541,17 +532,12 @@ void ClipboardMonitor::updateClipboard(const QVariantMap &data)
 void ClipboardMonitor::exit(int exitCode)
 {
     m_updateTimer->start(); // Don't check clipboard after this.
-    m_socket->waitForBytesWritten(6000);
-    m_socket->disconnectFromServer();
     App::exit(exitCode);
 }
 
-void ClipboardMonitor::writeMessage(const QByteArray &msg)
+void ClipboardMonitor::writeMessage(const QByteArray &message)
 {
-    if ( !::writeMessage(m_socket, msg) ) {
-        ::log( "Failed to send data to server!", LogError );
-        exit(1);
-    }
+    emit sendMessage(message);
 }
 
 void ClipboardMonitor::log(const QString &text, const LogLevel level)
@@ -559,4 +545,33 @@ void ClipboardMonitor::log(const QString &text, const LogLevel level)
     const QString message = createLogMessage("Clipboard Monitor", text, level);
     const QVariantMap data = createDataMap(mimeMessage, message.trimmed().toUtf8());
     writeMessage( serializeData(data) );
+}
+
+void ClipboardMonitor::startClientSocket(QLocalSocket *localSocket)
+{
+    ClientSocket *socket = new ClientSocket(localSocket);
+
+    QThread *t = new QThread;
+    connect(socket, SIGNAL(destroyed()), t, SLOT(quit()));
+    connect(t, SIGNAL(finished()), t, SLOT(deleteLater()));
+    socket->moveToThread(t);
+    t->start();
+
+    connect( socket, SIGNAL(messageReceived(QByteArray)),
+             this, SLOT(onMessageReceived(QByteArray)) );
+    connect( socket, SIGNAL(disconnected()),
+             this, SLOT(onDisconnected()) );
+    connect( qApp, SIGNAL(aboutToQuit()),
+             socket, SLOT(deleteAfterDisconnected()) );
+    connect( this, SIGNAL(sendMessage(QByteArray)),
+             socket, SLOT(sendMessage(QByteArray)) );
+
+    QByteArray msg;
+    QDataStream out(&msg, QIODevice::WriteOnly);
+    Arguments args;
+    args.append("monitor");
+    out << args;
+    writeMessage(msg);
+
+    socket->start();
 }

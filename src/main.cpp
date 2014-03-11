@@ -62,18 +62,13 @@ void evaluate(const QString &functionName, const char *arg)
 int startServer(int argc, char *argv[], const QString &sessionName)
 {
     ClipboardServer app(argc, argv, sessionName);
-    if ( app.isListening() ) {
-        return app.exec();
-    } else {
-        log( QObject::tr("CopyQ server is already running."), LogWarning );
-        return 0;
-    }
+    return app.exec();
 }
 
 int startMonitor(int argc, char *argv[])
 {
     ClipboardMonitor app(argc, argv);
-    return app.isConnected() ? app.exec() : 0;
+    return app.exec();
 }
 
 int startClient(int argc, char *argv[], int skipArgc, const QString &sessionName)

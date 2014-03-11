@@ -22,10 +22,11 @@
 
 #include <QObject>
 #include <QTimer>
-#include <QLocalSocket>
 
+class Arguments;
+class ClientSocket;
+class Server;
 class QByteArray;
-class QLocalServer;
 class QString;
 
 /**
@@ -52,20 +53,23 @@ public:
     /**
      * Send message to remote process.
      */
-    bool writeMessage(const QByteArray &msg);
+    void writeMessage(const QByteArray &msg);
 
     /**
      * Return true only if both server and process are started.
      */
     bool isConnected() const;
 
-    void closeConnection();
-
 signals:
     /**
      * Remote processed sends @a message.
      */
     void newMessage(const QByteArray &message);
+
+    /**
+     * Sends message to monitor.
+     */
+    void sendMessage(const QByteArray &message);
 
     /**
      * An error occurred with connection.
@@ -78,18 +82,20 @@ signals:
     void connected();
 
 private slots:
-    void readyRead();
     void ping();
     void pongTimeout();
-    void onNewConnection();
+    void onNewConnection(const Arguments &args, ClientSocket *socket);
     void checkConnection();
-    void onError();
+    void onConnectionError();
 
 private:
-    QLocalServer *m_server;
-    QLocalSocket *m_socket;
     QTimer m_timerPing;
     QTimer m_timerPongTimeout;
+    enum State {
+        Unconnected,
+        Connecting,
+        Connected
+    } m_state;
 };
 
 #endif // REMOTEPROCESS_H
