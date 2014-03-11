@@ -143,7 +143,7 @@ public slots:
     void setInput(const QByteArray &bytes);
 
 signals:
-    void sendMessage(const QByteArray &message, int exitCode);
+    void sendMessage(const QByteArray &message, int messageCode);
     void requestApplicationQuit();
 
 private:

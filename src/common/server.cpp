@@ -26,7 +26,35 @@
 
 #include <QCoreApplication>
 #include <QLocalServer>
+#include <QLocalSocket>
 #include <QThread>
+
+namespace {
+
+QLocalServer *newServer(const QString &name)
+{
+    COPYQ_LOG( QString("Starting server \"%1\".").arg(name) );
+
+    QLocalServer *server = new QLocalServer;
+
+    // check if other server is running
+    QLocalSocket socket;
+    socket.connectToServer(name);
+    if ( socket.waitForConnected(2000) ) {
+        // server is running
+        QDataStream out(&socket);
+        out << (quint32)0;
+        COPYQ_LOG( QString("Server \"%1\" already running!").arg(name) );
+    } else {
+        QLocalServer::removeServer(name);
+        server->listen(name);
+        COPYQ_LOG( QString("Server \"%1\" started.").arg(name) );
+    }
+
+    return server;
+}
+
+} // namespace
 
 Server *Server::create(const QString &name)
 {

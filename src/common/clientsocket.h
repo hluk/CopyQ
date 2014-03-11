@@ -42,7 +42,7 @@ public slots:
     /** Send message to client. */
     void sendMessage(
             const QByteArray &message, //!< Message for client.
-            int exitCode = 0 //!< Exit code for client (non-zero for an error).
+            int messageCode //!< Custom message code.
             );
     void deleteAfterDisconnected();
 
@@ -51,7 +51,7 @@ public slots:
     bool isClosed() const;
 
 signals:
-    void messageReceived(const QByteArray &message);
+    void messageReceived(const QByteArray &message, int messageCode);
     void disconnected();
 
 private slots:

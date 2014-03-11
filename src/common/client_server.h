@@ -20,20 +20,9 @@
 #ifndef CLIENT_SERVER_H
 #define CLIENT_SERVER_H
 
-#include <QtGlobal>
-
-class QIODevice;
-class QLocalServer;
-class QObject;
 class QString;
 
-bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes);
-bool readMessage(QIODevice *socket, QByteArray *msg);
-bool writeMessage(QIODevice *socket, const QByteArray &msg);
-
-QLocalServer *newServer(const QString &name, QObject *parent = NULL);
 QString serverName(const QString &name);
 QString clipboardServerName();
-QString clipboardMonitorServerName();
 
 #endif // CLIENT_SERVER_H

@@ -17,32 +17,35 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef CLIPBOARDCLIENT_H
-#define CLIPBOARDCLIENT_H
+#ifndef CLIENT_H
+#define CLIENT_H
 
-#include "app.h"
-#include "client.h"
+#include <QObject>
 
-/**
- * Application client.
- *
- * Sends a command to the server and exits after the command is executed.
- * Exit code is same as exit code send by ClipboardServer::sendMessage().
- * Also the received message is printed on standard output (if exit code is
- * zero) or standard error output.
- */
-class ClipboardClient : public Client, public App
+class Arguments;
+
+class Client : public QObject
 {
     Q_OBJECT
-
 public:
-    ClipboardClient(int &argc, char **argv,
-                    int skipArgc = 0, const QString &sessionName = QString());
+    explicit Client(QObject *parent = NULL);
+
+    virtual ~Client() {}
+
+protected:
+    bool startClientSocket(const QString &serverName, const Arguments &arguments);
+
+    void sendMessage(const QByteArray &message, int messageCode);
+
+signals:
+    void sendMessageRequest(const QByteArray &message, int messageCode);
 
 private slots:
-    void onMessageReceived(const QByteArray &data, int messageCode);
+    /** Message received from server. */
+    virtual void onMessageReceived(const QByteArray &message, int messageCode) = 0;
 
-    void onDisconnected();
+    /** Server connection closed. */
+    virtual void onDisconnected() = 0;
 };
 
-#endif // CLIPBOARDCLIENT_H
+#endif // CLIENT_H

@@ -37,7 +37,7 @@ class QString;
 class QStringList;
 
 /** Command status. */
-typedef enum {
+enum CommandStatus {
     /** Script finished */
     CommandFinished = 0,
     /** Command invocation error. */
@@ -50,7 +50,17 @@ typedef enum {
     CommandActivateWindow,
     /** Ask client to send data from its stdin. */
     CommandReadInput
-} CommandStatus;
+};
+
+/** Message code for/from clipboard monitor. */
+enum MonitorMessageCode {
+    MonitorPing,
+    MonitorPong,
+    MonitorSettings,
+    MonitorChangeClipboard,
+    MonitorClipboardChanged,
+    MonitorLog
+};
 
 #if QT_VERSION < 0x050000
 #   ifdef Q_WS_WIN
@@ -65,8 +75,13 @@ typedef enum {
 #endif
 
 #ifdef COPYQ_LOG_DEBUG
+inline bool isLogVerbose()
+{
+    static const bool verbose = qgetenv("COPYQ_VERBOSE") == "1";
+    return verbose;
+}
 #   define COPYQ_LOG(msg) log(msg, LogDebug)
-#   define COPYQ_LOG_VERBOSE(msg) if ( qgetenv("COPYQ_VERBOSE") == "1" ) log(msg, LogDebug);
+#   define COPYQ_LOG_VERBOSE(msg) do { if ( isLogVerbose() ) log(msg, LogDebug); } while (false)
 #else
 #   define COPYQ_LOG(msg)
 #   define COPYQ_LOG_VERBOSE(msg)
@@ -88,8 +103,6 @@ extern const char mimeUriList[];
 extern const char mimeWindowTitle[];
 extern const char mimeItems[];
 extern const char mimeItemNotes[];
-extern const char mimeApplicationSettings[];
-extern const char mimeMessage[];
 extern const char mimeOwner[];
 #ifdef COPYQ_WS_X11
 extern const char mimeClipboardMode[];

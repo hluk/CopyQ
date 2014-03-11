@@ -24,7 +24,6 @@
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
-#include <QLocalSocket>
 #include <QObject>
 #include <QScriptEngine>
 
@@ -55,7 +54,7 @@ void ScriptableWorker::run()
     if (m_socket) {
         QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
                           m_socket, SLOT(sendMessage(QByteArray,int)) );
-        QObject::connect( m_socket, SIGNAL(messageReceived(QByteArray)),
+        QObject::connect( m_socket, SIGNAL(messageReceived(QByteArray,int)),
                           &scriptable, SLOT(setInput(QByteArray)) );
 
         QObject::connect( m_socket, SIGNAL(disconnected()),

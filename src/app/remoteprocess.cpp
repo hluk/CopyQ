@@ -105,10 +105,10 @@ void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
 
     connect( this, SIGNAL(destroyed()),
              socket, SLOT(deleteAfterDisconnected()) );
-    connect( this, SIGNAL(sendMessage(QByteArray)),
-             socket, SLOT(sendMessage(QByteArray)) );
-    connect( socket, SIGNAL(messageReceived(QByteArray)),
-             this, SIGNAL(newMessage(QByteArray)) );
+    connect( this, SIGNAL(sendMessage(QByteArray,int)),
+             socket, SLOT(sendMessage(QByteArray,int)) );
+    connect( socket, SIGNAL(messageReceived(QByteArray,int)),
+             this, SLOT(onMessageReceived(QByteArray,int)) );
     connect( socket, SIGNAL(disconnected()),
              this, SLOT(onConnectionError()) );
 
@@ -119,15 +119,33 @@ void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
     emit connected();
 }
 
+void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode)
+{
+    // restart waiting on ping response
+    if (m_timerPongTimeout.isActive())
+        m_timerPongTimeout.start();
+
+    if (messageCode == MonitorPong) {
+        m_timerPongTimeout.stop();
+        m_timerPing.start();
+    } else if (messageCode == MonitorLog) {
+        log( QString::fromUtf8(message).trimmed(), LogNote );
+    } else if (messageCode == MonitorClipboardChanged) {
+        emit newMessage(message);
+    } else {
+        log( QString("Unknown message code %1 from remote process!").arg(messageCode), LogError );
+    }
+}
+
 void RemoteProcess::onConnectionError()
 {
     m_state = Unconnected;
     emit connectionError();
 }
 
-void RemoteProcess::writeMessage(const QByteArray &msg)
+void RemoteProcess::writeMessage(const QByteArray &msg, int messageCode)
 {
-    emit sendMessage(msg);
+    emit sendMessage(msg, messageCode);
 }
 
 bool RemoteProcess::isConnected() const
@@ -138,7 +156,7 @@ bool RemoteProcess::isConnected() const
 void RemoteProcess::ping()
 {
     if ( isConnected() ) {
-        writeMessage("ping");
+        writeMessage( QByteArray(), MonitorPing );
         m_timerPing.stop();
         m_timerPongTimeout.start();
     }

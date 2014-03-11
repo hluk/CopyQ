@@ -29,7 +29,6 @@
 #include <QRunnable>
 
 class ClientSocket;
-class QLocalSocket;
 
 class ScriptableWorker : public QRunnable
 {

@@ -21,7 +21,6 @@
 
 #include "common/arguments.h"
 #include "common/client_server.h"
-#include "common/clientsocket.h"
 #include "common/common.h"
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
@@ -31,7 +30,6 @@
 #include <QApplication>
 #include <QMimeData>
 #include <QScopedPointer>
-#include <QThread>
 #include <QTimer>
 
 #ifdef COPYQ_WS_X11
@@ -253,7 +251,7 @@ private:
 #endif
 
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
-    : QObject()
+    : Client()
     , App(createPlatformNativeInterface()->createMonitorApplication(argc, argv))
     , m_formats()
     , m_newdata()
@@ -270,7 +268,6 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
 {
     Q_ASSERT(argc == 3);
-
     const QString serverName( QString::fromLocal8Bit(argv[2]) );
 
 #ifdef HAS_TESTS
@@ -299,11 +296,8 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     m_clipboardCheckTimer->start();
 #endif
 
-    QLocalSocket *localSocket = new QLocalSocket(this);
-    localSocket->connectToServer(serverName);
-    if ( localSocket->waitForConnected(4000) )
-        startClientSocket(localSocket);
-    else
+    Arguments arguments(argc, argv);
+    if ( !startClientSocket(serverName, arguments) )
         exit(1);
 }
 
@@ -426,7 +420,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
 void ClipboardMonitor::clipboardChanged(const QVariantMap &data)
 {
-    writeMessage( serializeData(data) );
+    sendMessage( serializeData(data), MonitorClipboardChanged );
 }
 
 void ClipboardMonitor::updateTimeout()
@@ -442,51 +436,48 @@ void ClipboardMonitor::updateTimeout()
     }
 }
 
-void ClipboardMonitor::onMessageReceived(const QByteArray &message)
+void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageCode)
 {
-    if (message == "ping") {
-        writeMessage( QByteArray("pong") );
-    } else {
-        QVariantMap data;
-        deserializeData(&data, message);
-
-        /* Does server send settings for monitor? */
-        QByteArray settingsData = data.value(mimeApplicationSettings).toByteArray();
-        if ( !settingsData.isEmpty() ) {
-            QDataStream settings_in(settingsData);
-            QVariantMap settings;
-            settings_in >> settings;
+    if (messageCode == MonitorPing) {
+        sendMessage( QByteArray(), MonitorPong );
+    } else if (messageCode == MonitorSettings) {
+        QDataStream stream(message);
+        QVariantMap settings;
+        stream >> settings;
 
 #ifdef COPYQ_LOG_DEBUG
-            {
-                COPYQ_LOG("Loading configuration:");
-                foreach (const QString &key, settings.keys()) {
-                    QVariant val = settings[key];
-                    const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
-                                                                      : val.toString();
-                    COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
-                }
+        {
+            COPYQ_LOG("Loading configuration:");
+            foreach (const QString &key, settings.keys()) {
+                QVariant val = settings[key];
+                const QString str = val.canConvert<QStringList>() ? val.toStringList().join(",")
+                                                                  : val.toString();
+                COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
             }
-#endif
-
-            if ( settings.contains("formats") )
-                m_formats = settings["formats"].toStringList();
-#ifdef COPYQ_WS_X11
-            m_x11->loadSettings(settings);
-#endif
-
-            connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-                     this, SLOT(checkClipboard(QClipboard::Mode)), Qt::UniqueConnection );
-
-#ifdef COPYQ_WS_X11
-            checkClipboard(QClipboard::Selection);
-#endif
-            checkClipboard(QClipboard::Clipboard);
-
-            COPYQ_LOG("Configured");
-        } else {
-            updateClipboard(data);
         }
+#endif
+
+        if ( settings.contains("formats") )
+            m_formats = settings["formats"].toStringList();
+#ifdef COPYQ_WS_X11
+        m_x11->loadSettings(settings);
+#endif
+
+        connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
+                 this, SLOT(checkClipboard(QClipboard::Mode)), Qt::UniqueConnection );
+
+#ifdef COPYQ_WS_X11
+        checkClipboard(QClipboard::Selection);
+#endif
+        checkClipboard(QClipboard::Clipboard);
+
+        COPYQ_LOG("Configured");
+    } else if (messageCode == MonitorChangeClipboard) {
+        QVariantMap data;
+        deserializeData(&data, message);
+        updateClipboard(data);
+    } else {
+        log( QString("Unknown message code %1!").arg(messageCode), LogError );
     }
 }
 
@@ -535,43 +526,8 @@ void ClipboardMonitor::exit(int exitCode)
     App::exit(exitCode);
 }
 
-void ClipboardMonitor::writeMessage(const QByteArray &message)
-{
-    emit sendMessage(message);
-}
-
 void ClipboardMonitor::log(const QString &text, const LogLevel level)
 {
     const QString message = createLogMessage("Clipboard Monitor", text, level);
-    const QVariantMap data = createDataMap(mimeMessage, message.trimmed().toUtf8());
-    writeMessage( serializeData(data) );
-}
-
-void ClipboardMonitor::startClientSocket(QLocalSocket *localSocket)
-{
-    ClientSocket *socket = new ClientSocket(localSocket);
-
-    QThread *t = new QThread;
-    connect(socket, SIGNAL(destroyed()), t, SLOT(quit()));
-    connect(t, SIGNAL(finished()), t, SLOT(deleteLater()));
-    socket->moveToThread(t);
-    t->start();
-
-    connect( socket, SIGNAL(messageReceived(QByteArray)),
-             this, SLOT(onMessageReceived(QByteArray)) );
-    connect( socket, SIGNAL(disconnected()),
-             this, SLOT(onDisconnected()) );
-    connect( qApp, SIGNAL(aboutToQuit()),
-             socket, SLOT(deleteAfterDisconnected()) );
-    connect( this, SIGNAL(sendMessage(QByteArray)),
-             socket, SLOT(sendMessage(QByteArray)) );
-
-    QByteArray msg;
-    QDataStream out(&msg, QIODevice::WriteOnly);
-    Arguments args;
-    args.append("monitor");
-    out << args;
-    writeMessage(msg);
-
-    socket->start();
+    sendMessage( message.toUtf8(), MonitorLog );
 }

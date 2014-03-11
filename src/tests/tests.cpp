@@ -33,8 +33,6 @@
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFileInfo>
-#include <QLocalServer>
-#include <QLocalSocket>
 #include <QMimeData>
 #include <QProcess>
 #include <QRegExp>
@@ -383,7 +381,7 @@ public:
             return "Failed to start clipboard monitor!";
 
         const QVariantMap data = createDataMap(mime, bytes);
-        m_monitor->writeMessage(serializeData(data));
+        m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
 
         waitUntilClipboardSet(bytes, mime);
         QByteArray error = testClipboard(bytes, mime);

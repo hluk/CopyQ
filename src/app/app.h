@@ -44,6 +44,11 @@ public:
      */
     virtual void exit(int exitCode=0);
 
+    /**
+     * Return true if exit() was called.
+     */
+    bool wasClosed() const;
+
 private:
     QScopedPointer<QCoreApplication> m_app;
     int m_exitCode;

@@ -37,8 +37,6 @@
 #include <QApplication>
 #include <QDateTime>
 #include <QKeyEvent>
-#include <QLocalServer>
-#include <QLocalSocket>
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
@@ -198,8 +196,7 @@ void ClipboardServer::loadMonitorSettings()
     QDataStream settingsOut(&settingsData, QIODevice::WriteOnly);
     settingsOut << settings;
 
-    const QVariantMap data = createDataMap(mimeApplicationSettings, settingsData);
-    m_monitor->writeMessage( serializeData(data) );
+    m_monitor->writeMessage(settingsData, MonitorSettings);
 }
 
 bool ClipboardServer::isMonitoring()
@@ -315,29 +312,23 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     ClipboardItem item;
     item.setData(data);
 
-    if ( data.contains(mimeMessage) ) {
-        const QByteArray bytes = data[mimeMessage].toByteArray();
-        foreach( const QByteArray &line, bytes.split('\n') )
-            log( QString::fromUtf8(line), LogNote );
-    } else {
 #ifdef COPYQ_WS_X11
-        if ( data.value(mimeClipboardMode) != "selection" )
-            m_wnd->clipboardChanged(item.data());
-#else
+    if ( data.value(mimeClipboardMode) != "selection" )
         m_wnd->clipboardChanged(item.data());
+#else
+    m_wnd->clipboardChanged(item.data());
 #endif
 
-        if (m_ignoreNextItem) {
-            // Don't add item to list on application start.
-            m_ignoreNextItem = false;
-            m_lastHash = item.dataHash();
-        } else if ( ownsClipboardData(data) ) {
-            // Don't add item to list if any running clipboard monitor set the clipboard.
-        } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
-            m_lastHash = item.dataHash();
-            if ( !m_wnd->isClipboardStoringDisabled() )
-                m_wnd->addToTab( item.data(), QString(), true );
-        }
+    if (m_ignoreNextItem) {
+        // Don't add item to list on application start.
+        m_ignoreNextItem = false;
+        m_lastHash = item.dataHash();
+    } else if ( ownsClipboardData(data) ) {
+        // Don't add item to list if any running clipboard monitor set the clipboard.
+    } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
+        m_lastHash = item.dataHash();
+        if ( !m_wnd->isClipboardStoringDisabled() )
+            m_wnd->addToTab( item.data(), QString(), true );
     }
 }
 
@@ -356,7 +347,7 @@ void ClipboardServer::changeClipboard(const QVariantMap &data)
 
     COPYQ_LOG("Sending message to monitor.");
 
-    m_monitor->writeMessage( serializeData(data) );
+    m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
     m_lastHash = hash(data);
 }
 

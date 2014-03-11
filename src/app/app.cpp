@@ -150,7 +150,7 @@ App::~App()
 
 int App::exec()
 {
-    if (m_closed) {
+    if ( wasClosed() ) {
         m_app->processEvents();
         return m_exitCode;
     }
@@ -160,7 +160,15 @@ int App::exec()
 
 void App::exit(int exitCode)
 {
+    if ( wasClosed() )
+        return;
+
     QCoreApplication::exit(exitCode);
     m_exitCode = exitCode;
     m_closed = true;
+}
+
+bool App::wasClosed() const
+{
+    return m_closed;
 }

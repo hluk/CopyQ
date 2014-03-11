@@ -472,7 +472,7 @@ void Scriptable::show()
 {
     m_proxy->showWindow();
     QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
-    emit sendMessage(message, CommandActivateWindow);
+    sendMessageToClient(message, CommandActivateWindow);
 }
 
 void Scriptable::hide()
@@ -484,7 +484,7 @@ void Scriptable::toggle()
 {
     if ( m_proxy->toggleVisible() ) {
         QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
-        emit sendMessage(message, CommandActivateWindow);
+        sendMessageToClient(message, CommandActivateWindow);
     }
 }
 
@@ -492,14 +492,14 @@ void Scriptable::menu()
 {
     if ( m_proxy->toggleMenu() ) {
         QByteArray message = QByteArray::number((qlonglong)m_proxy->trayMenuWinId());
-        emit sendMessage(message, CommandActivateWindow);
+        sendMessageToClient(message, CommandActivateWindow);
     }
 }
 
 void Scriptable::exit()
 {
     QByteArray message = fromString( tr("Terminating server.\n") );
-    emit sendMessage(message, CommandFinished);
+    sendMessageToClient(message, CommandFinished);
     emit requestApplicationQuit();
 }
 
@@ -823,7 +823,7 @@ void Scriptable::action()
         m_proxy->action(data, command);
     } else {
         QByteArray message = QByteArray::number((qlonglong)m_proxy->openActionDialog(data));
-        emit sendMessage(message, CommandActivateWindow);
+        sendMessageToClient(message, CommandActivateWindow);
     }
 }
 
@@ -892,7 +892,7 @@ QScriptValue Scriptable::str(const QScriptValue &value)
 QScriptValue Scriptable::input()
 {
     if ( !toByteArray(m_input) ) {
-        emit sendMessage(QByteArray(), CommandReadInput);
+        sendMessageToClient(QByteArray(), CommandReadInput);
         while ( !toByteArray(m_input) )
             QApplication::processEvents();
     }
@@ -904,7 +904,7 @@ void Scriptable::print(const QScriptValue &value)
 {
     QByteArray *message = toByteArray(value);
     QByteArray bytes = (message != NULL) ? *message : fromString(value.toString());
-    emit sendMessage(bytes, CommandSuccess);
+    sendMessageToClient(bytes, CommandSuccess);
 }
 
 void Scriptable::abort()

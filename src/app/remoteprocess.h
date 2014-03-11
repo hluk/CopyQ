@@ -31,11 +31,6 @@ class QString;
 
 /**
  * Starts process and handles communication with it.
- *
- * Parent->child hierarchy after start() is called is following:
- *
- *   Parent of RemoteProcess -> QProcess -> QLocalServer -> QLocalSocket
- *
  */
 class RemoteProcess : public QObject
 {
@@ -53,7 +48,7 @@ public:
     /**
      * Send message to remote process.
      */
-    void writeMessage(const QByteArray &msg);
+    void writeMessage(const QByteArray &msg, int messageCode);
 
     /**
      * Return true only if both server and process are started.
@@ -69,7 +64,7 @@ signals:
     /**
      * Sends message to monitor.
      */
-    void sendMessage(const QByteArray &message);
+    void sendMessage(const QByteArray &message, int messageCode);
 
     /**
      * An error occurred with connection.
@@ -85,6 +80,7 @@ private slots:
     void ping();
     void pongTimeout();
     void onNewConnection(const Arguments &args, ClientSocket *socket);
+    void onMessageReceived(const QByteArray &message, int messageCode);
     void checkConnection();
     void onConnectionError();
 

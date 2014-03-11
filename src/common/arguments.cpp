@@ -124,7 +124,7 @@ const QByteArray &Arguments::at(int index) const
 
 QDataStream &operator <<(QDataStream &stream, const Arguments &args)
 {
-    int len = args.length();
+    qint32 len = args.length();
 
     stream << len;
     for( int i = 0; i<len; ++i ) {
@@ -137,7 +137,7 @@ QDataStream &operator <<(QDataStream &stream, const Arguments &args)
 
 QDataStream &operator>>(QDataStream &stream, Arguments &args)
 {
-    int len;
+    qint32 len;
     uint arg_len;
     char *buffer;
 
