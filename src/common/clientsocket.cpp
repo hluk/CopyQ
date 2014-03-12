@@ -31,7 +31,7 @@
 
 namespace {
 
-bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
+bool readBytes(QLocalSocket *socket, qint64 size, QByteArray *bytes)
 {
     qint64 avail, read = 0;
     bytes->clear();
@@ -46,7 +46,7 @@ bool readBytes(QIODevice *socket, qint64 size, QByteArray *bytes)
     return true;
 }
 
-bool readMessage(QIODevice *socket, QByteArray *msg)
+bool readMessage(QLocalSocket *socket, QByteArray *msg)
 {
     QByteArray bytes;
     quint32 len;
@@ -67,7 +67,7 @@ bool readMessage(QIODevice *socket, QByteArray *msg)
     return false;
 }
 
-bool writeMessage(QIODevice *socket, const QByteArray &msg)
+bool writeMessage(QLocalSocket *socket, const QByteArray &msg)
 {
     COPYQ_LOG_VERBOSE( QString("Write message (%1 bytes).").arg(msg.size()) );
 
@@ -116,8 +116,6 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
 
 void ClientSocket::start()
 {
-    connect( m_socket, SIGNAL(readyRead()),
-             this, SLOT(onReadyRead()), Qt::UniqueConnection );
     QMetaObject::invokeMethod(this, "onReadyRead", Qt::QueuedConnection);
 }
 
@@ -172,6 +170,12 @@ void ClientSocket::onReadyRead()
         return;
     }
 
+    /* QLocalSocket::waitForReadyRead() seems to re-emit readyRead()
+     * though QIODevice::waitForReadyRead() doesn't do that (very confusing).
+     */
+    disconnect( m_socket, SIGNAL(readyRead()),
+                this, SLOT(onReadyRead()) );
+
     while (m_socket->bytesAvailable() > 0) {
         QByteArray msg;
 
@@ -189,6 +193,9 @@ void ClientSocket::onReadyRead()
         const QByteArray data( msg.constData() + i, msg.length() - i );
         emit messageReceived(data, messageCode);
     }
+
+    connect( m_socket, SIGNAL(readyRead()),
+             this, SLOT(onReadyRead()) );
 }
 
 void ClientSocket::onError(QLocalSocket::LocalSocketError error)
