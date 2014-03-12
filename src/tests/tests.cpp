@@ -880,8 +880,7 @@ void Tests::action()
 {
     const Args args = Args("tab") << testTab(1);
     const Args argsAction = Args(args) << "action";
-    const QString action = QString("%1 %2 %3").arg(QApplication::applicationFilePath())
-                                              .arg(args.join(" "));
+    const QString action = QString("copyq %1 %2").arg(args.join(" "));
 
     QByteArray out;
 
@@ -1162,7 +1161,7 @@ void Tests::externalEditor()
     QString cmd = QString(
                 "\"%1\" tab \"%2\" eval "
                 "\"add(arguments[1]);while(str(read(0)) != '%3');\"")
-            .arg(QApplication::applicationFilePath())
+            .arg(QDir::toNativeSeparators(QApplication::applicationFilePath()))
             .arg(editorTab)
             .arg(endEditor)
             + " %1";
