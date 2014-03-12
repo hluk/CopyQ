@@ -804,7 +804,8 @@ void Tests::clipboardToItem()
     RUN(Args("clipboard"), "TEST1");
     RUN(Args("read") << "0", "TEST1");
 
-    const QByteArray htmlBytes = "<b>TEST2</b>";
+    // NOTE: On Windows the "Fragment" parts are magically added - so it's easier to add them here.
+    const QByteArray htmlBytes = "<!--StartFragment--><b>TEST2</b><!--EndFragment-->";
     TEST( m_test->setClipboard(htmlBytes, "text/html") );
     RUN(Args("clipboard") << "text/html", htmlBytes.data());
     RUN(Args("read") << "text/html" << "0", htmlBytes.data());

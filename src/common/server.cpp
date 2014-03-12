@@ -110,9 +110,10 @@ void Server::close()
 {
     m_server->close();
 
-    COPYQ_LOG( QString("Sockets open: %1").arg(findChildren<QLocalSocket*>().size()) );
-    while ( findChild<QLocalSocket*>() )
-        QCoreApplication::processEvents(QEventLoop::WaitForMoreEvents);
+    QList<QLocalSocket*> sockets = findChildren<QLocalSocket*>();
+    COPYQ_LOG( QString("Sockets open: %1").arg(sockets.size()) );
+    foreach (QLocalSocket *socket, sockets)
+        socket->waitForDisconnected(4000);
 
     deleteLater();
 }
