@@ -144,7 +144,7 @@ void ClipboardServer::stopMonitoring()
     log( tr("Clipboard Monitor: Terminating") );
 
     m_monitor->disconnect();
-    m_monitor->deleteLater();
+    delete m_monitor;
     m_monitor = NULL;
 
     log( tr("Clipboard Monitor: Terminated") );

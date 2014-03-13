@@ -60,6 +60,7 @@ Server::Server(const QString &name, QObject *parent)
     , m_server(newServer(name, this))
 {
     qRegisterMetaType<Arguments>("Arguments");
+    connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
 }
 
 void Server::start()
@@ -97,10 +98,9 @@ void Server::close()
 {
     m_server->close();
 
-    QList<QLocalSocket*> sockets = findChildren<QLocalSocket*>();
-    COPYQ_LOG( QString("Sockets open: %1").arg(sockets.size()) );
-    foreach (QLocalSocket *socket, sockets)
-        socket->waitForDisconnected(4000);
+    COPYQ_LOG( QString("Sockets open: %1").arg(findChildren<QLocalSocket*>().size()) );
+    while ( findChild<QLocalSocket*>() != NULL )
+        QCoreApplication::processEvents();
 
     deleteLater();
 }
