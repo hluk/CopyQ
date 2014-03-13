@@ -27,15 +27,14 @@
 #include <QCoreApplication>
 #include <QLocalServer>
 #include <QLocalSocket>
-#include <QThread>
 
 namespace {
 
-QLocalServer *newServer(const QString &name)
+QLocalServer *newServer(const QString &name, QObject *parent)
 {
     COPYQ_LOG( QString("Starting server \"%1\".").arg(name) );
 
-    QLocalServer *server = new QLocalServer;
+    QLocalServer *server = new QLocalServer(parent);
 
     // check if other server is running
     QLocalSocket socket;
@@ -56,28 +55,25 @@ QLocalServer *newServer(const QString &name)
 
 } // namespace
 
-Server *Server::create(const QString &name)
+Server::Server(const QString &name, QObject *parent)
+    : QObject(parent)
+    , m_server(newServer(name, this))
 {
-    QLocalServer *localServer = newServer(name);
-    if ( !localServer->isListening() ) {
-        delete localServer;
-        return NULL;
-    }
-
-    return new Server(localServer);
+    qRegisterMetaType<Arguments>("Arguments");
 }
 
-void Server::startInThread()
+void Server::start()
 {
-    Q_ASSERT(thread() == QThread::currentThread());
+    while (m_server->hasPendingConnections())
+        onNewConnection();
 
-    QThread *t = new QThread;
-    connect(this, SIGNAL(destroyed()), t, SLOT(quit()));
-    connect(t, SIGNAL(finished()), t, SLOT(deleteLater()));
-    connect(t, SIGNAL(started()), this, SLOT(start()));
+    connect( m_server, SIGNAL(newConnection()),
+             this, SLOT(onNewConnection()) );
+}
 
-    moveToThread(t);
-    t->start();
+bool Server::isListening() const
+{
+    return m_server->isListening();
 }
 
 void Server::onNewConnection()
@@ -97,15 +93,6 @@ void Server::onNewConnection()
     }
 }
 
-void Server::start()
-{
-    while (m_server->hasPendingConnections())
-        onNewConnection();
-
-    connect( m_server, SIGNAL(newConnection()),
-             this, SLOT(onNewConnection()) );
-}
-
 void Server::close()
 {
     m_server->close();
@@ -116,13 +103,4 @@ void Server::close()
         socket->waitForDisconnected(4000);
 
     deleteLater();
-}
-
-Server::Server(QLocalServer *server)
-    : QObject()
-    , m_server(server)
-{
-    m_server->setParent(this);
-    qRegisterMetaType<Arguments>("Arguments");
-    connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
 }

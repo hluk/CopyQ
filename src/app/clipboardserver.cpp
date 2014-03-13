@@ -73,8 +73,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_clientThreads()
     , m_internalThreads()
 {
-    Server *server = Server::create( clipboardServerName() );
-    if (!server) {
+    Server *server = new Server( clipboardServerName(), this );
+    if ( !server->isListening() ) {
         log( QObject::tr("CopyQ server is already running."), LogWarning );
         exit(0);
         return;
@@ -125,7 +125,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     QCoreApplication::instance()->installEventFilter(this);
 
-    server->startInThread();
+    server->start();
 }
 
 ClipboardServer::~ClipboardServer()

@@ -61,18 +61,17 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     m_state = Connecting;
 
-    Server *server = Server::create(newServerName);
-    if (!server) {
+    Server *server = new Server(newServerName, this);
+    if ( !server->isListening() ) {
+        delete server;
         onConnectionError();
         return;
     }
 
-    connect(this, SIGNAL(destroyed()),
-            server, SLOT(deleteLater()) );
     connect(server, SIGNAL(newConnection(Arguments,ClientSocket*)),
             this, SLOT(onNewConnection(Arguments,ClientSocket*)));
 
-    server->startInThread();
+    server->start();
 
     COPYQ_LOG( QString("Remote process: Starting new remote process \"%1 %2\".")
                .arg(QCoreApplication::applicationFilePath())

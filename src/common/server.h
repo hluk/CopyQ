@@ -30,20 +30,18 @@ class Server : public QObject
 {
     Q_OBJECT
 public:
-    static Server *create(const QString &name);
+    explicit Server(const QString &name, QObject *parent = NULL);
 
-    void startInThread();
+    void start();
+
+    bool isListening() const;
 
 signals:
     void newConnection(const Arguments &args, ClientSocket *socket);
 
 private slots:
     void onNewConnection();
-    void start();
     void close();
-
-protected:
-    Server(QLocalServer *server);
 
 private:
     QLocalServer *m_server;
