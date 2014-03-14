@@ -81,6 +81,9 @@ public:
     virtual QByteArray runClientWithError(const QStringList &arguments, int expectedExitCode,
                                           const QByteArray &stderrContains = QByteArray()) = 0;
 
+    /// Run client with given @a arguments and read output, check stderr and exit code.
+    virtual QByteArray getClientOutput(const QStringList &arguments, QByteArray *stdoutActual) = 0;
+
     /// Set clipboard through monitor process.
     virtual QByteArray setClipboard(const QByteArray &bytes, const QString &mime = QString("text/plain")) = 0;
 

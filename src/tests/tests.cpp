@@ -40,12 +40,6 @@
 #include <QTemporaryFile>
 #include <QTest>
 
-#define VERIFY_SERVER_OUTPUT() \
-do { \
-    QByteArray errors = m_test->readServerErrors(); \
-    QVERIFY2(errors.isEmpty(), errors); \
-} while (0)
-
 #define RUN(arguments, stdoutExpected) \
     TEST( m_test->runClient(arguments, toByteArray(stdoutExpected)) )
 
@@ -53,21 +47,15 @@ do { \
 do { \
     QElapsedTimer t; \
     t.start(); \
-    bool success = false; \
     while(true) { \
-        stdoutActual.clear(); \
         waitFor(200); \
-        QVERIFY( m_test->isServerRunning() ); \
-        QByteArray stderrActual; \
-        QCOMPARE( run(arguments, &stdoutActual, &stderrActual), 0 ); \
-        QVERIFY2( testStderr(stderrActual), stderrActual ); \
-        VERIFY_SERVER_OUTPUT(); \
-        success = CONDITION; \
-        if (success || t.elapsed() > 8000) \
+        TEST( m_test->getClientOutput(arguments, &stdoutActual) ); \
+        if (CONDITION) \
             break; \
+        if (t.elapsed() > 8000) \
+            TEST("Operation timeout!"); \
     } \
-    QVERIFY(success); \
-} while (0)
+} while(false)
 
 namespace {
 
@@ -428,6 +416,22 @@ public:
         }
 
         return QByteArray();
+    }
+
+    QByteArray getClientOutput(const QStringList &arguments, QByteArray *stdoutActual)
+    {
+        stdoutActual->clear();
+
+        QByteArray stderrActual;
+        int exitCode = run(arguments, stdoutActual, &stderrActual);
+        if ( !testStderr(stderrActual) || exitCode != 0 )
+            return printClienAndServerStderr(stderrActual, exitCode);
+
+        const QByteArray errors = readServerErrors();
+        if ( !errors.isEmpty() )
+            return errors;
+
+        return "";
     }
 
     QByteArray cleanup()
@@ -1161,7 +1165,7 @@ void Tests::externalEditor()
     QString cmd = QString(
                 "\"%1\" tab \"%2\" eval "
                 "\"add(arguments[1]);while(str(read(0)) != '%3');\"")
-            .arg(QDir::toNativeSeparators(QApplication::applicationFilePath()))
+            .arg(QApplication::applicationFilePath())
             .arg(editorTab)
             .arg(endEditor)
             + " %1";
