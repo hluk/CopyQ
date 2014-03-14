@@ -114,6 +114,10 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     createGlobalShortcuts();
 #endif
 
+    // Allow to run at least few client and internal threads concurrently.
+    m_clientThreads.setMaxThreadCount( qMax(m_clientThreads.maxThreadCount(), 4) );
+    m_internalThreads.setMaxThreadCount( qMax(m_internalThreads.maxThreadCount(), 4) );
+
     // hash of the last clipboard data
     bool ok;
     m_lastHash = cm->value("_last_hash").toUInt(&ok);
