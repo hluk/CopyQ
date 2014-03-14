@@ -121,14 +121,20 @@ bool ItemEditor::start()
     connect( m_timer, SIGNAL(timeout()),
              this, SLOT(onTimer()) );
 
-    // exec editor
+    // create editor process
     m_editor = new QProcess(this);
     connect( m_editor, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(close()) );
     connect( m_editor, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(onError()) );
+
+    // use native path for filename to edit and escape all backslashes
     const QString nativeFilePath = QDir::toNativeSeparators(m_info.filePath());
-    m_editor->start( m_editorcmd.arg('"' + nativeFilePath + '"') );
+    QString cmd = m_editorcmd.arg('"' + nativeFilePath + '"');
+    cmd.replace("\\", "\\\\");
+
+    // execute editor
+    m_editor->start(cmd);
 
     tmpfile.setAutoRemove(false);
     tmpfile.close();
