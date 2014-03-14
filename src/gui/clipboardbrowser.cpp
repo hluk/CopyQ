@@ -348,6 +348,9 @@ bool ClipboardBrowser::startEditor(QObject *editor)
     connect( editor, SIGNAL(closed(QObject *)),
              this, SLOT(closeExternalEditor(QObject *)) );
 
+    connect( editor, SIGNAL(error(QString)),
+             this, SIGNAL(error(QString)) );
+
     bool retVal = false;
     bool result = QMetaObject::invokeMethod( editor, "start", Qt::DirectConnection,
                                              Q_RETURN_ARG(bool, retVal) );

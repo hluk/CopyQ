@@ -125,6 +125,8 @@ bool ItemEditor::start()
     m_editor = new QProcess(this);
     connect( m_editor, SIGNAL(finished(int, QProcess::ExitStatus)),
             this, SLOT(close()) );
+    connect( m_editor, SIGNAL(error(QProcess::ProcessError)),
+            this, SLOT(onError()) );
     const QString nativeFilePath = QDir::toNativeSeparators(m_info.filePath());
     m_editor->start( m_editorcmd.arg('"' + nativeFilePath + '"') );
 
@@ -140,6 +142,19 @@ void ItemEditor::close()
     if ( m_modified || fileModified() )
         emit fileModified(m_data, m_mime);
 
+    if (m_editor && m_editor->exitCode() != 0 ) {
+        emitError( tr("editor exit code is %1").arg(m_editor->exitCode()) );
+        const QByteArray errors = m_editor->readAllStandardError();
+        if ( !errors.isEmpty() )
+            emitError( QString::fromLocal8Bit(errors) );
+    }
+
+    emit closed(this);
+}
+
+void ItemEditor::onError()
+{
+    emitError( m_editor->errorString() );
     emit closed(this);
 }
 
@@ -166,6 +181,11 @@ bool ItemEditor::fileModified()
     }
 
     return false;
+}
+
+void ItemEditor::emitError(const QString &errorString)
+{
+    emit error( tr("Editor command: %1").arg(errorString) );
 }
 
 void ItemEditor::onTimer()

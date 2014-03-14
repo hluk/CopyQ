@@ -59,17 +59,26 @@ class ItemEditor : public QObject
          */
         void closed(QObject *who);
 
+        /**
+         * Failed to run editor command.
+         */
+        void error(const QString &errorString);
+
     private slots:
         /**
          * Close editor.
          */
         void close();
 
+        void onError();
+
         void onTimer();
 
     private:
         /** Return true only if file was modified and reset this status. */
         bool fileModified();
+
+        void emitError(const QString &errorString);
 
         QByteArray m_data;
         QString m_mime;

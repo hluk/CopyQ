@@ -331,6 +331,9 @@ class ClipboardBrowser : public QListView
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(const QVariantMap &data, const QString &tabName);
 
+        /** Emitted on error. */
+        void error(const QString &errorString);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);

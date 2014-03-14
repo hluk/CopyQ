@@ -430,6 +430,12 @@ void MainWindow::updateIcon()
     setWindowIcon(icon);
 }
 
+void MainWindow::onBrowserError(const QString &errorString)
+{
+    log(errorString, LogError);
+    showMessage( tr("Error"), errorString, QSystemTrayIcon::Critical );
+}
+
 void MainWindow::onAboutToQuit()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
@@ -602,6 +608,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
              this, SLOT(showBrowser(const ClipboardBrowser*)) );
     connect( c, SIGNAL(requestHide()),
              this, SLOT(closeAndReturnFocus()) );
+    connect( c, SIGNAL(error(QString)),
+             this, SLOT(onBrowserError(QString)) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
     connect( c, SIGNAL(contextMenuUpdated()),

@@ -345,6 +345,8 @@ private slots:
     /** Update tray and window icon depending on current state. */
     void updateIcon();
 
+    void onBrowserError(const QString &errorString);
+
     void onAboutToQuit();
 
 private:
