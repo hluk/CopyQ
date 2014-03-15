@@ -261,7 +261,7 @@ public slots:
         v = QString();
         ClipboardBrowser *c = fetchBrowser();
         if (c) {
-            const int i = m_wnd->tabIndex(c);
+            const int i = m_wnd->findTabIndex( c->tabName() );
             v = m_wnd->saveTab(arg1, i);
         }
     }

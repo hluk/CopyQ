@@ -312,6 +312,7 @@ void TabWidget::onTreeItemSelected(bool isGroup)
 void TabWidget::onTabMoved(int from, int to)
 {
     m_stackedWidget->insertWidget(to, m_stackedWidget->widget(from));
+    emit tabMoved(from, to);
 }
 
 void TabWidget::onToolBarOrientationChanged(Qt::Orientation orientation)

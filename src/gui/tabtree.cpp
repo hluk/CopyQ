@@ -19,7 +19,7 @@
 
 #include "tabtree.h"
 
-#include "common/client_server.h"
+#include "common/common.h"
 
 #include <QLabel>
 #include <QList>
@@ -330,7 +330,23 @@ void TabTree::dropEvent(QDropEvent *event)
     setItemWidgetSelected(current);
     blockSignals(false);
 
-    const QString newPrefix = getTabPath(current);
+    // Rename moved item if non-unique.
+    QStringList tabs;
+    QTreeWidgetItem *parent = current->parent();
+    for (int i = 0, count = parent ? parent->childCount() : topLevelItemCount(); i < count; ++i) {
+        QTreeWidgetItem *sibling = parent ? parent->child(i) : topLevelItem(i);
+        if (sibling != current)
+            tabs.append( getTabPath(sibling) );
+    }
+
+    QString newPrefix = getTabPath(current);
+    if ( tabs.contains(newPrefix) ) {
+        renameToUnique(&newPrefix, tabs);
+        const QString text = newPrefix.mid( newPrefix.lastIndexOf(QChar('/')) + 1 );
+        current->setData(0, DataText, text);
+        labelItem(current);
+    }
+
     const QString afterPrefix = getTabPath(itemAbove(current));
     emit tabMoved(oldPrefix, newPrefix, afterPrefix);
 

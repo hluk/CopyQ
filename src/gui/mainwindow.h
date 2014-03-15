@@ -78,10 +78,16 @@ public:
 
 public slots:
     /**
-     * Return browser widget in given tab @a index (or current tab).
+     * Return browser widget in given tab @a index.
      * Load items if not loaded yet.
      */
-    ClipboardBrowser *browser(int index = -1);
+    ClipboardBrowser *browser(int index);
+
+    /**
+     * Return browser widget in current tab.
+     * Load items if not loaded yet.
+     */
+    ClipboardBrowser *browser();
 
     /** Return browser containing item or NULL. */
     ClipboardBrowser *browserForItem(const QModelIndex &index);
@@ -98,9 +104,6 @@ public slots:
      * @return found tab index or -1
      */
     int findTabIndex(const QString &name);
-
-    /** Return tab index for browser widget (-1 if not found). */
-    int tabIndex(const ClipboardBrowser *c) const;
 
     /**
      * Create tab with given @a name if it doesn't exist.
@@ -324,13 +327,13 @@ private slots:
     void onTrayActionTriggered(uint clipboardItemHash);
     void enterSearchMode(const QString &txt);
     void tabChanged(int current, int previous);
-    void tabMoved(int from, int to);
+    void saveTabPositions();
     void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
-    void onTrayTimer();
+    void createTrayIfSupported();
     void saveGeometry();
     void loadGeometry();
 
@@ -363,14 +366,14 @@ private:
     /** Update name and icon of "disable/enable monitoring" menu actions. */
     void updateMonitoringActions();
 
-    /** Return browser with given ID. */
-    ClipboardBrowser *findBrowser(const QString &id);
-
     /** Return browser index with given ID. */
     int findBrowserIndex(const QString &id);
 
-    /** Return browser widget in given tab @a index (or current tab). */
-    ClipboardBrowser *getBrowser(int index = -1) const;
+    /** Return browser widget in given tab @a index. */
+    ClipboardBrowser *getBrowser(int index) const;
+
+    /** Return browser widget in current tab. */
+    ClipboardBrowser *getBrowser() const;
 
     /** Return true only if window ID is valid. */
     bool isValidWindow(WId wid) const;

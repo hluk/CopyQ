@@ -1915,25 +1915,12 @@ void ClipboardBrowser::purgeItems()
 const QString ClipboardBrowser::selectedText() const
 {
     QString result;
-    QItemSelectionModel *sel = selectionModel();
 
-    QModelIndexList list = sel->selectedIndexes();
-    foreach (const QModelIndex &ind, list) {
-        if ( !isIndexHidden(ind) ) {
-            if ( !result.isEmpty() )
-                result += QString('\n');
-            result += itemText(ind);
-        }
-    }
+    foreach ( const QModelIndex &ind, selectionModel()->selectedIndexes() )
+        result += itemText(ind) + QString('\n');
+    result.chop(1);
 
     return result;
-}
-
-QString ClipboardBrowser::itemText(int i) const
-{
-    if ( i >= m->rowCount() )
-        return QString();
-    return itemText( (i==-1) ? currentIndex() : index(i) );
 }
 
 QString ClipboardBrowser::itemText(QModelIndex ind) const
@@ -2027,7 +2014,6 @@ bool ClipboardBrowser::maybeCloseEditor()
 
 bool ClipboardBrowser::handleViKey(QKeyEvent *event)
 {
-    bool handle = true;
     int key = event->key();
     Qt::KeyboardModifiers mods = event->modifiers();
 
@@ -2042,34 +2028,26 @@ bool ClipboardBrowser::handleViKey(QKeyEvent *event)
     case Qt::Key_K:
         key = Qt::Key_Up;
         break;
-    default:
-        handle = false;
-    }
-
-    if (!handle && mods & Qt::ControlModifier) {
-        switch ( key ) {
-        case Qt::Key_F:
-        case Qt::Key_D:
-            key = Qt::Key_PageDown;
+    case Qt::Key_F:
+    case Qt::Key_D:
+    case Qt::Key_B:
+    case Qt::Key_U:
+        if (mods & Qt::ControlModifier) {
+            key = (key == Qt::Key_F || key == Qt::Key_D) ? Qt::Key_PageDown : Qt::Key_PageUp;
             mods = mods & ~Qt::ControlModifier;
-            handle = true;
-            break;
-        case Qt::Key_B:
-        case Qt::Key_U:
-            key = Qt::Key_PageUp;
-            mods = mods & ~Qt::ControlModifier;
-            handle = true;
-            break;
+        } else {
+            return false;
         }
+        break;
+    default:
+        return false;
     }
 
-    if (handle) {
-        QKeyEvent event2(QEvent::KeyPress, key, mods, event->text());
-        keyPressEvent(&event2);
-        event->accept();
-    }
+    QKeyEvent event2(QEvent::KeyPress, key, mods, event->text());
+    keyPressEvent(&event2);
+    event->accept();
 
-    return handle;
+    return true;
 }
 
 QVariantMap ClipboardBrowser::getSelectedItemData() const

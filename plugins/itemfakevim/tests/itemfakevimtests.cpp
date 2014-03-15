@@ -68,8 +68,7 @@ void ItemFakeVimTests::init()
 
 void ItemFakeVimTests::cleanup()
 {
-    const QByteArray out = m_test->cleanup();
-    QVERIFY2( out.isEmpty(), out );
+    TEST( m_test->cleanup() );
 }
 
 void ItemFakeVimTests::createItem()

@@ -304,3 +304,11 @@ QString shortcutToRemove()
     return QObject::tr("Delete", "Key to remove item or MIME");
 #endif
 }
+
+void renameToUnique(QString *name, const QStringList &names)
+{
+    const QString baseName = *name;
+    int i = 0;
+    while ( names.contains(*name) )
+        *name = baseName + " (" + QString::number(++i) + ')';
+}

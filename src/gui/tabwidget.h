@@ -86,11 +86,13 @@ public slots:
     void setTreeModeEnabled(bool enabled);
 
 signals:
+    /// Tabs moved in tab bar.
     void tabMoved(int from, int to);
+    /// Tabs moved in tab tree (@a oldPrefix path changed to @a newPrefix and was moved @a afterPrefix item).
+    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabRenamed(const QString &newName, int index);
-    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
     void currentChanged(int tabIndex, int oldTabIndex);
     void tabCloseRequested(int);
 
