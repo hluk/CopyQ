@@ -586,8 +586,6 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
 
     connect( c, SIGNAL(changeClipboard(QVariantMap)),
              this, SLOT(setClipboard(QVariantMap)) );
-    connect( c, SIGNAL(requestActionDialog(const QVariantMap, const Command)),
-             this, SLOT(action(const QVariantMap, const Command)) );
     connect( c, SIGNAL(requestActionDialog(const QVariantMap, const Command, const QModelIndex)),
              this, SLOT(action(const QVariantMap&, const Command, const QModelIndex)) );
     connect( c, SIGNAL(requestActionDialog(const QVariantMap)),

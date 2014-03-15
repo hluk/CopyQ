@@ -53,9 +53,6 @@
 
 namespace {
 
-const char propertyActionIndex[] = "CopyQ_action_index";
-const char propertyActionInOwnMenu[] = "CopyQ_action_in_own_menu";
-
 bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
                      const ClipboardModel::ComparisonItem &rhs)
 {
@@ -102,6 +99,68 @@ bool hasFormat(const QVariantMap &data, const QString &format)
 
     return data.contains(format);
 }
+
+class CommandAction : public QAction
+{
+    Q_OBJECT
+public:
+    enum Type { ClipboardCommand, ItemCommand };
+
+    explicit CommandAction(const Command &command, Type type, ClipboardBrowser *browser)
+        : QAction(browser)
+        , m_command(command)
+        , m_type(type)
+        , m_browser(browser)
+    {
+        Q_ASSERT(browser);
+
+        if (m_type == ClipboardCommand) {
+            m_command.transform = false;
+            m_command.hideWindow = false;
+        }
+
+        setText( elideText(m_command.name, browser->font()) );
+
+        IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
+        setIcon( iconFactory->iconFromFile(m_command.icon) );
+        if (m_command.icon.size() == 1)
+            setProperty( "CopyQ_icon_id", m_command.icon[0].unicode() );
+
+        connect(this, SIGNAL(triggered()), this, SLOT(onTriggered()));
+
+        browser->addAction(this);
+    }
+
+signals:
+    void triggerCommand(const Command &command, const QVariantMap &data);
+
+private slots:
+    void onTriggered()
+    {
+        Command command = m_command;
+        if ( command.outputTab.isEmpty() )
+            command.outputTab = m_browser->tabName();
+
+        QVariantMap dataMap;
+
+        if (m_type == ClipboardCommand) {
+            const QMimeData *data = clipboardData();
+            if (data == NULL)
+                setTextData( &dataMap, m_browser->selectedText() );
+            else
+                dataMap = cloneData(*data);
+        } else {
+            dataMap = m_browser->getSelectedItemData();
+        }
+
+        emit triggerCommand(command, dataMap);
+    }
+
+private:
+    Command m_command;
+    Type m_type;
+    ClipboardBrowser *m_browser;
+};
 
 } // namespace
 
@@ -249,64 +308,37 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
     delete editor;
 }
 
-void ClipboardBrowser::contextMenuAction()
+void ClipboardBrowser::onCommandActionTriggered(const Command &command, const QVariantMap &data)
 {
-    Q_ASSERT(sender() != NULL);
-    QObject *obj = sender();
-
-    QVariant actionData = obj->property(propertyActionIndex);
-    Q_ASSERT( actionData.isValid() );
-
-    int i = actionData.toInt();
-    if (i < 0 || i >= m_sharedData->commands.size())
-        return;
-
-    Command cmd = m_sharedData->commands[i];
-    if ( cmd.outputTab.isEmpty() )
-        cmd.outputTab = tabName();
-
-    bool isContextMenuAction = obj->property(propertyActionInOwnMenu).toBool();
     const QModelIndexList selected = selectedIndexes();
 
-    QVariantMap dataMap;
-    QVariantMap textData;
-    if (isContextMenuAction) {
-        dataMap = getSelectedItemData();
-    } else {
-        const QMimeData *data = clipboardData();
-        if (data == NULL)
-            setTextData( &textData, selectedText() );
-        else
-            dataMap = cloneData(*data);
-    }
-
-    if ( !cmd.cmd.isEmpty() ) {
-        if (isContextMenuAction && cmd.transform) {
+    if ( !command.cmd.isEmpty() ) {
+        if (command.transform) {
             foreach (const QModelIndex &index, selected) {
                 QVariantMap data = itemData( index.row() );
-                if ( cmd.input.isEmpty() || hasFormat(data, cmd.input) )
-                    emit requestActionDialog(data, cmd, index);
+                if ( command.input.isEmpty() || hasFormat(data, command.input) )
+                    emit requestActionDialog(data, command, index);
             }
         } else {
-            emit requestActionDialog( dataMap.isEmpty() ? textData : dataMap, cmd );
+            emit requestActionDialog(data, command, QModelIndex());
         }
     }
 
-    if ( !cmd.tab.isEmpty() && cmd.tab != tabName() ) {
+    if ( !command.tab.isEmpty() && command.tab != tabName() ) {
         for (int i = selected.size() - 1; i >= 0; --i) {
             QVariantMap data = itemData( selected[i].row() );
             if ( !data.isEmpty() )
-                emit addToTab(data, cmd.tab);
+                emit addToTab(data, command.tab);
         }
     }
 
-    if (cmd.remove) {
+    if (command.remove) {
         const int lastRow = removeIndexes(selected);
         if (lastRow != -1)
             setCurrent(lastRow);
     }
 
-    if (isContextMenuAction && cmd.hideWindow)
+    if (command.hideWindow)
         emit requestHide();
 }
 
@@ -610,7 +642,7 @@ void ClipboardBrowser::clearActions()
     foreach (QAction *action, actions()) {
         action->disconnect(this);
         removeAction(action);
-        if ( action->property(propertyActionIndex).isValid() )
+        if ( action->parent() == this )
             delete action;
         else if (m_menu != NULL)
             m_menu->removeAction(action);
@@ -722,16 +754,12 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     if ( m_sharedData->commands.isEmpty() )
         return;
 
-    bool isOwnMenu = menu == m_menu;
+    CommandAction::Type type = (menu == m_menu) ? CommandAction::ItemCommand
+                                                : CommandAction::ClipboardCommand;
 
-    QAction *insertBefore = NULL;
+    QMap<QKeySequence, QAction*> shortcuts;
 
-    QList<QAction*> actions;
-    QList<QKeySequence> shortcuts;
-
-    for (int i = m_sharedData->commands.size() - 1; i >= 0; --i) {
-        const Command &command = m_sharedData->commands[i];
-
+    foreach (const Command &command, m_sharedData->commands) {
         // Verify that command can be added to menu.
         if ( !command.inMenu || command.name.isEmpty() )
             continue;
@@ -739,44 +767,27 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
         if ( !canExecuteCommand(command, data, tabName()) )
             continue;
 
-        QAction *act = new QAction(this);
-        menu->insertAction(insertBefore, act);
-        addAction(act);
+        QAction *act = new CommandAction(command, type, this);
+        menu->addAction(act);
 
-        act->setProperty(propertyActionIndex, i);
-        act->setProperty(propertyActionInOwnMenu, isOwnMenu);
-
-        act->setText( elideText(command.name, font()) );
-
-        IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-        act->setIcon( iconFactory->iconFromFile(command.icon) );
-        if (command.icon.size() == 1)
-            act->setProperty( "CopyQ_icon_id", command.icon[0].unicode() );
-
-        if ( isOwnMenu && !command.shortcut.isEmpty() ) {
-            const QKeySequence shortcut = command.shortcut;
-
-            // Disable same shortcuts in commands.
-            for (int j = actions.size() - 1; j >= 0; --j) {
-                QAction *act = actions[j];
-                if ( act->shortcut() == shortcut ) {
-                    act->setShortcut(QKeySequence());
-                    actions.removeAt(j);
-                }
-            }
-
-            actions.append(act);
-            act->setShortcut(command.shortcut);
-            act->setShortcutContext(Qt::WidgetShortcut);
-            shortcuts.append(shortcut);
+        if (type == CommandAction::ItemCommand
+                && !command.shortcut.isEmpty() && !shortcuts.contains(command.shortcut) )
+        {
+            shortcuts.insert(command.shortcut, act);
         }
 
-        insertBefore = act;
-        connect(act, SIGNAL(triggered()), this, SLOT(contextMenuAction()));
+        connect(act, SIGNAL(triggerCommand(Command,QVariantMap)),
+                this, SLOT(onCommandActionTriggered(Command,QVariantMap)));
     }
 
-    if (isOwnMenu)
-        ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(shortcuts);
+    foreach ( const QKeySequence &shortcut, shortcuts.keys() ) {
+        QAction *act = shortcuts[shortcut];
+        act->setShortcut(shortcut);
+        act->setShortcutContext(Qt::WidgetShortcut);
+    }
+
+    if (type == CommandAction::ItemCommand)
+        ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(shortcuts.keys());
 }
 
 void ClipboardBrowser::lock()
@@ -2105,3 +2116,5 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 }
 
 typedef QSharedPointer<ScrollSaver> ScrollSaverPtr;
+
+#include "clipboardbrowser.moc"

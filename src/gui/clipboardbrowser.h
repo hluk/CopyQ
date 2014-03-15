@@ -313,8 +313,6 @@ class ClipboardBrowser : public QListView
         /** Action dialog requested. */
         void requestActionDialog(const QVariantMap &data);
         /** Action dialog requested. */
-        void requestActionDialog(const QVariantMap &data, const Command &cmd);
-        /** Action dialog requested. */
         void requestActionDialog(const QVariantMap &data, const Command &cmd, const QModelIndex &index);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
@@ -354,7 +352,8 @@ class ClipboardBrowser : public QListView
         void mouseMoveEvent(QMouseEvent *event);
 
     private slots:
-        void contextMenuAction();
+        void onCommandActionTriggered(const Command &command, const QVariantMap &data);
+
         void updateContextMenu();
 
         void onModelDataChanged();
