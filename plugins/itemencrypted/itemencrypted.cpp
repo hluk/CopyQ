@@ -117,7 +117,7 @@ void ItemEncrypted::setModelData(QWidget *editor, QAbstractItemModel *model,
 }
 
 ItemEncryptedLoader::ItemEncryptedLoader()
-    : ui(NULL)
+    : ui()
     , m_settings()
     , m_gpgProcessStatus(GpgNotRunning)
     , m_gpgProcess(NULL)
@@ -127,7 +127,6 @@ ItemEncryptedLoader::ItemEncryptedLoader()
 ItemEncryptedLoader::~ItemEncryptedLoader()
 {
     terminateGpgProcess();
-    delete ui;
 }
 
 ItemWidget *ItemEncryptedLoader::create(const QModelIndex &index, QWidget *parent) const
@@ -150,8 +149,7 @@ QVariantMap ItemEncryptedLoader::applySettings()
 
 QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemEncryptedSettings;
+    ui.reset(new Ui::ItemEncryptedSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 

@@ -1250,20 +1250,12 @@ private:
     QMap<QPersistentModelIndex, IndexData> m_indexData;
 };
 
-ItemSyncLoader::ItemSyncLoader()
-    : ui(NULL)
-    , m_settings()
-{
-}
-
 ItemSyncLoader::~ItemSyncLoader()
 {
 }
 
 QVariantMap ItemSyncLoader::applySettings()
 {
-    Q_ASSERT(ui);
-
     // Apply settings from tab sync path table.
     QTableWidget *t = ui->tableWidgetSyncTabs;
     QStringList tabPaths;
@@ -1341,8 +1333,7 @@ void setNormalStretchFixedColumns(QTableWidget *table, int normalColumn, int str
 
 QWidget *ItemSyncLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemSyncSettings;
+    ui.reset(new Ui::ItemSyncSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 

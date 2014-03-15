@@ -188,14 +188,8 @@ void ItemText::onSelectionChanged()
     m_copyOnMouseUp = true;
 }
 
-ItemTextLoader::ItemTextLoader()
-    : ui(NULL)
-{
-}
-
 ItemTextLoader::~ItemTextLoader()
 {
-    delete ui;
 }
 
 ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) const
@@ -221,7 +215,6 @@ QStringList ItemTextLoader::formatsToSave() const
 
 QVariantMap ItemTextLoader::applySettings()
 {
-    Q_ASSERT(ui != NULL);
     m_settings[optionUseRichText] = ui->checkBoxUseRichText->isChecked();
     m_settings[optionMaximumLines] = ui->spinBoxMaxLines->value();
     m_settings[optionMaximumHeight] = ui->spinBoxMaxHeight->value();
@@ -230,8 +223,7 @@ QVariantMap ItemTextLoader::applySettings()
 
 QWidget *ItemTextLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemTextSettings;
+    ui.reset(new Ui::ItemTextSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
     ui->checkBoxUseRichText->setChecked( m_settings.value(optionUseRichText, true).toBool() );

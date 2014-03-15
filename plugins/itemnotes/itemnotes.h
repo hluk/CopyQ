@@ -87,8 +87,6 @@ class ItemNotesLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemNotesLoader();
-
     ~ItemNotesLoader();
 
     virtual QString id() const { return "itemnotes"; }
@@ -111,7 +109,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    Ui::ItemNotesSettings *ui;
+    QScopedPointer<Ui::ItemNotesSettings> ui;
 };
 
 #endif // ITEMNOTES_H

@@ -531,14 +531,8 @@ QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *pa
     return m_childItem->createExternalEditor(index, parent);
 }
 
-ItemFakeVimLoader::ItemFakeVimLoader()
-    : ui(NULL)
-{
-}
-
 ItemFakeVimLoader::~ItemFakeVimLoader()
 {
-    delete ui;
 }
 
 QVariant ItemFakeVimLoader::icon() const
@@ -563,8 +557,7 @@ void ItemFakeVimLoader::loadSettings(const QVariantMap &settings)
 
 QWidget *ItemFakeVimLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemFakeVimSettings;
+    ui.reset(new Ui::ItemFakeVimSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 

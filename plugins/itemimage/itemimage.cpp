@@ -99,14 +99,8 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
 }
 
-ItemImageLoader::ItemImageLoader()
-    : ui(NULL)
-{
-}
-
 ItemImageLoader::~ItemImageLoader()
 {
-    delete ui;
 }
 
 ItemWidget *ItemImageLoader::create(const QModelIndex &index, QWidget *parent) const
@@ -137,7 +131,6 @@ QStringList ItemImageLoader::formatsToSave() const
 
 QVariantMap ItemImageLoader::applySettings()
 {
-    Q_ASSERT(ui != NULL);
     m_settings["max_image_width"] = ui->spinBoxImageWidth->value();
     m_settings["max_image_height"] = ui->spinBoxImageHeight->value();
     m_settings["image_editor"] = ui->lineEditImageEditor->text();
@@ -147,8 +140,7 @@ QVariantMap ItemImageLoader::applySettings()
 
 QWidget *ItemImageLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemImageSettings;
+    ui.reset(new Ui::ItemImageSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
     ui->spinBoxImageWidth->setValue( m_settings.value("max_image_width", 320).toInt() );

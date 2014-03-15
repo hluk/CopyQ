@@ -24,6 +24,7 @@
 #include "gui/icons.h"
 
 #include <QProcess>
+#include <QScopedPointer>
 #include <QWidget>
 
 namespace Ui {
@@ -97,7 +98,7 @@ private:
 
     void updateUi();
 
-    Ui::ItemEncryptedSettings *ui;
+    QScopedPointer<Ui::ItemEncryptedSettings> ui;
     QVariantMap m_settings;
 
     GpgProcessStatus m_gpgProcessStatus;

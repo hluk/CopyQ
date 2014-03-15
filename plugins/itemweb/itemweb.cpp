@@ -162,8 +162,7 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
-ItemWebLoader::ItemWebLoader()
-    : ui(NULL)
+ItemWebLoader::~ItemWebLoader()
 {
 }
 
@@ -189,8 +188,7 @@ QVariantMap ItemWebLoader::applySettings()
 
 QWidget *ItemWebLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemWebSettings;
+    ui.reset(new Ui::ItemWebSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
     ui->spinBoxMaxHeight->setValue( m_settings.value(optionMaximumHeight, 0).toInt() );

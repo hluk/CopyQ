@@ -24,6 +24,7 @@
 #include "item/itemwidget.h"
 
 #include <QLabel>
+#include <QScopedPointer>
 
 namespace Ui {
 class ItemImageSettings;
@@ -53,8 +54,6 @@ class ItemImageLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemImageLoader();
-
     ~ItemImageLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
@@ -77,7 +76,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    Ui::ItemImageSettings *ui;
+    QScopedPointer<Ui::ItemImageSettings> ui;
 };
 
 #endif // ITEMIMAGE_H

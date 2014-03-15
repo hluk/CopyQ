@@ -24,6 +24,7 @@
 #include "gui/icons.h"
 
 #include <QLabel>
+#include <QScopedPointer>
 
 namespace Ui {
 class ItemDataSettings;
@@ -58,8 +59,6 @@ class ItemDataLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemDataLoader();
-
     ~ItemDataLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
@@ -83,7 +82,7 @@ private slots:
 
 private:
     QVariantMap m_settings;
-    Ui::ItemDataSettings *ui;
+    QScopedPointer<Ui::ItemDataSettings> ui;
 };
 
 #endif // ITEMDATA_H

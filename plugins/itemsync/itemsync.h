@@ -23,6 +23,7 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
+#include <QScopedPointer>
 #include <QWidget>
 
 namespace Ui {
@@ -100,8 +101,6 @@ class ItemSyncLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemSyncLoader();
-
     ~ItemSyncLoader();
 
     virtual QString id() const { return "itemsync"; }
@@ -152,7 +151,7 @@ private:
 
     bool loadItems(QAbstractItemModel *model, const QStringList &files);
 
-    Ui::ItemSyncSettings *ui;
+    QScopedPointer<Ui::ItemSyncSettings> ui;
     QVariantMap m_settings;
     QMap<const QObject*, FileWatcher*> m_watchers;
     QMap<QString, QString> m_tabPaths;

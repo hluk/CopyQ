@@ -273,14 +273,8 @@ void ItemNotes::showToolTip()
     QToolTip::showText(toolTipPosition, m_toolTipText, this);
 }
 
-ItemNotesLoader::ItemNotesLoader()
-    : ui(NULL)
-{
-}
-
 ItemNotesLoader::~ItemNotesLoader()
 {
-    delete ui;
 }
 
 QStringList ItemNotesLoader::formatsToSave() const
@@ -298,8 +292,7 @@ QVariantMap ItemNotesLoader::applySettings()
 
 QWidget *ItemNotesLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemNotesSettings;
+    ui.reset(new Ui::ItemNotesSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 

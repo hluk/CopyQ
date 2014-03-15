@@ -66,8 +66,6 @@ class ItemFakeVimLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemFakeVimLoader();
-
     ~ItemFakeVimLoader();
 
     virtual QString id() const { return "itemfakevim"; }
@@ -91,7 +89,7 @@ public:
 private:
     bool m_enabled;
     QString m_sourceFileName;
-    Ui::ItemFakeVimSettings *ui;
+    QScopedPointer<Ui::ItemFakeVimSettings> ui;
 };
 
 #endif // ITEMFAKEVIM_H

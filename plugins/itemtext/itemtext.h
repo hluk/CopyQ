@@ -23,6 +23,7 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
+#include <QScopedPointer>
 #include <QTextDocument>
 #include <QTextEdit>
 
@@ -63,8 +64,6 @@ class ItemTextLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemTextLoader();
-
     ~ItemTextLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
@@ -85,7 +84,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    Ui::ItemTextSettings *ui;
+    QScopedPointer<Ui::ItemTextSettings> ui;
 };
 
 #endif // ITEMTEXT_H

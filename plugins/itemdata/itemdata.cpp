@@ -151,14 +151,8 @@ void ItemData::contextMenuEvent(QContextMenuEvent *e)
     e->ignore();
 }
 
-ItemDataLoader::ItemDataLoader()
-    : ui(NULL)
-{
-}
-
 ItemDataLoader::~ItemDataLoader()
 {
-    delete ui;
 }
 
 ItemWidget *ItemDataLoader::create(const QModelIndex &index, QWidget *parent) const
@@ -187,8 +181,7 @@ QVariantMap ItemDataLoader::applySettings()
 
 QWidget *ItemDataLoader::createSettingsWidget(QWidget *parent)
 {
-    delete ui;
-    ui = new Ui::ItemDataSettings;
+    ui.reset(new Ui::ItemDataSettings);
     QWidget *w = new QWidget(parent);
     ui->setupUi(w);
 

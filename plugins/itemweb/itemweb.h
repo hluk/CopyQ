@@ -23,6 +23,7 @@
 #include "gui/icons.h"
 #include "item/itemwidget.h"
 
+#include <QScopedPointer>
 #include <QVariantMap>
 
 #if QT_VERSION < 0x050000
@@ -73,7 +74,7 @@ class ItemWebLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
-    ItemWebLoader();
+    ~ItemWebLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;
 
@@ -95,7 +96,7 @@ public:
 
 private:
     QVariantMap m_settings;
-    Ui::ItemWebSettings *ui;
+    QScopedPointer<Ui::ItemWebSettings> ui;
 };
 
 #endif // ITEMWEB_H

@@ -25,7 +25,7 @@ if [ "$sanitize" == "address" ]; then
     sanitize_other="$sanitize_other,address-full,init-order"
 
     export ASAN_SYMBOLIZER_PATH=${ASAN_SYMBOLIZER_PATH:-$(which llvm-symbolizer)}
-    export ASAN_OPTIONS=${ASAN_OPTIONS:-"detect_stack_use_after_return=1 print_stats=1"}
+    export ASAN_OPTIONS=${ASAN_OPTIONS:-"detect_leaks=1 detect_stack_use_after_return=1 print_stats=1"}
 elif [ "$sanitize" == "memory" ]; then
     compiler_flags="$compiler_flags -fsanitize-memory-track-origins"
 
