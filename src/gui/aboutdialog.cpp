@@ -135,7 +135,7 @@ QString AboutDialog::aboutPage()
         "</p>"
 
         // copyright
-        "<p class='info'>Copyright (c) 2009 - 2013</p>"
+        "<p class='info'>Copyright (c) 2009 - 2014</p>"
 
         "<p></p>"
 
