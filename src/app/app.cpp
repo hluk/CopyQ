@@ -31,11 +31,83 @@
 #include <QSettings>
 #include <QTranslator>
 #include <QVariant>
-#ifdef HAS_TESTS
-#   include <QProcessEnvironment>
-#endif
 
 namespace {
+
+#ifdef HAS_TESTS
+/**
+ * Return true only this session was started from tests.
+ */
+bool isTesting()
+{
+    return !qgetenv("COPYQ_TEST_ID").isEmpty();
+}
+
+/**
+ * Change application name for tests and set "CopyQ_test_id" property of application
+ * to current test ID. The ID is "CORE" for core tests and ItemLoaderInterface::id() for plugins.
+ *
+ * This function does nothing if isTesting() returns false.
+ */
+void initTests()
+{
+    if ( !isTesting() )
+        return;
+
+    const QString session = qApp->organizationName() + ".test";
+    qApp->setOrganizationName(session);
+    qApp->setApplicationName(session);
+
+    const QString testId = QString::fromUtf8( qgetenv("COPYQ_TEST_ID") );
+    qApp->setProperty("CopyQ_test_id", testId);
+}
+
+/**
+ * Read base64-encoded settings from "COPYQ_TEST_SETTINGS" enviroment variable if not empty.
+ *
+ * The settings are initially taken from "CopyQ_test_settings" property of test object returned by
+ * ItemLoaderInterface::tests().
+ *
+ * This function does nothing if isTesting() returns false.
+ */
+void initTestsSettings()
+{
+    if ( !isTesting() )
+        return;
+
+    const QByteArray settingsData = qgetenv("COPYQ_TEST_SETTINGS");
+    if ( settingsData.isEmpty() )
+        return;
+
+    // Reset settings on first run of each test case.
+    QSettings settings;
+    settings.clear();
+
+    QVariant testSettings;
+    const QByteArray data = QByteArray::fromBase64(settingsData);
+    QDataStream input(data);
+    input >> testSettings;
+    const QVariantMap testSettingsMap = testSettings.toMap();
+
+    const QString testId = qApp->property("CopyQ_test_id").toString();
+    bool pluginsTest = testId != "CORE";
+
+    if (pluginsTest) {
+        settings.beginGroup("Plugins");
+        settings.beginGroup(testId);
+    }
+
+    foreach (const QString &key, testSettingsMap.keys())
+        settings.setValue(key, testSettingsMap[key]);
+
+    if (pluginsTest) {
+        settings.endGroup();
+        settings.endGroup();
+    }
+
+    settings.setValue("CopyQ_test_id", testId);
+}
+#endif // HAS_TESTS
 
 void installTranslator(const QString &filename, const QString &directory)
 {
@@ -69,18 +141,12 @@ App::App(QCoreApplication *application, const QString &sessionName)
         m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
     }
 
-#ifdef HAS_TESTS
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    QString testId = env.value("COPYQ_TEST_ID");
-    bool testing = !testId.isEmpty();
-    if (testing) {
-        session += ".test";
-        m_app->setProperty("CopyQ_test_id", testId);
-    }
-#endif
-
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
+
+#ifdef HAS_TESTS
+    initTests();
+#endif
 
 #ifdef Q_OS_UNIX
     if ( !UnixSignalHandler::create(m_app.data()) )
@@ -92,26 +158,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
     installTranslator();
 
 #ifdef HAS_TESTS
-    // Reset settings on first run of each test case.
-    if ( testing && env.contains("COPYQ_TEST_SETTINGS") ) {
-        QSettings settings;
-        settings.clear();
-
-        QVariant testSettings;
-        const QByteArray data = QByteArray::fromBase64( env.value("COPYQ_TEST_SETTINGS").toLatin1() );
-        QDataStream input(data);
-        input >> testSettings;
-        const QVariantMap testSettingsMap = testSettings.toMap();
-
-        settings.beginGroup("Plugins");
-        settings.beginGroup(testId);
-        foreach (const QString &key, testSettingsMap.keys())
-            settings.setValue(key, testSettingsMap[key]);
-        settings.endGroup();
-        settings.endGroup();
-
-        settings.setValue("CopyQ_test_id", testId);
-    }
+    initTestsSettings();
 #endif
 }
 
