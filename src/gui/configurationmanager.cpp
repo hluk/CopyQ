@@ -223,6 +223,9 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
 {
     ui->setupUi(this);
     setWindowIcon(iconFactory()->appIcon());
+    // Don't use darker background in QScrollArea widgets.
+    setStyleSheet("QScrollArea { background: transparent; border: none; }"
+                  "QScrollArea > QWidget > QWidget { background: transparent; }");
 
     if ( !itemFactory()->hasLoaders() )
         ui->tabItems->deleteLater();
