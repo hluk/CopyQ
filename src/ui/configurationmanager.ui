@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>591</width>
-    <height>580</height>
+    <width>594</width>
+    <height>642</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -19,337 +19,37 @@
   <property name="windowTitle">
    <string>CopyQ Configuration</string>
   </property>
-  <layout class="QGridLayout" name="gridLayout">
-   <item row="0" column="0">
-    <layout class="QVBoxLayout" name="verticalLayout">
-     <item>
-      <widget class="QTabWidget" name="tabWidget">
-       <property name="tabPosition">
-        <enum>QTabWidget::North</enum>
-       </property>
-       <property name="currentIndex">
-        <number>0</number>
-       </property>
-       <widget class="QWidget" name="tabGeneral">
-        <attribute name="title">
-         <string>&amp;General</string>
-        </attribute>
-        <layout class="QGridLayout" name="gridLayout_2">
-         <item row="4" column="0">
-          <widget class="QGroupBox" name="groupBox_2">
-           <property name="title">
-            <string>Notifications</string>
-           </property>
-           <layout class="QFormLayout" name="formLayout_3">
-            <item row="1" column="0">
-             <widget class="QLabel" name="label_25">
-              <property name="text">
-               <string>Interval in seconds to display notifications:</string>
-              </property>
-              <property name="buddy">
-               <cstring>spinBoxItemPopupInterval</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="1" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_9">
-              <item>
-               <widget class="QSpinBox" name="spinBoxItemPopupInterval">
-                <property name="toolTip">
-                 <string>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
-
-Set to 0 to disable this.
-
-Set to -1 to keep visible until clicked.</string>
-                </property>
-                <property name="minimum">
-                 <number>-1</number>
-                </property>
-                <property name="maximum">
-                 <number>60</number>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_2">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item row="0" column="0">
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>&amp;Notification position:</string>
-              </property>
-              <property name="buddy">
-               <cstring>comboBoxNotificationPosition</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="0" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_10">
-              <item>
-               <widget class="QComboBox" name="comboBoxNotificationPosition">
-                <property name="toolTip">
-                 <string>Position on screen for notifications</string>
-                </property>
-                <item>
-                 <property name="text">
-                  <string>Top</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Bottom</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Top Right</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Bottom Right</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Bottom Left</string>
-                 </property>
-                </item>
-                <item>
-                 <property name="text">
-                  <string>Top Left</string>
-                 </property>
-                </item>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_10">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-            <item row="2" column="0">
-             <widget class="QLabel" name="label_12">
-              <property name="text">
-               <string>Num&amp;ber of lines for clipboard notification:</string>
-              </property>
-              <property name="buddy">
-               <cstring>spinBoxClipboardNotificationLines</cstring>
-              </property>
-             </widget>
-            </item>
-            <item row="2" column="1">
-             <layout class="QHBoxLayout" name="horizontalLayout_11">
-              <item>
-               <widget class="QSpinBox" name="spinBoxClipboardNotificationLines">
-                <property name="toolTip">
-                 <string>Number of lines to show for new clipboard content.
-
-Set to 0 to disable.</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <spacer name="horizontalSpacer_11">
-                <property name="orientation">
-                 <enum>Qt::Horizontal</enum>
-                </property>
-                <property name="sizeHint" stdset="0">
-                 <size>
-                  <width>40</width>
-                  <height>20</height>
-                 </size>
-                </property>
-               </spacer>
-              </item>
-             </layout>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="7" column="0">
-          <spacer name="verticalSpacer">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_3">
+  <layout class="QVBoxLayout" name="verticalLayout_7">
+   <item>
+    <widget class="QTabWidget" name="tabWidget">
+     <property name="tabPosition">
+      <enum>QTabWidget::North</enum>
+     </property>
+     <property name="currentIndex">
+      <number>0</number>
+     </property>
+     <widget class="QWidget" name="tabGeneral">
+      <attribute name="title">
+       <string>&amp;General</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="gridLayout_2">
+       <item>
+        <widget class="QScrollArea" name="scrollArea">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>552</width>
+            <height>533</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_15">
            <item>
-            <widget class="QGroupBox" name="groupBox_6">
-             <property name="title">
-              <string>Layout and Transparency</string>
-             </property>
-             <layout class="QFormLayout" name="formLayout">
-              <property name="fieldGrowthPolicy">
-               <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-              </property>
-              <item row="1" column="0">
-               <widget class="QCheckBox" name="checkBoxTabTree">
-                <property name="toolTip">
-                 <string>Show tree with tabs instead of tab bar</string>
-                </property>
-                <property name="text">
-                 <string>Tab T&amp;ree</string>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="0">
-               <widget class="QLabel" name="label_30">
-                <property name="text">
-                 <string>&amp;Focused transparency:</string>
-                </property>
-                <property name="buddy">
-                 <cstring>spinBoxTransparencyFocused</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="2" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout_12">
-                <item>
-                 <widget class="QSpinBox" name="spinBoxTransparencyFocused">
-                  <property name="toolTip">
-                   <string>Transparency of main window if focused.
-
-Note: This is not be supported on all systems.</string>
-                  </property>
-                  <property name="suffix">
-                   <string notr="true">%</string>
-                  </property>
-                  <property name="maximum">
-                   <number>100</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_9">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-              <item row="3" column="0">
-               <widget class="QLabel" name="label_29">
-                <property name="text">
-                 <string>&amp;Unfocused transparency:</string>
-                </property>
-                <property name="buddy">
-                 <cstring>spinBoxTransparencyUnfocused</cstring>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="1">
-               <layout class="QHBoxLayout" name="horizontalLayout">
-                <item>
-                 <widget class="QSpinBox" name="spinBoxTransparencyUnfocused">
-                  <property name="toolTip">
-                   <string>Transparency of main window if unfocused.
-
-Note: This is not be supported on all systems.</string>
-                  </property>
-                  <property name="suffix">
-                   <string notr="true">%</string>
-                  </property>
-                  <property name="maximum">
-                   <number>100</number>
-                  </property>
-                 </widget>
-                </item>
-                <item>
-                 <spacer name="horizontalSpacer_8">
-                  <property name="orientation">
-                   <enum>Qt::Horizontal</enum>
-                  </property>
-                  <property name="sizeHint" stdset="0">
-                   <size>
-                    <width>40</width>
-                    <height>20</height>
-                   </size>
-                  </property>
-                 </spacer>
-                </item>
-               </layout>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <widget class="QGroupBox" name="groupBox_4">
-             <property name="title">
-              <string>Show/Hide</string>
-             </property>
-             <layout class="QVBoxLayout" name="verticalLayout_5">
-              <item>
-               <widget class="QCheckBox" name="checkBoxHideTabs">
-                <property name="toolTip">
-                 <string>Hide tabs (press Alt key to show)</string>
-                </property>
-                <property name="text">
-                 <string>Hi&amp;de tabs</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxHideToolbar">
-                <property name="toolTip">
-                 <string>Hide toolbar</string>
-                </property>
-                <property name="text">
-                 <string>Hide too&amp;lbar</string>
-                </property>
-               </widget>
-              </item>
-              <item>
-               <widget class="QCheckBox" name="checkBoxDisableTray">
-                <property name="toolTip">
-                 <string>Don't show tray icon; minimize window when closed</string>
-                </property>
-                <property name="text">
-                 <string>&amp;Disable tray</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_12">
+            <spacer name="horizontalSpacer_13">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -361,21 +61,53 @@ Note: This is not be supported on all systems.</string>
              </property>
             </spacer>
            </item>
-          </layout>
-         </item>
-         <item row="1" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_14">
            <item>
-            <layout class="QVBoxLayout" name="verticalLayout_9">
+            <layout class="QVBoxLayout" name="verticalLayout_10">
              <item>
-              <widget class="QCheckBox" name="checkBoxAutostart">
-               <property name="toolTip">
-                <string>Run the application on system startup</string>
+              <spacer name="verticalSpacer_3">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
                </property>
-               <property name="text">
-                <string>&amp;Autostart</string>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
                </property>
-              </widget>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_5">
+               <property name="bottomMargin">
+                <number>0</number>
+               </property>
+               <item>
+                <widget class="QLabel" name="label">
+                 <property name="text">
+                  <string>Lan&amp;guage:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxLanguage</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBoxLanguage"/>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_3">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
              </item>
              <item>
               <widget class="QCheckBox" name="checkBoxTextWrap">
@@ -411,6 +143,16 @@ Note: This is not be supported on all systems.</string>
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxAutostart">
+               <property name="toolTip">
+                <string>Run the application on system startup</string>
+               </property>
+               <property name="text">
+                <string>&amp;Autostart</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QCheckBox" name="checkBoxViMode">
                <property name="toolTip">
                 <string>Support for Vi navigation keys (H, J, K, L and more), slash (/) key to search</string>
@@ -420,88 +162,230 @@ Note: This is not be supported on all systems.</string>
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox">
+               <property name="title">
+                <string>Clipboard Manipulation</string>
+               </property>
+               <property name="flat">
+                <bool>false</bool>
+               </property>
+               <property name="checkable">
+                <bool>false</bool>
+               </property>
+               <layout class="QGridLayout" name="gridLayout_8">
+                <item row="2" column="0">
+                 <widget class="QCheckBox" name="checkBoxSel">
+                  <property name="toolTip">
+                   <string>Save text selected with mouse (primary selection) in history</string>
+                  </property>
+                  <property name="text">
+                   <string>(&amp;2) Store text selected using mouse</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="4" column="0">
+                 <widget class="QCheckBox" name="checkBoxCopySel">
+                  <property name="toolTip">
+                   <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
+                  </property>
+                  <property name="text">
+                   <string>(&amp;4) Paste mouse selection with keyboard</string>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="0">
+                 <widget class="QCheckBox" name="checkBoxClip">
+                  <property name="toolTip">
+                   <string>Save clipboard in history</string>
+                  </property>
+                  <property name="text">
+                   <string>(&amp;1) Store clipboard</string>
+                  </property>
+                  <property name="checked">
+                   <bool>true</bool>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QCheckBox" name="checkBoxCopyClip">
+                  <property name="toolTip">
+                   <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
+                  </property>
+                  <property name="text">
+                   <string>(&amp;3) Paste clipboard with mouse</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_3">
+               <item>
+                <widget class="QGroupBox" name="groupBox_6">
+                 <property name="title">
+                  <string>Layout and Transparency</string>
+                 </property>
+                 <layout class="QFormLayout" name="formLayout">
+                  <property name="fieldGrowthPolicy">
+                   <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+                  </property>
+                  <item row="1" column="0">
+                   <widget class="QCheckBox" name="checkBoxTabTree">
+                    <property name="toolTip">
+                     <string>Show tree with tabs instead of tab bar</string>
+                    </property>
+                    <property name="text">
+                     <string>Tab T&amp;ree</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QLabel" name="label_30">
+                    <property name="text">
+                     <string>&amp;Focused transparency:</string>
+                    </property>
+                    <property name="buddy">
+                     <cstring>spinBoxTransparencyFocused</cstring>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="2" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout_12">
+                    <item>
+                     <widget class="QSpinBox" name="spinBoxTransparencyFocused">
+                      <property name="toolTip">
+                       <string>Transparency of main window if focused.
+
+Note: This is not be supported on all systems.</string>
+                      </property>
+                      <property name="suffix">
+                       <string notr="true">%</string>
+                      </property>
+                      <property name="maximum">
+                       <number>100</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_9">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                  <item row="3" column="0">
+                   <widget class="QLabel" name="label_29">
+                    <property name="text">
+                     <string>&amp;Unfocused transparency:</string>
+                    </property>
+                    <property name="buddy">
+                     <cstring>spinBoxTransparencyUnfocused</cstring>
+                    </property>
+                   </widget>
+                  </item>
+                  <item row="3" column="1">
+                   <layout class="QHBoxLayout" name="horizontalLayout">
+                    <item>
+                     <widget class="QSpinBox" name="spinBoxTransparencyUnfocused">
+                      <property name="toolTip">
+                       <string>Transparency of main window if unfocused.
+
+Note: This is not be supported on all systems.</string>
+                      </property>
+                      <property name="suffix">
+                       <string notr="true">%</string>
+                      </property>
+                      <property name="maximum">
+                       <number>100</number>
+                      </property>
+                     </widget>
+                    </item>
+                    <item>
+                     <spacer name="horizontalSpacer_8">
+                      <property name="orientation">
+                       <enum>Qt::Horizontal</enum>
+                      </property>
+                      <property name="sizeHint" stdset="0">
+                       <size>
+                        <width>40</width>
+                        <height>20</height>
+                       </size>
+                      </property>
+                     </spacer>
+                    </item>
+                   </layout>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+               <item>
+                <widget class="QGroupBox" name="groupBox_4">
+                 <property name="title">
+                  <string>Show/Hide</string>
+                 </property>
+                 <layout class="QVBoxLayout" name="verticalLayout_5">
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxHideTabs">
+                    <property name="toolTip">
+                     <string>Hide tabs (press Alt key to show)</string>
+                    </property>
+                    <property name="text">
+                     <string>Hi&amp;de tabs</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxHideToolbar">
+                    <property name="toolTip">
+                     <string>Hide toolbar</string>
+                    </property>
+                    <property name="text">
+                     <string>Hide too&amp;lbar</string>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <widget class="QCheckBox" name="checkBoxDisableTray">
+                    <property name="toolTip">
+                     <string>Don't show tray icon; minimize window when closed</string>
+                    </property>
+                    <property name="text">
+                     <string>&amp;Disable tray</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </widget>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="verticalSpacer">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
             </layout>
            </item>
            <item>
-            <widget class="QGroupBox" name="groupBox">
-             <property name="title">
-              <string>Clipboard Manipulation</string>
-             </property>
-             <property name="flat">
-              <bool>false</bool>
-             </property>
-             <property name="checkable">
-              <bool>false</bool>
-             </property>
-             <layout class="QGridLayout" name="gridLayout_8">
-              <item row="2" column="0">
-               <widget class="QCheckBox" name="checkBoxSel">
-                <property name="toolTip">
-                 <string>Save text selected with mouse (primary selection) in history</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;2) Store text selected using mouse</string>
-                </property>
-               </widget>
-              </item>
-              <item row="4" column="0">
-               <widget class="QCheckBox" name="checkBoxCopySel">
-                <property name="toolTip">
-                 <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;4) Paste mouse selection with keyboard</string>
-                </property>
-               </widget>
-              </item>
-              <item row="0" column="0">
-               <widget class="QCheckBox" name="checkBoxClip">
-                <property name="toolTip">
-                 <string>Save clipboard in history</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;1) Store clipboard</string>
-                </property>
-                <property name="checked">
-                 <bool>true</bool>
-                </property>
-               </widget>
-              </item>
-              <item row="3" column="0">
-               <widget class="QCheckBox" name="checkBoxCopyClip">
-                <property name="toolTip">
-                 <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
-                </property>
-                <property name="text">
-                 <string>(&amp;3) Paste clipboard with mouse</string>
-                </property>
-               </widget>
-              </item>
-             </layout>
-            </widget>
-           </item>
-          </layout>
-         </item>
-         <item row="0" column="0">
-          <layout class="QHBoxLayout" name="horizontalLayout_5">
-           <property name="bottomMargin">
-            <number>0</number>
-           </property>
-           <item>
-            <widget class="QLabel" name="label">
-             <property name="text">
-              <string>Lan&amp;guage:</string>
-             </property>
-             <property name="buddy">
-              <cstring>comboBoxLanguage</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBoxLanguage"/>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_3">
+            <spacer name="horizontalSpacer_12">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -514,230 +398,683 @@ Note: This is not be supported on all systems.</string>
             </spacer>
            </item>
           </layout>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tabHistory">
-        <attribute name="title">
-         <string>&amp;History</string>
-        </attribute>
-        <layout class="QGridLayout" name="gridLayout_3">
-         <item row="0" column="0">
-          <layout class="QFormLayout" name="formLayout_2">
-           <property name="fieldGrowthPolicy">
-            <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
-           </property>
-           <item row="0" column="0">
-            <widget class="QLabel" name="label_4">
-             <property name="text">
-              <string>Maximum &amp;number of items in history:</string>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabHistory">
+      <attribute name="title">
+       <string>&amp;History</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_14">
+       <item>
+        <widget class="QScrollArea" name="scrollArea_2">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_2">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>552</width>
+            <height>533</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_16">
+           <item>
+            <spacer name="horizontalSpacer_14">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
              </property>
-             <property name="buddy">
-              <cstring>spinBoxItems</cstring>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
              </property>
-            </widget>
+            </spacer>
            </item>
-           <item row="0" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_7">
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_11">
              <item>
-              <widget class="QSpinBox" name="spinBoxItems">
-               <property name="toolTip">
-                <string>Maximum number of items in each tab</string>
-               </property>
-               <property name="maximum">
-                <number>10000</number>
-               </property>
-               <property name="value">
-                <number>200</number>
-               </property>
-              </widget>
-             </item>
-             <item>
-              <spacer name="horizontalSpacer_4">
+              <spacer name="verticalSpacer_5">
                <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+                <enum>Qt::Vertical</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>40</width>
-                 <height>20</height>
+                 <width>20</width>
+                 <height>40</height>
                 </size>
                </property>
               </spacer>
              </item>
-            </layout>
-           </item>
-           <item row="2" column="0">
-            <widget class="QLabel" name="label_6">
-             <property name="text">
-              <string>External &amp;editor command (%1 is file to edit):</string>
-             </property>
-             <property name="buddy">
-              <cstring>lineEditEditor</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="2" column="1">
-            <widget class="QLineEdit" name="lineEditEditor">
-             <property name="toolTip">
-              <string>External editor command (%1 is file to edit).
+             <item>
+              <layout class="QFormLayout" name="formLayout_2">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_4">
+                 <property name="text">
+                  <string>Maximum &amp;number of items in history:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxItems</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_7">
+                 <item>
+                  <widget class="QSpinBox" name="spinBoxItems">
+                   <property name="toolTip">
+                    <string>Maximum number of items in each tab</string>
+                   </property>
+                   <property name="maximum">
+                    <number>10000</number>
+                   </property>
+                   <property name="value">
+                    <number>200</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_4">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_3">
+                 <property name="text">
+                  <string>&amp;Unload tab after an interval in minutes:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxExpireTab</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 <item>
+                  <widget class="QSpinBox" name="spinBoxExpireTab">
+                   <property name="toolTip">
+                    <string>Unload each tab from memory after specified number of minutes of inactivity.
+
+Set to 0 not to unload tabs.</string>
+                   </property>
+                   <property name="maximum">
+                    <number>480</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_6">
+                 <property name="text">
+                  <string>External &amp;editor command (%1 is file to edit):</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>lineEditEditor</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <widget class="QLineEdit" name="lineEditEditor">
+                 <property name="toolTip">
+                  <string>External editor command (%1 is file to edit).
   Examples:
     gedit %1
     notepad %1
     gvim -f %1
     xterm -e vim %1</string>
-             </property>
-             <property name="text">
-              <string>gedit %1</string>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="0">
-            <widget class="QLabel" name="label_3">
-             <property name="text">
-              <string>&amp;Unload tab after an interval in minutes:</string>
-             </property>
-             <property name="buddy">
-              <cstring>spinBoxExpireTab</cstring>
-             </property>
-            </widget>
-           </item>
-           <item row="1" column="1">
-            <layout class="QHBoxLayout" name="horizontalLayout_2">
+                 </property>
+                 <property name="text">
+                  <string>gedit %1</string>
+                 </property>
+                </widget>
+               </item>
+              </layout>
+             </item>
              <item>
-              <widget class="QSpinBox" name="spinBoxExpireTab">
+              <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
                <property name="toolTip">
-                <string>Unload each tab from memory after specified number of minutes of inactivity.
+                <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
-Set to 0 not to unload tabs.</string>
+Note: Edited items can be saved with F2 disregarding this option.</string>
                </property>
-               <property name="maximum">
-                <number>480</number>
+               <property name="text">
+                <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
                </property>
               </widget>
              </item>
              <item>
-              <spacer name="horizontalSpacer">
+              <widget class="QGroupBox" name="groupBox_3">
+               <property name="title">
+                <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
+               </property>
+               <layout class="QVBoxLayout" name="verticalLayout_8">
+                <item>
+                 <widget class="QCheckBox" name="checkBoxMove">
+                  <property name="toolTip">
+                   <string>Move item to the top of the list after it is activated.</string>
+                  </property>
+                  <property name="text">
+                   <string>Move item to the top</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBoxActivateCloses">
+                  <property name="toolTip">
+                   <string>Close main window after item is activated.</string>
+                  </property>
+                  <property name="text">
+                   <string>&amp;Close main window</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBoxActivateFocuses">
+                  <property name="toolTip">
+                   <string>Focus last window after item is activated.</string>
+                  </property>
+                  <property name="text">
+                   <string>&amp;Focus last window</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QCheckBox" name="checkBoxActivatePastes">
+                  <property name="toolTip">
+                   <string>Paste to current window after item is activated.</string>
+                  </property>
+                  <property name="text">
+                   <string>&amp;Paste to current window</string>
+                  </property>
+                 </widget>
+                </item>
+               </layout>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_6">
                <property name="orientation">
-                <enum>Qt::Horizontal</enum>
+                <enum>Qt::Vertical</enum>
                </property>
                <property name="sizeHint" stdset="0">
                 <size>
-                 <width>40</width>
-                 <height>20</height>
+                 <width>20</width>
+                 <height>40</height>
                 </size>
                </property>
               </spacer>
              </item>
             </layout>
            </item>
+           <item>
+            <spacer name="horizontalSpacer_5">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
           </layout>
-         </item>
-         <item row="4" column="0">
-          <widget class="QGroupBox" name="groupBox_3">
-           <property name="title">
-            <string>After item is activated (double-click or Enter key), copy it to clipboard and ...</string>
-           </property>
-           <layout class="QVBoxLayout" name="verticalLayout_8">
-            <item>
-             <widget class="QCheckBox" name="checkBoxMove">
-              <property name="toolTip">
-               <string>Move item to the top of the list after it is activated.</string>
-              </property>
-              <property name="text">
-               <string>Move item to the top</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxActivateCloses">
-              <property name="toolTip">
-               <string>Close main window after item is activated.</string>
-              </property>
-              <property name="text">
-               <string>&amp;Close main window</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxActivateFocuses">
-              <property name="toolTip">
-               <string>Focus last window after item is activated.</string>
-              </property>
-              <property name="text">
-               <string>&amp;Focus last window</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QCheckBox" name="checkBoxActivatePastes">
-              <property name="toolTip">
-               <string>Paste to current window after item is activated.</string>
-              </property>
-              <property name="text">
-               <string>&amp;Paste to current window</string>
-              </property>
-             </widget>
-            </item>
-           </layout>
-          </widget>
-         </item>
-         <item row="5" column="0">
-          <spacer name="verticalSpacer_6">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item row="2" column="0">
-          <widget class="QCheckBox" name="checkBoxEditCtrlReturn">
-           <property name="toolTip">
-            <string>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabTray">
+      <attribute name="title">
+       <string>&amp;Tray</string>
+      </attribute>
+      <layout class="QHBoxLayout" name="horizontalLayout_14">
+       <item>
+        <widget class="QScrollArea" name="scrollArea_4">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_4">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>552</width>
+            <height>533</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_17">
+           <item>
+            <spacer name="horizontalSpacer_17">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout_4">
+             <item>
+              <spacer name="verticalSpacer_4">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxTrayShowCommands">
+               <property name="toolTip">
+                <string>Show command for current clipboard content in tray menu.</string>
+               </property>
+               <property name="text">
+                <string>Sho&amp;w commands for clipboard content</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_4">
+               <item>
+                <widget class="QLabel" name="label_9">
+                 <property name="text">
+                  <string>N&amp;umber of items in tray menu:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxTrayItems</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QSpinBox" name="spinBoxTrayItems">
+                 <property name="toolTip">
+                  <string>Number of items in tray menu</string>
+                 </property>
+                 <property name="value">
+                  <number>5</number>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_7">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <layout class="QHBoxLayout" name="horizontalLayout_8">
+               <item>
+                <widget class="QCheckBox" name="checkBoxMenuTabIsCurrent">
+                 <property name="toolTip">
+                  <string>Show items from current tab in content menu</string>
+                 </property>
+                 <property name="text">
+                  <string>Show c&amp;urrent tab in menu,</string>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QLabel" name="label_24">
+                 <property name="text">
+                  <string>or choose o&amp;ther tab:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxMenuTab</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <widget class="QComboBox" name="comboBoxMenuTab">
+                 <property name="sizePolicy">
+                  <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+                   <horstretch>0</horstretch>
+                   <verstretch>0</verstretch>
+                  </sizepolicy>
+                 </property>
+                 <property name="toolTip">
+                  <string>Name of tab to show in tray menu (empty for the first tab)</string>
+                 </property>
+                 <property name="editable">
+                  <bool>true</bool>
+                 </property>
+                </widget>
+               </item>
+               <item>
+                <spacer name="horizontalSpacer_6">
+                 <property name="orientation">
+                  <enum>Qt::Horizontal</enum>
+                 </property>
+                 <property name="sizeHint" stdset="0">
+                  <size>
+                   <width>40</width>
+                   <height>20</height>
+                  </size>
+                 </property>
+                </spacer>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxPasteMenuItem">
+               <property name="toolTip">
+                <string>Paste item to current window after selecting it in menu.</string>
+               </property>
+               <property name="text">
+                <string>&amp;Paste activated item to current window</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxTrayImages">
+               <property name="toolTip">
+                <string>Show image preview next to menu items</string>
+               </property>
+               <property name="text">
+                <string>Show &amp;image preview as menu item icon</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_2">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_18">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+          </layout>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabNotifications">
+      <attribute name="title">
+       <string>&amp;Notifications</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_15">
+       <item>
+        <widget class="QScrollArea" name="scrollArea_3">
+         <property name="widgetResizable">
+          <bool>true</bool>
+         </property>
+         <widget class="QWidget" name="scrollAreaWidgetContents_3">
+          <property name="geometry">
+           <rect>
+            <x>0</x>
+            <y>0</y>
+            <width>552</width>
+            <height>533</height>
+           </rect>
+          </property>
+          <layout class="QHBoxLayout" name="horizontalLayout_13">
+           <item>
+            <spacer name="horizontalSpacer_15">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <layout class="QVBoxLayout" name="verticalLayout">
+             <item>
+              <spacer name="verticalSpacer_8">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+             <item>
+              <layout class="QFormLayout" name="formLayout_3">
+               <property name="fieldGrowthPolicy">
+                <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
+               </property>
+               <item row="0" column="0">
+                <widget class="QLabel" name="label_8">
+                 <property name="text">
+                  <string>&amp;Notification position:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>comboBoxNotificationPosition</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="0" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_10">
+                 <item>
+                  <widget class="QComboBox" name="comboBoxNotificationPosition">
+                   <property name="toolTip">
+                    <string>Position on screen for notifications</string>
+                   </property>
+                   <item>
+                    <property name="text">
+                     <string>Top</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Bottom</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Top Right</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Bottom Right</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Bottom Left</string>
+                    </property>
+                   </item>
+                   <item>
+                    <property name="text">
+                     <string>Top Left</string>
+                    </property>
+                   </item>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_10">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item row="1" column="0">
+                <widget class="QLabel" name="label_25">
+                 <property name="text">
+                  <string>Interval in seconds to display notifications:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxItemPopupInterval</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="1" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_9">
+                 <item>
+                  <widget class="QSpinBox" name="spinBoxItemPopupInterval">
+                   <property name="toolTip">
+                    <string>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
-Note: Edited items can be saved with F2 disregarding this option.</string>
-           </property>
-           <property name="text">
-            <string>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tabTray">
-        <attribute name="title">
-         <string>&amp;Tray</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_4">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_4">
-           <item>
-            <widget class="QLabel" name="label_9">
-             <property name="text">
-              <string>N&amp;umber of items in tray menu:</string>
-             </property>
-             <property name="buddy">
-              <cstring>spinBoxTrayItems</cstring>
-             </property>
-            </widget>
+Set to 0 to disable this.
+
+Set to -1 to keep visible until clicked.</string>
+                   </property>
+                   <property name="minimum">
+                    <number>-1</number>
+                   </property>
+                   <property name="maximum">
+                    <number>60</number>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_2">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+               <item row="2" column="0">
+                <widget class="QLabel" name="label_12">
+                 <property name="text">
+                  <string>Num&amp;ber of lines for clipboard notification:</string>
+                 </property>
+                 <property name="buddy">
+                  <cstring>spinBoxClipboardNotificationLines</cstring>
+                 </property>
+                </widget>
+               </item>
+               <item row="2" column="1">
+                <layout class="QHBoxLayout" name="horizontalLayout_11">
+                 <item>
+                  <widget class="QSpinBox" name="spinBoxClipboardNotificationLines">
+                   <property name="toolTip">
+                    <string>Number of lines to show for new clipboard content.
+
+Set to 0 to disable.</string>
+                   </property>
+                  </widget>
+                 </item>
+                 <item>
+                  <spacer name="horizontalSpacer_11">
+                   <property name="orientation">
+                    <enum>Qt::Horizontal</enum>
+                   </property>
+                   <property name="sizeHint" stdset="0">
+                    <size>
+                     <width>40</width>
+                     <height>20</height>
+                    </size>
+                   </property>
+                  </spacer>
+                 </item>
+                </layout>
+               </item>
+              </layout>
+             </item>
+             <item>
+              <spacer name="verticalSpacer_7">
+               <property name="orientation">
+                <enum>Qt::Vertical</enum>
+               </property>
+               <property name="sizeHint" stdset="0">
+                <size>
+                 <width>20</width>
+                 <height>40</height>
+                </size>
+               </property>
+              </spacer>
+             </item>
+            </layout>
            </item>
            <item>
-            <widget class="QSpinBox" name="spinBoxTrayItems">
-             <property name="toolTip">
-              <string>Number of items in tray menu</string>
-             </property>
-             <property name="value">
-              <number>5</number>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_7">
+            <spacer name="horizontalSpacer_16">
              <property name="orientation">
               <enum>Qt::Horizontal</enum>
              </property>
@@ -750,219 +1087,123 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
             </spacer>
            </item>
           </layout>
-         </item>
+         </widget>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabItems">
+      <attribute name="title">
+       <string>&amp;Items</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_2">
+       <item>
+        <widget class="QLabel" name="label_5">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="ItemOrderList" name="itemOrderListPlugins" native="true">
+         <property name="focusPolicy">
+          <enum>Qt::WheelFocus</enum>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabCommands">
+      <attribute name="title">
+       <string>Co&amp;mmands</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_6">
+       <item>
+        <widget class="QLabel" name="label_11">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</string>
+         </property>
+         <property name="wordWrap">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
+         <property name="focusPolicy">
+          <enum>Qt::WheelFocus</enum>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
          <item>
-          <widget class="QCheckBox" name="checkBoxPasteMenuItem">
-           <property name="toolTip">
-            <string>Paste item to current window after selecting it in menu.</string>
-           </property>
+          <widget class="QPushButton" name="pushButtonLoadCommands">
            <property name="text">
-            <string>&amp;Paste activated item to current window</string>
+            <string>&amp;Load Commands...</string>
            </property>
           </widget>
          </item>
          <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_8">
-           <item>
-            <widget class="QCheckBox" name="checkBoxMenuTabIsCurrent">
-             <property name="toolTip">
-              <string>Show items from current tab in content menu</string>
-             </property>
-             <property name="text">
-              <string>Show c&amp;urrent tab in menu,</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLabel" name="label_24">
-             <property name="text">
-              <string>or choose o&amp;ther tab:</string>
-             </property>
-             <property name="buddy">
-              <cstring>comboBoxMenuTab</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QComboBox" name="comboBoxMenuTab">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="toolTip">
-              <string>Name of tab to show in tray menu (empty for the first tab)</string>
-             </property>
-             <property name="editable">
-              <bool>true</bool>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <spacer name="horizontalSpacer_6">
-             <property name="orientation">
-              <enum>Qt::Horizontal</enum>
-             </property>
-             <property name="sizeHint" stdset="0">
-              <size>
-               <width>40</width>
-               <height>20</height>
-              </size>
-             </property>
-            </spacer>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxTrayShowCommands">
-           <property name="toolTip">
-            <string>Show command for current clipboard content in tray menu.</string>
+          <widget class="QPushButton" name="pushButtonSaveCommands">
+           <property name="enabled">
+            <bool>false</bool>
            </property>
            <property name="text">
-            <string>Sho&amp;w commands for clipboard content</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QCheckBox" name="checkBoxTrayImages">
-           <property name="toolTip">
-            <string>Show image preview next to menu items</string>
-           </property>
-           <property name="text">
-            <string>Show &amp;image preview as menu item icon</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="verticalSpacer_2">
-           <property name="orientation">
-            <enum>Qt::Vertical</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>20</width>
-             <height>40</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tabItems">
-        <attribute name="title">
-         <string>&amp;Items</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_5">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="ItemOrderList" name="itemOrderListPlugins" native="true">
-           <property name="focusPolicy">
-            <enum>Qt::WheelFocus</enum>
+            <string>Sa&amp;ve Selected Commands...</string>
            </property>
           </widget>
          </item>
         </layout>
-       </widget>
-       <widget class="QWidget" name="tabCommands">
-        <attribute name="title">
-         <string>Co&amp;mmands</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_6">
-         <item>
-          <widget class="QLabel" name="label_11">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="text">
-            <string>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</string>
-           </property>
-           <property name="wordWrap">
-            <bool>true</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
-           <property name="focusPolicy">
-            <enum>Qt::WheelFocus</enum>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_6">
-           <item>
-            <widget class="QPushButton" name="pushButtonLoadCommands">
-             <property name="text">
-              <string>&amp;Load Commands...</string>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QPushButton" name="pushButtonSaveCommands">
-             <property name="enabled">
-              <bool>false</bool>
-             </property>
-             <property name="text">
-              <string>Sa&amp;ve Selected Commands...</string>
-             </property>
-            </widget>
-           </item>
-          </layout>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tabShortcuts">
-        <attribute name="title">
-         <string>&amp;Shortcuts</string>
-        </attribute>
-        <layout class="QGridLayout" name="gridLayout_9">
-         <item row="0" column="0">
-          <widget class="ConfigTabShortcuts" name="configTabShortcuts" native="true"/>
-         </item>
-        </layout>
-       </widget>
-       <widget class="QWidget" name="tabAppearance">
-        <attribute name="title">
-         <string>&amp;Appearance</string>
-        </attribute>
-        <layout class="QVBoxLayout" name="verticalLayout_3">
-         <item>
-          <widget class="ConfigTabAppearance" name="configTabAppearance" native="true"/>
-         </item>
-        </layout>
-       </widget>
-      </widget>
-     </item>
-     <item>
-      <widget class="QDialogButtonBox" name="buttonBox">
-       <property name="orientation">
-        <enum>Qt::Horizontal</enum>
-       </property>
-       <property name="standardButtons">
-        <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
-       </property>
-      </widget>
-     </item>
-    </layout>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabShortcuts">
+      <attribute name="title">
+       <string>&amp;Shortcuts</string>
+      </attribute>
+      <layout class="QGridLayout" name="gridLayout_9">
+       <item row="0" column="0">
+        <widget class="ConfigTabShortcuts" name="configTabShortcuts" native="true"/>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QWidget" name="tabAppearance">
+      <attribute name="title">
+       <string>&amp;Appearance</string>
+      </attribute>
+      <layout class="QVBoxLayout" name="verticalLayout_3">
+       <item>
+        <widget class="ConfigTabAppearance" name="configTabAppearance" native="true"/>
+       </item>
+      </layout>
+     </widget>
+    </widget>
+   </item>
+   <item>
+    <widget class="QDialogButtonBox" name="buttonBox">
+     <property name="orientation">
+      <enum>Qt::Horizontal</enum>
+     </property>
+     <property name="standardButtons">
+      <set>QDialogButtonBox::Apply|QDialogButtonBox::Cancel|QDialogButtonBox::Ok|QDialogButtonBox::Reset</set>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
@@ -987,12 +1228,11 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   </customwidget>
  </customwidgets>
  <tabstops>
-  <tabstop>tabWidget</tabstop>
   <tabstop>comboBoxLanguage</tabstop>
-  <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxTextWrap</tabstop>
   <tabstop>checkBoxAlwaysOnTop</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
+  <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxViMode</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
@@ -1004,9 +1244,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>checkBoxHideTabs</tabstop>
   <tabstop>checkBoxHideToolbar</tabstop>
   <tabstop>checkBoxDisableTray</tabstop>
-  <tabstop>comboBoxNotificationPosition</tabstop>
-  <tabstop>spinBoxItemPopupInterval</tabstop>
-  <tabstop>spinBoxClipboardNotificationLines</tabstop>
+  <tabstop>scrollArea</tabstop>
   <tabstop>spinBoxItems</tabstop>
   <tabstop>spinBoxExpireTab</tabstop>
   <tabstop>lineEditEditor</tabstop>
@@ -1015,15 +1253,22 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
   <tabstop>checkBoxActivateCloses</tabstop>
   <tabstop>checkBoxActivateFocuses</tabstop>
   <tabstop>checkBoxActivatePastes</tabstop>
+  <tabstop>scrollArea_2</tabstop>
+  <tabstop>checkBoxTrayShowCommands</tabstop>
   <tabstop>spinBoxTrayItems</tabstop>
-  <tabstop>checkBoxPasteMenuItem</tabstop>
   <tabstop>checkBoxMenuTabIsCurrent</tabstop>
   <tabstop>comboBoxMenuTab</tabstop>
-  <tabstop>checkBoxTrayShowCommands</tabstop>
+  <tabstop>checkBoxPasteMenuItem</tabstop>
   <tabstop>checkBoxTrayImages</tabstop>
+  <tabstop>scrollArea_4</tabstop>
+  <tabstop>comboBoxNotificationPosition</tabstop>
+  <tabstop>spinBoxItemPopupInterval</tabstop>
+  <tabstop>spinBoxClipboardNotificationLines</tabstop>
+  <tabstop>scrollArea_3</tabstop>
   <tabstop>itemOrderListPlugins</tabstop>
   <tabstop>itemOrderListCommands</tabstop>
-  <tabstop>buttonBox</tabstop>
+  <tabstop>pushButtonLoadCommands</tabstop>
+  <tabstop>pushButtonSaveCommands</tabstop>
  </tabstops>
  <resources/>
  <connections/>

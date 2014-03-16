@@ -594,6 +594,7 @@ void ConfigurationManager::initTabIcons()
     tw->setTabIcon( tw->indexOf(ui->tabHistory), f->createPixmap(IconListAlt, color) );
     tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconThList, color) );
     tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabNotifications), f->createPixmap(IconInfoSign, color) );
     tw->setTabIcon( tw->indexOf(ui->tabCommands), f->createPixmap(IconCogs, color) );
     tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
     tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
