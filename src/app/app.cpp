@@ -21,10 +21,11 @@
 
 #include "common/common.h"
 #include "platform/platformnativeinterface.h"
+#ifdef Q_OS_UNIX
+#   include "platform/unix/unixsignalhandler.h"
+#endif
 
 #include <QCoreApplication>
-#include <QDir>
-#include <QFile>
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QSettings>
@@ -33,26 +34,6 @@
 #ifdef HAS_TESTS
 #   include <QProcessEnvironment>
 #endif
-
-#ifdef Q_OS_UNIX
-#   include <signal.h>
-#   include <sys/socket.h>
-#   include <unistd.h>
-
-namespace {
-
-/**
- * Unix signal handler (TERM, HUP).
- */
-void exitSignalHandler(int)
-{
-    COPYQ_LOG("Terminating application on signal.");
-    QCoreApplication::exit();
-}
-
-} // namespace
-
-#endif // Q_OS_UNIX
 
 namespace {
 
@@ -102,18 +83,8 @@ App::App(QCoreApplication *application, const QString &sessionName)
     QCoreApplication::setApplicationName(session);
 
 #ifdef Q_OS_UNIX
-    // Safely quit application on TERM and HUP signals.
-    struct sigaction sigact;
-
-    sigact.sa_handler = ::exitSignalHandler;
-    sigemptyset(&sigact.sa_mask);
-    sigact.sa_flags = 0;
-    sigact.sa_flags |= SA_RESTART;
-
-    if ( sigaction(SIGHUP, &sigact, 0) > 0
-         || sigaction(SIGINT, &sigact, 0) > 0
-         || sigaction(SIGTERM, &sigact, 0) > 0 )
-        log( QString("sigaction() failed!"), LogError );
+    if ( !UnixSignalHandler::create(m_app.data()) )
+        log( QString("Failed to create handler for Unix signals!"), LogError );
 #endif
 
     createPlatformNativeInterface()->loadSettings();

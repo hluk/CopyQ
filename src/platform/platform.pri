@@ -10,7 +10,10 @@ macx {
 !unix|android:!win32 {
     SOURCES += platform/dummy/dummyplatform.cpp
 }
+unix {
+    SOURCES += platform/unix/unixsignalhandler.cpp
+    HEADERS += platform/unix/unixsignalhandler.h
+}
 
-HEADERS += \
-    platform/platformwindow.h
+HEADERS += platform/platformwindow.h
 
