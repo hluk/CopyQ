@@ -188,6 +188,10 @@ void ItemText::onSelectionChanged()
     m_copyOnMouseUp = true;
 }
 
+ItemTextLoader::ItemTextLoader()
+{
+}
+
 ItemTextLoader::~ItemTextLoader()
 {
 }

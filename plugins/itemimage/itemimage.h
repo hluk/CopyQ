@@ -54,6 +54,7 @@ class ItemImageLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemImageLoader();
     ~ItemImageLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;

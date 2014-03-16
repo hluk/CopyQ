@@ -531,6 +531,10 @@ QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *pa
     return m_childItem->createExternalEditor(index, parent);
 }
 
+ItemFakeVimLoader::ItemFakeVimLoader()
+{
+}
+
 ItemFakeVimLoader::~ItemFakeVimLoader()
 {
 }

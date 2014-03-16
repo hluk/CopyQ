@@ -99,6 +99,10 @@ QObject *ItemImage::createExternalEditor(const QModelIndex &index, QWidget *pare
     return cmd.isEmpty() ? NULL : new ItemEditor(data, mime, cmd, parent);
 }
 
+ItemImageLoader::ItemImageLoader()
+{
+}
+
 ItemImageLoader::~ItemImageLoader()
 {
 }

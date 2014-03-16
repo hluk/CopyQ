@@ -151,6 +151,10 @@ void ItemData::contextMenuEvent(QContextMenuEvent *e)
     e->ignore();
 }
 
+ItemDataLoader::ItemDataLoader()
+{
+}
+
 ItemDataLoader::~ItemDataLoader()
 {
 }

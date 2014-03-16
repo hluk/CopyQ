@@ -74,6 +74,7 @@ class ItemWebLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemWebLoader();
     ~ItemWebLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;

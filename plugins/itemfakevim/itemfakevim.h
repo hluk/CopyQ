@@ -66,6 +66,7 @@ class ItemFakeVimLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemFakeVimLoader();
     ~ItemFakeVimLoader();
 
     virtual QString id() const { return "itemfakevim"; }

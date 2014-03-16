@@ -1250,6 +1250,10 @@ private:
     QMap<QPersistentModelIndex, IndexData> m_indexData;
 };
 
+ItemSyncLoader::ItemSyncLoader()
+{
+}
+
 ItemSyncLoader::~ItemSyncLoader()
 {
 }

@@ -64,6 +64,7 @@ class ItemTextLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemTextLoader();
     ~ItemTextLoader();
 
     virtual ItemWidget *create(const QModelIndex &index, QWidget *parent) const;

@@ -273,6 +273,10 @@ void ItemNotes::showToolTip()
     QToolTip::showText(toolTipPosition, m_toolTipText, this);
 }
 
+ItemNotesLoader::ItemNotesLoader()
+{
+}
+
 ItemNotesLoader::~ItemNotesLoader()
 {
 }

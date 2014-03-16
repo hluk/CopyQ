@@ -162,6 +162,10 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
+ItemWebLoader::ItemWebLoader()
+{
+}
+
 ItemWebLoader::~ItemWebLoader()
 {
 }

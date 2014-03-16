@@ -87,6 +87,7 @@ class ItemNotesLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemNotesLoader();
     ~ItemNotesLoader();
 
     virtual QString id() const { return "itemnotes"; }

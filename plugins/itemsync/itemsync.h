@@ -101,6 +101,7 @@ class ItemSyncLoader : public QObject, public ItemLoaderInterface
     Q_INTERFACES(ItemLoaderInterface)
 
 public:
+    ItemSyncLoader();
     ~ItemSyncLoader();
 
     virtual QString id() const { return "itemsync"; }
