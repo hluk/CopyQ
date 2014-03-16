@@ -1161,10 +1161,21 @@ void ClipboardBrowser::filterItems()
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( m_menu != NULL && !editing() && !selectedIndexes().isEmpty() ) {
-        m_menu->exec( event->globalPos() );
-        event->accept();
+    if ( m_menu == NULL || editing() || selectedIndexes().isEmpty() )
+        return;
+
+    QPoint pos = event->globalPos();
+
+    // WORKAROUND: Fix menu position if text wrapping is disabled and
+    //             item is too wide, event gives incorrect position on X axis.
+    if (!m_sharedData->textWrap) {
+        int menuMaxX = mapToGlobal( QPoint(width(), 0) ).x();
+        if (pos.x() > menuMaxX)
+            pos.setX(menuMaxX - width() / 2);
     }
+
+    m_menu->exec(pos);
+    event->accept();
 }
 
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
