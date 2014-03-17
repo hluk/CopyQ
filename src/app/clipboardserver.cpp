@@ -128,10 +128,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
 ClipboardServer::~ClipboardServer()
 {
-    // delete shortcuts manually
-    foreach (QxtGlobalShortcut *s, m_shortcutActions.keys())
-        delete s;
-    m_shortcutActions.clear();
+    removeGlobalShortcuts();
 }
 
 void ClipboardServer::stopMonitoring()
