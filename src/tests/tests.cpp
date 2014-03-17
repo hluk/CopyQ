@@ -1178,7 +1178,6 @@ void Tests::externalEditor()
     const QByteArray data1 = generateData(data);
     TEST( m_test->setClipboard(data1) );
     RUN(Args("clipboard"), data1);
-    RUN(Args("read") << "0", data1);
 
     QByteArray out;
 
