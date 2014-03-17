@@ -725,7 +725,6 @@ void ConfigurationManager::initOptions()
 
     /* other options */
     bind("command_history_size", 100);
-    bind("_last_hash", 0);
 #ifdef COPYQ_WS_X11
     /* X11 clipboard selection monitoring and synchronization */
     bind("check_selection", ui->checkBoxSel, false);

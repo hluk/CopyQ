@@ -67,7 +67,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_monitor(NULL)
     , m_checkclip(false)
     , m_lastHash(0)
-    , m_ignoreNextItem(true)
+    , m_ignoreNextClipboardContent(true)
     , m_shortcutActions()
     , m_shortcutBlocker()
     , m_clientThreads()
@@ -118,12 +118,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     m_clientThreads.setMaxThreadCount( qMax(m_clientThreads.maxThreadCount(), 4) );
     m_internalThreads.setMaxThreadCount( qMax(m_internalThreads.maxThreadCount(), 4) );
 
-    // hash of the last clipboard data
-    bool ok;
-    m_lastHash = cm->value("_last_hash").toUInt(&ok);
-    if (!ok)
-        m_lastHash = 0;
-
     // run clipboard monitor
     startMonitoring();
 
@@ -159,7 +153,6 @@ void ClipboardServer::startMonitoring()
     COPYQ_LOG("Starting monitor.");
 
     if ( m_monitor == NULL ) {
-        m_ignoreNextItem = true;
         m_monitor = new RemoteProcess(this);
         connect( m_monitor, SIGNAL(newMessage(QByteArray)),
                  this, SLOT(newMonitorMessage(QByteArray)) );
@@ -194,7 +187,7 @@ void ClipboardServer::loadMonitorSettings()
     settings["check_selection"] = cm->value("check_selection");
 #endif
 
-    m_lastHash = 0;
+    m_ignoreNextClipboardContent = true;
 
     QByteArray settingsData;
     QDataStream settingsOut(&settingsData, QIODevice::WriteOnly);
@@ -323,9 +316,9 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     m_wnd->clipboardChanged(item.data());
 #endif
 
-    if (m_ignoreNextItem) {
-        // Don't add item to list on application start.
-        m_ignoreNextItem = false;
+    if (m_ignoreNextClipboardContent) {
+        // Don't add item to list when clipboard monitor is started.
+        m_ignoreNextClipboardContent = false;
         m_lastHash = item.dataHash();
     } else if ( ownsClipboardData(data) ) {
         // Don't add item to list if any running clipboard monitor set the clipboard.

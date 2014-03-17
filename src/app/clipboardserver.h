@@ -130,7 +130,7 @@ private:
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;
-    bool m_ignoreNextItem;
+    bool m_ignoreNextClipboardContent;
     QMap<QxtGlobalShortcut*, QByteArray> m_shortcutActions;
     QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;
