@@ -20,6 +20,7 @@
 #include "gui/notificationdaemon.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
 #include "gui/notification.h"
 #include "gui/iconfactory.h"
 

@@ -21,6 +21,7 @@
 #include "ui_itemdatasettings.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
 #include "common/contenttype.h"
 
 #include <QContextMenuEvent>

@@ -21,6 +21,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "item/serialize.h"
 
 #include <QByteArray>

@@ -21,6 +21,8 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/log.h"
+#include "common/mimetypes.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
 

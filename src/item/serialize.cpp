@@ -19,8 +19,9 @@
 
 #include "serialize.h"
 
-#include "common/common.h"
 #include "common/contenttype.h"
+#include "common/log.h"
+#include "common/mimetypes.h"
 
 #include <QAbstractItemModel>
 #include <QByteArray>

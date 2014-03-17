@@ -1,8 +1,8 @@
 include(../plugins_common.pri)
 
 HEADERS += itemimage.h
-SOURCES += itemimage.cpp
-SOURCES += ../../src/common/common.cpp
+SOURCES += itemimage.cpp \
+    ../../src/common/mimetypes.cpp
 FORMS   += itemimagesettings.ui
 TARGET   = $$qtLibraryTarget(itemimage)
 

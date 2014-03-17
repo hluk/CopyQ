@@ -17,12 +17,14 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "common.h"
+#include "common/common.h"
+
+#include "common/log.h"
+#include "common/mimetypes.h"
 
 #include <QAction>
 #include <QApplication>
 #include <QClipboard>
-#include <QFile>
 #include <QLocale>
 #include <QMimeData>
 #include <QObject>
@@ -30,17 +32,6 @@
 #include <QUrl>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
-#endif
-
-const char mimeText[] = "text/plain";
-const char mimeHtml[] = "text/html";
-const char mimeUriList[] = "text/uri-list";
-const char mimeWindowTitle[] = MIME_PREFIX "owner-window-title";
-const char mimeItems[] = MIME_PREFIX "item";
-const char mimeItemNotes[] = MIME_PREFIX "item-notes";
-const char mimeOwner[] = MIME_PREFIX "owner";
-#ifdef COPYQ_WS_X11
-const char mimeClipboardMode[] = MIME_PREFIX "clipboard-mode";
 #endif
 
 QString quoteString(const QString &str)
@@ -59,33 +50,6 @@ QString escapeHtml(const QString &str)
 #else
     return str.toHtmlEscaped().replace('\n', "<br />");
 #endif
-}
-
-QString createLogMessage(const QString &label, const QString &text, const LogLevel level)
-{
-    QString levelId;
-
-    if (level == LogNote)
-        levelId = QString("%1");
-    else if (level == LogWarning)
-        levelId = QObject::tr("warning: %1");
-    else if (level == LogError)
-        levelId = QObject::tr("ERROR: %1");
-#ifdef COPYQ_LOG_DEBUG
-    else if (level == LogDebug)
-        levelId = QString("DEBUG: %1");
-#endif
-
-    return label + " " + levelId.arg(text) + "\n";
-}
-
-void log(const QString &text, const LogLevel level)
-{
-    const QString msg = createLogMessage("CopyQ", text, level);
-
-    QFile f;
-    f.open(stderr, QIODevice::WriteOnly);
-    f.write( msg.toLocal8Bit() );
 }
 
 bool isMainThread()

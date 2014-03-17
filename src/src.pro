@@ -78,7 +78,11 @@ HEADERS += \
     scriptable/scriptableproxy.h \
     scriptable/scriptableworker.h \
     tests/testinterface.h \
-    app/client.h
+    app/client.h \
+    common/mimetypes.h \
+    common/log.h \
+    common/commandstatus.h \
+    common/monitormessagecode.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -134,7 +138,9 @@ SOURCES += \
     ../qt/bytearrayprototype.cpp \
     scriptable/scriptable.cpp \
     scriptable/scriptableworker.cpp \
-    app/client.cpp
+    app/client.cpp \
+    common/mimetypes.cpp \
+    common/log.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

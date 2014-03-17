@@ -22,6 +22,7 @@
 #include "common/action.h"
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "gui/clipboarddialog.h"
 #include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"

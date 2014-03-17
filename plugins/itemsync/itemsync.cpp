@@ -20,7 +20,8 @@
 #include "itemsync.h"
 #include "ui_itemsyncsettings.h"
 
-#include "common/common.h"
+#include "common/log.h"
+#include "common/mimetypes.h"
 #include "common/contenttype.h"
 #include "gui/iconselectbutton.h"
 #include "gui/icons.h"

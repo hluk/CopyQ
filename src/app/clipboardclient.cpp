@@ -21,7 +21,8 @@
 
 #include "common/arguments.h"
 #include "common/client_server.h"
-#include "common/common.h"
+#include "common/commandstatus.h"
+#include "common/log.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 

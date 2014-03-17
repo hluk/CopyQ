@@ -21,6 +21,7 @@
 #include "ui_configtabappearance.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
 #include "common/option.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfont.h"

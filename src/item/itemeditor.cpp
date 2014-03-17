@@ -19,7 +19,7 @@
 
 #include "itemeditor.h"
 
-#include "common/common.h"
+#include "common/mimetypes.h"
 
 #include <QDir>
 #include <QFile>

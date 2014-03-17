@@ -21,6 +21,7 @@
 #include "ui_clipboarddialog.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"

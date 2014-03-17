@@ -23,11 +23,12 @@
 #include "app.h"
 #include "client.h"
 
-#include "common/common.h"
+#include "common/log.h"
 
 #include <QClipboard>
 #include <QScopedPointer>
 #include <QStringList>
+#include <QVariantMap>
 
 class QMimeData;
 class QTimer;

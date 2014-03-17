@@ -36,32 +36,6 @@ class QMimeData;
 class QString;
 class QStringList;
 
-/** Command status. */
-enum CommandStatus {
-    /** Script finished */
-    CommandFinished = 0,
-    /** Command invocation error. */
-    CommandError = 1,
-    /** Bad command syntax. */
-    CommandBadSyntax = 2,
-    /** Command successfully invoked. */
-    CommandSuccess,
-    /** Activate window */
-    CommandActivateWindow,
-    /** Ask client to send data from its stdin. */
-    CommandReadInput
-};
-
-/** Message code for/from clipboard monitor. */
-enum MonitorMessageCode {
-    MonitorPing,
-    MonitorPong,
-    MonitorSettings,
-    MonitorChangeClipboard,
-    MonitorClipboardChanged,
-    MonitorLog
-};
-
 #if QT_VERSION < 0x050000
 #   ifdef Q_WS_WIN
 #       define Q_OS_WIN
@@ -74,47 +48,9 @@ enum MonitorMessageCode {
 #   define NO_GLOBAL_SHORTCUTS
 #endif
 
-#ifdef COPYQ_LOG_DEBUG
-inline bool isLogVerbose()
-{
-    static const bool verbose = qgetenv("COPYQ_VERBOSE") == "1";
-    return verbose;
-}
-#   define COPYQ_LOG(msg) log(msg, LogDebug)
-#   define COPYQ_LOG_VERBOSE(msg) do { if ( isLogVerbose() ) log(msg, LogDebug); } while (false)
-#else
-#   define COPYQ_LOG(msg)
-#   define COPYQ_LOG_VERBOSE(msg)
-#endif
-
-enum LogLevel {
-#ifdef COPYQ_LOG_DEBUG
-    LogDebug,
-#endif
-    LogNote,
-    LogWarning,
-    LogError
-};
-
-#define MIME_PREFIX "application/x-copyq-"
-extern const char mimeText[];
-extern const char mimeHtml[];
-extern const char mimeUriList[];
-extern const char mimeWindowTitle[];
-extern const char mimeItems[];
-extern const char mimeItemNotes[];
-extern const char mimeOwner[];
-#ifdef COPYQ_WS_X11
-extern const char mimeClipboardMode[];
-#endif
-
 QString quoteString(const QString &str);
 
 QString escapeHtml(const QString &str);
-
-QString createLogMessage(const QString &label, const QString &text, const LogLevel level);
-
-void log(const QString &text, const LogLevel level = LogNote);
 
 bool isMainThread();
 

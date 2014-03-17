@@ -22,6 +22,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"
 #include "item/encrypt.h"

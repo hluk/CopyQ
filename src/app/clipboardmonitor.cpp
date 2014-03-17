@@ -22,6 +22,8 @@
 #include "common/arguments.h"
 #include "common/client_server.h"
 #include "common/common.h"
+#include "common/mimetypes.h"
+#include "common/monitormessagecode.h"
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"

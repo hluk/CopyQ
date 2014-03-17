@@ -20,7 +20,7 @@
 #ifndef SCRIPTABLEPROXY_H
 #define SCRIPTABLEPROXY_H
 
-#include "common/common.h"
+#include "common/log.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"

@@ -19,7 +19,7 @@
 
 #include "app.h"
 
-#include "common/common.h"
+#include "common/log.h"
 #include "platform/platformnativeinterface.h"
 #ifdef Q_OS_UNIX
 #   include "platform/unix/unixsignalhandler.h"

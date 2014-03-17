@@ -22,7 +22,7 @@
 #include "common/arguments.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
-#include "common/common.h"
+#include "common/log.h"
 
 #include <QCoreApplication>
 #include <QLocalServer>

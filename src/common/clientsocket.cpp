@@ -21,7 +21,7 @@
 
 #include "common/arguments.h"
 #include "common/client_server.h"
-#include "common/common.h"
+#include "common/log.h"
 
 #define SOCKET_LOG(text) \
     COPYQ_LOG( QString("%1: %2").arg(property("id").toInt()).arg(text) )

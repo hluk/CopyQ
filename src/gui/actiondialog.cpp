@@ -23,6 +23,7 @@
 #include "common/action.h"
 #include "common/command.h"
 #include "common/common.h"
+#include "common/mimetypes.h"
 #include "item/serialize.h"
 #include "gui/configurationmanager.h"
 

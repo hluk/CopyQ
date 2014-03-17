@@ -23,6 +23,8 @@
 #include "common/arguments.h"
 #include "common/clientsocket.h"
 #include "common/client_server.h"
+#include "common/mimetypes.h"
+#include "common/monitormessagecode.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"

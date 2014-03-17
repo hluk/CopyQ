@@ -23,6 +23,8 @@
 #include "common/common.h"
 #include "common/command.h"
 #include "common/contenttype.h"
+#include "common/log.h"
+#include "common/mimetypes.h"
 #include "gui/aboutdialog.h"
 #include "gui/actiondialog.h"
 #include "gui/actionhandler.h"
