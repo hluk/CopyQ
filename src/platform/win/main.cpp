@@ -68,9 +68,10 @@ public:
             ferr.write( p.readAllStandardError() );
 
             if ( p.isWritable() ) {
-                p.write( fin.readAll() );
                 if ( fin.atEnd() )
                     p.closeWriteChannel();
+                if ( fin.waitForReadyRead(0) )
+                    p.write( fin.readAll() );
             }
         }
 
