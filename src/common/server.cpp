@@ -58,6 +58,7 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 Server::Server(const QString &name, QObject *parent)
     : QObject(parent)
     , m_server(newServer(name, this))
+    , m_socketCount(0)
 {
     qRegisterMetaType<Arguments>("Arguments");
     connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
@@ -90,6 +91,9 @@ void Server::onNewConnection()
 
         const Arguments args = clientSocket->readArguments();
         if ( !args.isEmpty() ) {
+            ++m_socketCount;
+            connect( clientSocket.data(), SIGNAL(destroyed()),
+                     this, SLOT(onSocketClosed()) );
             connect( this, SIGNAL(destroyed()),
                      clientSocket.data(), SLOT(close()) );
             connect( this, SIGNAL(destroyed()),
@@ -99,12 +103,18 @@ void Server::onNewConnection()
     }
 }
 
+void Server::onSocketClosed()
+{
+    Q_ASSERT(m_socketCount > 0);
+    --m_socketCount;
+}
+
 void Server::close()
 {
     m_server->close();
 
-    COPYQ_LOG( QString("Sockets open: %1").arg(findChildren<QLocalSocket*>().size()) );
-    while ( findChild<QLocalSocket*>() != NULL )
+    COPYQ_LOG( QString("Sockets open: %1").arg(m_socketCount) );
+    while (m_socketCount > 0)
         QCoreApplication::processEvents();
 
     deleteLater();

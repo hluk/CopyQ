@@ -41,10 +41,12 @@ signals:
 
 private slots:
     void onNewConnection();
+    void onSocketClosed();
     void close();
 
 private:
     QLocalServer *m_server;
+    int m_socketCount;
 };
 
 #endif // SERVER_H
