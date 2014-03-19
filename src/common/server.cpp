@@ -86,11 +86,16 @@ void Server::onNewConnection()
         log( tr("Client is not connected!"), LogError );
         socket->deleteLater();
     } else {
-        QScopedPointer<ClientSocket> clientSocket( new ClientSocket(socket, this) );
+        QScopedPointer<ClientSocket> clientSocket( new ClientSocket(socket) );
 
         const Arguments args = clientSocket->readArguments();
-        if ( !args.isEmpty() )
+        if ( !args.isEmpty() ) {
+            connect( this, SIGNAL(destroyed()),
+                     clientSocket.data(), SLOT(close()) );
+            connect( this, SIGNAL(destroyed()),
+                     clientSocket.data(), SLOT(deleteAfterDisconnected()) );
             emit newConnection( args, clientSocket.take() );
+        }
     }
 }
 

@@ -33,7 +33,9 @@ class ClientSocket : public QObject
 public:
     ClientSocket();
 
-    explicit ClientSocket(QLocalSocket *socket, QObject *parent = 0);
+    explicit ClientSocket(QLocalSocket *socket, QObject *parent = NULL);
+
+    ~ClientSocket();
 
     /// Start emiting messageReceived(). This method is thread-safe.
     void start();

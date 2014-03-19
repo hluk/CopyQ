@@ -110,8 +110,13 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
 
 #ifdef COPYQ_LOG_DEBUG
     setProperty("id", m_socket->socketDescriptor());
-    SOCKET_LOG("New connection");
+    SOCKET_LOG("Creating socket.");
 #endif
+}
+
+ClientSocket::~ClientSocket()
+{
+    SOCKET_LOG("Destroying socket.");
 }
 
 void ClientSocket::start()
@@ -125,7 +130,9 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
 
     if ( m_socket.isNull() ) {
         SOCKET_LOG("Cannot send message to client. Socket is already deleted.");
-    } else if ( m_socket->state() == QLocalSocket::ConnectedState ) {
+    } else if (m_closed) {
+        SOCKET_LOG("Client disconnected!");
+    } else {
         QByteArray msg;
         QDataStream out(&msg, QIODevice::WriteOnly);
         out << (qint32)messageCode;
@@ -134,8 +141,6 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
             SOCKET_VERBOSE_LOG("Message sent to client.");
         else
             SOCKET_LOG("Failed to send message to client!");
-    } else {
-        SOCKET_LOG("Client disconnected!");
     }
 }
 
@@ -143,7 +148,7 @@ void ClientSocket::deleteAfterDisconnected()
 {
     if ( m_socket.isNull() ) {
         SOCKET_LOG("Socket is already deleted.");
-    } else if ( m_socket->state() == QLocalSocket::UnconnectedState ) {
+    } else if (m_closed) {
         SOCKET_LOG("Delete after disconnected.");
         deleteLater();
     } else {
@@ -154,8 +159,10 @@ void ClientSocket::deleteAfterDisconnected()
 
 void ClientSocket::close()
 {
-    if ( !m_socket.isNull() )
+    if ( !m_socket.isNull() ) {
+        SOCKET_LOG("Disconnecting socket.");
         m_socket->disconnectFromServer();
+    }
 }
 
 bool ClientSocket::isClosed() const
