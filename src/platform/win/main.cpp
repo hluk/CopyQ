@@ -29,21 +29,70 @@ namespace {
  */
 class ConsoleReader : public QThread {
 public:
-    explicit ConsoleReader(QProcess *process)
-        : m_process(process)
+    explicit ConsoleReader(const QStringList &arguments)
+        : m_arguments(arguments)
+        , m_cmd(QCoreApplication::applicationFilePath())
+        , m_exitCode(0)
     {
     }
 
     void run()
     {
+        QProcess p;
+        p.setProcessChannelMode(QProcess::ForwardedChannels);
+
+        QFile ferr;
+        ferr.open(stderr, QIODevice::WriteOnly);
+        QFile fout;
+        fout.open(stdout, QIODevice::WriteOnly);
         QFile fin;
         fin.open(stdin, QIODevice::ReadOnly);
-        m_process->write( fin.readAll() );
-        m_process->closeWriteChannel();
+
+        // *.com -> *.exe
+        if ( !m_cmd.endsWith(".com", Qt::CaseInsensitive) ) {
+            ferr.write( QObject::tr("ERROR: Unexpected binary file name!\n").toLocal8Bit() );
+            m_exitCode = -1;
+            return;
+        }
+        m_cmd.replace(m_cmd.size() - 3, 3, "exe");
+
+        p.start(m_cmd, m_arguments);
+        if ( !p.waitForStarted(-1) ) {
+            ferr.write( QObject::tr("ERROR: Failed to start \"%1\"!\n").toLocal8Bit() );
+            m_exitCode = -2;
+            return;
+        }
+
+        while ( !p.waitForFinished(100) ) {
+            fout.write( p.readAllStandardOutput() );
+            ferr.write( p.readAllStandardError() );
+
+            if ( p.isWritable() ) {
+                p.write( fin.readAll() );
+                if ( fin.atEnd() )
+                    p.closeWriteChannel();
+            }
+        }
+
+        fout.write( p.readAllStandardOutput() );
+        ferr.write( p.readAllStandardError() );
+
+        if ( p.error() != QProcess::Timedout && p.error() != QProcess::UnknownError ) {
+            ferr.write( p.errorString().toLocal8Bit() );
+            ferr.write("\n");
+            m_exitCode = -3;
+            return;
+        }
+
+        m_exitCode = p.exitCode();
     }
 
+    int exitCode() const { return m_exitCode; }
+
 private:
-    QProcess *m_process;
+    QStringList m_arguments;
+    QString m_cmd;
+    int m_exitCode;
 };
 
 } // namespace
@@ -56,44 +105,14 @@ int main(int argc, char *argv[])
      */
     QCoreApplication app(argc, argv);
     QStringList args = app.arguments();
-    QString cmd = QCoreApplication::applicationFilePath();
-
-    QFile ferr;
-    ferr.open(stderr, QIODevice::WriteOnly);
-
-    // *.com -> *.exe
-    if ( !cmd.endsWith(".com", Qt::CaseInsensitive) ) {
-        ferr.write( QObject::tr("ERROR: Unexpected binary file name!\n").toLocal8Bit() );
-        return 1;
-    }
-    cmd.replace(cmd.size() - 3, 3, "exe");
+    args.removeFirst();
 
     // Pass arguments and execute the *.exe file.
-    QProcess p;
-    args.removeFirst();
-    p.setProcessChannelMode(QProcess::ForwardedChannels);
-    p.start(cmd, args);
-    if ( !p.waitForStarted(-1) ) {
-        ferr.write( QObject::tr("ERROR: Failed to start \"%1\"!\n")
-                    .arg(cmd).toLocal8Bit() );
-        return 1;
-    }
-
-    // Redirect stdin.
-    ConsoleReader reader(&p);
+    // Redirect stdin, stdou and stderr.
+    ConsoleReader reader(args);
     reader.start();
 
-    // Read stderr and stdout.
-    QFile fout;
-    fout.open(stdout, QIODevice::WriteOnly);
+    reader.wait();
 
-    p.waitForFinished(-1);
-    if ( p.error() != QProcess::UnknownError ) {
-        ferr.write( p.errorString().toLocal8Bit() );
-        ferr.write("\n");
-    }
-
-    reader.terminate();
-
-    return p.exitCode();
+    return reader.exitCode();
 }
