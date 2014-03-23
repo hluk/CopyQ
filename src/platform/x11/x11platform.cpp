@@ -23,6 +23,7 @@
 #include <QCoreApplication>
 #include <QDir>
 #include <QRegExp>
+#include <QVariant>
 #include <QWidget>
 
 #include "x11platformwindow.h"
@@ -61,18 +62,9 @@ int copyq_xio_errhandler(Display *display)
 #ifdef COPYQ_DESKTOP_PREFIX
 QString getDesktopFilename()
 {
-    QString filename;
-
     const char *path = getenv("XDG_CONFIG_HOME");
-    if (path == NULL) {
-        filename = QDir::homePath() + QDir::separator() + ".config";
-    } else {
-        filename.fromLocal8Bit(path);
-    }
-
-    filename.append( QDir::separator() );
-    filename.append("autostart/copyq.desktop");
-
+    QString filename = path ? QString::fromLocal8Bit(path) : QDir::homePath() + "/.config";
+    filename.append("/autostart/" + QCoreApplication::applicationName() + ".desktop");
     return filename;
 }
 #endif
@@ -159,7 +151,7 @@ void X11Platform::setAutostartEnabled(bool enable)
     bool createUserDesktopFile = !desktopFile.exists();
     if (createUserDesktopFile) {
         const QString filename2 =
-                QString(COPYQ_DESKTOP_PREFIX) + QDir::separator() + QString("copyq.desktop");
+                QString(COPYQ_DESKTOP_PREFIX) + QString("/copyq.desktop");
         desktopFile.setFileName(filename2);
     }
 
@@ -177,10 +169,12 @@ void X11Platform::setAutostartEnabled(bool enable)
 
     while ( !desktopFile.atEnd() ) {
         QString line = QString::fromUtf8(desktopFile.readLine());
-        if ( line.startsWith("Exec=") && line.endsWith("copyq\n") ) {
-            desktopFile2.write("Exec=");
-            desktopFile2.write( QApplication::applicationFilePath().toUtf8() );
-            desktopFile2.write("\n");
+        QString cmd = "\"" + QApplication::applicationFilePath() + "\"";
+        if ( line.startsWith("Exec=") ) {
+            const QString sessionName = qApp->property("CopyQ_session_name").toString();
+            if ( !sessionName.isEmpty() )
+                cmd.append(" -s " + sessionName);
+            desktopFile2.write("Exec=" + cmd.toUtf8() + "\n");
         } else if ( re.indexIn(line) == -1 ) {
             desktopFile2.write(line.toUtf8());
         }
