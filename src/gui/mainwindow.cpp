@@ -201,6 +201,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     // settings
     loadSettings();
+    loadCollapsedTabs();
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -975,8 +976,6 @@ void MainWindow::loadSettings()
     ui->toolBar->clear();
     ui->toolBar->setHidden(m_options->hideToolbar);
 
-    saveCollapsedTabs();
-
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
 
@@ -993,8 +992,6 @@ void MainWindow::loadSettings()
         addTab( tr("&clipboard") );
 
     browser()->setContextMenu(m_menuItem);
-
-    loadCollapsedTabs();
 
     m_options->itemActivationCommands = ActivateNoCommand;
     if ( cm->value("activate_closes").toBool() )

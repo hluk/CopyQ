@@ -84,10 +84,12 @@ protected:
     void rowsInserted(const QModelIndex &parent, int start, int end);
     void showEvent(QShowEvent *event);
 
+private slots:
+    void updateSize();
+
 private:
     void requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition);
     void shiftIndexesBetween(int from, int to = -1, int how = -1);
-    void updateSize();
     void deleteItem(QTreeWidgetItem *item);
 };
 

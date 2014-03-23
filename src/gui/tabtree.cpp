@@ -131,6 +131,9 @@ TabTree::TabTree(QWidget *parent)
     verticalScrollBar()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Ignored);
 
     verticalScrollBar()->installEventFilter(this);
+
+    connect( this, SIGNAL(itemCollapsed(QTreeWidgetItem*)), SLOT(updateSize()) );
+    connect( this, SIGNAL(itemExpanded(QTreeWidgetItem*)), SLOT(updateSize()) );
 }
 
 void TabTree::insertTab(const QString &path, int index, bool selected)
@@ -409,6 +412,22 @@ void TabTree::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *pr
     setItemWidgetSelected(previous);
 }
 
+void TabTree::updateSize()
+{
+    const QMargins margins = contentsMargins();
+    int w = margins.left() + margins.right();
+
+    if ( verticalScrollBar()->isVisible() )
+        w += verticalScrollBar()->width();
+
+    resizeColumnToContents(0);
+    w += sizeHintForColumn(0);
+
+    w += 4;
+
+    setFixedWidth(w);
+}
+
 void TabTree::requestTabMenu(const QPoint &itemPosition, const QPoint &menuPosition)
 {
     QTreeWidgetItem *item = itemAt(itemPosition);
@@ -423,24 +442,6 @@ void TabTree::shiftIndexesBetween(int from, int to, int how)
         if (oldIndex >= from && (to == -1 || oldIndex <= to))
             item->setData(0, DataIndex, oldIndex + how);
     }
-}
-
-void TabTree::updateSize()
-{
-    const QMargins margins = contentsMargins();
-    int w = margins.left() + margins.right();
-
-    if ( verticalScrollBar()->isVisible() )
-        w += verticalScrollBar()->width();
-
-    expandAll();
-
-    resizeColumnToContents(0);
-    w += sizeHintForColumn(0);
-
-    w += 4;
-
-    setFixedWidth(w);
 }
 
 void TabTree::setCurrentTabIndex(int index)
