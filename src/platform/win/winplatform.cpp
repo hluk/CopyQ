@@ -18,6 +18,7 @@
 */
 
 #include "common/log.h"
+#include "common/settings.h"
 
 #include "winplatform.h"
 #include "winplatformwindow.h"
@@ -63,9 +64,9 @@ void migrateConfigToAppDir()
 
         QSettings::setPath(QSettings::IniFormat, QSettings::UserScope, path);
         QSettings::setDefaultFormat(QSettings::IniFormat);
-        QSettings newSettings;
+        Settings newSettings;
 
-        if ( newSettings.allKeys().isEmpty() ) {
+        if ( Settings::isEmpty(newSettings) ) {
             COPYQ_LOG("Migrating configuration to application directory.");
             const QString newConfigPath = QDir::cleanPath(newSettings.fileName() + "/..");
 

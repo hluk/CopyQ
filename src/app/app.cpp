@@ -20,6 +20,7 @@
 #include "app.h"
 
 #include "common/log.h"
+#include "common/settings.h"
 #include "platform/platformnativeinterface.h"
 #ifdef Q_OS_UNIX
 #   include "platform/unix/unixsignalhandler.h"
@@ -28,7 +29,6 @@
 #include <QCoreApplication>
 #include <QLibraryInfo>
 #include <QLocale>
-#include <QSettings>
 #include <QTranslator>
 #include <QVariant>
 
@@ -80,7 +80,7 @@ void initTestsSettings()
         return;
 
     // Reset settings on first run of each test case.
-    QSettings settings;
+    Settings settings;
     settings.clear();
 
     QVariant testSettings;
@@ -160,6 +160,8 @@ App::App(QCoreApplication *application, const QString &sessionName)
 #endif
 
     createPlatformNativeInterface()->loadSettings();
+
+    Settings::restoreSettings();
 
     installTranslator();
 

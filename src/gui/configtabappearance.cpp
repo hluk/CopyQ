@@ -475,6 +475,7 @@ void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
             filename.append(".ini");
         QSettings settings(filename, QSettings::IniFormat);
         saveTheme(settings);
+        settings.sync();
     }
 
     updateThemes();

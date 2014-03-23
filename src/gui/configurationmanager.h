@@ -42,6 +42,7 @@ class QComboBox;
 class QLineEdit;
 class QListWidgetItem;
 class QMainWindow;
+class QSettings;
 class QSpinBox;
 
 struct Command;
@@ -110,7 +111,7 @@ public:
     /** Return enabled commands. */
     Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
     /** Create new command. */
-    void addCommand(const Command &cmd, bool save = true);
+    void addCommand(const Command &command);
 
     /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
@@ -209,6 +210,8 @@ private:
     void bind(const char *optionKey, const QVariant &defaultValue);
 
     QIcon getCommandIcon(const QString &iconString) const;
+
+    void addCommandWithoutSave(const Command &command);
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

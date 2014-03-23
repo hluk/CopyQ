@@ -82,7 +82,8 @@ HEADERS += \
     common/mimetypes.h \
     common/log.h \
     common/commandstatus.h \
-    common/monitormessagecode.h
+    common/monitormessagecode.h \
+    common/settings.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -140,7 +141,8 @@ SOURCES += \
     scriptable/scriptableworker.cpp \
     app/client.cpp \
     common/mimetypes.cpp \
-    common/log.cpp
+    common/log.cpp \
+    common/settings.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

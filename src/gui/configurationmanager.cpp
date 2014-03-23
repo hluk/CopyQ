@@ -25,6 +25,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/option.h"
+#include "common/settings.h"
 #include "gui/commandwidget.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -635,7 +636,7 @@ void ConfigurationManager::initCommandWidgets()
     ui->itemOrderListCommands->clearItems();
 
     foreach ( const Command &command, commands(false) )
-        addCommand(command, false);
+        addCommandWithoutSave(command);
 
     if ( !ui->itemOrderListCommands->hasAddMenu() ) {
         Command cmd;
@@ -777,10 +778,32 @@ QIcon ConfigurationManager::getCommandIcon(const QString &iconString) const
     return iconFactory->iconFromFile(iconString, color);
 }
 
+void ConfigurationManager::addCommandWithoutSave(const Command &command)
+{
+    CommandWidget *cmdWidget = new CommandWidget(this);
+
+    cmdWidget->setCommand(command);
+
+    QStringList formats = itemFactory()->formatsToSave();
+    formats.prepend(mimeText);
+    formats.prepend(QString());
+    formats.removeDuplicates();
+    cmdWidget->setFormats(formats);
+
+    cmdWidget->setTabs( value("tabs").toStringList() );
+
+    connect( cmdWidget, SIGNAL(iconChanged(QString)),
+             this, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
+    connect( cmdWidget, SIGNAL(nameChanged(QString)),
+             this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
+
+    ui->itemOrderListCommands->appendItem(command.name, command.enable,
+                                          getCommandIcon(cmdWidget->currentIcon()), cmdWidget);
+}
+
 bool ConfigurationManager::loadGeometry(QWidget *widget) const
 {
-    QSettings settings;
-    QVariant option = settings.value( getGeomentryOptionName(widget) );
+    QVariant option = QSettings().value( getGeomentryOptionName(widget) );
     return widget->restoreGeometry(option.toByteArray());
 }
 
@@ -789,8 +812,7 @@ void ConfigurationManager::saveGeometry(const QWidget *widget)
     if (widget->isMinimized())
         return;
 
-    QSettings settings;
-    settings.setValue( getGeomentryOptionName(widget), widget->saveGeometry() );
+    Settings().setValue( getGeomentryOptionName(widget), widget->saveGeometry() );
 }
 
 QVariant ConfigurationManager::value(const QString &name) const
@@ -802,6 +824,8 @@ QVariant ConfigurationManager::value(const QString &name) const
 
 void ConfigurationManager::setValue(const QString &name, const QVariant &value)
 {
+    const QString key = "Options/" + name;
+
     if ( m_options.contains(name) ) {
         if ( m_options[name].value() == value )
             return;
@@ -809,11 +833,11 @@ void ConfigurationManager::setValue(const QString &name, const QVariant &value)
         m_options[name].setValue(value);
 
         // Save the retrieved option value since option widget can modify it (e.g. int in range).
-        QSettings().setValue( "Options/" + name, m_options[name].value() );
+        Settings().setValue( key, m_options[name].value() );
 
         emit configurationChanged();
-    } else {
-        QSettings().setValue("Options/" + name, value);
+    } else if ( QSettings().value(key) != value ) {
+        Settings().setValue(key, value);
     }
 }
 
@@ -945,34 +969,13 @@ void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
     }
 }
 
-void ConfigurationManager::addCommand(const Command &c, bool save)
+void ConfigurationManager::addCommand(const Command &command)
 {
-    CommandWidget *cmdWidget = new CommandWidget(this);
-
-    cmdWidget->setCommand(c);
-
-    QStringList formats = itemFactory()->formatsToSave();
-    formats.prepend(mimeText);
-    formats.prepend(QString());
-    formats.removeDuplicates();
-    cmdWidget->setFormats(formats);
-
-    cmdWidget->setTabs( value("tabs").toStringList() );
-
-    connect( cmdWidget, SIGNAL(iconChanged(QString)),
-             this, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
-    connect( cmdWidget, SIGNAL(nameChanged(QString)),
-             this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
-
-    ui->itemOrderListCommands->appendItem(c.name, c.enable,
-                                          getCommandIcon(cmdWidget->currentIcon()), cmdWidget);
-
-    if (save) {
-        Commands cmds = commands(false, true);
-        cmds.append(c);
-        QSettings settings;
-        saveCommands(cmds, &settings);
-    }
+    addCommandWithoutSave(command);
+    Commands cmds = commands(false, true);
+    cmds.append(command);
+    Settings settings;
+    saveCommands(cmds, &settings);
 }
 
 void ConfigurationManager::setTabs(const QStringList &tabs)
@@ -1045,7 +1048,7 @@ void ConfigurationManager::createInstance(QWidget *parent)
 
 void ConfigurationManager::apply()
 {
-    QSettings settings;
+    Settings settings;
 
     settings.beginGroup("Options");
     foreach ( const QString &key, m_options.keys() ) {
@@ -1124,7 +1127,7 @@ void ConfigurationManager::on_itemOrderListCommands_addButtonClicked(QAction *ac
     Command cmd;
     if ( !defaultCommand(action->property("COMMAND").toInt(), &cmd) )
         return;
-    addCommand(cmd, false);
+    addCommandWithoutSave(cmd);
     ui->itemOrderListCommands->setCurrentItem( ui->itemOrderListCommands->itemCount() - 1 );
 }
 
@@ -1141,12 +1144,12 @@ void ConfigurationManager::on_pushButtonLoadCommands_clicked()
                                           QString(), tr("Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)"));
 
     foreach (const QString &fileName, fileNames) {
-        QSettings settings(fileName, QSettings::IniFormat);
+        QSettings commandsSettings(fileName, QSettings::IniFormat);
         QList<int> rowsToSelect;
 
-        foreach ( const Command &command, loadCommands(&settings) ) {
+        foreach ( const Command &command, loadCommands(&commandsSettings) ) {
             rowsToSelect.append(ui->itemOrderListCommands->rowCount());
-            addCommand(command, false);
+            addCommandWithoutSave(command);
         }
 
         ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
@@ -1171,6 +1174,7 @@ void ConfigurationManager::on_pushButtonSaveCommands_clicked()
 
         QSettings settings(fileName, QSettings::IniFormat);
         saveCommands(commandsToSave, &settings);
+        settings.sync();
     }
 }
 
