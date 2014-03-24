@@ -72,7 +72,8 @@ void UnixSignalHandler::handleSignal()
     m_signalFdNotifier.setEnabled(false);
 
     char tmp;
-    ::read(signalFd[Read], &tmp, sizeof(tmp));
+    if ( ::read(signalFd[Read], &tmp, sizeof(tmp)) != 1 )
+        COPYQ_LOG("Incorrect number of bytes read from Unix signal socket!");
 
     COPYQ_LOG("Terminating application on signal.");
     QCoreApplication::exit();

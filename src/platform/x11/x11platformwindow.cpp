@@ -49,8 +49,7 @@ void simulateModifierKeyPress(Display *display, const QList<int> &modCodes, Bool
 
 bool isPressed(KeyCode keyCode, const char keyMap[32])
 {
-    return ((keyMap[keyCode >> 3] >> (keyCode & 7)) & 1)
-            || ((keyMap[keyCode >> 3] >> (keyCode & 7)) & 1);
+    return (keyMap[keyCode >> 3] >> (keyCode & 7)) & 1;
 }
 
 void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int key)

@@ -99,6 +99,7 @@ struct MainWindowOptions {
         , transparency(0)
         , transparencyFocused(0)
         , hideTabs(false)
+        , hideToolbar(false)
         , itemActivationCommands(ActivateCloses)
         , clearFirstTab(false)
         , showTray(true)
@@ -371,7 +372,7 @@ void MainWindow::createMenu()
 
     // Help
     menu = menubar->addMenu(tr("&Help"));
-    act = createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
+    createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
 
     // Tray menu
     act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide"),

@@ -681,7 +681,9 @@ void ConfigTabAppearance::updateFontButtons()
     QList<QPushButton *> buttons = ui->scrollAreaTheme->findChildren<QPushButton *>(re);
 
     foreach (QPushButton *button, buttons) {
-        re.indexIn(button->objectName());
+        if ( re.indexIn(button->objectName()) == -1 )
+            Q_ASSERT(false);
+
         const QString colorButtonName = "pushButtonColor" + re.cap(1);
 
         QPushButton *buttonFg = ui->scrollAreaTheme->findChild<QPushButton *>(colorButtonName + "Fg");

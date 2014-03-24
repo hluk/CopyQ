@@ -51,6 +51,7 @@ public:
         : QWidget(parent)
         , m_textEdit(editor)
         , m_handler(new FakeVimHandler(editor, NULL))
+        , m_hasBlockSelection(false)
     {
         QVBoxLayout *layout = new QVBoxLayout(this);
         layout->setMargin(0);
@@ -532,6 +533,7 @@ QObject *ItemFakeVim::createExternalEditor(const QModelIndex &index, QWidget *pa
 }
 
 ItemFakeVimLoader::ItemFakeVimLoader()
+    : m_enabled(false)
 {
 }
 

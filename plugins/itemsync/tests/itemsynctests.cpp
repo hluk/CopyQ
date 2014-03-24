@@ -70,7 +70,8 @@ public:
 
     void create()
     {
-        m_dir.mkpath(".");
+        if ( !m_dir.mkpath(".") )
+            Q_ASSERT(false);
     }
 
     bool isValid() const
