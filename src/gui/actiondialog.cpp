@@ -81,9 +81,10 @@ ActionDialog::ActionDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
-    QFont monoSpaced("monospace");
-    ui->plainTextEditCommand->setFont(monoSpaced);
-    ui->comboBoxCommands->setFont(monoSpaced);
+    QFont font("monospace, Consolas, Courier");
+    font.setStyleHint(QFont::Monospace);
+    ui->plainTextEditCommand->document()->setDefaultFont(font);
+    ui->comboBoxCommands->setFont(font);
 
     on_comboBoxInputFormat_currentIndexChanged(QString());
     on_comboBoxOutputFormat_editTextChanged(QString());

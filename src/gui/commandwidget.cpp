@@ -35,9 +35,12 @@ CommandWidget::CommandWidget(QWidget *parent)
     , ui(new Ui::CommandWidget)
 {
     ui->setupUi(this);
-    ui->lineEditCommand->setFont(QFont("monospace"));
     setFocusProxy(ui->lineEditName);
     updateWidgets();
+
+    QFont font("monospace, Consolas, Courier");
+    font.setStyleHint(QFont::Monospace);
+    ui->lineEditCommand->document()->setDefaultFont(font);
 }
 
 CommandWidget::~CommandWidget()
