@@ -269,6 +269,14 @@ bool clipboardEquals(const QVariantMap &data, ScriptableProxy *proxy)
     return true;
 }
 
+void sleep(qint64 milliseconds)
+{
+    QElapsedTimer t;
+    t.start();
+    while ( !t.hasExpired(milliseconds) )
+        QApplication::processEvents( QEventLoop::WaitForMoreEvents, milliseconds - t.elapsed() );
+}
+
 class ClipboardBrowserRemoteLock
 {
 public:
@@ -560,10 +568,8 @@ void Scriptable::copy()
     m_proxy->setClipboard(data);
 
     // Wait for clipboard to be set.
-    QElapsedTimer t;
-    t.start();
-    while (t.elapsed() < 2000) {
-        QApplication::processEvents();
+    for (int i = 0; i < 10; ++i) {
+        sleep(250);
         if ( clipboardEquals(data, m_proxy) )
             return;
     }
@@ -926,11 +932,7 @@ void Scriptable::keys()
     for (int i = 0; i < argumentCount(); ++i) {
         const QString keys = toString(argument(i));
 
-        QElapsedTimer t;
-        t.start();
-        while (t.elapsed() < 500)
-            QApplication::processEvents();
-
+        sleep(500);
         const QString error = m_proxy->sendKeys(keys);
         if ( !error.isEmpty() ) {
             throwError(error);
