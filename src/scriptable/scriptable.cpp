@@ -269,7 +269,7 @@ bool clipboardEquals(const QVariantMap &data, ScriptableProxy *proxy)
     return true;
 }
 
-void sleep(qint64 milliseconds)
+void waitFor(qint64 milliseconds)
 {
     QElapsedTimer t;
     t.start();
@@ -569,7 +569,7 @@ void Scriptable::copy()
 
     // Wait for clipboard to be set.
     for (int i = 0; i < 10; ++i) {
-        sleep(250);
+        waitFor(250);
         if ( clipboardEquals(data, m_proxy) )
             return;
     }
@@ -932,7 +932,7 @@ void Scriptable::keys()
     for (int i = 0; i < argumentCount(); ++i) {
         const QString keys = toString(argument(i));
 
-        sleep(500);
+        waitFor(500);
         const QString error = m_proxy->sendKeys(keys);
         if ( !error.isEmpty() ) {
             throwError(error);
