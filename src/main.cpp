@@ -21,7 +21,7 @@
 #include "app/clipboardclient.h"
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
-#include "common/client_server.h"
+#include "common/action.h"
 #include "gui/mainwindow.h"
 #include "scriptable/scriptable.h"
 
@@ -116,7 +116,7 @@ QString getSessionName(int *argc, char *argv[])
         sessionName = arg1.mid( arg1.indexOf('=') + 1 );
         *argc -= 1;
     } else {
-        return QString("");
+        return QString::fromUtf8( qgetenv("COPYQ_SESSION_NAME") );
     }
 
     // check session name

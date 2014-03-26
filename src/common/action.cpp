@@ -27,15 +27,16 @@ namespace {
 
 void startProcess(QProcess *process, const QStringList &args)
 {
-    if (args.first() == "copyq") {
-        // Replace "copyq" command with full application path.
-        const QString session = QCoreApplication::instance()->property("CopyQ_session_name").toString();
-        process->start(QCoreApplication::applicationFilePath(),
-                       QStringList() << "--session" << session << args.mid(1),
-                       QIODevice::ReadWrite);
-    } else {
-        process->start(args.first(), args.mid(1), QIODevice::ReadWrite);
-    }
+    QString executable = args.value(0);
+
+    // Replace "copyq" command with full application path.
+    if (executable == "copyq")
+        executable = QCoreApplication::applicationFilePath();
+
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert( "COPYQ_SESSION_NAME", qApp->property("CopyQ_session_name").toString() );
+    process->setProcessEnvironment(env);
+    process->start(executable, args.mid(1), QIODevice::ReadWrite);
 }
 
 template <typename Entry, typename Container>
