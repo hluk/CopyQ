@@ -400,7 +400,7 @@ public:
                     t.start();
                     forever {
                         output.append(m_server->readAllStandardError());
-                        if (output.contains("ID:" + data))
+                        if (output.contains("ID: " + data))
                             break;
                         if (t.elapsed() > 5000) {
                             qWarning() << "failed to flush server output";
