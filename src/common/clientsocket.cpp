@@ -108,10 +108,10 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
 
     onStateChanged(m_socket->state());
 
-#ifdef COPYQ_LOG_DEBUG
-    setProperty("id", m_socket->socketDescriptor());
-    SOCKET_LOG("Creating socket.");
-#endif
+    if ( hasLogLevel(LogDebug) ) {
+        setProperty("id", m_socket->socketDescriptor());
+        SOCKET_LOG("Creating socket.");
+    }
 }
 
 ClientSocket::~ClientSocket()

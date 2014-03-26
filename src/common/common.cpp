@@ -130,13 +130,13 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
     if (data.hasFormat(mimeOwner))
         newdata.insert(mimeOwner, data.data(mimeOwner));
 
-#ifdef COPYQ_LOG_DEBUG
-    foreach (const QString &format, data.formats()) {
-        if (!formats.contains(format) && format != mimeOwner) {
-            COPYQ_LOG(QString("skipping format: %1").arg(format));
+    if ( hasLogLevel(LogTrace) ) {
+        foreach (const QString &format, data.formats()) {
+            if (!formats.contains(format) && format != mimeOwner) {
+                COPYQ_LOG(QString("skipping format: %1").arg(format));
+            }
         }
     }
-#endif // COPYQ_LOG_DEBUG
 
     return newdata;
 }

@@ -30,6 +30,9 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
+#define MONITOR_LOG(msg) \
+    COPYQ_LOG( QString("Scripting engine: %1").arg(msg) );
+
 ScriptableWorker::ScriptableWorker(const MainWindowPtr &mainWindow,
                                    const Arguments &args, ClientSocket *socket)
     : QRunnable()
@@ -41,11 +44,7 @@ ScriptableWorker::ScriptableWorker(const MainWindowPtr &mainWindow,
 
 void ScriptableWorker::run()
 {
-#ifdef COPYQ_LOG_DEBUG
-    QString msg = QString("Scripting engine: %1");
-#endif
-
-    COPYQ_LOG( msg.arg("starting") );
+    MONITOR_LOG("starting");
 
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd);
@@ -64,7 +63,7 @@ void ScriptableWorker::run()
                           m_socket, SLOT(deleteAfterDisconnected()) );
 
         if ( m_socket->isClosed() ) {
-            COPYQ_LOG( msg.arg("terminated") );
+            MONITOR_LOG("terminated");
             return;
         }
 
@@ -78,19 +77,20 @@ void ScriptableWorker::run()
     int exitCode;
 
     if ( m_args.length() <= Arguments::Rest ) {
-        COPYQ_LOG( msg.arg("Error: bad command syntax") );
+        MONITOR_LOG("Error: bad command syntax");
         exitCode = CommandBadSyntax;
     } else {
         const QString cmd = QString::fromUtf8( m_args.at(Arguments::Rest) );
-#ifdef COPYQ_LOG_DEBUG
-        COPYQ_LOG( msg.arg(QString("Client arguments:")) );
-        for (int i = Arguments::Rest; i < m_args.length(); ++i)
-            COPYQ_LOG( msg.arg("    " + QString::fromLocal8Bit(m_args.at(i))) );
-#endif
+
+        if ( hasLogLevel(LogDebug) ) {
+            MONITOR_LOG("Client arguments:");
+            for (int i = Arguments::Rest; i < m_args.length(); ++i)
+                MONITOR_LOG( "    " + QString::fromLocal8Bit(m_args.at(i)) );
+        }
 
 #ifdef HAS_TESTS
         if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
-            COPYQ_LOG( msg.arg(QString("flush ID:") + QString::fromLocal8Bit(m_args.at(Arguments::Rest + 1))) );
+            MONITOR_LOG( "flush ID: " + QString::fromLocal8Bit(m_args.at(Arguments::Rest + 1)) );
             scriptable.sendMessageToClient(QByteArray(), CommandFinished);
             return;
         }
@@ -98,7 +98,7 @@ void ScriptableWorker::run()
 
         QScriptValue fn = engine.globalObject().property(cmd);
         if ( !fn.isFunction() ) {
-            COPYQ_LOG( msg.arg("Error: unknown command") );
+            MONITOR_LOG("Error: unknown command");
             response = createLogMessage("CopyQ client",
                                         Scriptable::tr("Name \"%1\" doesn't refer to a function.")
                                         .arg(cmd),
@@ -113,8 +113,8 @@ void ScriptableWorker::run()
 
             if ( engine.hasUncaughtException() ) {
                 const QString exceptionText = engine.uncaughtException().toString();
-                COPYQ_LOG( msg.arg(QString("Error: exception in command \"%1\": %2")
-                                   .arg(cmd).arg(exceptionText)) );
+                MONITOR_LOG( QString("Error: exception in command \"%1\": %2")
+                             .arg(cmd).arg(exceptionText) );
                 response = createLogMessage("CopyQ client", exceptionText, LogError).toLocal8Bit();
                 exitCode = CommandError;
             } else {
@@ -130,5 +130,5 @@ void ScriptableWorker::run()
 
     scriptable.sendMessageToClient(response, exitCode);
 
-    COPYQ_LOG( msg.arg("finished") );
+    MONITOR_LOG("finished");
 }

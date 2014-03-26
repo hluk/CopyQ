@@ -21,31 +21,21 @@
 #define LOG_H
 
 #include <QByteArray>
-#include <QtGlobal>
 
 class QString;
 
 enum LogLevel {
-#ifdef COPYQ_LOG_DEBUG
-    LogDebug,
-#endif
-    LogNote,
+    LogError,
     LogWarning,
-    LogError
+    LogNote,
+    LogDebug,
+    LogTrace
 };
 
-#ifdef COPYQ_LOG_DEBUG
-inline bool isLogVerbose()
-{
-    static const bool verbose = qgetenv("COPYQ_VERBOSE") == "1";
-    return verbose;
-}
-#   define COPYQ_LOG(msg) log(msg, LogDebug)
-#   define COPYQ_LOG_VERBOSE(msg) do { if ( isLogVerbose() ) log(msg, LogDebug); } while (false)
-#else
-#   define COPYQ_LOG(msg)
-#   define COPYQ_LOG_VERBOSE(msg)
-#endif
+bool hasLogLevel(LogLevel level);
+
+#define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
+#define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
 
 QString createLogMessage(const QString &label, const QString &text, const LogLevel level);
 

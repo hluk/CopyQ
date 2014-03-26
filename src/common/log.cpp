@@ -19,30 +19,72 @@
 
 #include "log.h"
 
+#include <QDateTime>
 #include <QFile>
 #include <QString>
+#include <QtGlobal>
+
+namespace {
+
+int getLogLevel()
+{
+    const QByteArray logLevelString = qgetenv("COPYQ_LOG_LEVEL").toUpper();
+
+    if ( logLevelString.startsWith("TRAC") )
+        return LogTrace;
+    if ( logLevelString.startsWith("DEBUG") )
+        return LogDebug;
+    if ( logLevelString.startsWith("NOT") )
+        return LogNote;
+    if ( logLevelString.startsWith("WARN") )
+        return LogWarning;
+    if ( logLevelString.startsWith("ERR") )
+        return LogError;
+
+#ifdef COPYQ_LOG_DEBUG
+    return LogDebug;
+#else
+    return LogNote;
+#endif
+}
+
+} // namespace
+
+bool hasLogLevel(LogLevel level)
+{
+    static const int currentLogLevel = getLogLevel();
+    return currentLogLevel >= level;
+}
 
 QString createLogMessage(const QString &label, const QString &text, const LogLevel level)
 {
     QString levelId;
 
     if (level == LogNote)
-        levelId = QString("%1");
+        levelId = QString(" %1");
     else if (level == LogWarning)
         levelId = QObject::tr("warning: %1");
     else if (level == LogError)
         levelId = QObject::tr("ERROR: %1");
-#ifdef COPYQ_LOG_DEBUG
     else if (level == LogDebug)
         levelId = QString("DEBUG: %1");
-#endif
+    else if (level == LogTrace)
+        levelId = QString("TRACE: %1");
 
     return label + " " + levelId.arg(text) + "\n";
 }
 
 void log(const QString &text, const LogLevel level)
 {
-    const QString msg = createLogMessage("CopyQ", text, level);
+    if ( !hasLogLevel(level) )
+        return;
+
+    // Always print time at debug log level.
+    const QString label = hasLogLevel(LogDebug)
+            ? QDateTime::currentDateTime().toString("CopyQ [yyyy-dd-mm hh:mm:ss.zzz]")
+            : QString("CopyQ");
+
+    const QString msg = createLogMessage(label, text, level);
 
     QFile f;
     f.open(stderr, QIODevice::WriteOnly);

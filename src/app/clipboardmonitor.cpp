@@ -447,8 +447,7 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         QVariantMap settings;
         stream >> settings;
 
-#ifdef COPYQ_LOG_DEBUG
-        {
+        if ( hasLogLevel(LogDebug) ) {
             COPYQ_LOG("Loading configuration:");
             foreach (const QString &key, settings.keys()) {
                 QVariant val = settings[key];
@@ -457,7 +456,6 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
                 COPYQ_LOG( QString("    %1=%2").arg(key).arg(str) );
             }
         }
-#endif
 
         if ( settings.contains("formats") )
             m_formats = settings["formats"].toStringList();
@@ -530,6 +528,9 @@ void ClipboardMonitor::exit(int exitCode)
 
 void ClipboardMonitor::log(const QString &text, const LogLevel level)
 {
+    if ( hasLogLevel(level) )
+        return;
+
     const QString message = createLogMessage("Clipboard Monitor", text, level);
     sendMessage( message.toUtf8(), MonitorLog );
 }
