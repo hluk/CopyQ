@@ -20,6 +20,7 @@
 #include "log.h"
 
 #include <QDateTime>
+#include <QDir>
 #include <QFile>
 #include <QString>
 #include <QtGlobal>
@@ -46,6 +47,12 @@ int getLogLevel()
 #else
     return LogNote;
 #endif
+}
+
+QString getLogFileName()
+{
+    const QString fileName = QString::fromLocal8Bit( qgetenv("COPYQ_LOG_FILE") );
+    return QDir::fromNativeSeparators(fileName);
 }
 
 } // namespace
@@ -86,7 +93,14 @@ void log(const QString &text, const LogLevel level)
 
     const QString msg = createLogMessage(label, text, level);
 
+    // Log to file or stderr.
+    static const QString logFileName = getLogFileName();
     QFile f;
-    f.open(stderr, QIODevice::WriteOnly);
+    if ( logFileName.isEmpty() ) {
+        f.open(stderr, QIODevice::WriteOnly);
+    } else {
+        f.setFileName(logFileName);
+        f.open(QIODevice::Append);
+    }
     f.write( msg.toLocal8Bit() );
 }
