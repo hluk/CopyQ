@@ -27,10 +27,19 @@
 #endif
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QLibraryInfo>
 #include <QLocale>
 #include <QTranslator>
 #include <QVariant>
+
+#ifndef COPYQ_TRANSLATION_PREFIX
+#   ifdef Q_OS_WIN
+#       define COPYQ_TRANSLATION_PREFIX QApplication::applicationDirPath() + "/translations"
+#   else
+#       define COPYQ_TRANSLATION_PREFIX ""
+#   endif
+#endif
 
 namespace {
 
@@ -111,9 +120,9 @@ void initTestsSettings()
 
 void installTranslator(const QString &filename, const QString &directory)
 {
-    QTranslator *translator = new QTranslator(qApp);
-    translator->load(filename, directory);
-    QCoreApplication::installTranslator(translator);
+    QScopedPointer<QTranslator> translator( new QTranslator(qApp) );
+    if ( translator->load(filename, directory) )
+        QCoreApplication::installTranslator(translator.take());
 }
 
 void installTranslator()
@@ -128,8 +137,30 @@ void installTranslator()
     if (locale.isEmpty())
         locale = QLocale::system().name();
 
+    QStringList translationDirectories;
+
+    // 1. Qt translations
     installTranslator("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
+
+    // 2. build-in translations
     installTranslator("copyq_" + locale, ":/translations");
+    translationDirectories.append(":/translations");
+
+    // 3. installed translations
+#ifdef COPYQ_TRANSLATION_PREFIX
+    installTranslator("copyq_" + locale, COPYQ_TRANSLATION_PREFIX);
+    translationDirectories.prepend(COPYQ_TRANSLATION_PREFIX);
+#endif
+
+    // 4. custom translations
+    const QByteArray customPath = qgetenv("COPYQ_TRANSLATION_PREFIX");
+    if ( !customPath.isEmpty() ) {
+        const QString customDir = QDir::fromNativeSeparators( QString::fromLocal8Bit(customPath) );
+        installTranslator("copyq_" + locale, customDir);
+        translationDirectories.prepend(customDir);
+    }
+
+    qApp->setProperty("CopyQ_translation_directories", translationDirectories);
 
     QLocale::setDefault(QLocale(locale));
 }

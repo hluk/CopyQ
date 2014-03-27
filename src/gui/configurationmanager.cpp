@@ -656,18 +656,24 @@ void ConfigurationManager::initLanguages()
     ui->comboBoxLanguage->setItemData(0, "en");
 
     const QString currentLocale = getCurrentLocale();
+    QSet<QString> languages;
 
-    foreach ( const QString &item, QDir(":/translations").entryList() ) {
-        const int i = item.indexOf('_');
-        const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
-        const QString language = QLocale(locale).nativeLanguageName();
+    foreach ( const QString &path, qApp->property("CopyQ_translation_directories").toStringList() ) {
+        foreach ( const QString &item, QDir(path).entryList(QStringList("copyq_*.qm")) ) {
+            const int i = item.indexOf('_');
+            const QString locale = item.mid(i + 1, item.lastIndexOf('.') - i - 1);
+            const QString language = QLocale(locale).nativeLanguageName();
 
-        const int index = ui->comboBoxLanguage->count();
-        ui->comboBoxLanguage->addItem(language);
-        ui->comboBoxLanguage->setItemData(index, locale);
+            if ( !languages.contains(language) ) {
+                languages.insert(language);
+                const int index = ui->comboBoxLanguage->count();
+                ui->comboBoxLanguage->addItem(language);
+                ui->comboBoxLanguage->setItemData(index, locale);
 
-        if (locale == currentLocale)
-            ui->comboBoxLanguage->setCurrentIndex(index);
+                if (locale == currentLocale)
+                    ui->comboBoxLanguage->setCurrentIndex(index);
+            }
+        }
     }
 }
 
