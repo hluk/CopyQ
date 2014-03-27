@@ -35,7 +35,7 @@
 
 #ifndef COPYQ_TRANSLATION_PREFIX
 #   ifdef Q_OS_WIN
-#       define COPYQ_TRANSLATION_PREFIX QApplication::applicationDirPath() + "/translations"
+#       define COPYQ_TRANSLATION_PREFIX QCoreApplication::applicationDirPath() + "/translations"
 #   else
 #       define COPYQ_TRANSLATION_PREFIX ""
 #   endif
