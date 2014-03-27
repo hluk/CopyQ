@@ -88,7 +88,7 @@ void log(const QString &text, const LogLevel level)
 
     // Always print time at debug log level.
     const QString label = hasLogLevel(LogDebug)
-            ? QDateTime::currentDateTime().toString("CopyQ [yyyy-dd-mm hh:mm:ss.zzz]")
+            ? QDateTime::currentDateTime().toString("CopyQ [yyyy-MM-dd hh:mm:ss.zzz]")
             : QString("CopyQ");
 
     const QString msg = createLogMessage(label, text, level);
