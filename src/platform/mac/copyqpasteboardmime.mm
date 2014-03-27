@@ -19,7 +19,7 @@
 
 #include "copyqpasteboardmime.h"
 
-#include <common/common.h>
+#include "common/log.h"
 
 #include <QClipboard>
 #include <QEvent>
@@ -124,11 +124,9 @@ bool CopyQPasteboardMime::canConvert(const QString &mime, QString uti)
 
     QString convMime = convertUtiOrMime(uti, utiToMime);
 
-#ifdef COPYQ_LOG_DEBUG
     if (convMime != mime) {
         COPYQ_LOG(QString("Can't convert between %1 and %2").arg(uti).arg(mime));
     }
-#endif
 
     return (convMime == mime);
 }

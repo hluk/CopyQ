@@ -19,7 +19,7 @@
 
 #include "macplatformwindow.h"
 
-#include <common/common.h>
+#include "common/log.h"
 
 #include <AppKit/NSGraphics.h>
 #include <Cocoa/Cocoa.h>

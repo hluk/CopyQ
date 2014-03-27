@@ -21,7 +21,7 @@
 
 #include "macplatform.h"
 #include "platform/platformwindow.h"
-#include <common/common.h>
+#include "common/log.h"
 
 #include <QWindow>
 #include <QEvent>

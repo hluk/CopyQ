@@ -19,7 +19,7 @@
 
 #include "urlpasteboardmime.h"
 
-#include <common/common.h>
+#include "common/mimetypes.h"
 
 #import <CoreServices/CoreServices.h>
 #import <Cocoa/Cocoa.h>

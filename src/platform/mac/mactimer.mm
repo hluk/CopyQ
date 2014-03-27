@@ -19,8 +19,6 @@
 
 #include "mactimer.h"
 
-#include <common/common.h>
-
 #include <Cocoa/Cocoa.h>
 #include <QPointer>
 
