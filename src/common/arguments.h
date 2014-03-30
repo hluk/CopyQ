@@ -36,6 +36,7 @@ class Arguments
 public:
     enum {
         CurrentPath,
+        ActionId,
         Rest
     };
 
@@ -44,8 +45,8 @@ public:
 
     ~Arguments();
 
-    /** Clear arguments and set current path. */
-    void reset(const QString &currentPath = QString());
+    /** Clear arguments and set current path and action id. */
+    void reset();
 
     /** Append argument. */
     void append(const QByteArray &argument);
@@ -58,6 +59,9 @@ public:
 
     /** Check for emptiness. */
     bool isEmpty() const { return m_args.empty(); }
+
+    /** Clear arguments. */
+    void removeAllArguments();
 
 private:
     QVector<QByteArray> m_args;

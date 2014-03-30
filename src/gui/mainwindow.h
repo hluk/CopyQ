@@ -76,6 +76,8 @@ public:
 
     QWidget *trayMenu();
 
+    QByteArray getActionData(const QByteArray &actionId, const QString &format);
+
 public slots:
     /**
      * Return browser widget in given tab @a index.

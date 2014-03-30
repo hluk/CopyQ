@@ -204,7 +204,7 @@ void ActionDialog::createAction()
                               ui->separatorEdit->text(),
                               ui->comboBoxOutputTab->currentText(),
                               m_index );
-    emit accepted(act);
+    emit accepted(act, m_data);
 
     close();
 }

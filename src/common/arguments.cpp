@@ -61,13 +61,13 @@ void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg, int 
 Arguments::Arguments()
     : m_args()
 {
-    reset(QDir::currentPath());
+    reset();
 }
 
 Arguments::Arguments(int argc, char **argv, int skipArgc)
     : m_args()
 {
-    reset(QDir::currentPath());
+    reset();
 
     /* Special arguments:
      * "-"  read this argument from stdin
@@ -105,11 +105,11 @@ Arguments::~Arguments()
 {
 }
 
-void Arguments::reset(const QString &currentPath)
+void Arguments::reset()
 {
-    m_args.clear();
-    if (!currentPath.isNull())
-        m_args << currentPath.toLatin1();
+    m_args.resize(Rest);
+    m_args[CurrentPath] = QDir::currentPath().toUtf8();
+    m_args[ActionId] = qgetenv("COPYQ_ACTION_ID");
 }
 
 void Arguments::append(const QByteArray &argument)
@@ -120,6 +120,11 @@ void Arguments::append(const QByteArray &argument)
 const QByteArray &Arguments::at(int index) const
 {
     return m_args.at(index);
+}
+
+void Arguments::removeAllArguments()
+{
+    m_args.clear();
 }
 
 QDataStream &operator <<(QDataStream &stream, const Arguments &args)
@@ -141,7 +146,7 @@ QDataStream &operator>>(QDataStream &stream, Arguments &args)
     uint arg_len;
     char *buffer;
 
-    args.reset();
+    args.removeAllArguments();
     stream >> len;
     for( int i = 0; i<len; ++i ) {
         stream.readBytes(buffer, arg_len);

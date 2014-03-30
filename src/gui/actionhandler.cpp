@@ -36,6 +36,8 @@ ActionHandler::ActionHandler(MainWindow *mainWindow)
     , m_wnd(mainWindow)
     , m_commandMenu(tr("Co&mmands"))
     , m_commandTrayMenu(m_commandMenu.title())
+    , m_lastActionId(0)
+    , m_actionData()
 {
     Q_ASSERT(mainWindow);
     m_commandMenu.setEnabled(false);
@@ -48,8 +50,8 @@ ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
     actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
     actionDialog->setOutputTabs(tabs, QString());
 
-    connect( actionDialog, SIGNAL(accepted(Action*)),
-             this, SLOT(action(Action*)) );
+    connect( actionDialog, SIGNAL(accepted(Action*,QVariantMap)),
+             this, SLOT(action(Action*,QVariantMap)) );
 
     return actionDialog;
 }
@@ -59,7 +61,14 @@ bool ActionHandler::hasRunningAction() const
     return !m_commandMenu.isEmpty();
 }
 
-void ActionHandler::action(Action *action)
+QByteArray ActionHandler::getActionData(const QByteArray actionId, const QString &format) const
+{
+    const QVariantMap dataMap = m_actionData.value(actionId);
+    return format == "?" ? QStringList(dataMap.keys()).join("\n").toUtf8() + '\n'
+                         : dataMap.value(format).toByteArray();
+}
+
+void ActionHandler::action(Action *action, const QVariantMap &data)
 {
     action->setParent(this);
 
@@ -79,6 +88,12 @@ void ActionHandler::action(Action *action)
              this, SLOT(closeAction(Action*)) );
     connect( action, SIGNAL(actionError(Action*)),
              this, SLOT(closeAction(Action*)) );
+
+    // Set data for action (can be accessed using 'data' command).
+    const QByteArray actionId = QByteArray::number(++m_lastActionId);
+    qputenv("COPYQ_ACTION_ID", actionId);
+    m_actionData.insert(actionId, data);
+    action->setProperty("COPYQ_ACTION_ID", actionId);
 
     log( tr("Executing: %1").arg(action->command()) );
     action->start();
@@ -147,6 +162,7 @@ void ActionHandler::closeAction(Action *action)
     if ( !msg.isEmpty() )
         m_wnd->showMessage( tr("Command %1").arg(quoteString(action->command())), msg, icon );
 
+    m_actionData.remove( action->property("COPYQ_ACTION_ID").toByteArray() );
     action->deleteLater();
 }
 

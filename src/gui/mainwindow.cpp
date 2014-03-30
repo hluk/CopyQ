@@ -668,6 +668,11 @@ QWidget *MainWindow::trayMenu()
     return m_trayMenu;
 }
 
+QByteArray MainWindow::getActionData(const QByteArray &actionId, const QString &format)
+{
+    return m_actionHandler->getActionData(actionId, format);
+}
+
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {

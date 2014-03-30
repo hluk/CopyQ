@@ -23,6 +23,7 @@
 #include <QModelIndex>
 #include <QProcess>
 #include <QStringList>
+#include <QVariantMap>
 
 class QAction;
 

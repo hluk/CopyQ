@@ -178,6 +178,9 @@ App::App(QCoreApplication *application, const QString &sessionName)
         m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
     }
 
+    qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
+    qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());
+
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
 

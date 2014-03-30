@@ -271,6 +271,8 @@ public slots:
     void getClipboardData(const QString &arg1) { v = m_wnd->getClipboardData(arg1); }
     void getClipboardData(const QString &arg1, QClipboard::Mode arg2) { v = m_wnd->getClipboardData(arg1, arg2); }
 
+    void getActionData(const QByteArray &arg1, const QString &arg2) { v = m_wnd->getActionData(arg1, arg2); }
+
     void browserLength() { BROWSER_RESULT(length()); }
     void browserOpenEditor(const QByteArray &arg1) { BROWSER_RESULT(openEditor(arg1)); }
 
@@ -435,6 +437,8 @@ public:
 
     PROXY_METHOD_1(QByteArray, getClipboardData, const QString &)
     PROXY_METHOD_2(QByteArray, getClipboardData, const QString &, QClipboard::Mode)
+
+    PROXY_METHOD_2(QByteArray, getActionData, const QByteArray &, const QString &)
 
     PROXY_METHOD(browserLock)
     PROXY_METHOD(browserUnlock)

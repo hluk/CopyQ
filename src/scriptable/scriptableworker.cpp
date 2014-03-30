@@ -49,7 +49,8 @@ void ScriptableWorker::run()
     QScriptEngine engine;
     ScriptableProxy proxy(m_wnd);
     Scriptable scriptable(&proxy);
-    scriptable.initEngine( &engine, QString::fromUtf8(m_args.at(Arguments::CurrentPath)) );
+    scriptable.initEngine( &engine, QString::fromUtf8(m_args.at(Arguments::CurrentPath)),
+                           m_args.at(Arguments::ActionId) );
 
     if (m_socket) {
         QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),

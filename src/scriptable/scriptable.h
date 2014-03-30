@@ -40,7 +40,7 @@ class Scriptable : public QObject, protected QScriptable
 public:
     Scriptable(ScriptableProxy *proxy, QObject *parent = NULL);
 
-    void initEngine(QScriptEngine *engine, const QString &currentPath);
+    void initEngine(QScriptEngine *engine, const QString &currentPath, const QByteArray &actionId);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
@@ -128,6 +128,7 @@ public slots:
 
     QScriptValue str(const QScriptValue &value);
     QScriptValue input();
+    QScriptValue data(const QScriptValue &value);
     void print(const QScriptValue &value);
     void abort();
 
@@ -152,6 +153,7 @@ private:
     ByteArrayClass *m_baClass;
     QString m_inputSeparator;
     QString m_currentPath;
+    QByteArray m_actionId;
     QScriptValue m_input;
 
     int getTabIndexOrError(const QString &name);

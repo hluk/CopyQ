@@ -23,7 +23,7 @@
 #include <QMenu>
 #include <QObject>
 #include <QPointer>
-#include <QSet>
+#include <QMap>
 
 class Action;
 class ActionDialog;
@@ -54,13 +54,15 @@ public:
 
     bool hasRunningAction() const;
 
+    QByteArray getActionData(const QByteArray actionId, const QString &format) const;
+
 signals:
     /** Emitted when last action finishes or first action starts. */
     void hasRunningActionChanged();
 
 private slots:
     /** Execute action. */
-    void action(Action *action);
+    void action(Action *action, const QVariantMap &data);
 
     /** Called after action was started (creates menu item to kill it). */
     void actionStarted(Action *action);
@@ -80,6 +82,8 @@ private:
     QPointer<Action> m_lastAction;
     QMenu m_commandMenu;
     QMenu m_commandTrayMenu;
+    int m_lastActionId;
+    QMap<QByteArray, QVariantMap> m_actionData;
 };
 
 #endif // ACTIONHANDLER_H

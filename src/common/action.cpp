@@ -33,9 +33,6 @@ void startProcess(QProcess *process, const QStringList &args)
     if (executable == "copyq")
         executable = QCoreApplication::applicationFilePath();
 
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert( "COPYQ_SESSION_NAME", qApp->property("CopyQ_session_name").toString() );
-    process->setProcessEnvironment(env);
     process->start(executable, args.mid(1), QIODevice::ReadWrite);
 }
 

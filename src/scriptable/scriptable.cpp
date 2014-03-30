@@ -307,11 +307,12 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_baClass(NULL)
     , m_inputSeparator("\n")
     , m_currentPath()
+    , m_actionId()
     , m_input()
 {
 }
 
-void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
+void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, const QByteArray &actionId)
 {
     m_engine = eng;
     QScriptEngine::QObjectWrapOptions opts =
@@ -329,6 +330,7 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
     obj.setProperty( "ByteArray", m_baClass->constructor() );
 
     setCurrentPath(currentPath);
+    m_actionId = actionId;
 }
 
 QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
@@ -906,6 +908,11 @@ QScriptValue Scriptable::input()
     }
 
     return m_input;
+}
+
+QScriptValue Scriptable::data(const QScriptValue &value)
+{
+    return newByteArray( m_proxy->getActionData(m_actionId, toString(value)) );
 }
 
 void Scriptable::print(const QScriptValue &value)
