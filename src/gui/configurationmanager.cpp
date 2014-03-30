@@ -111,92 +111,117 @@ void saveNewValue(const char *key, const Command &command, const Member &member,
         saveValue(key, command.*member, settings);
 }
 
+void saveCommand(const Command &c, QSettings *settings)
+{
+    saveNewValue("Name", c, &Command::name, settings);
+    saveNewValue("Match", c, &Command::re, settings);
+    saveNewValue("Window", c, &Command::wndre, settings);
+    saveNewValue("MatchCommand", c, &Command::matchCmd, settings);
+    saveNewValue("Command", c, &Command::cmd, settings);
+    saveNewValue("Separator", c, &Command::sep, settings);
+    saveNewValue("Input", c, &Command::input, settings);
+    saveNewValue("Output", c, &Command::output, settings);
+    saveNewValue("Wait", c, &Command::wait, settings);
+    saveNewValue("Automatic", c, &Command::automatic, settings);
+    saveNewValue("InMenu", c, &Command::inMenu, settings);
+    saveNewValue("Transform", c, &Command::transform, settings);
+    saveNewValue("Remove", c, &Command::remove, settings);
+    saveNewValue("HideWindow", c, &Command::hideWindow, settings);
+    saveNewValue("Enable", c, &Command::enable, settings);
+    saveNewValue("Icon", c, &Command::icon, settings);
+    saveNewValue("Shortcut", c, &Command::shortcut, settings);
+    saveNewValue("Tab", c, &Command::tab, settings);
+    saveNewValue("OutputTab", c, &Command::outputTab, settings);
+}
+
 void saveCommands(const ConfigurationManager::Commands &commands, QSettings *settings)
 {
     settings->remove("Commands");
-    settings->beginWriteArray("Commands");
-    int i = 0;
-    foreach (const Command &c, commands) {
-        settings->setArrayIndex(i++);
-        saveNewValue("Name", c, &Command::name, settings);
-        saveNewValue("Match", c, &Command::re, settings);
-        saveNewValue("Window", c, &Command::wndre, settings);
-        saveNewValue("MatchCommand", c, &Command::matchCmd, settings);
-        saveNewValue("Command", c, &Command::cmd, settings);
-        saveNewValue("Separator", c, &Command::sep, settings);
-        saveNewValue("Input", c, &Command::input, settings);
-        saveNewValue("Output", c, &Command::output, settings);
-        saveNewValue("Wait", c, &Command::wait, settings);
-        saveNewValue("Automatic", c, &Command::automatic, settings);
-        saveNewValue("InMenu", c, &Command::inMenu, settings);
-        saveNewValue("Transform", c, &Command::transform, settings);
-        saveNewValue("Remove", c, &Command::remove, settings);
-        saveNewValue("HideWindow", c, &Command::hideWindow, settings);
-        saveNewValue("Enable", c, &Command::enable, settings);
-        saveNewValue("Icon", c, &Command::icon, settings);
-        saveNewValue("Shortcut", c, &Command::shortcut, settings);
-        saveNewValue("Tab", c, &Command::tab, settings);
-        saveNewValue("OutputTab", c, &Command::outputTab, settings);
+    settings->remove("Command");
+
+    if (commands.size() == 1) {
+        settings->beginGroup("Command");
+        saveCommand(commands[0], settings);
+        settings->endGroup();
+    } else {
+        settings->beginWriteArray("Commands");
+        int i = 0;
+        foreach (const Command &c, commands) {
+            settings->setArrayIndex(i++);
+            saveCommand(c, settings);
+        }
+        settings->endArray();
     }
-    settings->endArray();
+}
+
+void loadCommand(QSettings *settings, bool onlyEnabled, ConfigurationManager::Commands *commands)
+{
+    Command c;
+    c.enable = settings->value("Enable", true).toBool();
+
+    if (onlyEnabled && !c.enable)
+        return;
+
+    c.name = settings->value("Name").toString();
+    c.re   = QRegExp( settings->value("Match").toString() );
+    c.wndre = QRegExp( settings->value("Window").toString() );
+    c.matchCmd = settings->value("MatchCommand").toString();
+    c.cmd = settings->value("Command").toString();
+    c.sep = settings->value("Separator").toString();
+
+    c.input = settings->value("Input").toString();
+    if ( c.input == "false" || c.input == "true" )
+        c.input = c.input == "true" ? QString(mimeText) : QString();
+
+    c.output = settings->value("Output").toString();
+    if ( c.output == "false" || c.output == "true" )
+        c.output = c.output == "true" ? QString(mimeText) : QString();
+
+    c.wait = settings->value("Wait").toBool();
+    c.automatic = settings->value("Automatic").toBool();
+    c.transform = settings->value("Transform").toBool();
+    c.hideWindow = settings->value("HideWindow").toBool();
+    c.icon = settings->value("Icon").toString();
+    c.shortcut = settings->value("Shortcut").toString();
+    c.tab = settings->value("Tab").toString();
+    c.outputTab = settings->value("OutputTab").toString();
+
+    // backwards compatibility with versions up to 1.8.2
+    const QVariant inMenu = settings->value("InMenu");
+    if ( inMenu.isValid() )
+        c.inMenu = inMenu.toBool();
+    else
+        c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
+
+    if (settings->value("Ignore").toBool()) {
+        c.remove = c.automatic = true;
+        settings->remove("Ignore");
+        settings->setValue("Remove", c.remove);
+        settings->setValue("Automatic", c.automatic);
+    } else {
+        c.remove = settings->value("Remove").toBool();
+    }
+
+    commands->append(c);
 }
 
 ConfigurationManager::Commands loadCommands(QSettings *settings, bool onlyEnabled = false)
 {
     ConfigurationManager::Commands commands;
 
+    const QStringList groups = settings->childGroups();
+
+    if ( groups.contains("Command") ) {
+        settings->beginGroup("Command");
+        loadCommand(settings, onlyEnabled, &commands);
+        settings->endGroup();
+    }
+
     int size = settings->beginReadArray("Commands");
 
     for(int i=0; i<size; ++i) {
         settings->setArrayIndex(i);
-
-        Command c;
-        c.enable = settings->value("Enable", true).toBool();
-
-        if (onlyEnabled && !c.enable)
-            continue;
-
-        c.name = settings->value("Name").toString();
-        c.re   = QRegExp( settings->value("Match").toString() );
-        c.wndre = QRegExp( settings->value("Window").toString() );
-        c.matchCmd = settings->value("MatchCommand").toString();
-        c.cmd = settings->value("Command").toString();
-        c.sep = settings->value("Separator").toString();
-
-        c.input = settings->value("Input").toString();
-        if ( c.input == "false" || c.input == "true" )
-            c.input = c.input == "true" ? QString(mimeText) : QString();
-
-        c.output = settings->value("Output").toString();
-        if ( c.output == "false" || c.output == "true" )
-            c.output = c.output == "true" ? QString(mimeText) : QString();
-
-        c.wait = settings->value("Wait").toBool();
-        c.automatic = settings->value("Automatic").toBool();
-        c.transform = settings->value("Transform").toBool();
-        c.hideWindow = settings->value("HideWindow").toBool();
-        c.icon = settings->value("Icon").toString();
-        c.shortcut = settings->value("Shortcut").toString();
-        c.tab = settings->value("Tab").toString();
-        c.outputTab = settings->value("OutputTab").toString();
-
-        // backwards compatibility with versions up to 1.8.2
-        const QVariant inMenu = settings->value("InMenu");
-        if ( inMenu.isValid() )
-            c.inMenu = inMenu.toBool();
-        else
-            c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
-
-        if (settings->value("Ignore").toBool()) {
-            c.remove = c.automatic = true;
-            settings->remove("Ignore");
-            settings->setValue("Remove", c.remove);
-            settings->setValue("Automatic", c.automatic);
-        } else {
-            c.remove = settings->value("Remove").toBool();
-        }
-
-        commands.append(c);
+        loadCommand(settings, onlyEnabled, &commands);
     }
 
     settings->endArray();
