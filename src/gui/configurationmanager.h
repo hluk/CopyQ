@@ -161,6 +161,9 @@ private slots:
     void onCurrentCommandWidgetNameChanged(const QString &name);
     void on_spinBoxTrayItems_valueChanged(int value);
 
+    void copySelectedCommandsToClipboard();
+    void tryPasteCommandFromClipboard();
+
 private:
     explicit ConfigurationManager(QWidget *parent);
 
@@ -212,6 +215,10 @@ private:
     QIcon getCommandIcon(const QString &iconString) const;
 
     void addCommandWithoutSave(const Command &command);
+
+    void loadCommandsFromFile(const QString &fileName);
+
+    Commands selectedCommands();
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

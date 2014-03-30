@@ -171,17 +171,6 @@ QColor evalColor(const QString &expression, const QHash<QString, Option> &theme,
     return QColor(r, g, b, a);
 }
 
-bool openTemporaryFile(QTemporaryFile *file)
-{
-    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
-    const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-
-    file->setFileTemplate(tmpPath);
-    file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
-
-    return file->open();
-}
-
 } // namespace
 
 ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
@@ -951,4 +940,15 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
     p.drawLine(line);
 
     return pix;
+}
+
+bool openTemporaryFile(QTemporaryFile *file)
+{
+    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
+    const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
+
+    file->setFileTemplate(tmpPath);
+    file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
+    return file->open();
 }

@@ -44,7 +44,9 @@
 #include <QFileDialog>
 #include <QMenu>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QSettings>
+#include <QTemporaryFile>
 #include <QTranslator>
 
 #ifdef Q_OS_WIN
@@ -264,6 +266,16 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
     m_datfilename = getConfigurationFilePath("_tab_");
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
+
+    QAction *act = new QAction(ui->itemOrderListCommands);
+    ui->itemOrderListCommands->addAction(act);
+    act->setShortcut(QKeySequence::Paste);
+    connect(act, SIGNAL(triggered()), SLOT(tryPasteCommandFromClipboard()));
+
+    act = new QAction(ui->itemOrderListCommands);
+    ui->itemOrderListCommands->addAction(act);
+    act->setShortcut(QKeySequence::Copy);
+    connect(act, SIGNAL(triggered()), SLOT(copySelectedCommandsToClipboard()));
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -832,6 +844,32 @@ void ConfigurationManager::addCommandWithoutSave(const Command &command)
                                           getCommandIcon(cmdWidget->currentIcon()), cmdWidget);
 }
 
+void ConfigurationManager::loadCommandsFromFile(const QString &fileName)
+{
+    QSettings commandsSettings(fileName, QSettings::IniFormat);
+    QList<int> rowsToSelect;
+
+    foreach ( const Command &command, loadCommands(&commandsSettings) ) {
+        rowsToSelect.append(ui->itemOrderListCommands->rowCount());
+        addCommandWithoutSave(command);
+    }
+
+    ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
+}
+
+ConfigurationManager::Commands ConfigurationManager::selectedCommands()
+{
+    QList<int> rows = ui->itemOrderListCommands->selectedRows();
+    const Commands allCommands = commands(false, false);
+    Commands commandsToSave;
+    foreach (int row, rows) {
+        Q_ASSERT(row < allCommands.size());
+        commandsToSave.append(allCommands.value(row));
+    }
+
+    return commandsToSave;
+}
+
 bool ConfigurationManager::loadGeometry(QWidget *widget) const
 {
     QVariant option = QSettings().value( getGeomentryOptionName(widget) );
@@ -1174,17 +1212,8 @@ void ConfigurationManager::on_pushButtonLoadCommands_clicked()
             QFileDialog::getOpenFileNames(this, tr("Open Files with Commands"),
                                           QString(), tr("Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)"));
 
-    foreach (const QString &fileName, fileNames) {
-        QSettings commandsSettings(fileName, QSettings::IniFormat);
-        QList<int> rowsToSelect;
-
-        foreach ( const Command &command, loadCommands(&commandsSettings) ) {
-            rowsToSelect.append(ui->itemOrderListCommands->rowCount());
-            addCommandWithoutSave(command);
-        }
-
-        ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
-    }
+    foreach (const QString &fileName, fileNames)
+        loadCommandsFromFile(fileName);
 }
 
 void ConfigurationManager::on_pushButtonSaveCommands_clicked()
@@ -1195,16 +1224,9 @@ void ConfigurationManager::on_pushButtonSaveCommands_clicked()
     if ( !fileName.isEmpty() ) {
         if ( !fileName.endsWith(".ini") )
             fileName.append(".ini");
-        QList<int> rows = ui->itemOrderListCommands->selectedRows();
-        Commands allCommands = commands(false, false);
-        Commands commandsToSave;
-        foreach (int row, rows) {
-            Q_ASSERT(row < allCommands.size());
-            commandsToSave.append(allCommands.value(row));
-        }
 
         QSettings settings(fileName, QSettings::IniFormat);
-        saveCommands(commandsToSave, &settings);
+        saveCommands(selectedCommands(), &settings);
         settings.sync();
     }
 }
@@ -1247,6 +1269,46 @@ void ConfigurationManager::onCurrentCommandWidgetNameChanged(const QString &name
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
+}
+
+void ConfigurationManager::copySelectedCommandsToClipboard()
+{
+    const Commands commands = selectedCommands();
+    if ( commands.isEmpty() )
+        return;
+
+    QTemporaryFile tmpfile;
+    if ( !openTemporaryFile(&tmpfile) )
+        return;
+
+    if ( !tmpfile.open() )
+        return;
+
+    QSettings commandsSettings(tmpfile.fileName(), QSettings::IniFormat);
+    saveCommands(commands, &commandsSettings);
+    commandsSettings.sync();
+    QApplication::clipboard()->setText( QString::fromUtf8(tmpfile.readAll()) );
+}
+
+void ConfigurationManager::tryPasteCommandFromClipboard()
+{
+    const QMimeData *data = clipboardData(QClipboard::Clipboard);
+    if (data && data->hasText()) {
+        const QString text = data->text().trimmed();
+        if ( text.startsWith("[Command]") || text.startsWith("[Commands]") ) {
+            QTemporaryFile tmpfile;
+            if ( !openTemporaryFile(&tmpfile) )
+                return;
+
+            if ( !tmpfile.open() )
+                return;
+
+            tmpfile.write(text.toUtf8());
+            tmpfile.flush();
+
+            loadCommandsFromFile( tmpfile.fileName() );
+        }
+    }
 }
 
 const QIcon &getIconFromResources(const QString &iconName)

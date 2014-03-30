@@ -30,6 +30,7 @@ class ConfigTabAppearance;
 class ClipboardBrowser;
 class Option;
 class QSettings;
+class QTemporaryFile;
 
 class ConfigTabAppearance : public QWidget
 {
@@ -119,5 +120,7 @@ private:
     Theme m_theme;
     QString m_editor;
 };
+
+bool openTemporaryFile(QTemporaryFile *file);
 
 #endif // CONFIGTABAPPEARANCE_H
