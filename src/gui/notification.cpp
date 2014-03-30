@@ -23,6 +23,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QMap>
+#include <QMouseEvent>
 #include <QPainter>
 #include <QTimer>
 #include <QVBoxLayout>
@@ -124,8 +125,13 @@ void Notification::popup(const QPoint &position, int msec)
     setInterval(msec);
 }
 
-void Notification::mousePressEvent(QMouseEvent *)
+void Notification::mousePressEvent(QMouseEvent *event)
 {
+    if (event->button() != Qt::LeftButton) {
+        QWidget::mousePressEvent(event);
+        return;
+    }
+
     if (m_timer != NULL)
         m_timer->stop();
 
