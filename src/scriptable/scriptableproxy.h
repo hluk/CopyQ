@@ -365,6 +365,9 @@ public slots:
         COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
                    .arg(keys)
                    .arg(widgetName) );
+#else
+        Q_UNUSED(shortcut);
+        Q_UNUSED(widget);
 #endif
     }
 
