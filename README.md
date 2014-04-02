@@ -256,7 +256,9 @@ Command Line Interface
         config OPTION            Get option value.
         config OPTION VALUE      Set option value.
 
-        eval, -e [SCRIPT]        Evaluate ECMAScript program.
+        eval, -e [SCRIPT] [ARGUMENTS]...
+          Evaluate ECMAScript program.
+          Arguments are accessible using with "arguments(0..N)".
         session, -s, --session SESSION
           Starts or connects to application instance with given session name.
         help, -h, --help [COMMAND]...
@@ -269,4 +271,3 @@ Command Line Interface
       - Use double-dash argument (--) to read all following arguments without
         expanding escape sequences (i.e. \n, \t and others).
       - Use ? for MIME to print available MIME types (default is "text/plain").
-
