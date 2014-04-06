@@ -131,7 +131,8 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue("HideWindow", c, &Command::hideWindow, settings);
     saveNewValue("Enable", c, &Command::enable, settings);
     saveNewValue("Icon", c, &Command::icon, settings);
-    saveNewValue("Shortcut", c, &Command::shortcut, settings);
+    saveNewValue("Shortcut", c, &Command::shortcuts, settings);
+    saveNewValue("GlobalShortcut", c, &Command::globalShortcuts, settings);
     saveNewValue("Tab", c, &Command::tab, settings);
     saveNewValue("OutputTab", c, &Command::outputTab, settings);
 }
@@ -184,16 +185,11 @@ void loadCommand(QSettings *settings, bool onlyEnabled, ConfigurationManager::Co
     c.transform = settings->value("Transform").toBool();
     c.hideWindow = settings->value("HideWindow").toBool();
     c.icon = settings->value("Icon").toString();
-    c.shortcut = settings->value("Shortcut").toString();
+    c.shortcuts = settings->value("Shortcut").toStringList();
+    c.globalShortcuts = settings->value("GlobalShortcut").toStringList();
     c.tab = settings->value("Tab").toString();
     c.outputTab = settings->value("OutputTab").toString();
-
-    // backwards compatibility with versions up to 1.8.2
-    const QVariant inMenu = settings->value("InMenu");
-    if ( inMenu.isValid() )
-        c.inMenu = inMenu.toBool();
-    else
-        c.inMenu = !c.cmd.isEmpty() || !c.tab.isEmpty();
+    c.inMenu = settings->value("InMenu").toBool();
 
     if (settings->value("Ignore").toBool()) {
         c.remove = c.automatic = true;
@@ -230,6 +226,114 @@ ConfigurationManager::Commands loadCommands(QSettings *settings, bool onlyEnable
 
     return commands;
 }
+
+#ifndef NO_GLOBAL_SHORTCUTS
+enum GlobalAction {
+    GlobalActionToggleMainWindow,
+    GlobalActionShowTray,
+    GlobalActionEditClipboard,
+    GlobalActionEditFirstItem,
+    GlobalActionCopySecondItem,
+    GlobalActionShowActionDialog,
+    GlobalActionCreateItem,
+    GlobalActionCopyNextItem,
+    GlobalActionCopyPreviousItem,
+    GlobalActionPasteAsPlainText,
+    GlobalActionDisableClipboardStoring,
+    GlobalActionEnableClipboardStoring,
+    GlobalActionPasteAndCopyNext,
+    GlobalActionPasteAndCopyPrevious
+};
+
+void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
+                          const QStringList &s, Command *c)
+{
+    c->name = name;
+    c->cmd = "copyq: " + script;
+    c->icon = QString(QChar(icon));
+    c->globalShortcuts = s.isEmpty()
+            ? QStringList(ConfigurationManager::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands"))
+            : s;
+}
+
+void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QStringList())
+{
+    if (id == GlobalActionToggleMainWindow)
+        createGlobalShortcut( ConfigurationManager::tr("Show/hide main window"), "toggle()", IconListAlt, s, c );
+    else if (id == GlobalActionShowTray)
+        createGlobalShortcut( ConfigurationManager::tr("Show the tray menu"), "menu()", IconInbox, s, c );
+    else if (id == GlobalActionEditClipboard)
+        createGlobalShortcut( ConfigurationManager::tr("Edit clipboard"), "edit(-1)", IconEdit, s, c );
+    else if (id == GlobalActionEditFirstItem)
+        createGlobalShortcut( ConfigurationManager::tr("Edit first item"), "edit(0)", IconEdit, s, c );
+    else if (id == GlobalActionCopySecondItem)
+        createGlobalShortcut( ConfigurationManager::tr("Copy second item"), "select(1)", IconCopy, s, c );
+    else if (id == GlobalActionShowActionDialog)
+        createGlobalShortcut( ConfigurationManager::tr("Show action dialog"), "action()", IconCog, s, c );
+    else if (id == GlobalActionCreateItem)
+        createGlobalShortcut( ConfigurationManager::tr("Create new item"), "edit()", IconAsterisk, s, c );
+    else if (id == GlobalActionCopyNextItem)
+        createGlobalShortcut( ConfigurationManager::tr("Copy next item"), "next()", IconArrowDown, s, c );
+    else if (id == GlobalActionCopyPreviousItem)
+        createGlobalShortcut( ConfigurationManager::tr("Copy previous item"), "previous()", IconArrowUp, s, c );
+    else if (id == GlobalActionPasteAsPlainText)
+        createGlobalShortcut( ConfigurationManager::tr("Paste clipboard as plain text"), "copy(clipboard()); paste()", IconPaste, s, c );
+    else if (id == GlobalActionDisableClipboardStoring)
+        createGlobalShortcut( ConfigurationManager::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
+    else if (id == GlobalActionEnableClipboardStoring)
+        createGlobalShortcut( ConfigurationManager::tr("Enable clipboard storing"), "enable()", IconEyeOpen, s, c );
+    else if (id == GlobalActionPasteAndCopyNext)
+        createGlobalShortcut( ConfigurationManager::tr("Paste and copy next"), "paste(); next()", IconArrowCircleODown, s, c );
+    else if (id == GlobalActionPasteAndCopyPrevious)
+        createGlobalShortcut( ConfigurationManager::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
+    else
+        Q_ASSERT(false);
+}
+
+void restoreGlobalAction(GlobalAction id, const QString &key, QSettings *settings, ConfigurationManager::Commands *commands)
+{
+    const QStringList shortcuts = settings->value(key).toStringList();
+    if ( !shortcuts.isEmpty() ) {
+        Command c;
+        createGlobalShortcut(id, &c, shortcuts);
+        commands->append(c);
+        settings->remove(key);
+    }
+}
+
+/**
+ * Load deprecated global shortcut settings.
+ * Removes the settings and stores as commands.
+ */
+void restoreGlobalActions()
+{
+    ConfigurationManager::Commands commands;
+    QSettings settings;
+
+    settings.beginGroup("Options");
+    restoreGlobalAction( GlobalActionToggleMainWindow, "toggle_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionShowTray, "menu_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionEditClipboard, "edit_clipboard_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionEditFirstItem, "edit_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionCopySecondItem, "second_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionShowActionDialog, "show_action_dialog", &settings, &commands );
+    restoreGlobalAction( GlobalActionCreateItem, "new_item_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionCopyNextItem, "next_item_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionCopyPreviousItem, "previous_item_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionPasteAsPlainText, "paste_as_plain_text", &settings, &commands );
+    restoreGlobalAction( GlobalActionDisableClipboardStoring, "disable_monitoring_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionEnableClipboardStoring, "enable_monitoring_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionPasteAndCopyNext, "paste_and_copy_next_shortcut", &settings, &commands );
+    restoreGlobalAction( GlobalActionPasteAndCopyPrevious, "paste_and_copy_previous_shortcut", &settings, &commands );
+    settings.endGroup();
+
+    if ( !commands.isEmpty() ) {
+        commands.append( loadCommands(&settings, false) );
+        saveCommands(commands, &settings);
+    }
+}
+
+#endif
 
 } // namespace
 
@@ -443,7 +547,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = "copyq:\ncopy(input())\npaste()";
         c->hideWindow = true;
         c->inMenu = true;
-        c->shortcut = tr("Shift+Return");
+        c->shortcuts.append( tr("Shift+Return") );
     } else if (index == ++i) {
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
@@ -466,7 +570,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->output = mimeText;
         c->outputTab = "&BASH";
         c->sep = "\\n";
-        c->shortcut = tr("Ctrl+R");
+        c->shortcuts.append( tr("Ctrl+R") );
         c->inMenu = true;
     } else if (index == ++i) {
         c->name = tr("Create thumbnail (needs ImageMagick)");
@@ -500,7 +604,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
     } else if (index == ++i) {
         c->name = tr("Open URL");
         c->re   = reURL;
-        c->icon = QString(QChar(IconEyeOpen));
+        c->icon = QString(QChar(IconLink));
         c->cmd  = "curl %1";
         c->input = mimeText;
         c->output = "text/html";
@@ -540,7 +644,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->inMenu = true;
         c->transform = true;
         c->cmd = getEncryptCommand() + " --encrypt";
-        c->shortcut = tr("Ctrl+L");
+        c->shortcuts.append( tr("Ctrl+L") );
     } else if (index == ++i) {
         c->name = tr("Decrypt");
         c->icon = QString(QChar(IconUnlock));
@@ -549,21 +653,51 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->inMenu = true;
         c->transform = true;
         c->cmd = getEncryptCommand() + " --decrypt";
-        c->shortcut = tr("Ctrl+L");
+        c->shortcuts.append( tr("Ctrl+L") );
     } else if (index == ++i) {
         c->name = tr("Decrypt and Copy");
         c->icon = QString(QChar(IconUnlockAlt));
         c->input = mimeEncryptedData;
         c->inMenu = true;
         c->cmd = getEncryptCommand() + " --decrypt | copyq copy " + mimeItems + " -";
-        c->shortcut = tr("Ctrl+Shift+L");
+        c->shortcuts.append( tr("Ctrl+Shift+L") );
     } else if (index == ++i) {
         c->name = tr("Move to Trash");
         c->icon = QString(QChar(IconTrash));
         c->inMenu = true;
         c->tab  = tr("(trash)");
         c->remove = true;
-        c->shortcut = shortcutToRemove();
+        c->shortcuts.append( shortcutToRemove() );
+#ifndef NO_GLOBAL_SHORTCUTS
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionToggleMainWindow, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionShowTray, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionEditClipboard, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionEditFirstItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCopySecondItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionShowActionDialog, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCreateItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCopyNextItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCopyPreviousItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionPasteAsPlainText, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionDisableClipboardStoring, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionEnableClipboardStoring, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionPasteAndCopyNext, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionPasteAndCopyPrevious, c);
+#endif
     } else {
         return false;
     }
@@ -621,6 +755,12 @@ void ConfigurationManager::updateIcons()
     ui->pushButtonSaveCommands->setIcon(iconSaveCommands(color));
 
     tabShortcuts()->updateIcons();
+
+    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
+        QWidget *w = ui->itemOrderListCommands->itemWidget(i);
+        CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
+        cmdWidget->updateIcons();
+    }
 }
 
 void ConfigurationManager::initTabIcons()
@@ -941,7 +1081,6 @@ void ConfigurationManager::loadSettings()
                 m_options[key].setValue(value);
         }
     }
-    tabShortcuts()->loadGlobalShortcuts(settings);
     settings.endGroup();
 
     settings.beginGroup("Shortcuts");
@@ -1110,6 +1249,9 @@ void ConfigurationManager::setVisible(bool visible)
 void ConfigurationManager::createInstance(QWidget *parent)
 {
     Q_ASSERT(m_Instance == NULL);
+#ifndef NO_GLOBAL_SHORTCUTS
+    restoreGlobalActions();
+#endif
     m_Instance = new ConfigurationManager(parent);
     m_Instance->loadSettings();
     m_Instance->loadGeometry(m_Instance);
@@ -1132,10 +1274,6 @@ void ConfigurationManager::apply()
 
         settings.beginGroup("Shortcuts");
         tabShortcuts()->saveShortcuts(settings);
-        settings.endGroup();
-
-        settings.beginGroup("Options");
-        tabShortcuts()->saveGlobalShortcuts(settings);
         settings.endGroup();
 
         settings.beginGroup("Theme");

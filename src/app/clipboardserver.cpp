@@ -73,7 +73,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_shortcutActions()
     , m_shortcutBlocker()
     , m_clientThreads()
-    , m_internalThreads()
 {
     Server *server = new Server( clipboardServerName(), this );
     if ( !server->isListening() ) {
@@ -117,8 +116,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 #endif
 
     // Allow to run at least few client and internal threads concurrently.
-    m_clientThreads.setMaxThreadCount( qMax(m_clientThreads.maxThreadCount(), 4) );
-    m_internalThreads.setMaxThreadCount( qMax(m_internalThreads.maxThreadCount(), 4) );
+    m_clientThreads.setMaxThreadCount( qMax(m_clientThreads.maxThreadCount(), 8) );
 
     // run clipboard monitor
     startMonitoring();
@@ -210,20 +208,18 @@ void ClipboardServer::removeGlobalShortcuts()
 void ClipboardServer::createGlobalShortcuts()
 {
     removeGlobalShortcuts();
-    createGlobalShortcut(Actions::Global_ToggleMainWindow, "toggle()");
-    createGlobalShortcut(Actions::Global_ShowTray, "menu()");
-    createGlobalShortcut(Actions::Global_EditClipboard, "edit(-1)");
-    createGlobalShortcut(Actions::Global_EditFirstItem, "edit(0)");
-    createGlobalShortcut(Actions::Global_CopySecondItem, "select(1)");
-    createGlobalShortcut(Actions::Global_ShowActionDialog, "action()");
-    createGlobalShortcut(Actions::Global_CreateItem, "edit()");
-    createGlobalShortcut(Actions::Global_CopyNextItem, "next()");
-    createGlobalShortcut(Actions::Global_CopyPreviousItem, "previous()");
-    createGlobalShortcut(Actions::Global_PasteAsPlainText, "copy(clipboard()); paste()");
-    createGlobalShortcut(Actions::Global_DisableClipboardStoring, "disable()");
-    createGlobalShortcut(Actions::Global_EnableClipboardStoring, "enable()");
-    createGlobalShortcut(Actions::Global_PasteAndCopyNext, "paste(); next();");
-    createGlobalShortcut(Actions::Global_PasteAndCopyPrevious, "paste(); previous();");
+
+    QList<QKeySequence> usedShortcuts;
+
+    foreach ( const Command &command, ConfigurationManager::instance()->commands() ) {
+        foreach (const QString &shortcutText, command.globalShortcuts) {
+            QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+            if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
+                usedShortcuts.append(shortcut);
+                createGlobalShortcut(shortcut, command);
+            }
+        }
+    }
 }
 
 void ClipboardServer::onAboutToQuit()
@@ -235,12 +231,11 @@ void ClipboardServer::onAboutToQuit()
     if( isMonitoring() )
         stopMonitoring();
 
-    COPYQ_LOG( QString("Active internal threads: %1").arg(m_internalThreads.activeThreadCount()) );
     COPYQ_LOG( QString("Active client threads: %1").arg(m_clientThreads.activeThreadCount()) );
 
     COPYQ_LOG("Terminating remaining threads.");
     emit terminateClientThreads();
-    while ( !m_clientThreads.waitForDone(0) || !m_internalThreads.waitForDone(0) )
+    while ( !m_clientThreads.waitForDone(0) )
         QApplication::processEvents();
 }
 
@@ -283,17 +278,12 @@ void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)
     // after run() (see QRunnable::setAutoDelete()).
     ScriptableWorker *worker = new ScriptableWorker(m_wnd, args, client);
 
-    if (client != NULL) {
-        // Terminate worker at application exit.
-        connect( this, SIGNAL(terminateClientThreads()),
-                 client, SLOT(close()) );
+    // Terminate worker at application exit.
+    connect( this, SIGNAL(terminateClientThreads()),
+             client, SLOT(close()) );
 
-        // Add client thread to pool.
-        m_clientThreads.start(worker);
-    } else {
-        // Run internally created command immediatelly (should be fast).
-        m_internalThreads.start(worker);
-    }
+    // Add client thread to pool.
+    m_clientThreads.start(worker);
 }
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
@@ -347,27 +337,24 @@ void ClipboardServer::changeClipboard(const QVariantMap &data)
     m_lastHash = hash(data);
 }
 
-void ClipboardServer::createGlobalShortcut(Actions::Id id, const QByteArray &script)
+void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)
 {
 #ifdef NO_GLOBAL_SHORTCUTS
-    Q_UNUSED(id);
+    Q_UNUSED(shortcut);
     Q_UNUSED(script);
 #else
-    ConfigTabShortcuts *shortcuts = ConfigurationManager::instance()->tabShortcuts();
-    foreach ( const QKeySequence &shortcut, shortcuts->shortcuts(id) ) {
-        QxtGlobalShortcut *s = new QxtGlobalShortcut(shortcut, this);
-        connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
-                 this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
+    QxtGlobalShortcut *s = new QxtGlobalShortcut(shortcut, this);
+    connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
+             this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
 
-        // Create special dummy QAction so that it blocks global shortcuts in active windows.
-        QAction *act = new QAction(s);
-        act->setShortcut(shortcut);
-        act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-        act->setPriority(QAction::HighPriority);
-        m_shortcutBlocker.addAction(act);
+    // Create special dummy QAction so that it blocks global shortcuts in active windows.
+    QAction *act = new QAction(s);
+    act->setShortcut(shortcut);
+    act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+    act->setPriority(QAction::HighPriority);
+    m_shortcutBlocker.addAction(act);
 
-        m_shortcutActions[s] = script;
-    }
+    m_shortcutActions[s] = command;
 #endif
 }
 
@@ -402,8 +389,6 @@ void ClipboardServer::loadSettings()
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
-    Arguments args;
-    args.append("eval");
-    args.append(m_shortcutActions[shortcut]);
-    doCommand(args);
+    if ( m_shortcutActions.contains(shortcut) )
+        m_wnd->action(QVariantMap(), m_shortcutActions[shortcut]);
 }

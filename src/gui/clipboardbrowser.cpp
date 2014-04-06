@@ -758,7 +758,7 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     CommandAction::Type type = (menu == m_menu) ? CommandAction::ItemCommand
                                                 : CommandAction::ClipboardCommand;
 
-    QMap<QKeySequence, QAction*> shortcuts;
+    QList<QKeySequence> usedShortcuts;
 
     foreach (const Command &command, m_sharedData->commands) {
         // Verify that command can be added to menu.
@@ -771,24 +771,26 @@ void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
         QAction *act = new CommandAction(command, type, this);
         menu->addAction(act);
 
-        if (type == CommandAction::ItemCommand
-                && !command.shortcut.isEmpty() && !shortcuts.contains(command.shortcut) )
-        {
-            shortcuts.insert(command.shortcut, act);
+        if (type == CommandAction::ItemCommand) {
+            QList<QKeySequence> uniqueShortcuts;
+
+            foreach (const QString &shortcutText, command.shortcuts) {
+                const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+                if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut)  ) {
+                    usedShortcuts.append(shortcut);
+                    uniqueShortcuts.append(shortcut);
+                }
+            }
+
+            act->setShortcuts(uniqueShortcuts);
         }
 
         connect(act, SIGNAL(triggerCommand(Command,QVariantMap)),
                 this, SLOT(onCommandActionTriggered(Command,QVariantMap)));
     }
 
-    foreach ( const QKeySequence &shortcut, shortcuts.keys() ) {
-        QAction *act = shortcuts[shortcut];
-        act->setShortcut(shortcut);
-        act->setShortcutContext(Qt::WidgetShortcut);
-    }
-
     if (type == CommandAction::ItemCommand)
-        ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(shortcuts.keys());
+        ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(usedShortcuts);
 }
 
 void ClipboardBrowser::lock()

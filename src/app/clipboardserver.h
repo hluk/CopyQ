@@ -64,14 +64,11 @@ public:
     bool isMonitoring();
 
     /**
-     * Create global shortcut.
-     *
-     * If shortcut is pressed on host system doCommand() is called with the new
-     * arguments assigned to shortcut.
+     * Create global shortcut for command.
      *
      * @see shortcutActivated()
      */
-    void createGlobalShortcut(Actions::Id id, const QByteArray &script);
+    void createGlobalShortcut(const QKeySequence &shortcut, const Command &command);
 
 public slots:
     /** Load @a item data to clipboard. */
@@ -131,10 +128,9 @@ private:
     bool m_checkclip;
     uint m_lastHash;
     bool m_ignoreNextClipboardContent;
-    QMap<QxtGlobalShortcut*, QByteArray> m_shortcutActions;
+    QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;
-    QThreadPool m_internalThreads;
 };
 
 #endif // CLIPBOARDSERVER_H

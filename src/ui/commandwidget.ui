@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>322</width>
-    <height>622</height>
+    <height>698</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -48,7 +48,85 @@
     </layout>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox">
+    <widget class="QGroupBox" name="groupBox_2">
+     <property name="title">
+      <string>Type of Action</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_5">
+      <property name="spacing">
+       <number>2</number>
+      </property>
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>4</number>
+      </property>
+      <item>
+       <widget class="QCheckBox" name="checkBoxAutomatic">
+        <property name="toolTip">
+         <string>Run the command automatically if clipboard has new content</string>
+        </property>
+        <property name="text">
+         <string>Auto&amp;matic</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxInMenu">
+        <property name="toolTip">
+         <string>Show command in context menu of matching items</string>
+        </property>
+        <property name="text">
+         <string>In M&amp;enu</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_4">
+        <item>
+         <widget class="QLabel" name="labelGlobalShortcut">
+          <property name="text">
+           <string>&amp;Global Shortcut:</string>
+          </property>
+          <property name="buddy">
+           <cstring>shortcutButtonGlobalShortcut</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="ShortcutButton" name="shortcutButtonGlobalShortcut" native="true">
+          <property name="focusPolicy">
+           <enum>Qt::WheelFocus</enum>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+       </layout>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxMatchItems">
      <property name="title">
       <string>Match Items</string>
      </property>
@@ -159,14 +237,11 @@ Leave empty to disable this.</string>
     </widget>
    </item>
    <item>
-    <widget class="QGroupBox" name="groupBox_2">
+    <widget class="QGroupBox" name="groupBoxCommand">
      <property name="title">
-      <string>Type of Action</string>
+      <string>Comma&amp;nd</string>
      </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_7">
-      <property name="spacing">
-       <number>2</number>
-      </property>
+     <layout class="QVBoxLayout" name="verticalLayout_6">
       <property name="leftMargin">
        <number>4</number>
       </property>
@@ -180,88 +255,6 @@ Leave empty to disable this.</string>
        <number>4</number>
       </property>
       <item>
-       <widget class="QCheckBox" name="checkBoxAutomatic">
-        <property name="toolTip">
-         <string>Run the command automatically if clipboard has new content</string>
-        </property>
-        <property name="text">
-         <string>Auto&amp;matic</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QCheckBox" name="checkBoxInMenu">
-        <property name="toolTip">
-         <string>Show command in context menu of matching items</string>
-        </property>
-        <property name="text">
-         <string>In M&amp;enu</string>
-        </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QGroupBox" name="groupBoxAction">
-     <property name="title">
-      <string>Action</string>
-     </property>
-     <layout class="QGridLayout" name="gridLayout_2">
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
-      <property name="horizontalSpacing">
-       <number>2</number>
-      </property>
-      <item row="1" column="0">
-       <widget class="QLabel" name="label_2">
-        <property name="sizePolicy">
-         <sizepolicy hsizetype="Preferred" vsizetype="Preferred">
-          <horstretch>0</horstretch>
-          <verstretch>0</verstretch>
-         </sizepolicy>
-        </property>
-        <property name="text">
-         <string>Comma&amp;nd:</string>
-        </property>
-        <property name="buddy">
-         <cstring>lineEditCommand</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="0" column="0">
-       <widget class="QLabel" name="label_6">
-        <property name="text">
-         <string>Copy to &amp;tab:</string>
-        </property>
-        <property name="buddy">
-         <cstring>comboBoxCopyToTab</cstring>
-        </property>
-       </widget>
-      </item>
-      <item row="2" column="0" colspan="2">
-       <widget class="QCheckBox" name="checkBoxIgnore">
-        <property name="toolTip">
-         <string>Remove matching item
-
-Note: If this is applied automatically, no other automatic commands are executed.</string>
-        </property>
-        <property name="text">
-         <string>&amp;Remove Item</string>
-        </property>
-       </widget>
-      </item>
-      <item row="1" column="1">
        <widget class="QPlainTextEdit" name="lineEditCommand">
         <property name="toolTip">
          <string>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
@@ -273,13 +266,63 @@ Note: If this is applied automatically, no other automatic commands are executed
         </property>
        </widget>
       </item>
-      <item row="0" column="1">
-       <widget class="QComboBox" name="comboBoxCopyToTab">
-        <property name="toolTip">
-         <string>Name of tab to copy new items into (leave empty not to copy)</string>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBoxAction">
+     <property name="title">
+      <string>Action</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout">
+      <property name="leftMargin">
+       <number>4</number>
+      </property>
+      <property name="topMargin">
+       <number>4</number>
+      </property>
+      <property name="rightMargin">
+       <number>4</number>
+      </property>
+      <property name="bottomMargin">
+       <number>4</number>
+      </property>
+      <item>
+       <layout class="QFormLayout" name="formLayout_4">
+        <property name="fieldGrowthPolicy">
+         <enum>QFormLayout::AllNonFixedFieldsGrow</enum>
         </property>
-        <property name="editable">
-         <bool>true</bool>
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_6">
+          <property name="text">
+           <string>Copy to &amp;tab:</string>
+          </property>
+          <property name="buddy">
+           <cstring>comboBoxCopyToTab</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QComboBox" name="comboBoxCopyToTab">
+          <property name="toolTip">
+           <string>Name of tab to copy new items into (leave empty not to copy)</string>
+          </property>
+          <property name="editable">
+           <bool>true</bool>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QCheckBox" name="checkBoxIgnore">
+        <property name="toolTip">
+         <string>Remove matching item
+
+Note: If this is applied automatically, no other automatic commands are executed.</string>
+        </property>
+        <property name="text">
+         <string>&amp;Remove Item</string>
         </property>
        </widget>
       </item>
@@ -318,7 +361,7 @@ Note: If this is applied automatically, no other automatic commands are executed
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_6">
+       <layout class="QHBoxLayout" name="horizontalLayout_3">
         <item>
          <widget class="QLabel" name="label">
           <property name="sizePolicy">
@@ -331,16 +374,29 @@ Note: If this is applied automatically, no other automatic commands are executed
            <string>&amp;Shortcut:</string>
           </property>
           <property name="buddy">
-           <cstring>pushButtonShortcut</cstring>
+           <cstring>shortcutButton</cstring>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QPushButton" name="pushButtonShortcut">
-          <property name="text">
-           <string/>
+         <widget class="ShortcutButton" name="shortcutButton" native="true">
+          <property name="focusPolicy">
+           <enum>Qt::WheelFocus</enum>
           </property>
          </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_2">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
         </item>
        </layout>
       </item>
@@ -489,21 +545,28 @@ Note: If this is applied automatically, no other automatic commands are executed
    <extends>QToolButton</extends>
    <header>gui/iconselectbutton.h</header>
   </customwidget>
+  <customwidget>
+   <class>ShortcutButton</class>
+   <extends>QWidget</extends>
+   <header>gui/shortcutbutton.h</header>
+   <container>1</container>
+  </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>lineEditName</tabstop>
   <tabstop>buttonIcon</tabstop>
+  <tabstop>checkBoxAutomatic</tabstop>
+  <tabstop>checkBoxInMenu</tabstop>
+  <tabstop>shortcutButtonGlobalShortcut</tabstop>
   <tabstop>lineEditMatch</tabstop>
   <tabstop>lineEditWindow</tabstop>
   <tabstop>lineEditMatchCmd</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
-  <tabstop>checkBoxAutomatic</tabstop>
-  <tabstop>checkBoxInMenu</tabstop>
-  <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>lineEditCommand</tabstop>
+  <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
   <tabstop>checkBoxHideWindow</tabstop>
-  <tabstop>pushButtonShortcut</tabstop>
+  <tabstop>shortcutButton</tabstop>
   <tabstop>checkBoxWait</tabstop>
   <tabstop>checkBoxTransform</tabstop>
   <tabstop>comboBoxOutputFormat</tabstop>

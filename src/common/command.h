@@ -21,6 +21,7 @@
 #define COMMAND_H
 
 #include <QString>
+#include <QStringList>
 #include <QRegExp>
 
 /**
@@ -50,7 +51,8 @@ struct Command {
         , hideWindow(false)
         , enable(true)
         , icon()
-        , shortcut()
+        , shortcuts()
+        , globalShortcuts()
         , tab()
         , outputTab()
         {}
@@ -115,7 +117,10 @@ struct Command {
     QString icon;
 
     /** Shortcut for menu item. */
-    QString shortcut;
+    QStringList shortcuts;
+
+    /** Global/sytem shortcut. */
+    QStringList globalShortcuts;
 
     /** Copy item to other tab (automatically on new matched item). */
     QString tab;

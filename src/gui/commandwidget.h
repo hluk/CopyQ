@@ -53,6 +53,8 @@ public:
     /** Return command icon. */
     QString currentIcon() const;
 
+    void updateIcons();
+
 signals:
     void iconChanged(const QString &iconString);
 
@@ -63,13 +65,15 @@ private slots:
 
     void on_buttonIcon_currentIconChanged(const QString &iconString);
 
-    void on_pushButtonShortcut_clicked();
-
     void on_lineEditCommand_textChanged();
 
     void on_checkBoxAutomatic_stateChanged(int);
 
     void on_checkBoxInMenu_stateChanged(int);
+
+    void on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &shortcut);
+
+    void on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &shortcut);
 
 private:
     void setTabs(const QStringList &tabs, QComboBox *w);

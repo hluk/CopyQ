@@ -28,9 +28,9 @@
 #include <QPushButton>
 #include <QVariant>
 
-ShortcutButton::ShortcutButton(const QKeySequence &defaultShortcut, QWidget *parent)
+ShortcutButton::ShortcutButton(QWidget *parent)
     : QWidget(parent)
-    , m_defaultShortcut(defaultShortcut)
+    , m_defaultShortcut()
     , m_layout(new QHBoxLayout(this))
     , m_buttonAddShortcut(new QPushButton(this))
     , m_expectModifier(false)
@@ -39,9 +39,10 @@ ShortcutButton::ShortcutButton(const QKeySequence &defaultShortcut, QWidget *par
     m_layout->setSpacing(2);
     m_layout->setAlignment(Qt::AlignRight);
 
+    m_buttonAddShortcut->setFlat(true);
+    m_buttonAddShortcut->setToolTip( tr("Add shortcut") );
     m_layout->addWidget(m_buttonAddShortcut);
 
-    m_buttonAddShortcut->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
     connect( m_buttonAddShortcut, SIGNAL(clicked()),
              this, SLOT(onButtonAddShortcutClicked()) );
 
@@ -56,8 +57,7 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
         return;
 
     QPushButton *button = new QPushButton(this);
-    button->setFlat(true);
-    m_layout->insertWidget( shortcutButtonCount(), button, 1 );
+    m_layout->insertWidget( shortcutCount(), button, 1 );
     connect( button, SIGNAL(clicked()),
              this, SLOT(onShortcutButtonClicked()) );
     button->setText( shortcut.toString(QKeySequence::NativeText) );
@@ -66,7 +66,7 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
 
 void ShortcutButton::clearShortcuts()
 {
-    while ( shortcutButtonCount() > 0 ) {
+    while ( shortcutCount() > 0 ) {
         QWidget *w = shortcutButton(0);
         emit shortcutRemoved( shortcutForButton(*w) );
         delete w;
@@ -79,11 +79,16 @@ void ShortcutButton::resetShortcuts()
     addShortcut(m_defaultShortcut);
 }
 
+void ShortcutButton::setDefaultShortcut(const QKeySequence &defaultShortcut)
+{
+    m_defaultShortcut = defaultShortcut;
+}
+
 QList<QKeySequence> ShortcutButton::shortcuts() const
 {
     QList<QKeySequence> shortcuts;
 
-    for ( int i = 0; i < shortcutButtonCount(); ++i ) {
+    for ( int i = 0; i < shortcutCount(); ++i ) {
         QWidget *w = shortcutButton(i);
         shortcuts.append( shortcutForButton(*w) );
     }
@@ -95,6 +100,8 @@ void ShortcutButton::updateIcons()
 {
     const QColor color = getDefaultIconColor(*m_buttonAddShortcut, QPalette::Window);
     m_buttonAddShortcut->setIcon( getIcon("list-add", IconPlus, color, color) );
+    const int h = m_buttonAddShortcut->sizeHint().height();
+    m_buttonAddShortcut->setMaximumSize(h, h);
 }
 
 void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
@@ -113,20 +120,25 @@ void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguou
     }
 }
 
+int ShortcutButton::shortcutCount() const
+{
+    return m_layout->count() - 1;
+}
+
 bool ShortcutButton::focusNextPrevChild(bool next)
 {
     if ( m_buttonAddShortcut->hasFocus() ) {
-        if (next || shortcutButtonCount() == 0)
+        if (next || shortcutCount() == 0)
             return QWidget::focusNextPrevChild(next);
-        shortcutButton(shortcutButtonCount() - 1)->setFocus();
+        shortcutButton(shortcutCount() - 1)->setFocus();
         return true;
-    } else if (shortcutButtonCount() == 0) {
+    } else if (shortcutCount() == 0) {
         m_buttonAddShortcut->setFocus();
         return true;
     }
 
     int current = -1;
-    for ( int i = 0; i < shortcutButtonCount(); ++i ) {
+    for ( int i = 0; i < shortcutCount(); ++i ) {
         if ( shortcutButton(i)->hasFocus() ) {
             current = i;
             break;
@@ -136,10 +148,10 @@ bool ShortcutButton::focusNextPrevChild(bool next)
     if (current == 0 && !next)
         return QWidget::focusNextPrevChild(next);
 
-    if (current == shortcutButtonCount() - 1 && next) {
+    if (current == shortcutCount() - 1 && next) {
         m_buttonAddShortcut->setFocus();
     } else if (current == -1 && !next) {
-        shortcutButton(shortcutButtonCount() - 1)->setFocus();
+        shortcutButton(shortcutCount() - 1)->setFocus();
     } else {
         shortcutButton(current + (next ? 1 : -1))->setFocus();
     }
@@ -174,9 +186,11 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
         const QString text = shortcut.toString(QKeySequence::NativeText);
         if ( shortcut.isEmpty() || shortcuts().contains(shortcut) ) {
             if (shortcutButton == NULL || shortcutButton->text() != text ) {
-                if (shortcutButton != NULL)
-                    emit shortcutRemoved(shortcutButton->text());
-                delete shortcutButton;
+                if (shortcutButton != NULL) {
+                    const QString shortcut = shortcutButton->text();
+                    delete shortcutButton;
+                    emit shortcutRemoved(shortcut);
+                }
             }
         } else {
             if (shortcutButton != NULL) {
@@ -190,11 +204,6 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
             }
         }
     }
-}
-
-int ShortcutButton::shortcutButtonCount() const
-{
-    return m_layout->count() - 1;
 }
 
 QWidget *ShortcutButton::shortcutButton(int index) const

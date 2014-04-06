@@ -74,7 +74,7 @@ public:
         , m_text(text)
         , m_settingsKey(settingsKey)
         , m_tableItem(NULL)
-        , m_shortcutButton(new ShortcutButton(shortcut, table))
+        , m_shortcutButton(new ShortcutButton(table))
         , m_action()
         , m_disabledShortcuts()
     {
@@ -95,6 +95,7 @@ public:
 
         table->setCellWidget(row, Columns::Shortcut, m_shortcutButton);
 
+        m_shortcutButton->setDefaultShortcut(shortcut);
         m_shortcutButton->installEventFilter(this);
 
         connect( m_shortcutButton, SIGNAL(shortcutAdded(QKeySequence)),
@@ -378,8 +379,11 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
 
     QList<QKeySequence> commandShortcuts;
     foreach ( const Command &command, ConfigurationManager::instance()->commands(true, false) ) {
-        if ( !command.shortcut.isEmpty() )
-            commandShortcuts.append(command.shortcut);
+        foreach (const QString &shortcutText, command.shortcuts + command.globalShortcuts) {
+            const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+            if ( !shortcut.isEmpty() )
+                commandShortcuts.append(shortcut);
+        }
     }
 
     foreach ( const MenuActionPtr &action, m_actions ) {

@@ -34,7 +34,7 @@ class ShortcutButton : public QWidget
 {
     Q_OBJECT
 public:
-    explicit ShortcutButton(const QKeySequence &defaultShortcut, QWidget *parent = NULL);
+    explicit ShortcutButton(QWidget *parent = NULL);
 
     /** Expect modifier or accept shortcuts without one. */
     void setExpectModifier(bool expectModifier) { m_expectModifier = expectModifier; }
@@ -45,8 +45,11 @@ public:
     /** Remove all shortcut buttons. */
     void clearShortcuts();
 
-    /** Remove all shortcut buttons and add button with shortcut passed in constructor if valid. */
+    /** Remove all shortcut buttons and add button with default shortcut if valid. */
     void resetShortcuts();
+
+    /** Set default shortcut (after reset()). */
+    void setDefaultShortcut(const QKeySequence &defaultShortcut);
 
     /** Return valid shortcuts defined by buttons. */
     QList<QKeySequence> shortcuts() const;
@@ -56,6 +59,8 @@ public:
     /** Add icon and tooltip to buttons that contain shortcut from @a ambiguousShortcuts list. */
     void checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
                                  const QIcon &warningIcon, const QString &warningToolTip);
+
+    int shortcutCount() const;
 
 signals:
     /** Emited if new @a shortcut (with button) was added. */
@@ -71,7 +76,6 @@ private slots:
     void onButtonAddShortcutClicked();
     void addShortcut(QPushButton *shortcutButton);
 
-    int shortcutButtonCount() const;
     QWidget *shortcutButton(int index) const;
 
 private:

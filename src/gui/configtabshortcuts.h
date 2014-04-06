@@ -58,22 +58,7 @@ enum Id {
     Tabs_RenameTab,
     Tabs_RemoveTab,
 
-    Help_Help,
-
-    Global_ToggleMainWindow,
-    Global_ShowTray,
-    Global_EditClipboard,
-    Global_EditFirstItem,
-    Global_CopySecondItem,
-    Global_ShowActionDialog,
-    Global_CreateItem,
-    Global_CopyNextItem,
-    Global_CopyPreviousItem,
-    Global_PasteAsPlainText,
-    Global_DisableClipboardStoring,
-    Global_EnableClipboardStoring,
-    Global_PasteAndCopyNext,
-    Global_PasteAndCopyPrevious
+    Help_Help
 };
 
 } // Actions

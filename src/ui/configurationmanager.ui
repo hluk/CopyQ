@@ -44,7 +44,7 @@
             <x>0</x>
             <y>0</y>
             <width>552</width>
-            <height>533</height>
+            <height>546</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -419,7 +419,7 @@ Note: This is not be supported on all systems.</string>
             <x>0</x>
             <y>0</y>
             <width>552</width>
-            <height>533</height>
+            <height>546</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -673,7 +673,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
             <x>0</x>
             <y>0</y>
             <width>552</width>
-            <height>533</height>
+            <height>546</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -875,7 +875,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
             <x>0</x>
             <y>0</y>
             <width>552</width>
-            <height>533</height>
+            <height>546</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1136,7 +1136,7 @@ Set to 0 to disable.</string>
           </sizepolicy>
          </property>
          <property name="text">
-          <string>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</string>
+          <string>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</string>
          </property>
          <property name="wordWrap">
           <bool>true</bool>

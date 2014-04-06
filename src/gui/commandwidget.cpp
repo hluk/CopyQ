@@ -30,6 +30,31 @@
 #include <QFontMetrics>
 #include <QMenu>
 
+namespace {
+
+QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)
+{
+    QStringList shortcutTexts;
+
+    foreach (const QKeySequence &shortcut, shortcuts)
+        shortcutTexts.append(shortcut.toString());
+
+    return shortcutTexts;
+}
+
+void deserializeShortcuts(const QStringList &serializedShortcuts, ShortcutButton *shortcutButton)
+{
+    shortcutButton->resetShortcuts();
+
+    foreach (const QString &shortcutText, serializedShortcuts) {
+        QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+        if ( !shortcut.isEmpty() )
+            shortcutButton->addShortcut(shortcut);
+    }
+}
+
+} // namespace
+
 CommandWidget::CommandWidget(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::CommandWidget)
@@ -42,6 +67,15 @@ CommandWidget::CommandWidget(QWidget *parent)
     font.setStyleHint(QFont::TypeWriter);
     font.setPointSize(10);
     ui->lineEditCommand->document()->setDefaultFont(font);
+
+#ifdef NO_GLOBAL_SHORTCUTS
+    ui->shortcutButtonGlobalShortcut->hide();
+    ui->labelGlobalShortcut->hide();
+#else
+    ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
+#endif
+
+    updateIcons();
 }
 
 CommandWidget::~CommandWidget()
@@ -66,13 +100,14 @@ Command CommandWidget::command() const
     c.output = ui->comboBoxOutputFormat->currentText();
     c.wait   = ui->checkBoxWait->isChecked();
     c.automatic = ui->checkBoxAutomatic->isChecked();
-    c.inMenu   = ui->checkBoxInMenu->isChecked();
+    c.inMenu  = ui->checkBoxInMenu->isChecked();
     c.transform = ui->checkBoxTransform->isChecked();
     c.remove = ui->checkBoxIgnore->isChecked();
     c.hideWindow = ui->checkBoxHideWindow->isChecked();
     c.enable = true;
     c.icon   = ui->buttonIcon->currentIcon();
-    c.shortcut = ui->pushButtonShortcut->text();
+    c.shortcuts = serializeShortcuts( ui->shortcutButton->shortcuts() );
+    c.globalShortcuts = serializeShortcuts( ui->shortcutButtonGlobalShortcut->shortcuts() );
     c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
 
@@ -96,7 +131,8 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxIgnore->setChecked(c.remove);
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
     ui->buttonIcon->setCurrentIcon(c.icon);
-    ui->pushButtonShortcut->setText(c.shortcut);
+    deserializeShortcuts(c.shortcuts, ui->shortcutButton);
+    deserializeShortcuts(c.globalShortcuts, ui->shortcutButtonGlobalShortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
     ui->comboBoxOutputTab->setEditText(c.outputTab);
 }
@@ -122,7 +158,13 @@ void CommandWidget::setFormats(const QStringList &formats)
 
 QString CommandWidget::currentIcon() const
 {
-   return ui->buttonIcon->currentIcon();
+    return ui->buttonIcon->currentIcon();
+}
+
+void CommandWidget::updateIcons()
+{
+    ui->shortcutButtonGlobalShortcut->updateIcons();
+    ui->shortcutButton->updateIcons();
 }
 
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
@@ -133,18 +175,6 @@ void CommandWidget::on_lineEditName_textChanged(const QString &name)
 void CommandWidget::on_buttonIcon_currentIconChanged(const QString &iconString)
 {
     emit iconChanged(iconString);
-}
-
-void CommandWidget::on_pushButtonShortcut_clicked()
-{
-    ShortcutDialog *dialog = new ShortcutDialog(this);
-    if (dialog->exec() == QDialog::Accepted) {
-        QKeySequence shortcut = dialog->shortcut();
-        QString text;
-        if ( !shortcut.isEmpty() )
-            text = shortcut.toString(QKeySequence::NativeText);
-        ui->pushButtonShortcut->setText(text);
-    }
 }
 
 void CommandWidget::on_lineEditCommand_textChanged()
@@ -162,6 +192,16 @@ void CommandWidget::on_checkBoxInMenu_stateChanged(int)
     updateWidgets();
 }
 
+void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &)
+{
+    updateWidgets();
+}
+
+void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &)
+{
+    updateWidgets();
+}
+
 void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)
 {
     QString text = w->currentText();
@@ -175,6 +215,14 @@ void CommandWidget::updateWidgets()
 {
     bool inMenu = ui->checkBoxInMenu->isChecked();
     bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
+#ifdef NO_GLOBAL_SHORTCUTS
+    bool globalShortcut = false;
+#else
+    bool globalShortcut = ui->shortcutButtonGlobalShortcut->shortcutCount() > 0;
+#endif
+
+    ui->groupBoxMatchItems->setVisible(copyOrExecute);
+    ui->groupBoxCommand->setVisible(copyOrExecute || globalShortcut);
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->lineEditCommand->document()->characterCount() == 0);
