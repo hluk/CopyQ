@@ -197,7 +197,8 @@ void IconSelectButton::setCurrentIcon(const QString &iconString)
 
 QSize IconSelectButton::sizeHint() const
 {
-    return iconSize();
+    const int h = QPushButton::sizeHint().height();
+    return QSize(h, h);
 }
 
 void IconSelectButton::onClicked()
