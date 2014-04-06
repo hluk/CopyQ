@@ -1,3 +1,12 @@
+v2.1.0
+- French translation
+- Save/load and copy/paste user commands
+- Easier way to write longer commands and scripts
+- Remove formats in clipboard and item content dialogs
+- Command "toggle" focuses main window if unfocused (instead of closing)
+- Choose log file and amount of information to log
+- Lot of bugfixes and GUI improvements
+
 v2.0.1
 - Initial OS X support
 - Configuration moved into installed directory in Windows
