@@ -63,6 +63,8 @@ Developers and Translators
 If you want to help with translating, fixing or writing code read
 [HACKING](https://github.com/hluk/CopyQ/blob/master/HACKING) file.
 
+[![Translations](https://hosted.weblate.org/widgets/copyq-287x66-grey.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
+
 Dependencies
 ------------
 
@@ -88,7 +90,7 @@ Keyboard navigation
 
     item list navigation
 
-* `Left`, `Right`, `Tab`, `Shift+Tab`
+* `Left`, `Right`, `Ctrl+Tab`, `Ctrl+Shift+Tab`
 
     tab navigation
 
@@ -260,7 +262,9 @@ Command Line Interface
         config OPTION            Get option value.
         config OPTION VALUE      Set option value.
 
-        eval, -e [SCRIPT]        Evaluate ECMAScript program.
+        eval, -e [SCRIPT] [ARGUMENTS]...
+          Evaluate ECMAScript program.
+          Arguments are accessible using with "arguments(0..N)".
         session, -s, --session SESSION
           Starts or connects to application instance with given session name.
         help, -h, --help [COMMAND]...
