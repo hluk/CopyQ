@@ -69,6 +69,8 @@ public:
 
     int rowCount() const;
 
+    void setItemWidgetVisible(int row, bool visible);
+
 signals:
     void addButtonClicked(QAction *action);
     void itemSelectionChanged();

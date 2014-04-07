@@ -1394,6 +1394,18 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
     ui->comboBoxMenuTab->setEnabled(state == Qt::Unchecked);
 }
 
+void ConfigurationManager::on_lineEditFilterCommands_textChanged(const QString &text)
+{
+    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
+        QWidget *w = ui->itemOrderListCommands->itemWidget(i);
+        CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
+        const Command c = cmdWidget->command();
+        bool show = text.isEmpty() || QString(c.name).remove('&').contains(text, Qt::CaseInsensitive)
+                || c.cmd.contains(text, Qt::CaseInsensitive);
+        ui->itemOrderListCommands->setItemWidgetVisible(i, show);
+    }
+}
+
 void ConfigurationManager::onCurrentCommandWidgetIconChanged(const QString &iconString)
 {
     ui->itemOrderListCommands->setCurrentItemIcon( getCommandIcon(iconString) );

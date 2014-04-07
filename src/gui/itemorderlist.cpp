@@ -171,6 +171,13 @@ int ItemOrderList::rowCount() const
     return ui->listWidgetItems->count();
 }
 
+void ItemOrderList::setItemWidgetVisible(int row, bool visible)
+{
+    QListWidgetItem *item = ui->listWidgetItems->item(row);
+    Q_ASSERT(item);
+    ui->listWidgetItems->setItemHidden(item, !visible);
+}
+
 void ItemOrderList::on_pushButtonUp_clicked()
 {
     QListWidget *list = ui->listWidgetItems;

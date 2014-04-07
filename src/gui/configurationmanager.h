@@ -157,6 +157,8 @@ private slots:
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
 
+    void on_lineEditFilterCommands_textChanged(const QString &text);
+
     void onCurrentCommandWidgetIconChanged(const QString &iconString);
     void onCurrentCommandWidgetNameChanged(const QString &name);
     void on_spinBoxTrayItems_valueChanged(int value);

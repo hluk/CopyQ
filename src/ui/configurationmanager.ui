@@ -1144,6 +1144,23 @@ Set to 0 to disable.</string>
         </widget>
        </item>
        <item>
+        <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <item>
+          <widget class="QLabel" name="label_2">
+           <property name="text">
+            <string>&amp;Find:</string>
+           </property>
+           <property name="buddy">
+            <cstring>lineEditFilterCommands</cstring>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="lineEditFilterCommands"/>
+         </item>
+        </layout>
+       </item>
+       <item>
         <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
          <property name="focusPolicy">
           <enum>Qt::WheelFocus</enum>
@@ -1266,6 +1283,7 @@ Set to 0 to disable.</string>
   <tabstop>spinBoxClipboardNotificationLines</tabstop>
   <tabstop>scrollArea_3</tabstop>
   <tabstop>itemOrderListPlugins</tabstop>
+  <tabstop>lineEditFilterCommands</tabstop>
   <tabstop>itemOrderListCommands</tabstop>
   <tabstop>pushButtonLoadCommands</tabstop>
   <tabstop>pushButtonSaveCommands</tabstop>
