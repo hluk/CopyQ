@@ -5,31 +5,8 @@ pull requests at <https://github.com/hluk/CopyQ>.
 Translations
 ------------
 
-To translate UI strings in the application for example to Latin:
-
-    1. to "copyq.pro" file add translation file path to TRANSLATIONS variable,
-       in this case change:
-
-            TRANSLATIONS = translations/copyq_cs.ts \
-                           translations/copyq_de.ts \
-                           translations/copyq_es.ts
-
-       to (notice '\' at end of each line):
-
-            TRANSLATIONS = translations/copyq_cs.ts \
-                           translations/copyq_de.ts \
-                           translations/copyq_es.ts \
-                           translations/copyq_la.ts
-
-
-    2. run command "lupdate copyq.pro" to generates the new translation file,
-    3. run command "linguist translations/copyq_la.ts",
-    4. translate.
-
-After building the application it should contain the new translations.
-
-Command "lupdate copyq.pro" need to be run periodically to add new string for
-translation and update existing ones.
+Weblate is the preferred way to translate CopyQ. Follow instructions at
+https://hosted.weblate.org/engage/copyq/.
 
 Writing Platform-dependent Code
 -------------------------------
