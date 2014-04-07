@@ -556,7 +556,7 @@ Set to 0 not to unload tabs.</string>
     xterm -e vim %1</string>
                  </property>
                  <property name="text">
-                  <string>gedit %1</string>
+                  <string/>
                  </property>
                 </widget>
                </item>
@@ -874,8 +874,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>552</width>
-            <height>546</height>
+            <width>428</width>
+            <height>123</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
