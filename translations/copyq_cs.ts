@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="cs_CZ">
 <context>
@@ -21,17 +20,17 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="130"/>
         <source>E-mail</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
         <source>Web</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="132"/>
         <source>Wiki</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="142"/>
@@ -101,7 +100,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="184"/>
         <source>Escape</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
@@ -116,7 +115,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="186"/>
         <source>Enter</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="187"/>
@@ -163,7 +162,7 @@
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="20"/>
-        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
+        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
         <translation>&lt;b&gt;%1&lt;/b&gt; v &lt;b&gt;příkazu&lt;/b&gt; znamená &lt;b&gt;text&lt;/b&gt; označených prvků. Text může být změněn a poslán na &lt;b&gt;standardní vstup&lt;/b&gt; příkazu. Je také možné zřetězit více příkazů znakem &lt;b&gt;|&lt;/b&gt; (t.j. předávání standardního vstupu).</translation>
     </message>
     <message>
@@ -201,7 +200,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="119"/>
         <source>\n</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="126"/>
@@ -481,7 +480,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="14"/>
         <source>Form</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <source>Enable this command</source>
@@ -502,7 +501,7 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>&amp;Název:</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Don&apos;t save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</source>
         <translation type="obsolete">&lt;p&gt;Neukládej prvek do historie a neaplikuj následující příkazy.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -517,8 +516,8 @@ Příkaz je možné zmenit v nastavení.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="115"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Pokud není políčko prázdné, použij příkaz pouze na prvky, u kterých se text schoduje s tímto regulárním výrazem.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Příklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Název PDF souborů    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Obsahuje pouze jeden znak    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdálené multimediální soubory    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Pokud není políčko prázdné, použij příkaz pouze na prvky, u kterých se text schoduje s tímto regulárním výrazem.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Příklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Název PDF souborů    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Obsahuje pouze jeden znak    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdálené multimediální soubory    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="148"/>
@@ -617,7 +616,7 @@ Pro vypnutí zanechej prázné.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="313"/>
         <source>Hide window after command is activated from context menu of an item.</source>
-        <translation>Skrýt hlavní okno po aktivaci příkazu z kontextového menu prvku. </translation>
+        <translation>Skrýt hlavní okno po aktivaci příkazu z kontextového menu prvku.</translation>
     </message>
     <message>
         <source>&amp;Hide window</source>
@@ -645,7 +644,7 @@ Pro vypnutí zanechej prázné.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="389"/>
-        <source>Change item, don&apos;t create any new items.</source>
+        <source>Change item, don't create any new items.</source>
         <translation>Změnit prvek, nevytvářet nové prvky.</translation>
     </message>
     <message>
@@ -724,7 +723,7 @@ Poznámka: Pokud je akce provedena automaticky, žádné následující příkaz
     <message>
         <location filename="../src/ui/commandwidget.ui" line="442"/>
         <source>\n</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="459"/>
@@ -878,8 +877,8 @@ Poznámka: Pokud je akce provedena automaticky, žádné následující příkaz
         <translation>Náhled:</translation>
     </message>
     <message>
-        <source>Search string is &quot;item&quot;.</source>
-        <translation type="obsolete">Vyhledávaný výraz je &quot;prvek&quot;.</translation>
+        <source>Search string is "item".</source>
+        <translation type="obsolete">Vyhledávaný výraz je "prvek".</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
@@ -976,7 +975,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="147"/>
         <source>Ctrl+I</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="148"/>
@@ -992,7 +991,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../src/gui/configtabshortcuts.cpp" line="149"/>
         <location filename="../src/tests/tests.cpp" line="1378"/>
         <source>Ctrl+P</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="150"/>
@@ -1002,7 +1001,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="150"/>
         <source>Ctrl+Shift+C</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <source>&amp;Enable Clipboard Storing</source>
@@ -1011,7 +1010,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="151"/>
         <source>Ctrl+Shift+X</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="152"/>
@@ -1021,7 +1020,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="152"/>
         <source>Ctrl+Q</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
@@ -1031,7 +1030,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
         <source>Ctrl+Shift+S</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="155"/>
@@ -1041,7 +1040,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="155"/>
         <source>Ctrl+Shift+R</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="156"/>
@@ -1066,7 +1065,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="160"/>
         <source>F4</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="168"/>
@@ -1090,7 +1089,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
         <source>F2</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="162"/>
@@ -1100,7 +1099,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="162"/>
         <source>Shift+F2</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="163"/>
@@ -1110,7 +1109,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="163"/>
         <source>Ctrl+E</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="164"/>
@@ -1120,7 +1119,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="164"/>
         <source>F5</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="165"/>
@@ -1130,7 +1129,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="165"/>
         <source>Ctrl+Shift+N</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="166"/>
@@ -1140,7 +1139,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="166"/>
         <source>Ctrl+Shift+P</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="170"/>
@@ -1150,7 +1149,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="170"/>
         <source>Ctrl+T</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="171"/>
@@ -1160,7 +1159,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="171"/>
         <source>Ctrl+F2</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="172"/>
@@ -1170,7 +1169,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="172"/>
         <source>Ctrl+W</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="174"/>
@@ -1345,7 +1344,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="115"/>
-        <source>Break text if it&apos;s too long to fit on line.</source>
+        <source>Break text if it's too long to fit on line.</source>
         <translation>Zalom řádek pokud je příliš dlouhý.</translation>
     </message>
     <message>
@@ -1396,7 +1395,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="559"/>
         <source>gedit %1</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
@@ -1545,7 +1544,7 @@ Nastav na 0 pro zachování záložek v paměti.</translation>
         <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Pozn.:&lt;/b&gt; Některé klávesové kombinace nemusí fungovat.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn&apos;t have focus.&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn't have focus.&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;Tyto systémové klávesové zkratky fungují i když okno nemí aktivní.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -1752,7 +1751,7 @@ Poznámka: Tato funkce není podporována na některých systémech.</translatio
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="360"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation>Nezobrazovat ikonu v liště; minimalizovat okno při zavření</translation>
     </message>
     <message>
@@ -2102,12 +2101,12 @@ Pozn.: Editované prvky mohou být uloženy pomocí F2 bez ohledu na tuto volbu.
         <translation type="obsolete">Náhled:</translation>
     </message>
     <message>
-        <source>Cannot save tab &quot;%1&quot; to &quot;%2&quot; (%3)!</source>
-        <translation type="obsolete">Nelze uložit záložku &quot;%1&quot; do &quot;%2&quot; (&quot;%3&quot;)!</translation>
+        <source>Cannot save tab "%1" to "%2" (%3)!</source>
+        <translation type="obsolete">Nelze uložit záložku "%1" do "%2" ("%3")!</translation>
     </message>
     <message>
-        <source>Search string is &quot;item&quot;.</source>
-        <translation type="obsolete">Vyhledávaný výraz je &quot;prvek&quot;.</translation>
+        <source>Search string is "item".</source>
+        <translation type="obsolete">Vyhledávaný výraz je "prvek".</translation>
     </message>
     <message>
         <source>Select an item and
@@ -2134,8 +2133,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">prvek</translation>
     </message>
     <message>
-        <source>Cannot create directory for settings &quot;%1&quot;!</source>
-        <translation type="obsolete">Nelze vytvořit adresář pro nastavení &quot;%1&quot;!</translation>
+        <source>Cannot create directory for settings "%1"!</source>
+        <translation type="obsolete">Nelze vytvořit adresář pro nastavení "%1"!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="67"/>
@@ -2165,7 +2164,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="446"/>
         <source>Shift+Return</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="448"/>
@@ -2185,7 +2184,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="469"/>
         <source>Ctrl+R</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="472"/>
@@ -2224,8 +2223,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="529"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ignoruj *&quot;Heslo&quot;* okna</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation>Ignoruj *"Heslo"* okna</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="530"/>
@@ -2346,17 +2345,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="174"/>
         <source>Use Vim-style Editing</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="176"/>
         <source>Read .vimrc</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="178"/>
         <source>Path to .vimrc</source>
-        <translation></translation>
+        <translation/>
     </message>
 </context>
 <context>
@@ -2365,17 +2364,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="133"/>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="141"/>
         <source>Unknown option: %1</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="136"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="875"/>
-        <source>Mark &apos;%1&apos; not set.</source>
-        <translation></translation>
+        <source>Mark '%1' not set.</source>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3389"/>
@@ -2385,64 +2384,64 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3391"/>
         <source>%1All</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3405"/>
         <source>Not implemented in FakeVim.</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5501"/>
         <source>Unknown option:</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5579"/>
         <source>Move lines into themselves.</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5623"/>
         <source>%n lines moved.</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5683"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation></translation>
+        <source>File "%1" exists (add ! to override)</source>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5697"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation></translation>
+        <source>Cannot open file "%1" for writing</source>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5703"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation></translation>
+        <source>"%1" %2 %3L, %4C written.</source>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5712"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation></translation>
+        <source>Cannot open file "%1" for reading</source>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5741"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation></translation>
+        <source>"%1" %2L, %3C</source>
+        <translation/>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5775"/>
         <source>%n lines filtered.</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
@@ -2453,69 +2452,69 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6019"/>
         <source>Invalid regular expression: %1</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6055"/>
         <source>Pattern not found: %1</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6059"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6060"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6065"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6066"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6173"/>
         <source>%n lines indented.</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6230"/>
         <source>%n lines %1ed %2 time.</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6796"/>
         <source>%n lines yanked.</source>
         <translation>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
+            <numerusform/>
+            <numerusform/>
+            <numerusform/>
         </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7502"/>
         <source>Already at oldest change.</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7503"/>
         <source>Already at newest change.</source>
-        <translation></translation>
+        <translation/>
     </message>
 </context>
 <context>
@@ -2523,30 +2522,30 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2646"/>
         <source>Recursive mapping</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4043"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5704"/>
         <source> [New] </source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5933"/>
         <source>Not an editor command: %1</source>
-        <translation></translation>
+        <translation/>
     </message>
 </context>
 <context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="997"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation>Nelze vytvořit adresář pro synchronizaci &quot;%1&quot;!</translation>
+        <source>Failed to create synchronization directory "%1"!</source>
+        <translation>Nelze vytvořit adresář pro synchronizaci "%1"!</translation>
     </message>
 </context>
 <context>
@@ -2560,7 +2559,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../src/gui/iconselectbutton.cpp" line="192"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation></translation>
+        <translation/>
     </message>
 </context>
 <context>
@@ -2623,7 +2622,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"/>
         <source>Text</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="74"/>
@@ -2638,7 +2637,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="91"/>
         <source>XML</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="99"/>
@@ -2769,7 +2768,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="170"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Pro sdílení zašifrovaných prvků na jíném počítači nebo v jiném sezení jsou zapotřebí soubory klíčů:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Ulož tento soukromí klíč na bezpečném místě.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
@@ -2859,7 +2858,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="73"/>
         <source>FakeVim</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="75"/>
@@ -3027,8 +3026,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1416"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>Nelze synchronizovat záložku &quot;%1&quot; s adresářem &quot;%2&quot;!</translation>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
+        <translation>Nelze synchronizovat záložku "%1" s adresářem "%2"!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1464"/>
@@ -3038,7 +3037,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1465"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>Opravdu chcete &lt;string&gt;odebrat všechny prvky a přiřazené soubory&lt;strong&gt;?</translation>
+        <translation>Opravdu chcete &lt;strong&gt;odebrat všechny prvky a přiřazené soubory&lt;strong&gt;?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1637"/>
@@ -3158,7 +3157,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/ui/mainwindow.ui" line="17"/>
         <source>CopyQ</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <source>&amp;Find:</source>
@@ -3339,13 +3338,13 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../src/gui/mainwindow.cpp" line="1365"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1368"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1358"/>
@@ -3373,20 +3372,20 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>&amp;Nápověda</translation>
     </message>
     <message>
-        <source>Rename &amp;group &quot;%1&quot;</source>
-        <translation type="obsolete">Přejmenovat &amp;skupinu &quot;%1&quot;</translation>
+        <source>Rename &amp;group "%1"</source>
+        <translation type="obsolete">Přejmenovat &amp;skupinu "%1"</translation>
     </message>
     <message>
-        <source>Re&amp;name tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Přejmenovat záložku &quot;%1&quot;</translation>
+        <source>Re&amp;name tab "%1"</source>
+        <translation type="obsolete">&amp;Přejmenovat záložku "%1"</translation>
     </message>
     <message>
-        <source>Re&amp;move tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Odebrat záložku &quot;%1&quot;</translation>
+        <source>Re&amp;move tab "%1"</source>
+        <translation type="obsolete">&amp;Odebrat záložku "%1"</translation>
     </message>
     <message>
-        <source>Remove group &quot;%1&quot;</source>
-        <translation type="obsolete">Odebrat skupinu &quot;%1&quot;</translation>
+        <source>Remove group "%1"</source>
+        <translation type="obsolete">Odebrat skupinu "%1"</translation>
     </message>
     <message>
         <source>Error: %1
@@ -3401,8 +3400,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 </translation>
     </message>
     <message>
-        <source>Command &quot;%1&quot;</source>
-        <translation type="obsolete">Příkaz: &quot;%1&quot;</translation>
+        <source>Command "%1"</source>
+        <translation type="obsolete">Příkaz: "%1"</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="491"/>
@@ -3429,12 +3428,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Konfigurace načtena</translation>
     </message>
     <message>
-        <source>&amp;Rename tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Přejmenovat záložku &quot;%1&quot;</translation>
+        <source>&amp;Rename tab "%1"</source>
+        <translation type="obsolete">&amp;Přejmenovat záložku "%1"</translation>
     </message>
     <message>
-        <source>&amp;Remove tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Odebrat záložku &quot;%1&quot;</translation>
+        <source>&amp;Remove tab "%1"</source>
+        <translation type="obsolete">&amp;Odebrat záložku "%1"</translation>
     </message>
     <message>
         <source>&lt;IMAGE&gt;</source>
@@ -3485,8 +3484,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Copyq Chyba v ukládání souboru</translation>
     </message>
     <message>
-        <source>Cannot save file &quot;%1&quot;!</source>
-        <translation type="obsolete">Nelze uložit soubor &quot;%1&quot;!</translation>
+        <source>Cannot save file "%1"!</source>
+        <translation type="obsolete">Nelze uložit soubor "%1"!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1875"/>
@@ -3494,8 +3493,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Copyq Chyba v otevírání souboru</translation>
     </message>
     <message>
-        <source>Cannot open file &quot;%1&quot;!</source>
-        <translation type="obsolete">Nelze otevřít soubor &quot;%1&quot;!</translation>
+        <source>Cannot open file "%1"!</source>
+        <translation type="obsolete">Nelze otevřít soubor "%1"!</translation>
     </message>
     <message>
         <source>Executing: %1</source>
@@ -3509,7 +3508,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2020"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>Opravdu chcete odebrat &lt;string&gt;všechny záložky&lt;strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
+        <translation>Opravdu chcete odebrat &lt;strong&gt;všechny záložky&lt;strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2065"/>
@@ -3582,18 +3581,18 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">%1</translation>
     </message>
     <message numerus="yes">
-        <source>&quot;%1&quot; (%n lines)</source>
+        <source>"%1" (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="obsolete">
-            <numerusform>&quot;%1&quot; (%n řádek)</numerusform>
-            <numerusform>&quot;%1&quot; (%n řádky)</numerusform>
-            <numerusform>&quot;%1&quot; (%n řádků)</numerusform>
+            <numerusform>"%1" (%n řádek)</numerusform>
+            <numerusform>"%1" (%n řádky)</numerusform>
+            <numerusform>"%1" (%n řádků)</numerusform>
         </translation>
     </message>
     <message>
-        <source>&quot;%1&quot;</source>
+        <source>"%1"</source>
         <comment>Label for single-line text in clipboard</comment>
-        <translation type="obsolete">&quot;%1&quot;</translation>
+        <translation type="obsolete">"%1"</translation>
     </message>
     <message>
         <location filename="../src/common/log.cpp" line="73"/>
@@ -3633,7 +3632,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../src/common/common.cpp" line="266"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="268"/>
@@ -3653,9 +3652,9 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/main.cpp" line="133"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation>Název Sezení musí obsahovat ne více než 16 znaků,
-které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &apos;_&apos;!</translation>
+které mohou být pouze písmena bez diakritiky, čísla, '-' nebo '_'!</translation>
     </message>
     <message>
         <source>socketpair() failed!</source>
@@ -3681,12 +3680,12 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="77"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n řádek &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n řádky &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n řádků &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n řádek &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n řádky &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n řádků &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
@@ -3696,8 +3695,8 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <translation>%1</translation>
     </message>
     <message>
-        <source>Item file &quot;%1&quot; is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="obsolete">Soubor s prvky &quot;%1&quot; je poškozený nebo chybí některé zásuvné moduly!</translation>
+        <source>Item file "%1" is corrupted or some CopyQ plugins are missing!</source>
+        <translation type="obsolete">Soubor s prvky "%1" je poškozený nebo chybí některé zásuvné moduly!</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="183"/>
@@ -3751,7 +3750,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <location filename="../src/scriptable/scriptable.cpp" line="152"/>
         <location filename="../src/scriptable/scriptable.cpp" line="154"/>
         <source>MIME</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="107"/>
@@ -3781,7 +3780,7 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
         <location filename="../src/scriptable/scriptable.cpp" line="131"/>
         <location filename="../src/scriptable/scriptable.cpp" line="135"/>
         <source>TEXT</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="133"/>
@@ -3819,7 +3818,7 @@ Hodnota -1 znamená text ve schránce.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="153"/>
         <location filename="../src/scriptable/scriptable.cpp" line="154"/>
         <source>DATA</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="100"/>
@@ -3842,7 +3841,8 @@ Hodnota -1 znamená text ve schránce.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="115"/>
         <source>
 Set clipboard content.</source>
-        <translation>Nastaví obsah schránky.</translation>
+        <translation>
+Nastaví obsah schránky.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="123"/>
@@ -3874,7 +3874,8 @@ Set clipboard content.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="150"/>
         <source>
 Write raw data to given row.</source>
-        <translation>Zapíše surová data do daného řádku.</translation>
+        <translation>
+Zapíše surová data do daného řádku.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="157"/>
@@ -3893,7 +3894,7 @@ Požij %1 v PROGRAMu k předání textu jako parametru.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="163"/>
         <source>PROGRAM</source>
-        <translation></translation>
+        <translation/>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="165"/>
@@ -3925,7 +3926,7 @@ Zobrazí zprávu v liště na daný ČAS (milisekundy).</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="173"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation>Spustí příkaz na záložce s daným jménem.
 Záložka je vytvořena, pokud neexistuje.
@@ -4006,20 +4007,20 @@ Původní volba je první záložka.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="204"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
+Arguments are accessible using with "arguments(0..N)".</source>
         <translation>
 Spustí program v jazyce ECMASctipt.
-Argumenty jsou přístupně pomocí &quot;arguments(0..N)&quot;.</translation>
+Argumenty jsou přístupně pomocí "arguments(0..N)".</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="579"/>
         <source>Failed to set clipboard!</source>
-        <translation>Nepodařilo se nastavit schránku.</translation>
+        <translation>Nepodařilo se nastavit schránku!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="879"/>
-        <source>Invalid option &quot;%1&quot;!</source>
-        <translation>Neplatné nastavení &quot;%1&quot;!</translation>
+        <source>Invalid option "%1"!</source>
+        <translation>Neplatné nastavení "%1"!</translation>
     </message>
     <message>
         <source>Evaluate ECMAScript program.</source>
@@ -4088,7 +4089,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="446"/>
         <source>Built with: </source>
-        <translation>Sestaveno s:</translation>
+        <translation>Sestaveno s: </translation>
     </message>
     <message>
         <source>  - Changing first item (ROW is 0) will also change clipboard.</source>
@@ -4108,8 +4109,8 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="239"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation>  - Použij ? pro MIME pro výpis dostupných MIME typů (implicitní hodnota MIME je &quot;text/plain&quot;).</translation>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
+        <translation>  - Použij ? pro MIME pro výpis dostupných MIME typů (implicitní hodnota MIME je "text/plain").</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="244"/>
@@ -4119,8 +4120,8 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="391"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="104"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
-        <translation>Jméno &quot;%1&quot; neodkazuje na žádnou funkci.</translation>
+        <source>Name "%1" doesn't refer to a function.</source>
+        <translation>Jméno "%1" neodkazuje na žádnou funkci.</translation>
     </message>
     <message>
         <source>Build with: </source>
@@ -4135,7 +4136,8 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <location filename="../src/scriptable/scriptable.cpp" line="513"/>
         <source>Terminating server.
 </source>
-        <translation>Ukončuji server.</translation>
+        <translation>Ukončuji server.
+</translation>
     </message>
     <message>
         <source>Tab name cannot be empty!</source>
@@ -4147,13 +4149,13 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="856"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation>Nelze uložit soubor &quot;%1&quot;!</translation>
+        <source>Cannot save to file "%1"!</source>
+        <translation>Nelze uložit soubor "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="867"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
-        <translation>Nelze importovat soubor &quot;%1&quot;!</translation>
+        <source>Cannot import file "%1"!</source>
+        <translation>Nelze importovat soubor "%1"!</translation>
     </message>
     <message>
         <source>To modify options from command line you must first close the CopyQ Configuration dialog!</source>
@@ -4164,7 +4166,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="vanished">Neplatné nastavení!</translation>
     </message>
     <message>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="vanished">Záložka s daným názvem neexistuje!</translation>
     </message>
 </context>
@@ -4199,8 +4201,8 @@ Vytiskne verzi programu a jeho knihoven.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; pro zrušení.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; pro zrušení.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -4208,8 +4210,8 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation>Klikněte zde a zmáčkněte kombinaci kláves</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; pro zrušení. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; pro odstranění zkratky.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel. &lt;span style=" font-weight:600;"&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; pro zrušení. &lt;span style=" font-weight:600;"&gt;Backspace&lt;/span&gt; pro odstranění zkratky.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
@@ -4293,7 +4295,7 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.h" line="157"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation>Záložka s daným názvem neexistuje!</translation>
     </message>
     <message>
