@@ -2355,7 +2355,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="178"/>
         <source>Path to .vimrc</source>
-        <translation/>
+        <translation>Cesta k .vimrc</translation>
     </message>
 </context>
 <context>
@@ -2364,12 +2364,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="133"/>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="141"/>
         <source>Unknown option: %1</source>
-        <translation/>
+        <translation>Neznámý přepínač: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="136"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation/>
+        <translation>Parametr musí být kladný: %1=%2</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="875"/>
@@ -2394,7 +2394,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5501"/>
         <source>Unknown option:</source>
-        <translation/>
+        <translation>Neznámý přepínač:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5579"/>
@@ -2404,12 +2404,10 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5623"/>
         <source>%n lines moved.</source>
-        <translation>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>Přesunuta %n řádka.</numerusform>
+        <numerusform>Přesunuty %n řádky.</numerusform>
+        <numerusform>Přesunuto %n řádek.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5683"/>
         <source>File "%1" exists (add ! to override)</source>
@@ -2532,7 +2530,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5704"/>
         <source> [New] </source>
-        <translation/>
+        <translation> [Nový] </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5933"/>
