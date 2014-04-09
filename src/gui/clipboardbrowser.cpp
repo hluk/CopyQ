@@ -2102,6 +2102,10 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
         }
     }
 
+    // Verify that text is present when regex is defined.
+    if ( !command.re.isEmpty() && !data.contains(mimeText) )
+        return false;
+
     // Verify that and text, MIME type and window title are matched.
     const QString text = getTextData(data);
     const QString windowTitle = data.value(mimeWindowTitle).toString();
