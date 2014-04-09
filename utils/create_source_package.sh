@@ -9,7 +9,11 @@ die () {
     exit 1
 }
 
+grep -q '^v'"$version"'$' CHANGES ||
+    die "CHANGES file doesn't contain changes for given version!"
+
 git archive --format=tar.gz --prefix="copyq-$version/" --output="$out" "v$version" ||
     die "First arguments must be existing version (tag v<VERSION> must exist in repository)!"
+
 echo "Created source package for version $version: $out"
 
