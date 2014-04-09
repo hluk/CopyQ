@@ -24,7 +24,9 @@
 
 #include <QAction>
 #include <QApplication>
+#include <QBuffer>
 #include <QClipboard>
+#include <QImage>
 #include <QLocale>
 #include <QMimeData>
 #include <QObject>
@@ -33,6 +35,35 @@
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
 #endif
+
+namespace {
+
+/**
+ * Sometimes only Qt internal image data are available in cliboard,
+ * so this tries to convert the image data (if available) to given MIME format.
+ */
+void cloneImageData(const QMimeData &data, const QString &mime, QVariantMap *dataMap)
+{
+    static const QString imageMimePrefix("image/");
+
+    if ( !mime.startsWith(imageMimePrefix) || !data.hasImage() )
+        return;
+
+    const QString fmt = mime.mid(imageMimePrefix.length()).toUpper();
+    const QImage image = data.imageData().value<QImage>();
+
+    QBuffer buffer;
+    bool saved = image.save(&buffer, fmt.toUtf8().constData());
+
+    COPYQ_LOG( QString("Converting image to \"%1\" format: %1")
+               .arg(fmt)
+               .arg(saved ? "Failed" : "Done") );
+
+    if (saved)
+        dataMap->insert(mime, buffer.buffer());
+}
+
+} // namespace
 
 QString quoteString(const QString &str)
 {
@@ -121,10 +152,13 @@ void setTextData(QVariantMap *data, const QString &text)
 QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 {
     QVariantMap newdata;
+
     foreach (const QString &mime, formats) {
         const QByteArray bytes = getUtf8Data(data, mime);
         if ( !bytes.isEmpty() )
             newdata.insert(mime, bytes);
+        else
+            cloneImageData(data, mime, &newdata);
     }
 
     if (data.hasFormat(mimeOwner))
