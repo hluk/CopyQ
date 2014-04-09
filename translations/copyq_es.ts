@@ -331,12 +331,12 @@ La orden se puede configurar en preferencias.</translation>
         <translation>Buscando %p%...</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="2025"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="2027"/>
         <source>Discard Changes?</source>
         <translation>¿Descartar los cambios?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="2026"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="2028"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>¿Está seguro de que desea &lt;strong&gt;descartar los cambios&lt;/strong&gt;?</translation>
     </message>
@@ -426,12 +426,12 @@ La orden se puede configurar en preferencias.</translation>
         <translation type="obsolete">Monitor del portapapeles:</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="141"/>
+        <location filename="../src/app/clipboardserver.cpp" line="139"/>
         <source>Clipboard Monitor: Terminating</source>
         <translation>Monitor del portapapeles: Terminando</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="147"/>
+        <location filename="../src/app/clipboardserver.cpp" line="145"/>
         <source>Clipboard Monitor: Terminated</source>
         <translation>Monitor del portapapeles: Terminado</translation>
     </message>
@@ -444,27 +444,27 @@ La orden se puede configurar en preferencias.</translation>
         <translation type="vanished">¡No se pudo leer mensaje del cliente! (%1)</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="264"/>
+        <location filename="../src/app/clipboardserver.cpp" line="259"/>
         <source>Cancel Active Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="265"/>
+        <location filename="../src/app/clipboardserver.cpp" line="260"/>
         <source>Cancel active commands and exit?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="268"/>
+        <location filename="../src/app/clipboardserver.cpp" line="263"/>
         <source>Cancel Exiting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="269"/>
+        <location filename="../src/app/clipboardserver.cpp" line="264"/>
         <source>Exit Anyway</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="304"/>
+        <location filename="../src/app/clipboardserver.cpp" line="294"/>
         <source>Failed to read message from monitor.</source>
         <translation>Error al leer mensaje del monitor.</translation>
     </message>
@@ -478,9 +478,8 @@ La orden se puede configurar en preferencias.</translation>
 <context>
     <name>CommandWidget</name>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="14"/>
         <source>Form</source>
-        <translation>Formulario</translation>
+        <translation type="vanished">Formulario</translation>
     </message>
     <message>
         <source>Enable this command</source>
@@ -491,12 +490,12 @@ La orden se puede configurar en preferencias.</translation>
         <translation type="obsolete">&amp;Activar</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="31"/>
+        <location filename="../src/ui/commandwidget.ui" line="28"/>
         <source>&amp;Name:</source>
         <translation>&amp;Nombre:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="41"/>
+        <location filename="../src/ui/commandwidget.ui" line="38"/>
         <source>Command name shown in menu</source>
         <translation>Nombre de la orden mostrado en menú</translation>
     </message>
@@ -513,22 +512,22 @@ La orden se puede configurar en preferencias.</translation>
         <translation type="obsolete">&amp;Examinar</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="53"/>
+        <location filename="../src/ui/commandwidget.ui" line="128"/>
         <source>Match Items</source>
         <translation>Entradas coincidentes</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="128"/>
+        <location filename="../src/ui/commandwidget.ui" line="203"/>
         <source>&amp;Content:</source>
         <translation>&amp;Contenido:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="115"/>
+        <location filename="../src/ui/commandwidget.ui" line="190"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Usar orden sólo para las entradas cuyo texto coincida con esta expresión regular (dejar en blanco para coincidir con cualquier texto).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ejemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Fichero PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Un solo carácter    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Contenido multimedia en Internet    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="105"/>
+        <location filename="../src/ui/commandwidget.ui" line="180"/>
         <source>&amp;Window:</source>
         <translation>&amp;Ventana:</translation>
     </message>
@@ -537,19 +536,19 @@ La orden se puede configurar en preferencias.</translation>
         <translation type="vanished">&lt;p&gt;Usar orden sólo para entradas copiadas al portapapeles desde ventanas cuyo título coincida con esta expresión regular (dejar en blanco para aplicar a todas las ventanas).&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="88"/>
+        <location filename="../src/ui/commandwidget.ui" line="163"/>
         <source>&amp;Format:</source>
         <translation>&amp;Formato:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="77"/>
+        <location filename="../src/ui/commandwidget.ui" line="152"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>Los datos de este tipo MIME se enviarán a la entrada estándar de la orden.
 Dejar en blanco para deshabilitar esto.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="208"/>
+        <location filename="../src/ui/commandwidget.ui" line="272"/>
         <source>Action</source>
         <translation>Acción</translation>
     </message>
@@ -562,7 +561,7 @@ Dejar en blanco para deshabilitar esto.</translation>
         <translation type="obsolete">&amp;Ignorar entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="313"/>
+        <location filename="../src/ui/commandwidget.ui" line="353"/>
         <source>Hide window after command is activated from context menu of an item.</source>
         <translation>Ocultar ventana después de que la orden sea activada desde el menú contextual de una entrada.</translation>
     </message>
@@ -571,27 +570,26 @@ Dejar en blanco para deshabilitar esto.</translation>
         <translation type="obsolete">&amp;Ocultar ventana</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="245"/>
+        <location filename="../src/ui/commandwidget.ui" line="295"/>
         <source>Copy to &amp;tab:</source>
         <translation>Copiar a &amp;pestaña:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="235"/>
         <source>Comma&amp;nd:</source>
-        <translation>Orde&amp;n:</translation>
+        <translation type="vanished">Orde&amp;n:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="279"/>
+        <location filename="../src/ui/commandwidget.ui" line="305"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Nombre de la pestaña a la que copiar nuevas entradas (dejar en blanco para no copiar)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="138"/>
+        <location filename="../src/ui/commandwidget.ui" line="213"/>
         <source>&amp;Filter:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="267"/>
+        <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
@@ -600,32 +598,32 @@ Dejar en blanco para deshabilitar esto.</translation>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; para encadenar órdenes (pasar salida estándar a la siguiente orden).&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="353"/>
+        <location filename="../src/ui/commandwidget.ui" line="406"/>
         <source>Command options</source>
         <translation>Opciones de la orden</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="379"/>
+        <location filename="../src/ui/commandwidget.ui" line="432"/>
         <source>Show action dialog before executing the command</source>
         <translation>Mostrar ventana de diálogo de acción antes de ejecutar la orden</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="382"/>
+        <location filename="../src/ui/commandwidget.ui" line="435"/>
         <source>&amp;Wait</source>
         <translation>&amp;Esperar</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="185"/>
+        <location filename="../src/ui/commandwidget.ui" line="71"/>
         <source>Run the command automatically if clipboard has new content</source>
         <translation>Ejecutar la orden automáticamente si el portapapeles tiene contenido nuevo</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="98"/>
+        <location filename="../src/ui/commandwidget.ui" line="173"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="148"/>
+        <location filename="../src/ui/commandwidget.ui" line="223"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -636,27 +634,37 @@ Dejar en blanco para deshabilitar esto.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="164"/>
+        <location filename="../src/ui/commandwidget.ui" line="50"/>
         <source>Type of Action</source>
         <translation>Tipo de acción</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="188"/>
+        <location filename="../src/ui/commandwidget.ui" line="74"/>
         <source>Auto&amp;matic</source>
         <translation>Auto&amp;mático</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="195"/>
+        <location filename="../src/ui/commandwidget.ui" line="81"/>
         <source>Show command in context menu of matching items</source>
         <translation>Mostrar orden en el menú contextual de las entradas coincidentes</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="198"/>
+        <location filename="../src/ui/commandwidget.ui" line="84"/>
         <source>In M&amp;enu</source>
         <translation>En el M&amp;enu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="255"/>
+        <location filename="../src/ui/commandwidget.ui" line="93"/>
+        <source>&amp;Global Shortcut:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="239"/>
+        <source>Comma&amp;nd</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="317"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
@@ -665,67 +673,67 @@ Note: If this is applied automatically, no other automatic commands are executed
 Nota: Si se aplica automáticamente, ninguna otra orden automática será ejecutada.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="260"/>
+        <location filename="../src/ui/commandwidget.ui" line="322"/>
         <source>&amp;Remove Item</source>
         <translation>&amp;Eliminar Entrada</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="292"/>
+        <location filename="../src/ui/commandwidget.ui" line="332"/>
         <source>Menu Action</source>
         <translation>Menú de Acción</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="316"/>
+        <location filename="../src/ui/commandwidget.ui" line="356"/>
         <source>&amp;Hide main window after activation</source>
         <translation>&amp;Ocultar la ventana principal después de la activación</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="389"/>
+        <location filename="../src/ui/commandwidget.ui" line="442"/>
         <source>Change item, don&apos;t create any new items.</source>
         <translation>Cambiar entrada, no crear nuevas entradas.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="392"/>
+        <location filename="../src/ui/commandwidget.ui" line="445"/>
         <source>T&amp;ransform</source>
         <translation>T&amp;ransformar</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="409"/>
+        <location filename="../src/ui/commandwidget.ui" line="462"/>
         <source>O&amp;utput:</source>
         <translation>&amp;Salida:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="419"/>
+        <location filename="../src/ui/commandwidget.ui" line="472"/>
         <source>Create items from standard output of the program (leave empty to disable).</source>
         <translation>Crear entradas a partit de la salida estándar del programa (dejar vacío para deshabilitar).</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="429"/>
+        <location filename="../src/ui/commandwidget.ui" line="482"/>
         <source>&amp;Separator:</source>
         <translation>&amp;Separador:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="439"/>
+        <location filename="../src/ui/commandwidget.ui" line="492"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation>Separador para la salida de múltiples entradas</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="442"/>
+        <location filename="../src/ui/commandwidget.ui" line="495"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="449"/>
+        <location filename="../src/ui/commandwidget.ui" line="502"/>
         <source>Output &amp;tab:</source>
         <translation>&amp;Pestaña de Salida:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="459"/>
+        <location filename="../src/ui/commandwidget.ui" line="512"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Guardar entradas en la pestaña con el nombre (dejar en blanco para guardar en la primera pestaña)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="331"/>
+        <location filename="../src/ui/commandwidget.ui" line="371"/>
         <source>&amp;Shortcut:</source>
         <translation>&amp;Acceso rápido:</translation>
     </message>
@@ -949,53 +957,51 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">Formulario</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabshortcuts.ui" line="36"/>
         <source>A&amp;pplication Shortcuts</source>
-        <translation>Accesos rápidos de &amp;aplicación</translation>
+        <translation type="vanished">Accesos rápidos de &amp;aplicación</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabshortcuts.ui" line="46"/>
         <source>S&amp;ystem Shortcuts</source>
-        <translation>Accesos rápidos de &amp;sistema</translation>
+        <translation type="vanished">Accesos rápidos de &amp;sistema</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="146"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="105"/>
         <source>&amp;New Item</source>
         <translation>&amp;Nueva entrada</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="147"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>&amp;Import Tab...</source>
         <translation>&amp;Importar Pestaña...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="147"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="148"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="107"/>
         <source>&amp;Export Tab...</source>
         <translation>&amp;Exportar Pestaña...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="149"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="108"/>
         <source>&amp;Preferences...</source>
         <translation>&amp;Preferencias...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="149"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="108"/>
         <location filename="../src/tests/tests.cpp" line="1378"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="150"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>Show &amp;Clipboard Content</source>
         <translation>Mostrar contenido del &amp;Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="150"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>Ctrl+Shift+C</source>
         <translation>Ctrl+Shift+C</translation>
     </message>
@@ -1004,67 +1010,67 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">&amp;Habilitar el Almacenamiento del Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="151"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>Ctrl+Shift+X</source>
         <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="152"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>E&amp;xit</source>
         <translation>&amp;Salir</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="152"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
         <source>&amp;Sort Selected Items</source>
         <translation>&amp;Ordenar las entradas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="154"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="155"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>&amp;Reverse Selected Items</source>
         <translation>&amp;Ordenar inversamente la entradas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="155"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="156"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="115"/>
         <source>&amp;Paste Items</source>
         <translation>&amp;Pegar entradas</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="157"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="116"/>
         <source>&amp;Copy Selected Items</source>
         <translation>&amp;Copiar Entradas Seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="159"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="118"/>
         <source>Move to &amp;Clipboard</source>
         <translation>Mover al &amp;Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="160"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>&amp;Show Content...</source>
         <translation>&amp;Mostrar Contenido...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="160"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="168"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="127"/>
         <source>&amp;Remove</source>
         <translation>&amp;Eliminar</translation>
     </message>
@@ -1073,174 +1079,160 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="151"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>&amp;Toggle Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
         <source>&amp;Edit</source>
         <translation>&amp;Editar</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="161"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="162"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
         <source>&amp;Edit Notes</source>
         <translation>&amp;Editar Notas</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="162"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
         <source>Shift+F2</source>
         <translation>Shift+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="163"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="122"/>
         <source>E&amp;dit with editor</source>
         <translation>E&amp;ditar con un editor</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="163"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="122"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="164"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>&amp;Action...</source>
         <translation>&amp;Acción...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="164"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="165"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="124"/>
         <source>&amp;Next to Clipboard</source>
         <translation>&amp;Siguiente al Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="165"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="124"/>
         <source>Ctrl+Shift+N</source>
         <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="166"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="125"/>
         <source>&amp;Previous to Clipboard</source>
         <translation>&amp;Anterior al Portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="166"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="125"/>
         <source>Ctrl+Shift+P</source>
         <translation>Ctrl+Shift+N</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="170"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>&amp;New tab</source>
         <translation>&amp;Nueva pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="170"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="171"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
         <source>Re&amp;name tab</source>
         <translation>Ca&amp;mbiar el nombre de la pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="171"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="172"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Re&amp;move tab</source>
         <translation>Ce&amp;rrar pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="172"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="174"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>&amp;Help</source>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="183"/>
         <source>Sh&amp;ow/hide main window</source>
-        <translation>M&amp;ostrar/ocultar ventana principal</translation>
+        <translation type="vanished">M&amp;ostrar/ocultar ventana principal</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="184"/>
         <source>Show the tray &amp;menu</source>
-        <translation>Mostrar el &amp;menú de la bandeja</translation>
+        <translation type="vanished">Mostrar el &amp;menú de la bandeja</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="185"/>
         <source>&amp;Edit clipboard</source>
-        <translation>&amp;Editar portapapeles</translation>
+        <translation type="vanished">&amp;Editar portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="186"/>
         <source>Edit &amp;first item</source>
-        <translation>Editar la &amp;primera entrada</translation>
+        <translation type="vanished">Editar la &amp;primera entrada</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="187"/>
         <source>Copy &amp;second item</source>
-        <translation>Copiar la &amp;segunda entrada</translation>
+        <translation type="vanished">Copiar la &amp;segunda entrada</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="188"/>
         <source>Show &amp;action dialog</source>
-        <translation>Mostar ventana de diálogo de &amp;acción</translation>
+        <translation type="vanished">Mostar ventana de diálogo de &amp;acción</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="189"/>
         <source>Create &amp;new item</source>
-        <translation>Crear &amp;nueva entrada</translation>
+        <translation type="vanished">Crear &amp;nueva entrada</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="190"/>
         <source>Copy n&amp;ext item</source>
-        <translation>Copiar &amp;siguiente entrada</translation>
+        <translation type="vanished">Copiar &amp;siguiente entrada</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="191"/>
         <source>Copy &amp;previous item</source>
-        <translation>Copiar entrada &amp;anterior</translation>
+        <translation type="vanished">Copiar entrada &amp;anterior</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="192"/>
         <source>Paste as pla&amp;in text</source>
-        <translation>Pegar como texto &amp;plano</translation>
+        <translation type="vanished">Pegar como texto &amp;plano</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="193"/>
         <source>Disable clipboard storing</source>
-        <translation>Deshabilitar el almacenamiento del portapapeles</translation>
+        <translation type="vanished">Deshabilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="194"/>
         <source>Enable clipboard storing</source>
-        <translation>Habilitar el almacenamiento del portapapeles</translation>
+        <translation type="vanished">Habilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="195"/>
         <source>Paste and copy next</source>
-        <translation>Pegar y copiar siguiente</translation>
+        <translation type="vanished">Pegar y copiar siguiente</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="196"/>
         <source>Paste and copy previous</source>
-        <translation>Pegar y copiar abterior</translation>
+        <translation type="vanished">Pegar y copiar abterior</translation>
     </message>
 </context>
 <context>
@@ -1476,12 +1468,22 @@ Poner 0 para deshabilitar.</translation>
         <translation>(&amp;3) Pegar portapapeles con el ratón</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1158"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1139"/>
+        <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1151"/>
+        <source>&amp;Find:</source>
+        <translation type="unfinished">&amp;Buscar:</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1175"/>
         <source>&amp;Load Commands...</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1168"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1185"/>
         <source>Sa&amp;ve Selected Commands...</source>
         <translation type="unfinished"></translation>
     </message>
@@ -1609,9 +1611,8 @@ Nota: Las entradas editadas pueden guardarse con Ctrl+S o F2 al margen de esta o
     xterm -e vim %1</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="559"/>
         <source>gedit %1</source>
-        <translation>gedit %1</translation>
+        <translation type="vanished">gedit %1</translation>
     </message>
     <message>
         <source>Interval in seconds for tray message:</source>
@@ -1730,9 +1731,8 @@ Poner a 0 para deshabilitar.</translation>
         <translation>Ó&amp;rdenes</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1139"/>
         <source>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</source>
-        <translation>Definir qué hacer con un nuevo texto coincidente en el portapapeles. Las órdenes se aplican en el orden de aparición en la lista y también se pueden ejecutar desde el menú principal y con el menú contextual cuando se seleccionan las entradas coincidentes.</translation>
+        <translation type="vanished">Definir qué hacer con un nuevo texto coincidente en el portapapeles. Las órdenes se aplican en el orden de aparición en la lista y también se pueden ejecutar desde el menú principal y con el menú contextual cuando se seleccionan las entradas coincidentes.</translation>
     </message>
     <message>
         <source>Create new command or a add an existing example command.</source>
@@ -1743,16 +1743,18 @@ Poner a 0 para deshabilitar.</translation>
         <translation type="obsolete">Añadir Orden [+]</translation>
     </message>
     <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="286"/>
         <source>Paste and copy next</source>
-        <translation type="obsolete">Pegar y copiar siguiente</translation>
+        <translation type="unfinished">Pegar y copiar siguiente</translation>
     </message>
     <message>
         <source>Paste current clipboard content and copy next item to clipboard.</source>
         <translation type="obsolete">Pegar contenido actual del portapapeles y copiar seguiente entrada al portapapeles.</translation>
     </message>
     <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="288"/>
         <source>Paste and copy previous</source>
-        <translation type="obsolete">Pegar y copiar abterior</translation>
+        <translation type="unfinished">Pegar y copiar abterior</translation>
     </message>
     <message>
         <source>Paste current clipboard content and copy previous item to clipboard.</source>
@@ -1787,7 +1789,7 @@ Poner a 0 para deshabilitar.</translation>
         <translation type="obsolete">Ctrl+Abajo</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1178"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1195"/>
         <source>&amp;Shortcuts</source>
         <translation>Accesos &amp;rápidos</translation>
     </message>
@@ -1996,23 +1998,25 @@ Nota: Las entradas editadas se pueden guardar con F2 Edited items can be saved w
         <translation type="obsolete">Pegar el contenido actual del portapapeles como texto plano (sin formato).</translation>
     </message>
     <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="282"/>
         <source>Disable clipboard storing</source>
-        <translation type="obsolete">Deshabilitar el almacenamiento del portapapeles</translation>
+        <translation type="unfinished">Deshabilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
         <source>Temporarily disable clipboard content to be saved in history.</source>
         <translation type="obsolete">Deshabilitar temporalmente que el contenido del portapapeles se guarde en el historial.</translation>
     </message>
     <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="284"/>
         <source>Enable clipboard storing</source>
-        <translation type="obsolete">Habilitar el almacenamiento del portapapeles</translation>
+        <translation type="unfinished">Habilitar el almacenamiento del portapapeles</translation>
     </message>
     <message>
         <source>Enable clipboard content storing.</source>
         <translation type="obsolete">Habilitar el almacenamiento del contenido del portapapeles.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1188"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1205"/>
         <source>&amp;Appearance</source>
         <translation>&amp;Apariencia</translation>
     </message>
@@ -2157,148 +2161,204 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>!No se pudo guardar la pestaña %1 a %2 (%3)!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="422"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="255"/>
+        <source>Ctrl+Shift+1</source>
+        <comment>Global shortcut for some predefined commands</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="262"/>
+        <source>Show/hide main window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="264"/>
+        <source>Show the tray menu</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="266"/>
+        <source>Edit clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="268"/>
+        <source>Edit first item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="270"/>
+        <source>Copy second item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="272"/>
+        <source>Show action dialog</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="274"/>
+        <source>Create new item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="276"/>
+        <source>Copy next item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="278"/>
+        <source>Copy previous item</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="280"/>
+        <source>Paste clipboard as plain text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="526"/>
         <source>New command</source>
         <translation>Nueva orden</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="427"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="531"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignorar entradas sin ningún carácter o con un solo carácter</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="433"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="537"/>
         <source>Open in &amp;Browser</source>
         <translation>Abrir en &amp;Navegador</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="440"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="544"/>
         <source>Paste as Plain Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="446"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="550"/>
         <source>Shift+Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="448"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="552"/>
         <source>Autoplay videos</source>
         <translation>Reproducir vídeos automáticamente</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="456"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="560"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Copiar URL (dirección web) a otra pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="461"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="565"/>
         <source>Run shell script</source>
         <translation>Ejecutar guión shell</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="469"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="573"/>
         <source>Ctrl+R</source>
         <translation>Ctrl+R</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="472"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="576"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Crear imagen en miniatura (necesita ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="479"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="583"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Crear código QR a partir de una URL (necesita qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="487"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="591"/>
         <source>Label image</source>
         <translation>Etiqueta de imagen</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="501"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="605"/>
         <source>Open URL</source>
         <translation>Abrir URL</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="509"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="613"/>
         <source>Add to &amp;TODO tab</source>
         <translation>Añadir a pestaña &amp;TODO</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="515"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="619"/>
         <source>Move to &amp;TODO tab</source>
         <translation>Mover a pestaña &amp;TODO</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="522"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="626"/>
         <source>Ignore copied files</source>
         <translation>Ignorar ficheros copiados</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="529"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="633"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignorar ventana *&quot;Contraseña&quot;*</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="530"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="634"/>
         <source>Password</source>
         <translation>Contraseña</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="536"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="640"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Encriptar (requiere GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="543"/>
-        <location filename="../src/gui/configurationmanager.cpp" line="552"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="647"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="656"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="545"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="649"/>
         <source>Decrypt</source>
         <translation>Desencriptar</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="554"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="658"/>
         <source>Decrypt and Copy</source>
         <translation>Desencriptar y Copiar</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="559"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="663"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="561"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="665"/>
         <source>Move to Trash</source>
         <translation>Tirar a la Papelera</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="564"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="668"/>
         <source>(trash)</source>
         <translation>(papelera)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1212"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1350"/>
         <source>Open Files with Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1213"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1351"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1222"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1360"/>
         <source>Save Selected Commands</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1223"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1361"/>
         <source>Commands (*.ini)</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2307,27 +2367,27 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="585"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="719"/>
         <source>Cannot create directory for settings %1!</source>
         <translation>¡No se pudo crear directorio para la configuración %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1025"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1164"/>
         <source>Reset preferences?</source>
         <translation>¿Reiniciar preferencias?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1026"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1165"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores por defecto.&lt;br /&gt;&lt;br /&gt;¿Está seguro de que desea &lt;strong&gt;reiniciar todas las preferencias&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1187"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1325"/>
         <source>Restart Required</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="1188"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="1326"/>
         <source>Language will be changed after application is restarted.</source>
         <translation type="unfinished"></translation>
     </message>
@@ -3011,22 +3071,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">Crear una orden nueva o añadir una orden de ejemplo existente.</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="47"/>
+        <location filename="../src/ui/itemorderlist.ui" line="59"/>
         <source>&amp;Add</source>
         <translation>&amp;Añadir</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="63"/>
+        <location filename="../src/ui/itemorderlist.ui" line="75"/>
         <source>&amp;Remove</source>
         <translation>&amp;Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="70"/>
+        <location filename="../src/ui/itemorderlist.ui" line="82"/>
         <source>&amp;Up</source>
         <translation>A&amp;rriba</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="77"/>
+        <location filename="../src/ui/itemorderlist.ui" line="89"/>
         <source>&amp;Down</source>
         <translation>A&amp;bajo</translation>
     </message>
@@ -3737,7 +3797,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">¡No se ha cargado ningún complemento!</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="80"/>
+        <location filename="../src/app/clipboardserver.cpp" line="79"/>
         <source>CopyQ server is already running.</source>
         <translation>El servidor CopyQ ya se está ejecutando.</translation>
     </message>
@@ -4251,6 +4311,14 @@ Print version of program and libraries.</source>
     </message>
 </context>
 <context>
+    <name>ShortcutButton</name>
+    <message>
+        <location filename="../src/gui/shortcutbutton.cpp" line="43"/>
+        <source>Add shortcut</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ShortcutDialog</name>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
@@ -4284,12 +4352,12 @@ Print version of program and libraries.</source>
         <translation type="obsolete">Formulario</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="369"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="370"/>
         <source>There is command overriding this shortcut.</source>
         <translation>Ya hay una orden utilizando este atajo de teclado.</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="370"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="371"/>
         <source>Shortcut already exists!</source>
         <translation>¡EL atajo de teclado ya existe!</translation>
     </message>

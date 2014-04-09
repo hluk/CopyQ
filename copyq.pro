@@ -5,10 +5,13 @@ cache()
 
 SUBDIRS += src \
            plugins
-TRANSLATIONS = translations/copyq_cs.ts \
-               translations/copyq_de.ts \
-               translations/copyq_es.ts \
-               translations/copyq_fr.ts
+TRANSLATIONS = \
+    translations/copyq_cs.ts \
+    translations/copyq_de.ts \
+    translations/copyq_es.ts \
+    translations/copyq_fr.ts \
+    translations/copyq_ru.ts \
+    translations/copyq_uk.ts
 
 macx {
     package_plugins.commands = \
