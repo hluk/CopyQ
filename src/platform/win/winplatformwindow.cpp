@@ -68,7 +68,7 @@ QString WinPlatformWindow::getTitle()
 #   ifdef UNICODE
     return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
 #   else
-    return QString::fromLocal8Bit(buf);
+    return QString::fromUtf8(buf);
 #   endif
 }
 

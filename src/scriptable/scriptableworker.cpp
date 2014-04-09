@@ -86,12 +86,12 @@ void ScriptableWorker::run()
         if ( hasLogLevel(LogDebug) ) {
             MONITOR_LOG("Client arguments:");
             for (int i = Arguments::Rest; i < m_args.length(); ++i)
-                MONITOR_LOG( "    " + QString::fromLocal8Bit(m_args.at(i)) );
+                MONITOR_LOG( "    " + QString::fromUtf8(m_args.at(i)) );
         }
 
 #ifdef HAS_TESTS
         if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
-            MONITOR_LOG( "flush ID: " + QString::fromLocal8Bit(m_args.at(Arguments::Rest + 1)) );
+            MONITOR_LOG( "flush ID: " + QString::fromUtf8(m_args.at(Arguments::Rest + 1)) );
             scriptable.sendMessageToClient(QByteArray(), CommandFinished);
             return;
         }
@@ -103,7 +103,7 @@ void ScriptableWorker::run()
             response = createLogMessage("CopyQ client",
                                         Scriptable::tr("Name \"%1\" doesn't refer to a function.")
                                         .arg(cmd),
-                                        LogError).toLocal8Bit();
+                                        LogError).toUtf8();
             exitCode = CommandError;
         } else {
             QScriptValueList fnArgs;
@@ -116,14 +116,14 @@ void ScriptableWorker::run()
                 const QString exceptionText = engine.uncaughtException().toString();
                 MONITOR_LOG( QString("Error: exception in command \"%1\": %2")
                              .arg(cmd).arg(exceptionText) );
-                response = createLogMessage("CopyQ client", exceptionText, LogError).toLocal8Bit();
+                response = createLogMessage("CopyQ client", exceptionText, LogError).toUtf8();
                 exitCode = CommandError;
             } else {
                 QByteArray *bytes = qscriptvalue_cast<QByteArray*>(result.data());
                 if (bytes != NULL)
                     response = *bytes;
                 else if (!result.isUndefined())
-                    response = result.toString().toLocal8Bit() + '\n';
+                    response = result.toString().toUtf8() + '\n';
                 exitCode = CommandFinished;
             }
         }

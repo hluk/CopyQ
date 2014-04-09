@@ -270,7 +270,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 #endif
 {
     Q_ASSERT(argc == 3);
-    const QString serverName( QString::fromLocal8Bit(argv[2]) );
+    const QString serverName( QString::fromUtf8(argv[2]) );
 
 #ifdef HAS_TESTS
     if ( serverName == QString("copyq_TEST") )

@@ -299,7 +299,7 @@ void Action::actionOutput()
         return;
     }
 
-    m_lastOutput.append( QString::fromLocal8Bit(readAll()) );
+    m_lastOutput.append( QString::fromUtf8(readAll()) );
     if ( m_lastOutput.isEmpty() || m_sep.isEmpty() )
         return;
 
@@ -315,7 +315,7 @@ void Action::actionOutput()
 
 void Action::actionErrorOutput()
 {
-    m_errstr += QString::fromLocal8Bit( readAllStandardError() );
+    m_errstr += QString::fromUtf8( readAllStandardError() );
 }
 
 void Action::terminate()

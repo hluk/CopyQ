@@ -63,7 +63,7 @@ int copyq_xio_errhandler(Display *display)
 QString getDesktopFilename()
 {
     const char *path = getenv("XDG_CONFIG_HOME");
-    QString filename = path ? QString::fromLocal8Bit(path) : QDir::homePath() + "/.config";
+    QString filename = path ? QString::fromUtf8(path) : QDir::homePath() + "/.config";
     filename.append("/autostart/" + QCoreApplication::applicationName() + ".desktop");
     return filename;
 }

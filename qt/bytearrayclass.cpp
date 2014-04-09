@@ -241,7 +241,7 @@ QScriptValue ByteArrayClass::toScriptValueFromString(QScriptEngine *eng, const Q
     ByteArrayClass *cls = qscriptvalue_cast<ByteArrayClass*>(ctor.data());
     if (!cls)
         return eng->newVariant(QVariant::fromValue(str));
-    return cls->newInstance(str.toLocal8Bit());
+    return cls->newInstance(str.toUtf8());
 }
 
 void ByteArrayClass::fromScriptValue(const QScriptValue &obj, QByteArray &ba)

@@ -77,7 +77,7 @@ Arguments::Arguments(int argc, char **argv, int skipArgc)
     for (int i = skipArgc; i < argc; ++i) {
         const char *arg = argv[i];
         if (readRaw) {
-            m_args.append( QString::fromLocal8Bit(arg).toUtf8() );
+            m_args.append( QString::fromUtf8(arg).toUtf8() );
         } else {
             if ( arg[0] == '-' ) {
                 if ( arg[1] == '\0' ) {

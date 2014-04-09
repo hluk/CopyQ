@@ -1399,7 +1399,7 @@ bool ClipboardBrowser::openEditor()
 {
     const QModelIndexList selected = selectionModel()->selectedRows();
     return (selected.size() == 1) ? openEditor( selected.first() )
-                                  : openEditor( selectedText().toLocal8Bit() );
+                                  : openEditor( selectedText().toUtf8() );
 }
 
 bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
@@ -2114,7 +2114,7 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
     // Verify that match command accepts item text.
     if ( !command.matchCmd.isEmpty() ) {
-        Action matchAction(command.matchCmd, text.toLocal8Bit(), QStringList(text), QStringList());
+        Action matchAction(command.matchCmd, text.toUtf8(), QStringList(text), QStringList());
         matchAction.start();
 
         // TODO: This should be async, i.e. create object (in new thread) that validates command and

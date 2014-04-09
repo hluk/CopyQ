@@ -71,7 +71,7 @@ typedef QStringList Args;
 
 QByteArray toByteArray(const QString &text)
 {
-    return text.toLocal8Bit();
+    return text.toUtf8();
 }
 
 QByteArray toByteArray(const QByteArray &text)
@@ -104,7 +104,7 @@ bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag
     static const QRegExp re(scriptExceptionError + "|warning:|error:|ASSERT", Qt::CaseInsensitive);
     int from = 0;
     bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
-    const QString output = QString::fromLocal8Bit(stderrData);
+    const QString output = QString::fromUtf8(stderrData);
     forever {
         from = output.indexOf(re, from);
         if (from == -1)
@@ -214,7 +214,7 @@ public:
             return QString("Failed to launch \"%1\": %2")
                 .arg(QApplication::applicationFilePath())
                 .arg(m_server->errorString())
-                .toLocal8Bit();
+                .toUtf8();
         }
 
         // Wait for client/server communication is established.
@@ -341,13 +341,13 @@ public:
             return QString("Test failed: Unexpected exit code %1; expected was %2")
                     .arg(exitCode)
                     .arg(expectedExitCode)
-                    .toLocal8Bit()
+                    .toUtf8()
                     + printClienAndServerStderr(stderrActual, exitCode);
         }
 
         if ( !stderrActual.contains(stderrContains) ) {
             return QString("Test failed: Expected error output on client side with \"%1\".")
-                    .arg(QString::fromLocal8Bit(stderrContains)).toLocal8Bit()
+                    .arg(QString::fromUtf8(stderrContains)).toUtf8()
                     + printClienAndServerStderr(stderrActual, exitCode);
         }
 
@@ -532,7 +532,7 @@ private:
         const QByteArray actualBytes = getClipboard(mime);
         if (actualBytes != bytes) {
             return QString("Test failed (clipboard data for MIME \"%1\"): ")
-                    .arg(mime).toLocal8Bit()
+                    .arg(mime).toUtf8()
                     + decorateOutput("Unexpected content", actualBytes)
                     + decorateOutput("Expected content", bytes);
         }
@@ -676,7 +676,7 @@ void Tests::helpCommand()
         QCOMPARE( run(Args("help") << command, &stdoutActual, &stderrActual), 0 );
         QVERIFY2( testStderr(stderrActual), stderrActual );
         QVERIFY( !stdoutActual.isEmpty() );
-        const QString help = QString::fromLocal8Bit(stdoutActual);
+        const QString help = QString::fromUtf8(stdoutActual);
         QVERIFY( help.contains(QRegExp("\\b" + QRegExp::escape(command) + "\\b")) );
     }
 }
@@ -689,7 +689,7 @@ void Tests::versionCommand()
     QVERIFY2( testStderr(stderrActual), stderrActual );
     QVERIFY( !stdoutActual.isEmpty() );
 
-    const QString version = QString::fromLocal8Bit(stdoutActual);
+    const QString version = QString::fromUtf8(stdoutActual);
     // Version contains application name and version.
     QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*v" + QRegExp::escape(COPYQ_VERSION))) );
     // Version contains Qt version.
@@ -709,7 +709,7 @@ void Tests::badCommand()
     // Bad command shoudn't create new tab.
     QCOMPARE( run(Args("tab"), &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
-    QVERIFY( !QString::fromLocal8Bit(stdoutActual)
+    QVERIFY( !QString::fromUtf8(stdoutActual)
              .contains(QRegExp("^" + QRegExp::escape(testTab(1)) + "$")) );
 }
 
@@ -718,20 +718,20 @@ void Tests::copyCommand()
     const QByteArray data = "copyCommand";
 
     const QByteArray data1 = generateData(data);
-    RUN( Args() << "copy" << QString::fromLocal8Bit(data1), "" );
+    RUN( Args() << "copy" << QString::fromUtf8(data1), "" );
     QVERIFY( waitUntilClipboardSet(data1) );
     RUN( Args("clipboard"), data1 );
 
     const QByteArray data2 = generateData(data);
-    RUN( Args() << "copy" << "DATA" << QString::fromLocal8Bit(data2), "" );
+    RUN( Args() << "copy" << "DATA" << QString::fromUtf8(data2), "" );
     QVERIFY( waitUntilClipboardSet(data2, "DATA") );
     RUN( Args("clipboard") << "DATA", data2 );
 
     const QByteArray data3 = generateData(data);
     const QByteArray data4 = generateData(data);
     RUN( Args() << "copy"
-         << "DATA3" << QString::fromLocal8Bit(data3)
-         << "DATA4" << QString::fromLocal8Bit(data4)
+         << "DATA3" << QString::fromUtf8(data3)
+         << "DATA4" << QString::fromUtf8(data4)
          , "" );
     QVERIFY( waitUntilClipboardSet(data3, "DATA3") );
     QVERIFY( waitUntilClipboardSet(data4, "DATA4") );
@@ -770,7 +770,7 @@ void Tests::createAndCopyNewItem()
         RUN(Args() << "tab" << tab << "read" << "0", itemText);
 
         RUN(Args() << "keys" << keyNameFor(QKeySequence::Copy), "");
-        QVERIFY( waitUntilClipboardSet(itemText.toLocal8Bit()) );
+        QVERIFY( waitUntilClipboardSet(itemText.toUtf8()) );
         RUN(Args("clipboard"), itemText);
     }
 }
@@ -1218,7 +1218,7 @@ void Tests::externalEditor()
     file.setFileName(out);
     QVERIFY( file.exists() );
     QVERIFY( file.open(QIODevice::ReadWrite) );
-    QVERIFY( file.readAll() == text.toLocal8Bit() );
+    QVERIFY( file.readAll() == text.toUtf8() );
 
     // Modify first item.
     const QByteArray data3 = generateData(data);
@@ -1231,7 +1231,7 @@ void Tests::externalEditor()
     RUN(Args(editorArgs) << "remove" << "0", "");
 
     // Check first item.
-    WAIT_UNTIL(Args(args) << "read" << "0", out == text.toLocal8Bit() + data3, out);
+    WAIT_UNTIL(Args(args) << "read" << "0", out == text.toUtf8() + data3, out);
 
     // Edit new item.
     RUN(Args(args) << "edit", "");
@@ -1442,7 +1442,7 @@ bool Tests::hasTab(const QString &tabName)
 {
     QByteArray out;
     run(Args("tab"), &out);
-    return QString::fromLocal8Bit(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
+    return QString::fromUtf8(out).split(QRegExp("\r\n|\n|\r")).contains(tabName);
 }
 
 int runTests(int argc, char *argv[])

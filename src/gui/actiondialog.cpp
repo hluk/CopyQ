@@ -180,7 +180,7 @@ void ActionDialog::createAction()
             inputFormats.append(format);
 
         if ( !input.isEmpty() ) {
-            bytes = input.toLocal8Bit();
+            bytes = input.toUtf8();
         } else if ( !m_data.isEmpty() ) {
             if (format == mimeItems) {
                 QVariantMap data2;

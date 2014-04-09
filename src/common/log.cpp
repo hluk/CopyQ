@@ -51,7 +51,7 @@ int getLogLevel()
 
 QString getLogFileName()
 {
-    const QString fileName = QString::fromLocal8Bit( qgetenv("COPYQ_LOG_FILE") );
+    const QString fileName = QString::fromUtf8( qgetenv("COPYQ_LOG_FILE") );
     return QDir::fromNativeSeparators(fileName);
 }
 
@@ -102,5 +102,5 @@ void log(const QString &text, const LogLevel level)
         f.setFileName(logFileName);
         f.open(QIODevice::Append);
     }
-    f.write( msg.toLocal8Bit() );
+    f.write( msg.toUtf8() );
 }

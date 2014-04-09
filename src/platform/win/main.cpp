@@ -50,7 +50,7 @@ public:
 
         // *.com -> *.exe
         if ( !m_cmd.endsWith(".com", Qt::CaseInsensitive) ) {
-            ferr.write( QObject::tr("ERROR: Unexpected binary file name!\n").toLocal8Bit() );
+            ferr.write( QObject::tr("ERROR: Unexpected binary file name!\n").toUtf8() );
             m_exitCode = -1;
             return;
         }
@@ -58,7 +58,7 @@ public:
 
         p.start(m_cmd, m_arguments);
         if ( !p.waitForStarted(-1) ) {
-            ferr.write( QObject::tr("ERROR: Failed to start \"%1\"!\n").toLocal8Bit() );
+            ferr.write( QObject::tr("ERROR: Failed to start \"%1\"!\n").toUtf8() );
             m_exitCode = -2;
             return;
         }
@@ -79,7 +79,7 @@ public:
         ferr.write( p.readAllStandardError() );
 
         if ( p.error() != QProcess::Timedout && p.error() != QProcess::UnknownError ) {
-            ferr.write( p.errorString().toLocal8Bit() );
+            ferr.write( p.errorString().toUtf8() );
             ferr.write("\n");
             m_exitCode = -3;
             return;

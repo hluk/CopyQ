@@ -106,7 +106,7 @@ void ActionHandler::actionStarted(Action *action)
     QString text = tr("KILL") + " " + action->command();
     QString tooltip = tr("<b>COMMAND:</b>") + "<br />" + escapeHtml(text) + "<br />" +
                       tr("<b>INPUT:</b>") + "<br />" +
-                      escapeHtml( QString::fromLocal8Bit(action->input()) );
+                      escapeHtml( QString::fromUtf8(action->input()) );
 
     QAction *act = new QAction(action);
     act->setToolTip(tooltip);

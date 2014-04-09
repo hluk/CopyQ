@@ -58,7 +58,7 @@ void printError(const QString &text)
 {
     QFile f;
     f.open(stderr, QIODevice::WriteOnly);
-    f.write( QObject::tr("CopyQ ERROR: %1\n").arg(text).toLocal8Bit() );
+    f.write( QObject::tr("CopyQ ERROR: %1\n").arg(text).toUtf8() );
 }
 
 } // namespace
@@ -152,7 +152,7 @@ void ItemEditor::close()
         emitError( tr("editor exit code is %1").arg(m_editor->exitCode()) );
         const QByteArray errors = m_editor->readAllStandardError();
         if ( !errors.isEmpty() )
-            emitError( QString::fromLocal8Bit(errors) );
+            emitError( QString::fromUtf8(errors) );
     }
 
     emit closed(this);

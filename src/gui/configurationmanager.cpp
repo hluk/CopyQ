@@ -700,7 +700,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
 
 QString ConfigurationManager::itemFileName(const QString &id) const
 {
-    QString part( id.toLocal8Bit().toBase64() );
+    QString part( id.toUtf8().toBase64() );
     part.replace( QChar('/'), QString('-') );
     return m_datfilename + part + QString(".dat");
 }
@@ -1229,7 +1229,7 @@ QStringList ConfigurationManager::savedTabs() const
     foreach (const QString fileName, files) {
         if ( fileName.contains(re) ) {
             const QString tabName =
-                    QString::fromLocal8Bit(QByteArray::fromBase64(re.cap(1).toLocal8Bit()));
+                    QString::fromUtf8(QByteArray::fromBase64(re.cap(1).toUtf8()));
             if ( !tabs.contains(tabName) )
                 tabs.append(tabName);
         }

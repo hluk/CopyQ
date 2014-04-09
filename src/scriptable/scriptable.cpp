@@ -340,7 +340,7 @@ QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
 
 QByteArray Scriptable::fromString(const QString &value) const
 {
-  QByteArray bytes = value.toLocal8Bit();
+  QByteArray bytes = value.toUtf8();
 #ifdef COPYQ_OS_WIN
   bytes.replace('\n', "\r\n");
 #endif
@@ -351,7 +351,7 @@ QString Scriptable::toString(const QScriptValue &value) const
 {
     QByteArray *bytes = toByteArray(value);
     return (bytes == NULL) ? value.toString()
-                           : QString::fromLocal8Bit( bytes->data() );
+                           : QString::fromUtf8( bytes->data() );
 }
 
 bool Scriptable::toInt(const QScriptValue &value, int &number) const
@@ -388,7 +388,7 @@ QScriptValue Scriptable::applyRest(int first)
     QString name = toString(fn);
     fn = getValue(engine(), name);
     if ( !fn.isFunction() ) {
-        throwError( tr("Name \"%1\" doesn't refer to a function.").arg(name).toLocal8Bit() );
+        throwError( tr("Name \"%1\" doesn't refer to a function.").arg(name).toUtf8() );
         return QScriptValue();
     }
 
