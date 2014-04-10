@@ -60,6 +60,8 @@ public:
 
     void setPosition(Position position);
 
+    void setOffset(int horizontalPoints, int verticalPoints);
+
     QSize maximumSize() const;
 
     void updateAppearance();
@@ -83,10 +85,15 @@ private:
 
     void hideNotification(Notification *notification);
 
+    int offsetX() const;
+    int offsetY() const;
+
     int m_lastId;
     Position m_position;
     QMap<int, Notification*> m_notifications;
     qreal m_opacity;
+    int m_horizontalOffsetPoints;
+    int m_verticalOffsetPoints;
 };
 
 #endif // NOTIFICATIONDAEMON_H

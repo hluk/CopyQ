@@ -471,6 +471,10 @@ void MainWindow::updateNotifications()
     }
     m_notifications->setPosition(position);
 
+    const int x = cm->value("notification_horizontal_offset").toInt();
+    const int y = cm->value("notification_vertical_offset").toInt();
+    m_notifications->setOffset(x, y);
+
     m_notifications->updateInterval(0, m_options->itemPopupInterval);
 
     m_notifications->updateAppearance();

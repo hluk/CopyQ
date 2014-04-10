@@ -881,6 +881,8 @@ void ConfigurationManager::initOptions()
     bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);
     bind("notification_position", ui->comboBoxNotificationPosition, 3);
     bind("clipboard_notification_lines", ui->spinBoxClipboardNotificationLines, 0);
+    bind("notification_horizontal_offset", ui->spinBoxHorizontalOffset, 10);
+    bind("notification_vertical_offset", ui->spinBoxVerticalOffset, 10);
     bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
     bind("move", ui->checkBoxMove, true);
     bind("check_clipboard", ui->checkBoxClip, true);

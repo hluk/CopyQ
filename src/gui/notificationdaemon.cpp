@@ -30,7 +30,21 @@
 #include <QPoint>
 #include <QVariant>
 
-static const int notificationMargin = 8;
+namespace {
+
+const int notificationMarginPoints = 10;
+
+int pointsToPixels(int points)
+{
+    return points * QApplication::desktop()->physicalDpiX() / 72;
+}
+
+int notificationMargin()
+{
+    return pointsToPixels(notificationMarginPoints);
+}
+
+} // namespace
 
 NotificationDaemon::NotificationDaemon(QObject *parent)
     : QObject(parent)
@@ -38,6 +52,8 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_position(BottomRight)
     , m_notifications()
     , m_opacity(1.0)
+    , m_horizontalOffsetPoints(0)
+    , m_verticalOffsetPoints(0)
 {
 }
 
@@ -116,6 +132,12 @@ void NotificationDaemon::setPosition(NotificationDaemon::Position position)
     m_position = position;
 }
 
+void NotificationDaemon::setOffset(int horizontalPoints, int verticalPoints)
+{
+    m_horizontalOffsetPoints = horizontalPoints;
+    m_verticalOffsetPoints = verticalPoints;
+}
+
 QSize NotificationDaemon::maximumSize() const
 {
     QRect screen = QApplication::desktop()->availableGeometry();
@@ -164,7 +186,7 @@ QPoint NotificationDaemon::findPosition(Notification *notification)
 {
     QRect screen = QApplication::desktop()->availableGeometry();
 
-    int y = (m_position & Top) ? 0 : screen.bottom();
+    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
     foreach (Notification *notification2, m_notifications.values()) {
         if (notification != notification2) {
             if (m_position & Top)
@@ -175,15 +197,15 @@ QPoint NotificationDaemon::findPosition(Notification *notification)
     }
 
     if (m_position & Bottom)
-        y -= notification->height() + notificationMargin;
+        y -= notification->height() + notificationMargin();
     else
-        y += notificationMargin;
+        y += notificationMargin();
 
     int x;
     if (m_position & Left)
-        x = notificationMargin;
+        x = offsetX();
     else if (m_position & Right)
-        x = screen.width() - notification->width() - notificationMargin;
+        x = screen.width() - notification->width() - offsetX();
     else
         x = screen.width() / 2 - notification->width() / 2;
 
@@ -233,11 +255,21 @@ void NotificationDaemon::hideNotification(Notification *notification)
     notification->hide();
 
     const int y = notification->y();
-    const int d = (notification->height() + notificationMargin) * ((m_position & Bottom) ? 1 : -1);
+    const int d = (notification->height() + notificationMargin()) * ((m_position & Bottom) ? 1 : -1);
 
     foreach (Notification *notification2, m_notifications.values()) {
         const int y2 = notification2->y();
         if ( m_position & Bottom ? y2 < y : y2 > y )
             notification2->move( notification2->x(), y2 + d );
     }
+}
+
+int NotificationDaemon::offsetX() const
+{
+    return pointsToPixels(m_horizontalOffsetPoints);
+}
+
+int NotificationDaemon::offsetY() const
+{
+    return pointsToPixels(m_verticalOffsetPoints);
 }
