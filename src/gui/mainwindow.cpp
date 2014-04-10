@@ -148,6 +148,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_timerShowWindow( new QTimer(this) )
     , m_timerSaveGeometry( new QTimer(this) )
     , m_trayTimer(NULL)
+    , m_trayIconSnipTimer(NULL)
     , m_notifications(NULL)
     , m_timerMiminizing(NULL)
     , m_minimizeUnsupported(false)
@@ -425,11 +426,31 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
 
 void MainWindow::updateIcon()
 {
-    AppIconFlag flags = m_clipboardStoringDisabled ? AppIconDisabled : AppIconNormal;
-    QIcon icon = appIcon(flags);
+    AppIconFlags flags = m_clipboardStoringDisabled ? AppIconDisabled : AppIconNormal;
+
+    if (hasRunningAction()) {
+        flags |= AppIconRunning;
+
+        // Show running icon for some minimal time (nice snip effect with default icon).
+        if (!m_trayIconSnipTimer) {
+            m_trayIconSnipTimer = new QTimer(this);
+            m_trayIconSnipTimer->start(250);
+            m_trayIconSnipTimer->setSingleShot(true);
+            connect( m_trayIconSnipTimer, SIGNAL(timeout()), this, SLOT(updateIcon()) );
+        }
+    } else if (m_trayIconSnipTimer) {
+        if (m_trayIconSnipTimer->isActive()) {
+            flags |= AppIconRunning;
+        } else {
+            delete m_trayIconSnipTimer;
+            m_trayIconSnipTimer = NULL;
+        }
+    }
+
+    const QIcon icon = appIcon(flags);
 
     if (m_options->showTray)
-        m_tray->setIcon( hasRunningAction() ? appIcon(flags | AppIconRunning) : icon );
+        m_tray->setIcon(icon);
 
     setWindowIcon(icon);
 }

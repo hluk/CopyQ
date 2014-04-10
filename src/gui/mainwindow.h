@@ -436,6 +436,7 @@ private:
     QTimer *m_timerShowWindow;
     QTimer *m_timerSaveGeometry;
     QTimer *m_trayTimer;
+    QTimer *m_trayIconSnipTimer;
 
     NotificationDaemon *m_notifications;
 
