@@ -1482,8 +1482,7 @@ QVariant MainWindow::config(const QString &name, const QString &value)
         options.sort();
         QString opts;
         foreach (const QString &option, options)
-            opts.append( option + "\n  " +
-                         cm->optionToolTip(option).replace('\n', "\n  ").toLocal8Bit() + '\n' );
+            opts.append( option + "\n  " + cm->optionToolTip(option).replace('\n', "\n  ") + '\n' );
         return opts;
     }
 
