@@ -878,11 +878,13 @@ void ConfigurationManager::initOptions()
     bind("maxitems", ui->spinBoxItems, 200);
     bind("expire_tab", ui->spinBoxExpireTab, 0);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
-    bind("item_popup_interval", ui->spinBoxItemPopupInterval, 0);
+    bind("item_popup_interval", ui->spinBoxNotificationPopupInterval, 0);
     bind("notification_position", ui->comboBoxNotificationPosition, 3);
     bind("clipboard_notification_lines", ui->spinBoxClipboardNotificationLines, 0);
-    bind("notification_horizontal_offset", ui->spinBoxHorizontalOffset, 10);
-    bind("notification_vertical_offset", ui->spinBoxVerticalOffset, 10);
+    bind("notification_horizontal_offset", ui->spinBoxNotificationHorizontalOffset, 10);
+    bind("notification_vertical_offset", ui->spinBoxNotificationVerticalOffset, 10);
+    bind("notification_maximum_width", ui->spinBoxNotificationMaximumWidth, 300);
+    bind("notification_maximum_height", ui->spinBoxNotificationMaximumHeight, 100);
     bind("edit_ctrl_return", ui->checkBoxEditCtrlReturn, true);
     bind("move", ui->checkBoxMove, true);
     bind("check_clipboard", ui->checkBoxClip, true);

@@ -496,6 +496,10 @@ void MainWindow::updateNotifications()
     const int y = cm->value("notification_vertical_offset").toInt();
     m_notifications->setOffset(x, y);
 
+    const int w = cm->value("notification_maximum_width").toInt();
+    const int h = cm->value("notification_maximum_height").toInt();
+    m_notifications->setMaximumSize(w, h);
+
     m_notifications->updateInterval(0, m_options->itemPopupInterval);
 
     m_notifications->updateAppearance();

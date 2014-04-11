@@ -54,6 +54,8 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_opacity(1.0)
     , m_horizontalOffsetPoints(0)
     , m_verticalOffsetPoints(0)
+    , m_maximumWidthPoints(300)
+    , m_maximumHeightPoints(100)
 {
 }
 
@@ -78,7 +80,7 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
 
     notification->setIcon(icon);
 
-    const int width = maximumSize().width() - icon.width() - 16 - 8;
+    const int width = pointsToPixels(m_maximumWidthPoints) - icon.width() - 16 - 8;
 
     const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
@@ -138,15 +140,10 @@ void NotificationDaemon::setOffset(int horizontalPoints, int verticalPoints)
     m_verticalOffsetPoints = verticalPoints;
 }
 
-QSize NotificationDaemon::maximumSize() const
+void NotificationDaemon::setMaximumSize(int maximumWidthPoints, int maximumHeightPoints)
 {
-    QRect screen = QApplication::desktop()->availableGeometry();
-    int w = screen.width();
-    int h = screen.height();
-    w = qMax(qMin(w, 200), w / 3);
-    h = qMax(qMin(h, 200), h / 3);
-
-    return QSize(w, h);
+    m_maximumWidthPoints = maximumWidthPoints;
+    m_maximumHeightPoints = maximumHeightPoints;
 }
 
 void NotificationDaemon::updateAppearance()
@@ -243,7 +240,7 @@ void NotificationDaemon::popupNotification(Notification *notification, int msec)
     notification->resize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
     notification->adjust();
 
-    notification->setMaximumSize( maximumSize() );
+    notification->setMaximumSize( pointsToPixels(m_maximumWidthPoints), pointsToPixels(m_maximumHeightPoints) );
 
     const QPoint pos = findPosition(notification);
 

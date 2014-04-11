@@ -62,7 +62,7 @@ public:
 
     void setOffset(int horizontalPoints, int verticalPoints);
 
-    QSize maximumSize() const;
+    void setMaximumSize(int maximumWidthPoints, int maximumHeightPoints);
 
     void updateAppearance();
 
@@ -94,6 +94,8 @@ private:
     qreal m_opacity;
     int m_horizontalOffsetPoints;
     int m_verticalOffsetPoints;
+    int m_maximumWidthPoints;
+    int m_maximumHeightPoints;
 };
 
 #endif // NOTIFICATIONDAEMON_H

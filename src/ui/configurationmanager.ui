@@ -982,14 +982,14 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                   <string>Interval in seconds to display notifications:</string>
                  </property>
                  <property name="buddy">
-                  <cstring>spinBoxItemPopupInterval</cstring>
+                  <cstring>spinBoxNotificationPopupInterval</cstring>
                  </property>
                 </widget>
                </item>
                <item row="1" column="1">
                 <layout class="QHBoxLayout" name="horizontalLayout_9">
                  <item>
-                  <widget class="QSpinBox" name="spinBoxItemPopupInterval">
+                  <widget class="QSpinBox" name="spinBoxNotificationPopupInterval">
                    <property name="toolTip">
                     <string>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
@@ -1001,7 +1001,7 @@ Set to -1 to keep visible until clicked.</string>
                     <number>-1</number>
                    </property>
                    <property name="maximum">
-                    <number>999</number>
+                    <number>9999</number>
                    </property>
                   </widget>
                  </item>
@@ -1040,7 +1040,7 @@ Set to -1 to keep visible until clicked.</string>
 Set to 0 to disable.</string>
                    </property>
                    <property name="maximum">
-                    <number>999</number>
+                    <number>9999</number>
                    </property>
                   </widget>
                  </item>
@@ -1059,81 +1059,164 @@ Set to 0 to disable.</string>
                  </item>
                 </layout>
                </item>
-               <item row="3" column="0">
-                <widget class="QLabel" name="label_7">
-                 <property name="text">
-                  <string>Ho&amp;rizontal offset in screen points:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>spinBoxHorizontalOffset</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="4" column="0">
-                <widget class="QLabel" name="label_10">
-                 <property name="text">
-                  <string>&amp;Vertical offset in screen points:</string>
-                 </property>
-                 <property name="buddy">
-                  <cstring>spinBoxVerticalOffset</cstring>
-                 </property>
-                </widget>
-               </item>
-               <item row="3" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_19">
-                 <item>
-                  <widget class="QSpinBox" name="spinBoxHorizontalOffset">
-                   <property name="toolTip">
-                    <string>Notification distance from left or right screen edge in points.</string>
-                   </property>
-                   <property name="maximum">
-                    <number>999</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_19">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
-               <item row="4" column="1">
-                <layout class="QHBoxLayout" name="horizontalLayout_20">
-                 <item>
-                  <widget class="QSpinBox" name="spinBoxVerticalOffset">
-                   <property name="toolTip">
-                    <string>Notification distance from top or bottom screen edge in points.</string>
-                   </property>
-                   <property name="maximum">
-                    <number>999</number>
-                   </property>
-                  </widget>
-                 </item>
-                 <item>
-                  <spacer name="horizontalSpacer_20">
-                   <property name="orientation">
-                    <enum>Qt::Horizontal</enum>
-                   </property>
-                   <property name="sizeHint" stdset="0">
-                    <size>
-                     <width>40</width>
-                     <height>20</height>
-                    </size>
-                   </property>
-                  </spacer>
-                 </item>
-                </layout>
-               </item>
               </layout>
+             </item>
+             <item>
+              <widget class="QGroupBox" name="groupBox_2">
+               <property name="title">
+                <string>Notification Geometry (in screen points)</string>
+               </property>
+               <layout class="QFormLayout" name="formLayout_4">
+                <item row="0" column="0">
+                 <widget class="QLabel" name="label_7">
+                  <property name="text">
+                   <string>Ho&amp;rizontal offset:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>spinBoxNotificationHorizontalOffset</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="0" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_19">
+                  <item>
+                   <widget class="QSpinBox" name="spinBoxNotificationHorizontalOffset">
+                    <property name="toolTip">
+                     <string>Notification distance from left or right screen edge in screen points.</string>
+                    </property>
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_19">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item row="1" column="0">
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>&amp;Vertical offset:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>spinBoxNotificationVerticalOffset</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="1" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_20">
+                  <item>
+                   <widget class="QSpinBox" name="spinBoxNotificationVerticalOffset">
+                    <property name="toolTip">
+                     <string>Notification distance from top or bottom screen edge in screen points.</string>
+                    </property>
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_20">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item row="2" column="0">
+                 <widget class="QLabel" name="label_13">
+                  <property name="text">
+                   <string>Maximum &amp;width:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>spinBoxNotificationMaximumWidth</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="2" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_21">
+                  <item>
+                   <widget class="QSpinBox" name="spinBoxNotificationMaximumWidth">
+                    <property name="toolTip">
+                     <string>Maximum width for notification in screen points.</string>
+                    </property>
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_21">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+                <item row="3" column="0">
+                 <widget class="QLabel" name="label_14">
+                  <property name="text">
+                   <string>Ma&amp;ximum height:</string>
+                  </property>
+                  <property name="buddy">
+                   <cstring>spinBoxNotificationMaximumHeight</cstring>
+                  </property>
+                 </widget>
+                </item>
+                <item row="3" column="1">
+                 <layout class="QHBoxLayout" name="horizontalLayout_22">
+                  <item>
+                   <widget class="QSpinBox" name="spinBoxNotificationMaximumHeight">
+                    <property name="toolTip">
+                     <string>Maximum height for notification in screen points.</string>
+                    </property>
+                    <property name="maximum">
+                     <number>9999</number>
+                    </property>
+                   </widget>
+                  </item>
+                  <item>
+                   <spacer name="horizontalSpacer_22">
+                    <property name="orientation">
+                     <enum>Qt::Horizontal</enum>
+                    </property>
+                    <property name="sizeHint" stdset="0">
+                     <size>
+                      <width>40</width>
+                      <height>20</height>
+                     </size>
+                    </property>
+                   </spacer>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </widget>
              </item>
              <item>
               <spacer name="verticalSpacer_7">
@@ -1356,10 +1439,12 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxTrayImages</tabstop>
   <tabstop>scrollArea_4</tabstop>
   <tabstop>comboBoxNotificationPosition</tabstop>
-  <tabstop>spinBoxItemPopupInterval</tabstop>
+  <tabstop>spinBoxNotificationPopupInterval</tabstop>
   <tabstop>spinBoxClipboardNotificationLines</tabstop>
-  <tabstop>spinBoxHorizontalOffset</tabstop>
-  <tabstop>spinBoxVerticalOffset</tabstop>
+  <tabstop>spinBoxNotificationHorizontalOffset</tabstop>
+  <tabstop>spinBoxNotificationVerticalOffset</tabstop>
+  <tabstop>spinBoxNotificationMaximumWidth</tabstop>
+  <tabstop>spinBoxNotificationMaximumHeight</tabstop>
   <tabstop>scrollArea_3</tabstop>
   <tabstop>itemOrderListPlugins</tabstop>
   <tabstop>lineEditFilterCommands</tabstop>
