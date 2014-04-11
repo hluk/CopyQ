@@ -25,6 +25,7 @@
 #include "common/log.h"
 
 #include <QCoreApplication>
+#include <QDataStream>
 #include <QLocalServer>
 #include <QLocalSocket>
 

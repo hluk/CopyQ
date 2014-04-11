@@ -23,6 +23,8 @@
 #include "common/client_server.h"
 #include "common/log.h"
 
+#include <QDataStream>
+
 #define SOCKET_LOG(text) \
     COPYQ_LOG( QString("%1: %2").arg(property("id").toInt()).arg(text) )
 

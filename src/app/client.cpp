@@ -23,6 +23,7 @@
 #include "common/clientsocket.h"
 
 #include <QCoreApplication>
+#include <QDataStream>
 #include <QLocalSocket>
 #include <QThread>
 
