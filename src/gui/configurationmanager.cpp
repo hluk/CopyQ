@@ -769,6 +769,8 @@ void ConfigurationManager::updateIcons()
 void ConfigurationManager::registerWindowGeometry(QWidget *window)
 {
     window->installEventFilter(this);
+    const QString optionName = getGeomentryOptionName(window, false);
+    window->restoreGeometry( QSettings().value(optionName).toByteArray() );
 }
 
 bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
