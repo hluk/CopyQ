@@ -100,14 +100,6 @@ public:
             const QString &newId //!< See ClipboardBrowser::getID().
             );
 
-    /**
-     * Restore widget's geometry (usually size and position of a window).
-     * @return True only if geometry is available.
-     */
-    bool loadGeometry(QWidget *widget) const;
-    /** Save widget's geometry (usually size and position of a window). */
-    void saveGeometry(const QWidget *widget);
-
     /** Return enabled commands. */
     Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
     /** Create new command. */
@@ -132,6 +124,13 @@ public:
      * Update icons in dialog.
      */
     void updateIcons();
+
+    /**
+     * Register window for saving and restoring geometry.
+     */
+    void registerWindowGeometry(QWidget *window);
+
+    bool eventFilter(QObject *object, QEvent *event);
 
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
@@ -191,7 +190,7 @@ private:
     /**
      * @return Name of option to save/restore geometry of @a widget.
      */
-    QString getGeomentryOptionName(const QWidget *widget) const;
+    QString getGeomentryOptionName(const QWidget *widget, bool save) const;
 
     void initTabIcons();
 

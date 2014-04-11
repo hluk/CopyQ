@@ -726,18 +726,19 @@ bool ConfigurationManager::createItemDirectory()
     return true;
 }
 
-QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) const
+QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget, bool save) const
 {
     QString widgetName = widget->objectName();
     QString optionName = "Options/" + widgetName + "_geometry";
 
     // current screen number
     if ( value("open_windows_on_current_screen").toBool() ) {
-        int n = widget->isVisible() && !widget->isMinimized()
-                ? QApplication::desktop()->screenNumber(widget)
-                : QApplication::desktop()->screenNumber(QCursor::pos());
+        int n = save ? QApplication::desktop()->screenNumber(widget)
+                     : QApplication::desktop()->screenNumber(QCursor::pos());
         if (n > 0)
             optionName.append( QString("_screen_%1").arg(n) );
+    } else {
+        optionName.append("_global");
     }
 
     return optionName;
@@ -763,6 +764,27 @@ void ConfigurationManager::updateIcons()
         CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
         cmdWidget->updateIcons();
     }
+}
+
+void ConfigurationManager::registerWindowGeometry(QWidget *window)
+{
+    window->installEventFilter(this);
+}
+
+bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
+{
+    // Restore and save geometry of widgets passed to registerWindowGeometry().
+    if ( event->type() == QEvent::WindowActivate || event->type() == QEvent::WindowDeactivate ) {
+        bool save = event->type() == QEvent::WindowDeactivate;
+        QWidget *w = qobject_cast<QWidget*>(object);
+        const QString optionName = getGeomentryOptionName(w, save);
+        if (save)
+            Settings().setValue( optionName, w->saveGeometry() );
+        else
+            w->restoreGeometry( QSettings().value(optionName).toByteArray() );
+    }
+
+    return false;
 }
 
 void ConfigurationManager::initTabIcons()
@@ -1017,20 +1039,6 @@ ConfigurationManager::Commands ConfigurationManager::selectedCommands()
     return commandsToSave;
 }
 
-bool ConfigurationManager::loadGeometry(QWidget *widget) const
-{
-    QVariant option = QSettings().value( getGeomentryOptionName(widget) );
-    return widget->restoreGeometry(option.toByteArray());
-}
-
-void ConfigurationManager::saveGeometry(const QWidget *widget)
-{
-    if (widget->isMinimized())
-        return;
-
-    Settings().setValue( getGeomentryOptionName(widget), widget->saveGeometry() );
-}
-
 QVariant ConfigurationManager::value(const QString &name) const
 {
     if ( m_options.contains(name) )
@@ -1261,7 +1269,7 @@ void ConfigurationManager::createInstance(QWidget *parent)
 #endif
     m_Instance = new ConfigurationManager(parent);
     m_Instance->loadSettings();
-    m_Instance->loadGeometry(m_Instance);
+    m_Instance->registerWindowGeometry(m_Instance);
 }
 
 void ConfigurationManager::apply()
@@ -1378,7 +1386,6 @@ void ConfigurationManager::on_pushButtonSaveCommands_clicked()
 
 void ConfigurationManager::onFinished(int result)
 {
-    saveGeometry(this);
     if (result == QDialog::Accepted) {
         apply();
     } else {

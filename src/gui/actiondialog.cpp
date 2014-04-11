@@ -259,9 +259,7 @@ void ActionDialog::loadSettings()
 {
     initFormatComboBox(ui->comboBoxInputFormat);
     initFormatComboBox(ui->comboBoxOutputFormat);
-
     restoreHistory();
-    ConfigurationManager::instance()->loadGeometry(this);
 }
 
 void ActionDialog::accept()
@@ -277,12 +275,6 @@ void ActionDialog::accept()
     saveHistory();
 
     QDialog::accept();
-}
-
-void ActionDialog::closeEvent(QCloseEvent *event)
-{
-    ConfigurationManager::instance()->saveGeometry(this);
-    QDialog::closeEvent(event);
 }
 
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)

@@ -146,7 +146,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_lastWindow()
     , m_timerUpdateFocusWindows( new QTimer(this) )
     , m_timerShowWindow( new QTimer(this) )
-    , m_timerSaveGeometry( new QTimer(this) )
     , m_trayTimer(NULL)
     , m_trayIconSnipTimer(NULL)
     , m_notifications(NULL)
@@ -164,7 +163,7 @@ MainWindow::MainWindow(QWidget *parent)
     ConfigurationManager::createInstance(this);
     ConfigurationManager *cm = ConfigurationManager::instance();
 
-    loadGeometry();
+    cm->registerWindowGeometry(this);
     restoreState( cm->value(objectName() + "_state").toByteArray() );
 
     updateIcon();
@@ -212,10 +211,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     m_timerShowWindow->setSingleShot(true);
     m_timerShowWindow->setInterval(250);
-
-    m_timerSaveGeometry->setSingleShot(true);
-    m_timerSaveGeometry->setInterval(500);
-    connect(m_timerSaveGeometry, SIGNAL(timeout()), SLOT(saveGeometry()));
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -275,9 +270,6 @@ void MainWindow::showEvent(QShowEvent *event)
 {
     m_timerShowWindow->start();
     QMainWindow::showEvent(event);
-#ifdef COPYQ_WS_X11
-    loadGeometry();
-#endif
 }
 
 void MainWindow::createMenu()
@@ -587,11 +579,6 @@ bool MainWindow::triggerActionForData(const QVariantMap &data, const QString &so
     }
 
     return true;
-}
-
-bool MainWindow::canSaveGeometry() const
-{
-    return isVisible() && !isMinimized() && !m_timerShowWindow->isActive();
 }
 
 NotificationDaemon *MainWindow::notificationDaemon()
@@ -906,10 +893,8 @@ bool MainWindow::event(QEvent *event)
         m_lastWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
-    } else if (type == QEvent::Resize || type == QEvent::Move) {
-        if ( canSaveGeometry() )
-            m_timerSaveGeometry->start();
     }
+
     return QMainWindow::event(event);
 }
 
@@ -1100,14 +1085,6 @@ void MainWindow::showWindow()
     if ( isActiveWindow() )
         return;
 
-#ifdef COPYQ_WS_X11
-    /* Re-initialize window in window manager so it can popup on current workspace. */
-    Qt::WindowFlags flags = windowFlags();
-    setWindowFlags(flags & Qt::X11BypassWindowManagerHint);
-    setWindowFlags(flags);
-    loadGeometry();
-#endif
-
     updateFocusWindows();
 
     showNormal();
@@ -1135,11 +1112,6 @@ void MainWindow::showWindow()
 
 void MainWindow::hideWindow()
 {
-    if (m_timerSaveGeometry->isActive()) {
-        m_timerSaveGeometry->stop();
-        saveGeometry();
-    }
-
     if ( closeMinimizes() )
         showMinimized();
     else
@@ -1546,18 +1518,6 @@ void MainWindow::createTrayIfSupported()
     } else {
         m_trayTimer->start();
     }
-}
-
-void MainWindow::saveGeometry()
-{
-    if (canSaveGeometry())
-        ConfigurationManager::instance()->saveGeometry(this);
-}
-
-void MainWindow::loadGeometry()
-{
-    ConfigurationManager::instance()->loadGeometry(this);
-    m_timerSaveGeometry->stop();
 }
 
 void MainWindow::updateFocusWindows()

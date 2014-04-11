@@ -61,7 +61,7 @@ ClipboardDialog::ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent)
     ui->listWidgetFormats->setCurrentRow(0);
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished()));
-    ConfigurationManager::instance()->loadGeometry(this);
+    ConfigurationManager::instance()->registerWindowGeometry(this);
 
     ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
     ui->actionRemove_Format->setShortcut(shortcutToRemove());
@@ -113,9 +113,4 @@ void ClipboardDialog::on_actionRemove_Format_triggered()
              m_item->setData(m_data);
          delete item;
      }
-}
-
-void ClipboardDialog::onFinished()
-{
-    ConfigurationManager::instance()->saveGeometry(this);
 }

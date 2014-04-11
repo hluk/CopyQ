@@ -51,8 +51,6 @@ private slots:
 
     void on_actionRemove_Format_triggered();
 
-    void onFinished();
-
 private:
     Ui::ClipboardDialog *ui;
     ClipboardItemPtr m_item;

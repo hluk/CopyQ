@@ -77,7 +77,7 @@ AboutDialog::AboutDialog(QWidget *parent)
     ui->textBrowser->setText( aboutPage() );
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
-    ConfigurationManager::instance()->loadGeometry(this);
+    ConfigurationManager::instance()->registerWindowGeometry(this);
 }
 
 AboutDialog::~AboutDialog()
@@ -192,9 +192,4 @@ QString AboutDialog::aboutPage()
         "<p></p>"
 
         "</body></html>";
-}
-
-void AboutDialog::onFinished(int)
-{
-    ConfigurationManager::instance()->saveGeometry(this);
 }

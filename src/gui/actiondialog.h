@@ -82,7 +82,6 @@ signals:
 
 protected:
     void accept();
-    void closeEvent(QCloseEvent *event);
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);

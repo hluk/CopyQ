@@ -336,8 +336,6 @@ private slots:
     void tabCloseRequested(int tab);
     void onFilterChanged(const QRegExp &re);
     void createTrayIfSupported();
-    void saveGeometry();
-    void loadGeometry();
 
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();
@@ -405,8 +403,6 @@ private:
      */
     bool triggerActionForData(const QVariantMap &data, const QString &sourceTab);
 
-    bool canSaveGeometry() const;
-
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();
 
@@ -434,7 +430,6 @@ private:
 
     QTimer *m_timerUpdateFocusWindows;
     QTimer *m_timerShowWindow;
-    QTimer *m_timerSaveGeometry;
     QTimer *m_trayTimer;
     QTimer *m_trayIconSnipTimer;
 

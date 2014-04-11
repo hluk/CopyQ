@@ -34,9 +34,6 @@ public:
     explicit AboutDialog(QWidget *parent = 0);
     ~AboutDialog();
 
-private slots:
-    void onFinished(int result);
-
 private:
     static QString aboutPage();
 
