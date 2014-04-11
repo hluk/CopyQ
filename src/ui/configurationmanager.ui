@@ -130,6 +130,16 @@
               </widget>
              </item>
              <item>
+              <widget class="QCheckBox" name="checkBoxOpenWindowsOnCurrentScreen">
+               <property name="toolTip">
+                <string>Enable to open windows on current screen. Disable to open windows where they were last closed.</string>
+               </property>
+               <property name="text">
+                <string>O&amp;pen windows on current screen</string>
+               </property>
+              </widget>
+             </item>
+             <item>
               <widget class="QCheckBox" name="checkBoxConfirmExit">
                <property name="toolTip">
                 <string>Confirm application exit</string>
@@ -1408,6 +1418,7 @@ Set to 0 to disable.</string>
   <tabstop>comboBoxLanguage</tabstop>
   <tabstop>checkBoxTextWrap</tabstop>
   <tabstop>checkBoxAlwaysOnTop</tabstop>
+  <tabstop>checkBoxOpenWindowsOnCurrentScreen</tabstop>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxViMode</tabstop>

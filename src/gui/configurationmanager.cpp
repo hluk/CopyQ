@@ -732,11 +732,13 @@ QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget) cons
     QString optionName = "Options/" + widgetName + "_geometry";
 
     // current screen number
-    int n = widget->isVisible() && !widget->isMinimized()
-            ? QApplication::desktop()->screenNumber(widget)
-            : QApplication::desktop()->screenNumber(QCursor::pos());
-    if (n > 0)
-        optionName.append( QString("_screen_%1").arg(n) );
+    if ( value("open_windows_on_current_screen").toBool() ) {
+        int n = widget->isVisible() && !widget->isMinimized()
+                ? QApplication::desktop()->screenNumber(widget)
+                : QApplication::desktop()->screenNumber(QCursor::pos());
+        if (n > 0)
+            optionName.append( QString("_screen_%1").arg(n) );
+    }
 
     return optionName;
 }
@@ -891,6 +893,7 @@ void ConfigurationManager::initOptions()
     bind("confirm_exit", ui->checkBoxConfirmExit, true);
     bind("vi", ui->checkBoxViMode, false);
     bind("always_on_top", ui->checkBoxAlwaysOnTop, false);
+    bind("open_windows_on_current_screen", ui->checkBoxOpenWindowsOnCurrentScreen, true);
     bind("transparency_focused", ui->spinBoxTransparencyFocused, 0);
     bind("transparency", ui->spinBoxTransparencyUnfocused, 0);
     bind("hide_tabs", ui->checkBoxHideTabs, false);
