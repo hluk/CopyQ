@@ -1,32 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="uk_UA">
+<TS version="2.1" language="zh_CN">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation>Про програму CopyQ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="124"/>
         <source>Clipboard Manager</source>
-        <translation>Керування буфером обміну</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="129"/>
         <source>Author</source>
-        <translation type="unfinished">Автор</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="130"/>
         <source>E-mail</source>
-        <translation type="unfinished">Електронна пошта</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
         <source>Web</source>
-        <translation>Інтернет</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="132"/>
@@ -1835,8 +1835,6 @@ Set to 0 to disable.</source>
         <source>%n lines moved.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1868,8 +1866,6 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5775"/>
         <source>%n lines filtered.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1913,8 +1909,6 @@ Set to 0 to disable.</source>
         <source>%n lines indented.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1922,16 +1916,12 @@ Set to 0 to disable.</source>
         <source>%n lines %1ed %2 time.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6796"/>
         <source>%n lines yanked.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2738,8 +2728,6 @@ Set to 0 to disable.</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2793,8 +2781,6 @@ Set to 0 to disable.</source>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
