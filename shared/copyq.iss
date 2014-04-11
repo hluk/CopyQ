@@ -19,6 +19,7 @@ OutputDir={#Root}\..
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
+WizardImageFile=logo.bmp
 WizardSmallImageFile=logo-small.bmp
 
 [Languages]
