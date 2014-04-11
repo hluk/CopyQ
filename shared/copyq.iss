@@ -19,7 +19,8 @@ OutputDir={#Root}\..
 OutputBaseFilename=setup
 Compression=lzma
 SolidCompression=yes
-WizardSmallImageFile=logo.bmp
+WizardImageFile=logo.bmp
+WizardSmallImageFile=logo-small.bmp
 
 [Languages]
 Name: en; MessagesFile: "compiler:Default.isl"
