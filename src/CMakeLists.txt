@@ -54,21 +54,12 @@ else()
     qt4_add_translation(copyq_QM ${copyq_TRANSLATIONS})
 endif()
 
-# Generate a qrc file for the translations
-set(copyq_QM_RCC ${CMAKE_CURRENT_BINARY_DIR}/translations.qrc)
-file(WRITE ${copyq_QM_RCC} "<RCC><qresource prefix=\"/translations\">")
-foreach(QM_FILE ${copyq_QM})
-    file(RELATIVE_PATH copyq_RELATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR} ${QM_FILE})
-    file(APPEND ${copyq_QM_RCC} "<file>" ${copyq_RELATIVE_PATH} "</file>")
-endforeach(QM_FILE)
-file(APPEND ${copyq_QM_RCC} "</qresource></RCC>")
-
 if (WITH_QT5)
     qt5_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
-    qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES} ${copyq_QM_RCC})
+    qt5_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 else()
     qt4_wrap_ui(copyq_FORMS_HEADERS ${copyq_FORMS})
-    qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES} ${copyq_QM_RCC})
+    qt4_add_resources(copyq_RESOURCES_RCC ${copyq_RESOURCES})
 endif()
 
 set(EXECUTABLE_OUTPUT_PATH ${PROJECT_BINARY_DIR})
@@ -156,3 +147,7 @@ target_link_libraries(copyq ${QT_LIBRARIES} ${copyq_LIBRARIES})
 
 # install
 install(TARGETS copyq DESTINATION bin)
+
+if (TRANSLATION_INSTALL_PREFIX)
+    install(FILES ${copyq_QM} DESTINATION "${TRANSLATION_INSTALL_PREFIX}")
+endif()
