@@ -75,7 +75,6 @@ AboutDialog::AboutDialog(QWidget *parent)
 {
     ui->setupUi(this);
     ui->textBrowser->setText( aboutPage() );
-    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
     ConfigurationManager::instance()->registerWindowGeometry(this);
 }
