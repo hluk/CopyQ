@@ -12,7 +12,7 @@ update() {
     cp -uv -- "$@"
 }
 
-update "$src"/{README.md,AUTHORS,HACKING} "$dst"
+update "$src"/{README.md,AUTHORS,HACKING,LICENSE} "$dst"
 update "$src"/shared/themes/*.ini "$dst/themes"
 update "$build"/{copyq.exe,copyq.com} "$dst"
 update "$build"/plugins/*.dll "$dst/plugins"

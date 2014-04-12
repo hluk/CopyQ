@@ -60,7 +60,6 @@ ClipboardDialog::ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent)
     ui->horizontalLayout->setStretchFactor(1, 1);
     ui->listWidgetFormats->setCurrentRow(0);
 
-    connect(this, SIGNAL(finished(int)), SLOT(onFinished()));
     ConfigurationManager::instance()->registerWindowGeometry(this);
 
     ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
