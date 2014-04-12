@@ -42,7 +42,7 @@ int getLogLevel()
     if ( logLevelString.startsWith("ERR") )
         return LogError;
 
-#ifdef COPYQ_LOG_DEBUG
+#ifdef COPYQ_DEBUG
     return LogDebug;
 #else
     return LogNote;

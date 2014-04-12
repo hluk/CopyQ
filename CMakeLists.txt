@@ -55,7 +55,7 @@ if(CMAKE_BUILD_TYPE MATCHES Debug)
     message(STATUS "Building with tests.")
 
     set(WITH_TESTS ON)
-    add_definitions( -DHAS_TESTS -DCOPYQ_LOG_DEBUG )
+    add_definitions( -DHAS_TESTS -DCOPYQ_DEBUG )
 
     if (WITH_QT5)
         list(APPEND copyq_Qt5_Modules Test)

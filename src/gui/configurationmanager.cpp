@@ -88,13 +88,6 @@ bool needToSaveItemsAgain(const QAbstractItemModel &model, const ItemFactory &it
     return !saveWithCurrent;
 }
 
-QString getCurrentLocale()
-{
-    QString currentLocale = QLocale().name();
-    currentLocale.truncate(currentLocale.lastIndexOf('_'));
-    return currentLocale;
-}
-
 void saveValue(const char *key, const QRegExp &re, QSettings *settings)
 {
     settings->setValue(key, re.pattern());
@@ -858,7 +851,8 @@ void ConfigurationManager::initLanguages()
     ui->comboBoxLanguage->addItem("English");
     ui->comboBoxLanguage->setItemData(0, "en");
 
-    const QString currentLocale = getCurrentLocale();
+    const QString currentLocale = QLocale().name();
+    bool currentLocaleFound = false; // otherwise not found or partial match ("uk" partially matches locale "uk_UA")
     QSet<QString> languages;
 
     foreach ( const QString &path, qApp->property("CopyQ_translation_directories").toStringList() ) {
@@ -873,11 +867,16 @@ void ConfigurationManager::initLanguages()
                 ui->comboBoxLanguage->addItem(language);
                 ui->comboBoxLanguage->setItemData(index, locale);
 
-                if (locale == currentLocale)
-                    ui->comboBoxLanguage->setCurrentIndex(index);
+                if (!currentLocaleFound) {
+                    currentLocaleFound = (locale == currentLocale);
+                    if (currentLocaleFound || currentLocale.startsWith(locale + "_"))
+                        ui->comboBoxLanguage->setCurrentIndex(index);
+                }
             }
         }
     }
+
+    ui->comboBoxLanguage->setSizeAdjustPolicy(QComboBox::AdjustToContents);
 }
 
 void ConfigurationManager::updateAutostart()

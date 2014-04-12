@@ -142,23 +142,26 @@ void installTranslator()
     // 1. Qt translations
     installTranslator("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 
-    // 2. build-in translations
-    installTranslator("copyq_" + locale, ":/translations");
-    translationDirectories.append(":/translations");
-
-    // 3. installed translations
+    // 2. installed translations
 #ifdef COPYQ_TRANSLATION_PREFIX
     installTranslator("copyq_" + locale, COPYQ_TRANSLATION_PREFIX);
     translationDirectories.prepend(COPYQ_TRANSLATION_PREFIX);
 #endif
 
-    // 4. custom translations
+    // 3. custom translations
     const QByteArray customPath = qgetenv("COPYQ_TRANSLATION_PREFIX");
     if ( !customPath.isEmpty() ) {
         const QString customDir = QDir::fromNativeSeparators( QString::fromLocal8Bit(customPath) );
         installTranslator("copyq_" + locale, customDir);
         translationDirectories.prepend(customDir);
     }
+
+    // 4. compiled, non-installed translations in debug builds
+#ifdef COPYQ_DEBUG
+    const QString compiledTranslations = QCoreApplication::applicationDirPath() + "/src";
+    installTranslator("copyq_" + locale, compiledTranslations);
+    translationDirectories.prepend(compiledTranslations);
+#endif
 
     qApp->setProperty("CopyQ_translation_directories", translationDirectories);
 
