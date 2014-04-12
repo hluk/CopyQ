@@ -1,6 +1,40 @@
-﻿; Use Inno Setup with Unicode support and preprocessor.
+﻿; 1. Open this file with Inno Setup with Unicode support and preprocessor.
+; 2. Change "#defines" below (or see below how to use COPYQ_INNO_SETUP environment variable).
+; 3. Compile "setup.exe".
 #define AppVersion "2.1.0"
-#define Root "C:\dev\copyq"
+
+; Path with build
+#define Root "C:\dev\build-copyq-Desktop-Release"
+; Path with source code
+#define Source "C:\dev\copyq"
+; Path for output installation file
+#define Output "C:\dev"
+
+; Choose Qt version.
+#define Qt 4
+;#define Qt 5
+
+; Choose toolchain (Qt libraries must be built with this toolchain).
+#define Toolchain "MSVC10"
+;#define Toolchain "MinGW"
+
+; Choose path to Qt installation.
+#if Qt == 4
+# define QtRoot "C:\Qt\4.8.5"
+#else
+# define QtRoot "C:\Qt\5.2.0"
+#endif
+
+; MSVC
+#if Toolchain == "MSVC10"
+# define WindowsRoot "C:\Windows\SysWOW64"
+#endif
+
+; To make changes permanent you can the settings above into a custom file.
+; The path for this file is specified using environment variable COPYQ_INNO_SETUP.
+#if GetEnv("COPYQ_INNO_SETUP") != ""
+# include GetEnv("COPYQ_INNO_SETUP")
+#endif
 
 [Setup]
 AppId={{9DF1F443-EA0B-4C75-A4D3-767A7783228E}
@@ -14,9 +48,9 @@ AppUpdatesURL=http://hluk.github.io/CopyQ/
 DefaultDirName={pf}\CopyQ
 DefaultGroupName=CopyQ
 AllowNoIcons=yes
-LicenseFile={#Root}\LICENSE
-OutputDir={#Root}\..
-OutputBaseFilename=setup
+LicenseFile={#Source}\LICENSE
+OutputDir={#Output}
+OutputBaseFilename=copyq-{#AppVersion}-setup
 Compression=lzma
 SolidCompression=yes
 WizardImageFile=logo.bmp
@@ -30,6 +64,7 @@ Name: es; MessagesFile: "compiler:Languages\Spanish.isl"
 
 [CustomMessages]
 en.ProgramFiles=Program Files
+en.Translations=Translations
 en.Plugins=Plugins
 en.PluginText=Text with Highlighting
 en.PluginImages=Images
@@ -41,6 +76,7 @@ en.PluginFakeVim=FakeVim Editor
 en.PluginSynchronize=Synchronize Items to Disk
 
 cz.ProgramFiles=Soubory programu
+cz.Translations=Překlady
 cz.Plugins=Zásuvné moduly
 cz.PluginText=Text se zvýrazňováním
 cz.PluginImages=Obrázky
@@ -67,6 +103,7 @@ Name: "custom"; Description: "{code:GetCustomInstallation}"; Flags: iscustom
 
 [Components]
 Name: "program"; Description: "{cm:ProgramFiles}"; Types: full compact custom; Flags: fixed
+Name: "translations"; Description: "{cm:Translations}"; Types: full compact custom
 Name: "plugins"; Description: "{cm:Plugins}"; Types: full
 Name: "plugins/text"; Description: "{cm:PluginText}"; Types: full
 Name: "plugins/images"; Description: "{cm:PluginImages}"; Types: full
@@ -84,55 +121,67 @@ Name: "startup"; Description: {cm:AutoStartProgram,CopyQ}; Flags: unchecked
 [Files]
 Source: "{#Root}\copyq.exe"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Root}\copyq.com"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Root}\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Root}\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Root}\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Root}\themes\*"; DestDir: "{app}\themes"; Components: program; Flags: ignoreversion
-Source: "{#Root}\plugins\itemtext.dll"; DestDir: "{app}\plugins"; Components: plugins/text; Flags: ignoreversion
-Source: "{#Root}\plugins\itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
-Source: "{#Root}\plugins\itemweb.dll"; DestDir: "{app}\plugins"; Components: plugins/web; Flags: ignoreversion
-Source: "{#Root}\plugins\itemdata.dll"; DestDir: "{app}\plugins"; Components: plugins/data; Flags: ignoreversion
-Source: "{#Root}\plugins\itemnotes.dll"; DestDir: "{app}\plugins"; Components: plugins/notes; Flags: ignoreversion
-Source: "{#Root}\plugins\itemencrypted.dll"; DestDir: "{app}\plugins"; Components: plugins/encrypted; Flags: ignoreversion
-Source: "{#Root}\plugins\itemfakevim.dll"; DestDir: "{app}\plugins"; Components: plugins/fakevim; Flags: ignoreversion
-Source: "{#Root}\plugins\itemsync.dll"; DestDir: "{app}\plugins"; Components: plugins/synchronize; Flags: ignoreversion
-Source: "{#Root}\msvcp100.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\msvcr100.dll"; DestDir: "{app}"; Components: program
-Source: "{#Root}\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
-; Qt 4
-Source: "{#Root}\QtCore4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\QtGui4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\QtNetwork4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\QtScript4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\QtSvg4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\QtXml4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\imageformats\qico4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
-; Qt 5
-Source: "{#Root}\icudt51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\icuin51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\icuuc51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\libGLESv2.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\libEGL.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Core.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Gui.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Network.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Script.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Svg.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Xml.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Widgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5WebKit.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5WebKitWidgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5OpenGL.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Qml.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Quick.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Sensors.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5Sql.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\Qt5V8.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
-Source: "{#Root}\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#Root}\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#Source}\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "{#Source}\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "{#Source}\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
+Source: "{#Source}\themes\*"; DestDir: "{app}\themes"; Components: program; Flags: ignoreversion
+Source: "{#Root}\src\*.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemtext.dll"; DestDir: "{app}\plugins"; Components: plugins/text; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemweb.dll"; DestDir: "{app}\plugins"; Components: plugins/web; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemdata.dll"; DestDir: "{app}\plugins"; Components: plugins/data; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemnotes.dll"; DestDir: "{app}\plugins"; Components: plugins/notes; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemencrypted.dll"; DestDir: "{app}\plugins"; Components: plugins/encrypted; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemfakevim.dll"; DestDir: "{app}\plugins"; Components: plugins/fakevim; Flags: ignoreversion
+Source: "{#Root}\plugins\*itemsync.dll"; DestDir: "{app}\plugins"; Components: plugins/synchronize; Flags: ignoreversion
+
+; Qt
+Source: "{#QtRoot}\plugins\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
+#if Qt == 4
+Source: "{#QtRoot}\bin\QtCore4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtGui4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtNetwork4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtScript4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtSvg4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtXml4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\plugins\imageformats\qico4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\plugins\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+#else
+Source: "{#QtRoot}\bin\icudt51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\icuin51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\icuuc51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\libGLESv2.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\libEGL.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Core.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Gui.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Network.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Script.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Svg.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Xml.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5WebKit.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5WebKitWidgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5OpenGL.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Qml.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Quick.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Sensors.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Sql.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5V8.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\plugins\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\plugins\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+#endif
+
+; Toolchain
+#if Toolchain == "MSVC10"
+Source: "{#WindowsRoot}\msvcp100.dll"; DestDir: "{app}"; Components: program
+Source: "{#WindowsRoot}\msvcr100.dll"; DestDir: "{app}"; Components: program
+#else
+Source: "{#QtRoot}\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Components: program
+Source: "{#QtRoot}\bin\mingwm10.dll"; DestDir: "{app}"; Components: program
+#endif
+
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Icons]
