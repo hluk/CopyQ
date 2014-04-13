@@ -37,7 +37,7 @@ QString helpKeys(const QString &description, const QString &keys)
 
 QString helpUrl(const char *url)
 {
-    return QString("<a href='%2'>%2</a>").arg(url);
+    return QString("<a href='%1'>%1</a>").arg(url);
 }
 
 QString helpMail(const char *url)
@@ -125,7 +125,7 @@ QString AboutDialog::aboutPage()
 
         "<p>"
         "<table class='links'>"
-            + helpLink( tr("Author"), "Lukas Holecek" )
+            + helpLink( tr("Author"), "Luk&#225;&#353; Hole&#269;ek" )
             + helpLink( tr("E-mail"), helpMail("hluk@email.cz") )
             + helpLink( tr("Web"), helpUrl("http://hluk.github.io/CopyQ/") )
             + helpLink( tr("Wiki"), helpUrl("https://sourceforge.net/p/copyq/wiki/Home/") )
@@ -157,14 +157,16 @@ QString AboutDialog::aboutPage()
         "</p>"
 
             // libraries
-            + helpLib("Qt", tr("Library used in the application"),
+            + helpLib("Qt", tr("Library used in the application", "Qt library description"),
                       "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies)", "http://qt.digia.com/")
-            + helpLib("LibQxt", tr("Library used in the application"),
+            + helpLib("LibQxt", tr("Library used in the application", "LibQxt library description"),
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
-            + helpLib("Font Awesome", tr("Iconic font used in the application"),
+            + helpLib("Font Awesome", tr("Iconic font used in the application", "Font Awesome description"),
                       "Created & Maintained by Dave Gandy", "http://fortawesome.github.com/Font-Awesome")
-            + helpLib("Solarized", tr("Color palette used for themes"),
+            + helpLib("Solarized", tr("Color palette used for themes", "Solarized palette/themes description"),
                       "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
+            + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
+                      "Copyright (c) 2012 - 2013 Michal &#268;iha&#345;", "http://weblate.org")
             +
 
         // keyboard title
