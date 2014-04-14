@@ -24,6 +24,7 @@
 #include <QWidget>
 
 class QMainWindow;
+class QMimeData;
 class QPoint;
 class QStackedWidget;
 class QToolBar;
@@ -95,6 +96,7 @@ signals:
     void tabRenamed(const QString &newName, int index);
     void currentChanged(int tabIndex, int oldTabIndex);
     void tabCloseRequested(int);
+    void dropItems(const QString &tabName, const QMimeData &data);
 
 protected:
     bool eventFilter(QObject *object, QEvent *event);

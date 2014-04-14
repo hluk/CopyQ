@@ -44,7 +44,7 @@ public:
     /** Get tab index for @a item (-1 if it's a group). */
     int getTabIndex(const QTreeWidgetItem *item) const;
 
-    /** Return path to item in tree (empty string if tree mode is disabled). */
+    /** Return path to item in tree. */
     QString getTabPath(const QTreeWidgetItem *item) const;
 
     /** Return true only if tab is tab group. */
@@ -75,10 +75,13 @@ signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
+    void dropItems(const QString &tabName, const QMimeData &data);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
     void contextMenuEvent(QContextMenuEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
     bool eventFilter(QObject *obj, QEvent *event);
     void rowsInserted(const QModelIndex &parent, int start, int end);

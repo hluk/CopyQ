@@ -463,6 +463,14 @@ void MainWindow::onAboutToQuit()
     m_tray->hide();
 }
 
+void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData &data)
+{
+    ClipboardBrowser *browser = createTab(tabName);
+    browser->loadItemsAgain();
+    if ( browser->isLoaded() )
+        browser->paste( cloneData(data, QStringList() << mimeItems), 0 );
+}
+
 void MainWindow::updateNotifications()
 {
     if (m_notifications == NULL)

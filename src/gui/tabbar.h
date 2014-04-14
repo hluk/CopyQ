@@ -22,6 +22,7 @@
 
 #include <QTabBar>
 
+class QMimeData;
 class QModelIndex;
 class QMouseEvent;
 class QPoint;
@@ -36,9 +37,13 @@ public:
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabRenamed(const QString &newName, int index);
+    void dropItems(const QString &tabName, const QMimeData &data);
 
 protected:
     void mousePressEvent(QMouseEvent *event);
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dragMoveEvent(QDragMoveEvent *event);
+    void dropEvent(QDropEvent *event);
 };
 
 #endif // TABBAR_H

@@ -352,6 +352,8 @@ private slots:
 
     void onAboutToQuit();
 
+    void on_tabWidget_dropItems(const QString &tabName, const QMimeData &data);
+
 private:
     /** Create menu bar and tray menu with items. Called once. */
     void createMenu();
