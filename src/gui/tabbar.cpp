@@ -25,9 +25,14 @@
 
 namespace {
 
-int canDropItems(const QDropEvent &event, const QTabBar &parent)
+bool canDrop(const QMimeData &data)
 {
-    return event.mimeData()->hasFormat(mimeItems) ? parent.tabAt(event.pos()) : -1;
+    return data.hasFormat(mimeItems) || data.hasText() || data.hasImage() || data.hasUrls();
+}
+
+int dropItemsTabIndex(const QDropEvent &event, const QTabBar &parent)
+{
+    return canDrop( *event.mimeData() ) ? parent.tabAt( event.pos() ) : -1;
 }
 
 } // namespace
@@ -62,7 +67,7 @@ void TabBar::mousePressEvent(QMouseEvent *event)
 
 void TabBar::dragEnterEvent(QDragEnterEvent *event)
 {
-    if ( event->mimeData()->hasFormat(mimeItems) )
+    if ( canDrop(*event->mimeData()) )
         event->acceptProposedAction();
     else
         QTabBar::dragEnterEvent(event);
@@ -70,7 +75,7 @@ void TabBar::dragEnterEvent(QDragEnterEvent *event)
 
 void TabBar::dragMoveEvent(QDragMoveEvent *event)
 {
-    if ( canDropItems(*event, *this) != -1 )
+    if ( dropItemsTabIndex(*event, *this) != -1 )
         event->acceptProposedAction();
     else
         QTabBar::dragMoveEvent(event);
@@ -78,7 +83,7 @@ void TabBar::dragMoveEvent(QDragMoveEvent *event)
 
 void TabBar::dropEvent(QDropEvent *event)
 {
-    int tabIndex = canDropItems(*event, *this);
+    int tabIndex = dropItemsTabIndex(*event, *this);
 
     if ( tabIndex != -1 ) {
         event->acceptProposedAction();
