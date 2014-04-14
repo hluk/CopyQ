@@ -30,48 +30,48 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="132"/>
         <source>Wiki</source>
-        <translation type="unfinished"/>
+        <translation>Вікі</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="142"/>
         <source>Development</source>
-        <translation type="unfinished"/>
+        <translation>Розробка</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="161"/>
         <location filename="../src/gui/aboutdialog.cpp" line="163"/>
         <source>Library used in the application</source>
-        <translation type="unfinished"/>
+        <translation>Бібліотека, використана в застосунку</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="165"/>
         <source>Iconic font used in the application</source>
-        <translation type="unfinished"/>
+        <translation>Знаковий шрифт, використаний у застосунку</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="167"/>
         <source>Color palette used for themes</source>
-        <translation type="unfinished"/>
+        <translation>Палітра кольорів, використана для тем</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="172"/>
         <source>Keyboard</source>
-        <translation type="unfinished"/>
+        <translation>Клавіатура</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="173"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation type="unfinished"/>
+        <translation>Введіть текст для пошуку в історії буфера обміну.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Item list navigation</source>
-        <translation type="unfinished"/>
+        <translation>Перехід у переліку елементів</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="unfinished"/>
+        <translation>Стрілки вгору/вниз, клавіші PgUp/PgDn, Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="178"/>
