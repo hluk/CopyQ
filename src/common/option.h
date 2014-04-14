@@ -46,7 +46,7 @@ public:
     QVariant value() const;
 
     /** Set current value. */
-    void setValue(const QVariant &value);
+    bool setValue(const QVariant &value);
 
     /** Reset option to default value. */
     void reset();

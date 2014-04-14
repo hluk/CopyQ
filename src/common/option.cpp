@@ -43,14 +43,15 @@ QVariant Option::value() const
     return m_obj != NULL ? m_obj->property(m_property_name) : m_value;
 }
 
-void Option::setValue(const QVariant &value)
+bool Option::setValue(const QVariant &value)
 {
     if (m_obj != NULL) {
         m_obj->setProperty(m_property_name, value);
-        Q_ASSERT(m_obj->property(m_property_name) == value);
-    } else {
-        m_value = value;
+        return m_obj->property(m_property_name) == value;
     }
+
+    m_value = value;
+    return true;
 }
 
 void Option::reset()
