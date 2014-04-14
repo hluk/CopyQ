@@ -20,6 +20,7 @@
 #include "tabtree.h"
 
 #include "common/common.h"
+#include "common/mimetypes.h"
 
 #include <QLabel>
 #include <QList>
@@ -108,6 +109,11 @@ QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComp
     }
 
     return parentItem;
+}
+
+QTreeWidgetItem *dropItemsTarget(const QDropEvent &event, const QTreeWidget &parent)
+{
+    return event.mimeData()->hasFormat(mimeItems) ? parent.itemAt(event.pos()) : NULL;
 }
 
 } // namespace
@@ -319,47 +325,73 @@ void TabTree::contextMenuEvent(QContextMenuEvent *event)
     event->accept();
 }
 
+void TabTree::dragEnterEvent(QDragEnterEvent *event)
+{
+    if ( event->mimeData()->hasFormat(mimeItems) )
+        event->acceptProposedAction();
+    else
+        QTreeWidget::dragEnterEvent(event);
+}
+
+void TabTree::dragMoveEvent(QDragMoveEvent *event)
+{
+    if ( dropItemsTarget(*event, *this) )
+        event->acceptProposedAction();
+    else if ( itemAt(event->pos()) )
+        QTreeWidget::dragMoveEvent(event);
+    else
+        event->ignore();
+}
+
 void TabTree::dropEvent(QDropEvent *event)
 {
     QTreeWidgetItem *current = currentItem();
     if (current == NULL)
         return;
 
-    const QString oldPrefix = getTabPath(current);
+    QTreeWidgetItem *item = dropItemsTarget(*event, *this);
+    if (item) {
+        event->acceptProposedAction();
+        emit dropItems( getTabPath(item), *event->mimeData() );
+    } else if ( itemAt(event->pos()) ) {
+        const QString oldPrefix = getTabPath(current);
 
-    blockSignals(true);
-    QTreeWidget::dropEvent(event);
-    setCurrentItem(current);
-    setItemWidgetSelected(current);
-    blockSignals(false);
+        blockSignals(true);
+        QTreeWidget::dropEvent(event);
+        setCurrentItem(current);
+        setItemWidgetSelected(current);
+        blockSignals(false);
 
-    // Rename moved item if non-unique.
-    QStringList tabs;
-    QTreeWidgetItem *parent = current->parent();
-    for (int i = 0, count = parent ? parent->childCount() : topLevelItemCount(); i < count; ++i) {
-        QTreeWidgetItem *sibling = parent ? parent->child(i) : topLevelItem(i);
-        if (sibling != current)
-            tabs.append( getTabPath(sibling) );
+        // Rename moved item if non-unique.
+        QStringList tabs;
+        QTreeWidgetItem *parent = current->parent();
+        for (int i = 0, count = parent ? parent->childCount() : topLevelItemCount(); i < count; ++i) {
+            QTreeWidgetItem *sibling = parent ? parent->child(i) : topLevelItem(i);
+            if (sibling != current)
+                tabs.append( getTabPath(sibling) );
+        }
+
+        QString newPrefix = getTabPath(current);
+        if ( tabs.contains(newPrefix) ) {
+            renameToUnique(&newPrefix, tabs);
+            const QString text = newPrefix.mid( newPrefix.lastIndexOf(QChar('/')) + 1 );
+            current->setData(0, DataText, text);
+            labelItem(current);
+        }
+
+        const QString afterPrefix = getTabPath(itemAbove(current));
+        emit tabMoved(oldPrefix, newPrefix, afterPrefix);
+
+        // Remove empty groups.
+        foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+            if ( isEmptyTabGroup(item) )
+                deleteItem(item);
+        }
+
+        updateSize();
+    } else {
+        event->ignore();
     }
-
-    QString newPrefix = getTabPath(current);
-    if ( tabs.contains(newPrefix) ) {
-        renameToUnique(&newPrefix, tabs);
-        const QString text = newPrefix.mid( newPrefix.lastIndexOf(QChar('/')) + 1 );
-        current->setData(0, DataText, text);
-        labelItem(current);
-    }
-
-    const QString afterPrefix = getTabPath(itemAbove(current));
-    emit tabMoved(oldPrefix, newPrefix, afterPrefix);
-
-    // Remove empty groups.
-    foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
-        if ( isEmptyTabGroup(item) )
-            deleteItem(item);
-    }
-
-    updateSize();
 }
 
 bool TabTree::eventFilter(QObject *obj, QEvent *event)

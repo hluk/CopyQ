@@ -19,7 +19,18 @@
 
 #include "tabbar.h"
 
+#include "common/mimetypes.h"
+
 #include <QMouseEvent>
+
+namespace {
+
+int canDropItems(const QDropEvent &event, const QTabBar &parent)
+{
+    return event.mimeData()->hasFormat(mimeItems) ? parent.tabAt(event.pos()) : -1;
+}
+
+} // namespace
 
 TabBar::TabBar(QWidget *parent)
     : QTabBar(parent)
@@ -28,6 +39,7 @@ TabBar::TabBar(QWidget *parent)
     setDrawBase(false);
     setMinimumSize(1, 1);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
+    setAcceptDrops(true);
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)
@@ -46,4 +58,32 @@ void TabBar::mousePressEvent(QMouseEvent *event)
     }
 
     QTabBar::mousePressEvent(event);
+}
+
+void TabBar::dragEnterEvent(QDragEnterEvent *event)
+{
+    if ( event->mimeData()->hasFormat(mimeItems) )
+        event->acceptProposedAction();
+    else
+        QTabBar::dragEnterEvent(event);
+}
+
+void TabBar::dragMoveEvent(QDragMoveEvent *event)
+{
+    if ( canDropItems(*event, *this) != -1 )
+        event->acceptProposedAction();
+    else
+        QTabBar::dragMoveEvent(event);
+}
+
+void TabBar::dropEvent(QDropEvent *event)
+{
+    int tabIndex = canDropItems(*event, *this);
+
+    if ( tabIndex != -1 ) {
+        event->acceptProposedAction();
+        emit dropItems( tabText(tabIndex), *event->mimeData() );
+    } else {
+        QTabBar::dropEvent(event);
+    }
 }
