@@ -1093,8 +1093,8 @@ void ConfigurationManager::loadSettings()
     foreach ( const QString &key, m_options.keys() ) {
         if ( settings.contains(key) ) {
             QVariant value = settings.value(key);
-            if ( value.isValid() )
-                m_options[key].setValue(value);
+            if ( !value.isValid() || !m_options[key].setValue(value) )
+                log( tr("Invalid value for option \"%1\"").arg(key), LogWarning );
         }
     }
     settings.endGroup();
