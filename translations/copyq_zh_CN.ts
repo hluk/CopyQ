@@ -71,7 +71,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="unfinished">Up/Down, Page Up/Down, Home/End</translation>
+        <translation>Up/Down, Page Up/Down, Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="178"/>
@@ -170,12 +170,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="81"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
-        <translation>使用 MIME 形式的命令想标准输入发送数据 (空白则禁用)。</translation>
+        <translation>使用 MIME 形式的命令想标准输入发送数据 (留空则禁用)。</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="88"/>
         <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation>从标准输出中创建项目 (空白则禁用)。</translation>
+        <translation>从标准输出中创建项目 (留空则禁用)。</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="105"/>
@@ -424,48 +424,49 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="93"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 全局快捷方式：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="128"/>
         <source>Match Items</source>
-        <translation type="unfinished"/>
+        <translation>匹配项目</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="152"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"/>
+        <translation>此 MIME 类型的数据将发送到标准输入的命令中。
+留空则禁用。</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="163"/>
         <source>&amp;Format:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 格式：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="173"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;仅对复制到剪贴板中的且与窗口标题文本匹配的正则表达式的项目使用命令（留空则匹配所有窗口）。在 OS X 上这包含窗口标题跟一个破折号 （"-"） 后面加上应用程序名称。例如"Safari - GitHub"。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="180"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 窗口：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="190"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;仅对与正则表达式文本匹配的项目执行命令 （留空则匹配任何东西）。&lt;/p&gt;&lt;p&gt;&lt;span style="font-weight:600;"&gt; 例子：&lt;/span&gt;&lt;/p&gt;&lt;p&gt;匹配 URL &lt;span style="font-weight:600;"&gt; ^(https?|ftp): / /&lt;/span&gt;&lt;/p&gt; &lt;p&gt;匹配 PDF 文件名 &lt;span style="font-weight:600;"&gt; \.pdf$&lt;/span&gt;&lt;/p&gt; &lt;p&gt;匹配单个字符 &lt;span style="font-weight:600;"&gt; ^.$&lt;/span&gt;&lt;/p&gt; &lt;p&gt;匹配远程多媒体 &lt;span style="font-weight:600;"&gt; ^ http://.*\.(ogv|vlc|mp4|mp3) $&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="203"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 内容:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="213"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 筛选器：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="223"/>
@@ -476,29 +477,38 @@ Leave empty to disable this.</source>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">&lt;p&gt;仅在筛选器命令成功执行时执行命令。&lt;/p&gt;
+
+&lt;p&gt;项目文本已被筛选器命令传递到 &lt;b&gt;标准输入&lt;/b&gt;。该项目 &lt;b&gt;筛选器命令的退出代码为 0 时才被匹配&lt;/b&gt;.&lt;/p&gt;
+
+
+&lt;p&gt;使用 &lt;b&gt;%1&lt;/b&gt; 作为参数，&lt;b&gt;%2&lt;/b&gt; 传递给参数由 (括在括号中的部分) 的正则表达式捕获 &lt;b&gt;&lt;/b&gt; 项文本。&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;b&gt;|&lt;/b&gt; 链接命令 （将标准输出传递到下一个命令）。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="239"/>
         <source>Comma&amp;nd</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 命令</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;命令来运行。使用 &lt;b&gt;%1&lt;/b&gt; 作为参数，&lt;b&gt;%2&lt;/b&gt; 传递给参数由 (括在括号中的部分) 的正则表达式捕获 &lt;b&gt;&lt;/b&gt; 项文本。&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;b&gt;|&lt;/b&gt; 链接命令 （将标准输出传递到下一个命令）。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="272"/>
         <source>Action</source>
-        <translation type="unfinished"/>
+        <translation>操作</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="295"/>
         <source>Copy to &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 复制到选项卡：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="305"/>
@@ -3137,7 +3147,7 @@ Starts or connects to application instance with given session name.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="210"/>
         <source>SESSION</source>
-        <translation type="unfinished"/>
+        <translation>对话</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="212"/>
@@ -3149,12 +3159,13 @@ Print help for COMMAND or all commands.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="215"/>
         <source>
 Print version of program and libraries.</source>
-        <translation type="unfinished"/>
+        <translation>
+打印程序和库的版本。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="228"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"/>
+        <translation>用法: copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="229"/>
@@ -3266,17 +3277,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
         <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;html&gt;&lt;head/&gt; &lt;body&gt;&lt;p&gt;按任意键进行组合设置。&lt;span style="font-weight:600;"&gt;按下 Esc 来&lt;/span&gt;取消。&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
         <source>Click here and press any key combination</source>
-        <translation type="unfinished"/>
+        <translation>单击此处并按任意键进行组合设置</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
         <source>Remove Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>删除快捷方式</translation>
     </message>
 </context>
 <context>
@@ -3284,17 +3295,17 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 查找：</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="370"/>
         <source>There is command overriding this shortcut.</source>
-        <translation type="unfinished"/>
+        <translation>有命令对当前快捷方式进行重置。</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="371"/>
         <source>Shortcut already exists!</source>
-        <translation type="unfinished"/>
+        <translation>快捷方式已存在！</translation>
     </message>
 </context>
 <context>
@@ -3304,27 +3315,29 @@ Print version of program and libraries.</source>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"/>
+        <translation>选项卡名称必须非空且不重复。&lt; br / &gt;
+选项卡 &lt;b&gt;记&amp;amp; 录&lt;/b&gt; 可以使用 &lt;b&gt;Alt + t&lt;/b&gt; 打开。&lt; br / &gt;
+使用 &lt;b&gt;/&lt;/b&gt;作为在树视图选项卡布局中的路径分隔符。</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;name:</source>
-        <translation type="unfinished"/>
+        <translation>&amp; 名称：</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
         <source>CopyQ New Tab</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ 的新选项卡</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="38"/>
         <source>CopyQ Rename Tab</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ 选项卡重命名</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="41"/>
         <source>CopyQ Rename Tab Group</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ 选项卡组重命名</translation>
     </message>
 </context>
 <context>
@@ -3333,7 +3346,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
         <location filename="../src/gui/traymenu.cpp" line="162"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
-        <translation type="unfinished"/>
+        <translation>%1. %2</translation>
     </message>
 </context>
 <context>
@@ -3341,12 +3354,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="72"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"/>
+        <translation>正则表达式</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="75"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"/>
+        <translation>区分大小写</translation>
     </message>
 </context>
 <context>
@@ -3354,17 +3367,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.h" line="157"/>
         <source>Tab with given name doesn't exist!</source>
-        <translation type="unfinished"/>
+        <translation>不存在该名称的选项卡！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.h" line="162"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"/>
+        <translation>选项卡名称不能为空 ！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.h" line="189"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"/>
+        <translation>已存在同名称的选项卡！</translation>
     </message>
 </context>
 </TS>
