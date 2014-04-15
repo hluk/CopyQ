@@ -24,6 +24,7 @@
 
 #include <QLabel>
 #include <QList>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QScrollBar>
 
@@ -111,9 +112,14 @@ QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComp
     return parentItem;
 }
 
+bool canDrop(const QMimeData &data)
+{
+    return data.hasFormat(mimeItems) || data.hasText() || data.hasImage() || data.hasUrls();
+}
+
 QTreeWidgetItem *dropItemsTarget(const QDropEvent &event, const QTreeWidget &parent)
 {
-    return event.mimeData()->hasFormat(mimeItems) ? parent.itemAt(event.pos()) : NULL;
+    return canDrop( *event.mimeData() ) ? parent.itemAt( event.pos() ) : NULL;
 }
 
 } // namespace
@@ -327,7 +333,7 @@ void TabTree::contextMenuEvent(QContextMenuEvent *event)
 
 void TabTree::dragEnterEvent(QDragEnterEvent *event)
 {
-    if ( event->mimeData()->hasFormat(mimeItems) )
+    if ( canDrop(*event->mimeData()) )
         event->acceptProposedAction();
     else
         QTreeWidget::dragEnterEvent(event);

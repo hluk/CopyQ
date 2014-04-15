@@ -467,8 +467,11 @@ void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData 
 {
     ClipboardBrowser *browser = createTab(tabName);
     browser->loadItemsAgain();
-    if ( browser->isLoaded() )
-        browser->paste( cloneData(data, QStringList() << mimeItems), 0 );
+    if ( browser->isLoaded() ) {
+        const QVariantMap dataMap = data.hasFormat(mimeItems)
+                ? cloneData(data, QStringList() << mimeItems) : cloneData(data);
+        browser->paste(dataMap, 0);
+    }
 }
 
 void MainWindow::updateNotifications()

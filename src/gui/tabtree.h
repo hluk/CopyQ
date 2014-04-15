@@ -23,6 +23,8 @@
 #include <QString>
 #include <QTreeWidget>
 
+class QMimeData;
+
 class TabTree : public QTreeWidget
 {
     Q_OBJECT
