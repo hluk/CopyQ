@@ -21,6 +21,7 @@
 
 #include "common/mimetypes.h"
 
+#include <QMimeData>
 #include <QMouseEvent>
 
 namespace {

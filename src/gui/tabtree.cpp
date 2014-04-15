@@ -24,6 +24,7 @@
 
 #include <QLabel>
 #include <QList>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QScrollBar>
 
