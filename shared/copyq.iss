@@ -124,7 +124,7 @@ Source: "{#Root}\copyq.com"; DestDir: "{app}"; Components: program; Flags: ignor
 Source: "{#Source}\AUTHORS"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Source}\LICENSE"; DestDir: "{app}"; Components: program; Flags: ignoreversion
 Source: "{#Source}\README.md"; DestDir: "{app}"; Components: program; Flags: ignoreversion
-Source: "{#Source}\themes\*"; DestDir: "{app}\themes"; Components: program; Flags: ignoreversion
+Source: "{#Source}\shared\themes\*"; DestDir: "{app}\themes"; Components: program; Flags: ignoreversion
 Source: "{#Root}\src\*.qm"; DestDir: "{app}\translations"; Components: translations; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemtext.dll"; DestDir: "{app}\plugins"; Components: plugins/text; Flags: ignoreversion
 Source: "{#Root}\plugins\*itemimage.dll"; DestDir: "{app}\plugins"; Components: plugins/images; Flags: ignoreversion
