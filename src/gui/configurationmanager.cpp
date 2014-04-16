@@ -769,7 +769,14 @@ void ConfigurationManager::registerWindowGeometry(QWidget *window)
 bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
 {
     // Restore and save geometry of widgets passed to registerWindowGeometry().
-    if ( event->type() == QEvent::WindowActivate || event->type() == QEvent::WindowDeactivate ) {
+    if ( event->type() == QEvent::WindowDeactivate
+         || event->type() == QEvent::WindowActivate
+         || (event->type() == QEvent::Paint && object->property("CopyQ_restore_geometry").toBool()) )
+    {
+        // Restore window geometry later because some window managers move new windows a bit after
+        // adding window decorations.
+        object->setProperty("CopyQ_restore_geometry", event->type() == QEvent::WindowActivate);
+
         bool save = event->type() == QEvent::WindowDeactivate;
         QWidget *w = qobject_cast<QWidget*>(object);
         const QString optionName = getGeomentryOptionName(w, save);
