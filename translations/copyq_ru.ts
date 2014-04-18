@@ -46,7 +46,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="165"/>
         <source>Iconic font used in the application</source>
-        <translation type="unfinished">Шрифт, используемый в приложении</translation>
+        <translation>Шрифт со значками, используемый в приложении</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="167"/>
@@ -87,7 +87,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Move selected items</source>
-        <translation type="unfinished">Переместить выбранные элементы</translation>
+        <translation>Переместить выбранные элементы</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
@@ -150,69 +150,71 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="20"/>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;%1&lt;/b&gt; в &lt;b&gt;команде&lt;/b&gt; — это &lt;b&gt;текст&lt;/b&gt; выбранных элементов. Текст может быть изменен и передан на &lt;b&gt;стандартный ввод&lt;/b&gt; команды. Команды возможно связывать в цепь при помощи символа &lt;b&gt;|&lt;/b&gt; (то есть минуя стандартный вывод).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="36"/>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation type="unfinished"/>
+        <translation>Ко&amp;манда (%1 — это текст выбранных элементов):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="61"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"/>
+        <translation>Стандартный вв&amp;од:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="71"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"/>
+        <translation>Сохранить стандартный выво&amp;д:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="81"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
-        <translation type="unfinished"/>
+        <translation>Отправить данные указанного типа MIME на стандартный ввод команды (оставьте пустым для отключения).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="88"/>
         <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="unfinished"/>
+        <translation>Создать элементы из стандартного вывода программы (оставьте пустым для отключения).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="105"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Разделитель новых элементов:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="115"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Регулярное выражение для разрыва вывода на несколько элементов.&lt;\p&gt;↵
+&lt;p&gt;Используйте &lt;b&gt;\n&lt;/b&gt; для сохранения каждой строки в отдельном элементе.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="119"/>
         <source>\n</source>
-        <translation type="unfinished"/>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="126"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>Вкла&amp;дка вывода:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="136"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"/>
+        <translation>Сохранить элементы во вкладке с данным именем (оставьте пустым для сохранения в текущей вкладке)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="300"/>
         <source>Command saved</source>
-        <translation type="unfinished"/>
+        <translation>Команда сохранена</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="301"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation type="unfinished"/>
+        <translation>Команда была сохранена и теперь она доступна из меню элементов.↵
+Вы можете настроить команду в настройках.</translation>
     </message>
 </context>
 <context>
@@ -220,44 +222,46 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="37"/>
         <source>Co&amp;mmands</source>
-        <translation type="unfinished"/>
+        <translation>Ко&amp;манда</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="98"/>
         <source>Executing: %1</source>
-        <translation type="unfinished"/>
+        <translation>Выполнение: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="106"/>
         <source>KILL</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">KILL</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="107"/>
         <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;КОМАНДА:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="108"/>
         <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;b&gt;ВВОД:&lt;/b&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="138"/>
         <source>Error: %1
 </source>
-        <translation type="unfinished"/>
+        <translation>Ошибка: %1↵
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
         <source>Exit code: %1
 </source>
-        <translation type="unfinished"/>
+        <translation>Код выхода: %1↵
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="163"/>
         <source>Command %1</source>
-        <translation type="unfinished"/>
+        <translation>Команда %1</translation>
     </message>
 </context>
 <context>
@@ -266,7 +270,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/clientsocket.cpp" line="192"/>
         <location filename="../src/common/clientsocket.cpp" line="250"/>
         <source>Failed to read message from client!</source>
-        <translation type="unfinished"/>
+        <translation>Не удалось прочитать сообщение от клиента!</translation>
     </message>
 </context>
 <context>
