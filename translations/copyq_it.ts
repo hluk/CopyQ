@@ -1,78 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="uk_UA">
+<TS version="2.1" language="it_IT">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation>Про програму CopyQ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="123"/>
         <source>Clipboard Manager</source>
-        <translation>Керування буфером обміну</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="128"/>
         <source>Author</source>
-        <translation>Автор</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="129"/>
         <source>E-mail</source>
-        <translation>Електронна пошта</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="130"/>
         <source>Web</source>
-        <translation>Інтернет</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
         <source>Wiki</source>
-        <translation>Вікі</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Development</source>
-        <translation>Розробка</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <translation type="vanished">Бібліотека, використана в застосунку</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <translation type="vanished">Знаковий шрифт, використаний у застосунку</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <translation type="vanished">Палітра кольорів, використана для тем</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="160"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation type="unfinished">Бібліотека, використана в застосунку</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="162"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation type="unfinished">Бібліотека, використана в застосунку</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="164"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="unfinished">Знаковий шрифт, використаний у застосунку</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="166"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation type="unfinished">Палітра кольорів, використана для тем</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="168"/>
@@ -83,22 +71,22 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="173"/>
         <source>Keyboard</source>
-        <translation>Клавіатура</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="174"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Введіть текст для пошуку в історії буфера обміну.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="178"/>
         <source>Item list navigation</source>
-        <translation>Перехід у переліку елементів</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="178"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation>Стрілки вгору/вниз, клавіші PgUp/PgDn, Home/End</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="179"/>
@@ -164,7 +152,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="189"/>
         <source>F2</source>
-        <translation>F2</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -827,7 +815,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>Ctrl+I</source>
-        <translation>Ctrl+I</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="107"/>
@@ -843,7 +831,7 @@ CTRL and up or down key.</source>
         <location filename="../src/gui/configtabshortcuts.cpp" line="108"/>
         <location filename="../src/tests/tests.cpp" line="1378"/>
         <source>Ctrl+P</source>
-        <translation>Ctrl+P</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
@@ -853,7 +841,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>Ctrl+Shift+C</source>
-        <translation>Ctrl+Shift+C</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
@@ -863,7 +851,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>Ctrl+Shift+X</source>
-        <translation>Ctrl+Shift+X</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
@@ -873,7 +861,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>Ctrl+Q</source>
-        <translation>Ctrl+Q</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
@@ -883,7 +871,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
         <source>Ctrl+Shift+S</source>
-        <translation>Ctrl+Shift+S</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
@@ -893,7 +881,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>Ctrl+Shift+R</source>
-        <translation>Ctrl+Shift+R</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="115"/>
@@ -918,7 +906,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>F4</source>
-        <translation>F4</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
@@ -928,7 +916,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
@@ -948,7 +936,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="122"/>
         <source>Ctrl+E</source>
-        <translation>Ctrl+E</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
@@ -958,7 +946,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>F5</source>
-        <translation>F5</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="124"/>
@@ -968,7 +956,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="124"/>
         <source>Ctrl+Shift+N</source>
-        <translation>Ctrl+Shift+N</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="125"/>
@@ -978,7 +966,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="125"/>
         <source>Ctrl+Shift+P</source>
-        <translation>Ctrl+Shift+P</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="127"/>
@@ -993,7 +981,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>Ctrl+T</source>
-        <translation>Ctrl+T</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
@@ -1003,7 +991,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
         <source>Ctrl+F2</source>
-        <translation>Ctrl+F2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
@@ -1013,7 +1001,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Ctrl+W</source>
-        <translation>Ctrl+W</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
@@ -1551,7 +1539,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/configurationmanager.cpp" line="248"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation>Ctrl+Shift+1</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="255"/>
@@ -1666,7 +1654,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Ctrl+R</source>
-        <translation>Ctrl+R</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="569"/>
@@ -1722,7 +1710,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/configurationmanager.cpp" line="640"/>
         <location filename="../src/gui/configurationmanager.cpp" line="649"/>
         <source>Ctrl+L</source>
-        <translation>Ctrl+L</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="642"/>
@@ -1737,7 +1725,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="656"/>
         <source>Ctrl+Shift+L</source>
-        <translation>Ctrl+Shift+L</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="658"/>
@@ -1867,7 +1855,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1899,7 +1886,6 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5775"/>
         <source>%n lines filtered.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -1945,7 +1931,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1954,14 +1939,12 @@ Set to 0 to disable.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6796"/>
         <source>%n lines yanked.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
@@ -2093,7 +2076,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="91"/>
         <source>XML</source>
-        <translation>XML</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="99"/>
@@ -2180,7 +2163,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="213"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="217"/>
@@ -2770,7 +2753,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
             <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2824,7 +2806,6 @@ Set to 0 to disable.</source>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
-            <numerusform></numerusform>
             <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>

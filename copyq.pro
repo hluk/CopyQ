@@ -10,6 +10,7 @@ TRANSLATIONS = \
     translations/copyq_de.ts \
     translations/copyq_es.ts \
     translations/copyq_fr.ts \
+    translations/copyq_it.ts \
     translations/copyq_ru.ts \
     translations/copyq_uk.ts \
     translations/copyq_zh_CN.ts
