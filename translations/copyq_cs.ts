@@ -2483,12 +2483,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="174"/>
         <source>Use Vim-style Editing</source>
-        <translation/>
+        <translation>Použít úpravy v režimu Vim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="176"/>
         <source>Read .vimrc</source>
-        <translation/>
+        <translation>Číst .vimrc</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="178"/>
@@ -2512,7 +2512,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="875"/>
         <source>Mark '%1' not set.</source>
-        <translation/>
+        <translation>Značka '%1' not nastavena.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3389"/>
@@ -2527,7 +2527,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3405"/>
         <source>Not implemented in FakeVim.</source>
-        <translation/>
+        <translation>Není implementováno v režimu FakeVim.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5501"/>
@@ -2537,7 +2537,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5579"/>
         <source>Move lines into themselves.</source>
-        <translation/>
+        <translation>Přesunout řádky do nich samotných.</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5623"/>
@@ -2551,22 +2551,22 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5683"/>
         <source>File "%1" exists (add ! to override)</source>
-        <translation/>
+        <translation>Soubor "%1" již existuje (Přidejte znak ! chcete-li jej přepsat)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5697"/>
         <source>Cannot open file "%1" for writing</source>
-        <translation/>
+        <translation>Soubor "%1" nelze otevřít pro zápis</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5703"/>
         <source>"%1" %2 %3L, %4C written.</source>
-        <translation/>
+        <translation>"%1" %2 %3L, %4C zapsáno.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5712"/>
         <source>Cannot open file "%1" for reading</source>
-        <translation/>
+        <translation>Soubor "%1" nelze otevřít pro čtení</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5741"/>
@@ -2576,12 +2576,10 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5775"/>
         <source>%n lines filtered.</source>
-        <translation>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%n řádek přefiltrován.</numerusform>
+        <numerusform>%n řádky přefiltrovány.</numerusform>
+        <numerusform>%n řádků přefiltrováno.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>Cannot open file %1</source>
@@ -2590,69 +2588,63 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6019"/>
         <source>Invalid regular expression: %1</source>
-        <translation/>
+        <translation>Neplatný regulární výraz: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6055"/>
         <source>Pattern not found: %1</source>
-        <translation/>
+        <translation>Vzor hledání nenalezen: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6059"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation/>
+        <translation>Hledání dosáhlo na konec, pokračuje se na začátku.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6060"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation/>
+        <translation>Hledání dosáhlo na začátek, pokračuje se na konci.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6065"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation/>
+        <translation>Hledání dosáhlo na konec, aniž by se našla shoda pro: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6066"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation/>
+        <translation>Hledání dosáhlo na začátek, aniž by se našla shoda pro: %1</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6173"/>
         <source>%n lines indented.</source>
-        <translation>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%n řádek odsazen.</numerusform>
+        <numerusform>%n řádky odsazeny.</numerusform>
+        <numerusform>%n řádků odsazeno.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6230"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>Na %n řádek %2-krát provedeno %1.</numerusform>
+        <numerusform>Na %n řádky %2-krát provedeno %1.</numerusform>
+        <numerusform>Na %n řádků %2-krát provedeno %1.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6796"/>
         <source>%n lines yanked.</source>
-        <translation>
-            <numerusform/>
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%n řádek zkopírován.</numerusform>
+        <numerusform>%n řádky zkopírovány.</numerusform>
+        <numerusform>%n řádků zkopírováno.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7502"/>
         <source>Already at oldest change.</source>
-        <translation/>
+        <translation>Dosažena nejstarší změna.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7503"/>
         <source>Already at newest change.</source>
-        <translation/>
+        <translation>Dosažena poslední změna.</translation>
     </message>
 </context>
 <context>
@@ -2660,12 +2652,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2646"/>
         <source>Recursive mapping</source>
-        <translation/>
+        <translation>Rekurzivní přiřazení</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4043"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation/>
+        <translation>Napište Alt-V, Alt-V pro ukončení režimu FakeVim.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5704"/>
@@ -2675,7 +2667,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5933"/>
         <source>Not an editor command: %1</source>
-        <translation/>
+        <translation>Není příkazem editoru: %1</translation>
     </message>
 </context>
 <context>
@@ -3175,7 +3167,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1465"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation>Opravdu chcete &lt;strong&gt;odebrat všechny prvky a přiřazené soubory&lt;strong&gt;?</translation>
+        <translation>Opravdu chcete &lt;strong&gt;odebrat všechny prvky a přiřazené soubory&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1637"/>
@@ -3646,7 +3638,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2026"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>Opravdu chcete odebrat &lt;strong&gt;všechny záložky&lt;strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
+        <translation>Opravdu chcete odebrat &lt;strong&gt;všechny záložky&lt;/strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2071"/>
