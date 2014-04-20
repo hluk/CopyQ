@@ -185,7 +185,7 @@ void ItemEditorWidget::initEditor(QWidget *editor)
 
     m_toolBar = new QToolBar(this);
     m_toolBar->setBackgroundRole(QPalette::Base);
-    m_toolBar->setStyleSheet("QToolBar{border:0}"
+    m_toolBar->setStyleSheet("QToolBar{border:0;background:transparent}"
                              "QToolButton{background:transparent}");
 
     QVBoxLayout *layout = new QVBoxLayout(this);
