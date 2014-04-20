@@ -30,7 +30,6 @@
 #include <QMap>
 #include <QModelIndex>
 #include <QPointer>
-#include <QSharedPointer>
 #include <QSystemTrayIcon>
 
 class Action;
@@ -442,7 +441,5 @@ private:
 
     ActionHandler *m_actionHandler;
 };
-
-typedef QSharedPointer<MainWindow> MainWindowPtr;
 
 #endif // MAINWINDOW_H

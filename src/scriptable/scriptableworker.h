@@ -33,13 +33,12 @@ class ClientSocket;
 class ScriptableWorker : public QRunnable
 {
 public:
-    ScriptableWorker(const MainWindowPtr &mainWindow, const Arguments &args,
-                     ClientSocket *socket);
+    ScriptableWorker(MainWindow *mainWindow, const Arguments &args, ClientSocket *socket);
 
     void run();
 
 private:
-    MainWindowPtr m_wnd;
+    MainWindow *m_wnd;
     Arguments m_args;
     ClientSocket *m_socket;
 };

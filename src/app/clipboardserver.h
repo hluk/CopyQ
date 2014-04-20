@@ -123,7 +123,7 @@ private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
 
-    MainWindowPtr m_wnd;
+    MainWindow* m_wnd;
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;

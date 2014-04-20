@@ -65,7 +65,7 @@ QString newClipboardMonitorServerName()
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
     , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName)
-    , m_wnd()
+    , m_wnd(NULL)
     , m_monitor(NULL)
     , m_checkclip(false)
     , m_lastHash(0)
@@ -83,7 +83,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     QApplication::setQuitOnLastWindowClosed(false);
 
-    m_wnd = MainWindowPtr(new MainWindow);
+    m_wnd = new MainWindow;
 
     connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
              this, SLOT(doCommand(Arguments,ClientSocket*)) );
@@ -94,10 +94,10 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
              this, SLOT(onCommitData(QSessionManager&)) );
 
-    connect( m_wnd.data(), SIGNAL(changeClipboard(QVariantMap)),
+    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap)),
              this, SLOT(changeClipboard(QVariantMap)) );
 
-    connect( m_wnd.data(), SIGNAL(requestExit()),
+    connect( m_wnd, SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
 
     loadSettings();
@@ -143,6 +143,8 @@ void ClipboardServer::stopMonitoring()
     m_monitor = NULL;
 
     log( tr("Clipboard Monitor: Terminated") );
+
+    delete m_wnd;
 }
 
 void ClipboardServer::startMonitoring()
@@ -258,7 +260,7 @@ bool ClipboardServer::askToQuit()
     if ( m_clientThreads.activeThreadCount() > 0 || m_wnd->hasRunningAction() ) {
         QMessageBox messageBox( QMessageBox::Warning, tr("Cancel Active Commands"),
                                 tr("Cancel active commands and exit?"), QMessageBox::NoButton,
-                                m_wnd.data() );
+                                m_wnd );
 
         messageBox.addButton(tr("Cancel Exiting"), QMessageBox::RejectRole);
         messageBox.addButton(tr("Exit Anyway"), QMessageBox::AcceptRole);

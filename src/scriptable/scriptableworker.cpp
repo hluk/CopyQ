@@ -33,7 +33,7 @@ Q_DECLARE_METATYPE(QByteArray*)
 #define MONITOR_LOG(msg) \
     COPYQ_LOG( QString("Scripting engine: %1").arg(msg) );
 
-ScriptableWorker::ScriptableWorker(const MainWindowPtr &mainWindow,
+ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
                                    const Arguments &args, ClientSocket *socket)
     : QRunnable()
     , m_wnd(mainWindow)

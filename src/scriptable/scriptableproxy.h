@@ -140,7 +140,7 @@ class ScriptableProxyHelper : public QObject
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    explicit ScriptableProxyHelper(const MainWindowPtr &mainWindow)
+    explicit ScriptableProxyHelper(MainWindow* mainWindow)
       : QObject(NULL)
       , m_wnd(mainWindow)
       , m_tabName()
@@ -382,7 +382,7 @@ private:
         return c->isLoaded() ? c : NULL;
     }
 
-    MainWindowPtr m_wnd;
+    MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
     QString m_tabName;
     QScopedPointer<ClipboardBrowser::Lock> m_lock;
@@ -400,7 +400,7 @@ private:
 class ScriptableProxy
 {
 public:
-    explicit ScriptableProxy(const MainWindowPtr &mainWindow)
+    explicit ScriptableProxy(MainWindow *mainWindow)
         : m_helper(new detail::ScriptableProxyHelper(mainWindow))
     {
         qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
