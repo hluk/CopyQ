@@ -9,6 +9,8 @@ project=${3:-"copyq"}
 url=$base_url$user:/$project
 
 urls=(
+    "$url/xUbuntu_14.04/i386/${project}_${version}_i386.deb"
+    "$url/xUbuntu_14.04/amd64/${project}_${version}_amd64.deb"
     "$url/xUbuntu_13.10/i386/${project}_${version}_i386.deb"
     "$url/xUbuntu_13.10/amd64/${project}_${version}_amd64.deb"
     "$url/xUbuntu_13.04/i386/${project}_${version}_i386.deb"
