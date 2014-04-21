@@ -20,34 +20,64 @@
 #include "pluginwidget.h"
 #include "ui_pluginwidget.h"
 
+#include <QSettings>
+
 PluginWidget::PluginWidget(const ItemLoaderInterfacePtr &loader, QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::PluginWidget)
+    , ui(NULL)
     , m_loader(loader)
-    , m_loaderSettings(NULL)
 {
-    ui->setupUi(this);
-
-    const QString author = loader->author();
-    if (author.isEmpty())
-        ui->labelAuthor->hide();
-    else
-        ui->labelAuthor->setText(author);
-
-    const QString description = loader->description();
-    if (description.isEmpty())
-        ui->labelDescription->hide();
-    else
-        ui->labelDescription->setText(loader->description());
-
-    m_loaderSettings = m_loader->createSettingsWidget(this);
-    if (m_loaderSettings != NULL) {
-        ui->verticalLayout->insertWidget(2, m_loaderSettings);
-        ui->verticalLayout->setStretch(2, 1);
-    }
 }
 
 PluginWidget::~PluginWidget()
 {
     delete ui;
+}
+
+void PluginWidget::applySettings(QSettings *settings, bool isPluginEnabled)
+{
+    settings->beginGroup(m_loader->id());
+
+    if (ui) {
+        QVariantMap s = m_loader->applySettings();
+        foreach (const QString &name, s.keys())
+            settings->setValue(name, s[name]);
+    }
+
+    settings->setValue("enabled", isPluginEnabled);
+
+    settings->endGroup();
+}
+
+void PluginWidget::showEvent(QShowEvent *event)
+{
+    init();
+    QWidget::showEvent(event);
+}
+
+void PluginWidget::init()
+{
+    if (ui)
+        return;
+
+    ui = new Ui::PluginWidget;
+    ui->setupUi(this);
+
+    const QString author = m_loader->author();
+    if (author.isEmpty())
+        ui->labelAuthor->hide();
+    else
+        ui->labelAuthor->setText(author);
+
+    const QString description = m_loader->description();
+    if (description.isEmpty())
+        ui->labelDescription->hide();
+    else
+        ui->labelDescription->setText(m_loader->description());
+
+    QWidget *loaderSettings = m_loader->createSettingsWidget(this);
+    if (loaderSettings) {
+        ui->verticalLayout->insertWidget(2, loaderSettings);
+        ui->verticalLayout->setStretch(2, 1);
+    }
 }

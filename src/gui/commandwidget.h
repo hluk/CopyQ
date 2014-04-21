@@ -20,6 +20,8 @@
 #ifndef COMMANDWIDGET_H
 #define COMMANDWIDGET_H
 
+#include "common/command.h"
+
 #include <QWidget>
 
 namespace Ui {
@@ -27,7 +29,6 @@ class CommandWidget;
 }
 
 class QComboBox;
-struct Command;
 
 /** Widget (set of widgets) for creating or modifying Command object. */
 class CommandWidget : public QWidget
@@ -44,12 +45,6 @@ public:
     /** Set current command. */
     void setCommand(const Command &command);
 
-    /** Set list of known tab names (for combo box). */
-    void setTabs(const QStringList &tabs);
-
-    /** Set possible formats (for combo box). */
-    void setFormats(const QStringList &formats);
-
     /** Return command icon. */
     QString currentIcon() const;
 
@@ -59,6 +54,9 @@ signals:
     void iconChanged(const QString &iconString);
 
     void nameChanged(const QString &name);
+
+protected:
+    void showEvent(QShowEvent *event);
 
 private slots:
     void on_lineEditName_textChanged(const QString &name);
@@ -76,11 +74,12 @@ private slots:
     void on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &shortcut);
 
 private:
-    void setTabs(const QStringList &tabs, QComboBox *w);
+    void init();
 
     void updateWidgets();
 
     Ui::CommandWidget *ui;
+    Command m_cmd;
 };
 
 #endif // COMMANDWIDGET_H

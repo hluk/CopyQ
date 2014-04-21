@@ -24,6 +24,8 @@
 
 #include <QWidget>
 
+class QSettings;
+
 namespace Ui {
 class PluginWidget;
 }
@@ -38,10 +40,16 @@ public:
 
     ItemLoaderInterfacePtr loader() const { return m_loader; }
 
+    void applySettings(QSettings *settings, bool isPluginEnabled);
+
+protected:
+    void showEvent(QShowEvent *event);
+
 private:
+    void init();
+
     Ui::PluginWidget *ui;
     ItemLoaderInterfacePtr m_loader;
-    QWidget *m_loaderSettings;
 };
 
 #endif // PLUGINWIDGET_H

@@ -21,10 +21,12 @@
 #include "ui_commandwidget.h"
 
 #include "common/command.h"
+#include "common/mimetypes.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/shortcutdialog.h"
+#include "item/itemfactory.h"
 
 #include <QAction>
 #include <QFontMetrics>
@@ -53,42 +55,40 @@ void deserializeShortcuts(const QStringList &serializedShortcuts, ShortcutButton
     }
 }
 
+void setComboBoxItems(const QStringList &items, QComboBox *w)
+{
+    const QString text = w->currentText();
+    w->clear();
+    w->addItem(QString());
+    w->addItems(items);
+    w->setEditText(text);
+}
+
 } // namespace
 
 CommandWidget::CommandWidget(QWidget *parent)
     : QWidget(parent)
-    , ui(new Ui::CommandWidget)
+    , ui(NULL)
+    , m_cmd()
 {
-    ui->setupUi(this);
-    setFocusProxy(ui->lineEditName);
-    updateWidgets();
-
-    QFont font("Monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    font.setPointSize(10);
-    ui->lineEditCommand->document()->setDefaultFont(font);
-
-#ifdef NO_GLOBAL_SHORTCUTS
-    ui->shortcutButtonGlobalShortcut->hide();
-    ui->labelGlobalShortcut->hide();
-#else
-    ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
-#endif
-
-    updateIcons();
 }
 
 CommandWidget::~CommandWidget()
 {
-    delete ui;
+    if (ui) {
+        delete ui;
 #if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN)
-    ui->lineEditWindow->hide();
-    ui->labelWindow->hide();
+        ui->lineEditWindow->hide();
+        ui->labelWindow->hide();
 #endif
+    }
 }
 
 Command CommandWidget::command() const
 {
+    if (!ui)
+        return m_cmd;
+
     Command c;
     c.name   = ui->lineEditName->text();
     c.re     = QRegExp( ui->lineEditMatch->text() );
@@ -116,6 +116,11 @@ Command CommandWidget::command() const
 
 void CommandWidget::setCommand(const Command &c)
 {
+    if (!ui) {
+        m_cmd = c;
+        return;
+    }
+
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
@@ -137,34 +142,24 @@ void CommandWidget::setCommand(const Command &c)
     ui->comboBoxOutputTab->setEditText(c.outputTab);
 }
 
-void CommandWidget::setTabs(const QStringList &tabs)
-{
-    setTabs(tabs, ui->comboBoxCopyToTab);
-    setTabs(tabs, ui->comboBoxOutputTab);
-}
-
-void CommandWidget::setFormats(const QStringList &formats)
-{
-    QString text = ui->comboBoxInputFormat->currentText();
-    ui->comboBoxInputFormat->clear();
-    ui->comboBoxInputFormat->addItems(formats);
-    ui->comboBoxInputFormat->setEditText(text);
-
-    text = ui->comboBoxOutputFormat->currentText();
-    ui->comboBoxOutputFormat->clear();
-    ui->comboBoxOutputFormat->addItems(formats);
-    ui->comboBoxOutputFormat->setEditText(text);
-}
-
 QString CommandWidget::currentIcon() const
 {
-    return ui->buttonIcon->currentIcon();
+    return ui ? ui->buttonIcon->currentIcon() : m_cmd.icon;
 }
 
 void CommandWidget::updateIcons()
 {
+    if (!ui)
+        return;
+
     ui->shortcutButtonGlobalShortcut->updateIcons();
     ui->shortcutButton->updateIcons();
+}
+
+void CommandWidget::showEvent(QShowEvent *event)
+{
+    init();
+    QWidget::showEvent(event);
 }
 
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
@@ -202,17 +197,52 @@ void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySe
     updateWidgets();
 }
 
-void CommandWidget::setTabs(const QStringList &tabs, QComboBox *w)
+void CommandWidget::init()
 {
-    QString text = w->currentText();
-    w->clear();
-    w->addItem("");
-    w->addItems(tabs);
-    w->setEditText(text);
+    if (ui)
+        return;
+
+    ui = new Ui::CommandWidget;
+    ui->setupUi(this);
+    setFocusProxy(ui->lineEditName);
+    updateWidgets();
+
+    QFont font("Monospace");
+    font.setStyleHint(QFont::TypeWriter);
+    font.setPointSize(10);
+    ui->lineEditCommand->document()->setDefaultFont(font);
+
+#ifdef NO_GLOBAL_SHORTCUTS
+    ui->shortcutButtonGlobalShortcut->hide();
+    ui->labelGlobalShortcut->hide();
+#else
+    ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
+#endif
+
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    // Add tab names to combo boxes.
+    QStringList tabs = cm->value("tabs").toStringList();
+    setComboBoxItems(tabs, ui->comboBoxCopyToTab);
+    setComboBoxItems(tabs, ui->comboBoxOutputTab);
+
+    // Add formats to combo boxex.
+    QStringList formats = cm->itemFactory()->formatsToSave();
+    formats.prepend(mimeText);
+    formats.prepend(QString());
+    formats.removeDuplicates();
+
+    setComboBoxItems(formats, ui->comboBoxInputFormat);
+    setComboBoxItems(formats, ui->comboBoxOutputFormat);
+
+    setCommand(m_cmd);
+
+    updateIcons();
 }
 
 void CommandWidget::updateWidgets()
 {
+    Q_ASSERT(ui);
     bool inMenu = ui->checkBoxInMenu->isChecked();
     bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
 #ifdef NO_GLOBAL_SHORTCUTS

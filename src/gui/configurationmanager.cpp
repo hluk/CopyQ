@@ -1004,14 +1004,6 @@ void ConfigurationManager::addCommandWithoutSave(const Command &command)
 
     cmdWidget->setCommand(command);
 
-    QStringList formats = itemFactory()->formatsToSave();
-    formats.prepend(mimeText);
-    formats.prepend(QString());
-    formats.removeDuplicates();
-    cmdWidget->setFormats(formats);
-
-    cmdWidget->setTabs( value("tabs").toStringList() );
-
     connect( cmdWidget, SIGNAL(iconChanged(QString)),
              this, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
     connect( cmdWidget, SIGNAL(nameChanged(QString)),
@@ -1307,22 +1299,11 @@ void ConfigurationManager::apply()
         if ( itemFactory()->hasLoaders() ) {
             settings.beginGroup("Plugins");
             for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
+                bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);
                 QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
                 PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-                ItemLoaderInterfacePtr loader = pluginWidget->loader();
-
-                settings.beginGroup(loader->id());
-
-                QVariantMap s = loader->applySettings();
-                foreach (const QString &name, s.keys()) {
-                    settings.setValue(name, s[name]);
-                }
-
-                bool enabled = ui->itemOrderListPlugins->isItemChecked(i);
-                itemFactory()->setLoaderEnabled(loader, enabled);
-                settings.setValue("enabled", enabled);
-
-                settings.endGroup();
+                pluginWidget->applySettings(&settings, isPluginEnabled);
+                itemFactory()->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
             }
             settings.endGroup();
 
