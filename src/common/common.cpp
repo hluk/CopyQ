@@ -38,18 +38,23 @@
 
 namespace {
 
+QString getImageFormatFromMime(const QString &mime)
+{
+    static const QString imageMimePrefix("image/");
+    return mime.startsWith(imageMimePrefix) ? mime.mid(imageMimePrefix.length()).toUpper()
+                                            : QString();
+}
+
 /**
  * Sometimes only Qt internal image data are available in cliboard,
  * so this tries to convert the image data (if available) to given MIME format.
  */
 void cloneImageData(const QMimeData &data, const QString &mime, QVariantMap *dataMap)
 {
-    static const QString imageMimePrefix("image/");
-
-    if ( !mime.startsWith(imageMimePrefix) || !data.hasImage() )
+    if ( !data.hasImage() )
         return;
 
-    const QString fmt = mime.mid(imageMimePrefix.length()).toUpper();
+    const QString fmt = getImageFormatFromMime(mime);
     const QImage image = data.imageData().value<QImage>();
 
     QBuffer buffer;
@@ -61,6 +66,23 @@ void cloneImageData(const QMimeData &data, const QString &mime, QVariantMap *dat
 
     if (saved)
         dataMap->insert(mime, buffer.buffer());
+}
+
+bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeData)
+{
+    if ( !data.contains(mime) )
+        return false;
+
+    const QString imageFormat = getImageFormatFromMime(mime);
+    if ( imageFormat.isEmpty() )
+        return false;
+
+    const QImage image = QImage::fromData( data.value(mime).toByteArray(), imageFormat.toUtf8().constData() );
+    if ( image.isNull() )
+        return false;
+
+    mimeData->setImageData(image);
+    return true;
 }
 
 } // namespace
@@ -192,6 +214,15 @@ QMimeData* createMimeData(const QVariantMap &data)
     QScopedPointer<QMimeData> newClipboardData(new QMimeData);
     foreach ( const QString &format, data.keys() )
         newClipboardData->setData( format, data[format].toByteArray() );
+
+    // Set image data.
+    const QStringList formats =
+            QStringList() << "image/png" << "image/bmp" << "application/x-qt-image" << data.keys();
+    foreach (const QString &imageFormat, formats) {
+        if ( setImageData(data, imageFormat, newClipboardData.data()) )
+            break;
+    }
+
     return newClipboardData.take();
 }
 
