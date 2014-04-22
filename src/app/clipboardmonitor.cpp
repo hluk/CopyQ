@@ -420,8 +420,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
             m_needCheckSelection = false;
         clipboardChanged(data2);
     } else {
-        if (!m_x11->hasCopySelection())
-            data2.insert(mimeClipboardMode, "selection");
+        data2.insert(mimeClipboardMode, "selection");
         if ( !ownsClipboardData(data2) && m_x11->synchronize(QClipboard::Clipboard) )
             m_needCheckClipboard = false;
         if ( m_x11->hasCheckSelection() )
