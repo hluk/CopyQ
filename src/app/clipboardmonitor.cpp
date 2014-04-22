@@ -62,6 +62,16 @@ void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
     QApplication::clipboard()->setMimeData( mimeData.take(), mode );
 }
 
+bool needChangeClipboard(const QMimeData &currentData, const QVariantMap &newData)
+{
+    foreach ( const QString &format, newData.keys() ) {
+        if (newData[format] != currentData.data(format))
+            return true;
+    }
+
+    return false;
+}
+
 } // namespace
 
 #ifdef COPYQ_WS_X11
@@ -150,7 +160,9 @@ public:
             return;
         }
 
-        setClipboardData(sourceData, m_syncTo);
+        const QMimeData *data = clipboardData(m_syncTo);
+        if  (!data || needChangeClipboard(*data, sourceData))
+            setClipboardData(sourceData, m_syncTo);
     }
 
     void cancelSynchronization()
