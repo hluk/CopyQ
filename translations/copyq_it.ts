@@ -460,12 +460,12 @@ Lasciare vuoto per disabilitare.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="173"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Usa il comando solo per gli elementi con il testo del titolo che combacia con questa espressione regolare (lasciare vuoto per la corrispondenza con qualunque finestra). Su OS X, questo contiene il nome del programma seguito da un trattino (&amp;quot;-&amp;quot;) poi il titolo della finestra. Ad es. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="180"/>
         <source>&amp;Window:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Finestra:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="190"/>
