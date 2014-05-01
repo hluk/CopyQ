@@ -129,6 +129,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 ClipboardServer::~ClipboardServer()
 {
     removeGlobalShortcuts();
+    delete m_wnd;
 }
 
 void ClipboardServer::stopMonitoring()
@@ -143,8 +144,6 @@ void ClipboardServer::stopMonitoring()
     m_monitor = NULL;
 
     log( tr("Clipboard Monitor: Terminated") );
-
-    delete m_wnd;
 }
 
 void ClipboardServer::startMonitoring()
