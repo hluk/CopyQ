@@ -928,6 +928,7 @@ void ConfigurationManager::initOptions()
     bind("transparency", ui->spinBoxTransparencyUnfocused, 0);
     bind("hide_tabs", ui->checkBoxHideTabs, false);
     bind("hide_toolbar", ui->checkBoxHideToolbar, false);
+    bind("hide_toolbar_labels", ui->checkBoxHideToolbarLabels, true);
     bind("disable_tray", ui->checkBoxDisableTray, false);
     bind("tab_tree", ui->checkBoxTabTree, false);
     bind("text_wrap", ui->checkBoxTextWrap, true);

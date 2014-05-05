@@ -99,7 +99,6 @@ struct MainWindowOptions {
         , transparency(0)
         , transparencyFocused(0)
         , hideTabs(false)
-        , hideToolbar(false)
         , itemActivationCommands(ActivateCloses)
         , clearFirstTab(false)
         , showTray(true)
@@ -123,7 +122,6 @@ struct MainWindowOptions {
     int transparencyFocused;
 
     bool hideTabs;
-    bool hideToolbar;
 
     int itemActivationCommands;
 
@@ -1003,9 +1001,12 @@ void MainWindow::loadSettings()
     m_options->hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_options->hideTabs);
 
-    m_options->hideToolbar = cm->value("hide_toolbar").toBool();
+    bool hideToolbar = cm->value("hide_toolbar").toBool();
     ui->toolBar->clear();
-    ui->toolBar->setHidden(m_options->hideToolbar);
+    ui->toolBar->setHidden(hideToolbar);
+    bool hideToolBarLabels = cm->value("hide_toolbar_labels").toBool();
+    ui->toolBar->setToolButtonStyle(hideToolBarLabels ? Qt::ToolButtonIconOnly
+                                                      : Qt::ToolButtonTextUnderIcon);
 
     // shared data for browsers
     m_sharedData->loadFromConfiguration();
@@ -1569,7 +1570,12 @@ void MainWindow::onItemMenuUpdated()
             const QString iconTheme = action->property("CopyQ_icon_theme").toString();
             if (hasIconId)
                 icon = getIcon(iconTheme, iconId, color, color);
-            ui->toolBar->addAction( icon, action->text(), action, SIGNAL(triggered()) );
+            const QString text = action->text();
+            const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
+            const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
+            const QString tooltip = "<center>" + escapeHtml(text)
+                    + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
+            ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) )->setToolTip(tooltip);
         }
     }
 }
