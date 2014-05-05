@@ -25,13 +25,13 @@
 
 #include <QScopedPointer>
 #include <QTextDocument>
-#include <QTextEdit>
+#include <QTextBrowser>
 
 namespace Ui {
 class ItemTextSettings;
 }
 
-class ItemText : public QTextEdit, public ItemWidget
+class ItemText : public QTextBrowser, public ItemWidget
 {
     Q_OBJECT
 

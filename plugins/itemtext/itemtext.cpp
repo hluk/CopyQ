@@ -73,7 +73,7 @@ bool getText(const QModelIndex &index, QString *text)
 } // namespace
 
 ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maximumHeight, QWidget *parent)
-    : QTextEdit(parent)
+    : QTextBrowser(parent)
     , ItemWidget(this)
     , m_textDocument()
     , m_copyOnMouseUp(false)
@@ -83,6 +83,7 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
     setReadOnly(true);
     setUndoRedoEnabled(false);
+    setOpenExternalLinks(true);
 
     setHorizontalScrollBarPolicy(Qt::ScrollBarAlwaysOff);
     setFrameStyle(QFrame::NoFrame);
@@ -120,10 +121,10 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
 void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QPalette &highlightPalette)
 {
-    QList<QTextEdit::ExtraSelection> selections;
+    QList<QTextBrowser::ExtraSelection> selections;
 
     if ( !re.isEmpty() ) {
-        QTextEdit::ExtraSelection selection;
+        QTextBrowser::ExtraSelection selection;
         selection.format.setBackground( highlightPalette.base() );
         selection.format.setForeground( highlightPalette.text() );
         selection.format.setFont(highlightFont);
@@ -169,7 +170,7 @@ void ItemText::updateSize(const QSize &maximumSize)
 void ItemText::mousePressEvent(QMouseEvent *e)
 {
     setTextCursor( cursorForPosition(e->pos()) );
-    QTextEdit::mousePressEvent(e);
+    QTextBrowser::mousePressEvent(e);
 }
 
 void ItemText::mouseReleaseEvent(QMouseEvent *e)
@@ -179,7 +180,7 @@ void ItemText::mouseReleaseEvent(QMouseEvent *e)
         if ( textCursor().hasSelection() )
             copy();
     } else {
-        QTextEdit::mouseReleaseEvent(e);
+        QTextBrowser::mouseReleaseEvent(e);
     }
 }
 

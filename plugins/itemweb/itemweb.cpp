@@ -24,6 +24,7 @@
 
 #include <QApplication>
 #include <QDesktopWidget>
+#include <QDesktopServices>
 #include <QModelIndex>
 #include <QMouseEvent>
 #include <QPalette>
@@ -86,6 +87,10 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, QWidget *parent)
     // Selecting text copies it to clipboard.
     connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
 
+    // Open link with external application.
+    page()->setLinkDelegationPolicy(QWebPage::DelegateAllLinks);
+    connect( page(), SIGNAL(linkClicked(QUrl)), SLOT(onLinkClicked(QUrl)) );
+
     setProperty("CopyQ_no_style", true);
 
     setHtml(html);
@@ -134,6 +139,12 @@ void ItemWeb::updateSize(const QSize &maximumSize)
 void ItemWeb::onSelectionChanged()
 {
     m_copyOnMouseUp = true;
+}
+
+void ItemWeb::onLinkClicked(const QUrl &url)
+{
+    if ( !QDesktopServices::openUrl(url) )
+        load(url);
 }
 
 void ItemWeb::mousePressEvent(QMouseEvent *e)

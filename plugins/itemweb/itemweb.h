@@ -57,6 +57,7 @@ protected:
 
 private slots:
     void onSelectionChanged();
+    void onLinkClicked(const QUrl &url);
 
 private slots:
     void onItemChanged();
