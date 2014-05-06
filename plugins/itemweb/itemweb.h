@@ -55,6 +55,8 @@ protected:
 
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
+    virtual void mouseDoubleClickEvent(QMouseEvent *e);
+
 private slots:
     void onSelectionChanged();
     void onLinkClicked(const QUrl &url);

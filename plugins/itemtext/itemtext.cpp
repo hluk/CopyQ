@@ -171,6 +171,8 @@ void ItemText::mousePressEvent(QMouseEvent *e)
 {
     setTextCursor( cursorForPosition(e->pos()) );
     QTextBrowser::mousePressEvent(e);
+    // Propagate event to item list.
+    e->ignore();
 }
 
 void ItemText::mouseReleaseEvent(QMouseEvent *e)
@@ -182,6 +184,11 @@ void ItemText::mouseReleaseEvent(QMouseEvent *e)
     } else {
         QTextBrowser::mouseReleaseEvent(e);
     }
+}
+
+void ItemText::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    e->ignore();
 }
 
 void ItemText::onSelectionChanged()

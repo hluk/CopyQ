@@ -105,28 +105,11 @@ QSize ItemDelegate::sizeHint(const QStyleOptionViewItem &,
     return sizeHint(index);
 }
 
-bool ItemDelegate::eventFilter(QObject *object, QEvent *event)
+bool ItemDelegate::eventFilter(QObject *, QEvent *event)
 {
     // resize event for items
-    switch ( event->type() ) {
-    case QEvent::Resize:
+    if ( event->type() == QEvent::Resize )
         emit rowSizeChanged();
-        break;
-    case QEvent::MouseButtonPress:
-    case QEvent::MouseButtonRelease:
-    case QEvent::MouseButtonDblClick:
-    case QEvent::MouseMove: {
-        // Don't pass mouse events to item if keyboard modifier is pressed or the item is
-        // not yet selected (will be selected by the event).
-        if ( static_cast<QMouseEvent*>(event)->modifiers() != Qt::NoModifier || !isItemSelected(object) ) {
-            QApplication::sendEvent(m_parent, event);
-            return true;
-        }
-        break;
-    }
-    default:
-        break;
-    }
 
     return false;
 }
@@ -272,8 +255,6 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     ww->hide();
 
     ww->installEventFilter(this);
-    foreach (QWidget *child, ww->findChildren<QWidget *>())
-        child->installEventFilter(this);
 
     emit rowSizeChanged();
 }

@@ -173,6 +173,11 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
     }
 }
 
+void ItemWeb::mouseDoubleClickEvent(QMouseEvent *e)
+{
+    e->ignore();
+}
+
 ItemWebLoader::ItemWebLoader()
 {
 }
