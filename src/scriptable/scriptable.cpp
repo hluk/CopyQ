@@ -967,6 +967,11 @@ QScriptValue Scriptable::selecteditems()
     return m_proxy->selectedItems();
 }
 
+QScriptValue Scriptable::escapeHTML()
+{
+    return escapeHtml(toString(argument(0)));
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);

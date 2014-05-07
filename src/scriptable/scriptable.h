@@ -140,6 +140,8 @@ public slots:
 
     QScriptValue selecteditems();
 
+    QScriptValue escapeHTML();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
