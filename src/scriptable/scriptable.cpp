@@ -967,6 +967,11 @@ QScriptValue Scriptable::selecteditems()
     return m_proxy->selectedItems();
 }
 
+QScriptValue Scriptable::index()
+{
+    return m_proxy->index();
+}
+
 QScriptValue Scriptable::escapeHTML()
 {
     return escapeHtml(toString(argument(0)));

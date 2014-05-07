@@ -140,6 +140,8 @@ public slots:
 
     QScriptValue selecteditems();
 
+    QScriptValue index();
+
     QScriptValue escapeHTML();
 
 public slots:
