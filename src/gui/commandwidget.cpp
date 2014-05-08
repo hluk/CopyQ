@@ -229,7 +229,6 @@ void CommandWidget::init()
     // Add formats to combo boxex.
     QStringList formats = cm->itemFactory()->formatsToSave();
     formats.prepend(mimeText);
-    formats.prepend(QString());
     formats.removeDuplicates();
 
     setComboBoxItems(formats, ui->comboBoxInputFormat);
