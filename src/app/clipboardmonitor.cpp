@@ -477,11 +477,6 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
                  this, SLOT(checkClipboard(QClipboard::Mode)), Qt::UniqueConnection );
 
-#ifdef COPYQ_WS_X11
-        checkClipboard(QClipboard::Selection);
-#endif
-        checkClipboard(QClipboard::Clipboard);
-
         COPYQ_LOG("Configured");
     } else if (messageCode == MonitorChangeClipboard) {
         QVariantMap data;

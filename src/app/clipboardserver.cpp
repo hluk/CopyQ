@@ -69,7 +69,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_monitor(NULL)
     , m_checkclip(false)
     , m_lastHash(0)
-    , m_ignoreNextClipboardContent(true)
     , m_shortcutActions()
     , m_shortcutBlocker()
     , m_clientThreads()
@@ -184,8 +183,6 @@ void ClipboardServer::loadMonitorSettings()
     settings["copy_selection"] = cm->value("copy_selection");
     settings["check_selection"] = cm->value("check_selection");
 #endif
-
-    m_ignoreNextClipboardContent = true;
 
     QByteArray settingsData;
     QDataStream settingsOut(&settingsData, QIODevice::WriteOnly);
@@ -306,11 +303,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     m_wnd->clipboardChanged(item.data());
 #endif
 
-    if (m_ignoreNextClipboardContent) {
-        // Don't add item to list when clipboard monitor is started.
-        m_ignoreNextClipboardContent = false;
-        m_lastHash = item.dataHash();
-    } else if ( ownsClipboardData(data) ) {
+    if ( ownsClipboardData(data) ) {
         // Don't add item to list if any running clipboard monitor set the clipboard.
     } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
         m_lastHash = item.dataHash();

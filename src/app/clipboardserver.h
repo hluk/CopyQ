@@ -127,7 +127,6 @@ private:
     RemoteProcess *m_monitor;
     bool m_checkclip;
     uint m_lastHash;
-    bool m_ignoreNextClipboardContent;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;
