@@ -167,6 +167,7 @@ public slots:
     void showWindow() { m_wnd->showWindow(); }
     void pasteToCurrentWindow() { m_wnd->pasteToCurrentWindow(); }
 
+    void isMonitoringEnabled() { v = m_wnd->isMonitoringEnabled(); }
     void disableMonitoring(bool arg1) { m_wnd->disableClipboardStoring(arg1); }
     void setClipboard(const QVariantMap &arg1) { m_wnd->setClipboard(arg1); }
 
@@ -413,6 +414,7 @@ public:
     PROXY_METHOD(showWindow)
     PROXY_METHOD(pasteToCurrentWindow)
 
+    PROXY_METHOD_0(bool, isMonitoringEnabled)
     PROXY_METHOD_VOID_1(disableMonitoring, bool)
     PROXY_METHOD_VOID_1(setClipboard, const QVariantMap &)
 

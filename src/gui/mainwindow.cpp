@@ -1441,6 +1441,11 @@ void MainWindow::disableClipboardStoring(bool disable)
     updateIcon();
 }
 
+bool MainWindow::isMonitoringEnabled() const
+{
+    return !m_clipboardStoringDisabled;
+}
+
 void MainWindow::toggleClipboardStoring()
 {
     disableClipboardStoring(!m_clipboardStoringDisabled);

@@ -525,6 +525,11 @@ void Scriptable::enable()
     m_proxy->disableMonitoring(false);
 }
 
+QScriptValue Scriptable::monitoring()
+{
+    return m_proxy->isMonitoringEnabled();
+}
+
 QScriptValue Scriptable::clipboard()
 {
     const QString &mime = arg(0, mimeText);

@@ -270,6 +270,9 @@ public slots:
     /** Temporarily disable monitoring (i.e. adding new clipboard content to the first tab). */
     void disableClipboardStoring(bool disable);
 
+    /** Return true only if monitoring is enabled. */
+    bool isMonitoringEnabled() const;
+
     /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
     void toggleClipboardStoring();
 
