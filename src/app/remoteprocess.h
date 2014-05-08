@@ -81,7 +81,7 @@ private slots:
     void pongTimeout();
     void onNewConnection(const Arguments &args, ClientSocket *socket);
     void onMessageReceived(const QByteArray &message, int messageCode);
-    void checkConnection();
+    bool checkConnection();
     void onConnectionError();
 
 private:

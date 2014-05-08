@@ -528,7 +528,7 @@ void ClipboardMonitor::updateClipboard(const QVariantMap &data)
 
 void ClipboardMonitor::exit(int exitCode)
 {
-    m_updateTimer->start(); // Don't check clipboard after this.
+    m_updateTimer->start(99999); // Don't check clipboard after this.
     App::exit(exitCode);
 }
 

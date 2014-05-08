@@ -71,6 +71,8 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
 
     connect(server, SIGNAL(newConnection(Arguments,ClientSocket*)),
             this, SLOT(onNewConnection(Arguments,ClientSocket*)));
+    connect(this, SIGNAL(connectionError()),
+            server, SLOT(deleteLater()));
 
     server->start();
 
@@ -92,10 +94,13 @@ void RemoteProcess::start(const QString &newServerName, const QStringList &argum
     QTimer::singleShot(16000, this, SLOT(checkConnection()));
 }
 
-void RemoteProcess::checkConnection() {
+bool RemoteProcess::checkConnection() {
     if (!isConnected()) {
-        emit connectionError();
+        onConnectionError();
+        return false;
     }
+
+    return true;
 }
 
 void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
@@ -139,6 +144,8 @@ void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode
 
 void RemoteProcess::onConnectionError()
 {
+    m_timerPing.stop();
+    m_timerPongTimeout.stop();
     m_state = Unconnected;
     emit connectionError();
 }
@@ -155,7 +162,7 @@ bool RemoteProcess::isConnected() const
 
 void RemoteProcess::ping()
 {
-    if ( isConnected() ) {
+    if ( checkConnection() ) {
         writeMessage( QByteArray(), MonitorPing );
         m_timerPing.stop();
         m_timerPongTimeout.start();
