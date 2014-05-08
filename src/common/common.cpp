@@ -293,7 +293,13 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 {
     QString label;
 
-    const QStringList formats = data.keys();
+    QStringList formats;
+    foreach ( const QString &format, data.keys() ) {
+        if ( !format.startsWith(MIME_PREFIX) )
+            formats.append(format);
+    }
+
+
     if ( formats.contains(mimeText) ) {
         const QString text = getTextData(data);
         const int n = text.count(QChar('\n')) + 1;
@@ -313,7 +319,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         label = QObject::tr("<IMAGE>", "Label for image in clipboard");
     } else if ( formats.indexOf(mimeUriList) != -1 ) {
         label = QObject::tr("<FILES>", "Label for URLs/files in clipboard");
-    } else if ( formats.isEmpty() || (formats.size() == 1 && formats[0] == mimeWindowTitle) ) {
+    } else if ( formats.isEmpty() ) {
         label = QObject::tr("<EMPTY>", "Label for empty clipboard");
     } else {
         label = QObject::tr("<DATA>", "Label for data in clipboard");
