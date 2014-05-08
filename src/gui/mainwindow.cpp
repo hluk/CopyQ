@@ -1374,21 +1374,26 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
-    QString text = textLabelForData(data);
-    m_tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
-
-    showClipboardMessage(data);
-
-    const QString clipboardContent = textLabelForData(data);
-    const QString sessionName = qApp->property("CopyQ_session_name").toString();
-    if ( sessionName.isEmpty() ) {
-        setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
-                        .arg(clipboardContent) );
+    if (data.isEmpty()) {
+        m_tray->setToolTip(QString());
+        setWindowTitle("CopyQ");
     } else {
-        setWindowTitle( tr("%1 - %2 - CopyQ",
-                           "Main window title format (%1 is clipboard content label, %2 is session name)")
-                        .arg(clipboardContent)
-                        .arg(sessionName) );
+        QString text = textLabelForData(data);
+        m_tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
+
+        showClipboardMessage(data);
+
+        const QString clipboardContent = textLabelForData(data);
+        const QString sessionName = qApp->property("CopyQ_session_name").toString();
+        if ( sessionName.isEmpty() ) {
+            setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
+                            .arg(clipboardContent) );
+        } else {
+            setWindowTitle( tr("%1 - %2 - CopyQ",
+                               "Main window title format (%1 is clipboard content label, %2 is session name)")
+                            .arg(clipboardContent)
+                            .arg(sessionName) );
+        }
     }
 }
 
@@ -1439,6 +1444,7 @@ void MainWindow::disableClipboardStoring(bool disable)
 
     updateMonitoringActions();
     updateIcon();
+    clipboardChanged(QVariantMap());
 }
 
 bool MainWindow::isMonitoringEnabled() const

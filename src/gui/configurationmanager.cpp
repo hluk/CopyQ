@@ -628,6 +628,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->icon = QString(QChar(IconAsterisk));
         c->remove = true;
         c->automatic = true;
+        c->cmd = "copyq: if ( monitoring() ) { disable(); enable(); }";
 #endif
     } else if (index == ++i) {
         c->name = tr("Encrypt (needs GnuPG)");
