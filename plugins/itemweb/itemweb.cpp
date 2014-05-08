@@ -93,7 +93,8 @@ ItemWeb::ItemWeb(const QString &html, int maximumHeight, QWidget *parent)
 
     setProperty("CopyQ_no_style", true);
 
-    setHtml(html);
+    // Set some remote URL as base URL so we can include remote scripts.
+    setHtml(html, QUrl("http://example.com/"));
 }
 
 void ItemWeb::highlight(const QRegExp &re, const QFont &, const QPalette &)
