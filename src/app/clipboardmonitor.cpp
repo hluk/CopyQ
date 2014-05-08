@@ -175,11 +175,8 @@ public:
         QVariantMap &clipData = isClip ? m_clipboardData : m_selectionData;
 
         // Need reset?
-        if (isEmpty) {
+        if ( isEmpty && !clipData.isEmpty() ) {
             COPYQ_LOG( QString("%1 is empty").arg(isClip ? "Clipboard" : "Selection") );
-            if (clipData.isEmpty())
-                return true;
-
             bool &reset = isClip ? m_resetClipboard : m_resetSelection;
             reset = !m_syncTimer.isActive() || m_syncTo == mode;
 
