@@ -1372,6 +1372,9 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
+    if (m_clipboardStoringDisabled)
+        return;
+
     m_clipboardData = data;
 
     if (data.isEmpty()) {
