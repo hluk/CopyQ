@@ -33,6 +33,7 @@
 #include <QElapsedTimer>
 #include <QScriptContext>
 #include <QScriptEngine>
+#include <QScriptValueIterator>
 #ifdef HAS_TESTS
 #   include <QSettings>
 #endif
@@ -322,7 +323,17 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, cons
             | QScriptEngine::ExcludeSuperClassProperties
             | QScriptEngine::ExcludeSuperClassContents
             | QScriptEngine::ExcludeDeleteLater;
+
     QScriptValue obj = eng->newQObject(this, QScriptEngine::QtOwnership, opts);
+
+    // Keep internal functions as parseInt() or encodeURIComponent().
+    QScriptValue oldObj = eng->globalObject();
+    QScriptValueIterator it(oldObj);
+    while (it.hasNext()) {
+        it.next();
+        obj.setProperty(it.name(), it.value(), it.flags());
+    }
+
     eng->setGlobalObject(obj);
     eng->setProcessEventsInterval(1000);
 
