@@ -50,17 +50,6 @@ int itemMargin()
     return ( dpi <= 120 ) ? 4 : 4 * dpi / 120;
 }
 
-bool isItemSelected(QObject *object)
-{
-    for ( QObject *parent = object; parent != NULL; parent = parent->parent() ) {
-        if ( parent->objectName() == "item" )
-            return parent->property(propertySelectedItem).toBool();
-    }
-
-    Q_ASSERT(false);
-    return false;
-}
-
 } // namespace
 
 ItemDelegate::ItemDelegate(QListView *parent)
@@ -255,6 +244,8 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     ww->hide();
 
     ww->installEventFilter(this);
+
+    w->setCurrent(m_parent->currentIndex() == index);
 
     emit rowSizeChanged();
 }

@@ -716,26 +716,6 @@ void ItemSync::updateSize(const QSize &maximumSize)
     setFixedSize(sizeHint());
 }
 
-void ItemSync::mousePressEvent(QMouseEvent *e)
-{
-    if (e->button() == Qt::LeftButton) {
-        const QPoint pos = m_label->viewport()->mapFrom(this, e->pos());
-        m_label->setTextCursor( m_label->cursorForPosition(pos) );
-        QWidget::mousePressEvent(e);
-        e->ignore();
-    } else {
-        QWidget::mousePressEvent(e);
-    }
-}
-
-void ItemSync::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    if ( e->button() == Qt::LeftButton && e->modifiers().testFlag(Qt::ShiftModifier) )
-        QWidget::mouseDoubleClickEvent(e);
-    else
-        e->ignore();
-}
-
 void ItemSync::mouseReleaseEvent(QMouseEvent *e)
 {
     if (m_copyOnMouseUp) {

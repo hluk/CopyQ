@@ -44,8 +44,6 @@ protected:
 
     virtual void updateSize(const QSize &maximumSize);
 
-    virtual void mousePressEvent(QMouseEvent *e);
-
     virtual void mouseReleaseEvent(QMouseEvent *e);
 
     virtual void mouseDoubleClickEvent(QMouseEvent *e);

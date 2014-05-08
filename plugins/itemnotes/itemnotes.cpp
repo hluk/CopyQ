@@ -118,6 +118,8 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
 
 void ItemNotes::setCurrent(bool current)
 {
+    ItemWidget::setCurrent(current);
+
     if (m_timerShowToolTip == NULL)
         return;
 

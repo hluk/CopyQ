@@ -167,14 +167,6 @@ void ItemText::updateSize(const QSize &maximumSize)
     setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
 }
 
-void ItemText::mousePressEvent(QMouseEvent *e)
-{
-    setTextCursor( cursorForPosition(e->pos()) );
-    QTextBrowser::mousePressEvent(e);
-    // Propagate event to item list.
-    e->ignore();
-}
-
 void ItemText::mouseReleaseEvent(QMouseEvent *e)
 {
     if (m_copyOnMouseUp) {

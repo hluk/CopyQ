@@ -111,10 +111,11 @@ void ItemWidget::updateSize(const QSize &maximumSize)
         w->resize(w->sizeHint());
 }
 
-void ItemWidget::setCurrent(bool)
+void ItemWidget::setCurrent(bool current)
 {
+    // Propagate mouse events to item list until the item is selected.
+    widget()->setAttribute(Qt::WA_TransparentForMouseEvents, !current);
 }
-
 
 ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const
 {
