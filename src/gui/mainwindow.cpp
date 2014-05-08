@@ -191,8 +191,6 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(onFilterChanged(QRegExp)) );
     connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
              this, SLOT(updateFocusWindows()) );
-    connect( this, SIGNAL(changeClipboard(QVariantMap)),
-             this, SLOT(clipboardChanged(QVariantMap)) );
     connect( m_actionHandler, SIGNAL(hasRunningActionChanged()),
              this, SLOT(updateIcon()) );
     connect( qApp, SIGNAL(aboutToQuit()),
@@ -1374,6 +1372,8 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
+    m_clipboardData = data;
+
     if (data.isEmpty()) {
         m_tray->setToolTip(QString());
         setWindowTitle("CopyQ");
@@ -1634,20 +1634,17 @@ void MainWindow::updateTrayMenuItems()
     if (m_options->trayCommands) {
         if (c == NULL)
             c = browser(0);
-        const QMimeData *data = clipboardData();
 
-        if (data != NULL) {
-            const QVariantMap dataMap = cloneData(*data);
-
+        if (!m_clipboardData.isEmpty()) {
             // Show clipboard content as disabled item.
             const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
             QAction *act = m_trayMenu->addAction( iconClipboard(),
                                                 QString(), this, SLOT(showClipboardContent()) );
-            act->setText( textLabelForData(dataMap, act->font(), format, true) );
+            act->setText( textLabelForData(m_clipboardData, act->font(), format, true) );
             m_trayMenu->addCustomAction(act);
 
             int i = m_trayMenu->actions().size();
-            c->addCommandsToMenu(m_trayMenu, dataMap);
+            c->addCommandsToMenu(m_trayMenu, m_clipboardData);
             QList<QAction *> actions = m_trayMenu->actions();
             for ( ; i < actions.size(); ++i )
                 m_trayMenu->addCustomAction(actions[i]);

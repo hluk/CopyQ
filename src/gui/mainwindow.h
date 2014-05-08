@@ -443,6 +443,8 @@ private:
     bool m_minimizeUnsupported;
 
     ActionHandler *m_actionHandler;
+
+    QVariantMap m_clipboardData;
 };
 
 #endif // MAINWINDOW_H
