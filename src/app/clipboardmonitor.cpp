@@ -157,37 +157,29 @@ public:
     /**
      * Remember last non-empty clipboard content and reset clipboard after interval if there is no owner.
      *
-     * @return false if clipboard doesn't have given formats, otherwise true
+     * @return return true if clipboard/selection has no owner and will be reset
      */
-    bool resetClipboard(QClipboard::Mode mode, const QMimeData *data, const QStringList &formats)
+    bool maybeResetClipboard(QClipboard::Mode mode)
     {
-        Q_ASSERT(data != NULL);
-
         bool isClip = (mode == QClipboard::Clipboard);
         bool isEmpty = isClip ? m_x11Platform.isClipboardEmpty() : m_x11Platform.isSelectionEmpty();
         QVariantMap &clipData = isClip ? m_clipboardData : m_selectionData;
 
         // Need reset?
-        if ( isEmpty && !clipData.isEmpty() ) {
-            COPYQ_LOG( QString("%1 is empty").arg(isClip ? "Clipboard" : "Selection") );
-            bool &reset = isClip ? m_resetClipboard : m_resetSelection;
-            reset = !m_syncTimer.isActive() || m_syncTo == mode;
-
-            if (reset) {
-                m_syncTimer.stop();
-                m_resetTimer.start();
-            } else if (m_resetTimer.isActive() && !m_resetClipboard && !m_resetSelection) {
-                m_resetTimer.stop();
-            }
-
+        if ( !isEmpty || clipData.isEmpty() )
             return false;
+
+        COPYQ_LOG( QString("%1 is empty").arg(isClip ? "Clipboard" : "Selection") );
+        bool &reset = isClip ? m_resetClipboard : m_resetSelection;
+        reset = !m_syncTimer.isActive() || m_syncTo == mode;
+
+        if (reset) {
+            m_syncTimer.stop();
+            m_resetTimer.start();
+        } else if (m_resetTimer.isActive() && !m_resetClipboard && !m_resetSelection) {
+            m_resetTimer.stop();
         }
 
-        QVariantMap dataCopy( cloneData(*data, formats) );
-        if ( dataCopy.isEmpty() )
-            return false;
-
-        clipData = dataCopy;
         return true;
     }
 
@@ -223,9 +215,12 @@ public:
 
     bool hasCopySelection() const { return m_copysel; }
 
-    const QVariantMap &data(QClipboard::Mode mode) const
+    void setData(QClipboard::Mode mode, const QVariantMap &data)
     {
-        return mode == QClipboard::Clipboard ? m_clipboardData : m_selectionData;
+        if (mode == QClipboard::Clipboard)
+            m_clipboardData = data;
+        else
+            m_selectionData = data;
     }
 
 private:
@@ -356,6 +351,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Selection && !updateSelection(false) )
         return;
+    if ( m_x11->maybeResetClipboard(mode) )
+        return;
 #endif
 
     COPYQ_LOG( QString("Checking for new %1 content.")
@@ -371,11 +368,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 
     // clone only mime types defined by user
-#ifdef COPYQ_WS_X11
-    if ( !m_x11->resetClipboard(mode, data, m_formats) )
-        return; // no owner -> reset content
-    QVariantMap data2 = m_x11->data(mode);
-#elif defined(Q_OS_MAC)
+#if defined(Q_OS_MAC)
     //  On OS X, when you copy files in Finder, etc. you get:
     //  - The file name(s) (not paths) as plain text
     //  - The file URI(s)
@@ -391,7 +384,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #endif
 
     // add window title of clipboard owner
-    if ( !data2.contains(mimeOwner) && data2.contains(mimeWindowTitle) ) {
+    if ( !data2.contains(mimeOwner) && !data2.contains(mimeWindowTitle) ) {
         PlatformPtr platform = createPlatformNativeInterface();
         PlatformWindowPtr currentWindow = platform->getCurrentWindow();
         if (currentWindow)
@@ -399,6 +392,8 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
     }
 
 #ifdef COPYQ_WS_X11
+    m_x11->setData(mode, data2);
+
     if (mode == QClipboard::Clipboard) {
         if ( !ownsClipboardData(data2) && m_x11->synchronize(QClipboard::Selection) )
             m_needCheckSelection = false;

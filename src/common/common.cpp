@@ -126,7 +126,7 @@ uint hash(const QVariantMap &data)
 
     foreach ( const QString &mime, data.keys() ) {
         // Skip some special data.
-        if (mime == mimeWindowTitle)
+        if (mime == mimeWindowTitle || mime == mimeOwner)
             continue;
 #ifdef COPYQ_WS_X11
         if (mime == mimeClipboardMode)
@@ -229,7 +229,7 @@ QMimeData* createMimeData(const QVariantMap &data)
     // Don't set clipboard owner if monitor is only used to set clipboard for tests.
     if ( !QCoreApplication::instance()->property("CopyQ_testing").toBool() )
 #endif
-        newClipboardData->setData( mimeOwner, QCoreApplication::organizationName().toUtf8() );
+        newClipboardData->setData( mimeOwner, qgetenv("COPYQ_SESSION_NAME") );
 
     // Set image data.
     const QStringList formats =

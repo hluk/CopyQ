@@ -126,7 +126,6 @@ private:
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
     bool m_checkclip;
-    uint m_lastHash;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;

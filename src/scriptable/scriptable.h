@@ -90,6 +90,8 @@ public slots:
     void enable();
     QScriptValue monitoring();
 
+    void ignore();
+
     QScriptValue clipboard();
     QScriptValue selection();
     void copy();

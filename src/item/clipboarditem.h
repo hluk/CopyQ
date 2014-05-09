@@ -95,9 +95,6 @@ public:
     /** Return hash for item's data. */
     unsigned int dataHash() const { return m_hash; }
 
-    /** Return true if data are empty. */
-    bool isEmpty() const;
-
 private:
     void updateDataHash();
 

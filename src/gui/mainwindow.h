@@ -286,6 +286,11 @@ public slots:
     /** Paste clipboard content to current window. */
     void pasteToCurrentWindow();
 
+    /** Ignore current clipboard content. */
+    void ignoreCurrentClipboard();
+
+    bool wasClipboardIgnored() const { return m_ignoreCurrentClipboard; }
+
     QStringList tabs() const;
 
     QVariant config(const QString &name, const QString &value);
@@ -445,6 +450,7 @@ private:
     ActionHandler *m_actionHandler;
 
     QVariantMap m_clipboardData;
+    bool m_ignoreCurrentClipboard;
 };
 
 #endif // MAINWINDOW_H

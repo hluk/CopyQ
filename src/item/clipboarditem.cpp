@@ -131,11 +131,6 @@ bool ClipboardItem::removeData(const QStringList &mimeTypeList)
     return removed;
 }
 
-bool ClipboardItem::isEmpty() const
-{
-    return m_data.isEmpty() || ( m_data.size() == 1 && m_data.contains(mimeWindowTitle) );
-}
-
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
     m_data.insert(mimeType, data);

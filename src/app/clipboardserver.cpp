@@ -68,7 +68,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_wnd(NULL)
     , m_monitor(NULL)
     , m_checkclip(false)
-    , m_lastHash(0)
     , m_shortcutActions()
     , m_shortcutBlocker()
     , m_clientThreads()
@@ -182,6 +181,7 @@ void ClipboardServer::loadMonitorSettings()
     settings["copy_clipboard"] = cm->value("copy_clipboard");
     settings["copy_selection"] = cm->value("copy_selection");
     settings["check_selection"] = cm->value("check_selection");
+    settings["check_selection"].toBool();
 #endif
 
     QByteArray settingsData;
@@ -286,6 +286,9 @@ void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)
 
 void ClipboardServer::newMonitorMessage(const QByteArray &message)
 {
+    if ( m_wnd->isClipboardStoringDisabled() )
+        return;
+
     QVariantMap data;
 
     if ( !deserializeData(&data, message) ) {
@@ -293,23 +296,26 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
         return;
     }
 
-    ClipboardItem item;
-    item.setData(data);
+    bool forceRunCommands = false;
 
 #ifdef COPYQ_WS_X11
     if ( data.value(mimeClipboardMode) != "selection" )
-        m_wnd->clipboardChanged(item.data());
-#else
-    m_wnd->clipboardChanged(item.data());
 #endif
+    {
+        // Force rerun commands if previous clipboard content was ignored.
+        forceRunCommands = m_wnd->wasClipboardIgnored();
 
-    if ( ownsClipboardData(data) ) {
-        // Don't add item to list if any running clipboard monitor set the clipboard.
-    } else if ( m_checkclip && !item.isEmpty() && m_lastHash != item.dataHash() ) {
-        m_lastHash = item.dataHash();
-        if ( !m_wnd->isClipboardStoringDisabled() )
-            m_wnd->addToTab( item.data(), QString(), true );
+        m_wnd->clipboardChanged(data);
+        if (!m_checkclip)
+            return;
     }
+
+    // Don't add item to list if any running clipboard monitor set the clipboard.
+    if ( !forceRunCommands && ownsClipboardData(data) )
+        return;
+
+    if ( !data.isEmpty() )
+        m_wnd->addToTab( data, QString(), true );
 }
 
 void ClipboardServer::monitorConnectionError()
@@ -328,7 +334,6 @@ void ClipboardServer::changeClipboard(const QVariantMap &data)
     COPYQ_LOG("Sending message to monitor.");
 
     m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
-    m_lastHash = hash(data);
 }
 
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)

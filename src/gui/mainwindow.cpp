@@ -152,6 +152,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_timerMiminizing(NULL)
     , m_minimizeUnsupported(false)
     , m_actionHandler(new ActionHandler(this))
+    , m_ignoreCurrentClipboard(true)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -1375,6 +1376,7 @@ void MainWindow::previousTab()
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
     m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
+    m_ignoreCurrentClipboard = false;
 
     if ( m_clipboardData.isEmpty() ) {
         m_tray->setToolTip(QString());
@@ -1480,6 +1482,12 @@ void MainWindow::pasteToCurrentWindow()
     PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
     if (window)
         window->pasteClipboard();
+}
+
+void MainWindow::ignoreCurrentClipboard()
+{
+    clipboardChanged(QVariantMap());
+    m_ignoreCurrentClipboard = true;
 }
 
 QStringList MainWindow::tabs() const
