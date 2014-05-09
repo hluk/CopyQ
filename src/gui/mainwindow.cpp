@@ -732,11 +732,15 @@ void MainWindow::showMessage(const QString &title, const QString &msg, const QPi
 void MainWindow::showClipboardMessage(const QVariantMap &data)
 {
     if ( m_options->itemPopupInterval != 0 && m_options->clipboardNotificationLines > 0) {
-        static const QColor color = NotificationDaemon::getNotificationIconColor(this);
-        const QPixmap icon =
-                ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
-        notificationDaemon()->create( data, m_options->clipboardNotificationLines, icon,
-                                      m_options->itemPopupInterval * 1000, this, clipboardNotificationId );
+        if (data.isEmpty()) {
+            notificationDaemon()->removeNotification(clipboardNotificationId);
+        } else {
+            static const QColor color = NotificationDaemon::getNotificationIconColor(this);
+            const QPixmap icon =
+                    ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
+            notificationDaemon()->create( data, m_options->clipboardNotificationLines, icon,
+                                          m_options->itemPopupInterval * 1000, this, clipboardNotificationId );
+        }
     }
 }
 
@@ -1449,10 +1453,8 @@ void MainWindow::disableClipboardStoring(bool disable)
     updateMonitoringActions();
     updateIcon();
 
-    if (m_clipboardStoringDisabled) {
+    if (m_clipboardStoringDisabled)
         clipboardChanged(QVariantMap());
-        notificationDaemon()->removeNotification(clipboardNotificationId);
-    }
 
     COPYQ_LOG( QString("Clipboard monitoring %1.")
                .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );
