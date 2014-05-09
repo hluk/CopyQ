@@ -85,7 +85,8 @@ public:
         m_resetTimer.setInterval(500);
     }
 
-    bool waitForKeyRelease()
+    // Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
+    bool isSelectionIncomplete()
     {
         if (m_timer.isActive())
             return true;
@@ -134,7 +135,7 @@ public:
         if (m_syncTimer.isActive())
             return;
 
-        if ( m_syncTo == QClipboard::Selection && waitForKeyRelease() ) {
+        if ( m_syncTo == QClipboard::Selection && isSelectionIncomplete() ) {
             m_syncTimer.start();
             return;
         }
@@ -302,16 +303,10 @@ ClipboardMonitor::~ClipboardMonitor()
 }
 
 #ifdef COPYQ_WS_X11
-bool ClipboardMonitor::updateSelection(bool check)
+void ClipboardMonitor::updateSelection()
 {
-    // Wait while selection is incomplete, i.e. mouse button or
-    // shift key is pressed.
-    if ( m_x11->waitForKeyRelease() )
-        return false;
-
-    if (check)
+    if ( !m_x11->isSelectionIncomplete() )
         checkClipboard(QClipboard::Selection);
-    return true;
 }
 #endif
 
@@ -349,7 +344,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
         return;
 
 #ifdef COPYQ_WS_X11
-    if (mode == QClipboard::Selection && !updateSelection(false) )
+    if ( mode == QClipboard::Selection && m_x11->isSelectionIncomplete() )
         return;
     if ( m_x11->maybeResetClipboard(mode) )
         return;

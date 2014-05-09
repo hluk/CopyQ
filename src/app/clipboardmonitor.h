@@ -66,7 +66,6 @@ public:
 
     virtual void exit(int exitCode);
 
-
 private slots:
     /**
      * Check clipboard or primary selection.
@@ -76,15 +75,9 @@ private slots:
 
 #ifdef COPYQ_WS_X11
     /**
-     * Return true if primary selection data can be retrieved.
-     *
-     * Don't check primary selection data if mouse button or shift key is still
-     * pressed (only on X11).
+     * Check X11 selection data if mouse button or shift key is not pressed.
      */
-    bool updateSelection(
-            bool check = true
-            //!< Call checkClipboard(QClipboard::Selection) afterwards.
-            );
+    void updateSelection();
 
     /**
      * Synchronize clipboard and X11 primary selection.
