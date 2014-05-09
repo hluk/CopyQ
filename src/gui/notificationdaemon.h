@@ -70,6 +70,8 @@ public:
 
     void setNotificationOpacity(qreal opacity);
 
+    void removeNotification(int id);
+
 private slots:
     void onNotificationClose(Notification *notification);
 

@@ -63,9 +63,9 @@ void initTests()
     if ( !isTesting() )
         return;
 
-    const QString session = qApp->organizationName() + ".test";
-    qApp->setOrganizationName(session);
-    qApp->setApplicationName(session);
+    const QString session = QCoreApplication::organizationName() + ".test";
+    QCoreApplication::setOrganizationName(session);
+    QCoreApplication::setApplicationName(session);
 
     const QString testId = QString::fromUtf8( qgetenv("COPYQ_TEST_ID") );
     qApp->setProperty("CopyQ_test_id", testId);

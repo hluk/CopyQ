@@ -51,7 +51,7 @@ ClipboardDialog::ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent)
 
     // Show only data that can be displayed.
     foreach ( const QString &mime, data.keys() ) {
-        if ( data[mime].canConvert<QByteArray>() && mime != mimeOwner ) {
+        if ( data[mime].canConvert<QByteArray>() ) {
             m_data.insert(mime, data[mime]);
             ui->listWidgetFormats->addItem(mime);
         }

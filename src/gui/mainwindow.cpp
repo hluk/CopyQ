@@ -71,6 +71,8 @@ const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
 
+const int clipboardNotificationId = 0;
+
 QIcon appIcon(AppIconFlags flags = AppIconNormal)
 {
     return ConfigurationManager::instance()->iconFactory()->appIcon(flags);
@@ -733,7 +735,7 @@ void MainWindow::showClipboardMessage(const QVariantMap &data)
         const QPixmap icon =
                 ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
         notificationDaemon()->create( data, m_options->clipboardNotificationLines, icon,
-                                      m_options->itemPopupInterval * 1000, this, 0 );
+                                      m_options->itemPopupInterval * 1000, this, clipboardNotificationId );
     }
 }
 
@@ -1372,21 +1374,16 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
-    if (m_clipboardStoringDisabled)
-        return;
+    m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
 
-    m_clipboardData = data;
-
-    if (data.isEmpty()) {
+    if ( m_clipboardData.isEmpty() ) {
         m_tray->setToolTip(QString());
         setWindowTitle("CopyQ");
     } else {
-        QString text = textLabelForData(data);
+        QString text = textLabelForData(m_clipboardData);
         m_tray->setToolTip( tr("Clipboard:\n%1", "Tray tooltip format").arg(text) );
 
-        showClipboardMessage(data);
-
-        const QString clipboardContent = textLabelForData(data);
+        const QString clipboardContent = textLabelForData(m_clipboardData);
         const QString sessionName = qApp->property("CopyQ_session_name").toString();
         if ( sessionName.isEmpty() ) {
             setWindowTitle( tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
@@ -1398,6 +1395,8 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
                             .arg(sessionName) );
         }
     }
+
+    showClipboardMessage(m_clipboardData);
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
@@ -1447,7 +1446,14 @@ void MainWindow::disableClipboardStoring(bool disable)
 
     updateMonitoringActions();
     updateIcon();
-    clipboardChanged(QVariantMap());
+
+    if (m_clipboardStoringDisabled) {
+        clipboardChanged(QVariantMap());
+        notificationDaemon()->removeNotification(clipboardNotificationId);
+    }
+
+    COPYQ_LOG( QString("Clipboard monitoring %1.")
+               .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );
 }
 
 bool MainWindow::isMonitoringEnabled() const

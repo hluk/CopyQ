@@ -169,6 +169,11 @@ void NotificationDaemon::setNotificationOpacity(qreal opacity)
     updateAppearance();
 }
 
+void NotificationDaemon::removeNotification(int id)
+{
+    delete m_notifications.take(id);
+}
+
 void NotificationDaemon::onNotificationClose(Notification *notification)
 {
     const int id = notification->id();

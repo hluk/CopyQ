@@ -53,12 +53,6 @@ void setClipboardData(const QVariantMap &data, QClipboard::Mode mode)
 
     QScopedPointer<QMimeData> mimeData( createMimeData(data) );
 
-#ifdef HAS_TESTS
-    // Don't set clipboard owner if monitor is only used to set clipboard for tests.
-    if ( !QCoreApplication::instance()->property("CopyQ_testing").toBool() )
-#endif
-        mimeData->setData(mimeOwner, QByteArray());
-
     QApplication::clipboard()->setMimeData( mimeData.take(), mode );
 }
 
@@ -140,19 +134,18 @@ public:
         if (m_syncTimer.isActive())
             return;
 
-        bool isClip = (m_syncTo == QClipboard::Clipboard);
-        const QVariantMap &sourceData = isClip ? m_selectionData : m_clipboardData;
-        if ( sourceData.isEmpty() )
-            return;
-
-        if (m_syncTo == QClipboard::Selection && waitForKeyRelease()) {
+        if ( m_syncTo == QClipboard::Selection && waitForKeyRelease() ) {
             m_syncTimer.start();
             return;
         }
 
-        const QMimeData *data = clipboardData(m_syncTo);
-        if  ( !data || sourceData != cloneData(*data, sourceData.keys()) )
-            setClipboardData(sourceData, m_syncTo);
+        const QVariantMap &sourceData =
+                (m_syncTo == QClipboard::Clipboard) ? m_selectionData : m_clipboardData;
+        if ( !sourceData.isEmpty() ) {
+            const QMimeData *data = clipboardData(m_syncTo);
+            if  ( !data || sourceData != cloneData(*data, sourceData.keys()) )
+                setClipboardData(sourceData, m_syncTo);
+        }
 
     }
 
@@ -398,9 +391,12 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 #endif
 
     // add window title of clipboard owner
-    PlatformPtr platform = createPlatformNativeInterface();
-    PlatformWindowPtr currentWindow = platform->getCurrentWindow();
-    data2.insert( mimeWindowTitle, currentWindow ? currentWindow->getTitle().toUtf8() : QByteArray() );
+    if ( !data2.contains(mimeOwner) && data2.contains(mimeWindowTitle) ) {
+        PlatformPtr platform = createPlatformNativeInterface();
+        PlatformWindowPtr currentWindow = platform->getCurrentWindow();
+        if (currentWindow)
+            data2.insert( mimeWindowTitle, currentWindow->getTitle().toUtf8() );
+    }
 
 #ifdef COPYQ_WS_X11
     if (mode == QClipboard::Clipboard) {

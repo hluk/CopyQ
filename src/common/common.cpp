@@ -173,6 +173,9 @@ void setTextData(QVariantMap *data, const QString &text)
 
 QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 {
+    static const QStringList internalMimeTypes = QStringList()
+            << mimeOwner << mimeWindowTitle << mimeItemNotes;
+
     QVariantMap newdata;
 
     foreach (const QString &mime, formats) {
@@ -183,14 +186,15 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
             cloneImageData(data, mime, &newdata);
     }
 
-    if (data.hasFormat(mimeOwner))
-        newdata.insert(mimeOwner, data.data(mimeOwner));
+    foreach (const QString &internalMime, internalMimeTypes) {
+        if ( data.hasFormat(internalMime) )
+            newdata.insert( internalMime, data.data(internalMime) );
+    }
 
     if ( hasLogLevel(LogTrace) ) {
         foreach (const QString &format, data.formats()) {
-            if (!formats.contains(format) && format != mimeOwner) {
-                COPYQ_LOG(QString("skipping format: %1").arg(format));
-            }
+            if ( !formats.contains(format) )
+                COPYQ_LOG_VERBOSE(QString("Skipping format: %1").arg(format));
         }
     }
 
@@ -211,9 +215,21 @@ QVariantMap cloneData(const QMimeData &data)
 
 QMimeData* createMimeData(const QVariantMap &data)
 {
+    QStringList copyFormats = data.keys();
+#ifdef COPYQ_WS_X11
+    copyFormats.removeOne(mimeClipboardMode);
+#endif
+
     QScopedPointer<QMimeData> newClipboardData(new QMimeData);
-    foreach ( const QString &format, data.keys() )
+
+    foreach ( const QString &format, copyFormats )
         newClipboardData->setData( format, data[format].toByteArray() );
+
+#ifdef HAS_TESTS
+    // Don't set clipboard owner if monitor is only used to set clipboard for tests.
+    if ( !QCoreApplication::instance()->property("CopyQ_testing").toBool() )
+#endif
+        newClipboardData->setData( mimeOwner, QCoreApplication::organizationName().toUtf8() );
 
     // Set image data.
     const QStringList formats =
