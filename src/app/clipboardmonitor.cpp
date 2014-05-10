@@ -432,6 +432,10 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
 {
     if (messageCode == MonitorPing) {
         sendMessage( QByteArray(), MonitorPong );
+#ifdef Q_OS_WIN
+        // Qt BUG: This needs to be called regularly so that QClipboard emits changed() signal.
+        QApplication::clipboard()->mimeData();
+#endif
     } else if (messageCode == MonitorSettings) {
         QDataStream stream(message);
         QVariantMap settings;
