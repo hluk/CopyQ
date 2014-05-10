@@ -513,7 +513,7 @@ void ClipboardMonitor::exit(int exitCode)
 
 void ClipboardMonitor::log(const QString &text, const LogLevel level)
 {
-    if ( hasLogLevel(level) )
+    if ( !hasLogLevel(level) )
         return;
 
     const QString message = createLogMessage("Clipboard Monitor", text, level);
