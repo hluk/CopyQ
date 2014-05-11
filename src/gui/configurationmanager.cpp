@@ -113,9 +113,14 @@ void saveCommand(const Command &c, QSettings *settings)
     saveNewValue("Window", c, &Command::wndre, settings);
     saveNewValue("MatchCommand", c, &Command::matchCmd, settings);
     saveNewValue("Command", c, &Command::cmd, settings);
-    saveNewValue("Separator", c, &Command::sep, settings);
     saveNewValue("Input", c, &Command::input, settings);
     saveNewValue("Output", c, &Command::output, settings);
+
+    // Separator for new command is set to '\n' for convenience.
+    // But this value shouldn't be saved if output format is not set.
+    if ( c.sep != "\\n" || !c.output.isEmpty() )
+        saveNewValue("Separator", c, &Command::sep, settings);
+
     saveNewValue("Wait", c, &Command::wait, settings);
     saveNewValue("Automatic", c, &Command::automatic, settings);
     saveNewValue("InMenu", c, &Command::inMenu, settings);
