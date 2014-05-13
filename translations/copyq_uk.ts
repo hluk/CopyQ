@@ -53,25 +53,25 @@
         <location filename="../src/gui/aboutdialog.cpp" line="160"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation type="unfinished">Бібліотека, використана в застосунку</translation>
+        <translation>Бібліотека, використана в застосунку</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="162"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation type="unfinished">Бібліотека, використана в застосунку</translation>
+        <translation>Бібліотека, використана в застосунку</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="164"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="unfinished">Знаковий шрифт, використаний у застосунку</translation>
+        <translation>Знаковий шрифт, використаний у застосунку</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="166"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation type="unfinished">Палітра кольорів, використана для тем</translation>
+        <translation>Палітра кольорів, використана для тем</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="168"/>
@@ -272,7 +272,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/actionhandler.cpp" line="138"/>
         <source>Error: %1
 </source>
-        <translation>Помилка: %1</translation>
+        <translation>Помилка: %1↵
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="141"/>
@@ -927,7 +928,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
@@ -2184,7 +2185,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="213"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation>F2</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="217"/>
