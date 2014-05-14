@@ -559,6 +559,7 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->re   = reURL;
         c->icon = QString(QChar(IconCopy));
         c->tab  = "&web";
+        c->automatic = true;
     } else if (index == ++i) {
         c->name = tr("Run shell script");
         c->re   = QRegExp("^#!/bin/bash");
