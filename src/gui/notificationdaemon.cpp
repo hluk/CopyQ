@@ -186,22 +186,22 @@ void NotificationDaemon::onNotificationClose(Notification *notification)
 
 QPoint NotificationDaemon::findPosition(Notification *notification)
 {
-    QRect screen = QApplication::desktop()->availableGeometry();
+    QRect screen = QApplication::desktop()->screenGeometry(notification);
 
-    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
-    foreach (Notification *notification2, m_notifications.values()) {
-        if (notification != notification2) {
-            if (m_position & Top)
-                y = qMax( y, notification2->y() + notification2->height() );
-            else
-                y = qMin( y, notification2->y() );
+    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY() - notification->height();
+
+    if ( m_notifications.size() > 1 ) {
+        foreach (Notification *notification2, m_notifications.values()) {
+            if (notification != notification2) {
+                if (m_position & Top)
+                    y = qMax( y, notification2->y() + notification2->height() );
+                else
+                    y = qMin( y, notification2->y() );
+            }
         }
-    }
 
-    if (m_position & Bottom)
-        y -= notification->height() + notificationMargin();
-    else
-        y += notificationMargin();
+        y += (m_position & Top ? 1 : -1) * notificationMargin();
+    }
 
     int x;
     if (m_position & Left)
