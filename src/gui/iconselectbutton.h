@@ -31,9 +31,10 @@ public:
 
     const QString &currentIcon() const { return m_currentIcon; }
 
-    void setCurrentIcon(const QString &iconString);
-
     QSize sizeHint() const;
+
+public slots:
+    void setCurrentIcon(const QString &iconString);
 
 signals:
     void currentIconChanged(const QString &icon);

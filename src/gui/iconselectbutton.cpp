@@ -23,18 +23,19 @@
 #include "gui/iconfont.h"
 
 #include <QAction>
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QDialog>
 #include <QFileDialog>
 #include <QIcon>
 #include <QListWidget>
 #include <QMenu>
+#include <QScopedPointer>
+#include <QSettings>
 #include <QVBoxLayout>
 
 namespace {
-
-static QRect lastDialogGeometry;
-static QStringList lastSelectedFileNames;
 
 class IconSelectDialog : public QDialog
 {
@@ -99,20 +100,33 @@ public:
 
         m_iconList->setFocus();
 
-        if ( lastDialogGeometry.isValid() )
-            setGeometry(lastDialogGeometry);
-        if (parent)
-            move( parent->mapToGlobal(QPoint(0, 0)) );
-    }
+        // Restore previous geometry.
+        restoreGeometry( QSettings().value("icon_dialog_geometry").toByteArray() );
 
-    const QString &selectedIcon() const { return m_selectedIcon; }
+        // Set position under parent.
+        if (parent) {
+            const QPoint dialogPosition = parent->mapToGlobal(QPoint(0, parent->height()));
+            const QRect availableGeometry = QApplication::desktop()->availableGeometry(parent);
+            const int x = qMin(dialogPosition.x(), availableGeometry.right() - width());
+            const int y = qMin(dialogPosition.y(), availableGeometry.bottom() - height());
+            move(x, y);
+        }
+    }
 
 public slots:
     void done(int result)
     {
-        lastDialogGeometry = geometry();
+        // Save geometry.
+        QSettings().setValue( "icon_dialog_geometry", saveGeometry() );
+
+        if (result == QDialog::Accepted)
+            emit iconSelected(m_selectedIcon);
+
         QDialog::done(result);
     }
+
+signals:
+    void iconSelected(const QString &icon);
 
 private slots:
     void onIconListItemActivated(const QModelIndex &index)
@@ -203,9 +217,11 @@ QSize IconSelectButton::sizeHint() const
 
 void IconSelectButton::onClicked()
 {
-    IconSelectDialog *dialog = new IconSelectDialog(m_currentIcon, this);
-    if ( dialog->exec() == QDialog::Accepted )
-        setCurrentIcon(dialog->selectedIcon());
+    QScopedPointer<IconSelectDialog> dialog( new IconSelectDialog(m_currentIcon, this) );
+    dialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    connect(dialog.data(), SIGNAL(iconSelected(QString)), this, SLOT(setCurrentIcon(QString)));
+    dialog->open();
+    dialog.take();
 }
 
 #include "iconselectbutton.moc"
