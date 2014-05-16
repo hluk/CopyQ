@@ -363,3 +363,13 @@ void renameToUnique(QString *name, const QStringList &names)
     while ( names.contains(*name) )
         *name = baseName + " (" + QString::number(++i) + ')';
 }
+
+bool containsData(const QVariantMap &data)
+{
+    foreach ( const QString &mime, data.keys() ) {
+        if (mime != mimeOwner && mime != mimeWindowTitle)
+            return true;
+    }
+
+    return false;
+}

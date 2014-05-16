@@ -314,7 +314,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     if ( !forceRunCommands && ownsClipboardData(data) )
         return;
 
-    if ( !data.isEmpty() )
+    if ( containsData(data) )
         m_wnd->addToTab( data, QString(), true );
 }
 
