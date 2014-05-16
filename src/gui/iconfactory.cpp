@@ -41,14 +41,20 @@ const int lightThreshold = 150;
 
 QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 {
-    QPixmap pix2( pix.size() );
-    pix2.fill(color);
-    pix2.setMask( pix.mask() );
+    QLinearGradient gradient(pix.width() / 2, 0, 0, pix.height());
+    gradient.setColorAt(0.0, color.darker(200));
+    gradient.setColorAt(0.5, color);
+    gradient.setColorAt(1.0, color.lighter(150));
+
+    QPixmap pix2(pix);
+    QPainter painter(&pix2);
+    painter.setCompositionMode(QPainter::CompositionMode_SourceIn);
+    painter.fillRect(pix.rect(), gradient);
 
     return pix2;
 }
 
-void colorizePixmap(QPixmap *pix, const QColor &from, const QColor &to)
+void replaceColor(QPixmap *pix, const QColor &from, const QColor &to)
 {
     QPixmap pix2( pix->size() );
     pix2.fill(to);
@@ -210,16 +216,13 @@ QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
 
     if (m_loaded) {
         QPainter painter(&pix);
-
         QFont font = iconFont();
         font.setPixelSize(sz - 2);
         painter.setFont(font);
-        painter.setPen(color);
-        painter.drawText( QRect(1, 1, sz - 1, sz - 1),
-                          QString(QChar(id)) );
+        painter.drawText( QRect(1, 1, sz - 1, sz - 1), QString(QChar(id)) );
     }
 
-    return pix;
+    return colorizedPixmap(pix, color);
 }
 
 void IconFactory::setDefaultColors(const QColor &color, const QColor &activeColor)
@@ -251,7 +254,7 @@ QIcon IconFactory::appIcon(AppIconFlags flags)
     if (!sessionName.isEmpty()) {
         QPixmap pix = icon.pixmap(128, 128);
         const QColor color2 = sessionNameToColor(sessionName);
-        colorizePixmap(&pix, color, color2);
+        replaceColor(&pix, color, color2);
         color = color2;
         icon = QIcon(pix);
     }
