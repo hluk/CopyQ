@@ -1600,7 +1600,7 @@ void MainWindow::onItemMenuUpdated()
             const QString iconTheme = action->property("CopyQ_icon_theme").toString();
             if (hasIconId)
                 icon = getIcon(iconTheme, iconId, color, color);
-            const QString text = action->text();
+            const QString text = action->text().remove("&");
             const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
             const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
             const QString tooltip = "<center>" + escapeHtml(text)
