@@ -74,6 +74,7 @@ void ItemOrderList::appendItem(const QString &label, bool checked, const QIcon &
     area->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     area->setWidget(widget);
     area->setWidgetResizable(true);
+    area->setFrameShape(QFrame::NoFrame);
 
     m_itemWidgets[item] = area;
     ui->stackedWidget->addWidget(area);

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>592</width>
-    <height>640</height>
+    <width>590</width>
+    <height>638</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -35,6 +35,9 @@
       <layout class="QVBoxLayout" name="gridLayout_2">
        <item>
         <widget class="QScrollArea" name="scrollArea">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -43,8 +46,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>562</width>
+            <height>554</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -427,6 +430,9 @@ Note: This is not be supported on all systems.</string>
       <layout class="QVBoxLayout" name="verticalLayout_14">
        <item>
         <widget class="QScrollArea" name="scrollArea_2">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -435,8 +441,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>562</width>
+            <height>554</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -681,6 +687,9 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
       <layout class="QHBoxLayout" name="horizontalLayout_14">
        <item>
         <widget class="QScrollArea" name="scrollArea_4">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -689,8 +698,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>562</width>
+            <height>554</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -883,6 +892,9 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
       <layout class="QVBoxLayout" name="verticalLayout_15">
        <item>
         <widget class="QScrollArea" name="scrollArea_3">
+         <property name="frameShape">
+          <enum>QFrame::NoFrame</enum>
+         </property>
          <property name="widgetResizable">
           <bool>true</bool>
          </property>
@@ -891,8 +903,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>562</width>
+            <height>554</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
