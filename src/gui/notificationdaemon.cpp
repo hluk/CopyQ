@@ -124,7 +124,7 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
 
 void NotificationDaemon::updateInterval(int id, int msec)
 {
-    Notification *notification = m_notifications.value(id, NULL);
+    Notification *notification = findNotification(id);
     if (notification)
         notification->setInterval(msec);
 }
@@ -148,11 +148,14 @@ void NotificationDaemon::setMaximumSize(int maximumWidthPoints, int maximumHeigh
 
 void NotificationDaemon::updateAppearance()
 {
-    if ( m_notifications.isEmpty() )
-        return;
+    QList<Notification*> notifications = m_notifications;
+    m_notifications.clear();
 
-    foreach (int id, m_notifications.keys())
-        setAppearance(m_notifications[id]);
+    foreach (Notification *notification, notifications) {
+        notification->move(findPosition(notification));
+        m_notifications.append(notification);
+        setAppearance(notification);
+    }
 }
 
 QColor NotificationDaemon::getNotificationIconColor(QWidget *parent)
@@ -171,16 +174,15 @@ void NotificationDaemon::setNotificationOpacity(qreal opacity)
 
 void NotificationDaemon::removeNotification(int id)
 {
-    delete m_notifications.take(id);
+    Notification *notification = findNotification(id);
+    if (notification)
+        onNotificationClose(notification);
 }
 
 void NotificationDaemon::onNotificationClose(Notification *notification)
 {
-    const int id = notification->id();
-    m_notifications.remove(id);
-
+    m_notifications.removeOne(notification);
     hideNotification(notification);
-
     delete notification;
 }
 
@@ -188,10 +190,10 @@ QPoint NotificationDaemon::findPosition(Notification *notification)
 {
     QRect screen = QApplication::desktop()->screenGeometry(notification);
 
-    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY() - notification->height();
+    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
 
     if ( m_notifications.size() > 1 ) {
-        foreach (Notification *notification2, m_notifications.values()) {
+        foreach (Notification *notification2, m_notifications) {
             if (notification != notification2) {
                 if (m_position & Top)
                     y = qMax( y, notification2->y() + notification2->height() );
@@ -202,6 +204,9 @@ QPoint NotificationDaemon::findPosition(Notification *notification)
 
         y += (m_position & Top ? 1 : -1) * notificationMargin();
     }
+
+    if (m_position & Bottom)
+        y -= notification->height();
 
     int x;
     if (m_position & Left)
@@ -214,6 +219,16 @@ QPoint NotificationDaemon::findPosition(Notification *notification)
     return QPoint(x, y);
 }
 
+Notification *NotificationDaemon::findNotification(int id)
+{
+    foreach (Notification *notification, m_notifications) {
+        if (notification->id() == id)
+            return notification;
+    }
+
+    return NULL;
+}
+
 void NotificationDaemon::setAppearance(Notification *notification)
 {
     notification->setOpacity(m_opacity);
@@ -223,13 +238,13 @@ Notification *NotificationDaemon::createNotification(QWidget *parent, int id)
 {
     Notification *notification = NULL;
     if (id >= 0)
-        notification = m_notifications.value(id, NULL);
+        notification = findNotification(id);
 
     const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == NULL) {
         notification = new Notification(newId, parent);
+        m_notifications.append(notification);
         setAppearance(notification);
-        m_notifications[newId] = notification;
     } else {
         hideNotification(notification);
     }
@@ -259,7 +274,7 @@ void NotificationDaemon::hideNotification(Notification *notification)
     const int y = notification->y();
     const int d = (notification->height() + notificationMargin()) * ((m_position & Bottom) ? 1 : -1);
 
-    foreach (Notification *notification2, m_notifications.values()) {
+    foreach (Notification *notification2, m_notifications) {
         const int y2 = notification2->y();
         if ( m_position & Bottom ? y2 < y : y2 > y )
             notification2->move( notification2->x(), y2 + d );

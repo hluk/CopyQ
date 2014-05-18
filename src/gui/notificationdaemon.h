@@ -21,7 +21,7 @@
 #define NOTIFICATIONDAEMON_H
 
 #include <QColor>
-#include <QMap>
+#include <QList>
 #include <QObject>
 #include <QVariantMap>
 
@@ -79,6 +79,8 @@ private:
     /** Find ideal position for new notification. */
     QPoint findPosition(Notification *notification);
 
+    Notification *findNotification(int id);
+
     void setAppearance(Notification *notification);
 
     Notification *createNotification(QWidget *parent, int id = -1);
@@ -92,7 +94,7 @@ private:
 
     int m_lastId;
     Position m_position;
-    QMap<int, Notification*> m_notifications;
+    QList<Notification*> m_notifications;
     qreal m_opacity;
     int m_horizontalOffsetPoints;
     int m_verticalOffsetPoints;
