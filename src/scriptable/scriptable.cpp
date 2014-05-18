@@ -394,9 +394,9 @@ bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVar
     }
 
     if (!mime.startsWith("text/") && value.scriptClass() == m_baClass)
-      data->insert(mime, *toByteArray(value));
-
-    toString(value).toUtf8();
+        data->insert( mime, *toByteArray(value) );
+    else
+        data->insert( mime, toString(value).toUtf8() );
 
     return true;
 }
