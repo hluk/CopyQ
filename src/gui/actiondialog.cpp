@@ -186,11 +186,9 @@ void ActionDialog::createAction()
                 QVariantMap data2;
                 inputFormats.clear();
                 foreach ( const QString &format, m_data.keys() ) {
-                    if ( !format.startsWith(MIME_PREFIX) ) {
-                        data2.insert( format, m_data[format] );
-                        if ( m_index.isValid() )
-                            inputFormats.append(format);
-                    }
+                    data2.insert( format, m_data[format] );
+                    if ( m_index.isValid() )
+                        inputFormats.append(format);
                 }
                 bytes = serializeData(data2);
             } else {

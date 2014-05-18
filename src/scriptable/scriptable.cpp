@@ -383,11 +383,22 @@ QByteArray *Scriptable::toByteArray(const QScriptValue &value) const
         return NULL;
 }
 
-QByteArray Scriptable::toItemData(const QScriptValue &value, const QString &mime) const
+bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const
 {
+    if (mime == mimeItems) {
+        const QByteArray *itemData = toByteArray(value);
+        if (!itemData)
+            return false;
+
+        return deserializeData(data, *itemData);
+    }
+
     if (!mime.startsWith("text/") && value.scriptClass() == m_baClass)
-      return *toByteArray(value);
-    return toString(value).toUtf8();
+      data->insert(mime, *toByteArray(value));
+
+    toString(value).toUtf8();
+
+    return true;
 }
 
 QScriptValue Scriptable::applyRest(int first)
@@ -576,12 +587,7 @@ void Scriptable::copy()
             QString mime = toString(argument(i));
 
             // DATA
-            QScriptValue value = argument(++i);
-            QByteArray bytes = toItemData(value, mime);
-            if (mime == mimeItems)
-                deserializeData(&data, bytes);
-            else
-                data[mime] = bytes;
+            toItemData(argument(++i), mime, &data);
         }
     } else {
         throwError(argumentError());
@@ -774,37 +780,33 @@ QScriptValue Scriptable::read()
 
 void Scriptable::write()
 {
-    int arg = 0;
-    QScriptValue value = argument(0);
-
-    // [ROW]
     int row;
     int args = argumentCount();
-    if ( toInt(value, row) ) {
+    int i;
+
+    // [ROW]
+    if ( toInt(argument(0), row) ) {
         if (args < 3 || args % 2 != 1 ) {
             throwError(argumentError());
             return;
         }
-        value = argument(++arg);
+        i = 1;
     } else {
         if (args < 2 || args % 2 != 0 ) {
             throwError(argumentError());
             return;
         }
         row = 0;
+        i = 0;
     }
 
     QVariantMap data;
 
-    while (arg < args) {
+    for (; i < args; i += 2) {
         // MIME
-        QString mime = toString(value);
-
+        const QString mime = toString(argument(i));
         // DATA
-        value = argument(++arg);
-        data.insert( mime, toItemData(value, mime) );
-
-        value = argument(++arg);
+        toItemData( argument(i + 1), mime, &data );
     }
 
     m_proxy->browserAdd(data, row);
@@ -996,6 +998,22 @@ QScriptValue Scriptable::index()
 QScriptValue Scriptable::escapeHTML()
 {
     return escapeHtml(toString(argument(0)));
+}
+
+QScriptValue Scriptable::unpack()
+{
+    QVariantMap data;
+    QScriptValue value = m_engine->newObject();
+
+    if ( !toItemData(argument(0), mimeItems, &data) ) {
+        throwError(argumentError());
+        return QScriptValue();
+    }
+
+    foreach (const QString &format, data.keys())
+        value.setProperty(format, newByteArray(data[format].toByteArray()));
+
+    return value;
 }
 
 void Scriptable::setInput(const QByteArray &bytes)

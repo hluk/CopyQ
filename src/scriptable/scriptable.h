@@ -54,12 +54,13 @@ public:
     QByteArray *toByteArray(const QScriptValue &value) const;
 
     /**
-     * Return data for item converted from @a value.
+     * Set data for item converted from @a value.
+     * Return true if data was successfuly converted and set.
      *
      * If mime starts with "text/" or isn't byte array the value is re-encoded
      * from local encoding to UTF8.
      */
-    QByteArray toItemData(const QScriptValue &value, const QString &mime) const;
+    bool toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const;
 
     QScriptValue applyRest(int first);
 
@@ -146,6 +147,8 @@ public slots:
     QScriptValue index();
 
     QScriptValue escapeHTML();
+
+    QScriptValue unpack();
 
 public slots:
     void setInput(const QByteArray &bytes);

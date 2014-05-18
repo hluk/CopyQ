@@ -1970,8 +1970,13 @@ QByteArray ClipboardBrowser::itemData(int i, const QString &mime) const
     if ( data.isEmpty() )
         return QByteArray();
 
-    return mime == "?" ? QStringList(data.keys()).join("\n").toUtf8() + '\n'
-                       : data.value(mime).toByteArray();
+    if (mime == "?")
+        return QStringList(data.keys()).join("\n").toUtf8() + '\n';
+
+    if (mime == mimeItems)
+        return serializeData(data);
+
+    return data.value(mime).toByteArray();
 }
 
 void ClipboardBrowser::editRow(int row)
