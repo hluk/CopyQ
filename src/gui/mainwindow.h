@@ -133,7 +133,7 @@ public slots:
             );
 
     /** Show popup with icon. */
-    void showMessage(const QString &title, const QString &msg, const QPixmap &icon, int msec,
+    void showMessage(const QString &title, const QString &msg, ushort icon, int msec,
                      int notificationId);
 
     /** Show clipboard content in notification. */

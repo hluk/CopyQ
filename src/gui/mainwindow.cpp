@@ -481,6 +481,7 @@ void MainWindow::updateNotifications()
     ConfigurationManager *cm = ConfigurationManager::instance();
     const ConfigTabAppearance *appearance = cm->tabAppearance();
     notificationDaemon()->setNotificationOpacity( appearance->themeColor("notification_bg").alphaF() );
+    notificationDaemon()->setNotificationStyleSheet( appearance->getNotificationStyleSheet() );
 
     int id = cm->value("notification_position").toInt();
     NotificationDaemon::Position position;
@@ -504,7 +505,7 @@ void MainWindow::updateNotifications()
 
     m_notifications->updateInterval(0, m_options->itemPopupInterval);
 
-    m_notifications->updateAppearance();
+    m_notifications->updateNotifications();
 }
 
 void MainWindow::updateWindowTransparency(bool mouseOver)
@@ -702,19 +703,17 @@ QByteArray MainWindow::getActionData(const QByteArray &actionId, const QString &
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {
-    static const QColor color = NotificationDaemon::getNotificationIconColor(this);
-    IconFactory *ifact = ConfigurationManager::instance()->iconFactory();
-    QPixmap icon2;
+    ushort icon2;
 
     switch (icon) {
     case QSystemTrayIcon::Information:
-        icon2 = ifact->createPixmap(IconInfoSign, color, 32);
+        icon2 = IconInfoSign;
         break;
     case QSystemTrayIcon::Warning:
-        icon2 = ifact->createPixmap(IconWarningSign, color, 32);
+        icon2 = IconWarningSign;
         break;
     case QSystemTrayIcon::Critical:
-        icon2 = ifact->createPixmap(IconRemoveSign, color, 32);
+        icon2 = IconRemoveSign;
         break;
     default:
         break;
@@ -723,10 +722,10 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
     showMessage(title, msg, icon2, msec, notificationId);
 }
 
-void MainWindow::showMessage(const QString &title, const QString &msg, const QPixmap &icon,
+void MainWindow::showMessage(const QString &title, const QString &msg, ushort icon,
                              int msec, int notificationId)
 {
-    notificationDaemon()->create(title, msg, icon, msec, this, notificationId);
+    notificationDaemon()->create(title, msg, icon, msec, notificationId);
 }
 
 void MainWindow::showClipboardMessage(const QVariantMap &data)
@@ -735,11 +734,8 @@ void MainWindow::showClipboardMessage(const QVariantMap &data)
         if (data.isEmpty()) {
             notificationDaemon()->removeNotification(clipboardNotificationId);
         } else {
-            static const QColor color = NotificationDaemon::getNotificationIconColor(this);
-            const QPixmap icon =
-                    ConfigurationManager::instance()->iconFactory()->createPixmap(IconPaste, color, 16);
-            notificationDaemon()->create( data, m_options->clipboardNotificationLines, icon,
-                                          m_options->itemPopupInterval * 1000, this, clipboardNotificationId );
+            notificationDaemon()->create( data, m_options->clipboardNotificationLines, IconPaste,
+                                          m_options->itemPopupInterval * 1000, clipboardNotificationId );
         }
     }
 }

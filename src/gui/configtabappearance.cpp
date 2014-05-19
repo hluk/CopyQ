@@ -352,19 +352,6 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
         mainWindow->setStyleSheet(QString());
     }
 
-    // Notification style sheet.
-    QColor notificationBg = themeColor("notification_bg");
-    // Notification opacity should be set with NotificationDaemon::setNotificationOpacity().
-    notificationBg.setAlpha(255);
-    styleSheet += "Notification{"
-            "background:" + serializeColor(notificationBg) + ";"
-            "}"
-            "Notification QWidget{"
-            "color:" + themeColorString("notification_fg") + ";"
-            + getFontStyleSheet( themeValue("notification_font").toString() ) +
-            "}"
-            ;
-
     mainWindow->setStyleSheet(styleSheet);
 }
 
@@ -391,6 +378,23 @@ QString ConfigTabAppearance::getToolTipStyleSheet() const
             + ";border:1px solid " + fg
             + ";" + themeStyleSheet("notes_css")
             + "}";
+}
+
+QString ConfigTabAppearance::getNotificationStyleSheet() const
+{
+    // Notification style sheet.
+    QColor notificationBg = themeColor("notification_bg");
+    // Notification opacity should be set with NotificationDaemon::setNotificationOpacity().
+    notificationBg.setAlpha(255);
+
+    return "Notification{"
+           "background:" + serializeColor(notificationBg) + ";"
+           "}"
+           "Notification QWidget{"
+           "color:" + themeColorString("notification_fg") + ";"
+           + getFontStyleSheet( themeValue("notification_font").toString() ) +
+           "}"
+           ;
 }
 
 void ConfigTabAppearance::showEvent(QShowEvent *event)

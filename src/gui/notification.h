@@ -31,20 +31,20 @@ class Notification : public QWidget
     Q_OBJECT
     friend class NotificationDaemon;
 protected:
-    Notification(int id, QWidget *parent);
+    explicit Notification(int id);
 
     void setTitle(const QString &title);
     void setMessage(const QString &msg, Qt::TextFormat format = Qt::PlainText);
     void setPixmap(const QPixmap &pixmap);
-    void setIcon(const QPixmap &icon);
+    void setIcon(ushort icon);
     void setInterval(int msec);
     void setOpacity(qreal opacity);
+
+    void updateIcon();
 
     int id() const { return m_id; }
 
     void adjust();
-
-    void popup(const QPoint &position, int msec);
 
     void mousePressEvent(QMouseEvent *event);
     void enterEvent(QEvent *event);
@@ -67,6 +67,7 @@ private:
     QLabel *m_msgLabel;
     QTimer *m_timer;
     qreal m_opacity;
+    ushort m_icon;
 };
 
 #endif // NOTIFICATION_H

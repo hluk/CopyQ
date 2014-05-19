@@ -19,6 +19,9 @@
 
 #include "gui/notification.h"
 
+#include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
+
 #include <QVBoxLayout>
 #include <QGridLayout>
 #include <QLabel>
@@ -28,9 +31,8 @@
 #include <QTimer>
 #include <QVBoxLayout>
 
-Notification::Notification(int id, QWidget *parent)
-    : QWidget(parent)
-    , m_id(id)
+Notification::Notification(int id)
+    : m_id(id)
     , m_body(NULL)
     , m_titleLabel(NULL)
     , m_iconLabel(NULL)
@@ -85,10 +87,9 @@ void Notification::setPixmap(const QPixmap &pixmap)
     m_msgLabel->setPixmap(pixmap);
 }
 
-void Notification::setIcon(const QPixmap &icon)
+void Notification::setIcon(ushort icon)
 {
-    m_iconLabel->setPixmap(icon);
-    m_iconLabel->resize(icon.size());
+    m_icon = icon;
 }
 
 void Notification::setInterval(int msec)
@@ -112,17 +113,20 @@ void Notification::setOpacity(qreal opacity)
     setWindowOpacity(m_opacity);
 }
 
+void Notification::updateIcon()
+{
+    const QColor color = getDefaultIconColor(*this, QPalette::WindowText);
+    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
+    const int height = m_msgLabel->fontMetrics().lineSpacing() * 1.2;
+    const QPixmap pixmap = iconFactory->createPixmap(m_icon, color, height);
+    m_iconLabel->setPixmap(pixmap);
+    m_iconLabel->resize(pixmap.size());
+}
+
 void Notification::adjust()
 {
     m_body->adjustSize();
     adjustSize();
-}
-
-void Notification::popup(const QPoint &position, int msec)
-{
-    move(position);
-    show();
-    setInterval(msec);
 }
 
 void Notification::mousePressEvent(QMouseEvent *event)

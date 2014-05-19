@@ -22,7 +22,6 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "gui/notification.h"
-#include "gui/iconfactory.h"
 
 #include <QApplication>
 #include <QDesktopWidget>
@@ -59,28 +58,25 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
 {
 }
 
-Notification *NotificationDaemon::create(const QString &title, const QString &msg,
-                                         const QPixmap &icon, int msec, QWidget *parent, int id)
+void NotificationDaemon::create(const QString &title, const QString &msg, ushort icon, int msec, int id)
 {
-    Notification *notification = createNotification(parent, id);
+    Notification *notification = createNotification(id);
 
     notification->setTitle(title);
     notification->setIcon(icon);
     notification->setMessage(msg);
+    notification->setInterval(msec);
 
-    popupNotification(notification, msec);
-
-    return notification;
+    updateNotifications();
 }
 
-Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, const QPixmap &icon,
-                                         int msec, QWidget *parent, int id)
+void NotificationDaemon::create(const QVariantMap &data, int maxLines, ushort icon, int msec, int id)
 {
-    Notification *notification = createNotification(parent, id);
+    Notification *notification = createNotification(id);
 
     notification->setIcon(icon);
 
-    const int width = pointsToPixels(m_maximumWidthPoints) - icon.width() - 16 - 8;
+    const int width = pointsToPixels(m_maximumWidthPoints) - 16 - 8;
 
     const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
@@ -117,9 +113,9 @@ Notification *NotificationDaemon::create(const QVariantMap &data, int maxLines, 
         notification->setMessage(text);
     }
 
-    popupNotification(notification, msec);
+    notification->setInterval(msec);
 
-    return notification;
+    updateNotifications();
 }
 
 void NotificationDaemon::updateInterval(int id, int msec)
@@ -146,30 +142,49 @@ void NotificationDaemon::setMaximumSize(int maximumWidthPoints, int maximumHeigh
     m_maximumHeightPoints = maximumHeightPoints;
 }
 
-void NotificationDaemon::updateAppearance()
+void NotificationDaemon::updateNotifications()
 {
-    QList<Notification*> notifications = m_notifications;
-    m_notifications.clear();
+    const QRect screen = QApplication::desktop()->screenGeometry();
 
-    foreach (Notification *notification, notifications) {
-        notification->move(findPosition(notification));
-        m_notifications.append(notification);
-        setAppearance(notification);
+    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
+
+    foreach (Notification *notification, m_notifications) {
+        notification->setOpacity(m_opacity);
+        notification->setStyleSheet(m_styleSheet);
+        notification->updateIcon();
+        notification->adjust();
+        notification->setMaximumSize( pointsToPixels(m_maximumWidthPoints), pointsToPixels(m_maximumHeightPoints) );
+
+        int x;
+        if (m_position & Left)
+            x = offsetX();
+        else if (m_position & Right)
+            x = screen.width() - notification->width() - offsetX();
+        else
+            x = screen.width() / 2 - notification->width() / 2;
+
+        if (m_position & Bottom)
+            y -= notification->height();
+
+        notification->move(x, y);
+
+        if (m_position & Top)
+            y += notification->height() + notificationMargin();
+        else
+            y -= notificationMargin();
+
+        notification->show();
     }
-}
-
-QColor NotificationDaemon::getNotificationIconColor(QWidget *parent)
-{
-    Notification notification(0, parent);
-    return getDefaultIconColor(notification, QPalette::WindowText);
 }
 
 void NotificationDaemon::setNotificationOpacity(qreal opacity)
 {
-    if (m_opacity == opacity)
-        return;
     m_opacity = opacity;
-    updateAppearance();
+}
+
+void NotificationDaemon::setNotificationStyleSheet(const QString &styleSheet)
+{
+    m_styleSheet = styleSheet;
 }
 
 void NotificationDaemon::removeNotification(int id)
@@ -182,41 +197,8 @@ void NotificationDaemon::removeNotification(int id)
 void NotificationDaemon::onNotificationClose(Notification *notification)
 {
     m_notifications.removeOne(notification);
-    hideNotification(notification);
     delete notification;
-}
-
-QPoint NotificationDaemon::findPosition(Notification *notification)
-{
-    QRect screen = QApplication::desktop()->screenGeometry(notification);
-
-    int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
-
-    if ( m_notifications.size() > 1 ) {
-        foreach (Notification *notification2, m_notifications) {
-            if (notification != notification2) {
-                if (m_position & Top)
-                    y = qMax( y, notification2->y() + notification2->height() );
-                else
-                    y = qMin( y, notification2->y() );
-            }
-        }
-
-        y += (m_position & Top ? 1 : -1) * notificationMargin();
-    }
-
-    if (m_position & Bottom)
-        y -= notification->height();
-
-    int x;
-    if (m_position & Left)
-        x = offsetX();
-    else if (m_position & Right)
-        x = screen.width() - notification->width() - offsetX();
-    else
-        x = screen.width() / 2 - notification->width() / 2;
-
-    return QPoint(x, y);
+    updateNotifications();
 }
 
 Notification *NotificationDaemon::findNotification(int id)
@@ -229,12 +211,7 @@ Notification *NotificationDaemon::findNotification(int id)
     return NULL;
 }
 
-void NotificationDaemon::setAppearance(Notification *notification)
-{
-    notification->setOpacity(m_opacity);
-}
-
-Notification *NotificationDaemon::createNotification(QWidget *parent, int id)
+Notification *NotificationDaemon::createNotification(int id)
 {
     Notification *notification = NULL;
     if (id >= 0)
@@ -242,43 +219,14 @@ Notification *NotificationDaemon::createNotification(QWidget *parent, int id)
 
     const int newId = (id >= 0) ? id : -(++m_lastId);
     if (notification == NULL) {
-        notification = new Notification(newId, parent);
+        notification = new Notification(newId);
+        connect(this, SIGNAL(destroyed()), notification, SLOT(deleteLater()));
+        connect( notification, SIGNAL(closeNotification(Notification*)),
+                 this, SLOT(onNotificationClose(Notification*)) );
         m_notifications.append(notification);
-        setAppearance(notification);
-    } else {
-        hideNotification(notification);
     }
-
-    connect( notification, SIGNAL(closeNotification(Notification*)),
-             this, SLOT(onNotificationClose(Notification*)) );
 
     return notification;
-}
-
-void NotificationDaemon::popupNotification(Notification *notification, int msec)
-{
-    notification->resize(QWIDGETSIZE_MAX, QWIDGETSIZE_MAX);
-    notification->adjust();
-
-    notification->setMaximumSize( pointsToPixels(m_maximumWidthPoints), pointsToPixels(m_maximumHeightPoints) );
-
-    const QPoint pos = findPosition(notification);
-
-    notification->popup(pos, msec);
-}
-
-void NotificationDaemon::hideNotification(Notification *notification)
-{
-    notification->hide();
-
-    const int y = notification->y();
-    const int d = (notification->height() + notificationMargin()) * ((m_position & Bottom) ? 1 : -1);
-
-    foreach (Notification *notification2, m_notifications) {
-        const int y2 = notification2->y();
-        if ( m_position & Bottom ? y2 < y : y2 > y )
-            notification2->move( notification2->x(), y2 + d );
-    }
 }
 
 int NotificationDaemon::offsetX() const

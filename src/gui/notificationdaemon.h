@@ -48,12 +48,12 @@ public:
     explicit NotificationDaemon(QObject *parent = NULL);
 
     /** Create new notification or update one with same @a id (if non-negative). */
-    Notification *create(const QString &title, const QString &msg, const QPixmap &icon,
-                         int msec, QWidget *parent, int id = -1);
+    void create(const QString &title, const QString &msg, ushort icon,
+                int msec, int id = -1);
 
     /** Create new notification or update one with same @a id (if non-negative). */
-    Notification *create(const QVariantMap &data, int maxLines, const QPixmap &icon,
-                         int msec, QWidget *parent, int id = -1);
+    void create(const QVariantMap &data, int maxLines, ushort icon,
+                int msec, int id = -1);
 
     /** Update interval to show notification with given @a id. */
     void updateInterval(int id, int msec);
@@ -64,11 +64,11 @@ public:
 
     void setMaximumSize(int maximumWidthPoints, int maximumHeightPoints);
 
-    void updateAppearance();
-
-    static QColor getNotificationIconColor(QWidget *parent);
+    void updateNotifications();
 
     void setNotificationOpacity(qreal opacity);
+
+    void setNotificationStyleSheet(const QString &styleSheet);
 
     void removeNotification(int id);
 
@@ -76,18 +76,9 @@ private slots:
     void onNotificationClose(Notification *notification);
 
 private:
-    /** Find ideal position for new notification. */
-    QPoint findPosition(Notification *notification);
-
     Notification *findNotification(int id);
 
-    void setAppearance(Notification *notification);
-
-    Notification *createNotification(QWidget *parent, int id = -1);
-
-    void popupNotification(Notification *notification, int msec);
-
-    void hideNotification(Notification *notification);
+    Notification *createNotification(int id = -1);
 
     int offsetX() const;
     int offsetY() const;
@@ -100,6 +91,7 @@ private:
     int m_verticalOffsetPoints;
     int m_maximumWidthPoints;
     int m_maximumHeightPoints;
+    QString m_styleSheet;
 };
 
 #endif // NOTIFICATIONDAEMON_H
