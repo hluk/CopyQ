@@ -1236,7 +1236,6 @@ void MainWindow::tabMoved(const QString &oldPrefix, const QString &newPrefix, co
 {
     const QStringList tabs = ui->tabWidget->tabs();
     Q_ASSERT( oldPrefix == newPrefix || !tabs.contains(oldPrefix) );
-    Q_ASSERT( afterPrefix.isEmpty() || tabs.contains(afterPrefix) );
     Q_ASSERT( !tabs.contains(QString()) );
     Q_ASSERT( tabs.toSet().size() == tabs.size() );
 
