@@ -367,8 +367,15 @@ void renameToUnique(QString *name, const QStringList &names)
 bool containsData(const QVariantMap &data)
 {
     foreach ( const QString &mime, data.keys() ) {
-        if (mime != mimeOwner && mime != mimeWindowTitle)
+        if (mime != mimeOwner
+                && mime != mimeWindowTitle
+        #ifdef COPYQ_WS_X11
+                && mime != mimeClipboardMode
+        #endif
+                && mime != mimeItems)
+        {
             return true;
+        }
     }
 
     return false;
