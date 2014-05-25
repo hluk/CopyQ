@@ -347,7 +347,6 @@ ConfigurationManager *ConfigurationManager::instance()
 ConfigurationManager::ConfigurationManager(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
-    , m_datfilename()
     , m_options()
     , m_itemFactory(new ItemFactory(this))
     , m_iconFactory(new IconFactory)
@@ -363,9 +362,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
         ui->tabItems->deleteLater();
 
     initOptions();
-
-    /* datafile for items */
-    m_datfilename = getConfigurationFilePath("_tab_");
 
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
@@ -709,12 +705,12 @@ QString ConfigurationManager::itemFileName(const QString &id) const
 {
     QString part( id.toUtf8().toBase64() );
     part.replace( QChar('/'), QString('-') );
-    return m_datfilename + part + QString(".dat");
+    return getConfigurationFilePath("_tab_") + part + QString(".dat");
 }
 
 bool ConfigurationManager::createItemDirectory()
 {
-    QDir settingsDir( QDir::cleanPath(m_datfilename + "/..") );
+    QDir settingsDir( settingsDirectoryPath() );
     if ( !settingsDir.mkpath(".") ) {
         log( tr("Cannot create directory for settings %1!")
              .arg(quoteString(settingsDir.path()) ),
@@ -769,8 +765,7 @@ void ConfigurationManager::updateIcons()
 void ConfigurationManager::registerWindowGeometry(QWidget *window)
 {
     window->installEventFilter(this);
-    const QString optionName = getGeomentryOptionName(window, false);
-    window->restoreGeometry( QSettings().value(optionName).toByteArray() );
+    restoreWindowGeometry(window);
 }
 
 bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
@@ -786,11 +781,10 @@ bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
 
         bool save = event->type() == QEvent::WindowDeactivate;
         QWidget *w = qobject_cast<QWidget*>(object);
-        const QString optionName = getGeomentryOptionName(w, save);
         if (save)
-            Settings().setValue( optionName, w->saveGeometry() );
+            saveWindowGeometry(w);
         else
-            w->restoreGeometry( QSettings().value(optionName).toByteArray() );
+            restoreWindowGeometry(w);
     }
 
     return false;
@@ -1047,6 +1041,29 @@ ConfigurationManager::Commands ConfigurationManager::selectedCommands()
     return commandsToSave;
 }
 
+void ConfigurationManager::restoreWindowGeometry(QWidget *w)
+{
+    const QString optionName = getGeomentryOptionName(w, false);
+    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
+    QVariant geometry = geometrySettings.value(optionName);
+
+    // Backward compatibility.
+    if ( !geometry.isValid() ) {
+        QSettings settings;
+        geometry = settings.value(optionName);
+        settings.remove(optionName);
+    }
+
+    w->restoreGeometry( geometry.toByteArray() );
+}
+
+void ConfigurationManager::saveWindowGeometry(QWidget *w)
+{
+    const QString optionName = getGeomentryOptionName(w, true);
+    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
+    geometrySettings.setValue( optionName, w->saveGeometry() );
+}
+
 QVariant ConfigurationManager::value(const QString &name) const
 {
     if ( m_options.contains(name) )
@@ -1226,7 +1243,7 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
 QStringList ConfigurationManager::savedTabs() const
 {
     QStringList tabs = value("tabs").toStringList();
-    const QString configPath = QDir::cleanPath(m_datfilename + "/..");
+    const QString configPath = settingsDirectoryPath();
 
     QStringList files = QDir(configPath).entryList(QStringList("*_tab_*.dat"));
     files.append( QDir(configPath).entryList(QStringList("*_tab_*.dat.tmp")) );
@@ -1491,4 +1508,9 @@ QIcon getIcon(const QString &themeName, ushort iconId)
 QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
+}
+
+QString settingsDirectoryPath()
+{
+    return QDir::cleanPath( getConfigurationFilePath("") + "/.." );
 }

@@ -221,9 +221,12 @@ private:
 
     Commands selectedCommands();
 
+    void restoreWindowGeometry(QWidget *w);
+
+    void saveWindowGeometry(QWidget *w);
+
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
-    QString m_datfilename;
     QHash<QString, Option> m_options;
 
     ItemFactory *m_itemFactory;
@@ -231,6 +234,8 @@ private:
 
     bool m_optionWidgetsLoaded;
 };
+
+QString settingsDirectoryPath();
 
 const QIcon &getIconFromResources(const QString &iconName);
 

@@ -30,12 +30,11 @@ const char mimeEncryptedData[] = "application/x-copyq-encrypted";
 
 QString getConfigurationFilePath(const QString &suffix)
 {
-    // key filenames
     QSettings settings(QSettings::IniFormat, QSettings::UserScope,
                        QCoreApplication::organizationName(),
                        QCoreApplication::applicationName());
     QString path = settings.fileName();
-    return path.replace( QRegExp(".ini$"), suffix );
+    return path.replace( QRegExp("\\.ini$"), suffix );
 }
 
 QStringList getDefaultEncryptCommandArguments()
