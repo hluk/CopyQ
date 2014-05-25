@@ -180,6 +180,12 @@ void Notification::showEvent(QShowEvent *event)
     QWidget::showEvent(event);
 }
 
+void Notification::hideEvent(QHideEvent *event)
+{
+    QWidget::hideEvent(event);
+    emit closeNotification(this);
+}
+
 void Notification::onTimeout()
 {
     emit closeNotification(this);
