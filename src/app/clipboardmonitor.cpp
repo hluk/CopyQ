@@ -63,7 +63,7 @@ class PrivateX11 {
 public:
     PrivateX11()
         : m_x11Platform()
-        , m_timer()
+        , m_incompleteSelectionTimer()
         , m_syncTimer()
         , m_resetTimer()
         , m_clipboardData()
@@ -75,8 +75,8 @@ public:
         , m_checksel(false)
         , m_copysel(false)
     {
-        m_timer.setSingleShot(true);
-        m_timer.setInterval(100);
+        m_incompleteSelectionTimer.setSingleShot(true);
+        m_incompleteSelectionTimer.setInterval(100);
 
         m_syncTimer.setSingleShot(true);
         m_syncTimer.setInterval(100);
@@ -88,20 +88,20 @@ public:
     // Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
     bool isSelectionIncomplete()
     {
-        if (m_timer.isActive())
+        if (m_incompleteSelectionTimer.isActive())
             return true;
 
         if ( m_x11Platform.isSelecting() ) {
-            m_timer.start();
+            m_incompleteSelectionTimer.start();
             return true;
         }
 
         return false;
     }
 
-    const QTimer &timer() const
+    const QTimer &incompleteSelectionTimer() const
     {
-        return m_timer;
+        return m_incompleteSelectionTimer;
     }
 
     const QTimer &syncTimer() const
@@ -224,9 +224,23 @@ public:
             m_selectionData = data;
     }
 
+    void ignoreClipboard()
+    {
+        m_syncTimer.stop();
+        m_resetTimer.stop();
+
+        if ( m_clipboardData.value(mimeOwner) == qgetenv("COPYQ_SESSION_NAME") )
+            setClipboardData(QVariantMap(), QClipboard::Clipboard);
+        if ( m_selectionData.value(mimeOwner) == qgetenv("COPYQ_SESSION_NAME") )
+            setClipboardData(QVariantMap(), QClipboard::Selection);
+
+        m_clipboardData.clear();
+        m_selectionData.clear();
+    }
+
 private:
     X11Platform m_x11Platform;
-    QTimer m_timer;
+    QTimer m_incompleteSelectionTimer;
     QTimer m_syncTimer;
     QTimer m_resetTimer;
     QVariantMap m_clipboardData;
@@ -272,7 +286,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
              this, SLOT(updateTimeout()));
 
 #ifdef COPYQ_WS_X11
-    connect( &m_x11->timer(), SIGNAL(timeout()),
+    connect( &m_x11->incompleteSelectionTimer(), SIGNAL(timeout()),
              this, SLOT(updateSelection()) );
     connect( &m_x11->syncTimer(), SIGNAL(timeout()),
              this, SLOT(synchronize()) );
@@ -460,6 +474,10 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         QVariantMap data;
         deserializeData(&data, message);
         updateClipboard(data);
+    } else if (messageCode == MonitorIgnoreClipboard) {
+#ifdef COPYQ_WS_X11
+        m_x11->ignoreClipboard();
+#endif
     } else {
         log( QString("Unknown message code %1!").arg(messageCode), LogError );
     }

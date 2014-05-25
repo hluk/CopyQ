@@ -27,6 +27,7 @@ enum MonitorMessageCode {
     MonitorSettings,
     MonitorChangeClipboard,
     MonitorClipboardChanged,
+    MonitorIgnoreClipboard,
     MonitorLog
 };
 

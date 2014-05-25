@@ -289,7 +289,7 @@ public slots:
     /** Ignore current clipboard content. */
     void ignoreCurrentClipboard();
 
-    bool wasClipboardIgnored() const { return m_ignoreCurrentClipboard; }
+    bool isClipboardIgnored() const { return m_ignoreCurrentClipboard; }
 
     QStringList tabs() const;
 

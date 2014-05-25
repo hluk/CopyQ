@@ -299,11 +299,12 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     bool forceRunCommands = false;
 
 #ifdef COPYQ_WS_X11
-    if ( data.value(mimeClipboardMode) != "selection" )
+    bool clipboardChanged = data.value(mimeClipboardMode) != "selection";
+    if (clipboardChanged)
 #endif
     {
         // Force rerun commands if previous clipboard content was ignored.
-        forceRunCommands = m_wnd->wasClipboardIgnored();
+        forceRunCommands = m_wnd->isClipboardIgnored();
 
         m_wnd->clipboardChanged(data);
         if (!m_checkclip)
@@ -316,6 +317,11 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
 
     if ( containsData(data) )
         m_wnd->addToTab( data, QString(), true );
+
+#ifdef COPYQ_WS_X11
+    if ( clipboardChanged && m_wnd->isClipboardIgnored() && isMonitoring() )
+        m_monitor->writeMessage("", MonitorIgnoreClipboard);
+#endif
 }
 
 void ClipboardServer::monitorConnectionError()
