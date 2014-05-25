@@ -790,6 +790,19 @@ bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
     return false;
 }
 
+QByteArray ConfigurationManager::mainWindowState(const QString &mainWindowObjectName)
+{
+    const QString optionName = "Options/" + mainWindowObjectName + "_state";
+    return geometryOptionValue(optionName);
+}
+
+void ConfigurationManager::saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state)
+{
+    const QString optionName = "Options/" + mainWindowObjectName + "_state";
+    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
+    geometrySettings.setValue(optionName, state);
+}
+
 void ConfigurationManager::initTabIcons()
 {
     QTabWidget *tw = ui->tabWidget;
@@ -1044,6 +1057,18 @@ ConfigurationManager::Commands ConfigurationManager::selectedCommands()
 void ConfigurationManager::restoreWindowGeometry(QWidget *w)
 {
     const QString optionName = getGeomentryOptionName(w, false);
+    w->restoreGeometry( geometryOptionValue(optionName) );
+}
+
+void ConfigurationManager::saveWindowGeometry(QWidget *w)
+{
+    const QString optionName = getGeomentryOptionName(w, true);
+    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
+    geometrySettings.setValue( optionName, w->saveGeometry() );
+}
+
+QByteArray ConfigurationManager::geometryOptionValue(const QString &optionName)
+{
     QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
     QVariant geometry = geometrySettings.value(optionName);
 
@@ -1054,14 +1079,7 @@ void ConfigurationManager::restoreWindowGeometry(QWidget *w)
         settings.remove(optionName);
     }
 
-    w->restoreGeometry( geometry.toByteArray() );
-}
-
-void ConfigurationManager::saveWindowGeometry(QWidget *w)
-{
-    const QString optionName = getGeomentryOptionName(w, true);
-    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
-    geometrySettings.setValue( optionName, w->saveGeometry() );
+    return geometry.toByteArray();
 }
 
 QVariant ConfigurationManager::value(const QString &name) const

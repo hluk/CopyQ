@@ -165,7 +165,7 @@ MainWindow::MainWindow(QWidget *parent)
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     cm->registerWindowGeometry(this);
-    restoreState( cm->value(objectName() + "_state").toByteArray() );
+    restoreState( cm->mainWindowState(objectName()) );
 
     updateIcon();
 
@@ -456,7 +456,7 @@ void MainWindow::onAboutToQuit()
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->disconnect();
-    cm->setValue( objectName() + "_state", saveState() );
+    cm->saveMainWindowState( objectName(), saveState() );
     saveCollapsedTabs();
     hideWindow();
     m_tray->hide();

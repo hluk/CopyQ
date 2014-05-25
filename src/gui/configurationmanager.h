@@ -132,6 +132,9 @@ public:
 
     bool eventFilter(QObject *object, QEvent *event);
 
+    QByteArray mainWindowState(const QString &mainWindowObjectName);
+    void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state);
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -224,6 +227,8 @@ private:
     void restoreWindowGeometry(QWidget *w);
 
     void saveWindowGeometry(QWidget *w);
+
+    QByteArray geometryOptionValue(const QString &optionName);
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
