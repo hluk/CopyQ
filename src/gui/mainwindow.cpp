@@ -1401,8 +1401,7 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
 
 void MainWindow::setClipboard(const QVariantMap &data)
 {
-    if ( !isVisible() || isMinimized() )
-        showClipboardMessage(data);
+    showClipboardMessage(data);
     emit changeClipboard(data);
 }
 
