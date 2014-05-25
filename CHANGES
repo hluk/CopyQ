@@ -1,3 +1,17 @@
+v2.2.0
+- Custom system shortcuts for any user command
+- Drag'n'drop items to tabs
+- Options to set position and maximum size for notifications
+- Option to open windows on same desktop
+- Weblate service for translations (https://hosted.weblate.org/projects/copyq/master/)
+- Commands input and output is UTF-8 only (this fixes encoding issues on Windows)
+- Scripting engine improvements
+- Various GUI improvements and fixes
+- Fix main window position in various X11 window managers
+- Fix crashing with Oxygen GUI style
+- Fix storing images from clipboard on Windows
+- Various GUI improvements and fixes
+
 v2.1.0
 - French translation
 - Save/load and copy/paste user commands
