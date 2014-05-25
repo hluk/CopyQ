@@ -53,7 +53,7 @@ QString helpLink(const QString &name, const QString &link)
 QString helpDeveloper(const char *name, const char *mail)
 {
     return QString("<div>%1 &nbsp;&nbsp;&nbsp;<span class='h3'>%2</span></div>")
-            .arg(name)
+            .arg(QString::fromUtf8(name))
             .arg(mail);
 }
 
@@ -125,7 +125,7 @@ QString AboutDialog::aboutPage()
 
         "<p>"
         "<table class='links'>"
-            + helpLink( tr("Author"), "Luk&#225;&#353; Hole&#269;ek" )
+            + helpLink( tr("Author"), QString::fromUtf8("Lukáš Holeček") )
             + helpLink( tr("E-mail"), helpMail("hluk@email.cz") )
             + helpLink( tr("Web"), helpUrl("http://hluk.github.io/CopyQ/") )
             + helpLink( tr("Wiki"), helpUrl("https://sourceforge.net/p/copyq/wiki/Home/") )
@@ -142,11 +142,17 @@ QString AboutDialog::aboutPage()
         "<p class=\"pp\">"
             // developers
             + helpDeveloper("Adam Batkin", "adam@batkin.net")
+            + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
+            + helpDeveloper("Greg Carp", "grcarpbe@gmail.com")
             + helpDeveloper("Ilya Plenne", "libbkmz.dev@gmail.com")
-            + helpDeveloper("J&#246;rg Thalheim", "joerg@higgsboson.tk")
+            + helpDeveloper("Jörg Thalheim", "joerg@higgsboson.tk")
+            + helpDeveloper("Kim Jzhone", "jzhone@gmail.com")
+            + helpDeveloper("Kos Ivantsov", "kos.ivantsov@gmail.com")
             + helpDeveloper("lightonflux", "lightonflux@znn.info")
+            + helpDeveloper("Lukas Holecek", "hluk@email.cz")
             + helpDeveloper("Martin Lepadusch", "mlepadusch@googlemail.com")
             + helpDeveloper("Matt d'Entremont", "mattdentremont@gmail.com")
+            + helpDeveloper("Michal Čihař", "michal@cihar.com")
             + helpDeveloper("Patricio M. Ros", "patricioros.dev@gmail.com")
             + helpDeveloper("Ryan Wooden", "rygwdn@gmail.com")
             + helpDeveloper("Scott Kostyshak", "skostysh@princeton.edu")
