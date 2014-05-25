@@ -2,7 +2,7 @@
 # Download packages from openSUSE Build Service.
 version=$1
 
-rpm_version="4.1"
+rpm_version="6.1"
 base_url="http://download.opensuse.org/repositories/home:/"
 user=${2:-"lukho"}
 project=${3:-"copyq"}
@@ -21,6 +21,8 @@ urls=(
     "$url/xUbuntu_12.04/amd64/${project}_${version}_amd64.deb"
     "$url/openSUSE_13.1/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
     "$url/openSUSE_13.1/i586/${project}-${version}-${rpm_version}.i586.rpm"
+    "$url/Fedora_20/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
+    "$url/Fedora_20/i686/${project}-${version}-${rpm_version}.i686.rpm"
     "$url/Fedora_19/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
     "$url/Debian_7.0/i386/${project}_${version}_i386.deb"
     "$url/Debian_7.0/amd64/${project}_${version}_amd64.deb"
@@ -41,6 +43,6 @@ fi
 
 for url in "${urls[@]}"; do
     name=$(get_name "$url")
-    wget -nc "$url" -O "$name"
+    wget -c "$url" -O "$name" || exit 2
 done
 
