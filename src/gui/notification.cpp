@@ -97,7 +97,7 @@ void Notification::setInterval(int msec)
     delete m_timer;
     m_timer = NULL;
 
-    if (msec > 0) {
+    if (msec >= 0) {
         m_timer = new QTimer(this);
         m_timer->setInterval(msec);
         m_timer->setSingleShot(true);
