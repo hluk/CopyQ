@@ -21,7 +21,7 @@
 
 #include "gui/icons.h"
 #include "gui/iconfont.h"
-#include "gui/configurationmanager.h"
+#include "common/config.h"
 
 #include <QAction>
 #include <QApplication>
@@ -102,7 +102,7 @@ public:
         m_iconList->setFocus();
 
         // Restore previous geometry.
-        ConfigurationManager::instance()->registerWindowGeometry(this);
+        restoreWindowGeometry(this, false);
 
         // Set position under parent.
         if (parent) {
@@ -117,6 +117,8 @@ public:
 public slots:
     void done(int result)
     {
+        saveWindowGeometry(this, false);
+
         if (result == QDialog::Accepted)
             emit iconSelected(m_selectedIcon);
 

@@ -17,24 +17,21 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef ENCRYPT_H
-#define ENCRYPT_H
+#ifndef CONFIG_H
+#define CONFIG_H
 
-#include <QString>
+class QString;
+class QByteArray;
+class QWidget;
 
-class QStringList;
+QString getConfigurationFilePath(const QString &suffix);
 
-extern const char mimeEncryptedData[];
+QString settingsDirectoryPath();
 
-QStringList getDefaultEncryptCommandArguments();
+QByteArray geometryOptionValue(const QString &optionName);
 
-QString getEncryptCommand();
+void restoreWindowGeometry(QWidget *w, bool openOnCurrentScreen);
 
-struct KeyPairPaths {
-    KeyPairPaths();
+void saveWindowGeometry(QWidget *w, bool openOnCurrentScreen);
 
-    QString sec;
-    QString pub;
-};
-
-#endif // ENCRYPT_H
+#endif // CONFIG_H

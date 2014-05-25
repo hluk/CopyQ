@@ -5,6 +5,7 @@ HEADERS += itemsync.h \
     ../../src/gui/iconwidget.h
 SOURCES += itemsync.cpp
 SOURCES += \
+    ../../src/common/config.cpp \
     ../../src/common/log.cpp \
     ../../src/common/mimetypes.cpp \
     ../../src/gui/iconfont.cpp \

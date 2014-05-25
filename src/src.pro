@@ -83,7 +83,8 @@ HEADERS += \
     common/log.h \
     common/commandstatus.h \
     common/monitormessagecode.h \
-    common/settings.h
+    common/settings.h \
+    common/config.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -142,7 +143,8 @@ SOURCES += \
     app/client.cpp \
     common/mimetypes.cpp \
     common/log.cpp \
-    common/settings.cpp
+    common/settings.cpp \
+    common/config.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/option.h"
@@ -722,24 +723,6 @@ bool ConfigurationManager::createItemDirectory()
     return true;
 }
 
-QString ConfigurationManager::getGeomentryOptionName(const QWidget *widget, bool save) const
-{
-    QString widgetName = widget->objectName();
-    QString optionName = "Options/" + widgetName + "_geometry";
-
-    // current screen number
-    if ( value("open_windows_on_current_screen").toBool() ) {
-        int n = save ? QApplication::desktop()->screenNumber(widget)
-                     : QApplication::desktop()->screenNumber(QCursor::pos());
-        if (n > 0)
-            optionName.append( QString("_screen_%1").arg(n) );
-    } else {
-        optionName.append("_global");
-    }
-
-    return optionName;
-}
-
 void ConfigurationManager::updateIcons()
 {
     iconFactory()->invalidateCache();
@@ -765,7 +748,8 @@ void ConfigurationManager::updateIcons()
 void ConfigurationManager::registerWindowGeometry(QWidget *window)
 {
     window->installEventFilter(this);
-    restoreWindowGeometry(window);
+    bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
+    restoreWindowGeometry(window, openOnCurrentScreen);
 }
 
 bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
@@ -781,10 +765,11 @@ bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
 
         bool save = event->type() == QEvent::WindowDeactivate;
         QWidget *w = qobject_cast<QWidget*>(object);
+        bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
         if (save)
-            saveWindowGeometry(w);
+            saveWindowGeometry(w, openOnCurrentScreen);
         else
-            restoreWindowGeometry(w);
+            restoreWindowGeometry(w, openOnCurrentScreen);
     }
 
     return false;
@@ -1052,34 +1037,6 @@ ConfigurationManager::Commands ConfigurationManager::selectedCommands()
     }
 
     return commandsToSave;
-}
-
-void ConfigurationManager::restoreWindowGeometry(QWidget *w)
-{
-    const QString optionName = getGeomentryOptionName(w, false);
-    w->restoreGeometry( geometryOptionValue(optionName) );
-}
-
-void ConfigurationManager::saveWindowGeometry(QWidget *w)
-{
-    const QString optionName = getGeomentryOptionName(w, true);
-    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
-    geometrySettings.setValue( optionName, w->saveGeometry() );
-}
-
-QByteArray ConfigurationManager::geometryOptionValue(const QString &optionName)
-{
-    QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
-    QVariant geometry = geometrySettings.value(optionName);
-
-    // Backward compatibility.
-    if ( !geometry.isValid() ) {
-        QSettings settings;
-        geometry = settings.value(optionName);
-        settings.remove(optionName);
-    }
-
-    return geometry.toByteArray();
 }
 
 QVariant ConfigurationManager::value(const QString &name) const
@@ -1526,9 +1483,4 @@ QIcon getIcon(const QString &themeName, ushort iconId)
 QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
-}
-
-QString settingsDirectoryPath()
-{
-    return QDir::cleanPath( getConfigurationFilePath("") + "/.." );
 }

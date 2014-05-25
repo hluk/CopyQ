@@ -18,6 +18,7 @@
 */
 
 #include "item/encrypt.h"
+#include "common/config.h"
 
 #include <QCoreApplication>
 #include <QDir>
@@ -27,15 +28,6 @@
 #include <QStringList>
 
 const char mimeEncryptedData[] = "application/x-copyq-encrypted";
-
-QString getConfigurationFilePath(const QString &suffix)
-{
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    QString path = settings.fileName();
-    return path.replace( QRegExp("\\.ini$"), suffix );
-}
 
 QStringList getDefaultEncryptCommandArguments()
 {

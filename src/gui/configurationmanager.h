@@ -190,11 +190,6 @@ private:
 
     bool createItemDirectory();
 
-    /**
-     * @return Name of option to save/restore geometry of @a widget.
-     */
-    QString getGeomentryOptionName(const QWidget *widget, bool save) const;
-
     void initTabIcons();
 
     void initPluginWidgets();
@@ -224,12 +219,6 @@ private:
 
     Commands selectedCommands();
 
-    void restoreWindowGeometry(QWidget *w);
-
-    void saveWindowGeometry(QWidget *w);
-
-    QByteArray geometryOptionValue(const QString &optionName);
-
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QHash<QString, Option> m_options;
@@ -239,8 +228,6 @@ private:
 
     bool m_optionWidgetsLoaded;
 };
-
-QString settingsDirectoryPath();
 
 const QIcon &getIconFromResources(const QString &iconName);
 
