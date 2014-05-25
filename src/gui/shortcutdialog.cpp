@@ -20,7 +20,7 @@
 #include "shortcutdialog.h"
 #include "ui_shortcutdialog.h"
 
-#include "common/client_server.h"
+#include "common/log.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
 
@@ -84,6 +84,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
 
     if (event->type() == QEvent::KeyPress) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
 
         const int key = keyEvent->key();
         Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
@@ -110,6 +111,8 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         return false;
     } else if (event->type() == QEvent::KeyRelease) {
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
+        COPYQ_LOG(QString("Shortcut key release: %1").arg(keyEvent->key()));
+
         Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
 
         processKey(0, mods);
@@ -146,6 +149,7 @@ void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
 
     m_shortcut = QKeySequence(keys);
     QString shortcut = m_shortcut.toString(QKeySequence::NativeText);
+    COPYQ_LOG(QString("Shortcut: %1").arg(m_shortcut.toString()));
 
     ui->lineEditShortcut->setText(shortcut);
 }
@@ -155,14 +159,16 @@ Qt::KeyboardModifiers ShortcutDialog::getModifiers(const QKeyEvent &event)
     int key = event.key();
     Qt::KeyboardModifiers mods = event.modifiers();
 
-    if (key == Qt::Key_Super_L || key == Qt::Key_Super_R
+    if (key == Qt::Key_Meta || key == Qt::Key_Super_L || key == Qt::Key_Super_R
             || key == Qt::Key_Hyper_L || key == Qt::Key_Hyper_R)
     {
         m_metaPressed = (event.type() == QEvent::KeyPress);
+        COPYQ_LOG(QString("Shortcut \"Meta\" key %1.").arg(m_metaPressed ? "pressed" : "released"));
     }
     if (m_metaPressed)
         mods |= Qt::MetaModifier;
+    else
+        mods &= ~Qt::MetaModifier;
 
     return mods;
-
 }
