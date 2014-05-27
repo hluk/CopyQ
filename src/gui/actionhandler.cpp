@@ -25,23 +25,22 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/actiondialog.h"
+#include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
 #include "item/serialize.h"
 
+#include <QDateTime>
 #include <QModelIndex>
 
 ActionHandler::ActionHandler(MainWindow *mainWindow)
     : QObject(mainWindow)
     , m_wnd(mainWindow)
-    , m_commandMenu(tr("Co&mmands"))
-    , m_commandTrayMenu(m_commandMenu.title())
     , m_lastActionId(0)
     , m_actionData()
+    , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
 {
     Q_ASSERT(mainWindow);
-    m_commandMenu.setEnabled(false);
-    m_commandTrayMenu.menuAction()->setVisible(false);
 }
 
 ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
@@ -58,7 +57,7 @@ ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
 
 bool ActionHandler::hasRunningAction() const
 {
-    return !m_commandMenu.isEmpty();
+    return !m_actionData.isEmpty();
 }
 
 QByteArray ActionHandler::getActionData(const QByteArray actionId, const QString &format) const
@@ -66,6 +65,11 @@ QByteArray ActionHandler::getActionData(const QByteArray actionId, const QString
     const QVariantMap dataMap = m_actionData.value(actionId);
     return format == "?" ? QStringList(dataMap.keys()).join("\n").toUtf8() + '\n'
                          : dataMap.value(format).toByteArray();
+}
+
+void ActionHandler::showProcessManagerDialog()
+{
+    m_activeActionDialog->show();
 }
 
 void ActionHandler::action(Action *action, const QVariantMap &data)
@@ -95,37 +99,15 @@ void ActionHandler::action(Action *action, const QVariantMap &data)
     m_actionData.insert(actionId, data);
     action->setProperty("COPYQ_ACTION_ID", actionId);
 
+    m_activeActionDialog->actionAboutToStart(action);
     log( tr("Executing: %1").arg(action->command()) );
     action->start();
 }
 
 void ActionHandler::actionStarted(Action *action)
 {
-    bool hadRunningAction = hasRunningAction();
-
-    QString text = tr("KILL") + " " + action->command();
-    QString tooltip = tr("<b>COMMAND:</b>") + "<br />" + escapeHtml(text) + "<br />" +
-                      tr("<b>INPUT:</b>") + "<br />" +
-                      escapeHtml( QString::fromUtf8(action->input()) );
-
-    QAction *act = new QAction(action);
-    act->setToolTip(tooltip);
-    act->setWhatsThis(tooltip);
-    act->setText( elideText(text, act->font(), QString(), true) );
-
-    connect( act, SIGNAL(triggered()),
-             action, SLOT(terminate()) );
-    connect( act, SIGNAL(destroyed()),
-             this, SLOT(disableMenusIfEmpty()) );
-
-    m_commandMenu.addAction(act);
-    m_commandTrayMenu.addAction(act);
-
-    if (!hadRunningAction) {
-        m_commandMenu.setEnabled(true);
-        m_commandTrayMenu.menuAction()->setVisible(true);
-        emit hasRunningActionChanged();
-    }
+    m_activeActionDialog->actionStarted(action);
+    emit hasRunningActionChanged();
 }
 
 void ActionHandler::closeAction(Action *action)
@@ -162,8 +144,12 @@ void ActionHandler::closeAction(Action *action)
     if ( !msg.isEmpty() )
         m_wnd->showMessage( tr("Command %1").arg(quoteString(action->command())), msg, icon );
 
+    m_activeActionDialog->actionFinished(action);
     m_actionData.remove( action->property("COPYQ_ACTION_ID").toByteArray() );
     action->deleteLater();
+
+    if (!hasRunningAction())
+        emit hasRunningActionChanged();
 }
 
 void ActionHandler::addItems(const QStringList &items, const QString &tabName)
@@ -215,13 +201,4 @@ void ActionHandler::addItem(const QByteArray &data, const QString &format, const
     else
         dataMap.insert(format, data);
     c->model()->setData(index, dataMap, contentType::updateData);
-}
-
-void ActionHandler::disableMenusIfEmpty()
-{
-    if (!hasRunningAction()) {
-        m_commandMenu.setEnabled(false);
-        m_commandTrayMenu.menuAction()->setVisible(false);
-        emit hasRunningActionChanged();
-    }
 }

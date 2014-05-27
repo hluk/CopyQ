@@ -197,40 +197,36 @@ void ActionDialog::createAction()
         }
     }
 
+    m_capturedTexts[0] = getTextData(m_data);
     Action *act = new Action( cmd, bytes, m_capturedTexts, inputFormats,
                               ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
                               ui->comboBoxOutputTab->currentText(),
                               m_index );
+    act->setName(m_actionName);
     emit accepted(act, m_data);
 
     close();
 }
 
-void ActionDialog::setCommand(const QString &cmd)
+void ActionDialog::setCommand(const Command &cmd)
 {
     ui->comboBoxCommands->setCurrentIndex(0);
-    ui->plainTextEditCommand->setPlainText(cmd);
-}
+    ui->plainTextEditCommand->setPlainText(cmd.cmd);
+    ui->separatorEdit->setText(cmd.sep);
 
-void ActionDialog::setSeparator(const QString &sep)
-{
-    ui->separatorEdit->setText(sep);
-}
-
-void ActionDialog::setInput(const QString &format)
-{
-    int index = ui->comboBoxInputFormat->findText(format);
+    int index = ui->comboBoxInputFormat->findText(cmd.input);
     if (index == -1) {
-        ui->comboBoxInputFormat->insertItem(0, format);
+        ui->comboBoxInputFormat->insertItem(0, cmd.input);
         index = 0;
     }
     ui->comboBoxInputFormat->setCurrentIndex(index);
-}
 
-void ActionDialog::setOutput(const QString &format)
-{
-    ui->comboBoxOutputFormat->setEditText(format);
+    ui->comboBoxOutputFormat->setEditText(cmd.output);
+
+    m_capturedTexts = cmd.re.capturedTexts();
+    m_actionName = cmd.name;
+    m_actionName.remove('&');
 }
 
 void ActionDialog::setOutputTabs(const QStringList &tabs,
@@ -241,11 +237,6 @@ void ActionDialog::setOutputTabs(const QStringList &tabs,
     w->addItem("");
     w->addItems(tabs);
     w->setEditText(currentTabName);
-}
-
-void ActionDialog::setCapturedTexts(const QStringList &capturedTexts)
-{
-    m_capturedTexts = capturedTexts;
 }
 
 void ActionDialog::setOutputIndex(const QModelIndex &index)

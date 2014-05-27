@@ -160,10 +160,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
-    // create configuration manager
-    ConfigurationManager::createInstance(this);
     ConfigurationManager *cm = ConfigurationManager::instance();
-
     cm->registerWindowGeometry(this);
     restoreState( cm->mainWindowState(objectName()) );
 
@@ -308,6 +305,9 @@ void MainWindow::createMenu()
     // - show clipboard content
     createAction( Actions::File_ShowClipboardContent, SLOT(showClipboardContent()), menu );
 
+    // - active commands
+    createAction( Actions::File_ProcessManager, SLOT(showProcessManagerDialog()), menu );
+
     // - enable/disable
     m_actionToggleClipboardStoring = createAction( Actions::File_ToggleClipboardStoring,
                                                    SLOT(toggleClipboardStoring()), menu );
@@ -358,10 +358,6 @@ void MainWindow::createMenu()
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
 
-
-    // Commands
-    menubar->addMenu(&m_actionHandler->commandMenu());
-
     // Help
     menu = menubar->addMenu(tr("&Help"));
     createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
@@ -376,7 +372,6 @@ void MainWindow::createMenu()
     addTrayAction(Actions::File_Preferences);
     addTrayAction(Actions::File_ToggleClipboardStoring);
     addTrayAction(Actions::File_Exit);
-    m_trayMenu->addMenu(&m_actionHandler->commandTrayMenu());
     m_trayMenu->addSeparator();
     addTrayAction(Actions::File_Exit);
 }
@@ -1687,6 +1682,11 @@ void MainWindow::showClipboardContent()
     clipboardDialog.take();
 }
 
+void MainWindow::showProcessManagerDialog()
+{
+    m_actionHandler->showProcessManagerDialog();
+}
+
 void MainWindow::openActionDialog(int row)
 {
     ClipboardBrowser *c = browser();
@@ -1933,16 +1933,9 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
     QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
 
     actionDialog->setInputData(data);
-    actionDialog->setCommand(cmd.cmd);
-    actionDialog->setSeparator(cmd.sep);
-    actionDialog->setInput(cmd.input);
-    actionDialog->setOutput(cmd.output);
+    actionDialog->setCommand(cmd);
     actionDialog->setOutputIndex(outputIndex);
     QString outputTab = cmd.outputTab;
-
-    QStringList capturedTexts = cmd.re.capturedTexts();
-    capturedTexts[0] = getTextData(data);
-    actionDialog->setCapturedTexts(capturedTexts);
 
     if (cmd.wait) {
         // Insert tab labels to action dialog's combo box.

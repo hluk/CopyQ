@@ -51,18 +51,10 @@ public:
 
     /** Set action input data. */
     void setInputData(const QVariantMap &data);
-    /** Set command with arguments. */
-    void setCommand(const QString &cmd);
-    /** Item separator for command output. */
-    void setSeparator(const QString &sep);
-    /** Send data of given MIME type to stdin of program. */
-    void setInput(const QString &format);
-    /** Create items from stdout of program. */
-    void setOutput(const QString &format);
+    /** Set command for dialog. */
+    void setCommand(const Command &cmd);
     /** Set texts for tabs in combo box. */
     void setOutputTabs(const QStringList &tabs, const QString &currentTabName);
-    /** Set captured texts (for %2..%9 in command). */
-    void setCapturedTexts(const QStringList &capturedTexts);
     /** Set output item. */
     void setOutputIndex(const QModelIndex &index);
 
@@ -101,6 +93,8 @@ private:
     QStringList m_capturedTexts;
 
     int m_currentCommandIndex;
+
+    QString m_actionName;
 };
 
 #endif // ACTIONDIALOG_H

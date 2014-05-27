@@ -166,6 +166,9 @@ public slots:
     /** Open dialog with clipboard content. */
     void showClipboardContent();
 
+    /** Open dialog with active commands. */
+    void showProcessManagerDialog();
+
     /** Open action dialog for given @a row (or current) in current tab. */
     void openActionDialog(int row = -1);
     /** Open action dialog with given input @a text. */

@@ -68,6 +68,7 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::File_Preferences, "preferences-other", IconWrench );
     w->updateIcons( Actions::File_ShowClipboardContent, "clipboard", IconPaste );
     w->updateIcons( Actions::File_ToggleClipboardStoring );
+    w->updateIcons( Actions::File_ProcessManager, "", IconCogs );
     w->updateIcons( Actions::File_Exit, "application-exit", IconOff );
 
     w->updateIcons( Actions::Edit_SortSelectedItems, "view-sort-ascending", IconSortByAlphabet );
@@ -108,6 +109,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::File_Preferences, tr("&Preferences..."), "preferences", tr("Ctrl+P") );
     w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), "show_clipboard_content", tr("Ctrl+Shift+C") );
     w->addAction( Actions::File_ToggleClipboardStoring, tr("&Toggle Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
+    w->addAction( Actions::File_ProcessManager, tr("P&rocess Manager"), "process_manager", tr("Ctrl+Shift+Z") );
     w->addAction( Actions::File_Exit, tr("E&xit"), "exit", tr("Ctrl+Q") );
 
     w->addAction( Actions::Edit_SortSelectedItems, tr("&Sort Selected Items"), "sort_selected_items", tr("Ctrl+Shift+S") );

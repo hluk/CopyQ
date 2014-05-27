@@ -81,6 +81,9 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     QApplication::setQuitOnLastWindowClosed(false);
 
+    ConfigurationManager::createInstance();
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
     m_wnd = new MainWindow;
 
     connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
@@ -101,7 +104,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     loadSettings();
 
     // notify window if configuration changes
-    ConfigurationManager *cm = ConfigurationManager::instance();
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 

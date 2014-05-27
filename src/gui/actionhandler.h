@@ -20,6 +20,7 @@
 #ifndef ACTIONHANDLER_H
 #define ACTIONHANDLER_H
 
+#include <QDateTime>
 #include <QMenu>
 #include <QObject>
 #include <QPointer>
@@ -27,7 +28,9 @@
 
 class Action;
 class ActionDialog;
+class ProcessManagerDialog;
 class ClipboardBrowser;
+class QDialog;
 class MainWindow;
 class QModelIndex;
 
@@ -46,15 +49,12 @@ public:
      */
     ActionDialog *createActionDialog(const QStringList &tabs);
 
-    /** Menu with items to kill actions. */
-    QMenu &commandMenu() { return m_commandMenu; }
-
-    /** Tray menu with items to kill actions. */
-    QMenu &commandTrayMenu() { return m_commandTrayMenu; }
-
     bool hasRunningAction() const;
 
     QByteArray getActionData(const QByteArray actionId, const QString &format) const;
+
+    /** Open dialog with active commands. */
+    void showProcessManagerDialog();
 
 signals:
     /** Emitted when last action finishes or first action starts. */
@@ -75,15 +75,12 @@ private slots:
     void addItem(const QByteArray &data, const QString &format, const QString &tabName);
     void addItem(const QByteArray &data, const QString &format, const QModelIndex &index);
 
-    void disableMenusIfEmpty();
-
 private:
     MainWindow *m_wnd;
     QPointer<Action> m_lastAction;
-    QMenu m_commandMenu;
-    QMenu m_commandTrayMenu;
     int m_lastActionId;
     QMap<QByteArray, QVariantMap> m_actionData;
+    ProcessManagerDialog *m_activeActionDialog;
 };
 
 #endif // ACTIONHANDLER_H

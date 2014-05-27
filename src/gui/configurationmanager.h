@@ -55,7 +55,7 @@ class ConfigurationManager : public QDialog
 {
     Q_OBJECT
 
-    friend class MainWindow;
+    friend class ClipboardServer;
 
 public:
     typedef QList<Command> Commands;
@@ -145,7 +145,7 @@ signals:
     void stopped();
 
 protected:
-    static void createInstance(QWidget *parent);
+    static void createInstance();
 
 private slots:
     void apply();
@@ -169,7 +169,7 @@ private slots:
     void tryPasteCommandFromClipboard();
 
 private:
-    explicit ConfigurationManager(QWidget *parent);
+    ConfigurationManager();
 
     ConfigurationManager(const ConfigurationManager &);
     ConfigurationManager& operator=(const ConfigurationManager &);

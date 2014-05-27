@@ -345,8 +345,8 @@ ConfigurationManager *ConfigurationManager::instance()
     return m_Instance;
 }
 
-ConfigurationManager::ConfigurationManager(QWidget *parent)
-    : QDialog(parent)
+ConfigurationManager::ConfigurationManager()
+    : QDialog()
     , ui(new Ui::ConfigurationManager)
     , m_options()
     , m_itemFactory(new ItemFactory(this))
@@ -1261,13 +1261,13 @@ void ConfigurationManager::setVisible(bool visible)
     }
 }
 
-void ConfigurationManager::createInstance(QWidget *parent)
+void ConfigurationManager::createInstance()
 {
     Q_ASSERT(m_Instance == NULL);
 #ifndef NO_GLOBAL_SHORTCUTS
     restoreGlobalActions();
 #endif
-    m_Instance = new ConfigurationManager(parent);
+    m_Instance = new ConfigurationManager();
     m_Instance->loadSettings();
     m_Instance->registerWindowGeometry(m_Instance);
 }

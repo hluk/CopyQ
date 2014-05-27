@@ -70,6 +70,12 @@ public:
     /** Execute command. */
     bool start();
 
+    /** Set human-readable name for action. */
+    void setName(const QString &actionName) { m_name = actionName; }
+
+    /** Return human-readable name for action. */
+    QString name() const { return m_name; }
+
 public slots:
     /** Terminate (kill) process. */
     void terminate();
@@ -111,6 +117,7 @@ private:
     bool m_failed;
     QProcess *m_firstProcess; //!< First process in pipe.
     int m_currentLine;
+    QString m_name;
 };
 
 #endif // ACTION_H

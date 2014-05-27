@@ -17,7 +17,8 @@ FORMS += \
     ui/shortcutdialog.ui \
     ui/tabdialog.ui \
     ui/configtabshortcuts.ui \
-    ui/shortcutswidget.ui
+    ui/shortcutswidget.ui \
+    ui/processmanagerdialog.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -84,7 +85,9 @@ HEADERS += \
     common/commandstatus.h \
     common/monitormessagecode.h \
     common/settings.h \
-    common/config.h
+    common/config.h \
+    gui/processmanagerdialog.h \
+    gui/processmanagerdialog.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -144,7 +147,9 @@ SOURCES += \
     common/mimetypes.cpp \
     common/log.cpp \
     common/settings.cpp \
-    common/config.cpp
+    common/config.cpp \
+    gui/processmanagerdialog.cpp \
+    gui/processmanagerdialog.cpp
 
 macx {
     # Only Intel binaries are accepted so force this
