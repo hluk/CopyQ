@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of Qt Creator.
@@ -53,7 +53,14 @@ public:
     SavedAction(QObject *parent);
     void setValue(const QVariant &value);
     QVariant value() const;
+    void setDefaultValue(const QVariant &value);
+    QVariant defaultValue() const;
+    void setSettingsKey(const QString &key);
+    QString settingsKey() const;
+
     QVariant m_value;
+    QVariant m_defaultValue;
+    QString m_settingsKey;
 };
 
 } // namespace Utils
@@ -98,7 +105,8 @@ enum FakeVimSettingsCode
     ConfigPassKeys,
     ConfigClipboard,
     ConfigShowCmd,
-    ConfigScrollOff
+    ConfigScrollOff,
+    ConfigRelativeNumber
 };
 
 class FakeVimSettings : public QObject
