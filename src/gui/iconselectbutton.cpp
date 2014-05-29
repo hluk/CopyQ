@@ -88,4 +88,3 @@ void IconSelectButton::onClicked()
     dialog.take();
 }
 
-#include "iconselectbutton.moc"
