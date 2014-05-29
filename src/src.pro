@@ -86,7 +86,6 @@ HEADERS += \
     common/monitormessagecode.h \
     common/settings.h \
     common/config.h \
-    gui/processmanagerdialog.h \
     gui/processmanagerdialog.h
 SOURCES += \
     app/app.cpp \
@@ -148,7 +147,6 @@ SOURCES += \
     common/log.cpp \
     common/settings.cpp \
     common/config.cpp \
-    gui/processmanagerdialog.cpp \
     gui/processmanagerdialog.cpp
 
 macx {
