@@ -58,6 +58,7 @@ enum Id {
     Tabs_NewTab,
     Tabs_RenameTab,
     Tabs_RemoveTab,
+    Tabs_ChangeTabIcon,
 
     Help_Help
 };

@@ -33,6 +33,7 @@
 #include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/iconselectdialog.h"
 #include "gui/icons.h"
 #include "gui/notification.h"
 #include "gui/notificationdaemon.h"
@@ -385,15 +386,17 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
     bool isGroup = ui->tabWidget->isTabGroup(tab);
 
     const QString quotedTab = quoteString(tab);
-    QAction *actNew = menu.addAction( iconTabNew(), tr("&New tab") );
+    QAction *actNew = menu.addAction( iconTabNew(), tr("&New Tab") );
     QAction *actRenameGroup =
-            isGroup ? menu.addAction( iconTabRename(), tr("Rename &group %1").arg(quotedTab) ) : NULL;
+            isGroup ? menu.addAction( iconTabRename(), tr("Rename &Group %1").arg(quotedTab) ) : NULL;
     QAction *actRename =
-            hasTab ? menu.addAction( iconTabRename(), tr("Re&name tab %1").arg(quotedTab) ) : NULL;
+            hasTab ? menu.addAction( iconTabRename(), tr("Re&name Tab %1").arg(quotedTab) ) : NULL;
     QAction *actRemove =
-            hasTab ? menu.addAction( iconTabRemove(), tr("Re&move tab %1").arg(quotedTab) ) : NULL;
+            hasTab ? menu.addAction( iconTabRemove(), tr("Re&move Tab %1").arg(quotedTab) ) : NULL;
     QAction *actRemoveGroup =
-            isGroup ? menu.addAction( iconTabRename(), tr("Remove group %1").arg(quotedTab) ) : NULL;
+            isGroup ? menu.addAction( iconTabRename(), tr("Remove Group %1").arg(quotedTab) ) : NULL;
+
+    QAction *actIcon = menu.addAction( tr("&Change Tab Icon") );
 
     QAction *act = menu.exec(pos);
     if (act != NULL) {
@@ -407,6 +410,8 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
             removeTab(true, tabIndex);
         else if (act == actRemoveGroup)
             removeTabGroup(tab);
+        else if (act == actIcon)
+            setTabIcon(tab);
     }
 }
 
@@ -1012,8 +1017,10 @@ void MainWindow::loadSettings()
     foreach (const QString &name, tabs) {
         bool settingsLoaded;
         ClipboardBrowser *c = createTab(name, &settingsLoaded);
-        if (!settingsLoaded)
+        if (!settingsLoaded) {
             c->loadSettings();
+            ui->tabWidget->updateTabIcon(name);
+        }
     }
 
     if ( ui->tabWidget->count() == 0 )
@@ -2101,6 +2108,16 @@ void MainWindow::removeTab(bool ask, int tabIndex)
             w->removeTab(tabIndex);
             saveTabPositions();
         }
+    }
+}
+
+void MainWindow::setTabIcon(const QString &tabName)
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+    IconSelectDialog dialog( cm->getIconForTabName(tabName) );
+    if ( dialog.exec() == QDialog::Accepted ) {
+        cm->setIconForTabName( tabName, dialog.selectedIcon() );
+        ui->tabWidget->updateTabIcon(tabName);
     }
 }
 

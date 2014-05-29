@@ -122,6 +122,15 @@ void TabWidget::setTabText(int tabIndex, const QString &tabText)
     }
 }
 
+void TabWidget::updateTabIcon(const QString &tabName)
+{
+    if ( isTreeModeEnabled() ) {
+        m_tabTree->updateTabIcon(tabName);
+    } else {
+        m_tabBar->updateTabIcon(tabName);
+    }
+}
+
 void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
 {
     bool firstTab = count() == 0;

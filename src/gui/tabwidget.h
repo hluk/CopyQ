@@ -62,6 +62,8 @@ public:
 
     void setTabText(int tabIndex, const QString &tabText);
 
+    void updateTabIcon(const QString &tabName);
+
     void insertTab(int tabIndex, QWidget *widget, const QString &tabText);
 
     void addTab(QWidget *widget, const QString &tabText) { insertTab( count(), widget, tabText); }

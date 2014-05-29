@@ -21,6 +21,9 @@
 
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
+#include "gui/iconfont.h"
 
 #include <QLabel>
 #include <QList>
@@ -139,6 +142,9 @@ TabTree::TabTree(QWidget *parent)
     setHeaderHidden(true);
     setSelectionMode(QAbstractItemView::SingleSelection);
 
+    const int x = iconFontSizePixels() + 4;
+    setIconSize(QSize(x, x));
+
     setMinimumHeight(fontMetrics().lineSpacing() * 3);
     verticalScrollBar()->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Ignored);
 
@@ -152,6 +158,8 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
 {
     QStringList pathComponents = path.split('/');
     QTreeWidgetItem *item = findLastTreeItem(*this, &pathComponents);
+
+    const QColor color(getDefaultIconColor(*this, QPalette::Base));
 
     foreach (const QString &text, pathComponents) {
         QTreeWidgetItem *parent = item;
@@ -183,6 +191,10 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
         item->setExpanded(true);
         item->setData(0, DataIndex, -1);
         item->setData(0, DataText, text);
+
+        const QIcon icon = ConfigurationManager::instance()->getIconForTabName(
+                    getTabPath(item), color, QColor());
+        item->setIcon(0, icon);
 
         labelItem(item);
     }
@@ -313,6 +325,18 @@ QStringList TabTree::collapsedTabs() const
 QSize TabTree::sizeHint() const
 {
     return minimumSizeHint();
+}
+
+void TabTree::updateTabIcon(const QString &tabName)
+{
+    QTreeWidgetItem *item = findTreeItem(tabName);
+    if (!item)
+        return;
+
+    const QColor color(getDefaultIconColor(*this, QPalette::Base));
+    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(tabName, color, QColor());
+    item->setIcon(0, icon);
+    updateSize();
 }
 
 void TabTree::mousePressEvent(QMouseEvent *event)
@@ -460,6 +484,8 @@ void TabTree::updateSize()
 
     resizeColumnToContents(0);
     w += sizeHintForColumn(0);
+
+    w += iconSize().width();
 
     w += 4;
 

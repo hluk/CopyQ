@@ -17,36 +17,39 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef TABBAR_H
-#define TABBAR_H
+#ifndef ICONSELECTDIALOG_H
+#define ICONSELECTDIALOG_H
 
-#include <QTabBar>
+#include <QDialog>
 
-class QMimeData;
+class QListWidget;
 class QModelIndex;
-class QMouseEvent;
-class QPoint;
 
-class TabBar : public QTabBar
+class IconSelectDialog : public QDialog
 {
     Q_OBJECT
 
 public:
-    explicit TabBar(QWidget *parent = NULL);
+    explicit IconSelectDialog(const QString &defaultIcon, QWidget *parent = NULL);
 
-    void updateTabIcon(const QString &tabName);
+    const QString &selectedIcon() const { return m_selectedIcon; }
+
+public slots:
+    void done(int result);
 
 signals:
-    void tabMenuRequested(const QPoint &pos, int tab);
-    void tabRenamed(const QString &newName, int index);
-    void dropItems(const QString &tabName, const QMimeData &data);
+    void iconSelected(const QString &icon);
 
-protected:
-    void mousePressEvent(QMouseEvent *event);
-    void dragEnterEvent(QDragEnterEvent *event);
-    void dragMoveEvent(QDragMoveEvent *event);
-    void dropEvent(QDropEvent *event);
-    void tabInserted(int index);
+private slots:
+    void onIconListItemActivated(const QModelIndex &index);
+
+    void onBrowse();
+
+    void onAcceptCurrent();
+
+private:
+    QListWidget *m_iconList;
+    QString m_selectedIcon;
 };
 
-#endif // TABBAR_H
+#endif // ICONSELECTDIALOG_H

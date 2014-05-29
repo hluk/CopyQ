@@ -200,6 +200,8 @@ public slots:
             bool ask, //!< Ask before removing.
             int tab_index //!< Tab index or current tab.
             );
+    /** Set icon for tab or tab group. */
+    void setTabIcon(const QString &tabName);
 
     /**
      * Add tab with given name if doesn't exist and focus the tab.

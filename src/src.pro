@@ -86,7 +86,8 @@ HEADERS += \
     common/monitormessagecode.h \
     common/settings.h \
     common/config.h \
-    gui/processmanagerdialog.h
+    gui/processmanagerdialog.h \
+    gui/iconselectdialog.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -147,7 +148,8 @@ SOURCES += \
     common/log.cpp \
     common/settings.cpp \
     common/config.cpp \
-    gui/processmanagerdialog.cpp
+    gui/processmanagerdialog.cpp \
+    gui/iconselectdialog.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

@@ -349,6 +349,7 @@ ConfigurationManager::ConfigurationManager()
     : QDialog()
     , ui(new Ui::ConfigurationManager)
     , m_options()
+    , m_tabIcons()
     , m_itemFactory(new ItemFactory(this))
     , m_iconFactory(new IconFactory)
     , m_optionWidgetsLoaded(false)
@@ -1133,6 +1134,16 @@ void ConfigurationManager::loadSettings()
 
     on_checkBoxMenuTabIsCurrent_stateChanged( ui->checkBoxMenuTabIsCurrent->checkState() );
 
+    if (m_tabIcons.isEmpty()) {
+        const int size = settings.beginReadArray("Tabs");
+        for(int i = 0; i < size; ++i) {
+            settings.setArrayIndex(i);
+            m_tabIcons.insert(settings.value("name").toString(),
+                              settings.value("icon").toString());
+        }
+        settings.endArray();
+    }
+
     updateAutostart();
 }
 
@@ -1213,6 +1224,12 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
     ui->comboBoxMenuTab->addItem(QString());
     ui->comboBoxMenuTab->addItems(tabs);
     ui->comboBoxMenuTab->setEditText(text);
+
+    foreach ( const QString &tabName, m_tabIcons.keys() ) {
+        const QRegExp re(QRegExp::escape(tabName) + "(?:|/.*)$");
+        if ( tabs.indexOf(re) == -1 )
+            m_tabIcons.remove(tabName);
+    }
 }
 
 QStringList ConfigurationManager::savedTabs() const
@@ -1245,6 +1262,35 @@ ConfigTabAppearance *ConfigurationManager::tabAppearance() const
 ConfigTabShortcuts *ConfigurationManager::tabShortcuts() const
 {
     return ui->configTabShortcuts;
+}
+
+QString ConfigurationManager::getIconForTabName(const QString &tabName) const
+{
+    return m_tabIcons.value(tabName);
+}
+
+QIcon ConfigurationManager::getIconForTabName(
+        const QString &tabName, const QColor &color, const QColor &activeColor) const
+{
+    const QString fileName = getIconForTabName(tabName);
+    return fileName.isEmpty() ? QIcon() : iconFactory()->iconFromFile(fileName, color, activeColor);
+}
+
+void ConfigurationManager::setIconForTabName(const QString &name, const QString &icon)
+{
+    m_tabIcons[name] = icon;
+
+    QSettings settings;
+    settings.beginWriteArray("Tabs");
+    int i = 0;
+
+    foreach ( const QString &tabName, m_tabIcons.keys() ) {
+        settings.setArrayIndex(i++);
+        settings.setValue("name", tabName);
+        settings.setValue("icon", m_tabIcons[tabName]);
+    }
+
+    settings.endArray();
 }
 
 void ConfigurationManager::setVisible(bool visible)

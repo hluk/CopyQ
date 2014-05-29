@@ -66,6 +66,8 @@ public:
 
     QSize sizeHint() const;
 
+    void updateTabIcon(const QString &tabName);
+
 public slots:
     void setCurrentTabIndex(int index);
     void nextTreeItem();

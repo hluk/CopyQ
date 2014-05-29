@@ -2,6 +2,7 @@ include(../plugins_common.pri)
 
 HEADERS += itemsync.h \
     ../../src/gui/iconselectbutton.h \
+    ../../src/gui/iconselectdialog.h \
     ../../src/gui/iconwidget.h
 SOURCES += itemsync.cpp
 SOURCES += \
@@ -10,6 +11,7 @@ SOURCES += \
     ../../src/common/mimetypes.cpp \
     ../../src/gui/iconfont.cpp \
     ../../src/gui/iconselectbutton.cpp \
+    ../../src/gui/iconselectdialog.cpp \
     ../../src/gui/iconwidget.cpp \
     ../../src/item/serialize.cpp
 FORMS   += itemsyncsettings.ui

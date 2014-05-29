@@ -20,7 +20,10 @@
 #include "tabbar.h"
 
 #include "common/mimetypes.h"
+#include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
 
+#include <QIcon>
 #include <QMimeData>
 #include <QMouseEvent>
 
@@ -36,6 +39,24 @@ int dropItemsTabIndex(const QDropEvent &event, const QTabBar &parent)
     return canDrop( *event.mimeData() ) ? parent.tabAt( event.pos() ) : -1;
 }
 
+int tabIndex(const QString &tabName, const QTabBar &parent)
+{
+    for (int i = 0; i < parent.count(); ++i) {
+        if (parent.tabText(i) == tabName)
+            return i;
+    }
+
+    return -1;
+}
+
+void updateTabIcon(int i, QTabBar *parent)
+{
+    const QColor color(getDefaultIconColor(*parent, QPalette::Window));
+    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(
+                parent->tabText(i), color, color);
+    parent->setTabIcon(i, icon);
+}
+
 } // namespace
 
 TabBar::TabBar(QWidget *parent)
@@ -46,6 +67,15 @@ TabBar::TabBar(QWidget *parent)
     setMinimumSize(1, 1);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAcceptDrops(true);
+}
+
+void TabBar::updateTabIcon(const QString &tabName)
+{
+    const int i = tabIndex(tabName, *this);
+    if (i == -1)
+        return;
+
+    ::updateTabIcon(i, this);
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)
@@ -92,4 +122,10 @@ void TabBar::dropEvent(QDropEvent *event)
     } else {
         QTabBar::dropEvent(event);
     }
+}
+
+void TabBar::tabInserted(int index)
+{
+    QTabBar::tabInserted(index);
+    ::updateTabIcon(index, this);
 }

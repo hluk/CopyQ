@@ -115,6 +115,10 @@ public:
 
     ConfigTabShortcuts *tabShortcuts() const;
 
+    QString getIconForTabName(const QString &tabName) const;
+    QIcon getIconForTabName(const QString &tabName, const QColor &color, const QColor &activeColor) const;
+    void setIconForTabName(const QString &name, const QString &icon);
+
     void setVisible(bool visible);
 
     ItemFactory *itemFactory() const { return m_itemFactory; }
@@ -222,6 +226,7 @@ private:
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QHash<QString, Option> m_options;
+    QHash<QString, QString> m_tabIcons;
 
     ItemFactory *m_itemFactory;
     QScopedPointer<IconFactory> m_iconFactory;

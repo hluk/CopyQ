@@ -86,7 +86,6 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::Item_NextToClipboard, "go-down", IconArrowDown );
     w->updateIcons( Actions::Item_PreviousToClipboard, "go-up", IconArrowUp );
 
-
     w->updateIcons( Actions::Tabs_NewTab, "tab_new" );
     w->updateIcons( Actions::Tabs_RenameTab, "tab_rename" );
     w->updateIcons( Actions::Tabs_RemoveTab, "tab_remove" );
@@ -128,9 +127,10 @@ void ConfigTabShortcuts::initShortcuts()
 
     w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item",  shortcutToRemove() );
 
-    w->addAction( Actions::Tabs_NewTab, tr("&New tab"), "new_tab", tr("Ctrl+T") );
-    w->addAction( Actions::Tabs_RenameTab, tr("Re&name tab"), "rename_tab", tr("Ctrl+F2") );
-    w->addAction( Actions::Tabs_RemoveTab, tr("Re&move tab"), "remove_tab", tr("Ctrl+W") );
+    w->addAction( Actions::Tabs_NewTab, tr("&New Tab"), "new_tab", tr("Ctrl+T") );
+    w->addAction( Actions::Tabs_RenameTab, tr("Re&name Tab"), "rename_tab", tr("Ctrl+F2") );
+    w->addAction( Actions::Tabs_RemoveTab, tr("Re&move Tab"), "remove_tab", tr("Ctrl+W") );
+    w->addAction( Actions::Tabs_ChangeTabIcon, tr("&Change Tab Icon"), "change_tab_icon", tr("Ctrl+Shift+T") );
 
     w->addAction( Actions::Help_Help, tr("&Help"), "help", QKeySequence::HelpContents );
 }
