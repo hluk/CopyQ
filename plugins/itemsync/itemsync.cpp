@@ -786,6 +786,8 @@ public:
                  this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
         connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
                  this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
+        connect( m_model.data(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
+                 this, SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection );
         connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                  SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
 
@@ -905,10 +907,25 @@ private slots:
 
     void onRowsRemoved(const QModelIndex &, int first, int last)
     {
-        foreach ( const QPersistentModelIndex &index, indexList(first, last) ) {
+        foreach ( const QModelIndex &index, indexList(first, last) ) {
+            Q_ASSERT(index.isValid());
             QMap<QPersistentModelIndex, IndexData>::iterator it = m_indexData.find(index);
             Q_ASSERT( it != m_indexData.end() );
             m_indexData.erase(it);
+        }
+    }
+
+    void onRowsMoved(const QModelIndex &, int first, int last, const QModelIndex &, int)
+    {
+        // For some reason, QPersistentModelIndex are no longer valid after being moved and removed.
+        // This updates QPersistentModelIndex for moved rows.
+        foreach ( const QModelIndex &index, indexList(first, last) ) {
+            Q_ASSERT(index.isValid());
+            QMap<QPersistentModelIndex, IndexData>::iterator it = m_indexData.find(index);
+            Q_ASSERT( it != m_indexData.end() );
+            const IndexData indexData = *it;
+            m_indexData.erase(it);
+            m_indexData.insert(index, indexData);
         }
     }
 
@@ -931,7 +948,7 @@ private:
         return false;
     }
 
-    void updateIndexData(const QPersistentModelIndex &index, const QVariantMap &itemData)
+    void updateIndexData(const QModelIndex &index, const QVariantMap &itemData)
     {
         m_model->setData(index, itemData, contentType::data);
 
@@ -954,9 +971,9 @@ private:
         }
     }
 
-    QList<QPersistentModelIndex> indexList(int first, int last)
+    QList<QModelIndex> indexList(int first, int last)
     {
-        QList<QPersistentModelIndex> indexList;
+        QList<QModelIndex> indexList;
         for (int i = first; i <= last; ++i)
             indexList.append( m_model->index(i, 0) );
         return indexList;
@@ -969,7 +986,7 @@ private:
 
         lock();
 
-        const QList<QPersistentModelIndex> indexList = this->indexList(first, last);
+        const QList<QModelIndex> indexList = this->indexList(first, last);
 
         // Create path if doesn't exist.
         QDir dir(m_path);
@@ -983,7 +1000,7 @@ private:
 
         QStringList existingFiles = listFiles(dir);
 
-        foreach (const QPersistentModelIndex &index, indexList) {
+        foreach (const QModelIndex &index, indexList) {
             if ( !index.isValid() )
                 continue;
 
@@ -1098,11 +1115,11 @@ private:
         return true;
     }
 
-    bool renameMoveCopy(const QDir dir, const QList<QPersistentModelIndex> &indexList)
+    bool renameMoveCopy(const QDir dir, const QList<QModelIndex> &indexList)
     {
         QStringList baseNames;
 
-        foreach (const QPersistentModelIndex &index, indexList) {
+        foreach (const QModelIndex &index, indexList) {
             if ( !index.isValid() )
                 continue;
 
