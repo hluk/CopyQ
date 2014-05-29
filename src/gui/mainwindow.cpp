@@ -698,7 +698,7 @@ QByteArray MainWindow::getActionData(const QByteArray &actionId, const QString &
 void MainWindow::showMessage(const QString &title, const QString &msg,
                              QSystemTrayIcon::MessageIcon icon, int msec, int notificationId)
 {
-    ushort icon2;
+    ushort icon2 = 0;
 
     switch (icon) {
     case QSystemTrayIcon::Information:
