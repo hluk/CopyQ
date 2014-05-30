@@ -330,6 +330,8 @@ class ClipboardBrowser : public QListView
         /** Emitted on error. */
         void error(const QString &errorString);
 
+        void itemCountChanged(const QString &tabName, int count);
+
     protected:
         void keyPressEvent(QKeyEvent *event);
         void contextMenuEvent(QContextMenuEvent *);
@@ -359,6 +361,8 @@ class ClipboardBrowser : public QListView
         void onModelDataChanged();
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
+
+        void onItemCountChanged();
 
         void onTabNameChanged(const QString &tabName);
 

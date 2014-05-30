@@ -21,14 +21,22 @@
 #include "tabbar.h"
 #include "tabtree.h"
 
+#include "common/config.h"
+
 #include <QAction>
 #include <QEvent>
 #include <QMainWindow>
 #include <QPoint>
+#include <QSettings>
 #include <QStackedWidget>
 #include <QToolBar>
 
 namespace {
+
+QString getTabWidgetConfigurationFilePath()
+{
+    return getConfigurationFilePath("_tabs.ini");
+}
 
 void addTabAction(QWidget *widget, const QKeySequence &shortcut,
                   QWidget *receiver, const char *slot,
@@ -51,6 +59,7 @@ TabWidget::TabWidget(QWidget *parent)
     , m_tabTree(NULL)
     , m_stackedWidget(NULL)
     , m_hideTabBar(false)
+    , m_showTabItemCount(false)
 {
     // Set object name for tool bars so they can be saved with QMainWindow::saveState().
     m_toolBar->setObjectName("toolBarTabBar");
@@ -75,6 +84,8 @@ TabWidget::TabWidget(QWidget *parent)
 
     addTabAction(this, QKeySequence::PreviousChild, this, SLOT(previousTab()));
     addTabAction(this, QKeySequence::NextChild, this, SLOT(nextTab()));
+
+    loadTabInfo();
 }
 
 QString TabWidget::getCurrentTabPath() const
@@ -113,22 +124,31 @@ QString TabWidget::tabText(int tabIndex) const
                                : m_tabBar->tabText(tabIndex);
 }
 
-void TabWidget::setTabText(int tabIndex, const QString &tabText)
+void TabWidget::setTabText(int tabIndex, const QString &tabName)
 {
-    if ( isTreeModeEnabled() ) {
-        m_tabTree->setTabText(tabIndex, tabText);
-    } else {
-        m_tabBar->setTabText(tabIndex, tabText);
-    }
+    const QString oldTabName = tabText(tabIndex);
+    if ( m_tabItemCounters.contains(oldTabName) )
+        m_tabItemCounters.insert( tabName, m_tabItemCounters.take(oldTabName) );
+
+    if ( isTreeModeEnabled() )
+        m_tabTree->setTabText(tabIndex, tabName);
+    else
+        m_tabBar->setTabText(tabIndex, tabName);
+}
+
+void TabWidget::setTabItemCountVisible(bool visible)
+{
+    m_showTabItemCount = visible;
+    for (int i = 0; i < count(); ++i)
+        updateTabItemCount( tabText(i) );
 }
 
 void TabWidget::updateTabIcon(const QString &tabName)
 {
-    if ( isTreeModeEnabled() ) {
+    if ( isTreeModeEnabled() )
         m_tabTree->updateTabIcon(tabName);
-    } else {
+    else
         m_tabBar->updateTabIcon(tabName);
-    }
 }
 
 void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
@@ -138,17 +158,16 @@ void TabWidget::insertTab(int tabIndex, QWidget *widget, const QString &tabText)
 
     if ( isTreeModeEnabled() ) {
         m_tabTree->insertTab(tabText, tabIndex, firstTab);
-        m_tabTree->adjustSize();
         m_toolBarTree->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
     } else {
         m_tabBar->insertTab(tabIndex, tabText);
-        m_tabBar->adjustSize();
         m_toolBar->layout()->setSizeConstraint(QLayout::SetMinAndMaxSize);
     }
 
     if (firstTab)
         emit currentChanged(0, -1);
 
+    updateTabItemCount(tabText);
     updateToolBar();
 }
 
@@ -156,6 +175,8 @@ void TabWidget::removeTab(int tabIndex)
 {
     if (tabIndex == currentIndex())
         setCurrentIndex(0);
+
+    m_tabItemCounters.remove( tabText(tabIndex) );
 
     QWidget *w = m_stackedWidget->widget(tabIndex);
     m_stackedWidget->removeWidget(w);
@@ -167,17 +188,6 @@ void TabWidget::removeTab(int tabIndex)
         m_tabBar->removeTab(tabIndex);
 
     updateToolBar();
-}
-
-void TabWidget::setCollapsedTabs(const QStringList &collapsedTabs)
-{
-    if ( isTreeModeEnabled() )
-        m_tabTree->setCollapseTabs(collapsedTabs);
-}
-
-QStringList TabWidget::collapsedTabs() const
-{
-    return isTreeModeEnabled() ? m_tabTree->collapsedTabs() : QStringList();
 }
 
 QStringList TabWidget::tabs() const
@@ -209,6 +219,50 @@ void TabWidget::addToolBars(QMainWindow *mainWindow)
 {
     mainWindow->addToolBar(Qt::TopToolBarArea, m_toolBar);
     mainWindow->addToolBar(Qt::LeftToolBarArea, m_toolBarTree);
+}
+
+void TabWidget::saveTabInfo()
+{
+    QStringList tabs;
+    for ( int i = 0; i < count(); ++i )
+        tabs.append( tabText(i) );
+
+    QSettings settings(getTabWidgetConfigurationFilePath(), QSettings::IniFormat);
+
+    if ( isTreeModeEnabled() )
+        m_collapsedTabs = m_tabTree->collapsedTabs();
+
+    settings.setValue("TabWidget/collapsed_tabs", m_collapsedTabs);
+
+    QVariantMap tabItemCounters;
+    foreach (QString key, tabs) {
+        const int count = m_tabItemCounters.value(key, -1);
+        if (count >= 0)
+            tabItemCounters[key] = count;
+    }
+    settings.setValue("TabWidget/tab_item_counters", tabItemCounters);
+}
+
+void TabWidget::loadTabInfo()
+{
+    QSettings settings(getTabWidgetConfigurationFilePath(), QSettings::IniFormat);
+
+    m_collapsedTabs = settings.value("TabWidget/collapsed_tabs").toStringList();
+
+    QVariantMap tabItemCounters = settings.value("TabWidget/tab_item_counters").toMap();
+    m_tabItemCounters.clear();
+    foreach (QString key, tabItemCounters.keys())
+        m_tabItemCounters[key] = tabItemCounters[key].toInt();
+}
+
+void TabWidget::updateTabs()
+{
+    if (isTreeModeEnabled()) {
+        m_tabTree->setCollapsedTabs(m_collapsedTabs);
+        m_tabTree->updateTabIcons();
+    } else {
+        m_tabBar->updateTabIcons();
+    }
 }
 
 void TabWidget::setCurrentIndex(int tabIndex)
@@ -284,16 +338,36 @@ void TabWidget::setTreeModeEnabled(bool enabled)
         m_tabBar = NULL;
 
         createTabTree();
-        for (int i = 0; i < tabs.size(); ++i)
-            m_tabTree->insertTab(tabs[i], i, i == 0);
+        for (int i = 0; i < tabs.size(); ++i) {
+            const QString &tabName = tabs[i];
+            m_tabTree->insertTab(tabName, i, i == 0);
+            m_tabTree->setTabItemCount(tabName, itemCountLabel(tabName));
+        }
+
+        m_tabTree->setCollapsedTabs(m_collapsedTabs);
     } else {
+        m_collapsedTabs = m_tabTree->collapsedTabs();
+
         delete m_tabTree;
         m_tabTree = NULL;
 
         createTabBar();
-        for (int i = 0; i < tabs.size(); ++i)
-            m_tabBar->insertTab(i, tabs[i]);
+        for (int i = 0; i < tabs.size(); ++i) {
+            const QString &tabName = tabs[i];
+            m_tabBar->insertTab(i, tabName);
+            m_tabBar->setTabItemCount(tabName, itemCountLabel(tabName));
+        }
     }
+}
+
+void TabWidget::setTabItemCount(const QString &tabName, int itemCount)
+{
+    if ( m_tabItemCounters.value(tabName, -1) == itemCount)
+        return;
+
+    m_tabItemCounters[tabName] = itemCount;
+
+    updateTabItemCount(tabName);
 }
 
 bool TabWidget::eventFilter(QObject *, QEvent *event)
@@ -403,4 +477,24 @@ void TabWidget::updateToolBar()
                 m_tabBar->setShape(QTabBar::RoundedSouth);
         }
     }
+}
+
+void TabWidget::updateTabItemCount(const QString &name)
+{
+    if ( isTreeModeEnabled() ) {
+        m_tabTree->setTabItemCount(name, itemCountLabel(name));
+        m_tabTree->adjustSize();
+    } else {
+        m_tabBar->setTabItemCount(name, itemCountLabel(name));
+        m_tabBar->adjustSize();
+    }
+}
+
+QString TabWidget::itemCountLabel(const QString &name)
+{
+    if (!m_showTabItemCount)
+        return QString();
+
+    const int count = m_tabItemCounters.value(name, -1);
+    return count > 0 ? QString::number(count) : count == 0 ? QString() : QString("?");
 }

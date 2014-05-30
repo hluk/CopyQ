@@ -199,7 +199,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // settings
     loadSettings();
-    loadCollapsedTabs();
 
     ui->tabWidget->setCurrentIndex(0);
 
@@ -459,7 +458,7 @@ void MainWindow::onAboutToQuit()
     ConfigurationManager *cm = ConfigurationManager::instance();
     cm->disconnect();
     cm->saveMainWindowState( objectName(), saveState() );
-    saveCollapsedTabs();
+    ui->tabWidget->saveTabInfo();
     hideWindow();
     m_tray->hide();
 }
@@ -553,20 +552,6 @@ void MainWindow::setHideTabs(bool hide)
     ui->tabWidget->setTabBarHidden(hide);
 }
 
-void MainWindow::saveCollapsedTabs()
-{
-    TabWidget *tabs = ui->tabWidget;
-    if ( tabs->isTreeModeEnabled() )
-        ConfigurationManager::instance()->setValue( "collapsed_tabs", tabs->collapsedTabs() );
-}
-
-void MainWindow::loadCollapsedTabs()
-{
-    TabWidget *tabs = ui->tabWidget;
-    if ( tabs->isTreeModeEnabled() )
-        tabs->setCollapsedTabs( ConfigurationManager::instance()->value("collapsed_tabs").toStringList() );
-}
-
 bool MainWindow::closeMinimizes() const
 {
     return !m_options->showTray && !m_minimizeUnsupported;
@@ -636,6 +621,8 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     connect( c, SIGNAL(addToTab(const QVariantMap,const QString)),
              this, SLOT(addToTab(const QVariantMap,const QString)),
              Qt::DirectConnection );
+    connect( c, SIGNAL(itemCountChanged(QString,int)),
+             ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
 
     ui->tabWidget->addTab(c, name);
 
@@ -1000,6 +987,7 @@ void MainWindow::loadSettings()
 
     // tab bar position
     ui->tabWidget->setTreeModeEnabled(cm->value("tab_tree").toBool());
+    ui->tabWidget->setTabItemCountVisible(cm->value("show_tab_item_count").toBool());
 
     m_options->hideTabs = cm->value("hide_tabs").toBool();
     setHideTabs(m_options->hideTabs);
@@ -1019,14 +1007,14 @@ void MainWindow::loadSettings()
     foreach (const QString &name, tabs) {
         bool settingsLoaded;
         ClipboardBrowser *c = createTab(name, &settingsLoaded);
-        if (!settingsLoaded) {
+        if (!settingsLoaded)
             c->loadSettings();
-            ui->tabWidget->updateTabIcon(name);
-        }
     }
 
     if ( ui->tabWidget->count() == 0 )
         addTab( tr("&clipboard") );
+
+    ui->tabWidget->updateTabs();
 
     browser()->setContextMenu(m_menuItem);
 

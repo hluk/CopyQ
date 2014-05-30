@@ -60,13 +60,17 @@ public:
 
     void setTabText(int tabIndex, const QString &tabText);
 
-    void setCollapseTabs(const QStringList &collapsedPaths);
+    void setTabItemCount(const QString &tabName, const QString &itemCount);
+
+    void setCollapsedTabs(const QStringList &collapsedPaths);
 
     QStringList collapsedTabs() const;
 
     QSize sizeHint() const;
 
     void updateTabIcon(const QString &tabName);
+
+    void updateTabIcons();
 
 public slots:
     void setCurrentTabIndex(int index);

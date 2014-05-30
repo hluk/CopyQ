@@ -313,6 +313,10 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
                 "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
                 "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
                 "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
+                "#tab_bar #tab_item_counter{" + themeStyleSheet("tab_bar_item_counter") + "}"
+                "#tab_bar #tab_item_counter[CopyQ_selected=\"true\"]{"
+                + themeStyleSheet("tab_bar_sel_item_counter") +
+                "}"
 
                 "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
 
@@ -328,6 +332,11 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
                 "#tab_tree_item[CopyQ_selected=\"false\"]"
                 ",#tab_tree_item[CopyQ_selected=\"true\"]"
                 "{background:transparent}"
+
+                "#tab_tree #tab_item_counter{" + themeStyleSheet("tab_tree_item_counter") + "}"
+                "#tab_tree #tab_item_counter[CopyQ_selected=\"true\"]{"
+                + themeStyleSheet("tab_tree_sel_item_counter") +
+                "}"
 
                 // Remove border in toolbars.
                 "QToolBar{border:none}"
@@ -857,16 +866,30 @@ void ConfigTabAppearance::resetTheme()
                 "\n    ;color: ${fg}"
                 "\n    ;border: 0"
                 );
+    m_theme["tab_bar_item_counter"] = Option(
+                "\n    ;color: ${fg - #044 + #400}"
+                "\n    ;font-size: 6pt"
+                );
+    m_theme["tab_bar_sel_item_counter"] = Option(
+                "\n    ;color: ${sel_bg - #044 + #400}"
+                );
 
     m_theme["tab_tree_css"] = Option(
                 "\n    ;color: ${fg}"
                 "\n    ;background-color: ${bg}"
                 );
-    m_theme["tab_tree_item_css"] = Option("padding:2px");
     m_theme["tab_tree_sel_item_css"] = Option(
                 "\n    ;color: ${sel_fg}"
                 "\n    ;background-color: ${sel_bg}"
                 );
+    m_theme["tab_tree_item_counter"] = Option(
+                "\n    ;color: ${fg - #044 + #400}"
+                "\n    ;font-size: 6pt"
+                );
+    m_theme["tab_tree_sel_item_counter"] = Option(
+                "\n    ;color: ${sel_fg - #044 + #400}"
+                );
+
     m_theme["tool_bar_css"] = Option(
                 "\n    ;color: ${fg}"
                 "\n    ;background-color: ${bg}"

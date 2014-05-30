@@ -931,6 +931,7 @@ void ConfigurationManager::initOptions()
     bind("hide_toolbar_labels", ui->checkBoxHideToolbarLabels, true);
     bind("disable_tray", ui->checkBoxDisableTray, false);
     bind("tab_tree", ui->checkBoxTabTree, false);
+    bind("show_tab_item_count", ui->checkBoxShowTabItemCount, false);
     bind("text_wrap", ui->checkBoxTextWrap, true);
 
     bind("activate_closes", ui->checkBoxActivateCloses, true);

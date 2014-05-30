@@ -36,6 +36,10 @@ public:
 
     void updateTabIcon(const QString &tabName);
 
+    void updateTabIcons();
+
+    void setTabItemCount(const QString &tabName, const QString &itemCount);
+
 signals:
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabRenamed(const QString &newName, int index);
@@ -47,6 +51,12 @@ protected:
     void dragMoveEvent(QDragMoveEvent *event);
     void dropEvent(QDropEvent *event);
     void tabInserted(int index);
+
+private slots:
+    void onCurrentChanged();
+
+private:
+    void updateTabStyle(int index);
 };
 
 #endif // TABBAR_H

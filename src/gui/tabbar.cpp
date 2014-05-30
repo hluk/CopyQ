@@ -26,6 +26,8 @@
 #include <QIcon>
 #include <QMimeData>
 #include <QMouseEvent>
+#include <QLabel>
+#include <QStyle>
 
 namespace {
 
@@ -67,6 +69,9 @@ TabBar::TabBar(QWidget *parent)
     setMinimumSize(1, 1);
     setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     setAcceptDrops(true);
+
+    connect( this,SIGNAL(currentChanged(int)),
+             this, SLOT(onCurrentChanged()) );
 }
 
 void TabBar::updateTabIcon(const QString &tabName)
@@ -76,6 +81,39 @@ void TabBar::updateTabIcon(const QString &tabName)
         return;
 
     ::updateTabIcon(i, this);
+}
+
+void TabBar::updateTabIcons()
+{
+    for (int i = 0; i < count(); ++i)
+        ::updateTabIcon(i, this);
+}
+
+void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
+{
+    const int i = tabIndex(tabName, *this);
+    if (i == -1)
+        return;
+
+    QWidget *tabCountLabel = tabButton(i, QTabBar::RightSide);
+
+    if ( itemCount.isEmpty() ) {
+        if (tabCountLabel) {
+            tabCountLabel->deleteLater();
+            setTabButton(i, QTabBar::RightSide, NULL);
+        }
+    } else {
+        if (!tabCountLabel) {
+            tabCountLabel = new QLabel(this);
+            tabCountLabel->setObjectName("tab_item_counter");
+            setTabButton(i, QTabBar::RightSide, tabCountLabel);
+        }
+
+        tabCountLabel->setProperty("text", itemCount);
+        tabCountLabel->adjustSize();
+    }
+
+    updateTabStyle(i);
 }
 
 void TabBar::mousePressEvent(QMouseEvent *event)
@@ -128,4 +166,21 @@ void TabBar::tabInserted(int index)
 {
     QTabBar::tabInserted(index);
     ::updateTabIcon(index, this);
+    updateTabStyle(index);
+}
+
+void TabBar::onCurrentChanged()
+{
+    for ( int i = 0; i < count(); ++i )
+        updateTabStyle(i);
+}
+
+void TabBar::updateTabStyle(int index)
+{
+    QWidget *tabCountLabel = tabButton(index, QTabBar::RightSide);
+    if (tabCountLabel) {
+        tabCountLabel->setProperty("CopyQ_selected", index == currentIndex());
+        style()->unpolish(tabCountLabel);
+        style()->polish(tabCountLabel);
+    }
 }

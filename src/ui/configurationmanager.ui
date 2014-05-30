@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>590</width>
-    <height>638</height>
+    <width>586</width>
+    <height>634</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,8 +46,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>562</width>
-            <height>554</height>
+            <width>558</width>
+            <height>550</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -254,7 +254,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="0">
+                  <item row="3" column="0">
                    <widget class="QLabel" name="label_30">
                     <property name="text">
                      <string>&amp;Focused transparency:</string>
@@ -264,7 +264,7 @@
                     </property>
                    </widget>
                   </item>
-                  <item row="2" column="1">
+                  <item row="3" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout_12">
                     <item>
                      <widget class="QSpinBox" name="spinBoxTransparencyFocused">
@@ -296,7 +296,7 @@ Note: This is not be supported on all systems.</string>
                     </item>
                    </layout>
                   </item>
-                  <item row="3" column="0">
+                  <item row="4" column="0">
                    <widget class="QLabel" name="label_29">
                     <property name="text">
                      <string>&amp;Unfocused transparency:</string>
@@ -306,7 +306,7 @@ Note: This is not be supported on all systems.</string>
                     </property>
                    </widget>
                   </item>
-                  <item row="3" column="1">
+                  <item row="4" column="1">
                    <layout class="QHBoxLayout" name="horizontalLayout">
                     <item>
                      <widget class="QSpinBox" name="spinBoxTransparencyUnfocused">
@@ -337,6 +337,16 @@ Note: This is not be supported on all systems.</string>
                      </spacer>
                     </item>
                    </layout>
+                  </item>
+                  <item row="2" column="0">
+                   <widget class="QCheckBox" name="checkBoxShowTabItemCount">
+                    <property name="toolTip">
+                     <string>Show number of items in tabs</string>
+                    </property>
+                    <property name="text">
+                     <string>Sho&amp;w Item Count</string>
+                    </property>
+                   </widget>
                   </item>
                  </layout>
                 </widget>
@@ -441,8 +451,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>562</width>
-            <height>554</height>
+            <width>558</width>
+            <height>550</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -698,8 +708,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>562</width>
-            <height>554</height>
+            <width>558</width>
+            <height>550</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -903,8 +913,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>562</width>
-            <height>554</height>
+            <width>558</width>
+            <height>550</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1446,6 +1456,7 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxCopyClip</tabstop>
   <tabstop>checkBoxCopySel</tabstop>
   <tabstop>checkBoxTabTree</tabstop>
+  <tabstop>checkBoxShowTabItemCount</tabstop>
   <tabstop>spinBoxTransparencyFocused</tabstop>
   <tabstop>spinBoxTransparencyUnfocused</tabstop>
   <tabstop>checkBoxHideTabs</tabstop>

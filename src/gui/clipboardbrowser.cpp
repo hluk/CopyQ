@@ -709,6 +709,10 @@ void ClipboardBrowser::connectModelAndDelegate()
              SLOT(onModelDataChanged()) );
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(onModelDataChanged()) );
+    connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
+             SLOT(onItemCountChanged()) );
+    connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+             SLOT(onItemCountChanged()) );
     connect( m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
              SLOT(onModelDataChanged()) );
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
@@ -1032,6 +1036,12 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
 
     if (updateMenu)
         updateContextMenu();
+}
+
+void ClipboardBrowser::onItemCountChanged()
+{
+    if (isLoaded())
+        emit itemCountChanged( tabName(), length() );
 }
 
 void ClipboardBrowser::onTabNameChanged(const QString &tabName)
@@ -1892,6 +1902,7 @@ void ClipboardBrowser::loadItemsAgain()
         scheduleDelayedItemsLayout();
         updateCurrentPage();
         setCurrent(0);
+        onItemCountChanged();
     } else if (m_loadButton == NULL) {
         Q_ASSERT(length() == 0 && "Disabled model should be empty");
         m_loadButton = new QPushButton(this);

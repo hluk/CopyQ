@@ -30,13 +30,21 @@
 #include <QMimeData>
 #include <QMouseEvent>
 #include <QScrollBar>
+#include <QHBoxLayout>
 
 namespace {
 
 enum {
     DataIndex = Qt::UserRole,
-    DataText
+    DataText,
+    DataItemCount
 };
+
+void updateItemSize(QTreeWidgetItem *item)
+{
+    QWidget *w = item->treeWidget()->itemWidget(item, 0);
+    item->setSizeHint( 0, w ? w->minimumSizeHint() : QSize(0,0) );
+}
 
 void setItemWidgetSelected(QTreeWidgetItem *item)
 {
@@ -48,31 +56,22 @@ void setItemWidgetSelected(QTreeWidgetItem *item)
         return;
 
     QWidget *w = parent->itemWidget(item, 0);
-    if (w == NULL)
-        return;
 
-    w->setProperty("CopyQ_selected", parent->currentItem() == item);
-    QStyle *style = w->style();
-    style->unpolish(w);
-    style->polish(w);
+    if (w) {
+        QStyle *style = w->style();
+        style->unpolish(w);
+        style->polish(w);
 
-    item->setSizeHint( 0, w->minimumSizeHint() );
-}
+        bool selected = parent->currentItem() == item;
 
-void labelItem(QTreeWidgetItem *item)
-{
-    const QString text = item->data(0, DataText).toString();
-    if ( text.isEmpty() )
-        return;
+        foreach (QWidget *child, w->findChildren<QWidget *>()) {
+            child->setProperty("CopyQ_selected", selected);
+            style->unpolish(child);
+            style->polish(child);
+        }
+    }
 
-    QTreeWidget *parent = item->treeWidget();
-    QLabel *label = new QLabel(text, parent);
-    label->setMargin(2);
-    label->setObjectName("tab_tree_item");
-    label->setBuddy(parent);
-    label->installEventFilter(parent);
-    parent->setItemWidget(item, 0, label);
-    setItemWidgetSelected(item);
+    updateItemSize(item);
 }
 
 QTreeWidgetItem *findLastTreeItem(const QTreeWidget &tree, QStringList *pathComponents)
@@ -123,6 +122,91 @@ bool canDrop(const QMimeData &data)
 QTreeWidgetItem *dropItemsTarget(const QDropEvent &event, const QTreeWidget &parent)
 {
     return canDrop( *event.mimeData() ) ? parent.itemAt( event.pos() ) : NULL;
+}
+
+int itemLabelPadding()
+{
+    return iconFontSizePixels() / 4;
+}
+
+QLabel *createLabel(const QString &objectName, QWidget *parent)
+{
+    QLabel *label = new QLabel(parent);
+    label->setMargin(itemLabelPadding());
+    label->setObjectName(objectName);
+
+    return label;
+}
+
+class ItemLabel : public QWidget {
+public:
+    explicit ItemLabel(QTreeWidgetItem *item)
+        : QWidget(item->treeWidget())
+        , m_treeWidget(item->treeWidget())
+        , m_labelItemCount(NULL)
+        , m_layout(new QHBoxLayout(this))
+    {
+        const QString text = item->data(0, DataText).toString();
+        const QString itemCount = item->data(0, DataItemCount).toString();
+
+        QLabel *label = createLabel("tab_tree_item", this);
+        label->setText(text);
+        label->setBuddy(m_treeWidget);
+        label->installEventFilter(this);
+
+        m_layout->addWidget(label);
+        m_layout->setMargin(0);
+        m_layout->addStretch(1);
+
+        if ( !itemCount.isEmpty() )
+            setItemCountLabel(itemCount);
+    }
+
+    void setItemCountLabel(const QString &itemCount)
+    {
+        if (itemCount.isEmpty()) {
+            delete m_labelItemCount;
+            m_labelItemCount = NULL;
+        } else {
+            if (!m_labelItemCount) {
+                m_labelItemCount = createLabel("tab_item_counter", this);
+                m_layout->insertWidget(1, m_labelItemCount);
+            }
+
+            m_labelItemCount->setProperty("text", itemCount);
+        }
+    }
+
+protected:
+    bool eventFilter(QObject *, QEvent *event)
+    {
+        if ( event->type() == QEvent::Shortcut ) {
+            foreach ( QTreeWidgetItem *item, m_treeWidget->findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
+                if ( m_treeWidget->itemWidget(item, 0) == this ) {
+                    m_treeWidget->setCurrentItem(item);
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+private:
+    QTreeWidget *m_treeWidget;
+    QLabel *m_labelItemCount;
+    QHBoxLayout *m_layout;
+};
+
+void labelItem(QTreeWidgetItem *item)
+{
+    QTreeWidget *parent = item->treeWidget();
+    ItemLabel *label = new ItemLabel(item);
+    label->installEventFilter(parent);
+    item->setTextAlignment(0, Qt::AlignCenter);
+    parent->setItemWidget(item, 0, label);
+
+    setItemWidgetSelected(item);
 }
 
 } // namespace
@@ -296,12 +380,32 @@ void TabTree::setTabText(int tabIndex, const QString &tabText)
     bool isCurrent = item == currentItem();
     insertTab(tabText, tabIndex, isCurrent);
 
+    const QString itemCount = item->data(0, DataItemCount).toString();
+
     item->setData(0, DataIndex, -1);
     if ( isEmptyTabGroup(item) )
         deleteItem(item);
+
+    if ( !itemCount.isEmpty() )
+        setTabItemCount(tabText, itemCount);
 }
 
-void TabTree::setCollapseTabs(const QStringList &collapsedPaths)
+void TabTree::setTabItemCount(const QString &tabName, const QString &itemCount)
+{
+    QTreeWidgetItem *item = findTreeItem(tabName);
+    if (!item)
+        return;
+
+    item->setData(0, DataItemCount, itemCount);
+
+    ItemLabel *label = static_cast<ItemLabel*>( itemWidget(item, 0) );
+    Q_ASSERT(label);
+    label->setItemCountLabel(itemCount);
+    updateItemSize(item);
+    updateSize();
+}
+
+void TabTree::setCollapsedTabs(const QStringList &collapsedPaths)
 {
     foreach (const QString &path, collapsedPaths) {
         QTreeWidgetItem *item = findTreeItem(path);
@@ -336,7 +440,14 @@ void TabTree::updateTabIcon(const QString &tabName)
     const QColor color(getDefaultIconColor(*this, QPalette::Base));
     const QIcon icon = ConfigurationManager::instance()->getIconForTabName(tabName, color, QColor());
     item->setIcon(0, icon);
+    updateItemSize(item);
     updateSize();
+}
+
+void TabTree::updateTabIcons()
+{
+    foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) )
+        updateTabIcon( getTabPath(item) );
 }
 
 void TabTree::mousePressEvent(QMouseEvent *event)
@@ -429,13 +540,6 @@ bool TabTree::eventFilter(QObject *obj, QEvent *event)
     if ( obj == verticalScrollBar() ) {
         if ( event->type() == QEvent::Show || event->type() == QEvent::Hide )
             updateSize();
-    } else if ( event->type() == QEvent::Shortcut ) {
-        foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
-            if ( itemWidget(item, 0) == obj ) {
-                setCurrentItem(item);
-                return true;
-            }
-        }
     }
 
     return QTreeWidget::eventFilter(obj, event);
@@ -483,11 +587,7 @@ void TabTree::updateSize()
         w += verticalScrollBar()->width();
 
     resizeColumnToContents(0);
-    w += sizeHintForColumn(0);
-
-    w += iconSize().width();
-
-    w += 4;
+    w += sizeHintForColumn(0) + 4;
 
     setFixedWidth(w);
 }

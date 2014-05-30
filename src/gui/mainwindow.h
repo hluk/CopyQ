@@ -400,10 +400,6 @@ private:
     /** Show/hide tab bar. **/
     void setHideTabs(bool hide);
 
-    void saveCollapsedTabs();
-
-    void loadCollapsedTabs();
-
     /**
      * Return true if window should be minimized instead of closed/hidden.
      *
