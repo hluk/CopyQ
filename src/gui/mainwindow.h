@@ -200,6 +200,8 @@ public slots:
             bool ask, //!< Ask before removing.
             int tab_index //!< Tab index or current tab.
             );
+    /** Set icon for current tab or tab group. */
+    void setTabIcon();
     /** Set icon for tab or tab group. */
     void setTabIcon(const QString &tabName);
 

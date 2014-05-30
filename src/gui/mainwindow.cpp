@@ -359,6 +359,8 @@ void MainWindow::createMenu()
     connect(this, SIGNAL(tabGroupSelected(bool)),
             act, SLOT(setDisabled(bool)) );
 
+    createAction( Actions::Tabs_ChangeTabIcon, SLOT(setTabIcon()), menu );
+
     // Help
     menu = menubar->addMenu(tr("&Help"));
     createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
@@ -2109,6 +2111,11 @@ void MainWindow::removeTab(bool ask, int tabIndex)
             saveTabPositions();
         }
     }
+}
+
+void MainWindow::setTabIcon()
+{
+    setTabIcon( browser()->tabName() );
 }
 
 void MainWindow::setTabIcon(const QString &tabName)
