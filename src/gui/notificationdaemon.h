@@ -24,6 +24,7 @@
 #include <QList>
 #include <QObject>
 #include <QVariantMap>
+#include <QTimer>
 
 class Notification;
 class QPixmap;
@@ -74,6 +75,7 @@ public:
 
 private slots:
     void onNotificationClose(Notification *notification);
+    void doUpdateNotifications();
 
 private:
     Notification *findNotification(int id);
@@ -92,6 +94,7 @@ private:
     int m_maximumWidthPoints;
     int m_maximumHeightPoints;
     QString m_styleSheet;
+    QTimer m_timerUpdate;
 };
 
 #endif // NOTIFICATIONDAEMON_H

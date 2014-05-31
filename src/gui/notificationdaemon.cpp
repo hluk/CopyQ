@@ -56,6 +56,10 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_maximumWidthPoints(300)
     , m_maximumHeightPoints(100)
 {
+    m_timerUpdate.setSingleShot(true);
+    m_timerUpdate.setInterval(100);
+    connect( &m_timerUpdate, SIGNAL(timeout()),
+             this, SLOT(doUpdateNotifications()) );
 }
 
 void NotificationDaemon::create(const QString &title, const QString &msg, ushort icon, int msec, int id)
@@ -144,6 +148,36 @@ void NotificationDaemon::setMaximumSize(int maximumWidthPoints, int maximumHeigh
 
 void NotificationDaemon::updateNotifications()
 {
+    if ( !m_timerUpdate.isActive() )
+        m_timerUpdate.start();
+}
+
+void NotificationDaemon::setNotificationOpacity(qreal opacity)
+{
+    m_opacity = opacity;
+}
+
+void NotificationDaemon::setNotificationStyleSheet(const QString &styleSheet)
+{
+    m_styleSheet = styleSheet;
+}
+
+void NotificationDaemon::removeNotification(int id)
+{
+    Notification *notification = findNotification(id);
+    if (notification)
+        onNotificationClose(notification);
+}
+
+void NotificationDaemon::onNotificationClose(Notification *notification)
+{
+    m_notifications.removeOne(notification);
+    delete notification;
+    updateNotifications();
+}
+
+void NotificationDaemon::doUpdateNotifications()
+{
     const QRect screen = QApplication::desktop()->screenGeometry();
 
     int y = (m_position & Top) ? offsetY() : screen.bottom() - offsetY();
@@ -175,30 +209,6 @@ void NotificationDaemon::updateNotifications()
 
         notification->show();
     }
-}
-
-void NotificationDaemon::setNotificationOpacity(qreal opacity)
-{
-    m_opacity = opacity;
-}
-
-void NotificationDaemon::setNotificationStyleSheet(const QString &styleSheet)
-{
-    m_styleSheet = styleSheet;
-}
-
-void NotificationDaemon::removeNotification(int id)
-{
-    Notification *notification = findNotification(id);
-    if (notification)
-        onNotificationClose(notification);
-}
-
-void NotificationDaemon::onNotificationClose(Notification *notification)
-{
-    m_notifications.removeOne(notification);
-    delete notification;
-    updateNotifications();
 }
 
 Notification *NotificationDaemon::findNotification(int id)
