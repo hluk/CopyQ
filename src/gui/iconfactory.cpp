@@ -42,9 +42,10 @@ const int lightThreshold = 150;
 QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 {
     QLinearGradient gradient(pix.width() / 2, 0, 0, pix.height());
-    gradient.setColorAt(0.0, color.darker(200));
+    bool dark = color.lightness() < lightThreshold;
+    gradient.setColorAt(0.0, color.darker(dark ? 200 : 120));
     gradient.setColorAt(0.5, color);
-    gradient.setColorAt(1.0, color.lighter(150));
+    gradient.setColorAt(1.0, color.lighter(dark ? 150 : 120));
 
     QPixmap pix2(pix);
     QPainter painter(&pix2);
