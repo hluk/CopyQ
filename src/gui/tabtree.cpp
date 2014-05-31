@@ -170,6 +170,7 @@ public:
         } else {
             if (!m_labelItemCount) {
                 m_labelItemCount = createLabel("tab_item_counter", this);
+                setDefaultTabItemCounterStyle(m_labelItemCount);
                 m_layout->insertWidget(1, m_labelItemCount);
             }
 

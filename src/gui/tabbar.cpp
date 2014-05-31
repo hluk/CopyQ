@@ -106,6 +106,7 @@ void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
         if (!tabCountLabel) {
             tabCountLabel = new QLabel(this);
             tabCountLabel->setObjectName("tab_item_counter");
+            setDefaultTabItemCounterStyle(tabCountLabel);
             setTabButton(i, QTabBar::RightSide, tabCountLabel);
         }
 

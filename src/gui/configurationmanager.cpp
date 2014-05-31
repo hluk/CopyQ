@@ -1531,3 +1531,22 @@ QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, cons
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
 }
+
+void setDefaultTabItemCounterStyle(QWidget *widget)
+{
+    QFont font = widget->font();
+    const qreal pointSize = font.pointSizeF();
+    if (pointSize != -1)
+        font.setPointSizeF(pointSize * 0.7);
+    else
+        font.setPixelSize(font.pixelSize() * 0.7);
+    widget->setFont(font);
+
+    QPalette pal = widget->palette();
+    const QPalette::ColorRole role = widget->foregroundRole();
+    QColor color = pal.color(role);
+    color.setAlpha( qMax(50, color.alpha() - 100) );
+    color.setRed( qMin(255, color.red() + 120) );
+    pal.setColor(role, color);
+    widget->setPalette(pal);
+}
