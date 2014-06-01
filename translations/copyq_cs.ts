@@ -414,7 +414,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     </message>
     <message>
         <source>&lt;strong&gt; mime:&lt;/strong&gt; %1 &lt;strong&gt;size:&lt;/strong&gt; %2 bytes</source>
-        <translation>&lt;strong&gt;Velikost:&lt;/strong&gt; %1 bajtů</translation>
+        <translation>&lt;strong&gt;mime:&lt;/strong&gt; %1 &lt;strong&gt;velikost:&lt;/strong&gt; %2 bajtů</translation>
     </message>
 </context>
 <context>
