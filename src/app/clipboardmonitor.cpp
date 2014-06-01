@@ -372,7 +372,7 @@ void ClipboardMonitor::checkClipboard(QClipboard::Mode mode)
 
     // data retrieved?
     if (!data) {
-        log( tr("Cannot access clipboard data!"), LogError );
+        log("Cannot access clipboard data!", LogError);
         return;
     }
 

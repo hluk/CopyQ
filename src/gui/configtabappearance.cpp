@@ -704,7 +704,8 @@ void ConfigTabAppearance::updateFontButtons()
 
         QFont font = themeFontFromString( button->property("VALUE").toString() );
         painter.setFont(font);
-        painter.drawText( QRect(0, 0, iconSize.width(), iconSize.height()), Qt::AlignCenter, tr("Abc") );
+        painter.drawText( QRect(0, 0, iconSize.width(), iconSize.height()), Qt::AlignCenter,
+                          tr("Abc", "Preview text for font settings in appearance dialog") );
 
         button->setIcon(pix);
         button->setIconSize(iconSize);

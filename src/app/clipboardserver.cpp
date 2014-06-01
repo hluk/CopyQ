@@ -74,7 +74,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 {
     Server *server = new Server( clipboardServerName(), this );
     if ( !server->isListening() ) {
-        log( QObject::tr("CopyQ server is already running."), LogWarning );
+        log( tr("CopyQ server is already running."), LogWarning );
         exit(0);
         return;
     }
@@ -137,13 +137,13 @@ void ClipboardServer::stopMonitoring()
     if (m_monitor == NULL)
         return;
 
-    log( tr("Clipboard Monitor: Terminating") );
+    COPYQ_LOG("Clipboard Monitor: Terminating");
 
     m_monitor->disconnect();
     delete m_monitor;
     m_monitor = NULL;
 
-    log( tr("Clipboard Monitor: Terminated") );
+    COPYQ_LOG("Clipboard Monitor: Terminated");
 }
 
 void ClipboardServer::startMonitoring()
@@ -294,7 +294,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     QVariantMap data;
 
     if ( !deserializeData(&data, message) ) {
-        log( tr("Failed to read message from monitor."), LogError );
+        log("Failed to read message from monitor.", LogError);
         return;
     }
 

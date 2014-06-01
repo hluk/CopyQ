@@ -100,7 +100,7 @@ void ActionHandler::action(Action *action, const QVariantMap &data)
     action->setProperty("COPYQ_ACTION_ID", actionId);
 
     m_activeActionDialog->actionAboutToStart(action);
-    log( tr("Executing: %1").arg(action->command()) );
+    COPYQ_LOG( QString("Executing: %1").arg(action->command()) );
     action->start();
 }
 

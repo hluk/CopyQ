@@ -96,9 +96,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
     }
 
     ui->labelProperties->setText(
-        tr("<strong> mime:</strong> %1 <strong>size:</strong> %2 bytes")
-            .arg(escapeHtml(mime))
-            .arg(QString::number(bytes.size())));
+                tr("<strong>Size:</strong> %1 bytes", "Size of data in bytes").arg(bytes.size()) );
 }
 
 void ClipboardDialog::on_actionRemove_Format_triggered()

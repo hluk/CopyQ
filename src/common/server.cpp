@@ -83,9 +83,9 @@ void Server::onNewConnection()
 {
     QLocalSocket* socket = m_server->nextPendingConnection();
     if (!socket) {
-        log( tr("No pending client connections!"), LogError );
+        log("No pending client connections!", LogError);
     } else if ( socket->state() != QLocalSocket::ConnectedState ) {
-        log( tr("Client is not connected!"), LogError );
+        log("Client is not connected!", LogError);
         socket->deleteLater();
     } else {
         QScopedPointer<ClientSocket> clientSocket( new ClientSocket(socket) );

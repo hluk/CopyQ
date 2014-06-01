@@ -20,6 +20,7 @@
 #include "itemeditor.h"
 
 #include "common/mimetypes.h"
+#include "common/log.h"
 
 #include <QDir>
 #include <QFile>
@@ -54,13 +55,6 @@ QString getFileSuffixFromMime(const QString &mime)
     return QString();
 }
 
-void printError(const QString &text)
-{
-    QFile f;
-    f.open(stderr, QIODevice::WriteOnly);
-    f.write( QObject::tr("CopyQ ERROR: %1\n").arg(text).toUtf8() );
-}
-
 } // namespace
 
 ItemEditor::ItemEditor(const QByteArray &data, const QString &mime, const QString &editor,
@@ -89,7 +83,7 @@ ItemEditor::~ItemEditor()
     QString tmpPath = m_info.filePath();
     if ( !tmpPath.isEmpty() ) {
         if ( !QFile::remove(tmpPath) )
-            printError( tr("Failed to remove temporary file (%1)").arg(tmpPath) );
+            log( QString("Failed to remove temporary file (%1)").arg(tmpPath), LogError );
     }
 }
 
@@ -104,8 +98,8 @@ bool ItemEditor::start()
     tmpfile.setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
 
     if ( !tmpfile.open() ) {
-        printError( tr("Failed to open temporary file (%1) for editing item in external editor!")
-             .arg(tmpfile.fileName()) );
+        log( QString("Failed to open temporary file (%1) for editing item in external editor!")
+             .arg(tmpfile.fileName()), LogError );
         return false;
     }
 
@@ -177,7 +171,8 @@ bool ItemEditor::fileModified()
             m_data = file.readAll();
             file.close();
         } else {
-            printError( tr("Failed to read temporary file (%1)!").arg(m_info.fileName()) );
+            log( QString("Failed to read temporary file (%1)!").arg(m_info.fileName()),
+                 LogError );
         }
 
         // new hash

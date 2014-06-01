@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>278</width>
-    <height>132</height>
+    <width>295</width>
+    <height>130</height>
    </rect>
   </property>
   <property name="sizePolicy">
@@ -40,7 +40,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</string>
      <item>
       <widget class="QLabel" name="label">
        <property name="text">
-        <string>&amp;name:</string>
+        <string>&amp;Name:</string>
        </property>
        <property name="buddy">
         <cstring>lineEditTabName</cstring>
