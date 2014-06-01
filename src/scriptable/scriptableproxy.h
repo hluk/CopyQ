@@ -254,7 +254,7 @@ public slots:
     void tabs() { v = m_wnd->tabs(); }
     void toggleVisible() { v = m_wnd->toggleVisible(); }
     void toggleMenu(const QString &tabName) { v = m_wnd->toggleMenu(fetchBrowser(tabName)); }
-    void toggleMenu() { toggleMenu(m_tabName); }
+    void toggleMenu() { v = m_wnd->toggleMenu(); }
     void mainWinId() { v = (qulonglong)m_wnd->winId(); }
     void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenu()->winId(); }
     void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
