@@ -344,7 +344,7 @@ private slots:
     void enterSearchMode(const QString &txt);
     void tabChanged(int current, int previous);
     void saveTabPositions();
-    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
+    void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabCloseRequested(int tab);

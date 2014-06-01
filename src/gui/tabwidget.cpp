@@ -202,6 +202,11 @@ QStringList TabWidget::tabs() const
 
 void TabWidget::moveTab(int from, int to)
 {
+    Q_ASSERT(to >= 0);
+    Q_ASSERT(from >= 0);
+    Q_ASSERT(to < count());
+    Q_ASSERT(from < count());
+
     if ( isTreeModeEnabled() )
         m_tabTree->moveTab(from, to);
     else
@@ -398,6 +403,35 @@ void TabWidget::onTabMoved(int from, int to)
     emit tabMoved(from, to);
 }
 
+void TabWidget::onTabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes)
+{
+    const int newCurrentIndex = indexes.indexOf(currentIndex());
+    Q_ASSERT(newCurrentIndex != -1);
+
+    m_stackedWidget->hide();
+
+    QVector<QWidget*> widgets;
+    widgets.reserve(m_stackedWidget->count());
+
+    while ( m_stackedWidget->count() > 0 ) {
+        QWidget *w = m_stackedWidget->widget(0);
+        widgets.append(w);
+        m_stackedWidget->removeWidget(w);
+    }
+
+    foreach (int index, indexes) {
+        Q_ASSERT(index >= 0);
+        Q_ASSERT(index < widgets.count());
+        m_stackedWidget->insertWidget(-1, widgets[index]);
+    }
+
+    m_stackedWidget->setCurrentIndex(newCurrentIndex);
+
+    m_stackedWidget->show();
+
+    emit tabsMoved(oldPrefix, newPrefix);
+}
+
 void TabWidget::onToolBarOrientationChanged(Qt::Orientation orientation)
 {
     if (m_tabBar) {
@@ -443,8 +477,8 @@ void TabWidget::createTabTree()
 
     connect( m_tabTree, SIGNAL(tabMenuRequested(QPoint,QString)),
              this, SIGNAL(tabMenuRequested(QPoint,QString)) );
-    connect( m_tabTree, SIGNAL(tabMoved(QString,QString,QString)),
-             this, SIGNAL(tabMoved(QString,QString,QString)) );
+    connect( m_tabTree, SIGNAL(tabsMoved(QString,QString,QList<int>)),
+             this, SLOT(onTabsMoved(QString,QString,QList<int>)) );
     connect( m_tabTree, SIGNAL(dropItems(QString,QMimeData)),
              this, SIGNAL(dropItems(QString,QMimeData)) );
     connect( m_tabTree, SIGNAL(currentTabChanged(int)),

@@ -521,14 +521,21 @@ void TabTree::dropEvent(QDropEvent *event)
             labelItem(current);
         }
 
-        const QString afterPrefix = getTabPath(itemAbove(current));
-        emit tabMoved(oldPrefix, newPrefix, afterPrefix);
-
-        // Remove empty groups.
+        QList<int> indexes;
         foreach ( QTreeWidgetItem *item, findItems(QString(), Qt::MatchContains | Qt::MatchRecursive) ) {
-            if ( isEmptyTabGroup(item) )
+            // Remove empty groups.
+            if ( isEmptyTabGroup(item) ) {
                 deleteItem(item);
+            } else {
+                const int oldIndex = getTabIndex(item);
+                if (oldIndex >= 0) {
+                    item->setData(0, DataIndex, indexes.size());
+                    indexes.append(oldIndex);
+                }
+            }
         }
+
+        emit tabsMoved(oldPrefix, newPrefix, indexes);
 
         updateSize();
     } else {

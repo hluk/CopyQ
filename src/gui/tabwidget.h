@@ -97,8 +97,8 @@ public slots:
 signals:
     /// Tabs moved in tab bar.
     void tabMoved(int from, int to);
-    /// Tabs moved in tab tree (@a oldPrefix path changed to @a newPrefix and was moved @a afterPrefix item).
-    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
+    /// Tabs moved in tab tree (@a oldPrefix path changed to @a newPrefix).
+    void tabsMoved(const QString &oldPrefix, const QString &newPrefix);
     void tabMenuRequested(const QPoint &pos, int tab);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
     void tabRenamed(const QString &newName, int index);
@@ -112,6 +112,7 @@ protected:
 private slots:
     void onTreeItemSelected(bool isGroup);
     void onTabMoved(int from, int to);
+    void onTabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes);
     void onToolBarOrientationChanged(Qt::Orientation orientation);
 
 private:

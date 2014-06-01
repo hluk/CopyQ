@@ -202,6 +202,8 @@ void ClipboardModel::setMaxItems(int max)
 
 void ClipboardModel::setTabName(const QString &tabName)
 {
+    Q_ASSERT( !tabName.isEmpty() );
+
     if (m_tabName == tabName)
         return;
 

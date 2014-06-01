@@ -82,7 +82,7 @@ public slots:
 signals:
     void currentTabChanged(int index);
     void tabMenuRequested(const QPoint &pos, const QString &groupPath);
-    void tabMoved(const QString &oldPrefix, const QString &newPrefix, const QString &afterPrefix);
+    void tabsMoved(const QString &oldPrefix, const QString &newPrefix, const QList<int> &indexes);
     void dropItems(const QString &tabName, const QMimeData &data);
 
 protected:
