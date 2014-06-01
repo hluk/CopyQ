@@ -559,17 +559,6 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->tab  = "&web";
         c->automatic = true;
     } else if (index == ++i) {
-        c->name = tr("Run shell script");
-        c->re   = QRegExp("^#!/bin/bash");
-        c->icon = QString(QChar(IconTerminal));
-        c->cmd  = "/bin/bash";
-        c->input = mimeText;
-        c->output = mimeText;
-        c->outputTab = "&BASH";
-        c->sep = "\\n";
-        c->shortcuts.append( tr("Ctrl+R") );
-        c->inMenu = true;
-    } else if (index == ++i) {
         c->name = tr("Create thumbnail (needs ImageMagick)");
         c->icon = QString(QChar(IconPicture));
         c->cmd  = "convert - -resize 92x92 png:-";
@@ -583,28 +572,6 @@ bool ConfigurationManager::defaultCommand(int index, Command *c)
         c->cmd  = "qrencode -o - -t PNG -s 6";
         c->input = mimeText;
         c->output = "image/png";
-        c->inMenu = true;
-    } else if (index == ++i) {
-        c->name = tr("Label image");
-        c->icon = QString(QChar(IconTag));
-        c->cmd  = "base64 | perl -p -i -e:\n"
-                  "BEGIN {\n"
-                  "    print '<img src=\"data:image/bmp;base64,'\n"
-                  "}\n"
-                  "END {\n"
-                  "    print '\" /><p>LABEL'\n"
-                  "}";
-        c->input = "image/bmp";
-        c->output = "text/html";
-        c->wait = true;
-        c->inMenu = true;
-    } else if (index == ++i) {
-        c->name = tr("Open URL");
-        c->re   = reURL;
-        c->icon = QString(QChar(IconLink));
-        c->cmd  = "curl %1";
-        c->input = mimeText;
-        c->output = "text/html";
         c->inMenu = true;
     } else if (index == ++i) {
         c->name = tr("Add to &TODO tab");
