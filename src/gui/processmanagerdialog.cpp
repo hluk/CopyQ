@@ -141,6 +141,7 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
     button->setProperty("flat", true);
     button->setFont(iconFont());
     button->setToolTip(tr("Terminate"));
+    button->setFocusPolicy(Qt::NoFocus);
     connect( button, SIGNAL(clicked()),
              action, SLOT(terminate()) );
 
