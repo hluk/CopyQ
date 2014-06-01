@@ -469,7 +469,7 @@ Příkaz je možné zmenit v nastavení.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="77"/>
         <source>CopyQ server is already running.</source>
-        <translation type="unfinished">CopyQ server již běží.</translation>
+        <translation>CopyQ server již běží.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="259"/>
@@ -979,7 +979,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../src/gui/configtabappearance.cpp" line="708"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished">Abc</translation>
+        <translation>Abc</translation>
     </message>
     <message>
         <source>Abc</source>
@@ -1495,7 +1495,7 @@ Pozn.: Editované prvky mohou být uloženy pomocí Ctrl+S nebo F2 bez ohledu na
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="347"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"/>
+        <translation>Zobrazovat počet prvků</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="383"/>
@@ -2556,12 +2556,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Mark '%1' not set.</source>
-        <translation type="vanished">Značka '%1' not nastavena.</translation>
+        <translation>Značka '%1' není nastavena.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="950"/>
         <source>Mark "%1" not set.</source>
-        <translation type="unfinished"/>
+        <translation>Značka "%1" není nastavena.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3537"/>
@@ -2586,12 +2586,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5729"/>
         <source>Invalid argument:</source>
-        <translation type="unfinished"/>
+        <translation>Neznámý argument:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5732"/>
         <source>Trailing characters:</source>
-        <translation type="unfinished"/>
+        <translation>Přebytečné znaky:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5815"/>
@@ -2644,7 +2644,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6092"/>
         <source>Cannot open file %1</source>
-        <translation>Nelze otevřít soubor %1! {1?}</translation>
+        <translation>Nelze otevřít soubor %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6258"/>
@@ -3689,32 +3689,32 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="390"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Nová záložka</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="392"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"/>
+        <translation>Přejmenovat &amp;skupinu %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="394"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Přejmenovat záložku %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="396"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Odebrat záložku %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="398"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"/>
+        <translation>Odebrat skupinu %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="400"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Změnit ikonu záložky</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2035"/>
@@ -3757,53 +3757,53 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ Správce procesů</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
         <source>Started</source>
-        <translation type="unfinished"/>
+        <translation>Spuštěn</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="178"/>
         <source>Finished</source>
-        <translation type="unfinished"/>
+        <translation>Ukončen</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="64"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Název</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="66"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>Stav</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="127"/>
         <source>Starting</source>
-        <translation type="unfinished"/>
+        <translation>Spouštění</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="143"/>
         <source>Terminate</source>
-        <translation type="unfinished"/>
+        <translation>Ukončit</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="167"/>
         <source>Runnning</source>
-        <translation type="unfinished"/>
+        <translation>Běží</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="178"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>Selhal</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="188"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Odebrat</translation>
     </message>
 </context>
 <context>
@@ -4525,7 +4525,7 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished">&amp;Název:</translation>
+        <translation>&amp;Název:</translation>
     </message>
     <message>
         <source>&amp;name:</source>
