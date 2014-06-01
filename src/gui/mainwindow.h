@@ -117,7 +117,7 @@ public slots:
     /**
      * Show/hide tray menu. Return true only if menu is shown.
      */
-    bool toggleMenu();
+    bool toggleMenu(ClipboardBrowser *browser = NULL);
 
     /** Switch between browse and search mode. */
     void enterBrowseMode(bool browsemode = true);
@@ -452,6 +452,8 @@ private:
 
     QVariantMap m_clipboardData;
     bool m_ignoreCurrentClipboard;
+
+    ClipboardBrowser *m_trayTab;
 };
 
 #endif // MAINWINDOW_H

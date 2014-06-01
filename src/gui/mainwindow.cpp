@@ -154,6 +154,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_minimizeUnsupported(false)
     , m_actionHandler(new ActionHandler(this))
     , m_ignoreCurrentClipboard(true)
+    , m_trayTab(NULL)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -1174,9 +1175,11 @@ void MainWindow::trayActivated(QSystemTrayIcon::ActivationReason reason)
 #endif // Q_OS_MAC
 }
 
-bool MainWindow::toggleMenu()
+bool MainWindow::toggleMenu(ClipboardBrowser *browser)
 {
+    m_trayTab = browser;
     m_trayMenu->toggle();
+    m_trayTab = NULL;
     return m_trayMenu->isVisible();
 }
 
@@ -1521,6 +1524,9 @@ QString MainWindow::selectedItems() const
 
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
+    if (m_trayTab)
+        return m_trayTab;
+
     return m_options->trayCurrentTab ? browser()
                             : m_options->trayTabName.isEmpty() ? browser(0) : findTab(m_options->trayTabName);
 }

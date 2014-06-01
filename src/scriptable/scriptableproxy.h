@@ -214,12 +214,14 @@ public slots:
         m_wnd->removeTab(false, i);
     }
 
-    void showBrowser()
+    void showBrowser(const QString &tabName)
     {
-        ClipboardBrowser *c = fetchBrowser();
+        ClipboardBrowser *c = fetchBrowser(tabName);
         if (c)
             m_wnd->showBrowser(c);
     }
+
+    void showBrowser() { showBrowser(m_tabName); }
 
     void action(const QVariantMap &arg1, const Command &arg2) { m_wnd->action(arg1, arg2); }
 
@@ -251,7 +253,8 @@ public slots:
 
     void tabs() { v = m_wnd->tabs(); }
     void toggleVisible() { v = m_wnd->toggleVisible(); }
-    void toggleMenu() { v = m_wnd->toggleMenu(); }
+    void toggleMenu(const QString &tabName) { v = m_wnd->toggleMenu(fetchBrowser(tabName)); }
+    void toggleMenu() { toggleMenu(m_tabName); }
     void mainWinId() { v = (qulonglong)m_wnd->winId(); }
     void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenu()->winId(); }
     void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
@@ -376,15 +379,17 @@ public slots:
     }
 
 private:
-    ClipboardBrowser *fetchBrowser()
+    ClipboardBrowser *fetchBrowser(const QString &tabName)
     {
-        ClipboardBrowser *c = m_tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->createTab(m_tabName);
+        ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->createTab(tabName);
         if (!c)
             return NULL;
 
         c->loadItems();
         return c->isLoaded() ? c : NULL;
     }
+
+    ClipboardBrowser *fetchBrowser() { return fetchBrowser(m_tabName); }
 
     MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
@@ -428,11 +433,13 @@ public:
     PROXY_METHOD_0(QStringList, tabs)
     PROXY_METHOD_0(bool, toggleVisible)
     PROXY_METHOD_0(bool, toggleMenu)
+    PROXY_METHOD_1(bool, toggleMenu, const QString &)
     PROXY_METHOD_0(qulonglong, mainWinId)
     PROXY_METHOD_0(qulonglong, trayMenuWinId)
     PROXY_METHOD_1(int, findTabIndex, const QString &)
 
     PROXY_METHOD(showBrowser)
+    PROXY_METHOD_VOID_1(showBrowser, const QString &)
 
     PROXY_METHOD_1(qulonglong, openActionDialog, const QVariantMap &)
     PROXY_METHOD_VOID_2(action, const QVariantMap &, const Command &)

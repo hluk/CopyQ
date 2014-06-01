@@ -504,7 +504,15 @@ QScriptValue Scriptable::help()
 
 void Scriptable::show()
 {
-    m_proxy->showWindow();
+    if (argumentCount() == 0) {
+        m_proxy->showWindow();
+    } else if (argumentCount() == 1) {
+        m_proxy->showBrowser(toString(argument(0)));
+    } else {
+        throwError(argumentError());
+        return;
+    }
+
     QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
     sendMessageToClient(message, CommandActivateWindow);
 }
@@ -524,7 +532,18 @@ void Scriptable::toggle()
 
 void Scriptable::menu()
 {
-    if ( m_proxy->toggleMenu() ) {
+    bool shown = false;
+
+    if (argumentCount() == 0) {
+        shown = m_proxy->toggleMenu();
+    } else if (argumentCount() == 1) {
+        shown = m_proxy->toggleMenu(toString(argument(0)));
+    } else {
+        throwError(argumentError());
+        return;
+    }
+
+    if (shown) {
         QByteArray message = QByteArray::number((qlonglong)m_proxy->trayMenuWinId());
         sendMessageToClient(message, CommandActivateWindow);
     }
