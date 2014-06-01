@@ -203,9 +203,21 @@ void ProcessManagerDialog::onRemoveActionButtonClicked()
 
 void ProcessManagerDialog::onDeleteShortcut()
 {
-    foreach ( QTableWidgetItem *item, ui->tableWidgetCommands->selectedItems() ) {
-        const int row = ui->tableWidgetCommands->row(item);
-        removeIfNotRunning(row);
+    const QList<QTableWidgetItem *> selectedItems = ui->tableWidgetCommands->selectedItems();
+
+    QVector<int> rows( selectedItems.size() );
+
+    foreach (QTableWidgetItem *item, selectedItems)
+        rows.append( ui->tableWidgetCommands->row(item) );
+
+    qSort( rows.begin(), rows.end(), qGreater<int>() );
+
+    int lastRow = -1;
+    foreach (int row, rows) {
+        if (lastRow != row) {
+            removeIfNotRunning(row);
+            lastRow = row;
+        }
     }
 }
 
