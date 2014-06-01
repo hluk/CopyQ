@@ -253,7 +253,8 @@ public slots:
 
     void tabs() { v = m_wnd->tabs(); }
     void toggleVisible() { v = m_wnd->toggleVisible(); }
-    void toggleMenu() { v = m_wnd->toggleMenu(); }
+    void toggleMenu(const QString &tabName) { v = m_wnd->toggleMenu(fetchBrowser(tabName)); }
+    void toggleMenu() { toggleMenu(m_tabName); }
     void mainWinId() { v = (qulonglong)m_wnd->winId(); }
     void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenu()->winId(); }
     void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
@@ -432,6 +433,7 @@ public:
     PROXY_METHOD_0(QStringList, tabs)
     PROXY_METHOD_0(bool, toggleVisible)
     PROXY_METHOD_0(bool, toggleMenu)
+    PROXY_METHOD_1(bool, toggleMenu, const QString &)
     PROXY_METHOD_0(qulonglong, mainWinId)
     PROXY_METHOD_0(qulonglong, trayMenuWinId)
     PROXY_METHOD_1(int, findTabIndex, const QString &)
