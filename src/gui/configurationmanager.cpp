@@ -1067,6 +1067,8 @@ void ConfigurationManager::loadSettings()
     }
     settings.endGroup();
 
+    setTabs( value("tabs").toStringList() );
+
     settings.beginGroup("Shortcuts");
     tabShortcuts()->loadShortcuts(settings);
     settings.endGroup();
