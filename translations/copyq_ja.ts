@@ -164,7 +164,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="20"/>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation>&lt;b&gt;command&lt;/b&gt; の中の &lt;b&gt;%1&lt;/b&gt; は選択したアイテムの &lt;b&gt;テキスト&lt;/b&gt; になります。 テキストは修正したりコマンドの&lt;b&gt;標準入力&lt;/b&gt;として渡すことができます。 &lt;b&gt;|&lt;/b&gt; の文字を使ってコマンドをつなげることもできます(例えば標準出力に渡すなど)。</translation>
+        <translation>&lt;b&gt;コマンド&lt;/b&gt; の中の &lt;b&gt;%1&lt;/b&gt; は選択したアイテムの &lt;b&gt;テキスト&lt;/b&gt; になります。 テキストは修正したりコマンドの&lt;b&gt;標準入力&lt;/b&gt;として渡すことができます。 &lt;b&gt;|&lt;/b&gt; の文字を使ってコマンドをつなげることもできます(例えば標準出力に渡すなど)。</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="36"/>
@@ -237,13 +237,15 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/actionhandler.cpp" line="120"/>
         <source>Error: %1
 </source>
-        <translation>エラー: %1</translation>
+        <translation>エラー: %1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="123"/>
         <source>Exit code: %1
 </source>
-        <translation>コードを終了: %1</translation>
+        <translation>コードを終了: %1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="145"/>
@@ -323,7 +325,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation type="unfinished"/>
+        <translation>&lt;strong&gt;サイズ:&lt;/strong&gt; %1 バイト</translation>
     </message>
 </context>
 <context>
@@ -721,30 +723,30 @@ Note: If this is applied automatically, no other automatic commands are executed
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation>Select an item and
-press F2 to edit.</translation>
+        <translation>アイテムを選択し、
+編集するにはF2キーを押してください。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="191"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation>Select items and move them with
-CTRL and up or down key.</translation>
+        <translation>アイテムを選択し、CTRLキーと
+上下キーを使って移動できます。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"/>
         <source>Remove item with Delete key.</source>
-        <translation>Remove item with Delete key.</translation>
+        <translation>Deleteキーでアイテムを削除できます。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="195"/>
         <source>Example item %1</source>
-        <translation>Example item %1</translation>
+        <translation>アイテム例 %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="197"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation>Some random notes (Shift+F2 to edit)</translation>
+        <translation>適当なノート (編集するにはShift+F2)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="462"/>
@@ -829,12 +831,12 @@ CTRL and up or down key.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"/>
+        <translation>プロセスマネージャー(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="112"/>
@@ -959,7 +961,7 @@ CTRL and up or down key.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"/>
+        <translation>新しいタブ(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
@@ -969,7 +971,7 @@ CTRL and up or down key.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Re&amp;name Tab</source>
-        <translation type="unfinished"/>
+        <translation>タブをリネーム(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
@@ -979,7 +981,7 @@ CTRL and up or down key.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished"/>
+        <translation>タブを削除(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
@@ -989,12 +991,12 @@ CTRL and up or down key.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"/>
+        <translation>タブアイコンを変更(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="135"/>
@@ -1170,12 +1172,12 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="344"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"/>
+        <translation>タブのアイテム数を表示</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="347"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"/>
+        <translation>アイテム数を表示(&amp;W)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="357"/>
@@ -1242,7 +1244,7 @@ Note: This is not be supported on all systems.</source>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>指定された分単位の時間だけ未使用になった後、メモリからそれぞれのタブのデータを開放します。
+        <translation>指定された分単位の時間だけ未使用になった後、メモリーからそれぞれのタブのデータを開放します。
 
 タブを開放しない場合は 0 を設定。</translation>
     </message>
@@ -1671,7 +1673,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="556"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation/>
+        <translation>URL(Webアドレス)を別のタブにコピー</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="562"/>
@@ -1747,12 +1749,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="684"/>
         <source>Cannot create directory for settings %1!</source>
-        <translation>設定用ディレクトリ %1を作成できません! </translation>
+        <translation>設定用ディレクトリ %1 を作成できません!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="1065"/>
         <source>Invalid value for option "%1"</source>
-        <translation>オプション"%1" の値が不正です</translation>
+        <translation>オプション "%1" の値が無効です</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="1160"/>
@@ -1829,7 +1831,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="950"/>
         <source>Mark "%1" not set.</source>
-        <translation type="unfinished"/>
+        <translation>マーク "%1" は設定されていません。</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3537"/>
@@ -1854,12 +1856,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5729"/>
         <source>Invalid argument:</source>
-        <translation type="unfinished"/>
+        <translation>無効な引数:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5732"/>
         <source>Trailing characters:</source>
-        <translation type="unfinished"/>
+        <translation>余分な文字が後ろにあります:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5815"/>
@@ -1972,12 +1974,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4194"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation>FakeVim モードを終了するにはAlt-V, Alt-V と入力してください。 </translation>
+        <translation>FakeVim モードを終了するには Alt-V, Alt-V と入力してください。</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source> [New] </source>
-        <translation>[新規]</translation>
+        <translation> [新規] </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6165"/>
@@ -2220,7 +2222,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="422"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>アイテムの暗号化を行う前に暗号化の鍵の生成が必要です。</translation>
+        <translation>アイテムの暗号化を行う前に暗号化の鍵の&lt;strong&gt;生成が必要です&lt;/strong&gt;。</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="424"/>
@@ -2265,7 +2267,7 @@ Set to 0 to disable.</source>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;自動的に暗号化・復号化したいタブの名前を(1行につき1個ずつ)指定してください。&lt;/p&gt;
-&lt;p&gt;復号化したアイテムをメモリから安全に解放するため、それらのタブは履歴タブからメモリ開放用タブへと切り分けられます。&lt;/p&gt;</translation>
+&lt;p&gt;復号化したアイテムをメモリから安全に解放するため、それらのタブは履歴タブからメモリー開放用タブへと切り分けられます。&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2591,32 +2593,32 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="391"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"/>
+        <translation>新しいタブ(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="393"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"/>
+        <translation>グループ %1 をリネーム(&amp;G)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="395"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"/>
+        <translation>タブ %1 をリネーム(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="397"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"/>
+        <translation>タブ %1 を削除(&amp;M)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="399"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"/>
+        <translation>グループ %1 を削除</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="401"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"/>
+        <translation>タブアイコンを変更(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="519"/>
@@ -2717,53 +2719,53 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ プロセスマネージャー</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
         <source>Started</source>
-        <translation type="unfinished"/>
+        <translation>開始</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="178"/>
         <source>Finished</source>
-        <translation type="unfinished"/>
+        <translation>完了</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="64"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>名前</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="66"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>状態</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="127"/>
         <source>Starting</source>
-        <translation type="unfinished"/>
+        <translation>開始中</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="143"/>
         <source>Terminate</source>
-        <translation type="unfinished"/>
+        <translation>終了</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="167"/>
         <source>Runnning</source>
-        <translation type="unfinished"/>
+        <translation>実行中</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="178"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>失敗</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="188"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>削除</translation>
     </message>
 </context>
 <context>
@@ -3247,7 +3249,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="245"/>
         <source>Invalid number of arguments!</source>
-        <translation>引数の個数が不正です!</translation>
+        <translation>引数の個数が無効です!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="413"/>
@@ -3258,7 +3260,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="468"/>
         <source>Built with: </source>
-        <translation>使用ツール:</translation>
+        <translation>使用ツール: </translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="493"/>
@@ -3269,7 +3271,8 @@ Print version of program and libraries.</source>
         <location filename="../src/scriptable/scriptable.cpp" line="554"/>
         <source>Terminating server.
 </source>
-        <translation>サーバーを終了中。</translation>
+        <translation>サーバーを終了中。
+</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="625"/>
@@ -3289,7 +3292,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="921"/>
         <source>Invalid option "%1"!</source>
-        <translation>"%1" は不正なオプションです!</translation>
+        <translation>"%1" は無効なオプションです!</translation>
     </message>
 </context>
 <context>
@@ -3355,7 +3358,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"/>
+        <translation>タブ名(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
