@@ -38,6 +38,7 @@
 #include "item/serialize.h"
 
 #include <QApplication>
+#include <QDesktopWidget>
 #include <QDrag>
 #include <QKeyEvent>
 #include <QMimeData>
@@ -273,7 +274,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setWrapping(false);
     setLayoutMode(QListView::SinglePass);
     setEditTriggers(QAbstractItemView::NoEditTriggers);
-    setSpacing(5);
     setAlternatingRowColors(true);
 
     initSingleShotTimer(m_timerSave, 30000, SLOT(saveItems()));

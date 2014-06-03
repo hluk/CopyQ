@@ -298,6 +298,10 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
     d->setFontAntialiasing( themeValue("font_antialiasing").toBool() );
 
+    bool ok;
+    const int itemSpacing = themeValue("item_spacing").toInt(&ok);
+    c->setSpacing( ok ? itemSpacing : c->fontMetrics().lineSpacing() / 6 );
+
     c->invalidateItemCache();
 }
 
@@ -845,6 +849,7 @@ void ConfigTabAppearance::resetTheme()
     m_theme["item_css"] = Option("");
     m_theme["alt_item_css"] = Option("");
     m_theme["sel_item_css"] = Option("");
+    m_theme["item_spacing"] = Option("");
     m_theme["notes_css"] = Option("");
 
     m_theme["tab_bar_css"] = Option(
