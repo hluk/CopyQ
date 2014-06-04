@@ -138,6 +138,8 @@ public slots:
 
     void keys();
 
+    QScriptValue selectitems();
+
     QScriptValue selected();
 
     QScriptValue selectedtab();
@@ -158,6 +160,8 @@ signals:
     void requestApplicationQuit();
 
 private:
+    QList<int> getRows() const;
+
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
@@ -165,8 +169,6 @@ private:
     QString m_currentPath;
     QByteArray m_actionId;
     QScriptValue m_input;
-
-    int getTabIndexOrError(const QString &name);
 };
 
 #endif // SCRIPTABLE_H

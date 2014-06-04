@@ -38,7 +38,6 @@
 #include "item/serialize.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QDrag>
 #include <QKeyEvent>
 #include <QMimeData>

@@ -291,6 +291,27 @@ public slots:
 
     void currentTab() { BROWSER_RESULT(tabName()); }
 
+    bool selectItems(const QList<int> &items)
+    {
+        ClipboardBrowser *c = fetchBrowser();
+        if (!c)
+            return false;
+
+        c->clearSelection();
+
+        if ( !items.isEmpty() ) {
+            c->setCurrent(items.last());
+
+            foreach (int i, items) {
+                const QModelIndex index = c->index(i);
+                if (index.isValid())
+                    c->selectionModel()->select(index, QItemSelectionModel::Select);
+            }
+        }
+
+        return true;
+    }
+
     void selected() { v = m_wnd->selectedTab() + '\n' + m_wnd->selectedItems(); }
     void selectedTab() { v = m_wnd->selectedTab(); }
     void selectedItems() { v = m_wnd->selectedItems(); }
@@ -478,6 +499,7 @@ public:
     PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
     PROXY_METHOD_0(QString, currentTab)
 
+    PROXY_METHOD_1(bool, selectItems, const QList<int> &)
     PROXY_METHOD_0(QString, selected)
     PROXY_METHOD_0(QString, selectedTab)
     PROXY_METHOD_0(QString, selectedItems)

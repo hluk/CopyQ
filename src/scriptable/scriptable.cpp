@@ -716,14 +716,11 @@ void Scriptable::insert()
 
 void Scriptable::remove()
 {
-    QScriptValue value;
-    QList<int> rows;
+    QList<int> rows = getRows();
 
-    for ( int i = 0; i < argumentCount(); ++i ) {
-        value = argument(i);
-        int row;
-        if ( toInt(value, row) )
-            rows.append(row);
+    if (rows.size() != argumentCount()) {
+        throwError(argumentError());
+        return;
     }
 
     if ( rows.empty() )
@@ -994,6 +991,18 @@ void Scriptable::keys()
 #endif
 }
 
+QScriptValue Scriptable::selectitems()
+{
+    QList<int> rows = getRows();
+
+    if (rows.size() != argumentCount()) {
+        throwError(argumentError());
+        return false;
+    }
+
+    return m_proxy->selectItems(rows);
+}
+
 QScriptValue Scriptable::selected()
 {
     return m_proxy->selected();
@@ -1038,4 +1047,17 @@ QScriptValue Scriptable::unpack()
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);
+}
+
+QList<int> Scriptable::getRows() const
+{
+    QList<int> rows;
+
+    for ( int i = 0; i < argumentCount(); ++i ) {
+        int row;
+        if ( toInt(argument(i), row) )
+            rows.append(row);
+    }
+
+    return rows;
 }
