@@ -1411,6 +1411,11 @@ void Tests::openAndSavePreferences()
     RUN(Args(args) << "false", "");
     RUN(Args(args), "false\n");
 
+    // Can't focus checkbox on OSX
+#ifdef Q_OS_MAC
+    SKIP("Can't focus configuration checkboxes on OS X");
+#endif
+
     // Open preferences dialog.
     RUN(Args() << "keys" << ConfigTabShortcuts::tr("Ctrl+P"), "");
 
