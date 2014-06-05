@@ -396,7 +396,14 @@ void ItemSyncTests::notes()
     const Args args = Args() << "separator" << ";" << "tab" << tab1;
 
     RUN(Args(args) << "add" << "TEST1", "");
-    RUN(Args(args) << "keys" << "LEFT", "");
+
+    QStringList extraDown;
+#ifdef  Q_OS_MAC
+    // Focus the ClipboardBrowser first.
+    extraDown << "DOWN";
+#endif
+
+    RUN(Args(args) << "keys" << extraDown << "LEFT", "");
     RUN(Args(args) << "keys" << "CTRL+N" << ":TEST2" << "F2", "");
     RUN(Args(args) << "keys" << "CTRL+N" << ":TEST3" << "F2", "");
     RUN(Args(args) << "size", "3\n");
@@ -410,7 +417,7 @@ void ItemSyncTests::notes()
 
     QCOMPARE( dir1.files().join(sep), files1.join(sep) );
 
-    RUN(Args(args) << "keys" << "HOME" << "DOWN" << "SHIFT+F2" << ":NOTE1" << "F2", "");
+    RUN(Args(args) << "keys" << "HOME" << "DOWN" << extraDown << "SHIFT+F2" << ":NOTE1" << "F2", "");
     RUN(Args(args) << "read" << mimeItemNotes << "0" << "1" << "2", ";NOTE1;");
 
     // One new file for notes.
