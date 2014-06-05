@@ -135,7 +135,7 @@ QString ItemSyncTests::testTab(int i)
 
 QString ItemSyncTests::testDir(int i)
 {
-    return QDir::tempPath() + "/copyq_test/itemsync_" + QString::number(i);
+    return QDir::tempPath() + "/copyq_test_dirs/itemsync_" + QString::number(i);
 }
 
 void ItemSyncTests::initTestCase()
