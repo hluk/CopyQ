@@ -155,8 +155,9 @@ macx {
     # Only Intel binaries are accepted so force this
     CONFIG += x86
 
-    # Minimum OS X version for submission is 10.6.6
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.6
+    # Only support 10.9+ due because we require NSProcessInfo::beginActivityWithOptions:reason:
+    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
+    QMAKE_MAC_SDK = macosx10.9
 
     # Copy the custom Info.plist to the app bundle
     QMAKE_INFO_PLIST = ../shared/Info.plist
