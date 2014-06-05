@@ -57,6 +57,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
         QFile f;
         f.open((messageCode == CommandSuccess || messageCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
         f.write(data);
+        f.flush();
     }
 
     COPYQ_LOG( QString("Message received with exit code %1.").arg(messageCode) );
