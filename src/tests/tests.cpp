@@ -1313,13 +1313,7 @@ void Tests::editNotes()
     const QByteArray data2 = generateData("NOTES");
     const QByteArray data3 = generateData("NOTES");
 
-    QStringList extraDown;
-#ifdef  Q_OS_MAC
-    // Focus the ClipboardBrowser first.
-    extraDown << "DOWN";
-#endif
-
-    RUN(Args() << "keys" << "DOWN" << extraDown << "SHIFT+F2"
+    RUN(Args() << "keys" << "DOWN" << "SHIFT+F2"
         << "CTRL+A" << ":" + data2 << "ENTER" << ":" + data3 << "F2", "");
 
     RUN(Args(args) << "read" << mimeItemNotes << "1", data2 + "\n" + data3);
