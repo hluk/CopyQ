@@ -23,7 +23,7 @@ Building and Packaging for OS X
 To build and install on OS X, you will need `qmake` version
 5.2 or greater. Build with the following commands:
 
-    ~/Qt/5.2.0/clang_64/bin/qmake CONFIG+=release
+    ~/Qt/5.2.0/clang_64/bin/qmake CONFIG+=release WITH_WEBKIT=1
     make copyq.app
 
 This will produce a self-contained application bundle `copyq.app`
