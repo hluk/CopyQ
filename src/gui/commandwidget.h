@@ -57,6 +57,7 @@ signals:
 
 protected:
     void showEvent(QShowEvent *event);
+    void resizeEvent(QResizeEvent *event);
 
 private slots:
     void on_lineEditName_textChanged(const QString &name);
@@ -77,6 +78,8 @@ private:
     void init();
 
     void updateWidgets();
+
+    void updateCommandEditSize();
 
     Ui::CommandWidget *ui;
     Command m_cmd;

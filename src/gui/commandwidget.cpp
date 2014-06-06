@@ -162,6 +162,12 @@ void CommandWidget::showEvent(QShowEvent *event)
     QWidget::showEvent(event);
 }
 
+void CommandWidget::resizeEvent(QResizeEvent *event)
+{
+    QWidget::resizeEvent(event);
+    updateCommandEditSize();
+}
+
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
 {
     emit nameChanged(name);
@@ -175,6 +181,7 @@ void CommandWidget::on_buttonIcon_currentIconChanged(const QString &iconString)
 void CommandWidget::on_lineEditCommand_textChanged()
 {
     updateWidgets();
+    updateCommandEditSize();
 }
 
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
@@ -202,8 +209,10 @@ void CommandWidget::init()
     if (ui)
         return;
 
-    ui = new Ui::CommandWidget;
-    ui->setupUi(this);
+    QScopedPointer<Ui::CommandWidget> uiGuard(new Ui::CommandWidget);
+    uiGuard->setupUi(this);
+    ui = uiGuard.take();
+
     setFocusProxy(ui->lineEditName);
     updateWidgets();
 
@@ -255,4 +264,16 @@ void CommandWidget::updateWidgets()
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
     ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->lineEditCommand->document()->characterCount() == 0);
+}
+
+void CommandWidget::updateCommandEditSize()
+{
+    if (!ui)
+        return;
+
+    const QFontMetrics fm( ui->lineEditCommand->document()->defaultFont() );
+    const int lines = ui->lineEditCommand->document()->size().height() + 2;
+    const int visibleLines = qBound(3, lines, 20);
+    const int h = visibleLines * fm.lineSpacing();
+    ui->lineEditCommand->setMinimumHeight(h);
 }
