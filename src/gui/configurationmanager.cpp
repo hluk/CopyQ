@@ -982,13 +982,19 @@ void ConfigurationManager::addCommandWithoutSave(const Command &command)
                                           getCommandIcon(cmdWidget->currentIcon()), cmdWidget);
 }
 
-void ConfigurationManager::loadCommandsFromFile(const QString &fileName)
+void ConfigurationManager::loadCommandsFromFile(const QString &fileName, bool unindentCommand)
 {
     QSettings commandsSettings(fileName, QSettings::IniFormat);
     QList<int> rowsToSelect;
 
-    foreach ( const Command &command, loadCommands(&commandsSettings) ) {
+    foreach ( Command command, loadCommands(&commandsSettings) ) {
         rowsToSelect.append(ui->itemOrderListCommands->rowCount());
+        if (unindentCommand) {
+            if (command.cmd.startsWith("\n    ")) {
+                command.cmd.remove(0, 5);
+                command.cmd.replace("\n    ", "\n");
+            }
+        }
         addCommandWithoutSave(command);
     }
 
@@ -1456,7 +1462,45 @@ void ConfigurationManager::copySelectedCommandsToClipboard()
     QSettings commandsSettings(tmpfile.fileName(), QSettings::IniFormat);
     saveCommands(commands, &commandsSettings);
     commandsSettings.sync();
-    QApplication::clipboard()->setText( QString::fromUtf8(tmpfile.readAll()) );
+
+    // Replace ugly '\n' with indented lines.
+    const QString data = QString::fromUtf8(tmpfile.readAll());
+    QString copiedData;
+    copiedData.reserve(data.size());
+    QRegExp re("^(\\d+\\\\)?Command=\"");
+
+    foreach (const QString &line, data.split('\n')) {
+        if (line.contains(re)) {
+            int i = re.matchedLength();
+            copiedData.append(line.left(i) + "\n    ");
+            bool escape = false;
+
+            for (; i < line.size(); ++i) {
+                const QChar c = line[i];
+
+                if (escape) {
+                    escape = false;
+
+                    if (c == 'n') {
+                        copiedData.append("\n    ");
+                    } else {
+                        copiedData.append('\\');
+                        copiedData.append(c);
+                    }
+                } else if (c == '\\') {
+                    escape = !escape;
+                } else {
+                    copiedData.append(c);
+                }
+            }
+        } else {
+            copiedData.append(line);
+        }
+
+        copiedData.append('\n');
+    }
+
+    QApplication::clipboard()->setText(copiedData);
 }
 
 void ConfigurationManager::tryPasteCommandFromClipboard()
@@ -1475,7 +1519,7 @@ void ConfigurationManager::tryPasteCommandFromClipboard()
             tmpfile.write(text.toUtf8());
             tmpfile.flush();
 
-            loadCommandsFromFile( tmpfile.fileName() );
+            loadCommandsFromFile( tmpfile.fileName(), true );
         }
     }
 }

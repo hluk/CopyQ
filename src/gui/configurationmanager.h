@@ -219,7 +219,7 @@ private:
 
     void addCommandWithoutSave(const Command &command);
 
-    void loadCommandsFromFile(const QString &fileName);
+    void loadCommandsFromFile(const QString &fileName, bool unindentCommand = false);
 
     Commands selectedCommands();
 
