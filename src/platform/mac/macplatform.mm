@@ -38,17 +38,6 @@ namespace {
     class ClipboardApplication : public QApplication
     {
     public:
-        static QApplication *create(int &argc, char **argv)
-        {
-            // Only try to create pasteboardMimes once, and only try if we have a native interface,
-            // otherwise everything breaks when QPasteboardMime tries to resove some native functions.
-            if (QGuiApplication::platformNativeInterface())
-                return new ClipboardApplication(argc, argv);
-
-            return new QApplication(argc, argv);
-        }
-
-    private:
         ClipboardApplication(int &argc, char **argv)
             : QApplication(argc, argv)
             , m_pasteboardMime()
@@ -57,6 +46,7 @@ namespace {
         {
         }
 
+    private:
         CopyQPasteboardMime m_pasteboardMime;
         UrlPasteboardMime m_pasteboardMimeUrl;
         UrlPasteboardMime m_pasteboardMimeFileUrl;
@@ -159,15 +149,18 @@ MacPlatform::MacPlatform()
 QApplication *MacPlatform::createServerApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::Background, "CopyQ Server");
-    QApplication *app = ClipboardApplication::create(argc, argv);
+    QApplication *app = new ClipboardApplication(argc, argv);
+
+    // Switch the app to foreground when in foreground
     ForegroundBackgroundFilter::installFilter(app);
+
     return app;
 }
 
 QApplication *MacPlatform::createMonitorApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::Background, "CopyQ clipboard monitor");
-    return ClipboardApplication::create(argc, argv);
+    return new ClipboardApplication(argc, argv);
 }
 
 QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)

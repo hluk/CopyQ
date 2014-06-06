@@ -309,8 +309,8 @@ public slots:
         if ( !w->isVisible() ) {
             w = QApplication::focusWidget();
             if (!w) {
-                v = QString("Cannot send keys, no widget is focused!");
-                return;
+                COPYQ_LOG("No focused widget -> using main window");
+                w = m_wnd;
             }
         }
 

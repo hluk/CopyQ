@@ -135,7 +135,7 @@ QString ItemSyncTests::testTab(int i)
 
 QString ItemSyncTests::testDir(int i)
 {
-    return QDir::tempPath() + "/copyq_test/itemsync_" + QString::number(i);
+    return QDir::tempPath() + "/copyq_test_dirs/itemsync_" + QString::number(i);
 }
 
 void ItemSyncTests::initTestCase()
@@ -396,6 +396,7 @@ void ItemSyncTests::notes()
     const Args args = Args() << "separator" << ";" << "tab" << tab1;
 
     RUN(Args(args) << "add" << "TEST1", "");
+
     RUN(Args(args) << "keys" << "LEFT", "");
     RUN(Args(args) << "keys" << "CTRL+N" << ":TEST2" << "F2", "");
     RUN(Args(args) << "keys" << "CTRL+N" << ":TEST3" << "F2", "");

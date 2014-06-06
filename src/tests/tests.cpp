@@ -268,17 +268,46 @@ public:
             return -2;
         p.closeWriteChannel();
 
+        if (stdoutData != NULL || stderrData != NULL) {
+            if (stdoutData != NULL) {
+                stdoutData->clear();
+            }
+            if (stderrData != NULL) {
+                stderrData->clear();
+            }
+
+            QElapsedTimer t;
+            t.start();
+            // Read data for 2s - done manually to ensure the out/err buffers are always emptied
+            while (t.elapsed() < 2000) {
+                QByteArray out = p.readAllStandardOutput();
+                QByteArray err = p.readAllStandardError();
+
+                if (stdoutData != NULL) {
+                    stdoutData->append(out);
+                }
+                if (stderrData != NULL) {
+                    stderrData->append(err);
+                }
+
+                if (p.state() != QProcess::Running)
+                    break;
+
+                waitFor(50);
+            }
+        }
+
         if ( !closeProcess(&p) )
             return -3;
 
-        if (stdoutData != NULL) {
-            *stdoutData = p.readAllStandardOutput();
-            stdoutData->replace('\r', "");
+        if (stderrData != NULL) {
+            stderrData->append(p.readAllStandardError());
+            stderrData->replace('\r', "");
         }
 
-        if (stderrData != NULL) {
-            *stderrData = p.readAllStandardError();
-            stderrData->replace('\r', "");
+        if (stdoutData != NULL) {
+            stdoutData->append(p.readAllStandardOutput());
+            stdoutData->replace('\r', "");
         }
 
         return p.exitCode();
@@ -1116,7 +1145,7 @@ void Tests::options()
 
     QCOMPARE( run(Args("config") << "tab_tree", &stdoutActual, &stderrActual), 0 );
     QVERIFY2( testStderr(stderrActual), stderrActual );
-    QVERIFY( stdoutActual == "true\n" || stdoutActual == "false\n" );
+    QVERIFY2( stdoutActual == "true\n" || stdoutActual == "false\n", stdoutActual);
 
     RUN(Args("config") << "tab_tree" << "true", "");
     RUN(Args("config") << "tab_tree", "true\n");
@@ -1283,8 +1312,10 @@ void Tests::editNotes()
 
     const QByteArray data2 = generateData("NOTES");
     const QByteArray data3 = generateData("NOTES");
+
     RUN(Args() << "keys" << "DOWN" << "SHIFT+F2"
         << "CTRL+A" << ":" + data2 << "ENTER" << ":" + data3 << "F2", "");
+
     RUN(Args(args) << "read" << mimeItemNotes << "1", data2 + "\n" + data3);
     RUN(Args(args) << "read" << mimeItemNotes << "2", "");
     RUN(Args(args) << "read" << mimeItemNotes << "0", line1 + "\n" + line2);
@@ -1373,6 +1404,11 @@ void Tests::openAndSavePreferences()
     RUN(Args(args), "true\n");
     RUN(Args(args) << "false", "");
     RUN(Args(args), "false\n");
+
+    // Can't focus checkbox on OSX
+#ifdef Q_OS_MAC
+    SKIP("Can't focus configuration checkboxes on OS X");
+#endif
 
     // Open preferences dialog.
     RUN(Args() << "keys" << ConfigTabShortcuts::tr("Ctrl+P"), "");

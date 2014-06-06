@@ -1109,6 +1109,8 @@ void ClipboardBrowser::expire()
 void ClipboardBrowser::onEditorDestroyed()
 {
     setEditorWidget(NULL);
+    // Set the focus back on the browser
+    setFocus();
 }
 
 void ClipboardBrowser::onEditorSave()
