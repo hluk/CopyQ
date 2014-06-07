@@ -1070,6 +1070,24 @@ QScriptValue Scriptable::unpack()
     return value;
 }
 
+QScriptValue Scriptable::pack()
+{
+    QVariantMap data;
+    QScriptValue value = argument(0);
+
+    QScriptValueIterator it(value);
+    while (it.hasNext()) {
+        it.next();
+        if ( it.flags() & QScriptValue::SkipInEnumeration )
+            continue;
+
+        QByteArray *bytes = toByteArray(it.value());
+        data.insert( it.name(), bytes ? *bytes : fromString(it.value().toString()) );
+    }
+
+    return newByteArray(serializeData(data));
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);

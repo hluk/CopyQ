@@ -152,6 +152,8 @@ public slots:
 
     QScriptValue unpack();
 
+    QScriptValue pack();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
