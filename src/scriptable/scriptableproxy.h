@@ -287,6 +287,7 @@ public slots:
     void browserAdd(const QVariantMap &arg1, int arg2) { BROWSER_RESULT(add(arg1, arg2)); }
 
     void browserItemData(int arg1, const QString &arg2) { BROWSER_RESULT(itemData(arg1, arg2)); }
+    void browserItemData(int arg1) { BROWSER_RESULT(itemData(arg1)); }
 
     void setCurrentTab(const QString &tabName) { m_tabName = tabName; }
 
@@ -498,6 +499,7 @@ public:
     PROXY_METHOD_VOID_1(browserEditNew, const QString &)
 
     PROXY_METHOD_2(QByteArray, browserItemData, int, const QString &)
+    PROXY_METHOD_1(QVariantMap, browserItemData, int)
 
     PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
     PROXY_METHOD_0(QString, currentTab)

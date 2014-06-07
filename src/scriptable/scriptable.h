@@ -47,6 +47,7 @@ public:
     QByteArray fromString(const QString &value) const;
     QString toString(const QScriptValue &value) const;
     bool toInt(const QScriptValue &value, int &number) const;
+    QVariantMap toDataMap(const QScriptValue &value) const;
 
     /**
      * Return pointer to QByteArray or NULL.
@@ -77,6 +78,8 @@ public:
     void throwError(const QString &errorMessage);
 
     void sendMessageToClient(const QByteArray &message, int exitCode);
+
+    QScriptEngine *engine() const { return m_engine; }
 
 public slots:
     QScriptValue version();
@@ -151,8 +154,10 @@ public slots:
     QScriptValue escapeHTML();
 
     QScriptValue unpack();
-
     QScriptValue pack();
+
+    QScriptValue getitem();
+    void setitem();
 
 public slots:
     void setInput(const QByteArray &bytes);

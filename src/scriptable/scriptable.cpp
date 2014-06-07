@@ -300,32 +300,45 @@ private:
 
 template <typename T>
 struct ScriptValueFactory {
-    static QScriptValue create(const T &value, QScriptEngine *) { return QScriptValue(value); }
+    static QScriptValue create(const T &value, Scriptable *) { return QScriptValue(value); }
 };
 
 template <typename T>
 struct ScriptValueFactory< QList<T> > {
-    static QScriptValue create(const QList<T> &list, QScriptEngine *engine)
+    static QScriptValue create(const QList<T> &list, Scriptable *scriptable)
     {
-        QScriptValue array = engine->newArray();
+        QScriptValue array = scriptable->engine()->newArray();
         for ( int i = 0; i < list.size(); ++i )
-            array.setProperty(i, ScriptValueFactory<T>::create(list[i], engine));
+            array.setProperty(i, ScriptValueFactory<T>::create(list[i], scriptable));
         return array;
     }
 };
 
 template <>
-struct ScriptValueFactory<QStringList> {
-    static QScriptValue create(const QStringList &list, QScriptEngine *engine)
+struct ScriptValueFactory<QVariantMap> {
+    static QScriptValue create(const QVariantMap &dataMap, Scriptable *scriptable)
     {
-        return ScriptValueFactory< QList<QString> >::create(list, engine);
+        QScriptValue value = scriptable->engine()->newObject();
+
+        foreach ( const QString &format, dataMap.keys() )
+            value.setProperty(format, scriptable->newByteArray(dataMap[format].toByteArray()));
+
+        return value;
+    }
+};
+
+template <>
+struct ScriptValueFactory<QStringList> {
+    static QScriptValue create(const QStringList &list, Scriptable *scriptable)
+    {
+        return ScriptValueFactory< QList<QString> >::create(list, scriptable);
     }
 };
 
 template <typename T>
-QScriptValue toScriptValue(const T &value, QScriptEngine *engine)
+QScriptValue toScriptValue(const T &value, Scriptable *scriptable)
 {
-    return ScriptValueFactory<T>::create(value, engine);
+    return ScriptValueFactory<T>::create(value, scriptable);
 }
 
 } // namespace
@@ -403,6 +416,23 @@ bool Scriptable::toInt(const QScriptValue &value, int &number) const
         return false;
 
     return true;
+}
+
+QVariantMap Scriptable::toDataMap(const QScriptValue &value) const
+{
+    QVariantMap dataMap;
+
+    QScriptValueIterator it(value);
+    while (it.hasNext()) {
+        it.next();
+        if ( it.flags() & QScriptValue::SkipInEnumeration )
+            continue;
+
+        QByteArray *bytes = toByteArray(it.value());
+        dataMap.insert( it.name(), bytes ? *bytes : fromString(it.value().toString()) );
+    }
+
+    return dataMap;
 }
 
 QByteArray *Scriptable::toByteArray(const QScriptValue &value) const
@@ -664,7 +694,7 @@ QScriptValue Scriptable::tab()
 {
     const QString &name = arg(0);
     if ( name.isNull() )
-        return toScriptValue( m_proxy->tabs(), m_engine );
+        return toScriptValue( m_proxy->tabs(), this );
 
     m_proxy->setCurrentTab(name);
     return applyRest(1);
@@ -1036,7 +1066,7 @@ QScriptValue Scriptable::selectedtab()
 
 QScriptValue Scriptable::selecteditems()
 {
-    return toScriptValue(m_proxy->selectedItems(), m_engine);
+    return toScriptValue( m_proxy->selectedItems(), this );
 }
 
 QScriptValue Scriptable::currentitem()
@@ -1057,35 +1087,42 @@ QScriptValue Scriptable::escapeHTML()
 QScriptValue Scriptable::unpack()
 {
     QVariantMap data;
-    QScriptValue value = m_engine->newObject();
 
     if ( !toItemData(argument(0), mimeItems, &data) ) {
         throwError(argumentError());
         return QScriptValue();
     }
 
-    foreach (const QString &format, data.keys())
-        value.setProperty(format, newByteArray(data[format].toByteArray()));
-
-    return value;
+    return toScriptValue(data, this);
 }
 
 QScriptValue Scriptable::pack()
 {
-    QVariantMap data;
-    QScriptValue value = argument(0);
+    QVariantMap data = toDataMap( argument(0) );
+    return newByteArray(serializeData(data));
+}
 
-    QScriptValueIterator it(value);
-    while (it.hasNext()) {
-        it.next();
-        if ( it.flags() & QScriptValue::SkipInEnumeration )
-            continue;
-
-        QByteArray *bytes = toByteArray(it.value());
-        data.insert( it.name(), bytes ? *bytes : fromString(it.value().toString()) );
+QScriptValue Scriptable::getitem()
+{
+    int row;
+    if ( !toInt(argument(0), row) ) {
+        throwError(argumentError());
+        return QScriptValue();
     }
 
-    return newByteArray(serializeData(data));
+    return toScriptValue( m_proxy->browserItemData(row), this );
+}
+
+void Scriptable::setitem()
+{
+    int row;
+    if ( !toInt(argument(0), row) ) {
+        throwError(argumentError());
+        return;
+    }
+
+    QVariantMap data = toDataMap( argument(1) );
+    m_proxy->browserAdd(data, row);
 }
 
 void Scriptable::setInput(const QByteArray &bytes)
