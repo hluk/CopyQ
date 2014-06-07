@@ -298,6 +298,36 @@ private:
     ScriptableProxy *m_proxy;
 };
 
+template <typename T>
+struct ScriptValueFactory {
+    static QScriptValue create(const T &value, QScriptEngine *) { return QScriptValue(value); }
+};
+
+template <typename T>
+struct ScriptValueFactory< QList<T> > {
+    static QScriptValue create(const QList<T> &list, QScriptEngine *engine)
+    {
+        QScriptValue array = engine->newArray();
+        for ( int i = 0; i < list.size(); ++i )
+            array.setProperty(i, ScriptValueFactory<T>::create(list[i], engine));
+        return array;
+    }
+};
+
+template <>
+struct ScriptValueFactory<QStringList> {
+    static QScriptValue create(const QStringList &list, QScriptEngine *engine)
+    {
+        return ScriptValueFactory< QList<QString> >::create(list, engine);
+    }
+};
+
+template <typename T>
+QScriptValue toScriptValue(const T &value, QScriptEngine *engine)
+{
+    return ScriptValueFactory<T>::create(value, engine);
+}
+
 } // namespace
 
 Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
@@ -633,15 +663,11 @@ void Scriptable::paste()
 QScriptValue Scriptable::tab()
 {
     const QString &name = arg(0);
-    if ( name.isNull() ) {
-        QString response;
-        foreach ( const QString &tabName, m_proxy->tabs() )
-            response.append(tabName + '\n');
-        return response;
-    } else {
-        m_proxy->setCurrentTab(name);
-        return applyRest(1);
-    }
+    if ( name.isNull() )
+        return toScriptValue( m_proxy->tabs(), m_engine );
+
+    m_proxy->setCurrentTab(name);
+    return applyRest(1);
 }
 
 void Scriptable::removetab()
@@ -1003,11 +1029,6 @@ QScriptValue Scriptable::selectitems()
     return m_proxy->selectItems(rows);
 }
 
-QScriptValue Scriptable::selected()
-{
-    return m_proxy->selected();
-}
-
 QScriptValue Scriptable::selectedtab()
 {
     return m_proxy->selectedTab();
@@ -1015,7 +1036,12 @@ QScriptValue Scriptable::selectedtab()
 
 QScriptValue Scriptable::selecteditems()
 {
-    return m_proxy->selectedItems();
+    return toScriptValue(m_proxy->selectedItems(), m_engine);
+}
+
+QScriptValue Scriptable::currentitem()
+{
+    return m_proxy->currentItem();
 }
 
 QScriptValue Scriptable::index()

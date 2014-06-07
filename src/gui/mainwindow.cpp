@@ -1493,13 +1493,16 @@ QString MainWindow::selectedTab() const
     return getBrowser()->tabName();
 }
 
-QString MainWindow::selectedItems() const
+QList<int> MainWindow::selectedItems() const
 {
     ClipboardBrowser *browser = getBrowser();
-    QString result = QString::number(browser->currentIndex().row());
+    QModelIndexList selectedRows = browser->selectionModel()->selectedRows();
 
-    foreach (const QModelIndex &index, browser->selectionModel()->selectedRows())
-        result.append("\n" + QString::number(index.row()));
+    QList<int> result;
+    result.reserve( selectedRows.size() );
+
+    foreach (const QModelIndex &index, selectedRows)
+        result.append(index.row());
 
     return result;
 }

@@ -260,7 +260,9 @@ void ItemSyncTests::removeItems()
     // Move to test tab and select second and third item.
     RUN(Args(args) << "keys" << "RIGHT", "");
     RUN(Args(args) << "keys" << "HOME" << "DOWN" << "SHIFT+DOWN", "");
-    RUN(Args(args) << "selected", tab1.toUtf8() + "\n2\n1\n2\n");
+    RUN(Args(args) << "selectedtab", tab1.toUtf8() + "\n");
+    RUN(Args(args) << "currentitem", "2\n");
+    RUN(Args(args) << "selecteditems", "1\n2\n");
 
     // Don't accept the "Remove Items?" dialog.
     RUN(Args(args) << "keys" << m_test->shortcutToRemove(), "");

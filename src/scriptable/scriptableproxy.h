@@ -35,6 +35,7 @@
 #endif
 
 Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
+Q_DECLARE_METATYPE(QList<int>)
 
 #define BEGIN_INVOKE(methodName) \
         QMetaObject::invokeMethod(m_helper, methodName, Qt::BlockingQueuedConnection \
@@ -291,11 +292,16 @@ public slots:
 
     void currentTab() { BROWSER_RESULT(tabName()); }
 
-    bool selectItems(const QList<int> &items)
+    void currentItem() { BROWSER_RESULT(currentIndex().row()); }
+    void selectItems(const QList<int> &items)
     {
+        v = false;
+
         ClipboardBrowser *c = fetchBrowser();
         if (!c)
-            return false;
+            return;
+
+        v = true;
 
         c->clearSelection();
 
@@ -308,13 +314,10 @@ public slots:
                     c->selectionModel()->select(index, QItemSelectionModel::Select);
             }
         }
-
-        return true;
     }
 
-    void selected() { v = m_wnd->selectedTab() + '\n' + m_wnd->selectedItems(); }
     void selectedTab() { v = m_wnd->selectedTab(); }
-    void selectedItems() { v = m_wnd->selectedItems(); }
+    void selectedItems() { v = QVariant::fromValue(m_wnd->selectedItems()); }
     void index() { BROWSER_RESULT(currentIndex().row()); }
 
     void sendKeys(const QString &keys)
@@ -499,10 +502,10 @@ public:
     PROXY_METHOD_VOID_1(setCurrentTab, const QString &)
     PROXY_METHOD_0(QString, currentTab)
 
+    PROXY_METHOD_0(int, currentItem)
     PROXY_METHOD_1(bool, selectItems, const QList<int> &)
-    PROXY_METHOD_0(QString, selected)
     PROXY_METHOD_0(QString, selectedTab)
-    PROXY_METHOD_0(QString, selectedItems)
+    PROXY_METHOD_0(QList<int>, selectedItems)
     PROXY_METHOD_0(int, index)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)

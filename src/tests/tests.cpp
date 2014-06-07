@@ -475,7 +475,7 @@ public:
 
             // Remove test tabs.
             "print(2);"
-            "tabs = tab().split('\\\\n');"
+            "tabs = tab();"
             "for (i in tabs) {"
             "  if (tabs[i] != 'CLIPBOARD' && tabs[i]) {"
             "    removetab(tabs[i]);"
@@ -491,7 +491,7 @@ public:
             "print(4);"
             "print(tab());"
             "print(5);"
-            , "1234CLIPBOARD\n5");
+            , "1234CLIPBOARD5");
 
         return out;
     }
@@ -625,8 +625,8 @@ void Tests::moveAndDeleteItems()
     // select first item
     RUN(Args(args) << "keys" << "HOME", "");
     RUN(Args(args) << "selectedtab", tab + "\n");
-    RUN(Args(args) << "selecteditems", "0\n0\n");
-    RUN(Args(args) << "selected", tab + "\n0\n0\n");
+    RUN(Args(args) << "currentitem", "0\n");
+    RUN(Args(args) << "selecteditems", "0\n");
 
     // delete first item
     RUN(Args(args) << "keys" << m_test->shortcutToRemove(), "");

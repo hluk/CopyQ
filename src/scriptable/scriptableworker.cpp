@@ -33,6 +33,29 @@ Q_DECLARE_METATYPE(QByteArray*)
 #define MONITOR_LOG(msg) \
     COPYQ_LOG( QString("Scripting engine: %1").arg(msg) );
 
+namespace {
+
+QByteArray serializeScriptValue(const QScriptValue &value)
+{
+    QByteArray data;
+
+    QByteArray *bytes = qscriptvalue_cast<QByteArray*>(value.data());
+
+    if (bytes != NULL) {
+        data = *bytes;
+    } else if ( value.isArray() ) {
+        const quint32 len = value.property("length").toUInt32();
+        for (quint32 i = 0; i < len; ++i)
+            data += serializeScriptValue(value.property(i));
+    } else if ( !value.isUndefined() ) {
+        data = value.toString().toUtf8() + '\n';
+    }
+
+    return data;
+}
+
+} // namespace
+
 ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
                                    const Arguments &args, ClientSocket *socket)
     : QRunnable()
@@ -119,11 +142,7 @@ void ScriptableWorker::run()
                 response = createLogMessage("CopyQ client", exceptionText, LogError).toUtf8();
                 exitCode = CommandError;
             } else {
-                QByteArray *bytes = qscriptvalue_cast<QByteArray*>(result.data());
-                if (bytes != NULL)
-                    response = *bytes;
-                else if (!result.isUndefined())
-                    response = result.toString().toUtf8() + '\n';
+                response = serializeScriptValue(result);
                 exitCode = CommandFinished;
             }
         }

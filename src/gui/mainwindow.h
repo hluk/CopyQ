@@ -304,7 +304,7 @@ public slots:
 
     QString selectedTab() const;
 
-    QString selectedItems() const;
+    QList<int> selectedItems() const;
 
 signals:
     /** Request clipboard change. */

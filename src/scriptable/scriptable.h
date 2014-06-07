@@ -140,11 +140,11 @@ public slots:
 
     QScriptValue selectitems();
 
-    QScriptValue selected();
-
     QScriptValue selectedtab();
 
     QScriptValue selecteditems();
+
+    QScriptValue currentitem();
 
     QScriptValue index();
 
