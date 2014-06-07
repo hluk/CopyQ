@@ -29,6 +29,7 @@
 #include <QVariantMap>
 
 class QAbstractItemModel;
+class QTextEdit;
 class QFile;
 class QFont;
 class QModelIndex;
@@ -103,7 +104,7 @@ public:
      *
      * @param index  index for which the editor is opened
      *
-     * @return Editor object -- see documentaion for public signals and slots of ItemEditor class --
+     * @return Editor object -- see documentation for public signals and slots of ItemEditor class --
      *         NULL so default text editor is opened.
      */
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
@@ -124,6 +125,20 @@ protected:
      * Default implementation does nothing.
      */
     virtual void highlight(const QRegExp &, const QFont &, const QPalette &) {}
+
+    /**
+     * Filter mouse events for QTextEdit widgets.
+     *
+     * With Shift modifier pressed (item should be selected first), text in QTextEdit widget
+     * can be selected.
+     *
+     * Without Shift modifier pressed, mouse press selects item and mouse move with left button
+     * pressed drags item.
+     *
+     * Use QWidget::installEventFilter() on QTextEdit::viewport() and call this method from
+     * overridden QWidget::eventFilter().
+     */
+    bool filterMouseEvents(QTextEdit *edit, QEvent *event);
 
 private:
     QRegExp m_re;

@@ -597,7 +597,6 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     , m_label( new QTextEdit(this) )
     , m_icon( new IconWidget(icon, this) )
     , m_childItem(childItem)
-    , m_copyOnMouseUp(false)
 {
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
@@ -632,8 +631,7 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setFrameStyle(QFrame::NoFrame);
     m_label->setContextMenuPolicy(Qt::NoContextMenu);
 
-    // Selecting text copies it to clipboard.
-    connect( m_label, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
+    m_label->viewport()->installEventFilter(this);
 
     m_label->setPlainText(label);
 }
@@ -716,15 +714,9 @@ void ItemSync::updateSize(const QSize &maximumSize)
     setFixedSize(sizeHint());
 }
 
-void ItemSync::mouseReleaseEvent(QMouseEvent *e)
+bool ItemSync::eventFilter(QObject *, QEvent *event)
 {
-    if (m_copyOnMouseUp) {
-        m_copyOnMouseUp = false;
-        if ( m_label->textCursor().hasSelection() )
-            m_label->copy();
-    } else {
-        QWidget::mouseReleaseEvent(e);
-    }
+    return ItemWidget::filterMouseEvents(m_label, event);
 }
 
 void removeFormatFiles(const QString &path, const QVariantMap &mimeToExtension)
@@ -749,11 +741,6 @@ void copyFormatFiles(const QString &oldPath, const QString &newPath,
         const QString ext = extValue.toString();
         QFile::copy(oldPath + ext, newPath + ext);
     }
-}
-
-void ItemSync::onSelectionChanged()
-{
-    m_copyOnMouseUp = true;
 }
 
 class FileWatcher : public QObject {

@@ -76,7 +76,6 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
     : QTextBrowser(parent)
     , ItemWidget(this)
     , m_textDocument()
-    , m_copyOnMouseUp(false)
     , m_maximumHeight(maximumHeight)
 {
     m_textDocument.setDefaultFont(font());
@@ -90,8 +89,7 @@ ItemText::ItemText(const QString &text, bool isRichText, int maxLines, int maxim
 
     setContextMenuPolicy(Qt::NoContextMenu);
 
-    // Selecting text copies it to clipboard.
-    connect( this, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
+    viewport()->installEventFilter(this);
 
     if (isRichText)
         m_textDocument.setHtml( text.left(defaultMaxBytes) );
@@ -167,25 +165,9 @@ void ItemText::updateSize(const QSize &maximumSize)
     setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
 }
 
-void ItemText::mouseReleaseEvent(QMouseEvent *e)
+bool ItemText::eventFilter(QObject *, QEvent *event)
 {
-    if (m_copyOnMouseUp) {
-        m_copyOnMouseUp = false;
-        if ( textCursor().hasSelection() )
-            copy();
-    } else {
-        QTextBrowser::mouseReleaseEvent(e);
-    }
-}
-
-void ItemText::mouseDoubleClickEvent(QMouseEvent *e)
-{
-    e->ignore();
-}
-
-void ItemText::onSelectionChanged()
-{
-    m_copyOnMouseUp = true;
+    return ItemWidget::filterMouseEvents(this, event);
 }
 
 ItemTextLoader::ItemTextLoader()

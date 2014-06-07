@@ -44,16 +44,10 @@ protected:
 
     virtual void updateSize(const QSize &maximumSize);
 
-    virtual void mouseReleaseEvent(QMouseEvent *e);
-
-    virtual void mouseDoubleClickEvent(QMouseEvent *e);
-
-private slots:
-    void onSelectionChanged();
+    virtual bool eventFilter(QObject *, QEvent *event);
 
 private:
     QTextDocument m_textDocument;
-    bool m_copyOnMouseUp;
     int m_maximumHeight;
 };
 

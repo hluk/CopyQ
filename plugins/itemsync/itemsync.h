@@ -58,16 +58,12 @@ protected:
 
     virtual void updateSize(const QSize &maximumSize);
 
-    virtual void mouseReleaseEvent(QMouseEvent *e);
-
-private slots:
-    void onSelectionChanged();
+    virtual bool eventFilter(QObject *, QEvent *event);
 
 private:
     QTextEdit *m_label;
     QWidget *m_icon;
     QScopedPointer<ItemWidget> m_childItem;
-    bool m_copyOnMouseUp;
 };
 
 /**

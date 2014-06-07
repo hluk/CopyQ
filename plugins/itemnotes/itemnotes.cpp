@@ -57,7 +57,6 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
     , m_notesAtBottom(notesAtBottom)
     , m_timerShowToolTip(NULL)
     , m_toolTipText()
-    , m_copyOnMouseUp(false)
 {
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
@@ -82,8 +81,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
         m_notes->setFrameStyle(QFrame::NoFrame);
         m_notes->setContextMenuPolicy(Qt::NoContextMenu);
 
-        // Selecting text copies it to clipboard.
-        connect( m_notes, SIGNAL(selectionChanged()), SLOT(onSelectionChanged()) );
+        m_notes->viewport()->installEventFilter(this);
 
         m_notes->setPlainText( text.left(defaultMaxBytes) );
 
@@ -218,31 +216,6 @@ void ItemNotes::updateSize(const QSize &maximumSize)
     setFixedSize(sizeHint());
 }
 
-void ItemNotes::mousePressEvent(QMouseEvent *e)
-{
-    if (e->button() == Qt::LeftButton) {
-        if (m_notes) {
-            const QPoint pos = m_notes->viewport()->mapFrom(this, e->pos());
-            m_notes->setTextCursor( m_notes->cursorForPosition(pos) );
-            QWidget::mousePressEvent(e);
-        }
-        e->ignore();
-    } else {
-        QWidget::mousePressEvent(e);
-    }
-}
-
-void ItemNotes::mouseReleaseEvent(QMouseEvent *e)
-{
-    if (m_notes && m_copyOnMouseUp) {
-        m_copyOnMouseUp = false;
-        if ( m_notes->textCursor().hasSelection() )
-            m_notes->copy();
-    } else {
-        QWidget::mouseReleaseEvent(e);
-    }
-}
-
 void ItemNotes::paintEvent(QPaintEvent *event)
 {
     QWidget::paintEvent(event);
@@ -260,9 +233,9 @@ void ItemNotes::paintEvent(QPaintEvent *event)
     }
 }
 
-void ItemNotes::onSelectionChanged()
+bool ItemNotes::eventFilter(QObject *, QEvent *event)
 {
-    m_copyOnMouseUp = true;
+    return ItemWidget::filterMouseEvents(m_notes, event);
 }
 
 void ItemNotes::showToolTip()

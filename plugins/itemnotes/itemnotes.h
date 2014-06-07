@@ -60,14 +60,11 @@ protected:
 
     virtual void updateSize(const QSize &maximumSize);
 
-    virtual void mousePressEvent(QMouseEvent *e);
-
-    virtual void mouseReleaseEvent(QMouseEvent *e);
-
     virtual void paintEvent(QPaintEvent *event);
 
+    virtual bool eventFilter(QObject *, QEvent *event);
+
 private slots:
-    void onSelectionChanged();
     void showToolTip();
 
 private:
@@ -77,7 +74,6 @@ private:
     bool m_notesAtBottom;
     QTimer *m_timerShowToolTip;
     QString m_toolTipText;
-    bool m_copyOnMouseUp;
 };
 
 class ItemNotesLoader : public QObject, public ItemLoaderInterface

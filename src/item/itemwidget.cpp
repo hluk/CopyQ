@@ -23,11 +23,22 @@
 #include "item/itemeditor.h"
 
 #include <QAbstractItemModel>
+#include <QEvent>
 #include <QFont>
 #include <QModelIndex>
+#include <QMouseEvent>
 #include <QPalette>
 #include <QTextEdit>
 #include <QWidget>
+
+namespace {
+
+bool canMouseInteract(const QMouseEvent &event)
+{
+    return event.modifiers() & Qt::ShiftModifier;
+}
+
+} // namespace
 
 ItemWidget::ItemWidget(QWidget *widget)
     : m_re()
@@ -115,6 +126,59 @@ void ItemWidget::setCurrent(bool current)
 {
     // Propagate mouse events to item list until the item is selected.
     widget()->setAttribute(Qt::WA_TransparentForMouseEvents, !current);
+}
+
+bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
+{
+    QEvent::Type type = event->type();
+
+    switch (type) {
+    case QEvent::MouseButtonPress: {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+
+        if ( !canMouseInteract(*e) )
+            e->ignore();
+        else if (e->button() == Qt::LeftButton)
+            edit->setTextCursor( edit->cursorForPosition(e->pos()) );
+
+        break;
+    }
+
+    case QEvent::MouseMove: {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+
+        if ( !canMouseInteract(*e) )
+            e->ignore();
+
+        break;
+    }
+
+    case QEvent::MouseButtonDblClick:
+        return true;
+
+    case QEvent::MouseButtonRelease: {
+        QMouseEvent *e = static_cast<QMouseEvent*>(event);
+
+        if ( canMouseInteract(*e) && edit->textCursor().hasSelection() )
+            edit->copy();
+
+        e->ignore();
+
+        break;
+    }
+
+    default:
+        return false;
+    }
+
+    Qt::TextInteractionFlags flags = edit->textInteractionFlags();
+    if (event->isAccepted())
+        flags |= Qt::TextSelectableByMouse;
+    else
+        flags &= ~Qt::TextSelectableByMouse;
+    edit->setTextInteractionFlags(flags);
+
+    return false;
 }
 
 ItemWidget *ItemLoaderInterface::create(const QModelIndex &, QWidget *) const

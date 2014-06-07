@@ -56,6 +56,11 @@ bool getHtml(const QModelIndex &index, QString *text)
     return true;
 }
 
+bool canMouseInteract(const QMouseEvent &event)
+{
+    return event.modifiers() & Qt::ShiftModifier;
+}
+
 } // namespace
 
 ItemWeb::ItemWeb(const QString &html, int maximumHeight, QWidget *parent)
@@ -150,10 +155,23 @@ void ItemWeb::onLinkClicked(const QUrl &url)
 
 void ItemWeb::mousePressEvent(QMouseEvent *e)
 {
-    QMouseEvent e2(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
-    QCoreApplication::sendEvent( page(), &e2 );
-    QWebView::mousePressEvent(e);
-    e->ignore();
+    if ( canMouseInteract(*e) ) {
+        QMouseEvent e2(QEvent::MouseButtonPress, e->pos(), Qt::LeftButton, Qt::LeftButton, Qt::NoModifier );
+        QCoreApplication::sendEvent( page(), &e2 );
+        QWebView::mousePressEvent(e);
+        e->ignore();
+    } else {
+        e->ignore();
+        QWebView::mousePressEvent(e);
+    }
+}
+
+void ItemWeb::mouseMoveEvent(QMouseEvent *e)
+{
+    if ( !canMouseInteract(*e) )
+        e->ignore();
+    else
+        QWebView::mousePressEvent(e);
 }
 
 void ItemWeb::wheelEvent(QWheelEvent *e)
