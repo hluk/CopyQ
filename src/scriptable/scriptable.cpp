@@ -278,26 +278,6 @@ void waitFor(qint64 milliseconds)
         QApplication::processEvents( QEventLoop::WaitForMoreEvents, milliseconds - t.elapsed() );
 }
 
-class ClipboardBrowserRemoteLock
-{
-public:
-    ClipboardBrowserRemoteLock(ScriptableProxy *proxy, int rows)
-        : m_proxy(rows > 4 ? proxy : NULL)
-    {
-        if (m_proxy != NULL)
-            m_proxy->browserLock();
-    }
-
-    ~ClipboardBrowserRemoteLock()
-    {
-        if (m_proxy != NULL)
-            m_proxy->browserUnlock();
-    }
-
-private:
-    ScriptableProxy *m_proxy;
-};
-
 template <typename T>
 struct ScriptValueFactory {
     static QScriptValue create(const T &value, Scriptable *) { return QScriptValue(value); }
@@ -726,10 +706,8 @@ void Scriptable::select()
 {
     QScriptValue value = argument(0);
     int row;
-    if ( toInt(value, row) ) {
+    if ( toInt(value, row) )
         m_proxy->browserMoveToClipboard(row);
-        m_proxy->browserDelayedSaveItems();
-    }
 }
 
 void Scriptable::next()
@@ -744,14 +722,12 @@ void Scriptable::previous()
 
 void Scriptable::add()
 {
-    const int count = argumentCount();
-    ClipboardBrowserRemoteLock lock(m_proxy, count);
-    for (int i = 0; i < count; ++i) {
-        QScriptValue value = argument(i);
-        m_proxy->browserAdd( toString(value) );
-    }
+    QStringList texts;
 
-    m_proxy->browserDelayedSaveItems();
+    for (int i = 0; i < argumentCount(); ++i)
+        texts.append( toString(argument(i)) );
+
+    m_proxy->browserAdd(texts);
 }
 
 void Scriptable::insert()
@@ -766,8 +742,6 @@ void Scriptable::insert()
     QVariantMap data;
     data.insert( mimeText, toString(value).toUtf8() );
     m_proxy->browserAdd(data, row);
-
-    m_proxy->browserDelayedSaveItems();
 }
 
 void Scriptable::remove()
@@ -782,13 +756,7 @@ void Scriptable::remove()
     if ( rows.empty() )
         rows.append(0);
 
-    qSort( rows.begin(), rows.end(), qGreater<int>() );
-
-    ClipboardBrowserRemoteLock lock(m_proxy, rows.size());
-    foreach (int row, rows)
-        m_proxy->browserRemoveRow(row);
-
-    m_proxy->browserDelayedSaveItems();
+    m_proxy->browserRemoveRows(rows);
 }
 
 void Scriptable::edit()

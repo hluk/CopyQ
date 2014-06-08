@@ -245,9 +245,19 @@ public slots:
     void browserCopyNextItemToClipboard() { BROWSER(copyNextItemToClipboard()); }
     void browserCopyPreviousItemToClipboard() { BROWSER(copyPreviousItemToClipboard()); }
     void browserMoveToClipboard(int arg1) { BROWSER(moveToClipboard(arg1)); }
-    void browserDelayedSaveItems() { BROWSER(delayedSaveItems()); }
-    void browserRemoveRow(int arg1) { BROWSER(removeRow(arg1)); }
     void browserSetCurrent(int arg1) { BROWSER(setCurrent(arg1)); }
+    void browserRemoveRows(QList<int> rows)
+    {
+        ClipboardBrowser *c = fetchBrowser();
+        if (!c)
+            return;
+
+        qSort( rows.begin(), rows.end(), qGreater<int>() );
+
+        ClipboardBrowser::Lock lock(c);
+        foreach (int row, rows)
+            c->removeRow(row);
+    }
 
     void browserEditRow(int arg1) { BROWSER(editRow(arg1)); }
     void browserEditNew(const QString &arg1) { BROWSER(editNew(arg1)); }
@@ -285,6 +295,25 @@ public slots:
 
     void browserAdd(const QString &arg1) { BROWSER_RESULT(add(arg1)); }
     void browserAdd(const QVariantMap &arg1, int arg2) { BROWSER_RESULT(add(arg1, arg2)); }
+    void browserAdd(const QStringList &texts) {
+        ClipboardBrowser *c = fetchBrowser();
+        if (!c) {
+            v = false;
+            return;
+        }
+
+        v = true;
+
+        ClipboardBrowser::Lock lock(c);
+        foreach (const QString &text, texts) {
+            if ( !c->add(text) ) {
+                v = false;
+                return;
+            }
+        }
+
+        return;
+    }
 
     void browserItemData(int arg1, const QString &arg2) { BROWSER_RESULT(itemData(arg1, arg2)); }
     void browserItemData(int arg1) { BROWSER_RESULT(itemData(arg1)); }
@@ -487,13 +516,13 @@ public:
     PROXY_METHOD(browserCopyNextItemToClipboard)
     PROXY_METHOD(browserCopyPreviousItemToClipboard)
     PROXY_METHOD_VOID_1(browserMoveToClipboard, int)
-    PROXY_METHOD(browserDelayedSaveItems)
-    PROXY_METHOD_VOID_1(browserRemoveRow, int)
+    PROXY_METHOD_VOID_1(browserRemoveRows, const QList<int> &)
     PROXY_METHOD_VOID_1(browserSetCurrent, int)
     PROXY_METHOD_0(int, browserLength)
     PROXY_METHOD_1(bool, browserOpenEditor, const QByteArray &)
 
     PROXY_METHOD_1(bool, browserAdd, const QString &)
+    PROXY_METHOD_1(bool, browserAdd, const QStringList &)
     PROXY_METHOD_2(bool, browserAdd, const QVariantMap &, int)
     PROXY_METHOD_VOID_1(browserEditRow, int)
     PROXY_METHOD_VOID_1(browserEditNew, const QString &)

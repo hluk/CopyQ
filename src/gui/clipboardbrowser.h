@@ -267,10 +267,6 @@ class ClipboardBrowser : public QListView
          * @see setID, loadItems, purgeItems
          */
         bool saveItems();
-        /**
-         * Save items to configuration after an interval.
-         */
-        void delayedSaveItems();
 
         /**
          * Save items to configuration if needed.
@@ -385,6 +381,11 @@ class ClipboardBrowser : public QListView
         void filterItems();
 
     private:
+        /**
+         * Save items to configuration after an interval.
+         */
+        void delayedSaveItems();
+
         void createContextMenu();
         bool isFiltered(int row) const;
 
