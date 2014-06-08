@@ -197,7 +197,10 @@ void ActionDialog::createAction()
         }
     }
 
-    m_capturedTexts[0] = getTextData(m_data);
+    if ( !m_capturedTexts.isEmpty() )
+        m_capturedTexts.removeAt(0);
+    m_capturedTexts.insert( 0, getTextData(m_data) );
+
     Action *act = new Action( cmd, bytes, m_capturedTexts, inputFormats,
                               ui->comboBoxOutputFormat->currentText(),
                               ui->separatorEdit->text(),
