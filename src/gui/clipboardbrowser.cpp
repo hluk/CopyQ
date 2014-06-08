@@ -1466,7 +1466,13 @@ void ClipboardBrowser::removeRow(int row)
 {
     if (row < 0 && row >= model()->rowCount())
         return;
+
+    bool removingCurrent = row == currentIndex().row();
+
     model()->removeRow(row);
+
+    if (removingCurrent)
+        setCurrentIndex( index(qMin(row, length() - 1)) );
 }
 
 void ClipboardBrowser::editNotes()
@@ -2149,7 +2155,5 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
     return true;
 }
-
-typedef QSharedPointer<ScrollSaver> ScrollSaverPtr;
 
 #include "clipboardbrowser.moc"
