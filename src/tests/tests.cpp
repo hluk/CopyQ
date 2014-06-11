@@ -1357,8 +1357,7 @@ void Tests::nextPreviousTab()
     const QString testTabsList =
             "CLIPBOARD\n" +
             testTab(1) + "\n" +
-            testTab(2) + "\n" +
-            "\n";
+            testTab(2) + "\n";
     RUN(Args() << "tab", testTabsList);
 
     RUN(Args() << "selectedtab", "CLIPBOARD\n");
