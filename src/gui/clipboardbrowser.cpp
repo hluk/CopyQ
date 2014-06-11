@@ -1464,12 +1464,15 @@ void ClipboardBrowser::showItemContent()
 
 void ClipboardBrowser::removeRow(int row)
 {
-    if (row < 0 && row >= model()->rowCount())
+    const QModelIndex indexToRemove = index(row);
+    if ( !indexToRemove.isValid() )
         return;
 
-    bool removingCurrent = row == currentIndex().row();
+    bool removingCurrent = indexToRemove == currentIndex();
 
-    model()->removeRow(row);
+    Q_ASSERT(m_itemLoader);
+    m_itemLoader->itemsRemovedByUser(QList<QModelIndex>() << indexToRemove);
+    m->removeRow(row);
 
     if (removingCurrent)
         setCurrentIndex( index(qMin(row, length() - 1)) );
