@@ -70,6 +70,7 @@ bool getText(const QModelIndex &index, QString *text)
         *text = index.data(contentType::text).toString();
         return true;
     }
+
     return false;
 }
 
@@ -198,8 +199,8 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) co
 QStringList ItemTextLoader::formatsToSave() const
 {
     return m_settings.value(optionUseRichText, true).toBool()
-            ? QStringList(mimeText) << mimeHtml << mimeRichText << mimeUriList
-            : QStringList(mimeText) << mimeUriList;
+            ? QStringList(mimeText) << mimeHtml << mimeRichText
+            : QStringList(mimeText);
 }
 
 QVariantMap ItemTextLoader::applySettings()

@@ -153,13 +153,13 @@ QVariant ClipboardItem::data(int role) const
         } else if (role == contentType::hasText) {
             return m_data.contains(mimeText);
         } else if (role == contentType::hasHtml) {
-            return m_data.contains("text/html");
+            return m_data.contains(mimeHtml);
         } else if (role == contentType::hasNotes) {
             return m_data.contains(mimeItemNotes);
         } else if (role == contentType::text) {
             return getTextData(m_data);
         } else if (role == contentType::html) {
-            return getTextData(m_data, "text/html");
+            return getTextData(m_data, mimeHtml);
         } else if (role == contentType::notes) {
             return getTextData(m_data, mimeItemNotes);
         }
