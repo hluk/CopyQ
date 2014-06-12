@@ -502,6 +502,12 @@ void Scriptable::sendMessageToClient(const QByteArray &message, int exitCode)
     emit sendMessage(message, exitCode);
 }
 
+void Scriptable::sendWindowActivationCommandToClient(const QByteArray &message)
+{
+    if ( !message.isEmpty() )
+        sendMessageToClient(message, CommandActivateWindow);
+}
+
 QScriptValue Scriptable::version()
 {
     return tr(programName) + " v" COPYQ_VERSION " (hluk@email.cz)\n"
@@ -553,9 +559,7 @@ void Scriptable::show()
         return;
     }
 
-    QByteArray message;
-    if ( createPlatformNativeInterface()->serialize(m_proxy->mainWinId(), &message) )
-        sendMessageToClient(message, CommandActivateWindow);
+    sendWindowActivationCommandToClient( m_proxy->mainWinId() );
 }
 
 void Scriptable::hide()
@@ -565,11 +569,8 @@ void Scriptable::hide()
 
 void Scriptable::toggle()
 {
-    if ( m_proxy->toggleVisible() ) {
-        QByteArray message;
-        if ( createPlatformNativeInterface()->serialize(m_proxy->mainWinId(), &message) )
-            sendMessageToClient(message, CommandActivateWindow);
-    }
+    if ( m_proxy->toggleVisible() )
+        sendWindowActivationCommandToClient( m_proxy->mainWinId() );
 }
 
 void Scriptable::menu()
@@ -585,11 +586,8 @@ void Scriptable::menu()
         return;
     }
 
-    if (shown) {
-        QByteArray message;
-        if ( createPlatformNativeInterface()->serialize(m_proxy->trayMenuWinId(), &message) )
-            sendMessageToClient(message, CommandActivateWindow);
-    }
+    if (shown)
+        sendWindowActivationCommandToClient( m_proxy->mainWinId() );
 }
 
 void Scriptable::exit()

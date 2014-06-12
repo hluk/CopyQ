@@ -79,6 +79,8 @@ public:
 
     void sendMessageToClient(const QByteArray &message, int exitCode);
 
+    void sendWindowActivationCommandToClient(const QByteArray &message);
+
     QScriptEngine *engine() const { return m_engine; }
 
 public slots:

@@ -24,6 +24,7 @@
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QDialog>
 #include <QMetaObject>
@@ -135,6 +136,12 @@ Q_DECLARE_METATYPE(QList<int>)
     v = c ? QVariant(c->call) : QVariant()
 
 namespace detail {
+
+inline QByteArray serializeWindow(WId winId)
+{
+    QByteArray data;
+    return createPlatformNativeInterface()->serialize(winId, &data) ? data : QByteArray();
+}
 
 class ScriptableProxyHelper : public QObject
 {
@@ -266,8 +273,8 @@ public slots:
     void toggleVisible() { v = m_wnd->toggleVisible(); }
     void toggleMenu(const QString &tabName) { v = m_wnd->toggleMenu(fetchBrowser(tabName)); }
     void toggleMenu() { v = m_wnd->toggleMenu(); }
-    void mainWinId() { v = (qulonglong)m_wnd->winId(); }
-    void trayMenuWinId() { v = (qulonglong)m_wnd->trayMenu()->winId(); }
+    void mainWinId() { v = serializeWindow(m_wnd->winId()); }
+    void trayMenuWinId() { v = serializeWindow(m_wnd->trayMenu()->winId()); }
     void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
 
     void openActionDialog(const QVariantMap &arg1) { v = (qulonglong)m_wnd->openActionDialog(arg1); }
@@ -488,8 +495,8 @@ public:
     PROXY_METHOD_0(bool, toggleVisible)
     PROXY_METHOD_0(bool, toggleMenu)
     PROXY_METHOD_1(bool, toggleMenu, const QString &)
-    PROXY_METHOD_0(qulonglong, mainWinId)
-    PROXY_METHOD_0(qulonglong, trayMenuWinId)
+    PROXY_METHOD_0(QByteArray, mainWinId)
+    PROXY_METHOD_0(QByteArray, trayMenuWinId)
     PROXY_METHOD_1(int, findTabIndex, const QString &)
 
     PROXY_METHOD(showBrowser)
