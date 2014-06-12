@@ -219,7 +219,10 @@ bool ClipboardModel::move(int pos, int newpos)
     if( from == -1 || to == -1 )
         return false;
 
-    if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(), from < to ? to + 1 : to) )
+    if (from < to)
+        qSwap(from, to);
+
+    if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(), to) )
         return false;
 
     m_clipboardList.move(from, to);

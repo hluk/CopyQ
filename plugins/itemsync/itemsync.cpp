@@ -773,8 +773,6 @@ public:
                  this, SLOT(onRowsInserted(QModelIndex, int, int)), Qt::UniqueConnection );
         connect( m_model.data(), SIGNAL(rowsAboutToBeRemoved(QModelIndex, int, int)),
                  this, SLOT(onRowsRemoved(QModelIndex, int, int)), Qt::UniqueConnection );
-        connect( m_model.data(), SIGNAL(rowsMoved(QModelIndex,int,int,QModelIndex,int)),
-                 this, SLOT(onRowsMoved(QModelIndex,int,int,QModelIndex,int)), Qt::UniqueConnection );
         connect( m_model.data(), SIGNAL(dataChanged(QModelIndex,QModelIndex)),
                  SLOT(onDataChanged(QModelIndex,QModelIndex)), Qt::UniqueConnection );
 
@@ -899,20 +897,6 @@ private slots:
             QMap<QPersistentModelIndex, IndexData>::iterator it = m_indexData.find(index);
             Q_ASSERT( it != m_indexData.end() );
             m_indexData.erase(it);
-        }
-    }
-
-    void onRowsMoved(const QModelIndex &, int first, int last, const QModelIndex &, int)
-    {
-        // For some reason, QPersistentModelIndex are no longer valid after being moved and removed.
-        // This updates QPersistentModelIndex for moved rows.
-        foreach ( const QModelIndex &index, indexList(first, last) ) {
-            Q_ASSERT(index.isValid());
-            QMap<QPersistentModelIndex, IndexData>::iterator it = m_indexData.find(index);
-            Q_ASSERT( it != m_indexData.end() );
-            const IndexData indexData = *it;
-            m_indexData.erase(it);
-            m_indexData.insert(index, indexData);
         }
     }
 
