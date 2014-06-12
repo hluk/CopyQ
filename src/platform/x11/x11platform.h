@@ -39,6 +39,10 @@ public:
 
     PlatformWindowPtr getCurrentWindow();
 
+    PlatformWindowPtr deserialize(const QByteArray &data);
+
+    bool serialize(WId winId, QByteArray *data);
+
     bool canAutostart();
 
     /**

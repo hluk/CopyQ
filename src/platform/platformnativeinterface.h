@@ -26,6 +26,7 @@
 #include <QWidget>
 
 class QApplication;
+class QByteArray;
 class QCoreApplication;
 class QWidget;
 
@@ -86,6 +87,20 @@ public:
      * Modify settings (QSettings) before it's first used.
      */
     virtual void loadSettings() = 0;
+
+    /**
+     * Deserialize window from data (for serialization use PlatformNativeInterface::serialize()).
+     * Only used to steal window focus on client side.
+     * Returns null pointer if deserialization fails.
+     */
+    virtual PlatformWindowPtr deserialize(const QByteArray &) { return PlatformWindowPtr(); }
+
+    /**
+     * Serialize window ID (before sending it to client).
+     * Only used to steal window focus on client side.
+     * Returns true if serialization is successful.
+     */
+    virtual bool serialize(WId, QByteArray *) { return false; }
 };
 
 /**

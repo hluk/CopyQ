@@ -20,6 +20,8 @@
 #ifndef PLATFORMWINDOW_H
 #define PLATFORMWINDOW_H
 
+#include <QByteArray>
+
 class QString;
 
 /**

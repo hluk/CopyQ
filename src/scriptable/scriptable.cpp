@@ -553,8 +553,9 @@ void Scriptable::show()
         return;
     }
 
-    QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
-    sendMessageToClient(message, CommandActivateWindow);
+    QByteArray message;
+    if ( createPlatformNativeInterface()->serialize(m_proxy->mainWinId(), &message) )
+        sendMessageToClient(message, CommandActivateWindow);
 }
 
 void Scriptable::hide()
@@ -565,8 +566,9 @@ void Scriptable::hide()
 void Scriptable::toggle()
 {
     if ( m_proxy->toggleVisible() ) {
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->mainWinId());
-        sendMessageToClient(message, CommandActivateWindow);
+        QByteArray message;
+        if ( createPlatformNativeInterface()->serialize(m_proxy->mainWinId(), &message) )
+            sendMessageToClient(message, CommandActivateWindow);
     }
 }
 
@@ -584,8 +586,9 @@ void Scriptable::menu()
     }
 
     if (shown) {
-        QByteArray message = QByteArray::number((qlonglong)m_proxy->trayMenuWinId());
-        sendMessageToClient(message, CommandActivateWindow);
+        QByteArray message;
+        if ( createPlatformNativeInterface()->serialize(m_proxy->trayMenuWinId(), &message) )
+            sendMessageToClient(message, CommandActivateWindow);
     }
 }
 

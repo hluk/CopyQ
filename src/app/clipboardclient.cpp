@@ -44,8 +44,7 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 {
     if (messageCode == CommandActivateWindow) {
         COPYQ_LOG("Activating window.");
-        WId wid = (WId)(data.toLongLong());
-        PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
+        PlatformWindowPtr window = createPlatformNativeInterface()->deserialize(data);
         if (window)
             window->raise();
     } else if (messageCode == CommandReadInput) {
