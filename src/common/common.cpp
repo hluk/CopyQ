@@ -163,12 +163,17 @@ QString getTextData(const QVariantMap &data, const QString &mime)
 
 QString getTextData(const QVariantMap &data)
 {
-    return getTextData(data, mimeText);
+    return getTextData(data, data.contains(mimeText) ? mimeText : mimeUriList);
+}
+
+void setTextData(QVariantMap *data, const QString &text, const QString &mime)
+{
+    data->insert(mime, text.toUtf8());
 }
 
 void setTextData(QVariantMap *data, const QString &text)
 {
-    data->insert(mimeText, text.toUtf8());
+    setTextData(data, text, mimeText);
 }
 
 QVariantMap cloneData(const QMimeData &data, const QStringList &formats)

@@ -69,6 +69,8 @@ QString getTextData(const QVariantMap &data, const QString &mime);
 /** Helper function that calls getTextData(data, "text/plain"). */
 QString getTextData(const QVariantMap &data);
 
+void setTextData(QVariantMap *data, const QString &text, const QString &mime);
+
 void setTextData(QVariantMap *data, const QString &text);
 
 /** Clone data for given formats (text or HTML will be UTF8 encoded). */

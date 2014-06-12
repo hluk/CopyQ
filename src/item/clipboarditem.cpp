@@ -78,6 +78,7 @@ void ClipboardItem::setText(const QString &text)
     }
 
     setTextData(&m_data, text);
+
     updateDataHash();
 }
 
@@ -147,11 +148,13 @@ QVariant ClipboardItem::data(int role) const
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if ( m_data.contains(mimeText) )
             return text();
+        if ( m_data.contains(mimeUriList) )
+            return getTextData(m_data, mimeUriList);
     } else if (role >= Qt::UserRole) {
         if (role == contentType::data) {
             return m_data; // copy-on-write, so this should be fast
         } else if (role == contentType::hasText) {
-            return m_data.contains(mimeText);
+            return m_data.contains(mimeText) || m_data.contains(mimeUriList);
         } else if (role == contentType::hasHtml) {
             return m_data.contains(mimeHtml);
         } else if (role == contentType::hasNotes) {
