@@ -37,7 +37,7 @@ namespace {
 const int iconSize = 16;
 
 /// Up to this value of background lightness, icon color will be lighter.
-const int lightThreshold = 150;
+const int lightThreshold = 100;
 
 QPixmap colorizedPixmap(const QPixmap &pix, const QColor &color)
 {
