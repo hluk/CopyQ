@@ -115,7 +115,7 @@ void Notification::setOpacity(qreal opacity)
 
 void Notification::updateIcon()
 {
-    const QColor color = getDefaultIconColor(*this, QPalette::WindowText);
+    const QColor color = getDefaultIconColor(*this, QPalette::Window);
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     const int height = m_msgLabel->fontMetrics().lineSpacing() * 1.2;
     const QPixmap pixmap = iconFactory->createPixmap(m_icon, color, height);
