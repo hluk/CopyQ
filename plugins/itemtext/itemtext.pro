@@ -1,7 +1,8 @@
 include(../plugins_common.pri)
 
 HEADERS += itemtext.h
-SOURCES += itemtext.cpp
+SOURCES += itemtext.cpp \
+    ../../src/common/mimetypes.cpp
 FORMS   += itemtextsettings.ui
 TARGET   = $$qtLibraryTarget(itemtext)
 

@@ -21,6 +21,7 @@
 #include "ui_itemtextsettings.h"
 
 #include "common/contenttype.h"
+#include "common/mimetypes.h"
 
 #include <QContextMenuEvent>
 #include <QModelIndex>
@@ -40,6 +41,8 @@ const char optionUseRichText[] = "use_rich_text";
 const char optionMaximumLines[] = "max_lines";
 const char optionMaximumHeight[] = "max_height";
 
+const char mimeRichText[] = "text/richtext";
+
 bool getRichText(const QModelIndex &index, QString *text)
 {
     if ( index.data(contentType::hasHtml).toBool() ) {
@@ -48,10 +51,10 @@ bool getRichText(const QModelIndex &index, QString *text)
     }
 
     const QVariantMap dataMap = index.data(contentType::data).toMap();
-    if ( !dataMap.contains("text/richtext") )
+    if ( !dataMap.contains(mimeRichText) )
         return false;
 
-    const QByteArray data = dataMap["text/richtext"].toByteArray();
+    const QByteArray data = dataMap[mimeRichText].toByteArray();
     *text = QString::fromUtf8(data);
 
     // Remove trailing null character.
@@ -195,8 +198,8 @@ ItemWidget *ItemTextLoader::create(const QModelIndex &index, QWidget *parent) co
 QStringList ItemTextLoader::formatsToSave() const
 {
     return m_settings.value(optionUseRichText, true).toBool()
-            ? QStringList("text/plain") << QString("text/html") << QString("text/richtext")
-            : QStringList("text/plain");
+            ? QStringList(mimeText) << mimeHtml << mimeRichText << mimeUriList
+            : QStringList(mimeText) << mimeUriList;
 }
 
 QVariantMap ItemTextLoader::applySettings()
