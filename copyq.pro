@@ -38,7 +38,7 @@ macx {
     bundle_mac.target = copyq.app
     QMAKE_EXTRA_TARGETS += bundle_mac
 
-    dmg.commands = utils/create_dmg.sh
+    dmg.commands = $$_PRO_FILE_PWD_/utils/create_dmg.sh
     dmg.depends = bundle_mac
     QMAKE_EXTRA_TARGETS += dmg
 }

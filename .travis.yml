@@ -1,17 +1,29 @@
+os:
+  - linux
+  - osx
+
 language: cpp
+
 compiler:
   - gcc
   - clang
 
-install:
-  - sudo apt-get update
-  - sudo apt-get install libqt4-dev libxtst-dev openbox
+matrix:
+  exclude:
+    - os: osx
+      compiler: gcc
+
+cache:
+    apt: true
 
 before_install:
-  - sudo pip install cpp-coveralls --use-mirrors
+  - utils/travis-before-install-${TRAVIS_OS_NAME}.sh
+
+install:
+  - utils/travis-install-deps-${TRAVIS_OS_NAME}.sh
 
 script:
-  - utils/build.sh
+  - utils/build-${TRAVIS_OS_NAME}.sh
 
 after_success:
-  - utils/after_build.sh
+  - utils/after_build-${TRAVIS_OS_NAME}.sh
