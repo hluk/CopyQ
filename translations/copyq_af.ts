@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="tr_TR">
+<TS version="2.1" language="af_ZA">
 <context>
     <name>AboutDialog</name>
     <message>
@@ -948,13 +948,13 @@ CTRL and up or down key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
-        <source>Re&amp;name Tab</source>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
+        <source>Ctrl+T</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
-        <source>Ctrl+T</source>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
+        <source>Re&amp;name Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -964,12 +964,12 @@ CTRL and up or down key.</source>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
-        <source>Ctrl+W</source>
+        <source>Re&amp;move Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
-        <source>Re&amp;move Tab</source>
+        <source>Ctrl+W</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1838,6 +1838,7 @@ Set to 0 to disable.</source>
         <source>%n lines moved.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1869,6 +1870,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6004"/>
         <source>%n lines filtered.</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -1912,6 +1914,7 @@ Set to 0 to disable.</source>
         <source>%n lines indented.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -1919,12 +1922,14 @@ Set to 0 to disable.</source>
         <source>%n lines %1ed %2 time.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7044"/>
         <source>%n lines yanked.</source>
         <translation type="unfinished">
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2563,27 +2568,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="519"/>
-        <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="520"/>
-        <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="729"/>
-        <source>CopyQ Error</source>
-        <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1010"/>
-        <source>&amp;clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="391"/>
         <source>&amp;New Tab</source>
         <translation type="unfinished"></translation>
@@ -2611,6 +2595,27 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="401"/>
         <source>&amp;Change Tab Icon</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="519"/>
+        <source>&amp;Enable Clipboard Storing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="520"/>
+        <source>&amp;Disable Clipboard Storing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="729"/>
+        <source>CopyQ Error</source>
+        <comment>Notification error message title</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1010"/>
+        <source>&amp;clipboard</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2755,6 +2760,7 @@ Set to 0 to disable.</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -2808,6 +2814,7 @@ Set to 0 to disable.</source>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
+            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>

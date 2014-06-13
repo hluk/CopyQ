@@ -6,6 +6,7 @@ cache()
 SUBDIRS += src \
            plugins
 TRANSLATIONS = \
+    translations/copyq_af.ts \
     translations/copyq_cs.ts \
     translations/copyq_de.ts \
     translations/copyq_es.ts \
@@ -13,6 +14,7 @@ TRANSLATIONS = \
     translations/copyq_it.ts \
     translations/copyq_ja.ts \
     translations/copyq_pl.ts \
+    translations/copyq_pt_BR.ts \
     translations/copyq_ru.ts \
     translations/copyq_tr.ts \
     translations/copyq_uk.ts \
