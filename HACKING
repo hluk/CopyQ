@@ -55,3 +55,10 @@ Or run
 
 to get more information about tests.
 
+OS X Specific Notes
+-------------------
+
+To build a DMG file for OS X, run:
+
+    /path/to/qmake CONFIG+=release WITH_WEBKIT=1
+    make dmg

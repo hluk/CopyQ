@@ -87,6 +87,23 @@ namespace {
         });
     }
 
+    pid_t getPidForWid(WId find_wid) {
+        // Build a set of "normal" windows. This is necessary as "NSWindowList" gets things like the
+        // menubar (which can be "owned" by various apps).
+        NSArray *array = (__bridge NSArray*) CGWindowListCopyWindowInfo(kCGWindowListOptionAll | kCGWindowListExcludeDesktopElements, kCGNullWindowID);
+        for (NSDictionary* dict in array) {
+            long int pid = [(NSNumber*)[dict objectForKey:@"kCGWindowOwnerPID"] longValue];
+            unsigned long int wid = (unsigned long) [(NSNumber*)[dict objectForKey:@"kCGWindowNumber"] longValue];
+
+            if (wid == find_wid) {
+                return pid;
+            }
+        }
+
+        return 0;
+    }
+
+
     long int getTopWindow(pid_t process_pid) {
         // Build a set of "normal" windows. This is necessary as "NSWindowList" gets things like the
         // menubar (which can be "owned" by various apps).
@@ -123,15 +140,17 @@ namespace {
     }
 
     QString getTitleFromWid(long int wid) {
+        QString title;
+
         if (wid < 0) {
-            return QString();
+            return title;
         }
 
         uint32_t windowid[1] = {wid};
         CFArrayRef windowArray = CFArrayCreate ( NULL, (const void **)windowid, 1 ,NULL);
         NSArray *array = (__bridge NSArray*) CGWindowListCreateDescriptionFromArray(windowArray);
 
-        QString title;
+        // Should only be one
         for (NSDictionary* dict in array) {
             title = QString::fromNSString([dict objectForKey:@"kCGWindowName"]);
         }
@@ -144,6 +163,7 @@ namespace {
 MacPlatformWindow::MacPlatformWindow(NSRunningApplication *runningApp):
     m_windowNumber(-1)
     , m_window(0)
+    , m_runningApplication(0)
 {
     if (runningApp) {
         m_runningApplication = runningApp;
@@ -157,14 +177,23 @@ MacPlatformWindow::MacPlatformWindow(NSRunningApplication *runningApp):
 
 MacPlatformWindow::MacPlatformWindow(WId wid):
     m_windowNumber(-1)
+    , m_window(0)
+    , m_runningApplication(0)
 {
-    NSView *view = objc_cast<NSView>((id)wid);
-    if (view) {
+    // Try using wid as an actual window ID
+    pid_t pid = getPidForWid(wid);
+    if (pid != 0) {
+        m_runningApplication = [NSRunningApplication runningApplicationWithProcessIdentifier:pid];
+        m_windowNumber = wid;
+        // This will return 'nil' unless this process owns the window
+        m_window = [NSApp windowWithWindowNumber: wid];
+    } else if (NSView *view = objc_cast<NSView>((id)wid)) {
         // If given a view, its ours
         m_runningApplication = [NSRunningApplication currentApplication];
         m_window = [view window];
         [m_runningApplication retain];
         [m_window retain];
+        m_windowNumber = [m_window windowNumber];
         COPYQ_LOG("Created platform window for copyq");
     } else {
         log("Failed to convert WId to window", LogWarning);
@@ -226,7 +255,7 @@ void MacPlatformWindow::raise()
         //[m_runningApplication unhide];
 
         COPYQ_LOG(QString("Raise running app."));
-        [m_runningApplication activateWithOptions:0];
+        [m_runningApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
     } else {
         ::log(QString("Tried to raise unknown window."), LogWarning);
     }

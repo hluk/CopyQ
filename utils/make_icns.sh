@@ -1,22 +1,47 @@
 #!/bin/bash
 
-img1=src/images/icon.svg
-img2=src/images/logo.svg
-out=src/images/icon.icns
+image_dir=src/images
+tmp_dir=icon.iconset
 
-rm -rf icon.iconset
-mkdir -p icon.iconset
+img1=${image_dir}/icon.svg
+img2=${image_dir}/logo.svg
+out=${image_dir}/icon.icns
 
-convert -background transparent $img1 -resize 16x16 icon.iconset/icon_16x16.png
-convert -background transparent $img1 -resize 32x32 icon.iconset/icon_16x16@2x.png
-convert -background transparent $img2 -resize 32x32 icon.iconset/icon_32x32.png
-convert -background transparent $img2 -resize 64x64 icon.iconset/icon_32x32@2x.png
-convert -background transparent $img2 -resize 128x128 icon.iconset/icon_128x128.png
-convert -background transparent $img2 -resize 256x256 icon.iconset/icon_128x128@2x.png
-convert -background transparent $img2 -resize 256x256 icon.iconset/icon_256x256.png
-convert -background transparent $img2 -resize 512x512 icon.iconset/icon_256x256@2x.png
-convert -background transparent $img2 -resize 512x512 icon.iconset/icon_512x512.png
-convert -background transparent $img2 -resize 1024x1024 icon.iconset/icon_512x512@2x.png
+if ! which rsvg-convert &>/dev/null
+then
+    echo "This script requires rsvg-convert"
+    echo "On OS X, you can install with"
+    echo " > brew install librsvg"
+    exit 1
+fi
 
-iconutil --convert icns --output $out icon.iconset
-rm -rf icon.iconset
+rm -rf ${tmp_dir}
+mkdir -p ${tmp_dir}
+
+convert_img () {
+    img=$1
+    size=$2
+    size_name=$2
+    highdpi=$3
+    outfile=${tmp_dir}/icon_${size_name}x${size_name}
+    [[ -n "$highdpi" ]] \
+        && outfile="${outfile}@${highdpi}x" \
+        && size=$(expr $size \* $highdpi)
+    rsvg-convert -w $size -h $size -f png -o "${outfile}.png" "$img"
+    # ImageMagick doesn't get colors right..
+    # convert -background transparent $img -resize ${size}x${size} "${outfile}.png"
+}
+
+convert_img $img1 16
+convert_img $img1 16 2
+convert_img $img2 32
+convert_img $img2 32 2
+convert_img $img2 128
+convert_img $img2 128 2
+convert_img $img2 256
+convert_img $img2 256 2
+convert_img $img2 512
+convert_img $img2 512 2
+
+iconutil --convert icns --output $out ${tmp_dir}
+rm -rf ${tmp_dir}
