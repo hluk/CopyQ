@@ -172,6 +172,7 @@ public:
                 m_labelItemCount = createLabel("tab_item_counter", this);
                 setDefaultTabItemCounterStyle(m_labelItemCount);
                 m_layout->insertWidget(1, m_labelItemCount);
+                m_labelItemCount->show();
             }
 
             m_labelItemCount->setProperty("text", itemCount);
@@ -381,14 +382,18 @@ void TabTree::setTabText(int tabIndex, const QString &tabText)
     bool isCurrent = item == currentItem();
     insertTab(tabText, tabIndex, isCurrent);
 
-    const QString itemCount = item->data(0, DataItemCount).toString();
-
     item->setData(0, DataIndex, -1);
-    if ( isEmptyTabGroup(item) )
+    if ( isEmptyTabGroup(item) ) {
         deleteItem(item);
+        return;
+    }
 
+    const QString itemCount = item->data(0, DataItemCount).toString();
     if ( !itemCount.isEmpty() )
         setTabItemCount(tabText, itemCount);
+
+    updateItemSize(item);
+    updateSize();
 }
 
 void TabTree::setTabItemCount(const QString &tabName, const QString &itemCount)
@@ -402,6 +407,7 @@ void TabTree::setTabItemCount(const QString &tabName, const QString &itemCount)
     ItemLabel *label = static_cast<ItemLabel*>( itemWidget(item, 0) );
     Q_ASSERT(label);
     label->setItemCountLabel(itemCount);
+
     updateItemSize(item);
     updateSize();
 }

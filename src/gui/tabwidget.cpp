@@ -134,6 +134,8 @@ void TabWidget::setTabText(int tabIndex, const QString &tabName)
         m_tabTree->setTabText(tabIndex, tabName);
     else
         m_tabBar->setTabText(tabIndex, tabName);
+
+    updateSize();
 }
 
 void TabWidget::setTabItemCountVisible(bool visible)
@@ -141,6 +143,8 @@ void TabWidget::setTabItemCountVisible(bool visible)
     m_showTabItemCount = visible;
     for (int i = 0; i < count(); ++i)
         updateTabItemCount( tabText(i) );
+
+    updateSize();
 }
 
 void TabWidget::updateTabIcon(const QString &tabName)
@@ -511,17 +515,26 @@ void TabWidget::updateToolBar()
                 m_tabBar->setShape(QTabBar::RoundedSouth);
         }
     }
+
+    updateSize();
 }
 
 void TabWidget::updateTabItemCount(const QString &name)
 {
-    if ( isTreeModeEnabled() ) {
+    if ( isTreeModeEnabled() )
         m_tabTree->setTabItemCount(name, itemCountLabel(name));
-        m_tabTree->resize(m_tabTree->size());
-    } else {
+    else
         m_tabBar->setTabItemCount(name, itemCountLabel(name));
+
+    updateSize();
+}
+
+void TabWidget::updateSize()
+{
+    if ( isTreeModeEnabled() )
+        m_tabTree->adjustSize();
+    else
         m_tabBar->adjustSize();
-    }
 }
 
 QString TabWidget::itemCountLabel(const QString &name)

@@ -120,6 +120,7 @@ private:
     void createTabTree();
     void updateToolBar();
     void updateTabItemCount(const QString &name);
+    void updateSize();
     QString itemCountLabel(const QString &name);
 
     QToolBar *m_toolBar;
