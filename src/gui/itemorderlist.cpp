@@ -27,6 +27,7 @@
 #include <QMenu>
 #include <QScrollArea>
 #include <QScrollBar>
+#include <QDragEnterEvent>
 
 ItemOrderList::ItemOrderList(QWidget *parent)
     : QWidget(parent)
@@ -67,7 +68,16 @@ void ItemOrderList::clearItems()
 
 void ItemOrderList::appendItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget)
 {
-    QListWidgetItem *item = new QListWidgetItem(icon, label, ui->listWidgetItems);
+    insertItem(label, checked, icon, widget, -1);
+}
+
+void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &icon,
+                               QWidget *widget, int targetRow)
+{
+    QListWidget *list = ui->listWidgetItems;
+    QListWidgetItem *item = new QListWidgetItem(icon, label);
+    const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
+    list->insertItem(row, item);
     item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
 
     QScrollArea *area = new QScrollArea(ui->stackedWidget);
@@ -80,12 +90,12 @@ void ItemOrderList::appendItem(const QString &label, bool checked, const QIcon &
     ui->stackedWidget->addWidget(area);
 
     // Resize list to minimal size.
-    const int w = ui->listWidgetItems->sizeHintForColumn(0)
-                + ui->listWidgetItems->verticalScrollBar()->sizeHint().width() + 4;
-    ui->listWidgetItems->setMaximumWidth(w);
+    const int w = list->sizeHintForColumn(0)
+                + list->verticalScrollBar()->sizeHint().width() + 4;
+    list->setMaximumWidth(w);
 
-    if ( ui->listWidgetItems->currentItem() == NULL )
-        ui->listWidgetItems->setCurrentRow(0);
+    if ( list->currentItem() == NULL )
+        list->setCurrentRow(row);
 }
 
 QWidget *ItemOrderList::itemWidget(int row) const
@@ -113,6 +123,11 @@ void ItemOrderList::updateIcons()
     ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus, color, color) );
     ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown, color, color) );
     ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp, color, color) );
+}
+
+int ItemOrderList::currentRow() const
+{
+    return ui->listWidgetItems->currentIndex().row();
 }
 
 void ItemOrderList::setCurrentItem(int row)
@@ -177,6 +192,34 @@ void ItemOrderList::setItemWidgetVisible(int row, bool visible)
     QListWidgetItem *item = ui->listWidgetItems->item(row);
     Q_ASSERT(item);
     ui->listWidgetItems->setItemHidden(item, !visible);
+}
+
+void ItemOrderList::setDragAndDropValidator(const QRegExp &re)
+{
+    m_dragAndDropRe = re;
+    setAcceptDrops(m_dragAndDropRe.isValid());
+}
+
+void ItemOrderList::dragEnterEvent(QDragEnterEvent *event)
+{
+    const QString text = event->mimeData()->text();
+    if ( m_dragAndDropRe.indexIn(text) != -1 )
+        event->acceptProposedAction();
+}
+
+void ItemOrderList::dropEvent(QDropEvent *event)
+{
+    event->accept();
+
+    QListWidget *list = ui->listWidgetItems;
+    const QPoint pos = list->mapFromParent(event->pos());
+
+    const int s = list->spacing();
+    QModelIndex index = list->indexAt(pos);
+    if ( !index.isValid() )
+        index = list->indexAt( pos + QPoint(s, - 2 * s) );
+
+    emit dropped( event->mimeData()->text(), index.row() );
 }
 
 void ItemOrderList::on_pushButtonUp_clicked()

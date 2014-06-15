@@ -48,6 +48,8 @@ public:
 
     void appendItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget);
 
+    void insertItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget, int targetRow);
+
     QWidget *itemWidget(int row) const;
 
     int itemCount() const;
@@ -55,6 +57,8 @@ public:
     bool isItemChecked(int row) const;
 
     void updateIcons();
+
+    int currentRow() const;
 
     void setCurrentItem(int row);
 
@@ -71,9 +75,16 @@ public:
 
     void setItemWidgetVisible(int row, bool visible);
 
+    void setDragAndDropValidator(const QRegExp &re);
+
 signals:
     void addButtonClicked(QAction *action);
     void itemSelectionChanged();
+    void dropped(const QString &text, int row);
+
+protected:
+    void dragEnterEvent(QDragEnterEvent *event);
+    void dropEvent(QDropEvent *event);
 
 private slots:
     void on_pushButtonUp_clicked();
@@ -90,6 +101,8 @@ private:
 
     Ui::ItemOrderList *ui;
     QMap<QListWidgetItem*, QScrollArea*> m_itemWidgets;
+
+    QRegExp m_dragAndDropRe;
 };
 
 #endif // ITEMORDERLIST_H

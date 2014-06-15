@@ -376,6 +376,10 @@ ConfigurationManager::ConfigurationManager()
     ui->itemOrderListCommands->addAction(act);
     act->setShortcut(QKeySequence::Copy);
     connect(act, SIGNAL(triggered()), SLOT(copySelectedCommandsToClipboard()));
+
+    ui->itemOrderListCommands->setDragAndDropValidator(QRegExp("\\[Commands?\\]"));
+    connect( ui->itemOrderListCommands, SIGNAL(dropped(QString,int)),
+             SLOT(onCommandDropped(QString,int)) );
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -967,7 +971,7 @@ QIcon ConfigurationManager::getCommandIcon(const QString &iconString) const
     return iconFactory->iconFromFile(iconString, color);
 }
 
-void ConfigurationManager::addCommandWithoutSave(const Command &command)
+void ConfigurationManager::addCommandWithoutSave(const Command &command, int targetRow)
 {
     CommandWidget *cmdWidget = new CommandWidget(this);
 
@@ -978,24 +982,31 @@ void ConfigurationManager::addCommandWithoutSave(const Command &command)
     connect( cmdWidget, SIGNAL(nameChanged(QString)),
              this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
 
-    ui->itemOrderListCommands->appendItem(command.name, command.enable,
-                                          getCommandIcon(cmdWidget->currentIcon()), cmdWidget);
+    ui->itemOrderListCommands->insertItem(command.name, command.enable,
+                                          getCommandIcon(cmdWidget->currentIcon()), cmdWidget,
+                                          targetRow);
 }
 
-void ConfigurationManager::loadCommandsFromFile(const QString &fileName, bool unindentCommand)
+void ConfigurationManager::loadCommandsFromFile(const QString &fileName, bool unindentCommand, int targetRow)
 {
     QSettings commandsSettings(fileName, QSettings::IniFormat);
     QList<int> rowsToSelect;
 
+    const int count = ui->itemOrderListCommands->rowCount();
+    int row = targetRow >= 0 ? targetRow : count;
+
     foreach ( Command command, loadCommands(&commandsSettings) ) {
-        rowsToSelect.append(ui->itemOrderListCommands->rowCount());
+        rowsToSelect.append(row);
+
         if (unindentCommand) {
             if (command.cmd.startsWith("\n    ")) {
                 command.cmd.remove(0, 5);
                 command.cmd.replace("\n    ", "\n");
             }
         }
-        addCommandWithoutSave(command);
+
+        addCommandWithoutSave(command, row);
+        row++;
     }
 
     ui->itemOrderListCommands->setSelectedRows(rowsToSelect);
@@ -1446,6 +1457,21 @@ void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
 }
 
+void ConfigurationManager::onCommandDropped(const QString &text, int row)
+{
+    QTemporaryFile tmpfile;
+    if ( !openTemporaryFile(&tmpfile) )
+        return;
+
+    if ( !tmpfile.open() )
+        return;
+
+    tmpfile.write(text.toUtf8());
+    tmpfile.flush();
+
+    loadCommandsFromFile( tmpfile.fileName(), true, row);
+}
+
 void ConfigurationManager::copySelectedCommandsToClipboard()
 {
     const Commands commands = selectedCommands();
@@ -1508,19 +1534,8 @@ void ConfigurationManager::tryPasteCommandFromClipboard()
     const QMimeData *data = clipboardData(QClipboard::Clipboard);
     if (data && data->hasText()) {
         const QString text = data->text().trimmed();
-        if ( text.startsWith("[Command]") || text.startsWith("[Commands]") ) {
-            QTemporaryFile tmpfile;
-            if ( !openTemporaryFile(&tmpfile) )
-                return;
-
-            if ( !tmpfile.open() )
-                return;
-
-            tmpfile.write(text.toUtf8());
-            tmpfile.flush();
-
-            loadCommandsFromFile( tmpfile.fileName(), true );
-        }
+        if ( text.startsWith("[Command]") || text.startsWith("[Commands]") )
+            onCommandDropped( text, ui->itemOrderListCommands->currentRow() );
     }
 }
 

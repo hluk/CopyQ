@@ -169,6 +169,8 @@ private slots:
     void onCurrentCommandWidgetNameChanged(const QString &name);
     void on_spinBoxTrayItems_valueChanged(int value);
 
+    void onCommandDropped(const QString &text, int row);
+
     void copySelectedCommandsToClipboard();
     void tryPasteCommandFromClipboard();
 
@@ -217,9 +219,9 @@ private:
 
     QIcon getCommandIcon(const QString &iconString) const;
 
-    void addCommandWithoutSave(const Command &command);
+    void addCommandWithoutSave(const Command &command, int targetRow = -1);
 
-    void loadCommandsFromFile(const QString &fileName, bool unindentCommand = false);
+    void loadCommandsFromFile(const QString &fileName, bool unindentCommand = false, int targetRow = -1);
 
     Commands selectedCommands();
 
