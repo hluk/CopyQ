@@ -24,10 +24,11 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 
+#include <QDragEnterEvent>
 #include <QMenu>
+#include <QMimeData>
 #include <QScrollArea>
 #include <QScrollBar>
-#include <QDragEnterEvent>
 
 ItemOrderList::ItemOrderList(QWidget *parent)
     : QWidget(parent)
