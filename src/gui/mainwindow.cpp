@@ -642,6 +642,15 @@ QAction *MainWindow::addTrayAction(Actions::Id id)
     return act;
 }
 
+void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
+{
+    const QString icon = ConfigurationManager::instance()->getIconForTabName(oldName);
+    if ( !icon.isEmpty() ) {
+        ConfigurationManager::instance()->setIconForTabName(oldName, QString());
+        ConfigurationManager::instance()->setIconForTabName(newName, icon);
+    }
+}
+
 ClipboardBrowser *MainWindow::findTab(const QString &name)
 {
     int i = findTabIndex(name);
@@ -1237,6 +1246,7 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
 
         if ( (oldTabName == oldPrefix || oldTabName.startsWith(prefix)) && newPrefix != oldPrefix) {
             const QString newName = newPrefix + oldTabName.mid(oldPrefix.size());
+            updateTabIcon(newName, c->tabName());
             c->setTabName(newName);
         }
     }
@@ -2013,6 +2023,7 @@ void MainWindow::renameTab(const QString &name, int tabIndex)
 
     ClipboardBrowser *c = getBrowser(tabIndex);
     if (c) {
+        updateTabIcon(name, c->tabName());
         c->setTabName(name);
         ui->tabWidget->setTabText(tabIndex, name);
         saveTabPositions();

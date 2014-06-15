@@ -422,6 +422,8 @@ private:
 
     QAction *addTrayAction(Actions::Id id);
 
+    void updateTabIcon(const QString &newName, const QString &oldName);
+
     Ui::MainWindow *ui;
 
     QMenu *m_menuItem;
