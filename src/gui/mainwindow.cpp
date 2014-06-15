@@ -1248,6 +1248,8 @@ void MainWindow::tabsMoved(const QString &oldPrefix, const QString &newPrefix)
             const QString newName = newPrefix + oldTabName.mid(oldPrefix.size());
             updateTabIcon(newName, c->tabName());
             c->setTabName(newName);
+            if ( c->isLoaded() )
+                ui->tabWidget->setTabItemCount( newName, c->length() );
         }
     }
 
