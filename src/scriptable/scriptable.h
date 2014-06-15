@@ -52,7 +52,9 @@ public:
     /**
      * Return pointer to QByteArray or NULL.
      */
-    QByteArray *toByteArray(const QScriptValue &value) const;
+    QByteArray *getByteArray(const QScriptValue &value) const;
+
+    QByteArray makeByteArray(const QScriptValue &value) const;
 
     /**
      * Set data for item converted from @a value.
@@ -160,6 +162,9 @@ public slots:
 
     QScriptValue getitem();
     void setitem();
+
+    QScriptValue tobase64();
+    QScriptValue frombase64();
 
 public slots:
     void setInput(const QByteArray &bytes);

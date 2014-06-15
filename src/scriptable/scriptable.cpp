@@ -383,7 +383,7 @@ QByteArray Scriptable::fromString(const QString &value) const
 
 QString Scriptable::toString(const QScriptValue &value) const
 {
-    QByteArray *bytes = toByteArray(value);
+    QByteArray *bytes = getByteArray(value);
     return (bytes == NULL) ? value.toString()
                            : QString::fromUtf8( bytes->data() );
 }
@@ -408,14 +408,13 @@ QVariantMap Scriptable::toDataMap(const QScriptValue &value) const
         if ( it.flags() & QScriptValue::SkipInEnumeration )
             continue;
 
-        QByteArray *bytes = toByteArray(it.value());
-        dataMap.insert( it.name(), bytes ? *bytes : fromString(it.value().toString()) );
+        dataMap.insert( it.name(), makeByteArray(it.value()) );
     }
 
     return dataMap;
 }
 
-QByteArray *Scriptable::toByteArray(const QScriptValue &value) const
+QByteArray *Scriptable::getByteArray(const QScriptValue &value) const
 {
     if (value.scriptClass() == m_baClass)
         return qscriptvalue_cast<QByteArray*>(value.data());
@@ -423,10 +422,16 @@ QByteArray *Scriptable::toByteArray(const QScriptValue &value) const
         return NULL;
 }
 
+QByteArray Scriptable::makeByteArray(const QScriptValue &value) const
+{
+    QByteArray *data = getByteArray(value);
+    return data ? *data : fromString(value.toString());
+}
+
 bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const
 {
     if (mime == mimeItems) {
-        const QByteArray *itemData = toByteArray(value);
+        const QByteArray *itemData = getByteArray(value);
         if (!itemData)
             return false;
 
@@ -434,7 +439,7 @@ bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVar
     }
 
     if (!mime.startsWith("text/") && value.scriptClass() == m_baClass)
-        data->insert( mime, *toByteArray(value) );
+        data->insert( mime, *getByteArray(value) );
     else
         data->insert( mime, toString(value).toUtf8() );
 
@@ -965,9 +970,9 @@ QScriptValue Scriptable::str(const QScriptValue &value)
 
 QScriptValue Scriptable::input()
 {
-    if ( !toByteArray(m_input) ) {
+    if ( !getByteArray(m_input) ) {
         sendMessageToClient(QByteArray(), CommandReadInput);
-        while ( !toByteArray(m_input) )
+        while ( !getByteArray(m_input) )
             QApplication::processEvents();
     }
 
@@ -981,9 +986,7 @@ QScriptValue Scriptable::data(const QScriptValue &value)
 
 void Scriptable::print(const QScriptValue &value)
 {
-    QByteArray *message = toByteArray(value);
-    QByteArray bytes = (message != NULL) ? *message : fromString(value.toString());
-    sendMessageToClient(bytes, CommandSuccess);
+    sendMessageToClient(makeByteArray(value), CommandSuccess);
 }
 
 void Scriptable::abort()
@@ -1092,6 +1095,16 @@ void Scriptable::setitem()
 
     QVariantMap data = toDataMap( argument(1) );
     m_proxy->browserAdd(data, row);
+}
+
+QScriptValue Scriptable::tobase64()
+{
+    return QString::fromLatin1(makeByteArray(argument(0)).toBase64());
+}
+
+QScriptValue Scriptable::frombase64()
+{
+    return newByteArray(QByteArray::fromBase64(makeByteArray(argument(0))));
 }
 
 void Scriptable::setInput(const QByteArray &bytes)
