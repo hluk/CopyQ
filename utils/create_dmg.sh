@@ -5,7 +5,7 @@ set -e -x
 # Creates a .dmg file for CopyQ
 
 script_path=$(cd $(dirname $0); pwd)
-app_path=${1:-$(pwd)/copyq.app}
+app_path=${1:-$(pwd)/CopyQ.app}
 
 if ! python -c 'import Quartz' &>/dev/null || ! which dmgbuild &>/dev/null
 then
@@ -22,9 +22,8 @@ settings="${script_path}/../shared/dmg_settings.py"
 ! [[ -x "${binary}" ]] && echo "unable to execute ${binary}" && exit 1
 
 version=$(${binary} --version | grep 'CopyQ' | sed 's/.*v\([0-9.]*\) .*/\1/')
-stripped_version=$(echo "${version}" | sed 's/\.//g')
 
-dmg="${app_path}/../copyq${stripped_version}.dmg"
+dmg="${app_path}/../CopyQ-${version}.dmg"
 name="CopyQ ${version}"
 echo "Creating ${dmg} for \"${name}\""
 

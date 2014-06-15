@@ -46,3 +46,4 @@ copyq.pro.user
 *.pyc
 *.dmg
 /build
+*.qm
