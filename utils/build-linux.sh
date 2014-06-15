@@ -1,7 +1,7 @@
 #!/bin/bash
 # Build and run tests with Travis CI.
 
-set -e
+set -e -x
 
 root=$PWD
 mkdir build
@@ -23,6 +23,7 @@ export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
 sleep 3
 openbox &
+sleep 3
 
 # Clean up old configuration.
 rm -rf ~/.config/copyq.test
