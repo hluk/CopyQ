@@ -2094,7 +2094,8 @@ void MainWindow::setTabIcon()
 void MainWindow::setTabIcon(const QString &tabName)
 {
     ConfigurationManager *cm = ConfigurationManager::instance();
-    IconSelectDialog dialog( cm->getIconForTabName(tabName) );
+    IconSelectDialog dialog( cm->getIconForTabName(tabName), this );
+
     if ( dialog.exec() == QDialog::Accepted ) {
         cm->setIconForTabName( tabName, dialog.selectedIcon() );
         ui->tabWidget->updateTabIcon(tabName);

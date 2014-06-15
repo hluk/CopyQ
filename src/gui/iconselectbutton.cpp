@@ -23,6 +23,8 @@
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
 
+#include <QApplication>
+#include <QDesktopWidget>
 #include <QIcon>
 #include <QScopedPointer>
 
@@ -82,6 +84,14 @@ QSize IconSelectButton::sizeHint() const
 void IconSelectButton::onClicked()
 {
     QScopedPointer<IconSelectDialog> dialog( new IconSelectDialog(m_currentIcon, this) );
+
+    // Set position under button.
+    const QPoint dialogPosition = mapToGlobal(QPoint(0, height()));
+    const QRect availableGeometry = QApplication::desktop()->availableGeometry(dialog.data());
+    const int x = qMin(dialogPosition.x(), availableGeometry.right() - width());
+    const int y = qMin(dialogPosition.y(), availableGeometry.bottom() - height());
+    dialog->move(x, y);
+
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     connect(dialog.data(), SIGNAL(iconSelected(QString)), this, SLOT(setCurrentIcon(QString)));
     dialog->open();

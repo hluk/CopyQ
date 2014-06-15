@@ -23,8 +23,6 @@
 #include "gui/iconfont.h"
 #include "gui/icons.h"
 
-#include <QApplication>
-#include <QDesktopWidget>
 #include <QDialogButtonBox>
 #include <QFileDialog>
 #include <QListWidget>
@@ -91,15 +89,6 @@ IconSelectDialog::IconSelectDialog(const QString &defaultIcon, QWidget *parent)
 
     // Restore previous geometry.
     restoreWindowGeometry(this, false);
-
-    // Set position under parent.
-    if (parent) {
-        const QPoint dialogPosition = parent->mapToGlobal(QPoint(0, parent->height()));
-        const QRect availableGeometry = QApplication::desktop()->availableGeometry(parent);
-        const int x = qMin(dialogPosition.x(), availableGeometry.right() - width());
-        const int y = qMin(dialogPosition.y(), availableGeometry.bottom() - height());
-        move(x, y);
-    }
 }
 
 void IconSelectDialog::done(int result)
