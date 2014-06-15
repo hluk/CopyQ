@@ -379,16 +379,25 @@ void TabTree::moveTab(int from, int to)
 void TabTree::setTabText(int tabIndex, const QString &tabText)
 {
     QTreeWidgetItem *item = findTreeItem(tabIndex);
-    bool isCurrent = item == currentItem();
-    insertTab(tabText, tabIndex, isCurrent);
+    Q_ASSERT(item);
 
-    item->setData(0, DataIndex, -1);
-    if ( isEmptyTabGroup(item) ) {
-        deleteItem(item);
+    if (getTabPath(item) == tabText)
         return;
-    }
 
     const QString itemCount = item->data(0, DataItemCount).toString();
+    bool isCurrent = item == currentItem();
+
+    insertTab(tabText, tabIndex, isCurrent);
+
+    // Remove old item if it's an empty group.
+    item->setData(0, DataIndex, -1);
+    if ( isEmptyTabGroup(item) )
+        deleteItem(item);
+
+    item = findTreeItem(tabIndex);
+    Q_ASSERT(item);
+    Q_ASSERT(getTabPath(item) == tabText);
+
     if ( !itemCount.isEmpty() )
         setTabItemCount(tabText, itemCount);
 
