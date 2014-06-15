@@ -532,7 +532,7 @@ void TabWidget::updateTabItemCount(const QString &name)
 void TabWidget::updateSize()
 {
     if ( isTreeModeEnabled() )
-        m_tabTree->adjustSize();
+        m_tabTree->setFixedWidth(m_tabTree->minimumWidth());
     else
         m_tabBar->adjustSize();
 }
