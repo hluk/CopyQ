@@ -21,12 +21,14 @@ TRANSLATIONS = \
     translations/copyq_zh_CN.ts
 
 macx {
+    # Package the CopyQ plugins into the app bundle
     package_plugins.commands = \
         mkdir -p copyq.app/Contents/PlugIns/copyq/ ; \
         cp plugins/*.dylib copyq.app/Contents/PlugIns/copyq/
     package_plugins.depends = sub-plugins sub-src
     QMAKE_EXTRA_TARGETS += package_plugins
 
+    # Package the Qt frameworks into the app bundle
     package_frameworks.commands = \
         test -e copyq.app/Contents/Frameworks/QtCore.framework \
         || $$dirname(QMAKE_QMAKE)/macdeployqt copyq.app
@@ -34,10 +36,20 @@ macx {
     package_frameworks.depends = sub-src sub-plugins package_plugins
     QMAKE_EXTRA_TARGETS += package_frameworks
 
-    bundle_mac.depends = package_frameworks package_plugins
-    bundle_mac.target = copyq.app
+    # Package the translations
+    package_translations.commands = \
+        $$dirname(QMAKE_QMAKE)/lrelease $$_PRO_FILE_PWD_/copyq.pro && \
+        mkdir -p copyq.app/Contents/Resources/translations && \
+        cp $$_PRO_FILE_PWD_/translations/*.qm copyq.app/Contents/Resources/translations
+    QMAKE_EXTRA_TARGETS += package_translations
+
+    # Rename to CopyQ.app to make it look better
+    bundle_mac.depends = package_frameworks package_plugins package_translations
+    bundle_mac.target = CopyQ.app
+    package_frameworks.commands = mv copyq.app CopyQ.app
     QMAKE_EXTRA_TARGETS += bundle_mac
 
+    # Create a dmg file
     dmg.commands = $$_PRO_FILE_PWD_/utils/create_dmg.sh
     dmg.depends = bundle_mac
     QMAKE_EXTRA_TARGETS += dmg
