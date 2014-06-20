@@ -1207,8 +1207,10 @@ void MainWindow::tabChanged(int current, int previous)
 
     emit tabGroupSelected(currentIsTabGroup);
 
-    if (currentIsTabGroup)
+    if (currentIsTabGroup) {
+        m_actionHandler->setCurrentTab(QString());
         return;
+    }
 
     // update item menu (necessary for keyboard shortcuts to work)
     ClipboardBrowser *c = browser();
@@ -1223,6 +1225,8 @@ void MainWindow::tabChanged(int current, int previous)
     }
 
     setTabOrder(ui->searchBar, c);
+
+    m_actionHandler->setCurrentTab(c->tabName());
 }
 
 void MainWindow::saveTabPositions()

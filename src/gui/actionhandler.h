@@ -56,6 +56,8 @@ public:
     /** Open dialog with active commands. */
     void showProcessManagerDialog();
 
+    void setCurrentTab(const QString &tabName) { m_currentTabName = tabName; }
+
 signals:
     /** Emitted when last action finishes or first action starts. */
     void hasRunningActionChanged();
@@ -81,6 +83,7 @@ private:
     int m_lastActionId;
     QMap<QByteArray, QVariantMap> m_actionData;
     ProcessManagerDialog *m_activeActionDialog;
+    QString m_currentTabName;
 };
 
 #endif // ACTIONHANDLER_H

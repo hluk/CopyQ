@@ -148,9 +148,7 @@ public slots:
     QScriptValue selectitems();
 
     QScriptValue selectedtab();
-
     QScriptValue selecteditems();
-
     QScriptValue currentitem();
 
     QScriptValue index();
@@ -165,6 +163,9 @@ public slots:
 
     QScriptValue tobase64();
     QScriptValue frombase64();
+
+    QScriptValue open();
+    QScriptValue execute();
 
 public slots:
     void setInput(const QByteArray &bytes);

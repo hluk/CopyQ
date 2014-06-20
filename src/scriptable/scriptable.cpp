@@ -19,6 +19,7 @@
 
 #include "scriptable.h"
 
+#include "common/action.h"
 #include "common/command.h"
 #include "common/commandstatus.h"
 #include "common/common.h"
@@ -30,6 +31,7 @@
 
 #include <QApplication>
 #include <QDir>
+#include <QDesktopServices>
 #include <QElapsedTimer>
 #include <QScriptContext>
 #include <QScriptEngine>
@@ -1105,6 +1107,48 @@ QScriptValue Scriptable::tobase64()
 QScriptValue Scriptable::frombase64()
 {
     return newByteArray(QByteArray::fromBase64(makeByteArray(argument(0))));
+}
+
+QScriptValue Scriptable::open()
+{
+    for ( int i = 0; i < argumentCount(); ++i ) {
+        if ( !QDesktopServices::openUrl(QUrl(toString(argument(i)))) )
+            return false;
+    }
+
+    return true;
+}
+
+QScriptValue Scriptable::execute()
+{
+    QStringList args;
+    for ( int i = 0; i < argumentCount(); ++i )
+        args.append(toString(argument(i)));
+
+    Action action;
+    action.setCommand(args);
+    action.setOutputFormat("DATA");
+    action.start();
+
+    if ( !action.waitForStarted(5000) )
+        return QScriptValue();
+
+    while ( !action.waitForFinished(5000) && m_engine->isEvaluating() ) {}
+
+    if ( action.state() != QProcess::NotRunning && !action.waitForFinished(5000) ) {
+        action.terminate();
+        return QScriptValue();
+    }
+
+    if (action.exitStatus() != QProcess::NormalExit)
+        return QScriptValue();
+
+    QScriptValue actionResult = m_engine->newObject();
+    actionResult.setProperty( "stdout", newByteArray(action.outputData()) );
+    actionResult.setProperty( "stderr", action.errorOutput() );
+    actionResult.setProperty( "exit_code", action.exitCode() );
+
+    return actionResult;
 }
 
 void Scriptable::setInput(const QByteArray &bytes)

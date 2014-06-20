@@ -35,16 +35,7 @@ class Action : public QProcess
     Q_OBJECT
 public:
     /** Create action with command line parameters. */
-    Action(const QString &cmd, //!< Program to run.
-           const QByteArray &input, //!< Standard input contents.
-           const QStringList &capturedTexts, //!< Texts to be placed as %2..%9 in command.
-           const QStringList &inputFormats = QStringList(),
-           const QString &outputItemFormat = QString(), //!< If not empty, signal newItems() will be emitted.
-           const QString &itemSeparator = QString(),
-           //!< Separator for items on standard output.
-           const QString &outputTabName = QString(), //!< Tab name for output items.
-           const QModelIndex &index = QModelIndex() //!< Output item index.
-           );
+    Action();
 
     /** Return true only if command execution failed. */
     bool actionFailed() const { return m_failed; }
@@ -55,17 +46,34 @@ public:
     /** Return command line. */
     QString command() const;
 
+    /// Set command and texts to be placed as %2..%9 in command.
+    void setCommand(const QString &command, const QStringList &arguments = QStringList());
+
+    /// Set command with arguments.
+    void setCommand(const QStringList &arguments);
+
     /** Return input. */
     const QByteArray &input() const { return m_input; }
+    void setInput(const QByteArray &input) { m_input = input; }
 
     /** Return input formats. */
     const QStringList &inputFormats() const { return m_inputFormats; }
+    void setInputFormats(const QStringList &inputFormats) { m_inputFormats = inputFormats; }
 
     /** Return output format. */
-    QString outputFormat() const;
+    QString outputFormat() const { return m_outputFormat; }
+    void setOutputFormat(const QString &outputItemFormat) { m_outputFormat = outputItemFormat; }
+
+    /// Set separator for items on standard output.
+    void setItemSeparator(const QRegExp &itemSeparator) { m_sep = itemSeparator; }
+
+    /// Return tab name for output items.
+    QString outputTab() const { return m_tab; }
+    void setOutputTab(const QString &outputTabName) { m_tab = outputTabName; }
 
     /** Return destination index. */
     QModelIndex index() const { return m_index; }
+    void setIndex(const QModelIndex &index) { m_index = index; }
 
     /** Execute command. */
     bool start();
@@ -75,6 +83,8 @@ public:
 
     /** Return human-readable name for action. */
     QString name() const { return m_name; }
+
+    QByteArray outputData() const { return m_outputData; }
 
 public slots:
     /** Terminate (kill) process. */
@@ -104,13 +114,16 @@ private slots:
     void actionErrorOutput();
 
 private:
-    const QByteArray m_input;
-    const QRegExp m_sep;
-    const QList< QList<QStringList> > m_cmds;
-    const QString m_tab;
-    const QStringList m_inputFormats;
-    const QString m_outputFormat;
-    const QPersistentModelIndex m_index;
+    bool hasTextOutput() const;
+    bool canEmitNewItems() const;
+
+    QByteArray m_input;
+    QRegExp m_sep;
+    QList< QList<QStringList> > m_cmds;
+    QString m_tab;
+    QStringList m_inputFormats;
+    QString m_outputFormat;
+    QPersistentModelIndex m_index;
     QString m_errstr;
     QString m_lastOutput;
     QByteArray m_outputData;
@@ -118,6 +131,7 @@ private:
     QProcess *m_firstProcess; //!< First process in pipe.
     int m_currentLine;
     QString m_name;
+    QStringList m_items;
 };
 
 #endif // ACTION_H

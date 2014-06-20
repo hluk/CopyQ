@@ -201,13 +201,16 @@ void ActionDialog::createAction()
         m_capturedTexts.removeAt(0);
     m_capturedTexts.insert( 0, getTextData(m_data) );
 
-    Action *act = new Action( cmd, bytes, m_capturedTexts, inputFormats,
-                              ui->comboBoxOutputFormat->currentText(),
-                              ui->separatorEdit->text(),
-                              ui->comboBoxOutputTab->currentText(),
-                              m_index );
+    QScopedPointer<Action> act( new Action() );
+    act->setCommand(cmd, m_capturedTexts);
+    act->setInput(bytes);
+    act->setInputFormats(inputFormats);
+    act->setOutputFormat(ui->comboBoxOutputFormat->currentText());
+    act->setItemSeparator(QRegExp(ui->separatorEdit->text()));
+    act->setOutputTab(ui->comboBoxOutputTab->currentText());
+    act->setIndex(m_index);
     act->setName(m_actionName);
-    emit accepted(act, m_data);
+    emit accepted(act.take(), m_data);
 
     close();
 }

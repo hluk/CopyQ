@@ -99,6 +99,9 @@ void ActionHandler::action(Action *action, const QVariantMap &data)
     m_actionData.insert(actionId, data);
     action->setProperty("COPYQ_ACTION_ID", actionId);
 
+    if ( !action->outputFormat().isEmpty() && action->outputTab().isEmpty() )
+        action->setOutputTab(m_currentTabName);
+
     m_activeActionDialog->actionAboutToStart(action);
     COPYQ_LOG( QString("Executing: %1").arg(action->command()) );
     action->start();

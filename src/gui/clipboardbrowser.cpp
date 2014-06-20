@@ -2140,15 +2140,15 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
     // Verify that match command accepts item text.
     if ( !command.matchCmd.isEmpty() ) {
-        Action matchAction(command.matchCmd, text.toUtf8(), QStringList(text), QStringList());
+        Action matchAction;
+        matchAction.setCommand(command.matchCmd, QStringList(text));
+        matchAction.setInput(text.toUtf8());
         matchAction.start();
 
         // TODO: This should be async, i.e. create object (in new thread) that validates command and
         //       emits a signal if successful.
         if ( !matchAction.waitForFinished(4000) ) {
             matchAction.terminate();
-            if ( !matchAction.waitForFinished(1000) )
-                matchAction.kill();
             return false;
         }
 

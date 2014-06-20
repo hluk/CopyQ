@@ -19,6 +19,8 @@
 
 #include "action.h"
 
+#include "common/mimetypes.h"
+
 #include <QCoreApplication>
 
 #include <string.h>
@@ -157,24 +159,8 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
 
 } // namespace
 
-Action::Action(const QString &cmd,
-               const QByteArray &input,
-               const QStringList &capturedTexts,
-               const QStringList &inputFormats,
-               const QString &outputItemFormat,
-               const QString &itemSeparator,
-               const QString &outputTabName,
-               const QModelIndex &index)
+Action::Action()
     : QProcess()
-    , m_input(input)
-    , m_sep(index.isValid() ? QString() : itemSeparator)
-    , m_cmds(parseCommands(cmd, capturedTexts))
-    , m_tab(outputTabName)
-    , m_inputFormats(inputFormats)
-    , m_outputFormat(outputItemFormat != "text/plain" ? outputItemFormat : QString())
-    , m_index(index)
-    , m_errstr()
-    , m_lastOutput()
     , m_failed(false)
     , m_firstProcess(NULL)
     , m_currentLine(-1)
@@ -189,10 +175,8 @@ Action::Action(const QString &cmd,
     connect( this, SIGNAL(readyReadStandardError()),
              SLOT(actionErrorOutput()) );
 
-    if ( !outputItemFormat.isEmpty() ) {
-        connect( this, SIGNAL(readyReadStandardOutput()),
-                 SLOT(actionOutput()) );
-    }
+    connect( this, SIGNAL(readyReadStandardOutput()),
+             this, SLOT(actionOutput()) );
 }
 
 QString Action::command() const
@@ -209,9 +193,15 @@ QString Action::command() const
     return text.trimmed();
 }
 
-QString Action::outputFormat() const
+void Action::setCommand(const QString &command, const QStringList &arguments)
 {
-    return m_outputFormat.isEmpty() ? QString("text/plain") : m_outputFormat;
+    m_cmds = parseCommands(command, arguments);
+}
+
+void Action::setCommand(const QStringList &arguments)
+{
+    m_cmds.clear();
+    m_cmds.append(QList<QStringList>() << arguments);
 }
 
 bool Action::start()
@@ -238,6 +228,9 @@ bool Action::start()
     } else {
         m_firstProcess = this;
     }
+
+    if (m_outputFormat.isEmpty())
+        closeReadChannel(QProcess::StandardOutput);
 
     startProcess(this, cmds.last());
     return true;
@@ -267,25 +260,24 @@ void Action::actionStarted()
 
 void Action::actionFinished()
 {
-    if ( !m_outputFormat.isEmpty() ) {
-        if ( !m_outputData.isNull() ) {
+    actionOutput();
+
+    if (hasTextOutput()) {
+        if (canEmitNewItems()) {
+            m_items.append(m_lastOutput);
             if (m_index.isValid())
-                emit newItem(m_outputData, m_outputFormat, m_index);
+                emit newItems(m_items, m_index);
             else
-                emit newItem(m_outputData, m_outputFormat, m_tab);
-            m_outputData = QByteArray();
-        }
-    } else if ( !m_lastOutput.isNull() ) {
-        actionOutput();
-        if ( !m_lastOutput.isNull() ) {
-            QStringList items;
-            items.append(m_lastOutput);
-            if (m_index.isValid())
-                emit newItems(items, m_index);
-            else
-                emit newItems(items, m_tab);
+                emit newItems(m_items, m_tab);
             m_lastOutput = QString();
+            m_items.clear();
         }
+    } else if (canEmitNewItems()) {
+        if (m_index.isValid())
+            emit newItem(m_outputData, m_outputFormat, m_index);
+        else
+            emit newItem(m_outputData, m_outputFormat, m_tab);
+        m_outputData = QByteArray();
     }
 
     if ( !start() )
@@ -294,28 +286,32 @@ void Action::actionFinished()
 
 void Action::actionOutput()
 {
-    if (!m_outputFormat.isEmpty()) {
+    if (hasTextOutput()) {
+        m_lastOutput.append( QString::fromUtf8(readAll()) );
+        if ( !m_lastOutput.isEmpty() && !m_sep.isEmpty() ) {
+            // Split to items.
+            QStringList items;
+            items = m_lastOutput.split(m_sep);
+            m_lastOutput = items.takeLast();
+            if (m_index.isValid()) {
+                emit newItems(items, m_index);
+            } else if (!m_tab.isEmpty()) {
+                emit newItems(items, m_tab);
+            }
+        }
+    } else if (!m_outputFormat.isEmpty()) {
         m_outputData.append( readAll() );
-        return;
     }
-
-    m_lastOutput.append( QString::fromUtf8(readAll()) );
-    if ( m_lastOutput.isEmpty() || m_sep.isEmpty() )
-        return;
-
-    // Split to items.
-    QStringList items;
-    items = m_lastOutput.split(m_sep);
-    m_lastOutput = items.takeLast();
-    if (m_index.isValid())
-        emit newItems(items, m_index);
-    else
-        emit newItems(items, m_tab);
 }
 
 void Action::actionErrorOutput()
 {
     m_errstr += QString::fromUtf8( readAllStandardError() );
+}
+
+bool Action::hasTextOutput() const
+{
+    return !m_outputFormat.isEmpty() && m_outputFormat == mimeText;
 }
 
 void Action::terminate()
@@ -325,4 +321,11 @@ void Action::terminate()
     // if process still running: kill it
     if ( !waitForFinished(5000) )
         kill();
+}
+
+bool Action::canEmitNewItems() const
+{
+    return (m_index.isValid() || !m_tab.isEmpty())
+            && ( (!m_outputFormat.isEmpty() && !m_outputData.isNull())
+                 || (m_outputFormat == mimeText && !m_lastOutput.isEmpty()) );
 }
