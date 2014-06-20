@@ -36,6 +36,8 @@
 #include <QScriptContext>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
+#include <QUrl>
+
 #ifdef HAS_TESTS
 #   include <QSettings>
 #endif
