@@ -1508,7 +1508,7 @@ QVariantMap ItemSyncLoader::copyItem(const QAbstractItemModel &model, const QVar
             if (updateTextData) {
                 if ( !textData.isEmpty() )
                     textData.append("\n");
-                textData.append( QString(filePath)
+                textData.append( filePath.toUtf8()
                                  .replace('\\', "\\\\")
                                  .replace('\n', "\\n")
                                  .replace('\r', "\\r") );
