@@ -8,6 +8,7 @@ SUBDIRS += src \
 TRANSLATIONS = \
     translations/copyq_af.ts \
     translations/copyq_cs.ts \
+    translations/copyq_da.ts \
     translations/copyq_de.ts \
     translations/copyq_es.ts \
     translations/copyq_fr.ts \
