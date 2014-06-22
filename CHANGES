@@ -1,3 +1,13 @@
+v2.3.0
+- Support for OS X
+- Japanese translation
+- Custom icons for tabs
+- Show item count next to each tab name (optional)
+- Added Process Manager for running and finished commands
+- Scripting improvements
+- Nicer format for copied user commands
+- GUI fixes
+
 v2.2.0
 - Custom system shortcuts for any user command
 - Drag'n'drop items to tabs
