@@ -921,7 +921,8 @@ private:
     IndexData &indexData(const QModelIndex &index)
     {
         IndexDataList::iterator it = findIndexData(index);
-        Q_ASSERT( it != m_indexData.end() );
+        if ( it == m_indexData.end() )
+            return *m_indexData.insert( m_indexData.end(), IndexData(index) );
         return *it;
     }
 
@@ -936,8 +937,6 @@ private:
         const int row = qMax( 0, qMin(targetRow, m_model->rowCount()) );
         if ( m_model->insertRow(row) ) {
             const QModelIndex &index = m_model->index(row, 0);
-            Q_ASSERT(findIndexData(index) == m_indexData.end());
-            m_indexData.append(IndexData(index));
             updateIndexData(index, dataMap);
             return true;
         }
