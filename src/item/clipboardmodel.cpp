@@ -172,10 +172,11 @@ int ClipboardModel::getRowNumber(int row, bool cycle) const
 
     if (row >= n)
         return cycle ? 0 : n - 1;
-    else if (row < 0)
+
+    if (row < 0)
         return cycle ? n - 1 : 0;
-    else
-        return row;
+
+    return row;
 }
 
 void ClipboardModel::unloadItems()
@@ -219,13 +220,16 @@ bool ClipboardModel::move(int pos, int newpos)
     if( from == -1 || to == -1 )
         return false;
 
+    // QList::move() works differently from QAbstractItemModel::beginMoveRows().
+    const int qlistFrom = from;
+    const int qlistTo = to;
     if (from < to)
-        qSwap(from, to);
+        ++to;
 
     if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(), to) )
         return false;
 
-    m_clipboardList.move(from, to);
+    m_clipboardList.move(qlistFrom, qlistTo);
 
     endMoveRows();
 
