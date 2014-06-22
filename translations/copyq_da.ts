@@ -2590,7 +2590,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="399"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"/>
+        <translation>Fjern gruppen %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="401"/>
@@ -2600,94 +2600,95 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="519"/>
         <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Aktiver udklipsholder lagring</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="520"/>
         <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Deaktiver udklipsholder lagring</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="738"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
-        <translation type="unfinished"/>
+        <translation>CopyQ fejl</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1019"/>
         <source>&amp;clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Udklipsholder</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1371"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
-        <translation type="unfinished"/>
+        <translation>Udklipsholder:
+%1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1376"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
-        <translation type="unfinished"/>
+        <translation>%1 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1379"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
-        <translation type="unfinished"/>
+        <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1645"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
-        <translation type="unfinished"/>
+        <translation>Udklipsholder: %1</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1842"/>
         <location filename="../src/gui/mainwindow.cpp" line="1900"/>
         <source>CopyQ Items (*.cpq)</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ elementer (*.cpq)</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1850"/>
         <source>CopyQ Error Saving File</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">CopyQ fejl under lagring af fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1851"/>
         <source>Cannot save file %1!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Kan ikke gemme fil %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1905"/>
         <source>CopyQ Error Opening File</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ fejl ved åbning af fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="1906"/>
         <source>Cannot open file %1!</source>
-        <translation type="unfinished"/>
+        <translation>Kan ikke åbne filen %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2043"/>
         <source>Remove All Tabs in Group?</source>
-        <translation type="unfinished"/>
+        <translation>Fjerne alle faner i gruppen?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2044"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Vil du fjerne &lt;strong&gt;alle faner&lt;/strong&gt; i gruppen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2089"/>
         <source>Remove Tab?</source>
-        <translation type="unfinished"/>
+        <translation>Fjern fanen?</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2090"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Vil du fjerne fanen &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -2695,53 +2696,53 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">CopyQ Process Manager</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
         <source>Started</source>
-        <translation type="unfinished"/>
+        <translation>Startet</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="178"/>
         <source>Finished</source>
-        <translation type="unfinished"/>
+        <translation>Afsluttet</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="64"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation>Navn</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="66"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation>Status</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="127"/>
         <source>Starting</source>
-        <translation type="unfinished"/>
+        <translation>Starter</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="143"/>
         <source>Terminate</source>
-        <translation type="unfinished"/>
+        <translation>Afslutter</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="167"/>
         <source>Runnning</source>
-        <translation type="unfinished"/>
+        <translation>Kører</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="178"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation>Mislykkedes</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="188"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Fjern</translation>
     </message>
 </context>
 <context>
@@ -2749,7 +2750,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.cpp" line="308"/>
         <source>Information</source>
-        <translation type="unfinished"/>
+        <translation>Information</translation>
     </message>
 </context>
 <context>
@@ -2758,11 +2759,9 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="329"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%1 (%n linie)</numerusform>
+        <numerusform>%1 (%n linier)</numerusform>
+        </translation></message>
     <message>
         <location filename="../src/common/common.cpp" line="340"/>
         <source>&lt;IMAGE&gt;</source>
@@ -2773,19 +2772,19 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="342"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
-        <translation type="unfinished"/>
+        <translation>&lt;FILER&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="344"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
-        <translation type="unfinished"/>
+        <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="346"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
-        <translation type="unfinished"/>
+        <translation>&lt;DATA&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="358"/>
@@ -2797,17 +2796,17 @@ Set to 0 to disable.</source>
         <location filename="../src/common/common.cpp" line="360"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
-        <translation type="unfinished"/>
+        <translation>Slet</translation>
     </message>
     <message>
         <location filename="../src/common/log.cpp" line="73"/>
         <source>warning: %1</source>
-        <translation type="unfinished"/>
+        <translation>Advarsel: %1</translation>
     </message>
     <message>
         <location filename="../src/common/log.cpp" line="75"/>
         <source>ERROR: %1</source>
-        <translation type="unfinished"/>
+        <translation>FEJL: %1</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="95"/>
@@ -2822,7 +2821,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/notificationdaemon.cpp" line="98"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
-        <translation type="unfinished"/>
+        <translation>%1</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="183"/>
@@ -3376,7 +3375,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.h" line="200"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"/>
+        <translation>Fanen med angivne navn findes allerede!</translation>
     </message>
 </context>
 </TS>
