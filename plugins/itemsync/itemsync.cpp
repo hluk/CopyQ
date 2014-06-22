@@ -894,13 +894,37 @@ private slots:
     {
         foreach ( const QModelIndex &index, indexList(first, last) ) {
             Q_ASSERT(index.isValid());
-            QMap<QPersistentModelIndex, IndexData>::iterator it = m_indexData.find(index);
+            IndexDataList::iterator it = findIndexData(index);
             Q_ASSERT( it != m_indexData.end() );
             m_indexData.erase(it);
         }
     }
 
 private:
+    struct IndexData {
+        QPersistentModelIndex index;
+        QString baseName;
+        QMap<QString, Hash> formatHash;
+
+        IndexData() {}
+        explicit IndexData(const QModelIndex &index) : index(index) {}
+        bool operator==(const QModelIndex &otherIndex) const { return otherIndex == index; }
+    };
+
+    typedef QVector<IndexData> IndexDataList;
+
+    IndexDataList::iterator findIndexData(const QModelIndex &index)
+    {
+        return qFind(m_indexData.begin(), m_indexData.end(), index);
+    }
+
+    IndexData &indexData(const QModelIndex &index)
+    {
+        IndexDataList::iterator it = findIndexData(index);
+        Q_ASSERT( it != m_indexData.end() );
+        return *it;
+    }
+
     void watchPath(const QString &path)
     {
         if ( !m_watcher.files().contains(path) )
@@ -912,6 +936,8 @@ private:
         const int row = qMax( 0, qMin(targetRow, m_model->rowCount()) );
         if ( m_model->insertRow(row) ) {
             const QModelIndex &index = m_model->index(row, 0);
+            Q_ASSERT(findIndexData(index) == m_indexData.end());
+            m_indexData.append(IndexData(index));
             updateIndexData(index, dataMap);
             return true;
         }
@@ -929,7 +955,7 @@ private:
 
         const QVariantMap mimeToExtension = itemData.value(mimeExtensionMap).toMap();
 
-        IndexData &data = m_indexData[index];
+        IndexData &data = indexData(index);
 
         data.baseName = baseName;
 
@@ -1004,8 +1030,7 @@ private:
                     dataMapUnknown.insert(format, bytes);
                 } else {
                     mimeToExtension.insert(format, ext);
-                    Q_ASSERT( m_indexData.contains(index) );
-                    const Hash oldHash = m_indexData[index].formatHash.value(format);
+                    const Hash oldHash = indexData(index).formatHash.value(format);
                     if ( !saveItemFile(filePath + ext, bytes, &existingFiles, hash != oldHash) )
                         return;
                 }
@@ -1094,7 +1119,8 @@ private:
             if ( !index.isValid() )
                 continue;
 
-            const QString olderBaseName = m_indexData.value(index).baseName;
+            IndexDataList::iterator it = findIndexData(index);
+            const QString olderBaseName = (it != m_indexData.end()) ? it->baseName : QString();
             const QString oldBaseName = getBaseName(index);
             QString baseName = oldBaseName;
 
@@ -1205,18 +1231,13 @@ private:
         return copied;
     }
 
-    struct IndexData {
-        QString baseName;
-        QMap<QString, Hash> formatHash;
-    };
-
     QFileSystemWatcher m_watcher;
     QPointer<QAbstractItemModel> m_model;
     QTimer m_updateTimer;
     const QList<FileFormat> &m_formatSettings;
     QString m_path;
     bool m_valid;
-    QMap<QPersistentModelIndex, IndexData> m_indexData;
+    IndexDataList m_indexData;
 };
 
 ItemSyncLoader::ItemSyncLoader()
