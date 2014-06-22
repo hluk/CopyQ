@@ -2,10 +2,10 @@
 # Download packages from openSUSE Build Service.
 version=$1
 
-rpm_version="6.1"
+rpm_version=$2
 base_url="http://download.opensuse.org/repositories/home:/"
-user=${2:-"lukho"}
-project=${3:-"copyq"}
+user=${3:-"lukho"}
+project=${4:-"copyq"}
 url=$base_url$user:/$project
 
 urls=(
