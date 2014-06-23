@@ -47,7 +47,7 @@ macx {
     # Rename to CopyQ.app to make it look better
     bundle_mac.depends = package_frameworks package_plugins package_translations
     bundle_mac.target = CopyQ.app
-    package_frameworks.commands = mv copyq.app CopyQ.app
+    bundle_mac.commands = mv copyq.app CopyQ.app
     QMAKE_EXTRA_TARGETS += bundle_mac
 
     # Create a dmg file
