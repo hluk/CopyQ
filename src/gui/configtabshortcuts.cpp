@@ -66,6 +66,7 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::File_ImportTab, "document-open", IconFolderOpen );
     w->updateIcons( Actions::File_ExportTab, "document-save", IconSave );
     w->updateIcons( Actions::File_Preferences, "preferences-other", IconWrench );
+    w->updateIcons( Actions::File_Commands, "action", IconCog );
     w->updateIcons( Actions::File_ShowClipboardContent, "clipboard", IconPaste );
     w->updateIcons( Actions::File_ToggleClipboardStoring );
     w->updateIcons( Actions::File_ProcessManager, "", IconCogs );
@@ -106,6 +107,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::File_ImportTab, tr("&Import Tab..."), "import_tab", tr("Ctrl+I") );
     w->addAction( Actions::File_ExportTab, tr("&Export Tab..."), "export_tab", QKeySequence::Save );
     w->addAction( Actions::File_Preferences, tr("&Preferences..."), "preferences", tr("Ctrl+P") );
+    w->addAction( Actions::File_Commands, tr("C&ommands..."), "commands", tr("F6") );
     w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), "show_clipboard_content", tr("Ctrl+Shift+C") );
     w->addAction( Actions::File_ToggleClipboardStoring, tr("&Toggle Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
     w->addAction( Actions::File_ProcessManager, tr("P&rocess Manager"), "process_manager", tr("Ctrl+Shift+Z") );

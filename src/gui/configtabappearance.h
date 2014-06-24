@@ -124,6 +124,4 @@ private:
     QString m_editor;
 };
 
-bool openTemporaryFile(QTemporaryFile *file);
-
 #endif // CONFIGTABAPPEARANCE_H

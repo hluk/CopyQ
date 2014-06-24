@@ -232,7 +232,6 @@ void ClipboardBrowserShared::loadFromConfiguration()
     editor = cm->value("editor").toString();
     maxItems = cm->value("maxitems").toInt();
     textWrap = cm->value("text_wrap").toBool();
-    commands = cm->commands();
     viMode = cm->value("vi").toBool();
     saveOnReturnKey = !cm->value("edit_ctrl_return").toBool();
     moveItemOnReturnKey = cm->value("move").toBool();
@@ -1858,8 +1857,6 @@ void ClipboardBrowser::loadSettings()
     updateItemMaximumSize();
 
     d->setSaveOnEnterKey(m_sharedData->saveOnReturnKey);
-
-    createContextMenu();
 
     updateCurrentPage();
 

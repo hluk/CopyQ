@@ -45,8 +45,6 @@ class QMainWindow;
 class QSettings;
 class QSpinBox;
 
-struct Command;
-
 /**
  * Configuration management.
  * Singleton.
@@ -58,8 +56,6 @@ class ConfigurationManager : public QDialog
     friend class ClipboardServer;
 
 public:
-    typedef QList<Command> Commands;
-
     ~ConfigurationManager();
 
     /** Return singleton instance. */
@@ -99,11 +95,6 @@ public:
             const QString &oldId, //!< See ClipboardBrowser::getID().
             const QString &newId //!< See ClipboardBrowser::getID().
             );
-
-    /** Return enabled commands. */
-    Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
-    /** Create new command. */
-    void addCommand(const Command &command);
 
     /** Set available tab names (for combo boxes). */
     void setTabs(const QStringList &tabs);
@@ -156,23 +147,8 @@ private slots:
     void on_buttonBox_clicked(QAbstractButton* button);
     void onFinished(int result);
 
-    void on_itemOrderListCommands_addButtonClicked(QAction *action);
-    void on_itemOrderListCommands_itemSelectionChanged();
-    void on_pushButtonLoadCommands_clicked();
-    void on_pushButtonSaveCommands_clicked();
-
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
-
-    void on_lineEditFilterCommands_textChanged(const QString &text);
-
-    void onCurrentCommandWidgetIconChanged(const QString &iconString);
-    void onCurrentCommandWidgetNameChanged(const QString &name);
     void on_spinBoxTrayItems_valueChanged(int value);
-
-    void onCommandDropped(const QString &text, int row);
-
-    void copySelectedCommandsToClipboard();
-    void tryPasteCommandFromClipboard();
 
 private:
     ConfigurationManager();
@@ -184,12 +160,6 @@ private:
     void shortcutButtonClicked(QObject *button);
 
     /**
-     * Some example commands.
-     * @return True if command with given index available.
-     */
-    static bool defaultCommand(int index, Command *c);
-
-    /**
      * @return File name for data file with items.
      */
     QString itemFileName(const QString &id) const;
@@ -199,8 +169,6 @@ private:
     void initTabIcons();
 
     void initPluginWidgets();
-
-    void initCommandWidgets();
 
     void initLanguages();
 
@@ -216,14 +184,6 @@ private:
     void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
-
-    QIcon getCommandIcon(const QString &iconString) const;
-
-    void addCommandWithoutSave(const Command &command, int targetRow = -1);
-
-    void loadCommandsFromFile(const QString &fileName, bool unindentCommand = false, int targetRow = -1);
-
-    Commands selectedCommands();
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

@@ -975,14 +975,3 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
 
     return pix;
 }
-
-bool openTemporaryFile(QTemporaryFile *file)
-{
-    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
-    const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
-
-    file->setFileTemplate(tmpPath);
-    file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
-
-    return file->open();
-}

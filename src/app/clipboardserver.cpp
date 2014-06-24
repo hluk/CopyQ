@@ -26,6 +26,7 @@
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/commanddialog.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/mainwindow.h"
@@ -108,9 +109,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
              this, SLOT(loadSettings()) );
 
 #ifndef NO_GLOBAL_SHORTCUTS
-    connect( cm, SIGNAL(started()),
-             this, SLOT(removeGlobalShortcuts()) );
-    connect( cm, SIGNAL(stopped()),
+    connect( m_wnd, SIGNAL(commandsSaved()),
              this, SLOT(createGlobalShortcuts()) );
     createGlobalShortcuts();
 #endif
@@ -211,7 +210,7 @@ void ClipboardServer::createGlobalShortcuts()
 
     QList<QKeySequence> usedShortcuts;
 
-    foreach ( const Command &command, ConfigurationManager::instance()->commands() ) {
+    foreach ( const Command &command, loadCommands() ) {
         foreach (const QString &shortcutText, command.globalShortcuts) {
             QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {

@@ -21,6 +21,7 @@
 #include "ui_shortcutswidget.h"
 
 #include "common/command.h"
+#include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -378,7 +379,7 @@ void ShortcutsWidget::checkAmbiguousShortcuts()
     }
 
     QList<QKeySequence> commandShortcuts;
-    foreach ( const Command &command, ConfigurationManager::instance()->commands(true, false) ) {
+    foreach ( const Command &command, loadCommands(true) ) {
         foreach (const QString &shortcutText, command.shortcuts + command.globalShortcuts) {
             const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() )

@@ -26,10 +26,12 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QClipboard>
+#include <QDir>
 #include <QImage>
 #include <QLocale>
 #include <QMimeData>
 #include <QObject>
+#include <QTemporaryFile>
 #include <QThread>
 #include <QUrl>
 #if QT_VERSION < 0x050000
@@ -384,4 +386,15 @@ bool containsData(const QVariantMap &data)
     }
 
     return false;
+}
+
+bool openTemporaryFile(QTemporaryFile *file)
+{
+    const QString tmpFileName = QString("CopyQ.XXXXXX.ini");
+    const QString tmpPath = QDir( QDir::tempPath() ).absoluteFilePath(tmpFileName);
+
+    file->setFileTemplate(tmpPath);
+    file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
+
+    return file->open();
 }

@@ -54,11 +54,6 @@ void ItemOrderList::setAddMenu(QMenu *menu)
     ui->toolButtonAdd->setMenu(menu);
 }
 
-bool ItemOrderList::hasAddMenu() const
-{
-    return ui->toolButtonAdd->menu() != NULL;
-}
-
 void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();

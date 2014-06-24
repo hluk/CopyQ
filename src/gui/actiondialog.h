@@ -72,6 +72,8 @@ signals:
             const QVariantMap &data //!< Data for accepted action.
             );
 
+    void saveCommand(const Command &command);
+
 protected:
     void accept();
 
