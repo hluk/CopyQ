@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>322</width>
-    <height>698</height>
+    <width>318</width>
+    <height>694</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -160,7 +160,7 @@ Leave empty to disable this.</string>
       <item row="3" column="0">
        <widget class="QLabel" name="label_7">
         <property name="text">
-         <string>&amp;Format:</string>
+         <string>F&amp;ormat:</string>
         </property>
         <property name="buddy">
          <cstring>comboBoxInputFormat</cstring>
@@ -236,7 +236,7 @@ Leave empty to disable this.</string>
    <item>
     <widget class="QGroupBox" name="groupBoxCommand">
      <property name="title">
-      <string>Comma&amp;nd</string>
+      <string>Comman&amp;d</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <property name="leftMargin">
@@ -292,7 +292,7 @@ Leave empty to disable this.</string>
         <item row="0" column="0">
          <widget class="QLabel" name="label_6">
           <property name="text">
-           <string>Copy to &amp;tab:</string>
+           <string>Co&amp;py to tab:</string>
           </property>
           <property name="buddy">
            <cstring>comboBoxCopyToTab</cstring>
@@ -442,7 +442,7 @@ Note: If this is applied automatically, no other automatic commands are executed
            <string>Change item, don't create any new items.</string>
           </property>
           <property name="text">
-           <string>T&amp;ransform</string>
+           <string>Tr&amp;ansform</string>
           </property>
          </widget>
         </item>
