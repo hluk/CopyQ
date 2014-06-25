@@ -27,6 +27,7 @@
 
 #include <QMap>
 #include <QProcess>
+#include <QTimer>
 #include <QThreadPool>
 #include <QVariantMap>
 #include <QWidget>
@@ -119,6 +120,8 @@ private slots:
     /** Quit application, but ask to cancel exit if there are any active commands. */
     void maybeQuit();
 
+    void onIgnoreKeysTimout();
+
 private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
@@ -129,6 +132,7 @@ private:
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
     QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;
+    QTimer m_ignoreKeysTimer;
 };
 
 #endif // CLIPBOARDSERVER_H
