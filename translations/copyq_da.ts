@@ -10,12 +10,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="123"/>
         <source>Clipboard Manager</source>
-        <translation type="unfinished"/>
+        <translation>Udklipsholder administration</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="128"/>
         <source>Author</source>
-        <translation type="unfinished">Forfatter</translation>
+        <translation>Forfatter</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="129"/>
@@ -25,7 +25,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="130"/>
         <source>Web</source>
-        <translation type="unfinished">Web</translation>
+        <translation>Web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="131"/>
@@ -65,7 +65,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="175"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation type="unfinished"/>
+        <translation>Frit web-baseret oversættelses administration system</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="180"/>
@@ -80,17 +80,17 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Item list navigation</source>
-        <translation type="unfinished"/>
+        <translation>Liste navigation</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Op/ned, side op/ned, Home eller End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="186"/>
         <source>Tab navigation</source>
-        <translation type="unfinished"/>
+        <translation>Fan navigation</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="187"/>
@@ -111,7 +111,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="192"/>
         <source>Reset search or hide window</source>
-        <translation type="unfinished"/>
+        <translation>Nulstil søgning eller skjul vindue</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="192"/>
@@ -126,7 +126,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Put selected items into clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Læg markerede elementer i Udklipsholder</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="194"/>
@@ -136,7 +136,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="195"/>
         <source>Change item display format</source>
-        <translation type="unfinished"/>
+        <translation>Ændre visningsformat</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="195"/>
@@ -159,7 +159,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">CopyQ handling Dialog</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="20"/>
@@ -169,17 +169,17 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="36"/>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation type="unfinished"/>
+        <translation>Ko&amp;mando (%1 er teksten i valgte elementer):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="61"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"/>
+        <translation>Standard &amp;input:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="71"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"/>
+        <translation>Gem standard o&amp;utput:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="81"/>
@@ -189,7 +189,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="88"/>
         <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="unfinished"/>
+        <translation>Opret elementer fra standard output af programmet (for at deaktivere).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="105"/>
@@ -210,12 +210,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="126"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>Output fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="136"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation type="unfinished"/>
+        <translation>Gemme elementer i fanen med følgende navn (tom gemmer i den aktuelle fane)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="295"/>
@@ -226,7 +226,8 @@
         <location filename="../src/gui/actiondialog.cpp" line="296"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation type="unfinished"/>
+        <translation>Kommandoen blev gemt og kan tilgås fra menuen.
+Du kan ændre kommandoen i indstillinget.</translation>
     </message>
 </context>
 <context>
@@ -242,7 +243,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/actionhandler.cpp" line="126"/>
         <source>Exit code: %1
 </source>
-        <translation type="unfinished"/>
+        <translation>Exit code: %1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="148"/>
@@ -270,12 +272,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="2053"/>
         <source>Discard Changes?</source>
-        <translation type="unfinished"/>
+        <translation>Kasser ændringer?</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="2054"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Vil du &lt;strong&gt;slette ændringer&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -316,7 +318,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="48"/>
         <source>CopyQ Item Content</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ element indhold</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="99"/>
@@ -383,7 +385,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="81"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Vis kommando i kontekstmenuen i matchende elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="84"/>
@@ -393,18 +395,19 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="93"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Global genvej:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="128"/>
         <source>Match Items</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Matche elementer</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="152"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"/>
+        <translation>Data af denne MIME-type vil blive sendt til standard input kommando.
+Lad være tom for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="163"/>
@@ -450,7 +453,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="239"/>
         <source>Comma&amp;nd</source>
-        <translation type="unfinished"/>
+        <translation>Komma&amp;ndo</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="257"/>
@@ -627,125 +630,127 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"/>
         <source>Show &amp;Number</source>
-        <translation type="unfinished"/>
+        <translation>Vis &amp;Nummer</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"/>
         <source>Show scrollbars</source>
-        <translation type="unfinished"/>
+        <translation>Vis rullepaneler</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>Sc&amp;rollbars</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Rullepaneler</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible.</source>
-        <translation type="unfinished"/>
+        <translation>Brug ikoner fra skrivebordsmiljø når det er muligt.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
-        <translation type="unfinished"/>
+        <translation>S&amp;ystem ikoner</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Antialias</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>Set colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"/>
+        <translation>Angiv farver for faner, værktøjslinjen og menuerne</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation type="unfinished"/>
+        <translation>Nulstil tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
         <source>Theme:</source>
-        <translation type="unfinished"/>
+        <translation>Tema:</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation type="unfinished"/>
+        <translation>Ind&amp;læs tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation type="unfinished"/>
+        <translation>Gem tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"/>
+        <translation>Rediger aktuelle tema i ekstern editor</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation type="unfinished"/>
+        <translation>Re&amp;diger tema</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
         <source>Preview:</source>
-        <translation type="unfinished"/>
+        <translation>Forhåndsvisning:</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="184"/>
         <source>item</source>
         <comment>Search expression in preview in Appearance tab.</comment>
-        <translation type="unfinished"/>
+        <translation>Element</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="188"/>
         <source>Search string is %1.</source>
-        <translation type="unfinished"/>
+        <translation>Søgestrengen er %1.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"/>
+        <translation>Vælg et element og
+tryk F2 for at redigere.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="191"/>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished"/>
+        <translation>Vælg elementer, og flyt dem med 
+CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"/>
         <source>Remove item with Delete key.</source>
-        <translation type="unfinished"/>
+        <translation>Fjern element med Slettetasten.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="195"/>
         <source>Example item %1</source>
-        <translation type="unfinished"/>
+        <translation>Eksempel element %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="197"/>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"/>
+        <translation>Nogle tilfældige noter (SKIFT + F2 for at redigere)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="466"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"/>
+        <translation>Åben temafilen</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="478"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"/>
+        <translation>Gem temafil som</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="502"/>
         <source>No External Editor</source>
-        <translation type="unfinished"/>
+        <translation>Ingen ekstern Editor</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="503"/>
@@ -756,7 +761,7 @@ CTRL and up or down key.</source>
         <location filename="../src/gui/configtabappearance.cpp" line="712"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"/>
+        <translation>Abc</translation>
     </message>
 </context>
 <context>
@@ -764,43 +769,43 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="105"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Nyt element</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>&amp;Import Tab...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Importer fanen…</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="107"/>
         <source>&amp;Export Tab...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Eksporter fanen…</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="108"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"/>
+        <translation>Indstillinger…</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="108"/>
         <location filename="../src/tests/tests.cpp" line="1413"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"/>
+        <translation>Vis Udklipsholder-indhold</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
@@ -810,37 +815,37 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"/>
+        <translation>P&amp;roces administrator</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="111"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+Z</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="112"/>
         <source>E&amp;xit</source>
-        <translation type="unfinished"/>
+        <translation>Afslut</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="112"/>
         <source>Ctrl+Q</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Ctrl+Q</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Sorter de markerede elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>Ctrl+Shift+S</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="115"/>
@@ -850,22 +855,22 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="115"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="116"/>
         <source>&amp;Paste Items</source>
-        <translation type="unfinished"/>
+        <translation>Indsæt elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="117"/>
         <source>&amp;Copy Selected Items</source>
-        <translation type="unfinished"/>
+        <translation>Kopiere markerede elementer</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Flyt til Udklipsholder</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
@@ -993,7 +998,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"/>
         <source>CopyQ Configuration</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ indstillinger</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="33"/>
@@ -1013,7 +1018,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"/>
         <source>W&amp;rap long text</source>
-        <translation type="unfinished"/>
+        <translation>Omb&amp;ryd lange tekster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"/>
@@ -1073,7 +1078,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="193"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation type="unfinished"/>
+        <translation>Gem tekst markeret med musen (primær markering) i historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="196"/>
@@ -1083,7 +1088,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="203"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Gør det muligt for at indsætte mus markeringer med genvej (normalt Ctrl + V eller Skift + Insert).</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="206"/>
@@ -1330,17 +1335,17 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="796"/>
         <source>Show items from current tab in content menu</source>
-        <translation type="unfinished"/>
+        <translation>Vis elementer fra aktuelle fane i indholdsmenuen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="799"/>
         <source>Show c&amp;urrent tab in menu,</source>
-        <translation type="unfinished"/>
+        <translation>Vis akt&amp;uelle fane i menuen,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="806"/>
         <source>or choose o&amp;ther tab:</source>
-        <translation type="unfinished"/>
+        <translation>eller vælg en anden fane:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="822"/>
@@ -1360,7 +1365,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="857"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Vis billedeksempel ved siden af menupunkter</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="860"/>
@@ -1380,17 +1385,17 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="969"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Position på skærmen for meddelelser</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="973"/>
         <source>Top</source>
-        <translation type="unfinished"/>
+        <translation>Top</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="978"/>
         <source>Bottom</source>
-        <translation type="unfinished"/>
+        <translation>Bund</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="983"/>
