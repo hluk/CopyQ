@@ -563,103 +563,103 @@ La orden se puede configurar en preferencias.</translation>
         <translation type="unfinished">Nueva orden</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="634"/>
+        <location filename="../src/gui/commanddialog.cpp" line="664"/>
         <source>Ignore items with no or single character</source>
         <translation type="unfinished">Ignorar entradas sin ningún carácter o con un solo carácter</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="640"/>
+        <location filename="../src/gui/commanddialog.cpp" line="670"/>
         <source>Open in &amp;Browser</source>
         <translation type="unfinished">Abrir en &amp;Navegador</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="647"/>
+        <location filename="../src/gui/commanddialog.cpp" line="677"/>
         <source>Paste as Plain Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="653"/>
+        <location filename="../src/gui/commanddialog.cpp" line="683"/>
         <source>Shift+Return</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="655"/>
+        <location filename="../src/gui/commanddialog.cpp" line="685"/>
         <source>Autoplay videos</source>
         <translation type="unfinished">Reproducir vídeos automáticamente</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="663"/>
+        <location filename="../src/gui/commanddialog.cpp" line="693"/>
         <source>Copy URL (web address) to other tab</source>
         <translation type="unfinished">Copiar URL (dirección web) a otra pestaña</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="669"/>
+        <location filename="../src/gui/commanddialog.cpp" line="699"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation type="unfinished">Crear imagen en miniatura (necesita ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="676"/>
+        <location filename="../src/gui/commanddialog.cpp" line="706"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation type="unfinished">Crear código QR a partir de una URL (necesita qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="684"/>
+        <location filename="../src/gui/commanddialog.cpp" line="714"/>
         <source>Add to &amp;TODO tab</source>
         <translation type="unfinished">Añadir a pestaña &amp;TODO</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="690"/>
+        <location filename="../src/gui/commanddialog.cpp" line="720"/>
         <source>Move to &amp;TODO tab</source>
         <translation type="unfinished">Mover a pestaña &amp;TODO</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="697"/>
+        <location filename="../src/gui/commanddialog.cpp" line="727"/>
         <source>Ignore copied files</source>
         <translation type="unfinished">Ignorar ficheros copiados</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="704"/>
+        <location filename="../src/gui/commanddialog.cpp" line="734"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation type="unfinished">Ignorar ventana *&quot;Contraseña&quot;*</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="705"/>
+        <location filename="../src/gui/commanddialog.cpp" line="735"/>
         <source>Password</source>
         <translation type="unfinished">Contraseña</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="712"/>
+        <location filename="../src/gui/commanddialog.cpp" line="742"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation type="unfinished">Encriptar (requiere GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="719"/>
-        <location filename="../src/gui/commanddialog.cpp" line="728"/>
+        <location filename="../src/gui/commanddialog.cpp" line="749"/>
+        <location filename="../src/gui/commanddialog.cpp" line="758"/>
         <source>Ctrl+L</source>
         <translation type="unfinished">Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="721"/>
+        <location filename="../src/gui/commanddialog.cpp" line="751"/>
         <source>Decrypt</source>
         <translation type="unfinished">Desencriptar</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="730"/>
+        <location filename="../src/gui/commanddialog.cpp" line="760"/>
         <source>Decrypt and Copy</source>
         <translation type="unfinished">Desencriptar y Copiar</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="735"/>
+        <location filename="../src/gui/commanddialog.cpp" line="765"/>
         <source>Ctrl+Shift+L</source>
         <translation type="unfinished">Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="737"/>
+        <location filename="../src/gui/commanddialog.cpp" line="767"/>
         <source>Move to Trash</source>
         <translation type="unfinished">Tirar a la Papelera</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="740"/>
+        <location filename="../src/gui/commanddialog.cpp" line="770"/>
         <source>(trash)</source>
         <translation type="unfinished">(papelera)</translation>
     </message>
@@ -1513,7 +1513,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
         <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
-&lt;p&gt;If supported on your system, global shortcuts (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
+&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

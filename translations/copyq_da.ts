@@ -417,103 +417,103 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation type="unfinished">Ny kommando</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="634"/>
+        <location filename="../src/gui/commanddialog.cpp" line="664"/>
         <source>Ignore items with no or single character</source>
         <translation type="unfinished">Ignorere elementer med ingen eller enkelt tegn</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="640"/>
+        <location filename="../src/gui/commanddialog.cpp" line="670"/>
         <source>Open in &amp;Browser</source>
         <translation type="unfinished">Åbn i &amp;Browser</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="647"/>
+        <location filename="../src/gui/commanddialog.cpp" line="677"/>
         <source>Paste as Plain Text</source>
         <translation type="unfinished">Indsæt som almindelig tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="653"/>
+        <location filename="../src/gui/commanddialog.cpp" line="683"/>
         <source>Shift+Return</source>
         <translation type="unfinished">Skift+Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="655"/>
+        <location filename="../src/gui/commanddialog.cpp" line="685"/>
         <source>Autoplay videos</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="663"/>
+        <location filename="../src/gui/commanddialog.cpp" line="693"/>
         <source>Copy URL (web address) to other tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="669"/>
+        <location filename="../src/gui/commanddialog.cpp" line="699"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation type="unfinished">Opret miniature (behøver ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="676"/>
+        <location filename="../src/gui/commanddialog.cpp" line="706"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation type="unfinished">Opret QR kode fra URL (behøver qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="684"/>
+        <location filename="../src/gui/commanddialog.cpp" line="714"/>
         <source>Add to &amp;TODO tab</source>
         <translation type="unfinished">Tilføj til &amp;TODO fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="690"/>
+        <location filename="../src/gui/commanddialog.cpp" line="720"/>
         <source>Move to &amp;TODO tab</source>
         <translation type="unfinished">Flyt til &amp;TODO fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="697"/>
+        <location filename="../src/gui/commanddialog.cpp" line="727"/>
         <source>Ignore copied files</source>
         <translation type="unfinished">Ignorer kopierede filer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="704"/>
+        <location filename="../src/gui/commanddialog.cpp" line="734"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="705"/>
+        <location filename="../src/gui/commanddialog.cpp" line="735"/>
         <source>Password</source>
         <translation type="unfinished">Adgangskode</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="712"/>
+        <location filename="../src/gui/commanddialog.cpp" line="742"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation type="unfinished">Krypter (behøver GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="719"/>
-        <location filename="../src/gui/commanddialog.cpp" line="728"/>
+        <location filename="../src/gui/commanddialog.cpp" line="749"/>
+        <location filename="../src/gui/commanddialog.cpp" line="758"/>
         <source>Ctrl+L</source>
         <translation type="unfinished">Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="721"/>
+        <location filename="../src/gui/commanddialog.cpp" line="751"/>
         <source>Decrypt</source>
         <translation type="unfinished">Dekryptere</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="730"/>
+        <location filename="../src/gui/commanddialog.cpp" line="760"/>
         <source>Decrypt and Copy</source>
         <translation type="unfinished">Dekryptere og kopi</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="735"/>
+        <location filename="../src/gui/commanddialog.cpp" line="765"/>
         <source>Ctrl+Shift+L</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="737"/>
+        <location filename="../src/gui/commanddialog.cpp" line="767"/>
         <source>Move to Trash</source>
         <translation type="unfinished">Flyt til papirkurven</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="740"/>
+        <location filename="../src/gui/commanddialog.cpp" line="770"/>
         <source>(trash)</source>
         <translation type="unfinished">(Papirkurv)</translation>
     </message>
@@ -1204,7 +1204,7 @@ CTRL og op eller ned pil.</translation>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
         <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
-&lt;p&gt;If supported on your system, global shortcuts (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
+&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
     </message>
 </context>

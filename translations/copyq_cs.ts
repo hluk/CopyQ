@@ -564,103 +564,103 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>Nový příkaz</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="634"/>
+        <location filename="../src/gui/commanddialog.cpp" line="664"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignoruj prvky s žádným nebo jedním znakem</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="640"/>
+        <location filename="../src/gui/commanddialog.cpp" line="670"/>
         <source>Open in &amp;Browser</source>
         <translation>&amp;Otevři v prohlížeči</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="647"/>
+        <location filename="../src/gui/commanddialog.cpp" line="677"/>
         <source>Paste as Plain Text</source>
         <translation>Vlož jako prostý text</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="653"/>
+        <location filename="../src/gui/commanddialog.cpp" line="683"/>
         <source>Shift+Return</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="655"/>
+        <location filename="../src/gui/commanddialog.cpp" line="685"/>
         <source>Autoplay videos</source>
         <translation>Automaticky přehrát</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="663"/>
+        <location filename="../src/gui/commanddialog.cpp" line="693"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Zkopíruj URL (web. adresu) do jiné záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="669"/>
+        <location filename="../src/gui/commanddialog.cpp" line="699"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Vytvoř náhled (vyžaduje ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="676"/>
+        <location filename="../src/gui/commanddialog.cpp" line="706"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Výtvoř QR kód z URL (vyžaduje qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="684"/>
+        <location filename="../src/gui/commanddialog.cpp" line="714"/>
         <source>Add to &amp;TODO tab</source>
         <translation>Přidej do &amp;TODO záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="690"/>
+        <location filename="../src/gui/commanddialog.cpp" line="720"/>
         <source>Move to &amp;TODO tab</source>
         <translation>Přesuň do &amp;TODO záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="697"/>
+        <location filename="../src/gui/commanddialog.cpp" line="727"/>
         <source>Ignore copied files</source>
         <translation>Ignoruj kopírované soubory</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="704"/>
+        <location filename="../src/gui/commanddialog.cpp" line="734"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignoruj *&quot;Heslo&quot;* okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="705"/>
+        <location filename="../src/gui/commanddialog.cpp" line="735"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="712"/>
+        <location filename="../src/gui/commanddialog.cpp" line="742"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Zašifrovat (vyžaduje GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="719"/>
-        <location filename="../src/gui/commanddialog.cpp" line="728"/>
+        <location filename="../src/gui/commanddialog.cpp" line="749"/>
+        <location filename="../src/gui/commanddialog.cpp" line="758"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="721"/>
+        <location filename="../src/gui/commanddialog.cpp" line="751"/>
         <source>Decrypt</source>
         <translation>Dešifrovat</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="730"/>
+        <location filename="../src/gui/commanddialog.cpp" line="760"/>
         <source>Decrypt and Copy</source>
         <translation>Dešifrovat a kopírovat</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="735"/>
+        <location filename="../src/gui/commanddialog.cpp" line="765"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="737"/>
+        <location filename="../src/gui/commanddialog.cpp" line="767"/>
         <source>Move to Trash</source>
         <translation>Přesunout do koše</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="740"/>
+        <location filename="../src/gui/commanddialog.cpp" line="770"/>
         <source>(trash)</source>
         <translation>(koš)</translation>
     </message>
@@ -1524,11 +1524,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Vložit a zkopírovat předchozí</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
         <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
 &lt;p&gt;If supported on your system, global shortcuts (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Zde je možné změnit jakoukoliv aplikační klávesovou zkratku.&lt;/p&gt;
+        <translation type="vanished">&lt;p&gt;Zde je možné změnit jakoukoliv aplikační klávesovou zkratku.&lt;/p&gt;
 &lt;p&gt;Pokud jsou podporovány systémem, globální zkratky (systémové) mohou být definovány v dialogu Příkazy (položka v menu &lt;b&gt;Soubor/Příkazy...&lt;/b&gt;).&lt;/p&gt;</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
+        <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
+&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Zde je možné změnit jakoukoliv aplikační klávesovou zkratku.&lt;/p&gt;
+&lt;p&gt;Pokud jsou podporovány systémem, &lt;b&gt;globální zkratky&lt;/b&gt; (systémové) mohou být definovány v dialogu Příkazy (položka v menu &lt;b&gt;Soubor/Příkazy...&lt;/b&gt;).&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
