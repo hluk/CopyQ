@@ -35,6 +35,7 @@ class QIODevice;
 class QMimeData;
 class QString;
 class QStringList;
+class QTemporaryFile;
 
 #if QT_VERSION < 0x050000
 #   ifdef Q_WS_WIN
@@ -131,5 +132,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
 QString shortcutToRemove();
 
 void renameToUnique(QString *name, const QStringList &names);
+
+bool openTemporaryFile(QTemporaryFile *file);
 
 #endif // COMMON_H

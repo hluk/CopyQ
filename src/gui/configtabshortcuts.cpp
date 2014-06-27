@@ -66,6 +66,7 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::File_ImportTab, "document-open", IconFolderOpen );
     w->updateIcons( Actions::File_ExportTab, "document-save", IconSave );
     w->updateIcons( Actions::File_Preferences, "preferences-other", IconWrench );
+    w->updateIcons( Actions::File_Commands, "action", IconCog );
     w->updateIcons( Actions::File_ShowClipboardContent, "clipboard", IconPaste );
     w->updateIcons( Actions::File_ToggleClipboardStoring );
     w->updateIcons( Actions::File_ProcessManager, "", IconCogs );
@@ -89,6 +90,7 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::Tabs_NewTab, "tab_new" );
     w->updateIcons( Actions::Tabs_RenameTab, "tab_rename" );
     w->updateIcons( Actions::Tabs_RemoveTab, "tab_remove" );
+    w->updateIcons( Actions::Tabs_ChangeTabIcon, "change_tab_icon" );
 
     w->updateIcons( Actions::Help_Help, "help-about", IconQuestionSign );
 }
@@ -106,6 +108,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::File_ImportTab, tr("&Import Tab..."), "import_tab", tr("Ctrl+I") );
     w->addAction( Actions::File_ExportTab, tr("&Export Tab..."), "export_tab", QKeySequence::Save );
     w->addAction( Actions::File_Preferences, tr("&Preferences..."), "preferences", tr("Ctrl+P") );
+    w->addAction( Actions::File_Commands, tr("C&ommands..."), "commands", tr("F6") );
     w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), "show_clipboard_content", tr("Ctrl+Shift+C") );
     w->addAction( Actions::File_ToggleClipboardStoring, tr("&Toggle Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
     w->addAction( Actions::File_ProcessManager, tr("P&rocess Manager"), "process_manager", tr("Ctrl+Shift+Z") );
@@ -119,16 +122,16 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::Item_MoveToClipboard, tr("Move to &Clipboard"), "move_to_clipboard" );
     w->addAction( Actions::Item_ShowContent, tr("&Show Content..."), "show_item_content", tr("F4") );
     w->addAction( Actions::Item_Edit, tr("&Edit"), "edit", tr("F2") );
-    w->addAction( Actions::Item_EditNotes, tr("&Edit Notes"), "edit_notes", tr("Shift+F2") );
+    w->addAction( Actions::Item_EditNotes, tr("Edit &Notes"), "edit_notes", tr("Shift+F2") );
     w->addAction( Actions::Item_EditWithEditor, tr("E&dit with editor"), "editor", tr("Ctrl+E") );
     w->addAction( Actions::Item_Action, tr("&Action..."), "action", tr("F5") );
-    w->addAction( Actions::Item_NextToClipboard, tr("&Next to Clipboard"), "next_to_clipboard", tr("Ctrl+Shift+N") );
+    w->addAction( Actions::Item_NextToClipboard, tr("Ne&xt to Clipboard"), "next_to_clipboard", tr("Ctrl+Shift+N") );
     w->addAction( Actions::Item_PreviousToClipboard, tr("&Previous to Clipboard"), "previous_to_clipboard", tr("Ctrl+Shift+P") );
 
     w->addAction( Actions::Item_Remove, tr("&Remove"), "delete_item",  shortcutToRemove() );
 
     w->addAction( Actions::Tabs_NewTab, tr("&New Tab"), "new_tab", tr("Ctrl+T") );
-    w->addAction( Actions::Tabs_RenameTab, tr("Re&name Tab"), "rename_tab", tr("Ctrl+F2") );
+    w->addAction( Actions::Tabs_RenameTab, tr("R&ename Tab"), "rename_tab", tr("Ctrl+F2") );
     w->addAction( Actions::Tabs_RemoveTab, tr("Re&move Tab"), "remove_tab", tr("Ctrl+W") );
     w->addAction( Actions::Tabs_ChangeTabIcon, tr("&Change Tab Icon"), "change_tab_icon", tr("Ctrl+Shift+T") );
 

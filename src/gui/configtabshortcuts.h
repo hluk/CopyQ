@@ -35,6 +35,7 @@ enum Id {
     File_ImportTab,
     File_ExportTab,
     File_Preferences,
+    File_Commands,
     File_ShowClipboardContent,
     File_ToggleClipboardStoring,
     File_ProcessManager,

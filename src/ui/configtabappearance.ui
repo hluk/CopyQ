@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>472</width>
-    <height>504</height>
+    <width>468</width>
+    <height>500</height>
    </rect>
   </property>
   <layout class="QHBoxLayout" name="horizontalLayout_10" stretch="0,1">
@@ -33,8 +33,8 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>280</width>
-        <height>492</height>
+        <width>281</width>
+        <height>488</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout_9">
@@ -290,7 +290,7 @@
             <string>Show scrollbars</string>
            </property>
            <property name="text">
-            <string>Sc&amp;rollbars</string>
+            <string>S&amp;crollbars</string>
            </property>
           </widget>
          </item>
@@ -316,7 +316,7 @@
        <item>
         <widget class="QCheckBox" name="checkBoxStyleMainWindow">
          <property name="text">
-          <string>Set colors for tabs, tool bar and menus</string>
+          <string>S&amp;et colors for tabs, tool bar and menus</string>
          </property>
         </widget>
        </item>

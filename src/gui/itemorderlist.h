@@ -42,8 +42,6 @@ public:
 
     void setAddMenu(QMenu *menu);
 
-    bool hasAddMenu() const;
-
     void clearItems();
 
     void appendItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget);

@@ -30,6 +30,7 @@
 #include "gui/actionhandler.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/clipboarddialog.h"
+#include "gui/commanddialog.h"
 #include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -155,6 +156,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actionHandler(new ActionHandler(this))
     , m_ignoreCurrentClipboard(true)
     , m_trayTab(NULL)
+    , m_commandDialog(NULL)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -199,6 +201,7 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(onAboutToQuit()) );
 
     // settings
+    m_sharedData->commands = loadCommands();
     loadSettings();
 
     ui->tabWidget->setCurrentIndex(0);
@@ -302,6 +305,9 @@ void MainWindow::createMenu()
 
     // - preferences
     createAction( Actions::File_Preferences, SLOT(openPreferences()), menu );
+
+    // - commands
+    createAction( Actions::File_Commands, SLOT(openCommands()), menu );
 
     // - show clipboard content
     createAction( Actions::File_ShowClipboardContent, SLOT(showClipboardContent()), menu );
@@ -456,6 +462,29 @@ void MainWindow::onAboutToQuit()
     ui->tabWidget->saveTabInfo();
     hideWindow();
     m_tray->hide();
+}
+
+void MainWindow::onCommandDialogClosed()
+{
+    m_commandDialog->deleteLater();
+    m_commandDialog = NULL;
+}
+
+void MainWindow::onCommandDialogSaved()
+{
+    m_sharedData->commands = loadCommands();
+    browser()->updateContextMenu();
+    emit commandsSaved();
+}
+
+void MainWindow::onSaveCommand(const Command &command)
+{
+    CommandDialog::Commands commands = loadCommands(false);
+    commands.append(command);
+    saveCommands(commands);
+
+    if (m_commandDialog)
+        m_commandDialog->addCommand(command);
 }
 
 void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData &data)
@@ -1710,6 +1739,8 @@ void MainWindow::openActionDialog(int row)
 WId MainWindow::openActionDialog(const QVariantMap &data)
 {
     QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
+    connect( actionDialog.data(), SIGNAL(saveCommand(Command)),
+             this, SLOT(onSaveCommand(Command)) );
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData(data);
     actionDialog->show();
@@ -1731,6 +1762,22 @@ void MainWindow::openPreferences()
         return;
 
     ConfigurationManager::instance()->exec();
+}
+
+void MainWindow::openCommands()
+{
+    if ( !isEnabled() )
+        return;
+
+    if (m_commandDialog) {
+        m_commandDialog->show();
+        m_commandDialog->activateWindow();
+    } else {
+        m_commandDialog = new CommandDialog(this);
+        connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));
+        connect(m_commandDialog, SIGNAL(finished(int)), this, SLOT(onCommandDialogClosed()));
+        m_commandDialog->show();
+    }
 }
 
 ClipboardBrowser *MainWindow::browser(int index)

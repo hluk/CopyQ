@@ -26,6 +26,7 @@
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
 #include "gui/clipboardbrowser.h"
+#include "gui/commanddialog.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/mainwindow.h"
@@ -71,6 +72,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_shortcutActions()
     , m_shortcutBlocker()
     , m_clientThreads()
+    , m_ignoreKeysTimer()
 {
     Server *server = new Server( clipboardServerName(), this );
     if ( !server->isListening() ) {
@@ -108,9 +110,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
              this, SLOT(loadSettings()) );
 
 #ifndef NO_GLOBAL_SHORTCUTS
-    connect( cm, SIGNAL(started()),
-             this, SLOT(removeGlobalShortcuts()) );
-    connect( cm, SIGNAL(stopped()),
+    connect( m_wnd, SIGNAL(commandsSaved()),
              this, SLOT(createGlobalShortcuts()) );
     createGlobalShortcuts();
 #endif
@@ -124,6 +124,12 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     QCoreApplication::instance()->installEventFilter(this);
 
     server->start();
+
+    // Ignore global shortcut key presses in any widget.
+    m_ignoreKeysTimer.setInterval(0);
+    m_ignoreKeysTimer.setSingleShot(true);
+    connect( &m_ignoreKeysTimer, SIGNAL(timeout()),
+             this, SLOT(onIgnoreKeysTimout()) );
 }
 
 ClipboardServer::~ClipboardServer()
@@ -211,7 +217,7 @@ void ClipboardServer::createGlobalShortcuts()
 
     QList<QKeySequence> usedShortcuts;
 
-    foreach ( const Command &command, ConfigurationManager::instance()->commands() ) {
+    foreach ( const Command &command, loadCommands() ) {
         foreach (const QString &shortcutText, command.globalShortcuts) {
             QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
             if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
@@ -251,6 +257,11 @@ void ClipboardServer::maybeQuit()
 {
     if (askToQuit())
         QCoreApplication::exit();
+}
+
+void ClipboardServer::onIgnoreKeysTimout()
+{
+    m_wnd->setEnabled(true);
 }
 
 bool ClipboardServer::askToQuit()
@@ -377,11 +388,6 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                 m_wnd->enterBrowseMode(m_wnd->browseMode());
             }
         }
-    } else if (ev->type() == QEvent::WindowActivate) {
-        // If top-level window is focused, don't pass global shortcuts to any child widget.
-        QWidget *w = qobject_cast<QWidget*>(object);
-        if (w && w == w->window())
-            w->addActions(m_shortcutBlocker.actions());
     }
 
     return false;
@@ -396,6 +402,8 @@ void ClipboardServer::loadSettings()
 
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
+    m_ignoreKeysTimer.start();
+    m_wnd->setEnabled(false);
     if ( m_shortcutActions.contains(shortcut) )
         m_wnd->action(QVariantMap(), m_shortcutActions[shortcut]);
 }

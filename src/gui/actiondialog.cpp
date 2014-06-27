@@ -275,7 +275,6 @@ void ActionDialog::accept()
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 {
     Command cmd;
-    ConfigurationManager *cm;
 
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
@@ -289,8 +288,7 @@ void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
         cmd.sep = ui->separatorEdit->text();
         cmd.outputTab = ui->comboBoxOutputTab->currentText();
 
-        cm = ConfigurationManager::instance();
-        cm->addCommand(cmd);
+        emit saveCommand(cmd);
         QMessageBox::information(
                     this, tr("Command saved"),
                     tr("Command was saved and can be accessed from item menu.\n"

@@ -181,6 +181,8 @@ class ClipboardBrowser : public QListView
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
 
+        void updateContextMenu();
+
     public slots:
         /** Add new item to the browser. */
         bool add(
@@ -351,8 +353,6 @@ class ClipboardBrowser : public QListView
 
     private slots:
         void onCommandActionTriggered(const Command &command, const QVariantMap &data);
-
-        void updateContextMenu();
 
         void onModelDataChanged();
 

@@ -35,6 +35,7 @@
 class Action;
 class ActionHandler;
 class ClipboardItem;
+class CommandDialog;
 class NotificationDaemon;
 class QAction;
 class TrayMenu;
@@ -177,6 +178,9 @@ public slots:
     /** Open preferences dialog. */
     void openPreferences();
 
+    /** Open commands dialog. */
+    void openCommands();
+
     /** Execute command on given input data. */
     void action(const QVariantMap &data, const Command &cmd,
                 const QModelIndex &outputIndex = QModelIndex());
@@ -314,6 +318,8 @@ signals:
 
     void requestExit();
 
+    void commandsSaved();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -363,6 +369,12 @@ private slots:
     void updateIcon();
 
     void onAboutToQuit();
+
+    void onCommandDialogClosed();
+
+    void onCommandDialogSaved();
+
+    void onSaveCommand(const Command &command);
 
     void on_tabWidget_dropItems(const QString &tabName, const QMimeData &data);
 
@@ -456,6 +468,8 @@ private:
     bool m_ignoreCurrentClipboard;
 
     ClipboardBrowser *m_trayTab;
+
+    CommandDialog* m_commandDialog;
 };
 
 #endif // MAINWINDOW_H

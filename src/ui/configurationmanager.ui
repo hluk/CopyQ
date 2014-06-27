@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>586</width>
-    <height>634</height>
+    <width>580</width>
+    <height>628</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -46,8 +46,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>552</width>
+            <height>544</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -87,7 +87,7 @@
                <item>
                 <widget class="QLabel" name="label">
                  <property name="text">
-                  <string>Lan&amp;guage:</string>
+                  <string>Langua&amp;ge:</string>
                  </property>
                  <property name="buddy">
                   <cstring>comboBoxLanguage</cstring>
@@ -118,7 +118,7 @@
                 <string>Break text if it's too long to fit on line.</string>
                </property>
                <property name="text">
-                <string>W&amp;rap long text</string>
+                <string>Wrap l&amp;ong text</string>
                </property>
               </widget>
              </item>
@@ -128,7 +128,7 @@
                 <string>Keep main window above other windows</string>
                </property>
                <property name="text">
-                <string>Always on &amp;Top</string>
+                <string>Alwa&amp;ys on Top</string>
                </property>
               </widget>
              </item>
@@ -390,7 +390,7 @@ Note: This is not be supported on all systems.</string>
                      <string>Don't show tray icon; minimize window when closed</string>
                     </property>
                     <property name="text">
-                     <string>&amp;Disable tray</string>
+                     <string>Disabl&amp;e tray</string>
                     </property>
                    </widget>
                   </item>
@@ -451,8 +451,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>552</width>
+            <height>544</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -619,7 +619,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                    <string>Move item to the top of the list after it is activated.</string>
                   </property>
                   <property name="text">
-                   <string>Move item to the top</string>
+                   <string>Move item to the t&amp;op</string>
                   </property>
                  </widget>
                 </item>
@@ -708,8 +708,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>552</width>
+            <height>544</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -796,14 +796,14 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                   <string>Show items from current tab in content menu</string>
                  </property>
                  <property name="text">
-                  <string>Show c&amp;urrent tab in menu,</string>
+                  <string>Show cu&amp;rrent tab in menu,</string>
                  </property>
                 </widget>
                </item>
                <item>
                 <widget class="QLabel" name="label_24">
                  <property name="text">
-                  <string>or choose o&amp;ther tab:</string>
+                  <string>or &amp;choose other tab:</string>
                  </property>
                  <property name="buddy">
                   <cstring>comboBoxMenuTab</cstring>
@@ -857,7 +857,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                 <string>Show image preview next to menu items</string>
                </property>
                <property name="text">
-                <string>Show &amp;image preview as menu item icon</string>
+                <string>Sh&amp;ow image preview as menu item icon</string>
                </property>
               </widget>
              </item>
@@ -913,8 +913,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>558</width>
-            <height>550</height>
+            <width>552</width>
+            <height>544</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1018,7 +1018,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                <item row="1" column="0">
                 <widget class="QLabel" name="label_25">
                  <property name="text">
-                  <string>Interval in seconds to display notifications:</string>
+                  <string>Int&amp;erval in seconds to display notifications:</string>
                  </property>
                  <property name="buddy">
                   <cstring>spinBoxNotificationPopupInterval</cstring>
@@ -1321,74 +1321,6 @@ Set to 0 to disable.</string>
        </item>
       </layout>
      </widget>
-     <widget class="QWidget" name="tabCommands">
-      <attribute name="title">
-       <string>Co&amp;mmands</string>
-      </attribute>
-      <layout class="QVBoxLayout" name="verticalLayout_6">
-       <item>
-        <widget class="QLabel" name="label_11">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Preferred" vsizetype="Maximum">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="text">
-          <string>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</string>
-         </property>
-         <property name="wordWrap">
-          <bool>true</bool>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_18">
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="text">
-            <string>&amp;Find:</string>
-           </property>
-           <property name="buddy">
-            <cstring>lineEditFilterCommands</cstring>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLineEdit" name="lineEditFilterCommands"/>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="ItemOrderList" name="itemOrderListCommands" native="true">
-         <property name="focusPolicy">
-          <enum>Qt::WheelFocus</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_6">
-         <item>
-          <widget class="QPushButton" name="pushButtonLoadCommands">
-           <property name="text">
-            <string>&amp;Load Commands...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="pushButtonSaveCommands">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="text">
-            <string>Sa&amp;ve Selected Commands...</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-      </layout>
-     </widget>
      <widget class="QWidget" name="tabShortcuts">
       <attribute name="title">
        <string>&amp;Shortcuts</string>
@@ -1489,10 +1421,6 @@ Set to 0 to disable.</string>
   <tabstop>spinBoxNotificationMaximumHeight</tabstop>
   <tabstop>scrollArea_3</tabstop>
   <tabstop>itemOrderListPlugins</tabstop>
-  <tabstop>lineEditFilterCommands</tabstop>
-  <tabstop>itemOrderListCommands</tabstop>
-  <tabstop>pushButtonLoadCommands</tabstop>
-  <tabstop>pushButtonSaveCommands</tabstop>
  </tabstops>
  <resources/>
  <connections/>
