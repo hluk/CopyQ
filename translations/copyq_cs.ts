@@ -9,32 +9,32 @@
         <translation>CopyQ O Aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="123"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
         <source>Clipboard Manager</source>
         <translation>Správce schránky</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="128"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Author</source>
         <translation>Autor</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="129"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>E-mail</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="130"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Web</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="131"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Wiki</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="151"/>
         <source>Development</source>
         <translation>Vývoj</translation>
     </message>
@@ -47,32 +47,32 @@
         <translation type="vanished">Paleta barev použitá u témat</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="180"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="189"/>
         <source>Keyboard</source>
         <translation>Klávesnice</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>Napiš text k prohledání historie schránky.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Item list navigation</source>
         <translation>Navigace v seznamu prvků</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>Šipka nahoru/dolu, Page Up/Down, Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="186"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="202"/>
         <source>Tab navigation</source>
         <translation>Záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
         <translation>Šípka doleva, doprava, %1, %2</translation>
@@ -82,87 +82,97 @@
         <translation type="vanished">Šípka doprava, doleva, Tab, Shift+Tab</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="167"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
         <translation>Knihovna použitá v aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="169"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation>Knihovna použitá v aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="171"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
         <translation>Font s ikonami použitý v aplikaci</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="173"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>Paleta barev použitá u témat</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="175"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>Svobodný nástroj pro správu překladu přes web</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <source>Application shortcuts can be changed in Preferences dialog.</source>
+        <translation>Aplikační klávesové zkratky mohou být změněny v dialogu Nastavení.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
+        <translation>Globální zkratky (systémové) mohou být změněny v dialogu Příkazy (výchozí zkratka je F6).</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Move selected items</source>
         <translation>Přesun vybraných prvků</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Ctrl+Nahoru/Dolu, Ctrl+Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Reset search or hide window</source>
         <translation>Reset vyhledávání nebo skrytí hlavního okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Escape</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="193"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Delete item</source>
         <translation>Smazání prvku</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Put selected items into clipboard</source>
         <translation>Vložení vybraných prvků do schránky</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Enter</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Change item display format</source>
         <translation>Změna formátu zobrazení prvku</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Ctrl+Left/Right</source>
         <translation>Ctrl+Doleva/Doprava</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Edit Item</source>
         <translation>Editace prvku</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>

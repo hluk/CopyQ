@@ -9,32 +9,32 @@
         <translation>关于 CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="123"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
         <source>Clipboard Manager</source>
         <translation>粘贴板管理器</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="128"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Author</source>
         <translation>作者</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="129"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>E-mail</source>
         <translation>E-mail</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="130"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Web</source>
         <translation>网页</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="131"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="151"/>
         <source>Development</source>
         <translation>开发</translation>
     </message>
@@ -51,118 +51,128 @@
         <translation type="vanished">主题所用到的调色板</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="167"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
         <translation type="unfinished">本软件所用到的库</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="169"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation type="unfinished">本软件所用到的库</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="171"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
         <translation type="unfinished">本软件所用到的字体</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="173"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation type="unfinished">主题所用到的调色板</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="175"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="180"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="189"/>
         <source>Keyboard</source>
         <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <source>Application shortcuts can be changed in Preferences dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>输入任意文本从粘贴板历史中搜索。</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Item list navigation</source>
         <translation>项目列表导航</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>Up/Down, Page Up/Down, Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="186"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="202"/>
         <source>Tab navigation</source>
         <translation>标签导航</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
         <translation type="unfinished">Left, Right, %1, %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Move selected items</source>
         <translation>移动选中项目</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Ctrl+Up/Down, Ctrl+Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Reset search or hide window</source>
         <translation>搜索重置、隐藏窗口</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Escape</source>
         <translation>Esc</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="193"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Delete item</source>
         <translation>删除项目</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Put selected items into clipboard</source>
         <translation>将选中项目放到粘贴板中</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Change item display format</source>
         <translation>改变项目显示格式</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Ctrl+Left/Right</source>
         <translation type="unfinished">Ctrl+Left/Right</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Edit Item</source>
         <translation>编辑项目</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>F2</source>
         <translation type="unfinished">F2</translation>
     </message>

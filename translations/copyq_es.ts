@@ -9,61 +9,61 @@
         <translation>Acerca de CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="123"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
         <source>Clipboard Manager</source>
         <translation>Administrador de portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="128"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Author</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="129"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>E-mail</source>
         <translation>Correo electrónico</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="130"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="131"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="151"/>
         <source>Development</source>
         <translation>Desarrollo</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="167"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
         <translation type="unfinished">Librerías usadas en esta aplicación</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="169"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation type="unfinished">Librerías usadas en esta aplicación</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="171"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
         <translation type="unfinished">El tipo de letra Iconic se usa en este programa</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="173"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation type="unfinished">Paleta de color usada para los temas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="175"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation type="unfinished"></translation>
@@ -81,32 +81,42 @@
         <translation type="vanished">Paleta de color usada para los temas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="180"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="189"/>
         <source>Keyboard</source>
         <translation>Teclado</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <source>Application shortcuts can be changed in Preferences dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>Escriba cualquier texto para buscar en el historial del portapapeles.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Item list navigation</source>
         <translation>Navegación de lista de entradas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>Arriba/Abajo, Avance/Retroceso de Página, Inicio/Fin</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="186"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="202"/>
         <source>Tab navigation</source>
         <translation>Navegación de pestañas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
         <translation type="unfinished"></translation>
@@ -116,27 +126,27 @@
         <translation type="vanished">Izquierda, Derecha, Tab, Shift+Tab</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Move selected items</source>
         <translation>Mover entradas seleccionadas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Ctrl+Arriba/Abajo, Ctrl+Inicio/Fin</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Reset search or hide window</source>
         <translation>Reiniciar búsqueda u ocultar ventana</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Escape</source>
         <translation>Escape</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="193"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Delete item</source>
         <translation>Eliminar entrada</translation>
     </message>
@@ -145,32 +155,32 @@
         <translation type="vanished">Eliminar</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Put selected items into clipboard</source>
         <translation>Poner las entradas seleccionadas en el portapapeles</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Change item display format</source>
         <translation>Cambiar el formato en que se muestran las entradas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Ctrl+Left/Right</source>
         <translation>Ctrl+Izquierda/Derecha</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Edit Item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>F2</source>
         <translation type="unfinished">F2</translation>
     </message>

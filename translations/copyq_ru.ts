@@ -9,32 +9,32 @@
         <translation>О программе CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="123"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
         <source>Clipboard Manager</source>
         <translation>Менеджер буфера обмена</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="128"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Author</source>
         <translation>Автор</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="129"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>E-mail</source>
         <translation>Эл. почта</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="130"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Web</source>
         <translation>Сайт</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="131"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="151"/>
         <source>Development</source>
         <translation>Разработчики</translation>
     </message>
@@ -51,118 +51,128 @@
         <translation type="vanished">Цветовая палитра, используемая в темах</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="167"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="177"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
         <translation type="unfinished">Библиотека, используемая в приложении</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="169"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation type="unfinished">Библиотека, используемая в приложении</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="171"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
         <translation type="unfinished">Шрифт со значками, используемый в приложении</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="173"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation type="unfinished">Цветовая палитра, используемая в темах</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="175"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="180"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="189"/>
         <source>Keyboard</source>
         <translation>Клавиатура</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <source>Application shortcuts can be changed in Preferences dialog.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Type any text to search the clipboard history.</source>
         <translation>Введите текст для поиска в истории буфера обмена.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Item list navigation</source>
         <translation>Переход между пунктами списка</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="201"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation>вверх/вниз, страница вверх/вниз, Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="186"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="202"/>
         <source>Tab navigation</source>
         <translation>Перемещение по вкладкам</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
         <translation>влево, вправо, %1, %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Move selected items</source>
         <translation>Переместить выбранные элементы</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="207"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation>Ctrl + вверх/вниз, Ctrl + Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Reset search or hide window</source>
         <translation>Сбросить поиск или скрыть окно</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="208"/>
         <source>Escape</source>
         <translation>Esc</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="193"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Delete item</source>
         <translation>Удалить элемент</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Put selected items into clipboard</source>
         <translation>Поместить выбранные элементы в буфер обмена</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Change item display format</source>
         <translation>Изменить формат отображения элемента</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="195"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Ctrl+Left/Right</source>
         <translation>Ctrl + влево/вправо</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Edit Item</source>
         <translation>Изменить элемент</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
