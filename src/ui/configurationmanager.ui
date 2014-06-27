@@ -115,7 +115,7 @@
              <item>
               <widget class="QCheckBox" name="checkBoxTextWrap">
                <property name="toolTip">
-                <string>Break text if it's too long to fit on line.</string>
+                <string>Break text if it's too long to fit on line</string>
                </property>
                <property name="text">
                 <string>Wrap l&amp;ong text</string>
@@ -135,7 +135,7 @@
              <item>
               <widget class="QCheckBox" name="checkBoxOpenWindowsOnCurrentScreen">
                <property name="toolTip">
-                <string>Enable to open windows on current screen. Disable to open windows where they were last closed.</string>
+                <string>Enable to open windows on current screen. Disable to open windows where they were last closed</string>
                </property>
                <property name="text">
                 <string>O&amp;pen windows on current screen</string>
@@ -200,7 +200,7 @@
                 <item row="4" column="0">
                  <widget class="QCheckBox" name="checkBoxCopySel">
                   <property name="toolTip">
-                   <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert).</string>
+                   <string>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</string>
                   </property>
                   <property name="text">
                    <string>(&amp;4) Paste mouse selection with keyboard</string>
@@ -223,7 +223,7 @@
                 <item row="3" column="0">
                  <widget class="QCheckBox" name="checkBoxCopyClip">
                   <property name="toolTip">
-                   <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</string>
+                   <string>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</string>
                   </property>
                   <property name="text">
                    <string>(&amp;3) Paste clipboard with mouse</string>
@@ -616,7 +616,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                 <item>
                  <widget class="QCheckBox" name="checkBoxMove">
                   <property name="toolTip">
-                   <string>Move item to the top of the list after it is activated.</string>
+                   <string>Move item to the top of the list after it is activated</string>
                   </property>
                   <property name="text">
                    <string>Move item to the t&amp;op</string>
@@ -626,7 +626,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                 <item>
                  <widget class="QCheckBox" name="checkBoxActivateCloses">
                   <property name="toolTip">
-                   <string>Close main window after item is activated.</string>
+                   <string>Close main window after item is activated</string>
                   </property>
                   <property name="text">
                    <string>&amp;Close main window</string>
@@ -636,7 +636,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                 <item>
                  <widget class="QCheckBox" name="checkBoxActivateFocuses">
                   <property name="toolTip">
-                   <string>Focus last window after item is activated.</string>
+                   <string>Focus last window after item is activated</string>
                   </property>
                   <property name="text">
                    <string>&amp;Focus last window</string>
@@ -646,7 +646,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
                 <item>
                  <widget class="QCheckBox" name="checkBoxActivatePastes">
                   <property name="toolTip">
-                   <string>Paste to current window after item is activated.</string>
+                   <string>Paste to current window after item is activated</string>
                   </property>
                   <property name="text">
                    <string>&amp;Paste to current window</string>
@@ -744,7 +744,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
              <item>
               <widget class="QCheckBox" name="checkBoxTrayShowCommands">
                <property name="toolTip">
-                <string>Show command for current clipboard content in tray menu.</string>
+                <string>Show command for current clipboard content in tray menu</string>
                </property>
                <property name="text">
                 <string>Sho&amp;w commands for clipboard content</string>
@@ -844,7 +844,7 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
              <item>
               <widget class="QCheckBox" name="checkBoxPasteMenuItem">
                <property name="toolTip">
-                <string>Paste item to current window after selecting it in menu.</string>
+                <string>Paste item to current window after selecting it in menu</string>
                </property>
                <property name="text">
                 <string>&amp;Paste activated item to current window</string>
@@ -1121,7 +1121,7 @@ Set to 0 to disable.</string>
                   <item>
                    <widget class="QSpinBox" name="spinBoxNotificationHorizontalOffset">
                     <property name="toolTip">
-                     <string>Notification distance from left or right screen edge in screen points.</string>
+                     <string>Notification distance from left or right screen edge in screen points</string>
                     </property>
                     <property name="maximum">
                      <number>9999</number>
@@ -1158,7 +1158,7 @@ Set to 0 to disable.</string>
                   <item>
                    <widget class="QSpinBox" name="spinBoxNotificationVerticalOffset">
                     <property name="toolTip">
-                     <string>Notification distance from top or bottom screen edge in screen points.</string>
+                     <string>Notification distance from top or bottom screen edge in screen points</string>
                     </property>
                     <property name="maximum">
                      <number>9999</number>
@@ -1195,7 +1195,7 @@ Set to 0 to disable.</string>
                   <item>
                    <widget class="QSpinBox" name="spinBoxNotificationMaximumWidth">
                     <property name="toolTip">
-                     <string>Maximum width for notification in screen points.</string>
+                     <string>Maximum width for notification in screen points</string>
                     </property>
                     <property name="maximum">
                      <number>9999</number>
@@ -1232,7 +1232,7 @@ Set to 0 to disable.</string>
                   <item>
                    <widget class="QSpinBox" name="spinBoxNotificationMaximumHeight">
                     <property name="toolTip">
-                     <string>Maximum height for notification in screen points.</string>
+                     <string>Maximum height for notification in screen points</string>
                     </property>
                     <property name="maximum">
                      <number>9999</number>

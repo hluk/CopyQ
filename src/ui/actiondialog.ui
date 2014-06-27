@@ -78,14 +78,14 @@
      <item row="0" column="1">
       <widget class="QComboBox" name="comboBoxInputFormat">
        <property name="toolTip">
-        <string>Send data of given MIME type to standard input of command (leave empty to disable).</string>
+        <string>Send data of given MIME type to standard input of command (leave empty to disable)</string>
        </property>
       </widget>
      </item>
      <item row="2" column="1">
       <widget class="QComboBox" name="comboBoxOutputFormat">
        <property name="toolTip">
-        <string>Create items from standard output of the program (leave empty to disable).</string>
+        <string>Create items from standard output of the program (leave empty to disable)</string>
        </property>
        <property name="editable">
         <bool>true</bool>

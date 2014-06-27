@@ -297,7 +297,7 @@
          <item row="1" column="0">
           <widget class="QCheckBox" name="checkBoxSystemIcons">
            <property name="toolTip">
-            <string>Use icons from desktop environment whenever possible.</string>
+            <string>Use icons from desktop environment whenever possible</string>
            </property>
            <property name="text">
             <string>S&amp;ystem Icons</string>
