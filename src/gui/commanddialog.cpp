@@ -630,6 +630,36 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->input = c->output = "";
         c->wait = c->automatic = c->remove = false;
         c->sep = QString("\\n");
+#ifndef NO_GLOBAL_SHORTCUTS
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionToggleMainWindow, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionShowTray, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionEditClipboard, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionEditFirstItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCopySecondItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionShowActionDialog, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCreateItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCopyNextItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionCopyPreviousItem, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionPasteAsPlainText, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionDisableClipboardStoring, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionEnableClipboardStoring, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionPasteAndCopyNext, c);
+    } else if (index == ++i) {
+        createGlobalShortcut(GlobalActionPasteAndCopyPrevious, c);
+#endif
     } else if (index == ++i) {
         c->name = tr("Ignore items with no or single character");
         c->re   = QRegExp("^\\s*\\S?\\s*$");
@@ -740,36 +770,6 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->tab  = tr("(trash)");
         c->remove = true;
         c->shortcuts.append( shortcutToRemove() );
-#ifndef NO_GLOBAL_SHORTCUTS
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionToggleMainWindow, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionShowTray, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionEditClipboard, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionEditFirstItem, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionCopySecondItem, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionShowActionDialog, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionCreateItem, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionCopyNextItem, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionCopyPreviousItem, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionPasteAsPlainText, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionDisableClipboardStoring, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionEnableClipboardStoring, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionPasteAndCopyNext, c);
-    } else if (index == ++i) {
-        createGlobalShortcut(GlobalActionPasteAndCopyPrevious, c);
-#endif
     } else {
         return false;
     }
