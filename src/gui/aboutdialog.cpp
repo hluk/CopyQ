@@ -67,6 +67,16 @@ QString helpLib(const char *name, const QString &description, const QString &cop
             .arg( helpUrl(url) );
 }
 
+QString helpTitle(const QString &title)
+{
+    return "<div class='h2'>" + escapeHtml(title) + "</div>";
+}
+
+QString helpParagraph(const QString &text)
+{
+    return "<p class=\"pp\">" + escapeHtml(text) + "</p>";
+}
+
 } // namespace
 
 AboutDialog::AboutDialog(QWidget *parent)
@@ -138,8 +148,8 @@ QString AboutDialog::aboutPage()
 
         "<p></p>"
 
-        "<div class='h2'>" + tr("Development") + "</div>"
-        "<p class=\"pp\">"
+        + helpTitle(tr("Development"))
+        + "<p class=\"pp\">"
             // developers
             + helpDeveloper("Adam Batkin", "adam@batkin.net")
             + helpDeveloper("Giacomo Margarito", "giacomomargarito@gmail.com")
@@ -174,14 +184,20 @@ QString AboutDialog::aboutPage()
                       "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
             + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
                       "Copyright (c) 2012 - 2013 Michal &#268;iha&#345;", "http://weblate.org")
-            +
 
         // keyboard title
-        "<div class='h2'>" + escapeHtml(tr("Keyboard")) + "</div>"
-        "<p class=\"pp\">" + escapeHtml(tr("Type any text to search the clipboard history.")) + "</p>"
+        + helpTitle(tr("Keyboard"))
+
+        + helpParagraph(tr("Application shortcuts can be changed in Preferences dialog."))
+
+#ifndef NO_GLOBAL_SHORTCUTS
+        + helpParagraph(tr("Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6)."))
+#endif
+
+        + helpParagraph(tr("Type any text to search the clipboard history."))
 
         // keyboard table
-        "<p><table id=\"keys\">"
+        + "<p><table id=\"keys\">"
             + helpKeys( tr("Item list navigation"), tr("Up/Down, Page Up/Down, Home/End") )
             + helpKeys( tr("Tab navigation"),
                         tr("Left, Right, %1, %2", "Keys for tab navigation (%1, %2 are the standard keys).")
@@ -197,7 +213,7 @@ QString AboutDialog::aboutPage()
             +
         "</table></p>"
 
-        "<p></p>"
+        + "<p></p>"
 
         "</body></html>";
 }
