@@ -108,7 +108,13 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::File_ImportTab, tr("&Import Tab..."), "import_tab", tr("Ctrl+I") );
     w->addAction( Actions::File_ExportTab, tr("&Export Tab..."), "export_tab", QKeySequence::Save );
     w->addAction( Actions::File_Preferences, tr("&Preferences..."), "preferences", tr("Ctrl+P") );
-    w->addAction( Actions::File_Commands, tr("C&ommands..."), "commands", tr("F6") );
+    w->addAction( Actions::File_Commands,
+#ifndef NO_GLOBAL_SHORTCUTS
+                  tr("C&ommands/Global Shortcuts..."),
+#else
+                  tr("C&ommands..."),
+#endif
+                  "commands", tr("F6") );
     w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"), "show_clipboard_content", tr("Ctrl+Shift+C") );
     w->addAction( Actions::File_ToggleClipboardStoring, tr("&Toggle Clipboard Storing"), "toggle_clipboard_storing", tr("Ctrl+Shift+X") );
     w->addAction( Actions::File_ProcessManager, tr("P&rocess Manager"), "process_manager", tr("Ctrl+Shift+Z") );
