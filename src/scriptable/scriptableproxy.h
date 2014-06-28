@@ -30,13 +30,16 @@
 #include <QMetaObject>
 #include <QObject>
 #include <QStringList>
+#include <QSystemTrayIcon>
 
 #ifdef HAS_TESTS
 #   include <QTest>
 #endif
 
+#if QT_VERSION < 0x050300
 Q_DECLARE_METATYPE(QSystemTrayIcon::MessageIcon)
 Q_DECLARE_METATYPE(QList<int>)
+#endif
 
 #define BEGIN_INVOKE(methodName) \
         QMetaObject::invokeMethod(m_helper, methodName, Qt::BlockingQueuedConnection \
