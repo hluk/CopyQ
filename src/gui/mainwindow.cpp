@@ -309,6 +309,9 @@ void MainWindow::createMenu()
     // - commands
     createAction( Actions::File_Commands, SLOT(openCommands()), menu );
 
+    // - separator
+    menu->addSeparator();
+
     // - show clipboard content
     createAction( Actions::File_ShowClipboardContent, SLOT(showClipboardContent()), menu );
 
