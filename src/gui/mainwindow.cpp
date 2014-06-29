@@ -779,13 +779,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     if (c->editing())
         return;
 
-    if (m_options->hideTabs && event->key() == Qt::Key_Alt)
+    const int key = event->key();
+
+    if (m_options->hideTabs && key == Qt::Key_Alt)
         setHideTabs(false);
 
     if (browseMode() && m_options->viMode) {
         if (c->handleViKey(event))
             return;
-        switch( event->key() ) {
+        switch(key) {
         case Qt::Key_Slash:
             enterBrowseMode(false);
             event->accept();
@@ -811,17 +813,27 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
          return;
     }
 
+    // Ctrl/Alt+0 to Ctrl/Alt+9 to focus tabs (0 to focus the last, 1 to focus the first and so on).
+    if ( event->modifiers() == Qt::ControlModifier || event->modifiers() == Qt::AltModifier ) {
+        if (key >= Qt::Key_0 && key <= Qt::Key_9) {
+            const int index = (key == Qt::Key_0) ? ui->tabWidget->count() - 1
+                                                 : key - Qt::Key_1;
+            ui->tabWidget->setCurrentIndex(index);
+            return;
+        }
+    }
+
     if ( event->modifiers() == Qt::ControlModifier ) {
-        switch( event->key() ) {
+        switch(key) {
             case Qt::Key_F:
                 enterBrowseMode(false);
-                break;
+                return;
             case Qt::Key_Tab:
                 nextTab();
-                break;
+                return;
             case Qt::Key_Backtab:
                 previousTab();
-                break;
+                return;
             default:
                 QMainWindow::keyPressEvent(event);
                 break;
@@ -829,7 +841,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
-    switch( event->key() ) {
+    switch(key) {
         case Qt::Key_Down:
         case Qt::Key_Up:
         case Qt::Key_PageDown:
