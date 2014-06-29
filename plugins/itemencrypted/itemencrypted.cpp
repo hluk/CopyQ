@@ -203,6 +203,9 @@ bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model)
     const QString tabName = model.property("tabName").toString();
 
     foreach ( const QString &encryptTabName, m_settings.value("encrypt_tabs").toStringList() ) {
+        if ( encryptTabName.isEmpty() )
+            continue;
+
         QString tabName1 = tabName;
 
         // Ignore ampersands (usually just for underlining mnemonics) if none is specified.
