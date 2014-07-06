@@ -29,6 +29,10 @@
 #include <QLocalServer>
 #include <QLocalSocket>
 
+#ifdef Q_OS_WIN
+#   include <QSharedMemory>
+#endif
+
 namespace {
 
 bool serverIsRunning(const QString &serverName)
@@ -44,15 +48,18 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 
     QLocalServer *server = new QLocalServer(parent);
 
+#ifdef Q_OS_WIN
+    // On Windows, it's possible to have multiple local servers listening with same name.
+    // This handles race condition when creating new server.
+    QSharedMemory shmem(name);
+    if ( !shmem.create(1) )
+        return server;
+#endif
+
     if ( !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
-        if ( !serverIsRunning(name) )
-            server->listen(name);
+        server->listen(name);
     }
-
-    COPYQ_LOG( QString(server->isListening()
-                       ? "Server \"%1\" started."
-                       : "Server \"%1\" already running!").arg(name) );
 
     return server;
 }
@@ -64,6 +71,10 @@ Server::Server(const QString &name, QObject *parent)
     , m_server(newServer(name, this))
     , m_socketCount(0)
 {
+    COPYQ_LOG( QString(isListening()
+                       ? "Server \"%1\" started."
+                       : "Server \"%1\" already running!").arg(name) );
+
     qRegisterMetaType<Arguments>("Arguments");
     connect( qApp, SIGNAL(aboutToQuit()), SLOT(close()) );
 }
