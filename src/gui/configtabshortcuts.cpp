@@ -90,7 +90,7 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::Tabs_NewTab, "tab_new" );
     w->updateIcons( Actions::Tabs_RenameTab, "tab_rename" );
     w->updateIcons( Actions::Tabs_RemoveTab, "tab_remove" );
-    w->updateIcons( Actions::Tabs_ChangeTabIcon, "change_tab_icon" );
+    w->updateIcons( Actions::Tabs_ChangeTabIcon, "tab_icon" );
 
     w->updateIcons( Actions::Help_Help, "help-about", IconQuestionSign );
 }

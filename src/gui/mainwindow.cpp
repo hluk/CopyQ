@@ -69,6 +69,7 @@
 namespace {
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
+const QIcon &iconTabIcon() { return getIconFromResources("tab_icon"); }
 const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
 const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
 const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
@@ -407,7 +408,7 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
     QAction *actRemoveGroup =
             isGroup ? menu.addAction( iconTabRename(), tr("Remove Group %1").arg(quotedTab) ) : NULL;
 
-    QAction *actIcon = menu.addAction( tr("&Change Tab Icon") );
+    QAction *actIcon = menu.addAction( iconTabIcon(), tr("&Change Tab Icon") );
 
     QAction *act = menu.exec(pos);
     if (act != NULL) {
