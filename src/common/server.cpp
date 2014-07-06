@@ -30,10 +30,52 @@
 #include <QLocalSocket>
 
 #ifdef Q_OS_WIN
-#   include <QSharedMemory>
+#   include <qt_windows.h>
 #endif
 
 namespace {
+
+#ifdef Q_OS_WIN
+class SystemWideMutex {
+public:
+    SystemWideMutex(const QString &name)
+        : m_mutex(NULL)
+    {
+#   ifdef UNICODE
+        const QString text = "Global\\" + QString::fromLatin1(name.toLatin1());
+#   else
+        const QByteArray data = "Global\\" + name.toLatin1();
+#   endif
+
+        m_mutex = CreateMutex(
+                    NULL, FALSE,
+            #   ifdef UNICODE
+                    reinterpret_cast<LPCWSTR>(text.utf16())
+            #   else
+                    reinterpret_cast<LPCSTR>(data.data())
+            #   endif
+                    );
+
+        m_error = GetLastError();
+    }
+
+    operator bool() const
+    {
+        return GetLastError() != ERROR_ALREADY_EXISTS;
+    }
+
+    ~SystemWideMutex()
+    {
+        if (m_mutex)
+            CloseHandle(m_mutex);
+    }
+private:
+    Q_DISABLE_COPY(SystemWideMutex)
+
+    HANDLE m_mutex;
+    DWORD m_error;
+};
+#endif
 
 bool serverIsRunning(const QString &serverName)
 {
@@ -51,8 +93,8 @@ QLocalServer *newServer(const QString &name, QObject *parent)
 #ifdef Q_OS_WIN
     // On Windows, it's possible to have multiple local servers listening with same name.
     // This handles race condition when creating new server.
-    QSharedMemory shmem(name);
-    if ( !shmem.create(1) )
+    SystemWideMutex mutex(name);
+    if (!mutex)
         return server;
 #endif
 
