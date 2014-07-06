@@ -31,25 +31,28 @@
 
 namespace {
 
+bool serverIsRunning(const QString &serverName)
+{
+    QLocalSocket socket;
+    socket.connectToServer(serverName);
+    return socket.waitForConnected(-1);
+}
+
 QLocalServer *newServer(const QString &name, QObject *parent)
 {
     COPYQ_LOG( QString("Starting server \"%1\".").arg(name) );
 
     QLocalServer *server = new QLocalServer(parent);
 
-    // check if other server is running
-    QLocalSocket socket;
-    socket.connectToServer(name);
-    if ( socket.waitForConnected(2000) ) {
-        // server is running
-        QDataStream out(&socket);
-        out << (quint32)0;
-        COPYQ_LOG( QString("Server \"%1\" already running!").arg(name) );
-    } else {
+    if ( !serverIsRunning(name) ) {
         QLocalServer::removeServer(name);
-        server->listen(name);
-        COPYQ_LOG( QString("Server \"%1\" started.").arg(name) );
+        if ( !serverIsRunning(name) )
+            server->listen(name);
     }
+
+    COPYQ_LOG( QString(server->isListening()
+                       ? "Server \"%1\" started."
+                       : "Server \"%1\" already running!").arg(name) );
 
     return server;
 }
