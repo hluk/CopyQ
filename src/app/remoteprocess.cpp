@@ -106,7 +106,6 @@ bool RemoteProcess::checkConnection() {
 void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
 {
     COPYQ_LOG("Remote process: Started.");
-    m_state = Connected;
 
     connect( this, SIGNAL(destroyed()),
              socket, SLOT(deleteAfterDisconnected()) );
@@ -117,11 +116,17 @@ void RemoteProcess::onNewConnection(const Arguments &, ClientSocket *socket)
     connect( socket, SIGNAL(disconnected()),
              this, SLOT(onConnectionError()) );
 
-    socket->start();
+    if ( socket->isClosed() ) {
+        onConnectionError();
+    } else {
+        m_state = Connected;
 
-    ping();
+        socket->start();
 
-    emit connected();
+        ping();
+
+        emit connected();
+    }
 }
 
 void RemoteProcess::onMessageReceived(const QByteArray &message, int messageCode)
