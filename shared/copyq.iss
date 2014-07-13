@@ -20,7 +20,7 @@
 
 ; Choose path to Qt installation.
 #if Qt == 4
-# define QtRoot "C:\Qt\4.8.5"
+# define QtRoot "C:\Qt\4.8.6"
 #else
 # define QtRoot "C:\Qt\5.2.0"
 #endif
@@ -179,7 +179,8 @@ Source: "{#WindowsRoot}\msvcp100.dll"; DestDir: "{app}"; Components: program
 Source: "{#WindowsRoot}\msvcr100.dll"; DestDir: "{app}"; Components: program
 #else
 Source: "{#QtRoot}\bin\libgcc_s_dw2-1.dll"; DestDir: "{app}"; Components: program
-Source: "{#QtRoot}\bin\mingwm10.dll"; DestDir: "{app}"; Components: program
+Source: "{#QtRoot}\bin\libstdc++-6.dll"; DestDir: "{app}"; Components: program
+Source: "{#QtRoot}\bin\libwinpthread-1.dll"; DestDir: "{app}"; Components: program
 #endif
 
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
