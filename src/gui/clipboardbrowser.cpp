@@ -1144,26 +1144,20 @@ void ClipboardBrowser::filterItems()
         t.start();
 
         for ( ++m_lastFiltered ; m_lastFiltered < length(); ++m_lastFiltered ) {
-            if ( !hideFiltered(m_lastFiltered) && first == -1 )
+            if ( isRowHidden(m_lastFiltered) && !hideFiltered(m_lastFiltered) && first == -1 )
                 first = m_lastFiltered;
+
             if ( t.elapsed() > 25 ) {
                 m_timerFilter->start();
                 break;
             }
         }
 
-        if ( m_lastFiltered < length() ) {
-            // Hide the rest until found.
-            for ( int row = m_lastFiltered + 1; row < length(); ++row ) {
-                d->setRowVisible(row, false);
-                setRowHidden(row, true);
-            }
-        } else {
+        if ( m_lastFiltered >= length() )
             m_lastFiltered = -1;
-        }
     }
 
-    // select first visible
+    // Select row specified by search or first visible.
     if (!currentIndex().isValid() || sender() != m_timerFilter)
         setCurrentIndex( index(first) );
 
@@ -1516,9 +1510,23 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
     d->setSearch(re);
 
-    // hide filtered items
+    // Hide the rest until found.
+    for ( int row = 0; row < length(); ++row ) {
+        d->setRowVisible(row, false);
+        setRowHidden(row, true);
+    }
+
     m_lastFiltered = -1;
     filterItems();
+
+    // Select row by number specified in search.
+    bool rowSpecified;
+    int selectedRow = re.pattern().toInt(&rowSpecified);
+    if (rowSpecified && selectedRow >= 0 && selectedRow < length()) {
+        d->setRowVisible(selectedRow, false); // Show in preload().
+        setRowHidden(selectedRow, false);
+        setCurrentIndex( index(selectedRow) );
+    }
 }
 
 void ClipboardBrowser::moveToClipboard()

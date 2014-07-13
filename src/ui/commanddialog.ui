@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>640</width>
-    <height>480</height>
+    <width>638</width>
+    <height>478</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Commands</string>
+   <string>CopyQ Commands</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
