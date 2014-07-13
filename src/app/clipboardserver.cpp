@@ -247,7 +247,10 @@ void ClipboardServer::onAboutToQuit()
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 {
-    if ( sessionManager.allowsInteraction() && !askToQuit() )
+    bool cancel = sessionManager.allowsInteraction() && !askToQuit();
+    sessionManager.release();
+
+    if (cancel)
         sessionManager.cancel();
     else
         m_wnd->saveTabs();
