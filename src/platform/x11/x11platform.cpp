@@ -27,6 +27,7 @@
 #include <QWidget>
 
 #include "x11platformwindow.h"
+#include "x11platformclipboard.h"
 #include "x11displayguard.h"
 
 #include <X11/Xlib.h>
@@ -251,4 +252,9 @@ QApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
 QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 {
     return new QCoreApplication(argc, argv);
+}
+
+PlatformClipboardPtr X11Platform::clipboard()
+{
+    return PlatformClipboardPtr(new X11PlatformClipboard(d));
 }

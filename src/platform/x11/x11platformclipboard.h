@@ -17,34 +17,36 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dummyplatform.h"
+#ifndef X11PLATFORMCLIPBOARD_H
+#define X11PLATFORMCLIPBOARD_H
 
-#include "dummyclipboard.h"
+#include "platform/dummy/dummyclipboard.h"
 
-#include <QApplication>
-#include <QCoreApplication>
+#include <QSharedPointer>
 
-PlatformPtr createPlatformNativeInterface()
+class X11DisplayGuard;
+
+class X11PlatformClipboard : public DummyClipboard
 {
-    return PlatformPtr(new DummyPlatform);
-}
+    Q_OBJECT
+public:
+    X11PlatformClipboard(const QSharedPointer<X11DisplayGuard> &d);
 
-QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
-{
-    return new QApplication(argc, argv);
-}
+    void loadSettings(const QVariantMap &settings);
 
-QApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
-{
-    return new QApplication(argc, argv);
-}
+    QVariantMap data(const QStringList &formats) const;
 
-QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
-{
-    return new QCoreApplication(argc, argv);
-}
+private slots:
+    void onChanged(QClipboard::Mode mode);
 
-PlatformClipboardPtr DummyPlatform::clipboard()
-{
-    return PlatformClipboardPtr(new DummyClipboard());
-}
+private:
+    QSharedPointer<X11DisplayGuard> d;
+
+    bool m_copyclip;
+    bool m_checksel;
+    bool m_copysel;
+
+    bool m_lastChangedIsClipboard;
+};
+
+#endif // X11PLATFORMCLIPBOARD_H

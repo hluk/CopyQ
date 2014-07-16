@@ -21,6 +21,7 @@
 #define PLATFORMNATIVEINTERFACE_H
 
 #include "platform/platformwindow.h"
+#include "platform/platformclipboard.h"
 
 #include <QSharedPointer>
 #include <QWidget>
@@ -30,10 +31,9 @@ class QByteArray;
 class QCoreApplication;
 class QWidget;
 
-/**
- * Shared pointer type for PlatformWindow.
- */
 typedef QSharedPointer<PlatformWindow> PlatformWindowPtr;
+
+typedef QSharedPointer<PlatformClipboard> PlatformClipboardPtr;
 
 /**
  * Interface for platform dependent code.
@@ -101,6 +101,11 @@ public:
      * Returns true if serialization is successful.
      */
     virtual bool serialize(WId, QByteArray *) { return false; }
+
+    /**
+     * Return object for managing clipboard.
+     */
+    virtual PlatformClipboardPtr clipboard() = 0;
 };
 
 /**

@@ -73,6 +73,8 @@ public:
 
     void loadSettings() {}
 
+    PlatformClipboardPtr clipboard();
+
 private:
     QSharedPointer<X11DisplayGuard> d;
 };

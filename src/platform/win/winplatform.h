@@ -48,6 +48,8 @@ public:
     QCoreApplication *createClientApplication(int &argc, char **argv);
 
     void loadSettings();
+
+    PlatformClipboardPtr clipboard();
 };
 
 #endif // WINPLATFORM_H

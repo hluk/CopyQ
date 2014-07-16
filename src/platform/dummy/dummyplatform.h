@@ -22,8 +22,8 @@
 
 #include "platform/platformnativeinterface.h"
 
-#include <QApplication>
-#include <QCoreApplication>
+class QApplication;
+class QCoreApplication;
 
 class PlatformWindow
 {
@@ -48,13 +48,15 @@ public:
 
     void setAutostartEnabled(bool) {}
 
-    QApplication *createServerApplication(int &argc, char **argv) { return new QApplication(argc, argv); }
+    QApplication *createServerApplication(int &argc, char **argv);
 
-    QApplication *createMonitorApplication(int &argc, char **argv) { return new QApplication(argc, argv); }
+    QApplication *createMonitorApplication(int &argc, char **argv);
 
-    QCoreApplication *createClientApplication(int &argc, char **argv) { return new QCoreApplication(argc, argv); }
+    QCoreApplication *createClientApplication(int &argc, char **argv);
 
     void loadSettings() {}
+
+    PlatformClipboardPtr clipboard();
 };
 
 #endif // DUMMYPLATFORM_H

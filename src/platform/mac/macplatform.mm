@@ -25,6 +25,7 @@
 #include "macplatformwindow.h"
 #include "platform/mac/macactivity.h"
 #include "urlpasteboardmime.h"
+#include "platform/dummy/dummyclipboard.h"
 
 #include <QApplication>
 #include <QCoreApplication>
@@ -167,6 +168,11 @@ QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
 {
     MacActivity activity(MacActivity::User, "CopyQ Client");
     return new QCoreApplication(argc, argv);
+}
+
+PlatformClipboardPtr MacPlatform::clipboard()
+{
+    return PlatformClipboardPtr(new DummyClipboard());
 }
 
 PlatformWindowPtr MacPlatform::getCurrentWindow()

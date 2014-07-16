@@ -17,34 +17,36 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "dummyplatform.h"
+#ifndef DUMMYCLIPBOARD_H
+#define DUMMYCLIPBOARD_H
 
-#include "dummyclipboard.h"
+#include "platform/platformclipboard.h"
 
-#include <QApplication>
-#include <QCoreApplication>
+#include <QClipboard>
 
-PlatformPtr createPlatformNativeInterface()
+class DummyClipboard : public PlatformClipboard
 {
-    return PlatformPtr(new DummyPlatform);
-}
+    Q_OBJECT
+public:
+    DummyClipboard();
 
-QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
-{
-    return new QApplication(argc, argv);
-}
+    void loadSettings(const QVariantMap &) {}
 
-QApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
-{
-    return new QApplication(argc, argv);
-}
+    QVariantMap data(const QStringList &formats) const;
 
-QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
-{
-    return new QCoreApplication(argc, argv);
-}
+    void setData(const QVariantMap &dataMap);
 
-PlatformClipboardPtr DummyPlatform::clipboard()
-{
-    return PlatformClipboardPtr(new DummyClipboard());
-}
+    void ignoreCurrentData() {}
+
+signals:
+    void changed();
+
+protected:
+    QVariantMap data(QClipboard::Mode mode, const QStringList &formats) const;
+    void setData(QClipboard::Mode mode, const QVariantMap &dataMap);
+
+private slots:
+    virtual void onChanged(QClipboard::Mode mode);
+};
+
+#endif // DUMMYCLIPBOARD_H

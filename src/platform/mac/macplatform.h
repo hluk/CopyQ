@@ -45,6 +45,8 @@ public:
 
     void loadSettings() {}
 
+    PlatformClipboardPtr clipboard();
+
     /**
      * Get the number of changes to the clipboard (NSPasteboard::changeCount).
      */

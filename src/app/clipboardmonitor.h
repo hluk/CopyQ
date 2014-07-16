@@ -23,27 +23,9 @@
 #include "app.h"
 #include "client.h"
 
-#include "common/log.h"
-
-#include <QClipboard>
-#include <QScopedPointer>
-#include <QStringList>
-#include <QVariantMap>
-
-class QMimeData;
-class QTimer;
-#ifdef COPYQ_WS_X11
-class PrivateX11;
-#endif
-
-#ifdef Q_OS_MAC
-class MacPlatform;
-class MacTimer;
-#endif
+#include "platform/platformnativeinterface.h"
 
 /**
- * Application monitor server.
- *
  * Monitors clipboard and sends new clipboard data to server.
  * Server can send back new data for clipboard.
  *
@@ -59,73 +41,16 @@ class ClipboardMonitor : public Client, public App
 public:
     ClipboardMonitor(int &argc, char **argv);
 
-    ~ClipboardMonitor();
-
-    /** Change clipboard and primary selection content. */
-    void updateClipboard(const QVariantMap &data = QVariantMap());
-
-    virtual void exit(int exitCode);
-
 private slots:
-    /**
-     * Check clipboard or primary selection.
-     * @see updateSelection()
-     */
-    void checkClipboard(QClipboard::Mode mode);
+    void onClipboardChanged();
 
-#ifdef COPYQ_WS_X11
-    /**
-     * Check X11 selection data if mouse button or shift key is not pressed.
-     */
-    void updateSelection();
-
-    /**
-     * Synchronize clipboard and X11 primary selection.
-     */
-    void synchronize();
-
-    /**
-     * Reset clipboard if empty.
-     */
-    void resetClipboard();
-#endif
-
-    /** Update clipboard data in reasonably long intervals. */
-    void updateTimeout();
-
-    /** Message received from server. */
     void onMessageReceived(const QByteArray &message, int messageCode);
 
-    /** Server connection closed. */
     void onDisconnected();
 
-    void clipboardTimeout();
-
 private:
-    /** Send new clipboard or primary selection data to server. */
-    void clipboardChanged(const QVariantMap &data);
-
-    void log(const QString &text, const LogLevel level);
-
+    PlatformClipboardPtr m_clipboard;
     QStringList m_formats;
-    QVariantMap m_newdata;
-
-    // don't allow rapid access to clipboard
-    QTimer *m_updateTimer;
-    bool m_needCheckClipboard;
-
-#ifdef COPYQ_WS_X11
-    bool m_needCheckSelection;
-
-    // stuff for X11 window system
-    PrivateX11* m_x11;
-#endif
-
-#ifdef Q_OS_MAC
-    long int m_prevChangeCount;
-    MacTimer *m_clipboardCheckTimer;
-    MacPlatform *m_macPlatform;
-#endif
 };
 
 #endif // CLIPBOARDMONITOR_H
