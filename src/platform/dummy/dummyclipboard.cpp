@@ -23,10 +23,12 @@
 
 #include <QApplication>
 
-DummyClipboard::DummyClipboard()
+DummyClipboard::DummyClipboard(bool connectClipboardSignal)
 {
-    connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
-             this, SLOT(onChanged(QClipboard::Mode)) );
+    if (connectClipboardSignal) {
+        connect( QApplication::clipboard(), SIGNAL(changed(QClipboard::Mode)),
+                 this, SLOT(onChanged(QClipboard::Mode)) );
+    }
 }
 
 QVariantMap DummyClipboard::data(const QStringList &formats) const

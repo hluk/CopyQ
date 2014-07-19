@@ -22,6 +22,7 @@
 
 #include "platform/dummy/dummyclipboard.h"
 #include "winplatform.h"
+#include "winplatformclipboard.h"
 #include "winplatformwindow.h"
 
 #include <QApplication>
@@ -129,5 +130,5 @@ void WinPlatform::loadSettings()
 
 PlatformClipboardPtr WinPlatform::clipboard()
 {
-    return PlatformClipboardPtr(new DummyClipboard());
+    return PlatformClipboardPtr(new WinPlatformClipboard());
 }

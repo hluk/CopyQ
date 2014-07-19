@@ -17,36 +17,24 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef DUMMYCLIPBOARD_H
-#define DUMMYCLIPBOARD_H
+#ifndef WINPLATFORMCLIPBOARD_H
+#define WINPLATFORMCLIPBOARD_H
 
-#include "platform/platformclipboard.h"
+#include "platform/dummy/dummyclipboard.h"
 
-#include <QClipboard>
+#include <qt_windows.h>
 
-class DummyClipboard : public PlatformClipboard
+class WinPlatformClipboard : public DummyClipboard
 {
     Q_OBJECT
 public:
-    DummyClipboard(bool connectClipboardSignal = true);
-
-    void loadSettings(const QVariantMap &) {}
-
-    QVariantMap data(const QStringList &formats) const;
-
-    void setData(const QVariantMap &dataMap);
-
-    void ignoreCurrentData() {}
-
-signals:
-    void changed();
-
-protected:
-    QVariantMap data(QClipboard::Mode mode, const QStringList &formats) const;
-    void setData(QClipboard::Mode mode, const QVariantMap &dataMap);
+    WinPlatformClipboard();
 
 private slots:
-    virtual void onChanged(QClipboard::Mode mode);
+    void checkClipboard();
+
+private:
+    DWORD m_lastClipboardSequenceNumber;
 };
 
-#endif // DUMMYCLIPBOARD_H
+#endif // WINPLATFORMCLIPBOARD_H
