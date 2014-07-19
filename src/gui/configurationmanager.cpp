@@ -675,6 +675,8 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
 QStringList ConfigurationManager::savedTabs() const
 {
     QStringList tabs = value("tabs").toStringList();
+    tabs.removeAll(QString());
+
     const QString configPath = settingsDirectoryPath();
 
     QStringList files = QDir(configPath).entryList(QStringList("*_tab_*.dat"));
@@ -686,7 +688,7 @@ QStringList ConfigurationManager::savedTabs() const
         if ( fileName.contains(re) ) {
             const QString tabName =
                     QString::fromUtf8(QByteArray::fromBase64(re.cap(1).toUtf8()));
-            if ( !tabs.contains(tabName) )
+            if ( !tabName.isEmpty() && !tabs.contains(tabName) )
                 tabs.append(tabName);
         }
     }
