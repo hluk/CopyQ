@@ -3,18 +3,20 @@ QT += macextras
 
 SOURCES += \
     ../qxt/qxtglobalshortcut_mac.cpp \
+    platform/dummy/dummyclipboard.cpp
 
 HEADERS += \
-    platform/mac/mactimer.h \
-    platform/mac/foregroundbackgroundfilter.h
+    $$PWD/mactimer.h \
+    $$PWD/foregroundbackgroundfilter.h \
+    platform/dummy/dummyclipboard.h
 
 OBJECTIVE_SOURCES += \
-    platform/mac/macplatform.mm \
-    platform/mac/macplatformwindow.mm \
-    platform/mac/macactivity.mm \
-    platform/mac/copyqpasteboardmime.mm \
-    platform/mac/urlpasteboardmime.mm \
-    platform/mac/foregroundbackgroundfilter.mm \
-    platform/mac/mactimer.mm
+    $$PWD/macplatform.mm \
+    $$PWD/macplatformwindow.mm \
+    $$PWD/macactivity.mm \
+    $$PWD/copyqpasteboardmime.mm \
+    $$PWD/urlpasteboardmime.mm \
+    $$PWD/foregroundbackgroundfilter.mm \
+    $$PWD/mactimer.mm
 
 USE_QXT = 1

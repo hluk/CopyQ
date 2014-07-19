@@ -28,7 +28,7 @@ class DummyClipboard : public PlatformClipboard
 {
     Q_OBJECT
 public:
-    DummyClipboard(bool connectClipboardSignal = true);
+    explicit DummyClipboard(bool connectClipboardSignal = true);
 
     void loadSettings(const QVariantMap &) {}
 

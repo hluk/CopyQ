@@ -4,7 +4,8 @@ SOURCES += \
     ../qxt/qxtglobalshortcut_x11.cpp \
     $$PWD/x11platform.cpp \
     $$PWD/x11platformwindow.cpp \
-    $$PWD/x11platformclipboard.cpp
+    $$PWD/x11platformclipboard.cpp \
+    platform/dummy/dummyclipboard.cpp
 USE_QXT = 1
 
 greaterThan(QT_MAJOR_VERSION, 4) {
