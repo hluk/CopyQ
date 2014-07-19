@@ -65,7 +65,7 @@ QString newClipboardMonitorServerName()
 
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
-    , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName)
+    , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName, true)
     , m_wnd(NULL)
     , m_monitor(NULL)
     , m_checkclip(false)

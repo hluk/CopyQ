@@ -32,6 +32,8 @@ enum LogLevel {
     LogTrace
 };
 
+void createSessionMutex();
+
 bool hasLogLevel(LogLevel level);
 
 #define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)

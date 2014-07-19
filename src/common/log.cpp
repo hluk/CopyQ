@@ -19,8 +19,8 @@
 
 #include "log.h"
 
+#include <QCoreApplication>
 #include <QDateTime>
-#include <QDebug>
 #include <QDir>
 #include <QFile>
 #include <QSharedPointer>
@@ -65,8 +65,8 @@ public:
      * Open system mutex if exists, otherwise create one.
      * Name of mutex is same as current session of application.
      */
-    SystemMutex(const QString &name)
-        : m_semaphore(name, 1)
+    SystemMutex(const QString &name, QSystemSemaphore::AccessMode mode)
+        : m_semaphore(name, 1, mode)
     {
     }
 
@@ -89,6 +89,7 @@ private:
 };
 
 typedef QSharedPointer<SystemMutex> SystemMutexPtr;
+SystemMutexPtr sessionMutex;
 
 /// Lock guard for SystemMutex.
 class SystemMutexLocker {
@@ -98,8 +99,6 @@ public:
         : m_mutex(mutex)
         , m_locked(!m_mutex.isNull() && m_mutex->lock())
     {
-        if (!m_mutex.isNull() && !isLocked())
-            qDebug() << "ERROR: Session mutex:" << m_mutex->error();
     }
 
     /// Unlocks mutex.
@@ -116,14 +115,28 @@ private:
     bool m_locked;
 };
 
-void tryInitMutex(SystemMutexPtr *mutex)
+const QString sessionName()
 {
-    const QString session = QString::fromUtf8(qgetenv("COPYQ_SESSION_NAME"));
-    if (!session.isEmpty())
-        *mutex = SystemMutexPtr(new SystemMutex(session));
+    return QCoreApplication::applicationName();
+}
+
+const SystemMutexPtr &getSessionMutex()
+{
+    if (sessionMutex.isNull()) {
+        const QString session = sessionName();
+        if (!session.isEmpty())
+            sessionMutex = SystemMutexPtr(new SystemMutex(session, QSystemSemaphore::Open));
+    }
+
+    return sessionMutex;
 }
 
 } // namespace
+
+void createSessionMutex()
+{
+    sessionMutex = SystemMutexPtr(new SystemMutex(sessionName(), QSystemSemaphore::Create));
+}
 
 bool hasLogLevel(LogLevel level)
 {
@@ -154,10 +167,7 @@ void log(const QString &text, const LogLevel level)
     if ( !hasLogLevel(level) )
         return;
 
-    static SystemMutexPtr sessionMutex;
-    if (sessionMutex.isNull())
-        tryInitMutex(&sessionMutex);
-    SystemMutexLocker lock(sessionMutex);
+    SystemMutexLocker lock(getSessionMutex());
 
     // Always print time at debug log level.
     const QString label = hasLogLevel(LogDebug)

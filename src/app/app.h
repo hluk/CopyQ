@@ -29,7 +29,9 @@ class QCoreApplication;
 class App
 {
 public:
-    explicit App(QCoreApplication *application, const QString &sessionName = QString());
+    explicit App(
+            QCoreApplication *application, const QString &sessionName = QString(),
+            bool createSessionLock = false);
 
     virtual ~App();
 
