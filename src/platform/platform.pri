@@ -14,12 +14,3 @@ unix {
     SOURCES += $$PWD/unix/unixsignalhandler.cpp
     HEADERS += $$PWD/unix/unixsignalhandler.h
 }
-
-HEADERS += \
-    $$PWD/platformclipboard.h \
-    $$PWD/platformwindow.h \
-    $$PWD/dummy/dummyclipboard.h
-
-SOURCES += \
-    $$PWD/dummy/dummyclipboard.cpp
-
