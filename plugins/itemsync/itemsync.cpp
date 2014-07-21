@@ -1253,7 +1253,7 @@ QVariantMap ItemSyncLoader::applySettings()
     QTableWidget *t = ui->tableWidgetSyncTabs;
     QStringList tabPaths;
     m_tabPaths.clear();
-    for (int row = 0, i = 0; i < t->rowCount(); ++row, i += 2) {
+    for (int row = 0; row < t->rowCount(); ++row) {
         const QString tabName = t->item(row, syncTabsTableColumns::tabName)->text();
         if ( !tabName.isEmpty() ) {
             const QString tabPath = t->item(row, syncTabsTableColumns::path)->text();
