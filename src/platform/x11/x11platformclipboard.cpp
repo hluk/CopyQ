@@ -26,6 +26,27 @@
 
 #include "common/common.h"
 
+#include <X11/Xlib.h>
+#include <X11/Xatom.h>
+
+namespace {
+
+/// Return true only if selection is incomplete, i.e. mouse button or shift key is pressed.
+bool isSelectionIncomplete(Display *display)
+{
+    // If mouse button or shift is pressed then assume that user is selecting text.
+    XEvent event;
+    XQueryPointer(display, DefaultRootWindow(display),
+                  &event.xbutton.root, &event.xbutton.window,
+                  &event.xbutton.x_root, &event.xbutton.y_root,
+                  &event.xbutton.x, &event.xbutton.y,
+                  &event.xbutton.state);
+
+    return event.xbutton.state & (Button1Mask | ShiftMask);
+}
+
+} // namespace
+
 X11PlatformClipboard::X11PlatformClipboard(const QSharedPointer<X11DisplayGuard> &d)
     : d(d)
     , m_copyclip(false)
@@ -33,16 +54,19 @@ X11PlatformClipboard::X11PlatformClipboard(const QSharedPointer<X11DisplayGuard>
     , m_copysel(false)
     , m_lastChangedIsClipboard(true)
 {
+    Q_ASSERT(d->display());
+
+    m_timerIncompleteSelection.setSingleShot(true);
+    m_timerIncompleteSelection.setInterval(100);
+    connect( &m_timerIncompleteSelection, SIGNAL(timeout()),
+             this, SLOT(checkSelectionComplete()) );
 }
 
 void X11PlatformClipboard::loadSettings(const QVariantMap &settings)
 {
-    if ( settings.contains("copy_clipboard") )
-        m_copyclip = settings["copy_clipboard"].toBool();
-    if ( settings.contains("copy_selection") )
-        m_copysel = settings["copy_selection"].toBool();
-    if ( settings.contains("check_selection") )
-        m_checksel = settings["check_selection"].toBool();
+    m_copyclip = settings.value("copy_clipboard", m_copyclip).toBool();
+    m_copysel = settings.value("copy_selection", m_copysel).toBool();
+    m_checksel = settings.value("check_selection", m_checksel).toBool();
 }
 
 QVariantMap X11PlatformClipboard::data(const QStringList &formats) const
@@ -53,6 +77,24 @@ QVariantMap X11PlatformClipboard::data(const QStringList &formats) const
 
 void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
 {
+    if ( waitIfSelectionIncomplete() )
+        return;
+
     m_lastChangedIsClipboard = mode == QClipboard::Clipboard;
     emit changed();
+}
+
+void X11PlatformClipboard::checkSelectionComplete()
+{
+    onChanged(QClipboard::Selection);
+}
+
+bool X11PlatformClipboard::waitIfSelectionIncomplete()
+{
+    if ( m_timerIncompleteSelection.isActive() || isSelectionIncomplete(d->display()) ) {
+        m_timerIncompleteSelection.start();
+        return true;
+    }
+
+    return false;
 }

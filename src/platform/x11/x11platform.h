@@ -59,12 +59,6 @@ public:
      */
     void setAutostartEnabled(bool);
 
-    bool isSelecting();
-
-    bool isClipboardEmpty() const;
-
-    bool isSelectionEmpty() const;
-
     QApplication *createServerApplication(int &argc, char **argv);
 
     QApplication *createMonitorApplication(int &argc, char **argv);

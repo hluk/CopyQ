@@ -23,6 +23,7 @@
 #include "platform/dummy/dummyclipboard.h"
 
 #include <QSharedPointer>
+#include <QTimer>
 
 class X11DisplayGuard;
 
@@ -38,8 +39,11 @@ public:
 
 private slots:
     void onChanged(QClipboard::Mode mode);
+    void checkSelectionComplete();
 
 private:
+    bool waitIfSelectionIncomplete();
+
     QSharedPointer<X11DisplayGuard> d;
 
     bool m_copyclip;
@@ -47,6 +51,8 @@ private:
     bool m_copysel;
 
     bool m_lastChangedIsClipboard;
+
+    QTimer m_timerIncompleteSelection;
 };
 
 #endif // X11PLATFORMCLIPBOARD_H
