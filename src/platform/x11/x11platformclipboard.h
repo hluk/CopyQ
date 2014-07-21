@@ -22,7 +22,9 @@
 
 #include "platform/dummy/dummyclipboard.h"
 
+#include <QClipboard>
 #include <QSharedPointer>
+#include <QStringList>
 #include <QTimer>
 
 class X11DisplayGuard;
@@ -37,22 +39,46 @@ public:
 
     QVariantMap data(const QStringList &formats) const;
 
+    void ignoreCurrentData();
+
 private slots:
     void onChanged(QClipboard::Mode mode);
     void checkSelectionComplete();
+    void resetClipboard();
+    void synchronize();
 
 private:
+    void initSingleShotTimer(int intervalMs, const char *slot, QTimer *timer);
+
     bool waitIfSelectionIncomplete();
+
+    /**
+     * Remember last non-empty clipboard content and reset clipboard after interval if there is no owner.
+     *
+     * @return return true if clipboard/selection has no owner and will be reset
+     */
+    bool maybeResetClipboard(QClipboard::Mode mode);
+
+    void syncFrom(QClipboard::Mode mode);
 
     QSharedPointer<X11DisplayGuard> d;
 
     bool m_copyclip;
     bool m_checksel;
     bool m_copysel;
+    QStringList m_formats;
 
     bool m_lastChangedIsClipboard;
+    bool m_resetClipboard;
+    bool m_resetSelection;
+    bool m_syncFromClipboard;
 
     QTimer m_timerIncompleteSelection;
+    QTimer m_timerReset;
+    QTimer m_timerSync;
+
+    QVariantMap m_clipboardData;
+    QVariantMap m_selectionData;
 };
 
 #endif // X11PLATFORMCLIPBOARD_H
