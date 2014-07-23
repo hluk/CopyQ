@@ -117,7 +117,8 @@ private:
 
 const QString sessionName()
 {
-    return QCoreApplication::applicationName();
+    const QString session = QString::fromUtf8(qgetenv("COPYQ_SESSION_NAME"));
+    return session.isEmpty() ? QString() : "CopyQ_" + session;
 }
 
 const SystemMutexPtr &getSessionMutex()
