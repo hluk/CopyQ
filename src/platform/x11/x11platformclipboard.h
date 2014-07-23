@@ -37,7 +37,7 @@ public:
 
     void loadSettings(const QVariantMap &settings);
 
-    QVariantMap data(const QStringList &formats) const;
+    QVariantMap data(Mode mode, const QStringList &formats) const;
 
     void ignoreCurrentData();
 
@@ -68,7 +68,6 @@ private:
     bool m_copysel;
     QStringList m_formats;
 
-    bool m_lastChangedIsClipboard;
     bool m_resetClipboard;
     bool m_resetSelection;
     bool m_syncFromClipboard;

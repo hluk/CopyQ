@@ -23,6 +23,22 @@
 
 #include <QApplication>
 
+namespace {
+
+QClipboard::Mode modeToQClipboardMode(PlatformClipboard::Mode mode)
+{
+    switch (mode) {
+    case PlatformClipboard::Selection:
+        return QClipboard::Selection;
+    case PlatformClipboard::FindBuffer:
+        return QClipboard::FindBuffer;
+    default:
+        return QClipboard::Clipboard;
+    }
+}
+
+} // namespace
+
 DummyClipboard::DummyClipboard(bool connectClipboardSignal)
 {
     if (connectClipboardSignal) {
@@ -31,31 +47,20 @@ DummyClipboard::DummyClipboard(bool connectClipboardSignal)
     }
 }
 
-QVariantMap DummyClipboard::data(const QStringList &formats) const
+QVariantMap DummyClipboard::data(Mode mode, const QStringList &formats) const
 {
-    return data(QClipboard::Clipboard, formats);
-}
-
-void DummyClipboard::setData(const QVariantMap &dataMap)
-{
-    setData(QClipboard::Clipboard, dataMap);
-}
-
-QVariantMap DummyClipboard::data(QClipboard::Mode mode, const QStringList &formats) const
-{
-    const QMimeData *data = clipboardData(mode);
+    const QMimeData *data = clipboardData(modeToQClipboardMode(mode));
     return data ? cloneData(*data, formats) : QVariantMap();
 }
 
-void DummyClipboard::setData(QClipboard::Mode mode, const QVariantMap &dataMap)
+void DummyClipboard::setData(Mode mode, const QVariantMap &dataMap)
 {
     Q_ASSERT( isMainThread() );
 
-    QApplication::clipboard()->setMimeData( createMimeData(dataMap), mode );
+    QApplication::clipboard()->setMimeData( createMimeData(dataMap), modeToQClipboardMode(mode) );
 }
 
 void DummyClipboard::onChanged(QClipboard::Mode mode)
 {
     if (mode == QClipboard::Clipboard)
-        emit changed();
-}
+        emit changed(Clipboard); }

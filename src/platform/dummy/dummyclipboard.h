@@ -32,18 +32,14 @@ public:
 
     void loadSettings(const QVariantMap &) {}
 
-    QVariantMap data(const QStringList &formats) const;
+    QVariantMap data(Mode mode, const QStringList &formats) const;
 
-    void setData(const QVariantMap &dataMap);
+    void setData(Mode mode, const QVariantMap &dataMap);
 
     void ignoreCurrentData() {}
 
 signals:
-    void changed();
-
-protected:
-    QVariantMap data(QClipboard::Mode mode, const QStringList &formats) const;
-    void setData(QClipboard::Mode mode, const QVariantMap &dataMap);
+    void changed(PlatformClipboard::Mode mode);
 
 private slots:
     virtual void onChanged(QClipboard::Mode mode);

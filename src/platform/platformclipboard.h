@@ -26,11 +26,18 @@
 /**
  * Interface for clipboard.
  *
- * Define signal changed() in derived class. This signal notifies about clipboard changes.
+ * Define signal changed(PlatformClipboard::Mode) in derived class.
+ * This signal notifies about clipboard changes.
  */
 class PlatformClipboard : public QObject
 {
 public:
+    enum Mode {
+        Clipboard,
+        Selection,
+        FindBuffer
+    };
+
     /**
      * Contains settings from application.
      */
@@ -39,12 +46,12 @@ public:
     /**
      * Return clipboard data containing specified @a formats if available.
      */
-    virtual QVariantMap data(const QStringList &formats) const = 0;
+    virtual QVariantMap data(Mode mode, const QStringList &formats) const = 0;
 
     /**
      * Set data to clipboard.
      */
-    virtual void setData(const QVariantMap &dataMap) = 0;
+    virtual void setData(Mode mode, const QVariantMap &dataMap) = 0;
 
     /**
      * Triggered by "ignore()" script command.

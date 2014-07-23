@@ -46,9 +46,12 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
         exit(1);
 }
 
-void ClipboardMonitor::onClipboardChanged()
+void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
 {
-    QVariantMap data = m_clipboard->data(m_formats);
+    QVariantMap data = m_clipboard->data(mode, m_formats);
+
+    if (mode != PlatformClipboard::Clipboard)
+        data.insert(mimeClipboardMode, PlatformClipboard::Selection ? "selection" : "find buffer");
 
     // add window title of clipboard owner
     if ( !data.contains(mimeOwner) && !data.contains(mimeWindowTitle) ) {
@@ -83,8 +86,8 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         if ( settings.contains("formats") )
             m_formats = settings["formats"].toStringList();
 
-        connect( m_clipboard.data(), SIGNAL(changed()),
-                 this, SLOT(onClipboardChanged()),
+        connect( m_clipboard.data(), SIGNAL(changed(PlatformClipboard::Mode)),
+                 this, SLOT(onClipboardChanged(PlatformClipboard::Mode)),
                  Qt::UniqueConnection );
 
         m_clipboard->loadSettings(settings);
@@ -93,7 +96,7 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
     } else if (messageCode == MonitorChangeClipboard) {
         QVariantMap data;
         deserializeData(&data, message);
-        m_clipboard->setData(data);
+        m_clipboard->setData(PlatformClipboard::Clipboard, data);
     } else if (messageCode == MonitorIgnoreClipboard) {
         m_clipboard->ignoreCurrentData();
     } else {

@@ -42,5 +42,5 @@ void WinPlatformClipboard::checkClipboard()
         return;
 
     m_lastClipboardSequenceNumber = newClipboardSequenceNumber;
-    emit changed();
+    emit changed(Clipboard);
 }

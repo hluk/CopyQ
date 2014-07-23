@@ -42,7 +42,7 @@ public:
     ClipboardMonitor(int &argc, char **argv);
 
 private slots:
-    void onClipboardChanged();
+    void onClipboardChanged(PlatformClipboard::Mode mode);
 
     void onMessageReceived(const QByteArray &message, int messageCode);
 

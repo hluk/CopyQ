@@ -315,7 +315,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     bool forceRunCommands = false;
 
 #ifdef COPYQ_WS_X11
-    bool clipboardChanged = data.value(mimeClipboardMode) != "selection";
+    bool clipboardChanged = !data.contains(mimeClipboardMode);
     if (clipboardChanged)
 #endif
     {
