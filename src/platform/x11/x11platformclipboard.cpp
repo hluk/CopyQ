@@ -133,6 +133,9 @@ void X11PlatformClipboard::onChanged(QClipboard::Mode mode)
     if ( foreignData && ((mode == QClipboard::Clipboard) ? m_copyclip : m_copysel) )
         syncFrom(mode);
 
+    if (!m_checksel && mode == QClipboard::Selection)
+        return;
+
     emit changed(isClip ? Clipboard : Selection);
 }
 
