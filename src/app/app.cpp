@@ -172,7 +172,7 @@ void installTranslator()
 
 } // namespace
 
-App::App(QCoreApplication *application, const QString &sessionName, bool createSessionLock)
+App::App(QCoreApplication *application, const QString &sessionName)
     : m_app(application)
     , m_exitCode(0)
     , m_closed(false)
@@ -188,9 +188,6 @@ App::App(QCoreApplication *application, const QString &sessionName, bool createS
 
     QCoreApplication::setOrganizationName(session);
     QCoreApplication::setApplicationName(session);
-
-    if (createSessionLock)
-        createSessionMutex();
 
 #ifdef HAS_TESTS
     initTests();

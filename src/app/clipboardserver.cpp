@@ -65,7 +65,7 @@ QString newClipboardMonitorServerName()
 
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
-    , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName, true)
+    , App(createPlatformNativeInterface()->createServerApplication(argc, argv), sessionName)
     , m_wnd(NULL)
     , m_monitor(NULL)
     , m_checkclip(false)
@@ -80,6 +80,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
         exit(0);
         return;
     }
+
+    createSessionMutex();
 
     QApplication::setQuitOnLastWindowClosed(false);
 
