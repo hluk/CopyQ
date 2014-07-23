@@ -522,7 +522,7 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
 #endif
                      );
 
-        ItemEditor *editor = new ItemEditor(data, MIME_PREFIX "theme", m_editor, this);
+        ItemEditor *editor = new ItemEditor(data, COPYQ_MIME_PREFIX "theme", m_editor, this);
 
         connect( editor, SIGNAL(fileModified(QByteArray,QString)),
                  this, SLOT(onThemeModified(QByteArray)) );

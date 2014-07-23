@@ -72,13 +72,13 @@ const char tabConfigSavedFiles[] = "saved_files";
 const char dataFileSuffix[] = "_copyq.dat";
 const char noteFileSuffix[] = "_note.txt";
 
-#define MIME_PREFIX_ITEMSYNC MIME_PREFIX "itemsync-"
-const char mimeExtensionMap[] = MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
-const char mimeBaseName[] = MIME_PREFIX_ITEMSYNC "basename";
-const char mimeNoSave[] = MIME_PREFIX_ITEMSYNC "no-save";
-const char mimeSyncPath[] = MIME_PREFIX_ITEMSYNC "sync-path";
-const char mimeNoFormat[] = MIME_PREFIX_ITEMSYNC "no-format";
-const char mimeUnknownFormats[] = MIME_PREFIX_ITEMSYNC "unknown-formats";
+#define COPYQ_MIME_PREFIX_ITEMSYNC COPYQ_MIME_PREFIX "itemsync-"
+const char mimeExtensionMap[] = COPYQ_MIME_PREFIX_ITEMSYNC "mime-to-extension-map";
+const char mimeBaseName[] = COPYQ_MIME_PREFIX_ITEMSYNC "basename";
+const char mimeNoSave[] = COPYQ_MIME_PREFIX_ITEMSYNC "no-save";
+const char mimeSyncPath[] = COPYQ_MIME_PREFIX_ITEMSYNC "sync-path";
+const char mimeNoFormat[] = COPYQ_MIME_PREFIX_ITEMSYNC "no-format";
+const char mimeUnknownFormats[] = COPYQ_MIME_PREFIX_ITEMSYNC "unknown-formats";
 
 const char propertyModelDisabled[] = "disabled";
 
@@ -585,7 +585,7 @@ void fixUserExtensions(QStringList *exts)
 void fixUserMimeType(QString *mimeType)
 {
     // Don't allow user to override internal formats.
-    if ( mimeType->startsWith(MIME_PREFIX_ITEMSYNC) )
+    if ( mimeType->startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
         mimeType->clear();
 }
 
@@ -962,7 +962,7 @@ private:
         formatData.clear();
 
         foreach ( const QString &format, mimeToExtension.keys() ) {
-            if ( !format.startsWith(MIME_PREFIX_ITEMSYNC) )
+            if ( !format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
                 formatData.insert(format, calculateHash(itemData.value(format).toByteArray()) );
         }
     }
@@ -1010,7 +1010,7 @@ private:
             const QVariantMap noSaveData = itemData.value(mimeNoSave).toMap();
 
             foreach ( const QString &format, itemData.keys() ) {
-                if ( format.startsWith(MIME_PREFIX_ITEMSYNC) )
+                if ( format.startsWith(COPYQ_MIME_PREFIX_ITEMSYNC) )
                     continue; // skip internal data
 
                 const QByteArray bytes = itemData[format].toByteArray();
@@ -1570,12 +1570,12 @@ QObject *ItemSyncLoader::tests(const TestInterfacePtr &test) const
     QVariantMap format;
 
     format["formats"] = QStringList() << "xxx";
-    format["itemMime"] = QString(MIME_PREFIX "test-xxx");
+    format["itemMime"] = QString(COPYQ_MIME_PREFIX "test-xxx");
     format["icon"] = QString(iconFromId(IconTrash));
     formatSettings << format;
 
     format["formats"] = QStringList() << "zzz" << ".yyy";
-    format["itemMime"] = QString(MIME_PREFIX "test-zzz");
+    format["itemMime"] = QString(COPYQ_MIME_PREFIX "test-zzz");
     format["icon"] = QString();
     formatSettings << format;
 

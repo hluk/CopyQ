@@ -92,7 +92,7 @@ bool hasFormat(const QVariantMap &data, const QString &format)
 {
     if (format == mimeItems) {
         foreach (const QString &key, data.keys()) {
-            if ( !key.startsWith(MIME_PREFIX) )
+            if ( !key.startsWith(COPYQ_MIME_PREFIX) )
                 return true;
         }
         return false;
