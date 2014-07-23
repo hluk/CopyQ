@@ -89,6 +89,15 @@ QVariantMap X11PlatformClipboard::data(Mode mode, const QStringList &) const
     return mode == PlatformClipboard::Clipboard ? m_clipboardData : m_selectionData;
 }
 
+void X11PlatformClipboard::setData(Mode mode, const QVariantMap &dataMap)
+{
+    DummyClipboard::setData(mode, dataMap);
+    if (m_copyclip && mode == Clipboard)
+        DummyClipboard::setData(Selection, dataMap);
+    else if (m_copysel && mode == Selection)
+        DummyClipboard::setData(Clipboard, dataMap);
+}
+
 void X11PlatformClipboard::ignoreCurrentData()
 {
     COPYQ_LOG("Ignoring clipboard and selection");

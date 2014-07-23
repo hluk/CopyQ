@@ -39,6 +39,8 @@ public:
 
     QVariantMap data(Mode mode, const QStringList &formats) const;
 
+    void setData(Mode mode, const QVariantMap &dataMap);
+
     void ignoreCurrentData();
 
 private slots:
