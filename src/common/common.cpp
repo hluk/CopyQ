@@ -318,7 +318,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 
     QStringList formats;
     foreach ( const QString &format, data.keys() ) {
-        if ( !format.startsWith(MIME_PREFIX) )
+        if ( !format.startsWith(COPYQ_MIME_PREFIX) )
             formats.append(format);
     }
 

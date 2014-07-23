@@ -22,10 +22,8 @@
 const char mimeText[] = "text/plain";
 const char mimeHtml[] = "text/html";
 const char mimeUriList[] = "text/uri-list";
-const char mimeWindowTitle[] = MIME_PREFIX "owner-window-title";
-const char mimeItems[] = MIME_PREFIX "item";
-const char mimeItemNotes[] = MIME_PREFIX "item-notes";
-const char mimeOwner[] = MIME_PREFIX "owner";
-#ifdef COPYQ_WS_X11
-const char mimeClipboardMode[] = MIME_PREFIX "clipboard-mode";
-#endif
+const char mimeWindowTitle[] = COPYQ_MIME_PREFIX "owner-window-title";
+const char mimeItems[] = COPYQ_MIME_PREFIX "item";
+const char mimeItemNotes[] = COPYQ_MIME_PREFIX "item-notes";
+const char mimeOwner[] = COPYQ_MIME_PREFIX "owner";
+const char mimeClipboardMode[] = COPYQ_MIME_PREFIX "clipboard-mode";

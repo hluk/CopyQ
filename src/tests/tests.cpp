@@ -1096,13 +1096,13 @@ void Tests::rawData()
         QString arg2 = QString::fromLatin1("\x7f\x6f\x5f\x4f");
         TEST( m_test->runClient(
                   Args(args) << "write"
-                  << MIME_PREFIX "test1" << arg1
-                  << MIME_PREFIX "test2" << "-"
-                  << MIME_PREFIX "test3" << arg2, "",
+                  << COPYQ_MIME_PREFIX "test1" << arg1
+                  << COPYQ_MIME_PREFIX "test2" << "-"
+                  << COPYQ_MIME_PREFIX "test3" << arg2, "",
                   input) );
-        RUN(Args(args) << "read" << MIME_PREFIX "test1" << "0", arg1.toLatin1());
-        RUN(Args(args) << "read" << MIME_PREFIX "test2" << "0", input);
-        RUN(Args(args) << "read" << MIME_PREFIX "test3" << "0", arg2.toLatin1());
+        RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test1" << "0", arg1.toLatin1());
+        RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test2" << "0", input);
+        RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test3" << "0", arg2.toLatin1());
     }
 }
 

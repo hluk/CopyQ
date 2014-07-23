@@ -51,7 +51,7 @@ const MimeToCompressed &mimeToCompressedList()
         addMime(m, mimeWindowTitle, ++i);
         addMime(m, mimeItemNotes, ++i);
 
-        addMime(m, MIME_PREFIX, ++i);
+        addMime(m, COPYQ_MIME_PREFIX, ++i);
 
         addMime(m, mimeText, ++i);
         addMime(m, mimeHtml, ++i);

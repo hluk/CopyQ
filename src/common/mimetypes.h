@@ -20,7 +20,7 @@
 #ifndef MIMETYPES_H
 #define MIMETYPES_H
 
-#define MIME_PREFIX "application/x-copyq-"
+#define COPYQ_MIME_PREFIX "application/x-copyq-"
 extern const char mimeText[];
 extern const char mimeHtml[];
 extern const char mimeUriList[];
@@ -28,8 +28,6 @@ extern const char mimeWindowTitle[];
 extern const char mimeItems[];
 extern const char mimeItemNotes[];
 extern const char mimeOwner[];
-#ifdef COPYQ_WS_X11
 extern const char mimeClipboardMode[];
-#endif
 
 #endif // MIMETYPES_H

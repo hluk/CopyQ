@@ -37,7 +37,7 @@ namespace {
 void clearDataExceptInternal(QVariantMap *data)
 {
     foreach ( const QString &format, data->keys() ) {
-        if ( !format.startsWith(MIME_PREFIX) )
+        if ( !format.startsWith(COPYQ_MIME_PREFIX) )
             data->remove(format);
     }
 }
@@ -92,7 +92,7 @@ bool ClipboardItem::updateData(const QVariantMap &data)
 {
     const int oldSize = m_data.size();
     foreach ( const QString &format, data.keys() ) {
-        if ( !format.startsWith(MIME_PREFIX) ) {
+        if ( !format.startsWith(COPYQ_MIME_PREFIX) ) {
             clearDataExceptInternal(&m_data);
             break;
         }

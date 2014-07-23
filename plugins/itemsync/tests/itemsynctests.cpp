@@ -458,7 +458,7 @@ void ItemSyncTests::customFormats()
 
     RUN(Args(args) << "size", "1\n");
     RUN(Args(args) << "keys" << "LEFT", "");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-xxx" << "0", data1);
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-xxx" << "0", data1);
 
     const QByteArray data2 = "Other custom format content";
     createFile(dir1, "test2.yyy", data2);
@@ -466,7 +466,7 @@ void ItemSyncTests::customFormats()
     QTest::qSleep(waitMsFiles);
 
     RUN(Args(args) << "size", "2\n");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0", data2);
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0", data2);
 
     const QByteArray data3 = "Last custom format content";
     createFile(dir1, "test3.zzz", data3);
@@ -474,13 +474,13 @@ void ItemSyncTests::customFormats()
     QTest::qSleep(waitMsFiles);
 
     RUN(Args(args) << "size", "3\n");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0", data3);
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0", data3);
 
-    RUN(Args(args) << "read" << MIME_PREFIX "test-xxx" << "0" << "1" << "2",
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-xxx" << "0" << "1" << "2",
         ";;" + data1);
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << "1" << "2",
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << "1" << "2",
         data3 + ";" + data2 + ";");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << "1" << MIME_PREFIX "test-xxx" << "2",
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << "1" << COPYQ_MIME_PREFIX "test-xxx" << "2",
         data3 + ";" + data2 + ";" + data1);
 
     // Remove
@@ -489,7 +489,7 @@ void ItemSyncTests::customFormats()
     QTest::qSleep(waitMsFiles);
 
     RUN(Args(args) << "size", "2\n");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << MIME_PREFIX "test-xxx" << "1",
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << COPYQ_MIME_PREFIX "test-xxx" << "1",
         data3 + ";" + data1);
 
     // Modify file
@@ -502,12 +502,12 @@ void ItemSyncTests::customFormats()
     QTest::qSleep(waitMsFiles);
 
     RUN(Args(args) << "size", "2\n");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << MIME_PREFIX "test-xxx" << "1",
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << COPYQ_MIME_PREFIX "test-xxx" << "1",
         data3 + ";" + data1 + data4);
 
     // Create item with custom data
     const QByteArray data5 = "New item data!";
-    RUN(Args(args) << "write" << MIME_PREFIX "test-zzz" << data5, "");
+    RUN(Args(args) << "write" << COPYQ_MIME_PREFIX "test-zzz" << data5, "");
 
     RUN(Args(args) << "size", "3\n");
 
@@ -527,6 +527,6 @@ void ItemSyncTests::customFormats()
     QTest::qSleep(waitMsFiles);
 
     RUN(Args(args) << "size", "3\n");
-    RUN(Args(args) << "read" << MIME_PREFIX "test-zzz" << "0" << "1" << MIME_PREFIX "test-xxx" << "2",
+    RUN(Args(args) << "read" << COPYQ_MIME_PREFIX "test-zzz" << "0" << "1" << COPYQ_MIME_PREFIX "test-xxx" << "2",
         data5 + data6 + ";" + data3 + ";" + data1 + data4);
 }
