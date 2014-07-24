@@ -20,17 +20,15 @@
 #ifndef SCRIPTABLEPROXY_H
 #define SCRIPTABLEPROXY_H
 
-#include "common/log.h"
 #include "gui/clipboardbrowser.h"
-#include "gui/mainwindow.h"
-#include "item/clipboarditem.h"
-#include "platform/platformnativeinterface.h"
 
-#include <QDialog>
+#include <QClipboard>
+#include <QList>
 #include <QMetaObject>
 #include <QObject>
-#include <QStringList>
 #include <QSystemTrayIcon>
+
+class MainWindow;
 
 #ifdef HAS_TESTS
 #   include <QTest>
@@ -129,331 +127,105 @@ Q_DECLARE_METATYPE(QList<int>)
         END_INVOKE_AND_RETURN(RetType) \
     } \
 
-#define BROWSER(call) \
-    ClipboardBrowser *c = fetchBrowser(); \
-    if (c) \
-        c->call
-
-#define BROWSER_RESULT(call) \
-    ClipboardBrowser *c = fetchBrowser(); \
-    v = c ? QVariant(c->call) : QVariant()
-
 namespace detail {
-
-inline QByteArray serializeWindow(WId winId)
-{
-    QByteArray data;
-    return createPlatformNativeInterface()->serialize(winId, &data) ? data : QByteArray();
-}
 
 class ScriptableProxyHelper : public QObject
 {
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    explicit ScriptableProxyHelper(MainWindow* mainWindow)
-      : QObject(NULL)
-      , m_wnd(mainWindow)
-      , m_tabName()
-      , m_lock()
-    {
-        qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
-        moveToThread(m_wnd->thread());
-    }
+    explicit ScriptableProxyHelper(MainWindow* mainWindow);
 
-    const QVariant &value() const { return v; }
+    const QVariant &value() const;
 
-    static QString tabNotFoundError()
-    {
-        return ScriptableProxyHelper::tr("Tab with given name doesn't exist!");
-    }
+    static QString tabNotFoundError();
 
-    static QString tabNameEmptyError()
-    {
-        return ScriptableProxyHelper::tr("Tab name cannot be empty!");
-    }
+    static QString tabNameEmptyError();
 
 public slots:
-    void close() { m_wnd->close(); }
-    void showWindow() { m_wnd->showWindow(); }
-    void pasteToCurrentWindow() { m_wnd->pasteToCurrentWindow(); }
+    void close();
+    void showWindow();
+    void pasteToCurrentWindow();
 
-    void ignoreCurrentClipboard() { m_wnd->ignoreCurrentClipboard(); }
+    void ignoreCurrentClipboard();
 
-    void isMonitoringEnabled() { v = m_wnd->isMonitoringEnabled(); }
-    void disableMonitoring(bool arg1) { m_wnd->disableClipboardStoring(arg1); }
-    void setClipboard(const QVariantMap &arg1) { m_wnd->setClipboard(arg1); }
+    void isMonitoringEnabled();
+    void disableMonitoring(bool arg1);
+    void setClipboard(const QVariantMap &arg1);
 
-    void renameTab(const QString &arg1, const QString &arg2)
-    {
-        v = QString();
+    void renameTab(const QString &arg1, const QString &arg2);
 
-        if ( arg1.isEmpty() || arg2.isEmpty() ) {
-            v = tabNameEmptyError();
-            return;
-        }
+    void removeTab(const QString &arg1);
 
-        const int i = m_wnd->findTabIndex(arg2);
-        if (i == -1) {
-            v = tabNotFoundError();
-            return;
-        }
+    void showBrowser(const QString &tabName);
 
-        if ( m_wnd->findTabIndex(arg1) != -1 ) {
-            v = tr("Tab with given name already exists!");
-            return;
-        }
+    void showBrowser();
 
-        m_wnd->renameTab(arg1, i);
-    }
+    void action(const QVariantMap &arg1, const Command &arg2);
 
-    void removeTab(const QString &arg1)
-    {
-        v = QString();
+    void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4);
 
-        if ( arg1.isEmpty() ) {
-            v = tabNameEmptyError();
-            return;
-        }
+    void browserLock();
 
-        const int i = m_wnd->findTabIndex(arg1);
-        if (i == -1) {
-            v = tabNotFoundError();
-            return;
-        }
+    void browserUnlock();
 
-        m_wnd->removeTab(false, i);
-    }
+    void browserCopyNextItemToClipboard();
+    void browserCopyPreviousItemToClipboard();
+    void browserMoveToClipboard(int arg1);
+    void browserSetCurrent(int arg1);
+    void browserRemoveRows(QList<int> rows);
 
-    void showBrowser(const QString &tabName)
-    {
-        ClipboardBrowser *c = fetchBrowser(tabName);
-        if (c)
-            m_wnd->showBrowser(c);
-    }
+    void browserEditRow(int arg1);
+    void browserEditNew(const QString &arg1);
 
-    void showBrowser() { showBrowser(m_tabName); }
+    void tabs();
+    void toggleVisible();
+    void toggleMenu(const QString &tabName);
+    void toggleMenu();
+    void mainWinId();
+    void trayMenuWinId();
+    void findTabIndex(const QString &arg1);
 
-    void action(const QVariantMap &arg1, const Command &arg2) { m_wnd->action(arg1, arg2); }
+    void openActionDialog(const QVariantMap &arg1);
 
-    void showMessage(const QString &arg1, const QString &arg2, QSystemTrayIcon::MessageIcon arg3, int arg4) { m_wnd->showMessage(arg1, arg2, arg3, arg4); }
+    void loadTab(const QString &arg1);
+    void saveTab(const QString &arg1);
 
-    void browserLock()
-    {
-        Q_ASSERT(m_lock.isNull());
-        ClipboardBrowser *c = fetchBrowser();
-        if (c)
-            m_lock.reset( new ClipboardBrowser::Lock(c) );
-    }
+    void config(const QString &arg1, const QString &arg2);
 
-    void browserUnlock()
-    {
-        Q_ASSERT(!m_lock.isNull());
-        m_lock.reset();
-    }
+    void getClipboardData(const QString &arg1);
+    void getClipboardData(const QString &arg1, QClipboard::Mode arg2);
 
-    void browserCopyNextItemToClipboard() { BROWSER(copyNextItemToClipboard()); }
-    void browserCopyPreviousItemToClipboard() { BROWSER(copyPreviousItemToClipboard()); }
-    void browserMoveToClipboard(int arg1) { BROWSER(moveToClipboard(arg1)); }
-    void browserSetCurrent(int arg1) { BROWSER(setCurrent(arg1)); }
-    void browserRemoveRows(QList<int> rows)
-    {
-        ClipboardBrowser *c = fetchBrowser();
-        if (!c)
-            return;
+    void getActionData(const QByteArray &arg1, const QString &arg2);
 
-        qSort( rows.begin(), rows.end(), qGreater<int>() );
+    void browserLength();
+    void browserOpenEditor(const QByteArray &arg1);
 
-        ClipboardBrowser::Lock lock(c);
-        foreach (int row, rows)
-            c->removeRow(row);
-    }
+    void browserAdd(const QString &arg1);
+    void browserAdd(const QVariantMap &arg1, int arg2);
+    void browserAdd(const QStringList &texts);
 
-    void browserEditRow(int arg1) { BROWSER(editRow(arg1)); }
-    void browserEditNew(const QString &arg1) { BROWSER(editNew(arg1)); }
+    void browserItemData(int arg1, const QString &arg2);
+    void browserItemData(int arg1);
 
-    void tabs() { v = m_wnd->tabs(); }
-    void toggleVisible() { v = m_wnd->toggleVisible(); }
-    void toggleMenu(const QString &tabName) { v = m_wnd->toggleMenu(fetchBrowser(tabName)); }
-    void toggleMenu() { v = m_wnd->toggleMenu(); }
-    void mainWinId() { v = serializeWindow(m_wnd->winId()); }
-    void trayMenuWinId() { v = serializeWindow(m_wnd->trayMenu()->winId()); }
-    void findTabIndex(const QString &arg1) { v = m_wnd->findTabIndex(arg1); }
+    void setCurrentTab(const QString &tabName);
 
-    void openActionDialog(const QVariantMap &arg1) { v = (qulonglong)m_wnd->openActionDialog(arg1); }
+    void currentTab();
 
-    void loadTab(const QString &arg1) { v = m_wnd->loadTab(arg1); }
-    void saveTab(const QString &arg1)
-    {
-        v = QString();
-        ClipboardBrowser *c = fetchBrowser();
-        if (c) {
-            const int i = m_wnd->findTabIndex( c->tabName() );
-            v = m_wnd->saveTab(arg1, i);
-        }
-    }
+    void currentItem();
+    void selectItems(const QList<int> &items);
 
-    void config(const QString &arg1, const QString &arg2) { v = m_wnd->config(arg1, arg2); }
+    void selectedTab();
+    void selectedItems();
+    void index();
 
-    void getClipboardData(const QString &arg1) { v = m_wnd->getClipboardData(arg1); }
-    void getClipboardData(const QString &arg1, QClipboard::Mode arg2) { v = m_wnd->getClipboardData(arg1, arg2); }
+    void sendKeys(const QString &keys);
 
-    void getActionData(const QByteArray &arg1, const QString &arg2) { v = m_wnd->getActionData(arg1, arg2); }
-
-    void browserLength() { BROWSER_RESULT(length()); }
-    void browserOpenEditor(const QByteArray &arg1) { BROWSER_RESULT(openEditor(arg1)); }
-
-    void browserAdd(const QString &arg1) { BROWSER_RESULT(add(arg1)); }
-    void browserAdd(const QVariantMap &arg1, int arg2) { BROWSER_RESULT(add(arg1, arg2)); }
-    void browserAdd(const QStringList &texts) {
-        ClipboardBrowser *c = fetchBrowser();
-        if (!c) {
-            v = false;
-            return;
-        }
-
-        v = true;
-
-        ClipboardBrowser::Lock lock(c);
-        foreach (const QString &text, texts) {
-            if ( !c->add(text) ) {
-                v = false;
-                return;
-            }
-        }
-
-        return;
-    }
-
-    void browserItemData(int arg1, const QString &arg2) { BROWSER_RESULT(itemData(arg1, arg2)); }
-    void browserItemData(int arg1) { BROWSER_RESULT(itemData(arg1)); }
-
-    void setCurrentTab(const QString &tabName) { m_tabName = tabName; }
-
-    void currentTab() { BROWSER_RESULT(tabName()); }
-
-    void currentItem() { BROWSER_RESULT(currentIndex().row()); }
-    void selectItems(const QList<int> &items)
-    {
-        v = false;
-
-        ClipboardBrowser *c = fetchBrowser();
-        if (!c)
-            return;
-
-        v = true;
-
-        c->clearSelection();
-
-        if ( !items.isEmpty() ) {
-            c->setCurrent(items.last());
-
-            foreach (int i, items) {
-                const QModelIndex index = c->index(i);
-                if (index.isValid())
-                    c->selectionModel()->select(index, QItemSelectionModel::Select);
-            }
-        }
-    }
-
-    void selectedTab() { v = m_wnd->selectedTab(); }
-    void selectedItems() { v = QVariant::fromValue(m_wnd->selectedItems()); }
-    void index() { BROWSER_RESULT(currentIndex().row()); }
-
-    void sendKeys(const QString &keys)
-    {
-#ifdef HAS_TESTS
-        v = QString();
-
-        if (keys == "FLUSH_KEYS")
-            return;
-
-        QWidget *w = m_wnd->trayMenu();
-
-        if ( !w->isVisible() ) {
-            w = QApplication::focusWidget();
-            if (!w) {
-                COPYQ_LOG("No focused widget -> using main window");
-                w = m_wnd;
-            }
-        }
-
-        if (keys.startsWith(":")) {
-            const QString widgetName = QString("%1 in %2")
-                    .arg(w->metaObject()->className())
-                    .arg(w->window()->metaObject()->className());
-
-            COPYQ_LOG( QString("Sending keys \"%1\" to \"%2\".")
-                       .arg(keys.mid(1))
-                       .arg(widgetName) );
-
-            QTest::keyClicks(w, keys.mid(1), Qt::NoModifier, 50);
-        } else {
-            const QKeySequence shortcut(keys, QKeySequence::PortableText);
-
-            if ( shortcut.isEmpty() ) {
-                v = QString("Cannot parse key \"%1\"!").arg(keys);
-                return;
-            }
-
-            // Don't stop when modal window is open.
-            QMetaObject::invokeMethod( this, "keyClick", Qt::QueuedConnection,
-                                       Q_ARG(const QKeySequence &, shortcut),
-                                       Q_ARG(const QPointer<QWidget> &, w)
-                                      );
-        }
-#else
-        Q_UNUSED(keys);
-        v = QString("This is only available if tests are compiled!");
-#endif
-    }
-
-    void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
-    {
-#ifdef HAS_TESTS
-        const QString keys = shortcut.toString();
-
-        if (widget.isNull()) {
-            COPYQ_LOG( QString("Failed to send key \"%1\".").arg(keys) );
-            return;
-        }
-
-        const QString widgetName = QString("%1 in %2")
-                .arg(widget->metaObject()->className())
-                .arg(widget->window()->metaObject()->className());
-
-        m_wnd->showMessage( widgetName, shortcut.toString(),
-                            QSystemTrayIcon::Information, 4000 );
-
-        COPYQ_LOG( QString("Sending key \"%1\" to \"%2\".")
-                   .arg(keys)
-                   .arg(widgetName) );
-
-        QTest::keyClick( widget.data(),
-                         Qt::Key(shortcut[0] & ~Qt::KeyboardModifierMask),
-                         Qt::KeyboardModifiers(shortcut[0] & Qt::KeyboardModifierMask), 0 );
-
-        COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
-                   .arg(keys)
-                   .arg(widgetName) );
-#else
-        Q_UNUSED(shortcut);
-        Q_UNUSED(widget);
-#endif
-    }
+    void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
 
 private:
-    ClipboardBrowser *fetchBrowser(const QString &tabName)
-    {
-        ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->createTab(tabName);
-        if (!c)
-            return NULL;
-
-        c->loadItems();
-        return c->isLoaded() ? c : NULL;
-    }
-
-    ClipboardBrowser *fetchBrowser() { return fetchBrowser(m_tabName); }
+    ClipboardBrowser *fetchBrowser(const QString &tabName);
+    ClipboardBrowser *fetchBrowser();
 
     MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
@@ -473,13 +245,9 @@ private:
 class ScriptableProxy
 {
 public:
-    explicit ScriptableProxy(MainWindow *mainWindow)
-        : m_helper(new detail::ScriptableProxyHelper(mainWindow))
-    {
-        qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
-    }
+    explicit ScriptableProxy(MainWindow *mainWindow);
 
-    ~ScriptableProxy() { delete m_helper; }
+    ~ScriptableProxy();
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)

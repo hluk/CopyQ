@@ -152,7 +152,8 @@ SOURCES += \
     common/config.cpp \
     gui/processmanagerdialog.cpp \
     gui/iconselectdialog.cpp \
-    gui/commanddialog.cpp
+    gui/commanddialog.cpp \
+    scriptable/scriptableproxy.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

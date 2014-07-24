@@ -22,6 +22,7 @@
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
 #include "common/action.h"
+#include "common/log.h"
 #include "gui/mainwindow.h"
 #include "scriptable/scriptable.h"
 

@@ -22,6 +22,7 @@
 #include "common/client_server.h"
 #include "common/clientsocket.h"
 #include "common/commandstatus.h"
+#include "common/log.h"
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
