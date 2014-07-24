@@ -93,6 +93,8 @@ private slots:
 
     void escapeHTMLCommand();
 
+    void executeCommand();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = NULL,

@@ -1570,6 +1570,32 @@ void Tests::escapeHTMLCommand()
     RUN(Args() << "escapeHTML" << "&\n<\n>", "&amp;<br />&lt;<br />&gt;\n");
 }
 
+void Tests::executeCommand()
+{
+    const QString tab = testTab(1);
+
+    const QByteArray script =
+            "function test(c, expected_stdout, expected_exit_code) {"
+            "    if (str(c.stdout) !== expected_stdout) print('Unexpected stdout: \"' + str(c.stdout) + '\"');"
+            "    if (c.exit_code !== expected_exit_code) print('Unexpected exit_code: ' + str(c.exit_code));"
+            "}";
+
+    RUN(Args() << "eval" << script +
+        "c = execute('copyq', 'tab', '" + tab + "', 'write', 'text/plain', 'plain text', 'text/html', '<b>test HTML</b>');"
+        "test(c, '', 0);"
+        , "");
+
+    RUN(Args() << "eval" << script +
+        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/plain', 0);"
+        "test(c, 'plain text', 0);"
+        , "");
+
+    RUN(Args() << "eval" << script +
+        "c = execute('copyq', 'tab', '" + tab + "', 'read', 'text/html', 0);"
+        "test(c, '<b>test HTML</b>', 0);"
+        , "");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);
