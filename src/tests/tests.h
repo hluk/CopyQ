@@ -87,8 +87,8 @@ private slots:
     void tray();
 
     void packUnpackCommands();
-
     void base64Commands();
+    void getSetItemCommands();
 
 private:
     void clearServerErrors();

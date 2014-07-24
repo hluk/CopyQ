@@ -1527,6 +1527,39 @@ void Tests::base64Commands()
               "OK", data) );
 }
 
+void Tests::getSetItemCommands()
+{
+    QMap<QByteArray, QByteArray> data;
+    data["text/plain"] = "plain text";
+    data["text/html"] = "<b>HTML text</b>";
+    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
+    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+
+    Args args2 = args;
+    args2 << "write";
+    foreach (const QByteArray &mime, data.keys())
+        args2 << mime << data[mime];
+    RUN(args2, "");
+
+    // Get item from list.
+    foreach (const QByteArray &mime, data.keys()) {
+        RUN(Args(args) << "eval"
+            << "var mime = '" + mime + "'; print(mime + ':' + str(getitem(0)[mime]))",
+            mime + ':' + data[mime]);
+    }
+
+    // Set item.
+    RUN(Args(args) << "eval"
+        << "setitem(1, { 'text/plain': 'plain text 2', 'text/html': '<b>HTML text 2</b>' })",
+        "");
+
+    RUN(Args(args) << "eval" << "print(getitem(1)['text/plain'])", "plain text 2");
+    RUN(Args(args) << "eval" << "print(getitem(1)['text/html'])", "<b>HTML text 2</b>");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);
