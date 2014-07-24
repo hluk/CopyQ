@@ -396,11 +396,6 @@ void ScriptableProxyHelper::selectedItems()
     v = QVariant::fromValue(m_wnd->selectedItems());
 }
 
-void ScriptableProxyHelper::index()
-{
-    BROWSER_RESULT(currentIndex().row());
-}
-
 void ScriptableProxyHelper::sendKeys(const QString &keys)
 {
 #ifdef HAS_TESTS

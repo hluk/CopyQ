@@ -1052,7 +1052,7 @@ QScriptValue Scriptable::currentitem()
 
 QScriptValue Scriptable::index()
 {
-    return m_proxy->index();
+    return currentitem();
 }
 
 QScriptValue Scriptable::escapeHTML()

@@ -217,7 +217,6 @@ public slots:
 
     void selectedTab();
     void selectedItems();
-    void index();
 
     void sendKeys(const QString &keys);
 
@@ -315,7 +314,6 @@ public:
     PROXY_METHOD_1(bool, selectItems, const QList<int> &)
     PROXY_METHOD_0(QString, selectedTab)
     PROXY_METHOD_0(QList<int>, selectedItems)
-    PROXY_METHOD_0(int, index)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)
 
