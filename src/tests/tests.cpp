@@ -1342,6 +1342,11 @@ void Tests::exitCommand()
     }
 }
 
+void Tests::abortCommand()
+{
+    RUN(Args() << "eval" << "print(1); abort(); print(2)", "1");
+}
+
 void Tests::nextPreviousTab()
 {
     const QString script = QString(

@@ -79,6 +79,7 @@ private slots:
     void editNotes();
 
     void exitCommand();
+    void abortCommand();
 
     void nextPreviousTab();
 
