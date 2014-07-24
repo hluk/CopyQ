@@ -86,6 +86,10 @@ private slots:
 
     void tray();
 
+    void packUnpackCommands();
+
+    void base64Commands();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = NULL,

@@ -35,6 +35,7 @@
 #include <QDir>
 #include <QElapsedTimer>
 #include <QFileInfo>
+#include <QMap>
 #include <QMimeData>
 #include <QProcess>
 #include <QRegExp>
@@ -1466,6 +1467,64 @@ void Tests::tray()
     RUN(Args() << "keys" << "ENTER", "");
     QVERIFY( waitUntilClipboardSet("X") );
     RUN(Args() << "clipboard", "X");
+}
+
+void Tests::packUnpackCommands()
+{
+    QMap<QByteArray, QByteArray> data;
+    data["text/plain"] = "plain text";
+    data["text/html"] = "<b>HTML text</b>";
+    data[COPYQ_MIME_PREFIX "test1"] = "test1 data";
+    data[COPYQ_MIME_PREFIX "test2"] = "test2 data";
+
+    const QString tab = testTab(1);
+    const Args args = Args("tab") << tab;
+
+    Args args2 = args;
+    args2 << "write";
+    foreach (const QByteArray &mime, data.keys())
+        args2 << mime << data[mime];
+    RUN(args2, "");
+
+    const QByteArray script1 =
+            "var data = read('" + toByteArray(mimeItems) + "', 0); var item = unpack(data);";
+
+    // Unpack item read from list.
+    foreach (const QByteArray &mime, data.keys()) {
+        RUN(Args(args) << "eval"
+            << script1 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
+            mime + ':' + data[mime]);
+    }
+
+    // Test pack and unpack consistency.
+    const QByteArray script2 = "data = pack(item); item = unpack(data);";
+    foreach (const QByteArray &mime, data.keys()) {
+        RUN(Args(args) << "eval"
+            << script1 + script2 + "var mime = '" + mime + "'; print(mime + ':' + str(item[mime]))",
+            mime + ':' + data[mime]);
+    }
+}
+
+void Tests::base64Commands()
+{
+    const QByteArray data = "0123456789\001\002\003\004\005\006\007abcdefghijklmnopqrstuvwxyz!";
+    const QByteArray base64 = data.toBase64();
+
+    TEST( m_test->runClient(Args() << "eval" << "print(input())", data, data) );
+    TEST( m_test->runClient(Args() << "eval" << "print(tobase64(input()))", base64, data) );
+
+    // Line break is added only if return value is string;
+    // tobase64() returns string, frombase64() returns byte array.
+    RUN(Args() << "tobase64" << data, base64 + '\n');
+    RUN(Args() << "frombase64" << base64, data);
+
+    TEST( m_test->runClient(Args() << "eval" << "print(frombase64(tobase64(input())))", data, data) );
+
+    // Test Base64 encoding and decoding consistency.
+    TEST( m_test->runClient(
+              Args() << "eval"
+              << "var base64 = tobase64(input()); if (str(input()) === str(frombase64(base64))) print('OK')",
+              "OK", data) );
 }
 
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
