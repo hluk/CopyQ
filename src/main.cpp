@@ -176,6 +176,8 @@ int main(int argc, char *argv[])
         sessionName = getSessionName(&newArgc, argv);
         if ( sessionName.isNull() )
             return 2;
+    } else {
+        sessionName = QString::fromUtf8(qgetenv("COPYQ_SESSION_NAME"));
     }
 
     if (newArgc == 1) {
