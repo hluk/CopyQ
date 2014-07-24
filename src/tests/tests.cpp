@@ -1565,6 +1565,11 @@ void Tests::getSetItemCommands()
     RUN(Args(args) << "eval" << "print(getitem(1)['text/html'])", "<b>HTML text 2</b>");
 }
 
+void Tests::escapeHTMLCommand()
+{
+    RUN(Args() << "escapeHTML" << "&\n<\n>", "&amp;<br />&lt;<br />&gt;\n");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);

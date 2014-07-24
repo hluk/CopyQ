@@ -91,6 +91,8 @@ private slots:
     void base64Commands();
     void getSetItemCommands();
 
+    void escapeHTMLCommand();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
