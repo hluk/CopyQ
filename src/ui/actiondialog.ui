@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>285</width>
-    <height>374</height>
+    <width>283</width>
+    <height>372</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,9 +16,6 @@
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
     <widget class="QComboBox" name="comboBoxCommands">
-     <property name="toolTip">
-      <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
-     </property>
      <property name="insertPolicy">
       <enum>QComboBox::NoInsert</enum>
      </property>
@@ -42,6 +39,9 @@
    </item>
    <item>
     <widget class="QPlainTextEdit" name="plainTextEditCommand">
+     <property name="toolTip">
+      <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
+     </property>
      <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
