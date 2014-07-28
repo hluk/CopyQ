@@ -478,6 +478,12 @@ void ScriptableProxyHelper::keyClick(const QKeySequence &shortcut, const QPointe
 #endif
 }
 
+void ScriptableProxyHelper::currentWindowTitle()
+{
+    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    v = window ? window->getTitle() : QString();
+}
+
 } // namespace detail
 
 ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tabName)

@@ -167,6 +167,8 @@ public slots:
     QScriptValue open();
     QScriptValue execute();
 
+    QScriptValue currentWindowTitle();
+
 public slots:
     void setInput(const QByteArray &bytes);
 

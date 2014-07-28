@@ -1153,6 +1153,11 @@ QScriptValue Scriptable::execute()
     return actionResult;
 }
 
+QScriptValue Scriptable::currentWindowTitle()
+{
+    return m_proxy->currentWindowTitle();
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);

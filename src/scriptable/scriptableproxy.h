@@ -222,6 +222,8 @@ public slots:
 
     void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
 
+    void currentWindowTitle();
+
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
     ClipboardBrowser *fetchBrowser();
@@ -316,6 +318,8 @@ public:
     PROXY_METHOD_0(QList<int>, selectedItems)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)
+
+    PROXY_METHOD_0(QString, currentWindowTitle)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.
