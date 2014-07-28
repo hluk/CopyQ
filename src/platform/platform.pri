@@ -8,12 +8,9 @@ macx {
     include(mac/macplatform.pri)
 }
 !unix|android:!win32 {
-    SOURCES += platform/dummy/dummyplatform.cpp
+    SOURCES += $$PWD/dummy/dummyplatform.cpp
 }
 unix {
-    SOURCES += platform/unix/unixsignalhandler.cpp
-    HEADERS += platform/unix/unixsignalhandler.h
+    SOURCES += $$PWD/unix/unixsignalhandler.cpp
+    HEADERS += $$PWD/unix/unixsignalhandler.h
 }
-
-HEADERS += platform/platformwindow.h
-

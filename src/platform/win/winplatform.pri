@@ -2,10 +2,14 @@ CONFIG  += static console
 LIBS    += -luser32
 SOURCES += \
     ../qxt/qxtglobalshortcut_win.cpp \
-    platform/win/winplatform.cpp \
-    platform/win/winplatformwindow.cpp
+    $$PWD/winplatform.cpp \
+    $$PWD/winplatformwindow.cpp \
+    $$PWD/winplatformclipboard.cpp \
+    platform/dummy/dummyclipboard.cpp
 USE_QXT = 1
 RC_FILE  = copyq.rc
 
 HEADERS += \
-    platform/win/winplatformwindow.h
+    $$PWD/winplatformwindow.h \
+    $$PWD/winplatformclipboard.h \
+    platform/dummy/dummyclipboard.h

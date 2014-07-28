@@ -17,35 +17,24 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef MACPLATFORM_H
-#define MACPLATFORM_H
+#ifndef WINPLATFORMCLIPBOARD_H
+#define WINPLATFORMCLIPBOARD_H
 
-#include "platform/platformnativeinterface.h"
+#include "platform/dummy/dummyclipboard.h"
 
-class QApplication;
-class QCoreApplication;
+#include <qt_windows.h>
 
-class MacPlatform : public PlatformNativeInterface
+class WinPlatformClipboard : public DummyClipboard
 {
+    Q_OBJECT
 public:
-    MacPlatform();
+    WinPlatformClipboard();
 
-    PlatformWindowPtr getWindow(WId winId);
-    PlatformWindowPtr getCurrentWindow();
+private slots:
+    void checkClipboard();
 
-    bool canAutostart() { return true; }
-    bool isAutostartEnabled();
-    void setAutostartEnabled(bool);
-
-    QApplication *createServerApplication(int &argc, char **argv);
-
-    QApplication *createMonitorApplication(int &argc, char **argv);
-
-    QCoreApplication *createClientApplication(int &argc, char **argv);
-
-    void loadSettings() {}
-
-    PlatformClipboardPtr clipboard();
+private:
+    DWORD m_lastClipboardSequenceNumber;
 };
 
-#endif // MACPLATFORM_H
+#endif // WINPLATFORMCLIPBOARD_H

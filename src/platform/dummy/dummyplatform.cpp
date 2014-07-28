@@ -19,7 +19,32 @@
 
 #include "dummyplatform.h"
 
+#include "dummyclipboard.h"
+
+#include <QApplication>
+#include <QCoreApplication>
+
 PlatformPtr createPlatformNativeInterface()
 {
     return PlatformPtr(new DummyPlatform);
+}
+
+QApplication *DummyPlatform::createServerApplication(int &argc, char **argv)
+{
+    return new QApplication(argc, argv);
+}
+
+QApplication *DummyPlatform::createMonitorApplication(int &argc, char **argv)
+{
+    return new QApplication(argc, argv);
+}
+
+QCoreApplication *DummyPlatform::createClientApplication(int &argc, char **argv)
+{
+    return new QCoreApplication(argc, argv);
+}
+
+PlatformClipboardPtr DummyPlatform::clipboard()
+{
+    return PlatformClipboardPtr(new DummyClipboard());
 }

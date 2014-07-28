@@ -27,6 +27,7 @@
 #include <QWidget>
 
 #include "x11platformwindow.h"
+#include "x11platformclipboard.h"
 #include "x11displayguard.h"
 
 #include <X11/Xlib.h>
@@ -203,40 +204,6 @@ void X11Platform::setAutostartEnabled(bool enable)
 #endif
 }
 
-bool X11Platform::isSelecting()
-{
-    // If mouse button or shift is pressed then assume that user is selecting text.
-    if (!d->display())
-        return false;
-
-    XEvent event;
-    XQueryPointer(d->display(), DefaultRootWindow(d->display()),
-                  &event.xbutton.root, &event.xbutton.window,
-                  &event.xbutton.x_root, &event.xbutton.y_root,
-                  &event.xbutton.x, &event.xbutton.y,
-                  &event.xbutton.state);
-
-    return event.xbutton.state & (Button1Mask | ShiftMask);
-}
-
-bool X11Platform::isClipboardEmpty() const
-{
-    if (!d->display())
-        return false;
-
-    static Atom atom = XInternAtom(d->display(), "CLIPBOARD", False);
-    return XGetSelectionOwner(d->display(), atom) == None;
-}
-
-bool X11Platform::isSelectionEmpty() const
-{
-    if (!d->display())
-        return false;
-
-    static Atom atom = XA_PRIMARY;
-    return XGetSelectionOwner(d->display(), atom) == None;
-}
-
 QApplication *X11Platform::createServerApplication(int &argc, char **argv)
 {
     old_xio_errhandler = XSetIOErrorHandler(copyq_xio_errhandler);
@@ -251,4 +218,12 @@ QApplication *X11Platform::createMonitorApplication(int &argc, char **argv)
 QCoreApplication *X11Platform::createClientApplication(int &argc, char **argv)
 {
     return new QCoreApplication(argc, argv);
+}
+
+PlatformClipboardPtr X11Platform::clipboard()
+{
+    if (!d->display())
+        return PlatformClipboardPtr();
+
+    return PlatformClipboardPtr(new X11PlatformClipboard(d));
 }

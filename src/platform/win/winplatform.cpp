@@ -20,7 +20,9 @@
 #include "common/log.h"
 #include "common/settings.h"
 
+#include "platform/dummy/dummyclipboard.h"
 #include "winplatform.h"
+#include "winplatformclipboard.h"
 #include "winplatformwindow.h"
 
 #include <QApplication>
@@ -124,4 +126,9 @@ QCoreApplication *WinPlatform::createClientApplication(int &argc, char **argv)
 void WinPlatform::loadSettings()
 {
     migrateConfigToAppDir();
+}
+
+PlatformClipboardPtr WinPlatform::clipboard()
+{
+    return PlatformClipboardPtr(new WinPlatformClipboard());
 }

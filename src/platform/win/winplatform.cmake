@@ -3,7 +3,9 @@ set(copyq_RC copyq.rc)
 
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
     platform/win/winplatform.cpp
+    platform/win/winplatformclipboard.cpp
     platform/win/winplatformwindow.cpp
+    platform/dummy/dummyclipboard.cpp
     ../qxt/qxtglobalshortcut_win.cpp
     )
 

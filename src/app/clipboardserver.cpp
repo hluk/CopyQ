@@ -82,6 +82,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
         return;
     }
 
+    createSessionMutex();
+
     QApplication::setQuitOnLastWindowClosed(false);
 
     ConfigurationManager::createInstance();
@@ -190,7 +192,6 @@ void ClipboardServer::loadMonitorSettings()
     settings["copy_clipboard"] = cm->value("copy_clipboard");
     settings["copy_selection"] = cm->value("copy_selection");
     settings["check_selection"] = cm->value("check_selection");
-    settings["check_selection"].toBool();
 #endif
 
     QByteArray settingsData;
@@ -316,7 +317,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     bool forceRunCommands = false;
 
 #ifdef COPYQ_WS_X11
-    bool clipboardChanged = data.value(mimeClipboardMode) != "selection";
+    bool clipboardChanged = !data.contains(mimeClipboardMode);
     if (clipboardChanged)
 #endif
     {

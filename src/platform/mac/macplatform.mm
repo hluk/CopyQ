@@ -25,6 +25,7 @@
 #include "macplatformwindow.h"
 #include "platform/mac/macactivity.h"
 #include "urlpasteboardmime.h"
+#include "macclipboard.h"
 
 #include <QApplication>
 #include <QCoreApplication>
@@ -169,6 +170,11 @@ QCoreApplication *MacPlatform::createClientApplication(int &argc, char **argv)
     return new QCoreApplication(argc, argv);
 }
 
+PlatformClipboardPtr MacPlatform::clipboard()
+{
+    return PlatformClipboardPtr(new MacClipboard());
+}
+
 PlatformWindowPtr MacPlatform::getCurrentWindow()
 {
     NSRunningApplication *runningApp = [[NSWorkspace sharedWorkspace] frontmostApplication];
@@ -177,13 +183,6 @@ PlatformWindowPtr MacPlatform::getCurrentWindow()
 
 PlatformWindowPtr MacPlatform::getWindow(WId winId) {
     return PlatformWindowPtr(new MacPlatformWindow(winId));
-}
-
-long int MacPlatform::getChangeCount()
-{
-    NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
-    NSInteger changeCount = [pasteboard changeCount];
-    return changeCount;
 }
 
 bool MacPlatform::isAutostartEnabled()
