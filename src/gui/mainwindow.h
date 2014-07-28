@@ -294,9 +294,6 @@ public slots:
     QByteArray getClipboardData(const QString &mime,
                                 QClipboard::Mode mode = QClipboard::Clipboard);
 
-    /** Paste clipboard content to current window. */
-    void pasteToCurrentWindow();
-
     /** Ignore current clipboard content. */
     void ignoreCurrentClipboard();
 

@@ -77,7 +77,7 @@ void WinPlatformWindow::raise()
     raiseWindow(m_window);
 }
 
-void WinPlatformWindow::pasteClipboard()
+void WinPlatformWindow::pasteClipboard(PasteWith pasteWith)
 {
     if (!raiseWindow(m_window))
         return;
@@ -101,10 +101,17 @@ void WinPlatformWindow::pasteClipboard()
         }
     }
 
-    input1 << createInput(VK_LSHIFT)
-           << createInput(VK_INSERT)
-           << createInput(VK_INSERT, KEYEVENTF_KEYUP)
-           << createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
+    if (pasteWith == PasteWithCtrlV) {
+        input1 << createInput(VK_LCONTROL)
+               << createInput(VK_V)
+               << createInput(VK_V, KEYEVENTF_KEYUP)
+               << createInput(VK_LCONTROL, KEYEVENTF_KEYUP);
+    } else {
+        input1 << createInput(VK_LSHIFT)
+               << createInput(VK_INSERT)
+               << createInput(VK_INSERT, KEYEVENTF_KEYUP)
+               << createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
+    }
 
     QVector<INPUT> input = input1 + input2;
     SendInput( input.size(), input.data(), sizeof(INPUT) );

@@ -356,6 +356,7 @@ public slots:
     void requestBlockSelection(QTextCursor *cursor)
     {
         *cursor = m_editorWidget->editor()->textCursor();
+        m_editorWidget->setBlockSelection(true);
     }
 
 signals:

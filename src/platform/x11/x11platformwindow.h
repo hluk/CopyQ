@@ -37,7 +37,7 @@ public:
 
     void raise();
 
-    void pasteClipboard();
+    void pasteClipboard(PasteWith pasteWith);
 
     bool isValid() const;
 

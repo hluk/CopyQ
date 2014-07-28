@@ -225,7 +225,7 @@ void X11PlatformWindow::raise()
     }
 }
 
-void X11PlatformWindow::pasteClipboard()
+void X11PlatformWindow::pasteClipboard(PasteWith pasteWith)
 {
     Q_ASSERT( isValid() );
 
@@ -236,9 +236,15 @@ void X11PlatformWindow::pasteClipboard()
         return;
 
 #ifdef HAS_X11TEST
-    simulateKeyPress(d.display(), QList<int>() << XK_Shift_L, XK_Insert);
+    if (pasteWith == PasteWithCtrlV)
+        simulateKeyPress(d.display(), QList<int>() << XK_Control_L, XK_V);
+    else
+        simulateKeyPress(d.display(), QList<int>() << XK_Shift_L, XK_Insert);
 #else
-    simulateKeyPress(d.display(), m_window, ShiftMask, XK_Insert);
+    if (pasteWith == PasteWithCtrlV)
+        simulateKeyPress(d.display(), m_window, ControlMask, XK_V);
+    else
+        simulateKeyPress(d.display(), m_window, ShiftMask, XK_Insert);
 #endif
 
     // Don't do anything hasty until the content is actually pasted.

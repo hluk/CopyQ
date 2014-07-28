@@ -1504,13 +1504,6 @@ QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mo
     return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
 }
 
-void MainWindow::pasteToCurrentWindow()
-{
-    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
-    if (window)
-        window->pasteClipboard();
-}
-
 void MainWindow::ignoreCurrentClipboard()
 {
     clipboardChanged(QVariantMap());

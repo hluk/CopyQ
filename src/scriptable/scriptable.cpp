@@ -677,7 +677,12 @@ void Scriptable::copy()
 
 void Scriptable::paste()
 {
-    m_proxy->pasteToCurrentWindow();
+    m_proxy->pasteToCurrentWindow(PlatformWindow::PasteWithShiftInsert);
+}
+
+void Scriptable::pasteWithCtrlV()
+{
+    m_proxy->pasteToCurrentWindow(PlatformWindow::PasteWithCtrlV);
 }
 
 QScriptValue Scriptable::tab()

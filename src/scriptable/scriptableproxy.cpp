@@ -78,9 +78,11 @@ void ScriptableProxyHelper::showWindow()
     m_wnd->showWindow();
 }
 
-void ScriptableProxyHelper::pasteToCurrentWindow()
+void ScriptableProxyHelper::pasteToCurrentWindow(PlatformWindow::PasteWith pasteWith)
 {
-    m_wnd->pasteToCurrentWindow();
+    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    if (window)
+        window->pasteClipboard(pasteWith);
 }
 
 void ScriptableProxyHelper::ignoreCurrentClipboard()

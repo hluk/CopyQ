@@ -21,6 +21,7 @@
 #define SCRIPTABLEPROXY_H
 
 #include "gui/clipboardbrowser.h"
+#include "platform/platformwindow.h"
 
 #include <QClipboard>
 #include <QList>
@@ -145,7 +146,7 @@ public:
 public slots:
     void close();
     void showWindow();
-    void pasteToCurrentWindow();
+    void pasteToCurrentWindow(PlatformWindow::PasteWith pasteWith);
 
     void ignoreCurrentClipboard();
 
@@ -252,7 +253,7 @@ public:
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)
-    PROXY_METHOD(pasteToCurrentWindow)
+    PROXY_METHOD_VOID_1(pasteToCurrentWindow, PlatformWindow::PasteWith)
 
     PROXY_METHOD(ignoreCurrentClipboard)
 

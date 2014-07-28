@@ -261,7 +261,7 @@ void MacPlatformWindow::raise()
     }
 }
 
-void MacPlatformWindow::pasteClipboard()
+void MacPlatformWindow::pasteClipboard(PasteWith)
 {
     if (!m_runningApplication) {
         log("Failed to paste to unknown window", LogWarning);

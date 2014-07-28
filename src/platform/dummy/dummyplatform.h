@@ -25,16 +25,6 @@
 class QApplication;
 class QCoreApplication;
 
-class PlatformWindow
-{
-public:
-    QString getTitle() { return QString(); }
-
-    void raise() {}
-
-    void pasteClipboard() {}
-};
-
 class DummyPlatform : public PlatformNativeInterface
 {
 public:

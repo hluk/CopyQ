@@ -104,6 +104,7 @@ public slots:
     QScriptValue selection();
     void copy();
     void paste();
+    void pasteWithCtrlV();
 
     QScriptValue tab();
     void removetab();

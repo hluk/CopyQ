@@ -36,7 +36,7 @@ public:
 
     void raise();
 
-    void pasteClipboard();
+    void pasteClipboard(PasteWith pasteWith);
 
 private:
     HWND m_window;

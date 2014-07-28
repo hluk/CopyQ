@@ -30,6 +30,12 @@ class QString;
 class PlatformWindow
 {
 public:
+    enum PasteWith {
+        PasteWithDefault,
+        PasteWithShiftInsert,
+        PasteWithCtrlV
+    };
+
     virtual ~PlatformWindow() {}
 
     /**
@@ -45,7 +51,7 @@ public:
     /**
      * Paste clipboard content to window.
      */
-    virtual void pasteClipboard() = 0;
+    virtual void pasteClipboard(PasteWith pasteWith = PasteWithDefault) = 0;
 };
 
 #endif // PLATFORMWINDOW_H
