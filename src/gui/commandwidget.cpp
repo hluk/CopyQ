@@ -22,6 +22,7 @@
 
 #include "common/command.h"
 #include "common/mimetypes.h"
+#include "gui/commandsyntaxhighlighter.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -31,6 +32,7 @@
 #include <QAction>
 #include <QFontMetrics>
 #include <QMenu>
+#include <QSyntaxHighlighter>
 
 namespace {
 
@@ -220,6 +222,8 @@ void CommandWidget::init()
     font.setStyleHint(QFont::TypeWriter);
     font.setPointSize(10);
     ui->lineEditCommand->document()->setDefaultFont(font);
+
+    installCommandSyntaxHighlighter(ui->lineEditCommand);
 
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->shortcutButtonGlobalShortcut->hide();

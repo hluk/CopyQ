@@ -25,6 +25,7 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "item/serialize.h"
+#include "gui/commandsyntaxhighlighter.h"
 #include "gui/configurationmanager.h"
 
 #include <QSettings>
@@ -86,6 +87,7 @@ ActionDialog::ActionDialog(QWidget *parent)
     ui->comboBoxCommands->setFont(font);
     font.setPointSize(10);
     ui->plainTextEditCommand->document()->setDefaultFont(font);
+    installCommandSyntaxHighlighter(ui->plainTextEditCommand);
 
     on_comboBoxInputFormat_currentIndexChanged(QString());
     on_comboBoxOutputFormat_editTextChanged(QString());
