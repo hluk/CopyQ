@@ -72,7 +72,6 @@
 #include <QRegExp>
 #include <QTextStream>
 #include <QTimer>
-#include <QtAlgorithms>
 #include <QStack>
 
 #include <QApplication>
@@ -1801,12 +1800,19 @@ public:
     }
     // Set cursor in text editor widget.
     void commitCursor() {
-        if (editor())
-            EDITOR(setTextCursor(m_cursor));
+        if (isVisualBlockMode()) {
+            emit q->requestSetBlockSelection(m_cursor);
+        } else  {
+            emit q->requestDisableBlockSelection();
+            if (editor())
+                EDITOR(setTextCursor(m_cursor));
+        }
     }
     // Restore cursor from editor widget.
     void pullCursor() {
-        if (editor())
+        if (isVisualBlockMode())
+            q->requestBlockSelection(&m_cursor);
+        else if (editor())
             m_cursor = EDITOR(textCursor());
     }
 
@@ -2501,14 +2507,12 @@ void FakeVimHandler::Private::exportSelection()
             const int col2 = pos - document()->findBlock(pos).position();
             if (col1 > col2)
                 ++anc;
-            else if (!atEndOfLine())
+            else if (!atBlockEnd())
                 ++pos;
             // FIXME: After '$' command (i.e. m_visualTargetColumn == -1), end of selected lines
             //        should be selected.
             setAnchorAndPosition(anc, pos);
             commitCursor();
-            emit q->requestSetBlockSelection(false);
-            emit q->requestSetBlockSelection(true);
         } else if (g.visualMode == VisualLineMode) {
             const int posLine = lineForPosition(pos);
             const int ancLine = lineForPosition(anc);
@@ -2643,9 +2647,6 @@ void FakeVimHandler::Private::ensureCursorVisible()
 
 void FakeVimHandler::Private::importSelection()
 {
-    bool hasBlock = false;
-    emit q->requestHasBlockSelection(&hasBlock);
-
     if (position() == m_oldExternalPosition
             && anchor() == m_oldExternalAnchor) {
         // Undo drawing correction.
@@ -6417,7 +6418,7 @@ void FakeVimHandler::Private::indentText(const Range &range, QChar typedChar)
     int beginBlock = document()->findBlock(range.beginPos).blockNumber();
     int endBlock = document()->findBlock(range.endPos).blockNumber();
     if (beginBlock > endBlock)
-        qSwap(beginBlock, endBlock);
+        std::swap(beginBlock, endBlock);
 
     // Don't remember current indentation in last text insertion.
     const QString lastInsertion = m_buffer->lastInsertion;
@@ -6438,7 +6439,7 @@ void FakeVimHandler::Private::shiftRegionRight(int repeat)
     int endLine = lineForPosition(position());
     int targetPos = anchor();
     if (beginLine > endLine) {
-        qSwap(beginLine, endLine);
+        std::swap(beginLine, endLine);
         targetPos = position();
     }
     if (hasConfig(ConfigStartOfLine))
@@ -6868,8 +6869,6 @@ void FakeVimHandler::Private::scrollToLine(int line)
     EDITOR(ensureCursorVisible());
 
     EDITOR(setTextCursor(tc));
-    if (isVisualBlockMode())
-        emit q->requestSetBlockSelection(true);
 
     m_firstVisibleLine = line;
 }
@@ -7389,15 +7388,11 @@ bool FakeVimHandler::Private::passEventToEditor(QEvent &event)
 {
     removeEventFilter();
 
-    commitCursor();
-
     EDITOR(setOverwriteMode(false));
-    emit q->requestSetBlockSelection(false);
+    commitCursor();
     bool accepted = QApplication::sendEvent(editor(), &event);
     if (!m_textedit && !m_plaintextedit)
         return false;
-    if (isVisualBlockMode())
-        emit q->requestSetBlockSelection(true);
     updateCursorShape();
 
     if (accepted)
@@ -7568,7 +7563,6 @@ void FakeVimHandler::Private::toggleVisualMode(VisualMode visualMode)
     if (visualMode == g.visualMode) {
         leaveVisualMode();
     } else {
-        emit q->requestSetBlockSelection(false);
         m_positionPastEnd = false;
         m_anchorPastEnd = false;
         g.visualMode = visualMode;

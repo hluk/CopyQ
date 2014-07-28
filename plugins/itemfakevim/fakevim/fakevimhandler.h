@@ -148,7 +148,9 @@ signals:
     void findRequested(bool reverse);
     void findNextRequested(bool reverse);
     void handleExCommandRequested(bool *handled, const ExCommand &cmd);
-    void requestSetBlockSelection(bool on);
+    void requestDisableBlockSelection();
+    void requestSetBlockSelection(const QTextCursor&);
+    void requestBlockSelection(QTextCursor*);
     void requestHasBlockSelection(bool *on);
     void foldToggle(int depth);
     void foldAll(bool fold);

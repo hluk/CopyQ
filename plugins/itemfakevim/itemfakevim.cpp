@@ -342,14 +342,20 @@ public slots:
         *handled = true;
     }
 
-    void requestSetBlockSelection(bool on)
+    void requestSetBlockSelection(const QTextCursor &cursor)
     {
-        m_editorWidget->setBlockSelection(on);
+        m_editorWidget->editor()->setTextCursor(cursor);
+        m_editorWidget->setBlockSelection(true);
     }
 
-    void requestHasBlockSelection(bool *on)
+    void requestDisableBlockSelection()
     {
-        *on = m_editorWidget->hasBlockSelection();
+        m_editorWidget->setBlockSelection(false);
+    }
+
+    void requestBlockSelection(QTextCursor *cursor)
+    {
+        *cursor = m_editorWidget->editor()->textCursor();
     }
 
 signals:
@@ -451,10 +457,12 @@ private:
                 proxy, SLOT(highlightMatches(QString)));
         connect(handler, SIGNAL(handleExCommandRequested(bool*,ExCommand)),
                 proxy, SLOT(handleExCommand(bool*,ExCommand)));
-        connect(handler, SIGNAL(requestSetBlockSelection(bool)),
-                proxy, SLOT(requestSetBlockSelection(bool)));
-        connect(handler, SIGNAL(requestHasBlockSelection(bool*)),
-                proxy, SLOT(requestHasBlockSelection(bool*)));
+        connect(handler, SIGNAL(requestSetBlockSelection(QTextCursor)),
+                proxy, SLOT(requestSetBlockSelection(QTextCursor)));
+        connect(handler, SIGNAL(requestDisableBlockSelection()),
+                proxy, SLOT(requestDisableBlockSelection()));
+        connect(handler, SIGNAL(requestBlockSelection(QTextCursor*)),
+                proxy, SLOT(requestBlockSelection(QTextCursor*)));
 
         connect(proxy, SIGNAL(save()), SIGNAL(save()));
         connect(proxy, SIGNAL(cancel()), SIGNAL(cancel()));
