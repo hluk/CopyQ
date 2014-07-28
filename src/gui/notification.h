@@ -69,6 +69,7 @@ private:
     QTimer *m_timer;
     qreal m_opacity;
     ushort m_icon;
+    QString m_textToCopy;
 };
 
 #endif // NOTIFICATION_H

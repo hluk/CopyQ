@@ -19,16 +19,19 @@
 
 #include "gui/notification.h"
 
+#include "common/common.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 
-#include <QVBoxLayout>
+#include <QApplication>
+#include <QClipboard>
 #include <QGridLayout>
 #include <QLabel>
 #include <QMap>
 #include <QMouseEvent>
 #include <QPainter>
 #include <QTimer>
+#include <QVBoxLayout>
 #include <QVBoxLayout>
 
 Notification::Notification(int id)
@@ -80,6 +83,9 @@ void Notification::setMessage(const QString &msg, Qt::TextFormat format)
     m_msgLabel->setTextFormat(format);
     m_msgLabel->setText(msg);
     m_msgLabel->adjustSize();
+
+    m_textToCopy = (format == Qt::PlainText) ? msg : QString();
+
 }
 
 void Notification::setPixmap(const QPixmap &pixmap)
@@ -138,6 +144,12 @@ void Notification::mousePressEvent(QMouseEvent *event)
 
     if (m_timer != NULL)
         m_timer->stop();
+
+    if ( !m_textToCopy.isEmpty() ) {
+        QVariantMap dataMap;
+        setTextData(&dataMap, m_textToCopy);
+        QApplication::clipboard()->setMimeData( createMimeData(dataMap), QClipboard::Clipboard );
+    }
 
     emit closeNotification(this);
 }
