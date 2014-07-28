@@ -888,9 +888,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Escape:
             if ( browseMode() ) {
-                if (m_lastWindow) {
-                    m_lastWindow->raise();
-                }
                 closeAndReturnFocus();
                 getBrowser()->setCurrent(0);
             } else {
