@@ -7,7 +7,7 @@ set -e -x
 script_path=$(cd $(dirname $0); pwd)
 app_path=${1:-$(pwd)/CopyQ.app}
 
-if ! python -c 'import Quartz' &>/dev/null || ! which dmgbuild &>/dev/null
+if ! python -c 'from Quartz import *' &>/dev/null || ! which dmgbuild &>/dev/null
 then
     echo "$(basename $0) requires dmgbuild and pyobjc-framework-Quartz to be installed." 1>&2
     echo "These can be installed with 'pip install dmgbuild pyobjc-framework-Quartz'" 1>&2
