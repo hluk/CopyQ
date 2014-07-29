@@ -69,6 +69,8 @@ public:
 
     PlatformClipboardPtr clipboard();
 
+    int keyCode(const QKeyEvent &event);
+
 private:
     QSharedPointer<X11DisplayGuard> d;
 };
