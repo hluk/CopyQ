@@ -26,6 +26,9 @@
 #include <QMetaObject>
 #include <QPalette>
 #include <QRegExp>
+#include <QScriptEngine>
+#include <QScriptValue>
+#include <QScriptValueIterator>
 #include <QSyntaxHighlighter>
 #include <QTextEdit>
 #include <QPlainTextEdit>
@@ -99,6 +102,25 @@ QStringList scriptableFunctions()
     return result;
 }
 
+/// Constructors and functions from ECMA specification supported by Qt plus ByteArray.
+QStringList scriptableObjects()
+{
+    QStringList result;
+    result.append("ByteArray");
+
+    QScriptEngine engine;
+
+    QScriptValue globalObject = engine.globalObject();
+    QScriptValueIterator it(globalObject);
+
+    while (it.hasNext()) {
+        it.next();
+        result.append(it.name());
+    }
+
+    return result;
+}
+
 QRegExp createRegExp(const QStringList &list)
 {
     QRegExp re;
@@ -127,8 +149,9 @@ public:
     explicit CommandSyntaxHighlighter(QWidget *editor, QTextDocument *parent)
         : QSyntaxHighlighter(parent)
         , m_editor(editor)
-        , m_reKeywords(createRegExp(scriptableKeywords()))
+        , m_reObjects(createRegExp(scriptableObjects()))
         , m_reFunctions(createRegExp(scriptableFunctions()))
+        , m_reKeywords(createRegExp(scriptableKeywords()))
         , m_reNumbers("(?:\\b|%)\\d+")
     {
     }
@@ -138,22 +161,26 @@ protected:
     {
         const QColor color = getDefaultIconColor(*m_editor, QPalette::Base);
 
-        QTextCharFormat keywordFormat;
-        keywordFormat.setFontWeight(QFont::Bold);
-        highlight(text, m_reKeywords, keywordFormat);
+        QTextCharFormat objectsFormat;
+        objectsFormat.setForeground(mixColor(color, 40, -60, 40));
+        highlight(text, m_reObjects, objectsFormat);
 
         QTextCharFormat functionFormat;
         functionFormat.setForeground(mixColor(color, -40, -40, 40));
         highlight(text, m_reFunctions, functionFormat);
 
-        QTextCharFormat stringFormat;
-        stringFormat.setForeground(mixColor(color, -40, 40, -40));
-        highlightStrings(text, '"', stringFormat);
-        highlightStrings(text, '\'', stringFormat);
+        QTextCharFormat keywordFormat;
+        keywordFormat.setFontWeight(QFont::Bold);
+        highlight(text, m_reKeywords, keywordFormat);
 
         QTextCharFormat numberFormat;
         numberFormat.setForeground(mixColor(color, 40, -40, -40));
         highlight(text, m_reNumbers, numberFormat);
+
+        QTextCharFormat stringFormat;
+        stringFormat.setForeground(mixColor(color, -40, 40, -40));
+        highlightStrings(text, '"', stringFormat);
+        highlightStrings(text, '\'', stringFormat);
     }
 
 private:
@@ -189,8 +216,9 @@ private:
     }
 
     QWidget *m_editor;
-    QRegExp m_reKeywords;
+    QRegExp m_reObjects;
     QRegExp m_reFunctions;
+    QRegExp m_reKeywords;
     QRegExp m_reNumbers;
 };
 
