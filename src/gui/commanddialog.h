@@ -39,8 +39,6 @@ public:
     explicit CommandDialog(QWidget *parent = NULL);
     ~CommandDialog();
 
-    void loadSettings();
-
     /** Return enabled commands. */
     Commands commands(bool onlyEnabled = true, bool onlySaved = true) const;
 
@@ -53,6 +51,8 @@ signals:
     void commandsSaved();
 
 private slots:
+    void loadSettings();
+
     void tryPasteCommandFromClipboard();
     void copySelectedCommandsToClipboard();
     void onCommandDropped(const QString &text, int row);
