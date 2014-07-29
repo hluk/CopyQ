@@ -50,6 +50,8 @@ public:
     void loadSettings();
 
     PlatformClipboardPtr clipboard();
+
+    int keyCode(const QKeyEvent &event);
 };
 
 #endif // WINPLATFORM_H

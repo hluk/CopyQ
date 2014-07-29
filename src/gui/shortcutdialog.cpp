@@ -23,6 +23,7 @@
 #include "common/log.h"
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QKeyEvent>
 #include <QPushButton>
@@ -86,7 +87,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         QKeyEvent *keyEvent = static_cast<QKeyEvent*>(event);
         COPYQ_LOG(QString("Shortcut key press: %1").arg(keyEvent->key()));
 
-        const int key = keyEvent->key();
+        const int key = createPlatformNativeInterface()->keyCode(*keyEvent);
         Qt::KeyboardModifiers mods = getModifiers(*keyEvent);
 
         if (mods == Qt::NoModifier) {

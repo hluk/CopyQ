@@ -23,8 +23,10 @@
 #include "platform/platformwindow.h"
 #include "platform/platformclipboard.h"
 
+#include <QKeyEvent>
 #include <QSharedPointer>
 #include <QWidget>
+#include <Qt>
 
 class QApplication;
 class QByteArray;
@@ -106,6 +108,11 @@ public:
      * Return object for managing clipboard.
      */
     virtual PlatformClipboardPtr clipboard() = 0;
+
+    /**
+     * Return Qt key code from key press event (possibly using QKeyEvent::nativeVirtualKey()).
+     */
+    virtual int keyCode(const QKeyEvent &event) { return event.key(); }
 };
 
 /**
