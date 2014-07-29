@@ -103,8 +103,8 @@ void WinPlatformWindow::pasteClipboard(PasteWith pasteWith)
 
     if (pasteWith == PasteWithCtrlV) {
         input1 << createInput(VK_LCONTROL)
-               << createInput(VK_V)
-               << createInput(VK_V, KEYEVENTF_KEYUP)
+               << createInput('V')
+               << createInput('V', KEYEVENTF_KEYUP)
                << createInput(VK_LCONTROL, KEYEVENTF_KEYUP);
     } else {
         input1 << createInput(VK_LSHIFT)
