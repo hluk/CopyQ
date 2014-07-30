@@ -122,6 +122,20 @@ QStringList scriptableObjects()
     return result;
 }
 
+QRegExp commandLabelRegExp()
+{
+    return QRegExp(
+            "\\bcopyq:"
+            "|\\bsh:"
+            "|\\bbash:"
+            "|\\bpowershell:"
+            "|\\bperl:"
+            "|\\bpython:"
+            "|\\bruby:"
+            "|\\bpowershell:"
+                );
+}
+
 QRegExp createRegExp(const QStringList &list)
 {
     QRegExp re;
@@ -163,6 +177,7 @@ public:
         , m_reObjects(createRegExp(scriptableObjects()))
         , m_reFunctions(createRegExp(scriptableFunctions()))
         , m_reKeywords(createRegExp(scriptableKeywords()))
+        , m_reLabels(commandLabelRegExp())
         , m_reNumbers("(?:\\b|%)\\d+")
     {
     }
@@ -183,6 +198,11 @@ protected:
         QTextCharFormat keywordFormat;
         keywordFormat.setFontWeight(QFont::Bold);
         highlight(text, m_reKeywords, keywordFormat);
+
+        QTextCharFormat labelsFormat;
+        labelsFormat.setFontWeight(QFont::Bold);
+        labelsFormat.setForeground(mixColor(color, 40, 40, -40));
+        highlight(text, m_reLabels, labelsFormat);
 
         QTextCharFormat numberFormat;
         numberFormat.setForeground(mixColor(color, 40, -40, -40));
@@ -246,6 +266,7 @@ private:
     QRegExp m_reObjects;
     QRegExp m_reFunctions;
     QRegExp m_reKeywords;
+    QRegExp m_reLabels;
     QRegExp m_reNumbers;
 };
 
