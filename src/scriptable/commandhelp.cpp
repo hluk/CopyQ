@@ -59,7 +59,8 @@ QList<CommandHelp> commandHelp()
 {
     static QList<CommandHelp> help = QList<CommandHelp>()
             << CommandHelp("show",
-                           Scriptable::tr("Show main window."))
+                           Scriptable::tr("Show main window and optionally open tab with given name."))
+               .addArg("[" + Scriptable::tr("NAME") + "]")
             << CommandHelp("hide",
                            Scriptable::tr("Hide main window."))
             << CommandHelp("toggle",

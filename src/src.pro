@@ -91,7 +91,8 @@ HEADERS += \
     gui/iconselectdialog.h \
     gui/commanddialog.h \
     gui/commandsyntaxhighlighter.h \
-    scriptable/commandhelp.h
+    scriptable/commandhelp.h \
+    gui/commandhelpbutton.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -157,7 +158,8 @@ SOURCES += \
     gui/commanddialog.cpp \
     scriptable/scriptableproxy.cpp \
     gui/commandsyntaxhighlighter.cpp \
-    scriptable/commandhelp.cpp
+    scriptable/commandhelp.cpp \
+    gui/commandhelpbutton.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

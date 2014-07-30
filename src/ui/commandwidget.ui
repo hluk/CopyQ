@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>318</width>
-    <height>694</height>
+    <width>314</width>
+    <height>690</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -253,14 +253,13 @@ Leave empty to disable this.</string>
       </property>
       <item>
        <widget class="QPlainTextEdit" name="lineEditCommand">
-        <property name="toolTip">
-         <string>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
-
-&lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</string>
-        </property>
         <property name="tabChangesFocus">
          <bool>true</bool>
         </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="CommandHelpButton" name="helpButton">
        </widget>
       </item>
      </layout>
@@ -547,6 +546,11 @@ Note: If this is applied automatically, no other automatic commands are executed
    <extends>QWidget</extends>
    <header>gui/shortcutbutton.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>CommandHelpButton</class>
+   <extends>QWidget</extends>
+   <header>gui/commandhelpbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

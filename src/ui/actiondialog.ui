@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>283</width>
-    <height>372</height>
+    <width>273</width>
+    <height>362</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,7 +30,7 @@
       </sizepolicy>
      </property>
      <property name="text">
-      <string>Co&amp;mmand (%1 is text of selected items):</string>
+      <string>Co&amp;mmand:</string>
      </property>
      <property name="buddy">
       <cstring>plainTextEditCommand</cstring>
@@ -39,13 +39,13 @@
    </item>
    <item>
     <widget class="QPlainTextEdit" name="plainTextEditCommand">
-     <property name="toolTip">
-      <string>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</string>
-     </property>
      <property name="tabChangesFocus">
       <bool>true</bool>
      </property>
     </widget>
+   </item>
+   <item>
+    <widget class="CommandHelpButton" name="helpButton" native="true"/>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_3">
@@ -154,6 +154,13 @@
    </item>
   </layout>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>CommandHelpButton</class>
+   <extends>QWidget</extends>
+   <header>gui/commandhelpbutton.h</header>
+  </customwidget>
+ </customwidgets>
  <tabstops>
   <tabstop>comboBoxCommands</tabstop>
   <tabstop>plainTextEditCommand</tabstop>

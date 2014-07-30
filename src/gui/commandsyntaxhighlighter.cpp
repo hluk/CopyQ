@@ -253,12 +253,10 @@ private:
 
 void installCommandSyntaxHighlighter(QTextEdit *editor)
 {
-    editor->setToolTip(QString());
     new CommandSyntaxHighlighter(editor, editor->document());
 }
 
 void installCommandSyntaxHighlighter(QPlainTextEdit *editor)
 {
-    editor->setToolTip(QString());
     new CommandSyntaxHighlighter(editor, editor->document());
 }
