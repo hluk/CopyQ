@@ -20,7 +20,6 @@
 #include "commandsyntaxhighlighter.h"
 
 #include "gui/iconfactory.h"
-#include "scriptable/commandhelp.h"
 #include "scriptable/scriptable.h"
 
 #include <QMetaMethod>
@@ -158,16 +157,6 @@ QColor mixColor(const QColor &color, int r, int g, int b)
                 );
 }
 
-QString helpCommand(const QString &cmd, const QList<CommandHelp> &help)
-{
-    foreach (const CommandHelp &hlp, help) {
-        if (hlp.cmd == cmd)
-            return hlp.toString().trimmed();
-    }
-
-    return QString();
-}
-
 class CommandSyntaxHighlighter : public QSyntaxHighlighter
 {
 public:
@@ -193,7 +182,7 @@ protected:
 
         QTextCharFormat functionFormat;
         functionFormat.setForeground(mixColor(color, -40, -40, 40));
-        highlight(text, m_reFunctions, functionFormat, commandHelp());
+        highlight(text, m_reFunctions, functionFormat);
 
         QTextCharFormat keywordFormat;
         keywordFormat.setFontWeight(QFont::Bold);
@@ -215,28 +204,13 @@ protected:
     }
 
 private:
-    void highlight(
-            const QString &text, QRegExp &re, const QTextCharFormat &format,
-            const QList<CommandHelp> &help = QList<CommandHelp>())
+    void highlight(const QString &text, QRegExp &re, const QTextCharFormat &format)
     {
         int index = text.indexOf(re);
-        QTextCharFormat format2 = format;
-        const int pos = currentBlock().position();
 
         while (index >= 0) {
             const int length = re.matchedLength();
-
-            const QString name = re.cap(0);
-            const QString tooltip = helpCommand(name, help);
-            format2.setToolTip(tooltip);
-
-            // Cannot use QTextCharFormat::setFormat() because of Qt bug
-            // (https://bugreports.qt-project.org/browse/QTBUG-21553).
-            QTextCursor tc(document());
-            tc.setPosition(pos + index);
-            tc.setPosition(pos + index + length, QTextCursor::KeepAnchor);
-            tc.setCharFormat(format2);
-
+            setFormat(index, length, format);
             index = text.indexOf( re, index + qMax(1, length) );
         }
     }
