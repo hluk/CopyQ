@@ -274,3 +274,7 @@ void MacPlatformWindow::pasteClipboard(PasteWith)
     // Paste after after 100ms, try 5 times
     delayedPaste(100, 5, m_window, m_runningApplication);
 }
+
+void MacPlatformWindow::copy()
+{
+}

@@ -179,6 +179,7 @@ signals:
 
 private:
     QList<int> getRows() const;
+    bool setClipboard(const QVariantMap &data);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

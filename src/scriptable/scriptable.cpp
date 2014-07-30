@@ -647,9 +647,13 @@ void Scriptable::copy()
     int args = argumentCount();
     QVariantMap data;
 
-    if (args == 1) {
+    if (args == 0) {
+        if ( setClipboard(QVariantMap()) )
+            m_proxy->copyFromCurrentWindow();
+    } else if (args == 1) {
         QScriptValue value = argument(0);
         data[mimeText] = toString(value).toUtf8();
+        setClipboard(data);
     } else if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
             // MIME
@@ -658,21 +662,11 @@ void Scriptable::copy()
             // DATA
             toItemData(argument(++i), mime, &data);
         }
+
+        setClipboard(data);
     } else {
         throwError(argumentError());
-        return;
     }
-
-    m_proxy->setClipboard(data);
-
-    // Wait for clipboard to be set.
-    for (int i = 0; i < 10; ++i) {
-        waitFor(250);
-        if ( clipboardEquals(data, m_proxy) )
-            return;
-    }
-
-    throwError( tr("Failed to set clipboard!") );
 }
 
 void Scriptable::paste()
@@ -1179,4 +1173,19 @@ QList<int> Scriptable::getRows() const
     }
 
     return rows;
+}
+
+bool Scriptable::setClipboard(const QVariantMap &data)
+{
+    m_proxy->setClipboard(data);
+
+    // Wait for clipboard to be set.
+    for (int i = 0; i < 10; ++i) {
+        waitFor(250);
+        if ( clipboardEquals(data, m_proxy) )
+            return true;
+    }
+
+    throwError( tr("Failed to set clipboard!") );
+    return false;
 }

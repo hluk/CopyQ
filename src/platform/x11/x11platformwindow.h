@@ -39,9 +39,13 @@ public:
 
     void pasteClipboard(PasteWith pasteWith);
 
+    void copy();
+
     bool isValid() const;
 
 private:
+    void sendKeyPress(int modifier, int key);
+
     Window m_window;
     X11DisplayGuard d;
 };

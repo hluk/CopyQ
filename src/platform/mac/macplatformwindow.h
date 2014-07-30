@@ -51,6 +51,7 @@ public:
 
     void raise();
     void pasteClipboard(PasteWith);
+    void copy();
 
 private:
     // Don't allow copies

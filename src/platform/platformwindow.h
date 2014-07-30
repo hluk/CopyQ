@@ -52,6 +52,11 @@ public:
      * Paste clipboard content to window.
      */
     virtual void pasteClipboard(PasteWith pasteWith = PasteWithDefault) = 0;
+
+    /**
+     * Copy to clipboard from window.
+     */
+    virtual void copy() = 0;
 };
 
 #endif // PLATFORMWINDOW_H

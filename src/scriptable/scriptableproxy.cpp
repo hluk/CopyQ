@@ -81,8 +81,17 @@ void ScriptableProxyHelper::showWindow()
 void ScriptableProxyHelper::pasteToCurrentWindow(PlatformWindow::PasteWith pasteWith)
 {
     PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    v = !window.isNull();
     if (window)
         window->pasteClipboard(pasteWith);
+}
+
+void ScriptableProxyHelper::copyFromCurrentWindow()
+{
+    PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
+    v = !window.isNull();
+    if (window)
+        window->copy();
 }
 
 void ScriptableProxyHelper::ignoreCurrentClipboard()

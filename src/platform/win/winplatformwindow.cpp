@@ -119,3 +119,7 @@ void WinPlatformWindow::pasteClipboard(PasteWith pasteWith)
     // Don't do anything hasty until the content is actually pasted.
     Sleep(150);
 }
+
+void WinPlatformWindow::copy()
+{
+}
