@@ -40,6 +40,8 @@ public:
     void copy();
 
 private:
+    void sendKeyPress(WORD modifier, WORD key);
+
     HWND m_window;
 };
 

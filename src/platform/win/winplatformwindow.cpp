@@ -79,7 +79,20 @@ void WinPlatformWindow::raise()
 
 void WinPlatformWindow::pasteClipboard(PasteWith pasteWith)
 {
-    if (!raiseWindow(m_window))
+    if (pasteWith == PasteWithCtrlV)
+        sendKeyPress(VK_LCONTROL, 'V');
+    else
+        sendKeyPress(VK_LSHIFT, VK_INSERT);
+}
+
+void WinPlatformWindow::copy()
+{
+    sendKeyPress(VK_LCONTROL, 'C');
+}
+
+void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
+{
+     if (!raiseWindow(m_window))
         return;
 
     Sleep(150);
@@ -101,25 +114,14 @@ void WinPlatformWindow::pasteClipboard(PasteWith pasteWith)
         }
     }
 
-    if (pasteWith == PasteWithCtrlV) {
-        input1 << createInput(VK_LCONTROL)
-               << createInput('V')
-               << createInput('V', KEYEVENTF_KEYUP)
-               << createInput(VK_LCONTROL, KEYEVENTF_KEYUP);
-    } else {
-        input1 << createInput(VK_LSHIFT)
-               << createInput(VK_INSERT)
-               << createInput(VK_INSERT, KEYEVENTF_KEYUP)
-               << createInput(VK_LSHIFT, KEYEVENTF_KEYUP);
-    }
+    input1 << createInput(modifier)
+           << createInput(key)
+           << createInput(key, KEYEVENTF_KEYUP)
+           << createInput(modifier, KEYEVENTF_KEYUP);
 
     QVector<INPUT> input = input1 + input2;
     SendInput( input.size(), input.data(), sizeof(INPUT) );
 
     // Don't do anything hasty until the content is actually pasted.
     Sleep(150);
-}
-
-void WinPlatformWindow::copy()
-{
 }
