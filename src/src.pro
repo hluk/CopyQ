@@ -90,7 +90,8 @@ HEADERS += \
     gui/processmanagerdialog.h \
     gui/iconselectdialog.h \
     gui/commanddialog.h \
-    gui/commandsyntaxhighlighter.h
+    gui/commandsyntaxhighlighter.h \
+    scriptable/commandhelp.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -155,7 +156,8 @@ SOURCES += \
     gui/iconselectdialog.cpp \
     gui/commanddialog.cpp \
     scriptable/scriptableproxy.cpp \
-    gui/commandsyntaxhighlighter.cpp
+    gui/commandsyntaxhighlighter.cpp \
+    scriptable/commandhelp.cpp
 
 macx {
     # Only Intel binaries are accepted so force this
