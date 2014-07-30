@@ -56,6 +56,13 @@ void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg, int 
     }
 }
 
+QByteArray readAllStdin()
+{
+    QFile in;
+    in.open(stdin, QIODevice::ReadOnly);
+    return in.readAll();
+}
+
 } // namespace
 
 Arguments::Arguments()
@@ -75,21 +82,16 @@ Arguments::Arguments(const QStringList &arguments)
      */
     bool readRaw = false;
     foreach (const QString &arg, arguments) {
-        if (readRaw) {
+        if (readRaw)
             m_args.append( arg.toUtf8() );
-        } else {
-            if (arg == "-") {
-                QFile in;
-                in.open(stdin, QIODevice::ReadOnly);
-                m_args.append( in.readAll() );
-            } else if (arg == "--") {
-                readRaw = true;
-            } else if (arg == "-e") {
-                m_args.append("eval");
-            } else {
-                addArgumentFromCommandLine( m_args, arg.toUtf8(), m_args.size() );
-            }
-        }
+        else if (arg == "-")
+            m_args.append( readAllStdin() );
+        else if (arg == "--")
+            readRaw = true;
+        else if (arg == "-e")
+            m_args.append("eval");
+        else
+            addArgumentFromCommandLine( m_args, arg.toUtf8(), m_args.size() );
     }
 }
 
