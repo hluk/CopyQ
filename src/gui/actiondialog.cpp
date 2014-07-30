@@ -92,6 +92,8 @@ ActionDialog::ActionDialog(QWidget *parent)
     on_comboBoxInputFormat_currentIndexChanged(QString());
     on_comboBoxOutputFormat_editTextChanged(QString());
     loadSettings();
+
+    ConfigurationManager::instance()->registerWindowGeometry(this);
 }
 
 ActionDialog::~ActionDialog()
