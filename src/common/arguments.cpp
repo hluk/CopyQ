@@ -64,7 +64,7 @@ Arguments::Arguments()
     reset();
 }
 
-Arguments::Arguments(int argc, char **argv, int skipArgc)
+Arguments::Arguments(const QStringList &arguments)
     : m_args()
 {
     reset();
@@ -74,29 +74,21 @@ Arguments::Arguments(int argc, char **argv, int skipArgc)
      * "--" read all following arguments without control sequences
      */
     bool readRaw = false;
-    for (int i = skipArgc; i < argc; ++i) {
-        const char *arg = argv[i];
+    foreach (const QString &arg, arguments) {
         if (readRaw) {
-            m_args.append( QString::fromUtf8(arg).toUtf8() );
+            m_args.append( arg.toUtf8() );
         } else {
-            if ( arg[0] == '-' ) {
-                if ( arg[1] == '\0' ) {
-                    QFile in;
-                    in.open(stdin, QIODevice::ReadOnly);
-                    m_args.append( in.readAll() );
-                    continue;
-                } else if ( arg[2] == '\0' ) {
-                    // single-char option
-                    if ( arg[1] == '-' ) {
-                        readRaw = true;
-                        continue;
-                    } else if ( arg[1] == 'e' ) {
-                        m_args.append("eval");
-                        continue;
-                    }
-                }
+            if (arg == "-") {
+                QFile in;
+                in.open(stdin, QIODevice::ReadOnly);
+                m_args.append( in.readAll() );
+            } else if (arg == "--") {
+                readRaw = true;
+            } else if (arg == "-e") {
+                m_args.append("eval");
+            } else {
+                addArgumentFromCommandLine( m_args, arg.toUtf8(), m_args.size() );
             }
-            addArgumentFromCommandLine(m_args, arg, m_args.size());
         }
     }
 }

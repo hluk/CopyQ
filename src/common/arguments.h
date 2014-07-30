@@ -41,7 +41,7 @@ public:
     };
 
     Arguments();
-    Arguments(int argc, char **argv, int skipArgc = 1);
+    Arguments(const QStringList &arguments);
 
     ~Arguments();
 

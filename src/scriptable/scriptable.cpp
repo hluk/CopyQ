@@ -473,7 +473,7 @@ void Scriptable::copy()
             m_proxy->copyFromCurrentWindow();
     } else if (args == 1) {
         QScriptValue value = argument(0);
-        data[mimeText] = toString(value).toUtf8();
+        setTextData( &data, toString(value) );
         setClipboard(data);
     } else if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
@@ -570,7 +570,7 @@ void Scriptable::insert()
 
     QScriptValue value = argument(1);
     QVariantMap data;
-    data.insert( mimeText, toString(value).toUtf8() );
+    setTextData( &data, toString(value) );
     m_proxy->browserAdd(data, row);
 }
 
