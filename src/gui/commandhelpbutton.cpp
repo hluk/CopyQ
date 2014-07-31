@@ -30,6 +30,15 @@
 #include <QTextBrowser>
 #include <QVBoxLayout>
 
+namespace {
+
+QString example(const QString &content)
+{
+    return "<div class='example'><p>" + escapeHtml(content) + "</p></div>";
+}
+
+} // namespace
+
 CommandHelpButton::CommandHelpButton(QWidget *parent)
     : QWidget(parent)
     , m_button(new QPushButton(this))
@@ -53,23 +62,40 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
     QString help =
         "<html>"
 
-        "<head><style type=\"text/css\">"
+        "<head>"
+        "<style type=\"text/css\">"
         ".args{font-family:monospace}"
-        ".example{font-family:monospace; margin: 0 2em 0 2em}"
+        ".example{font-family:monospace; margin:0 2em 0 2em; background:lightGray; foreground:black}"
         ".description{margin: 0 2em 0 2em}"
-        "</style></head>"
+        "</style>"
+        "</head>"
 
         "<body>"
-            "<p>"
-            + tr("Command can contain <b>%1</b> for item text passed as argument and <b>%2</b> to <b>%9</b> for arguments captured by regular expression if defined.")
-            + "</p><p>" +
-            tr("Use <b>|</b> to chain commands (pass standard output to next command).")
-            + "</p>";
 
-    help.append( tr("<p>Following functions can be used in commands such as:</p>") );
-    help.append( "<div class='example'>copyq show '&clipboard'</div>" );
-    help.append( "<div class='example'>copyq eval 'show(\"&clipboard\")'</div>" );
-    help.append( "<div class='example'>copyq: show('&clipboard')</div>" );
+            "<p>"
+            + escapeHtml( tr("Command contains list of programs with arguments which will be executed. For example:") )
+            + example("copyq add \"1 + 2 = 3\"; copyq show\ncopyq popup \"1 + 2\" \"= 3\"")
+            + " "
+            + escapeHtml( tr("Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.") )
+            + "</p>"
+            + "<p>"
+            + escapeHtml( tr("Character %1 can be used to pass standard output to the next program.") )
+            .arg("<b>|</b>")
+            + "</p>"
+
+            + "<p>"
+            + escapeHtml( tr("Following syntax can be used to pass rest of the command as single parameter.") )
+            + example("perl:\nprint(\"1 + 2 = \", 1 + 2);\nprint(\"; 3 * 4 = \", 3 * 4);")
+            + escapeHtml( tr("This gives same output as %1 but is more useful for longer commands.") )
+            .arg( example("perl -e 'print(\"1 + 2 = \", 1 + 2); print(\"; 3 * 4 = \", 3 * 4);'") )
+            + "</p>"
+            ;
+
+    help.append( "<p>" + escapeHtml(tr("Functions listed below can be used as in following commands.")) + "</p>" );
+    const QString tabName = tr("&clipboard", "Example tab name");
+    help.append( example("copyq show '" + tabName + "'") );
+    help.append( example("copyq eval 'show(\"" + tabName + "\")'") );
+    help.append( example("copyq: show('" + tabName + "')") );
 
     foreach (const CommandHelp &hlp, commandHelp()) {
         if ( !hlp.cmd.isNull() ) {
@@ -81,6 +107,8 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
                              escapeHtml(hlp.desc.trimmed())) );
         }
     }
+
+    help.append("</body></html>");
 
     m_help->setText(help);
 
