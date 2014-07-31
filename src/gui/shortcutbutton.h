@@ -68,9 +68,6 @@ signals:
     /** Emited if @a shortcut (with button) was removed. */
     void shortcutRemoved(const QKeySequence &shortcut);
 
-protected:
-    bool focusNextPrevChild(bool next);
-
 private slots:
     void onShortcutButtonClicked();
     void onButtonAddShortcutClicked();

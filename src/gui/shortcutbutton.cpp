@@ -47,8 +47,6 @@ ShortcutButton::ShortcutButton(QWidget *parent)
              this, SLOT(onButtonAddShortcutClicked()) );
 
     addShortcut(m_defaultShortcut);
-
-    setFocusPolicy(Qt::WheelFocus);
 }
 
 void ShortcutButton::addShortcut(const QKeySequence &shortcut)
@@ -123,40 +121,6 @@ void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguou
 int ShortcutButton::shortcutCount() const
 {
     return m_layout->count() - 1;
-}
-
-bool ShortcutButton::focusNextPrevChild(bool next)
-{
-    if ( m_buttonAddShortcut->hasFocus() ) {
-        if (next || shortcutCount() == 0)
-            return QWidget::focusNextPrevChild(next);
-        shortcutButton(shortcutCount() - 1)->setFocus();
-        return true;
-    } else if (shortcutCount() == 0) {
-        m_buttonAddShortcut->setFocus();
-        return true;
-    }
-
-    int current = -1;
-    for ( int i = 0; i < shortcutCount(); ++i ) {
-        if ( shortcutButton(i)->hasFocus() ) {
-            current = i;
-            break;
-        }
-    }
-
-    if (current == 0 && !next)
-        return QWidget::focusNextPrevChild(next);
-
-    if (current == shortcutCount() - 1 && next) {
-        m_buttonAddShortcut->setFocus();
-    } else if (current == -1 && !next) {
-        shortcutButton(shortcutCount() - 1)->setFocus();
-    } else {
-        shortcutButton(current + (next ? 1 : -1))->setFocus();
-    }
-
-    return true;
 }
 
 void ShortcutButton::onShortcutButtonClicked()

@@ -27,7 +27,6 @@
 #include <QDragEnterEvent>
 #include <QMenu>
 #include <QMimeData>
-#include <QScrollArea>
 #include <QScrollBar>
 
 ItemOrderList::ItemOrderList(QWidget *parent)
@@ -76,14 +75,8 @@ void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &
     list->insertItem(row, item);
     item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
 
-    QScrollArea *area = new QScrollArea(ui->stackedWidget);
-    area->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    area->setWidget(widget);
-    area->setWidgetResizable(true);
-    area->setFrameShape(QFrame::NoFrame);
-
-    m_itemWidgets[item] = area;
-    ui->stackedWidget->addWidget(area);
+    m_itemWidgets[item] = widget;
+    ui->stackedWidget->addWidget(widget);
 
     // Resize list to minimal size.
     const int w = list->sizeHintForColumn(0)
@@ -96,7 +89,7 @@ void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &
 
 QWidget *ItemOrderList::itemWidget(int row) const
 {
-    return m_itemWidgets[item(row)]->widget();
+    return m_itemWidgets[item(row)];
 }
 
 int ItemOrderList::itemCount() const

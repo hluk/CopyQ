@@ -215,7 +215,6 @@ void CommandWidget::init()
     uiGuard->setupUi(this);
     ui = uiGuard.take();
 
-    setFocusProxy(ui->lineEditName);
     updateWidgets();
 
     QFont font("Monospace");

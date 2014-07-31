@@ -98,7 +98,7 @@ private:
     void setCurrentItemWidget(QWidget *widget);
 
     Ui::ItemOrderList *ui;
-    QMap<QListWidgetItem*, QScrollArea*> m_itemWidgets;
+    QMap<QListWidgetItem*, QWidget*> m_itemWidgets;
 
     QRegExp m_dragAndDropRe;
 };

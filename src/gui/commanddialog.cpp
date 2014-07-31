@@ -295,6 +295,7 @@ CommandDialog::CommandDialog(QWidget *parent)
     restoreGlobalActions();
 
     ui->setupUi(this);
+    ui->itemOrderListCommands->setFocus();
 
     foreach ( const Command &command, commands(false) )
         addCommandWithoutSave(command);

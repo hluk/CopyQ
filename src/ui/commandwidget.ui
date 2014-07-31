@@ -6,9 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>314</width>
-    <height>690</height>
+    <width>310</width>
+    <height>686</height>
    </rect>
+  </property>
+  <property name="focusPolicy">
+   <enum>Qt::WheelFocus</enum>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
@@ -259,8 +262,7 @@ Leave empty to disable this.</string>
        </widget>
       </item>
       <item>
-       <widget class="CommandHelpButton" name="helpButton">
-       </widget>
+       <widget class="CommandHelpButton" name="helpButton" native="true"/>
       </item>
      </layout>
     </widget>

@@ -344,7 +344,7 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 
                 // Remove border in toolbars.
                 "QToolBar{border:none}"
-                "QToolButton{color:" + themeColorString("fg") + "}"
+                "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
 
                 // Remove icon border in menus.
                 "QMenu::item:selected{border:none}"
