@@ -189,18 +189,17 @@
         <translation>CopyQ Dialog Akcí</translation>
     </message>
     <message>
+        <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="obsolete">&amp;Příkaz:</translation>
+        <translation>&amp;Příkaz:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="36"/>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation>&amp;Příkaz (%1 je text vybraných prvků):</translation>
+        <translation type="vanished">&amp;Příkaz (%1 je text vybraných prvků):</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="20"/>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; v &lt;b&gt;příkazu&lt;/b&gt; znamená &lt;b&gt;text&lt;/b&gt; označených prvků. Text může být změněn a poslán na &lt;b&gt;standardní vstup&lt;/b&gt; příkazu. Je také možné zřetězit více příkazů znakem &lt;b&gt;|&lt;/b&gt; (t.j. předávání standardního vstupu).</translation>
+        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; v &lt;b&gt;příkazu&lt;/b&gt; znamená &lt;b&gt;text&lt;/b&gt; označených prvků. Text může být změněn a poslán na &lt;b&gt;standardní vstup&lt;/b&gt; příkazu. Je také možné zřetězit více příkazů znakem &lt;b&gt;|&lt;/b&gt; (t.j. předávání standardního vstupu).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="61"/>
@@ -258,12 +257,12 @@
         <translation>Ulož prvky do záložky s daným názvem (do nyní otevřené záložky, pokud není název uveden)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="293"/>
+        <location filename="../src/gui/actiondialog.cpp" line="297"/>
         <source>Command saved</source>
         <translation>Příkaz byl uložen</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="294"/>
+        <location filename="../src/gui/actiondialog.cpp" line="298"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Příkaz byl uložen a je přístupný z menu prvku.
@@ -486,27 +485,27 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation type="vanished">Nelze přečíst zprávu od klienta! (%1)</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="79"/>
+        <location filename="../src/app/clipboardserver.cpp" line="80"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ server již běží.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="273"/>
+        <location filename="../src/app/clipboardserver.cpp" line="275"/>
         <source>Cancel Active Commands</source>
         <translation>Zrušit aktivní příkazy</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="274"/>
+        <location filename="../src/app/clipboardserver.cpp" line="276"/>
         <source>Cancel active commands and exit?</source>
         <translation>Zrušit aktivní příkazy a ukončit?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="277"/>
+        <location filename="../src/app/clipboardserver.cpp" line="279"/>
         <source>Cancel Exiting</source>
         <translation>Přerušit ukončování</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="278"/>
+        <location filename="../src/app/clipboardserver.cpp" line="280"/>
         <source>Exit Anyway</source>
         <translation>Pokračovat v ukončování</translation>
     </message>
@@ -553,130 +552,176 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>&amp;Uložit vybrané příkazy...</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="510"/>
+        <location filename="../src/gui/commanddialog.cpp" line="516"/>
         <source>Open Files with Commands</source>
         <translation>Otevřít soubory s příkazy</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="511"/>
+        <location filename="../src/gui/commanddialog.cpp" line="517"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Příkazy (*.ini);; CopyQ nastavení (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="520"/>
+        <location filename="../src/gui/commanddialog.cpp" line="526"/>
         <source>Save Selected Commands</source>
         <translation>Uložit vybrané příkazy</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="521"/>
+        <location filename="../src/gui/commanddialog.cpp" line="527"/>
         <source>Commands (*.ini)</source>
         <translation>Příkazy (*.ini)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="629"/>
+        <location filename="../src/gui/commanddialog.cpp" line="637"/>
         <source>New command</source>
         <translation>Nový příkaz</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="664"/>
+        <location filename="../src/gui/commanddialog.cpp" line="672"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignoruj prvky s žádným nebo jedním znakem</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="670"/>
+        <location filename="../src/gui/commanddialog.cpp" line="678"/>
         <source>Open in &amp;Browser</source>
         <translation>&amp;Otevři v prohlížeči</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="677"/>
+        <location filename="../src/gui/commanddialog.cpp" line="685"/>
         <source>Paste as Plain Text</source>
         <translation>Vlož jako prostý text</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="683"/>
+        <location filename="../src/gui/commanddialog.cpp" line="691"/>
         <source>Shift+Return</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="685"/>
+        <location filename="../src/gui/commanddialog.cpp" line="693"/>
         <source>Autoplay videos</source>
         <translation>Automaticky přehrát</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="693"/>
+        <location filename="../src/gui/commanddialog.cpp" line="701"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Zkopíruj URL (web. adresu) do jiné záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="699"/>
+        <location filename="../src/gui/commanddialog.cpp" line="707"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Vytvoř náhled (vyžaduje ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="706"/>
+        <location filename="../src/gui/commanddialog.cpp" line="714"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Výtvoř QR kód z URL (vyžaduje qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="714"/>
+        <location filename="../src/gui/commanddialog.cpp" line="722"/>
         <source>Add to &amp;TODO tab</source>
         <translation>Přidej do &amp;TODO záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="720"/>
+        <location filename="../src/gui/commanddialog.cpp" line="728"/>
         <source>Move to &amp;TODO tab</source>
         <translation>Přesuň do &amp;TODO záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="727"/>
+        <location filename="../src/gui/commanddialog.cpp" line="735"/>
         <source>Ignore copied files</source>
         <translation>Ignoruj kopírované soubory</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="734"/>
+        <location filename="../src/gui/commanddialog.cpp" line="742"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignoruj *&quot;Heslo&quot;* okna</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="735"/>
+        <location filename="../src/gui/commanddialog.cpp" line="743"/>
         <source>Password</source>
         <translation>Heslo</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="742"/>
+        <location filename="../src/gui/commanddialog.cpp" line="750"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Zašifrovat (vyžaduje GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="749"/>
-        <location filename="../src/gui/commanddialog.cpp" line="758"/>
+        <location filename="../src/gui/commanddialog.cpp" line="757"/>
+        <location filename="../src/gui/commanddialog.cpp" line="766"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="751"/>
+        <location filename="../src/gui/commanddialog.cpp" line="759"/>
         <source>Decrypt</source>
         <translation>Dešifrovat</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="760"/>
+        <location filename="../src/gui/commanddialog.cpp" line="768"/>
         <source>Decrypt and Copy</source>
         <translation>Dešifrovat a kopírovat</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="765"/>
+        <location filename="../src/gui/commanddialog.cpp" line="773"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="767"/>
+        <location filename="../src/gui/commanddialog.cpp" line="775"/>
         <source>Move to Trash</source>
         <translation>Přesunout do koše</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="770"/>
+        <location filename="../src/gui/commanddialog.cpp" line="778"/>
         <source>(trash)</source>
         <translation>(koš)</translation>
+    </message>
+</context>
+<context>
+    <name>CommandHelpButton</name>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="50"/>
+        <source>Show command help (F1)</source>
+        <translation>Zobraz nápovědu pro příkazy (F1)</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="76"/>
+        <source>Command contains list of programs with arguments which will be executed. For example:</source>
+        <translation>Příkaz obsahuje seznam programů s argumenty ke spuštění. Například:</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
+        <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
+        <translation>Argument programu %1 bude nahrazen za text prvku, %2 až %9 za texty zachycené regulárním výrazem.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
+        <source>Character %1 can be used to pass standard output to the next program.</source>
+        <translation>Znak %1 může být použit k předání standardního výstupu do dalšího programu.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="94"/>
+        <source>Functions listed below can be used as in following commands.</source>
+        <translation>Funkce uvedené níže mohou být použity jako v následujících příkazech.</translation>
+    </message>
+    <message>
+        <source>Functions listed below can be used in following commands.</source>
+        <translation type="vanished">Funkce uvedené níže mohou být použity jako v následujících příkazech.</translation>
+    </message>
+    <message>
+        <source>Character %1 can be used to pass standard output to the next command.</source>
+        <translation type="vanished">Znak %1 může být použit k předání standardního výstupu do dalšího príkazu.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
+        <source>Following syntax can be used to pass rest of the command as single parameter.</source>
+        <translation>Následující syntax může být použita pro předání zbytku příkazu jako jediného parametru.</translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
+        <source>This gives same output as %1 but is more useful for longer commands.</source>
+        <translation>Výsledek je stejný jako u %1, ale je více užitečný pro delší příkazy.</translation>
     </message>
 </context>
 <context>
@@ -690,12 +735,12 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation type="obsolete">&amp;Povolit</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="305"/>
+        <location filename="../src/ui/commandwidget.ui" line="306"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Název záložky do které se prvek zkopíruje (nekopíruje se pokud není název uveden)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="28"/>
+        <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
         <translation>&amp;Název:</translation>
     </message>
@@ -708,23 +753,23 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation type="obsolete">&amp;Ignoruj prvek</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="38"/>
+        <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
         <oldsource>Command name (shown in menu)</oldsource>
         <translation>Název příkazu tak jak bude zobrazen v menu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="163"/>
+        <location filename="../src/ui/commandwidget.ui" line="166"/>
         <source>F&amp;ormat:</source>
         <translation>&amp;Formát:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="190"/>
+        <location filename="../src/ui/commandwidget.ui" line="193"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Pokud není políčko prázdné, použij příkaz pouze na prvky, u kterých se text schoduje s tímto regulárním výrazem.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Příklady:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Název PDF souborů    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Obsahuje pouze jeden znak    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Vzdálené multimediální soubory    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="223"/>
+        <location filename="../src/ui/commandwidget.ui" line="226"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -741,16 +786,15 @@ Příkaz je možné zmenit v nastavení.</translation>
 &lt;p&gt;Požij &lt;b&gt;|&lt;/b&gt; pro zřetězení více příkazů (předání standardního výstupu do dalšího příkazu).&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="239"/>
+        <location filename="../src/ui/commandwidget.ui" line="242"/>
         <source>Comman&amp;d</source>
         <translation>Příka&amp;z</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Příkaz ke spuštění. Výraz %1 bude nahrazen za text prvku a %2 až %9 za texty zachycenými pomocí regularního výrazu (části uzavřené v závorkách).&lt;/p&gt;
+        <translation type="vanished">&lt;p&gt;Příkaz ke spuštění. Výraz %1 bude nahrazen za text prvku a %2 až %9 za texty zachycenými pomocí regularního výrazu (části uzavřené v závorkách).&lt;/p&gt;
 
 &lt;p&gt;Požij &lt;b&gt;|&lt;/b&gt; pro zřetězení více příkazů (předání standardního výstupu do dalšího příkazu).&lt;/p&gt;</translation>
     </message>
@@ -779,22 +823,22 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation type="vanished">Vytvoří prvky ze standardního výstupu příkazu (pro vypnutí ponechej prázdné).</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="462"/>
+        <location filename="../src/ui/commandwidget.ui" line="463"/>
         <source>O&amp;utput:</source>
         <translation>Výs&amp;tup:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="128"/>
+        <location filename="../src/ui/commandwidget.ui" line="131"/>
         <source>Match Items</source>
         <translation>Filtrovat prvky</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="203"/>
+        <location filename="../src/ui/commandwidget.ui" line="206"/>
         <source>&amp;Content:</source>
         <translation>&amp;Obsah:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="180"/>
+        <location filename="../src/ui/commandwidget.ui" line="183"/>
         <source>&amp;Window:</source>
         <translation>O&amp;kno:</translation>
     </message>
@@ -807,14 +851,14 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation type="vanished">&amp;Formát:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="152"/>
+        <location filename="../src/ui/commandwidget.ui" line="155"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>Data tohoto MIME formátu budou poslána na vstup programu.
 Pro vypnutí zanechej prázné.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="272"/>
+        <location filename="../src/ui/commandwidget.ui" line="273"/>
         <source>Action</source>
         <translation>Akce</translation>
     </message>
@@ -827,22 +871,22 @@ Pro vypnutí zanechej prázné.</translation>
         <translation type="obsolete">&amp;Skrýt hlavní okno</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="406"/>
+        <location filename="../src/ui/commandwidget.ui" line="407"/>
         <source>Command options</source>
         <translation>Nastavení příkazu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="432"/>
+        <location filename="../src/ui/commandwidget.ui" line="433"/>
         <source>Show action dialog before executing the command</source>
         <translation>Zobraz dialog akcí před provedením příkazu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="71"/>
+        <location filename="../src/ui/commandwidget.ui" line="74"/>
         <source>Run the command automatically if clipboard has new content</source>
         <translation>Spusť příkaz automaticky pokud je ve schránce nový obsah</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="213"/>
+        <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>&amp;Filter:</source>
         <translation>&amp;Filtr:</translation>
     </message>
@@ -855,17 +899,17 @@ Pro vypnutí zanechej prázné.</translation>
         <translation type="vanished">&amp;Transformovat</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="492"/>
+        <location filename="../src/ui/commandwidget.ui" line="493"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation>Oddělovač prvků na výstupu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="435"/>
+        <location filename="../src/ui/commandwidget.ui" line="436"/>
         <source>&amp;Wait</source>
         <translation>&amp;Dialog</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="173"/>
+        <location filename="../src/ui/commandwidget.ui" line="176"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Pokud není políčko prázdné, použij příkaz pouze na text zkopírovaný z okna, u kterého se název shoduje s tímto regulárním výrazem. Pod OS X je název okna složen z názvu aplikace, pomlčky (&amp;quot;-&amp;quot;) a titulku okna. Například &amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
@@ -874,27 +918,27 @@ Pro vypnutí zanechej prázné.</translation>
         <translation type="vanished">Příka&amp;z:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="50"/>
+        <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
         <translation>Typ akce</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="74"/>
+        <location filename="../src/ui/commandwidget.ui" line="77"/>
         <source>Auto&amp;matic</source>
         <translation>&amp;Automaticky</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="81"/>
+        <location filename="../src/ui/commandwidget.ui" line="84"/>
         <source>Show command in context menu of matching items</source>
         <translation>Zobrazit příkaz v kontextové nabídce pro nevyfiltrované prvky</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="84"/>
+        <location filename="../src/ui/commandwidget.ui" line="87"/>
         <source>In M&amp;enu</source>
         <translation>V &amp;menu</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="93"/>
+        <location filename="../src/ui/commandwidget.ui" line="96"/>
         <source>&amp;Global Shortcut:</source>
         <translation>&amp;Globální zkratka:</translation>
     </message>
@@ -903,7 +947,7 @@ Pro vypnutí zanechej prázné.</translation>
         <translation type="vanished">Pří&amp;kaz</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="317"/>
+        <location filename="../src/ui/commandwidget.ui" line="318"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
@@ -912,67 +956,67 @@ Note: If this is applied automatically, no other automatic commands are executed
 Poznámka: Pokud je akce provedena automaticky, žádné následující příkazy se neprovedou.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="322"/>
+        <location filename="../src/ui/commandwidget.ui" line="323"/>
         <source>&amp;Remove Item</source>
         <translation>O&amp;dstranit prvek</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="332"/>
+        <location filename="../src/ui/commandwidget.ui" line="333"/>
         <source>Menu Action</source>
         <translation>Menu položka</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="353"/>
+        <location filename="../src/ui/commandwidget.ui" line="354"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation>Skrýt hlavní okno po aktivaci příkazu z kontextového menu prvku</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <location filename="../src/ui/commandwidget.ui" line="357"/>
         <source>&amp;Hide main window after activation</source>
         <translation>&amp;Skrýt hlavní okno po aktivaci položky</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="442"/>
+        <location filename="../src/ui/commandwidget.ui" line="443"/>
         <source>Change item, don&apos;t create any new items</source>
         <translation>Změnit prvek, nevytvářet nové prvky</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="445"/>
+        <location filename="../src/ui/commandwidget.ui" line="446"/>
         <source>Tr&amp;ansform</source>
         <translation>&amp;Transformovat</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="472"/>
+        <location filename="../src/ui/commandwidget.ui" line="473"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Vytvoří prvky ze standardního výstupu příkazu (pro vypnutí ponechej prázdné)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="482"/>
+        <location filename="../src/ui/commandwidget.ui" line="483"/>
         <source>&amp;Separator:</source>
         <translation>Oddě&amp;lovač:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="495"/>
+        <location filename="../src/ui/commandwidget.ui" line="496"/>
         <source>\n</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="512"/>
+        <location filename="../src/ui/commandwidget.ui" line="513"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Ulož prvky do záložky s daným názvem (do první záložky, pokud není název uveden)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="502"/>
+        <location filename="../src/ui/commandwidget.ui" line="503"/>
         <source>Output &amp;tab:</source>
         <translation>&amp;Výstupní záložka:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="295"/>
+        <location filename="../src/ui/commandwidget.ui" line="296"/>
         <source>Co&amp;py to tab:</source>
         <translation>Do &amp;záložky:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="371"/>
+        <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Shortcut:</source>
         <translation>&amp;Klávesová zkratka:</translation>
     </message>
@@ -1240,7 +1284,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
-        <location filename="../src/tests/tests.cpp" line="1413"/>
+        <location filename="../src/tests/tests.cpp" line="1419"/>
         <source>Ctrl+P</source>
         <translation></translation>
     </message>
@@ -2745,12 +2789,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Neplatná hodnota pro nastavení &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="809"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="811"/>
         <source>Restart Required</source>
         <translation>Nutný restart</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="810"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="812"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Jazyk bude změněn až po restartu aplikace.</translation>
     </message>
@@ -2873,47 +2917,47 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Značka &apos;%1&apos; není nastavena.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="950"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
         <source>Mark &quot;%1&quot; not set.</source>
         <translation>Značka &quot;%1&quot; není nastavena.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3537"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
         <source>%1%2%</source>
         <translation>%1%2%</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3539"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
         <source>%1All</source>
         <translation>%1Vše</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3553"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
         <translation>Není implementováno v režimu FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5718"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
         <source>Unknown option:</source>
         <translation>Neznámý přepínač:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5729"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
         <translation>Neznámý argument:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5732"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
         <translation>Přebytečné znaky:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5815"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
         <translation>Přesunout řádky do nich samotných.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5859"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
         <translation>
             <numerusform>Přesunuta %n řádka.</numerusform>
@@ -2922,32 +2966,32 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5919"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
         <translation>Soubor &quot;%1&quot; již existuje (Přidejte znak ! chcete-li jej přepsat)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5933"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
         <source>Cannot open file &quot;%1&quot; for writing</source>
         <translation>Soubor &quot;%1&quot; nelze otevřít pro zápis</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5939"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
         <translation>&quot;%1&quot; %2 %3L, %4C zapsáno.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5948"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
         <source>Cannot open file &quot;%1&quot; for reading</source>
         <translation>Soubor &quot;%1&quot; nelze otevřít pro čtení</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5977"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
         <source>&quot;%1&quot; %2L, %3C</source>
         <translation></translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6004"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
         <translation>
             <numerusform>%n řádek přefiltrován.</numerusform>
@@ -2956,42 +3000,42 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6092"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
         <source>Cannot open file %1</source>
         <translation>Nelze otevřít soubor %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6258"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
         <source>Invalid regular expression: %1</source>
         <translation>Neplatný regulární výraz: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6294"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
         <source>Pattern not found: %1</source>
         <translation>Vzor hledání nenalezen: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6298"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
         <translation>Hledání dosáhlo na konec, pokračuje se na začátku.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
         <translation>Hledání dosáhlo na začátek, pokračuje se na konci.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6304"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
         <translation>Hledání dosáhlo na konec, aniž by se našla shoda pro: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
         <translation>Hledání dosáhlo na začátek, aniž by se našla shoda pro: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6412"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
         <translation>
             <numerusform>%n řádek odsazen.</numerusform>
@@ -3000,7 +3044,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6469"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
         <translation>
             <numerusform>Na %n řádek %2-krát provedeno %1.</numerusform>
@@ -3009,7 +3053,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7044"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
         <translation>
             <numerusform>%n řádek zkopírován.</numerusform>
@@ -3018,12 +3062,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7754"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
         <translation>Dosažena nejstarší změna.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7755"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
         <source>Already at newest change.</source>
         <translation>Dosažena poslední změna.</translation>
     </message>
@@ -3031,22 +3075,22 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 <context>
     <name>FakeVim::Internal::FakeVimHandler::Private</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2787"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
         <translation>Rekurzivní přiřazení</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4194"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
         <translation>Napište Alt-V, Alt-V pro ukončení režimu FakeVim.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
         <translation> [Nový] </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6165"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
         <translation>Není příkazem editoru: %1</translation>
     </message>
@@ -3500,22 +3544,27 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">Vytvoří nový příkaz nebo přidá existující ukázkový příkaz.</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="59"/>
+        <location filename="../src/ui/itemorderlist.ui" line="34"/>
         <source>&amp;Add</source>
         <translation>&amp;Přidat</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="75"/>
+        <location filename="../src/ui/itemorderlist.ui" line="37"/>
+        <source>+</source>
+        <translation>+</translation>
+    </message>
+    <message>
+        <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>&amp;Remove</source>
         <translation>&amp;Odebrat</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="82"/>
+        <location filename="../src/ui/itemorderlist.ui" line="60"/>
         <source>&amp;Up</source>
         <translation>&amp;Výše</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="89"/>
+        <location filename="../src/ui/itemorderlist.ui" line="67"/>
         <source>&amp;Down</source>
         <translation>&amp;Níže</translation>
     </message>
@@ -3672,7 +3721,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Hledat:</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1064"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1061"/>
         <source>&amp;clipboard</source>
         <translation>&amp;schránka</translation>
     </message>
@@ -3822,12 +3871,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>CopyQ chyba</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1914"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1904"/>
         <source>Cannot save file %1!</source>
         <translation>Nelze uložit soubor %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1969"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1959"/>
         <source>Cannot open file %1!</source>
         <translation>Nelze otevřít soubor %1!</translation>
     </message>
@@ -3837,19 +3886,19 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">CopyQ chyba</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1421"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1418"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1424"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1421"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1416"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1413"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -3966,20 +4015,20 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&lt;b&gt;VSTUP:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1690"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1680"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Schránka:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1905"/>
-        <location filename="../src/gui/mainwindow.cpp" line="1963"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1895"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1953"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ prvky (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1913"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1903"/>
         <source>CopyQ Error Saving File</source>
         <translation>Copyq Chyba v ukládání souboru</translation>
     </message>
@@ -3988,7 +4037,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">Nelze uložit soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1968"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1958"/>
         <source>CopyQ Error Opening File</source>
         <translation>Copyq Chyba v otevírání souboru</translation>
     </message>
@@ -4031,22 +4080,22 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>&amp;Změnit ikonu záložky</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2106"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2096"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Odstranit všechny záložky ve skupině?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2107"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2097"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Opravdu chcete odebrat &lt;strong&gt;všechny záložky&lt;/strong&gt; ve skupině &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2152"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2142"/>
         <source>Remove Tab?</source>
         <translation>Odebrat záložku?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2153"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2143"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Opravdu chcete odebrat záložku &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
@@ -4178,12 +4227,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/common/log.cpp" line="73"/>
+        <location filename="../src/common/log.cpp" line="155"/>
         <source>warning: %1</source>
         <translation>varování: %1</translation>
     </message>
     <message>
-        <location filename="../src/common/log.cpp" line="75"/>
+        <location filename="../src/common/log.cpp" line="157"/>
         <source>ERROR: %1</source>
         <translation>CHYBA: %1</translation>
     </message>
@@ -4232,7 +4281,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">CopyQ server již běží.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="133"/>
+        <location filename="../src/main.cpp" line="134"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Název Sezení musí obsahovat ne více než 16 znaků,
@@ -4294,178 +4343,182 @@ které mohou být pouze písmena bez diakritiky, čísla, &apos;-&apos; nebo &ap
 <context>
     <name>Scriptable</name>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="95"/>
         <source>Show main window.</source>
-        <translation>Zobrazí hlavní okno.</translation>
+        <translation type="vanished">Zobrazí hlavní okno.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="97"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="65"/>
         <source>Hide main window.</source>
         <translation>Skryje hlavní okno.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="99"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="67"/>
         <source>Show or hide main window.</source>
         <translation>Zobrazí nebo skryje hlavní okno.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="101"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="69"/>
         <source>Open context menu.</source>
         <translation>Otevře kontextové menu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="103"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="71"/>
         <source>Exit server.</source>
         <translation>Ukončí server.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="108"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Print clipboard content.</source>
         <translation>Vytiskne obsah schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="109"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="113"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="121"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="154"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="157"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="159"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <source>MIME</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="80"/>
         <source>Print X11 selection content.</source>
         <translation>Vytiskne obsah výběru kurzoru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="94"/>
         <source>Print number of items in history.</source>
         <translation>Vytiskne počet prvků v historii.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="129"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="139"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="154"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="156"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
         <source>ROW</source>
         <translation>ŘÁDEK</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
         <source>Add text into clipboard.</source>
         <translation>Přidá text do schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="136"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="104"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>TEXT</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="138"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
         <source>Insert text into given row.</source>
         <translation>Vloží text do daného řádku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="142"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="110"/>
         <source>Remove items in given rows.</source>
         <translation>Odstraní prvky v daných řádcích.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="143"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="147"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="163"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="167"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>ROWS</source>
         <translation>ŘÁDKY</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="145"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
         <translation>Edituje existující prvky nebo nový.
 Hodnota -1 znamená text ve schránce.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="153"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="121"/>
         <source>Print raw data of clipboard or item in row.</source>
         <translation>Vytiskne data schránky nebo prvku v daném řádku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="122"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="158"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="159"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="90"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="126"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <source>DATA</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="105"/>
-        <source>Disable or enable clipboard content storing.</source>
-        <translation>Povol nebo zakaž ukládání obsahu schránky.</translation>
+        <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
+        <source>Show main window and optionally open tab with given name.</source>
+        <translation>Zobrazí hlavní okno a případně otevře záložku s daným jménem.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="73"/>
+        <source>Disable or enable clipboard content storing.</source>
+        <translation>Povolí nebo zakaže ukládání obsahu schránky.</translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="84"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
         <translation>Vloží obsah schránky do aktuálního okna
 (nemusí vždy fungovat).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
         <source>Set clipboard text.</source>
         <translation>Nastaní text ve schránce.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="88"/>
         <source>
 Set clipboard content.</source>
         <translation>
 Nastaví obsah schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="128"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy item in the row to clipboard.</source>
         <translation>Zkopíruje prvek v řádku do schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <source>Copy next item from current tab to clipboard.</source>
         <translation>Zkopíruje další prvek z vybrané záložky do schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="101"/>
         <source>Copy previous item from current tab to clipboard.</source>
         <translation>Zkopíruje předchozí prvek z vybrané záložky do schránky.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="150"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Set separator for items on output.</source>
         <translation>Nastaví oddělovač prvků na výstupu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="151"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="168"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>SEPARATOR</source>
         <translation>ODDĚLOVAČ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="155"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
         <source>
 Write raw data to given row.</source>
         <translation>
 Zapíše surová data do daného řádku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="162"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>Show action dialog.</source>
         <translation>Zobrazí dialog akcí.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="165"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>
 Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
@@ -4474,39 +4527,39 @@ Spustí PROGRAM pro vstupní text v daných řádcích.
 Požij %1 v PROGRAMu k předání textu jako parametru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="168"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>PROGRAM</source>
         <translation></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="170"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="138"/>
         <source>
 Show tray popup message for TIME milliseconds.</source>
         <translation>
 Zobrazí zprávu v liště na daný ČAS (milisekundy).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="171"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>TITLE</source>
         <translation>TITULEK</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="172"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>MESSAGE</source>
         <translation>ZPRÁVA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="173"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>TIME</source>
         <translation>ČAS</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="176"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="144"/>
         <source>List available tab names.</source>
         <translation>Vypíše názvy existujících záložek.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="178"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="146"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
@@ -4515,78 +4568,79 @@ Záložka je vytvořena, pokud neexistuje.
 Původní volba je první záložka.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="181"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="185"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="188"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="149"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>NAME</source>
         <translation>NÁZEV</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="182"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="218"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="233"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="54"/>
         <source>COMMAND</source>
         <translation>PŘÍKAZ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="184"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>Remove tab.</source>
         <translation>Odstraní záložku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="187"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="155"/>
         <source>Rename tab.</source>
         <translation>Přejmenuje záložku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="189"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
         <source>NEW_NAME</source>
         <translation>NOVÝ_NÁZEV</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="192"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="160"/>
         <source>Export items to file.</source>
         <translation>Exportuje prvky do souboru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="193"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="196"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>FILE_NAME</source>
         <translation>SOUBOR</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="195"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="163"/>
         <source>Import items from file.</source>
         <translation>Importuje prvky ze souboru.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="199"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>List all options.</source>
         <translation>Zobrazí všechna nastavení.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="201"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
         <source>Get option value.</source>
         <translation>Vytiskne hodnotu volby.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="202"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="205"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
         <source>OPTION</source>
         <translation>VOLBA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="204"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Set option value.</source>
         <translation>Nastaví hodnotu volbu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="206"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
         <source>VALUE</source>
         <translation>HODNOTA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="209"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="177"/>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
@@ -4595,12 +4649,12 @@ Spustí program v jazyce ECMASctipt.
 Argumenty jsou přístupně pomocí &quot;arguments(0..N)&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="675"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1010"/>
         <source>Failed to set clipboard!</source>
         <translation>Nepodařilo se nastavit schránku!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="952"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="772"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Neplatné nastavení &quot;%1&quot;!</translation>
     </message>
@@ -4609,36 +4663,36 @@ Argumenty jsou přístupně pomocí &quot;arguments(0..N)&quot;.</translation>
         <translation type="vanished">Vyhodnotí ECMAScript program.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="211"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <source>SCRIPT</source>
         <translation>SKRIPT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="212"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
         <source>ARGUMENTS</source>
         <translation>ARGUMENTY</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="214"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
         <source>
 Starts or connects to application instance with given session name.</source>
         <translation>
 Spustí nebo se připojí k instanci applikace s daným názvem Sezení.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="215"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>SESSION</source>
         <translation>SEZENÍ</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="217"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>
 Print help for COMMAND or all commands.</source>
         <translation>
 Vytiskne nápovědu pro PŘÍKAZ nebo všechny příkazy.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="220"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>
 Print version of program and libraries.</source>
         <translation>
@@ -4649,27 +4703,27 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="obsolete">Spustí testy.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="233"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="54"/>
         <source>Usage: copyq [%1]</source>
         <translation>Použití: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="234"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="55"/>
         <source>Starts server if no command is specified.</source>
         <translation>Spustí server pokud není zadán žádný příkaz.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="235"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="56"/>
         <source>  COMMANDs:</source>
         <translation>  PŘÍKAZY:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="240"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="61"/>
         <source>NOTES:</source>
         <translation>POZNÁMKY:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="523"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="344"/>
         <source>Built with: </source>
         <translation>Sestaveno s: </translation>
     </message>
@@ -4678,30 +4732,30 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="obsolete">  - Změna prvního řádku (ŘÁDEK je 0) také změní schránku.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="241"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation>  - Použij pomlčku (-) jako argument pro načtení dat ze standardního vstupu.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="242"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="63"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Použij dvojitou pomlčku (--) pro načtení všech následujících argumentů
     bez expandování sekvencí jako jsou \n, \t a další.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="244"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="65"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Použij ? pro MIME pro výpis dostupných MIME typů (implicitní hodnota MIME je &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="249"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="70"/>
         <source>Invalid number of arguments!</source>
         <translation>Špatný počet argumentů!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="462"/>
-        <location filename="../src/scriptable/scriptableworker.cpp" line="127"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="283"/>
+        <location filename="../src/scriptable/scriptableworker.cpp" line="128"/>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>Jméno &quot;%1&quot; neodkazuje na žádnou funkci.</translation>
     </message>
@@ -4710,12 +4764,12 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="obsolete">Sestaveno s:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="548"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="369"/>
         <source>Command not found!</source>
         <translation>Příkaz nenalezen!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="604"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="425"/>
         <source>Terminating server.
 </source>
         <translation>Ukončuji server.
@@ -4730,12 +4784,12 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="vanished">Záložka se stejným jménem již existuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="929"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="749"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Nelze uložit soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="940"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="760"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Nelze importovat soubor &quot;%1&quot;!</translation>
     </message>
@@ -4802,7 +4856,7 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Zmáčkněte kombinaci kláves.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; pro zrušení. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; pro odstranění zkratky.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
+        <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
         <source>Remove Shortcut</source>
         <translation>Odebrat zkratku</translation>
     </message>
@@ -4886,17 +4940,17 @@ Pouožij &lt;b&gt;/&lt;/b&gt; jako rozdělovník pro cestu ve stromu záložek.<
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.h" line="168"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="63"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Záložka s daným názvem neexistuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.h" line="173"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="68"/>
         <source>Tab name cannot be empty!</source>
         <translation>Název záložky nemůže být prázdný!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.h" line="203"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="133"/>
         <source>Tab with given name already exists!</source>
         <translation>Záložka se stejným jménem již existuje!</translation>
     </message>

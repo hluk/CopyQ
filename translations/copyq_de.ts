@@ -193,18 +193,17 @@
         <translation>CopyQ Ausführen-Dialog</translation>
     </message>
     <message>
+        <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="vanished">&amp;Befehl:</translation>
+        <translation>&amp;Befehl:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="36"/>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation>&amp;Befehl (%1 ist der Text der ausgewählten Elemente):</translation>
+        <translation type="vanished">&amp;Befehl (%1 ist der Text der ausgewählten Elemente):</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="20"/>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z.B. zur Weitergabe an die Standardausgabe -stdout).</translation>
+        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; im &lt;b&gt;Befehl&lt;/b&gt; ist der &lt;b&gt;Text&lt;/b&gt; der ausgewählten Elemente. Der Text kann ebenfalls angepasst und an die &lt;b&gt;Standardeingabe&lt;/b&gt;(stdin) weitergereicht werden. Es ist ebenfalls möglich Befehle durch Pipes mit &lt;b&gt;|&lt;/b&gt; zu verketten (z.B. zur Weitergabe an die Standardausgabe -stdout).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="61"/>
@@ -262,12 +261,12 @@
         <translation>Speichere Elemente in Reiter mit folgendem Namen (freilassen um in den aktuellen Reiter zu speichern)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="293"/>
+        <location filename="../src/gui/actiondialog.cpp" line="297"/>
         <source>Command saved</source>
         <translation>Befehl gespeichert</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="294"/>
+        <location filename="../src/gui/actiondialog.cpp" line="298"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Befehl wurde gespeichert und kann über das Menü erreicht werden. Du kannst den Befehl in den Einstellungen ändern.</translation>
@@ -477,27 +476,27 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Überwachung der Zwischenablage: abgeschloßen</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="79"/>
+        <location filename="../src/app/clipboardserver.cpp" line="80"/>
         <source>CopyQ server is already running.</source>
         <translation>CopyQ Server ist bereits gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="273"/>
+        <location filename="../src/app/clipboardserver.cpp" line="275"/>
         <source>Cancel Active Commands</source>
         <translation>Beende aktive Befehle</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="274"/>
+        <location filename="../src/app/clipboardserver.cpp" line="276"/>
         <source>Cancel active commands and exit?</source>
         <translation>Möchtest du die Anwendung und damit auch alle aktiven Befehle beenden?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="277"/>
+        <location filename="../src/app/clipboardserver.cpp" line="279"/>
         <source>Cancel Exiting</source>
         <translation>Doch nicht beenden</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="278"/>
+        <location filename="../src/app/clipboardserver.cpp" line="280"/>
         <source>Exit Anyway</source>
         <translation>Beenden</translation>
     </message>
@@ -553,130 +552,168 @@ You can set up the command in preferences.</source>
         <translation type="unfinished">Ausgewählte Befehle speichern...</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="510"/>
+        <location filename="../src/gui/commanddialog.cpp" line="516"/>
         <source>Open Files with Commands</source>
         <translation type="unfinished">Öffne Dateien mit Befehle</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="511"/>
+        <location filename="../src/gui/commanddialog.cpp" line="517"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation type="unfinished">Befehle (*.ini);; CopyQ Konfiguration (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="520"/>
+        <location filename="../src/gui/commanddialog.cpp" line="526"/>
         <source>Save Selected Commands</source>
         <translation type="unfinished">Ausgewählte Befehle speichern</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="521"/>
+        <location filename="../src/gui/commanddialog.cpp" line="527"/>
         <source>Commands (*.ini)</source>
         <translation type="unfinished">Befehle (*.ini)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="629"/>
+        <location filename="../src/gui/commanddialog.cpp" line="637"/>
         <source>New command</source>
         <translation type="unfinished">Neuer Befehl</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="664"/>
+        <location filename="../src/gui/commanddialog.cpp" line="672"/>
         <source>Ignore items with no or single character</source>
         <translation type="unfinished">Ignoriere Elemente mit keinem oder nur einem Zeichen</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="670"/>
+        <location filename="../src/gui/commanddialog.cpp" line="678"/>
         <source>Open in &amp;Browser</source>
         <translation>Öffne in &amp;Browser</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="677"/>
+        <location filename="../src/gui/commanddialog.cpp" line="685"/>
         <source>Paste as Plain Text</source>
         <translation type="unfinished">Als reinen Text einfügen</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="683"/>
+        <location filename="../src/gui/commanddialog.cpp" line="691"/>
         <source>Shift+Return</source>
         <translation type="unfinished">Umschalt+Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="685"/>
+        <location filename="../src/gui/commanddialog.cpp" line="693"/>
         <source>Autoplay videos</source>
         <translation type="unfinished">Videos automatisch abspielen</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="693"/>
+        <location filename="../src/gui/commanddialog.cpp" line="701"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Kopiere URL in einem anderen Reiter</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="699"/>
+        <location filename="../src/gui/commanddialog.cpp" line="707"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Thumbnail erstellen (benötigt ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="706"/>
+        <location filename="../src/gui/commanddialog.cpp" line="714"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation type="unfinished">Erstelle QR Code aus URL (benötigt qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="714"/>
+        <location filename="../src/gui/commanddialog.cpp" line="722"/>
         <source>Add to &amp;TODO tab</source>
         <translation type="unfinished">Füge zum &amp;TODO-Reiter hinzu</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="720"/>
+        <location filename="../src/gui/commanddialog.cpp" line="728"/>
         <source>Move to &amp;TODO tab</source>
         <translation type="unfinished">Zum &amp;TODO-Reiter verschieben</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="727"/>
+        <location filename="../src/gui/commanddialog.cpp" line="735"/>
         <source>Ignore copied files</source>
         <translation type="unfinished">Kopierte Dateien ignorieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="734"/>
+        <location filename="../src/gui/commanddialog.cpp" line="742"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation type="unfinished">Ignoriere *&quot;Passwort&quot;* Fenster</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="735"/>
+        <location filename="../src/gui/commanddialog.cpp" line="743"/>
         <source>Password</source>
         <translation type="unfinished">Passwort</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="742"/>
+        <location filename="../src/gui/commanddialog.cpp" line="750"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation type="unfinished">Verschlüsseln (benötigt GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="749"/>
-        <location filename="../src/gui/commanddialog.cpp" line="758"/>
+        <location filename="../src/gui/commanddialog.cpp" line="757"/>
+        <location filename="../src/gui/commanddialog.cpp" line="766"/>
         <source>Ctrl+L</source>
         <translation type="unfinished">Strg+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="751"/>
+        <location filename="../src/gui/commanddialog.cpp" line="759"/>
         <source>Decrypt</source>
         <translation type="unfinished">Entschlüsseln</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="760"/>
+        <location filename="../src/gui/commanddialog.cpp" line="768"/>
         <source>Decrypt and Copy</source>
         <translation type="unfinished">Entschlüsseln und kopieren</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="765"/>
+        <location filename="../src/gui/commanddialog.cpp" line="773"/>
         <source>Ctrl+Shift+L</source>
         <translation type="unfinished">Strg+Umschalt+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="767"/>
+        <location filename="../src/gui/commanddialog.cpp" line="775"/>
         <source>Move to Trash</source>
         <translation type="unfinished">In Papierkorb verschieben</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="770"/>
+        <location filename="../src/gui/commanddialog.cpp" line="778"/>
         <source>(trash)</source>
         <translation type="unfinished">(Papierkorb)</translation>
+    </message>
+</context>
+<context>
+    <name>CommandHelpButton</name>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="50"/>
+        <source>Show command help (F1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="76"/>
+        <source>Command contains list of programs with arguments which will be executed. For example:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
+        <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
+        <source>Character %1 can be used to pass standard output to the next program.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
+        <source>Following syntax can be used to pass rest of the command as single parameter.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
+        <source>This gives same output as %1 but is more useful for longer commands.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="94"/>
+        <source>Functions listed below can be used as in following commands.</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -694,12 +731,12 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Aktivi&amp;eren</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="305"/>
+        <location filename="../src/ui/commandwidget.ui" line="306"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Name des Reiters in den die Elemente kopiert werden sollen (freilassen um nicht zu kopieren)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="28"/>
+        <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
         <translation>&amp;Name:</translation>
     </message>
@@ -712,32 +749,31 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Element &amp;ignorieren</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="38"/>
+        <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
         <oldsource>Command name (shown in menu)</oldsource>
         <translation>Anzuzeigender Befehlsname</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="163"/>
+        <location filename="../src/ui/commandwidget.ui" line="166"/>
         <source>F&amp;ormat:</source>
         <translation>F&amp;ormat:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="190"/>
+        <location filename="../src/ui/commandwidget.ui" line="193"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
         <translation>&lt;p&gt;Befehle nur auf Elemente anwenden die mit dem reguären Ausdruck übereinstimmen (freilassen um mit allen übereinzustimmen).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Beispiele:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Dateinamen die mit &quot;.pdf&quot; enden    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Ein einzelnes Zeichen    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL mit einer der angegeben Dateiendungen    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="239"/>
+        <location filename="../src/ui/commandwidget.ui" line="242"/>
         <source>Comman&amp;d</source>
         <translation>Befehl</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="257"/>
         <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Befehl zum Ausführen. Nutze %1 für den Text des Elements der als Argument übergeben wird. Nutze %2 bis %9 für zutreffende Argumente des regulären Ausdrucks (Teile die von runden Klammern umschlossen sind).&lt;/p&gt;
+        <translation type="vanished">&lt;p&gt;Befehl zum Ausführen. Nutze %1 für den Text des Elements der als Argument übergeben wird. Nutze %2 bis %9 für zutreffende Argumente des regulären Ausdrucks (Teile die von runden Klammern umschlossen sind).&lt;/p&gt;
 
 &lt;p&gt;Nutze &lt;b&gt;|&lt;/b&gt; um Befehle zu verketten (wird an die Standardeingabe des folgenden Befehls weitergereicht).&lt;/p&gt;</translation>
     </message>
@@ -766,22 +802,22 @@ You can set up the command in preferences.</source>
         <translation type="vanished">Elemente aus Standardausgabe eines Programms erstellen (freilassen zum Deaktivieren).</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="462"/>
+        <location filename="../src/ui/commandwidget.ui" line="463"/>
         <source>O&amp;utput:</source>
         <translation>A&amp;usgabe:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="128"/>
+        <location filename="../src/ui/commandwidget.ui" line="131"/>
         <source>Match Items</source>
         <translation>Elemente erfassen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="203"/>
+        <location filename="../src/ui/commandwidget.ui" line="206"/>
         <source>&amp;Content:</source>
         <translation>&amp;Inhalt:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="180"/>
+        <location filename="../src/ui/commandwidget.ui" line="183"/>
         <source>&amp;Window:</source>
         <translation>&amp;Fenster:</translation>
     </message>
@@ -794,19 +830,19 @@ You can set up the command in preferences.</source>
         <translation type="vanished">&amp;Format:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="152"/>
+        <location filename="../src/ui/commandwidget.ui" line="155"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
         <translation>Die Daten dieses MIME-Typs werden zur Standardeingabe des Befehls gesendet.
 Zum Deaktivieren frei lassen.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="213"/>
+        <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>&amp;Filter:</source>
         <translation>&amp;Filter:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="272"/>
+        <location filename="../src/ui/commandwidget.ui" line="273"/>
         <source>Action</source>
         <translation>Aktion</translation>
     </message>
@@ -815,17 +851,17 @@ Zum Deaktivieren frei lassen.</translation>
         <translation type="vanished">Verstecke das Fenster nach dem Ausführen des Befehls im Kontextmenü.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="406"/>
+        <location filename="../src/ui/commandwidget.ui" line="407"/>
         <source>Command options</source>
         <translation>Befehlsoptionen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="432"/>
+        <location filename="../src/ui/commandwidget.ui" line="433"/>
         <source>Show action dialog before executing the command</source>
         <translation>Ausführungsdialog anzeigen bevor Befehl ausgeführt wird</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="71"/>
+        <location filename="../src/ui/commandwidget.ui" line="74"/>
         <source>Run the command automatically if clipboard has new content</source>
         <translation>Befehl automatisch ausführen wenn Zwischenablage neuen Inhalt bekommt</translation>
     </message>
@@ -838,22 +874,22 @@ Zum Deaktivieren frei lassen.</translation>
         <translation type="vanished">Ve&amp;rändern</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="492"/>
+        <location filename="../src/ui/commandwidget.ui" line="493"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation>Trennungszeichen um Ausgabe in mehrere teile zu spalten</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="435"/>
+        <location filename="../src/ui/commandwidget.ui" line="436"/>
         <source>&amp;Wait</source>
         <translation>&amp;Warten</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="173"/>
+        <location filename="../src/ui/commandwidget.ui" line="176"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Der Befehl wird nur auf kopierte Elemente angewendet, wenn der Titel des Fensters aus dem kopierte wurde auf den angegebenen regulären Ausdruck passt (leer lassen um den Titel des Fensters zu ignorieren). Unter OS X, beinhaltet das den Anwendungsname gefolgt von einem Bindestrich (&amp;quot;-&amp;quot;) und dem Titel des Fensters. Z.B.: &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="223"/>
+        <location filename="../src/ui/commandwidget.ui" line="226"/>
         <source>&lt;p&gt;Use commands only if filter command succeeds.&lt;/p&gt;
 
 &lt;p&gt;Item text is passed to &lt;b&gt;standard input&lt;/b&gt; of the filter command. The item is &lt;b&gt;matched only if the filter command exit code is 0&lt;/b&gt;.&lt;/p&gt;
@@ -870,27 +906,27 @@ Zum Deaktivieren frei lassen.</translation>
 &lt;p&gt;Verwende &lt;b&gt;|&lt;/b&gt; um Befehle zu verketten (reicht STDOUT an den nächsten Befehl weiter).&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="50"/>
+        <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
         <translation>Art der Aktion</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="74"/>
+        <location filename="../src/ui/commandwidget.ui" line="77"/>
         <source>Auto&amp;matic</source>
         <translation>Auto&amp;matisch</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="81"/>
+        <location filename="../src/ui/commandwidget.ui" line="84"/>
         <source>Show command in context menu of matching items</source>
         <translation>Befehl im Kontextmenü der erfassten Elemente anzeigen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="84"/>
+        <location filename="../src/ui/commandwidget.ui" line="87"/>
         <source>In M&amp;enu</source>
         <translation>Im M&amp;enü</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="93"/>
+        <location filename="../src/ui/commandwidget.ui" line="96"/>
         <source>&amp;Global Shortcut:</source>
         <translation>&amp;Globaler Tastenkürzel:</translation>
     </message>
@@ -899,7 +935,7 @@ Zum Deaktivieren frei lassen.</translation>
         <translation type="vanished">Befehl</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="317"/>
+        <location filename="../src/ui/commandwidget.ui" line="318"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
@@ -908,67 +944,67 @@ Note: If this is applied automatically, no other automatic commands are executed
 Anmerkung: Wenn diese Aktion automatisch angewendet wird, werden keine anderen Befehle automatischen ausgeführt.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="322"/>
+        <location filename="../src/ui/commandwidget.ui" line="323"/>
         <source>&amp;Remove Item</source>
         <translation>Entfe&amp;rne Element</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="332"/>
+        <location filename="../src/ui/commandwidget.ui" line="333"/>
         <source>Menu Action</source>
         <translation>Menü Aktion</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="353"/>
+        <location filename="../src/ui/commandwidget.ui" line="354"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation>Verstecke das Fenster wenn der Befehl per Kontextmenü aktiviert wurde</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="356"/>
+        <location filename="../src/ui/commandwidget.ui" line="357"/>
         <source>&amp;Hide main window after activation</source>
         <translation>Verstecke &amp;Hauptfenster nach der Aktivierung</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="442"/>
+        <location filename="../src/ui/commandwidget.ui" line="443"/>
         <source>Change item, don&apos;t create any new items</source>
         <translation>Element anpassen, keine neuen Elemente anlegen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="445"/>
+        <location filename="../src/ui/commandwidget.ui" line="446"/>
         <source>Tr&amp;ansform</source>
         <translation>Tr&amp;ansformieren</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="472"/>
+        <location filename="../src/ui/commandwidget.ui" line="473"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Erstelle Elemente aus der Standardausgabe eines Programms (zum Deaktivieren leer lassen)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="482"/>
+        <location filename="../src/ui/commandwidget.ui" line="483"/>
         <source>&amp;Separator:</source>
         <translation>&amp;Trennungszeichen:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="495"/>
+        <location filename="../src/ui/commandwidget.ui" line="496"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="512"/>
+        <location filename="../src/ui/commandwidget.ui" line="513"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Elemente in den Reiter mit dem folgenden Namen speichern (freilassen um in den ersten Reiter zu speichern)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="502"/>
+        <location filename="../src/ui/commandwidget.ui" line="503"/>
         <source>Output &amp;tab:</source>
         <translation>Reiter der &amp;Ausgabe:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="295"/>
+        <location filename="../src/ui/commandwidget.ui" line="296"/>
         <source>Co&amp;py to tab:</source>
         <translation>In folgenden Reiter ko&amp;pieren:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="371"/>
+        <location filename="../src/ui/commandwidget.ui" line="372"/>
         <source>&amp;Shortcut:</source>
         <translation>Tasten&amp;kürzel:</translation>
     </message>
@@ -1227,7 +1263,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
-        <location filename="../src/tests/tests.cpp" line="1413"/>
+        <location filename="../src/tests/tests.cpp" line="1419"/>
         <source>Ctrl+P</source>
         <translation>Strg+P</translation>
     </message>
@@ -2863,12 +2899,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation>Das Konfigurations-Verzeichnis %1 konnte nicht erstellt werden!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="809"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="811"/>
         <source>Restart Required</source>
         <translation>Neustart erforderlich</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="810"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="812"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>Zum Ändern der Spracheinstellung ist ein Neustart der Anwendung nötig.</translation>
     </message>
@@ -2943,48 +2979,48 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">Die Markierung &apos;%1&apos; ist nicht gesetzt.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="950"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
         <source>Mark &quot;%1&quot; not set.</source>
         <translation>Die Markierung &quot;%1&quot; ist nicht gesetzt.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3537"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
         <source>%1%2%</source>
         <translation>%1%2%</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3539"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
         <source>%1All</source>
         <translation>%1Alle</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3553"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
         <translation>In FakeVim nicht implementiert.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5718"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
         <source>Unknown option:</source>
         <translation>Unbekannte Option:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5729"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
         <translation>Ungültiges Argument:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5732"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
         <translation>Anhängende Zeichen:</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5815"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
         <translatorcomment>Leider fehlt mir der Kontext, wann dieser Text auftreten kann</translatorcomment>
         <translation>Verschiebe Zeilen in sich selbst.</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5859"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
         <translation>
             <numerusform>%n Zeile wurde verschoben.</numerusform>
@@ -2992,32 +3028,32 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5919"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File &quot;%1&quot; exists (add ! to override)</source>
         <translation>Die Datei &quot;%1&quot; existiert bereits (verwende ! zum Überschreiben)</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5933"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
         <source>Cannot open file &quot;%1&quot; for writing</source>
         <translation>Die Datei &quot;%1&quot; konnte nicht zum Schreiben geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5939"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>&quot;%1&quot; %2 %3L, %4C written.</source>
         <translation>&quot;%1&quot; %2 %3L, %4C geschrieben.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5948"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
         <source>Cannot open file &quot;%1&quot; for reading</source>
         <translation>Die Datei &quot;%1&quot; konnte nicht zum Lesen geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5977"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
         <source>&quot;%1&quot; %2L, %3C</source>
         <translation>&quot;%1&quot; %2L, %3C</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6004"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
         <translation>
             <numerusform>%n Zeile gefiltert.</numerusform>
@@ -3025,42 +3061,42 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6092"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
         <source>Cannot open file %1</source>
         <translation>Die Datei &quot;%1&quot; konnte nicht geöffnet werden</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6258"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
         <source>Invalid regular expression: %1</source>
         <translation>Ungültiger regulärer Ausdruck: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6294"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
         <source>Pattern not found: %1</source>
         <translation>Muster nicht gefunden: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6298"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
         <translation>Die Suche ist UNTEN angekommen, es wird OBEN fortgesetzt.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
         <translation>Die Suche ist OBEN angekommen, es wird UNTEN fortgesetzt.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6304"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
         <translation>Die Suche ist UNTEN angekommen. Leider gibt es keinen Treffer für: %1</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
         <translation>Die Suche ist OBEN angekommen. Leider gibt es keinen Treffer für: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6412"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
         <translation>
             <numerusform>%n Zeile wurde eingerückt.</numerusform>
@@ -3068,7 +3104,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6469"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
         <translatorcomment>Leider fehlt mir der Kontext, wann dieser Text auftreten kann</translatorcomment>
         <translation>
@@ -3077,7 +3113,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         </translation>
     </message>
     <message numerus="yes">
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7044"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
         <translation>
             <numerusform>%n Zeile kopiert.</numerusform>
@@ -3085,12 +3121,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7754"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
         <translation>Undo nicht mehr möglich.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7755"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
         <source>Already at newest change.</source>
         <translation>Redo nicht mehr möglich.</translation>
     </message>
@@ -3098,22 +3134,22 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
 <context>
     <name>FakeVim::Internal::FakeVimHandler::Private</name>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2787"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
         <translation>Rekursives Mapping</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4194"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
         <translation>Tippe Alt-V, Alt-V um den FakeVim-Modus zu beenden.</translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
         <translation> [Neu] </translation>
     </message>
     <message>
-        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6165"/>
+        <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
         <translation>%1 ist kein Editor-Befehl</translation>
     </message>
@@ -3576,22 +3612,27 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">Erstelle neuen Befehl or füge ein existierenden Beispielbefehl hinzu.</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="59"/>
+        <location filename="../src/ui/itemorderlist.ui" line="34"/>
         <source>&amp;Add</source>
         <translation>&amp;Hinzufügen</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="75"/>
+        <location filename="../src/ui/itemorderlist.ui" line="37"/>
+        <source>+</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>&amp;Remove</source>
         <translation>Entfe&amp;rnen</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="82"/>
+        <location filename="../src/ui/itemorderlist.ui" line="60"/>
         <source>&amp;Up</source>
         <translation>&amp;Hoch</translation>
     </message>
     <message>
-        <location filename="../src/ui/itemorderlist.ui" line="89"/>
+        <location filename="../src/ui/itemorderlist.ui" line="67"/>
         <source>&amp;Down</source>
         <translation>&amp;Herunter</translation>
     </message>
@@ -3739,7 +3780,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">&amp;Finde:</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1064"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1061"/>
         <source>&amp;clipboard</source>
         <translation>&amp;Zwischenablage</translation>
     </message>
@@ -3966,24 +4007,24 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation>Tab-Icon ändern</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1421"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1418"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1424"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1421"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1914"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1904"/>
         <source>Cannot save file %1!</source>
         <translation>Die Datei %1 konnte nicht gespeichert werden!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1969"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1959"/>
         <source>Cannot open file %1!</source>
         <translation>Die Datei %1 konnte nicht geöffnet werden!</translation>
     </message>
@@ -3993,7 +4034,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">%1 (%2)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1416"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1413"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -4132,19 +4173,19 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">&lt;b&gt;INPUT:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1690"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1680"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Zwischenablage: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1905"/>
-        <location filename="../src/gui/mainwindow.cpp" line="1963"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1895"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1953"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ Elemente (*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1913"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1903"/>
         <source>CopyQ Error Saving File</source>
         <translation>Copyq Fehler beim Speichern einer Datei</translation>
     </message>
@@ -4153,7 +4194,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">Kann Datei &quot;%1&quot; nicht speichern!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1968"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1958"/>
         <source>CopyQ Error Opening File</source>
         <translation>Copyq Fehler beim Öffnen einer Datei</translation>
     </message>
@@ -4166,22 +4207,22 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">Führe aus: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2106"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2096"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Alle Reiter in der Gruppe entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2107"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2097"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Wollen sie wirkliche &lt;strong&gt;alle Reiter&lt;/strong&gt; in der Gruppe &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2152"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2142"/>
         <source>Remove Tab?</source>
         <translation>Reiter entfernen?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2153"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2143"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Möchtest du den Tab &lt;strong&gt;%1&lt;/strong&gt; entfernen?</translation>
     </message>
@@ -4307,12 +4348,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">&quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/common/log.cpp" line="73"/>
+        <location filename="../src/common/log.cpp" line="155"/>
         <source>warning: %1</source>
         <translation>Warnung: %1</translation>
     </message>
     <message>
-        <location filename="../src/common/log.cpp" line="75"/>
+        <location filename="../src/common/log.cpp" line="157"/>
         <source>ERROR: %1</source>
         <translation>FEHLER: %1</translation>
     </message>
@@ -4370,7 +4411,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation type="vanished">CopyQ Server ist bereits gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="133"/>
+        <location filename="../src/main.cpp" line="134"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sitzungsnamen darf höchstens 16 Zeichen (Buchstaben,Zahlen &apos;-&apos; oder &apos;_&apos;) enthalten!</translation>
@@ -4426,177 +4467,181 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 <context>
     <name>Scriptable</name>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="95"/>
         <source>Show main window.</source>
-        <translation>Hauptfenster zeigen.</translation>
+        <translation type="vanished">Hauptfenster zeigen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="97"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="65"/>
         <source>Hide main window.</source>
         <translation>Hauptfenster verstecken.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="99"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="67"/>
         <source>Show or hide main window.</source>
         <translation>Verstecke oder zeige Hauptfenster.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="101"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="69"/>
         <source>Open context menu.</source>
         <translation>Kontextmenü öffnen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="103"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="71"/>
         <source>Exit server.</source>
         <translation>Server beenden.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="108"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="76"/>
         <source>Print clipboard content.</source>
         <translation>Inhalt der Zwischenablage ausgeben.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="109"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="113"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="121"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="154"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="157"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="159"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="77"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="81"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="89"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="125"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <source>MIME</source>
         <translation>MIME</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="112"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="80"/>
         <source>Print X11 selection content.</source>
         <translation>Gebe den Inhalt der X11 Selektion(en) aus.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="126"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="94"/>
         <source>Print number of items in history.</source>
         <translation>Anzahl von Elementen im Verlauf ausgeben.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="129"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="139"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="154"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="156"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="107"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="122"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="124"/>
         <source>ROW</source>
         <translation>ROW</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="135"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="103"/>
         <source>Add text into clipboard.</source>
         <translation>Füge Text in die Zwischenablage ein.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="119"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="136"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="140"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="87"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="104"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="108"/>
         <source>TEXT</source>
         <translation>TEXT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="138"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="106"/>
         <source>Insert text into given row.</source>
         <translation>Füge Text in die angegebene Zeile ein.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="142"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="110"/>
         <source>Remove items in given rows.</source>
         <translation>Entferne Elemente der angegebenen Reihe.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="143"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="147"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="163"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="167"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="111"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="115"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="131"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="135"/>
         <source>ROWS</source>
         <translation>ROWS</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="145"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="113"/>
         <source>Edit items or edit new one.
 Value -1 is for current text in clipboard.</source>
         <translation>Bearbeite bestehende oder neue Elemente.
 Wert -1 steht für die aktuelle Zwischenablage.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="153"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="121"/>
         <source>Print raw data of clipboard or item in row.</source>
         <translation>Gebe Rohdaten der Zwischenablage oder des Elements in die Reihe aus.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="122"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="123"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="158"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="159"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="90"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="91"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="126"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="127"/>
         <source>DATA</source>
         <translation>DATA</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="105"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
+        <source>Show main window and optionally open tab with given name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="73"/>
         <source>Disable or enable clipboard content storing.</source>
         <translation>Aktivieren und Deaktivieren des Speicherns der Zwischenablage.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="116"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="84"/>
         <source>Paste clipboard to current window
 (may not work with some applications).</source>
         <translation>Einfügen der Zwischenablage in das aktuelle Fenster (funktioniert möglichweise nicht bei manchen Programmen).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="118"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="86"/>
         <source>Set clipboard text.</source>
         <translation>Zwischenablage Text setzen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="120"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="88"/>
         <source>
 Set clipboard content.</source>
         <translation>
 Inhalt der Zwischenablage setzen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="128"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="96"/>
         <source>Copy item in the row to clipboard.</source>
         <translation>Element in der aktuellen Reihe in die Zwischenablage kopieren.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="131"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <source>Copy next item from current tab to clipboard.</source>
         <translation>Nächstes Element des aktuellen Reiter in die Zwischenablage kopieren.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="133"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="101"/>
         <source>Copy previous item from current tab to clipboard.</source>
         <translation>Voriges Element des aktuellen Reiter in die Zwischenablage kopieren.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="150"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
         <source>Set separator for items on output.</source>
         <translation>Setze Trennungszeichen für Elemente bei der Ausgabe.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="151"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="168"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="119"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>SEPARATOR</source>
         <translation>SEPERATOR</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="155"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="123"/>
         <source>
 Write raw data to given row.</source>
         <translation>
 Rohdaten in die aktuelle Zeile schreiben.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="162"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="130"/>
         <source>Show action dialog.</source>
         <translation>Zeige Ausführungsdialog.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="165"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="133"/>
         <source>
 Run PROGRAM on item text in the rows.
 Use %1 in PROGRAM to pass text as argument.</source>
@@ -4605,39 +4650,39 @@ Führe PROGRAM auf Elemententexte in der Reihe aus.
 Benutze %1 in PROGRAM um Elemententexte zu verarbeiten.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="168"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="136"/>
         <source>PROGRAM</source>
         <translation>PROGRAM</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="170"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="138"/>
         <source>
 Show tray popup message for TIME milliseconds.</source>
         <translation>
 Zeige Tray-Popupmeldung für TIME (in Millisekunden).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="171"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>TITLE</source>
         <translation>TITLE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="172"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>MESSAGE</source>
         <translation>MESSAGE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="173"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>TIME</source>
         <translation>TIME</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="176"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="144"/>
         <source>List available tab names.</source>
         <translation>Liste verfügbare Reiternamen auf.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="178"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="146"/>
         <source>Run command on tab with given name.
 Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
@@ -4646,78 +4691,79 @@ Reiter wird erstellt falls nicht vorhanden.
 Standard ist der erste Reiter.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="181"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="185"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="188"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="149"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
         <source>NAME</source>
         <translation>NAME</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="182"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="218"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="233"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="54"/>
         <source>COMMAND</source>
         <translation>COMMAND</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="184"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>Remove tab.</source>
         <translation>Reiter entfernen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="187"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="155"/>
         <source>Rename tab.</source>
         <translation>Reiter umbenennen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="189"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
         <source>NEW_NAME</source>
         <translation>NEW_NAME</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="192"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="160"/>
         <source>Export items to file.</source>
         <translation>Exportiere Elemente in Datei.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="193"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="196"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="161"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="164"/>
         <source>FILE_NAME</source>
         <translation>FILE_NAME</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="195"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="163"/>
         <source>Import items from file.</source>
         <translation>Importiere Elemente aus Datei.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="199"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="167"/>
         <source>List all options.</source>
         <translation>Alle Optionen auflisten.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="201"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
         <source>Get option value.</source>
         <translation>Lese Optionswert aus.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="202"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="205"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="173"/>
         <source>OPTION</source>
         <translation>OPTION</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="204"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Set option value.</source>
         <translation>Setze Optionswert.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="206"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
         <source>VALUE</source>
         <translation>VALUE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="209"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="177"/>
         <source>
 Evaluate ECMAScript program.
 Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
@@ -4726,12 +4772,12 @@ Evaluiere ECMAScript-Programm.
 Argumente sind per &quot;arguments(0..N)&quot; verfügbar.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="675"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1010"/>
         <source>Failed to set clipboard!</source>
         <translation>Die Zwischenablage konnte nicht gesetzt werden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="952"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="772"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ungültige Option &quot;%1&quot;!</translation>
     </message>
@@ -4740,36 +4786,36 @@ Argumente sind per &quot;arguments(0..N)&quot; verfügbar.</translation>
         <translation type="vanished">Evaluiere ECMAScript-Programm.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="211"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
         <source>SCRIPT</source>
         <translation>SKRIPT</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="212"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="180"/>
         <source>ARGUMENTS</source>
         <translation>ARGUMENTE</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="214"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="182"/>
         <source>
 Starts or connects to application instance with given session name.</source>
         <translation>
 Startet oder stellt die Verbindung zur Anwendungs-Instanz mit dem folgenden Sitzungsnamen her.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="215"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
         <source>SESSION</source>
         <translation>SITZUNG</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="217"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="185"/>
         <source>
 Print help for COMMAND or all commands.</source>
         <translation>
 Gibt die Hilfe für BEFEHL oder für alle Befehle aus.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="220"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
         <source>
 Print version of program and libraries.</source>
         <translation>
@@ -4780,27 +4826,27 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">Tests ausführen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="233"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="54"/>
         <source>Usage: copyq [%1]</source>
         <translation>Verwendung: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="234"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="55"/>
         <source>Starts server if no command is specified.</source>
         <translation>Starte Server falls kein Befehl spezifiziert wurde.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="235"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="56"/>
         <source>  COMMANDs:</source>
         <translation>  Befehle:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="240"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="61"/>
         <source>NOTES:</source>
         <translation>NOTIZEN:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="523"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="344"/>
         <source>Built with: </source>
         <translation>Gebaut mit: </translation>
     </message>
@@ -4809,30 +4855,30 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">  - Änderung des ersten Elements (ROW ist 0) ändert auch die Zwischenablage.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="241"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation>  - Nutze Bindestrichargument (-) um von der Standardeingabe zu lesen.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="242"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="63"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Nutze das Doppelbindestrichargument (--) um alle folgenden Argumente ohne
      expandieren Escapesequenzen zu lesen (z.B. \n, \t und Andere).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="244"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="65"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation>  - Nutze ? um alle verfügbaren MIME-Typs auszugeben (Standard ist &quot;text/plain&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="249"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="70"/>
         <source>Invalid number of arguments!</source>
         <translation>Ungültige Anzahl an Argumenten!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="462"/>
-        <location filename="../src/scriptable/scriptableworker.cpp" line="127"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="283"/>
+        <location filename="../src/scriptable/scriptableworker.cpp" line="128"/>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>Name &quot;%1&quot; verweißt nicht auf eine Funktion.</translation>
     </message>
@@ -4841,12 +4887,12 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">Gebaut mit: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="548"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="369"/>
         <source>Command not found!</source>
         <translation>Befehl wurde nicht gefunden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="604"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="425"/>
         <source>Terminating server.
 </source>
         <translation>Beende Server.
@@ -4861,12 +4907,12 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">Reiter mit angegebenem Namen existiert bereits!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="929"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="749"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Kann nicht in die Datei &quot;%1&quot; speichern!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="940"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="760"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Kann Datei &quot;%1&quot; nicht importieren!</translation>
     </message>
@@ -4933,7 +4979,7 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Drücke eine Tastenkombination.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; pro zrušení. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; pro odstranění zkratky.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutdialog.cpp" line="64"/>
+        <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
         <source>Remove Shortcut</source>
         <translation>Kurztaste entfernen</translation>
     </message>
@@ -5033,17 +5079,17 @@ In der Baumansicht der Reiter kann &lt;b&gt;/&lt;/b&gt; als Pfad-Trennzeichen ve
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.h" line="168"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="63"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Es existiert kein Reiter mit dem angegebenen Namen!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.h" line="173"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="68"/>
         <source>Tab name cannot be empty!</source>
         <translation>Der Name des Reiters darf nicht leer sein!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.h" line="203"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="133"/>
         <source>Tab with given name already exists!</source>
         <translation>Der Reiter mit dem angegebenem Namen existiert bereits!</translation>
     </message>
