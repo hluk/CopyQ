@@ -44,9 +44,9 @@ public:
 
     void clearItems();
 
-    void appendItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget);
+    void appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, QWidget *widget);
 
-    void insertItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget, int targetRow);
+    void insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon, QWidget *widget, int targetRow);
 
     QWidget *itemWidget(int row) const;
 
@@ -63,6 +63,8 @@ public:
     void setCurrentItemIcon(const QIcon &icon);
 
     void setCurrentItemLabel(const QString &label);
+
+    void setCurrentItemHighlight(bool highlight);
 
     QString itemLabel(int row) const;
 
@@ -96,6 +98,7 @@ private slots:
 private:
     QListWidgetItem *item(int row) const;
     void setCurrentItemWidget(QWidget *widget);
+    void setItemHighlight(QListWidgetItem *item, bool highlight);
 
     Ui::ItemOrderList *ui;
     QMap<QListWidgetItem*, QWidget*> m_itemWidgets;

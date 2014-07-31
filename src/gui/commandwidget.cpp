@@ -189,6 +189,7 @@ void CommandWidget::on_lineEditCommand_textChanged()
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
 {
     updateWidgets();
+    emit automaticChanged(ui->checkBoxAutomatic->isChecked());
 }
 
 void CommandWidget::on_checkBoxInMenu_stateChanged(int)

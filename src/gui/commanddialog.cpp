@@ -482,6 +482,11 @@ void CommandDialog::onCurrentCommandWidgetNameChanged(const QString &name)
     ui->itemOrderListCommands->setCurrentItemLabel(name);
 }
 
+void CommandDialog::onCurrentCommandWidgetAutomaticChanged(bool automatic)
+{
+    ui->itemOrderListCommands->setCurrentItemHighlight(automatic);
+}
+
 void CommandDialog::onFinished(int result)
 {
     if (result == QDialog::Accepted)
@@ -569,8 +574,10 @@ void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
              this, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
     connect( cmdWidget, SIGNAL(nameChanged(QString)),
              this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
+    connect( cmdWidget, SIGNAL(automaticChanged(bool)),
+             this, SLOT(onCurrentCommandWidgetAutomaticChanged(bool)) );
 
-    ui->itemOrderListCommands->insertItem(command.name, command.enable,
+    ui->itemOrderListCommands->insertItem(command.name, command.enable, command.automatic,
                                           getCommandIcon(cmdWidget->currentIcon()), cmdWidget,
                                           targetRow);
 }
@@ -777,7 +784,6 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
 
     return true;
 }
-
 
 CommandDialog::Commands loadCommands(bool onlyEnabled)
 {

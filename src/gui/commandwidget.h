@@ -55,6 +55,8 @@ signals:
 
     void nameChanged(const QString &name);
 
+    void automaticChanged(bool automatic);
+
 protected:
     void showEvent(QShowEvent *event);
     void resizeEvent(QResizeEvent *event);

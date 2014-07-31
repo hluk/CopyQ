@@ -59,6 +59,7 @@ private slots:
 
     void onCurrentCommandWidgetIconChanged(const QString &iconString);
     void onCurrentCommandWidgetNameChanged(const QString &name);
+    void onCurrentCommandWidgetAutomaticChanged(bool automatic);
 
     void onFinished(int result);
 

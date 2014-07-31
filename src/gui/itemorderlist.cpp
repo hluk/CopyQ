@@ -61,12 +61,12 @@ void ItemOrderList::clearItems()
     m_itemWidgets.clear();
 }
 
-void ItemOrderList::appendItem(const QString &label, bool checked, const QIcon &icon, QWidget *widget)
+void ItemOrderList::appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, QWidget *widget)
 {
-    insertItem(label, checked, icon, widget, -1);
+    insertItem(label, checked, highlight, icon, widget, -1);
 }
 
-void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &icon,
+void ItemOrderList::insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon,
                                QWidget *widget, int targetRow)
 {
     QListWidget *list = ui->listWidgetItems;
@@ -74,6 +74,7 @@ void ItemOrderList::insertItem(const QString &label, bool checked, const QIcon &
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
     list->insertItem(row, item);
     item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
+    setItemHighlight(item, highlight);
 
     m_itemWidgets[item] = widget;
     ui->stackedWidget->addWidget(widget);
@@ -140,6 +141,13 @@ void ItemOrderList::setCurrentItemLabel(const QString &label)
     QListWidgetItem *current = ui->listWidgetItems->currentItem();
     if(current != NULL)
         current->setText(label);
+}
+
+void ItemOrderList::setCurrentItemHighlight(bool highlight)
+{
+    QListWidgetItem *current = ui->listWidgetItems->currentItem();
+    if(current != NULL)
+        setItemHighlight(current, highlight);
 }
 
 QString ItemOrderList::itemLabel(int row) const
@@ -274,4 +282,11 @@ void ItemOrderList::setCurrentItemWidget(QWidget *widget)
         ui->stackedWidget->setCurrentWidget(widget);
         ui->stackedWidget->show();
     }
+}
+
+void ItemOrderList::setItemHighlight(QListWidgetItem *item, bool highlight)
+{
+    QFont font = item->font();
+    font.setBold(highlight);
+    item->setFont(font);
 }

@@ -365,7 +365,7 @@ void ConfigurationManager::initPluginWidgets()
             icon = maybeIcon.value<QIcon>();
 
         ui->itemOrderListPlugins->appendItem(
-                    loader->name(), itemFactory()->isLoaderEnabled(loader), icon, pluginWidget );
+                    loader->name(), itemFactory()->isLoaderEnabled(loader), false, icon, pluginWidget );
     }
 }
 
