@@ -402,59 +402,7 @@ void CommandDialog::tryPasteCommandFromClipboard()
 
 void CommandDialog::copySelectedCommandsToClipboard()
 {
-    const Commands commands = selectedCommands();
-    if ( commands.isEmpty() )
-        return;
-
-    QTemporaryFile tmpfile;
-    if ( !openTemporaryFile(&tmpfile) )
-        return;
-
-    if ( !tmpfile.open() )
-        return;
-
-    QSettings commandsSettings(tmpfile.fileName(), QSettings::IniFormat);
-    saveCommands(commands, &commandsSettings);
-    commandsSettings.sync();
-
-    // Replace ugly '\n' with indented lines.
-    const QString data = QString::fromUtf8(tmpfile.readAll());
-    QString copiedData;
-    copiedData.reserve(data.size());
-    QRegExp re("^(\\d+\\\\)?Command=\"");
-
-    foreach (const QString &line, data.split('\n')) {
-        if (line.contains(re)) {
-            int i = re.matchedLength();
-            copiedData.append(line.left(i) + "\n    ");
-            bool escape = false;
-
-            for (; i < line.size(); ++i) {
-                const QChar c = line[i];
-
-                if (escape) {
-                    escape = false;
-
-                    if (c == 'n') {
-                        copiedData.append("\n    ");
-                    } else {
-                        copiedData.append('\\');
-                        copiedData.append(c);
-                    }
-                } else if (c == '\\') {
-                    escape = !escape;
-                } else {
-                    copiedData.append(c);
-                }
-            }
-        } else {
-            copiedData.append(line);
-        }
-
-        copiedData.append('\n');
-    }
-
-    QApplication::clipboard()->setText(copiedData);
+    QApplication::clipboard()->setText(serializeSelectedCommands());
 }
 
 void CommandDialog::onCommandDropped(const QString &text, int row)
@@ -469,7 +417,7 @@ void CommandDialog::onCommandDropped(const QString &text, int row)
     tmpfile.write(text.toUtf8());
     tmpfile.flush();
 
-    loadCommandsFromFile( tmpfile.fileName(), true, row);
+    loadCommandsFromFile( tmpfile.fileName(), row );
 }
 
 void CommandDialog::onCurrentCommandWidgetIconChanged(const QString &iconString)
@@ -517,7 +465,7 @@ void CommandDialog::on_pushButtonLoadCommands_clicked()
                                           QString(), tr("Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)"));
 
     foreach (const QString &fileName, fileNames)
-        loadCommandsFromFile(fileName, false, -1);
+        loadCommandsFromFile(fileName, -1);
 }
 
 void CommandDialog::on_pushButtonSaveCommands_clicked()
@@ -529,9 +477,9 @@ void CommandDialog::on_pushButtonSaveCommands_clicked()
         if ( !fileName.endsWith(".ini") )
             fileName.append(".ini");
 
-        QSettings settings(fileName, QSettings::IniFormat);
-        saveCommands(selectedCommands(), &settings);
-        settings.sync();
+        QFile ini(fileName);
+        ini.open(QIODevice::WriteOnly);
+        ini.write(serializeSelectedCommands().toUtf8());
     }
 }
 
@@ -589,7 +537,7 @@ QIcon CommandDialog::getCommandIcon(const QString &iconString) const
     return iconFactory->iconFromFile(iconString, color);
 }
 
-void CommandDialog::loadCommandsFromFile(const QString &fileName, bool unindentCommand, int targetRow)
+void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
 {
     QSettings commandsSettings(fileName, QSettings::IniFormat);
     QList<int> rowsToSelect;
@@ -600,11 +548,9 @@ void CommandDialog::loadCommandsFromFile(const QString &fileName, bool unindentC
     foreach ( Command command, loadCommands(&commandsSettings) ) {
         rowsToSelect.append(row);
 
-        if (unindentCommand) {
-            if (command.cmd.startsWith("\n    ")) {
-                command.cmd.remove(0, 5);
-                command.cmd.replace("\n    ", "\n");
-            }
+        if (command.cmd.startsWith("\n    ")) {
+            command.cmd.remove(0, 5);
+            command.cmd.replace("\n    ", "\n");
         }
 
         addCommandWithoutSave(command, row);
@@ -783,6 +729,63 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
     }
 
     return true;
+}
+
+QString CommandDialog::serializeSelectedCommands()
+{
+    const Commands commands = selectedCommands();
+    if ( commands.isEmpty() )
+        return QString();
+
+    QTemporaryFile tmpfile;
+    if ( !openTemporaryFile(&tmpfile) )
+        return QString();
+
+    if ( !tmpfile.open() )
+        return QString();
+
+    QSettings commandsSettings(tmpfile.fileName(), QSettings::IniFormat);
+    saveCommands(commands, &commandsSettings);
+    commandsSettings.sync();
+
+    // Replace ugly '\n' with indented lines.
+    const QString data = QString::fromUtf8(tmpfile.readAll());
+    QString commandData;
+    commandData.reserve(data.size());
+    QRegExp re("^(\\d+\\\\)?Command=\"");
+
+    foreach (const QString &line, data.split('\n')) {
+        if (line.contains(re)) {
+            int i = re.matchedLength();
+            commandData.append(line.left(i) + "\n    ");
+            bool escape = false;
+
+            for (; i < line.size(); ++i) {
+                const QChar c = line[i];
+
+                if (escape) {
+                    escape = false;
+
+                    if (c == 'n') {
+                        commandData.append("\n    ");
+                    } else {
+                        commandData.append('\\');
+                        commandData.append(c);
+                    }
+                } else if (c == '\\') {
+                    escape = !escape;
+                } else {
+                    commandData.append(c);
+                }
+            }
+        } else {
+            commandData.append(line);
+        }
+
+        commandData.append('\n');
+    }
+
+    return commandData;
 }
 
 CommandDialog::Commands loadCommands(bool onlyEnabled)

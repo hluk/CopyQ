@@ -73,9 +73,10 @@ private slots:
 private:
     void addCommandWithoutSave(const Command &command, int targetRow = -1);
     QIcon getCommandIcon(const QString &iconString) const;
-    void loadCommandsFromFile(const QString &fileName, bool unindentCommand, int targetRow);
+    void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
     bool defaultCommand(int index, Command *c) const;
+    QString serializeSelectedCommands();
 
     Ui::CommandDialog *ui;
 };
