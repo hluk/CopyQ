@@ -550,7 +550,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"/>
+        <translation>プログラムの引数 %1 はアイテムのテキストに、%2 から %9 は正規表現によりキャプチャされたテキストに置換されます。</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
