@@ -201,10 +201,6 @@ void ActionDialog::createAction()
         }
     }
 
-    if ( !m_capturedTexts.isEmpty() )
-        m_capturedTexts.removeAt(0);
-    m_capturedTexts.insert( 0, getTextData(m_data) );
-
     QScopedPointer<Action> act( new Action() );
     act->setCommand(cmd, m_capturedTexts);
     act->setInput(bytes);
@@ -234,7 +230,7 @@ void ActionDialog::setCommand(const Command &cmd)
 
     ui->comboBoxOutputFormat->setEditText(cmd.output);
 
-    m_capturedTexts = cmd.re.capturedTexts();
+    m_capturedTexts = cmd.re.isEmpty() ? QStringList() : cmd.re.capturedTexts();
     m_actionName = cmd.name;
     m_actionName.remove('&');
 }
