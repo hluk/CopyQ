@@ -26,34 +26,31 @@
 
 namespace {
 
-// add command line argument - handle escape sequences
-void addArgumentFromCommandLine(QVector<QByteArray> &args, const char *arg, int i)
+QString parseCommandLineArgument(const QString &arg)
 {
-    args.resize(i + 1);
-    QByteArray &bytes = args[i];
+    QString result;
     bool escape = false;
-    for (const char *ch = arg; *ch != '\0'; ++ch) {
+
+    foreach (const QChar &c, arg) {
         if (escape) {
             escape = false;
-            switch(*ch) {
-            case 'n':
-                bytes.append('\n');
-                break;
-            case 't':
-                bytes.append('\t');
-                break;
-            case '\\':
-                bytes.append('\\');
-                break;
-            default:
-                bytes.append(*ch);
-            }
-        } else if (*ch == '\\') {
+
+            if (c == 'n')
+                result.append('\n');
+            else if (c == 't')
+                result.append('\t');
+            else if (c == '\\')
+                result.append('\\');
+            else
+                result.append(c);
+        } else if (c == '\\') {
             escape = true;
         } else {
-            bytes.append(*ch);
+            result.append(c);
         }
     }
+
+    return result;
 }
 
 QByteArray readAllStdin()
@@ -91,7 +88,7 @@ Arguments::Arguments(const QStringList &arguments)
         else if (arg == "-e")
             m_args.append("eval");
         else
-            addArgumentFromCommandLine( m_args, arg.toUtf8(), m_args.size() );
+            m_args.append( parseCommandLineArgument(arg).toUtf8() );
     }
 }
 
