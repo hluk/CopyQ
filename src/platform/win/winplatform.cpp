@@ -145,3 +145,16 @@ int WinPlatform::keyCode(const QKeyEvent &event)
 
     return PlatformNativeInterface::keyCode(event);
 }
+
+QStringList WinPlatform::getCommandLineArguments()
+{
+    int argumentCount;
+    LPWSTR *arguments = CommandLineToArgvW(GetCommandLineW(), &argumentCount);
+
+    QStringList result;
+
+    for (int i = 1; i < argumentCount; ++i)
+        result.append( QString::fromUtf16(reinterpret_cast<ushort*>(arguments[i])) );
+
+    return result;
+}

@@ -23,6 +23,7 @@
 #include "platform/platformwindow.h"
 #include "platform/platformclipboard.h"
 
+#include <QCoreApplication>
 #include <QKeyEvent>
 #include <QSharedPointer>
 #include <QWidget>
@@ -30,7 +31,6 @@
 
 class QApplication;
 class QByteArray;
-class QCoreApplication;
 class QWidget;
 
 typedef QSharedPointer<PlatformWindow> PlatformWindowPtr;
@@ -113,6 +113,11 @@ public:
      * Return Qt key code from key press event (possibly using QKeyEvent::nativeVirtualKey()).
      */
     virtual int keyCode(const QKeyEvent &event) { return event.key(); }
+
+    /**
+     * Returns list of command line arguments without executable name (argv[0]).
+     */
+    virtual QStringList getCommandLineArguments() { return QCoreApplication::arguments(); }
 };
 
 /**
