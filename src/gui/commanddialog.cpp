@@ -448,8 +448,10 @@ void CommandDialog::on_itemOrderListCommands_addButtonClicked(QAction *action)
     Command cmd;
     if ( !defaultCommand(action->property("COMMAND").toInt(), &cmd) )
         return;
-    addCommandWithoutSave(cmd);
-    ui->itemOrderListCommands->setCurrentItem( ui->itemOrderListCommands->itemCount() - 1 );
+
+    const int targetRow = qMax( 0, ui->itemOrderListCommands->currentRow() );
+    addCommandWithoutSave(cmd, targetRow);
+    ui->itemOrderListCommands->setCurrentItem(targetRow);
 }
 
 void CommandDialog::on_itemOrderListCommands_itemSelectionChanged()
