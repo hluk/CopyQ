@@ -201,6 +201,11 @@ void ActionDialog::createAction()
         }
     }
 
+    if ( m_capturedTexts.isEmpty() )
+        m_capturedTexts.append( QString::fromUtf8(bytes) );
+    else
+        m_capturedTexts[0] = getTextData(m_data);
+
     QScopedPointer<Action> act( new Action() );
     act->setCommand(cmd, m_capturedTexts);
     act->setInput(bytes);
