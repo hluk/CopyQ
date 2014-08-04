@@ -95,8 +95,6 @@ class ClipboardBrowser : public QListView
         /** Reverse order of selected items. */
         void reverseItems(const QModelIndexList &indexes);
 
-        /** Text of item. */
-        QString itemText(QModelIndex ind) const;
         /** Data of item in given row or current row. */
         QVariantMap itemData(int i = -1) const;
         /** Index of item in given row. */

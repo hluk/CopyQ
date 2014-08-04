@@ -1968,15 +1968,10 @@ const QString ClipboardBrowser::selectedText() const
     QString result;
 
     foreach ( const QModelIndex &ind, selectionModel()->selectedIndexes() )
-        result += itemText(ind) + QString('\n');
+        result += ind.data(Qt::EditRole).toString() + QString('\n');
     result.chop(1);
 
     return result;
-}
-
-QString ClipboardBrowser::itemText(QModelIndex ind) const
-{
-    return ind.isValid() ? ind.data(Qt::EditRole).toString() : QString();
 }
 
 QVariantMap ClipboardBrowser::itemData(int i) const
