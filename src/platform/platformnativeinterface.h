@@ -117,7 +117,7 @@ public:
     /**
      * Returns list of command line arguments without executable name (argv[0]).
      */
-    virtual QStringList getCommandLineArguments() { return QCoreApplication::arguments(); }
+    virtual QStringList getCommandLineArguments() { return QCoreApplication::arguments().mid(1); }
 };
 
 /**
