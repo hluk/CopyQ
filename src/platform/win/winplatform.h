@@ -52,6 +52,8 @@ public:
     PlatformClipboardPtr clipboard();
 
     int keyCode(const QKeyEvent &event);
+
+    virtual QStringList getCommandLineArguments();
 };
 
 #endif // WINPLATFORM_H
