@@ -127,19 +127,20 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
                 // Treat command as script if known label is present.
                 const QStringRef c = cmd.midRef(i);
                 if ( getScriptFromLabel("copyq:", c, &script) )
-                    command << "copyq" << "eval" << "--" << script << capturedTexts;
+                    command << "copyq" << "eval" << "--" << script;
                 else if ( getScriptFromLabel("sh:", c, &script) )
-                    command << "sh" << "-c" << "--" << script << "--" << capturedTexts;
+                    command << "sh" << "-c" << "--" << script << "--";
                 else if ( getScriptFromLabel("bash:", c, &script) )
-                    command << "bash" << "-c" << "--" << script << "--" << capturedTexts;
+                    command << "bash" << "-c" << "--" << script << "--";
                 else if ( getScriptFromLabel("perl:", c, &script) )
-                    command << "perl" << "-e" << script << "--" << capturedTexts;
+                    command << "perl" << "-e" << script << "--";
                 else if ( getScriptFromLabel("python:", c, &script) )
-                    command << "python" << "-c" << script << capturedTexts;
+                    command << "python" << "-c" << script;
                 else if ( getScriptFromLabel("ruby:", c, &script) )
-                    command << "ruby" << "-e" << script << "--" << capturedTexts;
+                    command << "ruby" << "-e" << script << "--";
 
                 if ( !script.isEmpty() ) {
+                    command.append( capturedTexts.mid(1) );
                     commands.append(command);
                     lines.append(commands);
                     return lines;
