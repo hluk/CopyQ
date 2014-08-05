@@ -2772,7 +2772,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
         <source>+</source>
-        <translation type="unfinished"/>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
