@@ -54,6 +54,7 @@ OutputDir={#Output}
 OutputBaseFilename=copyq-{#AppVersion}-setup
 Compression=lzma
 SolidCompression=yes
+SetupIconFile={#Source}\src\images\icon.ico
 WizardImageFile=logo.bmp
 WizardSmallImageFile=logo-small.bmp
 
