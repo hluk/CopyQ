@@ -50,7 +50,7 @@ public:
     QString getTitle();
 
     void raise();
-    void pasteClipboard(PasteWith);
+    void pasteClipboard();
     void copy();
 
 private:

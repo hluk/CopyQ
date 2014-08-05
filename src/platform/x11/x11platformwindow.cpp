@@ -17,6 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "platform/platformcommon.h"
 #include "x11platformwindow.h"
 #include "x11displayguard.h"
 
@@ -225,9 +226,9 @@ void X11PlatformWindow::raise()
     }
 }
 
-void X11PlatformWindow::pasteClipboard(PasteWith pasteWith)
+void X11PlatformWindow::pasteClipboard()
 {
-    if (pasteWith == PasteWithCtrlV)
+    if ( pasteWithCtrlV(*this) )
         sendKeyPress(XK_Control_L, XK_V);
     else
         sendKeyPress(XK_Shift_L, XK_Insert);

@@ -19,6 +19,7 @@ list(APPEND copyq_DEFINITIONS COPYQ_WS_X11)
 file(GLOB copyq_SOURCES ${copyq_SOURCES}
     platform/x11/*.cpp
     platform/dummy/dummyclipboard.cpp
+    platform/platformcommon.cpp
     ../qxt/qxtglobalshortcut_x11.cpp
     )
 

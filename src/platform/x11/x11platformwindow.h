@@ -37,7 +37,7 @@ public:
 
     void raise();
 
-    void pasteClipboard(PasteWith pasteWith);
+    void pasteClipboard();
 
     void copy();
 

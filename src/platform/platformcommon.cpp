@@ -17,40 +17,14 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef PLATFORMWINDOW_H
-#define PLATFORMWINDOW_H
+#include "platformcommon.h"
+#include "platformwindow.h"
 
-#include <QByteArray>
+#include <QRegExp>
+#include <QSettings>
 
-class QString;
-
-/**
- * Window storage class for platform. Used to raise/focus window and paste to window.
- */
-class PlatformWindow
+bool pasteWithCtrlV(PlatformWindow &window)
 {
-public:
-    virtual ~PlatformWindow() {}
-
-    /**
-     * Return window title text.
-     */
-    virtual QString getTitle() = 0;
-
-    /**
-     * Raise/focus window.
-     */
-    virtual void raise() = 0;
-
-    /**
-     * Paste clipboard content to window.
-     */
-    virtual void pasteClipboard() = 0;
-
-    /**
-     * Copy to clipboard from window.
-     */
-    virtual void copy() = 0;
-};
-
-#endif // PLATFORMWINDOW_H
+    const QRegExp re( QSettings().value("paste_with_ctrl_v_windows").toString() );
+    return !re.isEmpty() && re.indexIn(window.getTitle()) != -1;
+}

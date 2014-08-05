@@ -146,7 +146,7 @@ public:
 public slots:
     void close();
     void showWindow();
-    void pasteToCurrentWindow(PlatformWindow::PasteWith pasteWith);
+    void pasteToCurrentWindow();
     void copyFromCurrentWindow();
 
     void ignoreCurrentClipboard();
@@ -254,7 +254,7 @@ public:
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)
-    PROXY_METHOD_1(bool, pasteToCurrentWindow, PlatformWindow::PasteWith)
+    PROXY_METHOD_0(bool, pasteToCurrentWindow)
     PROXY_METHOD_0(bool, copyFromCurrentWindow)
 
     PROXY_METHOD(ignoreCurrentClipboard)

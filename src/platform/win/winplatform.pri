@@ -5,7 +5,8 @@ SOURCES += \
     $$PWD/winplatform.cpp \
     $$PWD/winplatformwindow.cpp \
     $$PWD/winplatformclipboard.cpp \
-    platform/dummy/dummyclipboard.cpp
+    platform/dummy/dummyclipboard.cpp \
+    platform/platformcommon.cpp
 USE_QXT = 1
 RC_FILE  = copyq.rc
 

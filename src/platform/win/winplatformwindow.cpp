@@ -17,6 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "platform/platformcommon.h"
 #include "winplatformwindow.h"
 
 #include <QString>
@@ -77,9 +78,9 @@ void WinPlatformWindow::raise()
     raiseWindow(m_window);
 }
 
-void WinPlatformWindow::pasteClipboard(PasteWith pasteWith)
+void WinPlatformWindow::pasteClipboard()
 {
-    if (pasteWith == PasteWithCtrlV)
+    if ( pasteWithCtrlV(*this) )
         sendKeyPress(VK_LCONTROL, 'V');
     else
         sendKeyPress(VK_LSHIFT, VK_INSERT);
