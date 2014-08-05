@@ -471,7 +471,7 @@ class ClipboardBrowser : public QListView
         QPushButton *m_loadButton;
         QProgressBar *m_searchProgress;
 
-        int m_dragPosition;
+        int m_dragTargetRow;
         QPoint m_dragStartPosition;
 
         int m_spinLock;

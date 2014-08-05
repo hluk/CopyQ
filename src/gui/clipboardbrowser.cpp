@@ -258,7 +258,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
     , m_loadButton(NULL)
     , m_searchProgress(NULL)
-    , m_dragPosition(-1)
+    , m_dragTargetRow(-1)
     , m_dragStartPosition()
     , m_spinLock(0)
     , m_updateLock(m_update)
@@ -1262,7 +1262,7 @@ void ClipboardBrowser::dragEnterEvent(QDragEnterEvent *event)
 void ClipboardBrowser::dragLeaveEvent(QDragLeaveEvent *event)
 {
     QListView::dragLeaveEvent(event);
-    m_dragPosition = -1;
+    m_dragTargetRow = -1;
     update();
 }
 
@@ -1274,19 +1274,19 @@ void ClipboardBrowser::dragMoveEvent(QDragMoveEvent *event)
         return;
 
     event->acceptProposedAction();
-    m_dragPosition = event->pos().y();
+    m_dragTargetRow = getDropRow(event->pos());
     update();
 }
 
 void ClipboardBrowser::dropEvent(QDropEvent *event)
 {
     event->accept();
-    m_dragPosition = -1;
     if (event->dropAction() == Qt::MoveAction && event->source() == this)
         return; // handled in mouseMoveEvent()
 
     const QVariantMap data = cloneData( *event->mimeData() );
     paste( data, getDropRow(event->pos()) );
+    m_dragTargetRow = -1;
 }
 
 void ClipboardBrowser::paintEvent(QPaintEvent *e)
@@ -1294,10 +1294,10 @@ void ClipboardBrowser::paintEvent(QPaintEvent *e)
     QListView::paintEvent(e);
 
     // If dragging an item into list, draw indicator for dropping items.
-    if (m_dragPosition >= 0) {
+    if (m_dragTargetRow != -1) {
         const int s = spacing();
 
-        QModelIndex pointedIndex = indexNear(m_dragPosition);
+        QModelIndex pointedIndex = index(m_dragTargetRow);
 
         QRect rect;
         if ( pointedIndex.isValid() ) {
@@ -1378,23 +1378,27 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
 
     if (dropAction == Qt::MoveAction) {
         selected.clear();
+
         foreach (const QModelIndex &index, indexesToRemove)
             selected.append(index);
+
         QObject *target = drag->target();
+
         if (target == this || target == viewport()) {
-            const int targetRow = getDropRow( mapFromGlobal(QCursor::pos()) );
-            const QPersistentModelIndex targetIndex = this->index(targetRow);
             foreach (const QModelIndex &index, indexesToRemove) {
-                const int from = index.row();
-                const int to = targetIndex.row();
-                m->move(from, from < to ? to - 1 : to);
+                const int sourceRow = index.row();
+                const int targetRow =
+                        sourceRow < m_dragTargetRow ? m_dragTargetRow - 1 : m_dragTargetRow;
+                m->move(sourceRow, targetRow);
             }
         } else if ( m_itemLoader->canMoveItems(selected) ) {
             removeIndexes(selected);
         }
     }
 
-    update(); // Clear drag indicator.
+    // Clear drag indicator.
+    m_dragTargetRow = -1;
+    update();
 
     event->accept();
 }
