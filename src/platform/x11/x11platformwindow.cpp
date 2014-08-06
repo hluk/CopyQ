@@ -17,6 +17,7 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
+#include "clipboardspy.h"
 #include "platform/platformcommon.h"
 #include "x11platformwindow.h"
 #include "x11displayguard.h"
@@ -232,11 +233,16 @@ void X11PlatformWindow::pasteClipboard()
         sendKeyPress(XK_Control_L, XK_V);
     else
         sendKeyPress(XK_Shift_L, XK_Insert);
+
+    // Don't do anything hasty until the content is actually pasted.
+    usleep(150000);
 }
 
 void X11PlatformWindow::copy()
 {
+    ClipboardSpy spy;
     sendKeyPress(XK_Control_L, XK_C);
+    spy.wait(2000);
 }
 
 bool X11PlatformWindow::isValid() const
@@ -260,7 +266,4 @@ void X11PlatformWindow::sendKeyPress(int modifier, int key)
     const int modifierMask = (modifier == XK_Control_L) ? ControlMask : ShiftMask;
     simulateKeyPress(d.display(), m_window, modifierMask, key);
 #endif
-
-    // Don't do anything hasty until the content is actually pasted.
-    usleep(150000);
 }
