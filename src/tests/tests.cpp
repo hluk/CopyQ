@@ -746,14 +746,15 @@ void Tests::badCommand()
 void Tests::copyCommand()
 {
     const QByteArray data = "copyCommand";
+    const QByteArray output = "true\n";
 
     const QByteArray data1 = generateData(data);
-    RUN( Args() << "copy" << QString::fromUtf8(data1), "" );
+    RUN( Args() << "copy" << QString::fromUtf8(data1), output );
     QVERIFY( waitUntilClipboardSet(data1) );
     RUN( Args("clipboard"), data1 );
 
     const QByteArray data2 = generateData(data);
-    RUN( Args() << "copy" << "DATA" << QString::fromUtf8(data2), "" );
+    RUN( Args() << "copy" << "DATA" << QString::fromUtf8(data2), output );
     QVERIFY( waitUntilClipboardSet(data2, "DATA") );
     RUN( Args("clipboard") << "DATA", data2 );
 
@@ -762,7 +763,7 @@ void Tests::copyCommand()
     RUN( Args() << "copy"
          << "DATA3" << QString::fromUtf8(data3)
          << "DATA4" << QString::fromUtf8(data4)
-         , "" );
+         , output );
     QVERIFY( waitUntilClipboardSet(data3, "DATA3") );
     QVERIFY( waitUntilClipboardSet(data4, "DATA4") );
     RUN( Args("clipboard") << "DATA3", data3 );
