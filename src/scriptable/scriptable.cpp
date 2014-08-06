@@ -463,19 +463,31 @@ QScriptValue Scriptable::selection()
 #endif
 }
 
-void Scriptable::copy()
+QScriptValue Scriptable::copy()
 {
-    int args = argumentCount();
+    const int args = argumentCount();
     QVariantMap data;
 
     if (args == 0) {
-        if ( setClipboard(QVariantMap()) )
-            m_proxy->copyFromCurrentWindow();
-    } else if (args == 1) {
+        // Reset clipboard first.
+        const QString mime = COPYQ_MIME_PREFIX "invalid";
+        const QByteArray value = "invalid";
+        data.insert(mime, value);
+        if ( !setClipboard(data) )
+            return false;
+
+        m_proxy->copyFromCurrentWindow();
+
+        return m_proxy->getClipboardData(mime) != value;
+    }
+
+    if (args == 1) {
         QScriptValue value = argument(0);
         setTextData( &data, toString(value) );
-        setClipboard(data);
-    } else if (args % 2 == 0) {
+        return setClipboard(data);
+    }
+
+    if (args % 2 == 0) {
         for (int i = 0; i < args; ++i) {
             // MIME
             QString mime = toString(argument(i));
@@ -484,10 +496,11 @@ void Scriptable::copy()
             toItemData(argument(++i), mime, &data);
         }
 
-        setClipboard(data);
-    } else {
-        throwError(argumentError());
+        return setClipboard(data);
     }
+
+    throwError(argumentError());
+    return false;
 }
 
 void Scriptable::paste()

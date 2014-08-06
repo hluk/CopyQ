@@ -102,7 +102,7 @@ public slots:
 
     QScriptValue clipboard();
     QScriptValue selection();
-    void copy();
+    QScriptValue copy();
     void paste();
 
     QScriptValue tab();
