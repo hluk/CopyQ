@@ -20,6 +20,8 @@
 #include "platform/platformcommon.h"
 #include "winplatformwindow.h"
 
+#include <QApplication>
+#include <QElapsedTimer>
 #include <QString>
 #include <QVector>
 
@@ -84,11 +86,21 @@ void WinPlatformWindow::pasteClipboard()
         sendKeyPress(VK_LCONTROL, 'V');
     else
         sendKeyPress(VK_LSHIFT, VK_INSERT);
+
+    // Don't do anything hasty until the content is actually pasted.
+    Sleep(150);
 }
 
 void WinPlatformWindow::copy()
 {
+    const DWORD clipboardSequenceNumber = GetClipboardSequenceNumber();
     sendKeyPress(VK_LCONTROL, 'C');
+
+    // Wait for clipboard to change.
+    QElapsedTimer t;
+    t.start();
+    while ( clipboardSequenceNumber == GetClipboardSequenceNumber() && t.elapsed() < 2000 )
+        QApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
 void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
@@ -122,7 +134,4 @@ void WinPlatformWindow::sendKeyPress(WORD modifier, WORD key)
 
     QVector<INPUT> input = input1 + input2;
     SendInput( input.size(), input.data(), sizeof(INPUT) );
-
-    // Don't do anything hasty until the content is actually pasted.
-    Sleep(150);
 }
