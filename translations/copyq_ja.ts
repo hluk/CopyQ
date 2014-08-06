@@ -555,22 +555,22 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"/>
+        <translation>%1 の文字を使って標準出力を次のプログラムに渡すことができます。</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"/>
+        <translation>下記のシンタックスで残りのコマンドをひとつのパラメーターとして渡すことができます。</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"/>
+        <translation>これは %1 と同じ出力になりますが、長いコマンドの場合このほうが便利です。</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="94"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"/>
+        <translation>以下にリストした機能もコマンドとして使うことができます。</translation>
     </message>
 </context>
 <context>
@@ -3476,7 +3476,7 @@ Default is the first tab.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"/>
+        <translation>メインウィンドウを表示し、オプションとしてタブ名を指定するとそのタブを開きます。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
