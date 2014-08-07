@@ -22,6 +22,8 @@
 
 #include "platform/platformnativeinterface.h"
 
+#include <QStringList>
+
 class QApplication;
 class QCoreApplication;
 
@@ -53,7 +55,7 @@ public:
 
     int keyCode(const QKeyEvent &event);
 
-    virtual QStringList getCommandLineArguments();
+    QStringList getCommandLineArguments(int, char**);
 };
 
 #endif // WINPLATFORM_H

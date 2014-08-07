@@ -21,9 +21,8 @@
 #include "app/clipboardclient.h"
 #include "app/clipboardmonitor.h"
 #include "app/clipboardserver.h"
-#include "common/action.h"
 #include "common/log.h"
-#include "gui/mainwindow.h"
+#include "platform/platformnativeinterface.h"
 #include "scriptable/scriptable.h"
 
 #include <QCoreApplication>
@@ -38,26 +37,27 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
-void evaluate(const QString &functionName, const char *arg)
+int evaluate(const QString &functionName, const QStringList &arguments, int argc, char **argv)
 {
-    int argc = 0;
-    char *argv[] = {NULL};
-    App app(new QCoreApplication(argc, argv));
+    App app( new QCoreApplication(argc, argv) );
 
     Scriptable scriptable(NULL, NULL);
     QScriptEngine engine;
     engine.setGlobalObject( engine.newQObject(&scriptable) );
 
-    QScriptValue fn = engine.globalObject().property(functionName);
-    QScriptValueList fnArgs;
-    if (arg != NULL)
-        fnArgs << QString(arg);
+    QScriptValue function = engine.globalObject().property(functionName);
+    QScriptValueList functionArguments;
 
-    QScriptValue result = fn.call(QScriptValue(), fnArgs);
+    foreach (const QString &argument, arguments)
+        functionArguments.append(argument);
+
+    const QScriptValue result = function.call( QScriptValue(), functionArguments );
 
     QFile f;
     f.open(stdout, QIODevice::WriteOnly);
     f.write( scriptable.fromString(result.toString()) );
+
+    return engine.hasUncaughtException() ? 1 : 0;
 }
 
 int startServer(int argc, char *argv[], const QString &sessionName)
@@ -72,20 +72,20 @@ int startMonitor(int argc, char *argv[])
     return app.exec();
 }
 
-int startClient(int argc, char *argv[], int skipArgc, const QString &sessionName)
+int startClient(int argc, char *argv[], int skipArguments, const QString &sessionName)
 {
-    ClipboardClient app(argc, argv, skipArgc, sessionName);
+    ClipboardClient app(argc, argv, skipArguments, sessionName);
     return app.exec();
 }
 
-bool needsHelp(const QByteArray &arg)
+bool needsHelp(const QString &arg)
 {
     return arg == "-h" ||
            arg == "--help" ||
            arg == "help";
 }
 
-bool needsVersion(const QByteArray &arg)
+bool needsVersion(const QString &arg)
 {
     return arg == "-v" ||
            arg == "--version" ||
@@ -93,104 +93,92 @@ bool needsVersion(const QByteArray &arg)
 }
 
 #ifdef HAS_TESTS
-bool needsTests(const QByteArray &arg)
+bool needsTests(const QString &arg)
 {
     return arg == "--tests" ||
            arg == "tests";
 }
 #endif
 
-QString getSessionName(int *argc, char *argv[])
+bool containsOnlyValidCharacters(const QString &sessionName)
 {
-    if (*argc <= 1)
-        return QString("");
-
-    QString sessionName;
-    const QString arg1(argv[1]);
-
-    if (arg1 == "-s" || arg1 == "--session" || arg1 == "session") {
-        if (*argc > 2) {
-            *argc -= 2;
-            sessionName = argv[2];
-        }
-    } else if (arg1.startsWith("--session=")) {
-        sessionName = arg1.mid( arg1.indexOf('=') + 1 );
-        *argc -= 1;
-    } else {
-        return QString::fromUtf8( qgetenv("COPYQ_SESSION_NAME") );
+    foreach (const QChar &c, sessionName) {
+        if ( !c.isLetterOrNumber() && c != '-' && c != '_' )
+            return false;
     }
 
-    // check session name
-    bool ok = !sessionName.isNull() && sessionName.length() < 16;
-    if (ok) {
-        foreach (const QChar &c, sessionName) {
-            ok = c.isLetterOrNumber() || c == '-' || c == '_';
-            if (!ok)
-                break;
-        }
+    return true;
+}
+
+bool isValidSessionName(const QString &sessionName)
+{
+    return !sessionName.isNull() &&
+           sessionName.length() < 16 &&
+           containsOnlyValidCharacters(sessionName);
+}
+
+QString getSessionName(const QStringList &arguments, int *skipArguments)
+{
+    const QString firstArgument = arguments.value(0);
+    *skipArguments = 0;
+
+    if (firstArgument == "-s" || firstArgument == "--session" || firstArgument == "session") {
+        *skipArguments = 2;
+        return arguments.value(1);
     }
 
-    if (!ok) {
-        log( QObject::tr("Session name must contain at most 16 characters\n"
-                         "which can be letters, digits, '-' or '_'!"), LogWarning );
+    if ( firstArgument.startsWith("--session=") ) {
+        *skipArguments = 1;
+        return firstArgument.mid( firstArgument.indexOf('=') + 1 );
     }
 
-    return ok ? sessionName : QString();
+    return QString::fromUtf8( qgetenv("COPYQ_SESSION_NAME") );
 }
 
 } // namespace
 
-int main(int argc, char *argv[])
+int main(int argc, char **argv)
 {
-    // print version, help or run tests
-    if (argc > 1) {
-        const QByteArray arg(argv[1]);
+    const QStringList arguments =
+            createPlatformNativeInterface()->getCommandLineArguments(argc, argv);
 
-        if ( needsVersion(arg) ) {
-            evaluate("version", NULL);
-            return 0;
-        }
+    // Print version, help or run tests.
+    if ( !arguments.isEmpty() ) {
+        if ( needsVersion(arguments.first()) )
+            return evaluate( "version", QStringList(), argc, argv );
 
-        if ( needsHelp(arg) ) {
-            if (argc == 2) {
-                evaluate("help", NULL);
-            } else {
-                for (int i = 2; i < argc; ++i)
-                    evaluate("help", argv[i]);
-            }
-            return 0;
-        }
+        if ( needsHelp(arguments.first()) )
+            return evaluate( "help", arguments.mid(1), argc, argv );
 
 #ifdef HAS_TESTS
-        if ( needsTests(arg) ) {
+        if ( needsTests(arguments.first()) ) {
             // Skip the "tests" argument and pass the rest to tests.
             return runTests(argc - 1, argv + 1);
         }
 #endif
     }
 
-    // get session name (default empty)
-    QString sessionName;
-    int newArgc = argc;
-    if (argc > 1) {
-        sessionName = getSessionName(&newArgc, argv);
-        if ( sessionName.isNull() )
-            return 2;
-    } else {
-        sessionName = QString::fromUtf8(qgetenv("COPYQ_SESSION_NAME"));
+    // Get session name (default is empty).
+    int skipArguments;
+    const QString sessionName = getSessionName(arguments, &skipArguments);
+
+    if ( !isValidSessionName(sessionName) ) {
+        log( QObject::tr("Session name must contain at most 16 characters\n"
+                         "which can be letters, digits, '-' or '_'!"), LogError );
+        return 2;
     }
 
-    if (newArgc == 1) {
-        // if server hasn't been run yet and no argument were specified
-        // then run this process as server
+    // If server hasn't been run yet and no argument were specified
+    // then run this process as server.
+    if ( arguments.size() - skipArguments == 0 )
         return startServer(argc, argv, sessionName);
-    } else if (argc == 3 && strcmp(argv[1], "monitor") == 0) {
-        // if first argument is monitor (second is monitor server name/ID)
-        // then run this process as monitor
+
+    // If first argument is "monitor" (second is monitor server name/ID)
+    // then run this process as clipboard monitor.
+    if ( arguments.size() == 2 && arguments[0] == "monitor" )
         return startMonitor(argc, argv);
-    } else {
-        // if argument specified and server is running
-        // then run this process as client
-        return startClient(argc, argv, argc - newArgc, sessionName);
-    }
+
+    // If argument was specified and server is running
+    // then run this process as client.
+    return startClient(argc, argv, skipArguments, sessionName);
 }

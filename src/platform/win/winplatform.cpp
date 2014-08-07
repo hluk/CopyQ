@@ -146,7 +146,7 @@ int WinPlatform::keyCode(const QKeyEvent &event)
     return PlatformNativeInterface::keyCode(event);
 }
 
-QStringList WinPlatform::getCommandLineArguments()
+QStringList WinPlatform::getCommandLineArguments(int, char**)
 {
     int argumentCount;
     LPWSTR *arguments = CommandLineToArgvW(GetCommandLineW(), &argumentCount);

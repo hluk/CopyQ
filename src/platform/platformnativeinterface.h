@@ -23,13 +23,13 @@
 #include "platform/platformwindow.h"
 #include "platform/platformclipboard.h"
 
-#include <QCoreApplication>
 #include <QKeyEvent>
 #include <QSharedPointer>
 #include <QWidget>
 #include <Qt>
 
 class QApplication;
+class QCoreApplication;
 class QByteArray;
 class QWidget;
 
@@ -116,8 +116,18 @@ public:
 
     /**
      * Returns list of command line arguments without executable name (argv[0]).
+     *
+     * Default implementation returns argv[1] up to argv[argc - 1] and assumes Utf-8 encoding.
      */
-    virtual QStringList getCommandLineArguments() { return QCoreApplication::arguments().mid(1); }
+    virtual QStringList getCommandLineArguments(int argc, char **argv)
+    {
+        QStringList arguments;
+
+        for (int i = 1; i < argc; ++i)
+            arguments.append( QString::fromUtf8(argv[i]) );
+
+        return arguments;
+    }
 };
 
 /**

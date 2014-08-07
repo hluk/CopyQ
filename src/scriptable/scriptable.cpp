@@ -349,30 +349,29 @@ QScriptValue Scriptable::version()
 
 QScriptValue Scriptable::help()
 {
-    const QString &cmd = arg(0);
     QString helpString;
 
-    if (cmd.isNull())
+    if ( argumentCount() == 0 ) {
         helpString.append(helpHead() + "\n");
 
-    bool found = cmd.isNull();
-    foreach (const CommandHelp &hlp, commandHelp()) {
-        if (cmd.isNull()) {
+        foreach (const CommandHelp &hlp, commandHelp())
             helpString.append(hlp.toString());
-        } else if (hlp.cmd.contains(cmd)) {
-            found = true;
-            helpString.append(hlp.toString());
-        }
-    }
 
-    if (!found) {
-        throwError( tr("Command not found!") );
-        return QString();
-    }
-
-    if ( cmd.isNull() ) {
         helpString.append("\n" + helpTail() + "\n\n" + tr(programName)
             + " v" + COPYQ_VERSION + " (hluk@email.cz)\n");
+    } else {
+        for (int i = 0; i < argumentCount(); ++i) {
+            const QString &cmd = toString(argument(i));
+            foreach (const CommandHelp &helpItem, commandHelp()) {
+                if ( helpItem.cmd.contains(cmd) )
+                    helpString.append(helpItem.toString());
+            }
+        }
+
+        if ( helpString.isEmpty() ) {
+            throwError( tr("Command not found!") );
+            return QString();
+        }
     }
 
     return helpString;

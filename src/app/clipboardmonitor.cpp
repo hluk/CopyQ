@@ -41,7 +41,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
         QCoreApplication::instance()->setProperty("CopyQ_testing", true);
 #endif
 
-    Arguments arguments( createPlatformNativeInterface()->getCommandLineArguments() );
+    Arguments arguments( getCommandLineArguments() );
     if ( !startClientSocket(serverName, arguments) )
         exit(1);
 }

@@ -237,3 +237,10 @@ bool App::wasClosed() const
 {
     return m_closed;
 }
+
+QStringList App::getCommandLineArguments()
+{
+    return createPlatformNativeInterface()->getCommandLineArguments(
+                QCoreApplication::argc(),
+                QCoreApplication::argv() );
+}
