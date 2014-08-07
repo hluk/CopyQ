@@ -49,9 +49,6 @@ public:
      */
     bool wasClosed() const;
 
-protected:
-    static QStringList getCommandLineArguments();
-
 private:
     QScopedPointer<QCoreApplication> m_app;
     int m_exitCode;
