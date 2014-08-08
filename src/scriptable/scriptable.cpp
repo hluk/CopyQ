@@ -985,6 +985,37 @@ QScriptValue Scriptable::currentWindowTitle()
     return m_proxy->currentWindowTitle();
 }
 
+QScriptValue Scriptable::dialog()
+{
+    NamedValueList values;
+    values.reserve(argumentCount() / 2);
+
+    for ( int i = 0; i < argumentCount(); i += 2 ) {
+        const QString key = arg(i);
+        const QScriptValue value = argument(i + 1);
+        QByteArray *bytes = getByteArray(value);
+        if (bytes)
+            values.append( NamedValue(key, QVariant(*bytes)) );
+        else
+            values.append( NamedValue(key, value.toVariant()) );
+    }
+
+    values = m_proxy->inputDialog(values);
+
+    if (values.isEmpty())
+        return QScriptValue();
+
+    if (values.size() == 1)
+        return m_engine->newVariant(values.first().value);
+
+    QScriptValue result = m_engine->newObject();
+
+    foreach (const NamedValue &value, values)
+        result.setProperty( value.name, m_engine->newVariant(value.value) );
+
+    return result;
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);

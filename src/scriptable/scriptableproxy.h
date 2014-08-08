@@ -31,6 +31,17 @@
 
 class MainWindow;
 
+struct NamedValue {
+    NamedValue() {}
+    NamedValue(const QString &name, const QVariant &value) : name(name), value(value) {}
+    QString name;
+    QVariant value;
+};
+
+typedef QVector<NamedValue> NamedValueList;
+
+Q_DECLARE_METATYPE(NamedValueList)
+
 #ifdef HAS_TESTS
 #   include <QTest>
 #endif
@@ -226,6 +237,11 @@ public slots:
 
     void currentWindowTitle();
 
+    void inputDialog(const NamedValueList &values);
+
+signals:
+    void sendMessage(const QByteArray &message, int messageCode);
+
 private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
     ClipboardBrowser *fetchBrowser();
@@ -251,6 +267,8 @@ public:
     explicit ScriptableProxy(MainWindow *mainWindow);
 
     ~ScriptableProxy();
+
+    QObject *signaler() const { return m_helper; }
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)
@@ -323,6 +341,8 @@ public:
     PROXY_METHOD_1(QString, sendKeys, const QString &)
 
     PROXY_METHOD_0(QString, currentWindowTitle)
+
+    PROXY_METHOD_1(NamedValueList, inputDialog, const NamedValueList &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

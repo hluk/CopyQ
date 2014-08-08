@@ -77,6 +77,9 @@ void ScriptableWorker::run()
                            m_args.at(Arguments::ActionId) );
 
     if (m_socket) {
+        QObject::connect( proxy.signaler(), SIGNAL(sendMessage(QByteArray,int)),
+                          m_socket, SLOT(sendMessage(QByteArray,int)) );
+
         QObject::connect( &scriptable, SIGNAL(sendMessage(QByteArray,int)),
                           m_socket, SLOT(sendMessage(QByteArray,int)) );
         QObject::connect( m_socket, SIGNAL(messageReceived(QByteArray,int)),

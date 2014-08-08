@@ -19,12 +19,24 @@
 
 #include "scriptable.h"
 
+#include "common/commandstatus.h"
 #include "common/log.h"
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QDialog>
+#include <QHBoxLayout>
+#include <QVBoxLayout>
+
+#include <QCheckBox>
+#include <QComboBox>
+#include <QDateTimeEdit>
+#include <QDialogButtonBox>
+#include <QLabel>
+#include <QLineEdit>
+#include <QSpinBox>
+#include <QTextEdit>
 
 #define BROWSER(call) \
     ClipboardBrowser *c = fetchBrowser(); \
@@ -35,13 +47,104 @@
     ClipboardBrowser *c = fetchBrowser(); \
     v = c ? QVariant(c->call) : QVariant()
 
-namespace detail {
+namespace {
+
+const char propertyWidgetName[] = "CopyQ_widget_name";
+const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
 QByteArray serializeWindow(WId winId)
 {
     QByteArray data;
     return createPlatformNativeInterface()->serialize(winId, &data) ? data : QByteArray();
 }
+
+QWidget *label(Qt::Orientation orientation, const QString &name, QWidget *w)
+{
+    QWidget *parent = w->parentWidget();
+
+    QBoxLayout *layout;
+    if (orientation == Qt::Horizontal)
+        layout = new QHBoxLayout;
+    else
+        layout = new QVBoxLayout;
+
+    parent->layout()->addItem(layout);
+
+    QLabel *label = new QLabel(name + ":", parent);
+    label->setBuddy(w);
+    layout->addWidget(label);
+    layout->addWidget(w, 1);
+
+    w->setProperty(propertyWidgetName, name);
+
+    return w;
+}
+
+QWidget *label(const QString &name, QWidget *w)
+{
+    w->setProperty("text", name);
+    w->setProperty(propertyWidgetName, name);
+    return w;
+}
+
+template <typename Widget>
+Widget *createAndSetWidget(const char *propertyName, const QVariant &value, QWidget *parent)
+{
+    Widget *w = new Widget(parent);
+    w->setProperty(propertyName, value);
+    w->setProperty(propertyWidgetProperty, propertyName);
+    parent->layout()->addWidget(w);
+    return w;
+}
+
+QWidget *createDateTimeEdit(
+        const QString &name, const char *propertyName, const QVariant &value, QWidget *parent)
+{
+    QDateTimeEdit *w = createAndSetWidget<QDateTimeEdit>(propertyName, value, parent);
+    w->setCalendarPopup(true);
+    return label(Qt::Horizontal, name, w);
+}
+
+QWidget *createListWidget(const QString &name, const QStringList &items, QWidget *parent)
+{
+    QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
+    w->setEditable(true);
+    w->addItems(items.mid(1));
+    w->setCurrentIndex(-1);
+    w->lineEdit()->setText(items.value(0));
+    return label(Qt::Horizontal, name, w);
+}
+
+QWidget *createWidget(const QString &name, const QVariant &value, QWidget *parent)
+{
+    switch ( value.type() ) {
+    case QVariant::Bool:
+        return label(name, createAndSetWidget<QCheckBox>("checked", value, parent));
+    case QVariant::Int:
+        return label(name, createAndSetWidget<QSpinBox>("value", value, parent));
+    case QVariant::Date:
+        return createDateTimeEdit(name, "date", value, parent);
+    case QVariant::Time:
+        return createDateTimeEdit(name, "time", value, parent);
+    case QVariant::DateTime:
+        return createDateTimeEdit(name, "dateTime", value, parent);
+    case QVariant::List:
+        return createListWidget(name, value.toStringList(), parent);
+    default:
+        const QString text = value.toString();
+        if (text.contains('\n')) {
+            QTextEdit *w = createAndSetWidget<QTextEdit>("plainText", value, parent);
+            w->setTabChangesFocus(true);
+            return label(Qt::Vertical, name, w);
+        }
+
+        return label(Qt::Horizontal, name, createAndSetWidget<QLineEdit>("text", value, parent));
+    }
+}
+
+} // namespace
+
+namespace detail {
 
 ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow)
     : QObject(NULL)
@@ -493,6 +596,75 @@ void ScriptableProxyHelper::currentWindowTitle()
 {
     PlatformWindowPtr window = createPlatformNativeInterface()->getCurrentWindow();
     v = window ? window->getTitle() : QString();
+}
+
+void ScriptableProxyHelper::inputDialog(const NamedValueList &values)
+{
+    v.setValue(NamedValueList());
+
+    QDialog dialog(m_wnd);
+    QVBoxLayout layout(&dialog);
+    QWidgetList widgets;
+    widgets.reserve(values.size());
+
+    QRect geometry(-1, -1, 0, 0);
+
+    foreach (const NamedValue &value, values) {
+        if (value.name == ".title")
+            dialog.setWindowTitle( value.value.toString() );
+        else if (value.name == ".icon")
+            dialog.setWindowIcon( QIcon(value.value.toString()) );
+        else if (value.name == ".height")
+            geometry.setHeight(value.value.toInt());
+        else if (value.name == ".width")
+            geometry.setWidth(value.value.toInt());
+        else if (value.name == ".x")
+            geometry.setX(value.value.toInt());
+        else if (value.name == ".y")
+            geometry.setY(value.value.toInt());
+        else if (value.name == ".label")
+            createAndSetWidget<QLabel>("text", value.value, &dialog);
+        else
+            widgets.append( createWidget(value.name, value.value, &dialog) );
+    }
+
+    dialog.adjustSize();
+
+    if (geometry.height() <= 0)
+        geometry.setHeight(dialog.height());
+    if (geometry.width() <= 0)
+        geometry.setWidth(dialog.width());
+    if (geometry.isValid())
+        dialog.resize(geometry.size());
+    if (geometry.x() >= 0 && geometry.y() >= 0)
+        dialog.move(geometry.topLeft());
+
+    QDialogButtonBox buttons(
+                QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
+    connect( &buttons, SIGNAL(accepted()), &dialog, SLOT(accept()) );
+    connect( &buttons, SIGNAL(rejected()), &dialog, SLOT(reject()) );
+    layout.addWidget(&buttons);
+
+    dialog.show();
+    dialog.raise();
+    dialog.activateWindow();
+
+    const QByteArray wid = serializeWindow( dialog.winId() );
+    if ( !wid.isEmpty() )
+        emit sendMessage(wid, CommandActivateWindow);
+
+    if ( dialog.exec() ) {
+        NamedValueList result;
+
+        foreach ( QWidget *w, widgets ) {
+            const QString propertyName = w->property(propertyWidgetProperty).toString();
+            const QString name = w->property(propertyWidgetName).toString();
+            const QVariant value = w->property(propertyName.toUtf8().constData());
+            result.append( NamedValue(name, value) );
+        }
+
+        v.setValue(result);
+    }
 }
 
 } // namespace detail
