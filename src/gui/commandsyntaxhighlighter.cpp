@@ -197,10 +197,7 @@ protected:
         numberFormat.setForeground(mixColor(color, 40, -40, -40));
         highlight(text, m_reNumbers, numberFormat);
 
-        QTextCharFormat stringFormat;
-        stringFormat.setForeground(mixColor(color, -40, 40, -40));
-        highlightStrings(text, '"', stringFormat);
-        highlightStrings(text, '\'', stringFormat);
+        highlightBlocks(text, color);
     }
 
 private:
@@ -215,23 +212,99 @@ private:
         }
     }
 
-    void highlightStrings(const QString &text, const QChar &quote, const QTextCharFormat &format)
+    void format(const QString &text, int i, const QTextCharFormat &format = QTextCharFormat())
     {
-        int start;
-        bool inString = false;
+        setFormat(i, text.size() - i, format);
+    }
+
+    bool peek(const QString &text, int i, const QString &what)
+    {
+        return text.midRef(i, what.size()) == what;
+    }
+
+    void highlightBlocks(const QString &text, const QColor &color)
+    {
+        enum State {
+            Code,
+            SingleQuote,
+            DoubleQuote,
+            RegExp,
+            Comment
+        };
         bool escape = false;
-        for (int i = 0; i < text.length(); ++i) {
+
+        QTextCharFormat stringFormat;
+        stringFormat.setForeground(mixColor(color, -40, 40, -40));
+
+        QTextCharFormat regexFormat;
+        regexFormat.setForeground(mixColor(color, 40, -40, -40));
+
+        QTextCharFormat commentFormat;
+        const int x = color.lightness() > 100 ? -40 : 40;
+        commentFormat.setForeground( mixColor(color, x, x, x) );
+
+        if (previousBlockState() == SingleQuote)
+            format(text, 0, stringFormat);
+        else if (previousBlockState() == DoubleQuote)
+            format(text, 0, stringFormat);
+        else if (previousBlockState() == Comment)
+            format(text, 0, commentFormat);
+        else if (previousBlockState() == RegExp)
+            format(text, 0, regexFormat);
+
+        setCurrentBlockState(previousBlockState());
+
+        for (int i = 0; i < text.size(); ++i) {
             const QChar c = text[i];
             if (escape) {
                 escape = false;
             } else if (c == '\\') {
                 escape = true;
-            } else if (c == quote) {
-                if (inString)
-                    setFormat(start, i - start + 1, format);
-                else
-                    start = i;
-                inString = !inString;
+            } else if (currentBlockState() == SingleQuote) {
+                if (c == '\'') {
+                    format(text, i + 1);
+                    setCurrentBlockState(Code);
+                }
+            } else if (currentBlockState() == DoubleQuote) {
+                if (c == '"') {
+                    format(text, i + 1);
+                    setCurrentBlockState(Code);
+                }
+            } else if (currentBlockState() == Comment) {
+                if ( peek(text, i, "*/") ) {
+                    ++i;
+                    format(text, i + 1);
+                    setCurrentBlockState(Code);
+                }
+            } else if (currentBlockState() == RegExp) {
+                if (c == '/') {
+                    setCurrentBlockState(Code);
+
+                    // Highlight paths outside code as regexps.
+                    i = text.indexOf(QRegExp("[^a-zA-Z0-9./_-]"), i);
+                    if (i == -1)
+                        return;
+
+                    format(text, i + 1);
+                }
+            } else if (c == '\\') {
+                escape = true;
+            } else if ( c == '#' || peek(text, i, "//") ) {
+                format(text, i, commentFormat);
+                return;
+            } else if ( peek(text, i, "/*") ) {
+                format(text, i, commentFormat);
+                ++i;
+                setCurrentBlockState(Comment);
+            } else if (c == '\'') {
+                setCurrentBlockState(SingleQuote);
+                format(text, i, stringFormat);
+            } else if (c == '"') {
+                setCurrentBlockState(DoubleQuote);
+                format(text, i, stringFormat);
+            } else if (c == '/') {
+                setCurrentBlockState(RegExp);
+                format(text, i, regexFormat);
             }
         }
     }
