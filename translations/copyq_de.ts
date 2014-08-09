@@ -692,27 +692,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"/>
+        <translation>Programm-Argument %1 wird durch den Text des Elements ersetzt. %2 bis %9 werden durch die Ergebnis-Gruppen des regulären Ausdruck ersetzt.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"/>
+        <translation>Das Zeichen %1 kann verwendet werden, um STDOUT an das nächste Programm zu übergeben.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"/>
+        <translation>Die folgende Syntax kann verwendet werden um den Rest des Befehls als einen Parameter weiterzuleiten.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"/>
+        <translation>Das erzeugt dieselbe Ausgabe wie %1 ist aber bei längeren Befehlen hilfreicher.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="94"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"/>
+        <translation>Die nachfolgenden Funktionen können wie in den folgenden Beispiel-Befehlen verwendet werden.</translation>
     </message>
 </context>
 <context>
@@ -1269,7 +1269,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished"/>
+        <translation>Befehle/Gl&amp;obale Tastenkombinationen...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="115"/>
@@ -1358,7 +1358,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished">Notizen b&amp;earbeiten</translation>
+        <translation>&amp;Notizen bearbeiten</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="134"/>
@@ -1585,7 +1585,8 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
         <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
         <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
 &lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;In diesem Dialog können die Tastenkombinationen für Menü-Aktionen innerhalb dieser Anwendung konfiguriert werden.&lt;/p&gt;
+&lt;p&gt;Wenn Ihr System &lt;b&gt;globale/systemweite Tastenkombinationen&lt;/b&gt; unterstützt, dann können diese im Befehle-Dialog unter &lt;b&gt;Befehle/Globale Tastenkombinationen...&lt;/b&gt; im Datei-Menü konfiguriert werden.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -2075,12 +2076,12 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="203"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"/>
+        <translation>Einfügen von per Maus selektierten Inhalten mittles Tastenkombinationen (Strg+V oder Shift+Einfügen) erlauben</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="226"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"/>
+        <translation>Einfügen von kopierten Inhalten auf dieselbe Weise wie per Maus selektierte Inhalte erlauben (gewöhlich mit der mittleren Maustaste)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="383"/>
@@ -2120,7 +2121,7 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="747"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"/>
+        <translation>Zeige den Befehl für den aktuell in der Zwischenablage befindlichen Inhalt im Tray-Menü</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="799"/>
@@ -2135,12 +2136,12 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="847"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"/>
+        <translation>Einfügen des Elements im aktuellen Fenster nachdem es im Menü selektiert wurde</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="860"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"/>
+        <translation>Zeige eine Bild-Vorschau als Icon des Menü-Eintrags</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="969"/>
@@ -2170,7 +2171,7 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1021"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"/>
+        <translation>Int&amp;erval in Sekunden um Benachrichtigungen anzuzeigen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1065"/>
@@ -2189,22 +2190,22 @@ Zum Deaktivieren auf 0 setzen.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1124"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"/>
+        <translation>Abstand von Benachrichtigungen zum linken oder rechten Bildschirmrand in Bildschirm-Punkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1161"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"/>
+        <translation>Abstand von Benachrichtigungen zum oberen oder unteren Bildschirmrand in Bildschirm-Punkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1198"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"/>
+        <translation>Maximale Breite für Benachrichtigungen in Bildschirm-Punkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1235"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"/>
+        <translation>Maximale Höhe für Benachrichtigungen in Bildschirm-Punkten</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="241"/>
@@ -3618,7 +3619,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
         <source>+</source>
-        <translation type="unfinished"/>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
@@ -4576,7 +4577,7 @@ Wert -1 steht für die aktuelle Zwischenablage.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"/>
+        <translation>Zeige das Hauptfenster und öffne optional den Reiter mit dem angegeben Namen.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="73"/>
