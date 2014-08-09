@@ -117,13 +117,20 @@ QWidget *createListWidget(const QString &name, const QStringList &items, QWidget
     return label(Qt::Horizontal, name, w);
 }
 
+QWidget *createSpinBox(const QString &name, const QVariant &value, QWidget *parent)
+{
+    QSpinBox *w = createAndSetWidget<QSpinBox>("value", value, parent);
+    w->setRange(-1e9, 1e9);
+    return label(Qt::Horizontal, name, w);
+}
+
 QWidget *createWidget(const QString &name, const QVariant &value, QWidget *parent)
 {
     switch ( value.type() ) {
     case QVariant::Bool:
         return label(name, createAndSetWidget<QCheckBox>("checked", value, parent));
     case QVariant::Int:
-        return label(name, createAndSetWidget<QSpinBox>("value", value, parent));
+        return createSpinBox("value", value, parent);
     case QVariant::Date:
         return createDateTimeEdit(name, "date", value, parent);
     case QVariant::Time:
