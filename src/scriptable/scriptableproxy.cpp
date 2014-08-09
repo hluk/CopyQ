@@ -62,18 +62,20 @@ QWidget *label(Qt::Orientation orientation, const QString &name, QWidget *w)
 {
     QWidget *parent = w->parentWidget();
 
-    QBoxLayout *layout;
-    if (orientation == Qt::Horizontal)
-        layout = new QHBoxLayout;
-    else
-        layout = new QVBoxLayout;
+    if ( !name.isEmpty() ) {
+        QBoxLayout *layout;
+        if (orientation == Qt::Horizontal)
+            layout = new QHBoxLayout;
+        else
+            layout = new QVBoxLayout;
 
-    parent->layout()->addItem(layout);
+        parent->layout()->addItem(layout);
 
-    QLabel *label = new QLabel(name + ":", parent);
-    label->setBuddy(w);
-    layout->addWidget(label);
-    layout->addWidget(w, 1);
+        QLabel *label = new QLabel(name + ":", parent);
+        label->setBuddy(w);
+        layout->addWidget(label);
+        layout->addWidget(w, 1);
+    }
 
     w->setProperty(propertyWidgetName, name);
 
