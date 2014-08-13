@@ -111,10 +111,10 @@ void X11PlatformClipboard::ignoreCurrentData()
     const QByteArray sessionName = qgetenv("COPYQ_SESSION_NAME");
 
     if ( m_clipboardData.value(mimeOwner) == sessionName )
-        setData(PlatformClipboard::Clipboard, QVariantMap());
+        DummyClipboard::setData(PlatformClipboard::Clipboard, QVariantMap());
 
     if ( m_selectionData.value(mimeOwner) == sessionName )
-        setData(PlatformClipboard::Selection, QVariantMap());
+        DummyClipboard::setData(PlatformClipboard::Selection, QVariantMap());
 
     m_clipboardData.clear();
     m_selectionData.clear();
@@ -160,13 +160,13 @@ void X11PlatformClipboard::resetClipboard()
 
     if (m_resetSelection && !m_selectionData.isEmpty()) {
         COPYQ_LOG("Resetting selection");
-        setData(Selection, m_selectionData);
+        DummyClipboard::setData(Selection, m_selectionData);
         m_resetSelection = false;
     }
 
     if (m_resetClipboard && !m_clipboardData.isEmpty()) {
         COPYQ_LOG("Resetting clipboard");
-        setData(Clipboard, m_clipboardData);
+        DummyClipboard::setData(Clipboard, m_clipboardData);
         m_resetClipboard = false;
     }
 }
@@ -189,7 +189,7 @@ void X11PlatformClipboard::synchronize()
         if ( !data || sourceData != cloneData(*data, sourceData.keys()) ) {
             COPYQ_LOG( QString("Synchronizing data from %1")
                        .arg(m_syncFromClipboard ? "Clipboard" : "Selection") );
-            setData(platformMode, sourceData);
+            DummyClipboard::setData(platformMode, sourceData);
         }
     }
 }
