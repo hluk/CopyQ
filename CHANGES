@@ -1,3 +1,16 @@
+v2.4.0
+- Separate dialog for user commands and global shortcuts
+- Search for item by row number
+- Command highlighting
+- More shortcuts can be mapped on Windows and X11
+- New "copy" command to copy from current window to clipboard
+- New "dialog" command to show dialog with custom input fields
+- Fixed crash on log out on Windows
+- Fixed clipboard monitoring on Windows
+- Fixed argument encoding from client on Windows
+- Fixed log output when printing messages from multiple processes
+- GUI fixes
+
 v2.3.0
 - Support for OS X
 - Japanese translation
