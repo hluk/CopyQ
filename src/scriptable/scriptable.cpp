@@ -782,10 +782,9 @@ QScriptValue Scriptable::config()
     return output.isEmpty() ? QScriptValue() : output;
 }
 
-void Scriptable::eval()
+QScriptValue Scriptable::eval()
 {
-    const QString script = arg(0);
-    engine()->evaluate(script);
+    return engine()->evaluate(arg(0));
 }
 
 void Scriptable::currentpath()

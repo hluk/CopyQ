@@ -133,7 +133,7 @@ public slots:
 
     QScriptValue config();
 
-    void eval();
+    QScriptValue eval();
 
     void currentpath();
 
