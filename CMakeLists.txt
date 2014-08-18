@@ -1,9 +1,13 @@
 cmake_minimum_required(VERSION 2.8.6)
 project(copyq)
 
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    set(COPYQ_DEBUG ON)
+endif()
+
 # Options (cmake -LH)
 OPTION(WITH_QT5 "Qt5 support" OFF)
-OPTION(WITH_TESTS "Run test cases from command line" OFF)
+OPTION(WITH_TESTS "Run test cases from command line" ${COPYQ_DEBUG})
 OPTION(WITH_PLUGINS "Compile plugins" ON)
 # Linux-specific options
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -50,11 +54,9 @@ if(CMAKE_COMPILER_IS_GNUCXX OR "${CMAKE_CXX_COMPILER_ID}" STREQUAL "Clang")
     set(CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -Wextra -Wall -pedantic")
 endif()
 
-# Tests always on with debug version
-if(CMAKE_BUILD_TYPE MATCHES Debug)
+if(WITH_TESTS)
     message(STATUS "Building with tests.")
 
-    set(WITH_TESTS ON)
     add_definitions( -DHAS_TESTS -DCOPYQ_DEBUG )
 
     if (WITH_QT5)
