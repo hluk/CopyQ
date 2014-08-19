@@ -173,20 +173,20 @@ void ActionDialog::createAction()
     if ( cmd.isEmpty() )
         return;
 
-    const QString format = ui->comboBoxInputFormat->currentText();
-    const QString input = ( format.isEmpty() || format.toLower().startsWith(QString("text")) )
+    const QString inputFormat = ui->comboBoxInputFormat->currentText();
+    const QString input = ( inputFormat.isEmpty() || inputFormat.toLower().startsWith(QString("text")) )
             ? ui->inputText->toPlainText() : QString();
 
     QByteArray bytes;
     QStringList inputFormats;
-    if ( !format.isEmpty() ) {
+    if ( !inputFormat.isEmpty() ) {
         if ( m_index.isValid() )
-            inputFormats.append(format);
+            inputFormats.append(inputFormat);
 
         if ( !input.isEmpty() ) {
             bytes = input.toUtf8();
         } else if ( !m_data.isEmpty() ) {
-            if (format == mimeItems) {
+            if (inputFormat == mimeItems) {
                 QVariantMap data2;
                 inputFormats.clear();
                 foreach ( const QString &format, m_data.keys() ) {
@@ -196,15 +196,15 @@ void ActionDialog::createAction()
                 }
                 bytes = serializeData(data2);
             } else {
-                bytes = m_data.value(format).toByteArray();
+                bytes = m_data.value(inputFormat).toByteArray();
             }
         }
     }
 
+    // Expression %1 in command is always replaced with item text.
     if ( m_capturedTexts.isEmpty() )
-        m_capturedTexts.append( QString::fromUtf8(bytes) );
-    else
-        m_capturedTexts[0] = getTextData(m_data);
+        m_capturedTexts.append(QString());
+    m_capturedTexts[0] = getTextData(m_data);
 
     QScopedPointer<Action> act( new Action() );
     act->setCommand(cmd, m_capturedTexts);
