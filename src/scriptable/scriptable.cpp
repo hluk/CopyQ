@@ -35,6 +35,7 @@
 #include <QDir>
 #include <QDesktopServices>
 #include <QElapsedTimer>
+#include <QFile>
 #include <QScriptContext>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
@@ -45,6 +46,7 @@
 #endif
 
 Q_DECLARE_METATYPE(QByteArray*)
+Q_DECLARE_METATYPE(QFile*)
 
 namespace {
 
@@ -246,14 +248,20 @@ QByteArray *Scriptable::getByteArray(const QScriptValue &value) const
 {
     if (value.scriptClass() == m_baClass)
         return qscriptvalue_cast<QByteArray*>(value.data());
-    else
-        return NULL;
+    return NULL;
 }
 
 QByteArray Scriptable::makeByteArray(const QScriptValue &value) const
 {
     QByteArray *data = getByteArray(value);
     return data ? *data : fromString(value.toString());
+}
+
+QFile *Scriptable::getFile(const QScriptValue &value) const
+{
+    if (value.scriptClass() == m_fileClass)
+        return qscriptvalue_cast<QFile*>(value.data());
+    return NULL;
 }
 
 bool Scriptable::toItemData(const QScriptValue &value, const QString &mime, QVariantMap *data) const
@@ -999,10 +1007,15 @@ QScriptValue Scriptable::dialog()
         const QString key = arg(i);
         const QScriptValue value = argument(i + 1);
         QByteArray *bytes = getByteArray(value);
-        if (bytes)
+        if (bytes) {
             values.append( NamedValue(key, QVariant(*bytes)) );
-        else
-            values.append( NamedValue(key, value.toVariant()) );
+        } else {
+            QFile *file = getFile(value);
+            if (file)
+                values.append( NamedValue(key, QVariant::fromValue(file)) );
+            else
+                values.append( NamedValue(key, value.toVariant()) );
+        }
     }
 
     values = m_proxy->inputDialog(values);

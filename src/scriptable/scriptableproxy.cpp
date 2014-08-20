@@ -33,8 +33,11 @@
 #include <QComboBox>
 #include <QDateTimeEdit>
 #include <QDialogButtonBox>
+#include <QFile>
+#include <QFileDialog>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPushButton>
 #include <QSpinBox>
 #include <QTextEdit>
 
@@ -46,6 +49,8 @@
 #define BROWSER_RESULT(call) \
     ClipboardBrowser *c = fetchBrowser(); \
     v = c ? QVariant(c->call) : QVariant()
+
+Q_DECLARE_METATYPE(QFile*)
 
 namespace {
 
@@ -124,6 +129,36 @@ QWidget *createSpinBox(const QString &name, const QVariant &value, QWidget *pare
     return label(Qt::Horizontal, name, w);
 }
 
+QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *parent)
+{
+    QWidget *w = new QWidget(parent);
+    QHBoxLayout *layout = new QHBoxLayout(w);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    QLineEdit *lineEdit = createAndSetWidget<QLineEdit>("text", file.fileName(), w);
+    QPushButton *browseButton = new QPushButton("...");
+
+    QFileDialog *dialog = new QFileDialog(w, name, file.fileName());
+    QObject::connect( browseButton, SIGNAL(clicked()),
+                      dialog, SLOT(exec()) );
+    QObject::connect( dialog, SIGNAL(fileSelected(QString)),
+                      lineEdit, SLOT(setText(QString)) );
+
+    layout->addWidget(lineEdit);
+    layout->addWidget(browseButton);
+
+    label(Qt::Vertical, name, w);
+
+    return lineEdit;
+}
+
+QWidget *createTextEdit(const QString &name, const QVariant &value, QWidget *parent)
+{
+    QTextEdit *w = createAndSetWidget<QTextEdit>("plainText", value, parent);
+    w->setTabChangesFocus(true);
+    return label(Qt::Vertical, name, w);
+}
+
 QWidget *createWidget(const QString &name, const QVariant &value, QWidget *parent)
 {
     switch ( value.type() ) {
@@ -140,11 +175,13 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
     case QVariant::List:
         return createListWidget(name, value.toStringList(), parent);
     default:
-        const QString text = value.toString();
-        if (text.contains('\n')) {
-            QTextEdit *w = createAndSetWidget<QTextEdit>("plainText", value, parent);
-            w->setTabChangesFocus(true);
-            return label(Qt::Vertical, name, w);
+        QFile *file = value.value<QFile*>();
+        if (file) {
+            return createFileNameEdit(name, *file, parent);
+        } else {
+            const QString text = value.toString();
+            if (text.contains('\n'))
+                return createTextEdit(name, value.toStringList(), parent);
         }
 
         return label(Qt::Horizontal, name, createAndSetWidget<QLineEdit>("text", value, parent));

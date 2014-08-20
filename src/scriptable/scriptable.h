@@ -30,6 +30,7 @@
 class ByteArrayClass;
 class ClipboardBrowser;
 class FileClass;
+class QFile;
 class QScriptEngine;
 
 class Scriptable : public QObject, protected QScriptable
@@ -56,6 +57,8 @@ public:
     QByteArray *getByteArray(const QScriptValue &value) const;
 
     QByteArray makeByteArray(const QScriptValue &value) const;
+
+    QFile *getFile(const QScriptValue &value) const;
 
     /**
      * Set data for item converted from @a value.
