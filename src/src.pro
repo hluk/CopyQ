@@ -76,6 +76,9 @@ HEADERS += \
     platform/platformnativeinterface.h \
     ../qt/bytearrayclass.h \
     ../qt/bytearrayprototype.h \
+    scriptable/commandhelp.h \
+    scriptable/fileclass.h \
+    scriptable/fileprototype.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
     scriptable/scriptableworker.h \
@@ -91,7 +94,6 @@ HEADERS += \
     gui/iconselectdialog.h \
     gui/commanddialog.h \
     gui/commandsyntaxhighlighter.h \
-    scriptable/commandhelp.h \
     gui/commandhelpbutton.h
 SOURCES += \
     app/app.cpp \
@@ -146,7 +148,11 @@ SOURCES += \
     main.cpp \
     ../qt/bytearrayclass.cpp \
     ../qt/bytearrayprototype.cpp \
+    scriptable/commandhelp.cpp \
+    scriptable/fileclass.cpp \
+    scriptable/fileprototype.cpp \
     scriptable/scriptable.cpp \
+    scriptable/scriptableproxy.cpp \
     scriptable/scriptableworker.cpp \
     app/client.cpp \
     common/mimetypes.cpp \
@@ -156,9 +162,7 @@ SOURCES += \
     gui/processmanagerdialog.cpp \
     gui/iconselectdialog.cpp \
     gui/commanddialog.cpp \
-    scriptable/scriptableproxy.cpp \
     gui/commandsyntaxhighlighter.cpp \
-    scriptable/commandhelp.cpp \
     gui/commandhelpbutton.cpp
 
 macx {

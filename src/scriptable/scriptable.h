@@ -29,6 +29,7 @@
 
 class ByteArrayClass;
 class ClipboardBrowser;
+class FileClass;
 class QScriptEngine;
 
 class Scriptable : public QObject, protected QScriptable
@@ -70,7 +71,7 @@ public:
     const QString &getInputSeparator() const;
     void setInputSeparator(const QString &separator);
 
-    const QString &getCurrentPath() const;
+    QString getCurrentPath() const;
     void setCurrentPath(const QString &path);
 
     QString getFileName(const QString &fileName) const;
@@ -135,7 +136,7 @@ public slots:
 
     QScriptValue eval();
 
-    void currentpath();
+    QScriptValue currentpath();
 
     QScriptValue str(const QScriptValue &value);
     QScriptValue input();
@@ -185,8 +186,8 @@ private:
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
+    FileClass *m_fileClass;
     QString m_inputSeparator;
-    QString m_currentPath;
     QByteArray m_actionId;
     QScriptValue m_input;
 };

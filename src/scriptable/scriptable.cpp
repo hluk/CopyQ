@@ -27,6 +27,7 @@
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
+#include "scriptable/fileclass.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
 
@@ -154,8 +155,8 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_proxy(proxy)
     , m_engine(NULL)
     , m_baClass(NULL)
+    , m_fileClass(NULL)
     , m_inputSeparator("\n")
-    , m_currentPath()
     , m_actionId()
     , m_input()
 {
@@ -188,7 +189,9 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, cons
     m_baClass = new ByteArrayClass(eng);
     obj.setProperty( "ByteArray", m_baClass->constructor() );
 
-    setCurrentPath(currentPath);
+    m_fileClass = new FileClass(currentPath, eng);
+    obj.setProperty( "File", m_fileClass->constructor() );
+
     m_actionId = actionId;
 }
 
@@ -301,14 +304,15 @@ void Scriptable::setInputSeparator(const QString &separator)
     m_inputSeparator = separator;
 }
 
-const QString &Scriptable::getCurrentPath() const
+QString Scriptable::getCurrentPath() const
 {
-    return m_currentPath;
+    return m_fileClass ? m_fileClass->getCurrentPath() : QString();
 }
 
 void Scriptable::setCurrentPath(const QString &path)
 {
-    m_currentPath = path;
+    if (m_fileClass)
+        m_fileClass->setCurrentPath(path);
 }
 
 QString Scriptable::getFileName(const QString &fileName) const
@@ -787,10 +791,12 @@ QScriptValue Scriptable::eval()
     return engine()->evaluate(arg(0));
 }
 
-void Scriptable::currentpath()
+QScriptValue Scriptable::currentpath()
 {
-    const QString path = arg(0);
-    setCurrentPath(path);
+    if (argumentCount() > 1)
+        setCurrentPath(arg(0));
+
+    return getCurrentPath();
 }
 
 QScriptValue Scriptable::str(const QScriptValue &value)
