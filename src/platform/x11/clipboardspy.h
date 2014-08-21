@@ -20,21 +20,22 @@
 #ifndef CLIPBOARDSPY_H
 #define CLIPBOARDSPY_H
 
-#include <QSignalSpy>
+#include <QObject>
 
-class ClipboardSpy
+class ClipboardSpy : public QObject
 {
+    Q_OBJECT
 public:
     ClipboardSpy();
 
     /// Actively wait for clipboard to change.
     void wait(int ms);
 
-    /// Return true only if clipboard has changed since this object was created.
-    bool hasClipboardChanged() const;
+private slots:
+    void clipboardChanged();
 
 private:
-    QSignalSpy m_spy;
+    bool m_clipboardChanged;
 };
 
 #endif // CLIPBOARDSPY_H

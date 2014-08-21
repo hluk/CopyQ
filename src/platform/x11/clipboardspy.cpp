@@ -24,19 +24,21 @@
 #include <QElapsedTimer>
 
 ClipboardSpy::ClipboardSpy()
-    : m_spy( qApp->clipboard(), SIGNAL(dataChanged()) )
+    : m_clipboardChanged(false)
 {
+    connect( QApplication::clipboard(), SIGNAL(dataChanged()),
+             this, SLOT(clipboardChanged()) );
 }
 
 void ClipboardSpy::wait(int ms)
 {
     QElapsedTimer t;
     t.start();
-    while ( !hasClipboardChanged() && t.elapsed() < ms )
+    while ( !m_clipboardChanged && t.elapsed() < ms )
         QApplication::processEvents(QEventLoop::AllEvents, 100);
 }
 
-bool ClipboardSpy::hasClipboardChanged() const
+void ClipboardSpy::clipboardChanged()
 {
-    return !m_spy.isEmpty();
+    m_clipboardChanged = true;
 }
