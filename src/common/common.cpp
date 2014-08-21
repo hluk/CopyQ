@@ -26,6 +26,7 @@
 #include <QApplication>
 #include <QBuffer>
 #include <QClipboard>
+#include <QDesktopWidget>
 #include <QDir>
 #include <QImage>
 #include <QLocale>
@@ -397,4 +398,9 @@ bool openTemporaryFile(QTemporaryFile *file)
     file->setPermissions(QFile::ReadOwner | QFile::WriteOwner | QFile::ExeOwner);
 
     return file->open();
+}
+
+int pointsToPixels(int points)
+{
+    return points * QApplication::desktop()->physicalDpiX() / 72;
 }

@@ -33,11 +33,6 @@ namespace {
 
 const int notificationMarginPoints = 10;
 
-int pointsToPixels(int points)
-{
-    return points * QApplication::desktop()->physicalDpiX() / 72;
-}
-
 int notificationMargin()
 {
     return pointsToPixels(notificationMarginPoints);

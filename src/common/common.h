@@ -135,4 +135,6 @@ void renameToUnique(QString *name, const QStringList &names);
 
 bool openTemporaryFile(QTemporaryFile *file);
 
+int pointsToPixels(int points);
+
 #endif // COMMON_H

@@ -20,6 +20,7 @@
 #include "scriptable.h"
 
 #include "common/commandstatus.h"
+#include "common/common.h"
 #include "common/log.h"
 #include "gui/mainwindow.h"
 #include "item/clipboarditem.h"
@@ -661,9 +662,9 @@ void ScriptableProxyHelper::inputDialog(const NamedValueList &values)
         else if (value.name == ".icon")
             dialog.setWindowIcon( QIcon(value.value.toString()) );
         else if (value.name == ".height")
-            geometry.setHeight(value.value.toInt());
+            geometry.setHeight( pointsToPixels(value.value.toInt()) );
         else if (value.name == ".width")
-            geometry.setWidth(value.value.toInt());
+            geometry.setWidth( pointsToPixels(value.value.toInt()) );
         else if (value.name == ".x")
             geometry.setX(value.value.toInt());
         else if (value.name == ".y")
