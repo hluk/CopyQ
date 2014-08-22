@@ -654,6 +654,7 @@ void ScriptableProxyHelper::inputDialog(const NamedValueList &values)
     QWidgetList widgets;
     widgets.reserve(values.size());
 
+    QString styleSheet;
     QRect geometry(-1, -1, 0, 0);
 
     foreach (const NamedValue &value, values) {
@@ -661,6 +662,8 @@ void ScriptableProxyHelper::inputDialog(const NamedValueList &values)
             dialog.setWindowTitle( value.value.toString() );
         else if (value.name == ".icon")
             dialog.setWindowIcon( QIcon(value.value.toString()) );
+        else if (value.name == ".style")
+            styleSheet = value.value.toString();
         else if (value.name == ".height")
             geometry.setHeight( pointsToPixels(value.value.toInt()) );
         else if (value.name == ".width")
@@ -685,6 +688,9 @@ void ScriptableProxyHelper::inputDialog(const NamedValueList &values)
         dialog.resize(geometry.size());
     if (geometry.x() >= 0 && geometry.y() >= 0)
         dialog.move(geometry.topLeft());
+
+    if ( !styleSheet.isEmpty() )
+        dialog.setStyleSheet(styleSheet);
 
     QDialogButtonBox buttons(
                 QDialogButtonBox::Ok | QDialogButtonBox::Cancel, Qt::Horizontal, &dialog);
