@@ -29,6 +29,7 @@
 
 class ByteArrayClass;
 class ClipboardBrowser;
+class DirClass;
 class FileClass;
 class QFile;
 class QScriptEngine;
@@ -189,6 +190,7 @@ private:
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
     ByteArrayClass *m_baClass;
+    DirClass *m_dirClass;
     FileClass *m_fileClass;
     QString m_inputSeparator;
     QByteArray m_actionId;

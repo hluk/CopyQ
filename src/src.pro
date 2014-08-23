@@ -95,7 +95,9 @@ HEADERS += \
     gui/iconselectdialog.h \
     gui/commanddialog.h \
     gui/commandsyntaxhighlighter.h \
-    gui/commandhelpbutton.h
+    gui/commandhelpbutton.h \
+    scriptable/dirclass.h \
+    scriptable/dirprototype.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -165,7 +167,9 @@ SOURCES += \
     gui/iconselectdialog.cpp \
     gui/commanddialog.cpp \
     gui/commandsyntaxhighlighter.cpp \
-    gui/commandhelpbutton.cpp
+    gui/commandhelpbutton.cpp \
+    scriptable/dirclass.cpp \
+    scriptable/dirprototype.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

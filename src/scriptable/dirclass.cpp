@@ -17,39 +17,44 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#include "fileclass.h"
+#include "dirclass.h"
 
 #include <QDir>
 
-COPYQ_DECLARE_SCRIPTABLE_CLASS(FileClass)
+COPYQ_DECLARE_SCRIPTABLE_CLASS(DirClass)
 
-FileClass::FileClass(const QString &currentPath, QScriptEngine *engine)
+DirClass::DirClass(const QString &currentPath, QScriptEngine *engine)
     : ScriptableClass(engine)
     , m_currentPath(currentPath)
 {
 }
 
-QScriptValue FileClass::newInstance(const QString &path)
+QScriptValue DirClass::newInstance(const QDir &dir)
 {
-    return ScriptableClass::newInstance( new QFile(QDir(m_currentPath).absoluteFilePath(path)) );
+    return ScriptableClass::newInstance( new DirWrapper(dir) );
 }
 
-QScriptValue FileClass::newInstance()
+QScriptValue DirClass::newInstance(const QString &path)
 {
-    return ScriptableClass::newInstance( new QFile() );
+    return ScriptableClass::newInstance( new DirWrapper(QDir(m_currentPath).absoluteFilePath(path)) );
 }
 
-const QString &FileClass::getCurrentPath() const
+QScriptValue DirClass::newInstance()
+{
+    return ScriptableClass::newInstance( new DirWrapper(m_currentPath) );
+}
+
+const QString &DirClass::getCurrentPath() const
 {
     return m_currentPath;
 }
 
-void FileClass::setCurrentPath(const QString &path)
+void DirClass::setCurrentPath(const QString &path)
 {
     m_currentPath = path;
 }
 
-QScriptValue FileClass::createInstance(const QScriptContext &context)
+QScriptValue DirClass::createInstance(const QScriptContext &context)
 {
     return context.argumentCount() > 0
             ? newInstance(context.argument(0).toString())

@@ -27,6 +27,7 @@
 #include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
+#include "scriptable/dirclass.h"
 #include "scriptable/fileclass.h"
 #include "../qt/bytearrayclass.h"
 #include "../qxt/qxtglobal.h"
@@ -163,6 +164,7 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_proxy(proxy)
     , m_engine(NULL)
     , m_baClass(NULL)
+    , m_dirClass(NULL)
     , m_fileClass(NULL)
     , m_inputSeparator("\n")
     , m_actionId()
@@ -199,6 +201,9 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, cons
 
     m_fileClass = new FileClass(currentPath, eng);
     addScriptableClass(&obj, m_fileClass);
+
+    m_dirClass = new DirClass(currentPath, eng);
+    addScriptableClass(&obj, m_dirClass);
 
     m_actionId = actionId;
 }
@@ -320,11 +325,13 @@ void Scriptable::setInputSeparator(const QString &separator)
 
 QString Scriptable::getCurrentPath() const
 {
-    return m_fileClass ? m_fileClass->getCurrentPath() : QString();
+    return m_dirClass ? m_dirClass->getCurrentPath() : QString();
 }
 
 void Scriptable::setCurrentPath(const QString &path)
 {
+    if (m_dirClass)
+        m_dirClass->setCurrentPath(path);
     if (m_fileClass)
         m_fileClass->setCurrentPath(path);
 }

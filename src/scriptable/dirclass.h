@@ -17,32 +17,32 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef FILECLASS_H
-#define FILECLASS_H
+#ifndef DIRCLASS_H
+#define DIRCLASS_H
 
 #include "scriptableclass.h"
 
-#include "fileprototype.h"
+#include "dirprototype.h"
 
 #include <QScriptValue>
 
-class QFile;
 class QScriptContext;
 class QScriptEngine;
 
-class FileClass : public ScriptableClass<QFile, FilePrototype>
+class DirClass : public ScriptableClass<DirWrapper, DirPrototype>
 {
     Q_OBJECT
 public:
-    FileClass(const QString &currentPath, QScriptEngine *engine);
+    DirClass(const QString &currentPath, QScriptEngine *engine);
 
+    QScriptValue newInstance(const QDir &dir);
     QScriptValue newInstance(const QString &path);
     QScriptValue newInstance();
 
     const QString &getCurrentPath() const;
     void setCurrentPath(const QString &path);
 
-    QString name() const { return "File"; }
+    QString name() const { return "Dir"; }
 
 private:
     QScriptValue createInstance(const QScriptContext &context);
@@ -50,4 +50,4 @@ private:
     QString m_currentPath;
 };
 
-#endif // FILECLASS_H
+#endif // DIRCLASS_H

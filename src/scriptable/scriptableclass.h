@@ -42,9 +42,9 @@ public:
 
     QScriptValue prototype() const;
 
-protected:
     QScriptValue newInstance(QObject *instance);
 
+protected:
     void init(QObject *prototype);
 
     static QScriptValue toScriptValue(QScriptEngine *eng, QObject* const &instance);
