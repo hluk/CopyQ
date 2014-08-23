@@ -61,6 +61,7 @@ public slots:
     void setTextModeEnabled(bool enabled);
     qint64 size() const;
 
+    QScriptValue fileName() const;
     bool exists() const;
     bool flush();
     bool remove();

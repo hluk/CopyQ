@@ -159,6 +159,11 @@ qint64 FilePrototype::size() const
     return thisFile()->size();
 }
 
+QScriptValue FilePrototype::fileName() const
+{
+    return thisFile()->fileName();
+}
+
 bool FilePrototype::exists() const
 {
     return thisFile()->exists();
