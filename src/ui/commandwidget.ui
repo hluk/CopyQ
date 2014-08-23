@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>310</width>
-    <height>686</height>
+    <width>308</width>
+    <height>684</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -242,27 +242,18 @@ Leave empty to disable this.</string>
       <string>Comman&amp;d</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
-      <property name="leftMargin">
-       <number>4</number>
-      </property>
-      <property name="topMargin">
-       <number>4</number>
-      </property>
-      <property name="rightMargin">
-       <number>4</number>
-      </property>
-      <property name="bottomMargin">
-       <number>4</number>
-      </property>
       <item>
-       <widget class="QPlainTextEdit" name="lineEditCommand">
-        <property name="tabChangesFocus">
-         <bool>true</bool>
+       <widget class="QSplitter" name="splitter">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
         </property>
+        <widget class="QPlainTextEdit" name="lineEditCommand">
+         <property name="tabChangesFocus">
+          <bool>true</bool>
+         </property>
+        </widget>
+        <widget class="CommandHelpButton" name="helpButton" native="true"/>
        </widget>
-      </item>
-      <item>
-       <widget class="CommandHelpButton" name="helpButton" native="true"/>
       </item>
      </layout>
     </widget>
@@ -539,6 +530,11 @@ Note: If this is applied automatically, no other automatic commands are executed
  </widget>
  <customwidgets>
   <customwidget>
+   <class>CommandHelpButton</class>
+   <extends>QWidget</extends>
+   <header>gui/commandhelpbutton.h</header>
+  </customwidget>
+  <customwidget>
    <class>IconSelectButton</class>
    <extends>QToolButton</extends>
    <header>gui/iconselectbutton.h</header>
@@ -548,11 +544,6 @@ Note: If this is applied automatically, no other automatic commands are executed
    <extends>QWidget</extends>
    <header>gui/shortcutbutton.h</header>
    <container>1</container>
-  </customwidget>
-  <customwidget>
-   <class>CommandHelpButton</class>
-   <extends>QWidget</extends>
-   <header>gui/commandhelpbutton.h</header>
   </customwidget>
  </customwidgets>
  <tabstops>

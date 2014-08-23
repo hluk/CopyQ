@@ -32,7 +32,7 @@ public:
     explicit CommandHelpButton(QWidget *parent = NULL);
 
 public slots:
-    void toggleHelp();
+    void setHelpVisible(bool visible);
 
 private:
     QPushButton *m_button;

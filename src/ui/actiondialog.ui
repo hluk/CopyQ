@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>273</width>
-    <height>362</height>
+    <width>269</width>
+    <height>358</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -38,14 +38,17 @@
     </widget>
    </item>
    <item>
-    <widget class="QPlainTextEdit" name="plainTextEditCommand">
-     <property name="tabChangesFocus">
-      <bool>true</bool>
+    <widget class="QSplitter" name="splitter">
+     <property name="orientation">
+      <enum>Qt::Vertical</enum>
      </property>
+     <widget class="QPlainTextEdit" name="plainTextEditCommand">
+      <property name="tabChangesFocus">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="CommandHelpButton" name="helpButton" native="true"/>
     </widget>
-   </item>
-   <item>
-    <widget class="CommandHelpButton" name="helpButton" native="true"/>
    </item>
    <item>
     <layout class="QFormLayout" name="formLayout_3">

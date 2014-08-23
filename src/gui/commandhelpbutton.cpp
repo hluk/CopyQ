@@ -28,6 +28,7 @@
 #include <QPalette>
 #include <QPushButton>
 #include <QTextBrowser>
+#include <QTextDocument>
 #include <QVBoxLayout>
 
 namespace {
@@ -37,28 +38,8 @@ QString example(const QString &content)
     return "<div class='example'><p>" + escapeHtml(content) + "</p></div>";
 }
 
-} // namespace
-
-CommandHelpButton::CommandHelpButton(QWidget *parent)
-    : QWidget(parent)
-    , m_button(new QPushButton(this))
-    , m_help(new QTextBrowser(this))
+QString help()
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
-
-    const QColor color = getDefaultIconColor(*this, QPalette::Window);
-    m_button->setToolTip( tr("Show command help (F1)") );
-    m_button->setShortcut(QKeySequence(Qt::Key_F1));
-
-    m_button->setIcon( getIcon("help-faq", IconInfoSign, color, color) );
-    const int h = m_button->sizeHint().height();
-    m_button->setFixedSize(h, h);
-    connect( m_button, SIGNAL(clicked()),
-             this, SLOT(toggleHelp()) );
-
-    m_help->hide();
-    m_help->setTextInteractionFlags(Qt::TextBrowserInteraction);
-
     QString help =
         "<html>"
 
@@ -73,26 +54,32 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
         "<body>"
 
             "<p>"
-            + escapeHtml( tr("Command contains list of programs with arguments which will be executed. For example:") )
+            + escapeHtml( CommandHelpButton::tr(
+                              "Command contains list of programs with arguments which will be executed. For example:") )
             + example("copyq add \"1 + 2 = 3\"; copyq show\ncopyq popup \"1 + 2\" \"= 3\"")
             + " "
-            + escapeHtml( tr("Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.") )
+            + escapeHtml( CommandHelpButton::tr(
+                              "Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.") )
             + "</p>"
             + "<p>"
-            + escapeHtml( tr("Character %1 can be used to pass standard output to the next program.") )
+            + escapeHtml( CommandHelpButton::tr(
+                              "Character %1 can be used to pass standard output to the next program.") )
             .arg("<b>|</b>")
             + "</p>"
 
             + "<p>"
-            + escapeHtml( tr("Following syntax can be used to pass rest of the command as single parameter.") )
+            + escapeHtml( CommandHelpButton::tr(
+                              "Following syntax can be used to pass rest of the command as single parameter.") )
             + example("perl:\nprint(\"1 + 2 = \", 1 + 2);\nprint(\"; 3 * 4 = \", 3 * 4);")
-            + escapeHtml( tr("This gives same output as %1 but is more useful for longer commands.") )
+            + escapeHtml( CommandHelpButton::tr(
+                              "This gives same output as %1 but is more useful for longer commands.") )
             .arg( example("perl -e 'print(\"1 + 2 = \", 1 + 2); print(\"; 3 * 4 = \", 3 * 4);'") )
             + "</p>"
             ;
 
-    help.append( "<p>" + escapeHtml(tr("Functions listed below can be used as in following commands.")) + "</p>" );
-    const QString tabName = tr("&clipboard", "Example tab name");
+    help.append( "<p>" + escapeHtml(
+                     CommandHelpButton::tr("Functions listed below can be used as in following commands.")) + "</p>" );
+    const QString tabName = CommandHelpButton::tr("&clipboard", "Example tab name");
     help.append( example("copyq show '" + tabName + "'") );
     help.append( example("copyq eval 'show(\"" + tabName + "\")'") );
     help.append( example("copyq: show('" + tabName + "')") );
@@ -110,13 +97,47 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
 
     help.append("</body></html>");
 
-    m_help->setText(help);
+    return help;
+}
+
+} // namespace
+
+CommandHelpButton::CommandHelpButton(QWidget *parent)
+    : QWidget(parent)
+    , m_button(new QPushButton(this))
+    , m_help(new QTextBrowser(this))
+{
+    QVBoxLayout *layout = new QVBoxLayout(this);
+    layout->setContentsMargins(0, 0, 0, 0);
+
+    const QColor color = getDefaultIconColor(*this, QPalette::Window);
+    m_button->setToolTip( tr("Show command help (F1)") );
+    m_button->setShortcut(QKeySequence(Qt::Key_F1));
+
+    m_button->setIcon( getIcon("help-faq", IconInfoSign, color, color) );
+    const int h = m_button->sizeHint().height();
+    m_button->setFixedSize(h, h);
+
+    m_button->setCheckable(true);
+    connect( m_button, SIGNAL(clicked(bool)),
+             this, SLOT(setHelpVisible(bool)) );
+
+    m_help->setTextInteractionFlags(Qt::TextBrowserInteraction);
 
     layout->addWidget(m_button);
     layout->addWidget(m_help);
+
+    setHelpVisible(false);
 }
 
-void CommandHelpButton::toggleHelp()
+void CommandHelpButton::setHelpVisible(bool visible)
 {
-    m_help->setVisible( !m_help->isVisible() );
+    m_help->setVisible(visible);
+    setFixedHeight( visible ? QWIDGETSIZE_MAX : m_button->height() );
+
+    if (visible) {
+        m_help->setFocus();
+        if ( m_help->document()->isEmpty() )
+            m_help->setText(help());
+    }
 }
