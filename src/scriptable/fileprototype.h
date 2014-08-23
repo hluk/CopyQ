@@ -50,7 +50,7 @@ public slots:
     qint64 bytesAvailable() const;
     qint64 bytesToWrite() const;
     bool canReadLine() const;
-    QString errorString() const;
+    QScriptValue errorString() const;
     bool isOpen() const;
     bool isReadable() const;
     bool isWritable() const;

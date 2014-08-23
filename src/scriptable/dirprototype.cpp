@@ -31,24 +31,24 @@ DirPrototype::DirPrototype(QObject *parent)
 {
 }
 
-QString DirPrototype::absoluteFilePath(const QString &fileName) const
+QScriptValue DirPrototype::absoluteFilePath(const QScriptValue &fileName) const
 {
-    return thisDir().absoluteFilePath(fileName);
+    return thisDir().absoluteFilePath(fileName.toString());
 }
 
-QString DirPrototype::absolutePath() const
+QScriptValue DirPrototype::absolutePath() const
 {
     return thisDir().absolutePath();
 }
 
-QString DirPrototype::canonicalPath() const
+QScriptValue DirPrototype::canonicalPath() const
 {
     return thisDir().canonicalPath();
 }
 
-bool DirPrototype::cd(const QString &dirName)
+bool DirPrototype::cd(const QScriptValue &dirName)
 {
-    return thisDir().cd(dirName);
+    return thisDir().cd(dirName.toString());
 }
 
 bool DirPrototype::cdUp()
@@ -61,7 +61,7 @@ uint DirPrototype::count() const
     return thisDir().count();
 }
 
-QString DirPrototype::dirName() const
+QScriptValue DirPrototype::dirName() const
 {
     return thisDir().dirName();
 }
@@ -71,9 +71,9 @@ QStringList DirPrototype::entryList(const QStringList &nameFilters) const
     return thisDir().entryList(nameFilters);
 }
 
-bool DirPrototype::exists(const QString &name) const
+bool DirPrototype::exists(const QScriptValue &name) const
 {
-    return thisDir().exists(name);
+    return thisDir().exists(name.toString());
 }
 
 bool DirPrototype::exists() const
@@ -81,9 +81,9 @@ bool DirPrototype::exists() const
     return thisDir().exists();
 }
 
-QString DirPrototype::filePath(const QString &fileName) const
+QScriptValue DirPrototype::filePath(const QScriptValue &fileName) const
 {
-    return thisDir().filePath(fileName);
+    return thisDir().filePath(fileName.toString());
 }
 
 bool DirPrototype::isAbsolute() const
@@ -111,14 +111,14 @@ bool DirPrototype::makeAbsolute()
     return thisDir().makeAbsolute();
 }
 
-bool DirPrototype::mkdir(const QString &dirName) const
+bool DirPrototype::mkdir(const QScriptValue &dirName) const
 {
-    return thisDir().mkdir(dirName);
+    return thisDir().mkdir(dirName.toString());
 }
 
-bool DirPrototype::mkpath(const QString &dirPath) const
+bool DirPrototype::mkpath(const QScriptValue &dirPath) const
 {
-    return thisDir().mkpath(dirPath);
+    return thisDir().mkpath(dirPath.toString());
 }
 
 QStringList DirPrototype::nameFilters() const
@@ -126,7 +126,7 @@ QStringList DirPrototype::nameFilters() const
     return thisDir().nameFilters();
 }
 
-QString DirPrototype::path() const
+QScriptValue DirPrototype::path() const
 {
     return thisDir().path();
 }
@@ -136,29 +136,29 @@ void DirPrototype::refresh() const
     return thisDir().refresh();
 }
 
-QString DirPrototype::relativeFilePath(const QString &fileName) const
+QScriptValue DirPrototype::relativeFilePath(const QScriptValue &fileName) const
 {
-    return thisDir().relativeFilePath(fileName);
+    return thisDir().relativeFilePath(fileName.toString());
 }
 
-bool DirPrototype::remove(const QString &fileName)
+bool DirPrototype::remove(const QScriptValue &fileName)
 {
-    return thisDir().remove(fileName);
+    return thisDir().remove(fileName.toString());
 }
 
-bool DirPrototype::rename(const QString &oldName, const QString &newName)
+bool DirPrototype::rename(const QScriptValue &oldName, const QScriptValue &newName)
 {
-    return thisDir().rename(oldName, newName);
+    return thisDir().rename(oldName.toString(), newName.toString());
 }
 
-bool DirPrototype::rmdir(const QString &dirName) const
+bool DirPrototype::rmdir(const QScriptValue &dirName) const
 {
-    return thisDir().rmdir(dirName);
+    return thisDir().rmdir(dirName.toString());
 }
 
-bool DirPrototype::rmpath(const QString &dirPath) const
+bool DirPrototype::rmpath(const QScriptValue &dirPath) const
 {
-    return thisDir().rmpath(dirPath);
+    return thisDir().rmpath(dirPath.toString());
 }
 
 void DirPrototype::setNameFilters(const QStringList &nameFilters)
@@ -166,29 +166,29 @@ void DirPrototype::setNameFilters(const QStringList &nameFilters)
     return thisDir().setNameFilters(nameFilters);
 }
 
-void DirPrototype::setPath(const QString &path)
+void DirPrototype::setPath(const QScriptValue &path)
 {
-    return thisDir().setPath(path);
+    return thisDir().setPath(path.toString());
 }
 
-void DirPrototype::addSearchPath(const QString &prefix, const QString &path) const
+void DirPrototype::addSearchPath(const QScriptValue &prefix, const QScriptValue &path) const
 {
-    return QDir::addSearchPath(prefix, path);
+    return QDir::addSearchPath(prefix.toString(), path.toString());
 }
 
-QString DirPrototype::cleanPath(const QString &path) const
+QScriptValue DirPrototype::cleanPath(const QScriptValue &path) const
 {
-    return QDir::cleanPath(path);
+    return QDir::cleanPath(path.toString());
 }
 
-QString DirPrototype::currentPath() const
+QScriptValue DirPrototype::currentPath() const
 {
     return QDir::currentPath();
 }
 
-QString DirPrototype::fromNativeSeparators(const QString &pathName) const
+QScriptValue DirPrototype::fromNativeSeparators(const QScriptValue &pathName) const
 {
-    return QDir::fromNativeSeparators(pathName);
+    return QDir::fromNativeSeparators(pathName.toString());
 }
 
 QScriptValue DirPrototype::home() const
@@ -196,29 +196,29 @@ QScriptValue DirPrototype::home() const
     return newDir(QDir::home());
 }
 
-QString DirPrototype::homePath() const
+QScriptValue DirPrototype::homePath() const
 {
     return QDir::homePath();
 }
 
-bool DirPrototype::isAbsolutePath(const QString &path) const
+bool DirPrototype::isAbsolutePath(const QScriptValue &path) const
 {
-    return QDir::isAbsolutePath(path);
+    return QDir::isAbsolutePath(path.toString());
 }
 
-bool DirPrototype::isRelativePath(const QString &path) const
+bool DirPrototype::isRelativePath(const QScriptValue &path) const
 {
-    return QDir::isRelativePath(path);
+    return QDir::isRelativePath(path.toString());
 }
 
-bool DirPrototype::match(const QString &filter, const QString &fileName) const
+bool DirPrototype::match(const QScriptValue &filter, const QScriptValue &fileName) const
 {
-    return QDir::match(filter, fileName);
+    return QDir::match(filter.toString(), fileName.toString());
 }
 
-bool DirPrototype::match(const QStringList &filters, const QString &fileName) const
+bool DirPrototype::match(const QStringList &filters, const QScriptValue &fileName) const
 {
-    return QDir::match(filters, fileName);
+    return QDir::match(filters, fileName.toString());
 }
 
 QScriptValue DirPrototype::root() const
@@ -226,14 +226,14 @@ QScriptValue DirPrototype::root() const
     return newDir(QDir::root());
 }
 
-QString DirPrototype::rootPath() const
+QScriptValue DirPrototype::rootPath() const
 {
     return QDir::rootPath();
 }
 
-QStringList DirPrototype::searchPaths(const QString &prefix) const
+QStringList DirPrototype::searchPaths(const QScriptValue &prefix) const
 {
-    return QDir::searchPaths(prefix);
+    return QDir::searchPaths(prefix.toString());
 }
 
 QChar DirPrototype::separator() const
@@ -241,14 +241,14 @@ QChar DirPrototype::separator() const
     return QDir::separator();
 }
 
-bool DirPrototype::setCurrent(const QString &path) const
+bool DirPrototype::setCurrent(const QScriptValue &path) const
 {
-    return QDir::setCurrent(path);
+    return QDir::setCurrent(path.toString());
 }
 
-void DirPrototype::setSearchPaths(const QString &prefix, const QStringList &searchPaths) const
+void DirPrototype::setSearchPaths(const QScriptValue &prefix, const QStringList &searchPaths) const
 {
-    return QDir::setSearchPaths(prefix, searchPaths);
+    return QDir::setSearchPaths(prefix.toString(), searchPaths);
 }
 
 QScriptValue DirPrototype::temp() const
@@ -256,14 +256,14 @@ QScriptValue DirPrototype::temp() const
     return newDir(QDir::temp());
 }
 
-QString DirPrototype::tempPath() const
+QScriptValue DirPrototype::tempPath() const
 {
     return QDir::tempPath();
 }
 
-QString DirPrototype::toNativeSeparators(const QString &pathName) const
+QScriptValue DirPrototype::toNativeSeparators(const QScriptValue &pathName) const
 {
-    return QDir::toNativeSeparators(pathName);
+    return QDir::toNativeSeparators(pathName.toString());
 }
 
 QDir &DirPrototype::thisDir() const

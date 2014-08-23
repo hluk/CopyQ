@@ -109,7 +109,7 @@ bool FilePrototype::canReadLine() const
     return thisFile()->canReadLine();
 }
 
-QString FilePrototype::errorString() const
+QScriptValue FilePrototype::errorString() const
 {
     return thisFile()->errorString();
 }
