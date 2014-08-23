@@ -22,7 +22,6 @@
 #include "dirclass.h"
 
 #include <QScriptEngine>
-#include <QScriptValue>
 
 Q_DECLARE_METATYPE(DirWrapper*)
 Q_DECLARE_METATYPE(ScriptableClassBase*)

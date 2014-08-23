@@ -23,6 +23,7 @@
 #include <QDir>
 #include <QObject>
 #include <QScriptable>
+#include <QScriptValue>
 
 class DirWrapper : public QObject {
     Q_OBJECT
