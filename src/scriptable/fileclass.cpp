@@ -19,47 +19,19 @@
 
 #include "fileclass.h"
 
-#include "fileprototype.h"
+#include <QDir>
 
-#include <QtScript>
-
-Q_DECLARE_METATYPE(QFile*)
-Q_DECLARE_METATYPE(FileClass*)
+COPYQ_DECLARE_SCRIPTABLE_CLASS(FileClass)
 
 FileClass::FileClass(const QString &currentPath, QScriptEngine *engine)
-    : QObject(engine)
-    , QScriptClass(engine)
+    : ScriptableClass(engine)
     , m_currentPath(currentPath)
 {
-    qScriptRegisterMetaType<QFile*>(engine, toScriptValue, fromScriptValue);
-
-    proto = engine->newQObject(new FilePrototype(this),
-                               QScriptEngine::QtOwnership,
-                               QScriptEngine::SkipMethodsInEnumeration
-                               | QScriptEngine::ExcludeSuperClassMethods
-                               | QScriptEngine::ExcludeSuperClassProperties);
-    QScriptValue global = engine->globalObject();
-    proto.setPrototype(global.property("Object").property("prototype"));
-
-    ctor = engine->newFunction(construct, proto);
-    ctor.setData(engine->toScriptValue(this));
-}
-
-QScriptValue FileClass::constructor()
-{
-    return ctor;
 }
 
 QScriptValue FileClass::newInstance(const QString &path)
 {
-    QFile *file = new QFile( QDir(m_currentPath).absoluteFilePath(path), engine() );
-    QScriptValue data = engine()->newQObject(file, QScriptEngine::ScriptOwnership);
-    return engine()->newObject(this, data);
-}
-
-QScriptValue FileClass::prototype() const
-{
-    return proto;
+    return ScriptableClass::newInstance( new QFile(QDir(m_currentPath).absoluteFilePath(path)) );
 }
 
 const QString &FileClass::getCurrentPath() const
@@ -72,21 +44,8 @@ void FileClass::setCurrentPath(const QString &path)
     m_currentPath = path;
 }
 
-QScriptValue FileClass::construct(QScriptContext *ctx, QScriptEngine *)
+QScriptValue FileClass::createInstance(const QScriptContext &context)
 {
-    FileClass *cls = qscriptvalue_cast<FileClass*>(ctx->callee().data());
-    if (!cls)
-        return QScriptValue();
-    QScriptValue arg = ctx->argument(0);
-    return cls->newInstance(arg.toString());
-}
-
-QScriptValue FileClass::toScriptValue(QScriptEngine *eng, QFile* const &file)
-{
-    return eng->newQObject(file, QScriptEngine::QtOwnership, QScriptEngine::PreferExistingWrapperObject);
-}
-
-void FileClass::fromScriptValue(const QScriptValue &value, QFile *&file)
-{
-    file = qobject_cast<QFile*>(value.toQObject());
+    QScriptValue arg = context.argument(0);
+    return newInstance(arg.toString());
 }

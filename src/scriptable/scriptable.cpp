@@ -149,6 +149,12 @@ QScriptValue toScriptValue(const T &value, Scriptable *scriptable)
     return ScriptValueFactory<T>::create(value, scriptable);
 }
 
+template <typename ScriptableClass>
+void addScriptableClass(QScriptValue *rootObject, ScriptableClass *cls)
+{
+    rootObject->setProperty( cls->name(), cls->constructor() );
+}
+
 } // namespace
 
 Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
@@ -189,10 +195,10 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, cons
     eng->setProcessEventsInterval(1000);
 
     m_baClass = new ByteArrayClass(eng);
-    obj.setProperty( "ByteArray", m_baClass->constructor() );
+    addScriptableClass(&obj, m_baClass);
 
     m_fileClass = new FileClass(currentPath, eng);
-    obj.setProperty( "File", m_fileClass->constructor() );
+    addScriptableClass(&obj, m_fileClass);
 
     m_actionId = actionId;
 }

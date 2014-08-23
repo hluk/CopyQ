@@ -79,6 +79,7 @@ HEADERS += \
     scriptable/commandhelp.h \
     scriptable/fileclass.h \
     scriptable/fileprototype.h \
+    scriptable/scriptableclass.h \
     scriptable/scriptable.h \
     scriptable/scriptableproxy.h \
     scriptable/scriptableworker.h \
@@ -151,6 +152,7 @@ SOURCES += \
     scriptable/commandhelp.cpp \
     scriptable/fileclass.cpp \
     scriptable/fileprototype.cpp \
+    scriptable/scriptableclass.cpp \
     scriptable/scriptable.cpp \
     scriptable/scriptableproxy.cpp \
     scriptable/scriptableworker.cpp \

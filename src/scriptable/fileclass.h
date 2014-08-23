@@ -20,37 +20,31 @@
 #ifndef FILECLASS_H
 #define FILECLASS_H
 
-#include <QObject>
-#include <QScriptClass>
+#include "scriptableclass.h"
+
+#include "fileprototype.h"
+
 #include <QScriptValue>
 
 class QFile;
 class QScriptContext;
 class QScriptEngine;
 
-class FileClass : public QObject, public QScriptClass
+class FileClass : public ScriptableClass<QFile, FilePrototype>
 {
     Q_OBJECT
 public:
     FileClass(const QString &currentPath, QScriptEngine *engine);
 
-    QScriptValue constructor();
-
     QScriptValue newInstance(const QString &path);
-
-    QScriptValue prototype() const;
 
     const QString &getCurrentPath() const;
     void setCurrentPath(const QString &path);
 
+    QString name() const { return "File"; }
+
 private:
-    static QScriptValue construct(QScriptContext *ctx, QScriptEngine *eng);
-
-    static QScriptValue toScriptValue(QScriptEngine *eng, QFile* const &file);
-    static void fromScriptValue(const QScriptValue &value, QFile* &file);
-
-    QScriptValue proto;
-    QScriptValue ctor;
+    QScriptValue createInstance(const QScriptContext &context);
 
     QString m_currentPath;
 };
