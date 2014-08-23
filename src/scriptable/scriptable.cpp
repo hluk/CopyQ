@@ -40,11 +40,8 @@
 #include <QScriptContext>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
+#include <QSettings>
 #include <QUrl>
-
-#ifdef HAS_TESTS
-#   include <QSettings>
-#endif
 
 Q_DECLARE_METATYPE(QByteArray*)
 Q_DECLARE_METATYPE(QFile*)
@@ -1045,6 +1042,29 @@ QScriptValue Scriptable::dialog()
         result.setProperty( value.name, m_engine->newVariant(value.value) );
 
     return result;
+}
+
+QScriptValue Scriptable::settings()
+{
+    QSettings settings;
+
+    settings.beginGroup("script");
+
+    if (argumentCount() == 1) {
+        QVariant value = settings.value(arg(0));
+        if (value.canConvert<QStringList>())
+            return toScriptValue(value.toStringList(), this);
+        if (value.canConvert<QVariantMap>())
+            return toScriptValue(value.value<QVariantMap>(), this);
+        return engine()->newVariant(value);
+    }
+
+    if (argumentCount() == 2) {
+        settings.setValue(arg(0), argument(1).toVariant());
+        return QScriptValue();
+    }
+
+    return toScriptValue(settings.allKeys(), this);
 }
 
 void Scriptable::setInput(const QByteArray &bytes)

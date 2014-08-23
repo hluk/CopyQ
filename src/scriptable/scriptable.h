@@ -176,6 +176,8 @@ public slots:
 
     QScriptValue dialog();
 
+    QScriptValue settings();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
