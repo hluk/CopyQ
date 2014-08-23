@@ -107,6 +107,8 @@ QStringList scriptableObjects()
 {
     QStringList result;
     result.append("ByteArray");
+    result.append("Dir");
+    result.append("File");
 
     QScriptEngine engine;
 
