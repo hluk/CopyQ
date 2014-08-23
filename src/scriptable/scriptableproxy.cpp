@@ -139,6 +139,8 @@ QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *par
     layout->setContentsMargins(0, 0, 0, 0);
 
     QLineEdit *lineEdit = createAndSetWidget<QLineEdit>("text", file.fileName(), w);
+    lineEdit->setProperty(propertyWidgetName, name);
+
     QPushButton *browseButton = new QPushButton("...");
 
     QFileDialog *dialog = new QFileDialog(w, name, file.fileName());
