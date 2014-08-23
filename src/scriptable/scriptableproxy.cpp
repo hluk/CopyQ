@@ -133,6 +133,8 @@ QWidget *createSpinBox(const QString &name, const QVariant &value, QWidget *pare
 QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *parent)
 {
     QWidget *w = new QWidget(parent);
+    parent->layout()->addWidget(w);
+
     QHBoxLayout *layout = new QHBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
 
