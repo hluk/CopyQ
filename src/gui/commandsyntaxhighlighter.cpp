@@ -176,14 +176,14 @@ public:
 protected:
     void highlightBlock(const QString &text)
     {
-        const QColor color = getDefaultIconColor(*m_editor, QPalette::Base);
+        m_bgColor = getDefaultIconColor(*m_editor, QPalette::Base);
 
         QTextCharFormat objectsFormat;
-        objectsFormat.setForeground(mixColor(color, 40, -60, 40));
+        objectsFormat.setForeground(mixColor(m_bgColor, 40, -60, 40));
         highlight(text, m_reObjects, objectsFormat);
 
         QTextCharFormat functionFormat;
-        functionFormat.setForeground(mixColor(color, -40, -40, 40));
+        functionFormat.setForeground(mixColor(m_bgColor, -40, -40, 40));
         highlight(text, m_reFunctions, functionFormat);
 
         QTextCharFormat keywordFormat;
@@ -192,17 +192,25 @@ protected:
 
         QTextCharFormat labelsFormat;
         labelsFormat.setFontWeight(QFont::Bold);
-        labelsFormat.setForeground(mixColor(color, 40, 40, -40));
+        labelsFormat.setForeground(mixColor(m_bgColor, 40, 40, -40));
         highlight(text, m_reLabels, labelsFormat);
 
         QTextCharFormat numberFormat;
-        numberFormat.setForeground(mixColor(color, 40, -40, -40));
+        numberFormat.setForeground(mixColor(m_bgColor, 40, -40, -40));
         highlight(text, m_reNumbers, numberFormat);
 
-        highlightBlocks(text, color);
+        highlightBlocks(text);
     }
 
 private:
+    enum State {
+        Code,
+        SingleQuote,
+        DoubleQuote,
+        RegExp,
+        Comment
+    };
+
     void highlight(const QString &text, QRegExp &re, const QTextCharFormat &format)
     {
         int index = text.indexOf(re);
@@ -214,9 +222,22 @@ private:
         }
     }
 
-    void format(const QString &text, int i, const QTextCharFormat &format = QTextCharFormat())
+    void format(int a, int b)
     {
-        setFormat(i, text.size() - i, format);
+        QTextCharFormat format;
+
+        if (currentBlockState() == SingleQuote || currentBlockState() == DoubleQuote) {
+            format.setForeground(mixColor(m_bgColor, -40, 40, -40));
+        } else if (currentBlockState() == Comment) {
+            const int x = m_bgColor.lightness() > 100 ? -40 : 40;
+            format.setForeground( mixColor(m_bgColor, x, x, x) );
+        } else if (currentBlockState() == RegExp) {
+            format.setForeground(mixColor(m_bgColor, 40, -40, -40));
+        } else {
+            return;
+        }
+
+        setFormat(a, b - a + 1, format);
     }
 
     bool peek(const QString &text, int i, const QString &what)
@@ -224,37 +245,13 @@ private:
         return text.midRef(i, what.size()) == what;
     }
 
-    void highlightBlocks(const QString &text, const QColor &color)
+    void highlightBlocks(const QString &text)
     {
-        enum State {
-            Code,
-            SingleQuote,
-            DoubleQuote,
-            RegExp,
-            Comment
-        };
         bool escape = false;
 
-        QTextCharFormat stringFormat;
-        stringFormat.setForeground(mixColor(color, -40, 40, -40));
-
-        QTextCharFormat regexFormat;
-        regexFormat.setForeground(mixColor(color, 40, -40, -40));
-
-        QTextCharFormat commentFormat;
-        const int x = color.lightness() > 100 ? -40 : 40;
-        commentFormat.setForeground( mixColor(color, x, x, x) );
-
-        if (previousBlockState() == SingleQuote)
-            format(text, 0, stringFormat);
-        else if (previousBlockState() == DoubleQuote)
-            format(text, 0, stringFormat);
-        else if (previousBlockState() == Comment)
-            format(text, 0, commentFormat);
-        else if (previousBlockState() == RegExp)
-            format(text, 0, regexFormat);
-
         setCurrentBlockState(previousBlockState());
+
+        int a = 0;
 
         for (int i = 0; i < text.size(); ++i) {
             const QChar c = text[i];
@@ -264,51 +261,55 @@ private:
                 escape = true;
             } else if (currentBlockState() == SingleQuote) {
                 if (c == '\'') {
-                    format(text, i + 1);
+                    format(a, i);
                     setCurrentBlockState(Code);
                 }
             } else if (currentBlockState() == DoubleQuote) {
                 if (c == '"') {
-                    format(text, i + 1);
+                    format(a, i);
                     setCurrentBlockState(Code);
                 }
             } else if (currentBlockState() == Comment) {
                 if ( peek(text, i, "*/") ) {
                     ++i;
-                    format(text, i + 1);
+                    format(a, i);
                     setCurrentBlockState(Code);
                 }
             } else if (currentBlockState() == RegExp) {
                 if (c == '/') {
-                    setCurrentBlockState(Code);
-
                     // Highlight paths outside code as regexps.
                     i = text.indexOf(QRegExp("[^a-zA-Z0-9./_-]"), i);
                     if (i == -1)
-                        return;
+                        i = text.size();
 
-                    format(text, i + 1);
+                    format(a, i);
+
+                    setCurrentBlockState(Code);
                 }
             } else if (c == '\\') {
                 escape = true;
             } else if ( c == '#' || peek(text, i, "//") ) {
-                format(text, i, commentFormat);
+                setCurrentBlockState(Comment);
+                format(i, text.size());
+                setCurrentBlockState(Code);
                 return;
             } else if ( peek(text, i, "/*") ) {
-                format(text, i, commentFormat);
+                a = i;
                 ++i;
                 setCurrentBlockState(Comment);
             } else if (c == '\'') {
+                a = i;
                 setCurrentBlockState(SingleQuote);
-                format(text, i, stringFormat);
             } else if (c == '"') {
+                a = i;
                 setCurrentBlockState(DoubleQuote);
-                format(text, i, stringFormat);
             } else if (c == '/') {
+                a = i;
                 setCurrentBlockState(RegExp);
-                format(text, i, regexFormat);
             }
         }
+
+        format(a, text.size());
     }
 
     QWidget *m_editor;
@@ -317,6 +318,7 @@ private:
     QRegExp m_reKeywords;
     QRegExp m_reLabels;
     QRegExp m_reNumbers;
+    QColor m_bgColor;
 };
 
 } // namespace
