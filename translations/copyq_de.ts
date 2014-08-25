@@ -1382,7 +1382,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>&amp;Preferences...</source>
-        <translation>Einstellungen (&amp;p)...</translation>
+        <translation>Einstellungen...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
@@ -1450,7 +1450,7 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="135"/>
         <source>&amp;Previous to Clipboard</source>
-        <translation>&amp;Vorheriges in die Zwischenablage</translation>
+        <translation>&amp;Vorheriges Element in die Zwischenablage</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="135"/>
@@ -1814,7 +1814,7 @@ Setze 0 als Wert um das Entladen von Reitern zu verhindern.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="652"/>
         <source>&amp;Paste to current window</source>
-        <translation>Einfügen in aktuelles Fenster (&amp;p)</translation>
+        <translation>In aktuelles Fenster einfügen</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="900"/>
@@ -2156,7 +2156,7 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="988"/>
         <source>Bottom Right</source>
-        <translation>Mitte rechts</translation>
+        <translation>Unten rechts</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="993"/>
@@ -2166,7 +2166,7 @@ Auf -1 setzen um Benachrichtung, solange bis geklickt wird, sichtbar zu halten.<
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="998"/>
         <source>Top Left</source>
-        <translation>Open Links</translation>
+        <translation>Oben links</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1021"/>
@@ -2384,7 +2384,7 @@ Hinweis: Veränderte Eintrage können mit F2 trotz dieser Option gespeichert wer
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="850"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation>(&amp;p) Einfügen des ausgewählten Elements in das aktuelle Fenster</translation>
+        <translation>Einfügen des ausgewählten Elements in das aktuelle Fenster</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="796"/>
