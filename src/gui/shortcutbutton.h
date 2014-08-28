@@ -42,6 +42,13 @@ public:
     /** Creates new shortcut button for @a shortcut if it's valid and same button doesn't exist. */
     void addShortcut(const QKeySequence &shortcut);
 
+    /**
+     * Overloaded method.
+     *
+     * Creates new shortcut from string formatted as QKeySequence::PortableText (if valid).
+     */
+    void addShortcut(const QString &shortcutPortableText);
+
     /** Remove all shortcut buttons. */
     void clearShortcuts();
 

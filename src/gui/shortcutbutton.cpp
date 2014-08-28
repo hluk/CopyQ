@@ -62,6 +62,13 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
     emit shortcutAdded(shortcut);
 }
 
+void ShortcutButton::addShortcut(const QString &shortcutPortableText)
+{
+    QKeySequence shortcut(shortcutPortableText, QKeySequence::PortableText);
+    if ( !shortcut.isEmpty() )
+        addShortcut(shortcut);
+}
+
 void ShortcutButton::clearShortcuts()
 {
     while ( shortcutCount() > 0 ) {

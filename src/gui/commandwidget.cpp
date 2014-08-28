@@ -50,11 +50,8 @@ void deserializeShortcuts(const QStringList &serializedShortcuts, ShortcutButton
 {
     shortcutButton->resetShortcuts();
 
-    foreach (const QString &shortcutText, serializedShortcuts) {
-        QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-        if ( !shortcut.isEmpty() )
-            shortcutButton->addShortcut(shortcut);
-    }
+    foreach (const QString &shortcutText, serializedShortcuts)
+        shortcutButton->addShortcut(shortcutText);
 }
 
 void setComboBoxItems(const QStringList &items, QComboBox *w)
