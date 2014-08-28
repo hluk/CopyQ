@@ -43,6 +43,9 @@ INPUT createInput(WORD key, DWORD flags = 0)
 
 bool raiseWindow(HWND window)
 {
+    if (!IsWindowVisible(window))
+        return false;
+
     if (!SetForegroundWindow(window))
         return false;
 
