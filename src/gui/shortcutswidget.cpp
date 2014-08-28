@@ -310,6 +310,12 @@ void ShortcutsWidget::addAction(int id, const QString &text, const QString &sett
              this, SLOT(onShortcutRemoved(QKeySequence)) );
 }
 
+void ShortcutsWidget::addAction(int id, const QString &text, const QString &settingsKey, const QString &shortcutNativeText)
+{
+    const QKeySequence shortcut(shortcutNativeText, QKeySequence::NativeText);
+    addAction(id, text, settingsKey, shortcut);
+}
+
 QAction *ShortcutsWidget::action(int id, QWidget *parent, Qt::ShortcutContext context)
 {
     return action(id)->action(parent, context);

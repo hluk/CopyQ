@@ -55,6 +55,9 @@ public:
     void addAction(int id, const QString &text, const QString &settingsKey,
                    const QKeySequence &shortcut = QKeySequence());
 
+    void addAction(int id, const QString &text, const QString &settingsKey,
+                   const QString &shortcutNativeText);
+
     /** Return true if action with given @a id is in the list. */
     bool hasAction(int id) const { return m_actions.contains(id); }
 
