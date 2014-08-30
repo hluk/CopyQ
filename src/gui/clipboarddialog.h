@@ -20,9 +20,9 @@
 #ifndef CLIPBOARDDIALOG_H
 #define CLIPBOARDDIALOG_H
 
-#include "item/clipboarditem.h"
-
 #include <QDialog>
+#include <QPersistentModelIndex>
+#include <QPointer>
 #include <QVariantMap>
 
 class QListWidgetItem;
@@ -37,9 +37,15 @@ class ClipboardDialog : public QDialog
 
 public:
     /**
-     * Create dialog with item data or clipboard data content displayed.
+     * Create dialog with clipboard data.
      */
-    explicit ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent = NULL);
+    explicit ClipboardDialog(QWidget *parent = NULL);
+
+    /**
+     * Create dialog with item data.
+     */
+    explicit ClipboardDialog(const QPersistentModelIndex &index, QAbstractItemModel *model, QWidget *parent = NULL);
+
     ~ClipboardDialog();
 
 signals:
@@ -51,9 +57,16 @@ private slots:
 
     void on_actionRemove_Format_triggered();
 
+    void onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight);
+
 private:
+    void init();
+
+    void setData(const QVariantMap &data);
+
     Ui::ClipboardDialog *ui;
-    ClipboardItemPtr m_item;
+    QPointer<QAbstractItemModel> m_model;
+    QPersistentModelIndex m_index;
     QVariantMap m_data;
 };
 

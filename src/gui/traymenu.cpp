@@ -24,7 +24,6 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
-#include "item/clipboarditem.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
 
@@ -32,6 +31,7 @@
 #include <QDesktopWidget>
 #include <QKeyEvent>
 #include <QMimeData>
+#include <QModelIndex>
 #include <QPainter>
 #include <QPixmap>
 #include <QToolTip>
@@ -139,18 +139,19 @@ void TrayMenu::toggle()
         window->raise();
 }
 
-void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages, bool isCurrent)
+void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent)
 {
     QAction *act;
 
     const int i = m_clipboardItemActions.size();
 
-    const QString text = item.text();
+    const QVariantMap data = index.data(contentType::data).toMap();
+    const QString text = getTextData(data);
     act = addAction(text);
     act->setWhatsThis(text);
     m_clipboardItemActions.append(act);
 
-    act->setData( QVariant(item.dataHash()) );
+    act->setData(index.data(contentType::hash));
 
     resetSeparators();
     insertAction(m_clipboardItemActionsSeparator, act);
@@ -161,19 +162,19 @@ void TrayMenu::addClipboardItemAction(const ClipboardItem &item, bool showImages
     if (i < 10)
         format = tr("&%1. %2", "Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)").arg(i);
 
-    const QString label = textLabelForData( item.data(), act->font(), format, true );
+    const QString label = textLabelForData( data, act->font(), format, true );
     act->setText(label);
 
-    setActionToolTip( act, item.data(contentType::notes).toString() );
+    setActionToolTip( act, index.data(contentType::notes).toString() );
 
     // Menu item icon from image.
     if (showImages) {
-        const QStringList formats = item.data().keys();
+        const QStringList formats = data.keys();
         const int i = formats.indexOf("^image/");
         if (i != -1) {
             const QString &format = formats[i];
             QPixmap pix;
-            pix.loadFromData( item.data(format), format.toLatin1().data() );
+            pix.loadFromData( data.value(format).toByteArray(), format.toLatin1().data() );
             const int iconSize = 24;
             int x = 0;
             int y = 0;

@@ -22,8 +22,9 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/log.h"
+#include "common/mimetypes.h"
 #include "gui/mainwindow.h"
-#include "item/clipboarditem.h"
+#include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
 
 #include <QDialog>
@@ -505,12 +506,12 @@ void ScriptableProxyHelper::browserAdd(const QStringList &texts) {
 
 void ScriptableProxyHelper::browserItemData(int arg1, const QString &arg2)
 {
-    BROWSER_RESULT(itemData(arg1, arg2));
+    v = itemData(arg1, arg2);
 }
 
 void ScriptableProxyHelper::browserItemData(int arg1)
 {
-    BROWSER_RESULT(itemData(arg1));
+    v = itemData(arg1);
 }
 
 void ScriptableProxyHelper::setCurrentTab(const QString &tabName)
@@ -737,6 +738,27 @@ ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tab
 }
 
 ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser() { return fetchBrowser(m_tabName); }
+
+QVariantMap detail::ScriptableProxyHelper::itemData(int i)
+{
+    ClipboardBrowser *c = fetchBrowser();
+    return c ? ::itemData(c->index(i)) : QVariantMap();
+}
+
+QByteArray detail::ScriptableProxyHelper::itemData(int i, const QString &mime)
+{
+    const QVariantMap data = itemData(i);
+    if ( data.isEmpty() )
+        return QByteArray();
+
+    if (mime == "?")
+        return QStringList(data.keys()).join("\n").toUtf8() + '\n';
+
+    if (mime == mimeItems)
+        return serializeData(data);
+
+    return data.value(mime).toByteArray();
+}
 
 ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
     : m_helper(new detail::ScriptableProxyHelper(mainWindow))

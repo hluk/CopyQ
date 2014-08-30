@@ -31,7 +31,6 @@
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/mainwindow.h"
-#include "item/clipboarditem.h"
 #include "item/itemfactory.h"
 #include "item/encrypt.h"
 #include "item/serialize.h"

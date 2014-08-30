@@ -246,6 +246,9 @@ private:
     ClipboardBrowser *fetchBrowser(const QString &tabName);
     ClipboardBrowser *fetchBrowser();
 
+    QVariantMap itemData(int i);
+    QByteArray itemData(int i, const QString &mime);
+
     MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
     QString m_tabName;

@@ -41,7 +41,6 @@
 #include "gui/tabdialog.h"
 #include "gui/tabwidget.h"
 #include "gui/traymenu.h"
-#include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -1350,28 +1349,28 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool 
 
         // merge data with first item if it is same
         if ( !force && c->length() > 0 && data2.contains(mimeText) ) {
-            const ClipboardItemPtr &first = c->at(0);
-            const QByteArray newText = data2[mimeText].toByteArray();
-            const QByteArray firstItemText = first->data(mimeText);
+            const QModelIndex &first = c->model()->index(0, 0);
+            const QVariantMap firstData = itemData(first);
+            const QString firstItemText = getTextData(firstData);
+            const QString newText = getTextData(data2);
 
             // When selecting text under X11, we can get "new" clipboard data whenever the mouse moves,
             // so we keep updating the same clipboard item instead of adding them all!
             if (
                     // Check that the first item has plain text too
-                    first->data().contains(mimeText)
+                    firstData.contains(mimeText)
                     && (
                         // If the text is exactly the same, merge them
                         newText == firstItemText
                         || (
                             // If they come from the same window, and the new text extends the previous text, merge them
-                            data2.value(mimeWindowTitle) == first->data().value(mimeWindowTitle)
+                            data2.value(mimeWindowTitle) == firstData.value(mimeWindowTitle)
                             && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))
                             )
                         )
                     )
             {
                 force = true;
-                const QVariantMap &firstData = first->data();
                 foreach (const QString &format, firstData.keys()) {
                     if ( !data2.contains(format) )
                         data2.insert(format, firstData[format]);
@@ -1667,9 +1666,8 @@ void MainWindow::updateTrayMenuItems()
     const int len = (c != NULL) ? qMin( m_options->trayItems, c->length() ) : 0;
     const int current = c->currentIndex().row();
     for ( int i = 0; i < len; ++i ) {
-        const ClipboardItemPtr &item = c->at(i);
-        if ( !item.isNull() )
-            m_trayMenu->addClipboardItemAction(*item, m_options->trayImages, i == current);
+        const QModelIndex index = c->model()->index(i, 0);
+        m_trayMenu->addClipboardItemAction(index, m_options->trayImages, i == current);
     }
 
     // Add commands.
@@ -1709,7 +1707,7 @@ void MainWindow::openAboutDialog()
 
 void MainWindow::showClipboardContent()
 {
-    QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(ClipboardItemPtr(), this));
+    QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(this));
     connect( clipboardDialog.data(), SIGNAL(changeClipboard(QVariantMap)),
              this, SLOT(setClipboard(QVariantMap)) );
     clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
@@ -1727,11 +1725,11 @@ void MainWindow::openActionDialog(int row)
     ClipboardBrowser *c = browser();
     QVariantMap dataMap;
     if (row >= 0) {
-        dataMap = c->itemData(row);
+        dataMap = itemData(c->index(row));
     } else if ( hasFocus() ) {
         QModelIndexList selected = c->selectionModel()->selectedRows();
         if (selected.size() == 1)
-            dataMap = c->itemData(selected.first().row());
+            dataMap = itemData(selected.first());
         else
             setTextData( &dataMap, c->selectedText() );
     } else {
@@ -1858,14 +1856,12 @@ void MainWindow::copyItems()
     if ( indexes.isEmpty() )
         return;
 
-    ClipboardItem item;
     QVariantMap data = c->copyIndexes(indexes);
     if ( indexes.size() == 1 ) {
-        QVariantMap data2 = c->itemData(indexes.first().row());
+        QVariantMap data2 = itemData(indexes.first());
         data2.remove(mimeItems);
         data.unite(data2);
     }
-    item.setData(data);
 
     emit changeClipboard(data);
 }

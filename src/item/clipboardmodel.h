@@ -24,8 +24,7 @@
 
 #include <QAbstractListModel>
 #include <QList>
-
-class QMimeData;
+#include <QPair>
 
 /**
  * Model containing ClipboardItem objects.
@@ -43,31 +42,16 @@ class ClipboardModel : public QAbstractListModel
     Q_PROPERTY(QString tabName READ tabName WRITE setTabName NOTIFY tabNameChanged)
 
 public:
-    /** Argument type for comparison. First is row, second is item pointer. */
-    typedef QPair<int, ClipboardItemPtr> ComparisonItem;
-
-    /** Return true if lhs is greater than rhs. */
-    typedef bool CompareItems(const ComparisonItem &lhs,
-                              const ComparisonItem &rhs);
+    /** Return true if @a lhs is less than @a rhs. */
+    typedef bool CompareItems(const QModelIndex &lhs, const QModelIndex &rhs);
 
     explicit ClipboardModel(QObject *parent = NULL);
-
-    ~ClipboardModel();
 
     /** Return number of items in model. */
     int rowCount(const QModelIndex &parent = QModelIndex()) const;
 
     /** Return data for given @a index. */
     QVariant data(const QModelIndex &index, int role) const;
-
-    /** Return item data for editing. */
-    QVariant data(int row) const;
-
-    /** Return data in given @a row.  */
-    QVariantMap dataMapInRow(int row) const;
-
-    /** Return item in given @a row.  */
-    ClipboardItemPtr at(int row) const;
 
     /** Return flags for given @a index. */
     Qt::ItemFlags flags(const QModelIndex &index) const;
@@ -78,9 +62,6 @@ public:
                     const QModelIndex &index = QModelIndex());
     bool removeRows(int position, int rows,
                     const QModelIndex &index = QModelIndex());
-
-    /** Set data for given @a index. */
-    bool setDataMap(const QModelIndex &index, const QVariantMap &value);
 
     /** insert new item to model. */
     void insertItem(const QVariantMap &data, int row);
@@ -157,7 +138,7 @@ signals:
     void tabNameChanged(const QString &tabName);
 
 private:
-    QList<ClipboardItemPtr> m_clipboardList;
+    QList<ClipboardItem> m_clipboardList;
     int m_max;
     bool m_disabled;
     QString m_tabName;

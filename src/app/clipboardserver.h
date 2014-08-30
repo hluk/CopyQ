@@ -33,8 +33,6 @@
 #include <QWidget>
 
 class Arguments;
-class ClipboardBrowser;
-class ClipboardItem;
 class ClientSocket;
 class RemoteProcess;
 class QxtGlobalShortcut;

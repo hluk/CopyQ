@@ -24,7 +24,6 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
-#include "item/clipboarditem.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"

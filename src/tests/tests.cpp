@@ -24,7 +24,6 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
-#include "item/clipboarditem.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"

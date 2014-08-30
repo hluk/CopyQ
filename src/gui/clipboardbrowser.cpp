@@ -28,14 +28,12 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
-#include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/itemdelegate.h"
 #include "item/itemeditor.h"
 #include "item/itemeditorwidget.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
-#include "item/serialize.h"
 
 #include <QApplication>
 #include <QDrag>
@@ -54,16 +52,16 @@
 
 namespace {
 
-bool alphaSort(const ClipboardModel::ComparisonItem &lhs,
-                     const ClipboardModel::ComparisonItem &rhs)
+bool alphaSort(const QModelIndex &lhs, const QModelIndex &rhs)
 {
-    return lhs.second->text().localeAwareCompare( rhs.second->text() ) < 0;
+    const QString lhsText = lhs.data(contentType::text).toString();
+    const QString rhsText = rhs.data(contentType::text).toString();
+    return lhsText.localeAwareCompare(rhsText) < 0;
 }
 
-bool reverseSort(const ClipboardModel::ComparisonItem &lhs,
-                        const ClipboardModel::ComparisonItem &rhs)
+bool reverseSort(const QModelIndex &lhs, const QModelIndex &rhs)
 {
-    return lhs.first > rhs.first;
+    return lhs.row() > rhs.row();
 }
 
 QModelIndex indexNear(const QListView *view, int offset)
@@ -164,6 +162,11 @@ private:
 };
 
 } // namespace
+
+QVariantMap itemData(const QModelIndex &index)
+{
+    return index.data(contentType::data).toMap();
+}
 
 class ScrollSaver {
 public:
@@ -314,7 +317,7 @@ void ClipboardBrowser::onCommandActionTriggered(const Command &command, const QV
     if ( !command.cmd.isEmpty() ) {
         if (command.transform) {
             foreach (const QModelIndex &index, selected) {
-                QVariantMap data = itemData( index.row() );
+                QVariantMap data = itemData(index);
                 if ( command.input.isEmpty() || hasFormat(data, command.input) )
                     emit requestActionDialog(data, command, index);
             }
@@ -325,7 +328,7 @@ void ClipboardBrowser::onCommandActionTriggered(const Command &command, const QV
 
     if ( !command.tab.isEmpty() && command.tab != tabName() ) {
         for (int i = selected.size() - 1; i >= 0; --i) {
-            QVariantMap data = itemData( selected[i].row() );
+            QVariantMap data = itemData(selected[i]);
             if ( !data.isEmpty() )
                 emit addToTab(data, command.tab);
         }
@@ -848,9 +851,9 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
         if ( isIndexHidden(ind) )
             continue;
 
-        const ClipboardItemPtr &item = at( ind.row() );
-        const QVariantMap copiedItemData = m_itemLoader ? m_itemLoader->copyItem(*m, item->data())
-                                                        : item->data();
+        data = itemData(ind);
+        const QVariantMap copiedItemData =
+                m_itemLoader ? m_itemLoader->copyItem(*m, data) : data;
 
         if (serializeItems)
             stream << copiedItemData;
@@ -1432,7 +1435,7 @@ bool ClipboardBrowser::openEditor(const QModelIndex &index)
     ItemWidget *item = d->cache(index);
     QObject *editor = item->createExternalEditor(index, this);
     if (editor == NULL) {
-        QVariantMap data = itemData( index.row() );
+        const QVariantMap data = itemData(index);
         if ( data.contains(mimeText) )
             editor = new ItemEditor(data[mimeText].toByteArray(), mimeText, m_sharedData->editor, this);
     }
@@ -1451,8 +1454,8 @@ void ClipboardBrowser::showItemContent()
 {
     const QModelIndex current = currentIndex();
     if ( current.isValid() ) {
-        ClipboardItemPtr item = m->at( current.row() );
-        QScopedPointer<ClipboardDialog> clipboardDialog(new ClipboardDialog(item, this));
+        QScopedPointer<ClipboardDialog> clipboardDialog(
+                    new ClipboardDialog(currentIndex(), m, this) );
         clipboardDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         clipboardDialog->show();
         clipboardDialog.take();
@@ -1531,11 +1534,6 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
         setRowHidden(selectedRow, false);
         setCurrentIndex( index(selectedRow) );
     }
-}
-
-void ClipboardBrowser::moveToClipboard()
-{
-    moveToClipboard( currentIndex() );
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
@@ -1753,11 +1751,6 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
     }
 }
 
-ClipboardItemPtr ClipboardBrowser::at(int row) const
-{
-    return m->at(row);
-}
-
 void ClipboardBrowser::editSelected()
 {
     if ( selectedIndexes().size() > 1 ) {
@@ -1797,7 +1790,7 @@ bool ClipboardBrowser::select(uint itemHash, bool moveToTop, bool moveToClipboar
     setCurrent(row);
 
     if (moveToClipboard)
-        this->moveToClipboard(row);
+        this->moveToClipboard( index(row) );
 
     return true;
 }
@@ -1978,30 +1971,10 @@ const QString ClipboardBrowser::selectedText() const
     return result;
 }
 
-QVariantMap ClipboardBrowser::itemData(int i) const
-{
-    return m->dataMapInRow( i >= 0 ? i : currentIndex().row() );
-}
-
 void ClipboardBrowser::updateClipboard(int row)
 {
     if ( row < m->rowCount() )
-        emit changeClipboard( m->at(row)->data() );
-}
-
-QByteArray ClipboardBrowser::itemData(int i, const QString &mime) const
-{
-    const QVariantMap data = itemData(i);
-    if ( data.isEmpty() )
-        return QByteArray();
-
-    if (mime == "?")
-        return QStringList(data.keys()).join("\n").toUtf8() + '\n';
-
-    if (mime == mimeItems)
-        return serializeData(data);
-
-    return data.value(mime).toByteArray();
+        emit changeClipboard( itemData(index(row)) );
 }
 
 void ClipboardBrowser::editRow(int row)

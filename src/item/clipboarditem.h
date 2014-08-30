@@ -20,7 +20,6 @@
 #ifndef CLIPBOARDITEM_H
 #define CLIPBOARDITEM_H
 
-#include <QSharedPointer>
 #include <QVariant>
 
 class QByteArray;
@@ -33,28 +32,16 @@ class QString;
  *
  * Clipboard item stores data of different MIME types and has single default
  * MIME type for displaying the contents.
- *
- * Clipboard item can be serialized and deserialized using operators << and >>
- * (see @ref clipboard_item_serialization_operators).
  */
 class ClipboardItem
 {
 public:
     ClipboardItem();
-    ~ClipboardItem();
 
     /** Compare with other item (using hash). */
     bool operator ==(const ClipboardItem &item) const;
     /** Compare with other data (using hash). */
     bool operator ==(const QVariantMap &data) const;
-
-    /** Return item's plain text. */
-    QString text() const;
-    /** Return item's HTML text. */
-    QString html() const;
-
-    /** Clear item's data */
-    void clear();
 
     /** Set item's MIME type data. */
     void setData(const QString &mimeType, const QByteArray &data);
@@ -68,7 +55,7 @@ public:
     /**
      * Set formats from map with MIME type as key and data as value.
      */
-    void setData(const QVariantMap &data);
+    bool setData(const QVariantMap &data);
 
     /**
      * Update current data.
@@ -86,9 +73,6 @@ public:
     /** Return data for given @a role. */
     QVariant data(int role) const;
 
-    /** Return item's data. */
-    const QVariantMap &data() const { return m_data; }
-
     /** Return data for format. */
     QByteArray data(const QString &format) const { return m_data.value(format).toByteArray(); }
 
@@ -101,7 +85,5 @@ private:
     QVariantMap m_data;
     unsigned int m_hash;
 };
-
-typedef QSharedPointer<ClipboardItem> ClipboardItemPtr;
 
 #endif // CLIPBOARDITEM_H

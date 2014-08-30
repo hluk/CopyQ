@@ -24,7 +24,7 @@
 #include <QPointer>
 #include <QTimer>
 
-class ClipboardItem;
+class QModelIndex;
 
 class TrayMenu : public QMenu
 {
@@ -40,7 +40,7 @@ public:
      *
      * Triggering this action emits clipboardItemActionTriggered() signal.
      */
-    void addClipboardItemAction(const ClipboardItem &item, bool showImages, bool isCurrent);
+    void addClipboardItemAction(const QModelIndex &index, bool showImages, bool isCurrent);
 
     /** Add custom action. */
     void addCustomAction(QAction *action);

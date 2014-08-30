@@ -21,6 +21,7 @@
 #include "ui_clipboarddialog.h"
 
 #include "common/common.h"
+#include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -30,41 +31,30 @@
 #include <QTextCodec>
 #include <QUrl>
 
-ClipboardDialog::ClipboardDialog(const ClipboardItemPtr &item, QWidget *parent)
+ClipboardDialog::ClipboardDialog(QWidget *parent)
     : QDialog(parent)
-    , ui(new Ui::ClipboardDialog)
-    , m_item(item)
+    , ui(NULL)
 {
-    ui->setupUi(this);
+    init();
 
-    setWindowIcon( ConfigurationManager::instance()->iconFactory()->appIcon() );
+    const QMimeData *clipData = clipboardData();
+    if (clipData)
+        setData( cloneData(*clipData) );
+}
 
-    QVariantMap data;
-    if ( m_item.isNull() ) {
-        const QMimeData *clipData = clipboardData();
-        if (clipData)
-            data = cloneData(*clipData);
-    } else {
-        setWindowTitle( tr("CopyQ Item Content") );
-        data = item->data();
-    }
+ClipboardDialog::ClipboardDialog(
+        const QPersistentModelIndex &index, QAbstractItemModel *model, QWidget *parent)
+    : QDialog(parent)
+    , ui(NULL)
+    , m_model(model)
+    , m_index(index)
+{
+    init();
 
-    // Show only data that can be displayed.
-    foreach ( const QString &mime, data.keys() ) {
-        if ( data[mime].canConvert<QByteArray>() ) {
-            m_data.insert(mime, data[mime]);
-            ui->listWidgetFormats->addItem(mime);
-        }
-    }
-
-    ui->horizontalLayout->setStretchFactor(1, 1);
-    ui->listWidgetFormats->setCurrentRow(0);
-
-    ConfigurationManager::instance()->registerWindowGeometry(this);
-
-    ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
-    ui->actionRemove_Format->setShortcut(shortcutToRemove());
-    ui->listWidgetFormats->addAction(ui->actionRemove_Format);
+    setWindowTitle( tr("CopyQ Item Content") );
+    connect( m_model, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
+             this, SLOT(onDataChanged(QModelIndex,QModelIndex)) );
+    onDataChanged(m_index, m_index);
 }
 
 ClipboardDialog::~ClipboardDialog()
@@ -104,10 +94,58 @@ void ClipboardDialog::on_actionRemove_Format_triggered()
      QListWidgetItem *item = ui->listWidgetFormats->currentItem();
      if (item) {
          m_data.remove(item->text());
-         if ( m_item.isNull() )
-             emit changeClipboard(m_data);
+
+         if (m_model)
+             m_model->setData(m_index, m_data);
          else
-             m_item->setData(m_data);
-         delete item;
+             emit changeClipboard(m_data);
      }
+}
+
+void ClipboardDialog::onDataChanged(const QModelIndex &topLeft, const QModelIndex &bottomRight)
+{
+    if (m_index.isValid()
+            && topLeft.row() <= m_index.row()
+            && m_index.row() <= bottomRight.row())
+    {
+        setData( m_index.data(contentType::data).toMap() );
+    }
+}
+
+void ClipboardDialog::init()
+{
+    Q_ASSERT(!ui);
+
+    ui = new Ui::ClipboardDialog;
+    ui->setupUi(this);
+
+    setWindowIcon( ConfigurationManager::instance()->iconFactory()->appIcon() );
+
+    ui->horizontalLayout->setStretchFactor(1, 1);
+    ui->listWidgetFormats->setCurrentRow(0);
+
+    ConfigurationManager::instance()->registerWindowGeometry(this);
+
+    ui->actionRemove_Format->setIcon( getIcon("list-remove", IconRemove) );
+    ui->actionRemove_Format->setShortcut(shortcutToRemove());
+    ui->listWidgetFormats->addAction(ui->actionRemove_Format);
+}
+
+void ClipboardDialog::setData(const QVariantMap &data)
+{
+    const QString currentFormat = ui->listWidgetFormats->currentIndex().data().toString();
+    ui->listWidgetFormats->clear();
+    m_data.clear();
+
+    // Show only data that can be displayed.
+    foreach ( const QString &mime, data.keys() ) {
+        if ( data[mime].canConvert<QByteArray>() ) {
+            m_data.insert(mime, data[mime]);
+            ui->listWidgetFormats->addItem(mime);
+            if (mime == currentFormat) {
+                ui->listWidgetFormats->setCurrentRow(
+                            ui->listWidgetFormats->count() - 1);
+            }
+        }
+    }
 }

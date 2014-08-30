@@ -50,10 +50,6 @@ ClipboardItem::ClipboardItem()
 {
 }
 
-ClipboardItem::~ClipboardItem()
-{
-}
-
 bool ClipboardItem::operator ==(const ClipboardItem &item) const
 {
     return m_hash == item.m_hash;
@@ -62,12 +58,6 @@ bool ClipboardItem::operator ==(const ClipboardItem &item) const
 bool ClipboardItem::operator ==(const QVariantMap &data) const
 {
     return m_hash == hash(data);
-}
-
-void ClipboardItem::clear()
-{
-    m_data.clear();
-    updateDataHash();
 }
 
 void ClipboardItem::setText(const QString &text)
@@ -82,10 +72,14 @@ void ClipboardItem::setText(const QString &text)
     updateDataHash();
 }
 
-void ClipboardItem::setData(const QVariantMap &data)
+bool ClipboardItem::setData(const QVariantMap &data)
 {
+    if (m_data == data)
+        return false;
+
     m_data = data;
     updateDataHash();
+    return true;
 }
 
 bool ClipboardItem::updateData(const QVariantMap &data)
@@ -138,21 +132,18 @@ void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
     updateDataHash();
 }
 
-QString ClipboardItem::text() const
-{
-    return getTextData(m_data);
-}
-
 QVariant ClipboardItem::data(int role) const
 {
     if (role == Qt::DisplayRole || role == Qt::EditRole) {
         if ( m_data.contains(mimeText) )
-            return text();
+            return getTextData(m_data);
         if ( m_data.contains(mimeUriList) )
             return getTextData(m_data, mimeUriList);
     } else if (role >= Qt::UserRole) {
         if (role == contentType::data) {
             return m_data; // copy-on-write, so this should be fast
+        } else if (role == contentType::hash) {
+            return m_hash;
         } else if (role == contentType::hasText) {
             return m_data.contains(mimeText) || m_data.contains(mimeUriList);
         } else if (role == contentType::hasHtml) {

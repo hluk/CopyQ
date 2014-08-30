@@ -21,11 +21,11 @@
 #include "ui_configtabappearance.h"
 
 #include "common/common.h"
+#include "common/contenttype.h"
 #include "common/mimetypes.h"
 #include "common/option.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/iconfont.h"
-#include "item/clipboarditem.h"
 #include "item/itemeditor.h"
 #include "item/itemdelegate.h"
 
@@ -194,7 +194,11 @@ ConfigTabAppearance::ConfigTabAppearance(QWidget *parent)
     for (int i = 1; i <= 20; ++i)
         c->add( tr("Example item %1").arg(i), -1 );
 
-    c->at(0)->setData( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
+    QAbstractItemModel *model = c->model();
+    QModelIndex index = model->index(0, 0);
+    QVariantMap dataMap;
+    dataMap.insert( mimeItemNotes, tr("Some random notes (Shift+F2 to edit)").toUtf8() );
+    model->setData(index, dataMap, contentType::updateData);
 
     // Highlight found text but don't filter out any items.
     c->filterItems( QRegExp(QString("|") + searchFor, Qt::CaseInsensitive) );

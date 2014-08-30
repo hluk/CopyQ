@@ -22,7 +22,6 @@
 
 #include "common/command.h"
 #include "gui/configtabshortcuts.h"
-#include "item/clipboarditem.h"
 #include "item/itemwidget.h"
 
 #include <QListView>
@@ -53,6 +52,8 @@ struct ClipboardBrowserShared {
     int minutesToExpire;
 };
 typedef QSharedPointer<ClipboardBrowserShared> ClipboardBrowserSharedPtr;
+
+QVariantMap itemData(const QModelIndex &index);
 
 /** List view of clipboard items. */
 class ClipboardBrowser : public QListView
@@ -95,12 +96,8 @@ class ClipboardBrowser : public QListView
         /** Reverse order of selected items. */
         void reverseItems(const QModelIndexList &indexes);
 
-        /** Data of item in given row or current row. */
-        QVariantMap itemData(int i = -1) const;
         /** Index of item in given row. */
         QModelIndex index(int i) const { return model()->index(i,0); }
-        /** Return clipboard item at given row. */
-        ClipboardItemPtr at(int row) const;
 
         /** Returns concatenation of selected items. */
         const QString selectedText() const;
@@ -202,8 +199,6 @@ class ClipboardBrowser : public QListView
 
         /** Receive key event. */
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
-        /** Move current item to clipboard. */
-        void moveToClipboard();
         /** Move item to clipboard. */
         void moveToClipboard(const QModelIndex &ind);
         /** Move item to clipboard. */
@@ -295,12 +290,6 @@ class ClipboardBrowser : public QListView
          * Select previous item and copy it to clipboard.
          */
         void copyPreviousItemToClipboard();
-
-        /**
-         * Data of item in given row or current row.
-         * If MIME type is "?" return list of available MIME types.
-         */
-        QByteArray itemData(int i, const QString &mime) const;
 
         /** Edit item in given @a row. */
         void editRow(int row);

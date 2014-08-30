@@ -30,7 +30,6 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "gui/pluginwidget.h"
-#include "item/clipboarditem.h"
 #include "item/clipboardmodel.h"
 #include "item/encrypt.h"
 #include "item/itemdelegate.h"

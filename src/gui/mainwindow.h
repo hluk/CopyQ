@@ -32,9 +32,7 @@
 #include <QPointer>
 #include <QSystemTrayIcon>
 
-class Action;
 class ActionHandler;
-class ClipboardItem;
 class CommandDialog;
 class NotificationDaemon;
 class QAction;
