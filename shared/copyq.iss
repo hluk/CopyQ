@@ -149,6 +149,7 @@ Source: "{#QtRoot}\bin\QtXml4.dll"; DestDir: "{app}"; Components: program; Flags
 Source: "{#QtRoot}\bin\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\plugins\imageformats\qico4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\plugins\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\translations\qt_*.qm"; DestDir: "{app}\translations"; Components: translations; Flags: skipifsourcedoesntexist
 #else
 Source: "{#QtRoot}\bin\icudt51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\icuin51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist

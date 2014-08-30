@@ -140,14 +140,19 @@ void installTranslator()
         locale = QLocale::system().name();
 
     QStringList translationDirectories;
+#ifdef COPYQ_TRANSLATION_PREFIX
+    translationDirectories.prepend(COPYQ_TRANSLATION_PREFIX);
+#endif
 
     // 1. Qt translations
+#ifdef COPYQ_TRANSLATION_PREFIX
+    installTranslator("qt_" + locale, COPYQ_TRANSLATION_PREFIX);
+#endif
     installTranslator("qt_" + locale, QLibraryInfo::location(QLibraryInfo::TranslationsPath));
 
     // 2. installed translations
 #ifdef COPYQ_TRANSLATION_PREFIX
     installTranslator("copyq_" + locale, COPYQ_TRANSLATION_PREFIX);
-    translationDirectories.prepend(COPYQ_TRANSLATION_PREFIX);
 #endif
 
     // 3. custom translations
