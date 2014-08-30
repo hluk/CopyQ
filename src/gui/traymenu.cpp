@@ -170,9 +170,9 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
     // Menu item icon from image.
     if (showImages) {
         const QStringList formats = data.keys();
-        const int i = formats.indexOf("^image/");
-        if (i != -1) {
-            const QString &format = formats[i];
+        const int imageIndex = formats.indexOf( QRegExp("^image/.*") );
+        if (imageIndex != -1) {
+            const QString &format = formats[imageIndex];
             QPixmap pix;
             pix.loadFromData( data.value(format).toByteArray(), format.toLatin1().data() );
             const int iconSize = 24;
