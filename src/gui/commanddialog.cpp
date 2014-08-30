@@ -196,15 +196,21 @@ enum GlobalAction {
     GlobalActionPasteAndCopyPrevious
 };
 
+QString toPortableShortcutText(const QString &shortcutNativeText)
+{
+    return QKeySequence(shortcutNativeText, QKeySequence::NativeText)
+            .toString(QKeySequence::PortableText);
+}
+
 void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
                           const QStringList &s, Command *c)
 {
     c->name = name;
     c->cmd = "copyq: " + script;
     c->icon = QString(QChar(icon));
-    c->globalShortcuts = s.isEmpty()
-            ? QStringList(ConfigurationManager::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands"))
-            : s;
+    QString shortcutNativeText =
+            ConfigurationManager::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands");
+    c->globalShortcuts = s.isEmpty() ? QStringList(toPortableShortcutText(shortcutNativeText)) : s;
 }
 
 void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QStringList())
@@ -636,7 +642,7 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->cmd  = "copyq:\ncopy(input())\npaste()";
         c->hideWindow = true;
         c->inMenu = true;
-        c->shortcuts.append( tr("Shift+Return") );
+        c->shortcuts.append( toPortableShortcutText(tr("Shift+Return")) );
     } else if (index == ++i) {
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
@@ -702,7 +708,7 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->inMenu = true;
         c->transform = true;
         c->cmd = getEncryptCommand() + " --encrypt";
-        c->shortcuts.append( tr("Ctrl+L") );
+        c->shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
     } else if (index == ++i) {
         c->name = tr("Decrypt");
         c->icon = QString(QChar(IconUnlock));
@@ -711,21 +717,21 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->inMenu = true;
         c->transform = true;
         c->cmd = getEncryptCommand() + " --decrypt";
-        c->shortcuts.append( tr("Ctrl+L") );
+        c->shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
     } else if (index == ++i) {
         c->name = tr("Decrypt and Copy");
         c->icon = QString(QChar(IconUnlockAlt));
         c->input = mimeEncryptedData;
         c->inMenu = true;
         c->cmd = getEncryptCommand() + " --decrypt | copyq copy " + mimeItems + " -";
-        c->shortcuts.append( tr("Ctrl+Shift+L") );
+        c->shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
     } else if (index == ++i) {
         c->name = tr("Move to Trash");
         c->icon = QString(QChar(IconTrash));
         c->inMenu = true;
         c->tab  = tr("(trash)");
         c->remove = true;
-        c->shortcuts.append( shortcutToRemove() );
+        c->shortcuts.append( toPortableShortcutText(shortcutToRemove()) );
     } else {
         return false;
     }

@@ -41,7 +41,7 @@ QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)
     QStringList shortcutTexts;
 
     foreach (const QKeySequence &shortcut, shortcuts)
-        shortcutTexts.append(shortcut.toString());
+        shortcutTexts.append(shortcut.toString(QKeySequence::PortableText));
 
     return shortcutTexts;
 }
