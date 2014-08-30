@@ -177,22 +177,22 @@
         <translation type="vanished">Ko&amp;mando (%1 er teksten i valgte elementer):</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="61"/>
+        <location filename="../src/ui/actiondialog.ui" line="64"/>
         <source>Standard &amp;input:</source>
         <translation>Standard &amp;input:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="71"/>
+        <location filename="../src/ui/actiondialog.ui" line="74"/>
         <source>Store standard o&amp;utput:</source>
         <translation>Gem standard o&amp;utput:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="81"/>
+        <location filename="../src/ui/actiondialog.ui" line="84"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
         <translation>Send data af givet MIME-type til standard input kommando (lad være tom for at deaktivere)</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="88"/>
+        <location filename="../src/ui/actiondialog.ui" line="91"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Opret elementer fra standard output af programmet (lad være tom for at deaktivere)</translation>
     </message>
@@ -210,38 +210,38 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="105"/>
+        <location filename="../src/ui/actiondialog.ui" line="108"/>
         <source>&amp;Separator for new items:</source>
         <translation>&amp;Separator for nye elementer:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="115"/>
+        <location filename="../src/ui/actiondialog.ui" line="118"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Regulær udtryk til at opdele output i flere elementer.&lt;\p&gt; &lt;p&gt;brug &lt;b&gt;\n&lt;/b&gt; til at gemme hver linje i separate elementer.&lt;/p&gt;</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="119"/>
+        <location filename="../src/ui/actiondialog.ui" line="122"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="126"/>
+        <location filename="../src/ui/actiondialog.ui" line="129"/>
         <source>Output &amp;tab:</source>
         <translation>Output fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/actiondialog.ui" line="136"/>
+        <location filename="../src/ui/actiondialog.ui" line="139"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
         <translation>Gemme elementer i fanen med følgende navn (tom gemmer i den aktuelle fane)</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="297"/>
+        <location filename="../src/gui/actiondialog.cpp" line="298"/>
         <source>Command saved</source>
         <translation>Kommandoen er gemt</translation>
     </message>
     <message>
-        <location filename="../src/gui/actiondialog.cpp" line="298"/>
+        <location filename="../src/gui/actiondialog.cpp" line="299"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
         <translation>Kommandoen blev gemt og kan tilgås fra menuen.
@@ -288,12 +288,12 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation>Søger %p%…</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="2058"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="2057"/>
         <source>Discard Changes?</source>
         <translation>Kasser ændringer?</translation>
     </message>
     <message>
-        <location filename="../src/gui/clipboardbrowser.cpp" line="2059"/>
+        <location filename="../src/gui/clipboardbrowser.cpp" line="2058"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
         <translation>Vil du &lt;strong&gt;slette ændringer&lt;/strong&gt;?</translation>
     </message>
@@ -301,12 +301,12 @@ Du kan ændre kommandoen i indstillinget.</translation>
 <context>
     <name>ClipboardClient</name>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="38"/>
+        <location filename="../src/app/clipboardclient.cpp" line="40"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
         <translation>Kan ikke forbinde til server! Start CopyQ server først.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardclient.cpp" line="72"/>
+        <location filename="../src/app/clipboardclient.cpp" line="74"/>
         <source>Connection lost!</source>
         <translation>Forbindelsen mistet!</translation>
     </message>
@@ -405,128 +405,128 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation>Gem markerede kommandoer…</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="516"/>
+        <location filename="../src/gui/commanddialog.cpp" line="466"/>
         <source>Open Files with Commands</source>
         <translation type="unfinished">Åben filer med kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="517"/>
+        <location filename="../src/gui/commanddialog.cpp" line="467"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
         <translation>Kommandoer (*.ini);; CopyQ konfiguration (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="526"/>
+        <location filename="../src/gui/commanddialog.cpp" line="476"/>
         <source>Save Selected Commands</source>
         <translation>Gem valgte kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="527"/>
+        <location filename="../src/gui/commanddialog.cpp" line="477"/>
         <source>Commands (*.ini)</source>
         <translation>Kommandoer (*.ini)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="637"/>
+        <location filename="../src/gui/commanddialog.cpp" line="585"/>
         <source>New command</source>
         <translation>Ny kommando</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="672"/>
+        <location filename="../src/gui/commanddialog.cpp" line="620"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignorere elementer med ingen eller enkelt tegn</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="678"/>
+        <location filename="../src/gui/commanddialog.cpp" line="626"/>
         <source>Open in &amp;Browser</source>
         <translation>Åbn i &amp;Browser</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="685"/>
+        <location filename="../src/gui/commanddialog.cpp" line="633"/>
         <source>Paste as Plain Text</source>
         <translation>Indsæt som almindelig tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="691"/>
+        <location filename="../src/gui/commanddialog.cpp" line="639"/>
         <source>Shift+Return</source>
         <translation type="unfinished">Skift+Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="693"/>
+        <location filename="../src/gui/commanddialog.cpp" line="641"/>
         <source>Autoplay videos</source>
         <translation>Automatisk afspilning af videoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="701"/>
+        <location filename="../src/gui/commanddialog.cpp" line="649"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Kopier URL (webadresse) til anden fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="707"/>
+        <location filename="../src/gui/commanddialog.cpp" line="655"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Opret miniature (kræver ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="714"/>
+        <location filename="../src/gui/commanddialog.cpp" line="662"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Opret QR kode fra URL (behøver qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="722"/>
+        <location filename="../src/gui/commanddialog.cpp" line="670"/>
         <source>Add to &amp;TODO tab</source>
         <translation type="unfinished">Tilføj til &amp;TODO fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="728"/>
+        <location filename="../src/gui/commanddialog.cpp" line="676"/>
         <source>Move to &amp;TODO tab</source>
         <translation type="unfinished">Flyt til &amp;TODO fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="735"/>
+        <location filename="../src/gui/commanddialog.cpp" line="683"/>
         <source>Ignore copied files</source>
         <translation>Ignorer kopierede filer</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="742"/>
+        <location filename="../src/gui/commanddialog.cpp" line="690"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="743"/>
+        <location filename="../src/gui/commanddialog.cpp" line="691"/>
         <source>Password</source>
         <translation>Adgangskode</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="750"/>
+        <location filename="../src/gui/commanddialog.cpp" line="698"/>
         <source>Encrypt (needs GnuPG)</source>
         <translation>Krypter (kræver GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="757"/>
-        <location filename="../src/gui/commanddialog.cpp" line="766"/>
+        <location filename="../src/gui/commanddialog.cpp" line="705"/>
+        <location filename="../src/gui/commanddialog.cpp" line="714"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="759"/>
+        <location filename="../src/gui/commanddialog.cpp" line="707"/>
         <source>Decrypt</source>
         <translation>Dekrypter</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="768"/>
+        <location filename="../src/gui/commanddialog.cpp" line="716"/>
         <source>Decrypt and Copy</source>
         <translation>Dekrypter og kopi</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="773"/>
+        <location filename="../src/gui/commanddialog.cpp" line="721"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="775"/>
+        <location filename="../src/gui/commanddialog.cpp" line="723"/>
         <source>Move to Trash</source>
         <translation>Flyt til papirkurven</translation>
     </message>
     <message>
-        <location filename="../src/gui/commanddialog.cpp" line="778"/>
+        <location filename="../src/gui/commanddialog.cpp" line="726"/>
         <source>(trash)</source>
         <translation>(Papirkurv)</translation>
     </message>
@@ -534,39 +534,45 @@ Du kan ændre kommandoen i indstillinget.</translation>
 <context>
     <name>CommandHelpButton</name>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="50"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="114"/>
         <source>Show command help (F1)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="76"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="57"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="79"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="61"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="87"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="71"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="89"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="74"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="94"/>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Functions listed below can be used as in following commands.</source>
         <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
+        <source>&amp;clipboard</source>
+        <comment>Example tab name</comment>
+        <translation type="unfinished">Udklipsholder</translation>
     </message>
 </context>
 <context>
@@ -634,27 +640,27 @@ Lad være tom for at deaktivere.</translation>
         <translation>Komman&amp;do</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="296"/>
+        <location filename="../src/ui/commandwidget.ui" line="287"/>
         <source>Co&amp;py to tab:</source>
         <translation>Ko&amp;pier til fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="354"/>
+        <location filename="../src/ui/commandwidget.ui" line="345"/>
         <source>Hide window after command is activated from context menu of an item</source>
         <translation type="unfinished">Skjul vindue, når kommando er aktiveret fra kontekstmenuen for et element</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="443"/>
+        <location filename="../src/ui/commandwidget.ui" line="434"/>
         <source>Change item, don&apos;t create any new items</source>
         <translation>Ændre element, opret ikke nye elementer</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="446"/>
+        <location filename="../src/ui/commandwidget.ui" line="437"/>
         <source>Tr&amp;ansform</source>
         <translation>Tr&amp;ansformer</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="473"/>
+        <location filename="../src/ui/commandwidget.ui" line="464"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
         <translation>Opret elementer fra standard output af programmet (lad være tom for at deaktivere)</translation>
     </message>
@@ -703,7 +709,7 @@ Lad være tom for at deaktivere.</translation>
         <translation type="vanished">Komma&amp;ndo</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="273"/>
+        <location filename="../src/ui/commandwidget.ui" line="264"/>
         <source>Action</source>
         <translation>Handling</translation>
     </message>
@@ -712,24 +718,24 @@ Lad være tom for at deaktivere.</translation>
         <translation type="vanished">Kopier til fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="306"/>
+        <location filename="../src/ui/commandwidget.ui" line="297"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
         <translation>Navnet på fanen som nye elementer kopieres til (lad være for tom for ikke at kopiere)</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="318"/>
+        <location filename="../src/ui/commandwidget.ui" line="309"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="323"/>
+        <location filename="../src/ui/commandwidget.ui" line="314"/>
         <source>&amp;Remove Item</source>
         <translation>Fjern element</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="333"/>
+        <location filename="../src/ui/commandwidget.ui" line="324"/>
         <source>Menu Action</source>
         <translation type="unfinished">Handlings menu</translation>
     </message>
@@ -738,57 +744,57 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation type="obsolete">Skjul vindue, når kommando er aktiveret fra kontekstmenuen for et element.</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="357"/>
+        <location filename="../src/ui/commandwidget.ui" line="348"/>
         <source>&amp;Hide main window after activation</source>
         <translation>Skjul hovedvinduet efter aktivering</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="372"/>
+        <location filename="../src/ui/commandwidget.ui" line="363"/>
         <source>&amp;Shortcut:</source>
         <translation>Genvej:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="407"/>
+        <location filename="../src/ui/commandwidget.ui" line="398"/>
         <source>Command options</source>
         <translation>Kommandoindstillinger</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="433"/>
+        <location filename="../src/ui/commandwidget.ui" line="424"/>
         <source>Show action dialog before executing the command</source>
         <translation>Vis dialogboks for handling før du udfører kommandoen</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="436"/>
+        <location filename="../src/ui/commandwidget.ui" line="427"/>
         <source>&amp;Wait</source>
         <translation>Vent</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="463"/>
+        <location filename="../src/ui/commandwidget.ui" line="454"/>
         <source>O&amp;utput:</source>
         <translation>O&amp;utput:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="483"/>
+        <location filename="../src/ui/commandwidget.ui" line="474"/>
         <source>&amp;Separator:</source>
         <translation>&amp;Separator:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="493"/>
+        <location filename="../src/ui/commandwidget.ui" line="484"/>
         <source>Separator to match for splitting the output to multiple items</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="496"/>
+        <location filename="../src/ui/commandwidget.ui" line="487"/>
         <source>\n</source>
         <translation>\n</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="503"/>
+        <location filename="../src/ui/commandwidget.ui" line="494"/>
         <source>Output &amp;tab:</source>
         <translation>Outpu&amp;t fane:</translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="513"/>
+        <location filename="../src/ui/commandwidget.ui" line="504"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
         <translation>Gem elementer i fane med givet navn (Tom for at gemme i første fane)</translation>
     </message>
@@ -1028,7 +1034,7 @@ CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
-        <location filename="../src/tests/tests.cpp" line="1419"/>
+        <location filename="../src/tests/tests.cpp" line="1420"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -2940,6 +2946,19 @@ Set to 0 to disable.</source>
     </message>
 </context>
 <context>
+    <name>Notification</name>
+    <message>
+        <location filename="../src/gui/notification.cpp" line="48"/>
+        <source>CopyQ Inspect Notification</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/notification.cpp" line="70"/>
+        <source>&amp;Copy</source>
+        <translation type="unfinished"></translation>
+    </message>
+</context>
+<context>
     <name>ProcessManagerDialog</name>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
@@ -3004,7 +3023,7 @@ Set to 0 to disable.</source>
 <context>
     <name>QObject</name>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="331"/>
+        <location filename="../src/common/common.cpp" line="332"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -3013,37 +3032,37 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="342"/>
+        <location filename="../src/common/common.cpp" line="343"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation type="unfinished">&lt;BILLED&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="344"/>
+        <location filename="../src/common/common.cpp" line="345"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation>&lt;FILER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="346"/>
+        <location filename="../src/common/common.cpp" line="347"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="348"/>
+        <location filename="../src/common/common.cpp" line="349"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="360"/>
+        <location filename="../src/common/common.cpp" line="361"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
         <translation type="unfinished">Backspace</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="362"/>
+        <location filename="../src/common/common.cpp" line="363"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
         <translation>Slet</translation>
@@ -3059,7 +3078,7 @@ Set to 0 to disable.</source>
         <translation>FEJL: %1</translation>
     </message>
     <message numerus="yes">
-        <location filename="../src/gui/notificationdaemon.cpp" line="95"/>
+        <location filename="../src/gui/notificationdaemon.cpp" line="90"/>
         <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
@@ -3068,7 +3087,7 @@ Set to 0 to disable.</source>
         </translation>
     </message>
     <message>
-        <location filename="../src/gui/notificationdaemon.cpp" line="98"/>
+        <location filename="../src/gui/notificationdaemon.cpp" line="93"/>
         <source>%1</source>
         <comment>Notification label for single-line text in clipboard</comment>
         <translation>%1</translation>
@@ -3094,7 +3113,7 @@ Set to 0 to disable.</source>
         <translation type="unfinished">Data deserialiseringen mislykkedes: %1</translation>
     </message>
     <message>
-        <location filename="../src/main.cpp" line="134"/>
+        <location filename="../src/main.cpp" line="166"/>
         <source>Session name must contain at most 16 characters
 which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Sessionsnavn skal indeholde højst 16 tegn
@@ -3335,7 +3354,7 @@ Standard er den første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="54"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="55"/>
         <source>COMMAND</source>
         <translation>COMMAND</translation>
     </message>
@@ -3439,86 +3458,86 @@ Print version of program and libraries.</source>
 Udskriv programversion og biblioteker.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="54"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="55"/>
         <source>Usage: copyq [%1]</source>
         <translation>Brug: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="55"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="56"/>
         <source>Starts server if no command is specified.</source>
         <translation>Start server, hvis der ikke er specificeret nogen kommando.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="56"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="57"/>
         <source>  COMMANDs:</source>
         <translation>  Kommandoer:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="61"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>NOTES:</source>
         <translation>NOTER:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="63"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation>  -Brug bindestreg argument (-) til at læse data fra standard input.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="63"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="64"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation type="unfinished">  -Brug dobbelt-bindestreg argument (-) til at læse alle følgende argumenter uden at udvide escape-sekvenser (dvs. \n, \t m.fl.).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="65"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="66"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation type="unfinished">  -Brug? for MIME til at udskrive tilgængelige MIME-typer (standard er &quot;almindelig tekst&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="70"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="71"/>
         <source>Invalid number of arguments!</source>
         <translation>Ugyldigt antal argumenter!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="283"/>
-        <location filename="../src/scriptable/scriptableworker.cpp" line="128"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="302"/>
+        <location filename="../src/scriptable/scriptableworker.cpp" line="131"/>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>Navnet &quot;%1&quot; referere ikke til en funktion.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="344"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="366"/>
         <source>Built with: </source>
         <translation>Bygget med: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="369"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="394"/>
         <source>Command not found!</source>
         <translation>Kommandoen blev ikke fundet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="425"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="446"/>
         <source>Terminating server.
 </source>
         <translation>Afslutter serveren.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1010"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1099"/>
         <source>Failed to set clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="749"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="778"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Kan ikke gemme filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="760"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="789"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>K.an ikke importere filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="772"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="801"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation type="unfinished">Ugyldig indstilling &quot;%1&quot;!</translation>
     </message>
@@ -3562,12 +3581,12 @@ Udskriv programversion og biblioteker.</translation>
         <translation>&amp;Find:</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="371"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="377"/>
         <source>There is command overriding this shortcut.</source>
         <translation>Der er en kommando der tilsidesætter denne genvej.</translation>
     </message>
     <message>
-        <location filename="../src/gui/shortcutswidget.cpp" line="372"/>
+        <location filename="../src/gui/shortcutswidget.cpp" line="378"/>
         <source>Shortcut already exists!</source>
         <translation>Genvejen findes allerede!</translation>
     </message>
@@ -3627,17 +3646,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="63"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="217"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Fanen med navnet eksisterer ikke!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="68"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="222"/>
         <source>Tab name cannot be empty!</source>
         <translation>Fanenavn må ikke være tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="133"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="287"/>
         <source>Tab with given name already exists!</source>
         <translation>Fanen med angivne navn findes allerede!</translation>
     </message>
