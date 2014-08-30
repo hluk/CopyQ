@@ -134,6 +134,11 @@ public:
 
     virtual QObject *tests(const TestInterfacePtr &test) const;
 
+    virtual const QObject *signaler() const { return this; }
+
+signals:
+    void error(const QString &);
+
 private slots:
     void removeWatcher(QObject *watcher);
     void removeModel();

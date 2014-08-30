@@ -22,6 +22,7 @@
 
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"
@@ -45,6 +46,21 @@ void startGpgProcess(QProcess *p, const QStringList &args)
     p->start("gpg", getDefaultEncryptCommandArguments() + args);
 }
 
+bool verifyProcess(QProcess *p)
+{
+    if ( p->exitStatus() != QProcess::NormalExit ) {
+        COPYQ_LOG( "ItemEncrypt ERROR: Failed to run GnuPG: " + p->errorString() );
+        return false;
+    } else if ( p->exitCode() != 0 ) {
+        const QString errors = p->readAllStandardError();
+        if ( !errors.isEmpty() )
+            COPYQ_LOG( "ItemEncrypt ERROR: GnuPG stderr:\n" + errors );
+        return false;
+    }
+
+    return true;
+}
+
 QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByteArray())
 {
     QProcess p;
@@ -52,6 +68,7 @@ QByteArray readGpgOutput(const QStringList &args, const QByteArray &input = QByt
     p.write(input);
     p.closeWriteChannel();
     p.waitForFinished();
+    verifyProcess(&p);
     return p.readAllStandardOutput();
 }
 
@@ -162,7 +179,7 @@ QWidget *ItemEncryptedLoader::createSettingsWidget(QWidget *parent)
     startGpgProcess(&p, QStringList("--version"));
     p.closeWriteChannel();
     p.waitForFinished();
-    if ( p.error() != QProcess::UnknownError ) {
+    if ( !verifyProcess(&p) ) {
         m_gpgProcessStatus = GpgNotInstalled;
     } else {
         KeyPairPaths keys;
@@ -227,12 +244,14 @@ bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model)
 
 bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
 {
-    if (m_gpgProcessStatus == GpgNotInstalled)
-        return false;
-
     // This is needed to skip header.
     if ( !canLoadItems(file) )
         return false;
+
+    if (m_gpgProcessStatus == GpgNotInstalled) {
+        emit error( tr("GnuPG must be installed to view encrypted tabs.") );
+        return false;
+    }
 
     QProcess p;
     startGpgProcess( &p, QStringList("--decrypt") );
@@ -242,8 +261,11 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
     QDataStream stream(file);
     while ( !stream.atEnd() ) {
         const int bytesRead = stream.readRawData(encryptedBytes, 4096);
-        if (bytesRead == -1)
+        if (bytesRead == -1) {
+            emitEncryptFailed();
+            COPYQ_LOG("ItemEncrypted ERROR: Failed to read encrypted data");
             return false;
+        }
         p.write(encryptedBytes, bytesRead);
     }
 
@@ -251,27 +273,43 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
     p.waitForFinished();
 
     const QByteArray bytes = p.readAllStandardOutput();
-    if ( bytes.isEmpty() )
+    if ( bytes.isEmpty() ) {
+        emitEncryptFailed();
+        COPYQ_LOG("ItemEncrypt ERROR: Failed to read decrypted data.");
+        verifyProcess(&p);
         return false;
+    }
 
     QDataStream stream2(bytes);
 
     quint64 maxItems = model->property("maxItems").toInt();
     quint64 length;
     stream2 >> length;
-    if ( length <= 0 || stream2.status() != QDataStream::Ok )
+    if ( length <= 0 || stream2.status() != QDataStream::Ok ) {
+        emitEncryptFailed();
+        COPYQ_LOG("ItemEncrypt ERROR: Failed to parse item count!");
         return false;
+    }
     length = qMin(length, maxItems) - model->rowCount();
 
     for ( quint64 i = 0; i < length && stream2.status() == QDataStream::Ok; ++i ) {
-        if ( !model->insertRow(i) )
+        if ( !model->insertRow(i) ) {
+            emitEncryptFailed();
+            COPYQ_LOG("ItemEncrypt ERROR: Failed to insert item!");
             return false;
+        }
         QVariantMap dataMap;
         stream2 >> dataMap;
         model->setData( model->index(i, 0), dataMap, contentType::data );
     }
 
-    return stream2.status() == QDataStream::Ok;
+    if ( stream2.status() != QDataStream::Ok ) {
+        emitEncryptFailed();
+        COPYQ_LOG("ItemEncrypt ERROR: Failed to decrypt item!");
+        return false;
+    }
+
+    return true;
 }
 
 bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file)
@@ -299,12 +337,21 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file
     }
 
     bytes = readGpgOutput(QStringList("--encrypt"), bytes);
-    if ( bytes.isEmpty() )
+    if ( bytes.isEmpty() ) {
+        emitDecryptFailed();
+        COPYQ_LOG("ItemEncrypt ERROR: Failed to read encrypted data");
         return false;
+    }
 
     QDataStream stream(file);
     stream << QString(dataFileHeaderV2);
     stream.writeRawData( bytes.data(), bytes.size() );
+
+    if ( stream.status() != QDataStream::Ok ) {
+        emitDecryptFailed();
+        COPYQ_LOG("ItemEncrypt ERROR: Failed to write encrypted data");
+        return false;
+    }
 
     return true;
 }
@@ -428,6 +475,16 @@ void ItemEncryptedLoader::updateUi()
     } else {
         ui->pushButtonPassword->setText( tr("Change Password...") );
     }
+}
+
+void ItemEncryptedLoader::emitEncryptFailed()
+{
+    emit error( tr("Encryption failed!") );
+}
+
+void ItemEncryptedLoader::emitDecryptFailed()
+{
+    emit error( tr("Decryption failed!") );
 }
 
 Q_EXPORT_PLUGIN2(itemencrypted, ItemEncryptedLoader)

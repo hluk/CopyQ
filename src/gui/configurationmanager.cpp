@@ -113,6 +113,7 @@ ConfigurationManager::ConfigurationManager()
 
     initOptions();
 
+    connect(m_itemFactory, SIGNAL(error(QString)), SIGNAL(error(QString)));
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
 

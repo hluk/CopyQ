@@ -292,6 +292,12 @@ public:
      * if will be passed to ItemLoaderInterface::loadSettings() for this plugin.
      */
     virtual QObject *tests(const TestInterfacePtr &test) const;
+
+    /**
+     * Return QObject instance with signals (by default null pointer).
+     * Returned QObject must have signal error(QString) for signaling errors.
+     */
+    virtual const QObject *signaler() const;
 };
 
 typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;

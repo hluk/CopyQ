@@ -83,6 +83,11 @@ public:
 
     virtual bool initializeTab(QAbstractItemModel *model);
 
+    virtual const QObject *signaler() const { return this; }
+
+signals:
+    void error(const QString &);
+
 private slots:
     void setPassword();
     void terminateGpgProcess();
@@ -97,6 +102,9 @@ private:
     };
 
     void updateUi();
+
+    void emitEncryptFailed();
+    void emitDecryptFailed();
 
     QScopedPointer<Ui::ItemEncryptedSettings> ui;
     QVariantMap m_settings;

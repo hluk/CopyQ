@@ -216,6 +216,8 @@ MainWindow::MainWindow(QWidget *parent)
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
+    connect( cm, SIGNAL(error(QString)),
+             this, SLOT(showError(QString)) );
 
     // browse mode by default
     enterBrowseMode();

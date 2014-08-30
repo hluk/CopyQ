@@ -123,6 +123,11 @@ public:
      */
     bool matches(const QModelIndex &index, const QRegExp &re) const;
 
+    void emitError(const QString &errorString);
+
+signals:
+    void error(const QString &);
+
 private slots:
     /** Called if child ItemWidget destroyed. **/
     void loaderChildDestroyed(QObject *obj);
@@ -136,6 +141,8 @@ private:
 
     /** Calls ItemLoaderInterface::transform() for all plugins in reverse order. */
     ItemWidget *transformItem(ItemWidget *item, const QModelIndex &index);
+
+    void addLoader(const ItemLoaderInterfacePtr &loader);
 
     QVector<ItemLoaderInterfacePtr> m_loaders;
     ItemLoaderInterfacePtr m_dummyLoader;

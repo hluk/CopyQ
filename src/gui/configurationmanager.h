@@ -139,6 +139,8 @@ signals:
     /** Emitted if configuration dialog closes. */
     void stopped();
 
+    void error(const QString &error);
+
 protected:
     static void createInstance();
 

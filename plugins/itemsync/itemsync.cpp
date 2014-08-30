@@ -1640,8 +1640,10 @@ bool ItemSyncLoader::loadItems(QAbstractItemModel *model, const QStringList &fil
         return true;
 
     QDir dir(path);
-    if ( !dir.mkpath(".") )
+    if ( !dir.mkpath(".") ) {
+        emit error( tr("Failed to create synchronization directory"));
         return false;
+    }
 
     // Monitor files in directory.
     FileWatcher *watcher = new FileWatcher(dir.path(), files, model, m_formatSettings, this);
@@ -1653,8 +1655,6 @@ bool ItemSyncLoader::loadItems(QAbstractItemModel *model, const QStringList &fil
              SLOT(removeModel()) );
     connect( watcher, SIGNAL(destroyed(QObject*)),
              SLOT(removeWatcher(QObject*)) );
-
-    return watcher;
 
     return true;
 }

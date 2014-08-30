@@ -248,3 +248,8 @@ QObject *ItemLoaderInterface::tests(const TestInterfacePtr &) const
 {
     return NULL;
 }
+
+const QObject *ItemLoaderInterface::signaler() const
+{
+    return NULL;
+}

@@ -161,6 +161,8 @@ private:
 class DummyLoader : public ItemLoaderInterface
 {
 public:
+    explicit DummyLoader(ItemFactory *factory) : m_factory(factory) {}
+
     QString id() const { return QString(); }
     QString name() const { return QString(); }
     QString author() const { return QString(); }
@@ -180,9 +182,10 @@ public:
         if ( file->size() > 0 ) {
             if ( !deserializeData(model, file) ) {
                 model->removeRows(0, model->rowCount());
-                log( QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
-                     .arg( quoteString(file->fileName()) ),
-                     LogError );
+                const QString errorString =
+                        QObject::tr("Item file %1 is corrupted or some CopyQ plugins are missing!")
+                        .arg(quoteString(file->fileName()) );
+                m_factory->emitError(errorString);
                 return false;
             }
         }
@@ -205,6 +208,9 @@ public:
         const QString text = index.data(contentType::text).toString();
         return re.indexIn(text) != -1;
     }
+
+private:
+    ItemFactory *m_factory;
 };
 
 } // namespace
@@ -212,7 +218,7 @@ public:
 ItemFactory::ItemFactory(QObject *parent)
     : QObject(parent)
     , m_loaders()
-    , m_dummyLoader(new DummyLoader)
+    , m_dummyLoader(new DummyLoader(this))
     , m_disabledLoaders()
     , m_loaderChildren()
 {
@@ -332,12 +338,18 @@ ItemLoaderInterfacePtr ItemFactory::initializeTab(QAbstractItemModel *model)
 
 bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
 {
-    foreach (const ItemLoaderInterfacePtr &loader, m_loaders) {
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
         if ( isLoaderEnabled(loader) && loader->matches(index, re) )
             return true;
     }
 
-    return m_dummyLoader->matches(index, re);
+    return false;
+}
+
+void ItemFactory::emitError(const QString &errorString)
+{
+    log(errorString, LogError);
+    emit error(errorString);
 }
 
 void ItemFactory::loaderChildDestroyed(QObject *obj)
@@ -401,7 +413,7 @@ bool ItemFactory::loadPlugins()
                 if (loader == NULL)
                     pluginLoader.unload();
                 else
-                    m_loaders.append( ItemLoaderInterfacePtr(loader) );
+                    addLoader( ItemLoaderInterfacePtr(loader) );
             }
         }
     }
@@ -437,4 +449,12 @@ ItemWidget *ItemFactory::transformItem(ItemWidget *item, const QModelIndex &inde
     }
 
     return item;
+}
+
+void ItemFactory::addLoader(const ItemLoaderInterfacePtr &loader)
+{
+    m_loaders.append(loader);
+    const QObject *signaler = loader->signaler();
+    if (signaler)
+        connect( signaler, SIGNAL(error(QString)), this, SIGNAL(error(QString)) );
 }
