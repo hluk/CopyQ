@@ -20,6 +20,8 @@
 #ifndef ACTIONHANDLER_H
 #define ACTIONHANDLER_H
 
+#include "common/command.h"
+
 #include <QDateTime>
 #include <QMenu>
 #include <QObject>
@@ -72,6 +74,8 @@ private slots:
     /** Delete finished action and its menu item. */
     void closeAction(Action *action);
 
+    void actionDialogClosed(ActionDialog *dialog);
+
     void addItems(const QStringList &items, const QString &tabName);
     void addItems(const QStringList &items, const QModelIndex &index);
     void addItem(const QByteArray &data, const QString &format, const QString &tabName);
@@ -84,6 +88,7 @@ private:
     QMap<QByteArray, QVariantMap> m_actionData;
     ProcessManagerDialog *m_activeActionDialog;
     QString m_currentTabName;
+    Command m_lastActionDialogCommand;
 };
 
 #endif // ACTIONHANDLER_H

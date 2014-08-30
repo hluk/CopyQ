@@ -61,9 +61,15 @@ public:
     /** Load settings. */
     void loadSettings();
 
+    /** Return current command. */
+    Command command() const;
+
 public slots:
     /** Create action from dialog's content. */
     void createAction();
+
+    void accept();
+    void done(int r);
 
 signals:
     /** Emitted if dialog was accepted. */
@@ -74,8 +80,7 @@ signals:
 
     void saveCommand(const Command &command);
 
-protected:
-    void accept();
+    void closed(ActionDialog *self);
 
 private slots:
     void on_buttonBox_clicked(QAbstractButton* button);

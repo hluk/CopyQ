@@ -48,9 +48,12 @@ ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
     ActionDialog *actionDialog = new ActionDialog(m_wnd);
     actionDialog->setAttribute(Qt::WA_DeleteOnClose, true);
     actionDialog->setOutputTabs(tabs, QString());
+    actionDialog->setCommand(m_lastActionDialogCommand);
 
     connect( actionDialog, SIGNAL(accepted(Action*,QVariantMap)),
              this, SLOT(action(Action*,QVariantMap)) );
+    connect( actionDialog, SIGNAL(closed(ActionDialog*)),
+             this, SLOT(actionDialogClosed(ActionDialog*)) );
 
     return actionDialog;
 }
@@ -153,6 +156,11 @@ void ActionHandler::closeAction(Action *action)
 
     if (!hasRunningAction())
         emit hasRunningActionChanged();
+}
+
+void ActionHandler::actionDialogClosed(ActionDialog *dialog)
+{
+    m_lastActionDialogCommand = dialog->command();
 }
 
 void ActionHandler::addItems(const QStringList &items, const QString &tabName)

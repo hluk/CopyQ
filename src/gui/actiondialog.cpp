@@ -262,6 +262,20 @@ void ActionDialog::loadSettings()
     restoreHistory();
 }
 
+Command ActionDialog::command() const
+{
+    Command cmd;
+
+    cmd.cmd = ui->plainTextEditCommand->toPlainText();
+    cmd.name = commandToLabel(cmd.cmd);
+    cmd.input = ui->comboBoxInputFormat->currentText();
+    cmd.output = ui->comboBoxOutputFormat->currentText();
+    cmd.sep = ui->separatorEdit->text();
+    cmd.outputTab = ui->comboBoxOutputTab->currentText();
+
+    return cmd;
+}
+
 void ActionDialog::accept()
 {
     QVariant itemData = createCurrentItemData();
@@ -277,23 +291,22 @@ void ActionDialog::accept()
     QDialog::accept();
 }
 
+void ActionDialog::done(int r)
+{
+    emit closed(this);
+
+    QDialog::done(r);
+}
+
 void ActionDialog::on_buttonBox_clicked(QAbstractButton* button)
 {
-    Command cmd;
-
     switch ( ui->buttonBox->standardButton(button) ) {
     case QDialogButtonBox::Ok:
         createAction();
         break;
     case QDialogButtonBox::Save:
-        cmd.cmd = ui->plainTextEditCommand->toPlainText();
-        cmd.name = commandToLabel(cmd.cmd);
-        cmd.input = ui->comboBoxInputFormat->currentText();
-        cmd.output = ui->comboBoxOutputFormat->currentText();
-        cmd.sep = ui->separatorEdit->text();
-        cmd.outputTab = ui->comboBoxOutputTab->currentText();
 
-        emit saveCommand(cmd);
+        emit saveCommand(command());
         QMessageBox::information(
                     this, tr("Command saved"),
                     tr("Command was saved and can be accessed from item menu.\n"
