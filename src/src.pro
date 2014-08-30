@@ -67,7 +67,6 @@ HEADERS += \
     gui/traymenu.h \
     item/clipboarditem.h \
     item/clipboardmodel.h \
-    item/encrypt.h \
     item/itemdelegate.h \
     item/itemeditor.h \
     item/itemeditorwidget.h \
@@ -145,7 +144,6 @@ SOURCES += \
     gui/traymenu.cpp \
     item/clipboarditem.cpp \
     item/clipboardmodel.cpp \
-    item/encrypt.cpp \
     item/itemdelegate.cpp \
     item/itemeditor.cpp \
     item/itemeditorwidget.cpp \

@@ -23,6 +23,8 @@
 #include "common/clientsocket.h"
 #include "common/commandstatus.h"
 #include "common/log.h"
+#include "gui/configurationmanager.h"
+#include "item/itemfactory.h"
 #include "../qt/bytearrayclass.h"
 
 #include <QApplication>
@@ -63,6 +65,7 @@ ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
     , m_wnd(mainWindow)
     , m_args(args)
     , m_socket(socket)
+    , m_pluginScript(ConfigurationManager::instance()->itemFactory()->scripts())
 {
 }
 
@@ -137,6 +140,7 @@ void ScriptableWorker::run()
             for ( int i = Arguments::Rest + 1; i < m_args.length(); ++i )
                 fnArgs.append( scriptable.newByteArray(m_args.at(i)) );
 
+            engine.evaluate(m_pluginScript);
             QScriptValue result = fn.call(QScriptValue(), fnArgs);
 
             if ( engine.hasUncaughtException() ) {

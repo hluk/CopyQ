@@ -10,7 +10,6 @@ SOURCES += \
     ../../src/common/mimetypes.cpp \
     ../../src/gui/iconfont.cpp \
     ../../src/gui/iconwidget.cpp \
-    ../../src/item/encrypt.cpp \
     ../../src/item/serialize.cpp
 FORMS   += itemencryptedsettings.ui
 TARGET   = $$qtLibraryTarget(itemencrypted)

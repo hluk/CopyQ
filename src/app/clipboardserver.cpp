@@ -33,7 +33,6 @@
 #include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
 #include "item/itemfactory.h"
-#include "item/encrypt.h"
 #include "item/serialize.h"
 #include "scriptable/scriptableworker.h"
 

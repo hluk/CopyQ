@@ -96,6 +96,10 @@ public:
 
     virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
 
+    virtual QString script() const;
+
+    virtual void addCommands(QList<Command> *commands) const;
+
 private slots:
     void onColorButtonClicked();
 

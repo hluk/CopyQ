@@ -20,6 +20,7 @@
 #include "itemtags.h"
 #include "ui_itemtagssettings.h"
 
+#include "common/command.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "gui/iconfont.h"
@@ -341,6 +342,73 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 bool ItemTagsLoader::matches(const QModelIndex &index, const QRegExp &re) const
 {
     return re.indexIn(tags(index)) != -1;
+}
+
+QString ItemTagsLoader::script() const
+{
+    return
+        "plugins." + id() + " = {"
+
+        "\n" "  mime: '" + QString(mimeTags) + "',"
+
+        "\n" "tagUntag: function(tagName, add) {"
+        "\n" "  if (!tagName)"
+        "\n" "    tagName = dialog('Tag')"
+        "\n" "  if (!tagName)"
+        "\n" "    return;"
+        "\n" "  "
+        "\n" "  tab(selectedtab())"
+        "\n" "  selected = selecteditems()"
+        "\n" "  "
+        "\n" "  for (var i in selected) {"
+        "\n" "    row = selected[i]"
+        "\n" "    tags = str(read(this.mime, row))"
+        "\n" "      .split(/\\s*,\\s*/)"
+        "\n" "      .filter(function(x) {return x != tagName;})"
+        "\n" "    if (add)"
+        "\n" "      tags = tags.concat(tagName)"
+        "\n" "    tags = tags.sort().join(',')"
+        "\n" "    change(row, this.mime, tags)"
+        "\n" "  }"
+        "\n" "},"
+
+        "\n" "tag: function(tagName) {"
+        "\n" "  this.tagUntag(tagName, true)"
+        "\n" "},"
+
+        "\n" "removeTag: function(tagName) {"
+        "\n" "  this.tagUntag(tagName, false)"
+        "\n" "},"
+
+        "\n" "clearTags: function() {"
+        "\n" "  tab(selectedtab())"
+        "\n" "  selected = selecteditems()"
+        "\n" "  for (var i in selected)"
+        "\n" "    change(selected[i], this.mime, '')"
+        "\n" "},"
+
+        "\n" "}";
+}
+
+void ItemTagsLoader::addCommands(QList<Command> *commands) const
+{
+    const QString tagName = tr("Important", "Tag name for example command");
+
+    Command c;
+    c.icon = QString(QChar(IconTag));
+    c.inMenu = true;
+
+    c.name = tr("Tag as %1").arg(quoteString(tagName));
+    c.cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
+    commands->append(c);
+
+    c.name = tr("Remove tag %1").arg(quoteString(tagName));
+    c.cmd = "copyq: plugins.itemtags.removeTag('" + tagName + "')";
+    commands->append(c);
+
+    c.name = tr("Clear all tags");
+    c.cmd = "copyq: plugins.itemtags.clearTags()";
+    commands->append(c);
 }
 
 void ItemTagsLoader::onColorButtonClicked()

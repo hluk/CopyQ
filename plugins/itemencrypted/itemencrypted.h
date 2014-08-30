@@ -85,6 +85,10 @@ public:
 
     virtual const QObject *signaler() const { return this; }
 
+    virtual QString script() const;
+
+    virtual void addCommands(QList<Command> *commands) const;
+
 signals:
     void error(const QString &);
 

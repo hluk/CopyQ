@@ -36,6 +36,7 @@ class QModelIndex;
 class QPalette;
 class QRegExp;
 class QWidget;
+struct Command;
 
 #define COPYQ_PLUGIN_ITEM_LOADER_ID "org.CopyQ.ItemPlugin.ItemLoader/1.0"
 
@@ -298,6 +299,16 @@ public:
      * Returned QObject must have signal error(QString) for signaling errors.
      */
     virtual const QObject *signaler() const;
+
+    /**
+     * Return script to run before client scripts.
+     */
+    virtual QString script() const;
+
+    /**
+     * Adds commands from scripts for command dialog.
+     */
+    virtual void addCommands(QList<Command> *commands) const;
 };
 
 typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;

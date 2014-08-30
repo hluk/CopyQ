@@ -41,6 +41,7 @@ private:
     MainWindow *m_wnd;
     Arguments m_args;
     ClientSocket *m_socket;
+    QString m_pluginScript;
 };
 
 #endif // SCRIPTABLEWORKER_H

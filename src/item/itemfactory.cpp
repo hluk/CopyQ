@@ -346,6 +346,22 @@ bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
     return false;
 }
 
+QString ItemFactory::scripts() const
+{
+    QString script = "var plugins = {}\n";
+
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() )
+        script.append( loader->script() + '\n' );
+
+    return script;
+}
+
+void ItemFactory::addCommands(QList<Command> *commands) const
+{
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() )
+        loader->addCommands(commands);
+}
+
 void ItemFactory::emitError(const QString &errorString)
 {
     log(errorString, LogError);

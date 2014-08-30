@@ -20,25 +20,63 @@
 #include "itemencrypted.h"
 #include "ui_itemencryptedsettings.h"
 
+#include "common/command.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/icons.h"
 #include "gui/iconwidget.h"
-#include "item/encrypt.h"
 #include "item/serialize.h"
 
+#include <QDir>
 #include <QFile>
-#include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
 #include <QtPlugin>
+#include <QVBoxLayout>
 
 namespace {
 
+const char mimeEncryptedData[] = "application/x-copyq-encrypted";
+
 const char dataFileHeader[] = "CopyQ_encrypted_tab";
 const char dataFileHeaderV2[] = "CopyQ_encrypted_tab v2";
+
+struct KeyPairPaths {
+    KeyPairPaths()
+    {
+        const QString path = getConfigurationFilePath(QString());
+        sec = QDir::toNativeSeparators(path + ".sec");
+        pub = QDir::toNativeSeparators(path + ".pub");
+    }
+
+    QString sec;
+    QString pub;
+};
+
+QStringList getDefaultEncryptCommandArguments()
+{
+    KeyPairPaths keys;
+    return QStringList() << "--trust-model" << "always" << "--recipient" << "copyq"
+                         << "--charset" << "utf-8" << "--display-charset" << "utf-8" << "--no-tty"
+                         << "--no-default-keyring" << "--secret-keyring" << keys.sec << "--keyring" << keys.pub;
+}
+
+QStringList getDefaultEncryptCommandArgumentsEscaped()
+{
+    QStringList args = getDefaultEncryptCommandArguments();
+
+    // Escape characters
+    for ( int i = 0; i < args.size(); ++i ) {
+        args[i].replace("\\", "\\\\")
+               .replace(" ", "\\ ")
+               .replace("\"", "\\\"");
+    }
+
+    return args;
+}
 
 void startGpgProcess(QProcess *p, const QStringList &args)
 {
@@ -358,6 +396,72 @@ bool ItemEncryptedLoader::saveItems(const QAbstractItemModel &model, QFile *file
 bool ItemEncryptedLoader::initializeTab(QAbstractItemModel *)
 {
     return true;
+}
+
+QString ItemEncryptedLoader::script() const
+{
+    const QString args = '"' + getDefaultEncryptCommandArgumentsEscaped().join("\",\"") + '"';
+
+    return
+        "plugins." + id() + " = {"
+
+        "\n" "  mime: '" + QString(mimeEncryptedData) + "',"
+
+        "\n" "  gpgRun: function(gpgArg, bytes) {"
+        "\n" "    var cmd = execute('gpg', " + args + ", gpgArg, null, bytes)"
+        "\n" "    if (!cmd)"
+        "\n" "      throw 'Failed to execute GPG!'"
+        "\n" "    if (cmd.exit_code != 0)"
+        "\n" "      throw 'GPG (exit code ' + cmd.exit_code + '): ' + cmd.stderr"
+        "\n" "    return cmd.stdout"
+        "\n" "  },"
+
+        "\n" "  encrypt: function(bytes) {"
+        "\n" "    return this.gpgRun('--encrypt', bytes)"
+        "\n" "  },"
+
+        "\n" "  decrypt: function(bytes) {"
+        "\n" "    return this.gpgRun('--decrypt', bytes)"
+        "\n" "  },"
+
+        "\n" "}";
+}
+
+void ItemEncryptedLoader::addCommands(QList<Command> *commands) const
+{
+    Command c;
+    c.name = tr("Encrypt (needs GnuPG)");
+    c.icon = QString(QChar(IconLock));
+    c.input = mimeItems;
+    c.output = mimeEncryptedData;
+    c.inMenu = true;
+    c.transform = true;
+    c.cmd = "copyq: plugins.itemencrypted.encrypt(input())";
+    c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
+    commands->append(c);
+
+    c = Command();
+    c.name = tr("Decrypt");
+    c.icon = QString(QChar(IconUnlock));
+    c.input = mimeEncryptedData;
+    c.output = mimeItems;
+    c.inMenu = true;
+    c.transform = true;
+    c.cmd = "copyq: plugins.itemencrypted.decrypt(input())";
+    c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
+    commands->append(c);
+
+    c = Command();
+    c.name = tr("Decrypt and Copy");
+    c.icon = QString(QChar(IconUnlockAlt));
+    c.input = mimeEncryptedData;
+    c.inMenu = true;
+    c.cmd = "copyq:\n"
+             "  var data = plugins.itemencrypted.decrypt(input());\n"
+             "  if (data)\n"
+             "    copy(\"" + QString(mimeItems) + "\", data)";
+    c.shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
+    commands->append(c);
 }
 
 void ItemEncryptedLoader::setPassword()

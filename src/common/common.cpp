@@ -392,6 +392,12 @@ QString shortcutToRemove()
 #endif
 }
 
+QString toPortableShortcutText(const QString &shortcutNativeText)
+{
+    return QKeySequence(shortcutNativeText, QKeySequence::NativeText)
+            .toString(QKeySequence::PortableText);
+}
+
 void renameToUnique(QString *name, const QStringList &names)
 {
     const QString baseName = *name;

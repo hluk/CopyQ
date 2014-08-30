@@ -33,6 +33,7 @@ class QAbstractItemModel;
 class QFile;
 class QModelIndex;
 class QWidget;
+struct Command;
 
 /**
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate
@@ -122,6 +123,16 @@ public:
      * Return true only if any plugin (ItemLoaderInterface::matches()) returns true;
      */
     bool matches(const QModelIndex &index, const QRegExp &re) const;
+
+    /**
+     * Return script to run before client scripts.
+     */
+    QString scripts() const;
+
+    /**
+     * Adds commands from scripts for command dialog.
+     */
+    void addCommands(QList<Command> *commands) const;
 
     void emitError(const QString &errorString);
 

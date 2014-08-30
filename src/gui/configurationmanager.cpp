@@ -31,7 +31,6 @@
 #include "gui/icons.h"
 #include "gui/pluginwidget.h"
 #include "item/clipboardmodel.h"
-#include "item/encrypt.h"
 #include "item/itemdelegate.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"

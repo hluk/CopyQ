@@ -72,7 +72,7 @@ private:
     void addCommandWithoutSave(const Command &command, int targetRow = -1);
     void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
-    bool defaultCommand(int index, Command *c) const;
+    QList<Command> defaultCommands() const;
     QString serializeSelectedCommands();
 
     Ui::CommandDialog *ui;

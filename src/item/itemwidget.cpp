@@ -251,3 +251,12 @@ const QObject *ItemLoaderInterface::signaler() const
 {
     return NULL;
 }
+
+QString ItemLoaderInterface::script() const
+{
+    return QString();
+}
+
+void ItemLoaderInterface::addCommands(QList<Command> *) const
+{
+}

@@ -132,6 +132,8 @@ QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
  */
 QString shortcutToRemove();
 
+QString toPortableShortcutText(const QString &shortcutNativeText);
+
 void renameToUnique(QString *name, const QStringList &names);
 
 bool openTemporaryFile(QTemporaryFile *file);
