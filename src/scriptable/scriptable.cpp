@@ -24,6 +24,7 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/settings.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
@@ -1059,7 +1060,7 @@ QScriptValue Scriptable::settings()
     }
 
     if (argumentCount() == 2) {
-        settings.setValue(arg(0), argument(1).toVariant());
+        Settings().setValue(arg(0), argument(1).toVariant());
         return QScriptValue();
     }
 

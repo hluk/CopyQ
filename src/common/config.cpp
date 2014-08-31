@@ -69,14 +69,6 @@ QByteArray geometryOptionValue(const QString &optionName)
 {
     QSettings geometrySettings( getConfigurationFilePath("_geometry.ini"), QSettings::IniFormat );
     QVariant geometry = geometrySettings.value(optionName);
-
-    // Backward compatibility.
-    if ( !geometry.isValid() ) {
-        QSettings settings;
-        geometry = settings.value(optionName);
-        settings.remove(optionName);
-    }
-
     return geometry.toByteArray();
 }
 

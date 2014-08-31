@@ -24,6 +24,7 @@
 #include "common/common.h"
 #include "common/config.h"
 #include "common/mimetypes.h"
+#include "common/settings.h"
 #include "gui/commandwidget.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -41,48 +42,44 @@ namespace {
 const QIcon iconLoadCommands(const QColor &color) { return getIcon("document-open", IconFolderOpen, color, color); }
 const QIcon iconSaveCommands(const QColor &color) { return getIcon("document-save", IconSave, color, color); }
 
-void loadCommand(QSettings *settings, bool onlyEnabled, CommandDialog::Commands *commands)
+void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Commands *commands)
 {
     Command c;
-    c.enable = settings->value("Enable", true).toBool();
+    c.enable = settings.value("Enable", true).toBool();
 
     if (onlyEnabled && !c.enable)
         return;
 
-    c.name = settings->value("Name").toString();
-    c.re   = QRegExp( settings->value("Match").toString() );
-    c.wndre = QRegExp( settings->value("Window").toString() );
-    c.matchCmd = settings->value("MatchCommand").toString();
-    c.cmd = settings->value("Command").toString();
-    c.sep = settings->value("Separator").toString();
+    c.name = settings.value("Name").toString();
+    c.re   = QRegExp( settings.value("Match").toString() );
+    c.wndre = QRegExp( settings.value("Window").toString() );
+    c.matchCmd = settings.value("MatchCommand").toString();
+    c.cmd = settings.value("Command").toString();
+    c.sep = settings.value("Separator").toString();
 
-    c.input = settings->value("Input").toString();
+    c.input = settings.value("Input").toString();
     if ( c.input == "false" || c.input == "true" )
         c.input = c.input == "true" ? QString(mimeText) : QString();
 
-    c.output = settings->value("Output").toString();
+    c.output = settings.value("Output").toString();
     if ( c.output == "false" || c.output == "true" )
         c.output = c.output == "true" ? QString(mimeText) : QString();
 
-    c.wait = settings->value("Wait").toBool();
-    c.automatic = settings->value("Automatic").toBool();
-    c.transform = settings->value("Transform").toBool();
-    c.hideWindow = settings->value("HideWindow").toBool();
-    c.icon = settings->value("Icon").toString();
-    c.shortcuts = settings->value("Shortcut").toStringList();
-    c.globalShortcuts = settings->value("GlobalShortcut").toStringList();
-    c.tab = settings->value("Tab").toString();
-    c.outputTab = settings->value("OutputTab").toString();
-    c.inMenu = settings->value("InMenu").toBool();
+    c.wait = settings.value("Wait").toBool();
+    c.automatic = settings.value("Automatic").toBool();
+    c.transform = settings.value("Transform").toBool();
+    c.hideWindow = settings.value("HideWindow").toBool();
+    c.icon = settings.value("Icon").toString();
+    c.shortcuts = settings.value("Shortcut").toStringList();
+    c.globalShortcuts = settings.value("GlobalShortcut").toStringList();
+    c.tab = settings.value("Tab").toString();
+    c.outputTab = settings.value("OutputTab").toString();
+    c.inMenu = settings.value("InMenu").toBool();
 
-    if (settings->value("Ignore").toBool()) {
+    if (settings.value("Ignore").toBool())
         c.remove = c.automatic = true;
-        settings->remove("Ignore");
-        settings->setValue("Remove", c.remove);
-        settings->setValue("Automatic", c.automatic);
-    } else {
-        c.remove = settings->value("Remove").toBool();
-    }
+    else
+        c.remove = settings.value("Remove").toBool();
 
     commands->append(c);
 }
@@ -95,7 +92,7 @@ CommandDialog::Commands loadCommands(QSettings *settings, bool onlyEnabled = fal
 
     if ( groups.contains("Command") ) {
         settings->beginGroup("Command");
-        loadCommand(settings, onlyEnabled, &commands);
+        loadCommand(*settings, onlyEnabled, &commands);
         settings->endGroup();
     }
 
@@ -103,7 +100,7 @@ CommandDialog::Commands loadCommands(QSettings *settings, bool onlyEnabled = fal
 
     for(int i=0; i<size; ++i) {
         settings->setArrayIndex(i);
-        loadCommand(settings, onlyEnabled, &commands);
+        loadCommand(*settings, onlyEnabled, &commands);
     }
 
     settings->endArray();
@@ -265,7 +262,7 @@ void restoreGlobalAction(GlobalAction id, const QString &key, QSettings *setting
 void restoreGlobalActions()
 {
     CommandDialog::Commands commands;
-    QSettings settings;
+    Settings settings;
 
     settings.beginGroup("Options");
     restoreGlobalAction( GlobalActionToggleMainWindow, "toggle_shortcut", &settings, &commands );
@@ -804,6 +801,6 @@ CommandDialog::Commands loadCommands(bool onlyEnabled)
 
 void saveCommands(const CommandDialog::Commands &commands)
 {
-    QSettings settings;
+    Settings settings;
     saveCommands(commands, &settings);
 }

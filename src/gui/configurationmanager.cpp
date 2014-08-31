@@ -722,7 +722,7 @@ void ConfigurationManager::setIconForTabName(const QString &name, const QString 
 {
     m_tabIcons[name] = icon;
 
-    QSettings settings;
+    Settings settings;
     settings.beginWriteArray("Tabs");
     int i = 0;
 
