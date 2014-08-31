@@ -486,14 +486,16 @@ void MainWindow::onSaveCommand(const Command &command)
         m_commandDialog->addCommand(command);
 }
 
-void MainWindow::on_tabWidget_dropItems(const QString &tabName, const QMimeData &data)
+void MainWindow::on_tabWidget_dropItems(const QString &tabName, QDropEvent *event)
 {
     ClipboardBrowser *browser = createTab(tabName);
-    browser->loadItemsAgain();
+
     if ( browser->isLoaded() ) {
+        const QMimeData &data = *event->mimeData();
         const QVariantMap dataMap = data.hasFormat(mimeItems)
                 ? cloneData(data, QStringList() << mimeItems) : cloneData(data);
         browser->paste(dataMap, 0);
+        event->acceptProposedAction();
     }
 }
 

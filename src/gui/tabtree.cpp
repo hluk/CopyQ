@@ -508,8 +508,7 @@ void TabTree::dropEvent(QDropEvent *event)
 
     QTreeWidgetItem *item = dropItemsTarget(*event, *this);
     if (item) {
-        event->acceptProposedAction();
-        emit dropItems( getTabPath(item), *event->mimeData() );
+        emit dropItems( getTabPath(item), event );
     } else if ( itemAt(event->pos()) ) {
         const QString oldPrefix = getTabPath(current);
 

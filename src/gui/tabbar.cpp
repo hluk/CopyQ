@@ -155,12 +155,10 @@ void TabBar::dropEvent(QDropEvent *event)
 {
     int tabIndex = dropItemsTabIndex(*event, *this);
 
-    if ( tabIndex != -1 ) {
-        event->acceptProposedAction();
-        emit dropItems( tabText(tabIndex), *event->mimeData() );
-    } else {
+    if ( tabIndex != -1 )
+        emit dropItems( tabText(tabIndex), event );
+    else
         QTabBar::dropEvent(event);
-    }
 }
 
 void TabBar::tabInserted(int index)

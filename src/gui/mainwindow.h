@@ -379,7 +379,7 @@ private slots:
 
     void onSaveCommand(const Command &command);
 
-    void on_tabWidget_dropItems(const QString &tabName, const QMimeData &data);
+    void on_tabWidget_dropItems(const QString &tabName, QDropEvent *event);
 
 private:
     /** Create menu bar and tray menu with items. Called once. */

@@ -462,8 +462,8 @@ void TabWidget::createTabBar()
              this, SIGNAL(tabRenamed(QString,int)) );
     connect( m_tabBar, SIGNAL(tabCloseRequested(int)),
              this, SIGNAL(tabCloseRequested(int)) );
-    connect( m_tabBar, SIGNAL(dropItems(QString,QMimeData)),
-             this, SIGNAL(dropItems(QString,QMimeData)) );
+    connect( m_tabBar, SIGNAL(dropItems(QString,QDropEvent*)),
+             this, SIGNAL(dropItems(QString,QDropEvent*)) );
     connect( m_tabBar, SIGNAL(currentChanged(int)),
              this, SLOT(setCurrentIndex(int)) );
     connect( m_tabBar, SIGNAL(tabMoved(int, int)),
@@ -483,8 +483,8 @@ void TabWidget::createTabTree()
              this, SIGNAL(tabMenuRequested(QPoint,QString)) );
     connect( m_tabTree, SIGNAL(tabsMoved(QString,QString,QList<int>)),
              this, SLOT(onTabsMoved(QString,QString,QList<int>)) );
-    connect( m_tabTree, SIGNAL(dropItems(QString,QMimeData)),
-             this, SIGNAL(dropItems(QString,QMimeData)) );
+    connect( m_tabTree, SIGNAL(dropItems(QString,QDropEvent*)),
+             this, SIGNAL(dropItems(QString,QDropEvent*)) );
     connect( m_tabTree, SIGNAL(currentTabChanged(int)),
              this, SLOT(setCurrentIndex(int)) );
 
