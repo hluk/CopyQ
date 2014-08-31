@@ -1,3 +1,11 @@
+v2.4.1
+- Added scriptable classes File and Dir
+- Added scriptable function settings() for saving custom user data
+- Improved dialog() command
+- Windows: Qt translated strings bundled with application
+- Fixed %1 in command
+- Fixed building with tests and Qt5
+
 v2.4.0
 - Separate dialog for user commands and global shortcuts
 - Search for item by row number
