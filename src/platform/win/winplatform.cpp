@@ -28,6 +28,7 @@
 #include <QApplication>
 #include <QCoreApplication>
 #include <QDir>
+#include <QFileInfo>
 #include <QSettings>
 
 #include <qt_windows.h>
@@ -56,7 +57,7 @@ void migrateConfigToAppDir()
     const QString path = QCoreApplication::applicationDirPath() + "/config";
     QDir dir(path);
 
-    if ( (dir.isReadable() || dir.mkdir(".")) && dir.mkpath("copyq") ) {
+    if ( dir.mkpath("copyq") && dir.isReadable() && QFileInfo(path).isWritable() ) {
         QSettings oldSettings;
         const QString oldConfigFileName =
                 QSettings(QSettings::IniFormat, QSettings::UserScope,
