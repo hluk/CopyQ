@@ -469,12 +469,6 @@ void MainWindow::onAboutToQuit()
     m_tray->hide();
 }
 
-void MainWindow::onCommandDialogClosed()
-{
-    m_commandDialog->deleteLater();
-    m_commandDialog = NULL;
-}
-
 void MainWindow::onCommandDialogSaved()
 {
     m_sharedData->commands = loadCommands();
@@ -1780,9 +1774,9 @@ void MainWindow::openCommands()
         m_commandDialog->activateWindow();
     } else {
         m_commandDialog = new CommandDialog(this);
-        connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));
-        connect(m_commandDialog, SIGNAL(finished(int)), this, SLOT(onCommandDialogClosed()));
+        m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         m_commandDialog->show();
+        connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));
     }
 }
 

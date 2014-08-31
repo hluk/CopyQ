@@ -375,8 +375,6 @@ private slots:
 
     void onAboutToQuit();
 
-    void onCommandDialogClosed();
-
     void onCommandDialogSaved();
 
     void onSaveCommand(const Command &command);
@@ -474,7 +472,7 @@ private:
 
     ClipboardBrowser *m_trayTab;
 
-    CommandDialog* m_commandDialog;
+    QPointer<CommandDialog> m_commandDialog;
 };
 
 #endif // MAINWINDOW_H
