@@ -162,12 +162,6 @@ public:
     void setTabIcon(const QString &tabName);
 
     /**
-     * Add tab with given name if doesn't exist and focus the tab.
-     * @return New or existing tab with given name.
-     */
-    ClipboardBrowser *addTab(const QString &name);
-
-    /**
      * Save all items in tab to file.
      * @return True only if all items were successfully saved.
      */
@@ -306,6 +300,12 @@ public slots:
     void renameTab(int tab = -1);
     /** Rename current tab to given name (if possible). */
     void renameTab(const QString &name, int tabIndex);
+
+    /**
+     * Add tab with given name if doesn't exist and focus the tab.
+     * @return New or existing tab with given name.
+     */
+    ClipboardBrowser *addTab(const QString &name);
 
     /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
     void toggleClipboardStoring();
