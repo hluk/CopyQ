@@ -1046,9 +1046,23 @@ QScriptValue Scriptable::dialog()
 
 QScriptValue Scriptable::settings()
 {
-    QSettings settings;
+    const QString settingsGroup = "script";
 
-    settings.beginGroup("script");
+    if (argumentCount() == 2) {
+        Settings settings2;
+        settings2.beginGroup(settingsGroup);
+
+        const QString key = arg(0);
+        const QScriptValue value = argument(1);
+        const QByteArray *bytes = getByteArray(value);
+        const QVariant saveValue = bytes ? QVariant(*bytes) : value.toVariant();
+        settings2.setValue(key, saveValue);
+
+        return QScriptValue();
+    }
+
+    QSettings settings;
+    settings.beginGroup(settingsGroup);
 
     if (argumentCount() == 1) {
         QVariant value = settings.value(arg(0));
@@ -1057,11 +1071,6 @@ QScriptValue Scriptable::settings()
         if (value.canConvert<QVariantMap>())
             return toScriptValue(value.value<QVariantMap>(), this);
         return engine()->newVariant(value);
-    }
-
-    if (argumentCount() == 2) {
-        Settings().setValue(arg(0), argument(1).toVariant());
-        return QScriptValue();
     }
 
     return toScriptValue(settings.allKeys(), this);
