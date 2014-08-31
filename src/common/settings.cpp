@@ -22,6 +22,7 @@
 #include "common/log.h"
 
 #include <QCoreApplication>
+#include <QFileInfo>
 #include <QSet>
 #include <QSharedPointer>
 #include <QStringList>
@@ -33,8 +34,11 @@ namespace {
 typedef QSharedPointer<QSettings> SettingsPtr;
 SettingsPtr backupSettings()
 {
-    return SettingsPtr( new QSettings(QCoreApplication::organizationName(),
-                                      QCoreApplication::applicationName() + "-bak") );
+    return SettingsPtr( new QSettings(
+                            QSettings::defaultFormat(),
+                            QSettings::UserScope,
+                            QCoreApplication::organizationName(),
+                            QCoreApplication::applicationName() + "-bak") );
 }
 
 } // namespace

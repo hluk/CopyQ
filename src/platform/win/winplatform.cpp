@@ -40,7 +40,9 @@ void migrateDirectory(const QString oldPath, const QString newPath)
     QDir oldDir(oldPath);
     QDir newDir(newPath);
 
-    if ( oldDir.exists() && newDir.exists() ) {
+    if ( oldDir.exists() ) {
+        newDir.mkpath(".");
+
         foreach ( const QString &fileName, oldDir.entryList(QDir::Files) ) {
             const QString oldFileName = oldDir.absoluteFilePath(fileName);
             const QString newFileName = newDir.absoluteFilePath(fileName);
@@ -77,7 +79,6 @@ void migrateConfigToAppDir()
             migrateDirectory(oldConfigPath, newConfigPath);
 
             // Migrate themes from system directory.
-            QDir(newConfigPath).mkdir("themes");
             migrateDirectory(oldConfigPath + "/themes", newConfigPath + "/themes");
 
             // Migrate rest of the configuration from the system registry.
