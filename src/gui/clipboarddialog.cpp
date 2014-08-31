@@ -93,10 +93,12 @@ void ClipboardDialog::on_actionRemove_Format_triggered()
 {
      QListWidgetItem *item = ui->listWidgetFormats->currentItem();
      if (item) {
-         m_data.remove(item->text());
+         const QString mimeToRemove = item->text();
+         m_data.remove(mimeToRemove);
+         delete item;
 
          if (m_model)
-             m_model->setData(m_index, m_data);
+             m_model->setData(m_index, mimeToRemove, contentType::removeFormats);
          else
              emit changeClipboard(m_data);
      }
