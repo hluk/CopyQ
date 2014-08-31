@@ -94,6 +94,7 @@ Notification::Notification(int id)
     , m_msgLabel(NULL)
     , m_timer(NULL)
     , m_opacity(1.0)
+    , m_icon(0)
 {
     QVBoxLayout *bodyLayout = new QVBoxLayout(this);
     bodyLayout->setMargin(8);
