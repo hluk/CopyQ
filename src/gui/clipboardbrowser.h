@@ -178,7 +178,6 @@ class ClipboardBrowser : public QListView
 
         void updateContextMenu();
 
-    public slots:
         /** Add new item to the browser. */
         bool add(
                 const QString &txt, //!< Text of new item.
@@ -207,12 +206,6 @@ class ClipboardBrowser : public QListView
         void filterItems(const QRegExp &re);
         /** Show all items. */
         void clearFilter() { filterItems( QRegExp() ); }
-        /** Item modified in external editor. */
-        void itemModified(const QByteArray &bytes, const QString &mime);
-        /** Called if editor was closed. */
-        void closeExternalEditor(QObject *editor);
-        /** Open editor with text of all selected items or for single selected item. */
-        bool openEditor();
         /** Open editor. */
         bool openEditor(const QByteArray &data, const QString &mime = QString("text/plain"),
                         const QString &editorCommand = QString());
@@ -221,18 +214,7 @@ class ClipboardBrowser : public QListView
         /** Add items. */
         void addItems(const QStringList &items);
 
-        /** Show content of current item. */
-        void showItemContent();
-
-        /** Edit selected unhidden items. */
-        void editSelected();
-        /** Remove selected unhidden items. */
-        void remove();
-
         void removeRow(int row);
-
-        /** Edit notes for current item. */
-        void editNotes();
 
         /** Set current item. */
         void setCurrent(
@@ -241,27 +223,11 @@ class ClipboardBrowser : public QListView
                 bool selection = false //!< Makes selection.
                 );
 
-        /** Open action dialog on selected items. */
-        void action();
-
-        /**
-         * Load items from configuration.
-         * This function does nothing if model is disabled (e.g. loading failed previously).
-         * @see setID, saveItems, purgeItems
-         */
-        void loadItems();
-
         /**
          * Load items from configuration even if model is disabled.
          * @see loadItems
          */
         void loadItemsAgain();
-
-        /**
-         * Save items to configuration.
-         * @see setID, loadItems, purgeItems
-         */
-        bool saveItems();
 
         /**
          * Save items to configuration if needed.
@@ -281,6 +247,35 @@ class ClipboardBrowser : public QListView
                 const QString &text = QString() //!< Text of new item.
                 );
 
+        /** Edit item in given @a row. */
+        void editRow(int row);
+
+    public slots:
+        /**
+         * Load items from configuration.
+         * This function does nothing if model is disabled (e.g. loading failed previously).
+         * @see setID, saveItems, purgeItems
+         */
+        void loadItems();
+
+        /**
+         * Save items to configuration.
+         * @see setID, loadItems, purgeItems
+         */
+        bool saveItems();
+
+        /** Move current item to clipboard. */
+        void moveToClipboard();
+
+        /** Edit selected unhidden items. */
+        void editSelected();
+
+        /** Edit notes for current item. */
+        void editNotes();
+
+        /** Open editor with text of all selected items or for single selected item. */
+        bool openEditor();
+
         /**
          * Select next item and copy it to clipboard.
          */
@@ -291,8 +286,19 @@ class ClipboardBrowser : public QListView
          */
         void copyPreviousItemToClipboard();
 
-        /** Edit item in given @a row. */
-        void editRow(int row);
+        /** Open action dialog on selected items. */
+        void action();
+
+        /** Remove selected unhidden items. */
+        void remove();
+
+        /** Show content of current item. */
+        void showItemContent();
+
+        /** Item modified in external editor. */
+        void itemModified(const QByteArray &bytes, const QString &mime);
+        /** Called if editor was closed. */
+        void closeExternalEditor(QObject *editor);
 
     signals:
         /** Action dialog requested. */

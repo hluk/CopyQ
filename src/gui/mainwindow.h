@@ -76,7 +76,6 @@ public:
 
     QByteArray getActionData(const QByteArray &actionId, const QString &format);
 
-public slots:
     /**
      * Return browser widget in given tab @a index.
      * Load items if not loaded yet.
@@ -138,72 +137,27 @@ public slots:
     /** Show clipboard content in notification. */
     void showClipboardMessage(const QVariantMap &data);
 
-    /** Show error popup message. */
-    void showError(const QString &msg);
-
     /** Show and focus main window. */
     void showWindow();
     /** Hide window to tray or minimize if tray is not available. */
     void hideWindow();
-    /** Show/hide main window. Return true only if window is shown. */
-    bool toggleVisible();
-    /** Show window and given tab and give focus to the tab. */
-    void showBrowser(const ClipboardBrowser *browser);
     /** Show window and given tab and give focus to the tab. */
     void showBrowser(int index);
     /** Enter browse mode and reset search. */
     void resetStatus();
 
-    /** Close main window and exit the application. */
-    void exit();
-    /** Load settings. */
-    void loadSettings();
-
-    /** Open about dialog. */
-    void openAboutDialog();
-
-    /** Open dialog with clipboard content. */
-    void showClipboardContent();
-
-    /** Open dialog with active commands. */
-    void showProcessManagerDialog();
-
     /** Open action dialog for given @a row (or current) in current tab. */
     void openActionDialog(int row = -1);
-    /** Open action dialog with given input @a text. */
-    WId openActionDialog(const QVariantMap &data);
 
-    /** Open preferences dialog. */
-    void openPreferences();
-
-    /** Open commands dialog. */
-    void openCommands();
-
-    /** Execute command on given input data. */
-    void action(const QVariantMap &data, const Command &cmd,
-                const QModelIndex &outputIndex = QModelIndex());
-
-    /** Open tab creation dialog. */
-    void newTab(const QString &name = QString());
     /** Open tab group renaming dialog. */
     void renameTabGroup(const QString &name);
-    /** Rename current tab to given name (if possible). */
-    void renameTabGroup(const QString &newName, const QString &oldName);
-    /** Open tab renaming dialog (for given tab index or current tab). */
-    void renameTab(int tab = -1);
-    /** Rename current tab to given name (if possible). */
-    void renameTab(const QString &name, int tabIndex);
     /** Remove all tab in group. */
     void removeTabGroup(const QString &name);
-    /** Remove tab. */
-    void removeTab();
     /** Remove tab. */
     void removeTab(
             bool ask, //!< Ask before removing.
             int tab_index //!< Tab index or current tab.
             );
-    /** Set icon for current tab or tab group. */
-    void setTabIcon();
     /** Set icon for tab or tab group. */
     void setTabIcon(const QString &tabName);
 
@@ -213,23 +167,12 @@ public slots:
      */
     ClipboardBrowser *addTab(const QString &name);
 
-    /** Create new item in current tab. */
-    void editNewItem();
-    /** Paste items to current tab. */
-    void pasteItems();
-    /** Copy selected items in current tab. */
-    void copyItems();
-
     /**
      * Save all items in tab to file.
      * @return True only if all items were successfully saved.
      */
     bool saveTab(
             const QString &fileName,
-            int tab_index = -1 //!< Tab index or current tab.
-            );
-    /** Save all items in tab. Show file dialog. */
-    bool saveTab(
             int tab_index = -1 //!< Tab index or current tab.
             );
 
@@ -241,26 +184,6 @@ public slots:
      * @return True only if all items were successfully loaded.
      */
     bool loadTab(const QString &fileName);
-    /**
-     * Load saved items to new tab.
-     * Show file dialog and focus the new tab.
-     */
-    bool loadTab();
-
-    /** Sort selected items. */
-    void sortSelectedItems();
-    /** Reverse order of selected items. */
-    void reverseSelectedItems();
-
-    /** Add @a data to tab with given name (create if tab doesn't exist). */
-    void addToTab(
-            const QVariantMap &data,
-            //!< Item data (it may be updated if item with same text exists).
-            const QString &tabName = QString(),
-            //!< Tab name of target tab (first tab if empty).
-            bool moveExistingToTop = false
-            //!< If item already exists, move it to top and select it.
-            );
 
     /** Set next or first tab as current. */
     void nextTab();
@@ -270,20 +193,11 @@ public slots:
     /** Called after clipboard content changes. */
     void clipboardChanged(const QVariantMap &data);
 
-    /** Set clipboard. */
-    void setClipboard(const QVariantMap &data);
-
-    /** Activate current item. */
-    void activateCurrentItem();
-
     /** Temporarily disable monitoring (i.e. adding new clipboard content to the first tab). */
     void disableClipboardStoring(bool disable);
 
     /** Return true only if monitoring is enabled. */
     bool isMonitoringEnabled() const;
-
-    /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
-    void toggleClipboardStoring();
 
     /** Return true if clipboard storing was disabled. */
     bool isClipboardStoringDisabled() const { return m_clipboardStoringDisabled; }
@@ -304,6 +218,102 @@ public slots:
     QString selectedTab() const;
 
     QList<int> selectedItems() const;
+
+public slots:
+    /** Close main window and exit the application. */
+    void exit();
+
+    /** Load settings. */
+    void loadSettings();
+
+    /** Open about dialog. */
+    void openAboutDialog();
+
+    /** Open dialog with clipboard content. */
+    void showClipboardContent();
+
+    /** Open dialog with active commands. */
+    void showProcessManagerDialog();
+
+    /** Open action dialog with given input @a text. */
+    WId openActionDialog(const QVariantMap &data);
+
+    /** Open preferences dialog. */
+    void openPreferences();
+
+    /** Open commands dialog. */
+    void openCommands();
+
+    /** Sort selected items. */
+    void sortSelectedItems();
+    /** Reverse order of selected items. */
+    void reverseSelectedItems();
+
+    /**
+     * Load saved items to new tab.
+     * Show file dialog and focus the new tab.
+     */
+    bool loadTab();
+
+    /** Create new item in current tab. */
+    void editNewItem();
+    /** Paste items to current tab. */
+    void pasteItems();
+    /** Copy selected items in current tab. */
+    void copyItems();
+
+    /** Activate current item. */
+    void activateCurrentItem();
+
+    /** Show window and given tab and give focus to the tab. */
+    void showBrowser(const ClipboardBrowser *browser);
+
+    /** Show error popup message. */
+    void showError(const QString &msg);
+
+    /** Execute command on given input data. */
+    void action(const QVariantMap &data, const Command &cmd,
+                const QModelIndex &outputIndex = QModelIndex());
+
+    /** Add @a data to tab with given name (create if tab doesn't exist). */
+    void addToTab(
+            const QVariantMap &data,
+            //!< Item data (it may be updated if item with same text exists).
+            const QString &tabName = QString(),
+            //!< Tab name of target tab (first tab if empty).
+            bool moveExistingToTop = false
+            //!< If item already exists, move it to top and select it.
+            );
+
+    /** Set clipboard. */
+    void setClipboard(const QVariantMap &data);
+
+    /** Show/hide main window. Return true only if window is shown. */
+    bool toggleVisible();
+
+    /** Set icon for current tab or tab group. */
+    void setTabIcon();
+
+    /** Open tab creation dialog. */
+    void newTab(const QString &name = QString());
+
+    /** Remove tab. */
+    void removeTab();
+
+    /** Rename current tab to given name (if possible). */
+    void renameTabGroup(const QString &newName, const QString &oldName);
+    /** Open tab renaming dialog (for given tab index or current tab). */
+    void renameTab(int tab = -1);
+    /** Rename current tab to given name (if possible). */
+    void renameTab(const QString &name, int tabIndex);
+
+    /** Toggle monitoring (i.e. adding new clipboard content to the first tab). */
+    void toggleClipboardStoring();
+
+    /** Save all items in tab. Show file dialog. */
+    bool saveTab(
+            int tab_index = -1 //!< Tab index or current tab.
+            );
 
 signals:
     /** Request clipboard change. */

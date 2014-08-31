@@ -1938,6 +1938,11 @@ bool ClipboardBrowser::saveItems()
     return true;
 }
 
+void ClipboardBrowser::moveToClipboard()
+{
+    moveToClipboard(currentIndex());
+}
+
 void ClipboardBrowser::delayedSaveItems()
 {
     if ( !isLoaded() || tabName().isEmpty() || m_timerSave->isActive() )
