@@ -79,9 +79,7 @@ void updateLoadButtonIcon(QPushButton *loadButton)
     QColor color = getDefaultIconColor(*loadButton->parentWidget(), QPalette::Base);
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     const int iconSize = 64;
-    QIcon icon;
-    icon.addPixmap(iconFactory->createPixmap(IconLock, color, iconSize));
-    icon.addPixmap(iconFactory->createPixmap(IconUnlockAlt, color, iconSize), QIcon::Active);
+    const QIcon icon(iconFactory->createPixmap(IconRepeat, color, iconSize));
     loadButton->setIconSize( QSize(iconSize, iconSize) );
     loadButton->setIcon(icon);
 }
