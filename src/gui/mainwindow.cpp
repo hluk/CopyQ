@@ -407,7 +407,7 @@ void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
     QAction *actRemove =
             hasTab ? menu.addAction( iconTabRemove(), tr("Re&move Tab %1").arg(quotedTab) ) : NULL;
     QAction *actRemoveGroup =
-            isGroup ? menu.addAction( iconTabRename(), tr("Remove Group %1").arg(quotedTab) ) : NULL;
+            isGroup ? menu.addAction( iconTabRemove(), tr("Remove Group %1").arg(quotedTab) ) : NULL;
 
     QAction *actIcon = menu.addAction( iconTabIcon(), tr("&Change Tab Icon") );
 
