@@ -44,7 +44,7 @@ QString getFileSuffixFromMime(const QString &mime)
         return QString(".bmp");
     if (mime == "image/jpeg")
         return QString(".jpg");
-    if (mime == "image/gif")
+    if (mime == "image/png")
         return QString(".png");
     if (mime == "image/gif")
         return QString(".gif");
