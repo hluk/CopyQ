@@ -19,6 +19,9 @@ Mailing List:
 Bug Reports:
     <https://github.com/hluk/CopyQ/issues>
 
+Donate:
+    <https://www.bountysource.com/teams/copyq>
+
 ![Preview](images/screenshot-items.png)
 ![Simple Editor](images/screenshot-editor.png)
 ![Tabs](images/screenshot-tabs.png)
