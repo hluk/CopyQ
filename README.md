@@ -23,6 +23,9 @@ Mailing List:
 Bug Reports:
     <https://github.com/hluk/CopyQ/issues>
 
+Donate:
+    <https://www.bountysource.com/teams/copyq>
+
 Features
 --------
 
