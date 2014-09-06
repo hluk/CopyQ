@@ -122,10 +122,9 @@ bool ItemEditor::start()
     connect( m_editor, SIGNAL(error(QProcess::ProcessError)),
             this, SLOT(onError()) );
 
-    // use native path for filename to edit and escape all backslashes
+    // use native path for filename to edit
     const QString nativeFilePath = QDir::toNativeSeparators(m_info.filePath());
     QString cmd = m_editorcmd.arg('"' + nativeFilePath + '"');
-    cmd.replace("\\", "\\\\");
 
     // execute editor
     m_editor->start(cmd);
