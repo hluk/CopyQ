@@ -305,7 +305,7 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
 {
     editor->disconnect(this);
     disconnect(editor);
-    delete editor;
+    editor->deleteLater();
 }
 
 void ClipboardBrowser::onCommandActionTriggered(const Command &command, const QVariantMap &data)
