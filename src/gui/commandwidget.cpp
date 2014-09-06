@@ -247,6 +247,9 @@ void CommandWidget::init()
     setCommand(m_cmd);
 
     updateIcons();
+
+    connect( ui->helpButton, SIGNAL(hidden()),
+             ui->lineEditCommand, SLOT(setFocus()) );
 }
 
 void CommandWidget::updateWidgets()

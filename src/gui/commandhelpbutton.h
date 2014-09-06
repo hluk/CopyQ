@@ -34,6 +34,9 @@ public:
 public slots:
     void setHelpVisible(bool visible);
 
+signals:
+    void hidden();
+
 private:
     QPushButton *m_button;
     QTextBrowser *m_help;

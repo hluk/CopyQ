@@ -82,6 +82,9 @@ ActionDialog::ActionDialog(QWidget *parent)
 {
     ui->setupUi(this);
 
+    connect( ui->helpButton, SIGNAL(hidden()),
+             ui->plainTextEditCommand, SLOT(setFocus()) );
+
     QFont font("Monospace");
     font.setStyleHint(QFont::TypeWriter);
     ui->comboBoxCommands->setFont(font);

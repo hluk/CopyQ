@@ -139,5 +139,7 @@ void CommandHelpButton::setHelpVisible(bool visible)
         m_help->setFocus();
         if ( m_help->document()->isEmpty() )
             m_help->setText(help());
+    } else {
+        emit hidden();
     }
 }
