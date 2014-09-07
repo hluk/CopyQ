@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>308</width>
+    <width>302</width>
     <height>684</height>
    </rect>
   </property>
@@ -238,21 +238,18 @@ Leave empty to disable this.</string>
    </item>
    <item>
     <widget class="QGroupBox" name="groupBoxCommand">
+     <property name="focusPolicy">
+      <enum>Qt::WheelFocus</enum>
+     </property>
      <property name="title">
       <string>Comman&amp;d</string>
      </property>
      <layout class="QVBoxLayout" name="verticalLayout_6">
       <item>
-       <widget class="QSplitter" name="splitter">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
+       <widget class="CommandEdit" name="commandEdit" native="true">
+        <property name="focusPolicy">
+         <enum>Qt::WheelFocus</enum>
         </property>
-        <widget class="QPlainTextEdit" name="lineEditCommand">
-         <property name="tabChangesFocus">
-          <bool>true</bool>
-         </property>
-        </widget>
-        <widget class="CommandHelpButton" name="helpButton" native="true"/>
        </widget>
       </item>
      </layout>
@@ -530,9 +527,10 @@ Note: If this is applied automatically, no other automatic commands are executed
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CommandHelpButton</class>
+   <class>CommandEdit</class>
    <extends>QWidget</extends>
-   <header>gui/commandhelpbutton.h</header>
+   <header>gui/commandedit.h</header>
+   <container>1</container>
   </customwidget>
   <customwidget>
    <class>IconSelectButton</class>
@@ -556,7 +554,7 @@ Note: If this is applied automatically, no other automatic commands are executed
   <tabstop>lineEditWindow</tabstop>
   <tabstop>lineEditMatchCmd</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
-  <tabstop>lineEditCommand</tabstop>
+  <tabstop>commandEdit</tabstop>
   <tabstop>comboBoxCopyToTab</tabstop>
   <tabstop>checkBoxIgnore</tabstop>
   <tabstop>checkBoxHideWindow</tabstop>

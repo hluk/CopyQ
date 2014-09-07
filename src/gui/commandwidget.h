@@ -59,14 +59,11 @@ signals:
 
 protected:
     void showEvent(QShowEvent *event);
-    void resizeEvent(QResizeEvent *event);
 
 private slots:
     void on_lineEditName_textChanged(const QString &name);
 
     void on_buttonIcon_currentIconChanged(const QString &iconString);
-
-    void on_lineEditCommand_textChanged();
 
     void on_checkBoxAutomatic_stateChanged(int);
 
@@ -76,12 +73,12 @@ private slots:
 
     void on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &shortcut);
 
+    void on_commandEdit_changed();
+
 private:
     void init();
 
     void updateWidgets();
-
-    void updateCommandEditSize();
 
     Ui::CommandWidget *ui;
     Command m_cmd;

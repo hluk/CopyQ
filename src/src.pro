@@ -19,7 +19,8 @@ FORMS += \
     ui/configtabshortcuts.ui \
     ui/shortcutswidget.ui \
     ui/processmanagerdialog.ui \
-    ui/commanddialog.ui
+    ui/commanddialog.ui \
+    ui/commandedit.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -94,6 +95,7 @@ HEADERS += \
     gui/processmanagerdialog.h \
     gui/iconselectdialog.h \
     gui/commanddialog.h \
+    gui/commandedit.h \
     gui/commandsyntaxhighlighter.h \
     gui/commandhelpbutton.h \
     scriptable/dirclass.h \
@@ -166,6 +168,7 @@ SOURCES += \
     gui/processmanagerdialog.cpp \
     gui/iconselectdialog.cpp \
     gui/commanddialog.cpp \
+    gui/commandedit.cpp \
     gui/commandsyntaxhighlighter.cpp \
     gui/commandhelpbutton.cpp \
     scriptable/dirclass.cpp \

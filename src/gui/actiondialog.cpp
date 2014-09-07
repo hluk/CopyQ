@@ -25,7 +25,6 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "item/serialize.h"
-#include "gui/commandsyntaxhighlighter.h"
 #include "gui/configurationmanager.h"
 
 #include <QSettings>
@@ -81,16 +80,7 @@ ActionDialog::ActionDialog(QWidget *parent)
     , m_currentCommandIndex(-1)
 {
     ui->setupUi(this);
-
-    connect( ui->helpButton, SIGNAL(hidden()),
-             ui->plainTextEditCommand, SLOT(setFocus()) );
-
-    QFont font("Monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    ui->comboBoxCommands->setFont(font);
-    font.setPointSize(10);
-    ui->plainTextEditCommand->document()->setDefaultFont(font);
-    installCommandSyntaxHighlighter(ui->plainTextEditCommand);
+    ui->comboBoxCommands->setFont( ui->commandEdit->commandFont() );
 
     on_comboBoxInputFormat_currentIndexChanged(QString());
     on_comboBoxOutputFormat_editTextChanged(QString());
@@ -171,7 +161,7 @@ void ActionDialog::saveHistory()
 
 void ActionDialog::createAction()
 {
-    const QString cmd = ui->plainTextEditCommand->toPlainText();
+    const QString cmd = ui->commandEdit->command();
 
     if ( cmd.isEmpty() )
         return;
@@ -226,7 +216,7 @@ void ActionDialog::createAction()
 void ActionDialog::setCommand(const Command &cmd)
 {
     ui->comboBoxCommands->setCurrentIndex(0);
-    ui->plainTextEditCommand->setPlainText(cmd.cmd);
+    ui->commandEdit->setCommand(cmd.cmd);
     ui->separatorEdit->setText(cmd.sep);
 
     int index = ui->comboBoxInputFormat->findText(cmd.input);
@@ -269,7 +259,7 @@ Command ActionDialog::command() const
 {
     Command cmd;
 
-    cmd.cmd = ui->plainTextEditCommand->toPlainText();
+    cmd.cmd = ui->commandEdit->command();
     cmd.name = commandToLabel(cmd.cmd);
     cmd.input = ui->comboBoxInputFormat->currentText();
     cmd.output = ui->comboBoxOutputFormat->currentText();
@@ -286,7 +276,7 @@ void ActionDialog::accept()
     if (i != -1)
         ui->comboBoxCommands->removeItem(i);
 
-    const QString text = ui->plainTextEditCommand->toPlainText();
+    const QString text = ui->commandEdit->command();
     ui->comboBoxCommands->insertItem(1, commandToLabel(text), itemData);
 
     saveHistory();
@@ -337,7 +327,7 @@ void ActionDialog::on_comboBoxCommands_currentIndexChanged(int index)
     QVariant v = ui->comboBoxCommands->itemData(index);
     QVariantMap values = v.value<QVariantMap>();
 
-    ui->plainTextEditCommand->setPlainText(values.value("cmd").toString());
+    ui->commandEdit->setCommand(values.value("cmd").toString());
 
     // Don't automatically change values if they were edited by user.
     if ( !wasChangedByUser(ui->comboBoxInputFormat) ) {
@@ -395,7 +385,7 @@ void ActionDialog::on_separatorEdit_textEdited(const QString &)
 QVariant ActionDialog::createCurrentItemData()
 {
     QVariantMap values;
-    values["cmd"] = ui->plainTextEditCommand->toPlainText();
+    values["cmd"] = ui->commandEdit->command();
     values["input"] = ui->comboBoxInputFormat->currentText();
     values["output"] = ui->comboBoxOutputFormat->currentText();
     values["sep"] = ui->separatorEdit->text();

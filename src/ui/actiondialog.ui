@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>269</width>
-    <height>358</height>
+    <width>263</width>
+    <height>353</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -33,21 +33,15 @@
       <string>Co&amp;mmand:</string>
      </property>
      <property name="buddy">
-      <cstring>plainTextEditCommand</cstring>
+      <cstring>commandEdit</cstring>
      </property>
     </widget>
    </item>
    <item>
-    <widget class="QSplitter" name="splitter">
-     <property name="orientation">
-      <enum>Qt::Vertical</enum>
+    <widget class="CommandEdit" name="commandEdit" native="true">
+     <property name="focusPolicy">
+      <enum>Qt::WheelFocus</enum>
      </property>
-     <widget class="QPlainTextEdit" name="plainTextEditCommand">
-      <property name="tabChangesFocus">
-       <bool>true</bool>
-      </property>
-     </widget>
-     <widget class="CommandHelpButton" name="helpButton" native="true"/>
     </widget>
    </item>
    <item>
@@ -159,14 +153,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>CommandHelpButton</class>
+   <class>CommandEdit</class>
    <extends>QWidget</extends>
-   <header>gui/commandhelpbutton.h</header>
+   <header>gui/commandedit.h</header>
+   <container>1</container>
   </customwidget>
  </customwidgets>
  <tabstops>
   <tabstop>comboBoxCommands</tabstop>
-  <tabstop>plainTextEditCommand</tabstop>
+  <tabstop>commandEdit</tabstop>
   <tabstop>comboBoxInputFormat</tabstop>
   <tabstop>inputText</tabstop>
   <tabstop>comboBoxOutputFormat</tabstop>

@@ -22,7 +22,6 @@
 
 #include "common/command.h"
 #include "common/mimetypes.h"
-#include "gui/commandsyntaxhighlighter.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
@@ -93,7 +92,7 @@ Command CommandWidget::command() const
     c.re     = QRegExp( ui->lineEditMatch->text() );
     c.wndre  = QRegExp( ui->lineEditWindow->text() );
     c.matchCmd = ui->lineEditMatchCmd->text();
-    c.cmd    = ui->lineEditCommand->toPlainText();
+    c.cmd    = ui->commandEdit->command();
     c.sep    = ui->lineEditSeparator->text();
     c.input  = ui->comboBoxInputFormat->currentText();
     c.output = ui->comboBoxOutputFormat->currentText();
@@ -124,7 +123,7 @@ void CommandWidget::setCommand(const Command &c)
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
     ui->lineEditMatchCmd->setText(c.matchCmd);
-    ui->lineEditCommand->setPlainText(c.cmd);
+    ui->commandEdit->setCommand(c.cmd);
     ui->lineEditSeparator->setText(c.sep);
     ui->comboBoxInputFormat->setEditText(c.input);
     ui->comboBoxOutputFormat->setEditText(c.output);
@@ -161,12 +160,6 @@ void CommandWidget::showEvent(QShowEvent *event)
     QWidget::showEvent(event);
 }
 
-void CommandWidget::resizeEvent(QResizeEvent *event)
-{
-    QWidget::resizeEvent(event);
-    updateCommandEditSize();
-}
-
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
 {
     emit nameChanged(name);
@@ -175,12 +168,6 @@ void CommandWidget::on_lineEditName_textChanged(const QString &name)
 void CommandWidget::on_buttonIcon_currentIconChanged(const QString &iconString)
 {
     emit iconChanged(iconString);
-}
-
-void CommandWidget::on_lineEditCommand_textChanged()
-{
-    updateWidgets();
-    updateCommandEditSize();
 }
 
 void CommandWidget::on_checkBoxAutomatic_stateChanged(int)
@@ -204,6 +191,11 @@ void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySe
     updateWidgets();
 }
 
+void CommandWidget::on_commandEdit_changed()
+{
+    updateWidgets();
+}
+
 void CommandWidget::init()
 {
     if (ui)
@@ -215,19 +207,14 @@ void CommandWidget::init()
 
     updateWidgets();
 
-    QFont font("Monospace");
-    font.setStyleHint(QFont::TypeWriter);
-    font.setPointSize(10);
-    ui->lineEditCommand->document()->setDefaultFont(font);
-
-    installCommandSyntaxHighlighter(ui->lineEditCommand);
-
 #ifdef NO_GLOBAL_SHORTCUTS
     ui->shortcutButtonGlobalShortcut->hide();
     ui->labelGlobalShortcut->hide();
 #else
     ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
 #endif
+
+    ui->groupBoxCommand->setFocusProxy(ui->commandEdit);
 
     ConfigurationManager *cm = ConfigurationManager::instance();
 
@@ -247,9 +234,6 @@ void CommandWidget::init()
     setCommand(m_cmd);
 
     updateIcons();
-
-    connect( ui->helpButton, SIGNAL(hidden()),
-             ui->lineEditCommand, SLOT(setFocus()) );
 }
 
 void CommandWidget::updateWidgets()
@@ -267,17 +251,5 @@ void CommandWidget::updateWidgets()
     ui->groupBoxCommand->setVisible(copyOrExecute || globalShortcut);
     ui->groupBoxAction->setVisible(copyOrExecute);
     ui->groupBoxInMenu->setVisible(inMenu);
-    ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->lineEditCommand->document()->characterCount() == 0);
-}
-
-void CommandWidget::updateCommandEditSize()
-{
-    if (!ui)
-        return;
-
-    const QFontMetrics fm( ui->lineEditCommand->document()->defaultFont() );
-    const int lines = ui->lineEditCommand->document()->size().height() + 2;
-    const int visibleLines = qBound(3, lines, 20);
-    const int h = visibleLines * fm.lineSpacing();
-    ui->lineEditCommand->setMinimumHeight(h);
+    ui->groupBoxCommandOptions->setHidden(!copyOrExecute || ui->commandEdit->isEmpty());
 }
