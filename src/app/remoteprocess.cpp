@@ -20,6 +20,7 @@
 #include "remoteprocess.h"
 
 #include "common/arguments.h"
+#include "common/common.h"
 #include "common/client_server.h"
 #include "common/clientsocket.h"
 #include "common/monitormessagecode.h"
@@ -33,19 +34,10 @@
 
 RemoteProcess::RemoteProcess(QObject *parent)
     : QObject(parent)
-    , m_timerPing()
-    , m_timerPongTimeout()
     , m_state(Unconnected)
 {
-    m_timerPing.setInterval(8000);
-    m_timerPing.setSingleShot(true);
-    connect( &m_timerPing, SIGNAL(timeout()),
-             this, SLOT(ping()) );
-
-    m_timerPongTimeout.setInterval(4000);
-    m_timerPongTimeout.setSingleShot(true);
-    connect( &m_timerPongTimeout, SIGNAL(timeout()),
-             this, SLOT(pongTimeout()) );
+    initSingleShotTimer( &m_timerPing, 8000, this, SLOT(ping()) );
+    initSingleShotTimer( &m_timerPongTimeout, 4000, this, SLOT(pongTimeout()) );
 }
 
 RemoteProcess::~RemoteProcess()

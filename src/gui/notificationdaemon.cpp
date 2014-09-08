@@ -51,10 +51,7 @@ NotificationDaemon::NotificationDaemon(QObject *parent)
     , m_maximumWidthPoints(300)
     , m_maximumHeightPoints(100)
 {
-    m_timerUpdate.setSingleShot(true);
-    m_timerUpdate.setInterval(100);
-    connect( &m_timerUpdate, SIGNAL(timeout()),
-             this, SLOT(doUpdateNotifications()) );
+    initSingleShotTimer( &m_timerUpdate, 100, this, SLOT(doUpdateNotifications()) );
 }
 
 void NotificationDaemon::create(const QString &title, const QString &msg, ushort icon, int msec, int id)

@@ -102,15 +102,11 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_customActionsSeparator()
     , m_clipboardItemActions()
     , m_customActions()
-    , m_timerShowTooltip()
 {
     connect( this, SIGNAL(hovered(QAction*)),
              this, SLOT(onActionHovered(QAction*)) );
 
-    m_timerShowTooltip.setSingleShot(true);
-    m_timerShowTooltip.setInterval(250);
-    connect( &m_timerShowTooltip, SIGNAL(timeout()),
-             this, SLOT(updateTooltip()) );
+    initSingleShotTimer( &m_timerShowTooltip, 250, this, SLOT(updateTooltip()) );
 }
 
 void TrayMenu::toggle()

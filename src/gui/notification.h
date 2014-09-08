@@ -20,11 +20,11 @@
 #ifndef NOTIFICATION_H
 #define NOTIFICATION_H
 
+#include <QTimer>
 #include <QWidget>
 
 class NotificationDaemon;
 class QLabel;
-class QTimer;
 
 class Notification : public QWidget
 {
@@ -66,7 +66,7 @@ private:
     QLabel *m_titleLabel;
     QLabel *m_iconLabel;
     QLabel *m_msgLabel;
-    QTimer *m_timer;
+    QTimer m_timer;
     qreal m_opacity;
     ushort m_icon;
     QString m_textToCopy;

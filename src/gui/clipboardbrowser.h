@@ -28,6 +28,7 @@
 #include <QPointer>
 #include <QScopedPointer>
 #include <QSharedPointer>
+#include <QTimer>
 #include <QVariantMap>
 
 class ClipboardModel;
@@ -35,7 +36,6 @@ class ItemDelegate;
 class ItemEditorWidget;
 class QProgressBar;
 class QPushButton;
-class QTimer;
 
 struct ClipboardBrowserShared {
     ClipboardBrowserShared();
@@ -409,8 +409,6 @@ class ClipboardBrowser : public QListView
 
         void updateEditorGeometry();
 
-        void initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot = NULL);
-
         void restartExpiring();
 
         void stopExpiring();
@@ -448,11 +446,11 @@ class ClipboardBrowser : public QListView
         bool m_update;
         ClipboardModel *m;
         ItemDelegate *d;
-        QTimer *m_timerSave;
-        QTimer *m_timerScroll;
-        QTimer *m_timerUpdate;
-        QTimer *m_timerFilter;
-        QTimer *m_timerExpire;
+        QTimer m_timerSave;
+        QTimer m_timerScroll;
+        QTimer m_timerUpdate;
+        QTimer m_timerFilter;
+        QTimer m_timerExpire;
 
         QPointer<QMenu> m_menu;
 

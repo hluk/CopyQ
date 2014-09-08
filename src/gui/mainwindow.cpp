@@ -146,12 +146,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actionToggleClipboardStoring()
     , m_sharedData(new ClipboardBrowserShared)
     , m_lastWindow()
-    , m_timerUpdateFocusWindows( new QTimer(this) )
-    , m_timerShowWindow( new QTimer(this) )
-    , m_trayTimer(NULL)
-    , m_trayIconSnipTimer(NULL)
     , m_notifications(NULL)
-    , m_timerMiminizing(NULL)
     , m_minimizeUnsupported(false)
     , m_actionHandler(new ActionHandler(this))
     , m_ignoreCurrentClipboard(true)
@@ -193,8 +188,6 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(tabCloseRequested(int)) );
     connect( ui->searchBar, SIGNAL(filterChanged(QRegExp)),
              this, SLOT(onFilterChanged(QRegExp)) );
-    connect( m_timerUpdateFocusWindows, SIGNAL(timeout()),
-             this, SLOT(updateFocusWindows()) );
     connect( m_actionHandler, SIGNAL(hasRunningActionChanged()),
              this, SLOT(updateIcon()) );
     connect( qApp, SIGNAL(aboutToQuit()),
@@ -206,11 +199,9 @@ MainWindow::MainWindow(QWidget *parent)
 
     ui->tabWidget->setCurrentIndex(0);
 
-    m_timerUpdateFocusWindows->setSingleShot(true);
-    m_timerUpdateFocusWindows->setInterval(50);
-
-    m_timerShowWindow->setSingleShot(true);
-    m_timerShowWindow->setInterval(250);
+    initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
+    initSingleShotTimer( &m_timerShowWindow, 250 );
+    initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIcon()) );
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -270,7 +261,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::showEvent(QShowEvent *event)
 {
-    m_timerShowWindow->start();
+    m_timerShowWindow.start();
     QMainWindow::showEvent(event);
 }
 
@@ -432,23 +423,12 @@ void MainWindow::updateIcon()
 {
     AppIconFlags flags = m_clipboardStoringDisabled ? AppIconDisabled : AppIconNormal;
 
-    if (hasRunningAction()) {
+    // Show running icon for some minimal time (nice snip effect with default icon).
+    if ( hasRunningAction() || m_timerTrayIconSnip.isActive() ) {
         flags |= AppIconRunning;
 
-        // Show running icon for some minimal time (nice snip effect with default icon).
-        if (!m_trayIconSnipTimer) {
-            m_trayIconSnipTimer = new QTimer(this);
-            m_trayIconSnipTimer->start(250);
-            m_trayIconSnipTimer->setSingleShot(true);
-            connect( m_trayIconSnipTimer, SIGNAL(timeout()), this, SLOT(updateIcon()) );
-        }
-    } else if (m_trayIconSnipTimer) {
-        if (m_trayIconSnipTimer->isActive()) {
-            flags |= AppIconRunning;
-        } else {
-            delete m_trayIconSnipTimer;
-            m_trayIconSnipTimer = NULL;
-        }
+        if ( !m_timerTrayIconSnip.isActive() )
+            m_timerTrayIconSnip.start(250);
     }
 
     const QIcon icon = appIcon(flags);
@@ -569,7 +549,7 @@ ClipboardBrowser *MainWindow::getBrowser() const
 void MainWindow::delayedUpdateFocusWindows()
 {
     if ( m_options->activateFocuses() || m_options->activatePastes() )
-        m_timerUpdateFocusWindows->start();
+        m_timerUpdateFocusWindows.start();
 }
 
 void MainWindow::setHideTabs(bool hide)
@@ -922,7 +902,7 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(false);
         setHideTabs(m_options->hideTabs);
     } else if (type == QEvent::WindowActivate) {
-        if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() ) {
+        if ( m_timerMininizing.isActive() ) {
             // Window manager ignores window minimizing -- hide it instead.
             m_minimizeUnsupported = true;
             hide();
@@ -931,7 +911,7 @@ bool MainWindow::event(QEvent *event)
 
         updateWindowTransparency();
     } else if (type == QEvent::WindowDeactivate) {
-        m_timerShowWindow->start();
+        m_timerShowWindow.start();
         m_lastWindow.clear();
         updateWindowTransparency();
         setHideTabs(m_options->hideTabs);
@@ -1081,28 +1061,19 @@ void MainWindow::loadSettings()
     m_trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
     m_options->showTray = !cm->value("disable_tray").toBool();
-    delete m_trayTimer;
     if ( m_options->showTray && !QSystemTrayIcon::isSystemTrayAvailable() ) {
         m_options->showTray = false;
-        m_trayTimer = new QTimer(this);
-        connect( m_trayTimer, SIGNAL(timeout()), this, SLOT(createTrayIfSupported()) );
-        m_trayTimer->setSingleShot(true);
-        m_trayTimer->setInterval(1000);
-        m_trayTimer->start();
+        initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
+        m_timerTrayAvailable.start();
     }
 
     m_tray->setVisible(m_options->showTray);
     if (!m_options->showTray) {
-        if (m_timerMiminizing == NULL) {
-            // Check if window manager can minimize window properly.
-            // If window is activated while minimizing, assume that minimizing is not supported.
-            m_timerMiminizing = new QTimer(this);
-            m_timerMiminizing->setSingleShot(true);
-            m_timerMiminizing->start(1000);
-            showMinimized();
-        } else if (isHidden() && !isMinimized()) {
-            showMinimized();
-        }
+        // Check if window manager can minimize window properly.
+        // If window is activated while minimizing, assume that minimizing is not supported.
+        initSingleShotTimer( &m_timerMininizing, 1000 );
+        m_timerMininizing.start();
+        showMinimized();
     }
 
     if (m_notifications != NULL)
@@ -1127,7 +1098,7 @@ void MainWindow::closeAndReturnFocus()
 
 void MainWindow::showWindow()
 {
-    if ( m_timerMiminizing != NULL && m_timerMiminizing->isActive() )
+    if ( m_timerMininizing.isActive() )
         return;
 
     if ( isActiveWindow() )
@@ -1176,7 +1147,7 @@ void MainWindow::hideWindow()
 bool MainWindow::toggleVisible()
 {
     // Showing/hiding window in quick succession doesn't work well on X11.
-    if ( m_timerShowWindow->isActive() || isActiveWindow() ) {
+    if ( m_timerShowWindow.isActive() || isActiveWindow() ) {
         closeAndReturnFocus();
         return false;
     }
@@ -1573,9 +1544,6 @@ void MainWindow::onFilterChanged(const QRegExp &re)
 void MainWindow::createTrayIfSupported()
 {
     if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
-        delete m_trayTimer;
-        m_trayTimer = NULL;
-
         m_options->showTray = true;
         m_tray->setVisible(true);
         if ( isMinimized() )
@@ -1583,7 +1551,7 @@ void MainWindow::createTrayIfSupported()
 
         updateIcon();
     } else {
-        m_trayTimer->start();
+        m_timerTrayAvailable.start();
     }
 }
 

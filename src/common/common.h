@@ -36,6 +36,7 @@ class QMimeData;
 class QString;
 class QStringList;
 class QTemporaryFile;
+class QTimer;
 
 #if QT_VERSION < 0x050000
 #   ifdef Q_WS_WIN
@@ -136,5 +137,7 @@ void renameToUnique(QString *name, const QStringList &names);
 bool openTemporaryFile(QTemporaryFile *file);
 
 int pointsToPixels(int points);
+
+void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = NULL, const char *slot = NULL);
 
 #endif // COMMON_H

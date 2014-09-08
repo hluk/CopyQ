@@ -128,10 +128,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     server->start();
 
     // Ignore global shortcut key presses in any widget.
-    m_ignoreKeysTimer.setInterval(0);
-    m_ignoreKeysTimer.setSingleShot(true);
-    connect( &m_ignoreKeysTimer, SIGNAL(timeout()),
-             this, SLOT(onIgnoreKeysTimout()) );
+    initSingleShotTimer( &m_ignoreKeysTimer, 0, this, SLOT(onIgnoreKeysTimout()) );
 }
 
 ClipboardServer::~ClipboardServer()

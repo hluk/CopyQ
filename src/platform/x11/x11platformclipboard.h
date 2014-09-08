@@ -50,8 +50,6 @@ private slots:
     void synchronize();
 
 private:
-    void initSingleShotTimer(int intervalMs, const char *slot, QTimer *timer);
-
     bool waitIfSelectionIncomplete();
 
     /**

@@ -455,14 +455,14 @@ private:
 
     PlatformWindowPtr m_lastWindow;
 
-    QTimer *m_timerUpdateFocusWindows;
-    QTimer *m_timerShowWindow;
-    QTimer *m_trayTimer;
-    QTimer *m_trayIconSnipTimer;
+    QTimer m_timerUpdateFocusWindows;
+    QTimer m_timerShowWindow;
+    QTimer m_timerTrayAvailable;
+    QTimer m_timerTrayIconSnip;
+    QTimer m_timerMininizing;
 
     NotificationDaemon *m_notifications;
 
-    QTimer *m_timerMiminizing;
     bool m_minimizeUnsupported;
 
     ActionHandler *m_actionHandler;

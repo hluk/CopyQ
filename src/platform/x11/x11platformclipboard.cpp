@@ -71,9 +71,9 @@ X11PlatformClipboard::X11PlatformClipboard(const QSharedPointer<X11DisplayGuard>
 {
     Q_ASSERT(d->display());
 
-    initSingleShotTimer(100, SLOT(checkSelectionComplete()), &m_timerIncompleteSelection);
-    initSingleShotTimer(500, SLOT(resetClipboard()), &m_timerReset);
-    initSingleShotTimer(100, SLOT(synchronize()), &m_timerSync);
+    initSingleShotTimer( &m_timerIncompleteSelection, 100, this, SLOT(checkSelectionComplete()) );
+    initSingleShotTimer( &m_timerReset, 500, this, SLOT(resetClipboard()) );
+    initSingleShotTimer( &m_timerSync, 100, this, SLOT(synchronize()) );
 }
 
 void X11PlatformClipboard::loadSettings(const QVariantMap &settings)
@@ -192,13 +192,6 @@ void X11PlatformClipboard::synchronize()
             DummyClipboard::setData(platformMode, sourceData);
         }
     }
-}
-
-void X11PlatformClipboard::initSingleShotTimer(int intervalMs, const char *slot, QTimer *timer)
-{
-    timer->setSingleShot(true);
-    timer->setInterval(intervalMs);
-    connect( timer, SIGNAL(timeout()), this, slot );
 }
 
 bool X11PlatformClipboard::waitIfSelectionIncomplete()

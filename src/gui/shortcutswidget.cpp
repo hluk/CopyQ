@@ -21,6 +21,7 @@
 #include "ui_shortcutswidget.h"
 
 #include "common/command.h"
+#include "common/common.h"
 #include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -267,10 +268,7 @@ ShortcutsWidget::ShortcutsWidget(QWidget *parent)
     ui->tableWidget->horizontalHeader()->resizeSection(Columns::Icon, 24);
     ui->tableWidget->verticalHeader()->hide();
 
-    m_timerCheckAmbiguous.setSingleShot(true);
-    m_timerCheckAmbiguous.setInterval(0);
-    connect( &m_timerCheckAmbiguous, SIGNAL(timeout()),
-             this, SLOT(checkAmbiguousShortcuts()) );
+    initSingleShotTimer( &m_timerCheckAmbiguous, 0, this, SLOT(checkAmbiguousShortcuts()) );
 }
 
 ShortcutsWidget::~ShortcutsWidget()

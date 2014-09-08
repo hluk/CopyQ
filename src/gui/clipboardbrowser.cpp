@@ -46,8 +46,6 @@
 #include <QPainter>
 #include <QProcess>
 #include <QScrollBar>
-#include <QSharedPointer>
-#include <QTimer>
 #include <QElapsedTimer>
 
 namespace {
@@ -247,11 +245,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_update(false)
     , m( new ClipboardModel(this) )
     , d( new ItemDelegate(this) )
-    , m_timerSave( new QTimer(this) )
-    , m_timerScroll( new QTimer(this) )
-    , m_timerUpdate( new QTimer(this) )
-    , m_timerFilter( new QTimer(this) )
-    , m_timerExpire(NULL)
     , m_menu(NULL)
     , m_invalidateCache(false)
     , m_expire(false)
@@ -275,10 +268,10 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     setEditTriggers(QAbstractItemView::NoEditTriggers);
     setAlternatingRowColors(true);
 
-    initSingleShotTimer(m_timerSave, 30000, SLOT(saveItems()));
-    initSingleShotTimer(m_timerScroll, 50);
-    initSingleShotTimer(m_timerUpdate, 10, SLOT(doUpdateCurrentPage()));
-    initSingleShotTimer(m_timerFilter, 10, SLOT(filterItems()));
+    initSingleShotTimer( &m_timerSave, 30000, this, SLOT(saveItems()) );
+    initSingleShotTimer( &m_timerScroll, 50 );
+    initSingleShotTimer( &m_timerUpdate, 10, this, SLOT(doUpdateCurrentPage()) );
+    initSingleShotTimer( &m_timerFilter, 10, this, SLOT(filterItems()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -296,7 +289,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
 ClipboardBrowser::~ClipboardBrowser()
 {
     d->invalidateCache();
-    if ( m_timerSave->isActive() )
+    if ( m_timerSave.isActive() )
         saveItems();
 }
 
@@ -592,26 +585,15 @@ void ClipboardBrowser::updateEditorGeometry()
     }
 }
 
-void ClipboardBrowser::initSingleShotTimer(QTimer *timer, int milliseconds, const char *slot)
-{
-    timer->setSingleShot(true);
-    timer->setInterval(milliseconds);
-    if (slot != NULL) {
-        connect( timer, SIGNAL(timeout()),
-                 this, slot );
-    }
-}
-
 void ClipboardBrowser::restartExpiring()
 {
-    if ( m_itemLoader && m_timerExpire != NULL && isHidden() )
-        m_timerExpire->start();
+    if ( m_itemLoader && isHidden() )
+        m_timerExpire.start();
 }
 
 void ClipboardBrowser::stopExpiring()
 {
-    if (m_timerExpire != NULL)
-        m_timerExpire->stop();
+    m_timerExpire.stop();
 }
 
 void ClipboardBrowser::updateCurrentItem()
@@ -1054,7 +1036,7 @@ void ClipboardBrowser::onTabNameChanged(const QString &tabName)
 
     // Just move last saved file if tab is not loaded yet.
     if ( isLoaded() && cm->saveItemsWithOther(*m, &m_itemLoader) ) {
-        m_timerSave->stop();
+        m_timerSave.stop();
         cm->removeItems(m_tabName);
     } else {
         cm->moveItems(m_tabName, tabName);
@@ -1065,14 +1047,14 @@ void ClipboardBrowser::onTabNameChanged(const QString &tabName)
 
 void ClipboardBrowser::updateCurrentPage()
 {
-    if ( !m_timerUpdate->isActive() )
-        m_timerUpdate->start();
+    if ( !m_timerUpdate.isActive() )
+        m_timerUpdate.start();
 }
 
 void ClipboardBrowser::doUpdateCurrentPage()
 {
     if ( !updatesEnabled() ) {
-        m_timerUpdate->start();
+        m_timerUpdate.start();
         return;
     }
 
@@ -1086,7 +1068,7 @@ void ClipboardBrowser::doUpdateCurrentPage()
     const int h = viewport()->contentsRect().height();
     preload(-h, h);
     updateCurrentItem();
-    m_timerUpdate->stop();
+    m_timerUpdate.stop();
 }
 
 void ClipboardBrowser::expire()
@@ -1131,7 +1113,7 @@ void ClipboardBrowser::onModelUnloaded()
 
 void ClipboardBrowser::filterItems()
 {
-    m_timerFilter->stop();
+    m_timerFilter.stop();
 
     // row to select
     QModelIndex current = currentIndex();
@@ -1149,7 +1131,7 @@ void ClipboardBrowser::filterItems()
                 first = m_lastFiltered;
 
             if ( t.elapsed() > 25 ) {
-                m_timerFilter->start();
+                m_timerFilter.start();
                 break;
             }
         }
@@ -1159,7 +1141,7 @@ void ClipboardBrowser::filterItems()
     }
 
     // Select row specified by search or first visible.
-    if (!currentIndex().isValid() || sender() != m_timerFilter)
+    if (!currentIndex().isValid() || sender() != &m_timerFilter)
         setCurrentIndex( index(first) );
 
     updateSearchProgress();
@@ -1640,9 +1622,9 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 event->accept();
 
                 // Disallow fast page up/down too keep application responsive.
-                if (m_timerScroll->isActive())
+                if (m_timerScroll.isActive())
                     break;
-                m_timerScroll->start();
+                m_timerScroll.start();
 
                 d = (key == Qt::Key_PageDown) ? 1 : -1;
 
@@ -1866,13 +1848,11 @@ void ClipboardBrowser::loadSettings()
     if (m_loadButton)
         updateLoadButtonIcon(m_loadButton);
 
-    delete m_timerExpire;
-    m_timerExpire = NULL;
-
     if (m_sharedData->minutesToExpire > 0) {
-        m_timerExpire = new QTimer(this);
-        initSingleShotTimer( m_timerExpire, 60000 * m_sharedData->minutesToExpire, SLOT(expire()) );
+        initSingleShotTimer(&m_timerExpire, 60000 * m_sharedData->minutesToExpire, this, SLOT(expire()));
         restartExpiring();
+    } else {
+        stopExpiring();
     }
 
     if (m_editor) {
@@ -1898,7 +1878,7 @@ void ClipboardBrowser::loadItemsAgain()
     if ( isLoaded() )
         return;
 
-    m_timerSave->stop();
+    m_timerSave.stop();
 
     m->blockSignals(true);
     m_itemLoader = ConfigurationManager::instance()->loadItems(*m);
@@ -1927,7 +1907,7 @@ void ClipboardBrowser::loadItemsAgain()
 
 bool ClipboardBrowser::saveItems()
 {
-    m_timerSave->stop();
+    m_timerSave.stop();
 
     if ( !isLoaded() || tabName().isEmpty() )
         return false;
@@ -1943,15 +1923,15 @@ void ClipboardBrowser::moveToClipboard()
 
 void ClipboardBrowser::delayedSaveItems()
 {
-    if ( !isLoaded() || tabName().isEmpty() || m_timerSave->isActive() )
+    if ( !isLoaded() || tabName().isEmpty() || m_timerSave.isActive() )
         return;
 
-    m_timerSave->start();
+    m_timerSave.start();
 }
 
 void ClipboardBrowser::saveUnsavedItems()
 {
-    if ( m_timerSave->isActive() )
+    if ( m_timerSave.isActive() )
         saveItems();
 }
 
@@ -1960,7 +1940,7 @@ void ClipboardBrowser::purgeItems()
     if ( tabName().isEmpty() )
         return;
     ConfigurationManager::instance()->removeItems(tabName());
-    m_timerSave->stop();
+    m_timerSave.stop();
 }
 
 const QString ClipboardBrowser::selectedText() const

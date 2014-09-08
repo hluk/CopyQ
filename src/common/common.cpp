@@ -34,6 +34,7 @@
 #include <QObject>
 #include <QTemporaryFile>
 #include <QThread>
+#include <QTimer>
 #include <QUrl>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
@@ -403,4 +404,12 @@ bool openTemporaryFile(QTemporaryFile *file)
 int pointsToPixels(int points)
 {
     return points * QApplication::desktop()->physicalDpiX() / 72;
+}
+
+void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object, const char *slot)
+{
+    timer->setSingleShot(true);
+    timer->setInterval(milliseconds);
+    if (object && slot)
+        QObject::connect( timer, SIGNAL(timeout()), object, slot );
 }

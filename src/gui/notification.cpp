@@ -36,7 +36,6 @@
 #include <QPushButton>
 #include <QScopedPointer>
 #include <QTextEdit>
-#include <QTimer>
 #include <QVBoxLayout>
 
 namespace {
@@ -92,7 +91,6 @@ Notification::Notification(int id)
     , m_titleLabel(NULL)
     , m_iconLabel(NULL)
     , m_msgLabel(NULL)
-    , m_timer(NULL)
     , m_opacity(1.0)
     , m_icon(0)
 {
@@ -153,16 +151,11 @@ void Notification::setIcon(ushort icon)
 
 void Notification::setInterval(int msec)
 {
-    delete m_timer;
-    m_timer = NULL;
-
     if (msec >= 0) {
-        m_timer = new QTimer(this);
-        m_timer->setInterval(msec);
-        m_timer->setSingleShot(true);
-        connect( m_timer, SIGNAL(timeout()),
-                 this, SLOT(onTimeout()) );
-        m_timer->start();
+        initSingleShotTimer( &m_timer, msec, this, SLOT(onTimeout()) );
+        m_timer.start();
+    } else {
+        m_timer.stop();
     }
 }
 
@@ -196,8 +189,7 @@ void Notification::mousePressEvent(QMouseEvent *event)
         return;
     }
 
-    if (m_timer != NULL)
-        m_timer->stop();
+    m_timer.stop();
 
     emit closeNotification(this);
 }
@@ -205,16 +197,15 @@ void Notification::mousePressEvent(QMouseEvent *event)
 void Notification::enterEvent(QEvent *event)
 {
     setWindowOpacity(1.0);
-    if (m_timer != NULL)
-        m_timer->stop();
+    m_timer.stop();
     QWidget::enterEvent(event);
 }
 
 void Notification::leaveEvent(QEvent *event)
 {
     setWindowOpacity(m_opacity);
-    if (m_timer != NULL)
-        m_timer->start();
+    if ( m_timer.interval() > 0 )
+        m_timer.start();
     QWidget::leaveEvent(event);
 }
 
