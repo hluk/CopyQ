@@ -23,8 +23,72 @@
 #include "item/clipboarditem.h"
 
 #include <QAbstractListModel>
-#include <QList>
-#include <QPair>
+#include <QVector>
+
+/**
+ * Container with clipboard items.
+ *
+ * Item prepending is optimized.
+ */
+class ClipboardItemList {
+public:
+    explicit ClipboardItemList(int maxItems)
+    {
+        reserve(maxItems);
+    }
+
+    ClipboardItem &operator [](int i)
+    {
+        return m_items[toIndex(i)];
+    }
+
+    const ClipboardItem &operator [](int i) const
+    {
+        return m_items[toIndex(i)];
+    }
+
+    void insert(int row, const ClipboardItem &item)
+    {
+        m_items.insert(toIndex(row) + 1, item);
+    }
+
+    void remove(int row, int count)
+    {
+        m_items.remove(toIndex(row) + 1 - count, count);
+    }
+
+    int size() const
+    {
+        return m_items.size();
+    }
+
+    void move(int from, int to)
+    {
+        const int from2 = toIndex(from);
+        const int to2 = toIndex(to);
+        const ClipboardItem item = m_items[from2];
+        m_items.remove(from2);
+        m_items.insert(to2, item);
+    }
+
+    void reserve(int maxItems)
+    {
+        m_items.reserve(maxItems);
+    }
+
+    void resize(int size)
+    {
+        m_items.resize(size);
+    }
+
+private:
+    int toIndex(int row) const
+    {
+        return size() - row - 1;
+    }
+
+    QVector<ClipboardItem> m_items;
+};
 
 /**
  * Model containing ClipboardItem objects.
@@ -138,8 +202,8 @@ signals:
     void tabNameChanged(const QString &tabName);
 
 private:
-    QList<ClipboardItem> m_clipboardList;
     int m_max;
+    ClipboardItemList m_clipboardList;
     bool m_disabled;
     QString m_tabName;
 };

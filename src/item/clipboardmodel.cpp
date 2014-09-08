@@ -53,8 +53,8 @@ int topMostRow(const QList<QPersistentModelIndex> &indexList)
 
 ClipboardModel::ClipboardModel(QObject *parent)
     : QAbstractListModel(parent)
-    , m_clipboardList()
     , m_max(100)
+    , m_clipboardList(m_max)
     , m_disabled(false)
     , m_tabName()
 {
@@ -149,8 +149,7 @@ bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 
     beginRemoveRows(QModelIndex(), position, last);
 
-    m_clipboardList.erase( m_clipboardList.begin() + position,
-                           m_clipboardList.begin() + last + 1 );
+    m_clipboardList.remove(position, last - position + 1);
 
     endRemoveRows();
 
@@ -180,18 +179,15 @@ void ClipboardModel::unloadItems()
 
 void ClipboardModel::setMaxItems(int max)
 {
-    m_max = max>0 ? max : 0;
-    int rows = m_clipboardList.length();
+    m_max = qMax(0, max);
 
-    if (max >= rows)
-        return;
-
-    beginRemoveRows(QModelIndex(), max + 1, rows - 1);
-
-    m_clipboardList.erase( m_clipboardList.begin() + max,
-                           m_clipboardList.end() );
-
-    endRemoveRows();
+    if ( m_max < m_clipboardList.size() ) {
+        beginRemoveRows(QModelIndex(), m_max + 1, m_clipboardList.size() - 1);
+        m_clipboardList.resize(m_max);
+        endRemoveRows();
+    } else {
+        m_clipboardList.reserve(m_max);
+    }
 }
 
 void ClipboardModel::setTabName(const QString &tabName)
@@ -213,16 +209,15 @@ bool ClipboardModel::move(int pos, int newpos)
     if( from == -1 || to == -1 )
         return false;
 
-    // QList::move() works differently from QAbstractItemModel::beginMoveRows().
-    const int qlistFrom = from;
-    const int qlistTo = to;
+    const int sourceRow = from;
+    const int targetRow = to;
     if (from < to)
         ++to;
 
     if ( !beginMoveRows(QModelIndex(), from, from, QModelIndex(), to) )
         return false;
 
-    m_clipboardList.move(qlistFrom, qlistTo);
+    m_clipboardList.move(sourceRow, targetRow);
 
     endMoveRows();
 
@@ -303,7 +298,7 @@ void ClipboardModel::sortItems(const QModelIndexList &indexList, CompareItems *c
 
 int ClipboardModel::findItem(uint item_hash) const
 {
-    for (int i = 0; i < m_clipboardList.length(); ++i) {
+    for (int i = 0; i < m_clipboardList.size(); ++i) {
         if ( m_clipboardList[i].dataHash() == item_hash )
             return i;
     }

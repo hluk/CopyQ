@@ -221,13 +221,13 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
     Q_ASSERT( maxItems.toInt() > 0 );
     length = qMin( length, maxItems.toInt() ) - model->rowCount();
 
+    if ( !model->insertRows(0, length) )
+        return false;
+
     for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {
-        const int row = model->rowCount();
-        if ( !model->insertRow(row) )
-            return false;
         QVariantMap data;
         deserializeData(stream, &data);
-        model->setData( model->index(row, 0), data, contentType::data );
+        model->setData( model->index(i, 0), data, contentType::data );
     }
 
     return stream->status() == QDataStream::Ok;
