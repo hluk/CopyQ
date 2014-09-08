@@ -1072,6 +1072,7 @@ void MainWindow::loadSettings()
         // Check if window manager can minimize window properly.
         // If window is activated while minimizing, assume that minimizing is not supported.
         initSingleShotTimer( &m_timerMininizing, 1000 );
+        QApplication::processEvents();
         m_timerMininizing.start();
         showMinimized();
     }
