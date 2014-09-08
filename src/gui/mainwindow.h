@@ -34,6 +34,7 @@
 
 class ActionHandler;
 class CommandDialog;
+class ConfigurationManager;
 class NotificationDaemon;
 class QAction;
 class TrayMenu;
@@ -439,6 +440,7 @@ private:
 
     void updateTabIcon(const QString &newName, const QString &oldName);
 
+    ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
     QMenu *m_menuItem;
@@ -459,7 +461,7 @@ private:
     QTimer m_timerShowWindow;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;
-    QTimer m_timerMininizing;
+    QTimer m_timerMinimizing;
 
     NotificationDaemon *m_notifications;
 

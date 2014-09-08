@@ -137,6 +137,7 @@ struct MainWindowOptions {
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
+    , cm(ConfigurationManager::createInstance(this))
     , ui(new Ui::MainWindow)
     , m_menuItem(NULL)
     , m_trayMenu( new TrayMenu(this) )
@@ -159,7 +160,6 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
     cm->registerWindowGeometry(this);
     restoreState( cm->mainWindowState(objectName()) );
 
@@ -441,7 +441,6 @@ void MainWindow::updateIcon()
 
 void MainWindow::onAboutToQuit()
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
     cm->disconnect();
     cm->saveMainWindowState( objectName(), saveState() );
     ui->tabWidget->saveTabInfo();
@@ -484,7 +483,6 @@ void MainWindow::updateNotifications()
     if (m_notifications == NULL)
         m_notifications = new NotificationDaemon(this);
 
-    ConfigurationManager *cm = ConfigurationManager::instance();
     const ConfigTabAppearance *appearance = cm->tabAppearance();
     notificationDaemon()->setNotificationOpacity( appearance->themeColor("notification_bg").alphaF() );
     notificationDaemon()->setNotificationStyleSheet( appearance->getNotificationStyleSheet() );
@@ -902,7 +900,7 @@ bool MainWindow::event(QEvent *event)
         updateWindowTransparency(false);
         setHideTabs(m_options->hideTabs);
     } else if (type == QEvent::WindowActivate) {
-        if ( m_timerMininizing.isActive() ) {
+        if ( m_timerMinimizing.isActive() ) {
             // Window manager ignores window minimizing -- hide it instead.
             m_minimizeUnsupported = true;
             hide();
@@ -960,8 +958,6 @@ void MainWindow::resetStatus()
 void MainWindow::loadSettings()
 {
     COPYQ_LOG("Loading configuration");
-
-    ConfigurationManager *cm = ConfigurationManager::instance();
 
     ConfigTabAppearance *appearance = cm->tabAppearance();
     appearance->decorateToolBar(ui->toolBar);
@@ -1069,12 +1065,16 @@ void MainWindow::loadSettings()
 
     m_tray->setVisible(m_options->showTray);
     if (!m_options->showTray) {
-        // Check if window manager can minimize window properly.
-        // If window is activated while minimizing, assume that minimizing is not supported.
-        initSingleShotTimer( &m_timerMininizing, 1000 );
-        QApplication::processEvents();
-        m_timerMininizing.start();
-        showMinimized();
+        if (m_timerMinimizing.interval() == 0) {
+            // Check if window manager can minimize window properly.
+            // If window is activated while minimizing, assume that minimizing is not supported.
+            initSingleShotTimer( &m_timerMinimizing, 1000 );
+            QApplication::processEvents();
+            m_timerMinimizing.start();
+            showMinimized();
+        } else if (isHidden() && !isMinimized()) {
+            showMinimized();
+        }
     }
 
     if (m_notifications != NULL)
@@ -1099,7 +1099,7 @@ void MainWindow::closeAndReturnFocus()
 
 void MainWindow::showWindow()
 {
-    if ( m_timerMininizing.isActive() )
+    if ( m_timerMinimizing.isActive() )
         return;
 
     if ( isActiveWindow() )
@@ -1483,8 +1483,6 @@ QStringList MainWindow::tabs() const
 
 QVariant MainWindow::config(const QString &name, const QString &value)
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     if ( name.isNull() ) {
         // print options
         QStringList options = cm->options();
@@ -2126,7 +2124,6 @@ void MainWindow::setTabIcon()
 
 void MainWindow::setTabIcon(const QString &tabName)
 {
-    ConfigurationManager *cm = ConfigurationManager::instance();
     IconSelectDialog dialog( cm->getIconForTabName(tabName), this );
 
     if ( dialog.exec() == QDialog::Accepted ) {

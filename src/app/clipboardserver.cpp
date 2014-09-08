@@ -85,9 +85,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
 
     QApplication::setQuitOnLastWindowClosed(false);
 
-    ConfigurationManager::createInstance();
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
     m_wnd = new MainWindow;
 
     connect( server, SIGNAL(newConnection(Arguments,ClientSocket*)),
@@ -108,7 +105,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     loadSettings();
 
     // notify window if configuration changes
-    connect( cm, SIGNAL(configurationChanged()),
+    connect( ConfigurationManager::instance(), SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
 
 #ifndef NO_GLOBAL_SHORTCUTS
@@ -128,7 +125,7 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     server->start();
 
     // Ignore global shortcut key presses in any widget.
-    initSingleShotTimer( &m_ignoreKeysTimer, 0, this, SLOT(onIgnoreKeysTimout()) );
+    initSingleShotTimer( &m_ignoreKeysTimer, 0, this, SLOT(onIgnoreKeysTimeout()) );
 }
 
 ClipboardServer::~ClipboardServer()
@@ -260,7 +257,7 @@ void ClipboardServer::maybeQuit()
         QCoreApplication::exit();
 }
 
-void ClipboardServer::onIgnoreKeysTimout()
+void ClipboardServer::onIgnoreKeysTimeout()
 {
     m_wnd->setEnabled(true);
 }

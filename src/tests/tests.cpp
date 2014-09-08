@@ -101,7 +101,7 @@ QString testTab(int index)
 bool testStderr(const QByteArray &stderrData, TestInterface::ReadStderrFlag flag = TestInterface::ReadErrors)
 {
     const QString scriptExceptionError = "Scripting engine: Error:";
-    static const QRegExp re(scriptExceptionError + "|warning:|error:|ASSERT", Qt::CaseInsensitive);
+    static const QRegExp re(scriptExceptionError + "|(?!\\bX )warning:|(?!\\bX )error:|ASSERT", Qt::CaseInsensitive);
     int from = 0;
     bool skipScriptException = flag == TestInterface::ReadErrorsWithoutScriptException;
     const QString output = QString::fromUtf8(stderrData);

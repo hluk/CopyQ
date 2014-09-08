@@ -92,8 +92,8 @@ ConfigurationManager *ConfigurationManager::instance()
     return m_Instance;
 }
 
-ConfigurationManager::ConfigurationManager()
-    : QDialog()
+ConfigurationManager::ConfigurationManager(QWidget *parent)
+    : QDialog(parent)
     , ui(new Ui::ConfigurationManager)
     , m_options()
     , m_tabIcons()
@@ -748,12 +748,13 @@ void ConfigurationManager::setVisible(bool visible)
     }
 }
 
-void ConfigurationManager::createInstance()
+ConfigurationManager *ConfigurationManager::createInstance(QWidget *parent)
 {
     Q_ASSERT(m_Instance == NULL);
-    m_Instance = new ConfigurationManager();
+    m_Instance = new ConfigurationManager(parent);
     m_Instance->loadSettings();
     m_Instance->registerWindowGeometry(m_Instance);
+    return m_Instance;
 }
 
 void ConfigurationManager::apply()

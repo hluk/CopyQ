@@ -53,7 +53,7 @@ class ConfigurationManager : public QDialog
 {
     Q_OBJECT
 
-    friend class ClipboardServer;
+    friend class MainWindow;
 
 public:
     ~ConfigurationManager();
@@ -142,7 +142,7 @@ signals:
     void error(const QString &error);
 
 protected:
-    static void createInstance();
+    static ConfigurationManager *createInstance(QWidget *parent);
 
 private slots:
     void apply();
@@ -153,10 +153,7 @@ private slots:
     void on_spinBoxTrayItems_valueChanged(int value);
 
 private:
-    ConfigurationManager();
-
-    ConfigurationManager(const ConfigurationManager &);
-    ConfigurationManager& operator=(const ConfigurationManager &);
+    explicit ConfigurationManager(QWidget *parent);
 
     void updateCommandItem(QListWidgetItem *item);
     void shortcutButtonClicked(QObject *button);
