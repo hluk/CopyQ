@@ -69,13 +69,9 @@ WinPlatformWindow::WinPlatformWindow(HWND window)
 
 QString WinPlatformWindow::getTitle()
 {
-    TCHAR buf[1024];
-    GetWindowText(m_window, buf, 1024);
-#   ifdef UNICODE
+    WCHAR buf[1024];
+    GetWindowTextW(m_window, buf, 1024);
     return QString::fromUtf16(reinterpret_cast<ushort *>(buf));
-#   else
-    return QString::fromUtf8(buf);
-#   endif
 }
 
 void WinPlatformWindow::raise()
