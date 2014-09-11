@@ -30,7 +30,7 @@
 
 namespace {
 
-bool isKeyModifier(int key)
+bool isNonModifierKey(int key)
 {
     switch(key) {
     case Qt::Key_Control:
@@ -42,9 +42,10 @@ bool isKeyModifier(int key)
     case Qt::Key_Super_R:
     case Qt::Key_Hyper_L:
     case Qt::Key_Hyper_R:
-        return true;
-    default:
+    case Qt::Key_unknown:
         return false;
+    default:
+        return true;
     }
 }
 
@@ -105,7 +106,7 @@ bool ShortcutDialog::eventFilter(QObject *object, QEvent *event)
         event->accept();
         processKey(key, mods);
 
-        if ( !isKeyModifier(key) )
+        if ( isNonModifierKey(key) )
             accept();
 
         return false;
@@ -131,11 +132,8 @@ void ShortcutDialog::onResetButtonClicked()
 
 void ShortcutDialog::processKey(int key, Qt::KeyboardModifiers mods)
 {
-    if(key == Qt::Key_unknown)
-        return;
-
     int keys = 0;
-    if ( !isKeyModifier(key) )
+    if ( isNonModifierKey(key) )
         keys = key;
 
     if (mods & Qt::ControlModifier)
