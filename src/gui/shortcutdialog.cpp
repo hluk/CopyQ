@@ -58,7 +58,6 @@ ShortcutDialog::ShortcutDialog(QWidget *parent)
     , m_expectModifier(false)
 {
     ui->setupUi(this);
-    setWindowIcon( getIcon("", IconHandUp) );
 
     QPushButton *resetButton = ui->buttonBox->button(QDialogButtonBox::Reset);
     Q_ASSERT(resetButton);
