@@ -80,6 +80,11 @@ QIcon appIcon(AppIconFlags flags = AppIconNormal)
     return ConfigurationManager::instance()->iconFactory()->appIcon(flags);
 }
 
+bool canPaste()
+{
+    return !QApplication::queryKeyboardModifiers().testFlag(Qt::ControlModifier);
+}
+
 } // namespace
 
 enum ItemActivationCommand {
@@ -170,8 +175,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
     connect( m_trayMenu, SIGNAL(aboutToShow()),
              this, SLOT(updateTrayMenuItems()) );
-    connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint)),
-             this, SLOT(onTrayActionTriggered(uint)) );
+    connect( m_trayMenu, SIGNAL(clipboardItemActionTriggered(uint,bool)),
+             this, SLOT(onTrayActionTriggered(uint,bool)) );
     connect( ui->tabWidget, SIGNAL(currentChanged(int,int)),
              this, SLOT(tabChanged(int,int)) );
     connect( ui->tabWidget, SIGNAL(tabMoved(int, int)),
@@ -810,6 +815,11 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             case Qt::Key_Backtab:
                 previousTab();
                 return;
+            case Qt::Key_Return:
+            case Qt::Key_Enter:
+                if ( c->isLoaded() )
+                    activateCurrentItem();
+                return;
             default:
                 QMainWindow::keyPressEvent(event);
                 break;
@@ -1172,10 +1182,11 @@ void MainWindow::showBrowser(int index)
     }
 }
 
-void MainWindow::onTrayActionTriggered(uint clipboardItemHash)
+void MainWindow::onTrayActionTriggered(uint clipboardItemHash, bool omitPaste)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
-    if ( c->select(clipboardItemHash) && m_lastWindow ) {
+
+    if ( c->select(clipboardItemHash) && m_lastWindow && !omitPaste && canPaste() ) {
         QApplication::processEvents();
         m_lastWindow->pasteClipboard();
     }
@@ -1427,7 +1438,7 @@ void MainWindow::activateCurrentItem()
         if (m_options->activateFocuses())
             lastWindow->raise();
 
-        if (m_options->activatePastes()) {
+        if (m_options->activatePastes() && canPaste()) {
             QApplication::processEvents();
             lastWindow->pasteClipboard();
         }

@@ -56,7 +56,7 @@ public:
 
 signals:
     /** Emitted if numbered action triggered. */
-    void clipboardItemActionTriggered(uint clipboardItemHash);
+    void clipboardItemActionTriggered(uint clipboardItemHash, bool omitPaste);
 
 protected:
     void paintEvent(QPaintEvent *event);
@@ -68,6 +68,7 @@ private slots:
 
 protected:
     void keyPressEvent(QKeyEvent *event);
+    void mousePressEvent(QMouseEvent *event);
 
 private:
     void resetSeparators();
@@ -78,6 +79,8 @@ private:
     QList<QPointer<QAction> > m_customActions;
 
     QTimer m_timerShowTooltip;
+
+    bool m_omitPaste;
 };
 
 #endif // TRAYMENU_H

@@ -102,6 +102,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     , m_customActionsSeparator()
     , m_clipboardItemActions()
     , m_customActions()
+    , m_omitPaste(false)
 {
     connect( this, SIGNAL(hovered(QAction*)),
              this, SLOT(onActionHovered(QAction*)) );
@@ -237,6 +238,7 @@ void TrayMenu::paintEvent(QPaintEvent *event)
 void TrayMenu::keyPressEvent(QKeyEvent *event)
 {
     int k = event->key();
+    m_omitPaste = false;
 
     if (event->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= k && k <= Qt::Key_9) {
         // Allow keypad digit to activate appropriate item in context menu.
@@ -283,6 +285,12 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
     QMenu::keyPressEvent(event);
 }
 
+void TrayMenu::mousePressEvent(QMouseEvent *event)
+{
+    m_omitPaste = (event->button() == Qt::RightButton);
+    QMenu::mousePressEvent(event);
+}
+
 void TrayMenu::resetSeparators()
 {
     if ( m_customActionsSeparator.isNull() ) {
@@ -304,7 +312,7 @@ void TrayMenu::onClipboardItemActionTriggered()
     Q_ASSERT( actionData.isValid() );
 
     uint hash = actionData.toUInt();
-    emit clipboardItemActionTriggered(hash);
+    emit clipboardItemActionTriggered(hash, m_omitPaste);
     close();
 }
 
