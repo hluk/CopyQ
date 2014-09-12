@@ -330,6 +330,12 @@ void MainWindow::createMenu()
     // Edit
     menu = menubar->addMenu( tr("&Edit") );
 
+    // - find
+    createAction( Actions::Edit_FindItems, SLOT(enterSearchMode()), menu );
+
+    // - separator
+    menu->addSeparator();
+
     // - sort
     createAction( Actions::Edit_SortSelectedItems, SLOT(sortSelectedItems()), menu );
 
@@ -853,11 +859,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 activateCurrentItem();
             else
                 c->loadItemsAgain();
-            break;
-
-        case Qt::Key_F3:
-            // focus search bar
-            enterBrowseMode(false);
             break;
 
         case Qt::Key_Tab:
@@ -1608,8 +1609,8 @@ void MainWindow::onItemMenuUpdated()
 
 void MainWindow::enterSearchMode(const QString &txt)
 {
-    enterBrowseMode( txt.isEmpty() );
-    ui->searchBar->setText( ui->searchBar->text()+txt );
+    enterBrowseMode(false);
+    ui->searchBar->setText( ui->searchBar->text() + txt );
 }
 
 void MainWindow::enterBrowseMode(bool browsemode)

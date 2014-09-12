@@ -353,7 +353,7 @@ private slots:
     void updateTrayMenuItems();
     void trayActivated(QSystemTrayIcon::ActivationReason reason);
     void onTrayActionTriggered(uint clipboardItemHash, bool omitPaste);
-    void enterSearchMode(const QString &txt);
+    void enterSearchMode(const QString &txt = QString());
     void tabChanged(int current, int previous);
     void saveTabPositions();
     void tabsMoved(const QString &oldPrefix, const QString &newPrefix);

@@ -45,6 +45,7 @@ enum Id {
     Edit_ReverseSelectedItems,
     Edit_PasteItems,
     Edit_CopySelectedItems,
+    Edit_FindItems,
 
     Item_MoveToClipboard,
     Item_ShowContent,

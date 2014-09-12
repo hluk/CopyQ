@@ -76,6 +76,7 @@ void ConfigTabShortcuts::updateIcons()
     w->updateIcons( Actions::Edit_ReverseSelectedItems, "view-sort-descending", IconSortByAlphabetAlt );
     w->updateIcons( Actions::Edit_PasteItems, "edit-paste", IconPaste );
     w->updateIcons( Actions::Edit_CopySelectedItems, "edit-copy", IconCopy );
+    w->updateIcons( Actions::Edit_FindItems, "edit-find", IconSearch );
 
     w->updateIcons( Actions::Item_MoveToClipboard, "clipboard", IconPaste );
     w->updateIcons( Actions::Item_ShowContent, "dialog-information", IconInfoSign );
@@ -124,6 +125,7 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::Edit_ReverseSelectedItems, tr("&Reverse Selected Items"), "reverse_selected_items", tr("Ctrl+Shift+R") );
     w->addAction( Actions::Edit_PasteItems, tr("&Paste Items"), "paste_selected_items", QKeySequence::Paste );
     w->addAction( Actions::Edit_CopySelectedItems, tr("&Copy Selected Items"), "copy_selected_items", QKeySequence::Copy );
+    w->addAction( Actions::Edit_FindItems, tr("&Find"), "find_items", QKeySequence::FindNext );
 
     w->addAction( Actions::Item_MoveToClipboard, tr("Move to &Clipboard"), "move_to_clipboard" );
     w->addAction( Actions::Item_ShowContent, tr("&Show Content..."), "show_item_content", tr("F4") );
