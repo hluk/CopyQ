@@ -254,14 +254,12 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    if ( closeMinimizes() && isMinimized() ) {
-        exit();
-        return;
-    }
-
-    hideWindow();
     event->ignore();
-    QMainWindow::closeEvent(event);
+
+    if ( closeMinimizes() )
+        showMinimized();
+    else
+        QMainWindow::closeEvent(event);
 }
 
 void MainWindow::showEvent(QShowEvent *event)
