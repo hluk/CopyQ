@@ -282,9 +282,6 @@ void MainWindow::createMenu()
     // File
     menu = menubar->addMenu( tr("&File") );
 
-    // - separator
-    menu->addSeparator();
-
     // - new
     act = createAction( Actions::File_New, SLOT(editNewItem()), menu );
     connect(this, SIGNAL(tabGroupSelected(bool)),
