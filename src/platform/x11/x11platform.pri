@@ -18,6 +18,5 @@ HEADERS += \
     $$PWD/clipboardspy.h \
     $$PWD/x11platformwindow.h \
     $$PWD/x11platformclipboard.h \
-    platform/dummy/dummyclipboard.h \
-    $$PWD/clipboardspy.h
+    platform/dummy/dummyclipboard.h
 

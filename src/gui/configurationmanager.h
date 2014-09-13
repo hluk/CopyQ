@@ -125,6 +125,9 @@ public:
      */
     void registerWindowGeometry(QWidget *window);
 
+    void saveWindowGeometry(QWidget *window);
+    void restoreWindowGeometry(QWidget *window);
+
     bool eventFilter(QObject *object, QEvent *event);
 
     QByteArray mainWindowState(const QString &mainWindowObjectName);

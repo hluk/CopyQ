@@ -285,28 +285,27 @@ void ConfigurationManager::updateIcons()
 void ConfigurationManager::registerWindowGeometry(QWidget *window)
 {
     window->installEventFilter(this);
+    restoreWindowGeometry(window);
+}
+
+void ConfigurationManager::saveWindowGeometry(QWidget *window)
+{
     bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
-    restoreWindowGeometry(window, openOnCurrentScreen);
+    ::saveWindowGeometry(window, openOnCurrentScreen);
+}
+
+void ConfigurationManager::restoreWindowGeometry(QWidget *window)
+{
+    bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
+    ::restoreWindowGeometry(window, openOnCurrentScreen);
 }
 
 bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
 {
     // Restore and save geometry of widgets passed to registerWindowGeometry().
-    if ( event->type() == QEvent::WindowDeactivate
-         || event->type() == QEvent::WindowActivate
-         || (event->type() == QEvent::Paint && object->property("CopyQ_restore_geometry").toBool()) )
-    {
-        // Restore window geometry later because some window managers move new windows a bit after
-        // adding window decorations.
-        object->setProperty("CopyQ_restore_geometry", event->type() == QEvent::WindowActivate);
-
-        bool save = event->type() == QEvent::WindowDeactivate;
-        QWidget *w = qobject_cast<QWidget*>(object);
-        bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
-        if (save)
-            saveWindowGeometry(w, openOnCurrentScreen);
-        else
-            restoreWindowGeometry(w, openOnCurrentScreen);
+    if ( event->type() == QEvent::Move || event->type() == QEvent::Resize ) {
+        QWidget *window = qobject_cast<QWidget*>(object);
+        saveWindowGeometry(window);
     }
 
     return false;
