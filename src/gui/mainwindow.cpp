@@ -331,7 +331,7 @@ void MainWindow::createMenu()
     menu = menubar->addMenu( tr("&Edit") );
 
     // - find
-    createAction( Actions::Edit_FindItems, SLOT(enterSearchMode()), menu );
+    createAction( Actions::Edit_FindItems, SLOT(findNext()), menu );
 
     // - separator
     menu->addSeparator();
@@ -767,6 +767,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
 
     const int key = event->key();
+    const Qt::KeyboardModifiers modifiers = event->modifiers();
 
     if (m_options->hideTabs && key == Qt::Key_Alt)
         setHideTabs(false);
@@ -801,7 +802,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
     }
 
     // Ctrl/Alt+0 to Ctrl/Alt+9 to focus tabs (0 to focus the last, 1 to focus the first and so on).
-    if ( event->modifiers() == Qt::ControlModifier || event->modifiers() == Qt::AltModifier ) {
+    if (modifiers == Qt::ControlModifier || modifiers == Qt::AltModifier) {
         if (key >= Qt::Key_0 && key <= Qt::Key_9) {
             const int index = (key == Qt::Key_0) ? ui->tabWidget->count() - 1
                                                  : key - Qt::Key_1;
@@ -810,7 +811,15 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         }
     }
 
-    if ( event->modifiers() == Qt::ControlModifier ) {
+    if ( key == Qt::Key_F3 || (modifiers.testFlag(Qt::ControlModifier) && key == Qt::Key_G) ) {
+        if ( modifiers.testFlag(Qt::ShiftModifier) )
+            findPrevious();
+        else
+            findNext();
+        return;
+    }
+
+    if (modifiers == Qt::ControlModifier) {
         switch(key) {
             case Qt::Key_F:
                 enterBrowseMode(false);
@@ -1613,9 +1622,27 @@ void MainWindow::enterSearchMode(const QString &txt)
     ui->searchBar->setText( ui->searchBar->text() + txt );
 }
 
+void MainWindow::findNext(int where)
+{
+    if (browseMode()) {
+        enterBrowseMode(false);
+    } else {
+        ClipboardBrowser *c = browser();
+        if ( c->hasFocus() )
+            c->setCurrent( c->currentIndex().row() + where );
+        else
+            c->setFocus();
+    }
+}
+
+void MainWindow::findPrevious()
+{
+    findNext(-1);
+}
+
 void MainWindow::enterBrowseMode(bool browsemode)
 {
-    if(browsemode){
+    if (browsemode) {
         // browse mode
         getBrowser()->setFocus();
         if ( ui->searchBar->text().isEmpty() )
