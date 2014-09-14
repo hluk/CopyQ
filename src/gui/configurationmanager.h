@@ -155,6 +155,8 @@ private slots:
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
     void on_spinBoxTrayItems_valueChanged(int value);
 
+    void restoreWindowGeometryOnTimer();
+
 private:
     explicit ConfigurationManager(QWidget *parent);
 

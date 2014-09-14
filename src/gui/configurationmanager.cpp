@@ -43,6 +43,7 @@
 #include <QMessageBox>
 #include <QMimeData>
 #include <QSettings>
+#include <QTimer>
 #include <QTranslator>
 
 #ifdef Q_OS_WIN
@@ -290,14 +291,27 @@ void ConfigurationManager::registerWindowGeometry(QWidget *window)
 
 void ConfigurationManager::saveWindowGeometry(QWidget *window)
 {
+    if ( window->property("CopyQ_ignore_geometry_changes").toBool() )
+        return;
+
     bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
     ::saveWindowGeometry(window, openOnCurrentScreen);
 }
 
 void ConfigurationManager::restoreWindowGeometry(QWidget *window)
 {
+    if ( window->property("CopyQ_ignore_geometry_changes").toBool() )
+        return;
+
+    window->setProperty("CopyQ_ignore_geometry_changes", true);
+
     bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
     ::restoreWindowGeometry(window, openOnCurrentScreen);
+
+    QTimer *timer = new QTimer(window);
+    initSingleShotTimer( timer, 250, this, SLOT(restoreWindowGeometryOnTimer()) );
+    connect( timer, SIGNAL(timeout()), timer, SLOT(deleteLater()) );
+    timer->start();
 }
 
 bool ConfigurationManager::eventFilter(QObject *object, QEvent *event)
@@ -841,6 +855,20 @@ void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)
 void ConfigurationManager::on_spinBoxTrayItems_valueChanged(int value)
 {
     ui->checkBoxPasteMenuItem->setEnabled(value > 0);
+}
+
+void ConfigurationManager::restoreWindowGeometryOnTimer()
+{
+    QObject *timer = sender();
+    Q_ASSERT(timer);
+
+    QWidget *window = qobject_cast<QWidget*>(timer->parent());
+    Q_ASSERT(window);
+
+    bool openOnCurrentScreen = value("open_windows_on_current_screen").toBool();
+    ::restoreWindowGeometry(window, openOnCurrentScreen);
+
+    window->setProperty("CopyQ_ignore_geometry_changes", false);
 }
 
 const QIcon &getIconFromResources(const QString &iconName)
