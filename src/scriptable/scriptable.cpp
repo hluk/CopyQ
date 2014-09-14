@@ -989,11 +989,20 @@ QScriptValue Scriptable::open()
 
 QScriptValue Scriptable::execute()
 {
+    // Pass all arguments until null to command. The rest will be sent to stdin.
     QStringList args;
-    for ( int i = 0; i < argumentCount(); ++i )
-        args.append(toString(argument(i)));
+    int i = 0;
+    for ( ; i < argumentCount(); ++i ) {
+        const QScriptValue arg = argument(i);
+        if (arg.isNull())
+            break;
+        args.append(toString(arg));
+    }
 
     Action action;
+    for ( ++i ; i < argumentCount(); ++i )
+        action.setInput( action.input() + makeByteArray(argument(i)) );
+
     action.setCommand(args);
     action.setOutputFormat("DATA");
     action.start();
