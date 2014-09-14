@@ -806,7 +806,18 @@ QScriptValue Scriptable::config()
 
 QScriptValue Scriptable::eval()
 {
-    return engine()->evaluate(arg(0));
+    const QString script = arg(0);
+
+    const QScriptSyntaxCheckResult syntaxResult = engine()->checkSyntax(script);
+    if (syntaxResult.state() != QScriptSyntaxCheckResult::Valid) {
+        throwError( QString("Eval:%1:%2: syntax error: %3")
+                    .arg(syntaxResult.errorLineNumber())
+                    .arg(syntaxResult.errorColumnNumber())
+                    .arg(syntaxResult.errorMessage()) );
+        return QScriptValue();
+    }
+
+    return engine()->evaluate(script);
 }
 
 QScriptValue Scriptable::currentpath()

@@ -140,9 +140,14 @@ void ScriptableWorker::run()
             QScriptValue result = fn.call(QScriptValue(), fnArgs);
 
             if ( engine.hasUncaughtException() ) {
-                const QString exceptionText = engine.uncaughtException().toString();
-                MONITOR_LOG( QString("Error: exception in command \"%1\": %2")
+                const QString exceptionText =
+                        QString("Exception \n--- backtrace ---\n%1\n---\n%2")
+                        .arg( engine.uncaughtExceptionBacktrace().join("\n") )
+                        .arg( engine.uncaughtException().toString() );
+
+                MONITOR_LOG( QString("Error: Exception in command \"%1\": %2")
                              .arg(cmd).arg(exceptionText) );
+
                 response = createLogMessage("CopyQ client", exceptionText, LogError).toUtf8();
                 exitCode = CommandError;
             } else {
