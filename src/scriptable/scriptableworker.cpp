@@ -141,12 +141,12 @@ void ScriptableWorker::run()
 
             if ( engine.hasUncaughtException() ) {
                 const QString exceptionText =
-                        QString("Exception \n--- backtrace ---\n%1\n---\n%2")
-                        .arg( engine.uncaughtExceptionBacktrace().join("\n") )
-                        .arg( engine.uncaughtException().toString() );
+                        QString("%1\n--- backtrace ---\n%2\n--- end backtrace ---")
+                        .arg( engine.uncaughtException().toString(),
+                              engine.uncaughtExceptionBacktrace().join("\n") );
 
                 MONITOR_LOG( QString("Error: Exception in command \"%1\": %2")
-                             .arg(cmd).arg(exceptionText) );
+                             .arg(cmd, exceptionText) );
 
                 response = createLogMessage("CopyQ client", exceptionText, LogError).toUtf8();
                 exitCode = CommandError;
