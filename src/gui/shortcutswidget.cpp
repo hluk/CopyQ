@@ -300,8 +300,6 @@ void ShortcutsWidget::addAction(int id, const QString &text, const QString &sett
     m_shortcuts << action->shortcuts();
     m_timerCheckAmbiguous.start();
 
-    ui->tableWidget->resizeColumnToContents(Columns::Text);
-
     connect( action, SIGNAL(shortcutAdded(QKeySequence)),
              this, SLOT(onShortcutAdded(QKeySequence)) );
     connect( action, SIGNAL(shortcutRemoved(QKeySequence)),
@@ -350,6 +348,7 @@ void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
 void ShortcutsWidget::showEvent(QShowEvent *event)
 {
     QWidget::showEvent(event);
+    ui->tableWidget->resizeColumnToContents(Columns::Text);
     m_timerCheckAmbiguous.start(); // Update because shortcuts for commands may have changed.
 }
 

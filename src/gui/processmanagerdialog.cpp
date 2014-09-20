@@ -128,7 +128,7 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
     t->setItem( 0, tableCommandsColumns::beginTime, new QTableWidgetItem(currentTime()) );
     t->setItem( 0, tableCommandsColumns::endTime, new QTableWidgetItem() );
     t->setCellWidget( 0, tableCommandsColumns::action, new QPushButton(QString(IconRemoveSign)) );
-    t->resizeColumnsToContents();
+    updateTable();
 
     t->item(0, tableCommandsColumns::name)->setToolTip(command);
 
@@ -166,7 +166,7 @@ void ProcessManagerDialog::actionStarted(Action *action)
     QTableWidgetItem *statusItem = t->item(row, tableCommandsColumns::status);
     statusItem->setText(tr("Runnning"));
     statusItem->setData(statusItemData::status, QProcess::Running);
-    t->resizeColumnToContents(tableCommandsColumns::status);
+    updateTable();
 }
 
 void ProcessManagerDialog::actionFinished(Action *action)
@@ -187,11 +187,17 @@ void ProcessManagerDialog::actionFinished(Action *action)
     t->item(row, tableCommandsColumns::endTime)->setText(currentTime());
     button->setToolTip( tr("Remove") );
     button->setProperty( "text", QString(IconRemove) );
-    t->resizeColumnsToContents();
+    updateTable();
 
     button->disconnect();
     connect( t->cellWidget(row, tableCommandsColumns::action), SIGNAL(clicked()),
              this, SLOT(onRemoveActionButtonClicked()) );
+}
+
+void ProcessManagerDialog::showEvent(QShowEvent *event)
+{
+    QDialog::showEvent(event);
+    updateTable();
 }
 
 void ProcessManagerDialog::onRemoveActionButtonClicked()
@@ -253,4 +259,10 @@ bool ProcessManagerDialog::removeIfNotRunning(int row)
 
     t->removeRow(row);
     return true;
+}
+
+void ProcessManagerDialog::updateTable()
+{
+    if (isVisible())
+        ui->tableWidgetCommands->resizeColumnsToContents();
 }

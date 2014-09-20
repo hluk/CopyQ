@@ -41,6 +41,9 @@ public:
     void actionStarted(Action *action);
     void actionFinished(Action *action);
 
+protected:
+    void showEvent(QShowEvent *event);
+
 private slots:
     void onRemoveActionButtonClicked();
     void onDeleteShortcut();
@@ -49,6 +52,7 @@ private:
     int getRowForAction(Action *action) const;
     int getRowForActionButton(QObject *button) const;
     bool removeIfNotRunning(int row);
+    void updateTable();
 
     Ui::ProcessManagerDialog *ui;
 };
