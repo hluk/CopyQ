@@ -31,11 +31,12 @@ Option::Option()
 Option::Option(const QVariant &default_value, const char *property_name,
                QObject *obj)
     : m_default_value(default_value)
-    , m_value()
+    , m_value(m_default_value)
     , m_property_name(property_name)
     , m_obj(obj)
 {
-    reset();
+    if (m_obj)
+        m_obj->setProperty(m_property_name, m_default_value);
 }
 
 QVariant Option::value() const
@@ -63,4 +64,3 @@ QString Option::tooltip() const
 {
     return m_obj != NULL ? m_obj->property("toolTip").toString() : QString();
 }
-

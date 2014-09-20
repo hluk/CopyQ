@@ -95,6 +95,7 @@ private:
     typedef QHash<QString, Option> Theme;
     void updateTheme(QSettings &settings, Theme *theme);
     void updateThemes();
+    void updateStyle();
 
     void fontButtonClicked(QObject *button);
     void colorButtonClicked(QObject *button);
@@ -118,6 +119,8 @@ private:
     QVariant themeValue(const QString &name, const Theme &theme) const;
     QColor themeColor(const QString &name, const Theme &theme) const;
     QIcon createThemeIcon(const QString &fileName);
+
+    void decoratePreview();
 
     Ui::ConfigTabAppearance *ui;
     Theme m_theme;

@@ -678,6 +678,14 @@ void ClipboardBrowser::connectModelAndDelegate()
 {
     Q_ASSERT(m != model());
 
+    // set new model
+    QAbstractItemModel *oldModel = model();
+    setModel(m);
+    delete oldModel;
+
+    // delegate for rendering and editing items
+    setItemDelegate(d);
+
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onDataChanged(QModelIndex,QModelIndex)) );
     connect( m, SIGNAL(tabNameChanged(QString)),
@@ -701,8 +709,6 @@ void ClipboardBrowser::connectModelAndDelegate()
     connect( d, SIGNAL(rowSizeChanged()),
              SLOT(updateCurrentPage()) );
 
-    // delegate for rendering and editing items
-    setItemDelegate(d);
     connect( m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              d, SLOT(rowsInserted(QModelIndex, int, int)) );
     connect( m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
@@ -711,11 +717,6 @@ void ClipboardBrowser::connectModelAndDelegate()
              d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
     connect( m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
-
-    // set new model
-    QAbstractItemModel *oldModel = model();
-    setModel(m);
-    delete oldModel;
 
     updateCurrentPage();
 }
@@ -809,6 +810,32 @@ void ClipboardBrowser::unlock()
         updateContextMenu();
 
         updateCurrentPage();
+    }
+}
+
+void ClipboardBrowser::refilterItems()
+{
+    if ( !isLoaded() )
+        return;
+
+    bool showAll = d->searchExpression().isEmpty();
+
+    // Hide the rest until found.
+    for ( int row = 0; row < length(); ++row ) {
+        d->setRowVisible(row, showAll);
+        setRowHidden(row, !showAll);
+    }
+
+    m_lastFiltered = -1;
+    filterItems();
+
+    // Select row by number specified in search.
+    bool rowSpecified;
+    int selectedRow = d->searchExpression().pattern().toInt(&rowSpecified);
+    if (rowSpecified && selectedRow >= 0 && selectedRow < length()) {
+        d->setRowVisible(selectedRow, false); // Show in preload().
+        setRowHidden(selectedRow, false);
+        setCurrentIndex( index(selectedRow) );
     }
 }
 
@@ -1114,6 +1141,9 @@ void ClipboardBrowser::onModelUnloaded()
 void ClipboardBrowser::filterItems()
 {
     m_timerFilter.stop();
+
+    if ( d->searchExpression().isEmpty() )
+        return;
 
     // row to select
     QModelIndex current = currentIndex();
@@ -1497,23 +1527,7 @@ void ClipboardBrowser::filterItems(const QRegExp &re)
 
     d->setSearch(re);
 
-    // Hide the rest until found.
-    for ( int row = 0; row < length(); ++row ) {
-        d->setRowVisible(row, false);
-        setRowHidden(row, true);
-    }
-
-    m_lastFiltered = -1;
-    filterItems();
-
-    // Select row by number specified in search.
-    bool rowSpecified;
-    int selectedRow = re.pattern().toInt(&rowSpecified);
-    if (rowSpecified && selectedRow >= 0 && selectedRow < length()) {
-        d->setRowVisible(selectedRow, false); // Show in preload().
-        setRowHidden(selectedRow, false);
-        setCurrentIndex( index(selectedRow) );
-    }
+    refilterItems();
 }
 
 void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
@@ -1889,6 +1903,8 @@ void ClipboardBrowser::loadItemsAgain()
         delete m_loadButton;
         m_loadButton = NULL;
         d->rowsInserted(QModelIndex(), 0, m->rowCount());
+        if ( !d->searchExpression().isEmpty() )
+            refilterItems();
         scheduleDelayedItemsLayout();
         updateCurrentPage();
         setCurrent(0);

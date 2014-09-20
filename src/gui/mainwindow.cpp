@@ -1057,7 +1057,7 @@ void MainWindow::loadSettings()
 
     ui->tabWidget->updateTabs();
 
-    browser()->setContextMenu(m_menuItem);
+    getBrowser()->setContextMenu(m_menuItem);
 
     m_options->itemActivationCommands = ActivateNoCommand;
     if ( cm->value("activate_closes").toBool() )
@@ -1247,7 +1247,7 @@ void MainWindow::tabChanged(int current, int previous)
     }
 
     // update item menu (necessary for keyboard shortcuts to work)
-    ClipboardBrowser *c = browser();
+    ClipboardBrowser *c = getBrowser();
     c->setContextMenu(m_menuItem);
 
     c->filterItems( ui->searchBar->filter() );

@@ -164,7 +164,6 @@ void ClipboardServer::startMonitoring()
         const QString name = newClipboardMonitorServerName();
         m_monitor->start( name, QStringList("monitor") << name );
     }
-    m_wnd->browser(0)->setAutoUpdate(true);
 }
 
 void ClipboardServer::loadMonitorSettings()

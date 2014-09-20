@@ -311,74 +311,72 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
 
 void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 {
-    QString styleSheet;
-
-    if ( m_theme.value("style_main_window").value().toBool() ) {
-        const int iconSize = iconFontSizePixels();
-        styleSheet =
-                "MainWindow{background:" + themeColorString("bg") + "}"
-
-                "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
-                "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
-                "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
-                "#tab_bar #tab_item_counter{" + themeStyleSheet("tab_bar_item_counter") + "}"
-                "#tab_bar #tab_item_counter[CopyQ_selected=\"true\"]{"
-                + themeStyleSheet("tab_bar_sel_item_counter") +
-                "}"
-
-                "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
-
-                "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
-
-                "#tab_tree::branch:selected"
-                ",#tab_tree::item:selected"
-                ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                "{"
-                + themeStyleSheet("tab_tree_sel_item_css") +
-                "}"
-
-                "#tab_tree_item[CopyQ_selected=\"false\"]"
-                ",#tab_tree_item[CopyQ_selected=\"true\"]"
-                "{background:transparent}"
-
-                "#tab_tree #tab_item_counter{" + themeStyleSheet("tab_tree_item_counter") + "}"
-                "#tab_tree #tab_item_counter[CopyQ_selected=\"true\"]{"
-                + themeStyleSheet("tab_tree_sel_item_counter") +
-                "}"
-
-                // Remove border in toolbars.
-                "QToolBar{border:none}"
-                "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
-
-                // Remove icon border in menus.
-                "QMenu::item:selected{border:none}"
-                "QMenu::item{"
-                  ";padding:0.2em 1em 0.2em 1em"
-                  ";padding-left:" + QString::number(iconSize * 2) + "px}"
-                "QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
-
-                "QMenu {" + themeStyleSheet("menu_css") + "}"
-                "#menu_bar, #menu_bar::item, QMenu, QMenu::item, QMenu::separator {"
-                  + themeStyleSheet("menu_bar_css") + "}"
-                "#menu_bar::item:selected, QMenu::item:selected {"
-                  + themeStyleSheet("menu_bar_selected_css") + "}"
-                "#menu_bar::item:disabled, QMenu::item:disabled {"
-                  + themeStyleSheet("menu_bar_disabled_css") + "}"
-
-                + themeStyleSheet("css");
-    } else {
+    if ( !m_theme.value("style_main_window").value().toBool() ) {
         mainWindow->setStyleSheet(QString());
+        return;
     }
 
-    mainWindow->setStyleSheet(styleSheet);
+    const int iconSize = iconFontSizePixels();
+    mainWindow->setStyleSheet(
+        "MainWindow{background:" + themeColorString("bg") + "}"
+
+        "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
+        "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
+        "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
+        "#tab_bar #tab_item_counter{" + themeStyleSheet("tab_bar_item_counter") + "}"
+        "#tab_bar #tab_item_counter[CopyQ_selected=\"true\"]{"
+        + themeStyleSheet("tab_bar_sel_item_counter") +
+        "}"
+
+        "#tab_bar QToolButton{" + themeStyleSheet("tab_bar_scroll_buttons_css") + "}"
+
+        "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
+
+        "#tab_tree::branch:selected"
+        ",#tab_tree::item:selected"
+        ",#tab_tree_item[CopyQ_selected=\"true\"]"
+        "{"
+        + themeStyleSheet("tab_tree_sel_item_css") +
+        "}"
+
+        "#tab_tree_item[CopyQ_selected=\"false\"]"
+        ",#tab_tree_item[CopyQ_selected=\"true\"]"
+        "{background:transparent}"
+
+        "#tab_tree #tab_item_counter{" + themeStyleSheet("tab_tree_item_counter") + "}"
+        "#tab_tree #tab_item_counter[CopyQ_selected=\"true\"]{"
+        + themeStyleSheet("tab_tree_sel_item_counter") +
+        "}"
+
+        // Remove border in toolbars.
+        "QToolBar{border:none}"
+        "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
+
+        // Remove icon border in menus.
+        "QMenu::item:selected{border:none}"
+        "QMenu::item{"
+          ";padding:0.2em 1em 0.2em 1em"
+          ";padding-left:" + QString::number(iconSize * 2) + "px}"
+        "QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+
+        "QMenu {" + themeStyleSheet("menu_css") + "}"
+        "#menu_bar, #menu_bar::item, QMenu, QMenu::item, QMenu::separator {"
+          + themeStyleSheet("menu_bar_css") + "}"
+        "#menu_bar::item:selected, QMenu::item:selected {"
+          + themeStyleSheet("menu_bar_selected_css") + "}"
+        "#menu_bar::item:disabled, QMenu::item:disabled {"
+          + themeStyleSheet("menu_bar_disabled_css") + "}"
+
+        + themeStyleSheet("css")
+    );
 }
 
 void ConfigTabAppearance::decorateToolBar(QWidget *toolBar) const
 {
     if ( m_theme.value("style_main_window").value().toBool() ) {
         toolBar->setStyleSheet(
-            QString("QToolBar{") + themeStyleSheet("tool_bar_css") + "}"
-            + QString("QToolButton{" + themeStyleSheet("tool_button_css") + "}")
+            "QToolBar{" + themeStyleSheet("tool_bar_css") + "}"
+            "QToolButton{" + themeStyleSheet("tool_button_css") + "}"
                     );
     } else {
         toolBar->setStyleSheet(QString());
@@ -418,6 +416,7 @@ QString ConfigTabAppearance::getNotificationStyleSheet() const
 void ConfigTabAppearance::showEvent(QShowEvent *event)
 {
     updateThemes();
+    updateStyle();
     ui->scrollAreaTheme->setMinimumWidth( ui->scrollAreaThemeContents->minimumSizeHint().width()
                                           + ui->scrollAreaTheme->verticalScrollBar()->width() + 8);
     QWidget::showEvent(event);
@@ -432,11 +431,7 @@ void ConfigTabAppearance::loadTheme(QSettings &settings)
 {
     resetTheme();
     updateTheme(settings, &m_theme);
-
-    updateColorButtons();
-    updateFontButtons();
-
-    decorateBrowser(ui->clipboardBrowserPreview);
+    updateStyle();
 }
 
 void ConfigTabAppearance::saveTheme(QSettings &settings) const
@@ -495,9 +490,7 @@ void ConfigTabAppearance::on_pushButtonSaveTheme_clicked()
 void ConfigTabAppearance::on_pushButtonResetTheme_clicked()
 {
     resetTheme();
-    updateColorButtons();
-    updateFontButtons();
-    decorateBrowser(ui->clipboardBrowserPreview);
+    updateStyle();
 }
 
 void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
@@ -541,18 +534,18 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
 
 void ConfigTabAppearance::on_checkBoxShowNumber_stateChanged(int)
 {
-    decorateBrowser(ui->clipboardBrowserPreview);
+    decoratePreview();
 }
 
 void ConfigTabAppearance::on_checkBoxScrollbars_stateChanged(int)
 {
-    decorateBrowser(ui->clipboardBrowserPreview);
+    decoratePreview();
 }
 
 void ConfigTabAppearance::on_checkBoxAntialias_stateChanged(int)
 {
     updateFontButtons();
-    decorateBrowser(ui->clipboardBrowserPreview);
+    decoratePreview();
 }
 
 void ConfigTabAppearance::on_comboBoxThemes_activated(const QString &text)
@@ -633,6 +626,16 @@ void ConfigTabAppearance::updateThemes()
     }
 }
 
+void ConfigTabAppearance::updateStyle()
+{
+    if ( !isVisible() )
+        return;
+
+    updateColorButtons();
+    updateFontButtons();
+    decoratePreview();
+}
+
 void ConfigTabAppearance::fontButtonClicked(QObject *button)
 {
     QFont font = themeFontFromString( button->property("VALUE").toString() );
@@ -640,8 +643,7 @@ void ConfigTabAppearance::fontButtonClicked(QObject *button)
     if ( dialog.exec() == QDialog::Accepted ) {
         font = dialog.selectedFont();
         button->setProperty( "VALUE", font.toString() );
-        decorateBrowser(ui->clipboardBrowserPreview);
-
+        decoratePreview();
         updateFontButtons();
     }
 }
@@ -656,7 +658,7 @@ void ConfigTabAppearance::colorButtonClicked(QObject *button)
     if ( dialog.exec() == QDialog::Accepted ) {
         color = dialog.selectedColor();
         button->setProperty( "VALUE", serializeColor(color) );
-        decorateBrowser(ui->clipboardBrowserPreview);
+        decoratePreview();
 
         QPixmap pix(16, 16);
         pix.fill(color);
@@ -668,6 +670,9 @@ void ConfigTabAppearance::colorButtonClicked(QObject *button)
 
 void ConfigTabAppearance::updateColorButtons()
 {
+    if ( !isVisible() )
+        return;
+
     /* color indicating icons for color buttons */
     QSize iconSize(16, 16);
     QPixmap pix(iconSize);
@@ -685,6 +690,9 @@ void ConfigTabAppearance::updateColorButtons()
 
 void ConfigTabAppearance::updateFontButtons()
 {
+    if ( !isVisible() )
+        return;
+
     QSize iconSize(32, 16);
     QPixmap pix(iconSize);
 
@@ -978,4 +986,10 @@ QIcon ConfigTabAppearance::createThemeIcon(const QString &fileName)
     p.drawLine(line);
 
     return pix;
+}
+
+void ConfigTabAppearance::decoratePreview()
+{
+    if ( isVisible() )
+        decorateBrowser(ui->clipboardBrowserPreview);
 }

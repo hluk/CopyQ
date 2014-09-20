@@ -591,8 +591,6 @@ void ConfigurationManager::loadSettings()
     tabAppearance()->loadTheme(settings);
     settings.endGroup();
 
-    updateIcons();
-
     tabAppearance()->setEditor( value("editor").toString() );
 
     // load settings for each plugin
