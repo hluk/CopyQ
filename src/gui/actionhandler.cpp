@@ -39,6 +39,7 @@ ActionHandler::ActionHandler(MainWindow *mainWindow)
     , m_lastActionId(0)
     , m_actionData()
     , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
+    , m_hasRunningAction(false)
 {
     Q_ASSERT(mainWindow);
 }
@@ -113,7 +114,11 @@ void ActionHandler::action(Action *action, const QVariantMap &data)
 void ActionHandler::actionStarted(Action *action)
 {
     m_activeActionDialog->actionStarted(action);
-    emit hasRunningActionChanged();
+
+    if (!m_hasRunningAction) {
+        m_hasRunningAction = true;
+        emit hasRunningActionChanged();
+    }
 }
 
 void ActionHandler::closeAction(Action *action)
@@ -154,7 +159,9 @@ void ActionHandler::closeAction(Action *action)
     m_actionData.remove( action->property("COPYQ_ACTION_ID").toByteArray() );
     action->deleteLater();
 
-    if (!hasRunningAction())
+    m_hasRunningAction = hasRunningAction();
+
+    if (!m_hasRunningAction)
         emit hasRunningActionChanged();
 }
 

@@ -89,6 +89,7 @@ private:
     ProcessManagerDialog *m_activeActionDialog;
     QString m_currentTabName;
     Command m_lastActionDialogCommand;
+    bool m_hasRunningAction;
 };
 
 #endif // ACTIONHANDLER_H
