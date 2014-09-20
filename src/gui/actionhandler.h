@@ -60,14 +60,15 @@ public:
 
     void setCurrentTab(const QString &tabName) { m_currentTabName = tabName; }
 
+public slots:
+    /** Execute action. */
+    void action(Action *action, const QVariantMap &data);
+
 signals:
     /** Emitted when last action finishes or first action starts. */
     void hasRunningActionChanged();
 
 private slots:
-    /** Execute action. */
-    void action(Action *action, const QVariantMap &data);
-
     /** Called after action was started (creates menu item to kill it). */
     void actionStarted(Action *action);
 

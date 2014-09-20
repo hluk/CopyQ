@@ -89,7 +89,7 @@ struct Command {
      */
     QString input;
 
-    /** If true items are created from program's standard output. */
+    /** MIME for new items created from program's stdout. */
     QString output;
 
     /** Open action dialog before executing program. */

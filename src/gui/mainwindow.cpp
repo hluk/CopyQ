@@ -20,6 +20,7 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
+#include "common/action.h"
 #include "common/common.h"
 #include "common/command.h"
 #include "common/contenttype.h"
@@ -1976,14 +1977,14 @@ void MainWindow::reverseSelectedItems()
 
 void MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
-    QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
-
-    actionDialog->setInputData(data);
-    actionDialog->setCommand(cmd);
-    actionDialog->setOutputIndex(outputIndex);
-    QString outputTab = cmd.outputTab;
-
     if (cmd.wait) {
+        QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
+
+        actionDialog->setInputData(data);
+        actionDialog->setCommand(cmd);
+        actionDialog->setOutputIndex(outputIndex);
+        QString outputTab = cmd.outputTab;
+
         // Insert tab labels to action dialog's combo box.
         QStringList tabs;
         TabWidget *w = ui->tabWidget;
@@ -1993,13 +1994,19 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
             outputTab = w->tabText( w->currentIndex() );
         actionDialog->setOutputTabs(tabs, outputTab);
 
-        // Show action dialog.
         actionDialog->show();
         actionDialog.take();
     } else {
-        // Create action without showing action dialog.
-        actionDialog->setOutputTabs(QStringList(), outputTab);
-        actionDialog->createAction();
+        Action *act = new Action();
+        act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
+        act->setInput( cmd.input == mimeItems ? serializeData(data)
+                                              : data.value(cmd.input).toByteArray() );
+        act->setOutputFormat(cmd.output);
+        act->setItemSeparator(QRegExp(cmd.sep));
+        act->setOutputTab(cmd.outputTab);
+        act->setIndex(outputIndex);
+        act->setName(cmd.name);
+        m_actionHandler->action(act, data);
     }
 }
 
