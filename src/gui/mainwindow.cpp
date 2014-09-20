@@ -207,7 +207,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
     initSingleShotTimer( &m_timerShowWindow, 250 );
-    initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIcon()) );
+    initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconTimeout()) );
 
     // notify window if configuration changes
     connect( cm, SIGNAL(configurationChanged()),
@@ -444,6 +444,12 @@ void MainWindow::updateIcon()
         m_tray->setIcon(icon);
 
     setWindowIcon(icon);
+}
+
+void MainWindow::updateIconTimeout()
+{
+    if ( !hasRunningAction() )
+        updateIcon();
 }
 
 void MainWindow::onAboutToQuit()

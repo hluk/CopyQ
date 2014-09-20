@@ -375,6 +375,7 @@ private slots:
 
     /** Update tray and window icon depending on current state. */
     void updateIcon();
+    void updateIconTimeout();
 
     void onAboutToQuit();
 
