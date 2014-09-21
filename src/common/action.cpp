@@ -205,10 +205,12 @@ void Action::setCommand(const QStringList &arguments)
     m_cmds.append(QList<QStringList>() << arguments);
 }
 
-bool Action::start()
+void Action::start()
 {
-    if ( m_currentLine + 1 >= m_cmds.size() )
-        return false;
+    if ( m_currentLine + 1 >= m_cmds.size() ) {
+        emit actionFinished(this);
+        return;
+    }
 
     ++m_currentLine;
     const QList<QStringList> &cmds = m_cmds[m_currentLine];
@@ -234,7 +236,6 @@ bool Action::start()
         closeReadChannel(QProcess::StandardOutput);
 
     startProcess(this, cmds.last());
-    return true;
 }
 
 void Action::actionError(QProcess::ProcessError)
@@ -281,8 +282,7 @@ void Action::actionFinished()
         m_outputData = QByteArray();
     }
 
-    if ( !start() )
-        emit actionFinished(this);
+    start();
 }
 
 void Action::actionOutput()

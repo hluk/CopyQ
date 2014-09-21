@@ -76,7 +76,7 @@ public:
     void setIndex(const QModelIndex &index) { m_index = index; }
 
     /** Execute command. */
-    bool start();
+    void start();
 
     /** Set human-readable name for action. */
     void setName(const QString &actionName) { m_name = actionName; }

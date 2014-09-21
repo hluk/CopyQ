@@ -76,6 +76,11 @@ void ActionHandler::showProcessManagerDialog()
     m_activeActionDialog->show();
 }
 
+void ActionHandler::addFinishedAction(const QString &name)
+{
+    m_activeActionDialog->actionFinished(name);
+}
+
 void ActionHandler::action(Action *action, const QVariantMap &data)
 {
     action->setParent(this);

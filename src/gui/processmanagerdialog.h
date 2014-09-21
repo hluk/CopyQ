@@ -40,6 +40,7 @@ public:
     void actionAboutToStart(Action *action);
     void actionStarted(Action *action);
     void actionFinished(Action *action);
+    void actionFinished(const QString &name);
 
 protected:
     void showEvent(QShowEvent *event);
@@ -53,6 +54,8 @@ private:
     int getRowForActionButton(QObject *button) const;
     bool removeIfNotRunning(int row);
     void updateTable();
+    void createTableRow(const QString &name, Action *action = NULL);
+    QWidget *createRemoveButton(Action *action = NULL);
 
     Ui::ProcessManagerDialog *ui;
 };

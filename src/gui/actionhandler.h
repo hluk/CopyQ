@@ -60,6 +60,8 @@ public:
 
     void setCurrentTab(const QString &tabName) { m_currentTabName = tabName; }
 
+    void addFinishedAction(const QString &name);
+
 public slots:
     /** Execute action. */
     void action(Action *action, const QVariantMap &data);

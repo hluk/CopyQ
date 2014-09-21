@@ -1993,6 +1993,8 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
 
         actionDialog->show();
         actionDialog.take();
+    } else if ( cmd.cmd.isEmpty() ) {
+        m_actionHandler->addFinishedAction(cmd.name);
     } else {
         Action *act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );

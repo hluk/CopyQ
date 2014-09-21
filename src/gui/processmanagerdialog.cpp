@@ -116,19 +116,12 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
 {
     Q_ASSERT(getRowForAction(action) == -1);
 
-    QTableWidget *t = ui->tableWidgetCommands;
-    SortingGuard sortGuard(t);
-
     const QString name = action->name();
     const QString command = action->command();
 
-    t->insertRow(0);
-    t->setItem( 0, tableCommandsColumns::name, new QTableWidgetItem(name.isEmpty() ? command : name) );
-    t->setItem( 0, tableCommandsColumns::status, new QTableWidgetItem(tr("Starting")) );
-    t->setItem( 0, tableCommandsColumns::beginTime, new QTableWidgetItem(currentTime()) );
-    t->setItem( 0, tableCommandsColumns::endTime, new QTableWidgetItem() );
-    t->setCellWidget( 0, tableCommandsColumns::action, new QPushButton(QString(IconRemoveSign)) );
-    updateTable();
+    createTableRow( name.isEmpty() ? command : name, action );
+
+    QTableWidget *t = ui->tableWidgetCommands;
 
     t->item(0, tableCommandsColumns::name)->setToolTip(command);
 
@@ -136,14 +129,6 @@ void ProcessManagerDialog::actionAboutToStart(Action *action)
     QTableWidgetItem *statusItem = t->item(0, tableCommandsColumns::status);
     statusItem->setData(statusItemData::actionId, id);
     statusItem->setData(statusItemData::status, QProcess::Starting);
-
-    QWidget *button = t->cellWidget(0, tableCommandsColumns::action);
-    button->setProperty("flat", true);
-    button->setFont(iconFont());
-    button->setToolTip(tr("Terminate"));
-    button->setFocusPolicy(Qt::NoFocus);
-    connect( button, SIGNAL(clicked()),
-             action, SLOT(terminate()) );
 
     // Limit rows in table.
     if (t->rowCount() > maxNumberOfProcesses) {
@@ -190,8 +175,13 @@ void ProcessManagerDialog::actionFinished(Action *action)
     updateTable();
 
     button->disconnect();
-    connect( t->cellWidget(row, tableCommandsColumns::action), SIGNAL(clicked()),
+    connect( button, SIGNAL(clicked()),
              this, SLOT(onRemoveActionButtonClicked()) );
+}
+
+void ProcessManagerDialog::actionFinished(const QString &name)
+{
+    createTableRow(name);
 }
 
 void ProcessManagerDialog::showEvent(QShowEvent *event)
@@ -265,4 +255,42 @@ void ProcessManagerDialog::updateTable()
 {
     if (isVisible())
         ui->tableWidgetCommands->resizeColumnsToContents();
+}
+
+void ProcessManagerDialog::createTableRow(const QString &name, Action *action)
+{
+    QTableWidget *t = ui->tableWidgetCommands;
+    SortingGuard sortGuard(t);
+
+    const QString status = action ? tr("Starting") : tr("Finished");
+
+    t->insertRow(0);
+    t->setItem( 0, tableCommandsColumns::name, new QTableWidgetItem(name) );
+    t->setItem( 0, tableCommandsColumns::status, new QTableWidgetItem(status) );
+    t->setItem( 0, tableCommandsColumns::beginTime, new QTableWidgetItem(currentTime()) );
+    t->setItem( 0, tableCommandsColumns::endTime, new QTableWidgetItem(
+                    action ? QString() : currentTime()) );
+    t->setCellWidget( 0, tableCommandsColumns::action, createRemoveButton(action) );
+    updateTable();
+}
+
+QWidget *ProcessManagerDialog::createRemoveButton(Action *action)
+{
+    QPushButton *button = new QPushButton(
+                action ? QString(IconRemoveSign) : QString(IconRemove));
+
+    button->setFlat(true);
+    button->setFont(iconFont());
+    button->setToolTip(tr("Terminate"));
+    button->setFocusPolicy(Qt::NoFocus);
+
+    if (action) {
+        connect( button, SIGNAL(clicked()),
+                 action, SLOT(terminate()) );
+    } else {
+        connect( button, SIGNAL(clicked()),
+                 this, SLOT(onRemoveActionButtonClicked()) );
+    }
+
+    return button;
 }
