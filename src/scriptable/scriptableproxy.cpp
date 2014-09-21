@@ -39,6 +39,7 @@
 #include <QFileDialog>
 #include <QLabel>
 #include <QLineEdit>
+#include <QMimeData>
 #include <QPushButton>
 #include <QSpinBox>
 #include <QTextEdit>
