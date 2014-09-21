@@ -28,7 +28,6 @@
 #include "gui/icons.h"
 
 #include <QListWidgetItem>
-#include <QTextCodec>
 #include <QUrl>
 
 ClipboardDialog::ClipboardDialog(QWidget *parent)
@@ -77,12 +76,7 @@ void ClipboardDialog::on_listWidgetFormats_currentItemChanged(
                                        QUrl("data://1"), bytes );
         edit->setHtml( QString("<img src=\"data://1\" />") );
     } else {
-        QTextCodec *codec = QTextCodec::codecForName("utf-8");
-        if (mime == QLatin1String("text/html"))
-            codec = QTextCodec::codecForHtml(bytes, codec);
-        else
-            codec = QTextCodec::codecForUtfText(bytes, codec);
-        edit->setPlainText( codec ? codec->toUnicode(bytes) : QString() );
+        edit->setPlainText( dataToText(bytes, mime) );
     }
 
     ui->labelProperties->setText(

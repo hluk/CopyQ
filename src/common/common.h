@@ -140,4 +140,6 @@ int pointsToPixels(int points);
 
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = NULL, const char *slot = NULL);
 
+QString dataToText(const QByteArray &bytes, const QString &mime);
+
 #endif // COMMON_H

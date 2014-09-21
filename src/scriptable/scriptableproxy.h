@@ -206,8 +206,7 @@ public slots:
 
     void config(const QString &arg1, const QString &arg2);
 
-    void getClipboardData(const QString &arg1);
-    void getClipboardData(const QString &arg1, QClipboard::Mode arg2);
+    void getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 
     void getActionData(const QByteArray &arg1, const QString &arg2);
 

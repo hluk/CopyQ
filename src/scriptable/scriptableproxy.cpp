@@ -449,14 +449,15 @@ void ScriptableProxyHelper::config(const QString &arg1, const QString &arg2)
     v = m_wnd->config(arg1, arg2);
 }
 
-void ScriptableProxyHelper::getClipboardData(const QString &arg1)
+void ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboard::Mode mode)
 {
-    v = m_wnd->getClipboardData(arg1);
-}
-
-void ScriptableProxyHelper::getClipboardData(const QString &arg1, QClipboard::Mode arg2)
-{
-    v = m_wnd->getClipboardData(arg1, arg2);
+    const QMimeData *data = clipboardData(mode);
+    if (!data)
+        v = QByteArray();
+    else if (mime == "?")
+        v = data->formats().join("\n").toUtf8() + '\n';
+    else
+        v = cloneData(*data, QStringList(mime)).value(mime).toByteArray();
 }
 
 void ScriptableProxyHelper::getActionData(const QByteArray &arg1, const QString &arg2)

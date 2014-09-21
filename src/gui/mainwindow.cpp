@@ -1484,15 +1484,6 @@ void MainWindow::toggleClipboardStoring()
     disableClipboardStoring(!m_clipboardStoringDisabled);
 }
 
-QByteArray MainWindow::getClipboardData(const QString &mime, QClipboard::Mode mode)
-{
-    const QMimeData *data = ::clipboardData(mode);
-    if (data == NULL)
-        return QByteArray();
-
-    return mime == "?" ? data->formats().join("\n").toUtf8() + '\n' : data->data(mime);
-}
-
 void MainWindow::ignoreCurrentClipboard()
 {
     clipboardChanged(QVariantMap());

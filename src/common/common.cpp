@@ -33,6 +33,7 @@
 #include <QMimeData>
 #include <QObject>
 #include <QTemporaryFile>
+#include <QTextCodec>
 #include <QThread>
 #include <QTimer>
 #include <QUrl>
@@ -87,6 +88,27 @@ bool setImageData(const QVariantMap &data, const QString &mime, QMimeData *mimeD
 
     mimeData->setImageData(image);
     return true;
+}
+
+QTextCodec *codecForText(const QByteArray &bytes)
+{
+    // Guess unicode codec for text if BOM is missing.
+    if (bytes.size() >= 2 && bytes.size() % 2 == 0) {
+        if (bytes.size() >= 4 && bytes.size() % 4 == 0) {
+            if (bytes.at(0) == 0 && bytes.at(1) == 0)
+                return QTextCodec::codecForName("utf-32be");
+            if (bytes.at(2) == 0 && bytes.at(3) == 0)
+                return QTextCodec::codecForName("utf-32le");
+        }
+
+        if (bytes.at(0) == 0)
+            return QTextCodec::codecForName("utf-16be");
+
+        if (bytes.at(1) == 0)
+            return QTextCodec::codecForName("utf-16le");
+    }
+
+    return QTextCodec::codecForName("utf-8");
 }
 
 } // namespace
@@ -144,10 +166,9 @@ uint hash(const QVariantMap &data)
 
 QByteArray getUtf8Data(const QMimeData &data, const QString &format)
 {
-    if (format == mimeHtml)
-        return data.html().toUtf8();
-    if (format == mimeText)
-        return data.text().toUtf8();
+    if (format == mimeText || format == mimeHtml)
+        return dataToText( data.data(format), format ).toUtf8();
+
     if (format == mimeUriList) {
         QByteArray bytes;
         foreach ( const QUrl &url, data.urls() ) {
@@ -157,6 +178,7 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
         }
         return bytes;
     }
+
     return data.data(format);
 }
 
@@ -212,14 +234,16 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 
 QVariantMap cloneData(const QMimeData &data)
 {
-    QVariantMap newdata;
+    QStringList formats;
+
     foreach ( const QString &mime, data.formats() ) {
         // ignore uppercase mimetypes (e.g. UTF8_STRING, TARGETS, TIMESTAMP)
         // and internal type to check clipboard owner
         if ( !mime.isEmpty() && mime[0].isLower() )
-            newdata.insert(mime, data.data(mime));
+            formats.append(mime);
     }
-    return newdata;
+
+    return cloneData(data, formats);
 }
 
 QMimeData* createMimeData(const QVariantMap &data)
@@ -412,4 +436,15 @@ void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object,
     timer->setInterval(milliseconds);
     if (object && slot)
         QObject::connect( timer, SIGNAL(timeout()), object, slot );
+}
+
+QString dataToText(const QByteArray &bytes, const QString &mime)
+{
+    bool isHtml = (mime == "text/html");
+    QTextCodec *defaultCodec = codecForText(bytes);
+    QTextCodec *codec = isHtml
+            ? QTextCodec::codecForHtml(bytes, defaultCodec)
+            : QTextCodec::codecForUtfText(bytes, defaultCodec);
+
+    return codec->toUnicode(bytes);
 }

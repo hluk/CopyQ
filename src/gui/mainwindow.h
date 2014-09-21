@@ -197,10 +197,6 @@ public:
     /** Return true if clipboard storing was disabled. */
     bool isClipboardStoringDisabled() const { return m_clipboardStoringDisabled; }
 
-    /** Return clipboard data. If MIME type is "?" return list of available MIME types. */
-    QByteArray getClipboardData(const QString &mime,
-                                QClipboard::Mode mode = QClipboard::Clipboard);
-
     /** Ignore current clipboard content. */
     void ignoreCurrentClipboard();
 
