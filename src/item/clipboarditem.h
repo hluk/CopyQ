@@ -23,8 +23,6 @@
 #include <QVariant>
 
 class QByteArray;
-class QDataStream;
-class QMimeData;
 class QString;
 
 /**
@@ -75,13 +73,13 @@ public:
     QByteArray data(const QString &format) const { return m_data.value(format).toByteArray(); }
 
     /** Return hash for item's data. */
-    unsigned int dataHash() const { return m_hash; }
+    unsigned int dataHash() const;
 
 private:
-    void updateDataHash();
+    void invalidateDataHash();
 
     QVariantMap m_data;
-    unsigned int m_hash;
+    mutable unsigned int m_hash;
 };
 
 #endif // CLIPBOARDITEM_H

@@ -25,9 +25,6 @@
 #include "item/serialize.h"
 
 #include <QByteArray>
-#include <QDataStream>
-#include <QMimeData>
-#include <QSet>
 #include <QString>
 #include <QStringList>
 #include <QVariant>
@@ -52,7 +49,7 @@ ClipboardItem::ClipboardItem()
 
 bool ClipboardItem::operator ==(const ClipboardItem &item) const
 {
-    return m_hash == item.m_hash;
+    return dataHash() == item.dataHash();
 }
 
 void ClipboardItem::setText(const QString &text)
@@ -64,7 +61,7 @@ void ClipboardItem::setText(const QString &text)
 
     setTextData(&m_data, text);
 
-    updateDataHash();
+    invalidateDataHash();
 }
 
 bool ClipboardItem::setData(const QVariantMap &data)
@@ -73,7 +70,7 @@ bool ClipboardItem::setData(const QVariantMap &data)
         return false;
 
     m_data = data;
-    updateDataHash();
+    invalidateDataHash();
     return true;
 }
 
@@ -96,7 +93,7 @@ bool ClipboardItem::updateData(const QVariantMap &data)
         }
     }
 
-    updateDataHash();
+    invalidateDataHash();
 
     return changed;
 }
@@ -104,19 +101,22 @@ bool ClipboardItem::updateData(const QVariantMap &data)
 void ClipboardItem::removeData(const QString &mimeType)
 {
     m_data.remove(mimeType);
-    updateDataHash();
+    invalidateDataHash();
 }
 
 bool ClipboardItem::removeData(const QStringList &mimeTypeList)
 {
     bool removed = false;
+
     foreach (const QString &mimeType, mimeTypeList) {
         if ( m_data.contains(mimeType) ) {
             m_data.remove(mimeType);
             removed = true;
         }
     }
-    updateDataHash();
+
+    if (removed)
+        invalidateDataHash();
 
     return removed;
 }
@@ -124,7 +124,7 @@ bool ClipboardItem::removeData(const QStringList &mimeTypeList)
 void ClipboardItem::setData(const QString &mimeType, const QByteArray &data)
 {
     m_data.insert(mimeType, data);
-    updateDataHash();
+    invalidateDataHash();
 }
 
 QVariant ClipboardItem::data(int role) const
@@ -138,7 +138,7 @@ QVariant ClipboardItem::data(int role) const
         if (role == contentType::data) {
             return m_data; // copy-on-write, so this should be fast
         } else if (role == contentType::hash) {
-            return m_hash;
+            return dataHash();
         } else if (role == contentType::hasText) {
             return m_data.contains(mimeText) || m_data.contains(mimeUriList);
         } else if (role == contentType::hasHtml) {
@@ -157,7 +157,15 @@ QVariant ClipboardItem::data(int role) const
     return QVariant();
 }
 
-void ClipboardItem::updateDataHash()
+unsigned int ClipboardItem::dataHash() const
 {
-    m_hash = hash(m_data);
+    if (m_hash == 0)
+        m_hash = hash(m_data);
+
+    return m_hash;
+}
+
+void ClipboardItem::invalidateDataHash()
+{
+    m_hash = 0;
 }
