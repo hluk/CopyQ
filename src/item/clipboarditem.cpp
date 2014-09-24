@@ -55,11 +55,6 @@ bool ClipboardItem::operator ==(const ClipboardItem &item) const
     return m_hash == item.m_hash;
 }
 
-bool ClipboardItem::operator ==(const QVariantMap &data) const
-{
-    return m_hash == hash(data);
-}
-
 void ClipboardItem::setText(const QString &text)
 {
     foreach ( const QString &format, m_data.keys() ) {

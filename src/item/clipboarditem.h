@@ -40,8 +40,6 @@ public:
 
     /** Compare with other item (using hash). */
     bool operator ==(const ClipboardItem &item) const;
-    /** Compare with other data (using hash). */
-    bool operator ==(const QVariantMap &data) const;
 
     /** Set item's MIME type data. */
     void setData(const QString &mimeType, const QByteArray &data);
