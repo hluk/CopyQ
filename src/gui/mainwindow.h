@@ -268,13 +268,14 @@ public slots:
 
     /** Add @a data to tab with given name (create if tab doesn't exist). */
     void addToTab(
+            /// Item data (it may be updated if item with same text exists).
             const QVariantMap &data,
-            //!< Item data (it may be updated if item with same text exists).
-            const QString &tabName = QString(),
-            //!< Tab name of target tab (first tab if empty).
-            bool moveExistingToTop = false
-            //!< If item already exists, move it to top and select it.
+            /// Tab name of target tab.
+            const QString &tabName
             );
+
+    /** Add @a new clipboard to the first tab. */
+    void addToTabFromClipboard(const QVariantMap &data);
 
     /** Set clipboard. */
     void setClipboard(const QVariantMap &data);
@@ -423,10 +424,10 @@ private:
     bool closeMinimizes() const;
 
     /**
-     * Trigger all matching automatic commands on @a data.
+     * Execute all matching automatic commands on @a data.
      * If Command::remove of an applied command is true the method immediately returns false.
      */
-    bool triggerActionForData(const QVariantMap &data, const QString &sourceTab);
+    bool executeAutomaticCommands(const QVariantMap &data);
 
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();

@@ -573,13 +573,15 @@ bool MainWindow::closeMinimizes() const
     return !m_options->showTray && !m_minimizeUnsupported;
 }
 
-bool MainWindow::triggerActionForData(const QVariantMap &data, const QString &sourceTab)
+bool MainWindow::executeAutomaticCommands(const QVariantMap &data)
 {
+    const QString tabName = getBrowser(0)->tabName();
+
     foreach (const Command &c, m_sharedData->commands) {
-        if ( c.automatic && canExecuteCommand(c, data, sourceTab) ) {
+        if ( c.automatic && canExecuteCommand(c, data, tabName) ) {
             Command cmd = c;
             if ( cmd.outputTab.isEmpty() )
-                cmd.outputTab = sourceTab;
+                cmd.outputTab = tabName;
 
             if ( cmd.input.isEmpty() || cmd.input == mimeItems || data.contains(cmd.input) )
                 action(data, cmd);
@@ -605,6 +607,8 @@ NotificationDaemon *MainWindow::notificationDaemon()
 
 ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
 {
+    Q_ASSERT( !name.isEmpty() );
+
     int i = findTabIndex(name);
 
     if (needSave != NULL)
@@ -1198,7 +1202,7 @@ void MainWindow::onTrayActionTriggered(uint clipboardItemHash, bool omitPaste)
 {
     ClipboardBrowser *c = getTabForTrayMenu();
 
-    if ( c->select(clipboardItemHash) && m_lastWindow && !omitPaste && canPaste() ) {
+    if ( c->select(clipboardItemHash, MoveToClipboard) && m_lastWindow && !omitPaste && canPaste() ) {
         QApplication::processEvents();
         m_lastWindow->pasteClipboard();
     }
@@ -1313,73 +1317,55 @@ void MainWindow::tabCloseRequested(int tab)
     removeTab(true, tab);
 }
 
-void MainWindow::addToTab(const QVariantMap &data, const QString &tabName, bool moveExistingToTop)
+void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 {
-    ClipboardBrowser *c = getBrowser( tabName.isEmpty() ? 0 : findBrowserIndex(tabName) );
+    createTab(tabName)->add(data);
+}
 
-    if ( c == NULL && !tabName.isEmpty() )
-        c = createTab(tabName);
-
-    if (c == NULL)
+void MainWindow::addToTabFromClipboard(const QVariantMap &data)
+{
+    if ( !executeAutomaticCommands(data) )
         return;
 
-    c->loadItems();
+    ClipboardBrowser *c = browser(0);
 
-    const uint itemHash = hash(data);
+    if ( !c->isLoaded() )
+        return;
 
-    // force adding item if tab name is specified
-    bool force = !tabName.isEmpty();
+    if ( c->select(hash(data), MoveToTop) )
+        return;
 
+    QVariantMap newData = data;
     bool reselectFirst = false;
 
-    if ( c->select(itemHash, moveExistingToTop, false) ) {
-        if (!force)
-            triggerActionForData(data, tabName);
-    } else {
-        QVariantMap data2 = data;
+    // When selecting text under X11, clipboard data may change whenever selection changes.
+    // Instead of adding item for each selection change, this updates previously added item.
+    if ( newData.contains(mimeText) ) {
+        const QModelIndex firstIndex = c->model()->index(0, 0);
+        const QVariantMap previousData = itemData(firstIndex);
 
-        // merge data with first item if it is same
-        if ( !force && c->length() > 0 && data2.contains(mimeText) ) {
-            const QModelIndex &first = c->model()->index(0, 0);
-            const QVariantMap firstData = itemData(first);
-            const QString firstItemText = getTextData(firstData);
-            const QString newText = getTextData(data2);
+        if ( previousData.contains(mimeText)
+             && newData.value(mimeWindowTitle) == previousData.value(mimeWindowTitle)
+             && getTextData(newData).contains(getTextData(previousData))
+             )
+        {
+            const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
 
-            // When selecting text under X11, we can get "new" clipboard data whenever the mouse moves,
-            // so we keep updating the same clipboard item instead of adding them all!
-            if (
-                    // Check that the first item has plain text too
-                    firstData.contains(mimeText)
-                    && (
-                        // If the text is exactly the same, merge them
-                        newText == firstItemText
-                        || (
-                            // If they come from the same window, and the new text extends the previous text, merge them
-                            data2.value(mimeWindowTitle) == firstData.value(mimeWindowTitle)
-                            && (newText.startsWith(firstItemText) || newText.endsWith(firstItemText))
-                            )
-                        )
-                    )
-            {
-                force = true;
-                foreach (const QString &format, firstData.keys()) {
-                    if ( !data2.contains(format) )
-                        data2.insert(format, firstData[format]);
-                }
-                // remove merged item (if it's not edited)
-                if (!c->editing() || c->currentIndex().row() != 0) {
-                    reselectFirst = c->currentIndex().row() == 0;
-                    c->model()->removeRow(0);
-                }
+            foreach (const QString &format, formatsToAdd)
+                newData.insert(format, previousData[format]);
+
+            // Remove merged item (if it's not edited).
+            if (!c->editing() || c->currentIndex().row() != 0) {
+                reselectFirst = c->currentIndex().row() == 0;
+                c->model()->removeRow(0);
             }
         }
-
-        if ( force || triggerActionForData(data2, tabName) )
-            c->add(data2);
-
-        if (reselectFirst)
-            c->setCurrent(0);
     }
+
+    c->add(newData);
+
+    if (reselectFirst)
+        c->setCurrent(0);
 }
 
 void MainWindow::nextTab()

@@ -37,6 +37,14 @@ class ItemEditorWidget;
 class QProgressBar;
 class QPushButton;
 
+enum SelectAction {
+    NoSelectAction,
+    MoveToTop = 1 << 1,
+    MoveToClipboard = 1 << 2
+};
+Q_DECLARE_FLAGS(SelectActions, SelectAction)
+Q_DECLARE_OPERATORS_FOR_FLAGS(SelectActions)
+
 struct ClipboardBrowserShared {
     ClipboardBrowserShared();
 
@@ -85,10 +93,7 @@ class ClipboardBrowser : public QListView
          *
          * @return true only if item exists
          */
-        bool select(uint itemHash, //!< Hash of the item.
-                bool moveToTop = false, //!< Move existing item to top.
-                bool moveToClipboard = true //!< Move existing item to clipboard
-                );
+        bool select(uint itemHash, SelectActions selectActions);
 
         /** Sort selected items. */
         void sortItems(const QModelIndexList &indexes);
