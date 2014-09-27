@@ -20,6 +20,7 @@
 #include "action.h"
 
 #include "common/mimetypes.h"
+#include "item/serialize.h"
 
 #include <QCoreApplication>
 
@@ -203,6 +204,17 @@ void Action::setCommand(const QStringList &arguments)
 {
     m_cmds.clear();
     m_cmds.append(QList<QStringList>() << arguments);
+}
+
+void Action::setInput(const QVariantMap &data, const QString &inputFormat)
+{
+    if (inputFormat == mimeItems) {
+        m_input = serializeData(data);
+        m_inputFormats = data.keys();
+    } else {
+        m_input = data.value(inputFormat).toByteArray();
+        m_inputFormats = QStringList(inputFormat);
+    }
 }
 
 void Action::start()

@@ -170,30 +170,6 @@ void ActionDialog::createAction()
     const QString input = ( inputFormat.isEmpty() || inputFormat.toLower().startsWith(QString("text")) )
             ? ui->inputText->toPlainText() : QString();
 
-    QByteArray bytes;
-    QStringList inputFormats;
-    if ( !inputFormat.isEmpty() ) {
-        if ( m_index.isValid() )
-            inputFormats.append(inputFormat);
-
-        if ( !input.isEmpty() ) {
-            bytes = input.toUtf8();
-        } else if ( !m_data.isEmpty() ) {
-            if (inputFormat == mimeItems) {
-                QVariantMap data2;
-                inputFormats.clear();
-                foreach ( const QString &format, m_data.keys() ) {
-                    data2.insert( format, m_data[format] );
-                    if ( m_index.isValid() )
-                        inputFormats.append(format);
-                }
-                bytes = serializeData(data2);
-            } else {
-                bytes = m_data.value(inputFormat).toByteArray();
-            }
-        }
-    }
-
     // Expression %1 in command is always replaced with item text.
     if ( m_capturedTexts.isEmpty() )
         m_capturedTexts.append(QString());
@@ -201,8 +177,10 @@ void ActionDialog::createAction()
 
     QScopedPointer<Action> act( new Action() );
     act->setCommand(cmd, m_capturedTexts);
-    act->setInput(bytes);
-    act->setInputFormats(inputFormats);
+    if (input.isEmpty())
+        act->setInput(m_data, inputFormat);
+    else
+        act->setInput(input.toUtf8());
     act->setOutputFormat(ui->comboBoxOutputFormat->currentText());
     act->setItemSeparator(QRegExp(ui->separatorEdit->text()));
     act->setOutputTab(ui->comboBoxOutputTab->currentText());

@@ -142,16 +142,9 @@ void ActionHandler::closeAction(Action *action)
         QModelIndex index = action->index();
         ClipboardBrowser *c = m_wnd->browserForItem(index);
         if (c) {
-            QStringList removeFormats;
-            if ( action->inputFormats().size() > 1 ) {
-                QVariantMap data;
-                deserializeData( &data, action->input() );
-                removeFormats = data.keys();
-            } else {
-                removeFormats.append( action->inputFormats()[0] );
-            }
-
+            QStringList removeFormats = action->inputFormats();
             removeFormats.removeAll( action->outputFormat() );
+
             if ( !removeFormats.isEmpty() )
                 c->model()->setData(index, removeFormats, contentType::removeFormats);
         }

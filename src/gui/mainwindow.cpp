@@ -2168,8 +2168,7 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
     } else {
         Action *act = new Action();
         act->setCommand( cmd.cmd, QStringList(getTextData(data)) );
-        act->setInput( cmd.input == mimeItems ? serializeData(data)
-                                              : data.value(cmd.input).toByteArray() );
+        act->setInput(data, cmd.input);
         act->setOutputFormat(cmd.output);
         act->setItemSeparator(QRegExp(cmd.sep));
         act->setOutputTab(cmd.outputTab);
