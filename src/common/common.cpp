@@ -56,11 +56,14 @@ QString getImageFormatFromMime(const QString &mime)
  */
 void cloneImageData(const QMimeData &data, const QString &mime, QVariantMap *dataMap)
 {
-    if ( !data.hasImage() )
+    // NOTE: Application hangs if using mulitple sessions and
+    //       calling QMimeData::hasImage() on X11 clipboard.
+    const QImage image = data.imageData().value<QImage>();
+
+    if (image.isNull())
         return;
 
     const QString fmt = getImageFormatFromMime(mime);
-    const QImage image = data.imageData().value<QImage>();
 
     QBuffer buffer;
     bool saved = image.save(&buffer, fmt.toUtf8().constData());
