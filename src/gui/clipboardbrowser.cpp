@@ -82,81 +82,6 @@ void updateLoadButtonIcon(QPushButton *loadButton)
     loadButton->setIcon(icon);
 }
 
-bool hasFormat(const QVariantMap &data, const QString &format)
-{
-    if (format == mimeItems) {
-        foreach (const QString &key, data.keys()) {
-            if ( !key.startsWith(COPYQ_MIME_PREFIX) )
-                return true;
-        }
-        return false;
-    }
-
-    return data.contains(format);
-}
-
-class CommandAction : public QAction
-{
-    Q_OBJECT
-public:
-    enum Type { ClipboardCommand, ItemCommand };
-
-    explicit CommandAction(const Command &command, Type type, ClipboardBrowser *browser)
-        : QAction(browser)
-        , m_command(command)
-        , m_type(type)
-        , m_browser(browser)
-    {
-        Q_ASSERT(browser);
-
-        if (m_type == ClipboardCommand) {
-            m_command.transform = false;
-            m_command.hideWindow = false;
-        }
-
-        setText( elideText(m_command.name, browser->font()) );
-
-        IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-        setIcon( iconFactory->iconFromFile(m_command.icon) );
-        if (m_command.icon.size() == 1)
-            setProperty( "CopyQ_icon_id", m_command.icon[0].unicode() );
-
-        connect(this, SIGNAL(triggered()), this, SLOT(onTriggered()));
-
-        browser->addAction(this);
-    }
-
-signals:
-    void triggerCommand(const Command &command, const QVariantMap &data);
-
-private slots:
-    void onTriggered()
-    {
-        Command command = m_command;
-        if ( command.outputTab.isEmpty() )
-            command.outputTab = m_browser->tabName();
-
-        QVariantMap dataMap;
-
-        if (m_type == ClipboardCommand) {
-            const QMimeData *data = clipboardData();
-            if (data == NULL)
-                setTextData( &dataMap, m_browser->selectedText() );
-            else
-                dataMap = cloneData(*data);
-        } else {
-            dataMap = m_browser->getSelectedItemData();
-        }
-
-        emit triggerCommand(command, dataMap);
-    }
-
-private:
-    Command m_command;
-    Type m_type;
-    ClipboardBrowser *m_browser;
-};
-
 } // namespace
 
 QVariantMap itemData(const QModelIndex &index)
@@ -217,7 +142,6 @@ ClipboardBrowserShared::ClipboardBrowserShared()
     : editor()
     , maxItems(100)
     , textWrap(true)
-    , commands()
     , viMode(false)
     , saveOnReturnKey(false)
     , moveItemOnReturnKey(false)
@@ -245,7 +169,6 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_update(false)
     , m( new ClipboardModel(this) )
     , d( new ItemDelegate(this) )
-    , m_menu(NULL)
     , m_invalidateCache(false)
     , m_expire(false)
     , m_editor(NULL)
@@ -299,51 +222,6 @@ void ClipboardBrowser::closeExternalEditor(QObject *editor)
     editor->disconnect(this);
     disconnect(editor);
     editor->deleteLater();
-}
-
-void ClipboardBrowser::onCommandActionTriggered(const Command &command, const QVariantMap &data)
-{
-    const QModelIndexList selected = selectedIndexes();
-
-    if ( !command.cmd.isEmpty() ) {
-        if (command.transform) {
-            foreach (const QModelIndex &index, selected) {
-                QVariantMap data = itemData(index);
-                if ( command.input.isEmpty() || hasFormat(data, command.input) )
-                    emit requestActionDialog(data, command, index);
-            }
-        } else {
-            emit requestActionDialog(data, command, QModelIndex());
-        }
-    }
-
-    if ( !command.tab.isEmpty() && command.tab != tabName() ) {
-        for (int i = selected.size() - 1; i >= 0; --i) {
-            QVariantMap data = itemData(selected[i]);
-            if ( !data.isEmpty() )
-                emit addToTab(data, command.tab);
-        }
-    }
-
-    if (command.remove) {
-        const int lastRow = removeIndexes(selected);
-        if (lastRow != -1)
-            setCurrent(lastRow);
-    }
-
-    if (command.hideWindow)
-        emit requestHide();
-}
-
-void ClipboardBrowser::createContextMenu()
-{
-    if (m_menu == NULL)
-        return;
-
-    foreach ( QAction *action, m_menu->actions() )
-        delete action;
-
-    updateContextMenu();
 }
 
 bool ClipboardBrowser::isFiltered(int row) const
@@ -559,7 +437,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
     setVerticalScrollBarPolicy(scrollbarPolicy);
     setHorizontalScrollBarPolicy(scrollbarPolicy);
 
-    updateContextMenu();
+    emit updateContextMenu();
 }
 
 void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes)
@@ -604,43 +482,6 @@ void ClipboardBrowser::updateCurrentItem()
         item->setCurrent(false);
         item->setCurrent( hasFocus() );
     }
-}
-
-void ClipboardBrowser::initActions()
-{
-    createAction( Actions::Item_MoveToClipboard, SLOT(moveToClipboard()) );
-    createAction( Actions::Item_ShowContent, SLOT(showItemContent()) );
-    createAction( Actions::Item_Remove, SLOT(remove()) );
-    createAction( Actions::Item_Edit, SLOT(editSelected()) );
-    createAction( Actions::Item_EditNotes, SLOT(editNotes()) );
-    createAction( Actions::Item_EditWithEditor, SLOT(openEditor()) );
-    createAction( Actions::Item_Action, SLOT(action()) );
-    createAction( Actions::Item_NextToClipboard, SLOT(copyNextItemToClipboard()) );
-    createAction( Actions::Item_PreviousToClipboard, SLOT(copyPreviousItemToClipboard()) );
-}
-
-void ClipboardBrowser::clearActions()
-{
-    foreach (QAction *action, actions()) {
-        action->disconnect(this);
-        removeAction(action);
-        if ( action->parent() == this )
-            delete action;
-        else if (m_menu != NULL)
-            m_menu->removeAction(action);
-    }
-
-    // No actions should be left to remove.
-    Q_ASSERT(m_menu == NULL || m_menu->isEmpty());
-}
-
-QAction *ClipboardBrowser::createAction(Actions::Id id, const char *slot)
-{
-    ConfigTabShortcuts *shortcuts = ConfigurationManager::instance()->tabShortcuts();
-    QAction *act = shortcuts->action(id, this, Qt::WidgetShortcut);
-    connect( act, SIGNAL(triggered()), this, slot, Qt::UniqueConnection );
-    m_menu->addAction(act);
-    return act;
 }
 
 QModelIndex ClipboardBrowser::indexNear(int offset) const
@@ -736,49 +577,6 @@ void ClipboardBrowser::updateItemMaximumSize()
     scheduleDelayedItemsLayout();
 }
 
-void ClipboardBrowser::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
-{
-    if ( m_sharedData->commands.isEmpty() )
-        return;
-
-    CommandAction::Type type = (menu == m_menu) ? CommandAction::ItemCommand
-                                                : CommandAction::ClipboardCommand;
-
-    QList<QKeySequence> usedShortcuts;
-
-    foreach (const Command &command, m_sharedData->commands) {
-        // Verify that command can be added to menu.
-        if ( !command.inMenu || command.name.isEmpty() )
-            continue;
-
-        if ( !canExecuteCommand(command, data, tabName()) )
-            continue;
-
-        QAction *act = new CommandAction(command, type, this);
-        menu->addAction(act);
-
-        if (type == CommandAction::ItemCommand) {
-            QList<QKeySequence> uniqueShortcuts;
-
-            foreach (const QString &shortcutText, command.shortcuts) {
-                const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-                if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut)  ) {
-                    usedShortcuts.append(shortcut);
-                    uniqueShortcuts.append(shortcut);
-                }
-            }
-
-            act->setShortcuts(uniqueShortcuts);
-        }
-
-        connect(act, SIGNAL(triggerCommand(Command,QVariantMap)),
-                this, SLOT(onCommandActionTriggered(Command,QVariantMap)));
-    }
-
-    if (type == CommandAction::ItemCommand)
-        ConfigurationManager::instance()->tabShortcuts()->setDisabledShortcuts(usedShortcuts);
-}
-
 void ClipboardBrowser::lock()
 {
     if (m_spinLock == 0) {
@@ -807,7 +605,7 @@ void ClipboardBrowser::unlock()
 
         setUpdatesEnabled(true);
 
-        updateContextMenu();
+        emit updateContextMenu();
 
         updateCurrentPage();
     }
@@ -998,27 +796,6 @@ QPixmap ClipboardBrowser::renderItemPreview(const QModelIndexList &indexes, int 
     return pix;
 }
 
-void ClipboardBrowser::updateContextMenu()
-{
-    if (!m_menu || !m_itemLoader || !updatesEnabled())
-        return;
-
-    m_menu->clear();
-
-    clearActions();
-
-    if (editing())
-        return;
-
-    addCommandsToMenu(m_menu, getSelectedItemData());
-
-    m_menu->addSeparator();
-
-    initActions();
-
-    emit contextMenuUpdated();
-}
-
 void ClipboardBrowser::onModelDataChanged()
 {
     delayedSaveItems();
@@ -1043,7 +820,7 @@ void ClipboardBrowser::onDataChanged(const QModelIndex &a, const QModelIndex &b)
     }
 
     if (updateMenu)
-        updateContextMenu();
+        emit updateContextMenu();
 }
 
 void ClipboardBrowser::onItemCountChanged()
@@ -1181,7 +958,7 @@ void ClipboardBrowser::filterItems()
 
 void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 {
-    if ( m_menu == NULL || editing() || selectedIndexes().isEmpty() )
+    if ( editing() || selectedIndexes().isEmpty() )
         return;
 
     QPoint pos = event->globalPos();
@@ -1194,8 +971,7 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
             pos.setX(menuMaxX - width() / 2);
     }
 
-    m_menu->exec(pos);
-    event->accept();
+    emit showContextMenu(pos);
 }
 
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
@@ -1253,7 +1029,7 @@ void ClipboardBrowser::selectionChanged(const QItemSelection &selected,
                                         const QItemSelection &deselected)
 {
     QListView::selectionChanged(selected, deselected);
-    updateContextMenu();
+    emit updateContextMenu();
 }
 
 void ClipboardBrowser::focusInEvent(QFocusEvent *event)
@@ -1498,15 +1274,6 @@ void ClipboardBrowser::editNotes()
     emit requestShow(this);
 
     editItem(ind, true);
-}
-
-void ClipboardBrowser::action()
-{
-    const QVariantMap data = getSelectedItemData();
-    if ( !data.isEmpty() )
-        emit requestActionDialog(data);
-    else
-        emit requestActionDialog( createDataMap(mimeText, selectedText()) );
 }
 
 void ClipboardBrowser::itemModified(const QByteArray &bytes, const QString &mime)
@@ -1999,13 +1766,6 @@ void ClipboardBrowser::setAutoUpdate(bool update)
         m_update = update;
 }
 
-void ClipboardBrowser::setContextMenu(QMenu *menu)
-{
-    clearActions();
-    m_menu = menu;
-    createContextMenu();
-}
-
 void ClipboardBrowser::setTabName(const QString &id)
 {
     m->setTabName(id);
@@ -2082,57 +1842,3 @@ QVariantMap ClipboardBrowser::getSelectedItemData() const
     QModelIndexList selected = selectedIndexes();
     return copyIndexes(selected, false);
 }
-
-bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName)
-{
-    // Verify that an action is provided.
-    if ( command.cmd.isEmpty() && !command.remove
-         && (command.tab.isEmpty() || command.tab == sourceTabName) )
-    {
-        return false;
-    }
-
-    // Verify that data for given MIME is available.
-    if ( !command.input.isEmpty() ) {
-        const QList<QString> availableFormats = data.keys();
-        if (command.input == mimeItems) {
-            // Disallow applying action that takes serialized item more times.
-            if ( availableFormats.contains(command.output) )
-                return false;
-        } else if ( !availableFormats.contains(command.input) ) {
-            return false;
-        }
-    }
-
-    // Verify that text is present when regex is defined.
-    if ( !command.re.isEmpty() && !data.contains(mimeText) )
-        return false;
-
-    // Verify that and text, MIME type and window title are matched.
-    const QString text = getTextData(data);
-    const QString windowTitle = data.value(mimeWindowTitle).toString();
-    if ( command.re.indexIn(text) == -1 || command.wndre.indexIn(windowTitle) == -1 )
-        return false;
-
-    // Verify that match command accepts item text.
-    if ( !command.matchCmd.isEmpty() ) {
-        Action matchAction;
-        matchAction.setCommand(command.matchCmd, QStringList(text));
-        matchAction.setInput(text.toUtf8());
-        matchAction.start();
-
-        // TODO: This should be async, i.e. create object (in new thread) that validates command and
-        //       emits a signal if successful.
-        if ( !matchAction.waitForFinished(4000) ) {
-            matchAction.terminate();
-            return false;
-        }
-
-        if (matchAction.exitStatus() != QProcess::NormalExit || matchAction.exitCode() != 0)
-            return false;
-    }
-
-    return true;
-}
-
-#include "clipboardbrowser.moc"

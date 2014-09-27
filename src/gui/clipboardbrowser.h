@@ -53,7 +53,6 @@ struct ClipboardBrowserShared {
     QString editor;
     int maxItems;
     bool textWrap;
-    QList<Command> commands;
     bool viMode;
     bool saveOnReturnKey;
     bool moveItemOnReturnKey;
@@ -119,9 +118,6 @@ class ClipboardBrowser : public QListView
         /** Return true if automatic clipboard update is on. */
         bool autoUpdate() { return m_update; }
 
-        /** Set context menu for item actions. */
-        void setContextMenu(QMenu *menu);
-
         /**
          * Set ID. Used to save items. If ID is empty saving is disabled.
          */
@@ -156,13 +152,6 @@ class ClipboardBrowser : public QListView
         QVariantMap getSelectedItemData() const;
 
         /**
-         * Add matching commands to menu.
-         */
-        void addCommandsToMenu(QMenu *menu, ///< Insert items before this action (if NULL append items).
-                const QVariantMap &data  ///< MIME types to match.
-                );
-
-        /**
          * Override to disable default QAbstractItemView search.
          */
         void keyboardSearch(const QString &) {}
@@ -180,8 +169,6 @@ class ClipboardBrowser : public QListView
 
         /** Render preview image with items. */
         QPixmap renderItemPreview(const QModelIndexList &indexes, int maxWidth, int maxHeight);
-
-        void updateContextMenu();
 
         /** Add new item to the browser. */
         bool add(
@@ -291,9 +278,6 @@ class ClipboardBrowser : public QListView
          */
         void copyPreviousItemToClipboard();
 
-        /** Open action dialog on selected items. */
-        void action();
-
         /** Remove selected unhidden items. */
         void remove();
 
@@ -312,13 +296,8 @@ class ClipboardBrowser : public QListView
         void requestActionDialog(const QVariantMap &data, const Command &cmd, const QModelIndex &index);
         /** Show list request. */
         void requestShow(const ClipboardBrowser *self);
-        /** Hide main window. */
-        void requestHide();
         /** Request clipboard change. */
         void changeClipboard(const QVariantMap &data);
-
-        /** Context menu actions were updated. */
-        void contextMenuUpdated();
 
         /** Add item to another tab (invoked by an automatic command). */
         void addToTab(const QVariantMap &data, const QString &tabName);
@@ -327,6 +306,10 @@ class ClipboardBrowser : public QListView
         void error(const QString &errorString);
 
         void itemCountChanged(const QString &tabName, int count);
+
+        void showContextMenu(const QPoint &position);
+
+        void updateContextMenu();
 
     protected:
         void keyPressEvent(QKeyEvent *event);
@@ -350,8 +333,6 @@ class ClipboardBrowser : public QListView
         void mouseMoveEvent(QMouseEvent *event);
 
     private slots:
-        void onCommandActionTriggered(const Command &command, const QVariantMap &data);
-
         void onModelDataChanged();
 
         void onDataChanged(const QModelIndex &a, const QModelIndex &b);
@@ -384,7 +365,6 @@ class ClipboardBrowser : public QListView
          */
         void delayedSaveItems();
 
-        void createContextMenu();
         bool isFiltered(int row) const;
 
         /**
@@ -420,12 +400,6 @@ class ClipboardBrowser : public QListView
 
         void updateCurrentItem();
 
-        void initActions();
-
-        void clearActions();
-
-        QAction *createAction(Actions::Id id, const char *slot);
-
         /**
          * Get index near given @a point.
          * If space between items is at the @a point, return next item.
@@ -459,8 +433,6 @@ class ClipboardBrowser : public QListView
         QTimer m_timerFilter;
         QTimer m_timerExpire;
 
-        QPointer<QMenu> m_menu;
-
         bool m_invalidateCache;
         bool m_expire;
 
@@ -478,7 +450,5 @@ class ClipboardBrowser : public QListView
         bool m_updateLock;
         QScopedPointer<class ScrollSaver> m_scrollSaver;
 };
-
-bool canExecuteCommand(const Command &command, const QVariantMap &data, const QString &sourceTabName);
 
 #endif // CLIPBOARDBROWSER_H

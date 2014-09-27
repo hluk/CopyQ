@@ -365,8 +365,6 @@ private slots:
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();
 
-    void onItemMenuUpdated();
-
     /** Closes the main window, and returns focus to previous window. */
     void closeAndReturnFocus();
 
@@ -380,7 +378,15 @@ private slots:
 
     void onSaveCommand(const Command &command);
 
+    void onCommandActionTriggered(const Command &command, const QVariantMap &data);
+
     void on_tabWidget_dropItems(const QString &tabName, QDropEvent *event);
+
+    void showContextMenu(const QPoint &position);
+
+    void updateContextMenu();
+
+    void action();
 
 private:
     /** Create menu bar and tray menu with items. Called once. */
@@ -440,6 +446,12 @@ private:
 
     void updateTabIcon(const QString &newName, const QString &oldName);
 
+    QAction *addItemAction(Actions::Id id, QObject *receiver, const char *slot);
+
+    void addCommandsToMenu(QMenu *menu, const QVariantMap &data);
+
+    void updateToolBar();
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
@@ -454,6 +466,7 @@ private:
     QPointer<QAction> m_actionToggleClipboardStoring;
 
     ClipboardBrowserSharedPtr m_sharedData;
+    QList<Command> m_commands;
 
     PlatformWindowPtr m_lastWindow;
 

@@ -125,7 +125,7 @@ public:
             m_shortcutButton->resetShortcuts();
         }
 
-        updateAction();
+        updateActionShortcuts();
     }
 
     void saveShortcuts(QSettings &settings) const
@@ -143,7 +143,7 @@ public:
     {
         if ( m_action.isNull() ) {
             m_action = new QAction(m_text, NULL);
-            m_action->setShortcuts(shortcuts());
+            updateActionShortcuts();
             updateActionIcon();
         }
 
@@ -196,7 +196,7 @@ public:
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
     {
         m_disabledShortcuts = shortcuts;
-        updateAction();
+        updateActionShortcuts();
     }
 
     QWidget *shortcutButton() { return m_shortcutButton; }
@@ -209,19 +209,19 @@ private slots:
     void onShortcutAdded(const QKeySequence &shortcut)
     {
         if ( !m_action.isNull() )
-            m_action->setShortcuts(shortcuts());
+            updateActionShortcuts();
         emit shortcutAdded(shortcut);
     }
 
     void onShortcutRemoved(const QKeySequence &shortcut)
     {
         if ( !m_action.isNull() )
-            m_action->setShortcuts(shortcuts());
+            updateActionShortcuts();
         emit shortcutRemoved(shortcut);
     }
 
 private:
-    void updateAction()
+    void updateActionShortcuts()
     {
         if ( m_action.isNull() )
             return;

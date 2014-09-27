@@ -99,7 +99,8 @@ HEADERS += \
     gui/commandsyntaxhighlighter.h \
     gui/commandhelpbutton.h \
     scriptable/dirclass.h \
-    scriptable/dirprototype.h
+    scriptable/dirprototype.h \
+    gui/commandaction.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -172,7 +173,8 @@ SOURCES += \
     gui/commandsyntaxhighlighter.cpp \
     gui/commandhelpbutton.cpp \
     scriptable/dirclass.cpp \
-    scriptable/dirprototype.cpp
+    scriptable/dirprototype.cpp \
+    gui/commandaction.cpp
 
 macx {
     # Only Intel binaries are accepted so force this
