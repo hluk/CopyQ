@@ -153,6 +153,16 @@ bool hasFormat(const QVariantMap &data, const QString &format)
     return data.contains(format);
 }
 
+WId stealFocus(const QWidget &window)
+{
+    WId wid = window.winId();
+    PlatformWindowPtr platformWindow = createPlatformNativeInterface()->getWindow(wid);
+    if (platformWindow)
+        platformWindow->raise();
+
+    return wid;
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -519,7 +529,7 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
     }
 
     if (command.hideWindow)
-        closeAndReturnFocus();
+        hideWindow();
 }
 
 void MainWindow::on_tabWidget_dropItems(const QString &tabName, QDropEvent *event)
@@ -1099,7 +1109,7 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
 
         case Qt::Key_Escape:
             if ( browseMode() ) {
-                closeAndReturnFocus();
+                hideWindow();
                 getBrowser()->setCurrent(0);
             } else {
                 resetStatus();
@@ -1306,14 +1316,6 @@ void MainWindow::loadSettings()
     COPYQ_LOG("Configuration loaded");
 }
 
-void MainWindow::closeAndReturnFocus()
-{
-    if (m_lastWindow)
-        m_lastWindow->raise();
-
-    hideWindow();
-}
-
 void MainWindow::showWindow()
 {
     if ( m_timerMinimizing.isActive() )
@@ -1349,9 +1351,7 @@ void MainWindow::showWindow()
 
     QApplication::setActiveWindow(this);
 
-    PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(winId());
-    if (window)
-        window->raise();
+    stealFocus(*this);
 }
 
 void MainWindow::hideWindow()
@@ -1366,7 +1366,7 @@ bool MainWindow::toggleVisible()
 {
     // Showing/hiding window in quick succession doesn't work well on X11.
     if ( m_timerShowWindow.isActive() || isActiveWindow() ) {
-        closeAndReturnFocus();
+        hideWindow();
         return false;
     }
 
@@ -1871,16 +1871,7 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
     actionDialog->setInputData(data);
     actionDialog->show();
-
-    // steal focus
-    WId wid = actionDialog->winId();
-    PlatformWindowPtr window = createPlatformNativeInterface()->getWindow(wid);
-    if (window)
-        window->raise();
-
-    actionDialog.take();
-
-    return wid;
+    return stealFocus(*actionDialog.take());
 }
 
 void MainWindow::openPreferences()

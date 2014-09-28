@@ -414,9 +414,6 @@ private slots:
     /** Update WId for paste and last focused window if needed. */
     void updateFocusWindows();
 
-    /** Closes the main window, and returns focus to previous window. */
-    void closeAndReturnFocus();
-
     /** Update tray and window icon depending on current state. */
     void updateIcon();
     void updateIconTimeout();
