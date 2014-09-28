@@ -30,6 +30,7 @@
 #include "gui/commanddialog.h"
 #include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
+#include "gui/iconfactory.h"
 #include "gui/mainwindow.h"
 #include "item/itemfactory.h"
 #include "item/encrypt.h"
@@ -385,6 +386,8 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                 m_wnd->enterBrowseMode(m_wnd->browseMode());
             }
         }
+    } else if (ev->type() == QEvent::Paint) {
+        ConfigurationManager::instance()->iconFactory()->setActivePaintDevice(object);
     }
 
     return false;

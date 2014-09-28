@@ -110,11 +110,10 @@ CommandHelpButton::CommandHelpButton(QWidget *parent)
     QVBoxLayout *layout = new QVBoxLayout(this);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    const QColor color = getDefaultIconColor(*this, QPalette::Window);
     m_button->setToolTip( tr("Show command help (F1)") );
     m_button->setShortcut(QKeySequence(Qt::Key_F1));
 
-    m_button->setIcon( getIcon("help-faq", IconInfoSign, color, color) );
+    m_button->setIcon( getIcon("help-faq", IconInfoSign) );
     const int h = m_button->sizeHint().height();
     m_button->setFixedSize(h, h);
 

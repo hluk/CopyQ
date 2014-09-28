@@ -41,6 +41,8 @@ ShortcutButton::ShortcutButton(QWidget *parent)
 
     m_buttonAddShortcut->setFlat(true);
     m_buttonAddShortcut->setToolTip( tr("Add shortcut") );
+    const int h = m_buttonAddShortcut->sizeHint().height();
+    m_buttonAddShortcut->setMaximumSize(h, h);
     m_layout->addWidget(m_buttonAddShortcut);
 
     connect( m_buttonAddShortcut, SIGNAL(clicked()),
@@ -101,14 +103,6 @@ QList<QKeySequence> ShortcutButton::shortcuts() const
     return shortcuts;
 }
 
-void ShortcutButton::updateIcons()
-{
-    const QColor color = getDefaultIconColor(*m_buttonAddShortcut, QPalette::Window);
-    m_buttonAddShortcut->setIcon( getIcon("list-add", IconPlus, color, color) );
-    const int h = m_buttonAddShortcut->sizeHint().height();
-    m_buttonAddShortcut->setMaximumSize(h, h);
-}
-
 void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
                                              const QIcon &warningIcon, const QString &warningToolTip)
 {
@@ -128,6 +122,14 @@ void ShortcutButton::checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguou
 int ShortcutButton::shortcutCount() const
 {
     return m_layout->count() - 1;
+}
+
+void ShortcutButton::showEvent(QShowEvent *event)
+{
+    if ( m_buttonAddShortcut->icon().isNull() )
+        m_buttonAddShortcut->setIcon( getIcon("list-add", IconPlus) );
+
+    QWidget::showEvent(event);
 }
 
 void ShortcutButton::onShortcutButtonClicked()

@@ -192,6 +192,7 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
+    createMenu();
 
     ui->tabWidget->addToolBars(this);
     addToolBar(Qt::RightToolBarArea, ui->toolBar);
@@ -759,10 +760,10 @@ QAction *MainWindow::addTrayAction(Actions::Id id)
 
 void MainWindow::updateTabIcon(const QString &newName, const QString &oldName)
 {
-    const QString icon = cm->getIconForTabName(oldName);
+    const QString icon = cm->getIconNameForTabName(oldName);
     if ( !icon.isEmpty() ) {
-        cm->setIconForTabName(oldName, QString());
-        cm->setIconForTabName(newName, icon);
+        cm->setIconNameForTabName(oldName, QString());
+        cm->setIconNameForTabName(newName, icon);
     }
 }
 
@@ -824,17 +825,11 @@ void MainWindow::updateToolBar()
     if ( !ui->toolBar->isVisible() )
         return;
 
-    const QColor color = getDefaultIconColor(*ui->toolBar, QPalette::Window);
     foreach ( QAction *action, m_menuItem->actions() ) {
         if ( action->isSeparator() ) {
             ui->toolBar->addSeparator();
         } else if ( !action->icon().isNull() ) {
-            QIcon icon = action->icon();
-            bool hasIconId;
-            const int iconId = action->property("CopyQ_icon_id").toInt(&hasIconId);
-            const QString iconTheme = action->property("CopyQ_icon_theme").toString();
-            if (hasIconId)
-                icon = getIcon(iconTheme, iconId, color, color);
+            const QIcon icon = action->icon();
             const QString text = action->text().remove("&");
             const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
             const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
@@ -1204,29 +1199,6 @@ void MainWindow::loadSettings()
     ConfigTabAppearance *appearance = cm->tabAppearance();
     appearance->decorateToolBar(ui->toolBar);
     appearance->decorateMainWindow(this);
-
-    // Try to get menu color more precisely by rendering current menu bar and getting color of pixel
-    // that is presumably menu background.
-    QImage img(1, 1, QImage::Format_RGB32);
-
-    menuBar()->clear();
-    QMenu &menu = *menuBar()->addMenu(QString());
-
-    QAction *act = menu.addAction(QString());
-
-    menu.render(&img, QPoint(-8, -8));
-    const QColor color = getDefaultIconColor( img.pixel(0, 0) );
-
-    menu.setActiveAction(act);
-    menu.render(&img, QPoint(-8, -8));
-    menu.removeAction(act);
-    const QColor colorActive = getDefaultIconColor( img.pixel(0, 0) );
-
-    cm->iconFactory()->setDefaultColors(color, colorActive);
-    cm->updateIcons();
-
-    // update menu items and icons
-    createMenu();
 
     m_options.confirmExit = cm->value("confirm_exit").toBool();
 
@@ -2233,10 +2205,10 @@ void MainWindow::setTabIcon()
 
 void MainWindow::setTabIcon(const QString &tabName)
 {
-    IconSelectDialog dialog( cm->getIconForTabName(tabName), this );
+    IconSelectDialog dialog( cm->getIconNameForTabName(tabName), this );
 
     if ( dialog.exec() == QDialog::Accepted ) {
-        cm->setIconForTabName( tabName, dialog.selectedIcon() );
+        cm->setIconNameForTabName( tabName, dialog.selectedIcon() );
         ui->tabWidget->updateTabIcon(tabName);
     }
 }

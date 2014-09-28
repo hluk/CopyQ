@@ -35,10 +35,10 @@
 
 namespace {
 
-const QIcon iconSave(const QColor &color = QColor()) { return getIcon("document-save", IconSave, color, color); }
-const QIcon iconCancel(const QColor &color = QColor()) { return getIcon("document-revert", IconRemove, color, color); }
-const QIcon iconUndo(const QColor &color = QColor()) { return getIcon("edit-undo", IconUndo, color, color); }
-const QIcon iconRedo(const QColor &color = QColor()) { return getIcon("edit-redo", IconRepeat, color, color); }
+const QIcon iconSave() { return getIcon("document-save", IconSave); }
+const QIcon iconCancel() { return getIcon("document-revert", IconRemove); }
+const QIcon iconUndo() { return getIcon("edit-undo", IconUndo); }
+const QIcon iconRedo() { return getIcon("edit-redo", IconRepeat); }
 
 } // namespace
 
@@ -204,17 +204,15 @@ void ItemEditorWidget::initMenuItems()
     foreach (QAction *action, m_toolBar->actions())
         delete action;
 
-    const QColor color = getDefaultIconColor( palette().color(QPalette::Base) );
-
     QAction *act;
-    act = new QAction( iconSave(color), tr("Save"), m_editor );
+    act = new QAction( iconSave(), tr("Save"), m_editor );
     m_toolBar->addAction(act);
     act->setToolTip( tr("Save Item (<strong>F2</strong>)") );
     act->setShortcut( QKeySequence(tr("F2", "Shortcut to save item editor changes")) );
     connect( act, SIGNAL(triggered()),
              this, SLOT(saveAndExit()) );
 
-    act = new QAction( iconCancel(color), tr("Cancel"), m_editor );
+    act = new QAction( iconCancel(), tr("Cancel"), m_editor );
     m_toolBar->addAction(act);
     act->setToolTip( tr("Cancel Editing and Revert Changes") );
     act->setShortcut( QKeySequence(tr("Escape", "Shortcut to revert item editor changes")) );
@@ -225,14 +223,14 @@ void ItemEditorWidget::initMenuItems()
     if (plainTextEdit != NULL) {
         plainTextEdit->setFrameShape(QFrame::NoFrame);
 
-        act = new QAction( iconUndo(color), tr("Undo"), m_editor );
+        act = new QAction( iconUndo(), tr("Undo"), m_editor );
         m_toolBar->addAction(act);
         act->setShortcut(QKeySequence::Undo);
         act->setEnabled(false);
         connect( act, SIGNAL(triggered()), plainTextEdit, SLOT(undo()) );
         connect( plainTextEdit, SIGNAL(undoAvailable(bool)), act, SLOT(setEnabled(bool)) );
 
-        act = new QAction( iconRedo(color), tr("Redo"), m_editor );
+        act = new QAction( iconRedo(), tr("Redo"), m_editor );
         m_toolBar->addAction(act);
         act->setShortcut(QKeySequence::Redo);
         act->setEnabled(false);

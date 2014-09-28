@@ -245,8 +245,6 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
     QStringList pathComponents = path.split('/');
     QTreeWidgetItem *item = findLastTreeItem(*this, &pathComponents);
 
-    const QColor color(getDefaultIconColor(*this, QPalette::Base));
-
     foreach (const QString &text, pathComponents) {
         QTreeWidgetItem *parent = item;
 
@@ -278,8 +276,7 @@ void TabTree::insertTab(const QString &path, int index, bool selected)
         item->setData(0, DataIndex, -1);
         item->setData(0, DataText, text);
 
-        const QIcon icon = ConfigurationManager::instance()->getIconForTabName(
-                    getTabPath(item), color, QColor());
+        const QIcon icon = ConfigurationManager::instance()->getIconForTabName( getTabPath(item) );
         item->setIcon(0, icon);
 
         labelItem(item);
@@ -453,8 +450,7 @@ void TabTree::updateTabIcon(const QString &tabName)
     if (!item)
         return;
 
-    const QColor color(getDefaultIconColor(*this, QPalette::Base));
-    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(tabName, color, QColor());
+    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(tabName);
     item->setIcon(0, icon);
     updateItemSize(item);
     updateSize();

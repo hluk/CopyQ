@@ -51,8 +51,6 @@ signals:
     void commandsSaved();
 
 private slots:
-    void loadSettings();
-
     void tryPasteCommandFromClipboard();
     void copySelectedCommandsToClipboard();
     void onCommandDropped(const QString &text, int row);
@@ -72,7 +70,6 @@ private slots:
 
 private:
     void addCommandWithoutSave(const Command &command, int targetRow = -1);
-    QIcon getCommandIcon(const QString &iconString) const;
     void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
     bool defaultCommand(int index, Command *c) const;

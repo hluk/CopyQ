@@ -103,18 +103,6 @@ bool ItemOrderList::isItemChecked(int row) const
     return item(row)->checkState() == Qt::Checked;
 }
 
-void ItemOrderList::updateIcons()
-{
-    static const QColor color = getDefaultIconColor(*ui->pushButtonRemove, QPalette::Window);
-    static const QColor color2 = getDefaultIconColor(*ui->toolButtonAdd, QPalette::Window);
-
-    // Command button icons.
-    ui->toolButtonAdd->setIcon( getIcon("list-add", IconPlus, color2, color2) );
-    ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus, color, color) );
-    ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown, color, color) );
-    ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp, color, color) );
-}
-
 int ItemOrderList::currentRow() const
 {
     return ui->listWidgetItems->currentIndex().row();
@@ -217,6 +205,18 @@ void ItemOrderList::dropEvent(QDropEvent *event)
         index = list->indexAt( pos + QPoint(s, - 2 * s) );
 
     emit dropped( event->mimeData()->text(), index.row() );
+}
+
+void ItemOrderList::showEvent(QShowEvent *event)
+{
+    if ( ui->toolButtonAdd->icon().isNull() ) {
+        ui->toolButtonAdd->setIcon( getIcon("list-add", IconPlus) );
+        ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus) );
+        ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
+        ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
+    }
+
+    QWidget::showEvent(event);
 }
 
 void ItemOrderList::on_pushButtonUp_clicked()

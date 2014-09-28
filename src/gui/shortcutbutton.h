@@ -61,8 +61,6 @@ public:
     /** Return valid shortcuts defined by buttons. */
     QList<QKeySequence> shortcuts() const;
 
-    void updateIcons();
-
     /** Add icon and tooltip to buttons that contain shortcut from @a ambiguousShortcuts list. */
     void checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
                                  const QIcon &warningIcon, const QString &warningToolTip);
@@ -74,6 +72,9 @@ signals:
     void shortcutAdded(const QKeySequence &shortcut);
     /** Emited if @a shortcut (with button) was removed. */
     void shortcutRemoved(const QKeySequence &shortcut);
+
+protected:
+    void showEvent(QShowEvent *event);
 
 private slots:
     void onShortcutButtonClicked();

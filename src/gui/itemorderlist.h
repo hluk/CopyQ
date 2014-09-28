@@ -54,8 +54,6 @@ public:
 
     bool isItemChecked(int row) const;
 
-    void updateIcons();
-
     int currentRow() const;
 
     void setCurrentItem(int row);
@@ -85,6 +83,7 @@ signals:
 protected:
     void dragEnterEvent(QDragEnterEvent *event);
     void dropEvent(QDropEvent *event);
+    void showEvent(QShowEvent *event);
 
 private slots:
     void on_pushButtonUp_clicked();

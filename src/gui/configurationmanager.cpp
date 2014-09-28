@@ -272,16 +272,6 @@ bool ConfigurationManager::createItemDirectory()
     return true;
 }
 
-void ConfigurationManager::updateIcons()
-{
-    iconFactory()->setUseSystemIcons(tabAppearance()->themeValue("use_system_icons").toBool());
-
-    if ( itemFactory()->hasLoaders() )
-        ui->itemOrderListPlugins->updateIcons();
-
-    tabShortcuts()->updateIcons();
-}
-
 void ConfigurationManager::registerWindowGeometry(QWidget *window)
 {
     window->installEventFilter(this);
@@ -345,15 +335,13 @@ void ConfigurationManager::initTabIcons()
 
     IconFactory *f = iconFactory();
 
-    static const QColor color = getDefaultIconColor<QTabBar>(QPalette::Window);
-
-    tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->createPixmap(IconWrench, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabHistory), f->createPixmap(IconListAlt, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabItems), f->createPixmap(IconThList, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabTray), f->createPixmap(IconInbox, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabNotifications), f->createPixmap(IconInfoSign, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->createPixmap(IconKeyboard, color) );
-    tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->createPixmap(IconPicture, color) );
+    tw->setTabIcon( tw->indexOf(ui->tabGeneral), f->getIcon("", IconWrench) );
+    tw->setTabIcon( tw->indexOf(ui->tabHistory), f->getIcon("", IconListAlt) );
+    tw->setTabIcon( tw->indexOf(ui->tabItems), f->getIcon("", IconThList) );
+    tw->setTabIcon( tw->indexOf(ui->tabTray), f->getIcon("", IconInbox) );
+    tw->setTabIcon( tw->indexOf(ui->tabNotifications), f->getIcon("", IconInfoSign) );
+    tw->setTabIcon( tw->indexOf(ui->tabShortcuts), f->getIcon("", IconKeyboard) );
+    tw->setTabIcon( tw->indexOf(ui->tabAppearance), f->getIcon("", IconPicture) );
 }
 
 void ConfigurationManager::initPluginWidgets()
@@ -363,16 +351,13 @@ void ConfigurationManager::initPluginWidgets()
 
     ui->itemOrderListPlugins->clearItems();
 
-    static const QColor color = getDefaultIconColor<QListWidget>(QPalette::Base);
-    static const QColor activeColor = getDefaultIconColor<QListWidget>(QPalette::Highlight);
-
     foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
         PluginWidget *pluginWidget = new PluginWidget(loader, this);
 
         QIcon icon;
         const QVariant maybeIcon = loader->icon();
         if ( maybeIcon.canConvert(QVariant::UInt) )
-            icon = getIcon( QString(), maybeIcon.toUInt(), color, activeColor );
+            icon = getIcon( QString(), maybeIcon.toUInt() );
         else if ( maybeIcon.canConvert(QVariant::Icon) )
             icon = maybeIcon.value<QIcon>();
 
@@ -521,6 +506,12 @@ void ConfigurationManager::bind(const char *optionKey, const QVariant &defaultVa
     m_options[optionKey] = Option(defaultValue);
 }
 
+void ConfigurationManager::updateIcons()
+{
+    iconFactory()->setUseSystemIcons(
+                tabAppearance()->themeValue("use_system_icons").toBool() );
+}
+
 QVariant ConfigurationManager::value(const QString &name) const
 {
     if ( m_options.contains(name) )
@@ -626,6 +617,8 @@ void ConfigurationManager::loadSettings()
     }
 
     updateAutostart();
+
+    updateIcons();
 }
 
 void ConfigurationManager::on_buttonBox_clicked(QAbstractButton* button)
@@ -716,19 +709,12 @@ ConfigTabShortcuts *ConfigurationManager::tabShortcuts() const
     return ui->configTabShortcuts;
 }
 
-QString ConfigurationManager::getIconForTabName(const QString &tabName) const
+QString ConfigurationManager::getIconNameForTabName(const QString &tabName) const
 {
     return m_tabIcons.value(tabName);
 }
 
-QIcon ConfigurationManager::getIconForTabName(
-        const QString &tabName, const QColor &color, const QColor &activeColor) const
-{
-    const QString fileName = getIconForTabName(tabName);
-    return fileName.isEmpty() ? QIcon() : iconFactory()->iconFromFile(fileName, color, activeColor);
-}
-
-void ConfigurationManager::setIconForTabName(const QString &name, const QString &icon)
+void ConfigurationManager::setIconNameForTabName(const QString &name, const QString &icon)
 {
     m_tabIcons[name] = icon;
 
@@ -743,6 +729,12 @@ void ConfigurationManager::setIconForTabName(const QString &name, const QString 
     }
 
     settings.endArray();
+}
+
+QIcon ConfigurationManager::getIconForTabName(const QString &tabName) const
+{
+    const QString fileName = getIconNameForTabName(tabName);
+    return fileName.isEmpty() ? QIcon() : iconFactory()->iconFromFile(fileName);
 }
 
 void ConfigurationManager::setVisible(bool visible)
@@ -824,6 +816,8 @@ void ConfigurationManager::apply()
     }
 
     emit configurationChanged();
+
+    updateIcons();
 }
 
 void ConfigurationManager::onFinished(int result)
@@ -868,25 +862,15 @@ void ConfigurationManager::restoreWindowGeometryOnTimer()
     window->setProperty("CopyQ_ignore_geometry_changes", false);
 }
 
-const QIcon getIconFromResources(const QString &iconName)
-{
-    return ConfigurationManager::instance()->iconFactory()->getIcon(iconName);
-}
-
-QIcon getIconFromResources(const QString &iconName, const QColor &color, const QColor &activeColor)
+QIcon getIconFromResources(const QString &iconName)
 {
     Q_ASSERT( !iconName.isEmpty() );
-    return ConfigurationManager::instance()->iconFactory()->getIcon(iconName, color, activeColor);
+    return ConfigurationManager::instance()->iconFactory()->getIconFromResources(iconName);
 }
 
 QIcon getIcon(const QString &themeName, ushort iconId)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId);
-}
-
-QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color, const QColor &activeColor)
-{
-    return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId, color, activeColor);
 }
 
 void setDefaultTabItemCounterStyle(QWidget *widget)

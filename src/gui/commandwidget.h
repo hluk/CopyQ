@@ -48,8 +48,6 @@ public:
     /** Return command icon. */
     QString currentIcon() const;
 
-    void updateIcons();
-
 signals:
     void iconChanged(const QString &iconString);
 

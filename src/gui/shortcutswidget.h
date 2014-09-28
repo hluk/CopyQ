@@ -52,11 +52,13 @@ public:
     void saveShortcuts(QSettings &settings) const;
 
     /** Create action with @a id (must be unique) and add it to the list. */
-    void addAction(int id, const QString &text, const QString &settingsKey,
-                   const QKeySequence &shortcut = QKeySequence());
+    void addAction(
+            int id, const QString &text, const QString &settingsKey,
+            const QKeySequence &shortcut, const QString &iconName, ushort iconId = 0);
 
-    void addAction(int id, const QString &text, const QString &settingsKey,
-                   const QString &shortcutNativeText);
+    void addAction(
+            int id, const QString &text, const QString &settingsKey,
+            const QString &shortcutNativeText, const QString &iconName, ushort iconId = 0);
 
     /** Return true if action with given @a id is in the list. */
     bool hasAction(int id) const { return m_actions.contains(id); }
@@ -66,14 +68,8 @@ public:
 
     /** Return list of shortcuts defined for given @a id (must exist). */
     QList<QKeySequence> shortcuts(int id) const;
-
-    void updateIcons(int id, const QString &fromTheme, int iconId);
-
-    void updateIcons(int id, const QString &resources);
-
-    void updateIcons(int id);
-
     /** Disable shortcuts for actions that are currently in list. */
+
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
 
 protected:

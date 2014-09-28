@@ -176,7 +176,7 @@ public:
 protected:
     void highlightBlock(const QString &text)
     {
-        m_bgColor = getDefaultIconColor(*m_editor, QPalette::Base);
+        m_bgColor = getDefaultIconColor(*m_editor);
 
         QTextCharFormat objectsFormat;
         objectsFormat.setForeground(mixColor(m_bgColor, 40, -60, 40));

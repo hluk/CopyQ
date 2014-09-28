@@ -67,8 +67,7 @@ void showNotificationInspectDialog(const QString &messageTitle, const QString &m
     QObject::connect( buttons, SIGNAL(rejected()), dialog.data(), SLOT(close()) );
 
     QPushButton *copyButton = new QPushButton( Notification::tr("&Copy"), buttons );
-    const QColor color = getDefaultIconColor(*copyButton, QPalette::Window);
-    const QIcon icon = iconFactory->getIcon("clipboard", IconPaste, color, color);
+    const QIcon icon = iconFactory->getIcon("clipboard", IconPaste);
     copyButton->setIcon(icon);
     QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(selectAll()) );
     QObject::connect( copyButton, SIGNAL(clicked()), editor, SLOT(copy()) );
@@ -167,7 +166,7 @@ void Notification::setOpacity(qreal opacity)
 
 void Notification::updateIcon()
 {
-    const QColor color = getDefaultIconColor(*this, QPalette::Window);
+    const QColor color = getDefaultIconColor(*this);
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     const int height = m_msgLabel->fontMetrics().lineSpacing() * 1.2;
     const QPixmap pixmap = iconFactory->createPixmap(m_icon, color, height);

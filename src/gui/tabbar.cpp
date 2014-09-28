@@ -53,9 +53,7 @@ int tabIndex(const QString &tabName, const QTabBar &parent)
 
 void updateTabIcon(int i, QTabBar *parent)
 {
-    const QColor color(getDefaultIconColor(*parent, QPalette::Window));
-    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(
-                parent->tabText(i), color, color);
+    const QIcon icon = ConfigurationManager::instance()->getIconForTabName(parent->tabText(i));
     parent->setTabIcon(i, icon);
 }
 

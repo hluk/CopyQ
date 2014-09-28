@@ -74,11 +74,8 @@ QModelIndex indexNear(const QListView *view, int offset)
 
 void updateLoadButtonIcon(QPushButton *loadButton)
 {
-    QColor color = getDefaultIconColor(*loadButton->parentWidget(), QPalette::Base);
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-    const int iconSize = 64;
-    const QIcon icon(iconFactory->createPixmap(IconRepeat, color, iconSize));
-    loadButton->setIconSize( QSize(iconSize, iconSize) );
+    const QIcon icon( getIcon("", IconRepeat) );
+    loadButton->setIconSize( QSize(64, 64) );
     loadButton->setIcon(icon);
 }
 

@@ -67,12 +67,12 @@ class MenuAction : public QObject {
     Q_OBJECT
 
 public:
-    MenuAction(const QString &text, const QKeySequence &shortcut, const QString &settingsKey,
-               QTableWidget *table)
+    MenuAction(
+            const QString &text, const QKeySequence &shortcut, const QString &settingsKey,
+            QTableWidget *table, const QString &iconName, ushort iconId)
         : QObject()
-        , m_icon()
-        , m_iconTheme()
-        , m_iconId(-1)
+        , m_iconName(iconName)
+        , m_iconId(iconId)
         , m_text(text)
         , m_settingsKey(settingsKey)
         , m_tableItem(NULL)
@@ -111,6 +111,12 @@ public:
         delete m_action;
     }
 
+    void updateIcons()
+    {
+        if ( m_tableItem->icon().isNull() )
+            m_tableItem->setIcon( getIcon(m_iconName, m_iconId) );
+    }
+
     void loadShortcuts(QSettings &settings)
     {
         if ( m_settingsKey.isEmpty() )
@@ -143,8 +149,8 @@ public:
     {
         if ( m_action.isNull() ) {
             m_action = new QAction(m_text, NULL);
+            m_action->setIcon( getIcon(m_iconName, m_iconId) );
             updateActionShortcuts();
-            updateActionIcon();
         }
 
         if (parent != NULL)
@@ -153,24 +159,6 @@ public:
         if (parent != NULL)
             m_action->setShortcutContext(context);
         return m_action;
-    }
-
-    void updateIcons(const QIcon &icon, const QString &resource, const QString &iconTheme, int iconId)
-    {
-        if ( !icon.isNull() ) {
-            m_icon = icon;
-            m_iconTheme = iconTheme;
-            m_iconId = iconId;
-            updateActionIcon();
-        }
-
-        const QColor color = getDefaultIconColor<QTableWidget>(QPalette::Base);
-        if (iconId != -1)
-            m_tableItem->setIcon( getIcon(iconTheme, iconId, color, color) );
-        else if ( !resource.isEmpty() )
-            m_tableItem->setIcon( getIconFromResources(resource, color, color) );
-
-        m_shortcutButton->updateIcons();
     }
 
     void checkAmbiguousShortcuts(const QList<QKeySequence> &ambiguousShortcuts,
@@ -234,19 +222,8 @@ private:
         m_action->setShortcuts(enabledShortcuts);
     }
 
-    void updateActionIcon()
-    {
-        if ( m_action.isNull() )
-            return;
-
-        m_action->setIcon(m_icon);
-        m_action->setProperty("CopyQ_icon_theme", m_iconTheme);
-        m_action->setProperty("CopyQ_icon_id", m_iconId);
-    }
-
-    QIcon m_icon;
-    QString m_iconTheme;
-    int m_iconId;
+    QString m_iconName;
+    ushort m_iconId;
     QString m_text;
     QString m_settingsKey;
     QTableWidgetItem *m_tableItem;
@@ -290,12 +267,13 @@ void ShortcutsWidget::saveShortcuts(QSettings &settings) const
     }
 }
 
-void ShortcutsWidget::addAction(int id, const QString &text, const QString &settingsKey,
-                                const QKeySequence &shortcut)
+void ShortcutsWidget::addAction(
+        int id, const QString &text, const QString &settingsKey, const QKeySequence &shortcut,
+        const QString &iconName, ushort iconId)
 {
     Q_ASSERT(!hasAction(id));
 
-    MenuAction *action = new MenuAction(text, shortcut, settingsKey, ui->tableWidget);
+    MenuAction *action = new MenuAction(text, shortcut, settingsKey, ui->tableWidget, iconName, iconId);
     m_actions.insert( id, MenuActionPtr(action) );
     m_shortcuts << action->shortcuts();
     m_timerCheckAmbiguous.start();
@@ -306,10 +284,12 @@ void ShortcutsWidget::addAction(int id, const QString &text, const QString &sett
              this, SLOT(onShortcutRemoved(QKeySequence)) );
 }
 
-void ShortcutsWidget::addAction(int id, const QString &text, const QString &settingsKey, const QString &shortcutNativeText)
+void ShortcutsWidget::addAction(
+        int id, const QString &text, const QString &settingsKey, const QString &shortcutNativeText,
+        const QString &iconName, ushort iconId)
 {
     const QKeySequence shortcut(shortcutNativeText, QKeySequence::NativeText);
-    addAction(id, text, settingsKey, shortcut);
+    addAction(id, text, settingsKey, shortcut, iconName, iconId);
 }
 
 QAction *ShortcutsWidget::action(int id, QWidget *parent, Qt::ShortcutContext context)
@@ -322,23 +302,6 @@ QList<QKeySequence> ShortcutsWidget::shortcuts(int id) const
     return action(id)->shortcuts();
 }
 
-void ShortcutsWidget::updateIcons(int id, const QString &fromTheme, int iconId)
-{
-    const QIcon icon = getIcon(fromTheme, iconId);
-    action(id)->updateIcons(icon, QString(), fromTheme, iconId);
-}
-
-void ShortcutsWidget::updateIcons(int id, const QString &resources)
-{
-    const QIcon icon = getIconFromResources(resources, QColor(), QColor());
-    action(id)->updateIcons(icon, resources, QString(), -1);
-}
-
-void ShortcutsWidget::updateIcons(int id)
-{
-    action(id)->updateIcons(QIcon(), QString(), QString(), -1);
-}
-
 void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
 {
     foreach ( const MenuActionPtr &action, m_actions )
@@ -347,6 +310,9 @@ void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
 
 void ShortcutsWidget::showEvent(QShowEvent *event)
 {
+    foreach ( const MenuActionPtr &menuAction, m_actions.values() )
+        menuAction->updateIcons();
+
     QWidget::showEvent(event);
     ui->tableWidget->resizeColumnToContents(Columns::Text);
     m_timerCheckAmbiguous.start(); // Update because shortcuts for commands may have changed.
@@ -366,11 +332,8 @@ void ShortcutsWidget::onShortcutRemoved(const QKeySequence &shortcut)
 
 void ShortcutsWidget::checkAmbiguousShortcuts()
 {
-    static const QColor c = getDefaultIconColor<QPushButton>(QPalette::Window);
-    static const QColor colorOverriden = tintColor(c, -40, -40, 80, -100);
-    static const QColor colorAmbiguous = tintColor(c, 80, -40, -40);
-    static const QIcon iconOverriden = getIcon("", IconInfoSign, colorOverriden, colorOverriden);
-    static const QIcon iconAmbiguous = getIcon("", IconExclamationSign, colorAmbiguous, colorAmbiguous);
+    static const QIcon iconOverriden = getIcon("", IconInfoSign);
+    static const QIcon iconAmbiguous = getIcon("", IconExclamationSign);
     static const QString toolTipOverriden = tr("There is command overriding this shortcut.");
     static const QString toolTipAmbiguous = tr("Shortcut already exists!");
 

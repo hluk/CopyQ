@@ -21,10 +21,11 @@
 #define ICONFACTORY_H
 
 #include <QColor>
+#include <QFlags>
 #include <QFont>
 #include <QHash>
 #include <QPalette>
-#include <QFlags>
+#include <QPointer>
 
 class QIcon;
 class QPixmap;
@@ -43,47 +44,30 @@ class IconFactory
 public:
     IconFactory();
 
-    const QColor &iconColor() { return m_iconColor; }
-    const QColor &iconColorActive() { return m_iconColorActive; }
-
-    QIcon getIcon(
-            const QString &themeName, ushort id,
-            const QColor &color = QColor(), const QColor &activeColor = QColor());
-    const QIcon getIcon(const QString &iconName);
-    QIcon getIcon(const QString &iconName, const QColor &color, const QColor &activeColor);
+    QIcon getIcon(const QString &themeName, ushort id);
+    QIcon getIconFromResources(const QString &iconName);
 
     void setUseSystemIcons(bool enable) { m_useSystemIcons = enable; }
     bool useSystemIcons() const { return m_useSystemIcons || !m_iconFontLoaded; }
-    bool isIconFontLoaded() const { return m_iconFontLoaded; }
 
-    QIcon iconFromFile(const QString &fileName, const QColor &color = QColor(),
-                       const QColor &activeColor = QColor());
+    QIcon iconFromFile(const QString &fileName);
 
     void drawIcon(ushort id, const QRect &itemRect, QPainter *painter);
 
-    QPixmap createPixmap(ushort id, const QColor &color, int size = -1);
-
-    void setDefaultColors(const QColor &color, const QColor &activeColor);
+    QPixmap createPixmap(ushort id, const QColor &color, int size);
 
     /// Return app icon (color is calculated from session name).
     QIcon appIcon(AppIconFlags flags = AppIconNormal);
 
+    QObject *activePaintDevice() const { return m_activePaintDevice; }
+    void setActivePaintDevice(QObject *device) { m_activePaintDevice = device; }
+
 private:
-    QColor m_iconColor;
-    QColor m_iconColorActive;
     bool m_useSystemIcons;
     bool m_iconFontLoaded;
+    QPointer<QObject> m_activePaintDevice;
 };
 
-QColor getDefaultIconColor(const QColor &color);
-
-QColor getDefaultIconColor(const QWidget &widget, QPalette::ColorRole colorRole);
-
-template<typename Widget>
-QColor getDefaultIconColor(QPalette::ColorRole colorRole)
-{
-    Widget w;
-    return getDefaultIconColor(w, colorRole);
-}
+QColor getDefaultIconColor(const QWidget &widget, bool selected = false);
 
 #endif // ICONFACTORY_H

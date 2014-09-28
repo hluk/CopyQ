@@ -224,7 +224,8 @@ void TrayMenu::paintEvent(QPaintEvent *event)
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
 
     QPainter painter(this);
-    painter.setPen(iconFactory->iconColor());
+    // FIXME
+    painter.setPen(Qt::red);
 
     // Draw small icon for items with notes.
     foreach ( QAction *action, actions() ) {

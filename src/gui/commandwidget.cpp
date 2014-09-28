@@ -145,15 +145,6 @@ QString CommandWidget::currentIcon() const
     return ui ? ui->buttonIcon->currentIcon() : m_cmd.icon;
 }
 
-void CommandWidget::updateIcons()
-{
-    if (!ui)
-        return;
-
-    ui->shortcutButtonGlobalShortcut->updateIcons();
-    ui->shortcutButton->updateIcons();
-}
-
 void CommandWidget::showEvent(QShowEvent *event)
 {
     init();
@@ -232,8 +223,6 @@ void CommandWidget::init()
     setComboBoxItems(formats, ui->comboBoxOutputFormat);
 
     setCommand(m_cmd);
-
-    updateIcons();
 }
 
 void CommandWidget::updateWidgets()

@@ -106,19 +106,14 @@ public:
 
     ConfigTabShortcuts *tabShortcuts() const;
 
-    QString getIconForTabName(const QString &tabName) const;
-    QIcon getIconForTabName(const QString &tabName, const QColor &color, const QColor &activeColor) const;
-    void setIconForTabName(const QString &name, const QString &icon);
+    QString getIconNameForTabName(const QString &tabName) const;
+    void setIconNameForTabName(const QString &name, const QString &icon);
+    QIcon getIconForTabName(const QString &tabName) const;
 
     void setVisible(bool visible);
 
     ItemFactory *itemFactory() const { return m_itemFactory; }
     IconFactory *iconFactory() const { return m_iconFactory.data(); }
-
-    /**
-     * Update icons in dialog.
-     */
-    void updateIcons();
 
     /**
      * Register window for saving and restoring geometry.
@@ -189,6 +184,8 @@ private:
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
+    void updateIcons();
+
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;
     QHash<QString, Option> m_options;
@@ -200,14 +197,9 @@ private:
     bool m_optionWidgetsLoaded;
 };
 
-const QIcon getIconFromResources(const QString &iconName);
-
-QIcon getIconFromResources(const QString &iconName, const QColor &color, const QColor &activeColor);
+QIcon getIconFromResources(const QString &iconName);
 
 QIcon getIcon(const QString &themeName, ushort iconId);
-
-QIcon getIcon(const QString &themeName, ushort iconId, const QColor &color,
-                    const QColor &activeColor);
 
 void setDefaultTabItemCounterStyle(QWidget *widget);
 

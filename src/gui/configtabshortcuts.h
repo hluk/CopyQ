@@ -91,8 +91,6 @@ public:
     /** Return list of shortcuts defined for given @a id. */
     QList<QKeySequence> shortcuts(Actions::Id id) const;
 
-    void updateIcons();
-
     /** Disable shortcuts for all actions. */
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
 

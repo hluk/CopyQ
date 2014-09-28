@@ -39,8 +39,8 @@
 
 namespace {
 
-const QIcon iconLoadCommands(const QColor &color) { return getIcon("document-open", IconFolderOpen, color, color); }
-const QIcon iconSaveCommands(const QColor &color) { return getIcon("document-save", IconSave, color, color); }
+const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
+const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
 
 void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Commands *commands)
 {
@@ -289,6 +289,11 @@ void restoreGlobalActions()
 
 #endif
 
+QIcon getCommandIcon(const QString &iconString)
+{
+    return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
+}
+
 } // namespace
 
 CommandDialog::CommandDialog(QWidget *parent)
@@ -298,6 +303,8 @@ CommandDialog::CommandDialog(QWidget *parent)
     restoreGlobalActions();
 
     ui->setupUi(this);
+    ui->pushButtonLoadCommands->setIcon(iconLoadCommands());
+    ui->pushButtonSaveCommands->setIcon(iconSaveCommands());
     ui->itemOrderListCommands->setFocus();
 
     foreach ( const Command &command, commands(false) )
@@ -335,27 +342,11 @@ CommandDialog::CommandDialog(QWidget *parent)
     ConfigurationManager *cm = ConfigurationManager::instance();
     connect( cm, SIGNAL(configurationChanged()),
              this, SLOT(loadSettings()) );
-    loadSettings();
 }
 
 CommandDialog::~CommandDialog()
 {
     delete ui;
-}
-
-void CommandDialog::loadSettings()
-{
-    static const QColor color = getDefaultIconColor(*ui->pushButtonLoadCommands, QPalette::Window);
-    ui->pushButtonLoadCommands->setIcon(iconLoadCommands(color));
-    ui->pushButtonSaveCommands->setIcon(iconSaveCommands(color));
-
-    ui->itemOrderListCommands->updateIcons();
-
-    for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-        QWidget *w = ui->itemOrderListCommands->itemWidget(i);
-        CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
-        cmdWidget->updateIcons();
-    }
 }
 
 CommandDialog::Commands CommandDialog::commands(bool onlyEnabled, bool onlySaved) const
@@ -533,13 +524,6 @@ void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
     ui->itemOrderListCommands->insertItem(command.name, command.enable, command.automatic,
                                           getCommandIcon(cmdWidget->currentIcon()), cmdWidget,
                                           targetRow);
-}
-
-QIcon CommandDialog::getCommandIcon(const QString &iconString) const
-{
-    static const QColor color = getDefaultIconColor(*ui->itemOrderListCommands, QPalette::Base);
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-    return iconFactory->iconFromFile(iconString, color);
 }
 
 void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)
