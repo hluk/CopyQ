@@ -25,10 +25,7 @@
 
 #include "platform/platformnativeinterface.h"
 
-#include <QClipboard>
 #include <QMainWindow>
-#include <QMap>
-#include <QModelIndex>
 #include <QPointer>
 #include <QSystemTrayIcon>
 
@@ -37,6 +34,7 @@ class CommandDialog;
 class ConfigurationManager;
 class NotificationDaemon;
 class QAction;
+class QModelIndex;
 class TrayMenu;
 struct Command;
 struct MainWindowOptions;
@@ -45,6 +43,57 @@ namespace Ui
 {
     class MainWindow;
 }
+
+enum ItemActivationCommand {
+    ActivateNoCommand = 0x0,
+    ActivateCloses = 0x1,
+    ActivateFocuses = 0x2,
+    ActivatePastes = 0x4
+};
+
+struct MainWindowOptions {
+    MainWindowOptions()
+        : confirmExit(true)
+        , viMode(false)
+        , trayCommands(false)
+        , trayCurrentTab(false)
+        , trayTabName()
+        , trayItems(5)
+        , trayImages(true)
+        , itemPopupInterval(0)
+        , clipboardNotificationLines(0)
+        , transparency(0)
+        , transparencyFocused(0)
+        , hideTabs(false)
+        , itemActivationCommands(ActivateCloses)
+        , clearFirstTab(false)
+        , trayItemPaste(true)
+    {}
+
+    bool activateCloses() const { return itemActivationCommands & ActivateCloses; }
+    bool activateFocuses() const { return itemActivationCommands & ActivateFocuses; }
+    bool activatePastes() const { return itemActivationCommands & ActivatePastes; }
+
+    bool confirmExit;
+    bool viMode;
+    bool trayCommands;
+    bool trayCurrentTab;
+    QString trayTabName;
+    int trayItems;
+    bool trayImages;
+    int itemPopupInterval;
+    int clipboardNotificationLines;
+    int transparency;
+    int transparencyFocused;
+
+    bool hideTabs;
+
+    int itemActivationCommands;
+
+    bool clearFirstTab;
+
+    bool trayItemPaste;
+};
 
 /**
  * Application's main window.
@@ -402,17 +451,11 @@ private:
     /** Update name and icon of "disable/enable monitoring" menu actions. */
     void updateMonitoringActions();
 
-    /** Return browser index with given ID. */
-    int findBrowserIndex(const QString &id);
-
     /** Return browser widget in given tab @a index. */
     ClipboardBrowser *getBrowser(int index) const;
 
     /** Return browser widget in current tab. */
     ClipboardBrowser *getBrowser() const;
-
-    /** Return true only if window ID is valid. */
-    bool isValidWindow(WId wid) const;
 
     /** Call updateFocusWindows() after a small delay. */
     void delayedUpdateFocusWindows();
@@ -452,6 +495,14 @@ private:
 
     void updateToolBar();
 
+    void updateWindowTitle();
+
+    void updateTrayTooltip();
+
+    void updateTrayIcon();
+
+    void initTray();
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
@@ -460,7 +511,7 @@ private:
 
     QSystemTrayIcon *m_tray;
 
-    QScopedPointer<MainWindowOptions> m_options;
+    MainWindowOptions m_options;
 
     bool m_clipboardStoringDisabled;
     QPointer<QAction> m_actionToggleClipboardStoring;
