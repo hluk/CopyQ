@@ -726,8 +726,7 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
     connect( c, SIGNAL(addToTab(const QVariantMap,const QString)),
-             this, SLOT(addToTab(const QVariantMap,const QString)),
-             Qt::DirectConnection );
+             this, SLOT(addToTab(const QVariantMap,const QString)) );
     connect( c, SIGNAL(itemCountChanged(QString,int)),
              ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
     connect( c, SIGNAL(showContextMenu(QPoint)),
@@ -822,25 +821,26 @@ void MainWindow::updateToolBar()
 {
     ui->toolBar->clear();
 
-    if ( ui->toolBar->isVisible() ) {
-        const QColor color = getDefaultIconColor(*ui->toolBar, QPalette::Window);
-        foreach ( QAction *action, m_menuItem->actions() ) {
-            if ( action->isSeparator() ) {
-                ui->toolBar->addSeparator();
-            } else if ( !action->icon().isNull() ) {
-                QIcon icon = action->icon();
-                bool hasIconId;
-                const int iconId = action->property("CopyQ_icon_id").toInt(&hasIconId);
-                const QString iconTheme = action->property("CopyQ_icon_theme").toString();
-                if (hasIconId)
-                    icon = getIcon(iconTheme, iconId, color, color);
-                const QString text = action->text().remove("&");
-                const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
-                const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
-                const QString tooltip = "<center>" + escapeHtml(text)
-                        + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
-                ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) )->setToolTip(tooltip);
-            }
+    if ( !ui->toolBar->isVisible() )
+        return;
+
+    const QColor color = getDefaultIconColor(*ui->toolBar, QPalette::Window);
+    foreach ( QAction *action, m_menuItem->actions() ) {
+        if ( action->isSeparator() ) {
+            ui->toolBar->addSeparator();
+        } else if ( !action->icon().isNull() ) {
+            QIcon icon = action->icon();
+            bool hasIconId;
+            const int iconId = action->property("CopyQ_icon_id").toInt(&hasIconId);
+            const QString iconTheme = action->property("CopyQ_icon_theme").toString();
+            if (hasIconId)
+                icon = getIcon(iconTheme, iconId, color, color);
+            const QString text = action->text().remove("&");
+            const QString shortcut = action->shortcut().toString(QKeySequence::NativeText);
+            const QString label = text + (shortcut.isEmpty() ? QString() : "\n[" + shortcut + "]");
+            const QString tooltip = "<center>" + escapeHtml(text)
+                    + (shortcut.isEmpty() ? QString() : "<br /><b>" + escapeHtml(shortcut) + "</b>") + "</center>";
+            ui->toolBar->addAction( icon, label, action, SIGNAL(triggered()) )->setToolTip(tooltip);
         }
     }
 }
