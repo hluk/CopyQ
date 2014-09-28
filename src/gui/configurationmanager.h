@@ -200,7 +200,7 @@ private:
     bool m_optionWidgetsLoaded;
 };
 
-const QIcon &getIconFromResources(const QString &iconName);
+const QIcon getIconFromResources(const QString &iconName);
 
 QIcon getIconFromResources(const QString &iconName, const QColor &color, const QColor &activeColor);
 

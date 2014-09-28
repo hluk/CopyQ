@@ -71,10 +71,10 @@
 namespace {
 
 const QIcon iconClipboard() { return getIcon("clipboard", IconPaste); }
-const QIcon &iconTabIcon() { return getIconFromResources("tab_icon"); }
-const QIcon &iconTabNew() { return getIconFromResources("tab_new"); }
-const QIcon &iconTabRemove() { return getIconFromResources("tab_remove"); }
-const QIcon &iconTabRename() { return getIconFromResources("tab_rename"); }
+const QIcon iconTabIcon() { return getIconFromResources("tab_icon"); }
+const QIcon iconTabNew() { return getIconFromResources("tab_new"); }
+const QIcon iconTabRemove() { return getIconFromResources("tab_remove"); }
+const QIcon iconTabRename() { return getIconFromResources("tab_rename"); }
 
 const int clipboardNotificationId = 0;
 

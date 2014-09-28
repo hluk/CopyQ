@@ -27,6 +27,7 @@
 #include <QFile>
 #include <QFontDatabase>
 #include <QIcon>
+#include <QIconEngineV2>
 #include <QPainter>
 #include <QPixmap>
 #include <QVariant>
@@ -35,6 +36,7 @@
 namespace {
 
 const int iconSize = 16;
+const char imagesRecourcePath[] = ":/images/";
 
 /// Up to this value of background lightness, icon color will be lighter.
 const int lightThreshold = 100;
@@ -92,102 +94,137 @@ QColor sessionNameToColor(const QString &name)
     return QColor(r, g, b);
 }
 
+QPixmap imageFromPrefix(const QString &iconSuffix, const QString &resources)
+{
+#ifdef COPYQ_ICON_PREFIX
+    const QString fileName(COPYQ_ICON_PREFIX + iconSuffix);
+    if ( QFile::exists(fileName) )
+        return QPixmap(fileName);
+#else
+    Q_UNUSED(iconSuffix)
+#endif
+    return QPixmap(imagesRecourcePath + resources);
+}
+
+void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
+{
+    QPainter painter(pix);
+    QFont font = iconFont();
+    font.setPixelSize(h - 2);
+    painter.setFont(font);
+    painter.setPen(color);
+    painter.drawText( QRect(1, 1, w - 1, h - 1), QString(QChar(id)) );
+}
+
+class IconEngine : public QIconEngineV2
+{
+public:
+    void paint(QPainter *painter, const QRect &rect, QIcon::Mode mode, QIcon::State state)
+    {
+        painter->drawPixmap( rect, pixmap(rect.size(), mode, state) );
+    }
+
+    QPixmap pixmap(const QSize &size, QIcon::Mode mode, QIcon::State state)
+    {
+        if ( m_iconId == 0 || m_factory->useSystemIcons() ) {
+            // Tint tab icons.
+            if ( m_iconName.startsWith(imagesRecourcePath + QString("tab_")) ) {
+                QPixmap pixmap(m_iconName);
+                pixmap = pixmap.scaled(size, Qt::IgnoreAspectRatio, Qt::SmoothTransformation);
+                return colorizedPixmap( pixmap, color(mode) );
+            }
+
+            QIcon icon = m_iconName.startsWith(':') ? QIcon(m_iconName) : QIcon::fromTheme(m_iconName);
+            if ( !icon.isNull() )
+                return icon.pixmap(size, mode, state);
+        }
+
+        QPixmap pixmap(size);
+        pixmap.fill(Qt::transparent);
+
+        if (m_iconId == 0 || !m_factory->isIconFontLoaded())
+            return pixmap;
+
+        drawFontIcon( &pixmap, m_iconId, size.width(), size.height(), color(mode) );
+
+        return pixmap;
+    }
+
+    static QIcon createIcon(
+            ushort iconId, const QString &iconName, IconFactory *factory,
+            const QColor &color = QColor(), const QColor &colorActive = QColor())
+    {
+        return QIcon( new IconEngine(iconId, iconName, factory, color, colorActive) );
+    }
+
+private:
+    IconEngine(
+            ushort iconId, const QString &iconName, IconFactory *factory,
+            const QColor &color, const QColor &colorActive)
+        : m_iconId(iconId)
+        , m_iconName(iconName)
+        , m_color(color)
+        , m_colorActive(colorActive)
+        , m_factory(factory)
+    {
+    }
+
+    QColor color(QIcon::Mode mode)
+    {
+        const bool selected = (mode == QIcon::Active || mode == QIcon::Selected);
+        QColor color = selected
+                ? (m_colorActive.isValid() ? m_colorActive : m_factory->iconColorActive())
+                : (m_color.isValid() ? m_color : m_factory->iconColor());
+
+        if (mode == QIcon::Disabled)
+            color.setAlphaF(0.5);
+
+        return color;
+    }
+
+    ushort m_iconId;
+    QString m_iconName;
+    QColor m_color;
+    QColor m_colorActive;
+    IconFactory *m_factory;
+};
+
 } // namespace
 
 IconFactory::IconFactory()
     : m_iconColor(Qt::black)
     , m_iconColorActive(Qt::white)
     , m_useSystemIcons(true)
-    , m_loaded(false)
-    , m_iconCache()
-    , m_resourceIconCache()
+    , m_iconFontLoaded(false)
 {
-    m_loaded = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf") != -1;
+    m_iconFontLoaded = QFontDatabase::addApplicationFont(":/images/fontawesome-webfont.ttf") != -1;
 }
 
-IconFactory::~IconFactory()
+QIcon IconFactory::getIcon(
+        const QString &themeName, ushort id, const QColor &color, const QColor &activeColor)
 {
+    return IconEngine::createIcon(id, themeName, this, color, activeColor);
 }
 
-QIcon IconFactory::getIcon(const QString &themeName, ushort id)
+const QIcon IconFactory::getIcon(const QString &iconName)
 {
-    return getIcon(themeName, id, m_iconColor, m_iconColorActive);
-}
-
-QIcon IconFactory::getIcon(const QString &themeName, ushort id, const QColor &color,
-                           const QColor &activeColor)
-{
-    // Icon from theme
-    if ( (!m_loaded || useSystemIcons()) && !themeName.isEmpty() ) {
-        QIcon icon = QIcon::fromTheme(themeName);
-        if ( !icon.isNull() )
-            return icon;
-    }
-
-    // Icon with different color the default one
-    if ( color != m_iconColor || activeColor != m_iconColorActive ) {
-        QIcon icon( createPixmap(id, color) );
-        if ( activeColor.isValid() )
-            icon.addPixmap( createPixmap(id, activeColor), QIcon::Selected );
-        return icon;
-    }
-
-    IconCache::iterator it = m_iconCache.find(id);
-    if ( it == m_iconCache.end() ) {
-        QIcon icon( createPixmap(id, m_iconColor) );
-        if ( m_iconColorActive.isValid() ) {
-            icon.addPixmap( createPixmap(id, m_iconColorActive), QIcon::Active );
-            icon.addPixmap( createPixmap(id, m_iconColorActive), QIcon::Selected );
-        }
-        it = m_iconCache.insert(id, icon);
-    }
-
-    return *it;
-}
-
-const QIcon &IconFactory::getIcon(const QString &iconName)
-{
-    ResourceIconCache::iterator it = m_resourceIconCache.find(iconName);
-    if ( it == m_resourceIconCache.end() )
-        it = m_resourceIconCache.insert( iconName, getIcon(iconName, m_iconColor, m_iconColorActive) );
-
-    return *it;
+    return IconEngine::createIcon(0, iconName, this);
 }
 
 QIcon IconFactory::getIcon(const QString &iconName, const QColor &color, const QColor &activeColor)
 {
-    const QString resourceName = QString(":/images/") + iconName + QString(".svg");
-    QIcon icon;
-
-    // Tint tab icons.
-    if ( iconName.startsWith(QString("tab_")) ) {
-        QPixmap pix(resourceName);
-        icon = colorizedPixmap(pix, color.isValid() ? color : m_iconColor);
-        icon.addPixmap( colorizedPixmap(pix, activeColor.isValid() ? activeColor : m_iconColorActive), QIcon::Active );
-    } else {
-        icon = QIcon(resourceName);
-    }
-
-    return icon;
+    return IconEngine::createIcon(0, imagesRecourcePath + iconName, this, color, activeColor);
 }
 
-void IconFactory::invalidateCache()
-{
-    m_iconCache.clear();
-}
-
-QIcon IconFactory::iconFromFile(const QString &fileName, const QColor &color,
-                                const QColor &activeColor)
+QIcon IconFactory::iconFromFile(
+        const QString &fileName, const QColor &color, const QColor &activeColor)
 {
     if ( fileName.isEmpty() )
         return QIcon();
 
     ushort unicode = fileName.at(0).unicode();
-    if (fileName.size() == 1 && unicode >= IconFirst && unicode <= IconLast) {
-        return getIcon("", unicode,
-                       color.isValid() ? color : m_iconColor,
-                       activeColor.isValid() ? activeColor : m_iconColorActive);
-    }
+    if (fileName.size() == 1 && unicode >= IconFirst && unicode <= IconLast)
+        return IconEngine::createIcon(unicode, "", this, color, activeColor);
 
     QImage image(fileName);
     if (image.isNull())
@@ -199,6 +236,9 @@ QIcon IconFactory::iconFromFile(const QString &fileName, const QColor &color,
 
 void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
 {
+    if (isIconFontLoaded())
+        return;
+
     QFont font = iconFont();
     int size = qMin(itemRect.height() - 5, 18);
     font.setPixelSize(size);
@@ -212,63 +252,41 @@ void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
 QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
 {
     const int sz = (size > 0) ? size : iconSize;
-    QPixmap pix(sz, sz);
-    pix.fill(Qt::transparent);
+    QPixmap pixmap(sz, sz);
+    pixmap.fill(Qt::transparent);
 
-    if (m_loaded) {
-        QPainter painter(&pix);
-        QFont font = iconFont();
-        font.setPixelSize(sz - 2);
-        painter.setFont(font);
-        painter.drawText( QRect(1, 1, sz - 1, sz - 1), QString(QChar(id)) );
-    }
+    if (isIconFontLoaded())
+        drawFontIcon(&pixmap, id, size, size, color);
 
-    return colorizedPixmap(pix, color);
+    return pixmap;
 }
 
 void IconFactory::setDefaultColors(const QColor &color, const QColor &activeColor)
 {
     m_iconColor = color;
     m_iconColorActive = activeColor;
-    m_iconCache.clear();
-}
-
-QIcon IconFactory::iconFromPrefix(const QString &iconSuffix, const QString &resources)
-{
-#ifdef COPYQ_ICON_PREFIX
-    const QString fileName(COPYQ_ICON_PREFIX + iconSuffix);
-    if ( QFile::exists(fileName) )
-        return QIcon(fileName);
-#else
-    Q_UNUSED(iconSuffix)
-#endif
-    return getIcon(resources);
 }
 
 QIcon IconFactory::appIcon(AppIconFlags flags)
 {
-    QIcon icon = flags.testFlag(AppIconRunning) ? iconFromPrefix("-busy.svg", "icon-running")
-                                                : iconFromPrefix("-normal.svg", "icon");
-    QColor color = QColor(0x7f, 0xca, 0x9b);
+    QPixmap pix = flags.testFlag(AppIconRunning)
+            ? imageFromPrefix("-busy.svg", "icon-running")
+            : imageFromPrefix("-normal.svg", "icon");
 
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
     if (!sessionName.isEmpty()) {
-        QPixmap pix = icon.pixmap(128, 128);
+        const QColor color1 = QColor(0x7f, 0xca, 0x9b);
         const QColor color2 = sessionNameToColor(sessionName);
-        replaceColor(&pix, color, color2);
-        color = color2;
-        icon = QIcon(pix);
+        replaceColor(&pix, color1, color2);
     }
 
     if (flags.testFlag(AppIconDisabled)) {
-        QPixmap pix = icon.pixmap(128, 128);
         QPainter p(&pix);
         p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
         p.fillRect(pix.rect(), QColor(100, 100, 100, 100));
-        icon = QIcon(pix);
     }
 
-    return icon;
+    return QIcon(pix);
 }
 
 QColor getDefaultIconColor(const QColor &color)

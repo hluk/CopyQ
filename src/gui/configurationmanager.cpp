@@ -274,7 +274,6 @@ bool ConfigurationManager::createItemDirectory()
 
 void ConfigurationManager::updateIcons()
 {
-    iconFactory()->invalidateCache();
     iconFactory()->setUseSystemIcons(tabAppearance()->themeValue("use_system_icons").toBool());
 
     if ( itemFactory()->hasLoaders() )
@@ -869,7 +868,7 @@ void ConfigurationManager::restoreWindowGeometryOnTimer()
     window->setProperty("CopyQ_ignore_geometry_changes", false);
 }
 
-const QIcon &getIconFromResources(const QString &iconName)
+const QIcon getIconFromResources(const QString &iconName)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(iconName);
 }

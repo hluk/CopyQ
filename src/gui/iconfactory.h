@@ -43,20 +43,18 @@ class IconFactory
 public:
     IconFactory();
 
-    ~IconFactory();
-
     const QColor &iconColor() { return m_iconColor; }
+    const QColor &iconColorActive() { return m_iconColorActive; }
 
-    const QPixmap &getPixmap(ushort id);
-    QIcon getIcon(const QString &themeName, ushort id);
-    QIcon getIcon(const QString &themeName, ushort id, const QColor &color, const QColor &activeColor);
-    const QIcon &getIcon(const QString &iconName);
+    QIcon getIcon(
+            const QString &themeName, ushort id,
+            const QColor &color = QColor(), const QColor &activeColor = QColor());
+    const QIcon getIcon(const QString &iconName);
     QIcon getIcon(const QString &iconName, const QColor &color, const QColor &activeColor);
 
     void setUseSystemIcons(bool enable) { m_useSystemIcons = enable; }
-    bool useSystemIcons() const { return m_useSystemIcons; }
-
-    void invalidateCache();
+    bool useSystemIcons() const { return m_useSystemIcons || !m_iconFontLoaded; }
+    bool isIconFontLoaded() const { return m_iconFontLoaded; }
 
     QIcon iconFromFile(const QString &fileName, const QColor &color = QColor(),
                        const QColor &activeColor = QColor());
@@ -67,8 +65,6 @@ public:
 
     void setDefaultColors(const QColor &color, const QColor &activeColor);
 
-    QIcon iconFromPrefix(const QString &iconSuffix, const QString &resources);
-
     /// Return app icon (color is calculated from session name).
     QIcon appIcon(AppIconFlags flags = AppIconNormal);
 
@@ -76,13 +72,7 @@ private:
     QColor m_iconColor;
     QColor m_iconColorActive;
     bool m_useSystemIcons;
-    bool m_loaded;
-
-    typedef QHash<ushort, QIcon> IconCache;
-    IconCache m_iconCache;
-
-    typedef QHash<QString, QIcon> ResourceIconCache;
-    ResourceIconCache m_resourceIconCache;
+    bool m_iconFontLoaded;
 };
 
 QColor getDefaultIconColor(const QColor &color);
