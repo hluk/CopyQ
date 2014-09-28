@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "gui/configurationmanager.h"
 #include "gui/mainwindow.h"
 #include "item/serialize.h"
 #include "platform/platformnativeinterface.h"
@@ -193,6 +194,33 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
 
         return label(Qt::Horizontal, name, createAndSetWidget<QLineEdit>("text", value, parent));
     }
+}
+
+QVariant config(const QString &name, const QString &value)
+{
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    if ( name.isNull() ) {
+        // print options
+        QStringList options = cm->options();
+        options.sort();
+        QString opts;
+        foreach (const QString &option, options)
+            opts.append( option + "\n  " + cm->optionToolTip(option).replace('\n', "\n  ") + '\n' );
+        return opts;
+    }
+
+    if ( cm->options().contains(name) ) {
+        if ( value.isNull() )
+            return cm->value(name).toString(); // return option value
+
+        // set option
+        cm->setValue(name, value);
+
+        return QString();
+    }
+
+    return QVariant();
 }
 
 } // namespace
@@ -447,7 +475,7 @@ void ScriptableProxyHelper::saveTab(const QString &arg1)
 
 void ScriptableProxyHelper::config(const QString &arg1, const QString &arg2)
 {
-    v = m_wnd->config(arg1, arg2);
+    v = ::config(arg1, arg2);
 }
 
 void ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboard::Mode mode)

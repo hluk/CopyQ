@@ -163,6 +163,13 @@ WId stealFocus(const QWidget &window)
     return wid;
 }
 
+template <typename WidgetOrAction>
+void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *window)
+{
+    QObject::connect( window, SIGNAL(tabGroupSelected(bool)),
+                      action, SLOT(setDisabled(bool)) );
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -303,16 +310,14 @@ void MainWindow::createMenu()
 
     // - new
     act = createAction( Actions::File_New, SLOT(editNewItem()), menu );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            act, SLOT(setDisabled(bool)) );
+    disableActionWhenTabGroupSelected(act, this);
 
     // - import tab
     createAction( Actions::File_ImportTab, SLOT(loadTab()), menu );
 
     // - export tab
     act = createAction( Actions::File_ExportTab, SLOT(saveTab()), menu );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            act, SLOT(setDisabled(bool)) );
+    disableActionWhenTabGroupSelected(act, this);
 
     // - separator
     menu->addSeparator();
@@ -369,8 +374,7 @@ void MainWindow::createMenu()
 
     // Items
     m_menuItem = menubar->addMenu( tr("&Item") );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            m_menuItem, SLOT(setDisabled(bool)) );
+    disableActionWhenTabGroupSelected(m_menuItem, this);
 
     // Tabs
     menu = menubar->addMenu(tr("&Tabs"));
@@ -380,13 +384,11 @@ void MainWindow::createMenu()
 
     // - rename tab
     act = createAction( Actions::Tabs_RenameTab, SLOT(renameTab()), menu );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            act, SLOT(setDisabled(bool)) );
+    disableActionWhenTabGroupSelected(act, this);
 
     // - remove tab
     act = createAction( Actions::Tabs_RemoveTab, SLOT(removeTab()), menu );
-    connect(this, SIGNAL(tabGroupSelected(bool)),
-            act, SLOT(setDisabled(bool)) );
+    disableActionWhenTabGroupSelected(act, this);
 
     createAction( Actions::Tabs_ChangeTabIcon, SLOT(setTabIcon()), menu );
 
@@ -894,12 +896,6 @@ void MainWindow::initTray()
             showMinimized();
         }
     }
-}
-
-ClipboardBrowser *MainWindow::findTab(const QString &name)
-{
-    int i = findTabIndex(name);
-    return i != -1 ? browser(i) : NULL;
 }
 
 int MainWindow::findTabIndex(const QString &name)
@@ -1646,31 +1642,6 @@ QStringList MainWindow::tabs() const
     return ui->tabWidget->tabs();
 }
 
-QVariant MainWindow::config(const QString &name, const QString &value)
-{
-    if ( name.isNull() ) {
-        // print options
-        QStringList options = cm->options();
-        options.sort();
-        QString opts;
-        foreach (const QString &option, options)
-            opts.append( option + "\n  " + cm->optionToolTip(option).replace('\n', "\n  ") + '\n' );
-        return opts;
-    }
-
-    if ( cm->options().contains(name) ) {
-        if ( value.isNull() )
-            return cm->value(name).toString(); // return option value
-
-        // set option
-        cm->setValue(name, value);
-
-        return QString();
-    }
-
-    return QVariant();
-}
-
 QString MainWindow::selectedTab() const
 {
     return getBrowser()->tabName();
@@ -1695,8 +1666,14 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
     if (m_trayTab)
         return m_trayTab;
 
-    return m_options.trayCurrentTab ? browser()
-                            : m_options.trayTabName.isEmpty() ? browser(0) : findTab(m_options.trayTabName);
+    if (m_options.trayCurrentTab)
+        return browser();
+
+    if ( m_options.trayTabName.isEmpty() )
+        return browser(0);
+
+    int i = findTabIndex(m_options.trayTabName);
+    return i != -1 ? browser(i) : NULL;
 }
 
 void MainWindow::onFilterChanged(const QRegExp &re)
@@ -1841,28 +1818,6 @@ void MainWindow::showProcessManagerDialog()
     m_actionHandler->showProcessManagerDialog();
 }
 
-void MainWindow::openActionDialog(int row)
-{
-    ClipboardBrowser *c = browser();
-    QVariantMap dataMap;
-    if (row >= 0) {
-        dataMap = itemData(c->index(row));
-    } else if ( hasFocus() ) {
-        QModelIndexList selected = c->selectionModel()->selectedRows();
-        if (selected.size() == 1)
-            dataMap = itemData(selected.first());
-        else
-            setTextData( &dataMap, c->selectedText() );
-    } else {
-        const QMimeData *data = clipboardData();
-        if (data != NULL)
-            dataMap = cloneData(*data);
-    }
-
-    if ( !dataMap.isEmpty() )
-        openActionDialog(dataMap);
-}
-
 WId MainWindow::openActionDialog(const QVariantMap &data)
 {
     QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
@@ -1914,13 +1869,11 @@ ClipboardBrowser *MainWindow::browser()
 ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
 {
     if ( index.isValid() ) {
-        for ( int i = 0; i < ui->tabWidget->count(); ++i ) {
-            ClipboardBrowser *c = getBrowser(i);
-            if (c->model() == index.model()) {
-                c->loadItems();
-                return c;
-            }
-        }
+        ClipboardBrowser *c = qobject_cast<ClipboardBrowser*>(index.model()->parent());
+        Q_ASSERT(c);
+        c->loadItems();
+        if (c->isLoaded())
+            return c;
     }
 
     return NULL;

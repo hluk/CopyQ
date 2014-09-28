@@ -143,13 +143,6 @@ public:
 
     /**
      * Find tab with given @a name.
-     * Load items if not loaded yet.
-     * @return found tab or NULL
-     */
-    ClipboardBrowser *findTab(const QString &name);
-
-    /**
-     * Find tab with given @a name.
      * @return found tab index or -1
      */
     int findTabIndex(const QString &name);
@@ -195,9 +188,6 @@ public:
     void showBrowser(int index);
     /** Enter browse mode and reset search. */
     void resetStatus();
-
-    /** Open action dialog for given @a row (or current) in current tab. */
-    void openActionDialog(int row = -1);
 
     /** Open tab group renaming dialog. */
     void renameTabGroup(const QString &name);
@@ -252,8 +242,6 @@ public:
     bool isClipboardIgnored() const { return m_ignoreCurrentClipboard; }
 
     QStringList tabs() const;
-
-    QVariant config(const QString &name, const QString &value);
 
     QString selectedTab() const;
 
