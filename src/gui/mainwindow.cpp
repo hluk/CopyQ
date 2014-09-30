@@ -1659,6 +1659,8 @@ void MainWindow::createTrayIfSupported()
     if ( QSystemTrayIcon::isSystemTrayAvailable() ) {
         Q_ASSERT(!m_tray);
         m_tray = new QSystemTrayIcon(this);
+        connect( m_tray, SIGNAL(activated(QSystemTrayIcon::ActivationReason)),
+                 this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
         updateTrayIcon();
         updateTrayTooltip();
         m_tray->show();
