@@ -1663,6 +1663,7 @@ void MainWindow::createTrayIfSupported()
                  this, SLOT(trayActivated(QSystemTrayIcon::ActivationReason)) );
         updateTrayIcon();
         updateTrayTooltip();
+        m_tray->setContextMenu(m_trayMenu);
         m_tray->show();
 
         if ( isMinimized() )
