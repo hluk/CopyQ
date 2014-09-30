@@ -79,6 +79,18 @@ void updateLoadButtonIcon(QPushButton *loadButton)
     loadButton->setIcon(icon);
 }
 
+void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *lines)
+{
+    const QString text = getTextData(data, mime);
+
+    if (text.isEmpty())
+        return;
+
+    if ( !lines->isEmpty() )
+        lines->append('\n');
+    lines->append(text);
+}
+
 } // namespace
 
 QVariantMap itemData(const QModelIndex &index)
@@ -645,15 +657,13 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
     QByteArray uriList;
     QVariantMap data;
 
-    /* Copy items in reverse (items will be pasted correctly). */
-    for ( int i = indexes.size()-1; i >= 0; --i ) {
+    for ( int i = 0; i < indexes.size(); ++i ) {
         const QModelIndex ind = indexes.at(i);
         if ( isIndexHidden(ind) )
             continue;
 
-        data = itemData(ind);
         const QVariantMap copiedItemData =
-                m_itemLoader ? m_itemLoader->copyItem(*m, data) : data;
+                m_itemLoader ? m_itemLoader->copyItem(*m, itemData(ind)) : itemData(ind);
 
         if (serializeItems)
             stream << copiedItemData;
@@ -661,27 +671,15 @@ QVariantMap ClipboardBrowser::copyIndexes(const QModelIndexList &indexes, bool s
         if (indexes.size() == 1) {
             data = copiedItemData;
         } else {
-            if ( !text.isEmpty() )
-                text.prepend('\n');
-            text.prepend( copiedItemData.value(mimeText).toByteArray() );
-
-            QByteArray uri = copiedItemData.value(mimeUriList).toByteArray();
-            if ( !uri.isEmpty() ) {
-                if ( !uriList.isEmpty() )
-                    uriList.prepend('\n');
-                uriList.prepend(uri);
-            }
-
-            foreach ( const QString &format, copiedItemData.keys() ) {
-                if ( !data.contains(format) )
-                    data.insert(format, copiedItemData[format]);
-            }
+            appendTextData(copiedItemData, mimeText, &text);
+            appendTextData(copiedItemData, mimeUriList, &uriList);
         }
     }
 
     if (serializeItems)
         data.insert(mimeItems, bytes);
-    if (indexes.size()  > 1) {
+
+    if (indexes.size() > 1) {
         if ( !text.isNull() )
             data.insert(mimeText, text);
         if ( !uriList.isNull() )
@@ -732,7 +730,7 @@ void ClipboardBrowser::paste(const QVariantMap &data, int destinationRow)
         while ( !stream.atEnd() ) {
             QVariantMap dataMap;
             stream >> dataMap;
-            add(dataMap, destinationRow);
+            add(dataMap, destinationRow + count);
             ++count;
         }
     } else {
