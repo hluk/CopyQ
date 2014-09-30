@@ -406,6 +406,8 @@ private slots:
     void updateIcon();
     void updateIconTimeout();
 
+    void updateContextMenuTimeout();
+
     void onAboutToQuit();
 
     void onCommandDialogSaved();
@@ -507,6 +509,7 @@ private:
     PlatformWindowPtr m_lastWindow;
 
     QTimer m_timerUpdateFocusWindows;
+    QTimer m_timerUpdateContextMenu;
     QTimer m_timerShowWindow;
     QTimer m_timerTrayAvailable;
     QTimer m_timerTrayIconSnip;

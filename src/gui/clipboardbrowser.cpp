@@ -602,8 +602,6 @@ void ClipboardBrowser::unlock()
 
         setUpdatesEnabled(true);
 
-        emit updateContextMenu();
-
         updateCurrentPage();
     }
 }

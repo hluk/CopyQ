@@ -235,6 +235,7 @@ MainWindow::MainWindow(QWidget *parent)
     ui->tabWidget->setCurrentIndex(0);
 
     initSingleShotTimer( &m_timerUpdateFocusWindows, 50, this, SLOT(updateFocusWindows()) );
+    initSingleShotTimer( &m_timerUpdateContextMenu, 0, this, SLOT(updateContextMenuTimeout()) );
     initSingleShotTimer( &m_timerShowWindow, 250 );
     initSingleShotTimer( &m_timerTrayAvailable, 1000, this, SLOT(createTrayIfSupported()) );
     initSingleShotTimer( &m_timerTrayIconSnip, 250, this, SLOT(updateIconTimeout()) );
@@ -473,6 +474,30 @@ void MainWindow::updateIconTimeout()
         updateIcon();
 }
 
+void MainWindow::updateContextMenuTimeout()
+{
+    ClipboardBrowser *c = getBrowser();
+
+    if (c->editing())
+        return;
+
+    addCommandsToMenu(m_menuItem, c->getSelectedItemData());
+
+    m_menuItem->addSeparator();
+
+    addItemAction( Actions::Item_MoveToClipboard, c, SLOT(moveToClipboard()) );
+    addItemAction( Actions::Item_ShowContent, c, SLOT(showItemContent()) );
+    addItemAction( Actions::Item_Remove, c, SLOT(remove()) );
+    addItemAction( Actions::Item_Edit, c, SLOT(editSelected()) );
+    addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
+    addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
+    addItemAction( Actions::Item_Action, this, SLOT(action()) );
+    addItemAction( Actions::Item_NextToClipboard, c, SLOT(copyNextItemToClipboard()) );
+    addItemAction( Actions::Item_PreviousToClipboard, c, SLOT(copyPreviousItemToClipboard()) );
+
+    updateToolBar();
+}
+
 void MainWindow::onAboutToQuit()
 {
     cm->disconnect();
@@ -563,26 +588,7 @@ void MainWindow::updateContextMenu()
 
     m_menuItem->clear();
 
-    ClipboardBrowser *c = getBrowser();
-
-    if (c->editing())
-        return;
-
-    addCommandsToMenu(m_menuItem, c->getSelectedItemData());
-
-    m_menuItem->addSeparator();
-
-    addItemAction( Actions::Item_MoveToClipboard, c, SLOT(moveToClipboard()) );
-    addItemAction( Actions::Item_ShowContent, c, SLOT(showItemContent()) );
-    addItemAction( Actions::Item_Remove, c, SLOT(remove()) );
-    addItemAction( Actions::Item_Edit, c, SLOT(editSelected()) );
-    addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
-    addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
-    addItemAction( Actions::Item_Action, this, SLOT(action()) );
-    addItemAction( Actions::Item_NextToClipboard, c, SLOT(copyNextItemToClipboard()) );
-    addItemAction( Actions::Item_PreviousToClipboard, c, SLOT(copyPreviousItemToClipboard()) );
-
-    updateToolBar();
+    m_timerUpdateContextMenu.start();
 }
 
 void MainWindow::action()
