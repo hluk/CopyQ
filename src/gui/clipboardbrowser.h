@@ -394,6 +394,8 @@ class ClipboardBrowser : public QListView
 
         void updateEditorGeometry();
 
+        bool canExpire();
+
         void restartExpiring();
 
         void stopExpiring();
@@ -434,7 +436,7 @@ class ClipboardBrowser : public QListView
         QTimer m_timerExpire;
 
         bool m_invalidateCache;
-        bool m_expire;
+        bool m_expireAfterEditing;
 
         ItemEditorWidget *m_editor;
 

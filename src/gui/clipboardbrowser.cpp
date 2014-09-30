@@ -179,7 +179,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m( new ClipboardModel(this) )
     , d( new ItemDelegate(this) )
     , m_invalidateCache(false)
-    , m_expire(false)
+    , m_expireAfterEditing(false)
     , m_editor(NULL)
     , m_sharedData(sharedData ? sharedData : ClipboardBrowserSharedPtr(new ClipboardBrowserShared))
     , m_loadButton(NULL)
@@ -204,6 +204,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     initSingleShotTimer( &m_timerScroll, 50 );
     initSingleShotTimer( &m_timerUpdate, 10, this, SLOT(doUpdateCurrentPage()) );
     initSingleShotTimer( &m_timerFilter, 10, this, SLOT(filterItems()) );
+    initSingleShotTimer( &m_timerExpire, 0, this, SLOT(expire()) );
 
     // ScrollPerItem doesn't work well with hidden items
     setVerticalScrollMode(QAbstractItemView::ScrollPerPixel);
@@ -427,7 +428,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
                 restartExpiring();
             if (m_invalidateCache)
                 invalidateItemCache();
-            if (m_expire)
+            if (m_expireAfterEditing)
                 expire();
         }
     }
@@ -472,10 +473,17 @@ void ClipboardBrowser::updateEditorGeometry()
     }
 }
 
+bool ClipboardBrowser::canExpire()
+{
+    return m_itemLoader && m_timerExpire.interval() > 0 && isHidden();
+}
+
 void ClipboardBrowser::restartExpiring()
 {
-    if ( m_itemLoader && isHidden() )
+    if (canExpire())
         m_timerExpire.start();
+    else
+        m_timerExpire.stop();
 }
 
 void ClipboardBrowser::stopExpiring()
@@ -871,9 +879,9 @@ void ClipboardBrowser::doUpdateCurrentPage()
 void ClipboardBrowser::expire()
 {
     if (editing()) {
-        m_expire = true;
+        m_expireAfterEditing = true;
     } else {
-        m_expire = false;
+        m_expireAfterEditing = false;
 
         saveUnsavedItems();
 
@@ -1622,12 +1630,9 @@ void ClipboardBrowser::loadSettings()
     if (m_loadButton)
         updateLoadButtonIcon(m_loadButton);
 
-    if (m_sharedData->minutesToExpire > 0) {
-        initSingleShotTimer(&m_timerExpire, 60000 * m_sharedData->minutesToExpire, this, SLOT(expire()));
-        restartExpiring();
-    } else {
-        stopExpiring();
-    }
+    m_timerExpire.setInterval(60000 * m_sharedData->minutesToExpire);
+
+    restartExpiring();
 
     if (m_editor) {
         d->loadEditorSettings(m_editor);
