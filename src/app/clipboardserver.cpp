@@ -326,7 +326,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
     if ( !forceRunCommands && ownsClipboardData(data) )
         return;
 
-    if ( containsAnyData(data) )
+    if ( !data.contains(mimeOwner) && containsAnyData(data) )
         m_wnd->addToTabFromClipboard(data);
 
 #ifdef COPYQ_WS_X11
