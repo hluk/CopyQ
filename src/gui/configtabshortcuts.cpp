@@ -81,14 +81,14 @@ void ConfigTabShortcuts::initShortcuts()
 #else
                   tr("C&ommands..."),
 #endif
-                  "commands", tr("F6"), "action", IconCog );
+                  "commands", tr("F6"), "system-run", IconCog );
 
     w->addAction( Actions::File_ShowClipboardContent, tr("Show &Clipboard Content"),
-                  "show_clipboard_content", tr("Ctrl+Shift+C"), "clipboard", IconPaste );
+                  "show_clipboard_content", tr("Ctrl+Shift+C"), "dialog-information", IconPaste );
     w->addAction( Actions::File_ToggleClipboardStoring, tr("&Toggle Clipboard Storing"),
                   "toggle_clipboard_storing", tr("Ctrl+Shift+X"), "" );
     w->addAction( Actions::File_ProcessManager, tr("P&rocess Manager"),
-                  "process_manager", tr("Ctrl+Shift+Z"), "application-exit", IconOff );
+                  "process_manager", tr("Ctrl+Shift+Z"), "system-search", IconCogs );
     w->addAction( Actions::File_Exit, tr("E&xit"), "exit", tr("Ctrl+Q"),
                   "application-exit", IconOff );
 
@@ -115,7 +115,7 @@ void ConfigTabShortcuts::initShortcuts()
                   "edit_notes", tr("Shift+F2"), "accessories-text-editor", IconEditSign );
     w->addAction( Actions::Item_EditWithEditor, tr("E&dit with editor"),
                   "editor", tr("Ctrl+E"), "accessories-text-editor", IconPencil );
-    w->addAction( Actions::Item_Action, tr("&Action..."), "action", tr("F5"),
+    w->addAction( Actions::Item_Action, tr("&Action..."), "system-run", tr("F5"),
                   "action", IconCog );
     w->addAction( Actions::Item_NextToClipboard, tr("Ne&xt to Clipboard"),
                   "next_to_clipboard", tr("Ctrl+Shift+N"), "go-down", IconArrowDown );
