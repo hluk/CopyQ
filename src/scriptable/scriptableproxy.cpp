@@ -339,6 +339,16 @@ void ScriptableProxyHelper::removeTab(const QString &arg1)
     m_wnd->removeTab(false, i);
 }
 
+void ScriptableProxyHelper::tabIcon(const QString &tabName)
+{
+    v = ConfigurationManager::instance()->getIconNameForTabName(tabName);
+}
+
+void ScriptableProxyHelper::setTabIcon(const QString &tabName, const QString &icon)
+{
+    m_wnd->setTabIcon(tabName, icon);
+}
+
 void ScriptableProxyHelper::showBrowser(const QString &tabName)
 {
     ClipboardBrowser *c = fetchBrowser(tabName);

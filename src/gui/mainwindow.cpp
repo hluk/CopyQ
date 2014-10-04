@@ -2216,8 +2216,14 @@ void MainWindow::setTabIcon(const QString &tabName)
 {
     IconSelectDialog dialog( cm->getIconNameForTabName(tabName), this );
 
-    if ( dialog.exec() == QDialog::Accepted ) {
-        cm->setIconNameForTabName( tabName, dialog.selectedIcon() );
+    if ( dialog.exec() == QDialog::Accepted )
+        setTabIcon(tabName, dialog.selectedIcon());
+}
+
+void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
+{
+    if ( tabs().contains(tabName) ) {
+        cm->setIconNameForTabName(tabName, icon);
         ui->tabWidget->updateTabIcon(tabName);
     }
 }

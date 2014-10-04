@@ -115,6 +115,7 @@ public slots:
     QScriptValue tab();
     void removetab();
     void renametab();
+    QScriptValue tabicon();
 
     QScriptValue length();
     QScriptValue size() { return length(); }

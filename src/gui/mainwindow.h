@@ -201,6 +201,8 @@ public:
     /** Set icon for tab or tab group. */
     void setTabIcon(const QString &tabName);
 
+    void setTabIcon(const QString &tabName, const QString &icon);
+
     /**
      * Save all items in tab to file.
      * @return True only if all items were successfully saved.

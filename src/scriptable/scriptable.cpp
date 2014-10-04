@@ -561,6 +561,19 @@ void Scriptable::renametab()
         throwError(error);
 }
 
+QScriptValue Scriptable::tabicon()
+{
+    if (argumentCount() == 1)
+        return m_proxy->tabIcon(arg(0));
+
+    if (argumentCount() == 2)
+        m_proxy->setTabIcon(arg(0), arg(1));
+    else
+        throwError(argumentError());
+
+    return QScriptValue();
+}
+
 QScriptValue Scriptable::length()
 {
     return m_proxy->browserLength();

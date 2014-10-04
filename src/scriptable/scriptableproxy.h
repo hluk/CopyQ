@@ -170,6 +170,9 @@ public slots:
 
     void removeTab(const QString &arg1);
 
+    void tabIcon(const QString &tabName);
+    void setTabIcon(const QString &tabName, const QString &iconName);
+
     void showBrowser(const QString &tabName);
 
     void showBrowser();
@@ -285,6 +288,9 @@ public:
 
     PROXY_METHOD_2(QString, renameTab, const QString &, const QString &)
     PROXY_METHOD_1(QString, removeTab, const QString &)
+
+    PROXY_METHOD_1(QString, tabIcon, const QString &)
+    PROXY_METHOD_VOID_2(setTabIcon, const QString &, const QString &)
 
     PROXY_METHOD_0(QStringList, tabs)
     PROXY_METHOD_0(bool, toggleVisible)
