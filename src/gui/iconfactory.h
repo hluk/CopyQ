@@ -52,8 +52,6 @@ public:
 
     QIcon iconFromFile(const QString &fileName);
 
-    void drawIcon(ushort id, const QRect &itemRect, QPainter *painter);
-
     QPixmap createPixmap(ushort id, const QColor &color, int size);
 
     /// Return app icon (color is calculated from session name).

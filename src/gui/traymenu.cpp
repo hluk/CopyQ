@@ -22,7 +22,6 @@
 #include "common/contenttype.h"
 #include "common/common.h"
 #include "gui/configurationmanager.h"
-#include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "platform/platformnativeinterface.h"
 #include "platform/platformwindow.h"
@@ -92,6 +91,21 @@ void setActionToolTip(QAction *action, const QString &tooltip)
 bool hasToolTip(QAction *action)
 {
     return action->property(propertyHasToolTip).toBool();
+}
+
+void drawToolTipIcon(const QRect &actionRect, bool isSelected, QPaintDevice *paintDevice)
+{
+    QIcon icon = getIcon("", IconEditSign);
+    if (icon.isNull())
+        return;
+
+    QPainter painter(paintDevice);
+    painter.setOpacity(0.7);
+
+    const int size = actionRect.height();
+    const QPixmap pixmap = icon.pixmap(size, size, isSelected ? QIcon::Selected : QIcon::Normal);
+
+    painter.drawPixmap( actionRect.right() - size, actionRect.top(), pixmap );
 }
 
 } // namespace
@@ -221,18 +235,10 @@ void TrayMenu::paintEvent(QPaintEvent *event)
 {
     QMenu::paintEvent(event);
 
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-
-    QPainter painter(this);
-    // FIXME
-    painter.setPen(Qt::red);
-
     // Draw small icon for items with notes.
     foreach ( QAction *action, actions() ) {
-        if ( hasToolTip(action) ) {
-            QRect rect = actionGeometry(action);
-            iconFactory->drawIcon(IconEditSign, rect, &painter);
-        }
+        if ( hasToolTip(action) )
+            drawToolTipIcon(actionGeometry(action), action == activeAction(), this);
     }
 }
 

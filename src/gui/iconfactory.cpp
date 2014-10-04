@@ -242,21 +242,6 @@ QIcon IconFactory::iconFromFile(const QString &fileName)
     return QIcon(fileName);
 }
 
-void IconFactory::drawIcon(ushort id, const QRect &itemRect, QPainter *painter)
-{
-    if (m_iconFontLoaded)
-        return;
-
-    QFont font = iconFont();
-    int size = qMin(itemRect.height() - 5, 18);
-    font.setPixelSize(size);
-
-    painter->save();
-    painter->setFont(font);
-    painter->drawText( itemRect.right() - size, itemRect.top() + size, QString(QChar(id)) );
-    painter->restore();
-}
-
 QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
 {
     QPixmap pixmap(size, size);
