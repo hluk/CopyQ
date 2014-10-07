@@ -613,7 +613,7 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->name = tr("Open in &Browser");
         c->re   = reURL;
         c->icon = QString(QChar(IconGlobe));
-        c->cmd  = "firefox %1";
+        c->cmd  = "copyq open %1";
         c->hideWindow = true;
         c->inMenu = true;
     } else if (index == ++i) {
@@ -628,7 +628,7 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->name = tr("Autoplay videos");
         c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
         c->icon = QString(QChar(IconPlayCircle));
-        c->cmd  = "vlc %1";
+        c->cmd  = "copyq open %1";
         c->automatic = true;
         c->hideWindow = true;
         c->inMenu = true;
