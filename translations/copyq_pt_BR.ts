@@ -175,48 +175,49 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"/>
+        <translation>Co&amp;mando:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="64"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"/>
+        <translation>Standart &amp;input:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="74"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"/>
+        <translation>Loja Standart &amp;input:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="84"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation>Enviar informação do MIME para comando de entrada standart (deixar vazio para inativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="91"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation>Criar itens da saída standart do programa (deixar vazio para inativar)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="108"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Separador para novos itens:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="118"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Expressão regular para dividir saída em múltiplos itens.&lt;\p&gt;
+&lt;p&gt;Usar&lt;b&gt;\n&lt;/b&gt;para guardar cada linha para itens separados.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="122"/>
         <source>\n</source>
-        <translation type="unfinished"/>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="129"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>Saída &amp;tab:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="139"/>
