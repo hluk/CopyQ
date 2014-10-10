@@ -157,12 +157,12 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Edit Item</source>
-        <translation type="unfinished"/>
+        <translation>Editar o item</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>F2</source>
-        <translation type="unfinished"/>
+        <translation>F2</translation>
     </message>
 </context>
 <context>
@@ -170,7 +170,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation type="unfinished"/>
+        <translation>Diálogo de Ação do CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
