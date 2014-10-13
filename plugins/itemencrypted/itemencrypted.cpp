@@ -33,7 +33,6 @@
 #include <QVBoxLayout>
 #include <QLabel>
 #include <QTextEdit>
-#include <QSettings>
 #include <QtPlugin>
 
 namespace {

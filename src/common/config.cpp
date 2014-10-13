@@ -53,9 +53,10 @@ QString geometryOptionName(const QWidget *widget, bool save, bool openOnCurrentS
 
 QString getConfigurationFilePath(const QString &suffix)
 {
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
+    const QSettings settings(
+                QSettings::IniFormat, QSettings::UserScope,
+                QCoreApplication::organizationName(),
+                QCoreApplication::applicationName() );
     QString path = settings.fileName();
     return path.replace( QRegExp("\\.ini$"), suffix );
 }

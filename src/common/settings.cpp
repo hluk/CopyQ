@@ -19,74 +19,98 @@
 
 #include "settings.h"
 
+#include "common/common.h"
+#include "common/config.h"
 #include "common/log.h"
 
 #include <QCoreApplication>
+#include <QDateTime>
 #include <QFileInfo>
-#include <QSet>
-#include <QSharedPointer>
 #include <QStringList>
-
-#include <exception>
 
 namespace {
 
-typedef QSharedPointer<QSettings> SettingsPtr;
-SettingsPtr backupSettings()
+bool needsUpdate(const Settings &newSettings, const QSettings &oldSettings)
 {
-    return SettingsPtr( new QSettings(
-                            QSettings::defaultFormat(),
-                            QSettings::UserScope,
-                            QCoreApplication::organizationName(),
-                            QCoreApplication::applicationName() + "-bak") );
+    if ( Settings::isEmpty(oldSettings) )
+        return false;
+
+    const QFileInfo newFile(newSettings.fileName());
+    const QFileInfo oldFile(oldSettings.fileName());
+
+    return newFile.size() != oldFile.size()
+            || newFile.lastModified() < oldFile.lastModified();
+}
+
+void copySettings(const QSettings &from, QSettings *to)
+{
+    to->clear();
+
+    foreach ( const QString &key, from.allKeys() )
+        to->setValue(key, from.value(key));
+
+    to->sync();
+}
+
+QString lockFileName()
+{
+    return getConfigurationFilePath(".bad");
+}
+
+bool isLastSaveUnfinished()
+{
+    return QFile::exists(lockFileName());
+}
+
+void beginSave()
+{
+    QFile lockFile(lockFileName());
+    lockFile.open(QIODevice::WriteOnly);
+}
+
+void endSave()
+{
+    QFile::remove(lockFileName());
 }
 
 } // namespace
-
-Settings::Settings() : QSettings()
-{
-    Settings::restoreSettings();
-}
-
-Settings::~Settings()
-{
-    try {
-        backUp();
-    } catch (std::exception &e) {
-        log( QString("Failed to back up settings (%1)!").arg(e.what()), LogError );
-    }
-}
 
 bool Settings::isEmpty(const QSettings &settings)
 {
     return settings.childGroups().isEmpty();
 }
 
-void Settings::restoreSettings()
+Settings::Settings()
+    : QSettings(
+          QSettings::defaultFormat(),
+          QSettings::UserScope,
+          QCoreApplication::organizationName(),
+          QCoreApplication::applicationName() + "-bak" )
 {
-    QSettings settings;
+    Q_ASSERT( isMainThread() );
 
-    if ( isEmpty(settings) ) {
-        SettingsPtr backupSettings = ::backupSettings();
+    if ( isLastSaveUnfinished() ) {
+        log("Restoring application settings", LogWarning);
 
-        if ( !isEmpty(*backupSettings) ) {
-            log("Restoring application settings", LogWarning);
-            foreach ( const QString &key, backupSettings->allKeys() )
-                settings.setValue(key, backupSettings->value(key));
+        if ( isEmpty(*this) ) {
+            log("Cannot restore application settings", LogError);
+        } else {
+            QSettings settings;
+            copySettings(*this, &settings);
         }
+
+        endSave();
+    } else if ( needsUpdate(*this, QSettings()) ) {
+        copySettings(QSettings(), this);
     }
 }
 
-void Settings::backUp()
+Settings::~Settings()
 {
     sync();
-    SettingsPtr backupSettings = ::backupSettings();
 
-    if (backupSettings->allKeys().toSet() != allKeys().toSet())
-        backupSettings->clear();
-
-    foreach ( const QString &key, allKeys() )
-        backupSettings->setValue( key, value(key) );
-
-    backupSettings->sync();
+    beginSave();
+    QSettings settings;
+    copySettings(*this, &settings);
+    endSave();
 }

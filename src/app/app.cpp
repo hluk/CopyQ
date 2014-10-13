@@ -135,7 +135,7 @@ void installTranslator()
         return;
 #endif
 
-    QString locale = QSettings().value("Options/language").toString();
+    QString locale = Settings().value("Options/language").toString();
     if (locale.isEmpty())
         locale = QLocale::system().name();
 
@@ -205,7 +205,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
 
     createPlatformNativeInterface()->loadSettings();
 
-    Settings::restoreSettings();
+    Settings(); // restore settings
 
     installTranslator();
 

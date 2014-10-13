@@ -241,6 +241,8 @@ public slots:
 
     void inputDialog(const NamedValueList &values);
 
+    void setUserValue(const QString &key, const QVariant &value);
+
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
 
@@ -351,6 +353,8 @@ public:
     PROXY_METHOD_0(QString, currentWindowTitle)
 
     PROXY_METHOD_1(NamedValueList, inputDialog, const NamedValueList &)
+
+    PROXY_METHOD_VOID_2(setUserValue, const QString &, const QVariant &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

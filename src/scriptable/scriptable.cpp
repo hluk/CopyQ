@@ -24,7 +24,6 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
-#include "common/settings.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
@@ -1084,23 +1083,18 @@ QScriptValue Scriptable::dialog()
 
 QScriptValue Scriptable::settings()
 {
-    const QString settingsGroup = "script";
-
     if (argumentCount() == 2) {
-        Settings settings2;
-        settings2.beginGroup(settingsGroup);
-
         const QString key = arg(0);
         const QScriptValue value = argument(1);
         const QByteArray *bytes = getByteArray(value);
         const QVariant saveValue = bytes ? QVariant(*bytes) : value.toVariant();
-        settings2.setValue(key, saveValue);
+        m_proxy->setUserValue(key, saveValue);
 
         return QScriptValue();
     }
 
     QSettings settings;
-    settings.beginGroup(settingsGroup);
+    settings.beginGroup("script");
 
     if (argumentCount() == 1) {
         QVariant value = settings.value(arg(0));

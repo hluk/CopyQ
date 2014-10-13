@@ -23,11 +23,11 @@
 #include "common/action.h"
 #include "common/command.h"
 #include "common/common.h"
+#include "common/config.h"
 #include "common/mimetypes.h"
 #include "item/serialize.h"
 #include "gui/configurationmanager.h"
 
-#include <QSettings>
 #include <QFile>
 #include <QMessageBox>
 
@@ -135,15 +135,7 @@ void ActionDialog::restoreHistory()
 
 const QString ActionDialog::dataFilename() const
 {
-    // do not use registry in windows
-    QSettings settings(QSettings::IniFormat, QSettings::UserScope,
-                       QCoreApplication::organizationName(),
-                       QCoreApplication::applicationName());
-    // .ini -> _cmds.dat
-    QString datfilename = settings.fileName();
-    datfilename.replace( QRegExp("\\.ini$"),QString("_cmds.dat") );
-
-    return datfilename;
+    return getConfigurationFilePath( QString("_cmds.dat") );
 }
 
 void ActionDialog::saveHistory()

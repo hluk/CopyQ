@@ -23,6 +23,7 @@
 #include "common/common.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
+#include "common/settings.h"
 #include "gui/configurationmanager.h"
 #include "gui/mainwindow.h"
 #include "item/serialize.h"
@@ -763,6 +764,13 @@ void ScriptableProxyHelper::inputDialog(const NamedValueList &values)
 
         v.setValue(result);
     }
+}
+
+void ScriptableProxyHelper::setUserValue(const QString &key, const QVariant &value)
+{
+    Settings settings;
+    settings.beginGroup("script");
+    settings.setValue(key, value);
 }
 
 } // namespace detail

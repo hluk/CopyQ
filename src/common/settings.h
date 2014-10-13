@@ -24,22 +24,36 @@
 
 /**
  * Wrapper for safer QSettings() handling.
- * When destroyed, backs up application settings ("-bak" is appended to QCoreApplication::applicationName()).
- * Static method restoreSettings() (called from constructor), tries to restore settings if QSettings() is empty.
+ *
+ * For more safety, this should be instantiated only from main application thread.
+ *
+ * Stores and reads values from application settings copy. Updates the application
+ * settings when destroyed.
+ *
+ * Special file is used to designate whether application settings or its copy is valid.
+ *
+ * While special file doesn't exist, the application settings is valid.
+ *
+ * While special file exists, copy is valid and application settings is not.
+ *
+ * When created:
+ *   - if last save was unsuccessful, restores copy of application settings,
+ *   - if last save was successful, copies application settings and uses this copy.
+ *
+ * When destroyed:
+ *   - synchronizes the underlying copy of application settings,
+ *   - creates special file,
+ *   - copies settings from copy to real application settings and flushes it,
+ *   - deletes special file.
  */
 class Settings : public QSettings
 {
 public:
+    static bool isEmpty(const QSettings &settings);
+
     Settings();
 
     ~Settings();
-
-    static bool isEmpty(const QSettings &settings);
-
-    static void restoreSettings();
-
-private:
-    void backUp();
 };
 
 
