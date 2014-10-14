@@ -133,7 +133,8 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
     QEvent::Type type = event->type();
 
     switch (type) {
-    case QEvent::MouseButtonPress: {
+    case QEvent::MouseButtonPress:
+    case QEvent::MouseButtonDblClick: {
         QMouseEvent *e = static_cast<QMouseEvent*>(event);
 
         if ( !canMouseInteract(*e) )
@@ -152,9 +153,6 @@ bool ItemWidget::filterMouseEvents(QTextEdit *edit, QEvent *event)
 
         break;
     }
-
-    case QEvent::MouseButtonDblClick:
-        return true;
 
     case QEvent::MouseButtonRelease: {
         QMouseEvent *e = static_cast<QMouseEvent*>(event);

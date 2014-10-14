@@ -56,7 +56,7 @@ bool getHtml(const QModelIndex &index, QString *text)
     return true;
 }
 
-bool canMouseInteract(const QMouseEvent &event)
+bool canMouseInteract(const QInputEvent &event)
 {
     return event.modifiers() & Qt::ShiftModifier;
 }
@@ -168,15 +168,18 @@ void ItemWeb::mousePressEvent(QMouseEvent *e)
 
 void ItemWeb::mouseMoveEvent(QMouseEvent *e)
 {
-    if ( !canMouseInteract(*e) )
-        e->ignore();
-    else
+    if ( canMouseInteract(*e) )
         QWebView::mousePressEvent(e);
+    else
+        e->ignore();
 }
 
 void ItemWeb::wheelEvent(QWheelEvent *e)
 {
-    e->ignore();
+    if ( canMouseInteract(*e) )
+        QWebView::wheelEvent(e);
+    else
+        e->ignore();
 }
 
 void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
@@ -194,7 +197,10 @@ void ItemWeb::mouseReleaseEvent(QMouseEvent *e)
 
 void ItemWeb::mouseDoubleClickEvent(QMouseEvent *e)
 {
-    e->ignore();
+    if ( canMouseInteract(*e) )
+        QWebView::mouseDoubleClickEvent(e);
+    else
+        e->ignore();
 }
 
 ItemWebLoader::ItemWebLoader()
