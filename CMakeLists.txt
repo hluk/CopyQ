@@ -43,7 +43,7 @@ else()
     message(STATUS "Building with Qt 4.")
 endif()
 
-set(copyq_ICON        src/images/logo.svg)
+set(copyq_ICON        src/images/logo.png)
 set(copyq_ICON_NORMAL src/images/icon.svg)
 set(copyq_ICON_BUSY   src/images/icon-running.svg)
 set(copyq_DESKTOP     shared/copyq.desktop)

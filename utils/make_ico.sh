@@ -1,6 +1,6 @@
 #!/bin/bash
 img1=src/images/icon.svg
-img2=src/images/logo.svg
+img2=src/images/logo.png
 out=${1:-src/images/icon.ico}
 
 args=(

@@ -125,7 +125,7 @@ QString AboutDialog::aboutPage()
         "<body>"
 
         // logo
-        "<img class='logo' src=':/images/logo.svg' />"
+        "<img class='logo' src=':/images/logo.png' />"
 
         // title
         "<div class='h1'>CopyQ</div>"
