@@ -1,3 +1,13 @@
+v2.4.2
+- Send input data to execute()
+- Better clipboard encoding guessing
+- Set tab icon from commands using tabicon()
+- Fixed window title encoding on Windows
+- Fixed restoring window geometry
+- Performance fixes
+- Various bug and usability fixes
+- New logo
+
 v2.4.1
 - Added scriptable classes File and Dir
 - Added scriptable function settings() for saving custom user data
