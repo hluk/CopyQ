@@ -2369,17 +2369,17 @@ Nota: no funciona en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="226"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"/>
+        <translation>Permitir pegar el contenido copiado de la misma forma que las selecciones del ratón (generalmente presionando el botón medio del raton)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="250"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar árbol con pestañas en lugar de barra de pestañas</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="253"/>
         <source>Tab T&amp;ree</source>
-        <translation type="unfinished"/>
+        <translation>Á&amp;rbol de pestañas</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="260"/>
@@ -2393,7 +2393,7 @@ Nota: no funciona en todos los sistemas.</translation>
 Note: This is not be supported on all systems.</source>
         <translation>Transparencia de la ventana principal cuando tiene el foco.
 
-Nota: No funciona en todos los sistemas.</translation>
+Nota: no es compatible con todos los sistemas.</translation>
     </message>
     <message>
         <source>%</source>
@@ -2402,24 +2402,24 @@ Nota: No funciona en todos los sistemas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="613"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Después de que la entrada se active (doble-click o tecla Enter), copiarla al portapapeles y...</translation>
+        <translation>Luego de que se active el elemento (doble-click o tecla Enter), copiarlo al portapapeles y...</translation>
     </message>
     <message>
         <source>Move item to the top of the list after it is activated.</source>
-        <translation type="vanished">Mover entrada al primer lugar de la lista después de que sea activada.</translation>
+        <translation>Mover elemento al primer lugar de la lista después de activarlo.</translation>
     </message>
     <message>
         <source>Move item to the top</source>
-        <translation type="vanished">Mover entrada al primer lugar</translation>
+        <translation>Mover elemento al tope</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="601"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Dejar sin marcar para que, al pulsar la tecla Return, se guarde la entrada editada y, al pulsar Ctrl+Return, se cree una nueva línea.
+        <translation>Dejar sin marcar para guardar el elemento editado al pulsar la tecla Enter y crear una nueva línea al pulsar Ctrl+Enter.
 
-Nota: Las entradas editadas se pueden guardar con F2 Edited items can be saved with F2 al margen de esta opción.</translation>
+Nota: puede guardar los elementos editados con F2 sin importar la configuración de esta opción.</translation>
     </message>
     <message>
         <source>Shortcut to edit clipboard content</source>
@@ -2468,7 +2468,7 @@ Nota: Las entradas editadas se pueden guardar con F2 Edited items can be saved w
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="236"/>
         <source>Disable clipboard storing</source>
-        <translation type="unfinished">Deshabilitar el almacenamiento del portapapeles</translation>
+        <translation>Desactivar el almacenamiento del portapapeles</translation>
     </message>
     <message>
         <source>Temporarily disable clipboard content to be saved in history.</source>
@@ -2477,7 +2477,7 @@ Nota: Las entradas editadas se pueden guardar con F2 Edited items can be saved w
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="238"/>
         <source>Enable clipboard storing</source>
-        <translation type="unfinished">Habilitar el almacenamiento del portapapeles</translation>
+        <translation>Activar el almacenamiento del portapapeles</translation>
     </message>
     <message>
         <source>Enable clipboard content storing.</source>
@@ -2632,57 +2632,57 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../src/gui/commanddialog.cpp" line="209"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="216"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"/>
+        <translation>Ocultar/mostrar la ventana principal</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="218"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar el menú de la bandeja</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="220"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"/>
+        <translation>Editar portapapeles</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="222"/>
         <source>Edit first item</source>
-        <translation type="unfinished"/>
+        <translation>Editar el primer elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="224"/>
         <source>Copy second item</source>
-        <translation type="unfinished"/>
+        <translation>Copiar el segundo elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="226"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar el díalogo de acción</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="228"/>
         <source>Create new item</source>
-        <translation type="unfinished"/>
+        <translation>Crear un nuevo elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="230"/>
         <source>Copy next item</source>
-        <translation type="unfinished"/>
+        <translation>Copiar el elemento siguiente</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="232"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"/>
+        <translation>Copiar el elemento anterior</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="234"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"/>
+        <translation>Pegar el portapapeles como texto plano</translation>
     </message>
     <message>
         <source>New command</source>
@@ -2690,15 +2690,15 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Ignore items with no or single character</source>
-        <translation type="vanished">Ignorar entradas sin ningún carácter o con un solo carácter</translation>
+        <translation>Ignorar elementos sin carácteres o con un solo carácter</translation>
     </message>
     <message>
         <source>Open in &amp;Browser</source>
-        <translation type="vanished">Abrir en &amp;Navegador</translation>
+        <translation>A&amp;brir en el navegador</translation>
     </message>
     <message>
         <source>Autoplay videos</source>
-        <translation type="vanished">Reproducir vídeos automáticamente</translation>
+        <translation>Reproducir videos automáticamente</translation>
     </message>
     <message>
         <source>Copy URL (web address) to other tab</source>
@@ -2706,7 +2706,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Run shell script</source>
-        <translation type="vanished">Ejecutar guión shell</translation>
+        <translation>Ejecutar script</translation>
     </message>
     <message>
         <source>Ctrl+R</source>
@@ -2722,7 +2722,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Label image</source>
-        <translation type="vanished">Etiqueta de imagen</translation>
+        <translation>Etiquetar imagen</translation>
     </message>
     <message>
         <source>Open URL</source>
@@ -2730,19 +2730,19 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
-        <translation type="vanished">Añadir a pestaña &amp;TODO</translation>
+        <translation>Añadir a la pestaña &amp;TODO</translation>
     </message>
     <message>
         <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">Mover a pestaña &amp;TODO</translation>
+        <translation>Mover a la pestaña &amp;TODO</translation>
     </message>
     <message>
         <source>Ignore copied files</source>
-        <translation type="vanished">Ignorar ficheros copiados</translation>
+        <translation>Ignorar los archivos copiados</translation>
     </message>
     <message>
         <source>Ignore *"Password"* window</source>
-        <translation type="vanished">Ignorar ventana *"Contraseña"*</translation>
+        <translation>Ignorar la ventana *"Contraseña"*</translation>
     </message>
     <message>
         <source>Password</source>
@@ -2750,7 +2750,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="vanished">Encriptar (requiere GnuPG)</translation>
+        <translation>Cifrar (requiere GnuPG)</translation>
     </message>
     <message>
         <source>Ctrl+L</source>
@@ -2758,11 +2758,11 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Decrypt</source>
-        <translation type="vanished">Desencriptar</translation>
+        <translation>Descifrar</translation>
     </message>
     <message>
         <source>Decrypt and Copy</source>
-        <translation type="vanished">Desencriptar y Copiar</translation>
+        <translation>Descifrar y copiar</translation>
     </message>
     <message>
         <source>Ctrl+Shift+L</source>
@@ -2770,7 +2770,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Move to Trash</source>
-        <translation type="vanished">Tirar a la Papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <source>(trash)</source>
@@ -2779,7 +2779,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="566"/>
         <source>Invalid value for option "%1"</source>
-        <translation type="unfinished"/>
+        <translation>Valor inválido para la opción «%1»</translation>
     </message>
     <message>
         <source>Delete</source>
@@ -2788,7 +2788,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="264"/>
         <source>Cannot create directory for settings %1!</source>
-        <translation>¡No se pudo crear directorio para la configuración %1!</translation>
+        <translation>¡No se pudo crear el directorio para la configuración %1!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="639"/>
@@ -2798,17 +2798,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="640"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
-        <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores por defecto.&lt;br /&gt;&lt;br /&gt;¿Está seguro de que desea &lt;strong&gt;reiniciar todas las preferencias&lt;/strong&gt;?</translation>
+        <translation>Esta acción reiniciará todas sus preferencias (en todas las pestañas) a los valores predeterminados.&lt;br /&gt;&lt;br /&gt;¿Está seguro de que desea &lt;strong&gt;reiniciar todas las preferencias&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="811"/>
         <source>Restart Required</source>
-        <translation type="unfinished"/>
+        <translation>Necesita reinicar</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="812"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"/>
+        <translation>Se cambiará el idioma luego de que reinicie la aplicación.</translation>
     </message>
     <message>
         <source>&lt;untitled command&gt;</source>
@@ -2835,17 +2835,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="194"/>
         <source>Use Vim-style Editing</source>
-        <translation type="unfinished"/>
+        <translation>Usar edición al estilo Vim</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="196"/>
         <source>Read .vimrc</source>
-        <translation type="unfinished"/>
+        <translation>Leer .vimrc</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="198"/>
         <source>Path to .vimrc</source>
-        <translation type="unfinished"/>
+        <translation>Ruta al archivo .vimrc</translation>
     </message>
 </context>
 <context>
@@ -2854,162 +2854,152 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"/>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"/>
         <source>Unknown option: %1</source>
-        <translation type="unfinished"/>
+        <translation>Opción desconocida: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation type="unfinished"/>
+        <translation>El parámetro debe ser positivo: %1=%2</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
         <source>Mark "%1" not set.</source>
-        <translation type="unfinished"/>
+        <translation>La marca «%1» no está definida.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
         <source>%1%2%</source>
-        <translation type="unfinished">%1%2%</translation>
+        <translation>%1%2%</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3540"/>
         <source>%1All</source>
-        <translation type="unfinished"/>
+        <translation>%1Todos</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3554"/>
         <source>Not implemented in FakeVim.</source>
-        <translation type="unfinished"/>
+        <translation>No se encuentra implementado en FakeVim.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5719"/>
         <source>Unknown option:</source>
-        <translation type="unfinished"/>
+        <translation>Opción desconocida:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
-        <translation type="unfinished"/>
+        <translation>Parámetro no válido:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
-        <translation type="unfinished"/>
+        <translation>Carácteres finales:</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
         <source>Move lines into themselves.</source>
-        <translation type="unfinished"/>
+        <translation>Mover líneas a sí mismas.</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5860"/>
         <source>%n lines moved.</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%n línea eliminada.</numerusform>
+        <numerusform>%n líneas eliminadas.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
         <source>File "%1" exists (add ! to override)</source>
-        <translation type="unfinished"/>
+        <translation>El archivo «%1» ya existe (añada ! para forzar)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
         <source>Cannot open file "%1" for writing</source>
-        <translation type="unfinished"/>
+        <translation>No se pudo abrir el archivo «%1» para escribir en él</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
         <source>"%1" %2 %3L, %4C written.</source>
-        <translation type="unfinished"/>
+        <translation>«%1» %2 %3L, %4C escrito.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
         <source>Cannot open file "%1" for reading</source>
-        <translation type="unfinished"/>
+        <translation>No se pudo abrir el archivo «%1» para leer de él</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
         <source>"%1" %2L, %3C</source>
-        <translation type="unfinished"/>
+        <translation>"%1" %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%n línea filtrada.</numerusform>
+        <numerusform>%n líneas filtradas.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6093"/>
         <source>Cannot open file %1</source>
-        <translation type="unfinished">¡No se pudo abrir el archivo %1! {1?}</translation>
+        <translation>No se pudo abrir el archivo «%1»</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6259"/>
         <source>Invalid regular expression: %1</source>
-        <translation type="unfinished"/>
+        <translation>Expresión regular no válida: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6295"/>
         <source>Pattern not found: %1</source>
-        <translation type="unfinished"/>
+        <translation>No se encontró el patrón: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6299"/>
         <source>Search hit BOTTOM, continuing at TOP.</source>
-        <translation type="unfinished"/>
+        <translation>La búsqueda llegó al FINAL, continuando desde el TOPE.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6300"/>
         <source>Search hit TOP, continuing at BOTTOM.</source>
-        <translation type="unfinished"/>
+        <translation>La búsqueda llegó al TOPE, continuando desde el FINAL.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6305"/>
         <source>Search hit BOTTOM without match for: %1</source>
-        <translation type="unfinished"/>
+        <translation>La búsqueda llegó al FINAL sin encontrar coincidencias para: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6306"/>
         <source>Search hit TOP without match for: %1</source>
-        <translation type="unfinished"/>
+        <translation>La búsqueda llegó al TOPE sin encontrar coincidencias para: %1</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6413"/>
         <source>%n lines indented.</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>Sangría agregada a %n línea.</numerusform>
+        <numerusform>Sangría agregada a %n líneas.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%1 agregado a %n línea %2 veces.</numerusform>
+        <numerusform>%1 agregado a %n líneas %2 veces.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
-        <translation type="unfinished">
-            <numerusform/>
-            <numerusform/>
-        </translation>
-    </message>
+        <translation><numerusform>%n línea copiada.</numerusform>
+        <numerusform>%n líneas copiadas.</numerusform>
+        </translation></message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7748"/>
         <source>Already at oldest change.</source>
-        <translation type="unfinished"/>
+        <translation>Ya se encuentra en el cambio más antiguo.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7749"/>
         <source>Already at newest change.</source>
-        <translation type="unfinished"/>
+        <translation>Ya se encuentra en el cambio más reciente.</translation>
     </message>
 </context>
 <context>
@@ -3017,22 +3007,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="2788"/>
         <source>Recursive mapping</source>
-        <translation type="unfinished"/>
+        <translation>Mapeo recursivo</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="4195"/>
         <source>Type Alt-V, Alt-V to quit FakeVim mode.</source>
-        <translation type="unfinished"/>
+        <translation>Pulse Alt-V, Alt-V para salir del modo FakeVim.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5941"/>
         <source> [New] </source>
-        <translation type="unfinished"/>
+        <translation> [Nuevo] </translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
-        <translation type="unfinished"/>
+        <translation>No es una orden del editor: %1</translation>
     </message>
 </context>
 <context>
@@ -3040,7 +3030,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="990"/>
         <source>Failed to create synchronization directory "%1"!</source>
-        <translation type="unfinished"/>
+        <translation>¡No se pudo crear el directorio de sincronización «%1»!</translation>
     </message>
 </context>
 <context>
@@ -3048,13 +3038,13 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="35"/>
         <source>Select Icon...</source>
-        <translation type="unfinished"/>
+        <translation>Seleccionar ícono...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="72"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"/>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -3062,22 +3052,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="37"/>
         <source>CopyQ Select Icon</source>
-        <translation type="unfinished"/>
+        <translation>Ícono de selección de CopyQ</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="67"/>
         <source>Browse...</source>
-        <translation type="unfinished"/>
+        <translation>Navegar...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="113"/>
         <source>Open Icon file</source>
-        <translation type="unfinished">Abrir fichero de Icono</translation>
+        <translation>Abrir archivo de ícono</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="114"/>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished">Ficheros de Imagen (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
+        <translation>Archivos de imagen (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -3102,17 +3092,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"/>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation>Seleccione formatos para guardar en el historial. Puede añadir un formato a partir de los ejemplos de abajo o escribir en otro (uno por línea).</translation>
+        <translation>Seleccione los formatos para guardar en el historial. Puede añadir un formato a partir de los ejemplos a continuación o escribir otro (uno por línea).</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"/>
         <source>Active &amp;Formats:</source>
-        <translation>&amp;Formatos Activos:</translation>
+        <translation>&amp;Formatos activos:</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"/>
         <source>&amp;Examples (double click to add to active formats):</source>
-        <translation>&amp;Ejemplos (doble click para añadir a los formatos activos):</translation>
+        <translation>&amp;Ejemplos (pulse dos veces para añadir a los formatos activos):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"/>
@@ -3122,12 +3112,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="74"/>
         <source>Unformatted simple text</source>
-        <translation>Texto sin formato</translation>
+        <translation>Texto simple sin formato</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="82"/>
         <source>Formatted text, web pages</source>
-        <translation>Texto formateado, páginas web</translation>
+        <translation>Texto con formato, páginas web</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="91"/>
@@ -3137,7 +3127,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="99"/>
         <source>List of URI (e.g. copied files)</source>
-        <translation>Lista de URI (por ejemplo: ficheros copiados)</translation>
+        <translation>Lista de URIs (por ejemplo: archivos copiados)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="108"/>
@@ -3157,7 +3147,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="129"/>
         <source>Web image formats</source>
-        <translation>Formatos de imágenes Web</translation>
+        <translation>Formatos de imágenes web</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="139"/>
@@ -3172,7 +3162,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"/>
         <source>&amp;Maximum number of characters per format to display:</source>
-        <translation>Número &amp;máximo de caracteres por formato para mostrar:</translation>
+        <translation>Cantidad &amp;máxima de carácteres por formato para mostrar:</translation>
     </message>
 </context>
 <context>
@@ -3198,25 +3188,25 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <name>ItemEditor</name>
     <message>
         <source>Failed to remove temporary file (%1)</source>
-        <translation type="vanished">Error al eliminar el archivo temporal (%1)</translation>
+        <translation>No se pudo quitar el archivo temporal (%1)</translation>
     </message>
     <message>
         <source>Failed to open temporary file (%1) for editing item in external editor!</source>
-        <translation type="vanished">¡Error al abrir el archivo temporal (%1) para editar la entrada en el editor externo!</translation>
+        <translation>¡No se pudo abrir el archivo temporal (%1) para editar el elemento en el editor externo!</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="146"/>
         <source>editor exit code is %1</source>
-        <translation type="unfinished"/>
+        <translation>el código de salida del editor es %1</translation>
     </message>
     <message>
         <source>Failed to read temporary file (%1)!</source>
-        <translation type="vanished">¡Error al leer el archivo temporal (%1)!</translation>
+        <translation>¡No se pudo leer el archivo temporal (%1)!</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="189"/>
         <source>Editor command: %1</source>
-        <translation type="unfinished"/>
+        <translation>Orden del editor: %1</translation>
     </message>
 </context>
 <context>
@@ -3229,7 +3219,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="212"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation>Guardar Entrada (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
+        <translation>Guardar elemento (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="213"/>
@@ -3245,7 +3235,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="219"/>
         <source>Cancel Editing and Revert Changes</source>
-        <translation>Cancelar Edición y Deshacer los Cambios</translation>
+        <translation>Cancelar la edición y deshacer los cambios</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="220"/>
@@ -3269,12 +3259,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="187"/>
         <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Para compartir entradas encriptadas en otros ordenadores o en otra sesión, necesitará ficheros de claves pública y privada:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Mantenga esta clave privada en un lugar seguro.)&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>Para compartir los elementos cifrados con otros equipos o sesiones necesitará archivos de claves pública y privada:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Mantenga esta clave privada en un lugar seguro.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="252"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"/>
+        <translation>Necesitará tener GnuPG instalado para ver pestañas cifradas.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="425"/>
@@ -3284,7 +3274,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="433"/>
         <source>Failed to generate keys.</source>
-        <translation>Error al generar claves.</translation>
+        <translation>No se pudo general las claves.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="449"/>
@@ -3310,37 +3300,37 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="472"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>Las claves de encriptación &lt;strong&gt;deben generarse&lt;/strong&gt; antes de que se pueda usar la encriptación de entradas.</translation>
+        <translation>&lt;strong&gt;Debe generar&lt;/strong&gt; las claves de cifrado para poder cifrar elementos.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="474"/>
         <source>Generate New Keys...</source>
-        <translation>Generar Nuevas Claves...</translation>
+        <translation>Generar nuevas claves...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="476"/>
         <source>Change Password...</source>
-        <translation>Cambiar Contraseñas...</translation>
+        <translation>Cambiar contraseña...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="482"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"/>
+        <translation>¡No se pudo cifrar!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="487"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"/>
+        <translation>¡No se pudo descifrar!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="63"/>
         <source>Encryption</source>
-        <translation>Encriptación</translation>
+        <translation>Cifrado</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="65"/>
         <source>Encrypt items and tabs.</source>
-        <translation>Encriptar entradas y pestañas.</translation>
+        <translation>Cifrar elementos y pestañas.</translation>
     </message>
 </context>
 <context>
@@ -3348,24 +3338,24 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation>Para encriptar y desencriptar entradas, añada las órdenes apropiadas en la pestaña Órdenes.</translation>
+        <translation>Para cifrar y descifrar elementos, añada las órdenes apropiadas en la pestaña «Órdenes».</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="53"/>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation>Compartiendo Entradas y Pestañas Encriptadas</translation>
+        <translation>Compartir elementos y pestañas cifradas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="75"/>
         <source>Encrypted Tabs</source>
-        <translation>Pestañas Encriptadas</translation>
+        <translation>Pestañas cifradas</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="81"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Especifique los nombres de las pestañas (una por línea) que se encriptarán y desencriptarán automáticamente.&lt;/p&gt;
-&lt;p&gt;Establezca el intervalo de limpieza de pestañas en la pestaña Histórico para limpiar las entradas de la memoria de manera segura.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Indique los nombres de las pestañas (una por línea) para cifrar y descifrar automáticamente.&lt;/p&gt;
+&lt;p&gt;Indique el intervalo de limpieza de pestañas en la pestaña «Histórico» para limpiar de manera segura los elementos de la memoria.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3383,7 +3373,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation>Emula al editor Vim al editar entradas.</translation>
+        <translation>Emular el editor Vim al editar elementos.</translation>
     </message>
 </context>
 <context>
@@ -3391,12 +3381,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="17"/>
         <source>Enable FakeVim for Editing Items</source>
-        <translation>Activar FakeVim para Editar Entradas</translation>
+        <translation>Activar FakeVim para editar elementos</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation>Ruta al Archivo de Configuración:</translation>
+        <translation>Ruta al archivo de configuración:</translation>
     </message>
 </context>
 <context>
@@ -3426,37 +3416,37 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation>Ancho máxima de la imagen mostrada en el historial (cero para tamaño original)</translation>
+        <translation>Ancho máximo de la imagen mostrada en el historial (cero para usar el tamaño original)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation>A&amp;lto máximo de la imagen:</translation>
+        <translation>A&amp;ltura máximo de la imagen:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation>Altura máxima de la imagen mostrada en el historial (cero para tamaño original)</translation>
+        <translation>Altura máxima de la imagen mostrada en el historial (cero para usar el tamaño original)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>Editor de &amp;imágenes:</translation>
+        <translation>Orden del editor de &amp;imágenes:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation>Editor para otros formatos de imagen soportados además de SVG.</translation>
+        <translation>Orden del editor de imágenes con otros formatos compatibles distintos a SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>Editor &amp;SVG:</translation>
+        <translation>Orden del editor &amp;SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>Editor de imágenes con formato SVG.</translation>
+        <translation>Orden del editor de imágenes con formato SVG.</translation>
     </message>
 </context>
 <context>
@@ -3469,7 +3459,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotes.h" line="92"/>
         <source>Display notes for items.</source>
-        <translation>Mostrar notas para las entradas.</translation>
+        <translation>Mostrar notas para los elementos.</translation>
     </message>
 </context>
 <context>
@@ -3477,27 +3467,27 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="17"/>
         <source>Notes Position</source>
-        <translation>Posición de las Notas</translation>
+        <translation>Posición de las notas</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation>&amp;Encima de la Entrada</translation>
+        <translation>Arri&amp;ba del elemento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation>&amp;Debajo de la entrada</translation>
+        <translation>D&amp;ebajo del elemento</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>&amp;Icon Only</source>
-        <translation>Solo el &amp;Icono</translation>
+        <translation>Solo el &amp;ícono</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
         <source>Show Too&amp;l Tip</source>
-        <translation>Mostrar Too&amp;l Tip</translation>
+        <translation>Mostrar te&amp;xto de ayuda</translation>
     </message>
 </context>
 <context>
@@ -3518,17 +3508,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
         <source>+</source>
-        <translation type="unfinished">+</translation>
+        <translation>+</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="53"/>
         <source>&amp;Remove</source>
-        <translation>&amp;Eliminar</translation>
+        <translation>Quita&amp;r</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="60"/>
         <source>&amp;Up</source>
-        <translation>A&amp;rriba</translation>
+        <translation>Arri&amp;ba</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="67"/>
@@ -3542,42 +3532,42 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <location filename="../plugins/itemsync/itemsync.cpp" line="201"/>
         <source>Browse...</source>
         <comment>Button text for opening file dialog to select synchronization directory</comment>
-        <translation type="unfinished"/>
+        <translation>Navegar...</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1404"/>
         <source>Failed to synchronize tab "%1" with directory "%2"!</source>
-        <translation type="unfinished"/>
+        <translation>¡No se pudo sincronizar la pestaña «%1» con el directorio «%2»!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1452"/>
         <source>Remove Items?</source>
-        <translation type="unfinished"/>
+        <translation>¿Quitar elementos?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1453"/>
         <source>Do you really want to &lt;strong&gt;remove items and associated files&lt;/strong&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>¿Realmente desea &lt;strong&gt;quitar los elementos y archivos asociados&lt;/strong&gt;?</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1625"/>
         <source>Open Directory for Synchronization</source>
-        <translation type="unfinished"/>
+        <translation>Abrir directorio para sincronizar</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1644"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"/>
+        <translation>No se pudo crear el directorio de sincronización</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="100"/>
         <source>Synchronize</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizar</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="102"/>
         <source>Synchronize items and notes with a directory on disk.</source>
-        <translation type="unfinished"/>
+        <translation>Sincronizar elementos y notas con un directorio en disco.</translation>
     </message>
 </context>
 <context>
@@ -3585,44 +3575,46 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="24"/>
         <source>Synchronization Tabs and Directories</source>
-        <translation type="unfinished"/>
+        <translation>Sincronización de pestañas y directorios</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Sincronizar el contenido de la &lt;strong&gt;pestaña&lt;/strong&gt; con el directorio en la &lt;strong&gt;ruta&lt;/strong&gt; dada.&lt;/p&gt;
+&lt;p&gt;Dejar una &lt;strong&gt;ruta vacía&lt;/strong&gt; para no guardar los elementos de la &lt;strong&gt;pestañas&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation type="unfinished"/>
+        <translation>Nombre de la pestaña</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
         <source>Path</source>
-        <translation type="unfinished"/>
+        <translation>Ruta</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="88"/>
         <source>Files to Item Data Formats</source>
-        <translation type="unfinished"/>
+        <translation>Archivos para formato de datos de los elementos</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;Definir el tipo MIME como &lt;strong&gt;-&lt;/strong&gt; (guión) para ignorar archivos. Se ignorarán todos los demás archivos desconocidos u ocultos.&lt;/p&gt;
+&lt;p&gt;Ejemplo: cargar los archivos de extensión &lt;strong&gt;txt&lt;/strong&gt; como el tipo MIME &lt;strong&gt;text/plain&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
         <source>Extensions</source>
-        <translation type="unfinished"/>
+        <translation>Estensiones</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation type="unfinished"/>
+        <translation>Tipo MIME del elemento</translation>
     </message>
 </context>
 <context>
@@ -3639,7 +3631,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="69"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation>Mostrar texto plano y entradas HTML sencillas.</translation>
+        <translation>Mostrar elementos en texto plano y HTML sencillo.</translation>
     </message>
 </context>
 <context>
@@ -3652,12 +3644,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="26"/>
         <source>Maximum number of lines to display (0 to show all):</source>
-        <translation type="unfinished"/>
+        <translation>Cantidad máxima de líneas para mostrar (0 para mostrar todas):</translation>
     </message>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation type="unfinished"/>
+        <translation>Altura máxima en píxeles (0 para ilimitado):</translation>
     </message>
 </context>
 <context>
@@ -3734,7 +3726,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="380"/>
         <source>&amp;Show/Hide</source>
-        <translation>&amp;Mostrar/Ocultar</translation>
+        <translation>&amp;Mostrar/ocultar</translation>
     </message>
     <message>
         <source>&amp;New Item</source>
@@ -3759,7 +3751,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="385"/>
         <source>Open action dialog</source>
-        <translation>Abrir ventana de diálogo de acción</translation>
+        <translation>Abrir el diálogo de acción</translation>
     </message>
     <message>
         <source>&amp;Preferences</source>
@@ -3821,7 +3813,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="353"/>
         <source>&amp;Item</source>
-        <translation>&amp;Entrada</translation>
+        <translation>&amp;Elemento</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="358"/>
@@ -3854,11 +3846,11 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <source>Re&amp;move tab %1</source>
-        <translation type="vanished">&amp;Cerrar pestaña %1</translation>
+        <translation>&amp;Quitar la pestaña %1</translation>
     </message>
     <message>
         <source>Remove group %1</source>
-        <translation type="vanished">Cerrar el grupo %1</translation>
+        <translation>Quitar el grupo %1</translation>
     </message>
     <message>
         <source>Command %1</source>
