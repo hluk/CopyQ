@@ -386,14 +386,18 @@ void ScriptableProxyHelper::browserUnlock()
     m_lock.reset();
 }
 
-void ScriptableProxyHelper::browserCopyNextItemToClipboard()
+void ScriptableProxyHelper::nextToClipboard(int where)
 {
-    BROWSER(copyNextItemToClipboard());
-}
+    ClipboardBrowser *c = fetchBrowser();
 
-void ScriptableProxyHelper::browserCopyPreviousItemToClipboard()
-{
-    BROWSER(copyPreviousItemToClipboard());
+    const int row = qMax(0, c->currentIndex().row()) + where;
+    const QModelIndex index = c->index(row);
+
+    if (!index.isValid())
+        return;
+
+    setClipboard(::itemData(index));
+    c->setCurrentIndex(index);
 }
 
 void ScriptableProxyHelper::browserMoveToClipboard(int arg1)

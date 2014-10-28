@@ -588,12 +588,12 @@ void Scriptable::select()
 
 void Scriptable::next()
 {
-    m_proxy->browserCopyNextItemToClipboard();
+    m_proxy->nextToClipboard(1);
 }
 
 void Scriptable::previous()
 {
-    m_proxy->browserCopyPreviousItemToClipboard();
+    m_proxy->nextToClipboard(-1);
 }
 
 void Scriptable::add()

@@ -271,20 +271,6 @@ bool ClipboardBrowser::startEditor(QObject *editor)
     return true;
 }
 
-void ClipboardBrowser::copyItemToClipboard(int d)
-{
-    QModelIndex ind = currentIndex();
-    int row = ind.isValid() ? ind.row() : 0;
-    row = qMax(0, row + d);
-
-    if (row < m.rowCount()) {
-        clearSelection();
-        const QModelIndex index = m.index(row);
-        setCurrentIndex(index);
-        emit changeClipboard( itemData(index) );
-    }
-}
-
 void ClipboardBrowser::preload(int minY, int maxY)
 {
     ClipboardBrowser::Lock lock(this);
@@ -1317,16 +1303,6 @@ void ClipboardBrowser::editNew(const QString &text)
     QModelIndex newIndex = index(0);
     setCurrentIndex(newIndex);
     editItem( index(0) );
-}
-
-void ClipboardBrowser::copyNextItemToClipboard()
-{
-    copyItemToClipboard(1);
-}
-
-void ClipboardBrowser::copyPreviousItemToClipboard()
-{
-    copyItemToClipboard(-1);
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)

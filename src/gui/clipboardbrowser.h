@@ -257,16 +257,6 @@ class ClipboardBrowser : public QListView
         /** Open editor with text of all selected items or for single selected item. */
         bool openEditor();
 
-        /**
-         * Select next item and copy it to clipboard.
-         */
-        void copyNextItemToClipboard();
-
-        /**
-         * Select previous item and copy it to clipboard.
-         */
-        void copyPreviousItemToClipboard();
-
         /** Remove selected unhidden items. */
         void remove();
 
