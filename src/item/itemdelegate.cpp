@@ -30,8 +30,7 @@
 #include <QApplication>
 #include <QDesktopWidget>
 #include <QEvent>
-#include <QListView>
-#include <QMouseEvent>
+#include <QAbstractItemView>
 #include <QPainter>
 
 namespace {
@@ -52,9 +51,9 @@ int itemMargin()
 
 } // namespace
 
-ItemDelegate::ItemDelegate(QListView *parent)
+ItemDelegate::ItemDelegate(QAbstractItemView *view, QWidget *parent)
     : QItemDelegate(parent)
-    , m_parent(parent)
+    , m_view(view)
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
@@ -144,7 +143,7 @@ ItemWidget *ItemDelegate::cache(const QModelIndex &index)
 
     ItemWidget *w = m_cache[n];
     if (w == NULL) {
-        w = ConfigurationManager::instance()->itemFactory()->createItem(index, m_parent->viewport());
+        w = ConfigurationManager::instance()->itemFactory()->createItem(index, m_view->viewport());
         setIndexWidget(index, w);
     }
 
@@ -245,7 +244,7 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     ww->installEventFilter(this);
 
-    w->setCurrent(m_parent->currentIndex() == index);
+    w->setCurrent(m_view->currentIndex() == index);
 
     emit rowSizeChanged();
 }
@@ -309,8 +308,8 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     bool isSelected = option.state & QStyle::State_Selected;
 
     /* render background (selected, alternate, ...) */
-    QStyle *style = m_parent->style();
-    style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_parent);
+    QStyle *style = m_view->style();
+    style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
     /* render number */
     QRect numRect(0, 0, 0, 0);

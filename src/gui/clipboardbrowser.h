@@ -22,6 +22,8 @@
 
 #include "common/command.h"
 #include "gui/configtabshortcuts.h"
+#include "item/clipboardmodel.h"
+#include "item/itemdelegate.h"
 #include "item/itemwidget.h"
 
 #include <QListView>
@@ -31,8 +33,6 @@
 #include <QTimer>
 #include <QVariantMap>
 
-class ClipboardModel;
-class ItemDelegate;
 class ItemEditorWidget;
 class QProgressBar;
 class QPushButton;
@@ -427,8 +427,8 @@ class ClipboardBrowser : public QListView
         QString m_tabName;
         int m_lastFiltered;
         bool m_update;
-        ClipboardModel *m;
-        ItemDelegate *d;
+        ClipboardModel m;
+        ItemDelegate d;
         QTimer m_timerSave;
         QTimer m_timerScroll;
         QTimer m_timerUpdate;

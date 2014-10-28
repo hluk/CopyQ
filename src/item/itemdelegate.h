@@ -26,7 +26,7 @@
 class Item;
 class ItemEditorWidget;
 class ItemWidget;
-class QListView;
+class QAbstractItemView;
 
 /**
  * Delegate for items in ClipboardBrowser.
@@ -44,7 +44,7 @@ class ItemDelegate : public QItemDelegate
     Q_OBJECT
 
     public:
-        ItemDelegate(QListView *parent = NULL);
+        explicit ItemDelegate(QAbstractItemView *view, QWidget *parent = NULL);
 
         ~ItemDelegate();
 
@@ -130,7 +130,7 @@ class ItemDelegate : public QItemDelegate
 
         void updateItemMaximumSize();
 
-        QListView *m_parent;
+        QAbstractItemView  *m_view;
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
