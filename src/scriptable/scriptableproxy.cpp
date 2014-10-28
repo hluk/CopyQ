@@ -398,7 +398,9 @@ void ScriptableProxyHelper::browserCopyPreviousItemToClipboard()
 
 void ScriptableProxyHelper::browserMoveToClipboard(int arg1)
 {
-    BROWSER(moveToClipboard(arg1));
+    ClipboardBrowser *c = fetchBrowser();
+    if (c)
+        c->moveToClipboard(c->index(arg1));
 }
 
 void ScriptableProxyHelper::browserSetCurrent(int arg1)

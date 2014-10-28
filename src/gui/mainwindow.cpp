@@ -722,7 +722,6 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
     ClipboardBrowser *c = new ClipboardBrowser(this, m_sharedData);
     c->setTabName(name);
     c->loadSettings();
-    c->setAutoUpdate(true);
 
     connect( c, SIGNAL(changeClipboard(QVariantMap)),
              this, SLOT(setClipboard(QVariantMap)) );

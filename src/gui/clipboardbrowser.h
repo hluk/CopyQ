@@ -106,17 +106,8 @@ class ClipboardBrowser : public QListView
         /** Returns concatenation of selected items. */
         const QString selectedText() const;
 
-        /** Update clipboard content according to first item in list. */
-        void updateClipboard(int row = 0);
-
         /** Invalidate item cache. */
         void invalidateItemCache();
-
-        /** Toggle automatic clipboard update. */
-        void setAutoUpdate(bool update);
-
-        /** Return true if automatic clipboard update is on. */
-        bool autoUpdate() { return m_update; }
 
         /**
          * Set ID. Used to save items. If ID is empty saving is disabled.
@@ -192,8 +183,6 @@ class ClipboardBrowser : public QListView
         void keyEvent(QKeyEvent *event) { keyPressEvent(event); }
         /** Move item to clipboard. */
         void moveToClipboard(const QModelIndex &ind);
-        /** Move item to clipboard. */
-        void moveToClipboard(int i);
         /** Show only items matching the regular expression. */
         void filterItems(const QRegExp &re);
         /** Show all items. */
@@ -426,7 +415,6 @@ class ClipboardBrowser : public QListView
         ItemLoaderInterfacePtr m_itemLoader;
         QString m_tabName;
         int m_lastFiltered;
-        bool m_update;
         ClipboardModel m;
         ItemDelegate d;
         QTimer m_timerSave;
@@ -449,7 +437,6 @@ class ClipboardBrowser : public QListView
         QPoint m_dragStartPosition;
 
         int m_spinLock;
-        bool m_updateLock;
         QScopedPointer<class ScrollSaver> m_scrollSaver;
 };
 
