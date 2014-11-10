@@ -32,6 +32,7 @@
 #include "../qxt/qxtglobal.h"
 
 #include <QApplication>
+#include <QDateTime>
 #include <QDir>
 #include <QDesktopServices>
 #include <QElapsedTimer>
@@ -1106,6 +1107,12 @@ QScriptValue Scriptable::settings()
     }
 
     return toScriptValue(settings.allKeys(), this);
+}
+
+QScriptValue Scriptable::dateString()
+{
+    const QDateTime dateTime = QDateTime::currentDateTime();
+    return dateTime.toString(arg(0));
 }
 
 void Scriptable::setInput(const QByteArray &bytes)

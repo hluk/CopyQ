@@ -181,6 +181,8 @@ public slots:
 
     QScriptValue settings();
 
+    QScriptValue dateString();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
