@@ -117,10 +117,6 @@ void ConfigTabShortcuts::initShortcuts()
                   "editor", tr("Ctrl+E"), "accessories-text-editor", IconPencil );
     w->addAction( Actions::Item_Action, tr("&Action..."), "system-run", tr("F5"),
                   "action", IconCog );
-    w->addAction( Actions::Item_NextToClipboard, tr("Ne&xt to Clipboard"),
-                  "next_to_clipboard", tr("Ctrl+Shift+N"), "go-down", IconArrowDown );
-    w->addAction( Actions::Item_PreviousToClipboard, tr("&Previous to Clipboard"),
-                  "previous_to_clipboard", tr("Ctrl+Shift+P"), "go-up", IconArrowUp );
 
     w->addAction( Actions::Item_Remove, tr("&Remove"),
                   "delete_item",  shortcutToRemove(), "list-remove", IconRemove );

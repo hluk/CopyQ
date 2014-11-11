@@ -492,8 +492,6 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
     addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
     addItemAction( Actions::Item_Action, this, SLOT(action()) );
-    addItemAction( Actions::Item_NextToClipboard, c, SLOT(copyNextItemToClipboard()) );
-    addItemAction( Actions::Item_PreviousToClipboard, c, SLOT(copyPreviousItemToClipboard()) );
 
     updateToolBar();
 }

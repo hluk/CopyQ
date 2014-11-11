@@ -54,8 +54,6 @@ enum Id {
     Item_EditNotes,
     Item_EditWithEditor,
     Item_Action,
-    Item_NextToClipboard,
-    Item_PreviousToClipboard,
 
     Tabs_NewTab,
     Tabs_RenameTab,
