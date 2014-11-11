@@ -50,6 +50,8 @@ public:
 
     void setSaveOnReturnKey(bool enabled);
 
+    QModelIndex index() const { return m_index; }
+
 signals:
     void save();
     void cancel();

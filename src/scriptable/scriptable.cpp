@@ -656,13 +656,15 @@ void Scriptable::edit()
         }
     }
 
-    if ( !m_proxy->browserOpenEditor(fromString(text)) ) {
+    bool changeClipboard = row < 0;
+
+    if ( !m_proxy->browserOpenEditor(fromString(text), changeClipboard) ) {
         m_proxy->showBrowser();
         if (len == 1 && row >= 0) {
             m_proxy->browserSetCurrent(row);
             m_proxy->browserEditRow(row);
         } else {
-            m_proxy->browserEditNew(text);
+            m_proxy->browserEditNew(text, changeClipboard);
         }
     }
 }

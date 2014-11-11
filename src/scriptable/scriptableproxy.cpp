@@ -430,9 +430,9 @@ void ScriptableProxyHelper::browserEditRow(int arg1)
     BROWSER(editRow(arg1));
 }
 
-void ScriptableProxyHelper::browserEditNew(const QString &arg1)
+void ScriptableProxyHelper::browserEditNew(const QString &arg1, bool changeClipboard)
 {
-    BROWSER(editNew(arg1));
+    BROWSER(editNew(arg1, changeClipboard));
 }
 
 void ScriptableProxyHelper::tabs()
@@ -516,9 +516,9 @@ void ScriptableProxyHelper::browserLength()
     BROWSER_RESULT(length());
 }
 
-void ScriptableProxyHelper::browserOpenEditor(const QByteArray &arg1)
+void ScriptableProxyHelper::browserOpenEditor(const QByteArray &arg1, bool changeClipboard)
 {
-    BROWSER_RESULT(openEditor(arg1));
+    BROWSER_RESULT(openEditor(arg1, changeClipboard));
 }
 
 void ScriptableProxyHelper::browserAdd(const QString &arg1)

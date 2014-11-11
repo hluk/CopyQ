@@ -191,7 +191,7 @@ public slots:
     void browserRemoveRows(QList<int> rows);
 
     void browserEditRow(int arg1);
-    void browserEditNew(const QString &arg1);
+    void browserEditNew(const QString &arg1, bool changeClipboard);
 
     void tabs();
     void toggleVisible();
@@ -213,7 +213,7 @@ public slots:
     void getActionData(const QByteArray &arg1, const QString &arg2);
 
     void browserLength();
-    void browserOpenEditor(const QByteArray &arg1);
+    void browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
 
     void browserAdd(const QString &arg1);
     void browserAdd(const QVariantMap &arg1, int arg2);
@@ -327,13 +327,13 @@ public:
     PROXY_METHOD_VOID_1(browserRemoveRows, const QList<int> &)
     PROXY_METHOD_VOID_1(browserSetCurrent, int)
     PROXY_METHOD_0(int, browserLength)
-    PROXY_METHOD_1(bool, browserOpenEditor, const QByteArray &)
+    PROXY_METHOD_2(bool, browserOpenEditor, const QByteArray &, bool)
 
     PROXY_METHOD_1(bool, browserAdd, const QString &)
     PROXY_METHOD_1(bool, browserAdd, const QStringList &)
     PROXY_METHOD_2(bool, browserAdd, const QVariantMap &, int)
     PROXY_METHOD_VOID_1(browserEditRow, int)
-    PROXY_METHOD_VOID_1(browserEditNew, const QString &)
+    PROXY_METHOD_VOID_2(browserEditNew, const QString &, bool)
 
     PROXY_METHOD_2(QByteArray, browserItemData, int, const QString &)
     PROXY_METHOD_1(QVariantMap, browserItemData, int)

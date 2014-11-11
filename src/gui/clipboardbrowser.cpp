@@ -248,10 +248,15 @@ bool ClipboardBrowser::hideFiltered(int row)
     return hide;
 }
 
-bool ClipboardBrowser::startEditor(QObject *editor)
+bool ClipboardBrowser::startEditor(QObject *editor, bool changeClipboard)
 {
     connect( editor, SIGNAL(fileModified(QByteArray,QString)),
              this, SLOT(itemModified(QByteArray,QString)) );
+
+    if (changeClipboard) {
+        connect( editor, SIGNAL(fileModified(QByteArray,QString)),
+                 this, SLOT(onEditorNeedsChangeClipboard(QByteArray,QString)) );
+    }
 
     connect( editor, SIGNAL(closed(QObject*)),
              this, SLOT(closeExternalEditor(QObject*)) );
@@ -385,7 +390,7 @@ void ClipboardBrowser::preload(int minY, int maxY)
         scheduleDelayedItemsLayout();
 }
 
-void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
+void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor, bool changeClipboard)
 {
     bool active = editor != NULL;
 
@@ -396,6 +401,10 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
                      this, SLOT(onEditorDestroyed()) );
             connect( editor, SIGNAL(save()),
                      this, SLOT(onEditorSave()) );
+            if (changeClipboard) {
+                connect( editor, SIGNAL(save()),
+                         this, SLOT(onEditorNeedsChangeClipboard()) );
+            }
             connect( editor, SIGNAL(cancel()),
                      this, SLOT(onEditorCancel()) );
             connect( editor, SIGNAL(invalidate()),
@@ -432,7 +441,7 @@ void ClipboardBrowser::setEditorWidget(ItemEditorWidget *editor)
     emit updateContextMenu();
 }
 
-void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes)
+void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes, bool changeClipboard)
 {
     if (!index.isValid())
         return;
@@ -440,7 +449,7 @@ void ClipboardBrowser::editItem(const QModelIndex &index, bool editNotes)
     ItemEditorWidget *editor = d.createCustomEditor(this, index, editNotes);
     if (editor != NULL) {
         if ( editor->isValid() )
-            setEditorWidget(editor);
+            setEditorWidget(editor, changeClipboard);
         else
             delete editor;
     }
@@ -892,6 +901,18 @@ void ClipboardBrowser::onModelUnloaded()
     m_itemLoader.clear();
 }
 
+void ClipboardBrowser::onEditorNeedsChangeClipboard()
+{
+    QModelIndex index = m_editor->index();
+    if (index.isValid())
+        emit changeClipboard(itemData(index));
+}
+
+void ClipboardBrowser::onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime)
+{
+    emit changeClipboard(createDataMap(mime, bytes));
+}
+
 void ClipboardBrowser::filterItems()
 {
     m_timerFilter.stop();
@@ -1176,18 +1197,16 @@ bool ClipboardBrowser::openEditor()
                                   : openEditor( selectedText().toUtf8() );
 }
 
-bool ClipboardBrowser::openEditor(const QByteArray &data, const QString &mime,
-                                  const QString &editorCommand)
+bool ClipboardBrowser::openEditor(const QByteArray &textData, bool changeClipboard)
 {
     if ( !isLoaded() )
         return false;
 
-    const QString &cmd = editorCommand.isNull() ? m_sharedData->editor : editorCommand;
-    if ( cmd.isEmpty() )
+    if ( m_sharedData->editor.isEmpty() )
         return false;
 
-    QObject *editor = new ItemEditor(data, mime, cmd, this);
-    return startEditor(editor);
+    QObject *editor = new ItemEditor(textData, mimeText, m_sharedData->editor, this);
+    return startEditor(editor, changeClipboard);
 }
 
 bool ClipboardBrowser::openEditor(const QModelIndex &index)
@@ -1288,7 +1307,7 @@ void ClipboardBrowser::moveToClipboard(const QModelIndex &ind)
     emit changeClipboard( itemData(index) );
 }
 
-void ClipboardBrowser::editNew(const QString &text)
+void ClipboardBrowser::editNew(const QString &text, bool changeClipboard)
 {
     if ( !isLoaded() )
         return;
@@ -1302,7 +1321,7 @@ void ClipboardBrowser::editNew(const QString &text)
     // Select edited item even if it's hidden.
     QModelIndex newIndex = index(0);
     setCurrentIndex(newIndex);
-    editItem( index(0) );
+    editItem( index(0), false, changeClipboard );
 }
 
 void ClipboardBrowser::keyPressEvent(QKeyEvent *event)

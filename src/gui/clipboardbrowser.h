@@ -188,8 +188,7 @@ class ClipboardBrowser : public QListView
         /** Show all items. */
         void clearFilter() { filterItems( QRegExp() ); }
         /** Open editor. */
-        bool openEditor(const QByteArray &data, const QString &mime = QString("text/plain"),
-                        const QString &editorCommand = QString());
+        bool openEditor(const QByteArray &textData, bool changeClipboard = false);
         /** Open editor for an item. */
         bool openEditor(const QModelIndex &index);
         /** Add items. */
@@ -225,7 +224,8 @@ class ClipboardBrowser : public QListView
          * Create and edit new item.
          */
         void editNew(
-                const QString &text = QString() //!< Text of new item.
+                const QString &text = QString(), //!< Text of new item.
+                bool changeClipboard = false //!< Change clipboard if item is modified.
                 );
 
         /** Edit item in given @a row. */
@@ -336,6 +336,10 @@ class ClipboardBrowser : public QListView
 
         void onModelUnloaded();
 
+        void onEditorNeedsChangeClipboard();
+
+        void onEditorNeedsChangeClipboard(const QByteArray &bytes, const QString &mime);
+
         void filterItems();
 
     private:
@@ -355,7 +359,7 @@ class ClipboardBrowser : public QListView
         /**
          * Connects signals and starts external editor.
          */
-        bool startEditor(QObject *editor);
+        bool startEditor(QObject *editor, bool changeClipboard = false);
 
         /**
          * Select next/previous item and copy it to clipboard.
@@ -367,9 +371,9 @@ class ClipboardBrowser : public QListView
          */
         void preload(int minY, int maxY);
 
-        void setEditorWidget(ItemEditorWidget *widget);
+        void setEditorWidget(ItemEditorWidget *widget, bool changeClipboard = false);
 
-        void editItem(const QModelIndex &index, bool editNotes = false);
+        void editItem(const QModelIndex &index, bool editNotes = false, bool changeClipboard = false);
 
         void updateEditorGeometry();
 
@@ -417,6 +421,7 @@ class ClipboardBrowser : public QListView
         bool m_expireAfterEditing;
 
         ItemEditorWidget *m_editor;
+        bool m_editClipboard;
 
         ClipboardBrowserSharedPtr m_sharedData;
 
