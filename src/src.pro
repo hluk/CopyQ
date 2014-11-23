@@ -50,6 +50,7 @@ HEADERS += \
     gui/iconfactory.h \
     gui/iconfont.h \
     gui/iconselectbutton.h \
+    gui/icons.h \
     gui/iconwidget.h \
     gui/itemorderlist.h \
     gui/mainwindow.h \

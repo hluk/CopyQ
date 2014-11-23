@@ -39,6 +39,8 @@
 
 namespace {
 
+const char mimeTags[] = "application/x-copyq-tags";
+
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
 
@@ -292,6 +294,40 @@ void restoreGlobalActions()
 QIcon getCommandIcon(const QString &iconString)
 {
     return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
+}
+
+Command addRemoveExampleTagCommand(bool add)
+{
+    const QString tagName =
+            CommandDialog::tr("Important", "Tag name for example command");
+    const QString action =
+            add ? CommandDialog::tr("Tag as %1") : CommandDialog::tr("Remove tag %1");
+    const QString cmd =
+            add ? "concat(tag)" : "filter(function(x){return x != tag;})";
+
+    Command c;
+    c.name = action.arg(quoteString(tagName));
+    c.icon = QString(QChar(IconTag));
+    c.inMenu = true;
+    c.cmd =
+        "copyq:"
+        "\n" "tag = '" + tagName + "'"
+        "\n" ""
+        "\n" "tab(selectedtab())"
+        "\n" "selected = selecteditems()"
+        "\n" "mime = '" + QString(mimeTags) + "'"
+        "\n" ""
+        "\n" "for (var i in selected) {"
+        "\n" "  row = selected[i]"
+        "\n" "  tags = str(read(mime, row))"
+        "\n" "    .split(/\\s*,\\s*/)"
+        "\n" "    ." + cmd +
+        "\n" "    .sort()"
+        "\n" "    .join(',')"
+        "\n" "  change(row, mime, tags)"
+        "\n" "}";
+
+    return c;
 }
 
 } // namespace
@@ -709,6 +745,22 @@ bool CommandDialog::defaultCommand(int index, Command *c) const
         c->tab  = tr("(trash)");
         c->remove = true;
         c->shortcuts.append( toPortableShortcutText(shortcutToRemove()) );
+    } else if (index == ++i) {
+        *c = addRemoveExampleTagCommand(true);
+    } else if (index == ++i) {
+        *c = addRemoveExampleTagCommand(false);
+    } else if (index == ++i) {
+        c->name = tr("Clear all tags");
+        c->icon = QString(QChar(IconTag));
+        c->inMenu = true;
+        c->cmd =
+            "copyq:"
+            "\n" "tab(selectedtab())"
+            "\n" "selected = selecteditems()"
+            "\n" "mime = '" + QString(mimeTags) + "'"
+            "\n" ""
+            "\n" "for (var i in selected)"
+            "\n" "  change(selected[i], mime, '')";
     } else {
         return false;
     }

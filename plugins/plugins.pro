@@ -5,6 +5,7 @@ SUBDIRS  = \
            itemfakevim \
            itemimage \
            itemnotes \
+           itemtags \
            itemtext \
            itemsync \
            itemweb
