@@ -216,8 +216,9 @@ public slots:
     void browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
 
     void browserAdd(const QString &arg1);
-    void browserAdd(const QVariantMap &arg1, int arg2);
     void browserAdd(const QStringList &texts);
+    void browserAdd(const QVariantMap &arg1, int arg2);
+    void browserChange(const QVariantMap &data, int row);
 
     void browserItemData(int arg1, const QString &arg2);
     void browserItemData(int arg1);
@@ -332,6 +333,7 @@ public:
     PROXY_METHOD_1(bool, browserAdd, const QString &)
     PROXY_METHOD_1(bool, browserAdd, const QStringList &)
     PROXY_METHOD_2(bool, browserAdd, const QVariantMap &, int)
+    PROXY_METHOD_2(bool, browserChange, const QVariantMap &, int)
     PROXY_METHOD_VOID_1(browserEditRow, int)
     PROXY_METHOD_VOID_2(browserEditNew, const QString &, bool)
 

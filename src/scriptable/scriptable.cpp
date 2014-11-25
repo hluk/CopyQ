@@ -699,36 +699,12 @@ QScriptValue Scriptable::read()
 
 void Scriptable::write()
 {
-    int row;
-    int args = argumentCount();
-    int i;
+    changeItem(true);
+}
 
-    // [ROW]
-    if ( toInt(argument(0), row) ) {
-        if (args < 3 || args % 2 != 1 ) {
-            throwError(argumentError());
-            return;
-        }
-        i = 1;
-    } else {
-        if (args < 2 || args % 2 != 0 ) {
-            throwError(argumentError());
-            return;
-        }
-        row = 0;
-        i = 0;
-    }
-
-    QVariantMap data;
-
-    for (; i < args; i += 2) {
-        // MIME
-        const QString mime = toString(argument(i));
-        // DATA
-        toItemData( argument(i + 1), mime, &data );
-    }
-
-    m_proxy->browserAdd(data, row);
+void Scriptable::change()
+{
+    changeItem(false);
 }
 
 QScriptValue Scriptable::separator()
@@ -1148,4 +1124,41 @@ bool Scriptable::setClipboard(const QVariantMap &data)
 
     throwError( tr("Failed to set clipboard!") );
     return false;
+}
+
+void Scriptable::changeItem(bool create)
+{
+    int row;
+    int args = argumentCount();
+    int i;
+
+    // [ROW]
+    if ( toInt(argument(0), row) ) {
+        if (args < 3 || args % 2 != 1 ) {
+            throwError(argumentError());
+            return;
+        }
+        i = 1;
+    } else {
+        if (args < 2 || args % 2 != 0 ) {
+            throwError(argumentError());
+            return;
+        }
+        row = 0;
+        i = 0;
+    }
+
+    QVariantMap data;
+
+    for (; i < args; i += 2) {
+        // MIME
+        const QString mime = toString(argument(i));
+        // DATA
+        toItemData( argument(i + 1), mime, &data );
+    }
+
+    if (create)
+        m_proxy->browserAdd(data, row);
+    else
+        m_proxy->browserChange(data, row);
 }

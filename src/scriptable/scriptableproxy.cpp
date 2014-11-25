@@ -21,6 +21,7 @@
 
 #include "common/commandstatus.h"
 #include "common/common.h"
+#include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
@@ -526,11 +527,6 @@ void ScriptableProxyHelper::browserAdd(const QString &arg1)
     BROWSER_RESULT(add(arg1));
 }
 
-void ScriptableProxyHelper::browserAdd(const QVariantMap &arg1, int arg2)
-{
-    BROWSER_RESULT(add(arg1, arg2));
-}
-
 void ScriptableProxyHelper::browserAdd(const QStringList &texts) {
     ClipboardBrowser *c = fetchBrowser();
     if (!c) {
@@ -549,6 +545,25 @@ void ScriptableProxyHelper::browserAdd(const QStringList &texts) {
     }
 
     return;
+}
+
+void ScriptableProxyHelper::browserAdd(const QVariantMap &arg1, int arg2)
+{
+    BROWSER_RESULT(add(arg1, arg2));
+}
+
+void ScriptableProxyHelper::browserChange(const QVariantMap &data, int row)
+{
+    ClipboardBrowser *c = fetchBrowser();
+    if (!c)
+        return;
+
+    const QModelIndex index = c->index(row);
+    QVariantMap itemData = index.data(contentType::data).toMap();
+    foreach (const QString &mime, data.keys())
+        itemData[mime] = data[mime];
+
+    c->model()->setData(index, itemData, contentType::data);
 }
 
 void ScriptableProxyHelper::browserItemData(int arg1, const QString &arg2)

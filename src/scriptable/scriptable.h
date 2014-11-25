@@ -131,6 +131,7 @@ public slots:
 
     QScriptValue read();
     void write();
+    void change();
     QScriptValue separator();
 
     void action();
@@ -193,6 +194,7 @@ signals:
 private:
     QList<int> getRows() const;
     bool setClipboard(const QVariantMap &data);
+    void changeItem(bool create);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
