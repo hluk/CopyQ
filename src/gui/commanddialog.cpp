@@ -338,10 +338,6 @@ CommandDialog::CommandDialog(QWidget *parent)
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
     restoreWindowGeometry(this, false);
-
-    ConfigurationManager *cm = ConfigurationManager::instance();
-    connect( cm, SIGNAL(configurationChanged()),
-             this, SLOT(loadSettings()) );
 }
 
 CommandDialog::~CommandDialog()
