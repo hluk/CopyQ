@@ -173,6 +173,7 @@ ClipboardBrowser::ClipboardBrowser(QWidget *parent, const ClipboardBrowserShared
     , m_itemLoader()
     , m_tabName()
     , m_lastFiltered(-1)
+    , m(this)
     , d(this)
     , m_invalidateCache(false)
     , m_expireAfterEditing(false)
