@@ -349,19 +349,22 @@ QString ItemTagsLoader::script() const
     return
         "plugins." + id() + " = {"
 
-        "\n" "  mime: '" + QString(mimeTags) + "',"
+        "\n" "mime: '" + QString(mimeTags) + "',"
 
-        "\n" "tagUntag: function(tagName, add) {"
-        "\n" "  if (!tagName)"
+        "\n" "_tagUntag: function(add, args) {"
+        "\n" "  var tagName = args[0]"
+        "\n" "  if (!tagName) {"
         "\n" "    tagName = dialog('Tag')"
-        "\n" "  if (!tagName)"
-        "\n" "    return;"
+        "\n" "    if (!tagName)"
+        "\n" "      return;"
+        "\n" "  }"
         "\n" "  "
-        "\n" "  tab(selectedtab())"
-        "\n" "  selected = selecteditems()"
+        "\n" "  var rows = Array.prototype.slice.call(args, 1)"
+        "\n" "  if (rows.length == 0)"
+        "\n" "    rows = selecteditems()"
         "\n" "  "
-        "\n" "  for (var i in selected) {"
-        "\n" "    row = selected[i]"
+        "\n" "  for (var i in rows) {"
+        "\n" "    var row = rows[i]"
         "\n" "    tags = str(read(this.mime, row))"
         "\n" "      .split(/\\s*,\\s*/)"
         "\n" "      .filter(function(x) {return x != tagName;})"
@@ -373,18 +376,19 @@ QString ItemTagsLoader::script() const
         "\n" "},"
 
         "\n" "tag: function(tagName) {"
-        "\n" "  this.tagUntag(tagName, true)"
+        "\n" "  this._tagUntag(true, arguments)"
         "\n" "},"
 
-        "\n" "removeTag: function(tagName) {"
-        "\n" "  this.tagUntag(tagName, false)"
+        "\n" "untag: function(tagName) {"
+        "\n" "  this._tagUntag(false, arguments)"
         "\n" "},"
 
         "\n" "clearTags: function() {"
-        "\n" "  tab(selectedtab())"
-        "\n" "  selected = selecteditems()"
-        "\n" "  for (var i in selected)"
-        "\n" "    change(selected[i], this.mime, '')"
+        "\n" "  var rows = Array.prototype.slice.call(arguments)"
+        "\n" "  if (rows.length == 0)"
+        "\n" "    rows = selecteditems()"
+        "\n" "  for (var i in rows)"
+        "\n" "    change(rows[i], this.mime, '')"
         "\n" "},"
 
         "\n" "}";
@@ -403,7 +407,7 @@ void ItemTagsLoader::addCommands(QList<Command> *commands) const
     commands->append(c);
 
     c.name = tr("Remove tag %1").arg(quoteString(tagName));
-    c.cmd = "copyq: plugins.itemtags.removeTag('" + tagName + "')";
+    c.cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
     commands->append(c);
 
     c.name = tr("Clear all tags");
