@@ -29,5 +29,8 @@ extern const char mimeItems[];
 extern const char mimeItemNotes[];
 extern const char mimeOwner[];
 extern const char mimeClipboardMode[];
+extern const char mimeCurrentTab[];
+extern const char mimeSelectedItems[];
+extern const char mimeCurrentItem[];
 
 #endif // MIMETYPES_H

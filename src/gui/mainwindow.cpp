@@ -170,6 +170,25 @@ void disableActionWhenTabGroupSelected(WidgetOrAction *action, MainWindow *windo
                       action, SLOT(setDisabled(bool)) );
 }
 
+/// Adds information about current tab and selection if command is triggered by user.
+QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
+{
+    QVariantMap result = data;
+    const QItemSelectionModel *selectionModel = c.selectionModel();
+    const QModelIndexList selectedIndexes = selectionModel->selectedIndexes();
+
+    QList<QPersistentModelIndex> selected;
+    selected.reserve(selectedIndexes.size());
+    foreach (const QModelIndex &index, selectedIndexes)
+        selected.append(index);
+
+    result.insert(mimeCurrentTab, c.tabName());
+    result.insert(mimeCurrentItem, QVariant::fromValue(QPersistentModelIndex(selectionModel->currentIndex())));
+    result.insert(mimeSelectedItems, QVariant::fromValue(selected));
+
+    return result;
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -523,20 +542,25 @@ void MainWindow::onSaveCommand(const Command &command)
         m_commandDialog->addCommand(command);
 }
 
-void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &data)
+void MainWindow::onCommandActionTriggered(const Command &command, const QVariantMap &data, int commandType)
 {
     ClipboardBrowser *c = getBrowser();
     const QModelIndexList selected = c->selectionModel()->selectedIndexes();
 
     if ( !command.cmd.isEmpty() ) {
+        bool triggeredFromBrowser = commandType == CommandAction::ItemCommand;
         if (command.transform) {
             foreach (const QModelIndex &index, selected) {
                 QVariantMap data = itemData(index);
+                if (triggeredFromBrowser)
+                    data = addSelectionData(*c, data);
                 if ( command.input.isEmpty() || hasFormat(data, command.input) )
                     action(data, command, index);
             }
         } else {
-            action(data, command, QModelIndex());
+            const QVariantMap data2 =
+                    triggeredFromBrowser ? addSelectionData(*c, data) : data;
+            action(data2, command, QModelIndex());
         }
     }
 
@@ -813,8 +837,8 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
             act->setShortcuts(uniqueShortcuts);
         }
 
-        connect(act, SIGNAL(triggerCommand(Command,QVariantMap)),
-                this, SLOT(onCommandActionTriggered(Command,QVariantMap)));
+        connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
+                this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
     }
 
     if (type == CommandAction::ItemCommand)
@@ -927,7 +951,7 @@ QWidget *MainWindow::trayMenu()
     return m_trayMenu;
 }
 
-QByteArray MainWindow::getActionData(const QByteArray &actionId, const QString &format)
+QVariant MainWindow::getActionData(const QByteArray &actionId, const QString &format)
 {
     return m_actionHandler->getActionData(actionId, format);
 }
@@ -1617,25 +1641,6 @@ QStringList MainWindow::tabs() const
     return ui->tabWidget->tabs();
 }
 
-QString MainWindow::selectedTab() const
-{
-    return getBrowser()->tabName();
-}
-
-QList<int> MainWindow::selectedItems() const
-{
-    ClipboardBrowser *browser = getBrowser();
-    QModelIndexList selectedRows = browser->selectionModel()->selectedRows();
-
-    QList<int> result;
-    result.reserve( selectedRows.size() );
-
-    foreach (const QModelIndex &index, selectedRows)
-        result.append(index.row());
-
-    return result;
-}
-
 ClipboardBrowser *MainWindow::getTabForTrayMenu()
 {
     if (m_trayTab)
@@ -1802,7 +1807,7 @@ WId MainWindow::openActionDialog(const QVariantMap &data)
     connect( actionDialog.data(), SIGNAL(saveCommand(Command)),
              this, SLOT(onSaveCommand(Command)) );
     actionDialog->setWindowIcon(appIcon(AppIconRunning));
-    actionDialog->setInputData(data);
+    actionDialog->setInputData( addSelectionData(*browser(), data) );
     actionDialog->show();
     return stealFocus(*actionDialog.take());
 }
@@ -2025,7 +2030,7 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
     if (cmd.wait) {
         QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
 
-        actionDialog->setInputData(data);
+        actionDialog->setInputData(addSelectionData(*browser(), data));
         actionDialog->setCommand(cmd);
         actionDialog->setOutputIndex(outputIndex);
         QString outputTab = cmd.outputTab;

@@ -63,6 +63,13 @@ namespace {
 const char propertyWidgetName[] = "CopyQ_widget_name";
 const char propertyWidgetProperty[] = "CopyQ_widget_property";
 
+#ifndef HAS_TESTS
+QString noTestsError()
+{
+    return QString("This is only available if tests are compiled!");
+}
+#endif
+
 QByteArray serializeWindow(WId winId)
 {
     QByteArray data;
@@ -229,11 +236,12 @@ QVariant config(const QString &name, const QString &value)
 
 namespace detail {
 
-ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow)
+ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow, const QByteArray &actionId)
     : QObject(NULL)
     , m_wnd(mainWindow)
     , m_tabName()
     , m_lock()
+    , m_actionId(actionId)
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
     moveToThread(m_wnd->thread());
@@ -507,9 +515,9 @@ void ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboard::Mo
         v = cloneData(*data, QStringList(mime)).value(mime).toByteArray();
 }
 
-void ScriptableProxyHelper::getActionData(const QByteArray &arg1, const QString &arg2)
+void ScriptableProxyHelper::getActionData(const QString &arg2)
 {
-    v = m_wnd->getActionData(arg1, arg2);
+    v = m_wnd->getActionData(m_actionId, arg2);
 }
 
 void ScriptableProxyHelper::browserLength()
@@ -588,7 +596,16 @@ void ScriptableProxyHelper::currentTab()
 
 void ScriptableProxyHelper::currentItem()
 {
-    BROWSER_RESULT(currentIndex().row());
+    v = QVariant();
+
+    if (!canUseSelectedItems())
+        return;
+
+    const QPersistentModelIndex current =
+            m_wnd->getActionData(m_actionId, mimeCurrentItem)
+            .value<QPersistentModelIndex>();
+    if (current.isValid())
+        v = QVariant::fromValue(current);
 }
 
 void ScriptableProxyHelper::selectItems(const QList<int> &items)
@@ -616,17 +633,31 @@ void ScriptableProxyHelper::selectItems(const QList<int> &items)
 
 void ScriptableProxyHelper::selectedTab()
 {
-    v = m_wnd->selectedTab();
+    v = m_wnd->getActionData(m_actionId, mimeCurrentTab);
 }
 
 void ScriptableProxyHelper::selectedItems()
 {
-    v = QVariant::fromValue(m_wnd->selectedItems());
+    v = QVariant();
+
+    if (!canUseSelectedItems())
+        return;
+
+    QList<int> selectedRows;
+    const QList<QPersistentModelIndex> selected =
+            m_wnd->getActionData(m_actionId, mimeSelectedItems)
+            .value< QList<QPersistentModelIndex> >();
+    foreach (const QPersistentModelIndex &index, selected) {
+        if (index.isValid())
+            selectedRows.append(index.row());
+    }
+
+    v = QVariant::fromValue(selectedRows);
 }
 
+#ifdef HAS_TESTS
 void ScriptableProxyHelper::sendKeys(const QString &keys)
 {
-#ifdef HAS_TESTS
     v = QString();
 
     if (keys == "FLUSH_KEYS")
@@ -666,15 +697,33 @@ void ScriptableProxyHelper::sendKeys(const QString &keys)
                                    Q_ARG(const QPointer<QWidget> &, w)
                                    );
     }
-#else
-    Q_UNUSED(keys);
-    v = QString("This is only available if tests are compiled!");
-#endif
+}
+
+void ScriptableProxyHelper::testcurrentItem()
+{
+    BROWSER_RESULT(currentIndex().row());
+}
+
+void ScriptableProxyHelper::testselectedTab()
+{
+    v = m_wnd->browser()->tabName();
+}
+
+void ScriptableProxyHelper::testselectedItems()
+{
+    QModelIndexList selectedRows = m_wnd->browser()->selectionModel()->selectedRows();
+
+    QList<int> result;
+    result.reserve( selectedRows.size() );
+
+    foreach (const QModelIndex &index, selectedRows)
+        result.append(index.row());
+
+    v = QVariant::fromValue(result);
 }
 
 void ScriptableProxyHelper::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
 {
-#ifdef HAS_TESTS
     const QString keys = shortcut.toString();
 
     if (widget.isNull()) {
@@ -700,11 +749,32 @@ void ScriptableProxyHelper::keyClick(const QKeySequence &shortcut, const QPointe
     COPYQ_LOG( QString("Key \"%1\" sent to \"%2\".")
                .arg(keys)
                .arg(widgetName) );
-#else
-    Q_UNUSED(shortcut);
-    Q_UNUSED(widget);
-#endif
 }
+#else // HAS_TESTS
+void ScriptableProxyHelper::sendKeys(const QString &)
+{
+    v = noTestsError();
+}
+
+void ScriptableProxyHelper::testcurrentItem()
+{
+    v = noTestsError();
+}
+
+void ScriptableProxyHelper::testselectedTab()
+{
+    v = noTestsError();
+}
+
+void ScriptableProxyHelper::testselectedItems()
+{
+    v = noTestsError();
+}
+
+void ScriptableProxyHelper::keyClick(const QKeySequence &, const QPointer<QWidget> &)
+{
+}
+#endif // HAS_TESTS
 
 void ScriptableProxyHelper::currentWindowTitle()
 {
@@ -798,6 +868,12 @@ void ScriptableProxyHelper::setUserValue(const QString &key, const QVariant &val
 
 ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tabName)
 {
+    if (tabName.isEmpty()) {
+        const QString defaultTabName = m_wnd->getActionData(m_actionId, mimeCurrentTab).toString();
+        if (!defaultTabName.isEmpty())
+            return fetchBrowser(defaultTabName);
+    }
+
     ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->createTab(tabName);
     if (!c)
         return NULL;
@@ -829,8 +905,14 @@ QByteArray detail::ScriptableProxyHelper::itemData(int i, const QString &mime)
     return data.value(mime).toByteArray();
 }
 
-ScriptableProxy::ScriptableProxy(MainWindow *mainWindow)
-    : m_helper(new detail::ScriptableProxyHelper(mainWindow))
+bool detail::ScriptableProxyHelper::canUseSelectedItems() const
+{
+    return m_tabName.isEmpty()
+            || m_tabName == m_wnd->getActionData(m_actionId, mimeCurrentTab).toString();
+}
+
+ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, const QByteArray &actionId)
+    : m_helper(new detail::ScriptableProxyHelper(mainWindow, actionId))
 {
     qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
 }

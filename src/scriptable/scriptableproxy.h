@@ -146,7 +146,7 @@ class ScriptableProxyHelper : public QObject
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    explicit ScriptableProxyHelper(MainWindow* mainWindow);
+    ScriptableProxyHelper(MainWindow* mainWindow, const QByteArray &actionId);
 
     const QVariant &value() const;
 
@@ -210,7 +210,7 @@ public slots:
 
     void getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 
-    void getActionData(const QByteArray &arg1, const QString &arg2);
+    void getActionData(const QString &arg2);
 
     void browserLength();
     void browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
@@ -234,6 +234,9 @@ public slots:
     void selectedItems();
 
     void sendKeys(const QString &keys);
+    void testcurrentItem();
+    void testselectedTab();
+    void testselectedItems();
 
     void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
 
@@ -253,10 +256,13 @@ private:
     QVariantMap itemData(int i);
     QByteArray itemData(int i, const QString &mime);
 
+    bool canUseSelectedItems() const;
+
     MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
     QString m_tabName;
     QScopedPointer<ClipboardBrowser::Lock> m_lock;
+    QByteArray m_actionId;
 };
 
 } // namespace detail
@@ -271,7 +277,7 @@ private:
 class ScriptableProxy
 {
 public:
-    explicit ScriptableProxy(MainWindow *mainWindow);
+    ScriptableProxy(MainWindow *mainWindow, const QByteArray &actionId);
 
     ~ScriptableProxy();
 
@@ -319,7 +325,7 @@ public:
     PROXY_METHOD_1(QByteArray, getClipboardData, const QString &)
     PROXY_METHOD_2(QByteArray, getClipboardData, const QString &, QClipboard::Mode)
 
-    PROXY_METHOD_2(QByteArray, getActionData, const QByteArray &, const QString &)
+    PROXY_METHOD_1(QByteArray, getActionData, const QString &)
 
     PROXY_METHOD(browserLock)
     PROXY_METHOD(browserUnlock)
@@ -349,6 +355,9 @@ public:
     PROXY_METHOD_0(QList<int>, selectedItems)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)
+    PROXY_METHOD_0(int, testcurrentItem)
+    PROXY_METHOD_0(QString, testselectedTab)
+    PROXY_METHOD_0(QList<int>, testselectedItems)
 
     PROXY_METHOD_0(QString, currentWindowTitle)
 

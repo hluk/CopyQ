@@ -164,12 +164,11 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_dirClass(NULL)
     , m_fileClass(NULL)
     , m_inputSeparator("\n")
-    , m_actionId()
     , m_input()
 {
 }
 
-void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, const QByteArray &actionId)
+void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
 {
     m_engine = eng;
     QScriptEngine::QObjectWrapOptions opts =
@@ -201,8 +200,6 @@ void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath, cons
 
     m_dirClass = new DirClass(currentPath, eng);
     addScriptableClass(&obj, m_dirClass);
-
-    m_actionId = actionId;
 }
 
 QScriptValue Scriptable::newByteArray(const QByteArray &bytes)
@@ -842,7 +839,7 @@ QScriptValue Scriptable::input()
 
 QScriptValue Scriptable::data(const QScriptValue &value)
 {
-    return newByteArray( m_proxy->getActionData(m_actionId, toString(value)) );
+    return newByteArray( m_proxy->getActionData(toString(value)) );
 }
 
 void Scriptable::print(const QScriptValue &value)
@@ -878,6 +875,21 @@ void Scriptable::keys()
         m_proxy->sendKeys("FLUSH_KEYS");
     }
 #endif
+}
+
+QScriptValue Scriptable::testselectedtab()
+{
+    return m_proxy->testselectedTab();
+}
+
+QScriptValue Scriptable::testselecteditems()
+{
+    return toScriptValue( m_proxy->testselectedItems(), this );
+}
+
+QScriptValue Scriptable::testcurrentitem()
+{
+    return m_proxy->testcurrentItem();
 }
 
 QScriptValue Scriptable::selectitems()

@@ -620,13 +620,13 @@ void Tests::moveAndDeleteItems()
 
     // focus test tab by deleting (Alt+1 may not work on some systems/desktops)
     RUN(Args(args) << "keys" << "RIGHT", "");
-    RUN(Args(args) << "selectedtab", tab + "\n");
+    RUN(Args(args) << "testselectedtab", tab + "\n");
 
     // select first item
     RUN(Args(args) << "keys" << "HOME", "");
-    RUN(Args(args) << "selectedtab", tab + "\n");
-    RUN(Args(args) << "currentitem", "0\n");
-    RUN(Args(args) << "selecteditems", "0\n");
+    RUN(Args(args) << "testselectedtab", tab + "\n");
+    RUN(Args(args) << "testcurrentitem", "0\n");
+    RUN(Args(args) << "testselecteditems", "0\n");
 
     // delete first item
     RUN(Args(args) << "keys" << m_test->shortcutToRemove(), "");
@@ -1296,7 +1296,7 @@ void Tests::editNotes()
     RUN(Args(args) << "size", "2\n");
 
     RUN(Args() << "keys" << keyNameFor(QKeySequence::NextChild), "");
-    RUN(Args() << "selectedtab", tab + '\n');
+    RUN(Args() << "testselectedtab", tab + '\n');
 
     RUN(Args(args) << "read" << "?" << "0" << "1", "text/plain\n" "\n" "text/plain\n");
 
@@ -1366,7 +1366,7 @@ void Tests::nextPreviousTab()
             testTab(2) + "\n";
     RUN(Args() << "tab", testTabsList);
 
-    RUN(Args() << "selectedtab", "CLIPBOARD\n");
+    RUN(Args() << "testselectedtab", "CLIPBOARD\n");
 
     typedef QPair<QString, QString> KeyPair;
     const QList<KeyPair> keyPairs = QList<KeyPair>()
@@ -1379,24 +1379,24 @@ void Tests::nextPreviousTab()
             RUN(Args() << "config" << "tab_tree", optionValue + "\n");
 
             RUN(Args() << "keys" << keyPair.first, "");
-            RUN(Args() << "selectedtab", testTab(1) + '\n');
+            RUN(Args() << "testselectedtab", testTab(1) + '\n');
             RUN(Args() << "keys" << keyPair.first, "");
-            RUN(Args() << "selectedtab", testTab(2) + '\n');
+            RUN(Args() << "testselectedtab", testTab(2) + '\n');
             RUN(Args() << "keys" << keyPair.first, "");
-            RUN(Args() << "selectedtab", "CLIPBOARD\n");
+            RUN(Args() << "testselectedtab", "CLIPBOARD\n");
 
             RUN(Args() << "keys" << "CTRL+T" << ":" + testTab(3) << "ENTER", "");
-            RUN(Args() << "selectedtab", testTab(3) + '\n');
+            RUN(Args() << "testselectedtab", testTab(3) + '\n');
             RUN(Args() << "removetab" << testTab(3), "");
             RUN(Args() << "tab", testTabsList);
-            RUN(Args() << "selectedtab", "CLIPBOARD\n");
+            RUN(Args() << "testselectedtab", "CLIPBOARD\n");
 
             RUN(Args() << "keys" << keyPair.second, "");
-            RUN(Args() << "selectedtab", testTab(2) + '\n');
+            RUN(Args() << "testselectedtab", testTab(2) + '\n');
             RUN(Args() << "keys" << keyPair.second, "");
-            RUN(Args() << "selectedtab", testTab(1) + '\n');
+            RUN(Args() << "testselectedtab", testTab(1) + '\n');
             RUN(Args() << "keys" << keyPair.second, "");
-            RUN(Args() << "selectedtab", "CLIPBOARD\n");
+            RUN(Args() << "testselectedtab", "CLIPBOARD\n");
         }
     }
 }

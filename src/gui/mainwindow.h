@@ -39,6 +39,9 @@ class TrayMenu;
 struct Command;
 struct MainWindowOptions;
 
+Q_DECLARE_METATYPE(QPersistentModelIndex)
+Q_DECLARE_METATYPE(QList<QPersistentModelIndex>)
+
 namespace Ui
 {
     class MainWindow;
@@ -124,7 +127,7 @@ public:
 
     QWidget *trayMenu();
 
-    QByteArray getActionData(const QByteArray &actionId, const QString &format);
+    QVariant getActionData(const QByteArray &actionId, const QString &format);
 
     /**
      * Return browser widget in given tab @a index.
@@ -244,10 +247,6 @@ public:
     bool isClipboardIgnored() const { return m_ignoreCurrentClipboard; }
 
     QStringList tabs() const;
-
-    QString selectedTab() const;
-
-    QList<int> selectedItems() const;
 
 public slots:
     /** Close main window and exit the application. */
@@ -416,7 +415,7 @@ private slots:
 
     void onSaveCommand(const Command &command);
 
-    void onCommandActionTriggered(const Command &command, const QVariantMap &data);
+    void onCommandActionTriggered(const Command &command, const QVariantMap &data, int commandType);
 
     void on_tabWidget_dropItems(const QString &tabName, QDropEvent *event);
 

@@ -35,7 +35,7 @@ public:
     CommandAction(const Command &command, Type type, ClipboardBrowser *browser);
 
 signals:
-    void triggerCommand(const Command &command, const QVariantMap &data);
+    void triggerCommand(const Command &command, const QVariantMap &data, int type);
 
 private slots:
     void onTriggered();

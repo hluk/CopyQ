@@ -53,7 +53,7 @@ public:
 
     bool hasRunningAction() const;
 
-    QByteArray getActionData(const QByteArray actionId, const QString &format) const;
+    QVariant getActionData(const QByteArray actionId, const QString &format) const;
 
     /** Open dialog with active commands. */
     void showProcessManagerDialog();

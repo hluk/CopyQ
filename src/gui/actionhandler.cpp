@@ -64,11 +64,13 @@ bool ActionHandler::hasRunningAction() const
     return !m_actionData.isEmpty();
 }
 
-QByteArray ActionHandler::getActionData(const QByteArray actionId, const QString &format) const
+QVariant ActionHandler::getActionData(const QByteArray actionId, const QString &format) const
 {
     const QVariantMap dataMap = m_actionData.value(actionId);
-    return format == "?" ? QStringList(dataMap.keys()).join("\n").toUtf8() + '\n'
-                         : dataMap.value(format).toByteArray();
+    if (format == "?")
+        return QStringList(dataMap.keys()).join("\n").toUtf8() + '\n';
+
+    return dataMap.value(format);
 }
 
 void ActionHandler::showProcessManagerDialog()

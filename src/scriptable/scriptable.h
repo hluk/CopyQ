@@ -43,7 +43,7 @@ class Scriptable : public QObject, protected QScriptable
 public:
     Scriptable(ScriptableProxy *proxy, QObject *parent = NULL);
 
-    void initEngine(QScriptEngine *engine, const QString &currentPath, const QByteArray &actionId);
+    void initEngine(QScriptEngine *engine, const QString &currentPath);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
@@ -153,6 +153,9 @@ public slots:
     void abort();
 
     void keys();
+    QScriptValue testselectedtab();
+    QScriptValue testselecteditems();
+    QScriptValue testcurrentitem();
 
     QScriptValue selectitems();
 
@@ -202,7 +205,6 @@ private:
     DirClass *m_dirClass;
     FileClass *m_fileClass;
     QString m_inputSeparator;
-    QByteArray m_actionId;
     QScriptValue m_input;
 };
 

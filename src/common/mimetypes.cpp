@@ -27,3 +27,6 @@ const char mimeItems[] = COPYQ_MIME_PREFIX "item";
 const char mimeItemNotes[] = COPYQ_MIME_PREFIX "item-notes";
 const char mimeOwner[] = COPYQ_MIME_PREFIX "owner";
 const char mimeClipboardMode[] = COPYQ_MIME_PREFIX "clipboard-mode";
+const char mimeCurrentTab[] = COPYQ_MIME_PREFIX "-current-tab";
+const char mimeSelectedItems[] = COPYQ_MIME_PREFIX "-selected-items";
+const char mimeCurrentItem[] = COPYQ_MIME_PREFIX "-current-item";

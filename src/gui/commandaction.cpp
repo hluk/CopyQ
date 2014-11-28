@@ -67,5 +67,5 @@ void CommandAction::onTriggered()
         dataMap = m_browser->getSelectedItemData();
     }
 
-    emit triggerCommand(command, dataMap);
+    emit triggerCommand(command, dataMap, m_type);
 }
