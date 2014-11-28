@@ -25,6 +25,7 @@
 
 #include <QScopedPointer>
 #include <QVariant>
+#include <QVector>
 #include <QWidget>
 
 namespace Ui {
@@ -105,14 +106,18 @@ private slots:
 
 private:
     struct Tag {
+        QString name;
         QString color;
         QString icon;
     };
 
-    typedef QHash<QString, Tag> Tags;
+    typedef QVector<Tag> Tags;
+
+    static QString serializeTag(const Tag &tag);
+    static Tag deserializeTag(const QString &tagText);
 
     QString generateTagsHtml(const QString &tagsContent);
-    void addTagToSettingsTable(const QString &tagName = QString(), const Tag &tag = Tag());
+    void addTagToSettingsTable(const Tag &tag = Tag());
 
     QVariantMap m_settings;
     Tags m_tags;

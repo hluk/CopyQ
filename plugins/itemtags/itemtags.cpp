@@ -96,6 +96,21 @@ QString serializeColor(const QColor &color)
             .arg(color.alpha() * 1.0 / 255);
 }
 
+QColor deserializeColor(const QString &colorName)
+{
+    if ( colorName.startsWith("rgba(") ) {
+        QStringList list = colorName.mid(5, colorName.indexOf(')') - 5).split(',');
+        int r = list.value(0).toInt();
+        int g = list.value(1).toInt();
+        int b = list.value(2).toInt();
+        int a = list.value(3).toDouble() * 255;
+
+        return QColor(r, g, b, a);
+    }
+
+    return QColor(colorName);
+}
+
 void setColorIcon(QPushButton *button, const QColor &color)
 {
     QPixmap pix(button->iconSize());
@@ -136,6 +151,27 @@ QString defaultStyleSheetUrl()
     return
         "data:text/css;charset=utf-8;base64,"
         + QString::fromUtf8(QByteArray(defaultStyleSheetData).toBase64());
+}
+
+void addTagCommands(const QString &tagName, Command *c, QList<Command> *commands)
+{
+    c->name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(tagName));
+    c->cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
+    commands->append(*c);
+
+    c->name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(tagName));
+    c->cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
+    commands->append(*c);
+}
+
+QString escapeTagField(const QString &field)
+{
+    return QString(field).replace("\\", "\\\\").replace(";;", ";\\;");
+}
+
+QString unescapeTagField(const QString &field)
+{
+    return QString(field).replace(";\\;", ";;").replace("\\\\", "\\");
 }
 
 } // namespace
@@ -279,12 +315,12 @@ QVariantMap ItemTagsLoader::applySettings()
 
     for (int row = 0; row < t->rowCount(); ++row) {
         Tag tag;
-        const QString tagName = t->item(row, tagsTableColumns::name)->text();
-        if ( !tagName.isEmpty() ) {
+        tag.name = t->item(row, tagsTableColumns::name)->text();
+        if ( !tag.name.isEmpty() ) {
             tag.color = cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor);
             tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon");
-            tags.append(tagName + ";;" + tag.color + ";;" + tag.icon);
-            m_tags[tagName.toLower()] = tag;
+            tags.append(tag.name + ";;" + tag.color + ";;" + tag.icon);
+            m_tags.append(tag);
         }
     }
 
@@ -298,14 +334,14 @@ void ItemTagsLoader::loadSettings(const QVariantMap &settings)
     m_settings = settings;
 
     m_tags.clear();
-    foreach (const QString &tag, m_settings.value(configTags).toStringList()) {
-        const QStringList values = tag.split(";;");
-        const QString tagName = values.value(tagsTableColumns::name);
-        if (!tagName.isEmpty()) {
-            Tag tag;
+    foreach (const QString &tagField, m_settings.value(configTags).toStringList()) {
+        Tag tag;
+        const QStringList values = tagField.split(";;");
+        tag.name = values.value(tagsTableColumns::name);
+        if (!tag.name.isEmpty()) {
             tag.color = values.value(tagsTableColumns::color);
             tag.icon = values.value(tagsTableColumns::icon);
-            m_tags[tagName.toLower()] = tag;
+            m_tags.append(tag);
         }
     }
 }
@@ -317,8 +353,8 @@ QWidget *ItemTagsLoader::createSettingsWidget(QWidget *parent)
     ui->setupUi(w);
 
     // Init tag table.
-    foreach (const QString &tagName, m_tags.keys())
-        addTagToSettingsTable(tagName, m_tags[tagName]);
+    foreach (const Tag &tag, m_tags)
+        addTagToSettingsTable(tag);
     for (int i = 0; i < 10; ++i)
         addTagToSettingsTable();
 
@@ -396,19 +432,16 @@ QString ItemTagsLoader::script() const
 
 void ItemTagsLoader::addCommands(QList<Command> *commands) const
 {
-    const QString tagName = tr("Important", "Tag name for example command");
-
     Command c;
     c.icon = QString(QChar(IconTag));
     c.inMenu = true;
 
-    c.name = tr("Tag as %1").arg(quoteString(tagName));
-    c.cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
-    commands->append(c);
-
-    c.name = tr("Remove tag %1").arg(quoteString(tagName));
-    c.cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
-    commands->append(c);
+    if (m_tags.isEmpty()) {
+        addTagCommands(tr("Important", "Tag name for example command"), &c, commands);
+    } else {
+        foreach (const Tag &tag, m_tags)
+            addTagCommands(tag.name, &c, commands);
+    }
 
     c.name = tr("Clear all tags");
     c.cmd = "copyq: plugins.itemtags.clearTags()";
@@ -429,47 +462,77 @@ void ItemTagsLoader::onColorButtonClicked()
         setColorIcon( button, dialog.selectedColor() );
 }
 
+QString ItemTagsLoader::serializeTag(const ItemTagsLoader::Tag &tag)
+{
+    return escapeTagField(tag.name)
+            + ";;" + escapeTagField(tag.color)
+            + ";;" + escapeTagField(tag.icon);
+}
+
+ItemTagsLoader::Tag ItemTagsLoader::deserializeTag(const QString &tagText)
+{
+    QStringList tagFields = tagText.split(";;");
+
+    Tag tag;
+    tag.name = unescapeTagField(tagFields.value(0));
+    tag.color = unescapeTagField(tagFields.value(1));
+    tag.icon = unescapeTagField(tagFields.value(2));
+
+    return tag;
+}
+
 QString ItemTagsLoader::generateTagsHtml(const QString &tagsContent)
 {
     if (tagsContent.startsWith('<'))
         return tagsContent;
 
     QString html;
-    foreach (const QString &tagName, tagsContent.split(',', QString::SkipEmptyParts)) {
-        QString tag = tagName.trimmed();
+    foreach (const QString &tagText, tagsContent.split(',', QString::SkipEmptyParts)) {
+        QString tagName = tagText.trimmed();
         QString style;
 
-        Tags::const_iterator it = m_tags.find(tag.toLower());
-        if (it != m_tags.end()) {
-            const QColor bg(it->color);
+        Tag tag;
+        foreach (const Tag &userTag, m_tags) {
+            if (userTag.name == tagName) {
+                tag = userTag;
+                break;
+            }
+        }
+
+        if (!tag.name.isEmpty()) {
+            const QColor bg(deserializeColor(tag.color));
             const int fgLightness =
                     bg.lightness() == 0 ? 200 : bg.lightness() * (bg.lightness() > 100 ? 0.3 : 5.0);
             const QColor fg = QColor::fromHsl(
                         bg.hue(), bg.saturation(), qBound(0, fgLightness, 255), bg.alpha());
 
-            style = "background:" + bg.name() + ";color:" + fg.name();
-            if (!it->icon.isEmpty()) {
+            style = "background:" + serializeColor(bg) + ";color:" + serializeColor(fg);
+            if (tag.icon.size() == 1) {
                 QFont font = iconFont();
                 style += QString(";font-family:\"%1\";font-size:%2px")
                         .arg(font.family(), QString::number(font.pixelSize()));
-                tag = it->icon;
+                tagName = escapeHtml(tag.icon);
+            } else if (!tag.icon.isEmpty()) {
+                tagName = QString("<img src='file://%1' />").arg(tag.icon);
+            } else {
+                tagName = escapeHtml(tagName);
             }
         }
 
-        html.append("<span class='tag' style='" + style + "'>" + escapeHtml(tag) + "</span>");
+        html.append("<span class='tag' style='" + style + "'>" + tagName + "</span>");
     }
 
     return html;
 }
 
-void ItemTagsLoader::addTagToSettingsTable(const QString &tagName, const ItemTagsLoader::Tag &tag)
+void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
 {
     QTableWidget *t = ui->tableWidget;
 
     const int row = t->rowCount();
 
     t->insertRow(row);
-    t->setItem( row, tagsTableColumns::name, new QTableWidgetItem(tagName) );
+    t->setItem( row, tagsTableColumns::name, new QTableWidgetItem(tag.name) );
     t->setItem( row, tagsTableColumns::color, new QTableWidgetItem() );
     t->setItem( row, tagsTableColumns::icon, new QTableWidgetItem() );
 
