@@ -100,8 +100,10 @@ Settings::Settings()
         }
 
         endSave();
-    } else if ( needsUpdate(*this, QSettings()) ) {
-        copySettings(QSettings(), this);
+    } else {
+        const QSettings settings;
+        if ( needsUpdate(*this, settings) )
+            copySettings(settings, this);
     }
 }
 
