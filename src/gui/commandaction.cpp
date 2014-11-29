@@ -24,7 +24,7 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 
-CommandAction::CommandAction(const Command &command, CommandAction::Type type, ClipboardBrowser *browser)
+CommandAction::CommandAction(const Command &command, const QString &name, CommandAction::Type type, ClipboardBrowser *browser)
     : QAction(browser)
     , m_command(command)
     , m_type(type)
@@ -37,7 +37,7 @@ CommandAction::CommandAction(const Command &command, CommandAction::Type type, C
         m_command.hideWindow = false;
     }
 
-    setText( elideText(m_command.name, browser->font()) );
+    setText( elideText(name, browser->font()) );
 
     IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
     setIcon( iconFactory->iconFromFile(m_command.icon) );

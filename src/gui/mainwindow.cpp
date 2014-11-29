@@ -189,6 +189,43 @@ QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
     return result;
 }
 
+QMenu *createSubMenus(
+        QString *name, QMenu *menu, QMap<QString, QMenu*> *subMenus)
+{
+    bool escape = false;
+    int parentMenuPathLength = 0;
+    QMenu *parentMenu = menu;
+
+    for (int i = 0; i < name->size(); ++i) {
+        if (escape) {
+            escape = false;
+            continue;
+        }
+
+        const QChar c = name->at(i);
+        if (c == '\\') {
+            escape = true;
+        } else if (c == '/') {
+            const QString subMenuPath = name->mid(0, i);
+            const QString subMenuName = subMenuPath.mid(parentMenuPathLength);
+
+            QMenu *subMenu = subMenus->value(subMenuName);
+            if (!subMenu) {
+                subMenu = new QMenu(subMenuName, parentMenu);
+                subMenus->insert(subMenuName, subMenu);
+                parentMenu->addMenu(subMenu);
+            }
+
+            parentMenu = subMenu;
+            parentMenuPathLength = i + 1;
+        }
+    }
+
+    name->remove(0, parentMenuPathLength);
+
+    return parentMenu;
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -811,6 +848,7 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
             ? CommandAction::ItemCommand : CommandAction::ClipboardCommand;
 
     QList<QKeySequence> usedShortcuts;
+    QMap<QString, QMenu*> subMenus;
 
     foreach (const Command &command, m_commands) {
         // Verify that command can be added to menu.
@@ -820,8 +858,10 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
         if ( !canExecuteCommand(command, data, getBrowser()->tabName()) )
             continue;
 
-        QAction *act = new CommandAction(command, type, getBrowser());
-        menu->addAction(act);
+        QString name = command.name;
+        QMenu *currentMenu = createSubMenus(&name, menu, &subMenus);
+        QAction *act = new CommandAction(command, name, type, getBrowser());
+        currentMenu->addAction(act);
 
         if (type == CommandAction::ItemCommand) {
             QList<QKeySequence> uniqueShortcuts;

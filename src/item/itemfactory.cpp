@@ -361,8 +361,14 @@ QList<Command> ItemFactory::commands() const
 {
     QList<Command> commands;
 
-    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() )
-        commands << loader->commands();
+    foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+        QList <Command> subCommands = loader->commands();
+
+        for (int i = 0; i < subCommands.size(); ++i)
+            subCommands[i].name.prepend(loader->name() + '/');
+
+        commands << subCommands;
+    }
 
     return commands;
 }
