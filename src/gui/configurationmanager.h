@@ -201,6 +201,8 @@ QIcon getIconFromResources(const QString &iconName);
 
 QIcon getIcon(const QString &themeName, ushort iconId);
 
+QIcon getIcon(const QVariant &iconOrIconId);
+
 void setDefaultTabItemCounterStyle(QWidget *widget);
 
 #endif // CONFIGURATIONMANAGER_H

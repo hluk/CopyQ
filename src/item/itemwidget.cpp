@@ -19,6 +19,7 @@
 
 #include "itemwidget.h"
 
+#include "common/command.h"
 #include "common/contenttype.h"
 #include "item/itemeditor.h"
 
@@ -257,6 +258,7 @@ QString ItemLoaderInterface::script() const
     return QString();
 }
 
-void ItemLoaderInterface::addCommands(QList<Command> *) const
+QList<Command> ItemLoaderInterface::commands() const
 {
+    return QList<Command>();
 }

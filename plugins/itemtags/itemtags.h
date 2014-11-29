@@ -99,7 +99,7 @@ public:
 
     virtual QString script() const;
 
-    virtual void addCommands(QList<Command> *commands) const;
+    virtual QList<Command> commands() const;
 
 private slots:
     void onColorButtonClicked();

@@ -308,7 +308,7 @@ public:
     /**
      * Adds commands from scripts for command dialog.
      */
-    virtual void addCommands(QList<Command> *commands) const;
+    virtual QList<Command> commands() const;
 };
 
 typedef QSharedPointer<ItemLoaderInterface> ItemLoaderInterfacePtr;

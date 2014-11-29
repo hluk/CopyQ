@@ -25,6 +25,7 @@
 #include "common/config.h"
 #include "common/mimetypes.h"
 #include "common/settings.h"
+#include "gui/addcommanddialog.h"
 #include "gui/commandwidget.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
@@ -38,8 +39,6 @@
 #include <QTemporaryFile>
 
 namespace {
-
-const char propertyCommand[] = "CopyQ_command";
 
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
@@ -177,126 +176,6 @@ void saveCommands(const CommandDialog::Commands &commands, QSettings *settings)
     }
 }
 
-#ifndef NO_GLOBAL_SHORTCUTS
-enum GlobalAction {
-    GlobalActionToggleMainWindow,
-    GlobalActionShowTray,
-    GlobalActionEditClipboard,
-    GlobalActionEditFirstItem,
-    GlobalActionCopySecondItem,
-    GlobalActionShowActionDialog,
-    GlobalActionCreateItem,
-    GlobalActionCopyNextItem,
-    GlobalActionCopyPreviousItem,
-    GlobalActionPasteAsPlainText,
-    GlobalActionDisableClipboardStoring,
-    GlobalActionEnableClipboardStoring,
-    GlobalActionPasteAndCopyNext,
-    GlobalActionPasteAndCopyPrevious
-};
-
-Command *newCommand(QList<Command> *commands)
-{
-    commands->append(Command());
-    return &commands->last();
-}
-
-void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
-                          const QStringList &s, Command *c)
-{
-    c->name = name;
-    c->cmd = "copyq: " + script;
-    c->icon = QString(QChar(icon));
-    QString shortcutNativeText =
-            ConfigurationManager::tr("Ctrl+Shift+1", "Global shortcut for some predefined commands");
-    c->globalShortcuts = s.isEmpty() ? QStringList(toPortableShortcutText(shortcutNativeText)) : s;
-}
-
-void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QStringList())
-{
-    if (id == GlobalActionToggleMainWindow)
-        createGlobalShortcut( ConfigurationManager::tr("Show/hide main window"), "toggle()", IconListAlt, s, c );
-    else if (id == GlobalActionShowTray)
-        createGlobalShortcut( ConfigurationManager::tr("Show the tray menu"), "menu()", IconInbox, s, c );
-    else if (id == GlobalActionEditClipboard)
-        createGlobalShortcut( ConfigurationManager::tr("Edit clipboard"), "edit(-1)", IconEdit, s, c );
-    else if (id == GlobalActionEditFirstItem)
-        createGlobalShortcut( ConfigurationManager::tr("Edit first item"), "edit(0)", IconEdit, s, c );
-    else if (id == GlobalActionCopySecondItem)
-        createGlobalShortcut( ConfigurationManager::tr("Copy second item"), "select(1)", IconCopy, s, c );
-    else if (id == GlobalActionShowActionDialog)
-        createGlobalShortcut( ConfigurationManager::tr("Show action dialog"), "action()", IconCog, s, c );
-    else if (id == GlobalActionCreateItem)
-        createGlobalShortcut( ConfigurationManager::tr("Create new item"), "edit()", IconAsterisk, s, c );
-    else if (id == GlobalActionCopyNextItem)
-        createGlobalShortcut( ConfigurationManager::tr("Copy next item"), "next()", IconArrowDown, s, c );
-    else if (id == GlobalActionCopyPreviousItem)
-        createGlobalShortcut( ConfigurationManager::tr("Copy previous item"), "previous()", IconArrowUp, s, c );
-    else if (id == GlobalActionPasteAsPlainText)
-        createGlobalShortcut( ConfigurationManager::tr("Paste clipboard as plain text"), "copy(clipboard()); paste()", IconPaste, s, c );
-    else if (id == GlobalActionDisableClipboardStoring)
-        createGlobalShortcut( ConfigurationManager::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
-    else if (id == GlobalActionEnableClipboardStoring)
-        createGlobalShortcut( ConfigurationManager::tr("Enable clipboard storing"), "enable()", IconEyeOpen, s, c );
-    else if (id == GlobalActionPasteAndCopyNext)
-        createGlobalShortcut( ConfigurationManager::tr("Paste and copy next"), "paste(); next()", IconArrowCircleODown, s, c );
-    else if (id == GlobalActionPasteAndCopyPrevious)
-        createGlobalShortcut( ConfigurationManager::tr("Paste and copy previous"), "paste(); previous()", IconArrowCircleOUp, s, c );
-    else
-        Q_ASSERT(false);
-}
-
-void createGlobalShortcut(GlobalAction id, QList<Command> *commands)
-{
-    Command *c = newCommand(commands);
-    createGlobalShortcut(id, c);
-}
-
-void restoreGlobalAction(GlobalAction id, const QString &key, QSettings *settings, CommandDialog::Commands *commands)
-{
-    const QStringList shortcuts = settings->value(key).toStringList();
-    if ( !shortcuts.isEmpty() ) {
-        Command c;
-        createGlobalShortcut(id, &c, shortcuts);
-        commands->append(c);
-        settings->remove(key);
-    }
-}
-
-/**
- * Load deprecated global shortcut settings.
- * Removes the settings and stores as commands.
- */
-void restoreGlobalActions()
-{
-    CommandDialog::Commands commands;
-    Settings settings;
-
-    settings.beginGroup("Options");
-    restoreGlobalAction( GlobalActionToggleMainWindow, "toggle_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionShowTray, "menu_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionEditClipboard, "edit_clipboard_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionEditFirstItem, "edit_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionCopySecondItem, "second_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionShowActionDialog, "show_action_dialog", &settings, &commands );
-    restoreGlobalAction( GlobalActionCreateItem, "new_item_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionCopyNextItem, "next_item_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionCopyPreviousItem, "previous_item_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionPasteAsPlainText, "paste_as_plain_text", &settings, &commands );
-    restoreGlobalAction( GlobalActionDisableClipboardStoring, "disable_monitoring_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionEnableClipboardStoring, "enable_monitoring_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionPasteAndCopyNext, "paste_and_copy_next_shortcut", &settings, &commands );
-    restoreGlobalAction( GlobalActionPasteAndCopyPrevious, "paste_and_copy_previous_shortcut", &settings, &commands );
-    settings.endGroup();
-
-    if ( !commands.isEmpty() ) {
-        commands.append( loadCommands(&settings, false) );
-        saveCommands(commands, &settings);
-    }
-}
-
-#endif
-
 QIcon getCommandIcon(const QString &iconString)
 {
     return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
@@ -310,27 +189,14 @@ CommandDialog::CommandDialog(QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::CommandDialog)
 {
-    restoreGlobalActions();
-
     ui->setupUi(this);
     ui->pushButtonLoadCommands->setIcon(iconLoadCommands());
     ui->pushButtonSaveCommands->setIcon(iconSaveCommands());
     ui->itemOrderListCommands->setFocus();
+    ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
     foreach ( const Command &command, commands(false) )
         addCommandWithoutSave(command);
-
-    QMenu *menu = new QMenu(this);
-    IconFactory *iconFactory = ConfigurationManager::instance()->iconFactory();
-
-    foreach ( const Command &cmd, defaultCommands() ) {
-        const QIcon icon = iconFactory->iconFromFile(cmd.icon);
-        const QString name = QString(cmd.name).remove('&');
-        QAction *act = menu->addAction(icon, name);
-        act->setProperty( propertyCommand, QVariant::fromValue(cmd) );
-    }
-
-    ui->itemOrderListCommands->setAddMenu(menu);
 
     QAction *act = new QAction(ui->itemOrderListCommands);
     ui->itemOrderListCommands->addAction(act);
@@ -444,12 +310,12 @@ void CommandDialog::onFinished(int result)
     saveWindowGeometry(this, false);
 }
 
-void CommandDialog::on_itemOrderListCommands_addButtonClicked(QAction *action)
+void CommandDialog::on_itemOrderListCommands_addButtonClicked()
 {
-    const Command cmd = action->property(propertyCommand).value<Command>();
-    const int targetRow = qMax( 0, ui->itemOrderListCommands->currentRow() );
-    addCommandWithoutSave(cmd, targetRow);
-    ui->itemOrderListCommands->setCurrentItem(targetRow);
+    AddCommandDialog *addCommandDialog = new AddCommandDialog(this);
+    addCommandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
+    connect(addCommandDialog, SIGNAL(addCommands(QList<Command>)), SLOT(onAddCommands(QList<Command>)));
+    addCommandDialog->show();
 }
 
 void CommandDialog::on_itemOrderListCommands_itemSelectionChanged()
@@ -512,6 +378,14 @@ void CommandDialog::on_buttonBox_clicked(QAbstractButton *button)
     }
 }
 
+void CommandDialog::onAddCommands(const QList<Command> &commands)
+{
+    const int targetRow = qMax( 0, ui->itemOrderListCommands->currentRow() );
+    for (int i = 0; i < commands.count(); ++i)
+        addCommandWithoutSave(commands[i], targetRow + i);
+    ui->itemOrderListCommands->setCurrentItem(targetRow);
+}
+
 void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
 {
     CommandWidget *cmdWidget = new CommandWidget(this);
@@ -564,138 +438,6 @@ CommandDialog::Commands CommandDialog::selectedCommands() const
     }
 
     return commandsToSave;
-}
-
-QList<Command> CommandDialog::defaultCommands() const
-{
-    static const QRegExp reURL("^(https?|ftps?|file)://");
-
-    QList<Command> commands;
-    Command *c;
-
-    c = newCommand(&commands);
-    c->name = tr("New command");
-    c->input = c->output = "";
-    c->wait = c->automatic = c->remove = false;
-    c->sep = QString("\\n");
-
-#ifndef NO_GLOBAL_SHORTCUTS
-    createGlobalShortcut(GlobalActionToggleMainWindow, &commands);
-    createGlobalShortcut(GlobalActionShowTray, &commands);
-    createGlobalShortcut(GlobalActionEditClipboard, &commands);
-    createGlobalShortcut(GlobalActionEditFirstItem, &commands);
-    createGlobalShortcut(GlobalActionCopySecondItem, &commands);
-    createGlobalShortcut(GlobalActionShowActionDialog, &commands);
-    createGlobalShortcut(GlobalActionCreateItem, &commands);
-    createGlobalShortcut(GlobalActionCopyNextItem, &commands);
-    createGlobalShortcut(GlobalActionCopyPreviousItem, &commands);
-    createGlobalShortcut(GlobalActionPasteAsPlainText, &commands);
-    createGlobalShortcut(GlobalActionDisableClipboardStoring, &commands);
-    createGlobalShortcut(GlobalActionEnableClipboardStoring, &commands);
-    createGlobalShortcut(GlobalActionPasteAndCopyNext, &commands);
-    createGlobalShortcut(GlobalActionPasteAndCopyPrevious, &commands);
-#endif
-
-    c = newCommand(&commands);
-    c->name = tr("Ignore items with no or single character");
-    c->re   = QRegExp("^\\s*\\S?\\s*$");
-    c->icon = QString(QChar(IconExclamationSign));
-    c->remove = true;
-    c->automatic = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Open in &Browser");
-    c->re   = reURL;
-    c->icon = QString(QChar(IconGlobe));
-    c->cmd  = "copyq open %1";
-    c->hideWindow = true;
-    c->inMenu = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Paste as Plain Text");
-    c->input = mimeText;
-    c->icon = QString(QChar(IconPaste));
-    c->cmd  = "copyq:\ncopy(input())\npaste()";
-    c->hideWindow = true;
-    c->inMenu = true;
-    c->shortcuts.append( toPortableShortcutText(tr("Shift+Return")) );
-
-    c = newCommand(&commands);
-    c->name = tr("Autoplay videos");
-    c->re   = QRegExp("^http://.*\\.(mp4|avi|mkv|wmv|flv|ogv)$");
-    c->icon = QString(QChar(IconPlayCircle));
-    c->cmd  = "copyq open %1";
-    c->automatic = true;
-    c->hideWindow = true;
-    c->inMenu = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Copy URL (web address) to other tab");
-    c->re   = reURL;
-    c->icon = QString(QChar(IconCopy));
-    c->tab  = "&web";
-    c->automatic = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Create thumbnail (needs ImageMagick)");
-    c->icon = QString(QChar(IconPicture));
-    c->cmd  = "convert - -resize 92x92 png:-";
-    c->input = "image/png";
-    c->output = "image/png";
-    c->inMenu = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Create QR Code from URL (needs qrencode)");
-    c->re   = reURL;
-    c->icon = QString(QChar(IconQRCode));
-    c->cmd  = "qrencode -o - -t PNG -s 6";
-    c->input = mimeText;
-    c->output = "image/png";
-    c->inMenu = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Add to &TODO tab");
-    c->icon = QString(QChar(IconShare));
-    c->tab  = "TODO";
-    c->input = mimeText;
-    c->inMenu = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Move to &TODO tab");
-    c->icon = QString(QChar(IconShare));
-    c->tab  = "TODO";
-    c->input = mimeText;
-    c->remove = true;
-    c->inMenu = true;
-
-    c = newCommand(&commands);
-    c->name = tr("Ignore copied files");
-    c->icon = QString(QChar(IconExclamationSign));
-    c->input = mimeUriList;
-    c->remove = true;
-    c->automatic = true;
-
-#if defined(COPYQ_WS_X11) || defined(Q_OS_WIN) || defined(Q_OS_MAC)
-    c = newCommand(&commands);
-    c->name = tr("Ignore *\"Password\"* window");
-    c->wndre = QRegExp(tr("Password"));
-    c->icon = QString(QChar(IconAsterisk));
-    c->remove = true;
-    c->automatic = true;
-    c->cmd = "copyq ignore";
-#endif
-
-    c = newCommand(&commands);
-    c->name = tr("Move to Trash");
-    c->icon = QString(QChar(IconTrash));
-    c->inMenu = true;
-    c->tab  = tr("(trash)");
-    c->remove = true;
-    c->shortcuts.append( toPortableShortcutText(shortcutToRemove()) );
-
-    ConfigurationManager::instance()->itemFactory()->addCommands(&commands);
-
-    return commands;
 }
 
 QString CommandDialog::serializeSelectedCommands()

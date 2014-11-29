@@ -20,7 +20,8 @@ FORMS += \
     ui/shortcutswidget.ui \
     ui/processmanagerdialog.ui \
     ui/commanddialog.ui \
-    ui/commandedit.ui
+    ui/commandedit.ui \
+    ui/addcommanddialog.ui
 HEADERS += \
     app/app.h \
     app/clipboardclient.h \
@@ -100,7 +101,8 @@ HEADERS += \
     gui/commandhelpbutton.h \
     scriptable/dirclass.h \
     scriptable/dirprototype.h \
-    gui/commandaction.h
+    gui/commandaction.h \
+    gui/addcommanddialog.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -173,7 +175,8 @@ SOURCES += \
     gui/commandhelpbutton.cpp \
     scriptable/dirclass.cpp \
     scriptable/dirprototype.cpp \
-    gui/commandaction.cpp
+    gui/commandaction.cpp \
+    gui/addcommanddialog.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

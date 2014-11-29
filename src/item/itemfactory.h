@@ -34,6 +34,7 @@ class QFile;
 class QModelIndex;
 class QWidget;
 struct Command;
+struct CommandMenu;
 
 /**
  * Loads item plugins (loaders) and instantiates ItemWidget objects using appropriate
@@ -132,7 +133,7 @@ public:
     /**
      * Adds commands from scripts for command dialog.
      */
-    void addCommands(QList<Command> *commands) const;
+    QList<Command> commands() const;
 
     void emitError(const QString &errorString);
 

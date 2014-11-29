@@ -430,22 +430,26 @@ QString ItemTagsLoader::script() const
         "\n" "}";
 }
 
-void ItemTagsLoader::addCommands(QList<Command> *commands) const
+QList<Command> ItemTagsLoader::commands() const
 {
+    QList<Command> commands;
+
     Command c;
     c.icon = QString(QChar(IconTag));
     c.inMenu = true;
 
     if (m_tags.isEmpty()) {
-        addTagCommands(tr("Important", "Tag name for example command"), &c, commands);
+        addTagCommands(tr("Important", "Tag name for example command"), &c, &commands);
     } else {
         foreach (const Tag &tag, m_tags)
-            addTagCommands(tag.name, &c, commands);
+            addTagCommands(tag.name, &c, &commands);
     }
 
     c.name = tr("Clear all tags");
     c.cmd = "copyq: plugins.itemtags.clearTags()";
-    commands->append(c);
+    commands.append(c);
+
+    return commands;
 }
 
 void ItemTagsLoader::onColorButtonClicked()

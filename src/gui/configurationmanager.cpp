@@ -352,14 +352,7 @@ void ConfigurationManager::initPluginWidgets()
 
     foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
         PluginWidget *pluginWidget = new PluginWidget(loader, this);
-
-        QIcon icon;
-        const QVariant maybeIcon = loader->icon();
-        if ( maybeIcon.canConvert(QVariant::UInt) )
-            icon = getIcon( QString(), maybeIcon.toUInt() );
-        else if ( maybeIcon.canConvert(QVariant::Icon) )
-            icon = maybeIcon.value<QIcon>();
-
+        const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
                     loader->name(), itemFactory()->isLoaderEnabled(loader), false, icon, pluginWidget );
     }
@@ -870,6 +863,17 @@ QIcon getIconFromResources(const QString &iconName)
 QIcon getIcon(const QString &themeName, ushort iconId)
 {
     return ConfigurationManager::instance()->iconFactory()->getIcon(themeName, iconId);
+}
+
+QIcon getIcon(const QVariant &iconOrIconId)
+{
+    if (iconOrIconId.canConvert(QVariant::UInt))
+        return getIcon( QString(), iconOrIconId.value<ushort>() );
+
+    if (iconOrIconId.canConvert(QVariant::Icon))
+        return iconOrIconId.value<QIcon>();
+
+    return QIcon();
 }
 
 void setDefaultTabItemCounterStyle(QWidget *widget)

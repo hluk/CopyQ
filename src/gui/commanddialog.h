@@ -61,18 +61,19 @@ private slots:
 
     void onFinished(int result);
 
-    void on_itemOrderListCommands_addButtonClicked(QAction *action);
+    void on_itemOrderListCommands_addButtonClicked();
     void on_itemOrderListCommands_itemSelectionChanged();
     void on_pushButtonLoadCommands_clicked();
     void on_pushButtonSaveCommands_clicked();
     void on_lineEditFilterCommands_textChanged(const QString &text);
     void on_buttonBox_clicked(QAbstractButton* button);
 
+    void onAddCommands(const QList<Command> &commands);
+
 private:
     void addCommandWithoutSave(const Command &command, int targetRow = -1);
     void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
-    QList<Command> defaultCommands() const;
     QString serializeSelectedCommands();
 
     Ui::CommandDialog *ui;

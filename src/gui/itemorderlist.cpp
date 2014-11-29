@@ -35,7 +35,7 @@ ItemOrderList::ItemOrderList(QWidget *parent)
 {
     ui->setupUi(this);
     ui->pushButtonRemove->hide();
-    ui->toolButtonAdd->hide();
+    ui->pushButtonAdd->hide();
     setFocusProxy(ui->listWidgetItems);
     setCurrentItemWidget(NULL);
 }
@@ -45,12 +45,10 @@ ItemOrderList::~ItemOrderList()
     delete ui;
 }
 
-void ItemOrderList::setAddMenu(QMenu *menu)
+void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
 {
-    Q_ASSERT(menu != NULL);
-    ui->pushButtonRemove->show();
-    ui->toolButtonAdd->show();
-    ui->toolButtonAdd->setMenu(menu);
+    ui->pushButtonRemove->setVisible(visible);
+    ui->pushButtonAdd->setVisible(visible);
 }
 
 void ItemOrderList::clearItems()
@@ -209,8 +207,8 @@ void ItemOrderList::dropEvent(QDropEvent *event)
 
 void ItemOrderList::showEvent(QShowEvent *event)
 {
-    if ( ui->toolButtonAdd->icon().isNull() ) {
-        ui->toolButtonAdd->setIcon( getIcon("list-add", IconPlus) );
+    if ( ui->pushButtonAdd->icon().isNull() ) {
+        ui->pushButtonAdd->setIcon( getIcon("list-add", IconPlus) );
         ui->pushButtonRemove->setIcon( getIcon("list-remove", IconMinus) );
         ui->pushButtonDown->setIcon( getIcon("go-down", IconArrowDown) );
         ui->pushButtonUp->setIcon( getIcon("go-up", IconArrowUp) );
@@ -251,9 +249,9 @@ void ItemOrderList::on_pushButtonRemove_clicked()
         delete item;
 }
 
-void ItemOrderList::on_toolButtonAdd_triggered(QAction *action)
+void ItemOrderList::on_pushButtonAdd_clicked()
 {
-    emit addButtonClicked(action);
+    emit addButtonClicked();
 }
 
 void ItemOrderList::on_listWidgetItems_currentItemChanged(QListWidgetItem *current, QListWidgetItem *)

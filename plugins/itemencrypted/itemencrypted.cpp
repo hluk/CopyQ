@@ -427,8 +427,10 @@ QString ItemEncryptedLoader::script() const
         "\n" "}";
 }
 
-void ItemEncryptedLoader::addCommands(QList<Command> *commands) const
+QList<Command> ItemEncryptedLoader::commands() const
 {
+    QList<Command> commands;
+
     Command c;
     c.name = tr("Encrypt (needs GnuPG)");
     c.icon = QString(QChar(IconLock));
@@ -438,7 +440,7 @@ void ItemEncryptedLoader::addCommands(QList<Command> *commands) const
     c.transform = true;
     c.cmd = "copyq: plugins.itemencrypted.encrypt(input())";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
-    commands->append(c);
+    commands.append(c);
 
     c = Command();
     c.name = tr("Decrypt");
@@ -449,7 +451,7 @@ void ItemEncryptedLoader::addCommands(QList<Command> *commands) const
     c.transform = true;
     c.cmd = "copyq: plugins.itemencrypted.decrypt(input())";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+L")) );
-    commands->append(c);
+    commands.append(c);
 
     c = Command();
     c.name = tr("Decrypt and Copy");
@@ -461,7 +463,9 @@ void ItemEncryptedLoader::addCommands(QList<Command> *commands) const
              "  if (data)\n"
              "    copy(\"" + QString(mimeItems) + "\", data)";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
-    commands->append(c);
+    commands.append(c);
+
+    return commands;
 }
 
 void ItemEncryptedLoader::setPassword()

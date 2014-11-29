@@ -19,6 +19,7 @@
 
 #include "itemfactory.h"
 
+#include "common/command.h"
 #include "common/common.h"
 #include "common/contenttype.h"
 #include "common/log.h"
@@ -356,10 +357,14 @@ QString ItemFactory::scripts() const
     return script;
 }
 
-void ItemFactory::addCommands(QList<Command> *commands) const
+QList<Command> ItemFactory::commands() const
 {
+    QList<Command> commands;
+
     foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() )
-        loader->addCommands(commands);
+        commands << loader->commands();
+
+    return commands;
 }
 
 void ItemFactory::emitError(const QString &errorString)
