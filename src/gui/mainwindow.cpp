@@ -128,7 +128,10 @@ bool canExecuteCommand(const Command &command, const QVariantMap &data, const QS
 
         // TODO: This should be async, i.e. create object (in new thread) that validates command and
         //       emits a signal if successful.
-        if ( !matchAction.waitForFinished(4000) ) {
+        for ( int i = 0; i < 50 && !matchAction.waitForFinished(100); ++i )
+            QApplication::processEvents();
+
+        if (matchAction.state() == QProcess::NotRunning) {
             matchAction.terminate();
             return false;
         }

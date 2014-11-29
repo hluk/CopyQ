@@ -151,6 +151,7 @@ public slots:
     QScriptValue data(const QScriptValue &value);
     void print(const QScriptValue &value);
     void abort();
+    void fail();
 
     void keys();
     QScriptValue testselectedtab();

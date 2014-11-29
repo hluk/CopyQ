@@ -858,6 +858,11 @@ void Scriptable::abort()
     }
 }
 
+void Scriptable::fail()
+{
+    sendMessageToClient("", CommandError);
+}
+
 void Scriptable::keys()
 {
 #ifdef HAS_TESTS

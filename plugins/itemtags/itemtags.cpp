@@ -156,10 +156,12 @@ QString defaultStyleSheetUrl()
 void addTagCommands(const QString &tagName, Command *c, QList<Command> *commands)
 {
     c->name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(tagName));
+    c->matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') && fail()";
     c->cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
     commands->append(*c);
 
     c->name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(tagName));
+    c->matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') || fail()";
     c->cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
     commands->append(*c);
 }
@@ -387,6 +389,18 @@ QString ItemTagsLoader::script() const
 
         "\n" "mime: '" + QString(mimeTags) + "',"
 
+        "\n" "tags: function(row) {"
+        "\n" "  return str(read(this.mime, row))"
+        "\n" "    .split(/\\s*,\\s*/)"
+        "\n" "    .filter(function(x) {return x != ''})"
+        "\n" "},"
+
+        "\n" "_rowsOrSelected: function(args) {"
+        "\n" "  if (args.length > 1)"
+        "\n" "    return Array.prototype.slice.call(args, 1)"
+        "\n" "  return selecteditems()"
+        "\n" "},"
+
         "\n" "_tagUntag: function(add, args) {"
         "\n" "  var tagName = args[0]"
         "\n" "  if (!tagName) {"
@@ -395,15 +409,11 @@ QString ItemTagsLoader::script() const
         "\n" "      return;"
         "\n" "  }"
         "\n" "  "
-        "\n" "  var rows = Array.prototype.slice.call(args, 1)"
-        "\n" "  if (rows.length == 0)"
-        "\n" "    rows = selecteditems()"
-        "\n" "  "
+        "\n" "  var rows = this._rowsOrSelected(args)"
         "\n" "  for (var i in rows) {"
         "\n" "    var row = rows[i]"
-        "\n" "    tags = str(read(this.mime, row))"
-        "\n" "      .split(/\\s*,\\s*/)"
-        "\n" "      .filter(function(x) {return x != tagName;})"
+        "\n" "    tags = this.tags(row)"
+        "\n" "      .filter(function(x) {return x != tagName})"
         "\n" "    if (add)"
         "\n" "      tags = tags.concat(tagName)"
         "\n" "    tags = tags.sort().join(',')"
@@ -427,6 +437,22 @@ QString ItemTagsLoader::script() const
         "\n" "    change(rows[i], this.mime, '')"
         "\n" "},"
 
+        "\n" "hasTag: function(tagName) {"
+        "\n" "  var rows = this._rowsOrSelected(arguments)"
+        "\n" "  if (tagName) {"
+        "\n" "    for (var i in rows) {"
+        "\n" "      if (this.tags(rows[i]).indexOf(tagName) != -1)"
+        "\n" "        return true"
+        "\n" "    }"
+        "\n" "  } else {"
+        "\n" "    for (var i in rows) {"
+        "\n" "      if (this.tags(rows[i]).length != 0)"
+        "\n" "        return true"
+        "\n" "    }"
+        "\n" "  }"
+        "\n" "  return false"
+        "\n" "},"
+
         "\n" "}";
 }
 
@@ -446,6 +472,7 @@ QList<Command> ItemTagsLoader::commands() const
     }
 
     c.name = tr("Clear all tags");
+    c.matchCmd = "copyq: plugins.itemtags.hasTag() || fail()";
     c.cmd = "copyq: plugins.itemtags.clearTags()";
     commands.append(c);
 
