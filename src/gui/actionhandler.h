@@ -53,8 +53,6 @@ public:
 
     bool hasRunningAction() const;
 
-    QVariant getActionData(const QByteArray actionId, const QString &format) const;
-
     /** Open dialog with active commands. */
     void showProcessManagerDialog();
 
@@ -64,7 +62,7 @@ public:
 
 public slots:
     /** Execute action. */
-    void action(Action *action, const QVariantMap &data);
+    void action(Action *action);
 
 signals:
     /** Emitted when last action finishes or first action starts. */
@@ -87,8 +85,7 @@ private slots:
 private:
     MainWindow *m_wnd;
     QPointer<Action> m_lastAction;
-    int m_lastActionId;
-    QMap<QByteArray, QVariantMap> m_actionData;
+    int m_actionCounter;
     ProcessManagerDialog *m_activeActionDialog;
     QString m_currentTabName;
     Command m_lastActionDialogCommand;

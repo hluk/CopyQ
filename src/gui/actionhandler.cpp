@@ -36,8 +36,7 @@
 ActionHandler::ActionHandler(MainWindow *mainWindow)
     : QObject(mainWindow)
     , m_wnd(mainWindow)
-    , m_lastActionId(0)
-    , m_actionData()
+    , m_actionCounter(0)
     , m_activeActionDialog(new ProcessManagerDialog(mainWindow))
     , m_hasRunningAction(false)
 {
@@ -51,8 +50,8 @@ ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
     actionDialog->setOutputTabs(tabs, QString());
     actionDialog->setCommand(m_lastActionDialogCommand);
 
-    connect( actionDialog, SIGNAL(accepted(Action*,QVariantMap)),
-             this, SLOT(action(Action*,QVariantMap)) );
+    connect( actionDialog, SIGNAL(accepted(Action*)),
+             this, SLOT(action(Action*)) );
     connect( actionDialog, SIGNAL(closed(ActionDialog*)),
              this, SLOT(actionDialogClosed(ActionDialog*)) );
 
@@ -61,16 +60,7 @@ ActionDialog *ActionHandler::createActionDialog(const QStringList &tabs)
 
 bool ActionHandler::hasRunningAction() const
 {
-    return !m_actionData.isEmpty();
-}
-
-QVariant ActionHandler::getActionData(const QByteArray actionId, const QString &format) const
-{
-    const QVariantMap dataMap = m_actionData.value(actionId);
-    if (format == "?")
-        return QStringList(dataMap.keys()).join("\n").toUtf8() + '\n';
-
-    return dataMap.value(format);
+    return m_actionCounter > 0;
 }
 
 void ActionHandler::showProcessManagerDialog()
@@ -83,7 +73,7 @@ void ActionHandler::addFinishedAction(const QString &name)
     m_activeActionDialog->actionFinished(name);
 }
 
-void ActionHandler::action(Action *action, const QVariantMap &data)
+void ActionHandler::action(Action *action)
 {
     action->setParent(this);
 
@@ -104,11 +94,7 @@ void ActionHandler::action(Action *action, const QVariantMap &data)
     connect( action, SIGNAL(actionError(Action*)),
              this, SLOT(closeAction(Action*)) );
 
-    // Set data for action (can be accessed using 'data' command).
-    const QByteArray actionId = QByteArray::number(++m_lastActionId);
-    qputenv("COPYQ_ACTION_ID", actionId);
-    m_actionData.insert(actionId, data);
-    action->setProperty("COPYQ_ACTION_ID", actionId);
+    ++m_actionCounter;
 
     if ( !action->outputFormat().isEmpty() && action->outputTab().isEmpty() )
         action->setOutputTab(m_currentTabName);
@@ -156,8 +142,8 @@ void ActionHandler::closeAction(Action *action)
         m_wnd->showMessage( tr("Command %1").arg(quoteString(action->command())), msg, icon );
 
     m_activeActionDialog->actionFinished(action);
-    m_actionData.remove( action->property("COPYQ_ACTION_ID").toByteArray() );
-    action->deleteLater();
+    Q_ASSERT(m_actionCounter > 0);
+    --m_actionCounter;
 
     m_hasRunningAction = hasRunningAction();
 

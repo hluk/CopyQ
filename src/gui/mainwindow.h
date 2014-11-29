@@ -127,8 +127,6 @@ public:
 
     QWidget *trayMenu();
 
-    QVariant getActionData(const QByteArray &actionId, const QString &format);
-
     /**
      * Return browser widget in given tab @a index.
      * Load items if not loaded yet.
@@ -361,6 +359,9 @@ signals:
 
     void commandsSaved();
 
+    void stopItemMenuCommandTester();
+    void stopTrayMenuCommandTester();
+
 protected:
     void keyPressEvent(QKeyEvent *event);
     void keyReleaseEvent(QKeyEvent *event);
@@ -425,6 +426,14 @@ private slots:
 
     void action();
 
+    void runAutomaticCommand(quintptr, const Command &command, bool passed, const QVariantMap &data);
+    void automaticCommandsFinished(const QVariantMap &data, bool removeOrTransform);
+
+    void addCommandsToMenu(QMenu *menu, const QList<Command> &commands);
+    void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
+    void addCommandsToItemMenu(quintptr commandTester, const Command &command, bool enable);
+    void addCommandsToTrayMenu(quintptr commandTester, const Command &command, bool enable);
+
 private:
     /** Create menu bar and tray menu with items. Called once. */
     void createMenu();
@@ -460,12 +469,6 @@ private:
      */
     bool closeMinimizes() const;
 
-    /**
-     * Execute all matching automatic commands on @a data.
-     * If Command::remove of an applied command is true the method immediately returns false.
-     */
-    bool executeAutomaticCommands(const QVariantMap &data);
-
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();
 
@@ -490,6 +493,15 @@ private:
     void updateTrayIcon();
 
     void initTray();
+
+    quintptr startCommandTester(
+            const QList<Command> &commands,
+            const QVariantMap &data,
+            const char *slot,
+            const char *finishSlot,
+            const char *abortSignal);
+
+    void stopMenuCommandTester(quintptr *commandTesterId);
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
@@ -528,6 +540,9 @@ private:
     ClipboardBrowser *m_trayTab;
 
     QPointer<CommandDialog> m_commandDialog;
+
+    quintptr m_itemMenuCommandTester;
+    quintptr m_trayMenuCommandTester;
 };
 
 #endif // MAINWINDOW_H

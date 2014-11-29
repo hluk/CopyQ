@@ -102,7 +102,8 @@ HEADERS += \
     scriptable/dirclass.h \
     scriptable/dirprototype.h \
     gui/commandaction.h \
-    gui/addcommanddialog.h
+    gui/addcommanddialog.h \
+    common/commandtester.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -176,7 +177,8 @@ SOURCES += \
     scriptable/dirclass.cpp \
     scriptable/dirprototype.cpp \
     gui/commandaction.cpp \
-    gui/addcommanddialog.cpp
+    gui/addcommanddialog.cpp \
+    common/commandtester.cpp
 
 macx {
     # Only Intel binaries are accepted so force this

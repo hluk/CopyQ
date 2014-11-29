@@ -92,6 +92,8 @@ public:
     /** Disable shortcuts for all actions. */
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
 
+    const QList<QKeySequence> &disabledShortcuts() const;
+
 private:
     void initShortcuts();
 

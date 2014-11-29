@@ -69,7 +69,8 @@ class MenuAction : public QObject {
 public:
     MenuAction(
             const QString &text, const QKeySequence &shortcut, const QString &settingsKey,
-            QTableWidget *table, const QString &iconName, ushort iconId)
+            QTableWidget *table, const QString &iconName, ushort iconId,
+            const QList<QKeySequence> &disabledShortcuts)
         : QObject()
         , m_iconName(iconName)
         , m_iconId(iconId)
@@ -78,7 +79,7 @@ public:
         , m_tableItem(NULL)
         , m_shortcutButton(new ShortcutButton(table))
         , m_action()
-        , m_disabledShortcuts()
+        , m_disabledShortcuts(disabledShortcuts)
     {
         const int row = table->rowCount();
         table->insertRow(row);
@@ -181,13 +182,20 @@ public:
         return m_tableItem->row();
     }
 
-    void setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
-    {
-        m_disabledShortcuts = shortcuts;
-        updateActionShortcuts();
-    }
-
     QWidget *shortcutButton() { return m_shortcutButton; }
+
+    void updateActionShortcuts()
+    {
+        if ( m_action.isNull() )
+            return;
+
+        QList<QKeySequence> enabledShortcuts;
+        foreach (const QKeySequence& shortcut, shortcuts()) {
+            if ( !m_disabledShortcuts.contains(shortcut) )
+                enabledShortcuts.append(shortcut);
+        }
+        m_action->setShortcuts(enabledShortcuts);
+    }
 
 signals:
     void shortcutAdded(const QKeySequence &shortcut);
@@ -209,19 +217,6 @@ private slots:
     }
 
 private:
-    void updateActionShortcuts()
-    {
-        if ( m_action.isNull() )
-            return;
-
-        QList<QKeySequence> enabledShortcuts;
-        foreach (const QKeySequence& shortcut, shortcuts()) {
-            if ( !m_disabledShortcuts.contains(shortcut) )
-                enabledShortcuts.append(shortcut);
-        }
-        m_action->setShortcuts(enabledShortcuts);
-    }
-
     QString m_iconName;
     ushort m_iconId;
     QString m_text;
@@ -229,7 +224,7 @@ private:
     QTableWidgetItem *m_tableItem;
     ShortcutButton *m_shortcutButton;
     QPointer<QAction> m_action;
-    QList<QKeySequence> m_disabledShortcuts;
+    const QList<QKeySequence> &m_disabledShortcuts;
 };
 
 ShortcutsWidget::ShortcutsWidget(QWidget *parent)
@@ -273,7 +268,8 @@ void ShortcutsWidget::addAction(
 {
     Q_ASSERT(!hasAction(id));
 
-    MenuAction *action = new MenuAction(text, shortcut, settingsKey, ui->tableWidget, iconName, iconId);
+    MenuAction *action = new MenuAction(
+                text, shortcut, settingsKey, ui->tableWidget, iconName, iconId, m_disabledShortcuts);
     m_actions.insert( id, MenuActionPtr(action) );
     m_shortcuts << action->shortcuts();
     m_timerCheckAmbiguous.start();
@@ -304,8 +300,14 @@ QList<QKeySequence> ShortcutsWidget::shortcuts(int id) const
 
 void ShortcutsWidget::setDisabledShortcuts(const QList<QKeySequence> &shortcuts)
 {
+    m_disabledShortcuts = shortcuts;
     foreach ( const MenuActionPtr &action, m_actions )
-        action->setDisabledShortcuts(shortcuts);
+        action->updateActionShortcuts();
+}
+
+const QList<QKeySequence> &ShortcutsWidget::disabledShortcuts() const
+{
+    return m_disabledShortcuts;
 }
 
 void ShortcutsWidget::showEvent(QShowEvent *event)

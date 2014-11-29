@@ -146,7 +146,7 @@ class ScriptableProxyHelper : public QObject
     Q_OBJECT
 public:
     /** Create proxy object and move it to same thread as @a mainWindow. */
-    ScriptableProxyHelper(MainWindow* mainWindow, const QByteArray &actionId);
+    ScriptableProxyHelper(MainWindow* mainWindow, const QVariantMap &actionData);
 
     const QVariant &value() const;
 
@@ -210,8 +210,6 @@ public slots:
 
     void getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 
-    void getActionData(const QString &arg2);
-
     void browserLength();
     void browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
 
@@ -230,7 +228,6 @@ public slots:
     void currentItem();
     void selectItems(const QList<int> &items);
 
-    void selectedTab();
     void selectedItems();
 
     void sendKeys(const QString &keys);
@@ -262,7 +259,7 @@ private:
     QVariant v; ///< Last return value retrieved.
     QString m_tabName;
     QScopedPointer<ClipboardBrowser::Lock> m_lock;
-    QByteArray m_actionId;
+    QVariantMap m_actionData;
 };
 
 } // namespace detail
@@ -277,7 +274,7 @@ private:
 class ScriptableProxy
 {
 public:
-    ScriptableProxy(MainWindow *mainWindow, const QByteArray &actionId);
+    ScriptableProxy(MainWindow *mainWindow, const QVariantMap &actionData);
 
     ~ScriptableProxy();
 
@@ -325,8 +322,6 @@ public:
     PROXY_METHOD_1(QByteArray, getClipboardData, const QString &)
     PROXY_METHOD_2(QByteArray, getClipboardData, const QString &, QClipboard::Mode)
 
-    PROXY_METHOD_1(QByteArray, getActionData, const QString &)
-
     PROXY_METHOD(browserLock)
     PROXY_METHOD(browserUnlock)
     PROXY_METHOD_VOID_1(nextToClipboard, int)
@@ -351,7 +346,6 @@ public:
 
     PROXY_METHOD_0(int, currentItem)
     PROXY_METHOD_1(bool, selectItems, const QList<int> &)
-    PROXY_METHOD_0(QString, selectedTab)
     PROXY_METHOD_0(QList<int>, selectedItems)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)

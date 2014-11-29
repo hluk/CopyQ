@@ -178,7 +178,8 @@ void ActionDialog::createAction()
     act->setOutputTab(ui->comboBoxOutputTab->currentText());
     act->setIndex(m_index);
     act->setName(m_actionName);
-    emit accepted(act.take(), m_data);
+    act->setData(m_data);
+    emit accepted(act.take());
 
     close();
 }

@@ -168,8 +168,11 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
 {
 }
 
-void Scriptable::initEngine(QScriptEngine *eng, const QString &currentPath)
+void Scriptable::initEngine(
+        QScriptEngine *eng, const QString &currentPath, const QVariantMap &data)
 {
+    m_data = data;
+
     m_engine = eng;
     QScriptEngine::QObjectWrapOptions opts =
               QScriptEngine::ExcludeChildObjects
@@ -839,7 +842,7 @@ QScriptValue Scriptable::input()
 
 QScriptValue Scriptable::data(const QScriptValue &value)
 {
-    return newByteArray( m_proxy->getActionData(toString(value)) );
+    return newByteArray( m_data.value(toString(value)).toByteArray() );
 }
 
 void Scriptable::print(const QScriptValue &value)
@@ -911,7 +914,7 @@ QScriptValue Scriptable::selectitems()
 
 QScriptValue Scriptable::selectedtab()
 {
-    return m_proxy->selectedTab();
+    return m_data.value(mimeCurrentTab).toString();
 }
 
 QScriptValue Scriptable::selecteditems()

@@ -32,7 +32,14 @@ class CommandAction : public QAction
 public:
     enum Type { ClipboardCommand, ItemCommand };
 
-    CommandAction(const Command &command, const QString &name, Type type, ClipboardBrowser *browser);
+    CommandAction(
+            const Command &command,
+            const QString &name,
+            Type type,
+            ClipboardBrowser *browser,
+            QObject *parent = NULL);
+
+    const Command &command() const;
 
 signals:
     void triggerCommand(const Command &command, const QVariantMap &data, int type);

@@ -24,8 +24,13 @@
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 
-CommandAction::CommandAction(const Command &command, const QString &name, CommandAction::Type type, ClipboardBrowser *browser)
-    : QAction(browser)
+CommandAction::CommandAction(
+        const Command &command,
+        const QString &name,
+        CommandAction::Type type,
+        ClipboardBrowser *browser,
+        QObject *parent)
+    : QAction(parent)
     , m_command(command)
     , m_type(type)
     , m_browser(browser)
@@ -49,12 +54,14 @@ CommandAction::CommandAction(const Command &command, const QString &name, Comman
     browser->addAction(this);
 }
 
+const Command &CommandAction::command() const
+{
+    return m_command;
+}
+
 void CommandAction::onTriggered()
 {
     Command command = m_command;
-    if ( command.outputTab.isEmpty() )
-        command.outputTab = m_browser->tabName();
-
     QVariantMap dataMap;
 
     if (m_type == ClipboardCommand) {

@@ -19,6 +19,7 @@
 
 #include "scriptableworker.h"
 
+#include "common/action.h"
 #include "common/client_server.h"
 #include "common/clientsocket.h"
 #include "common/commandstatus.h"
@@ -73,10 +74,18 @@ void ScriptableWorker::run()
 {
     MONITOR_LOG("starting");
 
+    bool ok;
+    const quintptr id = m_args.at(Arguments::ActionId).toULongLong(&ok);
+    QVariantMap data;
+    if (ok)
+        data = Action::data(id);
+
+    const QString currentPath = QString::fromUtf8(m_args.at(Arguments::CurrentPath));
+
     QScriptEngine engine;
-    ScriptableProxy proxy(m_wnd, m_args.at(Arguments::ActionId));
+    ScriptableProxy proxy(m_wnd, data);
     Scriptable scriptable(&proxy);
-    scriptable.initEngine( &engine, QString::fromUtf8(m_args.at(Arguments::CurrentPath)) );
+    scriptable.initEngine(&engine, currentPath, data);
 
     if (m_socket) {
         QObject::connect( proxy.signaler(), SIGNAL(sendMessage(QByteArray,int)),

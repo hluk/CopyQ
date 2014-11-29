@@ -74,8 +74,7 @@ public slots:
 signals:
     /** Emitted if dialog was accepted. */
     void accepted(
-            Action *action, //!< The accepted action.
-            const QVariantMap &data //!< Data for accepted action.
+            Action *action //!< The accepted action.
             );
 
     void saveCommand(const Command &command);

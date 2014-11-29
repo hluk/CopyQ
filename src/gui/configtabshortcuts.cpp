@@ -63,6 +63,11 @@ void ConfigTabShortcuts::setDisabledShortcuts(const QList<QKeySequence> &shortcu
     ui->shortcutsWidgetGeneral->setDisabledShortcuts(shortcuts);
 }
 
+const QList<QKeySequence> &ConfigTabShortcuts::disabledShortcuts() const
+{
+    return ui->shortcutsWidgetGeneral->disabledShortcuts();
+}
+
 void ConfigTabShortcuts::initShortcuts()
 {
     ShortcutsWidget *w = ui->shortcutsWidgetGeneral;

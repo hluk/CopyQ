@@ -23,6 +23,7 @@
 #include "item/serialize.h"
 
 #include <QCoreApplication>
+#include <QProcessEnvironment>
 
 #include <string.h>
 
@@ -159,7 +160,15 @@ QList< QList<QStringList> > parseCommands(const QString &cmd, const QStringList 
     return lines;
 }
 
+quintptr actionId(const Action *act)
+{
+    return reinterpret_cast<quintptr>(act);
+}
+
 } // namespace
+
+QMutex Action::actionsLock;
+QVector<Action*> Action::actions;
 
 Action::Action()
     : QProcess()
@@ -179,6 +188,23 @@ Action::Action()
 
     connect( this, SIGNAL(readyReadStandardOutput()),
              this, SLOT(actionOutput()) );
+
+    quintptr id = actionId(this);
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("COPYQ_ACTION_ID", QString::number(id));
+    setProcessEnvironment(env);
+    setProperty("COPYQ_ACTION_ID", id);
+
+    const QMutexLocker lock(&actionsLock);
+    actions.append(this);
+}
+
+Action::~Action()
+{
+    const QMutexLocker lock(&actionsLock);
+    const int i = actions.indexOf(this);
+    Q_ASSERT(i != -1);
+    actions.remove(i);
 }
 
 QString Action::command() const
@@ -248,6 +274,18 @@ void Action::start()
         closeReadChannel(QProcess::StandardOutput);
 
     startProcess(this, cmds.last());
+}
+
+void Action::setData(const QVariantMap &data)
+{
+    m_data = data;
+}
+
+QVariantMap Action::data(quintptr id)
+{
+    const QMutexLocker lock(&actionsLock);
+    const int i = actions.indexOf(reinterpret_cast<Action*>(id));
+    return i != -1 ? actions[i]->m_data : QVariantMap();
 }
 
 void Action::actionError(QProcess::ProcessError)

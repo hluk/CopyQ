@@ -236,12 +236,12 @@ QVariant config(const QString &name, const QString &value)
 
 namespace detail {
 
-ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow, const QByteArray &actionId)
+ScriptableProxyHelper::ScriptableProxyHelper(MainWindow *mainWindow, const QVariantMap &actionData)
     : QObject(NULL)
     , m_wnd(mainWindow)
     , m_tabName()
     , m_lock()
-    , m_actionId(actionId)
+    , m_actionData(actionData)
 {
     qRegisterMetaType< QPointer<QWidget> >("QPointer<QWidget>");
     moveToThread(m_wnd->thread());
@@ -515,11 +515,6 @@ void ScriptableProxyHelper::getClipboardData(const QString &mime, QClipboard::Mo
         v = cloneData(*data, QStringList(mime)).value(mime).toByteArray();
 }
 
-void ScriptableProxyHelper::getActionData(const QString &arg2)
-{
-    v = m_wnd->getActionData(m_actionId, arg2);
-}
-
 void ScriptableProxyHelper::browserLength()
 {
     BROWSER_RESULT(length());
@@ -602,10 +597,9 @@ void ScriptableProxyHelper::currentItem()
         return;
 
     const QPersistentModelIndex current =
-            m_wnd->getActionData(m_actionId, mimeCurrentItem)
-            .value<QPersistentModelIndex>();
+            m_actionData.value(mimeCurrentItem).value<QPersistentModelIndex>();
     if (current.isValid())
-        v = QVariant::fromValue(current);
+        v = QVariant::fromValue(current.row());
 }
 
 void ScriptableProxyHelper::selectItems(const QList<int> &items)
@@ -631,11 +625,6 @@ void ScriptableProxyHelper::selectItems(const QList<int> &items)
     }
 }
 
-void ScriptableProxyHelper::selectedTab()
-{
-    v = m_wnd->getActionData(m_actionId, mimeCurrentTab);
-}
-
 void ScriptableProxyHelper::selectedItems()
 {
     v = QVariant();
@@ -645,7 +634,7 @@ void ScriptableProxyHelper::selectedItems()
 
     QList<int> selectedRows;
     const QList<QPersistentModelIndex> selected =
-            m_wnd->getActionData(m_actionId, mimeSelectedItems)
+            m_actionData.value(mimeSelectedItems)
             .value< QList<QPersistentModelIndex> >();
     foreach (const QPersistentModelIndex &index, selected) {
         if (index.isValid())
@@ -869,7 +858,7 @@ void ScriptableProxyHelper::setUserValue(const QString &key, const QVariant &val
 ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {
-        const QString defaultTabName = m_wnd->getActionData(m_actionId, mimeCurrentTab).toString();
+        const QString defaultTabName = m_actionData.value(mimeCurrentTab).toString();
         if (!defaultTabName.isEmpty())
             return fetchBrowser(defaultTabName);
     }
@@ -908,11 +897,11 @@ QByteArray detail::ScriptableProxyHelper::itemData(int i, const QString &mime)
 bool detail::ScriptableProxyHelper::canUseSelectedItems() const
 {
     return m_tabName.isEmpty()
-            || m_tabName == m_wnd->getActionData(m_actionId, mimeCurrentTab).toString();
+            || m_tabName == m_actionData.value(mimeCurrentTab).toString();
 }
 
-ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, const QByteArray &actionId)
-    : m_helper(new detail::ScriptableProxyHelper(mainWindow, actionId))
+ScriptableProxy::ScriptableProxy(MainWindow *mainWindow, const QVariantMap &actionData)
+    : m_helper(new detail::ScriptableProxyHelper(mainWindow, actionData))
 {
     qRegisterMetaType<QSystemTrayIcon::MessageIcon>("SystemTrayIcon::MessageIcon");
 }

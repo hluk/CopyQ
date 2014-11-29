@@ -365,7 +365,7 @@ QList<Command> ItemFactory::commands() const
         QList <Command> subCommands = loader->commands();
 
         for (int i = 0; i < subCommands.size(); ++i)
-            subCommands[i].name.prepend(loader->name() + '/');
+            subCommands[i].name.prepend(loader->name() + '|');
 
         commands << subCommands;
     }

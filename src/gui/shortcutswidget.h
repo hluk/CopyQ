@@ -72,6 +72,8 @@ public:
 
     void setDisabledShortcuts(const QList<QKeySequence> &shortcuts);
 
+    const QList<QKeySequence> &disabledShortcuts() const;
+
 protected:
     void showEvent(QShowEvent *event);
 
@@ -91,6 +93,7 @@ private:
     typedef QSharedPointer<MenuAction> MenuActionPtr;
     QMap<int, MenuActionPtr> m_actions;
     QList<QKeySequence> m_shortcuts;
+    QList<QKeySequence> m_disabledShortcuts;
 };
 
 #endif // SHORTCUTSWIDGET_H

@@ -21,9 +21,11 @@
 #define ACTION_H
 
 #include <QModelIndex>
+#include <QMutex>
 #include <QProcess>
 #include <QStringList>
 #include <QVariantMap>
+#include <QVector>
 
 class QAction;
 
@@ -36,6 +38,8 @@ class Action : public QProcess
 public:
     /** Create action with command line parameters. */
     Action();
+
+    ~Action();
 
     /** Return true only if command execution failed. */
     bool actionFailed() const { return m_failed; }
@@ -88,6 +92,10 @@ public:
 
     QByteArray outputData() const { return m_outputData; }
 
+    void setData(const QVariantMap &data);
+
+    static QVariantMap data(quintptr id);
+
 public slots:
     /** Terminate (kill) process. */
     void terminate();
@@ -116,6 +124,9 @@ private slots:
     void actionErrorOutput();
 
 private:
+    static QMutex actionsLock;
+    static QVector<Action*> actions;
+
     bool hasTextOutput() const;
     bool canEmitNewItems() const;
 
@@ -134,6 +145,7 @@ private:
     int m_currentLine;
     QString m_name;
     QStringList m_items;
+    QVariantMap m_data;
 };
 
 #endif // ACTION_H

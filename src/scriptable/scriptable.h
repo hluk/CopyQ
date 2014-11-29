@@ -43,7 +43,8 @@ class Scriptable : public QObject, protected QScriptable
 public:
     Scriptable(ScriptableProxy *proxy, QObject *parent = NULL);
 
-    void initEngine(QScriptEngine *engine, const QString &currentPath);
+    void initEngine(
+            QScriptEngine *engine, const QString &currentPath, const QVariantMap &data);
 
     QScriptValue newByteArray(const QByteArray &bytes);
 
@@ -207,6 +208,7 @@ private:
     FileClass *m_fileClass;
     QString m_inputSeparator;
     QScriptValue m_input;
+    QVariantMap m_data;
 };
 
 #endif // SCRIPTABLE_H
