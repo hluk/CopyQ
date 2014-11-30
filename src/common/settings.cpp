@@ -90,7 +90,7 @@ Settings::Settings()
     Q_ASSERT( isMainThread() );
 
     if ( isLastSaveUnfinished() ) {
-        log("Restoring application settings", LogWarning);
+        log("Restoring application settings", LogNote);
 
         if ( isEmpty(*this) ) {
             log("Cannot restore application settings", LogError);
