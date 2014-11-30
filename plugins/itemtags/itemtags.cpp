@@ -117,6 +117,11 @@ QString tags(const QModelIndex &index)
     return QString::fromUtf8(tagsData);
 }
 
+QString toScriptString(const QString &text)
+{
+    return "decodeURIComponent('" + QUrl::toPercentEncoding(text) + "')";
+}
+
 QString addTagText()
 {
     return ItemTagsLoader::tr("Add a Tag");
@@ -139,16 +144,18 @@ void addTagCommands(const QString &tagName, QList<Command> *commands)
 {
     Command c;
 
+    const QString tagString = toScriptString(tagName);
+
     c = dummyTagCommand();
     c.name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(tagName));
-    c.matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') && fail()";
-    c.cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
+    c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") && fail()";
+    c.cmd = "copyq: plugins.itemtags.tag(" + tagString + ")";
     commands->append(c);
 
     c = dummyTagCommand();
     c.name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(tagName));
-    c.matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') || fail()";
-    c.cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
+    c.matchCmd = "copyq: plugins.itemtags.hasTag(" + tagString + ") || fail()";
+    c.cmd = "copyq: plugins.itemtags.untag(" + tagString + ")";
     commands->append(c);
 }
 
@@ -230,11 +237,6 @@ QPixmap renderTags(const ItemTags::Tags &tags, const QFont &font)
     }
 
     return pix.copy(0, (pix.height() - maxHeight) / 2, w, maxHeight);
-}
-
-QString toScriptString(const QString &text)
-{
-    return "decodeURIComponent('" + QUrl::toPercentEncoding(text) + "')";
 }
 
 } // namespace
