@@ -1,7 +1,8 @@
 include(../plugins_common.pri)
 
 HEADERS += itemtags.h \
-    ../../src/gui/iconwidget.h
+    ../../src/gui/iconselectbutton.h \
+    ../../src/gui/iconselectdialog.h
 SOURCES += itemtags.cpp \
     ../../src/common/common.cpp \
     ../../src/common/config.cpp \

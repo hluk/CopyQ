@@ -5,6 +5,7 @@ set(copyq_plugin_itemtags_SOURCES
     ../../src/common/mimetypes.cpp
     ../../src/gui/iconselectbutton.cpp
     ../../src/gui/iconselectdialog.cpp
+    ../../src/gui/iconwidget.cpp
     ../../src/gui/iconfont.cpp
     )
 
