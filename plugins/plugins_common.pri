@@ -1,3 +1,5 @@
+include("../common.pri")
+
 TEMPLATE     = lib
 CONFIG      += plugin
 INCLUDEPATH += ../../src
@@ -12,4 +14,3 @@ CONFIG(debug, debug|release) {
     DEFINES += HAS_TESTS COPYQ_DEBUG
     QT += testlib
 }
-

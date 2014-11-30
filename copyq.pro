@@ -1,3 +1,5 @@
+include("./common.pri")
+
 TEMPLATE = subdirs
 
 # generate cache file for build
