@@ -1045,8 +1045,13 @@ void MainWindow::updateTrayIcon()
 
 void MainWindow::initTray()
 {
-    delete m_tray;
-    m_tray = NULL;
+    if (m_tray) {
+        // Hide tray on Ubuntu (buggy sni-qt)
+        m_tray->hide();
+
+        delete m_tray;
+        m_tray = NULL;
+    }
 
     if ( cm->value("disable_tray").toBool() )
         m_timerTrayAvailable.stop();
