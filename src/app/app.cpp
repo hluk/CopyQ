@@ -91,7 +91,7 @@ void initTestsSettings()
         return;
 
     // Reset settings on first run of each test case.
-    Settings settings;
+    QSettings settings;
     settings.clear();
 
     QVariant testSettings;
@@ -177,7 +177,9 @@ void installTranslator()
 
 } // namespace
 
-App::App(QCoreApplication *application, const QString &sessionName)
+App::App(QCoreApplication *application,
+        const QString &sessionName,
+        bool isMainApp)
     : m_app(application)
     , m_exitCode(0)
     , m_closed(false)
@@ -186,6 +188,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
     if ( !sessionName.isEmpty() ) {
         session += "-" + sessionName;
         m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
+        m_app->setProperty( "CopyQ_server", isMainApp );
     }
 
     qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
@@ -205,7 +208,7 @@ App::App(QCoreApplication *application, const QString &sessionName)
 
     createPlatformNativeInterface()->loadSettings();
 
-    Settings(); // restore settings
+    Settings::restore();
 
     installTranslator();
 

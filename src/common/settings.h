@@ -54,6 +54,8 @@ public:
     Settings();
 
     ~Settings();
+
+    static void restore();
 };
 
 

@@ -30,6 +30,12 @@
 
 namespace {
 
+bool isMainApp()
+{
+    Q_ASSERT(qApp);
+    return qApp->property("CopyQ_server").toBool();
+}
+
 bool needsUpdate(const Settings &newSettings, const QSettings &oldSettings)
 {
     if ( Settings::isEmpty(oldSettings) )
@@ -88,31 +94,42 @@ Settings::Settings()
           QCoreApplication::applicationName() + "-bak" )
 {
     Q_ASSERT( isMainThread() );
+}
+
+Settings::~Settings()
+{
+    // Only main application is allowed to change settings.
+    if (isMainApp()) {
+        sync();
+
+        beginSave();
+        QSettings settings;
+        copySettings(*this, &settings);
+        endSave();
+    }
+}
+
+void Settings::restore()
+{
+    if (!isMainApp())
+        return;
+
+    Settings appSettings;
 
     if ( isLastSaveUnfinished() ) {
-        log("Restoring application settings", LogNote);
+        log("Restoring application settings", LogWarning);
 
-        if ( isEmpty(*this) ) {
+        if ( isEmpty(appSettings) ) {
             log("Cannot restore application settings", LogError);
         } else {
             QSettings settings;
-            copySettings(*this, &settings);
+            copySettings(appSettings, &settings);
         }
 
         endSave();
     } else {
         const QSettings settings;
-        if ( needsUpdate(*this, settings) )
-            copySettings(settings, this);
+        if ( needsUpdate(appSettings, settings) )
+            copySettings(settings, &appSettings);
     }
-}
-
-Settings::~Settings()
-{
-    sync();
-
-    beginSave();
-    QSettings settings;
-    copySettings(*this, &settings);
-    endSave();
 }

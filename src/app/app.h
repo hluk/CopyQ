@@ -29,7 +29,11 @@ class QCoreApplication;
 class App
 {
 public:
-    explicit App(QCoreApplication *application, const QString &sessionName = QString());
+    explicit App(
+            QCoreApplication *application,
+            const QString &sessionName = QString(),
+            bool isMainApp = false
+            );
 
     virtual ~App();
 
