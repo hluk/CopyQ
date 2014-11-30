@@ -6,11 +6,21 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>296</height>
+    <width>394</width>
+    <height>294</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
+   <item>
+    <widget class="QLabel" name="label">
+     <property name="text">
+      <string>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</string>
+     </property>
+     <property name="wordWrap">
+      <bool>true</bool>
+     </property>
+    </widget>
+   </item>
    <item>
     <widget class="QTableWidget" name="tableWidget">
      <column>

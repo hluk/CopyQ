@@ -33,6 +33,7 @@
 #include <QPainter>
 #include <QPushButton>
 #include <QtPlugin>
+#include <QUrl>
 
 namespace {
 
@@ -112,17 +113,39 @@ QString tags(const QModelIndex &index)
     return QString::fromUtf8(tagsData);
 }
 
-void addTagCommands(const QString &tagName, Command *c, QList<Command> *commands)
+QString addTagText()
 {
-    c->name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(tagName));
-    c->matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') && fail()";
-    c->cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
-    commands->append(*c);
+    return ItemTagsLoader::tr("Add a Tag");
+}
 
-    c->name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(tagName));
-    c->matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') || fail()";
-    c->cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
-    commands->append(*c);
+QString removeTagText()
+{
+    return ItemTagsLoader::tr("Remove a Tag");
+}
+
+Command dummyTagCommand()
+{
+    Command c;
+    c.icon = QString(QChar(IconTag));
+    c.inMenu = true;
+    return c;
+}
+
+void addTagCommands(const QString &tagName, QList<Command> *commands)
+{
+    Command c;
+
+    c = dummyTagCommand();
+    c.name = ItemTagsLoader::tr("Tag as %1").arg(quoteString(tagName));
+    c.matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') && fail()";
+    c.cmd = "copyq: plugins.itemtags.tag('" + tagName + "')";
+    commands->append(c);
+
+    c = dummyTagCommand();
+    c.name = ItemTagsLoader::tr("Remove tag %1").arg(quoteString(tagName));
+    c.matchCmd = "copyq: plugins.itemtags.hasTag('" + tagName + "') || fail()";
+    c.cmd = "copyq: plugins.itemtags.untag('" + tagName + "')";
+    commands->append(c);
 }
 
 QString escapeTagField(const QString &field)
@@ -203,6 +226,11 @@ QPixmap renderTags(const ItemTags::Tags &tags, const QFont &font)
     }
 
     return pix.copy(0, (pix.height() - maxHeight) / 2, w, maxHeight);
+}
+
+QString toScriptString(const QString &text)
+{
+    return "decodeURIComponent('" + QUrl::toPercentEncoding(text) + "')";
 }
 
 } // namespace
@@ -371,10 +399,18 @@ bool ItemTagsLoader::matches(const QModelIndex &index, const QRegExp &re) const
 
 QString ItemTagsLoader::script() const
 {
+    QString userTags;
+    foreach (const Tag &tag, m_tags)
+        userTags.append(toScriptString(tag.name) + ",");
+
+    const QString addTagString = toScriptString(addTagText());
+    const QString removeTagString = toScriptString(removeTagText());
+
     return
         "plugins." + id() + " = {"
 
         "\n" "mime: '" + QString(mimeTags) + "',"
+        "\n" "userTags: [" + userTags + "],"
 
         "\n" "tags: function(row) {"
         "\n" "  return str(read(this.mime, row))"
@@ -391,7 +427,8 @@ QString ItemTagsLoader::script() const
         "\n" "_tagUntag: function(add, args) {"
         "\n" "  var tagName = args[0]"
         "\n" "  if (!tagName) {"
-        "\n" "    tagName = dialog('Tag')"
+        "\n" "    title = add ? " + addTagString + " : " + removeTagString +
+        "\n" "    tagName = dialog('.title', title, 'Tag', this.userTags)"
         "\n" "    if (!tagName)"
         "\n" "      return;"
         "\n" "  }"
@@ -447,17 +484,28 @@ QList<Command> ItemTagsLoader::commands() const
 {
     QList<Command> commands;
 
-    Command c;
-    c.icon = QString(QChar(IconTag));
-    c.inMenu = true;
-
     if (m_tags.isEmpty()) {
-        addTagCommands(tr("Important", "Tag name for example command"), &c, &commands);
+        addTagCommands(tr("Important", "Tag name for example command"), &commands);
     } else {
         foreach (const Tag &tag, m_tags)
-            addTagCommands(tag.name, &c, &commands);
+            addTagCommands(tag.name, &commands);
     }
 
+    Command c;
+
+    c = dummyTagCommand();
+    c.name = addTagText();
+    c.matchCmd = "copyq: plugins.itemtags.tag()";
+    c.cmd.clear();
+    commands.append(c);
+
+    c = dummyTagCommand();
+    c.name = removeTagText();
+    c.matchCmd = "copyq: plugins.itemtags.untag()";
+    c.cmd.clear();
+    commands.append(c);
+
+    c = dummyTagCommand();
     c.name = tr("Clear all tags");
     c.matchCmd = "copyq: plugins.itemtags.hasTag() || fail()";
     c.cmd = "copyq: plugins.itemtags.clearTags()";
