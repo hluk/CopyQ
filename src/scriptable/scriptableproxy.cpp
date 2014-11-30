@@ -132,6 +132,7 @@ QWidget *createListWidget(const QString &name, const QStringList &items, QWidget
     w->addItems(items.mid(1));
     w->setCurrentIndex(-1);
     w->lineEdit()->setText(items.value(0));
+    w->lineEdit()->selectAll();
     return label(Qt::Horizontal, name, w);
 }
 
