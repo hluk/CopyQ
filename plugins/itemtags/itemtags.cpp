@@ -26,6 +26,10 @@
 #include "gui/iconfont.h"
 #include "gui/iconselectbutton.h"
 
+#ifdef HAS_TESTS
+#   include "tests/itemtagstests.h"
+#endif
+
 #include <QBoxLayout>
 #include <QColorDialog>
 #include <QLabel>
@@ -335,7 +339,7 @@ QVariantMap ItemTagsLoader::applySettings()
                     cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor);
             tag.color = serializeColor(color);
             tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon");
-            tags.append(tag.name + ";;" + tag.color + ";;" + tag.icon);
+            tags.append(serializeTag(tag));
             m_tags.append(tag);
         }
     }
@@ -351,14 +355,9 @@ void ItemTagsLoader::loadSettings(const QVariantMap &settings)
 
     m_tags.clear();
     foreach (const QString &tagField, m_settings.value(configTags).toStringList()) {
-        Tag tag;
-        const QStringList values = tagField.split(";;");
-        tag.name = values.value(0);
-        if (!tag.name.isEmpty()) {
-            tag.color = values.value(1);
-            tag.icon = values.value(2);
+        Tag tag = deserializeTag(tagField);
+        if (!tag.name.isEmpty())
             m_tags.append(tag);
-        }
     }
 }
 
@@ -395,6 +394,29 @@ ItemWidget *ItemTagsLoader::transform(ItemWidget *itemWidget, const QModelIndex 
 bool ItemTagsLoader::matches(const QModelIndex &index, const QRegExp &re) const
 {
     return re.indexIn(tags(index)) != -1;
+}
+
+QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
+{
+#ifdef HAS_TESTS
+    QStringList tags;
+
+    foreach (const QString &tagName, ItemSyncTests::testTags()) {
+        Tag tag;
+        tag.name = tagName;
+        tags.append(serializeTag(tag));
+    }
+
+    QVariantMap settings;
+    settings[configTags] = tags;
+
+    QObject *tests = new ItemSyncTests(test);
+    tests->setProperty("CopyQ_test_settings", settings);
+    return tests;
+#else
+    Q_UNUSED(test);
+    return NULL;
+#endif
 }
 
 QString ItemTagsLoader::script() const

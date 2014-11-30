@@ -99,6 +99,8 @@ public:
 
     virtual bool matches(const QModelIndex &index, const QRegExp &re) const;
 
+    virtual QObject *tests(const TestInterfacePtr &test) const;
+
     virtual QString script() const;
 
     virtual QList<Command> commands() const;

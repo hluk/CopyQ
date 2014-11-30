@@ -12,5 +12,11 @@ SOURCES += itemtags.cpp \
     ../../src/gui/iconselectdialog.cpp \
     ../../src/gui/iconfont.cpp
 FORMS   += itemtagssettings.ui
+
+CONFIG(debug, debug|release) {
+    SOURCES += tests/itemtagstests.cpp
+    HEADERS += tests/itemtagstests.h
+}
+
 TARGET   = $$qtLibraryTarget(itemtags)
 
