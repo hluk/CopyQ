@@ -23,7 +23,6 @@
 #include "common/action.h"
 #include "common/common.h"
 #include "common/command.h"
-#include "common/commandtester.h"
 #include "common/contenttype.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
@@ -65,7 +64,6 @@
 #include <QMimeData>
 #include <QModelIndex>
 #include <QPushButton>
-#include <QThread>
 #include <QTimer>
 #include <QToolBar>
 #include <QPainter>
@@ -226,8 +224,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_ignoreCurrentClipboard(true)
     , m_trayTab(NULL)
     , m_commandDialog(NULL)
-    , m_itemMenuCommandTester(0)
-    , m_trayMenuCommandTester(0)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -266,6 +262,15 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(updateIcon()) );
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()) );
+
+    connect(&m_itemMenuCommandTester, SIGNAL(commandPassed(Command,bool,QVariantMap)),
+            SLOT(addCommandsToItemMenu(Command,bool)));
+    connect(&m_trayMenuCommandTester, SIGNAL(commandPassed(Command,bool,QVariantMap)),
+            SLOT(addCommandsToTrayMenu(Command,bool)));
+    connect(&m_clipboardCommandTester, SIGNAL(commandPassed(Command,bool,QVariantMap)),
+            SLOT(runAutomaticCommand(Command,bool,QVariantMap)));
+    connect(&m_clipboardCommandTester, SIGNAL(finished(QVariantMap,bool)),
+            SLOT(automaticCommandsFinished(QVariantMap,bool)));
 
     // settings
     m_commands = loadCommands();
@@ -544,8 +549,8 @@ void MainWindow::onAboutToQuit()
     if (m_tray)
         m_tray->hide();
 
-    stopMenuCommandTester(&m_itemMenuCommandTester);
-    stopMenuCommandTester(&m_trayMenuCommandTester);
+    m_itemMenuCommandTester.abort();
+    m_trayMenuCommandTester.abort();
 }
 
 void MainWindow::onCommandDialogSaved()
@@ -625,7 +630,7 @@ void MainWindow::showContextMenu(const QPoint &position)
 
 void MainWindow::updateContextMenu()
 {
-    stopMenuCommandTester(&m_itemMenuCommandTester);
+    m_itemMenuCommandTester.abort();
 
     foreach (QAction *action, m_menuItem->actions())
         delete action;
@@ -644,7 +649,7 @@ void MainWindow::action()
     openActionDialog( data.isEmpty() ? createDataMap(mimeText, c->selectedText()) : data );
 }
 
-void MainWindow::runAutomaticCommand(quintptr, const Command &command, bool passed, const QVariantMap &data)
+void MainWindow::runAutomaticCommand(const Command &command, bool passed, const QVariantMap &data)
 {
     if (!passed)
         return;
@@ -708,46 +713,6 @@ void MainWindow::automaticCommandsFinished(const QVariantMap &data, bool removeO
         c->setCurrent(0);
 }
 
-void MainWindow::addCommandsToMenu(QMenu *menu, const QList<Command> &commands)
-{
-    CommandAction::Type type = (menu == m_menuItem)
-            ? CommandAction::ItemCommand : CommandAction::ClipboardCommand;
-
-    QList<QKeySequence> usedShortcuts = cm->tabShortcuts()->disabledShortcuts();
-
-    foreach (const Command &command, commands) {
-        QString name = command.name;
-        QMenu *currentMenu = createSubMenus(&name, menu);
-        QAction *act = new CommandAction(command, name, type, getBrowser(), currentMenu);
-        currentMenu->addAction(act);
-
-        if (!command.matchCmd.isEmpty())
-            act->setDisabled(true);
-
-        if (type == CommandAction::ItemCommand) {
-            QList<QKeySequence> uniqueShortcuts;
-
-            foreach (const QString &shortcutText, command.shortcuts) {
-                const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-                if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
-                    if (act->isEnabled())
-                        usedShortcuts.append(shortcut);
-                    uniqueShortcuts.append(shortcut);
-                }
-            }
-
-            if (!uniqueShortcuts.isEmpty()) {
-                act->setShortcuts(uniqueShortcuts);
-            }
-        }
-
-        connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
-                this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
-    }
-
-    cm->tabShortcuts()->setDisabledShortcuts(usedShortcuts);
-}
-
 void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
 {
     CommandAction *act = NULL;
@@ -777,16 +742,14 @@ void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, boo
     }
 }
 
-void MainWindow::addCommandsToItemMenu(quintptr commandTester, const Command &command, bool passed)
+void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 {
-    if (commandTester == m_itemMenuCommandTester)
-        enableActionForCommand(m_menuItem, command, passed);
+    enableActionForCommand(m_menuItem, command, passed);
 }
 
-void MainWindow::addCommandsToTrayMenu(quintptr commandTester, const Command &command, bool passed)
+void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 {
-    if (commandTester == m_trayMenuCommandTester)
-        enableActionForCommand(m_trayMenu, command, passed);
+    enableActionForCommand(m_trayMenu, command, passed);
 }
 
 void MainWindow::updateNotifications()
@@ -970,25 +933,50 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
         }
     }
 
-    addCommandsToMenu(menu, commands);
+    CommandAction::Type type = (menu == m_menuItem)
+            ? CommandAction::ItemCommand : CommandAction::ClipboardCommand;
 
-    if (menu == m_menuItem) {
-        Q_ASSERT(m_itemMenuCommandTester == 0);
-        m_itemMenuCommandTester = startCommandTester(
-                    disabledCommands,
-                    addSelectionData(*c, data),
-                    SLOT(addCommandsToItemMenu(quintptr,Command,bool)),
-                    NULL,
-                    SIGNAL(stopItemMenuCommandTester()));
-    } else {
-        Q_ASSERT(m_trayMenuCommandTester == 0);
-        m_trayMenuCommandTester = startCommandTester(
-                    disabledCommands,
-                    data,
-                    SLOT(addCommandsToTrayMenu(quintptr,Command,bool)),
-                    NULL,
-                    SIGNAL(stopTrayMenuCommandTester()));
+    QList<QKeySequence> usedShortcuts = cm->tabShortcuts()->disabledShortcuts();
+
+    foreach (const Command &command, commands) {
+        QString name = command.name;
+        QMenu *currentMenu = createSubMenus(&name, menu);
+        QAction *act = new CommandAction(command, name, type, getBrowser(), currentMenu);
+        currentMenu->addAction(act);
+
+        if (!command.matchCmd.isEmpty()) {
+            act->setDisabled(true);
+        }
+
+        if (type == CommandAction::ItemCommand) {
+            QList<QKeySequence> uniqueShortcuts;
+
+            foreach (const QString &shortcutText, command.shortcuts) {
+                const QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+                if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
+                    if (act->isEnabled())
+                        usedShortcuts.append(shortcut);
+                    uniqueShortcuts.append(shortcut);
+                }
+            }
+
+            if (!uniqueShortcuts.isEmpty()) {
+                act->setShortcuts(uniqueShortcuts);
+            }
+        }
+
+        connect(act, SIGNAL(triggerCommand(Command,QVariantMap,int)),
+                this, SLOT(onCommandActionTriggered(Command,QVariantMap,int)));
     }
+
+    cm->tabShortcuts()->setDisabledShortcuts(usedShortcuts);
+
+    updateToolBar();
+
+    if (menu == m_menuItem)
+        m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
+    else
+        m_trayMenuCommandTester.setCommands(disabledCommands, data);
 }
 
 void MainWindow::updateToolBar()
@@ -1070,45 +1058,6 @@ void MainWindow::initTray()
             showMinimized();
         }
     }
-}
-
-quintptr MainWindow::startCommandTester(
-        const QList<Command> &commands,
-        const QVariantMap &data,
-        const char *slot,
-        const char *finishSlot,
-        const char *abortSignal)
-{
-    if (commands.isEmpty())
-        return 0;
-
-    CommandTester *commandTester = new CommandTester(commands, data);
-    QThread *thread = new QThread;
-    commandTester->moveToThread(thread);
-
-    connect(commandTester, SIGNAL(commandPassed(quintptr,Command,bool,QVariantMap)), slot);
-    connect(commandTester, SIGNAL(finished(QVariantMap,bool)), commandTester, SLOT(deleteLater()));
-    connect(thread, SIGNAL(started()), commandTester, SLOT(start()));
-    connect(thread, SIGNAL(finished()), thread, SLOT(deleteLater()));
-    if (finishSlot)
-        connect(commandTester, SIGNAL(finished(QVariantMap,bool)), finishSlot);
-    if (abortSignal)
-        connect(this, abortSignal, commandTester, SLOT(abort()));
-
-    thread->start();
-    thread->setPriority(QThread::IdlePriority);
-
-    return reinterpret_cast<quintptr>(commandTester);
-}
-
-void MainWindow::stopMenuCommandTester(quintptr *commandTesterId)
-{
-    *commandTesterId = 0;
-
-    if (commandTesterId == &m_itemMenuCommandTester)
-        emit stopItemMenuCommandTester();
-    else
-        emit stopTrayMenuCommandTester();
 }
 
 int MainWindow::findTabIndex(const QString &name)
@@ -1700,14 +1649,7 @@ void MainWindow::addToTabFromClipboard(const QVariantMap &data)
         }
     }
 
-    quintptr id = startCommandTester(
-                commands, data,
-                SLOT(runAutomaticCommand(quintptr,Command,QVariantMap)),
-                SLOT(automaticCommandsFinished(QVariantMap,bool)),
-                NULL);
-
-    if (id == 0)
-        automaticCommandsFinished(data, false);
+    m_clipboardCommandTester.setCommands(commands, data);
 }
 
 void MainWindow::nextTab()
@@ -1906,7 +1848,7 @@ void MainWindow::updateTrayMenuItems()
 
     ClipboardBrowser *c = getTabForTrayMenu();
 
-    stopMenuCommandTester(&m_trayMenuCommandTester);
+    m_trayMenuCommandTester.abort();
 
     m_trayMenu->clearClipboardItemActions();
     m_trayMenu->clearCustomActions();

@@ -26,30 +26,37 @@
 #include <QVariant>
 
 Q_DECLARE_METATYPE(Command)
-Q_DECLARE_METATYPE(quintptr)
+
+class Action;
 
 class CommandTester : public QObject
 {
     Q_OBJECT
 public:
-    CommandTester(
-            const QList<Command> &commands,
-            const QVariantMap &data,
-            QObject *parent = NULL);
+    explicit CommandTester(QObject *parent = NULL);
 
-signals:
-    void commandPassed(quintptr id, const Command &command, bool passed, const QVariantMap &data);
-    void finished(const QVariantMap &data, bool removeOrTransform);
-
-public slots:
     void start();
     void abort();
 
+    /// Sets new commands and starts new processing.
+    void setCommands(const QList<Command> &commands, const QVariantMap &data);
+
+signals:
+    void commandPassed(const Command &command, bool passed, const QVariantMap &data);
+    void finished(const QVariantMap &data, bool removeOrTransform);
+
+private slots:
+    void actionFinished();
+
 private:
-    bool canExecuteCommand(const Command &command);
+    void startNext();
+    void commandPassed(bool passed);
+    bool maybeFinish();
 
     QList<Command> m_commands;
     QVariantMap m_data;
+    Action *m_action;
+    bool m_removeOrTransform;
     bool m_abort;
 };
 

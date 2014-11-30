@@ -37,7 +37,7 @@ class Action : public QProcess
     Q_OBJECT
 public:
     /** Create action with command line parameters. */
-    Action();
+    explicit Action(QObject *parent = NULL);
 
     ~Action();
 
@@ -98,7 +98,7 @@ public:
 
 public slots:
     /** Terminate (kill) process. */
-    void terminate();
+    void terminate(int msecs = 5000);
 
 signals:
     /** Emitted on error. */

@@ -170,8 +170,8 @@ quintptr actionId(const Action *act)
 QMutex Action::actionsLock;
 QVector<Action*> Action::actions;
 
-Action::Action()
-    : QProcess()
+Action::Action(QObject *parent)
+    : QProcess(parent)
     , m_failed(false)
     , m_firstProcess(NULL)
     , m_currentLine(-1)
@@ -365,12 +365,12 @@ bool Action::hasTextOutput() const
     return !m_outputFormat.isEmpty() && m_outputFormat == mimeText;
 }
 
-void Action::terminate()
+void Action::terminate(int msecs)
 {
     // try to terminate process
     QProcess::terminate();
     // if process still running: kill it
-    if ( !waitForFinished(5000) )
+    if ( msecs > 0 && !waitForFinished(msecs) )
         kill();
 }
 

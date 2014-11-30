@@ -20,6 +20,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
+#include "common/commandtester.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/configtabshortcuts.h"
 
@@ -426,13 +427,12 @@ private slots:
 
     void action();
 
-    void runAutomaticCommand(quintptr, const Command &command, bool passed, const QVariantMap &data);
+    void runAutomaticCommand(const Command &command, bool passed, const QVariantMap &data);
     void automaticCommandsFinished(const QVariantMap &data, bool removeOrTransform);
 
-    void addCommandsToMenu(QMenu *menu, const QList<Command> &commands);
     void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
-    void addCommandsToItemMenu(quintptr commandTester, const Command &command, bool enable);
-    void addCommandsToTrayMenu(quintptr commandTester, const Command &command, bool enable);
+    void addCommandsToItemMenu(const Command &command, bool enable);
+    void addCommandsToTrayMenu(const Command &command, bool enable);
 
 private:
     /** Create menu bar and tray menu with items. Called once. */
@@ -494,15 +494,6 @@ private:
 
     void initTray();
 
-    quintptr startCommandTester(
-            const QList<Command> &commands,
-            const QVariantMap &data,
-            const char *slot,
-            const char *finishSlot,
-            const char *abortSignal);
-
-    void stopMenuCommandTester(quintptr *commandTesterId);
-
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
@@ -541,8 +532,9 @@ private:
 
     QPointer<CommandDialog> m_commandDialog;
 
-    quintptr m_itemMenuCommandTester;
-    quintptr m_trayMenuCommandTester;
+    CommandTester m_itemMenuCommandTester;
+    CommandTester m_trayMenuCommandTester;
+    CommandTester m_clipboardCommandTester;
 };
 
 #endif // MAINWINDOW_H

@@ -26,63 +26,99 @@
 #include <QProcess>
 #include <QCoreApplication>
 
-CommandTester::CommandTester(
-        const QList<Command> &commands,
-        const QVariantMap &data,
-        QObject *parent)
+CommandTester::CommandTester(QObject *parent)
     : QObject(parent)
-    , m_commands(commands)
-    , m_data(data)
+    , m_action(NULL)
+    , m_removeOrTransform(false)
     , m_abort(false)
 {
-    qRegisterMetaType<Command>("Command");
-    qRegisterMetaType<quintptr>("quintptr");
 }
 
 void CommandTester::start()
 {
-    bool removeOrTransform = false;
-
-    foreach (const Command &command, m_commands) {
-        bool passed = canExecuteCommand(command);
-        if (m_abort)
-            break;
-
-        removeOrTransform = passed && (command.remove || command.transform);
-        emit commandPassed(reinterpret_cast<quintptr>(this), command, passed, m_data);
-    }
-
-    emit finished(m_data, removeOrTransform);
+    if (!m_action)
+        startNext();
 }
 
 void CommandTester::abort()
 {
-    m_abort = true;
+    if (m_action) {
+        m_abort = true;
+        m_action->terminate(0);
+    }
 }
 
-bool CommandTester::canExecuteCommand(const Command &command)
+void CommandTester::setCommands(
+        const QList<Command> &commands, const QVariantMap &data)
 {
-    if (command.matchCmd.isEmpty())
-        return true;
+    m_commands = commands;
+    m_data = data;
+    m_removeOrTransform = false;
+    abort();
+    start();
+}
 
-    const QString text = getTextData(m_data);
+void CommandTester::actionFinished()
+{
+    Q_ASSERT(m_action);
+    Q_ASSERT(m_action->state() == QProcess::NotRunning);
 
-    Action matchAction;
-    matchAction.setCommand(command.matchCmd, QStringList(text));
-    matchAction.setInput(text.toUtf8());
-    matchAction.setData(m_data);
-    matchAction.start();
+    bool passed = !m_action->actionFailed() && m_action->exitCode() == 0;
+    delete m_action;
+    m_action = NULL;
 
-    for ( int i = 0; i < 100 && !matchAction.waitForFinished(100) && !m_abort; ++i )
-        QCoreApplication::processEvents();
-
-    if (matchAction.state() != QProcess::NotRunning) {
-        matchAction.terminate();
-        return false;
+    if (m_abort) {
+        start();
+    } else {
+        commandPassed(passed);
+        if (!maybeFinish())
+            startNext();
     }
+}
 
-    if (matchAction.exitStatus() != QProcess::NormalExit || matchAction.exitCode() != 0)
+void CommandTester::startNext()
+{
+    Q_ASSERT(!m_action);
+
+    m_abort = false;
+
+    if (!maybeFinish()) {
+        Command *command = &m_commands[0];
+
+        while (command->matchCmd.isEmpty()) {
+            commandPassed(true);
+            if (maybeFinish())
+                return;
+            command = &m_commands[0];
+        }
+
+        m_action = new Action(this);
+
+        const QString text = getTextData(m_data);
+        m_action->setInput(text.toUtf8());
+        m_action->setData(m_data);
+
+        const QString arg = QString::fromUtf8(m_action->input());
+        m_action->setCommand(command->matchCmd, QStringList(arg));
+
+        connect(m_action, SIGNAL(actionFinished(Action*)), SLOT(actionFinished()));
+        m_action->start();
+    }
+}
+
+void CommandTester::commandPassed(bool passed)
+{
+    Q_ASSERT(!m_commands.isEmpty());
+    const Command command = m_commands.takeFirst();
+    m_removeOrTransform = passed && (command.remove || command.transform);
+    emit commandPassed(command, passed, m_data);
+}
+
+bool CommandTester::maybeFinish()
+{
+    if (!m_commands.isEmpty())
         return false;
 
+    emit finished(m_data, m_removeOrTransform);
     return true;
 }
