@@ -32,14 +32,22 @@ namespace Ui {
 class ItemTagsSettings;
 }
 
-class QWebView;
+class QLabel;
 
 class ItemTags : public QWidget, public ItemWidget
 {
     Q_OBJECT
 
 public:
-    ItemTags(ItemWidget *childItem, const QString &tagsContent);
+    struct Tag {
+        QString name;
+        QString color;
+        QString icon;
+    };
+
+    typedef QVector<Tag> Tags;
+
+    ItemTags(ItemWidget *childItem, const Tags &tags);
 
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
@@ -58,15 +66,9 @@ protected:
 
     virtual void updateSize(const QSize &maximumSize);
 
-private slots:
-    void onItemChanged();
-    void onLinkClicked(const QUrl &url);
-
 private:
-    QWebView *m_tags;
+    QLabel *m_tagsLabel;
     QScopedPointer<ItemWidget> m_childItem;
-    bool m_notesAtBottom;
-    QSize m_maximumSize;
 };
 
 class ItemTagsLoader : public QObject, public ItemLoaderInterface
@@ -105,18 +107,14 @@ private slots:
     void onColorButtonClicked();
 
 private:
-    struct Tag {
-        QString name;
-        QString color;
-        QString icon;
-    };
-
-    typedef QVector<Tag> Tags;
+    typedef ItemTags::Tag Tag;
+    typedef ItemTags::Tags Tags;
 
     static QString serializeTag(const Tag &tag);
     static Tag deserializeTag(const QString &tagText);
 
-    QString generateTagsHtml(const QString &tagsContent);
+    Tags toTags(const QString &tagsContent);
+
     void addTagToSettingsTable(const Tag &tag = Tag());
 
     QVariantMap m_settings;

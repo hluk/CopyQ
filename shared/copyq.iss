@@ -76,7 +76,7 @@ en.PluginNotes=Notes
 en.PluginEncrypted=Encryption
 en.PluginFakeVim=FakeVim Editor
 en.PluginSynchronize=Synchronize Items to Disk
-en.PluginTags=Item tags
+en.PluginTags=Item Tags
 
 cz.ProgramFiles=Soubory programu
 cz.Translations=Překlady
@@ -150,7 +150,7 @@ Source: "{#QtRoot}\bin\QtNetwork4.dll"; DestDir: "{app}"; Components: program; F
 Source: "{#QtRoot}\bin\QtScript4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\QtSvg4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\QtXml4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\QtWebKit4.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\plugins\imageformats\qico4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\plugins\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\translations\qt_*.qm"; DestDir: "{app}\translations"; Components: translations; Flags: skipifsourcedoesntexist
@@ -166,16 +166,16 @@ Source: "{#QtRoot}\bin\Qt5Network.dll"; DestDir: "{app}"; Components: program; F
 Source: "{#QtRoot}\bin\Qt5Script.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\Qt5Svg.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\Qt5Xml.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5WebKit.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5WebKitWidgets.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5OpenGL.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5Qml.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5Quick.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5Sensors.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5Sql.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
-Source: "{#QtRoot}\bin\Qt5V8.dll"; DestDir: "{app}"; Components: plugins/web plugins/tags; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Widgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5WebKit.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5WebKitWidgets.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5OpenGL.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5PrintSupport.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Qml.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Quick.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Sensors.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5Sql.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
+Source: "{#QtRoot}\bin\Qt5V8.dll"; DestDir: "{app}"; Components: plugins/web; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\plugins\imageformats\qico.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\plugins\imageformats\qsvg.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 #endif
