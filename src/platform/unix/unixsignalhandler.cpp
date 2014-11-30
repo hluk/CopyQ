@@ -63,20 +63,25 @@ bool UnixSignalHandler::create(QObject *parent)
 
 void UnixSignalHandler::exitSignalHandler(int)
 {
-    char a = 1;
-    ::write(signalFd[Write], &a, sizeof(a));
+    const qint64 pid = QCoreApplication::applicationPid();
+    ::write(signalFd[Write], &pid, sizeof(pid));
 }
 
 void UnixSignalHandler::handleSignal()
 {
     m_signalFdNotifier.setEnabled(false);
 
-    char tmp;
-    if ( ::read(signalFd[Read], &tmp, sizeof(tmp)) != 1 )
+    qint64 pid;
+    if ( ::read(signalFd[Read], &pid, sizeof(pid)) != sizeof(pid) ) {
         COPYQ_LOG("Incorrect number of bytes read from Unix signal socket!");
-
-    COPYQ_LOG("Terminating application on signal.");
-    QCoreApplication::exit();
+        m_signalFdNotifier.setEnabled(true);
+    } else if (pid != QCoreApplication::applicationPid()) {
+        COPYQ_LOG("Wrong PID written to Unix signal socket!");
+        m_signalFdNotifier.setEnabled(true);
+    } else {
+        COPYQ_LOG("Terminating application on signal.");
+        QCoreApplication::exit();
+    }
 }
 
 UnixSignalHandler::UnixSignalHandler(QObject *parent)
