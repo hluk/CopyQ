@@ -1,3 +1,5 @@
+include("../common.pri")
+
 TEMPLATE = subdirs
 SUBDIRS  = \
            itemdata \
@@ -9,4 +11,3 @@ SUBDIRS  = \
            itemtext \
            itemsync \
            itemweb
-

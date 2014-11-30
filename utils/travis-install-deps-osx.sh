@@ -13,14 +13,14 @@ function pip_with_cache() {
         "$@"
 
     # Install from the wheelhouse
-    pip install \
+    sudo pip install \
         --use-wheel \
         --find-links="file://$WHEELHOUSE" \
         "$@"
 }
 
-brew install qt5 python
-pip install wheel
+brew install qt5
+sudo pip install wheel
 pip_with_cache \
     cpp-coveralls \
     dmgbuild \

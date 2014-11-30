@@ -1,3 +1,5 @@
+include("../common.pri")
+
 TEMPLATE = app
 
 TARGET = ../copyq
@@ -181,13 +183,6 @@ SOURCES += \
     common/commandtester.cpp
 
 macx {
-    # Only Intel binaries are accepted so force this
-    CONFIG += x86
-
-    # Only support 10.9+ due because we require NSProcessInfo::beginActivityWithOptions:reason:
-    QMAKE_MACOSX_DEPLOYMENT_TARGET = 10.9
-    QMAKE_MAC_SDK = macosx10.9
-
     # Copy the custom Info.plist to the app bundle
     QMAKE_INFO_PLIST = ../shared/Info.plist
 
