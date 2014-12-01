@@ -3936,7 +3936,7 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     <message>
         <location filename="../plugins/itemtext/itemtext.h" line="69"/>
         <source>Display plain text and simple HTML items.</source>
-        <translation>Zeige Elemente aus Rohtext und HTML an.</translation>
+        <translation>Zeige Elemente aus reinem Text und HTML an.</translation>
     </message>
 </context>
 <context>
