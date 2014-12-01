@@ -91,11 +91,13 @@ QVariantMap X11PlatformClipboard::data(Mode mode, const QStringList &) const
 
 void X11PlatformClipboard::setData(Mode mode, const QVariantMap &dataMap)
 {
-    DummyClipboard::setData(mode, dataMap);
-    if (m_copyclip && mode == Clipboard)
-        DummyClipboard::setData(Selection, dataMap);
-    else if (m_copysel && mode == Selection)
-        DummyClipboard::setData(Clipboard, dataMap);
+    if (dataMap.value("application/x-copyq-set-selection").toBool()) {
+        QVariantMap dataMap2 = dataMap;
+        dataMap2.remove("application/x-copyq-set-selection");
+        DummyClipboard::setData(Selection, dataMap2);
+    } else {
+        DummyClipboard::setData(mode, dataMap);
+    }
 }
 
 void X11PlatformClipboard::ignoreCurrentData()

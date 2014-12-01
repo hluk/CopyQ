@@ -491,42 +491,16 @@ QScriptValue Scriptable::selection()
 
 QScriptValue Scriptable::copy()
 {
-    const int args = argumentCount();
-    QVariantMap data;
+    return copy(QClipboard::Clipboard);
+}
 
-    if (args == 0) {
-        // Reset clipboard first.
-        const QString mime = COPYQ_MIME_PREFIX "invalid";
-        const QByteArray value = "invalid";
-        data.insert(mime, value);
-        if ( !setClipboard(data) )
-            return false;
-
-        m_proxy->copyFromCurrentWindow();
-
-        return m_proxy->getClipboardData(mime) != value;
-    }
-
-    if (args == 1) {
-        QScriptValue value = argument(0);
-        setTextData( &data, toString(value) );
-        return setClipboard(data);
-    }
-
-    if (args % 2 == 0) {
-        for (int i = 0; i < args; ++i) {
-            // MIME
-            QString mime = toString(argument(i));
-
-            // DATA
-            toItemData(argument(++i), mime, &data);
-        }
-
-        return setClipboard(data);
-    }
-
-    throwError(argumentError());
-    return false;
+QScriptValue Scriptable::copySelection()
+{
+#ifdef COPYQ_WS_X11
+    return copy(QClipboard::Selection);
+#else
+    return QScriptValue();
+#endif
 }
 
 void Scriptable::paste()
@@ -1131,14 +1105,62 @@ QList<int> Scriptable::getRows() const
     return rows;
 }
 
-bool Scriptable::setClipboard(const QVariantMap &data)
+QScriptValue Scriptable::copy(QClipboard::Mode mode)
 {
+    const int args = argumentCount();
+    QVariantMap data;
+
+    if (args == 0) {
+        // Reset clipboard first.
+        const QString mime = COPYQ_MIME_PREFIX "invalid";
+        const QByteArray value = "invalid";
+        data.insert(mime, value);
+        if ( !setClipboard(data, mode) )
+            return false;
+
+        m_proxy->copyFromCurrentWindow();
+
+        return m_proxy->getClipboardData(mime) != value;
+    }
+
+    if (args == 1) {
+        QScriptValue value = argument(0);
+        setTextData( &data, toString(value) );
+        return setClipboard(data, mode);
+    }
+
+    if (args % 2 == 0) {
+        for (int i = 0; i < args; ++i) {
+            // MIME
+            QString mime = toString(argument(i));
+
+            // DATA
+            toItemData(argument(++i), mime, &data);
+        }
+
+        return setClipboard(data, mode);
+    }
+
+    throwError(argumentError());
+    return false;
+}
+
+bool Scriptable::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
+{
+#ifdef COPYQ_WS_X11
+    QVariantMap data2 = data;
+    if (mode == QClipboard::Selection)
+        data2.insert("application/x-copyq-set-selection", true);
+    m_proxy->setClipboard(data2);
+#else
+    Q_UNUSED(mode);
     m_proxy->setClipboard(data);
+#endif
 
     // Wait for clipboard to be set.
     for (int i = 0; i < 10; ++i) {
         waitFor(250);
-        if ( clipboardEquals(data, m_proxy) )
+        if ( clipboardEquals(data, mode, m_proxy) )
             return true;
     }
 
