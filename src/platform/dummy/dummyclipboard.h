@@ -36,8 +36,6 @@ public:
 
     void setData(Mode mode, const QVariantMap &dataMap);
 
-    void ignoreCurrentData() {}
-
 signals:
     void changed(PlatformClipboard::Mode mode);
 

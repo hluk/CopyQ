@@ -190,6 +190,10 @@ public slots:
 
     QScriptValue dateString();
 
+    QScriptValue hasDataFromClipboard();
+    void updateFirst();
+    void updateTitle();
+
 public slots:
     void setInput(const QByteArray &bytes);
 

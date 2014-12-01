@@ -177,6 +177,10 @@ void ProcessManagerDialog::actionFinished(Action *action)
     button->disconnect();
     connect( button, SIGNAL(clicked()),
              this, SLOT(onRemoveActionButtonClicked()) );
+
+    // Reset action ID so it can be used again.
+    t->item(row, tableCommandsColumns::status)->setData(statusItemData::actionId, 0);
+    Q_ASSERT(getRowForAction(action) == -1);
 }
 
 void ProcessManagerDialog::actionFinished(const QString &name)

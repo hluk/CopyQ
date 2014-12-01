@@ -205,6 +205,18 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
     return parentMenu;
 }
 
+Command automaticCommand(
+        const QString &cmd, bool forClipboard = true, const QString &input = QString())
+{
+    Command c;
+    c.automatic = true;
+    c.input = input;
+    const QString negate = forClipboard ? "" : "!";
+    c.cmd = "copyq: if (monitoring() && " + negate + "hasDataFromClipboard()) " + cmd;
+
+    return c;
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -221,7 +233,6 @@ MainWindow::MainWindow(QWidget *parent)
     , m_notifications(NULL)
     , m_minimizeUnsupported(false)
     , m_actionHandler(new ActionHandler(this))
-    , m_ignoreCurrentClipboard(true)
     , m_trayTab(NULL)
     , m_commandDialog(NULL)
 {
@@ -263,17 +274,13 @@ MainWindow::MainWindow(QWidget *parent)
     connect( qApp, SIGNAL(aboutToQuit()),
              this, SLOT(onAboutToQuit()) );
 
-    connect(&m_itemMenuCommandTester, SIGNAL(commandPassed(Command,bool,QVariantMap)),
+    connect(&m_itemMenuCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(addCommandsToItemMenu(Command,bool)));
-    connect(&m_trayMenuCommandTester, SIGNAL(commandPassed(Command,bool,QVariantMap)),
+    connect(&m_trayMenuCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(addCommandsToTrayMenu(Command,bool)));
-    connect(&m_clipboardCommandTester, SIGNAL(commandPassed(Command,bool,QVariantMap)),
-            SLOT(runAutomaticCommand(Command,bool,QVariantMap)));
-    connect(&m_clipboardCommandTester, SIGNAL(finished(QVariantMap,bool)),
-            SLOT(automaticCommandsFinished(QVariantMap,bool)));
+    connect(&m_automaticCommandTester, SIGNAL(commandPassed(Command,bool)),
+            SLOT(automaticCommandTestFinished(Command,bool)));
 
-    // settings
-    m_commands = loadCommands();
     loadSettings();
 
     ui->tabWidget->setCurrentIndex(0);
@@ -649,68 +656,29 @@ void MainWindow::action()
     openActionDialog( data.isEmpty() ? createDataMap(mimeText, c->selectedText()) : data );
 }
 
-void MainWindow::runAutomaticCommand(const Command &command, bool passed, const QVariantMap &data)
+void MainWindow::automaticCommandTestFinished(const Command &command, bool passed)
 {
     if (!passed)
         return;
 
-    Command cmd = command;
+    m_automaticCommands.append(command);
 
-    if ( cmd.input.isEmpty()
-         || cmd.input == mimeItems
-         || data.contains(cmd.input) )
-    {
-        action(data, cmd);
-    }
-
-    if (!cmd.tab.isEmpty())
-        addToTab(data, cmd.tab);
+    if (!m_currentAutomaticCommand)
+        runNextAutomaticCommand();
 }
 
-void MainWindow::automaticCommandsFinished(const QVariantMap &data, bool removeOrTransform)
+void MainWindow::automaticCommandFinished()
 {
-    if (removeOrTransform)
-        return;
+    Q_ASSERT(!m_currentAutomaticCommand);
 
-    ClipboardBrowser *c = browser(0);
-
-    if ( !c->isLoaded() )
-        return;
-
-    if ( c->select(hash(data), MoveToTop) )
-        return;
-
-    QVariantMap newData = data;
-    bool reselectFirst = false;
-
-    // When selecting text under X11, clipboard data may change whenever selection changes.
-    // Instead of adding item for each selection change, this updates previously added item.
-    if ( newData.contains(mimeText) ) {
-        const QModelIndex firstIndex = c->model()->index(0, 0);
-        const QVariantMap previousData = itemData(firstIndex);
-
-        if ( previousData.contains(mimeText)
-             && newData.value(mimeWindowTitle) == previousData.value(mimeWindowTitle)
-             && getTextData(newData).contains(getTextData(previousData))
-             )
-        {
-            const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
-
-            foreach (const QString &format, formatsToAdd)
-                newData.insert(format, previousData[format]);
-
-            // Remove merged item (if it's not edited).
-            if (!c->editing() || c->currentIndex().row() != 0) {
-                reselectFirst = c->currentIndex().row() == 0;
-                c->model()->removeRow(0);
-            }
-        }
+    if (!m_automaticCommands.isEmpty()) {
+        const Command command = m_automaticCommands.takeFirst();
+        if (command.remove || command.transform)
+            m_automaticCommands.clear();
     }
 
-    c->add(newData);
-
-    if (reselectFirst)
-        c->setCurrent(0);
+    if (!m_automaticCommands.isEmpty())
+        runNextAutomaticCommand();
 }
 
 void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, bool enable)
@@ -750,6 +718,15 @@ void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 {
     enableActionForCommand(m_trayMenu, command, passed);
+}
+
+void MainWindow::updateTitle(const QVariantMap &data)
+{
+    m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
+
+    updateWindowTitle();
+    updateTrayTooltip();
+    showClipboardMessage(m_clipboardData);
 }
 
 void MainWindow::updateNotifications()
@@ -973,10 +950,13 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
 
     updateToolBar();
 
-    if (menu == m_menuItem)
+    if (menu == m_menuItem) {
         m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
-    else
+        m_itemMenuCommandTester.start();
+    } else {
         m_trayMenuCommandTester.setCommands(disabledCommands, data);
+        m_trayMenuCommandTester.start();
+    }
 }
 
 void MainWindow::updateToolBar()
@@ -1004,16 +984,22 @@ void MainWindow::updateToolBar()
 
 void MainWindow::updateWindowTitle()
 {
-    const QString clipboardContent = textLabelForData(m_clipboardData);
-    const QString sessionName = qApp->property("CopyQ_session_name").toString();
-    const QString title = sessionName.isEmpty()
-            ? tr("%1 - CopyQ", "Main window title format (%1 is clipboard content label)")
-              .arg(clipboardContent)
-            : tr("%1 - %2 - CopyQ", "Main window title format (%1 is clipboard content label, %2 is session name)")
-              .arg(clipboardContent)
-              .arg(sessionName);
+    if (m_clipboardData.isEmpty()) {
+        setWindowTitle("CopyQ");
+    } else {
+        const QString clipboardContent = textLabelForData(m_clipboardData);
+        const QString sessionName = qApp->property("CopyQ_session_name").toString();
+        const QString title = sessionName.isEmpty()
+                ? tr("%1 - CopyQ",
+                     "Main window title format (%1 is clipboard content label)")
+                  .arg(clipboardContent)
+                : tr("%1 - %2 - CopyQ",
+                     "Main window title format (%1 is clipboard content label, %2 is session name)")
+                  .arg(clipboardContent)
+                  .arg(sessionName);
 
-    setWindowTitle(title);
+        setWindowTitle(title);
+    }
 }
 
 void MainWindow::updateTrayTooltip()
@@ -1058,6 +1044,31 @@ void MainWindow::initTray()
             showMinimized();
         }
     }
+}
+
+void MainWindow::runNextAutomaticCommand()
+{
+    Q_ASSERT(!m_automaticCommands.isEmpty());
+    Q_ASSERT(!m_currentAutomaticCommand);
+
+    const Command &command = m_automaticCommands.first();
+
+    const QVariantMap &data = m_automaticCommandTester.data();
+
+    if ( command.input.isEmpty()
+         || command.input == mimeItems
+         || data.contains(command.input) )
+    {
+        m_currentAutomaticCommand = action(data, command);
+    }
+
+    if (!command.tab.isEmpty())
+        addToTab(data, command.tab);
+
+    if (m_currentAutomaticCommand)
+        connect(m_currentAutomaticCommand, SIGNAL(destroyed()), SLOT(automaticCommandFinished()));
+    else
+        automaticCommandFinished();
 }
 
 int MainWindow::findTabIndex(const QString &name)
@@ -1635,7 +1646,50 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
     createTab(tabName)->add(data);
 }
 
-void MainWindow::addToTabFromClipboard(const QVariantMap &data)
+void MainWindow::updateFirstItem(const QVariantMap &data)
+{
+    ClipboardBrowser *c = browser(0);
+
+    if ( !c->isLoaded() )
+        return;
+
+    if ( c->select(hash(data), MoveToTop) )
+        return;
+
+    QVariantMap newData = data;
+    bool reselectFirst = false;
+
+    // When selecting text under X11, clipboard data may change whenever selection changes.
+    // Instead of adding item for each selection change, this updates previously added item.
+    if ( newData.contains(mimeText) ) {
+        const QModelIndex firstIndex = c->model()->index(0, 0);
+        const QVariantMap previousData = itemData(firstIndex);
+
+        if ( previousData.contains(mimeText)
+             && newData.value(mimeWindowTitle) == previousData.value(mimeWindowTitle)
+             && getTextData(newData).contains(getTextData(previousData))
+             )
+        {
+            const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
+
+            foreach (const QString &format, formatsToAdd)
+                newData.insert(format, previousData[format]);
+
+            // Remove merged item (if it's not edited).
+            if (!c->editing() || c->currentIndex().row() != 0) {
+                reselectFirst = c->currentIndex().row() == 0;
+                c->model()->removeRow(0);
+            }
+        }
+    }
+
+    c->add(newData);
+
+    if (reselectFirst)
+        c->setCurrent(0);
+}
+
+void MainWindow::runAutomaticCommands(const QVariantMap &data)
 {
     QList<Command> commands;
     const QString &tabName = getBrowser(0)->tabName();
@@ -1649,7 +1703,37 @@ void MainWindow::addToTabFromClipboard(const QVariantMap &data)
         }
     }
 
-    m_clipboardCommandTester.setCommands(commands, data);
+    // Clear window title and tooltip.
+    commands.prepend(automaticCommand("updateTitle('')"));
+
+    // Add new clipboard to the first tab (if configured so).
+    if ( cm->value("check_clipboard").toBool() )
+        commands.append(automaticCommand("updateFirst()"));
+
+#ifdef COPYQ_WS_X11
+    // Add new mouse selection to the first tab (if configured so).
+    if ( cm->value("check_selection").toBool() )
+        commands.append(automaticCommand("updateFirst()", false));
+
+    if ( cm->value("copy_clipboard").toBool() )
+        commands.append(automaticCommand("copy(input())", false, "text/plain"));
+
+    if ( cm->value("copy_selection").toBool() )
+        commands.append(automaticCommand("copySelection(input())", true, "text/plain"));
+#endif
+
+    // Set window title, tooltip and show notification.
+    commands.append(automaticCommand("updateTitle()"));
+
+    abortAutomaticCommands();
+    m_automaticCommandTester.setCommands(commands, data);
+
+    if (m_currentAutomaticCommand) {
+        connect(m_currentAutomaticCommand, SIGNAL(destroyed()),
+                &m_automaticCommandTester, SLOT(start()));
+    } else {
+        m_automaticCommandTester.start();
+    }
 }
 
 void MainWindow::nextTab()
@@ -1664,17 +1748,17 @@ void MainWindow::previousTab()
 
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
-    m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
-    m_ignoreCurrentClipboard = false;
-
-    updateWindowTitle();
-    updateTrayTooltip();
-    showClipboardMessage(m_clipboardData);
+    // Don't process the data further if any running clipboard monitor set the clipboard.
+    if ( !ownsClipboardData(data) && !data.contains(mimeOwner) && containsAnyData(data) ) {
+        runAutomaticCommands(data);
+    } else {
+        abortAutomaticCommands();
+        updateTitle(data);
+    }
 }
 
 void MainWindow::setClipboard(const QVariantMap &data)
 {
-    showClipboardMessage(data);
     emit changeClipboard(data);
 }
 
@@ -1720,7 +1804,7 @@ void MainWindow::disableClipboardStoring(bool disable)
     updateIcon();
 
     if (m_clipboardStoringDisabled)
-        clipboardChanged(QVariantMap());
+        clearTitle();
 
     COPYQ_LOG( QString("Clipboard monitoring %1.")
                .arg(m_clipboardStoringDisabled ? "disabled" : "enabled") );
@@ -1736,10 +1820,15 @@ void MainWindow::toggleClipboardStoring()
     disableClipboardStoring(!m_clipboardStoringDisabled);
 }
 
-void MainWindow::ignoreCurrentClipboard()
+void MainWindow::abortAutomaticCommands()
 {
-    clipboardChanged(QVariantMap());
-    m_ignoreCurrentClipboard = true;
+    m_automaticCommands.clear();
+    m_automaticCommandTester.abort();
+
+    if (m_currentAutomaticCommand) {
+        disconnect(m_currentAutomaticCommand, SIGNAL(destroyed()),
+                   this, SLOT(automaticCommandFinished()));
+    }
 }
 
 QStringList MainWindow::tabs() const
@@ -2133,7 +2222,7 @@ void MainWindow::reverseSelectedItems()
     c->reverseItems( c->selectionModel()->selectedRows() );
 }
 
-void MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
+Action *MainWindow::action(const QVariantMap &data, const Command &cmd, const QModelIndex &outputIndex)
 {
     if (cmd.wait) {
         QScopedPointer<ActionDialog> actionDialog( m_actionHandler->createActionDialog(ui->tabWidget->tabs()) );
@@ -2167,7 +2256,10 @@ void MainWindow::action(const QVariantMap &data, const Command &cmd, const QMode
         act->setName(cmd.name);
         act->setData(data);
         m_actionHandler->action(act);
+        return act;
     }
+
+    return NULL;
 }
 
 void MainWindow::newTab(const QString &name)

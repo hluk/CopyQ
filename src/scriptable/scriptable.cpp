@@ -86,10 +86,10 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
         return defaultValue;
 }
 
-bool clipboardEquals(const QVariantMap &data, ScriptableProxy *proxy)
+bool clipboardEquals(const QVariantMap &data, QClipboard::Mode mode, ScriptableProxy *proxy)
 {
     foreach ( const QString &format, data.keys() ) {
-        if ( data.value(format).toByteArray() != proxy->getClipboardData(format) )
+        if ( data.value(format).toByteArray() != proxy->getClipboardData(format, mode) )
             return false;
     }
 
@@ -470,7 +470,7 @@ QScriptValue Scriptable::monitoring()
 
 void Scriptable::ignore()
 {
-    m_proxy->ignoreCurrentClipboard();
+    m_proxy->abortAutomaticCommands();
 }
 
 QScriptValue Scriptable::clipboard()
@@ -1085,6 +1085,25 @@ QScriptValue Scriptable::dateString()
 {
     const QDateTime dateTime = QDateTime::currentDateTime();
     return dateTime.toString(arg(0));
+}
+
+QScriptValue Scriptable::hasDataFromClipboard()
+{
+    return m_data.value("application/x-copyq-clipboard-mode")
+            .toByteArray().isEmpty();
+}
+
+void Scriptable::updateFirst()
+{
+    m_proxy->updateFirstItem(m_data);
+}
+
+void Scriptable::updateTitle()
+{
+    if (argumentCount() == 0)
+        m_proxy->updateTitle(m_data);
+    else
+        m_proxy->updateTitle(QVariantMap());
 }
 
 void Scriptable::setInput(const QByteArray &bytes)

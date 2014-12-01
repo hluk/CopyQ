@@ -289,9 +289,9 @@ void ScriptableProxyHelper::copyFromCurrentWindow()
         window->copy();
 }
 
-void ScriptableProxyHelper::ignoreCurrentClipboard()
+void ScriptableProxyHelper::abortAutomaticCommands()
 {
-    m_wnd->ignoreCurrentClipboard();
+    m_wnd->abortAutomaticCommands();
 }
 
 void ScriptableProxyHelper::isMonitoringEnabled()
@@ -852,6 +852,16 @@ void ScriptableProxyHelper::setUserValue(const QString &key, const QVariant &val
     Settings settings;
     settings.beginGroup("script");
     settings.setValue(key, value);
+}
+
+void ScriptableProxyHelper::updateFirstItem(const QVariantMap &data)
+{
+    m_wnd->updateFirstItem(data);
+}
+
+void ScriptableProxyHelper::updateTitle(const QVariantMap &data)
+{
+    m_wnd->updateTitle(data);
 }
 
 } // namespace detail

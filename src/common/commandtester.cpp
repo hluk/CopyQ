@@ -29,19 +29,15 @@
 CommandTester::CommandTester(QObject *parent)
     : QObject(parent)
     , m_action(NULL)
-    , m_removeOrTransform(false)
     , m_abort(false)
 {
 }
 
-void CommandTester::start()
-{
-    if (!m_action)
-        startNext();
-}
-
 void CommandTester::abort()
 {
+    m_commands.clear();
+    m_data.clear();
+
     if (m_action) {
         m_abort = true;
         m_action->terminate(0);
@@ -51,11 +47,30 @@ void CommandTester::abort()
 void CommandTester::setCommands(
         const QList<Command> &commands, const QVariantMap &data)
 {
+    abort();
     m_commands = commands;
     m_data = data;
-    m_removeOrTransform = false;
-    abort();
-    start();
+}
+
+bool CommandTester::isCompleted() const
+{
+    return !m_action;
+}
+
+bool CommandTester::hasCommands() const
+{
+    return !m_commands.isEmpty();
+}
+
+const QVariantMap &CommandTester::data() const
+{
+    return m_data;
+}
+
+void CommandTester::start()
+{
+    if (!m_action)
+        startNext();
 }
 
 void CommandTester::actionFinished()
@@ -108,17 +123,12 @@ void CommandTester::startNext()
 
 void CommandTester::commandPassed(bool passed)
 {
-    Q_ASSERT(!m_commands.isEmpty());
+    Q_ASSERT(hasCommands());
     const Command command = m_commands.takeFirst();
-    m_removeOrTransform = passed && (command.remove || command.transform);
-    emit commandPassed(command, passed, m_data);
+    emit commandPassed(command, passed);
 }
 
 bool CommandTester::maybeFinish()
 {
-    if (!m_commands.isEmpty())
-        return false;
-
-    emit finished(m_data, m_removeOrTransform);
-    return true;
+    return !hasCommands();
 }

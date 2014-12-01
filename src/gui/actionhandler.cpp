@@ -149,6 +149,8 @@ void ActionHandler::closeAction(Action *action)
 
     if (!m_hasRunningAction)
         emit hasRunningActionChanged();
+
+    action->deleteLater();
 }
 
 void ActionHandler::actionDialogClosed(ActionDialog *dialog)

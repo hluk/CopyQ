@@ -35,15 +35,23 @@ class CommandTester : public QObject
 public:
     explicit CommandTester(QObject *parent = NULL);
 
-    void start();
+    /// Stop current processing and clear commands and data.
     void abort();
 
-    /// Sets new commands and starts new processing.
+    /// Abort current processing set new commands and data.
     void setCommands(const QList<Command> &commands, const QVariantMap &data);
 
+    bool isCompleted() const;
+
+    bool hasCommands() const;
+
+    const QVariantMap &data() const;
+
+public slots:
+    void start();
+
 signals:
-    void commandPassed(const Command &command, bool passed, const QVariantMap &data);
-    void finished(const QVariantMap &data, bool removeOrTransform);
+    void commandPassed(const Command &command, bool passed);
 
 private slots:
     void actionFinished();
@@ -56,7 +64,6 @@ private:
     QList<Command> m_commands;
     QVariantMap m_data;
     Action *m_action;
-    bool m_removeOrTransform;
     bool m_abort;
 };
 

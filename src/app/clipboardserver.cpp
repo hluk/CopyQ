@@ -69,7 +69,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
           sessionName, true)
     , m_wnd(NULL)
     , m_monitor(NULL)
-    , m_checkclip(false)
     , m_shortcutActions()
     , m_shortcutBlocker()
     , m_clientThreads()
@@ -180,7 +179,6 @@ void ClipboardServer::loadMonitorSettings()
 
     QVariantMap settings;
     settings["formats"] = cm->itemFactory()->formatsToSave();
-    m_checkclip = cm->value("check_clipboard").toBool();
 #ifdef COPYQ_WS_X11
     settings["copy_clipboard"] = cm->value("copy_clipboard");
     settings["copy_selection"] = cm->value("copy_selection");
@@ -307,32 +305,7 @@ void ClipboardServer::newMonitorMessage(const QByteArray &message)
         return;
     }
 
-    bool forceRunCommands = false;
-
-#ifdef COPYQ_WS_X11
-    bool clipboardChanged = !data.contains(mimeClipboardMode);
-    if (clipboardChanged)
-#endif
-    {
-        // Force rerun commands if previous clipboard content was ignored.
-        forceRunCommands = m_wnd->isClipboardIgnored();
-
-        m_wnd->clipboardChanged(data);
-        if (!m_checkclip)
-            return;
-    }
-
-    // Don't add item to list if any running clipboard monitor set the clipboard.
-    if ( !forceRunCommands && ownsClipboardData(data) )
-        return;
-
-    if ( !data.contains(mimeOwner) && containsAnyData(data) )
-        m_wnd->addToTabFromClipboard(data);
-
-#ifdef COPYQ_WS_X11
-    if ( clipboardChanged && m_wnd->isClipboardIgnored() && isMonitoring() )
-        m_monitor->writeMessage("", MonitorIgnoreClipboard);
-#endif
+    m_wnd->clipboardChanged(data);
 }
 
 void ClipboardServer::monitorConnectionError()
