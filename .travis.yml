@@ -29,3 +29,16 @@ script:
 
 after_success:
   - utils/after_build-${TRAVIS_OS_NAME}.sh
+
+deploy:
+  provider: releases
+  api_key:
+    secure: Vax27ifQsc8SlTsLYVbxVJANDAxDroegN6nOPXCN1MLaoh4W2DQ/iGGx+waIOSYig8Sh+AUz2JhCFuMLMVqwFoWY2rxNPBrxhTBjm3aDhylbB+mRECnbInNb0kS3qv4lNDN6lHD4B6K01FWUUiHX14s2JQx4ut+KuwMxxhxyO4Y=
+  file: '*.dmg'
+  file_glob: true
+  skip_cleanup: true
+  on:
+    condition: "$TRAVIS_OS_NAME = osx"
+    tags: true
+    all_branches: true
+    repo: hluk/CopyQ
