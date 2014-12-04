@@ -98,8 +98,6 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
         QVariantMap data;
         deserializeData(&data, message);
         m_clipboard->setData(PlatformClipboard::Clipboard, data);
-    } else if (messageCode == MonitorIgnoreClipboard) {
-        m_clipboard->ignoreCurrentData();
     } else {
         log( QString("Unknown message code %1!").arg(messageCode), LogError );
     }

@@ -59,17 +59,6 @@ public:
      * Set data to clipboard.
      */
     virtual void setData(Mode mode, const QVariantMap &dataMap) = 0;
-
-    /**
-     * Triggered by "ignore()" script command.
-     *
-     * Some applications reset clipboard so that passwords and sensitive data are kept
-     * in clipboard only while really needed.
-     *
-     * On X11 clipboard/selection synchronization should be canceled and previously
-     * synchronized content should be cleared.
-     */
-    virtual void ignoreCurrentData() = 0;
 };
 
 #endif // PLATFORMCLIPBOARD_H

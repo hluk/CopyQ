@@ -30,6 +30,7 @@
 #include <QPointer>
 #include <QSystemTrayIcon>
 
+class Action;
 class ActionHandler;
 class CommandDialog;
 class ConfigurationManager;
@@ -240,12 +241,13 @@ public:
     /** Return true if clipboard storing was disabled. */
     bool isClipboardStoringDisabled() const { return m_clipboardStoringDisabled; }
 
-    /** Ignore current clipboard content. */
-    void ignoreCurrentClipboard();
-
-    bool isClipboardIgnored() const { return m_ignoreCurrentClipboard; }
+    /** Abort execution of automatic commands. */
+    void abortAutomaticCommands();
 
     QStringList tabs() const;
+
+    /** Update the first item in the first tab. */
+    void updateFirstItem(const QVariantMap &data);
 
 public slots:
     /** Close main window and exit the application. */
@@ -300,8 +302,10 @@ public slots:
     void showError(const QString &msg);
 
     /** Execute command on given input data. */
-    void action(const QVariantMap &data, const Command &cmd,
-                const QModelIndex &outputIndex = QModelIndex());
+    Action *action(
+            const QVariantMap &data,
+            const Command &cmd,
+            const QModelIndex &outputIndex = QModelIndex());
 
     /** Add @a data to tab with given name (create if tab doesn't exist). */
     void addToTab(
@@ -311,8 +315,11 @@ public slots:
             const QString &tabName
             );
 
-    /** Add @a new clipboard to the first tab. */
-    void addToTabFromClipboard(const QVariantMap &data);
+    /**
+     * Run automatic commands and add @a new clipboard to the first tab
+     * if commands didn't remove or transform the data.
+     */
+    void runAutomaticCommands(const QVariantMap &data);
 
     /** Set clipboard. */
     void setClipboard(const QVariantMap &data);
@@ -349,6 +356,9 @@ public slots:
     bool saveTab(
             int tab_index = -1 //!< Tab index or current tab.
             );
+
+    /** Set window title and tray tool tip from data. */
+    void updateTitle(const QVariantMap &data);
 
 signals:
     /** Request clipboard change. */
@@ -427,14 +437,16 @@ private slots:
 
     void action();
 
-    void runAutomaticCommand(const Command &command, bool passed, const QVariantMap &data);
-    void automaticCommandsFinished(const QVariantMap &data, bool removeOrTransform);
+    void automaticCommandTestFinished(const Command &command, bool passed);
+    void automaticCommandFinished();
 
     void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool enable);
     void addCommandsToTrayMenu(const Command &command, bool enable);
 
 private:
+    void clearTitle() { updateTitle(QVariantMap()); }
+
     /** Create menu bar and tray menu with items. Called once. */
     void createMenu();
 
@@ -494,6 +506,8 @@ private:
 
     void initTray();
 
+    void runNextAutomaticCommand();
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 
@@ -526,7 +540,6 @@ private:
     ActionHandler *m_actionHandler;
 
     QVariantMap m_clipboardData;
-    bool m_ignoreCurrentClipboard;
 
     ClipboardBrowser *m_trayTab;
 
@@ -534,7 +547,10 @@ private:
 
     CommandTester m_itemMenuCommandTester;
     CommandTester m_trayMenuCommandTester;
-    CommandTester m_clipboardCommandTester;
+    CommandTester m_automaticCommandTester;
+
+    QList<Command> m_automaticCommands;
+    QPointer<Action> m_currentAutomaticCommand;
 };
 
 #endif // MAINWINDOW_H

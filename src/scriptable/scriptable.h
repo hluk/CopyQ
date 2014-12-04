@@ -111,6 +111,7 @@ public slots:
     QScriptValue clipboard();
     QScriptValue selection();
     QScriptValue copy();
+    QScriptValue copySelection();
     void paste();
 
     QScriptValue tab();
@@ -189,6 +190,10 @@ public slots:
 
     QScriptValue dateString();
 
+    QScriptValue hasDataFromClipboard();
+    void updateFirst();
+    void updateTitle();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
@@ -198,7 +203,8 @@ signals:
 
 private:
     QList<int> getRows() const;
-    bool setClipboard(const QVariantMap &data);
+    QScriptValue copy(QClipboard::Mode mode);
+    bool setClipboard(const QVariantMap &data, QClipboard::Mode mode);
     void changeItem(bool create);
 
     ScriptableProxy *m_proxy;

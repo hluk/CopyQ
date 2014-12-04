@@ -160,7 +160,7 @@ public slots:
     void pasteToCurrentWindow();
     void copyFromCurrentWindow();
 
-    void ignoreCurrentClipboard();
+    void abortAutomaticCommands();
 
     void isMonitoringEnabled();
     void disableMonitoring(bool arg1);
@@ -243,6 +243,9 @@ public slots:
 
     void setUserValue(const QString &key, const QVariant &value);
 
+    void updateFirstItem(const QVariantMap &data);
+    void updateTitle(const QVariantMap &data);
+
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
 
@@ -285,7 +288,7 @@ public:
     PROXY_METHOD_0(bool, pasteToCurrentWindow)
     PROXY_METHOD_0(bool, copyFromCurrentWindow)
 
-    PROXY_METHOD(ignoreCurrentClipboard)
+    PROXY_METHOD(abortAutomaticCommands)
 
     PROXY_METHOD_0(bool, isMonitoringEnabled)
     PROXY_METHOD_VOID_1(disableMonitoring, bool)
@@ -358,6 +361,9 @@ public:
     PROXY_METHOD_1(NamedValueList, inputDialog, const NamedValueList &)
 
     PROXY_METHOD_VOID_2(setUserValue, const QString &, const QVariant &)
+
+    PROXY_METHOD_1(bool, updateFirstItem, const QVariantMap &)
+    PROXY_METHOD_1(bool, updateTitle, const QVariantMap &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.
