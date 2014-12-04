@@ -281,6 +281,7 @@ MainWindow::MainWindow(QWidget *parent)
     connect(&m_automaticCommandTester, SIGNAL(commandPassed(Command,bool)),
             SLOT(automaticCommandTestFinished(Command,bool)));
 
+    m_commands = loadCommands();
     loadSettings();
 
     ui->tabWidget->setCurrentIndex(0);
