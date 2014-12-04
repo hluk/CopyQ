@@ -91,7 +91,7 @@ void initTestsSettings()
         return;
 
     // Reset settings on first run of each test case.
-    QSettings settings;
+    Settings settings;
     settings.clear();
 
     QVariant testSettings;
