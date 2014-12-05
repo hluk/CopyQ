@@ -1708,8 +1708,6 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
             commands.append(command);
             if ( command.outputTab.isEmpty() )
                 commands.last().outputTab = tabName;
-            if (command.remove || command.transform)
-                break;
         }
     }
 
