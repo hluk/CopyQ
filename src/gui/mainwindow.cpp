@@ -173,8 +173,9 @@ QVariantMap addSelectionData(const ClipboardBrowser &c, const QVariantMap &data)
 
 QMenu *findSubMenu(const QString &name, const QMenu &menu)
 {
-    foreach (QMenu *subMenu, menu.findChildren<QMenu*>()) {
-        if (subMenu->title() == name)
+    foreach (QAction *action, menu.actions()) {
+        QMenu *subMenu = action->menu();
+        if (subMenu && subMenu->title() == name)
             return subMenu;
     }
 
@@ -644,7 +645,7 @@ void MainWindow::updateContextMenu()
         delete action;
 
     foreach (QMenu *menu, m_menuItem->findChildren<QMenu*>())
-        delete menu;
+        menu->deleteLater();
 
     m_menuItem->clear();
     m_timerUpdateContextMenu.start();
@@ -707,7 +708,15 @@ void MainWindow::enableActionForCommand(QMenu *menu, const Command &command, boo
             updateToolBar();
         }
     } else {
+        QMenu *menu = qobject_cast<QMenu*>(act->parentWidget());
         delete act;
+
+        // Remove empty menus.
+        while ( menu && menu->actions().isEmpty() ) {
+            QMenu *parentMenu = qobject_cast<QMenu*>(menu->parentWidget());
+            delete menu;
+            menu = parentMenu;
+        }
     }
 }
 
