@@ -902,8 +902,8 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     if ( m_commands.isEmpty() )
         return;
 
-    ClipboardBrowser *c = getBrowser();
-    const QString &tabName = c->tabName();
+    ClipboardBrowser *c = (menu == m_menuItem) ? getBrowser() : getTabForTrayMenu();
+    const QString &tabName = c ? c->tabName() : QString();
 
     QList<Command> disabledCommands;
     QList<Command> commands;
