@@ -57,6 +57,7 @@ ItemDelegate::ItemDelegate(QAbstractItemView *view, QWidget *parent)
     , m_saveOnReturnKey(true)
     , m_re()
     , m_maxSize(2048, 2048 * 8)
+    , m_idealWidth(0)
     , m_vMargin( itemMargin() )
     , m_hMargin( m_vMargin * 2 + 6 )
     , m_foundFont()
@@ -155,19 +156,16 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
     return m_cache[index.row()] != NULL;
 }
 
-void ItemDelegate::setItemMaximumSize(const QSize &size)
+void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
 {
-    int width = size.width() - 2 * m_hMargin - m_numberSize.width();
-
-    if (m_maxSize.width() == width)
-        return;
-
-    m_maxSize.setWidth(width);
+    const int margins = 2 * m_hMargin + m_numberSize.width();
+    m_maxSize.setWidth(size.width() - margins);
+    m_idealWidth = idealWidth - margins;
 
     for( int i = 0; i < m_cache.length(); ++i ) {
         ItemWidget *w = m_cache[i];
         if (w != NULL)
-            w->updateSize(m_maxSize);
+            w->updateSize(m_maxSize, m_idealWidth);
     }
 }
 
@@ -239,7 +237,7 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
 
     // Try to get proper size by showing item momentarily.
     ww->show();
-    w->updateSize(m_maxSize);
+    w->updateSize(m_maxSize, m_idealWidth);
     ww->hide();
 
     ww->installEventFilter(this);

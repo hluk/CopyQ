@@ -34,7 +34,6 @@
 #include <QColorDialog>
 #include <QLabel>
 #include <QModelIndex>
-#include <QPainter>
 #include <QPushButton>
 #include <QtPlugin>
 #include <QUrl>
@@ -64,7 +63,7 @@ QString serializeColor(const QColor &color)
             .arg(color.red())
             .arg(color.green())
             .arg(color.blue())
-            .arg(color.alpha() * 1.0 / 255);
+            .arg(color.alpha());
 }
 
 QColor deserializeColor(const QString &colorName)
@@ -74,7 +73,7 @@ QColor deserializeColor(const QString &colorName)
         int r = list.value(0).toInt();
         int g = list.value(1).toInt();
         int b = list.value(2).toInt();
-        int a = list.value(3).toDouble() * 255;
+        int a = list.value(3).toInt();
 
         return QColor(r, g, b, a);
     }
@@ -105,9 +104,9 @@ void setFixedColumnSize(QTableWidget *table, int logicalIndex)
     table->horizontalHeader()->resizeSection(logicalIndex, table->rowHeight(0));
 }
 
-QString cellWidgetProperty(QTableWidget *table, int row, int column, const char *property)
+QVariant cellWidgetProperty(QTableWidget *table, int row, int column, const char *property)
 {
-    return table->cellWidget(row, column)->property(property).toString();
+    return table->cellWidget(row, column)->property(property);
 }
 
 QString tags(const QModelIndex &index)
@@ -169,27 +168,26 @@ QString unescapeTagField(const QString &field)
     return QString(field).replace(";\\;", ";;").replace("\\\\", "\\");
 }
 
-QPixmap renderTags(const ItemTags::Tags &tags, const QFont &font)
+void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
 {
-    const QFont iconFont = ::iconFont();
-    const QFontMetrics fm(font);
-    const QFontMetrics iconFm(iconFont);
-    const int wordSpacing = qMax(iconFont.wordSpacing(), font.wordSpacing());
-    const int fontHeight = qMax(iconFm.height(), fm.height());
-    const int padding = 2 * (wordSpacing + 1);
-    const int tagMargin = 2 * padding;
-    const int h = fontHeight + 2 * padding;
+    Q_ASSERT(layout->parentWidget());
 
-    QPixmap pix(2048, h);
-    pix.fill(Qt::transparent);
+    QFont font = layout->parentWidget()->font();
+    if (font.pixelSize() != -1)
+        font.setPixelSize(0.75 * font.pixelSize());
+    else
+        font.setPointSizeF(0.75 * font.pointSizeF());
 
-    QPainter p(&pix);
+    const int fontHeight = QFontMetrics(font).height();
+    const QString radius = QString::number(fontHeight / 3) + "px";
+    const QString borderWidth = QString::number(fontHeight / 8) + "px";
 
-    p.translate(tagMargin, 0);
-    int w = tagMargin;
-    int maxHeight = 0;
+    layout->addStretch(1);
 
     foreach (const ItemTags::Tag &tag, tags) {
+        QLabel *tagWidget = new QLabel(layout->parentWidget());
+        layout->addWidget(tagWidget);
+
         QColor bg(deserializeColor(tag.color));
         const int l = bg.lightness();
         const int fgLightness = (l == 0) ? 200 : l * (l > 100 ? 0.3 : 5.0);
@@ -198,45 +196,32 @@ QPixmap renderTags(const ItemTags::Tags &tags, const QFont &font)
 
         if (tag.icon.size() > 1) {
             QPixmap icon(tag.icon);
-            const int scaledHeight = qMin(h - 2 * padding, icon.height());
-            icon.scaledToHeight(scaledHeight, Qt::SmoothTransformation);
-            const QRect rect = icon.rect().translated(padding, padding);
-            p.drawPixmap(rect, icon);
-            p.translate(icon.width(), 0);
-            w += icon.width();
-            maxHeight = qMax(maxHeight, icon.height() + 2 * padding);
+            tagWidget->setPixmap(icon);
+        } else if (tag.icon.size() == 1) {
+            tagWidget->setFont(iconFont());
+            tagWidget->setText(tag.icon);
+
+            const QSize size = tagWidget->fontMetrics().boundingRect(tag.icon).size();
+            const int x = qMax(size.width(), size.height()) + fontHeight / 2;
+            tagWidget->setFixedSize(x, x);
+
+            qSwap(fg, bg);
         } else {
-            QString text;
-
-            if (tag.icon.size() == 1) {
-                p.setFont(iconFont);
-                text = tag.icon;
-                qSwap(fg, bg);
-            } else {
-                p.setFont(font);
-                text = tag.name;
-            }
-
-            QRect rect = p.fontMetrics().boundingRect(text);
-            const int pad = 2 * (p.font().wordSpacing() + 1);
-            rect.adjust(0, 0, 2 * pad, 2 * pad);
-            rect.moveTo(0, (h - rect.height()) / 2);
-            maxHeight = qMax(maxHeight, rect.height());
-
-            p.fillRect(rect, bg);
-
-            p.setPen(fg);
-            p.drawText(rect, Qt::AlignCenter, text);
-
-            p.translate(rect.right(), 0);
-            w += rect.width();
+            tagWidget->setFont(font);
+            tagWidget->setText(tag.name);
         }
 
-        p.translate(tagMargin, 0);
-        w += tagMargin;
+        const QColor borderColor = bg.darker(150);
+        tagWidget->setAlignment(Qt::AlignCenter);
+        tagWidget->setSizePolicy(QSizePolicy::Maximum, QSizePolicy::Maximum);
+        tagWidget->setStyleSheet(
+                    ";background:" + serializeColor(bg) +
+                    ";color:" + serializeColor(fg) +
+                    ";border: " + borderWidth + " solid " + serializeColor(borderColor) +
+                    ";border-radius: " + radius +
+                    ";padding: " + borderWidth
+                    );
     }
-
-    return pix.copy(0, (pix.height() - maxHeight) / 2, w, maxHeight);
 }
 
 } // namespace
@@ -244,19 +229,11 @@ QPixmap renderTags(const ItemTags::Tags &tags, const QFont &font)
 ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
-    , m_tagsLabel(new QLabel(this))
+    , m_tagWidget(new QWidget(childItem->widget()->parentWidget()))
     , m_childItem(childItem)
 {
-    QFont tagFont = font();
-    if (tagFont.pixelSize() != -1)
-        tagFont.setPixelSize(0.75 * tagFont.pixelSize());
-    else
-        tagFont.setPointSizeF(0.75 * tagFont.pointSizeF());
-
-    const QPixmap pix = renderTags(tags, tagFont);
-    m_tagsLabel->setPixmap(pix);
-    m_tagsLabel->setFixedSize(pix.size());
-    m_tagsLabel->setContentsMargins(0, 0, 0, 0);
+    QBoxLayout *tagLayout = new QHBoxLayout(m_tagWidget);
+    addTagButtons(tagLayout, tags);
 
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
@@ -265,7 +242,7 @@ ItemTags::ItemTags(ItemWidget *childItem, const Tags &tags)
     layout->setMargin(0);
     layout->setSpacing(0);
 
-    layout->addWidget(m_tagsLabel, 0, Qt::AlignRight);
+    layout->addWidget(m_tagWidget);
     layout->addWidget( m_childItem->widget() );
 }
 
@@ -303,12 +280,14 @@ QObject *ItemTags::createExternalEditor(const QModelIndex &index, QWidget *paren
                        : ItemWidget::createExternalEditor(index, parent);
 }
 
-void ItemTags::updateSize(const QSize &maximumSize)
+void ItemTags::updateSize(const QSize &maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
+    m_tagWidget->setFixedWidth(idealWidth);
+
     if ( !m_childItem.isNull() )
-        m_childItem->updateSize(maximumSize);
+        m_childItem->updateSize(maximumSize, idealWidth);
 
     adjustSize();
 }
@@ -338,9 +317,9 @@ QVariantMap ItemTagsLoader::applySettings()
         tag.name = t->item(row, tagsTableColumns::name)->text();
         if ( !tag.name.isEmpty() ) {
             const QColor color =
-                    cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor);
+                    cellWidgetProperty(t, row, tagsTableColumns::color, propertyColor).value<QColor>();
             tag.color = serializeColor(color);
-            tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon");
+            tag.icon = cellWidgetProperty(t, row, tagsTableColumns::icon, "currentIcon").toString();
             tags.append(serializeTag(tag));
             m_tags.append(tag);
         }
@@ -610,7 +589,7 @@ void ItemTagsLoader::addTagToSettingsTable(const ItemTagsLoader::Tag &tag)
     t->setItem( row, tagsTableColumns::icon, new QTableWidgetItem() );
 
     QPushButton *colorButton = new QPushButton(t);
-    setColorIcon(colorButton, tag.color);
+    setColorIcon(colorButton, deserializeColor(tag.color));
     connect(colorButton, SIGNAL(clicked()), SLOT(onColorButtonClicked()));
     t->setCellWidget(row, tagsTableColumns::color, colorButton);
 

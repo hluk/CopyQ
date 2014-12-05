@@ -699,7 +699,7 @@ QObject *ItemSync::createExternalEditor(const QModelIndex &index, QWidget *paren
     return m_childItem->createExternalEditor(index, parent);
 }
 
-void ItemSync::updateSize(const QSize &maximumSize)
+void ItemSync::updateSize(const QSize &maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
@@ -708,7 +708,7 @@ void ItemSync::updateSize(const QSize &maximumSize)
     doc->setTextWidth(w);
     m_label->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
 
-    m_childItem->updateSize(maximumSize);
+    m_childItem->updateSize(maximumSize, idealWidth);
 
     adjustSize();
     setFixedSize(sizeHint());

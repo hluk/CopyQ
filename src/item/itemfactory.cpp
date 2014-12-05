@@ -149,10 +149,10 @@ public:
         return m_hasText ? ItemWidget::createEditor(parent) : NULL;
     }
 
-    virtual void updateSize(const QSize &maximumSize)
+    virtual void updateSize(const QSize &maximumSize, int idealWidth)
     {
         if (m_hasText)
-            ItemWidget::updateSize(maximumSize);
+            ItemWidget::updateSize(maximumSize, idealWidth);
     }
 
 private:

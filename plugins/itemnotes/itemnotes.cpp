@@ -198,7 +198,7 @@ QObject *ItemNotes::createExternalEditor(const QModelIndex &index, QWidget *pare
                        : ItemWidget::createExternalEditor(index, parent);
 }
 
-void ItemNotes::updateSize(const QSize &maximumSize)
+void ItemNotes::updateSize(const QSize &maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
@@ -210,7 +210,7 @@ void ItemNotes::updateSize(const QSize &maximumSize)
     }
 
     if ( !m_childItem.isNull() )
-        m_childItem->updateSize(maximumSize);
+        m_childItem->updateSize(maximumSize, idealWidth);
 
     adjustSize();
     setFixedSize(sizeHint());

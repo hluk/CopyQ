@@ -157,7 +157,7 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
     update();
 }
 
-void ItemText::updateSize(const QSize &maximumSize)
+void ItemText::updateSize(const QSize &maximumSize, int)
 {
     const int w = maximumSize.width();
     const int scrollBarWidth = verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0;

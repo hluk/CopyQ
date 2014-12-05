@@ -49,6 +49,9 @@ public:
 
     ItemTags(ItemWidget *childItem, const Tags &tags);
 
+signals:
+    void runCommand(const Command &command);
+
 protected:
     virtual void highlight(const QRegExp &re, const QFont &highlightFont,
                            const QPalette &highlightPalette);
@@ -64,10 +67,10 @@ protected:
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
-    virtual void updateSize(const QSize &maximumSize);
+    virtual void updateSize(const QSize &maximumSize, int idealWidth);
 
 private:
-    QLabel *m_tagsLabel;
+    QWidget *m_tagWidget;
     QScopedPointer<ItemWidget> m_childItem;
 };
 

@@ -83,7 +83,7 @@ class ItemDelegate : public QItemDelegate
         bool hasCache(const QModelIndex &index) const;
 
         /** Set maximum size for all items. */
-        void setItemMaximumSize(const QSize &size);
+        void setItemSizes(const QSize &maxSize, int idealWidth);
 
         /** Save edited item on return or ctrl+return. */
         void setSaveOnEnterKey(bool enable) { m_saveOnReturnKey = enable; }
@@ -134,6 +134,7 @@ class ItemDelegate : public QItemDelegate
         bool m_saveOnReturnKey;
         QRegExp m_re;
         QSize m_maxSize;
+        int m_idealWidth;
         int m_vMargin;
         int m_hMargin;
 

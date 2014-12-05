@@ -58,7 +58,7 @@ protected:
 
     virtual QObject *createExternalEditor(const QModelIndex &index, QWidget *parent) const;
 
-    virtual void updateSize(const QSize &maximumSize);
+    virtual void updateSize(const QSize &maximumSize, int idealWidth);
 
     virtual void paintEvent(QPaintEvent *event);
 
