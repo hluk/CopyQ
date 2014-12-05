@@ -97,7 +97,7 @@ QString serializeColor(const QColor &color)
             .arg(color.red())
             .arg(color.green())
             .arg(color.blue())
-            .arg(color.alpha() * 1.0 / 255);
+            .arg(color.alpha());
 }
 
 QColor deserializeColor(const QString &colorName)
@@ -109,7 +109,7 @@ QColor deserializeColor(const QString &colorName)
         int b = list.value(2).toInt();
         int a = list.value(3).toDouble() * 255;
 
-        return QColor(r, g, b, a);
+        return QColor(r, g, b, a > 255 ? a / 255 : a);
     }
 
     return QColor(colorName);
