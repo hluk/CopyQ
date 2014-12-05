@@ -164,7 +164,7 @@ public slots:
 
     void isMonitoringEnabled();
     void disableMonitoring(bool arg1);
-    void setClipboard(const QVariantMap &arg1);
+    void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
 
     void renameTab(const QString &arg1, const QString &arg2);
 
@@ -292,7 +292,7 @@ public:
 
     PROXY_METHOD_0(bool, isMonitoringEnabled)
     PROXY_METHOD_VOID_1(disableMonitoring, bool)
-    PROXY_METHOD_VOID_1(setClipboard, const QVariantMap &)
+    PROXY_METHOD_VOID_2(setClipboard, const QVariantMap &, QClipboard::Mode)
 
     PROXY_METHOD_2(QString, renameTab, const QString &, const QString &)
     PROXY_METHOD_1(QString, removeTab, const QString &)

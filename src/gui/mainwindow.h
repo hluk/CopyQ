@@ -26,6 +26,7 @@
 
 #include "platform/platformnativeinterface.h"
 
+#include <QClipboard>
 #include <QMainWindow>
 #include <QPointer>
 #include <QSystemTrayIcon>
@@ -322,7 +323,7 @@ public slots:
     void runAutomaticCommands(const QVariantMap &data);
 
     /** Set clipboard. */
-    void setClipboard(const QVariantMap &data);
+    void setClipboard(const QVariantMap &data, QClipboard::Mode mode = QClipboard::Clipboard);
 
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();
@@ -362,7 +363,7 @@ public slots:
 
 signals:
     /** Request clipboard change. */
-    void changeClipboard(const QVariantMap &data);
+    void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
 
     void tabGroupSelected(bool selected);
 

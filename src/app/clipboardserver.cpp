@@ -96,8 +96,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     connect( qApp, SIGNAL(commitDataRequest(QSessionManager&)),
              this, SLOT(onCommitData(QSessionManager&)) );
 
-    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap)),
-             this, SLOT(changeClipboard(QVariantMap)) );
+    connect( m_wnd, SIGNAL(changeClipboard(QVariantMap,QClipboard::Mode)),
+             this, SLOT(changeClipboard(QVariantMap,QClipboard::Mode)) );
 
     connect( m_wnd, SIGNAL(requestExit()),
              this, SLOT(maybeQuit()) );
@@ -314,7 +314,7 @@ void ClipboardServer::monitorConnectionError()
     startMonitoring();
 }
 
-void ClipboardServer::changeClipboard(const QVariantMap &data)
+void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
     if ( !isMonitoring() ) {
         COPYQ_LOG("Cannot send message to monitor!");
@@ -323,7 +323,24 @@ void ClipboardServer::changeClipboard(const QVariantMap &data)
 
     COPYQ_LOG("Sending message to monitor.");
 
+#ifdef COPYQ_WS_X11
+    MonitorMessageCode code;
+
+    if (mode == QClipboard::Clipboard) {
+        code = MonitorChangeClipboard;
+        if ( ConfigurationManager::instance()->value("copy_clipboard").toBool() )
+            code = MonitorChangeClipboardAndSelection;
+    } else {
+        code = MonitorChangeSelection;
+        if ( ConfigurationManager::instance()->value("copy_selection").toBool() )
+            code = MonitorChangeClipboardAndSelection;
+    }
+
+    m_monitor->writeMessage( serializeData(data), code );
+#else
+    Q_UNUSED(mode);
     m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
+#endif
 }
 
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)

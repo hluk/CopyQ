@@ -304,9 +304,9 @@ void ScriptableProxyHelper::disableMonitoring(bool arg1)
     m_wnd->disableClipboardStoring(arg1);
 }
 
-void ScriptableProxyHelper::setClipboard(const QVariantMap &arg1)
+void ScriptableProxyHelper::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
-    m_wnd->setClipboard(arg1);
+    m_wnd->setClipboard(data, mode);
 }
 
 void ScriptableProxyHelper::renameTab(const QString &arg1, const QString &arg2)
@@ -406,7 +406,7 @@ void ScriptableProxyHelper::nextToClipboard(int where)
     if (!index.isValid())
         return;
 
-    setClipboard(::itemData(index));
+    setClipboard(::itemData(index), QClipboard::Clipboard);
     c->setCurrentIndex(index);
 }
 

@@ -71,7 +71,7 @@ public:
 
 public slots:
     /** Load @a item data to clipboard. */
-    void changeClipboard(const QVariantMap &data);
+    void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
 
     /** Load settings. */
     void loadSettings();

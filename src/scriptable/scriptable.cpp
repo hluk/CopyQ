@@ -1166,15 +1166,7 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
 
 bool Scriptable::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
-#ifdef COPYQ_WS_X11
-    QVariantMap data2 = data;
-    if (mode == QClipboard::Selection)
-        data2.insert("application/x-copyq-set-selection", true);
-    m_proxy->setClipboard(data2);
-#else
-    Q_UNUSED(mode);
-    m_proxy->setClipboard(data);
-#endif
+    m_proxy->setClipboard(data, mode);
 
     // Wait for clipboard to be set.
     for (int i = 0; i < 10; ++i) {

@@ -1717,10 +1717,10 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         commands.append(automaticCommand("updateFirst()", false));
 
     if ( cm->value("copy_clipboard").toBool() )
-        commands.append(automaticCommand("copy(input())", false, "text/plain"));
+        commands.append(automaticCommand("copySelection(input())", true, "text/plain"));
 
     if ( cm->value("copy_selection").toBool() )
-        commands.append(automaticCommand("copySelection(input())", true, "text/plain"));
+        commands.append(automaticCommand("copy(input())", false, "text/plain"));
 #endif
 
     // Set window title, tooltip and show notification.
@@ -1758,9 +1758,9 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
     }
 }
 
-void MainWindow::setClipboard(const QVariantMap &data)
+void MainWindow::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
-    emit changeClipboard(data);
+    emit changeClipboard(data, mode);
 }
 
 void MainWindow::activateCurrentItem()
@@ -2109,7 +2109,7 @@ void MainWindow::copyItems()
         data.unite(data2);
     }
 
-    emit changeClipboard(data);
+    setClipboard(data);
 }
 
 bool MainWindow::saveTab(const QString &fileName, int tab_index)
