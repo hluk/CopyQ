@@ -546,13 +546,13 @@ void ClipboardBrowser::connectModelAndDelegate()
     // update on change
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              SLOT(onModelDataChanged()) );
-    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
              SLOT(onModelDataChanged()) );
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              SLOT(onItemCountChanged()) );
-    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
              SLOT(onItemCountChanged()) );
-    connect( &m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
              SLOT(onModelDataChanged()) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              SLOT(onModelDataChanged()) );
@@ -561,9 +561,9 @@ void ClipboardBrowser::connectModelAndDelegate()
 
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              &d, SLOT(rowsInserted(QModelIndex, int, int)) );
-    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
+    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
              &d, SLOT(rowsRemoved(QModelIndex,int,int)) );
-    connect( &m, SIGNAL(rowsMoved(QModelIndex, int, int, QModelIndex, int)),
+    connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
              &d, SLOT(rowsMoved(QModelIndex, int, int, QModelIndex, int)) );
     connect( &m, SIGNAL(dataChanged(QModelIndex,QModelIndex)),
              &d, SLOT(dataChanged(QModelIndex,QModelIndex)) );
