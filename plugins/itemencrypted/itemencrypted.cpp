@@ -56,17 +56,17 @@ struct KeyPairPaths {
     QString pub;
 };
 
-QStringList getDefaultEncryptCommandArguments()
+QStringList getDefaultEncryptCommandArguments(const QString &publicKeyPath)
 {
-    KeyPairPaths keys;
     return QStringList() << "--trust-model" << "always" << "--recipient" << "copyq"
                          << "--charset" << "utf-8" << "--display-charset" << "utf-8" << "--no-tty"
-                         << "--no-default-keyring" << "--secret-keyring" << keys.sec << "--keyring" << keys.pub;
+                         << "--no-default-keyring" << "--keyring" << publicKeyPath;
 }
 
 QStringList getDefaultEncryptCommandArgumentsEscaped()
 {
-    QStringList args = getDefaultEncryptCommandArguments();
+    KeyPairPaths keys;
+    QStringList args = getDefaultEncryptCommandArguments(keys.pub);
 
     // Escape characters
     for ( int i = 0; i < args.size(); ++i ) {
@@ -78,9 +78,21 @@ QStringList getDefaultEncryptCommandArgumentsEscaped()
     return args;
 }
 
-void startGpgProcess(QProcess *p, const QStringList &args)
+void startGpgProcess(QProcess *p, const QStringList &args, bool importPrivateKey = false)
 {
-    p->start("gpg", getDefaultEncryptCommandArguments() + args);
+    KeyPairPaths keys;
+
+    if (importPrivateKey) {
+        p->start("gpg", getDefaultEncryptCommandArguments(keys.pub) << "--import" << keys.sec);
+        if (!p->waitForFinished(5000)) {
+            p->terminate();
+            if ( !p->waitForFinished(5000) )
+                p->kill();
+            return;
+        }
+    }
+
+    p->start("gpg", getDefaultEncryptCommandArguments(keys.pub) + args);
 }
 
 bool verifyProcess(QProcess *p)
@@ -291,7 +303,7 @@ bool ItemEncryptedLoader::loadItems(QAbstractItemModel *model, QFile *file)
     }
 
     QProcess p;
-    startGpgProcess( &p, QStringList("--decrypt") );
+    startGpgProcess( &p, QStringList("--decrypt"), true );
 
     char encryptedBytes[4096];
 
