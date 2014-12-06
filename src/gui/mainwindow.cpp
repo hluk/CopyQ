@@ -642,7 +642,7 @@ void MainWindow::updateContextMenu()
     m_itemMenuCommandTester.abort();
 
     foreach (QAction *action, m_menuItem->actions())
-        delete action;
+        action->deleteLater();
 
     foreach (QMenu *menu, m_menuItem->findChildren<QMenu*>())
         menu->deleteLater();
