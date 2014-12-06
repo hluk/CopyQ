@@ -573,11 +573,10 @@ void ClipboardBrowser::connectModelAndDelegate()
 
 void ClipboardBrowser::updateItemMaximumSize()
 {
-    QSize maxSize(2048, 2048);
     QSize minSize = viewport()->contentsRect().size();
     if (verticalScrollBarPolicy() != Qt::ScrollBarAlwaysOff)
-         maxSize -= QSize(verticalScrollBar()->width(), 0);
-    d.setItemSizes(m_sharedData->textWrap ? minSize : maxSize, minSize.width());
+         minSize -= QSize(verticalScrollBar()->width(), 0);
+    d.setItemSizes(m_sharedData->textWrap ? minSize : QSize(2048, 2048), minSize.width());
 
     scheduleDelayedItemsLayout();
 }

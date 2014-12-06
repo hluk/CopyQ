@@ -112,15 +112,18 @@ QObject *ItemWidget::createExternalEditor(const QModelIndex &, QWidget *) const
     return NULL;
 }
 
-void ItemWidget::updateSize(const QSize &maximumSize, int)
+void ItemWidget::updateSize(const QSize &maximumSize, int idealWidth)
 {
     QWidget *w = widget();
     w->setMaximumSize(maximumSize);
-    const int h = w->heightForWidth(maximumSize.width());
-    if (h > 0)
-        w->setFixedSize( maximumSize.width(), h );
-    else
+    const int idealHeight = w->heightForWidth(idealWidth);
+    const int maximumHeight = w->heightForWidth(maximumSize.width());
+    if (idealHeight <= 0 && maximumHeight <= 0)
         w->resize(w->sizeHint());
+    else if (idealHeight != maximumHeight)
+        w->setFixedSize( maximumSize.width(), maximumHeight );
+    else
+        w->setFixedSize(idealWidth, idealHeight);
 }
 
 void ItemWidget::setCurrent(bool current)

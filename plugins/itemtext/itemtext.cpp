@@ -30,6 +30,7 @@
 #include <QTextBlock>
 #include <QTextCursor>
 #include <QTextDocument>
+#include <QAbstractTextDocumentLayout>
 #include <QtPlugin>
 
 namespace {
@@ -157,16 +158,26 @@ void ItemText::highlight(const QRegExp &re, const QFont &highlightFont, const QP
     update();
 }
 
-void ItemText::updateSize(const QSize &maximumSize, int)
+void ItemText::updateSize(const QSize &maximumSize, int idealWidth)
 {
-    const int w = maximumSize.width();
     const int scrollBarWidth = verticalScrollBar()->isVisible() ? verticalScrollBar()->width() : 0;
     setMaximumHeight( maximumSize.height() );
-    setFixedWidth(w);
-    m_textDocument.setTextWidth(w - scrollBarWidth);
+    setFixedWidth(idealWidth);
+    m_textDocument.setTextWidth(idealWidth - scrollBarWidth);
+
+    QTextOption option = m_textDocument.defaultTextOption();
+    const QTextOption::WrapMode wrapMode = maximumSize.width() > idealWidth
+            ? QTextOption::NoWrap : QTextOption::WrapAtWordBoundaryOrAnywhere;
+    if (wrapMode != option.wrapMode()) {
+        option.setWrapMode(wrapMode);
+        m_textDocument.setDefaultTextOption(option);
+    }
 
     const int h = m_textDocument.size().height();
     setFixedHeight(0 < m_maximumHeight && m_maximumHeight < h ? m_maximumHeight : h);
+
+    const QRectF rect = m_textDocument.documentLayout()->frameBoundingRect(m_textDocument.rootFrame());
+    setFixedWidth(rect.right());
 }
 
 bool ItemText::eventFilter(QObject *, QEvent *event)

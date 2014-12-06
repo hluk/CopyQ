@@ -74,7 +74,7 @@ class ItemDelegate : public QItemDelegate
         void setNumberStyle(const QFont &font, const QPalette &palette);
 
         /** Show/hide item number. */
-        void setShowNumber(bool show);
+        void setRowNumberVisibility(bool show);
 
         /** Return cached item, create it if it doesn't exist. */
         ItemWidget *cache(const QModelIndex &index);
@@ -128,7 +128,8 @@ class ItemDelegate : public QItemDelegate
     private:
         void setIndexWidget(const QModelIndex &index, ItemWidget *w);
 
-        void updateItemMaximumSize();
+        int rowNumberWidth() const;
+        int rowNumberHeight() const;
 
         QAbstractItemView  *m_view;
         bool m_saveOnReturnKey;
@@ -142,9 +143,10 @@ class ItemDelegate : public QItemDelegate
         QPalette m_foundPalette;
         QFont m_editorFont;
         QPalette m_editorPalette;
-        QFont m_numberFont;
-        QSize m_numberSize;
-        QPalette m_numberPalette;
+        QFont m_rowNumberFont;
+        QSize m_rowNumberSize;
+        bool m_showRowNumber;
+        QPalette m_rowNumberPalette;
         bool m_antialiasing;
 
         QList<ItemWidget*> m_cache;

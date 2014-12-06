@@ -294,7 +294,7 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     d->setEditorStyle(font, p);
 
     // number style
-    d->setShowNumber(themeValue("show_number").toBool());
+    d->setRowNumberVisibility(themeValue("show_number").toBool());
     font = themeFont("num_font");
     color = themeColor("num_fg");
     p.setColor(QPalette::Text, color);

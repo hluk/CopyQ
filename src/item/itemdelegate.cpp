@@ -62,9 +62,10 @@ ItemDelegate::ItemDelegate(QAbstractItemView *view, QWidget *parent)
     , m_hMargin( m_vMargin * 2 + 6 )
     , m_foundFont()
     , m_foundPalette()
-    , m_numberFont()
-    , m_numberSize( QSize(0, 0) )
-    , m_numberPalette()
+    , m_rowNumberFont()
+    , m_rowNumberSize(0, 0)
+    , m_showRowNumber(false)
+    , m_rowNumberPalette()
     , m_antialiasing(true)
     , m_cache()
 {
@@ -81,8 +82,8 @@ QSize ItemDelegate::sizeHint(const QModelIndex &index) const
         const ItemWidget *w = m_cache[row];
         if (w != NULL) {
             QWidget *ww = w->widget();
-            return QSize( ww->width() + 2 * m_hMargin + m_numberSize.width(),
-                          qMax(ww->height() + 2 * m_vMargin, m_numberSize.height()) );
+            return QSize( ww->width() + 2 * m_hMargin + rowNumberWidth(),
+                          qMax(ww->height() + 2 * m_vMargin, rowNumberHeight()) );
         }
     }
     return QSize(0, 512);
@@ -158,7 +159,7 @@ bool ItemDelegate::hasCache(const QModelIndex &index) const
 
 void ItemDelegate::setItemSizes(const QSize &size, int idealWidth)
 {
-    const int margins = 2 * m_hMargin + m_numberSize.width();
+    const int margins = 2 * m_hMargin + rowNumberWidth();
     m_maxSize.setWidth(size.width() - margins);
     m_idealWidth = idealWidth - margins;
 
@@ -173,7 +174,7 @@ void ItemDelegate::updateRowPosition(int row, int y)
 {
     ItemWidget *w = m_cache[row];
     if (w != NULL)
-        w->widget()->move( QPoint(m_numberSize.width() + m_hMargin, y + m_vMargin) );
+        w->widget()->move( QPoint(rowNumberWidth() + m_hMargin, y + m_vMargin) );
 }
 
 void ItemDelegate::setRowVisible(int row, bool visible)
@@ -247,6 +248,16 @@ void ItemDelegate::setIndexWidget(const QModelIndex &index, ItemWidget *w)
     emit rowSizeChanged();
 }
 
+int ItemDelegate::rowNumberWidth() const
+{
+    return m_showRowNumber ? m_rowNumberSize.width() : 0;
+}
+
+int ItemDelegate::rowNumberHeight() const
+{
+    return m_showRowNumber ? m_rowNumberSize.height() : 0;
+}
+
 void ItemDelegate::invalidateCache()
 {
     for( int i = 0; i < m_cache.length(); ++i )
@@ -272,25 +283,15 @@ void ItemDelegate::setEditorStyle(const QFont &font, const QPalette &palette)
 
 void ItemDelegate::setNumberStyle(const QFont &font, const QPalette &palette)
 {
-    m_numberFont = font;
-    if ( !m_numberSize.isEmpty() ) {
-        m_numberSize = QFontMetrics(m_numberFont).boundingRect( QString("0123") ).size()
-                + QSize(m_hMargin / 2, 2 * m_vMargin);
-    }
-    m_numberPalette = palette;
+    m_rowNumberFont = font;
+    m_rowNumberSize = QFontMetrics(m_rowNumberFont).boundingRect( QString("0123") ).size()
+            + QSize(m_hMargin / 2, 2 * m_vMargin);
+    m_rowNumberPalette = palette;
 }
 
-void ItemDelegate::setShowNumber(bool show)
+void ItemDelegate::setRowNumberVisibility(bool visible)
 {
-    if ( show == !m_numberSize.isEmpty() )
-        return;
-
-    if (show) {
-        m_numberSize = QSize(1, 1);
-        setNumberStyle(m_numberFont, m_numberPalette);
-    } else {
-        m_numberSize = QSize(0, 0);
-    }
+    m_showRowNumber = visible;
 }
 
 void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
@@ -310,18 +311,15 @@ void ItemDelegate::paint(QPainter *painter, const QStyleOptionViewItem &option,
     style->drawControl(QStyle::CE_ItemViewItem, &option, painter, m_view);
 
     /* render number */
-    QRect numRect(0, 0, 0, 0);
-    if ( !m_numberSize.isEmpty() ) {
+    if (m_showRowNumber) {
         const QString num = QString::number(row);
         QPalette::ColorRole role = isSelected ? QPalette::HighlightedText : QPalette::Text;
         painter->save();
-        painter->setFont(m_numberFont);
+        painter->setFont(m_rowNumberFont);
         style->drawItemText(painter, rect.translated(m_hMargin / 2, m_vMargin), 0,
-                            m_numberPalette, true, num,
+                            m_rowNumberPalette, true, num,
                             role);
         painter->restore();
-        numRect = style->itemTextRect( QFontMetrics(m_numberFont), rect, 0,
-                                       true, num );
     }
 
     /* highlight search string */

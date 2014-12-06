@@ -605,7 +605,8 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
 
     QHBoxLayout *labelLayout = new QHBoxLayout;
     connect(layout, SIGNAL(destroyed()), labelLayout, SLOT(deleteLater()));
-    labelLayout->setMargin(0);
+    labelLayout->setContentsMargins(0, 0, 0, 0);
+    labelLayout->setSpacing(0);
 
     labelLayout->addWidget(m_icon);
     labelLayout->addWidget(m_label);
@@ -621,6 +622,10 @@ ItemSync::ItemSync(const QString &label, const QString &icon, ItemWidget *childI
     m_label->setObjectName("item_child");
 
     m_label->document()->setDefaultFont(font());
+
+    QTextOption option = m_label->document()->defaultTextOption();
+    option.setWrapMode(QTextOption::WrapAtWordBoundaryOrAnywhere);
+    m_label->document()->setDefaultTextOption(option);
 
     m_label->setReadOnly(true);
     m_label->setUndoRedoEnabled(false);
@@ -703,10 +708,10 @@ void ItemSync::updateSize(const QSize &maximumSize, int idealWidth)
 {
     setMaximumSize(maximumSize);
 
-    const int w = maximumSize.width() - m_icon->width() - 8;
+    const int w = idealWidth - m_icon->width() - 8;
     QTextDocument *doc = m_label->document();
     doc->setTextWidth(w);
-    m_label->setFixedSize( doc->idealWidth() + 16, doc->size().height() );
+    m_label->setFixedSize( w, doc->size().height() );
 
     m_childItem->updateSize(maximumSize, idealWidth);
 
