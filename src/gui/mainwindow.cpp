@@ -547,6 +547,8 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
     addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
     addItemAction( Actions::Item_Action, this, SLOT(action()) );
+
+    updateToolBar();
 }
 
 void MainWindow::onAboutToQuit()
@@ -957,8 +959,6 @@ void MainWindow::addCommandsToMenu(QMenu *menu, const QVariantMap &data)
     }
 
     cm->tabShortcuts()->setDisabledShortcuts(usedShortcuts);
-
-    updateToolBar();
 
     if (menu == m_menuItem) {
         m_itemMenuCommandTester.setCommands(disabledCommands, addSelectionData(*c, data));
