@@ -42,8 +42,23 @@ enum {
 
 void updateItemSize(QTreeWidgetItem *item)
 {
+    QSize size(0, 0);
+
     QWidget *w = item->treeWidget()->itemWidget(item, 0);
-    item->setSizeHint( 0, w ? w->minimumSizeHint() : QSize(0,0) );
+
+    if (w) {
+        size = w->minimumSizeHint();
+
+        if (!item->icon(0).isNull()) {
+            const QSize iconSize = item->treeWidget()->iconSize();
+            size = QSize(
+                        size.width() + iconSize.width() + 4,
+                        qMax(size.height(), iconSize.height())
+                        );
+        }
+    }
+
+    item->setSizeHint(0, size);
 }
 
 void setItemWidgetSelected(QTreeWidgetItem *item)
