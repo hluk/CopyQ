@@ -550,7 +550,7 @@ void ClipboardBrowser::connectModelAndDelegate()
              SLOT(onModelDataChanged()) );
     connect( &m, SIGNAL(rowsInserted(QModelIndex, int, int)),
              SLOT(onItemCountChanged()) );
-    connect( &m, SIGNAL(rowsAboutToBeRemoved(QModelIndex,int,int)),
+    connect( &m, SIGNAL(rowsRemoved(QModelIndex,int,int)),
              SLOT(onItemCountChanged()) );
     connect( &m, SIGNAL(rowsAboutToBeMoved(QModelIndex, int, int, QModelIndex, int)),
              SLOT(onModelDataChanged()) );
