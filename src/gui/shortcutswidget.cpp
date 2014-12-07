@@ -46,21 +46,6 @@ enum Columns {
 };
 }
 
-int normalize(int value)
-{
-    return qMin(255, qMax(0, value));
-}
-
-QColor tintColor(const QColor &c, int r, int g, int b, int a = 0)
-{
-    return QColor(
-                normalize(c.red() + r),
-                normalize(c.green() + g),
-                normalize(c.blue() + b),
-                normalize(c.alpha() + a)
-                );
-}
-
 } // namespace
 
 class MenuAction : public QObject {
