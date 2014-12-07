@@ -1,6 +1,6 @@
 /****************************************************************************
 **
-** Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies).
+** Copyright (C) 2014 Digia Plc and/or its subsidiary(-ies).
 ** Contact: http://www.qt-project.org/legal
 **
 ** This file is part of Qt Creator.
@@ -10,16 +10,17 @@
 ** accordance with the commercial license agreement provided with the
 ** Software or, alternatively, in accordance with the terms contained in
 ** a written agreement between you and Digia.  For licensing terms and
-** conditions see http://qt.digia.com/licensing.  For further information
-** use the contact form at http://qt.digia.com/contact-us.
+** conditions see http://www.qt.io/licensing.  For further information
+** use the contact form at http://www.qt.io/contact-us.
 **
 ** GNU Lesser General Public License Usage
 ** Alternatively, this file may be used under the terms of the GNU Lesser
-** General Public License version 2.1 as published by the Free Software
-** Foundation and appearing in the file LICENSE.LGPL included in the
-** packaging of this file.  Please review the following information to
-** ensure the GNU Lesser General Public License version 2.1 requirements
-** will be met: http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
+** General Public License version 2.1 or version 3 as published by the Free
+** Software Foundation and appearing in the file LICENSE.LGPLv21 and
+** LICENSE.LGPLv3 included in the packaging of this file.  Please review the
+** following information to ensure the GNU Lesser General Public License
+** requirements will be met: https://www.gnu.org/licenses/lgpl.html and
+** http://www.gnu.org/licenses/old-licenses/lgpl-2.1.html.
 **
 ** In addition, as a special exception, Digia gives you certain additional
 ** rights.  These rights are described in the Digia Qt LGPL Exception
@@ -27,66 +28,47 @@
 **
 ****************************************************************************/
 
+#include "execmenu.h"
 #include "fancylineedit.h"
 
+#include "common/common.h"
+
 #include <QAbstractItemView>
-#include <QApplication>
-#include <QDebug>
-#include <QDesktopWidget>
 #include <QKeyEvent>
 #include <QMenu>
-#include <QPainter>
-#include <QPropertyAnimation>
+#include <QStylePainter>
 #include <QStyle>
-
-/*! Opens a menu at the specified widget position.
- * This functions computes the position where to show the menu, and opens it with
- * QMenu::exec().
- * \param menu The menu to open
- * \param widget The widget next to which to open the menu
- */
-static void execMenuAtWidget(QMenu *menu, QWidget *widget)
-{
-    QPoint p;
-    QRect screen = qApp->desktop()->availableGeometry(widget);
-    QSize sh = menu->sizeHint();
-    QRect rect = widget->rect();
-    if (widget->isRightToLeft()) {
-        if (widget->mapToGlobal(QPoint(0, rect.bottom())).y() + sh.height() <= screen.height())
-            p = widget->mapToGlobal(rect.bottomRight());
-        else
-            p = widget->mapToGlobal(rect.topRight() - QPoint(0, sh.height()));
-        p.rx() -= sh.width();
-    } else {
-        if (widget->mapToGlobal(QPoint(0, rect.bottom())).y() + sh.height() <= screen.height())
-            p = widget->mapToGlobal(rect.bottomLeft());
-        else
-            p = widget->mapToGlobal(rect.topLeft() - QPoint(0, sh.height()));
-    }
-    p.rx() = qMax(screen.left(), qMin(p.x(), screen.right() - sh.width()));
-    p.ry() += 1;
-
-    menu->exec(p);
-}
 
 /*!
     \class Utils::FancyLineEdit
 
-    \brief The FancyLineEdit class is a line edit with an embedded pixmap on
-    one side that is connected to
-    a menu.
+    \brief The FancyLineEdit class is an enhanced line edit with several
+    opt-in features.
 
-    Additionally, it can display a grayed hintText (like "Type Here to")
+    A FancyLineEdit instance can have:
+
+    \list
+    \li An embedded pixmap on one side that is connected to a menu.
+
+    \li A grayed hintText (like "Type Here to")
     when not focused and empty. When connecting to the changed signals and
     querying text, one has to be aware that the text is set to that hint
     text if isShowingHintText() returns true (that is, does not contain
     valid user input).
  */
 
-enum { m_margin = 6 };
+namespace {
 
-#define ICONBUTTON_HEIGHT 18
-#define FADE_TIME 160
+qreal devicePixelRatio(const QWidget &w)
+{
+#if QT_VERSION < 0x050000
+    return w.logicalDpiX() > 150 ? 2.0 : 1.0;
+#else
+    return w.devicePixelRatio();
+#endif
+}
+
+} // namespace
 
 namespace Utils {
 
@@ -98,8 +80,8 @@ public:
 
     virtual bool eventFilter(QObject *obj, QEvent *event);
 
-    FancyLineEdit  *m_lineEdit;
-    QPixmap m_pixmap[2];
+    FancyLineEdit *m_lineEdit;
+    QString m_oldText;
     QMenu *m_menu[2];
     bool m_menuTabFocusTrigger[2];
     IconButton *m_iconbutton[2];
@@ -108,7 +90,8 @@ public:
 
 
 FancyLineEditPrivate::FancyLineEditPrivate(FancyLineEdit *parent) :
-    QObject(parent), m_lineEdit(parent)
+    QObject(parent),
+    m_lineEdit(parent)
 {
     for (int i = 0; i < 2; ++i) {
         m_menu[i] = 0;
@@ -116,7 +99,6 @@ FancyLineEditPrivate::FancyLineEditPrivate(FancyLineEdit *parent) :
         m_iconbutton[i] = new IconButton(parent);
         m_iconbutton[i]->installEventFilter(this);
         m_iconbutton[i]->hide();
-        m_iconbutton[i]->setAutoHide(false);
         m_iconEnabled[i] = false;
     }
 }
@@ -154,20 +136,8 @@ FancyLineEdit::FancyLineEdit(QWidget *parent) :
     ensurePolished();
     updateMargins();
 
-    connect(this, SIGNAL(textChanged(QString)), this, SLOT(checkButtons(QString)));
     connect(d->m_iconbutton[Left], SIGNAL(clicked()), this, SLOT(iconClicked()));
     connect(d->m_iconbutton[Right], SIGNAL(clicked()), this, SLOT(iconClicked()));
-}
-
-void FancyLineEdit::checkButtons(const QString &text)
-{
-    if (m_oldText.isEmpty() || text.isEmpty()) {
-        for (int i = 0; i < 2; ++i) {
-            if (d->m_iconbutton[i]->hasAutoHide())
-                d->m_iconbutton[i]->animateShow(!text.isEmpty());
-        }
-        m_oldText = text;
-    }
 }
 
 FancyLineEdit::~FancyLineEdit()
@@ -184,6 +154,11 @@ void FancyLineEdit::setButtonVisible(Side side, bool visible)
 bool FancyLineEdit::isButtonVisible(Side side) const
 {
     return d->m_iconEnabled[side];
+}
+
+QAbstractButton *FancyLineEdit::button(FancyLineEdit::Side side) const
+{
+    return d->m_iconbutton[side];
 }
 
 void FancyLineEdit::iconClicked()
@@ -212,16 +187,18 @@ void FancyLineEdit::updateMargins()
     Side realLeft = (leftToRight ? Left : Right);
     Side realRight = (leftToRight ? Right : Left);
 
-    int leftMargin = d->m_iconbutton[realLeft]->pixmap().width() + 8;
-    int rightMargin = d->m_iconbutton[realRight]->pixmap().width() + 8;
+    const qreal ratio = ::devicePixelRatio(*this);
+    int leftMargin = d->m_iconbutton[realLeft]->sizeHint().width() + ratio * 8;
+    int rightMargin = d->m_iconbutton[realRight]->sizeHint().width() + ratio * 8;
     // Note KDE does not reserve space for the highlight color
     if (style()->inherits("OxygenStyle")) {
         leftMargin = qMax(24, leftMargin);
         rightMargin = qMax(24, rightMargin);
     }
 
-    QMargins margins((d->m_iconEnabled[realLeft] ? leftMargin : 0), 0,
-                     (d->m_iconEnabled[realRight] ? rightMargin : 0), 0);
+    const int m = 2 * ratio;
+    QMargins margins((d->m_iconEnabled[realLeft] ? leftMargin : m), m,
+                     (d->m_iconEnabled[realRight] ? rightMargin : m), m);
 
     setTextMargins(margins);
 }
@@ -249,23 +226,18 @@ void FancyLineEdit::resizeEvent(QResizeEvent *)
     updateButtonPositions();
 }
 
-void FancyLineEdit::setButtonPixmap(Side side, const QPixmap &buttonPixmap)
+void FancyLineEdit::setButtonIcon(Side side, const QIcon &icon)
 {
-    d->m_iconbutton[side]->setPixmap(buttonPixmap);
+    d->m_iconbutton[side]->setIcon(icon);
     updateMargins();
     updateButtonPositions();
     update();
 }
 
-QPixmap FancyLineEdit::buttonPixmap(Side side) const
-{
-    return d->m_pixmap[side];
-}
-
 void FancyLineEdit::setButtonMenu(Side side, QMenu *buttonMenu)
 {
      d->m_menu[side] = buttonMenu;
-     d->m_iconbutton[side]->setIconOpacity(1.0);
+     d->m_iconbutton[side]->setHasMenu(buttonMenu != NULL);
  }
 
 QMenu *FancyLineEdit::buttonMenu(Side side) const
@@ -287,20 +259,6 @@ void FancyLineEdit::setMenuTabFocusTrigger(Side side, bool v)
     d->m_iconbutton[side]->setFocusPolicy(v ? Qt::TabFocus : Qt::NoFocus);
 }
 
-bool FancyLineEdit::hasAutoHideButton(Side side) const
-{
-    return d->m_iconbutton[side]->hasAutoHide();
-}
-
-void FancyLineEdit::setAutoHideButton(Side side, bool h)
-{
-    d->m_iconbutton[side]->setAutoHide(h);
-    if (h)
-        d->m_iconbutton[side]->setIconOpacity(text().isEmpty() ?  0.0 : 1.0);
-    else
-        d->m_iconbutton[side]->setIconOpacity(1.0);
-}
-
 void FancyLineEdit::setButtonToolTip(Side side, const QString &tip)
 {
     d->m_iconbutton[side]->setToolTip(tip);
@@ -311,42 +269,80 @@ void FancyLineEdit::setButtonFocusPolicy(Side side, Qt::FocusPolicy policy)
     d->m_iconbutton[side]->setFocusPolicy(policy);
 }
 
+
+//
 // IconButton - helper class to represent a clickable icon
+//
 
 IconButton::IconButton(QWidget *parent)
     : QAbstractButton(parent)
-    , m_iconOpacity(0.0)
-    , m_autoHide(false)
+    , m_hasMenu(false)
 {
-    setCursor(Qt::ArrowCursor);
+    setCursor(Qt::PointingHandCursor);
     setFocusPolicy(Qt::NoFocus);
 }
 
 void IconButton::paintEvent(QPaintEvent *)
 {
-    QPainter painter(this);
-    QRect pixmapRect = QRect(0, 0, m_pixmap.width(), m_pixmap.height());
+    const qreal ratio = ::devicePixelRatio(*this);
+    const qreal iconSize = qMin(width(), height()) - ratio * 8;
+    const QPixmap pixmap = m_icon.pixmap(iconSize);
+    QRect pixmapRect = pixmap.rect();
     pixmapRect.moveCenter(rect().center());
 
-    if (m_autoHide)
-        painter.setOpacity(m_iconOpacity);
+    QStylePainter painter(this);
 
-    painter.drawPixmap(pixmapRect, m_pixmap);
+    m_icon.paint(&painter, pixmapRect);
+
+    if (m_hasMenu) {
+        // small triangle next to icon to indicate menu
+        QPolygon triangle;
+        triangle.append(QPoint(0, 0));
+        triangle.append(QPoint(ratio * 6, 0));
+        triangle.append(QPoint(ratio * 3, ratio * 3));
+
+        const QColor c = QColor(0,0,0,160);
+        painter.save();
+        painter.translate(pixmapRect.bottomRight() + QPoint(ratio * 2, - ratio * 4));
+        painter.setBrush(c);
+        painter.setPen(Qt::NoPen);
+        painter.drawPolygon(triangle);
+        painter.restore();
+    }
+
+    if (hasFocus()) {
+        QStyleOptionFocusRect focusOption;
+        focusOption.initFrom(this);
+        focusOption.rect = pixmapRect;
+#ifdef Q_OS_MAC
+        focusOption.rect.adjust(-4, -4, 4, 4);
+        painter.drawControl(QStyle::CE_FocusFrame, focusOption);
+#endif
+        painter.drawPrimitive(QStyle::PE_FrameFocusRect, focusOption);
+    }
 }
 
-void IconButton::animateShow(bool visible)
+QSize IconButton::sizeHint() const
 {
-    if (visible) {
-        QPropertyAnimation *animation = new QPropertyAnimation(this, "iconOpacity");
-        animation->setDuration(FADE_TIME);
-        animation->setEndValue(1.0);
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-    } else {
-        QPropertyAnimation *animation = new QPropertyAnimation(this, "iconOpacity");
-        animation->setDuration(FADE_TIME);
-        animation->setEndValue(0.0);
-        animation->start(QAbstractAnimation::DeleteWhenStopped);
-    }
+    const qreal ratio = ::devicePixelRatio(*this);
+    const int extent = ratio * 16;
+    return QSize(extent + ratio * 6, extent);
+}
+
+void IconButton::keyPressEvent(QKeyEvent *ke)
+{
+    QAbstractButton::keyPressEvent(ke);
+    if (!ke->modifiers() && (ke->key() == Qt::Key_Enter || ke->key() == Qt::Key_Return))
+        click();
+    // do not forward to line edit
+    ke->accept();
+}
+
+void IconButton::keyReleaseEvent(QKeyEvent *ke)
+{
+    QAbstractButton::keyReleaseEvent(ke);
+    // do not forward to line edit
+    ke->accept();
 }
 
 } // namespace Utils

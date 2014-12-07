@@ -51,7 +51,6 @@ FilterLineEdit::FilterLineEdit(QWidget *parent)
 {
     setButtonVisible(Left, true);
     setButtonVisible(Right, true);
-    setAutoHideButton(Right, true);
     connect(this, SIGNAL(rightButtonClicked()), this, SLOT(clear()));
 
     // search timer
@@ -110,29 +109,13 @@ void FilterLineEdit::loadSettings()
     // KDE has custom icons for this. Notice that icon namings are counter intuitive.
     // If these icons are not available we use the freedesktop standard name before
     // falling back to a bundled resource.
-    QIcon icon = QIcon::fromTheme(layoutDirection() == Qt::LeftToRight ?
+    QIcon icon1 = QIcon::fromTheme(layoutDirection() == Qt::LeftToRight ?
                      "edit-clear-locationbar-rtl" : "edit-clear-locationbar-ltr",
                      getIcon("edit-clear", IconRemove));
-    setButtonPixmap(Right, icon.pixmap(16));
+    setButtonIcon(Right, icon1);
 
-    QPixmap pix = getIcon("edit-find", IconSearch).pixmap(16);
-
-    // small triangle next to icon to indicate menu
-    QPolygon triangle;
-    triangle.append(QPoint(17, 12));
-    triangle.append(QPoint(21, 12));
-    triangle.append(QPoint(19, 14));
-
-    QPixmap pix2(22, 16);
-    pix2.fill(Qt::transparent);
-    QPainter p(&pix2);
-    p.drawPixmap(0, 0, pix);
-    const QColor c = QColor(0,0,0,160);
-    p.setBrush(c);
-    p.setPen(c);
-    p.drawPolygon(triangle);
-
-    setButtonPixmap(Left, pix2);
+    QIcon icon2 = getIcon("edit-find", IconSearch);
+    setButtonIcon(Left, icon2);
 }
 
 void FilterLineEdit::onTextChanged()

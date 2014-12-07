@@ -48,6 +48,7 @@ HEADERS += \
     gui/configtabappearance.h \
     gui/configtabshortcuts.h \
     gui/configurationmanager.h \
+    gui/execmenu.h \
     gui/fancylineedit.h \
     gui/filterlineedit.h \
     gui/iconfactory.h \
@@ -128,6 +129,7 @@ SOURCES += \
     gui/configtabappearance.cpp \
     gui/configtabshortcuts.cpp \
     gui/configurationmanager.cpp \
+    gui/execmenu.cpp \
     gui/fancylineedit.cpp \
     gui/filterlineedit.cpp \
     gui/iconfactory.cpp \
