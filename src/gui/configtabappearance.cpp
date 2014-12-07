@@ -320,6 +320,14 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
     mainWindow->setStyleSheet(
         "MainWindow{background:" + themeColorString("bg") + "}"
 
+        "#searchBar{"
+        + themeStyleSheet("search_bar") +
+        "}"
+
+        "#searchBar:focus{"
+        + themeStyleSheet("search_bar_focused") +
+        "}"
+
         "#tab_bar{" + themeStyleSheet("tab_bar_css") + "}"
         "#tab_bar::tab:selected{" + themeStyleSheet("tab_bar_tab_selected_css") + "}"
         "#tab_bar::tab:!selected{" + themeStyleSheet("tab_bar_tab_unselected_css") + "}"
@@ -915,6 +923,16 @@ void ConfigTabAppearance::resetTheme()
                 );
     m_theme["tool_button_css"] = Option(
                 "\n    ;background-color: transparent"
+                );
+
+    m_theme["search_bar"] = Option(
+                "\n    ;background: ${edit_bg}"
+                "\n    ;color: ${edit_fg}"
+                "\n    ;border: 1px solid ${alt_bg}"
+                "\n    ;margin: 2px"
+                );
+    m_theme["search_bar_focused"] = Option(
+                "\n    ;border: 1px solid ${sel_bg}"
                 );
 }
 
