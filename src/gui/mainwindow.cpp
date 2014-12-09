@@ -207,9 +207,13 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
 }
 
 Command automaticCommand(
-        const QString &cmd, bool forClipboard = true, const QString &input = QString())
+        const QString &name,
+        const QString &cmd,
+        bool forClipboard = true,
+        const QString &input = QString())
 {
     Command c;
+    c.name = name;
     c.automatic = true;
     c.input = input;
     const QString negate = forClipboard ? "" : "!";
@@ -677,8 +681,10 @@ void MainWindow::automaticCommandFinished()
 
     if (!m_automaticCommands.isEmpty()) {
         const Command command = m_automaticCommands.takeFirst();
-        if (command.remove || command.transform)
+        if (command.remove || command.transform) {
             m_automaticCommands.clear();
+            COPYQ_LOG("Clipboard ignored by \"" + command.name + "\"");
+        }
     }
 
     if (!m_automaticCommands.isEmpty())
@@ -1712,26 +1718,26 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
     }
 
     // Clear window title and tooltip.
-    commands.prepend(automaticCommand("updateTitle('')"));
+    commands.prepend(automaticCommand("Reset Window Title" ,"updateTitle('')"));
 
     // Add new clipboard to the first tab (if configured so).
     if ( cm->value("check_clipboard").toBool() )
-        commands.append(automaticCommand("updateFirst()"));
+        commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
 
 #ifdef COPYQ_WS_X11
     // Add new mouse selection to the first tab (if configured so).
     if ( cm->value("check_selection").toBool() )
-        commands.append(automaticCommand("updateFirst()", false));
+        commands.append(automaticCommand("Add Item from Selection", "updateFirst()", false));
 
     if ( cm->value("copy_clipboard").toBool() )
-        commands.append(automaticCommand("copySelection(input())", true, "text/plain"));
+        commands.append(automaticCommand("Clipboard -> Selection", "copySelection(input())", true, "text/plain"));
 
     if ( cm->value("copy_selection").toBool() )
-        commands.append(automaticCommand("copy(input())", false, "text/plain"));
+        commands.append(automaticCommand("Selection -> Clipboard" , "copy(input())", false, "text/plain"));
 #endif
 
     // Set window title, tooltip and show notification.
-    commands.append(automaticCommand("updateTitle()"));
+    commands.append(automaticCommand("Set Window Title", "updateTitle()"));
 
     abortAutomaticCommands();
     m_automaticCommandTester.setCommands(commands, data);
@@ -1834,6 +1840,7 @@ void MainWindow::abortAutomaticCommands()
     m_automaticCommandTester.abort();
 
     if (m_currentAutomaticCommand) {
+        COPYQ_LOG("Aborting automatic commands (current is \"" + m_currentAutomaticCommand->name() + "\")");
         disconnect(m_currentAutomaticCommand, SIGNAL(destroyed()),
                    this, SLOT(automaticCommandFinished()));
     }
