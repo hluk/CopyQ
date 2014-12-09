@@ -42,6 +42,7 @@ private:
     Arguments m_args;
     ClientSocket *m_socket;
     QString m_pluginScript;
+    QString m_id;
 };
 
 #endif // SCRIPTABLEWORKER_H

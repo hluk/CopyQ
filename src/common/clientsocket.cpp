@@ -107,7 +107,7 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
 
     onStateChanged(m_socket->state());
 
-    if ( hasLogLevel(LogTrace) ) {
+    if ( hasLogLevel(LogDebug) ) {
         setProperty("id", m_socket->socketDescriptor());
         SOCKET_LOG("Creating socket.");
     }

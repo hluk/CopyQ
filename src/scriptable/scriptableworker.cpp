@@ -34,10 +34,10 @@
 
 Q_DECLARE_METATYPE(QByteArray*)
 
-#define MONITOR_LOG(msg) \
-    COPYQ_LOG( QString("Scripting engine: %1").arg(msg) );
-
 namespace {
+
+#define MONITOR_LOG(text) \
+    COPYQ_LOG( QString("Script %1: %2").arg(m_id).arg(text) )
 
 QByteArray serializeScriptValue(const QScriptValue &value)
 {
@@ -68,11 +68,25 @@ ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
     , m_socket(socket)
     , m_pluginScript(ConfigurationManager::instance()->itemFactory()->scripts())
 {
+    if ( hasLogLevel(LogDebug) )
+        m_id = m_socket->property("id").toString();
 }
 
 void ScriptableWorker::run()
 {
-    MONITOR_LOG("starting");
+    if ( hasLogLevel(LogDebug) ) {
+        bool isEval = m_args.at(Arguments::Rest) == "eval"
+                && m_args.length() == Arguments::Rest + 2;
+
+        for (int i = Arguments::Rest + (isEval ? 1 : 0); i < m_args.length(); ++i) {
+            QString indent = isEval ? QString("EVAL:")
+                                    : (QString::number(i - Arguments::Rest + 1) + " ");
+            foreach (const QByteArray &line, m_args.at(i).split('\n')) {
+                MONITOR_LOG( indent + QString::fromUtf8(line) );
+                indent = "  ";
+            }
+        }
+    }
 
     bool ok;
     const quintptr id = m_args.at(Arguments::ActionId).toULongLong(&ok);
@@ -102,7 +116,7 @@ void ScriptableWorker::run()
                           m_socket, SLOT(deleteAfterDisconnected()) );
 
         if ( m_socket->isClosed() ) {
-            MONITOR_LOG("terminated");
+            MONITOR_LOG("TERMINATED");
             return;
         }
 
@@ -120,12 +134,6 @@ void ScriptableWorker::run()
         exitCode = CommandBadSyntax;
     } else {
         const QString cmd = QString::fromUtf8( m_args.at(Arguments::Rest) );
-
-        if ( hasLogLevel(LogDebug) ) {
-            MONITOR_LOG("Client arguments:");
-            for (int i = Arguments::Rest; i < m_args.length(); ++i)
-                MONITOR_LOG( "    " + QString::fromUtf8(m_args.at(i)) );
-        }
 
 #ifdef HAS_TESTS
         if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
@@ -171,5 +179,5 @@ void ScriptableWorker::run()
 
     scriptable.sendMessageToClient(response, exitCode);
 
-    MONITOR_LOG("finished");
+    MONITOR_LOG("DONE");
 }
