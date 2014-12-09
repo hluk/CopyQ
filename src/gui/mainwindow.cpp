@@ -744,6 +744,8 @@ void MainWindow::updateTitle(const QVariantMap &data)
     if (m_ignoreUpdateTitle)
         return;
 
+    COPYQ_LOG("Updating window title");
+
     m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
 
     updateWindowTitle();
@@ -1673,8 +1675,10 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
     if ( !c->isLoaded() )
         return;
 
-    if ( c->select(hash(data), MoveToTop) )
+    if ( c->select(hash(data), MoveToTop) ) {
+        COPYQ_LOG("Clipboard item: Moving to top");
         return;
+    }
 
     QVariantMap newData = data;
     bool reselectFirst = false;
@@ -1690,6 +1694,8 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
              && getTextData(newData).contains(getTextData(previousData))
              )
         {
+            COPYQ_LOG("Clipboard item: Merging with top item");
+
             const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
 
             foreach (const QString &format, formatsToAdd)
@@ -1702,6 +1708,8 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
             }
         }
     }
+
+    COPYQ_LOG("Clipboard item: Adding");
 
     c->add(newData);
 
