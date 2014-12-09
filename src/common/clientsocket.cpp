@@ -26,10 +26,7 @@
 #include <QDataStream>
 
 #define SOCKET_LOG(text) \
-    COPYQ_LOG( QString("%1: %2").arg(property("id").toInt()).arg(text) )
-
-#define SOCKET_VERBOSE_LOG(text) \
-    COPYQ_LOG_VERBOSE( QString("%1: %2").arg(property("id").toInt()).arg(text) )
+    COPYQ_LOG_VERBOSE( QString("Socket %1: %2").arg(property("id").toInt()).arg(text) )
 
 namespace {
 
@@ -110,7 +107,7 @@ ClientSocket::ClientSocket(QLocalSocket *socket, QObject *parent)
 
     onStateChanged(m_socket->state());
 
-    if ( hasLogLevel(LogDebug) ) {
+    if ( hasLogLevel(LogTrace) ) {
         setProperty("id", m_socket->socketDescriptor());
         SOCKET_LOG("Creating socket.");
     }
@@ -128,7 +125,7 @@ void ClientSocket::start()
 
 void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
 {
-    SOCKET_VERBOSE_LOG( QString("Sending message to client (exit code: %1).").arg(messageCode) );
+    SOCKET_LOG( QString("Sending message to client (exit code: %1).").arg(messageCode) );
 
     if ( m_socket.isNull() ) {
         SOCKET_LOG("Cannot send message to client. Socket is already deleted.");
@@ -140,7 +137,7 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
         out << (qint32)messageCode;
         out.writeRawData( message.constData(), message.length() );
         if ( writeMessage(m_socket, msg) )
-            SOCKET_VERBOSE_LOG("Message sent to client.");
+            SOCKET_LOG("Message sent to client.");
         else
             SOCKET_LOG("Failed to send message to client!");
     }
