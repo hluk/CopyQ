@@ -75,8 +75,8 @@ ScriptableWorker::ScriptableWorker(MainWindow *mainWindow,
 void ScriptableWorker::run()
 {
     if ( hasLogLevel(LogDebug) ) {
-        bool isEval = m_args.at(Arguments::Rest) == "eval"
-                && m_args.length() == Arguments::Rest + 2;
+        bool isEval = m_args.length() == Arguments::Rest + 2
+                && m_args.at(Arguments::Rest) == "eval";
 
         for (int i = Arguments::Rest + (isEval ? 1 : 0); i < m_args.length(); ++i) {
             QString indent = isEval ? QString("EVAL:")
