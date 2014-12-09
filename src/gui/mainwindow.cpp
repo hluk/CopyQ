@@ -240,6 +240,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actionHandler(new ActionHandler(this))
     , m_trayTab(NULL)
     , m_commandDialog(NULL)
+    , m_ignoreUpdateTitle(false)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -740,6 +741,9 @@ void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 
 void MainWindow::updateTitle(const QVariantMap &data)
 {
+    if (m_ignoreUpdateTitle)
+        return;
+
     m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
 
     updateWindowTitle();
@@ -1764,10 +1768,11 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
 {
     // Don't process the data further if any running clipboard monitor set the clipboard.
     if ( !ownsClipboardData(data) && !data.contains(mimeOwner) && containsAnyData(data) ) {
+        m_ignoreUpdateTitle = false;
         runAutomaticCommands(data);
     } else {
-        abortAutomaticCommands();
         updateTitle(data);
+        m_ignoreUpdateTitle = true;
     }
 }
 

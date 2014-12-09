@@ -552,6 +552,7 @@ private:
 
     QList<Command> m_automaticCommands;
     QPointer<Action> m_currentAutomaticCommand;
+    bool m_ignoreUpdateTitle;
 };
 
 #endif // MAINWINDOW_H
