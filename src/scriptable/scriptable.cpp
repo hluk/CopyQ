@@ -1095,7 +1095,13 @@ QScriptValue Scriptable::hasDataFromClipboard()
 
 void Scriptable::updateFirst()
 {
-    m_proxy->updateFirstItem(m_data);
+    QVariantMap data;
+    foreach (const QString &format, m_data.keys()) {
+        if (format != mimeWindowTitle && format != mimeClipboardMode)
+            data.insert(format, m_data[format]);
+    }
+
+    m_proxy->updateFirstItem(data);
 }
 
 void Scriptable::updateTitle()
