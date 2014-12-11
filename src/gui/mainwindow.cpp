@@ -1742,10 +1742,10 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         commands.append(automaticCommand("Add Item from Selection", "updateFirst()", false));
 
     if ( cm->value("copy_clipboard").toBool() )
-        commands.append(automaticCommand("Clipboard -> Selection", "copySelection(input())", true, "text/plain"));
+        commands.append(automaticCommand("Clipboard -> Selection", "try { copySelection(input()) } catch (e) {}", true, "text/plain"));
 
     if ( cm->value("copy_selection").toBool() )
-        commands.append(automaticCommand("Selection -> Clipboard" , "copy(input())", false, "text/plain"));
+        commands.append(automaticCommand("Selection -> Clipboard" , "try { copy(input()) } catch (e) {}", false, "text/plain"));
 #endif
 
     // Set window title, tooltip and show notification.
