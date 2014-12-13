@@ -39,15 +39,6 @@ namespace {
 
 const char propertyHasToolTip[] = "CopyQ_has_tooltip";
 
-void removeAllActions(QList<QPointer<QAction> > *actions)
-{
-    foreach (QPointer<QAction> actionPtr, *actions) {
-        if ( !actionPtr.isNull() )
-            delete actionPtr.data();
-    }
-    actions->clear();
-}
-
 bool canActivate(const QAction &action)
 {
     return !action.isSeparator() && action.isEnabled();
@@ -114,8 +105,7 @@ TrayMenu::TrayMenu(QWidget *parent)
     : QMenu(parent)
     , m_clipboardItemActionsSeparator()
     , m_customActionsSeparator()
-    , m_clipboardItemActions()
-    , m_customActions()
+    , m_clipboardItemActionCount(0)
     , m_omitPaste(false)
 {
     connect( this, SIGNAL(hovered(QAction*)),
@@ -130,9 +120,6 @@ void TrayMenu::toggle()
         close();
         return;
     }
-
-    if (isEmpty())
-        return;
 
     // open menu unser cursor
     QPoint pos = QCursor::pos();
@@ -154,13 +141,10 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
 {
     QAction *act;
 
-    const int i = m_clipboardItemActions.size();
-
     const QVariantMap data = index.data(contentType::data).toMap();
     const QString text = getTextData(data);
     act = addAction(text);
     act->setWhatsThis(text);
-    m_clipboardItemActions.append(act);
 
     act->setData(index.data(contentType::hash));
 
@@ -170,8 +154,11 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
     QString format;
 
     // Add number key hint.
-    if (i < 10)
-        format = tr("&%1. %2", "Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)").arg(i);
+    if (m_clipboardItemActionCount < 10) {
+        format = tr("&%1. %2",
+                    "Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)")
+                .arg(m_clipboardItemActionCount++);
+    }
 
     const QString label = textLabelForData( data, act->font(), format, true );
     act->setText(label);
@@ -209,19 +196,14 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
 
 void TrayMenu::addCustomAction(QAction *action)
 {
-    m_customActions.append(action);
     resetSeparators();
     insertAction(m_customActionsSeparator, action);
 }
 
-void TrayMenu::clearClipboardItemActions()
+void TrayMenu::clearAllActions()
 {
-    removeAllActions(&m_clipboardItemActions);
-}
-
-void TrayMenu::clearCustomActions()
-{
-    removeAllActions(&m_customActions);
+    clear();
+    m_clipboardItemActionCount = 0;
 }
 
 void TrayMenu::setActiveFirstEnabledAction()
@@ -249,15 +231,7 @@ void TrayMenu::keyPressEvent(QKeyEvent *event)
 
     if (event->modifiers() == Qt::KeypadModifier && Qt::Key_0 <= k && k <= Qt::Key_9) {
         // Allow keypad digit to activate appropriate item in context menu.
-        const int id = k - Qt::Key_0;
-        QAction *act = m_clipboardItemActions.value(id).data();
-        if (act != NULL) {
-            QVariant data = act->data();
-            if ( data.canConvert(QVariant::Int) && data.toInt() == id ) {
-                act->trigger();
-                close();
-            }
-        }
+        event->setModifiers(Qt::NoModifier);
     } else {
         // Movement in tray menu.
         switch (k) {

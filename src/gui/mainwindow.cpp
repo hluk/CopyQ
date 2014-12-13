@@ -455,19 +455,6 @@ void MainWindow::createMenu()
     // Help
     menu = menubar->addMenu(tr("&Help"));
     createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
-
-    // Tray menu
-    act = m_trayMenu->addAction( appIcon(), tr("&Show/Hide"),
-                                 this, SLOT(toggleVisible()) );
-    m_trayMenu->setDefaultAction(act);
-    addTrayAction(Actions::File_New);
-    act = addTrayAction(Actions::Item_Action);
-    act->setWhatsThis( tr("Open action dialog") );
-    addTrayAction(Actions::File_Preferences);
-    addTrayAction(Actions::File_ToggleClipboardStoring);
-    addTrayAction(Actions::File_Exit);
-    m_trayMenu->addSeparator();
-    addTrayAction(Actions::File_Exit);
 }
 
 void MainWindow::popupTabBarMenu(const QPoint &pos, const QString &tab)
@@ -647,9 +634,6 @@ void MainWindow::showContextMenu(const QPoint &position)
 void MainWindow::updateContextMenu()
 {
     m_itemMenuCommandTester.abort();
-
-    foreach (QAction *action, m_menuItem->actions())
-        action->deleteLater();
 
     foreach (QMenu *menu, m_menuItem->findChildren<QMenu*>())
         menu->deleteLater();
@@ -889,7 +873,7 @@ QAction *MainWindow::createAction(Actions::Id id, const char *slot, QMenu *menu)
 QAction *MainWindow::addTrayAction(Actions::Id id)
 {
     ConfigTabShortcuts *shortcuts = cm->tabShortcuts();
-    QAction *act = shortcuts->action(id, NULL, Qt::WindowShortcut);
+    QAction *act = shortcuts->action(id, m_trayMenu, Qt::WindowShortcut);
     m_trayMenu->addAction(act);
     return act;
 }
@@ -1965,10 +1949,18 @@ void MainWindow::updateTrayMenuItems()
 
     ClipboardBrowser *c = getTabForTrayMenu();
 
-    m_trayMenuCommandTester.abort();
+    clearTrayMenu();
 
-    m_trayMenu->clearClipboardItemActions();
-    m_trayMenu->clearCustomActions();
+    QAction *act = m_trayMenu->addAction(
+                appIcon(), tr("&Show/Hide"), this, SLOT(toggleVisible()) );
+    m_trayMenu->setDefaultAction(act);
+    addTrayAction(Actions::File_New);
+    act = addTrayAction(Actions::Item_Action);
+    act->setWhatsThis( tr("Open action dialog") );
+    addTrayAction(Actions::File_Preferences);
+    addTrayAction(Actions::File_ToggleClipboardStoring);
+    m_trayMenu->addSeparator();
+    addTrayAction(Actions::File_Exit);
 
     // Add items.
     const int len = (c != NULL) ? qMin( m_options.trayItems, c->length() ) : 0;
@@ -1999,6 +1991,12 @@ void MainWindow::updateTrayMenuItems()
 
     if (m_trayMenu->activeAction() == NULL)
         m_trayMenu->setActiveFirstEnabledAction();
+}
+
+void MainWindow::clearTrayMenu()
+{
+    m_trayMenuCommandTester.abort();
+    m_trayMenu->clearAllActions();
 }
 
 void MainWindow::openAboutDialog()

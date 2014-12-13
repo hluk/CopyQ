@@ -45,11 +45,8 @@ public:
     /** Add custom action. */
     void addCustomAction(QAction *action);
 
-    /** Clear clipboard item actions. */
-    void clearClipboardItemActions();
-
-    /** Clear custom actions. */
-    void clearCustomActions();
+    /** Clear clipboard item actions and curstom actions. */
+    void clearAllActions();
 
     /** Select first enabled menu item. */
     void setActiveFirstEnabledAction();
@@ -75,8 +72,7 @@ private:
 
     QPointer<QAction> m_clipboardItemActionsSeparator;
     QPointer<QAction> m_customActionsSeparator;
-    QList<QPointer<QAction> > m_clipboardItemActions;
-    QList<QPointer<QAction> > m_customActions;
+    int m_clipboardItemActionCount;
 
     QTimer m_timerShowTooltip;
 
