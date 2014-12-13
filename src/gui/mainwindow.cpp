@@ -638,6 +638,9 @@ void MainWindow::updateContextMenu()
     foreach (QMenu *menu, m_menuItem->findChildren<QMenu*>())
         menu->deleteLater();
 
+    foreach (QAction *action, m_menuItem->actions())
+        action->deleteLater();
+
     m_menuItem->clear();
     m_timerUpdateContextMenu.start();
 }
