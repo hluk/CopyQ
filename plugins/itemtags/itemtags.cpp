@@ -194,6 +194,10 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
         QColor fg = QColor::fromHsl(
                     bg.hue(), bg.saturation(), qBound(0, fgLightness, 255), bg.alpha());
 
+        const int i = tag.name.indexOf(';');
+        const QString name = tag.name.left(i);
+        const QString style = tag.name.mid(i + 1);
+
         if (tag.icon.size() > 1) {
             QPixmap icon(tag.icon);
             tagWidget->setPixmap(icon);
@@ -208,7 +212,7 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
             qSwap(fg, bg);
         } else {
             tagWidget->setFont(font);
-            tagWidget->setText(tag.name);
+            tagWidget->setText(name);
         }
 
         const QColor borderColor = bg.darker(150);
@@ -219,7 +223,8 @@ void addTagButtons(QBoxLayout *layout, const ItemTags::Tags &tags)
                     ";color:" + serializeColor(fg) +
                     ";border: " + borderWidth + " solid " + serializeColor(borderColor) +
                     ";border-radius: " + radius +
-                    ";padding: " + borderWidth
+                    ";padding: " + borderWidth +
+                    ";" + style
                     );
     }
 }
