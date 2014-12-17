@@ -1515,7 +1515,7 @@ void MainWindow::hideWindow()
 bool MainWindow::toggleVisible()
 {
     // Showing/hiding window in quick succession doesn't work well on X11.
-    if ( m_timerShowWindow.isActive() || isActiveWindow() ) {
+    if ( m_timerShowWindow.isActive() || (isVisible() && isActiveWindow()) ) {
         hideWindow();
         return false;
     }
