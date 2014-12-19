@@ -631,6 +631,8 @@ void ClipboardBrowser::refilterItems()
         setRowHidden(selectedRow, false);
         setCurrentIndex( index(selectedRow) );
     }
+
+    scrollTo(currentIndex());
 }
 
 bool ClipboardBrowser::hasUserSelection() const
