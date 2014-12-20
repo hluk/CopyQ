@@ -3369,12 +3369,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="458"/>
         <source>Decrypt</source>
-        <translation type="unfinished">Descifrar</translation>
+        <translation>Descifrar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="469"/>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished">Descifrar y copiar</translation>
+        <translation>Descifrar y copiar</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="477"/>
