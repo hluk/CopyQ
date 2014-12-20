@@ -3781,12 +3781,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"/>
+        <translation>Los elementos de menú para añadir y quitar etiquetas personalizadas pueden añadirse y personalizarse en el diálogo de Comandos.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="28"/>
         <source>Tag Name</source>
-        <translation type="unfinished"/>
+        <translation>Nombre de etiqueta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="33"/>
