@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE TS>
 <TS version="2.1" language="es_ES">
 <context>
@@ -36,7 +36,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="142"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Donar</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="152"/>
@@ -207,7 +207,7 @@
         <translation type="vanished">&amp;Orden (%1 es el texto de los elementos seleccionados):</translation>
     </message>
     <message>
-        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
+        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
         <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; en la &lt;b&gt;orden&lt;/b&gt; es &lt;b&gt;el texto&lt;/b&gt; de los elementos seleccionados. También puede modificar el texto y pasarlo a &lt;b&gt;la entrada estándar&lt;/b&gt; de la orden. También es posible unir órdenes usando el carácter &lt;b&gt;|&lt;/b&gt; (i.e. pasando la salida estándar).</translation>
     </message>
     <message>
@@ -325,72 +325,72 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ Añadir comandos</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
         <source>New command</source>
-        <translation type="unfinished">Nueva orden</translation>
+        <translation>Nuevo comando</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"></translation>
+        <translation>Ignorar elementos vacíos o con un solo carácter</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="152"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"></translation>
+        <translation>Abrir en &amp;Navegador</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="160"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished">Pegar como texto plano</translation>
+        <translation>Pegar como texto plano</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="166"/>
         <source>Shift+Return</source>
-        <translation type="unfinished">Shift+Enter</translation>
+        <translation>Shift+Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="169"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished">Reproducir videos automáticamente</translation>
+        <translation>Reproducir vídeos automáticamente</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="178"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished">Copiar URL (dirección web) a otra pestaña</translation>
+        <translation>Copiar URL (dirección web) en otra pestaña</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished">Crear imagen en miniatura (necesita ImageMagick)</translation>
+        <translation>Crear imagen en miniatura (necesita ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="193"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished">Crear código QR a partir de una URL (necesita qrencode)</translation>
+        <translation>Crear código QR a partir de una URL (necesita qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
         <source>Add to &amp;TODO tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
         <source>Move to &amp;TODO tab</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="unfinished"></translation>
+        <source>Ignore *"Password"* window</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="226"/>
@@ -708,8 +708,8 @@ Puede configurar la orden desde las preferencias.</translation>
         <translation type="vanished">Ignorar archivos copiados</translation>
     </message>
     <message>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="vanished">Ignorar ventana *&quot;Contraseña&quot;*</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation type="vanished">Ignorar ventana *"Contraseña"*</translation>
     </message>
     <message>
         <source>Password</source>
@@ -843,8 +843,8 @@ Puede configurar la orden desde las preferencias.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="193"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Usar orden sólo en los elementos cuyo texto coincida con esta expresión regular (dejar en blanco para coincidir con cualquier texto).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Ejemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Archivo PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Un solo carácter    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Contenido multimedia remoto    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Usar orden sólo en los elementos cuyo texto coincida con esta expresión regular (dejar en blanco para coincidir con cualquier texto).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Ejemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Archivo PDF    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Un solo carácter    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Contenido multimedia remoto    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="183"/>
@@ -872,7 +872,7 @@ Dejar en blanco para desactivarlo.</translation>
         <translation>Acción</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Don&apos;t save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</source>
         <translation type="obsolete">&lt;p&gt;No guardar el contenido coincidente del protapapeles en historal y dejar de aplicar la siguiente orden sobre él.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -950,7 +950,7 @@ Dejar en blanco para desactivarlo.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="431"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation>Modificar elemento, no crear ningún elemento nuevo</translation>
     </message>
     <message>
@@ -1040,7 +1040,7 @@ Nota: si se aplica automáticamente, no se ejecutará ninguna otra orden automá
         <translation>&amp;Ocultar la ventana principal después de la activación</translation>
     </message>
     <message>
-        <source>Change item, don&apos;t create any new items.</source>
+        <source>Change item, don't create any new items.</source>
         <translation type="vanished">Cambiar elemento, no crear nuevos elementos.</translation>
     </message>
     <message>
@@ -1235,8 +1235,8 @@ Nota: si se aplica automáticamente, no se ejecutará ninguna otra orden automá
         <translation>Previsualización:</translation>
     </message>
     <message>
-        <source>Search string is &quot;item&quot;.</source>
-        <translation type="obsolete">Buscar texto es &quot;entrada&quot;.</translation>
+        <source>Search string is "item".</source>
+        <translation type="obsolete">Buscar texto es "entrada".</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
@@ -1445,7 +1445,7 @@ con CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
@@ -1710,7 +1710,7 @@ con CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">selección a portapapeles (&amp;4)</translation>
     </message>
     <message>
-        <source>Break text if it&apos;s too long to fit on line.</source>
+        <source>Break text if it's too long to fit on line.</source>
         <translation type="vanished">Partir texto si es demasiado largo para caber en una sola línea.</translation>
     </message>
     <message>
@@ -1822,7 +1822,7 @@ Definir como 0 para desactivar.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="390"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation>No mostrar el ícono de la bandeja; minimizar la ventana cuando se cierre</translation>
     </message>
     <message>
@@ -2317,7 +2317,7 @@ Poner a 0 para deshabilitar.</translation>
         <translation type="obsolete">Permitir que el contenido del portapapeles se guarde en el historial.</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn&apos;t have focus.&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn't have focus.&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;Estos accesos rápidos funcionan incluso si la ventana del programa no tiene el foco.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -2422,7 +2422,7 @@ Nota: no funciona en todos los sistemas.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation>Partir el texto si es demasiado largo para caber en una sola línea</translation>
     </message>
     <message>
@@ -2668,12 +2668,12 @@ Nota: puede guardar los elementos editados con F2 sin importar la configuración
         <translation type="obsolete">Previsualización:</translation>
     </message>
     <message>
-        <source>Cannot save tab &quot;%1&quot; to &quot;%2&quot; (%3)!</source>
-        <translation type="obsolete">!No se pudo guardar la pestaña &quot;%1&quot; a &quot;%2&quot; (%3)!</translation>
+        <source>Cannot save tab "%1" to "%2" (%3)!</source>
+        <translation type="obsolete">!No se pudo guardar la pestaña "%1" a "%2" (%3)!</translation>
     </message>
     <message>
-        <source>Search string is &quot;item&quot;.</source>
-        <translation type="obsolete">Buscar texto es &quot;entrada&quot;.</translation>
+        <source>Search string is "item".</source>
+        <translation type="obsolete">Buscar texto es "entrada".</translation>
     </message>
     <message>
         <source>Select an item and
@@ -2699,8 +2699,8 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">Entrada</translation>
     </message>
     <message>
-        <source>Cannot create directory for settings &quot;%1&quot;!</source>
-        <translation type="obsolete">¡No se pudo crear directorio para la configuración &quot;%1&quot;!</translation>
+        <source>Cannot create directory for settings "%1"!</source>
+        <translation type="obsolete">¡No se pudo crear directorio para la configuración "%1"!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="60"/>
@@ -2820,8 +2820,8 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">Ignorar los archivos copiados</translation>
     </message>
     <message>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="vanished">Ignorar la ventana *&quot;Contraseña&quot;*</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation type="vanished">Ignorar la ventana *"Contraseña"*</translation>
     </message>
     <message>
         <source>Password</source>
@@ -2857,7 +2857,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="561"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
+        <source>Invalid value for option "%1"</source>
         <translation>El valor no es válido para la opción «%1»</translation>
     </message>
     <message>
@@ -2942,7 +2942,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
+        <source>Mark "%1" not set.</source>
         <translation>La marca «%1» no está definida.</translation>
     </message>
     <message>
@@ -2990,28 +2990,28 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <source>File "%1" exists (add ! to override)</source>
         <translation>El archivo «%1» ya existe (añada ! para forzar)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <source>Cannot open file "%1" for writing</source>
         <translation>No se pudo abrir el archivo «%1» para escribir en él</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <source>"%1" %2 %3L, %4C written.</source>
         <translation>«%1» %2 %3L, %4C escrito.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <source>Cannot open file "%1" for reading</source>
         <translation>No se pudo abrir el archivo «%1» para leer de él</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation>&quot;%1&quot; %2L, %3C</translation>
+        <source>"%1" %2L, %3C</source>
+        <translation>"%1" %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
@@ -3118,7 +3118,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <source>Failed to create synchronization directory "%1"!</source>
         <translation>¡No se pudo crear el directorio de sincronización «%1»!</translation>
     </message>
 </context>
@@ -3347,7 +3347,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="236"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Para compartir los elementos cifrados con otros equipos o sesiones necesitará archivos de claves pública y privada:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Mantenga esta clave privada en un lugar seguro.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
@@ -3651,7 +3651,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
         <translation>¡No se pudo sincronizar la pestaña «%1» con el directorio «%2»!</translation>
     </message>
     <message>
@@ -3737,43 +3737,43 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="126"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="131"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="155"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="496"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="517"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="88"/>
         <source>Tags</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="90"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3781,22 +3781,22 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="28"/>
         <source>Tag Name</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="33"/>
         <source>Color</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Icon</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -3871,9 +3871,9 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>¿Salir?</translation>
     </message>
     <message>
-        <source>&quot;%1&quot;</source>
+        <source>"%1"</source>
         <comment>Quoted clipboard text in main window title and tray tooltip</comment>
-        <translation type="obsolete">&quot;%1&quot;</translation>
+        <translation type="obsolete">"%1"</translation>
     </message>
     <message>
         <source>&lt;IMAGE&gt;</source>
@@ -4104,20 +4104,20 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>&amp;Ayuda</translation>
     </message>
     <message>
-        <source>Rename &amp;group &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Cambiar el nombre del grupo &quot;%1&quot;</translation>
+        <source>Rename &amp;group "%1"</source>
+        <translation type="obsolete">&amp;Cambiar el nombre del grupo "%1"</translation>
     </message>
     <message>
-        <source>Re&amp;name tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Cambiar el nombre de la pestaña &quot;%1&quot;</translation>
+        <source>Re&amp;name tab "%1"</source>
+        <translation type="obsolete">&amp;Cambiar el nombre de la pestaña "%1"</translation>
     </message>
     <message>
-        <source>Re&amp;move tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Cerrar pestaña &quot;%1&quot;</translation>
+        <source>Re&amp;move tab "%1"</source>
+        <translation type="obsolete">&amp;Cerrar pestaña "%1"</translation>
     </message>
     <message>
-        <source>Remove group &quot;%1&quot;</source>
-        <translation type="obsolete">Cerrar el grupo &quot;%1&quot;</translation>
+        <source>Remove group "%1"</source>
+        <translation type="obsolete">Cerrar el grupo "%1"</translation>
     </message>
     <message>
         <source>Error: %1
@@ -4132,8 +4132,8 @@ CTRL+Arriba y CTRL+Abajo.</translation>
 </translation>
     </message>
     <message>
-        <source>Command &quot;%1&quot;</source>
-        <translation type="obsolete">Orden &quot;%1&quot;</translation>
+        <source>Command "%1"</source>
+        <translation type="obsolete">Orden "%1"</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="789"/>
@@ -4160,12 +4160,12 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="vanished">Configuración cargada</translation>
     </message>
     <message>
-        <source>&amp;Rename tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Cambiar el nombre de la pestaña &quot;%1&quot;</translation>
+        <source>&amp;Rename tab "%1"</source>
+        <translation type="obsolete">&amp;Cambiar el nombre de la pestaña "%1"</translation>
     </message>
     <message>
-        <source>&amp;Remove tab &quot;%1&quot;</source>
-        <translation type="obsolete">&amp;Cerrar pestaña &quot;%1&quot;</translation>
+        <source>&amp;Remove tab "%1"</source>
+        <translation type="obsolete">&amp;Cerrar pestaña "%1"</translation>
     </message>
     <message>
         <source>&lt;IMAGE&gt;</source>
@@ -4222,8 +4222,8 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>Error de CopyQ al guardar el archivo</translation>
     </message>
     <message>
-        <source>Cannot save file &quot;%1&quot;!</source>
-        <translation type="obsolete">¡No se pudo guardar el archivo &quot;%1&quot;!</translation>
+        <source>Cannot save file "%1"!</source>
+        <translation type="obsolete">¡No se pudo guardar el archivo "%1"!</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2230"/>
@@ -4231,8 +4231,8 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation>Error de CopyQ al abrir el archivo</translation>
     </message>
     <message>
-        <source>Cannot open file &quot;%1&quot;!</source>
-        <translation type="obsolete">¡No se pudo abrir el archivo &quot;%1&quot;!</translation>
+        <source>Cannot open file "%1"!</source>
+        <translation type="obsolete">¡No se pudo abrir el archivo "%1"!</translation>
     </message>
     <message>
         <source>Executing: %1</source>
@@ -4429,17 +4429,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
         <translation type="obsolete">%1</translation>
     </message>
     <message numerus="yes">
-        <source>&quot;%1&quot; (%n lines)</source>
+        <source>"%1" (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="obsolete">
-            <numerusform>&quot;%1&quot; (%n líneas)</numerusform>
-            <numerusform></numerusform>
+            <numerusform>"%1" (%n líneas)</numerusform>
+            <numerusform/>
         </translation>
     </message>
     <message>
-        <source>&quot;%1&quot;</source>
+        <source>"%1"</source>
         <comment>Label for single-line text in clipboard</comment>
-        <translation type="obsolete">&quot;%1&quot;</translation>
+        <translation type="obsolete">"%1"</translation>
     </message>
     <message>
         <location filename="../src/common/log.cpp" line="155"/>
@@ -4512,17 +4512,17 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/main.cpp" line="166"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation>¡El nombre de la sesión debe contener 16 carácteres
 como máximo que pueden ser letras, dígitos, «-» o «_»!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="87"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n línea &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n líneas &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n línea &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n líneas &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
@@ -4758,7 +4758,7 @@ Mostrar el mensaje emergente en la bandeja durante TIEMPO milisegundos.</transla
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="146"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation>Ejecutar la orden en la pestaña con el nombre indicado.
 Se creará la pestaña si no existe.
@@ -4845,7 +4845,7 @@ Se utilizará la primera pestaña de forma predeterminada.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="177"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
+Arguments are accessible using with "arguments(0..N)".</source>
         <translation>
 Evaluar el programa ECMAScript.
 Puede acceder a los parámetros con «arguments(0..N)».</translation>
@@ -4857,7 +4857,7 @@ Puede acceder a los parámetros con «arguments(0..N)».</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="771"/>
-        <source>Invalid option &quot;%1&quot;!</source>
+        <source>Invalid option "%1"!</source>
         <translation>¡La opción «%1» no es válida!</translation>
     </message>
     <message>
@@ -4947,7 +4947,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="66"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
         <translation>  - Use ? para imprimir los tipos MIME disponibles (el valor predeterminado es «text/plain»).</translation>
     </message>
     <message>
@@ -4958,7 +4958,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="307"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="150"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
+        <source>Name "%1" doesn't refer to a function.</source>
         <translation>El nombre «%1» no hace referencia a una función.</translation>
     </message>
     <message>
@@ -4987,12 +4987,12 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="748"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
+        <source>Cannot save to file "%1"!</source>
         <translation>!No se pudo guardar en el archivo «%1»!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="759"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
+        <source>Cannot import file "%1"!</source>
         <translation>!No se pudo importar el archivo «%1»!</translation>
     </message>
     <message>
@@ -5004,7 +5004,7 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation type="vanished">¡La opción no es válida!</translation>
     </message>
     <message>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation type="vanished">¡No existe una pestaña con el nombre indicado!</translation>
     </message>
 </context>
@@ -5034,8 +5034,8 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione cualquier combinación de teclas. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; para cancelar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Presione cualquier combinación de teclas. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; para cancelar.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -5043,8 +5043,8 @@ Imprimir la versión del programa y de las bibliotecas.</translation>
         <translation>Pulse aquí con el ratón y cualquier combinación de teclas</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse cualquier combinación de teclas.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; para cancelar. &lt;span style=&quot; font-weight:600;&quot;&gt;Retroceso&lt;/span&gt; para desactivar el atajo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel. &lt;span style=" font-weight:600;"&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Pulse cualquier combinación de teclas.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; para cancelar. &lt;span style=" font-weight:600;"&gt;Retroceso&lt;/span&gt; para desactivar el atajo.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
@@ -5148,7 +5148,7 @@ Use &lt;b&gt;/&lt;/b&gt; como separador en el árbol de pestañas.</translation>
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="258"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation>¡No existe una pestaña con el nombre indicado!</translation>
     </message>
     <message>
