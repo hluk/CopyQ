@@ -385,27 +385,27 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"/>
+        <translation>Ignorar ficheros copiados</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
         <source>Ignore *"Password"* window</source>
-        <translation type="unfinished"/>
+        <translation>Ignorar ventana *"Contraseña"*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="226"/>
         <source>Password</source>
-        <translation type="unfinished">Contraseña</translation>
+        <translation>Contraseña</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="234"/>
         <source>Move to Trash</source>
-        <translation type="unfinished">Mover a la papelera</translation>
+        <translation>Mover a la papelera</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="237"/>
         <source>(trash)</source>
-        <translation type="unfinished">(papelera)</translation>
+        <translation>(papelera)</translation>
     </message>
 </context>
 <context>
@@ -1445,7 +1445,7 @@ con CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Buscar</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
