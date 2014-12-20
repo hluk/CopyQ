@@ -3379,7 +3379,7 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="477"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished">Ctrl+Shift+L</translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="544"/>
@@ -3737,43 +3737,43 @@ CTRL+Arriba y CTRL+Abajo.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="126"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"/>
+        <translation>Añadir etiqueta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="131"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"/>
+        <translation>Quitar etiqueta</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"/>
+        <translation>Etiquetar como %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="155"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"/>
+        <translation>Quitar etiqueta %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="496"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"/>
+        <translation>Importante</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="517"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"/>
+        <translation>Quitar todas las marcas</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="88"/>
         <source>Tags</source>
-        <translation type="unfinished"/>
+        <translation>Marcas</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="90"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"/>
+        <translation>Mostrar las marcas de los elementos.</translation>
     </message>
 </context>
 <context>
