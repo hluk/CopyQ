@@ -36,7 +36,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="142"/>
         <source>Donate</source>
-        <translation type="unfinished"></translation>
+        <translation>Don</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="152"/>
