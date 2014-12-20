@@ -14,6 +14,7 @@ TRANSLATIONS = \
     translations/copyq_de.ts \
     translations/copyq_es.ts \
     translations/copyq_fr.ts \
+    translations/copyq_hu.ts \
     translations/copyq_it.ts \
     translations/copyq_ja.ts \
     translations/copyq_pl.ts \

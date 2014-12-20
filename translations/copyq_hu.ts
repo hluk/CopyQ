@@ -1,37 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
-<TS version="2.1" language="ru_RU">
+<TS version="2.1" language="hu_HU">
 <context>
     <name>AboutDialog</name>
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation>О программе CopyQ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="133"/>
         <source>Clipboard Manager</source>
-        <translation>Менеджер буфера обмена</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="138"/>
         <source>Author</source>
-        <translation>Автор</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>E-mail</source>
-        <translation>Эл. почта</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>Web</source>
-        <translation>Сайт</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Wiki</source>
-        <translation>Wiki</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="142"/>
@@ -41,54 +41,42 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="152"/>
         <source>Development</source>
-        <translation>Разработчики</translation>
-    </message>
-    <message>
-        <source>Library used in the application</source>
-        <translation type="vanished">Библиотека, используемая в приложении</translation>
-    </message>
-    <message>
-        <source>Iconic font used in the application</source>
-        <translation type="vanished">Шрифт со значками, используемый в приложении</translation>
-    </message>
-    <message>
-        <source>Color palette used for themes</source>
-        <translation type="vanished">Цветовая палитра, используемая в темах</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation type="unfinished">Библиотека, используемая в приложении</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation type="unfinished">Библиотека, используемая в приложении</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="unfinished">Шрифт со значками, используемый в приложении</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation type="unfinished">Цветовая палитра, используемая в темах</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="187"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation type="unfinished">Система свободного веб-ориентированного управления переводом</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="191"/>
         <source>Keyboard</source>
-        <translation>Клавиатура</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="193"/>
@@ -103,83 +91,83 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="199"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Введите текст для поиска в истории буфера обмена.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Item list navigation</source>
-        <translation>Переход между пунктами списка</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation>вверх/вниз, страница вверх/вниз, Home/End</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Tab navigation</source>
-        <translation>Перемещение по вкладкам</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="205"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation>влево, вправо, %1, %2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Move selected items</source>
-        <translation>Переместить выбранные элементы</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation>Ctrl + вверх/вниз, Ctrl + Home/End</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Reset search or hide window</source>
-        <translation>Сбросить поиск или скрыть окно</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Escape</source>
-        <translation>Esc</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Delete item</source>
-        <translation>Удалить элемент</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Put selected items into clipboard</source>
-        <translation>Поместить выбранные элементы в буфер обмена</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Enter</source>
-        <translation>Enter</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Change item display format</source>
-        <translation>Изменить формат отображения элемента</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Ctrl+Left/Right</source>
-        <translation>Ctrl + влево/вправо</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Edit Item</source>
-        <translation>Изменить элемент</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>F2</source>
-        <translation>F2</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -187,25 +175,22 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>Диалоговое окно действий CopyQ</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; в &lt;b&gt;команде&lt;/b&gt; — это &lt;b&gt;текст&lt;/b&gt; выбранных элементов. Текст может быть изменен и передан на &lt;b&gt;стандартный ввод&lt;/b&gt; команды. Команды возможно связывать в цепь при помощи символа &lt;b&gt;|&lt;/b&gt; (то есть минуя стандартный вывод).</translation>
-    </message>
-    <message>
-        <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation type="vanished">Ко&amp;манда (%1 — это текст выбранных элементов):</translation>
+        <location filename="../src/ui/actiondialog.ui" line="33"/>
+        <source>Co&amp;mmand:</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Стандартный вв&amp;од:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Сохранить стандартный выво&amp;д:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -218,98 +203,61 @@
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
-        <translation type="vanished">Отправить данные указанного типа MIME на стандартный ввод команды (оставьте пустым для отключения).</translation>
-    </message>
-    <message>
-        <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="vanished">Создать элементы из стандартного вывода программы (оставьте пустым для отключения).</translation>
-    </message>
-    <message>
-        <location filename="../src/ui/actiondialog.ui" line="33"/>
-        <source>Co&amp;mmand:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation>&amp;Разделитель новых элементов:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Регулярное выражение для разрыва вывода на несколько элементов.&lt;\p&gt;↵
-&lt;p&gt;Используйте &lt;b&gt;\n&lt;/b&gt; для сохранения каждой строки в отдельном элементе.&lt;/p&gt;</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation>\n</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Вкла&amp;дка вывода:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Сохранить элементы во вкладке с данным именем (оставьте пустым для сохранения в текущей вкладке)</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="275"/>
         <source>Command saved</source>
-        <translation>Команда сохранена</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="276"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>Команда была сохранена и теперь она доступна из меню элементов.↵
-Вы можете настроить команду в настройках.</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
     <name>ActionHandler</name>
     <message>
-        <source>Co&amp;mmands</source>
-        <translation type="vanished">Ко&amp;манда</translation>
-    </message>
-    <message>
-        <source>Executing: %1</source>
-        <translation type="vanished">Выполнение: %1</translation>
-    </message>
-    <message>
-        <source>KILL</source>
-        <translation type="obsolete">KILL</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;COMMAND:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;КОМАНДА:&lt;/b&gt;</translation>
-    </message>
-    <message>
-        <source>&lt;b&gt;INPUT:&lt;/b&gt;</source>
-        <translation type="vanished">&lt;b&gt;ВВОД:&lt;/b&gt;</translation>
-    </message>
-    <message>
         <location filename="../src/gui/actionhandler.cpp" line="124"/>
         <source>Error: %1
 </source>
-        <translation>Ошибка: %1↵
-</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="127"/>
         <source>Exit code: %1
 </source>
-        <translation>Код выхода: %1↵
-</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="142"/>
         <source>Command %1</source>
-        <translation>Команда %1</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -406,7 +354,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/clientsocket.cpp" line="189"/>
         <location filename="../src/common/clientsocket.cpp" line="247"/>
         <source>Failed to read message from client!</source>
-        <translation>Не удалось прочитать сообщение от клиента!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -415,12 +363,12 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="507"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation>Поиск %p%...</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1752"/>
         <source>Discard Changes?</source>
-        <translation>Отменить изменения?</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1753"/>
@@ -433,12 +381,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="40"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Не могу подключится к серверу! Запустите CopyQ сервер.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="74"/>
         <source>Connection lost!</source>
-        <translation>Соединение потеряно!</translation>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -480,7 +428,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="79"/>
         <source>CopyQ server is already running.</source>
-        <translation>CopyQ сервер уже запущен.</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="266"/>
@@ -554,11 +502,6 @@ You can set up the command in preferences.</source>
 <context>
     <name>CommandHelpButton</name>
     <message>
-        <location filename="../src/gui/commandhelpbutton.cpp" line="113"/>
-        <source>Show command help (F1)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="57"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
         <translation type="unfinished"></translation>
@@ -592,6 +535,11 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/commandhelpbutton.cpp" line="113"/>
+        <source>Show command help (F1)</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -654,36 +602,6 @@ Leave empty to disable this.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/commandwidget.ui" line="245"/>
-        <source>Comman&amp;d</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="284"/>
-        <source>Co&amp;py to tab:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="342"/>
-        <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="431"/>
-        <source>Change item, don&apos;t create any new items</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="434"/>
-        <source>Tr&amp;ansform</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/commandwidget.ui" line="461"/>
-        <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/commandwidget.ui" line="176"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
         <translation type="unfinished"></translation>
@@ -720,8 +638,18 @@ Leave empty to disable this.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/commandwidget.ui" line="245"/>
+        <source>Comman&amp;d</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/commandwidget.ui" line="261"/>
         <source>Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="284"/>
+        <source>Co&amp;py to tab:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -744,6 +672,11 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="321"/>
         <source>Menu Action</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="342"/>
+        <source>Hide window after command is activated from context menu of an item</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -772,13 +705,24 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/commandwidget.ui" line="431"/>
+        <source>Change item, don&apos;t create any new items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/commandwidget.ui" line="434"/>
+        <source>Tr&amp;ansform</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/commandwidget.ui" line="451"/>
         <source>O&amp;utput:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Create items from standard output of the program (leave empty to disable).</source>
-        <translation type="obsolete">Создать элементы из стандартного вывода программы (оставьте пустым для отключения).</translation>
+        <location filename="../src/ui/commandwidget.ui" line="461"/>
+        <source>Create items from standard output of the program (leave empty to disable)</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="471"/>
@@ -793,12 +737,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="484"/>
         <source>\n</source>
-        <translation type="unfinished">\n</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="491"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished">Вкла&amp;дка вывода:</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="501"/>
@@ -884,11 +828,6 @@ Note: If this is applied automatically, no other automatic commands are executed
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabappearance.ui" line="319"/>
-        <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
         <source>S&amp;ystem Icons</source>
         <translation type="unfinished"></translation>
@@ -896,6 +835,11 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"/>
         <source>&amp;Antialias</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configtabappearance.ui" line="319"/>
+        <source>S&amp;et colors for tabs, tool bar and menus</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1001,6 +945,12 @@ CTRL and up or down key.</source>
 <context>
     <name>ConfigTabShortcuts</name>
     <message>
+        <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
+        <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
+&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="75"/>
         <source>&amp;New Item</source>
         <translation type="unfinished"></translation>
@@ -1044,7 +994,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="89"/>
         <source>F6</source>
-        <translation type="unfinished">F6</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="91"/>
@@ -1134,7 +1084,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="116"/>
         <source>F4</source>
-        <translation type="unfinished">F4</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="117"/>
@@ -1144,16 +1094,16 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="117"/>
         <source>F2</source>
-        <translation type="unfinished">F2</translation>
-    </message>
-    <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
-        <source>Shift+F2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>Edit &amp;Notes</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
+        <source>Shift+F2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1174,7 +1124,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>F5</source>
-        <translation type="unfinished">F5</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="126"/>
@@ -1192,23 +1142,23 @@ CTRL and up or down key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
-        <source>Ctrl+F2</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>R&amp;ename Tab</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="134"/>
-        <source>Ctrl+W</source>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
+        <source>Ctrl+F2</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Re&amp;move Tab</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="134"/>
+        <source>Ctrl+W</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1226,12 +1176,6 @@ CTRL and up or down key.</source>
         <source>&amp;Help</source>
         <translation type="unfinished"></translation>
     </message>
-    <message>
-        <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
-        <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
-&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
-    </message>
 </context>
 <context>
     <name>ConfigurationManager</name>
@@ -1246,8 +1190,33 @@ CTRL and up or down key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="90"/>
+        <source>Langua&amp;ge:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="118"/>
+        <source>Break text if it&apos;s too long to fit on line</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="121"/>
+        <source>Wrap l&amp;ong text</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"/>
         <source>Keep main window above other windows</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="131"/>
+        <source>Alwa&amp;ys on Top</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="138"/>
+        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1301,6 +1270,11 @@ CTRL and up or down key.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="203"/>
+        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="206"/>
         <source>(&amp;4) Paste mouse selection with keyboard</source>
         <translation type="unfinished"></translation>
@@ -1313,36 +1287,6 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="216"/>
         <source>(&amp;1) Store clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="90"/>
-        <source>Langua&amp;ge:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="121"/>
-        <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="131"/>
-        <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="138"/>
-        <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="203"/>
-        <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1445,81 +1389,6 @@ Note: This is not be supported on all systems.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="619"/>
-        <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="622"/>
-        <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="629"/>
-        <source>Close main window after item is activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="639"/>
-        <source>Focus last window after item is activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="649"/>
-        <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="747"/>
-        <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="799"/>
-        <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="806"/>
-        <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="847"/>
-        <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="860"/>
-        <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1021"/>
-        <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1124"/>
-        <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1161"/>
-        <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1198"/>
-        <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1235"/>
-        <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/ui/configurationmanager.ui" line="438"/>
         <source>&amp;History</source>
         <translation type="unfinished"></translation>
@@ -1579,13 +1448,38 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="619"/>
+        <source>Move item to the top of the list after it is activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="622"/>
+        <source>Move item to the t&amp;op</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="629"/>
+        <source>Close main window after item is activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="632"/>
         <source>&amp;Close main window</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="639"/>
+        <source>Focus last window after item is activated</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="642"/>
         <source>&amp;Focus last window</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="649"/>
+        <source>Paste to current window after item is activated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1596,6 +1490,11 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>&amp;Tray</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="747"/>
+        <source>Show command for current clipboard content in tray menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1619,8 +1518,23 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="799"/>
+        <source>Show cu&amp;rrent tab in menu,</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="806"/>
+        <source>or &amp;choose other tab:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="822"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="847"/>
+        <source>Paste item to current window after selecting it in menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1631,6 +1545,11 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="857"/>
         <source>Show image preview next to menu items</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="860"/>
+        <source>Sh&amp;ow image preview as menu item icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1679,6 +1598,11 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1021"/>
+        <source>Int&amp;erval in seconds to display notifications:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="1033"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
@@ -1710,8 +1634,18 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1124"/>
+        <source>Notification distance from left or right screen edge in screen points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="1149"/>
         <source>&amp;Vertical offset:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1161"/>
+        <source>Notification distance from top or bottom screen edge in screen points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1720,8 +1654,18 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1198"/>
+        <source>Maximum width for notification in screen points</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../src/ui/configurationmanager.ui" line="1223"/>
         <source>Ma&amp;ximum height:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="1235"/>
+        <source>Maximum height for notification in screen points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1735,10 +1679,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <source>Co&amp;mmands</source>
-        <translation type="obsolete">Ко&amp;манда</translation>
-    </message>
-    <message>
         <location filename="../src/ui/configurationmanager.ui" line="1326"/>
         <source>&amp;Shortcuts</source>
         <translation type="unfinished"></translation>
@@ -1746,11 +1686,6 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1336"/>
         <source>&amp;Appearance</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="60"/>
-        <source>Cannot save tab %1 to %2 (%3)!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1827,6 +1762,11 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
         <source>Paste and copy previous</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="60"/>
+        <source>Cannot save tab %1 to %2 (%3)!</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -1936,8 +1876,6 @@ Set to 0 to disable.</source>
         <source>%n lines moved.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -1969,8 +1907,6 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2014,8 +1950,6 @@ Set to 0 to disable.</source>
         <source>%n lines indented.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -2023,16 +1957,12 @@ Set to 0 to disable.</source>
         <source>%n lines %1ed %2 time.</source>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -2235,7 +2165,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="211"/>
         <source>F2</source>
         <comment>Shortcut to save item editor changes</comment>
-        <translation type="unfinished">F2</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="215"/>
@@ -2251,7 +2181,7 @@ Set to 0 to disable.</source>
         <location filename="../src/item/itemeditorwidget.cpp" line="218"/>
         <source>Escape</source>
         <comment>Shortcut to revert item editor changes</comment>
-        <translation type="unfinished">Esc</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="226"/>
@@ -2305,8 +2235,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="544"/>
         <source>Error: %1</source>
-        <translation type="unfinished">Ошибка: %1↵
- {1?}</translation>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="552"/>
@@ -2780,37 +2709,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1958"/>
-        <source>&amp;Show/Hide</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1962"/>
-        <source>Open action dialog</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="789"/>
-        <source>&amp;Enable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="790"/>
-        <source>&amp;Disable Clipboard Storing</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1156"/>
-        <source>CopyQ Error</source>
-        <comment>Notification error message title</comment>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1430"/>
-        <source>&amp;clipboard</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/mainwindow.cpp" line="469"/>
         <source>&amp;New Tab</source>
         <translation type="unfinished"></translation>
@@ -2841,10 +2739,13 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1018"/>
-        <source>Clipboard:
-%1</source>
-        <comment>Tray tooltip format</comment>
+        <location filename="../src/gui/mainwindow.cpp" line="789"/>
+        <source>&amp;Enable Clipboard Storing</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="790"/>
+        <source>&amp;Disable Clipboard Storing</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2857,6 +2758,34 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/mainwindow.cpp" line="1005"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1018"/>
+        <source>Clipboard:
+%1</source>
+        <comment>Tray tooltip format</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1156"/>
+        <source>CopyQ Error</source>
+        <comment>Notification error message title</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1430"/>
+        <source>&amp;clipboard</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1958"/>
+        <source>&amp;Show/Hide</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/mainwindow.cpp" line="1962"/>
+        <source>Open action dialog</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
@@ -2955,16 +2884,6 @@ Set to 0 to disable.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
-        <source>Starting</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
-        <source>Terminate</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="152"/>
         <source>Runnning</source>
         <translation type="unfinished"></translation>
@@ -2977,6 +2896,16 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
         <source>Remove</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <source>Starting</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
+        <source>Terminate</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
@@ -2995,8 +2924,6 @@ Set to 0 to disable.</source>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
             <numerusform></numerusform>
         </translation>
     </message>
@@ -3052,8 +2979,6 @@ Set to 0 to disable.</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
             <numerusform></numerusform>
-            <numerusform></numerusform>
-            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -3091,6 +3016,19 @@ which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
 </context>
 <context>
     <name>Scriptable</name>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
+        <source>Show main window and optionally open tab with given name.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="149"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
+        <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
+        <source>NAME</source>
+        <translation type="unfinished"></translation>
+    </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="65"/>
         <source>Hide main window.</source>
@@ -3299,19 +3237,6 @@ Default is the first tab.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="149"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="153"/>
-        <location filename="../src/scriptable/commandhelp.cpp" line="156"/>
-        <source>NAME</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
-        <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
         <location filename="../src/scriptable/scriptable.cpp" line="55"/>
@@ -3479,11 +3404,6 @@ Print version of program and libraries.</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
-        <source>Failed to set clipboard!</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../src/scriptable/scriptable.cpp" line="748"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation type="unfinished"></translation>
@@ -3496,6 +3416,11 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="771"/>
         <source>Invalid option &quot;%1&quot;!</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
+        <source>Failed to set clipboard!</source>
         <translation type="unfinished"></translation>
     </message>
 </context>
