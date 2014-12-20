@@ -375,12 +375,12 @@ Puede configurar la orden desde las preferencias.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
         <source>Add to &amp;TODO tab</source>
-        <translation type="unfinished"/>
+        <translation>Añadir a pestaña &amp;PENDIENTE</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
         <source>Move to &amp;TODO tab</source>
-        <translation type="unfinished"/>
+        <translation>Mover a pestaña &amp;PENDIENTE</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
