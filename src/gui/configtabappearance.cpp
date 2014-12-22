@@ -510,34 +510,40 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
     }
 
     QTemporaryFile tmpfile;
-    if ( openTemporaryFile(&tmpfile) ) {
-        {
-            QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
-            saveTheme(settings);
-            settings.sync();
-        }
+    if ( !openTemporaryFile(&tmpfile) )
+        return;
 
-        QByteArray data = tmpfile.readAll();
-        // keep ini file user friendly
-        data.replace("\\n",
-#ifdef Q_OS_WIN
-                     "\r\n"
-#else
-                     "\n"
-#endif
-                     );
-
-        ItemEditor *editor = new ItemEditor(data, COPYQ_MIME_PREFIX "theme", m_editor, this);
-
-        connect( editor, SIGNAL(fileModified(QByteArray,QString)),
-                 this, SLOT(onThemeModified(QByteArray)) );
-
-        connect( editor, SIGNAL(closed(QObject *)),
-                 editor, SLOT(deleteLater()) );
-
-        if ( !editor->start() )
-            delete editor;
+    {
+        QSettings settings(tmpfile.fileName(), QSettings::IniFormat);
+        saveTheme(settings);
+        settings.sync();
     }
+
+    // Open temporary file with other QFile instance so the file cache is up-to-date.
+    QFile themeFile(tmpfile.fileName());
+    if (!themeFile.open(QIODevice::ReadOnly))
+        return;
+
+    QByteArray data = themeFile.readAll();
+    // keep ini file user friendly
+    data.replace("\\n",
+#ifdef Q_OS_WIN
+                 "\r\n"
+#else
+                 "\n"
+#endif
+                 );
+
+    ItemEditor *editor = new ItemEditor(data, COPYQ_MIME_PREFIX "theme", m_editor, this);
+
+    connect( editor, SIGNAL(fileModified(QByteArray,QString)),
+             this, SLOT(onThemeModified(QByteArray)) );
+
+    connect( editor, SIGNAL(closed(QObject *)),
+             editor, SLOT(deleteLater()) );
+
+    if ( !editor->start() )
+        delete editor;
 }
 
 void ConfigTabAppearance::on_checkBoxShowNumber_stateChanged(int)
