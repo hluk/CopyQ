@@ -46,6 +46,7 @@ signals:
     void dropItems(const QString &tabName, QDropEvent *event);
 
 protected:
+    void contextMenuEvent(QContextMenuEvent *event);
     void mousePressEvent(QMouseEvent *event);
     void dragEnterEvent(QDragEnterEvent *event);
     void dragMoveEvent(QDragMoveEvent *event);

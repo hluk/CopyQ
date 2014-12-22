@@ -115,22 +115,22 @@ void TabBar::setTabItemCount(const QString &tabName, const QString &itemCount)
     updateTabStyle(i);
 }
 
+void TabBar::contextMenuEvent(QContextMenuEvent *event)
+{
+    const int tab = tabAt(event->pos());
+    emit tabMenuRequested(event->globalPos(), tab);
+    event->accept();
+}
+
 void TabBar::mousePressEvent(QMouseEvent *event)
 {
-    bool menu = event->button() == Qt::RightButton;
-    bool close = event->button() == Qt::MiddleButton;
-
-    if (menu || close) {
-        int tab = tabAt(event->pos());
-        if (menu)
-            emit tabMenuRequested(event->globalPos(), tab);
-        else
-            emit tabCloseRequested(tab);
+    if (event->button() == Qt::MiddleButton) {
+        const int tab = tabAt(event->pos());
+        emit tabCloseRequested(tab);
         event->accept();
-        return;
+    } else {
+        QTabBar::mousePressEvent(event);
     }
-
-    QTabBar::mousePressEvent(event);
 }
 
 void TabBar::dragEnterEvent(QDragEnterEvent *event)

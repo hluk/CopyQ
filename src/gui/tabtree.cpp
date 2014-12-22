@@ -477,16 +477,6 @@ void TabTree::updateTabIcons()
         updateTabIcon( getTabPath(item) );
 }
 
-void TabTree::mousePressEvent(QMouseEvent *event)
-{
-    if ( event->button() == Qt::RightButton ) {
-        requestTabMenu(event->pos(), event->globalPos());
-        event->accept();
-    } else {
-        QTreeWidget::mousePressEvent(event);
-    }
-}
-
 void TabTree::contextMenuEvent(QContextMenuEvent *event)
 {
     requestTabMenu(event->pos(), event->globalPos());
