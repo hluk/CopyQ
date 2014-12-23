@@ -180,7 +180,12 @@ void TabWidget::removeTab(int tabIndex)
     if (tabIndex == currentIndex())
         setCurrentIndex(0);
 
-    m_tabItemCounters.remove( tabText(tabIndex) );
+    const QString tabName = tabText(tabIndex);
+    m_tabItemCounters.remove(tabName);
+
+    // Item count must be updated If tab is removed but tab group remains.
+    if (isTreeModeEnabled())
+        m_tabTree->setTabItemCount(tabName, QString());
 
     QWidget *w = m_stackedWidget->widget(tabIndex);
     m_stackedWidget->removeWidget(w);
