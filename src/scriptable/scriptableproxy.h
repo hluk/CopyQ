@@ -21,7 +21,6 @@
 #define SCRIPTABLEPROXY_H
 
 #include "gui/clipboardbrowser.h"
-#include "platform/platformwindow.h"
 
 #include <QClipboard>
 #include <QList>

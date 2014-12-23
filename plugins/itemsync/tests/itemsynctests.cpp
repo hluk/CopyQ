@@ -23,7 +23,6 @@
 
 #include <QDir>
 #include <QFile>
-#include <QTemporaryFile>
 #include <QTest>
 
 #define RUN(arguments, stdoutExpected) \

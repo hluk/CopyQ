@@ -30,7 +30,6 @@ class ConfigTabAppearance;
 class ClipboardBrowser;
 class Option;
 class QSettings;
-class QTemporaryFile;
 
 class ConfigTabAppearance : public QWidget
 {
