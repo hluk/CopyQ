@@ -138,6 +138,8 @@ void renameToUnique(QString *name, const QStringList &names);
 
 bool openTemporaryFile(QTemporaryFile *file);
 
+QByteArray readTemporaryFileContent(const QTemporaryFile &file);
+
 int pointsToPixels(int points);
 
 void initSingleShotTimer(QTimer *timer, int milliseconds, const QObject *object = NULL, const char *slot = NULL);

@@ -457,3 +457,10 @@ QString dataToText(const QByteArray &bytes, const QString &mime)
 
     return codec->toUnicode(bytes);
 }
+
+QByteArray readTemporaryFileContent(const QTemporaryFile &file)
+{
+    // Open temporary file with other QFile instance so the file cache is up-to-date.
+    QFile file2(file.fileName());
+    return file2.open(QIODevice::ReadOnly) ? file2.readAll() : QByteArray();
+}

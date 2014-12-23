@@ -519,12 +519,7 @@ void ConfigTabAppearance::on_pushButtonEditTheme_clicked()
         settings.sync();
     }
 
-    // Open temporary file with other QFile instance so the file cache is up-to-date.
-    QFile themeFile(tmpfile.fileName());
-    if (!themeFile.open(QIODevice::ReadOnly))
-        return;
-
-    QByteArray data = themeFile.readAll();
+    QByteArray data = readTemporaryFileContent(tmpfile);
     // keep ini file user friendly
     data.replace("\\n",
 #ifdef Q_OS_WIN

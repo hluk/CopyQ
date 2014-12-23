@@ -458,7 +458,7 @@ QString CommandDialog::serializeSelectedCommands()
     commandsSettings.sync();
 
     // Replace ugly '\n' with indented lines.
-    const QString data = QString::fromUtf8(tmpfile.readAll());
+    const QString data = QString::fromUtf8(readTemporaryFileContent(tmpfile));
     QString commandData;
     commandData.reserve(data.size());
     QRegExp re("^(\\d+\\\\)?Command=\"");
