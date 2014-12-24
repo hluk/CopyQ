@@ -361,18 +361,18 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
         "QToolBar QToolButton{color:" + themeColorString("fg") + "}"
 
         // Remove icon border in menus.
-        "QMenu::item:selected{border:none}"
-        "QMenu::item{"
+        "#menu_bar QMenu::item:selected{border:none}"
+        "#menu_bar QMenu::item{"
           ";padding:0.2em 1em 0.2em 1em"
           ";padding-left:" + QString::number(iconSize * 2) + "px}"
-        "QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
+        "#menu_bar QMenu::icon{padding-left:" + QString::number(iconSize / 2) + "px}"
 
-        "QMenu {" + themeStyleSheet("menu_css") + "}"
-        "#menu_bar, #menu_bar::item, QMenu, QMenu::item, QMenu::separator {"
+        "#menu_bar QMenu {" + themeStyleSheet("menu_css") + "}"
+        "#menu_bar, #menu_bar::item, #menu_bar QMenu, #menu_bar QMenu::item, #menu_bar QMenu::separator {"
           + themeStyleSheet("menu_bar_css") + "}"
-        "#menu_bar::item:selected, QMenu::item:selected {"
+        "#menu_bar::item:selected, #menu_bar QMenu::item:selected {"
           + themeStyleSheet("menu_bar_selected_css") + "}"
-        "#menu_bar::item:disabled, QMenu::item:disabled {"
+        "#menu_bar::item:disabled, #menu_bar QMenu::item:disabled {"
           + themeStyleSheet("menu_bar_disabled_css") + "}"
 
         + themeStyleSheet("css")
