@@ -123,7 +123,7 @@ bool deserializeDataV2(QDataStream *out, QVariantMap *data)
 
 void serializeData(QDataStream *stream, const QVariantMap &data)
 {
-    *stream << (qint32)(-2);
+    *stream << static_cast<qint32>(-2);
 
     const qint32 size = data.size();
     *stream << size;

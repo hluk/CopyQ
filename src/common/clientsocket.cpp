@@ -134,7 +134,7 @@ void ClientSocket::sendMessage(const QByteArray &message, int messageCode)
     } else {
         QByteArray msg;
         QDataStream out(&msg, QIODevice::WriteOnly);
-        out << (qint32)messageCode;
+        out << static_cast<qint32>(messageCode);
         out.writeRawData( message.constData(), message.length() );
         if ( writeMessage(m_socket, msg) )
             SOCKET_LOG("Message sent to client.");

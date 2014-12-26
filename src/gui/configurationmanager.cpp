@@ -880,7 +880,7 @@ void setDefaultTabItemCounterStyle(QWidget *widget)
 {
     QFont font = widget->font();
     const qreal pointSize = font.pointSizeF();
-    if (pointSize != -1)
+    if (pointSize > 0.0)
         font.setPointSizeF(pointSize * 0.7);
     else
         font.setPixelSize(font.pixelSize() * 0.7);

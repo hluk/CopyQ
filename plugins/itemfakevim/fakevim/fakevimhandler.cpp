@@ -93,14 +93,14 @@
 #include <ctype.h>
 
 //#define DEBUG_KEY  1
-#if DEBUG_KEY
+#ifdef DEBUG_KEY
 #   define KEY_DEBUG(s) qDebug() << s
 #else
 #   define KEY_DEBUG(s)
 #endif
 
 //#define DEBUG_UNDO  1
-#if DEBUG_UNDO
+#ifdef DEBUG_UNDO
 #   define UNDO_DEBUG(s) qDebug() << "REV" << revision() << s
 #else
 #   define UNDO_DEBUG(s)

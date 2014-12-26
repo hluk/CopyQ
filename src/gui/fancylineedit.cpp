@@ -173,7 +173,7 @@ void FancyLineEdit::iconClicked()
     if (d->m_menu[index]) {
         execMenuAtWidget(d->m_menu[index], button);
     } else {
-        emit buttonClicked((Side)index);
+        emit buttonClicked(static_cast<Side>(index));
         if (index == Left)
             emit leftButtonClicked();
         else if (index == Right)
@@ -207,7 +207,7 @@ void FancyLineEdit::updateButtonPositions()
 {
     QRect contentRect = rect();
     for (int i = 0; i < 2; ++i) {
-        Side iconpos = (Side)i;
+        Side iconpos = static_cast<Side>(i);
         if (layoutDirection() == Qt::RightToLeft)
             iconpos = (iconpos == Left ? Right : Left);
 

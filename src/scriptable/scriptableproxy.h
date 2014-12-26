@@ -310,7 +310,7 @@ public:
     PROXY_METHOD(showBrowser)
     PROXY_METHOD_VOID_1(showBrowser, const QString &)
 
-    PROXY_METHOD_1(qulonglong, openActionDialog, const QVariantMap &)
+    PROXY_METHOD_1(qlonglong, openActionDialog, const QVariantMap &)
     PROXY_METHOD_VOID_2(action, const QVariantMap &, const Command &)
 
     PROXY_METHOD_1(bool, loadTab, const QString &)

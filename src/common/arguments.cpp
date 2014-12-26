@@ -125,7 +125,7 @@ QDataStream &operator <<(QDataStream &stream, const Arguments &args)
     stream << len;
     for( int i = 0; i<len; ++i ) {
         const QByteArray &arg = args.at(i);
-        stream.writeBytes(arg.constData(), (uint)arg.length());
+        stream.writeBytes(arg.constData(), static_cast<uint>(arg.length()));
     }
 
     return stream;

@@ -104,12 +104,12 @@ PlatformWindowPtr X11Platform::getCurrentWindow()
 
 PlatformWindowPtr X11Platform::deserialize(const QByteArray &data)
 {
-    return getWindow((WId)(data.toLongLong()));
+    return getWindow(static_cast<WId>(data.toLongLong()));
 }
 
 bool X11Platform::serialize(WId winId, QByteArray *data)
 {
-    *data = QByteArray::number((qlonglong)winId);
+    *data = QByteArray::number(static_cast<qlonglong>(winId));
     return true;
 }
 

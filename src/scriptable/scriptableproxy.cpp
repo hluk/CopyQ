@@ -482,7 +482,7 @@ void ScriptableProxyHelper::findTabIndex(const QString &arg1)
 
 void ScriptableProxyHelper::openActionDialog(const QVariantMap &arg1)
 {
-    v = (qulonglong)m_wnd->openActionDialog(arg1);
+    v = static_cast<qlonglong>(m_wnd->openActionDialog(arg1));
 }
 
 void ScriptableProxyHelper::loadTab(const QString &arg1)
