@@ -724,8 +724,7 @@ void Scriptable::action()
                                                   : QString('\n');
         m_proxy->action(data, command);
     } else {
-        QByteArray message = QByteArray::number(m_proxy->openActionDialog(data));
-        sendMessageToClient(message, CommandActivateWindow);
+        sendWindowActivationCommandToClient(m_proxy->openActionDialog(data));
     }
 }
 
