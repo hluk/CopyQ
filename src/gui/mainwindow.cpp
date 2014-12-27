@@ -1743,7 +1743,7 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
 
     if (m_currentAutomaticCommand) {
         connect(m_currentAutomaticCommand, SIGNAL(destroyed()),
-                &m_automaticCommandTester, SLOT(start()));
+                &m_automaticCommandTester, SLOT(start()), Qt::UniqueConnection);
     } else {
         m_automaticCommandTester.start();
     }
