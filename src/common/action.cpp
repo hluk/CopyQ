@@ -337,8 +337,10 @@ void Action::actionFinished()
 
 void Action::actionOutput()
 {
+    const QByteArray output = readAll();
+
     if (hasTextOutput()) {
-        m_lastOutput.append( QString::fromUtf8(readAll()) );
+        m_lastOutput.append( QString::fromUtf8(output) );
         if ( !m_lastOutput.isEmpty() && !m_sep.isEmpty() ) {
             // Split to items.
             QStringList items;
@@ -351,7 +353,7 @@ void Action::actionOutput()
             }
         }
     } else if (!m_outputFormat.isEmpty()) {
-        m_outputData.append( readAll() );
+        m_outputData.append(output);
     }
 }
 
