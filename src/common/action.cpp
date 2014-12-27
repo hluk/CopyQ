@@ -367,12 +367,12 @@ bool Action::hasTextOutput() const
     return !m_outputFormat.isEmpty() && m_outputFormat == mimeText;
 }
 
-void Action::terminate(int msecs)
+void Action::terminate()
 {
     // try to terminate process
     QProcess::terminate();
     // if process still running: kill it
-    if ( msecs > 0 && !waitForFinished(msecs) )
+    if ( !waitForFinished(5000) )
         kill();
 }
 

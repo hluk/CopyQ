@@ -98,7 +98,7 @@ public:
 
 public slots:
     /** Terminate (kill) process. */
-    void terminate(int msecs = 5000);
+    void terminate();
 
 signals:
     /** Emitted on error. */

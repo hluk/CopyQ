@@ -38,10 +38,8 @@ void CommandTester::abort()
     m_commands.clear();
     m_data.clear();
 
-    if (m_action) {
+    if (m_action)
         m_abort = true;
-        m_action->terminate(0);
-    }
 }
 
 void CommandTester::setCommands(
