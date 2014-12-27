@@ -201,6 +201,9 @@ Action::Action(QObject *parent)
 
 Action::~Action()
 {
+    closeSubCommands();
+    close();
+
     const QMutexLocker lock(&actionsLock);
     const int i = actions.indexOf(this);
     Q_ASSERT(i != -1);
@@ -245,7 +248,10 @@ void Action::setInput(const QVariantMap &data, const QString &inputFormat)
 
 void Action::start()
 {
+    closeSubCommands();
+
     if ( m_currentLine + 1 >= m_cmds.size() ) {
+        close();
         emit actionFinished(this);
         return;
     }
@@ -292,6 +298,8 @@ void Action::actionError(QProcess::ProcessError)
 {
     if ( state() != Running ) {
         m_failed = true;
+        closeSubCommands();
+        close();
         emit actionFinished(this);
     }
 }
@@ -381,4 +389,10 @@ bool Action::canEmitNewItems() const
     return (m_index.isValid() || !m_tab.isEmpty())
             && ( (!m_outputFormat.isEmpty() && !m_outputData.isNull())
                  || (m_outputFormat == mimeText && !m_lastOutput.isEmpty()) );
+}
+
+void Action::closeSubCommands()
+{
+    foreach (QProcess *p, findChildren<QProcess*>())
+        delete p;
 }

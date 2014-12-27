@@ -130,6 +130,8 @@ private:
     bool hasTextOutput() const;
     bool canEmitNewItems() const;
 
+    void closeSubCommands();
+
     QByteArray m_input;
     QRegExp m_sep;
     QList< QList<QStringList> > m_cmds;
