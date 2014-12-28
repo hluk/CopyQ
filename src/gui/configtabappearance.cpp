@@ -340,8 +340,7 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 
         "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
 
-        "#tab_tree::branch:selected"
-        ",#tab_tree::item:selected"
+        "#tab_tree::item:selected"
         ",#tab_tree_item[CopyQ_selected=\"true\"]"
         "{"
         + themeStyleSheet("tab_tree_sel_item_css") +
@@ -908,6 +907,7 @@ void ConfigTabAppearance::resetTheme()
     m_theme["tab_tree_sel_item_css"] = Option(
                 "\n    ;color: ${sel_fg}"
                 "\n    ;background-color: ${sel_bg}"
+                "\n    ;border-radius: 2px"
                 );
     m_theme["tab_tree_item_counter"] = Option(
                 "\n    ;color: ${fg - #044 + #400}"
