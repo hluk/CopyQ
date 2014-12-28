@@ -996,12 +996,12 @@ QScriptValue Scriptable::execute()
 
     while ( !action.waitForFinished(5000) && m_engine->isEvaluating() ) {}
 
-    if ( action.state() != QProcess::NotRunning && !action.waitForFinished(5000) ) {
+    if ( action.isRunning() && !action.waitForFinished(5000) ) {
         action.terminate();
         return QScriptValue();
     }
 
-    if (action.exitStatus() != QProcess::NormalExit)
+    if ( action.actionFailed() )
         return QScriptValue();
 
     QScriptValue actionResult = m_engine->newObject();

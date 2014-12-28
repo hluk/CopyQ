@@ -171,29 +171,12 @@ QMutex Action::actionsLock;
 QVector<Action*> Action::actions;
 
 Action::Action(QObject *parent)
-    : QProcess(parent)
+    : QObject(parent)
     , m_failed(false)
-    , m_firstProcess(NULL)
     , m_currentLine(-1)
+    , m_exitCode(0)
 {
-    setProcessChannelMode(QProcess::SeparateChannels);
-    connect( this, SIGNAL(error(QProcess::ProcessError)),
-             SLOT(actionError(QProcess::ProcessError)) );
-    connect( this, SIGNAL(started()),
-             SLOT(actionStarted()) );
-    connect( this, SIGNAL(finished(int,QProcess::ExitStatus)),
-             SLOT(actionFinished()) );
-    connect( this, SIGNAL(readyReadStandardError()),
-             SLOT(actionErrorOutput()) );
-
-    connect( this, SIGNAL(readyReadStandardOutput()),
-             this, SLOT(actionOutput()) );
-
-    quintptr id = actionId(this);
-    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
-    env.insert("COPYQ_ACTION_ID", QString::number(id));
-    setProcessEnvironment(env);
-    setProperty("COPYQ_ACTION_ID", id);
+    setProperty("COPYQ_ACTION_ID", actionId(this));
 
     const QMutexLocker lock(&actionsLock);
     actions.append(this);
@@ -202,7 +185,6 @@ Action::Action(QObject *parent)
 Action::~Action()
 {
     closeSubCommands();
-    close();
 
     const QMutexLocker lock(&actionsLock);
     const int i = actions.indexOf(this);
@@ -251,7 +233,6 @@ void Action::start()
     closeSubCommands();
 
     if ( m_currentLine + 1 >= m_cmds.size() ) {
-        close();
         emit actionFinished(this);
         return;
     }
@@ -261,25 +242,51 @@ void Action::start()
 
     Q_ASSERT( !cmds.isEmpty() );
 
-    if ( cmds.size() > 1 ) {
-        QProcess *lastProcess = new QProcess(this);
-        m_firstProcess = lastProcess;
-        for ( int i = 0; i + 1 < cmds.size(); ++i ) {
-            const QStringList &args = cmds[i];
-            Q_ASSERT( !args.isEmpty() );
-            QProcess *process = (i + 2 == cmds.size()) ? this : new QProcess(this);
-            lastProcess->setStandardOutputProcess(process);
-            startProcess(lastProcess, args);
-            lastProcess = process;
-        }
-    } else {
-        m_firstProcess = this;
+    QProcessEnvironment env = QProcessEnvironment::systemEnvironment();
+    env.insert("COPYQ_ACTION_ID", QString::number(actionId(this)));
+
+    for (int i = 0; i < cmds.size(); ++i) {
+        m_processes.append(new QProcess(this));
+        m_processes.last()->setProcessEnvironment(env);
     }
 
-    if (m_outputFormat.isEmpty())
-        closeReadChannel(QProcess::StandardOutput);
+    for (int i = 1; i < m_processes.size(); ++i)
+        m_processes[i - 1]->setStandardOutputProcess(m_processes[i]);
 
-    startProcess(this, cmds.last());
+    connect( m_processes.last(), SIGNAL(error(QProcess::ProcessError)),
+             SLOT(actionError(QProcess::ProcessError)) );
+    connect( m_processes.last(), SIGNAL(started()),
+             SLOT(actionStarted()) );
+    connect( m_processes.last(), SIGNAL(finished(int,QProcess::ExitStatus)),
+             SLOT(actionFinished()) );
+    connect( m_processes.last(), SIGNAL(readyReadStandardError()),
+             SLOT(actionErrorOutput()) );
+    connect( m_processes.last(), SIGNAL(readyReadStandardOutput()),
+             this, SLOT(actionOutput()) );
+
+    if (m_outputFormat.isEmpty())
+        m_processes.last()->closeReadChannel(QProcess::StandardOutput);
+
+    for (int i = 0; i < m_processes.size(); ++i)
+        startProcess(m_processes[i], cmds[i]);
+
+    m_processes.first()->write(m_input);
+    m_processes.first()->closeWriteChannel();
+}
+
+bool Action::waitForStarted(int msecs)
+{
+    return !m_processes.isEmpty() && m_processes.last()->waitForStarted(msecs);
+}
+
+bool Action::waitForFinished(int msecs)
+{
+    return m_processes.isEmpty() || m_processes.last()->waitForFinished(msecs);
+}
+
+bool Action::isRunning() const
+{
+    return !m_processes.isEmpty() && m_processes.last()->state() != QProcess::NotRunning;
 }
 
 void Action::setData(const QVariantMap &data)
@@ -296,26 +303,17 @@ QVariantMap Action::data(quintptr id)
 
 void Action::actionError(QProcess::ProcessError)
 {
-    if ( state() != Running ) {
+    if ( !isRunning() ) {
         m_failed = true;
         closeSubCommands();
-        close();
         emit actionFinished(this);
     }
 }
 
 void Action::actionStarted()
 {
-    if (m_firstProcess == NULL)
-        return;
-
-    // write input
-    if ( !m_input.isEmpty() )
-        m_firstProcess->write( m_input );
-    m_firstProcess->closeWriteChannel();
-    m_firstProcess = NULL;
-
-    emit actionStarted(this);
+    if (m_currentLine == 0)
+        emit actionStarted(this);
 }
 
 void Action::actionFinished()
@@ -345,7 +343,7 @@ void Action::actionFinished()
 
 void Action::actionOutput()
 {
-    const QByteArray output = readAll();
+    const QByteArray output = m_processes.last()->readAll();
 
     if (hasTextOutput()) {
         m_lastOutput.append( QString::fromUtf8(output) );
@@ -367,7 +365,7 @@ void Action::actionOutput()
 
 void Action::actionErrorOutput()
 {
-    m_errstr += QString::fromUtf8( readAllStandardError() );
+    m_errstr += QString::fromUtf8( m_processes.last()->readAllStandardError() );
 }
 
 bool Action::hasTextOutput() const
@@ -377,11 +375,16 @@ bool Action::hasTextOutput() const
 
 void Action::terminate()
 {
+    if (m_processes.isEmpty())
+        return;
+
     // try to terminate process
-    QProcess::terminate();
+    foreach (QProcess *p, m_processes)
+        p->terminate();
+
     // if process still running: kill it
-    if ( !waitForFinished(5000) )
-        kill();
+    if ( !m_processes.last()->waitForFinished(5000) )
+        m_processes.last()->kill();
 }
 
 bool Action::canEmitNewItems() const
@@ -393,6 +396,15 @@ bool Action::canEmitNewItems() const
 
 void Action::closeSubCommands()
 {
-    foreach (QProcess *p, findChildren<QProcess*>())
+    if (m_processes.isEmpty())
+        return;
+
+    m_exitCode = m_processes.last()->exitCode();
+    m_errorString = m_processes.last()->errorString();
+    m_failed = m_failed || m_processes.last()->exitStatus() != QProcess::NormalExit;
+
+    foreach (QProcess *p, m_processes)
         delete p;
+
+    m_processes.clear();
 }

@@ -120,7 +120,7 @@ void ActionHandler::closeAction(Action *action)
 
     QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information;
 
-    if ( action->actionFailed() || action->exitStatus() != QProcess::NormalExit ) {
+    if ( action->actionFailed() ) {
         msg += tr("Error: %1\n").arg(action->errorString()) + action->errorOutput();
         icon = QSystemTrayIcon::Critical;
     } else if ( action->exitCode() != 0 ) {

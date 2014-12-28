@@ -74,7 +74,7 @@ void CommandTester::start()
 void CommandTester::actionFinished()
 {
     Q_ASSERT(m_action);
-    Q_ASSERT(m_action->state() == QProcess::NotRunning);
+    Q_ASSERT(!m_action->isRunning());
 
     bool passed = !m_action->actionFailed() && m_action->exitCode() == 0;
     delete m_action;
