@@ -77,7 +77,7 @@ void CommandTester::actionFinished()
     Q_ASSERT(!m_action->isRunning());
 
     bool passed = !m_action->actionFailed() && m_action->exitCode() == 0;
-    delete m_action;
+    m_action->deleteLater();
     m_action = NULL;
 
     if (m_abort) {

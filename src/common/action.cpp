@@ -24,6 +24,7 @@
 
 #include <QCoreApplication>
 #include <QProcessEnvironment>
+#include <QPointer>
 
 #include <string.h>
 
@@ -38,6 +39,18 @@ void startProcess(QProcess *process, const QStringList &args)
         executable = QCoreApplication::applicationFilePath();
 
     process->start(executable, args.mid(1), QIODevice::ReadWrite);
+}
+
+void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
+{
+    if (input.isEmpty() || !p)
+        return;
+
+    p->write(input);
+    p->closeWriteChannel();
+
+    while ( p && !p->waitForBytesWritten(0) )
+        QCoreApplication::processEvents();
 }
 
 template <typename Entry, typename Container>
@@ -248,30 +261,35 @@ void Action::start()
     for (int i = 0; i < cmds.size(); ++i) {
         m_processes.append(new QProcess(this));
         m_processes.last()->setProcessEnvironment(env);
+
+        connect( m_processes.last(), SIGNAL(error(QProcess::ProcessError)),
+                 SLOT(actionError(QProcess::ProcessError)) );
+        connect( m_processes.last(), SIGNAL(readyReadStandardError()),
+                 SLOT(actionErrorOutput()) );
     }
 
-    for (int i = 1; i < m_processes.size(); ++i)
+    for (int i = 1; i < m_processes.size(); ++i) {
         m_processes[i - 1]->setStandardOutputProcess(m_processes[i]);
+        connect( m_processes[i], SIGNAL(finished(int)),
+                 m_processes[i - 1], SLOT(terminate()) );
+    }
 
-    connect( m_processes.last(), SIGNAL(error(QProcess::ProcessError)),
-             SLOT(actionError(QProcess::ProcessError)) );
     connect( m_processes.last(), SIGNAL(started()),
-             SLOT(actionStarted()) );
+             this, SLOT(actionStarted()) );
     connect( m_processes.last(), SIGNAL(finished(int,QProcess::ExitStatus)),
-             SLOT(actionFinished()) );
-    connect( m_processes.last(), SIGNAL(readyReadStandardError()),
-             SLOT(actionErrorOutput()) );
+             this, SLOT(actionFinished()) );
     connect( m_processes.last(), SIGNAL(readyReadStandardOutput()),
              this, SLOT(actionOutput()) );
+
+    // Writing directly to stdin of a process on Windows can hang the app.
+    connect( m_processes.first(), SIGNAL(started()),
+             this, SLOT(writeInput()), Qt::QueuedConnection );
 
     if (m_outputFormat.isEmpty())
         m_processes.last()->closeReadChannel(QProcess::StandardOutput);
 
     for (int i = 0; i < m_processes.size(); ++i)
         startProcess(m_processes[i], cmds[i]);
-
-    m_processes.first()->write(m_input);
-    m_processes.first()->closeWriteChannel();
 }
 
 bool Action::waitForStarted(int msecs)
@@ -303,8 +321,15 @@ QVariantMap Action::data(quintptr id)
 
 void Action::actionError(QProcess::ProcessError)
 {
+    QProcess *p = qobject_cast<QProcess*>(sender());
+    Q_ASSERT(p);
+
+    if (!m_errorString.isEmpty())
+        m_errorString.append("\n");
+    m_errorString.append( p->errorString() );
+    m_failed = true;
+
     if ( !isRunning() ) {
-        m_failed = true;
         closeSubCommands();
         emit actionFinished(this);
     }
@@ -343,7 +368,10 @@ void Action::actionFinished()
 
 void Action::actionOutput()
 {
-    const QByteArray output = m_processes.last()->readAll();
+    QProcess *p = qobject_cast<QProcess*>(sender());
+    Q_ASSERT(p);
+
+    const QByteArray output = p->readAll();
 
     if (hasTextOutput()) {
         m_lastOutput.append( QString::fromUtf8(output) );
@@ -365,7 +393,16 @@ void Action::actionOutput()
 
 void Action::actionErrorOutput()
 {
-    m_errstr += QString::fromUtf8( m_processes.last()->readAllStandardError() );
+    QProcess *p = qobject_cast<QProcess*>(sender());
+    Q_ASSERT(p);
+
+    m_errstr.append( QString::fromUtf8(p->readAllStandardError()) );
+}
+
+void Action::writeInput()
+{
+    if (m_processes.value(0) == sender())
+        startWritingInput(m_input, m_processes.value(0));
 }
 
 bool Action::hasTextOutput() const
@@ -400,11 +437,10 @@ void Action::closeSubCommands()
         return;
 
     m_exitCode = m_processes.last()->exitCode();
-    m_errorString = m_processes.last()->errorString();
     m_failed = m_failed || m_processes.last()->exitStatus() != QProcess::NormalExit;
 
     foreach (QProcess *p, m_processes)
-        delete p;
+        p->deleteLater();
 
     m_processes.clear();
 }
