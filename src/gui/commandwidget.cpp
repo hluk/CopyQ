@@ -35,9 +35,14 @@
 
 namespace {
 
-QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)
+const char globalShortcutsDisabled[] = "DISABLED";
+
+QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {
     QStringList shortcutTexts;
+
+    if (!enabled)
+        shortcutTexts.append(globalShortcutsDisabled);
 
     foreach (const QKeySequence &shortcut, shortcuts)
         shortcutTexts.append(shortcut.toString(QKeySequence::PortableText));
@@ -45,12 +50,24 @@ QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts)
     return shortcutTexts;
 }
 
-void deserializeShortcuts(const QStringList &serializedShortcuts, ShortcutButton *shortcutButton)
+void deserializeShortcuts(
+        const QStringList &serializedShortcuts, ShortcutButton *shortcutButton,
+        QCheckBox *checkBoxEnabled = NULL
+        )
 {
     shortcutButton->resetShortcuts();
 
-    foreach (const QString &shortcutText, serializedShortcuts)
-        shortcutButton->addShortcut(shortcutText);
+    bool enabled = !serializedShortcuts.isEmpty();
+
+    foreach (const QString &shortcutText, serializedShortcuts) {
+        if (shortcutText == globalShortcutsDisabled)
+            enabled = false;
+        else
+            shortcutButton->addShortcut(shortcutText);
+    }
+
+    if (checkBoxEnabled)
+        checkBoxEnabled->setChecked(enabled);
 }
 
 void setComboBoxItems(const QStringList &items, QComboBox *w)
@@ -105,7 +122,9 @@ Command CommandWidget::command() const
     c.enable = true;
     c.icon   = ui->buttonIcon->currentIcon();
     c.shortcuts = serializeShortcuts( ui->shortcutButton->shortcuts() );
-    c.globalShortcuts = serializeShortcuts( ui->shortcutButtonGlobalShortcut->shortcuts() );
+    c.globalShortcuts = serializeShortcuts(
+                ui->shortcutButtonGlobalShortcut->shortcuts(),
+                ui->checkBoxGlobalShortcut->isChecked() );
     c.tab    = ui->comboBoxCopyToTab->currentText();
     c.outputTab = ui->comboBoxOutputTab->currentText();
 
@@ -135,7 +154,10 @@ void CommandWidget::setCommand(const Command &c)
     ui->checkBoxHideWindow->setChecked(c.hideWindow);
     ui->buttonIcon->setCurrentIcon(c.icon);
     deserializeShortcuts(c.shortcuts, ui->shortcutButton);
-    deserializeShortcuts(c.globalShortcuts, ui->shortcutButtonGlobalShortcut);
+    deserializeShortcuts(
+                c.globalShortcuts,
+                ui->shortcutButtonGlobalShortcut,
+                ui->checkBoxGlobalShortcut);
     ui->comboBoxCopyToTab->setEditText(c.tab);
     ui->comboBoxOutputTab->setEditText(c.outputTab);
 }
@@ -172,6 +194,11 @@ void CommandWidget::on_checkBoxInMenu_stateChanged(int)
     updateWidgets();
 }
 
+void CommandWidget::on_checkBoxGlobalShortcut_stateChanged(int)
+{
+    updateWidgets();
+}
+
 void CommandWidget::on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &)
 {
     updateWidgets();
@@ -199,8 +226,8 @@ void CommandWidget::init()
     updateWidgets();
 
 #ifdef NO_GLOBAL_SHORTCUTS
+    ui->checkBoxGlobalShortcut->hide();
     ui->shortcutButtonGlobalShortcut->hide();
-    ui->labelGlobalShortcut->hide();
 #else
     ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
 #endif
@@ -233,9 +260,12 @@ void CommandWidget::updateWidgets()
 #ifdef NO_GLOBAL_SHORTCUTS
     bool globalShortcut = false;
 #else
-    bool globalShortcut = ui->shortcutButtonGlobalShortcut->shortcutCount() > 0;
+    bool globalShortcut =
+            ui->checkBoxGlobalShortcut->isChecked()
+            && ui->shortcutButtonGlobalShortcut->shortcutCount() > 0;
 #endif
 
+    ui->shortcutButtonGlobalShortcut->setEnabled(ui->checkBoxGlobalShortcut->isChecked());
     ui->groupBoxMatchItems->setVisible(copyOrExecute);
     ui->groupBoxCommand->setVisible(copyOrExecute || globalShortcut);
     ui->groupBoxAction->setVisible(copyOrExecute);

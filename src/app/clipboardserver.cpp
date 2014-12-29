@@ -211,11 +211,13 @@ void ClipboardServer::createGlobalShortcuts()
     QList<QKeySequence> usedShortcuts;
 
     foreach ( const Command &command, loadCommands() ) {
-        foreach (const QString &shortcutText, command.globalShortcuts) {
-            QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
-            if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
-                usedShortcuts.append(shortcut);
-                createGlobalShortcut(shortcut, command);
+        if ( !command.globalShortcuts.contains("DISABLED") ) {
+            foreach (const QString &shortcutText, command.globalShortcuts) {
+                QKeySequence shortcut(shortcutText, QKeySequence::PortableText);
+                if ( !shortcut.isEmpty() && !usedShortcuts.contains(shortcut) ) {
+                    usedShortcuts.append(shortcut);
+                    createGlobalShortcut(shortcut, command);
+                }
             }
         }
     }

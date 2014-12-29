@@ -67,6 +67,8 @@ private slots:
 
     void on_checkBoxInMenu_stateChanged(int);
 
+    void on_checkBoxGlobalShortcut_stateChanged(int);
+
     void on_shortcutButtonGlobalShortcut_shortcutAdded(const QKeySequence &shortcut);
 
     void on_shortcutButtonGlobalShortcut_shortcutRemoved(const QKeySequence &shortcut);

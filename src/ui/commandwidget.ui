@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>302</width>
-    <height>684</height>
+    <width>296</width>
+    <height>678</height>
    </rect>
   </property>
   <property name="focusPolicy">
@@ -91,17 +91,17 @@
       <item>
        <layout class="QHBoxLayout" name="horizontalLayout_4">
         <item>
-         <widget class="QLabel" name="labelGlobalShortcut">
+         <widget class="QCheckBox" name="checkBoxGlobalShortcut">
           <property name="text">
            <string>&amp;Global Shortcut:</string>
-          </property>
-          <property name="buddy">
-           <cstring>shortcutButtonGlobalShortcut</cstring>
           </property>
          </widget>
         </item>
         <item>
          <widget class="ShortcutButton" name="shortcutButtonGlobalShortcut" native="true">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="focusPolicy">
            <enum>Qt::WheelFocus</enum>
           </property>
