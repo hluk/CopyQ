@@ -32,7 +32,7 @@ class QAction;
 /**
  * Execute external program.
  */
-class Action : public QProcess
+class Action : public QObject
 {
     Q_OBJECT
 public:
@@ -84,6 +84,12 @@ public:
     /** Execute command. */
     void start();
 
+    bool waitForStarted(int msecs);
+
+    bool waitForFinished(int msecs);
+
+    bool isRunning() const;
+
     /** Set human-readable name for action. */
     void setName(const QString &actionName) { m_name = actionName; }
 
@@ -92,13 +98,16 @@ public:
 
     QByteArray outputData() const { return m_outputData; }
 
+    int exitCode() const { return m_exitCode; }
+    QString errorString() const { return m_errorString; }
+
     void setData(const QVariantMap &data);
 
     static QVariantMap data(quintptr id);
 
 public slots:
     /** Terminate (kill) process. */
-    void terminate(int msecs = 5000);
+    void terminate();
 
 signals:
     /** Emitted on error. */
@@ -122,6 +131,7 @@ private slots:
     void actionFinished();
     void actionOutput();
     void actionErrorOutput();
+    void writeInput();
 
 private:
     static QMutex actionsLock;
@@ -129,6 +139,8 @@ private:
 
     bool hasTextOutput() const;
     bool canEmitNewItems() const;
+
+    void closeSubCommands();
 
     QByteArray m_input;
     QRegExp m_sep;
@@ -141,11 +153,14 @@ private:
     QString m_lastOutput;
     QByteArray m_outputData;
     bool m_failed;
-    QProcess *m_firstProcess; //!< First process in pipe.
     int m_currentLine;
     QString m_name;
     QStringList m_items;
     QVariantMap m_data;
+    QVector<QProcess*> m_processes;
+
+    int m_exitCode;
+    QString m_errorString;
 };
 
 #endif // ACTION_H

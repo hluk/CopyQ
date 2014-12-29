@@ -71,6 +71,7 @@ enum IconId {
     IconLink = 0xf0c1,
     IconCopy = 0xf0c5,
     IconSave = 0xf0c7,
+    IconBars = 0xf0c9,
     IconListOl = 0xf0cb,
     IconSortDown = 0xf0dd,
     IconSortUp = 0xf0de,
