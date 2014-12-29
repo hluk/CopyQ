@@ -37,6 +37,10 @@ namespace {
 
 const char globalShortcutsDisabled[] = "DISABLED";
 
+const QIcon iconClipboard() { return getIcon("", IconPaste); }
+const QIcon iconMenu() { return getIcon("", IconBars); }
+const QIcon iconShortcut() { return getIcon("", IconKeyboard); }
+
 QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enabled = true)
 {
     QStringList shortcutTexts;
@@ -229,10 +233,14 @@ void CommandWidget::init()
     ui->checkBoxGlobalShortcut->hide();
     ui->shortcutButtonGlobalShortcut->hide();
 #else
+    ui->checkBoxGlobalShortcut->setIcon(iconShortcut());
     ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
 #endif
 
     ui->groupBoxCommand->setFocusProxy(ui->commandEdit);
+
+    ui->checkBoxAutomatic->setIcon(iconClipboard());
+    ui->checkBoxInMenu->setIcon(iconMenu());
 
     ConfigurationManager *cm = ConfigurationManager::instance();
 
