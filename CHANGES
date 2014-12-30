@@ -1,3 +1,11 @@
+v2.4.3
+- Plugin for tagging items
+- Plugins can provide script functions and commands
+- Improved automatic commands execution
+- Fixed gradients, transparency and other style improvements
+- Fixed decryption with newer version of GnuPG
+- Fixes for Qt 5 version
+
 v2.4.2
 - Send input data to execute()
 - Better clipboard encoding guessing
