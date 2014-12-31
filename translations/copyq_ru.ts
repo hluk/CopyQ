@@ -6,7 +6,7 @@
     <message>
         <location filename="../src/ui/aboutdialog.ui" line="14"/>
         <source>CopyQ About</source>
-        <translation>О программе CopyQ</translation>
+        <translation>CopyQ: О программе</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="133"/>
@@ -59,25 +59,25 @@
         <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation type="unfinished">Библиотека, используемая в приложении</translation>
+        <translation>Библиотека, используемая в приложении</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation type="unfinished">Библиотека, используемая в приложении</translation>
+        <translation>Библиотека, используемая в приложении</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation type="unfinished">Шрифт со значками, используемый в приложении</translation>
+        <translation>Шрифт со значками, используемый в приложении</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation type="unfinished">Цветовая палитра, используемая в темах</translation>
+        <translation>Цветовая палитра, используемая в темах</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="187"/>
@@ -113,7 +113,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="unfinished">Стрелка вверх/стрелка вниз, Page Up/Page Down, Home/End</translation>
+        <translation>Вверх/Вниз, Page Up/Down, Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="204"/>
@@ -124,7 +124,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="205"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation>влево, вправо, %1, %2</translation>
+        <translation>Влево, Вправо, %1, %2</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
@@ -134,7 +134,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation>Ctrl + вверх/вниз, Ctrl + Home/End</translation>
+        <translation>Ctrl + Вверх/Вниз, Ctrl + Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
@@ -144,7 +144,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Escape</source>
-        <translation>Esc</translation>
+        <translation>Escape</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
@@ -169,7 +169,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Ctrl+Left/Right</source>
-        <translation>Ctrl + влево/вправо</translation>
+        <translation>Ctrl + Влево/Вправо</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
@@ -187,35 +187,35 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>Диалоговое окно действий CopyQ</translation>
+        <translation>CopyQ: Окно действий</translation>
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; в &lt;b&gt;команде&lt;/b&gt; — это &lt;b&gt;текст&lt;/b&gt; выбранных элементов. Текст может быть изменен и передан на &lt;b&gt;стандартный ввод&lt;/b&gt; команды. Команды возможно связывать в цепь при помощи символа &lt;b&gt;|&lt;/b&gt; (то есть минуя стандартный вывод).</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; в &lt;b&gt;команде&lt;/b&gt; — это &lt;b&gt;текст&lt;/b&gt; выбранных элементов. Текст может быть изменен и передан на &lt;b&gt;стандартный ввод&lt;/b&gt; команды. Также можно связывать команды в цепочку при помощи символа &lt;b&gt;|&lt;/b&gt; (то есть минуя стандартный вывод).</translation>
     </message>
     <message>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation type="vanished">Ко&amp;манда (%1 — это текст выбранных элементов):</translation>
+        <translation>&amp;Команда (%1 — это текст выбранных элементов):</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation>Стандартный вв&amp;од:</translation>
+        <translation>Стандартный &amp;ввод:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Сохранить стандартный выво&amp;д:</translation>
+        <translation>Сохранить стандартный в&amp;ывод:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation>Отправить данные указанного типа MIME на стандартный ввод команды (оставьте пустым для отключения)</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation>Создать элементы из стандартного вывода программы (оставьте пустым для отключения)</translation>
     </message>
     <message>
         <source>Send data of given MIME type to standard input of command (leave empty to disable).</source>
@@ -228,7 +228,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Команда:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -239,8 +239,8 @@
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Регулярное выражение для разрыва вывода на несколько элементов.&lt;\p&gt;↵
-&lt;p&gt;Используйте &lt;b&gt;\n&lt;/b&gt; для сохранения каждой строки в отдельном элементе.&lt;/p&gt;</translation>
+        <translation type="unfinished">&lt;p&gt;Регулярное выражение для разрыва вывода на несколько элементов.&lt;\p&gt;↵
+&lt;p&gt;Используйте &lt;b&gt;\n&lt;/b&gt; для разделения строк на несколько элементов.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
@@ -274,7 +274,7 @@ You can set up the command in preferences.</source>
     <name>ActionHandler</name>
     <message>
         <source>Co&amp;mmands</source>
-        <translation type="vanished">Ко&amp;манда</translation>
+        <translation type="unfinished">Ко&amp;манды</translation>
     </message>
     <message>
         <source>Executing: %1</source>
@@ -317,87 +317,87 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ: Добавить команды</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
         <source>New command</source>
-        <translation type="unfinished"/>
+        <translation>Новая команда</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Игнорировать элементы без символов или только с одним символом</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="152"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Открыть в &amp;браузере</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="160"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"/>
+        <translation>Вставить как обычный текст</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="166"/>
         <source>Shift+Return</source>
-        <translation type="unfinished"/>
+        <translation>Shift+Return</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="169"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"/>
+        <translation>Автовоспроизведение видео</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="178"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"/>
+        <translation>Копировать URL (веб-адрес) на другую вкладку</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"/>
+        <translation>Создать эскиз (требуется ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="193"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"/>
+        <translation>Создать QR-код из URL (требуется qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
         <source>Add to &amp;TODO tab</source>
-        <translation type="unfinished"/>
+        <translation>Добавить во вкладку &amp;TODO</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
         <source>Move to &amp;TODO tab</source>
-        <translation type="unfinished"/>
+        <translation>Переместить во вкладку &amp;TODO</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"/>
+        <translation>Игнорировать скопированные файлы</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
         <source>Ignore *"Password"* window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Игнорировать окно *"Пароль"*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="226"/>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation>Пароль</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="234"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"/>
+        <translation>Переместить в корзину</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="237"/>
         <source>(trash)</source>
-        <translation type="unfinished"/>
+        <translation>(корзина)</translation>
     </message>
 </context>
 <context>
@@ -425,7 +425,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1753"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>Вы точно хотите &lt;strong&gt;отменить изменения&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -433,7 +433,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="40"/>
         <source>Cannot connect to server! Start CopyQ server first.</source>
-        <translation>Не могу подключится к серверу! Запустите CopyQ сервер.</translation>
+        <translation type="unfinished">Невозможно подключится к серверу! Вначале запустите сервер CopyQ.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="74"/>
@@ -446,33 +446,33 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="20"/>
         <source>CopyQ Clipboard Content</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ: Содержимое буфера обмена</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="73"/>
         <source>&amp;Formats:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Форматы:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Содержимое:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="146"/>
         <source>Remove Format</source>
-        <translation type="unfinished"/>
+        <translation>Удалить формат</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="53"/>
         <source>CopyQ Item Content</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ: Содержимое элемента</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboarddialog.cpp" line="83"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation type="unfinished"/>
+        <translation>&lt;strong&gt;Размер:&lt;/strong&gt; %1 байт</translation>
     </message>
 </context>
 <context>
@@ -480,27 +480,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="79"/>
         <source>CopyQ server is already running.</source>
-        <translation>CopyQ сервер уже запущен.</translation>
+        <translation>Сервер CopyQ уже запущен.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="266"/>
         <source>Cancel Active Commands</source>
-        <translation type="unfinished"/>
+        <translation>Отменить запущенные команды</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="267"/>
         <source>Cancel active commands and exit?</source>
-        <translation type="unfinished"/>
+        <translation>Отменить запущенные команды и выйти?</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="270"/>
         <source>Cancel Exiting</source>
-        <translation type="unfinished"/>
+        <translation>Отменить выход</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="271"/>
         <source>Exit Anyway</source>
-        <translation type="unfinished"/>
+        <translation>Всё равно выйти</translation>
     </message>
 </context>
 <context>
@@ -508,47 +508,47 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ: Команды</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Укажите новые команды, которые будут вызываться автоматически при добавлении нового содержимого в буфер обмена, пользователем из меню или используя системный ярлык.</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Найти:</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="62"/>
         <source>&amp;Load Commands...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Загрузить команды...</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="72"/>
         <source>Sa&amp;ve Selected Commands...</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Сохранить выбранные команды...</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="330"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"/>
+        <translation>Открыть файл с командами</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="331"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"/>
+        <translation>Файлы команд (*.ini);; Файлы конфигурации CopyQ (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="340"/>
         <source>Save Selected Commands</source>
-        <translation type="unfinished"/>
+        <translation>Сохранить выбранные команды</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="341"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"/>
+        <translation>Файлы команд (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -556,27 +556,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="113"/>
         <source>Show command help (F1)</source>
-        <translation type="unfinished"/>
+        <translation>Показать справку по командам (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="57"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"/>
+        <translation>Команды содержат список программ с аргументами, которые будут выполняться. Например:</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="61"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Аргумент %1 будет заменён на текст элемента, а аргументы с %2 по %9 для текста, захваченного регулярным выражением.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"/>
+        <translation>Символ %1 может использоваться для передачи стандартного вывода следующей программе.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="71"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Следующий синтаксис может использоваться для определение оставшейся части команды как один параметр.</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="74"/>
@@ -592,7 +592,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
         <source>&amp;clipboard</source>
         <comment>Example tab name</comment>
-        <translation type="unfinished"/>
+        <translation>&amp;буфер</translation>
     </message>
 </context>
 <context>
@@ -600,88 +600,89 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Имя:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="41"/>
         <source>Command name shown in menu</source>
-        <translation type="unfinished"/>
+        <translation>Имя команды, показываемое в меню</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
-        <translation type="unfinished"/>
+        <translation>Тип действия</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="74"/>
         <source>Run the command automatically if clipboard has new content</source>
-        <translation type="unfinished"/>
+        <translation>Запускать команду автоматически про появлении нового содержимого в буфере обмена</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="77"/>
         <source>Auto&amp;matic</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Автоматически</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="84"/>
         <source>Show command in context menu of matching items</source>
-        <translation type="unfinished"/>
+        <translation>Показать команду в контекстном меню подходящих элементов</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="87"/>
         <source>In M&amp;enu</source>
-        <translation type="unfinished"/>
+        <translation>В &amp;меню</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="96"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Глобальный ярлык:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="131"/>
         <source>Match Items</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Совпадение элементов</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="155"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Данные этого MIME-типа будут отправлены в стандартный ввод команды.
+Оставьте пустым для отключения этого.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="166"/>
         <source>F&amp;ormat:</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Формат:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="245"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Команда</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="284"/>
         <source>Co&amp;py to tab:</source>
-        <translation type="unfinished"/>
+        <translation>К&amp;опировать во вкладку:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="342"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"/>
+        <translation>Скрыть окно после активации команды из контекстного меню элемента</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="431"/>
         <source>Change item, don't create any new items</source>
-        <translation type="unfinished"/>
+        <translation>Изменить элемент, не создавать новых элементов</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="434"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">&amp;Трансформация</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="461"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation>Создать элементы из стандартного вывода программы (оставьте пустым для отключения)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="176"/>
@@ -3605,17 +3606,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="258"/>
         <source>Tab with given name doesn't exist!</source>
-        <translation type="unfinished"/>
+        <translation>Вкладки с таким именем не существует!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="263"/>
         <source>Tab name cannot be empty!</source>
-        <translation type="unfinished"/>
+        <translation>Имя вкладки не может быть пустым!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="328"/>
         <source>Tab with given name already exists!</source>
-        <translation type="unfinished"/>
+        <translation>Вкладка с таким именем уже существует!</translation>
     </message>
 </context>
 </TS>
