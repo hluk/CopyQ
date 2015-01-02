@@ -510,6 +510,8 @@ private:
 
     void runNextAutomaticCommand();
 
+    bool isWindowVisible() const;
+
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
 

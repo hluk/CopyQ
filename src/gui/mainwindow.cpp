@@ -1080,6 +1080,11 @@ void MainWindow::runNextAutomaticCommand()
         automaticCommandFinished();
 }
 
+bool MainWindow::isWindowVisible() const
+{
+    return isVisible() && isActiveWindow();
+}
+
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -1471,7 +1476,7 @@ void MainWindow::showWindow()
     if ( m_timerMinimizing.isActive() )
         return;
 
-    if ( isActiveWindow() )
+    if ( isWindowVisible() )
         return;
 
 #ifdef COPYQ_WS_X11
@@ -1515,7 +1520,7 @@ void MainWindow::hideWindow()
 bool MainWindow::toggleVisible()
 {
     // Showing/hiding window in quick succession doesn't work well on X11.
-    if ( m_timerShowWindow.isActive() || (isVisible() && isActiveWindow()) ) {
+    if ( m_timerShowWindow.isActive() || isWindowVisible() ) {
         hideWindow();
         return false;
     }
