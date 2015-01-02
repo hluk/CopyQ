@@ -451,22 +451,22 @@ You can set up the command in preferences.</source>
         <translation>CopyQ サーバーはすでに稼働中です。</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="266"/>
+        <location filename="../src/app/clipboardserver.cpp" line="268"/>
         <source>Cancel Active Commands</source>
         <translation>動作中のコマンドをキャンセル</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="267"/>
+        <location filename="../src/app/clipboardserver.cpp" line="269"/>
         <source>Cancel active commands and exit?</source>
         <translation>動作中のコマンドをキャンセルして終了しますか?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="270"/>
+        <location filename="../src/app/clipboardserver.cpp" line="272"/>
         <source>Cancel Exiting</source>
         <translation>終了をキャンセル</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="271"/>
+        <location filename="../src/app/clipboardserver.cpp" line="273"/>
         <source>Exit Anyway</source>
         <translation>終了を実行</translation>
     </message>
@@ -1083,22 +1083,22 @@ CTRL and up or down key.</source>
         <translation>適当なノート (編集するにはShift+F2)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="473"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>Open Theme File</source>
         <translation>テーマファイルを開く</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="484"/>
         <source>Save Theme File As</source>
         <translation>テーマファイルを保存</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="506"/>
         <source>No External Editor</source>
         <translation>外部エディタが設定されていません</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="508"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
         <source>Set external editor command first!</source>
         <translation>外部エディタコマンドを最初に設定してください!</translation>
     </message>
@@ -3302,8 +3302,8 @@ Set to 0 to disable.</source>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Finished</source>
         <translation>完了</translation>
     </message>
@@ -3318,12 +3318,12 @@ Set to 0 to disable.</source>
         <translation>状態</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Starting</source>
         <translation>開始中</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="287"/>
         <source>Terminate</source>
         <translation>終了</translation>
     </message>
@@ -3333,12 +3333,12 @@ Set to 0 to disable.</source>
         <translation>実行中</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
         <source>Failed</source>
         <translation>失敗</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="172"/>
         <source>Remove</source>
         <translation>削除</translation>
     </message>
@@ -3859,22 +3859,22 @@ Print version of program and libraries.</source>
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1183"/>
         <source>Failed to set clipboard!</source>
         <translation>クリップボードへの登録に失敗しました!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="748"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="747"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>ファイル &quot;%1&quot; を保存できません!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="759"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="758"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>ファイル &quot;%1&quot; をインポートできません!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="771"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="770"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>&quot;%1&quot; は無効なオプションです!</translation>
     </message>

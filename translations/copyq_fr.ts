@@ -583,22 +583,22 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <translation type="unfinished">CopyQ le serveur est en cours d&apos;exécution.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="266"/>
+        <location filename="../src/app/clipboardserver.cpp" line="268"/>
         <source>Cancel Active Commands</source>
         <translation>Annuler les commandes actives</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="267"/>
+        <location filename="../src/app/clipboardserver.cpp" line="269"/>
         <source>Cancel active commands and exit?</source>
         <translation>Annuler les commandes en cours et quitter?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="270"/>
+        <location filename="../src/app/clipboardserver.cpp" line="272"/>
         <source>Cancel Exiting</source>
         <translation>Annuler Quitter</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="271"/>
+        <location filename="../src/app/clipboardserver.cpp" line="273"/>
         <source>Exit Anyway</source>
         <translation>De toute façon Quitter</translation>
     </message>
@@ -1289,22 +1289,22 @@ CTRL et touche haut ou Bas.</translation>
         <translation>Phrase de recherche est %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="473"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>Open Theme File</source>
         <translation>Ouvrir le fichier Thème</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="484"/>
         <source>Save Theme File As</source>
         <translation>Enregistrer le fichier du thème Comme</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="506"/>
         <source>No External Editor</source>
         <translation>Aucun éditeur externe</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="508"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
         <source>Set external editor command first!</source>
         <translation>Définir la commande d&apos;éditeur externe d&apos;abord!</translation>
     </message>
@@ -4294,8 +4294,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Finished</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4310,12 +4310,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Starting</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="287"/>
         <source>Terminate</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4325,12 +4325,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
         <source>Failed</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="172"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
@@ -4810,12 +4810,12 @@ Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
 Exécute le programme dans ECMAScript.Les arguments sont accessibles à l&apos;aide des «arguments (0 .. N)&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1183"/>
         <source>Failed to set clipboard!</source>
         <translation>Impossible de définir le presse-papiers!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="771"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="770"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>paramètre incorrect&quot;%1&quot;!</translation>
     </message>
@@ -4945,12 +4945,12 @@ Affiche la version du programme et de ses librairies.</translation>
         <translation type="vanished">L&apos;onglet avec le nom proposée existe déjà!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="748"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="747"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Impossible d&apos;enregistrer le fichier&quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="759"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="758"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Vous ne pouvez pas importer le fichier&quot;%1&quot;!</translation>
     </message>

@@ -583,22 +583,22 @@ Příkaz je možné zmenit v nastavení.</translation>
         <translation>CopyQ server již běží.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="266"/>
+        <location filename="../src/app/clipboardserver.cpp" line="268"/>
         <source>Cancel Active Commands</source>
         <translation>Zrušit aktivní příkazy</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="267"/>
+        <location filename="../src/app/clipboardserver.cpp" line="269"/>
         <source>Cancel active commands and exit?</source>
         <translation>Zrušit aktivní příkazy a ukončit?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="270"/>
+        <location filename="../src/app/clipboardserver.cpp" line="272"/>
         <source>Cancel Exiting</source>
         <translation>Přerušit ukončování</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="271"/>
+        <location filename="../src/app/clipboardserver.cpp" line="273"/>
         <source>Exit Anyway</source>
         <translation>Pokračovat v ukončování</translation>
     </message>
@@ -1290,22 +1290,22 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Vyhledávaný výraz je %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="473"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>Open Theme File</source>
         <translation>Otevřít soubor s tématem</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="484"/>
         <source>Save Theme File As</source>
         <translation>Uložit soubor s tématem</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="506"/>
         <source>No External Editor</source>
         <translation>Externí editor nenastaven</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="508"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
         <source>Set external editor command first!</source>
         <translation>Před editací je potřeba nastavit externí editor!</translation>
     </message>
@@ -4321,8 +4321,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Finished</source>
         <translation>Ukončen</translation>
     </message>
@@ -4337,12 +4337,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Stav</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Starting</source>
         <translation>Spouštění</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="287"/>
         <source>Terminate</source>
         <translation>Ukončit</translation>
     </message>
@@ -4352,12 +4352,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>Běží</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
         <source>Failed</source>
         <translation>Selhal</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="172"/>
         <source>Remove</source>
         <translation>Odebrat</translation>
     </message>
@@ -4842,12 +4842,12 @@ Spustí program v jazyce ECMASctipt.
 Argumenty jsou přístupně pomocí &quot;arguments(0..N)&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1183"/>
         <source>Failed to set clipboard!</source>
         <translation>Nepodařilo se nastavit schránku!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="771"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="770"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Neplatné nastavení &quot;%1&quot;!</translation>
     </message>
@@ -4977,12 +4977,12 @@ Vytiskne verzi programu a jeho knihoven.</translation>
         <translation type="vanished">Záložka se stejným jménem již existuje!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="748"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="747"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Nelze uložit soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="759"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="758"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Nelze importovat soubor &quot;%1&quot;!</translation>
     </message>

@@ -22,7 +22,8 @@ TRANSLATIONS = \
     translations/copyq_ru.ts \
     translations/copyq_tr.ts \
     translations/copyq_uk.ts \
-    translations/copyq_zh_CN.ts
+    translations/copyq_zh_CN.ts \
+    translations/copyq_zh_TW.ts
 
 macx {
     # Package the CopyQ plugins into the app bundle

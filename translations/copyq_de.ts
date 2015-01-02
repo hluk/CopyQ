@@ -574,22 +574,22 @@ You can set up the command in preferences.</source>
         <translation>CopyQ Server ist bereits gestartet.</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="266"/>
+        <location filename="../src/app/clipboardserver.cpp" line="268"/>
         <source>Cancel Active Commands</source>
         <translation>Beende aktive Befehle</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="267"/>
+        <location filename="../src/app/clipboardserver.cpp" line="269"/>
         <source>Cancel active commands and exit?</source>
         <translation>Möchtest du die Anwendung und damit auch alle aktiven Befehle beenden?</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="270"/>
+        <location filename="../src/app/clipboardserver.cpp" line="272"/>
         <source>Cancel Exiting</source>
         <translation>Doch nicht beenden</translation>
     </message>
     <message>
-        <location filename="../src/app/clipboardserver.cpp" line="271"/>
+        <location filename="../src/app/clipboardserver.cpp" line="273"/>
         <source>Exit Anyway</source>
         <translation>Beenden</translation>
     </message>
@@ -1289,22 +1289,22 @@ Strg+↑ (hoch) oder Strg+↓ (runter).</translation>
         <translation>Der Suchtext lautet %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="473"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
         <source>Open Theme File</source>
         <translation>Theme-Datei öffnen</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="485"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="484"/>
         <source>Save Theme File As</source>
         <translation>Theme-Datei speichern</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="506"/>
         <source>No External Editor</source>
         <translation>Kein externer Editor</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="508"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
         <source>Set external editor command first!</source>
         <translation>Erst einen externen Editor festlegen!</translation>
     </message>
@@ -4473,8 +4473,8 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Finished</source>
         <translation>Beendet</translation>
     </message>
@@ -4489,12 +4489,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation>Status</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="269"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Starting</source>
         <translation>Startet</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="288"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="287"/>
         <source>Terminate</source>
         <translation>Beenden</translation>
     </message>
@@ -4504,12 +4504,12 @@ Strg+↑ (hoch) oder Strg+↓ (herunter).</translation>
         <translation>Wird ausgeführt</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="163"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
         <source>Failed</source>
         <translation>Fehlgeschlagen</translation>
     </message>
     <message>
-        <location filename="../src/gui/processmanagerdialog.cpp" line="173"/>
+        <location filename="../src/gui/processmanagerdialog.cpp" line="172"/>
         <source>Remove</source>
         <translation>Entfernen</translation>
     </message>
@@ -4985,12 +4985,12 @@ Evaluiere ECMAScript-Programm.
 Argumente sind per &quot;arguments(0..N)&quot; verfügbar.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1183"/>
         <source>Failed to set clipboard!</source>
         <translation>Die Zwischenablage konnte nicht gesetzt werden!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="771"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="770"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation>Ungültige Option &quot;%1&quot;!</translation>
     </message>
@@ -5120,12 +5120,12 @@ Gibt die Versionen des Programms und der Bibliotheken aus.</translation>
         <translation type="vanished">Reiter mit angegebenem Namen existiert bereits!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="748"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="747"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Kann nicht in die Datei &quot;%1&quot; speichern!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="759"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="758"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>Kann Datei &quot;%1&quot; nicht importieren!</translation>
     </message>
