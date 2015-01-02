@@ -1,5 +1,5 @@
 /*
-    Copyright (c) 2014, Lukas Holecek <hluk@email.cz>
+    Copyright (c) 2015, Lukas Holecek <hluk@email.cz>
 
     This file is part of CopyQ.
 
@@ -145,7 +145,7 @@ QString AboutDialog::aboutPage()
         "</p>"
 
         // copyright
-        "<p class='info'>Copyright (c) 2009 - 2014</p>"
+        "<p class='info'>Copyright (c) 2009 - 2015</p>"
 
         "<p></p>"
 
