@@ -303,6 +303,8 @@ MainWindow::MainWindow(QWidget *parent)
              this, SLOT(loadSettings()) );
     connect( cm, SIGNAL(error(QString)),
              this, SLOT(showError(QString)) );
+    connect( cm->tabShortcuts(), SIGNAL(openCommandDialogRequest()),
+             this, SLOT(openCommands()) );
 
     // browse mode by default
     enterBrowseMode();
@@ -2060,7 +2062,7 @@ void MainWindow::openCommands()
         m_commandDialog->show();
         m_commandDialog->activateWindow();
     } else {
-        m_commandDialog = new CommandDialog(this);
+        m_commandDialog = new CommandDialog(cm);
         m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         m_commandDialog->show();
         connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));

@@ -94,6 +94,9 @@ public:
 
     const QList<QKeySequence> &disabledShortcuts() const;
 
+signals:
+    void openCommandDialogRequest();
+
 private:
     void initShortcuts();
 

@@ -31,6 +31,9 @@ ConfigTabShortcuts::ConfigTabShortcuts(QWidget *parent)
 {
     ui->setupUi(this);
     initShortcuts();
+
+    connect( ui->pushButtonOpenCommandDialog, SIGNAL(clicked()),
+             this, SIGNAL(openCommandDialogRequest()) );
 }
 
 ConfigTabShortcuts::~ConfigTabShortcuts()
@@ -41,6 +44,9 @@ ConfigTabShortcuts::~ConfigTabShortcuts()
 void ConfigTabShortcuts::loadShortcuts(QSettings &settings)
 {
     ui->shortcutsWidgetGeneral->loadShortcuts(settings);
+
+    const QIcon iconCommandDialog = getIcon("system-run", IconCog);
+    ui->pushButtonOpenCommandDialog->setIcon(iconCommandDialog);
 }
 
 void ConfigTabShortcuts::saveShortcuts(QSettings &settings) const

@@ -6,24 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>396</width>
-    <height>425</height>
+    <width>388</width>
+    <height>417</height>
    </rect>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <item>
-    <widget class="QLabel" name="label">
-     <property name="text">
-      <string>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
-&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</string>
-     </property>
-     <property name="wordWrap">
-      <bool>true</bool>
-     </property>
-    </widget>
+    <widget class="ShortcutsWidget" name="shortcutsWidgetGeneral" native="true"/>
    </item>
    <item>
-    <widget class="ShortcutsWidget" name="shortcutsWidgetGeneral" native="true"/>
+    <widget class="QPushButton" name="pushButtonOpenCommandDialog">
+     <property name="text">
+      <string>&amp;Custom Actions and Global Shortcuts...</string>
+     </property>
+    </widget>
    </item>
   </layout>
  </widget>
