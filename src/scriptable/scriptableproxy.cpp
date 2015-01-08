@@ -861,7 +861,8 @@ void ScriptableProxyHelper::updateFirstItem(const QVariantMap &data)
 
 void ScriptableProxyHelper::updateTitle(const QVariantMap &data)
 {
-    m_wnd->updateTitle(data);
+    if (m_wnd->canUpdateTitleFromScript())
+        m_wnd->updateTitle(data);
 }
 
 } // namespace detail

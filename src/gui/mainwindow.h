@@ -361,6 +361,8 @@ public slots:
     /** Set window title and tray tool tip from data. */
     void updateTitle(const QVariantMap &data);
 
+    bool canUpdateTitleFromScript() const;
+
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);
@@ -555,7 +557,7 @@ private:
 
     QList<Command> m_automaticCommands;
     QPointer<Action> m_currentAutomaticCommand;
-    bool m_ignoreUpdateTitle;
+    bool m_canUpdateTitleFromScript;
 };
 
 #endif // MAINWINDOW_H

@@ -255,7 +255,7 @@ MainWindow::MainWindow(QWidget *parent)
     , m_actionHandler(new ActionHandler(this))
     , m_trayTab(NULL)
     , m_commandDialog(NULL)
-    , m_ignoreUpdateTitle(false)
+    , m_canUpdateTitleFromScript(true)
 {
     ui->setupUi(this);
     menuBar()->setObjectName("menu_bar");
@@ -745,9 +745,6 @@ void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 
 void MainWindow::updateTitle(const QVariantMap &data)
 {
-    if (m_ignoreUpdateTitle)
-        return;
-
     COPYQ_LOG("Updating window title");
 
     m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
@@ -755,6 +752,11 @@ void MainWindow::updateTitle(const QVariantMap &data)
     updateWindowTitle();
     updateTrayTooltip();
     showClipboardMessage(m_clipboardData);
+}
+
+bool MainWindow::canUpdateTitleFromScript() const
+{
+    return m_canUpdateTitleFromScript;
 }
 
 void MainWindow::updateNotifications()
@@ -1781,11 +1783,11 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
 {
     // Don't process the data further if any running clipboard monitor set the clipboard.
     if ( !ownsClipboardData(data) && !data.contains(mimeOwner) && containsAnyData(data) ) {
-        m_ignoreUpdateTitle = false;
+        m_canUpdateTitleFromScript = true;
         runAutomaticCommands(data);
     } else {
+        m_canUpdateTitleFromScript = false;
         updateTitle(data);
-        m_ignoreUpdateTitle = true;
     }
 }
 
