@@ -222,6 +222,21 @@ Command automaticCommand(
     return c;
 }
 
+void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
+{
+    if (!window)
+        return;
+
+    const Qt::WindowFlags flags = window->windowFlags();
+    bool hasAlwaysOnTop = flags.testFlag(Qt::WindowStaysOnTopHint);
+
+    if (alwaysOnTop != hasAlwaysOnTop) {
+        window->setWindowFlags(flags ^ Qt::WindowStaysOnTopHint);
+        // Workaround for QTBUG-28601.
+        window->setAcceptDrops(true);
+    }
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -1393,12 +1408,8 @@ void MainWindow::loadSettings()
 
     // always on top window hint
     bool alwaysOnTop = cm->value("always_on_top").toBool();
-    bool hasAlwaysOnTop = windowFlags().testFlag(Qt::WindowStaysOnTopHint);
-    if (alwaysOnTop != hasAlwaysOnTop) {
-        setWindowFlags(windowFlags() ^ Qt::WindowStaysOnTopHint);
-        // Workaround for QTBUG-28601.
-        setAcceptDrops(true);
-    }
+    setAlwaysOnTop(this, alwaysOnTop);
+    setAlwaysOnTop(m_commandDialog.data(), alwaysOnTop);
 
     // Vi mode
     m_options.viMode = cm->value("vi").toBool();
@@ -2063,10 +2074,16 @@ void MainWindow::openCommands()
         m_commandDialog->activateWindow();
     } else {
         m_commandDialog = new CommandDialog(cm);
+        if (windowFlags() & Qt::WindowStaysOnTopHint)
+            setAlwaysOnTop(m_commandDialog.data(), true);
         m_commandDialog->setAttribute(Qt::WA_DeleteOnClose, true);
         m_commandDialog->show();
+        connect(this, SIGNAL(destroyed()), m_commandDialog, SLOT(close()));
         connect(m_commandDialog, SIGNAL(commandsSaved()), this, SLOT(onCommandDialogSaved()));
     }
+
+    if (cm->isVisible())
+        m_commandDialog->setWindowModality(Qt::ApplicationModal);
 }
 
 ClipboardBrowser *MainWindow::browser(int index)
