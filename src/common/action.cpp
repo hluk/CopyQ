@@ -43,7 +43,7 @@ void startProcess(QProcess *process, const QStringList &args)
 
 void startWritingInput(const QByteArray &input, QPointer<QProcess> p)
 {
-    if (input.isEmpty() || !p)
+    if (!p)
         return;
 
     p->write(input);
