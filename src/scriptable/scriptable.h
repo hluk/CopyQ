@@ -204,7 +204,7 @@ signals:
 private:
     QList<int> getRows() const;
     QScriptValue copy(QClipboard::Mode mode);
-    bool setClipboard(const QVariantMap &data, QClipboard::Mode mode);
+    bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
     void changeItem(bool create);
 
     ScriptableProxy *m_proxy;
