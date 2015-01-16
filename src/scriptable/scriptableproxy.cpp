@@ -143,6 +143,13 @@ QWidget *createSpinBox(const QString &name, const QVariant &value, QWidget *pare
     return label(Qt::Horizontal, name, w);
 }
 
+QWidget *createLineEdit(const QVariant &value, QWidget *parent)
+{
+    QLineEdit *lineEdit = createAndSetWidget<QLineEdit>("text", value, parent);
+    lineEdit->selectAll();
+    return lineEdit;
+}
+
 QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *parent)
 {
     QWidget *w = new QWidget(parent);
@@ -151,7 +158,7 @@ QWidget *createFileNameEdit(const QString &name, const QFile &file, QWidget *par
     QHBoxLayout *layout = new QHBoxLayout(w);
     layout->setContentsMargins(0, 0, 0, 0);
 
-    QLineEdit *lineEdit = createAndSetWidget<QLineEdit>("text", file.fileName(), w);
+    QWidget *lineEdit = createLineEdit(file.fileName(), w);
     lineEdit->setProperty(propertyWidgetName, name);
 
     QPushButton *browseButton = new QPushButton("...");
@@ -202,7 +209,7 @@ QWidget *createWidget(const QString &name, const QVariant &value, QWidget *paren
                 return createTextEdit(name, value.toStringList(), parent);
         }
 
-        return label(Qt::Horizontal, name, createAndSetWidget<QLineEdit>("text", value, parent));
+        return label(Qt::Horizontal, name, createLineEdit(value, parent));
     }
 }
 
