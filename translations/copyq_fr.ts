@@ -1,4 +1,4 @@
-<?xml version='1.0' encoding='utf-8'?>
+<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE TS>
 <TS version="2.1" language="fr_FR" sourcelanguage="en">
 <context>
@@ -45,7 +45,7 @@
     </message>
     <message>
         <source>Iconic font used in the application</source>
-        <translation type="vanished">Police de caractère utilisée dans l'application</translation>
+        <translation type="vanished">Police de caractère utilisée dans l&apos;application</translation>
     </message>
     <message>
         <source>Color palette used for themes</source>
@@ -59,7 +59,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="199"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Saisissez le texte à rechercher dans l'historique du presse papier</translation>
+        <translation>Saisissez le texte à rechercher dans l&apos;historique du presse papier</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
@@ -90,19 +90,19 @@
         <location filename="../src/gui/aboutdialog.cpp" line="179"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation>Bibliothèque utilisée dans l'application</translation>
+        <translation>Bibliothèque utilisée dans l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation>La bibliothèque utilisée dans l'application</translation>
+        <translation>La bibliothèque utilisée dans l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation>Police de caractères utilisée dans l'application</translation>
+        <translation>Police de caractères utilisée dans l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="185"/>
@@ -119,7 +119,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="193"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Les raccorcis d'applications peuvent être changés dans les Réglages.</translation>
+        <translation>Les raccorcis d&apos;applications peuvent être changés dans les Réglages.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="196"/>
@@ -149,7 +149,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Delete item</source>
-        <translation>Supprimer l'élément</translation>
+        <translation>Supprimer l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
@@ -164,7 +164,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Change item display format</source>
-        <translation>Modifier le format d'affichage de l'élément</translation>
+        <translation>Modifier le format d&apos;affichage de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
@@ -174,7 +174,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Edit Item</source>
-        <translation>Modifier l'élément</translation>
+        <translation>Modifier l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
@@ -183,7 +183,7 @@
     </message>
     <message>
         <source>Library used in the application</source>
-        <translation>Librairie utilisée dans l'application</translation>
+        <translation type="vanished">Librairie utilisée dans l&apos;application</translation>
     </message>
 </context>
 <context>
@@ -200,11 +200,11 @@
     </message>
     <message>
         <source>Co&amp;mmand (%1 is text of selected items):</source>
-        <translation>&amp;Commande (%1 est le texte des éléments sélectionnés):</translation>
+        <translation type="vanished">&amp;Commande (%1 est le texte des éléments sélectionnés):</translation>
     </message>
     <message>
-        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation>&lt;b&gt;%1&lt;/b&gt; dans la &lt;b&gt;commande&lt;/b&gt; est du &lt;b&gt;texte&lt;/b&gt; dans l’élément sélectionné. Le texte peut être modifié et envoyé à &lt;b&gt;l'entrée standard&lt;/b&gt; de la commande. Il est aussi possible d'enchainer les commandes en utilisant le caractère séparateur &lt;b&gt;|&lt;/b&gt; (cad en passant sur la sortie standard).</translation>
+        <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It&apos;s also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
+        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; dans la &lt;b&gt;commande&lt;/b&gt; est du &lt;b&gt;texte&lt;/b&gt; dans l’élément sélectionné. Le texte peut être modifié et envoyé à &lt;b&gt;l&apos;entrée standard&lt;/b&gt; de la commande. Il est aussi possible d&apos;enchainer les commandes en utilisant le caractère séparateur &lt;b&gt;|&lt;/b&gt; (cad en passant sur la sortie standard).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -227,12 +227,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
         <source>Send data of given MIME type to standard input of command (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="85"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
@@ -254,12 +254,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>&amp;Sortir de l'onglet</translation>
+        <translation>&amp;Sortir de l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
         <source>Save items in tab with given name (leave empty to save in the current tab)</source>
-        <translation>Enregistrer des éléments dans l'onglet avec le nom donné (laisser vide pour enregistrer dans l'onglet courant)</translation>
+        <translation>Enregistrer des éléments dans l&apos;onglet avec le nom donné (laisser vide pour enregistrer dans l&apos;onglet courant)</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="275"/>
@@ -270,7 +270,7 @@
         <location filename="../src/gui/actiondialog.cpp" line="276"/>
         <source>Command was saved and can be accessed from item menu.
 You can set up the command in preferences.</source>
-        <translation>La commande a été enregistrée et est accessible à partir du menu de l'élément.
+        <translation>La commande a été enregistrée et est accessible à partir du menu de l&apos;élément.
 Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
 </context>
@@ -321,7 +321,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
@@ -356,7 +356,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="178"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation>Copier l'URL (adresse web) dans un autre onglet</translation>
+        <translation>Copier l&apos;URL (adresse web) dans un autre onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
@@ -366,7 +366,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="193"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation>Créez un QR Code à partir d'une URL (nécessite qrencode)</translation>
+        <translation>Créez un QR Code à partir d&apos;une URL (nécessite qrencode)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
@@ -376,7 +376,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="209"/>
         <source>Move to &amp;TODO tab</source>
-        <translation>Déplacer dans l'onglet &amp;TODO</translation>
+        <translation>Déplacer dans l&apos;onglet &amp;TODO</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
@@ -385,8 +385,8 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
-        <source>Ignore *"Password"* window</source>
-        <translation>Ignorer la fenêtre *"Mot de passe"*</translation>
+        <source>Ignore *&quot;Password&quot;* window</source>
+        <translation>Ignorer la fenêtre *&quot;Mot de passe&quot;*</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="226"/>
@@ -580,7 +580,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="79"/>
         <source>CopyQ server is already running.</source>
-        <translation>Le serveur CopyQ est déjà en cours d'exécution.</translation>
+        <translation>Le serveur CopyQ est déjà en cours d&apos;exécution.</translation>
     </message>
     <message>
         <location filename="../src/app/clipboardserver.cpp" line="268"/>
@@ -618,12 +618,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
         <source>Define new commands that can be either invoked automatically on new clipboard content or by user from menu or using system shortcut.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="38"/>
@@ -666,7 +666,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>Ignore items with no or single character</source>
-        <translation type="obsolete">Ignorer les éléments qui n'ont pas ou un seul caractère</translation>
+        <translation type="obsolete">Ignorer les éléments qui n&apos;ont pas ou un seul caractère</translation>
     </message>
     <message>
         <source>Open in &amp;Browser</source>
@@ -686,7 +686,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="obsolete">Copier l'URL (adresse web) à un autre onglet</translation>
+        <translation type="obsolete">Copier l&apos;URL (adresse web) à un autre onglet</translation>
     </message>
     <message>
         <source>Create thumbnail (needs ImageMagick)</source>
@@ -694,7 +694,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="obsolete">Créez un code QR à partir d'une URL (nécessite qrencode)</translation>
+        <translation type="obsolete">Créez un code QR à partir d&apos;une URL (nécessite qrencode)</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -702,15 +702,15 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>Move to &amp;TODO tab</source>
-        <translation type="obsolete">Déplacer l'onglet &amp;TODO</translation>
+        <translation type="obsolete">Déplacer l&apos;onglet &amp;TODO</translation>
     </message>
     <message>
         <source>Ignore copied files</source>
         <translation type="obsolete">Ignorer les fichiers copiés</translation>
     </message>
     <message>
-        <source>Ignore *"Password"* window</source>
-        <translation type="obsolete">* Ignorer la case "Mot de passe" *</translation>
+        <source>Ignore *&quot;Password&quot;* window</source>
+        <translation type="obsolete">* Ignorer la case &quot;Mot de passe&quot; *</translation>
     </message>
     <message>
         <source>Password</source>
@@ -757,37 +757,37 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="113"/>
         <source>Show command help (F1)</source>
-        <translation>Afficher l'aide des commandes (F1)</translation>
+        <translation>Afficher l&apos;aide des commandes (F1)</translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="57"/>
         <source>Command contains list of programs with arguments which will be executed. For example:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="61"/>
         <source>Program argument %1 will be substituted for item text, and %2 through %9 for texts captured by regular expression.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="65"/>
         <source>Character %1 can be used to pass standard output to the next program.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="71"/>
         <source>Following syntax can be used to pass rest of the command as single parameter.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="74"/>
         <source>This gives same output as %1 but is more useful for longer commands.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="81"/>
         <source>Functions listed below can be used as in following commands.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/commandhelpbutton.cpp" line="82"/>
@@ -813,7 +813,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="294"/>
         <source>Name of tab to copy new items into (leave empty not to copy)</source>
-        <translation>copier les nouveaux éléments dans le Nom de l'onglet (laisser vide pas copier)</translation>
+        <translation>copier les nouveaux éléments dans le Nom de l&apos;onglet (laisser vide pas copier)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="31"/>
@@ -821,7 +821,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <translation>&amp;Nom</translation>
     </message>
     <message>
-        <source>&lt;p&gt;Don't save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</source>
+        <source>&lt;p&gt;Don&apos;t save the matched clipboard content in history and stop applying next commands on it.&lt;/p&gt;</source>
         <translation type="obsolete">&lt;p&gt;Neukládej prvek do historie a neaplikuj následující příkazy.&lt;/p&gt;</translation>
     </message>
     <message>
@@ -837,12 +837,12 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="166"/>
         <source>F&amp;ormat:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="193"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Utilisez la commande seulement pour les éléments dont la correspondance du texte pour cette expression régulière(laisser vide pour correspondre à quelque chose)&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Exempless&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Les noms de fichiers correspondent aux PDF    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Faites correspondre le caractère seul    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  correspond du multimédia à distance    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation>&lt;p&gt;Utilisez la commande seulement pour les éléments dont la correspondance du texte pour cette expression régulière(laisser vide pour correspondre à quelque chose)&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Exempless&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Les noms de fichiers correspondent aux PDF    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Faites correspondre le caractère seul    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  correspond du multimédia à distance    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="226"/>
@@ -855,22 +855,22 @@ Vous pouvez configurer la commande dans les préférences.</translation>
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
         <translation>&lt;p&gt;Utilisez les commandes seulement si la commande du filtre réussit.&lt;/p&gt;
 
-&lt;p&gt;Le texte de l'article est passé à&lt;b&gt;entrée standard&lt;/b&gt; filtrer. La commande&lt;b&gt;exécuté uniquement si l'extrémité du filtre du code 0&lt;/b&gt;.&lt;/p&gt;
+&lt;p&gt;Le texte de l&apos;article est passé à&lt;b&gt;entrée standard&lt;/b&gt; filtrer. La commande&lt;b&gt;exécuté uniquement si l&apos;extrémité du filtre du code 0&lt;/b&gt;.&lt;/p&gt;
 
-&lt;p&gt;l'Utilisation % 1 sera remplacé par un élément de texte, et de 2% à 9% pour les textes capturées à l'aide d'une expression régulière (la partie entre parenthèses).&lt;/p&gt;
+&lt;p&gt;l&apos;Utilisation % 1 sera remplacé par un élément de texte, et de 2% à 9% pour les textes capturées à l&apos;aide d&apos;une expression régulière (la partie entre parenthèses).&lt;/p&gt;
 
 &lt;p&gt;Utiliser &lt;b&gt; | &lt;/ b&gt; pour enchaîner plusieurs commandes (la sortie standard de transmission vers une autre commande).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="245"/>
         <source>Comman&amp;d</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>&lt;p&gt;Command to run. Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="vanished">&lt;p&gt;Exécuter une commande. Utiliser &lt;b&gt;%1 &lt;/b&gt;du texte de l'élément passé en argument et&lt;b&gt;%2&lt;/b&gt;pour &lt;b&gt;%9&lt;/ b&gt; des arguments saisies par une expression régulière (phrases entre parenthèses).&lt;/p&gt;
+        <translation type="vanished">&lt;p&gt;Exécuter une commande. Utiliser &lt;b&gt;%1 &lt;/b&gt;du texte de l&apos;élément passé en argument et&lt;b&gt;%2&lt;/b&gt;pour &lt;b&gt;%9&lt;/ b&gt; des arguments saisies par une expression régulière (phrases entre parenthèses).&lt;/p&gt;
 
 &lt;p&gt;Utiliser &lt;b&gt;|&lt;/b&gt;à des commandes de la chaîne (passer la sortie standard de la commande suivante).&lt;/p&gt;</translation>
     </message>
@@ -892,7 +892,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
     </message>
     <message>
         <source>Copy to &amp;tab:</source>
-        <translation type="vanished">&amp;Copier L'onglet</translation>
+        <translation type="vanished">&amp;Copier L&apos;onglet</translation>
     </message>
     <message>
         <source>Create items from standard output of the program (leave empty to disable).</source>
@@ -930,7 +930,7 @@ Vous pouvez configurer la commande dans les préférences.</translation>
         <location filename="../src/ui/commandwidget.ui" line="155"/>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>Les données du format MIME seront envoyées à l'entrée du logiciel
+        <translation>Les données du format MIME seront envoyées à l&apos;entrée du logiciel
 Laissez vide pour le désactiver.</translation>
     </message>
     <message>
@@ -940,7 +940,7 @@ Laissez vide pour le désactiver.</translation>
     </message>
     <message>
         <source>Hide window after command is activated from context menu of an item.</source>
-        <translation type="vanished">Masquer la fenêtre après la commande est activée depuis le menu contextuel d'un élément.</translation>
+        <translation type="vanished">Masquer la fenêtre après la commande est activée depuis le menu contextuel d&apos;un élément.</translation>
     </message>
     <message>
         <source>&amp;Hide window</source>
@@ -954,7 +954,7 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="421"/>
         <source>Show action dialog before executing the command</source>
-        <translation>Montrez la boîte de dialogue d'action avant l'exécution de la commande</translation>
+        <translation>Montrez la boîte de dialogue d&apos;action avant l&apos;exécution de la commande</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="74"/>
@@ -967,7 +967,7 @@ Laissez vide pour le désactiver.</translation>
         <translation>&amp;Filtre:</translation>
     </message>
     <message>
-        <source>Change item, don't create any new items.</source>
+        <source>Change item, don&apos;t create any new items.</source>
         <translation type="vanished">Changer élément, ne créez pas de nouveaux éléments.</translation>
     </message>
     <message>
@@ -987,7 +987,7 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="176"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Utilisez la commande seulement pour les éléments copiés dans le presse-papiers depuis la fenêtre avec le texte du titre qui correspond à cette expression (laisser vide pour correspondre n'importe quelle fenêtre).Sur OS X, il contient le nom de l'applicaton suivi d'un tiret (&amp;quot;-&amp;quot;) d'un titre de fenêtre. par exemple&amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Utilisez la commande seulement pour les éléments copiés dans le presse-papiers depuis la fenêtre avec le texte du titre qui correspond à cette expression (laisser vide pour correspondre n&apos;importe quelle fenêtre).Sur OS X, il contient le nom de l&apos;applicaton suivi d&apos;un tiret (&amp;quot;-&amp;quot;) d&apos;un titre de fenêtre. par exemple&amp;quot;Safari - Github&amp;quot;.&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Comman&amp;d:</source>
@@ -996,7 +996,7 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
-        <translation>Type d'action</translation>
+        <translation>Type d&apos;action</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="77"/>
@@ -1006,7 +1006,7 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="84"/>
         <source>Show command in context menu of matching items</source>
-        <translation>Afficher la commande dans le menu contextuel d'éléments correspondants</translation>
+        <translation>Afficher la commande dans le menu contextuel d&apos;éléments correspondants</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="87"/>
@@ -1016,21 +1016,21 @@ Laissez vide pour le désactiver.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="96"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="306"/>
         <source>Remove matching item
 
 Note: If this is applied automatically, no other automatic commands are executed.</source>
-        <translation>Supprimer l'élément trouvé
+        <translation>Supprimer l&apos;élément trouvé
 
 Remarque: Si cette option est automatiquement appliqué, aucun autre commandes automatiques sont effectués.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="311"/>
         <source>&amp;Remove Item</source>
-        <translation>&amp;Supprimer l'élément</translation>
+        <translation>&amp;Supprimer l&apos;élément</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="321"/>
@@ -1040,27 +1040,27 @@ Remarque: Si cette option est automatiquement appliqué, aucun autre commandes a
     <message>
         <location filename="../src/ui/commandwidget.ui" line="342"/>
         <source>Hide window after command is activated from context menu of an item</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="345"/>
         <source>&amp;Hide main window after activation</source>
-        <translation>&amp;Masquer la fenêtre principale après l'activation</translation>
+        <translation>&amp;Masquer la fenêtre principale après l&apos;activation</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="431"/>
-        <source>Change item, don't create any new items</source>
-        <translation type="unfinished"/>
+        <source>Change item, don&apos;t create any new items</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="434"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="461"/>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="471"/>
@@ -1075,17 +1075,17 @@ Remarque: Si cette option est automatiquement appliqué, aucun autre commandes a
     <message>
         <location filename="../src/ui/commandwidget.ui" line="501"/>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation>Enregistrer les éléments dans l'onglet avec le nom donné (laisser vide pour sauver dans le premier onglet)</translation>
+        <translation>Enregistrer les éléments dans l&apos;onglet avec le nom donné (laisser vide pour sauver dans le premier onglet)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="491"/>
         <source>Output &amp;tab:</source>
-        <translation>&amp;Quitter l'onglet</translation>
+        <translation>&amp;Quitter l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="284"/>
         <source>Co&amp;py to tab:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="360"/>
@@ -1174,7 +1174,7 @@ Remarque: Si cette option est automatiquement appliqué, aucun autre commandes a
     </message>
     <message>
         <source>Use icons from desktop environment whenever possible.</source>
-        <translation type="vanished">Utilisez les icônes de l'environnement de bureau autant que possible.</translation>
+        <translation type="vanished">Utilisez les icônes de l&apos;environnement de bureau autant que possible.</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
@@ -1188,22 +1188,22 @@ Remarque: Si cette option est automatiquement appliqué, aucun autre commandes a
     </message>
     <message>
         <source>Set colors for tabs, tool bar and menus</source>
-        <translation type="vanished">Définir les couleurs des tabulations, barre d'outils et des menus</translation>
+        <translation type="vanished">Définir les couleurs des tabulations, barre d&apos;outils et des menus</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
@@ -1228,7 +1228,7 @@ Remarque: Si cette option est automatiquement appliqué, aucun autre commandes a
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation>Modifier le thème actuel dans l'éditeur externe</translation>
+        <translation>Modifier le thème actuel dans l&apos;éditeur externe</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
@@ -1241,8 +1241,8 @@ Remarque: Si cette option est automatiquement appliqué, aucun autre commandes a
         <translation>Aperçu:</translation>
     </message>
     <message>
-        <source>Search string is "item".</source>
-        <translation type="obsolete">Vyhledávaný výraz je "prvek".</translation>
+        <source>Search string is &quot;item&quot;.</source>
+        <translation type="obsolete">Vyhledávaný výraz je &quot;prvek&quot;.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"/>
@@ -1261,12 +1261,12 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"/>
         <source>Remove item with Delete key.</source>
-        <translation>Supprimer l'élément avec la touche Suppr.</translation>
+        <translation>Supprimer l&apos;élément avec la touche Suppr.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="195"/>
         <source>Example item %1</source>
-        <translation>Exemple d'élément %1</translation>
+        <translation>Exemple d&apos;élément %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="200"/>
@@ -1289,27 +1289,27 @@ CTRL et touche haut ou Bas.</translation>
         <translation>Phrase de recherche est %1.</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="472"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="475"/>
         <source>Open Theme File</source>
         <translation>Ouvrir le fichier Thème</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="484"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="487"/>
         <source>Save Theme File As</source>
         <translation>Enregistrer le fichier du thème Comme</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="506"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="509"/>
         <source>No External Editor</source>
         <translation>Aucun éditeur externe</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="507"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="510"/>
         <source>Set external editor command first!</source>
-        <translation>Définir la commande d'éditeur externe d'abord!</translation>
+        <translation>Définir la commande d&apos;éditeur externe d&apos;abord!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabappearance.cpp" line="732"/>
+        <location filename="../src/gui/configtabappearance.cpp" line="735"/>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
         <translation>Abc</translation>
@@ -1330,58 +1330,58 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="vanished">Raccourcis systéme</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="75"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="81"/>
         <source>&amp;New Item</source>
         <translation>&amp;Nouvel élément</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="77"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="83"/>
         <source>&amp;Import Tab...</source>
-        <translation>&amp;Importer l"onglet...</translation>
+        <translation>&amp;Importer l&quot;onglet...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="77"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="83"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="79"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="85"/>
         <source>&amp;Export Tab...</source>
-        <translation>&amp;Exporter l'&amp;onglet...</translation>
+        <translation>&amp;Exporter l&apos;&amp;onglet...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="81"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
         <source>&amp;Preferences...</source>
         <translation>&amp;Préférences...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="81"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
         <location filename="../src/tests/tests.cpp" line="1419"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="85"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="91"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="93"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="89"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="95"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="91"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="97"/>
         <source>Show &amp;Clipboard Content</source>
         <translation>&amp;Voir le contenu du presse-papiers</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="92"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="98"/>
         <source>Ctrl+Shift+C</source>
         <translation>Ctrl+Maj+C</translation>
     </message>
@@ -1390,116 +1390,116 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="vanished">&amp;Activer le partage du presse-papiers</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="94"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="100"/>
         <source>Ctrl+Shift+X</source>
         <translation>Ctrl+Maj+X</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="95"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="101"/>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="96"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="102"/>
         <source>Ctrl+Shift+Z</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="97"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="103"/>
         <source>E&amp;xit</source>
         <translation>&amp;quitter</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="97"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="103"/>
         <source>Ctrl+Q</source>
         <translation>Ctrl+Q</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="100"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
         <source>&amp;Sort Selected Items</source>
         <translation>&amp;Organisez les éléments sélectionnés</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="101"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="107"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Maj+S</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="103"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="109"/>
         <source>&amp;Reverse Selected Items</source>
-        <translation>&amp;Inverser l'ordre des éléments sélectionnés</translation>
+        <translation>&amp;Inverser l&apos;ordre des éléments sélectionnés</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="104"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Maj+R</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="106"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="112"/>
         <source>&amp;Paste Items</source>
         <translation>&amp;Coller les éléments</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="108"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="114"/>
         <source>&amp;Copy Selected Items</source>
         <translation>&amp;Copier les éléments sélectionnés</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="110"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="116"/>
         <source>&amp;Find</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="113"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
         <source>Move to &amp;Clipboard</source>
         <translation>&amp;Déplacez le Presse-papiers</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="115"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
         <source>&amp;Show Content...</source>
         <translation>&amp;Voir le contenu...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="116"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="122"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="119"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="125"/>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="126"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
         <source>&amp;Remove</source>
         <translation>&amp;Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="135"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="137"/>
         <source>R&amp;ename Tab</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>Delete</source>
         <translation type="vanished">Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="93"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="99"/>
         <source>&amp;Toggle Clipboard Storing</source>
         <translation>&amp;Basculer le partage du Presse-papiers</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="117"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>&amp;Edit</source>
         <translation>&amp;Modifier</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="117"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
@@ -1508,27 +1508,27 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="vanished">&amp;Modifier les notes</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="120"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="126"/>
         <source>Shift+F2</source>
         <translation>Maj+F2</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="121"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="127"/>
         <source>E&amp;dit with editor</source>
-        <translation>Modifier avec l'&amp;éditeur</translation>
+        <translation>Modifier avec l&apos;&amp;éditeur</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="122"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="128"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>&amp;Action...</source>
         <translation>&amp;Action...</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
@@ -1553,45 +1553,45 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="vanished">&amp;Nouvel onglet</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="130"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="136"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
         <source>Re&amp;name tab</source>
-        <translation type="vanished">&amp;Renommer l'onglet</translation>
+        <translation type="vanished">&amp;Renommer l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="132"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="138"/>
         <source>Ctrl+F2</source>
         <translation>Ctrl+F2</translation>
     </message>
     <message>
         <source>Re&amp;move tab</source>
-        <translation type="vanished">&amp;Supprimer l'onglet</translation>
+        <translation type="vanished">&amp;Supprimer l&apos;onglet</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="134"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="140"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="139"/>
         <source>Re&amp;move Tab</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="135"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="141"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="136"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="142"/>
         <source>Ctrl+Shift+T</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configtabshortcuts.cpp" line="138"/>
+        <location filename="../src/gui/configtabshortcuts.cpp" line="144"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
@@ -1625,11 +1625,11 @@ CTRL et touche haut ou Bas.</translation>
     </message>
     <message>
         <source>Copy n&amp;ext item</source>
-        <translation type="vanished">&amp;Copier l'élément suivant</translation>
+        <translation type="vanished">&amp;Copier l&apos;élément suivant</translation>
     </message>
     <message>
         <source>Copy &amp;previous item</source>
-        <translation type="vanished">&amp;Copier l'élément précédent</translation>
+        <translation type="vanished">&amp;Copier l&apos;élément précédent</translation>
     </message>
     <message>
         <source>Paste as pla&amp;in text</source>
@@ -1652,10 +1652,9 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="vanished">Sélectionnez et copiez le précédent</translation>
     </message>
     <message>
-        <location filename="../src/ui/configtabshortcuts.ui" line="17"/>
-        <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
-&lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
+        <source>&amp;Custom Actions and Global Shortcuts...</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1701,7 +1700,7 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="213"/>
         <source>Save clipboard in history</source>
-        <translation>Enregistrer le presse-papiers dans l'historique</translation>
+        <translation>Enregistrer le presse-papiers dans l&apos;historique</translation>
     </message>
     <message>
         <source>Copy clipboard content to the primary selection</source>
@@ -1718,12 +1717,12 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="148"/>
         <source>Confirm application exit</source>
-        <translation>Confirmez quitter l'application</translation>
+        <translation>Confirmez quitter l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="151"/>
         <source>Confirm application e&amp;xit</source>
-        <translation>Confirmez la s&amp;ortie de l'application</translation>
+        <translation>Confirmez la s&amp;ortie de l&apos;application</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="174"/>
@@ -1754,8 +1753,8 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="vanished">à Droite</translation>
     </message>
     <message>
-        <source>Break text if it's too long to fit on line.</source>
-        <translation type="vanished">Diviser le texte s'il est trop longue pour tenir sur une  ligne.</translation>
+        <source>Break text if it&apos;s too long to fit on line.</source>
+        <translation type="vanished">Diviser le texte s&apos;il est trop longue pour tenir sur une  ligne.</translation>
     </message>
     <message>
         <source>W&amp;rap long text</source>
@@ -1764,27 +1763,27 @@ CTRL et touche haut ou Bas.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="495"/>
         <source>Maximum &amp;number of items in history:</source>
-        <translation>&amp;Nombre maximum d'éléments de l'historique:</translation>
+        <translation>&amp;Nombre maximum d&apos;éléments de l&apos;historique:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="507"/>
         <source>Maximum number of items in each tab</source>
-        <translation>Nombre maximum d'éléments par onglet</translation>
+        <translation>Nombre maximum d&apos;éléments par onglet</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="759"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation>Nombre d'éléments dans la &amp;barre de menu:</translation>
+        <translation>Nombre d&apos;éléments dans la &amp;barre de menu:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="769"/>
         <source>Number of items in tray menu</source>
-        <translation>Nombre d'éléments dans la barre de menu</translation>
+        <translation>Nombre d&apos;éléments dans la barre de menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="574"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation>Commande de l'éditeur &amp;externe(%1 pour modifier le fichier:</translation>
+        <translation>Commande de l&apos;éditeur &amp;externe(%1 pour modifier le fichier:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="584"/>
@@ -1794,7 +1793,7 @@ CTRL et touche haut ou Bas.</translation>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation>Commande pour l'éditeur externe (%1 est le nom du fichier).
+        <translation>Commande pour l&apos;éditeur externe (%1 est le nom du fichier).
   Exemples:
     gedit %1
     notepad %1
@@ -1816,17 +1815,17 @@ Pozn.: Editované prvky mohou být uloženy pomocí Ctrl+S nebo F2 bez ohledu na
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="606"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
-        <translation>Enregistrer l'élément édité avec Ctrl + Entrée et de créer une nouvelle ligne avec la touche Retour</translation>
+        <translation>Enregistrer l&apos;élément édité avec Ctrl + Entrée et de créer une nouvelle ligne avec la touche Retour</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="613"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation>Après l'élément est activé (double-clic ou la touche Entrée), copiez-le dans le presse-papiers et ...</translation>
+        <translation>Après l&apos;élément est activé (double-clic ou la touche Entrée), copiez-le dans le presse-papiers et ...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="250"/>
         <source>Show tree with tabs instead of tab bar</source>
-        <translation>Afficher l'arborescence des onglets à la place de barre des onglets</translation>
+        <translation>Afficher l&apos;arborescence des onglets à la place de barre des onglets</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="253"/>
@@ -1840,48 +1839,48 @@ Pozn.: Editované prvky mohou být uloženy pomocí Ctrl+S nebo F2 bez ohledu na
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="141"/>
         <source>O&amp;pen windows on current screen</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="344"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="347"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="383"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="535"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation>&amp;Décharger l'onglet après un intervalle en minutes:</translation>
+        <translation>&amp;Décharger l&apos;onglet après un intervalle en minutes:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="547"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation>Décharger chaque onglet de la mémoire après nombre de minutes d'inactivité.
+        <translation>Décharger chaque onglet de la mémoire après nombre de minutes d&apos;inactivité.
 
 Mettre 0 pour ne pas décharger les onglets.</translation>
     </message>
     <message>
         <source>Move item to the top of the list after it is activated.</source>
-        <translation type="vanished">Déplacer l'élément en haut de la liste après son activation.</translation>
+        <translation type="vanished">Déplacer l&apos;élément en haut de la liste après son activation.</translation>
     </message>
     <message>
         <source>Move item to the top</source>
-        <translation type="vanished">Déplacer l'élément vers le haut</translation>
+        <translation type="vanished">Déplacer l&apos;élément vers le haut</translation>
     </message>
     <message>
         <source>Close main window after item is activated.</source>
-        <translation type="vanished">Fermez la fenêtre principale après l'activation de l'élément .</translation>
+        <translation type="vanished">Fermez la fenêtre principale après l&apos;activation de l&apos;élément .</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="632"/>
@@ -1890,7 +1889,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     </message>
     <message>
         <source>Focus last window after item is activated.</source>
-        <translation type="vanished">Sélectionnez la dernière fenêtre active après avoir activer l'élément.</translation>
+        <translation type="vanished">Sélectionnez la dernière fenêtre active après avoir activer l&apos;élément.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="642"/>
@@ -1899,7 +1898,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     </message>
     <message>
         <source>Paste to current window after item is activated.</source>
-        <translation type="vanished">Ajouter à la fenêtres sélectionnées après avoir activer l'élément.</translation>
+        <translation type="vanished">Ajouter à la fenêtres sélectionnées après avoir activer l&apos;élément.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="652"/>
@@ -1914,27 +1913,27 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1106"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1112"/>
         <source>Ho&amp;rizontal offset:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1149"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1186"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1223"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1296"/>
@@ -1963,7 +1962,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     </message>
     <message>
         <source>Define what to do with a new matching text in clipboard. Commands are applied in order appearance in list and they can be also invoked from main menu and right-click menu when matching items are selected.</source>
-        <translation type="vanished">Définir ce qu'il faut faire avec le nouveau texte dans le presse-papiers. Les commandes sont appliquées dans l'ordre d'apparition dans la liste et peut être exécuté à partir des principaux éléments de menu et avec le clic-droit</translation>
+        <translation type="vanished">Définir ce qu&apos;il faut faire avec le nouveau texte dans le presse-papiers. Les commandes sont appliquées dans l&apos;ordre d&apos;apparition dans la liste et peut être exécuté à partir des principaux éléments de menu et avec le clic-droit</translation>
     </message>
     <message>
         <source>Remove [Del]</source>
@@ -1987,7 +1986,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
         <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;b&gt;Pozn.:&lt;/b&gt; Některé klávesové kombinace nemusí fungovat.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn't have focus.&lt;/body&gt;&lt;/html&gt;</source>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;These keyboard shortcuts work even if application window doesn&apos;t have focus.&lt;/body&gt;&lt;/html&gt;</source>
         <translation type="obsolete">&lt;html&gt;&lt;head/&gt;&lt;body&gt;Tyto systémové klávesové zkratky fungují i když okno nemí aktivní.&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
@@ -2029,7 +2028,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1308"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
-        <translation>Le format d'affichage des élément sélectionnés dans l'historique peut être modifiée en appuyant sur &lt;b&gt;Ctrl+gauche&lt;/b&gt; ou &lt;b&gt;Ctrl+V droit&lt;/b&gt;. Vous pouvez modifier la priorité de formats pour afficher en réorganisant les éléments ci-dessous.</translation>
+        <translation>Le format d&apos;affichage des élément sélectionnés dans l&apos;historique peut être modifiée en appuyant sur &lt;b&gt;Ctrl+gauche&lt;/b&gt; ou &lt;b&gt;Ctrl+V droit&lt;/b&gt;. Vous pouvez modifier la priorité de formats pour afficher en réorganisant les éléments ci-dessous.</translation>
     </message>
     <message>
         <source>Shortcut to edit clipboard content</source>
@@ -2068,7 +2067,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
 Note: This is not be supported on all systems.</source>
         <translation>Transparence de la fenêtre principale actives.
 
-Remarque: Cette fonction n'est pas prise en charge sur certains systèmes.</translation>
+Remarque: Cette fonction n&apos;est pas prise en charge sur certains systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="302"/>
@@ -2096,11 +2095,11 @@ Remarque: Cette fonction n'est pas prise en charge sur certains systèmes.</tran
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation>Intervalle en seconde entre deux notifications d'arrivé d'un nouveau contenu dans le presse-papier (ne fonctionne que lorsque la fenêtre principale est fermée).
+        <translation>Intervalle en seconde entre deux notifications d&apos;arrivé d&apos;un nouveau contenu dans le presse-papier (ne fonctionne que lorsque la fenêtre principale est fermée).
 ↵
 Mettre à 0 pour désactiver.
 ↵
-Situé à -1 pour garder visible jusqu'à ce que vous cliquiez dessus.</translation>
+Situé à -1 pour garder visible jusqu&apos;à ce que vous cliquiez dessus.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="957"/>
@@ -2110,97 +2109,97 @@ Situé à -1 pour garder visible jusqu'à ce que vous cliquiez dessus.</translat
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
         <source>Langua&amp;ge:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it's too long to fit on line</source>
-        <translation type="unfinished"/>
+        <source>Break text if it&apos;s too long to fit on line</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="131"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="138"/>
         <source>Enable to open windows on current screen. Disable to open windows where they were last closed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="203"/>
         <source>Allow to paste mouse selections using shortcut (usually Ctrl+V or Shift+Insert)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="226"/>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button)</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="393"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="619"/>
         <source>Move item to the top of the list after it is activated</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="622"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="629"/>
         <source>Close main window after item is activated</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="639"/>
         <source>Focus last window after item is activated</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="649"/>
         <source>Paste to current window after item is activated</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="747"/>
         <source>Show command for current clipboard content in tray menu</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="799"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="806"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="847"/>
         <source>Paste item to current window after selecting it in menu</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="860"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="969"/>
         <source>Position on screen for notifications</source>
-        <translation>Position des notifications sur l'écran</translation>
+        <translation>Position des notifications sur l&apos;écran</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="983"/>
@@ -2225,7 +2224,7 @@ Situé à -1 pour garder visible jusqu'à ce que vous cliquiez dessus.</translat
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1021"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1065"/>
@@ -2244,22 +2243,22 @@ Mettre à 0 pour désactiver.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1124"/>
         <source>Notification distance from left or right screen edge in screen points</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1161"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1198"/>
         <source>Maximum width for notification in screen points</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1235"/>
         <source>Maximum height for notification in screen points</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="241"/>
@@ -2290,7 +2289,7 @@ Mettre à 0 pour désactiver.</translation>
 Note: This is not be supported on all systems.</source>
         <translation>Transparence de la fenêtre principale inactive
 
-Remarque: Cette fonction n'est pas prise en charge sur certains systèmes.</translation>
+Remarque: Cette fonction n&apos;est pas prise en charge sur certains systèmes.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="357"/>
@@ -2300,26 +2299,26 @@ Remarque: Cette fonction n'est pas prise en charge sur certains systèmes.</tran
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="373"/>
         <source>Hide toolbar</source>
-        <translation>Masquer la barre d'outils</translation>
+        <translation>Masquer la barre d&apos;outils</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="376"/>
         <source>Hide too&amp;lbar</source>
-        <translation>&amp;Masquer la barre d'outil</translation>
+        <translation>&amp;Masquer la barre d&apos;outil</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="390"/>
-        <source>Don't show tray icon; minimize window when closed</source>
-        <translation>Afficher l'icône dans la barre, minimisez la fenêtre lors de la fermeture</translation>
+        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <translation>Afficher l&apos;icône dans la barre, minimisez la fenêtre lors de la fermeture</translation>
     </message>
     <message>
         <source>&amp;Disable tray</source>
-        <translation type="vanished">&amp;Ne pas afficher l'icône dans la barre des tâches</translation>
+        <translation type="vanished">&amp;Ne pas afficher l&apos;icône dans la barre des tâches</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="161"/>
         <source>Run the application on system startup</source>
-        <translation>Exécuter l'application au démarrage du système</translation>
+        <translation>Exécuter l&apos;application au démarrage du système</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="164"/>
@@ -2334,7 +2333,7 @@ Remarque: Cette fonction n'est pas prise en charge sur certains systèmes.</tran
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="193"/>
         <source>Save text selected with mouse (primary selection) in history</source>
-        <translation>Enregistrer le texte sélectionné avec la souris (sélection principale) dans l'historique.</translation>
+        <translation>Enregistrer le texte sélectionné avec la souris (sélection principale) dans l&apos;historique.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="196"/>
@@ -2357,7 +2356,7 @@ Remarque: Cette fonction n'est pas prise en charge sur certains systèmes.</tran
     </message>
     <message>
         <source>Allow to paste copied content the same way as mouse selections (usually by pressing middle mouse button).</source>
-        <translation type="vanished">Autoriser le collage du texte copié à l'aide du (généralement le bouton central de la souris) de la souris.</translation>
+        <translation type="vanished">Autoriser le collage du texte copié à l&apos;aide du (généralement le bouton central de la souris) de la souris.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="229"/>
@@ -2403,18 +2402,18 @@ Nastav na 0 pro vypnutí.</translation>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
-        <translation>Autorisé à la touche Entrée pour sauvegarder l'élément modifié et Ctrl + Entrée pour créer une nouvelle ligne.
+        <translation>Autorisé à la touche Entrée pour sauvegarder l&apos;élément modifié et Ctrl + Entrée pour créer une nouvelle ligne.
 
-Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel que soit l'option.</translation>
+Remarque: les éléments modifiés peuvent être enregistrés l&apos;aide de F2, quel que soit l&apos;option.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="695"/>
         <source>&amp;Tray</source>
-        <translation>&amp;Barre d'état</translation>
+        <translation>&amp;Barre d&apos;état</translation>
     </message>
     <message>
         <source>Paste item to current window after selecting it in menu.</source>
-        <translation type="vanished">Collez l'élément vers la fenêtre courante après l'avoir sélectionné dans le menu.</translation>
+        <translation type="vanished">Collez l&apos;élément vers la fenêtre courante après l&apos;avoir sélectionné dans le menu.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="850"/>
@@ -2424,20 +2423,20 @@ Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="796"/>
         <source>Show items from current tab in content menu</source>
-        <translation>Afficher les articles de l'onglet courant dans le menu contextuel</translation>
+        <translation>Afficher les articles de l&apos;onglet courant dans le menu contextuel</translation>
     </message>
     <message>
         <source>Show c&amp;urrent tab in menu,</source>
-        <translation type="vanished">&amp;Afficher l'onglet actuel dans le menu,</translation>
+        <translation type="vanished">&amp;Afficher l&apos;onglet actuel dans le menu,</translation>
     </message>
     <message>
         <source>or choose o&amp;ther tab:</source>
-        <translation type="vanished">ou d'un autre onglet:</translation>
+        <translation type="vanished">ou d&apos;un autre onglet:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="822"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation>Nommer l'onglet pour afficher le menu (vide pour le premier onglet)</translation>
+        <translation>Nommer l&apos;onglet pour afficher le menu (vide pour le premier onglet)</translation>
     </message>
     <message>
         <source>Show command for current clipboard content in tray menu.</source>
@@ -2451,11 +2450,11 @@ Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="857"/>
         <source>Show image preview next to menu items</source>
-        <translation>Afficher l'aperçu de l'image à côté des éléments de menu</translation>
+        <translation>Afficher l&apos;aperçu de l&apos;image à côté des éléments de menu</translation>
     </message>
     <message>
         <source>Show &amp;image preview as menu item icon</source>
-        <translation type="vanished">Voir les images miniatures sous forme d'icônes dans le menu</translation>
+        <translation type="vanished">Voir les images miniatures sous forme d&apos;icônes dans le menu</translation>
     </message>
     <message>
         <source>Create new command or a add an existing example command.</source>
@@ -2508,7 +2507,7 @@ Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
         <source>Disable clipboard storing</source>
-        <translation>Désactiver l'historisation du presse-papier</translation>
+        <translation>Désactiver l&apos;historisation du presse-papier</translation>
     </message>
     <message>
         <source>Temporarily disable clipboard content to be saved in history.</source>
@@ -2517,7 +2516,7 @@ Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="97"/>
         <source>Enable clipboard storing</source>
-        <translation>Activer l'historisation du presse-papier</translation>
+        <translation>Activer l&apos;historisation du presse-papier</translation>
     </message>
     <message>
         <source>Enable clipboard content to be saved in history.</source>
@@ -2655,12 +2654,12 @@ Remarque: les éléments modifiés peuvent être enregistrés l'aide de F2, quel
         <translation type="obsolete">Náhled:</translation>
     </message>
     <message>
-        <source>Cannot save tab "%1" to "%2" (%3)!</source>
-        <translation type="obsolete">Nelze uložit záložku "%1" do "%2" ("%3")!</translation>
+        <source>Cannot save tab &quot;%1&quot; to &quot;%2&quot; (%3)!</source>
+        <translation type="obsolete">Nelze uložit záložku &quot;%1&quot; do &quot;%2&quot; (&quot;%3&quot;)!</translation>
     </message>
     <message>
-        <source>Search string is "item".</source>
-        <translation type="obsolete">Vyhledávaný výraz je "prvek".</translation>
+        <source>Search string is &quot;item&quot;.</source>
+        <translation type="obsolete">Vyhledávaný výraz je &quot;prvek&quot;.</translation>
     </message>
     <message>
         <source>Select an item and
@@ -2687,69 +2686,69 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">prvek</translation>
     </message>
     <message>
-        <source>Cannot create directory for settings "%1"!</source>
-        <translation type="obsolete">Nelze vytvořit adresář pro nastavení "%1"!</translation>
+        <source>Cannot create directory for settings &quot;%1&quot;!</source>
+        <translation type="obsolete">Nelze vytvořit adresář pro nastavení &quot;%1&quot;!</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="60"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
-        <translation>Vous ne pouvez pas enregistrer l'onglet %1 à %2 (%3)!</translation>
+        <translation>Vous ne pouvez pas enregistrer l&apos;onglet %1 à %2 (%3)!</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="68"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="75"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="77"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="79"/>
         <source>Edit clipboard</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="81"/>
         <source>Edit first item</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="83"/>
         <source>Copy second item</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="85"/>
         <source>Show action dialog</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
         <source>Create new item</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
         <source>Copy next item</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
         <source>Copy previous item</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="93"/>
         <source>Paste clipboard as plain text</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <source>New command</source>
@@ -2757,7 +2756,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Ignore items with no or single character</source>
-        <translation type="vanished">Ignorer les éléments qui n'ont pas ou un seul caractère</translation>
+        <translation type="vanished">Ignorer les éléments qui n&apos;ont pas ou un seul caractère</translation>
     </message>
     <message>
         <source>Open in &amp;Browser</source>
@@ -2777,7 +2776,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="vanished">Copier l'URL (adresse web) à un autre onglet</translation>
+        <translation type="vanished">Copier l&apos;URL (adresse web) à un autre onglet</translation>
     </message>
     <message>
         <source>Run shell script</source>
@@ -2793,15 +2792,15 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="vanished">Créez un code QR à partir d'une URL (nécessite qrencode)</translation>
+        <translation type="vanished">Créez un code QR à partir d&apos;une URL (nécessite qrencode)</translation>
     </message>
     <message>
         <source>Label image</source>
-        <translation type="vanished">marquer l'image</translation>
+        <translation type="vanished">marquer l&apos;image</translation>
     </message>
     <message>
         <source>Open URL</source>
-        <translation type="vanished">Ouvrir l'URL</translation>
+        <translation type="vanished">Ouvrir l&apos;URL</translation>
     </message>
     <message>
         <source>Add to &amp;TODO tab</source>
@@ -2809,15 +2808,15 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Move to &amp;TODO tab</source>
-        <translation type="vanished">Déplacer l'onglet &amp;TODO</translation>
+        <translation type="vanished">Déplacer l&apos;onglet &amp;TODO</translation>
     </message>
     <message>
         <source>Ignore copied files</source>
         <translation type="vanished">Ignorer les fichiers copiés</translation>
     </message>
     <message>
-        <source>Ignore *"Password"* window</source>
-        <translation type="vanished">* Ignorer la case "Mot de passe" *</translation>
+        <source>Ignore *&quot;Password&quot;* window</source>
+        <translation type="vanished">* Ignorer la case &quot;Mot de passe&quot; *</translation>
     </message>
     <message>
         <source>Password</source>
@@ -2829,8 +2828,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="561"/>
-        <source>Invalid value for option "%1"</source>
-        <translation type="unfinished"/>
+        <source>Invalid value for option &quot;%1&quot;</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="806"/>
@@ -2840,7 +2839,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="807"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation>La langue sera modifiée après le redémarrage de l'application.</translation>
+        <translation>La langue sera modifiée après le redémarrage de l&apos;application.</translation>
     </message>
     <message>
         <source>Open Files with Commands</source>
@@ -2954,16 +2953,16 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"/>
         <source>Argument must be positive: %1=%2</source>
-        <translation>L'argument doit être positif: %1=%2</translation>
+        <translation>L&apos;argument doit être positif: %1=%2</translation>
     </message>
     <message>
-        <source>Mark '%1' not set.</source>
-        <translation type="vanished">Marquer '%1' n'est pas activée.</translation>
+        <source>Mark &apos;%1&apos; not set.</source>
+        <translation type="vanished">Marquer &apos;%1&apos; n&apos;est pas activée.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark "%1" not set.</source>
-        <translation type="unfinished"/>
+        <source>Mark &quot;%1&quot; not set.</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
@@ -2988,12 +2987,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5730"/>
         <source>Invalid argument:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5733"/>
         <source>Trailing characters:</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5816"/>
@@ -3010,35 +3009,35 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File "%1" exists (add ! to override)</source>
-        <translation>Le fichier "% 1" existe(ajouter ou remplacer)</translation>
+        <source>File &quot;%1&quot; exists (add ! to override)</source>
+        <translation>Le fichier &quot;% 1&quot; existe(ajouter ou remplacer)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file "%1" for writing</source>
-        <translation>Ne peut pas ouvrir le fichier "% 1" en écriture</translation>
+        <source>Cannot open file &quot;%1&quot; for writing</source>
+        <translation>Ne peut pas ouvrir le fichier &quot;% 1&quot; en écriture</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>"%1" %2 %3L, %4C written.</source>
-        <translation>"%1" %2 %3L, %4C écrite</translation>
+        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
+        <translation>&quot;%1&quot; %2 %3L, %4C écrite</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file "%1" for reading</source>
-        <translation>Ne peut pas ouvrir le fichier "% 1" en lecture</translation>
+        <source>Cannot open file &quot;%1&quot; for reading</source>
+        <translation>Ne peut pas ouvrir le fichier &quot;% 1&quot; en lecture</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>"%1" %2L, %3C</source>
-        <translation>"%1" %2L, %3C</translation>
+        <source>&quot;%1&quot; %2L, %3C</source>
+        <translation>&quot;%1&quot; %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
         <source>%n lines filtered.</source>
         <translation>
             <numerusform>%n lignes filtrées.</numerusform>
-            <numerusform/>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -3081,7 +3080,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <source>%n lines indented.</source>
         <translation>
             <numerusform>%n lignes mis en retrait.</numerusform>
-            <numerusform/>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -3089,7 +3088,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <source>%n lines %1ed %2 time.</source>
         <translation>
             <numerusform>%n lignes %1ed %2 fois.</numerusform>
-            <numerusform/>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message numerus="yes">
@@ -3097,7 +3096,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <source>%n lines yanked.</source>
         <translation>
             <numerusform>%n lignes supprimé</numerusform>
-            <numerusform/>
+            <numerusform></numerusform>
         </translation>
     </message>
     <message>
@@ -3131,15 +3130,15 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6166"/>
         <source>Not an editor command: %1</source>
-        <translation>Pas une commande d'édition: %1</translation>
+        <translation>Pas une commande d&apos;édition: %1</translation>
     </message>
 </context>
 <context>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory "%1"!</source>
-        <translation>Impossible de créer le répertoire de synchronisation "%1"!</translation>
+        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
+        <translation>Impossible de créer le répertoire de synchronisation &quot;%1&quot;!</translation>
     </message>
 </context>
 <context>
@@ -3147,7 +3146,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="35"/>
         <source>Select Icon...</source>
-        <translation>Sélectionnez l'icône ...</translation>
+        <translation>Sélectionnez l&apos;icône ...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="72"/>
@@ -3171,7 +3170,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="113"/>
         <source>Open Icon file</source>
-        <translation>&amp;Ouvrir le fichier de l'icône</translation>
+        <translation>&amp;Ouvrir le fichier de l&apos;icône</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="114"/>
@@ -3201,7 +3200,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="23"/>
         <source>Select formats to save in history. You can add a format from examples below or type in other (one per line).</source>
-        <translation>Sélectionnez les formats à enregistrer dans l'historique. vous pouvez ajouter des format à partir d'exemples ci-dessous ou saisir dans les autres éléments (un par ligne).</translation>
+        <translation>Sélectionnez les formats à enregistrer dans l&apos;historique. vous pouvez ajouter des format à partir d&apos;exemples ci-dessous ou saisir dans les autres éléments (un par ligne).</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"/>
@@ -3256,7 +3255,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="129"/>
         <source>Web image formats</source>
-        <translation>Les formats d'image Internet</translation>
+        <translation>Les formats d&apos;image Internet</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="139"/>
@@ -3266,12 +3265,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"/>
         <source>List of clipboard mime types that will be stored in history (in given display order)</source>
-        <translation>La liste des types MIME dansle presse-papiers qui seront conservés dans l'historique (dans l'ordre d'affichage)</translation>
+        <translation>La liste des types MIME dansle presse-papiers qui seront conservés dans l&apos;historique (dans l&apos;ordre d&apos;affichage)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="181"/>
         <source>&amp;Maximum number of characters per format to display:</source>
-        <translation>&amp;Le nombre maximum de caractères par format à l'affichage:</translation>
+        <translation>&amp;Le nombre maximum de caractères par format à l&apos;affichage:</translation>
     </message>
 </context>
 <context>
@@ -3293,12 +3292,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Failed to open temporary file (%1) for editing item in external editor!</source>
-        <translation type="vanished">Impossible d'ouvrir le fichier temporaire (%1) pour modifier l'élément dans l'éditeur externe!</translation>
+        <translation type="vanished">Impossible d&apos;ouvrir le fichier temporaire (%1) pour modifier l&apos;élément dans l&apos;éditeur externe!</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="145"/>
         <source>editor exit code is %1</source>
-        <translation>code de sortie d'édition est de %1</translation>
+        <translation>code de sortie d&apos;édition est de %1</translation>
     </message>
     <message>
         <source>Failed to read temporary file (%1)!</source>
@@ -3307,7 +3306,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="188"/>
         <source>Editor command: %1</source>
-        <translation>Commande de l'éditeur:%1</translation>
+        <translation>Commande de l&apos;éditeur:%1</translation>
     </message>
 </context>
 <context>
@@ -3320,7 +3319,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="210"/>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation>Sauvegarder l'élément (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
+        <translation>Sauvegarder l&apos;élément (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="211"/>
@@ -3359,13 +3358,13 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="236"/>
-        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Pour partager des éléments chiffrés sur un autre ordinateur ou de la session, vous aurez besoin des fichiers de clés publiques et secrètes::&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Enregistrer la clé privée dans un endroit sûr.)&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="301"/>
         <source>GnuPG must be installed to view encrypted tabs.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="447"/>
@@ -3411,7 +3410,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="585"/>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation>Création d'une nouvelle clé (cela peut prendre plusieurs minutes) ...</translation>
+        <translation>Création d&apos;une nouvelle clé (cela peut prendre plusieurs minutes) ...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="586"/>
@@ -3427,7 +3426,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="591"/>
         <source>Encryption keys &lt;strong&gt;must be generated&lt;/strong&gt; before item encryption can be used.</source>
-        <translation>Les clés de chiffrement &lt;strong&gt;doit être généré&lt;/strong&gt; avant le chiffrement de l'élément peut être utilisé.</translation>
+        <translation>Les clés de chiffrement &lt;strong&gt;doit être généré&lt;/strong&gt; avant le chiffrement de l&apos;élément peut être utilisé.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="593"/>
@@ -3442,12 +3441,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="601"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="63"/>
@@ -3465,7 +3464,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="23"/>
         <source>To encrypt and decrypt items add appropriate commands under Commands tab.</source>
-        <translation>Pour chiffrer et déchiffrer ales éléments ajouter les commandes appropriées dans l'onglet Commandes.</translation>
+        <translation>Pour chiffrer et déchiffrer ales éléments ajouter les commandes appropriées dans l&apos;onglet Commandes.</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="53"/>
@@ -3482,7 +3481,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Spécifiez les noms des onglets (un par ligne) qui seront automatiquement chiffrés et déchiffrés.&lt;/p&gt;
-&lt;p&gt;Pour enlever sans risque des éléments de la mémoire, définissez l'intervalle à supprimer des éléments de l'onglet Historique.&lt;/p&gt;</translation>
+&lt;p&gt;Pour enlever sans risque des éléments de la mémoire, définissez l&apos;intervalle à supprimer des éléments de l&apos;onglet Historique.&lt;/p&gt;</translation>
     </message>
 </context>
 <context>
@@ -3500,7 +3499,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevim.h" line="77"/>
         <source>Emulate Vim editor while editing items.</source>
-        <translation>Il émule le comportement de l'éditeur Vim lors de l'édition des éléments.</translation>
+        <translation>Il émule le comportement de l&apos;éditeur Vim lors de l&apos;édition des éléments.</translation>
     </message>
 </context>
 <context>
@@ -3513,7 +3512,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemfakevim/itemfakevimsettings.ui" line="24"/>
         <source>Path to Configuration File:</source>
-        <translation>Chemin d'accès au fichier de configuration:</translation>
+        <translation>Chemin d&apos;accès au fichier de configuration:</translation>
     </message>
 </context>
 <context>
@@ -3538,27 +3537,27 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="19"/>
         <source>Maximum Image &amp;Width:</source>
-        <translation>La largeur maximum de l'image:</translation>
+        <translation>La largeur maximum de l&apos;image:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="34"/>
         <source>Maximum width of image displayed in history (set to zero for original size)</source>
-        <translation>La largeur maximum de l'image affichée dans l'historique (mis à zéro pour la taille d'origine)</translation>
+        <translation>La largeur maximum de l&apos;image affichée dans l&apos;historique (mis à zéro pour la taille d&apos;origine)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="59"/>
         <source>Maximum Image &amp;Height:</source>
-        <translation>La hauteur maximum de l'image:</translation>
+        <translation>La hauteur maximum de l&apos;image:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="77"/>
         <source>Maximum height of image displayed in history (set to zero for original size)</source>
-        <translation>La hauteur maximale de l'image affichée dans l'histoire (mis à zéro pour la taille d'origine)</translation>
+        <translation>La hauteur maximale de l&apos;image affichée dans l&apos;histoire (mis à zéro pour la taille d&apos;origine)</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="109"/>
         <source>&amp;Image editor command:</source>
-        <translation>L'&amp;éditeur d'images:</translation>
+        <translation>L&apos;&amp;éditeur d&apos;images:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
@@ -3568,12 +3567,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
         <source>&amp;SVG editor command:</source>
-        <translation>L'éditeur pour le format SVG:</translation>
+        <translation>L&apos;éditeur pour le format SVG:</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="136"/>
         <source>Editor command for SVG image format.</source>
-        <translation>La commande pour l'édition des images format SVG</translation>
+        <translation>La commande pour l&apos;édition des images format SVG</translation>
     </message>
 </context>
 <context>
@@ -3599,17 +3598,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="23"/>
         <source>A&amp;bove Item</source>
-        <translation>&amp;Au-dessus de l'élément</translation>
+        <translation>&amp;Au-dessus de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="30"/>
         <source>B&amp;elow Item</source>
-        <translation>Au dessous de l'élément</translation>
+        <translation>Au dessous de l&apos;élément</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="37"/>
         <source>&amp;Icon Only</source>
-        <translation>&amp;uniquement l'icône</translation>
+        <translation>&amp;uniquement l&apos;icône</translation>
     </message>
     <message>
         <location filename="../plugins/itemnotes/itemnotessettings.ui" line="47"/>
@@ -3631,7 +3630,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
         <source>+</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="47"/>
@@ -3663,8 +3662,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
-        <translation>Impossible de synchroniser l'onglet "% 1" avec le répertoire "%2"!</translation>
+        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
+        <translation>Impossible de synchroniser l&apos;onglet &quot;% 1&quot; avec le répertoire &quot;%2&quot;!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1457"/>
@@ -3684,7 +3683,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1649"/>
         <source>Failed to create synchronization directory</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.h" line="100"/>
@@ -3708,13 +3707,13 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Synchroniser le contenu de l'onglet &lt;/strong&gt; avec le chemin durépertoire de donnée&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;
-&lt;p&gt;Définir &lt;string&gt;chemin vide &lt;/strong&gt; de ne pas enregistrer des éléments dans l'onglet &lt;/strong&gt;.&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Synchroniser le contenu de l&apos;onglet &lt;/strong&gt; avec le chemin durépertoire de donnée&lt;strong&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;p&gt;Définir &lt;string&gt;chemin vide &lt;/strong&gt; de ne pas enregistrer des éléments dans l&apos;onglet &lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
         <source>Tab Name</source>
-        <translation>Nom de l'onglet</translation>
+        <translation>Nom de l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="68"/>
@@ -3731,7 +3730,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
         <translation>&lt;p&gt;Définir le type MIME&lt;strong&gt;-&lt;/strong&gt; (tableau de bord) pour ignorer les fichiers. Les autres fichiers inconnus ou cachés sont ignorés.&lt;/p&gt;
-&lt;p&gt;Exemple: chargement &lt;strong&gt; txt &lt;/strong&gt; l'extension de fichier comme &lt;strong&gt; text/ plain&lt;/strong&gt; type MIME.&lt;/p&gt;</translation>
+&lt;p&gt;Exemple: chargement &lt;strong&gt; txt &lt;/strong&gt; l&apos;extension de fichier comme &lt;strong&gt; text/ plain&lt;/strong&gt; type MIME.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
@@ -3741,7 +3740,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="126"/>
         <source>Item MIME Type</source>
-        <translation>Le type de l'élément de MIME</translation>
+        <translation>Le type de l&apos;élément de MIME</translation>
     </message>
 </context>
 <context>
@@ -3749,43 +3748,43 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="126"/>
         <source>Add a Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="131"/>
         <source>Remove a Tag</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="149"/>
         <source>Tag as %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="155"/>
         <source>Remove tag %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="496"/>
         <source>Important</source>
         <comment>Tag name for example command</comment>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.cpp" line="517"/>
         <source>Clear all tags</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="88"/>
         <source>Tags</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtags.h" line="90"/>
         <source>Display tags for items.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3793,22 +3792,22 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="28"/>
         <source>Tag Name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="33"/>
         <source>Color</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="38"/>
         <source>Icon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -3843,7 +3842,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../plugins/itemtext/itemtextsettings.ui" line="60"/>
         <source>Maximum height in pixels (0 for no limit):</source>
-        <translation>La hauteur maximale de l'élément en pixels (0 pour illimité):</translation>
+        <translation>La hauteur maximale de l&apos;élément en pixels (0 pour illimité):</translation>
     </message>
 </context>
 <context>
@@ -3873,12 +3872,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Hledat:</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1430"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1450"/>
         <source>&amp;clipboard</source>
         <translation>&amp;Presse-papier</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="333"/>
+        <location filename="../src/gui/mainwindow.cpp" line="350"/>
         <source>Exit?</source>
         <translation>Quitter ?</translation>
     </message>
@@ -3902,17 +3901,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&lt;PRÁZDNÉ&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="334"/>
+        <location filename="../src/gui/mainwindow.cpp" line="351"/>
         <source>Do you want to &lt;strong&gt;exit&lt;/strong&gt; CopyQ?</source>
         <translation>Voulez-vous &lt;strong&gt; quitter &lt;/trong&gt; CopyQ?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="369"/>
+        <location filename="../src/gui/mainwindow.cpp" line="386"/>
         <source>&amp;File</source>
         <translation>&amp;fichier</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1958"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1978"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Montrer/Masquer</translation>
     </message>
@@ -3933,7 +3932,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Akce...</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1962"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1982"/>
         <source>Open action dialog</source>
         <translation>Ouvrir la boîte de dialogue des Événements</translation>
     </message>
@@ -3950,7 +3949,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Ukončit</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="412"/>
+        <location filename="../src/gui/mainwindow.cpp" line="429"/>
         <source>&amp;Edit</source>
         <translation>&amp;Edition</translation>
     </message>
@@ -3971,12 +3970,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Kopírovat vybrané prvky</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="436"/>
+        <location filename="../src/gui/mainwindow.cpp" line="453"/>
         <source>&amp;Item</source>
         <translation>&amp;élément</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="440"/>
+        <location filename="../src/gui/mainwindow.cpp" line="457"/>
         <source>&amp;Tabs</source>
         <translation>&amp;Onglets</translation>
     </message>
@@ -4002,7 +4001,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>Re&amp;move tab %1</source>
-        <translation type="vanished">&amp;Supprimer l'onglet %1</translation>
+        <translation type="vanished">&amp;Supprimer l&apos;onglet %1</translation>
     </message>
     <message>
         <source>Remove group %1</source>
@@ -4017,18 +4016,18 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Commande %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1156"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1180"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Erreur</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2176"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2202"/>
         <source>Cannot save file %1!</source>
-        <translation>Impossible d'enregistrer le fichier %1!</translation>
+        <translation>Impossible d&apos;enregistrer le fichier %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2231"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2257"/>
         <source>Cannot open file %1!</source>
         <translation>Vous ne pouvez pas ouvrir le fichier %1!</translation>
     </message>
@@ -4038,19 +4037,19 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">CopyQ chyba</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1002"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1021"/>
         <source>%1 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label)</comment>
         <translation>%1 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1005"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1024"/>
         <source>%1 - %2 - CopyQ</source>
         <comment>Main window title format (%1 is clipboard content label, %2 is session name)</comment>
         <translation>%1 - %2 - CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1018"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1037"/>
         <source>Clipboard:
 %1</source>
         <comment>Tray tooltip format</comment>
@@ -4070,25 +4069,25 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&amp;Commandes</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="456"/>
+        <location filename="../src/gui/mainwindow.cpp" line="473"/>
         <source>&amp;Help</source>
         <translation>&amp;Aide</translation>
     </message>
     <message>
-        <source>Rename &amp;group "%1"</source>
-        <translation type="obsolete">Přejmenovat &amp;skupinu "%1"</translation>
+        <source>Rename &amp;group &quot;%1&quot;</source>
+        <translation type="obsolete">Přejmenovat &amp;skupinu &quot;%1&quot;</translation>
     </message>
     <message>
-        <source>Re&amp;name tab "%1"</source>
-        <translation type="obsolete">&amp;Přejmenovat záložku "%1"</translation>
+        <source>Re&amp;name tab &quot;%1&quot;</source>
+        <translation type="obsolete">&amp;Přejmenovat záložku &quot;%1&quot;</translation>
     </message>
     <message>
-        <source>Re&amp;move tab "%1"</source>
-        <translation type="obsolete">&amp;Odebrat záložku "%1"</translation>
+        <source>Re&amp;move tab &quot;%1&quot;</source>
+        <translation type="obsolete">&amp;Odebrat záložku &quot;%1&quot;</translation>
     </message>
     <message>
-        <source>Remove group "%1"</source>
-        <translation type="obsolete">Odebrat skupinu "%1"</translation>
+        <source>Remove group &quot;%1&quot;</source>
+        <translation type="obsolete">Odebrat skupinu &quot;%1&quot;</translation>
     </message>
     <message>
         <source>Error: %1
@@ -4103,16 +4102,16 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
 </translation>
     </message>
     <message>
-        <source>Command "%1"</source>
-        <translation type="obsolete">Příkaz: "%1"</translation>
+        <source>Command &quot;%1&quot;</source>
+        <translation type="obsolete">Příkaz: &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="789"/>
+        <location filename="../src/gui/mainwindow.cpp" line="808"/>
         <source>&amp;Enable Clipboard Storing</source>
         <translation>&amp;Autoriser le stockage du presse-papiers</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="790"/>
+        <location filename="../src/gui/mainwindow.cpp" line="809"/>
         <source>&amp;Disable Clipboard Storing</source>
         <translation>&amp;Désactivé le stockage du presse-papiers</translation>
     </message>
@@ -4129,12 +4128,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Configuration chargé</translation>
     </message>
     <message>
-        <source>&amp;Rename tab "%1"</source>
-        <translation type="obsolete">&amp;Přejmenovat záložku "%1"</translation>
+        <source>&amp;Rename tab &quot;%1&quot;</source>
+        <translation type="obsolete">&amp;Přejmenovat záložku &quot;%1&quot;</translation>
     </message>
     <message>
-        <source>&amp;Remove tab "%1"</source>
-        <translation type="obsolete">&amp;Odebrat záložku "%1"</translation>
+        <source>&amp;Remove tab &quot;%1&quot;</source>
+        <translation type="obsolete">&amp;Odebrat záložku &quot;%1&quot;</translation>
     </message>
     <message>
         <source>&lt;IMAGE&gt;</source>
@@ -4167,89 +4166,89 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&lt;b&gt;entrée:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1982"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2002"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Presse-papier:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2167"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2225"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2193"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2251"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ éléments(*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2175"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2201"/>
         <source>CopyQ Error Saving File</source>
-        <translation>Copyq erreur dans l'enregistrement du fichier</translation>
+        <translation>Copyq erreur dans l&apos;enregistrement du fichier</translation>
     </message>
     <message>
-        <source>Cannot save file "%1"!</source>
-        <translation type="obsolete">Nelze uložit soubor "%1"!</translation>
+        <source>Cannot save file &quot;%1&quot;!</source>
+        <translation type="obsolete">Nelze uložit soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2230"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2256"/>
         <source>CopyQ Error Opening File</source>
-        <translation>CopyQ Erreur d'ouverture du fichier</translation>
+        <translation>CopyQ Erreur d&apos;ouverture du fichier</translation>
     </message>
     <message>
-        <source>Cannot open file "%1"!</source>
-        <translation type="obsolete">Nelze otevřít soubor "%1"!</translation>
+        <source>Cannot open file &quot;%1&quot;!</source>
+        <translation type="obsolete">Nelze otevřít soubor &quot;%1&quot;!</translation>
     </message>
     <message>
         <source>Executing: %1</source>
-        <translation type="vanished">l'exécution de: %1</translation>
+        <translation type="vanished">l&apos;exécution de: %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="469"/>
+        <location filename="../src/gui/mainwindow.cpp" line="486"/>
         <source>&amp;New Tab</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="471"/>
+        <location filename="../src/gui/mainwindow.cpp" line="488"/>
         <source>Rename &amp;Group %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="473"/>
+        <location filename="../src/gui/mainwindow.cpp" line="490"/>
         <source>Re&amp;name Tab %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="475"/>
+        <location filename="../src/gui/mainwindow.cpp" line="492"/>
         <source>Re&amp;move Tab %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="477"/>
+        <location filename="../src/gui/mainwindow.cpp" line="494"/>
         <source>Remove Group %1</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="479"/>
+        <location filename="../src/gui/mainwindow.cpp" line="496"/>
         <source>&amp;Change Tab Icon</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2379"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2405"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Supprimer tous les onglets dans un groupe?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2380"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2406"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Voulez-vous supprimer &lt;strong&gt; tous les onglets&lt;/strong&gt; dans le groupe &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2425"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2451"/>
         <source>Remove Tab?</source>
-        <translation>Supprimer l'onglet?</translation>
+        <translation>Supprimer l&apos;onglet?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2426"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2452"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
-        <translation>Voulez-vous supprimer l'onglet&lt;strong&gt;%1&lt;/strong&gt;?</translation>
+        <translation>Voulez-vous supprimer l&apos;onglet&lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -4257,12 +4256,12 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/gui/notification.cpp" line="47"/>
         <source>CopyQ Inspect Notification</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/notification.cpp" line="69"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4285,54 +4284,54 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     <message>
         <location filename="../src/ui/processmanagerdialog.ui" line="14"/>
         <source>CopyQ Process Manager</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="60"/>
         <source>Started</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="62"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
         <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Finished</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="64"/>
         <source>Name</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="66"/>
         <source>Status</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="268"/>
         <source>Starting</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="287"/>
         <source>Terminate</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="152"/>
         <source>Runnning</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="162"/>
         <source>Failed</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="172"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -4378,17 +4377,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">%1</translation>
     </message>
     <message numerus="yes">
-        <source>"%1" (%n lines)</source>
+        <source>&quot;%1&quot; (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation type="obsolete">
-            <numerusform>"%1" (%n řádek)</numerusform>
-            <numerusform>"%1" (%n řádky)</numerusform>
+            <numerusform>&quot;%1&quot; (%n řádek)</numerusform>
+            <numerusform>&quot;%1&quot; (%n řádky)</numerusform>
         </translation>
     </message>
     <message>
-        <source>"%1"</source>
+        <source>&quot;%1&quot;</source>
         <comment>Label for single-line text in clipboard</comment>
-        <translation type="obsolete">"%1"</translation>
+        <translation type="obsolete">&quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../src/common/log.cpp" line="155"/>
@@ -4442,14 +4441,14 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
     </message>
     <message>
         <source>CopyQ server is already running.</source>
-        <translation type="vanished">CopyQ le serveur est en cours d'exécution.</translation>
+        <translation type="vanished">CopyQ le serveur est en cours d&apos;exécution.</translation>
     </message>
     <message>
         <location filename="../src/main.cpp" line="166"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, '-' or '_'!</source>
+which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
         <translation>Le nom de session doit contenir au plus 16 caractères
-qui peuvent être des lettres, des chiffres, des '-' ou '_'!</translation>
+qui peuvent être des lettres, des chiffres, des &apos;-&apos; ou &apos;_&apos;!</translation>
     </message>
     <message>
         <source>socketpair() failed!</source>
@@ -4475,11 +4474,11 @@ qui peuvent être des lettres, des chiffres, des '-' ou '_'!</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="87"/>
-        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation>
-            <numerusform>%1&lt;div align="droit"&gt;&lt;small&gt;&amp;mdash; %n ligne &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform>%1&lt;div align="droite"&gt;&lt;small&gt;&amp;mdash; %n ligne &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align=&quot;droit&quot;&gt;&lt;small&gt;&amp;mdash; %n ligne &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align=&quot;droite&quot;&gt;&lt;small&gt;&amp;mdash; %n ligne &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
@@ -4489,13 +4488,13 @@ qui peuvent être des lettres, des chiffres, des '-' ou '_'!</translation>
         <translation>%1</translation>
     </message>
     <message>
-        <source>Item file "%1" is corrupted or some CopyQ plugins are missing!</source>
-        <translation type="obsolete">Soubor s prvky "%1" je poškozený nebo chybí některé zásuvné moduly!</translation>
+        <source>Item file &quot;%1&quot; is corrupted or some CopyQ plugins are missing!</source>
+        <translation type="obsolete">Soubor s prvky &quot;%1&quot; je poškozený nebo chybí některé zásuvné moduly!</translation>
     </message>
     <message>
         <location filename="../src/item/itemfactory.cpp" line="187"/>
         <source>Item file %1 is corrupted or some CopyQ plugins are missing!</source>
-        <translation>Fichier d'élément% 1 est corrompu ou des plugins CopyQ sont manquants!</translation>
+        <translation>Fichier d&apos;élément% 1 est corrompu ou des plugins CopyQ sont manquants!</translation>
     </message>
     <message>
         <location filename="../src/item/serialize.cpp" line="174"/>
@@ -4554,7 +4553,7 @@ qui peuvent être des lettres, des chiffres, des '-' ou '_'!</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="94"/>
         <source>Print number of items in history.</source>
-        <translation>Imprime le nombre d'éléments dans l'historique</translation>
+        <translation>Imprime le nombre d&apos;éléments dans l&apos;historique</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="97"/>
@@ -4616,12 +4615,12 @@ Value -1 is for current text in clipboard.</source>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="62"/>
         <source>Show main window and optionally open tab with given name.</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="73"/>
         <source>Disable or enable clipboard content storing.</source>
-        <translation>Activer ou désactiver l'enregistrement du contenu du presse-papiers.</translation>
+        <translation>Activer ou désactiver l&apos;enregistrement du contenu du presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="84"/>
@@ -4649,12 +4648,12 @@ Définir le contenu du presse-papiers.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="99"/>
         <source>Copy next item from current tab to clipboard.</source>
-        <translation>Copiez les élément suivant à partir de  l'onglet actuel dans le presse papier.</translation>
+        <translation>Copiez les élément suivant à partir de  l&apos;onglet actuel dans le presse papier.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="101"/>
         <source>Copy previous item from current tab to clipboard.</source>
-        <translation>Copie l'élément précédent de l'onglet sélectionné dans le presse papier.</translation>
+        <translation>Copie l&apos;élément précédent de l&apos;onglet sélectionné dans le presse papier.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="118"/>
@@ -4723,9 +4722,9 @@ Le message apparaît dans la barre à un moment donné (en millisecondes).</tran
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="146"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn't exist.
+Tab is created if it doesn&apos;t exist.
 Default is the first tab.</source>
-        <translation>Exécutez la commande dans l'onglet avec le nom donné.L'onglet est créé s'il n'existe pas.
+        <translation>Exécutez la commande dans l&apos;onglet avec le nom donné.L&apos;onglet est créé s&apos;il n&apos;existe pas.
 Původní volba je první záložka.</translation>
     </message>
     <message>
@@ -4746,12 +4745,12 @@ Původní volba je první záložka.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"/>
         <source>Remove tab.</source>
-        <translation>Supprimer l'onglet</translation>
+        <translation>Supprimer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="155"/>
         <source>Rename tab.</source>
-        <translation>Renommer l'onglet</translation>
+        <translation>Renommer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="157"/>
@@ -4783,7 +4782,7 @@ Původní volba je první záložka.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="169"/>
         <source>Get option value.</source>
         <translatorcomment>ou retourne</translatorcomment>
-        <translation>Récupère la valeur de l'option.</translation>
+        <translation>Récupère la valeur de l&apos;option.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="170"/>
@@ -4794,7 +4793,7 @@ Původní volba je první záložka.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Set option value.</source>
-        <translation>Définit la valeur de l'option.</translation>
+        <translation>Définit la valeur de l&apos;option.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
@@ -4805,19 +4804,19 @@ Původní volba je první záložka.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="177"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with "arguments(0..N)".</source>
+Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
         <translation>
-Exécute le programme dans ECMAScript.Les arguments sont accessibles à l'aide des «arguments (0 .. N)".</translation>
+Exécute le programme dans ECMAScript.Les arguments sont accessibles à l&apos;aide des «arguments (0 .. N)&quot;.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1183"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
         <source>Failed to set clipboard!</source>
         <translation>Impossible de définir le presse-papiers!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="770"/>
-        <source>Invalid option "%1"!</source>
-        <translation>paramètre incorrect"%1"!</translation>
+        <location filename="../src/scriptable/scriptable.cpp" line="767"/>
+        <source>Invalid option &quot;%1&quot;!</source>
+        <translation>paramètre incorrect&quot;%1&quot;!</translation>
     </message>
     <message>
         <source>Evaluate ECMAScript program.</source>
@@ -4838,7 +4837,7 @@ Exécute le programme dans ECMAScript.Les arguments sont accessibles à l'aide d
         <source>
 Starts or connects to application instance with given session name.</source>
         <translation>
-Démarre ou connecte à une instance d'une application avec le nom donné.</translation>
+Démarre ou connecte à une instance d&apos;une application avec le nom donné.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="183"/>
@@ -4850,7 +4849,7 @@ Démarre ou connecte à une instance d'une application avec le nom donné.</tran
         <source>
 Print help for COMMAND or all commands.</source>
         <translation>
-Affiche l'aide concernant la commande ou toutes les commandes.</translation>
+Affiche l&apos;aide concernant la commande ou toutes les commandes.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="188"/>
@@ -4871,7 +4870,7 @@ Affiche la version du programme et de ses librairies.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="56"/>
         <source>Starts server if no command is specified.</source>
-        <translation>Lance le serveur s'il n'y a pas commande.</translation>
+        <translation>Lance le serveur s&apos;il n&apos;y a pas commande.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="57"/>
@@ -4884,7 +4883,7 @@ Affiche la version du programme et de ses librairies.</translation>
         <translation>REMARQUES:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="371"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="368"/>
         <source>Built with: </source>
         <translation>Fait par: </translation>
     </message>
@@ -4895,42 +4894,42 @@ Affiche la version du programme et de ses librairies.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="63"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
-        <translation>  - L'argument utilisation de tiret (-) pour lire des données depuis l'entrée standard.</translation>
+        <translation>  - L&apos;argument utilisation de tiret (-) pour lire des données depuis l&apos;entrée standard.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="64"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation>  - Utilisez un double tiret (--) pour récupérer tous les arguments suivants
-    sans l'expansion des séquences telles que \n, \t et plus.</translation>
+    sans l&apos;expansion des séquences telles que \n, \t et plus.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="66"/>
-        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
-        <translation>  - Appliquer? MIME pour une liste des types MIME disponibles (valeur par défaut MIME est "text / plain").</translation>
+        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
+        <translation>  - Appliquer? MIME pour une liste des types MIME disponibles (valeur par défaut MIME est &quot;text / plain&quot;).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="71"/>
         <source>Invalid number of arguments!</source>
-        <translation>Nombre incorrect d'arguments!</translation>
+        <translation>Nombre incorrect d&apos;arguments!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="307"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="304"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="150"/>
-        <source>Name "%1" doesn't refer to a function.</source>
-        <translation>Le nom "% 1" ne se réfère pas à une fonction.</translation>
+        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
+        <translation>Le nom &quot;% 1&quot; ne se réfère pas à une fonction.</translation>
     </message>
     <message>
         <source>Build with: </source>
         <translation type="obsolete">Sestaveno s:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="399"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="396"/>
         <source>Command not found!</source>
-        <translation>Commande n'a pas été trouvée</translation>
+        <translation>Commande n&apos;a pas été trouvée</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="451"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="448"/>
         <source>Terminating server.
 </source>
         <translation>Interruption serveur.
@@ -4938,21 +4937,21 @@ Affiche la version du programme et de ses librairies.</translation>
     </message>
     <message>
         <source>Tab name cannot be empty!</source>
-        <translation type="vanished">Le Nom de l'onglet ne peut pas être vide!</translation>
+        <translation type="vanished">Le Nom de l&apos;onglet ne peut pas être vide!</translation>
     </message>
     <message>
         <source>Tab with given name already exists!</source>
-        <translation type="vanished">L'onglet avec le nom proposée existe déjà!</translation>
+        <translation type="vanished">L&apos;onglet avec le nom proposée existe déjà!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="747"/>
-        <source>Cannot save to file "%1"!</source>
-        <translation>Impossible d'enregistrer le fichier"%1"!</translation>
+        <location filename="../src/scriptable/scriptable.cpp" line="744"/>
+        <source>Cannot save to file &quot;%1&quot;!</source>
+        <translation>Impossible d&apos;enregistrer le fichier&quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="758"/>
-        <source>Cannot import file "%1"!</source>
-        <translation>Vous ne pouvez pas importer le fichier"%1"!</translation>
+        <location filename="../src/scriptable/scriptable.cpp" line="755"/>
+        <source>Cannot import file &quot;%1&quot;!</source>
+        <translation>Vous ne pouvez pas importer le fichier&quot;%1&quot;!</translation>
     </message>
     <message>
         <source>To modify options from command line you must first close the CopyQ Configuration dialog!</source>
@@ -4963,8 +4962,8 @@ Affiche la version du programme et de ses librairies.</translation>
         <translation type="vanished">paramètre incorrect!</translation>
     </message>
     <message>
-        <source>Tab with given name doesn't exist!</source>
-        <translation type="vanished">L'onglet avec le nom donné n'existe pas!</translation>
+        <source>Tab with given name doesn&apos;t exist!</source>
+        <translation type="vanished">L&apos;onglet avec le nom donné n&apos;existe pas!</translation>
     </message>
 </context>
 <context>
@@ -4972,7 +4971,7 @@ Affiche la version du programme et de ses librairies.</translation>
     <message>
         <source>Bad command syntax. Use -h for help.
 </source>
-        <translation type="vanished">Mauvaise syntaxe de commande. Utilisez-h pour l'aide
+        <translation type="vanished">Mauvaise syntaxe de commande. Utilisez-h pour l&apos;aide
 </translation>
     </message>
 </context>
@@ -4984,7 +4983,7 @@ Affiche la version du programme et de ses librairies.</translation>
     </message>
     <message>
         <source>Client is not connected!</source>
-        <translation type="vanished">Le client n'est pas connecté!</translation>
+        <translation type="vanished">Le client n&apos;est pas connecté!</translation>
     </message>
 </context>
 <context>
@@ -4992,7 +4991,7 @@ Affiche la version du programme et de ses librairies.</translation>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="43"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -5004,8 +5003,8 @@ Affiche la version du programme et de ses librairies.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Appuyer sur le raccourci clavier.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Echappe&lt;/span&gt; pour annuler.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Appuyer sur le raccourci clavier.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Echappe&lt;/span&gt; pour annuler.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -5013,8 +5012,8 @@ Affiche la version du programme et de ses librairies.</translation>
         <translation>Cliquez ici et appuyez sur la raccourci clavier</translation>
     </message>
     <message>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel. &lt;span style=" font-weight:600;"&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Appuyez sur le raccourci clavier.&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Echappe&lt;/span&gt;pour annuler.&lt;span style=" font-weight:600;"&gt;Suppre&lt;/span&gt;pour désactiver les raccourcis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel. &lt;span style=&quot; font-weight:600;&quot;&gt;Backspace&lt;/span&gt; to disable shortcut.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="vanished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Appuyez sur le raccourci clavier.&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Echappe&lt;/span&gt;pour annuler.&lt;span style=&quot; font-weight:600;&quot;&gt;Suppre&lt;/span&gt;pour désactiver les raccourcis.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutdialog.cpp" line="65"/>
@@ -5047,9 +5046,9 @@ Affiche la version du programme et de ses librairies.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation>Le nom de l'élément doit être unique et vide&lt;br /&gt;
-Onglet &lt;b&gt;Notes&lt;/b&gt; peut être ouvert à l'aide&lt;b&gt; Alt+p&lt;/b&gt;.&lt;br /&gt;
-Utilisez &lt;b&gt;/&lt;/b&gt;  comme séparateur le chemin dans l'arborescence  de l'onglet.</translation>
+        <translation>Le nom de l&apos;élément doit être unique et vide&lt;br /&gt;
+Onglet &lt;b&gt;Notes&lt;/b&gt; peut être ouvert à l&apos;aide&lt;b&gt; Alt+p&lt;/b&gt;.&lt;br /&gt;
+Utilisez &lt;b&gt;/&lt;/b&gt;  comme séparateur le chemin dans l&apos;arborescence  de l&apos;onglet.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -5068,12 +5067,12 @@ Utilisez &lt;b&gt;/&lt;/b&gt;  comme séparateur le chemin dans l'arborescence  
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="38"/>
         <source>CopyQ Rename Tab</source>
-        <translation>CopyQ Renommer l'onglet</translation>
+        <translation>CopyQ Renommer l&apos;onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="41"/>
         <source>CopyQ Rename Tab Group</source>
-        <translation>CopyQ Renommer un groupe d'onglets</translation>
+        <translation>CopyQ Renommer un groupe d&apos;onglets</translation>
     </message>
 </context>
 <context>
@@ -5101,19 +5100,19 @@ Utilisez &lt;b&gt;/&lt;/b&gt;  comme séparateur le chemin dans l'arborescence  
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="258"/>
-        <source>Tab with given name doesn't exist!</source>
-        <translation>l'onglet n'existe pas</translation>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="265"/>
+        <source>Tab with given name doesn&apos;t exist!</source>
+        <translation>l&apos;onglet n&apos;existe pas</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="263"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="270"/>
         <source>Tab name cannot be empty!</source>
-        <translation>Nom de l'onglet ne peut pas être vide!</translation>
+        <translation>Nom de l&apos;onglet ne peut pas être vide!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="328"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="335"/>
         <source>Tab with given name already exists!</source>
-        <translation>L'onglet avec le même nom existe déjà!</translation>
+        <translation>L&apos;onglet avec le même nom existe déjà!</translation>
     </message>
 </context>
 </TS>
