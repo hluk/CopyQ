@@ -86,14 +86,11 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
         return defaultValue;
 }
 
-bool clipboardEquals(const QVariantMap &data, QClipboard::Mode mode, ScriptableProxy *proxy)
+bool clipboardEquals(
+        QClipboard::Mode mode, ScriptableProxy *proxy,
+        const QString &format, const QByteArray &content)
 {
-    foreach ( const QString &format, data.keys() ) {
-        if ( data.value(format).toByteArray() != proxy->getClipboardData(format, mode) )
-            return false;
-    }
-
-    return true;
+    return content == proxy->getClipboardData(format, mode);
 }
 
 void waitFor(qint64 milliseconds)
@@ -1169,14 +1166,18 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
     return false;
 }
 
-bool Scriptable::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
+bool Scriptable::setClipboard(QVariantMap &data, QClipboard::Mode mode)
 {
+    const QString mime = COPYQ_MIME_PREFIX "hash";
+    const QByteArray id = QByteArray::number(hash(data));
+    data.insert(mime, id);
+
     m_proxy->setClipboard(data, mode);
 
     // Wait for clipboard to be set.
-    for (int i = 0; i < 10; ++i) {
-        waitFor(250);
-        if ( clipboardEquals(data, mode, m_proxy) )
+    for (int i = 0; i < 30; ++i) {
+        waitFor(100);
+        if ( clipboardEquals(mode, m_proxy, mime, id) )
             return true;
     }
 

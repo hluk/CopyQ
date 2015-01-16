@@ -340,6 +340,9 @@ void ConfigTabAppearance::decorateMainWindow(QWidget *mainWindow) const
 
         "#tab_tree, #tab_tree_item{" + themeStyleSheet("tab_tree_css") + "}"
 
+        // GTK has incorrect background for branches
+        "#tab_tree::branch:selected{background:" + themeColorString("bg") + "}"
+
         "#tab_tree::item:selected"
         ",#tab_tree_item[CopyQ_selected=\"true\"]"
         "{"
