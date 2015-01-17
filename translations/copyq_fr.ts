@@ -1735,12 +1735,12 @@ CTRL et touche haut ou Bas.</translation>
         <translation type="obsolete">&amp;Umístění záložek:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="973"/>
+        <location filename="../src/ui/configurationmanager.ui" line="995"/>
         <source>Top</source>
         <translation>en Haut</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="978"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1000"/>
         <source>Bottom</source>
         <translation>en Bas</translation>
     </message>
@@ -1771,12 +1771,12 @@ CTRL et touche haut ou Bas.</translation>
         <translation>Nombre maximum d&apos;éléments par onglet</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="759"/>
+        <location filename="../src/ui/configurationmanager.ui" line="781"/>
         <source>N&amp;umber of items in tray menu:</source>
         <translation>Nombre d&apos;éléments dans la &amp;barre de menu:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="769"/>
+        <location filename="../src/ui/configurationmanager.ui" line="791"/>
         <source>Number of items in tray menu</source>
         <translation>Nombre d&apos;éléments dans la barre de menu</translation>
     </message>
@@ -1813,12 +1813,12 @@ Note: Edited items can be saved with Ctrl+S or F2 disregarding this option.</sou
 Pozn.: Editované prvky mohou být uloženy pomocí Ctrl+S nebo F2 bez ohledu na tuto volbu.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="606"/>
+        <location filename="../src/ui/configurationmanager.ui" line="628"/>
         <source>Sa&amp;ve edited item with Ctrl+Return and create new line with Return key</source>
         <translation>Enregistrer l&apos;élément édité avec Ctrl + Entrée et de créer une nouvelle ligne avec la touche Retour</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="613"/>
+        <location filename="../src/ui/configurationmanager.ui" line="635"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
         <translation>Après l&apos;élément est activé (double-clic ou la touche Entrée), copiez-le dans le presse-papiers et ...</translation>
     </message>
@@ -1883,7 +1883,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
         <translation type="vanished">Fermez la fenêtre principale après l&apos;activation de l&apos;élément .</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="632"/>
+        <location filename="../src/ui/configurationmanager.ui" line="654"/>
         <source>&amp;Close main window</source>
         <translation>&amp;Fermez la fenêtre principale</translation>
     </message>
@@ -1892,7 +1892,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
         <translation type="vanished">Sélectionnez la dernière fenêtre active après avoir activer l&apos;élément.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="642"/>
+        <location filename="../src/ui/configurationmanager.ui" line="664"/>
         <source>&amp;Focus last window</source>
         <translation>&amp;Sélectionnez la dernière fenêtre active</translation>
     </message>
@@ -1901,42 +1901,42 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
         <translation type="vanished">Ajouter à la fenêtres sélectionnées après avoir activer l&apos;élément.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="652"/>
+        <location filename="../src/ui/configurationmanager.ui" line="674"/>
         <source>&amp;Paste to current window</source>
         <translation>&amp;Coller vers la fenêtre courante</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="900"/>
+        <location filename="../src/ui/configurationmanager.ui" line="922"/>
         <source>&amp;Notifications</source>
         <translation>&amp;Notification</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1106"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1128"/>
         <source>Notification Geometry (in screen points)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1112"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1134"/>
         <source>Ho&amp;rizontal offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1149"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1171"/>
         <source>&amp;Vertical offset:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1186"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1208"/>
         <source>Maximum &amp;width:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1223"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1245"/>
         <source>Ma&amp;ximum height:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1296"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1318"/>
         <source>&amp;Items</source>
         <translation>&amp;éléments</translation>
     </message>
@@ -1977,7 +1977,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
         <translation type="obsolete">Dolů [Ctrl+Dolů]</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1326"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1348"/>
         <source>&amp;Shortcuts</source>
         <translation>&amp;Raccourcis</translation>
     </message>
@@ -2026,7 +2026,7 @@ Mettre 0 pour ne pas décharger les onglets.</translation>
         <translation type="obsolete">&amp;Edituj schránku</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1308"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1330"/>
         <source>Display format of selected item in history can be changed by pressing &lt;b&gt;Ctrl+Left&lt;/b&gt; or &lt;b&gt;Ctrl+Right&lt;/b&gt;. You can change priority of formats to display by reordering items below.</source>
         <translation>Le format d&apos;affichage des élément sélectionnés dans l&apos;historique peut être modifiée en appuyant sur &lt;b&gt;Ctrl+gauche&lt;/b&gt; ou &lt;b&gt;Ctrl+V droit&lt;/b&gt;. Vous pouvez modifier la priorité de formats pour afficher en réorganisant les éléments ci-dessous.</translation>
     </message>
@@ -2089,7 +2089,7 @@ Remarque: Cette fonction n&apos;est pas prise en charge sur certains systèmes.<
         <translation type="vanished">Intervalle en secondes pour afficher les notifications:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1033"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1055"/>
         <source>Interval in seconds to display notification for new clipboard content or if item is copied to clipboard (only if main window is closed).
 
 Set to 0 to disable this.
@@ -2102,7 +2102,7 @@ Mettre à 0 pour désactiver.
 Situé à -1 pour garder visible jusqu&apos;à ce que vous cliquiez dessus.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="957"/>
+        <location filename="../src/ui/configurationmanager.ui" line="979"/>
         <source>&amp;Notification position:</source>
         <translation>Emplacement des &amp;notifications</translation>
     </message>
@@ -2147,92 +2147,104 @@ Situé à -1 pour garder visible jusqu&apos;à ce que vous cliquiez dessus.</tra
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="619"/>
+        <location filename="../src/ui/configurationmanager.ui" line="599"/>
+        <source>Ta&amp;b for storing clipboard:</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="609"/>
+        <source>Name of tab that will automatically store new clipboard content.
+
+Leave empty to disable automatic storing.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/ui/configurationmanager.ui" line="641"/>
         <source>Move item to the top of the list after it is activated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="622"/>
+        <location filename="../src/ui/configurationmanager.ui" line="644"/>
         <source>Move item to the t&amp;op</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="629"/>
+        <location filename="../src/ui/configurationmanager.ui" line="651"/>
         <source>Close main window after item is activated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="639"/>
+        <location filename="../src/ui/configurationmanager.ui" line="661"/>
         <source>Focus last window after item is activated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="649"/>
+        <location filename="../src/ui/configurationmanager.ui" line="671"/>
         <source>Paste to current window after item is activated</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="747"/>
+        <location filename="../src/ui/configurationmanager.ui" line="769"/>
         <source>Show command for current clipboard content in tray menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="799"/>
+        <location filename="../src/ui/configurationmanager.ui" line="821"/>
         <source>Show cu&amp;rrent tab in menu,</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="806"/>
+        <location filename="../src/ui/configurationmanager.ui" line="828"/>
         <source>or &amp;choose other tab:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="847"/>
+        <location filename="../src/ui/configurationmanager.ui" line="869"/>
         <source>Paste item to current window after selecting it in menu</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="860"/>
+        <location filename="../src/ui/configurationmanager.ui" line="882"/>
         <source>Sh&amp;ow image preview as menu item icon</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="969"/>
+        <location filename="../src/ui/configurationmanager.ui" line="991"/>
         <source>Position on screen for notifications</source>
         <translation>Position des notifications sur l&apos;écran</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="983"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1005"/>
         <source>Top Right</source>
         <translation>En haut à droite</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="988"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1010"/>
         <source>Bottom Right</source>
         <translation>En bas à droite</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="993"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1015"/>
         <source>Bottom Left</source>
         <translation>En bas à gauche</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="998"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1020"/>
         <source>Top Left</source>
         <translation>En haut à gauche</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1021"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1043"/>
         <source>Int&amp;erval in seconds to display notifications:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1065"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1087"/>
         <source>Num&amp;ber of lines for clipboard notification:</source>
         <translation>Le Nombre de lignes du presse-papiers pour la notification :</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1077"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1099"/>
         <source>Number of lines to show for new clipboard content.
 
 Set to 0 to disable.</source>
@@ -2241,22 +2253,22 @@ Set to 0 to disable.</source>
 Mettre à 0 pour désactiver.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1124"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1146"/>
         <source>Notification distance from left or right screen edge in screen points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1161"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1183"/>
         <source>Notification distance from top or bottom screen edge in screen points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1198"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1220"/>
         <source>Maximum width for notification in screen points</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1235"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1257"/>
         <source>Maximum height for notification in screen points</source>
         <translation type="unfinished"></translation>
     </message>
@@ -2398,7 +2410,7 @@ Nastav na 0 pro vypnutí.</translation>
         <translation type="obsolete">Odstranit prvky z první záložky při ukončení</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="601"/>
+        <location filename="../src/ui/configurationmanager.ui" line="623"/>
         <source>Leave unchecked for Return key to save edited item and Ctrl+Return create new line.
 
 Note: Edited items can be saved with F2 disregarding this option.</source>
@@ -2407,7 +2419,7 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
 Remarque: les éléments modifiés peuvent être enregistrés l&apos;aide de F2, quel que soit l&apos;option.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="695"/>
+        <location filename="../src/ui/configurationmanager.ui" line="717"/>
         <source>&amp;Tray</source>
         <translation>&amp;Barre d&apos;état</translation>
     </message>
@@ -2416,12 +2428,12 @@ Remarque: les éléments modifiés peuvent être enregistrés l&apos;aide de F2,
         <translation type="vanished">Collez l&apos;élément vers la fenêtre courante après l&apos;avoir sélectionné dans le menu.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="850"/>
+        <location filename="../src/ui/configurationmanager.ui" line="872"/>
         <source>&amp;Paste activated item to current window</source>
         <translation>&amp;Collez élément actif vers la fenêtre courante</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="796"/>
+        <location filename="../src/ui/configurationmanager.ui" line="818"/>
         <source>Show items from current tab in content menu</source>
         <translation>Afficher les articles de l&apos;onglet courant dans le menu contextuel</translation>
     </message>
@@ -2434,7 +2446,7 @@ Remarque: les éléments modifiés peuvent être enregistrés l&apos;aide de F2,
         <translation type="vanished">ou d&apos;un autre onglet:</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="822"/>
+        <location filename="../src/ui/configurationmanager.ui" line="844"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
         <translation>Nommer l&apos;onglet pour afficher le menu (vide pour le premier onglet)</translation>
     </message>
@@ -2443,12 +2455,12 @@ Remarque: les éléments modifiés peuvent être enregistrés l&apos;aide de F2,
         <translation type="vanished">Afficher les commandes pour le contenu du presse-papiers dans la barre de menu.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="750"/>
+        <location filename="../src/ui/configurationmanager.ui" line="772"/>
         <source>Sho&amp;w commands for clipboard content</source>
         <translation>&amp;Afficher les commandes pour le contenu du presse-papiers</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="857"/>
+        <location filename="../src/ui/configurationmanager.ui" line="879"/>
         <source>Show image preview next to menu items</source>
         <translation>Afficher l&apos;aperçu de l&apos;image à côté des éléments de menu</translation>
     </message>
@@ -2541,7 +2553,7 @@ Remarque: les éléments modifiés peuvent être enregistrés l&apos;aide de F2,
         <translation type="obsolete">Vložit aktuální obsah schránky a zkopírovat předchozí prvek do schránky.</translation>
     </message>
     <message>
-        <location filename="../src/ui/configurationmanager.ui" line="1336"/>
+        <location filename="../src/ui/configurationmanager.ui" line="1358"/>
         <source>&amp;Appearance</source>
         <translation>&amp;Apparence</translation>
     </message>
@@ -2690,7 +2702,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">Nelze vytvořit adresář pro nastavení &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="60"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="66"/>
         <source>Cannot save tab %1 to %2 (%3)!</source>
         <translation>Vous ne pouvez pas enregistrer l&apos;onglet %1 à %2 (%3)!</translation>
     </message>
@@ -2827,17 +2839,23 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Chiffrer (nécessite GnuPG)</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="561"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="60"/>
+        <source>&amp;clipboard</source>
+        <comment>Default name of the tab that automatically stores new clipboard content</comment>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/configurationmanager.cpp" line="606"/>
         <source>Invalid value for option &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="806"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="851"/>
         <source>Restart Required</source>
         <translation>redémarrage nécessaire</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="807"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="852"/>
         <source>Language will be changed after application is restarted.</source>
         <translation>La langue sera modifiée après le redémarrage de l&apos;application.</translation>
     </message>
@@ -2890,17 +2908,17 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Supprimer</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="264"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="270"/>
         <source>Cannot create directory for settings %1!</source>
         <translation>Impossible la création du répertoire pour les paramètres %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="634"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="681"/>
         <source>Reset preferences?</source>
         <translation>Réinitialiser les préférences?</translation>
     </message>
     <message>
-        <location filename="../src/gui/configurationmanager.cpp" line="635"/>
+        <location filename="../src/gui/configurationmanager.cpp" line="682"/>
         <source>This action will reset all your preferences (in all tabs) to default values.&lt;br /&gt;&lt;br /&gt;Do you really want to &lt;strong&gt;reset all preferences&lt;/strong&gt;?</source>
         <translation>Cette action réinitialise tous les paramètres (tous les onglets) pour les valeurs par défaut. &lt;br /&gt; &lt;br /&gt; &lt;strong&gt; vous certain de vouloir réinitialiser tous les paramètres &lt;/strong&gt;?</translation>
     </message>
@@ -3872,9 +3890,8 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Hledat:</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1450"/>
         <source>&amp;clipboard</source>
-        <translation>&amp;Presse-papier</translation>
+        <translation type="vanished">&amp;Presse-papier</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="350"/>
@@ -3911,7 +3928,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation>&amp;fichier</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1978"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1984"/>
         <source>&amp;Show/Hide</source>
         <translation>&amp;Montrer/Masquer</translation>
     </message>
@@ -3932,7 +3949,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">&amp;Akce...</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1982"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1988"/>
         <source>Open action dialog</source>
         <translation>Ouvrir la boîte de dialogue des Événements</translation>
     </message>
@@ -4016,18 +4033,18 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">Commande %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="1180"/>
+        <location filename="../src/gui/mainwindow.cpp" line="1185"/>
         <source>CopyQ Error</source>
         <comment>Notification error message title</comment>
         <translation>CopyQ Erreur</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2202"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2205"/>
         <source>Cannot save file %1!</source>
         <translation>Impossible d&apos;enregistrer le fichier %1!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2257"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2260"/>
         <source>Cannot open file %1!</source>
         <translation>Vous ne pouvez pas ouvrir le fichier %1!</translation>
     </message>
@@ -4166,20 +4183,20 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="vanished">&lt;b&gt;entrée:&lt;/b&gt;</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2002"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2005"/>
         <source>&amp;Clipboard: %1</source>
         <comment>Tray menu clipboard item format</comment>
         <translation>&amp;Presse-papier:
 %1</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2193"/>
-        <location filename="../src/gui/mainwindow.cpp" line="2251"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2196"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2254"/>
         <source>CopyQ Items (*.cpq)</source>
         <translation>CopyQ éléments(*.cpq)</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2201"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2204"/>
         <source>CopyQ Error Saving File</source>
         <translation>Copyq erreur dans l&apos;enregistrement du fichier</translation>
     </message>
@@ -4188,7 +4205,7 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="obsolete">Nelze uložit soubor &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2256"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2259"/>
         <source>CopyQ Error Opening File</source>
         <translation>CopyQ Erreur d&apos;ouverture du fichier</translation>
     </message>
@@ -4231,22 +4248,22 @@ Ctrl+Nahoru nebo CTRL+Dolů.</translation>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2405"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2408"/>
         <source>Remove All Tabs in Group?</source>
         <translation>Supprimer tous les onglets dans un groupe?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2406"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2409"/>
         <source>Do you want to remove &lt;strong&gt;all tabs&lt;/strong&gt; in group &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Voulez-vous supprimer &lt;strong&gt; tous les onglets&lt;/strong&gt; dans le groupe &lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2451"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2454"/>
         <source>Remove Tab?</source>
         <translation>Supprimer l&apos;onglet?</translation>
     </message>
     <message>
-        <location filename="../src/gui/mainwindow.cpp" line="2452"/>
+        <location filename="../src/gui/mainwindow.cpp" line="2455"/>
         <source>Do you want to remove tab &lt;strong&gt;%1&lt;/strong&gt;?</source>
         <translation>Voulez-vous supprimer l&apos;onglet&lt;strong&gt;%1&lt;/strong&gt;?</translation>
     </message>
