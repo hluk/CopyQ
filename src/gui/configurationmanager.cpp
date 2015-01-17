@@ -55,6 +55,12 @@
 
 namespace {
 
+QString defaultClipboardTabName()
+{
+    return ConfigurationManager::tr(
+                "&clipboard", "Default name of the tab that automatically stores new clipboard content");
+}
+
 void printItemFileError(const QString &id, const QString &fileName, const QFile &file)
 {
     log( ConfigurationManager::tr("Cannot save tab %1 to %2 (%3)!")
@@ -326,6 +332,12 @@ void ConfigurationManager::saveMainWindowState(const QString &mainWindowObjectNa
     geometrySettings.setValue(optionName, state);
 }
 
+QString ConfigurationManager::defaultTabName() const
+{
+    const QString tab = value("clipboard_tab").toString();
+    return tab.isEmpty() ? defaultClipboardTabName() : tab;
+}
+
 void ConfigurationManager::initTabIcons()
 {
     QTabWidget *tw = ui->tabWidget;
@@ -412,6 +424,7 @@ void ConfigurationManager::initOptions()
 {
     /* general options */
     bind("autostart", ui->checkBoxAutostart, false);
+    bind("clipboard_tab", ui->comboBoxClipboardTab->lineEdit(), defaultClipboardTabName());
     bind("maxitems", ui->spinBoxItems, 200);
     bind("expire_tab", ui->spinBoxExpireTab, 0);
     bind("editor", ui->lineEditEditor, DEFAULT_EDITOR);
@@ -483,7 +496,7 @@ void ConfigurationManager::bind(const char *optionKey, QSpinBox *obj, int defaul
     m_options[optionKey] = Option(defaultValue, "value", obj);
 }
 
-void ConfigurationManager::bind(const char *optionKey, QLineEdit *obj, const char *defaultValue)
+void ConfigurationManager::bind(const char *optionKey, QLineEdit *obj, const QString &defaultValue)
 {
     m_options[optionKey] = Option(defaultValue, "text", obj);
 }
@@ -502,6 +515,36 @@ void ConfigurationManager::updateIcons()
 {
     iconFactory()->setUseSystemIcons(
                 tabAppearance()->themeValue("use_system_icons").toBool() );
+}
+
+void ConfigurationManager::initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const
+{
+    const QString text = comboBox->currentText();
+    comboBox->clear();
+    comboBox->addItem(QString());
+    comboBox->addItems(tabs);
+    comboBox->setEditText(text);
+
+    const int currentIndex = comboBox->findText(text);
+    if (currentIndex != -1)
+        comboBox->setCurrentIndex(currentIndex);
+
+    for (int i = 1; i < comboBox->count(); ++i) {
+        const QString tabName = comboBox->itemText(i);
+        const QIcon icon = getIconForTabName(tabName);
+        comboBox->setItemIcon(i, icon);
+    }
+}
+
+void ConfigurationManager::updateTabComboBoxes(const QStringList &tabs)
+{
+    initTabComboBox(ui->comboBoxClipboardTab, tabs);
+    initTabComboBox(ui->comboBoxMenuTab, tabs);
+}
+
+void ConfigurationManager::updateTabComboBoxes()
+{
+    updateTabComboBoxes( value("tabs").toStringList() );
 }
 
 QVariant ConfigurationManager::value(const QString &name) const
@@ -563,8 +606,6 @@ void ConfigurationManager::loadSettings()
     }
     settings.endGroup();
 
-    setTabs( value("tabs").toStringList() );
-
     settings.beginGroup("Shortcuts");
     tabShortcuts()->loadShortcuts(settings);
     settings.endGroup();
@@ -607,6 +648,8 @@ void ConfigurationManager::loadSettings()
         }
         settings.endArray();
     }
+
+    setTabs( value("tabs").toStringList() );
 
     updateAutostart();
 
@@ -654,11 +697,7 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
 
     setValue("tabs", tabs);
 
-    QString text = ui->comboBoxMenuTab->currentText();
-    ui->comboBoxMenuTab->clear();
-    ui->comboBoxMenuTab->addItem(QString());
-    ui->comboBoxMenuTab->addItems(tabs);
-    ui->comboBoxMenuTab->setEditText(text);
+    updateTabComboBoxes(tabs);
 
     foreach ( const QString &tabName, m_tabIcons.keys() ) {
         const QRegExp re(QRegExp::escape(tabName) + "(?:|/.*)$");
@@ -721,6 +760,8 @@ void ConfigurationManager::setIconNameForTabName(const QString &name, const QStr
     }
 
     settings.endArray();
+
+    updateTabComboBoxes();
 }
 
 QIcon ConfigurationManager::getIconForTabName(const QString &tabName) const

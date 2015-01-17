@@ -1104,6 +1104,11 @@ bool MainWindow::isWindowVisible() const
     return isVisible() && isActiveWindow();
 }
 
+ClipboardBrowser *MainWindow::clipboardTab()
+{
+    return m_options.clipboardTab.isEmpty() ? NULL : createTab(m_options.clipboardTab);
+}
+
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
@@ -1447,7 +1452,7 @@ void MainWindow::loadSettings()
     }
 
     if ( ui->tabWidget->count() == 0 )
-        addTab( tr("&clipboard") );
+        addTab( cm->defaultTabName() );
 
     ui->tabWidget->updateTabs();
 
@@ -1469,6 +1474,7 @@ void MainWindow::loadSettings()
     m_options.trayImages = cm->value("tray_images").toBool();
     m_options.itemPopupInterval = cm->value("item_popup_interval").toInt();
     m_options.clipboardNotificationLines = cm->value("clipboard_notification_lines").toInt();
+    m_options.clipboardTab = cm->value("clipboard_tab").toString();
 
     m_trayMenu->setStyleSheet( cm->tabAppearance()->getToolTipStyleSheet() );
 
@@ -1677,9 +1683,9 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 
 void MainWindow::updateFirstItem(const QVariantMap &data)
 {
-    ClipboardBrowser *c = browser(0);
+    ClipboardBrowser *c = clipboardTab();
 
-    if ( !c->isLoaded() )
+    if ( !c || !c->isLoaded() )
         return;
 
     if ( c->select(hash(data), MoveToTop) ) {
@@ -1727,7 +1733,7 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
 void MainWindow::runAutomaticCommands(const QVariantMap &data)
 {
     QList<Command> commands;
-    const QString &tabName = getBrowser(0)->tabName();
+    const QString tabName = cm->defaultTabName();
     foreach (const Command &command, m_commands) {
         if (command.automatic && canExecuteCommand(command, data, tabName)) {
             commands.append(command);
@@ -1880,7 +1886,7 @@ ClipboardBrowser *MainWindow::getTabForTrayMenu()
         return browser();
 
     if ( m_options.trayTabName.isEmpty() )
-        return browser(0);
+        return clipboardTab();
 
     int i = findTabIndex(m_options.trayTabName);
     return i != -1 ? browser(i) : NULL;
@@ -1995,9 +2001,6 @@ void MainWindow::updateTrayMenuItems()
 
     // Add commands.
     if (m_options.trayCommands) {
-        if (c == NULL)
-            c = browser(0);
-
         // Show clipboard content as disabled item.
         const QString format = tr("&Clipboard: %1", "Tray menu clipboard item format");
         QAction *act = m_trayMenu->addAction( iconClipboard(),

@@ -128,6 +128,8 @@ public:
     QByteArray mainWindowState(const QString &mainWindowObjectName);
     void saveMainWindowState(const QString &mainWindowObjectName, const QByteArray &state);
 
+    QString defaultTabName() const;
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -180,11 +182,15 @@ private:
     void initOptions();
     void bind(const char *optionKey, QCheckBox *obj, bool defaultValue);
     void bind(const char *optionKey, QSpinBox  *obj, int defaultValue);
-    void bind(const char *optionKey, QLineEdit *obj, const char *defaultValue);
+    void bind(const char *optionKey, QLineEdit *obj, const QString &defaultValue);
     void bind(const char *optionKey, QComboBox *obj, int defaultValue);
     void bind(const char *optionKey, const QVariant &defaultValue);
 
     void updateIcons();
+
+    void initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const;
+    void updateTabComboBoxes(const QStringList &tabs);
+    void updateTabComboBoxes();
 
     static ConfigurationManager *m_Instance;
     Ui::ConfigurationManager *ui;

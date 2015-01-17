@@ -74,6 +74,7 @@ struct MainWindowOptions {
         , itemActivationCommands(ActivateCloses)
         , clearFirstTab(false)
         , trayItemPaste(true)
+        , clipboardTab()
     {}
 
     bool activateCloses() const { return itemActivationCommands & ActivateCloses; }
@@ -99,6 +100,8 @@ struct MainWindowOptions {
     bool clearFirstTab;
 
     bool trayItemPaste;
+
+    QString clipboardTab;
 };
 
 /**
@@ -513,6 +516,8 @@ private:
     void runNextAutomaticCommand();
 
     bool isWindowVisible() const;
+
+    ClipboardBrowser *clipboardTab();
 
     ConfigurationManager *cm;
     Ui::MainWindow *ui;
