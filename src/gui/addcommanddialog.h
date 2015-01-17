@@ -45,6 +45,7 @@ signals:
 
 private slots:
     void on_filterLineEdit_filterChanged(const QRegExp &re);
+    void on_listViewCommands_activated();
 
 private:
     Ui::AddCommandDialog *ui;

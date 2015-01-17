@@ -329,3 +329,8 @@ void AddCommandDialog::on_filterLineEdit_filterChanged(const QRegExp &re)
 {
     m_filterModel->setFilterRegExp(re);
 }
+
+void AddCommandDialog::on_listViewCommands_activated()
+{
+    accept();
+}
