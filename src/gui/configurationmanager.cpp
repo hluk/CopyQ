@@ -602,6 +602,8 @@ void ConfigurationManager::loadSettings()
             QVariant value = settings.value(key);
             if ( !value.isValid() || !m_options[key].setValue(value) )
                 log( tr("Invalid value for option \"%1\"").arg(key), LogWarning );
+        } else {
+            m_options[key].reset();
         }
     }
     settings.endGroup();
