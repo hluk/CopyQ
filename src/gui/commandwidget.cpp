@@ -74,15 +74,6 @@ void deserializeShortcuts(
         checkBoxEnabled->setChecked(enabled);
 }
 
-void setComboBoxItems(const QStringList &items, QComboBox *w)
-{
-    const QString text = w->currentText();
-    w->clear();
-    w->addItem(QString());
-    w->addItems(items);
-    w->setEditText(text);
-}
-
 } // namespace
 
 CommandWidget::CommandWidget(QWidget *parent)
@@ -245,17 +236,16 @@ void CommandWidget::init()
     ConfigurationManager *cm = ConfigurationManager::instance();
 
     // Add tab names to combo boxes.
-    QStringList tabs = cm->value("tabs").toStringList();
-    setComboBoxItems(tabs, ui->comboBoxCopyToTab);
-    setComboBoxItems(tabs, ui->comboBoxOutputTab);
+    cm->initTabComboBox(ui->comboBoxCopyToTab);
+    cm->initTabComboBox(ui->comboBoxOutputTab);
 
     // Add formats to combo boxex.
     QStringList formats = cm->itemFactory()->formatsToSave();
     formats.prepend(mimeText);
     formats.removeDuplicates();
 
-    setComboBoxItems(formats, ui->comboBoxInputFormat);
-    setComboBoxItems(formats, ui->comboBoxOutputFormat);
+    setComboBoxItems(ui->comboBoxInputFormat, formats);
+    setComboBoxItems(ui->comboBoxOutputFormat, formats);
 
     setCommand(m_cmd);
 }

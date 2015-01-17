@@ -130,6 +130,10 @@ public:
 
     QString defaultTabName() const;
 
+    QStringList tabs() const;
+
+    void initTabComboBox(QComboBox *comboBox) const;
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -210,5 +214,7 @@ QIcon getIcon(const QString &themeName, ushort iconId);
 QIcon getIcon(const QVariant &iconOrIconId);
 
 void setDefaultTabItemCounterStyle(QWidget *widget);
+
+void setComboBoxItems(QComboBox *comboBox, const QStringList &items);
 
 #endif // CONFIGURATIONMANAGER_H

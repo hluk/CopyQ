@@ -338,6 +338,16 @@ QString ConfigurationManager::defaultTabName() const
     return tab.isEmpty() ? defaultClipboardTabName() : tab;
 }
 
+QStringList ConfigurationManager::tabs() const
+{
+    return value("tabs").toStringList();
+}
+
+void ConfigurationManager::initTabComboBox(QComboBox *comboBox) const
+{
+    initTabComboBox(comboBox, tabs());
+}
+
 void ConfigurationManager::initTabIcons()
 {
     QTabWidget *tw = ui->tabWidget;
@@ -519,15 +529,7 @@ void ConfigurationManager::updateIcons()
 
 void ConfigurationManager::initTabComboBox(QComboBox *comboBox, const QStringList &tabs) const
 {
-    const QString text = comboBox->currentText();
-    comboBox->clear();
-    comboBox->addItem(QString());
-    comboBox->addItems(tabs);
-    comboBox->setEditText(text);
-
-    const int currentIndex = comboBox->findText(text);
-    if (currentIndex != -1)
-        comboBox->setCurrentIndex(currentIndex);
+    setComboBoxItems(comboBox, tabs);
 
     for (int i = 1; i < comboBox->count(); ++i) {
         const QString tabName = comboBox->itemText(i);
@@ -544,7 +546,7 @@ void ConfigurationManager::updateTabComboBoxes(const QStringList &tabs)
 
 void ConfigurationManager::updateTabComboBoxes()
 {
-    updateTabComboBoxes( value("tabs").toStringList() );
+    updateTabComboBoxes( tabs() );
 }
 
 QVariant ConfigurationManager::value(const QString &name) const
@@ -651,7 +653,7 @@ void ConfigurationManager::loadSettings()
         settings.endArray();
     }
 
-    setTabs( value("tabs").toStringList() );
+    setTabs( tabs() );
 
     updateAutostart();
 
@@ -710,7 +712,7 @@ void ConfigurationManager::setTabs(const QStringList &tabs)
 
 QStringList ConfigurationManager::savedTabs() const
 {
-    QStringList tabs = value("tabs").toStringList();
+    QStringList tabs = this->tabs();
     tabs.removeAll(QString());
 
     const QString configPath = settingsDirectoryPath();
@@ -936,4 +938,17 @@ void setDefaultTabItemCounterStyle(QWidget *widget)
     color.setRed( qMin(255, color.red() + 120) );
     pal.setColor(role, color);
     widget->setPalette(pal);
+}
+
+void setComboBoxItems(QComboBox *comboBox, const QStringList &items)
+{
+    const QString text = comboBox->currentText();
+    comboBox->clear();
+    comboBox->addItem(QString());
+    comboBox->addItems(items);
+    comboBox->setEditText(text);
+
+    const int currentIndex = comboBox->findText(text);
+    if (currentIndex != -1)
+        comboBox->setCurrentIndex(currentIndex);
 }
