@@ -472,6 +472,7 @@ public:
             "print(1);"
             "tab('CLIPBOARD');"
             "add('');"
+            "config('clipboard_tab', 'CLIPBOARD');"
 
             // Remove test tabs.
             "print(2);"

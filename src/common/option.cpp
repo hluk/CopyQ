@@ -21,6 +21,25 @@
 
 #include <QObject>
 
+namespace {
+
+QString getToolTip(const QObject &object)
+{
+    return object.property("toolTip").toString();
+}
+
+QString toolTip(const QObject &object)
+{
+    const QString toolTip = getToolTip(object);
+
+    if ( toolTip.isEmpty() && object.parent() )
+        return getToolTip( *object.parent() );
+
+    return toolTip;
+}
+
+} // namespace
+
 Option::Option()
     : m_default_value()
     , m_value()
@@ -62,5 +81,5 @@ void Option::reset()
 
 QString Option::tooltip() const
 {
-    return m_obj != NULL ? m_obj->property("toolTip").toString() : QString();
+    return m_obj != NULL ? toolTip(*m_obj) : QString();
 }

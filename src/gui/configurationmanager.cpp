@@ -473,9 +473,6 @@ void ConfigurationManager::initOptions()
     bind("tray_images", ui->checkBoxTrayImages, true);
     bind("tray_tab", ui->comboBoxMenuTab->lineEdit(), "");
 
-    // Tooltip to show on command line.
-    ui->comboBoxMenuTab->lineEdit()->setToolTip( ui->comboBoxMenuTab->toolTip() );
-
     /* other options */
     bind("command_history_size", 100);
 #ifdef COPYQ_WS_X11
