@@ -42,8 +42,6 @@ public:
      * Load settings from GUI.
      *
      * Settings keys are:
-     *   - "copy_clipboard" (bool)  - copy new clipboard data to X11 selection
-     *   - "copy_selection" (bool)  - copy new X11 selection data to clipboard
      *   - "check_selection" (bool) - emit changed() when X11 selection changes
      *   - "formats" (QStringList)  - string list with MIME formats to store
      *     (formats are also passed to data() method call from ClipboardMonitor)

@@ -52,6 +52,16 @@ enum GlobalAction {
     GlobalActionPasteAndCopyPrevious
 };
 
+QString pasteAsPlainTextScript(const QString &what)
+{
+    return "\n"
+           "var text = " + what + "\n"
+           "copy(text)\n"
+           "if (config('copy_clipboard'))\n"
+           "  copySelection(text)\n"
+           "paste()";
+}
+
 Command *newCommand(QList<Command> *commands)
 {
     commands->append(Command());
@@ -90,7 +100,7 @@ void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QS
     else if (id == GlobalActionCopyPreviousItem)
         createGlobalShortcut( ConfigurationManager::tr("Copy previous item"), "previous()", IconArrowUp, s, c );
     else if (id == GlobalActionPasteAsPlainText)
-        createGlobalShortcut( ConfigurationManager::tr("Paste clipboard as plain text"), "copy(clipboard()); paste()", IconPaste, s, c );
+        createGlobalShortcut( ConfigurationManager::tr("Paste clipboard as plain text"), pasteAsPlainTextScript("clipboard()"), IconPaste, s, c );
     else if (id == GlobalActionDisableClipboardStoring)
         createGlobalShortcut( ConfigurationManager::tr("Disable clipboard storing"), "disable()", IconEyeSlash, s, c );
     else if (id == GlobalActionEnableClipboardStoring)
@@ -160,7 +170,7 @@ QList<Command> defaultCommands()
     c->name = AddCommandDialog::tr("Paste as Plain Text");
     c->input = mimeText;
     c->icon = QString(QChar(IconPaste));
-    c->cmd  = "copyq:\ncopy(input())\npaste()";
+    c->cmd  = "copyq:" + pasteAsPlainTextScript("input()");
     c->hideWindow = true;
     c->inMenu = true;
     c->shortcuts.append( toPortableShortcutText(AddCommandDialog::tr("Shift+Return")) );

@@ -464,3 +464,20 @@ QByteArray readTemporaryFileContent(const QTemporaryFile &file)
     QFile file2(file.fileName());
     return file2.open(QIODevice::ReadOnly) ? file2.readAll() : QByteArray();
 }
+
+bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
+{
+    const QMimeData *clipboardData = ::clipboardData(mode);
+    if (!clipboardData)
+        return false;
+
+    foreach ( const QString &format, data.keys() ) {
+        if ( !format.startsWith(COPYQ_MIME_PREFIX)
+             && data.value(format).toByteArray() != getUtf8Data(*clipboardData, format) )
+        {
+            return false;
+        }
+    }
+
+    return true;
+}

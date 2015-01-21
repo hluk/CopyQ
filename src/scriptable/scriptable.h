@@ -190,7 +190,6 @@ public slots:
 
     QScriptValue dateString();
 
-    QScriptValue hasDataFromClipboard();
     void updateFirst();
     void updateTitle();
 

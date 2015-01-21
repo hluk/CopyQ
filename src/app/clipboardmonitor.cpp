@@ -95,13 +95,13 @@ void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageC
 
         COPYQ_LOG("Configured");
     } else if (messageCode == MonitorChangeClipboard
-            || messageCode == MonitorChangeSelection
-            || messageCode == MonitorChangeClipboardAndSelection) {
+            || messageCode == MonitorChangeSelection)
+    {
         QVariantMap data;
         deserializeData(&data, message);
-        if (messageCode == MonitorChangeClipboard || messageCode == MonitorChangeClipboardAndSelection)
+        if (messageCode == MonitorChangeClipboard)
             m_clipboard->setData(PlatformClipboard::Clipboard, data);
-        if (messageCode == MonitorChangeSelection || messageCode == MonitorChangeClipboardAndSelection)
+        if (messageCode == MonitorChangeSelection)
             m_clipboard->setData(PlatformClipboard::Selection, data);
     } else {
         log( QString("Unknown message code %1!").arg(messageCode), LogError );

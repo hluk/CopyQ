@@ -206,18 +206,12 @@ QMenu *createSubMenus(QString *name, QMenu *menu)
     return parentMenu;
 }
 
-Command automaticCommand(
-        const QString &name,
-        const QString &cmd,
-        bool forClipboard = true,
-        const QString &input = QString())
+Command automaticCommand(const QString &name, const QString &cmd)
 {
     Command c;
     c.name = name;
     c.automatic = true;
-    c.input = input;
-    const QString negate = forClipboard ? "" : "!";
-    c.cmd = "copyq: if (monitoring() && " + negate + "hasDataFromClipboard()) " + cmd;
+    c.cmd = "copyq: if (monitoring()) {" + cmd + "}";
 
     return c;
 }
@@ -235,6 +229,11 @@ void setAlwaysOnTop(QWidget *window, bool alwaysOnTop)
         // Workaround for QTBUG-28601.
         window->setAcceptDrops(true);
     }
+}
+
+bool isClipboardData(const QVariantMap &data)
+{
+    return data.value(mimeClipboardMode).toByteArray().isEmpty();
 }
 
 } // namespace
@@ -1683,17 +1682,35 @@ void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 
 void MainWindow::updateFirstItem(const QVariantMap &data)
 {
+    bool isClipboard = isClipboardData(data);
+
+#ifdef COPYQ_WS_X11
+    // Synchronize clipboard and X11 selection.
+    if ( isClipboard && cm->value("copy_clipboard").toBool() && !clipboardContains(QClipboard::Selection, data) )
+        emit changeClipboard(data, QClipboard::Selection);
+
+    if ( !isClipboard && cm->value("copy_selection").toBool() && !clipboardContains(QClipboard::Clipboard, data) )
+        emit changeClipboard(data, QClipboard::Clipboard);
+
+    if ( !isClipboard && !cm->value("check_selection").toBool() )
+        return;
+#endif
+
+    if ( isClipboard && !cm->value("check_clipboard").toBool() )
+        return;
+
     ClipboardBrowser *c = clipboardTab();
 
     if ( !c || !c->isLoaded() )
         return;
 
-    if ( c->select(hash(data), MoveToTop) ) {
+    QVariantMap newData = data;
+
+    if ( c->select(hash(newData), MoveToTop) ) {
         COPYQ_LOG("Clipboard item: Moving to top");
         return;
     }
 
-    QVariantMap newData = data;
     bool reselectFirst = false;
 
     // When selecting text under X11, clipboard data may change whenever selection changes.
@@ -1724,10 +1741,24 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
 
     COPYQ_LOG("Clipboard item: Adding");
 
+    // Don't store internal formats.
+    foreach (const QString &format, newData.keys()) {
+        if ( format.startsWith(COPYQ_MIME_PREFIX) )
+            newData.remove(format);
+    }
+
     c->add(newData);
 
     if (reselectFirst)
         c->setCurrent(0);
+}
+
+QString syncCommand(const QString &type)
+{
+    return "try {"
+           "  var x = input()"
+           "  copy" + type + "(input())"
+           "} catch (e) {}";
 }
 
 void MainWindow::runAutomaticCommands(const QVariantMap &data)
@@ -1746,20 +1777,7 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
     commands.prepend(automaticCommand("Reset Window Title" ,"updateTitle('')"));
 
     // Add new clipboard to the first tab (if configured so).
-    if ( cm->value("check_clipboard").toBool() )
-        commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
-
-#ifdef COPYQ_WS_X11
-    // Add new mouse selection to the first tab (if configured so).
-    if ( cm->value("check_selection").toBool() )
-        commands.append(automaticCommand("Add Item from Selection", "updateFirst()", false));
-
-    if ( cm->value("copy_clipboard").toBool() )
-        commands.append(automaticCommand("Clipboard -> Selection", "try { copySelection(input()) } catch (e) {}", true, "text/plain"));
-
-    if ( cm->value("copy_selection").toBool() )
-        commands.append(automaticCommand("Selection -> Clipboard" , "try { copy(input()) } catch (e) {}", false, "text/plain"));
-#endif
+    commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
 
     // Set window title, tooltip and show notification.
     commands.append(automaticCommand("Set Window Title", "updateTitle()"));
@@ -1800,6 +1818,15 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
 void MainWindow::setClipboard(const QVariantMap &data, QClipboard::Mode mode)
 {
     emit changeClipboard(data, mode);
+}
+
+void MainWindow::setClipboard(const QVariantMap &data)
+{
+    setClipboard(data, QClipboard::Clipboard);
+#ifdef COPYQ_WS_X11
+    if ( cm->value("copy_clipboard").toBool() )
+        setClipboard(data, QClipboard::Selection);
+#endif
 }
 
 void MainWindow::activateCurrentItem()

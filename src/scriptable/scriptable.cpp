@@ -86,7 +86,7 @@ T getValue(QScriptEngine *eng, const QString &variableName, T defaultValue)
         return defaultValue;
 }
 
-bool clipboardEquals(
+bool clipboardContains(
         QClipboard::Mode mode, ScriptableProxy *proxy,
         const QString &format, const QByteArray &content)
 {
@@ -1083,21 +1083,9 @@ QScriptValue Scriptable::dateString()
     return dateTime.toString(arg(0));
 }
 
-QScriptValue Scriptable::hasDataFromClipboard()
-{
-    return m_data.value("application/x-copyq-clipboard-mode")
-            .toByteArray().isEmpty();
-}
-
 void Scriptable::updateFirst()
 {
-    QVariantMap data;
-    foreach (const QString &format, m_data.keys()) {
-        if (format != mimeWindowTitle && format != mimeClipboardMode)
-            data.insert(format, m_data[format]);
-    }
-
-    m_proxy->updateFirstItem(data);
+    m_proxy->updateFirstItem(m_data);
 }
 
 void Scriptable::updateTitle()
@@ -1177,7 +1165,7 @@ bool Scriptable::setClipboard(QVariantMap &data, QClipboard::Mode mode)
     // Wait for clipboard to be set.
     for (int i = 0; i < 30; ++i) {
         waitFor(100);
-        if ( clipboardEquals(mode, m_proxy, mime, id) )
+        if ( clipboardContains(mode, m_proxy, mime, id) )
             return true;
     }
 

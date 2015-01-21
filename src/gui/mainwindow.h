@@ -326,7 +326,10 @@ public slots:
     void runAutomaticCommands(const QVariantMap &data);
 
     /** Set clipboard. */
-    void setClipboard(const QVariantMap &data, QClipboard::Mode mode = QClipboard::Clipboard);
+    void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
+
+    /** Set clipboard and synchronize selection if needed. */
+    void setClipboard(const QVariantMap &data);
 
     /** Show/hide main window. Return true only if window is shown. */
     bool toggleVisible();

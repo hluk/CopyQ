@@ -180,8 +180,6 @@ void ClipboardServer::loadMonitorSettings()
     QVariantMap settings;
     settings["formats"] = cm->itemFactory()->formatsToSave();
 #ifdef COPYQ_WS_X11
-    settings["copy_clipboard"] = cm->value("copy_clipboard");
-    settings["copy_selection"] = cm->value("copy_selection");
     settings["check_selection"] = cm->value("check_selection");
 #endif
 
@@ -325,24 +323,10 @@ void ClipboardServer::changeClipboard(const QVariantMap &data, QClipboard::Mode 
 
     COPYQ_LOG("Sending message to monitor.");
 
-#ifdef COPYQ_WS_X11
-    MonitorMessageCode code;
-
-    if (mode == QClipboard::Clipboard) {
-        code = MonitorChangeClipboard;
-        if ( ConfigurationManager::instance()->value("copy_clipboard").toBool() )
-            code = MonitorChangeClipboardAndSelection;
-    } else {
-        code = MonitorChangeSelection;
-        if ( ConfigurationManager::instance()->value("copy_selection").toBool() )
-            code = MonitorChangeClipboardAndSelection;
-    }
+    const MonitorMessageCode code =
+            mode == QClipboard::Clipboard ? MonitorChangeClipboard : MonitorChangeSelection;
 
     m_monitor->writeMessage( serializeData(data), code );
-#else
-    Q_UNUSED(mode);
-    m_monitor->writeMessage( serializeData(data), MonitorChangeClipboard );
-#endif
 }
 
 void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const Command &command)
