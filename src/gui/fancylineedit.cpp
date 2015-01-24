@@ -32,6 +32,7 @@
 #include "fancylineedit.h"
 
 #include "common/common.h"
+#include "gui/iconfactory.h"
 
 #include <QAbstractItemView>
 #include <QKeyEvent>
@@ -301,9 +302,9 @@ void IconButton::paintEvent(QPaintEvent *)
         triangle.append(QPoint(ratio * 6, 0));
         triangle.append(QPoint(ratio * 3, ratio * 3));
 
-        const QColor c = QColor(0,0,0,160);
+        const QColor c = getDefaultIconColor(*this);
         painter.save();
-        painter.translate(pixmapRect.bottomRight() + QPoint(ratio * 2, - ratio * 4));
+        painter.translate(pixmapRect.bottomRight() + QPoint(0, - ratio * 6));
         painter.setBrush(c);
         painter.setPen(Qt::NoPen);
         painter.drawPolygon(triangle);
