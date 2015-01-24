@@ -12,10 +12,11 @@ Web Site:
     <http://hluk.github.io/CopyQ/>
 
 Downloads:
+    <https://github.com/hluk/CopyQ/releases>
     <http://sourceforge.net/projects/copyq/files/>
 
 Wiki:
-    <https://sourceforge.net/p/copyq/wiki/Home/>
+    <https://github.com/hluk/CopyQ/wiki>
 
 Mailing List:
     <https://groups.google.com/group/copyq>
@@ -29,8 +30,7 @@ Donate:
 Features
 --------
 
-* Supports Linux and Windows.
-* Experimental support for OS X 10.9+.
+* Supports Linux, Windows and OS X 10.9+.
 * Store text, HTML, images and any other custom format.
 * Customize tray menu.
 * Save items in tabs or tree.
@@ -209,7 +209,7 @@ Command Line Interface
 
     Starts server if no command is specified.
       COMMANDs:
-        show                     Show main window.
+        show [NAME]              Show main window and optionally open tab with given name.
         hide                     Hide main window.
         toggle                   Show or hide main window.
         menu                     Open context menu.
