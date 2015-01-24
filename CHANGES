@@ -1,3 +1,10 @@
+v2.4.4
+- Option to choose tab for storing clipboard
+- Fixed overriding mouse selection (Linux/X11)
+- Fixed window title updates from user commands
+- Fixed toggling window visibility with Qt 5
+- Minor GUI improvements and user command fixes
+
 v2.4.3
 - Plugin for tagging items
 - Plugins can provide script functions and commands
