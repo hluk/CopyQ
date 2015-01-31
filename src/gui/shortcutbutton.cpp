@@ -28,6 +28,12 @@
 #include <QPushButton>
 #include <QVariant>
 
+namespace {
+
+const char propertyShortcut[] = "CopyQ_shortcut";
+
+} // namespace
+
 ShortcutButton::ShortcutButton(QWidget *parent)
     : QWidget(parent)
     , m_defaultShortcut()
@@ -60,7 +66,7 @@ void ShortcutButton::addShortcut(const QKeySequence &shortcut)
     m_layout->insertWidget( shortcutCount(), button, 1 );
     connect( button, SIGNAL(clicked()),
              this, SLOT(onShortcutButtonClicked()) );
-    button->setText( shortcut.toString(QKeySequence::NativeText) );
+    setButtonShortcut(button, shortcut);
     emit shortcutAdded(shortcut);
 }
 
@@ -156,27 +162,31 @@ void ShortcutButton::addShortcut(QPushButton *shortcutButton)
 
     if (dialog->exec() == QDialog::Accepted) {
         const QKeySequence shortcut = dialog->shortcut();
-        const QString text = shortcut.toString(QKeySequence::NativeText);
         if ( shortcut.isEmpty() || shortcuts().contains(shortcut) ) {
-            if (shortcutButton == NULL || shortcutButton->text() != text ) {
-                if (shortcutButton != NULL) {
-                    const QString shortcut = shortcutButton->text();
-                    delete shortcutButton;
-                    emit shortcutRemoved(shortcut);
-                }
+            if (shortcutButton != NULL && shortcutForButton(*shortcutButton) != shortcut ) {
+                const QString shortcut = shortcutButton->text();
+                delete shortcutButton;
+                emit shortcutRemoved(shortcut);
             }
         } else {
             if (shortcutButton != NULL) {
-                if ( shortcutButton->text() != text ) {
-                    emit shortcutRemoved(shortcutButton->text());
-                    shortcutButton->setText(text);
-                    emit shortcutAdded(text);
+                const QKeySequence oldShortuct = shortcutForButton(*shortcutButton);
+                if (oldShortuct != shortcut) {
+                    emit shortcutRemoved(oldShortuct);
+                    setButtonShortcut(shortcutButton, shortcut);
+                    emit shortcutAdded(shortcut);
                 }
             } else {
-                addShortcut(text);
+                addShortcut(shortcut);
             }
         }
     }
+}
+
+void ShortcutButton::setButtonShortcut(QPushButton *shortcutButton, const QKeySequence &shortcut)
+{
+    shortcutButton->setText( shortcut.toString(QKeySequence::NativeText) );
+    shortcutButton->setProperty(propertyShortcut, shortcut);
 }
 
 QWidget *ShortcutButton::shortcutButton(int index) const
@@ -186,5 +196,5 @@ QWidget *ShortcutButton::shortcutButton(int index) const
 
 QKeySequence ShortcutButton::shortcutForButton(const QWidget &w) const
 {
-    return QKeySequence(w.property("text").toString(), QKeySequence::NativeText);
+    return w.property(propertyShortcut).value<QKeySequence>();
 }
