@@ -1,6 +1,10 @@
----
-layout: index
----
+CopyQ
+=====
+
+[![Translation Status](https://hosted.weblate.org/widgets/copyq-status-badge.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
+[![Build Status](https://travis-ci.org/hluk/CopyQ.png)](https://travis-ci.org/hluk/CopyQ)
+[![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.png?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
+[![Stories in Ready](https://badge.waffle.io/hluk/CopyQ.png)](http://waffle.io/hluk/CopyQ)
 
 CopyQ is clipboard manager with searchable and editable history.
 
@@ -22,13 +26,6 @@ Bug Reports:
 
 Donate:
     <https://www.bountysource.com/teams/copyq>
-
-![Preview](images/screenshot-items.png)
-![Simple Editor](images/screenshot-editor.png)
-![Tabs](images/screenshot-tabs.png)
-![Tree View](images/screenshot-tree.png)
-![Run Action and Create Items](images/screenshot-action.png)
-![Open in Web Browser](images/screenshot-browser.png)
 
 Features
 --------
@@ -65,8 +62,6 @@ Developers and Translators
 
 If you want to help with translating, fixing or writing code read
 [HACKING](https://github.com/hluk/CopyQ/blob/master/HACKING) file.
-
-[![Translations](https://hosted.weblate.org/widgets/copyq-287x66-grey.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
 
 Dependencies
 ------------
@@ -280,4 +275,3 @@ Command Line Interface
       - Use double-dash argument (--) to read all following arguments without
         expanding escape sequences (i.e. \n, \t and others).
       - Use ? for MIME to print available MIME types (default is "text/plain").
-
