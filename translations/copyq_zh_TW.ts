@@ -81,53 +81,53 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="193"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>應用程式捷徑，可以在參數對話方塊中更改。</translation>
+        <translation>應用程式快捷鍵，可以在參數對話框中更改。</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="196"/>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
-        <translation type="unfinished"/>
+        <translation>總體的快捷鍵（全系統快捷鍵）可以在命令對話框中設定（預設的快捷鍵是 F6）。</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="199"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation type="unfinished"/>
+        <translation>鍵入任何的文字以搜索剪貼簿歷史。</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Item list navigation</source>
-        <translation type="unfinished"/>
+        <translation>項目清單導覽</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
-        <translation type="unfinished"/>
+        <translation>向上/向下，Page Up/Down，Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Tab navigation</source>
-        <translation type="unfinished"/>
+        <translation>分頁導覽</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="205"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation type="unfinished"/>
+        <translation>左、右，%1，%2</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Move selected items</source>
-        <translation type="unfinished"/>
+        <translation>移動所選的項目</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="209"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Up/Down，Ctrl+Home/End</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Reset search or hide window</source>
-        <translation type="unfinished"/>
+        <translation>重置搜尋或隱藏視窗</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
@@ -137,37 +137,37 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Delete item</source>
-        <translation type="unfinished"/>
+        <translation>刪除項目</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Put selected items into clipboard</source>
-        <translation type="unfinished"/>
+        <translation>放入已選的項目到剪貼簿</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Enter</source>
-        <translation type="unfinished"/>
+        <translation>輸入</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Change item display format</source>
-        <translation type="unfinished"/>
+        <translation>更改項目的顯示格式</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Ctrl+Left/Right</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl + 左/右</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Edit Item</source>
-        <translation type="unfinished"/>
+        <translation>編輯項目</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>F2</source>
-        <translation type="unfinished"/>
+        <translation>F2</translation>
     </message>
 </context>
 <context>
@@ -180,17 +180,17 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;M)命令：</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;I)標準輸入：</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;U)存儲標準輸出：</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -205,23 +205,24 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;S)新項目的分隔符號：</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
         <source>&lt;p&gt;Regular expression for splitting output into multiple items.&lt;\p&gt;
 &lt;p&gt;Use &lt;b&gt;\n&lt;/b&gt; to store each line to separate item.&lt;/p&gt;</source>
-        <translation type="unfinished"/>
+        <translation>&lt;p&gt;用於將輸出分成多個項目的正則運算式。&lt;\p&gt;
+&lt;p&gt;使用 &lt;b&gt;\n&lt;/b&gt;去存儲每行的分割項目。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="116"/>
         <source>\n</source>
-        <translation type="unfinished"/>
+        <translation>\n</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;T)輸出分頁：</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -231,7 +232,7 @@
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="275"/>
         <source>Command saved</source>
-        <translation type="unfinished"/>
+        <translation>命令已儲存</translation>
     </message>
     <message>
         <location filename="../src/gui/actiondialog.cpp" line="276"/>
@@ -246,18 +247,20 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/actionhandler.cpp" line="124"/>
         <source>Error: %1
 </source>
-        <translation type="unfinished"/>
+        <translation>錯誤：%1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="127"/>
         <source>Exit code: %1
 </source>
-        <translation type="unfinished"/>
+        <translation>結束代碼：%1
+</translation>
     </message>
     <message>
         <location filename="../src/gui/actionhandler.cpp" line="142"/>
         <source>Command %1</source>
-        <translation type="unfinished"/>
+        <translation>命令 %1</translation>
     </message>
 </context>
 <context>
@@ -265,52 +268,52 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/addcommanddialog.ui" line="14"/>
         <source>CopyQ Add Commands</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ 增加命令</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="121"/>
         <source>New command</source>
-        <translation type="unfinished"/>
+        <translation>新的命令</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="145"/>
         <source>Ignore items with no or single character</source>
-        <translation type="unfinished"/>
+        <translation>忽略沒有的項目或單個字元</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="152"/>
         <source>Open in &amp;Browser</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;B)在瀏覽器開啟</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="160"/>
         <source>Paste as Plain Text</source>
-        <translation type="unfinished"/>
+        <translation>貼上為純文字</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="166"/>
         <source>Shift+Return</source>
-        <translation type="unfinished"/>
+        <translation>Shift + Return</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="169"/>
         <source>Autoplay videos</source>
-        <translation type="unfinished"/>
+        <translation>自動播放視訊</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="178"/>
         <source>Copy URL (web address) to other tab</source>
-        <translation type="unfinished"/>
+        <translation>複製 URL（網站位址）到另一個分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="185"/>
         <source>Create thumbnail (needs ImageMagick)</source>
-        <translation type="unfinished"/>
+        <translation>建立縮圖 (需要 ImageMagick)</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="193"/>
         <source>Create QR Code from URL (needs qrencode)</source>
-        <translation type="unfinished"/>
+        <translation>從 URL 建立 QR 碼（需要 qrencode）</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="202"/>
@@ -325,27 +328,27 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"/>
+        <translation>忽略複製的檔案</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
         <source>Ignore *"Password"* window</source>
-        <translation type="unfinished"/>
+        <translation>忽略 *"密碼"* 視窗</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="226"/>
         <source>Password</source>
-        <translation type="unfinished"/>
+        <translation>密碼</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="234"/>
         <source>Move to Trash</source>
-        <translation type="unfinished"/>
+        <translation>移到垃圾桶</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="237"/>
         <source>(trash)</source>
-        <translation type="unfinished"/>
+        <translation>（垃圾桶）</translation>
     </message>
 </context>
 <context>
@@ -354,7 +357,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/common/clientsocket.cpp" line="189"/>
         <location filename="../src/common/clientsocket.cpp" line="247"/>
         <source>Failed to read message from client!</source>
-        <translation type="unfinished"/>
+        <translation>從客戶端讀取訊息失敗！</translation>
     </message>
 </context>
 <context>
@@ -363,7 +366,7 @@ You can set up the command in preferences.</source>
         <location filename="../src/gui/clipboardbrowser.cpp" line="507"/>
         <source>Searching %p%...</source>
         <comment>Text in progress bar for searching/filtering items; %p is amount in percent</comment>
-        <translation type="unfinished"/>
+        <translation>正在搜尋 %p%...</translation>
     </message>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1752"/>
@@ -373,7 +376,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1753"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation type="unfinished"/>
+        <translation>您真的想 &lt;strong&gt;丟棄更改&lt;/strong&gt; 嗎？</translation>
     </message>
 </context>
 <context>
@@ -386,7 +389,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/app/clipboardclient.cpp" line="74"/>
         <source>Connection lost!</source>
-        <translation type="unfinished"/>
+        <translation>失去連線！</translation>
     </message>
 </context>
 <context>
@@ -583,7 +586,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="96"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;G)總體快捷鍵：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="131"/>
@@ -687,7 +690,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="360"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;S)快捷鍵：</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="395"/>
@@ -947,68 +950,68 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="81"/>
         <source>&amp;New Item</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;N)新項目</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="83"/>
         <source>&amp;Import Tab...</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;I)匯入分頁...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="83"/>
         <source>Ctrl+I</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+I</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="85"/>
         <source>&amp;Export Tab...</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;E)匯出分頁...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
         <source>&amp;Preferences...</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;P)參數...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
         <location filename="../src/tests/tests.cpp" line="1419"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="91"/>
         <source>C&amp;ommands/Global Shortcuts...</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;O)命令/總體快捷鍵...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="93"/>
         <source>C&amp;ommands...</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;O)命令...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="95"/>
         <source>F6</source>
-        <translation type="unfinished"/>
+        <translation>F6</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="97"/>
         <source>Show &amp;Clipboard Content</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;C)顯示剪貼簿內容</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="98"/>
         <source>Ctrl+Shift+C</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="99"/>
         <source>&amp;Toggle Clipboard Storing</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;T)切換剪貼簿存儲器</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="100"/>
         <source>Ctrl+Shift+X</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+Shift+X</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="101"/>
@@ -1186,7 +1189,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="33"/>
         <source>&amp;General</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;G)一般</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
@@ -1692,7 +1695,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1348"/>
         <source>&amp;Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;S)快捷鍵</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1358"/>
@@ -1814,7 +1817,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="852"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"/>
+        <translation>重新啟動應用程式後，將會更改語言。</translation>
     </message>
 </context>
 <context>
@@ -3355,7 +3358,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="55"/>
         <source>Usage: copyq [%1]</source>
-        <translation type="unfinished"/>
+        <translation>使用：copyq [%1]</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="56"/>
@@ -3423,12 +3426,12 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="755"/>
         <source>Cannot import file "%1"!</source>
-        <translation type="unfinished"/>
+        <translation>無法匯入檔案 "%1"！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="767"/>
         <source>Invalid option "%1"!</source>
-        <translation type="unfinished"/>
+        <translation>無效選項 "%1"！</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="1184"/>
@@ -3441,7 +3444,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/gui/shortcutbutton.cpp" line="43"/>
         <source>Add shortcut</source>
-        <translation type="unfinished"/>
+        <translation>增加捷徑</translation>
     </message>
 </context>
 <context>
@@ -3449,7 +3452,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="14"/>
         <source>CopyQ New Shortcut</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ 新捷徑</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
@@ -3472,7 +3475,7 @@ Print version of program and libraries.</source>
     <message>
         <location filename="../src/ui/shortcutswidget.ui" line="31"/>
         <source>&amp;Find:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;F)尋找：</translation>
     </message>
     <message>
         <location filename="../src/gui/shortcutswidget.cpp" line="324"/>
@@ -3497,7 +3500,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
         <source>&amp;Name:</source>
-        <translation type="unfinished"/>
+        <translation>(&amp;N)名稱：</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"/>
