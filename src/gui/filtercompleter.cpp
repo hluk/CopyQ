@@ -20,7 +20,11 @@
 #include "filtercompleter.h"
 
 #include <QAbstractListModel>
+#include <QApplication>
+#include <QAction>
 #include <QLineEdit>
+#include <QMoveEvent>
+#include <QPointer>
 
 namespace {
 
@@ -103,6 +107,7 @@ void FilterCompleter::installCompleter(QLineEdit *lineEdit)
 void FilterCompleter::onTextEdited(const QString &text)
 {
     m_lastText = text;
+    setUnfiltered(false);
 }
 
 void FilterCompleter::onEditingFinished()
@@ -111,6 +116,20 @@ void FilterCompleter::onEditingFinished()
         model()->setData(QModelIndex(), m_lastText);
         m_lastText.clear();
     }
+
+    setUnfiltered(false);
+}
+
+void FilterCompleter::onComplete()
+{
+    if (m_lineEdit->text().isEmpty()) {
+        setUnfiltered(true);
+        const QModelIndex firstIndex = model()->index(0, 0);
+        const QString text = model()->data(firstIndex, Qt::EditRole).toString();
+        m_lineEdit->setText(text);
+    } else {
+        complete();
+    }
 }
 
 FilterCompleter::FilterCompleter(QLineEdit *lineEdit)
@@ -118,7 +137,16 @@ FilterCompleter::FilterCompleter(QLineEdit *lineEdit)
     , m_lineEdit(lineEdit)
 {
     setModel(new CompletionModel(this));
-    setCompletionMode(QCompleter::PopupCompletion);
+    setWrapAround(true);
+    setUnfiltered(false);
+
+    QWidget *window = lineEdit->window();
+    if (window) {
+        QAction *act = new QAction(this);
+        act->setShortcut(tr("Alt+Down", "Filter completion shortcut"));
+        connect(act, SIGNAL(triggered()), this, SLOT(onComplete()));
+        window->addAction(act);
+    }
 
     // Postpone prepending item to completion list because incorrect
     // item will be completed otherwise (prepending shifts rows).
@@ -128,4 +156,10 @@ FilterCompleter::FilterCompleter(QLineEdit *lineEdit)
              this, SLOT(onTextEdited(QString)) );
 
     lineEdit->setCompleter(this);
+}
+
+void FilterCompleter::setUnfiltered(bool unfiltered)
+{
+    setCompletionMode(unfiltered ? QCompleter::UnfilteredPopupCompletion
+                                 : QCompleter::PopupCompletion);
 }

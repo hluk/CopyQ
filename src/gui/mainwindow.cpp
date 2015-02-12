@@ -1272,6 +1272,9 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
         return;
     }
 
+    if (modifiers == Qt::AltModifier)
+        return;
+
     switch(key) {
         case Qt::Key_Down:
         case Qt::Key_Up:

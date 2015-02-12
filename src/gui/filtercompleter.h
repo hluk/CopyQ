@@ -33,9 +33,11 @@ public:
 private slots:
     void onTextEdited(const QString &text);
     void onEditingFinished();
+    void onComplete();
 
 private:
     explicit FilterCompleter(QLineEdit *lineEdit);
+    void setUnfiltered(bool unfiltered);
 
     QLineEdit *m_lineEdit;
     QString m_lastText;
