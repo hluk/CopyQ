@@ -21,6 +21,7 @@
 #define FILTERCOMPLETER_H
 
 #include <QCompleter>
+#include <QStringList>
 
 class QLineEdit;
 
