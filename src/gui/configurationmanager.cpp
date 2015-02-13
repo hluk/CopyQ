@@ -450,6 +450,7 @@ void ConfigurationManager::initOptions()
     bind("check_clipboard", ui->checkBoxClip, true);
     bind("confirm_exit", ui->checkBoxConfirmExit, true);
     bind("vi", ui->checkBoxViMode, false);
+    bind("save_filter_history", ui->checkBoxSaveFilterHistory, false);
     bind("always_on_top", ui->checkBoxAlwaysOnTop, false);
     bind("open_windows_on_current_screen", ui->checkBoxOpenWindowsOnCurrentScreen, true);
     bind("transparency_focused", ui->spinBoxTransparencyFocused, 0);

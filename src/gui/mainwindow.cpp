@@ -35,7 +35,6 @@
 #include "gui/commanddialog.h"
 #include "gui/configtabappearance.h"
 #include "gui/configurationmanager.h"
-#include "gui/filtercompleter.h"
 #include "gui/iconfactory.h"
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
@@ -323,8 +322,6 @@ MainWindow::MainWindow(QWidget *parent)
 
     // browse mode by default
     enterBrowseMode();
-
-    FilterCompleter::installCompleter(ui->searchBar);
 }
 
 bool MainWindow::browseMode() const

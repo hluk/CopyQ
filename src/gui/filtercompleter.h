@@ -27,8 +27,13 @@ class QLineEdit;
 class FilterCompleter : public QCompleter
 {
     Q_OBJECT
+    Q_PROPERTY(QStringList history READ history WRITE setHistory)
 public:
     static void installCompleter(QLineEdit *lineEdit);
+    static void removeCompleter(QLineEdit *lineEdit);
+
+    QStringList history() const;
+    void setHistory(const QStringList &history);
 
 private slots:
     void onTextEdited(const QString &text);
@@ -38,6 +43,7 @@ private slots:
 private:
     explicit FilterCompleter(QLineEdit *lineEdit);
     void setUnfiltered(bool unfiltered);
+    void prependItem(const QString &item);
 
     QLineEdit *m_lineEdit;
     QString m_lastText;

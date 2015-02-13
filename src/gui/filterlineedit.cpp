@@ -31,6 +31,7 @@
 
 #include "gui/configurationmanager.h"
 #include "gui/icons.h"
+#include "gui/filtercompleter.h"
 
 #include <QMenu>
 #include <QPainter>
@@ -116,6 +117,27 @@ void FilterLineEdit::loadSettings()
 
     QIcon icon2 = getIcon("edit-find", IconSearch);
     setButtonIcon(Left, icon2);
+
+    if ( cm->value("save_filter_history").toBool() ) {
+        if ( !completer() ) {
+            FilterCompleter::installCompleter(this);
+            completer()->setProperty( "history", cm->value("filter_history") );
+        }
+    } else {
+        FilterCompleter::removeCompleter(this);
+        cm->setValue("filter_history", QString());
+    }
+}
+
+void FilterLineEdit::hideEvent(QHideEvent *event)
+{
+    FancyLineEdit::hideEvent(event);
+
+    if (completer()) {
+        ConfigurationManager *cm = ConfigurationManager::instance();
+        const QStringList history = completer()->property("history").toStringList();
+        cm->setValue("filter_history", history);
+    }
 }
 
 void FilterLineEdit::onTextChanged()

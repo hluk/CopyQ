@@ -38,7 +38,7 @@ public:
     {
     }
 
-    int rowCount(const QModelIndex &parent) const
+    int rowCount(const QModelIndex &parent = QModelIndex()) const
     {
         return parent.isValid() ? 0 : m_items.size();
     }
@@ -63,6 +63,18 @@ public:
         return false;
     }
 
+    bool removeRows(int row, int count, const QModelIndex &parent = QModelIndex())
+    {
+        if ( parent.isValid() || row < 0 || row + count > rowCount() )
+            return false;
+
+        beginRemoveRows(QModelIndex(), row, row + count);
+        m_items.erase( m_items.begin() + row, m_items.begin() + row + count );
+        endRemoveRows();
+
+        return true;
+    }
+
 private:
     void prepend(const QString &text)
     {
@@ -77,20 +89,15 @@ private:
               row != -1;
               row = m_items.indexOf(text, row) )
         {
-            beginRemoveRows(QModelIndex(), row, row);
-            m_items.removeAt(row);
-            endRemoveRows();
+            removeRows(row, 1);
         }
     }
 
     void crop(int maxItems)
     {
         const int itemCount = m_items.size();
-        if (itemCount >= maxItems) {
-            beginRemoveRows(QModelIndex(), maxItems, itemCount);
-            m_items.erase(m_items.begin() + maxItems);
-            endRemoveRows();
-        }
+        if (itemCount > maxItems)
+            removeRows(maxItems, itemCount - maxItems);
     }
 
     QStringList m_items;
@@ -104,6 +111,30 @@ void FilterCompleter::installCompleter(QLineEdit *lineEdit)
     new FilterCompleter(lineEdit);
 }
 
+void FilterCompleter::removeCompleter(QLineEdit *lineEdit)
+{
+    lineEdit->setCompleter(NULL);
+}
+
+QStringList FilterCompleter::history() const
+{
+    QStringList history;
+
+    for (int i = 0; i < model()->rowCount(); ++i) {
+        const QModelIndex index = model()->index(i, 0);
+        history.append( index.data(Qt::EditRole).toString() );
+    }
+
+    return history;
+}
+
+void FilterCompleter::setHistory(const QStringList &history)
+{
+    model()->removeRows( 0, model()->rowCount() );
+    for (int i = history.size() - 1; i >= 0; --i)
+        prependItem(history[i]);
+}
+
 void FilterCompleter::onTextEdited(const QString &text)
 {
     m_lastText = text;
@@ -112,10 +143,8 @@ void FilterCompleter::onTextEdited(const QString &text)
 
 void FilterCompleter::onEditingFinished()
 {
-    if (!m_lastText.isEmpty()) {
-        model()->setData(QModelIndex(), m_lastText);
-        m_lastText.clear();
-    }
+    prependItem(m_lastText);
+    m_lastText.clear();
 
     setUnfiltered(false);
 }
@@ -162,4 +191,10 @@ void FilterCompleter::setUnfiltered(bool unfiltered)
 {
     setCompletionMode(unfiltered ? QCompleter::UnfilteredPopupCompletion
                                  : QCompleter::PopupCompletion);
+}
+
+void FilterCompleter::prependItem(const QString &item)
+{
+    if ( !item.isEmpty() )
+        model()->setData(QModelIndex(), item);
 }

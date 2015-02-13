@@ -46,8 +46,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>550</width>
-            <height>544</height>
+            <width>526</width>
+            <height>555</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_15">
@@ -87,7 +87,7 @@
                <item>
                 <widget class="QLabel" name="label">
                  <property name="text">
-                  <string>Langua&amp;ge:</string>
+                  <string>&amp;Language:</string>
                  </property>
                  <property name="buddy">
                   <cstring>comboBoxLanguage</cstring>
@@ -172,6 +172,13 @@
                </property>
                <property name="text">
                 <string>&amp;Vi style navigation</string>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="checkBoxSaveFilterHistory">
+               <property name="text">
+                <string>Save Filter History</string>
                </property>
               </widget>
              </item>
@@ -451,8 +458,8 @@ Note: This is not be supported on all systems.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>550</width>
-            <height>544</height>
+            <width>477</width>
+            <height>335</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_16">
@@ -730,8 +737,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>550</width>
-            <height>544</height>
+            <width>443</width>
+            <height>172</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_17">
@@ -935,8 +942,8 @@ Note: Edited items can be saved with F2 disregarding this option.</string>
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>550</width>
-            <height>544</height>
+            <width>409</width>
+            <height>320</height>
            </rect>
           </property>
           <layout class="QHBoxLayout" name="horizontalLayout_13">
@@ -1405,6 +1412,7 @@ Set to 0 to disable.</string>
   <tabstop>checkBoxConfirmExit</tabstop>
   <tabstop>checkBoxAutostart</tabstop>
   <tabstop>checkBoxViMode</tabstop>
+  <tabstop>checkBoxSaveFilterHistory</tabstop>
   <tabstop>checkBoxClip</tabstop>
   <tabstop>checkBoxSel</tabstop>
   <tabstop>checkBoxCopyClip</tabstop>
