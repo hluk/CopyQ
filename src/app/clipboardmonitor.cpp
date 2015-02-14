@@ -28,6 +28,24 @@
 
 #include <QApplication>
 
+namespace {
+
+bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
+{
+    foreach (const QString &format, data.keys()) {
+        if ( !format.startsWith(COPYQ_MIME_PREFIX)
+             && !data[format].toByteArray().isEmpty()
+             && data[format] != lastData.value(format) )
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+} // namespace
+
 ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     : Client()
     , App(createPlatformNativeInterface()->createMonitorApplication(argc, argv))
@@ -50,6 +68,12 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
 void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
 {
     QVariantMap data = m_clipboard->data(mode, m_formats);
+    QVariantMap &lastData = m_lastData[mode];
+
+    if ( hasSameData(data, lastData) ) {
+        COPYQ_LOG("Ignoring unchanged clipboard content");
+        return;
+    }
 
     if (mode != PlatformClipboard::Clipboard)
         data.insert(mimeClipboardMode, PlatformClipboard::Selection ? "selection" : "find buffer");
@@ -63,6 +87,7 @@ void ClipboardMonitor::onClipboardChanged(PlatformClipboard::Mode mode)
     }
 
     sendMessage( serializeData(data), MonitorClipboardChanged );
+    lastData = data;
 }
 
 void ClipboardMonitor::onMessageReceived(const QByteArray &message, int messageCode)
