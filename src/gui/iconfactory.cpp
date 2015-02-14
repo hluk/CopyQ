@@ -255,11 +255,19 @@ QPixmap IconFactory::createPixmap(ushort id, const QColor &color, int size)
 
 QIcon IconFactory::appIcon(AppIconFlags flags)
 {
-    QPixmap pix = flags.testFlag(AppIconRunning)
-            ? imageFromPrefix("-busy.svg", "icon-running")
-            : imageFromPrefix("-normal.svg", "icon");
-
+    const bool running = flags.testFlag(AppIconRunning);
+    const QString suffix = running ? "-busy" : "-normal";
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
+
+    if (sessionName.isEmpty()) {
+        const QIcon icon = QIcon::fromTheme("copyq" + suffix);
+        if (!icon.isNull())
+            return icon;
+    }
+
+    const QString resourceSuffix = running ? "-running" : "";
+    QPixmap pix = imageFromPrefix(suffix + ".svg", "icon" + resourceSuffix);
+
     if (!sessionName.isEmpty()) {
         const QColor color1 = QColor(0x7f, 0xca, 0x9b);
         const QColor color2 = sessionNameToColor(sessionName);
