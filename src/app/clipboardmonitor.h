@@ -51,6 +51,7 @@ private slots:
 private:
     PlatformClipboardPtr m_clipboard;
     QStringList m_formats;
+    QVariantMap m_lastData[3]; /// Last data sent for each clipboard mode
 };
 
 #endif // CLIPBOARDMONITOR_H

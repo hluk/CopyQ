@@ -106,7 +106,8 @@ HEADERS += \
     scriptable/dirprototype.h \
     gui/commandaction.h \
     gui/addcommanddialog.h \
-    common/commandtester.h
+    common/commandtester.h \
+    gui/filtercompleter.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \
@@ -182,7 +183,8 @@ SOURCES += \
     scriptable/dirprototype.cpp \
     gui/commandaction.cpp \
     gui/addcommanddialog.cpp \
-    common/commandtester.cpp
+    common/commandtester.cpp \
+    gui/filtercompleter.cpp
 
 macx {
     # Copy the custom Info.plist to the app bundle

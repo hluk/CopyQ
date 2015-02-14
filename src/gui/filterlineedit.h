@@ -49,6 +49,9 @@ public:
 signals:
     void filterChanged(const QRegExp &);
 
+protected:
+    void hideEvent(QHideEvent *event);
+
 private slots:
     void onTextChanged();
     void onMenuAction();

@@ -1334,7 +1334,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     int key = event->key();
     Qt::KeyboardModifiers mods = event->modifiers();
 
-    // CTRL
     if (mods == Qt::ControlModifier) {
         switch ( key ) {
         // move items
@@ -1363,8 +1362,8 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             QListView::keyPressEvent(event);
             break;
         }
-    }
-    else {
+        return;
+    } else if (mods != Qt::AltModifier) {
         switch ( key ) {
         // This fixes few issues with default navigation and item selections.
         case Qt::Key_Up:
