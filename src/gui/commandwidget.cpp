@@ -31,7 +31,6 @@
 #include <QAction>
 #include <QFontMetrics>
 #include <QMenu>
-#include <QSyntaxHighlighter>
 
 namespace {
 
@@ -78,27 +77,51 @@ void deserializeShortcuts(
 
 CommandWidget::CommandWidget(QWidget *parent)
     : QWidget(parent)
-    , ui(NULL)
-    , m_cmd()
+    , ui(new Ui::CommandWidget)
 {
+    ui->setupUi(this);
+
+    updateWidgets();
+
+#ifdef NO_GLOBAL_SHORTCUTS
+    ui->checkBoxGlobalShortcut->hide();
+    ui->shortcutButtonGlobalShortcut->hide();
+#else
+    ui->checkBoxGlobalShortcut->setIcon(iconShortcut());
+    ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
+#endif
+
+    ui->groupBoxCommand->setFocusProxy(ui->commandEdit);
+
+    ui->checkBoxAutomatic->setIcon(iconClipboard());
+    ui->checkBoxInMenu->setIcon(iconMenu());
+
+    ConfigurationManager *cm = ConfigurationManager::instance();
+
+    // Add tab names to combo boxes.
+    cm->initTabComboBox(ui->comboBoxCopyToTab);
+    cm->initTabComboBox(ui->comboBoxOutputTab);
+
+    // Add formats to combo boxex.
+    QStringList formats = cm->itemFactory()->formatsToSave();
+    formats.prepend(mimeText);
+    formats.removeDuplicates();
+
+    setComboBoxItems(ui->comboBoxInputFormat, formats);
+    setComboBoxItems(ui->comboBoxOutputFormat, formats);
 }
 
 CommandWidget::~CommandWidget()
 {
-    if (ui) {
-        delete ui;
 #if !defined(COPYQ_WS_X11) && !defined(Q_OS_WIN)
-        ui->lineEditWindow->hide();
-        ui->labelWindow->hide();
+    ui->lineEditWindow->hide();
+    ui->labelWindow->hide();
 #endif
-    }
+    delete ui;
 }
 
 Command CommandWidget::command() const
 {
-    if (!ui)
-        return m_cmd;
-
     Command c;
     c.name   = ui->lineEditName->text();
     c.re     = QRegExp( ui->lineEditMatch->text() );
@@ -128,11 +151,6 @@ Command CommandWidget::command() const
 
 void CommandWidget::setCommand(const Command &c)
 {
-    if (!ui) {
-        m_cmd = c;
-        return;
-    }
-
     ui->lineEditName->setText(c.name);
     ui->lineEditMatch->setText( c.re.pattern() );
     ui->lineEditWindow->setText( c.wndre.pattern() );
@@ -159,13 +177,7 @@ void CommandWidget::setCommand(const Command &c)
 
 QString CommandWidget::currentIcon() const
 {
-    return ui ? ui->buttonIcon->currentIcon() : m_cmd.icon;
-}
-
-void CommandWidget::showEvent(QShowEvent *event)
-{
-    init();
-    QWidget::showEvent(event);
+    return ui->buttonIcon->currentIcon();
 }
 
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
@@ -209,50 +221,8 @@ void CommandWidget::on_commandEdit_changed()
     updateWidgets();
 }
 
-void CommandWidget::init()
-{
-    if (ui)
-        return;
-
-    QScopedPointer<Ui::CommandWidget> uiGuard(new Ui::CommandWidget);
-    uiGuard->setupUi(this);
-    ui = uiGuard.take();
-
-    updateWidgets();
-
-#ifdef NO_GLOBAL_SHORTCUTS
-    ui->checkBoxGlobalShortcut->hide();
-    ui->shortcutButtonGlobalShortcut->hide();
-#else
-    ui->checkBoxGlobalShortcut->setIcon(iconShortcut());
-    ui->shortcutButtonGlobalShortcut->setExpectModifier(true);
-#endif
-
-    ui->groupBoxCommand->setFocusProxy(ui->commandEdit);
-
-    ui->checkBoxAutomatic->setIcon(iconClipboard());
-    ui->checkBoxInMenu->setIcon(iconMenu());
-
-    ConfigurationManager *cm = ConfigurationManager::instance();
-
-    // Add tab names to combo boxes.
-    cm->initTabComboBox(ui->comboBoxCopyToTab);
-    cm->initTabComboBox(ui->comboBoxOutputTab);
-
-    // Add formats to combo boxex.
-    QStringList formats = cm->itemFactory()->formatsToSave();
-    formats.prepend(mimeText);
-    formats.removeDuplicates();
-
-    setComboBoxItems(ui->comboBoxInputFormat, formats);
-    setComboBoxItems(ui->comboBoxOutputFormat, formats);
-
-    setCommand(m_cmd);
-}
-
 void CommandWidget::updateWidgets()
 {
-    Q_ASSERT(ui);
     bool inMenu = ui->checkBoxInMenu->isChecked();
     bool copyOrExecute = inMenu || ui->checkBoxAutomatic->isChecked();
 #ifdef NO_GLOBAL_SHORTCUTS
