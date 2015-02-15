@@ -177,6 +177,9 @@
              </item>
              <item>
               <widget class="QCheckBox" name="checkBoxSaveFilterHistory">
+               <property name="toolTip">
+                <string>Save and restore history of item filters</string>
+               </property>
                <property name="text">
                 <string>Save Filter History</string>
                </property>
