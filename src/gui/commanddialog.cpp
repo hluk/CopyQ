@@ -34,6 +34,7 @@
 
 #include <QFileDialog>
 #include <QMenu>
+#include <QMessageBox>
 #include <QMimeData>
 #include <QSettings>
 #include <QTemporaryFile>
@@ -181,6 +182,13 @@ QIcon getCommandIcon(const QString &iconString)
     return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
 }
 
+Command commandFromWidget(const QWidget *commandWidget)
+{
+    const CommandWidget *w = qobject_cast<const CommandWidget *>(commandWidget);
+    Q_ASSERT(w);
+    return w->command();
+}
+
 } // namespace
 
 Q_DECLARE_METATYPE(Command)
@@ -215,6 +223,8 @@ CommandDialog::CommandDialog(QWidget *parent)
     connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 
     restoreWindowGeometry(this, false);
+
+    m_savedCommands = commands(false, true);
 }
 
 CommandDialog::~CommandDialog()
@@ -229,8 +239,7 @@ CommandDialog::Commands CommandDialog::commands(bool onlyEnabled, bool onlySaved
 
         for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
             QWidget *w = ui->itemOrderListCommands->itemWidget(i);
-            CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
-            Command c = cmdWidget->command();
+            Command c = commandFromWidget(w);
             c.enable = ui->itemOrderListCommands->isItemChecked(i);
 
             if (!onlyEnabled || c.enable)
@@ -246,15 +255,38 @@ CommandDialog::Commands CommandDialog::commands(bool onlyEnabled, bool onlySaved
 void CommandDialog::addCommand(const Command &command)
 {
     addCommandWithoutSave(command);
-    Commands cmds = commands(false, true);
-    cmds.append(command);
 }
 
 void CommandDialog::apply()
 {
     const Commands cmds = commands(false, false);
     saveCommands(cmds);
+    m_savedCommands = commands(false, true);
     emit commandsSaved();
+}
+
+bool CommandDialog::maybeClose(QWidget *saveMessageBoxParent)
+{
+    if ( hasUnsavedChanges() ) {
+        const QMessageBox::StandardButton button = QMessageBox::warning(
+                    saveMessageBoxParent,
+                    tr("Unsaved Changes"), tr("Command dialog has unsaved changes."),
+                    QMessageBox::Save |  QMessageBox::Discard | QMessageBox::Cancel);
+
+        if (button == QMessageBox::Cancel)
+            return false;
+
+        if (button == QMessageBox::Save)
+            apply();
+    }
+
+    QDialog::reject();
+    return true;
+}
+
+void CommandDialog::reject()
+{
+    maybeClose(this);
 }
 
 void CommandDialog::tryPasteCommandFromClipboard()
@@ -367,11 +399,10 @@ void CommandDialog::on_buttonBox_clicked(QAbstractButton *button)
     case QDialogButtonBox::ApplyRole:
         apply();
         break;
+    // Accept and reject roles are handled automatically.
     case QDialogButtonBox::AcceptRole:
-        accept();
         break;
     case QDialogButtonBox::RejectRole:
-        reject();
         break;
     default:
         break;
@@ -495,6 +526,11 @@ QString CommandDialog::serializeSelectedCommands()
     }
 
     return commandData;
+}
+
+bool CommandDialog::hasUnsavedChanges() const
+{
+    return m_savedCommands != commands(false, false);
 }
 
 CommandDialog::Commands loadCommands(bool onlyEnabled)

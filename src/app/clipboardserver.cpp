@@ -262,6 +262,9 @@ void ClipboardServer::onIgnoreKeysTimeout()
 
 bool ClipboardServer::askToQuit()
 {
+    if ( !m_wnd->maybeCloseCommandDialog() )
+        return false;
+
     if ( m_clientThreads.activeThreadCount() > 0 || m_wnd->hasRunningAction() ) {
         QMessageBox messageBox( QMessageBox::Warning, tr("Cancel Active Commands"),
                                 tr("Cancel active commands and exit?"), QMessageBox::NoButton,

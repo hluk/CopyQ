@@ -47,6 +47,11 @@ public:
 
     void apply();
 
+    bool maybeClose(QWidget *saveMessageBoxParent);
+
+public slots:
+    void reject();
+
 signals:
     void commandsSaved();
 
@@ -75,8 +80,10 @@ private:
     void loadCommandsFromFile(const QString &fileName, int targetRow);
     Commands selectedCommands() const;
     QString serializeSelectedCommands();
+    bool hasUnsavedChanges() const;
 
     Ui::CommandDialog *ui;
+    Commands m_savedCommands;
 };
 
 CommandDialog::Commands loadCommands(bool onlyEnabled = true);

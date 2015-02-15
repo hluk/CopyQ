@@ -57,6 +57,33 @@ struct Command {
         , outputTab()
         {}
 
+    bool operator==(Command &other) const {
+        return name == other.name
+            && re == other.re
+            && wndre == other.wndre
+            && matchCmd == other.matchCmd
+            && cmd == other.cmd
+            && sep == other.sep
+            && input == other.input
+            && output == other.output
+            && wait == other.wait
+            && automatic == other.automatic
+            && inMenu == other.inMenu
+            && transform == other.transform
+            && remove == other.remove
+            && hideWindow == other.hideWindow
+            && enable == other.enable
+            && icon == other.icon
+            && shortcuts == other.shortcuts
+            && globalShortcuts == other.globalShortcuts
+            && tab == other.tab
+            && outputTab == other.outputTab;
+    }
+
+    bool operator!=(Command &other) const {
+        return !(*this == other);
+    }
+
     /** Name or short description. Used for menu item. */
     QString name;
 

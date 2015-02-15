@@ -131,6 +131,14 @@ public:
 
     bool hasRunningAction() const;
 
+    /**
+     * Try to close command dialog and return true on success.
+     *
+     * Note that dialog won't be closed if it has unsaved changes
+     * and user canceles the closing.
+     */
+    bool maybeCloseCommandDialog();
+
     QWidget *trayMenu();
 
     /**

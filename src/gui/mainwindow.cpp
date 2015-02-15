@@ -1134,6 +1134,11 @@ bool MainWindow::hasRunningAction() const
     return m_actionHandler->hasRunningAction();
 }
 
+bool MainWindow::maybeCloseCommandDialog()
+{
+    return !m_commandDialog || m_commandDialog->maybeClose(this);
+}
+
 QWidget *MainWindow::trayMenu()
 {
     return m_trayMenu;
