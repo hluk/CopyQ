@@ -50,27 +50,33 @@ QString getImageFormatFromMime(const QString &mime)
                                             : QString();
 }
 
-/**
- * Sometimes only Qt internal image data are available in cliboard,
- * so this tries to convert the image data (if available) to given MIME format.
- */
-void cloneImageData(const QMimeData &data, const QString &mime, QVariantMap *dataMap)
+QImage getImageData(const QMimeData &data)
 {
     // NOTE: Application hangs if using mulitple sessions and
     //       calling QMimeData::hasImage() on X11 clipboard.
+    COPYQ_LOG("Fething image data from clipboard");
     const QImage image = data.imageData().value<QImage>();
+    COPYQ_LOG( QString("Image is %1").arg(image.isNull() ? "invalid" : "valid") );
+    return image;
+}
 
+/**
+ * Sometimes only Qt internal image data are available in cliboard,
+ * so this tries to convert the image data (if available) to given format.
+ */
+void cloneImageData(
+        const QImage &image, const QString &format,
+        const QString &mime, QVariantMap *dataMap)
+{
     if (image.isNull())
         return;
 
-    const QString fmt = getImageFormatFromMime(mime);
-
     QBuffer buffer;
-    bool saved = image.save(&buffer, fmt.toUtf8().constData());
+    bool saved = image.save(&buffer, format.toUtf8().constData());
 
-    COPYQ_LOG( QString("Converting image to \"%1\" format: %1")
-               .arg(fmt)
-               .arg(saved ? "Failed" : "Done") );
+    COPYQ_LOG( QString("Converting image to \"%1\" format: %2")
+               .arg(format)
+               .arg(saved ? "Done" : "Failed") );
 
     if (saved)
         dataMap->insert(mime, buffer.buffer());
@@ -212,12 +218,23 @@ QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 
     QVariantMap newdata;
 
+    QImage image;
+    bool imageLoaded = false;
+
     foreach (const QString &mime, formats) {
         const QByteArray bytes = getUtf8Data(data, mime);
-        if ( !bytes.isEmpty() )
+        if ( !bytes.isEmpty() ) {
             newdata.insert(mime, bytes);
-        else
-            cloneImageData(data, mime, &newdata);
+        } else if ( !imageLoaded || !image.isNull() ) {
+            const QString format = getImageFormatFromMime(mime);
+            if ( !format.isEmpty() ) {
+                if (!imageLoaded) {
+                    image = getImageData(data);
+                    imageLoaded = true;
+                }
+                cloneImageData(image, format, mime, &newdata);
+            }
+        }
     }
 
     foreach (const QString &internalMime, internalMimeTypes) {
