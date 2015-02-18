@@ -259,28 +259,32 @@ QIcon IconFactory::appIcon(AppIconFlags flags)
     const QString suffix = running ? "-busy" : "-normal";
     const QString sessionName = qApp->property("CopyQ_session_name").toString();
 
-    if (sessionName.isEmpty()) {
-        const QIcon icon = QIcon::fromTheme("copyq" + suffix);
-        if (!icon.isNull())
-            return icon;
-    }
+    QIcon icon;
 
-    const QString resourceSuffix = running ? "-running" : "";
-    QPixmap pix = imageFromPrefix(suffix + ".svg", "icon" + resourceSuffix);
+    if (sessionName.isEmpty())
+        icon = QIcon::fromTheme("copyq" + suffix);
 
-    if (!sessionName.isEmpty()) {
-        const QColor color1 = QColor(0x7f, 0xca, 0x9b);
-        const QColor color2 = sessionNameToColor(sessionName);
-        replaceColor(&pix, color1, color2);
+    if (icon.isNull()) {
+        const QString resourceSuffix = running ? "-running" : "";
+        QPixmap pix = imageFromPrefix(suffix + ".svg", "icon" + resourceSuffix);
+
+        if (!sessionName.isEmpty()) {
+            const QColor color1(0x7f, 0xca, 0x9b);
+            const QColor color2 = sessionNameToColor(sessionName);
+            replaceColor(&pix, color1, color2);
+        }
+
+        icon.addPixmap(pix);
     }
 
     if (flags.testFlag(AppIconDisabled)) {
-        QPainter p(&pix);
-        p.setCompositionMode(QPainter::CompositionMode_DestinationOut);
-        p.fillRect(pix.rect(), QColor(100, 100, 100, 100));
+        QIcon disabledIcon;
+        foreach (const QSize &size, icon.availableSizes())
+            disabledIcon.addPixmap(icon.pixmap(size, QIcon::Disabled));
+        return disabledIcon;
     }
 
-    return QIcon(pix);
+    return icon;
 }
 
 QColor getDefaultIconColor(const QWidget &widget, bool selected)
