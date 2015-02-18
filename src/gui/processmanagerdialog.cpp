@@ -159,7 +159,7 @@ void ProcessManagerDialog::actionFinished(Action *action)
     const int row = getRowForAction(action);
     Q_ASSERT(row != -1);
 
-    const QString status = action->actionFailed() ? tr("Finished") : tr("Failed");
+    const QString status = action->actionFailed() ? tr("Failed") : tr("Finished");
 
     QTableWidget *t = ui->tableWidgetCommands;
     SortingGuard sortGuard(t);
