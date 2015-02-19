@@ -51,91 +51,100 @@ Q_DECLARE_METATYPE(QList<int>)
 #endif
 
 #define BEGIN_INVOKE(methodName) \
-        QMetaObject::invokeMethod(m_helper, methodName, Qt::BlockingQueuedConnection \
+    m_helper->unsetValue(); \
+    QMetaObject::invokeMethod(m_helper, methodName, Qt::BlockingQueuedConnection
 
-#define END_INVOKE );
+#define END_INVOKE )
 
-#define END_INVOKE_AND_RETURN(RetType) END_INVOKE return m_helper->value().value<RetType>();
+#define END_INVOKE_AND_RETURN(RetType) \
+    END_INVOKE; \
+    const QVariant v = m_helper->value(); \
+    Q_ASSERT( !m_helper->isValueUnset() ); \
+    Q_ASSERT( qMetaTypeId<RetType>() == qMetaTypeId<QVariant>() || v.userType() == qMetaTypeId<RetType>() ); \
+    return v.value<RetType>()
 
 // Compile-time check ScriptableProxyHelper member method arguments.
-#define CAN_INVOKE(methodName) \
+#define CAN_INVOKE_VOID(methodName) \
     if (false) m_helper->methodName
+
+#define CAN_INVOKE(RetType, call) \
+    if (false) static_cast<const RetType &>(m_helper->call)
 
 #define PROXY_METHOD(methodName) \
     void methodName() \
     { \
-        CAN_INVOKE(methodName)(); \
+        CAN_INVOKE_VOID(methodName)(); \
         BEGIN_INVOKE(#methodName) \
-        END_INVOKE \
+        END_INVOKE; \
     }
 
 #define PROXY_METHOD_VOID_1(methodName, Arg1Type) \
     void methodName(Arg1Type arg1) \
     { \
-        CAN_INVOKE(methodName)(arg1); \
+        CAN_INVOKE_VOID(methodName)(arg1); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
-        END_INVOKE \
+        END_INVOKE; \
     }
 
 #define PROXY_METHOD_VOID_2(methodName, Arg1Type, Arg2Type) \
     void methodName(Arg1Type arg1, Arg2Type arg2) \
     { \
-        CAN_INVOKE(methodName)(arg1, arg2); \
+        CAN_INVOKE_VOID(methodName)(arg1, arg2); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
-        END_INVOKE \
+        END_INVOKE; \
     }
 
 #define PROXY_METHOD_VOID_4(methodName, Arg1Type, Arg2Type, Arg3Type, Arg4Type) \
     void methodName(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3, Arg4Type arg4) \
     { \
-        CAN_INVOKE(methodName)(arg1, arg2, arg3, arg4); \
+        CAN_INVOKE_VOID(methodName)(arg1, arg2, arg3, arg4); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
             , Q_ARG(Arg3Type, arg3) \
             , Q_ARG(Arg4Type, arg4) \
-        END_INVOKE \
+        END_INVOKE; \
     }
 
 #define PROXY_METHOD_0(RetType, methodName) \
     RetType methodName() \
     { \
-        CAN_INVOKE(methodName)(); \
+        CAN_INVOKE(RetType, methodName()); \
         BEGIN_INVOKE(#methodName) \
-        END_INVOKE_AND_RETURN(RetType) \
+        END_INVOKE_AND_RETURN(RetType); \
     } \
 
 #define PROXY_METHOD_1(RetType, methodName, Arg1Type) \
     RetType methodName(Arg1Type arg1) \
     { \
-        CAN_INVOKE(methodName)(arg1); \
+        CAN_INVOKE(RetType, methodName(arg1)); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
-        END_INVOKE_AND_RETURN(RetType) \
+        END_INVOKE_AND_RETURN(RetType); \
     } \
 
 #define PROXY_METHOD_2(RetType, methodName, Arg1Type, Arg2Type) \
     RetType methodName(Arg1Type arg1, Arg2Type arg2) \
     { \
-        CAN_INVOKE(methodName)(arg1, arg2); \
+        CAN_INVOKE(RetType, methodName(arg1, arg2)); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
-        END_INVOKE_AND_RETURN(RetType) \
+        END_INVOKE_AND_RETURN(RetType); \
     } \
 
 #define PROXY_METHOD_3(RetType, methodName, Arg1Type, Arg2Type, Arg3Type) \
     RetType methodName(Arg1Type arg1, Arg2Type arg2, Arg3Type arg3) \
     { \
-        CAN_INVOKE(methodName)(arg1, arg2, arg3); \
+        CAN_INVOKE(RetType, methodName(arg1, arg2, arg3)); \
         BEGIN_INVOKE(#methodName) \
             , Q_ARG(Arg1Type, arg1) \
             , Q_ARG(Arg2Type, arg2) \
             , Q_ARG(Arg3Type, arg3) \
-        END_INVOKE_AND_RETURN(RetType) \
+        END_INVOKE_AND_RETURN(RetType); \
     } \
 
 namespace detail {
@@ -149,6 +158,10 @@ public:
 
     const QVariant &value() const;
 
+    void unsetValue();
+
+    bool isValueUnset();
+
     static QString tabNotFoundError();
 
     static QString tabNameEmptyError();
@@ -156,20 +169,20 @@ public:
 public slots:
     void close();
     void showWindow();
-    void pasteToCurrentWindow();
-    void copyFromCurrentWindow();
+    bool pasteToCurrentWindow();
+    bool copyFromCurrentWindow();
 
     void abortAutomaticCommands();
 
-    void isMonitoringEnabled();
+    bool isMonitoringEnabled();
     void disableMonitoring(bool arg1);
     void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
 
-    void renameTab(const QString &arg1, const QString &arg2);
+    QString renameTab(const QString &arg1, const QString &arg2);
 
-    void removeTab(const QString &arg1);
+    QString removeTab(const QString &arg1);
 
-    void tabIcon(const QString &tabName);
+    QString tabIcon(const QString &tabName);
     void setTabIcon(const QString &tabName, const QString &iconName);
 
     void showBrowser(const QString &tabName);
@@ -192,53 +205,53 @@ public slots:
     void browserEditRow(int arg1);
     void browserEditNew(const QString &arg1, bool changeClipboard);
 
-    void tabs();
-    void toggleVisible();
-    void toggleMenu(const QString &tabName);
-    void toggleMenu();
-    void mainWinId();
-    void trayMenuWinId();
-    void findTabIndex(const QString &arg1);
+    QStringList tabs();
+    bool toggleVisible();
+    bool toggleMenu(const QString &tabName);
+    bool toggleMenu();
+    QByteArray mainWinId();
+    QByteArray trayMenuWinId();
+    int findTabIndex(const QString &arg1);
 
-    void openActionDialog(const QVariantMap &arg1);
+    QByteArray openActionDialog(const QVariantMap &arg1);
 
-    void loadTab(const QString &arg1);
-    void saveTab(const QString &arg1);
+    bool loadTab(const QString &arg1);
+    bool saveTab(const QString &arg1);
 
-    void config(const QString &arg1, const QString &arg2);
+    QVariant config(const QString &arg1, const QString &arg2);
 
-    void getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
+    QByteArray getClipboardData(const QString &mime, QClipboard::Mode mode = QClipboard::Clipboard);
 
-    void browserLength();
-    void browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
+    int browserLength();
+    bool browserOpenEditor(const QByteArray &arg1, bool changeClipboard);
 
-    void browserAdd(const QString &arg1);
-    void browserAdd(const QStringList &texts);
-    void browserAdd(const QVariantMap &arg1, int arg2);
-    void browserChange(const QVariantMap &data, int row);
+    bool browserAdd(const QString &arg1);
+    bool browserAdd(const QStringList &texts);
+    bool browserAdd(const QVariantMap &arg1, int arg2);
+    bool browserChange(const QVariantMap &data, int row);
 
-    void browserItemData(int arg1, const QString &arg2);
-    void browserItemData(int arg1);
+    QByteArray browserItemData(int arg1, const QString &arg2);
+    QVariantMap browserItemData(int arg1);
 
     void setCurrentTab(const QString &tabName);
 
-    void currentTab();
+    QString currentTab();
 
-    void currentItem();
-    void selectItems(const QList<int> &items);
+    int currentItem();
+    bool selectItems(const QList<int> &items);
 
-    void selectedItems();
+    QList<int> selectedItems();
 
-    void sendKeys(const QString &keys);
-    void testcurrentItem();
-    void testselectedTab();
-    void testselectedItems();
+    QString sendKeys(const QString &keys);
+    int testcurrentItem();
+    QString testselectedTab();
+    QList<int> testselectedItems();
 
     void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
 
-    void currentWindowTitle();
+    QString currentWindowTitle();
 
-    void inputDialog(const NamedValueList &values);
+    NamedValueList inputDialog(const NamedValueList &values);
 
     void setUserValue(const QString &key, const QVariant &value);
 
@@ -259,6 +272,7 @@ private:
 
     MainWindow* m_wnd;
     QVariant v; ///< Last return value retrieved.
+    bool m_valueUnset;
     QString m_tabName;
     QScopedPointer<ClipboardBrowser::Lock> m_lock;
     QVariantMap m_actionData;
@@ -361,8 +375,8 @@ public:
 
     PROXY_METHOD_VOID_2(setUserValue, const QString &, const QVariant &)
 
-    PROXY_METHOD_1(bool, updateFirstItem, const QVariantMap &)
-    PROXY_METHOD_1(bool, updateTitle, const QVariantMap &)
+    PROXY_METHOD_VOID_1(updateFirstItem, const QVariantMap &)
+    PROXY_METHOD_VOID_1(updateTitle, const QVariantMap &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.
