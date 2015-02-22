@@ -78,6 +78,9 @@ void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Com
     c.outputTab = settings.value("OutputTab").toString();
     c.inMenu = settings.value("InMenu").toBool();
 
+    if (c.globalShortcuts.size() == 1 && c.globalShortcuts[0] == "DISABLED")
+        c.globalShortcuts = QStringList();
+
     if (settings.value("Ignore").toBool())
         c.remove = c.automatic = true;
     else

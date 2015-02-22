@@ -44,11 +44,11 @@ QStringList serializeShortcuts(const QList<QKeySequence> &shortcuts, bool enable
 {
     QStringList shortcutTexts;
 
-    if (!enabled)
-        shortcutTexts.append(globalShortcutsDisabled);
-
     foreach (const QKeySequence &shortcut, shortcuts)
         shortcutTexts.append(shortcut.toString(QKeySequence::PortableText));
+
+    if (!enabled && !shortcutTexts.isEmpty())
+        shortcutTexts.append(globalShortcutsDisabled);
 
     return shortcutTexts;
 }
