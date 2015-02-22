@@ -35,7 +35,11 @@ namespace {
 
 QString example(const QString &content)
 {
-    return "<div class='example'><p>" + escapeHtml(content) + "</p></div>";
+    return "<table class='example'><tr>"
+           "<td class='example-box'></td>"
+           "<td class='example-margin'></td>"
+           "<td>" + escapeHtml(content) + "</td>"
+           "</tr></table>";
 }
 
 QString help()
@@ -46,7 +50,9 @@ QString help()
         "<head>"
         "<style type=\"text/css\">"
         ".args{font-family:monospace}"
-        ".example{font-family:monospace; margin:0 2em 0 2em; background:lightGray; foreground:black}"
+        ".example{font-family:monospace; margin:1em}"
+        ".example-box{background:#777; padding-right:1em}"
+        ".example-margin{padding-right:.5em}"
         ".description{margin: 0 2em 0 2em}"
         "</style>"
         "</head>"
