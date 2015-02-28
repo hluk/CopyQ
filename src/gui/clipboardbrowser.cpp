@@ -1166,8 +1166,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
         foreach (const QModelIndex &index, indexesToRemove)
             selected.append(index);
 
-        QObject *target = drag->target();
+        QWidget *target = qobject_cast<QWidget*>(drag->target());
 
+        // Move items only if target is this app.
         if (target == this || target == viewport()) {
             foreach (const QModelIndex &index, indexesToRemove) {
                 const int sourceRow = index.row();
@@ -1175,7 +1176,9 @@ void ClipboardBrowser::mouseMoveEvent(QMouseEvent *event)
                         sourceRow < m_dragTargetRow ? m_dragTargetRow - 1 : m_dragTargetRow;
                 m.move(sourceRow, targetRow);
             }
-        } else if ( m_itemLoader->canMoveItems(selected) ) {
+        } else if ( target && target->window() == window()
+                    && m_itemLoader->canMoveItems(selected) )
+        {
             removeIndexes(selected);
         }
     }
