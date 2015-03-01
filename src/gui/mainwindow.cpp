@@ -1100,7 +1100,7 @@ void MainWindow::runNextAutomaticCommand()
 
 bool MainWindow::isWindowVisible() const
 {
-    return isVisible() && isActiveWindow();
+    return !isMinimized() && isVisible() && isActiveWindow();
 }
 
 ClipboardBrowser *MainWindow::clipboardTab()
