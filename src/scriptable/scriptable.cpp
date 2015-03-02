@@ -788,7 +788,7 @@ QScriptValue Scriptable::eval()
 
 QScriptValue Scriptable::currentpath()
 {
-    if (argumentCount() > 1)
+    if (argumentCount() > 0)
         setCurrentPath(arg(0));
 
     return getCurrentPath();
