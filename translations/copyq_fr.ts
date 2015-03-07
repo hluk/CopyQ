@@ -59,7 +59,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="199"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Saisissez le texte à rechercher dans l'historique du presse-papiers</translation>
+        <translation>Saisissez le texte à rechercher dans l'historique du presse-papiers.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
@@ -237,7 +237,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="102"/>
         <source>&amp;Separator for new items:</source>
-        <translation>&amp;Séparateur pour de nouveaux éléments:</translation>
+        <translation>&amp;Séparateur pour les nouveaux éléments:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="112"/>
