@@ -427,6 +427,8 @@ void ScriptableProxyHelper::browserUnlock()
 void ScriptableProxyHelper::nextToClipboard(int where)
 {
     ClipboardBrowser *c = fetchBrowser();
+    if (!c)
+        return;
 
     const int row = qMax(0, c->currentIndex().row()) + where;
     const QModelIndex index = c->index(row);
@@ -488,7 +490,8 @@ bool ScriptableProxyHelper::toggleVisible()
 bool ScriptableProxyHelper::toggleMenu(const QString &tabName)
 {
     INVOKE(toggleMenu(tabName));
-    return m_wnd->toggleMenu(fetchBrowser(tabName));
+    ClipboardBrowser *c = fetchBrowser(tabName);
+    return c && m_wnd->toggleMenu(c);
 }
 
 bool ScriptableProxyHelper::toggleMenu()
