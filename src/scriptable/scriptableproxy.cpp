@@ -819,7 +819,7 @@ QString ScriptableProxyHelper::currentWindowTitle()
 NamedValueList ScriptableProxyHelper::inputDialog(const NamedValueList &values)
 {
     INVOKE(inputDialog(values));
-    QDialog dialog(m_wnd);
+    QDialog dialog;
     QVBoxLayout layout(&dialog);
     QWidgetList widgets;
     widgets.reserve(values.size());
