@@ -70,7 +70,6 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_wnd(NULL)
     , m_monitor(NULL)
     , m_shortcutActions()
-    , m_shortcutBlocker()
     , m_clientThreads()
     , m_ignoreKeysTimer()
 {
@@ -347,7 +346,7 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     act->setShortcut(shortcut);
     act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
     act->setPriority(QAction::HighPriority);
-    m_shortcutBlocker.addAction(act);
+    m_wnd->addAction(act);
 
     m_shortcutActions[s] = command;
 #endif

@@ -127,7 +127,6 @@ private:
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;
-    QWidget m_shortcutBlocker;
     QThreadPool m_clientThreads;
     QTimer m_ignoreKeysTimer;
 };
