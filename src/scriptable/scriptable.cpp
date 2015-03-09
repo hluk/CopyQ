@@ -37,6 +37,9 @@
 #include <QDesktopServices>
 #include <QElapsedTimer>
 #include <QFile>
+#include <QNetworkAccessManager>
+#include <QNetworkReply>
+#include <QNetworkRequest>
 #include <QScriptContext>
 #include <QScriptEngine>
 #include <QScriptValueIterator>
@@ -1096,6 +1099,23 @@ void Scriptable::updateTitle()
         m_proxy->updateTitle(QVariantMap());
 }
 
+QScriptValue Scriptable::networkGet()
+{
+    const QString url = arg(0);
+    QNetworkAccessManager nam;
+    QNetworkReply *reply = nam.get(QNetworkRequest(url));
+    return readReply(reply);
+}
+
+QScriptValue Scriptable::networkPost()
+{
+    const QString url = arg(0);
+    const QByteArray postData = makeByteArray(argument(1));
+    QNetworkAccessManager nam;
+    QNetworkReply *reply = nam.post(QNetworkRequest(url), postData);
+    return readReply(reply);
+}
+
 void Scriptable::setInput(const QByteArray &bytes)
 {
     m_input = newByteArray(bytes);
@@ -1208,4 +1228,44 @@ void Scriptable::changeItem(bool create)
         m_proxy->browserAdd(data, row);
     else
         m_proxy->browserChange(data, row);
+}
+
+QScriptValue Scriptable::readReply(QNetworkReply *reply)
+{
+    QByteArray data;
+    while ( !reply->isFinished() ) {
+        if ( !m_engine->isEvaluating() )
+            return QScriptValue();
+        waitFor(100);
+        if ( reply->waitForReadyRead(100) )
+            data = reply->readAll();
+    }
+    data = reply->readAll();
+
+    QScriptValue result = m_engine->newObject();
+    result.setProperty( "data", newByteArray(data) );
+    if (reply->error() != QNetworkReply::NoError)
+        result.setProperty( "error", reply->errorString() );
+
+    QVariant v;
+
+    v = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if (v.isValid())
+        result.setProperty("status", v.toInt());
+
+    v = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    if (v.isValid())
+        result.setProperty( "redirect", v.toUrl().resolved(reply->url()).toString() );
+
+    QScriptValue headers = m_engine->newArray();
+    int i = 0;
+    foreach ( const QByteArray &header, reply->rawHeaderList() ) {
+        QScriptValue pair = m_engine->newArray();
+        pair.setProperty( 0, newByteArray(header) );
+        pair.setProperty( 1, newByteArray(reply->rawHeader(header)) );
+        headers.setProperty( i++, pair );
+    }
+    result.setProperty( "headers", headers );
+
+    return result;
 }
