@@ -74,7 +74,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Tab navigation</source>
-        <translation>Navigation dans les onglets</translation>
+        <translation>Navigation par onglet</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="205"/>
@@ -96,7 +96,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation>Bibliothèque utilisée par l'application</translation>
+        <translation>Bibliothèque utilisée dans l'application</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="183"/>
