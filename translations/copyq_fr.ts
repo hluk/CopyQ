@@ -59,7 +59,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="199"/>
         <source>Type any text to search the clipboard history.</source>
-        <translation>Saisissez le texte à rechercher dans l'historique du presse-papiers.</translation>
+        <translation>Saisissez le texte à rechercher dans l'historique du presse-papier.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="203"/>
