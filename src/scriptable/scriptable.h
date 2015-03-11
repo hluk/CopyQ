@@ -32,6 +32,7 @@ class ClipboardBrowser;
 class DirClass;
 class FileClass;
 class QFile;
+class QNetworkReply;
 class QScriptEngine;
 
 class Scriptable : public QObject, protected QScriptable
@@ -193,6 +194,9 @@ public slots:
     void updateFirst();
     void updateTitle();
 
+    QScriptValue networkGet();
+    QScriptValue networkPost();
+
 public slots:
     void setInput(const QByteArray &bytes);
 
@@ -205,6 +209,7 @@ private:
     QScriptValue copy(QClipboard::Mode mode);
     bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
     void changeItem(bool create);
+    QScriptValue readReply(QNetworkReply *reply);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;
