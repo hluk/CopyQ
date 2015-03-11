@@ -39,7 +39,26 @@
        <bool>true</bool>
       </property>
      </widget>
-     <widget class="CommandHelpButton" name="helpButton" native="true"/>
+     <widget class="QWidget" name="horizontalLayoutWidget">
+      <layout class="QVBoxLayout" name="verticalLayout2">
+       <item>
+        <widget class="QLabel" name="labelErrors">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="MinimumExpanding" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string/>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="CommandHelpButton" name="helpButton" native="true"/>
+       </item>
+      </layout>
+     </widget>
     </widget>
    </item>
   </layout>
