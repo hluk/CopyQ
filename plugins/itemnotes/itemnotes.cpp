@@ -21,6 +21,7 @@
 #include "ui_itemnotessettings.h"
 
 #include "common/contenttype.h"
+#include "gui/iconfont.h"
 #include "gui/iconwidget.h"
 
 #include <QBoxLayout>
@@ -41,18 +42,37 @@ namespace {
 // Limit number of characters for performance reasons.
 const int defaultMaxBytes = 10*1024;
 
-const char mimeEncryptedData[] = "application/x-copyq-item-notes";
+const char mimeNotes[] = "application/x-copyq-item-notes";
+const char mimeIcon[] = "application/x-copyq-item-icon";
 
 const int notesIndent = 16;
 
+QWidget *createIconWidget(const QByteArray &icon, QWidget *parent)
+{
+    if (!icon.isEmpty()) {
+        QPixmap p;
+        if (p.loadFromData(icon)) {
+            const int side = iconFontSizePixels() + 2;
+            p = p.scaled(side, side, Qt::KeepAspectRatio, Qt::SmoothTransformation);
+            QLabel *label = new QLabel(parent);
+            const int m = side / 4;
+            label->setContentsMargins(m, m, m, m);
+            label->setPixmap(p);
+            return label;
+        }
+    }
+
+    return new IconWidget(IconEditSign, parent);
+}
+
 } // namespace
 
-ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
+ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
                      bool notesAtBottom, bool showIconOnly, bool showToolTip)
     : QWidget( childItem->widget()->parentWidget() )
     , ItemWidget(this)
-    , m_notes( showIconOnly ? NULL : new QTextEdit(this) )
-    , m_icon( showIconOnly ? new IconWidget(IconEditSign, this) : NULL )
+    , m_notes(NULL)
+    , m_icon(NULL)
     , m_childItem(childItem)
     , m_notesAtBottom(notesAtBottom)
     , m_timerShowToolTip(NULL)
@@ -60,6 +80,12 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
 {
     m_childItem->widget()->setObjectName("item_child");
     m_childItem->widget()->setParent(this);
+
+    if (showIconOnly || !icon.isEmpty())
+        m_icon = createIconWidget(icon, this);
+
+    if (!showIconOnly)
+        m_notes = new QTextEdit(this);
 
     QBoxLayout *layout;
 
@@ -90,7 +116,11 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text,
         QHBoxLayout *labelLayout = new QHBoxLayout;
         labelLayout->setMargin(0);
         labelLayout->setContentsMargins(notesIndent, 0, 0, 0);
-        labelLayout->addWidget(m_notes, 0, Qt::AlignLeft);
+
+        if (m_icon)
+            labelLayout->addWidget(m_icon, 0, Qt::AlignLeft);
+
+        labelLayout->addWidget(m_notes, 1, Qt::AlignLeft);
 
         if (notesAtBottom) {
             layout->addWidget( m_childItem->widget() );
@@ -228,7 +258,8 @@ void ItemNotes::paintEvent(QPaintEvent *event)
         c.setAlpha(80);
         p.setBrush(c);
         p.setPen(Qt::NoPen);
-        p.drawRect(m_notes->x() - notesIndent + 4, m_notes->y() + 4,
+        QWidget *w = m_icon ? m_icon : m_notes;
+        p.drawRect(w->x() - notesIndent + 4, w->y() + 4,
                    notesIndent - 4, m_notes->height() - 8);
     }
 }
@@ -258,7 +289,7 @@ ItemNotesLoader::~ItemNotesLoader()
 
 QStringList ItemNotesLoader::formatsToSave() const
 {
-    return QStringList(mimeEncryptedData);
+    return QStringList() << mimeNotes << mimeIcon;
 }
 
 QVariantMap ItemNotesLoader::applySettings()
@@ -293,7 +324,9 @@ ItemWidget *ItemNotesLoader::transform(ItemWidget *itemWidget, const QModelIndex
     if ( text.isEmpty() )
         return NULL;
 
-    return new ItemNotes( itemWidget, text,
+    const QByteArray icon = index.data(contentType::data).toMap().value(mimeIcon).toByteArray();
+
+    return new ItemNotes( itemWidget, text, icon,
                           m_settings["notes_at_bottom"].toBool(),
                           m_settings["icon_only"].toBool(),
             m_settings["show_tooltip"].toBool() );

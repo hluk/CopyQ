@@ -38,7 +38,7 @@ class ItemNotes : public QWidget, public ItemWidget
     Q_OBJECT
 
 public:
-    ItemNotes(ItemWidget *childItem, const QString &text,
+    ItemNotes(ItemWidget *childItem, const QString &text, const QByteArray &icon,
               bool notesAtBottom, bool showIconOnly, bool showToolTip);
 
     virtual void setCurrent(bool current);
