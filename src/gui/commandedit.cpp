@@ -101,7 +101,7 @@ void CommandEdit::on_plainTextEditCommand_textChanged()
             int column = result.errorColumnNumber();
             QTextDocument *doc = ui->plainTextEditCommand->document();
             const int firstLine = doc->findBlock(pos).firstLineNumber();
-            QTextBlock block = doc->findBlockByLineNumber(firstLine + line);
+            QTextBlock block = doc->findBlockByNumber(firstLine + line);
             if (firstLine == block.firstLineNumber())
                 column += scriptPrefix.matchedLength();
 
