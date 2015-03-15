@@ -44,9 +44,6 @@ public:
     /** Set current command. */
     void setCommand(const Command &command);
 
-    /** Return command icon. */
-    QString currentIcon() const;
-
 signals:
     void iconChanged(const QString &iconString);
 

@@ -54,28 +54,29 @@ void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
 void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();
-    foreach ( QWidget *w, m_itemWidgets.values() )
-        ui->stackedWidget->removeWidget(w);
-    m_itemWidgets.clear();
+    foreach ( const ItemWidgetPair &pair, m_items.values() ) {
+        if (pair.widget)
+            ui->stackedWidget->removeWidget(pair.widget);
+    }
+    m_items.clear();
 }
 
-void ItemOrderList::appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, QWidget *widget)
+void ItemOrderList::appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, const ItemPtr &item)
 {
-    insertItem(label, checked, highlight, icon, widget, -1);
+    insertItem(label, checked, highlight, icon, item, -1);
 }
 
 void ItemOrderList::insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon,
-                               QWidget *widget, int targetRow)
+                               const ItemPtr &item, int targetRow)
 {
     QListWidget *list = ui->listWidgetItems;
-    QListWidgetItem *item = new QListWidgetItem(icon, label);
+    QListWidgetItem *listItem = new QListWidgetItem(icon, label);
     const int row = targetRow >= 0 ? qMin(list->count(), targetRow) : list->count();
-    list->insertItem(row, item);
-    item->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
-    setItemHighlight(item, highlight);
+    list->insertItem(row, listItem);
+    listItem->setCheckState(checked ? Qt::Checked : Qt::Unchecked);
+    setItemHighlight(listItem, highlight);
 
-    m_itemWidgets[item] = widget;
-    ui->stackedWidget->addWidget(widget);
+    m_items[listItem] = ItemWidgetPair(item);
 
     // Resize list to minimal size.
     const int w = list->sizeHintForColumn(0)
@@ -86,19 +87,24 @@ void ItemOrderList::insertItem(const QString &label, bool checked, bool highligh
         list->setCurrentRow(row);
 }
 
-QWidget *ItemOrderList::itemWidget(int row) const
+QWidget *ItemOrderList::widget(int row) const
 {
-    return m_itemWidgets[item(row)];
+    return m_items[listItem(row)].widget;
+}
+
+ItemOrderList::ItemPtr ItemOrderList::item(int row) const
+{
+    return m_items[listItem(row)].item;
 }
 
 int ItemOrderList::itemCount() const
 {
-    return ui->listWidgetItems->count();
+    return m_items.size();
 }
 
 bool ItemOrderList::isItemChecked(int row) const
 {
-    return item(row)->checkState() == Qt::Checked;
+    return listItem(row)->checkState() == Qt::Checked;
 }
 
 int ItemOrderList::currentRow() const
@@ -108,9 +114,9 @@ int ItemOrderList::currentRow() const
 
 void ItemOrderList::setCurrentItem(int row)
 {
-    QListWidgetItem *currentItem = item(row);
+    QListWidgetItem *currentItem = listItem(row);
     ui->listWidgetItems->setCurrentItem(currentItem, QItemSelectionModel::ClearAndSelect);
-    QWidget *widget = m_itemWidgets[currentItem];
+    QWidget *widget = createWidget(currentItem);
     widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widget->setFocus();
 }
@@ -138,7 +144,7 @@ void ItemOrderList::setCurrentItemHighlight(bool highlight)
 
 QString ItemOrderList::itemLabel(int row) const
 {
-    return item(row)->text();
+    return listItem(row)->text();
 }
 
 QList<int> ItemOrderList::selectedRows() const
@@ -256,7 +262,7 @@ void ItemOrderList::on_pushButtonAdd_clicked()
 
 void ItemOrderList::on_listWidgetItems_currentItemChanged(QListWidgetItem *current, QListWidgetItem *)
 {
-    setCurrentItemWidget( m_itemWidgets.value(current, NULL) );
+    setCurrentItemWidget( current ? createWidget(current) : NULL );
 }
 
 void ItemOrderList::on_listWidgetItems_itemSelectionChanged()
@@ -266,7 +272,7 @@ void ItemOrderList::on_listWidgetItems_itemSelectionChanged()
     emit itemSelectionChanged();
 }
 
-QListWidgetItem *ItemOrderList::item(int row) const
+QListWidgetItem *ItemOrderList::listItem(int row) const
 {
     Q_ASSERT(row >= 0 && row < itemCount());
     return ui->listWidgetItems->item(row);
@@ -287,4 +293,14 @@ void ItemOrderList::setItemHighlight(QListWidgetItem *item, bool highlight)
     QFont font = item->font();
     font.setBold(highlight);
     item->setFont(font);
+}
+
+QWidget *ItemOrderList::createWidget(QListWidgetItem *item)
+{
+    ItemWidgetPair &pair = m_items[item];
+    if (!pair.widget) {
+        pair.widget = pair.item->createWidget(ui->stackedWidget);
+        ui->stackedWidget->addWidget(pair.widget);
+    }
+    return pair.widget;
 }

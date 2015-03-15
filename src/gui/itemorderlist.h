@@ -22,6 +22,8 @@
 
 #include <QMap>
 #include <QListWidgetItem>
+#include <QPointer>
+#include <QSharedPointer>
 #include <QWidget>
 
 namespace Ui {
@@ -37,6 +39,16 @@ class ItemOrderList : public QWidget
     Q_OBJECT
 
 public:
+    class Item {
+        friend class ItemOrderList;
+    public:
+        virtual QVariant data() const { return QVariant(); }
+    private:
+        virtual QWidget *createWidget(QWidget *parent) const = 0;
+    };
+
+    typedef QSharedPointer<Item> ItemPtr;
+
     explicit ItemOrderList(QWidget *parent = 0);
     ~ItemOrderList();
 
@@ -44,11 +56,12 @@ public:
 
     void clearItems();
 
-    void appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, QWidget *widget);
+    void appendItem(const QString &label, bool checked, bool highlight, const QIcon &icon, const ItemPtr &listItem);
 
-    void insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon, QWidget *widget, int targetRow);
+    void insertItem(const QString &label, bool checked, bool highlight, const QIcon &icon, const ItemPtr &Item, int targetRow);
 
-    QWidget *itemWidget(int row) const;
+    QWidget *widget(int row) const;
+    ItemPtr item(int row) const;
 
     int itemCount() const;
 
@@ -95,12 +108,21 @@ private slots:
     void on_listWidgetItems_itemSelectionChanged();
 
 private:
-    QListWidgetItem *item(int row) const;
+    struct ItemWidgetPair {
+        ItemWidgetPair() {}
+        explicit ItemWidgetPair(const ItemPtr &item) : item(item) {}
+
+        ItemPtr item;
+        QPointer<QWidget> widget;
+    };
+
+    QListWidgetItem *listItem(int row) const;
     void setCurrentItemWidget(QWidget *widget);
-    void setItemHighlight(QListWidgetItem *item, bool highlight);
+    void setItemHighlight(QListWidgetItem *listItem, bool highlight);
+    QWidget *createWidget(QListWidgetItem *item);
 
     Ui::ItemOrderList *ui;
-    QMap<QListWidgetItem*, QWidget*> m_itemWidgets;
+    QMap<QListWidgetItem*, ItemWidgetPair> m_items;
 
     QRegExp m_dragAndDropRe;
 };

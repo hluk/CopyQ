@@ -44,6 +44,36 @@ namespace {
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
 
+class CommandItem : public ItemOrderList::Item {
+public:
+    CommandItem(const Command &command, CommandDialog *cmdDialog)
+        : m_command(command)
+        , m_cmdDialog(cmdDialog)
+    {
+    }
+
+    QVariant data() const { return QVariant::fromValue(m_command); }
+
+private:
+    QWidget *createWidget(QWidget *parent) const
+    {
+        CommandWidget *cmdWidget = new CommandWidget(parent);
+        cmdWidget->setCommand(m_command);
+
+        QObject::connect( cmdWidget, SIGNAL(iconChanged(QString)),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
+        QObject::connect( cmdWidget, SIGNAL(nameChanged(QString)),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
+        QObject::connect( cmdWidget, SIGNAL(automaticChanged(bool)),
+                          m_cmdDialog, SLOT(onCurrentCommandWidgetAutomaticChanged(bool)) );
+
+        return cmdWidget;
+    }
+
+    Command m_command;
+    CommandDialog *m_cmdDialog;
+};
+
 void loadCommand(const QSettings &settings, bool onlyEnabled, CommandDialog::Commands *commands)
 {
     Command c;
@@ -185,13 +215,6 @@ QIcon getCommandIcon(const QString &iconString)
     return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
 }
 
-Command commandFromWidget(const QWidget *commandWidget)
-{
-    const CommandWidget *w = qobject_cast<const CommandWidget *>(commandWidget);
-    Q_ASSERT(w);
-    return w->command();
-}
-
 } // namespace
 
 Q_DECLARE_METATYPE(Command)
@@ -241,8 +264,17 @@ CommandDialog::Commands CommandDialog::commands(bool onlyEnabled, bool onlySaved
         Commands commands;
 
         for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-            QWidget *w = ui->itemOrderListCommands->itemWidget(i);
-            Command c = commandFromWidget(w);
+            Command c;
+
+            QWidget *w = ui->itemOrderListCommands->widget(i);
+            if (w) {
+                const CommandWidget *commandWidget = qobject_cast<const CommandWidget *>(w);
+                Q_ASSERT(commandWidget);
+                c = commandWidget->command();
+            } else {
+                c = ui->itemOrderListCommands->item(i)->data().value<Command>();
+            }
+
             c.enable = ui->itemOrderListCommands->isItemChecked(i);
 
             if (!onlyEnabled || c.enable)
@@ -387,9 +419,8 @@ void CommandDialog::on_pushButtonSaveCommands_clicked()
 void CommandDialog::on_lineEditFilterCommands_textChanged(const QString &text)
 {
     for (int i = 0; i < ui->itemOrderListCommands->itemCount(); ++i) {
-        QWidget *w = ui->itemOrderListCommands->itemWidget(i);
-        CommandWidget *cmdWidget = qobject_cast<CommandWidget *>(w);
-        const Command c = cmdWidget->command();
+        ItemOrderList::ItemPtr item = ui->itemOrderListCommands->item(i);
+        const Command c = item->data().value<Command>();
         bool show = text.isEmpty() || QString(c.name).remove('&').contains(text, Qt::CaseInsensitive)
                 || c.cmd.contains(text, Qt::CaseInsensitive);
         ui->itemOrderListCommands->setItemWidgetVisible(i, show);
@@ -422,20 +453,10 @@ void CommandDialog::onAddCommands(const QList<Command> &commands)
 
 void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
 {
-    CommandWidget *cmdWidget = new CommandWidget(this);
-
-    cmdWidget->setCommand(command);
-
-    connect( cmdWidget, SIGNAL(iconChanged(QString)),
-             this, SLOT(onCurrentCommandWidgetIconChanged(QString)) );
-    connect( cmdWidget, SIGNAL(nameChanged(QString)),
-             this, SLOT(onCurrentCommandWidgetNameChanged(QString)) );
-    connect( cmdWidget, SIGNAL(automaticChanged(bool)),
-             this, SLOT(onCurrentCommandWidgetAutomaticChanged(bool)) );
-
-    ui->itemOrderListCommands->insertItem(command.name, command.enable, command.automatic,
-                                          getCommandIcon(cmdWidget->currentIcon()), cmdWidget,
-                                          targetRow);
+    ItemOrderList::ItemPtr item(new CommandItem(command, this));
+    ui->itemOrderListCommands->insertItem(
+                command.name, command.enable, command.automatic,
+                getCommandIcon(command.icon), item, targetRow);
 }
 
 void CommandDialog::loadCommandsFromFile(const QString &fileName, int targetRow)

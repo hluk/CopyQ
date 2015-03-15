@@ -55,6 +55,22 @@
 
 namespace {
 
+class PluginItem : public ItemOrderList::Item {
+public:
+    explicit PluginItem(const ItemLoaderInterfacePtr &loader)
+        : m_loader(loader)
+    {
+    }
+
+private:
+    QWidget *createWidget(QWidget *parent) const
+    {
+        return new PluginWidget(m_loader, parent);
+    }
+
+    ItemLoaderInterfacePtr m_loader;
+};
+
 QString defaultClipboardTabName()
 {
     return ConfigurationManager::tr(
@@ -370,10 +386,10 @@ void ConfigurationManager::initPluginWidgets()
     ui->itemOrderListPlugins->clearItems();
 
     foreach ( const ItemLoaderInterfacePtr &loader, itemFactory()->loaders() ) {
-        PluginWidget *pluginWidget = new PluginWidget(loader, this);
+        ItemOrderList::ItemPtr pluginItem(new PluginItem(loader));
         const QIcon icon = getIcon(loader->icon());
         ui->itemOrderListPlugins->appendItem(
-                    loader->name(), itemFactory()->isLoaderEnabled(loader), false, icon, pluginWidget );
+                    loader->name(), itemFactory()->isLoaderEnabled(loader), false, icon, pluginItem );
     }
 }
 
@@ -817,10 +833,12 @@ void ConfigurationManager::apply()
             settings.beginGroup("Plugins");
             for (int i = 0; i < ui->itemOrderListPlugins->itemCount(); ++i) {
                 bool isPluginEnabled = ui->itemOrderListPlugins->isItemChecked(i);
-                QWidget *w = ui->itemOrderListPlugins->itemWidget(i);
-                PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
-                pluginWidget->applySettings(&settings, isPluginEnabled);
-                itemFactory()->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
+                QWidget *w = ui->itemOrderListPlugins->widget(i);
+                if (w) {
+                    PluginWidget *pluginWidget = qobject_cast<PluginWidget *>(w);
+                    pluginWidget->applySettings(&settings, isPluginEnabled);
+                    itemFactory()->setLoaderEnabled(pluginWidget->loader(), isPluginEnabled);
+                }
             }
             settings.endGroup();
 

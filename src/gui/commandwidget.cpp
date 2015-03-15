@@ -175,11 +175,6 @@ void CommandWidget::setCommand(const Command &c)
     ui->comboBoxOutputTab->setEditText(c.outputTab);
 }
 
-QString CommandWidget::currentIcon() const
-{
-    return ui->buttonIcon->currentIcon();
-}
-
 void CommandWidget::on_lineEditName_textChanged(const QString &name)
 {
     emit nameChanged(name);
