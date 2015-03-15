@@ -273,6 +273,10 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
         "ClipboardBrowser{" + themeStyleSheet("item_css") + "}"
         "ClipboardBrowser::item:alternate{" + themeStyleSheet("alt_item_css") + "}"
         "ClipboardBrowser::item:selected{" + themeStyleSheet("sel_item_css") + "}"
+
+        "#item_child[CopyQ_item_type=\"notes\"] {"
+          + getFontStyleSheet( themeValue("notes_font").toString() ) +
+        "}"
     );
 
     // search style

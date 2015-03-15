@@ -95,8 +95,7 @@ ItemNotes::ItemNotes(ItemWidget *childItem, const QString &text, const QByteArra
         layout->addWidget(m_childItem->widget());
     } else {
         m_notes->setObjectName("item_child");
-
-        m_notes->document()->setDefaultFont(font());
+        m_notes->setProperty("CopyQ_item_type", "notes");
 
         m_notes->setReadOnly(true);
         m_notes->setUndoRedoEnabled(false);
