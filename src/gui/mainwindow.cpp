@@ -358,12 +358,12 @@ void MainWindow::exit()
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    event->ignore();
-
-    if ( closeMinimizes() )
+    if ( closeMinimizes() ) {
+        event->ignore();
         showMinimized();
-    else
+    } else {
         QMainWindow::closeEvent(event);
+    }
 }
 
 void MainWindow::showEvent(QShowEvent *event)
@@ -1759,6 +1759,12 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
 
     if (reselectFirst)
         c->setCurrent(0);
+}
+
+void MainWindow::setExitAfterClosed()
+{
+    m_minimizeUnsupported = true;
+    QApplication::setQuitOnLastWindowClosed(true);
 }
 
 QString syncCommand(const QString &type)
