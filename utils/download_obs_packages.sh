@@ -15,10 +15,9 @@ urls=(
     "$url/xUbuntu_14.04/amd64/${project}_${version}_amd64.deb"
     "$url/xUbuntu_12.04/i386/${project}_${version}_i386.deb"
     "$url/xUbuntu_12.04/amd64/${project}_${version}_amd64.deb"
-    "$url/openSUSE_13.2/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
-    "$url/openSUSE_13.2/i586/${project}-${version}-${rpm_version}.i586.rpm"
+    "$url/openSUSE_Tumbleweed/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
+    "$url/Fedora_21/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
     "$url/Fedora_20/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
-    "$url/Fedora_20/i686/${project}-${version}-${rpm_version}.i686.rpm"
     "$url/Debian_7.0/i386/${project}_${version}_i386.deb"
     "$url/Debian_7.0/amd64/${project}_${version}_amd64.deb"
 )
