@@ -90,24 +90,27 @@ void CommandEdit::on_plainTextEditCommand_textChanged()
     const int pos = command.indexOf(scriptPrefix);
 
     if (pos != -1) {
-        command.remove(0, pos + scriptPrefix.matchedLength());
+        const int scriptStartPos = pos + scriptPrefix.matchedLength();
+        command.remove(0, scriptStartPos);
 
         const QScriptSyntaxCheckResult result = QScriptEngine::checkSyntax(command);
 
         if (result.state() == QScriptSyntaxCheckResult::Error) {
             errors = result.errorMessage();
+            if (errors.isEmpty())
+                errors = "Syntax error";
 
             const int line = result.errorLineNumber() - 1;
-            int column = result.errorColumnNumber();
+            const int column = result.errorColumnNumber() - 1;
             QTextDocument *doc = ui->plainTextEditCommand->document();
-            const int firstLine = doc->findBlock(pos).firstLineNumber();
-            QTextBlock block = doc->findBlockByNumber(firstLine + line);
-            if (firstLine == block.firstLineNumber())
-                column += scriptPrefix.matchedLength();
+            const int firstBlockNumber = doc->findBlock(pos).blockNumber();
+            QTextBlock block = doc->findBlockByNumber(firstBlockNumber + line);
+            const int blockStartPos = line == 0 ? scriptStartPos : block.position();
+            const int errorPosition = column + blockStartPos;
 
             QTextCursor cursor = ui->plainTextEditCommand->textCursor();
-            cursor.setPosition( block.position() + column );
-            cursor.movePosition(QTextCursor::Left, QTextCursor::KeepAnchor);
+            cursor.setPosition(errorPosition);
+            cursor.movePosition(QTextCursor::NextCharacter, QTextCursor::KeepAnchor);
 
             QTextEdit::ExtraSelection selection;
             selection.cursor = cursor;
