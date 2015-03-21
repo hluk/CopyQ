@@ -1,3 +1,11 @@
+v2.4.5
+- Option to save/restore history for filtering items
+- Clipboard changes with unchanged content is ignored
+- Notify about unsaved changes in command dialog
+- Use application icons from current icon theme on Linux
+- Simple error checking for user scripts
+- Fix blocked system shutdown on Linux/X11
+
 v2.4.4
 - Option to choose tab for storing clipboard
 - Fixed overriding mouse selection (Linux/X11)
