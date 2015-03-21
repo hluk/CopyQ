@@ -518,7 +518,7 @@ QScriptValue Scriptable::tab()
     return applyRest(1);
 }
 
-void Scriptable::removetab()
+void Scriptable::removeTab()
 {
     const QString &name = arg(0);
     const QString error = m_proxy->removeTab(name);
@@ -526,7 +526,7 @@ void Scriptable::removetab()
         throwError(error);
 }
 
-void Scriptable::renametab()
+void Scriptable::renameTab()
 {
     const QString &name = arg(0);
     const QString &newName = arg(1);
@@ -535,7 +535,7 @@ void Scriptable::renametab()
         throwError(error);
 }
 
-QScriptValue Scriptable::tabicon()
+QScriptValue Scriptable::tabIcon()
 {
     if (argumentCount() == 1)
         return m_proxy->tabIcon(arg(0));
@@ -738,7 +738,7 @@ void Scriptable::popup()
     m_proxy->showMessage(title, message, QSystemTrayIcon::Information, msec);
 }
 
-void Scriptable::exporttab()
+void Scriptable::exportTab()
 {
     const QString &fileName = arg(0);
     if ( fileName.isNull() ) {
@@ -748,7 +748,7 @@ void Scriptable::exporttab()
     }
 }
 
-void Scriptable::importtab()
+void Scriptable::importTab()
 {
     const QString &fileName = arg(0);
     if ( fileName.isNull() ) {
@@ -789,7 +789,7 @@ QScriptValue Scriptable::eval()
     return engine()->evaluate(script);
 }
 
-QScriptValue Scriptable::currentpath()
+QScriptValue Scriptable::currentPath()
 {
     if (argumentCount() > 0)
         setCurrentPath(arg(0));
@@ -873,7 +873,7 @@ QScriptValue Scriptable::testcurrentitem()
     return m_proxy->testcurrentItem();
 }
 
-QScriptValue Scriptable::selectitems()
+QScriptValue Scriptable::selectItems()
 {
     QList<int> rows = getRows();
 
@@ -885,29 +885,29 @@ QScriptValue Scriptable::selectitems()
     return m_proxy->selectItems(rows);
 }
 
-QScriptValue Scriptable::selectedtab()
+QScriptValue Scriptable::selectedTab()
 {
     return m_data.value(mimeCurrentTab).toString();
 }
 
-QScriptValue Scriptable::selecteditems()
+QScriptValue Scriptable::selectedItems()
 {
     return toScriptValue( m_proxy->selectedItems(), this );
 }
 
-QScriptValue Scriptable::currentitem()
+QScriptValue Scriptable::currentItem()
 {
     return m_proxy->currentItem();
 }
 
 QScriptValue Scriptable::index()
 {
-    return currentitem();
+    return currentItem();
 }
 
-QScriptValue Scriptable::escapeHTML()
+QScriptValue Scriptable::escapeHtml()
 {
-    return escapeHtml(toString(argument(0)));
+    return ::escapeHtml(toString(argument(0)));
 }
 
 QScriptValue Scriptable::unpack()
@@ -928,7 +928,7 @@ QScriptValue Scriptable::pack()
     return newByteArray(serializeData(data));
 }
 
-QScriptValue Scriptable::getitem()
+QScriptValue Scriptable::getItem()
 {
     int row;
     if ( !toInt(argument(0), row) ) {
@@ -939,7 +939,7 @@ QScriptValue Scriptable::getitem()
     return toScriptValue( m_proxy->browserItemData(row), this );
 }
 
-void Scriptable::setitem()
+void Scriptable::setItem()
 {
     int row;
     if ( !toInt(argument(0), row) ) {
@@ -951,12 +951,12 @@ void Scriptable::setitem()
     m_proxy->browserAdd(data, row);
 }
 
-QScriptValue Scriptable::tobase64()
+QScriptValue Scriptable::toBase64()
 {
     return QString::fromLatin1(makeByteArray(argument(0)).toBase64());
 }
 
-QScriptValue Scriptable::frombase64()
+QScriptValue Scriptable::fromBase64()
 {
     return newByteArray(QByteArray::fromBase64(makeByteArray(argument(0))));
 }
