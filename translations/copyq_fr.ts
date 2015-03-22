@@ -21,7 +21,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>E-mail</source>
-        <translation>Email</translation>
+        <translation>Courriel</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="140"/>
@@ -119,7 +119,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="193"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Les raccourcis de l'application peuvent être modifiées dans la boite de dialogue des Préférences.</translation>
+        <translation>Les raccourcis de l'application peuvent être modifiés dans la boite de dialogue des Préférences.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="196"/>
@@ -144,7 +144,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Escape</source>
-        <translation>Echape</translation>
+        <translation>Echappe</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="211"/>
@@ -204,7 +204,7 @@
     </message>
     <message>
         <source>&lt;b&gt;%1&lt;/b&gt; in the &lt;b&gt;command&lt;/b&gt; is &lt;b&gt;text&lt;/b&gt; of selected items. The text can be also modified and passed to &lt;b&gt;standard input&lt;/b&gt; of command. It's also possible to chain commands using &lt;b&gt;|&lt;/b&gt; character (i.e. passing standard output).</source>
-        <translation type="vanished">&lt;b&gt;%1&lt;/b&gt; dans la &lt;b&gt;commande&lt;/b&gt; est du &lt;b&gt;texte&lt;/b&gt; dans l’élément sélectionné. Le texte peut être modifié et envoyé à &lt;b&gt;l'entrée standard&lt;/b&gt; de la commande. Il est aussi possible d'enchainer les commandes en utilisant le caractère séparateur &lt;b&gt;|&lt;/b&gt; (cad en passant sur la sortie standard).</translation>
+        <translation>&lt;b&gt;%1&lt;/b&gt; dans la &lt;b&gt;commande&lt;/b&gt; est du &lt;b&gt;texte&lt;/b&gt; dans l’élément sélectionné. Le texte peut être modifié et envoyé à &lt;b&gt;l'entrée standard&lt;/b&gt; de la commande. Il est aussi possible d'enchaîner les commandes en utilisant le caractère séparateur &lt;b&gt;|&lt;/b&gt; (càd en passant sur la sortie standard).</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -254,7 +254,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation>Sortir de l'onglet :</translation>
+        <translation>Quitter l'onglet :</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
