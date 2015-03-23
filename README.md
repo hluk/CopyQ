@@ -27,21 +27,36 @@ Bug Reports:
 Donate:
     <https://www.bountysource.com/teams/copyq>
 
+Overview
+--------
+
+CopyQ monitors system clipboard and saves its content as items in custom tabs.
+Items are saved and can be later copied back to clipboard or pasted directly
+into an application.
+
+Items can be:
+* edited with internal editor or with preferred text editor,
+* moved to other tabs,
+* drag'n'dropped to applications,
+* marked with tag or a note,
+* passed to or changed by custom commands,
+* or simply removed.
+
 Features
 --------
 
-* Supports Linux, Windows and OS X 10.9+.
-* Store text, HTML, images and any other custom format.
-* Customize tray menu.
-* Save items in tabs or tree.
-* Quickly browse through items (fast navigation, filtering with matched text highlighting).
-* Sort items, create new, edit, remove, copy/paste to different tab.
-* Variety of system-wide shortcuts (e.g. show main window or tray, edit clipboard, copy next/previous, paste as plain text).
-* Immediately paste to focused window from tray or main window.
-* Fully customizable appearance (colors, fonts, transparency).
-* Advanced command-line interface and scripting.
-* Ignore clipboard copied from some windows or containing some text.
-* Apply custom commands on selected items or automatically when new matching clipboard content is available.
+* Support for Linux, Windows and OS X 10.9+
+* Store text, HTML, images or any other custom formats
+* Quickly browse and filter items in clipboard history
+* Sort, create, edit, remove, copy/paste, drag'n'drop items in tabs
+* Add notes or tags to items
+* System-wide shortcuts with customizable commands
+* Paste items with shortcut or from tray or main window
+* Fully customizable appearance
+* Advanced command-line interface and scripting
+* Ignore clipboard copied from some windows or containing some text
+* Support for simple Vim-like editor and shortcuts
+* Many more features
 
 Install and Run
 ---------------
@@ -66,10 +81,8 @@ If you want to help with translating, fixing or writing code read
 Dependencies
 ------------
 
-To compile and run the application you'll need the latest stable version of
-[Qt](http://qt.digia.com/) library (there is also experimental support for
-[Qt 5](http://qt-project.org/wiki/Qt_5.0)). To compile on OS X, you will
-need at least Qt 5.2.
+To build and run the application you'll need [Qt](http://www.qt.io/download/)
+library. To compile on OS X, you will need at least Qt 5.2.
 
 Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
 enables the application to use advanced HTML rendering and fetching remote

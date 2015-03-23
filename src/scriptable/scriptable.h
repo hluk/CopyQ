@@ -116,9 +116,12 @@ public slots:
     void paste();
 
     QScriptValue tab();
-    void removetab();
-    void renametab();
-    QScriptValue tabicon();
+    void removeTab();
+    void removetab() { removeTab(); }
+    void renameTab();
+    void renametab() { renameTab(); }
+    QScriptValue tabIcon();
+    QScriptValue tabicon() { return tabIcon(); }
 
     QScriptValue length();
     QScriptValue size() { return length(); }
@@ -140,14 +143,17 @@ public slots:
     void action();
     void popup();
 
-    void exporttab();
-    void importtab();
+    void exportTab();
+    void exporttab() { exportTab(); }
+    void importTab();
+    void importtab() { importTab(); }
 
     QScriptValue config();
 
     QScriptValue eval();
 
-    QScriptValue currentpath();
+    QScriptValue currentPath();
+    QScriptValue currentpath() { return currentPath(); }
 
     QScriptValue str(const QScriptValue &value);
     QScriptValue input();
@@ -161,24 +167,33 @@ public slots:
     QScriptValue testselecteditems();
     QScriptValue testcurrentitem();
 
-    QScriptValue selectitems();
+    QScriptValue selectItems();
+    QScriptValue selectitems() { return selectItems(); }
 
-    QScriptValue selectedtab();
-    QScriptValue selecteditems();
-    QScriptValue currentitem();
+    QScriptValue selectedTab();
+    QScriptValue selectedtab() { return selectedTab(); }
+    QScriptValue selectedItems();
+    QScriptValue selecteditems() { return selectedItems(); }
+    QScriptValue currentItem();
+    QScriptValue currentitem() { return currentItem(); }
 
     QScriptValue index();
 
-    QScriptValue escapeHTML();
+    QScriptValue escapeHtml();
+    QScriptValue escapeHTML() { return escapeHtml(); }
 
     QScriptValue unpack();
     QScriptValue pack();
 
-    QScriptValue getitem();
-    void setitem();
+    QScriptValue getItem();
+    QScriptValue getitem() { return getItem(); }
+    void setItem();
+    void setitem() { setItem(); }
 
-    QScriptValue tobase64();
-    QScriptValue frombase64();
+    QScriptValue toBase64();
+    QScriptValue tobase64() { return toBase64(); }
+    QScriptValue fromBase64();
+    QScriptValue frombase64() { return fromBase64(); }
 
     QScriptValue open();
     QScriptValue execute();
