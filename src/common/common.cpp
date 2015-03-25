@@ -321,6 +321,9 @@ bool ownsClipboardData(const QVariantMap &data)
 QString elideText(const QString &text, const QFont &font, const QString &format,
                   bool escapeAmpersands, int maxWidthPixels, int maxLines)
 {
+    if (maxWidthPixels <= 0)
+        maxWidthPixels = smallIconSize() * 20;
+
     const int oldLines = text.count('\n');
 
     QString newText = text;
@@ -368,7 +371,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         if ( !format.startsWith(COPYQ_MIME_PREFIX) )
             formats.append(format);
     }
-
 
     if ( formats.contains(mimeText) ) {
         const QString text = getTextData(data);

@@ -109,7 +109,7 @@ bool ownsClipboardData(const QVariantMap &data);
  */
 QString elideText(const QString &text, const QFont &font = QFont(),
                   const QString &format = QString(), bool escapeAmpersands = false,
-                  int maxWidthPixels = 320, int maxLines = 1);
+                  int maxWidthPixels = -1, int maxLines = 1);
 
 /**
  * Show small label for data.
@@ -125,7 +125,7 @@ QString elideText(const QString &text, const QFont &font = QFont(),
  */
 QString textLabelForData(const QVariantMap &data, const QFont &font = QFont(),
                          const QString &format = QString(), bool escapeAmpersands = false,
-                         int maxWidthPixels = 320, int maxLines = 1);
+                         int maxWidthPixels = -1, int maxLines = 1);
 
 /**
  * Shortcut to remove items, formats etc.
