@@ -116,10 +116,12 @@ void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
 {
     QPainter painter(pix);
     QFont font = iconFont();
-    font.setPixelSize(h - 2);
+    const int m = h / 8;
+    const int m2 = m / 2;
+    font.setPixelSize(h - m);
     painter.setFont(font);
     painter.setPen(color);
-    painter.drawText( QRect(1, 1, w - 1, h - 1), QString(QChar(id)) );
+    painter.drawText( QRect(m2, m2, w - m2, h - m2), QString(QChar(id)) );
 }
 
 QColor getDefaultIconColor(const QColor &color)

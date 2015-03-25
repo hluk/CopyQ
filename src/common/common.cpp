@@ -32,6 +32,7 @@
 #include <QLocale>
 #include <QMimeData>
 #include <QObject>
+#include <QStyle>
 #include <QTemporaryFile>
 #include <QTextCodec>
 #include <QThread>
@@ -497,4 +498,9 @@ bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
     }
 
     return true;
+}
+
+int smallIconSize()
+{
+    return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
 }

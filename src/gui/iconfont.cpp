@@ -20,9 +20,9 @@
 #include "iconfont.h"
 
 #include <QApplication>
-#include <QDesktopWidget>
 #include <QFont>
 #include <QFontDatabase>
+#include <QStyle>
 
 const QFont &iconFont()
 {
@@ -39,7 +39,5 @@ const QFont &iconFont()
 
 int iconFontSizePixels()
 {
-    // FIXME: Set proper icon sizes on high-DPI displays (icons should be sharp if possible).
-    const int dpi = QApplication::desktop()->physicalDpiX();
-    return ( dpi <= 120 ) ? 14 : 14 * dpi / 120;
+    return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
 }

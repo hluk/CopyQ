@@ -25,6 +25,7 @@
 #include "gui/iconfactory.h"
 #include "gui/iconfont.h"
 
+#include <QApplication>
 #include <QLabel>
 #include <QList>
 #include <QMimeData>
@@ -226,6 +227,13 @@ void labelItem(QTreeWidgetItem *item)
     setItemWidgetSelected(item);
 }
 
+bool isInside(QWidget *child, QWidget *parent)
+{
+    const QPoint scrollBarPosition = child->mapTo(parent, QPoint(0,0));
+    return parent->contentsRect().contains(scrollBarPosition);
+}
+
+
 } // namespace
 
 TabTree::TabTree(QWidget *parent)
@@ -243,7 +251,7 @@ TabTree::TabTree(QWidget *parent)
     setHeaderHidden(true);
     setSelectionMode(QAbstractItemView::SingleSelection);
 
-    const int x = iconFontSizePixels() + 4;
+    const int x = smallIconSize();
     setIconSize(QSize(x, x));
 
     setMinimumHeight(fontMetrics().lineSpacing() * 3);
@@ -606,11 +614,13 @@ void TabTree::updateSize()
     const QMargins margins = contentsMargins();
     int w = margins.left() + margins.right();
 
-    if ( verticalScrollBar()->isVisible() )
+    // Some styles put scrollbar outside of parent's contents so there is no need
+    // to resize parent widget.
+    if ( verticalScrollBar()->isVisible() && isInside(verticalScrollBar(), this) )
         w += verticalScrollBar()->width();
 
     resizeColumnToContents(0);
-    w += sizeHintForColumn(0) + 4;
+    w += sizeHintForColumn(0);
 
     setFixedWidth(w);
 }

@@ -25,6 +25,7 @@
 #include "gui/commanddialog.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
+#include "gui/iconfont.h"
 #include "gui/icons.h"
 #include "gui/shortcutbutton.h"
 
@@ -222,8 +223,10 @@ ShortcutsWidget::ShortcutsWidget(QWidget *parent)
     ui->tableWidget->horizontalHeader()->setStretchLastSection(true);
     ui->tableWidget->horizontalHeader()->hide();
     ui->tableWidget->horizontalHeader()->resizeSection(Columns::Empty, 0);
-    ui->tableWidget->horizontalHeader()->resizeSection(Columns::Icon, 24);
     ui->tableWidget->verticalHeader()->hide();
+
+    const int iconSize = iconFontSizePixels();
+    ui->tableWidget->setIconSize(QSize(iconSize, iconSize));
 
     initSingleShotTimer( &m_timerCheckAmbiguous, 0, this, SLOT(checkAmbiguousShortcuts()) );
 }
@@ -302,6 +305,7 @@ void ShortcutsWidget::showEvent(QShowEvent *event)
 
     QWidget::showEvent(event);
     ui->tableWidget->resizeColumnToContents(Columns::Text);
+    ui->tableWidget->resizeColumnToContents(Columns::Icon);
     m_timerCheckAmbiguous.start(); // Update because shortcuts for commands may have changed.
 }
 

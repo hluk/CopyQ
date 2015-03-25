@@ -43,6 +43,8 @@
 #include <QMenu>
 #include <QMessageBox>
 #include <QMimeData>
+#include <QProxyStyle>
+#include <QScreen>
 #include <QSessionManager>
 #include <QThread>
 
@@ -54,12 +56,55 @@ struct QxtGlobalShortcut {};
 
 namespace {
 
+const double lowResDpi = 96.0;
+
 QString newClipboardMonitorServerName()
 {
     static int monitorProcessId = 0;
     return serverName( "m" + QString::number(monitorProcessId) + "_"
                        + QString::number(QDateTime::currentMSecsSinceEpoch()) );
 }
+
+int defaultDpi()
+{
+#if QT_VERSION < 0x050000
+    static const qreal dpi = QWidget().logicalDpiX();
+#else
+    static const qreal dpi = QApplication::primaryScreen()->logicalDotsPerInch();
+#endif
+    return dpi;
+}
+
+int dpiForWidget(const QWidget *widget)
+{
+    return widget ? widget->logicalDpiX() : defaultDpi();
+}
+
+// Round down to nearest quarter (1.0, 1.25, 1.5, 2.0 ...).
+double normalizeFactor(qreal f)
+{
+    return qMax(1.0, static_cast<int>(f * 4.0) / 4.0);
+}
+
+int fromPixels(int pixels, const QWidget *widget)
+{
+    const qreal f = dpiForWidget(widget) / lowResDpi;
+    return pixels * normalizeFactor(f);
+}
+
+bool areIconsTooSmall()
+{
+    const int idealIconSize = fromPixels(16, NULL);
+    return smallIconSize() < idealIconSize;
+}
+
+class ApplicationStyle : public QProxyStyle {
+public:
+    int pixelMetric(PixelMetric metric, const QStyleOption *option, const QWidget *widget) const
+    {
+        return fromPixels(QProxyStyle::pixelMetric(metric, option, widget), widget);
+    }
+};
 
 } // namespace
 
@@ -83,6 +128,9 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     createSessionMutex();
 
     QApplication::setQuitOnLastWindowClosed(false);
+
+    if (areIconsTooSmall())
+        QApplication::setStyle(new ApplicationStyle);
 
     m_wnd = new MainWindow;
 

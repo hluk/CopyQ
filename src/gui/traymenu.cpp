@@ -173,7 +173,7 @@ void TrayMenu::addClipboardItemAction(const QModelIndex &index, bool showImages,
             const QString &format = formats[imageIndex];
             QPixmap pix;
             pix.loadFromData( data.value(format).toByteArray(), format.toLatin1().data() );
-            const int iconSize = 24;
+            const int iconSize = smallIconSize();
             int x = 0;
             int y = 0;
             if (pix.width() > pix.height()) {

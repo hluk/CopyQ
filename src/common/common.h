@@ -148,4 +148,6 @@ QString dataToText(const QByteArray &bytes, const QString &mime);
 
 bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data);
 
+int smallIconSize();
+
 #endif // COMMON_H
