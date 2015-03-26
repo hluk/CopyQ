@@ -301,6 +301,7 @@ bool Action::waitForStarted(int msecs)
 
 bool Action::waitForFinished(int msecs)
 {
+    QCoreApplication::processEvents();
     return m_processes.isEmpty() || m_processes.last()->waitForFinished(msecs);
 }
 
