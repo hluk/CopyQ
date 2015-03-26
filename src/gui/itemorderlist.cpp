@@ -251,8 +251,12 @@ void ItemOrderList::on_pushButtonDown_clicked()
 
 void ItemOrderList::on_pushButtonRemove_clicked()
 {
-    foreach (QListWidgetItem *item, ui->listWidgetItems->selectedItems())
+    foreach (QListWidgetItem *item, ui->listWidgetItems->selectedItems()) {
+        ItemWidgetPair pair = m_items.take(item);
+        if (pair.widget)
+            ui->stackedWidget->removeWidget(pair.widget);
         delete item;
+    }
 }
 
 void ItemOrderList::on_pushButtonAdd_clicked()
