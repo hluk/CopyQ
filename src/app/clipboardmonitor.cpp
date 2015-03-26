@@ -32,6 +32,14 @@ namespace {
 
 bool hasSameData(const QVariantMap &data, const QVariantMap &lastData)
 {
+    foreach (const QString &format, lastData.keys()) {
+        if ( !format.startsWith(COPYQ_MIME_PREFIX)
+             && !data.contains(format) )
+        {
+            return false;
+        }
+    }
+
     foreach (const QString &format, data.keys()) {
         if ( !format.startsWith(COPYQ_MIME_PREFIX)
              && !data[format].toByteArray().isEmpty()
