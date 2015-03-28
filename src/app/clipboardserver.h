@@ -124,6 +124,8 @@ private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();
 
+    void terminateThreads();
+
     MainWindow* m_wnd;
     RemoteProcess *m_monitor;
     QMap<QxtGlobalShortcut*, Command> m_shortcutActions;

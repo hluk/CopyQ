@@ -165,6 +165,7 @@ Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
     , m_fileClass(NULL)
     , m_inputSeparator("\n")
     , m_input()
+    , m_abort(false)
 {
 }
 
@@ -806,7 +807,7 @@ QScriptValue Scriptable::input()
 {
     if ( !getByteArray(m_input) ) {
         sendMessageToClient(QByteArray(), CommandReadInput);
-        while ( !getByteArray(m_input) )
+        while ( !getByteArray(m_input) && !m_abort )
             QApplication::processEvents();
     }
 
@@ -825,10 +826,13 @@ void Scriptable::print(const QScriptValue &value)
 
 void Scriptable::abort()
 {
-    QScriptEngine *eng = engine();
-    if (eng == NULL)
-        eng = m_engine;
-    if ( eng && eng->isEvaluating() ) {
+    if (m_abort)
+        return;
+
+    m_abort = true;
+
+    QScriptEngine *eng = engine() ? engine() : m_engine;
+    if (eng) {
         setInput(QByteArray()); // stop waiting for input
         eng->abortEvaluation();
     }
@@ -994,7 +998,7 @@ QScriptValue Scriptable::execute()
     if ( !action.waitForStarted(5000) )
         return QScriptValue();
 
-    while ( !action.waitForFinished(5000) && m_engine->isEvaluating() ) {}
+    while ( !action.waitForFinished(5000) && !m_abort ) {}
 
     if ( action.isRunning() && !action.waitForFinished(5000) ) {
         action.terminate();
@@ -1234,7 +1238,7 @@ QScriptValue Scriptable::readReply(QNetworkReply *reply)
 {
     QByteArray data;
     while ( !reply->isFinished() ) {
-        if ( !m_engine->isEvaluating() )
+        if (m_abort)
             return QScriptValue();
         waitFor(100);
         if ( reply->waitForReadyRead(100) )

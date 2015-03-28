@@ -277,12 +277,7 @@ void ClipboardServer::onAboutToQuit()
     if( isMonitoring() )
         stopMonitoring();
 
-    COPYQ_LOG( QString("Active client threads: %1").arg(m_clientThreads.activeThreadCount()) );
-
-    COPYQ_LOG("Terminating remaining threads.");
-    emit terminateClientThreads();
-    while ( !m_clientThreads.waitForDone(0) )
-        QApplication::processEvents();
+    terminateThreads();
 }
 
 void ClipboardServer::onCommitData(QSessionManager &sessionManager)
@@ -300,8 +295,10 @@ void ClipboardServer::onCommitData(QSessionManager &sessionManager)
 
 void ClipboardServer::maybeQuit()
 {
-    if (askToQuit())
+    if (askToQuit()) {
+        terminateThreads();
         QCoreApplication::exit();
+    }
 }
 
 void ClipboardServer::onIgnoreKeysTimeout()
@@ -327,6 +324,16 @@ bool ClipboardServer::askToQuit()
     }
 
     return true;
+}
+
+void ClipboardServer::terminateThreads()
+{
+    COPYQ_LOG( QString("Active client threads: %1").arg(m_clientThreads.activeThreadCount()) );
+
+    COPYQ_LOG("Terminating remaining threads.");
+    emit terminateClientThreads();
+    while ( !m_clientThreads.waitForDone(0) )
+        QApplication::processEvents();
 }
 
 void ClipboardServer::doCommand(const Arguments &args, ClientSocket *client)

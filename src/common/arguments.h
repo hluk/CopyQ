@@ -54,6 +54,9 @@ public:
     /** Get argument by @a index. */
     const QByteArray &at(int index) const;
 
+    /** Set argument at @a index. */
+    void setArgument(int index, const QByteArray &argument);
+
     /** Total number of arguments. */
     int length() const { return m_args.size(); }
 

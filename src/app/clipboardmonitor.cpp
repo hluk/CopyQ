@@ -19,7 +19,6 @@
 
 #include "clipboardmonitor.h"
 
-#include "common/arguments.h"
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
@@ -67,9 +66,7 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
         QCoreApplication::instance()->setProperty("CopyQ_testing", true);
 #endif
 
-    Arguments arguments(
-                createPlatformNativeInterface()->getCommandLineArguments(argc, argv) );
-    if ( !startClientSocket(serverName, arguments) )
+    if ( !startClientSocket(serverName, argc, argv) )
         exit(1);
 }
 

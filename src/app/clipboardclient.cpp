@@ -19,7 +19,6 @@
 
 #include "clipboardclient.h"
 
-#include "common/arguments.h"
 #include "common/client_server.h"
 #include "common/commandstatus.h"
 #include "common/log.h"
@@ -28,15 +27,23 @@
 
 #include <QCoreApplication>
 #include <QFile>
+#include <QThread>
+
+void InputReader::readInput()
+{
+    QFile in;
+    in.open(stdin, QIODevice::ReadOnly);
+
+    QByteArray input = in.readAll();
+    emit inputRead(input);
+}
 
 ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QString &sessionName)
     : Client()
     , App(createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
+    , m_inputReaderThread(NULL)
 {
-    Arguments arguments(
-                createPlatformNativeInterface()->getCommandLineArguments(argc, argv)
-                .mid(skipArgc) );
-    if ( !startClientSocket(clipboardServerName(), arguments) ) {
+    if ( !startClientSocket(clipboardServerName(), argc, argv, skipArgc) ) {
         log( tr("Cannot connect to server! Start CopyQ server first."), LogError );
         exit(1);
     }
@@ -51,9 +58,10 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
             window->raise();
     } else if (messageCode == CommandReadInput) {
         COPYQ_LOG("Sending standard input.");
-        QFile in;
-        in.open(stdin, QIODevice::ReadOnly);
-        sendMessage( in.readAll(), 0 );
+        if (isInputReaderFinished())
+            sendInput();
+        else
+            startInputReader(true);
     } else {
         QFile f;
         f.open((messageCode == CommandSuccess || messageCode == CommandFinished) ? stdout : stderr, QIODevice::WriteOnly);
@@ -62,8 +70,10 @@ void ClipboardClient::onMessageReceived(const QByteArray &data, int messageCode)
 
     COPYQ_LOG( QString("Message received with exit code %1.").arg(messageCode) );
 
-    if (messageCode == CommandFinished || messageCode == CommandBadSyntax || messageCode == CommandError)
+    if (messageCode == CommandFinished || messageCode == CommandBadSyntax || messageCode == CommandError) {
+        abortInputReader();
         exit(messageCode);
+    }
 }
 
 void ClipboardClient::onDisconnected()
@@ -72,5 +82,64 @@ void ClipboardClient::onDisconnected()
         return;
 
     log( tr("Connection lost!"), LogError );
+
+    abortInputReader();
+
     exit(1);
+}
+
+void ClipboardClient::setInput(const QByteArray &input)
+{
+    m_input = input;
+}
+
+void ClipboardClient::sendInput()
+{
+    if ( !wasClosed() )
+        sendMessage(m_input, 0);
+}
+
+void ClipboardClient::startInputReader(bool sendInputAfterFinished)
+{
+    if ( wasClosed() || m_inputReaderThread )
+        return;
+
+    InputReader *reader = new InputReader;
+    m_inputReaderThread = new QThread(this);
+    reader->moveToThread(m_inputReaderThread);
+    connect( m_inputReaderThread, SIGNAL(started()), reader, SLOT(readInput()) );
+    connect( m_inputReaderThread, SIGNAL(finished()), reader, SLOT(deleteLater()) );
+    connect( reader, SIGNAL(inputRead(QByteArray)), this, SLOT(setInput(QByteArray)) );
+    if (sendInputAfterFinished)
+        connect( reader, SIGNAL(inputRead(QByteArray)), this, SLOT(sendInput()) );
+    connect( reader, SIGNAL(inputRead(QByteArray)), m_inputReaderThread, SLOT(quit()) );
+    m_inputReaderThread->start();
+}
+
+void ClipboardClient::abortInputReader()
+{
+    if (m_inputReaderThread) {
+        m_inputReaderThread->exit();
+        if (!m_inputReaderThread->wait(2000)) {
+            m_inputReaderThread->terminate();
+            m_inputReaderThread->wait(2000);
+        }
+    }
+}
+
+bool ClipboardClient::isInputReaderFinished() const
+{
+    return m_inputReaderThread && m_inputReaderThread->isFinished();
+}
+
+QByteArray ClipboardClient::fetchInput()
+{
+    if ( !isInputReaderFinished() ) {
+        startInputReader(false);
+
+        while ( !wasClosed() && !isInputReaderFinished() )
+            QCoreApplication::processEvents();
+    }
+
+    return m_input;
 }

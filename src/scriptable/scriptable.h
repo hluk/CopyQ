@@ -234,6 +234,7 @@ private:
     QString m_inputSeparator;
     QScriptValue m_input;
     QVariantMap m_data;
+    bool m_abort;
 };
 
 #endif // SCRIPTABLE_H

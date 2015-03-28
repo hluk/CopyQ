@@ -53,13 +53,6 @@ QString parseCommandLineArgument(const QString &arg)
     return result;
 }
 
-QByteArray readAllStdin()
-{
-    QFile in;
-    in.open(stdin, QIODevice::ReadOnly);
-    return in.readAll();
-}
-
 } // namespace
 
 Arguments::Arguments()
@@ -73,18 +66,11 @@ Arguments::Arguments(const QStringList &arguments)
 {
     reset();
 
-    /* Special arguments:
-     * "-"  read this argument from stdin
-     * "--" read all following arguments without control sequences
-     */
     bool readRaw = false;
     foreach (const QString &arg, arguments) {
+        readRaw = readRaw || arg == "--";
         if (readRaw)
             m_args.append( arg.toUtf8() );
-        else if (arg == "-")
-            m_args.append( readAllStdin() );
-        else if (arg == "--")
-            readRaw = true;
         else if (arg == "-e")
             m_args.append("eval");
         else
@@ -111,6 +97,11 @@ void Arguments::append(const QByteArray &argument)
 const QByteArray &Arguments::at(int index) const
 {
     return m_args.at(index);
+}
+
+void Arguments::setArgument(int index, const QByteArray &argument)
+{
+    m_args[index] = argument;
 }
 
 void Arguments::removeAllArguments()

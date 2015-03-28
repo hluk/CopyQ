@@ -33,7 +33,7 @@ public:
     virtual ~Client() {}
 
 protected:
-    bool startClientSocket(const QString &serverName, const Arguments &arguments);
+    bool startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc = 0);
 
     void sendMessage(const QByteArray &message, int messageCode);
 

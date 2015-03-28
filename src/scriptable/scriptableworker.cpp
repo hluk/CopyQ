@@ -152,9 +152,23 @@ void ScriptableWorker::run()
                                         LogError).toUtf8();
             exitCode = CommandError;
         } else {
+            /* Special arguments:
+             * "-"  read this argument from stdin
+             * "--" read all following arguments without control sequences
+             */
             QScriptValueList fnArgs;
-            for ( int i = Arguments::Rest + 1; i < m_args.length(); ++i )
-                fnArgs.append( scriptable.newByteArray(m_args.at(i)) );
+            bool readRaw = false;
+            for ( int i = Arguments::Rest + 1; i < m_args.length(); ++i ) {
+                const QByteArray &arg = m_args.at(i);
+                if (!readRaw && arg == "--") {
+                    readRaw = true;
+                } else {
+                    const QScriptValue value = readRaw || arg != "-"
+                            ? scriptable.newByteArray(arg)
+                            : scriptable.input();
+                    fnArgs.append(value);
+                }
+            }
 
             engine.evaluate(m_pluginScript);
             QScriptValue result = fn.call(QScriptValue(), fnArgs);

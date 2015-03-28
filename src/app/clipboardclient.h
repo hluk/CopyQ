@@ -23,6 +23,19 @@
 #include "app.h"
 #include "client.h"
 
+#include <QFile>
+
+class InputReader : public QObject
+{
+    Q_OBJECT
+
+public slots:
+    void readInput();
+
+signals:
+    void inputRead(const QByteArray &input);
+};
+
 /**
  * Application client.
  *
@@ -43,6 +56,19 @@ private slots:
     void onMessageReceived(const QByteArray &data, int messageCode);
 
     void onDisconnected();
+
+    void setInput(const QByteArray &input);
+
+    void sendInput();
+
+private:
+    void startInputReader(bool sendInputAfterFinished);
+    void abortInputReader();
+    bool isInputReaderFinished() const;
+    QByteArray fetchInput();
+
+    QThread *m_inputReaderThread;
+    QByteArray m_input;
 };
 
 #endif // CLIPBOARDCLIENT_H

@@ -21,6 +21,7 @@
 
 #include "common/arguments.h"
 #include "common/clientsocket.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QCoreApplication>
 #include <QDataStream>
@@ -37,12 +38,16 @@ void Client::sendMessage(const QByteArray &message, int messageCode)
     emit sendMessageRequest(message, messageCode);
 }
 
-bool Client::startClientSocket(const QString &serverName, const Arguments &arguments)
+bool Client::startClientSocket(const QString &serverName, int argc, char **argv, int skipArgc)
 {
     QLocalSocket *localSocket = new QLocalSocket(this);
     localSocket->connectToServer(serverName);
     if ( !localSocket->waitForConnected(4000) )
         return false;
+
+    Arguments arguments(
+                createPlatformNativeInterface()->getCommandLineArguments(argc, argv)
+                .mid(skipArgc) );
 
     ClientSocket *socket = new ClientSocket(localSocket);
 
