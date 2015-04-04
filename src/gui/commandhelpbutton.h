@@ -22,8 +22,8 @@
 
 #include <QWidget>
 
-class QPushButton;
-class QTextBrowser;
+class QToolButton;
+class QDialog;
 
 class CommandHelpButton : public QWidget
 {
@@ -32,14 +32,14 @@ public:
     explicit CommandHelpButton(QWidget *parent = NULL);
 
 public slots:
-    void setHelpVisible(bool visible);
+    void showHelp();
 
 signals:
     void hidden();
 
 private:
-    QPushButton *m_button;
-    QTextBrowser *m_help;
+    QToolButton *m_button;
+    QDialog *m_help;
 };
 
 #endif // COMMANDHELPBUTTON_H

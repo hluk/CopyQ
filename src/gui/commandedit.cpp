@@ -38,9 +38,6 @@ CommandEdit::CommandEdit(QWidget *parent)
     setFocusProxy(ui->plainTextEditCommand);
 
     installCommandSyntaxHighlighter(ui->plainTextEditCommand);
-
-    connect( ui->helpButton, SIGNAL(hidden()),
-             ui->plainTextEditCommand, SLOT(setFocus()) );
 }
 
 CommandEdit::~CommandEdit()
