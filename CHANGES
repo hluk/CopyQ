@@ -1,3 +1,9 @@
+v2.4.6
+- Fixed crash when removing command
+- Fixed encryption/decryption selected items
+- Fixed reading from standard input
+- GUI fixes for high-DPI displays
+
 v2.4.5
 - Option to save/restore history for filtering items
 - Clipboard changes with unchanged content is ignored
