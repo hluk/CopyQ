@@ -1,25 +1,34 @@
 #!/bin/bash
 # Download packages from openSUSE Build Service.
 version=$1
-
 rpm_version=$2
-base_url="http://download.opensuse.org/repositories/home:/"
 user=${3:-"lukho"}
 project=${4:-"copyq"}
+
+base_url="http://download.opensuse.org/repositories/home:/"
 url=$base_url$user:/$project
 
-urls=(
-    "$url/xUbuntu_14.10/i386/${project}_${version}_i386.deb"
-    "$url/xUbuntu_14.10/amd64/${project}_${version}_amd64.deb"
-    "$url/xUbuntu_14.04/i386/${project}_${version}_i386.deb"
-    "$url/xUbuntu_14.04/amd64/${project}_${version}_amd64.deb"
-    "$url/xUbuntu_12.04/i386/${project}_${version}_i386.deb"
-    "$url/xUbuntu_12.04/amd64/${project}_${version}_amd64.deb"
-    "$url/openSUSE_Tumbleweed/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
-    "$url/Fedora_21/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
-    "$url/Fedora_20/x86_64/${project}-${version}-${rpm_version}.x86_64.rpm"
-    "$url/Debian_7.0/i386/${project}_${version}_i386.deb"
-    "$url/Debian_7.0/amd64/${project}_${version}_amd64.deb"
+xdeb="_amd64.deb"
+xdeb_i386="_i386.deb"
+xrpm=".x86_64.rpm"
+
+pkg="${project}_${version}"
+pkg_deb="amd64/${pkg}${xdeb}"
+pkg_deb_i386="i386/${pkg}${xdeb_i386}"
+pkg_rpm="x86_64/${project}-${version}-${rpm_version}${xrpm}"
+
+packages=(
+    "${pkg}_Ubuntu_14.10${xdeb_i386}   $url/xUbuntu_14.10/${pkg_deb_i386}"
+    "${pkg}_Ubuntu_14.10${xdeb}        $url/xUbuntu_14.10/${pkg_deb}"
+    "${pkg}_Ubuntu_14.04${xdeb_i386}   $url/xUbuntu_14.04/${pkg_deb_i386}"
+    "${pkg}_Ubuntu_14.04${xdeb}        $url/xUbuntu_14.04/${pkg_deb}"
+    "${pkg}_Ubuntu_12.04${xdeb_i386}   $url/xUbuntu_12.04/${pkg_deb_i386}"
+    "${pkg}_Ubuntu_12.04${xdeb}        $url/xUbuntu_12.04/${pkg_deb}"
+    "${pkg}_openSUSE_Tumbleweed${xrpm} $url/openSUSE_Tumbleweed/${pkg_rpm}"
+    "${pkg}_Fedora_21${xrpm}           $url/Fedora_21/${pkg_rpm}"
+    "${pkg}_Fedora_20${xrpm}           $url/Fedora_20/${pkg_rpm}"
+    "${pkg}_Debian_7.0${xdeb_i386}     $url/Debian_7.0/${pkg_deb_i386}"
+    "${pkg}_Debian_7.0${xdeb}          $url/Debian_7.0/${pkg_deb}"
 )
 
 die () {
@@ -27,16 +36,13 @@ die () {
     exit 1
 }
 
-get_name () {
-    sed 's#.*/'"$project"'/x\?\([^/]*\)/.*/'"$project"'[_-]\([^_-]*\)[_-]\(.*\)$#'"$project"'_\2_\1_\3#' <<< "$1"
-}
-
 if [ -z "$version" ]; then
     die "First argument must be version package version!"
 fi
 
-for url in "${urls[@]}"; do
-    name=$(get_name "$url")
+for package in "${packages[@]}"; do
+    name=$(sed 's/\s.*//' <<< "$package")
+    url=$(sed 's/.*\s//' <<< "$package")
     wget -c "$url" -O "$name" || exit 2
 done
 
