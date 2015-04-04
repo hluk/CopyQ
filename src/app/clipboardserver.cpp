@@ -392,7 +392,7 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
 {
 #ifdef NO_GLOBAL_SHORTCUTS
     Q_UNUSED(shortcut);
-    Q_UNUSED(script);
+    Q_UNUSED(command);
 #else
     QxtGlobalShortcut *s = new QxtGlobalShortcut(shortcut, this);
     connect( s, SIGNAL(activated(QxtGlobalShortcut*)),

@@ -34,6 +34,22 @@ Q_DECLARE_METATYPE(Command)
 
 namespace {
 
+Command *newCommand(QList<Command> *commands)
+{
+    commands->append(Command());
+    return &commands->last();
+}
+
+QString pasteAsPlainTextScript(const QString &what)
+{
+    return "\n"
+           "var text = " + what + "\n"
+           "copy(text)\n"
+           "if (config('copy_clipboard'))\n"
+           "  copySelection(text)\n"
+           "paste()";
+}
+
 #ifndef NO_GLOBAL_SHORTCUTS
 enum GlobalAction {
     GlobalActionToggleMainWindow,
@@ -51,22 +67,6 @@ enum GlobalAction {
     GlobalActionPasteAndCopyNext,
     GlobalActionPasteAndCopyPrevious
 };
-
-QString pasteAsPlainTextScript(const QString &what)
-{
-    return "\n"
-           "var text = " + what + "\n"
-           "copy(text)\n"
-           "if (config('copy_clipboard'))\n"
-           "  copySelection(text)\n"
-           "paste()";
-}
-
-Command *newCommand(QList<Command> *commands)
-{
-    commands->append(Command());
-    return &commands->last();
-}
 
 void createGlobalShortcut(const QString &name, const QString &script, IconId icon,
                           const QStringList &s, Command *c)
