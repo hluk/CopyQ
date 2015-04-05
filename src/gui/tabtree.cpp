@@ -493,10 +493,13 @@ void TabTree::contextMenuEvent(QContextMenuEvent *event)
 
 void TabTree::dragEnterEvent(QDragEnterEvent *event)
 {
-    if ( canDrop(*event->mimeData()) )
+    if ( canDrop(*event->mimeData()) ) {
         event->acceptProposedAction();
-    else
+    } else {
         QTreeWidget::dragEnterEvent(event);
+        // Workaround for QTBUG-44939 (Qt 5.4): Don't ignore successive drag move events.
+        event->acceptProposedAction();
+    }
 }
 
 void TabTree::dragMoveEvent(QDragMoveEvent *event)
