@@ -18,22 +18,43 @@
 */
 
 #include "common/client_server.h"
+#include "common/config.h"
 
 #include <QCoreApplication>
+#include <QFile>
 #include <QString>
+#include <QStringList>
 #include <QtGlobal>
 
 QString serverName(const QString &name)
 {
     // applicationName changes case depending on whether this is a GUI app
     // or a console app on OS X.
-    return QCoreApplication::applicationName().toLower() + "_"
-#ifdef Q_OS_WIN
-            + qgetenv("USERNAME")
+    const QString appName = QCoreApplication::applicationName().toLower();
+
+#ifdef Q_OS_UNIX
+    // Compatibility with version 2.4.6 and below: An older version of app can
+    // be still running after upgrade so check if old socket file exists.
+    const QString oldSocketName = appName + "_" + qgetenv("USER") + "_" + name;
+    const QStringList tmpDirs = QStringList()
+            << QString::fromUtf8(qgetenv("TMPDIR"))
+            << QString("/tmp");
+    foreach (const QString &tmpDir, tmpDirs) {
+        if (!tmpDir.isEmpty()) {
+            const QString oldSocketPath = tmpDir + "/" + oldSocketName;
+            if (QFile::exists(oldSocketPath))
+                return oldSocketPath;
+        }
+    }
+
+    // On Unix, files for local socket are created in temporary path which can be
+    // overridden by environment variable. This can lead to having multiple
+    // instances that can write simultaneously to same settings and data files.
+    // It's ugly but creating socket files in settings directory should fix this.
+    return settingsDirectoryPath() + "/." + appName + "_" + name;
 #else
-            + qgetenv("USER")
+    return appName + "_" + qgetenv("USERNAME") + "_" + name;
 #endif
-            + "_" + name;
 }
 
 QString clipboardServerName()
