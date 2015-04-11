@@ -135,7 +135,7 @@ void installTranslator()
         return;
 #endif
 
-    QString locale = Settings().value("Options/language").toString();
+    QString locale = QSettings().value("Options/language").toString();
     if (locale.isEmpty())
         locale = QLocale::system().name();
 
@@ -178,8 +178,7 @@ void installTranslator()
 } // namespace
 
 App::App(QCoreApplication *application,
-        const QString &sessionName,
-        bool isMainApp)
+        const QString &sessionName)
     : m_app(application)
     , m_exitCode(0)
     , m_closed(false)
@@ -189,8 +188,6 @@ App::App(QCoreApplication *application,
         session += "-" + sessionName;
         m_app->setProperty( "CopyQ_session_name", QVariant(sessionName) );
     }
-
-    m_app->setProperty("CopyQ_server", isMainApp);
 
     qputenv("COPYQ_SESSION_NAME", sessionName.toUtf8());
     qputenv("COPYQ", QCoreApplication::applicationFilePath().toUtf8());
@@ -206,6 +203,15 @@ App::App(QCoreApplication *application,
     if ( !UnixSignalHandler::create(m_app.data()) )
         log( QString("Failed to create handler for Unix signals!"), LogError );
 #endif
+}
+
+App::~App()
+{
+}
+
+void App::restoreSettings(bool canModifySettings)
+{
+    m_app->setProperty("CopyQ_server", canModifySettings);
 
     createPlatformNativeInterface()->loadSettings();
 
@@ -216,10 +222,6 @@ App::App(QCoreApplication *application,
 #ifdef HAS_TESTS
     initTestsSettings();
 #endif
-}
-
-App::~App()
-{
 }
 
 int App::exec()

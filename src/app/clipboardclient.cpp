@@ -43,6 +43,8 @@ ClipboardClient::ClipboardClient(int &argc, char **argv, int skipArgc, const QSt
     , App(createPlatformNativeInterface()->createClientApplication(argc, argv), sessionName)
     , m_inputReaderThread(NULL)
 {
+    restoreSettings();
+
     if ( !startClientSocket(clipboardServerName(), argc, argv, skipArgc) ) {
         log( tr("Cannot connect to server! Start CopyQ server first."), LogError );
         exit(1);

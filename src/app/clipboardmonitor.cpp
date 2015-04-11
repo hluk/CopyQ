@@ -58,6 +58,8 @@ ClipboardMonitor::ClipboardMonitor(int &argc, char **argv)
     , App(createPlatformNativeInterface()->createMonitorApplication(argc, argv))
     , m_clipboard(createPlatformNativeInterface()->clipboard())
 {
+    restoreSettings();
+
     Q_ASSERT(argc == 3);
     const QString serverName( QString::fromUtf8(argv[2]) );
 

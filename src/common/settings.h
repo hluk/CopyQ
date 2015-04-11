@@ -50,6 +50,7 @@ class Settings : public QSettings
 {
 public:
     static bool isEmpty(const QSettings &settings);
+    static bool canModifySettings();
 
     Settings();
 

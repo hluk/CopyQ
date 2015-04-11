@@ -111,7 +111,7 @@ public:
 ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionName)
     : QObject()
     , App(createPlatformNativeInterface()->createServerApplication(argc, argv),
-          sessionName, true)
+          sessionName)
     , m_wnd(NULL)
     , m_monitor(NULL)
     , m_shortcutActions()
@@ -119,7 +119,10 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     , m_ignoreKeysTimer()
 {
     Server *server = new Server( clipboardServerName(), this );
-    if ( !server->isListening() ) {
+    bool serverStarted = server->isListening();
+    restoreSettings(serverStarted);
+
+    if (!serverStarted) {
         log( tr("CopyQ server is already running."), LogWarning );
         exit(0);
         return;

@@ -30,12 +30,6 @@
 
 namespace {
 
-bool isMainApp()
-{
-    Q_ASSERT(qApp);
-    return qApp->property("CopyQ_server").toBool();
-}
-
 bool needsUpdate(const Settings &newSettings, const QSettings &oldSettings)
 {
     if ( Settings::isEmpty(oldSettings) )
@@ -86,6 +80,12 @@ bool Settings::isEmpty(const QSettings &settings)
     return settings.childGroups().isEmpty();
 }
 
+bool Settings::canModifySettings()
+{
+    Q_ASSERT(qApp);
+    return qApp->property("CopyQ_server").toBool();
+}
+
 Settings::Settings()
     : QSettings(
           QSettings::defaultFormat(),
@@ -99,7 +99,7 @@ Settings::Settings()
 Settings::~Settings()
 {
     // Only main application is allowed to change settings.
-    if (isMainApp()) {
+    if (canModifySettings()) {
         sync();
 
         beginSave();
@@ -111,7 +111,7 @@ Settings::~Settings()
 
 void Settings::restore()
 {
-    if (!isMainApp())
+    if (!canModifySettings())
         return;
 
     Settings appSettings;

@@ -31,11 +31,12 @@ class App
 public:
     explicit App(
             QCoreApplication *application,
-            const QString &sessionName = QString(),
-            bool isMainApp = false
+            const QString &sessionName = QString()
             );
 
     virtual ~App();
+
+    void restoreSettings(bool canModifySettings = false);
 
     /**
      * Execute application. Returns immediately if exit() was called before.
