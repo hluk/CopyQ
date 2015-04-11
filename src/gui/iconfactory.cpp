@@ -121,7 +121,7 @@ void drawFontIcon(QPixmap *pix, ushort id, int w, int h, const QColor &color)
     font.setPixelSize(h - m);
     painter.setFont(font);
     painter.setPen(color);
-    painter.drawText( QRect(m2, m2, w - m2, h - m2), QString(QChar(id)) );
+    painter.drawText( QRect(m2, m2, w - m2, h - m2), Qt::AlignCenter, QString(QChar(id)) );
 }
 
 QColor getDefaultIconColor(const QColor &color)

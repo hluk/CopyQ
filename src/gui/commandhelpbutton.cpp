@@ -25,10 +25,12 @@
 #include "gui/icons.h"
 #include "scriptable/commandhelp.h"
 
+#include <QDialog>
+#include <QDialogButtonBox>
 #include <QPalette>
-#include <QPushButton>
 #include <QTextBrowser>
 #include <QTextDocument>
+#include <QToolButton>
 #include <QVBoxLayout>
 
 namespace {
@@ -106,45 +108,53 @@ QString help()
     return help;
 }
 
+QVBoxLayout *createLayout(QWidget *parent)
+{
+    QVBoxLayout *layout = new QVBoxLayout(parent);
+    layout->setContentsMargins(0, 0, 0, 0);
+    layout->setSpacing(0);
+    return layout;
+}
+
 } // namespace
 
 CommandHelpButton::CommandHelpButton(QWidget *parent)
     : QWidget(parent)
-    , m_button(new QPushButton(this))
-    , m_help(new QTextBrowser(this))
+    , m_button(new QToolButton(this))
+    , m_help(NULL)
 {
-    QVBoxLayout *layout = new QVBoxLayout(this);
-    layout->setContentsMargins(0, 0, 0, 0);
-
     m_button->setToolTip( tr("Show command help (F1)") );
     m_button->setShortcut(QKeySequence(Qt::Key_F1));
 
+    const int x = smallIconSize();
+    m_button->setIconSize(QSize(x, x));
     m_button->setIcon( getIcon("help-faq", IconInfoSign) );
-    const int h = m_button->sizeHint().height();
-    m_button->setFixedSize(h, h);
 
-    m_button->setCheckable(true);
-    connect( m_button, SIGNAL(clicked(bool)),
-             this, SLOT(setHelpVisible(bool)) );
+    connect( m_button, SIGNAL(clicked()),
+             this, SLOT(showHelp()) );
 
-    m_help->setTextInteractionFlags(Qt::TextBrowserInteraction);
-
+    QVBoxLayout *layout = createLayout(this);
     layout->addWidget(m_button);
-    layout->addWidget(m_help);
-
-    setHelpVisible(false);
 }
 
-void CommandHelpButton::setHelpVisible(bool visible)
+void CommandHelpButton::showHelp()
 {
-    m_help->setVisible(visible);
-    setFixedHeight( visible ? QWIDGETSIZE_MAX : m_button->height() );
+    if (!m_help) {
+        m_help = new QDialog(this);
+        m_help->setObjectName("commandHelpDialog");
+        ConfigurationManager::instance()->registerWindowGeometry(m_help);
 
-    if (visible) {
-        m_help->setFocus();
-        if ( m_help->document()->isEmpty() )
-            m_help->setText(help());
-    } else {
-        emit hidden();
+        QTextBrowser *browser = new QTextBrowser(this);
+        QVBoxLayout *layout = createLayout(m_help);
+        layout->addWidget(browser);
+
+        QDialogButtonBox *buttonBox = new QDialogButtonBox(
+                    QDialogButtonBox::Close, Qt::Horizontal, m_help);
+        layout->addWidget(buttonBox);
+        QObject::connect(buttonBox, SIGNAL(rejected()), m_help, SLOT(hide()));
+
+        browser->setText(help());
     }
+
+    m_help->show();
 }
