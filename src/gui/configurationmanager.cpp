@@ -793,7 +793,6 @@ void ConfigurationManager::setVisible(bool visible)
         initPluginWidgets();
         initLanguages();
         m_optionWidgetsLoaded = true;
-        emit started();
     }
 }
 
@@ -885,8 +884,6 @@ void ConfigurationManager::done(int result)
             ui->itemOrderListPlugins->clearItems();
 
         ui->comboBoxLanguage->clear();
-
-        emit stopped();
     }
 }
 
