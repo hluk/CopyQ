@@ -132,7 +132,6 @@ ConfigurationManager::ConfigurationManager(QWidget *parent)
     initOptions();
 
     connect(m_itemFactory, SIGNAL(error(QString)), SIGNAL(error(QString)));
-    connect(this, SIGNAL(finished(int)), SLOT(onFinished(int)));
 }
 
 ConfigurationManager::~ConfigurationManager()
@@ -870,7 +869,7 @@ void ConfigurationManager::apply()
     updateIcons();
 }
 
-void ConfigurationManager::onFinished(int result)
+void ConfigurationManager::done(int result)
 {
     if (result == QDialog::Accepted) {
         apply();
@@ -878,14 +877,17 @@ void ConfigurationManager::onFinished(int result)
         loadSettings();
     }
 
-    m_optionWidgetsLoaded = false;
-    if ( itemFactory()->hasLoaders() )
-        ui->itemOrderListPlugins->clearItems();
+    QDialog::done(result);
 
-    ui->comboBoxLanguage->clear();
+    if (!isVisible()) {
+        m_optionWidgetsLoaded = false;
+        if ( itemFactory()->hasLoaders() )
+            ui->itemOrderListPlugins->clearItems();
 
-    if (!isVisible())
+        ui->comboBoxLanguage->clear();
+
         emit stopped();
+    }
 }
 
 void ConfigurationManager::on_checkBoxMenuTabIsCurrent_stateChanged(int state)

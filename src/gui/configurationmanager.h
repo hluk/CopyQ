@@ -134,6 +134,9 @@ public:
 
     void initTabComboBox(QComboBox *comboBox) const;
 
+public slots:
+    void done(int result);
+
 signals:
     /** Emitted if configuration changes (after saveSettings() call). */
     void configurationChanged();
@@ -151,7 +154,6 @@ protected:
 private slots:
     void apply();
     void on_buttonBox_clicked(QAbstractButton* button);
-    void onFinished(int result);
 
     void on_checkBoxMenuTabIsCurrent_stateChanged(int);
     void on_spinBoxTrayItems_valueChanged(int value);
