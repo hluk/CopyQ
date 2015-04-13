@@ -333,6 +333,12 @@ bool ScriptableProxyHelper::isMonitoringEnabled()
     return m_wnd->isMonitoringEnabled();
 }
 
+bool ScriptableProxyHelper::isMainWindowVisible()
+{
+    INVOKE(isMainWindowVisible());
+    return !m_wnd->isMinimized() && m_wnd->isVisible();
+}
+
 void ScriptableProxyHelper::disableMonitoring(bool arg1)
 {
     m_wnd->disableClipboardStoring(arg1);

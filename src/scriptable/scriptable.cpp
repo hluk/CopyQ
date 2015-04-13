@@ -469,6 +469,11 @@ QScriptValue Scriptable::monitoring()
     return m_proxy->isMonitoringEnabled();
 }
 
+QScriptValue Scriptable::visible()
+{
+    return m_proxy->isMainWindowVisible();
+}
+
 void Scriptable::ignore()
 {
     m_proxy->abortAutomaticCommands();

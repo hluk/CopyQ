@@ -175,6 +175,7 @@ public slots:
     void abortAutomaticCommands();
 
     bool isMonitoringEnabled();
+    bool isMainWindowVisible();
     void disableMonitoring(bool arg1);
     void setClipboard(const QVariantMap &data, QClipboard::Mode mode);
 
@@ -304,6 +305,7 @@ public:
     PROXY_METHOD(abortAutomaticCommands)
 
     PROXY_METHOD_0(bool, isMonitoringEnabled)
+    PROXY_METHOD_0(bool, isMainWindowVisible)
     PROXY_METHOD_VOID_1(disableMonitoring, bool)
     PROXY_METHOD_VOID_2(setClipboard, const QVariantMap &, QClipboard::Mode)
 

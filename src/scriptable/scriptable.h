@@ -106,6 +106,7 @@ public slots:
     void disable();
     void enable();
     QScriptValue monitoring();
+    QScriptValue visible();
 
     void ignore();
 
