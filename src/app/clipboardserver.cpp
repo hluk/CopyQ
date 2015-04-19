@@ -38,7 +38,6 @@
 
 #include <QAction>
 #include <QApplication>
-#include <QDateTime>
 #include <QKeyEvent>
 #include <QMenu>
 #include <QMessageBox>
@@ -57,13 +56,6 @@ struct QxtGlobalShortcut {};
 namespace {
 
 const double lowResDpi = 96.0;
-
-QString newClipboardMonitorServerName()
-{
-    static int monitorProcessId = 0;
-    return serverName( "m" + QString::number(monitorProcessId) + "_"
-                       + QString::number(QDateTime::currentMSecsSinceEpoch()) );
-}
 
 int defaultDpi()
 {
@@ -211,7 +203,7 @@ void ClipboardServer::startMonitoring()
         connect( m_monitor, SIGNAL(connected()),
                  this, SLOT(loadMonitorSettings()) );
 
-        const QString name = newClipboardMonitorServerName();
+        const QString name = serverName("m");
         m_monitor->start( name, QStringList("monitor") << name );
     }
 }
