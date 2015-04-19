@@ -28,54 +28,10 @@
 #include <QDataStream>
 #include <QLocalServer>
 #include <QLocalSocket>
-
-#ifdef Q_OS_WIN
-#   include <qt_windows.h>
-#endif
+#include <QSharedMemory>
+#include <QSystemSemaphore>
 
 namespace {
-
-#ifdef Q_OS_WIN
-class SystemWideMutex {
-public:
-    SystemWideMutex(const QString &name)
-        : m_mutex(NULL)
-    {
-#   ifdef UNICODE
-        const QString text = "Global\\" + QString::fromLatin1(name.toLatin1());
-#   else
-        const QByteArray data = "Global\\" + name.toLatin1();
-#   endif
-
-        m_mutex = CreateMutex(
-                    NULL, FALSE,
-            #   ifdef UNICODE
-                    reinterpret_cast<LPCWSTR>(text.utf16())
-            #   else
-                    reinterpret_cast<LPCSTR>(data.data())
-            #   endif
-                    );
-
-        m_error = GetLastError();
-    }
-
-    operator bool() const
-    {
-        return GetLastError() != ERROR_ALREADY_EXISTS;
-    }
-
-    ~SystemWideMutex()
-    {
-        if (m_mutex)
-            CloseHandle(m_mutex);
-    }
-private:
-    Q_DISABLE_COPY(SystemWideMutex)
-
-    HANDLE m_mutex;
-    DWORD m_error;
-};
-#endif
 
 bool serverIsRunning(const QString &serverName)
 {
@@ -84,35 +40,76 @@ bool serverIsRunning(const QString &serverName)
     return socket.waitForConnected(-1);
 }
 
-QLocalServer *newServer(const QString &name, QObject *parent)
+bool tryAttach(QSharedMemory *shmem)
 {
-    COPYQ_LOG( QString("Starting server \"%1\".").arg(name) );
-
-    QLocalServer *server = new QLocalServer(parent);
-
-#ifdef Q_OS_WIN
-    // On Windows, it's possible to have multiple local servers listening with same name.
-    // This handles race condition when creating new server.
-    SystemWideMutex mutex(name);
-    if (!mutex)
-        return server;
-#endif
-
-    if ( !serverIsRunning(name) ) {
-        QLocalServer::removeServer(name);
-        server->listen(name);
+    if (shmem->attach()) {
+        shmem->detach();
+        return true;
     }
 
-    return server;
+    return false;
+}
+
+/**
+ * Creates and locks system-wide mutex.
+ *
+ * If mutex cannot be locked, null pointer is returned.
+ *
+ * Destroying the object unlocks the mutex.
+ *
+ * Uses existence shared memory resource to check if the mutex is locked.
+ * If shared memory (with same name as mutex is created) exists (another
+ * process is attached to it), locking fails. Otherwise shared memory is
+ * created (and mutex attaches to it).
+ *
+ * Note: Simple QSystemSemaphore cannot be used because acquiring
+ * the semaphore is blocking operation.
+ */
+QObject *createSystemMutex(const QString &name, QObject *parent)
+{
+    QSharedMemory *shmem = new QSharedMemory(name, parent);
+
+    QSystemSemaphore createSharedMemoryGuard("shmem_create_" + name, 1);
+    if (createSharedMemoryGuard.acquire()) {
+        /* Dummy attach and dettach operations can invoke shared memory
+         * destruction if the last process attached to shared memory has
+         * crashed and memory was not destroyed.
+         */
+        if (!tryAttach(shmem) || !tryAttach(shmem)) {
+            if (!shmem->create(1)) {
+                log("Failed to create shared memory: "
+                    + shmem->errorString(), LogError);
+            }
+        }
+        createSharedMemoryGuard.release();
+    } else {
+        log("Failed to acquire shared memory lock: "
+            + createSharedMemoryGuard.errorString(), LogError);
+    }
+
+    if (shmem->isAttached())
+        return shmem;
+
+    delete shmem;
+    return NULL;
 }
 
 } // namespace
 
 Server::Server(const QString &name, QObject *parent)
     : QObject(parent)
-    , m_server(newServer(name, this))
+    , m_server(new QLocalServer(this))
     , m_socketCount(0)
 {
+    if (createSystemMutex(name, this)) {
+        COPYQ_LOG( QString("Starting server \"%1\".").arg(name) );
+
+        if ( !serverIsRunning(name) ) {
+            QLocalServer::removeServer(name);
+            m_server->listen(name);
+        }
+    }
+
     COPYQ_LOG( QString(isListening()
                        ? "Server \"%1\" started."
                        : "Server \"%1\" already running!").arg(name) );
