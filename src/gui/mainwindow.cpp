@@ -686,7 +686,7 @@ void MainWindow::automaticCommandFinished()
     if (!m_automaticCommands.isEmpty()) {
         const Command command = m_automaticCommands.takeFirst();
         if (command.remove || command.transform) {
-            m_automaticCommands.clear();
+            abortAutomaticCommands();
             COPYQ_LOG("Clipboard ignored by \"" + command.name + "\"");
         }
     }
