@@ -74,6 +74,26 @@
       </widget>
      </item>
      <item>
+      <widget class="QPushButton" name="pushButtonCopyCommands">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Copy Selected [Ctrl+C]</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <widget class="QPushButton" name="pushButtonPasteCommands">
+       <property name="enabled">
+        <bool>false</bool>
+       </property>
+       <property name="text">
+        <string>Paste Commands [Ctrl+V]</string>
+       </property>
+      </widget>
+     </item>
+     <item>
       <spacer name="horizontalSpacer">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>

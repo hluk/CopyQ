@@ -70,10 +70,14 @@ private slots:
     void on_itemOrderListCommands_itemSelectionChanged();
     void on_pushButtonLoadCommands_clicked();
     void on_pushButtonSaveCommands_clicked();
+    void on_pushButtonCopyCommands_clicked();
+    void on_pushButtonPasteCommands_clicked();
     void on_lineEditFilterCommands_textChanged(const QString &text);
     void on_buttonBox_clicked(QAbstractButton* button);
 
     void onAddCommands(const QList<Command> &commands);
+
+    void onClipboardChanged();
 
 private:
     void addCommandWithoutSave(const Command &command, int targetRow = -1);

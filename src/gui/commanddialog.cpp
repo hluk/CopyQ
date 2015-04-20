@@ -31,6 +31,7 @@
 #include "gui/iconfactory.h"
 #include "gui/icons.h"
 #include "item/itemfactory.h"
+#include "platform/platformnativeinterface.h"
 
 #include <QFileDialog>
 #include <QMenu>
@@ -43,6 +44,8 @@ namespace {
 
 const QIcon iconLoadCommands() { return getIcon("document-open", IconFolderOpen); }
 const QIcon iconSaveCommands() { return getIcon("document-save", IconSave); }
+const QIcon iconCopyCommands() { return getIcon("edit-copy", IconCopy); }
+const QIcon iconPasteCommands() { return getIcon("edit-paste", IconPaste); }
 
 class CommandItem : public ItemOrderList::Item {
 public:
@@ -215,6 +218,18 @@ QIcon getCommandIcon(const QString &iconString)
     return ConfigurationManager::instance()->iconFactory()->iconFromFile(iconString);
 }
 
+QString commandsToPaste()
+{
+    const QMimeData *data = clipboardData(QClipboard::Clipboard);
+    if (data && data->hasText()) {
+        const QString text = data->text().trimmed();
+        if (text.startsWith("[Command]") || text.startsWith("[Commands]"))
+            return text;
+    }
+
+    return QString();
+}
+
 } // namespace
 
 Q_DECLARE_METATYPE(Command)
@@ -226,6 +241,8 @@ CommandDialog::CommandDialog(QWidget *parent)
     ui->setupUi(this);
     ui->pushButtonLoadCommands->setIcon(iconLoadCommands());
     ui->pushButtonSaveCommands->setIcon(iconSaveCommands());
+    ui->pushButtonCopyCommands->setIcon(iconCopyCommands());
+    ui->pushButtonPasteCommands->setIcon(iconPasteCommands());
     ui->itemOrderListCommands->setFocus();
     ui->itemOrderListCommands->setAddRemoveButtonsVisible(true);
 
@@ -251,6 +268,10 @@ CommandDialog::CommandDialog(QWidget *parent)
     restoreWindowGeometry(this, false);
 
     m_savedCommands = commands(false, true);
+
+    connect(QApplication::clipboard(), SIGNAL(dataChanged()),
+            this, SLOT(onClipboardChanged()));
+    onClipboardChanged();
 }
 
 CommandDialog::~CommandDialog()
@@ -326,12 +347,9 @@ void CommandDialog::reject()
 
 void CommandDialog::tryPasteCommandFromClipboard()
 {
-    const QMimeData *data = clipboardData(QClipboard::Clipboard);
-    if (data && data->hasText()) {
-        const QString text = data->text().trimmed();
-        if ( text.startsWith("[Command]") || text.startsWith("[Commands]") )
-            onCommandDropped( text, ui->itemOrderListCommands->currentRow() );
-    }
+    const QString text = commandsToPaste();
+    if (!text.isEmpty())
+        onCommandDropped( text, ui->itemOrderListCommands->currentRow() );
 }
 
 void CommandDialog::copySelectedCommandsToClipboard()
@@ -387,8 +405,9 @@ void CommandDialog::on_itemOrderListCommands_addButtonClicked()
 
 void CommandDialog::on_itemOrderListCommands_itemSelectionChanged()
 {
-    bool saveEnabled = !ui->itemOrderListCommands->selectedRows().isEmpty();
-    ui->pushButtonSaveCommands->setEnabled(saveEnabled);
+    bool hasSelection = !ui->itemOrderListCommands->selectedRows().isEmpty();
+    ui->pushButtonSaveCommands->setEnabled(hasSelection);
+    ui->pushButtonCopyCommands->setEnabled(hasSelection);
 }
 
 void CommandDialog::on_pushButtonLoadCommands_clicked()
@@ -414,6 +433,16 @@ void CommandDialog::on_pushButtonSaveCommands_clicked()
         ini.open(QIODevice::WriteOnly);
         ini.write(serializeSelectedCommands().toUtf8());
     }
+}
+
+void CommandDialog::on_pushButtonCopyCommands_clicked()
+{
+    copySelectedCommandsToClipboard();
+}
+
+void CommandDialog::on_pushButtonPasteCommands_clicked()
+{
+    tryPasteCommandFromClipboard();
 }
 
 void CommandDialog::on_lineEditFilterCommands_textChanged(const QString &text)
@@ -449,6 +478,11 @@ void CommandDialog::onAddCommands(const QList<Command> &commands)
     for (int i = 0; i < commands.count(); ++i)
         addCommandWithoutSave(commands[i], targetRow + i);
     ui->itemOrderListCommands->setCurrentItem(targetRow);
+}
+
+void CommandDialog::onClipboardChanged()
+{
+    ui->pushButtonPasteCommands->setEnabled(!commandsToPaste().isEmpty());
 }
 
 void CommandDialog::addCommandWithoutSave(const Command &command, int targetRow)
