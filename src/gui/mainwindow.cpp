@@ -1790,14 +1790,18 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
         }
     }
 
+    bool isClipboard = isClipboardData(data);
+
     // Clear window title and tooltip.
-    commands.prepend(automaticCommand("Reset Window Title" ,"updateTitle('')"));
+    if (isClipboard)
+        commands.prepend(automaticCommand("Reset Window Title" ,"updateTitle('')"));
 
     // Add new clipboard to the first tab (if configured so).
     commands.append(automaticCommand("Add Item from Clipboard", "updateFirst()"));
 
     // Set window title, tooltip and show notification.
-    commands.append(automaticCommand("Set Window Title", "updateTitle()"));
+    if (isClipboard)
+        commands.append(automaticCommand("Set Window Title", "updateTitle()"));
 
     abortAutomaticCommands();
     m_automaticCommandTester.setCommands(commands, data);
