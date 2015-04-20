@@ -744,6 +744,9 @@ void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 
 void MainWindow::updateTitle(const QVariantMap &data)
 {
+    if (!isClipboardData(data))
+        return;
+
     COPYQ_LOG("Updating window title");
 
     m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
