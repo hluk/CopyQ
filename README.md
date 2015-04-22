@@ -6,7 +6,7 @@ CopyQ
 [![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.png?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
 [![Stories in Ready](https://badge.waffle.io/hluk/CopyQ.png)](http://waffle.io/hluk/CopyQ)
 
-CopyQ is clipboard manager with searchable and editable history.
+CopyQ is advanced clipboard manager with editing and scripting features.
 
 Web Site:
     <http://hluk.github.io/CopyQ/>
