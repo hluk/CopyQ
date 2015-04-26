@@ -188,10 +188,7 @@ QList<CommandHelp> commandHelp()
                            Scriptable::tr("\nPrint version of program and libraries."))
 #ifdef HAS_TESTS
             << CommandHelp("tests, --tests",
-                           QString("Run tests (append --help argument for more info)."))
-            << CommandHelp("keys",
-                           QString("Pass keys to the main window (used in tests)."))
-               .addArg(QString("KEYS") + "...")
+                           Scriptable::tr("Run application tests (append --help argument for more info)."))
 #endif
                ;
 
