@@ -863,13 +863,13 @@ Vous pouvez configurer la commande dans les préférences.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;p&gt;Utilisez les commandes seulement si la commande du filtre réussit.&lt;/p&gt;↵
-↵
-&lt;p&gt;Le texte de l'article est passé à &lt;b&gt;l'entrée standard&lt;/b&gt; du filtre. La commande &lt;b&gt;exécuté uniquement si l'extrémité du filtre du code 0&lt;/b&gt;.&lt;/p&gt;↵
-↵
-&lt;p&gt;l'Utilisation &lt;b&gt;%1&lt;/b&gt; sera remplacé par un élément de texte, et de &lt;b&gt;%2&lt;/b&gt; à &lt;b&gt;%9&lt;/b&gt; pour les textes capturées à l'aide d'une expression régulière (la partie entre parenthèses).&lt;/p&gt;↵
-↵
-&lt;p&gt;Utiliser &lt;b&gt;|&lt;/ b&gt; pour enchaîner plusieurs commandes (la sortie standard de transmission vers une autre commande).&lt;/p&gt;</translation>
+        <translation>&lt;p&gt;Utilisez les commandes seulement si la commande du filtre réussit.&lt;/p&gt;
+
+&lt;p&gt;Le texte de l'article est passé à &lt;b&gt;l'entrée standard&lt;/b&gt; du filtre. La commande &lt;b&gt;exécuté uniquement si l'extrémité du filtre du code 0&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;l'Utilisation &lt;b&gt;%1&lt;/b&gt; sera remplacé par un élément de texte, et de &lt;b&gt;%2&lt;/b&gt; à &lt;b&gt;%9&lt;/b&gt; pour les textes capturées à l'aide d'une expression régulière (la partie entre parenthèses).&lt;/p&gt;
+
+&lt;p&gt;Utiliser &lt;b&gt;|&lt;/b&gt; pour enchaîner plusieurs commandes (la sortie standard de transmission vers une autre commande).&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="245"/>
