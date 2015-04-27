@@ -377,7 +377,7 @@ Você pode configurar o comando nas preferências.</translation>
     <message>
         <location filename="../src/gui/clipboardbrowser.cpp" line="1752"/>
         <source>Do you really want to &lt;strong&gt;discard changes&lt;/strong&gt;?</source>
-        <translation>Você realmente quer para &lt;forte&gt; descartar alterações &lt;forte&gt;?</translation>
+        <translation>Você realmente quer para &lt;strong&gt; descartar alterações &lt;/strong&gt;?</translation>
     </message>
 </context>
 <context>
@@ -424,7 +424,7 @@ Você pode configurar o comando nas preferências.</translation>
         <location filename="../src/gui/clipboarddialog.cpp" line="83"/>
         <source>&lt;strong&gt;Size:&lt;/strong&gt; %1 bytes</source>
         <comment>Size of data in bytes</comment>
-        <translation>&lt;forte&gt;Tamanho:&lt;/forte&gt; 1% bytes</translation>
+        <translation>&lt;strong&gt;Tamanho:&lt;/strong&gt; 1% bytes</translation>
     </message>
 </context>
 <context>
@@ -649,7 +649,7 @@ Deixe em branco para desabilitar esta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="176"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation>&lt;P&gt; Use comando somente para itens copiados para o clipboard de janela com texto de título que corresponde a esta expressão regular (deixe em branco para combinar com qualquer janela). No OS X, este contém o nome aplicação seguido por um traço (&amp; quot; - &amp; quot;), então o título da janela. Por exemplo &amp; Quot;. Safári - GitHub &amp; quot; &lt;/ p&gt;</translation>
+        <translation>&lt;p&gt; Use comando somente para itens copiados para o clipboard de janela com texto de título que corresponde a esta expressão regular (deixe em branco para combinar com qualquer janela). No OS X, este contém o nome aplicação seguido por um traço (&amp;quot; - &amp;quot;), então o título da janela. Por exemplo &amp;quot;. Safári - GitHub &amp;quot; &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="183"/>
@@ -659,7 +659,7 @@ Deixe em branco para desabilitar esta.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="193"/>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation>&lt;P&gt; Use o comando apenas para itens cujo texto de um jogo de expressão regular (deixe em branco para combinar com qualquer coisa) &lt;/ p&gt; &lt;p&gt; &lt;span style = "font-weight: 600;"&gt;. Exemplos: &lt;/ span&gt; &lt;/ p&gt; &lt;p&gt; Jogo URL &lt;span style = "font-weight: 600;"&gt; ^ (https | ftp?): // &lt;/ span&gt; &lt;/ p&gt; &lt;p&gt; nomes de arquivos PDF Jogo &lt;span style = "font peso: 600; ".&gt; \ pdf $ &lt;/ span&gt; &lt;/ p&gt; &lt;p&gt; combinar o caráter único &lt;span style =" font-weight: 600; "&gt; ^ $ &lt;/ span&gt; &lt;/ p&gt; &lt;. p&gt; Jogo multimídia remotas &lt;span style = "font-weight: 600;"&gt; ^ http: //.* \ (ogv | vlc | mp4 | mp3) $ &lt;/ span&gt; &lt;/ p&gt;.</translation>
+        <translation>&lt;p&gt; Use o comando apenas para itens cujo texto de um jogo de expressão regular (deixe em branco para combinar com qualquer coisa).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Exemplos:&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Jogo URL &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt; nomes de arquivos PDF Jogo &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; combinar o caráter único &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt; Jogo multimídia remotas &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"/>
@@ -680,13 +680,13 @@ Deixe em branco para desabilitar esta.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation>&lt;P&gt; Use comandos apenas se comando de filtro bem-sucedido. &lt;/ P&gt; 
+        <translation>&lt;p&gt; Use comandos apenas se comando de filtro bem-sucedido. &lt;/p&gt; 
 
-&lt;p&gt; item de texto é passado para &lt;b&gt; entrada padrão &lt;/ b&gt; do comando de filtro. O item é &lt;b&gt; igualado apenas se o código de saída de comando do filtro é 0 &lt;/ b&gt;. &lt;/ P&gt; 
+&lt;p&gt; item de texto é passado para &lt;b&gt; entrada padrão &lt;/b&gt; do comando de filtro. O item é &lt;b&gt; igualado apenas se o código de saída de comando do filtro é 0 &lt;/b&gt;. &lt;/p&gt; 
 
-&lt;p&gt; Use &lt;b&gt;% 1 &lt;/ b&gt; para o item de texto passado como argumento e &lt;b&gt; % 2 &lt;/ b&gt; para &lt;b&gt;% 9 &lt;/ b&gt; para argumentos capturados por expressão regular (peças entre parênteses) &lt;/ p&gt; 
+&lt;p&gt; Use &lt;b&gt;% 1 &lt;/b&gt; para o item de texto passado como argumento e &lt;b&gt; % 2 &lt;/b&gt; para &lt;b&gt;% 9 &lt;/b&gt; para argumentos capturados por expressão regular (peças entre parênteses) &lt;/p&gt; 
 
-&lt;p&gt; Use &lt;b&gt; |. &lt;/ b&gt; a comandos de cadeia (passe de saída padrão para o próximo comando). &lt;/ p&gt;</translation>
+&lt;p&gt; Use &lt;b&gt; |. &lt;/b&gt; a comandos de cadeia (passe de saída padrão para o próximo comando). &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="261"/>
@@ -1197,8 +1197,8 @@ CTRL e para cima ou para baixo chave.</translation>
     <message>
         <source>&lt;p&gt;Modify any application shortcuts for actions in menus here.&lt;/p&gt;
 &lt;p&gt;If supported on your system, &lt;b&gt;global shortcuts&lt;/b&gt; (system-wide shortcuts) can be defined in Commands dialog (&lt;b&gt;File/Commands...&lt;/b&gt; menu item).&lt;/p&gt;</source>
-        <translation type="vanished">&lt;P&gt; Modificar quaisquer atalhos de aplicativos para ações em menus aqui. &lt;/ P&gt;
-&lt;P&gt; Se for suportado em seu sistema, &lt;b&gt; atalhos globais &lt;/ b&gt; (atalhos de todo o sistema) pode ser definido em diálogo comandos (&lt;b&gt; Arquivo / Comandos ... &lt;/ b&gt; item de menu). &lt;/ p&gt;</translation>
+        <translation>&lt;p&gt; Modificar quaisquer atalhos de aplicativos para ações em menus aqui. &lt;/p&gt;
+&lt;p&gt; Se for suportado em seu sistema, &lt;b&gt; atalhos globais &lt;/b&gt; (atalhos de todo o sistema) pode ser definido em diálogo comandos (&lt;b&gt; Arquivo / Comandos ... &lt;/b&gt; item de menu). &lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
