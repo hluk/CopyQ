@@ -30,11 +30,11 @@ Donate:
 Overview
 --------
 
-CopyQ monitors system clipboard and saves its content as items in custom tabs.
-Items are saved and can be later copied back to clipboard or pasted directly
-into an application.
+CopyQ monitors system clipboard and saves its content in customized tabs.
+Saved clipboard can be later copied and pasted directly into any application.
 
 Items can be:
+
 * edited with internal editor or with preferred text editor,
 * moved to other tabs,
 * drag'n'dropped to applications,
