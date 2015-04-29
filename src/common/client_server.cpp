@@ -21,6 +21,7 @@
 #include "common/config.h"
 
 #include <QCoreApplication>
+#include <QDir>
 #include <QFile>
 #include <QString>
 #include <QStringList>
@@ -47,11 +48,14 @@ QString serverName(const QString &name)
         }
     }
 
+    const QString socketPath = settingsDirectoryPath();
+    QDir(socketPath).mkpath(".");
+
     // On Unix, files for local socket are created in temporary path which can be
     // overridden by environment variable. This can lead to having multiple
     // instances that can write simultaneously to same settings and data files.
     // It's ugly but creating socket files in settings directory should fix this.
-    return settingsDirectoryPath() + "/." + appName + "_" + name;
+    return socketPath + "/." + appName + "_" + name;
 #else
     return appName + "_" + qgetenv("USERNAME") + "_" + name;
 #endif
