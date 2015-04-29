@@ -137,7 +137,7 @@ QString AboutDialog::aboutPage()
         "<table class='links'>"
             + helpLink( tr("Author"), QString::fromUtf8("Lukáš Holeček") )
             + helpLink( tr("E-mail"), helpMail("hluk@email.cz") )
-            + helpLink( tr("Web"), helpUrl("http://hluk.github.io/CopyQ/") )
+            + helpLink( tr("Web"), helpUrl("https://hluk.github.io/CopyQ/") )
             + helpLink( tr("Wiki"), helpUrl("https://sourceforge.net/p/copyq/wiki/Home/") )
             + helpLink( tr("Donate"), helpUrl("https://www.bountysource.com/teams/copyq") )
             +

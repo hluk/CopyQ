@@ -9,7 +9,7 @@ CopyQ
 CopyQ is advanced clipboard manager with editing and scripting features.
 
 Web Site:
-    <http://hluk.github.io/CopyQ/>
+    <https://hluk.github.io/CopyQ/>
 
 Downloads:
     <https://github.com/hluk/CopyQ/releases>
