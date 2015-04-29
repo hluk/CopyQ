@@ -81,10 +81,10 @@ If you want to help with translating, fixing or writing code read
 Dependencies
 ------------
 
-To build and run the application you'll need [Qt](http://www.qt.io/download/)
+To build and run the application you'll need [Qt](https://www.qt.io/download/)
 library. To compile on OS X, you will need at least Qt 5.2.
 
-Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
+Optional dependency is [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) which
 enables the application to use advanced HTML rendering and fetching remote
 images and other data. This is available through ItemWeb plugin.
 

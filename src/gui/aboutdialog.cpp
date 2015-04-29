@@ -177,15 +177,15 @@ QString AboutDialog::aboutPage()
 
             // libraries
             + helpLib("Qt", tr("Library used in the application", "Qt library description"),
-                      "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies)", "http://qt.digia.com/")
+                      "Copyright (C) 2013 Digia Plc and/or its subsidiary(-ies)", "https://www.qt.io/")
+            + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
+                      "Copyright (c) 2012 - 2013 Michal &#268;iha&#345;", "https://weblate.org")
+            + helpLib("Font Awesome", tr("Iconic font used in the application", "Font Awesome description"),
+                      "Created & Maintained by Dave Gandy", "https://fortawesome.github.io/Font-Awesome/")
             + helpLib("LibQxt", tr("Library used in the application", "LibQxt library description"),
                       "Copyright (c) 2006 - 2011, the LibQxt project", "http://libqxt.org")
-            + helpLib("Font Awesome", tr("Iconic font used in the application", "Font Awesome description"),
-                      "Created & Maintained by Dave Gandy", "http://fortawesome.github.com/Font-Awesome")
             + helpLib("Solarized", tr("Color palette used for themes", "Solarized palette/themes description"),
                       "Copyright (c) 2011 Ethan Schoonover", "http://ethanschoonover.com/solarized")
-            + helpLib("Weblate", tr("Free web-based translation management system", "Weblate description"),
-                      "Copyright (c) 2012 - 2013 Michal &#268;iha&#345;", "http://weblate.org")
 
         // keyboard title
         + helpTitle(tr("Keyboard"))
