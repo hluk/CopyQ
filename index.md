@@ -4,24 +4,23 @@ layout: index
 
 CopyQ is advanced clipboard manager with editing and scripting features.
 
-Web Site:
-    <https://hluk.github.io/CopyQ/>
+Overview
+--------
 
-Downloads:
-    <https://github.com/hluk/CopyQ/releases>
-    <http://sourceforge.net/projects/copyq/files/>
+CopyQ monitors system clipboard and saves its content in customized tabs.
+Saved clipboard can be later copied and pasted directly into any application.
 
-Wiki:
-    <https://github.com/hluk/CopyQ/wiki>
+Items can be:
 
-Mailing List:
-    <https://groups.google.com/group/copyq>
+* edited with internal editor or with preferred text editor,
+* moved to other tabs,
+* drag'n'dropped to applications,
+* marked with tag or a note,
+* passed to or changed by custom commands,
+* or simply removed.
 
-Bug Reports:
-    <https://github.com/hluk/CopyQ/issues>
-
-Donate:
-    <https://www.bountysource.com/teams/copyq>
+Screenshots
+-----------
 
 ![Preview](images/application.png)
 ![Items](images/screenshot-items.png)
@@ -30,21 +29,6 @@ Donate:
 ![Tree View](images/screenshot-tree.png)
 ![Run Action and Create Items](images/screenshot-action.png)
 ![Open in Web Browser](images/screenshot-browser.png)
-
-Overview
---------
-
-CopyQ monitors system clipboard and saves its content as items in custom tabs.
-Items are saved and can be later copied back to clipboard or pasted directly
-into an application.
-
-Items can be:
-* edited with internal editor or with preferred text editor,
-* moved to other tabs,
-* drag'n'dropped to applications,
-* marked with tag or a note,
-* passed to or changed by custom commands,
-* or simply removed.
 
 Features
 --------
@@ -61,6 +45,25 @@ Features
 * Ignore clipboard copied from some windows or containing some text
 * Support for simple Vim-like editor and shortcuts
 * Many more features
+
+Links
+-----
+
+Downloads:
+    <https://github.com/hluk/CopyQ/releases>
+    <http://sourceforge.net/projects/copyq/files/>
+
+Wiki:
+    <https://github.com/hluk/CopyQ/wiki>
+
+Mailing List:
+    <https://groups.google.com/group/copyq>
+
+Bug Reports:
+    <https://github.com/hluk/CopyQ/issues>
+
+Donate:
+    <https://www.bountysource.com/teams/copyq>
 
 Install and Run
 ---------------
@@ -90,7 +93,7 @@ Dependencies
 To build and run the application you'll need [Qt](http://www.qt.io/download/)
 library. To compile on OS X, you will need at least Qt 5.2.
 
-Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
+Optional dependency is [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) which
 enables the application to use advanced HTML rendering and fetching remote
 images and other data. This is available through ItemWeb plugin.
 
