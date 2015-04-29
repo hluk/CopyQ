@@ -624,6 +624,8 @@ void TabTree::updateSize()
 
     resizeColumnToContents(0);
     w += sizeHintForColumn(0);
+    resizeColumnToContents(1);
+    w += sizeHintForColumn(1);
 
     setFixedWidth(w);
 }
