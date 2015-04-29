@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Copyright 2015 Lukáš Holeček <hluk@email.cz> -->
+<component type="desktop">
+    <id>copyq.desktop</id>
+    <metadata_license>CC0-1.0</metadata_license>
+    <project_license>GPL-3.0+</project_license>
+
+    <description>
+        <p>
+            CopyQ is advanced clipboard manager with editing and scripting features.
+        </p>
+        <p>
+            CopyQ monitors system clipboard and saves its content as items in custom tabs.
+            Items can be copied back to clipboard or pasted directly into an application.
+        </p>
+    </description>
+
+    <url type="homepage">https://hluk.github.io/CopyQ/</url>
+    <url type="bugtracker">https://github.com/hluk/CopyQ/issues</url>
+    <url type="help">https://github.com/hluk/CopyQ/wiki</url>
+    <url type="faq">https://github.com/hluk/CopyQ/wiki/FAQ</url>
+    <url type="donation">https://www.bountysource.com/teams/copyq</url>
+
+    <screenshots>
+        <screenshot type="default">
+            <image>https://hluk.github.io/CopyQ/images/application.png</image>
+        </screenshot>
+    </screenshots>
+
+    <categories>
+        <category>Utility</category>
+    </categories>
+
+    <updatecontact>hluk_at_email.cz</updatecontact>
+</component>
