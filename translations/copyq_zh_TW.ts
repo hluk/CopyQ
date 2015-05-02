@@ -50,7 +50,7 @@
         <translation>在應用程式使用的程式庫</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation>在應用程式使用的程式庫</translation>
@@ -62,13 +62,13 @@
         <translation>在應用程式使用的圖示字型</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>用於主題的調色板</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>基於 web 免費的翻譯管理系統</translation>

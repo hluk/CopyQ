@@ -50,7 +50,7 @@
         <translation>Biblioteca utilizada en la aplicación</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation>Biblioteca utilizada en la aplicación</translation>
@@ -62,13 +62,13 @@
         <translation>Tipografía Iconic utilizada en la aplicación</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>Paleta de colores utilizada por los temas</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>Sistema web gratuito para administración de traducciones</translation>

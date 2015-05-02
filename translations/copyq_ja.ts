@@ -50,7 +50,7 @@
         <translation>使用されているライブラリー</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation>使用されているライブラリー</translation>
@@ -62,13 +62,13 @@
         <translation>使用されているアイコンフォント</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>テーマに使用されているカラーパレット</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>フリーなwebベースの翻訳管理システム</translation>
