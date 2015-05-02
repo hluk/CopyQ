@@ -62,7 +62,7 @@
         <translation>Бібліотека, використана в застосунку</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation>Бібліотека, використана в застосунку</translation>
@@ -74,13 +74,13 @@
         <translation>Знаковий шрифт, використаний у застосунку</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>Палітра кольорів, використана для тем</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>Вільна веб-система управління перекладами</translation>
