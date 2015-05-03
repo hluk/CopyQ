@@ -112,16 +112,6 @@
       <property name="widgetResizable">
        <bool>true</bool>
       </property>
-      <widget class="QStackedWidget" name="stackedWidget">
-       <property name="geometry">
-        <rect>
-         <x>0</x>
-         <y>0</y>
-         <width>68</width>
-         <height>344</height>
-        </rect>
-       </property>
-      </widget>
      </widget>
     </widget>
    </item>

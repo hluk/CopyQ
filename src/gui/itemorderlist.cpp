@@ -29,6 +29,16 @@
 #include <QMimeData>
 #include <QScrollBar>
 
+namespace {
+
+void deleteWidget(const QPointer<QWidget> &object)
+{
+    if (object)
+        object->deleteLater();
+}
+
+} // namespace
+
 ItemOrderList::ItemOrderList(QWidget *parent)
     : QWidget(parent)
     , ui(new Ui::ItemOrderList)
@@ -54,10 +64,8 @@ void ItemOrderList::setAddRemoveButtonsVisible(bool visible)
 void ItemOrderList::clearItems()
 {
     ui->listWidgetItems->clear();
-    foreach ( const ItemWidgetPair &pair, m_items.values() ) {
-        if (pair.widget)
-            ui->stackedWidget->removeWidget(pair.widget);
-    }
+    foreach ( const ItemWidgetPair &pair, m_items.values() )
+        deleteWidget(pair.widget);
     m_items.clear();
 }
 
@@ -117,7 +125,6 @@ void ItemOrderList::setCurrentItem(int row)
     QListWidgetItem *currentItem = listItem(row);
     ui->listWidgetItems->setCurrentItem(currentItem, QItemSelectionModel::ClearAndSelect);
     QWidget *widget = createWidget(currentItem);
-    widget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
     widget->setFocus();
 }
 
@@ -253,8 +260,7 @@ void ItemOrderList::on_pushButtonRemove_clicked()
 {
     foreach (QListWidgetItem *item, ui->listWidgetItems->selectedItems()) {
         ItemWidgetPair pair = m_items.take(item);
-        if (pair.widget)
-            ui->stackedWidget->removeWidget(pair.widget);
+        deleteWidget(pair.widget);
         delete item;
     }
 }
@@ -284,12 +290,15 @@ QListWidgetItem *ItemOrderList::listItem(int row) const
 
 void ItemOrderList::setCurrentItemWidget(QWidget *widget)
 {
-    if (widget == NULL) {
-        ui->stackedWidget->hide();
-    } else {
-        ui->stackedWidget->setCurrentWidget(widget);
-        ui->stackedWidget->show();
+    if (m_currentWidget != NULL)
+        m_currentWidget->hide();
+
+    if (widget != NULL) {
+        ui->scrollArea->setWidget(widget);
+        widget->show();
     }
+
+    m_currentWidget = widget;
 }
 
 void ItemOrderList::setItemHighlight(QListWidgetItem *item, bool highlight)
@@ -302,9 +311,7 @@ void ItemOrderList::setItemHighlight(QListWidgetItem *item, bool highlight)
 QWidget *ItemOrderList::createWidget(QListWidgetItem *item)
 {
     ItemWidgetPair &pair = m_items[item];
-    if (!pair.widget) {
-        pair.widget = pair.item->createWidget(ui->stackedWidget);
-        ui->stackedWidget->addWidget(pair.widget);
-    }
+    if (!pair.widget)
+        pair.widget = pair.item->createWidget(ui->scrollArea);
     return pair.widget;
 }
