@@ -125,6 +125,8 @@ private:
     QMap<QListWidgetItem*, ItemWidgetPair> m_items;
 
     QRegExp m_dragAndDropRe;
+
+    QPointer<QWidget> m_currentWidget;
 };
 
 #endif // ITEMORDERLIST_H
