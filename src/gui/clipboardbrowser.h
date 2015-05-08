@@ -231,6 +231,8 @@ class ClipboardBrowser : public QListView
         /** Edit item in given @a row. */
         void editRow(int row);
 
+        void otherItemLoader(bool next);
+
     public slots:
         /**
          * Load items from configuration.

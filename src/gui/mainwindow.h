@@ -22,7 +22,6 @@
 
 #include "common/commandtester.h"
 #include "gui/clipboardbrowser.h"
-#include "gui/configtabshortcuts.h"
 
 #include "platform/platformnativeinterface.h"
 
@@ -463,6 +462,9 @@ private slots:
     void enableActionForCommand(QMenu *menu, const Command &command, bool enable);
     void addCommandsToItemMenu(const Command &command, bool enable);
     void addCommandsToTrayMenu(const Command &command, bool enable);
+
+    void nextItemFormat();
+    void previousItemFormat();
 
 private:
     void clearTitle() { updateTitle(QVariantMap()); }

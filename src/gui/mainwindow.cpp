@@ -34,6 +34,7 @@
 #include "gui/commandaction.h"
 #include "gui/commanddialog.h"
 #include "gui/configtabappearance.h"
+#include "gui/configtabshortcuts.h"
 #include "gui/configurationmanager.h"
 #include "gui/iconfactory.h"
 #include "gui/iconselectdialog.h"
@@ -555,6 +556,8 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_EditNotes, c, SLOT(editNotes()) );
     addItemAction( Actions::Item_EditWithEditor, c, SLOT(openEditor()) );
     addItemAction( Actions::Item_Action, this, SLOT(action()) );
+    addItemAction( Actions::Item_NextFormat, this, SLOT(nextItemFormat()) );
+    addItemAction( Actions::Item_PreviousFormat, this, SLOT(previousItemFormat()) );
 
     updateToolBar();
 }
@@ -740,6 +743,16 @@ void MainWindow::addCommandsToItemMenu(const Command &command, bool passed)
 void MainWindow::addCommandsToTrayMenu(const Command &command, bool passed)
 {
     enableActionForCommand(m_trayMenu, command, passed);
+}
+
+void MainWindow::nextItemFormat()
+{
+    browser()->otherItemLoader(true);
+}
+
+void MainWindow::previousItemFormat()
+{
+    browser()->otherItemLoader(false);
 }
 
 void MainWindow::updateTitle(const QVariantMap &data)

@@ -264,16 +264,6 @@ ItemWidget *ItemFactory::createItem(const QModelIndex &index, QWidget *parent)
     return NULL;
 }
 
-ItemWidget *ItemFactory::nextItemLoader(const QModelIndex &index, ItemWidget *current)
-{
-    return otherItemLoader(index, current, 1);
-}
-
-ItemWidget *ItemFactory::previousItemLoader(const QModelIndex &index, ItemWidget *current)
-{
-    return otherItemLoader(index, current, -1);
-}
-
 QStringList ItemFactory::formatsToSave() const
 {
     QStringList formats;
@@ -390,9 +380,8 @@ void ItemFactory::loaderChildDestroyed(QObject *obj)
     m_loaderChildren.remove(obj);
 }
 
-ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir)
+ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *current, bool next)
 {
-    Q_ASSERT(dir == -1 || dir == 1);
     Q_ASSERT(current->widget() != NULL);
 
     QWidget *w = current->widget();
@@ -407,6 +396,7 @@ ItemWidget *ItemFactory::otherItemLoader(const QModelIndex &index, ItemWidget *c
     Q_ASSERT(currentIndex != -1);
 
     const int size = loaders.size();
+    const int dir = next ? 1 : -1;
     for (int i = currentIndex + dir; i != currentIndex; i = i + dir) {
         if (i >= size)
             i = i % size;

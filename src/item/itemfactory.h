@@ -64,14 +64,9 @@ public:
     ItemWidget *createItem(const QModelIndex &index, QWidget *parent);
 
     /**
-     * Uses next item loader to instantiate ItemWidget.
+     * Uses next/previous item loader to instantiate ItemWidget.
      */
-    ItemWidget *nextItemLoader(const QModelIndex &index, ItemWidget *current);
-
-    /**
-     * Uses previous item loader to instantiate ItemWidget.
-     */
-    ItemWidget *previousItemLoader(const QModelIndex &index, ItemWidget *current);
+    ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, bool next);
 
     /**
      * Formats to save in history, union of enabled ItemLoaderInterface objects.
@@ -145,7 +140,6 @@ private slots:
     void loaderChildDestroyed(QObject *obj);
 
 private:
-    ItemWidget *otherItemLoader(const QModelIndex &index, ItemWidget *current, int dir);
     bool loadPlugins();
 
     /** Return enabled plugins with dummy item loader. */

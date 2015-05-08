@@ -184,24 +184,19 @@ void ItemDelegate::setRowVisible(int row, bool visible)
         w->widget()->setVisible(visible);
 }
 
-void ItemDelegate::nextItemLoader(const QModelIndex &index)
+bool ItemDelegate::otherItemLoader(const QModelIndex &index, bool next)
 {
     ItemWidget *w = m_cache[index.row()];
     if (w != NULL) {
-        ItemWidget *w2 = ConfigurationManager::instance()->itemFactory()->nextItemLoader(index, w);
-        if (w2 != NULL)
+        ItemWidget *w2 =
+                ConfigurationManager::instance()->itemFactory()->otherItemLoader(index, w, next);
+        if (w2 != NULL) {
             setIndexWidget(index, w2);
+            return true;
+        }
     }
-}
 
-void ItemDelegate::previousItemLoader(const QModelIndex &index)
-{
-    ItemWidget *w = m_cache[index.row()];
-    if (w != NULL) {
-        ItemWidget *w2 = ConfigurationManager::instance()->itemFactory()->previousItemLoader(index, w);
-        if (w2 != NULL)
-            setIndexWidget(index, w2);
-    }
+    return false;
 }
 
 ItemEditorWidget *ItemDelegate::createCustomEditor(QWidget *parent, const QModelIndex &index,

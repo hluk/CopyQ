@@ -128,6 +128,10 @@ void ConfigTabShortcuts::initShortcuts()
                   "editor", tr("Ctrl+E"), "accessories-text-editor", IconPencil );
     w->addAction( Actions::Item_Action, tr("&Action..."), "system-run", tr("F5"),
                   "action", IconCog );
+    w->addAction( Actions::Item_NextFormat, tr("Next Format"), "format-next", tr("Ctrl+Right"),
+                  "go-next", IconArrowRight );
+    w->addAction( Actions::Item_PreviousFormat, tr("Previous Format"), "format-previous", tr("Ctrl+Left"),
+                  "go-previous", IconArrowLeft );
 
     w->addAction( Actions::Item_Remove, tr("&Remove"),
                   "delete_item",  shortcutToRemove(), "list-remove", IconRemove );

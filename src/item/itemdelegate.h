@@ -97,11 +97,8 @@ class ItemDelegate : public QItemDelegate
         /** Show/hide row. */
         void setRowVisible(int row, bool visible);
 
-        /** Use next item loader available for @a index. */
-        void nextItemLoader(const QModelIndex &index);
-
-        /** Use previous item loader available for @a index. */
-        void previousItemLoader(const QModelIndex &index);
+        /** Use next/previous item loader available for @a index. */
+        bool otherItemLoader(const QModelIndex &index, bool next);
 
         /** Create internal item editor widget. */
         ItemEditorWidget *createCustomEditor(QWidget *parent, const QModelIndex &index,

@@ -1348,19 +1348,6 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
             scrollTo( currentIndex() );
             break;
 
-        // cycle formats
-        case Qt::Key_Left:
-        case Qt::Key_Right: {
-            QModelIndex index = currentIndex();
-            if ( index.isValid() ) {
-                if (key == Qt::Key_Left)
-                    d.previousItemLoader(index);
-                else
-                    d.nextItemLoader(index);
-            }
-            break;
-        }
-
         default:
             QListView::keyPressEvent(event);
             break;
@@ -1718,6 +1705,13 @@ const QString ClipboardBrowser::selectedText() const
 void ClipboardBrowser::editRow(int row)
 {
     editItem( index(row) );
+}
+
+void ClipboardBrowser::otherItemLoader(bool next)
+{
+    QModelIndex index = currentIndex();
+    if ( index.isValid() )
+        d.otherItemLoader(index, next);
 }
 
 void ClipboardBrowser::invalidateItemCache()
