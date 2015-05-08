@@ -52,13 +52,13 @@ QString testTab(int i)
 
 } // namespace
 
-ItemSyncTests::ItemSyncTests(const TestInterfacePtr &test, QObject *parent)
+ItemTagsTests::ItemTagsTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
     , m_test(test)
 {
 }
 
-QStringList ItemSyncTests::testTags()
+QStringList ItemTagsTests::testTags()
 {
     return QStringList()
             << testTag(1)
@@ -68,34 +68,34 @@ QStringList ItemSyncTests::testTags()
             << testTag(5);
 }
 
-void ItemSyncTests::initTestCase()
+void ItemTagsTests::initTestCase()
 {
     TEST(m_test->init());
     cleanup();
 }
 
-void ItemSyncTests::cleanupTestCase()
+void ItemTagsTests::cleanupTestCase()
 {
     TEST(m_test->stopServer());
 }
 
-void ItemSyncTests::init()
+void ItemTagsTests::init()
 {
     TEST(m_test->init());
 }
 
-void ItemSyncTests::cleanup()
+void ItemTagsTests::cleanup()
 {
     TEST( m_test->cleanup() );
 }
 
-void ItemSyncTests::userTags()
+void ItemTagsTests::userTags()
 {
     RUN(Args() << "-e" << "plugins.itemtags.userTags",
         QString(testTags().join("\n") + "\n").toUtf8());
 }
 
-void ItemSyncTests::tag()
+void ItemTagsTests::tag()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
@@ -157,7 +157,7 @@ void ItemSyncTests::tag()
     RUN(Args(args) << "size", "3\n");
 }
 
-void ItemSyncTests::untag()
+void ItemTagsTests::untag()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
@@ -180,7 +180,7 @@ void ItemSyncTests::untag()
     RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
 }
 
-void ItemSyncTests::clearTags()
+void ItemTagsTests::clearTags()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
@@ -208,33 +208,33 @@ void ItemSyncTests::clearTags()
     RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
 }
 
-void ItemSyncTests::searchTags()
+void ItemTagsTests::searchTags()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
     RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
     RUN(Args(args) << "add" << "A" << "B" << "C", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('x', 0, 1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('y', 1, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('z', 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "x\ny\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "y\nz\n");
+    RUN(Args(args) << "-e" << "plugins.itemtags.tag('tag1', 0, 1)", "");
+    RUN(Args(args) << "-e" << "plugins.itemtags.tag('tag2', 1, 2)", "");
+    RUN(Args(args) << "-e" << "plugins.itemtags.tag('tag3', 2)", "");
+    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "tag1\n");
+    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "tag1\ntag2\n");
+    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "tag2\ntag3\n");
 
     RUN(Args(args) << "keys" << "RIGHT", "");
-    RUN(Args(args) << "keys" << "x", "");
+    RUN(Args(args) << "keys" << ":tag1", "");
     waitFor(waitMsSearch);
     RUN(Args(args) << "keys" << "TAB" << "CTRL+A", "");
     RUN(Args(args) << "testselecteditems", "0\n1\n");
 
     RUN(Args(args) << "keys" << "ESCAPE", "");
-    RUN(Args(args) << "keys" << "y", "");
+    RUN(Args(args) << "keys" << ":tag2", "");
     waitFor(waitMsSearch);
     RUN(Args(args) << "keys" << "TAB" << "CTRL+A", "");
     RUN(Args(args) << "testselecteditems", "1\n2\n");
 
     RUN(Args(args) << "keys" << "ESCAPE", "");
-    RUN(Args(args) << "keys" << "z", "");
+    RUN(Args(args) << "keys" << ":tag3", "");
     waitFor(waitMsSearch);
     RUN(Args(args) << "keys" << "TAB" << "CTRL+A", "");
     RUN(Args(args) << "testselecteditems", "2\n");

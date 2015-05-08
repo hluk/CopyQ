@@ -654,7 +654,7 @@ void Tests::moveAndDeleteItems()
     RUN(Args(args) << "add" << "ABC" << "DEF" << "GHI" << "JKL", "");
 
     // search and delete
-    RUN(Args(args) << "keys" << ":[AG]", "");
+    RUN(Args(args) << "keys" << ":^[AG]", "");
     waitFor(waitMsSearch);
 #ifdef Q_OS_MAC
     // "Down" doesn't leave the search box on OS X

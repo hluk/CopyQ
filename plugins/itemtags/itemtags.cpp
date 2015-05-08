@@ -387,7 +387,7 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
 #ifdef HAS_TESTS
     QStringList tags;
 
-    foreach (const QString &tagName, ItemSyncTests::testTags()) {
+    foreach (const QString &tagName, ItemTagsTests::testTags()) {
         Tag tag;
         tag.name = tagName;
         tags.append(serializeTag(tag));
@@ -396,7 +396,7 @@ QObject *ItemTagsLoader::tests(const TestInterfacePtr &test) const
     QVariantMap settings;
     settings[configTags] = tags;
 
-    QObject *tests = new ItemSyncTests(test);
+    QObject *tests = new ItemTagsTests(test);
     tests->setProperty("CopyQ_test_settings", settings);
     return tests;
 #else

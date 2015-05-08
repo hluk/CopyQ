@@ -24,11 +24,11 @@
 
 #include <QObject>
 
-class ItemSyncTests : public QObject
+class ItemTagsTests : public QObject
 {
     Q_OBJECT
 public:
-    explicit ItemSyncTests(const TestInterfacePtr &test, QObject *parent = NULL);
+    explicit ItemTagsTests(const TestInterfacePtr &test, QObject *parent = NULL);
 
     static QStringList testTags();
 
