@@ -61,7 +61,7 @@ endif()
 if(WITH_TESTS)
     message(STATUS "Building with tests.")
 
-    add_definitions( -DHAS_TESTS -DCOPYQ_DEBUG )
+    add_definitions( -DHAS_TESTS )
 
     if (WITH_QT5)
         list(APPEND copyq_Qt5_Modules Test)
