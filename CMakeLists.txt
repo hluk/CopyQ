@@ -3,6 +3,7 @@ project(copyq)
 
 if(CMAKE_BUILD_TYPE MATCHES Debug)
     set(COPYQ_DEBUG ON)
+    add_definitions( -DCOPYQ_DEBUG  )
 endif()
 
 # Options (cmake -LH)
