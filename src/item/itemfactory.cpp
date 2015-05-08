@@ -340,6 +340,12 @@ ItemLoaderInterfacePtr ItemFactory::initializeTab(QAbstractItemModel *model)
 bool ItemFactory::matches(const QModelIndex &index, const QRegExp &re) const
 {
     foreach ( const ItemLoaderInterfacePtr &loader, enabledLoaders() ) {
+        const QVariantMap data = index.data(contentType::data).toMap();
+        foreach (const QString &format, data.keys()) {
+            if (format.indexOf(re) != -1)
+                return true;
+        }
+
         if ( isLoaderEnabled(loader) && loader->matches(index, re) )
             return true;
     }
