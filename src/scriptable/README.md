@@ -1,0 +1,414 @@
+CopyQ Scripting
+===============
+
+CopyQ provides scripting capabilities to automatically handle clipboard changes,
+organize items, change settings and much more.
+
+In addition to features provided by Qt Script there are following functions
+and types.
+
+Functions
+---------
+
+Argument list parts `...` and `[...]` are optional and can be omitted.
+
+###### String version()
+
+Returns version string.
+
+###### String help()
+
+Returns help string.
+
+###### String help(searchString, ...)
+
+Returns help for matched commands.
+
+###### show()
+
+Shows main window.
+
+###### show(tabName)
+
+Shows tab.
+
+###### hide()
+
+Hides main window.
+
+###### toggle()
+
+Shows or hide main window.
+
+###### menu()
+
+Opens context menu.
+
+###### menu()
+
+Shows context menu for tab.
+
+###### exit()
+
+Exits server.
+
+###### disable(), enable()
+
+Disables or enables clipboard content storing.
+
+###### bool monitoring()
+
+Returns true only if clipboard storing is enabled.
+
+###### bool visible()
+
+Available since v2.4.7.
+
+Returns true only if main window is visible.
+
+###### ignore()
+
+Ignores current clipboard content (used for automatic commands).
+
+This does all of the below.
+
+- Skips any next automatic commands.
+- Omits changing window title and tray tool tip.
+- Won't store content in clipboard tab.
+
+###### ByteArray clipboard([mimeType])
+
+Returns clipboard data for MIME type (default is text).
+
+###### ByteArray selection([mimeType])
+
+Same as `clipboard()` for Linux/X11 mouse selection.
+
+###### ByteArray copy()
+
+Sets clipboard content.
+
+Argument is either text or MIME types followed by data.
+
+Example (set both text and rich text):
+
+```js
+copy('text/plain', 'Hello, World!',
+     'text/html', '<p>Hello, World!</p>'
+```
+
+###### ByteArray copySelection()
+
+Same as `copy()` for Linux/X11 mouse selection.
+
+###### paste()
+
+Pastes current clipboard.
+
+This is basically only sending `Shift+Insert` shortcut to current window.
+
+Correct functionality depends a lot on target application and window manager.
+
+###### Array tab()
+
+Returns array of with tab names.
+
+###### tab(tabName)
+
+Sets current tab name.
+
+###### removeTab(tabName)
+
+Removes tab.
+
+###### renameTab(tabName, newTabName)
+
+Renames tab.
+
+###### String tabIcon(tabName)
+
+Returns path to icon for tab.
+
+###### tabIcon(tabName, iconPath)
+
+Sets icon for tab.
+
+###### length(), size(), count()
+
+Returns number of items in current tab.
+
+###### select(row)
+
+Copies item in the row to clipboard.
+
+Additionally, moves selected item to top depending on settings.
+
+###### next()
+
+Copies next item from current tab to clipboard.
+
+###### previous()
+
+Copies previous item from current tab to clipboard.
+
+###### add(text, ...)
+
+Adds new text items to current tab.
+
+###### insert(row, text)
+
+Inserts new text items to current tab.
+
+###### remove(row, ...)
+
+Removes items in current tab.
+
+###### edit(row, ...)
+
+Edits items in current tab.
+
+Opens external editor if set, otherwise opens internal editor.
+
+###### ByteArray read([mimeType]);
+
+Same as `clipboard()`.
+
+###### ByteArray read(mimeType, row, ...);
+
+Returns concatenated data from items.
+
+###### write(row, mimeType, data, [mimeType, data]...)
+
+Inserts new item to current tab.
+
+###### change(row, mimeType, data, [mimeType, data]...)
+
+Changes data in item in current tab.
+
+###### String separator()
+
+Returns item separator (used when concatenating item data).
+
+###### separator(separator)
+
+Sets item separator for concatenating item data.
+
+###### action()
+
+Opens action dialog.
+
+###### action(row, ..., command, outputItemSeparator)
+
+Runs command for items in current tab.
+
+###### popup(title, message, [timeout=8000])
+
+Shows tray popup message for given time in milliseconds.
+
+###### exportTab(fileName)
+
+Exports current tab into file.
+
+###### importTab(fileName)
+
+Imports items from file to a new tab.
+
+###### String config()
+
+Returns help with list of available options.
+
+###### String config(optionName)
+
+Returns value of given option.
+
+###### String config(optionName, value)
+
+Sets option.
+
+###### Value eval(script)
+
+Evaluates script and returns result.
+
+###### String currentpath()
+
+Returns current path.
+
+###### String str(value)
+
+Converts a value to string.
+
+###### ByteArray input()
+
+Returns standard input passed to the script.
+
+###### ByteArray data(mimeType)
+
+Returns data for command (item data, clipboard data or text from action dialog).
+
+###### print(value)
+
+Prints value to standard output.
+
+###### abort()
+
+Aborts script evaluation.
+
+###### fail()
+
+Aborts script evaluation with nonzero exit code.
+
+###### selectItems(row, ...)
+
+Selects items in current tab.
+
+###### String selectedTab()
+
+Returns tab that was selected when script was executed.
+
+###### [row, ...] selectedItems()
+
+Returns array with rows of selected items in current tab.
+
+###### int currentItem(), int index()
+
+Returns current row in current tab.
+
+###### String escapeHtml(text)
+
+Returns HTML representation of text (escapes special HTML characters).
+
+###### Item unpack(data)
+
+Returns deserialized object from serialized items.
+
+###### ByteArray pack(item)
+
+Returns serialized item.
+
+###### Item getItem(row)
+
+Returns an item in current tab.
+
+###### setItem(row, item)
+
+Inserts item to current tab.
+
+###### String toBase64(data)
+
+Returns base64-encoded data.
+
+###### ByteArray fromBase64(base64String)
+
+Returns base64-decoded data.
+
+###### QScriptValue open(url, ...)
+
+Tries to open URLs in appropriate applications.
+
+Returns true only if all URLs were successfully opened.
+
+###### FinishedCommand execute(argument, ..., null, stdinData, ...)
+
+Executes a command.
+
+All arguments after `null` are passed to standard input of the command.
+
+Returns object for the finished command or `undefined` on failure.
+
+###### String currentWindowTitle()
+
+Returns window title of currently focused window.
+
+###### Value dialog(...)
+
+###### Array settings()
+
+Returns array with names of all custom options.
+
+###### Value settings(optionName)
+
+Returns value for an option.
+
+###### settings(optionName)
+
+Sets value for a new option or overrides existing option.
+
+###### String dateString(format)
+
+Returns text representation of current date and time.
+
+See [QDateTime::toString()](http://doc.qt.io/qt-5/qdatetime.html#toString)
+for details on formatting date and time.
+
+Example:
+
+```js
+dateString('yyyy-MM-dd HH:mm:ss')
+```
+
+###### NetworkReply networkGet(url)
+
+Sends HTTP GET request.
+
+Returns reply.
+
+###### NetworkReply networkPost(url, postData)
+
+Sends HTTP POST request.
+
+Returns reply.
+
+Types
+-----
+
+###### ByteArray
+
+Simple wrapper around [QByteArray](http://doc.qt.io/qt-5/qbytearray.html).
+
+###### File
+
+Wrapper around [QFile](http://doc.qt.io/qt-5/qfile.html).
+
+Following code reads contents of "README.md" file from current directory.
+
+```js
+var f = new File("README.md")
+f.open()
+var bytes = f.readAll()
+```
+
+###### Dir
+
+Wrapper around [QFile](http://doc.qt.io/qt-5/qdir.html).
+
+###### Item (Object)
+
+Type is `Object` and each property is MIME type with data.
+
+Example:
+
+
+```js
+var item = {
+    'text/plain': 'x',
+    'text/html': '<b>x</b>'
+}
+write('application/x-copyq-item', pack(item))'
+```
+
+###### FinishedCommand (Object)
+
+Type is `Object` and properties are:
+
+- `stdout` - standard output
+- `stderr` - standard error output
+- `exit_code` - exit code
+
+###### NetworkReply (Object)
+
+Type is `Object` and properties are:
+
+- `data` - reply data
+- `error` - error string (set only if an error occurred)
+- `redirect` - URL for redirection (set only if redirection is needed)
+- `headers` - reply headers (array of pairs with header name and header content)
