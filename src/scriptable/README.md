@@ -38,7 +38,7 @@ Hides main window.
 
 ###### toggle()
 
-Shows or hide main window.
+Shows or hides main window.
 
 ###### menu()
 
@@ -84,7 +84,7 @@ Returns clipboard data for MIME type (default is text).
 
 Same as `clipboard()` for Linux/X11 mouse selection.
 
-###### ByteArray copy()
+###### ByteArray copy(...)
 
 Sets clipboard content.
 
@@ -97,7 +97,7 @@ copy('text/plain', 'Hello, World!',
      'text/html', '<p>Hello, World!</p>'
 ```
 
-###### ByteArray copySelection()
+###### ByteArray copySelection(...)
 
 Same as `copy()` for Linux/X11 mouse selection.
 
@@ -321,6 +321,43 @@ Returns window title of currently focused window.
 
 ###### Value dialog(...)
 
+Shows messages of asks user for input.
+
+Arguments are names and associated values.
+
+Special arguments:
+
+- '.title' - dialog title
+- '.icon' - dilog icon
+- '.style' - Qt style sheet for dialog
+- '.height', '.width', '.x', '.y' - dialog geometry
+- '.label' - dialog message (can contain basic HTML)
+
+```js
+dialog(
+  '.title', 'Command Finished',
+  '.label', 'Command <b>successfully</b> finished.'
+  )
+```
+
+Other arguments are used to get user input.
+
+```js
+var amount = dialog('.title', 'Amount?', 'Enter Amount', 'n/a')
+var filePath = dialog('.title', 'File?', 'Choose File', new File('/home'))
+```
+
+If multiple inputs are required, object is returned.
+
+```js
+var result = dialog(
+  'Enter Amount', 'n/a',
+  'Choose File', new File(str(currentPath))
+  )
+print('Amount: ' + result['Enter Amount'] + '\n')
+print('File: ' + result['Choose File'] + '\n')
+```
+
 ###### Array settings()
 
 Returns array with names of all custom options.
@@ -343,7 +380,7 @@ for details on formatting date and time.
 Example:
 
 ```js
-dateString('yyyy-MM-dd HH:mm:ss')
+var now = dateString('yyyy-MM-dd HH:mm:ss')
 ```
 
 ###### NetworkReply networkGet(url)
@@ -365,6 +402,16 @@ Types
 
 Simple wrapper around [QByteArray](http://doc.qt.io/qt-5/qbytearray.html).
 
+`ByteArray` is used to store all item data (image data, HTML and even plain text).
+
+Use `str()` to convert it to string.
+Strings are usually more versatile.
+For example to concatenate two items, the data need to be converted to strings first.
+
+```js
+var text = str(read(0)) + str(read(1))
+```
+
 ###### File
 
 Wrapper around [QFile](http://doc.qt.io/qt-5/qfile.html).
@@ -379,7 +426,7 @@ var bytes = f.readAll()
 
 ###### Dir
 
-Wrapper around [QFile](http://doc.qt.io/qt-5/qdir.html).
+Wrapper around [QDir](http://doc.qt.io/qt-5/qdir.html).
 
 ###### Item (Object)
 
@@ -387,11 +434,10 @@ Type is `Object` and each property is MIME type with data.
 
 Example:
 
-
 ```js
 var item = {
-    'text/plain': 'x',
-    'text/html': '<b>x</b>'
+    'text/plain': 'Hello, World!',
+    'text/html': '<p>Hello, World!</p>'
 }
 write('application/x-copyq-item', pack(item))'
 ```
