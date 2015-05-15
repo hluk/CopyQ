@@ -321,7 +321,7 @@ Returns window title of currently focused window.
 
 ###### Value dialog(...)
 
-Shows messages of asks user for input.
+Shows messages or asks user for input.
 
 Arguments are names and associated values.
 
