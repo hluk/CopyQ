@@ -184,7 +184,7 @@ QByteArray getUtf8Data(const QMimeData &data, const QString &format)
         foreach ( const QUrl &url, data.urls() ) {
             if ( !bytes.isEmpty() )
                 bytes += '\n';
-            bytes += url.toString();
+            bytes += url.toString().toUtf8();
         }
         return bytes;
     }
