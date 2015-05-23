@@ -53,7 +53,7 @@ void updateItemSize(QTreeWidgetItem *item)
         if (!item->icon(0).isNull()) {
             const QSize iconSize = item->treeWidget()->iconSize();
             size = QSize(
-                        size.width() + iconSize.width() + 4,
+                        size.width() + iconSize.width() + 8,
                         qMax(size.height(), iconSize.height())
                         );
         }
