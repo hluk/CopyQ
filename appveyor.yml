@@ -8,7 +8,10 @@ environment:
   CMAKE_GENERATOR: Visual Studio 12
 
 before_build:
-- cmake -B build -G "%CMAKE_GENERATOR%" -DWITH_QT5=ON -DWITH_TESTS=ON .
+- mkdir build
+- cd build
+- cmake -G "%CMAKE_GENERATOR%" -DWITH_QT5=ON -DWITH_TESTS=ON ..
+- cd ..
 
 build:
   project: build\copyq.sln
