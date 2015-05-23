@@ -2545,7 +2545,7 @@ void MainWindow::setTabIcon(const QString &tabName)
 
 void MainWindow::setTabIcon(const QString &tabName, const QString &icon)
 {
-    if ( tabs().contains(tabName) ) {
+    if ( tabs().contains(tabName) || ui->tabWidget->isTabGroup(tabName) ) {
         cm->setIconNameForTabName(tabName, icon);
         ui->tabWidget->updateTabIcon(tabName);
     }
