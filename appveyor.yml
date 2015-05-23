@@ -1,0 +1,14 @@
+# Configuration file for AppVeyor CI
+os: Unstable
+
+configuration: Release
+
+environment:
+  CMAKE_PREFIX_PATH: C:\Qt\5.4\msvc2013_opengl
+  CMAKE_GENERATOR: Visual Studio 12
+
+before_build:
+- cmake -B build -G "%CMAKE_GENERATOR%" -DWITH_QT5=ON -DWITH_TESTS=ON .
+
+build:
+  project: build\copyq.sln
