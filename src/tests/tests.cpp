@@ -24,6 +24,7 @@
 #include "common/common.h"
 #include "common/mimetypes.h"
 #include "common/monitormessagecode.h"
+#include "common/version.h"
 #include "item/itemfactory.h"
 #include "item/itemwidget.h"
 #include "item/serialize.h"
@@ -721,7 +722,7 @@ void Tests::versionCommand()
 
     const QString version = QString::fromUtf8(stdoutActual);
     // Version contains application name and version.
-    QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*v" + QRegExp::escape(COPYQ_VERSION))) );
+    QVERIFY( version.contains(QRegExp("\\bCopyQ\\b.*" + QRegExp::escape(COPYQ_VERSION))) );
     // Version contains Qt version.
     QVERIFY( version.contains(QRegExp("\\bQt\\s+\\d")) );
     // Version contains Qxt version.

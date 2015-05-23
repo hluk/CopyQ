@@ -21,6 +21,7 @@
 #include "ui_aboutdialog.h"
 
 #include "common/common.h"
+#include "common/version.h"
 #include "configurationmanager.h"
 
 namespace {
@@ -131,7 +132,7 @@ QString AboutDialog::aboutPage()
         "<div class='h1'>CopyQ</div>"
         // subtitle
         "<div class=\"h1x\">" + escapeHtml(tr("Clipboard Manager"))
-            + " v" COPYQ_VERSION "</div>"
+            + " " COPYQ_VERSION "</div>"
 
         "<p>"
         "<table class='links'>"

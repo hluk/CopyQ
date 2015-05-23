@@ -24,6 +24,7 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/version.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
 #include "scriptable/dirclass.h"
@@ -368,7 +369,7 @@ void Scriptable::sendWindowActivationCommandToClient(const QByteArray &message)
 
 QScriptValue Scriptable::version()
 {
-    return tr(programName) + " v" COPYQ_VERSION " (hluk@email.cz)\n"
+    return tr(programName) + " " COPYQ_VERSION " (hluk@email.cz)\n"
             + tr("Built with: ")
             + "Qt " + QT_VERSION_STR +
             + ", LibQxt " + QXT_VERSION_STR
@@ -386,7 +387,7 @@ QScriptValue Scriptable::help()
             helpString.append(hlp.toString());
 
         helpString.append("\n" + helpTail() + "\n\n" + tr(programName)
-            + " v" + COPYQ_VERSION + " (hluk@email.cz)\n");
+            + " " + COPYQ_VERSION + " (hluk@email.cz)\n");
     } else {
         for (int i = 0; i < argumentCount(); ++i) {
             const QString &cmd = toString(argument(i));

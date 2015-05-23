@@ -71,6 +71,22 @@ if(WITH_TESTS)
     endif()
 endif()
 
+find_package(Git)
+if(GIT_FOUND)
+    execute_process(COMMAND
+        "${GIT_EXECUTABLE}" describe
+        WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        RESULT_VARIABLE copyq_git_describe_result
+        OUTPUT_VARIABLE copyq_git_describe_output
+        ERROR_QUIET
+        OUTPUT_STRIP_TRAILING_WHITESPACE
+        )
+    if(copyq_git_describe_result EQUAL 0)
+        message(STATUS "Building CopyQ version ${copyq_git_describe_output}.")
+        add_definitions( -DCOPYQ_VERSION="${copyq_git_describe_output}" )
+    endif()
+endif()
+
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     install(FILES ${copyq_ICON_NORMAL} DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-normal.svg)
     install(FILES ${copyq_ICON_BUSY}   DESTINATION ${ICON_INSTALL_PREFIX} RENAME copyq-busy.svg)
