@@ -633,6 +633,8 @@ void TabTree::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *pr
 
 void TabTree::updateSize()
 {
+    doItemsLayout();
+
     const QMargins margins = contentsMargins();
     int w = margins.left() + margins.right();
 
