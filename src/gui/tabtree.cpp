@@ -53,7 +53,7 @@ void updateItemSize(QTreeWidgetItem *item)
         if (!item->icon(0).isNull()) {
             const QSize iconSize = item->treeWidget()->iconSize();
             size = QSize(
-                        size.width() + iconSize.width() + 4,
+                        size.width() + iconSize.width() + 8,
                         qMax(size.height(), iconSize.height())
                         );
         }
@@ -159,23 +159,31 @@ public:
     explicit ItemLabel(QTreeWidgetItem *item)
         : QWidget(item->treeWidget())
         , m_treeWidget(item->treeWidget())
+        , m_label(createLabel("tab_tree_item", this))
         , m_labelItemCount(NULL)
         , m_layout(new QHBoxLayout(this))
     {
-        const QString text = item->data(0, DataText).toString();
-        const QString itemCount = item->data(0, DataItemCount).toString();
+        m_label->setBuddy(m_treeWidget);
+        m_label->installEventFilter(this);
 
-        QLabel *label = createLabel("tab_tree_item", this);
-        label->setText(text);
-        label->setBuddy(m_treeWidget);
-        label->installEventFilter(this);
-
-        m_layout->addWidget(label);
+        m_layout->addWidget(m_label);
         m_layout->setMargin(0);
         m_layout->addStretch(1);
 
-        if ( !itemCount.isEmpty() )
-            setItemCountLabel(itemCount);
+        updateFromItem(item);
+    }
+
+    void updateFromItem(QTreeWidgetItem *item)
+    {
+        const QString text = item->data(0, DataText).toString();
+        const QString itemCount = item->data(0, DataItemCount).toString();
+        setText(text);
+        setItemCountLabel(itemCount);
+    }
+
+    void setText(const QString &text)
+    {
+        m_label->setText(text);
     }
 
     void setItemCountLabel(const QString &itemCount)
@@ -212,14 +220,26 @@ protected:
 
 private:
     QTreeWidget *m_treeWidget;
+    QLabel *m_label;
     QLabel *m_labelItemCount;
     QHBoxLayout *m_layout;
 };
 
+ItemLabel *itemLabel(QTreeWidgetItem *item)
+{
+    return static_cast<ItemLabel*>( item->treeWidget()->itemWidget(item, 0) );
+}
+
 void labelItem(QTreeWidgetItem *item)
 {
+    ItemLabel *label = itemLabel(item);
+    if (label) {
+        label->updateFromItem(item);
+        return;
+    }
+
     QTreeWidget *parent = item->treeWidget();
-    ItemLabel *label = new ItemLabel(item);
+    label = new ItemLabel(item);
     label->installEventFilter(parent);
     item->setTextAlignment(0, Qt::AlignCenter);
     parent->setItemWidget(item, 0, label);
@@ -232,7 +252,6 @@ bool isInside(QWidget *child, QWidget *parent)
     const QPoint scrollBarPosition = child->mapTo(parent, QPoint(0,0));
     return parent->contentsRect().contains(scrollBarPosition);
 }
-
 
 } // namespace
 
@@ -433,7 +452,7 @@ void TabTree::setTabItemCount(const QString &tabName, const QString &itemCount)
 
     item->setData(0, DataItemCount, itemCount);
 
-    ItemLabel *label = static_cast<ItemLabel*>( itemWidget(item, 0) );
+    ItemLabel *label = itemLabel(item);
     Q_ASSERT(label);
     label->setItemCountLabel(itemCount);
 
@@ -614,6 +633,8 @@ void TabTree::onCurrentItemChanged(QTreeWidgetItem *current, QTreeWidgetItem *pr
 
 void TabTree::updateSize()
 {
+    doItemsLayout();
+
     const QMargins margins = contentsMargins();
     int w = margins.left() + margins.right();
 
