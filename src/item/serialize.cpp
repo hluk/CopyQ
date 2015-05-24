@@ -221,7 +221,7 @@ bool deserializeData(QAbstractItemModel *model, QDataStream *stream)
     Q_ASSERT( maxItems.toInt() > 0 );
     length = qMin( length, maxItems.toInt() ) - model->rowCount();
 
-    if ( !model->insertRows(0, length) )
+    if ( length != 0 && !model->insertRows(0, length) )
         return false;
 
     for(qint32 i = 0; i < length && stream->status() == QDataStream::Ok; ++i) {

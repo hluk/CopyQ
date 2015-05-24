@@ -130,6 +130,9 @@ void ClipboardModel::insertItem(const QVariantMap &data, int row)
 
 bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 {
+    if ( rows <= 0 || position < 0 )
+        return false;
+
     beginInsertRows(QModelIndex(), position, position + rows - 1);
 
     for (int row = 0; row < rows; ++row)
@@ -142,7 +145,7 @@ bool ClipboardModel::insertRows(int position, int rows, const QModelIndex&)
 
 bool ClipboardModel::removeRows(int position, int rows, const QModelIndex&)
 {
-    if ( position < 0 || position >= rowCount() )
+    if ( rows <= 0 || position < 0 || position + rows > rowCount() )
         return false;
 
     int last = qMin( position + rows, rowCount() ) - 1;
