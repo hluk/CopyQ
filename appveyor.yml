@@ -15,3 +15,59 @@ before_build:
 
 build:
   project: build\copyq.sln
+
+after_build:
+- SET Root="%APPVEYOR_BUILD_FOLDER%\build"
+- SET QtRoot="%CMAKE_PREFIX_PATH%"
+- SET Source="%APPVEYOR_BUILD_FOLDER%"
+- SET BuildConf=Release
+- SET DestDir=Bundle\copyq
+- SET WindowsRoot=C:\Windows\SysWOW64
+- mkdir "%DestDir%"
+- copy "%Root%\%BuildConf%\copyq.exe" "%DestDir%"
+- copy "%Root%\%BuildConf%\copyq.com" "%DestDir%"
+- copy "%Source%\AUTHORS" "%DestDir%"
+- copy "%Source%\LICENSE" "%DestDir%"
+- copy "%Source%\README.md" "%DestDir%"
+- mkdir "%DestDir%\themes"
+- copy "%Source%\shared\themes\*" "%DestDir%\themes"
+- mkdir "%DestDir%\translations"
+- copy "%Root%\src\*.qm" "%DestDir%\translations"
+- mkdir "%DestDir%\plugins"
+- copy "%Root%\plugins\%BuildConf%\*.dll" "%DestDir%\plugins"
+- mkdir "%DestDir%\imageformats"
+- copy "%QtRoot%\plugins\imageformats\*" "%DestDir%\imageformats"
+- mkdir "%DestDir%\platforms"
+- copy "%QtRoot%\plugins\platforms\qwindows.dll" "%DestDir%\platforms"
+- copy "%QtRoot%\bin\Qt5Core.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Gui.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Network.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Script.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Svg.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Widgets.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Xml.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Test.dll" "%DestDir%"
+- copy "%QtRoot%\bin\icudt53.dll" "%DestDir%"
+- copy "%QtRoot%\bin\icuin53.dll" "%DestDir%"
+- copy "%QtRoot%\bin\icuuc53.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Multimedia.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5MultimediaWidgets.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5OpenGL.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Positioning.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5PrintSupport.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Qml.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Quick.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Sensors.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5Sql.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5WebChannel.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5WebKit.dll" "%DestDir%"
+- copy "%QtRoot%\bin\Qt5WebKitWidgets.dll" "%DestDir%"
+- copy "%WindowsRoot%\msvcp120.dll" "%DestDir%"
+- copy "%WindowsRoot%\msvcr120.dll" "%DestDir%"
+- REM runas /trustlevel:0x20000 "net user %USERNAME% /ACTIVE:YES"
+- REM "%DestDir%\copyq.com" --tests || EXIT \b 0
+
+artifacts:
+- path: Bundle
+  name: copyq
+  type: WebDeployPackage
