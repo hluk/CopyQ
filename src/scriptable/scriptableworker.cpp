@@ -37,7 +37,7 @@ Q_DECLARE_METATYPE(QByteArray*)
 namespace {
 
 #define MONITOR_LOG(text) \
-    COPYQ_LOG( QString("Script %1: %2").arg(m_id).arg(text) )
+    log( QString("Script %1: %2").arg(m_id).arg(text) )
 
 QByteArray serializeScriptValue(const QScriptValue &value)
 {

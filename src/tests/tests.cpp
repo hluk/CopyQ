@@ -436,7 +436,7 @@ public:
                             qWarning() << "failed to flush server output";
                             break;
                         }
-                        QApplication::processEvents(QEventLoop::WaitForMoreEvents);
+                        QApplication::processEvents(QEventLoop::WaitForMoreEvents, 1000);
                     }
                 }
             }
