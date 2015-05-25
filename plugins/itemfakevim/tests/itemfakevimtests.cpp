@@ -19,22 +19,9 @@
 
 #include "itemfakevimtests.h"
 
+#include "tests/test_utils.h"
+
 #include <QDir>
-#include <QTest>
-
-#define RUN(arguments, stdoutExpected) \
-    TEST( m_test->runClient(arguments, stdoutExpected) );
-
-namespace {
-
-typedef QStringList Args;
-
-QString testTab(int i)
-{
-    return "ITEMFAKEVIM_TEST_&" + QString::number(i);
-}
-
-} // namespace
 
 ItemFakeVimTests::ItemFakeVimTests(const TestInterfacePtr &test, QObject *parent)
     : QObject(parent)
@@ -63,7 +50,7 @@ void ItemFakeVimTests::init()
     TEST(m_test->init());
 
     // Don't use default external editor.
-    RUN(Args() << "config" << "editor" << "", "");
+    RUN("config" << "editor" << "", "");
 }
 
 void ItemFakeVimTests::cleanup()
@@ -76,19 +63,19 @@ void ItemFakeVimTests::createItem()
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
 
-    RUN(Args(args) << "size", "0\n");
+    RUN(args << "size", "0\n");
 
-    RUN(Args(args) << "edit", "");
-    RUN(Args(args) << "keys" << ":iABC" << "ENTER" << ":DEF"
+    RUN(args << "edit", "");
+    RUN(args << "keys" << ":iABC" << "ENTER" << ":DEF"
         << "ESC" << "::wq" << "ENTER", "");
 
-    RUN(Args(args) << "read" << "0", "ABC\nDEF");
+    RUN(args << "read" << "0", "ABC\nDEF");
 
     SKIP("Command :w saves item and the editor widget is destroyed because data changed.");
-    RUN(Args(args) << "keys" << "F2" << ":GccXYZ" << "ESC" << "::w" << "ENTER", "");
-    RUN(Args(args) << "read" << "0", "ABC\nXYZ");
-    RUN(Args(args) << "keys" << ":p:wq" << "ENTER", "");
-    RUN(Args(args) << "read" << "0", "ABC\nXYZ\nDEF");
+    RUN(args << "keys" << "F2" << ":GccXYZ" << "ESC" << "::w" << "ENTER", "");
+    RUN(args << "read" << "0", "ABC\nXYZ");
+    RUN(args << "keys" << ":p:wq" << "ENTER", "");
+    RUN(args << "read" << "0", "ABC\nXYZ\nDEF");
 }
 
 void ItemFakeVimTests::blockSelection()
@@ -96,15 +83,15 @@ void ItemFakeVimTests::blockSelection()
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
 
-    RUN(Args(args) << "edit", "");
-    RUN(Args(args) << "keys"
+    RUN(args << "edit", "");
+    RUN(args << "keys"
         << ":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER", "");
-    RUN(Args(args) << "read" << "0", "ABC\nDEF\nGHI");
+    RUN(args << "read" << "0", "ABC\nDEF\nGHI");
 
-    RUN(Args(args) << "edit" << "0", "");
-    RUN(Args(args) << "keys"
+    RUN(args << "edit" << "0", "");
+    RUN(args << "keys"
         << ":ggl" << "CTRL+V" << ":jjs_" << "ESC" << "::wq" << "ENTER", "");
-    RUN(Args(args) << "read" << "0", "A_C\nD_F\nG_I");
+    RUN(args << "read" << "0", "A_C\nD_F\nG_I");
 }
 
 void ItemFakeVimTests::search()
@@ -112,13 +99,13 @@ void ItemFakeVimTests::search()
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
 
-    RUN(Args(args) << "edit", "");
-    RUN(Args(args) << "keys"
+    RUN(args << "edit", "");
+    RUN(args << "keys"
         << ":iABC" << "ENTER" << ":DEF" << "ENTER" << ":GHI" << "ESC" << "::wq" << "ENTER", "");
-    RUN(Args(args) << "read" << "0", "ABC\nDEF\nGHI");
+    RUN(args << "read" << "0", "ABC\nDEF\nGHI");
 
-    RUN(Args(args) << "edit" << "0", "");
-    RUN(Args(args) << "keys"
+    RUN(args << "edit" << "0", "");
+    RUN(args << "keys"
         << ":gg/[EH]" << "ENTER" << ":r_nr_" << "F2", "");
-    RUN(Args(args) << "read" << "0", "ABC\nD_F\nG_I");
+    RUN(args << "read" << "0", "ABC\nD_F\nG_I");
 }

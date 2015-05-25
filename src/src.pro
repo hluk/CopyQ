@@ -107,7 +107,10 @@ HEADERS += \
     gui/commandaction.h \
     gui/addcommanddialog.h \
     common/commandtester.h \
-    gui/filtercompleter.h
+    gui/filtercompleter.h \
+    tests/tests_common.h \
+    common/sleeptimer.h \
+    tests/test_utils.h
 SOURCES += \
     app/app.cpp \
     app/clipboardclient.cpp \

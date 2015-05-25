@@ -24,6 +24,7 @@
 #include "common/commandstatus.h"
 #include "common/common.h"
 #include "common/mimetypes.h"
+#include "common/sleeptimer.h"
 #include "common/version.h"
 #include "item/serialize.h"
 #include "scriptable/commandhelp.h"
@@ -95,14 +96,6 @@ bool clipboardContains(
         const QString &format, const QByteArray &content)
 {
     return content == proxy->getClipboardData(format, mode);
-}
-
-void waitFor(qint64 milliseconds)
-{
-    QElapsedTimer t;
-    t.start();
-    while ( !t.hasExpired(milliseconds) )
-        QApplication::processEvents( QEventLoop::WaitForMoreEvents, milliseconds - t.elapsed() );
 }
 
 template <typename T>
