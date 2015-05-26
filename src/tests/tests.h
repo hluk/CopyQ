@@ -47,6 +47,8 @@ private slots:
 
     void windowTitle();
 
+    void keysAndFocusing();
+
     void moveAndDeleteItems();
 
     void helpCommand();

@@ -547,6 +547,16 @@ void Tests::windowTitle()
     RUN("enable", "");
 }
 
+void Tests::keysAndFocusing()
+{
+    RUN("disable", "");
+    RUN("keys" << "CTRL+T", "");
+    RUN("currentWindowTitle", "CopyQ New Tab\n");
+    RUN("keys" << "ESC", "");
+    RUN("currentWindowTitle", "CopyQ\n");
+    RUN("enable", "");
+}
+
 void Tests::moveAndDeleteItems()
 {
     const QString tab = testTab(1);
