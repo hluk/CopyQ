@@ -540,6 +540,13 @@ void Tests::cleanup()
         TEST( m_test->cleanup() );
 }
 
+void Tests::windowTitle()
+{
+    RUN("disable", "");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
+    RUN("enable", "");
+}
+
 void Tests::moveAndDeleteItems()
 {
     const QString tab = testTab(1);

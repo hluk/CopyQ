@@ -45,6 +45,8 @@ private slots:
     void init();
     void cleanup();
 
+    void windowTitle();
+
     void moveAndDeleteItems();
 
     void helpCommand();
