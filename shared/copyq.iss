@@ -20,7 +20,7 @@
 
 ; Choose path to Qt installation.
 #if Qt == 4
-# define QtRoot "C:\Qt\4.8.6"
+# define QtRoot "C:\Qt\4.8.7"
 #else
 # define QtRoot "C:\Qt\5.2.0"
 #endif
