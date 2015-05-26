@@ -396,6 +396,9 @@ public:
 
     QByteArray cleanup()
     {
+        if ( !isServerRunning() )
+            return QByteArray();
+
         QByteArray out = runClient(Args("eval") <<
             // Create tab.
             "print(1);"
@@ -446,6 +449,8 @@ public:
         QByteArray errors = show();
         if ( !errors.isEmpty() )
             return errors;
+
+        cleanup();
 
         // Enable clipboard monitoring.
         errors = runClient(Args("config") << "check_clipboard" << "true", "");
@@ -521,7 +526,6 @@ Tests::Tests(const TestInterfacePtr &test, QObject *parent)
 void Tests::initTestCase()
 {
     TEST(m_test->init());
-    cleanup();
 }
 
 void Tests::cleanupTestCase()
@@ -536,8 +540,7 @@ void Tests::init()
 
 void Tests::cleanup()
 {
-    if ( m_test->isServerRunning() )
-        TEST( m_test->cleanup() );
+    TEST( m_test->cleanup() );
 }
 
 void Tests::windowTitle()
