@@ -1,11 +1,10 @@
 CopyQ
 =====
 
-[![Translation Status](https://hosted.weblate.org/widgets/copyq-status-badge.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
-[![Build Status](https://travis-ci.org/hluk/CopyQ.png)](https://travis-ci.org/hluk/CopyQ)
+[![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
+[![Build Status](https://travis-ci.org/hluk/CopyQ.svg?branch=master)](https://travis-ci.org/hluk/CopyQ)
 [![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
-[![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.png?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
-[![Stories in Ready](https://badge.waffle.io/hluk/CopyQ.png)](http://waffle.io/hluk/CopyQ)
+[![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.svg?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
 
 CopyQ is advanced clipboard manager with editing and scripting features.
 
