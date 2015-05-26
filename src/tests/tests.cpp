@@ -1135,7 +1135,8 @@ void Tests::externalEditor()
     // Script ends when first item is "ABORT".
     QString cmd = QString(
                 "\"%1\" tab \"%2\" eval "
-                "\"add(arguments[1]);while(str(read(0)) != '%3');\"")
+                "\"add(arguments[1]);while(str(read(0)) != '%3');\" "
+                "--")
             .arg(QApplication::applicationFilePath())
             .arg(editorTab)
             .arg(endEditor)
