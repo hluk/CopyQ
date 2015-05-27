@@ -244,9 +244,7 @@ public slots:
     QList<int> selectedItems();
 
     QString sendKeys(const QString &keys);
-    int testcurrentItem();
-    QString testselectedTab();
-    QList<int> testselectedItems();
+    QString testSelected();
 
     void keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget);
 
@@ -367,9 +365,7 @@ public:
     PROXY_METHOD_0(QList<int>, selectedItems)
 
     PROXY_METHOD_1(QString, sendKeys, const QString &)
-    PROXY_METHOD_0(int, testcurrentItem)
-    PROXY_METHOD_0(QString, testselectedTab)
-    PROXY_METHOD_0(QList<int>, testselectedItems)
+    PROXY_METHOD_0(QString, testSelected)
 
     PROXY_METHOD_0(QString, currentWindowTitle)
 

@@ -198,7 +198,9 @@ void ItemSyncTests::itemsToFiles()
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
 
-    RUN(args << "add" << "0" << "1" << "2", "");
+    RUN(args << "add" << "A" << "B" << "C", "");
+    RUN(args << "read" << "0" << "1" << "2", "C\nB\nA");
+    RUN(args << "size", "3\n");
 
     QCOMPARE( dir1.files().join(sep),
               fileNameForId(0) + sep + fileNameForId(1) + sep + fileNameForId(2) );
@@ -233,7 +235,6 @@ void ItemSyncTests::removeItems()
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,C,B,A");
 
     const QString fileA = fileNameForId(0);
     const QString fileB = fileNameForId(1);
@@ -250,9 +251,7 @@ void ItemSyncTests::removeItems()
     // Move to test tab and select second and third item.
     RUN(args << "keys" << "RIGHT", "");
     RUN(args << "keys" << "HOME" << "DOWN" << "SHIFT+DOWN", "");
-    RUN(args << "testselectedtab", tab1.toUtf8() + "\n");
-    RUN(args << "testcurrentitem", "2\n");
-    RUN(args << "testselecteditems", "1\n2\n");
+    RUN(args << "testSelected", tab1.toUtf8() + " 2 1 2\n");
 
     // Don't accept the "Remove Items?" dialog.
     RUN(args << "keys" << m_test->shortcutToRemove(), "");
@@ -286,8 +285,6 @@ void ItemSyncTests::removeFiles()
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
-    RUN(args << "size", "4\n");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,C,B,A");
 
     const QString fileA = fileNameForId(0);
     const QString fileB = fileNameForId(1);
@@ -323,8 +320,6 @@ void ItemSyncTests::modifyItems()
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
-    RUN(args << "size", "4\n");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,C,B,A");
 
     const QString fileC = fileNameForId(2);
     FilePtr file = dir1.file(fileC);
@@ -349,8 +344,6 @@ void ItemSyncTests::modifyFiles()
     const Args args = Args() << "separator" << "," << "tab" << tab1;
 
     RUN(args << "add" << "A" << "B" << "C" << "D", "");
-    RUN(args << "size", "4\n");
-    RUN(args << "read" << "0" << "1" << "2" << "3", "D,C,B,A");
 
     const QString fileA = fileNameForId(0);
     const QString fileB = fileNameForId(1);
@@ -383,9 +376,9 @@ void ItemSyncTests::notes()
 
     RUN(args << "add" << "TEST1", "");
 
-    RUN(args << "keys" << "LEFT", "");
-    RUN(args << "keys" << "CTRL+N" << ":TEST2" << "F2", "");
-    RUN(args << "keys" << "CTRL+N" << ":TEST3" << "F2", "");
+    RUN(args << "keys" << "LEFT"
+        << "CTRL+N" << ":TEST2" << "F2"
+        << "CTRL+N" << ":TEST3" << "F2", "");
     RUN(args << "size", "3\n");
     RUN(args << "read" << "0" << "1" << "2", "TEST3;TEST2;TEST1");
 

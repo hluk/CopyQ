@@ -861,19 +861,9 @@ void Scriptable::keys()
 #endif
 }
 
-QScriptValue Scriptable::testselectedtab()
+QScriptValue Scriptable::testSelected()
 {
-    return m_proxy->testselectedTab();
-}
-
-QScriptValue Scriptable::testselecteditems()
-{
-    return toScriptValue( m_proxy->testselectedItems(), this );
-}
-
-QScriptValue Scriptable::testcurrentitem()
-{
-    return m_proxy->testcurrentItem();
+    return m_proxy->testSelected();
 }
 
 QScriptValue Scriptable::selectItems()

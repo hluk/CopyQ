@@ -164,9 +164,7 @@ public slots:
     void fail();
 
     void keys();
-    QScriptValue testselectedtab();
-    QScriptValue testselecteditems();
-    QScriptValue testcurrentitem();
+    QScriptValue testSelected();
 
     QScriptValue selectItems();
     QScriptValue selectitems() { return selectItems(); }

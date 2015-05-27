@@ -49,7 +49,14 @@ private slots:
 
     void keysAndFocusing();
 
-    void moveAndDeleteItems();
+    void firstItemSelectedByDefault();
+
+    void selectItems();
+
+    void moveItems();
+    void deleteItems();
+    void searchItems();
+    void copyItems();
 
     void helpCommand();
     void versionCommand();
@@ -63,12 +70,12 @@ private slots:
 
     void clipboardToItem();
     void itemToClipboard();
-    void tabAddRemove();
+    void tabAdd();
+    void tabRemove();
     void action();
     void insertRemoveItems();
     void renameTab();
     void importExportTab();
-    void separator();
     void eval();
     void rawData();
 
