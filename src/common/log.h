@@ -25,6 +25,7 @@
 class QString;
 
 enum LogLevel {
+    LogAlways,
     LogError,
     LogWarning,
     LogNote,
