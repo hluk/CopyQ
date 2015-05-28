@@ -817,6 +817,7 @@ void Tests::toggleClipboardMonitoring()
     RUN("read" << "0", data1);
 
     RUN("disable", "");
+    RUN("monitoring", "false\n");
 
     const QByteArray data2 = generateData();
     TEST( m_test->setClipboard(data2) );
@@ -824,6 +825,7 @@ void Tests::toggleClipboardMonitoring()
     RUN("read" << "0", data1);
 
     RUN("enable", "");
+    RUN("monitoring", "true\n");
 
     const QByteArray data3 = generateData();
     TEST( m_test->setClipboard(data3) );
