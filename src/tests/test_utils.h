@@ -69,7 +69,7 @@ do { \
 } while(false)
 
 /// Interval to wait (in ms) until window is shown and focused.
-const int waitMsShow = 250;
+const int waitMsShow = 1000;
 
 /// Interval to wait (in ms) until search is complete.
 const int waitMsSearch = 250;
