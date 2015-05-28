@@ -921,6 +921,19 @@ void Tests::tabRemove()
     TEST( m_test->runClientWithError(Args("removetab") << tab, 1) );
 }
 
+void Tests::tabIcon()
+{
+    const QString tab = testTab(1);
+    const QString icon = ":/images/icon.svg";
+
+    RUN("tab" << tab << "add" << "", "");
+    RUN("tabIcon" << tab, "\n");
+    RUN("tabicon" << tab << icon, "");
+    RUN("tabIcon" << tab, icon + "\n");
+    RUN("tabIcon" << tab << "", "");
+    RUN("tabicon" << tab, "\n");
+}
+
 void Tests::action()
 {
     const Args args = Args("tab") << testTab(1);

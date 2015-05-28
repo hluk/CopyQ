@@ -74,6 +74,7 @@ private slots:
     void itemToClipboard();
     void tabAdd();
     void tabRemove();
+    void tabIcon();
     void action();
     void insertRemoveItems();
     void renameTab();
