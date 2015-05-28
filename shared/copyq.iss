@@ -20,7 +20,7 @@
 
 ; Choose path to Qt installation.
 #if Qt == 4
-# define QtRoot "C:\Qt\4.8.6"
+# define QtRoot "C:\Qt\4.8.7"
 #else
 # define QtRoot "C:\Qt\5.2.0"
 #endif
@@ -142,8 +142,8 @@ Source: "{#Root}\plugins\{#BuildConf}\*itemsync.dll"; DestDir: "{app}\plugins"; 
 Source: "{#Root}\plugins\{#BuildConf}\*itemtags.dll"; DestDir: "{app}\plugins"; Components: plugins/tags; Flags: ignoreversion
 
 ; Qt
-Source: "{#QtRoot}\plugins\imageformats\*"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
 #if Qt == 4
+Source: "{#QtRoot}\plugins\imageformats\*.dll"; Excludes: "*d4.dll"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
 Source: "{#QtRoot}\bin\QtCore4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\QtGui4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\QtNetwork4.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
@@ -155,6 +155,7 @@ Source: "{#QtRoot}\plugins\imageformats\qico4.dll"; DestDir: "{app}\imageformats
 Source: "{#QtRoot}\plugins\imageformats\qsvg4.dll"; DestDir: "{app}\imageformats"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\translations\qt_*.qm"; DestDir: "{app}\translations"; Components: translations; Flags: skipifsourcedoesntexist
 #else
+Source: "{#QtRoot}\plugins\imageformats\*.dll"; Excludes: "*d.dll"; DestDir: "{app}\imageformats"; Components: plugins/images plugins/web; Flags: recursesubdirs createallsubdirs
 Source: "{#QtRoot}\bin\icudt51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\icuin51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist
 Source: "{#QtRoot}\bin\icuuc51.dll"; DestDir: "{app}"; Components: program; Flags: skipifsourcedoesntexist

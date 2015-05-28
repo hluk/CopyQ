@@ -159,6 +159,8 @@ QString createLogMessage(const QString &label, const QString &text, const LogLev
         levelId = QString("DEBUG: %1");
     else if (level == LogTrace)
         levelId = QString("TRACE: %1");
+    else
+        levelId = QString("%1");
 
     return label + " " + levelId.arg(text) + "\n";
 }

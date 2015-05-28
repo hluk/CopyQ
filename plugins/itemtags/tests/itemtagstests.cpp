@@ -20,34 +20,13 @@
 #include "itemtagstests.h"
 
 #include "common/mimetypes.h"
-
-#include <QTest>
-
-#define RUN(arguments, stdoutExpected) \
-    TEST( m_test->runClient(arguments, stdoutExpected) );
+#include "tests/test_utils.h"
 
 namespace {
 
-typedef QStringList Args;
-
-const int waitMsSearch = 250;
-
-void waitFor(int ms)
-{
-    QElapsedTimer t;
-    t.start();
-    while (t.elapsed() < ms)
-        QApplication::processEvents(QEventLoop::AllEvents, ms);
-}
-
 QString testTag(int i)
 {
-    return "ITEMTAGS_TEST_TAG_&" + QString::number(i);
-}
-
-QString testTab(int i)
-{
-    return "ITEMTAGS_TEST_&" + QString::number(i);
+    return "TAG_&" + QString::number(i);
 }
 
 } // namespace
@@ -91,7 +70,7 @@ void ItemTagsTests::cleanup()
 
 void ItemTagsTests::userTags()
 {
-    RUN(Args() << "-e" << "plugins.itemtags.userTags",
+    RUN("-e" << "plugins.itemtags.userTags",
         QString(testTags().join("\n") + "\n").toUtf8());
 }
 
@@ -99,143 +78,143 @@ void ItemTagsTests::tag()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
-    RUN(Args(args) << "add" << "A" << "B" << "C", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(3)", "");
-    RUN(Args(args) << "size", "3\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "");
+    RUN(args << "add" << "A" << "B" << "C", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(3)", "");
+    RUN(args << "size", "3\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('x', 0)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 0)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 0)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 1)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 1)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 2)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 2)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(3)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 3)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 3)", "false\n");
-    RUN(Args(args) << "size", "3\n");
+    RUN(args << "-e" << "plugins.itemtags.tag('x', 0)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 0)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 0)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 1)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 1)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 2)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 2)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(3)", "");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 3)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 3)", "false\n");
+    RUN(args << "size", "3\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('y', 0, 1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\ny\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 0)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 0)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "y\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 1)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 1)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 2)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 2)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(3)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 3)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 3)", "false\n");
-    RUN(Args(args) << "size", "3\n");
+    RUN(args << "-e" << "plugins.itemtags.tag('y', 0, 1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\ny\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 0)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 0)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 1)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 1)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 2)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 2)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(3)", "");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 3)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 3)", "false\n");
+    RUN(args << "size", "3\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('z', 2, 3, 4)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\ny\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 0)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 0)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('z', 0)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "y\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 1)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 1)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('z', 1)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "z\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 2)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 2)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('z', 2)", "true\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(3)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('x', 3)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('y', 3)", "false\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.hasTag('z', 3)", "false\n");
-    RUN(Args(args) << "size", "3\n");
+    RUN(args << "-e" << "plugins.itemtags.tag('z', 2, 3, 4)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\ny\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 0)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 0)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('z', 0)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 1)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 1)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('z', 1)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "z\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 2)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 2)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('z', 2)", "true\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(3)", "");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('x', 3)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('y', 3)", "false\n");
+    RUN(args << "-e" << "plugins.itemtags.hasTag('z', 3)", "false\n");
+    RUN(args << "size", "3\n");
 }
 
 void ItemTagsTests::untag()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
-    RUN(Args(args) << "add" << "A" << "B" << "C", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('x', 0, 1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('y', 1, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "x\ny\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "");
+    RUN(args << "add" << "A" << "B" << "C", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('x', 0, 1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('y', 1, 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "x\ny\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "y\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.untag('x', 1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "y\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.untag('x', 1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "y\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.untag('y', 1, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
+    RUN(args << "-e" << "plugins.itemtags.untag('y', 1, 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "");
 }
 
 void ItemTagsTests::clearTags()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
-    RUN(Args(args) << "add" << "A" << "B" << "C", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('x', 0, 1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('y', 1, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "x\ny\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "");
+    RUN(args << "add" << "A" << "B" << "C", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('x', 0, 1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('y', 1, 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "x\ny\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "y\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.clearTags(1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "y\n");
+    RUN(args << "-e" << "plugins.itemtags.clearTags(1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "y\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('a', 1, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "x\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "a\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "a\ny\n");
+    RUN(args << "-e" << "plugins.itemtags.tag('a', 1, 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "x\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "a\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "a\ny\n");
 
-    RUN(Args(args) << "-e" << "plugins.itemtags.clearTags(0, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "a\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "");
+    RUN(args << "-e" << "plugins.itemtags.clearTags(0, 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "a\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "");
 }
 
 void ItemTagsTests::searchTags()
 {
     const QString tab1 = testTab(1);
     const Args args = Args() << "tab" << tab1;
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "");
-    RUN(Args(args) << "add" << "A" << "B" << "C", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('tag1', 0, 1)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('tag2', 1, 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tag('tag3', 2)", "");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(0)", "tag1\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(1)", "tag1\ntag2\n");
-    RUN(Args(args) << "-e" << "plugins.itemtags.tags(2)", "tag2\ntag3\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "");
+    RUN(args << "add" << "A" << "B" << "C", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('tag1', 0, 1)", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('tag2', 1, 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tag('tag3', 2)", "");
+    RUN(args << "-e" << "plugins.itemtags.tags(0)", "tag1\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(1)", "tag1\ntag2\n");
+    RUN(args << "-e" << "plugins.itemtags.tags(2)", "tag2\ntag3\n");
 
-    RUN(Args(args) << "keys" << "RIGHT", "");
-    RUN(Args(args) << "keys" << ":tag1", "");
+    RUN(args << "keys" << "RIGHT", "");
+    RUN(args << "keys" << ":tag1", "");
     waitFor(waitMsSearch);
-    RUN(Args(args) << "keys" << "TAB" << "CTRL+A", "");
-    RUN(Args(args) << "testselecteditems", "0\n1\n");
+    RUN(args << "keys" << "TAB" << "CTRL+A", "");
+    RUN(args << "testSelected", tab1 + " 0 0 1\n");
 
-    RUN(Args(args) << "keys" << "ESCAPE", "");
-    RUN(Args(args) << "keys" << ":tag2", "");
+    RUN(args << "keys" << "ESCAPE", "");
+    RUN(args << "keys" << ":tag2", "");
     waitFor(waitMsSearch);
-    RUN(Args(args) << "keys" << "TAB" << "CTRL+A", "");
-    RUN(Args(args) << "testselecteditems", "1\n2\n");
+    RUN(args << "keys" << "TAB" << "CTRL+A", "");
+    RUN(args << "testSelected", tab1 + " 1 1 2\n");
 
-    RUN(Args(args) << "keys" << "ESCAPE", "");
-    RUN(Args(args) << "keys" << ":tag3", "");
+    RUN(args << "keys" << "ESCAPE", "");
+    RUN(args << "keys" << ":tag3", "");
     waitFor(waitMsSearch);
-    RUN(Args(args) << "keys" << "TAB" << "CTRL+A", "");
-    RUN(Args(args) << "testselecteditems", "2\n");
+    RUN(args << "keys" << "TAB" << "CTRL+A", "");
+    RUN(args << "testSelected", tab1 + " 2 2\n");
 }

@@ -20,29 +20,11 @@
 #ifndef TESTINTERFACE_H
 #define TESTINTERFACE_H
 
+#include "common/sleeptimer.h"
+
 #include <QSharedPointer>
-#include <QVariantMap>
-#include <QDebug>
 
-/**
- * Verify that method call (TestInterface::startServer(), TestInterface::runClient() etc.)
- * didn't fail or print error.
- */
-#define TEST(errorsOrEmpty) \
-do { \
-    QByteArray errors = errorsOrEmpty; \
-    if (!errors.isEmpty()) { \
-      qWarning() << errors; \
-      QVERIFY2(false, "Failed with errors above."); \
-    } \
-} while (false)
-
-/// Skip rest of the tests
-#if QT_VERSION < 0x050000
-#   define SKIP(message) QSKIP(message, SkipAll)
-#else
-#   define SKIP(message) QSKIP(message)
-#endif
+class QStringList;
 
 /**
  * Interface for tests.

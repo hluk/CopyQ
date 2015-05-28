@@ -21,14 +21,15 @@ make
 # Start X11 and window manager.
 export DISPLAY=:99.0
 sh -e /etc/init.d/xvfb start
-sleep 3
+sleep 4
 openbox &
-sleep 3
+sleep 8
 
 # Clean up old configuration.
 rm -rf ~/.config/copyq.test
 
 # Run tests.
-./copyq tests
+export COPYQ_LOG_LEVEL=NOTE
+./copyq tests -silent
 
 cd "$root"

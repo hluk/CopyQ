@@ -36,8 +36,8 @@ Q_DECLARE_METATYPE(QByteArray*)
 
 namespace {
 
-#define MONITOR_LOG(text) \
-    log( QString("Script %1: %2").arg(m_id).arg(text) )
+#define SCRIPT_LOG(text) \
+    COPYQ_LOG( QString("Script %1: %2").arg(m_id).arg(text) )
 
 QByteArray serializeScriptValue(const QScriptValue &value)
 {
@@ -82,7 +82,7 @@ void ScriptableWorker::run()
             QString indent = isEval ? QString("EVAL:")
                                     : (QString::number(i - Arguments::Rest + 1) + " ");
             foreach (const QByteArray &line, m_args.at(i).split('\n')) {
-                MONITOR_LOG( indent + QString::fromUtf8(line) );
+                SCRIPT_LOG( indent + QString::fromUtf8(line) );
                 indent = "  ";
             }
         }
@@ -116,7 +116,7 @@ void ScriptableWorker::run()
                           m_socket, SLOT(deleteAfterDisconnected()) );
 
         if ( m_socket->isClosed() ) {
-            MONITOR_LOG("TERMINATED");
+            SCRIPT_LOG("TERMINATED");
             return;
         }
 
@@ -130,14 +130,14 @@ void ScriptableWorker::run()
     int exitCode;
 
     if ( m_args.length() <= Arguments::Rest ) {
-        MONITOR_LOG("Error: bad command syntax");
+        SCRIPT_LOG("Error: bad command syntax");
         exitCode = CommandBadSyntax;
     } else {
         const QString cmd = QString::fromUtf8( m_args.at(Arguments::Rest) );
 
 #ifdef HAS_TESTS
         if ( cmd == "flush" && m_args.length() == Arguments::Rest + 2 ) {
-            MONITOR_LOG( "flush ID: " + QString::fromUtf8(m_args.at(Arguments::Rest + 1)) );
+            log( "flush ID: " + QString::fromUtf8(m_args.at(Arguments::Rest + 1)), LogAlways );
             scriptable.sendMessageToClient(QByteArray(), CommandFinished);
             return;
         }
@@ -145,7 +145,7 @@ void ScriptableWorker::run()
 
         QScriptValue fn = engine.globalObject().property(cmd);
         if ( !fn.isFunction() ) {
-            MONITOR_LOG("Error: unknown command");
+            SCRIPT_LOG("Error: unknown command");
             response = createLogMessage("CopyQ client",
                                         Scriptable::tr("Name \"%1\" doesn't refer to a function.")
                                         .arg(cmd),
@@ -179,7 +179,7 @@ void ScriptableWorker::run()
                         .arg( engine.uncaughtException().toString(),
                               engine.uncaughtExceptionBacktrace().join("\n") );
 
-                MONITOR_LOG( QString("Error: Exception in command \"%1\": %2")
+                SCRIPT_LOG( QString("Error: Exception in command \"%1\": %2")
                              .arg(cmd, exceptionText) );
 
                 response = createLogMessage("CopyQ client", exceptionText, LogError).toUtf8();
@@ -193,5 +193,5 @@ void ScriptableWorker::run()
 
     scriptable.sendMessageToClient(response, exitCode);
 
-    MONITOR_LOG("DONE");
+    SCRIPT_LOG("DONE");
 }

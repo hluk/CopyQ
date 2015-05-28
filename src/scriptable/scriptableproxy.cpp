@@ -735,29 +735,35 @@ QString ScriptableProxyHelper::sendKeys(const QString &keys)
     return QString();
 }
 
-int ScriptableProxyHelper::testcurrentItem()
+QString ScriptableProxyHelper::testSelected()
 {
-    BROWSER_INVOKE(currentIndex().row(), -1);
-}
+    INVOKE(testSelected());
 
-QString ScriptableProxyHelper::testselectedTab()
-{
-    INVOKE(testselectedTab());
-    return m_wnd->browser()->tabName();
-}
+    ClipboardBrowser *browser = m_wnd->browser();
+    if (!browser)
+        return QString();
 
-QList<int> ScriptableProxyHelper::testselectedItems()
-{
-    INVOKE(testselectedItems());
-    QModelIndexList selectedRows = m_wnd->browser()->selectionModel()->selectedRows();
+    if (browser->length() == 0)
+        return browser->tabName();
 
-    QList<int> result;
-    result.reserve( selectedRows.size() );
+    QModelIndexList selectedIndexes = browser->selectionModel()->selectedIndexes();
 
-    foreach (const QModelIndex &index, selectedRows)
-        result.append(index.row());
+    QStringList result;
+    result.reserve( selectedIndexes.size() + 1 );
 
-    return result;
+    const QModelIndex currentIndex = browser->currentIndex();
+    result.append(currentIndex.isValid() ? QString::number(currentIndex.row()) : "_");
+
+    QList<int> selectedRows;
+    selectedRows.reserve( selectedIndexes.size() );
+    foreach (const QModelIndex &index, selectedIndexes)
+        selectedRows.append(index.row());
+    qSort(selectedRows);
+
+    foreach (int row, selectedRows)
+        result.append(QString::number(row));
+
+    return browser->tabName() + " " + result.join(" ");
 }
 
 void ScriptableProxyHelper::keyClick(const QKeySequence &shortcut, const QPointer<QWidget> &widget)
@@ -798,19 +804,9 @@ QString ScriptableProxyHelper::sendKeys(const QString &)
     INVOKE_NO_TESTS(QString());
 }
 
-int ScriptableProxyHelper::testcurrentItem()
-{
-    INVOKE_NO_TESTS(-1);
-}
-
-QString ScriptableProxyHelper::testselectedTab()
+QString ScriptableProxyHelper::testSelected()
 {
     INVOKE_NO_TESTS(QString());
-}
-
-QList<int> ScriptableProxyHelper::testselectedItems()
-{
-    INVOKE_NO_TESTS(QList<int>());
 }
 
 void ScriptableProxyHelper::keyClick(const QKeySequence &, const QPointer<QWidget> &)

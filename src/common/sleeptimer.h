@@ -17,31 +17,37 @@
     along with CopyQ.  If not, see <http://www.gnu.org/licenses/>.
 */
 
-#ifndef LOG_H
-#define LOG_H
+#ifndef SLEEPTIMER_H
+#define SLEEPTIMER_H
 
-#include <QByteArray>
+#include <QCoreApplication>
+#include <QElapsedTimer>
 
-class QString;
+class SleepTimer
+{
+public:
+    explicit SleepTimer(int timeoutMs)
+        : m_timeoutMs(timeoutMs)
+    {
+        m_timer.start();
+    }
 
-enum LogLevel {
-    LogAlways,
-    LogError,
-    LogWarning,
-    LogNote,
-    LogDebug,
-    LogTrace
+    bool sleep()
+    {
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 5);
+        return m_timer.elapsed() < m_timeoutMs;
+    }
+
+private:
+    QElapsedTimer m_timer;
+    int m_timeoutMs;
 };
 
-void createSessionMutex();
+inline void waitFor(int ms)
+{
+    SleepTimer t(ms);
+    while (t.sleep()) {}
+}
 
-bool hasLogLevel(LogLevel level);
+#endif // SLEEPTIMER_H
 
-#define COPYQ_LOG(msg) do { if ( hasLogLevel(LogDebug) ) log(msg, LogDebug); } while (false)
-#define COPYQ_LOG_VERBOSE(msg) do { if ( hasLogLevel(LogTrace) ) log(msg, LogTrace); } while (false)
-
-QString createLogMessage(const QString &label, const QString &text, const LogLevel level);
-
-void log(const QString &text, const LogLevel level = LogNote);
-
-#endif // LOG_H
