@@ -543,6 +543,27 @@ void Tests::cleanup()
     TEST( m_test->cleanup() );
 }
 
+void Tests::showHide()
+{
+    RUN("visible", "true\n");
+
+    RUN("hide", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+
+    RUN("show", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "true\n");
+
+    RUN("toggle", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+
+    RUN("toggle", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "true\n");
+}
+
 void Tests::windowTitle()
 {
     RUN("disable", "");
