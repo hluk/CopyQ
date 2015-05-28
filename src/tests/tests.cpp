@@ -554,9 +554,9 @@ void Tests::keysAndFocusing()
 {
     RUN("disable", "");
     RUN("keys" << "CTRL+T", "");
-    RUN("currentWindowTitle", "CopyQ New Tab\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ New Tab\n");
     RUN("keys" << "ESC", "");
-    RUN("currentWindowTitle", "CopyQ\n");
+    WAIT_ON_OUTPUT("currentWindowTitle", "CopyQ\n");
     RUN("enable", "");
 }
 
