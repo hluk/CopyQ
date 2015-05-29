@@ -7,8 +7,8 @@ CopyQ
 [![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.svg?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
 
 CopyQ is advanced clipboard manager with editing and scripting features.
-
 - [Downloads](https://github.com/hluk/CopyQ/releases)
+- [Web Site](https://hluk.github.io/CopyQ/)
 - [Wiki](https://github.com/hluk/CopyQ/wiki)
 - [Mailing List](https://groups.google.com/group/copyq)
 - [Bug Reports](https://github.com/hluk/CopyQ/issues)
