@@ -1,40 +1,28 @@
 CopyQ
 =====
 
-[![Translation Status](https://hosted.weblate.org/widgets/copyq-status-badge.png)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
-[![Build Status](https://travis-ci.org/hluk/CopyQ.png)](https://travis-ci.org/hluk/CopyQ)
-[![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.png?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
-[![Stories in Ready](https://badge.waffle.io/hluk/CopyQ.png)](http://waffle.io/hluk/CopyQ)
+[![Translation Status](https://hosted.weblate.org/widgets/copyq/-/svg-badge.svg)](https://hosted.weblate.org/engage/copyq/?utm_source=widget)
+[![Build Status](https://travis-ci.org/hluk/CopyQ.svg?branch=master)](https://travis-ci.org/hluk/CopyQ)
+[![Windows Build Status](https://ci.appveyor.com/api/projects/status/github/hluk/copyq?branch=master&svg=true)](https://ci.appveyor.com/project/hluk/copyq)
+[![Coverage Status](https://coveralls.io/repos/hluk/CopyQ/badge.svg?branch=master)](https://coveralls.io/r/hluk/CopyQ?branch=master)
 
 CopyQ is advanced clipboard manager with editing and scripting features.
-
-Web Site:
-    <http://hluk.github.io/CopyQ/>
-
-Downloads:
-    <https://github.com/hluk/CopyQ/releases>
-    <http://sourceforge.net/projects/copyq/files/>
-
-Wiki:
-    <https://github.com/hluk/CopyQ/wiki>
-
-Mailing List:
-    <https://groups.google.com/group/copyq>
-
-Bug Reports:
-    <https://github.com/hluk/CopyQ/issues>
-
-Donate:
-    <https://www.bountysource.com/teams/copyq>
+- [Downloads](https://github.com/hluk/CopyQ/releases)
+- [Web Site](https://hluk.github.io/CopyQ/)
+- [Wiki](https://github.com/hluk/CopyQ/wiki)
+- [Mailing List](https://groups.google.com/group/copyq)
+- [Bug Reports](https://github.com/hluk/CopyQ/issues)
+- [Donate](https://www.bountysource.com/teams/copyq)
+- [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
 Overview
 --------
 
-CopyQ monitors system clipboard and saves its content as items in custom tabs.
-Items are saved and can be later copied back to clipboard or pasted directly
-into an application.
+CopyQ monitors system clipboard and saves its content in customized tabs.
+Saved clipboard can be later copied and pasted directly into any application.
 
 Items can be:
+
 * edited with internal editor or with preferred text editor,
 * moved to other tabs,
 * drag'n'dropped to applications,
@@ -81,10 +69,10 @@ If you want to help with translating, fixing or writing code read
 Dependencies
 ------------
 
-To build and run the application you'll need [Qt](http://www.qt.io/download/)
+To build and run the application you'll need [Qt](https://www.qt.io/download/)
 library. To compile on OS X, you will need at least Qt 5.2.
 
-Optional dependency is [QtWebKit](http://trac.webkit.org/wiki/QtWebKit) which
+Optional dependency is [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) which
 enables the application to use advanced HTML rendering and fetching remote
 images and other data. This is available through ItemWeb plugin.
 

@@ -4,6 +4,16 @@ layout: index
 
 CopyQ is advanced clipboard manager with editing and scripting features.
 
+Links
+-----
+
+- [Downloads](https://github.com/hluk/CopyQ/releases)
+- [Wiki](https://github.com/hluk/CopyQ/wiki)
+- [Mailing List](https://groups.google.com/group/copyq)
+- [Bug Reports](https://github.com/hluk/CopyQ/issues)
+- [Donate](https://www.bountysource.com/teams/copyq)
+- [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
+
 Overview
 --------
 
@@ -46,25 +56,6 @@ Features
 * Support for simple Vim-like editor and shortcuts
 * Many more features
 
-Links
------
-
-Downloads:
-    <https://github.com/hluk/CopyQ/releases>
-    <http://sourceforge.net/projects/copyq/files/>
-
-Wiki:
-    <https://github.com/hluk/CopyQ/wiki>
-
-Mailing List:
-    <https://groups.google.com/group/copyq>
-
-Bug Reports:
-    <https://github.com/hluk/CopyQ/issues>
-
-Donate:
-    <https://www.bountysource.com/teams/copyq>
-
 Install and Run
 ---------------
 
@@ -90,7 +81,7 @@ If you want to help with translating, fixing or writing code read
 Dependencies
 ------------
 
-To build and run the application you'll need [Qt](http://www.qt.io/download/)
+To build and run the application you'll need [Qt](https://www.qt.io/download/)
 library. To compile on OS X, you will need at least Qt 5.2.
 
 Optional dependency is [QtWebKit](https://trac.webkit.org/wiki/QtWebKit) which
