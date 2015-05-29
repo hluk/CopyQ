@@ -13,7 +13,6 @@ Web Site:
 
 Downloads:
     <https://github.com/hluk/CopyQ/releases>
-    <http://sourceforge.net/projects/copyq/files/>
 
 Wiki:
     <https://github.com/hluk/CopyQ/wiki>
@@ -26,7 +25,7 @@ Bug Reports:
 
 Donate:
     <https://www.bountysource.com/teams/copyq>
-    
+
 Scripting Reference:
     <https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md>
 
