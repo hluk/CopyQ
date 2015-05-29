@@ -8,26 +8,12 @@ CopyQ
 
 CopyQ is advanced clipboard manager with editing and scripting features.
 
-Web Site:
-    <https://hluk.github.io/CopyQ/>
-
-Downloads:
-    <https://github.com/hluk/CopyQ/releases>
-
-Wiki:
-    <https://github.com/hluk/CopyQ/wiki>
-
-Mailing List:
-    <https://groups.google.com/group/copyq>
-
-Bug Reports:
-    <https://github.com/hluk/CopyQ/issues>
-
-Donate:
-    <https://www.bountysource.com/teams/copyq>
-
-Scripting Reference:
-    <https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md>
+- [Downloads](https://github.com/hluk/CopyQ/releases)
+- [Wiki](https://github.com/hluk/CopyQ/wiki)
+- [Mailing List](https://groups.google.com/group/copyq)
+- [Bug Reports](https://github.com/hluk/CopyQ/issues)
+- [Donate](https://www.bountysource.com/teams/copyq)
+- [Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
 Overview
 --------
