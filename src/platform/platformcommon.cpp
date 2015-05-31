@@ -41,13 +41,13 @@ bool pasteWithCtrlV(PlatformWindow &window)
 
     const QString windowTitle = window.getTitle();
 
-    if (re.indexIn(windowTitle) != -1) {
-        COPYQ_LOG(QString("Paste with Ctrl+V requested with option \"%1\" for window \"%2\".")
-                  .arg(optionName, windowTitle));
+    if (re.indexIn(windowTitle) == -1) {
+        COPYQ_LOG(QString("Paste with standard shortcut to window \"%1\".")
+                  .arg(windowTitle));
         return false;
     }
 
-    COPYQ_LOG(QString("Paste with standard shortcut to window \"%1\".")
-              .arg(windowTitle));
+    COPYQ_LOG(QString("Paste with Ctrl+V requested with option \"%1\" for window \"%2\".")
+              .arg(optionName, windowTitle));
     return true;
 }
