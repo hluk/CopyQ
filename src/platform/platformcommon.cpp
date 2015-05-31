@@ -20,11 +20,34 @@
 #include "platformcommon.h"
 #include "platformwindow.h"
 
+#include "common/log.h"
+
 #include <QRegExp>
 #include <QSettings>
 
+const char optionName[] = "paste_with_ctrl_v_windows";
+
 bool pasteWithCtrlV(PlatformWindow &window)
 {
-    const QRegExp re( QSettings().value("paste_with_ctrl_v_windows").toString() );
-    return !re.isEmpty() && re.indexIn(window.getTitle()) != -1;
+    const QRegExp re( QSettings().value(optionName).toString() );
+    if (re.isEmpty())
+        return false;
+
+    if (!re.isValid()) {
+        log(QString("Invalid regular expression in option \"%1\": %2")
+            .arg(optionName, re.errorString()), LogWarning);
+        return false;
+    }
+
+    const QString windowTitle = window.getTitle();
+
+    if (re.indexIn(windowTitle) != -1) {
+        COPYQ_LOG(QString("Paste with Ctrl+V requested with option \"%1\" for window \"%2\".")
+                  .arg(optionName, windowTitle));
+        return false;
+    }
+
+    COPYQ_LOG(QString("Paste with standard shortcut to window \"%1\".")
+              .arg(windowTitle));
+    return true;
 }
