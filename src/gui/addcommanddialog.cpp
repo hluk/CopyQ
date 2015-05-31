@@ -45,6 +45,7 @@ QString pasteAsPlainTextScript(const QString &what)
     return "\n"
            "var text = " + what + "\n"
            "copy(text)\n"
+           "copySelection(text)\n"
            "paste()";
 }
 
