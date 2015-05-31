@@ -137,6 +137,10 @@ Keyboard navigation
 
     delete selected items
 
+* `Ctrl+A`
+
+    select all
+
 * `Enter`
 
     put current item into clipboard
@@ -149,142 +153,76 @@ Type a regular expressions (case-insensitive) to search/filter items.
 
 On OS X, use Command instead of Ctrl for the shortcuts above.
 
-Usage Examples
---------------
-CopyQ must be running to be able to issue commands using command line.
-Most of the examples should work on GNU/Linux with the correct applications
-installed.
+Basic Usage
+-----------
+To start CopyQ run `copyq` from command line or just launch the application from
+menu or installed location.
 
-To start CopyQ run following command:
+Application can be accessed from tray or by restoring minimized window
+if tray is unavailable.
 
-    copyq
+Copying text or image to clipboard will create new item in the list.
+Selected items can be:
+* edited (`F2`),
+* removed (`Delete`),
+* sorted (`Ctrl+Shift+S`, `Ctrl+Shift+R`),
+* moved around (with mouse or `Ctrl+Up/Down`) or
+* copied back to clipboard (`Enter`, `Ctrl+V`).
 
-Insert text to the clipboard:
+All items will be restored when application is started next time.
 
-    copyq add "print([x**2 for x in range(10)])"
+To create custom action that can be triggered from menu or with
+shortcut, go to Command dialog `F6`, click Add button and select
+predefined command or create new one.
+One of very useful predefined commands there is "Show/hide main window".
 
-and process it in Python interpreter:
+Command Line
+------------
 
-    copyq action python
+CopyQ has powerful command line and scripting interface.
 
-The result can be copied to the clipboard with:
+Note: The main application must be running to be able to issue commands using
+command line.
+
+Print help for some useful command line arguments:
+
+    copyq --help
+    copyq --help add
+    copyq --help tab
+
+Insert some texts to the history:
+
+    copyq add "first item" "second item" "third item"
+
+Print content of the first three items:
+
+    copyq read 0 1 2
+    copyq separator "," read 0 1 2
+
+Copy items to the clipboard with:
 
     copyq select 0
 
-For each file in given directory create new item:
-
-    copyq action "ls /"
-
 Load file content into clipboard:
 
-    copyq action "cat file.txt" ""
+    copyq clipboard - < file.txt
+    copyq clipboard image/jpeg - < image.jpg
 
-Note: Last argument is separator - empty string means "create single item".
-
-Process an item with the Python interpreter and redirect the standard output
-to the standard error output using sh command (shell):
-
-    copyq add 'print("Hello world!")'
-    copyq action 'sh -c "python 1>&2"'
-    copyq read 0
-
-Note: Standard error output will be show as tray icon tooltip.
-
-To concatenate items select them items in CopyQ window and press F5 key,
-type `cat` into command input field, check `Output into item(s)` check box,
-clear `Separator field` and press OK button to submit.
-
-Monitor file (or pipe) `$HOME/clipboard` and load every new line into clipboard:
-
-    copyq action "tail -f $HOME/clipboard"
-
-This process can be killed by right clicking on tray icon and selecting
-the process from context menu.
-
-Find files in current directory:
-
-    copyq action "find \"$PWD\" -iname '*.cpp'"
-
-Open CopyQ window and select one of the found files from history. Open action
-dialog (press F5 key) and in the command field type your favorite text editor
-(e.g. `gedit %1`; `%1` will be replaced with temporary filename containing
-selected text).
-
-To copy an image to clipboard use for example:
+Create an image items:
 
     copyq write image/gif - < image.gif
     copyq write image/svg - < image.svg
 
-Command Line Interface
-----------------------
+Create items for matching files in a directory (in this case
+`$HOME/Documents/*.doc`):
 
-    Usage: copyq [COMMAND]
+    copyq action 'copyq: home = Dir().home(); home.cd("Documents") && home.entryList(["*.doc"])'
 
-    Starts server if no command is specified.
-      COMMANDs:
-        show [NAME]              Show main window and optionally open tab with given name.
-        hide                     Hide main window.
-        toggle                   Show or hide main window.
-        menu                     Open context menu.
-        exit                     Exit server.
-        disable, enable          Disable or enable clipboard content storing.
+Show notification with clipboard content:
 
-        clipboard [MIME]         Print clipboard content.
-        selection [MIME]         Print X11 selection content.
-        paste                    Paste clipboard to current window
-                                 (may not work with some applications).
-        copy TEXT                Set clipboard text.
-        copy MIME DATA [MIME DATA]...
-          Set clipboard content.
+    copyq eval 'copyq: popup("Clipboard", clipboard())'
+    copyq clipboard | copyq popup Clipboard -
 
-        length, count, size      Print number of items in history.
-        select [ROW=0]           Copy item in the row to clipboard.
-        next                     Copy next item from current tab to clipboard.
-        previous                 Copy previous item from current tab to clipboard.
-        add TEXT...              Add text into clipboard.
-        insert ROW TEXT          Insert text into given row.
-        remove [ROWS=0...]       Remove items in given rows.
-        edit [ROWS...]           Edit items or edit new one.
-                                 Value -1 is for current text in clipboard.
+For more advanced usage see [Wiki](https://github.com/hluk/CopyQ/wiki) and
+[Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
-        separator SEPARATOR      Set separator for items on output.
-        read [MIME|ROW]...       Print raw data of clipboard or item in row.
-        write [ROW=0] MIME DATA [MIME DATA]...
-          Write raw data to given row.
-
-        action [ROWS=0...]       Show action dialog.
-        action [ROWS=0...] [PROGRAM [SEPARATOR=\n]]
-          Run PROGRAM on item text in the rows.
-          Use %1 in PROGRAM to pass text as argument.
-        popup TITLE MESSAGE [TIME=8000]
-          Show tray popup message for TIME milliseconds.
-
-        tab                      List available tab names.
-        tab NAME [COMMAND]       Run command on tab with given name.
-                                 Tab is created if it doesn't exist.
-                                 Default is the first tab.
-        removetab NAME           Remove tab.
-        renametab NAME NEW_NAME  Rename tab.
-
-        exporttab FILE_NAME      Export items to file.
-        importtab FILE_NAME      Import items from file.
-
-        config                   List all options.
-        config OPTION            Get option value.
-        config OPTION VALUE      Set option value.
-
-        eval, -e [SCRIPT] [ARGUMENTS]...
-          Evaluate ECMAScript program.
-          Arguments are accessible using with "arguments(0..N)".
-        session, -s, --session SESSION
-          Starts or connects to application instance with given session name.
-        help, -h, --help [COMMAND]...
-          Print help for COMMAND or all commands.
-        version, -v, --version
-          Print version of program and libraries.
-
-    NOTES:
-      - Use dash argument (-) to read data from stdandard input.
-      - Use double-dash argument (--) to read all following arguments without
-        expanding escape sequences (i.e. \n, \t and others).
-      - Use ? for MIME to print available MIME types (default is "text/plain").
