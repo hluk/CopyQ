@@ -442,7 +442,11 @@ void ScriptableProxyHelper::nextToClipboard(int where)
     if (!index.isValid())
         return;
 
-    setClipboard(::itemData(index), QClipboard::Clipboard);
+    const QVariantMap data = ::itemData(index);
+    setClipboard(data, QClipboard::Clipboard);
+#ifdef COPYQ_WS_X11
+    setClipboard(data, QClipboard::Selection);
+#endif
     c->setCurrentIndex(index);
 }
 
