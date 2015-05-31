@@ -125,6 +125,10 @@ Keyboard navigation
 
     delete selected items
 
+* `Ctrl+A`
+
+    select all
+
 * `Enter`
 
     put current item into clipboard
@@ -137,75 +141,76 @@ Type a regular expressions (case-insensitive) to search/filter items.
 
 On OS X, use Command instead of Ctrl for the shortcuts above.
 
-Usage Examples
---------------
-CopyQ must be running to be able to issue commands using command line.
-Most of the examples should work on GNU/Linux with the correct applications
-installed.
+Basic Usage
+-----------
+To start CopyQ run `copyq` from command line or just launch the application from
+menu or installed location.
 
-To start CopyQ run following command:
+Application can be accessed from tray or by restoring minimized window
+if tray is unavailable.
 
-    copyq
+Copying text or image to clipboard will create new item in the list.
+Selected items can be:
+* edited (`F2`),
+* removed (`Delete`),
+* sorted (`Ctrl+Shift+S`, `Ctrl+Shift+R`),
+* moved around (with mouse or `Ctrl+Up/Down`) or
+* copied back to clipboard (`Enter`, `Ctrl+V`).
 
-To print useful command line arguments or help for particular arguments:
+All items will be restored when application is started next time.
+
+To create custom action that can be triggered from menu or with
+shortcut, go to Command dialog `F6`, click Add button and select
+predefined command or create new one.
+One of very useful predefined commands there is "Show/hide main window".
+
+Command Line
+------------
+
+CopyQ has powerful command line and scripting interface.
+
+Note: The main application must be running to be able to issue commands using
+command line.
+
+Print help for some useful command line arguments:
 
     copyq --help
     copyq --help add
     copyq --help tab
 
-Insert text to the clipboard:
+Insert some texts to the history:
 
-    copyq add "print([x**2 for x in range(10)])"
+    copyq add "first item" "second item" "third item"
 
-and process it in Python interpreter:
+Print content of the first three items:
 
-    copyq action python
+    copyq read 0 1 2
+    copyq separator "," read 0 1 2
 
-The result can be copied to the clipboard with:
+Copy items to the clipboard with:
 
     copyq select 0
 
-For each file in given directory create new item:
-
-    copyq action "ls /"
-
 Load file content into clipboard:
 
-    copyq action "cat file.txt" ""
+    copyq clipboard - < file.txt
+    copyq clipboard image/jpeg - < image.jpg
 
-Note: Last argument is separator - empty string means "create single item".
-
-Process an item with the Python interpreter and redirect the standard output
-to the standard error output using sh command (shell):
-
-    copyq add 'print("Hello world!")'
-    copyq action 'sh -c "python 1>&2"'
-    copyq read 0
-
-Note: Standard error output will be show as tray icon tooltip.
-
-To concatenate items select them items in CopyQ window and press F5 key,
-type `cat` into command input field, check `Output into item(s)` check box,
-clear `Separator field` and press OK button to submit.
-
-Monitor file (or pipe) `$HOME/clipboard` and load every new line into clipboard:
-
-    copyq action "tail -f $HOME/clipboard"
-
-This process can be killed by right clicking on tray icon and selecting
-the process from context menu.
-
-Find files in current directory:
-
-    copyq action "find \"$PWD\" -iname '*.cpp'"
-
-Open CopyQ window and select one of the found files from history. Open action
-dialog (press F5 key) and in the command field type your favorite text editor
-(e.g. `gedit %1`; `%1` will be replaced with temporary filename containing
-selected text).
-
-To copy an image to clipboard use for example:
+Create an image items:
 
     copyq write image/gif - < image.gif
     copyq write image/svg - < image.svg
+
+Create items for matching files in a directory (in this case
+`$HOME/Documents/*.doc`):
+
+    copyq action 'copyq: home = Dir().home(); home.cd("Documents") && home.entryList(["*.doc"])'
+
+Show notification with clipboard content:
+
+    copyq eval 'copyq: popup("Clipboard", clipboard())'
+    copyq clipboard | copyq popup Clipboard -
+
+For more advanced usage see [Wiki](https://github.com/hluk/CopyQ/wiki) and
+[Scripting Reference](https://github.com/hluk/CopyQ/blob/master/src/scriptable/README.md)
 
