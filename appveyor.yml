@@ -1,5 +1,5 @@
 # Configuration file for AppVeyor CI
-os: Unstable
+os: Default Azure
 
 configuration: Release
 
