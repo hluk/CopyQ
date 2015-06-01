@@ -1,3 +1,17 @@
+v2.4.7
+- Separate dialog for command help
+- Added scriptable function visible() to check main window visibility
+- Linux: Install bitmap icons for menus
+- Linux: Install AppData file
+- Allow to search for specific MIME types stored in items
+- Menu items and customizable shortcut for cycling item format
+- Fixed icon alignment
+- Fixed moving tabs with Qt 5
+- Fixed overridding socket file path (Linux and OS X)
+- Fixed "Paste as Plain Text" command (Windows and OS X)
+- Fixed tab tree layout and changing icons for tab groups
+- Fixed URL encoding
+
 v2.4.6
 - Fixed crash when removing command
 - Fixed encryption/decryption selected items
