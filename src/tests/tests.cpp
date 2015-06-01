@@ -1573,6 +1573,26 @@ void Tests::executeCommand()
         , "");
 }
 
+void Tests::fileClass()
+{
+    RUN("eval" <<
+        "; var f = new File('/missing.file')"
+        "; f.exists()"
+        , "false\n"
+        );
+}
+
+void Tests::dirClass()
+{
+    RUN("eval" <<
+        "; var d = new Dir('/missing_directory/')"
+        "; d.exists()"
+        , "false\n"
+        );
+
+    RUN("eval" << "Dir().homePath()" , QDir::homePath() + "\n");
+}
+
 int Tests::run(const QStringList &arguments, QByteArray *stdoutData, QByteArray *stderrData, const QByteArray &in)
 {
     return m_test->run(arguments, stdoutData, stderrData, in);

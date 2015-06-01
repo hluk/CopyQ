@@ -109,6 +109,9 @@ private slots:
 
     void executeCommand();
 
+    void fileClass();
+    void dirClass();
+
 private:
     void clearServerErrors();
     int run(const QStringList &arguments, QByteArray *stdoutData = NULL,
