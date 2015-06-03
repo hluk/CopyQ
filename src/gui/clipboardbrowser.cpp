@@ -86,7 +86,7 @@ void appendTextData(const QVariantMap &data, const QString &mime, QByteArray *li
 
     if ( !lines->isEmpty() )
         lines->append('\n');
-    lines->append(text);
+    lines->append(text.toUtf8());
 }
 
 } // namespace

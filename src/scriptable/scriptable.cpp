@@ -656,7 +656,7 @@ QScriptValue Scriptable::read()
         int row;
         if ( toInt(value, row) ) {
             if (used)
-                result.append(sep);
+                result.append(sep.toUtf8());
             used = true;
             result.append( row >= 0 ? m_proxy->browserItemData(row, mime)
                                     : m_proxy->getClipboardData(mime) );
