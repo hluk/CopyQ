@@ -138,13 +138,15 @@ void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int 
     QObject::connect(s, SIGNAL(activated()), dialog, SLOT(accept()));
 }
 
-QWidget *createListWidget(const QString &name, const QStringList &items, QWidget *parent)
+QWidget *createListWidget(const QString &name, const QStringList &itemsWithCurrent, QWidget *parent)
 {
+    const QString currentText = itemsWithCurrent.value(0);
+    const QStringList items = itemsWithCurrent.mid(1);
     QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
     w->setEditable(true);
-    w->addItems(items.mid(1));
-    w->setCurrentIndex(-1);
-    w->lineEdit()->setText(items.value(0));
+    w->addItems(items);
+    w->setCurrentIndex(items.indexOf(currentText));
+    w->lineEdit()->setText(currentText);
     w->lineEdit()->selectAll();
     installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
     installShortcutToCloseDialog(parent, w, Qt::Key_Return);
