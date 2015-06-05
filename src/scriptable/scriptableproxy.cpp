@@ -44,6 +44,7 @@
 #include <QLineEdit>
 #include <QMimeData>
 #include <QPushButton>
+#include <QShortcut>
 #include <QSpinBox>
 #include <QTextEdit>
 
@@ -131,6 +132,12 @@ QWidget *createDateTimeEdit(
     return label(Qt::Horizontal, name, w);
 }
 
+void installShortcutToCloseDialog(QWidget *dialog, QWidget *shortcutParent, int shortcut)
+{
+    QShortcut *s = new QShortcut(QKeySequence(shortcut), shortcutParent);
+    QObject::connect(s, SIGNAL(activated()), dialog, SLOT(accept()));
+}
+
 QWidget *createListWidget(const QString &name, const QStringList &items, QWidget *parent)
 {
     QComboBox *w = createAndSetWidget<QComboBox>("currentText", QVariant(), parent);
@@ -139,6 +146,8 @@ QWidget *createListWidget(const QString &name, const QStringList &items, QWidget
     w->setCurrentIndex(-1);
     w->lineEdit()->setText(items.value(0));
     w->lineEdit()->selectAll();
+    installShortcutToCloseDialog(parent, w, Qt::Key_Enter);
+    installShortcutToCloseDialog(parent, w, Qt::Key_Return);
     return label(Qt::Horizontal, name, w);
 }
 
