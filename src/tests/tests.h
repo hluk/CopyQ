@@ -66,6 +66,8 @@ private slots:
 
     void copyCommand();
 
+    void dialogCommand();
+
     void createAndCopyNewItem();
 
     void toggleClipboardMonitoring();

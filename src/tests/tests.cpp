@@ -42,6 +42,7 @@
 #include <QScopedPointer>
 #include <QTemporaryFile>
 #include <QTest>
+#include <QThread>
 
 namespace {
 
@@ -257,7 +258,7 @@ public:
     QByteArray runClient(const QStringList &arguments, const QByteArray &stdoutExpected,
                          const QByteArray &input = QByteArray())
     {
-        if ( !isServerRunning() )
+        if ( isMainThread() && !isServerRunning() )
             return "Server is not running!" + readServerErrors(ReadAllStderr);
 
         QByteArray stdoutActual;
@@ -350,7 +351,7 @@ public:
 
     QByteArray readServerErrors(ReadStderrFlag flag = ReadErrors)
     {
-        if (m_server) {
+        if (isMainThread() && m_server) {
             QByteArray output = m_server->readAllStandardError();
 
             // Flush server output.
@@ -771,6 +772,59 @@ void Tests::copyCommand()
     QVERIFY( waitUntilClipboardSet(data4, "DATA4") );
     RUN( Args("clipboard") << "DATA3", data3 );
     RUN( Args("clipboard") << "DATA4", data4 );
+}
+
+void Tests::dialogCommand()
+{
+    class Thread : public QThread {
+    public:
+        Thread(const TestInterfacePtr &test, const QStringList &args, const QByteArray &expectedOutput)
+            : m_test(test)
+            , m_args(args)
+            , m_expectedOutput(expectedOutput)
+        {
+        }
+
+        ~Thread() { wait(); }
+
+    protected:
+        void run() {
+            RUN(m_args, m_expectedOutput);
+        }
+
+    private:
+        TestInterfacePtr m_test;
+        QStringList m_args;
+        QByteArray m_expectedOutput;
+    };
+
+    {
+        Thread dialogThread(m_test, Args() << "dialog" << "text", "TEST\n");
+        dialogThread.start();
+        waitFor(waitMsShow);
+        RUN("keys" << ":TEST" << "ENTER", "");
+    }
+
+    {
+        Thread dialogThread(m_test, Args() << "eval" << "dialog('text') === undefined", "true\n");
+        dialogThread.start();
+        waitFor(waitMsShow);
+        RUN("keys" << "ESCAPE", "");
+    }
+
+    {
+        Thread dialogThread(m_test, Args() << "eval" << "dialog('list', [2, 1, 2, 3])", "2\n");
+        dialogThread.start();
+        waitFor(waitMsShow);
+        RUN("keys" << "ENTER", "");
+    }
+
+    {
+        Thread dialogThread(m_test, Args() << "eval" << "dialog('list', [0, 1, 2])", "0\n");
+        dialogThread.start();
+        waitFor(waitMsShow);
+        RUN("keys" << "ENTER", "");
+    }
 }
 
 void Tests::createAndCopyNewItem()
