@@ -32,12 +32,14 @@
 #include <QLocale>
 #include <QMimeData>
 #include <QObject>
+#include <QPoint>
 #include <QStyle>
 #include <QTemporaryFile>
 #include <QTextCodec>
 #include <QThread>
 #include <QTimer>
 #include <QUrl>
+#include <QWidget>
 #if QT_VERSION < 0x050000
 #   include <QTextDocument> // Qt::escape()
 #endif
@@ -505,4 +507,21 @@ bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data)
 int smallIconSize()
 {
     return QApplication::style()->pixelMetric(QStyle::PM_SmallIconSize);
+}
+
+QPoint toScreen(const QPoint &pos, int w, int h)
+{
+    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    return QPoint(
+                qMax(0, qMin(pos.x(), availableGeometry.right() - w)),
+                qMax(0, qMin(pos.y(), availableGeometry.bottom() - h))
+                );
+}
+
+void moveWindowOnScreen(QWidget *w, const QPoint &pos)
+{
+    const QRect availableGeometry = QApplication::desktop()->availableGeometry(pos);
+    const int x = qMax(0, qMin(pos.x(), availableGeometry.right() - w->width()));
+    const int y = qMax(0, qMin(pos.y(), availableGeometry.bottom() - w->height()));
+    w->move(x, y);
 }

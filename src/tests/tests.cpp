@@ -552,7 +552,7 @@ void Tests::showHide()
     waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "false\n");
 
-    RUN("show", "");
+    RUN("showAt", "");
     waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 
@@ -561,6 +561,14 @@ void Tests::showHide()
     WAIT_ON_OUTPUT("visible", "false\n");
 
     RUN("toggle", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "true\n");
+
+    RUN("hide", "");
+    waitFor(waitMsShow);
+    WAIT_ON_OUTPUT("visible", "false\n");
+
+    RUN("show", "");
     waitFor(waitMsShow);
     WAIT_ON_OUTPUT("visible", "true\n");
 }

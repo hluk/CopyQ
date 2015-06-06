@@ -53,6 +53,7 @@ QString pasteAsPlainTextScript(const QString &what)
 enum GlobalAction {
     GlobalActionToggleMainWindow,
     GlobalActionShowTray,
+    GlobalActionShowMainWindowUnderMouseCursor,
     GlobalActionEditClipboard,
     GlobalActionEditFirstItem,
     GlobalActionCopySecondItem,
@@ -84,6 +85,8 @@ void createGlobalShortcut(GlobalAction id, Command *c, const QStringList &s = QS
         createGlobalShortcut( ConfigurationManager::tr("Show/hide main window"), "toggle()", IconListAlt, s, c );
     else if (id == GlobalActionShowTray)
         createGlobalShortcut( ConfigurationManager::tr("Show the tray menu"), "menu()", IconInbox, s, c );
+    else if (id == GlobalActionShowMainWindowUnderMouseCursor)
+        createGlobalShortcut( ConfigurationManager::tr("Show main window under mouse cursor"), "showAt()", IconListAlt, s, c );
     else if (id == GlobalActionEditClipboard)
         createGlobalShortcut( ConfigurationManager::tr("Edit clipboard"), "edit(-1)", IconEdit, s, c );
     else if (id == GlobalActionEditFirstItem)
@@ -136,6 +139,7 @@ QList<Command> defaultCommands()
 #ifndef NO_GLOBAL_SHORTCUTS
     createGlobalShortcut(GlobalActionToggleMainWindow, &commands);
     createGlobalShortcut(GlobalActionShowTray, &commands);
+    createGlobalShortcut(GlobalActionShowMainWindowUnderMouseCursor, &commands);
     createGlobalShortcut(GlobalActionEditClipboard, &commands);
     createGlobalShortcut(GlobalActionEditFirstItem, &commands);
     createGlobalShortcut(GlobalActionCopySecondItem, &commands);

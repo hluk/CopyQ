@@ -169,6 +169,7 @@ public:
 public slots:
     void close();
     void showWindow();
+    void showWindowAt(const QRect &rect);
     bool pasteToCurrentWindow();
     bool copyFromCurrentWindow();
 
@@ -187,6 +188,7 @@ public slots:
     void setTabIcon(const QString &tabName, const QString &iconName);
 
     void showBrowser(const QString &tabName);
+    void showBrowserAt(const QString &tabName, const QRect &rect);
 
     void showBrowser();
 
@@ -297,6 +299,7 @@ public:
 
     PROXY_METHOD(close)
     PROXY_METHOD(showWindow)
+    PROXY_METHOD_VOID_1(showWindowAt, const QRect &)
     PROXY_METHOD_0(bool, pasteToCurrentWindow)
     PROXY_METHOD_0(bool, copyFromCurrentWindow)
 
@@ -323,6 +326,7 @@ public:
 
     PROXY_METHOD(showBrowser)
     PROXY_METHOD_VOID_1(showBrowser, const QString &)
+    PROXY_METHOD_VOID_2(showBrowserAt, const QString &, const QRect &)
 
     PROXY_METHOD_1(QByteArray, openActionDialog, const QVariantMap &)
     PROXY_METHOD_VOID_2(action, const QVariantMap &, const Command &)

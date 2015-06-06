@@ -19,6 +19,7 @@
 
 #include "iconselectbutton.h"
 
+#include "common/common.h"
 #include "gui/iconfont.h"
 #include "gui/iconselectdialog.h"
 #include "gui/icons.h"
@@ -87,10 +88,7 @@ void IconSelectButton::onClicked()
 
     // Set position under button.
     const QPoint dialogPosition = mapToGlobal(QPoint(0, height()));
-    const QRect availableGeometry = QApplication::desktop()->availableGeometry(dialog.data());
-    const int x = qMin(dialogPosition.x(), availableGeometry.right() - width());
-    const int y = qMin(dialogPosition.y(), availableGeometry.bottom() - height());
-    dialog->move(x, y);
+    moveWindowOnScreen(dialog.data(), dialogPosition);
 
     dialog->setAttribute(Qt::WA_DeleteOnClose, true);
     connect(dialog.data(), SIGNAL(iconSelected(QString)), this, SLOT(setCurrentIcon(QString)));

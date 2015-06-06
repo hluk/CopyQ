@@ -413,6 +413,29 @@ void Scriptable::show()
     sendWindowActivationCommandToClient( m_proxy->mainWinId() );
 }
 
+void Scriptable::showAt()
+{
+    QRect rect(-1, -1, 0, 0);
+    int n;
+    int i = 0;
+    if ( toInt(argument(i++), n) )
+        rect.setX(n);
+    if ( toInt(argument(i++), n) )
+        rect.setY(n);
+    if ( toInt(argument(i++), n) )
+        rect.setWidth(n);
+    if ( toInt(argument(i++), n) )
+        rect.setHeight(n);
+
+    const QString tabName = arg(i++);
+    if (tabName.isEmpty())
+        m_proxy->showWindowAt(rect);
+    else
+        m_proxy->showBrowserAt(toString(argument(0)), rect);
+
+    sendWindowActivationCommandToClient( m_proxy->mainWinId() );
+}
+
 void Scriptable::hide()
 {
     m_proxy->close();

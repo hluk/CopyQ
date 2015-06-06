@@ -99,6 +99,7 @@ public slots:
     QScriptValue help();
 
     void show();
+    void showAt();
     void hide();
     void toggle();
     void menu();

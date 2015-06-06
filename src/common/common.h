@@ -30,10 +30,12 @@ class QAction;
 class QByteArray;
 class QIODevice;
 class QMimeData;
+class QPoint;
 class QString;
 class QStringList;
 class QTemporaryFile;
 class QTimer;
+class QWidget;
 
 #if QT_VERSION < 0x050000
 #   ifdef Q_WS_WIN
@@ -146,5 +148,9 @@ QString dataToText(const QByteArray &bytes, const QString &mime);
 bool clipboardContains(QClipboard::Mode mode, const QVariantMap &data);
 
 int smallIconSize();
+
+QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
+
+void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 
 #endif // COMMON_H

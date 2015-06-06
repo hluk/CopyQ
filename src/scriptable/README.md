@@ -32,6 +32,18 @@ Shows main window.
 
 Shows tab.
 
+###### showAt()
+
+Shows main window under mouse cursor.
+
+###### showAt(x, y, [width, height])
+
+Shows main window with given geometry.
+
+###### showAt(x, y, width, height, tabName)
+
+Shows tab with given geometry.
+
 ###### hide()
 
 Hides main window.

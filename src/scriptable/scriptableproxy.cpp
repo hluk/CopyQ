@@ -36,6 +36,7 @@
 
 #include <QCheckBox>
 #include <QComboBox>
+#include <QCursor>
 #include <QDateTimeEdit>
 #include <QDialogButtonBox>
 #include <QFile>
@@ -257,6 +258,54 @@ QVariant config(const QString &name, const QString &value)
     return QVariant();
 }
 
+class WindowGeometryGuard : public QObject {
+public:
+    static void create(QWidget *window, const QRect &rect)
+    {
+        new WindowGeometryGuard(window, rect);
+    }
+
+    bool eventFilter(QObject *, QEvent *event)
+    {
+       if (event->type() == QEvent::Hide || event->type() == QEvent::FocusOut)
+           deleteLater();
+       return false;
+    }
+
+private:
+    WindowGeometryGuard(QWidget *window, const QRect &rect)
+        : QObject(window)
+        , m_window(window)
+    {
+        int x = pointsToPixels(rect.x());
+        int y = pointsToPixels(rect.y());
+        if (x < 0 || y < 0) {
+            const QPoint mousePos = QCursor::pos();
+            if (rect.x() < 0)
+                x = mousePos.x();
+            if (rect.y() < 0)
+                y = mousePos.y();
+        }
+
+        m_window->setProperty("CopyQ_ignore_geometry_changes", true);
+
+        const int w = pointsToPixels(rect.width());
+        const int h = pointsToPixels(rect.height());
+        if (w > 0 && h > 0)
+            m_window->resize(w, h);
+        moveWindowOnScreen(m_window, QPoint(x, y));
+
+        m_window->installEventFilter(this);
+    }
+
+    ~WindowGeometryGuard()
+    {
+        m_window->setProperty("CopyQ_ignore_geometry_changes", false);
+    }
+
+    QWidget *m_window;
+};
+
 } // namespace
 
 namespace detail {
@@ -309,6 +358,12 @@ void ScriptableProxyHelper::close()
 void ScriptableProxyHelper::showWindow()
 {
     m_wnd->showWindow();
+}
+
+void ScriptableProxyHelper::showWindowAt(const QRect &rect)
+{
+    WindowGeometryGuard::create(m_wnd, rect);
+    showWindow();
 }
 
 bool ScriptableProxyHelper::pasteToCurrentWindow()
@@ -410,6 +465,12 @@ void ScriptableProxyHelper::showBrowser(const QString &tabName)
     ClipboardBrowser *c = fetchBrowser(tabName);
     if (c)
         m_wnd->showBrowser(c);
+}
+
+void ScriptableProxyHelper::showBrowserAt(const QString &tabName, const QRect &rect)
+{
+    WindowGeometryGuard::create(m_wnd, rect);
+    showBrowser(tabName);
 }
 
 void ScriptableProxyHelper::showBrowser()
