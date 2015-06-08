@@ -9,163 +9,163 @@
         <translation>Om CopyQ</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="133"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="134"/>
         <source>Clipboard Manager</source>
         <translation>Udklipsholder administration</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="138"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
         <source>Author</source>
         <translation>Forfatter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="139"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
         <source>E-mail</source>
         <translation>E-mail</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="140"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
         <source>Web</source>
         <translation>Web</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="141"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="142"/>
         <source>Wiki</source>
         <translation>Wiki</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="142"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="143"/>
         <source>Donate</source>
         <translation>Donér</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="152"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="153"/>
         <source>Development</source>
         <translation>Udvikling</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="179"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="180"/>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
         <translation>Biblioteker anvendt i programmet</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="185"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="186"/>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
         <translation>Bibliotek anvendt i programmet</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="183"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="184"/>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
         <translation>Iconic skrifttype bruges i programmet</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="187"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="188"/>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
         <translation>Farvepalette der bruges til temaer</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="181"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="182"/>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
         <translation>Frit web-baseret oversættelses administration system</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="191"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="192"/>
         <source>Keyboard</source>
         <translation>Tastatur</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="193"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
         <translation>Programgenveje kan ændres i Indstillinger.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="196"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="197"/>
         <source>Global shortcuts (system-wide shortcuts) can be set in Command dialog (default shortcut is F6).</source>
         <translation>Globale genveje (hele systemet) kan indstilles i dialogen Kommando (standard genvej er F6).</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="199"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="200"/>
         <source>Type any text to search the clipboard history.</source>
         <translation type="unfinished">Skriv en tekst for at søge i udklipsholder historie.</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Item list navigation</source>
         <translation>Liste navigation</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="203"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Up/Down, Page Up/Down, Home/End</source>
         <translation type="unfinished">Op/ned, PgUp/PgDn, Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="204"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="205"/>
         <source>Tab navigation</source>
         <translation>Fan navigation</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="205"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="206"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
         <translation>Venstre, højre, %1, %2</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Move selected items</source>
         <translation>Flyt markerede elementer</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="209"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
         <source>Ctrl+Up/Down, Ctrl+Home/End</source>
         <translation type="unfinished">Ctrl+pil op/ned, Ctrl+Home/End</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Reset search or hide window</source>
         <translation>Nulstil søgning eller skjul vindue</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="210"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
         <source>Escape</source>
         <translation>ESC</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="211"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
         <source>Delete item</source>
         <translation>Slet element</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Put selected items into clipboard</source>
         <translation>Læg markerede elementer i Udklipsholder</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="212"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Enter</source>
         <translation>Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Change item display format</source>
         <translation>Ændre visningsformat</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="213"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Ctrl+Left/Right</source>
         <translation type="unfinished">Ctrl+Left/Right</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="215"/>
         <source>Edit Item</source>
         <translation>Rediger element</translation>
     </message>
     <message>
-        <location filename="../src/gui/aboutdialog.cpp" line="214"/>
+        <location filename="../src/gui/aboutdialog.cpp" line="215"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
@@ -283,82 +283,82 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation>CopyQ tilføj kommandoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="129"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="133"/>
         <source>New command</source>
         <translation>Ny kommando</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="153"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="158"/>
         <source>Ignore items with no or single character</source>
         <translation>Ignorere elementer med ingen eller kun enkelte tegn</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="160"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="165"/>
         <source>Open in &amp;Browser</source>
         <translation>Åbn i &amp;Browser</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="168"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="173"/>
         <source>Paste as Plain Text</source>
         <translation>Indsæt som almindelig tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="174"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="179"/>
         <source>Shift+Return</source>
         <translation>Skift+Enter</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="177"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
         <source>Autoplay videos</source>
         <translation>Automatisk afspilning af videoer</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="186"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="191"/>
         <source>Copy URL (web address) to other tab</source>
         <translation>Kopier URL (webadresse) til anden fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="193"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="198"/>
         <source>Create thumbnail (needs ImageMagick)</source>
         <translation>Opret miniature (behøver ImageMagick)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="201"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="206"/>
         <source>Create QR Code from URL (needs qrencode)</source>
         <translation>Opret QR kode fra URL (behøver qrencode)</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="210"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="215"/>
         <source>Add to &amp;TODO tab</source>
         <translation>Tilføj til &amp;TODO fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="217"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="222"/>
         <source>Move to &amp;TODO tab</source>
         <translation>Flyt til &amp;TODO fane</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="225"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="230"/>
         <source>Ignore copied files</source>
         <translation>Ignorer kopierede filer</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="233"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="238"/>
         <source>Ignore *&quot;Password&quot;* window</source>
         <translation>Ignorere * &quot;Kodeords&quot; * vindue</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="234"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="239"/>
         <source>Password</source>
         <translation>Adgangskode</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="242"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="247"/>
         <source>Move to Trash</source>
         <translation>Flyt til papirkurven</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="245"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="250"/>
         <source>(trash)</source>
         <translation>(Papirkurv)</translation>
     </message>
@@ -1134,7 +1134,7 @@ CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="87"/>
-        <location filename="../src/tests/tests.cpp" line="1420"/>
+        <location filename="../src/tests/tests.cpp" line="1458"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
@@ -1976,78 +1976,83 @@ Sæt til 0 for at deaktivere.</translation>
         <translation>Kan ikke gemme fanen %1 i %2 (%3)!</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="76"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="78"/>
         <source>Ctrl+Shift+1</source>
         <comment>Global shortcut for some predefined commands</comment>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="83"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="85"/>
         <source>Show/hide main window</source>
         <translation>Vis/Skjul hovedvinduet</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="85"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
         <source>Show the tray menu</source>
         <translation type="unfinished">Vis skuffemenuen</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
+        <source>Show main window under mouse cursor</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
         <source>Edit clipboard</source>
         <translation>Redigere Udklipsholder</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="93"/>
         <source>Edit first item</source>
         <translation>Rediger første element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
         <source>Copy second item</source>
         <translation>Kopier andet emne</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="93"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="97"/>
         <source>Show action dialog</source>
         <translation type="unfinished">Vis dialogboks for handling</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="95"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
         <source>Create new item</source>
         <translation>Opret nyt element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="97"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
         <source>Copy next item</source>
         <translation>Kopier næste element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="99"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="103"/>
         <source>Copy previous item</source>
         <translation>Kopier forrige element</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="101"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="105"/>
         <source>Paste clipboard as plain text</source>
         <translation>Indsæt Udklipsholder som almindelig tekst</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="103"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="107"/>
         <source>Disable clipboard storing</source>
         <translation type="unfinished">Deaktiver lagring af Udklipsholder</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="105"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="109"/>
         <source>Enable clipboard storing</source>
         <translation type="unfinished">Aktivere Udklipsholder lagring</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="107"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="111"/>
         <source>Paste and copy next</source>
         <translation>Indsæt og kopier næste</translation>
     </message>
     <message>
-        <location filename="../src/gui/addcommanddialog.cpp" line="109"/>
+        <location filename="../src/gui/addcommanddialog.cpp" line="113"/>
         <source>Paste and copy previous</source>
         <translation>Indsæt og kopier forrige</translation>
     </message>
@@ -2397,12 +2402,12 @@ Sæt til 0 for at deaktivere.</translation>
 <context>
     <name>IconSelectButton</name>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="35"/>
+        <location filename="../src/gui/iconselectbutton.cpp" line="36"/>
         <source>Select Icon...</source>
         <translation>Vælg ikon…</translation>
     </message>
     <message>
-        <location filename="../src/gui/iconselectbutton.cpp" line="72"/>
+        <location filename="../src/gui/iconselectbutton.cpp" line="73"/>
         <source>...</source>
         <comment>Select/browse icon.</comment>
         <translation>…</translation>
@@ -3306,7 +3311,7 @@ Sæt til 0 for at deaktivere.</translation>
 <context>
     <name>QObject</name>
     <message numerus="yes">
-        <location filename="../src/common/common.cpp" line="380"/>
+        <location filename="../src/common/common.cpp" line="382"/>
         <source>%1 (%n lines)</source>
         <comment>Label for multi-line text in clipboard</comment>
         <translation>
@@ -3315,37 +3320,37 @@ Sæt til 0 for at deaktivere.</translation>
         </translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="391"/>
+        <location filename="../src/common/common.cpp" line="393"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
         <translation type="unfinished">&lt;BILLED&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="393"/>
+        <location filename="../src/common/common.cpp" line="395"/>
         <source>&lt;FILES&gt;</source>
         <comment>Label for URLs/files in clipboard</comment>
         <translation>&lt;FILER&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="395"/>
+        <location filename="../src/common/common.cpp" line="397"/>
         <source>&lt;EMPTY&gt;</source>
         <comment>Label for empty clipboard</comment>
         <translation>&lt;TOM&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="397"/>
+        <location filename="../src/common/common.cpp" line="399"/>
         <source>&lt;DATA&gt;</source>
         <comment>Label for data in clipboard</comment>
         <translation>&lt;DATA&gt;</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="409"/>
+        <location filename="../src/common/common.cpp" line="411"/>
         <source>Backspace</source>
         <comment>Key to remove item or MIME on OS X</comment>
         <translation type="unfinished">Backspace</translation>
     </message>
     <message>
-        <location filename="../src/common/common.cpp" line="411"/>
+        <location filename="../src/common/common.cpp" line="413"/>
         <source>Delete</source>
         <comment>Key to remove item or MIME</comment>
         <translation>Slet</translation>
@@ -3646,7 +3651,7 @@ Standard er den første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"/>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"/>
-        <location filename="../src/scriptable/scriptable.cpp" line="58"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="60"/>
         <source>COMMAND</source>
         <translation>COMMAND</translation>
     </message>
@@ -3753,86 +3758,86 @@ Print version of program and libraries.</source>
 Udskriv programversion og biblioteker.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="58"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="60"/>
         <source>Usage: copyq [%1]</source>
         <translation>Brug: copyq [%1]</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="59"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="61"/>
         <source>Starts server if no command is specified.</source>
         <translation>Start server, hvis der ikke er specificeret nogen kommando.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="60"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="62"/>
         <source>  COMMANDs:</source>
         <translation>  Kommandoer:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="65"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="67"/>
         <source>NOTES:</source>
         <translation>NOTER:</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="66"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="68"/>
         <source>  - Use dash argument (-) to read data from stdandard input.</source>
         <translation>  -Brug bindestreg argument (-) til at læse data fra standard input.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="67"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="69"/>
         <source>  - Use double-dash argument (--) to read all following arguments without
     expanding escape sequences (i.e. \n, \t and others).</source>
         <translation type="unfinished">  -Brug dobbelt-bindestreg argument (-) til at læse alle følgende argumenter uden at udvide escape-sekvenser (dvs. \n, \t m.fl.).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="69"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="71"/>
         <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
         <translation type="unfinished">  -Brug? for MIME til at udskrive tilgængelige MIME-typer (standard er &quot;almindelig tekst&quot;).</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="74"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="76"/>
         <source>Invalid number of arguments!</source>
         <translation>Ugyldigt antal argumenter!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="308"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="302"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="150"/>
         <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
         <translation>Navnet &quot;%1&quot; referere ikke til en funktion.</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="372"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="366"/>
         <source>Built with: </source>
         <translation>Bygget med: </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="400"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="394"/>
         <source>Command not found!</source>
         <translation>Kommandoen blev ikke fundet!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="452"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="469"/>
         <source>Terminating server.
 </source>
         <translation>Afslutter serveren.
 </translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="1201"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="1208"/>
         <source>Failed to set clipboard!</source>
         <translation type="unfinished">Indstilling af Udklipsholder mislykkedes!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="753"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="770"/>
         <source>Cannot save to file &quot;%1&quot;!</source>
         <translation>Kan ikke gemme filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="764"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="781"/>
         <source>Cannot import file &quot;%1&quot;!</source>
         <translation>K.an ikke importere filen &quot;%1&quot;!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptable.cpp" line="776"/>
+        <location filename="../src/scriptable/scriptable.cpp" line="793"/>
         <source>Invalid option &quot;%1&quot;!</source>
         <translation type="unfinished">Ugyldig indstilling &quot;%1&quot;!</translation>
     </message>
@@ -3919,7 +3924,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>TrayMenu</name>
     <message>
-        <location filename="../src/gui/traymenu.cpp" line="158"/>
+        <location filename="../src/gui/traymenu.cpp" line="153"/>
         <source>&amp;%1. %2</source>
         <comment>Key hint (number shortcut) for items in tray menu (%1 is number, %2 is item label)</comment>
         <translation>&amp;%1. %2</translation>
@@ -3941,17 +3946,17 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="285"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="345"/>
         <source>Tab with given name doesn&apos;t exist!</source>
         <translation>Fanen med navnet eksisterer ikke!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="290"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="350"/>
         <source>Tab name cannot be empty!</source>
         <translation>Fanenavn må ikke være tomt!</translation>
     </message>
     <message>
-        <location filename="../src/scriptable/scriptableproxy.cpp" line="364"/>
+        <location filename="../src/scriptable/scriptableproxy.cpp" line="430"/>
         <source>Tab with given name already exists!</source>
         <translation>Fanen med angivne navn findes allerede!</translation>
     </message>
