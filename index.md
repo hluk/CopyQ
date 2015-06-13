@@ -199,14 +199,24 @@ Print content of the first three items:
     copyq read 0 1 2
     copyq separator "," read 0 1 2
 
-Copy items to the clipboard with:
+Show current clipboard content:
 
-    copyq select 0
+    copyq clipboard
+    copyq clipboard text/html
+
+Show formats available in clipboard:
+
+    copyq clipboard \?
+
+Copy text to the clipboard:
+
+    copyq copy "Some Text"
 
 Load file content into clipboard:
 
-    copyq clipboard - < file.txt
-    copyq clipboard image/jpeg - < image.jpg
+    copyq copy - < file.txt
+    copyq copy text/html < index.html
+    copyq copy image/jpeg - < image.jpg
 
 Create an image items:
 
