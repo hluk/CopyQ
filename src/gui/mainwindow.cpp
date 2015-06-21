@@ -762,9 +762,6 @@ void MainWindow::previousItemFormat()
 
 void MainWindow::updateTitle(const QVariantMap &data)
 {
-    if (!isClipboardData(data))
-        return;
-
     COPYQ_LOG("Updating window title");
 
     m_clipboardData = m_clipboardStoringDisabled ? QVariantMap() : data;
@@ -1852,7 +1849,7 @@ void MainWindow::clipboardChanged(const QVariantMap &data)
     {
         m_canUpdateTitleFromScript = true;
         runAutomaticCommands(data);
-    } else {
+    } else if (isClipboardData(data)) {
         m_canUpdateTitleFromScript = false;
         updateTitle(data);
     }
