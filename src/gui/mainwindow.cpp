@@ -1796,6 +1796,12 @@ QString syncCommand(const QString &type)
 
 void MainWindow::runAutomaticCommands(const QVariantMap &data)
 {
+    bool isClipboard = isClipboardData(data);
+
+    // Don't abort currently commands if X11 selection changes rapidly.
+    if (!isClipboard && (!m_automaticCommandTester.isCompleted() || m_currentAutomaticCommand))
+        return;
+
     QList<Command> commands;
     const QString tabName = cm->defaultTabName();
     foreach (const Command &command, m_commands) {
@@ -1805,8 +1811,6 @@ void MainWindow::runAutomaticCommands(const QVariantMap &data)
                 commands.last().outputTab = tabName;
         }
     }
-
-    bool isClipboard = isClipboardData(data);
 
     // Clear window title and tooltip.
     if (isClipboard)
