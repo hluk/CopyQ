@@ -32,5 +32,6 @@ extern const char mimeClipboardMode[];
 extern const char mimeCurrentTab[];
 extern const char mimeSelectedItems[];
 extern const char mimeCurrentItem[];
+extern const char mimeHidden[];
 
 #endif // MIMETYPES_H

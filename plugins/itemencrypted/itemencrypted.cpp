@@ -473,7 +473,7 @@ QList<Command> ItemEncryptedLoader::commands() const
     c.cmd = "copyq:\n"
              "  var data = plugins.itemencrypted.decrypt(input());\n"
              "  if (data)\n"
-             "    copy(\"" + QString(mimeItems) + "\", data)";
+             "    copy(\"" + QString(mimeItems) + "\", data, \"" + QString(mimeHidden) + "\", 1)";
     c.shortcuts.append( toPortableShortcutText(tr("Ctrl+Shift+L")) );
     commands.append(c);
 

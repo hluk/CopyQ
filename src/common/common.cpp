@@ -217,7 +217,7 @@ void setTextData(QVariantMap *data, const QString &text)
 QVariantMap cloneData(const QMimeData &data, const QStringList &formats)
 {
     static const QStringList internalMimeTypes = QStringList()
-            << mimeOwner << mimeWindowTitle << mimeItemNotes;
+            << mimeOwner << mimeWindowTitle << mimeItemNotes << mimeHidden;
 
     QVariantMap newdata;
 
@@ -374,7 +374,9 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
             formats.append(format);
     }
 
-    if ( formats.contains(mimeText) ) {
+    if ( data.contains(mimeHidden) ) {
+        label = QObject::tr("<HIDDEN>", "Label for hidden/secret clipboard content");
+    } else if ( formats.contains(mimeText) ) {
         const QString text = getTextData(data);
         const int n = text.count(QChar('\n')) + 1;
 
@@ -433,6 +435,7 @@ bool containsAnyData(const QVariantMap &data)
     foreach ( const QString &mime, data.keys() ) {
         if (mime != mimeOwner
                 && mime != mimeWindowTitle
+                && mime != mimeHidden
         #ifdef COPYQ_WS_X11
                 && mime != mimeClipboardMode
         #endif

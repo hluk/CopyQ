@@ -77,8 +77,9 @@ void NotificationDaemon::create(const QVariantMap &data, int maxLines, ushort ic
     const QStringList formats = data.keys();
     const int imageIndex = formats.indexOf(QRegExp("^image/.*"));
     const QFont &font = notification->font();
+    const bool isHidden = data.contains(mimeHidden);
 
-    if ( data.contains(mimeText) ) {
+    if ( !isHidden && data.contains(mimeText) ) {
         QString text = getTextData(data);
         const int n = text.count('\n') + 1;
 
@@ -94,7 +95,7 @@ void NotificationDaemon::create(const QVariantMap &data, int maxLines, ushort ic
         text = escapeHtml(text);
         text.replace( QString("\n"), QString("<br />") );
         notification->setMessage( format.arg(text), Qt::RichText );
-    } else if (imageIndex != -1) {
+    } else if (!isHidden && imageIndex != -1) {
         QPixmap pix;
         const QString &imageFormat = formats[imageIndex];
         pix.loadFromData( data[imageFormat].toByteArray(), imageFormat.toLatin1() );

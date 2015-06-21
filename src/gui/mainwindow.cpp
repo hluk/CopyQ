@@ -237,6 +237,11 @@ bool isClipboardData(const QVariantMap &data)
     return data.value(mimeClipboardMode).toByteArray().isEmpty();
 }
 
+bool isClipboardDataHidden(const QVariantMap &data)
+{
+    return data.value(mimeHidden).toByteArray() == "1";
+}
+
 } // namespace
 
 MainWindow::MainWindow(QWidget *parent)
@@ -1841,7 +1846,10 @@ void MainWindow::previousTab()
 void MainWindow::clipboardChanged(const QVariantMap &data)
 {
     // Don't process the data further if any running clipboard monitor set the clipboard.
-    if ( !ownsClipboardData(data) && !data.contains(mimeOwner) && containsAnyData(data) ) {
+    if ( !ownsClipboardData(data)
+         && !isClipboardDataHidden(data)
+         && containsAnyData(data) )
+    {
         m_canUpdateTitleFromScript = true;
         runAutomaticCommands(data);
     } else {

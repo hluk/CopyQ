@@ -30,3 +30,4 @@ const char mimeClipboardMode[] = COPYQ_MIME_PREFIX "clipboard-mode";
 const char mimeCurrentTab[] = COPYQ_MIME_PREFIX "current-tab";
 const char mimeSelectedItems[] = COPYQ_MIME_PREFIX "selected-items";
 const char mimeCurrentItem[] = COPYQ_MIME_PREFIX "current-item";
+const char mimeHidden[] = COPYQ_MIME_PREFIX "hidden";
