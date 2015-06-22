@@ -290,15 +290,17 @@ QListWidgetItem *ItemOrderList::listItem(int row) const
 
 void ItemOrderList::setCurrentItemWidget(QWidget *widget)
 {
-    if (m_currentWidget != NULL)
-        m_currentWidget->hide();
+    // Reparent current widget so it's safely deleted.
+    QWidget *currentWidget = ui->scrollArea->takeWidget();
+    if (currentWidget != NULL) {
+        currentWidget->setParent(this);
+        currentWidget->hide();
+    }
 
     if (widget != NULL) {
         ui->scrollArea->setWidget(widget);
         widget->show();
     }
-
-    m_currentWidget = widget;
 }
 
 void ItemOrderList::setItemHighlight(QListWidgetItem *item, bool highlight)
