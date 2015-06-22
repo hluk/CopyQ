@@ -1290,6 +1290,9 @@ QScriptValue Scriptable::readReply(QNetworkReply *reply)
 void Scriptable::nextToClipboard(int where)
 {
     QVariantMap data = m_proxy->nextItem(where);
+    if (data.isEmpty())
+        return;
+
     setClipboard(data, QClipboard::Clipboard);
 #ifdef COPYQ_WS_X11
     setClipboard(data, QClipboard::Selection);
