@@ -225,6 +225,7 @@ private:
     bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
     void changeItem(bool create);
     QScriptValue readReply(QNetworkReply *reply);
+    void nextToClipboard(int where);
 
     ScriptableProxy *m_proxy;
     QScriptEngine *m_engine;

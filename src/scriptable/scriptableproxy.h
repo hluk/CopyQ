@@ -200,7 +200,7 @@ public slots:
 
     void browserUnlock();
 
-    void nextToClipboard(int where);
+    QVariantMap nextItem(int where);
     void browserMoveToClipboard(int arg1);
     void browserSetCurrent(int arg1);
     void browserRemoveRows(QList<int> rows);
@@ -344,7 +344,7 @@ public:
 
     PROXY_METHOD(browserLock)
     PROXY_METHOD(browserUnlock)
-    PROXY_METHOD_VOID_1(nextToClipboard, int)
+    PROXY_METHOD_1(QVariantMap, nextItem, int)
     PROXY_METHOD_VOID_1(browserMoveToClipboard, int)
     PROXY_METHOD_VOID_1(browserRemoveRows, const QList<int> &)
     PROXY_METHOD_VOID_1(browserSetCurrent, int)

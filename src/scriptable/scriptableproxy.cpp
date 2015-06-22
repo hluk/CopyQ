@@ -502,24 +502,21 @@ void ScriptableProxyHelper::browserUnlock()
     m_lock.reset();
 }
 
-void ScriptableProxyHelper::nextToClipboard(int where)
+QVariantMap ScriptableProxyHelper::nextItem(int where)
 {
+    INVOKE(nextItem(where));
     ClipboardBrowser *c = fetchBrowser();
     if (!c)
-        return;
+        return QVariantMap();
 
     const int row = qMax(0, c->currentIndex().row()) + where;
     const QModelIndex index = c->index(row);
 
     if (!index.isValid())
-        return;
+        return QVariantMap();
 
-    const QVariantMap data = ::itemData(index);
-    setClipboard(data, QClipboard::Clipboard);
-#ifdef COPYQ_WS_X11
-    setClipboard(data, QClipboard::Selection);
-#endif
     c->setCurrentIndex(index);
+    return ::itemData(index);
 }
 
 void ScriptableProxyHelper::browserMoveToClipboard(int arg1)

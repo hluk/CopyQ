@@ -586,12 +586,12 @@ void Scriptable::select()
 
 void Scriptable::next()
 {
-    m_proxy->nextToClipboard(1);
+    nextToClipboard(1);
 }
 
 void Scriptable::previous()
 {
-    m_proxy->nextToClipboard(-1);
+    nextToClipboard(-1);
 }
 
 void Scriptable::add()
@@ -1193,6 +1193,7 @@ QScriptValue Scriptable::copy(QClipboard::Mode mode)
 bool Scriptable::setClipboard(QVariantMap &data, QClipboard::Mode mode)
 {
     const QString mime = COPYQ_MIME_PREFIX "hash";
+    data.remove(mime);
     const QByteArray id = QByteArray::number(hash(data));
     data.insert(mime, id);
 
@@ -1284,4 +1285,13 @@ QScriptValue Scriptable::readReply(QNetworkReply *reply)
     result.setProperty( "headers", headers );
 
     return result;
+}
+
+void Scriptable::nextToClipboard(int where)
+{
+    QVariantMap data = m_proxy->nextItem(where);
+    setClipboard(data, QClipboard::Clipboard);
+#ifdef COPYQ_WS_X11
+    setClipboard(data, QClipboard::Selection);
+#endif
 }
