@@ -1011,6 +1011,10 @@ void MainWindow::updateToolBar()
     if ( ui->toolBar->isHidden() )
         return;
 
+    ConfigTabShortcuts *shortcuts = cm->tabShortcuts();
+    QAction *act = shortcuts->action(Actions::File_New, this, Qt::WindowShortcut);
+    ui->toolBar->addAction(act);
+
     foreach ( QAction *action, m_menuItem->actions() ) {
         if ( action->isSeparator() ) {
             ui->toolBar->addSeparator();
