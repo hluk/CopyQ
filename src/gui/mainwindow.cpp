@@ -1008,7 +1008,7 @@ void MainWindow::updateToolBar()
 {
     ui->toolBar->clear();
 
-    if ( !ui->toolBar->isVisible() )
+    if ( ui->toolBar->isHidden() )
         return;
 
     foreach ( QAction *action, m_menuItem->actions() ) {
