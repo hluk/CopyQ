@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+<?xml version='1.0' encoding='utf-8'?>
 <!DOCTYPE TS>
 <TS version="2.1" language="da_DK">
 <context>
@@ -344,8 +344,8 @@ Du kan ændre kommandoen i indstillinget.</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="238"/>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation>Ignorere * &quot;Kodeords&quot; * vindue</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation>Ignorere * "Kodeords" * vindue</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="239"/>
@@ -500,22 +500,22 @@ Du kan ændre kommandoen i indstillinget.</translation>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected [Ctrl+C]</source>
-        <translation type="unfinished"></translation>
+        <translation>Kopier valgte [Ctrl + C]</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
         <source>Paste Commands [Ctrl+V]</source>
-        <translation type="unfinished"></translation>
+        <translation>Indsæt kommandoer [Ctrl + V]</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="329"/>
         <source>Unsaved Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>Ikke-gemte ændringer</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="329"/>
         <source>Command dialog has unsaved changes.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dialogen kommando har ikke gemte ændringer.</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="416"/>
@@ -586,8 +586,8 @@ Du kan ændre kommandoen i indstillinget.</translation>
         <translation type="vanished">Ignorer kopierede filer</translation>
     </message>
     <message>
-        <source>Ignore *&quot;Password&quot;* window</source>
-        <translation type="vanished">Ignorere * &quot;Kodeords&quot; * vindue</translation>
+        <source>Ignore *"Password"* window</source>
+        <translation type="vanished">Ignorere * "Kodeords" * vindue</translation>
     </message>
     <message>
         <source>Password</source>
@@ -749,7 +749,7 @@ Lad være tom for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
-        <source>Change item, don&apos;t create any new items</source>
+        <source>Change item, don't create any new items</source>
         <translation>Ændre element, opret ikke nye elementer</translation>
     </message>
     <message>
@@ -769,7 +769,7 @@ Lad være tom for at deaktivere.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="176"/>
         <source>&lt;p&gt;Use command only for items copied to clipboard from window with title text that matches this regular expression (leave empty to match any window). On OS X, this contains the applicaton name followed by a dash (&amp;quot;-&amp;quot;) then the window title. E.g. &amp;quot;Safari - GitHub&amp;quot;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;Brug kun kommandoen for elementer kopieret til klippebordet fra vindue med titeltekst, der matcher dette regulære udtryk (lad være tom for at matche ethvert vindue). På OS X, indeholder det applicaton navn efterfulgt af en bindestreg (&amp;quot;-&amp;quot;), derefter vinduet titel. F.eks &amp;quot;Safari - GitHub&amp;quot;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="183"/>
@@ -778,8 +778,8 @@ Lad være tom for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="193"/>
-        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=&quot; font-weight:600;&quot;&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=&quot; font-weight:600;&quot;&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=&quot; font-weight:600;&quot;&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=&quot; font-weight:600;&quot;&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
+        <translation type="unfinished">&lt;p&gt;Brug kun kommandoen for elementer, hvis teksten svarer til dette regulære udtryk (lad være tom for at matche noget).&lt;/p&gt; &lt;p&gt;&lt;span style="font-weight:600;"&gt; eksempler:&lt;/span&gt;&lt;/p&gt; &lt;p&gt;Match URL &lt;span style="font-weight:600;"&gt; ^(https?| FTP): / /&lt;/span&gt;&lt;/p&gt; &lt;p&gt;Match PDF filnavne &lt;span style="font-weight:600;"&gt; \.pdf$&lt;/span&gt;&lt;/p&gt; &lt;p&gt;matcher enkelttegn &lt;span style="font-weight:600;"&gt; ^. $&lt;/span&gt;&lt;/p&gt; &lt;p&gt;matcher remote multimedia &lt;span style="font-weight:600;"&gt; ^ http://.*\. () ogv|VLC|MP4|MP3) $&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"/>
@@ -800,7 +800,13 @@ Lad være tom for at deaktivere.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">&lt;p&gt;Brug kun kommandoer, hvis filterkommandoen lykkes.&lt;/p&gt;
+
+&lt;p&gt;Element tekst sendes til &lt;b&gt;standard input&lt;/b&gt; af filterkommandoen. Elementet er &lt;b&gt;matches kun hvis filter kommandoen exit-koden 0&lt;/b&gt;.&lt;/p&gt;
+
+&lt;p&gt;Brug &lt;b&gt;%1&lt;/b&gt; for element tekst overføres som argument og &lt;b&gt;%2&lt;/b&gt; til &lt;b&gt;%9&lt;/b&gt; for argumenter fanget af regulære udtryk (dele omsluttet af parenteser).&lt;/p&gt;
+
+&lt;p&gt;Brug &lt;b&gt;|&lt;/b&gt; til kæde kommandoer (passere standard output til næste kommando).&lt;/p&gt;</translation>
     </message>
     <message>
         <source>Comma&amp;nd</source>
@@ -1335,22 +1341,22 @@ CTRL og op eller ned pil.</translation>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Next Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Næste Format</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+højre</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Previous Format</source>
-        <translation type="unfinished"></translation>
+        <translation>Forrige Format</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished"></translation>
+        <translation>CTRL+venstre</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="143"/>
@@ -1380,7 +1386,7 @@ CTRL og op eller ned pil.</translation>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>Brugerdefinerede handlinger og globale genveje...</translation>
     </message>
 </context>
 <context>
@@ -1400,7 +1406,7 @@ CTRL og op eller ned pil.</translation>
         <translation type="vanished">Sprog:</translation>
     </message>
     <message>
-        <source>Break text if it&apos;s too long to fit on line.</source>
+        <source>Break text if it's too long to fit on line.</source>
         <translation type="vanished">Ombryd teksten, hvis den er for lang til at passe på linie.</translation>
     </message>
     <message>
@@ -1487,7 +1493,7 @@ CTRL og op eller ned pil.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"/>
-        <source>Break text if it&apos;s too long to fit on line</source>
+        <source>Break text if it's too long to fit on line</source>
         <translation>Ombryd teksten, hvis den er for lang til at passe på linien</translation>
     </message>
     <message>
@@ -1508,12 +1514,12 @@ CTRL og op eller ned pil.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="181"/>
         <source>Save and restore history of item filters</source>
-        <translation type="unfinished"></translation>
+        <translation>Gemme og gendanne  element filtre historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="184"/>
         <source>Save Filter History</source>
-        <translation type="unfinished"></translation>
+        <translation>Gem Filter historik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="213"/>
@@ -1615,7 +1621,7 @@ Bemærk: Dette er ikke understøttes på alle systemer.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="400"/>
-        <source>Don&apos;t show tray icon; minimize window when closed</source>
+        <source>Don't show tray icon; minimize window when closed</source>
         <translation>Vis ikke bakke ikon; minimer vindue når lukket</translation>
     </message>
     <message>
@@ -1626,14 +1632,16 @@ Bemærk: Dette er ikke understøttes på alle systemer.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="609"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"></translation>
+        <translation>Fane til lagring udklipsholderen:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="619"/>
         <source>Name of tab that will automatically store new clipboard content.
 
 Leave empty to disable automatic storing.</source>
-        <translation type="unfinished"></translation>
+        <translation>Navn på fane, der automatisk vil gemme nyt udklipsholder indhold.
+
+Lad være tom for at deaktivere automatisk lagring.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="651"/>
@@ -1718,7 +1726,7 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprog:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="505"/>
@@ -1733,14 +1741,16 @@ Leave empty to disable automatic storing.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="545"/>
         <source>&amp;Unload tab after an interval in minutes:</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Fjern fane efter et interval i min&amp;utter:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="557"/>
         <source>Unload each tab from memory after specified number of minutes of inactivity.
 
 Set to 0 not to unload tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fjern hver fane fra hukommelsen efter et bestemt antal minutters inaktivitet.
+
+Sæt til 0 for ikke at fjerne faner.</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="584"/>
@@ -1909,7 +1919,7 @@ Bemærk: Redigeret elementer kan gemmes med F2der bort fra denne mulighed.</tran
 Set to 0 to disable this.
 
 Set to -1 to keep visible until clicked.</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1097"/>
@@ -1928,7 +1938,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1138"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished">Meddelelsesgeometri (i skærmpunkter)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1144"/>
@@ -1994,7 +2004,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
         <source>Show main window under mouse cursor</source>
-        <translation type="unfinished"></translation>
+        <translation>Vis hovedvinduet under musemarkøren</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="91"/>
@@ -2137,8 +2147,8 @@ Sæt til 0 for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="616"/>
-        <source>Invalid value for option &quot;%1&quot;</source>
-        <translation>Ugyldig værdi for indstillingen &quot;%1&quot;</translation>
+        <source>Invalid value for option "%1"</source>
+        <translation>Ugyldig værdi for indstillingen "%1"</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="691"/>
@@ -2210,8 +2220,8 @@ Sæt til 0 for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="949"/>
-        <source>Mark &quot;%1&quot; not set.</source>
-        <translation>Mærke &quot;%1&quot; er ikke indstillet.</translation>
+        <source>Mark "%1" not set.</source>
+        <translation>Mærke "%1" er ikke indstillet.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="3538"/>
@@ -2258,28 +2268,28 @@ Sæt til 0 for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5920"/>
-        <source>File &quot;%1&quot; exists (add ! to override)</source>
-        <translation>Filen &quot;%1&quot; findes (tilføj ! For at ovetskrive)</translation>
+        <source>File "%1" exists (add ! to override)</source>
+        <translation>Filen "%1" findes (tilføj ! For at ovetskrive)</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5934"/>
-        <source>Cannot open file &quot;%1&quot; for writing</source>
-        <translation type="unfinished">Kan ikke åbne filen &quot;%1&quot; for skrivning</translation>
+        <source>Cannot open file "%1" for writing</source>
+        <translation type="unfinished">Kan ikke åbne filen "%1" for skrivning</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5940"/>
-        <source>&quot;%1&quot; %2 %3L, %4C written.</source>
-        <translation>&quot;%1&quot; %2 %3L, %4C skrevet.</translation>
+        <source>"%1" %2 %3L, %4C written.</source>
+        <translation>"%1" %2 %3L, %4C skrevet.</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5949"/>
-        <source>Cannot open file &quot;%1&quot; for reading</source>
-        <translation type="unfinished">Kan ikke åbne filen &quot;%1&quot; for læsning</translation>
+        <source>Cannot open file "%1" for reading</source>
+        <translation type="unfinished">Kan ikke åbne filen "%1" for læsning</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="5978"/>
-        <source>&quot;%1&quot; %2L, %3C</source>
-        <translation>&quot;%1&quot; %2L, %3C</translation>
+        <source>"%1" %2L, %3C</source>
+        <translation>"%1" %2L, %3C</translation>
     </message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6005"/>
@@ -2335,11 +2345,9 @@ Sæt til 0 for at deaktivere.</translation>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="6470"/>
         <source>%n lines %1ed %2 time.</source>
-        <translation type="unfinished">
-            <numerusform></numerusform>
-            <numerusform></numerusform>
-        </translation>
-    </message>
+        <translation type="unfinished"><numerusform>%n linje %1ed %2 gange.</numerusform>
+        <numerusform>%n linjer %1ed %2 gange.</numerusform>
+        </translation></message>
     <message numerus="yes">
         <location filename="../plugins/itemfakevim/fakevim/fakevimhandler.cpp" line="7043"/>
         <source>%n lines yanked.</source>
@@ -2386,8 +2394,8 @@ Sæt til 0 for at deaktivere.</translation>
     <name>FileWatcher</name>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="995"/>
-        <source>Failed to create synchronization directory &quot;%1&quot;!</source>
-        <translation type="unfinished">Kunne ikke oprette synkronisering mappen &quot;%1&quot;!</translation>
+        <source>Failed to create synchronization directory "%1"!</source>
+        <translation type="unfinished">Kunne ikke oprette synkronisering mappen "%1"!</translation>
     </message>
 </context>
 <context>
@@ -2396,7 +2404,7 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../src/gui/filtercompleter.cpp" line="175"/>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+pil ned</translation>
     </message>
 </context>
 <context>
@@ -2589,8 +2597,8 @@ Sæt til 0 for at deaktivere.</translation>
     <name>ItemEncryptedLoader</name>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="236"/>
-        <source>To share encrypted items on other computer or session, you&apos;ll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation type="unfinished"></translation>
+        <source>To share encrypted items on other computer or session, you'll need public and secret key files:&lt;ul&gt;&lt;li&gt;%1&lt;/li&gt;&lt;li&gt;%2&lt;br /&gt;(Keep this secret key in a safe place.)&lt;/li&gt;&lt;/ul&gt;</source>
+        <translation type="unfinished"/>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="301"/>
@@ -2600,13 +2608,13 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="447"/>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished">Krypter (kræver GnuPG)</translation>
+        <translation>Krypter (kræver GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="454"/>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="465"/>
         <source>Ctrl+L</source>
-        <translation type="unfinished">Ctrl+L</translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="458"/>
@@ -2621,7 +2629,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="477"/>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished">Ctrl+Shift+L</translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="544"/>
@@ -2672,12 +2680,12 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="601"/>
         <source>Encryption failed!</source>
-        <translation type="unfinished">Kryptering mislykkedes!</translation>
+        <translation>Kryptering mislykkedes!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"/>
         <source>Decryption failed!</source>
-        <translation type="unfinished">Dekryptering mislykkedes!</translation>
+        <translation>Dekryptering mislykkedes!</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="63"/>
@@ -2711,7 +2719,7 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="81"/>
         <source>&lt;p&gt;Specify names of tabs (one per line) which will be automatically encrypted and decrypted.&lt;/p&gt;
 &lt;p&gt;Set unload tab interval in History tab to safely unload decrypted items from memory.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation type="unfinished"/>
     </message>
 </context>
 <context>
@@ -2788,7 +2796,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="119"/>
         <source>Editor command for supported image formats other than SVG.</source>
-        <translation type="unfinished"></translation>
+        <translation>Redigeringskommando til understøttede billedformater bortset fra SVG.</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimagesettings.ui" line="126"/>
@@ -2880,8 +2888,8 @@ Sæt til 0 for at deaktivere.</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1409"/>
-        <source>Failed to synchronize tab &quot;%1&quot; with directory &quot;%2&quot;!</source>
-        <translation>Ikke kunne synkronisere fanen &quot;%1&quot; med mappen &quot;%2&quot;!</translation>
+        <source>Failed to synchronize tab "%1" with directory "%2"!</source>
+        <translation>Ikke kunne synkronisere fanen "%1" med mappen "%2"!</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsync.cpp" line="1457"/>
@@ -2925,7 +2933,8 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="42"/>
         <source>&lt;p&gt;Synchronize contents of &lt;strong&gt;tab&lt;/strong&gt; with directory with given &lt;strong&gt;path&lt;/strong&gt;.&lt;/p&gt;
 &lt;p&gt;Set &lt;strong&gt;empty path&lt;/strong&gt; not to save items in &lt;strong&gt;tab&lt;/strong&gt;.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Synkronisere indholdet af&lt;strong&gt;fanen&lt;/strong&gt; med mappe med givet &lt;strong&gt;sti&lt;/strong&gt;.&lt;/p&gt;
+&lt;p&gt;Sæt til &lt;strong&gt;tom sti&lt;/strong&gt; for ikke at gemme elementer i &lt;strong&gt;fanen&lt;/strong&gt;.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="63"/>
@@ -2946,7 +2955,8 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="106"/>
         <source>&lt;p&gt;Set MIME type to &lt;strong&gt;-&lt;/strong&gt; (dash) to ignore files. Any other unknown or hidden files are ignored.&lt;/p&gt;
 &lt;p&gt;Example: Load &lt;strong&gt;txt&lt;/strong&gt; file extension as &lt;strong&gt;text/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;Angiv MIME typen til &lt;strong&gt;-&lt;/strong&gt; (dash) for at ignorere filer. Andre ukendte eller skjulte filer bliver ignoreret.&lt;/p&gt;
+&lt;p&gt;Eksempel: indlæs &lt;strong&gt;txt&lt;/strong&gt; filtypenavn som &lt;strong&gt;tekst/plain&lt;/strong&gt; MIME type.&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../plugins/itemsync/itemsyncsettings.ui" line="121"/>
@@ -3008,7 +3018,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="17"/>
         <source>Menu items for adding and removing custom tags can be added and customized in Commands dialog.</source>
-        <translation type="unfinished"></translation>
+        <translation>Menupunkterne for at tilføje og fjerne brugerdefinerede mærker kan tilføjes og tilpasses i kommandoer dialogen.</translation>
     </message>
     <message>
         <location filename="../plugins/itemtags/itemtagssettings.ui" line="28"/>
@@ -3194,7 +3204,7 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2271"/>
         <source>CopyQ Error Saving File</source>
-        <translation type="unfinished">CopyQ fejl under lagring af fil</translation>
+        <translation>CopyQ fejl under lagring af fil</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2272"/>
@@ -3314,7 +3324,7 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../src/common/common.cpp" line="378"/>
         <source>&lt;HIDDEN&gt;</source>
         <comment>Label for hidden/secret clipboard content</comment>
-        <translation type="unfinished"></translation>
+        <translation>&lt;SKJULT&gt;</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/common/common.cpp" line="384"/>
@@ -3329,7 +3339,7 @@ Sæt til 0 for at deaktivere.</translation>
         <location filename="../src/common/common.cpp" line="395"/>
         <source>&lt;IMAGE&gt;</source>
         <comment>Label for image in clipboard</comment>
-        <translation type="unfinished">&lt;BILLED&gt;</translation>
+        <translation>&lt;BILLED&gt;</translation>
     </message>
     <message>
         <location filename="../src/common/common.cpp" line="397"/>
@@ -3373,11 +3383,11 @@ Sæt til 0 for at deaktivere.</translation>
     </message>
     <message numerus="yes">
         <location filename="../src/gui/notificationdaemon.cpp" line="88"/>
-        <source>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
+        <source>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n lines &amp;mdash;&lt;/small&gt;&lt;/div&gt;</source>
         <comment>Notification label for multi-line text in clipboard</comment>
         <translation type="unfinished">
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linje &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
-            <numerusform>%1&lt;div align=&quot;right&quot;&gt;&lt;small&gt;&amp;mdash; %n linjer &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n linje &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
+            <numerusform>%1&lt;div align="right"&gt;&lt;small&gt;&amp;mdash; %n linjer &amp;mdash;&lt;/small&gt;&lt;/div&gt;</numerusform>
         </translation>
     </message>
     <message>
@@ -3409,9 +3419,9 @@ Sæt til 0 for at deaktivere.</translation>
     <message>
         <location filename="../src/main.cpp" line="166"/>
         <source>Session name must contain at most 16 characters
-which can be letters, digits, &apos;-&apos; or &apos;_&apos;!</source>
+which can be letters, digits, '-' or '_'!</source>
         <translation>Sessionsnavn skal indeholde højst 16 tegn
-som kan bestå af bogstaver, tal, &apos;-&apos; eller &apos;_&apos;!</translation>
+som kan bestå af bogstaver, tal, '-' eller '_'!</translation>
     </message>
 </context>
 <context>
@@ -3438,7 +3448,7 @@ som kan bestå af bogstaver, tal, &apos;-&apos; eller &apos;_&apos;!</translatio
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="71"/>
         <source>Exit server.</source>
-        <translation type="unfinished">Afslut server.</translation>
+        <translation>Afslut server.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="73"/>
@@ -3610,17 +3620,17 @@ Vis skuffe popup besked til TID millisekunder.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="139"/>
         <source>TITLE</source>
-        <translation type="unfinished">TITLE</translation>
+        <translation>TITEL</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="140"/>
         <source>MESSAGE</source>
-        <translation type="unfinished">MESSAGE</translation>
+        <translation>BESKED</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="141"/>
         <source>TIME</source>
-        <translation type="unfinished">TIME</translation>
+        <translation>TID</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="144"/>
@@ -3630,7 +3640,7 @@ Vis skuffe popup besked til TID millisekunder.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="146"/>
         <source>Run command on tab with given name.
-Tab is created if it doesn&apos;t exist.
+Tab is created if it doesn't exist.
 Default is the first tab.</source>
         <translation>Kør kommandoen på fanen med navnet.
 Fanen oprettes, hvis den ikke findes.
@@ -3639,7 +3649,7 @@ Standard er den første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="191"/>
         <source>Run application tests (append --help argument for more info).</source>
-        <translation type="unfinished"></translation>
+        <translation>Kør program test (tilføj --help argument for mere information).</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="63"/>
@@ -3711,7 +3721,7 @@ Standard er den første fane.</translation>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="172"/>
         <source>Set option value.</source>
-        <translation type="unfinished">Angivne parameterværdi.</translation>
+        <translation>Angiv parameterværdi.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="174"/>
@@ -3722,10 +3732,10 @@ Standard er den første fane.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="177"/>
         <source>
 Evaluate ECMAScript program.
-Arguments are accessible using with &quot;arguments(0..N)&quot;.</source>
+Arguments are accessible using with "arguments(0..N)".</source>
         <translation type="unfinished">
 Evaluer ECMAScript program.↵
-Argumenter er tilgængelige ved hjælp af  &quot;argumenter (0..n)&quot;.</translation>
+Argumenter er tilgængelige ved hjælp af  "argumenter (0..n)".</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="179"/>
@@ -3796,8 +3806,8 @@ Udskriv programversion og biblioteker.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="71"/>
-        <source>  - Use ? for MIME to print available MIME types (default is &quot;text/plain&quot;).</source>
-        <translation type="unfinished">  -Brug? for MIME til at udskrive tilgængelige MIME-typer (standard er &quot;almindelig tekst&quot;).</translation>
+        <source>  - Use ? for MIME to print available MIME types (default is "text/plain").</source>
+        <translation>  -Brug ? for MIME til at udskrive tilgængelige MIME-typer (standard er "text/plain").</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="76"/>
@@ -3807,8 +3817,8 @@ Udskriv programversion og biblioteker.</translation>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="302"/>
         <location filename="../src/scriptable/scriptableworker.cpp" line="150"/>
-        <source>Name &quot;%1&quot; doesn&apos;t refer to a function.</source>
-        <translation>Navnet &quot;%1&quot; referere ikke til en funktion.</translation>
+        <source>Name "%1" doesn't refer to a function.</source>
+        <translation>Navnet "%1" referere ikke til en funktion.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="366"/>
@@ -3834,18 +3844,18 @@ Udskriv programversion og biblioteker.</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="770"/>
-        <source>Cannot save to file &quot;%1&quot;!</source>
-        <translation>Kan ikke gemme filen &quot;%1&quot;!</translation>
+        <source>Cannot save to file "%1"!</source>
+        <translation>Kan ikke gemme filen "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="781"/>
-        <source>Cannot import file &quot;%1&quot;!</source>
-        <translation>K.an ikke importere filen &quot;%1&quot;!</translation>
+        <source>Cannot import file "%1"!</source>
+        <translation>K.an ikke importere filen "%1"!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptable.cpp" line="793"/>
-        <source>Invalid option &quot;%1&quot;!</source>
-        <translation type="unfinished">Ugyldig indstilling &quot;%1&quot;!</translation>
+        <source>Invalid option "%1"!</source>
+        <translation>Ugyldig indstilling "%1"!</translation>
     </message>
 </context>
 <context>
@@ -3865,8 +3875,8 @@ Udskriv programversion og biblioteker.</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="20"/>
-        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=&quot; font-weight:600;&quot;&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tryk på enhver tastekombination. &lt;span style=&quot;font-weight:600;&quot;&gt;Esc&lt;/span&gt;for at annullere.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
+        <source>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Press any key combination. &lt;span style=" font-weight:600;"&gt;Escape&lt;/span&gt; to cancel.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
+        <translation type="unfinished">&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;Tryk på enhver tastekombination. &lt;span style="font-weight:600;"&gt;Esc&lt;/span&gt;for at annullere.&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/shortcutdialog.ui" line="33"/>
@@ -3904,7 +3914,9 @@ Udskriv programversion og biblioteker.</translation>
         <source>Tab name must be non-empty and unique.&lt;br /&gt;
 Tab &lt;b&gt;No&amp;amp;tes&lt;/b&gt; can be opened using &lt;b&gt;Alt+t&lt;/b&gt;.&lt;br /&gt;
 Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
-        <translation type="unfinished"></translation>
+        <translation>Fanenavn skal være unik og ikke-tom.&lt;br/&gt; 
+Fanen &lt;b&gt; No&amp;amp;ter&lt;/b&gt; kan åbnes ved hjælp &lt;b&gt; Alt+t&lt;/b&gt;&lt;br/&gt; 
+Brug &lt;b&gt;/&lt;/b&gt; som sti separator i trævisningen under fanen layout.</translation>
     </message>
     <message>
         <location filename="../src/ui/tabdialog.ui" line="43"/>
@@ -3946,14 +3958,14 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="75"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished">Versal-ufølsom</translation>
+        <translation>Versal-ufølsom</translation>
     </message>
 </context>
 <context>
     <name>detail::ScriptableProxyHelper</name>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="345"/>
-        <source>Tab with given name doesn&apos;t exist!</source>
+        <source>Tab with given name doesn't exist!</source>
         <translation>Fanen med navnet eksisterer ikke!</translation>
     </message>
     <message>
