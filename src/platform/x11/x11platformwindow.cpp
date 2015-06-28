@@ -83,6 +83,7 @@ void simulateKeyPress(Display *display, const QList<int> &modCodes, unsigned int
     KeyCode keyCode = XKeysymToKeycode(display, key);
 
     FakeKeyEvent(display, keyCode, True);
+    usleep(50000); // This is needed to paste into URL bar in Chrome.
     FakeKeyEvent(display, keyCode, False);
 
     simulateModifierKeyPress(display, modCodes, False);
