@@ -190,7 +190,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation type="unfinished"/>
+        <translation>Zapisz format wyjściowy:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
