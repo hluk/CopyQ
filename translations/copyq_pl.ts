@@ -112,7 +112,7 @@
         <location filename="../src/gui/aboutdialog.cpp" line="206"/>
         <source>Left, Right, %1, %2</source>
         <comment>Keys for tab navigation (%1, %2 are the standard keys).</comment>
-        <translation>Strzałka w lewo,Strzałka w prawo,%1,%2</translation>
+        <translation>W lewo,W prawo,%1,%2</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="210"/>
