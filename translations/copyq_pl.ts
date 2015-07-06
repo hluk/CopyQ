@@ -185,7 +185,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
         <source>Standard &amp;input:</source>
-        <translation type="unfinished">Standard &amp;wejścia:</translation>
+        <translation>Format wejściowy:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
