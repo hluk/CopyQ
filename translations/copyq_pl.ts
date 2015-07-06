@@ -96,7 +96,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="204"/>
         <source>Item list navigation</source>
-        <translation type="unfinished"/>
+        <translation>Nawigacja wsród elementów listy</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="204"/>
@@ -147,7 +147,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="213"/>
         <source>Enter</source>
-        <translation>Wejdź</translation>
+        <translation>Enter</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
@@ -175,7 +175,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation type="unfinished"/>
+        <translation type="unfinished">Działania CopyQ</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
@@ -3618,12 +3618,12 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="72"/>
         <source>Regular Expression</source>
-        <translation type="unfinished"/>
+        <translation>Wyrażenie regularne</translation>
     </message>
     <message>
         <location filename="../src/gui/filterlineedit.cpp" line="75"/>
         <source>Case Insensitive</source>
-        <translation type="unfinished"/>
+        <translation>Rozróżnianie liter małych i wielkich</translation>
     </message>
 </context>
 <context>
@@ -3631,7 +3631,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="345"/>
         <source>Tab with given name doesn't exist!</source>
-        <translation type="unfinished"/>
+        <translation>Karta o podanej nazwie nie istnieje!</translation>
     </message>
     <message>
         <location filename="../src/scriptable/scriptableproxy.cpp" line="350"/>
