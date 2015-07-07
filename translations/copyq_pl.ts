@@ -867,7 +867,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"/>
         <source>&amp;Reset Theme</source>
-        <translation>Temat domyślny</translation>
+        <translation>Motyw domyślny</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="348"/>
@@ -877,22 +877,22 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="355"/>
         <source>&amp;Load Theme</source>
-        <translation>Wczytaj temat</translation>
+        <translation>Wczytaj motyw</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="362"/>
         <source>&amp;Save Theme</source>
-        <translation>Zapisz temat</translation>
+        <translation>Zapisz motyw</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"/>
         <source>Edit current theme in external editor</source>
-        <translation>Edytuj temat w zewnętrznym edytorze</translation>
+        <translation>Edytuj motyw w zewnętrznym edytorze</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"/>
         <source>E&amp;dit Theme</source>
-        <translation>Edytuj temat</translation>
+        <translation>Edytuj motyw</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="393"/>
@@ -940,12 +940,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="479"/>
         <source>Open Theme File</source>
-        <translation type="unfinished"/>
+        <translation>Otwórz plik motywu</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="491"/>
         <source>Save Theme File As</source>
-        <translation type="unfinished"/>
+        <translation>Zapisz plik motywu jako</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="513"/>
