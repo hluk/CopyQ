@@ -1,3 +1,11 @@
+v2.4.8
+- New command to show main window under mouse cursor or at a position with custom size
+- Hide clipboard content when "application/x-copyq-hidden" is "1"
+- "Copy next/previous item" command waits for clipboard to be set
+- Fixed updating window title and tray tool tip on X11
+- Fixed modifying multiple commands in Command dialog
+- Fixed implicit date to string convertions
+
 v2.4.7
 - Separate dialog for command help
 - Added scriptable function visible() to check main window visibility
