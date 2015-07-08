@@ -11,7 +11,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="134"/>
         <source>Clipboard Manager</source>
-        <translation>Menedżer schowka</translation>
+        <translation>Menedżer Schowka</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="139"/>
@@ -190,7 +190,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="68"/>
         <source>Store standard o&amp;utput:</source>
-        <translation>Zapisz format wyjściowy:</translation>
+        <translation>Format docelowy:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="78"/>
@@ -221,7 +221,7 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="123"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>Karta docelowa:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="133"/>
@@ -513,7 +513,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="426"/>
         <source>Save Selected Commands</source>
-        <translation>Zapisz wybrane polecenia</translation>
+        <translation>Zapisz zaznaczone polecenia</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="427"/>
@@ -764,7 +764,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="497"/>
         <source>Output &amp;tab:</source>
-        <translation type="unfinished"/>
+        <translation>Karta docelowa:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"/>
@@ -1105,7 +1105,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>Edytuj</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="123"/>
@@ -1210,7 +1210,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="148"/>
         <source>&amp;Help</source>
-        <translation>Pomoc</translation>
+        <translation>&amp;Pomoc</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"/>
@@ -2549,7 +2549,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="34"/>
         <source>&amp;Add</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Dodaj</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="37"/>
@@ -2559,7 +2559,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="47"/>
         <source>&amp;Remove</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Usuń</translation>
     </message>
     <message>
         <location filename="../src/ui/itemorderlist.ui" line="54"/>
@@ -2784,22 +2784,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="434"/>
         <source>&amp;Edit</source>
-        <translation type="unfinished"/>
+        <translation>Edycja</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="458"/>
         <source>&amp;Item</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Element</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="462"/>
         <source>&amp;Tabs</source>
-        <translation type="unfinished"/>
+        <translation>&amp;Karty</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="478"/>
         <source>&amp;Help</source>
-        <translation>Pomoc</translation>
+        <translation>&amp;Pomoc</translation>
     </message>
     <message>
         <location filename="../src/gui/mainwindow.cpp" line="2051"/>
@@ -2994,7 +2994,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/processmanagerdialog.cpp" line="172"/>
         <source>Remove</source>
-        <translation type="unfinished"/>
+        <translation>Usuń</translation>
     </message>
 </context>
 <context>
