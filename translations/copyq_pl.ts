@@ -81,7 +81,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="194"/>
         <source>Application shortcuts can be changed in Preferences dialog.</source>
-        <translation>Skróty klawiszowe aplikacji mogą zostać zmienione w oknie Preferencje.</translation>
+        <translation>Skróty klawiszowe aplikacji można zmienić w oknie Preferencje.</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="197"/>
@@ -157,7 +157,7 @@
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="214"/>
         <source>Ctrl+Left/Right</source>
-        <translation>Ctrl + W prawo/W lewo</translation>
+        <translation>Ctrl+W prawo/W lewo</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="215"/>
@@ -175,12 +175,12 @@
     <message>
         <location filename="../src/ui/actiondialog.ui" line="14"/>
         <source>CopyQ Action Dialog</source>
-        <translation>CopyQ - Działania</translation>
+        <translation>CopyQ Makropolecenia</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="33"/>
         <source>Co&amp;mmand:</source>
-        <translation>&amp;Polecenie:</translation>
+        <translation>Polecenie:</translation>
     </message>
     <message>
         <location filename="../src/ui/actiondialog.ui" line="58"/>
@@ -282,7 +282,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="165"/>
         <source>Open in &amp;Browser</source>
-        <translation>Otwórz w &amp;przeglądarce</translation>
+        <translation>Otwórz w przeglądarce</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="173"/>
@@ -406,7 +406,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="112"/>
         <source>C&amp;ontent:</source>
-        <translation>Zawart&amp;ość:</translation>
+        <translation>Zawartość:</translation>
     </message>
     <message>
         <location filename="../src/ui/clipboarddialog.ui" line="146"/>
@@ -483,7 +483,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="82"/>
         <source>Copy Selected [Ctrl+C]</source>
-        <translation>Kopiuj zaznaczenie [Ctrl+C]</translation>
+        <translation>Kopiuj zaznaczone elementy [Ctrl+C]</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="92"/>
@@ -626,12 +626,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="251"/>
         <source>Comman&amp;d</source>
-        <translation>Polec&amp;enie</translation>
+        <translation>Polecenie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="290"/>
         <source>Co&amp;py to tab:</source>
-        <translation>Ko&amp;piuj do karty:</translation>
+        <translation>Kopiuj do karty:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="348"/>
