@@ -5,8 +5,7 @@ TEMPLATE = subdirs
 # generate cache file for build
 cache()
 
-DEFINES += QT_RESTRICTED_CAST_FROM_ASCII \
-           QT_NO_CAST_TO_ASCII
+DEFINES += QT_NO_CAST_TO_ASCII
 SUBDIRS += src \
            plugins
 TRANSLATIONS = \

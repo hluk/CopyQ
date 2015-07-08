@@ -110,7 +110,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     add_definitions( -DCOPYQ_TRANSLATION_PREFIX="${TRANSLATION_INSTALL_PREFIX}" )
 endif()
 
-add_definitions( -DQT_RESTRICTED_CAST_FROM_ASCII )
 add_definitions( -DQT_NO_CAST_TO_ASCII )
 
 add_subdirectory(src)

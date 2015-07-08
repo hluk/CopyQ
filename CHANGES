@@ -4,7 +4,7 @@ v2.4.8
 - "Copy next/previous item" command waits for clipboard to be set
 - Fixed updating window title and tray tool tip on X11
 - Fixed modifying multiple commands in Command dialog
-- Fixed implicit date to string convertions
+- Fixed implicit date to string conversions
 
 v2.4.7
 - Separate dialog for command help
