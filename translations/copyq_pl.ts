@@ -292,7 +292,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="179"/>
         <source>Shift+Return</source>
-        <translation type="unfinished"/>
+        <translation>Shift+Return</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="182"/>
@@ -327,7 +327,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="230"/>
         <source>Ignore copied files</source>
-        <translation type="unfinished"/>
+        <translation>Ignoruj skopiowane pliki</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="238"/>
@@ -458,7 +458,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="14"/>
         <source>CopyQ Commands</source>
-        <translation type="unfinished"/>
+        <translation>CopyQ Makropolecenia</translation>
     </message>
     <message>
         <location filename="../src/ui/commanddialog.ui" line="26"/>
@@ -503,12 +503,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="416"/>
         <source>Open Files with Commands</source>
-        <translation type="unfinished"/>
+        <translation>Wczytaj plik poleceń</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="417"/>
         <source>Commands (*.ini);; CopyQ Configuration (copyq.conf copyq-*.conf)</source>
-        <translation type="unfinished"/>
+        <translation>Polecenia (*.ini);; CopyQ Konfiguracja (copyq.conf copyq-*.conf)</translation>
     </message>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="426"/>
@@ -518,7 +518,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/gui/commanddialog.cpp" line="427"/>
         <source>Commands (*.ini)</source>
-        <translation type="unfinished"/>
+        <translation>Polecenia (*.ini)</translation>
     </message>
 </context>
 <context>
@@ -580,7 +580,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="53"/>
         <source>Type of Action</source>
-        <translation type="unfinished"/>
+        <translation>Rodzaj akcji</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="74"/>
@@ -590,7 +590,7 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="77"/>
         <source>Auto&amp;matic</source>
-        <translation type="unfinished"/>
+        <translation>Automatycznie</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="84"/>
@@ -600,12 +600,12 @@ You can set up the command in preferences.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="87"/>
         <source>In M&amp;enu</source>
-        <translation type="unfinished"/>
+        <translation>W Menu</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="96"/>
         <source>&amp;Global Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>Skrót globalny:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="131"/>
@@ -641,12 +641,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"/>
         <source>Change item, don't create any new items</source>
-        <translation type="unfinished"/>
+        <translation>Zmień element i nie twórz nowych elementów</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="440"/>
         <source>Tr&amp;ansform</source>
-        <translation type="unfinished"/>
+        <translation>Przekształć</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"/>
@@ -671,12 +671,12 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"/>
         <source>&amp;Content:</source>
-        <translation type="unfinished"/>
+        <translation>Zawartość:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="216"/>
         <source>&amp;Filter:</source>
-        <translation type="unfinished"/>
+        <translation>Filtr:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="226"/>
@@ -692,7 +692,7 @@ Leave empty to disable this.</source>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="267"/>
         <source>Action</source>
-        <translation type="unfinished"/>
+        <translation>Akcja</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="300"/>
@@ -709,7 +709,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="317"/>
         <source>&amp;Remove Item</source>
-        <translation type="unfinished"/>
+        <translation>Usuń element</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="327"/>
@@ -719,17 +719,17 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="351"/>
         <source>&amp;Hide main window after activation</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj główne okno po aktywacji</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="366"/>
         <source>&amp;Shortcut:</source>
-        <translation type="unfinished"/>
+        <translation>Skrót:</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="401"/>
         <source>Command options</source>
-        <translation type="unfinished"/>
+        <translation>Opcje polecenia</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="427"/>
@@ -739,7 +739,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="430"/>
         <source>&amp;Wait</source>
-        <translation type="unfinished"/>
+        <translation>Czekaj</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="457"/>
@@ -749,7 +749,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"/>
         <source>&amp;Separator:</source>
-        <translation type="unfinished"/>
+        <translation/>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="487"/>
@@ -822,7 +822,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"/>
         <source>Foreground</source>
-        <translation type="unfinished"/>
+        <translation>Kolor czcionki</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="251"/>
@@ -842,17 +842,17 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="293"/>
         <source>S&amp;crollbars</source>
-        <translation type="unfinished"/>
+        <translation>Paski przewijania</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"/>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"/>
+        <translation>Użyj ikon systemowych, jeżeli to możliwe</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"/>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"/>
+        <translation>Ustaw kolory dla kart, pasków narzędzi i menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"/>
@@ -950,7 +950,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="513"/>
         <source>No External Editor</source>
-        <translation type="unfinished"/>
+        <translation>Brak edytora zewnętrznego</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="514"/>
@@ -1135,7 +1135,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
         <source>&amp;Action...</source>
-        <translation type="unfinished"/>
+        <translation>Makropolecenia...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="129"/>
@@ -1150,7 +1150,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="131"/>
         <source>Ctrl+Right</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+W prawo</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
@@ -1160,7 +1160,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="133"/>
         <source>Ctrl+Left</source>
-        <translation type="unfinished"/>
+        <translation>Ctrl+W lewo</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="136"/>
@@ -1233,7 +1233,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"/>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"/>
+        <translation>Umieść okno główne nad pozostałymi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="141"/>
@@ -1243,22 +1243,22 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="148"/>
         <source>Confirm application exit</source>
-        <translation type="unfinished"/>
+        <translation>Potwierdź wyjście z programu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="151"/>
         <source>Confirm application e&amp;xit</source>
-        <translation type="unfinished"/>
+        <translation>Potwierdź wyjście z programu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="161"/>
         <source>Run the application on system startup</source>
-        <translation type="unfinished"/>
+        <translation>Uruchom aplikację przy starcie systemu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="164"/>
         <source>&amp;Autostart</source>
-        <translation type="unfinished"/>
+        <translation>Automatyczne uruchamianie</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="171"/>
@@ -1308,12 +1308,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"/>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"/>
+        <translation>Zawijaj długi tekst</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="131"/>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"/>
+        <translation>Zawsze na wierzchu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="138"/>
@@ -1377,42 +1377,42 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="354"/>
         <source>Show number of items in tabs</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż liczbę elementów w karcie</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="357"/>
         <source>Sho&amp;w Item Count</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż liczbę elementów</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="367"/>
         <source>Show/Hide</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż/Ukryj</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="373"/>
         <source>Hide tabs (press Alt key to show)</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj karty (naciśnij Alt, aby pokazać karty)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="376"/>
         <source>Hi&amp;de tabs</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj karty</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="383"/>
         <source>Hide toolbar</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj pasek narzędzi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="386"/>
         <source>Hide too&amp;lbar</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj pasek narzędzi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="393"/>
         <source>Hide tool&amp;bar labels</source>
-        <translation type="unfinished"/>
+        <translation>Ukryj etykiety paska narzędzi</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="400"/>
@@ -1422,7 +1422,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="403"/>
         <source>Disabl&amp;e tray</source>
-        <translation type="unfinished"/>
+        <translation>Dezaktywuj zasobnik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="651"/>
@@ -1432,7 +1432,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="654"/>
         <source>Move item to the t&amp;op</source>
-        <translation type="unfinished"/>
+        <translation>Przesuń element na górę</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="661"/>
@@ -1457,12 +1457,12 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="831"/>
         <source>Show cu&amp;rrent tab in menu,</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż bieżącą kartę w menu,</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="838"/>
         <source>or &amp;choose other tab:</source>
-        <translation type="unfinished"/>
+        <translation>lub wybierz inną kartę:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="879"/>
@@ -1502,12 +1502,12 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="448"/>
         <source>&amp;History</source>
-        <translation type="unfinished"/>
+        <translation>Historia</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"/>
         <source>&amp;Language:</source>
-        <translation type="unfinished"/>
+        <translation>Język:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="181"/>
@@ -1527,7 +1527,7 @@ Note: This is not be supported on all systems.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="517"/>
         <source>Maximum number of items in each tab</source>
-        <translation type="unfinished"/>
+        <translation>Maksymalna liczba elementów w każdej karcie</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="545"/>
@@ -1544,7 +1544,7 @@ Set to 0 not to unload tabs.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="584"/>
         <source>External &amp;editor command (%1 is file to edit):</source>
-        <translation type="unfinished"/>
+        <translation>Polecenie uruchomienie edytora zewnętrznego (%1 - nazwa pliku):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="594"/>
@@ -1554,12 +1554,17 @@ Set to 0 not to unload tabs.</source>
     notepad %1
     gvim -f %1
     xterm -e vim %1</source>
-        <translation type="unfinished"/>
+        <translation>Polecenie uruchomienie edytora zewnętrznego (%1 - nazwa pliku).
+  Przykłady:
+    gedit %1
+    notepad %1
+    gvim -f %1
+    xterm -e vim %1</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="609"/>
         <source>Ta&amp;b for storing clipboard:</source>
-        <translation type="unfinished"/>
+        <translation>Nazwa karty do przechowywania schowka:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="619"/>
@@ -1583,107 +1588,107 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="645"/>
         <source>After item is activated (double-click or Enter key), copy it to clipboard and ...</source>
-        <translation type="unfinished"/>
+        <translation>Po aktywowaniu elementu (przez podwójne kliknięcie lub Enter) kopiuj go do schowka i...</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="664"/>
         <source>&amp;Close main window</source>
-        <translation type="unfinished"/>
+        <translation>Zamknij główne okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="674"/>
         <source>&amp;Focus last window</source>
-        <translation type="unfinished"/>
+        <translation>Aktywuj ostatnie okno</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="684"/>
         <source>&amp;Paste to current window</source>
-        <translation type="unfinished"/>
+        <translation>Wstaw do bieżącego okna</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="727"/>
         <source>&amp;Tray</source>
-        <translation type="unfinished"/>
+        <translation>Zasobnik</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="782"/>
         <source>Sho&amp;w commands for clipboard content</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż polecenia dla zawartości schowka</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="791"/>
         <source>N&amp;umber of items in tray menu:</source>
-        <translation type="unfinished"/>
+        <translation>Liczba elementów w menu zasobnika:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="801"/>
         <source>Number of items in tray menu</source>
-        <translation type="unfinished"/>
+        <translation>Liczba elementów w menu zasobnika</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="828"/>
         <source>Show items from current tab in content menu</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż elementy z bieżącej karty w menu kontekstowym</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="854"/>
         <source>Name of tab to show in tray menu (empty for the first tab)</source>
-        <translation type="unfinished"/>
+        <translation>Nazwa karty, która będzie pokazywana w menu zasobnika (pusta - dla pierwszej karty)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="882"/>
         <source>&amp;Paste activated item to current window</source>
-        <translation type="unfinished"/>
+        <translation>Wstaw aktywowany element do bieżącego okna</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="889"/>
         <source>Show image preview next to menu items</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż podgląd obrazka obok elementów menu</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="932"/>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"/>
+        <translation>Powiadomienia</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="989"/>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"/>
+        <translation>Położenie powiadomień:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1001"/>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"/>
+        <translation>Położenie powiadomień na ekranie</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1005"/>
         <source>Top</source>
-        <translation type="unfinished"/>
+        <translation>Na górze</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1010"/>
         <source>Bottom</source>
-        <translation type="unfinished"/>
+        <translation>Na dole</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1015"/>
         <source>Top Right</source>
-        <translation type="unfinished"/>
+        <translation>U góry po prawej</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1020"/>
         <source>Bottom Right</source>
-        <translation type="unfinished"/>
+        <translation>Na dole po prawej</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1025"/>
         <source>Bottom Left</source>
-        <translation type="unfinished"/>
+        <translation>Na dole po lewej</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1030"/>
         <source>Top Left</source>
-        <translation type="unfinished"/>
+        <translation>Na górze po lewej</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1065"/>
@@ -1709,32 +1714,32 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1138"/>
         <source>Notification Geometry (in screen points)</source>
-        <translation type="unfinished"/>
+        <translation>Umiejscowienie powiadomień na ekranie</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1144"/>
         <source>Ho&amp;rizontal offset:</source>
-        <translation type="unfinished"/>
+        <translation>Przesunięcie poziome:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1181"/>
         <source>&amp;Vertical offset:</source>
-        <translation type="unfinished"/>
+        <translation>Przesunięcie pionowe:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1218"/>
         <source>Maximum &amp;width:</source>
-        <translation type="unfinished"/>
+        <translation>Maksymalna szerokość:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1255"/>
         <source>Ma&amp;ximum height:</source>
-        <translation type="unfinished"/>
+        <translation>Maksymalna wysokość:</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1328"/>
         <source>&amp;Items</source>
-        <translation type="unfinished"/>
+        <translation>Elementy</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1340"/>
@@ -1744,12 +1749,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1358"/>
         <source>&amp;Shortcuts</source>
-        <translation type="unfinished"/>
+        <translation>Skróty</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1368"/>
         <source>&amp;Appearance</source>
-        <translation type="unfinished"/>
+        <translation>Wygląd</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="82"/>
@@ -1765,12 +1770,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="85"/>
         <source>Show/hide main window</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż/ukryj okno główne</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="87"/>
         <source>Show the tray menu</source>
-        <translation type="unfinished"/>
+        <translation>Pokaż menu zasobnika</translation>
     </message>
     <message>
         <location filename="../src/gui/addcommanddialog.cpp" line="89"/>
@@ -1866,12 +1871,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="862"/>
         <source>Restart Required</source>
-        <translation type="unfinished"/>
+        <translation>Wymagane ponowne uruchomienie</translation>
     </message>
     <message>
         <location filename="../src/gui/configurationmanager.cpp" line="863"/>
         <source>Language will be changed after application is restarted.</source>
-        <translation type="unfinished"/>
+        <translation>Język zostanie zmieniony po ponownym uruchomieniu.</translation>
     </message>
 </context>
 <context>
