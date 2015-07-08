@@ -4,8 +4,7 @@ CopyQ Scripting
 CopyQ provides scripting capabilities to automatically handle clipboard changes,
 organize items, change settings and much more.
 
-In addition to features provided by Qt Script there are following functions
-and types.
+In addition to features provided by Qt Script there are following [functions](#Functions), [types](#Types) and [useful MIME types](#MIME Types).
 
 Functions
 ---------
@@ -470,3 +469,70 @@ Type is `Object` and properties are:
 - `error` - error string (set only if an error occurred)
 - `redirect` - URL for redirection (set only if redirection is needed)
 - `headers` - reply headers (array of pairs with header name and header content)
+ 
+MIME Types
+----------
+
+Item and clipboard can provide multiple formats for their data.
+Type of the data is determined by MIME type.
+
+Here is list of some common and builtin (start with `application/x-copyq-`) MIME types.
+
+Note: Content for following types is UTF-8 encoded.
+
+###### text/plain
+
+Data contains plain text content.
+
+###### text/html
+
+Data contains HTML content.
+
+###### text/uri-list
+
+Data contains list of links to files, web pages etc.
+
+###### application/x-copyq-owner-window-title
+
+Current window title for copied clipboard.
+
+###### application/x-copyq-item
+
+Serialized items.
+
+###### application/x-copyq-item-notes
+
+Data contains notes for item.
+
+###### application/x-copyq-owner
+
+If this type is available, the clipboard was set from CopyQ (from script or copied items).
+
+###### application/x-copyq-clipboard-mode
+
+Contains `selection` if data is from X11 mouse selection.
+
+###### application/x-copyq-current-tab
+
+Current tab name when invoking command from main window.
+
+Following command print the tab name when invoked from main window.
+
+    copyq data application/x-copyq-current-tab
+    copyq selectedTab
+
+###### application/x-copyq-selected-items
+
+Selected items when invoking command from main window.
+
+###### application/x-copyq-current-item
+
+Current item when invoking command from main window.
+
+###### application/x-copyq-hidden
+
+If set to `1`, the clipboard content will be hidden in GUI.
+
+E.g. if you run following, window title and tool tip will be cleared.
+
+    copyq copy application/x-copyq-hidden 1 plain/text "This is secret"
