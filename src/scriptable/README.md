@@ -4,7 +4,7 @@ CopyQ Scripting
 CopyQ provides scripting capabilities to automatically handle clipboard changes,
 organize items, change settings and much more.
 
-In addition to features provided by Qt Script there are following [functions](#Functions), [types](#Types) and [useful MIME types](#MIME Types).
+In addition to features provided by Qt Script there are following [functions](#functions), [types](#types) and [useful MIME types](#mime-types).
 
 Functions
 ---------
