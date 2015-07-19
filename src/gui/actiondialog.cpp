@@ -159,8 +159,8 @@ void ActionDialog::createAction()
         return;
 
     const QString inputFormat = ui->comboBoxInputFormat->currentText();
-    const QString input = ( inputFormat.isEmpty() || inputFormat.toLower().startsWith(QString("text")) )
-            ? ui->inputText->toPlainText() : QString();
+    const QString input =
+            ui->inputText->isVisible() ? ui->inputText->toPlainText() : QString();
 
     // Expression %1 in command is always replaced with item text.
     if ( m_capturedTexts.isEmpty() )
