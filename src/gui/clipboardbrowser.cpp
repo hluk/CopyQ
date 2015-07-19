@@ -467,7 +467,7 @@ void ClipboardBrowser::updateEditorGeometry()
 
 bool ClipboardBrowser::canExpire()
 {
-    return m_itemLoader && m_timerExpire.interval() > 0 && isHidden();
+    return m_itemLoader && m_timerExpire.interval() > 0 && !isVisible();
 }
 
 void ClipboardBrowser::restartExpiring()
