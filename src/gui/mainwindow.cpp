@@ -776,6 +776,11 @@ bool MainWindow::canUpdateTitleFromScript() const
     return m_canUpdateTitleFromScript;
 }
 
+void MainWindow::setFilter(const QString &text)
+{
+    ui->searchBar->setText(text);
+}
+
 void MainWindow::updateNotifications()
 {
     if (m_notifications == NULL)

@@ -378,6 +378,9 @@ public slots:
 
     bool canUpdateTitleFromScript() const;
 
+    /** Set text for filtering items. */
+    void setFilter(const QString &text);
+
 signals:
     /** Request clipboard change. */
     void changeClipboard(const QVariantMap &data, QClipboard::Mode mode);

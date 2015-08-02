@@ -496,6 +496,11 @@ QScriptValue Scriptable::focused()
     return m_proxy->isMainWindowFocused();
 }
 
+void Scriptable::filter()
+{
+    m_proxy->filter(arg(0));
+}
+
 void Scriptable::ignore()
 {
     m_proxy->abortAutomaticCommands();

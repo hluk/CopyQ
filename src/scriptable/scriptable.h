@@ -110,6 +110,8 @@ public slots:
     QScriptValue visible();
     QScriptValue focused();
 
+    void filter();
+
     void ignore();
 
     QScriptValue clipboard();

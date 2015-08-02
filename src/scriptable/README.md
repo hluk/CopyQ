@@ -83,6 +83,12 @@ Available since v2.4.9.
 
 Returns true only if main window has focus.
 
+###### filter(filterText)
+
+Available since v2.4.9.
+
+Sets text for filtering items in main window.
+
 ###### ignore()
 
 Ignores current clipboard content (used for automatic commands).

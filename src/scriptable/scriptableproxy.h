@@ -260,6 +260,8 @@ public slots:
     void updateFirstItem(const QVariantMap &data);
     void updateTitle(const QVariantMap &data);
 
+    void filter(const QString &text);
+
 signals:
     void sendMessage(const QByteArray &message, int messageCode);
 
@@ -381,6 +383,8 @@ public:
 
     PROXY_METHOD_VOID_1(updateFirstItem, const QVariantMap &)
     PROXY_METHOD_VOID_1(updateTitle, const QVariantMap &)
+
+    PROXY_METHOD_VOID_1(filter, const QString &)
 
 private:
     detail::ScriptableProxyHelper *m_helper; ///< For retrieving return values of methods in MainWindow.

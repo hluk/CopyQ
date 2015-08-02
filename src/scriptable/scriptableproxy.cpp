@@ -993,6 +993,11 @@ void ScriptableProxyHelper::updateTitle(const QVariantMap &data)
         m_wnd->updateTitle(data);
 }
 
+void ScriptableProxyHelper::filter(const QString &text)
+{
+    m_wnd->setFilter(text);
+}
+
 ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tabName)
 {
     if (tabName.isEmpty()) {
