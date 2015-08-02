@@ -405,6 +405,12 @@ bool ScriptableProxyHelper::isMainWindowVisible()
     return !m_wnd->isMinimized() && m_wnd->isVisible();
 }
 
+bool ScriptableProxyHelper::isMainWindowFocused()
+{
+    INVOKE(isMainWindowFocused());
+    return m_wnd->isActiveWindow();
+}
+
 void ScriptableProxyHelper::disableMonitoring(bool arg1)
 {
     m_wnd->disableClipboardStoring(arg1);

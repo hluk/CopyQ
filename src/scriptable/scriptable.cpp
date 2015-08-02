@@ -491,6 +491,11 @@ QScriptValue Scriptable::visible()
     return m_proxy->isMainWindowVisible();
 }
 
+QScriptValue Scriptable::focused()
+{
+    return m_proxy->isMainWindowFocused();
+}
+
 void Scriptable::ignore()
 {
     m_proxy->abortAutomaticCommands();

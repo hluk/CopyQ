@@ -77,6 +77,12 @@ Available since v2.4.7.
 
 Returns true only if main window is visible.
 
+###### bool focused()
+
+Available since v2.4.9.
+
+Returns true only if main window has focus.
+
 ###### ignore()
 
 Ignores current clipboard content (used for automatic commands).
