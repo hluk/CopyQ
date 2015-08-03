@@ -33,6 +33,7 @@ class DirClass;
 class FileClass;
 class QFile;
 class QNetworkReply;
+class QNetworkAccessManager;
 class QScriptEngine;
 
 class Scriptable : public QObject, protected QScriptable
@@ -93,6 +94,8 @@ public:
     void sendWindowActivationCommandToClient(const QByteArray &message);
 
     QScriptEngine *engine() const { return m_engine; }
+
+    bool isAborted() const { return m_abort; }
 
 public slots:
     QScriptValue version();
@@ -227,7 +230,6 @@ private:
     QScriptValue copy(QClipboard::Mode mode);
     bool setClipboard(QVariantMap &data, QClipboard::Mode mode);
     void changeItem(bool create);
-    QScriptValue readReply(QNetworkReply *reply);
     void nextToClipboard(int where);
 
     ScriptableProxy *m_proxy;
@@ -239,6 +241,42 @@ private:
     QScriptValue m_input;
     QVariantMap m_data;
     bool m_abort;
+};
+
+class NetworkReply : public QObject {
+    Q_OBJECT
+    Q_PROPERTY(QScriptValue data READ data)
+    Q_PROPERTY(QScriptValue error READ error)
+    Q_PROPERTY(QScriptValue status READ status)
+    Q_PROPERTY(QScriptValue redirect READ redirect)
+    Q_PROPERTY(QScriptValue headers READ headers)
+
+public:
+    static QScriptValue get(const QString &url, Scriptable *scriptable);
+    static QScriptValue post(const QString &url, const QByteArray &postData, Scriptable *scriptable);
+
+    ~NetworkReply();
+
+    QScriptValue data();
+
+    QScriptValue error() const;
+
+    QScriptValue status() const;
+    QScriptValue redirect() const;
+    QScriptValue headers();
+
+private:
+    explicit NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable);
+
+    QScriptValue toScriptValue();
+
+    void fetchHeaders();
+
+    Scriptable *m_scriptable;
+    QNetworkAccessManager *m_manager;
+    QNetworkReply *m_reply;
+    QNetworkReply *m_replyHead;
+    QScriptValue m_data;
 };
 
 #endif // SCRIPTABLE_H

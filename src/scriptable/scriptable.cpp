@@ -147,6 +147,21 @@ void addScriptableClass(QScriptValue *rootObject, ScriptableClass *cls)
     rootObject->setProperty( cls->name(), cls->constructor() );
 }
 
+QByteArray readReply(QNetworkReply *reply, const Scriptable &scriptable)
+{
+    QByteArray data;
+    while ( !reply->isFinished() ) {
+        if (scriptable.isAborted())
+            return QByteArray();
+        waitFor(100);
+        if ( reply->waitForReadyRead(100) )
+            data.append(reply->readAll());
+    }
+    data.append(reply->readAll());
+
+    return data;
+}
+
 } // namespace
 
 Scriptable::Scriptable(ScriptableProxy *proxy, QObject *parent)
@@ -1128,18 +1143,14 @@ void Scriptable::updateTitle()
 QScriptValue Scriptable::networkGet()
 {
     const QString url = arg(0);
-    QNetworkAccessManager nam;
-    QNetworkReply *reply = nam.get(QNetworkRequest(url));
-    return readReply(reply);
+    return NetworkReply::get(url, this);
 }
 
 QScriptValue Scriptable::networkPost()
 {
     const QString url = arg(0);
     const QByteArray postData = makeByteArray(argument(1));
-    QNetworkAccessManager nam;
-    QNetworkReply *reply = nam.post(QNetworkRequest(url), postData);
-    return readReply(reply);
+    return NetworkReply::post(url, postData, this);
 }
 
 void Scriptable::setInput(const QByteArray &bytes)
@@ -1257,46 +1268,6 @@ void Scriptable::changeItem(bool create)
         m_proxy->browserChange(data, row);
 }
 
-QScriptValue Scriptable::readReply(QNetworkReply *reply)
-{
-    QByteArray data;
-    while ( !reply->isFinished() ) {
-        if (m_abort)
-            return QScriptValue();
-        waitFor(100);
-        if ( reply->waitForReadyRead(100) )
-            data = reply->readAll();
-    }
-    data = reply->readAll();
-
-    QScriptValue result = m_engine->newObject();
-    result.setProperty( "data", newByteArray(data) );
-    if (reply->error() != QNetworkReply::NoError)
-        result.setProperty( "error", reply->errorString() );
-
-    QVariant v;
-
-    v = reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
-    if (v.isValid())
-        result.setProperty("status", v.toInt());
-
-    v = reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
-    if (v.isValid())
-        result.setProperty( "redirect", v.toUrl().resolved(reply->url()).toString() );
-
-    QScriptValue headers = m_engine->newArray();
-    int i = 0;
-    foreach ( const QByteArray &header, reply->rawHeaderList() ) {
-        QScriptValue pair = m_engine->newArray();
-        pair.setProperty( 0, newByteArray(header) );
-        pair.setProperty( 1, newByteArray(reply->rawHeader(header)) );
-        headers.setProperty( i++, pair );
-    }
-    result.setProperty( "headers", headers );
-
-    return result;
-}
-
 void Scriptable::nextToClipboard(int where)
 {
     QVariantMap data = m_proxy->nextItem(where);
@@ -1307,4 +1278,110 @@ void Scriptable::nextToClipboard(int where)
 #ifdef COPYQ_WS_X11
     setClipboard(data, QClipboard::Selection);
 #endif
+}
+
+QScriptValue NetworkReply::get(const QString &url, Scriptable *scriptable)
+{
+    NetworkReply *reply = new NetworkReply(url, QByteArray(), scriptable);
+    return reply->toScriptValue();
+}
+
+QScriptValue NetworkReply::post(const QString &url, const QByteArray &postData, Scriptable *scriptable)
+{
+    NetworkReply *reply = new NetworkReply(url, postData, scriptable);
+    return reply->toScriptValue();
+}
+
+NetworkReply::~NetworkReply()
+{
+    if (m_reply)
+        m_reply->deleteLater();
+    if (m_replyHead)
+        m_replyHead->deleteLater();
+}
+
+QScriptValue NetworkReply::data()
+{
+    if (m_data.isValid())
+        return m_data;
+
+    const QByteArray data = readReply(m_reply, *m_scriptable);
+    m_data = m_scriptable->newByteArray(data);
+
+    return m_data;
+}
+
+QScriptValue NetworkReply::error() const
+{
+    if (m_reply->error() != QNetworkReply::NoError)
+        return m_reply->errorString();
+
+    if (m_replyHead && m_replyHead->error() != QNetworkReply::NoError)
+        return m_replyHead->errorString();
+
+    return QScriptValue();
+}
+
+QScriptValue NetworkReply::status() const
+{
+    const QVariant v = m_reply->attribute(QNetworkRequest::HttpStatusCodeAttribute);
+    if (v.isValid())
+        return v.toInt();
+    return QScriptValue();
+}
+
+QScriptValue NetworkReply::redirect() const
+{
+    const QVariant v = m_reply->attribute(QNetworkRequest::RedirectionTargetAttribute);
+    if (v.isValid())
+        return v.toUrl().resolved(m_reply->url()).toString();
+    return QScriptValue();
+}
+
+QScriptValue NetworkReply::headers()
+{
+    fetchHeaders();
+
+    QScriptValue headers = m_scriptable->engine()->newArray();
+    int i = 0;
+    foreach ( const QByteArray &header, m_replyHead->rawHeaderList() ) {
+        QScriptValue pair = m_scriptable->engine()->newArray();
+        pair.setProperty( 0, m_scriptable->newByteArray(header) );
+        pair.setProperty( 1, m_scriptable->newByteArray(m_replyHead->rawHeader(header)) );
+        headers.setProperty( i++, pair );
+    }
+
+    return headers;
+}
+
+NetworkReply::NetworkReply(const QString &url, const QByteArray &postData, Scriptable *scriptable)
+    : QObject(scriptable)
+    , m_scriptable(scriptable)
+    , m_manager(new QNetworkAccessManager(this))
+    , m_reply(NULL)
+    , m_replyHead(NULL)
+{
+    if (postData.isEmpty())
+        m_reply = m_manager->get(QNetworkRequest(url));
+    else
+        m_reply = m_manager->post(QNetworkRequest(url), postData);
+}
+
+QScriptValue NetworkReply::toScriptValue()
+{
+    return m_scriptable->engine()->newQObject(this, QScriptEngine::ScriptOwnership);
+}
+
+void NetworkReply::fetchHeaders()
+{
+    if (m_replyHead)
+        return;
+
+    // Omit reading all data just to retrieve headers.
+    if (m_data.isValid()) {
+        m_replyHead = m_reply;
+    } else {
+        m_replyHead = m_manager->head(m_reply->request());
+        readReply(m_replyHead, *m_scriptable);
+    }
 }
