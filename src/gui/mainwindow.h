@@ -235,11 +235,6 @@ public:
      */
     bool loadTab(const QString &fileName);
 
-    /** Set next or first tab as current. */
-    void nextTab();
-    /** Set previous or last tab as current. */
-    void previousTab();
-
     /** Called after clipboard content changes. */
     void clipboardChanged(const QVariantMap &data);
 
@@ -372,6 +367,11 @@ public slots:
     bool saveTab(
             int tab_index = -1 //!< Tab index or current tab.
             );
+
+    /** Set next or first tab as current. */
+    void nextTab();
+    /** Set previous or last tab as current. */
+    void previousTab();
 
     /** Set window title and tray tool tip from data. */
     void updateTitle(const QVariantMap &data);

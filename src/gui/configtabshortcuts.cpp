@@ -144,6 +144,10 @@ void ConfigTabShortcuts::initShortcuts()
                   "remove_tab", tr("Ctrl+W"), ":/images/tab_remove" );
     w->addAction( Actions::Tabs_ChangeTabIcon, tr("&Change Tab Icon"),
                   "change_tab_icon", tr("Ctrl+Shift+T"), ":/images/tab_icon" );
+    w->addAction( Actions::Tabs_NextTab, tr("Ne&xt Tab"),
+                  "next_tab", tr("Right"), "go-next", IconArrowRight );
+    w->addAction( Actions::Tabs_PreviousTab, tr("&Previous Tab"),
+                  "previous_tab", tr("Left"), "go-previous", IconArrowLeft );
 
     w->addAction( Actions::Help_Help, tr("&Help"), "help", QKeySequence::HelpContents,
                   "help-about", IconQuestionSign );

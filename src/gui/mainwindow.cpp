@@ -474,6 +474,15 @@ void MainWindow::createMenu()
 
     createAction( Actions::Tabs_ChangeTabIcon, SLOT(setTabIcon()), menu );
 
+    // - separator
+    menu->addSeparator();
+
+    // - next tab
+    createAction( Actions::Tabs_NextTab, SLOT(nextTab()), menu );
+
+    // - previous tab
+    createAction( Actions::Tabs_PreviousTab, SLOT(previousTab()), menu );
+
     // Help
     menu = menubar->addMenu(tr("&Help"));
     createAction( Actions::Help_Help, SLOT(openAboutDialog()), menu );
@@ -1284,12 +1293,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
             case Qt::Key_F:
                 enterBrowseMode(false);
                 return;
-            case Qt::Key_Tab:
-                nextTab();
-                return;
-            case Qt::Key_Backtab:
-                previousTab();
-                return;
             case Qt::Key_Return:
             case Qt::Key_Enter:
                 if ( c->isLoaded() )
@@ -1314,15 +1317,6 @@ void MainWindow::keyPressEvent(QKeyEvent *event)
                 c->setFocus();
             else
                 c->keyEvent(event);
-            break;
-
-        case Qt::Key_Left:
-            if ( c->hasFocus() )
-                previousTab();
-            break;
-        case Qt::Key_Right:
-            if ( c->hasFocus() )
-                nextTab();
             break;
 
         case Qt::Key_Return:

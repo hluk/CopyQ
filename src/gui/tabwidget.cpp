@@ -494,10 +494,6 @@ void TabWidget::createTabTree()
              this, SLOT(setCurrentIndex(int)) );
 
     updateToolBar();
-
-    // Override left and right keys of tab tree.
-    addTabAction(m_tabTree, Qt::Key_Left, this, SLOT(previousTab()), Qt::WidgetShortcut);
-    addTabAction(m_tabTree, Qt::Key_Right, this, SLOT(nextTab()), Qt::WidgetShortcut);
 }
 
 void TabWidget::updateToolBar()
