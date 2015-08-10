@@ -48,22 +48,20 @@
 
 namespace {
 
-QString getFontStyleSheet(const QString &fontString)
+QString getFontStyleSheet(const QString &fontString, double scale = 1.0)
 {
-    QString result;
-    if (fontString.isEmpty())
-        return QString();
-
     QFont font;
-    font.fromString(fontString);
+    if (!fontString.isEmpty())
+        font.fromString(fontString);
 
-    qreal size = font.pointSizeF();
+    qreal size = font.pointSizeF() * scale;
     QString sizeUnits = "pt";
     if (size < 0.0) {
-        size = font.pixelSize();
+        size = font.pixelSize() * scale;
         sizeUnits = "px";
     }
 
+    QString result;
     result.append( QString(";font-family: \"%1\"").arg(font.family()) );
     result.append( QString(";font:%1 %2 %3%4")
                    .arg(font.style() == QFont::StyleItalic
@@ -417,12 +415,17 @@ QString ConfigTabAppearance::getNotificationStyleSheet() const
     // Notification opacity should be set with NotificationDaemon::setNotificationOpacity().
     notificationBg.setAlpha(255);
 
+    const QString fontString = themeValue("notification_font").toString();
+
     return "Notification{"
            "background:" + serializeColor(notificationBg) + ";"
            "}"
            "Notification QWidget{"
            "color:" + themeColorString("notification_fg") + ";"
-           + getFontStyleSheet( themeValue("notification_font").toString() ) +
+           + getFontStyleSheet(fontString) +
+           "}"
+           "Notification #NotificationTitle{"
+           + getFontStyleSheet(fontString, 1.2) +
            "}"
            "Notification #NotificationTip{"
            "font-style: italic"

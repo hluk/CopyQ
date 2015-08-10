@@ -104,6 +104,7 @@ Notification::Notification(int id)
     layout->setMargin(0);
 
     m_titleLabel = new QLabel(this);
+    m_titleLabel->setObjectName("NotificationTitle");
     layout->addWidget(m_titleLabel, 0, 0, 1, 2, Qt::AlignCenter);
     m_titleLabel->setTextFormat(Qt::PlainText);
     setTitle( QString() );
