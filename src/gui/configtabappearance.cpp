@@ -265,6 +265,10 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
           + themeStyleSheet("sel_item_css", unfocusedTheme) +
         "}"
 
+        "ClipboardBrowser::item:focus{"
+          + themeStyleSheet("cur_item_css") +
+        "}"
+
         + getToolTipStyleSheet() +
 
         // Allow user to change CSS.
@@ -882,6 +886,9 @@ void ConfigTabAppearance::resetTheme()
     m_theme["item_css"] = Option("");
     m_theme["alt_item_css"] = Option("");
     m_theme["sel_item_css"] = Option("");
+    m_theme["cur_item_css"] = Option(
+                "\n    ;border: 0.1em solid ${sel_bg}"
+                );
     m_theme["item_spacing"] = Option("");
     m_theme["notes_css"] = Option("");
 

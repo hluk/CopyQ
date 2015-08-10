@@ -205,7 +205,8 @@ class ClipboardBrowser : public QListView
         void setCurrent(
                 int row, //!< Row of the item.
                 bool cycle = false, //!< If true @a row is relative number of rows from top.
-                bool selection = false //!< Makes selection.
+                bool keepSelection = false, //!< Keeps current selection.
+                bool setCurrentOnly = false //! Sets item as current.
                 );
 
         /**

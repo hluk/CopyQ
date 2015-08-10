@@ -1335,26 +1335,10 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     if (ConfigurationManager::instance()->value("vi").toBool() && handleViKey(event))
         return;
 
-    int key = event->key();
-    Qt::KeyboardModifiers mods = event->modifiers();
+    const int key = event->key();
+    const Qt::KeyboardModifiers mods = event->modifiers();
 
-    if (mods == Qt::ControlModifier) {
-        switch ( key ) {
-        // move items
-        case Qt::Key_Down:
-        case Qt::Key_Up:
-        case Qt::Key_End:
-        case Qt::Key_Home:
-            m.moveItemsWithKeyboard(selectedIndexes(), key);
-            scrollTo( currentIndex() );
-            break;
-
-        default:
-            QListView::keyPressEvent(event);
-            break;
-        }
-        return;
-    } else if (mods != Qt::AltModifier) {
+    if (mods != Qt::AltModifier) {
         switch ( key ) {
         // This fixes few issues with default navigation and item selections.
         case Qt::Key_Up:
@@ -1426,7 +1410,10 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
                 }
             }
 
-            setCurrent(row, false, mods.testFlag(Qt::ShiftModifier));
+            const QItemSelectionModel::SelectionFlags flags = selectionCommand(index(row), event);
+            const bool setCurrentOnly = flags.testFlag(QItemSelectionModel::NoUpdate);
+            const bool keepSelection = setCurrentOnly || flags.testFlag(QItemSelectionModel::SelectCurrent);
+            setCurrent(row, false, keepSelection, setCurrentOnly);
             break;
         }
 
@@ -1440,7 +1427,7 @@ void ClipboardBrowser::keyPressEvent(QKeyEvent *event)
     }
 }
 
-void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
+void ClipboardBrowser::setCurrent(int row, bool cycle, bool keepSelection, bool setCurrentOnly)
 {
     QModelIndex prev = currentIndex();
     int cur = prev.row();
@@ -1460,9 +1447,10 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
         return;
 
     QModelIndex ind = index(i);
-    if (selection) {
+    if (keepSelection) {
         ClipboardBrowser::Lock lock(this);
         QItemSelectionModel *sel = selectionModel();
+        const bool currentSelected = sel->isSelected(prev);
         for ( int j = prev.row(); j != i + dir; j += dir ) {
             QModelIndex ind = index(j);
             if ( !ind.isValid() )
@@ -1470,14 +1458,24 @@ void ClipboardBrowser::setCurrent(int row, bool cycle, bool selection)
             if ( isIndexHidden(ind) )
                 continue;
 
-            if ( sel->isSelected(ind) && sel->isSelected(prev) )
-                sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
-            sel->setCurrentIndex(ind, QItemSelectionModel::Select);
+            if (!setCurrentOnly) {
+                if ( sel->isSelected(ind) && sel->isSelected(prev) )
+                    sel->setCurrentIndex(currentIndex(), QItemSelectionModel::Deselect);
+                sel->setCurrentIndex(ind, QItemSelectionModel::Select);
+            }
             prev = ind;
         }
+
+        if (setCurrentOnly)
+            sel->setCurrentIndex(prev, QItemSelectionModel::NoUpdate);
+        else if (!currentSelected)
+            sel->setCurrentIndex(prev, QItemSelectionModel::Deselect);
     } else {
         clearSelection();
-        setCurrentIndex(ind);
+        if (setCurrentOnly)
+            selectionModel()->setCurrentIndex(ind, QItemSelectionModel::NoUpdate);
+        else
+            setCurrentIndex(ind);
     }
 }
 
