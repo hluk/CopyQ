@@ -182,11 +182,8 @@ void Notification::adjust()
 
 void Notification::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() != Qt::LeftButton) {
-        if ( !m_textToCopy.isEmpty() )
-            showNotificationInspectDialog(m_titleLabel->text(), m_textToCopy);
-        return;
-    }
+    if (event->button() != Qt::LeftButton && !m_textToCopy.isEmpty() )
+        showNotificationInspectDialog(m_titleLabel->text(), m_textToCopy);
 
     m_timer.stop();
 

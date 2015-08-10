@@ -165,7 +165,7 @@ void NotificationDaemon::removeNotification(int id)
 void NotificationDaemon::onNotificationClose(Notification *notification)
 {
     m_notifications.removeOne(notification);
-    delete notification;
+    notification->deleteLater();
     updateNotifications();
 }
 
