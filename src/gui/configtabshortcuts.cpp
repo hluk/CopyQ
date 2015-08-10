@@ -136,6 +136,15 @@ void ConfigTabShortcuts::initShortcuts()
     w->addAction( Actions::Item_Remove, tr("&Remove"),
                   "delete_item",  shortcutToRemove(), "list-remove", IconRemove );
 
+    w->addAction( Actions::Item_MoveUp, tr("Move Up"),
+                  "move_up",  tr("Ctrl+Up"), "go-up", IconAngleUp );
+    w->addAction( Actions::Item_MoveDown, tr("Move Down"),
+                  "move_down",  tr("Ctrl+Down"), "go-down", IconAngleDown );
+    w->addAction( Actions::Item_MoveToTop, tr("Move to Top"),
+                  "move_to_top",  tr("Ctrl+Home"), "go-top", IconAngleDoubleUp );
+    w->addAction( Actions::Item_MoveToBottom, tr("Move to Bottom"),
+                  "move_to_bottom",  tr("Ctrl+End"), "go-bottom", IconAngleDoubleDown );
+
     w->addAction( Actions::Tabs_NewTab, tr("&New Tab"),
                   "new_tab", tr("Ctrl+T"), ":/images/tab_new" );
     w->addAction( Actions::Tabs_RenameTab, tr("R&ename Tab"),

@@ -573,6 +573,13 @@ void MainWindow::updateContextMenuTimeout()
     addItemAction( Actions::Item_NextFormat, this, SLOT(nextItemFormat()) );
     addItemAction( Actions::Item_PreviousFormat, this, SLOT(previousItemFormat()) );
 
+    m_menuItem->addSeparator();
+
+    addItemAction( Actions::Item_MoveUp, this, SLOT(moveUp()) );
+    addItemAction( Actions::Item_MoveDown, this, SLOT(moveDown()) );
+    addItemAction( Actions::Item_MoveToTop, this, SLOT(moveToTop()) );
+    addItemAction( Actions::Item_MoveToBottom, this, SLOT(moveToBottom()) );
+
     updateToolBar();
 }
 
@@ -767,6 +774,26 @@ void MainWindow::nextItemFormat()
 void MainWindow::previousItemFormat()
 {
     browser()->otherItemLoader(false);
+}
+
+void MainWindow::moveUp()
+{
+    browser()->move(Qt::Key_Up);
+}
+
+void MainWindow::moveDown()
+{
+    browser()->move(Qt::Key_Down);
+}
+
+void MainWindow::moveToTop()
+{
+    browser()->move(Qt::Key_Home);
+}
+
+void MainWindow::moveToBottom()
+{
+    browser()->move(Qt::Key_End);
 }
 
 void MainWindow::updateTitle(const QVariantMap &data)

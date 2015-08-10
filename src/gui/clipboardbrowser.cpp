@@ -1766,6 +1766,12 @@ void ClipboardBrowser::otherItemLoader(bool next)
         d.otherItemLoader(index, next);
 }
 
+void ClipboardBrowser::move(int key)
+{
+    m.moveItemsWithKeyboard(selectedIndexes(), key);
+    scrollTo( currentIndex() );
+}
+
 void ClipboardBrowser::invalidateItemCache()
 {
     if (editing()) {

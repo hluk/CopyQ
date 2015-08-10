@@ -238,6 +238,8 @@ class ClipboardBrowser : public QListView
 
         void otherItemLoader(bool next);
 
+        void move(int key);
+
     public slots:
         /**
          * Load items from configuration.

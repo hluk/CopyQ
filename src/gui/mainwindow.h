@@ -469,6 +469,11 @@ private slots:
     void nextItemFormat();
     void previousItemFormat();
 
+    void moveUp();
+    void moveDown();
+    void moveToTop();
+    void moveToBottom();
+
 private:
     void clearTitle() { updateTitle(QVariantMap()); }
 

@@ -57,6 +57,11 @@ enum Id {
     Item_NextFormat,
     Item_PreviousFormat,
 
+    Item_MoveUp,
+    Item_MoveDown,
+    Item_MoveToTop,
+    Item_MoveToBottom,
+
     Tabs_NewTab,
     Tabs_RenameTab,
     Tabs_RemoveTab,
