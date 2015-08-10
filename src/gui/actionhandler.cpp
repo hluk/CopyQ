@@ -25,6 +25,7 @@
 #include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/actiondialog.h"
+#include "gui/configurationmanager.h"
 #include "gui/processmanagerdialog.h"
 #include "gui/clipboardbrowser.h"
 #include "gui/mainwindow.h"
@@ -138,8 +139,17 @@ void ActionHandler::closeAction(Action *action)
         }
     }
 
-    if ( !msg.isEmpty() )
-        m_wnd->showMessage( tr("Command %1").arg(quoteString(action->command())), msg, icon );
+    if ( !msg.isEmpty() ) {
+        const int maxWidthPoints =
+                ConfigurationManager::instance()->value("notification_maximum_width").toInt();
+        const QString command = action->command()
+                .replace("copyq eval --", "copyq:");
+        const QString name = QString(command).replace('\n', " ");
+        const QString format = tr("Command %1").arg(quoteString("%1"));
+        const QString title = elideText(name, QFont(), format, pointsToPixels(maxWidthPoints));
+        msg.append("\n---\n" + command + "\n---");
+        m_wnd->showMessage(title, msg, icon);
+    }
 
     m_activeActionDialog->actionFinished(action);
     Q_ASSERT(m_actionCounter > 0);
