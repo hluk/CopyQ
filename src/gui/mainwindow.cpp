@@ -557,11 +557,11 @@ void MainWindow::updateContextMenuTimeout()
     if (c->editing())
         return;
 
-    m_menuItem->addSeparator();
-
     cm->tabShortcuts()->setDisabledShortcuts(QList<QKeySequence>());
 
     addCommandsToMenu(m_menuItem, c->getSelectedItemData());
+
+    m_menuItem->addSeparator();
 
     addItemAction( Actions::Item_MoveToClipboard, c, SLOT(moveToClipboard()) );
     addItemAction( Actions::Item_ShowContent, c, SLOT(showItemContent()) );
