@@ -176,6 +176,11 @@ class ClipboardBrowser : public QListView
                 int row = 0 //!< Target row for the new item (negative to append item).
                 );
 
+        /**
+         * Add item and remove duplicates.
+         */
+        void addUnique(const QVariantMap &data);
+
         /** Number of items in list. */
         int length() const { return model()->rowCount(); }
 
@@ -279,9 +284,6 @@ class ClipboardBrowser : public QListView
         void requestShow(const ClipboardBrowser *self);
         /** Request clipboard change. */
         void changeClipboard(const QVariantMap &data);
-
-        /** Add item to another tab (invoked by an automatic command). */
-        void addToTab(const QVariantMap &data, const QString &tabName);
 
         /** Emitted on error. */
         void error(const QString &errorString);

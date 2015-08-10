@@ -22,6 +22,7 @@
 #include "common/action.h"
 #include "common/common.h"
 #include "common/contenttype.h"
+#include "common/log.h"
 #include "common/mimetypes.h"
 #include "gui/clipboarddialog.h"
 #include "gui/configtabappearance.h"
@@ -1575,6 +1576,56 @@ bool ClipboardBrowser::add(const QVariantMap &data, int row)
     delayedSaveItems();
 
     return true;
+}
+
+void ClipboardBrowser::addUnique(const QVariantMap &data)
+{
+    QVariantMap newData = data;
+
+    if ( select(hash(newData), MoveToTop) ) {
+        COPYQ_LOG("New item: Moving existing to top");
+        return;
+    }
+
+    bool reselectFirst = false;
+
+    // When selecting text under X11, clipboard data may change whenever selection changes.
+    // Instead of adding item for each selection change, this updates previously added item.
+    if ( newData.contains(mimeText) ) {
+        const QModelIndex firstIndex = model()->index(0, 0);
+        const QVariantMap previousData = itemData(firstIndex);
+
+        if ( previousData.contains(mimeText)
+             && getTextData(newData).contains(getTextData(previousData))
+             )
+        {
+            COPYQ_LOG("New item: Merging with top item");
+
+            const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
+
+            foreach (const QString &format, formatsToAdd)
+                newData.insert(format, previousData[format]);
+
+            // Remove merged item (if it's not edited).
+            if (!editing() || currentIndex().row() != 0) {
+                reselectFirst = currentIndex().row() == 0;
+                model()->removeRow(0);
+            }
+        }
+    }
+
+    COPYQ_LOG("New item: Adding");
+
+    // Don't store internal formats.
+    foreach (const QString &format, newData.keys()) {
+        if ( format.startsWith(COPYQ_MIME_PREFIX) )
+            newData.remove(format);
+    }
+
+    add(newData);
+
+    if (reselectFirst)
+        setCurrent(0);
 }
 
 void ClipboardBrowser::loadSettings()

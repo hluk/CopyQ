@@ -632,7 +632,7 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
         for (int i = selected.size() - 1; i >= 0; --i) {
             QVariantMap data = itemData(selected[i]);
             if ( !data.isEmpty() )
-                emit addToTab(data, command.tab);
+                addToTab(data, command.tab);
         }
     }
 
@@ -899,8 +899,6 @@ ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
              this, SLOT(showError(QString)) );
     connect( c, SIGNAL(doubleClicked(QModelIndex)),
              this, SLOT(activateCurrentItem()) );
-    connect( c, SIGNAL(addToTab(const QVariantMap,const QString)),
-             this, SLOT(addToTab(const QVariantMap,const QString)) );
     connect( c, SIGNAL(itemCountChanged(QString,int)),
              ui->tabWidget, SLOT(setTabItemCount(QString,int)) );
     connect( c, SIGNAL(showContextMenu(QPoint)),
@@ -1707,7 +1705,7 @@ void MainWindow::tabCloseRequested(int tab)
 
 void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 {
-    createTab(tabName)->add(data);
+    createTab(tabName)->addUnique(data);
 }
 
 void MainWindow::updateFirstItem(const QVariantMap &data)
@@ -1730,57 +1728,8 @@ void MainWindow::updateFirstItem(const QVariantMap &data)
         return;
 
     ClipboardBrowser *c = clipboardTab();
-
-    if ( !c || !c->isLoaded() )
-        return;
-
-    QVariantMap newData = data;
-
-    if ( c->select(hash(newData), MoveToTop) ) {
-        COPYQ_LOG("Clipboard item: Moving to top");
-        return;
-    }
-
-    bool reselectFirst = false;
-
-    // When selecting text under X11, clipboard data may change whenever selection changes.
-    // Instead of adding item for each selection change, this updates previously added item.
-    if ( newData.contains(mimeText) ) {
-        const QModelIndex firstIndex = c->model()->index(0, 0);
-        const QVariantMap previousData = itemData(firstIndex);
-
-        if ( previousData.contains(mimeText)
-             && newData.value(mimeWindowTitle) == previousData.value(mimeWindowTitle)
-             && getTextData(newData).contains(getTextData(previousData))
-             )
-        {
-            COPYQ_LOG("Clipboard item: Merging with top item");
-
-            const QSet<QString> formatsToAdd = previousData.keys().toSet() - newData.keys().toSet();
-
-            foreach (const QString &format, formatsToAdd)
-                newData.insert(format, previousData[format]);
-
-            // Remove merged item (if it's not edited).
-            if (!c->editing() || c->currentIndex().row() != 0) {
-                reselectFirst = c->currentIndex().row() == 0;
-                c->model()->removeRow(0);
-            }
-        }
-    }
-
-    COPYQ_LOG("Clipboard item: Adding");
-
-    // Don't store internal formats.
-    foreach (const QString &format, newData.keys()) {
-        if ( format.startsWith(COPYQ_MIME_PREFIX) )
-            newData.remove(format);
-    }
-
-    c->add(newData);
-
-    if (reselectFirst)
-        c->setCurrent(0);
+    if ( c && c->isLoaded() )
+        c->addUnique(data);
 }
 
 void MainWindow::setExitAfterClosed()
