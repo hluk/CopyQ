@@ -424,6 +424,9 @@ QString ConfigTabAppearance::getNotificationStyleSheet() const
            "color:" + themeColorString("notification_fg") + ";"
            + getFontStyleSheet( themeValue("notification_font").toString() ) +
            "}"
+           "Notification #NotificationTip{"
+           "font-style: italic"
+           "}"
            ;
 }
 

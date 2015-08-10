@@ -90,6 +90,7 @@ Notification::Notification(int id)
     , m_titleLabel(NULL)
     , m_iconLabel(NULL)
     , m_msgLabel(NULL)
+    , m_tipLabel(NULL)
     , m_opacity(1.0)
     , m_icon(0)
 {
@@ -113,6 +114,11 @@ Notification::Notification(int id)
     m_msgLabel = new QLabel(this);
     layout->addWidget(m_msgLabel, 1, 1, Qt::AlignAbsolute);
 
+    m_tipLabel = new QLabel(this);
+    m_tipLabel->setObjectName("NotificationTip");
+    m_tipLabel->setText( tr("Right click to show") );
+    layout->addWidget(m_tipLabel, 2, 0, 1, 2, Qt::AlignRight);
+
     setWindowFlags(Qt::ToolTip);
     setWindowOpacity(m_opacity);
 }
@@ -132,10 +138,9 @@ void Notification::setMessage(const QString &msg, Qt::TextFormat format)
 {
     m_msgLabel->setTextFormat(format);
     m_msgLabel->setText(msg);
-    m_msgLabel->adjustSize();
 
     m_textToCopy = (format == Qt::PlainText) ? msg : QString();
-
+    m_tipLabel->setVisible( !m_textToCopy.isEmpty() );
 }
 
 void Notification::setPixmap(const QPixmap &pixmap)

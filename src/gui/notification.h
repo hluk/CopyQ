@@ -66,6 +66,7 @@ private:
     QLabel *m_titleLabel;
     QLabel *m_iconLabel;
     QLabel *m_msgLabel;
+    QLabel *m_tipLabel;
     QTimer m_timer;
     qreal m_opacity;
     ushort m_icon;
