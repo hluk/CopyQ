@@ -291,7 +291,6 @@ void ConfigTabAppearance::decorateBrowser(ClipboardBrowser *c) const
     d->setSearchStyle(font, p);
 
     // editor style
-    d->setSearchStyle(font, p);
     font = themeFont("edit_font");
     color = themeColor("edit_bg");
     p.setColor(QPalette::Base, color);
