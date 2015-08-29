@@ -1,3 +1,11 @@
+v2.4.9
+- Added new light theme
+- Added scriptable function focused() to test main window focus
+- Customizable shortcuts for tab navigation
+- Extended item selection
+- Fixed tab expiration and updating context menu
+- Fixed passing text to command from action dialog
+
 v2.4.8
 - New command to show main window under mouse cursor or at a position with custom size
 - Hide clipboard content when "application/x-copyq-hidden" is "1"
