@@ -1,7 +1,7 @@
 ﻿; 1. Open this file with Inno Setup with Unicode support and preprocessor.
 ; 2. Change "#defines" below (or see below how to use COPYQ_INNO_SETUP environment variable).
 ; 3. Compile "setup.exe".
-#define AppVersion "2.4.8"
+#define AppVersion "2.4.9"
 
 ; Path with build
 #define Root "C:\dev\build-copyq-Desktop-Release"
