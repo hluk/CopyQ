@@ -385,8 +385,6 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
         else
             label = QString("%1");
 
-        label = label.arg( quoteString("%1") );
-
         if (!format.isEmpty())
             label = format.arg(label);
 
