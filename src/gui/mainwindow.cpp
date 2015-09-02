@@ -1231,7 +1231,7 @@ void MainWindow::showMessage(const QString &title, const QString &msg,
 void MainWindow::showMessage(const QString &title, const QString &msg, ushort icon,
                              int msec, int notificationId)
 {
-    notificationDaemon()->create(title, msg, icon, msec, notificationId);
+    notificationDaemon()->create(title, msg, icon, msec, true, notificationId);
 }
 
 void MainWindow::showClipboardMessage(const QVariantMap &data)
@@ -1240,8 +1240,9 @@ void MainWindow::showClipboardMessage(const QVariantMap &data)
         if (data.isEmpty()) {
             notificationDaemon()->removeNotification(clipboardNotificationId);
         } else {
-            notificationDaemon()->create( data, m_options.clipboardNotificationLines, IconPaste,
-                                          m_options.itemPopupInterval * 1000, clipboardNotificationId );
+            notificationDaemon()->create(
+                        data, m_options.clipboardNotificationLines, IconPaste,
+                        m_options.itemPopupInterval * 1000, false, clipboardNotificationId );
         }
     }
 }

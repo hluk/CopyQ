@@ -40,7 +40,8 @@
 
 namespace {
 
-void showNotificationInspectDialog(const QString &messageTitle, const QString &message)
+void showNotificationInspectDialog(
+        const QString &messageTitle, const QString &message, Qt::TextFormat format)
 {
     QScopedPointer<QDialog> dialog(new QDialog);
     dialog->setObjectName("InspectNotificationDialog");
@@ -57,10 +58,12 @@ void showNotificationInspectDialog(const QString &messageTitle, const QString &m
 
     QTextEdit *editor = new QTextEdit(dialog.data());
     editor->setReadOnly(true);
-    editor->setText(
-        "<h3>" + escapeHtml(messageTitle) + "</h3>"
-        "<p>" + escapeHtml(message) + "</p>"
-        );
+    const QString title = escapeHtml(messageTitle);
+    const QString body = format == Qt::PlainText
+            ? escapeHtml(message)
+            : message;
+    editor->setHtml( QString("<h3>%1</h3><p>%2</p>")
+                     .arg(title, body) );
 
     QDialogButtonBox *buttons = new QDialogButtonBox(
                 QDialogButtonBox::Close, Qt::Horizontal, dialog.data() );
@@ -139,9 +142,6 @@ void Notification::setMessage(const QString &msg, Qt::TextFormat format)
 {
     m_msgLabel->setTextFormat(format);
     m_msgLabel->setText(msg);
-
-    m_textToCopy = (format == Qt::PlainText) ? msg : QString();
-    m_tipLabel->setVisible( !m_textToCopy.isEmpty() );
 }
 
 void Notification::setPixmap(const QPixmap &pixmap)
@@ -170,6 +170,11 @@ void Notification::setOpacity(qreal opacity)
     setWindowOpacity(m_opacity);
 }
 
+void Notification::setClickToShowEnabled(bool enabled)
+{
+    m_tipLabel->setVisible(enabled);
+}
+
 void Notification::updateIcon()
 {
     const QColor color = getDefaultIconColor(*this);
@@ -188,8 +193,10 @@ void Notification::adjust()
 
 void Notification::mousePressEvent(QMouseEvent *event)
 {
-    if (event->button() != Qt::LeftButton && !m_textToCopy.isEmpty() )
-        showNotificationInspectDialog(m_titleLabel->text(), m_textToCopy);
+    if ( event->button() != Qt::LeftButton && m_tipLabel->isVisible() ) {
+        showNotificationInspectDialog(
+                    m_titleLabel->text(), m_msgLabel->text(), m_msgLabel->textFormat());
+    }
 
     m_timer.stop();
 
