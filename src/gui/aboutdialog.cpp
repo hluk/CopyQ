@@ -170,7 +170,7 @@ QString AboutDialog::aboutPage()
             + helpDeveloper("Ryan Wooden", "rygwdn@gmail.com")
             + helpDeveloper("Scott Kostyshak", "skostysh@princeton.edu")
             + helpDeveloper("Sebastian Schuberth", "sschuberth@gmail.com")
-            + helpDeveloper("Tomas Nilzon", "tomas@tonil.eu")
+            + helpDeveloper("Tomas Nilzon", "tomas.nilzon@telia.com")
             + helpDeveloper("Wilfried Caruel", "wilfried.caruel@gmail.com")
             + helpDeveloper("x2357", "x2357handle@gmail.com")
             +
