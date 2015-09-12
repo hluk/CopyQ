@@ -1298,7 +1298,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="90"></location>
         <source>&amp;Language:</source>
-        <translation>語言(&amp;L)</translation>
+        <translation>語言(&amp;L):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"></location>
@@ -1963,7 +1963,7 @@ Set to 0 to disable.</source>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="153"></location>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="161"></location>
         <source>Unknown option: %1</source>
-        <translation type="unfinished">未知選項: %1</translation>
+        <translation>未知選項: %1</translation>
     </message>
     <message>
         <location filename="../plugins/itemfakevim/fakevim/fakevimactions.cpp" line="156"></location>
@@ -3397,7 +3397,7 @@ Default is the first tab.</translation>
         <location filename="../src/scriptable/commandhelp.cpp" line="186"></location>
         <location filename="../src/scriptable/scriptable.cpp" line="60"></location>
         <source>COMMAND</source>
-        <translation type="unfinished">命令</translation>
+        <translation>命令</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="152"></location>
@@ -3652,7 +3652,7 @@ Use &lt;b&gt;/&lt;/b&gt; as path separator in tree view tab layout.</source>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="35"></location>
         <source>CopyQ New Tab</source>
-        <translation type="unfinished">CopyQ 新分頁</translation>
+        <translation>CopyQ 新分頁</translation>
     </message>
     <message>
         <location filename="../src/gui/tabdialog.cpp" line="38"></location>
