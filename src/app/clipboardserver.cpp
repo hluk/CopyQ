@@ -396,7 +396,11 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     // Create special dummy QAction so that it blocks global shortcuts in active windows.
     QAction *act = new QAction(s);
     act->setShortcut(shortcut);
+#if QT_VERSION < 0x050000
     act->setShortcutContext(Qt::ApplicationShortcut);
+#else
+    act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
+#endif
     act->setPriority(QAction::HighPriority);
     m_wnd->addAction(act);
 
