@@ -395,7 +395,7 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
 
 bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 {
-    const QEvent::Type = ev->type();
+    const QEvent::Type type = ev->type();
 
     if ( m_ignoreKeysTimer.isActive()
          && (type == QEvent::KeyPress
