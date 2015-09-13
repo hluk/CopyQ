@@ -1320,12 +1320,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"></location>
         <source>Keep main window above other windows</source>
-        <translation type="unfinished"></translation>
+        <translation>保持主窗在其他窗之上</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="131"></location>
         <source>Alwa&amp;ys on Top</source>
-        <translation type="unfinished"></translation>
+        <translation>總是在上層(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="138"></location>
