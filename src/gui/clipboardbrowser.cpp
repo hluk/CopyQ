@@ -584,28 +584,30 @@ void ClipboardBrowser::updateItemMaximumSize()
 
 void ClipboardBrowser::lock()
 {
-    if (m_spinLock == 0) {
+    ++m_spinLock;
+
+    if (m_spinLock == 1) {
         m_scrollSaver.reset(new ScrollSaver(this));
         m_scrollSaver->save();
         setUpdatesEnabled(false);
     }
-
-    ++m_spinLock;
 }
 
 void ClipboardBrowser::unlock()
 {
     Q_ASSERT(m_spinLock > 0);
-    --m_spinLock;
 
-    if (m_spinLock == 0) {
+    if (m_spinLock == 1) {
         m_scrollSaver->restore();
         m_scrollSaver.reset(NULL);
 
-        setUpdatesEnabled(true);
-
-        updateCurrentPage();
+        if (m_spinLock == 1) {
+            setUpdatesEnabled(true);
+            updateCurrentPage();
+        }
     }
+
+    --m_spinLock;
 }
 
 void ClipboardBrowser::refilterItems()
@@ -976,7 +978,7 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     QListView::resizeEvent(event);
 
     // Don't update item geometries recursively.
-    if (m_spinLock != 0)
+    if (!updatesEnabled())
         return;
 
     Lock updateGeometryLock(this);
