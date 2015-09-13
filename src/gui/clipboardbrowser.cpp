@@ -598,13 +598,12 @@ void ClipboardBrowser::unlock()
     Q_ASSERT(m_spinLock > 0);
 
     if (m_spinLock == 1) {
-        m_scrollSaver->restore();
-        m_scrollSaver.reset(NULL);
+        setUpdatesEnabled(true);
+        updateCurrentPage();
 
-        if (m_spinLock == 1) {
-            setUpdatesEnabled(true);
-            updateCurrentPage();
-        }
+        m_scrollSaver->restore();
+        if (m_spinLock == 1)
+            m_scrollSaver.reset(NULL);
     }
 
     --m_spinLock;
@@ -976,10 +975,6 @@ void ClipboardBrowser::contextMenuEvent(QContextMenuEvent *event)
 void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
-
-    // Don't update item geometries recursively.
-    if (!updatesEnabled())
-        return;
 
     Lock updateGeometryLock(this);
 
