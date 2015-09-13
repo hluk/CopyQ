@@ -618,8 +618,8 @@ You can set up the command in preferences.</source>
         <location filename="../src/ui/commandwidget.ui" line="155"></location>
         <source>Data of this MIME type will be sent to standard input of command.
 Leave empty to disable this.</source>
-        <translation>Data of this MIME type will be sent to standard input of command.
-Leave empty to disable this.</translation>
+        <translation>這個 MIME 類型的資料會傳到命令的標準輸入。
+要關閉此功能則留白。</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="166"></location>
@@ -639,7 +639,7 @@ Leave empty to disable this.</translation>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="193"></location>
         <source>&lt;p&gt;Use command only for items whose text match this regular expression (leave empty to match anything).&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;Examples:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match URL    &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match PDF filenames    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match single character    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  Match remote multimedia    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;命令僅用於文字符合此類型式的項目（要用於任何項目，則留白）。&lt;/p&gt;&lt;p&gt;&lt;span style=" font-weight:600;"&gt;例如:&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  URL 符合後面類型   &lt;span style=" font-weight:600;"&gt;^(https?|ftp)://&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  PDF 檔名符合後面類型    &lt;span style=" font-weight:600;"&gt;\.pdf$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  單一字元符合後面類型    &lt;span style=" font-weight:600;"&gt;^.$&lt;/span&gt;&lt;/p&gt;&lt;p&gt;  遠端多媒體符合後面類型    &lt;span style=" font-weight:600;"&gt;^http://.*\.(ogv|vlc|mp4|mp3)$&lt;/span&gt;&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="206"></location>
@@ -660,7 +660,13 @@ Leave empty to disable this.</translation>
 &lt;p&gt;Use &lt;b&gt;%1&lt;/b&gt; for item text passed as argument and &lt;b&gt;%2&lt;/b&gt; to &lt;b&gt;%9&lt;/b&gt; for arguments captured by regular expression (parts enclosed in parentheses).&lt;/p&gt;
 
 &lt;p&gt;Use &lt;b&gt;|&lt;/b&gt; to chain commands (pass standard output to next command).&lt;/p&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;p&gt;轉換器命令成功了才用上命令。&lt;/p&gt;
+
+&lt;p&gt;項目文字傳到轉換器命令的 &lt;b&gt;標準輸入&lt;/b&gt;。該項目 &lt;b&gt;只在轉換器命令的結束碼為 0 時，才被挑出&lt;/b&gt;。&lt;/p&gt;
+
+&lt;p&gt; &lt;b&gt;%1&lt;/b&gt; 表作為參元傳送的項目文字，&lt;b&gt;%2&lt;/b&gt; 至 &lt;b&gt;%9&lt;/b&gt; 表合於類型式（部分括在括弧中）的參元。&lt;/p&gt;
+
+&lt;p&gt;使用 &lt;b&gt;|&lt;/b&gt; 聯接命令 (標準輸出傳給下一個命令)。&lt;/p&gt;</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="251"></location>
@@ -724,7 +730,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="427"></location>
         <source>Show action dialog before executing the command</source>
-        <translation type="unfinished"></translation>
+        <translation>執行命令之前顯示動作對話框</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="430"></location>
@@ -734,7 +740,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="437"></location>
         <source>Change item, don't create any new items</source>
-        <translation type="unfinished"></translation>
+        <translation>變更項目，而不建立新項目</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="440"></location>
@@ -749,7 +755,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="467"></location>
         <source>Create items from standard output of the program (leave empty to disable)</source>
-        <translation type="unfinished"></translation>
+        <translation>從程式的標準輸出建立項目 (要關閉此功能，則留白)</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="477"></location>
@@ -759,7 +765,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="487"></location>
         <source>Separator to match for splitting the output to multiple items</source>
-        <translation type="unfinished"></translation>
+        <translation>將輸出分成多個項目的分隔號</translation>
     </message>
     <message>
         <location filename="../src/ui/commandwidget.ui" line="490"></location>
@@ -774,7 +780,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/commandwidget.ui" line="507"></location>
         <source>Save items in tab with given name (leave empty to save in first tab)</source>
-        <translation type="unfinished"></translation>
+        <translation>以指定名稱儲存分頁中的項目(要儲存於目前分頁則留白)</translation>
     </message>
 </context>
 <context>
@@ -807,7 +813,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="181"></location>
         <source>Normal</source>
-        <translation type="unfinished"></translation>
+        <translation>一般</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="188"></location>
@@ -822,7 +828,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="223"></location>
         <source>Alternate</source>
-        <translation type="unfinished"></translation>
+        <translation>另類</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="230"></location>
@@ -852,7 +858,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="300"></location>
         <source>Use icons from desktop environment whenever possible</source>
-        <translation type="unfinished"></translation>
+        <translation>盡可能使用桌面環境的圖示</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="303"></location>
@@ -862,12 +868,12 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="310"></location>
         <source>&amp;Antialias</source>
-        <translation type="unfinished"></translation>
+        <translation>去鋸齒(&amp;A)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="319"></location>
         <source>S&amp;et colors for tabs, tool bar and menus</source>
-        <translation type="unfinished"></translation>
+        <translation>設定項目、工具列和功能表的顏色(&amp;E)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="341"></location>
@@ -892,7 +898,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="369"></location>
         <source>Edit current theme in external editor</source>
-        <translation type="unfinished"></translation>
+        <translation>於外部編輯器編輯目前主題</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="372"></location>
@@ -913,29 +919,30 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="186"></location>
         <source>Search string is %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>搜尋的字串為 %1。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="187"></location>
         <source>Select an item and
 press F2 to edit.</source>
-        <translation type="unfinished"></translation>
+        <translation>選一項目然後
+按 F2 來編輯。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="189"></location>
         <source>Select items and move them with
 CTRL and up or down key.</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇項目並同時按 CTRL 和向上或向下鍵移動它們。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="191"></location>
         <source>Remove item with Delete key.</source>
-        <translation type="unfinished"></translation>
+        <translation>用 Delete 鍵刪除項目。</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="193"></location>
         <source>Example item %1</source>
-        <translation type="unfinished"></translation>
+        <translation>示例項目 %1</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="198"></location>
@@ -3388,9 +3395,9 @@ Show tray popup message for TIME milliseconds.</source>
         <source>Run command on tab with given name.
 Tab is created if it doesn't exist.
 Default is the first tab.</source>
-        <translation>Run command on tab with given name.
-Tab is created if it doesn't exist.
-Default is the first tab.</translation>
+        <translation>對指定名稱的分頁執行命令。
+若分頁不存在，則建立分頁。
+預設值是第一個分頁。</translation>
     </message>
     <message>
         <location filename="../src/scriptable/commandhelp.cpp" line="150"></location>
