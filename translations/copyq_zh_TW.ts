@@ -47,31 +47,31 @@
         <location filename="../src/gui/aboutdialog.cpp" line="180"></location>
         <source>Library used in the application</source>
         <comment>Qt library description</comment>
-        <translation>於此應用程式使用的程式庫</translation>
+        <translation>是於此應用程式使用的程式庫</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="186"></location>
         <source>Library used in the application</source>
         <comment>LibQxt library description</comment>
-        <translation>於此應用程式使用的程式庫</translation>
+        <translation>是於此應用程式使用的程式庫</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="184"></location>
         <source>Iconic font used in the application</source>
         <comment>Font Awesome description</comment>
-        <translation>於此應用程式使用的圖示字型</translation>
+        <translation>是於此應用程式使用的圖示字型</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="188"></location>
         <source>Color palette used for themes</source>
         <comment>Solarized palette/themes description</comment>
-        <translation>用於主題的調色板</translation>
+        <translation>是用於主題的調色板</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="182"></location>
         <source>Free web-based translation management system</source>
         <comment>Weblate description</comment>
-        <translation>線上的自由翻譯管理系統</translation>
+        <translation>是線上的自由翻譯管理系統</translation>
     </message>
     <message>
         <location filename="../src/gui/aboutdialog.cpp" line="192"></location>
@@ -843,7 +843,7 @@ Note: If this is applied automatically, no other automatic commands are executed
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="283"></location>
         <source>Show &amp;Number</source>
-        <translation>顯示數(&amp;N)</translation>
+        <translation>顯示編號(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/ui/configtabappearance.ui" line="290"></location>
@@ -947,33 +947,33 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="198"></location>
         <source>Some random notes (Shift+F2 to edit)</source>
-        <translation type="unfinished"></translation>
+        <translation>一些雜記 (Shift+F2 編輯)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="489"></location>
         <source>Open Theme File</source>
-        <translation type="unfinished"></translation>
+        <translation>開啟主題檔</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="501"></location>
         <source>Save Theme File As</source>
-        <translation type="unfinished"></translation>
+        <translation>主題檔儲存為</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="523"></location>
         <source>No External Editor</source>
-        <translation type="unfinished"></translation>
+        <translation>不使用外部編輯器</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="524"></location>
         <source>Set external editor command first!</source>
-        <translation type="unfinished"></translation>
+        <translation>首先設定外部編輯器命令！</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabappearance.cpp" line="749"></location>
         <source>Abc</source>
         <comment>Preview text for font settings in appearance dialog</comment>
-        <translation type="unfinished"></translation>
+        <translation>美國廣播公司</translation>
     </message>
 </context>
 <context>
@@ -1047,7 +1047,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="101"></location>
         <source>P&amp;rocess Manager</source>
-        <translation type="unfinished"></translation>
+        <translation>程序管理器(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="102"></location>
@@ -1067,7 +1067,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="106"></location>
         <source>&amp;Sort Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>排序所選項(&amp;S)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="107"></location>
@@ -1077,7 +1077,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="109"></location>
         <source>&amp;Reverse Selected Items</source>
-        <translation type="unfinished"></translation>
+        <translation>反轉所選項(&amp;R)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="110"></location>
@@ -1102,12 +1102,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="119"></location>
         <source>Move to &amp;Clipboard</source>
-        <translation type="unfinished"></translation>
+        <translation>移到剪貼簿(&amp;C)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="121"></location>
         <source>&amp;Show Content...</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示內容(&amp;S)...</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="122"></location>
@@ -1127,17 +1127,17 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="125"></location>
         <source>Edit &amp;Notes</source>
-        <translation type="unfinished"></translation>
+        <translation>編輯筆記(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="126"></location>
         <source>Shift+F2</source>
-        <translation type="unfinished"></translation>
+        <translation>Shift+F2</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="127"></location>
         <source>E&amp;dit with editor</source>
-        <translation type="unfinished"></translation>
+        <translation>以編輯器編輯(&amp;D)</translation>
     </message>
     <message>
         <location filename="../src/gui/configtabshortcuts.cpp" line="128"></location>
@@ -1287,7 +1287,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configtabshortcuts.ui" line="20"></location>
         <source>&amp;Custom Actions and Global Shortcuts...</source>
-        <translation type="unfinished"></translation>
+        <translation>自訂動作和全局快鍵(&amp;C)...</translation>
     </message>
 </context>
 <context>
@@ -1295,7 +1295,7 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="20"></location>
         <source>CopyQ Configuration</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ 設定</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="33"></location>
@@ -1310,12 +1310,12 @@ CTRL and up or down key.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="118"></location>
         <source>Break text if it's too long to fit on line</source>
-        <translation type="unfinished"></translation>
+        <translation>如果文字太長，換行</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="121"></location>
         <source>Wrap l&amp;ong text</source>
-        <translation type="unfinished"></translation>
+        <translation>長文換行(&amp;O)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="128"></location>
@@ -1690,47 +1690,47 @@ Note: Edited items can be saved with F2 disregarding this option.</source>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="932"></location>
         <source>&amp;Notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>通知(&amp;N)</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="989"></location>
         <source>&amp;Notification position:</source>
-        <translation type="unfinished"></translation>
+        <translation>通知的位置(&amp;N):</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1001"></location>
         <source>Position on screen for notifications</source>
-        <translation type="unfinished"></translation>
+        <translation>通知於螢幕上的位置</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1005"></location>
         <source>Top</source>
-        <translation type="unfinished"></translation>
+        <translation>頂</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1010"></location>
         <source>Bottom</source>
-        <translation type="unfinished"></translation>
+        <translation>底</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1015"></location>
         <source>Top Right</source>
-        <translation type="unfinished"></translation>
+        <translation>頂右</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1020"></location>
         <source>Bottom Right</source>
-        <translation type="unfinished"></translation>
+        <translation>底右</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1025"></location>
         <source>Bottom Left</source>
-        <translation type="unfinished"></translation>
+        <translation>底左</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1030"></location>
         <source>Top Left</source>
-        <translation type="unfinished"></translation>
+        <translation>頂左</translation>
     </message>
     <message>
         <location filename="../src/ui/configurationmanager.ui" line="1053"></location>
@@ -2160,7 +2160,7 @@ Set to 0 to disable.</source>
         <location filename="../src/gui/filtercompleter.cpp" line="175"></location>
         <source>Alt+Down</source>
         <comment>Filter completion shortcut</comment>
-        <translation type="unfinished"></translation>
+        <translation>Alt+Down</translation>
     </message>
 </context>
 <context>
@@ -2168,13 +2168,13 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="36"></location>
         <source>Select Icon...</source>
-        <translation type="unfinished"></translation>
+        <translation>選擇圖示...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectbutton.cpp" line="73"></location>
         <source>...</source>
         <comment>Select/browse icon.</comment>
-        <translation type="unfinished"></translation>
+        <translation>...</translation>
     </message>
 </context>
 <context>
@@ -2182,22 +2182,22 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="37"></location>
         <source>CopyQ Select Icon</source>
-        <translation type="unfinished"></translation>
+        <translation>CopyQ 選擇圖示</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="67"></location>
         <source>Browse...</source>
-        <translation type="unfinished"></translation>
+        <translation>瀏覽...</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="113"></location>
         <source>Open Icon file</source>
-        <translation type="unfinished"></translation>
+        <translation>開啟圖示檔</translation>
     </message>
     <message>
         <location filename="../src/gui/iconselectdialog.cpp" line="114"></location>
         <source>Image Files (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</source>
-        <translation type="unfinished"></translation>
+        <translation>圖片檔 (*.png *.jpg *.jpeg *.bmp *.ico *.svg)</translation>
     </message>
 </context>
 <context>
@@ -2205,7 +2205,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="68"></location>
         <source>Data</source>
-        <translation type="unfinished"></translation>
+        <translation>資料</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdata.h" line="70"></location>
@@ -2223,7 +2223,7 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="35"></location>
         <source>Active &amp;Formats:</source>
-        <translation type="unfinished"></translation>
+        <translation>目前格式(&amp;F):</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="45"></location>
@@ -2233,52 +2233,52 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="70"></location>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>純文字</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="74"></location>
         <source>Unformatted simple text</source>
-        <translation type="unfinished"></translation>
+        <translation>未格式化的文字</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="82"></location>
         <source>Formatted text, web pages</source>
-        <translation type="unfinished"></translation>
+        <translation>格式化的文字、網頁</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="91"></location>
         <source>XML</source>
-        <translation type="unfinished"></translation>
+        <translation>XML</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="99"></location>
         <source>List of URI (e.g. copied files)</source>
-        <translation type="unfinished"></translation>
+        <translation>URI 清單 (例如，所複製的檔案)</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="108"></location>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>圖片</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="112"></location>
         <source>Bitmap image</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitmap 圖片</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="120"></location>
         <source>Vector graphics</source>
-        <translation type="unfinished"></translation>
+        <translation>向量圖片</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="129"></location>
         <source>Web image formats</source>
-        <translation type="unfinished"></translation>
+        <translation>網站圖片格式</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="139"></location>
         <source>Other</source>
-        <translation type="unfinished"></translation>
+        <translation>其他</translation>
     </message>
     <message>
         <location filename="../plugins/itemdata/itemdatasettings.ui" line="164"></location>
@@ -2296,12 +2296,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="145"></location>
         <source>editor exit code is %1</source>
-        <translation type="unfinished"></translation>
+        <translation>編輯器結束碼是 %1</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditor.cpp" line="188"></location>
         <source>Editor command: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>編輯器命令: %1</translation>
     </message>
 </context>
 <context>
@@ -2309,12 +2309,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="208"></location>
         <source>Save</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="210"></location>
         <source>Save Item (&lt;strong&gt;F2&lt;/strong&gt;)</source>
-        <translation type="unfinished"></translation>
+        <translation>儲存項目 (&lt;strong&gt;F2&lt;/strong&gt;)</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="211"></location>
@@ -2325,12 +2325,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="215"></location>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="217"></location>
         <source>Cancel Editing and Revert Changes</source>
-        <translation type="unfinished"></translation>
+        <translation>取消編輯，復原變更</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="218"></location>
@@ -2341,12 +2341,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="226"></location>
         <source>Undo</source>
-        <translation type="unfinished"></translation>
+        <translation>復原</translation>
     </message>
     <message>
         <location filename="../src/item/itemeditorwidget.cpp" line="233"></location>
         <source>Redo</source>
-        <translation type="unfinished"></translation>
+        <translation>重複</translation>
     </message>
 </context>
 <context>
@@ -2364,28 +2364,28 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="447"></location>
         <source>Encrypt (needs GnuPG)</source>
-        <translation type="unfinished"></translation>
+        <translation>加密 (需要 GnuPG)</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="454"></location>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="465"></location>
         <source>Ctrl+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="458"></location>
         <source>Decrypt</source>
-        <translation type="unfinished"></translation>
+        <translation>解密</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="469"></location>
         <source>Decrypt and Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>解密與複製</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="477"></location>
         <source>Ctrl+Shift+L</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="544"></location>
@@ -2395,28 +2395,28 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="552"></location>
         <source>Failed to generate keys.</source>
-        <translation type="unfinished"></translation>
+        <translation>無法產生密鑰。</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="568"></location>
         <source>Done</source>
-        <translation type="unfinished"></translation>
+        <translation>完成</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="585"></location>
         <source>Creating new keys (this may take a few minutes)...</source>
-        <translation type="unfinished"></translation>
+        <translation>產生新密鑰 (需幾分種)...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="586"></location>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="589"></location>
         <source>Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>取消</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="588"></location>
         <source>Setting new password...</source>
-        <translation type="unfinished"></translation>
+        <translation>設定新密碼...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="591"></location>
@@ -2426,32 +2426,32 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="593"></location>
         <source>Generate New Keys...</source>
-        <translation type="unfinished"></translation>
+        <translation>產生新密鑰...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="595"></location>
         <source>Change Password...</source>
-        <translation type="unfinished"></translation>
+        <translation>變更密碼...</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="601"></location>
         <source>Encryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>無法加密！</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.cpp" line="606"></location>
         <source>Decryption failed!</source>
-        <translation type="unfinished"></translation>
+        <translation>無法解密！</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="63"></location>
         <source>Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>加密</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencrypted.h" line="65"></location>
         <source>Encrypt items and tabs.</source>
-        <translation type="unfinished"></translation>
+        <translation>將項目與分頁加密。</translation>
     </message>
 </context>
 <context>
@@ -2464,12 +2464,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="53"></location>
         <source>Sharing Encrypted Items and Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>分享加密的項目與分頁</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="75"></location>
         <source>Encrypted Tabs</source>
-        <translation type="unfinished"></translation>
+        <translation>加密的分頁</translation>
     </message>
     <message>
         <location filename="../plugins/itemencrypted/itemencryptedsettings.ui" line="81"></location>
@@ -2514,12 +2514,12 @@ Set to 0 to disable.</source>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="65"></location>
         <source>Images</source>
-        <translation type="unfinished"></translation>
+        <translation>圖片</translation>
     </message>
     <message>
         <location filename="../plugins/itemimage/itemimage.h" line="67"></location>
         <source>Display images.</source>
-        <translation type="unfinished"></translation>
+        <translation>顯示圖片。</translation>
     </message>
 </context>
 <context>
