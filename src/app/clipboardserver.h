@@ -118,8 +118,6 @@ private slots:
     /** Quit application, but ask to cancel exit if there are any active commands. */
     void maybeQuit();
 
-    void onIgnoreKeysTimeout();
-
 private:
     /** Ask to cancel application exit if there are any active commands. */
     bool askToQuit();

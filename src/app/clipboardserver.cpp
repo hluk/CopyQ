@@ -167,7 +167,8 @@ ClipboardServer::ClipboardServer(int &argc, char **argv, const QString &sessionN
     server->start();
 
     // Ignore global shortcut key presses in any widget.
-    initSingleShotTimer( &m_ignoreKeysTimer, 0, this, SLOT(onIgnoreKeysTimeout()) );
+    m_ignoreKeysTimer.setInterval(100);
+    m_ignoreKeysTimer.setSingleShot(true);
 }
 
 ClipboardServer::~ClipboardServer()
@@ -296,11 +297,6 @@ void ClipboardServer::maybeQuit()
     }
 }
 
-void ClipboardServer::onIgnoreKeysTimeout()
-{
-    m_wnd->setEnabled(true);
-}
-
 bool ClipboardServer::askToQuit()
 {
     if ( !m_wnd->maybeCloseCommandDialog() )
@@ -393,25 +389,25 @@ void ClipboardServer::createGlobalShortcut(const QKeySequence &shortcut, const C
     connect( s, SIGNAL(activated(QxtGlobalShortcut*)),
              this, SLOT(shortcutActivated(QxtGlobalShortcut*)) );
 
-    // Create special dummy QAction so that it blocks global shortcuts in active windows.
-    QAction *act = new QAction(s);
-    act->setShortcut(shortcut);
-#if QT_VERSION < 0x050000
-    act->setShortcutContext(Qt::ApplicationShortcut);
-#else
-    act->setShortcutContext(Qt::WidgetWithChildrenShortcut);
-#endif
-    act->setPriority(QAction::HighPriority);
-    m_wnd->addAction(act);
-
     m_shortcutActions[s] = command;
 #endif
 }
 
 bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
 {
+    const QEvent::Type = ev->type();
+
+    if ( m_ignoreKeysTimer.isActive()
+         && (type == QEvent::KeyPress
+             || type == QEvent::Shortcut
+             || type == QEvent::ShortcutOverride) )
+    {
+        ev->accept();
+        return true;
+    }
+
     // Close menu on Escape key and give focus back to search edit or browser.
-    if (ev->type() == QEvent::KeyPress) {
+    if (type == QEvent::KeyPress) {
         QKeyEvent *keyevent = static_cast<QKeyEvent *>(ev);
         if (keyevent->key() == Qt::Key_Escape) {
             QMenu *menu = qobject_cast<QMenu*>(object);
@@ -420,7 +416,7 @@ bool ClipboardServer::eventFilter(QObject *object, QEvent *ev)
                 m_wnd->enterBrowseMode(m_wnd->browseMode());
             }
         }
-    } else if (ev->type() == QEvent::Paint) {
+    } else if (type == QEvent::Paint) {
         ConfigurationManager::instance()->iconFactory()->setActivePaintDevice(object);
     }
 
@@ -437,7 +433,9 @@ void ClipboardServer::loadSettings()
 void ClipboardServer::shortcutActivated(QxtGlobalShortcut *shortcut)
 {
     m_ignoreKeysTimer.start();
-    m_wnd->setEnabled(false);
-    if ( m_shortcutActions.contains(shortcut) )
-        m_wnd->action(QVariantMap(), m_shortcutActions[shortcut]);
+
+    const QMap<QxtGlobalShortcut*, Command>::const_iterator it =
+            m_shortcutActions.find(shortcut);
+    if ( it != m_shortcutActions.end() )
+        m_wnd->action(QVariantMap(), it.value());
 }
