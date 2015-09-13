@@ -975,6 +975,12 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
 {
     QListView::resizeEvent(event);
 
+    // Don't update item geometries recursively.
+    if (m_spinLock != 0)
+        return;
+
+    Lock updateGeometryLock(this);
+
     updateItemMaximumSize();
 
     if (m_loadButton != NULL)
@@ -983,8 +989,6 @@ void ClipboardBrowser::resizeEvent(QResizeEvent *event)
     updateSearchProgress();
 
     updateEditorGeometry();
-
-    updateCurrentPage();
 }
 
 void ClipboardBrowser::showEvent(QShowEvent *event)

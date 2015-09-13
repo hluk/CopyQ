@@ -67,7 +67,7 @@ public:
     /** Return parsed color. */
     QColor themeColor(const QString &name) const;
 
-    /** Return parsed color. */
+    /** Return parsed font. */
     QFont themeFont(const QString &name) const;
 
 protected:
