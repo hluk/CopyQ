@@ -123,6 +123,22 @@ QTextCodec *codecForText(const QByteArray &bytes)
     return QTextCodec::codecForName("utf-8");
 }
 
+int indexOfKeyHint(const QString &name)
+{
+    bool amp = false;
+    int i = 0;
+
+    foreach (const QChar &c, name) {
+        if (c == '&')
+            amp = !amp;
+        else if (amp)
+            return i - 1;
+        ++i;
+    }
+
+    return -1;
+}
+
 } // namespace
 
 QString quoteString(const QString &str)
@@ -521,4 +537,15 @@ void moveWindowOnScreen(QWidget *w, const QPoint &pos)
     const int x = qMax(0, qMin(pos.x(), availableGeometry.right() - w->width()));
     const int y = qMax(0, qMin(pos.y(), availableGeometry.bottom() - w->height()));
     w->move(x, y);
+}
+
+bool hasKeyHint(const QString &name)
+{
+    return indexOfKeyHint(name) != -1;
+}
+
+QString removeKeyHint(QString &name)
+{
+    const int i = indexOfKeyHint(name);
+    return i == -1 ? name : name.remove(i, 1);
 }

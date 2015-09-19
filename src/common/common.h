@@ -153,4 +153,10 @@ QPoint toScreen(const QPoint &pos, int w = 0, int h = 0);
 
 void moveWindowOnScreen(QWidget *w, const QPoint &pos);
 
+/// Returns true only if UI name contains key hint (unescaped '&').
+bool hasKeyHint(const QString &name);
+
+/// Removes key hint (first unescaped '&') from UI name.
+QString removeKeyHint(QString &name);
+
 #endif // COMMON_H
