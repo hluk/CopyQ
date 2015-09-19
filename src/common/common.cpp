@@ -368,11 +368,7 @@ QString textLabelForData(const QVariantMap &data, const QFont &font, const QStri
 {
     QString label;
 
-    QStringList formats;
-    foreach ( const QString &format, data.keys() ) {
-        if ( !format.startsWith(COPYQ_MIME_PREFIX) )
-            formats.append(format);
-    }
+    const QStringList formats = data.keys();
 
     if ( data.contains(mimeHidden) ) {
         label = QObject::tr("<HIDDEN>", "Label for hidden/secret clipboard content");
