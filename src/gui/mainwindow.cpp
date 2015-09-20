@@ -1599,10 +1599,9 @@ void MainWindow::showWindow()
         c->setCurrent(0);
     }
 
-    if ( !c->editing() ) {
+    if ( !c->editing() )
         c->scrollTo( c->currentIndex() );
-        c->setFocus();
-    }
+    c->setFocus();
 
     QApplication::setActiveWindow(this);
 
