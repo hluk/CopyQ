@@ -170,7 +170,7 @@ void ActionHandler::actionDialogClosed(ActionDialog *dialog)
 
 void ActionHandler::addItems(const QStringList &items, const QString &tabName)
 {
-    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->createTab(tabName);
+    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
     ClipboardBrowser::Lock lock(c);
     foreach (const QString &item, items)
         c->add(item);
@@ -195,7 +195,7 @@ void ActionHandler::addItems(const QStringList &items, const QModelIndex &index)
 
 void ActionHandler::addItem(const QByteArray &data, const QString &format, const QString &tabName)
 {
-    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->createTab(tabName);
+    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser() : m_wnd->tab(tabName);
     c->add( createDataMap(format, data) );
 
     if (m_lastAction) {

@@ -162,10 +162,11 @@ public:
     int findTabIndex(const QString &name);
 
     /**
-     * Create tab with given @a name if it doesn't exist.
+     * Tries to find tab with exact or similar name (ignores
+     * key hints '&') or creates new one.
      * @return Existing or new tab with given @a name.
      */
-    ClipboardBrowser *createTab(
+    ClipboardBrowser *tab(
             const QString &name //!< Name of the new tab.
             );
 
@@ -475,6 +476,16 @@ private slots:
     void moveToBottom();
 
 private:
+    enum TabNameMatching {
+        MatchExactTabName,
+        MatchSimilarTabName
+    };
+
+    ClipboardBrowser *createTab(
+            const QString &name, TabNameMatching nameMatch, bool *needSave = NULL);
+
+    int findTabIndexExactMatch(const QString &name);
+
     void clearTitle() { updateTitle(QVariantMap()); }
 
     /** Create menu bar and tray menu with items. Called once. */
@@ -513,8 +524,6 @@ private:
 
     /** Return notification daemon (create if doesn't exist). */
     NotificationDaemon *notificationDaemon();
-
-    ClipboardBrowser *createTab(const QString &name, bool *needSave);
 
     QAction *createAction(Actions::Id id, const char *slot, QMenu *menu);
 

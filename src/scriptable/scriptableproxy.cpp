@@ -1006,7 +1006,7 @@ ClipboardBrowser *detail::ScriptableProxyHelper::fetchBrowser(const QString &tab
             return fetchBrowser(defaultTabName);
     }
 
-    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->createTab(tabName);
+    ClipboardBrowser *c = tabName.isEmpty() ? m_wnd->browser(0) : m_wnd->tab(tabName);
     if (!c)
         return NULL;
 

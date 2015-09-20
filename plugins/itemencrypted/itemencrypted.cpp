@@ -275,8 +275,8 @@ bool ItemEncryptedLoader::canSaveItems(const QAbstractItemModel &model)
         QString tabName1 = tabName;
 
         // Ignore ampersands (usually just for underlining mnemonics) if none is specified.
-        if ( !encryptTabName.contains('&') )
-            tabName1.remove('&');
+        if ( !hasKeyHint(encryptTabName) )
+            removeKeyHint(tabName1);
 
         // Ignore path in tab tree if none path separator is specified.
         if ( !encryptTabName.contains('/') ) {

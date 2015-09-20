@@ -655,7 +655,7 @@ void MainWindow::onCommandActionTriggered(const Command &command, const QVariant
 
 void MainWindow::on_tabWidget_dropItems(const QString &tabName, QDropEvent *event)
 {
-    ClipboardBrowser *browser = createTab(tabName);
+    ClipboardBrowser *browser = tab(tabName);
 
     if ( browser->isLoaded() ) {
         const QMimeData &data = *event->mimeData();
@@ -796,6 +796,18 @@ void MainWindow::moveToBottom()
     browser()->move(Qt::Key_End);
 }
 
+int MainWindow::findTabIndexExactMatch(const QString &name)
+{
+    TabWidget *w = ui->tabWidget;
+
+    for( int i = 0; i < w->count(); ++i ) {
+        if ( name == w->tabText(i) )
+            return i;
+    }
+
+    return -1;
+}
+
 void MainWindow::updateTitle(const QVariantMap &data)
 {
     COPYQ_LOG("Updating window title");
@@ -902,11 +914,14 @@ NotificationDaemon *MainWindow::notificationDaemon()
     return m_notifications;
 }
 
-ClipboardBrowser *MainWindow::createTab(const QString &name, bool *needSave)
+ClipboardBrowser *MainWindow::createTab(
+        const QString &name, TabNameMatching nameMatch, bool *needSave)
 {
     Q_ASSERT( !name.isEmpty() );
 
-    int i = findTabIndex(name);
+    const int i = nameMatch == MatchExactTabName
+            ? findTabIndexExactMatch(name)
+            : findTabIndex(name);
 
     if (needSave != NULL)
         *needSave = (i == -1);
@@ -1167,24 +1182,33 @@ bool MainWindow::isWindowVisible() const
 
 ClipboardBrowser *MainWindow::clipboardTab()
 {
-    return m_options.clipboardTab.isEmpty() ? NULL : createTab(m_options.clipboardTab);
+    return m_options.clipboardTab.isEmpty() ? NULL : tab(m_options.clipboardTab);
 }
 
 int MainWindow::findTabIndex(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
 
-    for( int i = 0; i < w->count(); ++i )
-        if ( name == w->tabText(i) )
-            return i;
+    const int i = findTabIndexExactMatch(name);
+    if (i != -1)
+        return i;
+
+    // Ignore key hints ('&').
+    if ( !hasKeyHint(name) ) {
+        for( int i = 0; i < w->count(); ++i ) {
+            QString tabName = w->tabText(i);
+            if ( name == removeKeyHint(tabName) )
+                return i;
+        }
+    }
 
     return -1;
 }
 
-ClipboardBrowser *MainWindow::createTab(const QString &name)
+ClipboardBrowser *MainWindow::tab(const QString &name)
 {
     bool needSave;
-    ClipboardBrowser *c = createTab(name, &needSave);
+    ClipboardBrowser *c = createTab(name, MatchSimilarTabName, &needSave);
     if (needSave)
         saveTabPositions();
     c->loadItems();
@@ -1501,7 +1525,7 @@ void MainWindow::loadSettings()
     QStringList tabs = cm->savedTabs();
     foreach (const QString &name, tabs) {
         bool settingsLoaded;
-        ClipboardBrowser *c = createTab(name, &settingsLoaded);
+        ClipboardBrowser *c = createTab(name, MatchExactTabName, &settingsLoaded);
         if (!settingsLoaded)
             c->loadSettings();
     }
@@ -1575,10 +1599,9 @@ void MainWindow::showWindow()
         c->setCurrent(0);
     }
 
-    if ( !c->editing() ) {
+    if ( !c->editing() )
         c->scrollTo( c->currentIndex() );
-        c->setFocus();
-    }
+    c->setFocus();
 
     QApplication::setActiveWindow(this);
 
@@ -1733,7 +1756,7 @@ void MainWindow::tabCloseRequested(int tab)
 
 void MainWindow::addToTab(const QVariantMap &data, const QString &tabName)
 {
-    createTab(tabName)->addUnique(data);
+    tab(tabName)->addUnique(data);
 }
 
 void MainWindow::updateFirstItem(const QVariantMap &data)
@@ -2171,7 +2194,7 @@ ClipboardBrowser *MainWindow::browserForItem(const QModelIndex &index)
 ClipboardBrowser *MainWindow::addTab(const QString &name)
 {
     TabWidget *w = ui->tabWidget;
-    ClipboardBrowser *c = createTab(name);
+    ClipboardBrowser *c = createTab(name, MatchExactTabName);
     w->setCurrentIndex( w->count()-1 );
 
     return c;
@@ -2286,7 +2309,7 @@ bool MainWindow::loadTab(const QString &fileName)
     // Find unique tab name.
     renameToUnique(&tabName, ui->tabWidget->tabs());
 
-    ClipboardBrowser *c = createTab(tabName);
+    ClipboardBrowser *c = createTab(tabName, MatchExactTabName);
     ClipboardModel *model = static_cast<ClipboardModel *>( c->model() );
 
     deserializeData(model, &in);
